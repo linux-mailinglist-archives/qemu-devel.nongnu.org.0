@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF85DCA44
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:06:49 +0200 (CEST)
-Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F96DCA36
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:03:35 +0200 (CEST)
+Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUm8-0001Jr-Ec
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:06:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46693)
+	id 1iLUiz-0005Kv-9K
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iLUaD-0005kp-Lu
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLUf4-0003Ri-GJ
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:59:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iLUaC-0007mf-Cm
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38618)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iLUa9-0007ik-NY; Fri, 18 Oct 2019 11:54:25 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A4FB581F0F;
- Fri, 18 Oct 2019 15:54:24 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B637600C4;
- Fri, 18 Oct 2019 15:54:20 +0000 (UTC)
-Subject: Re: [PATCH v2 0/5] active-mirror: support unaligned guest operations
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191011090711.19940-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <dc555030-9238-126c-9256-8df6304d30e1@redhat.com>
-Date: Fri, 18 Oct 2019 17:54:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iLUf3-0002fp-9i
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:59:30 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45574)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLUf3-0002fC-3b
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:59:29 -0400
+Received: by mail-oi1-x244.google.com with SMTP id o205so5597110oib.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 08:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rI19fQfi1soXk94bvmbxspVOx+LD4mjimJcvoV3KteI=;
+ b=nkvaaZd0EvQYu/0NgQzGjB5RrGnooI+jyLuOt7nDTYRNFWoSguLexjlwisYd4BapON
+ NDUSue6A3fdJiaHJBnB+trGvaYZEFRzgGqEnN9/qdGZjebnyPnwebYbBwg3gyBdBJCKE
+ AkXApj5SrF5qDw3qyEJBUg1YJJIPhHkfPJs8+Gg956dovEtehmujkIkteRCPDq6yOgi7
+ eVY/sjBeDAiTKZhhRVoGgL0r//AJjercLyIHNUd8jkdZNmPUJPKTLI3DtpiZHEUiyzoK
+ Sd8Kc7qHjSdqW8lgillUgc06NImzdM1f3mbPa/vQLu/pnxrs1pwfMZJlggktl8jB4ouB
+ 8/wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rI19fQfi1soXk94bvmbxspVOx+LD4mjimJcvoV3KteI=;
+ b=gJpOoX/uJ9KxMpmI5bo8Gx9xk6B+gogY//ssierKu93sXUdYqBl/xIBsfPdfSUy2a4
+ gXJeFEiksm0TXlBbAx5YA2tjnHE2O0lZHn9xjC7zkRekJMYe6Z9ZEN4H4/YcB8Z74jfx
+ cDCfKfZdY2GRKMwumfbb0mWnYVPWfL+suNOY0TMLAz/mVm5C363+9Xq0hy9LJ60YcJAe
+ OUUqzQMbUfgZLNu9vxiAmXfb2Y14sYqBplkNW/beoM6gno9Nr7h9KZplI6baQGhBTdru
+ dCyfXx0k7QV8XUJyDOaM8M4K/B3KG2KFxoMhSWHG6cZBEGsXCWgZBtWFThFimYvrlc+X
+ IZvg==
+X-Gm-Message-State: APjAAAXzzKm6TUpQjfs7w3Fjd1eOCBjaKGGGpLWFSoFsaeOQnLm3GJv8
+ BAizNCyRxsxGWKtqHHy4r2KNaraKfLy2IRFT/mKYBA==
+X-Google-Smtp-Source: APXvYqz7lYNiF5Z1+BLE5ifZujMcnlC275r3asx/YuR8ZBN3JZ2c03oYDz+0uyUPu7/Q/+e6OJapvUI+Uv26ucQpMcg=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr8278208oia.48.1571414368065; 
+ Fri, 18 Oct 2019 08:59:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191011090711.19940-1-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 18 Oct 2019 15:54:24 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
+ <20191018154212.13458-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20191018154212.13458-5-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 16:59:16 +0100
+Message-ID: <CAFEAcA-Qaq0W-4kpRGSQTxzH1LZ3znoxZo6Fnd4NmnnE4O_G9w@mail.gmail.com>
+Subject: Re: [PATCH 04/14] etraxfs: remove PROP_PTR usage
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,80 +74,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- den@openvz.org
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S
-Content-Type: multipart/mixed; boundary="eVjNE0Z50utQCaCz9h3WT3YwHoZ8DpEdr"
+On Fri, 18 Oct 2019 at 16:42, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> etraxfs_dma_client are not Object, so can't be exposed to user with
+> QOM path. Let's remove property usage and move the constructor to the
+> .c unit, simplifying some code on the way.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
---eVjNE0Z50utQCaCz9h3WT3YwHoZ8DpEdr
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> +
+> +/* Instantiate an ETRAXFS Ethernet MAC.  */
+> +DeviceState *
+> +etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
+> +                 struct etraxfs_dma_client *dma_out,
+> +                 struct etraxfs_dma_client *dma_in)
+> +{
+> +    DeviceState *dev;
+> +    qemu_check_nic_model(nd, "fseth");
+> +
+> +    dev =3D qdev_create(NULL, "etraxfs-eth");
+> +    qdev_set_nic_properties(dev, nd);
+> +    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
+> +    ETRAX_FS_ETH(dev)->dma_out =3D dma_out;
+> +    ETRAX_FS_ETH(dev)->dma_in =3D dma_in;
+> +    qdev_init_nofail(dev);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> +
+> +    return dev;
+> +}
+> +
+>  static const TypeInfo etraxfs_eth_info =3D {
+>      .name          =3D TYPE_ETRAX_FS_ETH,
+>      .parent        =3D TYPE_SYS_BUS_DEVICE,
+> diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
+> index aa146a2cd8..403e7f95e6 100644
+> --- a/include/hw/cris/etraxfs.h
+> +++ b/include/hw/cris/etraxfs.h
+> @@ -30,23 +30,9 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/sysbus.h"
+>
+> -/* Instantiate an ETRAXFS Ethernet MAC.  */
+> -static inline DeviceState *
+> -etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
+> -                 void *dma_out, void *dma_in)
+> -{
+> -    DeviceState *dev;
+> -    qemu_check_nic_model(nd, "fseth");
+> -
+> -    dev =3D qdev_create(NULL, "etraxfs-eth");
+> -    qdev_set_nic_properties(dev, nd);
+> -    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
+> -    qdev_prop_set_ptr(dev, "dma_out", dma_out);
+> -    qdev_prop_set_ptr(dev, "dma_in", dma_in);
+> -    qdev_init_nofail(dev);
+> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> -    return dev;
+> -}
+> +DeviceState *etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
+> +                              struct etraxfs_dma_client *dma_out,
+> +                              struct etraxfs_dma_client *dma_in);
 
-On 11.10.19 11:07, Vladimir Sementsov-Ogievskiy wrote:
-> Commit 9adc1cb49af8d fixed a bug about unaligned (to dirty bitmap
-> granularity) guest writes (and discards) by simply requesting
-> corresponding alignment on mirror-top filter. However forcing large
-> alignment obviously decreases performance of unaligned requests.
->=20
-> So it's time for a new solution which is in 04. And 05 reverts
-> 9adc1cb49af8d.
->=20
-> v2:
-> 01: new fix (do we need it for stable?)
 
-I don=E2=80=99t know? :-)
+I don't think this is an improvement -- it's taking a step
+back in the direction of "you need to call a funny _init
+function to initialize a device". You should be able to
+create devices using generic qdev functions.
 
-I=E2=80=99ll just add the stable tag for good measure, I suppose it can=E2=
-=80=99t hurt.
+What we're actually connecting here is 'etraxfs_dma_client'
+struct pointers between the devices like this ethernet
+device and the DMA controller. The connection is currently
+done via a pointer property because we don't have a more
+QOM-like way to do it, but if we want to get rid of the
+pointer property we need to actually implement the more
+QOM-like mechanism, not go backwards from having devices
+connected via properties.
 
-> 02,03,05: add Max's r-b
-> 04: fix bitmap handling
->     improve comments
->=20
-> Vladimir Sementsov-Ogievskiy (5):
->   hbitmap: handle set/reset with zero length
->   block/mirror: simplify do_sync_target_write
->   block/block-backend: add blk_co_pwritev_part
->   block/mirror: support unaligned write in active mirror
->   Revert "mirror: Only mirror granularity-aligned chunks"
->=20
->  include/sysemu/block-backend.h |   4 +
->  block/block-backend.c          |  17 +++-
->  block/mirror.c                 | 181 ++++++++++++++++-----------------=
+(Similar comments apply for the omap clock connections.
+In that case the answer might be Damien's clock framework
+API, eventually.)
 
->  util/hbitmap.c                 |   8 ++
->  4 files changed, 114 insertions(+), 96 deletions(-)
-
-Thanks, applied to my block branch:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-Max
-
-
---eVjNE0Z50utQCaCz9h3WT3YwHoZ8DpEdr--
-
---9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2p4CoACgkQ9AfbAGHV
-z0BCFwgAqPUueYv7aX8dBo+g4ctS7OU7q7T1UEELsJ7Lw3hmBHe0M0McDGiY9TzT
-ev49LP/P10p+vYtFpqtvUkyQ5DxkwLI0sHDWJKHugIE4afSTP0o3lBF8sKRrE0s8
-Aw2g/p9VlVD9FQdJHqbkbsMbWHJcRUlfpv/o6Cj9yWL6O3pyqos1hv41WiutHRbL
-kjOhmdE0MCaMQSPyXKkvQ1psASONIwuMD/F5dWu42qMffI3FEuNPuF79evhKt1d6
-2gZ/P8GVjzBPmkUVJ+dHNTo6yuL8wFCwh+GQbX5Z+Ao3eDjl4LSYN8cXmebjUPW7
-UcjyJdZ+gs2/pCV9iKohx9ONUqFvcw==
-=s9I3
------END PGP SIGNATURE-----
-
---9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S--
+thanks
+-- PMM
 
