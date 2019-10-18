@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4687DDBFA1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 10:17:24 +0200 (CEST)
-Received: from localhost ([::1]:36348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7C7DBFBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 10:19:50 +0200 (CEST)
+Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLNRq-00077H-FA
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 04:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37019)
+	id 1iLNUD-0002Ch-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 04:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iLNPX-0005N3-TY
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:15:01 -0400
+ (envelope-from <armbru@redhat.com>) id 1iLNPX-0005N7-TC
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:15:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iLNPV-0007MP-Il
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:14:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24206)
+ (envelope-from <armbru@redhat.com>) id 1iLNPW-0007ND-Gq
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:14:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLNPV-0007Ll-9v
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:14:57 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLNPW-0007Ms-BK
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:14:58 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1C58685539;
- Fri, 18 Oct 2019 08:14:56 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9E05FC0021D7;
+ Fri, 18 Oct 2019 08:14:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C831F196B2;
- Fri, 18 Oct 2019 08:14:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68A6619C77;
+ Fri, 18 Oct 2019 08:14:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 467E91132A05; Fri, 18 Oct 2019 10:14:54 +0200 (CEST)
+ id 4994F1132A0B; Fri, 18 Oct 2019 10:14:54 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/5] tests/qapi-schema: Cover feature documentation comments
-Date: Fri, 18 Oct 2019 10:14:53 +0200
-Message-Id: <20191018081454.21369-5-armbru@redhat.com>
+Subject: [PATCH v5 5/5] qapi: Allow introspecting fix for savevm's cooperation
+ with blockdev
+Date: Fri, 18 Oct 2019 10:14:54 +0200
+Message-Id: <20191018081454.21369-6-armbru@redhat.com>
 In-Reply-To: <20191018081454.21369-1-armbru@redhat.com>
 References: <20191018081454.21369-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 18 Oct 2019 08:14:56 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Fri, 18 Oct 2019 08:14:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -57,151 +58,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: kwolf@redhat.com, Peter Krempa <pkrempa@redhat.com>,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 8aa3a33e44 "tests/qapi-schema: Test for good feature lists in
-structs" neglected to cover documentation comments, and the previous
-commit followed its example.  Make up for them.
+From: Peter Krempa <pkrempa@redhat.com>
 
+'savevm' was buggy as it considered all monitor-owned block device
+nodes for snapshot. With the introduction of -blockdev, the common
+usage made all nodes including protocol and backing file nodes be
+monitor-owned and thus considered for snapshot.
+
+This is a problem since the 'file' protocol nodes can't have internal
+snapshots and it does not make sense to take snapshot of nodes
+representing backing files.
+
+This was fixed by commit 05f4aced658a02b02. Clients need to be able to
+detect whether this fix is present.
+
+Since savevm does not have an QMP alternative, add the feature for the
+'human-monitor-command' backdoor which is used to call this command in
+modern use.
+
+Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qapi-schema/doc-good.texi | 22 ++++++++++++++++++++++
- tests/qapi-schema/doc-good.json | 17 +++++++++++++++--
- tests/qapi-schema/doc-good.out  |  5 +++++
- 3 files changed, 42 insertions(+), 2 deletions(-)
+ qapi/misc.json | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good=
-.texi
-index 2526abc6d9..2ce8b883c9 100644
---- a/tests/qapi-schema/doc-good.texi
-+++ b/tests/qapi-schema/doc-good.texi
-@@ -122,6 +122,12 @@ Not documented
- @*@b{If:} @code{defined(IFSTR)}
- @end table
-=20
-+@b{Features:}
-+@table @asis
-+@item @code{variant1-feat}
-+a feature
-+@end table
-+
- @end deftp
-=20
-=20
-@@ -182,6 +188,14 @@ argument
- Not documented
- @end table
-=20
-+@b{Features:}
-+@table @asis
-+@item @code{cmd-feat1}
-+a feature
-+@item @code{cmd-feat2}
-+another feature
-+@end table
-+
- @b{Note:}
- @code{arg3} is undocumented
-=20
-@@ -227,6 +241,14 @@ If you're bored enough to read this, go see a video =
-of boxed cats
-=20
- @b{Arguments:} the members of @code{Object}
-=20
-+@b{Features:}
-+@table @asis
-+@item @code{cmd-feat1}
-+a feature
-+@item @code{cmd-feat2}
-+another feature
-+@end table
-+
- @b{Example:}
- @example
- -> in
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good=
-.json
-index f7fb48af38..7dc21e58a3 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -71,8 +71,12 @@
- # A paragraph
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 6bd11f50e6..33b94e3589 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -1020,6 +1020,12 @@
  #
- # Another paragraph (but no @var: line)
+ # @cpu-index: The CPU to use for commands that require an implicit CPU
+ #
++# Features:
++# @savevm-monitor-nodes: If present, HMP command savevm only snapshots
++#                        monitor-owned nodes if they have no parents.
++#                        This allows the use of 'savevm' with
++#                        -blockdev. (since 4.2)
 +#
-+# Features:
-+# @variant1-feat: a feature
+ # Returns: the output of the command as a string
+ #
+ # Since: 0.14.0
+@@ -1047,7 +1053,8 @@
  ##
- { 'struct': 'Variant1',
-+  'features': [ 'variant1-feat' ],
-   'data': { 'var1': { 'type': 'str', 'if': 'defined(IFSTR)' } } }
+ { 'command': 'human-monitor-command',
+   'data': {'command-line': 'str', '*cpu-index': 'int'},
+-  'returns': 'str' }
++  'returns': 'str',
++  'features': [ 'savevm-monitor-nodes' ] }
 =20
  ##
-@@ -104,6 +108,10 @@
- #
- # @arg2: the second
- # argument
-+#
-+# Features:
-+# @cmd-feat1: a feature
-+# @cmd-feat2: another feature
- # Note: @arg3 is undocumented
- # Returns: @Object
- # TODO: frobnicate
-@@ -123,11 +131,15 @@
- ##
- { 'command': 'cmd',
-   'data': { 'arg1': 'int', '*arg2': 'str', 'arg3': 'bool' },
--  'returns': 'Object' }
-+  'returns': 'Object',
-+  'features': [ 'cmd-feat1', 'cmd-feat2' ] }
-=20
- ##
- # @cmd-boxed:
- # If you're bored enough to read this, go see a video of boxed cats
-+# Features:
-+# @cmd-feat1: a feature
-+# @cmd-feat2: another feature
- # Example:
- #
- # -> in
-@@ -135,4 +147,5 @@
- # <- out
- ##
- { 'command': 'cmd-boxed', 'boxed': true,
--  'data': 'Object' }
-+  'data': 'Object',
-+  'features': [ 'cmd-feat1', 'cmd-feat2' ] }
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
-out
-index 6562e1f412..f78fdef6a9 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -20,6 +20,7 @@ object Base
- object Variant1
-     member var1: str optional=3DFalse
-         if ['defined(IFSTR)']
-+    feature variant1-feat
- object Variant2
- object Object
-     base Base
-@@ -47,8 +48,12 @@ object q_obj_cmd-arg
-     member arg3: bool optional=3DFalse
- command cmd q_obj_cmd-arg -> Object
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    feature cmd-feat1
-+    feature cmd-feat2
- command cmd-boxed Object -> None
-     gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
-g=3DFalse
-+    feature cmd-feat1
-+    feature cmd-feat2
- doc freeform
-     body=3D
- =3D Section
+ # @change:
 --=20
 2.21.0
 
