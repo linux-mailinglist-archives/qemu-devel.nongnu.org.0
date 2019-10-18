@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AFBDCDDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:22:07 +0200 (CEST)
-Received: from localhost ([::1]:44886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839EDDCDD5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:20:28 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWt4-0004q8-MZ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34756)
+	id 1iLWrT-0001n3-2D
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iLWoc-0007Fb-V7
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:17:31 -0400
+ (envelope-from <groeck7@gmail.com>) id 1iLWpJ-00088r-AC
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iLWob-0001Vx-UP
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:17:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46108)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iLWob-0001VT-P1
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:17:29 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F2BB518C8906;
- Fri, 18 Oct 2019 18:17:28 +0000 (UTC)
-Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86C18600C1;
- Fri, 18 Oct 2019 18:17:28 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/3] tests/vm/netbsd: Disable IPv6
-Date: Fri, 18 Oct 2019 15:17:05 -0300
-Message-Id: <20191018181705.17957-4-ehabkost@redhat.com>
-In-Reply-To: <20191018181705.17957-1-ehabkost@redhat.com>
-References: <20191018181705.17957-1-ehabkost@redhat.com>
+ (envelope-from <groeck7@gmail.com>) id 1iLWpI-0001yl-3F
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:13 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:38799)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1iLWpF-0001vV-BQ; Fri, 18 Oct 2019 14:18:09 -0400
+Received: by mail-pg1-x544.google.com with SMTP id w3so3801971pgt.5;
+ Fri, 18 Oct 2019 11:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=h+ePRCwOeiDPPJVeh/ZGICTBIB7KHXv/C5hT8+LC3Vw=;
+ b=ryj+Wck6Vm38zaZUuMiOmMaA7otw33+UC1sfy1W7rlO3EpzS/OeaVf1Mpb8XpYLD9R
+ zUf3alKS/W8SgDJ6U4/W9yyrgyGA8NPSPqcIxpx/8nsJD8y7jjl2N+45yGvg4FmQldNu
+ Xtf4QqZWz2X4PvLZ4VpHAI2HyNsGLMjlO8uSqi//9r8jxmAybYtPmmk++FAtHgvl/vO7
+ SFN0yqn8xHlWeONyRPm3D0o3S9UBN6PR9VDZyo4A9i6hFBNTm36xmyGntopVv6Q5+2di
+ HRBuMqFF67Fz1VURIIWtyPG7Ultq/2NRKV2NgP6OJbgS8xQjuWfzaKvNpBvKUAJvktrl
+ W9Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=h+ePRCwOeiDPPJVeh/ZGICTBIB7KHXv/C5hT8+LC3Vw=;
+ b=KLIWXFuSFvGHnGj5nH4NVBoGQZE8nHiaGVAtDYBJZ/UcxtluQSbmWjjsB3gxi4e19v
+ E/A8d9Vr9WfjcL8ZCecuLqVJxtYspQeW9sPU5jZ1PiBCYwXy+bJJ0o1kkevCDZqs//Ev
+ W2dxroLdQlri7zlY+kCW4TLxdROjE1ggjlTMEpR5wONE7V6iZ6RA1K6E2D2vOVqOSCIJ
+ 2jegu6MIQQ95AB3AEDHxdEyxq9BteaxQ3QOsepHDky6uWm/BrTlZbs26ggYGm5iPJb+p
+ HjIoNnEq0yT5EUjhOz9onJo2qvqMOt0CEy28eSZOimm0+0o4VBSw8JVKPCA0iRdTKBLA
+ 74GA==
+X-Gm-Message-State: APjAAAVkyv1bsqTqzXWrP0bmR7gD7qQscemw1x9excRfD1LEjG2XDuEG
+ 66OfPEFNzJ3SnR9Slo+bBrU=
+X-Google-Smtp-Source: APXvYqzvvgKaO+MzFGfN053hZm237NokC/GD7RVs6k+OJFAa4EyNf2cmm9KWLMJWryJGmTySkE9bjg==
+X-Received: by 2002:a63:eb52:: with SMTP id b18mr11149577pgk.205.1571422687887; 
+ Fri, 18 Oct 2019 11:18:07 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id f185sm9122431pfb.183.2019.10.18.11.18.05
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 18 Oct 2019 11:18:06 -0700 (PDT)
+Date: Fri, 18 Oct 2019 11:18:04 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/timer/exynos4210_mct: Initialize ptimer before
+ starting it
+Message-ID: <20191018181804.GA29037@roeck-us.net>
+References: <20191018143149.9216-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Fri, 18 Oct 2019 18:17:29 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191018143149.9216-1-peter.maydell@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,41 +78,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Workaround for issues when the host has no IPv6 connectivity.
+On Fri, Oct 18, 2019 at 03:31:49PM +0100, Peter Maydell wrote:
+> From: Guenter Roeck <linux@roeck-us.net>
+> 
+> When booting a recent Linux kernel, the qemu message "Timer with delta
+> zero, disabling" is seen, apparently because a ptimer is started before
+> being initialized.  Fix the problem by initializing the offending ptimer
+> before starting it.
+> 
+> The bug is effectively harmless in the old QEMUBH setup
+> because the sequence of events is:
+>  * the delta zero means the timer expires immediately
+>  * ptimer_reload() arranges for exynos4210_gfrc_event() to be called
+>  * ptimer_reload() notices the zero delta and disables the timer
+>  * later, the QEMUBH runs, and exynos4210_gfrc_event() correctly
+>    configures the timer and restarts it
+> 
+> In the new transaction based API the bug is still harmless,
+> but differences of when the callback function runs mean the
+> message is not printed any more:
+>  * ptimer_run() does nothing as it's inside a transaction block
+>  * ptimer_transaction_commit() sees it has work to do and
+>    calls ptimer_reload()
+>  * the zero delta means the timer expires immediately
+>  * ptimer_reload() calls exynos4210_gfrc_event() directly
+>  * exynos4210_gfrc_event() configures the timer
+>  * the delta is no longer zero so ptimer_reload() doesn't complain
+>    (the zero-delta test is after the trigger-callback in
+>    the ptimer_reload() function)
+> 
+> Regardless, the behaviour here was not intentional, and we should
+> just program the ptimer correctly to start with.
+> 
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> [PMM: Expansion/clarification of the commit message:
+>  the message is about a zero delta, not a zero period;
+>  added detail to the commit message of the analysis of what
+>  is happening and why the kernel boots even with the message;
+>  added note that the message goes away with the new ptimer API]
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Philippe pointed me at this bugfix from Guenter. At one point
+> in my working on the ptimer API changes I thought this bugfix
+> would be necessary as a prerequisite, but in fact the issue
+> was in my ptimer changes, and it just happened that fixing
+> the MCT bug was a workaround for my bug. Even though the
+> ptimer API changes actually coincidentally now suppress the
+> annoying message about a zero delta, the behaviour is definitely
+> not intentional, and since I spent the time working through the
+> analysis of what was actually going on here I don't want
+> to waste it :-)
+> ---
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- tests/vm/netbsd | 7 +++++++
- 1 file changed, 7 insertions(+)
+Thanks a lot for picking this up, and for the great analysis!
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 49a99477f4..5e04dcd9b1 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -62,6 +62,13 @@ class NetBSDVM(basevm.BaseVM):
-     """
-     poweroff =3D "/sbin/poweroff"
-=20
-+    # Workaround for NetBSD + IPv6 + slirp issues.
-+    # NetBSD seems to ignore the ICMPv6 Destination Unreachable
-+    # messages generated by slirp.  When the host has no IPv6
-+    # connectivity, this causes every connection to ftp.NetBSD.org
-+    # take more than a minute to be established.
-+    ipv6 =3D False
-+
-     def build_image(self, img):
-         cimg =3D self._download_with_cache(self.link)
-         img_tmp =3D img + ".tmp"
---=20
-2.21.0
+Guenter
 
+>  hw/timer/exynos4210_mct.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+> index 72257584145..944120aea59 100644
+> --- a/hw/timer/exynos4210_mct.c
+> +++ b/hw/timer/exynos4210_mct.c
+> @@ -1254,7 +1254,7 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+>          /* Start FRC if transition from disabled to enabled */
+>          if ((value & G_TCON_TIMER_ENABLE) > (old_val &
+>                  G_TCON_TIMER_ENABLE)) {
+> -            exynos4210_gfrc_start(&s->g_timer);
+> +            exynos4210_gfrc_restart(s);
+>          }
+>          if ((value & G_TCON_TIMER_ENABLE) < (old_val &
+>                  G_TCON_TIMER_ENABLE)) {
+> -- 
+> 2.20.1
+> 
 
