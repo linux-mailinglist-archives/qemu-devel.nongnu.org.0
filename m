@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19818DBFBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 10:19:48 +0200 (CEST)
-Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C96DBFA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 10:17:36 +0200 (CEST)
+Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLNUA-0002Ab-QQ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 04:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37033)
+	id 1iLNS3-0007A4-2x
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 04:17:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iLNPX-0005N6-S4
+ (envelope-from <armbru@redhat.com>) id 1iLNPX-0005N8-Rb
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:15:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iLNPV-0007MZ-Jc
+ (envelope-from <armbru@redhat.com>) id 1iLNPV-0007Ml-Lm
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:14:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38598)
+Received: from mx1.redhat.com ([209.132.183.28]:37876)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLNPV-0007Lq-9w
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLNPV-0007Lu-Cf
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:14:57 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4414B3082B02;
+ by mx1.redhat.com (Postfix) with ESMTPS id 6B9B058383;
  Fri, 18 Oct 2019 08:14:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C23EF5D71C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C846B5D772;
  Fri, 18 Oct 2019 08:14:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3CE1511384A8; Fri, 18 Oct 2019 10:14:54 +0200 (CEST)
+ id 3FDC91133034; Fri, 18 Oct 2019 10:14:54 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/5] tests/qapi-schema: Tidy up test output indentation
-Date: Fri, 18 Oct 2019 10:14:50 +0200
-Message-Id: <20191018081454.21369-2-armbru@redhat.com>
+Subject: [PATCH v5 2/5] qapi: Add feature flags to commands
+Date: Fri, 18 Oct 2019 10:14:51 +0200
+Message-Id: <20191018081454.21369-3-armbru@redhat.com>
 In-Reply-To: <20191018081454.21369-1-armbru@redhat.com>
 References: <20191018081454.21369-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 18 Oct 2019 08:14:56 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Fri, 18 Oct 2019 08:14:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,288 +62,326 @@ Cc: kwolf@redhat.com, Peter Krempa <pkrempa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Command and event details are indented three spaces, everything else
-four.  Messed up in commit 156402e5042.  Use four spaces consistently.
+From: Peter Krempa <pkrempa@redhat.com>
 
+Similarly to features for struct types introduce the feature flags also
+for commands. This will allow notifying management layers of fixes and
+compatible changes in the behaviour of a command which may not be
+detectable any other way.
+
+The changes were heavily inspired by commit 6a8c0b51025.
+
+Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Peter Krempa <pkrempa@redhat.com>
 ---
- tests/qapi-schema/doc-good.out         |  4 +-
- tests/qapi-schema/event-case.out       |  2 +-
- tests/qapi-schema/indented-expr.out    |  4 +-
- tests/qapi-schema/qapi-schema-test.out | 52 +++++++++++++-------------
- tests/qapi-schema/test-qapi.py         |  4 +-
- 5 files changed, 33 insertions(+), 33 deletions(-)
+ docs/devel/qapi-code-gen.txt   | 10 ++++++----
+ qapi/introspect.json           |  6 +++++-
+ scripts/qapi/commands.py       |  3 ++-
+ scripts/qapi/doc.py            |  4 +++-
+ scripts/qapi/expr.py           | 35 +++++++++++++++++++---------------
+ scripts/qapi/introspect.py     |  7 ++++++-
+ scripts/qapi/schema.py         | 22 +++++++++++++++++----
+ tests/qapi-schema/test-qapi.py |  3 ++-
+ 8 files changed, 62 insertions(+), 28 deletions(-)
 
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
-out
-index d3bca343eb..6562e1f412 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -46,9 +46,9 @@ object q_obj_cmd-arg
-     member arg2: str optional=3DTrue
-     member arg3: bool optional=3DFalse
- command cmd q_obj_cmd-arg -> Object
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- command cmd-boxed Object -> None
--   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
-=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
-g=3DFalse
- doc freeform
-     body=3D
- =3D Section
-diff --git a/tests/qapi-schema/event-case.out b/tests/qapi-schema/event-c=
-ase.out
-index ec8a1406e4..42ae519656 100644
---- a/tests/qapi-schema/event-case.out
-+++ b/tests/qapi-schema/event-case.out
-@@ -11,4 +11,4 @@ enum QType
-     member qbool
- module event-case.json
- event oops None
--   boxed=3DFalse
-+    boxed=3DFalse
-diff --git a/tests/qapi-schema/indented-expr.out b/tests/qapi-schema/inde=
-nted-expr.out
-index bffdf6756d..04356775cd 100644
---- a/tests/qapi-schema/indented-expr.out
-+++ b/tests/qapi-schema/indented-expr.out
-@@ -11,6 +11,6 @@ enum QType
-     member qbool
- module indented-expr.json
- command eins None -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- command zwei None -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
-api-schema-test.out
-index 98031da96f..aca43186a9 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -33,7 +33,7 @@ object Union
-     case value3: q_empty
-     case value4: q_empty
- command user_def_cmd0 Empty2 -> Empty2
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- enum QEnumTwo
-     prefix QENUM_TWO
-     member value1
-@@ -205,35 +205,35 @@ object SecondArrayRef
-     member s: StatusList optional=3DFalse
- module qapi-schema-test.json
- command user_def_cmd None -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- object q_obj_user_def_cmd1-arg
-     member ud1a: UserDefOne optional=3DFalse
- command user_def_cmd1 q_obj_user_def_cmd1-arg -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- object q_obj_user_def_cmd2-arg
-     member ud1a: UserDefOne optional=3DFalse
-     member ud1b: UserDefOne optional=3DTrue
- command user_def_cmd2 q_obj_user_def_cmd2-arg -> UserDefTwo
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- command cmd-success-response None -> None
--   gen=3DTrue success_response=3DFalse boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    gen=3DTrue success_response=3DFalse boxed=3DFalse oob=3DFalse precon=
-fig=3DFalse
- object q_obj_guest-get-time-arg
-     member a: int optional=3DFalse
-     member b: int optional=3DTrue
- command guest-get-time q_obj_guest-get-time-arg -> int
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- object q_obj_guest-sync-arg
-     member arg: any optional=3DFalse
- command guest-sync q_obj_guest-sync-arg -> any
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- command boxed-struct UserDefZero -> None
--   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
-=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
-g=3DFalse
- command boxed-union UserDefListUnion -> None
--   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
-=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
-g=3DFalse
- command boxed-empty Empty1 -> None
--   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
-=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
-g=3DFalse
- command test-flags-command None -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DTrue preconfig=
-=3DTrue
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DTrue preconfi=
-g=3DTrue
- object UserDefOptions
-     member i64: intList optional=3DTrue
-     member u64: uint64List optional=3DTrue
-@@ -245,28 +245,28 @@ object EventStructOne
-     member string: str optional=3DFalse
-     member enum2: EnumOne optional=3DTrue
- event EVENT_A None
--   boxed=3DFalse
-+    boxed=3DFalse
- event EVENT_B None
--   boxed=3DFalse
-+    boxed=3DFalse
- object q_obj_EVENT_C-arg
-     member a: int optional=3DTrue
-     member b: UserDefOne optional=3DTrue
-     member c: str optional=3DFalse
- event EVENT_C q_obj_EVENT_C-arg
--   boxed=3DFalse
-+    boxed=3DFalse
- object q_obj_EVENT_D-arg
-     member a: EventStructOne optional=3DFalse
-     member b: str optional=3DFalse
-     member c: str optional=3DTrue
-     member enum3: EnumOne optional=3DTrue
- event EVENT_D q_obj_EVENT_D-arg
--   boxed=3DFalse
-+    boxed=3DFalse
- event EVENT_E UserDefZero
--   boxed=3DTrue
-+    boxed=3DTrue
- event EVENT_F UserDefFlatUnion
--   boxed=3DTrue
-+    boxed=3DTrue
- event EVENT_G Empty1
--   boxed=3DTrue
-+    boxed=3DTrue
- enum __org.qemu_x-Enum
-     member __org.qemu_x-value
- object __org.qemu_x-Base
-@@ -297,7 +297,7 @@ alternate __org.qemu_x-Alt
-     tag type
-     case __org.qemu_x-branch: __org.qemu_x-Base
- event __ORG.QEMU_X-EVENT __org.qemu_x-Struct
--   boxed=3DFalse
-+    boxed=3DFalse
- array __org.qemu_x-EnumList __org.qemu_x-Enum
- array __org.qemu_x-StructList __org.qemu_x-Struct
- object q_obj___org.qemu_x-command-arg
-@@ -306,7 +306,7 @@ object q_obj___org.qemu_x-command-arg
-     member c: __org.qemu_x-Union2 optional=3DFalse
-     member d: __org.qemu_x-Alt optional=3DFalse
- command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qem=
-u_x-Union1
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- object TestIfStruct
-     member foo: int optional=3DFalse
-     member bar: int optional=3DFalse
-@@ -335,7 +335,7 @@ object q_obj_TestIfUnionCmd-arg
-     member union_cmd_arg: TestIfUnion optional=3DFalse
-     if ['defined(TEST_IF_UNION)']
- command TestIfUnionCmd q_obj_TestIfUnionCmd-arg -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-     if ['defined(TEST_IF_UNION)']
- alternate TestIfAlternate
-     tag type
-@@ -347,7 +347,7 @@ object q_obj_TestIfAlternateCmd-arg
-     member alt_cmd_arg: TestIfAlternate optional=3DFalse
-     if ['defined(TEST_IF_ALT)']
- command TestIfAlternateCmd q_obj_TestIfAlternateCmd-arg -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-     if ['defined(TEST_IF_ALT)']
- object q_obj_TestIfCmd-arg
-     member foo: TestIfStruct optional=3DFalse
-@@ -355,10 +355,10 @@ object q_obj_TestIfCmd-arg
-         if ['defined(TEST_IF_CMD_BAR)']
-     if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
- command TestIfCmd q_obj_TestIfCmd-arg -> UserDefThree
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-     if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
- command TestCmdReturnDefThree None -> UserDefThree
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
- array TestIfEnumList TestIfEnum
-     if ['defined(TEST_IF_ENUM)']
- object q_obj_TestIfEvent-arg
-@@ -367,7 +367,7 @@ object q_obj_TestIfEvent-arg
-         if ['defined(TEST_IF_EVT_BAR)']
-     if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
- event TestIfEvent q_obj_TestIfEvent-arg
--   boxed=3DFalse
-+    boxed=3DFalse
-     if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
- object FeatureStruct0
-     member foo: int optional=3DFalse
-@@ -411,4 +411,4 @@ object q_obj_test-features-arg
-     member cfs2: CondFeatureStruct2 optional=3DFalse
-     member cfs3: CondFeatureStruct3 optional=3DFalse
- command test-features q_obj_test-features-arg -> None
--   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index 64d9e4c6a9..45c93a43cc 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -457,7 +457,8 @@ Syntax:
+                 '*gen': false,
+                 '*allow-oob': true,
+                 '*allow-preconfig': true,
+-                '*if': COND }
++                '*if': COND,
++                '*features': FEATURES }
+=20
+ Member 'command' names the command.
+=20
+@@ -640,9 +641,10 @@ change in the QMP syntax (usually by allowing values=
+ or operations
+ that previously resulted in an error).  QMP clients may still need to
+ know whether the extension is available.
+=20
+-For this purpose, a list of features can be specified for a struct type.
+-This is exposed to the client as a list of string, where each string
+-signals that this build of QEMU shows a certain behaviour.
++For this purpose, a list of features can be specified for a command or
++struct type.  This is exposed to the client as a list of strings,
++where each string signals that this build of QEMU shows a certain
++behaviour.
+=20
+ Each member of the 'features' array defines a feature.  It can either
+ be { 'name': STRING, '*if': COND }, or STRING, which is shorthand for
+diff --git a/qapi/introspect.json b/qapi/introspect.json
+index 1843c1cb17..031a954fa9 100644
+--- a/qapi/introspect.json
++++ b/qapi/introspect.json
+@@ -266,13 +266,17 @@
+ # @allow-oob: whether the command allows out-of-band execution,
+ #             defaults to false (Since: 2.12)
+ #
++# @features: names of features associated with the command, in no partic=
+ular
++#            order. (since 4.2)
++#
+ # TODO: @success-response (currently irrelevant, because it's QGA, not Q=
+MP)
+ #
+ # Since: 2.5
+ ##
+ { 'struct': 'SchemaInfoCommand',
+   'data': { 'arg-type': 'str', 'ret-type': 'str',
+-            '*allow-oob': 'bool' } }
++            '*allow-oob': 'bool',
++            '*features': [ 'str' ] } }
+=20
+ ##
+ # @SchemaInfoEvent:
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 898516b086..ab98e504f3 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -277,7 +277,8 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmd=
+s);
+         genc.add(gen_registry(self._regy.get_content(), self._prefix))
+=20
+     def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
+-                      success_response, boxed, allow_oob, allow_preconfi=
+g):
++                      success_response, boxed, allow_oob, allow_preconfi=
+g,
++                      features):
+         if not gen:
+             return
+         # FIXME: If T is a user-defined type, the user is responsible
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index dc8919bab7..6d5726cf6e 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -249,12 +249,14 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
+                                body=3Dtexi_entity(doc, 'Members', ifcond=
+)))
+=20
+     def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
+-                      success_response, boxed, allow_oob, allow_preconfi=
+g):
++                      success_response, boxed, allow_oob, allow_preconfi=
+g,
++                      features):
+         doc =3D self.cur_doc
+         if boxed:
+             body =3D texi_body(doc)
+             body +=3D ('\n@b{Arguments:} the members of @code{%s}\n'
+                      % arg_type.name)
++            body +=3D texi_features(doc)
+             body +=3D texi_sections(doc, ifcond)
+         else:
+             body =3D texi_entity(doc, 'Arguments', ifcond)
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index da23063f57..5a7e548899 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -184,6 +184,22 @@ def normalize_features(features):
+                        for f in features]
+=20
+=20
++def check_features(features, info):
++    if features is None:
++        return
++    if not isinstance(features, list):
++        raise QAPISemError(info, "'features' must be an array")
++    for f in features:
++        source =3D "'features' member"
++        assert isinstance(f, dict)
++        check_keys(f, info, source, ['name'], ['if'])
++        check_name_is_str(f['name'], info, source)
++        source =3D "%s '%s'" % (source, f['name'])
++        check_name_str(f['name'], info, source)
++        check_if(f, info, source)
++        normalize_if(f)
++
++
+ def normalize_enum(expr):
+     if isinstance(expr['data'], list):
+         expr['data'] =3D [m if isinstance(m, dict) else {'name': m}
+@@ -216,23 +232,10 @@ def check_enum(expr, info):
+ def check_struct(expr, info):
+     name =3D expr['struct']
+     members =3D expr['data']
+-    features =3D expr.get('features')
+=20
+     check_type(members, info, "'data'", allow_dict=3Dname)
+     check_type(expr.get('base'), info, "'base'")
+-
+-    if features:
+-        if not isinstance(features, list):
+-            raise QAPISemError(info, "'features' must be an array")
+-        for f in features:
+-            source =3D "'features' member"
+-            assert isinstance(f, dict)
+-            check_keys(f, info, source, ['name'], ['if'])
+-            check_name_is_str(f['name'], info, source)
+-            source =3D "%s '%s'" % (source, f['name'])
+-            check_name_str(f['name'], info, source)
+-            check_if(f, info, source)
+-            normalize_if(f)
++    check_features(expr.get('features'), info)
+=20
+=20
+ def check_union(expr, info):
+@@ -282,6 +285,7 @@ def check_command(expr, info):
+         raise QAPISemError(info, "'boxed': true requires 'data'")
+     check_type(args, info, "'data'", allow_dict=3Dnot boxed)
+     check_type(rets, info, "'returns'", allow_array=3DTrue)
++    check_features(expr.get('features'), info)
+=20
+=20
+ def check_event(expr, info):
+@@ -357,10 +361,11 @@ def check_exprs(exprs):
+         elif meta =3D=3D 'command':
+             check_keys(expr, info, meta,
+                        ['command'],
+-                       ['data', 'returns', 'boxed', 'if',
++                       ['data', 'returns', 'boxed', 'if', 'features',
+                         'gen', 'success-response', 'allow-oob',
+                         'allow-preconfig'])
+             normalize_members(expr.get('data'))
++            normalize_features(expr.get('features'))
+             check_command(expr, info)
+         elif meta =3D=3D 'event':
+             check_keys(expr, info, meta,
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index 4f257591de..b3a463dd8b 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -211,13 +211,18 @@ const QLitObject %(c_name)s =3D %(c_string)s;
+                            for m in variants.variants]}, ifcond)
+=20
+     def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
+-                      success_response, boxed, allow_oob, allow_preconfi=
+g):
++                      success_response, boxed, allow_oob, allow_preconfi=
+g,
++                      features):
+         arg_type =3D arg_type or self._schema.the_empty_object_type
+         ret_type =3D ret_type or self._schema.the_empty_object_type
+         obj =3D {'arg-type': self._use_type(arg_type),
+                'ret-type': self._use_type(ret_type)}
+         if allow_oob:
+             obj['allow-oob'] =3D allow_oob
++
++        if features:
++            obj['features'] =3D [(f.name, {'if': f.ifcond}) for f in fea=
+tures]
++
+         self._gen_qlit(name, 'command', obj, ifcond)
+=20
+     def visit_event(self, name, info, ifcond, arg_type, boxed):
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 38041098bd..8a48231766 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -109,7 +109,8 @@ class QAPISchemaVisitor(object):
+         pass
+=20
+     def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
+-                      success_response, boxed, allow_oob, allow_preconfi=
+g):
++                      success_response, boxed, allow_oob, allow_preconfi=
+g,
++                      features):
+         pass
+=20
+     def visit_event(self, name, info, ifcond, arg_type, boxed):
+@@ -658,10 +659,14 @@ class QAPISchemaCommand(QAPISchemaEntity):
+     meta =3D 'command'
+=20
+     def __init__(self, name, info, doc, ifcond, arg_type, ret_type,
+-                 gen, success_response, boxed, allow_oob, allow_preconfi=
+g):
++                 gen, success_response, boxed, allow_oob, allow_preconfi=
+g,
++                 features):
+         QAPISchemaEntity.__init__(self, name, info, doc, ifcond)
+         assert not arg_type or isinstance(arg_type, str)
+         assert not ret_type or isinstance(ret_type, str)
++        for f in features:
++            assert isinstance(f, QAPISchemaFeature)
++            f.set_defined_in(name)
+         self._arg_type_name =3D arg_type
+         self.arg_type =3D None
+         self._ret_type_name =3D ret_type
+@@ -671,6 +676,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
+         self.boxed =3D boxed
+         self.allow_oob =3D allow_oob
+         self.allow_preconfig =3D allow_preconfig
++        self.features =3D features
+=20
+     def check(self, schema):
+         QAPISchemaEntity.check(self, schema)
+@@ -700,13 +706,19 @@ class QAPISchemaCommand(QAPISchemaEntity):
+                         "command's 'returns' cannot take %s"
+                         % self.ret_type.describe())
+=20
++        # Features are in a name space separate from members
++        seen =3D {}
++        for f in self.features:
++            f.check_clash(self.info, seen)
++
+     def visit(self, visitor):
+         QAPISchemaEntity.visit(self, visitor)
+         visitor.visit_command(self.name, self.info, self.ifcond,
+                               self.arg_type, self.ret_type,
+                               self.gen, self.success_response,
+                               self.boxed, self.allow_oob,
+-                              self.allow_preconfig)
++                              self.allow_preconfig,
++                              self.features)
+=20
+=20
+ class QAPISchemaEvent(QAPISchemaEntity):
+@@ -983,6 +995,7 @@ class QAPISchema(object):
+         allow_oob =3D expr.get('allow-oob', False)
+         allow_preconfig =3D expr.get('allow-preconfig', False)
+         ifcond =3D expr.get('if')
++        features =3D expr.get('features', [])
+         if isinstance(data, OrderedDict):
+             data =3D self._make_implicit_object_type(
+                 name, info, doc, ifcond, 'arg', self._make_members(data,=
+ info))
+@@ -991,7 +1004,8 @@ class QAPISchema(object):
+             rets =3D self._make_array_type(rets[0], info)
+         self._def_entity(QAPISchemaCommand(name, info, doc, ifcond, data=
+, rets,
+                                            gen, success_response,
+-                                           boxed, allow_oob, allow_preco=
+nfig))
++                                           boxed, allow_oob, allow_preco=
+nfig,
++                                           self._make_features(features,=
+ info)))
+=20
+     def _def_event(self, expr, info, doc):
+         name =3D expr['event']
 diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
 .py
-index 664254618a..29d9435bf7 100755
+index 29d9435bf7..d31ac4bbb7 100755
 --- a/tests/qapi-schema/test-qapi.py
 +++ b/tests/qapi-schema/test-qapi.py
-@@ -76,13 +76,13 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
+@@ -72,7 +72,8 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
+         self._print_if(ifcond)
+=20
+     def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
+-                      success_response, boxed, allow_oob, allow_preconfi=
+g):
++                      success_response, boxed, allow_oob, allow_preconfi=
+g,
++                      features):
          print('command %s %s -> %s'
                % (name, arg_type and arg_type.name,
                   ret_type and ret_type.name))
--        print('   gen=3D%s success_response=3D%s boxed=3D%s oob=3D%s pre=
-config=3D%s'
-+        print('    gen=3D%s success_response=3D%s boxed=3D%s oob=3D%s pr=
-econfig=3D%s'
-               % (gen, success_response, boxed, allow_oob, allow_preconfi=
-g))
-         self._print_if(ifcond)
-=20
-     def visit_event(self, name, info, ifcond, arg_type, boxed):
-         print('event %s %s' % (name, arg_type and arg_type.name))
--        print('   boxed=3D%s' % boxed)
-+        print('    boxed=3D%s' % boxed)
-         self._print_if(ifcond)
-=20
-     @staticmethod
 --=20
 2.21.0
 
