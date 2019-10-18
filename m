@@ -2,118 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95DEDC6BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:02:05 +0200 (CEST)
-Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692C2DC6F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:08:38 +0200 (CEST)
+Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLSpL-0006Pl-5A
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54891)
+	id 1iLSvl-0001lA-CF
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1iLScy-0003wh-L8
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:49:13 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1iLSkh-0005iH-Kx
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:57:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1iLScx-0005xb-Ap
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:49:12 -0400
-Received: from mout.gmx.net ([212.227.15.18]:40961)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>)
- id 1iLScp-0005rP-PU; Fri, 18 Oct 2019 09:49:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1571406533;
- bh=nt/RoJYwyYzIZO/JkQGZ+giDzbvttTdZ/+Gs155OCO8=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=lMmg6UMSJLagIqm3seEaOG/MiBKAqjFM/YUZgBPSIJ79LlplXGmc5GDyTYp2vnTUh
- 4fGuZ8pFufkHUWEkPDUGjemjkAh48Hbqto+v/cUp1ZjiQgoAdFGkN0wBP1y5SLum+2
- TDuQmGelFD8QXZhG0sew7PiKARgSXFXc8PINVaxA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [172.20.45.31] ([195.50.164.66]) by mail.gmx.com (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M1psI-1iJGlY3tHc-002J5D; Fri, 18
- Oct 2019 15:48:53 +0200
-Subject: Re: [PATCH v2] Do not use %m in common code to print error messages
-To: Stefano Garzarella <sgarzare@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20191018130716.25438-1-thuth@redhat.com>
- <20191018134215.u6psfffrrxlsa2ns@steredhat>
-From: Kamil Rytarowski <n54@gmx.com>
-Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
- 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
- 4XSbcg==
-Message-ID: <1f36c112-fabb-df41-e01d-476e4c86186e@gmx.com>
-Date: Fri, 18 Oct 2019 15:49:12 +0200
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+ (envelope-from <mrolnik@gmail.com>) id 1iLSkf-0000si-UX
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:57:11 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:45073)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iLSkf-0000sS-N5
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:57:09 -0400
+Received: by mail-qt1-x842.google.com with SMTP id c21so9130871qtj.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 06:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NF/5uJpTFqhNwKWsh3dEURXwJuWYCWEZnkkvzvb9Src=;
+ b=jJ41IO2vsBt5quS7zX2N11BjoZaMvFXaLn1UGtaReZDVfdVKaQMcFyHN9HRefWeONL
+ QnO0KWygwQnzvi7XjKuFMJ18Xsqa4onO1YnVWbgToDyuy/e2X1Wocdm9c8wZIARuWC+g
+ XXM2wM5ABQ/b+Y9dOMD4agLprGBN+rg+VhyQcDsihDm9qeSX1Ii2VgaTIFs93JDkPAP0
+ Iwhz1lu09XF0bXtLKkhyCxKZfNtod8Swv+95btpwlRn4YbPLsMzvEEJYGoraMbKyOkXS
+ qV4v4iG2fzUHYgqMYkF6KWI+Lif34RNE3+qe9QG/sT8riQHjO3/RlnY99VXhtTkuuufM
+ UMdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NF/5uJpTFqhNwKWsh3dEURXwJuWYCWEZnkkvzvb9Src=;
+ b=ET253g5wf8QkZ2WqTmyegw5s2sdxKVfkQOb3IV44OESd5m2A1/LwxTrWgkNPQwmuRq
+ FFQzbVLa1drYUMuYzIPSO8utfQrbNS9zPw7V+DD79avF5mCob5RTdorw08bGmMsg/Yoq
+ PBo5zhijxzanJh6Np5t8bcm1mnd9IO1vvESRH8eSWI4JcmWSzc00u+xHbclNFSJkAB3R
+ XranMNAyK6J32N478Gc8LszNoKT1H6J77mX8P3g1CNg7CDp7M8AxESohioxLHENhrWNw
+ w33Qi+PuT6RgqnBnboN9WcC7GqWkg1e3dKYedREpwAONilya+5GY/D7U8ZdRWuZ2Et1q
+ Dh+A==
+X-Gm-Message-State: APjAAAU+JQq+e5GUDOBK84QhAxhQhoeQoIjh86Vy7baE7E8xZRmcAmI8
+ nj3y+8icnNizwO/RtlXzwzcNyycsB08L/IzQLsU=
+X-Google-Smtp-Source: APXvYqwinHBgK5jCFnvCLrGS+1+yt4iMjtyVMd/vdTuh2youdepjB4vMsQ8hrN/CakAm8hbOtUTqnWHEromF/jAss4I=
+X-Received: by 2002:ac8:3f66:: with SMTP id w35mr9899510qtk.382.1571407028370; 
+ Fri, 18 Oct 2019 06:57:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191018134215.u6psfffrrxlsa2ns@steredhat>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YAEvA3TIe76vGRwcjfX3aUZddXXz/7z005ESLA7VWztB4insLkV
- RBMEaIpNdXYviROb2f75OZhB6sfCPM/SiqslypN6GF6IhKLMcJM+nL0WeV4yAwgfkC9GRUR
- MAEU3sPUEm3gmV+ATbxnHjzYLreQ9U3BiAteEG3kWKucRfXPvvOntB6JY5BVxk1UXPNAMBw
- TZuuGjokJYVwPV5P0TIlA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ISmWFCJIGzQ=:u1ueoWe+SeE6qcJhO0uw9f
- xz1ERxaEasgxF+CUgLAgK3aqgjDiQDAHxWrgxB/hkAsXlTVhvmAN9zay364skAeYnykvcJWyi
- vmMhZ7/YxP2XMLIUn4jnVUBq+VaHXJirMU/4TBzEbcD9wcjXQaE6QwKm7kF3VcgOtyU45Yn4E
- qEtDw+7vbgvbQ6eRzHjK9J7sCqQp9dEucboPH65soAb3/DCSu5ogsQIQ3s0FTIyoFzp2YNJsE
- qM1KgeqMfaeXBoCr81IEHkXOZUUiC9nGWJdIRKaXvuRSACCa1uKsELVIhaFFELBsEN1RNMg+k
- BbQxle463S98NWiSEzHHm/H+vN1FNIVcGY6Lqbq3+OkNsnRoVpkO+Gz0gi/pLS5/sE7D6SWFJ
- Hw87mf1nEQFW2Q+KUYVAGE6v3H/+Uc62hQ3TpINAr8uLeS4lukA0p2553/uET/q79iWOlYxyI
- f67G+o/VrseZJPCX90jUh3QUITjIampLEd8k3qSVNrFf/8fwloS8e7zQ8FL3Xf+z/nuHR0NcG
- wVQ60M/3OJ6iwdIeeHvRcznq7cBqwfQIFKujxHWn0FlJQfhlWXN/xr9jdaislDDV13z6HFCu/
- iwo/9iXcFWLvcRuMpzQB0BfNCkVkZU0xsI5dGpb2+8ixdI/55XfhiTPGlbZvM/YF5kY7y3j23
- r8MBxerBrTPhiBh9Ew6WV2OMNkYfUD2jrboExZFXcLilvxosZ05mgDb+A/+PM8+pMr3vn21Sb
- HX1slYG3luSpehA4a8iMkWIvL3oBAH80k+i8Fel74VqiR/JwRli9Pskf+9vFdDq84NxkoYEFO
- v8cgAnCG/PSks4MCTnbFjqe2lQA84kLbkdoaqbXnPlp2FIJAcf2ain9UAhOsVM6PAUCltUxJ5
- FQ9fgBNnCYxC9Wa9PJBp9yBwzhKDlgRdhK9shH/SeOqYhhNePLQNs62gnahMfUV+KfS/Etx87
- 7BE2F3z/Sgbg6iWtptLb1vAZ9S48zghViJzBCd+pbEKkdu1ETt2f+1V/A8pU8L1s2lh3L23V8
- ampYHxGG1YOzt4h3VOplN1LdbN7cggUPqJYQkzlm69czLglTAIyWoOGK3R0C8824v4diT9Agx
- zq9M/zzZkcU7omM1JvVquwJSiIVPkjYnoUOn10zaqwt5W4X3YmttLx1ykcp5pqKMkcgYwwnYq
- XussEcpTdAkAQ15b3EFAwrBlIm3priqLDWn9faM9DM5/Yj/05oOGgBG7skIuCR5jAuF/XNrpY
- QTRE2il7c6IMK2XbEm0JAJb2rc/1hT8jaHW8fVA==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.15.18
+References: <20191014161843.84845-1-mrolnik@gmail.com>
+ <20191014161843.84845-5-mrolnik@gmail.com>
+ <CAL1e-=g9ER4tuqEL2ubqb7oAbatcVR8x+A0LAydSwBJEnk9_ow@mail.gmail.com>
+ <CAK4993gm=8tVXyprjHPMiNZuKZRkx0iDYnXh76cQfMwUayqcWQ@mail.gmail.com>
+ <CAL1e-=hGJQqVnvAu=ZJRV-AdoAWpkSvdf5ex=b7EwkodUGKpUg@mail.gmail.com>
+ <CAK4993jaqFrzcmAyz7neJoq5cQgnB_o35dZhdh9_uVyOfKGG-Q@mail.gmail.com>
+ <CAL1e-=ixhb1z8h9f6DrNAuEn69pPaV2qvvd=BvVnFKCdW+XMwg@mail.gmail.com>
+ <CAK4993h6p2ZHx7a_JZhP_GE21UjfDmBJoSoBSPSo0pDwRmyK=Q@mail.gmail.com>
+ <CAL1e-=gjP5CJ5x-e9MCw5T2-y41KuWD=CiSVecCFB1StsP5nFw@mail.gmail.com>
+In-Reply-To: <CAL1e-=gjP5CJ5x-e9MCw5T2-y41KuWD=CiSVecCFB1StsP5nFw@mail.gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Fri, 18 Oct 2019 16:56:15 +0300
+Message-ID: <CAK4993j44GK=zyuGbo86Li=7Gt2BrwWuzdLe3rggnOtMPR7f2Q@mail.gmail.com>
+Subject: Re: [PATCH v32 04/13] target/avr: Add instruction translation -
+ Registers definition
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::842
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,113 +79,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Kamil Rytarowski <kamil@netbsd.org>, berrange@redhat.com,
- qemu-devel@nongnu.org
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.10.2019 15:42, Stefano Garzarella wrote:
-> On Fri, Oct 18, 2019 at 03:07:16PM +0200, Thomas Huth wrote:
->> The %m format specifier is an extension from glibc - and when compiling
->> QEMU for NetBSD, the compiler correctly complains, e.g.:
->>
->> /home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c: In function 'sigfd_ha=
-ndler':
->> /home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c:64:13: warning: %m is =
-only
->>  allowed in syslog(3) like functions [-Wformat=3D]
->>              printf("read from sigfd returned %zd: %m\n", len);
->>              ^
->> Let's use g_strerror() here instead, which is an easy-to-use wrapper
->> around the thread-safe strerror_r() function.
->>
->> While we're at it, also convert the "printf()" in main-loop.c into
->> the preferred "error_report()".
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  v2: Do not try to g_free() the strings
->>
->>  hw/misc/tmp421.c | 4 ++--
->>  util/main-loop.c | 3 ++-
->>  util/systemd.c   | 4 ++--
->>  3 files changed, 6 insertions(+), 5 deletions(-)
+On Fri, Oct 18, 2019 at 4:23 PM Aleksandar Markovic
+<aleksandar.m.mail@gmail.com> wrote:
 >
-> There are many uses of %m also in hw/vfio/ but that's Linux stuff.
-> Should we change those too or it doesn't matter since it never really
-> compiled on NetBSD?
 >
-
-It's a gnu (glibc) extension and linux can use alternative libc
-implementations. Probably most of them capable to host qemu use %m.
-
-> Anyway, this patch LGTM:
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 >
-> Thanks,
-> Stefano
+> On Friday, October 18, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+>>
+>>
+>>
+>> On Fri, Oct 18, 2019 at 11:52 AM Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
+>>>
+>>>
+>>>
+>>> On Thursday, October 17, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+>>>>
+>>>> On Thu, Oct 17, 2019 at 11:17 PM Aleksandar Markovic
+>>>> <aleksandar.m.mail@gmail.com> wrote:
+>>>> >>
+>>>> >>
+>>>> >> >> +static TCGv cpu_Cf;
+>>>> >> >> +static TCGv cpu_Zf;
+>>>> >> >> +static TCGv cpu_Nf;
+>>>> >> >> +static TCGv cpu_Vf;
+>>>> >> >> +static TCGv cpu_Sf;
+>>>> >> >> +static TCGv cpu_Hf;
+>>>> >> >> +static TCGv cpu_Tf;
+>>>> >> >> +static TCGv cpu_If;
+>>>> >> >> +
+>>>> >> >
+>>>> >> >
+>>>> >> > Hello, Michael,
+>>>> >> >
+>>>> >> > Is there any particular reason or motivation beyond modelling status register flags as TCGv variables?
+>>>> >>
+>>>> >>
+>>>> >>
+>>>> >> I think it's easier this way as I don't need to convert flag values to
+>>>> >> bits or bits to flag values.
+>>>> >
+>>>> >
+>>>> > Ok. But, how do you map 0/1 flag value to the value of a TCGv variable and vice versa? In other words, what value or values (out of 2^32 vales) of a TCGv variable mean the flag is 1? And the same question for 0.
+>>>> >
+>>>> > Is 0110000111000010100 one or zero?
+>>>> >
+>>>> > Besides, in such arrangement, how do you display the 8-bit status register in gdb, if at all?
+>>>>
+>>>> each flag register is either 0 or 1,....
+>>>>
+>>>>
+>>>>
+>>>
+>>> Michael,
+>>>
+>>> If this is true, why is there a special handling of two flags in the following code:
+>>>
+>>>
+>>> static inline uint8_t cpu_get_sreg(CPUAVRState *env)
+>>> {
+>>> uint8_t sreg;
+>>> sreg = (env->sregC & 0x01) << 0
+>>> | (env->sregZ == 0 ? 1 : 0) << 1
+>>> | (env->sregN) << 2
+>>> | (env->sregV) << 3
+>>> | (env->sregS) << 4
+>>> | (env->sregH) << 5
+>>> | (env->sregT) << 6
+>>> | (env->sregI) << 7;
+>>> return sreg;
+>>> }
+>>> static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
+>>> {
+>>> env->sregC = (sreg >> 0) & 0x01;
+>>> env->sregZ = (sreg >> 1) & 0x01 ? 0 : 1;
+>>> env->sregN = (sreg >> 2) & 0x01;
+>>> env->sregV = (sreg >> 3) & 0x01;
+>>> env->sregS = (sreg >> 4) & 0x01;
+>>> env->sregH = (sreg >> 5) & 0x01;
+>>> env->sregT = (sreg >> 6) & 0x01;
+>>> env->sregI = (sreg >> 7) & 0x01;
+>>> }
+>>>  ?
+>>>
+>> Aleksandar,
+>>
+>> If I understand your question correctly cpu_get_sreg assembles SREG value to be presented by GDB, and cpu_set_sreg sets flags values when GDB modifies SREG.
+>>
+>> Michael
 >
+>
+>
+> Why is handling of sregC and sregZ flags different than handling of other flags? This contradicts your previos statement that 1 (in TCGv) means 1 (flag), and 0 (in TCGv) means 0 (flag)?
+>
+>
+> Whatever is the explanation, ot should be included, in my opinion, in code comments.
+>
+> Please, Michael, let's first clarify the issue from the question above.
+>
+> Thanks, Aleksandar
+>
+>
+there is a comment here
+https://github.com/michaelrolnik/qemu-avr/blob/master/target/avr/cpu.h#L122-L129
+>
+>
+>
+>>>
+>>> Thanks,
+>>> A.
+>>>>
+>>>>
+>>>>  they are calculated here
+>>>> 1. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L146-L148
+>>>> 2. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L166
+>>>> 3. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L185-L187
+>>>> 4. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L205
+>>>> 5. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L214-L215
+>>>> 6. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L222-L223
+>>>> The COU itself never uses SREG at all, only the flags.
+>>>>
+>>>> As for the GDB it's get assembled/disassembled here
+>>>> 1. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/cpu.h#L219-L243
+>>>> 2. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/gdbstub.c#L35-L37
+>>>> 3. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/gdbstub.c#L66-L68
+>>>>
+>>>> >
+>>>> > A.
+>>>> >
+>>>> >>
+>>>> >> >
+>>>> >> > A.
+>>>> >> >
+>>>> >> >
+>>>> >> >
+>>>> >> >>
+>>>> >> >> +static TCGv cpu_rampD;
+>>>> >> >> +static TCGv cpu_rampX;
+>>>> >> >> +static TCGv cpu_rampY;
+>>>> >> >> +static TCGv cpu_rampZ;
+>>>> >> >> +
+>>>> >> >> +static TCGv cpu_r[NO_CPU_REGISTERS];
+>>>> >> >> +static TCGv cpu_eind;
+>>>> >> >> +static TCGv cpu_sp;
+>>>> >> >> +
+>>>> >> >> +static TCGv cpu_skip;
+>>>> >> >> +
+>>>> >> >> +static const char reg_names[NO_CPU_REGISTERS][8] = {
+>>>> >> >> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+>>>> >> >> +    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
+>>>> >> >> +    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+>>>> >> >> +    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+>>>> >> >> +};
+>>>> >> >> +#define REG(x) (cpu_r[x])
+>>>> >> >> +
+>>>> >> >> +enum {
+>>>> >> >> +    DISAS_EXIT   = DISAS_TARGET_0,  /* We want return to the cpu main loop.  */
+>>>> >> >> +    DISAS_LOOKUP = DISAS_TARGET_1,  /* We have a variable condition exit.  */
+>>>> >> >> +    DISAS_CHAIN  = DISAS_TARGET_2,  /* We have a single condition exit.  */
+>>>> >> >> +};
+>>>> >> >> +
+>>>> >> >> +typedef struct DisasContext DisasContext;
+>>>> >> >> +
+>>>> >> >> +/* This is the state at translation time. */
+>>>> >> >> +struct DisasContext {
+>>>> >> >> +    TranslationBlock *tb;
+>>>> >> >> +
+>>>> >> >> +    CPUAVRState *env;
+>>>> >> >> +    CPUState *cs;
+>>>> >> >> +
+>>>> >> >> +    target_long npc;
+>>>> >> >> +    uint32_t opcode;
+>>>> >> >> +
+>>>> >> >> +    /* Routine used to access memory */
+>>>> >> >> +    int memidx;
+>>>> >> >> +    int bstate;
+>>>> >> >> +    int singlestep;
+>>>> >> >> +
+>>>> >> >> +    TCGv skip_var0;
+>>>> >> >> +    TCGv skip_var1;
+>>>> >> >> +    TCGCond skip_cond;
+>>>> >> >> +    bool free_skip_var0;
+>>>> >> >> +};
+>>>> >> >> +
+>>>> >> >> +static int to_A(DisasContext *ctx, int indx) { return 16 + (indx % 16); }
+>>>> >> >> +static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }
+>>>> >> >> +static int to_C(DisasContext *ctx, int indx) { return 24 + (indx % 4) * 2; }
+>>>> >> >> +static int to_D(DisasContext *ctx, int indx) { return (indx % 16) * 2; }
+>>>> >> >> +
+>>>> >> >> +static uint16_t next_word(DisasContext *ctx)
+>>>> >> >> +{
+>>>> >> >> +    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
+>>>> >> >> +}
+>>>> >> >> +
+>>>> >> >> +static int append_16(DisasContext *ctx, int x)
+>>>> >> >> +{
+>>>> >> >> +    return x << 16 | next_word(ctx);
+>>>> >> >> +}
+>>>> >> >> +
+>>>> >> >> +
+>>>> >> >> +static bool avr_have_feature(DisasContext *ctx, int feature)
+>>>> >> >> +{
+>>>> >> >> +    if (!avr_feature(ctx->env, feature)) {
+>>>> >> >> +        gen_helper_unsupported(cpu_env);
+>>>> >> >> +        ctx->bstate = DISAS_NORETURN;
+>>>> >> >> +        return false;
+>>>> >> >> +    }
+>>>> >> >> +    return true;
+>>>> >> >> +}
+>>>> >> >> +
+>>>> >> >> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
+>>>> >> >> +#include "decode_insn.inc.c"
+>>>> >> >> +
+>>>> >> >> --
+>>>> >> >> 2.17.2 (Apple Git-113)
+>>>> >> >>
+>>>> >>
+>>>> >>
+>>>> >> --
+>>>> >> Best Regards,
+>>>> >> Michael Rolnik
+>>>>
+>>>>
+>>>>
+>>>> --
+>>>> Best Regards,
+>>>> Michael Rolnik
 >>
->> diff --git a/hw/misc/tmp421.c b/hw/misc/tmp421.c
->> index 9f044705fa..c0bc150bca 100644
->> --- a/hw/misc/tmp421.c
->> +++ b/hw/misc/tmp421.c
->> @@ -120,7 +120,7 @@ static void tmp421_get_temperature(Object *obj, Vis=
-itor *v, const char *name,
->>      int tempid;
 >>
->>      if (sscanf(name, "temperature%d", &tempid) !=3D 1) {
->> -        error_setg(errp, "error reading %s: %m", name);
->> +        error_setg(errp, "error reading %s: %s", name, g_strerror(errn=
-o));
->>          return;
->>      }
 >>
->> @@ -160,7 +160,7 @@ static void tmp421_set_temperature(Object *obj, Vis=
-itor *v, const char *name,
->>      }
->>
->>      if (sscanf(name, "temperature%d", &tempid) !=3D 1) {
->> -        error_setg(errp, "error reading %s: %m", name);
->> +        error_setg(errp, "error reading %s: %s", name, g_strerror(errn=
-o));
->>          return;
->>      }
->>
->> diff --git a/util/main-loop.c b/util/main-loop.c
->> index e3eaa55866..eda63fe4e0 100644
->> --- a/util/main-loop.c
->> +++ b/util/main-loop.c
->> @@ -61,7 +61,8 @@ static void sigfd_handler(void *opaque)
->>          }
->>
->>          if (len !=3D sizeof(info)) {
->> -            printf("read from sigfd returned %zd: %m\n", len);
->> +            error_report("read from sigfd returned %zd: %s", len,
->> +                         g_strerror(errno));
->>              return;
->>          }
->>
->> diff --git a/util/systemd.c b/util/systemd.c
->> index d22e86c707..1dd0367d9a 100644
->> --- a/util/systemd.c
->> +++ b/util/systemd.c
->> @@ -60,8 +60,8 @@ unsigned int check_socket_activation(void)
->>               * and we should exit.
->>               */
->>              error_report("Socket activation failed: "
->> -                         "invalid file descriptor fd =3D %d: %m",
->> -                         fd);
->> +                         "invalid file descriptor fd =3D %d: %s",
->> +                         fd, g_strerror(errno));
->>              exit(EXIT_FAILURE);
->>          }
->>      }
 >> --
->> 2.18.1
->>
->>
->
+>> Best Regards,
+>> Michael Rolnik
 
+
+
+-- 
+Best Regards,
+Michael Rolnik
 
