@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D559DC34B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 12:59:23 +0200 (CEST)
-Received: from localhost ([::1]:37906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D511DC356
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 12:59:35 +0200 (CEST)
+Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLPyc-0000qS-9W
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 06:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57546)
+	id 1iLPyo-0001ED-6c
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 06:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iLPtS-0004l0-Qg
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:03 -0400
+ (envelope-from <slp@redhat.com>) id 1iLPuC-0005vc-Db
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iLPtR-0000sT-JH
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58780)
+ (envelope-from <slp@redhat.com>) id 1iLPuB-0001T2-04
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43146)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iLPtR-0000rj-Df
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:01 -0400
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iLPuA-0001SU-OL
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:46 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9FFF08110B;
- Fri, 18 Oct 2019 10:54:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 03BFE328E;
+ Fri, 18 Oct 2019 10:54:46 +0000 (UTC)
 Received: from dritchie.redhat.com (unknown [10.33.36.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 181075D713;
- Fri, 18 Oct 2019 10:53:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B93D25D713;
+ Fri, 18 Oct 2019 10:54:39 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 04/15] hw/i386/pc: replace use of strtol with qemu_strtoui
- in x86_load_linux()
-Date: Fri, 18 Oct 2019 12:53:04 +0200
-Message-Id: <20191018105315.27511-5-slp@redhat.com>
+Subject: [PATCH v11 10/15] fw_cfg: add "modify" functions for all types
+Date: Fri, 18 Oct 2019 12:53:10 +0200
+Message-Id: <20191018105315.27511-11-slp@redhat.com>
 In-Reply-To: <20191018105315.27511-1-slp@redhat.com>
 References: <20191018105315.27511-1-slp@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 18 Oct 2019 10:54:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 18 Oct 2019 10:54:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,51 +64,152 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow checkpatch.pl recommendation and replace the use of strtol with
-qemu_strtoui in x86_load_linux().
+This allows to alter the contents of an already added item.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/i386/pc.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ include/hw/nvram/fw_cfg.h | 42 +++++++++++++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c         | 29 +++++++++++++++++++++++++++
+ 2 files changed, 71 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 77e86bfc3d..c8608b8007 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -68,6 +68,7 @@
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qemu/option.h"
-+#include "qemu/cutils.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/cpu_hotplug.h"
- #include "hw/boards.h"
-@@ -1202,6 +1203,7 @@ static void x86_load_linux(PCMachineState *pcms,
-     vmode =3D strstr(kernel_cmdline, "vga=3D");
-     if (vmode) {
-         unsigned int video_mode;
-+        int ret;
-         /* skip "vga=3D" */
-         vmode +=3D 4;
-         if (!strncmp(vmode, "normal", 6)) {
-@@ -1211,7 +1213,12 @@ static void x86_load_linux(PCMachineState *pcms,
-         } else if (!strncmp(vmode, "ask", 3)) {
-             video_mode =3D 0xfffd;
-         } else {
--            video_mode =3D strtol(vmode, NULL, 0);
-+            ret =3D qemu_strtoui(vmode, NULL, 0, &video_mode);
-+            if (ret !=3D 0) {
-+                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s\n=
-",
-+                        strerror(-ret));
-+                exit(1);
-+            }
-         }
-         stw_p(header + 0x1fa, video_mode);
-     }
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index 80e435d303..b5291eefad 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -98,6 +98,20 @@ void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, voi=
+d *data, size_t len);
+  */
+ void fw_cfg_add_string(FWCfgState *s, uint16_t key, const char *value);
+=20
++/**
++ * fw_cfg_modify_string:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @value: NUL-terminated ascii string
++ *
++ * Replace the fw_cfg item available by selecting the given key. The new
++ * data will consist of a dynamically allocated copy of the provided str=
+ing,
++ * including its NUL terminator. The data being replaced, assumed to hav=
+e
++ * been dynamically allocated during an earlier call to either
++ * fw_cfg_add_string() or fw_cfg_modify_string(), is freed before return=
+ing.
++ */
++void fw_cfg_modify_string(FWCfgState *s, uint16_t key, const char *value=
+);
++
+ /**
+  * fw_cfg_add_i16:
+  * @s: fw_cfg device being modified
+@@ -136,6 +150,20 @@ void fw_cfg_modify_i16(FWCfgState *s, uint16_t key, =
+uint16_t value);
+  */
+ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uint32_t value);
+=20
++/**
++ * fw_cfg_modify_i32:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @value: 32-bit integer
++ *
++ * Replace the fw_cfg item available by selecting the given key. The new
++ * data will consist of a dynamically allocated copy of the given 32-bit
++ * value, converted to little-endian representation. The data being repl=
+aced,
++ * assumed to have been dynamically allocated during an earlier call to
++ * either fw_cfg_add_i32() or fw_cfg_modify_i32(), is freed before retur=
+ning.
++ */
++void fw_cfg_modify_i32(FWCfgState *s, uint16_t key, uint32_t value);
++
+ /**
+  * fw_cfg_add_i64:
+  * @s: fw_cfg device being modified
+@@ -148,6 +176,20 @@ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uin=
+t32_t value);
+  */
+ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value);
+=20
++/**
++ * fw_cfg_modify_i64:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @value: 64-bit integer
++ *
++ * Replace the fw_cfg item available by selecting the given key. The new
++ * data will consist of a dynamically allocated copy of the given 64-bit
++ * value, converted to little-endian representation. The data being repl=
+aced,
++ * assumed to have been dynamically allocated during an earlier call to
++ * either fw_cfg_add_i64() or fw_cfg_modify_i64(), is freed before retur=
+ning.
++ */
++void fw_cfg_modify_i64(FWCfgState *s, uint16_t key, uint64_t value);
++
+ /**
+  * fw_cfg_add_file:
+  * @s: fw_cfg device being modified
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 7dc3ac378e..aef1727250 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -690,6 +690,15 @@ void fw_cfg_add_string(FWCfgState *s, uint16_t key, =
+const char *value)
+     fw_cfg_add_bytes(s, key, g_memdup(value, sz), sz);
+ }
+=20
++void fw_cfg_modify_string(FWCfgState *s, uint16_t key, const char *value=
+)
++{
++    size_t sz =3D strlen(value) + 1;
++    char *old;
++
++    old =3D fw_cfg_modify_bytes_read(s, key, g_memdup(value, sz), sz);
++    g_free(old);
++}
++
+ void fw_cfg_add_i16(FWCfgState *s, uint16_t key, uint16_t value)
+ {
+     uint16_t *copy;
+@@ -720,6 +729,16 @@ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uin=
+t32_t value)
+     fw_cfg_add_bytes(s, key, copy, sizeof(value));
+ }
+=20
++void fw_cfg_modify_i32(FWCfgState *s, uint16_t key, uint32_t value)
++{
++    uint32_t *copy, *old;
++
++    copy =3D g_malloc(sizeof(value));
++    *copy =3D cpu_to_le32(value);
++    old =3D fw_cfg_modify_bytes_read(s, key, copy, sizeof(value));
++    g_free(old);
++}
++
+ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value)
+ {
+     uint64_t *copy;
+@@ -730,6 +749,16 @@ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uin=
+t64_t value)
+     fw_cfg_add_bytes(s, key, copy, sizeof(value));
+ }
+=20
++void fw_cfg_modify_i64(FWCfgState *s, uint16_t key, uint64_t value)
++{
++    uint64_t *copy, *old;
++
++    copy =3D g_malloc(sizeof(value));
++    *copy =3D cpu_to_le64(value);
++    old =3D fw_cfg_modify_bytes_read(s, key, copy, sizeof(value));
++    g_free(old);
++}
++
+ void fw_cfg_set_order_override(FWCfgState *s, int order)
+ {
+     assert(s->fw_cfg_order_override =3D=3D 0);
 --=20
 2.21.0
 
