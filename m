@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E50DC115
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:33:34 +0200 (CEST)
-Received: from localhost ([::1]:37050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D669DC114
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:33:31 +0200 (CEST)
+Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLOdY-0002h6-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46587)
+	id 1iLOdW-0002hM-7Z
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iLOax-0001CV-9Z
+ (envelope-from <dgibson@ozlabs.org>) id 1iLOax-0001CR-9a
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iLOav-0006ea-12
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:30:51 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33205 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iLOav-0006eV-0o
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:30:50 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59355 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iLOat-0006cS-Bj; Fri, 18 Oct 2019 05:30:48 -0400
+ id 1iLOat-0006cT-EE; Fri, 18 Oct 2019 05:30:48 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46vgkT5Xbfz9sPT; Fri, 18 Oct 2019 20:30:41 +1100 (AEDT)
+ id 46vgkT6nc9z9sPJ; Fri, 18 Oct 2019 20:30:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571391041;
- bh=9mHfDxRqy/b9QPNQWRKx2tBTm3r53ToBquM3HQA8+ok=;
+ bh=CrllFX9Yj4Jim06wHOVJCG0btafnhMARMN3EbZlNxgg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NtgeFg41z8a4zPD/cTrAnj8jximwltxPHwYq/PwemlxZGDQPKtpCkU3D0CrpikSzM
- f5pfNOywwQDJ9jkPgaRuxSCyCFfM1f88sUo9S6H0n1/JHAhihe/ZyAonunGuh6hTeC
- 0BqPIvkFxb4lwtIIvqa+f+xW1ZU+XQKNt+NPFgSk=
-Date: Fri, 18 Oct 2019 13:47:07 +1100
+ b=W/P1gAm8+Sv2h1Hubu6LITum6YOEh74LHJNWQMIrEo/5UQ7G81EgJOkpAnVVjde3i
+ hP9xvfq2/MKw6umpPfSZlH6OgxKeShW4rTgRBWreJrrf+zLm/nhRZTudEhjyIRGIYp
+ /m+HyoqDJqfxYYwSFmzldBoeMRtNApRVE7sl1Ab0=
+Date: Fri, 18 Oct 2019 14:55:57 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/2] spapr: Introduce a interrupt presenter reset handler
-Message-ID: <20191018024707.GB2000@umbus.fritz.box>
+Subject: Re: [PATCH 2/2] spapr/xive: Set the OS CAM line at reset
+Message-ID: <20191018035557.GC2000@umbus.fritz.box>
 References: <20191017144241.12522-1-clg@kaod.org>
- <20191017144241.12522-2-clg@kaod.org>
+ <20191017144241.12522-3-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PmA2V3Z32TCmWXqI"
+ protocol="application/pgp-signature"; boundary="nmemrqcdn5VTmUEE"
 Content-Disposition: inline
-In-Reply-To: <20191017144241.12522-2-clg@kaod.org>
+In-Reply-To: <20191017144241.12522-3-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,282 +61,226 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---PmA2V3Z32TCmWXqI
+--nmemrqcdn5VTmUEE
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 17, 2019 at 04:42:40PM +0200, C=E9dric Le Goater wrote:
-> The interrupt presenters are not reseted today.
-
-I don't think that's accurate.  We register reset handlers for both
-ICP and TCTX already.  We might not be resetting in quite the right
-order, but this will need a clearer description of what's changing.
-
-Also, with this patch as is, I think we'll reset twice (once from the
-registered handler, once via the cpu).
-
-> Extend the sPAPR IRQ
-> backend with a new cpu_intc_reset() handler which will be called by
-> the CPU reset handler.
+On Thu, Oct 17, 2019 at 04:42:41PM +0200, C=E9dric Le Goater wrote:
+> When a Virtual Processor is scheduled to run on a HW thread, the
+> hypervisor pushes its identifier in the OS CAM line. When running in
+> TCG or kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
 >=20
-> spapr_realize_vcpu() is modified to call the CPU reset only after the
-> the intc presenter has been created.
+> Introduce a 'os-cam' property which will be used to set the OS CAM
+> line at reset and remove the spapr_xive_set_tctx_os_cam() calls which
+> are done when the XIVE interrupt controller are activated.
+
+I'm not immediately seeing the advantage of doing this via a property,
+rather than poking it from the PAPR code which already knows the right
+values.
+
+Also, let me check my understanding:
+  IIUC, on powernv the OS (running in HV mode) can alter the OS CAM
+  lines for itself and/or its guests, but for pseries they're fixed in
+  place.  Is that right?
+
+> This change also has the benefit to remove the use of CPU_FOREACH()
+> which can be unsafe.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  include/hw/ppc/spapr_irq.h |  4 ++++
->  include/hw/ppc/xics.h      |  1 +
->  include/hw/ppc/xive.h      |  1 +
->  hw/intc/spapr_xive.c       |  8 ++++++++
->  hw/intc/xics.c             |  5 +++++
->  hw/intc/xics_spapr.c       |  8 ++++++++
->  hw/intc/xive.c             | 11 ++++++++---
->  hw/ppc/spapr_cpu_core.c    |  8 ++++++--
->  hw/ppc/spapr_irq.c         | 21 +++++++++++++++++++++
->  9 files changed, 62 insertions(+), 5 deletions(-)
+>  include/hw/ppc/spapr_xive.h |  1 -
+>  include/hw/ppc/xive.h       |  4 +++-
+>  hw/intc/spapr_xive.c        | 31 +++++--------------------------
+>  hw/intc/xive.c              | 22 +++++++++++++++++++++-
+>  hw/ppc/pnv.c                |  3 ++-
+>  5 files changed, 31 insertions(+), 30 deletions(-)
 >=20
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 5e150a667902..78327496c102 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -52,6 +52,8 @@ typedef struct SpaprInterruptControllerClass {
->       */
->      int (*cpu_intc_create)(SpaprInterruptController *intc,
->                              PowerPCCPU *cpu, Error **errp);
-> +    int (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU *cp=
-u,
-> +                          Error **errp);
->      int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
->                       Error **errp);
->      void (*free_irq)(SpaprInterruptController *intc, int irq);
-> @@ -68,6 +70,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *sp=
-apr);
+> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> index d84bd5c229f0..742b7e834f2a 100644
+> --- a/include/hw/ppc/spapr_xive.h
+> +++ b/include/hw/ppc/spapr_xive.h
+> @@ -57,7 +57,6 @@ typedef struct SpaprXive {
+>  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
 > =20
->  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
->                                PowerPCCPU *cpu, Error **errp);
-> +int spapr_irq_cpu_intc_reset(SpaprMachineState *spapr,
-> +                             PowerPCCPU *cpu, Error **errp);
->  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
->  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
->                    void *fdt, uint32_t phandle);
-> diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> index 1e6a9300eb2b..602173c12250 100644
-> --- a/include/hw/ppc/xics.h
-> +++ b/include/hw/ppc/xics.h
-> @@ -161,6 +161,7 @@ void icp_set_mfrr(ICPState *icp, uint8_t mfrr);
->  uint32_t icp_accept(ICPState *ss);
->  uint32_t icp_ipoll(ICPState *ss, uint32_t *mfrr);
->  void icp_eoi(ICPState *icp, uint32_t xirr);
-> +void icp_reset(ICPState *icp);
+>  void spapr_xive_hcall_init(SpaprMachineState *spapr);
+> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+>  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+>  void spapr_xive_map_mmio(SpaprXive *xive);
 > =20
->  void ics_write_xive(ICSState *ics, int nr, int server,
->                      uint8_t priority, uint8_t saved_priority);
 > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index fd3319bd3202..99381639f50c 100644
+> index 99381639f50c..e273069c25a9 100644
 > --- a/include/hw/ppc/xive.h
 > +++ b/include/hw/ppc/xive.h
-> @@ -415,6 +415,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
-set, unsigned size);
+> @@ -319,6 +319,7 @@ typedef struct XiveTCTX {
+>      qemu_irq    os_output;
+> =20
+>      uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
+> +    uint32_t    os_cam;
+>  } XiveTCTX;
+> =20
+>  /*
+> @@ -414,7 +415,8 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
+, uint64_t value,
+>  uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr offset, unsigned size);
 > =20
 >  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
->  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-> +void xive_tctx_reset(XiveTCTX *tctx);
+> -Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+> +Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, uint32_t os_cam,
+> +                         Error **errp);
+>  void xive_tctx_reset(XiveTCTX *tctx);
 > =20
 >  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
 dx)
->  {
 > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index ba32d2cc5b0f..0c3acf1a4192 100644
+> index 0c3acf1a4192..71f138512a1c 100644
 > --- a/hw/intc/spapr_xive.c
 > +++ b/hw/intc/spapr_xive.c
-> @@ -553,6 +553,13 @@ static int spapr_xive_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
+> @@ -205,21 +205,13 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, b=
+ool enable)
+>      memory_region_set_enabled(&xive->end_source.esb_mmio, false);
+>  }
+> =20
+> -/*
+> - * When a Virtual Processor is scheduled to run on a HW thread, the
+> - * hypervisor pushes its identifier in the OS CAM line. Emulate the
+> - * same behavior under QEMU.
+> - */
+> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
+> +static uint32_t spapr_xive_get_os_cam(PowerPCCPU *cpu)
+>  {
+>      uint8_t  nvt_blk;
+>      uint32_t nvt_idx;
+> -    uint32_t nvt_cam;
+> -
+> -    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
+> =20
+> -    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
+_idx));
+> -    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
+> +    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
+> +    return xive_nvt_cam_line(nvt_blk, nvt_idx);
+>  }
+> =20
+>  static void spapr_xive_end_reset(XiveEND *end)
+> @@ -537,19 +529,14 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
+tController *intc,
+>      SpaprXive *xive =3D SPAPR_XIVE(intc);
+>      Object *obj;
+>      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+> +    uint32_t os_cam =3D spapr_xive_get_os_cam(cpu);
+> =20
+> -    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(xive), errp);
+> +    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(xive), os_cam, err=
+p);
+>      if (!obj) {
+>          return -1;
+>      }
+> =20
+>      spapr_cpu->tctx =3D XIVE_TCTX(obj);
+> -
+> -    /*
+> -     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
+> -     * don't beneficiate from the reset of the XIVE IRQ backend
+> -     */
+> -    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
 >      return 0;
 >  }
 > =20
-> +static int spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
-> +                                     PowerPCCPU *cpu, Error **errp)
-> +{
-> +    xive_tctx_reset(spapr_cpu_state(cpu)->tctx);
-> +    return 0;
-> +}
-> +
->  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
+> @@ -650,14 +637,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
+intc, uint32_t nr_servers,
+>  static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
+rrp)
 >  {
 >      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> @@ -697,6 +704,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
- void *data)
->      sicc->activate =3D spapr_xive_activate;
->      sicc->deactivate =3D spapr_xive_deactivate;
->      sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
-> +    sicc->cpu_intc_reset =3D spapr_xive_cpu_intc_reset;
->      sicc->claim_irq =3D spapr_xive_claim_irq;
->      sicc->free_irq =3D spapr_xive_free_irq;
->      sicc->set_irq =3D spapr_xive_set_irq;
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index b5ac408f7b74..652771d6a5a5 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -295,6 +295,11 @@ static void icp_reset_handler(void *dev)
->      }
->  }
+> -    CPUState *cs;
+> -
+> -    CPU_FOREACH(cs) {
+> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -
+> -        /* (TCG) Set the OS CAM line of the thread interrupt context. */
+> -        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+> -    }
 > =20
-> +void icp_reset(ICPState *icp)
-> +{
-> +    icp_reset_handler(icp);
-> +}
-> +
->  static void icp_realize(DeviceState *dev, Error **errp)
->  {
->      ICPState *icp =3D ICP(dev);
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 4f64b9a9fc66..c0b2a576effe 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -346,6 +346,13 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
->      return 0;
->  }
-> =20
-> +static int xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
-> +                                     PowerPCCPU *cpu, Error **errp)
-> +{
-> +    icp_reset(spapr_cpu_state(cpu)->icp);
-> +    return 0;
-> +}
-> +
->  static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
->                                  bool lsi, Error **errp)
->  {
-> @@ -433,6 +440,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
-void *data)
->      sicc->activate =3D xics_spapr_activate;
->      sicc->deactivate =3D xics_spapr_deactivate;
->      sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
-> +    sicc->cpu_intc_reset =3D xics_spapr_cpu_intc_reset;
->      sicc->claim_irq =3D xics_spapr_claim_irq;
->      sicc->free_irq =3D xics_spapr_free_irq;
->      sicc->set_irq =3D xics_spapr_set_irq;
+>      if (kvm_enabled()) {
+>          int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
 > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index d420c6571e14..0ae3f9b1efe4 100644
+> index 0ae3f9b1efe4..be4f2c974178 100644
 > --- a/hw/intc/xive.c
 > +++ b/hw/intc/xive.c
-> @@ -547,7 +547,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor=
- *mon)
->      }
->  }
-> =20
-> -static void xive_tctx_reset(void *dev)
-> +static void xive_tctx_reset_handler(void *dev)
->  {
->      XiveTCTX *tctx =3D XIVE_TCTX(dev);
-> =20
-> @@ -568,6 +568,11 @@ static void xive_tctx_reset(void *dev)
+> @@ -566,6 +566,18 @@ static void xive_tctx_reset_handler(void *dev)
+>          ipb_to_pipr(tctx->regs[TM_QW1_OS + TM_IPB]);
+>      tctx->regs[TM_QW3_HV_PHYS + TM_PIPR] =3D
 >          ipb_to_pipr(tctx->regs[TM_QW3_HV_PHYS + TM_IPB]);
->  }
-> =20
-> +void xive_tctx_reset(XiveTCTX *tctx)
-> +{
-> +    xive_tctx_reset_handler(tctx);
-> +}
 > +
->  static void xive_tctx_realize(DeviceState *dev, Error **errp)
->  {
->      XiveTCTX *tctx =3D XIVE_TCTX(dev);
-> @@ -608,12 +613,12 @@ static void xive_tctx_realize(DeviceState *dev, Err=
-or **errp)
->          }
->      }
-> =20
-> -    qemu_register_reset(xive_tctx_reset, dev);
-> +    qemu_register_reset(xive_tctx_reset_handler, dev);
->  }
-> =20
->  static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
->  {
-> -    qemu_unregister_reset(xive_tctx_reset, dev);
-> +    qemu_unregister_reset(xive_tctx_reset_handler, dev);
->  }
-> =20
->  static int vmstate_xive_tctx_pre_save(void *opaque)
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 3e4302c7d596..416aa75e5fba 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -33,6 +33,7 @@ static void spapr_cpu_reset(void *opaque)
->      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
->      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
->      target_ulong lpcr;
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> =20
->      cpu_reset(cs);
-> =20
-> @@ -77,9 +78,11 @@ static void spapr_cpu_reset(void *opaque)
->      spapr_cpu->dtl_addr =3D 0;
->      spapr_cpu->dtl_size =3D 0;
-> =20
-> -    spapr_caps_cpu_apply(SPAPR_MACHINE(qdev_get_machine()), cpu);
-> +    spapr_caps_cpu_apply(spapr, cpu);
-> =20
->      kvm_check_mmu(cpu, &error_fatal);
-> +
-> +    spapr_irq_cpu_intc_reset(spapr, cpu, &error_fatal);
->  }
-> =20
->  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target=
-_ulong r3)
-> @@ -235,12 +238,13 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spa=
-prMachineState *spapr,
->      kvmppc_set_papr(cpu);
-> =20
->      qemu_register_reset(spapr_cpu_reset, cpu);
-> -    spapr_cpu_reset(cpu);
-> =20
->      if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
->          goto error_unregister;
->      }
-> =20
-> +    spapr_cpu_reset(cpu);
-> +
->      if (!sc->pre_3_0_migration) {
->          vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
->                           cpu->machine_data);
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index bb91c61fa000..5d2b64029cd5 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -220,6 +220,27 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spa=
-pr,
->      return 0;
->  }
-> =20
-> +int spapr_irq_cpu_intc_reset(SpaprMachineState *spapr,
-> +                             PowerPCCPU *cpu, Error **errp)
-> +{
-> +    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-> +    int i;
-> +    int rc;
-> +
-> +    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
-> +        SpaprInterruptController *intc =3D intcs[i];
-> +        if (intc) {
-> +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
-(intc);
-> +            rc =3D sicc->cpu_intc_reset(intc, cpu, errp);
-> +            if (rc < 0) {
-> +                return rc;
-> +            }
-> +        }
+> +    /*
+> +     * (TCG) Set the OS CAM line of the thread interrupt context.
+> +     *
+> +     * When a Virtual Processor is scheduled to run on a HW thread,
+> +     * the hypervisor pushes its identifier in the OS CAM line.
+> +     * Emulate the same behavior under QEMU.
+> +     */
+> +    if (tctx->os_cam) {
+> +        uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | tctx->os_cam);
+> +        memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
 > +    }
+>  }
+> =20
+>  void xive_tctx_reset(XiveTCTX *tctx)
+> @@ -667,11 +679,17 @@ static const VMStateDescription vmstate_xive_tctx =
+=3D {
+>      },
+>  };
+> =20
+> +static Property  xive_tctx_properties[] =3D {
+> +    DEFINE_PROP_UINT32("os-cam", XiveTCTX, os_cam, 0),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
 > +
-> +    return 0;
-> +}
-> +
->  static void spapr_set_irq(void *opaque, int irq, int level)
+>  static void xive_tctx_class_init(ObjectClass *klass, void *data)
 >  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> =20
+>      dc->desc =3D "XIVE Interrupt Thread Context";
+> +    dc->props =3D xive_tctx_properties;
+>      dc->realize =3D xive_tctx_realize;
+>      dc->unrealize =3D xive_tctx_unrealize;
+>      dc->vmsd =3D &vmstate_xive_tctx;
+> @@ -689,7 +707,8 @@ static const TypeInfo xive_tctx_info =3D {
+>      .class_init    =3D xive_tctx_class_init,
+>  };
+> =20
+> -Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
+> +Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, uint32_t os_cam,
+> +                         Error **errp)
+>  {
+>      Error *local_err =3D NULL;
+>      Object *obj;
+> @@ -698,6 +717,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrt=
+r, Error **errp)
+>      object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
+>      object_unref(obj);
+>      object_property_add_const_link(obj, "cpu", cpu, &error_abort);
+> +    object_property_set_int(obj, os_cam, "os-cam", &local_err);
+>      object_property_set_bool(obj, true, "realized", &local_err);
+>      if (local_err) {
+>          goto error;
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 7cf64b6d2533..99c06842573e 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -806,7 +806,8 @@ static void pnv_chip_power9_intc_create(PnvChip *chip=
+, PowerPCCPU *cpu,
+>       * controller object is initialized afterwards. Hopefully, it's
+>       * only used at runtime.
+>       */
+> -    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(&chip9->xive), &lo=
+cal_err);
+> +    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(&chip9->xive), 0,
+> +                           &local_err);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -344,25 +288,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---PmA2V3Z32TCmWXqI
+--nmemrqcdn5VTmUEE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2pJ6gACgkQbDjKyiDZ
-s5Kw3xAAsJMOTR9TTROriB5LD/mPLrGWSBDHTFsVROvd524nda+63YC4y91319Zi
-gOK1I33swu9d7K6qd5+hwO1QXgr+0zQDxaJDkiEc5Js3hDi5ewFXs3pqL8JgsLEo
-dvOy1XnKJqgHjbd5kRzo4noGKw4X2L0uabiSsexI2IeDl/GrvbHLuaEata8Ri89+
-XS4qidk/N6K2JQkMKUwquT9vMccqXaSS19oxaOJGm8FLxGUEKbD0tgdB46eUyeRL
-G/vdl7qnDTFIG82r+kqy6K9gV2J/A43DKnkxG9W7NSHewOtxJdgfP249rrrxTf4h
-/5NfrrjzdGNCkoOmJLdhz66oeRYI9lmCCo2J2A1l+lPheMd6sjWFXU44t+elOZ2M
-2qNNqcDcqcvpvwZBZo5RtgA3qLEQApEqu21SDzuCK3fCkmRtNm5i1rW78EuLcZvv
-tzjfv5HbMpsOEPAm9Ch13TJiw3J3ku4d3ydXDvltKebMWpdKOezHo+IP4HFN5Ztp
-RouFjrKLJ/0rFt4V/LkTsf1HQZiubTLy6Ys3yBk/3nJDLUmMzN02QPO7cACrkDfx
-Gg18FLmJElLtQLXtJ4/faKfEoCb2pzd7kxwFd63vGRdWCL+vhcxJUJDIl6d+OICx
-kN8gRIQB3gEmiFU4V+QK/dpazhdB7+SDHP3DdDA64ZIKvd5LEs8=
-=nbmt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2pN8oACgkQbDjKyiDZ
+s5ITohAAibSM8EYtmTKgC35Pyt9f6Mbfh2e14LdtWoJO5Gvu0VtluJVbPfSbJzCw
+XvTHTO3O7S6j0IXZzjiS/QgJttncpPpFm+5+/0uOdPXnaoTltqbP5ZG6wLP2M/Td
+0bxe55Kvt0fwSKQiwL5Urfk9vLaefJEdJj0BXq/6i2I98dbal72zy0lE82Jn/+cQ
+WguTf0pDC/2gU5XTwyNlI7F/quUa6CMFHzzLCGtN4KPlfUt8pAuq1kFx9bXgfEN2
+efbXWXjRUo1aBW6rtsJo6G6vtNhwZqla2JgZLya8wLxXeCvlkrh8iP+z1HoHF15N
+1X45j4JARvss3ccXNh47dnX3HLv6nWABSQS5as0beO4quyZzUl6o0tKcwLpY2OR4
+aE2ONmtWr0u14uPGvBhOoEDQ4UEtaTu0Ioy7Qqk+QjFL68B/8FjolTlumAs1Bu8l
+wCgnaIxdDzjCd2ME/E/dQG4JjuIGmleFfTfkS38Wc8yzI5CDAOyW+QURhsi/9/iw
+S40wLynPwZ4lZD6xs8ydnD4dxgHhAfuAE+XRfXqAJ3lhPqe47RrXELT+tjBcxAcD
+XEVyNIg++z5C1DP/6Fl2hZX2EkYPvWxPmY7gKKYvX07UlfXCwS0dekJu1lIO2iyt
+JcvTyqC2qQMd7uTyYezjsEf9fI5iTmyUWf7luqriDEmm6zdC+Ys=
+=ltw3
 -----END PGP SIGNATURE-----
 
---PmA2V3Z32TCmWXqI--
+--nmemrqcdn5VTmUEE--
 
