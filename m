@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C649DDC4B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 14:26:19 +0200 (CEST)
-Received: from localhost ([::1]:39166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5690EDC4DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 14:27:39 +0200 (CEST)
+Received: from localhost ([::1]:39222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLRKj-00061b-QR
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 08:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
+	id 1iLRM2-0008Fw-E1
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 08:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iLRJG-0004d8-9w
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:24:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLRKU-0006Zk-6h
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iLRJC-0000IX-SI
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:24:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52370)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iLRJC-0000Hz-Jj
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:24:42 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2A5E5307D986;
- Fri, 18 Oct 2019 12:24:41 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-198.ams2.redhat.com
- [10.36.117.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD88560A35;
- Fri, 18 Oct 2019 12:24:37 +0000 (UTC)
-Date: Fri, 18 Oct 2019 14:24:36 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v7 1/4] block: introducing 'bdrv_co_delete_file' interface
-Message-ID: <20191018122436.GD6122@localhost.localdomain>
-References: <20190903135708.21624-1-danielhb413@gmail.com>
- <20190903135708.21624-2-danielhb413@gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iLRKT-0000nO-46
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:26:02 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39162)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLRKS-0000n5-Vx
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:26:01 -0400
+Received: by mail-ot1-x344.google.com with SMTP id s22so4778316otr.6
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 05:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OnhC+T9CPfzWhaYQxeCK9tQMbyJ2aRBMNOGy3SeaMh8=;
+ b=GPbQLrl+V78zmkSyMivytDJ4a4U/LovDmsQUY0lPiEKNXkradS8yJvDGcM+MqpLKvO
+ WU5vJQpSmmMrs1o2Iv9SF4KvoigxG+MhavuaNTJ/C4syb39x/USjyAf+mzR5hN2p3JvA
+ JUCvD4HyUc8KldR7jfwapd7DxWDldpoNJT7eU1h3ctQONqEpCimFGnBqSwt5tR3Bmk7T
+ zA9Eadwypbue9dakPEZ2sp8fajEhNiqqcelhSIzw1D/drIlsB9H/V/bXkngpRftJ/vkG
+ //7W+78Anu37Ut0sz7p73uc+emVpvKLo9QnzBWWBZIEOWANn39TC7LDLOPmM0/cFyzES
+ wdhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OnhC+T9CPfzWhaYQxeCK9tQMbyJ2aRBMNOGy3SeaMh8=;
+ b=aftm+4DEFcIXQer26lQbANDXqjibccJzNvcUjEa5Xs1ndU9MVulowgocfYzgm4LheX
+ 3OuGAHsKBsGG2C4mtLuW6W3WCBmjYnVOrp/aPqse7hv0ESwbULCUdLpuCVtjGc02bClW
+ 5ZJh41WXE5U1O2aE1MWQXfkJtMI0Jq3+i/t/jiMqPwAAzIKx220EF0hVff5rqlk/Sn7f
+ O0xLJLmtIN89de7UujRIEKvd5R0XpJqSAgAwyDmCng6s7CcUZjwyzk7rvVs+qDW6L2iN
+ Qz4R6FZIiO56jjmP3F1OemWm//KolEvkUT/g1lb2655whs9R4NwC6oh2B8L3HxQXZhTx
+ kaYA==
+X-Gm-Message-State: APjAAAWB2+R3CD8KleaIjEb3mdLm4SoUo8JtE5UJCpkt0Wl3KuzOUCqd
+ UfVhrOwRNaLb7nJY3SGxxsiBnF44PwmVLmGSDxQjcw==
+X-Google-Smtp-Source: APXvYqyYpvtS9jQi8E9v3MHPUCLXy2ws2OhApfZBLwSx/LmqFQA8zhlN7re8GJnxvRGd+xV+1mGVgj9kgvlVdyOS0pU=
+X-Received: by 2002:a9d:708e:: with SMTP id l14mr7459904otj.135.1571401559894; 
+ Fri, 18 Oct 2019 05:25:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190903135708.21624-2-danielhb413@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 18 Oct 2019 12:24:41 +0000 (UTC)
+References: <20191017185110.539-1-richard.henderson@linaro.org>
+ <20191017185110.539-20-richard.henderson@linaro.org>
+In-Reply-To: <20191017185110.539-20-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 13:25:49 +0100
+Message-ID: <CAFEAcA9oJ0P-g87caLKyT1mS2k7YhtNXAOhSgXuMy0bCGwX0WA@mail.gmail.com>
+Subject: Re: [PATCH v7 19/20] target/arm: Rebuild hflags for M-profile.
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,108 +74,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.09.2019 um 15:57 hat Daniel Henrique Barboza geschrieben:
-> Adding to Block Drivers the capability of being able to clean up
-> its created files can be useful in certain situations. For the
-> LUKS driver, for instance, a failure in one of its authentication
-> steps can leave files in the host that weren't there before.
->=20
-> This patch adds the 'bdrv_co_delete_file' interface to block
-> drivers and add it to the 'file' driver in file-posix.c.The
-
-Missing space between "file-posix.c.The"
-
-> implementation is given by 'raw_co_delete_file'.
->=20
-> Suggested-by: Daniel P. Berrang=E9 <berrange@redhat.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Thu, 17 Oct 2019 at 19:51, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Continue setting, but not relying upon, env->hflags.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  block/file-posix.c        | 28 ++++++++++++++++++++++++++++
->  include/block/block_int.h |  6 ++++++
->  2 files changed, 34 insertions(+)
->=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index fbeb0068db..52756de522 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -2390,6 +2390,33 @@ static int coroutine_fn raw_co_create_opts(const=
- char *filename, QemuOpts *opts,
->      return raw_co_create(&options, errp);
->  }
-> =20
-> +/**
-> + * Co-routine function that erases a regular file.
-> + */
+> v7: Add rebuilds for v7m_msr and nvic_writel to v7m.ccr.
+> ---
+>  hw/intc/armv7m_nvic.c  | 1 +
+>  target/arm/m_helper.c  | 6 ++++++
+>  target/arm/translate.c | 5 ++++-
+>  3 files changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+> index 8e93e51e81..a3993e7b72 100644
+> --- a/hw/intc/armv7m_nvic.c
+> +++ b/hw/intc/armv7m_nvic.c
+> @@ -1604,6 +1604,7 @@ static void nvic_writel(NVICState *s, uint32_t offs=
+et, uint32_t value,
+>          }
+>
+>          cpu->env.v7m.ccr[attrs.secure] =3D value;
+> +        arm_rebuild_hflags(&cpu->env);
+>          break;
+>      case 0xd24: /* System Handler Control and State (SHCSR) */
+>          if (!arm_feature(&cpu->env, ARM_FEATURE_V7)) {
 
-We don't have function comments for other BdrvDriver callbacks. It may
-be appropriate to have a comment when there is something special going
-on here that differs from a normal implementation. But this specific
-comment is even redundant with the function name, so I think we don't
-need it.
+This seems fragile -- we have to remember to add in
+a call to arm_rebuild_hflags() for every individual
+case of a memory-mapped system register that we choose
+to cache in tb flags. It doesn't seem consistent with
+the choice for A-profile to rebuild hflags for pretty
+much any sysreg write. Maybe it would be better to just
+always rebuild hflags at the end of nvic_sysreg_write() ?
 
-> +static int coroutine_fn raw_co_delete_file(BlockDriverState *bs,
-> +                                           Error **errp)
-> +{
-> +    struct stat st;
-> +    int ret;
-> +
-> +    if (!(stat(bs->filename, &st) =3D=3D 0) || !S_ISREG(st.st_mode)) {
-> +        ret =3D -ENOENT;
-> +        error_setg_errno(errp, -ret, "%s is not a regular file",
-> +                         bs->filename);
-> +        goto done;
-
-There is no cleanup code, so a direct return -ENOENT would be simpler.
-
-> +    }
-> +
-> +    ret =3D unlink(bs->filename);
-> +    if (ret < 0) {
-> +        ret =3D -errno;
-> +        error_setg_errno(errp, -ret, "Error when deleting file %s",
-> +                         bs->filename);
-> +    }
-> +
-> +done:
-> +    return ret;
-> +}
-> +
->  /*
->   * Find allocation range in @bs around offset @start.
->   * May change underlying file descriptor's file offset.
-> @@ -2942,6 +2969,7 @@ BlockDriver bdrv_file =3D {
->      .bdrv_co_block_status =3D raw_co_block_status,
->      .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
->      .bdrv_co_pwrite_zeroes =3D raw_co_pwrite_zeroes,
-> +    .bdrv_co_delete_file =3D raw_co_delete_file,
-> =20
->      .bdrv_co_preadv         =3D raw_co_preadv,
->      .bdrv_co_pwritev        =3D raw_co_pwritev,
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index 0422acdf1c..a959ec2d1e 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -314,6 +314,12 @@ struct BlockDriver {
->       */
->      int coroutine_fn (*bdrv_co_flush)(BlockDriverState *bs);
-> =20
-> +    /*
-> +     * Delete a local created file.
-> +     */
-
-No reason to restrict this to "local", even if for now file-posix is the
-only driver that implements it. This can change later.
-
-The comment fits in a single line.
-
-> +    int coroutine_fn (*bdrv_co_delete_file)(BlockDriverState *bs,
-> +                                            Error **errp);
-> +
-
-Kevin
+thanks
+-- PMM
 
