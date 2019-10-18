@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D460DC5D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:13:23 +0200 (CEST)
-Received: from localhost ([::1]:39760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9916BDC5DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:16:36 +0200 (CEST)
+Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLS4G-0007QT-CJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48137)
+	id 1iLS7P-0002Ph-Au
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iLS1u-00065D-V4
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:10:56 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLS4A-0008NL-O4
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:13:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iLS1s-0002kC-NS
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:10:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44120)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1iLS1s-0002jg-HG; Fri, 18 Oct 2019 09:10:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B2BF084A5;
- Fri, 18 Oct 2019 13:10:51 +0000 (UTC)
-Received: from redhat.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1338560A97;
- Fri, 18 Oct 2019 13:10:49 +0000 (UTC)
-Date: Fri, 18 Oct 2019 14:10:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] Do not use %m in common code to print error messages
-Message-ID: <20191018131046.GG28271@redhat.com>
-References: <20191018130716.25438-1-thuth@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iLS49-000418-Bg
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:13:14 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:46272)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLS49-00040d-70
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:13:13 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id k25so5119294oiw.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 06:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GkGWRlPvcyznc+MnaIZL8/SVyGRtJXSSli8QHCfpFOE=;
+ b=cz46FwttxbzADnV5IW8Jp923NxHJ8+hnjac7WxIJJCYucQHhUxUl8/VNTytVlQ7DDf
+ 4hIFPvrUXnzAo8mK1xdUWlmnkQ1UJNKv7N+5qpKlmAc19ML3DvSblzYycCwyDb1IjECi
+ gsYXCu5oUTjp1JfmoKeTKRT2su8FzN8/RMZ06KsczlSWk8yHIJcMnjk384TQdI3s0iXq
+ PjpNNn2/S+O/ChrJcQFHjevEgx+Bm1T7V4xA7ySBWBBiOuFx+HYG3E/wpoYJcwDtsKdO
+ xI2+b2VYNBm5KvcjcxI0QzXjSdcoQO/qmbDuufOGRviciukc0PFy7Ho6vfU6dOlFTTly
+ W79A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GkGWRlPvcyznc+MnaIZL8/SVyGRtJXSSli8QHCfpFOE=;
+ b=XovqHTd4arZspHsFZVJedCSJKCSZlaP4P3FO8oguBCUtMRa42vtAhyW8QewGXHbmHu
+ TtfPA599f63Up8tAyuprBx8QECrdl2IdAARo3OSRPFXhwEjIvaDjmXwlE6x5OTSKbM3F
+ /T86S64lOqX9LeK6PAohy5Ea/XjX4cNKch/u2qDvW6DXp+QXzZaug4i0FL0aCrokgJns
+ Jp6uzLhnBRKh7mcclq7EN/UeZak13ixt1xfWpPi2MpNw6MRiaHtyLNOYMPzLJ+kSn5b0
+ WmqtgEIdpiIZZjkpgUW8ri4OTjLKLy8ZtrnuyodaWUNLtEsv/s9wbyhB2mp8CneGP/+Z
+ pQgQ==
+X-Gm-Message-State: APjAAAVmXxCWffs5TXxVRgZWfiaWqVKU3laGlg/H9E4Ruy2OR0yjWxdU
+ 4Gn3R/s0sq42WGeW0ViKerVa57ZpCy6q6s2/ASqAVw==
+X-Google-Smtp-Source: APXvYqxRVmd89ldJjoPDYTEchxdpYJgDWhRYh0M9CTibvUlMudbHpJeJAH0+s+c55slFBrQ7L1Eu+azUF4HqSwGrHl4=
+X-Received: by 2002:aca:49c2:: with SMTP id w185mr8125706oia.163.1571404391802; 
+ Fri, 18 Oct 2019 06:13:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191018130716.25438-1-thuth@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 18 Oct 2019 13:10:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191017215436.14252-1-jsnow@redhat.com>
+In-Reply-To: <20191017215436.14252-1-jsnow@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 14:13:00 +0100
+Message-ID: <CAFEAcA_w1BYZNS6gzZ4SmxX_7qCZPzMpZAYTefH3-aP-WDvcAA@mail.gmail.com>
+Subject: Re: [PULL v3 00/19] Bitmaps patches
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,48 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Kamil Rytarowski <kamil@netbsd.org>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Libvirt <libvir-list@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 18, 2019 at 03:07:16PM +0200, Thomas Huth wrote:
-> The %m format specifier is an extension from glibc - and when compiling
-> QEMU for NetBSD, the compiler correctly complains, e.g.:
->=20
-> /home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c: In function 'sigfd_ha=
-ndler':
-> /home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c:64:13: warning: %m is =
-only
->  allowed in syslog(3) like functions [-Wformat=3D]
->              printf("read from sigfd returned %zd: %m\n", len);
->              ^
-> Let's use g_strerror() here instead, which is an easy-to-use wrapper
-> around the thread-safe strerror_r() function.
->=20
-> While we're at it, also convert the "printf()" in main-loop.c into
-> the preferred "error_report()".
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Do not try to g_free() the strings
->=20
->  hw/misc/tmp421.c | 4 ++--
->  util/main-loop.c | 3 ++-
->  util/systemd.c   | 4 ++--
->  3 files changed, 6 insertions(+), 5 deletions(-)
-
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+On Thu, 17 Oct 2019 at 22:54, John Snow <jsnow@redhat.com> wrote:
+>
+> The following changes since commit f22f553efffd083ff624be116726f843a39f1148:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20191013' into staging (2019-10-17 16:48:56 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/jnsnow/qemu.git tags/bitmaps-pull-request
+>
+> for you to fetch changes up to 3264ffced3d087bbe72d759639ef84fd5bd924cc:
+>
+>   dirty-bitmaps: remove deprecated autoload parameter (2019-10-17 17:53:28 -0400)
+>
+> ----------------------------------------------------------------
+> pull request
+>
+> ----------------------------------------------------------------
+>
 
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
