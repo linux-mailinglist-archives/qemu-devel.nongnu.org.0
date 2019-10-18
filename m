@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0F3DBEC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:51:31 +0200 (CEST)
-Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08901DBF1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:58:23 +0200 (CEST)
+Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLN2o-0007Ho-Ck
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59500)
+	id 1iLN9R-0007V1-LG
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iLMvP-0000RS-ME
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:52 -0400
+ (envelope-from <armbru@redhat.com>) id 1iLMvQ-0000SQ-8Y
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iLMvO-0007fH-KI
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:5281)
+ (envelope-from <armbru@redhat.com>) id 1iLMvO-0007fX-Un
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36442)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLMvO-0007et-EU
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLMvO-0007f1-MY
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:50 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9EFC4307B190;
+ by mx1.redhat.com (Postfix) with ESMTPS id E95033E2AF;
  Fri, 18 Oct 2019 07:43:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F32B5D9CC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12D1919C77;
  Fri, 18 Oct 2019 07:43:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 81DEE11384A8; Fri, 18 Oct 2019 09:43:45 +0200 (CEST)
+ id 8565F1133034; Fri, 18 Oct 2019 09:43:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] qapi: Don't suppress doc generation without pragma
- doc-required
-Date: Fri, 18 Oct 2019 09:43:39 +0200
-Message-Id: <20191018074345.24034-2-armbru@redhat.com>
+Subject: [PATCH v2 2/7] qapi: Store pragma state in QAPISourceInfo,
+ not global state
+Date: Fri, 18 Oct 2019 09:43:40 +0200
+Message-Id: <20191018074345.24034-3-armbru@redhat.com>
 In-Reply-To: <20191018074345.24034-1-armbru@redhat.com>
 References: <20191018074345.24034-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 18 Oct 2019 07:43:49 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 18 Oct 2019 07:43:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,57 +62,138 @@ Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit bc52d03ff5 "qapi: Make doc comments optional where we don't
-need them" made scripts/qapi2texi.py fail[*] unless the schema had
-pragma 'doc-required': true.  The stated reason was inability to cope
-with incomplete documentation.
+The frontend can't be run more than once due to its global state.
+A future commit will want to do that.
 
-When commit fb0bc835e5 "qapi-gen: New common driver for code and doc
-generators" folded scripts/qapi2texi.py into scripts/qapi-gen.py, it
-turned the failure into silent suppression.
+Recent commit "qapi: Move context-sensitive checking to the proper
+place" got rid of many global variables already, but pragma state is
+still stored in global variables (that's why a pragma directive's
+scope is the complete schema).
 
-The doc generator can cope with incomplete documentation now.  I don't
-know since when, or what the problem was, or even whether it ever
-existed.
-
-Drop the silent suppression.
-
-[*] The fail part was broken, fixed in commit e8ba07ea9a.
+Move the pragma state to QAPISourceInfo.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/doc.py    | 2 --
- tests/Makefile.include | 1 +
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ scripts/qapi/common.py | 36 +++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 5fc0fc7e06..693cc4486b 100755
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -283,8 +283,6 @@ class QAPISchemaGenDocVisitor(qapi.common.QAPISchemaV=
-isitor):
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index d6e00c80ea..5abab44302 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -21,25 +21,28 @@ import string
+ import sys
+ from collections import OrderedDict
 =20
+-# Are documentation comments required?
+-doc_required =3D False
+-
+-# Whitelist of commands allowed to return a non-dictionary
+-returns_whitelist =3D []
+-
+-# Whitelist of entities allowed to violate case conventions
+-name_case_whitelist =3D []
+-
 =20
- def gen_doc(schema, output_dir, prefix):
--    if not qapi.common.doc_required:
--        return
-     vis =3D QAPISchemaGenDocVisitor(prefix)
-     vis.visit_begin(schema)
-     for doc in schema.docs:
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451ed3..214fbd941c 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -609,6 +609,7 @@ tests/test-qapi-gen-timestamp: \
- 	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
- 		-o tests -p "test-" $<, \
- 		"GEN","$(@:%-timestamp=3D%)")
-+	@rm -f tests/test-qapi-doc.texi
- 	@>$@
+ #
+ # Parsing the schema into expressions
+ #
 =20
- tests/qapi-schema/doc-good.test.texi: $(SRC_PATH)/tests/qapi-schema/doc-=
-good.json $(qapi-py)
++
++class QAPISchemaPragma(object):
++    def __init__(self):
++        # Are documentation comments required?
++        self.doc_required =3D False
++        # Whitelist of commands allowed to return a non-dictionary
++        self.returns_whitelist =3D []
++        # Whitelist of entities allowed to violate case conventions
++        self.name_case_whitelist =3D []
++
++
+ class QAPISourceInfo(object):
+     def __init__(self, fname, line, parent):
+         self.fname =3D fname
+         self.line =3D line
+         self.parent =3D parent
++        self.pragma =3D parent.pragma if parent else QAPISchemaPragma()
+         self.defn_meta =3D None
+         self.defn_name =3D None
+=20
+@@ -486,26 +489,25 @@ class QAPISchemaParser(object):
+         return QAPISchemaParser(incl_fname, previously_included, info)
+=20
+     def _pragma(self, name, value, info):
+-        global doc_required, returns_whitelist, name_case_whitelist
+         if name =3D=3D 'doc-required':
+             if not isinstance(value, bool):
+                 raise QAPISemError(info,
+                                    "pragma 'doc-required' must be boolea=
+n")
+-            doc_required =3D value
++            info.pragma.doc_required =3D value
+         elif name =3D=3D 'returns-whitelist':
+             if (not isinstance(value, list)
+                     or any([not isinstance(elt, str) for elt in value]))=
+:
+                 raise QAPISemError(
+                     info,
+                     "pragma returns-whitelist must be a list of strings"=
+)
+-            returns_whitelist =3D value
++            info.pragma.returns_whitelist =3D value
+         elif name =3D=3D 'name-case-whitelist':
+             if (not isinstance(value, list)
+                     or any([not isinstance(elt, str) for elt in value]))=
+:
+                 raise QAPISemError(
+                     info,
+                     "pragma name-case-whitelist must be a list of string=
+s")
+-            name_case_whitelist =3D value
++            info.pragma.name_case_whitelist =3D value
+         else:
+             raise QAPISemError(info, "unknown pragma '%s'" % name)
+=20
+@@ -757,7 +759,7 @@ def check_type(value, info, source,
+         raise QAPISemError(info,
+                            "%s should be an object or type name" % sourc=
+e)
+=20
+-    permit_upper =3D allow_dict in name_case_whitelist
++    permit_upper =3D allow_dict in info.pragma.name_case_whitelist
+=20
+     # value is a dictionary, check that each member is okay
+     for (key, arg) in value.items():
+@@ -840,7 +842,7 @@ def check_enum(expr, info):
+     if prefix is not None and not isinstance(prefix, str):
+         raise QAPISemError(info, "'prefix' must be a string")
+=20
+-    permit_upper =3D name in name_case_whitelist
++    permit_upper =3D name in info.pragma.name_case_whitelist
+=20
+     for member in members:
+         source =3D "'data' member"
+@@ -968,7 +970,7 @@ def check_exprs(exprs):
+                 raise QAPISemError(
+                     info, "documentation comment is for '%s'" % doc.symb=
+ol)
+             doc.check_expr(expr)
+-        elif doc_required:
++        elif info.pragma.doc_required:
+             raise QAPISemError(info,
+                                "documentation comment required")
+=20
+@@ -1690,7 +1692,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
+         if self._ret_type_name:
+             self.ret_type =3D schema.resolve_type(
+                 self._ret_type_name, self.info, "command's 'returns'")
+-            if self.name not in returns_whitelist:
++            if self.name not in self.info.pragma.returns_whitelist:
+                 if not (isinstance(self.ret_type, QAPISchemaObjectType)
+                         or (isinstance(self.ret_type, QAPISchemaArrayTyp=
+e)
+                             and isinstance(self.ret_type.element_type,
 --=20
 2.21.0
 
