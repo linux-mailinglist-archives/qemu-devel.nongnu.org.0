@@ -2,56 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980D9DC5AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:03:27 +0200 (CEST)
-Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E03DC5B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:04:52 +0200 (CEST)
+Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLRug-00010f-JE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
+	id 1iLRw3-0001w8-LS
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iLRtC-0000Xi-Hr
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:01:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLRuN-0001HB-LI
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:03:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iLRtB-0005hU-Ej
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:01:54 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:45635)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1iLRtB-0005fa-0M
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=lUZTiIFncHJeXOi5J/2VZFEf12AQC20Mmsmwws0C28s=; b=M3uWcrV1kKukO3IRe0FA5G4QKH
- S+3vDcD0d+gPj82rZOFjrQmgL4nhd1APMpUtSwno10OsIv34z/y7ir3vzkjrvvXi8pL2dphGrx64O
- gvHykdcGYDpprnIIqe92aFZ7aFMPsYF3NsC5PKRUXGI6srTRIU2DpiVkHsS1UmEF275BrVUuF1HwS
- FcvZNiVYY9JhokUx0tAbp1oZ3Skh1kzRVrZ2qquQtasbRIse/bwItOiklsHy2JhYNjrXpdrms+JbF
- LsqQ76pNbJZO0VUyj3mapNzfPc5PjsijLPYQlBgYKINLSERzQRB2G7iSVrU8HGa4pdbJeTQVC1GHV
- N3CoibwNv1boz4FVn6J9iSyzuhpArcOEAFPwKZmj5L3AnjVh6OH0SFugRdDBCw6O8f9ywVtLzwzMD
- 7mtwFqT6D2r15vURRcgLqmM8jtTHL87I28OzvsYA+VvYaAgQ/iuznRBcM/eJMT12h2rzJQW+oEZJq
- xFwl9gHTp/uXYa22Q9/TLV4kWuoHGi2tvrt/HPrrw7jeP916mvI2/lAvZnYdOajOUSI1Bl1h6Gyt8
- WwQZKq36yj+NQQ2oQO76P4nUrZhYLQjr0axmNyp1e3l6wjsfP4kGsMUh471lmZE0Hmw3X5hgMw0Rn
- Ji6O0yFIqtw2YIbn6dPcek5INFz7cY9BNOvmA/J8w=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Hikaru Nishida <hikarupsp@gmail.com>
-Subject: Re: [PULL 1/4] ui: Fix hanging up Cocoa display on macOS 10.15
- (Catalina)
-Date: Fri, 18 Oct 2019 15:01:50 +0200
-Message-ID: <2488172.SrBWvpgbjs@silver>
-In-Reply-To: <20191018101711.24105-2-kraxel@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iLRuL-0006lL-9q
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:03:07 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33446)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLRuJ-0006hf-92
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:03:03 -0400
+Received: by mail-ot1-x329.google.com with SMTP id 60so4893766otu.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 06:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CmzuGxvpZuc7Xgh7YOe86VRqjswtcKMLeek9MVZfI1o=;
+ b=im1mQ1Pscq12YKcmshrKi+tGfpkt5mR+A39ECz0TK6fj6kv+ih10CwHwptE4YaXxUw
+ 8TRSNf/v46YghgqrtUNTHP8/HN3/938HX9jwgXeuXCcSe6e1hkDIYd/OwFMu7yKz2x36
+ JLhVe49Cd9jY+Tw6HEveoypJ1HrIlhv4tq5eHXxGRpUmr+eqLjxmXDf9IUDlzmuhCGA6
+ LDEeed5+BE47l4kGTGz1hb3BF2ylpSJBbgzkym6S+HHReY0K39B2wBMQUd9ogBrtg7ix
+ yCtyKApOp+P1QcDNnlzJoyNrmOQ5A4fdAEtdAMxiI8SL8Alf5wembfe0jsvY/AhTCjKb
+ qnuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CmzuGxvpZuc7Xgh7YOe86VRqjswtcKMLeek9MVZfI1o=;
+ b=OPU2txUuyxbTkTxGjKr5Zl7WWuyDazWhxwE1vRUQkOP7mKSg4KtLnKFxsvizXfyfqN
+ oQPGXhau7MIVj8TbCCsRtQsMkc1z3rOzsnuvwbHzsN123wISd8UIEb2IQbWSlKLNsqZp
+ wILcSBUv4Jn9NRicTmVqvhWPcS5XDLZSiTkgndZ9RwM3xvzHyEG5P9TjYHLG0zuqnk87
+ WIMVfxdvnFPM/0t4w7udLxvXu/BUeQrKfSfWu/yDVXJbgQNrWBAyuoL7FdaaLYTn4B7Y
+ 3kDE0ZVf20uIAViVRBAykI1x+7FLSrcJP/IrxKJ1hTZL0YLuvdTlmC9bCwGBoRPGrWOF
+ cH4w==
+X-Gm-Message-State: APjAAAW18+aYRVnRAsr/O2lGym8K9qj1CEVTm+QtW7kPtYJanK20WP2X
+ ltaXDytVcGbLQecLGjg79aHMqPcVGmzimOza4I7/jQ==
+X-Google-Smtp-Source: APXvYqzVh817xODuIajgQYiAWZ2WHpfS4BpFSXp6/Xz41/jFf8J0sFyMIor2bT+emycTFQsjsrBy+S9ygaMejgGHmAA=
+X-Received: by 2002:a05:6830:ca:: with SMTP id
+ x10mr7161698oto.221.1571403781501; 
+ Fri, 18 Oct 2019 06:03:01 -0700 (PDT)
+MIME-Version: 1.0
 References: <20191018101711.24105-1-kraxel@redhat.com>
  <20191018101711.24105-2-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.189.157.229
+ <2488172.SrBWvpgbjs@silver>
+In-Reply-To: <2488172.SrBWvpgbjs@silver>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 14:02:49 +0100
+Message-ID: <CAFEAcA8AP7hjSz9QoF78uhYtc3nf7DtijvsCHh6BXt4udzUjtA@mail.gmail.com>
+Subject: Re: [PULL 1/4] ui: Fix hanging up Cocoa display on macOS 10.15
+ (Catalina)
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,23 +75,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Hikaru Nishida <hikarupsp@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 18. Oktober 2019 12:17:08 CEST Gerd Hoffmann wrote:
-> From: Hikaru Nishida <hikarupsp@gmail.com>
-> 
-> macOS API documentation says that before applicationDidFinishLaunching
-> is called, any events will not be processed. However, some events are
-> fired before it is called in macOS Catalina.
+On Fri, 18 Oct 2019 at 14:01, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> On Freitag, 18. Oktober 2019 12:17:08 CEST Gerd Hoffmann wrote:
+> > From: Hikaru Nishida <hikarupsp@gmail.com>
+> >
+> > macOS API documentation says that before applicationDidFinishLaunching
+> > is called, any events will not be processed. However, some events are
+> > fired before it is called in macOS Catalina.
+>
+> Even though fixed now on qemu side, I filed a bug report with Apple to let
+> them know, since this indeed looks like unintended behaviour change a.k.a. bug
+> in Catalina.
 
-Even though fixed now on qemu side, I filed a bug report with Apple to let 
-them know, since this indeed looks like unintended behaviour change a.k.a. bug 
-in Catalina.
+Thanks -- do you have an apple bug number or something for that?
 
-Best regards,
-Christian Schoenebeck
-
-
-
+-- PMM
 
