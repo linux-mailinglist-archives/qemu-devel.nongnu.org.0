@@ -2,37 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6AFDC473
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 14:11:02 +0200 (CEST)
-Received: from localhost ([::1]:39026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860D8DC476
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 14:13:06 +0200 (CEST)
+Received: from localhost ([::1]:39050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLR5x-0007xG-4j
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 08:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38936)
+	id 1iLR7x-0001C7-K0
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 08:13:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iLR4x-0007Ab-57
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:10:00 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1iLR6a-0000Jv-R7
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:11:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iLR4v-0002Ul-R4
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:09:59 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48416)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iLR4s-0002Rj-CY; Fri, 18 Oct 2019 08:09:54 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iLR4p-00059I-A0; Fri, 18 Oct 2019 15:09:51 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] blockdev: modify blockdev-change-medium to change
- non-removable device
-Date: Fri, 18 Oct 2019 15:09:50 +0300
-Message-Id: <20191018120950.26849-1-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <mrolnik@gmail.com>) id 1iLR6Z-0003PL-3u
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:11:40 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:42442)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iLR6Y-0003P4-TM
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 08:11:39 -0400
+Received: by mail-qk1-x741.google.com with SMTP id f16so5007114qkl.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 05:11:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=psMhCrdHOZDiXKPj819wBtXKs6HKlFwk74Vm+GAqnZU=;
+ b=E/u45vNX8lfUVkqvLAy0iJw65RqkHYwaYPr24IJ8+rRxI4GtkiGyiMNJ0TIpzbt0jr
+ Za5lcBE+GuYiZW5WnybUgRFgdJFE0DUAtZt1LMR4DXKSmZT+sylYGTOKFGJ9v+Plflhx
+ XRss/BViuZ/Du9du4zSSltq9fVzyceQU9C9n27XlInqZ3BST16qg96VnME6Gv5HcomHj
+ 1yX8ClUTqDTZbJDGNdKfSwezOqu9MbXmnIxo2hhARhIF9s3eie3AFBKmtQze15DPbjVm
+ LoPKbc1DpgODfXxKFTOWBKfNebXPK1MFyXUfnx8geJONIHfa13pSehhKmIY7AVn9S6AJ
+ VSgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=psMhCrdHOZDiXKPj819wBtXKs6HKlFwk74Vm+GAqnZU=;
+ b=RwyfNgZCcyWMTo1U2Ht8czcnjqFxBv8RNlflnU9HwZHyeQKW6v0IMowvrSIjx5rjsf
+ 877/YtBG0WOjOYyDqI4QWEwFP7BvZywtcIK3VE2UZa6necycqI3KjwCRZZmONLr/lCR2
+ yMXfTfk8CMeDkXx1i4trFt8wa8U6q0eAObZWnwN7fHhFVy+Mf055tPeRuHEShmLQ35v6
+ nPG3qOy2c56dsYHubGIlWf+U/AesMi0ssJc7x7BY4O+hEDMnx/yEUJwbIUQEu8Aq6o6f
+ XwuAClHMsvLhI/I7U+LToAZq1vOLwPkbUY1KAtAvdV/3eC0ovTeIxMBl5Gh3o9VcSuKy
+ OAEQ==
+X-Gm-Message-State: APjAAAUeJPJ+/SqdSzFJeJwMH7/0dPU32hurEXRPTGnjLXqS8llX5o8p
+ flc7FvUglyvXh5ssP5xxnBkkvwdDpG4u1TU5aHc=
+X-Google-Smtp-Source: APXvYqxYit8ZxulHRA1Lm1HTPpGmVZ0IRFXT5B0JePkXNiul/jvguZylnh0uuaKeLGNsChyVRLzo44ghP0br5j43pOM=
+X-Received: by 2002:a05:620a:89b:: with SMTP id
+ b27mr8530291qka.378.1571400697849; 
+ Fri, 18 Oct 2019 05:11:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191014161843.84845-1-mrolnik@gmail.com>
+ <20191014161843.84845-5-mrolnik@gmail.com>
+ <CAL1e-=g9ER4tuqEL2ubqb7oAbatcVR8x+A0LAydSwBJEnk9_ow@mail.gmail.com>
+ <CAK4993gm=8tVXyprjHPMiNZuKZRkx0iDYnXh76cQfMwUayqcWQ@mail.gmail.com>
+ <CAL1e-=hGJQqVnvAu=ZJRV-AdoAWpkSvdf5ex=b7EwkodUGKpUg@mail.gmail.com>
+ <CAK4993jaqFrzcmAyz7neJoq5cQgnB_o35dZhdh9_uVyOfKGG-Q@mail.gmail.com>
+ <CAL1e-=ixhb1z8h9f6DrNAuEn69pPaV2qvvd=BvVnFKCdW+XMwg@mail.gmail.com>
+ <CAK4993h6p2ZHx7a_JZhP_GE21UjfDmBJoSoBSPSo0pDwRmyK=Q@mail.gmail.com>
+In-Reply-To: <CAK4993h6p2ZHx7a_JZhP_GE21UjfDmBJoSoBSPSo0pDwRmyK=Q@mail.gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Fri, 18 Oct 2019 15:10:45 +0300
+Message-ID: <CAK4993h6-YcECqP_4KypoNHLaibKc4q1g6tJ6tmGyLoHmdyM2w@mail.gmail.com>
+Subject: Re: [PATCH v32 04/13] target/avr: Add instruction translation -
+ Registers definition
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,175 +79,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@virtuozzo.com, armbru@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, dgilbert@redhat.com
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The modification is useful to workaround exclusive file access restrictions,
-e.g. to implement VM migration with shared disk stored on a storage with
-the exclusive file opening model: a destination VM is started waiting for
-incomming migration with a fake image drive, and later, on the last migration
-phase, the fake image file is replaced with the real one.
+resending.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- blockdev.c           | 69 +++++++++++++++++++++++++++++++-------------
- hmp.c                |  2 ++
- qapi/block-core.json |  7 +++--
- qmp.c                |  3 +-
- 4 files changed, 57 insertions(+), 24 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index d358169995..23f3465cfc 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2609,6 +2609,8 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-                                 bool has_format, const char *format,
-                                 bool has_read_only,
-                                 BlockdevChangeReadOnlyMode read_only,
-+                                bool has_medium_name,
-+                                const char *medium_name,
-                                 Error **errp)
- {
-     BlockBackend *blk;
-@@ -2667,29 +2669,56 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-         goto fail;
-     }
- 
--    rc = do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      false, &err);
--    if (rc && rc != -ENOSYS) {
--        error_propagate(errp, err);
--        goto fail;
--    }
--    error_free(err);
--    err = NULL;
-+    if (blk_dev_has_removable_media(blk)) {
-+        rc = do_open_tray(has_device ? device : NULL,
-+                          has_id ? id : NULL,
-+                          false, &err);
-+        if (rc && rc != -ENOSYS) {
-+            error_propagate(errp, err);
-+            goto fail;
-+        }
-+        error_free(err);
-+        err = NULL;
- 
--    blockdev_remove_medium(has_device, device, has_id, id, &err);
--    if (err) {
--        error_propagate(errp, err);
--        goto fail;
--    }
-+        blockdev_remove_medium(has_device, device, has_id, id, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            goto fail;
-+        }
- 
--    qmp_blockdev_insert_anon_medium(blk, medium_bs, &err);
--    if (err) {
--        error_propagate(errp, err);
--        goto fail;
--    }
-+        qmp_blockdev_insert_anon_medium(blk, medium_bs, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            goto fail;
-+        }
-+
-+        qmp_blockdev_close_tray(has_device, device, has_id, id, errp);
-+    } else {
-+        if (!medium_name) {
-+            error_setg(errp, "A medium name should be given");
-+            goto fail;
-+        }
- 
--    qmp_blockdev_close_tray(has_device, device, has_id, id, errp);
-+        if (runstate_is_running()) {
-+            error_setg(errp, "Can't set a medium for non-removable device "
-+                    "in a running VM");
-+            goto fail;
-+        }
-+
-+        if (strlen(blk_name(blk))) {
-+            error_setg(errp, "The device already has a medium");
-+            goto fail;
-+        }
-+
-+        if (blk_insert_bs(blk, medium_bs, &err) < 0) {
-+            error_propagate(errp, err);
-+            goto fail;
-+        }
-+
-+        if (!monitor_add_blk(blk, medium_name, &err)) {
-+            error_propagate(errp, err);
-+        }
-+    }
- 
- fail:
-     /* If the medium has been inserted, the device has its own reference, so
-diff --git a/hmp.c b/hmp.c
-index 8eec768088..fc7bac5b4b 100644
---- a/hmp.c
-+++ b/hmp.c
-@@ -1948,6 +1948,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
-     const char *target = qdict_get_str(qdict, "target");
-     const char *arg = qdict_get_try_str(qdict, "arg");
-     const char *read_only = qdict_get_try_str(qdict, "read-only-mode");
-+    const char *target_name = qdict_get_try_str(qdict, "target-name");
-     BlockdevChangeReadOnlyMode read_only_mode = 0;
-     Error *err = NULL;
- 
-@@ -1982,6 +1983,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
- 
-         qmp_blockdev_change_medium(true, device, false, NULL, target,
-                                    !!arg, arg, !!read_only, read_only_mode,
-+                                   !!target_name, target_name,
-                                    &err);
-     }
- 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 7ccbfff9d0..f493a7c737 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4769,6 +4769,8 @@
- # @read-only-mode:  change the read-only mode of the device; defaults
- #                   to 'retain'
- #
-+# @medium-name:     drive-name when changing the media in non-removable devices
-+#                   ignored when changing media in removable devices
- # Since: 2.5
- #
- # Examples:
-@@ -4807,9 +4809,8 @@
-             '*id': 'str',
-             'filename': 'str',
-             '*format': 'str',
--            '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
--
--
-+            '*read-only-mode': 'BlockdevChangeReadOnlyMode',
-+            '*medium-name': 'str' } }
- ##
- # @BlockErrorAction:
- #
-diff --git a/qmp.c b/qmp.c
-index b92d62cd5f..c95831a49f 100644
---- a/qmp.c
-+++ b/qmp.c
-@@ -399,7 +399,8 @@ void qmp_change(const char *device, const char *target,
- #endif
-     } else {
-         qmp_blockdev_change_medium(true, device, false, NULL, target,
--                                   has_arg, arg, false, 0, errp);
-+                                   has_arg, arg, false, 0, false, NULL,
-+                                   errp);
-     }
- }
- 
+On Fri, Oct 18, 2019 at 2:27 PM Michael Rolnik <mrolnik@gmail.com> wrote:
+>
+>
+>
+> On Fri, Oct 18, 2019 at 11:52 AM Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
+>>
+>>
+>>
+>> On Thursday, October 17, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+>>>
+>>> On Thu, Oct 17, 2019 at 11:17 PM Aleksandar Markovic
+>>> <aleksandar.m.mail@gmail.com> wrote:
+>>> >>
+>>> >>
+>>> >> >> +static TCGv cpu_Cf;
+>>> >> >> +static TCGv cpu_Zf;
+>>> >> >> +static TCGv cpu_Nf;
+>>> >> >> +static TCGv cpu_Vf;
+>>> >> >> +static TCGv cpu_Sf;
+>>> >> >> +static TCGv cpu_Hf;
+>>> >> >> +static TCGv cpu_Tf;
+>>> >> >> +static TCGv cpu_If;
+>>> >> >> +
+>>> >> >
+>>> >> >
+>>> >> > Hello, Michael,
+>>> >> >
+>>> >> > Is there any particular reason or motivation beyond modelling status register flags as TCGv variables?
+>>> >>
+>>> >>
+>>> >>
+>>> >> I think it's easier this way as I don't need to convert flag values to
+>>> >> bits or bits to flag values.
+>>> >
+>>> >
+>>> > Ok. But, how do you map 0/1 flag value to the value of a TCGv variable and vice versa? In other words, what value or values (out of 2^32 vales) of a TCGv variable mean the flag is 1? And the same question for 0.
+>>> >
+>>> > Is 0110000111000010100 one or zero?
+>>> >
+>>> > Besides, in such arrangement, how do you display the 8-bit status register in gdb, if at all?
+>>>
+>>> each flag register is either 0 or 1,....
+>>>
+>>>
+>>>
+>>
+>> Michael,
+>>
+>> If this is true, why is there a special handling of two flags in the following code:
+>>
+>>
+>> static inline uint8_t cpu_get_sreg(CPUAVRState *env)
+>> {
+>> uint8_t sreg;
+>> sreg = (env->sregC & 0x01) << 0
+>> | (env->sregZ == 0 ? 1 : 0) << 1
+>> | (env->sregN) << 2
+>> | (env->sregV) << 3
+>> | (env->sregS) << 4
+>> | (env->sregH) << 5
+>> | (env->sregT) << 6
+>> | (env->sregI) << 7;
+>> return sreg;
+>> }
+>> static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
+>> {
+>> env->sregC = (sreg >> 0) & 0x01;
+>> env->sregZ = (sreg >> 1) & 0x01 ? 0 : 1;
+>> env->sregN = (sreg >> 2) & 0x01;
+>> env->sregV = (sreg >> 3) & 0x01;
+>> env->sregS = (sreg >> 4) & 0x01;
+>> env->sregH = (sreg >> 5) & 0x01;
+>> env->sregT = (sreg >> 6) & 0x01;
+>> env->sregI = (sreg >> 7) & 0x01;
+>> }
+>>  ?
+>>
+> Aleksandar,
+>
+> If I understand your question correctly cpu_get_sreg assembles SREG value to be presented by GDB, and cpu_set_sreg sets flags values when GDB modifies SREG.
+>
+> Michael
+>
+>>
+>>
+>> Thanks,
+>> A.
+>>>
+>>>
+>>>  they are calculated here
+>>> 1. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L146-L148
+>>> 2. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L166
+>>> 3. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L185-L187
+>>> 4. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L205
+>>> 5. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L214-L215
+>>> 6. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L222-L223
+>>> The COU itself never uses SREG at all, only the flags.
+>>>
+>>> As for the GDB it's get assembled/disassembled here
+>>> 1. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/cpu.h#L219-L243
+>>> 2. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/gdbstub.c#L35-L37
+>>> 3. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/gdbstub.c#L66-L68
+>>>
+>>> >
+>>> > A.
+>>> >
+>>> >>
+>>> >> >
+>>> >> > A.
+>>> >> >
+>>> >> >
+>>> >> >
+>>> >> >>
+>>> >> >> +static TCGv cpu_rampD;
+>>> >> >> +static TCGv cpu_rampX;
+>>> >> >> +static TCGv cpu_rampY;
+>>> >> >> +static TCGv cpu_rampZ;
+>>> >> >> +
+>>> >> >> +static TCGv cpu_r[NO_CPU_REGISTERS];
+>>> >> >> +static TCGv cpu_eind;
+>>> >> >> +static TCGv cpu_sp;
+>>> >> >> +
+>>> >> >> +static TCGv cpu_skip;
+>>> >> >> +
+>>> >> >> +static const char reg_names[NO_CPU_REGISTERS][8] = {
+>>> >> >> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+>>> >> >> +    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
+>>> >> >> +    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+>>> >> >> +    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+>>> >> >> +};
+>>> >> >> +#define REG(x) (cpu_r[x])
+>>> >> >> +
+>>> >> >> +enum {
+>>> >> >> +    DISAS_EXIT   = DISAS_TARGET_0,  /* We want return to the cpu main loop.  */
+>>> >> >> +    DISAS_LOOKUP = DISAS_TARGET_1,  /* We have a variable condition exit.  */
+>>> >> >> +    DISAS_CHAIN  = DISAS_TARGET_2,  /* We have a single condition exit.  */
+>>> >> >> +};
+>>> >> >> +
+>>> >> >> +typedef struct DisasContext DisasContext;
+>>> >> >> +
+>>> >> >> +/* This is the state at translation time. */
+>>> >> >> +struct DisasContext {
+>>> >> >> +    TranslationBlock *tb;
+>>> >> >> +
+>>> >> >> +    CPUAVRState *env;
+>>> >> >> +    CPUState *cs;
+>>> >> >> +
+>>> >> >> +    target_long npc;
+>>> >> >> +    uint32_t opcode;
+>>> >> >> +
+>>> >> >> +    /* Routine used to access memory */
+>>> >> >> +    int memidx;
+>>> >> >> +    int bstate;
+>>> >> >> +    int singlestep;
+>>> >> >> +
+>>> >> >> +    TCGv skip_var0;
+>>> >> >> +    TCGv skip_var1;
+>>> >> >> +    TCGCond skip_cond;
+>>> >> >> +    bool free_skip_var0;
+>>> >> >> +};
+>>> >> >> +
+>>> >> >> +static int to_A(DisasContext *ctx, int indx) { return 16 + (indx % 16); }
+>>> >> >> +static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }
+>>> >> >> +static int to_C(DisasContext *ctx, int indx) { return 24 + (indx % 4) * 2; }
+>>> >> >> +static int to_D(DisasContext *ctx, int indx) { return (indx % 16) * 2; }
+>>> >> >> +
+>>> >> >> +static uint16_t next_word(DisasContext *ctx)
+>>> >> >> +{
+>>> >> >> +    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
+>>> >> >> +}
+>>> >> >> +
+>>> >> >> +static int append_16(DisasContext *ctx, int x)
+>>> >> >> +{
+>>> >> >> +    return x << 16 | next_word(ctx);
+>>> >> >> +}
+>>> >> >> +
+>>> >> >> +
+>>> >> >> +static bool avr_have_feature(DisasContext *ctx, int feature)
+>>> >> >> +{
+>>> >> >> +    if (!avr_feature(ctx->env, feature)) {
+>>> >> >> +        gen_helper_unsupported(cpu_env);
+>>> >> >> +        ctx->bstate = DISAS_NORETURN;
+>>> >> >> +        return false;
+>>> >> >> +    }
+>>> >> >> +    return true;
+>>> >> >> +}
+>>> >> >> +
+>>> >> >> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
+>>> >> >> +#include "decode_insn.inc.c"
+>>> >> >> +
+>>> >> >> --
+>>> >> >> 2.17.2 (Apple Git-113)
+>>> >> >>
+>>> >>
+>>> >>
+>>> >> --
+>>> >> Best Regards,
+>>> >> Michael Rolnik
+>>>
+>>>
+>>>
+>>> --
+>>> Best Regards,
+>>> Michael Rolnik
+>
+>
+>
+> --
+> Best Regards,
+> Michael Rolnik
+
+
+
 -- 
-2.17.0
-
+Best Regards,
+Michael Rolnik
 
