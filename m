@@ -2,67 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780A5DCADA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:20:29 +0200 (CEST)
-Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E9ADCAEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:22:11 +0200 (CEST)
+Received: from localhost ([::1]:42876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUzM-0007f3-2n
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49220)
+	id 1iLV10-000215-KP
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iLUqi-0007pR-HB
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:33 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iLUqm-0007vV-2E
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iLUqh-0007o6-1A
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38703)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iLUqg-0007nC-Of; Fri, 18 Oct 2019 12:11:30 -0400
-Received: by mail-wr1-x441.google.com with SMTP id o15so6439145wru.5;
- Fri, 18 Oct 2019 09:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Y5PULPuT9aUOc2jHLrc3v6r7EulnXS/eTA+A22k80Fk=;
- b=fs7+3/n2Z+d8Z/P4MmRV/HVv2oKJkmO/XOdB3WxHAv0O29gw5XB8/U8Dr9rIDqnQaQ
- XF3wmON0LnILLr4E9oKLIn0wwoBb4IZW813+abfqVlGDDzy/KaYnCZjSo9jys7KN90Nm
- 01DGXoAOneQyd0+RdwKWtNU1wMSGU8ECB/sOgeOc/lNeAd6RMweW6t0tYcyQsqoqM2hz
- 399DKKGFWbx/VjnhQi9G6fc9gtE34d5wUnesYKpgdx6ejqLjEaJBDVnAlZWsxqqLc3ND
- 5+xFtJlCRB+khNCShy5V/rp3W4bojNXg2uiDijEn1zrR27FscFWa/78EBYvB97emLQR0
- zkCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Y5PULPuT9aUOc2jHLrc3v6r7EulnXS/eTA+A22k80Fk=;
- b=jxJEV/RsBBR4FHGlZ8YBoBA/SvNjyWJIMSgb35Q1HYfb+Gilu+tJR9tNZ/NkmoVBxC
- O4Ckt7hhIUcKsxng8cw9YdsqNec+wmmDE3lKdYk50u32zjNmqdpRRrIG6IPVSEexzCMU
- +sSH64x38zyAib+m+Fby3ZIo9MaesoZL+0kGM3e8UVfcwmB0WNkTxVlnPRyFM3KSX7NQ
- GOD71pkkBtdoICv06xCCyzabefhghQRiO7SkRRJdVgwmxPIEv7sbt8syTYqiuI6EKS9j
- RRed65GYJHZhhhx4r9aGTXlqfuWVba4TIWOuW6lBS0UXrm+L/n+of6IRUzR136A47UfP
- OcqA==
-X-Gm-Message-State: APjAAAVjMW8uWOIPtIHijnDBcU81mlMLFd5RxCeMQN7piOaOv57dzxt+
- Yf07pnesgQNrzOfJZd7Qb0tp8beMCbOzsj8SdcE=
-X-Google-Smtp-Source: APXvYqyxGoKLIO9VaZM6Ba/DqPPdp4CLztpE2QnXDpxQ6d6Xy9ZuewjKo7QKBaBcqzW+tTyw0qUkCsbTbf3ss1xDoUQ=
-X-Received: by 2002:adf:ef0f:: with SMTP id e15mr8884200wro.312.1571415088907; 
- Fri, 18 Oct 2019 09:11:28 -0700 (PDT)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iLUqk-0007pz-N3
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:35 -0400
+Received: from mail-eopbgr70125.outbound.protection.outlook.com
+ ([40.107.7.125]:19704 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iLUqk-0007on-3L; Fri, 18 Oct 2019 12:11:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lVDmYIubO4RZ6McNKQ2XJzTjR7TEJfS9A0kMUSc/QKDBifPuiML9V6pAR0u89jHCWYncWP2PvefgynfxpUBSxxjEhO17w8PcfrFw+sWipyuowKDqrpqkV5yhRixHl9kyqthAlBS+5u5JlRjKrsrBD5YRrlVgBm5EBUR+uqEVB1B0WMJFoiwii4QpvvXwUZdiS22QSPefJ2lJT12MjBDTxOdW15IMqtXoZjCaIe50J1UrARoZ9qap9WQtQDCt9RD9P473FzMQOt/CKecbwnZ/BwJ5GRzZW8W5MR11p2M2L0MLav79hPgiPCKPC1X9fN+8nRWyz57XDANqa6yiBcaM+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/OojNuedVto3QiteZ3qxJ4AmnKM8tW0YU1fOzFLypS4=;
+ b=ch4Bzh/HjFf8EZ09FzwL/fznAyLuIPP+dVfJWRxKxOkRlxRBqzl1Btz0TMJ7++65j3nm7syJBpbwzSAz4T4b6J60dtlVHI29bmEF2PJXLYF0xSBAe2Qh0GydLeO9qB2okH9EvAST3E8NKgdXytjn8zUsxNX+EC36L+ND6uW0D9O970CcMlVfCkyNIBKzJT4sPdm5OPUE/7kvg1DyhKSy3KNT7q8DTypIwZ/mmQ/cDfJE8ri71ea4yY7gFVHqr1e0R/Le+m5Dm2BfWBobYxw1aoHe5wi6NxxzAb1dKlzmNIBLDIldtM8p3Jc09+sCVH73FqUzglhyxsXkVjZyr2ZYww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/OojNuedVto3QiteZ3qxJ4AmnKM8tW0YU1fOzFLypS4=;
+ b=q5VlAsCOgaz4Gy1ooI9xVG6xYU5qlSx+YSpIN5ZdYon0lZRZmzgBQP8oytCnOu10hyo8ojKPDeo73TDiUIEE8akR8Fzo/l/0I0Qd3S3KY2VZXY2se2jENQIZolMRQJNtn8BL68iZtvogQcHfylW8+Qhb+AA74Erhc+oMEd6PVYQ=
+Received: from AM0PR08MB4435.eurprd08.prod.outlook.com (20.179.35.83) by
+ AM0PR08MB5458.eurprd08.prod.outlook.com (52.132.214.7) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.16; Fri, 18 Oct 2019 16:11:31 +0000
+Received: from AM0PR08MB4435.eurprd08.prod.outlook.com
+ ([fe80::4461:dd32:b358:110c]) by AM0PR08MB4435.eurprd08.prod.outlook.com
+ ([fe80::4461:dd32:b358:110c%7]) with mapi id 15.20.2347.026; Fri, 18 Oct 2019
+ 16:11:31 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 0/5] active-mirror: support unaligned guest operations
+Thread-Topic: [PATCH v2 0/5] active-mirror: support unaligned guest operations
+Thread-Index: AQHVgBNKyLh6vdaLOEKwM40g0gabyKdgmHIAgAAEzYA=
+Date: Fri, 18 Oct 2019 16:11:31 +0000
+Message-ID: <5467321d-69ef-8ba9-aa8c-2bbe4d59274a@virtuozzo.com>
+References: <20191011090711.19940-1-vsementsov@virtuozzo.com>
+ <dc555030-9238-126c-9256-8df6304d30e1@redhat.com>
+In-Reply-To: <dc555030-9238-126c-9256-8df6304d30e1@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0223.eurprd05.prod.outlook.com
+ (2603:10a6:3:fa::23) To AM0PR08MB4435.eurprd08.prod.outlook.com
+ (2603:10a6:208:144::19)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191018191129217
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f4e8f924-fc9b-42fb-36ec-08d753e5d6e9
+x-ms-traffictypediagnostic: AM0PR08MB5458:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR08MB54589E9645FA0726791988ACC16C0@AM0PR08MB5458.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:826;
+x-forefront-prvs: 01949FE337
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(979002)(346002)(376002)(136003)(396003)(366004)(39850400004)(189003)(199004)(110136005)(25786009)(66476007)(66556008)(64756008)(2906002)(66946007)(6512007)(486006)(478600001)(6436002)(31686004)(66446008)(5660300002)(14454004)(66066001)(81156014)(81166006)(8676002)(229853002)(966005)(6306002)(256004)(6116002)(6486002)(476003)(2616005)(11346002)(3846002)(446003)(107886003)(31696002)(102836004)(71200400001)(71190400001)(186003)(76176011)(86362001)(6246003)(99286004)(53546011)(4326008)(305945005)(26005)(52116002)(2501003)(7736002)(8936002)(54906003)(316002)(6506007)(386003)(36756003)(969003)(989001)(999001)(1009001)(1019001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB5458;
+ H:AM0PR08MB4435.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TuIiiIOOLyUXw77Ux+Uw20NDhX0hPFeeVc9uMrblrf15Di0lu+zU0w0hndQmrYbyv37DkxgXH5DptdFxQEGVdIECflwuJ3i4AUmvn45WCWaSma1uj8hVjpMzSudfkxqFJBU+wZCfJrh2aoeuThtHZHWPmS8ZjhwsiU6BZ8BfRR8um54DcSaNzrAl3R8TSxndgo67ht0ouRE0JDtnSdqR9K+7TsmPNI4av6Watz8OAQsPmsmlr1rLVGO3zAqdjZp0Ysq5mJLSjinEZeoyJjSdw3anbj16BdaFv/Cp5daKKlbBXQaHHcPFcSllT1mvEWOmz3Boap9ja5FOxaSi5jH5CP4eG42KYb8Ax3jcPDKUTvKAT1nw0F3D6Vim78ax9X6ipIB8cYSCncF7J1mmztYZEynQ7ZD+7mSb3P0ERQu/v+zwd8QNDBsid7uG+dgozvnqZ1k2aXZJPsF8g9OGok669A==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9A09DF2302BCC042B01BA934C42D87DF@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
- <20191018154212.13458-5-marcandre.lureau@redhat.com>
- <CAFEAcA-Qaq0W-4kpRGSQTxzH1LZ3znoxZo6Fnd4NmnnE4O_G9w@mail.gmail.com>
-In-Reply-To: <CAFEAcA-Qaq0W-4kpRGSQTxzH1LZ3znoxZo6Fnd4NmnnE4O_G9w@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 18 Oct 2019 18:11:16 +0200
-Message-ID: <CAJ+F1CL8AdRv8ktb8V0Ox7XZEO7GOXqPjVd=_CsZ=oSmHxtP_Q@mail.gmail.com>
-Subject: Re: [PATCH 04/14] etraxfs: remove PROP_PTR usage
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4e8f924-fc9b-42fb-36ec-08d753e5d6e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2019 16:11:31.5748 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hB8HRBk0e7alHYacRaGb6pvN8HOQX1rybLXkM4DqavmGvtUgb7vimACMO08DMOGAHVOxaxNEw/AqCDTxMeI2afZvv8q1xft370dEASpmhsI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5458
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.125
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,135 +110,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Fri, Oct 18, 2019 at 5:59 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Fri, 18 Oct 2019 at 16:42, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@redhat.com> wrote:
-> >
-> > etraxfs_dma_client are not Object, so can't be exposed to user with
-> > QOM path. Let's remove property usage and move the constructor to the
-> > .c unit, simplifying some code on the way.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> > +
-> > +/* Instantiate an ETRAXFS Ethernet MAC.  */
-> > +DeviceState *
-> > +etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-> > +                 struct etraxfs_dma_client *dma_out,
-> > +                 struct etraxfs_dma_client *dma_in)
-> > +{
-> > +    DeviceState *dev;
-> > +    qemu_check_nic_model(nd, "fseth");
-> > +
-> > +    dev =3D qdev_create(NULL, "etraxfs-eth");
-> > +    qdev_set_nic_properties(dev, nd);
-> > +    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
-> > +    ETRAX_FS_ETH(dev)->dma_out =3D dma_out;
-> > +    ETRAX_FS_ETH(dev)->dma_in =3D dma_in;
-> > +    qdev_init_nofail(dev);
-> > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-> > +
-> > +    return dev;
-> > +}
-> > +
-> >  static const TypeInfo etraxfs_eth_info =3D {
-> >      .name          =3D TYPE_ETRAX_FS_ETH,
-> >      .parent        =3D TYPE_SYS_BUS_DEVICE,
-> > diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
-> > index aa146a2cd8..403e7f95e6 100644
-> > --- a/include/hw/cris/etraxfs.h
-> > +++ b/include/hw/cris/etraxfs.h
-> > @@ -30,23 +30,9 @@
-> >  #include "hw/qdev-properties.h"
-> >  #include "hw/sysbus.h"
-> >
-> > -/* Instantiate an ETRAXFS Ethernet MAC.  */
-> > -static inline DeviceState *
-> > -etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-> > -                 void *dma_out, void *dma_in)
-> > -{
-> > -    DeviceState *dev;
-> > -    qemu_check_nic_model(nd, "fseth");
-> > -
-> > -    dev =3D qdev_create(NULL, "etraxfs-eth");
-> > -    qdev_set_nic_properties(dev, nd);
-> > -    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
-> > -    qdev_prop_set_ptr(dev, "dma_out", dma_out);
-> > -    qdev_prop_set_ptr(dev, "dma_in", dma_in);
-> > -    qdev_init_nofail(dev);
-> > -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-> > -    return dev;
-> > -}
-> > +DeviceState *etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-> > +                              struct etraxfs_dma_client *dma_out,
-> > +                              struct etraxfs_dma_client *dma_in);
->
->
-> I don't think this is an improvement -- it's taking a step
-> back in the direction of "you need to call a funny _init
-> function to initialize a device". You should be able to
-> create devices using generic qdev functions.
->
-
-Is there really much difference between:
-
-dev =3D qdev_create()
-qdev_prop_set_ptr(dev, "prop", ptr);
-qdev_init_nofail()
-
-and
-
-dev =3D qdev_create(MYDEV)
-MYDEV(dev)->prop =3D ptr;
-qdev_init_nofail()
-
-
-As "prop" can only be set from code, and those objects are usually
-very tightly coupled with the parent/owner.
-
-I don't think it's worth to keep PROP_PTR for this, it just adds complexity=
-.
-
-> What we're actually connecting here is 'etraxfs_dma_client'
-> struct pointers between the devices like this ethernet
-> device and the DMA controller. The connection is currently
-> done via a pointer property because we don't have a more
-> QOM-like way to do it, but if we want to get rid of the
-> pointer property we need to actually implement the more
-> QOM-like mechanism, not go backwards from having devices
-> connected via properties.
->
-> (Similar comments apply for the omap clock connections.
-> In that case the answer might be Damien's clock framework
-> API, eventually.)
->
-> thanks
-> -- PMM
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+MTguMTAuMjAxOSAxODo1NCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxMS4xMC4xOSAxMTowNywg
+VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IENvbW1pdCA5YWRjMWNiNDlh
+ZjhkIGZpeGVkIGEgYnVnIGFib3V0IHVuYWxpZ25lZCAodG8gZGlydHkgYml0bWFwDQo+PiBncmFu
+dWxhcml0eSkgZ3Vlc3Qgd3JpdGVzIChhbmQgZGlzY2FyZHMpIGJ5IHNpbXBseSByZXF1ZXN0aW5n
+DQo+PiBjb3JyZXNwb25kaW5nIGFsaWdubWVudCBvbiBtaXJyb3ItdG9wIGZpbHRlci4gSG93ZXZl
+ciBmb3JjaW5nIGxhcmdlDQo+PiBhbGlnbm1lbnQgb2J2aW91c2x5IGRlY3JlYXNlcyBwZXJmb3Jt
+YW5jZSBvZiB1bmFsaWduZWQgcmVxdWVzdHMuDQo+Pg0KPj4gU28gaXQncyB0aW1lIGZvciBhIG5l
+dyBzb2x1dGlvbiB3aGljaCBpcyBpbiAwNC4gQW5kIDA1IHJldmVydHMNCj4+IDlhZGMxY2I0OWFm
+OGQuDQo+Pg0KPj4gdjI6DQo+PiAwMTogbmV3IGZpeCAoZG8gd2UgbmVlZCBpdCBmb3Igc3RhYmxl
+PykNCj4gDQo+IEkgZG9u4oCZdCBrbm93PyA6LSkNCj4gDQo+IEnigJlsbCBqdXN0IGFkZCB0aGUg
+c3RhYmxlIHRhZyBmb3IgZ29vZCBtZWFzdXJlLCBJIHN1cHBvc2UgaXQgY2Fu4oCZdCBodXJ0Lg0K
+PiANCj4+IDAyLDAzLDA1OiBhZGQgTWF4J3Mgci1iDQo+PiAwNDogZml4IGJpdG1hcCBoYW5kbGlu
+Zw0KPj4gICAgICBpbXByb3ZlIGNvbW1lbnRzDQo+Pg0KPj4gVmxhZGltaXIgU2VtZW50c292LU9n
+aWV2c2tpeSAoNSk6DQo+PiAgICBoYml0bWFwOiBoYW5kbGUgc2V0L3Jlc2V0IHdpdGggemVybyBs
+ZW5ndGgNCj4+ICAgIGJsb2NrL21pcnJvcjogc2ltcGxpZnkgZG9fc3luY190YXJnZXRfd3JpdGUN
+Cj4+ICAgIGJsb2NrL2Jsb2NrLWJhY2tlbmQ6IGFkZCBibGtfY29fcHdyaXRldl9wYXJ0DQo+PiAg
+ICBibG9jay9taXJyb3I6IHN1cHBvcnQgdW5hbGlnbmVkIHdyaXRlIGluIGFjdGl2ZSBtaXJyb3IN
+Cj4+ICAgIFJldmVydCAibWlycm9yOiBPbmx5IG1pcnJvciBncmFudWxhcml0eS1hbGlnbmVkIGNo
+dW5rcyINCj4+DQo+PiAgIGluY2x1ZGUvc3lzZW11L2Jsb2NrLWJhY2tlbmQuaCB8ICAgNCArDQo+
+PiAgIGJsb2NrL2Jsb2NrLWJhY2tlbmQuYyAgICAgICAgICB8ICAxNyArKystDQo+PiAgIGJsb2Nr
+L21pcnJvci5jICAgICAgICAgICAgICAgICB8IDE4MSArKysrKysrKysrKysrKysrLS0tLS0tLS0t
+LS0tLS0tLS0NCj4+ICAgdXRpbC9oYml0bWFwLmMgICAgICAgICAgICAgICAgIHwgICA4ICsrDQo+
+PiAgIDQgZmlsZXMgY2hhbmdlZCwgMTE0IGluc2VydGlvbnMoKyksIDk2IGRlbGV0aW9ucygtKQ0K
+PiANCj4gVGhhbmtzLCBhcHBsaWVkIHRvIG15IGJsb2NrIGJyYW5jaDoNCj4gDQo+IGh0dHBzOi8v
+Z2l0LnhhbmNsaWMubW9lL1hhbkNsaWMvcWVtdS9jb21taXRzL2JyYW5jaC9ibG9jaw0KPiANCj4g
+TWF4DQo+IA0KDQpUaGFuayB5b3UhDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
