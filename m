@@ -2,39 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA8EDCA39
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:03:52 +0200 (CEST)
-Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF85DCA44
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:06:49 +0200 (CEST)
+Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUjH-0005um-QX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46399)
+	id 1iLUm8-0001Jr-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:06:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iLUXd-0001XE-Cu
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:51:50 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iLUaD-0005kp-Lu
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iLUXb-0005XI-Qq
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:51:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35040)
+ (envelope-from <mreitz@redhat.com>) id 1iLUaC-0007mf-Cm
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38618)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iLUXY-0005UY-VF; Fri, 18 Oct 2019 11:51:45 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iLUa9-0007ik-NY; Fri, 18 Oct 2019 11:54:25 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 337A7862E;
- Fri, 18 Oct 2019 15:51:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A4FB581F0F;
+ Fri, 18 Oct 2019 15:54:24 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A8C75D9CA;
- Fri, 18 Oct 2019 15:51:38 +0000 (UTC)
-Subject: Re: [PATCH v2 4/5] block/mirror: support unaligned write in active
- mirror
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B637600C4;
+ Fri, 18 Oct 2019 15:54:20 +0000 (UTC)
+Subject: Re: [PATCH v2 0/5] active-mirror: support unaligned guest operations
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20191011090711.19940-1-vsementsov@virtuozzo.com>
- <20191011090711.19940-5-vsementsov@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -60,18 +58,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <676ed62d-6aba-f655-2a56-13b0652e7229@redhat.com>
-Date: Fri, 18 Oct 2019 17:51:37 +0200
+Message-ID: <dc555030-9238-126c-9256-8df6304d30e1@redhat.com>
+Date: Fri, 18 Oct 2019 17:54:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011090711.19940-5-vsementsov@virtuozzo.com>
+In-Reply-To: <20191011090711.19940-1-vsementsov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ boundary="9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 18 Oct 2019 15:51:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Fri, 18 Oct 2019 15:54:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -92,78 +90,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY
-Content-Type: multipart/mixed; boundary="xBoHyglF77WJl69U2lJrKl6jkfNidJifP"
+--9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S
+Content-Type: multipart/mixed; boundary="eVjNE0Z50utQCaCz9h3WT3YwHoZ8DpEdr"
 
---xBoHyglF77WJl69U2lJrKl6jkfNidJifP
+--eVjNE0Z50utQCaCz9h3WT3YwHoZ8DpEdr
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 11.10.19 11:07, Vladimir Sementsov-Ogievskiy wrote:
-> Prior 9adc1cb49af8d do_sync_target_write had a bug: it reset aligned-up=
-
-> region in the dirty bitmap, which means that we may not copy some bytes=
-
-> and assume them copied, which actually leads to producing corrupted
-> target.
+> Commit 9adc1cb49af8d fixed a bug about unaligned (to dirty bitmap
+> granularity) guest writes (and discards) by simply requesting
+> corresponding alignment on mirror-top filter. However forcing large
+> alignment obviously decreases performance of unaligned requests.
 >=20
-> So 9adc1cb49af8d forced dirty bitmap granularity to be
-> request_alignment for mirror-top filter, so we are not working with
-> unaligned requests. However forcing large alignment obviously decreases=
-
-> performance of unaligned requests.
->=20
-> This commit provides another solution for the problem: if unaligned
-> padding is already dirty, we can safely ignore it, as
-> 1. It's dirty, it will be copied by mirror_iteration anyway
-> 2. It's dirty, so skipping it now we don't increase dirtiness of the
->    bitmap and therefore don't damage "synchronicity" of the
->    write-blocking mirror.
->=20
-> If unaligned padding is not dirty, we just write it, no reason to touch=
-
-> dirty bitmap if we succeed (on failure we'll set the whole region
-> ofcourse, but we loss "synchronicity" on failure anyway).
->=20
-> Note: we need to disable dirty_bitmap, otherwise we will not be able to=
-
-> see in do_sync_target_write bitmap state before current operation. We
-> may of course check dirty bitmap before the operation in
-> bdrv_mirror_top_do_write and remember it, but we don't need active
-> dirty bitmap for write-blocking mirror anyway.
->=20
-> New code-path is unused until the following commit reverts
+> So it's time for a new solution which is in 04. And 05 reverts
 > 9adc1cb49af8d.
 >=20
-> Suggested-by: Denis V. Lunev <den@openvz.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/mirror.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++---=
+> v2:
+> 01: new fix (do we need it for stable?)
 
->  1 file changed, 68 insertions(+), 3 deletions(-)
+I don=E2=80=99t know? :-)
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+I=E2=80=99ll just add the stable tag for good measure, I suppose it can=E2=
+=80=99t hurt.
+
+> 02,03,05: add Max's r-b
+> 04: fix bitmap handling
+>     improve comments
+>=20
+> Vladimir Sementsov-Ogievskiy (5):
+>   hbitmap: handle set/reset with zero length
+>   block/mirror: simplify do_sync_target_write
+>   block/block-backend: add blk_co_pwritev_part
+>   block/mirror: support unaligned write in active mirror
+>   Revert "mirror: Only mirror granularity-aligned chunks"
+>=20
+>  include/sysemu/block-backend.h |   4 +
+>  block/block-backend.c          |  17 +++-
+>  block/mirror.c                 | 181 ++++++++++++++++-----------------=
+
+>  util/hbitmap.c                 |   8 ++
+>  4 files changed, 114 insertions(+), 96 deletions(-)
+
+Thanks, applied to my block branch:
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+
+Max
 
 
---xBoHyglF77WJl69U2lJrKl6jkfNidJifP--
+--eVjNE0Z50utQCaCz9h3WT3YwHoZ8DpEdr--
 
---87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY
+--9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2p34kACgkQ9AfbAGHV
-z0BZIAgAhjs/2R7lRvicJGfg/2SJcncQGljfDhfBiRsu+MZXW1fnmQNKsYpeb8fZ
-gb+LTiv5HzvOBVBqca138qd3k28VcU8/lz0rNrKQD4AEYHEq2RcnoJLf3GOAqfa8
-ATMaI2AUMkZh/zPl8iV8Zd4oIlSbn/3LEsfho5sptL8nKqnBeBgHVqY5cAKV9O3d
-5SLjaKIO6O1/Z6+qV0hlodc2xjPrYgbwdCUku4jutexP7W3yfVujU8eUg8G+cC9H
-3nf0RA4Pj3TcJJKPPx4HKp0RV7RlAC8QMx5Ru7sjk+DHPp41x4ScxOi1wsj/cMPI
-qN6RKgyx1J9jkuh9+A1Ueh9Ov4SGvQ==
-=K4nr
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2p4CoACgkQ9AfbAGHV
+z0BCFwgAqPUueYv7aX8dBo+g4ctS7OU7q7T1UEELsJ7Lw3hmBHe0M0McDGiY9TzT
+ev49LP/P10p+vYtFpqtvUkyQ5DxkwLI0sHDWJKHugIE4afSTP0o3lBF8sKRrE0s8
+Aw2g/p9VlVD9FQdJHqbkbsMbWHJcRUlfpv/o6Cj9yWL6O3pyqos1hv41WiutHRbL
+kjOhmdE0MCaMQSPyXKkvQ1psASONIwuMD/F5dWu42qMffI3FEuNPuF79evhKt1d6
+2gZ/P8GVjzBPmkUVJ+dHNTo6yuL8wFCwh+GQbX5Z+Ao3eDjl4LSYN8cXmebjUPW7
+UcjyJdZ+gs2/pCV9iKohx9ONUqFvcw==
+=s9I3
 -----END PGP SIGNATURE-----
 
---87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY--
+--9WD5X87wB97H0UCeSCOpiTN03ptUuRa0S--
 
