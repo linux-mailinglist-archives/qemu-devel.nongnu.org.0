@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28831DCABF
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:16:45 +0200 (CEST)
-Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F64FDCAD9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:20:23 +0200 (CEST)
+Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUvj-0004ZD-Tn
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49065)
+	id 1iLUzG-0007W5-3p
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48979)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iLUqP-0007bP-Ui
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:16 -0400
+ (envelope-from <david@redhat.com>) id 1iLUqF-0007T4-BX
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iLUqL-0007Yz-6X
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40240)
+ (envelope-from <david@redhat.com>) id 1iLUqA-0007Se-Iu
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:11:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53458)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iLUqL-0007Uy-0D; Fri, 18 Oct 2019 12:11:09 -0400
+ id 1iLUqA-0007Rx-5O; Fri, 18 Oct 2019 12:10:58 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D424418C4276;
- Fri, 18 Oct 2019 16:11:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6354418CCEE2;
+ Fri, 18 Oct 2019 16:10:57 +0000 (UTC)
 Received: from t460s.redhat.com (unknown [10.36.118.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54A963DB4;
- Fri, 18 Oct 2019 16:11:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D95383DB4;
+ Fri, 18 Oct 2019 16:10:55 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 6/6] s390x/tcg: Fix VECTOR SUBTRACT WITH BORROW COMPUTE
- BORROW INDICATION
-Date: Fri, 18 Oct 2019 18:10:44 +0200
-Message-Id: <20191018161044.6983-7-david@redhat.com>
+Subject: [PATCH v1 3/6] s390x/tcg: Fix VECTOR SHIFT RIGHT ARITHMETIC BY BYTE
+Date: Fri, 18 Oct 2019 18:10:41 +0200
+Message-Id: <20191018161044.6983-4-david@redhat.com>
 In-Reply-To: <20191018161044.6983-1-david@redhat.com>
 References: <20191018161044.6983-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 18 Oct 2019 16:11:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.63]); Fri, 18 Oct 2019 16:10:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,62 +61,43 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The numbers are unsigned, the computation is wrong. "Each operand is
-treated as an unsigned binary integer".
-Let's implement as given in the PoP:
+We forgot to propagate the highest bit accross the high doubleword in
+two cases (shift >=3D64).
 
-"A subtraction is performed by adding the contents of the second operand
- with the bitwise complement of the third operand along with a borrow
- indication from the rightmost bit of the fourth operand."
-
-Fixes: bc725e65152c ("s390x/tcg: Implement VECTOR SUBTRACT WITH BORROW CO=
-MPUTE BORROW INDICATION")
+Fixes: 5f724887e3dd ("s390x/tcg: Implement VECTOR SHIFT RIGHT ARITHMETIC"=
+)
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/translate_vx.inc.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ target/s390x/vec_int_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
-inc.c
-index 87b5790db4..2015af9012 100644
---- a/target/s390x/translate_vx.inc.c
-+++ b/target/s390x/translate_vx.inc.c
-@@ -2240,17 +2240,30 @@ static void gen_sbcbi2_i64(TCGv_i64 dl, TCGv_i64 =
-dh, TCGv_i64 al, TCGv_i64 ah,
- {
-     TCGv_i64 th =3D tcg_temp_new_i64();
-     TCGv_i64 tl =3D tcg_temp_new_i64();
-+    TCGv_i64 sh =3D tcg_temp_new_i64();
-+    TCGv_i64 sl =3D tcg_temp_new_i64();
-     TCGv_i64 zero =3D tcg_const_i64(0);
+diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.=
+c
+index 1b3aaecbdb..d38405848f 100644
+--- a/target/s390x/vec_int_helper.c
++++ b/target/s390x/vec_int_helper.c
+@@ -70,15 +70,17 @@ static void s390_vec_sar(S390Vector *d, const S390Vec=
+tor *a, uint64_t count)
+         d->doubleword[0] =3D a->doubleword[0];
+         d->doubleword[1] =3D a->doubleword[1];
+     } else if (count =3D=3D 64) {
++        tmp =3D (int64_t)a->doubleword[0] >> 63;
+         d->doubleword[1] =3D a->doubleword[0];
+-        d->doubleword[0] =3D 0;
++        d->doubleword[0] =3D tmp;
+     } else if (count < 64) {
+         tmp =3D a->doubleword[1] >> count;
+         d->doubleword[1] =3D deposit64(tmp, 64 - count, count, a->double=
+word[0]);
+         d->doubleword[0] =3D (int64_t)a->doubleword[0] >> count;
+     } else {
++        tmp =3D (int64_t)a->doubleword[0] >> 63;
+         d->doubleword[1] =3D (int64_t)a->doubleword[0] >> (count - 64);
+-        d->doubleword[0] =3D 0;
++        d->doubleword[0] =3D tmp;
+     }
+ }
 =20
-     tcg_gen_andi_i64(tl, cl, 1);
--    tcg_gen_sub2_i64(tl, th, al, zero, tl, zero);
--    tcg_gen_sub2_i64(tl, th, tl, th, bl, zero);
-+    tcg_gen_not_i64(sl, bl);
-+    tcg_gen_not_i64(sh, bh);
-+
-+    /* Add the borrow to the low doubleword of a */
-+    tcg_gen_add2_i64(tl, th, al, zero, tl, zero);
-+    /* Add the bit-wise complement of b to the low doubleword */
-+    tcg_gen_add2_i64(tl, th, tl, th, sl, zero);
-+    /* Isolate the carry to the high doubleword */
-     tcg_gen_andi_i64(th, th, 1);
--    tcg_gen_sub2_i64(tl, th, ah, zero, th, zero);
--    tcg_gen_sub2_i64(tl, th, tl, th, bh, zero);
-+    /* Add the carry to the high doubleword of a */
-+    tcg_gen_add2_i64(tl, th, ah, zero, th, zero);
-+    /* Add the bit-wise complement of b to the high doubleword */
-+    tcg_gen_add2_i64(tl, th, tl, th, sh, zero);
-+    /* Isolate the carry to the next doubleword */
-     tcg_gen_andi_i64(dl, th, 1);
-     tcg_gen_mov_i64(dh, zero);
-=20
-+    tcg_temp_free_i64(sl);
-+    tcg_temp_free_i64(sh);
-     tcg_temp_free_i64(tl);
-     tcg_temp_free_i64(th);
-     tcg_temp_free_i64(zero);
 --=20
 2.21.0
 
