@@ -2,40 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE02DD0DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 23:07:14 +0200 (CEST)
-Received: from localhost ([::1]:46024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C13DD0DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 23:09:19 +0200 (CEST)
+Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLZSr-0005PJ-V0
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 17:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51801)
+	id 1iLZUs-0007kZ-IJ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 17:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iLZRF-0004uk-5C
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 17:05:34 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iLZTJ-0006Fe-9b
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 17:07:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iLZRD-0007wf-G9
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 17:05:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57044)
+ (envelope-from <jsnow@redhat.com>) id 1iLZTH-0008VR-TW
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 17:07:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56600)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iLZRD-0007wT-6q
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 17:05:31 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iLZTG-0008V9-K2
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 17:07:39 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3471E30860D7;
- Fri, 18 Oct 2019 21:05:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CAAF889F2BE;
+ Fri, 18 Oct 2019 21:07:37 +0000 (UTC)
 Received: from [10.18.17.145] (dhcp-17-145.bos.redhat.com [10.18.17.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7AA92600C4;
- Fri, 18 Oct 2019 21:05:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36E335D713;
+ Fri, 18 Oct 2019 21:07:37 +0000 (UTC)
 Subject: Re: [PATCH] configure: Require Python >= 3.5
-To: Kevin Wolf <kwolf@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20191016224237.26180-1-ehabkost@redhat.com>
- <7146bebf-6e99-f27a-3753-d48dea1977f9@redhat.com>
- <20191017112121.GA9233@localhost.localdomain>
- <c9e18dc9-0c94-601c-f4c7-735aedc9a92b@redhat.com>
- <20191018081536.GB6122@localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -111,18 +107,18 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <053d2024-5804-27b1-fdc2-20c23978790b@redhat.com>
-Date: Fri, 18 Oct 2019 17:05:29 -0400
+Message-ID: <e0631f8e-5c0b-c6cf-b513-68113c7ebd6d@redhat.com>
+Date: Fri, 18 Oct 2019 17:07:36 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191018081536.GB6122@localhost.localdomain>
+In-Reply-To: <20191016224237.26180-1-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 18 Oct 2019 21:05:30 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 18 Oct 2019 21:07:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -137,62 +133,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 10/18/19 4:15 AM, Kevin Wolf wrote:
-> Am 17.10.2019 um 21:39 hat John Snow geschrieben:
->> On 10/17/19 7:21 AM, Kevin Wolf wrote:
->>> Am 17.10.2019 um 00:48 hat John Snow geschrieben:
->>>> On 10/16/19 6:42 PM, Eduardo Habkost wrote:
->>>>> Python 3.5 is the oldest Python version available on our
->>>>> supported build platforms, and Python 2 end of life will be 3
->>>>> weeks after the planned release date of QEMU 4.2.0.  Drop Python
->>>>> 2 support from configure completely, and require Python 3.5 or
->>>>> newer.
->>>>>
->>>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>>>
->>>> Seems like a good time and place to mention this. Kevin, you require
->>>> 3.6+ for iotests, which are -- at present -- invoked as part of "make
->>>> check".
->>>>
->>>> Do we care? Basically, this just means that iotests won't run for
->>>> systems that don't have 3.6+, which would be platforms like Debian 9 --
->>>> which is why ehabkost is choosing 3.5 here.
->>>
->>> I think we were aware of this when we made the change to iotests. That
->>> all tests of the current upstream QEMU version are run on Debian
->>> oldstable (with the distro Python version) is, to say the least, not a
->>> priority for me. They must not fail, but I'd say skipping is fine.
->>>
->>> And actually, we should still have a reasonable coverage there with the
->>> shell-based test cases.
->>
->> This seems like a weirdly arbitrary decision for a benefit that's not
->> clear to me. Is it because you want variable annotations?
-> 
-> Yes, the discussion about type annotations is what made me check whether
-> we could do 3.6, because if we want to make use of type checking, we'll
-> need it for both functions and variables to get reasonable results.
-> 
-> And actually, we currently don't have any Python tests in the auto
-> group, so the only effect is for people manually running ./check on
-> Debian oldstable. I'm not sure, but I suspect this might be the empty
-> set.
-> 
-> Kevin
+On 10/16/19 6:42 PM, Eduardo Habkost wrote:
+> Python 3.5 is the oldest Python version available on our
+> supported build platforms, and Python 2 end of life will be 3
+> weeks after the planned release date of QEMU 4.2.0.  Drop Python
+> 2 support from configure completely, and require Python 3.5 or
+> newer.
 > 
 
-It would have an effect on `make docker-test-block@debian-amd64" I
-think, but I guess nobody runs that right now.
+Which distributions constrain us to 3.5 right now? I know Debian9 is one
+of them, but I'm not sure what others exist.
 
-Well, alright.
+I know I went through and checked a month ago, but I'm very smart and
+didn't write it down.
 
---js
+It might be nice to document (somewhere) so we know when we can require
+something newer than 3.5 at the next major deprecation event.
+
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+Thanks!
+
+> ---
+>  configure              | 18 ++++--------------
+>  tests/Makefile.include |  5 -----
+>  2 files changed, 4 insertions(+), 19 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 08ca4bcb46..870657ec7b 100755
+> --- a/configure
+> +++ b/configure
+> @@ -895,9 +895,9 @@ fi
+>  : ${install=${INSTALL-install}}
+>  # We prefer python 3.x. A bare 'python' is traditionally
+>  # python 2.x, but some distros have it as python 3.x, so
+> -# we check that before python2
+> +# we check that too
+>  python=
+> -for binary in "${PYTHON-python3}" python python2
+> +for binary in "${PYTHON-python3}" python
+>  do
+>      if has "$binary"
+>      then
+> @@ -1824,8 +1824,8 @@ fi
+>  
+>  # Note that if the Python conditional here evaluates True we will exit
+>  # with status 1 which is a shell 'false' value.
+> -if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
+> -  error_exit "Cannot use '$python', Python 2 >= 2.7 or Python 3 is required." \
+> +if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
+> +  error_exit "Cannot use '$python', Python >= 3.5 is required." \
+>        "Use --python=/path/to/python to specify a supported Python."
+>  fi
+>  
+> @@ -6456,15 +6456,6 @@ if test "$supported_os" = "no"; then
+>      echo "us upstream at qemu-devel@nongnu.org."
+>  fi
+>  
+> -# Note that if the Python conditional here evaluates True we will exit
+> -# with status 1 which is a shell 'false' value.
+> -if ! $python -c 'import sys; sys.exit(sys.version_info < (3,0))'; then
+> -  echo
+> -  echo "warning: Python 2 support is deprecated" >&2
+> -  echo "warning: Python 3 will be required for building future versions of QEMU" >&2
+> -  python2="y"
+> -fi
+> -
+>  config_host_mak="config-host.mak"
+>  
+>  echo "# Automatically generated by configure - do not modify" >config-all-disas.mak
+> @@ -7282,7 +7273,6 @@ echo "INSTALL_DATA=$install -c -m 0644" >> $config_host_mak
+>  echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
+>  echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+>  echo "PYTHON=$python" >> $config_host_mak
+> -echo "PYTHON2=$python2" >> $config_host_mak
+>  echo "CC=$cc" >> $config_host_mak
+>  if $iasl -h > /dev/null 2>&1; then
+>    echo "IASL=$iasl" >> $config_host_mak
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 3543451ed3..54ee1f0a2f 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -1137,7 +1137,6 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+>  AVOCADO_SHOW=app
+>  AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGET_DIRS)))
+>  
+> -ifneq ($(PYTHON2),y)
+>  $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+>  	$(call quiet-command, \
+>              $(PYTHON) -m venv --system-site-packages $@, \
+> @@ -1146,10 +1145,6 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+>              $(TESTS_VENV_DIR)/bin/python -m pip -q install -r $(TESTS_VENV_REQ), \
+>              PIP, $(TESTS_VENV_REQ))
+>  	$(call quiet-command, touch $@)
+> -else
+> -$(TESTS_VENV_DIR):
+> -	$(error "venv directory for tests requires Python 3")
+> -endif
+>  
+>  $(TESTS_RESULTS_DIR):
+>  	$(call quiet-command, mkdir -p $@, \
+> 
 
