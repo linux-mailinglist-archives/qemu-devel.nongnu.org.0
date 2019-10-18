@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B51DBEA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:46:23 +0200 (CEST)
-Received: from localhost ([::1]:36024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCF9DBEBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:50:13 +0200 (CEST)
+Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLMxp-0001rN-I2
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59185)
+	id 1iLN1X-0005qg-Ve
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:50:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iLMtW-0006FC-6J
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:56 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iLMtX-0006Gs-Rt
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iLMtV-000738-3y
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48952)
+ (envelope-from <kraxel@redhat.com>) id 1iLMtV-00073m-Bu
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38174)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iLMtT-00071H-82
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iLMtV-00072R-2E
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:53 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 90C3310C0946;
- Fri, 18 Oct 2019 07:41:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E1A45302C096;
+ Fri, 18 Oct 2019 07:41:51 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
  [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48E5F5C1B2;
- Fri, 18 Oct 2019 07:41:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DFA15C1B2;
+ Fri, 18 Oct 2019 07:41:51 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 72A2E9AB9; Fri, 18 Oct 2019 09:41:44 +0200 (CEST)
+ id 9556D31EC0; Fri, 18 Oct 2019 09:41:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/13] audio: basic support for multichannel audio
-Date: Fri, 18 Oct 2019 09:41:40 +0200
-Message-Id: <20191018074144.24071-10-kraxel@redhat.com>
+Subject: [PULL 13/13] paaudio: fix channel order for usb-audio 5.1 and 7.1
+ streams
+Date: Fri, 18 Oct 2019 09:41:44 +0200
+Message-Id: <20191018074144.24071-14-kraxel@redhat.com>
 In-Reply-To: <20191018074144.24071-1-kraxel@redhat.com>
 References: <20191018074144.24071-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 18 Oct 2019 07:41:49 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 18 Oct 2019 07:41:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,52 +66,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
 
-Which currently only means removing some checks.  Old code won't require
-more than two channels, but new code will need it.
-
 Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
 >
-Message-id: 7e53be1f97e939ed3bb729ef39e76b775643118a.1570996490.git.DirtY=
+Message-id: 2900e462d27bd73277ae083d037c32b1b4451ee2.1570996490.git.DirtY=
 .iCE.hu@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/alsaaudio.c | 7 -------
- audio/audio.c     | 2 +-
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ audio/paaudio.c | 50 ++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 45 insertions(+), 5 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index eddf013a537c..f37ce1ce8570 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -493,13 +493,6 @@ static int alsa_open(bool in, struct alsa_params_req=
- *req,
-         goto err;
-     }
-=20
--    if (nchannels !=3D 1 && nchannels !=3D 2) {
--        alsa_logerr2 (err, typ,
--                      "Can not handle obtained number of channels %d\n",
--                      nchannels);
--        goto err;
--    }
--
-     if (apdo->buffer_length) {
-         int dir =3D 0;
-         unsigned int btime =3D apdo->buffer_length;
-diff --git a/audio/audio.c b/audio/audio.c
-index c00f4deddd3d..7fc3aa9d1637 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -242,7 +242,7 @@ static int audio_validate_settings (struct audsetting=
-s *as)
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index 292c8c9ff4c0..df541a72d3a9 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -339,17 +339,59 @@ static pa_stream *qpa_simple_new (
+         pa_stream_direction_t dir,
+         const char *dev,
+         const pa_sample_spec *ss,
+-        const pa_channel_map *map,
+         const pa_buffer_attr *attr,
+         int *rerror)
  {
-     int invalid;
+     int r;
+-    pa_stream *stream;
++    pa_stream *stream =3D NULL;
+     pa_stream_flags_t flags;
++    pa_channel_map map;
 =20
--    invalid =3D as->nchannels !=3D 1 && as->nchannels !=3D 2;
-+    invalid =3D as->nchannels < 1;
-     invalid |=3D as->endianness !=3D 0 && as->endianness !=3D 1;
+     pa_threaded_mainloop_lock(c->mainloop);
 =20
-     switch (as->fmt) {
+-    stream =3D pa_stream_new(c->context, name, ss, map);
++    pa_channel_map_init(&map);
++    map.channels =3D ss->channels;
++
++    /*
++     * TODO: This currently expects the only frontend supporting more th=
+an 2
++     * channels is the usb-audio.  We will need some means to set channe=
+l
++     * order when a new frontend gains multi-channel support.
++     */
++    switch (ss->channels) {
++    case 1:
++        map.map[0] =3D PA_CHANNEL_POSITION_MONO;
++        break;
++
++    case 2:
++        map.map[0] =3D PA_CHANNEL_POSITION_LEFT;
++        map.map[1] =3D PA_CHANNEL_POSITION_RIGHT;
++        break;
++
++    case 6:
++        map.map[0] =3D PA_CHANNEL_POSITION_FRONT_LEFT;
++        map.map[1] =3D PA_CHANNEL_POSITION_FRONT_RIGHT;
++        map.map[2] =3D PA_CHANNEL_POSITION_CENTER;
++        map.map[3] =3D PA_CHANNEL_POSITION_LFE;
++        map.map[4] =3D PA_CHANNEL_POSITION_REAR_LEFT;
++        map.map[5] =3D PA_CHANNEL_POSITION_REAR_RIGHT;
++        break;
++
++    case 8:
++        map.map[0] =3D PA_CHANNEL_POSITION_FRONT_LEFT;
++        map.map[1] =3D PA_CHANNEL_POSITION_FRONT_RIGHT;
++        map.map[2] =3D PA_CHANNEL_POSITION_CENTER;
++        map.map[3] =3D PA_CHANNEL_POSITION_LFE;
++        map.map[4] =3D PA_CHANNEL_POSITION_REAR_LEFT;
++        map.map[5] =3D PA_CHANNEL_POSITION_REAR_RIGHT;
++        map.map[6] =3D PA_CHANNEL_POSITION_SIDE_LEFT;
++        map.map[7] =3D PA_CHANNEL_POSITION_SIDE_RIGHT;
++
++    default:
++        dolog("Internal error: unsupported channel count %d\n", ss->chan=
+nels);
++        goto fail;
++    }
++
++    stream =3D pa_stream_new(c->context, name, ss, &map);
+     if (!stream) {
+         goto fail;
+     }
+@@ -422,7 +464,6 @@ static int qpa_init_out(HWVoiceOut *hw, struct audset=
+tings *as,
+         PA_STREAM_PLAYBACK,
+         ppdo->has_name ? ppdo->name : NULL,
+         &ss,
+-        NULL,                   /* channel map */
+         &ba,                    /* buffering attributes */
+         &error
+         );
+@@ -471,7 +512,6 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsetti=
+ngs *as, void *drv_opaque)
+         PA_STREAM_RECORD,
+         ppdo->has_name ? ppdo->name : NULL,
+         &ss,
+-        NULL,                   /* channel map */
+         &ba,                    /* buffering attributes */
+         &error
+         );
 --=20
 2.18.1
 
