@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1609DDC71B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:17:57 +0200 (CEST)
-Received: from localhost ([::1]:40732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28040DC72A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:19:43 +0200 (CEST)
+Received: from localhost ([::1]:40752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLT4l-0002qD-SP
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:17:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
+	id 1iLT6U-000551-7V
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:19:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLSmw-0008Ce-GN
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:32 -0400
+ (envelope-from <philmd@redhat.com>) id 1iLSnG-0008Is-Er
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLSmu-0001m0-9R
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52786)
+ (envelope-from <philmd@redhat.com>) id 1iLSnF-0001s8-Ff
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39470)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSmu-0001le-3d
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:28 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSnF-0001rh-6M
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:49 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4965210DCC9F;
- Fri, 18 Oct 2019 13:59:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C014C3071D9F;
+ Fri, 18 Oct 2019 13:59:47 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8DCB60161;
- Fri, 18 Oct 2019 13:59:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 669E560566;
+ Fri, 18 Oct 2019 13:59:33 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] hw/i386/pc: Extract pc_gsi_create() and pc_i8259_create()
-Date: Fri, 18 Oct 2019 15:59:05 +0200
-Message-Id: <20191018135910.24286-1-philmd@redhat.com>
+Subject: [PATCH 2/5] hw/i386/pc: Reduce gsi_handler scope
+Date: Fri, 18 Oct 2019 15:59:07 +0200
+Message-Id: <20191018135910.24286-3-philmd@redhat.com>
+In-Reply-To: <20191018135910.24286-1-philmd@redhat.com>
+References: <20191018135910.24286-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 18 Oct 2019 13:59:27 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Fri, 18 Oct 2019 13:59:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -55,51 +57,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are few patches extracted from the previous too big series:
-hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge
-https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg03685.html
+pc_gsi_create() is the single function that uses gsi_handler.
+Make it a static variable.
 
-Dropped "Move kvm_i8259_init() declaration to sysemu/kvm.h" (thuth),
-no logical changes:
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/i386/pc.c         | 2 +-
+ include/hw/i386/pc.h | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-$ git backport-diff -u pc_split_i440fx_piix-v1
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/5:[----] [-C] 'hw/i386/pc: Extract pc_gsi_create()'
-002/5:[----] [--] 'hw/i386/pc: Reduce gsi_handler scope'
-003/5:[----] [--] 'hw/i386/pc: Move gsi_state creation code'
-004/5:[----] [--] 'hw/i386/pc: Extract pc_i8259_create()'
-005/5:[----] [--] 'hw/i386/pc: Remove kvm_i386.h include'
-
-Based-on: <20191018134754.16362-1-philmd@redhat.com>
-hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge [v2]
-https://mid.mail-archive.com/20191018134754.16362-1-philmd@redhat.com
-
-Philippe Mathieu-Daud=C3=A9 (5):
-  hw/i386/pc: Extract pc_gsi_create()
-  hw/i386/pc: Reduce gsi_handler scope
-  hw/i386/pc: Move gsi_state creation code
-  hw/i386/pc: Extract pc_i8259_create()
-  hw/i386/pc: Remove kvm_i386.h include
-
- hw/i386/pc.c         | 36 +++++++++++++++++++++++++++++++++++-
- hw/i386/pc_piix.c    | 23 ++---------------------
- hw/i386/pc_q35.c     | 28 ++++------------------------
- include/hw/i386/pc.h |  3 ++-
- 4 files changed, 43 insertions(+), 47 deletions(-)
-
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index e3e191a811..21efde33a5 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
+ };
+ const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
+=20
+-void gsi_handler(void *opaque, int n, int level)
++static void gsi_handler(void *opaque, int n, int level)
+ {
+     GSIState *s =3D opaque;
+=20
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 53b2243788..9ad417cef0 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -176,8 +176,6 @@ typedef struct GSIState {
+     qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+ } GSIState;
+=20
+-void gsi_handler(void *opaque, int n, int level);
+-
+ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+=20
+ /* vmport.c */
 --=20
 2.21.0
 
