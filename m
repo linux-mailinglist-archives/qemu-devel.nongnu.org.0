@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F15DC1B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:49:58 +0200 (CEST)
-Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAB9DC1CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:51:50 +0200 (CEST)
+Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLOtR-0008Gc-FC
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49154)
+	id 1iLOvF-0002H3-5x
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iLOre-0006he-HT
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:48:07 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iLOrf-0006iB-2r
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:48:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iLOrd-0005ZC-IS
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:48:06 -0400
-Received: from relay.sw.ru ([185.231.240.75]:42964)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iLOrd-0005ZQ-S1
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:48:07 -0400
+Received: from relay.sw.ru ([185.231.240.75]:42972)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iLOra-0005Wb-Ul; Fri, 18 Oct 2019 05:48:03 -0400
+ id 1iLOra-0005WZ-Su; Fri, 18 Oct 2019 05:48:03 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iLOrY-0004Ah-2M; Fri, 18 Oct 2019 12:48:00 +0300
+ id 1iLOrX-0004Ah-LJ; Fri, 18 Oct 2019 12:47:59 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 2/3] docs: define padding for qcow2 header
-Date: Fri, 18 Oct 2019 12:47:57 +0300
-Message-Id: <20191018094758.7124-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 1/3] docs: improve qcow2 spec about extending image header
+Date: Fri, 18 Oct 2019 12:47:56 +0300
+Message-Id: <20191018094758.7124-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191018094758.7124-1-vsementsov@virtuozzo.com>
 References: <20191018094758.7124-1-vsementsov@virtuozzo.com>
@@ -53,34 +53,76 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Header extensions ends are already defined to be multiply of 8. Let's
-gently ask for header length to be a multiply of 8 too, when we have
-some additional fields. Requiring this may be considered as an
-incompatible change, so the padding is optional. Actually, padding is
-allowed before this patch (due to definition of additional fields),
-the only actual change is "SHOULD" word.
+Make it more obvious how to add new fields to the version 3 header and
+how to interpret them.
+
+The specification is adjusted so for new defined optional fields:
+
+1. Software may support some of these optional fields and ignore the
+   others, which means that features may be backported to downstream
+   Qemu independently.
+3. If @header_length is higher than the highest field end that software
+   knows, it should assume that topmost unknown additional fields are
+   correct, and keep additional unknown fields as is on rewriting the
+   image.
+3. If we want to add incompatible field (or a field, for which some its
+   values would be incompatible), it must be accompanied by
+   incompatible feature bit.
+
+Also the concept of "default is zero" is clarified, as it's strange to
+say that the value of the field is assumed to be zero for the software
+version which don't know about the field at all and don't know how to
+treat it be it zero or not.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- docs/interop/qcow2.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+ docs/interop/qcow2.txt | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
 diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index 4709f3bb30..b971e59b1a 100644
+index af5711e533..4709f3bb30 100644
 --- a/docs/interop/qcow2.txt
 +++ b/docs/interop/qcow2.txt
-@@ -185,6 +185,11 @@ which is covered by @header_length must be zeroed.
+@@ -79,9 +79,9 @@ The first cluster of a qcow2 image contains the file header:
+                     Offset into the image file at which the snapshot table
+                     starts. Must be aligned to a cluster boundary.
  
-         < ... No additional fields in the header currently ... >
+-If the version is 3 or higher, the header has the following additional fields.
+-For version 2, the values are assumed to be zero, unless specified otherwise
+-in the description of a field.
++For version 2, header is always 72 bytes length and finishes here.
++For version 3 or higher the header length is at least 104 bytes and has at
++least next five fields, up to the @header_length field.
  
-+Header padding
-+        If @header_length is larger than 104, software SHOULD make it a
-+        multiply of 8, adding zero-padding after additional fields. Still the
-+        padding is optional and may be absent in the image.
+          72 -  79:  incompatible_features
+                     Bitmask of incompatible features. An implementation must
+@@ -164,6 +164,26 @@ in the description of a field.
+         100 - 103:  header_length
+                     Length of the header structure in bytes. For version 2
+                     images, the length is always assumed to be 72 bytes.
++                    For version 3 it's at least 104 bytes.
 +
++Additional fields (version 3 and higher)
++
++The following fields of the header are optional: if software doesn't know how
++to interpret the field, it may be safely ignored, other than preserving the
++field unchanged when rewriting the image header.
++
++For all additional fields zero value equals to absence of field (absence is
++when field.offset + field.size > @header_length). This implies
++that if software want's to set fields up to some field not aligned to multiply
++of 8 it must align header up by zeroes. And on the other hand, if software
++need some optional field which is absent it should assume that it's value is
++zero.
++
++It's allowed for the header end to cut some field in the middle (in this case
++the field is considered as absent), but in this case the part of the field
++which is covered by @header_length must be zeroed.
++
++        < ... No additional fields in the header currently ... >
+ 
  Directly after the image header, optional sections called header extensions can
  be stored. Each extension has a structure like the following:
- 
 -- 
 2.21.0
 
