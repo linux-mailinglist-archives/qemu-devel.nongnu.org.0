@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04D1DC82D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:13:04 +0200 (CEST)
-Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50B1DC833
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:13:53 +0200 (CEST)
+Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLTw7-000122-95
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39035)
+	id 1iLTwu-0001oX-LH
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39112)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iLTrA-0006i2-2X
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:57 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1iLTrC-0006ka-Ar
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iLTr8-0000GG-OU
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:55 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:38632)
+ (envelope-from <damien.hedde@greensocs.com>) id 1iLTrA-0000I5-TJ
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:58 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38684)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iLTr5-0000Bb-3T; Fri, 18 Oct 2019 11:07:51 -0400
+ id 1iLTr7-0000DH-6A; Fri, 18 Oct 2019 11:07:53 -0400
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 8F51196F50;
- Fri, 18 Oct 2019 15:07:49 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 985CC96F53;
+ Fri, 18 Oct 2019 15:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1571411270;
+ s=mail; t=1571411272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zfp9zlChmuFK1Pa2AVwC8e4Fq2eoeBhB8UD5of7fOMs=;
- b=PBwy97xzkwO5a+WE8Uw44NrivQqmB6ffNzafEeuQfl8sehIeNzjrBr/GYcI+vFLhTATFFt
- l2WdumD/scex6A/CLEelHaClHtbN5ZPYPvkb4uNtqHWdrsk62RhpZsO5f03l9Qy7E7IuLW
- v1lDjra5z0hJWGKNRYlgJDxzKaMoZwU=
+ bh=viHjPgtc5HTCRsQlMywrp57XhUG1VOp0+kLWxpMlyqs=;
+ b=A5S94pTw0UDr+7bCBWTCw6RNRzg4BRCxMf3Yvd5hzNDKaiz2WjH9pJUPNpSuiWK7Rz4SAm
+ hUcVW8CKZV5x/gpe3vQB8dztdHy3XXwlsD35CEjoKL/geqKd3u5I39VpAJBvdKYLn1DlGZ
+ DODUOGDTDvB5xB4ZQW/ONMRYJ6/BF5g=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/13] hw/core/qdev: add trace events to help with
- resettable transition
-Date: Fri, 18 Oct 2019 17:06:19 +0200
-Message-Id: <20191018150630.31099-3-damien.hedde@greensocs.com>
+Subject: [PATCH v5 05/13] hw/core/resettable: add support for changing parent
+Date: Fri, 18 Oct 2019 17:06:22 +0200
+Message-Id: <20191018150630.31099-6-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191018150630.31099-1-damien.hedde@greensocs.com>
 References: <20191018150630.31099-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1571411270;
+ s=mail; t=1571411272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zfp9zlChmuFK1Pa2AVwC8e4Fq2eoeBhB8UD5of7fOMs=;
- b=mESurmyKi15E7+sjU1odZZIJeXpGvKmr2vXUGCJNUOGVl63oaWILcJRkKOHwbl3AfFOe3/
- 4y/+83014ICrz6f6uscPHY2T8Aa0DVd2AmURoe7EDugpBO8ueTnb2RXWkaE8O6SMjx8h95
- Hz39UGcezTQnZ8+gJVAvzx1YQ6Lsc7g=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1571411270; a=rsa-sha256; cv=none;
- b=ccxL60ncAMyHElXbkVU63rvERbdZAc1My1LAvQOJcMd77zQFJ78pI72WZk1B5AeEEMp1s9
- nQqRU7YLAsn0Tq/TQEyYZm7jjaVzPcmwyPdHJgF3JZuMTTdy/8rGHd0uk6e2/9hmeRxbQJ
- Xo42DMAB9xHNTmG4Md/u0J+jKt7MnHI=
+ bh=viHjPgtc5HTCRsQlMywrp57XhUG1VOp0+kLWxpMlyqs=;
+ b=xtM+7hXVtdGDUw9yE8WtYEHDnqFfDJHWCGz6rs0uOddJ0P4YaVdORYpA9yoPdeeSlp5V1a
+ /QMpV1k8F+sZnkMYW02T5eZxF+rXo0lW6MgyIsDNQDv8nxPp/mXAN3nw+qdKy8IBbbsDO7
+ TjsOw6fmBJJY7vb44eg9yEC6U5HCQmk=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1571411272; a=rsa-sha256; cv=none;
+ b=ofUFQx6vB2S5YrWDeau9gYS9mzviv68FpdylAFHdKZf668q/I23kNUVepXfB0l0EkbOv5v
+ jJD1xxSTY8yzaDBhfN+fNObGMTORJyLo/wyGmv7UoIpf6l8+F0laaigJvKrWyE6pR2/eJt
+ PjoU30p5sbS7CP7ZlAMexYdITjBQASs=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -84,119 +83,165 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds trace events to reset procedure and when updating the parent
-bus of a device.
+Add a function resettable_change_parent() to do the required
+plumbing when changing the parent a of Resettable object.
+
+We need to make sure that the reset state of the object remains
+coherent with the reset state of the new parent.
+
+We make the 2 following hypothesis:
++ when an object is put in a parent under reset, the object goes in
+reset.
++ when an object is removed from a parent under reset, the object
+leaves reset.
+
+The added function avoid any glitch if both old and new parent are
+already in reset.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/core/qdev.c       | 27 ++++++++++++++++++++++++---
- hw/core/trace-events |  9 +++++++++
- 2 files changed, 33 insertions(+), 3 deletions(-)
+ hw/core/resettable.c    | 54 +++++++++++++++++++++++++++++++++++++++++
+ hw/core/trace-events    |  1 +
+ include/hw/resettable.h | 16 ++++++++++++
+ 3 files changed, 71 insertions(+)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 60be2f2fef..f230063189 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -38,6 +38,7 @@
- #include "hw/boards.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-+#include "trace.h"
+diff --git a/hw/core/resettable.c b/hw/core/resettable.c
+index c5e11cff4f..60d4285fcc 100644
+--- a/hw/core/resettable.c
++++ b/hw/core/resettable.c
+@@ -32,6 +32,14 @@ static void resettable_phase_exit(Object *obj, void *o=
+paque, ResetType type);
+  */
+ static bool enter_phase_in_progress;
 =20
- bool qdev_hotplug =3D false;
- static bool qdev_hot_added =3D false;
-@@ -98,7 +99,9 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bu=
-s)
-     bool replugging =3D dev->parent_bus !=3D NULL;
-=20
-     if (replugging) {
--        /* Keep a reference to the device while it's not plugged into
-+        trace_qdev_update_parent_bus(dev, dev->parent_bus, bus);
-+        /*
-+         * Keep a reference to the device while it's not plugged into
-          * any bus, to avoid it potentially evaporating when it is
-          * dereffed in bus_remove_child().
-          */
-@@ -272,6 +275,18 @@ HotplugHandler *qdev_get_hotplug_handler(DeviceState=
- *dev)
-     return hotplug_ctrl;
++/**
++ * exit_phase_in_progress:
++ * Flag telling whether we are currently in an enter phase where side
++ * effects are forbidden. This flag allows us to catch if
++ * resettable_change_parent() is called during exit phase.
++ */
++static unsigned exit_phase_in_progress;
++
+ void resettable_reset(Object *obj, ResetType type)
+ {
+     trace_resettable_reset(obj, type);
+@@ -58,7 +66,9 @@ void resettable_release_reset(Object *obj, ResetType ty=
+pe)
+     /* TODO: change that assert when adding support for other reset type=
+s */
+     assert(type =3D=3D RESET_TYPE_COLD);
+     trace_resettable_reset_release_begin(obj, type);
++    exit_phase_in_progress +=3D 1;
+     resettable_phase_exit(obj, NULL, type);
++    exit_phase_in_progress -=3D 1;
+     trace_resettable_reset_release_end(obj);
  }
 =20
-+static int qdev_prereset(DeviceState *dev, void *opaque)
+@@ -198,6 +208,50 @@ static void resettable_phase_exit(Object *obj, void =
+*opaque, ResetType type)
+     trace_resettable_phase_exit_end(obj, obj_typename, s->count);
+ }
+=20
++/*
++ * resettable_get_count:
++ * Get the count of the Resettable object @obj. Return 0 if @obj is NULL=
+.
++ */
++static uint32_t resettable_get_count(Object *obj)
 +{
-+    trace_qdev_reset_tree(dev, object_get_typename(OBJECT(dev)));
++    if (obj) {
++        ResettableClass *rc =3D RESETTABLE_GET_CLASS(obj);
++        return rc->get_state(obj)->count;
++    }
 +    return 0;
 +}
 +
-+static int qbus_prereset(BusState *bus, void *opaque)
++void resettable_change_parent(Object *obj, Object *newp, Object *oldp)
 +{
-+    trace_qbus_reset_tree(bus, object_get_typename(OBJECT(bus)));
-+    return 0;
++    ResettableClass *rc =3D RESETTABLE_GET_CLASS(obj);
++    ResettableState *s =3D rc->get_state(obj);
++    uint32_t newp_count =3D resettable_get_count(newp);
++    uint32_t oldp_count =3D resettable_get_count(oldp);
++
++    assert(!enter_phase_in_progress && !exit_phase_in_progress);
++    trace_resettable_change_parent(obj, oldp, oldp_count, newp, newp_cou=
+nt);
++
++    /*
++     * At most one of the two 'for' loop will be executed below
++     * in order to cope with the diff between the two count.
++     */
++    /* if newp is more reset than oldp */
++    for (uint32_t i =3D oldp_count; i < newp_count; i++) {
++        resettable_assert_reset(obj, RESET_TYPE_COLD);
++    }
++    /*
++     * if obj is leaving a bus under reset, we need to ensure
++     * hold phase is not pending.
++     */
++    if (oldp_count && s->hold_phase_pending) {
++        resettable_phase_hold(obj, NULL, RESET_TYPE_COLD);
++    }
++    /* if oldp is more reset than newp */
++    for (uint32_t i =3D newp_count; i < oldp_count; i++) {
++        resettable_release_reset(obj, RESET_TYPE_COLD);
++    }
 +}
 +
- static int qdev_reset_one(DeviceState *dev, void *opaque)
- {
-     device_legacy_reset(dev);
-@@ -282,6 +297,7 @@ static int qdev_reset_one(DeviceState *dev, void *opa=
-que)
- static int qbus_reset_one(BusState *bus, void *opaque)
- {
-     BusClass *bc =3D BUS_GET_CLASS(bus);
-+    trace_qbus_reset(bus, object_get_typename(OBJECT(bus)));
-     if (bc->reset) {
-         bc->reset(bus);
-     }
-@@ -290,7 +306,9 @@ static int qbus_reset_one(BusState *bus, void *opaque=
-)
-=20
- void qdev_reset_all(DeviceState *dev)
- {
--    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_one, =
-NULL);
-+    trace_qdev_reset_all(dev, object_get_typename(OBJECT(dev)));
-+    qdev_walk_children(dev, qdev_prereset, qbus_prereset,
-+                       qdev_reset_one, qbus_reset_one, NULL);
- }
-=20
- void qdev_reset_all_fn(void *opaque)
-@@ -300,7 +318,9 @@ void qdev_reset_all_fn(void *opaque)
-=20
- void qbus_reset_all(BusState *bus)
- {
--    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_one, =
-NULL);
-+    trace_qbus_reset_all(bus, object_get_typename(OBJECT(bus)));
-+    qbus_walk_children(bus, qdev_prereset, qbus_prereset,
-+                       qdev_reset_one, qbus_reset_one, NULL);
- }
-=20
- void qbus_reset_all_fn(void *opaque)
-@@ -1108,6 +1128,7 @@ void device_legacy_reset(DeviceState *dev)
- {
-     DeviceClass *klass =3D DEVICE_GET_CLASS(dev);
-=20
-+    trace_qdev_reset(dev, object_get_typename(OBJECT(dev)));
-     if (klass->reset) {
-         klass->reset(dev);
-     }
+ void resettable_class_set_parent_phases(ResettableClass *rc,
+                                         ResettableEnterPhase enter,
+                                         ResettableHoldPhase hold,
 diff --git a/hw/core/trace-events b/hw/core/trace-events
-index fe47a9c8cb..1a669be0ea 100644
+index 66081d0fb4..6d03ef7ff9 100644
 --- a/hw/core/trace-events
 +++ b/hw/core/trace-events
-@@ -1,2 +1,11 @@
- # loader.c
- loader_write_rom(const char *name, uint64_t gpa, uint64_t size, bool isr=
-om) "%s: @0x%"PRIx64" size=3D0x%"PRIx64" ROM=3D%d"
+@@ -16,6 +16,7 @@ resettable_reset_assert_begin(void *obj, int cold) "obj=
+=3D%p cold=3D%d"
+ resettable_reset_assert_end(void *obj) "obj=3D%p"
+ resettable_reset_release_begin(void *obj, int cold) "obj=3D%p cold=3D%d"
+ resettable_reset_release_end(void *obj) "obj=3D%p"
++resettable_change_parent(void *obj, void *o, uint32_t oc, void *n, uint3=
+2_t nc) "obj=3D%p from=3D%p(%" PRIu32 ") to=3D%p(%" PRIu32 ")"
+ resettable_phase_enter_begin(void *obj, const char *objtype, uint32_t co=
+unt, int type) "obj=3D%p(%s) count=3D%" PRIu32 " type=3D%d"
+ resettable_phase_enter_exec(void *obj, const char *objtype, int type, in=
+t has_method) "obj=3D%p(%s) type=3D%d method=3D%d"
+ resettable_phase_enter_end(void *obj, const char *objtype, uint32_t coun=
+t) "obj=3D%p(%s) count=3D%" PRIu32
+diff --git a/include/hw/resettable.h b/include/hw/resettable.h
+index 6b24e1633b..f6d379669f 100644
+--- a/include/hw/resettable.h
++++ b/include/hw/resettable.h
+@@ -182,6 +182,22 @@ void resettable_release_reset(Object *obj, ResetType=
+ type);
+  */
+ bool resettable_is_in_reset(Object *obj);
+=20
++/**
++ * resettable_change_parent:
++ * Indicate that the parent of Ressettable @obj change from @oldp to @ne=
+wp.
++ * All 3 objects must implements resettable interface. @oldp or @newp ma=
+y be
++ * NULL.
++ *
++ * This function will adapt the reset state of @obj so that it is cohere=
+nt
++ * with the reset state of @newp. It may trigger @resettable_assert_rese=
+t()
++ * or @resettable_release_reset(). It will do such things only if the re=
+set
++ * state of @newp and @oldp are different.
++ *
++ * When using this function during reset, it must only be called during
++ * an hold phase method. Calling this during enter or exit phase is an e=
+rror.
++ */
++void resettable_change_parent(Object *obj, Object *newp, Object *oldp);
 +
-+# qdev.c
-+qdev_reset(void *obj, const char *objtype) "obj=3D%p(%s)"
-+qdev_reset_all(void *obj, const char *objtype) "obj=3D%p(%s)"
-+qdev_reset_tree(void *obj, const char *objtype) "obj=3D%p(%s)"
-+qbus_reset(void *obj, const char *objtype) "obj=3D%p(%s)"
-+qbus_reset_all(void *obj, const char *objtype) "obj=3D%p(%s)"
-+qbus_reset_tree(void *obj, const char *objtype) "obj=3D%p(%s)"
-+qdev_update_parent_bus(void *obj, void *oldp, void *newp) "obj=3D%p old_=
-parent=3D%p new_parent=3D%p"
+ /**
+  * resettable_class_set_parent_phases:
+  *
 --=20
 2.23.0
 
