@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E05DBF10
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:56:13 +0200 (CEST)
-Received: from localhost ([::1]:36110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF020DBEFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:52:48 +0200 (CEST)
+Received: from localhost ([::1]:36072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLN7L-0004u4-Ku
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59285)
+	id 1iLN43-0000Gz-Jq
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iLMta-0006KU-JO
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:42:00 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iLMtV-00073c-BL
+ (envelope-from <kraxel@redhat.com>) id 1iLMtX-0006Gz-U9
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51388)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kraxel@redhat.com>) id 1iLMtV-00073D-4V
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51368)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iLMtV-00071n-3t
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iLMtT-00071X-7c
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:41:53 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C70B9C05AA6C;
+ by mx1.redhat.com (Postfix) with ESMTPS id 15562C05AA65;
  Fri, 18 Oct 2019 07:41:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
  [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1F6C60925;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D80065D9DC;
  Fri, 18 Oct 2019 07:41:44 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1ECF79D26; Fri, 18 Oct 2019 09:41:44 +0200 (CEST)
+ id 3295D9D34; Fri, 18 Oct 2019 09:41:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] audio: paaudio: fix connection and stream name
-Date: Fri, 18 Oct 2019 09:41:33 +0200
-Message-Id: <20191018074144.24071-3-kraxel@redhat.com>
+Subject: [PULL 04/13] audio: add mixing-engine option (documentation)
+Date: Fri, 18 Oct 2019 09:41:35 +0200
+Message-Id: <20191018074144.24071-5-kraxel@redhat.com>
 In-Reply-To: <20191018074144.24071-1-kraxel@redhat.com>
 References: <20191018074144.24071-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
  (mx1.redhat.com [10.5.110.32]); Fri, 18 Oct 2019 07:41:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
@@ -65,73 +65,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
 
-Connection name was previously erroneously set to the server socket
-path, while connection names were simply "qemu".  After this patch, the
-connection name will be the vm name (falling back to "qemu" if not
-specified), while stream names will be the audiodev's id.
+This will allow us to disable mixeng when we use a decent backend.
+
+Disabling mixeng have a few advantages:
+* we no longer convert the audio output from one format to another, when
+  the underlying audio system would just convert it to a third format.
+  We no longer convert, only the underlying system, when needed.
+* the underlying system probably has better resampling and sample format
+  converting methods anyway...
+* we may support formats that the mixeng currently does not support (S24
+  or float samples, more than two channels)
+* when using an audio server (like pulseaudio) different sound card
+  outputs will show up as separate streams, even if we use only one
+  backend
+
+Disadvantages:
+* audio capturing no longer works (wavcapture, and vnc audio extension)
+* some backends only support a single playback stream or very picky
+  about the audio format.  In this case we can't disable mixeng.
+
+Originally thw two main use cases of the disabled option was: using
+unsupported audio formats (5.1 and 7.1 audio) and having different
+pulseaudio streams per audio frontend.  Since we can have multiple
+-audiodevs, the latter is not that important, so currently you only need
+this option if you want to use 5.1 or 7.1 audio (implemented in a later
+patch), otherwise it's probably better to stick to the old and tried
+mixeng, since it's less picky about the backends.
+
+The ideal solution would be to port as much as possible to gstreamer,
+but this is currently out of scope:
+https://wiki.qemu.org/Internships/ProjectIdeas/AudioGStreamer
 
 Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
 >
-Message-id: 3d139426031a400a68d440608ba5e43f0e116cd8.1568157545.git.DirtY=
+Message-id: 5765186a7aadd51a72bc7d3e804307f0ee8a34ce.1570996490.git.DirtY=
 .iCE.hu@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ qapi/audio.json |  6 ++++++
+ qemu-options.hx | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index ed31f863f7fe..3e6580a5ee50 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -2,6 +2,7 @@
+diff --git a/qapi/audio.json b/qapi/audio.json
+index e45218f081f2..83312b23391e 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -11,6 +11,11 @@
+ # General audio backend options that are used for both playback and
+ # recording.
+ #
++# @mixing-engine: use QEMU's mixing engine to mix all streams inside QEM=
+U and
++#                 convert audio formats when not supported by the backen=
+d. When
++#                 set to off, fixed-settings must be also off (default o=
+n,
++#                 since 4.2)
++#
+ # @fixed-settings: use fixed settings for host input/output. When off,
+ #                  frequency, channels and format must not be
+ #                  specified (default true)
+@@ -31,6 +36,7 @@
+ ##
+ { 'struct': 'AudiodevPerDirectionOptions',
+   'data': {
++    '*mixing-engine':  'bool',
+     '*fixed-settings': 'bool',
+     '*frequency':      'uint32',
+     '*channels':       'uint32',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 793d70ff9388..996b6fba7461 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -433,6 +433,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "                specifies the audio backend to use\n"
+     "                id=3D identifier of the backend\n"
+     "                timer-period=3D timer period in microseconds\n"
++    "                in|out.mixing-engine=3D use mixing engine to mix st=
+reams inside QEMU\n"
+     "                in|out.fixed-settings=3D use fixed settings for hos=
+t audio\n"
+     "                in|out.frequency=3D frequency to use with fixed set=
+tings\n"
+     "                in|out.channels=3D number of channels to use with f=
+ixed settings\n"
+@@ -493,6 +494,10 @@ output's property with @code{out.@var{prop}}. For ex=
+ample:
+ -audiodev alsa,id=3Dexample,out.channels=3D1 # leaves in.channels unspec=
+ified
+ @end example
 =20
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu-common.h"
- #include "audio.h"
- #include "qapi/opts-visitor.h"
++NOTE: parameter validation is known to be incomplete, in many cases
++specifying an invalid option causes QEMU to print an error message and
++continue emulation without sound.
++
+ Valid global options are:
 =20
-@@ -338,7 +339,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audset=
-tings *as,
+ @table @option
+@@ -503,6 +508,16 @@ Identifies the audio backend.
+ Sets the timer @var{period} used by the audio subsystem in microseconds.
+ Default is 10000 (10 ms).
 =20
-     pa->stream =3D qpa_simple_new (
-         c,
--        "qemu",
-+        g->dev->id,
-         PA_STREAM_PLAYBACK,
-         ppdo->has_name ? ppdo->name : NULL,
-         &ss,
-@@ -387,7 +388,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsetti=
-ngs *as, void *drv_opaque)
-=20
-     pa->stream =3D qpa_simple_new (
-         c,
--        "qemu",
-+        g->dev->id,
-         PA_STREAM_RECORD,
-         ppdo->has_name ? ppdo->name : NULL,
-         &ss,
-@@ -549,6 +550,7 @@ static int qpa_validate_per_direction_opts(Audiodev *=
-dev,
- /* common */
- static void *qpa_conn_init(const char *server)
- {
-+    const char *vm_name;
-     PAConnection *c =3D g_malloc0(sizeof(PAConnection));
-     QTAILQ_INSERT_TAIL(&pa_conns, c, list);
-=20
-@@ -557,8 +559,9 @@ static void *qpa_conn_init(const char *server)
-         goto fail;
-     }
-=20
-+    vm_name =3D qemu_get_vm_name();
-     c->context =3D pa_context_new(pa_threaded_mainloop_get_api(c->mainlo=
-op),
--                                server);
-+                                vm_name ? vm_name : "qemu");
-     if (!c->context) {
-         goto fail;
-     }
++@item in|out.mixing-engine=3Don|off
++Use QEMU's mixing engine to mix all streams inside QEMU and convert
++audio formats when not supported by the backend.  When off,
++@var{fixed-settings} must be off too.  Note that disabling this option
++means that the selected backend must support multiple streams and the
++audio formats used by the virtual cards, otherwise you'll get no sound.
++It's not recommended to disable this option unless you want to use 5.1
++or 7.1 audio, as mixing engine only supports mono and stereo audio.
++Default is on.
++
+ @item in|out.fixed-settings=3Don|off
+ Use fixed settings for host audio.  When off, it will change based on
+ how the guest opens the sound card.  In this case you must not specify
 --=20
 2.18.1
 
