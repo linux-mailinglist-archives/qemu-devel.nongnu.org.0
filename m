@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BACDBF1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:57:46 +0200 (CEST)
-Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56896DBF08
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 09:54:36 +0200 (CEST)
+Received: from localhost ([::1]:36094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLN8q-0006Sb-P6
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59541)
+	id 1iLN5n-0002jx-9C
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 03:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59529)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iLMvR-0000Uu-Qn
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:55 -0400
+ (envelope-from <armbru@redhat.com>) id 1iLMvR-0000To-7a
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iLMvQ-0007gq-Cw
+ (envelope-from <armbru@redhat.com>) id 1iLMvQ-0007gh-7H
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55854)
+Received: from mx1.redhat.com ([209.132.183.28]:59754)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLMvQ-0007g8-42
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iLMvQ-0007fy-12
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 03:43:52 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5440018CB916;
+ by mx1.redhat.com (Postfix) with ESMTPS id 444B318C8906;
  Fri, 18 Oct 2019 07:43:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBD085D9CC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F18861001B36;
  Fri, 18 Oct 2019 07:43:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 942FC1132A0B; Fri, 18 Oct 2019 09:43:45 +0200 (CEST)
+ id A07D41132986; Fri, 18 Oct 2019 09:43:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] qapi: Move gen_enum(),
- gen_enum_lookup() back to qapi/types.py
-Date: Fri, 18 Oct 2019 09:43:43 +0200
-Message-Id: <20191018074345.24034-6-armbru@redhat.com>
+Subject: [PATCH v2 7/7] qapi: Clear scripts/qapi/doc.py executable bits again
+Date: Fri, 18 Oct 2019 09:43:45 +0200
+Message-Id: <20191018074345.24034-8-armbru@redhat.com>
 In-Reply-To: <20191018074345.24034-1-armbru@redhat.com>
 References: <20191018074345.24034-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Fri, 18 Oct 2019 07:43:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Fri, 18 Oct 2019 07:43:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,182 +61,27 @@ Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next commit will split up qapi/common.py.  gen_enum() needs
-QAPISchemaEnumMember, and that's in the way.  Move it to qapi/types.py
-along with its buddy gen_enum_lookup().
-
-Permit me a short a digression on history: how did gen_enum() end up
-in qapi/common.py?  Commit 21cd70dfc1 "qapi script: add event support"
-duplicated qapi-types.py's gen_enum() and gen_enum_lookup() in
-qapi-event.py.  Simply importing them would have been cleaner, but
-wasn't possible as qapi-types.py was a program, not a module.  Commit
-efd2eaa6c2 "qapi: De-duplicate enum code generation" de-duplicated by
-moving them to qapi.py, which was a module.
-
-Since then, program qapi-types.py has morphed into module types.py.
-It's where gen_enum() and gen_enum_lookup() started, and where they
-belong.
+Commit fbf09a2fa4 "qapi: add 'ifcond' to visitor methods" brought back
+the executable bits.  Fix that.  Drop the #! line for good measure.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/common.py | 59 ------------------------------------------
- scripts/qapi/events.py |  1 +
- scripts/qapi/types.py  | 59 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 60 insertions(+), 59 deletions(-)
+ scripts/qapi/doc.py | 1 -
+ 1 file changed, 1 deletion(-)
+ mode change 100755 =3D> 100644 scripts/qapi/doc.py
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 9d5c05f6a1..306857f0c0 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -2239,65 +2239,6 @@ def _wrap_ifcond(ifcond, before, after):
-     return out
-=20
-=20
--def gen_enum_lookup(name, members, prefix=3DNone):
--    ret =3D mcgen('''
--
--const QEnumLookup %(c_name)s_lookup =3D {
--    .array =3D (const char *const[]) {
--''',
--                c_name=3Dc_name(name))
--    for m in members:
--        ret +=3D gen_if(m.ifcond)
--        index =3D c_enum_const(name, m.name, prefix)
--        ret +=3D mcgen('''
--        [%(index)s] =3D "%(name)s",
--''',
--                     index=3Dindex, name=3Dm.name)
--        ret +=3D gen_endif(m.ifcond)
--
--    ret +=3D mcgen('''
--    },
--    .size =3D %(max_index)s
--};
--''',
--                 max_index=3Dc_enum_const(name, '_MAX', prefix))
--    return ret
--
--
--def gen_enum(name, members, prefix=3DNone):
--    # append automatically generated _MAX value
--    enum_members =3D members + [QAPISchemaEnumMember('_MAX', None)]
--
--    ret =3D mcgen('''
--
--typedef enum %(c_name)s {
--''',
--                c_name=3Dc_name(name))
--
--    for m in enum_members:
--        ret +=3D gen_if(m.ifcond)
--        ret +=3D mcgen('''
--    %(c_enum)s,
--''',
--                     c_enum=3Dc_enum_const(name, m.name, prefix))
--        ret +=3D gen_endif(m.ifcond)
--
--    ret +=3D mcgen('''
--} %(c_name)s;
--''',
--                 c_name=3Dc_name(name))
--
--    ret +=3D mcgen('''
--
--#define %(c_name)s_str(val) \\
--    qapi_enum_lookup(&%(c_name)s_lookup, (val))
--
--extern const QEnumLookup %(c_name)s_lookup;
--''',
--                 c_name=3Dc_name(name))
--    return ret
--
--
- def build_params(arg_type, boxed, extra=3DNone):
-     ret =3D ''
-     sep =3D ''
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 7308e8e589..a716a1d27f 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -13,6 +13,7 @@ See the COPYING file in the top-level directory.
- """
-=20
- from qapi.common import *
-+from qapi.types import gen_enum, gen_enum_lookup
-=20
-=20
- def build_event_send_proto(name, arg_type, boxed):
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 3edd9374aa..711543147d 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -21,6 +21,65 @@ from qapi.common import *
- objects_seen =3D set()
-=20
-=20
-+def gen_enum_lookup(name, members, prefix=3DNone):
-+    ret =3D mcgen('''
-+
-+const QEnumLookup %(c_name)s_lookup =3D {
-+    .array =3D (const char *const[]) {
-+''',
-+                c_name=3Dc_name(name))
-+    for m in members:
-+        ret +=3D gen_if(m.ifcond)
-+        index =3D c_enum_const(name, m.name, prefix)
-+        ret +=3D mcgen('''
-+        [%(index)s] =3D "%(name)s",
-+''',
-+                     index=3Dindex, name=3Dm.name)
-+        ret +=3D gen_endif(m.ifcond)
-+
-+    ret +=3D mcgen('''
-+    },
-+    .size =3D %(max_index)s
-+};
-+''',
-+                 max_index=3Dc_enum_const(name, '_MAX', prefix))
-+    return ret
-+
-+
-+def gen_enum(name, members, prefix=3DNone):
-+    # append automatically generated _MAX value
-+    enum_members =3D members + [QAPISchemaEnumMember('_MAX', None)]
-+
-+    ret =3D mcgen('''
-+
-+typedef enum %(c_name)s {
-+''',
-+                c_name=3Dc_name(name))
-+
-+    for m in enum_members:
-+        ret +=3D gen_if(m.ifcond)
-+        ret +=3D mcgen('''
-+    %(c_enum)s,
-+''',
-+                     c_enum=3Dc_enum_const(name, m.name, prefix))
-+        ret +=3D gen_endif(m.ifcond)
-+
-+    ret +=3D mcgen('''
-+} %(c_name)s;
-+''',
-+                 c_name=3Dc_name(name))
-+
-+    ret +=3D mcgen('''
-+
-+#define %(c_name)s_str(val) \\
-+    qapi_enum_lookup(&%(c_name)s_lookup, (val))
-+
-+extern const QEnumLookup %(c_name)s_lookup;
-+''',
-+                 c_name=3Dc_name(name))
-+    return ret
-+
-+
- def gen_fwd_object_or_array(name):
-     return mcgen('''
-=20
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+old mode 100755
+new mode 100644
+index 1c5125249f..dc8919bab7
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -1,4 +1,3 @@
+-#!/usr/bin/env python
+ # QAPI texi generator
+ #
+ # This work is licensed under the terms of the GNU LGPL, version 2+.
 --=20
 2.21.0
 
