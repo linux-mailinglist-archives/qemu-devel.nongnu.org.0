@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860CCDCAF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:24:56 +0200 (CEST)
-Received: from localhost ([::1]:42934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFFBDCB15
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:33:15 +0200 (CEST)
+Received: from localhost ([::1]:43046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLV3f-0004Rf-Fz
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50543)
+	id 1iLVBi-0000U6-ES
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iLV17-0002ro-ED
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:22:18 -0400
+ (envelope-from <bounces@canonical.com>) id 1iLV9y-0008GZ-6B
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iLV15-0005D3-Vr
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:22:17 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42817)
+ (envelope-from <bounces@canonical.com>) id 1iLV9w-0001F2-Sr
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:31:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35462)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iLV15-0005CW-Nt
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:22:15 -0400
-Received: by mail-oi1-x243.google.com with SMTP id i185so5673747oif.9
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 09:22:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Z3J8zBG/x0gGvw/4SLO7Xf14rp5jikY8twc4FguRhQw=;
- b=aSEf11FuU18DhALqeJuiPbLB0yKfBi1x+j9vRF/peZuvV27hc/rRgM/Qa7ymRqZv0y
- yDWqK2S6HGT/jLQTKvaEk398IHBhxoViCQiJVm/knM9jThay+QQEhlG8CIXPw3SLvoiK
- GkTkDeXJhLXPn4fRP+7Tbf9+lt+5D+l6pOkqe/woo1+3XB2bOJQBgvpgCZLTfhCQj6mv
- hu1ZtOYwVoY+i02K8gJvqP60tg7APv4VzPYq2vOCElY3nWbrd3UXc0VgU5sRlT76PL3z
- 1N5ael3jRv7jzJZljkmrvliMGiCI9SozI4RCQMh1ueSXD+NSmTNUOj5FddpJ0NyY/HNX
- RrFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Z3J8zBG/x0gGvw/4SLO7Xf14rp5jikY8twc4FguRhQw=;
- b=L3Iu1tDecHnv/NeOFN6LB6uPLjYRKizSn9T/zSY9+u/Monl5zU9JMuh6dHjTifvdAt
- kJj/ZhGB9LCOk9Dw0ROcXwggOjm6LQRJjJ1AU8G2f06l91ZIYX5kH6nynx0+0k+vekRO
- X/VyeSWkRgNKzTN2vaSOHLnQrV933DU0lbBAiy8SNYkeeC+udhP1OWDZqQpGm7rG1e6Y
- hQe0vKxIcBmFP4BqjkOnjmTyHmGRYn9/WktC31VVgaTLh0Uwx9ZFXfINZaEV+ysj/4Sw
- 01cdQA5EmMxGdZkI1LPe8s2JQou+EiOSsy5wp8fHVRib+TRy2QrOH0WPyyF9ixDzipys
- L+rA==
-X-Gm-Message-State: APjAAAVmFIy9Qd13HNNovToObtq0h4PmtvrCm9JctyBJTwLQAvKVGtRj
- X/l7tzZ6Y7iSqjotPZB/HyrgKQ1NrdZrKEh0NmSCzNr7hiQ=
-X-Google-Smtp-Source: APXvYqw3OREf/eP9r/sePvEmHqqDSNNheixBlpEXwrDcpiGpxzv4tSLxhHlA7XsNgrHwZx8vufqhePkGuZNoiMrIdDU=
-X-Received: by 2002:aca:3b41:: with SMTP id i62mr8371759oia.48.1571415734844; 
- Fri, 18 Oct 2019 09:22:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iLV9w-0001EZ-NU
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:31:24 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iLV9u-0007vK-Il
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 16:31:22 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8C0252E80C9
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 16:31:22 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
- <20191018154212.13458-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20191018154212.13458-2-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Oct 2019 17:22:03 +0100
-Message-ID: <CAFEAcA_7zxe6YfM6c8v_SQ+qh2L7Q5RS_xEPvy01q9aPZ6YyiQ@mail.gmail.com>
-Subject: Re: [PATCH 01/14] sm501: replace PROP_PTR with PROP_LINK
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Date: Fri, 18 Oct 2019 16:17:35 -0000
+From: David Hildenbrand <1847232@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=david@redhat.com; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: davidhildenbrand ivmn
+X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
+X-Launchpad-Bug-Modifier: David Hildenbrand (davidhildenbrand)
+References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
+Message-Id: <157141545734.9164.17885241374277569569.launchpad@soybean.canonical.com>
+Subject: [Bug 1847232] Re: qemu TCG in s390x mode issue with calculating HASH
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ffbdc73f4b5f1f9bb5c7e04b10d5b38ca0cf218b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,99 +67,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1847232 <1847232@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 16:42, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/display/sm501.c | 5 +++--
->  hw/sh4/r2d.c       | 3 ++-
->  2 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-> index 1f33c87e65..a87d18efab 100644
-> --- a/hw/display/sm501.c
-> +++ b/hw/display/sm501.c
-> @@ -1930,7 +1930,7 @@ typedef struct {
->      SM501State state;
->      uint32_t vram_size;
->      uint32_t base;
-> -    void *chr_state;
-> +    Chardev *chr_state;
->  } SM501SysBusState;
->
->  static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
-> @@ -1968,7 +1968,8 @@ static void sm501_realize_sysbus(DeviceState *dev, =
-Error **errp)
->  static Property sm501_sysbus_properties[] =3D {
->      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
->      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
-> -    DEFINE_PROP_PTR("chr-state", SM501SysBusState, chr_state),
-> +    DEFINE_PROP_LINK("chr-state", SM501SysBusState, chr_state,
-> +                     TYPE_CHARDEV, Chardev *),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-> index ee0840f380..5780ee85d9 100644
-> --- a/hw/sh4/r2d.c
-> +++ b/hw/sh4/r2d.c
-> @@ -272,7 +272,8 @@ static void r2d_init(MachineState *machine)
->      busdev =3D SYS_BUS_DEVICE(dev);
->      qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
->      qdev_prop_set_uint32(dev, "base", 0x10000000);
-> -    qdev_prop_set_ptr(dev, "chr-state", serial_hd(2));
-> +    object_property_set_link(OBJECT(dev), OBJECT(serial_hd(2)),
-> +                             "chr-state", &error_abort);
->      qdev_init_nofail(dev);
->      sysbus_mmio_map(busdev, 0, 0x10000000);
->      sysbus_mmio_map(busdev, 1, 0x13e00000);
+** Changed in: qemu
+     Assignee: (unassigned) =3D> David Hildenbrand (davidhildenbrand)
 
-We have a typed way of passing a Chardev to devices:
-use qdev_prop_set_chr(). Unfortunately it's not trivially
-easy to drop in here, because it sets a property defined
-with DEFINE_PROP_CHR to set a field of type CharBackend
-(note, not Chardev, and not a pointer) in the device struct.
-But serial_mm_init() wants a Chardev*, because it is a
-non-QOM interface to the serial device and is manually
-doing the qemu_chr_fe_init() that connects the Chardev
-to its own CharBackend. The QOM CHR property setter wants
-to do that qemu_chr_fe_init() itself.
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-So I think the right fix here is to properly QOMify the
-code which is not QOMified, ie hw/char/serial.c, in a
-way that means that the various "memory mapped 16650-ish
-devices" we have can use it and can define a
-TYPE_CHARDEV property.
+-- =
 
-In general I think our uses of PROP_PTR are code smells
-that indicate places where we have not properly converted
-code over to the general approach that the QOM/qdev
-design desires; but we should be getting rid of PROP_PTR
-by actually doing all those (difficult) conversions.
-Merely removing PROP_PTR itself by rephrasing the dubious
-inter-device connections in a way that makes them harder
-to grep for doesn't seem to me to be necessarily worth
-doing. Is the existence of PROP_PTR getting in your way
-for a change you want to make ?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847232
 
-thanks
--- PMM
+Title:
+  qemu TCG in s390x mode issue with calculating HASH
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  When using go on s390x on Debian x64 (buster) (host) and debian s390x
+  (sid) (guest) I run into the following problem :
+
+  The following occurs while trying to build a custom project :
+
+  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
+  Get
+  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
+0150613233007-fe3947df716e.mod:
+  local error: tls: bad record MAC
+
+  Doing a git bisect I find that this problem only occurs on and after
+  commit 08ef92d556c584c7faf594ff3af46df456276e1b
+
+  Before that commit, all works fine. Past this commit, build always
+  fails.
+
+  Without any proof, It looks like a hash calculation bug related to
+  using z/Arch vector facilities...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
 
