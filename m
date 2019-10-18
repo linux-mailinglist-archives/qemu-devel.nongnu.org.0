@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FC9DCBB4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:41:21 +0200 (CEST)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EF8DCBBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:43:12 +0200 (CEST)
+Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLVJX-0006aG-59
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52391)
+	id 1iLVLL-00008I-JK
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1iLVI5-0005aS-1D
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:39:50 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iLVK7-0007m2-7P
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:41:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1iLVI3-00052R-Mh
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:39:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49920)
+ (envelope-from <ehabkost@redhat.com>) id 1iLVK6-0005lD-4U
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:41:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39922)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1iLVI0-00050F-94; Fri, 18 Oct 2019 12:39:44 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iLVK5-0005jX-Gx
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:41:54 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 16A533090FD6;
- Fri, 18 Oct 2019 16:39:43 +0000 (UTC)
-Received: from [10.36.116.245] (ovpn-116-245.ams2.redhat.com [10.36.116.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44E305D9CC;
- Fri, 18 Oct 2019 16:39:40 +0000 (UTC)
-Subject: Re: [PATCH 0/5] ARM virt: Add NVDIMM support
-To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, imammedo@redhat.com
-References: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <a133d4c4-3f60-2bb1-a7d7-35cdb06af265@redhat.com>
-Date: Fri, 18 Oct 2019 18:39:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mx1.redhat.com (Postfix) with ESMTPS id B5B4AC049E12;
+ Fri, 18 Oct 2019 16:41:52 +0000 (UTC)
+Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9C713DB4;
+ Fri, 18 Oct 2019 16:41:44 +0000 (UTC)
+Date: Fri, 18 Oct 2019 13:41:43 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Samuel Thibault <samuel.thibault@gnu.org>
+Subject: Re: Python 2 and test/vm/netbsd
+Message-ID: <20191018164143.GP4084@habkost.net>
+References: <20191016030021.GD4084@habkost.net>
+ <a83d518a-6e39-0017-203d-2ee3d61935ca@redhat.com>
+ <20191016224124.GF4084@habkost.net>
+ <20191017220541.GJ4084@habkost.net>
+ <20191017225548.GL4084@habkost.net>
+ <20191018104439.c2tojlvi2c5zzesi@sirius.home.kraxel.org>
+ <20191018142940.GN4084@habkost.net>
+ <a0c2df74-360b-79de-132e-f4d5be5bfc12@redhat.com>
+ <20191018160019.he52tpvjqolzgswg@function>
 MIME-Version: 1.0
-In-Reply-To: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: multipart/mixed; boundary="5uO961YFyoDlzFnP"
+Content-Disposition: inline
+In-Reply-To: <20191018160019.he52tpvjqolzgswg@function>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 18 Oct 2019 16:39:43 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.31]); Fri, 18 Oct 2019 16:41:52 +0000 (UTC)
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -60,104 +65,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, lersek@redhat.com, linuxarm@huawei.com,
- xuwei5@hisilicon.com, shannon.zhaosl@gmail.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shameer,
 
-On 10/4/19 5:52 PM, Shameer Kolothum wrote:
-> This series adds NVDIMM support to arm/virt platform.
-> This has a dependency on [0] and make use of the GED
-> device for NVDIMM hotplug events. The series reuses
-> some of=C2=A0the=C2=A0patches posted by Eric in his earlier
-> attempt here[1].
+--5uO961YFyoDlzFnP
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Oct 18, 2019 at 06:00:19PM +0200, Samuel Thibault wrote:
+> Philippe Mathieu-Daud=E9, le ven. 18 oct. 2019 16:58:00 +0200, a ecrit:
+> > On 10/18/19 4:29 PM, Eduardo Habkost wrote:
+> > > On Fri, Oct 18, 2019 at 12:44:39PM +0200, Gerd Hoffmann wrote:
+> > > >    Hi,
+> > > >=20
+> > > > > > Running with V=3D1, I see packages being downloaded at reason=
+able speeds, but
+> > > > > > there's a huge interval (of various minutes) between each pac=
+kage download.
+> > > > >=20
+> > > > > I've found the cause for the slowness I'm seeing: for each file
+> > > > > being downloaded, the guest spents at least 75 seconds trying t=
+o
+> > > > > connect to the IPv6 address of ftp.NetBSD.org, before trying
+> > > > > IPv4.
+> > > >=20
+> > > > Ah, that nicely explains why it worked just fine for me.  First, =
+I have
+> > > > a local proxy configured so the installer isn't going to connect =
+to
+> > > > ftp.NetBSD.org directly.  Second I have IPv6 connectivity.
+> > > >=20
+> > > > > I don't know if this is a NetBSD bug, or a slirp bug.
+> > > >=20
+> > > > Both I'd say ...
+> > > >=20
+> > > > First, by default slirp should not send IPv6 router announcements
+> > > > to the user network if the host has no IPv6 connectivity.
+> > > >=20
+> > > > Second, the recommended way to connect is to try ipv4 and ipv6 in
+> > > > parallel, then use whatever connects first.  Web browsers typical=
+ly
+> > > > do it that way.  wget and curl don't do that though, they try one
+> > > > address after the other, and I guess this is where the delay come=
+s
+> > > > from ...
+> > >=20
+> > > In addition to that, the connect() error should be generating a
+> > > ICMP6_UNREACH message, and I'd expect the NetBSD guest to notice
+> > > it instead of waiting for timeout.
+> >=20
+> > Is this missing in SLiRP?
 >=20
-> Patch 1/5 is a fix to the Guest reboot issue on NVDIMM
-> hot add case described here[2].
->=20
-> I have done basic sanity testing of NVDIMM deviecs with
-devcies
-> both ACPI and DT Guest boot. Further testing is always
-> welcome.
->=20
-> Please let me know your feedback.
+> It was implemented at the time of introduction of IPv6 in SLIRP. Perhap=
+s
+> NetBSD has a slightly different behavior which makes the implementation
+> fail to notice the error.
 
-I tested it on my side. Looks to work pretty well.
+If anybody is interested in investigating it, a network traffic
+dump generated by `-object filter-dump` is attached.
 
-one question: I noticed that when a NVDIMM slot is hotplugged one get
-the following trace on guest:
+--=20
+Eduardo
 
-nfit ACPI0012:00: found a zero length table '0' parsing nfit
-pmem0: detected capacity change from 0 to 1073741824
+--5uO961YFyoDlzFnP
+Content-Type: application/gzip
+Content-Disposition: attachment; filename="dump.pcap.gz"
+Content-Transfer-Encoding: base64
 
-Have you experienced the 0 length trace?
+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
+bpl2wediFHZ/Aje85bc5HQAA
 
-Besides when we reset the system we find the namespaces again using
-"ndctl list -u" so the original bug seems to be fixed.
-
-Did you try to mount a DAX FS. I can mount but with DAX forced off.
-
-sudo mkdir /mnt/mem0
-mkfs.xfs -f -m reflink=3D0 /dev/pmem0
-sudo mount -o dax /dev/pmem0 /mnt/mem0
-[ 2610.051830] XFS (pmem0): DAX enabled. Warning: EXPERIMENTAL, use at
-your own risk
-[ 2610.178580] XFS (pmem0): DAX unsupported by block device. Turning off
-DAX.
-[ 2610.180871] XFS (pmem0): Mounting V5 Filesystem
-[ 2610.189797] XFS (pmem0): Ending clean mount
-
-I fail to remember if it was the case months ago. I am not sure if it is
-an issue in my guest .config or if there is something not yet supported
-on aarch64? Did you try on your side?
-
-Also if you forget to put the ",nvdimm" to the machvirt options you get,
-on hotplug:
-{"error": {"class": "GenericError", "desc": "nvdimm is not yet supported"=
-}}
-which is not correct anymore ;-)
-
-Thanks
-
-Eric
-
-
->=20
-> Thanks,
-> Shameer
->=20
-> [0] https://patchwork.kernel.org/cover/11150345/
-> [1] https://patchwork.kernel.org/cover/10830777/
-> [2] https://patchwork.kernel.org/patch/11154757/
->=20
-> Eric Auger (1):
->   hw/arm/boot: Expose the pmem nodes in the DT
->=20
-> Kwangwoo Lee (2):
->   nvdimm: Use configurable ACPI IO base and size
->   hw/arm/virt: Add nvdimm hot-plug infrastructure
->=20
-> Shameer Kolothum (2):
->   hw/arm: Align ACPI blob len to PAGE size
->   hw/arm/virt: Add nvdimm hotplug support
->=20
->  docs/specs/acpi_hw_reduced_hotplug.rst |  1 +
->  hw/acpi/generic_event_device.c         | 13 ++++++++
->  hw/acpi/nvdimm.c                       | 32 ++++++++++++------
->  hw/arm/Kconfig                         |  1 +
->  hw/arm/boot.c                          | 45 ++++++++++++++++++++++++++
->  hw/arm/virt-acpi-build.c               | 20 ++++++++++++
->  hw/arm/virt.c                          | 42 ++++++++++++++++++++----
->  hw/i386/acpi-build.c                   |  6 ++++
->  hw/i386/acpi-build.h                   |  3 ++
->  hw/i386/pc_piix.c                      |  2 ++
->  hw/i386/pc_q35.c                       |  2 ++
->  hw/mem/Kconfig                         |  2 +-
->  include/hw/acpi/generic_event_device.h |  1 +
->  include/hw/arm/virt.h                  |  1 +
->  include/hw/mem/nvdimm.h                |  3 ++
->  15 files changed, 157 insertions(+), 17 deletions(-)
->=20
+--5uO961YFyoDlzFnP--
 
