@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D9DDCF05
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 21:07:31 +0200 (CEST)
-Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C679DCF0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 21:08:52 +0200 (CEST)
+Received: from localhost ([::1]:45470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLXaz-00034H-Jn
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 15:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41603)
+	id 1iLXcJ-0005Xb-7x
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 15:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLXZS-00023c-GH
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 15:05:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1iLXZw-0002jj-De
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 15:06:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLXZR-0001Zy-GW
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 15:05:54 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37575)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLXZR-0001YZ-9H
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 15:05:53 -0400
-Received: by mail-pg1-x542.google.com with SMTP id p1so3867049pgi.4
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 12:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NgIfSjnAflMh+9+qvmcvy3K4PQ5PK1k0CPbCdWmm830=;
- b=q3DADWu+E7AhIZvukpiQh1hl0fwfnQbGM+0kkHws88VKSJOeZkRUOyCgEImKaTWHaW
- 1z4QacS+aA5FhQLpyq+eYCWKZT1GPKf5Rwcfa5zYQAiGDGoLLGCOIHjnEJ27syhUD+QP
- GyM4hGToeZ2W089dUZzji55Lpgen0WrZ0TS1xu5n3LrOWIB2x2mFVcmMNx+fkjfXyqKd
- yDGb4qGRlLJNq5AXTYfIyyINJGAgxHyErx0we18iBx9f7o63PibkZwu6DYY8qyCprT1e
- j+QinOXoRH4z5q7PYF23ye009m2imL0Vxn9MYJFuZB48nmtc5Zqi+S56aFD7YEVD88zh
- /U9A==
+ (envelope-from <philmd@redhat.com>) id 1iLXZu-0001ne-6A
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 15:06:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54496)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLXZt-0001nF-UA
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 15:06:22 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0B17A51EE9
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 19:06:21 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id f4so3119965wrj.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 12:06:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NgIfSjnAflMh+9+qvmcvy3K4PQ5PK1k0CPbCdWmm830=;
- b=T3aKG0fl6q7GwamBeLiiuU8tIkVfQ87tvWUi2i01rM2cK6UvX85LqYhA+ea+4LgRHn
- JkqINRskJ3Qm6ClkruhoFz3uyW+r8Vd80tGNtsjQ8Em0t0vB7UGcRlcZE9DFYk2oi88Z
- gLaTsTiXKlV9RFfOhmPGyUde6A8lE0zHpFbOHJvBYYtiWUU7znemirlxbXkCesT0JKUV
- 65NAy/h6JbWxnjpbBaOCfIh6bRcJwipaA9JsyZkpdxShnk48zG4rcX44TuXEELTLxBRM
- p++fKiZ8ytkUN4sMNwdbLS18ivLLEQPk0nyS8rhlqiShQQdLq2AXoWVUhmpfvGZjFgT6
- CrNw==
-X-Gm-Message-State: APjAAAX1hrwbWnDlgn5+8ZfW51KMQQ7/tRk7nNJAdxTbccbIhPUNBQmo
- NwgwIC9RQmjedzqJYIhQ03msYg==
-X-Google-Smtp-Source: APXvYqwvkuTuaiIy/fBEYDl43GaPNKvHBanbT4hSa3fMLMQGH4sIrImRPaaBDT5FrSdsGC27eUBBnw==
-X-Received: by 2002:a63:1316:: with SMTP id i22mr12278289pgl.238.1571425552196; 
- Fri, 18 Oct 2019 12:05:52 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id b20sm9886336pff.158.2019.10.18.12.05.50
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 18 Oct 2019 12:05:51 -0700 (PDT)
-Subject: Re: [PATCH v1 2/6] s390x/tcg: Fix VECTOR MULTIPLY AND ADD *
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20191018161044.6983-1-david@redhat.com>
- <20191018161044.6983-3-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <667b8332-0626-b636-08c8-e70abed8dcc5@linaro.org>
-Date: Fri, 18 Oct 2019 12:05:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ bh=ObPZgmXRYrpC1K1VYu4wZbCD9OquUZ3D1JIuw4fuMh0=;
+ b=UbjUJ3FJbbM8lXAxpWKbdVE0xQPIEf5rllKVTC+mafXJBSiyZuO4NTwh+hA3mVYg2g
+ ZUN1sb8azIcBMUjsR37btBazAGprRwqVmPnzyVODdMriXZoD3RfbW9MO6kkrgQYHw9ih
+ upYuELolOO0SXoAYvOz/DLSm6yeH2pQ7HYv8StbN4m4j/UuPNWzsLCXc/KjP55+1PiWA
+ NQCy/fzwSefqXYTRx2PWHvy0zm9xwP00amTIO90Gr4Vk+ZnR7EvpcDIjT9CdAc9MoYxI
+ 2JiEt5Qyef91xgTuLYSi7qcijF6StPpBN7LswCjARa/FlawGUs4hB7sYoDDnygd+bVy0
+ sYRA==
+X-Gm-Message-State: APjAAAU+0QgJ1CtOOMfOjKYlc4qpF21yUnyGjfqAtNJXvzh7moOsYHTA
+ 4tbnspTkWRI7GWSqNPGdi5F+Q+nc8idR2RoP4Qzv9RDTL3XNhF2AiJ8fAsZMgSUM/h2ineGiest
+ RfvlkHacoBEfiiMM=
+X-Received: by 2002:a5d:4ace:: with SMTP id y14mr3348107wrs.131.1571425579806; 
+ Fri, 18 Oct 2019 12:06:19 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxSRkpHEsMhqqjY91ZOruUcyEPKRpgVfJjSwtyTc1+rmOWAWW5vQ48Bx8g+MmwNt2fvgacCtg==
+X-Received: by 2002:a5d:4ace:: with SMTP id y14mr3348096wrs.131.1571425579576; 
+ Fri, 18 Oct 2019 12:06:19 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id u1sm5760080wmc.38.2019.10.18.12.06.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Oct 2019 12:06:18 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] tests/vm: Let subclasses disable IPv6
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20191018181705.17957-1-ehabkost@redhat.com>
+ <20191018181705.17957-3-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c340e3bd-4ddf-dd21-e36d-5f724fd6f355@redhat.com>
+Date: Fri, 18 Oct 2019 21:06:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191018161044.6983-3-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191018181705.17957-3-ehabkost@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,24 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/19 9:10 AM, David Hildenbrand wrote:
-> We missed that we always read a "double-wide even-odd element
-> pair of the fourth operand". Fix it in all four variants.
-> 
-> Fixes: 1b430aec4157 ("s390x/tcg: Implement VECTOR MULTIPLY AND ADD *")
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 10/18/19 8:17 PM, Eduardo Habkost wrote:
+> The mechanism will be used to work around issues related to IPv6
+> on the netbsd image builder.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  target/s390x/vec_int_helper.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>   tests/vm/basevm.py | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+> index b5d1479bee..2929de23aa 100755
+> --- a/tests/vm/basevm.py
+> +++ b/tests/vm/basevm.py
+> @@ -57,6 +57,8 @@ class BaseVM(object):
+>       arch =3D "#arch"
+>       # command to halt the guest, can be overridden by subclasses
+>       poweroff =3D "poweroff"
+> +    # enable IPv6 networking
+> +    ipv6 =3D True
+>       def __init__(self, debug=3DFalse, vcpus=3DNone):
+>           self._guest =3D None
+>           self._tmpdir =3D os.path.realpath(tempfile.mkdtemp(prefix=3D"=
+vm-test-",
+> @@ -81,7 +83,8 @@ class BaseVM(object):
+>           self._args =3D [ \
+>               "-nodefaults", "-m", "4G",
+>               "-cpu", "max",
+> -            "-netdev", "user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22",
+> +            "-netdev", "user,id=3Dvnet,hostfwd=3D:127.0.0.1:0-:22" +
+> +                       (",ipv6=3Dno" if not self.ipv6 else ""),
+>               "-device", "virtio-net-pci,netdev=3Dvnet",
+>               "-vnc", "127.0.0.1:0,to=3D20"]
+>           if vcpus and vcpus > 1:
+>=20
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
-
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
