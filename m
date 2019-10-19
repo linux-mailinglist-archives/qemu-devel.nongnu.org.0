@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D8ADD8E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 16:02:58 +0200 (CEST)
-Received: from localhost ([::1]:55340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7D5DD946
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:14:14 +0200 (CEST)
+Received: from localhost ([::1]:56532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLpJo-00071r-CU
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 10:02:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40208)
+	id 1iLqQm-0002tV-9x
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iLpHa-0006Qd-Rk
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 10:00:41 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLqNn-0001BU-Is
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iLpHW-0007DS-Q0
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 10:00:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60878)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iLpHW-0007Bm-Gy
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 10:00:34 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 14730368B1
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 14:00:32 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id k9so4081416wmb.0
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 07:00:32 -0700 (PDT)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLqNm-0006wb-Dz
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:07 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53861)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLqNl-0006sk-UK
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:06 -0400
+Received: by mail-wm1-x341.google.com with SMTP id i16so8955423wmd.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MF0EQPP3cD8SJXZvLkrocXszvXXa5m91dnqBgj92aeQ=;
+ b=WPtHIj+28/Sh13vOIiM9hndXFcypP5AuIER2wK+I9mR32cLrXFzhG/JEnnJWihAOAr
+ rbAkI3+QIXyUKR+8fXaWsYdJyjOnADS+DXFUssq2ZFhLKhv6WGZIX/dHHUyoYO9xqQ6c
+ OkQy/fA8hBlo/gZxd8xgkgMTnX5NjBQVCMQyH7B7z5qAcMpZ4sB4pf5IRJ6LJOyWTCvB
+ Wwf1ZDadY/niBFH8jotyvqw46qZa30L6SER+gBVuYMB1MvQ8wVGqBMBlYqmbISOrT86V
+ 70ZpgvXC0+BSzmKWjhi8t40LlGe5TG1FmF0+K7+ekeQq7YqLo/kJaGOyIg+e8R1nPD+Q
+ bLfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KP3vwjUBEB84k8OE1O8olnCOg3vO9FYTOfM95m1nWOY=;
- b=WdgU1USiv866JNA6RLzVl6FldNGYo0KX5vc/nKRfDgiq6z8M8x3QAkv4Q4IsCamVLv
- +NuzlE2IzhUU6i2V8FGqlWkqj0esIPb9Q2hLh0c8h2hnCF6ozQr0YpXTIl61b9AGSEFk
- aYS3H9n1zOhyNYAPkBbZ4v6ETjVkfouoUY2zdg8fbhPip8RtS3n05EvUOBLRnYTns6P1
- cWGI5mZCcvapezUcazV8Ak7U4yjkGPHRjKA7eO7NDzAJ6bYW1r8JSOoRAAOeAIzXujO/
- UeEI2bbEt6MMeKb0vdSe8noqHVZCrUm1VEH9huZ04FTOx13ZdF42CoAOhERmN0eCqfd4
- /UKw==
-X-Gm-Message-State: APjAAAUyMdEVLQvOBYZizTWjlfAzE2vfGGKLxPiXd/2jIhj//GwiIgLk
- 9p94BEbu7YWIkJpTfAQcRfflMs/s0G2HQ1PcQHJcrdYS9y+qCHezcrBh4tcYqci4PtrU7NeW/pI
- 2KhT2MPJUAZAdPCo=
-X-Received: by 2002:a1c:4c03:: with SMTP id z3mr12338756wmf.174.1571493630783; 
- Sat, 19 Oct 2019 07:00:30 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyV6qcwnkahEIWdsQ2Aqhq4hVfSdpKgV9ufvq3gfQC4GHf1PMG3zkzKP41gmyc3E9bkyT3n7w==
-X-Received: by 2002:a1c:4c03:: with SMTP id z3mr12338734wmf.174.1571493630437; 
- Sat, 19 Oct 2019 07:00:30 -0700 (PDT)
-Received: from steredhat (host93-199-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.199.93])
- by smtp.gmail.com with ESMTPSA id z13sm9500067wrm.64.2019.10.19.07.00.29
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=MF0EQPP3cD8SJXZvLkrocXszvXXa5m91dnqBgj92aeQ=;
+ b=RsDC7uilteZNPZFm07PXgjvGoK08xHHlSkXLgmTxG7a/Av20GttbqlGVvWTtHY2Wfl
+ eoBqG5mPAtDMA/FzKE50yqvhFG6dBBL3bWHDWT5aPEWB9m76nT7e/oYUDi6tToLQ1X8j
+ tVxV4m9sLnoewmrisSh//rT9vf90o0oiRTEXw41jXZQ3PAbAJoGlG6QcEFJ56CEaMnsE
+ /fdEgqDxfR1gUJncwg0HwxiOeObYucYs8xe7uOi53zKjCxu4cHmBHoIGbf3PN0ry3z6u
+ 8ZE6kja84NZDfkBra+iQhf9QjpdiQpGJMnd/qmfwk3xkKrTv9Ro9xalSF8os2rLGvWtb
+ 4r5Q==
+X-Gm-Message-State: APjAAAUrFOQllgqoNCDNi9hZDctHA34QIfsh6Rrg4FjjiGlIebnyzo1l
+ +dPpg0e7h7VhghmuU9WoQ5khVrRx
+X-Google-Smtp-Source: APXvYqzsfIPCghwHztq2QUKDQ9z8Q/+2AqxoLFPujLe4Xx4nxIHhwbJiX4ovodk8DR2XDpJP+67bjg==
+X-Received: by 2002:a05:600c:143:: with SMTP id
+ w3mr11172712wmm.35.1571497860713; 
+ Sat, 19 Oct 2019 08:11:00 -0700 (PDT)
+Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.10.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 07:00:29 -0700 (PDT)
-Date: Sat, 19 Oct 2019 16:00:27 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] Do not use %m in common code to print error messages
-Message-ID: <20191019140027.yzr6ccalmu6nmz53@steredhat>
-References: <20191018130716.25438-1-thuth@redhat.com>
- <20191018134215.u6psfffrrxlsa2ns@steredhat>
- <1f36c112-fabb-df41-e01d-476e4c86186e@gmx.com>
- <f8fc0de2-b4b0-a75a-a00f-c6bca6914159@redhat.com>
+ Sat, 19 Oct 2019 08:10:59 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/11] tests/acceptance: Fix 64-bit MIPS target tests
+Date: Sat, 19 Oct 2019 17:10:47 +0200
+Message-Id: <20191019151058.31733-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8fc0de2-b4b0-a75a-a00f-c6bca6914159@redhat.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,56 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Kamil Rytarowski <kamil@netbsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Kamil Rytarowski <n54@gmx.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, PhilMD <f4bug@amsat.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 18, 2019 at 06:01:22PM +0200, Thomas Huth wrote:
-> On 18/10/2019 15.49, Kamil Rytarowski wrote:
-> > On 18.10.2019 15:42, Stefano Garzarella wrote:
-> >> On Fri, Oct 18, 2019 at 03:07:16PM +0200, Thomas Huth wrote:
-> >>> The %m format specifier is an extension from glibc - and when compiling
-> >>> QEMU for NetBSD, the compiler correctly complains, e.g.:
-> >>>
-> >>> /home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c: In function 'sigfd_handler':
-> >>> /home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c:64:13: warning: %m is only
-> >>>  allowed in syslog(3) like functions [-Wformat=]
-> >>>              printf("read from sigfd returned %zd: %m\n", len);
-> >>>              ^
-> >>> Let's use g_strerror() here instead, which is an easy-to-use wrapper
-> >>> around the thread-safe strerror_r() function.
-> >>>
-> >>> While we're at it, also convert the "printf()" in main-loop.c into
-> >>> the preferred "error_report()".
-> >>>
-> >>> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> >>> ---
-> >>>  v2: Do not try to g_free() the strings
-> >>>
-> >>>  hw/misc/tmp421.c | 4 ++--
-> >>>  util/main-loop.c | 3 ++-
-> >>>  util/systemd.c   | 4 ++--
-> >>>  3 files changed, 6 insertions(+), 5 deletions(-)
-> >>
-> >> There are many uses of %m also in hw/vfio/ but that's Linux stuff.
-> >> Should we change those too or it doesn't matter since it never really
-> >> compiled on NetBSD?
-> > 
-> > It's a gnu (glibc) extension and linux can use alternative libc
-> > implementations. Probably most of them capable to host qemu use %m.
-> 
-> I think I read somewhere that other libcs on Linux also support %m (like
+From: PhilMD <f4bug@amsat.org>
 
-Good to know!
+Commit 9090d3332cdcc introduced a regression which makes the
+64-bit target tests to fail.
 
-> musl), but I just can't find that reference anymore. Anyway, we can
-> still fix that later in case someone hits the issue.
-> 
+This series fix it (by previously refactoring the linux_ssh_malta
+test), and also add another test for the 5KEc CPU.
 
-Yes, make sense to me.
+I had to include Avocado-related patches not yet merged again to
+avoid sending patches that will later not apply.
 
-Thanks,
-Stefano
+Please review,
+
+Phil.
+
+Cleber Rosa (1):
+  Acceptance tests: refactor wait_for_console_pattern
+
+Philippe Mathieu-Daudé (10):
+  tests/acceptance: Fixe wait_for_console_pattern() hangs
+  tests/acceptance: Send <carriage return> on serial lines
+  tests/acceptance: Refactor exec_command_and_wait_for_pattern()
+  tests/boot_linux_console: Use Avocado archive::gzip_uncompress()
+  tests/boot_linux_console: Run BusyBox on 5KEc 64-bit cpu
+  tests/ssh_linux_malta: Run tests using a snapshot image
+  tests/ssh_linux_malta: Remove duplicated test
+  tests/ssh_linux_malta: Match stricter console output
+  tests/ssh_linux_malta: Refactor how to get image/kernel info
+  tests/ssh_linux_malta: Fix 64-bit target tests
+
+ .mailmap                                  |   1 +
+ tests/acceptance/avocado_qemu/__init__.py |  45 ++++++++
+ tests/acceptance/boot_linux_console.py    |  88 ++++++++-------
+ tests/acceptance/linux_ssh_mips_malta.py  | 124 +++++++++++-----------
+ 4 files changed, 159 insertions(+), 99 deletions(-)
+
+-- 
+2.21.0
+
 
