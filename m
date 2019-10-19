@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D111DD947
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:14:15 +0200 (CEST)
-Received: from localhost ([::1]:56536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE089DD948
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:14:16 +0200 (CEST)
+Received: from localhost ([::1]:56534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqQo-0002ze-6q
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45643)
+	id 1iLqQp-0002wr-EX
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNn-0001BT-Eq
+ id 1iLqNn-0001BV-JD
  for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNm-0006wT-DT
+ id 1iLqNm-0006wl-J2
  for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:07 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52093)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33770)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNl-0006vL-Uh
+ id 1iLqNm-0006vx-DM
  for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:06 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q70so1771463wme.1
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:04 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id r17so11356179wme.0
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZIx2URSbhQtQxwSH9NicQbjsqcplkfjt7F3Xbrr+u4U=;
- b=Kd4l1uFFazh2DoCkM8fdoqUDeViykhAvUrdMDWy7uphQvUivYxmBoIHWSUFJEpDppp
- dNy3vwpMFoZ7/x5vM/oa2Upgl1JyyoWgVpPbX3xp2tQ4wHF9uvrCTXStZhjseYPeR9a8
- oAHXaUJwxLxbexN3nSuZl05d/3NQ9y9tQpbocxf84rYXc9fwmXuROG6L/IrsLaRgXc2O
- XHiCNRgpZ2+Js2/CCUqg52rtIAJB1TRr1KWZoaLn2/xnMPRTaeD34e78SascEq6mZFzm
- HhdREVzZTvS2PewK+6vkefrw+fnjFNwcYBAdj6xsItFetWWcKYPrPKM5/w+SmTZOVTJs
- gJSg==
+ bh=L17Gkpekc5/KDSlV7uWJjFxc0f5cH+nD4BY7UX0P8ME=;
+ b=cdvTdsHLJ9xm713HYol6fuZg3dwqzEwv2lt/uVKRv2cQXDtsSqCzZRvxWsSoMoz73Q
+ 86Uqh6GDgMDwM2k4IMj8CWwRcfRufCzbkk8Q8Y8Xp0rX9jhHhLkFoiHKN4NA8T1fGJej
+ 9CqgSWbGQDEsoL43yf/J/4pv3P+jTpchbwnf329qOdbm6lffePCO6R6MV8TJ4lP8U9eA
+ saQBCCcWiZB0LDKa+8pqAGH9c8CdcqPLFWJ/9iAlI94swRdLd+ulnbNHxm/4Ei+FCmuw
+ YTsANHOX+GRv2TF19ffFAjgOo+5rxBK8jxFuFUZ+O7uqOZ3oWhZFkc/tbB3Muvbltwxl
+ j5Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZIx2URSbhQtQxwSH9NicQbjsqcplkfjt7F3Xbrr+u4U=;
- b=UKzVWKPQx4QmLuHKIYVndJ4zx/wgKt210O8povMJ7DBSwnvBoECDcc3Ozk3nHMKw5P
- vjmpQ3NRqbuH4/xzhk70mWgZGeN82H3RXXlEIcs2Wx93uh8P34pQ9d+DzNIbr17wHgmu
- qXN/WMo432JUHP3Om14O/M8VhuGJz+bLR1rVr/fumyoUmweQtjPWVJxWQokxYeQXA0LK
- M+00NAojQcQUi7dMskGEaFANF+ypDApjSzsQUpZn4/IDpvUDrBxol91rufNsInGdltcS
- BDYcpITEmvHcTN7VpPyQSNHo7+cHDDjHYakn2TG8dAqap4QeKiKTiw/WcaEn4MI6lBJi
- 6BWA==
-X-Gm-Message-State: APjAAAX34ab+MaaZbk2junZipVC7JelwtWQGAtkOAMIJ93qWamsBqes+
- VdRHI2n7LUL03tyTo/8mnI5/dTO6
-X-Google-Smtp-Source: APXvYqwAtQM9RTXi4wAFgi/Ytd+nw+zbTN0FVM8/WXUPWSO0Dn1Iu/K5oV2SFqeS1/zVFwHRjUqhPA==
-X-Received: by 2002:a1c:7517:: with SMTP id o23mr12614037wmc.34.1571497863792; 
- Sat, 19 Oct 2019 08:11:03 -0700 (PDT)
+ bh=L17Gkpekc5/KDSlV7uWJjFxc0f5cH+nD4BY7UX0P8ME=;
+ b=Whqgz/qqaCBVZAwDajfVs6FqdwMdSxvNvxT/zIAAvUl5SIlwWgWJGXUk5AATb0zZ+I
+ Zsv9WbnLizlmatAQh0I/Ht8QNrn3bEeQiCVlXRvF92l26tAT6dOzHijH9DV3dlxS00Gg
+ NwqXCpcCNCWjK+TsO7kCwhQwHEs9sg1pA5LRRHP17oqCuWsi2/Lr0dNU1B6zHlmJmotX
+ YKqqC+zLxD/72e4OB2io+V0zi4D1f0QTVGySBeE1Ipd4hPPAQ0ywLXbWRGK+mwXwR+sg
+ BLksWGnyAkrRxm4nd0a2G0kXP6NwcB8EKsZPXVFGTOUcOccZkrVOLy8YVbz+Y8PbhYvT
+ JeQA==
+X-Gm-Message-State: APjAAAVICbGexYRoytUPPvpTtHI1JGm3g4tLfBe0p5qKGV0aqtw2BCXx
+ f+SLqueOcnAfwOdfoN5Xw8VEf/GF
+X-Google-Smtp-Source: APXvYqyOL9OvMOahIfKpTn7TTLB+igP5pLZuuf2G6z3XYDavh2IbDeHUpp2qW53qdzuHaRHOWDO1Aw==
+X-Received: by 2002:a05:600c:143:: with SMTP id
+ w3mr11172913wmm.35.1571497865239; 
+ Sat, 19 Oct 2019 08:11:05 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.11.02
+ by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.11.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 08:11:02 -0700 (PDT)
+ Sat, 19 Oct 2019 08:11:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] tests/acceptance: Fixe wait_for_console_pattern() hangs
-Date: Sat, 19 Oct 2019 17:10:49 +0200
-Message-Id: <20191019151058.31733-3-f4bug@amsat.org>
+Subject: [PATCH 03/11] tests/acceptance: Send <carriage return> on serial lines
+Date: Sat, 19 Oct 2019 17:10:50 +0200
+Message-Id: <20191019151058.31733-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019151058.31733-1-f4bug@amsat.org>
 References: <20191019151058.31733-1-f4bug@amsat.org>
@@ -70,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,36 +84,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Some firmwares don't parse the <Newline> control character and
+expect a <carriage return>.
 
-Because of a possible deadlock (QEMU waiting for the socket to
-become writable) let's close the console socket as soon as we
-stop to use it.
-
-Suggested-by: Cleber Rosa <crosa@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 1 +
- 1 file changed, 1 insertion(+)
+ tests/acceptance/boot_linux_console.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index e3101cba30..a0450e5263 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -74,6 +74,7 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
-         if success_message in msg:
-             break
-         if failure_message and failure_message in msg:
-+            console.close()
-             fail = 'Failure message found in console: %s' % failure_message
-             test.fail(fail)
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 8897e0c253..497faa4f7f 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -34,7 +34,7 @@ class BootLinuxConsole(Test):
+                                  failure_message='Kernel panic - not syncing')
+ 
+     def exec_command_and_wait_for_pattern(self, command, success_message):
+-        command += '\n'
++        command += '\r\n'
+         self.vm.console_socket.sendall(command.encode())
+         wait_for_console_pattern(self, success_message)
  
 -- 
 2.21.0
