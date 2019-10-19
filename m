@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B92DDB8B
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 01:59:02 +0200 (CEST)
-Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9D3DDB88
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 01:57:19 +0200 (CEST)
+Received: from localhost ([::1]:42226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLyce-0006Kp-Te
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 19:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34670)
+	id 1iLyb0-0004Pw-HX
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 19:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34701)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLyRh-0000SH-6L
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:42 -0400
+ id 1iLyRj-0000W5-G3
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLyRg-0005f1-1T
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:41 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53231)
+ id 1iLyRh-0005g5-RY
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:43 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33755)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLyRf-0005ef-PY; Sat, 19 Oct 2019 19:47:39 -0400
-Received: by mail-wm1-x343.google.com with SMTP id r19so9572273wmh.2;
- Sat, 19 Oct 2019 16:47:39 -0700 (PDT)
+ id 1iLyRh-0005fo-L8; Sat, 19 Oct 2019 19:47:41 -0400
+Received: by mail-wm1-x341.google.com with SMTP id r17so11892155wme.0;
+ Sat, 19 Oct 2019 16:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O5oiXx5QsqcxjGrnz0sfvOqjkOSxCB/5RAZrFYtWlbA=;
- b=hSEyfflrQ3eukOQaelqiuw7eyOdcySc7vTMK2pnmAvEE7J1zsr9JlhoMrJoMDunNbM
- 5GDZNNr15LpFVXKt+vJJDjWu7wT42+PZJqSyeoBPEdsAgTEUQRUrUOi/3EXNgwdO5Jcb
- w40OPmiaSfd7NJrYoxTbfBvk48iL/mU5Q9+qeOCGjskdY7fxmPCfMsTANaPmoLbFW5Xh
- xonxBvtxotLD5L/CXpfgQ/nlNUpt927sZFnnykOTAn3/1Owpf8rbWwiXbkXqq/cEl41H
- 3M8ZEAQAZcxouQfiS7S3zox0l7m/rUQUZFkts13pOI37QJvOYVx8X1JbFHkuiFET875N
- /aCA==
+ bh=/zFVPjuAiYGtT3eOPkbE1HDbnoPdHl9DaAfhFHqH+Qw=;
+ b=t/pEgVtGZdKrTtAtQtarzSMXmo07HjtOI3GpSUmw6fKHOQ6M0V0ZS/NuBb23I6RTsu
+ BfI7OL9QxVhnfVVceeGfNLwxk3JuvSj801MPMPbHKc6qH2XSoGuM8Zn67SIWc7Z5vX72
+ Q7gKlMkFzCS91c5eeKlPjOrlqjAMrR5tOR28zosWLAksg/TSa6e+09H1ucJapFUMQ6Wg
+ bOBoSMjdR24Q7pZLgTB3dWVGpHfOMAKd7qecBLoT3Bxvh+XE/ioNtmDwsu87CH5AswvI
+ De6y+n9x12uMaJAykdwag+WuVa+mw+aCtrLiEEyrWU3Sxe/WIqma55B8OLvcvl4QE4vG
+ Rvig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=O5oiXx5QsqcxjGrnz0sfvOqjkOSxCB/5RAZrFYtWlbA=;
- b=D94CEFB/WuzNm2mP3dW2RniE5O1GPNQlNfn7BxjdmS6BnH8l28ZEizpW+b7waOrsk5
- btfOsHNAKT6iNoF85w6/8wyg29e/ShAjuZjgYTjTxWy0JJrlPFSfHxP7AOCqveEYWKT9
- cP7AgbNwB4thG/EKHt2pGvntJ/fbnEmPwbhwC9TI9jRuEzZNbqWIoKgN6x9UTOAcLinW
- BtTWrquKedwyYkvEteiCLRyI5ke3M+m3ZtJpC7QbaN4emnX4xZZbUdPKf1/V1L9LaL8S
- +dAFJIniNs7avhuA0MvuVn72H/S1Q3seAapiENBoF7FEmtQY2nHknpBgHsNPqS+FKMSg
- 5s1g==
-X-Gm-Message-State: APjAAAVSkTeQE37C4ZfdAf+ZLU/5+Vfi63M1zfwvx/L3Nyjak9uwjsQ1
- 7qnK7UE+VQT0voMysAPMPbtry0M0
-X-Google-Smtp-Source: APXvYqzVf2SptqGe6/JPvUC2cTQYj6I9cxO0T0camCpOVKQUvO4gEWq/6Bi0zHYk/Kkbj3noXHD+Vg==
-X-Received: by 2002:a05:600c:2908:: with SMTP id
- i8mr12735560wmd.20.1571528858686; 
- Sat, 19 Oct 2019 16:47:38 -0700 (PDT)
+ bh=/zFVPjuAiYGtT3eOPkbE1HDbnoPdHl9DaAfhFHqH+Qw=;
+ b=nONkAclewCtjLGBlPTT4vOMNDpJhBP3ChD3dc73CYjdVOYYmTeyb+6BdJpkztasB30
+ Ry0PwRFCD7vpuaVluvNIdLl4wvWIWMhYJ8sU80/goIsbzBfjU2gXiuSU+KJh2q3iJ0AQ
+ SzuApAKpviVb655JnC6MSZ8jsw5gB3QaEw2V3YUO6gZAlWhJPsKhjHKOqJk5QhWk1w4x
+ i1tLeWZE/YIsaL3xrOWr+WSoOOQKwe8GdXVx8PX6rDfV/aDwEBHo360xEgcR3CPst4uQ
+ VmMMGQx0eo1fGAU2KsD9B/7yGDTflZq/PqOlTpWzZMapEkqqUBaZkcsjLFrLwCuq3sOW
+ h7/g==
+X-Gm-Message-State: APjAAAUyo4nt18h3zXGwWhyBegvKTWSKP5VE8Awt8NIKD3tTucZ4URaZ
+ y8lqeLIwIynd1i1EemujGEkTNbDr
+X-Google-Smtp-Source: APXvYqwEzJ04bviIfXR2Si9rnfC7y0OycHhw8Eq0icutULMJWzElqeZF8hueUlkWJ31cMXtE2hJJnA==
+X-Received: by 2002:a1c:1bd8:: with SMTP id b207mr12774993wmb.62.1571528860433; 
+ Sat, 19 Oct 2019 16:47:40 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id u1sm10433763wrp.56.2019.10.19.16.47.37
+ by smtp.gmail.com with ESMTPSA id u1sm10433763wrp.56.2019.10.19.16.47.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 16:47:38 -0700 (PDT)
+ Sat, 19 Oct 2019 16:47:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/16] hw/arm/bcm2836: Rename enabled_cpus -> enabled_cores
-Date: Sun, 20 Oct 2019 01:47:11 +0200
-Message-Id: <20191019234715.25750-13-f4bug@amsat.org>
+Subject: [PATCH v3 13/16] hw/arm/raspi: Make the board code modular
+Date: Sun, 20 Oct 2019 01:47:12 +0200
+Message-Id: <20191019234715.25750-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019234715.25750-1-f4bug@amsat.org>
 References: <20191019234715.25750-1-f4bug@amsat.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,65 +96,195 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now use -smp cores=<n> to limit the number of cores powered
-on reset. Rename the 'enabled_cpus' variable as 'enabled_cores'
-to better match the new use. No functional changes.
+Our code currently create the raspi2 (based on the BCM2836)
+and the raspi3 (on the BCM2837). Similarly, the raspi4 is
+based on the BCM2838. To be able to add the new board,
+make the current code more modular:
+
+- Dynamically fills the 'board-rev' value
+- Allow DRAM sizes different than 1 GiB
+
+Rename the board model name as 'B' since this is the one
+encoded in the 'board-rev' tag.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/bcm2836.c         | 4 ++--
- hw/arm/raspi.c           | 2 +-
- include/hw/arm/bcm2836.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/arm/raspi.c | 107 +++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 94 insertions(+), 13 deletions(-)
 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index ada35e5620..e3cef69687 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -202,7 +202,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-         }
- 
-         /* start powered off if not enabled */
--        object_property_set_bool(OBJECT(&s->cpu[n].core), n >= s->enabled_cpus,
-+        object_property_set_bool(OBJECT(&s->cpu[n].core), n >= s->enabled_cores,
-                                  "start-powered-off", &err);
-         if (err) {
-             error_propagate(errp, err);
-@@ -235,7 +235,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property bcm2836_props[] = {
--    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus,
-+    DEFINE_PROP_UINT32("enabled-cores", BCM283XState, enabled_cores,
-                        BCM283X_NCPUS),
-     DEFINE_PROP_END_OF_LIST()
- };
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 45d3f91f95..b1b488ca53 100644
+index b1b488ca53..004804bdb3 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -191,7 +191,7 @@ static void raspi_init(MachineState *machine, int version)
-     object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ram),
+@@ -13,6 +13,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "hw/arm/bcm2836.h"
+@@ -29,8 +30,67 @@
+ #define FIRMWARE_ADDR_3 0x80000 /* Pi 3 loads kernel.img here by default */
+ #define SPINTABLE_ADDR  0xd8 /* Pi 3 bootloader spintable */
+ 
+-/* Table of Linux board IDs for different Pi versions */
+-static const int raspi_boardid[] = {[1] = 0xc42, [2] = 0xc43, [3] = 0xc44};
++enum BoardIdManufacturer {
++    M_SONY_UK = 0,
++    M_EMBEST = 2,
++};
++
++enum BoardIdChip {
++    C_BCM2835 = 0,
++    C_BCM2836 = 1,
++    C_BCM2837 = 2,
++};
++
++enum BoardIdType {
++    T_2B = 0x04,
++    T_3B = 0x08,
++};
++
++enum BoardIdRevision {
++    R_1_0 = 0,
++    R_1_1 = 1,
++    R_1_2 = 2,
++    R_1_3 = 3,
++};
++
++static const char *processor_typename[] = {
++    [C_BCM2836] = TYPE_BCM2836,
++    [C_BCM2837] = TYPE_BCM2837,
++};
++
++typedef struct BoardInfo BoardInfo;
++
++struct BoardInfo {
++    /* Table of Linux board IDs for different Pi versions */
++    int board_id;
++    /*
++     * Board revision codes:
++     * www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/
++     */
++    struct {
++        enum BoardIdType type;
++        enum BoardIdRevision revision;
++        enum BoardIdChip chip;
++        enum BoardIdManufacturer manufacturer;
++    } board_rev;
++    uint64_t ram_size_min;
++    uint64_t ram_size_max;
++};
++
++static const BoardInfo bcm283x_boards[] = {
++    [2] = {
++        .board_id = 0xc43,
++        .board_rev = { T_2B, R_1_1, C_BCM2836, M_EMBEST },
++        .ram_size_min = 1 * GiB,
++        .ram_size_max = 1 * GiB,
++    },
++    [3] = {
++        .board_id = 0xc44,
++        .board_rev = { T_3B, R_1_2, C_BCM2837, M_SONY_UK },
++        .ram_size_min = 1 * GiB,
++        .ram_size_max = 1 * GiB,
++    },
++};
+ 
+ typedef struct RasPiState {
+     BCM283XState soc;
+@@ -116,7 +176,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+     static struct arm_boot_info binfo;
+     int r;
+ 
+-    binfo.board_id = raspi_boardid[version];
++    binfo.board_id = bcm283x_boards[version].board_id;
+     binfo.ram_size = ram_size;
+     binfo.nb_cpus = machine->smp.cpus;
+ 
+@@ -148,7 +208,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+      * the normal Linux boot process
+      */
+     if (machine->firmware) {
+-        hwaddr firmware_addr = version == 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
++        hwaddr firmware_addr = version >= 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
+         /* load the firmware image (typically kernel.img) */
+         r = load_image_targphys(machine->firmware, firmware_addr,
+                                 ram_size - firmware_addr);
+@@ -172,16 +232,32 @@ static void raspi_init(MachineState *machine, int version)
+     BlockBackend *blk;
+     BusState *bus;
+     DeviceState *carddev;
++    char *size_str;
++    int board_rev;
++    const char *soc_type;
+ 
+-    if (machine->ram_size > 1 * GiB) {
++    if (machine->ram_size < bcm283x_boards[version].ram_size_min) {
++        size_str = size_to_str(bcm283x_boards[version].ram_size_min);
++        error_report("Requested ram size is too small for this machine: "
++                     "minimum is %s", size_str);
++        g_free(size_str);
++        exit(1);
++    }
++    if (machine->ram_size > bcm283x_boards[version].ram_size_max) {
++        size_str = size_to_str(bcm283x_boards[version].ram_size_max);
+         error_report("Requested ram size is too large for this machine: "
+-                     "maximum is 1GB");
++                     "maximum is %s", size_str);
++        g_free(size_str);
++        exit(1);
++    }
++    if (!is_power_of_2(machine->ram_size)) {
++        error_report("Requested ram size is not a power of 2");
+         exit(1);
+     }
+ 
++    soc_type = processor_typename[bcm283x_boards[version].board_rev.chip];
+     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
+-                            version == 3 ? TYPE_BCM2837 : TYPE_BCM2836,
+-                            &error_abort, NULL);
++                            soc_type, &error_abort, NULL);
+ 
+     /* Allocate and map RAM */
+     memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
+@@ -192,9 +268,14 @@ static void raspi_init(MachineState *machine, int version)
                                     &error_abort);
      object_property_set_int(OBJECT(&s->soc), machine->smp.cores,
--                            "enabled-cpus", &error_abort);
-+                            "enabled-cores", &error_abort);
-     int board_rev = version == 3 ? 0xa02082 : 0xa21041;
-     object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
-                             &error_abort);
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index 787ab76738..2c3f1e6c6a 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -33,7 +33,7 @@ typedef struct BCM283XState {
-     /*< public >*/
+                             "enabled-cores", &error_abort);
+-    int board_rev = version == 3 ? 0xa02082 : 0xa21041;
+-    object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
+-                            &error_abort);
++
++    board_rev = ((63 - clz64(machine->ram_size / MiB)) << 20)
++                | (bcm283x_boards[version].board_rev.manufacturer << 16)
++                | (bcm283x_boards[version].board_rev.chip << 12)
++                | (bcm283x_boards[version].board_rev.type << 4)
++                | (bcm283x_boards[version].board_rev.revision << 0);
++    object_property_set_int(OBJECT(&s->soc), board_rev,
++                            "board-rev", &error_abort);
+     object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_abort);
  
-     char *cpu_type;
--    uint32_t enabled_cpus;
-+    uint32_t enabled_cores;
+     /* Create and plug in the SD cards */
+@@ -221,7 +302,7 @@ static void raspi2_init(MachineState *machine)
  
-     struct {
-         MemoryRegion bus;
+ static void raspi2_machine_init(MachineClass *mc)
+ {
+-    mc->desc = "Raspberry Pi 2";
++    mc->desc = "Raspberry Pi 2B";
+     mc->init = raspi2_init;
+     mc->block_default_type = IF_SD;
+     mc->no_parallel = 1;
+@@ -243,7 +324,7 @@ static void raspi3_init(MachineState *machine)
+ 
+ static void raspi3_machine_init(MachineClass *mc)
+ {
+-    mc->desc = "Raspberry Pi 3";
++    mc->desc = "Raspberry Pi 3B";
+     mc->init = raspi3_init;
+     mc->block_default_type = IF_SD;
+     mc->no_parallel = 1;
 -- 
 2.21.0
 
