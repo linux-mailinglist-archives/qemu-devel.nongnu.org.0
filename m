@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A19DD95C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:26:23 +0200 (CEST)
-Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5378EDD958
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:24:47 +0200 (CEST)
+Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqcY-0008C1-6K
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46113)
+	id 1iLqb0-0005kA-7S
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:24:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iLqSO-0006CV-PQ
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:15:53 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLqZF-0004PP-Vr
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:22:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iLqSN-00010l-FT
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:15:52 -0400
-Resent-Date: Sat, 19 Oct 2019 11:15:52 -0400
-Resent-Message-Id: <E1iLqSN-00010l-FT@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21454)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iLqSN-0000zW-7S
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:15:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571498136; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Fv4H8k9OiUtsa/pUxDpAciJYRpKdeiCFunPnIrATUBV+Z1efs/eVkI4rDiLSKvtxqlCcWERJoBmi8SNu0HTDTds0j7cECX86giU6IEpX7lSQOBcVZs8cehzfptykKO4YghNlSc3+Rn0Yd9SbsPBqjHj5Nminej5bitLYRHQATU4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571498136;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=DPkHGHbgrY9bzDxZgLXBRq8xa0tqZEDZpvEYYzR+n0w=; 
- b=l4HQFD5g1aSWHjxfmHLP5e8jz7TGrE2Q7nUnn/CgGgTt9UnqezJzAmcMNmrzS5Vrxa1/UYKxq/xu+nJBKb/ehWtT6Z8oUfH6vHJhANJuk7bSejuFFWiF9dvcehZrCnIFv3Ii2ZnanxjuIxouXdRsB+WvqctxICkF0Mkr1Q9rzck=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571498135823258.4489507448245;
- Sat, 19 Oct 2019 08:15:35 -0700 (PDT)
-In-Reply-To: <20191018202040.30349-1-jfreimann@redhat.com>
-Subject: Re: [PATCH v4 0/11] add failover feature for assigned network devices
-Message-ID: <157149813415.24734.17422744406256812779@37313f22b938>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLqZE-0004gQ-IQ
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:22:57 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43956)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLqZE-0004fo-BP
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:22:56 -0400
+Received: by mail-wr1-x442.google.com with SMTP id c2so3967679wrr.10
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pKp5LIfFO72lH7LZCj9kR6HteTkZAhFNV7prdXzOlWM=;
+ b=ldxqJHeuaNN7+YlU2kMnGCkcdHmjrY4qnO48KYC++INsfVFAmVnJcU1GHi0Nd9f76T
+ vPrAQ4fae4a9xQu5DnPpwCMlxxA7+PV4X5OX89sT9108ul1NrPuQ4mZfbM8qAmEDOofr
+ 5/LNac5qBdNj5B8+h32kWobLKJWzwkP1EKfekvj55PtGzqqXfCiu4qXqYhAalGQXtBu1
+ nVxoYntvadZW83gQicndSZ/hYekD3YoG8m7u9fyJyvKhw8sv6aFVx7fZwZ3B1OF/PWPc
+ iKWK7A3B3oUyclrX7nfKyj8y5r6ETmT9JlyxmZtSnIAceMJQcfVDs/V6dq4cNBJMfO8q
+ U+oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pKp5LIfFO72lH7LZCj9kR6HteTkZAhFNV7prdXzOlWM=;
+ b=U2cOdMr+xtE/Z8tVsgutipDENs97xg9bFLTu4vENZ7NlFJB62+zi+DI/8wWgEsP5er
+ fAiy/rSwQwqB1T3OKqD/9A/kyBd83//GGJLPrNaa2Y9r7Z3etqQ4MKbJQcOW1Yd1nU6C
+ GKEAmdbCnNXxUsttRphbz/sV64JNdljvzRG4QTH1XP35GM+h42uhgAiJScLv8W13a94l
+ KmS/aJbwgy3mB7h7Dc8q6EgIRsMEKsi3YfLIYqG2aDNnQ0jiCwCN6Jlz6KHBVvPSRKwQ
+ FoV0EFMUbNusTE02pX4H4TGILIBn4ezlueVDslSIR+PhNdcIW0Rkzfq6eBON3syOng4E
+ dTvw==
+X-Gm-Message-State: APjAAAVLkDCnphORUUEXuuIG6fvJcTIgd+BX8DqRrbDVV/FpzOlQRNvD
+ 331+JBOCuume0xlECWt6fQg=
+X-Google-Smtp-Source: APXvYqx6O2WT34D+UITlBeedUzfs+xf5uJzp5VIHvaMis7BnwDWrCEy8LdtApQd0zYZnG2uIDg5AoA==
+X-Received: by 2002:a5d:6992:: with SMTP id g18mr12957485wru.237.1571498575080; 
+ Sat, 19 Oct 2019 08:22:55 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id q66sm9782097wme.39.2019.10.19.08.22.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Oct 2019 08:22:54 -0700 (PDT)
+Subject: Re: [PATCH v2 20/20] hw/pci-host/i440fx: Remove the last PIIX3 traces
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20191018134754.16362-1-philmd@redhat.com>
+ <20191018134754.16362-21-philmd@redhat.com>
+ <CAL1e-=gHBfvchVaAbus+GVaSVUFyae41iCB3i5HGhyLTvOr2Ew@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d98cad41-2e7e-e36d-9b1e-e1293c2197fc@amsat.org>
+Date: Sat, 19 Oct 2019 17:22:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jfreimann@redhat.com
-Date: Sat, 19 Oct 2019 08:15:35 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+In-Reply-To: <CAL1e-=gHBfvchVaAbus+GVaSVUFyae41iCB3i5HGhyLTvOr2Ew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,52 +87,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
- parav@mellanox.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paul Durrant <paul@xen.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAxODIwMjA0MC4zMDM0
-OS0xLWpmcmVpbWFubkByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2Vy
-LWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0Bm
-ZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBo
-dy9jb3JlL3BsYXRmb3JtLWJ1cy5vCiAgQ0MgICAgICBody9jb3JlL2dlbmVyaWMtbG9hZGVyLm8K
-L3RtcC9xZW11LXRlc3Qvc3JjL2h3L2NvcmUvcWRldi5jOiBJbiBmdW5jdGlvbiAncWRldl9zaG91
-bGRfaGlkZV9kZXZpY2UnOgovdG1wL3FlbXUtdGVzdC9zcmMvaHcvY29yZS9xZGV2LmM6MjM1OjE1
-OiBlcnJvcjogJ3JjJyBtYXkgYmUgdXNlZCB1bmluaXRpYWxpemVkIGluIHRoaXMgZnVuY3Rpb24g
-Wy1XZXJyb3I9bWF5YmUtdW5pbml0aWFsaXplZF0KICAgICByZXR1cm4gcmMgPiAwOwogICAgICAg
-ICAgICB+fn5efn4KY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKbWFr
-ZTogKioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBody9jb3JlL3FkZXYub10g
-RXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgpUcmFjZWJh
-Y2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2Vy
-LnB5IiwgbGluZSA2NjIsIGluIDxtb2R1bGU+Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vy
-cm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQg
-J1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5z
-dGFuY2UudXVpZD0xZDU3YmQ5MmUzOGM0ZGEzYTI2YTdiMGQzNzhiNTYyZScsICctdScsICcxMDAx
-JywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywg
-J1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0n
-LCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywg
-J0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hl
-L3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9w
-YXRjaGV3LXRlc3Rlci10bXAtZ2dhcGp4MWQvc3JjL2RvY2tlci1zcmMuMjAxOS0xMC0xOS0xMS4x
-My4wMS4xNzg0OTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAnL3Zhci90bXAv
-cWVtdS9ydW4nLCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAy
-LgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD0xZDU3YmQ5MmUz
-OGM0ZGEzYTI2YTdiMGQzNzhiNTYyZQptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEK
-bWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1n
-Z2FwangxZC9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LW1pbmd3QGZlZG9yYV0gRXJy
-b3IgMgoKcmVhbCAgICAybTMzLjQ5NnMKdXNlciAgICAwbTguMTcxcwoKClRoZSBmdWxsIGxvZyBp
-cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEwMTgyMDIwNDAuMzAz
-NDktMS1qZnJlaW1hbm5AcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+Hi Aleksandar,
 
+On 10/18/19 7:04 PM, Aleksandar Markovic wrote:
+> 
+> 
+> On Friday, October 18, 2019, Philippe Mathieu-Daudé <philmd@redhat.com 
+> <mailto:philmd@redhat.com>> wrote:
+> 
+>     The PIIX3 is not tied to the i440FX and can even be used without it.
+>     Move its creation to the machine code (pc_piix.c).
+>     We have now removed the last trace of southbridge code in the i440FX
+>     northbridge.
+> 
+>     Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com
+>     <mailto:philmd@redhat.com>>
+>     ---
+>       hw/i386/pc_piix.c            | 8 +++++++-
+>       hw/pci-host/i440fx.c         | 8 --------
+>       include/hw/pci-host/i440fx.h | 3 +--
+>       3 files changed, 8 insertions(+), 11 deletions(-)
+> 
+> 
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com 
+> <mailto:amarkovic@wavecomp.com>>
+> 
+> Philippe, I don't have any test equipment available at the moment, did 
+> you do some smoke tests with new v2 of the series (like booting a Malta 
+> board, or other relevant scenario)?
+
+This series pass all 32-bit Avocado tests, and if you apply
+"tests/acceptance: Fix 64-bit MIPS target tests" I just sent [*],
+all the tests pass.
+
+AVOCADO_TIMEOUT_EXPECTED=1 avocado \
+   --show=app,ssh,console \
+   run \
+   -t arch:mipsel -t arch:mips -t arch:mips64el -t arch:mips64 \
+   tests/acceptance/
+
+[*] mid.mail-archive.com/20191019151058.31733-1-f4bug@amsat.org
+
+> Veuillez agréer, Monsieur Philippe, l'assurance de mon parfaite 
+> considération.
+
+Merci ;)
+
+> Aleksandar
+> 
+>     diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>     index 11b8de049f..f6e7196a82 100644
+>     --- a/hw/i386/pc_piix.c
+>     +++ b/hw/i386/pc_piix.c
+>     @@ -199,14 +199,20 @@ static void pc_init1(MachineState *machine,
+>           }
+> 
+>           if (pcmc->pci_enabled) {
+>     +        PIIX3State *piix3;
+>     +
+>               pci_bus = i440fx_init(host_type,
+>                                     pci_type,
+>     -                              &i440fx_state, &piix3_devfn,
+>     &isa_bus, pcms->gsi,
+>     +                              &i440fx_state,
+>                                     system_memory, system_io,
+>     machine->ram_size,
+>                                     pcms->below_4g_mem_size,
+>                                     pcms->above_4g_mem_size,
+>                                     pci_memory, ram_memory);
+>               pcms->bus = pci_bus;
+>     +
+>     +        piix3 = piix3_create(pci_bus, &isa_bus);
+>     +        piix3->pic = pcms->gsi;
+>     +        piix3_devfn = piix3->dev.devfn;
+>           } else {
+>               pci_bus = NULL;
+>               i440fx_state = NULL;
+>     diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+>     index 79ecd58a2b..f27131102d 100644
+>     --- a/hw/pci-host/i440fx.c
+>     +++ b/hw/pci-host/i440fx.c
+>     @@ -27,7 +27,6 @@
+>       #include "hw/pci/pci.h"
+>       #include "hw/pci/pci_host.h"
+>       #include "hw/pci-host/i440fx.h"
+>     -#include "hw/southbridge/piix.h"
+>       #include "hw/qdev-properties.h"
+>       #include "hw/sysbus.h"
+>       #include "qapi/error.h"
+>     @@ -272,8 +271,6 @@ static void i440fx_realize(PCIDevice *dev, Error
+>     **errp)
+> 
+>       PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>                           PCII440FXState **pi440fx_state,
+>     -                    int *piix3_devfn,
+>     -                    ISABus **isa_bus, qemu_irq *pic,
+>                           MemoryRegion *address_space_mem,
+>                           MemoryRegion *address_space_io,
+>                           ram_addr_t ram_size,
+>     @@ -286,7 +283,6 @@ PCIBus *i440fx_init(const char *host_type, const
+>     char *pci_type,
+>           PCIBus *b;
+>           PCIDevice *d;
+>           PCIHostState *s;
+>     -    PIIX3State *piix3;
+>           PCII440FXState *f;
+>           unsigned i;
+>           I440FXState *i440fx;
+>     @@ -339,10 +335,6 @@ PCIBus *i440fx_init(const char *host_type,
+>     const char *pci_type,
+>                        PAM_EXPAN_SIZE);
+>           }
+> 
+>     -    piix3 = piix3_create(b, isa_bus);
+>     -    piix3->pic = pic;
+>     -    *piix3_devfn = piix3->dev.devfn;
+>     -
+>           ram_size = ram_size / 8 / 1024 / 1024;
+>           if (ram_size > 255) {
+>               ram_size = 255;
+>     diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+>     index e327f9bf87..f54e6466e4 100644
+>     --- a/include/hw/pci-host/i440fx.h
+>     +++ b/include/hw/pci-host/i440fx.h
+>     @@ -22,8 +22,7 @@ typedef struct PCII440FXState PCII440FXState;
+>       #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE
+>     "igd-passthrough-i440FX"
+> 
+>       PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>     -                    PCII440FXState **pi440fx_state, int *piix_devfn,
+>     -                    ISABus **isa_bus, qemu_irq *pic,
+>     +                    PCII440FXState **pi440fx_state,
+>                           MemoryRegion *address_space_mem,
+>                           MemoryRegion *address_space_io,
+>                           ram_addr_t ram_size,
+>     -- 
+>     2.21.0
+> 
+> 
 
