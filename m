@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFC4DD96F
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:40:15 +0200 (CEST)
-Received: from localhost ([::1]:56982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95C6DD972
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:42:35 +0200 (CEST)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqpy-0002C1-6u
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
+	id 1iLqsE-0005XD-Fq
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkk-0005EW-Mf
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:52 -0400
+ id 1iLqki-0005Bd-Pn
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkj-0002uX-NY
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:50 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52804)
+ id 1iLqkh-0002sz-BD
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:48 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50672)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkj-0002u4-IA
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:49 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id r19so8997295wmh.2
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:34:49 -0700 (PDT)
+ id 1iLqkh-0002sY-5d
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:47 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id 5so9006499wmg.0
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8KsmRbilP8bTZKqxOfgUbDMH68hI/j6t6Vn/sO5YZF0=;
- b=pNAwN7yyrstS/boNbk4++Hs+1ZQFnDplZvfIvtZIVp2oNcGpd4OmgKJl5EumyJEpjU
- ysN+z+4Lu7rML0t3EKK2OqoBvrQJNsYxOLUupnN6C6XoEV5i++OSP128RnpWH0EkhwpV
- DF7gfgFfWmG/H6qY2yfQw47D5dXk8FJo4cbl5Ol8vFeDNoUTQaB62GnKhA+E5MWHPmED
- irLj5UDu1uS8NfrCDK3aqd51q41C0Y8Dn6ipXc28g1cOaAOhAVuMTUWQGThkV0MGD+Oz
- Db2IcQWp6/7ufLrkZ1Mxq3JBDcXkC7PGMw+CC/ROEtrLqMRGtfKK5k7/87fL0q2W5m8C
- Nj4w==
+ bh=sj0gWaKf7F1u1yqYOnBP1Je+BdxFG+7SDe9DUcADRaE=;
+ b=X78yY+/FiWu/vOU/BzjaO1Lj3RdJ6U4spA9vfenAsWU+tEHPNheaHkma1GV9ZUftw5
+ DKuy8vaqNGR7TMTc5MwYjiHN07QJHF/TM4QrYKB1JBHZPhQEYEAlETU3fQv62ajMOs4f
+ zP3U1Pq8N8/Vevx8PmyCllsle2Ij3OPHJONTgoF6yi0gnq3kbWrDQRg5CLYFzTScsh09
+ EbYzpOwrSINsXEunu+wGx1I0bQLXivOR/51AWqdjttC3DmSiV3k9ZBW5wUSCdgfFoKun
+ v/b/b16r87NUmsdqnaLM7EX/ypsG2AN1YcXHZhnS8ICV8SudvHYWNuCSid29hj7SiWRV
+ nsRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8KsmRbilP8bTZKqxOfgUbDMH68hI/j6t6Vn/sO5YZF0=;
- b=U8AO9GkKAsI8LvRMA+txONIj3/Zj9qphOhdBE7JKlvlj6hE5+KL/VKselUPuMqlWZV
- CN+HC48US+mnNpNDlB6tVaSBZOaFWgv5xJ3LMtu5wrBfeIKQZflZlP1GxJPq9R0J//N+
- fD5UTKQ6ANhQttFydoWWUecIHB57hl2u0nzyS2NH1URUhmcQBZDvUiQ1GQ9R2jXRvOeX
- qtcgICArAQ29S9NmJBQ9ygoGgPcQxTaGFtDosVQ6vx8Axds0WlIZGETJXR4OCCLzMgJ0
- WiqQErbQziFCvgCh5jt7LhdKV6ApotL6UxdSnO0k4Mq0P3L6OVBygmSJPDnNQBqZHOMK
- 1osA==
-X-Gm-Message-State: APjAAAV7xBErGM8k+N5PRt+BVGxRly0fZ96rT6kJRPyzuKo162bRApfQ
- bSQ4gQ+OYJ196ahanZWhl9FWcpGN
-X-Google-Smtp-Source: APXvYqy3khOTnsGP6oa2a0x5SEIh8lc5JDHT7wIzh4GtqT+r0K/IanbXXqIxCqkzSamUYOZ8RF4Lqw==
-X-Received: by 2002:a05:600c:2196:: with SMTP id
- e22mr8283882wme.1.1571499288505; 
- Sat, 19 Oct 2019 08:34:48 -0700 (PDT)
+ bh=sj0gWaKf7F1u1yqYOnBP1Je+BdxFG+7SDe9DUcADRaE=;
+ b=l+fOrMiiRQP6UuB2KVykhdYcdSmBbtV/kTlYWRcGBXHhu4ElcGN2eDtYeSVan6G/1K
+ f0oI9RuSOsgiLbObKWBzGOMjZ8+GAaPTBk6swywRLP2/AGsCykM2Y2of5BY3VCeKOYxX
+ OB99D68jsewv8zSQTBJvRfprMoyYajCP4iMs5Y2QaZ6ztDEipnWVd7Ob1zDjxtEpmQN3
+ kRWA9pmnWdmYSqrAaybXH0iK/e4DbGDiXsHmnSnlsKy9IzR80Y6ZjiaoxWqr5kw89QX8
+ YKMK9EcKBI3rJSt74oSk1Ye9Ue2MZEovO3q1H35RCfjjGeTNnON6iBoYiCRJsKgrKAlT
+ TuiA==
+X-Gm-Message-State: APjAAAWeYKPD/lWUwpHuGsumFEUMcC4BhDx3MyetN75wCtPSnoP/ppPy
+ nx/xuhIrknu13+x+dtL/nnirr2o8
+X-Google-Smtp-Source: APXvYqylPMfVMJ+dH0bEqzzD4kSX+qnclFbot7J8nW0lPj4HKPmFofkyBC3JHgnV17tPzoCDTh+TuA==
+X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr12368753wmg.46.1571499286024; 
+ Sat, 19 Oct 2019 08:34:46 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id j19sm15245605wre.0.2019.10.19.08.34.47
+ by smtp.gmail.com with ESMTPSA id j19sm15245605wre.0.2019.10.19.08.34.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 08:34:47 -0700 (PDT)
+ Sat, 19 Oct 2019 08:34:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/11] tests/ssh_linux_malta: Run tests using a snapshot
- image
-Date: Sat, 19 Oct 2019 17:34:33 +0200
-Message-Id: <20191019153437.9820-8-f4bug@amsat.org>
+Subject: [PATCH v2 05/11] tests/boot_linux_console: Use Avocado
+ archive::gzip_uncompress()
+Date: Sat, 19 Oct 2019 17:34:31 +0200
+Message-Id: <20191019153437.9820-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019153437.9820-1-f4bug@amsat.org>
 References: <20191019153437.9820-1-f4bug@amsat.org>
@@ -92,28 +91,35 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a test fails, it can corrupt the underlying QCow2 image,
-making further tests failing.
-Fix this by running each test with a snapshot.
+Avocado 67.0 [*] introduced the avocado.utils.archive module which
+provides handling of gzip files. Use the gzip_uncompress() method.
 
+[*] https://avocado-framework.readthedocs.io/en/67.0/api/utils/avocado.utils.html#avocado.utils.archive.gzip_uncompress
+
+Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/linux_ssh_mips_malta.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: New patch replacing the gunzip() refactor
+---
+ tests/acceptance/boot_linux_console.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-index ffbb06f846..27907e8fbd 100644
---- a/tests/acceptance/linux_ssh_mips_malta.py
-+++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -90,7 +90,7 @@ class LinuxSSH(Test):
-         self.vm.add_args('-no-reboot',
-                          '-kernel', kernel_path,
-                          '-append', kernel_command_line,
--                         '-hda', image_path,
-+                         '-drive', 'file=%s,snapshot=on' % image_path,
-                          '-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-                          '-device', 'pcnet,netdev=vnet')
-         self.vm.launch()
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 4b419b0559..67d7e96d98 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -145,10 +145,7 @@ class BootLinuxConsole(Test):
+         initrd_hash = 'bf806e17009360a866bf537f6de66590de349a99'
+         initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+         initrd_path = self.workdir + "rootfs.cpio"
+-
+-        with gzip.open(initrd_path_gz, 'rb') as f_in:
+-            with open(initrd_path, 'wb') as f_out:
+-                shutil.copyfileobj(f_in, f_out)
++        archive.gzip_uncompress(initrd_path_gz, initrd_path)
+ 
+         self.vm.set_machine('malta')
+         self.vm.set_console()
 -- 
 2.21.0
 
