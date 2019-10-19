@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40841DDB57
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 00:31:37 +0200 (CEST)
-Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9206FDDB7B
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 01:49:39 +0200 (CEST)
+Received: from localhost ([::1]:42116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLxG3-00084n-NE
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 18:31:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58905)
+	id 1iLyTZ-0001hM-KM
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 19:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34416)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iLxED-0007Ia-MM
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 18:29:42 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLyRN-0008SU-Qz
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iLxEC-0005Ig-5G
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 18:29:41 -0400
-Resent-Date: Sat, 19 Oct 2019 18:29:41 -0400
-Resent-Message-Id: <E1iLxEC-0005Ig-5G@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21432)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iLxEB-0005HI-U5; Sat, 19 Oct 2019 18:29:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571524155; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LEqnfpZmXcVNtr0DbffUECqaAV2xOUhxGkQUQ+Z76mQ7ANZFFB6LxINvKvXWoTeCFKTV+Q2C3VsV+calrMyFQM2+q+on2+rsEmZQys4ng+90Ubn7EfbcU7iHvOjRK1yXztTy3bB2BPuSoO1JzaKKMYAmqgB7Rn9WPkjEFTaxf4k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571524155;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=KntkT2pXd8PWpcjJErkspS/55HinzpvkLAqVuF+UpaM=; 
- b=e5vPCCpvWkmkOj181VnI3h8QUMKqdiGrwU8BrZtQDUvK9LVPd2iWoudZrYikJz4tagmmoRZfGRA6Toy7/4FUEjp309B3xll2GHjW2p0OUvRsppkWrXeeAhS2LnJHYFRD92Amw9Hk+3PouypHNv99a56EuG4VGWX6z9WiVKnJ5i4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 157152415376265.17164592501274;
- Sat, 19 Oct 2019 15:29:13 -0700 (PDT)
-In-Reply-To: <20191019120534.27479-1-ash@kambanaria.org>
-Subject: Re: [PATCH 0/1] Update Bulgarian translation
-Message-ID: <157152415144.24734.16743337712381592547@37313f22b938>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLyRM-0005T4-8P
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:21 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37044)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iLyRM-0005Sf-0N; Sat, 19 Oct 2019 19:47:20 -0400
+Received: by mail-wr1-x443.google.com with SMTP id e11so1154492wrv.4;
+ Sat, 19 Oct 2019 16:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S1Bv5ZADtudIK2ckQmSIBf7nainSPHA/IK2m+tVYRJY=;
+ b=aSOCS5Oo17NjIycLdhbIShZFmWY1mLyfM3OkGYGxu5ivna9vtDu5qkQBtOKL91AFxs
+ NYIN6nKDOROYX9UzOYLcY93KeHMpAE5GHZMwkmF5ys07RG6PdmyRZ+bycQ3EXoYk3Xm6
+ dNdThf3H2qeAMYPerXmAplOEVoh0Upe/iyPxbyObg3hE5ChQAaMgdtWXgV/lUdRjn08T
+ z4dBYlpKONL2eVX8mAaz47LQwZCf0Z+vtYrLSEqSbcR5EK5+wee7XHH+Xb+v/DctSRLT
+ TzKcFnVc8pHGykekhBI1zAXHY0CK0LwzVrUcRSGZG0tCbK/m9yMEgPpcET2Fv3wc/4LJ
+ AjrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=S1Bv5ZADtudIK2ckQmSIBf7nainSPHA/IK2m+tVYRJY=;
+ b=V0FQscq188ZuFR5cVlQFqDFYBE6TjQVOAk370wis6TTAnCyjCewU63nTpL29bRcv13
+ gF5t84wFMuFi++1F1Sa8yC0Ch9SXjclBEmtQXxFo4Kurn09XrUdf9WOEZP+8C8G44wsV
+ h/12YEB4CKjKnVgsNZAebS3tJidSmZWOBIBPnvGudvessRWpvMX2Xrbw1QZ3BIWPKiIg
+ CqHOndKXbi+1g9yVBiD7wLw60AL49nyMy4Z1sYlXLNyUmSb/Rt8kFJP//SOKpFOnk07k
+ IGW8bcaZMjt8i3MYV8be5FmdKfAx24jNEs4jULhYFSxhFT+Sw1oW2HBq1MTzknPClW+V
+ ZGfA==
+X-Gm-Message-State: APjAAAU38wNNJp2hrPzgr4OL+h/VY15pmB/itZjURZGt3hnMzTDBjlkh
+ ROuGNpwEo/gy4yGSHg8CFmxFox+y
+X-Google-Smtp-Source: APXvYqwTK2KJgvQdmVBK69k+bjXHu25Yne39oYMDoQCSYWZc0PxhOq1FRrcHphNnBAK+AAMtaQ09Pw==
+X-Received: by 2002:a5d:538e:: with SMTP id d14mr10975826wrv.86.1571528838381; 
+ Sat, 19 Oct 2019 16:47:18 -0700 (PDT)
+Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id u1sm10433763wrp.56.2019.10.19.16.47.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Oct 2019 16:47:17 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer,
+ improve address space, run U-boot
+Date: Sun, 20 Oct 2019 01:46:59 +0200
+Message-Id: <20191019234715.25750-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ash@kambanaria.org
-Date: Sat, 19 Oct 2019 15:29:13 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,50 +80,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, aliguori@us.ibm.com, famz@redhat.com, f4bug@amsat.org,
- qemu-trivial@nongnu.org, ash@kambanaria.org, stefanha@redhat.com,
- qemu-devel@nongnu.org, ptoscano@redhat.com, borntraeger@de.ibm.com,
- wehuang@redhat.com, sw@weilnetz.de, thuth@redhat.com, pbonzini@redhat.com,
- akong@redhat.com, lersek@redhat.com, songdongsheng@live.cn, laurent@vivier.eu
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Matthias Brugger <mbrugger@suse.com>, Rob Herring <robh@kernel.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAxOTEyMDUzNC4yNzQ3
-OS0xLWFzaEBrYW1iYW5hcmlhLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
-Y2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
-bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
-ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5F
-VFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9
-MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAgaW90ZXN0LXFj
-b3cyOiAwMTAKICBURVNUICAgIGNoZWNrLXF0ZXN0LXg4Nl82NDogdGVzdHMvYWhjaS10ZXN0CnRl
-c3QtYWlvLW11bHRpdGhyZWFkOiAvdG1wL3FlbXUtdGVzdC9zcmMvdXRpbC9hc3luYy5jOjI4Mzog
-YWlvX2N0eF9maW5hbGl6ZTogQXNzZXJ0aW9uIGAhcWVtdV9sb2NrY250X2NvdW50KCZjdHgtPmxp
-c3RfbG9jayknIGZhaWxlZC4KRVJST1IgLSB0b28gZmV3IHRlc3RzIHJ1biAoZXhwZWN0ZWQgNiwg
-Z290IDIpCm1ha2U6ICoqKiBbY2hlY2stdW5pdF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBm
-b3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwMTEKICBURVNU
-ICAgIGlvdGVzdC1xY293MjogMDEyCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
-dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
-bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
-dXVpZD0zMTM1Mjc3ZGY2ZGU0NTRkODhiZjZjMDk1OTkwNzkxYicsICctdScsICcxMDAxJywgJy0t
-c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
-VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
-LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
-SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11
-LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hl
-dy10ZXN0ZXItdG1wLXpqOXJsdHZsL3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMTktMTguMTcuMzQu
-MjU2OTI6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11
-L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZp
-bHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTMxMzUyNzdkZjZkZTQ1
-NGQ4OGJmNmMwOTU5OTA3OTFiCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtl
-WzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXpqOXJs
-dHZsL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3Ig
-MgoKcmVhbCAgICAxMW0zNy4zOThzCnVzZXIgICAgMG05LjgxMXMKCgpUaGUgZnVsbCBsb2cgaXMg
-YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMDE5MTIwNTM0LjI3NDc5
-LTEtYXNoQGthbWJhbmFyaWEub3JnL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+Since v2:
+- fixed issue in videocore address space
+- allow to start with some cores OFF (to boot firmwares)
+- add proof-of-concept test for '-smp cores=1' and U-boot
+- fixed my email setup
+
+Previous cover:
+
+Hi,
+
+Some patches from v1 are already merged. This v2 addresses the
+review comment from v1, and add patches to clean the memory
+space when using multiple cores.
+
+Laurent, if you test U-Boot with this patchset again, do you mind
+replying with a "Tested-by:" tag?
+
+The next patchset is probably about the interrupt controller blocks,
+then will come another one about the MBox/Properties.
+
+The last patch is unrelated to the series, but since I cleaned this
+for the raspi and the highbank is the only board with the same issue,
+I included the patch in this series.
+
+Please review.
+
+Regards,
+
+Phil.
+
+$ git backport-diff -u v2
+001/16:[----] [--] 'hw/misc/bcm2835_thermal: Add a dummy BCM2835 thermal sensor'
+002/16:[----] [--] 'hw/arm/bcm2835_peripherals: Use the thermal sensor block'
+003/16:[----] [--] 'hw/timer/bcm2835: Add the BCM2835 SYS_timer'
+004/16:[----] [--] 'hw/arm/bcm2835_peripherals: Use the SYS_timer'
+005/16:[----] [--] 'hw/arm/bcm2836: Make the SoC code modular'
+006/16:[down] 'hw/arm/bcm2836: Rename cpus[] as cpu[].core'
+007/16:[0053] [FC] 'hw/arm/bcm2836: Use per CPU address spaces'
+008/16:[down] 'hw/arm/bcm2835_peripherals: Add const link property in realize()'
+009/16:[0105] [FC] 'hw/arm/bcm2836: Create VideoCore address space in the SoC'
+010/16:[----] [--] 'hw/arm/raspi: Use AddressSpace when using arm_boot::write_secondary_boot'
+011/16:[down] 'hw/arm/raspi: Use -smp cores=<N> option to restrict enabled cores'
+012/16:[down] 'hw/arm/bcm2836: Rename enabled_cpus -> enabled_cores'
+013/16:[----] [-C] 'hw/arm/raspi: Make the board code modular'
+014/16:[----] [--] 'hw/arm/highbank: Use AddressSpace when using write_secondary_boot()'
+015/16:[down] 'python/qemu/machine: Allow to use other serial consoles than default'
+016/16:[down] 'NOTFORMERGE tests/acceptance: Test U-boot on the Raspberry Pi 3'
+
+v2: https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg04474.html
+
+Philippe Mathieu-Daudé (16):
+  hw/misc/bcm2835_thermal: Add a dummy BCM2835 thermal sensor
+  hw/arm/bcm2835_peripherals: Use the thermal sensor block
+  hw/timer/bcm2835: Add the BCM2835 SYS_timer
+  hw/arm/bcm2835_peripherals: Use the SYS_timer
+  hw/arm/bcm2836: Make the SoC code modular
+  hw/arm/bcm2836: Rename cpus[] as cpu[].core
+  hw/arm/bcm2836: Use per CPU address spaces
+  hw/arm/bcm2835_peripherals: Add const link property in realize()
+  hw/arm/bcm2836: Create VideoCore address space in the SoC
+  hw/arm/raspi: Use AddressSpace when using
+    arm_boot::write_secondary_boot
+  hw/arm/raspi: Use -smp cores=<N> option to restrict enabled cores
+  hw/arm/bcm2836: Rename enabled_cpus -> enabled_cores
+  hw/arm/raspi: Make the board code modular
+  hw/arm/highbank: Use AddressSpace when using write_secondary_boot()
+  python/qemu/machine: Allow to use other serial consoles than default
+  NOTFORMERGE tests/acceptance: Test U-boot on the Raspberry Pi 3
+
+ hw/arm/bcm2835_peripherals.c           |  76 +++++++----
+ hw/arm/bcm2836.c                       | 119 ++++++++++++++----
+ hw/arm/highbank.c                      |   3 +-
+ hw/arm/raspi.c                         | 127 +++++++++++++++----
+ hw/misc/Makefile.objs                  |   1 +
+ hw/misc/bcm2835_thermal.c              | 135 ++++++++++++++++++++
+ hw/timer/Makefile.objs                 |   1 +
+ hw/timer/bcm2835_systmr.c              | 166 +++++++++++++++++++++++++
+ hw/timer/trace-events                  |   5 +
+ include/hw/arm/bcm2835_peripherals.h   |   9 +-
+ include/hw/arm/bcm2836.h               |  17 ++-
+ include/hw/arm/raspi_platform.h        |   1 +
+ include/hw/misc/bcm2835_thermal.h      |  27 ++++
+ include/hw/timer/bcm2835_systmr.h      |  33 +++++
+ python/qemu/machine.py                 |   9 +-
+ tests/acceptance/boot_linux_console.py |  23 ++++
+ 16 files changed, 671 insertions(+), 81 deletions(-)
+ create mode 100644 hw/misc/bcm2835_thermal.c
+ create mode 100644 hw/timer/bcm2835_systmr.c
+ create mode 100644 include/hw/misc/bcm2835_thermal.h
+ create mode 100644 include/hw/timer/bcm2835_systmr.h
+
+-- 
+2.21.0
 
 
