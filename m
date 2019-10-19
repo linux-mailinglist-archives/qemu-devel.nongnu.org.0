@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE089DD948
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:14:16 +0200 (CEST)
-Received: from localhost ([::1]:56534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1496DD94C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:17:32 +0200 (CEST)
+Received: from localhost ([::1]:56574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqQp-0002wr-EX
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45647)
+	id 1iLqTz-0006M1-KX
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:17:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNn-0001BV-JD
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:08 -0400
+ id 1iLqNr-0001ED-B8
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNm-0006wl-J2
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:07 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33770)
+ id 1iLqNq-00070h-5G
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:11 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54980)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNm-0006vx-DM
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:06 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id r17so11356179wme.0
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:06 -0700 (PDT)
+ id 1iLqNp-0006zt-Vj
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:10 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id p7so8961300wmp.4
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L17Gkpekc5/KDSlV7uWJjFxc0f5cH+nD4BY7UX0P8ME=;
- b=cdvTdsHLJ9xm713HYol6fuZg3dwqzEwv2lt/uVKRv2cQXDtsSqCzZRvxWsSoMoz73Q
- 86Uqh6GDgMDwM2k4IMj8CWwRcfRufCzbkk8Q8Y8Xp0rX9jhHhLkFoiHKN4NA8T1fGJej
- 9CqgSWbGQDEsoL43yf/J/4pv3P+jTpchbwnf329qOdbm6lffePCO6R6MV8TJ4lP8U9eA
- saQBCCcWiZB0LDKa+8pqAGH9c8CdcqPLFWJ/9iAlI94swRdLd+ulnbNHxm/4Ei+FCmuw
- YTsANHOX+GRv2TF19ffFAjgOo+5rxBK8jxFuFUZ+O7uqOZ3oWhZFkc/tbB3Muvbltwxl
- j5Og==
+ bh=sj0gWaKf7F1u1yqYOnBP1Je+BdxFG+7SDe9DUcADRaE=;
+ b=o1UEZTt9pwUVMa0JKGkLmRO8Jjq65ZDS+0OopMSn6vIuop70hSNaArxRWxJ0G3Ax9M
+ 2UyY7WQ3d1HMpioNigvIdcrahuIsE5G26jy9zi7RM7pBkR1HvS7id2C/PHaPowxe5UTj
+ oYNLK2dAAcn0pi6nNXMZ/+u8sQACFTVp6y9YF7kjCAUvXfd0GWKyKY9vNCsotkguksoh
+ yfx8GADdB6Xs89bCmNXunCJezQIejAlejrZtEfpOq3EiOcNrG8JdgD21tSKGKrkicCDW
+ QOVsevpX2hKtiUnNXHU9NgXrCZMiHnvGBBA/prrOBRSCGahT+PMTOQMLS40RAEyR4K8T
+ lIog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L17Gkpekc5/KDSlV7uWJjFxc0f5cH+nD4BY7UX0P8ME=;
- b=Whqgz/qqaCBVZAwDajfVs6FqdwMdSxvNvxT/zIAAvUl5SIlwWgWJGXUk5AATb0zZ+I
- Zsv9WbnLizlmatAQh0I/Ht8QNrn3bEeQiCVlXRvF92l26tAT6dOzHijH9DV3dlxS00Gg
- NwqXCpcCNCWjK+TsO7kCwhQwHEs9sg1pA5LRRHP17oqCuWsi2/Lr0dNU1B6zHlmJmotX
- YKqqC+zLxD/72e4OB2io+V0zi4D1f0QTVGySBeE1Ipd4hPPAQ0ywLXbWRGK+mwXwR+sg
- BLksWGnyAkrRxm4nd0a2G0kXP6NwcB8EKsZPXVFGTOUcOccZkrVOLy8YVbz+Y8PbhYvT
- JeQA==
-X-Gm-Message-State: APjAAAVICbGexYRoytUPPvpTtHI1JGm3g4tLfBe0p5qKGV0aqtw2BCXx
- f+SLqueOcnAfwOdfoN5Xw8VEf/GF
-X-Google-Smtp-Source: APXvYqyOL9OvMOahIfKpTn7TTLB+igP5pLZuuf2G6z3XYDavh2IbDeHUpp2qW53qdzuHaRHOWDO1Aw==
-X-Received: by 2002:a05:600c:143:: with SMTP id
- w3mr11172913wmm.35.1571497865239; 
- Sat, 19 Oct 2019 08:11:05 -0700 (PDT)
+ bh=sj0gWaKf7F1u1yqYOnBP1Je+BdxFG+7SDe9DUcADRaE=;
+ b=CHoYq+kXuMOG5dvVOc2YHS8S7DUTXdo77um2U/6EAw3Xgx8w4e8rBMWsrBT7Qimdar
+ 3Ox0Z2/SR9YQ7tN2C8+RWsuyQpLqIDJc2kaQLl/ymoTToU1Walq0fbMk9u+tM8i47CKH
+ oxqabcT8p0T67+2ehuFLty8JzWloGpEVGuWVHZtQZz3Wt64VPAy0Hl3IiRTRfcHp17Uy
+ +TyL0wzev/nnVvFxstcaR7Ug9dEF3h515ehSdKUlsl8ZbCI2JXel89xAT/W8EuRfYL3z
+ o4XfBIq8F1dIA9Y34u5qsNw6DcjpHnn219swGhdBHR9u2CHkNhCTVAMf0SSGRbiRKGLT
+ qpcA==
+X-Gm-Message-State: APjAAAUWtfb1ekVhqD18l8Q+50rmnFv7lg4Z944RQXewzqyZW9il+q+F
+ vtcADAu1gJhaowOWXNG6lEcQ4S9+
+X-Google-Smtp-Source: APXvYqz07/5/z/AHZnieoApPT5Ag4jWdxp8fxrYz2XbO/i3kYpe4kaLS3nQKp1iC8yxopm28JW1SOw==
+X-Received: by 2002:a05:600c:490:: with SMTP id
+ d16mr11996280wme.131.1571497868718; 
+ Sat, 19 Oct 2019 08:11:08 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.11.03
+ by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.11.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 08:11:04 -0700 (PDT)
+ Sat, 19 Oct 2019 08:11:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/11] tests/acceptance: Send <carriage return> on serial lines
-Date: Sat, 19 Oct 2019 17:10:50 +0200
-Message-Id: <20191019151058.31733-4-f4bug@amsat.org>
+Subject: [PATCH 05/11] tests/boot_linux_console: Use Avocado
+ archive::gzip_uncompress()
+Date: Sat, 19 Oct 2019 17:10:52 +0200
+Message-Id: <20191019151058.31733-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019151058.31733-1-f4bug@amsat.org>
 References: <20191019151058.31733-1-f4bug@amsat.org>
@@ -71,7 +72,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,27 +92,35 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some firmwares don't parse the <Newline> control character and
-expect a <carriage return>.
+Avocado 67.0 [*] introduced the avocado.utils.archive module which
+provides handling of gzip files. Use the gzip_uncompress() method.
 
+[*] https://avocado-framework.readthedocs.io/en/67.0/api/utils/avocado.utils.html#avocado.utils.archive.gzip_uncompress
+
+Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: New patch replacing the gunzip() refactor
+---
+ tests/acceptance/boot_linux_console.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8897e0c253..497faa4f7f 100644
+index 4b419b0559..67d7e96d98 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -34,7 +34,7 @@ class BootLinuxConsole(Test):
-                                  failure_message='Kernel panic - not syncing')
+@@ -145,10 +145,7 @@ class BootLinuxConsole(Test):
+         initrd_hash = 'bf806e17009360a866bf537f6de66590de349a99'
+         initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+         initrd_path = self.workdir + "rootfs.cpio"
+-
+-        with gzip.open(initrd_path_gz, 'rb') as f_in:
+-            with open(initrd_path, 'wb') as f_out:
+-                shutil.copyfileobj(f_in, f_out)
++        archive.gzip_uncompress(initrd_path_gz, initrd_path)
  
-     def exec_command_and_wait_for_pattern(self, command, success_message):
--        command += '\n'
-+        command += '\r\n'
-         self.vm.console_socket.sendall(command.encode())
-         wait_for_console_pattern(self, success_message)
- 
+         self.vm.set_machine('malta')
+         self.vm.set_console()
 -- 
 2.21.0
 
