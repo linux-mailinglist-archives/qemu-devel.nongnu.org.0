@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DA7DD698
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 06:27:52 +0200 (CEST)
-Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E33DD699
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 06:27:58 +0200 (CEST)
+Received: from localhost ([::1]:48594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLgLH-0005zq-Ef
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 00:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51851)
+	id 1iLgLM-00069R-UE
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 00:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iLgJL-0004Iu-2y
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 00:25:52 -0400
+ (envelope-from <bounces@canonical.com>) id 1iLgJN-0004JT-C4
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 00:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iLgJJ-000524-SP
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 00:25:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37274)
+ (envelope-from <bounces@canonical.com>) id 1iLgJM-00054M-28
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 00:25:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37456)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iLgJJ-00051i-Mn
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 00:25:49 -0400
+ id 1iLgJL-00053J-TA
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 00:25:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iLgJH-00057n-K9
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 04:25:47 +0000
+ id 1iLgJJ-00058A-UD
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 04:25:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6CC112E80D3
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 04:25:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B25072E80D0
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 04:25:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 19 Oct 2019 04:17:28 -0000
+Date: Sat, 19 Oct 2019 04:17:31 -0000
 From: Launchpad Bug Tracker <1834113@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -49,7 +49,7 @@ X-Launchpad-Bug-Commenters: bryce ikes73 janitor paelzer rafaeldtinoco
 X-Launchpad-Bug-Reporter: Avi Eis (ikes73)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <156142437029.30985.13623507391124028236.malonedeb@soybean.canonical.com>
-Message-Id: <157145864874.12302.2207897591789609426.malone@loganberry.canonical.com>
+Message-Id: <157145865173.12302.8924632073282955055.malone@loganberry.canonical.com>
 Subject: [Bug 1834113] Re: QEMU touchpad input erratic after wakeup from sleep
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -57,7 +57,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="186023fa645d8be19d403a76064f0643f510db2f";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6aad6e24643dde321bdc3fe2f253a61c08e63ad8
+X-Launchpad-Hash: bd2715d6696b8e85021185a631ebbb72d399e60d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -75,9 +75,10 @@ Reply-To: Bug 1834113 <1834113@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for libvirt (Ubuntu) because there has been no activity for 60
+days.]
 
-** Changed in: qemu
+** Changed in: libvirt (Ubuntu)
        Status: Incomplete =3D> Expired
 
 -- =
