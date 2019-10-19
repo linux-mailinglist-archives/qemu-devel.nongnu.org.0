@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EA8DD6F7
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 08:44:48 +0200 (CEST)
-Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA0EDD6F9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 08:47:28 +0200 (CEST)
+Received: from localhost ([::1]:49960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLiTn-0008Uo-C4
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 02:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59751)
+	id 1iLiWM-0002Pb-LW
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 02:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iLiOG-0002xN-5d
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:39:05 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iLiOS-0003Jv-Pg
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:39:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iLiOF-0003fl-3E
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:39:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51058)
+ (envelope-from <stefanha@redhat.com>) id 1iLiOR-0003qP-Nl
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:39:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39774)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iLiOC-0003d7-Ua; Sat, 19 Oct 2019 02:39:01 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1iLiOP-0003mb-ER; Sat, 19 Oct 2019 02:39:13 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3775F308A98C;
- Sat, 19 Oct 2019 06:39:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AADD158;
+ Sat, 19 Oct 2019 06:39:11 +0000 (UTC)
 Received: from localhost (ovpn-116-50.ams2.redhat.com [10.36.116.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5A3B600C8;
- Sat, 19 Oct 2019 06:38:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9EE519C7F;
+ Sat, 19 Oct 2019 06:39:01 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/16] libqos: add missing virtio-9p feature negotiation
-Date: Sat, 19 Oct 2019 07:38:00 +0100
-Message-Id: <20191019063810.6944-7-stefanha@redhat.com>
+Subject: [PATCH v3 07/16] libqos: enforce Device Initialization order
+Date: Sat, 19 Oct 2019 07:38:01 +0100
+Message-Id: <20191019063810.6944-8-stefanha@redhat.com>
 In-Reply-To: <20191019063810.6944-1-stefanha@redhat.com>
 References: <20191019063810.6944-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Sat, 19 Oct 2019 06:39:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Sat, 19 Oct 2019 06:39:11 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,33 +62,63 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VIRTIO Device Initialization requires feature negotiation.  The libqos
-virtio-9p driver lacks feature negotiation and is therefore
-non-compliant.
+According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
+Initialization", configuration space and virtqueues cannot be accessed
+before features have been negotiated.  Enforce this requirement.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/libqos/virtio-9p.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/libqos/virtio.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/libqos/virtio-9p.c b/tests/libqos/virtio-9p.c
-index 8c9efce3e1..77dbfb62ad 100644
---- a/tests/libqos/virtio-9p.c
-+++ b/tests/libqos/virtio-9p.c
-@@ -32,6 +32,12 @@ static void virtio_9p_cleanup(QVirtio9P *interface)
+diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
+index 4f7e6bb8a1..2593996c98 100644
+--- a/tests/libqos/virtio.c
++++ b/tests/libqos/virtio.c
+@@ -13,23 +13,33 @@
+ #include "standard-headers/linux/virtio_config.h"
+ #include "standard-headers/linux/virtio_ring.h"
 =20
- static void virtio_9p_setup(QVirtio9P *interface)
++/* Features must be negotiated before config space or virtqueue access *=
+/
++static void check_features_negotiated(QVirtioDevice *d)
++{
++    g_assert_cmphex(d->features, !=3D, 0);
++}
++
+ uint8_t qvirtio_config_readb(QVirtioDevice *d, uint64_t addr)
  {
-+    uint64_t features;
-+
-+    features =3D qvirtio_get_features(interface->vdev);
-+    features &=3D ~(QVIRTIO_F_BAD_FEATURE | (1ull << VIRTIO_RING_F_EVENT=
-_IDX));
-+    qvirtio_set_features(interface->vdev, features);
-+
-     interface->vq =3D qvirtqueue_setup(interface->vdev, alloc, 0);
-     qvirtio_set_driver_ok(interface->vdev);
++    check_features_negotiated(d);
+     return d->bus->config_readb(d, addr);
  }
+=20
+ uint16_t qvirtio_config_readw(QVirtioDevice *d, uint64_t addr)
+ {
++    check_features_negotiated(d);
+     return d->bus->config_readw(d, addr);
+ }
+=20
+ uint32_t qvirtio_config_readl(QVirtioDevice *d, uint64_t addr)
+ {
++    check_features_negotiated(d);
+     return d->bus->config_readl(d, addr);
+ }
+=20
+ uint64_t qvirtio_config_readq(QVirtioDevice *d, uint64_t addr)
+ {
++    check_features_negotiated(d);
+     return d->bus->config_readq(d, addr);
+ }
+=20
+@@ -47,6 +57,7 @@ void qvirtio_set_features(QVirtioDevice *d, uint64_t fe=
+atures)
+ QVirtQueue *qvirtqueue_setup(QVirtioDevice *d,
+                              QGuestAllocator *alloc, uint16_t index)
+ {
++    check_features_negotiated(d);
+     return d->bus->virtqueue_setup(d, alloc, index);
+ }
+=20
 --=20
 2.21.0
 
