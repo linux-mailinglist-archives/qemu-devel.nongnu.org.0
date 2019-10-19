@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C5DDD83C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 12:55:25 +0200 (CEST)
-Received: from localhost ([::1]:53072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F25DD85C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 13:12:08 +0200 (CEST)
+Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLmOK-0003QY-Dr
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 06:55:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52897)
+	id 1iLmeU-0002Fd-Lb
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 07:12:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <th.huth@gmail.com>) id 1iLmM7-0002Ve-6R
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 06:53:09 -0400
+ (envelope-from <th.huth@gmail.com>) id 1iLmcz-0001QG-0I
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 07:10:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1iLmM1-000711-QP
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 06:53:05 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42634)
+ (envelope-from <th.huth@gmail.com>) id 1iLmcw-0003lq-I1
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 07:10:32 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36648)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1iLmM0-0006zT-Cw
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 06:53:00 -0400
-Received: by mail-wr1-f67.google.com with SMTP id n14so8759740wrw.9
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 03:52:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1iLmcw-0003l8-C5
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 07:10:30 -0400
+Received: by mail-wr1-f67.google.com with SMTP id w18so8242222wrt.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 04:10:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W2X2+p4yXGg673dZzLo4v5KRbArsIomA3vjkmTiCugk=;
- b=nBU87U3ZarfmZwJRZH6qD8W/GQkNuapdQTRNOZKmNkytLvfkdqhZ6OnsHDjL22OcUD
- UU5rNKroPy279nh/JjAcb+QXzrmh7ktf5VRMmt+VocHiFXyKyFtwUv9vmPkHsl9zeo8I
- DzMu0+OphCK6/TRjsGuWWTT6+aLRh8i3+4uhgVDclNObcDtdizt1O7TJXo1Wmn9qqCGC
- v8UangmkpRlS9oV7BiYi3m2wkSxcS0ehNCwD+abxOjliMh20Q/4ZCIAJ0V6Y2tbPdZa8
- YhWw2APKG40mt9ch+rBB8ehP0uXpeH3gJm6DQJz4f6G1xilhSwQUz/zI2hdW6u6ounTN
- fC7A==
-X-Gm-Message-State: APjAAAUENeoaclmsVlqMxTFWZ0Fodh4C17Dg+Sclnju1d+zKL3NngEm0
- fKssJABxlvEURhzFoG/u590ACgssjDAnOA==
-X-Google-Smtp-Source: APXvYqxea+z9D17dwkqlqCYDS/QxSXM9w6m0IZ8TcSilq2g2hgvNXovfv7UJZLkUfAfkI10kX4Rq0w==
-X-Received: by 2002:a5d:46ca:: with SMTP id g10mr11805856wrs.193.1571482378372; 
- Sat, 19 Oct 2019 03:52:58 -0700 (PDT)
+ bh=aFiGabuGZxVdEPcndlENag4mRy54ZqWUQoFfGxfRgNM=;
+ b=X934+luM/nOMTyxoSGLofj2JtOSsw4T9ZK8WRust2klDI9sopAx/rvmY6XaKjYlVsR
+ d9M1qNnzZhA9QKLrPsMn3/QK4/DbyH+ZDvCfUkbsbxn9K4dGTpCZATT/HW0DJglNWh/u
+ PbDVq/yQ8vnAXSBt/v0XXUe5rXVC1QwjJ3WXlMBXlpgsisJepryVrz/6S2C3XRcWdhyV
+ hdfnQuQi+McQQRFUOjDQRfLAFYt/JVaQp9EDUKX0k2IV/f4LwzVi9Yh3ftUkYoXuBLnD
+ 6lRZ2mwtWTH7ecQOJFrYAFnPBRAvK7bskFijlvtiVKJ1YG/oxKsuumae+6JwAzME2qaV
+ sI3A==
+X-Gm-Message-State: APjAAAUCVVx6AY9V03G1RHAUpWjL+hGEg/0mIwNJteLoNTxdqyW0M7Mu
+ NesCcX99YEiffmwpnMgvB8g=
+X-Google-Smtp-Source: APXvYqx03/n8rAwQ9TFWS6TOGZ58yOqQLuepMZjD7F8JyNrFVdwt2VgfL5Vk/FSx7yY8pl/2BKja6g==
+X-Received: by 2002:a5d:498a:: with SMTP id r10mr5187911wrq.260.1571483429416; 
+ Sat, 19 Oct 2019 04:10:29 -0700 (PDT)
 Received: from thl530 (x2f7f4ae.dyn.telefonica.de. [2.247.244.174])
- by smtp.gmail.com with ESMTPSA id u25sm7512310wml.4.2019.10.19.03.52.57
+ by smtp.gmail.com with ESMTPSA id u10sm7016385wmm.0.2019.10.19.04.10.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 03:52:57 -0700 (PDT)
-Date: Sat, 19 Oct 2019 12:52:51 +0200
+ Sat, 19 Oct 2019 04:10:29 -0700 (PDT)
+Date: Sat, 19 Oct 2019 13:10:27 +0200
 From: Thomas Huth <huth@tuxfamily.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 8/8] hw/m68k/mcf5208.c: Switch to transaction-based
+Subject: Re: [PATCH 7/8] hw/m68k/mcf5206.c: Switch to transaction-based
  ptimer API
-Message-ID: <20191019125251.360db802@thl530>
-In-Reply-To: <20191017132905.5604-9-peter.maydell@linaro.org>
+Message-ID: <20191019131027.018dc911@thl530>
+In-Reply-To: <20191019124859.6a85e220@thl530>
 References: <20191017132905.5604-1-peter.maydell@linaro.org>
- <20191017132905.5604-9-peter.maydell@linaro.org>
+ <20191017132905.5604-8-peter.maydell@linaro.org>
+ <20191019124859.6a85e220@thl530>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -75,20 +76,41 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Thu, 17 Oct 2019 14:29:05 +0100
-schrieb Peter Maydell <peter.maydell@linaro.org>:
+Am Sat, 19 Oct 2019 12:48:59 +0200
+schrieb Thomas Huth <huth@tuxfamily.org>:
 
-> Switch the mcf5208 code away from bottom-half based ptimers to
-> the new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
+> Am Thu, 17 Oct 2019 14:29:04 +0100
+> schrieb Peter Maydell <peter.maydell@linaro.org>:
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/m68k/mcf5208.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> > Switch the mcf5206 code away from bottom-half based ptimers to
+> > the new transaction-based ptimer API.  This just requires adding
+> > begin/commit calls around the various places that modify the ptimer
+> > state, and using the new ptimer_init() function to create the timer.
+> > 
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  hw/m68k/mcf5206.c | 9 +++++----
+> >  1 file changed, 5 insertions(+), 4 deletions(-)  
+> 
+> After applying the patch, I now get an assertion:
+> 
+> $ qemu-system-m68k -nographic -kernel
+> ~/tmp/images/image-an5206-big-20000706.bin -M an5206
+> 
+> uClinux/COLDFIRE(m5206)
+> COLDFIRE port done by Greg Ungerer, gerg@moreton.com.au
+> Flat model support (C) 1998,1999 Kenneth Albanowski, D. Jeff Dionne
+> KERNEL -> TEXT=0x010000-0x077cb8 DATA=0x077cb8-0x08b0d0
+> BSS=0x08b0d0-0x0a2d58 KERNEL -> ROMFS=0x0a2d58-0x183b10
+> MEM=0x183b10-0x1fff000 STACK=0x1fff000-0x2000000 qemu-system-m68k:
+> hw/core/ptimer.c:410: ptimer_transaction_begin: Assertion
+> `!s->in_transaction || !s->callback' failed.
+> 
+> Looks like something is still wrong here...
 
-This patch seems to work fine.
+FWIW, the image for testing can be found here:
 
-Tested-by: Thomas Huth <huth@tuxfamily.org>
+https://web.archive.org/web/20181018135822/http://www.uclinux.org/ports/coldfire/image-an5206-big-20000706.bin.gz
+
+ Thomas
 
