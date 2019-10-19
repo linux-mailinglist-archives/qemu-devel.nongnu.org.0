@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CAEDD6F1
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 08:40:22 +0200 (CEST)
-Received: from localhost ([::1]:49856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB6FDD6F5
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 08:43:06 +0200 (CEST)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLiPV-0003Mi-3K
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 02:40:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59565)
+	id 1iLiS9-000709-7I
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 02:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59603)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iLiNf-00024C-09
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:38:28 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iLiNm-0002CZ-8C
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:38:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iLiNd-000353-TL
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:38:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56814)
+ (envelope-from <stefanha@redhat.com>) id 1iLiNl-00039j-2N
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 02:38:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iLiNZ-000329-VW; Sat, 19 Oct 2019 02:38:22 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iLiNi-00037V-0X; Sat, 19 Oct 2019 02:38:30 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 43FC418CB8E2;
- Sat, 19 Oct 2019 06:38:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 46BE83082A8B;
+ Sat, 19 Oct 2019 06:38:29 +0000 (UTC)
 Received: from localhost (ovpn-116-50.ams2.redhat.com [10.36.116.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56571100EBD5;
- Sat, 19 Oct 2019 06:38:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBEDC600C8;
+ Sat, 19 Oct 2019 06:38:21 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/16] libqos: add VIRTIO PCI 1.0 support
-Date: Sat, 19 Oct 2019 07:37:54 +0100
-Message-Id: <20191019063810.6944-1-stefanha@redhat.com>
+Subject: [PATCH v3 01/16] tests/virtio-blk-test: read config space after
+ feature negotiation
+Date: Sat, 19 Oct 2019 07:37:55 +0100
+Message-Id: <20191019063810.6944-2-stefanha@redhat.com>
+In-Reply-To: <20191019063810.6944-1-stefanha@redhat.com>
+References: <20191019063810.6944-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Sat, 19 Oct 2019 06:38:20 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Sat, 19 Oct 2019 06:38:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,81 +63,129 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3:
- * Now implements VIRTIO 1.0 fully (vring, device initialization).
-   This required several new patches to address the following issues:
-   1. Tests that do not negotiate features (non-compliant!)
-   2. Tests that access configuration space before feature negotiation
-      (non-compliant!)
-   3. Tests that set up virtqueues before feature negotiation (non-compli=
-ant!)
-   4. vring accesses require byte-swapping when VIRTIO 1.0 is used with a
-      big-endian guest because the qtest_readX/writeX() API automatically
-      converts to guest-endian
-   5. VIRTIO 1.0 has an additional FEATURES_OK step during Device
-      Initialization
- * Change uint8_t bar_idx to int [Thomas]
- * Document qpci_find_capability() [Thomas]
- * Every commit tested with arm, ppc64, and x86_64 targets using:
-   git rebase -i origin/master -x 'make tests/qos-test &&
-   QTEST_QEMU_BINARY=3Dppc64-softmmu/qemu-system-ppc64 tests/qos-test &&
-   QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64 tests/qos-test'
-   QTEST_QEMU_BINARY=3Darm-softmmu/qemu-system-arm tests/qos-test'
-v2:
- * Fix checkpatch.pl issues, except MAINTAINERS file warning.  libqos alr=
-eady
-   has maintainers and the new virtio-pci-modern.[ch] files don't need ex=
-tra
-   entries since they are already covered by the existing libqos/ entry.
+The VIRTIO Configuration Space cannot be accessed before device feature
+bits have been read because a driver doesn't know the endianness until
+it has checked VIRTIO_F_VERSION_1.
 
-New VIRTIO devices are Non-Transitional.  This means they only expose the
-VIRTIO 1.0 interface, not the Legacy interface.
+Fix this problem in preparation for VIRTIO 1.0 support.
 
-The libqos only supports Legacy and Transitional devices (in Legacy mode)=
-.
-This patch series add VIRTIO 1.0 support so that tests can run against
-Non-Transitional devices too.
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ tests/virtio-blk-test.c | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
-The virtio-fs device is Non-Transitional, so this is a prerequisite for
-virtio-fs qos tests.
-
-Stefan Hajnoczi (16):
-  tests/virtio-blk-test: read config space after feature negotiation
-  libqos: read QVIRTIO_MMIO_VERSION register
-  libqos: extend feature bits to 64-bit
-  virtio-scsi-test: add missing feature negotiation
-  tests/virtio-blk-test: set up virtqueue after feature negotiation
-  libqos: add missing virtio-9p feature negotiation
-  libqos: enforce Device Initialization order
-  libqos: implement VIRTIO 1.0 FEATURES_OK step
-  libqos: access VIRTIO 1.0 vring in little-endian
-  libqos: add iteration support to qpci_find_capability()
-  libqos: pass full QVirtQueue to set_queue_address()
-  libqos: add MSI-X callbacks to QVirtioPCIDevice
-  libqos: expose common virtqueue setup/cleanup functions
-  libqos: make the virtio-pci BAR index configurable
-  libqos: extract Legacy virtio-pci.c code
-  libqos: add VIRTIO PCI 1.0 support
-
- tests/Makefile.include           |   1 +
- tests/libqos/pci.h               |   2 +-
- tests/libqos/virtio-mmio.h       |   1 +
- tests/libqos/virtio-pci-modern.h |  17 ++
- tests/libqos/virtio-pci.h        |  34 ++-
- tests/libqos/virtio.h            |  18 +-
- tests/libqos/pci.c               |  30 ++-
- tests/libqos/virtio-9p.c         |   6 +
- tests/libqos/virtio-mmio.c       |  38 ++-
- tests/libqos/virtio-net.c        |   6 +-
- tests/libqos/virtio-pci-modern.c | 443 +++++++++++++++++++++++++++++++
- tests/libqos/virtio-pci.c        | 105 +++++---
- tests/libqos/virtio.c            | 166 +++++++++---
- tests/virtio-blk-test.c          |  66 +++--
- tests/virtio-scsi-test.c         |   8 +
- 15 files changed, 805 insertions(+), 136 deletions(-)
- create mode 100644 tests/libqos/virtio-pci-modern.h
- create mode 100644 tests/libqos/virtio-pci-modern.c
-
+diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
+index ed13167392..f6674fb233 100644
+--- a/tests/virtio-blk-test.c
++++ b/tests/virtio-blk-test.c
+@@ -125,10 +125,6 @@ static void test_basic(QVirtioDevice *dev, QGuestAll=
+ocator *alloc,
+     char *data;
+     QTestState *qts =3D global_qtest;
+=20
+-    capacity =3D qvirtio_config_readq(dev, 0);
+-
+-    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
+-
+     features =3D qvirtio_get_features(dev);
+     features =3D features & ~(QVIRTIO_F_BAD_FEATURE |
+                     (1u << VIRTIO_RING_F_INDIRECT_DESC) |
+@@ -136,6 +132,9 @@ static void test_basic(QVirtioDevice *dev, QGuestAllo=
+cator *alloc,
+                     (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+=20
++    capacity =3D qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
++
+     qvirtio_set_driver_ok(dev);
+=20
+     /* Write and read with 3 descriptor layout */
+@@ -359,9 +358,6 @@ static void indirect(void *obj, void *u_data, QGuestA=
+llocator *t_alloc)
+     char *data;
+     QTestState *qts =3D global_qtest;
+=20
+-    capacity =3D qvirtio_config_readq(dev, 0);
+-    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
+-
+     features =3D qvirtio_get_features(dev);
+     g_assert_cmphex(features & (1u << VIRTIO_RING_F_INDIRECT_DESC), !=3D=
+, 0);
+     features =3D features & ~(QVIRTIO_F_BAD_FEATURE |
+@@ -369,6 +365,9 @@ static void indirect(void *obj, void *u_data, QGuestA=
+llocator *t_alloc)
+                             (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+=20
++    capacity =3D qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
++
+     vq =3D qvirtqueue_setup(dev, t_alloc, 0);
+     qvirtio_set_driver_ok(dev);
+=20
+@@ -434,8 +433,16 @@ static void config(void *obj, void *data, QGuestAllo=
+cator *t_alloc)
+     QVirtioBlk *blk_if =3D obj;
+     QVirtioDevice *dev =3D blk_if->vdev;
+     int n_size =3D TEST_IMAGE_SIZE / 2;
++    uint64_t features;
+     uint64_t capacity;
+=20
++    features =3D qvirtio_get_features(dev);
++    features =3D features & ~(QVIRTIO_F_BAD_FEATURE |
++                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
++                            (1u << VIRTIO_RING_F_EVENT_IDX) |
++                            (1u << VIRTIO_BLK_F_SCSI));
++    qvirtio_set_features(dev, features);
++
+     capacity =3D qvirtio_config_readq(dev, 0);
+     g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
+=20
+@@ -475,9 +482,6 @@ static void msix(void *obj, void *u_data, QGuestAlloc=
+ator *t_alloc)
+     qpci_msix_enable(pdev->pdev);
+     qvirtio_pci_set_msix_configuration_vector(pdev, t_alloc, 0);
+=20
+-    capacity =3D qvirtio_config_readq(dev, 0);
+-    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
+-
+     features =3D qvirtio_get_features(dev);
+     features =3D features & ~(QVIRTIO_F_BAD_FEATURE |
+                             (1u << VIRTIO_RING_F_INDIRECT_DESC) |
+@@ -485,6 +489,9 @@ static void msix(void *obj, void *u_data, QGuestAlloc=
+ator *t_alloc)
+                             (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+=20
++    capacity =3D qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
++
+     vq =3D qvirtqueue_setup(dev, t_alloc, 0);
+     qvirtqueue_pci_msix_setup(pdev, (QVirtQueuePCI *)vq, t_alloc, 1);
+=20
+@@ -584,9 +591,6 @@ static void idx(void *obj, void *u_data, QGuestAlloca=
+tor *t_alloc)
+     qpci_msix_enable(pdev->pdev);
+     qvirtio_pci_set_msix_configuration_vector(pdev, t_alloc, 0);
+=20
+-    capacity =3D qvirtio_config_readq(dev, 0);
+-    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
+-
+     features =3D qvirtio_get_features(dev);
+     features =3D features & ~(QVIRTIO_F_BAD_FEATURE |
+                             (1u << VIRTIO_RING_F_INDIRECT_DESC) |
+@@ -594,6 +598,9 @@ static void idx(void *obj, void *u_data, QGuestAlloca=
+tor *t_alloc)
+                             (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+=20
++    capacity =3D qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, =3D=3D, TEST_IMAGE_SIZE / 512);
++
+     vq =3D qvirtqueue_setup(dev, t_alloc, 0);
+     qvirtqueue_pci_msix_setup(pdev, (QVirtQueuePCI *)vq, t_alloc, 1);
+=20
 --=20
 2.21.0
 
