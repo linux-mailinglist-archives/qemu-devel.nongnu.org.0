@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3EADD957
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:22:59 +0200 (CEST)
-Received: from localhost ([::1]:56637 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0A2DD959
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:25:06 +0200 (CEST)
+Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqZG-0003Vc-4J
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45751)
+	id 1iLqbJ-00066S-Iu
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNy-0001KA-SS
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:20 -0400
+ id 1iLqO2-0001Le-1y
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNw-00077H-VN
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:18 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43872)
+ id 1iLqNy-00079j-Vf
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:21 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40041)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqNw-00075w-Fp
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:16 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c2so3948662wrr.10
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:16 -0700 (PDT)
+ id 1iLqNy-000781-Ph
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:11:18 -0400
+Received: by mail-wm1-x344.google.com with SMTP id b24so8705795wmj.5
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IrxCFtZN7IWMU6h2qOEBlnQRpVoXjxguCXHm8vL6MOI=;
- b=Kbe6W6HmdS+fWJQDjRBnkcyA22Z71off/MNopVmr33yzT/vr3VDiUEChO9R4faNU2w
- foK9Eu+onYZw9llsLkml6R7KJuWYyFZRxk1s427pStiv29LQ6tB8VC1QDu06W9obpF42
- KwTQKEZkIc7bnl2aA+C5Czt9Z48Ga/sY89gxNJsq7fx8hpwUbCvWbxvDRccHgI4Uum6l
- M/fZQTh6qgQCGiTrgtV4Mh7SDZ1fQ6DTc9SjbqGcCMwhsWo9+ArfW6Yd2WfTGw/6+Oco
- qFEqmsdrISx0JagmVcUfgb9+gV9uGjdjXgjAi1SXOO24avsZOQRWn7JeixrrtpRVoCpQ
- 2Riw==
+ bh=CMHbwukv5zQAWHD/pJCrE6K07x6qMk4wAjcROnJyKl4=;
+ b=jEd3lqnZjZNfaLbSqhh/xZ+Adzq0FR8zU5pnXOlsoAZ0qwZ6J6xdiyx70UfMV5Eu5d
+ e2EyV2nBHbNOODEFMXTFFMePTgIrgIA2/QpoTCKpFaQrAcsWvoiIkyOh5G6KpHCOH07T
+ 8V7txCphje+pBgXbpjs5nxCRdLtLRuNevM0JEiYbblXa2WycJPjo3Kj+BxepQI8/BRhO
+ TIOpFiwa03d2mMF/j1ej0cOT8HLlC/yPhYdtaBzy9ozQDnLe53q+PNCeMKDrMB6IpPm3
+ im1gOhX/Ldeo1MKpUwIMwwXZL5Tgi8ScMcUocPeyNCnclEeS+VGgWrkwY47rZ6oSMzZx
+ zV9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IrxCFtZN7IWMU6h2qOEBlnQRpVoXjxguCXHm8vL6MOI=;
- b=EiteRxy4YqjfgxN+QdMRzkFu9RzzU+PvEDtgfEV1OfjJTL6t8euhY5h3fF04SEWMvF
- azVFqBnUu/bo3qGq2DrMoQ7OaDyoNjUwbjDQXdf3SbIAnZ4A851X/JPSgGVhISm94vQe
- Y2FmFU+hUiJM+h8yY1+d/WF8QdMqe3cA7mWWrDbOHbvWvsUTgoSL5MEO+jLEBiw70Ika
- pCS6wTGG9TpCV4Ny5oJfL1JNX1amUAYnFXX3lbc6SeZ1FUFfRoJbJ0V6XOe4C/KpLM4B
- Hwu3n4nWe0NOeZ6CrfIA1Yd2LS3aRXhFqM6QHrlL54IH26m/xoD6S0eGQnfOVTk2Ey+T
- nmJQ==
-X-Gm-Message-State: APjAAAWsEggzHszBy4CtAGOHbkoeNuYOqggc2PnqX8WtYVn2x4BJtoVU
- 5jITIkn49raC8+wm3oxxxjQKbvnS
-X-Google-Smtp-Source: APXvYqzIqkc1+/1rmHXfLUTaYeNF7Q9ko6dkLFDuG0FA2P7sMdWLUgTSnjjbc/wfrniQRBJAeItUow==
-X-Received: by 2002:adf:a506:: with SMTP id i6mr11985631wrb.159.1571497874934; 
- Sat, 19 Oct 2019 08:11:14 -0700 (PDT)
+ bh=CMHbwukv5zQAWHD/pJCrE6K07x6qMk4wAjcROnJyKl4=;
+ b=cPcizymUnqUPsZyf/YNHt5CixsnLoJZ/aUc6l0AZsK9ok+5yzUjssZxRgsx3YROVdY
+ kne5XclKrfCT/D4hU4Yg/ZH8Wo0eeh6+UCIot8LOrFB8hDEP7NP0oF6dtF86eYD2M0AD
+ eKMw3P18Iw1arCxL95M4fT46efdFuLCGac8gLP4Qn1W5uyRiHGrA0Jb9yBmiQgUBCf1A
+ Tzjfpf/BEr7ByS+u4bN4gECfqU86CUlxPkf1tyr7BMOnd33Sb9LCu9/r5DOytQYTvgHo
+ EvTwppbViz8WJucoapoTgqNmbWaoqAFac5NhRap5m+6g7dpCgl1QsZ30Cf34ClrMH96m
+ 4EYQ==
+X-Gm-Message-State: APjAAAWHFmlztsW610VCy/XPZO19vVP+nOK2xYqGWOu4Q7mUkTk1KCx7
+ xKS8bUImqU/6kUX2jYDlqDhmR8sY
+X-Google-Smtp-Source: APXvYqwwy8+KD+Jxhdw9k+A5Fm2luaAhvyJmgYeJFPVWAdVlkcH+SHK3zZRcRZSUEAkEvLo50G3x2w==
+X-Received: by 2002:a7b:c849:: with SMTP id c9mr12265293wml.58.1571497876661; 
+ Sat, 19 Oct 2019 08:11:16 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.11.13
+ by smtp.gmail.com with ESMTPSA id t13sm10753964wra.70.2019.10.19.08.11.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 08:11:14 -0700 (PDT)
+ Sat, 19 Oct 2019 08:11:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/11] tests/ssh_linux_malta: Refactor how to get image/kernel
- info
-Date: Sat, 19 Oct 2019 17:10:57 +0200
-Message-Id: <20191019151058.31733-11-f4bug@amsat.org>
+Subject: [PATCH 11/11] tests/ssh_linux_malta: Fix 64-bit target tests
+Date: Sat, 19 Oct 2019 17:10:58 +0200
+Message-Id: <20191019151058.31733-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019151058.31733-1-f4bug@amsat.org>
 References: <20191019151058.31733-1-f4bug@amsat.org>
@@ -71,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,143 +90,70 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qcow and kernel images use a similar pattern regarding they
-are for big/little endianess, or 32/64 bit.
-Refactor using more dictionary keys.
+Commit 9090d3332cdcc added tests for specific to the 32-bit
+machines, which inadvertently make the 64-bit tests failing.
+Now than we have this information available in the CPU_INFO
+array, use it to have the 64-bit tests back.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/linux_ssh_mips_malta.py | 75 ++++++++++++++----------
- 1 file changed, 44 insertions(+), 31 deletions(-)
+ .mailmap                                 |  1 +
+ tests/acceptance/linux_ssh_mips_malta.py | 12 ++++++------
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
+diff --git a/.mailmap b/.mailmap
+index 0756a0bf66..fb7d7ede76 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -158,3 +158,4 @@ Zhengui Li <lizhengui@huawei.com>
+ Zhenwei Pi <pizhenwei@bytedance.com>
+ Zhenwei Pi <zhenwei.pi@youruncloud.com>
+ Zhuang Yanying <ann.zhuangyanying@huawei.com>
++Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
 diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-index 822b0553ff..2139c80f5f 100644
+index 2139c80f5f..fc13f9e4d4 100644
 --- a/tests/acceptance/linux_ssh_mips_malta.py
 +++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -26,15 +26,44 @@ class LinuxSSH(Test):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-     VM_IP = '127.0.0.1'
- 
-+    BASE_URL = 'https://people.debian.org/~aurel32/qemu/'
-     IMAGE_INFO = {
--        'be': {'image_url': ('https://people.debian.org/~aurel32/qemu/mips/'
--                             'debian_wheezy_mips_standard.qcow2'),
--               'image_hash': '8987a63270df67345b2135a6b7a4885a35e392d5'},
--        'le': {'image_url': ('https://people.debian.org/~aurel32/qemu/mipsel/'
--                             'debian_wheezy_mipsel_standard.qcow2'),
--               'image_hash': '7866764d9de3ef536ffca24c9fb9f04ffdb45802'}
-+        'be': {'base_url': 'mips',
-+               'image_name': 'debian_wheezy_mips_standard.qcow2',
-+               'image_hash': '8987a63270df67345b2135a6b7a4885a35e392d5',
-+               'kernel_hash': {
-+                   32: '592e384a4edc16dade52a6cd5c785c637bcbc9ad',
-+                   64: 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'}
-+              },
-+        'le': {'base_url': 'mipsel',
-+               'image_name': 'debian_wheezy_mipsel_standard.qcow2',
-+               'image_hash': '7866764d9de3ef536ffca24c9fb9f04ffdb45802',
-+               'kernel_hash': {
-+                   32: 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a',
-+                   64: '6a7f77245acf231415a0e8b725d91ed2f3487794'}
-+              }
-+        }
-+    CPU_INFO = {
-+        32: {'kernel_release': '3.2.0-4-4kc-malta'},
-+        64: {'kernel_release': '3.2.0-4-5kc-malta'}
+@@ -44,8 +44,8 @@ class LinuxSSH(Test):
+               }
+         }
+     CPU_INFO = {
+-        32: {'kernel_release': '3.2.0-4-4kc-malta'},
+-        64: {'kernel_release': '3.2.0-4-5kc-malta'}
++        32: {'cpu': 'MIPS 24Kc', 'kernel_release': '3.2.0-4-4kc-malta'},
++        64: {'cpu': 'MIPS 20Kc', 'kernel_release': '3.2.0-4-5kc-malta'}
          }
  
-+    def get_url(self, endianess, path=''):
-+        qkey = {'le': 'el', 'be': ''}
-+        return '%s/mips%s/%s' % (self.BASE_URL, qkey[endianess], path)
-+
-+    def get_image_info(self, endianess):
-+        dinfo = self.IMAGE_INFO[endianess]
-+        image_url = self.get_url(endianess, dinfo['image_name'])
-+        image_hash = dinfo['image_hash']
-+        return (image_url, image_hash)
-+
-+    def get_kernel_info(self, endianess, wordsize):
-+        minfo = self.CPU_INFO[wordsize]
-+        kernel_url = self.get_url(endianess,
-+                                  'vmlinux-%s' % minfo['kernel_release'])
-+        kernel_hash = self.IMAGE_INFO[endianess]['kernel_hash'][wordsize]
-+        return kernel_url, kernel_hash
+     def get_url(self, endianess, path=''):
+@@ -143,16 +143,16 @@ class LinuxSSH(Test):
+         else:
+             self.fail('"%s" output does not contain "%s"' % (cmd, exp))
  
-     @skipUnless(ssh.SSH_CLIENT_BINARY, 'No SSH client available')
-     @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-@@ -79,8 +108,7 @@ class LinuxSSH(Test):
-         return stdout_lines, stderr_lines
- 
-     def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
--        image_url = self.IMAGE_INFO[endianess]['image_url']
--        image_hash = self.IMAGE_INFO[endianess]['image_hash']
-+        image_url, image_hash = self.get_image_info(endianess)
-         image_path = self.fetch_asset(image_url, asset_hash=image_hash)
- 
-         self.vm.set_machine('malta')
-@@ -172,7 +200,10 @@ class LinuxSSH(Test):
-             'md5sum /dev/mtd2ro',
-             '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
- 
--    def check_mips_malta(self, endianess, kernel_path, uname_m):
-+    def check_mips_malta(self, uname_m, endianess):
-+        wordsize = 64 if '64' in uname_m else 32
-+        kernel_url, kernel_hash = self.get_kernel_info(endianess, wordsize)
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-         self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_path)
- 
+-    def run_common_commands(self):
++    def run_common_commands(self, wordsize):
+         self.ssh_command_output_contains(
+             'cat /proc/cpuinfo',
+-            '24Kc')
++            self.CPU_INFO[wordsize]['cpu'])
+         self.ssh_command_output_contains(
+             'uname -m',
+             'mips')
+         self.ssh_command_output_contains(
+             'uname -r',
+-            '3.2.0-4-4kc-malta')
++            self.CPU_INFO[wordsize]['kernel_release'])
+         self.ssh_command_output_contains(
+             'cat /proc/interrupts',
+             'XT-PIC  timer')
+@@ -209,7 +209,7 @@ class LinuxSSH(Test):
          stdout, _ = self.ssh_command('uname -a')
-@@ -188,12 +219,7 @@ class LinuxSSH(Test):
-         :avocado: tags=endian:big
-         :avocado: tags=device:pcnet32
-         """
--        kernel_url = ('https://people.debian.org/~aurel32/qemu/mips/'
--                      'vmlinux-3.2.0-4-4kc-malta')
--        kernel_hash = '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
--        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
--
--        self.check_mips_malta('be', kernel_path, 'mips')
-+        self.check_mips_malta('mips', 'be')
+         self.assertIn(True, [uname_m + " GNU/Linux" in line for line in stdout])
  
-     def test_mips_malta32el_kernel3_2_0(self):
-         """
-@@ -202,12 +228,7 @@ class LinuxSSH(Test):
-         :avocado: tags=endian:little
-         :avocado: tags=device:pcnet32
-         """
--        kernel_url = ('https://people.debian.org/~aurel32/qemu/mipsel/'
--                      'vmlinux-3.2.0-4-4kc-malta')
--        kernel_hash = 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
--        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
--
--        self.check_mips_malta('le', kernel_path, 'mips')
-+        self.check_mips_malta('mips', 'le')
+-        self.run_common_commands()
++        self.run_common_commands(wordsize)
+         self.shutdown_via_ssh()
  
-     def test_mips_malta64eb_kernel3_2_0(self):
-         """
-@@ -216,11 +237,7 @@ class LinuxSSH(Test):
-         :avocado: tags=endian:big
-         :avocado: tags=device:pcnet32
-         """
--        kernel_url = ('https://people.debian.org/~aurel32/qemu/mips/'
--                      'vmlinux-3.2.0-4-5kc-malta')
--        kernel_hash = 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
--        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
--        self.check_mips_malta('be', kernel_path, 'mips64')
-+        self.check_mips_malta('mips64', 'be')
- 
-     def test_mips_malta64el_kernel3_2_0(self):
-         """
-@@ -229,8 +246,4 @@ class LinuxSSH(Test):
-         :avocado: tags=endian:little
-         :avocado: tags=device:pcnet32
-         """
--        kernel_url = ('https://people.debian.org/~aurel32/qemu/mipsel/'
--                      'vmlinux-3.2.0-4-5kc-malta')
--        kernel_hash = '6a7f77245acf231415a0e8b725d91ed2f3487794'
--        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
--        self.check_mips_malta('le', kernel_path, 'mips64')
-+        self.check_mips_malta('mips64', 'le')
+     def test_mips_malta32eb_kernel3_2_0(self):
 -- 
 2.21.0
 
