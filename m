@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68972DD973
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:42:42 +0200 (CEST)
-Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9697DD975
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:44:45 +0200 (CEST)
+Received: from localhost ([::1]:57164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqsL-0005hj-4Z
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47461)
+	id 1iLquK-0007ya-Ow
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkl-0005FO-Po
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:52 -0400
+ id 1iLqkn-0005HW-5H
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkk-0002vE-UZ
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:51 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33838)
+ id 1iLqkm-0002vk-2Z
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:53 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54042)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkk-0002ue-PC
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:50 -0400
-Received: by mail-wr1-x429.google.com with SMTP id t16so4098249wrr.1
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:34:50 -0700 (PDT)
+ id 1iLqkl-0002vV-TM
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:52 -0400
+Received: by mail-wm1-x344.google.com with SMTP id i16so8990327wmd.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TPCN4WzRP9NgdoqPPa5MaOK6LcXOEN/F7yGRSMuex64=;
- b=iDUCYG0HBFIrl9z6+Tn9dOLjMVypliSGEhIg6ZV1UedvGmX0MTw3fcw3z3Uy+3kkuW
- C0DsH9lQ26d+snHCskPFPRdvGYdtRLfBf7/+iEJdSKNitG9SEAsEmvaYHqnZFBECdYLz
- ZCCgQrsjoGm4qwjO+g5lOeFK3eMW/FbXPOJxr2QjIkAp5+5Hg9sThb/dXoJMXRc32gSS
- Muw5OztJiQUV+i0xwUMtBA7/vEU3KSmH4oK/RSXtRC2pgBQWsM+6o/efwMbbhq0Dia9d
- hZ+l8maVuck9/NEKtSg2MOj2kfBlGVbpQh3cYMj+jGMpB1P2F5bjnDgDxFU/B6+x9IVo
- 43kA==
+ bh=V7O/r4jTySGSLTjP6nvBKNHUVX0/r7KaAP+5isYafiU=;
+ b=ouZSdtQKJgmrGz89nYnPMLYt4p60qNxSQ6Kx2+kHPwf5scsR6fllbB9pQF6tF8TyX8
+ e77groz5ivcqBfvG6jEm+aDGpednq4Mk0LBko5dyyb1J907pclLjd/ughDKlw9EO5oKx
+ wd1jWrh/M2z638QQ2yeOOnG1OO2VhPRdlAu4t2mTdHvWBEMAPwsXAUJ34kFZCVf/6sIf
+ qSb3+7b5rPKkMCv9aWe0NhYuFhj1E2lMqMRNTgFVsUPMZamQev7PVB4Mz2/qZVDssvSO
+ dlMHFEZx/2JN/he/DA+o9PBQsiz0iOQEHdNsoXITaoq6N3bdL74gu14BUhXkLMcg+tXB
+ roMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TPCN4WzRP9NgdoqPPa5MaOK6LcXOEN/F7yGRSMuex64=;
- b=ByukUcQWypHXI/s8GeAkF41HzqMdOssG8xZaMkhQXMtZokP6i9PEZ78lHIDeYpA6HY
- 1Bb66U6ucj6L+4l2K9haZV3fxvlWTIO9BVEI5n7uCoGMy6w3RR3/BDfCfFZ2ZoEUBv4t
- Y7BBhHE2UEZ+gPxbbxtXddqF31m1ocYSFC4LeYBqMjv0nsPIlgxcuMmJYgERiMJqR32s
- vPjsczkayqdv7bcLcoiuFXqWUe1t+wLFVa7rkMAjq0UwEpHvkf8SehCu+gyIpkXp5e1c
- i3dsT6rxX3PkTbKkcwlMLJhraT0Cvt1hYx3WTdS6h7u3ptiBmzvaxz14v0R64rMr4cOM
- zJ5g==
-X-Gm-Message-State: APjAAAWDR2YcaUv51Oh+sOVOxPExYttHDuvyTUJS2KCZQ8QYNY16hc3c
- PtBhGuBLx7eLs1Fj14x3SAvDbZ9R
-X-Google-Smtp-Source: APXvYqzzvGYGHVrIJKUk6NIx1g8IHytGpnlmQPJtH2f8s9YCTiG07fRcMkTniPIcpOHtngdXjvifWQ==
-X-Received: by 2002:a5d:5704:: with SMTP id a4mr11078654wrv.281.1571499289652; 
- Sat, 19 Oct 2019 08:34:49 -0700 (PDT)
+ bh=V7O/r4jTySGSLTjP6nvBKNHUVX0/r7KaAP+5isYafiU=;
+ b=h0Qrc177xKt/IgGrMZyRs8u0lenmv9wlUq2gE+OChrF8jJTeFTCz1i801BF3+/7WYx
+ Kxi3QJIT9vCrwGQDluCPSHoq/YXcEOI/1KFz3zLoRoQOm/PaMCRLnZOCcpkr81MtXGk0
+ CCns9SnKBN926Cj1DDKG6dirZUVl+l2W8NdW1SkOhnmPWN0B7Q3Qec54Bmq37IWILdLx
+ nRROsbNAHD1DwhnrjhOKBN7Cd7AoCdGRmFo+TVj4+/kdUyQbIjI2UjWoS3RZZdmDFZs6
+ DGN4fJmjuZX4vCQo/kWFF638O+HTa16BQtyGScJ7scUKQIreSSH26/lKc/dYPxu56RBo
+ W8mw==
+X-Gm-Message-State: APjAAAUXQzjGfzkByY6wR2qnUZj7OrzuQqipaWel8dJCo/TBCZ019OAf
+ ys7d+tFk35evg6K5+CCrstq6/Pus
+X-Google-Smtp-Source: APXvYqyvDdkXv0SJtMI0ncTLlsJwlefnPc3J+9AKHVmlCsCNDRET5Jc/0VfNrchDoKnDc+JlV4XBjg==
+X-Received: by 2002:a05:600c:2107:: with SMTP id
+ u7mr12507264wml.86.1571499290793; 
+ Sat, 19 Oct 2019 08:34:50 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id j19sm15245605wre.0.2019.10.19.08.34.48
+ by smtp.gmail.com with ESMTPSA id j19sm15245605wre.0.2019.10.19.08.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 08:34:49 -0700 (PDT)
+ Sat, 19 Oct 2019 08:34:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/11] tests/ssh_linux_malta: Remove duplicated test
-Date: Sat, 19 Oct 2019 17:34:34 +0200
-Message-Id: <20191019153437.9820-9-f4bug@amsat.org>
+Subject: [PATCH v2 09/11] tests/ssh_linux_malta: Match stricter console output
+Date: Sat, 19 Oct 2019 17:34:35 +0200
+Message-Id: <20191019153437.9820-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019153437.9820-1-f4bug@amsat.org>
 References: <20191019153437.9820-1-f4bug@amsat.org>
@@ -70,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,28 +91,68 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove duplicated test (probably copy/paste error in
-commit 9090d3332cdcc).
+Match on stricter console output.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/linux_ssh_mips_malta.py | 3 ---
- 1 file changed, 3 deletions(-)
+ tests/acceptance/linux_ssh_mips_malta.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-index 27907e8fbd..5523ae2144 100644
+index 5523ae2144..822b0553ff 100644
 --- a/tests/acceptance/linux_ssh_mips_malta.py
 +++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -140,9 +140,6 @@ class LinuxSSH(Test):
+@@ -127,19 +127,19 @@ class LinuxSSH(Test):
+             '3.2.0-4-4kc-malta')
          self.ssh_command_output_contains(
              'cat /proc/interrupts',
-             'eth0')
--        self.ssh_command_output_contains(
--            'cat /proc/interrupts',
+-            'timer')
++            'XT-PIC  timer')
+         self.ssh_command_output_contains(
+             'cat /proc/interrupts',
+-            'i8042')
++            'XT-PIC  i8042')
+         self.ssh_command_output_contains(
+             'cat /proc/interrupts',
+-            'serial')
++            'XT-PIC  serial')
+         self.ssh_command_output_contains(
+             'cat /proc/interrupts',
+-            'ata_piix')
++            'XT-PIC  ata_piix')
+         self.ssh_command_output_contains(
+             'cat /proc/interrupts',
 -            'eth0')
++            'XT-PIC  eth0')
          self.ssh_command_output_contains(
              'cat /proc/devices',
              'input')
+@@ -151,13 +151,13 @@ class LinuxSSH(Test):
+             'fb')
+         self.ssh_command_output_contains(
+             'cat /proc/ioports',
+-            'serial')
++            ' : serial')
+         self.ssh_command_output_contains(
+             'cat /proc/ioports',
+-            'ata_piix')
++            ' : ata_piix')
+         self.ssh_command_output_contains(
+             'cat /proc/ioports',
+-            'piix4_smbus')
++            ' : piix4_smbus')
+         self.ssh_command_output_contains(
+             'lspci -d 11ab:4620',
+             'GT-64120')
+@@ -167,7 +167,7 @@ class LinuxSSH(Test):
+         self.ssh_command_output_contains(
+             'cat /proc/mtd',
+             'YAMON')
+-        # Empty 'Board Config'
++        # Empty 'Board Config' (64KB)
+         self.ssh_command_output_contains(
+             'md5sum /dev/mtd2ro',
+             '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
 -- 
 2.21.0
 
