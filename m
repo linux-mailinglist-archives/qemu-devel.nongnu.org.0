@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FB2DD96D
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:39:56 +0200 (CEST)
-Received: from localhost ([::1]:56980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7371DD96A
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 17:37:28 +0200 (CEST)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLqpe-0001yn-Lv
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47411)
+	id 1iLqnH-0006zK-E7
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 11:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqkf-000574-KQ
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:46 -0400
+ id 1iLqkh-00059L-Do
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqke-0002rP-Kl
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:45 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37052)
+ id 1iLqkg-0002sB-2s
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:47 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37054)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLqke-0002qp-Fb
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:44 -0400
-Received: by mail-wm1-x331.google.com with SMTP id f22so8753614wmc.2
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:34:44 -0700 (PDT)
+ id 1iLqkf-0002rw-Ti
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 11:34:46 -0400
+Received: by mail-wm1-x333.google.com with SMTP id f22so8753641wmc.2
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 08:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L17Gkpekc5/KDSlV7uWJjFxc0f5cH+nD4BY7UX0P8ME=;
- b=VbTWNm05GGkKArp4LyU8HhBqRSYshuND0h/tYWWOaIjlduqCpKuT2IUsXog4FnzL99
- V30OCecJAZcENWPydi53HJxNlyfKfOJmpmkWZabu840F9p0wxDRkndXAGyZPz4seuWCf
- sM94HiFCm9iJ0Z+epzzGB/aVH3q/hFPXS20hOLRSuqrz1D1RCV/ni3eDmQ4/XqAw3XjH
- BI+Oz69jAHHYTXz8qGNzy7gUg+msOP1kJLyYT+SDSC5cOIV0Zy9JyY43GQosK2I8r7j5
- 5dlyT0KSW9MuUV0k3ifrUYky3bS0Bw4OpVwmeHksMk4wP/pWaOiPIfUqoE5G/NLBiXEF
- VaQA==
+ bh=l2a+TCqZPYf8Fdku0JFcZTliUzkB7c4m1IgL3Bv67Zg=;
+ b=eL91lvr1o7Kg+wOKDN8X3IJ7Xkcx4yhEg7uXfWnOxQ4ySTyO1IpVxhXqBnIOfWhy+t
+ rBa+kChJMwlryj8epNZFktmaCS2QcNwUTVwZR9jb0joc30ULEFKSYY4r0CMf41+XUltM
+ BvShJYu6lRUGVVVUwj9elHaJxBID/bgfw6JgDR3Omo9STh7NhWy6pz3+MfeTQkHKpC5Z
+ FDA7vCjGkSvDwfqvkqRTHaLNfpVy9lY+rlkb64lfIQeu/eZBQXTGoPy5y7nxoWRlSrrx
+ 6Q8bGvEQFdzkoLowLkNX/8OuWxGRh2x+iZYA4MlEVOvhsqbLUyiNzqzeBNNlqgjjOGf9
+ 8ALA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L17Gkpekc5/KDSlV7uWJjFxc0f5cH+nD4BY7UX0P8ME=;
- b=Nwt2E5gYlA+QP3glKt7RulyrweEZEIUuPvEBJ7657gdLEyNa51Hx7b2QCx+TlZYK+o
- Z13znp14EQBZCtAWugKRa3yna3zjQMN9kF9E41KONZA2/Bek3vgrU/GyCk/LkXMITYG4
- Tg+cWz4+PX8oClzyn/QIarX6ShH24W7eaZbxr3eryzdLHTY9s+zVOcOH+defefH55CT7
- ZiRwb/97lCG5+nDyZ8Mo08SIS+7+MaWGXNxvlIU2iRCXWYvnlfYg55FaKJqUsC+65eQO
- Pr/q2eazpl7DA+sORMHh2UD9AN44PyMqM3svI3GLslpp1AoBsa6UEHRp79sV/h8KdJ2K
- iVnw==
-X-Gm-Message-State: APjAAAVO3bTfikvxfwufaCABgeuE/XJgTaGmVtcipgMdeu9uslJxW7u7
- scCjI+iCI8yDA6qAwffJQgiiaHdD
-X-Google-Smtp-Source: APXvYqzYa7pnmv62Bdo1K0pV/nZLzv+TqHN89ETx0czpXxYGJeTnD52UVxty1+nM8PYr5tm9KZOUYQ==
-X-Received: by 2002:a1c:99d5:: with SMTP id b204mr7051001wme.64.1571499283337; 
- Sat, 19 Oct 2019 08:34:43 -0700 (PDT)
+ bh=l2a+TCqZPYf8Fdku0JFcZTliUzkB7c4m1IgL3Bv67Zg=;
+ b=TsAeFRbTiHQSVjVt1wfko3avXLYUbbrjALcgC4OQmp3WoiRL0IBjYl4s6Xxnf2idi2
+ 5l+/6iE7wQ0YS8zu6k15Hz9B6K++jdT6r6ooVv8njDrX9cqLeMr1hxDkvxRAeLmCIAlV
+ aTDevAtrVb9NIilo1cxNsIqnB1qVduJLbA7Q8ln4zVUi0wetOjKHYooCAsOpp1uM3XKF
+ ZErRFOgzEOrLls1NjgwJhXQ/FuNZiEr1VuY++6OaZOcuS+PqYi0dfF7wnFDslesbVEYZ
+ iUQINz349Tx90NTdwz1BLmb4L0T8xZQkz1zilTbpyf2aNJviOvMjpdlVbeRDlsu9ZaNT
+ kEAw==
+X-Gm-Message-State: APjAAAXvL7gbKOP9kAJOkYum7pHtUbHmpDxGejptMNvxq893joFdoRvQ
+ q2wKIjt186xo7zQtQ082f0pAfuco
+X-Google-Smtp-Source: APXvYqxFnHkP56/IBULT5vzXpkrkh6hmUd7Rs0z883K54SntiBLeB1rb6f5NmeaIMaBgh9KYIpJTPQ==
+X-Received: by 2002:a1c:5946:: with SMTP id n67mr12569560wmb.93.1571499284716; 
+ Sat, 19 Oct 2019 08:34:44 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id j19sm15245605wre.0.2019.10.19.08.34.42
+ by smtp.gmail.com with ESMTPSA id j19sm15245605wre.0.2019.10.19.08.34.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 08:34:42 -0700 (PDT)
+ Sat, 19 Oct 2019 08:34:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/11] tests/acceptance: Send <carriage return> on serial
- lines
-Date: Sat, 19 Oct 2019 17:34:29 +0200
-Message-Id: <20191019153437.9820-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/11] tests/acceptance: Refactor
+ exec_command_and_wait_for_pattern()
+Date: Sat, 19 Oct 2019 17:34:30 +0200
+Message-Id: <20191019153437.9820-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019153437.9820-1-f4bug@amsat.org>
 References: <20191019153437.9820-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,34 +84,99 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some firmwares don't parse the <Newline> control character and
-expect a <carriage return>.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The same utility method is already present in two different test
+files, so let's consolidate it into a single utility function.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: fix self -> test, failure_message is optional, added doc
+---
+ tests/acceptance/avocado_qemu/__init__.py | 19 +++++++++++++++++++
+ tests/acceptance/boot_linux_console.py    | 18 +++++++-----------
+ 2 files changed, 26 insertions(+), 11 deletions(-)
 
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index a0450e5263..7bc77118dd 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -79,6 +79,25 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
+             test.fail(fail)
+ 
+ 
++def exec_command_and_wait_for_pattern(test, command,
++                                      success_message, failure_message=None):
++    """
++    Send a command to a console (appending CRLF characters), then wait
++    for success_message to appear on the console, while logging the.
++    content. Mark the test as failed if failure_message is found instead.
++
++    :param test: an Avocado test containing a VM that will have its console
++                 read and probed for a success or failure message
++    :type test: :class:`avocado_qemu.Test`
++    :param command: the command to send
++    :param success_message: if this message appears, test succeeds
++    :param failure_message: if this message appears, test fails
++    """
++    command += '\r\n'
++    test.vm.console_socket.sendall(command.encode())
++    wait_for_console_pattern(test, success_message, failure_message)
++
++
+ class Test(avocado.Test):
+     def setUp(self):
+         self._vms = {}
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8897e0c253..497faa4f7f 100644
+index 497faa4f7f..4b419b0559 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -34,7 +34,7 @@ class BootLinuxConsole(Test):
+@@ -14,6 +14,7 @@ import gzip
+ import shutil
+ 
+ from avocado_qemu import Test
++from avocado_qemu import exec_command_and_wait_for_pattern
+ from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
+ from avocado.utils import archive
+@@ -33,11 +34,6 @@ class BootLinuxConsole(Test):
+         wait_for_console_pattern(self, success_message,
                                   failure_message='Kernel panic - not syncing')
  
-     def exec_command_and_wait_for_pattern(self, command, success_message):
--        command += '\n'
-+        command += '\r\n'
-         self.vm.console_socket.sendall(command.encode())
-         wait_for_console_pattern(self, success_message)
+-    def exec_command_and_wait_for_pattern(self, command, success_message):
+-        command += '\r\n'
+-        self.vm.console_socket.sendall(command.encode())
+-        wait_for_console_pattern(self, success_message)
+-
+     def extract_from_deb(self, deb, path):
+         """
+         Extracts a file from a deb package into the test workdir
+@@ -166,12 +162,12 @@ class BootLinuxConsole(Test):
+         self.vm.launch()
+         self.wait_for_console_pattern('Boot successful.')
  
+-        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
+-                                               'BogoMIPS')
+-        self.exec_command_and_wait_for_pattern('uname -a',
+-                                               'Debian')
+-        self.exec_command_and_wait_for_pattern('reboot',
+-                                               'reboot: Restarting system')
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
++                                                'BogoMIPS')
++        exec_command_and_wait_for_pattern(self, 'uname -a',
++                                                'Debian')
++        exec_command_and_wait_for_pattern(self, 'reboot',
++                                                'reboot: Restarting system')
+ 
+     def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
+         kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 -- 
 2.21.0
 
