@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86522DDB86
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 01:55:56 +0200 (CEST)
-Received: from localhost ([::1]:42198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC36DDB89
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 01:57:39 +0200 (CEST)
+Received: from localhost ([::1]:42238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLyZf-0002HB-6f
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 19:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34603)
+	id 1iLybK-00058N-Iz
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 19:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34615)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLyRc-0000L9-Um
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:38 -0400
+ id 1iLyRe-0000N2-2U
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLyRb-0005bu-9P
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:36 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54735)
+ id 1iLyRc-0005cg-RU
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 19:47:37 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39022)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iLyRb-0005bT-2s; Sat, 19 Oct 2019 19:47:35 -0400
-Received: by mail-wm1-x344.google.com with SMTP id p7so9571458wmp.4;
- Sat, 19 Oct 2019 16:47:35 -0700 (PDT)
+ id 1iLyRc-0005cR-LS; Sat, 19 Oct 2019 19:47:36 -0400
+Received: by mail-wm1-x344.google.com with SMTP id v17so9293640wml.4;
+ Sat, 19 Oct 2019 16:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hzx2Z74qGFZSNpjuH9vOZR/ojrt91Hb2qK0YE066IUA=;
- b=Y/ucdF6+qGousf4AIhsskoRpKkJYMA27c3fnwTLNX7M6LpBoWOMvMakyouDmgiVd96
- DAJuC4OY5Y0YQlyO7AxRLtF/3/lGO5FHQFTz78oSeqq2XnSMMMY9hL+kG2jWKUxITpPE
- 39IRbchR2vMbsvlLv0v2nO9mXFxFcHMfunjT9MZ1SaGBaLUpH8ch+kYnoUSxfxuFRAcL
- hgJVZrrbazlZdt+tK64BhnYyh9Fwuqil1JzCbZA1/FXBhFzdmtkSaznPzzLU58kHUmeK
- DsQdFIcLWS0eCwc5/qXsAS0Hm+dMAJUosG+Hw03dqa71W78MOcKoY7xcrTEsGVjmT11S
- O3Eg==
+ bh=t7hE2pbrub3AVEyc/oyjS4UfKKd4rj51NgMEOKFwXuo=;
+ b=BFiqlYfHurAD4oF18R9w4sddxFJxMhYyTp07v52acGbmFLL6ijI/6Qxnuf6WJ6eYXh
+ xvIaYeou6w2D87k7Bn8lAG/i2pzPQ9NaSyIahJB8nR3OT2xujB4hWoQjoqwtzVg4TqgB
+ 9tDeY/fj7y+byjBTPsnZyS992eUUJ9VfDktMXN6wy7jmsj8AvqGoJoKdBtC3OaBg+8Jk
+ aBhgZp57FTLnjD8nI+lYD+7jRePVrXMGS8j3ElSAmqLWrb1CEzP+cwDCry8hlK4EMyHl
+ Fpvfg+J4Zfq+Z6fKcQai4qlPK6r/sNMFkFUKed2lUCYFQJ63WeGzJegOZG8fT/1eWxoD
+ OgtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hzx2Z74qGFZSNpjuH9vOZR/ojrt91Hb2qK0YE066IUA=;
- b=DO01LkkBPbGuJKdUbKqWA2fWTCotXEPhNyjYTR4r3JRGP2pqOJvkxf8Z1R2gp05p8V
- 1yzdwSVBNsDrNohhfH3PC7FRVvCQdr7LYmSObYc92W7ezXklcmFDDEL1GF7nLSNWk3PD
- 1vS5UaubC4DZOa/O6I0IneSus4/7M8inh1RnU3mUF56y96PMFEMh31TL44zIcm7NUk/2
- qMOd8dVWsCL50LURDhAyHg2PFVUn6B7Pv47fgk0wlJfUQR7KaklfeUW86pyYoSpj1pOR
- rQfhmfmMv0f+RxINbnWq4Fc6kp3bMvF6f97whAriwRVPsJrA5zdRk+23+bOx/mczXrWS
- E/fg==
-X-Gm-Message-State: APjAAAWPJPOqXVL5o/g09AbI2QM2gT9LHYPeZwCNHZH6XgRFFBicxYpY
- RrXMZqgrv36ypl/04qMkxQWv5xZF
-X-Google-Smtp-Source: APXvYqwh90RX58ttTpJRcyt40w6Qt8HzyUzCbLKwZ4kTfmxPneV9ScNXcdjxrx30GOTfPhiws2C0ZQ==
-X-Received: by 2002:a1c:1d48:: with SMTP id d69mr1046207wmd.160.1571528853837; 
- Sat, 19 Oct 2019 16:47:33 -0700 (PDT)
+ bh=t7hE2pbrub3AVEyc/oyjS4UfKKd4rj51NgMEOKFwXuo=;
+ b=hjZmr4QRIh0YEuLlzlz077I4lXo1Y7OCblWEhGdt8lPQ9RsZrS8muZw545i8slcaaZ
+ WasCJL/jJWW0S/B6tqsLc1orLWKW2RMLiJrGLqS/Ez7rxDEguDEzFRRB4SralKFeoBXr
+ Un25aLQWMj1WtwwXdL8tdwb2BZeTxM/vcTqa5cZuh4gTJOHbG+dYI7bG+kYnH0C1ojjc
+ jbWZjeg95JBVvqPOljxkcZQueVaQx5AsqsvceJP5mjsPV9GVxx7xXjQ8IabXcDqDJQwf
+ JvJBJqZ/7/7NCQ/nBgZbfRyvk2sPoUtDv9lr2BtUeIBrvsFs9OimBmKzDFXLRV8yQXs9
+ 9Mkg==
+X-Gm-Message-State: APjAAAVT0jYWjwV0YtOYZXlKw+7W2WZejM4iDyjirFABKBkbqVNBYcCS
+ NMnixOQeD4WU2PK7sAvpPXa2m0OF
+X-Google-Smtp-Source: APXvYqzpWnjlcXtzlmFfKR1N9DGo6jcA7bC2qkg2M9spZoNI+9M3hXPwPeA3U5WPALFqe5Z7w6sSIQ==
+X-Received: by 2002:a1c:658a:: with SMTP id
+ z132mr12769528wmb.174.1571528855548; 
+ Sat, 19 Oct 2019 16:47:35 -0700 (PDT)
 Received: from x1w.redhat.com (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id u1sm10433763wrp.56.2019.10.19.16.47.32
+ by smtp.gmail.com with ESMTPSA id u1sm10433763wrp.56.2019.10.19.16.47.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Oct 2019 16:47:33 -0700 (PDT)
+ Sat, 19 Oct 2019 16:47:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/16] hw/arm/bcm2836: Create VideoCore address space in
- the SoC
-Date: Sun, 20 Oct 2019 01:47:08 +0200
-Message-Id: <20191019234715.25750-10-f4bug@amsat.org>
+Subject: [PATCH v3 10/16] hw/arm/raspi: Use AddressSpace when using
+ arm_boot::write_secondary_boot
+Date: Sun, 20 Oct 2019 01:47:09 +0200
+Message-Id: <20191019234715.25750-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191019234715.25750-1-f4bug@amsat.org>
 References: <20191019234715.25750-1-f4bug@amsat.org>
@@ -97,199 +98,53 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the VideoCore is created in the Peripheral container
-as the 'GPU bus'. It is created there because the peripherals
-using DMA use physical addresses from the VideoCore bus.
-However the VideoCore is a GPU core placed at the same
-hierarchical level than the ARM cores.
-
-To match the datasheet design, create the VideoCore container
-in the SoC, and link it to the peripheral container.
-
-The VideoCore bus is 1GiB wide, accessible at 4 regions in
-different cache configurations. Add the full mapping.
-
-Before this commit the memory tree is:
-
-  (qemu) info mtree
-  address-space: bcm2835-dma-memory
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-After:
-
-  address-space: bcm2835-dma-memory
-    0000000000000000-00000000ffffffff (prio 0, i/o): gpu-bus
-      0000000000000000-000000003fffffff (prio 0, i/o): alias l1-l2-cached @videocore 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, i/o): alias l2-cached-coherent @videocore 0000000000000000-000000003fffffff
-      0000000080000000-00000000bfffffff (prio 0, i/o): alias l2-cached @videocore 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, i/o): alias direct-uncached @videocore 0000000000000000-000000003fffffff
-
-  memory-region: videocore
-    0000000000000000-000000003fffffff (prio 0, i/o): videocore
-      0000000000000000-000000003fffffff (prio 0, i/o): alias vc-ram @ram 0000000000000000-000000003fffffff
-      000000003e000000-000000003effffff (prio 1, i/o): alias vc-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-
-Now the periferals are accessible from the uncached region too.
+write_secondary_boot() is used in SMP configurations where the
+CPU address space might not be the main System Bus.
+The rom_add_blob_fixed_as() function allow us to specify an
+address space. Use it to write each boot blob in the corresponding
+CPU address space.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/bcm2835_peripherals.c         | 25 +++++-------------
- hw/arm/bcm2836.c                     | 38 ++++++++++++++++++++++++++++
- include/hw/arm/bcm2835_peripherals.h |  4 +--
- include/hw/arm/bcm2836.h             |  7 +++++
- 4 files changed, 53 insertions(+), 21 deletions(-)
+ hw/arm/raspi.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index d51e9c8def..5da310efb1 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -9,6 +9,7 @@
-  */
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index a12459bc41..569d85c11a 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -60,12 +60,14 @@ static void write_smpboot(ARMCPU *cpu, const struct arm_boot_info *info)
+     QEMU_BUILD_BUG_ON((BOARDSETUP_ADDR & 0xf) != 0
+                       || (BOARDSETUP_ADDR >> 4) >= 0x100);
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "hw/arm/bcm2835_peripherals.h"
-@@ -45,10 +46,6 @@ static void bcm2835_peripherals_init(Object *obj)
-     object_property_add_child(obj, "peripheral-io", OBJECT(&s->peri_mr), NULL);
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->peri_mr);
+-    rom_add_blob_fixed("raspi_smpboot", smpboot, sizeof(smpboot),
+-                       info->smp_loader_start);
++    rom_add_blob_fixed_as("raspi_smpboot", smpboot, sizeof(smpboot),
++                          info->smp_loader_start,
++                          arm_boot_address_space(cpu, info));
+ }
  
--    /* Internal memory region for peripheral bus addresses (not exported) */
--    memory_region_init(&s->gpu_bus_mr, obj, "bcm2835-gpu", (uint64_t)1 << 32);
--    object_property_add_child(obj, "gpu-bus", OBJECT(&s->gpu_bus_mr), NULL);
--
-     /* Internal memory region for request/response communication with
-      * mailbox-addressable peripherals (not exported)
-      */
-@@ -140,21 +137,11 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     ram = MEMORY_REGION(obj);
-     ram_size = memory_region_size(ram);
+ static void write_smpboot64(ARMCPU *cpu, const struct arm_boot_info *info)
+ {
++    AddressSpace *as = arm_boot_address_space(cpu, info);
+     /* Unlike the AArch32 version we don't need to call the board setup hook.
+      * The mechanism for doing the spin-table is also entirely different.
+      * We must have four 64-bit fields at absolute addresses
+@@ -92,10 +94,10 @@ static void write_smpboot64(ARMCPU *cpu, const struct arm_boot_info *info)
+         0, 0, 0, 0
+     };
  
--    /* Map peripherals and RAM into the GPU address space. */
--    memory_region_init_alias(&s->peri_mr_alias, OBJECT(s),
--                             "bcm2835-peripherals", &s->peri_mr, 0,
--                             memory_region_size(&s->peri_mr));
--
--    memory_region_add_subregion_overlap(&s->gpu_bus_mr, BCM2835_VC_PERI_BASE,
--                                        &s->peri_mr_alias, 1);
--
--    obj = OBJECT(&s->gpu_bus_mr);
--    /* RAM is aliased four times (different cache configurations) on the GPU */
--    for (n = 0; n < 4; n++) {
--        memory_region_init_alias(&s->ram_alias[n], OBJECT(s),
--                                 "bcm2835-gpu-ram-alias[*]", ram, 0, ram_size);
--        memory_region_add_subregion_overlap(&s->gpu_bus_mr, (hwaddr)n << 30,
--                                            &s->ram_alias[n], 0);
-+    obj = object_property_get_link(OBJECT(dev), "videocore-bus", &err);
-+    if (obj == NULL) {
-+        error_setg(errp, "%s: required videocore-bus link not found: %s",
-+                   __func__, error_get_pretty(err));
-+        return;
-     }
+-    rom_add_blob_fixed("raspi_smpboot", smpboot, sizeof(smpboot),
+-                       info->smp_loader_start);
+-    rom_add_blob_fixed("raspi_spintables", spintables, sizeof(spintables),
+-                       SPINTABLE_ADDR);
++    rom_add_blob_fixed_as("raspi_smpboot", smpboot, sizeof(smpboot),
++                          info->smp_loader_start, as);
++    rom_add_blob_fixed_as("raspi_spintables", spintables, sizeof(spintables),
++                          SPINTABLE_ADDR, as);
+ }
  
-     /* Interrupt Controller */
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 374a44b38c..ada35e5620 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -51,6 +51,14 @@ static void bcm2836_init(Object *obj)
-     const BCM283XInfo *info = bc->info;
-     int n;
- 
-+    /* VideoCore memory region */
-+    memory_region_init(&s->vc.gpu, obj, "videocore", 1 * GiB);
-+    object_property_add_child(obj, "videocore", OBJECT(&s->vc.gpu), NULL);
-+
-+    /* Internal memory region for peripheral bus addresses (not exported) */
-+    memory_region_init(&s->vc.bus, obj, "gpu-bus", 4 * GiB);
-+    object_property_add_child(obj, "gpu-bus", OBJECT(&s->vc.bus), NULL);
-+
-     for (n = 0; n < BCM283X_NCPUS; n++) {
-         memory_region_init(&s->cpu[n].container, obj, "cpu-bus", 4 * GiB);
- 
-@@ -97,6 +105,12 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-         error_propagate(errp, err);
-         return;
-     }
-+    object_property_add_const_link(OBJECT(&s->peripherals), "videocore-bus",
-+                                   OBJECT(&s->vc.bus), &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&s->peripherals), true, "realized", &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -112,6 +126,30 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
- 
-     peri_mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->peripherals), 0);
- 
-+    /* Map peripherals and RAM into the GPU address space. */
-+    memory_region_init_alias(&s->vc.peri_alias, OBJECT(s),
-+                             "vc-peripherals", peri_mr, 0,
-+                             memory_region_size(peri_mr));
-+    memory_region_add_subregion_overlap(&s->vc.gpu, 0x3e000000,
-+                                        &s->vc.peri_alias, 1);
-+    memory_region_init_alias(&s->vc.ram_alias, OBJECT(s),
-+                             "vc-ram", ram_mr, 0, ram_size);
-+    memory_region_add_subregion(&s->vc.gpu, 0,
-+                                &s->vc.ram_alias);
-+    static const char * const bus_alias_name[] = {
-+        "l1-l2-cached",
-+        "l2-cached-coherent",
-+        "l2-cached",
-+        "direct-uncached"
-+    };
-+    /* Alias different cache configurations on the GPU */
-+    for (n = 0; n < ARRAY_SIZE(bus_alias_name); n++) {
-+        memory_region_init_alias(&s->vc.gpu_alias[n], OBJECT(s),
-+                                 bus_alias_name[n], &s->vc.gpu, 0, 1 * GiB);
-+        memory_region_add_subregion(&s->vc.bus, n * GiB,
-+                                    &s->vc.gpu_alias[n]);
-+    }
-+
-     /* bcm2836 interrupt controller (and mailboxes, etc.) */
-     object_property_set_bool(OBJECT(&s->control), true, "realized", &err);
-     if (err) {
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index 7859281e11..fb6d84ec50 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -36,8 +36,8 @@ typedef struct BCM2835PeripheralState {
-     SysBusDevice parent_obj;
-     /*< public >*/
- 
--    MemoryRegion peri_mr, peri_mr_alias, gpu_bus_mr, mbox_mr;
--    MemoryRegion ram_alias[4];
-+    MemoryRegion peri_mr, mbox_mr;
-+
-     qemu_irq irq, fiq;
- 
-     BCM2835SystemTimerState systmr;
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index e3498cb861..787ab76738 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -35,6 +35,13 @@ typedef struct BCM283XState {
-     char *cpu_type;
-     uint32_t enabled_cpus;
- 
-+    struct {
-+        MemoryRegion bus;
-+        MemoryRegion gpu;
-+        MemoryRegion peri_alias;
-+        MemoryRegion ram_alias;
-+        MemoryRegion gpu_alias[4];
-+    } vc;
-     struct {
-         ARMCPU core;
-         MemoryRegion container;
+ static void write_board_setup(ARMCPU *cpu, const struct arm_boot_info *info)
 -- 
 2.21.0
 
