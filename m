@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477A4DDAEB
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Oct 2019 22:41:56 +0200 (CEST)
-Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3A8DDB58
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 00:39:48 +0200 (CEST)
+Received: from localhost ([::1]:40194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLvXu-0006aZ-Qs
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 16:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
+	id 1iLxNz-0002Yw-IQ
+	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 18:39:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLvWy-00067b-5F
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 16:40:58 -0400
+ (envelope-from <nicolas.prochazka@gmail.com>) id 1iLwPj-00058g-6B
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 17:37:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLvWv-0004Gz-LV
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 16:40:56 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34411)
+ (envelope-from <nicolas.prochazka@gmail.com>) id 1iLwPf-0007nf-VX
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 17:37:31 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43678)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iLvWv-0004GX-Co
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 16:40:53 -0400
-Received: by mail-oi1-x244.google.com with SMTP id 83so8064103oii.1
- for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 13:40:53 -0700 (PDT)
+ (Exim 4.71) (envelope-from <nicolas.prochazka@gmail.com>)
+ id 1iLwPf-0007ms-Ib
+ for qemu-devel@nongnu.org; Sat, 19 Oct 2019 17:37:27 -0400
+Received: by mail-ed1-x533.google.com with SMTP id q24so1189344edr.10
+ for <qemu-devel@nongnu.org>; Sat, 19 Oct 2019 14:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=Q42cFN3FIB6M48/IeeZ8XgxcSEFcwbKGu4YPq71rB4U=;
- b=E3PlLBDUtDPZEfbIZytcqa3T0J+9puF8ZrPckoNN69CdVk5cD5M/kp/ZrqnkvD99L1
- 9A5GJ7LJxAtmATDKiTRjYmk8LaE8EX8zT87oyanmTHol3qyYpIfhQK3Uo9ld5PBK81vi
- wbLqezY1oOGYiLtkgEfGOX+QEUZjypPRpAXwCJWJf2naTehQWK+AXf98zh4CGiFNE92r
- bp6kRakz0fYuf/OyCLOX2smIhHlDATBiUWIQuIAeOKuct0I/VmDFlAPo+hA8Y6OHGbY9
- Fp7r1OXhb08p2qNKGm0UIGcqutkXeDzX4VpnuW+OPGJjjqeWIyNQTtZVgduBaGFO9/rr
- ossg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=8SykEx+8B03/td97h9Em75rZp1TlbTcykQ23snPlyK8=;
+ b=VNBma5pEu/kd8dxBhYPKs17BcUdY5vHkyPb2wvYAw7xNGH3tdre3HqKH/3TgCPAlP7
+ Ogg8xDVvf25odM62E7sWsyWSc4IpXwGycKRnknh4lnxJdcZbhqNWHXU53iPHoxspkxzH
+ GDUDi6woUElLPYHqetswUmvK7fNtrFwvkQ6F+Q6QHnab9aF8DisMYPMi+7YjOZCg640G
+ 3JAN0UAj5fTcS5ThoOpuFdcSmH3Sknt0b40Axws6oVa9qp1UoZZMVxCUj3P6ZgZJpCJN
+ Ly6ZFfL3FlQmTY+Qu8Qp2ULzTZ4QtajQIcRBgzt8QrBclN1+U3YCJBjzXW/RoeNUbCaL
+ xaiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=Q42cFN3FIB6M48/IeeZ8XgxcSEFcwbKGu4YPq71rB4U=;
- b=RvR82PDXJZLzIuubEYmBm8ypCC4a2BgsYvGFTO/ND9wxR8u9ixvwnXREIwZDQVNQi3
- PgJ8CrTh9ckOjguzy/RyrA+gxod6jurqoy7NhHX9TdNIr/xpP3Ct64dtlglQgZYLbr+2
- J9act8snSdqypPgB4HpFuVg0uBpnwesKw+qsPb8NCWHv42wqTELuRdmtRQ4glaUnIjO+
- XhyAKMLB0fHb1qwTnhJ19SC2M6FlU3WVvbVPT1m8q71dt9dcWg3Bgxcjr7GYWRo2rD+M
- CoQLCsLGvfWq2ajJEv2eKIDuIokvZpxXfgMzty3P9wEj6aH9V7kDNweJLf+9TuDbm6pn
- yRxA==
-X-Gm-Message-State: APjAAAWSF8MN0HWu5ZWDj182087PNEbTExkKZq2gJ13d8lMKv5MK/0ZA
- 7AjetNIbOJrkKO0dZo/fMvcQeELKhps+cGb1VMDqHw==
-X-Google-Smtp-Source: APXvYqz+CpQ8YelBeGQ5jY0flcUC4V322gfBFfZ3knGpxFctHzDm83PNvx0pjqbIjmLjaPPYKSf9vMVl5cO/TZ+97EU=
-X-Received: by 2002:aca:62d5:: with SMTP id
- w204mr13181225oib.136.1571517652353; 
- Sat, 19 Oct 2019 13:40:52 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=8SykEx+8B03/td97h9Em75rZp1TlbTcykQ23snPlyK8=;
+ b=QCkhqeGejtKyborFpp7Sjx7wtFb+c2SEMx0Q734ykFIBSusZw6ZIl/BsoujaMU13IO
+ g2h+B9xE380YR7EEE+Ts8GusgPUKlM/T60lqnzYPAzJNQ4Id5ZkwHIlwuhOOafUZpgKK
+ RQYOiZO3CrV5CjgilAuKuBdZi/Nso1CzHBtr5Usb9iOfXjFUxgMt0A2ZCvZHxrQFxigt
+ CpbI4Q/fKTyOkrvkOTqJ1/P4ne2HYgoZ+0UiMAx3k2YzYiXf2fhsQMMFsHqPyOUmvz9o
+ fd1cA7rntHgZcFhunc7oMqeyHBgDehGM2beaXjMx1x5m3IIyKlNh/1/3qRAAJIyrjhjf
+ Sg3g==
+X-Gm-Message-State: APjAAAX1mTKydsZ3PVwsVVoeqfmw1ettJXEAlgvLU+PUavIV5LUOi8Iq
+ rMSdhj/gKoVWh8MRe35aoQmGQSjrGTkHGdC5IJHdvKI1
+X-Google-Smtp-Source: APXvYqwK0WchrKzbIYasEX90Hb7pr3oBLDCMaKFdP/cGN9CgI2ZB039YDckQVF9rdEeyWOfaaylnvEXojLx/Z0Vjaow=
+X-Received: by 2002:a17:906:c4a:: with SMTP id
+ t10mr14987951ejf.290.1571521044658; 
+ Sat, 19 Oct 2019 14:37:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sat, 19 Oct 2019 13:40:51
- -0700 (PDT)
-In-Reply-To: <1571311659-15556-4-git-send-email-stefan.brankovic@rt-rk.com>
-References: <1571311659-15556-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1571311659-15556-4-git-send-email-stefan.brankovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 19 Oct 2019 22:40:51 +0200
-Message-ID: <CAL1e-=i5rySJ=uq=Jc+cH-HqtkTO6ZoagXwQNShLTieyGYcuag@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] target/ppc: Optimize emulation of vupkhpx and
- vupklpx instructions
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Content-Type: multipart/alternative; boundary="0000000000006d474805954977b1"
+References: <CADdae-gJnt5pU_qYFuhM9NH2q86NRpQO1CrBJ4PMKaT_iNZmFA@mail.gmail.com>
+In-Reply-To: <CADdae-gJnt5pU_qYFuhM9NH2q86NRpQO1CrBJ4PMKaT_iNZmFA@mail.gmail.com>
+From: nicolas prochazka <prochazka.nicolas@gmail.com>
+Date: Sat, 19 Oct 2019 23:37:09 +0200
+Message-ID: <CADdae-ippkCmVO1wnxrftb1OCuF10bM7GOzsQZ0EO8tVO9Vk3w@mail.gmail.com>
+Subject: Fwd: IGD assignment / Legacy Mode Question
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2a00:1450:4864:20::533
+X-Mailman-Approved-At: Sat, 19 Oct 2019 18:36:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,462 +73,613 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006d474805954977b1
-Content-Type: text/plain; charset="UTF-8"
+Hello,
+We are using IGD legacy assignment to start our Vm  on Intel nuc
+platform ( generation 7, 8 ) with succes.
+However, in some cases, we must set rombar to off and sometime rombar
+set to on in order to start the Vm.
 
-On Thursday, October 17, 2019, Stefan Brankovic <stefan.brankovic@rt-rk.com>
-wrote:
+We are using Windows 10 :
+according to the hardware ( intel nuc 6,7,8 generation, other
+plateforme as asus PN60 )
+- Rombar must be set to on or off  , ( off can block at seabios level)
+- When rombar is set to on, there's no windows boot logon ( vga not
+detect ? , if rombar set to off, vga boot is present )
 
-> 'trans_vupkpx' function implements both vupkhpx and vupklpx instructions
-> with
-> argument 'high' determine which instruction is processed. Instructions are
-> implemented in two 'for' loops. Outer 'for' loop repeats unpacking two
-> times,
-> since both doubleword elements of destination register are formed the same
-> way.
-> It also stores result of every iteration in temporary register, that is
-> later
-> transferred to destination register. Inner 'for' loop does unpacking of
-> pixels
-> and forms resulting doubleword 32 by 32 bits.
->
-> Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-> ---
->  target/ppc/helper.h                 |  2 -
->  target/ppc/int_helper.c             | 20 --------
->  target/ppc/translate/vmx-impl.inc.c | 91 ++++++++++++++++++++++++++++++
-> ++++++-
->  3 files changed, 89 insertions(+), 24 deletions(-)
->
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index b489b38..fd06b56 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -233,8 +233,6 @@ DEF_HELPER_2(vextsh2d, void, avr, avr)
->  DEF_HELPER_2(vextsw2d, void, avr, avr)
->  DEF_HELPER_2(vnegw, void, avr, avr)
->  DEF_HELPER_2(vnegd, void, avr, avr)
-> -DEF_HELPER_2(vupkhpx, void, avr, avr)
-> -DEF_HELPER_2(vupklpx, void, avr, avr)
->  DEF_HELPER_2(vupkhsb, void, avr, avr)
->  DEF_HELPER_2(vupkhsh, void, avr, avr)
->  DEF_HELPER_2(vupkhsw, void, avr, avr)
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index f910c11..9ee667d 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -1737,26 +1737,6 @@ void helper_vsum4ubs(CPUPPCState *env, ppc_avr_t
-> *r, ppc_avr_t *a, ppc_avr_t *b)
->  #define UPKHI 0
->  #define UPKLO 1
->  #endif
-> -#define VUPKPX(suffix, hi)                                              \
-> -    void helper_vupk##suffix(ppc_avr_t *r, ppc_avr_t *b)                \
-> -    {                                                                   \
-> -        int i;                                                          \
-> -        ppc_avr_t result;                                               \
-> -                                                                        \
-> -        for (i = 0; i < ARRAY_SIZE(r->u32); i++) {                      \
-> -            uint16_t e = b->u16[hi ? i : i + 4];                        \
-> -            uint8_t a = (e >> 15) ? 0xff : 0;                           \
-> -            uint8_t r = (e >> 10) & 0x1f;                               \
-> -            uint8_t g = (e >> 5) & 0x1f;                                \
-> -            uint8_t b = e & 0x1f;                                       \
-> -                                                                        \
-> -            result.u32[i] = (a << 24) | (r << 16) | (g << 8) | b;       \
-> -        }                                                               \
-> -        *r = result;                                                    \
-> -    }
-> -VUPKPX(lpx, UPKLO)
-> -VUPKPX(hpx, UPKHI)
-> -#undef VUPKPX
->
->  #define VUPK(suffix, unpacked, packee, hi)                              \
->      void helper_vupk##suffix(ppc_avr_t *r, ppc_avr_t *b)                \
-> diff --git a/target/ppc/translate/vmx-impl.inc.c
-> b/target/ppc/translate/vmx-impl.inc.c
-> index 3550ffa..09d80d6 100644
-> --- a/target/ppc/translate/vmx-impl.inc.c
-> +++ b/target/ppc/translate/vmx-impl.inc.c
-> @@ -1031,6 +1031,95 @@ static void trans_vclzd(DisasContext *ctx)
->      tcg_temp_free_i64(avr);
->  }
->
-> +/*
-> + * vupkhpx VRT,VRB - Vector Unpack High Pixel
-> + * vupklpx VRT,VRB - Vector Unpack Low Pixel
-> + *
-> + * Unpacks 4 pixels coded in 1-5-5-5 pattern from high/low doubleword
-> element
-> + * of source register into contigous array of bits in the destination
-> register.
-> + * Argument 'high' determines if high or low doubleword element of source
-> + * register is processed.
-> + */
-> +static void trans_vupkpx(DisasContext *ctx, int high)
+Is there any explanation to these strange behaviour, or just Intel Igd ?
 
 
-The last argument should be boolean.
+Regards,
+Nicolas Prochazka
 
 
-> +{
-> +    int VT = rD(ctx->opcode);
-> +    int VB = rB(ctx->opcode);
-> +    TCGv_i64 tmp = tcg_temp_new_i64();
-> +    TCGv_i64 avr = tcg_temp_new_i64();
-> +    TCGv_i64 result = tcg_temp_new_i64();
-> +    TCGv_i64 result1 = tcg_temp_new_i64();
-> +    TCGv_i64 result2 = tcg_temp_new_i64();
-> +    int64_t mask1 = 0x1fULL;
-> +    int64_t mask2 = 0x1fULL << 8;
-> +    int64_t mask3 = 0x1fULL << 16;
-> +    int64_t mask4 = 0xffULL << 56;
-> +    int i, j;
-> +
-> +    if (high == 1) {
-> +        get_avr64(avr, VB, true);
-> +    } else {
-> +        get_avr64(avr, VB, false);
-> +    }
-> +
-> +    tcg_gen_movi_i64(result, 0x0ULL);
-> +    for (i = 0; i < 2; i++) {
-> +        for (j = 0; j < 2; j++) {
-> +            tcg_gen_shli_i64(tmp, avr, (j * 16));
-> +            tcg_gen_andi_i64(tmp, tmp, mask1 << (j * 32));
-> +            tcg_gen_or_i64(result, result, tmp);
-> +
-> +            tcg_gen_shli_i64(tmp, avr, 3 + (j * 16));
-> +            tcg_gen_andi_i64(tmp, tmp, mask2 << (j * 32));
-> +            tcg_gen_or_i64(result, result, tmp);
-> +
-> +            tcg_gen_shli_i64(tmp, avr, 6 + (j * 16));
-> +            tcg_gen_andi_i64(tmp, tmp, mask3 << (j * 32));
-> +            tcg_gen_or_i64(result, result, tmp);
-> +
-> +            tcg_gen_shri_i64(tmp, avr, (j * 16));
-> +            tcg_gen_ext16s_i64(tmp, tmp);
-> +            tcg_gen_andi_i64(tmp, tmp, mask4);
-> +            tcg_gen_shri_i64(tmp, tmp, (32 * (1 - j)));
-> +            tcg_gen_or_i64(result, result, tmp);
-> +        }
-> +        if (i == 0) {
-> +            tcg_gen_mov_i64(result1, result);
-> +            tcg_gen_movi_i64(result, 0x0ULL);
-> +            tcg_gen_shri_i64(avr, avr, 32);
-> +        }
-> +        if (i == 1) {
-> +            tcg_gen_mov_i64(result2, result);
-> +        }
-> +    }
-> +
-> +    set_avr64(VT, result1, false);
-> +    set_avr64(VT, result2, true);
-> +
-> +    tcg_temp_free_i64(tmp);
-> +    tcg_temp_free_i64(avr);
-> +    tcg_temp_free_i64(result);
-> +    tcg_temp_free_i64(result1);
-> +    tcg_temp_free_i64(result2);
-> +}
-> +
-> +static void gen_vupkhpx(DisasContext *ctx)
-> +{
-> +    if (unlikely(!ctx->altivec_enabled)) {
-> +        gen_exception(ctx, POWERPC_EXCP_VPU);
-> +        return;
-> +    }
-> +    trans_vupkpx(ctx, 1);
-> +}
-> +
-> +static void gen_vupklpx(DisasContext *ctx)
-> +{
-> +    if (unlikely(!ctx->altivec_enabled)) {
-> +        gen_exception(ctx, POWERPC_EXCP_VPU);
-> +        return;
-> +    }
-> +    trans_vupkpx(ctx, 0);
-> +}
-> +
->  GEN_VXFORM(vmuloub, 4, 0);
->  GEN_VXFORM(vmulouh, 4, 1);
->  GEN_VXFORM(vmulouw, 4, 2);
-> @@ -1348,8 +1437,6 @@ GEN_VXFORM_NOA(vupkhsw, 7, 25);
->  GEN_VXFORM_NOA(vupklsb, 7, 10);
->  GEN_VXFORM_NOA(vupklsh, 7, 11);
->  GEN_VXFORM_NOA(vupklsw, 7, 27);
-> -GEN_VXFORM_NOA(vupkhpx, 7, 13);
-> -GEN_VXFORM_NOA(vupklpx, 7, 15);
->  GEN_VXFORM_NOA_ENV(vrefp, 5, 4);
->  GEN_VXFORM_NOA_ENV(vrsqrtefp, 5, 5);
->  GEN_VXFORM_NOA_ENV(vexptefp, 5, 6);
-> --
-> 2.7.4
->
->
->
+Libvirt Xml :
+Important point :
 
---0000000000006d474805954977b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        <qemu:commandline>
+                <qemu:arg value='-netdev
+user,id=user.0,restrict=on,hostfwd=tcp:127.0.0.1:5901-:5900,hostfwd=tcp:127.0.0.1:3389-:3389
+-device virtio-net-pci,netdev=user.0'/>
+                <qemu:arg value='-set'/>
+                <qemu:arg value='device.hostdev0.x-igd-gms=1'/>
+                <qemu:arg value='-chardev stdio,id=seabios -device
+isa-debugcon,iobase=0x402,chardev=seabios' />
+</qemu:commandline>
 
-<br><br>On Thursday, October 17, 2019, Stefan Brankovic &lt;<a href=3D"mail=
-to:stefan.brankovic@rt-rk.com">stefan.brankovic@rt-rk.com</a>&gt; wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">&#39;trans_vupkpx&#39; function implements =
-both vupkhpx and vupklpx instructions with<br>
-argument &#39;high&#39; determine which instruction is processed. Instructi=
-ons are<br>
-implemented in two &#39;for&#39; loops. Outer &#39;for&#39; loop repeats un=
-packing two times,<br>
-since both doubleword elements of destination register are formed the same =
-way.<br>
-It also stores result of every iteration in temporary register, that is lat=
-er<br>
-transferred to destination register. Inner &#39;for&#39; loop does unpackin=
-g of pixels<br>
-and forms resulting doubleword 32 by 32 bits.<br>
-<br>
-Signed-off-by: Stefan Brankovic &lt;<a href=3D"mailto:stefan.brankovic@rt-r=
-k.com">stefan.brankovic@rt-rk.com</a>&gt;<br>
----<br>
-=C2=A0target/ppc/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 2 -<br>
-=C2=A0target/ppc/int_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 20 --------<br>
-=C2=A0target/ppc/translate/vmx-impl.<wbr>inc.c | 91 +++++++++++++++++++++++=
-+++++++<wbr>++++++-<br>
-=C2=A03 files changed, 89 insertions(+), 24 deletions(-)<br>
-<br>
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h<br>
-index b489b38..fd06b56 100644<br>
---- a/target/ppc/helper.h<br>
-+++ b/target/ppc/helper.h<br>
-@@ -233,8 +233,6 @@ DEF_HELPER_2(vextsh2d, void, avr, avr)<br>
-=C2=A0DEF_HELPER_2(vextsw2d, void, avr, avr)<br>
-=C2=A0DEF_HELPER_2(vnegw, void, avr, avr)<br>
-=C2=A0DEF_HELPER_2(vnegd, void, avr, avr)<br>
--DEF_HELPER_2(vupkhpx, void, avr, avr)<br>
--DEF_HELPER_2(vupklpx, void, avr, avr)<br>
-=C2=A0DEF_HELPER_2(vupkhsb, void, avr, avr)<br>
-=C2=A0DEF_HELPER_2(vupkhsh, void, avr, avr)<br>
-=C2=A0DEF_HELPER_2(vupkhsw, void, avr, avr)<br>
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c<br>
-index f910c11..9ee667d 100644<br>
---- a/target/ppc/int_helper.c<br>
-+++ b/target/ppc/int_helper.c<br>
-@@ -1737,26 +1737,6 @@ void helper_vsum4ubs(CPUPPCState *env, ppc_avr_t *r,=
- ppc_avr_t *a, ppc_avr_t *b)<br>
-=C2=A0#define UPKHI 0<br>
-=C2=A0#define UPKLO 1<br>
-=C2=A0#endif<br>
--#define VUPKPX(suffix, hi)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 void helper_vupk##suffix(ppc_avr_t *r, ppc_avr_t *b)=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ppc_avr_t result;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(r-&gt;u32); i+=
-+) {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint16_t e =3D b-&gt;u16[hi ? i =
-: i + 4];=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t a =3D (e &gt;&gt; 15) ? =
-0xff : 0;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t r =3D (e &gt;&gt; 10) &a=
-mp; 0x1f;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t g =3D (e &gt;&gt; 5) &am=
-p; 0x1f;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t b =3D e &amp; 0x1f;=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result.u32[i] =3D (a &lt;&lt; 24=
-) | (r &lt;&lt; 16) | (g &lt;&lt; 8) | b;=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *r =3D result;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 \<br>
--=C2=A0 =C2=A0 }<br>
--VUPKPX(lpx, UPKLO)<br>
--VUPKPX(hpx, UPKHI)<br>
--#undef VUPKPX<br>
-<br>
-=C2=A0#define VUPK(suffix, unpacked, packee, hi)=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 \<br>
-=C2=A0 =C2=A0 =C2=A0void helper_vupk##suffix(ppc_avr_t *r, ppc_avr_t *b)=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-diff --git a/target/ppc/translate/vmx-<wbr>impl.inc.c b/target/ppc/translat=
-e/vmx-<wbr>impl.inc.c<br>
-index 3550ffa..09d80d6 100644<br>
---- a/target/ppc/translate/vmx-<wbr>impl.inc.c<br>
-+++ b/target/ppc/translate/vmx-<wbr>impl.inc.c<br>
-@@ -1031,6 +1031,95 @@ static void trans_vclzd(DisasContext *ctx)<br>
-=C2=A0 =C2=A0 =C2=A0tcg_temp_free_i64(avr);<br>
-=C2=A0}<br>
-<br>
-+/*<br>
-+ * vupkhpx VRT,VRB - Vector Unpack High Pixel<br>
-+ * vupklpx VRT,VRB - Vector Unpack Low Pixel<br>
-+ *<br>
-+ * Unpacks 4 pixels coded in 1-5-5-5 pattern from high/low doubleword elem=
-ent<br>
-+ * of source register into contigous array of bits in the destination regi=
-ster.<br>
-+ * Argument &#39;high&#39; determines if high or low doubleword element of=
- source<br>
-+ * register is processed.<br>
-+ */<br>
-+static void trans_vupkpx(DisasContext *ctx, int high)</blockquote><div><br=
-></div><div>The last argument should be boolean.</div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">
-+{<br>
-+=C2=A0 =C2=A0 int VT =3D rD(ctx-&gt;opcode);<br>
-+=C2=A0 =C2=A0 int VB =3D rB(ctx-&gt;opcode);<br>
-+=C2=A0 =C2=A0 TCGv_i64 tmp =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 TCGv_i64 avr =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 TCGv_i64 result =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 TCGv_i64 result1 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 TCGv_i64 result2 =3D tcg_temp_new_i64();<br>
-+=C2=A0 =C2=A0 int64_t mask1 =3D 0x1fULL;<br>
-+=C2=A0 =C2=A0 int64_t mask2 =3D 0x1fULL &lt;&lt; 8;<br>
-+=C2=A0 =C2=A0 int64_t mask3 =3D 0x1fULL &lt;&lt; 16;<br>
-+=C2=A0 =C2=A0 int64_t mask4 =3D 0xffULL &lt;&lt; 56;<br>
-+=C2=A0 =C2=A0 int i, j;<br>
-+<br>
-+=C2=A0 =C2=A0 if (high =3D=3D 1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 get_avr64(avr, VB, true);<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 get_avr64(avr, VB, false);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 tcg_gen_movi_i64(result, 0x0ULL);<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt; 2; i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; j &lt; 2; j++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_shli_i64(tmp, avr, (j * =
-16));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(tmp, tmp, mask1=
- &lt;&lt; (j * 32));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_or_i64(result, result, t=
-mp);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_shli_i64(tmp, avr, 3 + (=
-j * 16));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(tmp, tmp, mask2=
- &lt;&lt; (j * 32));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_or_i64(result, result, t=
-mp);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_shli_i64(tmp, avr, 6 + (=
-j * 16));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(tmp, tmp, mask3=
- &lt;&lt; (j * 32));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_or_i64(result, result, t=
-mp);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_shri_i64(tmp, avr, (j * =
-16));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ext16s_i64(tmp, tmp);<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_i64(tmp, tmp, mask4=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_shri_i64(tmp, tmp, (32 *=
- (1 - j)));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_or_i64(result, result, t=
-mp);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_mov_i64(result1, result)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_movi_i64(result, 0x0ULL)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_shri_i64(avr, avr, 32);<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D 1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_mov_i64(result2, result)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 set_avr64(VT, result1, false);<br>
-+=C2=A0 =C2=A0 set_avr64(VT, result2, true);<br>
-+<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(tmp);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(avr);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(result);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(result1);<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i64(result2);<br>
-+}<br>
-+<br>
-+static void gen_vupkhpx(DisasContext *ctx)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (unlikely(!ctx-&gt;altivec_<wbr>enabled)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_exception(ctx, POWERPC_EXCP_VPU);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 trans_vupkpx(ctx, 1);<br>
-+}<br>
-+<br>
-+static void gen_vupklpx(DisasContext *ctx)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (unlikely(!ctx-&gt;altivec_<wbr>enabled)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_exception(ctx, POWERPC_EXCP_VPU);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 trans_vupkpx(ctx, 0);<br>
-+}<br>
-+<br>
-=C2=A0GEN_VXFORM(vmuloub, 4, 0);<br>
-=C2=A0GEN_VXFORM(vmulouh, 4, 1);<br>
-=C2=A0GEN_VXFORM(vmulouw, 4, 2);<br>
-@@ -1348,8 +1437,6 @@ GEN_VXFORM_NOA(vupkhsw, 7, 25);<br>
-=C2=A0GEN_VXFORM_NOA(vupklsb, 7, 10);<br>
-=C2=A0GEN_VXFORM_NOA(vupklsh, 7, 11);<br>
-=C2=A0GEN_VXFORM_NOA(vupklsw, 7, 27);<br>
--GEN_VXFORM_NOA(vupkhpx, 7, 13);<br>
--GEN_VXFORM_NOA(vupklpx, 7, 15);<br>
-=C2=A0GEN_VXFORM_NOA_ENV(vrefp, 5, 4);<br>
-=C2=A0GEN_VXFORM_NOA_ENV(vrsqrtefp, 5, 5);<br>
-=C2=A0GEN_VXFORM_NOA_ENV(vexptefp, 5, 6);<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-</blockquote>
 
---0000000000006d474805954977b1--
+
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+                        <source>
+                                <address domain='0x0000' bus='0x00'
+slot='0x02' function='0x0'/>
+                        </source>
+                        <address type='pci' domain='0x0000' bus='0x00'
+slot='0x02' function='0x0'/>
+<rom bar='off' file='/data/ROOT/templates/romIgd.03441V'/>
+                </hostdev>
+
+
+=> Qemu log / seabios seems to be block
+
+
+2019-10-07 12:39:58.384+0000: starting up libvirt version: 5.2.0, qemu
+version: 4.1.0, kernel: 4.19.75, hostname: -DELL5590
+LC_ALL=C \
+PATH=/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+\
+HOME=/var/lib/libvirt/qemu/domain-4-W10 \
+USER=root \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-4-W10/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-4-W10/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-4-W10/.config \
+QEMU_AUDIO_DRV=none \
+/usr/bin/qemu-kvm.igd \
+-name guest=W10,debug-threads=on \
+-S \
+-object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-4-W10/master-key.aes
+\
+-machine pc-i440fx-2.11,accel=kvm,usb=off,dump-guest-core=off \
+-cpu host,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=0x1000,hv_vpindex,hv_runtime,hv_synic,hv_reset
+\
+-bios /usr/share/seabios/bios.bin \
+-m 6413 \
+-mem-prealloc \
+-mem-path /dev/hugepages/libvirt/qemu/4-W10 \
+-realtime mlock=off \
+-smp 6,sockets=1,cores=6,threads=1 \
+-uuid 0414a538-bab4-3456-87f1-b8271b4b018d \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=25,server,nowait \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=localtime \
+-no-shutdown \
+-global PIIX4_PM.disable_s3=1 \
+-global PIIX4_PM.disable_s4=1 \
+-boot strict=on \
+-device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2 \
+-device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x4 \
+-drive file=/data/VMS/W10/hda.qcow2,format=qcow2,if=none,id=drive-virtio-disk0,cache=writeback
+\
+-device virtio-blk-pci,scsi=off,num-queues=4,bus=pci.0,addr=0x5,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1,write-cache=on
+\
+-drive file=/data/VMS/W10/swap.qcow2,format=qcow2,if=none,id=drive-virtio-disk1,cache=unsafe
+\
+-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x6,drive=drive-virtio-disk1,id=virtio-disk1,write-cache=on
+\
+-netdev tap,fd=27,id=hostnet0,vhost=on,vhostfd=28 \
+-device virtio-net-pci,netdev=hostnet0,id=net0,mac=ac:de:50:65:9f:5d,bus=pci.0,addr=0x3
+\
+-chardev socket,id=charchannel0,fd=29,server,nowait \
+-device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=org.qemu.guest_agent.0
+\
+-device virtio-input-host-pci,id=input0,evdev=/dev/input/event4,bus=pci.0,addr=0x11
+\
+-device virtio-input-host-pci,id=input1,evdev=/dev/input/event5,bus=pci.0,addr=0x12
+\
+-device vfio-pci,host=00:02.0,id=hostdev0,bus=pci.0,addr=0x2,rombar=0,romfile=/data/ROOT/templates/romIgd.03441V
+\
+-device vfio-pci,host=00:14.0,id=hostdev1,bus=pci.0,addr=0x7 \
+-device vfio-pci,host=00:1f.3,id=hostdev2,bus=pci.0,addr=0x8 \
+-device vfio-pci,host=02:00.0,id=hostdev3,bus=pci.0,addr=0x9 \
+'-netdev user,id=user.0,restrict=on,hostfwd=tcp:127.0.0.1:5901-:5900,hostfwd=tcp:127.0.0.1:3389-:3389
+-device virtio-net-pci,netdev=user.0' \
+-set device.hostdev0.x-igd-gms=1 \
+'-chardev stdio,id=seabios -device isa-debugcon,iobase=0x402,chardev=seabios' \
+-msg timestamp=on
+2019-10-07 12:39:58.384+0000: Domain id=4 is tainted: high-privileges
+2019-10-07 12:39:58.384+0000: Domain id=4 is tainted: custom-argv
+2019-10-07 12:39:58.384+0000: Domain id=4 is tainted: host-cpu
+qemu-system-x86_64.igd: -realtime mlock=off: warning: '-realtime
+mlock=...' is deprecated, please use '-overcommit mem-lock=...'
+instead
+qemu_madvise: Invalid argument
+madvise doesn't support MADV_DONTDUMP, but dump_guest_core=off specified
+2019-10-07T12:39:59.942833Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:1f.3, no available reset mechanism.
+2019-10-07T12:39:59.982817Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:14.0, no available reset mechanism.
+2019-10-07T12:40:00.143566Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:1f.3, no available reset mechanism.
+2019-10-07T12:40:00.143718Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:14.0, no available reset mechanism.
+SeaBIOS (version 1.12.0-20191007_112719-localhost.localdomain)
+BUILD: gcc: (Gentoo 7.3.0-r3 p1.4) 7.3.0 binutils: (Gentoo 2.24 p1.4) 2.24
+No Xen hypervisor found.
+RamSize: 0xc0000000 [cmos]
+Relocating init from 0x000d88c0 to 0xbffac2a0 (size 81088)
+Found QEMU fw_cfg
+QEMU fw_cfg DMA interface supported
+RamBlock: addr 0x0000000000000000 len 0x00000000c0000000 [e820]
+RamBlock: addr 0x0000000100000000 len 0x00000000d0d00000 [e820]
+Moving pm_base to 0x600
+boot order:
+1: /pci@i0cf8/scsi@5/disk@0,0
+2: HALT
+=== PCI bus & bridge init ===
+PCI: pci_bios_init_bus_rec bus = 0x0
+=== PCI device probing ===
+Found 17 PCI devices (max PCI bus is 00)
+=== PCI new allocation pass #1 ===
+PCI: check devices
+=== PCI new allocation pass #2 ===
+PCI: IO: c000 - c16f
+PCI: 32: 00000000c0000000 - 00000000fec00000
+PCI: map device bdf=00:02.0  bar 4, addr 0000c000, size 00000040 [io]
+PCI: map device bdf=00:04.0  bar 0, addr 0000c040, size 00000040 [io]
+PCI: map device bdf=00:05.0  bar 0, addr 0000c080, size 00000040 [io]
+PCI: map device bdf=00:06.0  bar 0, addr 0000c0c0, size 00000040 [io]
+PCI: map device bdf=00:01.2  bar 4, addr 0000c100, size 00000020 [io]
+PCI: map device bdf=00:03.0  bar 0, addr 0000c120, size 00000020 [io]
+PCI: map device bdf=00:0a.0  bar 0, addr 0000c140, size 00000020 [io]
+PCI: map device bdf=00:01.1  bar 4, addr 0000c160, size 00000010 [io]
+PCI: map device bdf=00:02.0  bar 0, addr fd000000, size 01000000 [mem]
+PCI: map device bdf=00:03.0  bar 6, addr fe000000, size 00040000 [mem]
+PCI: map device bdf=00:0a.0  bar 6, addr fe040000, size 00040000 [mem]
+PCI: map device bdf=00:07.0  bar 0, addr fe080000, size 00010000 [mem]
+PCI: map device bdf=00:08.0  bar 4, addr fe090000, size 00010000 [mem]
+PCI: map device bdf=00:08.0  bar 0, addr fe0a0000, size 00004000 [mem]
+PCI: map device bdf=00:09.0  bar 0, addr fe0a4000, size 00002000 [mem]
+PCI: map device bdf=00:03.0  bar 1, addr fe0a6000, size 00001000 [mem]
+PCI: map device bdf=00:04.0  bar 1, addr fe0a7000, size 00001000 [mem]
+PCI: map device bdf=00:05.0  bar 1, addr fe0a8000, size 00001000 [mem]
+PCI: map device bdf=00:06.0  bar 1, addr fe0a9000, size 00001000 [mem]
+PCI: map device bdf=00:0a.0  bar 1, addr fe0aa000, size 00001000 [mem]
+PCI: map device bdf=00:11.0  bar 1, addr fe0ab000, size 00001000 [mem]
+PCI: map device bdf=00:12.0  bar 1, addr fe0ac000, size 00001000 [mem]
+PCI: map device bdf=00:02.0  bar 2, addr e0000000, size 10000000 [prefmem]
+PCI: map device bdf=00:03.0  bar 4, addr f0000000, size 00004000 [prefmem]
+PCI: map device bdf=00:04.0  bar 4, addr f0004000, size 00004000 [prefmem]
+PCI: map device bdf=00:05.0  bar 4, addr f0008000, size 00004000 [prefmem]
+PCI: map device bdf=00:06.0  bar 4, addr f000c000, size 00004000 [prefmem]
+PCI: map device bdf=00:0a.0  bar 4, addr f0010000, size 00004000 [prefmem]
+PCI: map device bdf=00:11.0  bar 4, addr f0014000, size 00004000 [prefmem]
+PCI: map device bdf=00:12.0  bar 4, addr f0018000, size 00004000 [prefmem]
+PCI: init bdf=00:00.0 id=8086:1237
+PCI: init bdf=00:01.0 id=8086:7000
+PIIX3/PIIX4 init: elcr=00 0c
+PCI: init bdf=00:01.1 id=8086:7010
+PCI: init bdf=00:01.2 id=8086:7020
+PCI: init bdf=00:01.3 id=8086:7113
+Using pmtimer, ioport 0x608
+PCI: init bdf=00:02.0 id=8086:5917
+Intel IGD OpRegion enabled at 0xbfffe000, size 8KB, dev 00:02.0
+Intel IGD BDSM enabled at 0xbd700000, size 40MB, dev 00:02.0
+PCI: init bdf=00:03.0 id=1af4:1000
+PCI: init bdf=00:04.0 id=1af4:1003
+PCI: init bdf=00:05.0 id=1af4:1001
+PCI: init bdf=00:06.0 id=1af4:1001
+PCI: init bdf=00:07.0 id=8086:9d2f
+PCI: init bdf=00:08.0 id=8086:9d71
+PCI: init bdf=00:09.0 id=8086:24fd
+PCI: init bdf=00:0a.0 id=1af4:1000
+PCI: init bdf=00:11.0 id=1af4:1052
+PCI: init bdf=00:12.0 id=1af4:1052
+PCI: init bdf=00:1f.0 id=8086:9d4e
+PCI: Using 00:02.0 for primary VGA
+handle_smp: apic_id=0x2
+handle_smp: apic_id=0x5
+handle_smp: apic_id=0x1
+handle_smp: apic_id=0x3
+handle_smp: apic_id=0x4
+Found 6 cpu(s) max supported 6 cpu(s)
+Copying PIR from 0xbffbfc20 to 0x000f5dc0
+Copying MPTABLE from 0x00006e64/bffa2ac0 to 0x000f5c80
+Copying SMBIOS entry point from 0x00006e64 to 0x000f5aa0
+WARNING - Timeout at wait_reg8:81!
+WARNING - Timeout at wait_reg8:81!
+Scan for VGA option rom
+Running option rom at c000:0003
+
+
+
+---------------------------------------------- rombar = on
+2019-10-07 12:41:47.765+0000: starting up libvirt version: 5.2.0, qemu
+version: 4.1.0, kernel: 4.19.75, hostname: -DELL5590
+LC_ALL=C \
+PATH=/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+\
+HOME=/var/lib/libvirt/qemu/domain-5-W10 \
+USER=root \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-5-W10/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-5-W10/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-5-W10/.config \
+QEMU_AUDIO_DRV=none \
+/usr/bin/qemu-kvm.igd \
+-name guest=W10,debug-threads=on \
+-S \
+-object secret,id=masterKey0,format=raw,file=/var/lib/libvirt/qemu/domain-5-W10/master-key.aes
+\
+-machine pc-i440fx-2.11,accel=kvm,usb=off,dump-guest-core=off \
+-cpu host,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=0x1000,hv_vpindex,hv_runtime,hv_synic,hv_reset
+\
+-bios /usr/share/seabios/bios.bin \
+-m 6413 \
+-mem-prealloc \
+-mem-path /dev/hugepages/libvirt/qemu/5-W10 \
+-realtime mlock=off \
+-smp 6,sockets=1,cores=6,threads=1 \
+-uuid 0414a538-bab4-3456-87f1-b8271b4b018d \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=24,server,nowait \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=localtime \
+-no-shutdown \
+-global PIIX4_PM.disable_s3=1 \
+-global PIIX4_PM.disable_s4=1 \
+-boot strict=on \
+-device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2 \
+-device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x4 \
+-drive file=/data/VMS/W10/hda.qcow2,format=qcow2,if=none,id=drive-virtio-disk0,cache=writeback
+\
+-device virtio-blk-pci,scsi=off,num-queues=4,bus=pci.0,addr=0x5,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1,write-cache=on
+\
+-drive file=/data/VMS/W10/swap.qcow2,format=qcow2,if=none,id=drive-virtio-disk1,cache=unsafe
+\
+-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x6,drive=drive-virtio-disk1,id=virtio-disk1,write-cache=on
+\
+-netdev tap,fd=26,id=hostnet0,vhost=on,vhostfd=27 \
+-device virtio-net-pci,netdev=hostnet0,id=net0,mac=ac:de:50:65:9f:5d,bus=pci.0,addr=0x3
+\
+-chardev socket,id=charchannel0,fd=28,server,nowait \
+-device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=org.qemu.guest_agent.0
+\
+-device virtio-input-host-pci,id=input0,evdev=/dev/input/event4,bus=pci.0,addr=0x11
+\
+-device virtio-input-host-pci,id=input1,evdev=/dev/input/event5,bus=pci.0,addr=0x12
+\
+-device vfio-pci,host=00:02.0,id=hostdev0,bus=pci.0,addr=0x2,rombar=1,romfile=/data/ROOT/templates/romIgd.03441V
+\
+-device vfio-pci,host=00:14.0,id=hostdev1,bus=pci.0,addr=0x7 \
+-device vfio-pci,host=00:1f.3,id=hostdev2,bus=pci.0,addr=0x8 \
+-device vfio-pci,host=02:00.0,id=hostdev3,bus=pci.0,addr=0x9 \
+'-netdev user,id=user.0,restrict=on,hostfwd=tcp:127.0.0.1:5901-:5900,hostfwd=tcp:127.0.0.1:3389-:3389
+-device virtio-net-pci,netdev=user.0' \
+-set device.hostdev0.x-igd-gms=1 \
+'-chardev stdio,id=seabios -device isa-debugcon,iobase=0x402,chardev=seabios' \
+-msg timestamp=on
+2019-10-07 12:41:47.765+0000: Domain id=5 is tainted: high-privileges
+2019-10-07 12:41:47.765+0000: Domain id=5 is tainted: custom-argv
+2019-10-07 12:41:47.765+0000: Domain id=5 is tainted: host-cpu
+qemu-system-x86_64.igd: -realtime mlock=off: warning: '-realtime
+mlock=...' is deprecated, please use '-overcommit mem-lock=...'
+instead
+qemu_madvise: Invalid argument
+madvise doesn't support MADV_DONTDUMP, but dump_guest_core=off specified
+2019-10-07T12:41:49.272900Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:1f.3, no available reset mechanism.
+2019-10-07T12:41:49.312881Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:14.0, no available reset mechanism.
+2019-10-07T12:41:49.473547Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:1f.3, no available reset mechanism.
+2019-10-07T12:41:49.473702Z qemu-system-x86_64.igd: vfio: Cannot reset
+device 0000:00:14.0, no available reset mechanism.
+SeaBIOS (version 1.12.0-20191007_112719-localhost.localdomain)
+BUILD: gcc: (Gentoo 7.3.0-r3 p1.4) 7.3.0 binutils: (Gentoo 2.24 p1.4) 2.24
+No Xen hypervisor found.
+RamSize: 0xc0000000 [cmos]
+Relocating init from 0x000d88c0 to 0xbffac2a0 (size 81088)
+Found QEMU fw_cfg
+QEMU fw_cfg DMA interface supported
+RamBlock: addr 0x0000000000000000 len 0x00000000c0000000 [e820]
+RamBlock: addr 0x0000000100000000 len 0x00000000d0d00000 [e820]
+Moving pm_base to 0x600
+boot order:
+1: /pci@i0cf8/scsi@5/disk@0,0
+2: HALT
+=== PCI bus & bridge init ===
+PCI: pci_bios_init_bus_rec bus = 0x0
+=== PCI device probing ===
+Found 17 PCI devices (max PCI bus is 00)
+=== PCI new allocation pass #1 ===
+PCI: check devices
+=== PCI new allocation pass #2 ===
+PCI: IO: c000 - c16f
+PCI: 32: 00000000c0000000 - 00000000fec00000
+PCI: map device bdf=00:02.0  bar 4, addr 0000c000, size 00000040 [io]
+PCI: map device bdf=00:04.0  bar 0, addr 0000c040, size 00000040 [io]
+PCI: map device bdf=00:05.0  bar 0, addr 0000c080, size 00000040 [io]
+PCI: map device bdf=00:06.0  bar 0, addr 0000c0c0, size 00000040 [io]
+PCI: map device bdf=00:01.2  bar 4, addr 0000c100, size 00000020 [io]
+PCI: map device bdf=00:03.0  bar 0, addr 0000c120, size 00000020 [io]
+PCI: map device bdf=00:0a.0  bar 0, addr 0000c140, size 00000020 [io]
+PCI: map device bdf=00:01.1  bar 4, addr 0000c160, size 00000010 [io]
+PCI: map device bdf=00:02.0  bar 0, addr fd000000, size 01000000 [mem]
+PCI: map device bdf=00:03.0  bar 6, addr fe000000, size 00040000 [mem]
+PCI: map device bdf=00:0a.0  bar 6, addr fe040000, size 00040000 [mem]
+PCI: map device bdf=00:02.0  bar 6, addr fe080000, size 00010000 [mem]
+PCI: map device bdf=00:07.0  bar 0, addr fe090000, size 00010000 [mem]
+PCI: map device bdf=00:08.0  bar 4, addr fe0a0000, size 00010000 [mem]
+PCI: map device bdf=00:08.0  bar 0, addr fe0b0000, size 00004000 [mem]
+PCI: map device bdf=00:09.0  bar 0, addr fe0b4000, size 00002000 [mem]
+PCI: map device bdf=00:03.0  bar 1, addr fe0b6000, size 00001000 [mem]
+PCI: map device bdf=00:04.0  bar 1, addr fe0b7000, size 00001000 [mem]
+PCI: map device bdf=00:05.0  bar 1, addr fe0b8000, size 00001000 [mem]
+PCI: map device bdf=00:06.0  bar 1, addr fe0b9000, size 00001000 [mem]
+PCI: map device bdf=00:0a.0  bar 1, addr fe0ba000, size 00001000 [mem]
+PCI: map device bdf=00:11.0  bar 1, addr fe0bb000, size 00001000 [mem]
+PCI: map device bdf=00:12.0  bar 1, addr fe0bc000, size 00001000 [mem]
+PCI: map device bdf=00:02.0  bar 2, addr e0000000, size 10000000 [prefmem]
+PCI: map device bdf=00:03.0  bar 4, addr f0000000, size 00004000 [prefmem]
+PCI: map device bdf=00:04.0  bar 4, addr f0004000, size 00004000 [prefmem]
+PCI: map device bdf=00:05.0  bar 4, addr f0008000, size 00004000 [prefmem]
+PCI: map device bdf=00:06.0  bar 4, addr f000c000, size 00004000 [prefmem]
+PCI: map device bdf=00:0a.0  bar 4, addr f0010000, size 00004000 [prefmem]
+PCI: map device bdf=00:11.0  bar 4, addr f0014000, size 00004000 [prefmem]
+PCI: map device bdf=00:12.0  bar 4, addr f0018000, size 00004000 [prefmem]
+PCI: init bdf=00:00.0 id=8086:1237
+PCI: init bdf=00:01.0 id=8086:7000
+PIIX3/PIIX4 init: elcr=00 0c
+PCI: init bdf=00:01.1 id=8086:7010
+PCI: init bdf=00:01.2 id=8086:7020
+PCI: init bdf=00:01.3 id=8086:7113
+Using pmtimer, ioport 0x608
+PCI: init bdf=00:02.0 id=8086:5917
+Intel IGD OpRegion enabled at 0xbfffe000, size 8KB, dev 00:02.0
+Intel IGD BDSM enabled at 0xbd700000, size 40MB, dev 00:02.0
+PCI: init bdf=00:03.0 id=1af4:1000
+PCI: init bdf=00:04.0 id=1af4:1003
+PCI: init bdf=00:05.0 id=1af4:1001
+PCI: init bdf=00:06.0 id=1af4:1001
+PCI: init bdf=00:07.0 id=8086:9d2f
+PCI: init bdf=00:08.0 id=8086:9d71
+PCI: init bdf=00:09.0 id=8086:24fd
+PCI: init bdf=00:0a.0 id=1af4:1000
+PCI: init bdf=00:11.0 id=1af4:1052
+PCI: init bdf=00:12.0 id=1af4:1052
+PCI: init bdf=00:1f.0 id=8086:9d4e
+PCI: Using 00:02.0 for primary VGA
+handle_smp: apic_id=0x4
+handle_smp: apic_id=0x3
+handle_smp: apic_id=0x2
+handle_smp: apic_id=0x1
+handle_smp: apic_id=0x5
+Found 6 cpu(s) max supported 6 cpu(s)
+Copying PIR from 0xbffbfc20 to 0x000f5dc0
+Copying MPTABLE from 0x00006e64/bffa2b90 to 0x000f5c80
+Copying SMBIOS entry point from 0x00006e64 to 0x000f5aa0
+WARNING - Timeout at wait_reg8:81!
+WARNING - Timeout at wait_reg8:81!
+Scan for VGA option rom
+Turning on vga text mode console
+SeaBIOS (version 1.12.0-20191007_112719-localhost.localdomain)
+Machine UUID 0414a538-bab4-3456-87f1-b8271b4b018d
+XHCI init on dev 00:07.0: regs @ 0xfe090000, 18 ports, 64 slots, 32
+byte contexts
+XHCI    protocol USB  2.00, 12 ports (offset 1), def 3011
+XHCI    protocol USB  3.00, 6 ports (offset 13), def 3000
+XHCI    extcap 0xc0 @ 0xfe098070
+XHCI    extcap 0x1 @ 0xfe09846c
+XHCI    extcap 0xc6 @ 0xfe0984f4
+XHCI    extcap 0xc7 @ 0xfe098500
+XHCI    extcap 0xc2 @ 0xfe098600
+XHCI    extcap 0xa @ 0xfe098700
+XHCI    extcap 0xc3 @ 0xfe098740
+XHCI    extcap 0xc4 @ 0xfe098800
+XHCI    extcap 0xc5 @ 0xfe098900
+WARNING - Unable to allocate resource at configure_xhci:499!
+All threads complete.
+UHCI init on dev 00:01.2 (io=c100)
+ATA controller 1 at 1f0/3f4/0 (irq 14 dev 9)
+ATA controller 2 at 170/374/0 (irq 15 dev 9)
+found virtio-blk at 00:05.0
+pci dev 0:5 virtio cap at 0x84 type 5 [pci cfg access]
+pci dev 0:5 virtio cap at 0x70 type 2 bar 4 at 0xf0008000 off +0x3000 [mmio]
+pci dev 0:5 virtio cap at 0x60 type 4 bar 4 at 0xf0008000 off +0x2000 [mmio]
+pci dev 0:5 virtio cap at 0x50 type 3 bar 4 at 0xf0008000 off +0x1000 [mmio]
+pci dev 0:5 virtio cap at 0x40 type 1 bar 4 at 0xf0008000 off +0x0000 [mmio]
+pci dev 00:05.0 using modern (1.0) virtio mode
+Searching bootorder for: /pci@i0cf8/*@5
+found virtio-blk at 00:06.0
+pci dev 0:6 virtio cap at 0x84 type 5 [pci cfg access]
+pci dev 0:6 virtio cap at 0x70 type 2 bar 4 at 0xf000c000 off +0x3000 [mmio]
+pci dev 0:6 virtio cap at 0x60 type 4 bar 4 at 0xf000c000 off +0x2000 [mmio]
+pci dev 0:6 virtio cap at 0x50 type 3 bar 4 at 0xf000c000 off +0x1000 [mmio]
+pci dev 0:6 virtio cap at 0x40 type 1 bar 4 at 0xf000c000 off +0x0000 [mmio]
+pci dev 00:06.0 using modern (1.0) virtio mode
+Searching bootorder for: /pci@i0cf8/*@6
+PS2 keyboard initialized
+Found 0 lpt ports
+Found 0 serial ports
+All threads complete.
+Scan for option roms
+Running option rom at c000:0003
+pmm call arg1=1
+pmm call arg1=0
+pmm call arg1=1
+pmm call arg1=0
+Running option rom at c100:0003
+pmm call arg1=1
+pmm call arg1=1
+Searching bootorder for: /pci@i0cf8/*@3
+Searching bootorder for: /pci@i0cf8/*@a
+Searching bootorder for: /rom@genroms/kvmvapic.bin
+Searching bootorder for: HALT
+drive 0x000ebc60: PCHS=16383/16/63 translation=lba LCHS=1024/255/63 s=125829120
+drive 0x000ebc00: PCHS=8322/16/63 translation=lba LCHS=522/255/63 s=8388608
+Running option rom at c200:0003
+Space available for UMB: c4800-eb800, f5640-f5a40
+Returned 98304 bytes of ZoneHigh
+e820 map has 10 items:
+  0: 0000000000000000 - 000000000009fc00 = 1 RAM
+  1: 000000000009fc00 - 00000000000a0000 = 2 RESERVED
+  2: 00000000000f0000 - 0000000000100000 = 2 RESERVED
+  3: 0000000000100000 - 00000000bd700000 = 1 RAM
+  4: 00000000bd700000 - 00000000bff00000 = 2 RESERVED
+  5: 00000000bff00000 - 00000000bffd8000 = 1 RAM
+  6: 00000000bffd8000 - 00000000c0000000 = 2 RESERVED
+  7: 00000000feffc000 - 00000000ff000000 = 2 RESERVED
+  8: 00000000fffc0000 - 0000000100000000 = 2 RESERVED
+  9: 0000000100000000 - 00000001d0d00000 = 1 RAM
+enter handle_19:
+  NULL
+Booting from Hard Disk...
+Booting from 0000:7c00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Complete libvirt domain xml
+
+
+
+
+
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+
+        <qemu:commandline>
+                <qemu:arg value='-netdev
+user,id=user.0,restrict=on,hostfwd=tcp:127.0.0.1:5901-:5900,hostfwd=tcp:127.0.0.1:3389-:3389
+-device virtio-net-pci,netdev=user.0'/>
+                <qemu:arg value='-set'/>
+                <qemu:arg value='device.hostdev0.x-igd-gms=1'/>
+                <qemu:arg value='-chardev stdio,id=seabios -device
+isa-debugcon,iobase=0x402,chardev=seabios' />
+</qemu:commandline>
+
+        <uuid>0414a538-bab4-3456-87f1-b8271b4b018d</uuid>
+        <name>W10</name>
+        <memory unit='MB'>6724</memory>
+        <currentMemory unit='MB'>6724</currentMemory>
+
+        <memoryBacking>
+                <hugepages/>
+        </memoryBacking>
+
+        <os>
+                <type>hvm</type>
+                <loader readonly='yes'
+type='rom'>/usr/share/seabios/bios.bin</loader>
+        </os>
+
+        <features>
+                <acpi/>
+                <apic/>
+                <hap/>
+                <hyperv>
+                        <relaxed state='on'/>
+                        <vapic state='on'/>
+                        <spinlocks state='on' retries='4096'/>
+                        <vpindex state='on'/>
+                        <runtime state='on'/>
+                        <synic state='on'/>
+                        <reset state='on'/>
+                </hyperv>
+        </features>
+
+        <vcpu placement='static'>6</vcpu>
+        <cputune>
+                <vcpupin vcpu='0' cpuset='2'/>
+                <vcpupin vcpu='1' cpuset='3'/>
+        </cputune>
+
+        <cpu mode='host-passthrough'>
+                <model>kvm64</model>
+                <feature policy='optional' name='x2apic' />
+                <topology sockets='1' cores='6' threads='1' />
+        </cpu>
+
+        <pm>
+                <suspend-to-disk enabled='no'/>
+                <suspend-to-mem enabled='no'/>
+        </pm>
+
+        <clock offset='localtime' timezone='Europe/Paris'>
+                <timer name='hpet' present='yes'/>
+                <timer name='hypervclock' present='yes'/>
+        </clock>
+
+        <devices>
+                <emulator>/usr/bin/qemu-kvm.igd</emulator>
+                <channel type='unix'>
+                        <source mode='bind' />
+                        <target type='virtio' name='org.qemu.guest_agent.0'/>
+                        <address type='virtio-serial' controller='0'
+bus='0' port='1'/>
+                </channel>
+
+                <disk type='file' device='disk'>
+                        <driver name='qemu' type='qcow2' queues='4'
+cache='writeback'/>
+                        <boot order='1'/>
+                        <source file='/data/VMS/W10/hda.qcow2'/>
+                        <target dev='vda' bus='virtio' />
+                </disk>
+
+                <disk type='file' device='disk' snapshot='no'>
+                        <driver name='qemu' type='qcow2' cache='unsafe'/>
+                        <source file='/data/VMS/W10/swap.qcow2' />
+                        <target dev='vdb' bus='virtio' />
+                </disk>
+
+                <memballoon model='none'/>
+                <interface type='bridge'>
+                        <source bridge='switch0' />
+                        <virtualport type='openvswitch' />
+                        <model type='virtio'/>
+                        <mac address='AC:DE:50:65:9F:5D'/>
+                        <vlan>
+                                <tag id='0' />
+                        </vlan>
+                </interface>
+
+                <hostdev mode='subsystem' type='pci' managed='yes'>
+                        <source>
+                                <address domain='0x0000' bus='0x00'
+slot='0x02' function='0x0'/>
+                        </source>
+                        <address type='pci' domain='0x0000' bus='0x00'
+slot='0x02' function='0x0'/>
+                </hostdev>
+
+</devices></domain>
 
