@@ -2,52 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC913DDD0B
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 08:36:27 +0200 (CEST)
-Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63248DDD0F
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 08:39:36 +0200 (CEST)
+Received: from localhost ([::1]:52088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iM4pG-0005m8-A4
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 02:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49895)
+	id 1iM4sJ-0000TT-Dz
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 02:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iM4nu-0004sW-QM
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 02:35:04 -0400
+ (envelope-from <svens@stackframe.org>) id 1iM4qz-0008DX-SG
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 02:38:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iM4nt-0004WT-9E
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 02:35:02 -0400
-Received: from ozlabs.org ([203.11.71.1]:44149)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iM4nr-0004UM-WA; Sun, 20 Oct 2019 02:35:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46wqkl5slrz9sPT; Sun, 20 Oct 2019 17:34:55 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1571553295;
- bh=Y9Kinyu4YS3CXYCcjqqh3GY7//daIEzxbjexgBgq9jM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FxypJSqHYzFoGm0MFS32niQBauQUO5rDbsyKLcCtHV8wAOYfhO2rH8rWgOcIJ/S+T
- d0uhQBTH0OQada92GkSRcCln7Hu06NHFgrAwq06J+b+oQbFi0DlIANrwv3JR+jZc3M
- f/JROmWf0voCGv6NS/cwWBHgdtdbmxS3qQvYuVIg=
-Date: Sun, 20 Oct 2019 17:28:42 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Marty E. Plummer" <hanetzer@startmail.com>
-Subject: Re: qemu/powernv: coreboot support?
-Message-ID: <20191020062842.GI1960@umbus.fritz.box>
-References: <20191018172622.kz4smemh5cwesfit@proprietary-killer>
- <21ba3404-dcd3-fe06-7725-d58e249f9fd2@kaod.org>
- <20191019153108.gkupn3tnihspq7th@proprietary-killer>
- <1cbd1882-15c8-5471-cd65-1c84c2920ba8@kaod.org>
- <20191019160933.fizoc6tpu5jday4o@proprietary-killer>
+ (envelope-from <svens@stackframe.org>) id 1iM4qy-00065m-I2
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 02:38:13 -0400
+Received: from smtp.duncanthrax.net ([2001:470:70c5:1111::170]:37685)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iM4qy-00064f-0k; Sun, 20 Oct 2019 02:38:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From;
+ bh=qKAb18eIuousbFVAtmAKlNb+GEQxdTv5Etq0k88S7zw=; b=aELDLvmnGxAfnDse1dJhnNXCxU
+ LF9/PeKOry3Z21pgynmX4UywgWNc4Pg8p+sBCCCuNv+Syi1WDJK4gycqOJ17n+6okj2Mj/7Q4rp8M
+ uEIWdU0hO58PS6WNv0vlLeyrSLN5CGV86B9rAhdY+3LMA2iLGA/ZlsFfn59MxJfT3I5s=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=x280.stackframe.org)
+ by smtp.eurescom.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.86_2) (envelope-from <svens@stackframe.org>)
+ id 1iM4qw-00005V-4I; Sun, 20 Oct 2019 08:38:10 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: John Snow <jsnow@redhat.com>
+Subject: [PATCH] fdc: support READ command with VERIFY DMA mode
+Date: Sun, 20 Oct 2019 08:38:00 +0200
+Message-Id: <20191020063800.29208-1-svens@stackframe.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lqaZmxkhekPBfBzr"
-Content-Disposition: inline
-In-Reply-To: <20191019160933.fizoc6tpu5jday4o@proprietary-killer>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:470:70c5:1111::170
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,104 +53,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joel Stanley <joel@jms.id.au>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Sven Schnelle <svens@stackframe.org>,
+ qemu-devel@nongnu.org, "open list:Floppy" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+While working on the Tulip driver i tried to write some Teledisk images to
+a floppy image which didn't work. Turned out that Teledisk checks the written
+data by issuing a READ command to the FDC but running the DMA controller
+in VERIFY mode. As we ignored the DMA request in that case, the DMA transfer
+never finished, and Teledisk reported an error.
 
---lqaZmxkhekPBfBzr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
+---
+ hw/block/fdc.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-On Sat, Oct 19, 2019 at 11:09:34AM -0500, Marty E. Plummer wrote:
-> On Sat, Oct 19, 2019 at 05:53:12PM +0200, C=E9dric Le Goater wrote:
-> > On 19/10/2019 17:31, Marty E. Plummer wrote:
-> > > On Sat, Oct 19, 2019 at 03:46:59PM +0200, C=E9dric Le Goater wrote:
-> > >> On 18/10/2019 19:28, Marty E. Plummer wrote:
-> > >>> Hello,
-> > >>>
-> > >>> First off, thank you for the work you've done on the ppc64 support,=
- it
-> > >>> has been very useful. I'm currently working on a coreboot port for =
-the
-> > >>> talos ii line of systems (which means more ppc64 support, support
-> > >>> specifically for the power9 sforza chip, and specific mainboard sup=
-port.
-> > >>> My plate is very full lol) and have been using qemu to debug the
-> > >>> bootblock.
-> > >>>
-> > >>> It has been very useful for that, but I'm now at the point where I =
-need
-> > >>> to jump to romstage, and that's where it gets tricky. qemu parses t=
-he rom
-> > >>> image and looks for a ffs header, locates skiboot on it, and jumps =
-straight
-> > >>> to that. Not exactly ideal for debugging something not produced fro=
-m op-build.
-> > >>
-> > >> yes. I suppose you are using my branch powernv-4.2 which adds PNOR s=
-upport
-> > >> and a way to boot directly from PNOR. In that case, QEMU parses the =
-PNOR
-> > >> file to extract the PAYLOAD partition (skiboot). skiboot also detect=
-s the
-> > >> flash and extract the kernel and initramfs from the PNOR.
-> > >>
-> > >> However, you can bypass all this internal boot process by simply pas=
-sing
-> > >> a -bios option and not passing a MTD device.
-> > >>
-> > > Doing so gives me the following error:
-> > > qemu-system-ppc64: Could not load OPAL firmware 'build/coreboot.rom'
-> > > (this is after I patched the 4mb size limit up)
-> >=20
-> > Could you make that rom available ?=20
-> >=20
-> Sure, I think. Not sure about how sending files works in my current mail
-> client but will see. Its more or less a 'stock' (as stock as can be for
-> a new coreboot target) coreboot.rom file, but I've added some logic into
-> the build to fake a pnor ffs header at the end in order to trick hostboot
-> bootloader into loading it.
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index ac5d31e8c1..8a1228df78 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1733,7 +1733,8 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
+             dma_mode_ok = (dma_mode == ISADMA_TRANSFER_WRITE);
+             break;
+         case FD_DIR_READ:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_READ);
++            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_READ) ||
++                          (dma_mode == ISADMA_TRANSFER_VERIFY);
+             break;
+         case FD_DIR_VERIFY:
+             dma_mode_ok = true;
+@@ -1835,8 +1836,11 @@ static int fdctrl_transfer_handler (void *opaque, int nchan,
+         switch (fdctrl->data_dir) {
+         case FD_DIR_READ:
+             /* READ commands */
+-            k->write_memory(fdctrl->dma, nchan, fdctrl->fifo + rel_pos,
+-                            fdctrl->data_pos, len);
++            if (k->get_transfer_mode(fdctrl->dma, fdctrl->dma_chann) !=
++                ISADMA_TRANSFER_VERIFY) {
++                k->write_memory(fdctrl->dma, nchan, fdctrl->fifo + rel_pos,
++                        fdctrl->data_pos, len);
++            }
+             break;
+         case FD_DIR_WRITE:
+             /* WRITE commands */
+-- 
+2.23.0
 
-Ok.  Note that the qemu emulated machine doesn't model the hardware
-right down to the level of hostboot.  That's wy we're just loading
-skiboot and jumping straight into it usually.  I guess clg's stuff to
-load pnor images gets us a little closer to the hardware behaviour,
-but I think it's still only a rough approximation.
-
-> > Thanks,
-> >=20
-> > C.=20
-
-
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---lqaZmxkhekPBfBzr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2r/poACgkQbDjKyiDZ
-s5JOrhAA0t7ORYZwo4AhTgHq7deWPvzmUfM6w3Ll3ESO2TCtj2ubVJmbwCLDWsW0
-HUFCxq859dRc20jf+8NEFNnXkm61RjsJKJRSgwGPD3tWd+lE08lK9XgJYStRMeS5
-VvAlEqpTlHaQtoFcbGz5DIeCCgQbBqzfXc1hLuaBS4ellopogi5M8M4/CH28nO3A
-8b/HJS6hgT4miDYlVSLUJtwoW65MyAjUzB/Ldj8K4nGvOia95L5reeGe8EwC+T5M
-zo7QNnmiEo6kha1FiU1Y0jz+XbAanL00A5vIz8DZqJU/amgAs80yTBVr+o7XE5ho
-Z+npa9MU9PP3POYts6aQtP/bf3vZMiN5j9MI/9+TpFaLRVTEasQK1tiGNMbn92ni
-FtqGdHFhTxm69F4IZi4kZP3ZtLTPVRMlfWxPz9N+Bg8MCKzqWAdXrw6BjOOx8jKA
-OO7WtU0i2+HGh5eY1QWwIn1fakv8hkgGoL+vHi67xpomiu1ZJatSAQp5K7Vcp6e7
-3M89q1lX19eYjLYEwOp+SLSoCGsMzKyOSaWUHe8shtaoXHMH4lQ3edpFeGiDkjQg
-6gkiiAj8IF5B1NA58Hj83CYsQI4sr+Z9By8FWZevoVBOjITpsQEQQ+wvdxBCAnnh
-AdnXNudK3Ie0P6yr3H0H1XNLboeNk0tFc22RrsQ89qZ6mtV0OIs=
-=sI1C
------END PGP SIGNATURE-----
-
---lqaZmxkhekPBfBzr--
 
