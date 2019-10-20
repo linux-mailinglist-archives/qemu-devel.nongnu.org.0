@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4568DDE41
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 13:24:54 +0200 (CEST)
-Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F7CDDE3C
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 13:21:40 +0200 (CEST)
+Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iM9KP-0003nu-AV
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 07:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35692)
+	id 1iM9HH-0000Ch-Rw
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 07:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iM97a-0002dm-0p
+ (envelope-from <tao3.xu@intel.com>) id 1iM97a-0002dl-05
  for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iM97Y-0002x6-L0
+ (envelope-from <tao3.xu@intel.com>) id 1iM97Y-0002x0-JI
  for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:37 -0400
-Received: from mga12.intel.com ([192.55.52.136]:63373)
+Received: from mga12.intel.com ([192.55.52.136]:63375)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iM97Y-0002uy-Bw
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iM97Y-0002wT-Bn
  for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:36 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2019 04:11:29 -0700
+ 20 Oct 2019 04:11:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,319,1566889200"; d="scan'208";a="371917528"
+X-IronPort-AV: E=Sophos;i="5.67,319,1566889200"; d="scan'208";a="371917542"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by orsmga005.jf.intel.com with ESMTP; 20 Oct 2019 04:11:27 -0700
+ by orsmga005.jf.intel.com with ESMTP; 20 Oct 2019 04:11:31 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Subject: [PATCH v13 00/12] Build ACPI Heterogeneous Memory Attribute Table
- (HMAT)
-Date: Sun, 20 Oct 2019 19:11:13 +0800
-Message-Id: <20191020111125.27659-1-tao3.xu@intel.com>
+Subject: [PATCH v13 02/12] tests/cutils: Add test for qemu_strtotime_ps()
+Date: Sun, 20 Oct 2019 19:11:15 +0800
+Message-Id: <20191020111125.27659-3-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191020111125.27659-1-tao3.xu@intel.com>
+References: <20191020111125.27659-1-tao3.xu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -59,94 +60,233 @@ Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
-according to the command line. The ACPI HMAT describes the memory attributes,
-such as memory side cache attributes and bandwidth and latency details,
-related to the Memory Proximity Domain.
-The software is expected to use HMAT information as hint for optimization.
+Test the input of basic, time suffixes, float, invaild, trailing and
+overflow.
 
-In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
-the platform's HMAT tables.
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
+---
 
-The V12 patches link:
-https://patchwork.kernel.org/cover/11153861/
+No changes in v13.
+---
+ tests/test-cutils.c | 199 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 199 insertions(+)
 
-Changelog:
-v13:
-    - Modify some text description
-    - Drop "initiator_valid" field in struct NodeInfo
-    - Reuse Garray to store the raw bandwidth and bandwidth data
-    - Calculate common base unit using range bitmap
-    - Add a patch to alculate hmat latency and bandwidth entry list
-    - Drop the total_levels option and use readable cache size
-    - Remove the unnecessary head file
-    - Use decimal notation with appropriate suffix for cache size
-v12:
-    - Fix a bug that a memory-only node without initiator setting
-      doesn't report error. (reported by Danmei Wei)
-    - Fix a bug that if HMAT is enabled and without hmat-lb setting,
-      QEMU will crash. (reported by Danmei Wei)
-v11:
-    - Move numa option patches forward.
-    - Add num_initiator in Numa_state to record the number of
-    initiators.
-    - Simplify struct HMAT_LB_Info, use uint64_t array to store data.
-    - Drop hmat_get_base().
-    - Calculate base in build_hmat_lb().
-v10:
-    - Add qemu_strtotime_ps() to convert strings with time suffixes
-    to numbers, and add some tests for it.
-    - Add qapi buildin type time, and add some tests for it.
-    - Add machine oprion properties "-machine hmat=on|off" for
-	  enabling or disabling HMAT in QEMU.
-v9:
-    - change the CLI input way, make it more user firendly (Daniel Black)
-    use latency=NUM[p|n|u]s and bandwidth=NUM[M|G|P](B/s) as input and drop
-    the base-lat and base-bw input.
-Liu Jingqi (5):
-  numa: Extend CLI to provide memory latency and bandwidth information
-  numa: Extend CLI to provide memory side cache information
-  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
-  hmat acpi: Build System Locality Latency and Bandwidth Information
-    Structure(s)
-  hmat acpi: Build Memory Side Cache Information Structure(s)
-
-Tao Xu (7):
-  util/cutils: Add qemu_strtotime_ps()
-  tests/cutils: Add test for qemu_strtotime_ps()
-  qapi: Add builtin type time
-  tests: Add test for QAPI builtin type time
-  numa: Extend CLI to provide initiator information for numa nodes
-  numa: Calculate hmat latency and bandwidth entry list
-  tests/bios-tables-test: add test cases for ACPI HMAT
-
- hw/acpi/Kconfig                    |   7 +-
- hw/acpi/Makefile.objs              |   1 +
- hw/acpi/hmat.c                     | 263 +++++++++++++++++++++++++++
- hw/acpi/hmat.h                     |  42 +++++
- hw/core/machine.c                  |  70 ++++++++
- hw/core/numa.c                     | 273 ++++++++++++++++++++++++++++-
- hw/i386/acpi-build.c               |   5 +
- include/qapi/visitor-impl.h        |   4 +
- include/qapi/visitor.h             |   9 +
- include/qemu/cutils.h              |   1 +
- include/sysemu/numa.h              | 104 +++++++++++
- qapi/machine.json                  | 179 ++++++++++++++++++-
- qapi/opts-visitor.c                |  22 +++
- qapi/qapi-visit-core.c             |  12 ++
- qapi/qobject-input-visitor.c       |  18 ++
- qapi/trace-events                  |   1 +
- qemu-options.hx                    |  96 +++++++++-
- scripts/qapi/common.py             |   1 +
- tests/bios-tables-test.c           |  44 +++++
- tests/test-cutils.c                | 199 +++++++++++++++++++++
- tests/test-keyval.c                | 125 +++++++++++++
- tests/test-qobject-input-visitor.c |  29 +++
- util/cutils.c                      |  82 +++++++++
- 23 files changed, 1575 insertions(+), 12 deletions(-)
- create mode 100644 hw/acpi/hmat.c
- create mode 100644 hw/acpi/hmat.h
-
+diff --git a/tests/test-cutils.c b/tests/test-cutils.c
+index 1aa8351520..19c967d3d5 100644
+--- a/tests/test-cutils.c
++++ b/tests/test-cutils.c
+@@ -2179,6 +2179,193 @@ static void test_qemu_strtosz_metric(void)
+     g_assert(endptr == str + 6);
+ }
+ 
++static void test_qemu_strtotime_ps_simple(void)
++{
++    const char *str;
++    const char *endptr;
++    int err;
++    uint64_t res = 0xbaadf00d;
++
++    str = "0";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 0);
++    g_assert(endptr == str + 1);
++
++    str = "56789";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 56789);
++    g_assert(endptr == str + 5);
++
++    err = qemu_strtotime_ps(str, NULL, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 56789);
++
++    /* Note: precision is 53 bits since we're parsing with strtod() */
++
++    str = "9007199254740991"; /* 2^53-1 */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 0x1fffffffffffff);
++    g_assert(endptr == str + 16);
++
++    str = "9007199254740992"; /* 2^53 */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 0x20000000000000);
++    g_assert(endptr == str + 16);
++
++    str = "9007199254740993"; /* 2^53+1 */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 0x20000000000000); /* rounded to 53 bits */
++    g_assert(endptr == str + 16);
++
++    str = "18446744073709549568"; /* 0xfffffffffffff800 (53 msbs set) */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 0xfffffffffffff800);
++    g_assert(endptr == str + 20);
++
++    str = "18446744073709550591"; /* 0xfffffffffffffbff */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 0xfffffffffffff800); /* rounded to 53 bits */
++    g_assert(endptr == str + 20);
++
++    /* 0x7ffffffffffffe00..0x7fffffffffffffff get rounded to
++     * 0x8000000000000000, thus -ERANGE; see test_qemu_strtosz_erange() */
++}
++
++static void test_qemu_strtotime_ps_units(void)
++{
++    const char *ps = "1ps";
++    const char *ns = "1ns";
++    const char *us = "1us";
++    const char *ms = "1ms";
++    const char *s = "1s";
++    int err;
++    const char *endptr;
++    uint64_t res = 0xbaadf00d;
++
++    err = qemu_strtotime_ps(ps, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 1);
++    g_assert(endptr == ps + 3);
++
++    err = qemu_strtotime_ps(ns, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 1000);
++    g_assert(endptr == ns + 3);
++
++    err = qemu_strtotime_ps(us, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 1000000);
++    g_assert(endptr == us + 3);
++
++    err = qemu_strtotime_ps(ms, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 1000000000LL);
++    g_assert(endptr == ms + 3);
++
++    err = qemu_strtotime_ps(s, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 1000000000000ULL);
++    g_assert(endptr == s + 2);
++}
++
++static void test_qemu_strtotime_ps_float(void)
++{
++    const char *str = "56.789ns";
++    int err;
++    const char *endptr;
++    uint64_t res = 0xbaadf00d;
++
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, 0);
++    g_assert_cmpint(res, ==, 56.789 * 1000);
++    g_assert(endptr == str + 8);
++}
++
++static void test_qemu_strtotime_ps_invalid(void)
++{
++    const char *str;
++    const char *endptr;
++    int err;
++    uint64_t res = 0xbaadf00d;
++
++    str = "";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert(endptr == str);
++
++    str = " \t ";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert(endptr == str);
++
++    str = "crap";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert(endptr == str);
++
++    str = "inf";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert(endptr == str);
++
++    str = "NaN";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert(endptr == str);
++}
++
++static void test_qemu_strtotime_ps_trailing(void)
++{
++    const char *str;
++    int err;
++    uint64_t res = 0xbaadf00d;
++
++    str = "123xxx";
++
++    err = qemu_strtotime_ps(str, NULL, &res);
++    g_assert_cmpint(err, ==, -EINVAL);
++}
++
++static void test_qemu_strtotime_ps_erange(void)
++{
++    const char *str;
++    const char *endptr;
++    int err;
++    uint64_t res = 0xbaadf00d;
++
++    str = "-1";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -ERANGE);
++    g_assert(endptr == str + 2);
++
++    str = "18446744073709550592"; /* 0xfffffffffffffc00 */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -ERANGE);
++    g_assert(endptr == str + 20);
++
++    str = "18446744073709551615"; /* 2^64-1 */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -ERANGE);
++    g_assert(endptr == str + 20);
++
++    str = "18446744073709551616"; /* 2^64 */
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -ERANGE);
++    g_assert(endptr == str + 20);
++
++    str = "200000000000000s";
++    err = qemu_strtotime_ps(str, &endptr, &res);
++    g_assert_cmpint(err, ==, -ERANGE);
++    g_assert(endptr == str + 16);
++}
++
+ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+@@ -2456,5 +2643,17 @@ int main(int argc, char **argv)
+     g_test_add_func("/cutils/strtosz/metric",
+                     test_qemu_strtosz_metric);
+ 
++    g_test_add_func("/cutils/strtotime/simple",
++                    test_qemu_strtotime_ps_simple);
++    g_test_add_func("/cutils/strtotime/units",
++                    test_qemu_strtotime_ps_units);
++    g_test_add_func("/cutils/strtotime/float",
++                    test_qemu_strtotime_ps_float);
++    g_test_add_func("/cutils/strtotime/invalid",
++                    test_qemu_strtotime_ps_invalid);
++    g_test_add_func("/cutils/strtotime/trailing",
++                    test_qemu_strtotime_ps_trailing);
++    g_test_add_func("/cutils/strtotime/erange",
++                    test_qemu_strtotime_ps_erange);
+     return g_test_run();
+ }
 -- 
 2.20.1
 
