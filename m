@@ -2,44 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FD6DDFC5
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 19:35:29 +0200 (CEST)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40C4DDFE6
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 20:09:08 +0200 (CEST)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMF71-00024H-SA
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 13:35:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37963)
+	id 1iMFdb-0001BQ-9H
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 14:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40867)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iMExR-0001Ve-Py
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 13:25:35 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iMFc1-0008OU-Pu
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 14:07:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iMExP-00064c-Fm
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 13:25:33 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:47764 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iMExO-00063R-VE
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 13:25:31 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id CBA091A1E02;
- Sun, 20 Oct 2019 19:24:24 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 92A4F1A1E31;
- Sun, 20 Oct 2019 19:24:24 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/10] target/mips: msa: Split helpers for
- PCK<EV|OD>.<B|H|W|D>
-Date: Sun, 20 Oct 2019 19:24:18 +0200
-Message-Id: <1571592258-27994-11-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
+ (envelope-from <no-reply@patchew.org>) id 1iMFbz-0001xB-Li
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 14:07:29 -0400
+Resent-Date: Sun, 20 Oct 2019 14:07:29 -0400
+Resent-Message-Id: <E1iMFbz-0001xB-Li@eggs.gnu.org>
+Received: from sender4-of-o56.zoho.com ([136.143.188.56]:21668)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iMFbz-0001x0-GJ
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 14:07:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1571594832; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nukRsypFnz9pEgLQ2+S2rVi5WYLC2HrE+EFzxkEkZ2yZ8UZl4ZXERC61F1E3VSpj6QdxCjek3WA7BB3Yox9PptcFetW4NKrtVt50hGrScikdCeOTqS8kkzuCwFf2KclJLQPBw1sm3wPCqrmTenS4jGxTBWkwCuKp3ma6eacTNZA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1571594832;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=JTc9hzjHYf3ZSc9+t7HGEWs+CzpD/MyOXJmky0/zHuA=; 
+ b=jmF2UnuYiGeDfbcHF8HlkzytAYD7gmaSpczQSH0PZYbwj5+g738+N2wUuQno9MCw9giiKGrygzM+R7WZnhjDN/mX7q6hsiz13F79EGTsytvKAoPFaqIGnt49iXMbyxPFG4wfoJkFPCu5sngZWG8jjryfrnWLXl1hP2i9nwAnDac=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1571594831153558.9023598323898;
+ Sun, 20 Oct 2019 11:07:11 -0700 (PDT)
 In-Reply-To: <1571592258-27994-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1571592258-27994-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+Subject: Re: [PATCH v5 00/10] target/mips: Misc cleanups for September/October
+ 2019
+Message-ID: <157159483007.24734.6372066021027057052@37313f22b938>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: aleksandar.markovic@rt-rk.com
+Date: Sun, 20 Oct 2019 11:07:11 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.56
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,514 +65,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com
+Reply-To: qemu-devel@nongnu.org
+Cc: aleksandar.rikalo@rt-rk.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
-
-Achieves clearer code and slightly better performance.
-
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- target/mips/helper.h     |  11 +-
- target/mips/msa_helper.c | 386 +++++++++++++++++++++++++----------------------
- target/mips/translate.c  |  38 ++++-
- 3 files changed, 249 insertions(+), 186 deletions(-)
-
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index f779404..7bb13d5 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -967,6 +967,15 @@ DEF_HELPER_4(msa_nor_v, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_or_v, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_xor_v, void, env, i32, i32, i32)
- 
-+DEF_HELPER_4(msa_pckev_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckev_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckev_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckev_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckod_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckod_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckod_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_pckod_d, void, env, i32, i32, i32)
-+
- DEF_HELPER_4(msa_sll_b, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_sll_h, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_sll_w, void, env, i32, i32, i32)
-@@ -1049,8 +1058,6 @@ DEF_HELPER_5(msa_dpsub_s_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_dpsub_u_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_sld_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_splat_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_pckev_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_pckod_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_vshf_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_hsub_s_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_hsub_u_df, void, env, i32, i32, i32, i32)
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 38ff1da..2400632 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -3430,7 +3430,214 @@ void helper_msa_move_v(CPUMIPSState *env, uint32_t wd, uint32_t ws)
-  * +---------------+----------------------------------------------------------+
-  */
- 
--/* TODO: insert Pack group helpers here */
-+
-+void helper_msa_pckev_b(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+    pwd->b[8]  = pws->b[9];
-+    pwd->b[10] = pws->b[13];
-+    pwd->b[12] = pws->b[1];
-+    pwd->b[14] = pws->b[5];
-+    pwd->b[0]  = pwt->b[9];
-+    pwd->b[2]  = pwt->b[13];
-+    pwd->b[4]  = pwt->b[1];
-+    pwd->b[6]  = pwt->b[5];
-+    pwd->b[9]  = pws->b[11];
-+    pwd->b[13] = pws->b[3];
-+    pwd->b[1]  = pwt->b[11];
-+    pwd->b[5]  = pwt->b[3];
-+    pwd->b[11] = pws->b[15];
-+    pwd->b[3]  = pwt->b[15];
-+    pwd->b[15] = pws->b[7];
-+    pwd->b[7]  = pwt->b[7];
-+#else
-+    pwd->b[15] = pws->b[14];
-+    pwd->b[13] = pws->b[10];
-+    pwd->b[11] = pws->b[6];
-+    pwd->b[9]  = pws->b[2];
-+    pwd->b[7]  = pwt->b[14];
-+    pwd->b[5]  = pwt->b[10];
-+    pwd->b[3]  = pwt->b[6];
-+    pwd->b[1]  = pwt->b[2];
-+    pwd->b[14] = pws->b[12];
-+    pwd->b[10] = pws->b[4];
-+    pwd->b[6]  = pwt->b[12];
-+    pwd->b[2]  = pwt->b[4];
-+    pwd->b[12] = pws->b[8];
-+    pwd->b[4]  = pwt->b[8];
-+    pwd->b[8]  = pws->b[0];
-+    pwd->b[0]  = pwt->b[0];
-+#endif
-+}
-+
-+void helper_msa_pckev_h(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+    pwd->h[4] = pws->h[5];
-+    pwd->h[6] = pws->h[1];
-+    pwd->h[0] = pwt->h[5];
-+    pwd->h[2] = pwt->h[1];
-+    pwd->h[5] = pws->h[7];
-+    pwd->h[1] = pwt->h[7];
-+    pwd->h[7] = pws->h[3];
-+    pwd->h[3] = pwt->h[3];
-+#else
-+    pwd->h[7] = pws->h[6];
-+    pwd->h[5] = pws->h[2];
-+    pwd->h[3] = pwt->h[6];
-+    pwd->h[1] = pwt->h[2];
-+    pwd->h[6] = pws->h[4];
-+    pwd->h[2] = pwt->h[4];
-+    pwd->h[4] = pws->h[0];
-+    pwd->h[0] = pwt->h[0];
-+#endif
-+}
-+
-+void helper_msa_pckev_w(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+    pwd->w[2] = pws->w[3];
-+    pwd->w[0] = pwt->w[3];
-+    pwd->w[3] = pws->w[1];
-+    pwd->w[1] = pwt->w[1];
-+#else
-+    pwd->w[3] = pws->w[2];
-+    pwd->w[1] = pwt->w[2];
-+    pwd->w[2] = pws->w[0];
-+    pwd->w[0] = pwt->w[0];
-+#endif
-+}
-+
-+void helper_msa_pckev_d(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[1] = pws->d[0];
-+    pwd->d[0] = pwt->d[0];
-+}
-+
-+
-+void helper_msa_pckod_b(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+    pwd->b[7]  = pwt->b[6];
-+    pwd->b[5]  = pwt->b[2];
-+    pwd->b[3]  = pwt->b[14];
-+    pwd->b[1]  = pwt->b[10];
-+    pwd->b[15] = pws->b[6];
-+    pwd->b[13] = pws->b[2];
-+    pwd->b[11] = pws->b[14];
-+    pwd->b[9]  = pws->b[10];
-+    pwd->b[6]  = pwt->b[4];
-+    pwd->b[2]  = pwt->b[12];
-+    pwd->b[14] = pws->b[4];
-+    pwd->b[10] = pws->b[12];
-+    pwd->b[4]  = pwt->b[0];
-+    pwd->b[12] = pws->b[0];
-+    pwd->b[0]  = pwt->b[8];
-+    pwd->b[8]  = pws->b[8];
-+#else
-+    pwd->b[0]  = pwt->b[1];
-+    pwd->b[2]  = pwt->b[5];
-+    pwd->b[4]  = pwt->b[9];
-+    pwd->b[6]  = pwt->b[13];
-+    pwd->b[8]  = pws->b[1];
-+    pwd->b[10] = pws->b[5];
-+    pwd->b[12] = pws->b[9];
-+    pwd->b[14] = pws->b[13];
-+    pwd->b[1]  = pwt->b[3];
-+    pwd->b[5]  = pwt->b[11];
-+    pwd->b[9]  = pws->b[3];
-+    pwd->b[13] = pws->b[11];
-+    pwd->b[3]  = pwt->b[7];
-+    pwd->b[11] = pws->b[7];
-+    pwd->b[7]  = pwt->b[15];
-+    pwd->b[15] = pws->b[15];
-+#endif
-+
-+}
-+
-+void helper_msa_pckod_h(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+    pwd->h[3] = pwt->h[2];
-+    pwd->h[1] = pwt->h[6];
-+    pwd->h[7] = pws->h[2];
-+    pwd->h[5] = pws->h[6];
-+    pwd->h[2] = pwt->h[0];
-+    pwd->h[6] = pws->h[0];
-+    pwd->h[0] = pwt->h[4];
-+    pwd->h[4] = pws->h[4];
-+#else
-+    pwd->h[0] = pwt->h[1];
-+    pwd->h[2] = pwt->h[5];
-+    pwd->h[4] = pws->h[1];
-+    pwd->h[6] = pws->h[5];
-+    pwd->h[1] = pwt->h[3];
-+    pwd->h[5] = pws->h[3];
-+    pwd->h[3] = pwt->h[7];
-+    pwd->h[7] = pws->h[7];
-+#endif
-+}
-+
-+void helper_msa_pckod_w(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+#if defined(HOST_WORDS_BIGENDIAN)
-+    pwd->w[1] = pwt->w[0];
-+    pwd->w[3] = pws->w[0];
-+    pwd->w[0] = pwt->w[2];
-+    pwd->w[2] = pws->w[2];
-+#else
-+    pwd->w[0] = pwt->w[1];
-+    pwd->w[2] = pws->w[1];
-+    pwd->w[1] = pwt->w[3];
-+    pwd->w[3] = pws->w[3];
-+#endif
-+}
-+
-+void helper_msa_pckod_d(CPUMIPSState *env,
-+                        uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0] = pwt->d[1];
-+    pwd->d[1] = pws->d[1];
-+}
- 
- 
- /*
-@@ -4675,183 +4882,6 @@ MSA_FN_DF(vshf_df)
- #undef MSA_FN_DF
- 
- 
--void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
--                         uint32_t ws, uint32_t wt)
--{
--    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
--    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
--    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
--
--    switch (df) {
--    case DF_BYTE:
--#if defined(HOST_WORDS_BIGENDIAN)
--        pwd->b[8]  = pws->b[9];
--        pwd->b[10] = pws->b[13];
--        pwd->b[12] = pws->b[1];
--        pwd->b[14] = pws->b[5];
--        pwd->b[0]  = pwt->b[9];
--        pwd->b[2]  = pwt->b[13];
--        pwd->b[4]  = pwt->b[1];
--        pwd->b[6]  = pwt->b[5];
--        pwd->b[9]  = pws->b[11];
--        pwd->b[13] = pws->b[3];
--        pwd->b[1]  = pwt->b[11];
--        pwd->b[5]  = pwt->b[3];
--        pwd->b[11] = pws->b[15];
--        pwd->b[3]  = pwt->b[15];
--        pwd->b[15] = pws->b[7];
--        pwd->b[7]  = pwt->b[7];
--#else
--        pwd->b[15] = pws->b[14];
--        pwd->b[13] = pws->b[10];
--        pwd->b[11] = pws->b[6];
--        pwd->b[9]  = pws->b[2];
--        pwd->b[7]  = pwt->b[14];
--        pwd->b[5]  = pwt->b[10];
--        pwd->b[3]  = pwt->b[6];
--        pwd->b[1]  = pwt->b[2];
--        pwd->b[14] = pws->b[12];
--        pwd->b[10] = pws->b[4];
--        pwd->b[6]  = pwt->b[12];
--        pwd->b[2]  = pwt->b[4];
--        pwd->b[12] = pws->b[8];
--        pwd->b[4]  = pwt->b[8];
--        pwd->b[8]  = pws->b[0];
--        pwd->b[0]  = pwt->b[0];
--#endif
--        break;
--    case DF_HALF:
--#if defined(HOST_WORDS_BIGENDIAN)
--        pwd->h[4] = pws->h[5];
--        pwd->h[6] = pws->h[1];
--        pwd->h[0] = pwt->h[5];
--        pwd->h[2] = pwt->h[1];
--        pwd->h[5] = pws->h[7];
--        pwd->h[1] = pwt->h[7];
--        pwd->h[7] = pws->h[3];
--        pwd->h[3] = pwt->h[3];
--#else
--        pwd->h[7] = pws->h[6];
--        pwd->h[5] = pws->h[2];
--        pwd->h[3] = pwt->h[6];
--        pwd->h[1] = pwt->h[2];
--        pwd->h[6] = pws->h[4];
--        pwd->h[2] = pwt->h[4];
--        pwd->h[4] = pws->h[0];
--        pwd->h[0] = pwt->h[0];
--#endif
--        break;
--    case DF_WORD:
--#if defined(HOST_WORDS_BIGENDIAN)
--        pwd->w[2] = pws->w[3];
--        pwd->w[0] = pwt->w[3];
--        pwd->w[3] = pws->w[1];
--        pwd->w[1] = pwt->w[1];
--#else
--        pwd->w[3] = pws->w[2];
--        pwd->w[1] = pwt->w[2];
--        pwd->w[2] = pws->w[0];
--        pwd->w[0] = pwt->w[0];
--#endif
--        break;
--    case DF_DOUBLE:
--        pwd->d[1] = pws->d[0];
--        pwd->d[0] = pwt->d[0];
--        break;
--    default:
--        assert(0);
--    }
--}
--
--void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
--                         uint32_t ws, uint32_t wt)
--{
--    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
--    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
--    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
--
--    switch (df) {
--    case DF_BYTE:
--#if defined(HOST_WORDS_BIGENDIAN)
--        pwd->b[7]  = pwt->b[6];
--        pwd->b[5]  = pwt->b[2];
--        pwd->b[3]  = pwt->b[14];
--        pwd->b[1]  = pwt->b[10];
--        pwd->b[15] = pws->b[6];
--        pwd->b[13] = pws->b[2];
--        pwd->b[11] = pws->b[14];
--        pwd->b[9]  = pws->b[10];
--        pwd->b[6]  = pwt->b[4];
--        pwd->b[2]  = pwt->b[12];
--        pwd->b[14] = pws->b[4];
--        pwd->b[10] = pws->b[12];
--        pwd->b[4]  = pwt->b[0];
--        pwd->b[12] = pws->b[0];
--        pwd->b[0]  = pwt->b[8];
--        pwd->b[8]  = pws->b[8];
--#else
--        pwd->b[0]  = pwt->b[1];
--        pwd->b[2]  = pwt->b[5];
--        pwd->b[4]  = pwt->b[9];
--        pwd->b[6]  = pwt->b[13];
--        pwd->b[8]  = pws->b[1];
--        pwd->b[10] = pws->b[5];
--        pwd->b[12] = pws->b[9];
--        pwd->b[14] = pws->b[13];
--        pwd->b[1]  = pwt->b[3];
--        pwd->b[5]  = pwt->b[11];
--        pwd->b[9]  = pws->b[3];
--        pwd->b[13] = pws->b[11];
--        pwd->b[3]  = pwt->b[7];
--        pwd->b[11] = pws->b[7];
--        pwd->b[7]  = pwt->b[15];
--        pwd->b[15] = pws->b[15];
--#endif
--        break;
--    case DF_HALF:
--#if defined(HOST_WORDS_BIGENDIAN)
--        pwd->h[3] = pwt->h[2];
--        pwd->h[1] = pwt->h[6];
--        pwd->h[7] = pws->h[2];
--        pwd->h[5] = pws->h[6];
--        pwd->h[2] = pwt->h[0];
--        pwd->h[6] = pws->h[0];
--        pwd->h[0] = pwt->h[4];
--        pwd->h[4] = pws->h[4];
--#else
--        pwd->h[0] = pwt->h[1];
--        pwd->h[2] = pwt->h[5];
--        pwd->h[4] = pws->h[1];
--        pwd->h[6] = pws->h[5];
--        pwd->h[1] = pwt->h[3];
--        pwd->h[5] = pws->h[3];
--        pwd->h[3] = pwt->h[7];
--        pwd->h[7] = pws->h[7];
--#endif
--        break;
--    case DF_WORD:
--#if defined(HOST_WORDS_BIGENDIAN)
--        pwd->w[1] = pwt->w[0];
--        pwd->w[3] = pws->w[0];
--        pwd->w[0] = pwt->w[2];
--        pwd->w[2] = pws->w[2];
--#else
--        pwd->w[0] = pwt->w[1];
--        pwd->w[2] = pws->w[1];
--        pwd->w[1] = pwt->w[3];
--        pwd->w[3] = pws->w[3];
--#endif
--        break;
--    case DF_DOUBLE:
--        pwd->d[0] = pwt->d[1];
--        pwd->d[1] = pws->d[1];
--        break;
--    default:
--        assert(0);
--    }
--}
--
--
- void helper_msa_sldi_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-                         uint32_t ws, uint32_t n)
- {
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 7cdf68d..a57e0da 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -28914,6 +28914,38 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-             break;
-         }
-         break;
-+    case OPC_PCKEV_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_pckev_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_pckev_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_pckev_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_pckev_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_PCKOD_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_pckod_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_pckod_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_pckod_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_pckod_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-     case OPC_SLL_df:
-         switch (df) {
-         case DF_BYTE:
-@@ -29024,15 +29056,9 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_MSUBV_df:
-         gen_helper_msa_msubv_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_PCKEV_df:
--        gen_helper_msa_pckev_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_SUBSUU_S_df:
-         gen_helper_msa_subsuu_s_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_PCKOD_df:
--        gen_helper_msa_pckod_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_ASUB_S_df:
-         gen_helper_msa_asub_s_df(cpu_env, tdf, twd, tws, twt);
-         break;
--- 
-2.7.4
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTcxNTkyMjU4LTI3OTk0LTEt
+Z2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20vCgoKCkhpLAoKVGhp
+cyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91
+dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2NSAwMC8x
+MF0gdGFyZ2V0L21pcHM6IE1pc2MgY2xlYW51cHMgZm9yIFNlcHRlbWJlci9PY3RvYmVyIDIwMTkK
+VHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDE1NzE1OTIyNTgtMjc5OTQtMS1naXQtc2VuZC1lbWFp
+bC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09
+PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dy
+YW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NS
+SVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3
+MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwphM2FjMWI1IHRhcmdldC9taXBz
+OiBtc2E6IFNwbGl0IGhlbHBlcnMgZm9yIFBDSzxFVnxPRD4uPEJ8SHxXfEQ+CmYyZDhjYzggdGFy
+Z2V0L21pcHM6IG1zYTogU3BsaXQgaGVscGVycyBmb3IgUzxMTHxSQXxSQVJ8Ukx8UkxSPi48QnxI
+fFd8RD4KMGZiZDI5ZiB0YXJnZXQvbWlwczogbXNhOiBTcGxpdCBoZWxwZXJzIGZvciBIQUREXzxT
+fFU+LjxIfFd8RD4KZDVkZTEwOCB0YXJnZXQvbWlwczogbXNhOiBTcGxpdCBoZWxwZXJzIGZvciBB
+REQ8X0F8U19BfFNfU3xTX1V8Vj4uPEJ8SHxXfEQ+CjI0MWIxZTIgdGFyZ2V0L21pcHM6IG1zYTog
+U3BsaXQgaGVscGVycyBmb3IgSUxWPEVWfE9EfEx8Uj4uPEJ8SHxXfEQ+CjNkOGJhZGMgdGFyZ2V0
+L21pcHM6IG1zYTogU3BsaXQgaGVscGVycyBmb3IgPE1BWHxNSU4+XzxTfFU+LjxCfEh8V3xEPgo1
+Y2RiOGRjIHRhcmdldC9taXBzOiBtc2E6IFNwbGl0IGhlbHBlcnMgZm9yIDxNQVh8TUlOPl9BLjxC
+fEh8V3xEPgpjOTBhYTFhIE1BSU5UQUlORVJTOiBVcGRhdGUgbWFpbCBhZGRyZXNzIG9mIEFsZWtz
+YW5kYXIgUmlrYWxvCjg3ZjQyZGQgdGFyZ2V0L21pcHM6IENsZWFuIHVwIG9wX2hlbHBlci5jCjhm
+MWE3OGIgdGFyZ2V0L21pcHM6IENsZWFuIHVwIGhlbHBlci5jCgo9PT0gT1VUUFVUIEJFR0lOID09
+PQoxLzEwIENoZWNraW5nIGNvbW1pdCA4ZjFhNzhiZTZhNmYgKHRhcmdldC9taXBzOiBDbGVhbiB1
+cCBoZWxwZXIuYykKMi8xMCBDaGVja2luZyBjb21taXQgODdmNDJkZDM1MzVkICh0YXJnZXQvbWlw
+czogQ2xlYW4gdXAgb3BfaGVscGVyLmMpCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
+YXQgJyonIChjdHg6V3hWKQojMTA1ODogRklMRTogdGFyZ2V0L21pcHMvb3BfaGVscGVyLmM6Mzg3
+MToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmbG9hdF9zdGF0dXMgKnN0YXR1
+cykgICAgICAgICAgICAgIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNjgxIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDIvMTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMTAgQ2hlY2tpbmcg
+Y29tbWl0IGM5MGFhMWE2NGViNCAoTUFJTlRBSU5FUlM6IFVwZGF0ZSBtYWlsIGFkZHJlc3Mgb2Yg
+QWxla3NhbmRhciBSaWthbG8pCjQvMTAgQ2hlY2tpbmcgY29tbWl0IDVjZGI4ZGMxNmE1OCAodGFy
+Z2V0L21pcHM6IG1zYTogU3BsaXQgaGVscGVycyBmb3IgPE1BWHxNSU4+X0EuPEJ8SHxXfEQ+KQo1
+LzEwIENoZWNraW5nIGNvbW1pdCAzZDhiYWRjMTExMmYgKHRhcmdldC9taXBzOiBtc2E6IFNwbGl0
+IGhlbHBlcnMgZm9yIDxNQVh8TUlOPl88U3xVPi48QnxIfFd8RD4pCjYvMTAgQ2hlY2tpbmcgY29t
+bWl0IDI0MWIxZTJiNjgyNCAodGFyZ2V0L21pcHM6IG1zYTogU3BsaXQgaGVscGVycyBmb3IgSUxW
+PEVWfE9EfEx8Uj4uPEJ8SHxXfEQ+KQo3LzEwIENoZWNraW5nIGNvbW1pdCBkNWRlMTA4ZGFjZDUg
+KHRhcmdldC9taXBzOiBtc2E6IFNwbGl0IGhlbHBlcnMgZm9yIEFERDxfQXxTX0F8U19TfFNfVXxW
+Pi48QnxIfFd8RD4pCjgvMTAgQ2hlY2tpbmcgY29tbWl0IDBmYmQyOWZhNGEwYiAodGFyZ2V0L21p
+cHM6IG1zYTogU3BsaXQgaGVscGVycyBmb3IgSEFERF88U3xVPi48SHxXfEQ+KQo5LzEwIENoZWNr
+aW5nIGNvbW1pdCBmMmQ4Y2M4NWI4OGQgKHRhcmdldC9taXBzOiBtc2E6IFNwbGl0IGhlbHBlcnMg
+Zm9yIFM8TEx8UkF8UkFSfFJMfFJMUj4uPEJ8SHxXfEQ+KQoxMC8xMCBDaGVja2luZyBjb21taXQg
+YTNhYzFiNTExMGU2ICh0YXJnZXQvbWlwczogbXNhOiBTcGxpdCBoZWxwZXJzIGZvciBQQ0s8RVZ8
+T0Q+LjxCfEh8V3xEPikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
+dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
+b3JnL2xvZ3MvMTU3MTU5MjI1OC0yNzk5NC0xLWdpdC1zZW5kLWVtYWlsLWFsZWtzYW5kYXIubWFy
+a292aWNAcnQtcmsuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
+aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
+Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
+bQ==
 
 
