@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D619DDE48
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 13:27:27 +0200 (CEST)
-Received: from localhost ([::1]:59544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7AADDE39
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 13:21:24 +0200 (CEST)
+Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iM9Ms-0007V3-2B
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 07:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35797)
+	id 1iM9H1-0008RP-By
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 07:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35807)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iM97r-0002l9-C2
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:56 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iM97s-0002ml-EO
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iM97q-000318-1c
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:55 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iM97r-00031S-5s
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:56 -0400
 Received: from mga12.intel.com ([192.55.52.136]:63397)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iM97p-0002zY-MH
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:53 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iM97q-0002zY-Uq
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 07:11:55 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2019 04:11:52 -0700
+ 20 Oct 2019 04:11:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,319,1566889200"; d="scan'208";a="371917590"
+X-IronPort-AV: E=Sophos;i="5.67,319,1566889200"; d="scan'208";a="371917594"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by orsmga005.jf.intel.com with ESMTP; 20 Oct 2019 04:11:50 -0700
+ by orsmga005.jf.intel.com with ESMTP; 20 Oct 2019 04:11:52 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Subject: [PATCH v13 11/12] hmat acpi: Build Memory Side Cache Information
- Structure(s)
-Date: Sun, 20 Oct 2019 19:11:24 +0800
-Message-Id: <20191020111125.27659-12-tao3.xu@intel.com>
+Subject: [PATCH v13 12/12] tests/bios-tables-test: add test cases for ACPI HMAT
+Date: Sun, 20 Oct 2019 19:11:25 +0800
+Message-Id: <20191020111125.27659-13-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191020111125.27659-1-tao3.xu@intel.com>
 References: <20191020111125.27659-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -57,130 +55,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
  qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+ jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
+ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
+Heterogeneous Memory with boot option '-numa node'.
 
-This structure describes memory side cache information for memory
-proximity domains if the memory side cache is present and the
-physical device forms the memory side cache.
-The software could use this information to effectively place
-the data in memory to maximize the performance of the system
-memory that use the memory side cache.
+Add test cases on PC and Q35 machines with 2 numa nodes.
+Because HMAT is generated when system enable numa, the
+following tables need to be added for this test:
+  tests/acpi-test-data/pc/*.acpihmat
+  tests/acpi-test-data/pc/HMAT.*
+  tests/acpi-test-data/q35/*.acpihmat
+  tests/acpi-test-data/q35/HMAT.*
 
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
 Changes in v13:
-    - rename level as cache_level
+    - Use decimal notation with appropriate suffix for cache size
 ---
- hw/acpi/hmat.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ tests/bios-tables-test.c | 44 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 6ec1310e62..931aa60678 100644
---- a/hw/acpi/hmat.c
-+++ b/hw/acpi/hmat.c
-@@ -135,14 +135,63 @@ static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
-     }
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 0b33fb265f..96803c1f20 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -947,6 +947,48 @@ static void test_acpi_virt_tcg_numamem(void)
+ 
  }
  
-+/* ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure: Table 5-147 */
-+static void build_hmat_cache(GArray *table_data, HMAT_Cache_Info *hmat_cache)
++static void test_acpi_tcg_acpi_hmat(const char *machine)
 +{
-+    /*
-+     * Cache Attributes: Bits [3:0] – Total Cache Levels
-+     * for this Memory Proximity Domain
-+     */
-+    uint32_t cache_attr = hmat_cache->total_levels & 0xF;
++    test_data data;
 +
-+    /* Bits [7:4] : Cache Level described in this structure */
-+    cache_attr |= (hmat_cache->level & 0xF) << 4;
-+
-+    /* Bits [11:8] - Cache Associativity */
-+    cache_attr |= (hmat_cache->associativity & 0x7) << 8;
-+
-+    /* Bits [15:12] - Write Policy */
-+    cache_attr |= (hmat_cache->write_policy & 0x7) << 12;
-+
-+    /* Bits [31:16] - Cache Line size in bytes */
-+    cache_attr |= (hmat_cache->line_size & 0xFFFF) << 16;
-+
-+    cache_attr = cpu_to_le32(cache_attr);
-+
-+    /* Type */
-+    build_append_int_noprefix(table_data, 2, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Length */
-+    build_append_int_noprefix(table_data, 32, 4);
-+    /* Proximity Domain for the Memory */
-+    build_append_int_noprefix(table_data, hmat_cache->proximity, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 4);
-+    /* Memory Side Cache Size */
-+    build_append_int_noprefix(table_data, hmat_cache->size, 8);
-+    /* Cache Attributes */
-+    build_append_int_noprefix(table_data, cache_attr, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /*
-+     * Number of SMBIOS handles (n)
-+     * Linux kernel uses Memory Side Cache Information Structure
-+     * without SMBIOS entries for now, so set Number of SMBIOS handles
-+     * as 0.
-+     */
-+    build_append_int_noprefix(table_data, 0, 2);
++    memset(&data, 0, sizeof(data));
++    data.machine = machine;
++    data.variant = ".acpihmat";
++    test_acpi_one(" -machine hmat=on"
++                  " -smp 2,sockets=2"
++                  " -m 128M,slots=2,maxmem=1G"
++                  " -object memory-backend-ram,size=64M,id=m0"
++                  " -object memory-backend-ram,size=64M,id=m1"
++                  " -numa node,nodeid=0,memdev=m0"
++                  " -numa node,nodeid=1,memdev=m1,initiator=0"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=0,socket-id=1"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=5ns"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=500M"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=10ns"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=100M"
++                  " -numa hmat-cache,node-id=0,size=10K,level=1,assoc=direct,"
++                  "policy=write-back,line=8"
++                  " -numa hmat-cache,node-id=1,size=10K,level=1,assoc=direct,"
++                  "policy=write-back,line=8",
++                  &data);
++    free_test_data(&data);
 +}
 +
- /* Build HMAT sub table structures */
- static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
- {
-     uint16_t flags;
-     uint32_t num_initiator = 0;
-     uint32_t initiator_list[MAX_NODES];
--    int i, hierarchy, type;
-+    int i, hierarchy, type, cache_level, total_levels;
-     HMAT_LB_Info *hmat_lb;
-+    HMAT_Cache_Info *hmat_cache;
- 
-     for (i = 0; i < numa_state->num_nodes; i++) {
-         flags = 0;
-@@ -176,6 +225,27 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
-             }
-         }
-     }
++static void test_acpi_q35_tcg_acpi_hmat(void)
++{
++    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
++}
 +
-+    /*
-+     * ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure:
-+     * Table 5-147
-+     */
-+    for (i = 0; i < numa_state->num_nodes; i++) {
-+        total_levels = 0;
-+        for (cache_level = 1; cache_level <= MAX_HMAT_CACHE_LEVEL;
-+             cache_level++) {
-+            if (numa_state->hmat_cache[i][cache_level]) {
-+                total_levels++;
-+            }
-+        }
-+        for (cache_level = 0; cache_level <= total_levels; cache_level++) {
-+            hmat_cache = numa_state->hmat_cache[i][cache_level];
-+            if (hmat_cache) {
-+                hmat_cache->total_levels = total_levels;
-+                build_hmat_cache(table_data, hmat_cache);
-+            }
-+        }
-+    }
- }
- 
- void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state)
++static void test_acpi_piix4_tcg_acpi_hmat(void)
++{
++    test_acpi_tcg_acpi_hmat(MACHINE_PC);
++}
++
+ static void test_acpi_virt_tcg(void)
+ {
+     test_data data = {
+@@ -991,6 +1033,8 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
++        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
++        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
 -- 
 2.20.1
 
