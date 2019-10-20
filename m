@@ -2,62 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEB9DDBF2
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 04:32:14 +0200 (CEST)
-Received: from localhost ([::1]:46296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B01DDDD0C
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 08:36:34 +0200 (CEST)
+Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iM10u-0004nq-1P
-	for lists+qemu-devel@lfdr.de; Sat, 19 Oct 2019 22:32:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41279)
+	id 1iM4pN-0005tI-7T
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 02:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iM0zU-0004IO-Bs
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 22:30:45 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iM4nu-0004sV-Qg
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 02:35:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iM0zT-0005DR-0l
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 22:30:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49076)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iM0zS-0005Co-RN
- for qemu-devel@nongnu.org; Sat, 19 Oct 2019 22:30:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iM0zQ-00006n-HN
- for <qemu-devel@nongnu.org>; Sun, 20 Oct 2019 02:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 561242E80C8
- for <qemu-devel@nongnu.org>; Sun, 20 Oct 2019 02:30:40 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1iM4nt-0004WY-9U
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 02:35:02 -0400
+Received: from ozlabs.org ([203.11.71.1]:34473)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iM4nr-0004UP-WB; Sun, 20 Oct 2019 02:35:01 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46wqkl55V7z9sPV; Sun, 20 Oct 2019 17:34:55 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1571553295;
+ bh=kkNexIsabgC/Bz3awk0mxnyG/2Z+xkWztekNTwRCCKA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Pf+1K6LaQFCLyF04lYDaurGmhewCJtKcb6ObUy3UM2VKcAgmoI5MmXm6roS5KaRDK
+ aQOgcfWulB5JO2RRueqmeB/4+ucmyL+OkggmD1oi+gYSKoBth6rECK7AebW+jzu6ce
+ bMDN36xWts9nziB1I7iwSNGEBwlhjhOKaNS0qTyg=
+Date: Sun, 20 Oct 2019 17:24:16 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: qemu/powernv: coreboot support?
+Message-ID: <20191020062416.GG1960@umbus.fritz.box>
+References: <20191018172622.kz4smemh5cwesfit@proprietary-killer>
+ <21ba3404-dcd3-fe06-7725-d58e249f9fd2@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Oct 2019 02:24:07 -0000
-From: "P.O." <1848901@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: d33m0n
-X-Launchpad-Bug-Reporter: P.O. (d33m0n)
-X-Launchpad-Bug-Modifier: P.O. (d33m0n)
-References: <157153622475.25094.3691269102491613645.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157153824820.25921.5045128872156738620.malone@chaenomeles.canonical.com>
-Subject: [Bug 1848901] Re: kvm_mem_ioeventfd_add: error adding ioeventfd: No
- space left on device (28)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 404c1d18e5998b9729d6263164c1ed8ac752f2fe
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5UGlQXeG3ziZS81+"
+Content-Disposition: inline
+In-Reply-To: <21ba3404-dcd3-fe06-7725-d58e249f9fd2@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,97 +56,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848901 <1848901@bugs.launchpad.net>
+Cc: "Marty E. Plummer" <hanetzer@startmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU 4.1.0 btw.
 
--- =
+--5UGlQXeG3ziZS81+
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848901
+On Sat, Oct 19, 2019 at 03:46:59PM +0200, C=E9dric Le Goater wrote:
+> On 18/10/2019 19:28, Marty E. Plummer wrote:
+> > Hello,
+> >=20
+> > First off, thank you for the work you've done on the ppc64 support, it
+> > has been very useful. I'm currently working on a coreboot port for the
+> > talos ii line of systems (which means more ppc64 support, support
+> > specifically for the power9 sforza chip, and specific mainboard support.
+> > My plate is very full lol) and have been using qemu to debug the
+> > bootblock.
+> >=20
+> > It has been very useful for that, but I'm now at the point where I need
+> > to jump to romstage, and that's where it gets tricky. qemu parses the r=
+om
+> > image and looks for a ffs header, locates skiboot on it, and jumps stra=
+ight
+> > to that. Not exactly ideal for debugging something not produced from op=
+-build.
+>=20
+> yes. I suppose you are using my branch powernv-4.2 which adds PNOR support
+> and a way to boot directly from PNOR. In that case, QEMU parses the PNOR
+> file to extract the PAYLOAD partition (skiboot). skiboot also detects the
+> flash and extract the kernel and initramfs from the PNOR.
 
-Title:
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device
-  (28)
+Ah!  Now I understand.  I hadn't looked at that branch, so I had no
+idea what all this pnor stuff was about.  In mainline we just load
+skiboot as a normal firmware file and jump into it.
 
-Status in QEMU:
-  New
+> However, you can bypass all this internal boot process by simply passing
+> a -bios option and not passing a MTD device.
 
-Bug description:
-  =3D> QEMU process has stopped, return code: -6
+Right.
 
-  Start QEMU with /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m
-  2048M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive
-  'file=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu
-  /7725cdea-5e66-4777-b4dd-
-  c3905f258394/hda_disk.qcow2,if=3Dvirtio,index=3D0,media=3Ddisk,id=3Ddrive=
-0'
-  -uuid 7725cdea-5e66-4777-b4dd-c3905f258394 -serial
-  telnet:127.0.0.1:5000,server,nowait -monitor
-  tcp:127.0.0.1:44629,server,nowait -net none -device
-  e1000,mac=3D0c:7a:1d:83:94:00,netdev=3Dgns3-0 -netdev
-  socket,id=3Dgns3-0,udp=3D127.0.0.1:10001,localaddr=3D127.0.0.1:10000 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:01,netdev=3Dgns3-1 -netdev
-  socket,id=3Dgns3-1,udp=3D127.0.0.1:10003,localaddr=3D127.0.0.1:10002 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:02,netdev=3Dgns3-2 -netdev
-  socket,id=3Dgns3-2,udp=3D127.0.0.1:10005,localaddr=3D127.0.0.1:10004 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:03,netdev=3Dgns3-3 -netdev
-  socket,id=3Dgns3-3,udp=3D127.0.0.1:10007,localaddr=3D127.0.0.1:10006 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:04,netdev=3Dgns3-4 -netdev
-  socket,id=3Dgns3-4,udp=3D127.0.0.1:10009,localaddr=3D127.0.0.1:10008 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:05,netdev=3Dgns3-5 -netdev
-  socket,id=3Dgns3-5,udp=3D127.0.0.1:10011,localaddr=3D127.0.0.1:10010 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:06,netdev=3Dgns3-6 -netdev
-  socket,id=3Dgns3-6,udp=3D127.0.0.1:10013,localaddr=3D127.0.0.1:10012 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:07,netdev=3Dgns3-7 -netdev
-  socket,id=3Dgns3-7,udp=3D127.0.0.1:10015,localaddr=3D127.0.0.1:10014
-  -nographic
+> I haven't published the PNOR support and the boot from PNOR yet. Lack
+> of time and because sPAPR is the priority.
+>=20
+> > Do you think it would be within your wheelhouse to provide a generic, n=
+on-ffs
+> > pnor interface for loading arbitary rom images?=20
+>=20
+> I should probably send the PNOR patchset now so that we can discuss on=20
+> a better way to satisfy all needs. =20
+>=20
+> > It would be of great help if
+> > you could. (This would still hopefully have the bmc support code as
+> > well, as I'm still needing to support a system using one).
+>=20
+> We have support for Aspeed machines AST2400, AST2500 and AST2600. It=20
+> is possible to interconnect them through the BT device. Or you can use
+> the IPMI BT simulator of QEMU on the PowerNV machine
+>=20
+> Thanks,
+>=20
+> C.=20
+>=20
 
-   =
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  Execution log:
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device (2=
-8)
+--5UGlQXeG3ziZS81+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  and then it just closes...
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2r/ZAACgkQbDjKyiDZ
+s5KCzw//TG9ISNK3W/4cY0wTSy+szajdezJVuzM34C7hfLxYBbLT4CI6+aZaOdTh
+VuHTZkYD//b15pQ6HushHyIwIR7SRHSdqS4bzG+bQJrVUjnlsqIsf+17umb6+vEh
+yg9u4kpbmUgYkb/LmrJbSqDSLiXgFbMPoi9SS6EZF+/tnSxuasirJqmOu6OGlqn3
+Qf+VFbOGlWOVDlG0lyujDKwjfAnt7FVVX6Vy8XKDOqSywGtGrNnxuTABAqpD+RdY
+vHicHq8nVsUqI1p1998I2XUa5InCOS1zTtj1U2n3S27h84JLTorsl2M+6/W9v3IZ
+enEoS/G8JQK6JPNVOocFSCghD+OuUIm6nRoFIA3fueUxgAX/9KuNXk6KSRI7peVE
+HX6ah777ucp9wczL9gde1mmn8f5mUK4bN+2HtyUYJJLXqJ6Fwslt/gjIk1TBXLBa
+CqPvB8JXLN/ZOegqVXqVEEWPIGF7aWe7QWqZmxbKZGE98O+KOj8N9aMj5cStsMkf
+3i/Gh/7fkTcTfa8Nx1FhkAOk4UMoAGXgG16A7LR2JV6DcmWn7mUYpVXSgstM1BKf
+LHDdZ75oMjEg0bnWmmlhUcJ+jWqWvDZQGsOiepkWxdC0/05ftMPxY11LOD6kkeQ5
+rtDEGLGwSCrvwElK0QExDeE76rb2xY7dTrzBbHk3F9qqPMaJn3w=
+=Tv6c
+-----END PGP SIGNATURE-----
 
-  [deemon@Zen ~]$ coredumpctl info 8638
-             PID: 8638 (qemu-system-x86)
-             UID: 1000 (deemon)
-             GID: 1000 (deemon)
-          Signal: 6 (ABRT)
-       Timestamp: Sun 2019-10-20 04:27:29 EEST (5min ago)
-    Command Line: /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m 204=
-8M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive file=
-=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu>
-      Executable: /usr/bin/qemu-system-x86_64
-   Control Group: /user.slice/user-1000.slice/session-2.scope
-            Unit: session-2.scope
-           Slice: user-1000.slice
-         Session: 2
-       Owner UID: 1000 (deemon)
-         Boot ID: cd30f69a8d194359a31889dc7b6b026c
-      Machine ID: d0a2d74a5cd9430797d902f5237c448d
-        Hostname: Zen
-         Storage: /var/lib/systemd/coredump/core.qemu-system-x86.1000.cd30f=
-69a8d194359a31889dc7b6b026c.8638.1571534849000000.lz4 (truncated)
-         Message: Process 8638 (qemu-system-x86) of user 1000 dumped core.
-                  =
-
-                  Stack trace of thread 8642:
-                  #0  0x00007f1a33609f25 n/a (n/a)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848901/+subscriptions
+--5UGlQXeG3ziZS81+--
 
