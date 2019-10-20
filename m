@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAC5DE11D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:24:35 +0200 (CEST)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83800DE11A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:23:07 +0200 (CEST)
+Received: from localhost ([::1]:51516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMKYs-0008NS-PP
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35681)
+	id 1iMKXS-0006cR-I3
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMKEk-0004PE-Qv
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:03:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMKF8-0004ea-L2
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:04:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMKEj-0002q1-Qc
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:03:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56701
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iMKF7-0002wY-EE
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:04:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45078
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMKEj-0002pG-M1
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:03:45 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMKF7-0002wC-AU
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:04:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571612623;
+ s=mimecast20190719; t=1571612648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DPbCDBS6I1JLm9PRPoFX786EP2/rQynjbMRZ4Kkujho=;
- b=cae6LM3HYa8PcQZWtAaHjxE0LfE5PA2wRWa2Q/hqOSVj1gd5sMNmTDMhT3JqFgTVfN+9rV
- N/OQ4i31PyLgXc0Pchv/uHmKeQN9lE3thUGOcvQvcWAUK3VsTMwStrodies+/qqNTrMm0X
- H6qccjVZhCj52e8aLHfDMX2D/2zLzp0=
+ bh=Jjri3ozqyIA7pC6fyQCHJXD213k68SJrwDbSmMBjY3Q=;
+ b=OUqYV38C65PlrrxWwI6Gi7hS4UNqiuqWpjec2waZQ6cd2ip+FT486lztgXnVmg8mPIdZjr
+ cc9zBI9gQUt8AByCGxWAc75b5tklKomAtP9VGEWAEHCNXAahsymDAF9yzpxB0ExaiuJoO4
+ K8HjIH4nCYrFKQGvlIswtpI3ZEP8QWc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-RRXfVU6QP4qD9tFzs4IRwA-1; Sun, 20 Oct 2019 19:03:42 -0400
+ us-mta-235-0Z60vgfLOp2K7RkyzB4Ntw-1; Sun, 20 Oct 2019 19:04:01 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8469F80183E;
- Sun, 20 Oct 2019 23:03:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1D0D1005509;
+ Sun, 20 Oct 2019 23:03:57 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-40.brq.redhat.com [10.40.204.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75EC760C18;
- Sun, 20 Oct 2019 23:03:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6808060C18;
+ Sun, 20 Oct 2019 23:03:39 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 20/21] hw/sparc: Let the machine be the owner of the system
- memory
-Date: Mon, 21 Oct 2019 00:56:49 +0200
-Message-Id: <20191020225650.3671-21-philmd@redhat.com>
+Subject: [PATCH 21/21] hw/core: Assert memory_region_allocate_system_memory
+ has machine owner
+Date: Mon, 21 Oct 2019 00:56:50 +0200
+Message-Id: <20191020225650.3671-22-philmd@redhat.com>
 In-Reply-To: <20191020225650.3671-1-philmd@redhat.com>
 References: <20191020225650.3671-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: RRXfVU6QP4qD9tFzs4IRwA-1
+X-MC-Unique: 0Z60vgfLOp2K7RkyzB4Ntw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,27 +102,47 @@ Cc: Paul Burton <pburton@wavecomp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All the memory_region_allocate_system_memory() pass a MachineState
+argument. Add an assertion to ensure the new boards/machines added
+set this argument, so all system memory object have the machine as
+its QOM owner.
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/sparc/leon3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/numa.c      | 4 +---
+ include/hw/boards.h | 2 +-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index c5f1b1ee72..f58f2782c6 100644
---- a/hw/sparc/leon3.c
-+++ b/hw/sparc/leon3.c
-@@ -244,7 +244,7 @@ static void leon3_generic_hw_init(MachineState *machine=
-)
-         exit(1);
-     }
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 2e29e4bfe0..3e07e94d00 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -527,9 +527,7 @@ void memory_region_allocate_system_memory(MemoryRegion =
+*mr, MachineState *ms,
+     uint64_t addr =3D 0;
+     int i;
 =20
--    memory_region_allocate_system_memory(ram, NULL, "leon3.ram", ram_size)=
-;
-+    memory_region_allocate_system_memory(ram, machine, "leon3.ram", ram_si=
-ze);
-     memory_region_add_subregion(address_space_mem, LEON3_RAM_OFFSET, ram);
+-    if (!ms) {
+-        ms =3D MACHINE(qdev_get_machine());
+-    }
++    g_assert(ms);
 =20
-     /* Allocate BIOS */
+     if (ms->numa_state =3D=3D NULL ||
+         ms->numa_state->num_nodes =3D=3D 0 || !have_memdevs) {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 3b6cb82b6c..31ab6e7586 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -14,7 +14,7 @@
+ /**
+  * memory_region_allocate_system_memory - Allocate a board's main memory
+  * @mr: the #MemoryRegion to be initialized
+- * @ms: the #MachineState object that own the system memory
++ * @ms: the #MachineState object that own the system memory (must not be N=
+ULL)
+  * @name: name of the memory region
+  * @ram_size: size of the region in bytes
+  *
 --=20
 2.21.0
 
