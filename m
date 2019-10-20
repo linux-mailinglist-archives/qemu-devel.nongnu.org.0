@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38D6DE07C
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 22:39:16 +0200 (CEST)
-Received: from localhost ([::1]:47086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E867FDE07D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 22:39:18 +0200 (CEST)
+Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMHyt-00078t-31
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 16:39:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51660)
+	id 1iMHyu-0007DH-MY
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 16:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMHx7-0005vR-AU
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMHx7-0005vO-5N
  for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:37:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMHx5-0006Y4-Mz
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMHx5-0006Xf-J6
  for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:37:24 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58846)
+Received: from relay.sw.ru ([185.231.240.75]:58844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iMHx5-0006Wy-Fd; Sun, 20 Oct 2019 16:37:23 -0400
+ id 1iMHx5-0006Wu-Bn; Sun, 20 Oct 2019 16:37:23 -0400
 Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iMHx1-00089m-DA; Sun, 20 Oct 2019 23:37:19 +0300
+ id 1iMHx1-00089m-Py; Sun, 20 Oct 2019 23:37:19 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v5 2/4] qcow2: Allow writing compressed data of multiple
- clusters
-Date: Sun, 20 Oct 2019 23:37:06 +0300
-Message-Id: <1571603828-185910-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v5 4/4] tests/qemu-iotests: add case for block-stream compress
+Date: Sun, 20 Oct 2019 23:37:08 +0300
+Message-Id: <1571603828-185910-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -53,148 +52,79 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU currently supports writing compressed data of the size equal to
-one cluster. This patch allows writing QCOW2 compressed data that
-exceed one cluster. Now, we split buffered data into separate clusters
-and write them compressed using the existing functionality.
+Add a case to the iotest #030 that tests the 'compress' option for a
+block-stream job.
 
-Suggested-by: Pavel Butsykin <pbutsykin@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2.c | 102 ++++++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 75 insertions(+), 27 deletions(-)
+ tests/qemu-iotests/030     | 34 +++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/030.out |  4 ++--
+ 2 files changed, 35 insertions(+), 3 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 6b29e16..a1e7279 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4156,10 +4156,8 @@ fail:
-     return ret;
- }
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index f3766f2..f33fd21 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -21,7 +21,8 @@
+ import time
+ import os
+ import iotests
+-from iotests import qemu_img, qemu_io
++from iotests import qemu_img, qemu_io, qemu_img_pipe
++import json
  
--/* XXX: put compressed sectors first, then all the cluster aligned
--   tables to avoid losing bytes in alignment */
- static coroutine_fn int
--qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
-+qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
-                                  uint64_t offset, uint64_t bytes,
-                                  QEMUIOVector *qiov, size_t qiov_offset)
- {
-@@ -4169,32 +4167,11 @@ qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
-     uint8_t *buf, *out_buf;
-     uint64_t cluster_offset;
+ backing_img = os.path.join(iotests.test_dir, 'backing.img')
+ mid_img = os.path.join(iotests.test_dir, 'mid.img')
+@@ -956,6 +957,37 @@ class TestSetSpeed(iotests.QMPTestCase):
  
--    if (has_data_file(bs)) {
--        return -ENOTSUP;
--    }
--
--    if (bytes == 0) {
--        /* align end of file to a sector boundary to ease reading with
--           sector based I/Os */
--        int64_t len = bdrv_getlength(bs->file->bs);
--        if (len < 0) {
--            return len;
--        }
--        return bdrv_co_truncate(bs->file, len, PREALLOC_MODE_OFF, NULL);
--    }
--
--    if (offset_into_cluster(s, offset)) {
--        return -EINVAL;
--    }
-+    assert(bytes == s->cluster_size || (bytes < s->cluster_size &&
-+           (offset + bytes == bs->total_sectors << BDRV_SECTOR_BITS)));
+         self.cancel_and_wait(resume=True)
  
-     buf = qemu_blockalign(bs, s->cluster_size);
--    if (bytes != s->cluster_size) {
--        if (bytes > s->cluster_size ||
--            offset + bytes != bs->total_sectors << BDRV_SECTOR_BITS)
--        {
--            qemu_vfree(buf);
--            return -EINVAL;
--        }
-+    if (bytes < s->cluster_size) {
-         /* Zero-pad last write if image size is not cluster aligned */
-         memset(buf + bytes, 0, s->cluster_size - bytes);
-     }
-@@ -4243,6 +4220,77 @@ fail:
-     return ret;
- }
++class TestCompressed(iotests.QMPTestCase):
++    allocated_clusters = 8
++
++    def setUp(self):
++        qemu_img('create', '-f', iotests.imgfmt, backing_img, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, '-o',
++                 'backing_file={}'.format(backing_img), test_img)
++        cluster_size = 0x10000
++        data_size = self.allocated_clusters * cluster_size
++        qemu_io('-c', 'write -P 0x1 0 {}'.format(data_size), backing_img)
++        self.vm = iotests.VM().add_drive(test_img, "compress=on")
++        self.vm.launch()
++
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(test_img)
++        os.remove(backing_img)
++
++    def test_stream_compress(self):
++        self.assert_no_active_block_jobs()
++
++        result = self.vm.qmp('block-stream', device='drive0')
++        self.assert_qmp(result, 'return', {})
++
++        match = {'data': {'type': 'stream', 'device': 'drive0'}}
++        self.vm.event_wait(name='BLOCK_JOB_COMPLETED', match=match)
++        self.vm.shutdown()
++
++        top = json.loads(qemu_img_pipe('check', '--output=json', test_img))
++        self.assertEqual(top['compressed-clusters'], self.allocated_clusters)
++
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2', 'qed'],
+                  supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
+index 6d9bee1..af8dac1 100644
+--- a/tests/qemu-iotests/030.out
++++ b/tests/qemu-iotests/030.out
+@@ -1,5 +1,5 @@
+-...........................
++............................
+ ----------------------------------------------------------------------
+-Ran 27 tests
++Ran 28 tests
  
-+static coroutine_fn int qcow2_co_pwritev_compressed_task_entry(AioTask *task)
-+{
-+    Qcow2AioTask *t = container_of(task, Qcow2AioTask, task);
-+
-+    assert(!t->cluster_type && !t->l2meta);
-+
-+    return qcow2_co_pwritev_compressed_task(t->bs, t->offset, t->bytes, t->qiov,
-+                                            t->qiov_offset);
-+}
-+
-+/*
-+ * XXX: put compressed sectors first, then all the cluster aligned
-+ * tables to avoid losing bytes in alignment
-+ */
-+static coroutine_fn int
-+qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
-+                                 uint64_t offset, uint64_t bytes,
-+                                 QEMUIOVector *qiov, size_t qiov_offset)
-+{
-+    BDRVQcow2State *s = bs->opaque;
-+    AioTaskPool *aio = NULL;
-+    int ret = 0;
-+
-+    if (has_data_file(bs)) {
-+        return -ENOTSUP;
-+    }
-+
-+    if (bytes == 0) {
-+        /*
-+         * align end of file to a sector boundary to ease reading with
-+         * sector based I/Os
-+         */
-+        int64_t len = bdrv_getlength(bs->file->bs);
-+        if (len < 0) {
-+            return len;
-+        }
-+        return bdrv_co_truncate(bs->file, len, PREALLOC_MODE_OFF, NULL);
-+    }
-+
-+    if (offset_into_cluster(s, offset)) {
-+        return -EINVAL;
-+    }
-+
-+    while (bytes && aio_task_pool_status(aio) == 0) {
-+        uint64_t chunk_size = MIN(bytes, s->cluster_size);
-+
-+        if (!aio && chunk_size != bytes) {
-+            aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
-+        }
-+
-+        ret = qcow2_add_task(bs, aio, qcow2_co_pwritev_compressed_task_entry,
-+                             0, 0, offset, chunk_size, qiov, qiov_offset, NULL);
-+        if (ret < 0) {
-+            break;
-+        }
-+        qiov_offset += chunk_size;
-+        offset += chunk_size;
-+        bytes -= chunk_size;
-+    }
-+
-+    if (aio) {
-+        aio_task_pool_wait_all(aio);
-+        if (ret == 0) {
-+            ret = aio_task_pool_status(aio);
-+        }
-+        g_free(aio);
-+    }
-+
-+    return ret;
-+}
-+
- static int coroutine_fn
- qcow2_co_preadv_compressed(BlockDriverState *bs,
-                            uint64_t file_cluster_offset,
+ OK
 -- 
 1.8.3.1
 
