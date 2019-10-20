@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9EFDE0F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:01:21 +0200 (CEST)
-Received: from localhost ([::1]:50948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A8CDE101
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:05:36 +0200 (CEST)
+Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMKCO-0000eP-2F
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:01:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
+	id 1iMKGV-0004jd-86
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMK93-00071x-Jr
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:57:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMK9H-0007Am-KA
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:58:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMK91-0000UN-Ka
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:57:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50846
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iMK9F-0000b2-Cq
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:58:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58832
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMK8z-0000Ss-NE
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:57:51 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMK9D-0000Zj-UD
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:58:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571612268;
+ s=mimecast20190719; t=1571612283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZiO2C5es1NYJxD/UQgZc/eWnlcXJHpGVMpR68/XdhKU=;
- b=gUw4eJLurWPl6MEnxBDI+CGrPbnpqrXwXE0JV4KQJktsaXuS/hgyEStmEB6q8aMtDYsVjo
- t2w/41hJD5gqDOGmAcfmi8MvpQXM8P5v1TNc+OY6EyQXW9Qm1+2PBSej+Xkmu0IBKnAivv
- WCPCqMdBfgnQlxR+zy/nl7I94luR+Hs=
+ bh=HKUywiLzAmwUUS3Ko1h1jc3EGAJrhz3L5AmjE57NQ9I=;
+ b=Xu/BvkDr9no3sJSQs9u1+MqiSoIgBnf9a1a7hmqz6N/UPnya/5uQt/D4nXNrw7ElZusu5Q
+ 6BTHlFh20vDLzl9goebBfbHc9Eb5i2u0dbpL1DSkeVBYlCl3rm5vLZXpuHn5R3j2YxoNKR
+ vDbBawpbtZ1pzP1m/HeP5JBNVvIl+lU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-uy8zh8NwOQ2uo6L-XeNDjw-1; Sun, 20 Oct 2019 18:57:44 -0400
+ us-mta-83-_FO5TgCTP4quFIedys1ZHg-1; Sun, 20 Oct 2019 18:57:59 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCF285EC;
- Sun, 20 Oct 2019 22:57:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE4651800D9B;
+ Sun, 20 Oct 2019 22:57:54 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-40.brq.redhat.com [10.40.204.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FFF360F88;
- Sun, 20 Oct 2019 22:57:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45FF260C18;
+ Sun, 20 Oct 2019 22:57:35 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 01/21] hw/arm/xilinx_zynq: Use the IEC binary prefix
- definitions
-Date: Mon, 21 Oct 2019 00:56:30 +0200
-Message-Id: <20191020225650.3671-2-philmd@redhat.com>
+Subject: [PATCH 02/21] hw/arm/mps2: Use the IEC binary prefix definitions
+Date: Mon, 21 Oct 2019 00:56:31 +0200
+Message-Id: <20191020225650.3671-3-philmd@redhat.com>
 In-Reply-To: <20191020225650.3671-1-philmd@redhat.com>
 References: <20191020225650.3671-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: uy8zh8NwOQ2uo6L-XeNDjw-1
+X-MC-Unique: _FO5TgCTP4quFIedys1ZHg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,30 +105,52 @@ IEC binary prefixes ease code review: the unit is explicit.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/arm/xilinx_zynq.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/arm/mps2-tz.c | 3 ++-
+ hw/arm/mps2.c    | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index c14774e542..3a0fa5b23f 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -16,6 +16,7 @@
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 6b24aaacde..f8b620bcc6 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -38,6 +38,7 @@
   */
 =20
  #include "qemu/osdep.h"
 +#include "qemu/units.h"
  #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
-@@ -194,7 +195,7 @@ static void zynq_init(MachineState *machine)
-     memory_region_add_subregion(address_space_mem, 0, ext_ram);
+ #include "qemu/error-report.h"
+ #include "hw/arm/boot.h"
+@@ -458,7 +459,7 @@ static void mps2tz_common_init(MachineState *machine)
+      * call the 16MB our "system memory", as it's the largest lump.
+      */
+     memory_region_allocate_system_memory(&mms->psram,
+-                                         NULL, "mps.ram", 0x01000000);
++                                         NULL, "mps.ram", 16 * MiB);
+     memory_region_add_subregion(system_memory, 0x80000000, &mms->psram);
 =20
-     /* 256K of on-chip memory */
--    memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 << 10,
-+    memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
-                            &error_fatal);
-     memory_region_add_subregion(address_space_mem, 0xFFFC0000, ocm_ram);
+     /* The overflow IRQs for all UARTs are ORed together.
+diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+index 10efff36b2..d002b126d3 100644
+--- a/hw/arm/mps2.c
++++ b/hw/arm/mps2.c
+@@ -23,6 +23,7 @@
+  */
 =20
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "hw/arm/boot.h"
+@@ -146,7 +147,7 @@ static void mps2_common_init(MachineState *machine)
+      * zbt_boot_ctrl is always zero).
+      */
+     memory_region_allocate_system_memory(&mms->psram,
+-                                         NULL, "mps.ram", 0x1000000);
++                                         NULL, "mps.ram", 16 * MiB);
+     memory_region_add_subregion(system_memory, 0x21000000, &mms->psram);
+=20
+     switch (mmc->fpga_type) {
 --=20
 2.21.0
 
