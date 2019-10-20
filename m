@@ -2,40 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FC8DE07F
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 22:40:28 +0200 (CEST)
-Received: from localhost ([::1]:47140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D90CDE088
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 22:49:26 +0200 (CEST)
+Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMI03-0000uc-Lx
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 16:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51658)
+	id 1iMI8j-0004o3-Ao
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 16:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMHx7-0005vQ-6i
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:37:26 -0400
+ (envelope-from <svens@stackframe.org>) id 1iMI6t-0003X1-88
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:47:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMHx5-0006Xy-MC
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:37:24 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58842)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iMHx5-0006Ww-EF; Sun, 20 Oct 2019 16:37:23 -0400
-Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iMHx1-00089m-Hz; Sun, 20 Oct 2019 23:37:19 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v5 3/4] tests/qemu-iotests: add case to write compressed data
- of multiple clusters
-Date: Sun, 20 Oct 2019 23:37:07 +0300
-Message-Id: <1571603828-185910-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <svens@stackframe.org>) id 1iMI6s-0001AG-2L
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:47:31 -0400
+Received: from smtp.duncanthrax.net ([2001:470:70c5:1111::170]:57699)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iMI6r-00019a-Ou
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 16:47:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From;
+ bh=ELhoe55zbY3uhSTf6IbvO8FHxD+p654oqEFIrIxsNaQ=; b=tpwdMsOvlFbBZdj7UcifZ6oXJ0
+ lMJ+Jehct+iCHnxcWm8aIX6GKKsKYazJ9SnclTaDxS9nl7Gfow2KNM9o1RF1/NxSHk4/g/2Tr1Hxz
+ MES2m73YSq5+cmriCHKw3dja/55n60ofJWADbtIdpwI/lKfGn+owqOnkt1RxtDoIlkms=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=x280.stackframe.org)
+ by smtp.eurescom.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.86_2) (envelope-from <svens@stackframe.org>)
+ id 1iMI6o-0002cH-GA; Sun, 20 Oct 2019 22:47:26 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: Richard Henderson <rth@twiddle.net>
+Subject: [PATCH 0/7] HPPA: i82596, PS/2 and graphics emulation
+Date: Sun, 20 Oct 2019 22:47:17 +0200
+Message-Id: <20191020204724.31537-1-svens@stackframe.org>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:470:70c5:1111::170
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,101 +54,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the test case to the iotest #214 that checks possibility of writing
-compressed data of more than one cluster size.
+Hi,
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/214     | 45 +++++++++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/214.out | 14 ++++++++++++++
- 2 files changed, 59 insertions(+)
+these series adds quite a lot to the HPPA emulation in QEMU:
+i82596 emulation from Helge, PS/2 and Artist graphics emulation.
 
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 21ec8a2..ab9b862 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -89,6 +89,51 @@ _check_test_img -r all
- $QEMU_IO -c "read  -P 0x11  0 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- $QEMU_IO -c "read  -P 0x22 4M 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- 
-+echo
-+echo "=== Write compressed data of multiple clusters ==="
-+echo
-+cluster_size=0x10000
-+_make_test_img 2M -o cluster_size=$cluster_size
-+
-+echo "Write uncompressed data:"
-+let data_size="8 * $cluster_size"
-+$QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+_make_test_img 2M -o cluster_size=$cluster_size
-+echo "Write compressed data:"
-+let data_size="3 * $cluster_size + ($cluster_size / 2)"
-+# Set compress=on. That will align the written data
-+# by the cluster size and will write them compressed.
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xbb 0 $data_size" --image-opts \
-+         driver=$IMGFMT,compress=on,file.filename=$TEST_IMG \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+
-+let offset="4 * $cluster_size"
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
-+    'driver': '$IMGFMT',
-+    'file': {
-+        'driver': 'file',
-+        'filename': '$TEST_IMG'
-+    },
-+    'compress': true
-+}" | _filter_qemu_io | _filter_testdir
-+
-+sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+if [ $sizeA -le $sizeB ]
-+then
-+    echo "Compression ERROR"
-+fi
-+
-+$QEMU_IMG check --output=json "$TEST_IMG" |
-+          sed -n 's/,$//; /"compressed-clusters":/ s/^ *//p'
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/214.out b/tests/qemu-iotests/214.out
-index 0fcd8dc..4a2ec33 100644
---- a/tests/qemu-iotests/214.out
-+++ b/tests/qemu-iotests/214.out
-@@ -32,4 +32,18 @@ read 4194304/4194304 bytes at offset 0
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 4194304/4194304 bytes at offset 4194304
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Write compressed data of multiple clusters ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write uncompressed data:
-+wrote 524288/524288 bytes at offset 0
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write compressed data:
-+wrote 229376/229376 bytes at offset 0
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 229376/229376 bytes at offset 262144
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+"compressed-clusters": 8
- *** done
+See https://parisc.wiki.kernel.org/index.php/Qemu for a few screenshots
+of QEMU running a X11/CDE session in HP-UX.
+
+Regards,
+Sven
+
+Helge Deller (2):
+  hw/hppa/dino.c: Improve emulation of Dino PCI chip
+  hppa: Add support for LASI chip with i82596 NIC
+
+Sven Schnelle (5):
+  hppa: remove ISA region
+  ps2: accept 'Set Key Make and Break' commands
+  hppa: add emulation of LASI PS2 controllers
+  hppa: Add emulation of Artist graphics
+  seabios-hppa: update to latest version
+
+ MAINTAINERS                 |    4 +-
+ hw/display/Kconfig          |    3 +
+ hw/display/Makefile.objs    |    1 +
+ hw/display/artist.c         | 1336 +++++++++++++++++++++++++++++++++++
+ hw/display/trace-events     |    9 +
+ hw/hppa/Kconfig             |    3 +
+ hw/hppa/Makefile.objs       |    2 +-
+ hw/hppa/dino.c              |   82 ++-
+ hw/hppa/hppa_hardware.h     |    2 +-
+ hw/hppa/hppa_sys.h          |    2 +
+ hw/hppa/lasi.c              |  368 ++++++++++
+ hw/hppa/machine.c           |   50 +-
+ hw/hppa/trace-events        |   10 +
+ hw/input/Kconfig            |    3 +
+ hw/input/Makefile.objs      |    1 +
+ hw/input/lasips2.c          |  289 ++++++++
+ hw/input/ps2.c              |   11 +
+ hw/input/trace-events       |    5 +
+ hw/net/Kconfig              |    7 +
+ hw/net/Makefile.objs        |    2 +
+ hw/net/i82596.c             |  734 +++++++++++++++++++
+ hw/net/i82596.h             |   55 ++
+ hw/net/lasi_i82596.c        |  188 +++++
+ hw/net/trace-events         |   13 +
+ include/hw/input/lasips2.h  |   16 +
+ include/hw/input/ps2.h      |    1 +
+ include/hw/net/lasi_82596.h |   29 +
+ pc-bios/hppa-firmware.img   |  Bin 783724 -> 772876 bytes
+ roms/seabios-hppa           |    2 +-
+ 29 files changed, 3179 insertions(+), 49 deletions(-)
+ create mode 100644 hw/display/artist.c
+ create mode 100644 hw/hppa/lasi.c
+ create mode 100644 hw/input/lasips2.c
+ create mode 100644 hw/net/i82596.c
+ create mode 100644 hw/net/i82596.h
+ create mode 100644 hw/net/lasi_i82596.c
+ create mode 100644 include/hw/input/lasips2.h
+ create mode 100644 include/hw/net/lasi_82596.h
+
 -- 
-1.8.3.1
+2.23.0
 
 
