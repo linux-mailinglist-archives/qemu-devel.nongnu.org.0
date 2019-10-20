@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D9ADE104
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:09:33 +0200 (CEST)
-Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5D6DE109
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:12:19 +0200 (CEST)
+Received: from localhost ([::1]:51270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMKKK-0000K3-LK
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34937)
+	id 1iMKN0-0003wq-3e
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMKBr-0001tv-Il
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:00:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMKAi-0000mB-Ds
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:59:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMKBl-0001gP-Mo
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:00:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34415
+ (envelope-from <philmd@redhat.com>) id 1iMKAh-00018t-3S
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:59:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41006
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMKBl-0001ee-G6
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:00:41 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMKAh-00018j-01
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 18:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571612439;
+ s=mimecast20190719; t=1571612374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZRBJeBkO3O0fTTg2Wvp4cn/VQrb14msYc8Y6kPVTC14=;
- b=aEyNJ++5flaOQYY5WJ7U8MWnvn8fmYh9ob48ghGgXTQGx/5kk1gyvb1IIenj+k105OSTp5
- G4qaKzK2EypHAmm+PHTrR3KPQXJrgBXKyec8sDiLpJq4LzydCKjCGGGdSxU/KZqMps0Rwg
- q3Zy8uq+oO/fZ2837WBWN1h1gmP4Rjk=
+ bh=+7M1IUjrqcXlYCM8d7hykgPS4Gzumj9wbW6o3J1eHCc=;
+ b=L0BwBkbUkyqGpRt4unziaHg6aEzuSZNcVm2uMkyrijaJqCK2sxFhps9wyfZg5XZwwxnRK8
+ 0uNHxdA3IMvYJTR1EkXR9Xjz095zQ1X/YwCxAKdnxkBtl0A+xCY/HDjGPNtesKtBfmkUXV
+ zwHANIZGAG6voEXPRylfB5z8KlZVBVE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-Zm89ON0bPtObZvoK7sixOA-1; Sun, 20 Oct 2019 19:00:35 -0400
+ us-mta-267-sHJr98qlNeWmDG17MSJU5w-1; Sun, 20 Oct 2019 18:59:32 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 238B480183E;
- Sun, 20 Oct 2019 23:00:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 478D5107AD31;
+ Sun, 20 Oct 2019 22:59:29 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-40.brq.redhat.com [10.40.204.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DE7060C18;
- Sun, 20 Oct 2019 23:00:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BEDC60C18;
+ Sun, 20 Oct 2019 22:59:11 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 10/21] hw/core: Let the machine be the owner of the system
- memory
-Date: Mon, 21 Oct 2019 00:56:39 +0200
-Message-Id: <20191020225650.3671-11-philmd@redhat.com>
+Subject: [PATCH 07/21] hw: Drop QOM ownership on
+ memory_region_allocate_system_memory() calls
+Date: Mon, 21 Oct 2019 00:56:36 +0200
+Message-Id: <20191020225650.3671-8-philmd@redhat.com>
 In-Reply-To: <20191020225650.3671-1-philmd@redhat.com>
 References: <20191020225650.3671-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Zm89ON0bPtObZvoK7sixOA-1
+X-MC-Unique: sHJr98qlNeWmDG17MSJU5w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,26 +102,80 @@ Cc: Paul Burton <pburton@wavecomp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All the memory_region_allocate_system_memory() calls are in the
+board_init() code.  From the 58 calls in the repository, only
+4 set the 'owner' parameter. It is obvious we want the Machine
+to be the owner of the RAM, so we want to use OBJECT(machine)
+as owner. We can simplify a bit by passing MachineState to
+memory_region_allocate_system_memory(). In preparation of this
+refactor, first drop the 'owner' argument from these 4 uses.
+
+  $ git grep memory_region_allocate_system_memory hw/ | wc -l
+  58
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/core/null-machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/alpha/typhoon.c | 2 +-
+ hw/arm/raspi.c     | 2 +-
+ hw/hppa/machine.c  | 2 +-
+ hw/sparc/sun4m.c   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-index 1aa0a9a01a..16546c8140 100644
---- a/hw/core/null-machine.c
-+++ b/hw/core/null-machine.c
-@@ -35,7 +35,7 @@ static void machine_none_init(MachineState *mch)
-     if (mch->ram_size) {
-         MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index 179e1f7658..8489ec335c 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -851,7 +851,7 @@ PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_=
+bus,
 =20
--        memory_region_allocate_system_memory(ram, NULL, "ram", mch->ram_si=
-ze);
-+        memory_region_allocate_system_memory(ram, mch, "ram", mch->ram_siz=
-e);
-         memory_region_add_subregion(get_system_memory(), 0, ram);
-     }
+     /* Main memory region, 0x00.0000.0000.  Real hardware supports 32GB,
+        but the address space hole reserved at this point is 8TB.  */
+-    memory_region_allocate_system_memory(&s->ram_region, OBJECT(s), "ram",
++    memory_region_allocate_system_memory(&s->ram_region, NULL, "ram",
+                                          ram_size);
+     memory_region_add_subregion(addr_space, 0, &s->ram_region);
 =20
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 615d755879..f76b6eaad3 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -182,7 +182,7 @@ static void raspi_init(MachineState *machine, int versi=
+on)
+                             &error_abort, NULL);
+=20
+     /* Allocate and map RAM */
+-    memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
++    memory_region_allocate_system_memory(&s->ram, NULL, "ram",
+                                          machine->ram_size);
+     /* FIXME: Remove when we have custom CPU address space support */
+     memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ram, 0=
+);
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 953d454f48..dbe1ff0fe5 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -96,7 +96,7 @@ static void machine_hppa_init(MachineState *machine)
+=20
+     /* Main memory region. */
+     ram_region =3D g_new(MemoryRegion, 1);
+-    memory_region_allocate_system_memory(ram_region, OBJECT(machine),
++    memory_region_allocate_system_memory(ram_region, NULL,
+                                          "ram", ram_size);
+     memory_region_add_subregion(addr_space, 0, ram_region);
+=20
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 6c5a17a020..0bb7524655 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -788,7 +788,7 @@ static void ram_realize(DeviceState *dev, Error **errp)
+     RamDevice *d =3D SUN4M_RAM(dev);
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+=20
+-    memory_region_allocate_system_memory(&d->ram, OBJECT(d), "sun4m.ram",
++    memory_region_allocate_system_memory(&d->ram, NULL, "sun4m.ram",
+                                          d->size);
+     sysbus_init_mmio(sbd, &d->ram);
+ }
 --=20
 2.21.0
 
