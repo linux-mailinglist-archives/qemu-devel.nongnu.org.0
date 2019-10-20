@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB032DE116
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:19:31 +0200 (CEST)
-Received: from localhost ([::1]:51418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7233DE108
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 01:12:05 +0200 (CEST)
+Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMKTy-0002Cn-QJ
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35231)
+	id 1iMKMm-0003qd-Kr
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 19:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMKD0-0002PE-Hm
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:01:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMKDc-0003CZ-KS
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:02:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMKCz-00029l-86
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:01:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31723
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iMKDb-0002Qk-3O
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:02:36 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37003
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMKCz-00029M-2l
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:01:57 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMKDb-0002QU-0I
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 19:02:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571612516;
+ s=mimecast20190719; t=1571612554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oJns0xteOCGMi06yvZdYLF3R/VWIFKcbGV5jx0ClKro=;
- b=UPIWQCRL1/ZPSpNnAi9ODqZn5gJbaUR8EFh200KIsdYzwd5cWFIcROPlmSnK+Q3iCJGUDA
- c89bNYTEpG8qiAcVO3spdafx7wpUWzpZvM2kFRJ0Oj0psxSARk/tMoYa2c3cyewSfuSuUQ
- kLS4lMX6Qgj2JX94ZJMHkFVAWAU8GAA=
+ bh=8nN+Go+RSeTcnebYfeK3H4Ap4eDouNzPwOB+9HqRbY8=;
+ b=iQUB/oUu+jqFdOTOf/f4Y8qiCcgJMdhFApYFvEGwLp6CGetsf1iTtOQmRXfVZiEPmZ/OUu
+ w651gUUoFUus6Abl7n1py/SylEF9vhMihC814LBE9rUmWJEfJrmZZvADgUqBofieY4SM4Q
+ XpjirLUkWpYn6QCCUi8hMqsipvtYlS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-yEmcAGV6Na2E9zoDVAEETA-1; Sun, 20 Oct 2019 19:01:52 -0400
+ us-mta-242-FaWxuisfM2eB3mh1V5C4NQ-1; Sun, 20 Oct 2019 19:02:31 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F03731005509;
- Sun, 20 Oct 2019 23:01:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84688107AD31;
+ Sun, 20 Oct 2019 23:02:27 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-40.brq.redhat.com [10.40.204.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C4EB60C18;
- Sun, 20 Oct 2019 23:01:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97A5060C18;
+ Sun, 20 Oct 2019 23:02:09 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 14/21] hw/hppa: Let the machine be the owner of the system
+Subject: [PATCH 16/21] hw/lm32: Let the machine be the owner of the system
  memory
-Date: Mon, 21 Oct 2019 00:56:43 +0200
-Message-Id: <20191020225650.3671-15-philmd@redhat.com>
+Date: Mon, 21 Oct 2019 00:56:45 +0200
+Message-Id: <20191020225650.3671-17-philmd@redhat.com>
 In-Reply-To: <20191020225650.3671-1-philmd@redhat.com>
 References: <20191020225650.3671-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: yEmcAGV6Na2E9zoDVAEETA-1
+X-MC-Unique: FaWxuisfM2eB3mh1V5C4NQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,21 +104,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/hppa/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/lm32/lm32_boards.c | 4 ++--
+ hw/lm32/milkymist.c   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index dbe1ff0fe5..6703bfd351 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -96,7 +96,7 @@ static void machine_hppa_init(MachineState *machine)
+diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
+index 5ae308bfcf..50b607e0cc 100644
+--- a/hw/lm32/lm32_boards.c
++++ b/hw/lm32/lm32_boards.c
+@@ -107,7 +107,7 @@ static void lm32_evr_init(MachineState *machine)
 =20
-     /* Main memory region. */
-     ram_region =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ram_region, NULL,
-+    memory_region_allocate_system_memory(ram_region, machine,
-                                          "ram", ram_size);
-     memory_region_add_subregion(addr_space, 0, ram_region);
+     reset_info->flash_base =3D flash_base;
+=20
+-    memory_region_allocate_system_memory(phys_ram, NULL, "lm32_evr.sdram",
++    memory_region_allocate_system_memory(phys_ram, machine, "lm32_evr.sdra=
+m",
+                                          ram_size);
+     memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
+=20
+@@ -200,7 +200,7 @@ static void lm32_uclinux_init(MachineState *machine)
+=20
+     reset_info->flash_base =3D flash_base;
+=20
+-    memory_region_allocate_system_memory(phys_ram, NULL,
++    memory_region_allocate_system_memory(phys_ram, machine,
+                                          "lm32_uclinux.sdram", ram_size);
+     memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
+=20
+diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+index 460d322de5..ee2eb1877e 100644
+--- a/hw/lm32/milkymist.c
++++ b/hw/lm32/milkymist.c
+@@ -116,7 +116,7 @@ milkymist_init(MachineState *machine)
+=20
+     cpu_lm32_set_phys_msb_ignore(env, 1);
+=20
+-    memory_region_allocate_system_memory(phys_sdram, NULL, "milkymist.sdra=
+m",
++    memory_region_allocate_system_memory(phys_sdram, machine, "milkymist.s=
+dram",
+                                          sdram_size);
+     memory_region_add_subregion(address_space_mem, sdram_base, phys_sdram)=
+;
 =20
 --=20
 2.21.0
