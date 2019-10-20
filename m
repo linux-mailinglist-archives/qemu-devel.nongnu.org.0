@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49CBDDD3A
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 09:57:26 +0200 (CEST)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6E6DDE05
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Oct 2019 12:12:19 +0200 (CEST)
+Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iM65d-0000Vp-9J
-	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 03:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53916)
+	id 1iM8CA-0004fw-5N
+	for lists+qemu-devel@lfdr.de; Sun, 20 Oct 2019 06:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iM64T-0008OM-7G
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 03:56:14 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iM8Aq-0003iG-8G
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 06:10:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iM64Q-0004dN-29
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 03:56:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52466)
+ (envelope-from <dgibson@ozlabs.org>) id 1iM8Ao-0007ce-SU
+ for qemu-devel@nongnu.org; Sun, 20 Oct 2019 06:10:56 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52125)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iM64P-0004bz-QK
- for qemu-devel@nongnu.org; Sun, 20 Oct 2019 03:56:10 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6C8CC3DE0C
- for <qemu-devel@nongnu.org>; Sun, 20 Oct 2019 07:56:07 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id a81so892403wma.4
- for <qemu-devel@nongnu.org>; Sun, 20 Oct 2019 00:56:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Kzn9xp5Ymr5oQ03MJbxPKi60njCDV3XzJWvh1m9afR0=;
- b=Pd4cBkOiFHmGCyaGevzz3Wuvk9BIVA3bn8MLT5qvMI9069aWuHXmtGXu/b4Vy25Yct
- 34zuZkkSoa8FkahHLaqH0o3RCxvye46Kak2r2ZzieHyDwb3a1A25eQ0kT0xpYdrLMoof
- UWKReqhUhRCm4c2lM3f48FSBSoxUGw8Igdc5x/bIbh2LkT8oETfLxjAie+J9qXHSCGaD
- mPMbnYnJ15Lg2+39aWnwyMbbDkoA0IgT4a9jqWCn7Gc3SjGnBqd7ZexFc49JzmMPdWqA
- LH09y5NDJ+ROBTJRga+yfRxbDE836DxfKdmD5l5YeNnjbzGf12Ot6/ZOHG91bmSY5Alf
- Qdig==
-X-Gm-Message-State: APjAAAX1eW1qW+BSDd+Mhns9fpf4cI9A3yz+BeOxkkwNO3jln9ZaEhik
- UvAL2Uq69wgKB2Hp76CMLUe4UekBwJsBfnve/ORwZsVNWRZXWRh+SRZC54V14v/SztODuMHG0KU
- f5VKqYEG7Kl25Cxo=
-X-Received: by 2002:a5d:4dd2:: with SMTP id f18mr3582283wru.4.1571558166039;
- Sun, 20 Oct 2019 00:56:06 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyA/4jyUawARtVBR0DBCDg7UbWb30msmWHMQPHZXc8ptjINqNT25Rr2twnkwI1oAisqwtbtgQ==
-X-Received: by 2002:a5d:4dd2:: with SMTP id f18mr3582246wru.4.1571558165679;
- Sun, 20 Oct 2019 00:56:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3c27:92d2:4f4f:2b85?
- ([2001:b07:6468:f312:3c27:92d2:4f4f:2b85])
- by smtp.gmail.com with ESMTPSA id 79sm16877704wmb.7.2019.10.20.00.56.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Oct 2019 00:56:05 -0700 (PDT)
-Subject: Re: [PATCH 1/1] Updated Bulgarian translation (19) - 4.1.0
-To: Alexander Shopov <ash@kambanaria.org>, qemu-devel@nongnu.org
-References: <20191019120534.27479-1-ash@kambanaria.org>
- <20191019120534.27479-2-ash@kambanaria.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <a5871615-dd94-afb4-4936-9326c6ac35df@redhat.com>
-Date: Sun, 20 Oct 2019 09:56:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iM8An-0007bh-RY; Sun, 20 Oct 2019 06:10:54 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46wwWq6RhVz9sPL; Sun, 20 Oct 2019 21:10:47 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1571566247;
+ bh=7CBNMcBDnTXvffqhMk/9asi+7R3TiM4uROmh+pnwUxg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MzoM4Bd7b7ZV2oyQfYxCnBbiYbSy87fH3jdo7HpXygr718I6slayUPzk88C7HJaO7
+ 7BtVHN37x4kvdvAfJaQFxYN8itrZfzu3PpusQMszII08YvY51v49/XjFxztLEATs18
+ k8epnODrCiZXHpAku5WAtzkY2hBWBj3c89W2WnMs=
+Date: Sun, 20 Oct 2019 21:09:06 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 3/9] tests/acceptance: Send <carriage return> on
+ serial lines
+Message-ID: <20191020100906.GL1960@umbus.fritz.box>
+References: <20191017165239.30159-1-f4bug@amsat.org>
+ <20191017165239.30159-4-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20191019120534.27479-2-ash@kambanaria.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="c8JyeaiReRNoiMDS"
+Content-Disposition: inline
+In-Reply-To: <20191017165239.30159-4-f4bug@amsat.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,62 +57,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anthony Liguori <aliguori@us.ibm.com>,
- Fam Zheng <famz@redhat.com>, Wei Huang <wehuang@redhat.com>,
- Pino Toscano <ptoscano@redhat.com>, qemu-trivial@nongnu.org,
- Laszlo Ersek <lersek@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Thomas Huth <thuth@redhat.com>, Amos Kong <akong@redhat.com>,
- Dongsheng Song <songdongsheng@live.cn>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/19 14:05, Alexander Shopov wrote:
-> Signed-off-by: Alexander Shopov <ash@kambanaria.org>
+
+--c8JyeaiReRNoiMDS
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 17, 2019 at 06:52:33PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Some firmwares don't parse the <Newline> control character and
+> expect a <carriage return>.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 > ---
->  po/bg.po | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  tests/acceptance/boot_linux_console.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/po/bg.po b/po/bg.po
-> index 3d8c353372..98c57e5b22 100644
-> --- a/po/bg.po
-> +++ b/po/bg.po
-> @@ -1,14 +1,14 @@
->  # Bulgarian translation of qemu po-file.
-> -# Copyright (C) 2016 Alexander Shopov <ash@kambanaria.org>
-> +# Copyright (C) 2016, 2019 Alexander Shopov <ash@kambanaria.org>
->  # This file is distributed under the same license as the qemu package.
-> -# Alexander Shopov <ash@kambanaria.org>, 2016.
-> +# Alexander Shopov <ash@kambanaria.org>, 2016, 2019.
->  #
->  msgid ""
->  msgstr ""
-> -"Project-Id-Version: QEMU 2.6.50\n"
-> +"Project-Id-Version: QEMU 4.1.0\n"
->  "Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
->  "POT-Creation-Date: 2018-07-18 07:56+0200\n"
-> -"PO-Revision-Date: 2016-06-09 15:54+0300\n"
-> +"PO-Revision-Date: 2019-10-19 13:14+0200\n"
->  "Last-Translator: Alexander Shopov <ash@kambanaria.org>\n"
->  "Language-Team: Bulgarian <dict@ludost.net>\n"
->  "Language: bg\n"
-> @@ -66,7 +66,7 @@ msgid "Detach Tab"
->  msgstr "=D0=9A=D1=8A=D0=BC =D1=81=D0=B0=D0=BC=D0=BE=D1=81=D1=82=D0=BE=D1=
-=8F=D1=82=D0=B5=D0=BB=D0=B5=D0=BD =D0=BF=D0=BE=D0=B4=D0=BF=D1=80=D0=BE=D0=
-=B7=D0=BE=D1=80=D0=B5=D1=86"
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index 9ff2213874..bf9861296a 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -30,7 +30,7 @@ class BootLinuxConsole(Test):
+>      KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
 > =20
->  msgid "Show Menubar"
-> -msgstr ""
-> +msgstr "=D0=9B=D0=B5=D0=BD=D1=82=D0=B0 =D0=B7=D0=B0 =D0=BC=D0=B5=D0=BD=
-=D1=8E=D1=82=D0=BE"
+>      def exec_command_and_wait_for_pattern(self, command, success_message=
+):
+> -        command +=3D '\n'
+> +        command +=3D '\r\n'
+
+I'm actually wondering if '\r' alone is really what we should be using
+here.  Isn't that usually the character that actually pressing the
+Enter key generates (on an old school tty)?  IIRC it's the thing on
+the other side of the console that echoes back a \r and \n in order to
+reposition the cursor on the next line.
+
+>          self.vm.console_socket.sendall(command.encode())
+>          wait_for_console_pattern(self, success_message)
 > =20
->  msgid "_Machine"
->  msgstr "_=D0=9C=D0=B0=D1=88=D0=B8=D0=BD=D0=B0"
->=20
 
-Queued, thanks.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Paolo
+--c8JyeaiReRNoiMDS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2sMkIACgkQbDjKyiDZ
+s5J5GxAA30cQi7XN06LXpQYJbWAm5iVryebzz4BEL6lB6W10jxg37SECNC5EwfTI
+9WisKJWGEFornvmQliDhxVg7UqJePxvg/vMucGkIAZ55LrDwLfX9cy5TVocXiSPP
+68WDUCsHZ8ax8IjTX9P7AQFKltKYzPA66GCuYtr/JJWzfbzgrSHLOvkj8IlOIN3e
+zAh/rDu100QUrmAMajg9HEXU6xHy3iZi+h71y0yuuPG8AQcQW+29lLMOa+2NkmeU
+34cBwVdPbzYweS7myPRTAE3fZ36EhK0HRYJonOhZILHp9LyeGm42dFerKisQ4gzM
+8onHHYwZG8wjEhI15XboG34PN9teBbTIvaYLGdx8/3Kix9+kg0Qao9SFgqROP24E
+eS6+2SYAjred20wpGbbY+YJr80dj83sNSrjYQpy6ujGLu/hLdzDE6GYU7X9w2Ex7
+7ZJ4gHtBIJedNMmyGbkTBSigoYH4UudeDqTaPh5w4koRxZ6OceJ0UZpDBODasu+d
+cMaIwkD++yM+8HTEcXfIuZkHmzIPvzfwc+rz9Il9cRCEL3deLcXMytTHa0mvZSn8
+qObbVRDA/QL51pez124QaEBB/rG1XrCiLYijH9CoqTo6eaS6dReiX2q9NtDkgduq
+thutXZ6IQgJhCG6dIKDTFOOoHlM39fin+odugKaLcmxyVtkgLKc=
+=cEAB
+-----END PGP SIGNATURE-----
+
+--c8JyeaiReRNoiMDS--
 
