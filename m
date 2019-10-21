@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8D1DF22A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 17:57:35 +0200 (CEST)
-Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22D8DF26C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 18:07:08 +0200 (CEST)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMa3q-0006Oc-IN
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 11:57:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33082)
+	id 1iMaD5-0005gA-Qy
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 12:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMa2s-0005gy-Ed
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:56:35 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMa7B-0008ML-Cj
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:01:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMa2p-00005q-Nj
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:56:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54114)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMa2p-00004q-Fe
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:56:31 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 337A78535D
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 15:56:29 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id v8so6620949wrt.16
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:56:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fCo8epeB07g14wJcxGAOGTwUjr6BSErnYOWlDkDuG1k=;
- b=PFKa3HKDA38zoTTMU0g1QqfMnkhWdtMvRi0eBrdV7VghdT/3OtfFrS8a5bK2WZtouO
- 3x75359P3QtYMKwJ6uU3YJcBZEX2ccw7SqkY53Rs2MJaOJeB6vGG5toljhjHJMUCPDUo
- jPCoTytAPmNYGeWyO4oMZh5DA/AC1KRD6LJrfMBItTV4rVxd17AiSbtgKgm9y60idDJ8
- fAwu+RXdqNUgCjaPA738aAbMiJ1IEQRl1xTkozLF6cWxCSLRPTq2ZhX1uRHyEiS5mYeM
- xhA34t1T7BS3QAfgGuqV5oTFUJnKroNmWcWqkol9TwMjih+rxlvOqm9pmVbg5T6aO1oM
- zRaQ==
-X-Gm-Message-State: APjAAAXYnH5OlcgX9BNF540EUzGpIu1nB7Pf+hYyWOeV4kohrfkvglDs
- xQMJUt4ynjjpQW4eKIjs52TwvPAJaV865b4ou7QImEqeERKRaoTyrtq48kvW5wXecboQttoif08
- UJkEhS0jlS7ER9JI=
-X-Received: by 2002:a1c:990a:: with SMTP id b10mr19476615wme.39.1571673387807; 
- Mon, 21 Oct 2019 08:56:27 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqz8h9QT1OMoiObhND4cXnd932RWn4nisRCw5izziNOh+97I2bnJ44dvTjpgmLRvastYeWsv/A==
-X-Received: by 2002:a1c:990a:: with SMTP id b10mr19476590wme.39.1571673387473; 
- Mon, 21 Oct 2019 08:56:27 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id f8sm14697365wmb.37.2019.10.21.08.56.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2019 08:56:26 -0700 (PDT)
-Subject: Re: [PATCH v2 06/20] piix4: Add a i8257 DMA Controller as specified
- in datasheet
-To: Li Qiang <liq3ea@gmail.com>
-References: <20191018134754.16362-1-philmd@redhat.com>
- <20191018134754.16362-7-philmd@redhat.com>
- <CAKXe6SL6GX_eL4yXfmdbGaYd0=Pbpo1vx1P+NbWM_eZ3GCYgBA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <56d26cdd-795e-0707-4335-c94e5af119b5@redhat.com>
-Date: Mon, 21 Oct 2019 17:56:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iMa79-00020l-G5
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:01:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMa79-00020Q-4x
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:00:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMa77-0004CQ-LG
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 16:00:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9ED382E80C9
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 16:00:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6SL6GX_eL4yXfmdbGaYd0=Pbpo1vx1P+NbWM_eZ3GCYgBA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Oct 2019 15:50:53 -0000
+From: Kevin Wolf <1846427@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
+ psyhomb sej7278
+X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
+X-Launchpad-Bug-Modifier: Kevin Wolf (kwolf-redhat)
+References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
+Message-Id: <157167305392.22396.5591153903890726936.malone@wampee.canonical.com>
+Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d84f8cb0167062d942325060e62625f40999bc21
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,129 +66,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/19 5:25 PM, Li Qiang wrote:
->=20
->=20
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com <mailto:philmd@redhat.co=
-m>> =E4=BA=8E=20
-> 2019=E5=B9=B410=E6=9C=8818=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=88=
-9:55=E5=86=99=E9=81=93=EF=BC=9A
->=20
->     From: Herv=C3=A9 Poussineau <hpoussin@reactos.org
->     <mailto:hpoussin@reactos.org>>
->=20
->     Remove i8257 instantiated in malta board, to not have it twice.
->=20
->     Acked-by: Michael S. Tsirkin <mst@redhat.com <mailto:mst@redhat.com=
->>
->     Acked-by: Paolo Bonzini <pbonzini@redhat.com
->     <mailto:pbonzini@redhat.com>>
->     Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org
->     <mailto:hpoussin@reactos.org>>
->     Message-Id: <20171216090228.28505-9-hpoussin@reactos.org
->     <mailto:20171216090228.28505-9-hpoussin@reactos.org>>
->     Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com
->     <mailto:amarkovic@wavecomp.com>>
->     [PMD: rebased]
->     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     ---
->      =C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++++
->      =C2=A0hw/mips/mips_malta.c | 2 --
->      =C2=A02 files changed, 4 insertions(+), 2 deletions(-)
->=20
->     diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
->     index ac9383a658..0b24d8323c 100644
->     --- a/hw/isa/piix4.c
->     +++ b/hw/isa/piix4.c
->     @@ -29,6 +29,7 @@
->      =C2=A0#include "hw/pci/pci.h"
->      =C2=A0#include "hw/isa/isa.h"
->      =C2=A0#include "hw/sysbus.h"
->     +#include "hw/dma/i8257.h"
->      =C2=A0#include "migration/vmstate.h"
->      =C2=A0#include "sysemu/reset.h"
->      =C2=A0#include "sysemu/runstate.h"
->     @@ -167,6 +168,9 @@ static void piix4_realize(PCIDevice *dev, Error
->     **errp)
->      =C2=A0 =C2=A0 =C2=A0/* initialize ISA irqs */
->      =C2=A0 =C2=A0 =C2=A0isa_bus_irqs(isa_bus, s->isa);
->=20
->     +=C2=A0 =C2=A0 /* DMA */
->     +=C2=A0 =C2=A0 i8257_dma_init(isa_bus, 0);
->     +
->      =C2=A0 =C2=A0 =C2=A0piix4_dev =3D dev;
->      =C2=A0}
->=20
->=20
-> Could you please explain why this is better calling 'i8257_dma_init' in=
-=20
-> piix4 realize function
-> instead of calling it in mips_malta_init.
+After reading some related code, I have more questions than before, but
+let's see... As more qcow2 code was merged since, I would suggest that
+we debug the problem on commit 69f4750 (the bisection result) rather
+than on anything newer.
 
-i8257_dma_init() is a bit misnamed as it instantiate 2x i8257.
 
-The PIIX4 integrates 2x i8237 (very similar to the i8257).
+First of all: Michael, you didn't specify explicitly how your images were c=
+reated, but can I assume that the test image is not preallocated (in contra=
+st to Laszlo's)?
 
-The i8237 are parts of the PIIX4 chip, and are not chips on the Malta=20
-board PCB.
+I find Laszlo's case with a preallocated image particularly surprising
+because the behaviour isn't supposed to have changed at all for
+preallocated images, at least if the heuristics still detects them as
+such. Once a preallocated image becomes almost fully allocated, it's
+expected that we won't detect it any more. So, Laszlo, do you know how
+much of your images was allocated? 'qemu-img check' prints the
+allocation statistics.
 
-So when you instantiate a PIIX4 in QEMU, one expects them integrated,=20
-and should not have to manually manage them outside of the southbridge=20
-chipset.
 
-> I'm still a little of which things should be done in realize and which=20
-> should be done in qom instance init function.
+The next mystery is why bdrv_co_block_status() is even called. I found only=
+ a single call that happens with normal guest I/O and savevm/loadvm, and th=
+at's the one in handle_alloc_space(). This function is suspicious because i=
+t's relatively new, but commit 69f4750 shouldn't have any effect on it beca=
+use BDRV_BLOCK_ALLOCATED is set independently of BDRV_BLOCK_RECURSE - and e=
+ven if the change had an effect, it would be that the function is used less=
+, so if anything, a bug could be expected to be hidden rather than become v=
+isible.
 
-I remember a thread started by Peter Maydell when he was working on the=20
-MPS2 boards, but I can't find it.
+I think it might be worth a try reproducing with the
+handle_alloc_space() call commented out. If that doesn't fix/hide the
+bug, it would be interesting to see what else calls
+qcow2_detect_metadata_preallocation(), e.g. by setting a breakpoint
+there in gdb and getting the stack backtrace when it triggers.
 
-Anyway this thread is more recent:
-"Object instantiation vs. device realization: what to do when?"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg596361.html
 
->=20
-> Thanks,
-> Li Qiang
->=20
->     diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
->     index e499b7a6bb..df247177ca 100644
->     --- a/hw/mips/mips_malta.c
->     +++ b/hw/mips/mips_malta.c
->     @@ -28,7 +28,6 @@
->      =C2=A0#include "cpu.h"
->      =C2=A0#include "hw/i386/pc.h"
->      =C2=A0#include "hw/isa/superio.h"
->     -#include "hw/dma/i8257.h"
->      =C2=A0#include "hw/char/serial.h"
->      =C2=A0#include "net/net.h"
->      =C2=A0#include "hw/boards.h"
->     @@ -1430,7 +1429,6 @@ void mips_malta_init(MachineState *machine)
->      =C2=A0 =C2=A0 =C2=A0smbus =3D piix4_pm_init(pci_bus, piix4_devfn +=
- 3, 0x1100,
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0isa_get_irq(NULL, 9), NULL, 0, NULL);
->      =C2=A0 =C2=A0 =C2=A0pit =3D i8254_pit_init(isa_bus, 0x40, 0, NULL)=
-;
->     -=C2=A0 =C2=A0 i8257_dma_init(isa_bus, 0);
->      =C2=A0 =C2=A0 =C2=A0mc146818_rtc_init(isa_bus, 2000, NULL);
->=20
->      =C2=A0 =C2=A0 =C2=A0/* generate SPD EEPROM data */
->     --=20
->     2.21.0
->=20
->=20
+Another caller I see in the code, but didn't get run in my guest, is qcow2_=
+co_pwrite_zeroes(). This is not discard, but maybe the discard mount option=
+ does cause a write_zeroes call (WRITE SAME in SCSI) sometimes? But then, y=
+our reproducer seems to use AHCI and I can't see a write_zeroes call in the=
+ AHCI or IDE device emulation.
+
+The possible (intended) effect of commit 69f4750 is that a block that
+was previously detected as containing only zeros (BDRV_BLOCK_ZERO)
+doesn't get this flag any more. This could cause unaligned
+qcow2_co_pwrite_zeroes() to fail, but then we'd just get a fallback to a
+normal write, which wouldn't explain any metadata-level corruption.
+
+
+Michael, would you like to give it a try and figure out in which code path =
+qcow2_detect_metadata_preallocation() is even called in your reproducer and=
+ if handle_alloc_space() is linked to this bug somehow?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846427
+
+Title:
+  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
+  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
+  savevm/quit/loadvm cycles. I've narrowed it down to the following
+  reproducer (further notes below):
+
+  # qemu-img check debian.qcow2
+  No errors were found on the image.
+  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
+96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
+=3Ddebian.qcow2,id=3Dd -S
+  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
+bus: Did not receive a reply. Possible causes include: the remote applicati=
+on did not send a reply, the message bus security policy blocked the reply,=
+ the reply timeout expired, or the network connection was broken.
+  QEMU 4.1.50 monitor - type 'help' for more information
+  (qemu) loadvm foo
+  (qemu) c
+  (qemu) qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  quit
+  [m@nargothrond:~] qemu-img check debian.qcow2
+  Leaked cluster 85179 refcount=3D2 reference=3D1
+  Leaked cluster 85180 refcount=3D2 reference=3D1
+  ERROR cluster 266150 refcount=3D0 reference=3D2
+  [...]
+  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+
+  9493 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  2 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+
+  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
+  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
+  similarly current.
+
+  Reproduced with qemu-4.1.0 from distribution package as well as
+  vanilla git checkout of tag v4.1.0 and commit
+  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
+  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
+  sequence:
+
+  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
+mu --disable-werror --disable-docs
+  [...]
+  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+  [...] (can provide full configure output if helpful)
+  make -j8 install
+
+  The kind of guest OS does not matter: seen with Debian testing 64bit,
+  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+
+  The virtual storage controller does not seem to matter: seen with
+  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+
+  Caching modes (none, directsync, writeback), aio mode (threads,
+  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
+  not influence occurence either.
+
+  Having more RAM in the guest seems to increase odds of corruption:
+  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
+  RAM it happens almost instantly.
+
+  An automated reproducer works as follows:
+
+  - the guest *does* mount its root fs and swap with option discard and
+  my testing leaves me with the impression that file deletion rather
+  than reading is causing the issue
+
+  - foo is a snapshot of the running Debian VM which is already running
+  command
+
+  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
+ne
+
+  to produce some I/O to the disk (4GB file with 4GB of RAM).
+
+  - on the host a loop continuously resumes and saves the guest state
+  and quits qemu inbetween:
+
+  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
+  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
+  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
+  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
+  none ; done
+
+  - quitting qemu inbetween saves and loads seems to be necessary for
+  the problem to occur. Just continusouly in one session saving and
+  loading guest state does not trigger it.
+
+  - For me, after about 2 to 6 iterations of above loop the image is
+  corrupted.
+
+  - corruption manifests with other messages from qemu as well, e.g.:
+
+  (qemu) loadvm foo
+  Error: Device 'd' does not have the requested snapshot 'foo'
+
+  Using above reproducer I have to the be best of my ability bisected
+  the introduction of the problem to commit
+  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
+  block_status call if possible). qemu compiled from the commit before
+  does not exhibit the issue, from that commit on it does and reverting
+  the commit off of current master makes it disappear.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
