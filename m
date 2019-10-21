@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E18CDF756
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:10:42 +0200 (CEST)
-Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCB2DF748
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:06:27 +0200 (CEST)
+Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMewr-0004vO-FK
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43075)
+	id 1iMesj-0000bZ-TA
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iMep8-00079U-1B
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:02:43 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMepe-0007bm-4r
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:03:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iMep7-0008NY-0I
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:02:41 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:41261)
+ (envelope-from <alistair23@gmail.com>) id 1iMepc-0000ET-Tb
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:03:13 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:42821)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iMep6-0008N0-P6; Mon, 21 Oct 2019 17:02:40 -0400
-Received: by mail-lf1-x143.google.com with SMTP id x4so4951397lfn.8;
- Mon, 21 Oct 2019 14:02:40 -0700 (PDT)
+ id 1iMepc-0000DU-MM; Mon, 21 Oct 2019 17:03:12 -0400
+Received: by mail-lf1-x144.google.com with SMTP id z12so11248471lfj.9;
+ Mon, 21 Oct 2019 14:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=/4GYEEZxPx2EoffTa5gB5GuX2Y2RuIDNsIu83WJIHSs=;
- b=avK+l72vFf0cK4Rb/qZDKD64x6px5QGuyrqSm6Jj1tKlPMyZh9tA8t3aLS0yUx/2dK
- YRQF6eCjEUERU7qfI8ZoOeQb1zaN+lpQaYgB4qD4pDgoXR5MjPFtF4sOWanA8Llg8gt5
- h9Wrc6PEfjjxg+nbtoihbJCfQGa9E3THG9Bc8q4PN4Qvd3KebBlQGav9co4o6l2H4beO
- 5I6ln8a2H7zzqJUHe/tZIe8woJ4c7W7WKwiFX8VKQ/6rw2k6BRka+idggGKg6sHk7FCF
- Fc+glqMOEYL/7/RyrvzbRTiy161re3LHePmT9SCU0JexSYmNpOtclHonbta7etrF3XQj
- vVEQ==
+ bh=ugJia3nKS2YoLHkGk7Se+jzfpJkArUWn8r2/dXCG3aw=;
+ b=aIOG1F3jo+dKk8/FHmolN3iPlrW2vNnECCf4rkpL5J70OFlGdvKRV4qYKxyWMQ95S9
+ N46uP5rT52Lkqmr10gzx6Mna0t5SSEJ7mlCEAIwUlf82Xw1ZnvQb2ZJPCTeuXm9BSyto
+ n6GaZsITLDzavUU2QykqragOgzPZfM8LLuOnX5UMqE4fM9WO/O5RR000L6AsHFbjzUEw
+ VLA4EgEy/s1D39zGqbPZ3PELmUVxOrdqeTAOfFAwV+K7Wgf43FdXUAXP9Nn90HSPoHpP
+ 9fnbJvlbA7Hob8gZQRb3Onz0BrKHVbVlLl8sr8/FjfefqTSug532YnxFqV297iDT2Y2i
+ r9Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=/4GYEEZxPx2EoffTa5gB5GuX2Y2RuIDNsIu83WJIHSs=;
- b=nA4U0m4d8JFgkXw386bJapS5pNM8s80JNo9T0V5ctdqp8IqUeAamoBRDNRfGahF3fw
- bB1ewZ0fEj8756JpRBuT7a3TM85sxmTiMJXNbwxFeTOo33T/rvFF8uhPEqMEksV6+Veo
- Ik+4cX5oUm4zJYGAQ3V0Dw5mpxyfyZ/mxAU/nMBeJRS1+5mXWfxhvUZOqvcetSHjaV9l
- tFTJf6QrZFJeG+6iho7vUz0M2iQfU93TWa8UEb35cjRyHDY22Q+n6usBl3aj+T0HnsZL
- 7H5olq/i+Io2GlpkqunSRo14mKmX44MxTy/YCtnw1/LGbYn/6VelDa3WVxCxwYNM2khV
- nFFA==
-X-Gm-Message-State: APjAAAVbDl7hqwcBG/5yC0Lv8HigGPxA/pHW/lQfaTtMwHKyaWg2cQEI
- pzswq2o4ipq8voapGbLuk1AYGAo3B7NZP1Hr3UE=
-X-Google-Smtp-Source: APXvYqx/KxjfDV9TM5XDHhrRh3MUN9QXw37nbG/w3gkIEuMflwJlEYvlVWuFPvXgjSkzq3JTvZ+eX9Hh0rSCfxjNRn8=
-X-Received: by 2002:a19:855:: with SMTP id 82mr16116361lfi.44.1571691759285;
- Mon, 21 Oct 2019 14:02:39 -0700 (PDT)
+ bh=ugJia3nKS2YoLHkGk7Se+jzfpJkArUWn8r2/dXCG3aw=;
+ b=AKk8MRLMJqimzuJInyL2X8K3R9YueGAVP1Noi0yS/NbKBEt3Ul8PBqtM0nol42LCcX
+ wrquPqhFB9Ia1m9MV+s0s1YRRyvIP+g7CEf/0fekZxtv52HfEusczG4Z7SvUBNP9egOd
+ M/3NcK1C+5EU6eX/v7qvXu1Sma7sEj8WrVLDSRAIXx4vzpQdvJ2uA8TZYmj7f/r3KrDN
+ Wq4kITF5jRhUiBt9ShL0MN5ovAzT0iRmlNL3wPFUQqBnqJmJCcx3BxnYEsn6w1qZS7/E
+ 2r6ay5fDDSEV9Enrj5MtSv8vyj/qF6flWRs6qS/0dw+Z6mPxr1iBJhCSNl4yoOQ4i4ZG
+ MMiQ==
+X-Gm-Message-State: APjAAAWowC2JcB+PQ1JTqAD8UDQjX47foFXxGAg7Zo8bY2HwrcNm3JXg
+ by2SyOpKVJsZ8OOpf5cxhdDnotet+NzyLt0OCXM=
+X-Google-Smtp-Source: APXvYqxLRpcBS0t/n4tmMQauV19gHY8VGg5o3pUzKGJIdrmoivbi1CifBz+B9NHm9VqLXWHiuxXkPEEfAB4yj64ctPE=
+X-Received: by 2002:a19:dc4c:: with SMTP id f12mr15256659lfj.86.1571691790186; 
+ Mon, 21 Oct 2019 14:03:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-17-philmd@redhat.com>
-In-Reply-To: <20191020225650.3671-17-philmd@redhat.com>
+ <20191020225650.3671-18-philmd@redhat.com>
+In-Reply-To: <20191020225650.3671-18-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Oct 2019 13:57:23 -0700
-Message-ID: <CAKmqyKN9pc+wLV0wUZYgCm9-35dZKdJAM-Yu6zMc0bwY5v8FVw@mail.gmail.com>
-Subject: Re: [PATCH 16/21] hw/lm32: Let the machine be the owner of the system
+Date: Mon, 21 Oct 2019 13:57:53 -0700
+Message-ID: <CAKmqyKM-urjxM1TH+DXFrbJscuJPz6wDhNsqHgJisiVcmfXpRQ@mail.gmail.com>
+Subject: Re: [PATCH 17/21] hw/m68k: Let the machine be the owner of the system
  memory
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::143
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,7 +104,7 @@ Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 20, 2019 at 4:10 PM Philippe Mathieu-Daud=C3=A9
+On Sun, Oct 20, 2019 at 4:20 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
@@ -114,51 +114,56 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/lm32/lm32_boards.c | 4 ++--
->  hw/lm32/milkymist.c   | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  hw/m68k/an5206.c    | 2 +-
+>  hw/m68k/mcf5208.c   | 2 +-
+>  hw/m68k/next-cube.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-> index 5ae308bfcf..50b607e0cc 100644
-> --- a/hw/lm32/lm32_boards.c
-> +++ b/hw/lm32/lm32_boards.c
-> @@ -107,7 +107,7 @@ static void lm32_evr_init(MachineState *machine)
+> diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
+> index 54ccbe1a82..fb045c2436 100644
+> --- a/hw/m68k/an5206.c
+> +++ b/hw/m68k/an5206.c
+> @@ -46,7 +46,7 @@ static void an5206_init(MachineState *machine)
+>      env->rambar0 =3D AN5206_RAMBAR_ADDR | 1;
 >
->      reset_info->flash_base =3D flash_base;
+>      /* DRAM at address zero */
+> -    memory_region_allocate_system_memory(ram, NULL, "an5206.ram", ram_si=
+ze);
+> +    memory_region_allocate_system_memory(ram, machine, "an5206.ram", ram=
+_size);
+>      memory_region_add_subregion(address_space_mem, 0, ram);
 >
-> -    memory_region_allocate_system_memory(phys_ram, NULL, "lm32_evr.sdram=
-",
-> +    memory_region_allocate_system_memory(phys_ram, machine, "lm32_evr.sd=
-ram",
->                                           ram_size);
->      memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
+>      /* Internal SRAM.  */
+> diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
+> index 34d34eba17..8e8c8ef349 100644
+> --- a/hw/m68k/mcf5208.c
+> +++ b/hw/m68k/mcf5208.c
+> @@ -248,7 +248,7 @@ static void mcf5208evb_init(MachineState *machine)
+>      memory_region_add_subregion(address_space_mem, 0x00000000, rom);
 >
-> @@ -200,7 +200,7 @@ static void lm32_uclinux_init(MachineState *machine)
+>      /* DRAM at 0x40000000 */
+> -    memory_region_allocate_system_memory(ram, NULL, "mcf5208.ram", ram_s=
+ize);
+> +    memory_region_allocate_system_memory(ram, machine, "mcf5208.ram", ra=
+m_size);
+>      memory_region_add_subregion(address_space_mem, 0x40000000, ram);
 >
->      reset_info->flash_base =3D flash_base;
+>      /* Internal SRAM.  */
+> diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+> index e5343348d0..6aed9376f3 100644
+> --- a/hw/m68k/next-cube.c
+> +++ b/hw/m68k/next-cube.c
+> @@ -893,7 +893,7 @@ static void next_cube_init(MachineState *machine)
+>      memcpy(ns->rtc.ram, rtc_ram2, 32);
 >
-> -    memory_region_allocate_system_memory(phys_ram, NULL,
-> +    memory_region_allocate_system_memory(phys_ram, machine,
->                                           "lm32_uclinux.sdram", ram_size)=
-;
->      memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
+>      /* 64MB RAM starting at 0x04000000  */
+> -    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_size=
+);
+> +    memory_region_allocate_system_memory(ram, machine, "next.ram", ram_s=
+ize);
+>      memory_region_add_subregion(sysmem, 0x04000000, ram);
 >
-> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-> index 460d322de5..ee2eb1877e 100644
-> --- a/hw/lm32/milkymist.c
-> +++ b/hw/lm32/milkymist.c
-> @@ -116,7 +116,7 @@ milkymist_init(MachineState *machine)
->
->      cpu_lm32_set_phys_msb_ignore(env, 1);
->
-> -    memory_region_allocate_system_memory(phys_sdram, NULL, "milkymist.sd=
-ram",
-> +    memory_region_allocate_system_memory(phys_sdram, machine, "milkymist=
-.sdram",
->                                           sdram_size);
->      memory_region_add_subregion(address_space_mem, sdram_base, phys_sdra=
-m);
->
+>      /* Framebuffer */
 > --
 > 2.21.0
 >
