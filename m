@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D939DEE3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:46:21 +0200 (CEST)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E175CDEE4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:48:46 +0200 (CEST)
+Received: from localhost ([::1]:42266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMY0p-0000ko-IL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41488)
+	id 1iMY3B-0003Ys-S0
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMXyd-0007vQ-Qp
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMXye-0007vR-AZ
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMXyc-0000l4-GI
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:03 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36728)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMXyd-0000lN-74
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:04 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38184)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMXyc-0000jw-A4
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:02 -0400
-Received: by mail-wr1-x436.google.com with SMTP id w18so13522320wrt.3
+ id 1iMXyd-0000l0-1R
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:03 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 3so12873879wmi.3
  for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 06:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qlmvdpaIFBiXFkjQ4YNJNIpdNHXmflVBlBiQ+xgkJj0=;
- b=T7+AZSRtnSvrLaYYDqEhKoS7fvLUj5n7w9iNsnsupHSTZzkUE1+uEJ2iLTbcWxxuzB
- onAzwbByMj0/s3BiTeX2WAFVXD2nSWuWCspvMyGh+/wA3a5CwBFfUHqCn/h/bqbrgCsr
- 38zdui/o+lKu1J+qUfi4l7O1QRNT863v+O7vuEkAV7tt6gZSjCkdv018hrKygmEbjuH1
- mo1yvleUXeXE4pg4A5UoaW29p48e2fTa7McOHJFpD8mq77F1NSpKT5QZPG1Zz8xnxa7d
- mrxdnNG49ToBy7EbX4XZYFktcBZUeX/QpG6Ua8Ii5y1rFKSfEsrYYpW11fUG+GAEdgE8
- DS7g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NNjgD+GMiDONMUPjFkwhkEedG5MwQW3b1aiW+hJXhJM=;
+ b=N/t+f1kxwHRhc3Ul+j00FsXHLTaQ8Op0R/eO+UlTIUYNP2BOqepg29BeALVA6eTtZm
+ +drJXtNSwBGQGBg0dIDsaD+1wNwSDXqk5bqrAI+k2LQ6mFksMlbEcBs/SidsPYYtEDcg
+ UbfFEz6ehGctKvOKh36RzyOomKTq0MYaMqjEpHekYSStu/VjYSA5W7qhvOu7UfODiJ3q
+ dRmO1YUbL2jh2GGn8qc3+roNw0eVHV1UmNdP9we2uP4PBX95cNZo1pliwON0BQDycCDS
+ YQfKV30nf+vhafow+B4oK7SjukN8Ql5xK4LkBszNPd+kTLZPRF6f2Dar0ERdRlhNmlgu
+ +ksw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qlmvdpaIFBiXFkjQ4YNJNIpdNHXmflVBlBiQ+xgkJj0=;
- b=HD322CZtCqbyxAMoDvqRqurEjhEtUx2jROXQyoLH6C4PWMgBappezSrRVE0/e2SxiW
- IePbvdnjWWTehDkVdYeuyx8n2Dpb2aKR85It1Y7vND5IpHuIwDgfJ+5/eDRYK21hFkj8
- cMd6DKnxVPvkDusOnSMZIver8PcQEpoIsaU9Q9XOdOZIXzEGtdxEU/BtiH8+OVBfTqYZ
- DXZPAYemv6GoMHq0qK4HIwzQ5OYNo9UGMbVGTndlHijPOQ2LzmQfnYbiFx0CR5HmwxjW
- JrWBxIg9OD+EHT28XE6kzh54xhAjj4OWtVVYWDl8LqAcl/hmTmQyREXKmkChd19ZcVhr
- 3uVA==
-X-Gm-Message-State: APjAAAWo4WfvJ75wXe1dtp2rNRyigK3eT5dqQfA5G4zbQAd0ZAaXPReK
- 0F9wekizk4qhn4nNU4rnk9yYlnJKBDE=
-X-Google-Smtp-Source: APXvYqx40veOw6O3S+MEj2ss3zVGkpZxEzJgYinUBYbHlGFi3Svdi/5tQH0KtwDU8RWjZ4OA8ux0Fg==
-X-Received: by 2002:a05:6000:12:: with SMTP id
- h18mr9864973wrx.161.1571665440606; 
- Mon, 21 Oct 2019 06:44:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NNjgD+GMiDONMUPjFkwhkEedG5MwQW3b1aiW+hJXhJM=;
+ b=k1dfh1hHsyrIo1UJXWVoV2lSWHxMeDXjtYonqtZBZ51xOhLuQQuMqKRNPwSCeCgefq
+ KXQKtVMGTYgJVPGCsRGOys8nHw7E5U1NWvcIhr0apJAzUqpPXjLavpze8G8y/VvjTSEX
+ 9qaCbEPbk1tWS0BoJCuwQfo2RPAP1FdIBAnsWkasX1QWGYxhwH+YXxDCGEPJDfybl8bH
+ VINd1y1c2ha3xAjVGYpq5DB4AiweeJ1jx8vzU9AgiIGKKFkp28qF632HZL5q0PpVG/Fv
+ N/SJiehKjWUYjSh96WYdO8lCZZKEPg9xcVUyBq1h1dpoI4PPv3i5B4zbxyu2v/jIuG9T
+ jDkg==
+X-Gm-Message-State: APjAAAUiUUKb08QRy70c13OPqvMrFORTGsmK1u7dpCHpn47al7eLUrF4
+ jslAo/Mo39lQ93V+nRprOqsh3dh7Tqk=
+X-Google-Smtp-Source: APXvYqxGyTnCS52dxqs4VzTzYLDqIXGCAq+liZ9wFZhp1LniQxoGEnhDJxgG03P/DWYLmRHqXCB3dw==
+X-Received: by 2002:a05:600c:214:: with SMTP id
+ 20mr19890800wmi.45.1571665441708; 
+ Mon, 21 Oct 2019 06:44:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q196sm10443689wme.23.2019.10.21.06.43.59
+ by smtp.gmail.com with ESMTPSA id q196sm10443689wme.23.2019.10.21.06.44.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 06:43:59 -0700 (PDT)
+ Mon, 21 Oct 2019 06:44:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] Convert sparc devices to new ptimer API
-Date: Mon, 21 Oct 2019 14:43:54 +0100
-Message-Id: <20191021134357.14266-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 1/3] hw/timer/slavio_timer: Remove useless check for NULL
+ t->timer
+Date: Mon, 21 Oct 2019 14:43:55 +0100
+Message-Id: <20191021134357.14266-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191021134357.14266-1-peter.maydell@linaro.org>
+References: <20191021134357.14266-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,49 +87,42 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset converts the devices used by sparc machines to the new
-ptimer API.
+In the slavio timer devcie, the ptimer TimerContext::timer is
+always created by slavio_timer_init(), so there's no need to
+check it for NULL; remove the single unneeded NULL check.
 
-Currently the ptimer design uses a QEMU bottom-half as its mechanism
-for calling back into the device model using the ptimer when the
-timer has expired.  Unfortunately this design is fatally flawed,
-because it means that there is a lag between the ptimer updating its
-own state and the device callback function updating device state, and
-guest accesses to device registers between the two can return
-inconsistent device state. This was reported as a bug in a specific
-timer device but it's a problem with the generic ptimer code:
-https://bugs.launchpad.net/qemu/+bug/1777777
+This will be useful to avoid compiler/Coverity errors when
+a subsequent change adds a use of t->timer before the location
+we currently do the NULL check.
 
-The updates to the individual ptimer devices are straightforward:
-we need to add begin/commit calls around the various places that
-modify the ptimer state, and use the new ptimer_init() function
-to create the timer.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/timer/slavio_timer.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-Changes v1->v2:
- * patches 2 and 3 are the old 1 and 2 and have been reviewed
- * patch 1 is new and removes a pointless NULL check; without
-   this we'd probably have got Coverity errors when patch 3
-   added a use of t->timer before the check for it being NULL
-
-thanks
---PMM
-
-
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-*** BLURB HERE ***
-
-Peter Maydell (3):
-  hw/timer/slavio_timer: Remove useless check for NULL t->timer
-  hw/timer/grlib_gptimer.c: Switch to transaction-based ptimer API
-  hw/timer/slavio_timer.c: Switch to transaction-based ptimer API
-
- hw/timer/grlib_gptimer.c | 28 ++++++++++++++++++++++++----
- hw/timer/slavio_timer.c  | 32 +++++++++++++++++++++-----------
- 2 files changed, 45 insertions(+), 15 deletions(-)
-
+diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
+index 692d213897d..890dd53f8d8 100644
+--- a/hw/timer/slavio_timer.c
++++ b/hw/timer/slavio_timer.c
+@@ -227,13 +227,11 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+             // set limit, reset counter
+             qemu_irq_lower(t->irq);
+             t->limit = val & TIMER_MAX_COUNT32;
+-            if (t->timer) {
+-                if (t->limit == 0) { /* free-run */
+-                    ptimer_set_limit(t->timer,
+-                                     LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
+-                } else {
+-                    ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
+-                }
++            if (t->limit == 0) { /* free-run */
++                ptimer_set_limit(t->timer,
++                                 LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
++            } else {
++                ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
+             }
+         }
+         break;
 -- 
 2.20.1
 
