@@ -2,112 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FE1DECD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:54:14 +0200 (CEST)
-Received: from localhost ([::1]:40480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C77DECE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:56:01 +0200 (CEST)
+Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMXCP-0003Z4-IO
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60083)
+	id 1iMXE8-0005ho-I1
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMX96-0000Ug-Lr
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:50:50 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iMXAX-00020j-Nw
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:52:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMX93-0005Hx-QM
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:50:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36142
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jfreimann@redhat.com>) id 1iMXAW-0005g8-DR
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:52:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37329
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMX93-0005Hl-FR
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:50:45 -0400
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iMXAW-0005fr-9Y
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:52:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571662244;
+ s=mimecast20190719; t=1571662335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
- bh=F6kw5Pg9WXuLciCfbrcGShJ/TZIe1uRObZuG8HzIir8=;
- b=G77d0t/LOOYV81nlofpT6uBpWCyeClbNiXVyRrqL/zVPuUZLXyZi1alW0PEd3CFVNTD5b2
- kSiHu+n5yMDWCvRTSUWpvClBpUFAhbmYCXGYrOiYMjeNBES5PG7FMugwZc7/N+ZRr106sD
- OxL9erlfTdEtzsb1oH/AcD7XWfhHoX8=
+ in-reply-to:in-reply-to:references:references;
+ bh=ayz4+LTvrQvfkOBwo+WsV8G4vVK+s7HHPCSWQRzk8Pg=;
+ b=D8bgXwJPgX+gv1cUTtam3MuDZOCZOh9RkCKgni72J6z5u8szhNepJTQpHnPoBIqKM34vlD
+ EROrxa3nvlpoktnRwz3UpwnSuZkayexwa0Jg+ZQ+x/D9rWWNA9uEd9qUCWbxnie2tfmgv1
+ AoKz5kl7pURaAR2bFkJfxt6pOOO5xh4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-fW7csGzaP6aFGS9rZwrdqQ-1; Mon, 21 Oct 2019 08:50:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-380-aWQV7AvsP_icrV-hEA6qCA-1; Mon, 21 Oct 2019 08:52:12 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ABCD800D41;
- Mon, 21 Oct 2019 12:50:40 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33D88196AE;
- Mon, 21 Oct 2019 12:50:31 +0000 (UTC)
-Subject: Re: [PATCH v3 14/16] libqos: make the virtio-pci BAR index
- configurable
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20191019063810.6944-1-stefanha@redhat.com>
- <20191019063810.6944-15-stefanha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <7a03f2c3-590a-8b46-896f-a0045ae69e0e@redhat.com>
-Date: Mon, 21 Oct 2019 14:50:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67CA0107AD31;
+ Mon, 21 Oct 2019 12:52:11 +0000 (UTC)
+Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61F6C1001B23;
+ Mon, 21 Oct 2019 12:52:03 +0000 (UTC)
+Date: Mon, 21 Oct 2019 14:52:02 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH 01/11] qdev/qbus: add hidden device support
+Message-ID: <20191021125202.apk3zg7s5m6xxnuw@jenstp.localdomain>
+References: <20191018202040.30349-1-jfreimann@redhat.com>
+ <20191018202040.30349-2-jfreimann@redhat.com>
+ <20191021144408.413b3fca.cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191019063810.6944-15-stefanha@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: fW7csGzaP6aFGS9rZwrdqQ-1
+In-Reply-To: <20191021144408.413b3fca.cohuck@redhat.com>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: aWQV7AvsP_icrV-hEA6qCA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,25 +75,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
+ parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/2019 08.38, Stefan Hajnoczi wrote:
-> The Legacy virtio-pci interface always uses BAR 0.  VIRTIO 1.0 may need
-> to use a different BAR index, so make it configurable.
->=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> v3:
->  * Change uint8_t bar_idx to int [Thomas]
-> ---
->  tests/libqos/virtio-pci.h | 2 ++
->  tests/libqos/virtio-pci.c | 3 ++-
->  2 files changed, 4 insertions(+), 1 deletion(-)
+On Mon, Oct 21, 2019 at 02:44:08PM +0200, Cornelia Huck wrote:
+>On Fri, 18 Oct 2019 22:20:30 +0200
+>Jens Freimann <jfreimann@redhat.com> wrote:
+>
+>> This adds support for hiding a device to the qbus and qdev APIs.  The
+>> first user of this will be the virtio-net failover feature but the API
+>> introduced with this patch could be used to implement other features as
+>> well, for example hiding pci devices when a pci bus is powered off.
+>>
+>> qdev_device_add() is modified to check for a net_failover_pair_id
+>> argument in the option string. A DeviceListener callback
+>> should_be_hidden() is added. It can be used by a standby device to
+>> inform qdev that this device should not be added now. The standby device
+>> handler can store the device options to plug the device in at a later
+>> point in time.
+>>
+>> One reason for hiding the device is that we don't want to expose both
+>> devices to the guest kernel until the respective virtio feature bit
+>> VIRTIO_NET_F_STANDBY was negotiated and we know that the devices will be
+>> handled correctly by the guest.
+>>
+>> More information on the kernel feature this is using:
+>>  https://www.kernel.org/doc/html/latest/networking/net_failover.html
+>>
+>> An example where the primary device is a vfio-pci device and the standby
+>> device is a virtio-net device:
+>>
+>> A device is hidden when it has an "net_failover_pair_id" option, e.g.
+>>
+>>  -device virtio-net-pci,...,failover=3Don,...
+>>  -device vfio-pci,...,net_failover_pair_id=3Dnet1,...
+>>
+>> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+>> ---
+>>  hw/core/qdev.c         | 23 +++++++++++++++++++++++
+>>  include/hw/qdev-core.h |  8 ++++++++
+>>  qdev-monitor.c         | 36 +++++++++++++++++++++++++++++++++---
+>>  vl.c                   |  6 ++++--
+>>  4 files changed, 68 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+>> index cbad6c1d55..89c134ec53 100644
+>> --- a/hw/core/qdev.c
+>> +++ b/hw/core/qdev.c
+>> @@ -212,6 +212,29 @@ void device_listener_unregister(DeviceListener *lis=
+tener)
+>>      QTAILQ_REMOVE(&device_listeners, listener, link);
+>>  }
+>>
+>> +bool qdev_should_hide_device(QemuOpts *opts)
+>> +{
+>> +    int rc;
+>
+>Initialize to 0?
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Yes, that's what the test bot found as well. Fixed it already.=20
+Though I initialize to -1, otherwise all devices will be hidden.
+
+>> +    DeviceListener *listener;
+>> +
+>> +    QTAILQ_FOREACH(listener, &device_listeners, link) {
+>> +       if (listener->should_be_hidden) {
+>> +            /* should_be_hidden_will return
+>> +             *  1 if device matches opts and it should be hidden
+>> +             *  0 if device matches opts and should not be hidden
+>> +             *  -1 if device doesn't match ops
+>> +             */
+>> +            rc =3D listener->should_be_hidden(listener, opts);
+>> +        }
+>> +
+>> +        if (rc > 0) {
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    return rc > 0;
+>> +}
+>> +
+>>  void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+>>                                   int required_for_version)
+>>  {
+>
+>(...)
+>
+>> +static bool should_hide_device(QemuOpts *opts)
+>> +{
+>> +    if (qemu_opt_foreach(opts, is_failover_device, opts, NULL) =3D=3D 0=
+) {
+>> +        return false;
+>> +    }
+>> +    return true;
+>> +}
+>
+>I still think you should turn the check around to make it easier to
+>extend in the future, but this is fine as well.
+
+Sorry, I've gone back and forth on this and ended up with the same.
+I'll take another look at it.=20
+
+>(...)
+>
+>With the rc thing changed,
+>
+>Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+Thanks!
+
+regards,
+Jens=20
 
 
