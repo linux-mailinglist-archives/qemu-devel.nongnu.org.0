@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D446DEBF3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:17:40 +0200 (CEST)
-Received: from localhost ([::1]:39916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F65DEC1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:24:45 +0200 (CEST)
+Received: from localhost ([::1]:40027 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMWd1-0008WC-3V
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56269)
+	id 1iMWjs-00029b-A5
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMWbd-00080a-4Z
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:16:14 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMWin-0001gF-5Q
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:23:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMWbZ-0007AD-De
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:16:12 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54027
+ (envelope-from <thuth@redhat.com>) id 1iMWik-0002Vj-Rh
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:23:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23160
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMWbZ-00079q-2x
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:16:09 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMWik-0002VL-Nf
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:23:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571660168;
+ s=mimecast20190719; t=1571660614;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
- bh=zkV2dzYrOggeDpfdKn0bJahkGRYqp7BGWz6ldUDdsdY=;
- b=NKKGP5wN5NoKW57HrlFKxXwkx4yn5rlqWSsoMBY5qGROfXZldpWHtG7wpEfBTzKwUxpUGb
- aB2I9oGDaiCTb7aZgseo/SQo2PVNJuHLVJXEct00f+siLwrMmyHcNCIOW3IMSJH+G2u06r
- +7DUYe9e84zB14JV77rF3CMy1LTfYdQ=
+ bh=muCv6DNAtjZ3HTJb4vnwP/DfjbUG2qIBb1w93m9ga3c=;
+ b=fmeIXDCbIUFklqFnJUiO5r3scnCV10giU60vTfOmSNi6VqsbV9/qOouP1vX1kRASHMuTLv
+ q/eeaKuHNbM2r8mJyDfu9JGjDuD9tyeeBjjdBf3JtjxlpbgtlaafGiNoaq++rsdFdhusUx
+ IP2ucvTjODq5nH/+6Ijwwlns/zFU/GY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-etTfVdLEMmKFYrwuz7iDKg-1; Mon, 21 Oct 2019 08:16:03 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-312-_LMySsCdNciXSrTdTudogA-1; Mon, 21 Oct 2019 08:23:31 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D834380183E;
- Mon, 21 Oct 2019 12:16:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 218EF100550E;
+ Mon, 21 Oct 2019 12:23:30 +0000 (UTC)
 Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 62DF3196AE;
- Mon, 21 Oct 2019 12:15:54 +0000 (UTC)
-Subject: Re: [PATCH v3 07/16] libqos: enforce Device Initialization order
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D34565C207;
+ Mon, 21 Oct 2019 12:23:15 +0000 (UTC)
+Subject: Re: [PATCH v3 08/16] libqos: implement VIRTIO 1.0 FEATURES_OK step
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20191019063810.6944-1-stefanha@redhat.com>
- <20191019063810.6944-8-stefanha@redhat.com>
+ <20191019063810.6944-9-stefanha@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -92,15 +92,15 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <158ef0b2-c478-1304-3128-8feb7cd943d4@redhat.com>
-Date: Mon, 21 Oct 2019 14:15:53 +0200
+Message-ID: <9306a847-d4a4-7503-0682-8c75522e57f1@redhat.com>
+Date: Mon, 21 Oct 2019 14:23:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191019063810.6944-8-stefanha@redhat.com>
+In-Reply-To: <20191019063810.6944-9-stefanha@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: etTfVdLEMmKFYrwuz7iDKg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: _LMySsCdNciXSrTdTudogA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -125,32 +125,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19/10/2019 08.38, Stefan Hajnoczi wrote:
-> According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
-> Initialization", configuration space and virtqueues cannot be accessed
-> before features have been negotiated.  Enforce this requirement.
+> Device initialization has an extra step in VIRTIO 1.0.  The FEATURES_OK
+> status bit is set to indicate that feature negotiation has completed.
+> The driver then reads the status register again to check that the device
+> agrees with the final features.
+>=20
+> Implement this step as part of qvirtio_set_features() instead of
+> introducing a separate function.  This way all existing code works
+> without modifications.
 >=20
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  tests/libqos/virtio.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
-> index 4f7e6bb8a1..2593996c98 100644
-> --- a/tests/libqos/virtio.c
-> +++ b/tests/libqos/virtio.c
-> @@ -13,23 +13,33 @@
->  #include "standard-headers/linux/virtio_config.h"
->  #include "standard-headers/linux/virtio_ring.h"
+>  tests/libqos/virtio.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+[...]
+> @@ -88,9 +101,10 @@ void qvirtio_set_driver(QVirtioDevice *d)
 > =20
-> +/* Features must be negotiated before config space or virtqueue access *=
-/
-> +static void check_features_negotiated(QVirtioDevice *d)
-> +{
-> +    g_assert_cmphex(d->features, !=3D, 0);
-> +}
+>  void qvirtio_set_driver_ok(QVirtioDevice *d)
+>  {
+> -    d->bus->set_status(d, d->bus->get_status(d) | VIRTIO_CONFIG_S_DRIVER=
+_OK);
+> -    g_assert_cmphex(d->bus->get_status(d), =3D=3D, VIRTIO_CONFIG_S_DRIVE=
+R_OK |
+> -                    VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_ACKNOWLEDGE=
+);
+> +    uint8_t status =3D d->bus->get_status(d) | VIRTIO_CONFIG_S_DRIVER_OK=
+;
+> +
+> +    d->bus->set_status(d, status);
+> +    g_assert_cmphex(d->bus->get_status(d), =3D=3D, status);
+>  }
 
-Isn't it "legal" to negotiate 0 feature bits, too (for legacy devices)?
+The changes to qvirtio_set_driver_ok() are not mentioned in the patch
+description. Please either mention them there, or move this to a
+separate patch.
 
- Thomas
+ Thanks,
+  Thomas
 
 
