@@ -2,114 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F65DEC1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:24:45 +0200 (CEST)
-Received: from localhost ([::1]:40027 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9666DEC61
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:38:38 +0200 (CEST)
+Received: from localhost ([::1]:40306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMWjs-00029b-A5
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56941)
+	id 1iMWxJ-0000Ze-8m
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMWin-0001gF-5Q
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:23:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMWuK-0007sR-Cs
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:35:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMWik-0002Vj-Rh
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:23:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23160
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMWik-0002VL-Nf
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:23:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571660614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
- bh=muCv6DNAtjZ3HTJb4vnwP/DfjbUG2qIBb1w93m9ga3c=;
- b=fmeIXDCbIUFklqFnJUiO5r3scnCV10giU60vTfOmSNi6VqsbV9/qOouP1vX1kRASHMuTLv
- q/eeaKuHNbM2r8mJyDfu9JGjDuD9tyeeBjjdBf3JtjxlpbgtlaafGiNoaq++rsdFdhusUx
- IP2ucvTjODq5nH/+6Ijwwlns/zFU/GY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-_LMySsCdNciXSrTdTudogA-1; Mon, 21 Oct 2019 08:23:31 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 218EF100550E;
- Mon, 21 Oct 2019 12:23:30 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D34565C207;
- Mon, 21 Oct 2019 12:23:15 +0000 (UTC)
-Subject: Re: [PATCH v3 08/16] libqos: implement VIRTIO 1.0 FEATURES_OK step
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20191019063810.6944-1-stefanha@redhat.com>
- <20191019063810.6944-9-stefanha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <9306a847-d4a4-7503-0682-8c75522e57f1@redhat.com>
-Date: Mon, 21 Oct 2019 14:23:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <bounces@canonical.com>) id 1iMWuI-00009k-Cz
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:35:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38164)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMWuH-00009T-Rg
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:35:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMWuF-0001Ff-8C
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 12:35:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 243D02E80CC
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 12:35:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191019063810.6944-9-stefanha@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: _LMySsCdNciXSrTdTudogA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Oct 2019 12:23:56 -0000
+From: Simon John <1847793@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: c-paetow dgilbert-h lersek psyhomb sej7278 xanclic
+X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
+X-Launchpad-Bug-Modifier: Simon John (sej7278)
+References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157166063618.9599.8756485853252161972.malone@soybean.canonical.com>
+Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
+ install
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b13fded142b1623b152e9a74bd60dc813b196569
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -118,49 +66,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/2019 08.38, Stefan Hajnoczi wrote:
-> Device initialization has an extra step in VIRTIO 1.0.  The FEATURES_OK
-> status bit is set to indicate that feature negotiation has completed.
-> The driver then reads the status register again to check that the device
-> agrees with the final features.
->=20
-> Implement this step as part of qvirtio_set_features() instead of
-> introducing a separate function.  This way all existing code works
-> without modifications.
->=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tests/libqos/virtio.c | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
-[...]
-> @@ -88,9 +101,10 @@ void qvirtio_set_driver(QVirtioDevice *d)
-> =20
->  void qvirtio_set_driver_ok(QVirtioDevice *d)
->  {
-> -    d->bus->set_status(d, d->bus->get_status(d) | VIRTIO_CONFIG_S_DRIVER=
-_OK);
-> -    g_assert_cmphex(d->bus->get_status(d), =3D=3D, VIRTIO_CONFIG_S_DRIVE=
-R_OK |
-> -                    VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_ACKNOWLEDGE=
-);
-> +    uint8_t status =3D d->bus->get_status(d) | VIRTIO_CONFIG_S_DRIVER_OK=
-;
-> +
-> +    d->bus->set_status(d, status);
-> +    g_assert_cmphex(d->bus->get_status(d), =3D=3D, status);
->  }
+i've seen guest data corruption and qcow2 corruption on ext4.
 
-The changes to qvirtio_set_driver_ok() are not mentioned in the patch
-description. Please either mention them there, or move this to a
-separate patch.
+i've seen one case where the guest (win10) reports corruption but qemu-
+img check does not, but that's the outlier, usually both guest and qemu-
+img report corruption.
 
- Thanks,
-  Thomas
+for me the issue seems to only be win10 guests using virtio-scsi, i've
+not seen it on any of 25+ linux/solaris/macos/win2019 guests no matter
+what device driver/cache/trim i use.
 
+current workaround is convert from qcow2 to raw, everything else stays
+the same and i have no issues.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847793
+
+Title:
+  qemu 4.1.0 - Corrupt guest filesystem after new vm install
+
+Status in QEMU:
+  New
+
+Bug description:
+  When I install a new vm with qemu 4.1.0 all the guest filesystems are
+  corrupt. The first boot from the install dvd iso is ok and the
+  installer work fine. But the guest system hangs after the installer
+  finishes and I reboot the guest. I can see the grub boot menue but the
+  system cannot load the initramfs.
+
+  Testet with:
+  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
+ and / partition)
+  Guided install with the graphical installer, no lvm selected.
+  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
+  Guidet install with the graphical installer and default options.
+
+  Used commandline to create the vm disk image:
+  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
+
+  Used qemu commandline for vm installation:
+  #!/bin/sh
+  # vmtest10 Installation
+  #
+  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
+      -soundhw hda \
+      -M q35 \
+      -k de \
+      -vga qxl \
+      -machine accel=3Dkvm \
+      -m 4096 \
+      -display gtk \
+      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
+so,if=3Dide,media=3Dcdrom \
+      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
+o,media=3Ddisk,cache=3Dwriteback \
+      -boot once=3Dd,menu=3Doff \
+      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
+      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
+      -rtc base=3Dlocaltime \
+      -name "vmtest10" \
+      -usb -device usb-tablet \
+      -spice disable-ticketing \
+      -device virtio-serial-pci \
+      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
+e.0 \
+      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
+
+  Host OS:
+  Archlinux (last updated at 10.10.2019)
+  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
+19 x86_64 GNU/Linux
+  No libvirt in use.
+
+  =
+
+  With qemu 4.0.0 it works fine without any errors.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
 
