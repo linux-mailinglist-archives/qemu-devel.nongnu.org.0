@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C675DF1E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 17:46:14 +0200 (CEST)
-Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DB5DF211
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 17:53:34 +0200 (CEST)
+Received: from localhost ([::1]:44392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMZsq-0002Ct-WF
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 11:46:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59709)
+	id 1iMZzw-0004nC-Sl
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 11:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMZqK-0000Sv-DA
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:43:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iMZz1-0004Np-6C
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:52:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMZqJ-00042x-4V
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:43:35 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46749)
+ (envelope-from <richard.henderson@linaro.org>) id 1iMZyz-00079q-VO
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:52:34 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44602)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMZqI-00042Y-Us
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:43:35 -0400
-Received: by mail-ot1-x344.google.com with SMTP id 89so11358695oth.13
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:43:34 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iMZyz-00079Q-Nr
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:52:33 -0400
+Received: by mail-pl1-x641.google.com with SMTP id q15so6809025pll.11
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n5V0hkpRRSO03mPjVUoJC+HUPW/i9CGi8Wcaic5CS9s=;
- b=y3ycSaeU9hLQUDSOqfPcSVuTcC3tZLxwAnXan7/Z4WwvjuRwnBKWf0dR9IuuOncyTT
- v4mR3m/y36p2fCa/Pob/NErtXLcnbF/VpA2RK/S87ixJb5q6KiPw9hbzuQjLzYcNLPOs
- 2jZ3RpG/ebDG4P3qlJ0YZtcrMszmOfGR7Yt37+/Ooi/yP0rJMPGyfnM+Yywt/SvOpqWD
- VzIDx8z6qWNpCTOxp8TyU0hcoRJcuq1GaDWMKJDonR2q8CpfkjSS+RymG9e14E2X6NyZ
- HQLlpqg3hGk1aWnfWbn27z9pGt/pOMLOtwrLVshRENPQreTJCodZ7vxWbUl9h7AW70dd
- UZrQ==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZMB/mHRa6PG84KARd7SoApJywyhfh9wQqKiyFaeoWVs=;
+ b=JrbIAOFi/3FdUH9xLVE/qgf46WGciicOc2U+crk3ER4eGtYH9tG5J+OQ/clrCelAHf
+ 2Iret7ZeNWiaZj9d11yH1VlSbB5QZevKepBy68I0RyyYfowHnonna+VOE/wSZvD3+HK8
+ gD2Yp/qbSpHOZ/Tfy49qnhCm0zo1ylQaoN/AMn+2uSd2INfTFcA/CAh7NXSoo/jtHJyQ
+ 3jrtZ74nfqPI+meEfYgCO1Ts7yYZmwu2RWy1kq423DjbV1012lgXNxeYHvR8m4bhdoHv
+ JlLds3DWXR9xvD7UqjqakgO0/OG0vRn7GBWG3xHRaHGsC27RHMSkVvcvcvUvJPi+V2zb
+ Pd7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n5V0hkpRRSO03mPjVUoJC+HUPW/i9CGi8Wcaic5CS9s=;
- b=klADNYb00oBVCoydxrWLg8+JTiDtwz0jWkhNTsbhdxb/GqI4ReqMXCDSgn0wzvk1FK
- R7IOWgD7tQ87MsuSFfvcI4YJaviY1FKwEIA4pHiAFeP+hdCYhFdZROtlxlTQPl8nRqa1
- fxonKut9YJGKHDQjAKtrTLbKPet1JfAdGvimhRxjLAzNTCU0j5DfpqzLqca9uQMviPcW
- fFg/1VqL0D4WIeZJGU8+lLUwWZRxym3kzF/fstIVUP6YlDp63tHvEJSnEvJZVdCdL80o
- Ion1rQZsrZVkaNr42KUZlDCFMLWcICsJZqSuxdjtTnaPyWhYlmfXNeHpcZ+xpBX0JakM
- wZHQ==
-X-Gm-Message-State: APjAAAWnC648Q6paHM0FlxTAyGHd0kGWKrge/YVrVdGFcXDvLVH3Iuwv
- f+UJz5/pTula8vlHR+c5SUMpqbHBamB/AwdZdAStdQ==
-X-Google-Smtp-Source: APXvYqzzqZ9dvD68QhKD9277TmjoeWVcAulWTrPqcukzfuGA/sSnnECf7fbi3BnO00NOhPuZUS7h1hEgoD80GIN+t2c=
-X-Received: by 2002:a05:6830:4c1:: with SMTP id
- s1mr19819053otd.232.1571672613897; 
- Mon, 21 Oct 2019 08:43:33 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZMB/mHRa6PG84KARd7SoApJywyhfh9wQqKiyFaeoWVs=;
+ b=qB1wdd6tdOxw4yDWZ6ZPPIUknXExS+neMkmpZ2gHmVSulejKu8dWeJ9i3XKQX37B89
+ 3+fnhdj0kdAHZyxVV+4SoEuEVwYIU8mFeK+MdUgRXMP8XCP30yy7xaxbfAunIGvxCO2P
+ H67zOgCuQDK0pBuubc17qPcE9DI1M4AWdH3YuM77I2JJqZWT4pjV5cjANssp3Ds8xxF/
+ Ot2DyW9/6Zcp/zYVs7hRRtrJGLR9ltHS9SQVXZwR2uCv4zFK+9YhiFdbOIdUu5lpnuQK
+ wb98qjeVxNHDk0Q7OGVKAuvyRb6xmpiOjRYnjogMtTshWTyKXJ19cRveT5UqCfKzpIXw
+ qgMQ==
+X-Gm-Message-State: APjAAAW3nc3pJW6JkO86I7U6gZ567egEW11HA2so5q9+F9WJmFD+5xoo
+ MnigLp5wn/GK2Ey6hu5vumlYsg==
+X-Google-Smtp-Source: APXvYqz32E8K1aAou0rVBUwc8gD8lelO9tVaZ0Wjn+IwOBA/ANj5KFfdvWoW441UhAjWm+PRmaELKA==
+X-Received: by 2002:a17:902:b412:: with SMTP id
+ x18mr20441329plr.236.1571673152283; 
+ Mon, 21 Oct 2019 08:52:32 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id z23sm13533708pgu.16.2019.10.21.08.52.31
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 21 Oct 2019 08:52:31 -0700 (PDT)
+Subject: Re: [PATCH] tcg/LICENSE: Remove no-longer-true statement that TCG is
+ BSD-licensed
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191021145839.12684-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <06e15851-0b4e-63c3-001d-dd7ea5855872@linaro.org>
+Date: Mon, 21 Oct 2019 08:52:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191016085408.24360-1-drjones@redhat.com>
- <CAFEAcA8pV5batrPk+J6RLU2rv9SNAmL8JS9Kd9tWP3pD-m29eA@mail.gmail.com>
- <3f54f759-9d6d-bf04-85aa-59c1cac31044@redhat.com>
- <20191021142336.e4xekqlmqv5txu5w@kamzik.brq.redhat.com>
-In-Reply-To: <20191021142336.e4xekqlmqv5txu5w@kamzik.brq.redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Oct 2019 16:43:22 +0100
-Message-ID: <CAFEAcA-bezS5tSVB+N223+N+xoYYYHuSJmDTaRCJgO+4Y=VjdQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] target/arm/kvm: enable SVE in guests
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191021145839.12684-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,33 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Dave P Martin <Dave.Martin@arm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Oct 2019 at 15:23, Andrew Jones <drjones@redhat.com> wrote:
-> Peter, would you mind running your test on the kvm32 machine with this
-> change before I send a v7?
+On 10/21/19 7:58 AM, Peter Maydell wrote:
+> Since 2008 the tcg/LICENSE file has not changed: it claims that
+> everything under tcg/ is BSD-licensed.
+> 
+> This is not true and hasn't been true for years: in 2013 we
+> accepted the tcg/aarch64 target code under a GPLv2-or-later
+> license statement. We don't really consider the tcg
+> subdirectory to be a distinct part of QEMU anyway.
+> 
+> Remove the LICENSE file, since claiming false information
+> about the license of the code is confusing, and update
+> the main project LICENSE file also to be clearer about
+> the license used by TCG.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> This patch takes the simple approach of just documenting
+> the de-facto current reality; does anybody want to argue
+> for something else? Other possibilities I guess would be
+> specifically documenting tcg/aarch64 as an accidental
+> exception to the general licensing rule for tcg/, or even
+> trying to get it relicensed.
+> 
+> Does having tcg/ be BSD-licensed gain the project anything?
+> From my point of view I don't really see it as a cleanly
+> separable module of code -- it's quite tightly integrated
+> with the rest of QEMU, including code in accel/tcg which
+> is variously GPL or LGPL.
 
-Still fails:
+I think this is the best solution.  I've never been convinced that TCG can
+usefully be extracted and reused for something else.
 
-pm215@pm-ct:~/qemu/build/arm$
-QTEST_QEMU_BINARY=arm-softmmu/qemu-system-arm tests/arm-cpu-features
-/arm/arm/query-cpu-model-expansion: OK
-/arm/arm/kvm/query-cpu-model-expansion: **
-ERROR:/home/pm215/qemu/tests/arm-cpu-features.c:498:test_query_cpu_model_expansion_kvm:
-assertion failed: (resp_has_props(_resp))
-Aborted
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This is asserting on the line:
-498             assert_has_not_feature(qts, "host", "sve");
 
-thanks
--- PMM
+r~
 
