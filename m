@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F70DEAEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:28:44 +0200 (CEST)
-Received: from localhost ([::1]:38310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2A7DEB2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:42:34 +0200 (CEST)
+Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMVre-0001NU-Tc
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48649)
+	id 1iMW53-0000Z9-HH
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iMVkN-0000pk-O7
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:21:12 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMVYK-0003mI-3E
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:08:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iMVkL-0000pU-GS
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:21:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47382
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iMVkL-0000p9-Cf
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:21:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571656867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iateztDZUhKbCzCy7cYypzMCA/StEUmryKzZnQFUX1c=;
- b=JFA1nUuppM8OjYYsOz1rRlqEqZuvt3cozIhzHSu3CaciQEkle03J6OKxcTTOaxXIP6OAuz
- IWPEolzrACT5zbt2TkAjQZPIr6DOgzRIiNcfAnpa6a3SBEH5V58nomwHiIwH56gYYxmzns
- LvryFcSxVqf9TFkxxcCXrAyS15LNKP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-Rd9Xp_zFODKmdP2gWQMyJg-1; Mon, 21 Oct 2019 07:21:04 -0400
-X-MC-Unique: Rd9Xp_zFODKmdP2gWQMyJg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 574B6107AD31;
- Mon, 21 Oct 2019 11:21:03 +0000 (UTC)
-Received: from localhost (ovpn-116-128.ams2.redhat.com [10.36.116.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C273919C58;
- Mon, 21 Oct 2019 11:20:57 +0000 (UTC)
-Date: Mon, 21 Oct 2019 12:20:56 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Felipe Franciosi <felipe@nutanix.com>
-Subject: Re: [PATCH] vhost-user-scsi: implement handle_output
-Message-ID: <20191021112056.GG22659@stefanha-x1.localdomain>
-References: <20191017163859.23184-1-felipe@nutanix.com>
+ (envelope-from <bounces@canonical.com>) id 1iMVYI-00065P-KK
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:08:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59000)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMVYI-00064i-ER
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:08:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMVYG-0007I9-M4
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 11:08:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 93CD22E80D1
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 11:08:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191017163859.23184-1-felipe@nutanix.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rV8arf8D5Dod9UkK"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Oct 2019 10:56:59 -0000
+From: Timo Aaltonen <tjaalton@ubuntu.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=mesa; status=Won't Fix; importance=High; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=mesa; component=main;
+ status=In Progress; importance=Medium; assignee=tjaalton@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=mesa; 
+ component=main; milestone=ubuntu-19.04; status=Fix Released;
+ importance=Medium; assignee=tjaalton@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=mesa;
+ component=main; status=Triaged; importance=Undecided;
+ assignee=tjaalton@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Fix Released; importance=Undecided;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Tags: amd64 apport-crash apport-failed-retrace disco
+ qemu-19.10 wayland-session
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahzo alexdeucher apport baker-dylan-c berrange
+ dan-freedesktop janitor jokx maraeo marcandre-lureau michel-daenzer paelzer
+ seb128 tjaalton willcooke
+X-Launchpad-Bug-Reporter: Joseph Maillardet (jokx)
+X-Launchpad-Bug-Modifier: Timo Aaltonen (tjaalton)
+References: <155014036044.634.15252078016929169795.malonedeb@gac.canonical.com>
+Message-Id: <157165542039.9639.13674296338296343963.launchpad@soybean.canonical.com>
+Subject: [Bug 1815889] Re: qemu-system-x86_64 crashed with signal 31 in
+ __pthread_setaffinity_new()
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b5c7836d49c55fb5d08a82133f0fc608c466e6dc
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,69 +85,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1815889 <1815889@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---rV8arf8D5Dod9UkK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: mesa (Ubuntu)
+       Status: Triaged =3D> In Progress
 
-On Thu, Oct 17, 2019 at 04:39:44PM +0000, Felipe Franciosi wrote:
-> Originally, vhost-user-scsi did not implement a handle_output callback
-> as that didn't seem necessary. Turns out it is.
->=20
-> Depending on which other devices are presented to a VM, SeaBIOS may
-> decide to map vhost-user-scsi devices on the 64-bit range of the address
-> space. As a result, SeaBIOS will kick VQs via the config space. Those
-> land on Qemu (not the vhost backend) and are missed, causing the VM not
-> to boot. This fixes the issue by getting Qemu to post the notification.
->=20
-> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
-> ---
->  hw/scsi/vhost-user-scsi.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-> index 6a6c15dd32..13278ed151 100644
-> --- a/hw/scsi/vhost-user-scsi.c
-> +++ b/hw/scsi/vhost-user-scsi.c
-> @@ -62,8 +62,9 @@ static void vhost_user_scsi_set_status(VirtIODevice *vd=
-ev, uint8_t status)
->      }
->  }
-> =20
-> -static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> +static void vhost_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->  {
-> +    event_notifier_set(virtio_queue_get_host_notifier(vq));
->  }
+** Changed in: mesa (Ubuntu)
+    Milestone: ubuntu-19.04 =3D> None
 
-It would be nice to fix this in hw/virtio/virtio.c:virtio_queue_notify()
-so that all devices are automatically covered.
+-- =
 
-I'll send a patch and CC you.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1815889
 
-Stefan
+Title:
+  qemu-system-x86_64 crashed with signal 31 in
+  __pthread_setaffinity_new()
 
---rV8arf8D5Dod9UkK
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in Mesa:
+  Won't Fix
+Status in QEMU:
+  Fix Released
+Status in mesa package in Ubuntu:
+  In Progress
+Status in qemu package in Ubuntu:
+  Invalid
+Status in mesa source package in Disco:
+  Fix Released
+Status in mesa source package in Eoan:
+  Triaged
+Status in qemu source package in Eoan:
+  Fix Released
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  Unable to launch Default Fedora 29 images in gnome-boxes
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2tlJgACgkQnKSrs4Gr
-c8hIdAf8DSDaLFu4fb8P3BcS9E7X2ekRHTVQAkYMqe78ywLpK++8cnIaW6wrAxsx
-1fiNHq40DGQeRXpE4DPnPBw8d3F0I5Z9BCx7pxFBQnd2jjmWBgk4Era55BiB6W4Q
-2T9YV6pNhgSszo+BGNL5PuMkwFpy6eZg1cXQfQg1L0brWStuoZdUt2ZsG5/vR5Kc
-9H5bDN4u5ArVI/s78Tv8z6bd+urCoZbZNPvjmN2j0BIaZmQtrC+HP2pwc5kfVB2e
-+aJc9l914Qhhrs8mzW9D8he/nlco5ZX+CPm8LcGCVurHpFHZDU98SCzCMei4bVpj
-HgprUc3Mz5lY+dIqUNaedPYyyKY7gg==
-=S5Hh
------END PGP SIGNATURE-----
+  ProblemType: Crash
+  DistroRelease: Ubuntu 19.04
+  Package: qemu-system-x86 1:3.1+dfsg-2ubuntu1
+  ProcVersionSignature: Ubuntu 4.19.0-12.13-generic 4.19.18
+  Uname: Linux 4.19.0-12-generic x86_64
+  ApportVersion: 2.20.10-0ubuntu20
+  Architecture: amd64
+  Date: Thu Feb 14 11:00:45 2019
+  ExecutablePath: /usr/bin/qemu-system-x86_64
+  KvmCmdLine: COMMAND         STAT  EUID  RUID   PID  PPID %CPU COMMAND
+  MachineType: Dell Inc. Precision T3610
+  ProcEnviron: PATH=3D(custom, user)
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-4.19.0-12-generic root=3DUU=
+ID=3D939b509b-d627-4642-a655-979b44972d17 ro splash quiet vt.handoff=3D1
+  Signal: 31
+  SourcePackage: qemu
+  StacktraceTop:
+   __pthread_setaffinity_new (th=3D<optimized out>, cpusetsize=3D128, cpuse=
+t=3D0x7f5771fbf680) at ../sysdeps/unix/sysv/linux/pthread_setaffinity.c:34
+   () at /usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so
+   () at /usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so
+   start_thread (arg=3D<optimized out>) at pthread_create.c:486
+   clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+  Title: qemu-system-x86_64 crashed with signal 31 in __pthread_setaffinity=
+_new()
+  UpgradeStatus: Upgraded to disco on 2018-11-14 (91 days ago)
+  UserGroups: adm cdrom dip lpadmin plugdev sambashare sudo video
+  dmi.bios.date: 11/14/2018
+  dmi.bios.vendor: Dell Inc.
+  dmi.bios.version: A18
+  dmi.board.name: 09M8Y8
+  dmi.board.vendor: Dell Inc.
+  dmi.board.version: A01
+  dmi.chassis.type: 7
+  dmi.chassis.vendor: Dell Inc.
+  dmi.modalias: dmi:bvnDellInc.:bvrA18:bd11/14/2018:svnDellInc.:pnPrecision=
+T3610:pvr00:rvnDellInc.:rn09M8Y8:rvrA01:cvnDellInc.:ct7:cvr:
+  dmi.product.name: Precision T3610
+  dmi.product.sku: 05D2
+  dmi.product.version: 00
+  dmi.sys.vendor: Dell Inc.
 
---rV8arf8D5Dod9UkK--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/mesa/+bug/1815889/+subscriptions
 
