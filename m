@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA771DE901
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 12:06:35 +0200 (CEST)
-Received: from localhost ([::1]:37056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D09DE90F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 12:11:40 +0200 (CEST)
+Received: from localhost ([::1]:37126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMUaA-0001BM-RC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 06:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39926)
+	id 1iMUf5-00052D-FN
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 06:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iMUZ6-0000H8-6G
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:05:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMUe9-0004DS-E1
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:10:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iMUZ4-0002LX-SM
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:05:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45173
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iMUZ4-0002JD-OI
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:05:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571652326;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2mrKDmz69yJr3uvYYgibrixmhFJSC2qc9XXLpvPVEqg=;
- b=KpM30X29fQT+rk9O9Rw5uhHds66a9KTFOLQBgjhfUJneoQshAFd5Ra0lKCCg83SS7SNWQs
- oSS44jdHuhLOA8HQORId7b1v/E+srxZtjZ6s498oUHfyYdZo+cP3QKzqPDeW2ADF50CJtS
- usy6JI6furfioUjl5X9NTujkkxbbFHM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-QDoneGu1OFSScEHDnVeo7w-1; Mon, 21 Oct 2019 06:05:22 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70FCF800D41;
- Mon, 21 Oct 2019 10:05:21 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-198.ams2.redhat.com [10.36.116.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B6C7F6F0;
- Mon, 21 Oct 2019 10:05:16 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] s390x/kvm: Set default cpu model for all machine classes
-Date: Mon, 21 Oct 2019 12:05:15 +0200
-Message-Id: <20191021100515.6978-1-david@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iMUe7-0004oY-Bk
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:10:41 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33238)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iMUe5-0004my-Kb
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:10:38 -0400
+Received: by mail-oi1-x244.google.com with SMTP id a15so10569755oic.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 03:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=h9GZbALSAwuBda1jP16mQLkmcx6KLFn06sluNqGEX84=;
+ b=bpmnPwzb4kZ442RdWUZOxyaAAnPOD4wdEB+X9kw3RGjznKHMiy43A/0sZnYlWN+vFB
+ lF1ORxh45h9RXLqU1s+MnoMB0cZKIy1Nfz/NccI6BnKBka80wFVzLkCVIHdGuciGDJix
+ Ln13S+2fD5j1bYJ0UkwlHGlms4J8s+b29pGbLe/svBfyRLOtqFWZgbvLgz0nV4X3E6oe
+ WAICNJkktmqaS8Q89jX6O2HOXDaupUOAsZG7x2J/ynY9OuhsEECFcF82G5ljHpSB0BNI
+ MeKbojJQxR5Xn9Om/975Ikn++Ea+7aRxLNMIB/ryze3Hbfj7qUOGXzdq6vvit2LzE3ab
+ NFHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h9GZbALSAwuBda1jP16mQLkmcx6KLFn06sluNqGEX84=;
+ b=biMnJksyN3gtDOKEPwzgUNgExlmNCQW5/MOeNysCEtefWG21nb7c08avbjeU9ipuMO
+ 2ezf6CH3Spk+sphyEK7x5zKziADKcHfg2yLJZa9TLtVvDdp0nINRn2IvzrhMbfJfRR57
+ wk5Y6gjokbhQxdNMDZkJ66Q1Somzv3Dj1SScwdEV5DKp+rwsrG9qgczFXxSDbGTzPllf
+ c1nz/iTsp0yieiO7X7kJtBWx+5A8X/joOQ+SSsRRISYX3D5yw1eKNYbd6lR4TqM/nyE2
+ 1CFIq77Ol6VLjfLLERdzaFmpip+WXrhxKSm4vTE6LeWROxn89uS1TpznJUDJk2RUxbS6
+ PB/g==
+X-Gm-Message-State: APjAAAUZ3os1FrplmiHrDrbw8/cpR/ikMbSLLj5wF/CpxJuppw2A4AjH
+ jktz0TVwZvmolu1Dp23XHKwk2zYLrQGGb6OW1e5wLw==
+X-Google-Smtp-Source: APXvYqyB/1MhnNfxI0rA9VfABISDSkvoDZciLkw4444n3Wnk9ZCHxTFwg6ybd2GSVjbbE7osqcDuRNq2r1PpH+Z7/PY=
+X-Received: by 2002:a54:4e83:: with SMTP id c3mr18803718oiy.170.1571652634590; 
+ Mon, 21 Oct 2019 03:10:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: QDoneGu1OFSScEHDnVeo7w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
+ <20191018154212.13458-3-marcandre.lureau@redhat.com>
+In-Reply-To: <20191018154212.13458-3-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Oct 2019 11:10:23 +0100
+Message-ID: <CAFEAcA9Fce9sac94YfeSqfdOHF8cVqfbPax_YHSY-L6ij9og0g@mail.gmail.com>
+Subject: Re: [PATCH 02/14] vmmouse: replace PROP_PTR with PROP_LINK
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,84 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have to set the default model of all machine classes, not just for
-the active one. Otherwise, "query-machines" will indicate the wrong
-CPU model ("qemu-s390x-cpu" instead of "host-s390x-cpu") as
-"default-cpu-type".
+On Fri, 18 Oct 2019 at 16:42, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> While at it, use the expected type.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
 
-Doing a
-    {"execute":"query-machines"}
-under KVM now results in
-    {"return": [
-        {
-            "hotpluggable-cpus": true,
-            "name": "s390-ccw-virtio-4.0",
-            "numa-mem-supported": false,
-            "default-cpu-type": "host-s390x-cpu",
-            "cpu-max": 248,
-            "deprecated": false},
-        {
-            "hotpluggable-cpus": true,
-            "name": "s390-ccw-virtio-2.7",
-            "numa-mem-supported": false,
-            "default-cpu-type": "host-s390x-cpu",
-            "cpu-max": 248,
-            "deprecated": false
-        } ...
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
-currently see the wrong CPU model under KVM.
-
-Reported-by: Jiri Denemark <jdenemar@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Fixes: b6805e127c6b ("s390x: use generic cpu_model parsing")
-Cc: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-
-v1 -> v2:
-- Added a sentence how libvirt probes the machines/default cpu models
-- klass -> oc
-
----
- target/s390x/kvm.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index c24c869e77..0c9d14b4b1 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -320,11 +320,17 @@ void kvm_s390_set_max_pagesize(uint64_t pagesize, Err=
-or **errp)
-     cap_hpage_1m =3D 1;
- }
-=20
--int kvm_arch_init(MachineState *ms, KVMState *s)
-+static void ccw_machine_class_foreach(ObjectClass *oc, void *opaque)
- {
--    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-=20
-     mc->default_cpu_type =3D S390_CPU_TYPE_NAME("host");
-+}
-+
-+int kvm_arch_init(MachineState *ms, KVMState *s)
-+{
-+    object_class_foreach(ccw_machine_class_foreach, TYPE_S390_CCW_MACHINE,
-+                         false, NULL);
-=20
-     if (!kvm_check_extension(kvm_state, KVM_CAP_DEVICE_CTRL)) {
-         error_report("KVM is missing capability KVM_CAP_DEVICE_CTRL - "
---=20
-2.21.0
-
+thanks
+-- PMM
 
