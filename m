@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE96DDF724
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:53:14 +0200 (CEST)
-Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDE0DF731
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:54:51 +0200 (CEST)
+Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMefx-0006P0-NT
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41404)
+	id 1iMehW-0008Kg-Bl
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iMeeJ-0005op-H4
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:51:32 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMef8-0006Fn-G4
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:52:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iMeeI-0000ge-CX
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:51:31 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:40486)
+ (envelope-from <alistair23@gmail.com>) id 1iMef7-00012c-Hx
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:52:22 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:44379)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iMeeI-0000g4-4h; Mon, 21 Oct 2019 16:51:30 -0400
-Received: by mail-lf1-x144.google.com with SMTP id i15so3782034lfo.7;
- Mon, 21 Oct 2019 13:51:30 -0700 (PDT)
+ id 1iMef7-00010X-Ak; Mon, 21 Oct 2019 16:52:21 -0400
+Received: by mail-lj1-x242.google.com with SMTP id m13so14789962ljj.11;
+ Mon, 21 Oct 2019 13:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=5WTtVVZz6t5sWIGl2Jfdn7rDBCgffyrAuKWjQK/IjzI=;
- b=GeWMgas5UcKKGD8GULjfaTE6fRUIL02TA9Fzx0HjgHQrzryK6BiP3x+gU6aKRjNTGd
- ICjAUNUyzt3AptqDpWlsYc/Qwl4BXTkaA30b+tmw1c/d7oZqiSyA6wFItBRXMeDczpMx
- 4tXBSNfgp+LSyk6Lz+Vj9PAAwUAM8J56jL0jaqp98i1kMQ4g39+PkkCuLoLyy+IH2zYp
- Hn7l/qr2rF/4IN+5KGC/zbTbh7NYz3bbqJ+stQ++jm5N3mwVJ+aFnfgeLZXB4stMxzCj
- FIyXMstBjM0tSGfYNiaDCOhvSsCLkj/Oh7pJdwb2BEA0yM2bOJfRCoTGYB8or1V6LJW0
- TfAg==
+ bh=KrhRfwiS41Hw/oEUjcvgsIMHQ+z/35x3gIw8/+L5IFU=;
+ b=ENGoBSA5gZ4flA07YahWqS2CvhJN7bEkVitIWe+kzqqXWlAwuMr9IWBZubCnCOGwny
+ /np8GcV2lOZq19Y8dUSxqAYTuuoDa1xPnST8yzUGMTRu7PGU+rRki007wB+6F0t7SSmb
+ HzD+wq1o0W81G0RETCo9+0lNeoWPws10QROmL/qbWklgyl4aKFODCWhGoarmVIvDoU6I
+ sRLhwbTXcC7ph46uqdLPLC4aoTofEIDDAjLcrSjTNsUB5VFKfEsBDp57cRlmtarwti6x
+ IFR91p0ICv4BHfEpdfy/lOHbO0Lvlmb21JKMdFGASHe4LqtkZr5Gc/XA1vyo+LfeOl7S
+ WUpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=5WTtVVZz6t5sWIGl2Jfdn7rDBCgffyrAuKWjQK/IjzI=;
- b=IKde1U1PoktLdku0YtCE7boOwdTfYwikk8fxGYGaMaaWJRP8wWvb1GuNX8ZuuZCvP8
- tWscdkpqeqzFBaL5SfLqUcNiQzF+dEOPlVASC2iTujT2aUFMZkna7J8S6NJXG/zniZqQ
- PAAn9sgH0/3z8NGyMTWDBrUQii/Ji1E9c6LMY5mDSOTWrVwo47b3QjDH8Rcwr5pQSTm0
- LyWr92qungT7KDQlhTHInVdS1MeYLD+9sXTMEWkXsa8tj2N7V8JJH7t85RIeTFuxAn9e
- TBzVFhXXGaGQ2FjuaR4uD+5N6JE7Ly2GMAk9QQz8IQ/7nBL9Go4nxUZ6UF7lU+QQzgWa
- vKgA==
-X-Gm-Message-State: APjAAAW6EUmi7NhWoN7BCYcxFhnyMi15C7LG47tDiKtgp341yri6t5g0
- QUOLANGVuQ9PPHSWS0X5gQj8n7SmMuUMhMs1qnI=
-X-Google-Smtp-Source: APXvYqxfPAwubeYyyNtTScuTUOMFhUtAO2wtpRmicKm2KBlCvQu3okTbMHS0lxfdZ75nzH+XIgU2IruOqAhbAXIZsMc=
-X-Received: by 2002:ac2:5688:: with SMTP id 8mr846813lfr.156.1571691088195;
- Mon, 21 Oct 2019 13:51:28 -0700 (PDT)
+ bh=KrhRfwiS41Hw/oEUjcvgsIMHQ+z/35x3gIw8/+L5IFU=;
+ b=S5yJO1I0djJUkA4dU0AzCOX4AruBdrr/9j1OEtF3N/tInBeqwe/9WrxNVD8WLCcl10
+ uQFpXCm+5rrpjKRB0xuUmhLkEOPh/142NVSEPfPCPL+O8dMvZH3JziFd/J/REEv5Oj6x
+ cqwmGTJ5bZilNqPm7C93iG4kLv8wLzZdHBNixlTGbf20THW5HwVjqpQtFesatR6cOkWW
+ DPFG0bp67Mp8mwQlzHU0QFGF3zRbBV+gdOwQSv8e+Jug5Vps+sGLEt+972fnC457xVQO
+ 6qe0vJSbBlPGuz8cbvNhN253m6dFTlns8+HQI2xYoG+lDR6UAGqQljJUgPTNa/mEYaNd
+ woSg==
+X-Gm-Message-State: APjAAAXroYfEO9gGCgev1kMMVLQn6HsC5mIPaeGuJUJYhBRrqj2GVSoW
+ Xt10YMmPKgBRwZNnkTL1n+wzFZUJblpUmrAdYhM=
+X-Google-Smtp-Source: APXvYqxiVU/K+dApIBZl2SRm3CE8hvgJQSgXuK7Y47EFdHLHqaJCfF13VI49956TzJlk8yX0Eog7NDmu3Yy7zACrNmw=
+X-Received: by 2002:a2e:420a:: with SMTP id p10mr16782265lja.16.1571691138487; 
+ Mon, 21 Oct 2019 13:52:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191019234715.25750-1-f4bug@amsat.org>
- <20191019234715.25750-7-f4bug@amsat.org>
-In-Reply-To: <20191019234715.25750-7-f4bug@amsat.org>
+References: <20191020225650.3671-1-philmd@redhat.com>
+ <20191020225650.3671-2-philmd@redhat.com>
+In-Reply-To: <20191020225650.3671-2-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Oct 2019 13:46:10 -0700
-Message-ID: <CAKmqyKP7GAPZU=Ncc1snttgQ5EQHZZcJPiGUJh6CtkreSE3NrA@mail.gmail.com>
-Subject: Re: [PATCH v3 06/16] hw/arm/bcm2836: Rename cpus[] as cpu[].core
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 21 Oct 2019 13:47:02 -0700
+Message-ID: <CAKmqyKN0AMExig+d-TFOA4J6iK+Kn9jcNvaayLBdcwdjbno6eg@mail.gmail.com>
+Subject: Re: [PATCH 01/21] hw/arm/xilinx_zynq: Use the IEC binary prefix
+ definitions
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,138 +74,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Matthias Brugger <mbrugger@suse.com>, Rob Herring <robh@kernel.org>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Thomas Huth <huth@tuxfamily.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Michael Walle <michael@walle.cc>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 19, 2019 at 4:49 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Sun, Oct 20, 2019 at 3:58 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> As we are going to add more core-specific fields, add a 'cpu'
-> structure and move the ARMCPU field there as 'core'.
+> IEC binary prefixes ease code review: the unit is explicit.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/arm/bcm2836.c         | 26 ++++++++++++++------------
->  include/hw/arm/bcm2836.h |  4 +++-
->  2 files changed, 17 insertions(+), 13 deletions(-)
+>  hw/arm/xilinx_zynq.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-> index 019e67b906..221ff06895 100644
-> --- a/hw/arm/bcm2836.c
-> +++ b/hw/arm/bcm2836.c
-> @@ -51,8 +51,9 @@ static void bcm2836_init(Object *obj)
->      int n;
+> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+> index c14774e542..3a0fa5b23f 100644
+> --- a/hw/arm/xilinx_zynq.c
+> +++ b/hw/arm/xilinx_zynq.c
+> @@ -16,6 +16,7 @@
+>   */
 >
->      for (n =3D 0; n < BCM283X_NCPUS; n++) {
-> -        object_initialize_child(obj, "cpu[*]", &s->cpus[n], sizeof(s->cp=
-us[n]),
-> -                                info->cpu_type, &error_abort, NULL);
-> +        object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
-> +                                sizeof(s->cpu[n].core), info->cpu_type,
-> +                                &error_abort, NULL);
->      }
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "qapi/error.h"
+>  #include "cpu.h"
+>  #include "hw/sysbus.h"
+> @@ -194,7 +195,7 @@ static void zynq_init(MachineState *machine)
+>      memory_region_add_subregion(address_space_mem, 0, ext_ram);
 >
->      sysbus_init_child_obj(obj, "control", &s->control, sizeof(s->control=
-),
-> @@ -122,10 +123,10 @@ static void bcm2836_realize(DeviceState *dev, Error=
- **errp)
+>      /* 256K of on-chip memory */
+> -    memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 << 10,
+> +    memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
+>                             &error_fatal);
+>      memory_region_add_subregion(address_space_mem, 0xFFFC0000, ocm_ram);
 >
->      for (n =3D 0; n < BCM283X_NCPUS; n++) {
->          /* TODO: this should be converted to a property of ARM_CPU */
-> -        s->cpus[n].mp_affinity =3D (info->clusterid << 8) | n;
-> +        s->cpu[n].core.mp_affinity =3D (info->clusterid << 8) | n;
->
->          /* set periphbase/CBAR value for CPU-local registers */
-> -        object_property_set_int(OBJECT(&s->cpus[n]),
-> +        object_property_set_int(OBJECT(&s->cpu[n].core),
->                                  info->peri_base,
->                                  "reset-cbar", &err);
->          if (err) {
-> @@ -134,14 +135,15 @@ static void bcm2836_realize(DeviceState *dev, Error=
- **errp)
->          }
->
->          /* start powered off if not enabled */
-> -        object_property_set_bool(OBJECT(&s->cpus[n]), n >=3D s->enabled_=
-cpus,
-> +        object_property_set_bool(OBJECT(&s->cpu[n].core), n >=3D s->enab=
-led_cpus,
->                                   "start-powered-off", &err);
->          if (err) {
->              error_propagate(errp, err);
->              return;
->          }
->
-> -        object_property_set_bool(OBJECT(&s->cpus[n]), true, "realized", =
-&err);
-> +        object_property_set_bool(OBJECT(&s->cpu[n].core), true,
-> +                                 "realized", &err);
->          if (err) {
->              error_propagate(errp, err);
->              return;
-> @@ -149,18 +151,18 @@ static void bcm2836_realize(DeviceState *dev, Error=
- **errp)
->
->          /* Connect irq/fiq outputs from the interrupt controller. */
->          qdev_connect_gpio_out_named(DEVICE(&s->control), "irq", n,
-> -                qdev_get_gpio_in(DEVICE(&s->cpus[n]), ARM_CPU_IRQ));
-> +                qdev_get_gpio_in(DEVICE(&s->cpu[n].core), ARM_CPU_IRQ));
->          qdev_connect_gpio_out_named(DEVICE(&s->control), "fiq", n,
-> -                qdev_get_gpio_in(DEVICE(&s->cpus[n]), ARM_CPU_FIQ));
-> +                qdev_get_gpio_in(DEVICE(&s->cpu[n].core), ARM_CPU_FIQ));
->
->          /* Connect timers from the CPU to the interrupt controller */
-> -        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_PHYS,
-> +        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_PHYS,
->                  qdev_get_gpio_in_named(DEVICE(&s->control), "cntpnsirq",=
- n));
-> -        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_VIRT,
-> +        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_VIRT,
->                  qdev_get_gpio_in_named(DEVICE(&s->control), "cntvirq", n=
-));
-> -        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_HYP,
-> +        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_HYP,
->                  qdev_get_gpio_in_named(DEVICE(&s->control), "cnthpirq", =
-n));
-> -        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_SEC,
-> +        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_SEC,
->                  qdev_get_gpio_in_named(DEVICE(&s->control), "cntpsirq", =
-n));
->      }
->  }
-> diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-> index 97187f72be..92a6544816 100644
-> --- a/include/hw/arm/bcm2836.h
-> +++ b/include/hw/arm/bcm2836.h
-> @@ -35,7 +35,9 @@ typedef struct BCM283XState {
->      char *cpu_type;
->      uint32_t enabled_cpus;
->
-> -    ARMCPU cpus[BCM283X_NCPUS];
-> +    struct {
-> +        ARMCPU core;
-> +    } cpu[BCM283X_NCPUS];
->      BCM2836ControlState control;
->      BCM2835PeripheralState peripherals;
->  } BCM283XState;
 > --
 > 2.21.0
 >
