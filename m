@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBADDF6C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:31:04 +0200 (CEST)
-Received: from localhost ([::1]:47606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5EEDF6D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:38:20 +0200 (CEST)
+Received: from localhost ([::1]:47676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMeKU-0005jf-U4
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39325)
+	id 1iMeRX-0000hG-JV
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iMeIp-0005Hi-HE
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:29:20 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMeQX-00009r-IW
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:37:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iMeIm-0000H1-ID
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:29:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40056
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iMeIm-0000Fl-C9
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:29:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571689753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J8xy8RzXx7PiD+PTi0V/fXZQuAkgByYbbU3JKVO99NA=;
- b=Yan6nijMR/ZagEb/vZyaTyzPxYRJcqbJ+MxCiCrcIs0QGoH9nSrtvSM8HQHARfHuNFBB98
- rFOSPSvuani5lTK+QxFZO6hiGkiVbRDZrBEbnXIg0zu1a/AQxnXKxRpF9Cgz3ya6Jh3L13
- l4YhzvKuiRNBbdKLfz1ySKAOqiT0pQI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-KA3FWAtHPeWb_EMAeN-p2g-1; Mon, 21 Oct 2019 16:29:08 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C02E100550E;
- Mon, 21 Oct 2019 20:29:07 +0000 (UTC)
-Received: from localhost (ovpn-116-91.ams2.redhat.com [10.36.116.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0312194BE;
- Mon, 21 Oct 2019 20:28:59 +0000 (UTC)
-Date: Mon, 21 Oct 2019 22:28:57 +0200
-From: Jens Freimann <jfreimann@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 02/11] pci: add option for net failover
-Message-ID: <20191021202857.xacalrfr3olhaj22@jenstp.localdomain>
-References: <20191018202040.30349-1-jfreimann@redhat.com>
- <20191018202040.30349-3-jfreimann@redhat.com>
- <20191021085823.72ac4b37@x1.home>
- <20191021184546.n5iddctnnlxe3tay@jenstp.localdomain>
- <20191021130122.2787245f@x1.home>
+ (envelope-from <alistair23@gmail.com>) id 1iMeQV-0003Gx-SM
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:37:17 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:43888)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iMeQV-0003Gb-Fr; Mon, 21 Oct 2019 16:37:15 -0400
+Received: by mail-lj1-x243.google.com with SMTP id n14so14764296ljj.10;
+ Mon, 21 Oct 2019 13:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=y0imO85UQUZUpBMSCf/VPCjnJwKMkzt/zQlbfwT/TW4=;
+ b=k2E9lJeLXA996WM9WuZwTU8G5LSQyTqEZjdkyptlo7YKjcxVfPnlWhsqfb64YxgcK3
+ z6M2xqmJ0o902de80sC+1GwxIegnPWtqYFPj2gGTjj+xPU5IQBZekIgSANL0MbH3vEMC
+ +QRJNyTTY1YkuIBSCDvsQ0/mFzs8Xr7/GVGpJ1rb1pnU7Zt3AsGuZt8XyeUtvQT1yaTX
+ 20tq+Wi5JjERwoEN9vQFeUej2ptiNzSoUJ0Zbvt1NjOcKKeqJEUmQGfKNtQ00rEvDYUb
+ SSQVDR3QCtv4AAYhdQ34TsTB+OPPqfcBe5pc/vz9mV3nfjE58HMwJHSS62zOpE4dCMmM
+ uxGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=y0imO85UQUZUpBMSCf/VPCjnJwKMkzt/zQlbfwT/TW4=;
+ b=k6HSeDXgq2U854GQurgjHeEx0wTr5DKC/x49hN6xvj9q1SWNenM0P4QUHCmzU4zGgx
+ iA3dxvRcvXIglHXQqbtLHfrCrA7Z2XBwAf9u4Z34UlL94y312wmVYt1gOTqtZowoL1py
+ +/FbrQVkwhxYS2lTFqP7EPUTweCHnfSofZq6cfH2mLJG8duuIcjjFy1yM3d5dxjIQ+dY
+ eELoJkfOgs/GEbW6VdNcVuCrFLCnJ2G6haOy/o3zSyFYiONz3RaAD2H7wLbsLZYg+gOu
+ tuEJkjCN2D7K96U8Au0tE7TNK0wYhrVujFzBewKDNsz0WejFRBHfCJNqjomw8+GslFkI
+ ggtQ==
+X-Gm-Message-State: APjAAAWhzIcOCxNzVXcPHnXl+qyTlfajSn4V3ZrwZe42FHGkAmxoAMhO
+ GAITZNvPPaZSqK1INkQ5HHap4stgaNJlYWXh6pk=
+X-Google-Smtp-Source: APXvYqwnUlcFtsLnr4QZ50E5IuNzyzmCncbAezdhK3I9QxyJMuqmsgpMMQaSjZOrwoiHATEa/Qnk4kNSx+I6g6C1gyE=
+X-Received: by 2002:a2e:9604:: with SMTP id v4mr16735467ljh.101.1571690233855; 
+ Mon, 21 Oct 2019 13:37:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191021130122.2787245f@x1.home>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: KA3FWAtHPeWb_EMAeN-p2g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+References: <20191019234715.25750-1-f4bug@amsat.org>
+ <20191019234715.25750-4-f4bug@amsat.org>
+In-Reply-To: <20191019234715.25750-4-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Oct 2019 13:31:48 -0700
+Message-ID: <CAKmqyKNHTrOWfyuzG+s=iZ-AifD_OzDrTgvXGCXqXa2bsZiPOg@mail.gmail.com>
+Subject: Re: [PATCH v3 03/16] hw/timer/bcm2835: Add the BCM2835 SYS_timer
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,51 +73,309 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- laine@redhat.com, ailan@redhat.com, parav@mellanox.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Matthias Brugger <mbrugger@suse.com>, Rob Herring <robh@kernel.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 21, 2019 at 01:01:22PM -0600, Alex Williamson wrote:
->On Mon, 21 Oct 2019 20:45:46 +0200
->Jens Freimann <jfreimann@redhat.com> wrote:
+On Sat, Oct 19, 2019 at 4:47 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
->> On Mon, Oct 21, 2019 at 08:58:23AM -0600, Alex Williamson wrote:
->> >On Fri, 18 Oct 2019 22:20:31 +0200
->> >Jens Freimann <jfreimann@redhat.com> wrote:
->> >
->> >> This patch adds a net_failover_pair_id property to PCIDev which is
->> >> used to link the primary device in a failover pair (the PCI dev) to
->> >> a standby (a virtio-net-pci) device.
->> >>
->> >> It only supports ethernet devices. Also currently it only supports
->> >> PCIe devices. QEMU will exit with an error message otherwise.
->> >
->> >Doesn't the PCIe device also need to be hotpluggable?  We can have PCIe
->> >devices attached to the root bus where we don't currently support
->> >hotplug.  Thanks,
->>
->> How do I recognize such a device? hotpluggable in DeviceClass?
+> Add the 64-bit free running timer. Do not model the COMPARE register
+> (no IRQ generated).
+> This timer is used by Linux kernel and recently U-Boot:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/clocksource/bcm2835_timer.c?h=3Dv3.7
+> https://github.com/u-boot/u-boot/blob/v2019.07/include/configs/rpi.h#L19
 >
->I wouldn't expect it to be a device property, it's more of a function
->of whether the bus that it's attached to supports hotplug, so probably
->something related to the bus controller.  Thanks,
+> Datasheet used:
+> https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.p=
+df
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> v2:
+> - Add status/compare* registers
+> - Add vmstate and reset handler
+>
+> checkpatch warning:
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> This is OK because the regex are:
+>
+>   F: hw/*/bcm283*
+>   F: include/hw/*/bcm283*
+> ---
+>  hw/timer/Makefile.objs            |   1 +
+>  hw/timer/bcm2835_systmr.c         | 166 ++++++++++++++++++++++++++++++
+>  hw/timer/trace-events             |   5 +
+>  include/hw/timer/bcm2835_systmr.h |  33 ++++++
+>  4 files changed, 205 insertions(+)
+>  create mode 100644 hw/timer/bcm2835_systmr.c
+>  create mode 100644 include/hw/timer/bcm2835_systmr.h
+>
+> diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+> index 123d92c969..696cda5905 100644
+> --- a/hw/timer/Makefile.objs
+> +++ b/hw/timer/Makefile.objs
+> @@ -47,3 +47,4 @@ common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
+>  common-obj-$(CONFIG_CMSDK_APB_TIMER) +=3D cmsdk-apb-timer.o
+>  common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) +=3D cmsdk-apb-dualtimer.o
+>  common-obj-$(CONFIG_MSF2) +=3D mss-timer.o
+> +common-obj-$(CONFIG_RASPI) +=3D bcm2835_systmr.o
+> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+> new file mode 100644
+> index 0000000000..49b40b55f9
+> --- /dev/null
+> +++ b/hw/timer/bcm2835_systmr.c
+> @@ -0,0 +1,166 @@
+> +/*
+> + * BCM2835 SYS timer emulation
+> + *
+> + * Copyright (C) 2019 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * Datasheet: BCM2835 ARM Peripherals (C6357-M-1398)
+> + * https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Periphera=
+ls.pdf
+> + *
+> + * Only the free running 64-bit counter is implemented.
+> + * The 4 COMPARE registers and the interruption are not implemented.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/timer.h"
+> +#include "hw/timer/bcm2835_systmr.h"
+> +#include "hw/registerfields.h"
+> +#include "migration/vmstate.h"
+> +#include "trace.h"
+> +
+> +REG32(CTRL_STATUS,  0x00)
+> +REG32(COUNTER_LOW,  0x04)
+> +REG32(COUNTER_HIGH, 0x08)
+> +REG32(COMPARE0,     0x0c)
+> +REG32(COMPARE1,     0x10)
+> +REG32(COMPARE2,     0x14)
+> +REG32(COMPARE3,     0x18)
+> +
+> +static void bcm2835_systmr_update_irq(BCM2835SystemTimerState *s)
+> +{
+> +    bool enable =3D !!s->reg.status;
+> +
+> +    trace_bcm2835_systmr_irq(enable);
+> +    qemu_set_irq(s->irq, enable);
+> +}
+> +
+> +static void bcm2835_systmr_update_compare(BCM2835SystemTimerState *s,
+> +                                          unsigned timer_index)
+> +{
+> +    /* TODO fow now, since neither Linux nor U-boot use these timers. */
+> +    qemu_log_mask(LOG_UNIMP, "COMPARE register %u not implemented\n",
+> +                  timer_index);
+> +}
+> +
+> +static uint64_t bcm2835_systmr_read(void *opaque, hwaddr offset,
+> +                                    unsigned size)
+> +{
+> +    BCM2835SystemTimerState *s =3D BCM2835_SYSTIMER(opaque);
+> +    uint64_t r =3D 0;
+> +
+> +    switch (offset) {
+> +    case A_CTRL_STATUS:
+> +        r =3D s->reg.status;
+> +        break;
+> +    case A_COMPARE0 ... A_COMPARE3:
+> +        r =3D s->reg.compare[(offset - A_COMPARE0) >> 2];
+> +        break;
+> +    case A_COUNTER_LOW:
+> +    case A_COUNTER_HIGH:
+> +        /* Free running counter at 1MHz */
+> +        r =3D qemu_clock_get_us(QEMU_CLOCK_VIRTUAL);
+> +        r >>=3D 8 * (offset - A_COUNTER_LOW);
+> +        r &=3D UINT32_MAX;
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad offset 0x%" HWADDR_PRIx =
+"\n",
+> +                      __func__, offset);
+> +        break;
+> +    }
+> +    trace_bcm2835_systmr_read(offset, r);
+> +
+> +    return r;
+> +}
+> +
+> +static void bcm2835_systmr_write(void *opaque, hwaddr offset,
+> +                                 uint64_t value, unsigned size)
+> +{
+> +    BCM2835SystemTimerState *s =3D BCM2835_SYSTIMER(opaque);
+> +
+> +    trace_bcm2835_systmr_write(offset, value);
+> +    switch (offset) {
+> +    case A_CTRL_STATUS:
+> +        s->reg.status &=3D ~value; /* Ack */
+> +        bcm2835_systmr_update_irq(s);
+> +        break;
+> +    case A_COMPARE0 ... A_COMPARE3:
+> +        s->reg.compare[(offset - A_COMPARE0) >> 2] =3D value;
+> +        bcm2835_systmr_update_compare(s, (offset - A_COMPARE0) >> 2);
+> +        break;
+> +    case A_COUNTER_LOW:
+> +    case A_COUNTER_HIGH:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: read-only ofs 0x%" HWADDR_PR=
+Ix "\n",
+> +                      __func__, offset);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad offset 0x%" HWADDR_PRIx =
+"\n",
+> +                      __func__, offset);
+> +        break;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps bcm2835_systmr_ops =3D {
+> +    .read =3D bcm2835_systmr_read,
+> +    .write =3D bcm2835_systmr_write,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .impl =3D {
+> +        .min_access_size =3D 4,
+> +        .max_access_size =3D 4,
+> +    },
+> +};
+> +
+> +static void bcm2835_systmr_reset(DeviceState *dev)
+> +{
+> +    BCM2835SystemTimerState *s =3D BCM2835_SYSTIMER(dev);
+> +
+> +    s->reg.status =3D 0;
+> +    for (size_t i =3D 0; i < ARRAY_SIZE(s->reg.compare); i++) {
+> +        s->reg.compare[i] =3D 0;
+> +    }
 
-IIUC this is checked for in qdev_device_add() by this:
+Can we use meset (or the glib version) here instead?
 
-  if (qdev_hotplug && bus && !qbus_is_hotpluggable(bus)) {
-        error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
-        return NULL;
-  }
+Otherwise:
 
-So qemu will fail with 'Bus pcie.0 does not allow hotplug' when we try=20
-to hotplug the device. I tried a primary with bus=3Dpcie.0 and it aborted.
-Aborting qemu is not nice so I'll make it print a error message
-QERR_BUS_NO_HOTPLUG instead but let it continue. This will be
-a change in the virtio-net patch, not in this one.=20
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-regards,
-Jens=20
+Alistair
 
+> +}
+> +
+> +static void bcm2835_systmr_realize(DeviceState *dev, Error **errp)
+> +{
+> +    BCM2835SystemTimerState *s =3D BCM2835_SYSTIMER(dev);
+> +
+> +    memory_region_init_io(&s->iomem, OBJECT(dev), &bcm2835_systmr_ops,
+> +                          s, "bcm2835-sys-timer", 0x20);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+> +}
+> +
+> +static const VMStateDescription bcm2835_systmr_vmstate =3D {
+> +    .name =3D "bcm2835_sys_timer",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT32(reg.status, BCM2835SystemTimerState),
+> +        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState, 4),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void bcm2835_systmr_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +
+> +    dc->realize =3D bcm2835_systmr_realize;
+> +    dc->reset =3D bcm2835_systmr_reset;
+> +    dc->vmsd =3D &bcm2835_systmr_vmstate;
+> +}
+> +
+> +static const TypeInfo bcm2835_systmr_info =3D {
+> +    .name =3D TYPE_BCM2835_SYSTIMER,
+> +    .parent =3D TYPE_SYS_BUS_DEVICE,
+> +    .instance_size =3D sizeof(BCM2835SystemTimerState),
+> +    .class_init =3D bcm2835_systmr_class_init,
+> +};
+> +
+> +static void bcm2835_systmr_register_types(void)
+> +{
+> +    type_register_static(&bcm2835_systmr_info);
+> +}
+> +
+> +type_init(bcm2835_systmr_register_types);
+> diff --git a/hw/timer/trace-events b/hw/timer/trace-events
+> index db02a9142c..0aa399ac69 100644
+> --- a/hw/timer/trace-events
+> +++ b/hw/timer/trace-events
+> @@ -87,3 +87,8 @@ pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x =
+value 0x%08x"
+>  pl031_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+>  pl031_alarm_raised(void) "alarm raised"
+>  pl031_set_alarm(uint32_t ticks) "alarm set for %u ticks"
+> +
+> +# bcm2835_systmr.c
+> +bcm2835_systmr_irq(bool enable) "timer irq state %u"
+> +bcm2835_systmr_read(uint64_t offset, uint64_t data) "timer read: offset =
+0x%" PRIx64 " data 0x%" PRIx64
+> +bcm2835_systmr_write(uint64_t offset, uint64_t data) "timer write: offse=
+t 0x%" PRIx64 " data 0x%" PRIx64
+> diff --git a/include/hw/timer/bcm2835_systmr.h b/include/hw/timer/bcm2835=
+_systmr.h
+> new file mode 100644
+> index 0000000000..c0bc5c8127
+> --- /dev/null
+> +++ b/include/hw/timer/bcm2835_systmr.h
+> @@ -0,0 +1,33 @@
+> +/*
+> + * BCM2835 SYS timer emulation
+> + *
+> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef BCM2835_SYSTIMER_H
+> +#define BCM2835_SYSTIMER_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +
+> +#define TYPE_BCM2835_SYSTIMER "bcm2835-sys-timer"
+> +#define BCM2835_SYSTIMER(obj) \
+> +    OBJECT_CHECK(BCM2835SystemTimerState, (obj), TYPE_BCM2835_SYSTIMER)
+> +
+> +typedef struct {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    MemoryRegion iomem;
+> +    qemu_irq irq;
+> +
+> +    struct {
+> +        uint32_t status;
+> +        uint32_t compare[4];
+> +    } reg;
+> +} BCM2835SystemTimerState;
+> +
+> +#endif
+> --
+> 2.21.0
+>
+>
 
