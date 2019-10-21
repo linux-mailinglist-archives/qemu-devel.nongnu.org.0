@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93218DED99
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:31:39 +0200 (CEST)
-Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2CADEDA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:34:38 +0200 (CEST)
+Received: from localhost ([::1]:41798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMXmc-0004vV-LU
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38496)
+	id 1iMXpV-0006gd-Db
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMXjK-0002JD-IL
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:28:15 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMXjy-000300-0Y
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:28:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMXjJ-0004Dr-Dh
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:28:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:41837)
+ (envelope-from <laurent@vivier.eu>) id 1iMXjw-0004TS-Pk
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:28:53 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:34515)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMXjJ-0004DV-4W
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:28:13 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMXjw-0004TF-G6
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:28:52 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MG9Pg-1iEnxV1VJk-00GaMT; Mon, 21 Oct 2019 15:28:01 +0200
-Subject: Re: [PATCH v8 7/9] linux-user/strace: Improve bind() output
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MlwJv-1heeDK2RYB-00iykt; Mon, 21 Oct 2019 15:28:41 +0200
+Subject: Re: [PATCH v8 8/9] linux-user/strace: Let print_sockaddr() have a
+ 'last' argument
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20191021114857.20538-1-f4bug@amsat.org>
- <20191021114857.20538-8-f4bug@amsat.org>
+ <20191021114857.20538-9-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,36 +72,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b7b846a5-9f34-5db8-789d-0080a9ede29b@vivier.eu>
-Date: Mon, 21 Oct 2019 15:27:59 +0200
+Message-ID: <e210a127-6e2b-8f32-01b6-e09c36ba31a4@vivier.eu>
+Date: Mon, 21 Oct 2019 15:28:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191021114857.20538-8-f4bug@amsat.org>
+In-Reply-To: <20191021114857.20538-9-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XbGCrvgv2oYm9nf0ztG73LH44xsJyKHEUkrrruXrFXpkJT2TGPl
- jKCyZZBvBm/PIQ+7zUO8wKjKt0noUZuTfEJGzNq44Qg89/7OUgTo+lIlX4JgTRKCUa/RB6o
- ZhxM3RNPz14f4qtpU32kGhZvaWmtMVRPwFK7/o4LyJ8R9RS+tvgF675Ee1XR04dQiuUwi4I
- 36FCOfnSBc+W3SWlOVPSA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g9ycD2UmXWw=:rVdjpvHj5Oo8siKiFywk+u
- o9OA8EfjOhKSoBoObzyKJf6jS0qM8ZjnWxZyAPg0gz2hReWHj9z/TBlnx5z7Flw/pOyIQsgyL
- gvboQ4UcoTHiAMShIkDS/A+kqInhxdrJ3LjuW9O14EGxs8/MAiSzwOTNsyi7eUqNgLq2g3Zbj
- C6q2DqqBwkRU9HJuMDKmHMPvu1nPR6L6zWN9X5c9wEf2tqw5ygCOMEZE++Y7k121LWMhNavb9
- Byqy0YV+tdsOeFLm/9/zx8JnL4pfjidMmUXs3G7/Sa7ml1ICYIW6zhtcDyasUiVjDf0g79YPu
- JKTG4YHX8h5Udtptu7QiP+8sPc2itQtbw7+bDIgsrSK4e7Fm2ffVwNWYMbuS+kTG88YiFmTXd
- hppX4/+3zE3jPSnHaubYo/DzUZ6HrCSQXgR3rf44CqBAl3850G/8ieLRXhxl9ExMhm7OecUMr
- x5xNNJEaWlj4U0X/YPzvHYG/k5TZeUJqHRcM8GPwtfg0he8fQohxrsDNCyG2STatV7PNnAY9f
- wLfvL7GMxI8gHpW5JDVfWQfMRGijkGflZ7w1VrCuv5HwfM1Edlt+Hn3xK1tmkYCd2jSnqCkjB
- Uy9fqv0OffjkgmXuheMAhgrB9mElCYvg09i4SA2jpS113/TlOioIfvit/71AVB4RkutOT3Mpv
- Sx4+OLDzfyWQjhyXgo7nByq0Ly9sk2ACutISlaX+ScTLIKbQDA6VMId/m22TvgUSnY4OW7Xml
- 3mefdJqe62KGDzZUegX3VbPZtHb8EuuREO5x2f7q/CUUOn+jgkYKAOTlS25RXRgRju61G1VLz
- fbymkniTqFCwSmT+v+UZL9SYKEmEbeFe6/E9CeOILl62l7dHIOTuXceycssY3M33TJfHFctl8
- 0BXcsh0Za3916zgFxV6cx46TyF37MtcYLafCC3EXI=
+X-Provags-ID: V03:K1:yOY2KcwYtBtilH9wfIOLu28fwx2wgTZ2kDMRxvZySWUhA9OGuu3
+ 96boMNhSLR+Z+fBh55uvHb7Q8HKvKVwWySeUJKqZ1xnb6qrYlv1AhddH3y9tCR/6wpPK4/b
+ 8MTmfXHohz1/KILMxVMLKHSxugv8jbHqmYDlix8uiSRIxWFtTWeaDbEvd3ZyUc74vqHVVTM
+ +v6LtriiMGDPFyoFcE8Ng==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b+0CHg9XuTo=:a0ZdVTIMR5RNcUbm2o07xE
+ 7SBnwaZbdY69mWv6p8WBl9FafBxMnlLaaGSoejW4lnJp87fHhlUwAX+Gvm5dgGj77ucHDJ1iH
+ IrMV7+OcMJt703g3anKbPMueeOqbNiz/KXTb8yjVv46M7SuA7634OagZcHeensOGwTH/FZ4JO
+ KH1OE18hMMmE7XwknRsby9SDpU4qX7s5t3mUZFg01aW8nU6sjq6EI2pTwfC2xrEwj/ZdhW0aN
+ ZmbpWuNx5nETUi0pFuN+B4UkcBHSxyJq4f4n8O/5hOrzkqwdoX8aG0lg8A1mpH8Y9m3wPq0WL
+ PUlL2FhbgSTJxChDynpJgAMMbwRISl6OlmlO0LAuhsMvg2uDcqOJ/Ux9gKudtdJ0ubBMQ6rBj
+ X46usjEXTrF/qBPbB2HrJ4dpVMtArJAz6BHKfWCLS1SNv1M9KsHMVaO8afghto6ebbAOlx7Dr
+ pQIXDBN80AVg4chMfYJdJ3VRQMoUOZllhtKm4xLaxRRXkWDwd0rxEAQwWT75p4fZJaYFQsRUc
+ 1mVYwdMoSN4YSI2XSuxKyiEdldTeCKRwx8heBSqG6kE+02OmmkzkposeIg+HU/LKzsSN0ocuS
+ vnIEyEAl9lIQLWXpA3WjQkunHtjvfyBZ0LcDQXyaN+R7kolbmLq0ef6l5Ggrp3NXLD5S5XCtx
+ 3+AbchMuqTKd5GSI4h7XyCwuLWJsQxeEOMHfzamZ8YFHvQ1KT0LLFflZG4kkrphqFhWL3RElS
+ jW8gE4Xua7saCJK8rVQtXrtoCnxz0jWOQnSagyQZSeRGnIiwemBlrsPmWayg1Sc/0PnEX0HXH
+ r/cgtkLj4xCKSI+9xrFkklhKUkDycIQAQTOlytA0l/qn4Mh5YJ7eyOXfK3j6DPqaUpaXBED8n
+ 1y1SVaX1/8tW42UDeuC6nPOAgzeod62UsD33EKBTE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,68 +113,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Riku Voipio <riku.voipio@iki.fi>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 21/10/2019 à 13:48, Philippe Mathieu-Daudé a écrit :
-> Tested-By: Guido Günther <agx@sigxcpu.org>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> If the format is not the syscall last argument, a comma is append.
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
-> v6: use TARGET_NR_socketcall || TARGET_NR_bind (lvivier)
+> v8: do not name prototype arguments
+> 
+> checkpatch error:
+>  ERROR: storage class should be at the beginning of the declaration
+>  #10: FILE: linux-user/strace.c:70:
+>  +UNUSED static void print_sockaddr(abi_ulong, abi_long, int);
 > ---
->  linux-user/strace.c    | 15 ++++++++++++++-
->  linux-user/strace.list |  2 +-
->  2 files changed, 15 insertions(+), 2 deletions(-)
+>  linux-user/strace.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
 > diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 0ce2b658a5..cd92c77d33 100644
+> index cd92c77d33..3d4d684450 100644
 > --- a/linux-user/strace.c
 > +++ b/linux-user/strace.c
-> @@ -1707,7 +1707,7 @@ print_socket(const struct syscallname *name,
->  
->  #endif
->  
-> -#if defined(TARGET_NR_socketcall)
-> +#if defined(TARGET_NR_socketcall) || defined(TARGET_NR_bind)
->  
->  static void print_sockfd(abi_long sockfd, int last)
->  {
-> @@ -2054,6 +2054,19 @@ print_socketcall(const struct syscallname *name,
+> @@ -67,7 +67,7 @@ UNUSED static void print_timeval(abi_ulong, int);
+>  UNUSED static void print_timezone(abi_ulong, int);
+>  UNUSED static void print_number(abi_long, int);
+>  UNUSED static void print_signal(abi_ulong, int);
+> -UNUSED static void print_sockaddr(abi_ulong addr, abi_long addrlen);
+> +UNUSED static void print_sockaddr(abi_ulong, abi_long, int);
+>  UNUSED static void print_socket_domain(int domain);
+>  UNUSED static void print_socket_type(int type);
+>  UNUSED static void print_socket_protocol(int domain, int type, int protocol);
+> @@ -336,7 +336,7 @@ static void print_siginfo(const target_siginfo_t *tinfo)
 >  }
->  #endif
 >  
-> +#if defined(TARGET_NR_bind)
-> +static void
-> +print_bind(const struct syscallname *name,
-> +           abi_long arg0, abi_long arg1, abi_long arg2,
-> +           abi_long arg3, abi_long arg4, abi_long arg5)
-> +{
-> +    print_syscall_prologue(name);
-> +    print_sockfd(arg0, 0);
-> +    print_sockaddr(arg1, arg2, 1);
-> +    print_syscall_epilogue(name);
-> +}
-> +#endif
-> +
->  #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) || \
->      defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64)
 >  static void
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 1ff9168369..957aa720af 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -41,7 +41,7 @@
->  { TARGET_NR_bdflush, "bdflush" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_bind
-> -{ TARGET_NR_bind, "bind" , NULL, NULL, NULL },
-> +{ TARGET_NR_bind, "bind" , NULL, print_bind, NULL },
->  #endif
->  #ifdef TARGET_NR_bpf
->  { TARGET_NR_bpf, "bpf" , NULL, NULL, NULL },
+> -print_sockaddr(abi_ulong addr, abi_long addrlen)
+> +print_sockaddr(abi_ulong addr, abi_long addrlen, int last)
+>  {
+>      struct target_sockaddr *sa;
+>      int i;
+> @@ -418,7 +418,7 @@ print_sockaddr(abi_ulong addr, abi_long addrlen)
+>      } else {
+>          print_raw_param("0x"TARGET_ABI_FMT_lx, addr, 0);
+>      }
+> -    gemu_log(", "TARGET_ABI_FMT_ld, addrlen);
+> +    gemu_log(", "TARGET_ABI_FMT_ld"%s", addrlen, get_comma(last));
+>  }
+>  
+>  static void
+> @@ -1751,7 +1751,7 @@ static void do_print_sockaddr(const char *name, abi_long arg1)
+>  
+>      gemu_log("%s(", name);
+>      print_sockfd(sockfd, 0);
+> -    print_sockaddr(addr, addrlen);
+> +    print_sockaddr(addr, addrlen, 0);
+>      gemu_log(")");
+>  }
+>  
+> @@ -1821,7 +1821,7 @@ static void do_print_msgaddr(const char *name, abi_long arg1)
+>      print_buf(msg, len, 0);
+>      print_raw_param(TARGET_ABI_FMT_ld, len, 0);
+>      print_flags(msg_flags, flags, 0);
+> -    print_sockaddr(addr, addrlen);
+> +    print_sockaddr(addr, addrlen, 0);
+>      gemu_log(")");
+>  }
+>  
 > 
 
 Applied to my linux-user branch.
