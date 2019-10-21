@@ -2,67 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA503DEDB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:37:08 +0200 (CEST)
-Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2AADEDE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:39:29 +0200 (CEST)
+Received: from localhost ([::1]:41982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMXrv-0001dz-Re
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
+	id 1iMXuC-0004NB-8A
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMXp5-0006ve-D0
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:34:12 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMXt0-0003GL-OC
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:38:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMXp0-000666-7E
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:34:11 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44371)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMXp0-00065x-0z
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:34:06 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 21so10946937otj.11
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 06:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZNqAJ4uR7GFdKZVdzmNIMtD5AszbtgBt5jxTontpdJQ=;
- b=S0J3dXo1CE7aORBD6vk5KeQQtUq1m3iCfdZX4CM87BY0o2TN2v7LZbv7/jQ4/chSIp
- 1tSoCWZfm2xVWxOc5218MYVilR8fUBIQrZNCRWb4lgOOb7W1yhujLiKtEYnKG3k1SSH7
- 7gSEitgV658juL0lvhTuOj07smAWlqKetch3MLsxNgBtKQCahjTXLttWLC/zN/Yjb/pV
- biJfa+YP/suY+IeLOrtYi7fh/e+JU5FjIJNXzsDDhx2yzxL/AVK8t7kBGnGWN1PO8mJ6
- 9Yzp9o0lNMrwNjl4CFr/hIIOnXU/qYACKEm9bX0B6X2SJTAXkqhAaKUySbmY7mRV+XUF
- BD0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZNqAJ4uR7GFdKZVdzmNIMtD5AszbtgBt5jxTontpdJQ=;
- b=qU3AR80FzQ8y6aNmAKYeRUcTIBtbjImNlOP7HO8gxLppqRwbcVmRZrga3kSLVaI4KU
- B9AFSyH176zCRauIV/F3E8hBNhPq1t11MyFS907zcv/PbrJ4a0LqAwbZL1uAUv5e5klv
- vHt1KRkLnrhahLoJQYgnpd9o1UykSVCHNtVv75Kf1V5ocApgh2fw3lXOAmSzyn/g5YHb
- j/jKxh/9kUWh9NQF9R6gRV6k93oBMEwvSELkoDSnoKfDBmzsjjj3lGcTs/189f/VBqUJ
- BL4eSNAYnIURjKO+t46u0xqWoXHjc4tCPSIadaNiKfbDlstWwut3+kCHfBnH9eQCqQ1Y
- nb/Q==
-X-Gm-Message-State: APjAAAXKHlhpksPENKm1E1yWewE/A7WuGqY5CHzjTlUMoKIu3vpF14yr
- R8sPKUX+mG0eYZm4LJhm1tyBtSu8yTMzsZOLLEc/IA==
-X-Google-Smtp-Source: APXvYqzlhECIryGVO7oZWNbzZYYBQAD19Yndo/fdautAV/Zw0YOxp5x33RQJfJNs35BfGriic7II/90qmx7+Y1QUII0=
-X-Received: by 2002:a9d:398a:: with SMTP id y10mr17802204otb.97.1571664845181; 
- Mon, 21 Oct 2019 06:34:05 -0700 (PDT)
+ (envelope-from <thuth@redhat.com>) id 1iMXsz-0007QN-MU
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:38:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26254
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMXsz-0007Q1-Ja
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:38:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571665093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
+ bh=piHNtD8sbyUq0U1GD1DmWXGUaiJDw2PzY2ldegnRkmU=;
+ b=EON+HjXxHBNWaGxRzW4sNWRZLrj4HEdYPuiuJZzd//rBDP+tiZUz1esMbkbcDx/PuGjxr3
+ 6XITm/MXgOYBPQVtaHvecI5oWkLKJNwL1UCqbZWHTbilKlYjbG8qpNUnVkk8aOBJBNjwMI
+ zBR4h1yn03bUgL7So9X2EPwU1UMs8Bc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-tEat5rFGOjW3vNGE0PWc-g-1; Mon, 21 Oct 2019 09:38:07 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47CA91005500;
+ Mon, 21 Oct 2019 13:38:06 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1848E5D70E;
+ Mon, 21 Oct 2019 13:37:59 +0000 (UTC)
+Subject: Re: [PATCH] iotests: Remove 130 from the "auto" group
+To: Bruce Rogers <BROGERS@suse.com>, "mreitz@redhat.com" <mreitz@redhat.com>, 
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191018161008.17140-1-thuth@redhat.com>
+ <a79d17cdbb61168d9d71defe0868784b656377f0.camel@suse.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <34153a18-ccea-2136-d9d6-4a6218251dab@redhat.com>
+Date: Mon, 21 Oct 2019 15:37:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191021132916.27818-1-alex.bennee@linaro.org>
-In-Reply-To: <20191021132916.27818-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Oct 2019 14:33:53 +0100
-Message-ID: <CAFEAcA_Ru29Y_CXsOnOZKLsmDs-DTj1uYPD5mfcJ40CQrzKGvA@mail.gmail.com>
-Subject: Re: [PATCH] cputlb: ensure _cmmu helper functions follow the naming
- standard
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a79d17cdbb61168d9d71defe0868784b656377f0.camel@suse.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: tEat5rFGOjW3vNGE0PWc-g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +119,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Oct 2019 at 14:29, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> We document this in docs/devel/load-stores.rst so lets follow it. The
-> 32 bit and 64 bit access functions have historically not included the
-> sign so we leave those as is.
->
-> The few places that use signed code loads are fixed up to do the
-> casting themselves.
->
-> Fixes: 282dffc8
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On 18/10/2019 18.51, Bruce Rogers wrote:
+> On Fri, 2019-10-18 at 18:10 +0200, Thomas Huth wrote:
+>> Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
+>> 'write' lock - Is another process using the image
+>> [TEST_DIR/t.IMGFMT]?"
+>> error with 130 already twice. Looks like this test is a little bit
+>> shaky, and currently nobody has a real clue what could be causing
+>> this
+>> issue, so for the time being, let's disable it from the "auto" group
+>> so
+>> that it does not gate the pull requests.
+>>
+>=20
+> For some time I've also needed to work around issues running 130. I
+> either disabled it, or I found a few properly placed sleeps got it to
+> reliably pass. Last week I finally got around to investigating it a bit
+> more and discovered that the failure was related to my using --enable-
+> membarrier in my configure.
+>=20
+> I didn't investigate whether the block io tests' _cleanup_qemu using
+> kill -KILL was being relied on in some way by some tests, or if that is
+> simply a way to speed the testing along, or what, but I've gotten test
+> 130 to reliably pass by changing the test to quit properly via the
+> monitor, and by adding a wait=3D1 so that _cleanup_qemu doesn't simply
+> kill qemu.
+>=20
+> I believe 153 and 161 also suffer in a similar way.
 
+Ok, thanks for the heads-up! 153 is not in the "auto" group, but 161 is,
+so we definitely keep that in mind if we see failure here...
 
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index e752bd06093..f7d3b3e4fdc 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -231,7 +231,7 @@ static int cris_fetch(CPUCRISState *env, DisasContext=
- *dc, uint32_t addr,
->      case 2:
->      {
->          if (sign) {
-> -            r =3D cpu_ldsw_code(env, addr);
-> +            r =3D (int16_t) cpu_lduw_code(env, addr);
->          } else {
->              r =3D cpu_lduw_code(env, addr);
->          }
+ Thomas
 
-Why not provide the cpu_ldsw_code() that returns an int16_t ?
-
-thanks
--- PMM
 
