@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDE0DF731
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:54:51 +0200 (CEST)
-Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64930DF72E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:54:19 +0200 (CEST)
+Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMehW-0008Kg-Bl
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41517)
+	id 1iMeh0-0007hT-BO
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41613)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iMef8-0006Fn-G4
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:52:23 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMefY-0006iG-Lh
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:52:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iMef7-00012c-Hx
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:52:22 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:44379)
+ (envelope-from <alistair23@gmail.com>) id 1iMefX-0001UF-Jd
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:52:48 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:36477)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iMef7-00010X-Ak; Mon, 21 Oct 2019 16:52:21 -0400
-Received: by mail-lj1-x242.google.com with SMTP id m13so14789962ljj.11;
- Mon, 21 Oct 2019 13:52:19 -0700 (PDT)
+ id 1iMefX-0001Sd-Ac; Mon, 21 Oct 2019 16:52:47 -0400
+Received: by mail-lj1-x242.google.com with SMTP id v24so14833884ljj.3;
+ Mon, 21 Oct 2019 13:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=KrhRfwiS41Hw/oEUjcvgsIMHQ+z/35x3gIw8/+L5IFU=;
- b=ENGoBSA5gZ4flA07YahWqS2CvhJN7bEkVitIWe+kzqqXWlAwuMr9IWBZubCnCOGwny
- /np8GcV2lOZq19Y8dUSxqAYTuuoDa1xPnST8yzUGMTRu7PGU+rRki007wB+6F0t7SSmb
- HzD+wq1o0W81G0RETCo9+0lNeoWPws10QROmL/qbWklgyl4aKFODCWhGoarmVIvDoU6I
- sRLhwbTXcC7ph46uqdLPLC4aoTofEIDDAjLcrSjTNsUB5VFKfEsBDp57cRlmtarwti6x
- IFR91p0ICv4BHfEpdfy/lOHbO0Lvlmb21JKMdFGASHe4LqtkZr5Gc/XA1vyo+LfeOl7S
- WUpg==
+ bh=shzBV7atMRuOLT/wTZTJagCUVXFE+q2AP76mmfFPd60=;
+ b=JvhYaY/9oQ08dLhx6n9aCahDBONSlj1xFVk+19p1y1u7zohYJnfGLwGxodvi2c8a4U
+ v9Efe0D5ycSlC7SzYpkgjn0oYgTiMMU4htNXYwt3mNy/xfcIJV2MzS+qbsLm9u4lI8/L
+ 3zHRMXiHKYxz7sWOMfr9vd4Y0HZJwarMsb6OurKp9vTqznyJONefgyIjcAS8wx1DBRqw
+ VKw6CJ9Om2fJkjRqRAeCG7iPfxOhVRI+dy45PX4brJxaTy4YI2Nuofqu4bn2qkxLos4P
+ poQzUmidq911OoLGe7ZWcnScS2e/FN6wJ8fNGpF46PW+Z8+r5LGzuzHZuyMG9+Wr6cUa
+ WGpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=KrhRfwiS41Hw/oEUjcvgsIMHQ+z/35x3gIw8/+L5IFU=;
- b=S5yJO1I0djJUkA4dU0AzCOX4AruBdrr/9j1OEtF3N/tInBeqwe/9WrxNVD8WLCcl10
- uQFpXCm+5rrpjKRB0xuUmhLkEOPh/142NVSEPfPCPL+O8dMvZH3JziFd/J/REEv5Oj6x
- cqwmGTJ5bZilNqPm7C93iG4kLv8wLzZdHBNixlTGbf20THW5HwVjqpQtFesatR6cOkWW
- DPFG0bp67Mp8mwQlzHU0QFGF3zRbBV+gdOwQSv8e+Jug5Vps+sGLEt+972fnC457xVQO
- 6qe0vJSbBlPGuz8cbvNhN253m6dFTlns8+HQI2xYoG+lDR6UAGqQljJUgPTNa/mEYaNd
- woSg==
-X-Gm-Message-State: APjAAAXroYfEO9gGCgev1kMMVLQn6HsC5mIPaeGuJUJYhBRrqj2GVSoW
- Xt10YMmPKgBRwZNnkTL1n+wzFZUJblpUmrAdYhM=
-X-Google-Smtp-Source: APXvYqxiVU/K+dApIBZl2SRm3CE8hvgJQSgXuK7Y47EFdHLHqaJCfF13VI49956TzJlk8yX0Eog7NDmu3Yy7zACrNmw=
-X-Received: by 2002:a2e:420a:: with SMTP id p10mr16782265lja.16.1571691138487; 
- Mon, 21 Oct 2019 13:52:18 -0700 (PDT)
+ bh=shzBV7atMRuOLT/wTZTJagCUVXFE+q2AP76mmfFPd60=;
+ b=Jafitqm59KKIC5kmaUp+D5PeizK2wdodfm+F3Oe+uycOfVGqjBRswlf7sYWIzKhU9k
+ mHcNirZAwjUadO0k+3NTU3bvKUhd+qxxvWCVfJ3vh1hykAcE6HHFENPo7CIaR1H7FYcj
+ rF0pb9cDdBXaQ/+QC2434nPeAgp0TAtFerVIYNHgKjiROzooWk0bxDjmZ1AzR9vCuN1D
+ yGthtcj+tdyP3lVNzcPsC/0DrbBxZ8rH6OygrWAbdI4S4Pcj68xVr2QFdmaPOCSoZUAs
+ 1Wt6mlsC9hGHzAqLBn/gSA1XMf4hCci4us3f62+wBS7VlXkY3Okg3jsIPW2cvlsBCApc
+ yykw==
+X-Gm-Message-State: APjAAAXCMGGqr1oTm/H2gAvedStLz2DBA1tOTqCYflBZoCIlzN8d5fEw
+ x6t3EqohytD2q/OYhgUt4iemK/7SfQAwM2zHQ/4=
+X-Google-Smtp-Source: APXvYqweztJCvIJqzkVczX/4U4w5nnt5YgOZz9UQzzj4w1SqwXfL9jFqRdieeZ/GzLP6miOsMJZkqYgkFvm4lE5q4vs=
+X-Received: by 2002:a2e:b010:: with SMTP id y16mr16776740ljk.147.1571691166203; 
+ Mon, 21 Oct 2019 13:52:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-2-philmd@redhat.com>
-In-Reply-To: <20191020225650.3671-2-philmd@redhat.com>
+ <20191020225650.3671-3-philmd@redhat.com>
+In-Reply-To: <20191020225650.3671-3-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Oct 2019 13:47:02 -0700
-Message-ID: <CAKmqyKN0AMExig+d-TFOA4J6iK+Kn9jcNvaayLBdcwdjbno6eg@mail.gmail.com>
-Subject: Re: [PATCH 01/21] hw/arm/xilinx_zynq: Use the IEC binary prefix
- definitions
+Date: Mon, 21 Oct 2019 13:47:30 -0700
+Message-ID: <CAKmqyKM7zebpHHezzQ=VBZOWduqRo=OE5tSJbEmks-TDYxUvTQ@mail.gmail.com>
+Subject: Re: [PATCH 02/21] hw/arm/mps2: Use the IEC binary prefix definitions
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,7 +103,7 @@ Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 20, 2019 at 3:58 PM Philippe Mathieu-Daud=C3=A9
+On Sun, Oct 20, 2019 at 4:02 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
 > IEC binary prefixes ease code review: the unit is explicit.
@@ -116,30 +115,52 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/arm/xilinx_zynq.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/arm/mps2-tz.c | 3 ++-
+>  hw/arm/mps2.c    | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index c14774e542..3a0fa5b23f 100644
-> --- a/hw/arm/xilinx_zynq.c
-> +++ b/hw/arm/xilinx_zynq.c
-> @@ -16,6 +16,7 @@
+> diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+> index 6b24aaacde..f8b620bcc6 100644
+> --- a/hw/arm/mps2-tz.c
+> +++ b/hw/arm/mps2-tz.c
+> @@ -38,6 +38,7 @@
 >   */
 >
 >  #include "qemu/osdep.h"
 > +#include "qemu/units.h"
 >  #include "qapi/error.h"
->  #include "cpu.h"
->  #include "hw/sysbus.h"
-> @@ -194,7 +195,7 @@ static void zynq_init(MachineState *machine)
->      memory_region_add_subregion(address_space_mem, 0, ext_ram);
+>  #include "qemu/error-report.h"
+>  #include "hw/arm/boot.h"
+> @@ -458,7 +459,7 @@ static void mps2tz_common_init(MachineState *machine)
+>       * call the 16MB our "system memory", as it's the largest lump.
+>       */
+>      memory_region_allocate_system_memory(&mms->psram,
+> -                                         NULL, "mps.ram", 0x01000000);
+> +                                         NULL, "mps.ram", 16 * MiB);
+>      memory_region_add_subregion(system_memory, 0x80000000, &mms->psram);
 >
->      /* 256K of on-chip memory */
-> -    memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 << 10,
-> +    memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
->                             &error_fatal);
->      memory_region_add_subregion(address_space_mem, 0xFFFC0000, ocm_ram);
+>      /* The overflow IRQs for all UARTs are ORed together.
+> diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+> index 10efff36b2..d002b126d3 100644
+> --- a/hw/arm/mps2.c
+> +++ b/hw/arm/mps2.c
+> @@ -23,6 +23,7 @@
+>   */
 >
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+>  #include "hw/arm/boot.h"
+> @@ -146,7 +147,7 @@ static void mps2_common_init(MachineState *machine)
+>       * zbt_boot_ctrl is always zero).
+>       */
+>      memory_region_allocate_system_memory(&mms->psram,
+> -                                         NULL, "mps.ram", 0x1000000);
+> +                                         NULL, "mps.ram", 16 * MiB);
+>      memory_region_add_subregion(system_memory, 0x21000000, &mms->psram);
+>
+>      switch (mmc->fpga_type) {
 > --
 > 2.21.0
 >
