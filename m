@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CE4DEAB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:20:48 +0200 (CEST)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464E9DEA59
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:06:02 +0200 (CEST)
+Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMVjz-0007W6-4L
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46457)
+	id 1iMVVg-0007Tt-NV
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:06:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iMVQ0-0003fC-40
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:10 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iMVQ2-0003fy-8S
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iMVPy-00041S-2z
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44301
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iMVQ0-00042T-4s
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21291
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVPw-0003yT-5S
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:06 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVQ0-00041n-0Y
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571655602;
+ s=mimecast20190719; t=1571655606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7SS/1tNTnDzcfBW9a9+raQ+6Bii4YZUoFu+jznNG9jg=;
- b=alsl3gOMt5Ic+b9eCY357t5yDnrx3kTeyK5qHsVu+Tbytn3lprykFgpzki8UzIjB2JeP1l
- LqeetYHFGYMl2sfiSr8GC5+6sz1PzwD9BMssZmzKWJvCSol1xZMnLxUUcoWEYOXI9R6fIQ
- k5Iu5OVCg1JVU1v3YEWCcMCPib1Gt5U=
+ bh=Rmkutg1eWb8oKSfxmZGXg7G1V8iVJQJXx0SHheWDu4I=;
+ b=OXSbirZwrC6TXt/6vuksl9e5ICbusf3oDnOEOV6XNAPnGXBU2cTc6ne03H2x8QbNPwzSHB
+ 9SSU6wune2tR26inlQ4yhpcUhbUf8BLegDhkfnZxTnNi94+zDkBjrkRXjQkyy279fWc+6g
+ Zig1TLfzuWWijeHQH+YIeQD+M9url5k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-JW2fB6wxO-Wh3mlVYdEJ4w-1; Mon, 21 Oct 2019 06:59:58 -0400
+ us-mta-305-XdaLSnIIPmCRGGsi9q3UYA-1; Mon, 21 Oct 2019 07:00:03 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 755FF800D41;
- Mon, 21 Oct 2019 10:59:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2153B80183E;
+ Mon, 21 Oct 2019 11:00:02 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
  [10.36.117.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9BFF60619;
- Mon, 21 Oct 2019 10:59:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BADE860619;
+ Mon, 21 Oct 2019 10:59:57 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com
-Subject: [PATCH 14/30] virtiofsd: add -o source=PATH to help output
-Date: Mon, 21 Oct 2019 11:58:16 +0100
-Message-Id: <20191021105832.36574-15-dgilbert@redhat.com>
+Subject: [PATCH 15/30] virtiofsd: Open vhost connection instead of mounting
+Date: Mon, 21 Oct 2019 11:58:17 +0100
+Message-Id: <20191021105832.36574-16-dgilbert@redhat.com>
 In-Reply-To: <20191021105832.36574-1-dgilbert@redhat.com>
 References: <20191021105832.36574-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: JW2fB6wxO-Wh3mlVYdEJ4w-1
+X-MC-Unique: XdaLSnIIPmCRGGsi9q3UYA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,29 +76,238 @@ Cc: piaojun@huawei.com, eguan@linux.alibaba.com, vgoyal@Redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The -o source=3DPATH option will be used by most command-line invocations.
-Let's document it!
+When run with vhost-user options we conect to the QEMU instead
+via a socket.  Start this off by creating the socket.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- contrib/virtiofsd/passthrough_ll.c | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/virtiofsd/fuse_i.h        |  7 ++-
+ contrib/virtiofsd/fuse_lowlevel.c | 53 +++-------------------
+ contrib/virtiofsd/fuse_virtio.c   | 75 +++++++++++++++++++++++++++++++
+ contrib/virtiofsd/fuse_virtio.h   | 23 ++++++++++
+ 4 files changed, 110 insertions(+), 48 deletions(-)
+ create mode 100644 contrib/virtiofsd/fuse_virtio.c
+ create mode 100644 contrib/virtiofsd/fuse_virtio.h
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
-ough_ll.c
-index 63a32c87c3..847814b793 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -1237,6 +1237,7 @@ int main(int argc, char *argv[])
- =09if (opts.show_help) {
- =09=09printf("usage: %s [options]\n\n", argv[0]);
- =09=09fuse_cmdline_help();
-+=09=09printf("    -o source=3DPATH             shared directory tree\n");
- =09=09fuse_lowlevel_help();
- =09=09ret =3D 0;
- =09=09goto err_out1;
+diff --git a/contrib/virtiofsd/fuse_i.h b/contrib/virtiofsd/fuse_i.h
+index d65af06ff0..27fa50274d 100644
+--- a/contrib/virtiofsd/fuse_i.h
++++ b/contrib/virtiofsd/fuse_i.h
+@@ -6,9 +6,10 @@
+   See the file COPYING.LIB
+ */
+=20
+-#define FUSE_USE_VERSION 31
+-
++#ifndef FUSE_I_H
++#define FUSE_I_H
+=20
++#define FUSE_USE_VERSION 31
+ #include "fuse.h"
+ #include "fuse_lowlevel.h"
+=20
+@@ -119,3 +120,5 @@ void fuse_session_process_buf_int(struct fuse_session *=
+se,
+=20
+ /* room needed in buffer to accommodate header */
+ #define FUSE_BUFFER_HEADER_SIZE 0x1000
++
++#endif
+diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_low=
+level.c
+index d47e4438f3..247667e3f4 100644
+--- a/contrib/virtiofsd/fuse_lowlevel.c
++++ b/contrib/virtiofsd/fuse_lowlevel.c
+@@ -13,6 +13,7 @@
+ #include "fuse_kernel.h"
+ #include "fuse_opt.h"
+ #include "fuse_misc.h"
++#include "fuse_virtio.h"
+=20
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -2152,6 +2153,11 @@ struct fuse_session *fuse_session_new(struct fuse_ar=
+gs *args,
+ =09=09goto out4;
+ =09}
+=20
++=09if (!se->vu_socket_path) {
++=09=09fprintf(stderr, "fuse: missing -o vhost_user_socket option\n");
++=09=09goto out4;
++=09}
++
+ =09se->bufsize =3D FUSE_MAX_MAX_PAGES * getpagesize() +
+ =09=09FUSE_BUFFER_HEADER_SIZE;
+=20
+@@ -2175,52 +2181,7 @@ out1:
+=20
+ int fuse_session_mount(struct fuse_session *se)
+ {
+-=09int fd;
+-
+-=09/*
+-=09 * Make sure file descriptors 0, 1 and 2 are open, otherwise chaos
+-=09 * would ensue.
+-=09 */
+-=09do {
+-=09=09fd =3D open("/dev/null", O_RDWR);
+-=09=09if (fd > 2)
+-=09=09=09close(fd);
+-=09} while (fd >=3D 0 && fd <=3D 2);
+-
+-=09/*
+-=09 * To allow FUSE daemons to run without privileges, the caller may open
+-=09 * /dev/fuse before launching the file system and pass on the file
+-=09 * descriptor by specifying /dev/fd/N as the mount point. Note that the
+-=09 * parent process takes care of performing the mount in this case.
+-=09 */
+-=09fd =3D fuse_mnt_parse_fuse_fd(mountpoint);
+-=09if (fd !=3D -1) {
+-=09=09if (fcntl(fd, F_GETFD) =3D=3D -1) {
+-=09=09=09fuse_log(FUSE_LOG_ERR,
+-=09=09=09=09"fuse: Invalid file descriptor /dev/fd/%u\n",
+-=09=09=09=09fd);
+-=09=09=09return -1;
+-=09=09}
+-=09=09se->fd =3D fd;
+-=09=09return 0;
+-=09}
+-
+-=09/* Open channel */
+-=09fd =3D fuse_kern_mount(mountpoint, se->mo);
+-=09if (fd =3D=3D -1)
+-=09=09return -1;
+-=09se->fd =3D fd;
+-
+-=09/* Save mountpoint */
+-=09se->mountpoint =3D strdup(mountpoint);
+-=09if (se->mountpoint =3D=3D NULL)
+-=09=09goto error_out;
+-
+-=09return 0;
+-
+-error_out:
+-=09fuse_kern_unmount(mountpoint, fd);
+-=09return -1;
++=09return virtio_session_mount(se);
+ }
+=20
+ int fuse_session_fd(struct fuse_session *se)
+diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virti=
+o.c
+new file mode 100644
+index 0000000000..da8451faa7
+--- /dev/null
++++ b/contrib/virtiofsd/fuse_virtio.c
+@@ -0,0 +1,75 @@
++/*
++ * virtio-fs glue for FUSE
++ * Copyright (C) 2018 Red Hat, Inc. and/or its affiliates
++ *
++ * Authors:
++ *   Dave Gilbert  <dgilbert@redhat.com>
++ *
++ * Implements the glue between libfuse and libvhost-user
++ *
++ * This program can be distributed under the terms of the GNU LGPLv2.
++ * See the file COPYING.LIB
++ */
++
++#include "fuse_i.h"
++#include "fuse_kernel.h"
++#include "fuse_misc.h"
++#include "fuse_opt.h"
++#include "fuse_virtio.h"
++
++#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++#include <sys/socket.h>
++#include <sys/types.h>
++#include <sys/un.h>
++#include <unistd.h>
++
++/* From spec */
++struct virtio_fs_config {
++    char tag[36];
++    uint32_t num_queues;
++};
++
++int virtio_session_mount(struct fuse_session *se)
++{
++    struct sockaddr_un un;
++
++    if (strlen(se->vu_socket_path) >=3D sizeof(un.sun_path)) {
++        fuse_log(FUSE_LOG_ERR, "Socket path too long\n");
++        return -1;
++    }
++
++    /*
++     * Poison the fuse FD so we spot if we accidentally use it;
++     * DO NOT check for this value, check for fuse_lowlevel_is_virtio()
++     */
++    se->fd =3D 0xdaff0d11;
++
++    /*
++     * Create the Unix socket to communicate with qemu
++     * based on QEMU's vhost-user-bridge
++     */
++    unlink(se->vu_socket_path);
++    strcpy(un.sun_path, se->vu_socket_path);
++    size_t addr_len =3D sizeof(un.sun_family) + strlen(se->vu_socket_path)=
+;
++
++    int listen_sock =3D socket(AF_UNIX, SOCK_STREAM, 0);
++    if (listen_sock =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket creation: %m\n");
++        return -1;
++    }
++    un.sun_family =3D AF_UNIX;
++
++    if (bind(listen_sock, (struct sockaddr *)&un, addr_len) =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket bind: %m\n");
++        return -1;
++    }
++
++    if (listen(listen_sock, 1) =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket listen: %m\n");
++        return -1;
++    }
++
++    return -1;
++}
+diff --git a/contrib/virtiofsd/fuse_virtio.h b/contrib/virtiofsd/fuse_virti=
+o.h
+new file mode 100644
+index 0000000000..6652e609e0
+--- /dev/null
++++ b/contrib/virtiofsd/fuse_virtio.h
+@@ -0,0 +1,23 @@
++/*
++  virtio-fs glue for FUSE
++  Copyright (C) 2018 Red Hat, Inc. and/or its affiliates
++
++  Authors:
++    Dave Gilbert  <dgilbert@redhat.com>
++
++  Implements the glue between libfuse and libvhost-user
++
++  This program can be distributed under the terms of the GNU LGPLv2.
++  See the file COPYING.LIB
++*/
++
++#ifndef FUSE_VIRTIO_H
++#define FUSE_VIRTIO_H
++
++#include "fuse_i.h"
++
++struct fuse_session;
++
++int virtio_session_mount(struct fuse_session *se);
++
++#endif
 --=20
 2.23.0
 
