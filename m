@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2176DF5BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 21:10:26 +0200 (CEST)
-Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F9CDF5C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 21:13:18 +0200 (CEST)
+Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMd4T-00065Z-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 15:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58000)
+	id 1iMd7E-0000av-Ni
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 15:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMd1c-00046W-6f
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:07:29 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMd1f-0004Ce-UY
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:07:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMd1a-0001xn-S8
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:07:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43213
+ (envelope-from <philmd@redhat.com>) id 1iMd1e-0001zi-Hq
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:07:31 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44927
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMd1a-0001xO-LX
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:07:26 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMd1e-0001zQ-Es
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:07:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571684846;
+ s=mimecast20190719; t=1571684850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Djlb/LOp0JEWa3jMyB/e62bHk5Ac8Y4m7TdUNTq7Tmc=;
- b=QXhE2mn57UnfvdO+Is1Pe+2D0+B4E0uJ9MfERRZ7Tml+ZxqHcTh6Az29bJW8i2tPfnmeHQ
- xjDRPPlkd3L7jJthSaB3h+ykInGqCE2NfVQjoIy0glKDnwriqkWTexqB0tRO+WZos82Fza
- 4y/I/gegUuzamvr7rDPacUxlCoFUeVU=
+ bh=DX9d+kTgb8IhSTWDTp51phSf6KdCis8b9hmzJkoqI5A=;
+ b=QFbXEQRpqebfHEfhTJliwuMFQiIrumIuD/mZJ6Wa2kwypDRvryKr5wCEeTfuIdcFNiqt/Q
+ dJGKlYzKw5sK+spfN07XDnYOcvv293/HmDARsXd444oUakVFEWhU9h/cGDdiiFKY2H1q1q
+ Nr/I/6xUJIlOB7FxGHGJmlUpAp8qJB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-wJo49e-xOjeqbMNX0jUXgQ-1; Mon, 21 Oct 2019 15:07:23 -0400
+ us-mta-335-NfIB8rREPUqflFXEHtxaKA-1; Mon, 21 Oct 2019 15:07:26 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E26107AD31;
- Mon, 21 Oct 2019 19:07:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 566C71800D79;
+ Mon, 21 Oct 2019 19:07:25 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-124.brq.redhat.com [10.40.204.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCBE5196AE;
- Mon, 21 Oct 2019 19:07:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BC0E194BE;
+ Mon, 21 Oct 2019 19:07:22 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 4/6] hw/arm/omap2: Create the RAM in the board
-Date: Mon, 21 Oct 2019 21:06:51 +0200
-Message-Id: <20191021190653.9511-5-philmd@redhat.com>
+Subject: [PATCH v2 5/6] hw/arm/omap1: Create the RAM in the board
+Date: Mon, 21 Oct 2019 21:06:52 +0200
+Message-Id: <20191021190653.9511-6-philmd@redhat.com>
 In-Reply-To: <20191021190653.9511-1-philmd@redhat.com>
 References: <20191021190653.9511-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: wJo49e-xOjeqbMNX0jUXgQ-1
+X-MC-Unique: NfIB8rREPUqflFXEHtxaKA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,135 +79,168 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SDRAM is incorrectly created in the OMAP2420 SoC.
+The SDRAM is incorrectly created in the OMAP310 SoC.
 Move its creation in the board code, this will later allow the
 board to have the QOM ownership of the RAM.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Move MemoryRegion sdram to struct n800_s (Richard)
----
- hw/arm/nseries.c      | 10 +++++++---
- hw/arm/omap2.c        | 13 +++++--------
- include/hw/arm/omap.h |  4 +---
- 3 files changed, 13 insertions(+), 14 deletions(-)
+ hw/arm/omap1.c        | 12 +++++-------
+ hw/arm/omap_sx1.c     |  8 ++++++--
+ hw/arm/palm.c         |  8 ++++++--
+ include/hw/arm/omap.h |  6 ++----
+ 4 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index a36971d39a..7e361936a9 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -47,6 +47,7 @@
-=20
- /* Nokia N8x0 support */
- struct n800_s {
-+    MemoryRegion sdram;
-     struct omap_mpu_state_s *mpu;
-=20
-     struct rfbi_chip_s blizzard;
-@@ -1311,11 +1312,14 @@ static int n810_atag_setup(const struct arm_boot_in=
-fo *info, void *p)
- static void n8x0_init(MachineState *machine,
-                       struct arm_boot_info *binfo, int model)
- {
--    MemoryRegion *sysmem =3D get_system_memory();
-     struct n800_s *s =3D (struct n800_s *) g_malloc0(sizeof(*s));
--    int sdram_size =3D binfo->ram_size;
-+    uint64_t sdram_size =3D binfo->ram_size;
-=20
--    s->mpu =3D omap2420_mpu_init(sysmem, sdram_size, machine->cpu_type);
-+    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
-+                                         sdram_size);
-+    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE, &s->sd=
-ram);
-+
-+    s->mpu =3D omap2420_mpu_init(&s->sdram, machine->cpu_type);
-=20
-     /* Setup peripherals
-      *
-diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
-index bd7ddff983..457f152bac 100644
---- a/hw/arm/omap2.c
-+++ b/hw/arm/omap2.c
-@@ -22,6 +22,7 @@
- #include "qemu/error-report.h"
+diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+index 0400593805..6ce038a453 100644
+--- a/hw/arm/omap1.c
++++ b/hw/arm/omap1.c
+@@ -23,6 +23,7 @@
  #include "qapi/error.h"
+ #include "qemu-common.h"
  #include "cpu.h"
 +#include "exec/address-spaces.h"
- #include "sysemu/blockdev.h"
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
-@@ -2276,8 +2277,7 @@ static const struct dma_irq_map omap2_dma_irq_map[] =
-=3D {
-     { 0, OMAP_INT_24XX_SDMA_IRQ3 },
- };
+ #include "hw/boards.h"
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+@@ -3858,8 +3859,7 @@ static int omap_validate_tipb_mpui_addr(struct omap_m=
+pu_state_s *s,
+     return range_covers_byte(0xe1010000, 0xe1020004 - 0xe1010000, addr);
+ }
 =20
--struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
+-struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
 -                unsigned long sdram_size,
-+struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sdram,
++struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *dram,
                  const char *cpu_type)
  {
-     struct omap_mpu_state_s *s =3D g_new0(struct omap_mpu_state_s, 1);
-@@ -2286,11 +2286,11 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRe=
-gion *sysmem,
      int i;
+@@ -3867,11 +3867,12 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryReg=
+ion *system_memory,
+     qemu_irq dma_irqs[6];
+     DriveInfo *dinfo;
      SysBusDevice *busdev;
-     struct omap_target_agent_s *ta;
-+    MemoryRegion *sysmem =3D get_system_memory();
++    MemoryRegion *system_memory =3D get_system_memory();
 =20
      /* Core */
-     s->mpu_model =3D omap2420;
+     s->mpu_model =3D omap310;
      s->cpu =3D ARM_CPU(cpu_create(cpu_type));
 -    s->sdram_size =3D sdram_size;
-     s->sram_size =3D OMAP242X_SRAM_SIZE;
++    s->sdram_size =3D memory_region_size(dram);
+     s->sram_size =3D OMAP15XX_SRAM_SIZE;
 =20
      s->wakeup =3D qemu_allocate_irq(omap_mpu_wakeup, s, 0);
-@@ -2299,9 +2299,6 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegi=
-on *sysmem,
+@@ -3880,9 +3881,6 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
+n *system_memory,
      omap_clk_init(s);
 =20
      /* Memory-mapped stuff */
--    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
+-    memory_region_allocate_system_memory(&s->emiff_ram, NULL, "omap1.dram"=
+,
 -                                         s->sdram_size);
--    memory_region_add_subregion(sysmem, OMAP2_Q2_BASE, &s->sdram);
-     memory_region_init_ram(&s->sram, NULL, "omap2.sram", s->sram_size,
+-    memory_region_add_subregion(system_memory, OMAP_EMIFF_BASE, &s->emiff_=
+ram);
+     memory_region_init_ram(&s->imif_ram, NULL, "omap1.sram", s->sram_size,
                             &error_fatal);
-     memory_region_add_subregion(sysmem, OMAP2_SRAM_BASE, &s->sram);
-@@ -2338,8 +2335,8 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegi=
-on *sysmem,
-     s->port->addr_valid =3D omap2_validate_addr;
+     memory_region_add_subregion(system_memory, OMAP_IMIF_BASE, &s->imif_ra=
+m);
+@@ -3925,7 +3923,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
+n *system_memory,
+     s->port[tipb_mpui].addr_valid =3D omap_validate_tipb_mpui_addr;
 =20
-     /* Register SDRAM and SRAM ports for fast DMA transfers.  */
--    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->sdram),
--                         OMAP2_Q2_BASE, s->sdram_size);
-+    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(sdram),
-+                         OMAP2_Q2_BASE, memory_region_size(sdram));
-     soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->sram),
-                          OMAP2_SRAM_BASE, s->sram_size);
+     /* Register SDRAM and SRAM DMA ports for fast transfers.  */
+-    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->emiff_ram),
++    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(dram),
+                          OMAP_EMIFF_BASE, s->sdram_size);
+     soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->imif_ram),
+                          OMAP_IMIF_BASE, s->sram_size);
+diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
+index c071197be7..be245714db 100644
+--- a/hw/arm/omap_sx1.c
++++ b/hw/arm/omap_sx1.c
+@@ -103,6 +103,7 @@ static void sx1_init(MachineState *machine, const int v=
+ersion)
+ {
+     struct omap_mpu_state_s *mpu;
+     MemoryRegion *address_space =3D get_system_memory();
++    MemoryRegion *dram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *flash =3D g_new(MemoryRegion, 1);
+     MemoryRegion *cs =3D g_new(MemoryRegion, 4);
+     static uint32_t cs0val =3D 0x00213090;
+@@ -118,8 +119,11 @@ static void sx1_init(MachineState *machine, const int =
+version)
+         flash_size =3D flash2_size;
+     }
 =20
+-    mpu =3D omap310_mpu_init(address_space, sx1_binfo.ram_size,
+-                           machine->cpu_type);
++    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
++                                         sx1_binfo.ram_size);
++    memory_region_add_subregion(address_space, OMAP_EMIFF_BASE, dram);
++
++    mpu =3D omap310_mpu_init(dram, machine->cpu_type);
+=20
+     /* External Flash (EMIFS) */
+     memory_region_init_ram(flash, NULL, "omap_sx1.flash0-0", flash_size,
+diff --git a/hw/arm/palm.c b/hw/arm/palm.c
+index 02a3a82b9b..72eca8cc55 100644
+--- a/hw/arm/palm.c
++++ b/hw/arm/palm.c
+@@ -190,16 +190,20 @@ static void palmte_init(MachineState *machine)
+     MemoryRegion *address_space_mem =3D get_system_memory();
+     struct omap_mpu_state_s *mpu;
+     int flash_size =3D 0x00800000;
+-    int sdram_size =3D palmte_binfo.ram_size;
+     static uint32_t cs0val =3D 0xffffffff;
+     static uint32_t cs1val =3D 0x0000e1a0;
+     static uint32_t cs2val =3D 0x0000e1a0;
+     static uint32_t cs3val =3D 0xe1a0e1a0;
+     int rom_size, rom_loaded =3D 0;
++    MemoryRegion *dram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *flash =3D g_new(MemoryRegion, 1);
+     MemoryRegion *cs =3D g_new(MemoryRegion, 4);
+=20
+-    mpu =3D omap310_mpu_init(address_space_mem, sdram_size, machine->cpu_t=
+ype);
++    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
++                                         palmte_binfo.ram_size);
++    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE, dram);
++
++    mpu =3D omap310_mpu_init(dram, machine->cpu_type);
+=20
+     /* External Flash (EMIFS) */
+     memory_region_init_ram(flash, NULL, "palmte.flash", flash_size,
 diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index 2fda996648..763d8eab4f 100644
+index 763d8eab4f..f3aa670036 100644
 --- a/include/hw/arm/omap.h
 +++ b/include/hw/arm/omap.h
-@@ -824,7 +824,6 @@ struct omap_mpu_state_s {
+@@ -823,7 +823,6 @@ struct omap_mpu_state_s {
+     MemoryRegion mpui_io_iomem;
      MemoryRegion tap_iomem;
      MemoryRegion imif_ram;
-     MemoryRegion emiff_ram;
--    MemoryRegion sdram;
+-    MemoryRegion emiff_ram;
      MemoryRegion sram;
 =20
      struct omap_dma_port_if_s {
-@@ -938,8 +937,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion =
-*system_memory,
+@@ -835,7 +834,7 @@ struct omap_mpu_state_s {
+                         hwaddr addr);
+     } port[__omap_dma_port_last];
+=20
+-    unsigned long sdram_size;
++    uint64_t sdram_size;
+     unsigned long sram_size;
+=20
+     /* MPUI-TIPB peripherals */
+@@ -932,8 +931,7 @@ struct omap_mpu_state_s {
+ };
+=20
+ /* omap1.c */
+-struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
+-                unsigned long sdram_size,
++struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *sdram,
                  const char *core);
 =20
  /* omap2.c */
--struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
--                unsigned long sdram_size,
-+struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sdram,
-                 const char *core);
-=20
- uint32_t omap_badwidth_read8(void *opaque, hwaddr addr);
 --=20
 2.21.0
 
