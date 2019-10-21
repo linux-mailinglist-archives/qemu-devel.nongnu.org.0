@@ -2,54 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F13DE44F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 08:08:16 +0200 (CEST)
-Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2665DE44C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 08:03:50 +0200 (CEST)
+Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMQrX-0005SB-2P
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 02:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1iMQnF-00043d-QH
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 02:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iMQqN-000506-6H
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:07:05 -0400
+ (envelope-from <luwei.kang@intel.com>) id 1iMQmA-0003eA-Bb
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:02:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iMQqL-0005w7-Lz
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:07:02 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35487 helo=ozlabs.org)
+ (envelope-from <luwei.kang@intel.com>) id 1iMQm7-0004lQ-VN
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:02:41 -0400
+Received: from mga04.intel.com ([192.55.52.120]:53286)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iMQqK-0005uz-Jc; Mon, 21 Oct 2019 02:07:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46xR411tt6z9sP3; Mon, 21 Oct 2019 17:06:57 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1571638017;
- bh=mA3H37+gRrU4nXtrSVxoBqJD+aBNEundMIhbFYPf9IU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ob05M4jownZ2x4L9ir/jY+mTony7CtGTDVDK/uBJG5cDwQ+2WSgR0yTPsxyJJzx8k
- 7bM3OCtwTMTPX5Hp0iT7NPF164Zf/HxkJ7xdI41eBwVaRHQh9+FQv/cGZ+1Eluejw2
- PFljSYXzunzXi8FhImBN/uQ7dRyEDtLfauqhi0V8=
-Date: Mon, 21 Oct 2019 16:34:39 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: qemu/powernv: coreboot support?
-Message-ID: <20191021053439.GA6439@umbus.fritz.box>
-References: <20191018172622.kz4smemh5cwesfit@proprietary-killer>
- <21ba3404-dcd3-fe06-7725-d58e249f9fd2@kaod.org>
- <20191019153108.gkupn3tnihspq7th@proprietary-killer>
- <1cbd1882-15c8-5471-cd65-1c84c2920ba8@kaod.org>
- <20191019160933.fizoc6tpu5jday4o@proprietary-killer>
- <20191020062842.GI1960@umbus.fritz.box>
- <0a7cbd9b-2c46-259d-4e0d-9084ee2875a3@kaod.org>
+ (Exim 4.71) (envelope-from <luwei.kang@intel.com>)
+ id 1iMQm7-0004jo-Nu
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:02:39 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2019 23:02:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,322,1566889200"; d="scan'208";a="222361367"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by fmsmga004.fm.intel.com with ESMTP; 20 Oct 2019 23:02:31 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sun, 20 Oct 2019 23:02:31 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 20 Oct 2019 23:02:30 -0700
+Received: from shsmsx152.ccr.corp.intel.com (10.239.6.52) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Sun, 20 Oct 2019 23:02:30 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.166]) by
+ SHSMSX152.ccr.corp.intel.com ([10.239.6.52]) with mapi id 14.03.0439.000;
+ Mon, 21 Oct 2019 14:02:29 +0800
+From: "Kang, Luwei" <luwei.kang@intel.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: RE: [PATCH v4 2/2] i386: Add support to get/set/migrate Intel
+ Processor Trace feature
+Thread-Topic: [PATCH v4 2/2] i386: Add support to get/set/migrate Intel
+ Processor Trace feature
+Thread-Index: AQHVgKsg+eNsNdVZH0GZ6Dwyyz/Lp6dbpngw//+LOYCACWt2QA==
+Date: Mon, 21 Oct 2019 06:02:28 +0000
+Message-ID: <82D7661F83C1A047AF7DC287873BF1E17382BB76@SHSMSX104.ccr.corp.intel.com>
+References: <1520182116-16485-1-git-send-email-luwei.kang@intel.com>
+ <1520182116-16485-2-git-send-email-luwei.kang@intel.com>
+ <20191012031407.GK4084@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382A209@SHSMSX104.ccr.corp.intel.com>
+ <20191015132929.GY4084@habkost.net>
+In-Reply-To: <20191015132929.GY4084@habkost.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNTk4OWUwODctY2U0Ni00NDhmLTkzMGItOTRiOTc5NjVhMzNmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiVjRobHg4aGRkZVh2MGlxQ0RYMTIyNDNWd0RtMmdPb2NGUGpxVDlJTjVaMUx5cGU0T3JTUk9RNU9NemhQK1dVYyJ9
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
-Content-Disposition: inline
-In-Reply-To: <0a7cbd9b-2c46-259d-4e0d-9084ee2875a3@kaod.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,136 +86,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Marty E. Plummer" <hanetzer@startmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Chao Peng <chao.p.peng@linux.intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---zhXaljGHf11kAtnf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Oct 20, 2019 at 08:51:47AM +0200, C=E9dric Le Goater wrote:
-> On 20/10/2019 08:28, David Gibson wrote:
-> > On Sat, Oct 19, 2019 at 11:09:34AM -0500, Marty E. Plummer wrote:
-> >> On Sat, Oct 19, 2019 at 05:53:12PM +0200, C=E9dric Le Goater wrote:
-> >>> On 19/10/2019 17:31, Marty E. Plummer wrote:
-> >>>> On Sat, Oct 19, 2019 at 03:46:59PM +0200, C=E9dric Le Goater wrote:
-> >>>>> On 18/10/2019 19:28, Marty E. Plummer wrote:
-> >>>>>> Hello,
-> >>>>>>
-> >>>>>> First off, thank you for the work you've done on the ppc64 support=
-, it
-> >>>>>> has been very useful. I'm currently working on a coreboot port for=
- the
-> >>>>>> talos ii line of systems (which means more ppc64 support, support
-> >>>>>> specifically for the power9 sforza chip, and specific mainboard su=
-pport.
-> >>>>>> My plate is very full lol) and have been using qemu to debug the
-> >>>>>> bootblock.
-> >>>>>>
-> >>>>>> It has been very useful for that, but I'm now at the point where I=
- need
-> >>>>>> to jump to romstage, and that's where it gets tricky. qemu parses =
-the rom
-> >>>>>> image and looks for a ffs header, locates skiboot on it, and jumps=
- straight
-> >>>>>> to that. Not exactly ideal for debugging something not produced fr=
-om op-build.
-> >>>>>
-> >>>>> yes. I suppose you are using my branch powernv-4.2 which adds PNOR =
-support
-> >>>>> and a way to boot directly from PNOR. In that case, QEMU parses the=
- PNOR
-> >>>>> file to extract the PAYLOAD partition (skiboot). skiboot also detec=
-ts the
-> >>>>> flash and extract the kernel and initramfs from the PNOR.
-> >>>>>
-> >>>>> However, you can bypass all this internal boot process by simply pa=
-ssing
-> >>>>> a -bios option and not passing a MTD device.
-> >>>>>
-> >>>> Doing so gives me the following error:
-> >>>> qemu-system-ppc64: Could not load OPAL firmware 'build/coreboot.rom'
-> >>>> (this is after I patched the 4mb size limit up)
-> >>>
-> >>> Could you make that rom available ?=20
-> >>>
-> >> Sure, I think. Not sure about how sending files works in my current ma=
-il
-> >> client but will see. Its more or less a 'stock' (as stock as can be for
-> >> a new coreboot target) coreboot.rom file, but I've added some logic in=
-to
-> >> the build to fake a pnor ffs header at the end in order to trick hostb=
-oot
-> >> bootloader into loading it.
-> >=20
-> > Ok.  Note that the qemu emulated machine doesn't model the hardware
-> > right down to the level of hostboot.  That's wy we're just loading
-> > skiboot and jumping straight into it usually.  I guess clg's stuff to
-> > load pnor images gets us a little closer to the hardware behaviour,
-> > but I think it's still only a rough approximation.
+> > > > f9f4cd1..097c953 100644
+> > > > --- a/target/i386/kvm.c
+> > > > +++ b/target/i386/kvm.c
+> > > > @@ -1811,6 +1811,25 @@ static int kvm_put_msrs(X86CPU *cpu, int lev=
+el)
+> > > >                  kvm_msr_entry_add(cpu, MSR_MTRRphysMask(i), mask);
+> > > >              }
+> > > >          }
+> > > > +        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) =
+{
+> > > > +            int addr_num =3D kvm_arch_get_supported_cpuid(kvm_stat=
+e,
+> > > > +                                                    0x14, 1,
+> > > > + R_EAX) & 0x7;
+> > > > +
+> > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_CTL,
+> > > > +                            env->msr_rtit_ctrl);
+> > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_STATUS,
+> > > > +                            env->msr_rtit_status);
+> > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_OUTPUT_BASE,
+> > > > +                            env->msr_rtit_output_base);
+> > >
+> > > This causes the following crash on some hosts:
+> > >
+> > >   qemu-system-x86_64: error: failed to set MSR 0x560 to 0x0
+> > >   qemu-system-x86_64: target/i386/kvm.c:2673: kvm_put_msrs: Assertion=
+ `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+> > >
+> > > Checking for CPUID_7_0_EBX_INTEL_PT is not enough: KVM has
+> > > additional conditions that might prevent writing to this MSR (PT_CAP_=
+topa_output && PT_CAP_single_range_output).  This
+> causes QEMU to crash if some of the conditions aren't met.
+> > >
+> > > Writing and reading this MSR (and the ones below) need to be conditio=
+nal on KVM_GET_MSR_INDEX_LIST.
+> > >
+> >
+> > Hi Eduardo,
+> >     I found this issue can't be reproduced in upstream source code but =
+can be reproduced on RHEL8.1. I haven't got the qemu source
+> code of RHEL8.1. But after adding some trace in KVM, I found the KVM has =
+reported the complete Intel PT CPUID information to qemu
+> but the Intel PT CPUID (0x14) is lost when qemu setting the CPUID to KVM =
+(cpuid level is 0xd). It looks like lost the below patch.
+> >
+> > commit f24c3a79a415042f6dc195f029a2ba7247d14cac
+> > Author: Luwei Kang <luwei.kang@intel.com>
+> > Date:   Tue Jan 29 18:52:59 2019 -0500
+> >     i386: extended the cpuid_level when Intel PT is enabled
+> >
+> >     Intel Processor Trace required CPUID[0x14] but the cpuid_level
+> >     have no change when create a kvm guest with
+> >     e.g. "-cpu qemu64,+intel-pt".
 >=20
-> It's really tied to the OpenPOWER firmwares using the HIOMAP protocol
-> to discuss with the BMC and load the flash. We could loosen how QEMU=20
-> interprets the MTD device and use a property to inform QEMU that this
-> is an OpenPOWER  PNOR file and that skiboot and can be loaded from it.
-> Something to discuss.
+> Thanks for the pointer.  This may avoid triggering the bug in the default=
+ configuration, but we still need to make the MSR writing
+> conditional on KVM_GET_MSR_INDEX_LIST.  Older machine-types have x-intel-=
+pt-auto-level=3Doff, and the user may set `level`
+> manually.
 
-Right.  I'm guessing one significant issue here is that to fully model
-the BMC, with *its* firmware and comms channels with the main host
-would be quite a lot of work, hence cheating a bit to bypass that.
+Hi Eduardo,
+    Sorry for a delay reply because my mail filter. I tried with the Q35 ma=
+chine type and default, all looks work well (With some old cpu type + "inte=
+l_pt" also work well).  KVM will check the Intel PT work mode and HW to dec=
+ide if Intel PT can be exposed to guest, only extended the CPUID level is u=
+seless. If the guest doesn't support Intel PT, any MSR read or write will c=
+ause #GP. Please remind me if I lost something.
 
-> I have applied this small hack to load larger -bios files :
-> =20
-> --- qemu-powernv-4.2.git.orig/hw/ppc/pnv.c
-> +++ qemu-powernv-4.2.git/hw/ppc/pnv.c
-> @@ -58,7 +58,7 @@
-> =20
->  #define FW_FILE_NAME            "skiboot.lid"
->  #define FW_LOAD_ADDR            0x0
-> -#define FW_MAX_SIZE             (4 * MiB)
-> +#define FW_MAX_SIZE             (64 * MiB)
-> =20
->  #define KERNEL_LOAD_ADDR        0x20000000
->  #define KERNEL_MAX_SIZE         (256 * MiB)
+Thanks,
+Luwei Kang
+
 >=20
-> and coreboot.rom loads and boots and loops.
->=20
->=20
-> You can use -d exec,in_asm to check what's going on.
->=20
->=20
-> C.
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---zhXaljGHf11kAtnf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2tQ2wACgkQbDjKyiDZ
-s5KdpBAAnLR+sJskFRcsT9sUGTF1Kr5L+wIvEjKTVH+XKIZk6HseJfStCESwEgK/
-ux0+oI+L30jTlBI7nblziOSd91fga+m5WtmKIyvl4/4yuJzpBR3rZTmy3wp1+92X
-W2uDHLJR5+LdnO5He1JKxNcI5C01HjFODGDXy14ah6ddJzuSVDgNcYbOPkkD640B
-LIF8g4HwXrgJUtnweLbGmMmaegGT2Yz/umeP+nfSuSZ/mYo00ESJGTn96md+ZsLZ
-V/0QZsdrdXFxDCFoFv625OypKLltHhOckA2sGvT8TW8ndYV5DV4MPoi3/FFLPMeS
-KaTtNlrTRm6IG1Huo4uDSHZ4WX/5v7e/eeMy+tEYLcPVlhhrdsRDL9K55/2c7aqB
-ztWGmDK/eyi0LT7hKq6qQ7Y87Ln6iYb4XqTZ0S17JAB2MpyYWSDqoWQy04MJ5sIF
-9/nCrYgjIyKpSP3oBb231+/27TZ7ZCrk0VhzAF/nn7WX5ULeZcosMRx2VtJ0VNyG
-GB1JyCyOGiPUHBUXwezZK4mtIqBhXUxE2wQCDSjr/Ds2liJrXuDKNl3f8rchiIEe
-NTcvg0Gu1srMd1khAHYNVh/VwkELCsrCgCcFfCKwaCI1ebfpET14C29pFqC4R1W7
-ic2hzibDznZIwTR1r8CWXFuZZWOGRFewdrYIeMecIry0ZtgSrYQ=
-=Ip8l
------END PGP SIGNATURE-----
-
---zhXaljGHf11kAtnf--
+> --
+> Eduardo
 
