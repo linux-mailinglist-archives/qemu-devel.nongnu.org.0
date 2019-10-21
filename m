@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBE9DEDE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:39:32 +0200 (CEST)
-Received: from localhost ([::1]:41984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA503DEDB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:37:08 +0200 (CEST)
+Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMXuF-0004Sf-Gw
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
+	id 1iMXrv-0001dz-Re
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:37:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iMXoF-0005uX-85
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:33:24 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMXp5-0006ve-D0
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:34:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iMXoD-0005uo-W9
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:33:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25361
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iMXoC-0005uN-9h
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:33:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571664795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2zOs54GWIpJ+9iiNt+YidpFvyAt/nvOeRB3QqH1ACPQ=;
- b=E2ogAuIVCgLj5L5VFk/g0KJfQ1vab7I/WwSPZvGJTd0QdN2uPqX0Su9gfJvMmuJlrju6jV
- Jfx1ojY5eOwQJBYf8oV+s9L4zszG9G+x7oye9l7M+AsZnHCWzHvM77G4ouPOvLBeePw4Jx
- ErzXPzT2SoZV+KjduyoqsYtfNFztmtc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-8DkFH3hXP8aIphCbxIFFsw-1; Mon, 21 Oct 2019 09:33:10 -0400
-X-MC-Unique: 8DkFH3hXP8aIphCbxIFFsw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D7931005500;
- Mon, 21 Oct 2019 13:33:09 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-17.ams2.redhat.com
- [10.36.117.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8EA55C207;
- Mon, 21 Oct 2019 13:33:07 +0000 (UTC)
-Subject: Re: Problems with c8bb23cbdbe3 on ppc64le
-From: Max Reitz <mreitz@redhat.com>
-To: Qemu-block <qemu-block@nongnu.org>
-References: <2e7d321c-89f4-f3fd-8331-6bc276880de2@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <120ab7dc-17dd-2796-95a3-8492ca40339e@redhat.com>
-Date: Mon, 21 Oct 2019 15:33:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iMXp0-000666-7E
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:34:11 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44371)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iMXp0-00065x-0z
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:34:06 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 21so10946937otj.11
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 06:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZNqAJ4uR7GFdKZVdzmNIMtD5AszbtgBt5jxTontpdJQ=;
+ b=S0J3dXo1CE7aORBD6vk5KeQQtUq1m3iCfdZX4CM87BY0o2TN2v7LZbv7/jQ4/chSIp
+ 1tSoCWZfm2xVWxOc5218MYVilR8fUBIQrZNCRWb4lgOOb7W1yhujLiKtEYnKG3k1SSH7
+ 7gSEitgV658juL0lvhTuOj07smAWlqKetch3MLsxNgBtKQCahjTXLttWLC/zN/Yjb/pV
+ biJfa+YP/suY+IeLOrtYi7fh/e+JU5FjIJNXzsDDhx2yzxL/AVK8t7kBGnGWN1PO8mJ6
+ 9Yzp9o0lNMrwNjl4CFr/hIIOnXU/qYACKEm9bX0B6X2SJTAXkqhAaKUySbmY7mRV+XUF
+ BD0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZNqAJ4uR7GFdKZVdzmNIMtD5AszbtgBt5jxTontpdJQ=;
+ b=qU3AR80FzQ8y6aNmAKYeRUcTIBtbjImNlOP7HO8gxLppqRwbcVmRZrga3kSLVaI4KU
+ B9AFSyH176zCRauIV/F3E8hBNhPq1t11MyFS907zcv/PbrJ4a0LqAwbZL1uAUv5e5klv
+ vHt1KRkLnrhahLoJQYgnpd9o1UykSVCHNtVv75Kf1V5ocApgh2fw3lXOAmSzyn/g5YHb
+ j/jKxh/9kUWh9NQF9R6gRV6k93oBMEwvSELkoDSnoKfDBmzsjjj3lGcTs/189f/VBqUJ
+ BL4eSNAYnIURjKO+t46u0xqWoXHjc4tCPSIadaNiKfbDlstWwut3+kCHfBnH9eQCqQ1Y
+ nb/Q==
+X-Gm-Message-State: APjAAAXKHlhpksPENKm1E1yWewE/A7WuGqY5CHzjTlUMoKIu3vpF14yr
+ R8sPKUX+mG0eYZm4LJhm1tyBtSu8yTMzsZOLLEc/IA==
+X-Google-Smtp-Source: APXvYqzlhECIryGVO7oZWNbzZYYBQAD19Yndo/fdautAV/Zw0YOxp5x33RQJfJNs35BfGriic7II/90qmx7+Y1QUII0=
+X-Received: by 2002:a9d:398a:: with SMTP id y10mr17802204otb.97.1571664845181; 
+ Mon, 21 Oct 2019 06:34:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2e7d321c-89f4-f3fd-8331-6bc276880de2@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="etKYolLmOmDC1DMzJB9CpfzGcmqSKr0f7"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191021132916.27818-1-alex.bennee@linaro.org>
+In-Reply-To: <20191021132916.27818-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Oct 2019 14:33:53 +0100
+Message-ID: <CAFEAcA_Ru29Y_CXsOnOZKLsmDs-DTj1uYPD5mfcJ40CQrzKGvA@mail.gmail.com>
+Subject: Re: [PATCH] cputlb: ensure _cmmu helper functions follow the naming
+ standard
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,131 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alberto Garcia <berto@igalia.com>,
- Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---etKYolLmOmDC1DMzJB9CpfzGcmqSKr0f7
-Content-Type: multipart/mixed; boundary="mqYP4s28Zx8gFOTHykpWLjVXDRkUSsl8g"
-
---mqYP4s28Zx8gFOTHykpWLjVXDRkUSsl8g
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 10.10.19 17:17, Max Reitz wrote:
-> Hi everyone,
->=20
-> (CCs just based on tags in the commit in question)
->=20
-> I have two bug reports which claim problems of qcow2 on XFS on ppc64le
-> machines since qemu 4.1.0.  One of those is about bad performance
-> (sorry, is isn=E2=80=99t public :-/), the other about data corruption
-> (https://bugzilla.redhat.com/show_bug.cgi?id=3D1751934).
->=20
-> It looks like in both cases reverting c8bb23cbdbe3 solves the problem
-> (which optimized COW of unallocated areas).
->=20
-> I think I=E2=80=99ve looked at every angle but can=E2=80=98t find what co=
-uld be wrong
-> with it.  Do any of you have any idea? :-/
-
-I now have a reproducer with CentOS, so it=E2=80=99s actually useful outsid=
-e of
-Red Hat:
-
-$ cd $TEST_DIR
-
-(Download CentOS-8-x86_64-1905-dvd1.iso here, e.g. from
-http://mirror1.hs-esslingen.de/pub/Mirrors/centos/8.0.1905/isos/x86_64/Cent=
-OS-8-x86_64-1905-dvd1.torrent
-)
-
-$ wget
-http://mirror1.hs-esslingen.de/pub/Mirrors/centos/8.0.1905/BaseOS/x86_64/os=
-/isolinux/vmlinuz
-$ wget
-http://mirror1.hs-esslingen.de/pub/Mirrors/centos/8.0.1905/BaseOS/x86_64/os=
-/isolinux/initrd.img
-
-$ mkdir ks
-$ cat > ks/ks.cfg <<EOF
-rootpw 123456
-install
-keyboard us
-lang en_US.UTF-8
-rootpw 123456
-zerombr
-autopart
-clearpart --all --initlabel
-
-%packages --default
-@core
-%end
-EOF
-
-$ $QEMU_BUILD_DIR/qemu-img create -f qcow2 disk.qcow2 30G
-$ $QEMU_BUILD_DIR/x86_64-softmmu/qemu-system-x86_64 \
-    -name 'centos' \
-    -machine pc \
-    -nodefaults \
-    -vga std \
-    -display gtk \
-    -serial stdio \
-    -device virtio-scsi-pci,id=3Dvirtio_scsi_pci0,bus=3Dpci.0 \
-    -blockdev "{'node-name': 'target-disk',
-                'driver': 'qcow2',
-                'file': {
-                    'driver': 'file',
-                    'filename': 'disk.qcow2',
-                    'cache': {
-                        'direct': true
-                    },
-                    'aio': 'native'
-                } }" \
-    -device scsi-hd,id=3Dimage1,drive=3Dtarget-disk \
-    -blockdev \
-     file,node-name=3Dinstall-cd,filename=3DCentOS-8-x86_64-1905-dvd1.iso \
-    -device scsi-cd,drive=3Dinstall-cd \
-    -blockdev vvfat,node-name=3Dkscfg,dir=3Dks,label=3DOEMDRV,read-only=3Do=
-n \
-    -device scsi-hd,drive=3Dkscfg \
-    -kernel vmlinuz \
-    -append 'ks=3Dhd:LABEL=3DOEMDRV:/ks.cfg delay=3D60 console=3DttyS0' \
-    -initrd initrd.img \
-    -boot order=3Dcd,menu=3Doff,strict=3Doff \
-    -m 2048 \
-    -enable-kvm
-
-This installation fails about 50/50 for me.  To retry, just run the last
-two steps (qemu-img create and the installation itself).
-
-Max
+On Mon, 21 Oct 2019 at 14:29, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> We document this in docs/devel/load-stores.rst so lets follow it. The
+> 32 bit and 64 bit access functions have historically not included the
+> sign so we leave those as is.
+>
+> The few places that use signed code loads are fixed up to do the
+> casting themselves.
+>
+> Fixes: 282dffc8
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 
---mqYP4s28Zx8gFOTHykpWLjVXDRkUSsl8g--
+> diff --git a/target/cris/translate.c b/target/cris/translate.c
+> index e752bd06093..f7d3b3e4fdc 100644
+> --- a/target/cris/translate.c
+> +++ b/target/cris/translate.c
+> @@ -231,7 +231,7 @@ static int cris_fetch(CPUCRISState *env, DisasContext=
+ *dc, uint32_t addr,
+>      case 2:
+>      {
+>          if (sign) {
+> -            r =3D cpu_ldsw_code(env, addr);
+> +            r =3D (int16_t) cpu_lduw_code(env, addr);
+>          } else {
+>              r =3D cpu_lduw_code(env, addr);
+>          }
 
---etKYolLmOmDC1DMzJB9CpfzGcmqSKr0f7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Why not provide the cpu_ldsw_code() that returns an int16_t ?
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2ts5IACgkQ9AfbAGHV
-z0CtvQf/ZzbbQ4V2CT02lssT2yTA5Owg3Xrx5du+l6Sa8/Nv9O/T61RcJ65bqIdQ
-5E24fGGH4W0yM5wYlEsvGHQ08X/MuMtRm92LJkooAm6Tn2BwRtR+9PKCvb7V6lSY
-XWHFKX4uK/o5x7NFq1UUyp2OKLX0xeKEb2ArkH1xOs6xaWqGp29bThCZH+0urYQL
-iyuDJT5nkUA08prWUWf65IWWFvKbRhBaMjuE7uPzo/DXkoMrXdXs5K8aD3WoJq1A
-fn9h7Qcw6GFYJ1Z5uixK7cnaUxG9HcANgM3yfDa2zrnvgTRrddZOJGDfV6XNL0YR
-Elq2s70oOfCcg5A/jGtksnaexJ8Xlg==
-=Y1X8
------END PGP SIGNATURE-----
-
---etKYolLmOmDC1DMzJB9CpfzGcmqSKr0f7--
-
+thanks
+-- PMM
 
