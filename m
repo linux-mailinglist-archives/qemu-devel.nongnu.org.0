@@ -2,89 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D22DE885
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:53:23 +0200 (CEST)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DB7DE8AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:55:04 +0200 (CEST)
+Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMUNO-0006ah-V2
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38317)
+	id 1iMUP1-0000mA-UD
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMULt-0005EG-GW
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:51:50 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMUMS-0006DR-Bt
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:52:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMULr-0004aE-OJ
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:51:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51768
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iMUMR-0004pg-2i
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:52:24 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59176
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMULr-0004ZB-ES
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:51:47 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMUMQ-0004pF-V5
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:52:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571651506;
+ s=mimecast20190719; t=1571651542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zTfPVtWLeeK7kdzKLTde62MZwJYSnxb+lHdGjnuEqaE=;
- b=LndqTswiD7a2rEcWyXt2BWUmcZsvBkZPrSOcAqjp7D4Kv0c1WwthIzrHETHBqYIqPK/UjW
- 3KeKyrKc0Ic4D+4Ad/Z7/czNSEIykevRRv5XveJBPgz1NBYFv1ru5ShHTICGmDv/L10F6l
- 9pM9lDBh11cgvSTAHhhGaXbOyaBoIsE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-S-mMP-jaM6iSblOgTL7sNg-1; Mon, 21 Oct 2019 05:51:44 -0400
-Received: by mail-wr1-f72.google.com with SMTP id k2so6970371wrn.7
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 02:51:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I1QaBqWRKXPTRLfG7LI+IhUfWh/rJl14+/VsA7zHGSI=;
- b=fYG6oNjICMiZ0IimDa82uCRu88Fy0awoo5m+84eFoUSJbJhFUtmvEC5GmQ/kAx/VCh
- /PqjMRYoKUEojwne6dkDx3cOV7Pmej/zIF1vEUWXSvUeokk2/94RCTnXw+WZ3+e9hiqZ
- WhMukum/NblEQiFVhOraSGdnwL9gxxrimKA0sO4Yw4CzKk04Hi8W9cEI8bXvrLYXBxrT
- jhPyIwLBIePDAHmxnu/hzzSnFwxoT8ufh+sQ1Vhsrgy3CD3SJmVau8uhUrbMnLANqG91
- hL5TRG43FKMv6CPudsFAe/ff2MaFe/1Zpg1xV6OkjDklDxOYYYk0jm9EPy3JueLHZtCa
- abfg==
-X-Gm-Message-State: APjAAAWvJ0jtGYNNyHMsMIxL07dcIxoe3aR4ZQ3JacC0D3mGqm2IVjiY
- sOLGHFiuI/E8TsPO6x1pvoSBgH9r/JxEFyRmJGd6qrrMONGPCg3f/BTtlPmwH8pvBTApgkbPIf5
- UncpUVfxV2BgKFoo=
-X-Received: by 2002:adf:fe10:: with SMTP id n16mr20197024wrr.288.1571651503686; 
- Mon, 21 Oct 2019 02:51:43 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyhTQdbIe+7vdg5dT9fLtZjTDlJ2dCkYDCmqoVFjVw6lFh3xgsxrJEYD9AG2VdB0wXXv3mWzw==
-X-Received: by 2002:adf:fe10:: with SMTP id n16mr20197002wrr.288.1571651503457; 
- Mon, 21 Oct 2019 02:51:43 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id o1sm12650787wmc.38.2019.10.21.02.51.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2019 02:51:42 -0700 (PDT)
-Subject: Re: qemu/powernv: coreboot support?
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Marty E. Plummer" <hanetzer@startmail.com>
-References: <20191018172622.kz4smemh5cwesfit@proprietary-killer>
- <21ba3404-dcd3-fe06-7725-d58e249f9fd2@kaod.org>
- <20191019153108.gkupn3tnihspq7th@proprietary-killer>
- <1cbd1882-15c8-5471-cd65-1c84c2920ba8@kaod.org>
- <20191019192315.c3jzj3nbvpfjydsw@proprietary-killer>
- <CAFEAcA-LuxBA1m9dTqNxx_gi74E=MR=-M7sOFGddFxttgfvPiA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <05114fc6-a1ca-b4ea-6cbf-d2b92af4ec3d@redhat.com>
-Date: Mon, 21 Oct 2019 11:51:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
+ bh=2Iv1kWoDsOwQuneVgdR5m7B1IGUC9xC94IwtnlTPXSY=;
+ b=BwfD3bbXj9q2udBDk5gzHrQxZUxdV0HDknzv7i4IsNDcM8RVkuGoQvKqCSzVvRrWDUhh88
+ jQDjFFDJIc2CdgMAsiU/2WT9C+vbeD2VYXxvKyexF2ULtS5TCHmQt30EKifc2oYn3ijJFE
+ k3AuWCj2fKw94CzMXbckQvOmGWbhYr4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-134-X4sV-s87PRWXxwJULM8uMw-1; Mon, 21 Oct 2019 05:52:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57EBE80183E;
+ Mon, 21 Oct 2019 09:52:19 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23EC060BE2;
+ Mon, 21 Oct 2019 09:52:15 +0000 (UTC)
+Subject: Re: [PATCH v1] s390x/kvm: Set default cpu model for all machine
+ classes
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20191021093456.6168-1-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <96381cf8-a6cf-9583-7eb2-92ad9d333c1b@redhat.com>
+Date: Mon, 21 Oct 2019 11:52:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-LuxBA1m9dTqNxx_gi74E=MR=-M7sOFGddFxttgfvPiA@mail.gmail.com>
+In-Reply-To: <20191021093456.6168-1-david@redhat.com>
 Content-Language: en-US
-X-MC-Unique: S-mMP-jaM6iSblOgTL7sNg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: X4sV-s87PRWXxwJULM8uMw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,45 +118,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/19 9:48 PM, Peter Maydell wrote:
-> On Sat, 19 Oct 2019 at 20:24, Marty E. Plummer <hanetzer@startmail.com> w=
-rote:
->> Turns out the 'not text' warning came from lists.sr.ht, I wonder why
->> that mailed me.
+On 21/10/2019 11.34, David Hildenbrand wrote:
+> We have to set the default model of all machine classes, not just for
+> the active one. Otherwise, "query-machines" will indicate the wrong
+> CPU model ("qemu-s390x-cpu" instead of "host-s390x-cpu") as
+> "default-cpu-type".
 >=20
-> It's just an individual subscribed address that complains,
-> not the qemu mailing list itself.
+> Doing a
+>     {"execute":"query-machines"}
+> under KVM now results in
+>     {"return": [
+>         {
+>             "hotpluggable-cpus": true,
+>             "name": "s390-ccw-virtio-4.0",
+>             "numa-mem-supported": false,
+>             "default-cpu-type": "host-s390x-cpu",
+>             "cpu-max": 248,
+>             "deprecated": false},
+>         {
+>             "hotpluggable-cpus": true,
+>             "name": "s390-ccw-virtio-2.7",
+>             "numa-mem-supported": false,
+>             "default-cpu-type": "host-s390x-cpu",
+>             "cpu-max": 248,
+>             "deprecated": false
+>         } ...
 >=20
-> Philippe, did you say it was you that had subscribed
-> a lists.sr.ht address ? Could you configure it not
-> to complain to individual list senders? Failing that,
-> would it be too annoying to unsubscribe it? At the moment
-> it mostly seems to confuse people.
+> Reported-by: Jiri Denemark <jdenemar@redhat.com>
+> Fixes: b6805e127c6b ("s390x: use generic cpu_model parsing")
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/kvm.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index c24c869e77..5966ab0d37 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -320,11 +320,17 @@ void kvm_s390_set_max_pagesize(uint64_t pagesize, E=
+rror **errp)
+>      cap_hpage_1m =3D 1;
+>  }
+> =20
+> -int kvm_arch_init(MachineState *ms, KVMState *s)
+> +static void ccw_machine_class_foreach(ObjectClass *klass, void *opaque)
+>  {
+> -    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+> +    MachineClass *mc =3D MACHINE_CLASS(klass);
 
-Unfortunately it is not very configurable, so I simply unsubscribed it
-(no problem, it was just an experiment with sr.ht which provide fancy
-features such a similar patchwork system and repository, but we use
-patchew).
+I think we rather wanted to avoid using "klass" in new code... maybe use
+"oc" instead of "klass" ?
 
-> The other alternative here is I could turn back on the
-> qemu-devel list facility that turns HTML emails into plain
-> text. I sort of didn't want to do that, though, as editing
-> emails means we end up with from-header mangling if the
-> sender has a strict dmarc/dkim setup...
+>      mc->default_cpu_type =3D S390_CPU_TYPE_NAME("host");
+> +}
+> +
+> +int kvm_arch_init(MachineState *ms, KVMState *s)
+> +{
+> +    object_class_foreach(ccw_machine_class_foreach, TYPE_S390_CCW_MACHIN=
+E,
+> +                         false, NULL);
+> =20
+>      if (!kvm_check_extension(kvm_state, KVM_CAP_DEVICE_CTRL)) {
+>          error_report("KVM is missing capability KVM_CAP_DEVICE_CTRL - "
+>=20
 
-Agreed, no need to go back to this.
+Weird, if you start an older machine, you still get the "host" CPU
+without your patch, too:
 
-Sorry for the noise with this experiment.
+echo -e "info qom-tree \n quit" | \
+ qemu-system-s390x -display none -monitor stdio -no-shutdown \
+   -accel kvm -M s390-ccw-virtio-3.0 | grep s390x-cpu
 
-Regards,
+Results in:
 
-Phil.
+    /device[0] (host-s390x-cpu)
+
+... so I wonder why that differs from the "query-machines" command?
+
+Anyway, your patch sounds fine, so (with "klass" replaced by "oc"):
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
