@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F146DEB62
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:52:14 +0200 (CEST)
-Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9745DEB6D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:54:34 +0200 (CEST)
+Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMWEO-0007eG-So
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52744)
+	id 1iMWGf-0002Sy-PZ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBZ-0005UW-El
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:19 -0400
+ id 1iMWBb-0005VS-KZ
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBX-0003Au-E2
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:17 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33728)
+ id 1iMWBX-0003B1-EE
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:19 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38209)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBR-00038a-Q1
+ id 1iMWBR-00038j-Po
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:14 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 6so1186856wmf.0
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:06 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id v9so2350152wrq.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kVPn/TqsVrLsIWtsYnTYm7mIPjPA8vCaNQCpnpdWJRs=;
- b=ZaaQZMEIekiB+mZvzO3UPAfQ63y7KMYcpOfBE+mCuBT9eIucUiGueEjleHuz+pY+o3
- OEqHcFUCrmYAXu7fhCO9qF0o42w6c+gyj/9mBvj3pwp/frvH6x6J6sjVEnx5zFSP/HEZ
- 86ooKHw/gIfQYYMoUwV3uBcDXDzpAgw26o42uWY47ht6LNQy7TjdFTfp/ioM+oO9wNvu
- I5tVZy7t2cqDQNvOqJKgRMDwiPvDacgyQKvYIskTA/zHUUsFrfxXGXOc/ohC5vmvOa7M
- wkyhp5SFFFuaoRFrK2Sx18HzS7qBGvmnn8uIDbHwseFraW974YJu2FaeI6vL64hO5wbd
- fWKA==
+ bh=L1ZRC5xfl7LAc8y7XcDjWKXdgHuMKTnYncwldrjeKoE=;
+ b=Hw5E9q123R3Tvz1vaTdDmL8+/eQKpTsEt3Qgu1/klh48i+Z9puQ/jxBxlIBNIJiJAD
+ XLSla8eh1r0PXmCUAlSDKSB3Q649GBdIXDqIl5V7M38uGtS0Jx+dHMXIdZ7ncLHqiqvq
+ vaze0JZa9fANNtde143lXJ6Q466W87v1gwbL66k3R0gwaXdSRDjVj8+s0XS69PsnhixP
+ H25q1qxm7MJ91L6OvN+BxG6cRDW+v9KbHR72tKnyW8wYTi/hIcMeJ2eo45ZyC+WYByyv
+ ckqhtNyKw9fqVBx07N8LaqBvq+zrTNUVAORn+vFyKHYuZshJgLuccqAZWqcBeDjk/Vyb
+ Dc0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kVPn/TqsVrLsIWtsYnTYm7mIPjPA8vCaNQCpnpdWJRs=;
- b=GpioHnBlvnXgGuwI99CzaUZbef8zbI0ZBxsPne7EfIzrzMwVKDM3Ze42IMPmBAdvqR
- +mj1h0g3cjJkTyvuxKKgICsUwnyZalZhtoDJYEAP6in37xQb79t0/eqHdIpimM3EBEVc
- OH9C5bcK53q/j7oOITB2KLhUiSnSw92d6idVLDYTqnaThIRiLjVlKgOO0LBcKAkZp2bg
- DiklXBinofByQHJ5WKdFGB88F3107b8B3XBrRY2Ts8JfOwkpSS2BB25SDfHOb0lkOG9x
- nB7AyAhYNOZivN2CR40sHtzh45P046uXcUU3H+fHmwlMoREXEYwzMSuvb5IX2XK7x+oh
- z0rw==
-X-Gm-Message-State: APjAAAV6nkKQG4qFXNca/PkdOpPR+wHSV1jYdhugu+XFwsVRDitclEk+
- vi7ktXOZINKCAubfJdQ73X7Tu02f
-X-Google-Smtp-Source: APXvYqzVG8jajY24keh4SgZ1BdA+Q7TLB9Q9vV203Y3HpCMvA89X8iHHiqI/Cd/iKltuVXObltLc3A==
-X-Received: by 2002:a1c:b6c4:: with SMTP id g187mr2974263wmf.54.1571658545489; 
- Mon, 21 Oct 2019 04:49:05 -0700 (PDT)
+ bh=L1ZRC5xfl7LAc8y7XcDjWKXdgHuMKTnYncwldrjeKoE=;
+ b=Xb54AYDarHtRqRvftP6qrTBBm1T+Zq+Tw89BXfwY9WJGEdiS3P5isCj0kYyWH4guGg
+ cx4zslK2VMgPSWG9NexOOOiPT0ZN8Ellagkz+7dwVQzjYicsFSUshJsM0CqQ0ClIx6ND
+ g53UoZlT+/YJ63Qkmci+VbhWvxLBCnhPdLvJqoRsn2c3i8U1dPgtEBtgOo+ipXfEN/Ca
+ B4XhCKLC+SDcGYmOSDvxqd01HoI/EyCtVQX50ksrJ3x4mDDxi0QZK6A7k1dqgAYG/Fwa
+ acj0YBiX3OpSnngKnR1jGR2ASFUUYoa7dLnn4LmgwQhuX+96RRVj0k5jiABIG5KudZQz
+ sHfw==
+X-Gm-Message-State: APjAAAVUVAD8/SDbc5GcHtBjUfUkUlSwnOLozrLvzjAcnM4HKlg2RtSI
+ ahSvpsdrUDF6kbUk3lacSrqnwPDR
+X-Google-Smtp-Source: APXvYqyhC2xqhen9lmC1sFAEfA0NBjNDe8SFmARNqljeJrKlGw0ydnjwfWaWvLqNIpG74ouKi+C2zA==
+X-Received: by 2002:adf:91e1:: with SMTP id 88mr7747800wri.16.1571658546821;
+ Mon, 21 Oct 2019 04:49:06 -0700 (PDT)
 Received: from localhost.localdomain
  (129.red-83-57-174.dynamicip.rima-tde.net. [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.03
+ by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 04:49:04 -0700 (PDT)
+ Mon, 21 Oct 2019 04:49:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 3/9] linux-user/strace: Improve settimeofday()
-Date: Mon, 21 Oct 2019 13:48:51 +0200
-Message-Id: <20191021114857.20538-4-f4bug@amsat.org>
+Subject: [PATCH v8 4/9] linux-user/syscall: Introduce target_sockaddr_nl
+Date: Mon, 21 Oct 2019 13:48:52 +0200
+Message-Id: <20191021114857.20538-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191021114857.20538-1-f4bug@amsat.org>
 References: <20191021114857.20538-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,51 +88,51 @@ Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-By: Guido Günther <agx@sigxcpu.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/strace.c    | 13 +++++++++++++
- linux-user/strace.list |  2 +-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+v7: use abi_ushort and abi_uint to keep alignments good (lvivier)
+---
+ linux-user/syscall.c      | 6 ++++--
+ linux-user/syscall_defs.h | 7 +++++++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 2cd6687cd9..fd5596a640 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1583,6 +1583,19 @@ print_futimesat(const struct syscallname *name,
- }
- #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index e2af3c1494..f1ab81b917 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1496,8 +1496,10 @@ static inline abi_long host_to_target_sockaddr(abi_ulong target_addr,
+         sizeof(target_saddr->sa_family)) {
+         target_saddr->sa_family = tswap16(addr->sa_family);
+     }
+-    if (addr->sa_family == AF_NETLINK && len >= sizeof(struct sockaddr_nl)) {
+-        struct sockaddr_nl *target_nl = (struct sockaddr_nl *)target_saddr;
++    if (addr->sa_family == AF_NETLINK &&
++        len >= sizeof(struct target_sockaddr_nl)) {
++        struct target_sockaddr_nl *target_nl =
++               (struct target_sockaddr_nl *)target_saddr;
+         target_nl->nl_pid = tswap32(target_nl->nl_pid);
+         target_nl->nl_groups = tswap32(target_nl->nl_groups);
+     } else if (addr->sa_family == AF_PACKET) {
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index fa69c6ab8d..7694d72446 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -153,6 +153,13 @@ struct target_sockaddr_un {
+     uint8_t sun_path[108];
+ };
  
-+#ifdef TARGET_NR_settimeofday
-+static void
-+print_settimeofday(const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_timeval(arg0, 0);
-+    print_timezone(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
++struct target_sockaddr_nl {
++    abi_ushort nl_family;   /* AF_NETLINK */
++    abi_ushort __pad;
++    abi_uint nl_pid;
++    abi_uint nl_groups;
++};
 +
- #ifdef TARGET_NR_link
- static void
- print_link(const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 63a946642d..1ff9168369 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1345,7 +1345,7 @@
- { TARGET_NR_set_tid_address, "set_tid_address" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_settimeofday
--{ TARGET_NR_settimeofday, "settimeofday" , NULL, NULL, NULL },
-+{ TARGET_NR_settimeofday, "settimeofday" , NULL, print_settimeofday, NULL },
- #endif
- #ifdef TARGET_NR_setuid
- { TARGET_NR_setuid, "setuid" , NULL, NULL, NULL },
+ struct target_in_addr {
+     uint32_t s_addr; /* big endian */
+ };
 -- 
 2.21.0
 
