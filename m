@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E109DDF702
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:50:03 +0200 (CEST)
-Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B80DF733
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:56:09 +0200 (CEST)
+Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMecs-00050O-EX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41238)
+	id 1iMeim-0001QN-9t
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:56:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iMebW-0004Z7-75
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:48:39 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMehJ-0000J1-Uv
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:54:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iMebT-0007j3-G3
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:48:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53852
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iMebT-0007iK-CE
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:48:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571690914;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CbuOpLUXSxhnGmFBgGJREwoTloU+7JMmfbWdCQipGiM=;
- b=B7I3l2blCHVROjqCisqaqaxFZCU/pR1RXgdfoiytntGJeXxLDuEq7oPKPzbl0L5NnjuDzS
- 4PmoVxkeNeysluFpV9+yLmPAaffTPxbS7a31yHkFKYO5epQ+9IZnBsHdiR382sGR9Q31Oa
- RTpnAhtXddunadebxRipmJYlPsV5MXM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-f_E-VWYPPaiOVLgKBxOGog-1; Mon, 21 Oct 2019 16:48:31 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CEFF80183E;
- Mon, 21 Oct 2019 20:48:30 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3947C60C57;
- Mon, 21 Oct 2019 20:48:21 +0000 (UTC)
-Date: Mon, 21 Oct 2019 14:48:21 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH 02/11] pci: add option for net failover
-Message-ID: <20191021144821.37066c5b@x1.home>
-In-Reply-To: <20191021202857.xacalrfr3olhaj22@jenstp.localdomain>
-References: <20191018202040.30349-1-jfreimann@redhat.com>
- <20191018202040.30349-3-jfreimann@redhat.com>
- <20191021085823.72ac4b37@x1.home>
- <20191021184546.n5iddctnnlxe3tay@jenstp.localdomain>
- <20191021130122.2787245f@x1.home>
- <20191021202857.xacalrfr3olhaj22@jenstp.localdomain>
-Organization: Red Hat
+ (envelope-from <alistair23@gmail.com>) id 1iMehI-0002r7-SA
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:54:37 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:44397)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iMehI-0002py-Js; Mon, 21 Oct 2019 16:54:36 -0400
+Received: by mail-lj1-x241.google.com with SMTP id m13so14795727ljj.11;
+ Mon, 21 Oct 2019 13:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=y6PVkJluZrdtoJOj1jT41eZt37CmWiN7V3jyZ1GlLCw=;
+ b=odAYjHeqwVexzxm/u+uSQ5ftyJsVAQzQ/hST9cvQxy1vwt8VgzQj3liADO0WbAGnLy
+ XmjodAo1vn/NZttgA/l5WxZs0gkh637DamTNBjcHFYOSa9KUmjI+RAnGRQ7k9OBm+eRf
+ fXdNoorlWFngZU/wUzHvZJ98GUD7ZuuJ9J+4f3SY6+QVN2eiXfJzmiPHRjQvyI6fXJw8
+ uMZkbiF06xj63KJvZZJAHjVsfIO01atpjzuyDAJE/I9B+qFrkiDnFnG1gM/6O6WPJc8k
+ pK/SbeGf7qFhqtabZzpxTMCnBOncSJ0SXaF+n4Xg3E/F05xL8Z+pLyvA7YkEhTHnpETo
+ Xk1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=y6PVkJluZrdtoJOj1jT41eZt37CmWiN7V3jyZ1GlLCw=;
+ b=XnqP6GGdgdtX8kKimMeA+mr0qw/IhVT/XFmbQJ0L5VsItOmNis1mI/Z/S9GQHrSVmm
+ lC5ACQyYg4/q9dRxH41aLOm/wrweVRL5J2PLXIRlrqjolcMHJFrd2Qhv4Jvux4eZdyRo
+ 9JZ8Yf28nI7gCkQaYwnIoI/GBT2KKDUZxDLdPYfaGNP3bo8DXIcUuU3W6Fb241N4h9GK
+ x/70RPbN50qarxy6TpM+L2FLJATnDAtECSlw3zxE8lpyKGcX26/n5AekLB26GErn3kk4
+ 9SLGovdIh/BRxToDBxRSuZKOu02XHYchqjON+JAgalsFLqWLpOLqbcFV+iPJj4BjmkK/
+ jBrA==
+X-Gm-Message-State: APjAAAWhGFvO9lp6YLKHFs/6Ot2kzJ6PulAwLB6qHRearzxvxxPPhRb9
+ 3kQ4k5Ykrplyxj7O0wpWD+KGwrbvej2yusbAQck=
+X-Google-Smtp-Source: APXvYqxKQ/5BA2PYmKZRF7wUrbqV/yWo67MblngiIFeI8vJgkCLk758Hp0kX25u/iPi8UOvdSE5o1H36Rj2PFK4oM6U=
+X-Received: by 2002:a2e:9890:: with SMTP id b16mr16586980ljj.4.1571691275252; 
+ Mon, 21 Oct 2019 13:54:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: f_E-VWYPPaiOVLgKBxOGog-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191020225650.3671-1-philmd@redhat.com>
+ <20191020225650.3671-4-philmd@redhat.com>
+In-Reply-To: <20191020225650.3671-4-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Oct 2019 13:49:16 -0700
+Message-ID: <CAKmqyKNAcJjcF+8A4tN3gGYsjD3DUPbOzXOcm49wvXWgVq6bFA@mail.gmail.com>
+Subject: Re: [PATCH 03/21] hw/arm/collie: Create the RAM in the board
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,62 +73,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- laine@redhat.com, ailan@redhat.com, parav@mellanox.com
+Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Michael Walle <michael@walle.cc>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Oct 2019 22:28:57 +0200
-Jens Freimann <jfreimann@redhat.com> wrote:
+On Sun, Oct 20, 2019 at 3:59 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> The SDRAM is incorrectly created in the SA1110 SoC.
+> Move its creation in the board code, this will later allow the
+> board to have the QOM ownership of the RAM.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> On Mon, Oct 21, 2019 at 01:01:22PM -0600, Alex Williamson wrote:
-> >On Mon, 21 Oct 2019 20:45:46 +0200
-> >Jens Freimann <jfreimann@redhat.com> wrote:
-> > =20
-> >> On Mon, Oct 21, 2019 at 08:58:23AM -0600, Alex Williamson wrote: =20
-> >> >On Fri, 18 Oct 2019 22:20:31 +0200
-> >> >Jens Freimann <jfreimann@redhat.com> wrote:
-> >> > =20
-> >> >> This patch adds a net_failover_pair_id property to PCIDev which is
-> >> >> used to link the primary device in a failover pair (the PCI dev) to
-> >> >> a standby (a virtio-net-pci) device.
-> >> >>
-> >> >> It only supports ethernet devices. Also currently it only supports
-> >> >> PCIe devices. QEMU will exit with an error message otherwise. =20
-> >> >
-> >> >Doesn't the PCIe device also need to be hotpluggable?  We can have PC=
-Ie
-> >> >devices attached to the root bus where we don't currently support
-> >> >hotplug.  Thanks, =20
-> >>
-> >> How do I recognize such a device? hotpluggable in DeviceClass? =20
-> >
-> >I wouldn't expect it to be a device property, it's more of a function
-> >of whether the bus that it's attached to supports hotplug, so probably
-> >something related to the bus controller.  Thanks, =20
->=20
-> IIUC this is checked for in qdev_device_add() by this:
->=20
->   if (qdev_hotplug && bus && !qbus_is_hotpluggable(bus)) {
->         error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
->         return NULL;
->   }
->=20
-> So qemu will fail with 'Bus pcie.0 does not allow hotplug' when we try=20
-> to hotplug the device. I tried a primary with bus=3Dpcie.0 and it aborted=
-.
-> Aborting qemu is not nice so I'll make it print a error message
-> QERR_BUS_NO_HOTPLUG instead but let it continue. This will be
-> a change in the virtio-net patch, not in this one.=20
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-qdev_hotplug is only set to true after qdev_machine_creation_done(), so
-if we start a VM with cold-plugged primary and failover, wouldn't the
-user only learn the configuration is invalid at the time they try to
-use it?  I agree that the above should prevent a device from being
-hot-added to the bus, but I don't think that's our starting position,
-is it?  Thanks,
+Alistair
 
-Alex
-
+> ---
+>  hw/arm/collie.c    | 8 ++++++--
+>  hw/arm/strongarm.c | 7 +------
+>  hw/arm/strongarm.h | 4 +---
+>  3 files changed, 8 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/arm/collie.c b/hw/arm/collie.c
+> index b1288ccea8..970a4405cc 100644
+> --- a/hw/arm/collie.c
+> +++ b/hw/arm/collie.c
+> @@ -27,9 +27,13 @@ static void collie_init(MachineState *machine)
+>  {
+>      StrongARMState *s;
+>      DriveInfo *dinfo;
+> -    MemoryRegion *sysmem =3D get_system_memory();
+> +    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
+>
+> -    s =3D sa1110_init(sysmem, collie_binfo.ram_size, machine->cpu_type);
+> +    s =3D sa1110_init(machine->cpu_type);
+> +
+> +    memory_region_allocate_system_memory(sdram, NULL, "strongarm.sdram",
+> +                                         collie_binfo.ram_size);
+> +    memory_region_add_subregion(get_system_memory(), SA_SDCS0, sdram);
+>
+>      dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>      pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
+> diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
+> index dc65d88a65..6bee034914 100644
+> --- a/hw/arm/strongarm.c
+> +++ b/hw/arm/strongarm.c
+> @@ -1586,8 +1586,7 @@ static const TypeInfo strongarm_ssp_info =3D {
+>  };
+>
+>  /* Main CPU functions */
+> -StrongARMState *sa1110_init(MemoryRegion *sysmem,
+> -                            unsigned int sdram_size, const char *cpu_typ=
+e)
+> +StrongARMState *sa1110_init(const char *cpu_type)
+>  {
+>      StrongARMState *s;
+>      int i;
+> @@ -1601,10 +1600,6 @@ StrongARMState *sa1110_init(MemoryRegion *sysmem,
+>
+>      s->cpu =3D ARM_CPU(cpu_create(cpu_type));
+>
+> -    memory_region_allocate_system_memory(&s->sdram, NULL, "strongarm.sdr=
+am",
+> -                                         sdram_size);
+> -    memory_region_add_subregion(sysmem, SA_SDCS0, &s->sdram);
+> -
+>      s->pic =3D sysbus_create_varargs("strongarm_pic", 0x90050000,
+>                      qdev_get_gpio_in(DEVICE(s->cpu), ARM_CPU_IRQ),
+>                      qdev_get_gpio_in(DEVICE(s->cpu), ARM_CPU_FIQ),
+> diff --git a/hw/arm/strongarm.h b/hw/arm/strongarm.h
+> index e98840b461..192821f6aa 100644
+> --- a/hw/arm/strongarm.h
+> +++ b/hw/arm/strongarm.h
+> @@ -55,7 +55,6 @@ enum {
+>
+>  typedef struct {
+>      ARMCPU *cpu;
+> -    MemoryRegion sdram;
+>      DeviceState *pic;
+>      DeviceState *gpio;
+>      DeviceState *ppc;
+> @@ -63,7 +62,6 @@ typedef struct {
+>      SSIBus *ssp_bus;
+>  } StrongARMState;
+>
+> -StrongARMState *sa1110_init(MemoryRegion *sysmem,
+> -                            unsigned int sdram_size, const char *rev);
+> +StrongARMState *sa1110_init(const char *cpu_type);
+>
+>  #endif
+> --
+> 2.21.0
+>
+>
 
