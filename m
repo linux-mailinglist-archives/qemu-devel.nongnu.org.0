@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87034DE542
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 09:24:58 +0200 (CEST)
-Received: from localhost ([::1]:35420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D619DE552
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 09:30:56 +0200 (CEST)
+Received: from localhost ([::1]:35474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMS3k-0006B2-Ai
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 03:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47627)
+	id 1iMS9X-0000db-9H
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 03:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47993)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iMS2o-0005hJ-EN
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:23:59 -0400
+ (envelope-from <th.huth@posteo.de>) id 1iMS6u-0007km-Ux
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:28:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iMS2m-0007Zx-Ff
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:23:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39550
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <th.huth@posteo.de>) id 1iMS6t-0000Xx-55
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:28:12 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:48257)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iMS2m-0007Xn-4N
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:23:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571642633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ClLiGPEMMWTzeh+osYqsUOxLMmAduo0dPPbJrPbFFps=;
- b=ZX0O5lMdIS/FhMPvy2VvVByuxOiU+Eq9We3N7KzQ9TIlTHsqUca9CV9wyOmMjExzg4YnD0
- 2gpKnCOeop6whp9MIhUAAfX7ydqqTVwTYwQlMh+KiFnEOG4LProhwkQeea2EgFJsPNEq8F
- DjLHD/lA9A9ooflxPyzAIFyVtym7vFc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-Z9hwyN9tOfmeIrKToTtfyg-1; Mon, 21 Oct 2019 03:23:52 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC5511800E00;
- Mon, 21 Oct 2019 07:23:51 +0000 (UTC)
-Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A353260126;
- Mon, 21 Oct 2019 07:23:43 +0000 (UTC)
-Date: Mon, 21 Oct 2019 09:23:42 +0200
-From: Jens Freimann <jfreimann@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 05/11] qapi: add unplug primary event
-Message-ID: <20191021072342.omxkgwma73cl4e37@jenstp.localdomain>
-References: <20191018202040.30349-1-jfreimann@redhat.com>
- <20191018202040.30349-6-jfreimann@redhat.com>
- <186357a6-3b91-51eb-1daf-2ea9ef6071f5@redhat.com>
+ (Exim 4.71) (envelope-from <th.huth@posteo.de>) id 1iMS6s-0000WG-Nn
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:28:11 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+ by mout01.posteo.de (Postfix) with ESMTPS id 12FC2160061
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 09:28:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+ t=1571642886; bh=sMqAVjhAO5ZJUZASP/ngQiG8dr9TKHjo23TxbW1QQHk=;
+ h=Subject:To:Cc:From:Date:From;
+ b=Y5L9OMPFO93X5ZTIGh5GzQfu53SToFNuTcf1Mfu9B9WdUKpE4OBJsqsHuZlPanxYu
+ sVf5eY3lakVcSBBSnFhWyxHtK1A4ZGLmI1SvXynE9XhLeYgaiWpz45t02Zo7vwvyG/
+ MWoroa5Y275K2beF0f78an+IsTxUBQKnAjHozD87jgZjvzlh2EILHp7ert/sGhlnzX
+ KRxp4RCALgQ0jFA+MvrnOP2GwhKVwUqJQpFvmvcYR3dlbabG6Yc4YnNNi+KfMk+MJk
+ CG/H+RR7Xkw4tke+OgYqzK5HK2AYXNcToC+QvZpnL4YHFBLErOH17KWOZF61Qtwim9
+ A9Jfz5XMjJpVg==
+Received: from customer (localhost [127.0.0.1])
+ by submission (posteo.de) with ESMTPSA id 46xSsS442wz6tm8;
+ Mon, 21 Oct 2019 09:27:56 +0200 (CEST)
+Subject: Re: [PATCH 09/21] hw: Let memory_region_allocate_system_memory take
+ MachineState argument
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20191020225650.3671-1-philmd@redhat.com>
+ <20191020225650.3671-10-philmd@redhat.com>
+From: Thomas Huth <th.huth@posteo.de>
+Message-ID: <bccd05a8-43e1-e094-3e6c-e7df24cc843f@posteo.de>
+Date: Mon, 21 Oct 2019 09:27:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <186357a6-3b91-51eb-1daf-2ea9ef6071f5@redhat.com>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Z9hwyN9tOfmeIrKToTtfyg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+In-Reply-To: <20191020225650.3671-10-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 185.67.36.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,58 +67,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
- parav@mellanox.com
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 18, 2019 at 03:28:36PM -0500, Eric Blake wrote:
->On 10/18/19 3:20 PM, Jens Freimann wrote:
->>This event is emitted when we sent a request to unplug a
->>failover primary device from the Guest OS and it includes the
->>device id of the primary device.
->>
->>Signed-off-by: Jens Freimann <jfreimann@redhat.com>
->>---
->>  qapi/migration.json | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
->>
->>diff --git a/qapi/migration.json b/qapi/migration.json
->>index 82feb5bd39..52e69e2868 100644
->>--- a/qapi/migration.json
->>+++ b/qapi/migration.json
->>@@ -1448,3 +1448,22 @@
->>  # Since: 3.0
->>  ##
->>  { 'command': 'migrate-pause', 'allow-oob': true }
->>+
->>+##
->>+# @UNPLUG_PRIMARY:
->>+#
->>+# Emitted from source side of a migration when migration state is
->>+# WAIT_UNPLUG. Device was unplugged by guest operating system.
->>+# Device resources in QEMU are kept on standby to be able to re-plug it =
-in case
->>+# of migration failure.
->>+#
->>+# @device_id: QEMU device id of the unplugged device
->>+#
->>+# Since: 4.2
->>+#
->>+# Example:
->>+#   {"event": "UNPLUG_PRIMARY", "data": {"device_id": "hostdev0"} }
->
->Unless there is a strong reason in favor of 'device_id' (such as=20
->consistency with a similar event), our naming convention prefers this=20
->to be 'device-id'.
+On 21/10/2019 00.56, Philippe Mathieu-Daud=C3=A9 wrote:
+> All the codebase calls memory_region_allocate_system_memory() with
+> a NULL 'owner' from the board_init() function.
 
-No reason, I'll change it.
+It's a little bit weird that you first changed the owner to NULL in
+patch 7, just to change the type of the parameter here and then change
+the parameter back to the machine afterwards. I think I'd rather squash
+pash 7 (and the follow-up patches like 14) into this one here - it's
+just four files that need to be adapted, so I think that's still fine,
+and finally that's less churn to be reviewed.
 
-Thanks Eric!
+> Let pass a MachineState argument, and enforce the QOM ownership of
+> the system memory.
 
-regards,
-Jens=20
+BTW, good idea!
 
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/core/numa.c      | 11 +++++++----
+>  include/hw/boards.h |  6 ++++--
+>  2 files changed, 11 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index 038c96d4ab..2e29e4bfe0 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -520,21 +520,24 @@ static void allocate_system_memory_nonnuma(Memory=
+Region *mr, Object *owner,
+>      vmstate_register_ram_global(mr);
+>  }
+> =20
+> -void memory_region_allocate_system_memory(MemoryRegion *mr, Object *ow=
+ner,
+> +void memory_region_allocate_system_memory(MemoryRegion *mr, MachineSta=
+te *ms,
+>                                            const char *name,
+>                                            uint64_t ram_size)
+>  {
+>      uint64_t addr =3D 0;
+>      int i;
+> -    MachineState *ms =3D MACHINE(qdev_get_machine());
+> +
+> +    if (!ms) {
+> +        ms =3D MACHINE(qdev_get_machine());
+> +    }
+> =20
+>      if (ms->numa_state =3D=3D NULL ||
+>          ms->numa_state->num_nodes =3D=3D 0 || !have_memdevs) {
+> -        allocate_system_memory_nonnuma(mr, owner, name, ram_size);
+> +        allocate_system_memory_nonnuma(mr, OBJECT(ms), name, ram_size)=
+;
+>          return;
+>      }
+> =20
+> -    memory_region_init(mr, owner, name, ram_size);
+> +    memory_region_init(mr, OBJECT(ms), name, ram_size);
+>      for (i =3D 0; i < ms->numa_state->num_nodes; i++) {
+>          uint64_t size =3D ms->numa_state->nodes[i].node_mem;
+>          HostMemoryBackend *backend =3D ms->numa_state->nodes[i].node_m=
+emdev;
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index de45087f34..3b6cb82b6c 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -14,7 +14,7 @@
+>  /**
+>   * memory_region_allocate_system_memory - Allocate a board's main memo=
+ry
+>   * @mr: the #MemoryRegion to be initialized
+> - * @owner: the object that tracks the region's reference count
+> + * @ms: the #MachineState object that own the system memory
+
+s/own/owns/
+
+>   * @name: name of the memory region
+>   * @ram_size: size of the region in bytes
+>   *
+> @@ -38,8 +38,10 @@
+>   * Smaller pieces of memory (display RAM, static RAMs, etc) don't need
+>   * to be backed via the -mem-path memory backend and can simply
+>   * be created via memory_region_init_ram().
+> + *
+> + * The #MachineState object will track the region's reference count.
+>   */
+> -void memory_region_allocate_system_memory(MemoryRegion *mr, Object *ow=
+ner,
+> +void memory_region_allocate_system_memory(MemoryRegion *mr, MachineSta=
+te *ms,
+>                                            const char *name,
+>                                            uint64_t ram_size);
+> =20
+>=20
+
+ Thomas
 
