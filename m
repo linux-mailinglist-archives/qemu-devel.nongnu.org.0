@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EC6DEE5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:50:54 +0200 (CEST)
-Received: from localhost ([::1]:42328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39F2DEE45
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:47:39 +0200 (CEST)
+Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMY5F-0006EW-Nv
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41527)
+	id 1iMY26-0002Cv-AZ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMXyh-0007wf-2Q
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:08 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iMXzz-0000ja-4E
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:45:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMXyf-0000mb-Qz
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:06 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36249)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMXyf-0000mB-K9
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:44:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w18so13522587wrt.3
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 06:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pPyjiLHcXCm2RhqBb6tCDKheW+xM8aFwIwX0Fdcw04Y=;
- b=Z0cPzV6aXQz8jV+2+sVoBNTXSuMK+P8IwBt/vq84+IqAqOjUNAa7MOyZx8N9/Z9oh1
- 8eGqFqQBLG6Dd6wD1gScJ3wK9ru+k88hJFlrSJeRqG0U804Nd1suTNKwERF1ZXjCqaU6
- Y68w7wXS9I2QyJ6eDlzCsgM8h8sb6ATPgx9a/8+7Cl9n45TEowEEj6sTnX+ftra+IqjW
- fVVyzn7zD1SGJ4CtwPagavaveNjhe25GjnXfu8Kzbz3Dbz1kzftI8fInKaVY918BcbQC
- zwZBNdw1kVYWZ8qnTQx/77CLHb++z3tloj+mZdPGbDzI7bHoqnq1u963m+qGlO0Z5O9S
- PVpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pPyjiLHcXCm2RhqBb6tCDKheW+xM8aFwIwX0Fdcw04Y=;
- b=EaGj/90b0pDYodzcL8Ruo8RqGeZvqXmFopLJYn3D6TngNJkjiD+nnwzsT9rDlAnM/7
- 39qSLkT/WtxD4d7klCToVhqUNwqmGcMpQlH8wnvvTiYVY8h7kEFGwqvMkFZRVWZSUKBa
- 1jVvPmv0QNz6ls6JnBP/sNMHenGhKy+LXgJvFsN17yUQ2fQ3+ZmUdJLweFi8a3/YbB2v
- K8l5BnNae+WY81qyczFEFCzEiz4Ej5VnVCKUkXs3EMsyN7lxQ8irzM47UhmBB/UmWrmx
- CSfdGocvlDl3FegcOA+gHQFPPFpaIy90dCw1fikQl1d1B4ft+zCyihbl2Lm1ntbzs091
- Q2cA==
-X-Gm-Message-State: APjAAAVK9+/JE3YCRDZmHOTc9qXSGj8cdiDVzrWPnWq+ECBAEihuOOFy
- 21QxAcIrsKv7djhz+Cckp2b7ob2w3Qw=
-X-Google-Smtp-Source: APXvYqyKmJruj7Gnrsjxo/vxQ9Dpcv2YUIEjXhdNqorKOCgJIvyykoJcvD0ucZTSvOiP/NAX0NRVhA==
-X-Received: by 2002:a5d:6585:: with SMTP id q5mr19821855wru.74.1571665444339; 
- Mon, 21 Oct 2019 06:44:04 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q196sm10443689wme.23.2019.10.21.06.44.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 06:44:03 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] hw/timer/slavio_timer.c: Switch to transaction-based
- ptimer API
-Date: Mon, 21 Oct 2019 14:43:57 +0100
-Message-Id: <20191021134357.14266-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191021134357.14266-1-peter.maydell@linaro.org>
-References: <20191021134357.14266-1-peter.maydell@linaro.org>
+ (envelope-from <cohuck@redhat.com>) id 1iMXzw-0001LK-Dj
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:45:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50833
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMXzw-0001Kw-0H
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:45:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571665523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ug8g62nReSvIQMnl14FTKbex6Ap0tT5L15GGpHCMUmY=;
+ b=h0NmcOGuzUITEgJVKcx9ChenLj036HQdHOEYRNuEPbkIB8vcBVXhwEYN7ku12gSeNJd13a
+ FOagz7vfHnnBhxH2KAFARc0e3AkRkO2KJ+t9hLiZ16EQ6a8qXTIqSAmlZWALikGDigMmUL
+ JMt8hGCVmoMH0qKd/OqD83+lXFHqC9U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-Q1unRYUGNXuMaEBkMom0bg-1; Mon, 21 Oct 2019 09:45:19 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB42476;
+ Mon, 21 Oct 2019 13:45:19 +0000 (UTC)
+Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF3B66012A;
+ Mon, 21 Oct 2019 13:45:06 +0000 (UTC)
+Date: Mon, 21 Oct 2019 15:45:04 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Subject: Re: [PATCH 11/11] vfio: unplug failover primary device before
+ migration
+Message-ID: <20191021154504.0fbebf39.cohuck@redhat.com>
+In-Reply-To: <20191018202040.30349-12-jfreimann@redhat.com>
+References: <20191018202040.30349-1-jfreimann@redhat.com>
+ <20191018202040.30349-12-jfreimann@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Q1unRYUGNXuMaEBkMom0bg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,141 +73,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
+ parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the slavio_timer code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
+On Fri, 18 Oct 2019 22:20:40 +0200
+Jens Freimann <jfreimann@redhat.com> wrote:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- hw/timer/slavio_timer.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+> As usual block all vfio-pci devices from being migrated, but make an
+> exception for failover primary devices. This is achieved by setting
+> unmigratable to 0 but also add a migration blocker for all vfio-pci
+> devices except failover primary devices. These will be unplugged before
+> migration happens by the migration handler of the corresponding
+> virtio-net standby device.
+>=20
+> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+> ---
+>  hw/vfio/pci.c | 31 +++++++++++++++++++++++++------
+>  hw/vfio/pci.h |  1 +
+>  2 files changed, 26 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 12fac39804..a15b83c6b6 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -40,6 +40,9 @@
+>  #include "pci.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "migration/blocker.h"
+> +#include "qemu/option.h"
+> +#include "qemu/option_int.h"
+> =20
+>  #define TYPE_VFIO_PCI "vfio-pci"
+>  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+> @@ -2712,12 +2715,26 @@ static void vfio_realize(PCIDevice *pdev, Error *=
+*errp)
+>      int i, ret;
+>      bool is_mdev;
+> =20
+> +    if (!pdev->net_failover_pair_id) {
+> +        error_setg(&vdev->migration_blocker,
+> +                "VFIO device doesn't support migration");
+> +        ret =3D migrate_add_blocker(vdev->migration_blocker, &err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            goto error;
 
-diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-index 890dd53f8d8..c55e8d0bf42 100644
---- a/hw/timer/slavio_timer.c
-+++ b/hw/timer/slavio_timer.c
-@@ -30,7 +30,6 @@
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- #include "trace.h"
--#include "qemu/main-loop.h"
- #include "qemu/module.h"
- 
- /*
-@@ -213,6 +212,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-     saddr = addr >> 2;
-     switch (saddr) {
-     case TIMER_LIMIT:
-+        ptimer_transaction_begin(t->timer);
-         if (slavio_timer_is_user(tc)) {
-             uint64_t count;
- 
-@@ -234,6 +234,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-                 ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
-             }
-         }
-+        ptimer_transaction_commit(t->timer);
-         break;
-     case TIMER_COUNTER:
-         if (slavio_timer_is_user(tc)) {
-@@ -245,7 +246,9 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-             t->reached = 0;
-             count = ((uint64_t)t->counthigh) << 32 | t->count;
-             trace_slavio_timer_mem_writel_limit(timer_index, count);
-+            ptimer_transaction_begin(t->timer);
-             ptimer_set_count(t->timer, LIMIT_TO_PERIODS(t->limit - count));
-+            ptimer_transaction_commit(t->timer);
-         } else {
-             trace_slavio_timer_mem_writel_counter_invalid();
-         }
-@@ -253,13 +256,16 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-     case TIMER_COUNTER_NORST:
-         // set limit without resetting counter
-         t->limit = val & TIMER_MAX_COUNT32;
-+        ptimer_transaction_begin(t->timer);
-         if (t->limit == 0) { /* free-run */
-             ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 0);
-         } else {
-             ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 0);
-         }
-+        ptimer_transaction_commit(t->timer);
-         break;
-     case TIMER_STATUS:
-+        ptimer_transaction_begin(t->timer);
-         if (slavio_timer_is_user(tc)) {
-             // start/stop user counter
-             if (val & 1) {
-@@ -271,6 +277,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-             }
-         }
-         t->run = val & 1;
-+        ptimer_transaction_commit(t->timer);
-         break;
-     case TIMER_MODE:
-         if (timer_index == 0) {
-@@ -280,6 +287,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-                 unsigned int processor = 1 << i;
-                 CPUTimerState *curr_timer = &s->cputimer[i + 1];
- 
-+                ptimer_transaction_begin(curr_timer->timer);
-                 // check for a change in timer mode for this processor
-                 if ((val & processor) != (s->cputimer_mode & processor)) {
-                     if (val & processor) { // counter -> user timer
-@@ -306,6 +314,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-                         trace_slavio_timer_mem_writel_mode_counter(timer_index);
-                     }
-                 }
-+                ptimer_transaction_commit(curr_timer->timer);
-             }
-         } else {
-             trace_slavio_timer_mem_writel_mode_invalid();
-@@ -365,10 +374,12 @@ static void slavio_timer_reset(DeviceState *d)
-         curr_timer->count = 0;
-         curr_timer->reached = 0;
-         if (i <= s->num_cpus) {
-+            ptimer_transaction_begin(curr_timer->timer);
-             ptimer_set_limit(curr_timer->timer,
-                              LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
-             ptimer_run(curr_timer->timer, 0);
-             curr_timer->run = 1;
-+            ptimer_transaction_commit(curr_timer->timer);
-         }
-     }
-     s->cputimer_mode = 0;
-@@ -378,7 +389,6 @@ static void slavio_timer_init(Object *obj)
- {
-     SLAVIO_TIMERState *s = SLAVIO_TIMER(obj);
-     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
--    QEMUBH *bh;
-     unsigned int i;
-     TimerContext *tc;
- 
-@@ -390,9 +400,11 @@ static void slavio_timer_init(Object *obj)
-         tc->s = s;
-         tc->timer_index = i;
- 
--        bh = qemu_bh_new(slavio_timer_irq, tc);
--        s->cputimer[i].timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+        s->cputimer[i].timer = ptimer_init(slavio_timer_irq, tc,
-+                                           PTIMER_POLICY_DEFAULT);
-+        ptimer_transaction_begin(s->cputimer[i].timer);
-         ptimer_set_period(s->cputimer[i].timer, TIMER_PERIOD);
-+        ptimer_transaction_commit(s->cputimer[i].timer);
- 
-         size = i == 0 ? SYS_TIMER_SIZE : CPU_TIMER_SIZE;
-         snprintf(timer_name, sizeof(timer_name), "timer-%i", i);
--- 
-2.20.1
+This looks wrong, you haven't set up vbasedev.name yet.
+
+> +        }
+> +    } else {
+> +            pdev->qdev.allow_unplug_during_migration =3D true;
+> +    }
+> +
+>      if (!vdev->vbasedev.sysfsdev) {
+>          if (!(~vdev->host.domain || ~vdev->host.bus ||
+>                ~vdev->host.slot || ~vdev->host.function)) {
+>              error_setg(errp, "No provided host device");
+>              error_append_hint(errp, "Use -device vfio-pci,host=3DDDDD:BB=
+:DD.F "
+>                                "or -device vfio-pci,sysfsdev=3DPATH_TO_DE=
+VICE\n");
+> +            migrate_del_blocker(vdev->migration_blocker);
+> +            error_free(vdev->migration_blocker);
+>              return;
+>          }
+>          vdev->vbasedev.sysfsdev =3D
+> @@ -2729,6 +2746,8 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
+rrp)
+>      if (stat(vdev->vbasedev.sysfsdev, &st) < 0) {
+>          error_setg_errno(errp, errno, "no such host device");
+>          error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.sysfsdev);
+> +        migrate_del_blocker(vdev->migration_blocker);
+> +        error_free(vdev->migration_blocker);
+>          return;
+>      }
+
+Might be a bit easier cleanup-wise if you set up the blocker resp.
+allow unplug during migration only here. The only difference is that
+you'll get a different error message when trying to set up a
+non-failover device with invalid specs on a migratable-only setup.
+
+> =20
+> @@ -3008,6 +3027,8 @@ out_teardown:
+>      vfio_bars_exit(vdev);
+>  error:
+>      error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+> +    migrate_del_blocker(vdev->migration_blocker);
+> +    error_free(vdev->migration_blocker);
+
+Shouldn't you check whether migration_block has been set up, like in
+the finalize routine?
+
+>  }
+> =20
+>  static void vfio_instance_finalize(Object *obj)
+> @@ -3019,6 +3040,10 @@ static void vfio_instance_finalize(Object *obj)
+>      vfio_bars_finalize(vdev);
+>      g_free(vdev->emulated_config_bits);
+>      g_free(vdev->rom);
+> +    if (vdev->migration_blocker) {
+> +        migrate_del_blocker(vdev->migration_blocker);
+> +        error_free(vdev->migration_blocker);
+> +    }
+>      /*
+>       * XXX Leaking igd_opregion is not an oversight, we can't remove the
+>       * fw_cfg entry therefore leaking this allocation seems like the saf=
+est
 
 
