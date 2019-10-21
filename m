@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF348DE754
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:02:24 +0200 (CEST)
-Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A6FDE758
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:03:29 +0200 (CEST)
+Received: from localhost ([::1]:36156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMTa3-0005Ye-8X
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:02:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59335)
+	id 1iMTb6-00078D-16
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59341)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iMTVR-0001KT-55
+ (envelope-from <david@redhat.com>) id 1iMTVR-0001Kn-Ce
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iMTVQ-0008HM-0x
+ (envelope-from <david@redhat.com>) id 1iMTVQ-0008Hs-87
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:37 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21672)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53389
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iMTVN-0008Fs-Nu
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:34 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iMTVQ-0008GR-3O
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571648251;
+ s=mimecast20190719; t=1571648253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UpzX3vb9RgNNLYiM/JvDGiNB0vNs3Bk5YnPik6Epjvk=;
- b=isEtRAxo4KMFzEdJq6tz24JaGzU/ptwoGqmxcW7KMeAabBVM0tQs5n5kZ6lreJS5040Ez+
- kxIGUILL74sETYhG6BwGMakpcCvDzIpQ6gUeP22zJxYXkUY4+r9TqZJeOK5wwH7tv2NSrW
- o4ZJBjkKQtQyLSNjTh4R2cZqPggYXPc=
+ bh=OkwGk067nPs7KydfbubhuFCrne3UBwMkswXPEFkntV0=;
+ b=MOPJokKfeUa/ze0CAcR/MtXrU0gDbJnQW4KCXTtOLh0v48/1Cu2dKuntj7E/gNz4ShEDXr
+ Po79PClD0CYikSJjLw1yH65rNZ0cIkC4R5PHfnNRXM5tydhGoG0wWeSGfCaFgeGX72x9+E
+ fZtsDKAX6msU5Race6iuRrhn7utx2xE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-FpeKXJQZO1OL8ZIwYpVLmA-1; Mon, 21 Oct 2019 04:57:30 -0400
+ us-mta-241-ioiE48vbNV2cDVXOmSyc0g-1; Mon, 21 Oct 2019 04:57:32 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E349107AD31;
- Mon, 21 Oct 2019 08:57:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 006C3800D41;
+ Mon, 21 Oct 2019 08:57:30 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-198.ams2.redhat.com [10.36.116.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95E955D6B0;
- Mon, 21 Oct 2019 08:57:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69F205D6B0;
+ Mon, 21 Oct 2019 08:57:29 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] s390x/tcg: Fix VECTOR SUBTRACT COMPUTE BORROW
- INDICATION
-Date: Mon, 21 Oct 2019 10:57:13 +0200
-Message-Id: <20191021085715.3797-5-david@redhat.com>
+Subject: [PATCH v2 5/6] s390x/tcg: Fix VECTOR SUBTRACT WITH BORROW INDICATION
+Date: Mon, 21 Oct 2019 10:57:14 +0200
+Message-Id: <20191021085715.3797-6-david@redhat.com>
 In-Reply-To: <20191021085715.3797-1-david@redhat.com>
 References: <20191021085715.3797-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: FpeKXJQZO1OL8ZIwYpVLmA-1
+X-MC-Unique: ioiE48vbNV2cDVXOmSyc0g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,74 +76,51 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looks like my idea of what a "borrow" is was wrong. The PoP says:
+Testing this, there seems to be something messed up. We are dealing with
+unsigned numbers. "Each operand is treated as an unsigned binary integer."
+Let's just implement as written in the PoP:
 
- "If the resulting subtraction results in a carry out of bit zero, a value
- of one is placed in the corresponding element of the first operand;
- otherwise, a value of zero is placed in the corresponding element"
+"A subtraction is performed by adding the contents of
+ the second operand with the bitwise complement of
+ the third operand along with a borrow indication from
+ the rightmost bit position of the fourth operand and
+ the result is placed in the first operand."
 
-As clarified by Richard, all we have to do is invert the result.
+We can reuse gen_ac2_i64().
 
-Fixes: 1ee2d7ba72f6 ("s390x/tcg: Implement VECTOR SUBTRACT COMPUTE BORROW I=
-NDICATION")
+Fixes: 48390a7c2716 ("s390x/tcg: Implement VECTOR SUBTRACT WITH BORROW INDI=
+CATION")
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/translate_vx.inc.c | 7 ++++---
- target/s390x/vec_int_helper.c   | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ target/s390x/translate_vx.inc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.in=
 c.c
-index 5ce7bfb0af..6032021d82 100644
+index 6032021d82..fd746ba35f 100644
 --- a/target/s390x/translate_vx.inc.c
 +++ b/target/s390x/translate_vx.inc.c
-@@ -2132,12 +2132,12 @@ static DisasJumpType op_vs(DisasContext *s, DisasOp=
-s *o)
-=20
- static void gen_scbi_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+@@ -2187,13 +2187,13 @@ static void gen_sbi2_i64(TCGv_i64 dl, TCGv_i64 dh, =
+TCGv_i64 al, TCGv_i64 ah,
+                          TCGv_i64 bl, TCGv_i64 bh, TCGv_i64 cl, TCGv_i64 c=
+h)
  {
--    tcg_gen_setcond_i32(TCG_COND_LTU, d, a, b);
-+    tcg_gen_setcond_i32(TCG_COND_GEU, d, a, b);
+     TCGv_i64 tl =3D tcg_temp_new_i64();
+-    TCGv_i64 zero =3D tcg_const_i64(0);
++    TCGv_i64 th =3D tcg_temp_new_i64();
+=20
+-    tcg_gen_andi_i64(tl, cl, 1);
+-    tcg_gen_sub2_i64(dl, dh, al, ah, bl, bh);
+-    tcg_gen_sub2_i64(dl, dh, dl, dh, tl, zero);
++    tcg_gen_not_i64(tl, bl);
++    tcg_gen_not_i64(th, bh);
++    gen_ac2_i64(dl, dh, al, ah, tl, th, cl, ch);
+     tcg_temp_free_i64(tl);
+-    tcg_temp_free_i64(zero);
++    tcg_temp_free_i64(th);
  }
 =20
- static void gen_scbi_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
- {
--    tcg_gen_setcond_i64(TCG_COND_LTU, d, a, b);
-+    tcg_gen_setcond_i64(TCG_COND_GEU, d, a, b);
- }
-=20
- static void gen_scbi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
-@@ -2151,7 +2151,8 @@ static void gen_scbi2_i64(TCGv_i64 dl, TCGv_i64 dh, T=
-CGv_i64 al,
-     tcg_gen_andi_i64(th, th, 1);
-     tcg_gen_sub2_i64(tl, th, ah, zero, th, zero);
-     tcg_gen_sub2_i64(tl, th, tl, th, bh, zero);
--    tcg_gen_andi_i64(dl, th, 1);
-+    /* "invert" the result: -1 -> 0; 0 -> 1 */
-+    tcg_gen_addi_i64(dl, th, 1);
-     tcg_gen_mov_i64(dh, zero);
-=20
-     tcg_temp_free_i64(th);
-diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.c
-index d38405848f..0d6bc13dd6 100644
---- a/target/s390x/vec_int_helper.c
-+++ b/target/s390x/vec_int_helper.c
-@@ -593,7 +593,7 @@ void HELPER(gvec_vscbi##BITS)(void *v1, const void *v2,=
- const void *v3,        \
-         const uint##BITS##_t a =3D s390_vec_read_element##BITS(v2, i);    =
-       \
-         const uint##BITS##_t b =3D s390_vec_read_element##BITS(v3, i);    =
-       \
-                                                                           =
-     \
--        s390_vec_write_element##BITS(v1, i, a < b);                       =
-     \
-+        s390_vec_write_element##BITS(v1, i, a >=3D b);                    =
-       \
-     }                                                                     =
-     \
- }
- DEF_VSCBI(8)
+ static DisasJumpType op_vsbi(DisasContext *s, DisasOps *o)
 --=20
 2.21.0
 
