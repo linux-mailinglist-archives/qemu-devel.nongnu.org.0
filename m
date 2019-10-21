@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2154DECF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:59:44 +0200 (CEST)
-Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3A0DECE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:57:52 +0200 (CEST)
+Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMXHj-0001pT-TW
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:59:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60812)
+	id 1iMXFv-0007lm-K4
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMXD2-00054y-9n
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:54:53 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMXEE-0006od-Ji
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:56:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMXD1-0006AQ-0P
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:54:52 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:42465)
+ (envelope-from <laurent@vivier.eu>) id 1iMXED-0006Sm-Dh
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:56:06 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:41389)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMXD0-0006A4-NS
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:54:50 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMXED-0006SW-4l
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:56:05 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1McXs5-1hjcY60XKn-00cwhF; Mon, 21 Oct 2019 14:54:39 +0200
-Subject: Re: [PATCH v8 8/9] linux-user/strace: Let print_sockaddr() have a
- 'last' argument
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MgiPE-1hoJOg2KDs-00h9TM; Mon, 21 Oct 2019 14:55:54 +0200
+Subject: Re: [PATCH v8 9/9] linux-user/syscall: Align target_sockaddr fields
+ using ABI types
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20191021114857.20538-1-f4bug@amsat.org>
- <20191021114857.20538-9-f4bug@amsat.org>
+ <20191021114857.20538-10-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,36 +72,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <4419e079-a578-b7f4-ea6e-d4b763329287@vivier.eu>
-Date: Mon, 21 Oct 2019 14:54:36 +0200
+Message-ID: <b8ae9397-be42-6c6b-370a-6f7877a54f08@vivier.eu>
+Date: Mon, 21 Oct 2019 14:55:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191021114857.20538-9-f4bug@amsat.org>
+In-Reply-To: <20191021114857.20538-10-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eCqyHUeNqnyNldiXKyA7IRY6IW9pyWqOddytJ/jOaE4Xf2Ru38m
- 1cIP7a2qpv5DS+8k13VknZC8swW3ieju0Ty/PzQ6uMgGSlz2by6/7B6z6UOLmS2d+wr2pGy
- TpZeKZICNtbXN8x2guq1wVRBLO+eaId+mO/kIkJ4j/uN8Gs+I9jLZW/SlUyDg5J43/Hlu7E
- Qaw43kJpDjq7ShdK9PkEQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NeKn8V5rE8M=:TEuhXxMVXHPaDMX71Di2BW
- I6hsvCmh4zsvVu3cdpfdUJeQFkNDbZYP7R7Ude8marjbQOtb2RJjok5zekBUGQ7oHDFNYE0T0
- CYISUHNv9BztBxMJ7jZ+1/1HhThsY+0ZLSaXtiPF/EnnAdjt7+MKSZgxs94KA8G/7gnlUPL1R
- 8XsY7iQ0EmsbqnAlNPdJ6O98ANHgBy4PcR+XiTMsmE153tv58hA2NM7iH+NFhb/WkZLERDpm7
- 2+GV8DWmuInCqZfSJx3XdX5DIKRzpmGwwekzmexJIqWoiK1AxlEV4StkFwE/u82aaWysMH6lS
- stooLKisk0hFI3nkTLzZbYTd0FMhWq07Fj8NmmkP3sPfAUvATrf7QM2H06R+AAheN8LaFSJCJ
- Bt94ywEdhf7JE7/9RJMCuHVeCpaK27W03Dq384x+L7fLw5YyGrTIjr8WxVd4Wp4Hpw3ckZtJt
- V378r13gzW9/oPODh1wKylmlOKFPak/ou5O5LbXTKxFPvBcGrRncft3fLM73DdtaoHQQa5kf0
- Gm6D5V8JYNAul/sesKCBOwyJkgZURq9yhP7EFgit5xo/qhGeaR/K/GPp+7j6htaoT7Zyz0B6p
- eIgHIsZPQh7yEyNEYmdT7mS9p2ZkBbO5Ig0xbhxeVZnFFoeQdsQlWXuuxqAKD/88BPRw4L9rK
- 54j4782mEDIcQ4uwP7KVJl741hbzPTKhDTWWtZ+SdklC+tVq97+0ojzvngadcgtK9t5v8uei8
- ZCTdKRP80Z1dLT3RNPWvp4ZVRKwYWBRvfhwbjj6gDNVaxMKBY5CclXVDWIF+cShuKsEecJWQc
- pAolGvbq82p6wu0AhUUOd5m5+hpMTu8WDI7lQW6e5IzzDBuY+zMbjvU8fC0C28N9T9Ln5OGyN
- QfQdr/Mpq6G/kVnywX6qbQgh5En0Yv2hqAKnwHWUg=
+X-Provags-ID: V03:K1:wF4CxulHcxx2bqSpZlQT4PYyOr4zRRhp/ccvdPId9w8V821Pydt
+ +pvQB/5NRLJqHpqHEK0MjPA/UXVACeLwKEeCqgcTUuUBGRSQjestk7FvJn5L1HRLJPX9fJs
+ dURBQe4gCs6wva2cppuHhqW0LQSlV1vwvnJrFJN0Ojvwpf1ULAX8oK/rd1e9eY9mtqwpCM7
+ bOJkicAjNrw5/zBjbIAhw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2C0xclk1+1Y=:inl+A9erp0xihQJ7uWIr1l
+ DEWeo2qC//+2DIblpQrpkpM5sDKk7ReVzIoF5wObbRbWB5V3WxAufdgaGBsOJUpslOfKsLeZ9
+ IWEb/tbA+94ZfZo5hfMcuuQ9zCAvJ+c/o/p74MEUlMNwYnBDzPLw5dDW0r5hHFu6TJ0F8uN69
+ i07CWqkcjlz8QB45zjki1YLcTZvFCxGTaWLfhJi1yoXYGjl9o5DgAfeJhYIJzL9hGhLODqf8c
+ jyLkPTGkM991AydHWl+XEpwvYoReZV2bo58hT05shIbrqctk8sig60dHImeOUSNEcYLuAe+Om
+ JibZany30VgQnbK2clp9kUUNUfUyVvstp5rTx5RSuVuPfemZvI6AbTIluI039KQ9PDdwDMe6z
+ F3712lypgU45nNalsG+1/q+ozObPeYWLq5n9qjl5DL5d6lKT4nWWV0kqOFTmrYuDeBDE7p2o6
+ t7qPXXB6FF6Qeb+dTHP3/ZFQnn1yLKEaBNsOqK0JE3S0ZzVZYLjBF39RN1EN6KsaAw5G/Fh6h
+ ZB63H1oFCSwuYaHtkYNv5pm3BIMPYuLeGtH+80q1MTuTygrewkEv68rBuMYCYf0D7Zm7Dnmy6
+ GUO776ZUPteZDDond2fBzYwPeCbLDbc9Me4kJpsEGyGCm+IlurNhau/Zv7W44PkqN1/3+pZ+f
+ fu/bh7NxsK6erpO68oR+O+RLfmxgSeREGSVAqb85D42roArCIbjZ2uUYCQqP8zdGZ4kGMyjk0
+ Y66YVm1H9kvLYEcV50Ekcxv9o1XyA60ael06uPkLUHcEoY1nw536+kZYzT57d7+/EhdH/uH8T
+ G+6E1FQ2S05LhUOkY5YWM0ETkl7CFptgGMSfMlKPw8L9RrAyLSXsl3Rh1ekZ9FTiVTl5szxy8
+ fqR2vpzkh6VW8no+vR3yXGNtRFkm1KBEG2O/8O12U=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.187
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,70 +118,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 21/10/2019 à 13:48, Philippe Mathieu-Daudé a écrit :
-> If the format is not the syscall last argument, a comma is append.
+> Target architectures align types differently for instance m68k
+> aligns on 16bit whereas others on 32bit).
+> Use ABI types to keep alignments good.
 > 
+> Suggested-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
-> v8: do not name prototype arguments
-> 
-> checkpatch error:
->  ERROR: storage class should be at the beginning of the declaration
->  #10: FILE: linux-user/strace.c:70:
->  +UNUSED static void print_sockaddr(abi_ulong, abi_long, int);
+> v8: Use abi_int for target_sockaddr_ll.sll_ifindex
 > ---
->  linux-user/strace.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  linux-user/syscall_defs.h | 34 +++++++++++++++++-----------------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
 > 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index cd92c77d33..3d4d684450 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -67,7 +67,7 @@ UNUSED static void print_timeval(abi_ulong, int);
->  UNUSED static void print_timezone(abi_ulong, int);
->  UNUSED static void print_number(abi_long, int);
->  UNUSED static void print_signal(abi_ulong, int);
-> -UNUSED static void print_sockaddr(abi_ulong addr, abi_long addrlen);
-> +UNUSED static void print_sockaddr(abi_ulong, abi_long, int);
->  UNUSED static void print_socket_domain(int domain);
->  UNUSED static void print_socket_type(int type);
->  UNUSED static void print_socket_protocol(int domain, int type, int protocol);
-> @@ -336,7 +336,7 @@ static void print_siginfo(const target_siginfo_t *tinfo)
->  }
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 7694d72446..98c2119de9 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -134,22 +134,22 @@
+>  #define TARGET_IOWRU(type,nr)	TARGET_IOC(TARGET_IOC_READ|TARGET_IOC_WRITE,(type),(nr),TARGET_IOC_SIZEMASK)
 >  
->  static void
-> -print_sockaddr(abi_ulong addr, abi_long addrlen)
-> +print_sockaddr(abi_ulong addr, abi_long addrlen, int last)
->  {
->      struct target_sockaddr *sa;
->      int i;
-> @@ -418,7 +418,7 @@ print_sockaddr(abi_ulong addr, abi_long addrlen)
->      } else {
->          print_raw_param("0x"TARGET_ABI_FMT_lx, addr, 0);
->      }
-> -    gemu_log(", "TARGET_ABI_FMT_ld, addrlen);
-> +    gemu_log(", "TARGET_ABI_FMT_ld"%s", addrlen, get_comma(last));
->  }
+>  struct target_sockaddr {
+> -    uint16_t sa_family;
+> +    abi_ushort sa_family;
+>      uint8_t sa_data[14];
+>  };
 >  
->  static void
-> @@ -1751,7 +1751,7 @@ static void do_print_sockaddr(const char *name, abi_long arg1)
+>  struct target_sockaddr_ll {
+> -    uint16_t sll_family;   /* Always AF_PACKET */
+> -    uint16_t sll_protocol; /* Physical layer protocol */
+> -    int      sll_ifindex;  /* Interface number */
+> -    uint16_t sll_hatype;   /* ARP hardware type */
+> -    uint8_t  sll_pkttype;  /* Packet type */
+> -    uint8_t  sll_halen;    /* Length of address */
+> -    uint8_t  sll_addr[8];  /* Physical layer address */
+> +    abi_ushort sll_family;   /* Always AF_PACKET */
+> +    abi_ushort sll_protocol; /* Physical layer protocol */
+> +    abi_int    sll_ifindex;  /* Interface number */
+> +    abi_ushort sll_hatype;   /* ARP hardware type */
+> +    uint8_t    sll_pkttype;  /* Packet type */
+> +    uint8_t    sll_halen;    /* Length of address */
+> +    uint8_t    sll_addr[8];  /* Physical layer address */
+>  };
 >  
->      gemu_log("%s(", name);
->      print_sockfd(sockfd, 0);
-> -    print_sockaddr(addr, addrlen);
-> +    print_sockaddr(addr, addrlen, 0);
->      gemu_log(")");
->  }
+>  struct target_sockaddr_un {
+> -    uint16_t su_family;
+> +    abi_ushort su_family;
+>      uint8_t sun_path[108];
+>  };
 >  
-> @@ -1821,7 +1821,7 @@ static void do_print_msgaddr(const char *name, abi_long arg1)
->      print_buf(msg, len, 0);
->      print_raw_param(TARGET_ABI_FMT_ld, len, 0);
->      print_flags(msg_flags, flags, 0);
-> -    print_sockaddr(addr, addrlen);
-> +    print_sockaddr(addr, addrlen, 0);
->      gemu_log(")");
->  }
+> @@ -161,24 +161,24 @@ struct target_sockaddr_nl {
+>  };
 >  
+>  struct target_in_addr {
+> -    uint32_t s_addr; /* big endian */
+> +    abi_uint s_addr; /* big endian */
+>  };
+>  
+>  struct target_sockaddr_in {
+> -  uint16_t sin_family;
+> -  int16_t sin_port; /* big endian */
+> +  abi_ushort sin_family;
+> +  abi_short sin_port; /* big endian */
+>    struct target_in_addr sin_addr;
+>    uint8_t __pad[sizeof(struct target_sockaddr) -
+> -                sizeof(uint16_t) - sizeof(int16_t) -
+> +                sizeof(abi_ushort) - sizeof(abi_short) -
+>                  sizeof(struct target_in_addr)];
+>  };
+>  
+>  struct target_sockaddr_in6 {
+> -    uint16_t sin6_family;
+> -    uint16_t sin6_port; /* big endian */
+> -    uint32_t sin6_flowinfo; /* big endian */
+> +    abi_ushort sin6_family;
+> +    abi_ushort sin6_port; /* big endian */
+> +    abi_uint sin6_flowinfo; /* big endian */
+>      struct in6_addr sin6_addr; /* IPv6 address, big endian */
+> -    uint32_t sin6_scope_id;
+> +    abi_uint sin6_scope_id;
+>  };
+>  
+>  struct target_sock_filter {
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
