@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCB2DF748
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:06:27 +0200 (CEST)
-Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E83DDF738
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:00:23 +0200 (CEST)
+Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMesj-0000bZ-TA
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43166)
+	id 1iMems-0004jY-CO
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42575)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iMepe-0007bm-4r
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:03:15 -0400
+ (envelope-from <svens@stackframe.org>) id 1iMelg-0004Hx-HF
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iMepc-0000ET-Tb
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:03:13 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:42821)
+ (envelope-from <svens@stackframe.org>) id 1iMelf-0006O7-99
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:08 -0400
+Received: from smtp.duncanthrax.net ([89.31.1.170]:38465)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iMepc-0000DU-MM; Mon, 21 Oct 2019 17:03:12 -0400
-Received: by mail-lf1-x144.google.com with SMTP id z12so11248471lfj.9;
- Mon, 21 Oct 2019 14:03:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ugJia3nKS2YoLHkGk7Se+jzfpJkArUWn8r2/dXCG3aw=;
- b=aIOG1F3jo+dKk8/FHmolN3iPlrW2vNnECCf4rkpL5J70OFlGdvKRV4qYKxyWMQ95S9
- N46uP5rT52Lkqmr10gzx6Mna0t5SSEJ7mlCEAIwUlf82Xw1ZnvQb2ZJPCTeuXm9BSyto
- n6GaZsITLDzavUU2QykqragOgzPZfM8LLuOnX5UMqE4fM9WO/O5RR000L6AsHFbjzUEw
- VLA4EgEy/s1D39zGqbPZ3PELmUVxOrdqeTAOfFAwV+K7Wgf43FdXUAXP9Nn90HSPoHpP
- 9fnbJvlbA7Hob8gZQRb3Onz0BrKHVbVlLl8sr8/FjfefqTSug532YnxFqV297iDT2Y2i
- r9Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ugJia3nKS2YoLHkGk7Se+jzfpJkArUWn8r2/dXCG3aw=;
- b=AKk8MRLMJqimzuJInyL2X8K3R9YueGAVP1Noi0yS/NbKBEt3Ul8PBqtM0nol42LCcX
- wrquPqhFB9Ia1m9MV+s0s1YRRyvIP+g7CEf/0fekZxtv52HfEusczG4Z7SvUBNP9egOd
- M/3NcK1C+5EU6eX/v7qvXu1Sma7sEj8WrVLDSRAIXx4vzpQdvJ2uA8TZYmj7f/r3KrDN
- Wq4kITF5jRhUiBt9ShL0MN5ovAzT0iRmlNL3wPFUQqBnqJmJCcx3BxnYEsn6w1qZS7/E
- 2r6ay5fDDSEV9Enrj5MtSv8vyj/qF6flWRs6qS/0dw+Z6mPxr1iBJhCSNl4yoOQ4i4ZG
- MMiQ==
-X-Gm-Message-State: APjAAAWowC2JcB+PQ1JTqAD8UDQjX47foFXxGAg7Zo8bY2HwrcNm3JXg
- by2SyOpKVJsZ8OOpf5cxhdDnotet+NzyLt0OCXM=
-X-Google-Smtp-Source: APXvYqxLRpcBS0t/n4tmMQauV19gHY8VGg5o3pUzKGJIdrmoivbi1CifBz+B9NHm9VqLXWHiuxXkPEEfAB4yj64ctPE=
-X-Received: by 2002:a19:dc4c:: with SMTP id f12mr15256659lfj.86.1571691790186; 
- Mon, 21 Oct 2019 14:03:10 -0700 (PDT)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iMele-0006K9-NW
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=In-Reply-To:Content-Type:MIME-Version:References
+ :Message-ID:Subject:Cc:To:From:Date;
+ bh=p7oRawM6YBdZk9l6LpW8iJfrVMOvcWy9PPJ5azRCP7w=; b=riIeVtwIM4vMf2NgHQyt88ok72
+ H5oaKu/8Qxfr78o+5E2qV4mL2JNTDMOwl3TCP/vIw7Rkq2GrzSKDeZPnim50FpD7TgJ7VgGFrFcMz
+ loAL6DVrltzYZpxIpwlXHcisVdYzvWBc0aXnhO8+D6PIpDeKzW0gJPWdp+qLVeev2dDg=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=t470p.stackframe.org)
+ by smtp.eurescom.eu with esmtpa (Exim 4.86_2)
+ (envelope-from <svens@stackframe.org>)
+ id 1iMelV-00035D-VB; Mon, 21 Oct 2019 22:58:58 +0200
+Date: Mon, 21 Oct 2019 22:58:57 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 3/7] hppa: remove ISA region
+Message-ID: <20191021205857.GB1439@t470p.stackframe.org>
+References: <20191020204724.31537-1-svens@stackframe.org>
+ <20191020204724.31537-4-svens@stackframe.org>
+ <284a4bcc-a076-2b94-86e0-0bffbe3e61a0@linaro.org>
 MIME-Version: 1.0
-References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-18-philmd@redhat.com>
-In-Reply-To: <20191020225650.3671-18-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Oct 2019 13:57:53 -0700
-Message-ID: <CAKmqyKM-urjxM1TH+DXFrbJscuJPz6wDhNsqHgJisiVcmfXpRQ@mail.gmail.com>
-Subject: Re: [PATCH 17/21] hw/m68k: Let the machine be the owner of the system
- memory
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::144
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <284a4bcc-a076-2b94-86e0-0bffbe3e61a0@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 89.31.1.170
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,98 +59,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, "open list:New World" <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 20, 2019 at 4:20 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Hi Richard,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+On Mon, Oct 21, 2019 at 11:17:24AM -0700, Richard Henderson wrote:
+> On 10/20/19 1:47 PM, Sven Schnelle wrote:
+> > B160L doesn't have an ISA bus, and we no longer need it to
+> > workaround missing hardware, so remove it.
+> > 
+> > Signed-off-by: Sven Schnelle <svens@stackframe.org>
+> > ---
+> >  hw/hppa/hppa_hardware.h |  1 -
+> >  hw/hppa/machine.c       | 32 --------------------------------
+> >  2 files changed, 33 deletions(-)
+> 
+> This should remove ISA_BUS from hw/hppa/Kconfig as well.
 
-Alistair
+Right. I thought to do so is easy, but that turned out to reveal a lot
+of other issues:
 
-> ---
->  hw/m68k/an5206.c    | 2 +-
->  hw/m68k/mcf5208.c   | 2 +-
->  hw/m68k/next-cube.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
-> index 54ccbe1a82..fb045c2436 100644
-> --- a/hw/m68k/an5206.c
-> +++ b/hw/m68k/an5206.c
-> @@ -46,7 +46,7 @@ static void an5206_init(MachineState *machine)
->      env->rambar0 =3D AN5206_RAMBAR_ADDR | 1;
->
->      /* DRAM at address zero */
-> -    memory_region_allocate_system_memory(ram, NULL, "an5206.ram", ram_si=
-ze);
-> +    memory_region_allocate_system_memory(ram, machine, "an5206.ram", ram=
-_size);
->      memory_region_add_subregion(address_space_mem, 0, ram);
->
->      /* Internal SRAM.  */
-> diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-> index 34d34eba17..8e8c8ef349 100644
-> --- a/hw/m68k/mcf5208.c
-> +++ b/hw/m68k/mcf5208.c
-> @@ -248,7 +248,7 @@ static void mcf5208evb_init(MachineState *machine)
->      memory_region_add_subregion(address_space_mem, 0x00000000, rom);
->
->      /* DRAM at 0x40000000 */
-> -    memory_region_allocate_system_memory(ram, NULL, "mcf5208.ram", ram_s=
-ize);
-> +    memory_region_allocate_system_memory(ram, machine, "mcf5208.ram", ra=
-m_size);
->      memory_region_add_subregion(address_space_mem, 0x40000000, ram);
->
->      /* Internal SRAM.  */
-> diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-> index e5343348d0..6aed9376f3 100644
-> --- a/hw/m68k/next-cube.c
-> +++ b/hw/m68k/next-cube.c
-> @@ -893,7 +893,7 @@ static void next_cube_init(MachineState *machine)
->      memcpy(ns->rtc.ram, rtc_ram2, 32);
->
->      /* 64MB RAM starting at 0x04000000  */
-> -    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_size=
-);
-> +    memory_region_allocate_system_memory(ram, machine, "next.ram", ram_s=
-ize);
->      memory_region_add_subregion(sysmem, 0x04000000, ram);
->
->      /* Framebuffer */
-> --
-> 2.21.0
->
->
+- hppa is using the I8259 code, which relies on ISA
+- hw/hppa/pci.c seems to only contain unused stuff
+- LASI use hw/char/parallel.c, which relies on ISA. parallel.c could
+  propably be split up into a ISA dependent part and a generic part
+
+So it is more work to remove ISA completely, therefore i'll drop that
+patch for now and submit it later again.
+
+Thanks
+Sven
 
