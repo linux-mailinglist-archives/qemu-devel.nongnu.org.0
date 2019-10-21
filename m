@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE52DF320
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 18:30:26 +0200 (CEST)
-Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76388DF327
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 18:33:33 +0200 (CEST)
+Received: from localhost ([::1]:45100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMaZc-0007t7-PL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 12:30:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37317)
+	id 1iMacd-0002Cu-Py
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 12:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37388)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iMaVg-0004oh-C3
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:26:21 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iMaW2-0005FR-9i
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:26:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iMaVf-0000qu-5v
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:26:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57760)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMaVe-0000qk-Vy
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:26:19 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C60C44E938
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 16:26:17 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id i10so7567077wrb.20
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 09:26:17 -0700 (PDT)
+ (envelope-from <richard.henderson@linaro.org>) id 1iMaW0-0000xW-GD
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:26:41 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:45542)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iMaW0-0000xE-9s
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 12:26:40 -0400
+Received: by mail-pl1-x642.google.com with SMTP id y24so2917005plr.12
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 09:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=azQt8Z06gMI9xiCQyxLEYi1cY1m2itmsYE9zyv2qBEI=;
+ b=pUZsKbdHjan5IlEaAlDg/TlHLeidLlyxeFOxWUhmtmuquuEzUAqmeqg5c/kRVTvu+L
+ 2coT12FY9FzqCwvxbVmeiTOgcUITZFpI4m+lu/sXJyPz41foFceCeccMRna6+vey6LGz
+ XFFhOHYjyvlzrVIryDQtA9tMTGUOjMQrGbhH+VEG7A0br5KHNNanN2HNTPH9TKGyxUIa
+ AyOomVQYY/2bJfP4Tub5I/kgUgcLvCp2iIr/Pue63H9QYIpegrR7Wdasf9iAQGKHPJsF
+ hLIEF+5aL0J0SIXKUORJLT2iA5OOghSNnizh/SmWx5o0IMsZpaEQ2mCpeVqly2vLeEb1
+ X/xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qbf8z2yOjzDrGKoSKCSGN0b7ub3PHRaty2i2XPZShbc=;
- b=aw6gF18qgfc/v6yh5vQevacB2t+/GswkN0LziclLZS7xfXhIKmpvpTkZhreuhov8bG
- 0BDHSPRLqGLnDe3ecjnFZ5Ko9wnMkXakCnKotjgX/bAAKuwWenCjAsWBkzw08RcErtzp
- /jcPWUKYuqdlvhxxUrW+sOQwJ1GqudO/hNbR3fpjNYuZ6ZS8/GxdIVZHqGfI/pwvbw9V
- LjMm0n2yoMqOchL49+eLFzGt/lk7nrcP/btkZLKxSWFBQb8kAuXnq53Ty6q64Pi/+9S2
- 7UJH8twzmbKB0Fa9rNrxTgwMQJaKuvE0tr459cUPFKsgTU+6cv9EVnzNHrLtoK7lDh2e
- e2UQ==
-X-Gm-Message-State: APjAAAXSbSLKUS6CV7ISbeQ8uLLAeqil+9lvcCaNoCU8Al0QScFchlGo
- VmneqlCPUb3CnA2yzAqjMwt0+oDi/isPFjgqx1mOlPQtn0PvJ3HFU6mI9p0rxvtgk5AvIMVfJfR
- N1M8FyTlz3L4LJSY=
-X-Received: by 2002:a5d:4748:: with SMTP id o8mr12448237wrs.239.1571675176466; 
- Mon, 21 Oct 2019 09:26:16 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzNzGEojpJd6rZbWJBcUhKMf3Yep6MwOE9xk7Pq/OgjhJIbIZ9DhPzHBBaSegjxj4Qk40rSNg==
-X-Received: by 2002:a5d:4748:: with SMTP id o8mr12448210wrs.239.1571675176167; 
- Mon, 21 Oct 2019 09:26:16 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:847b:6afc:17c:89dd?
- ([2001:b07:6468:f312:847b:6afc:17c:89dd])
- by smtp.gmail.com with ESMTPSA id p20sm10668222wmc.23.2019.10.21.09.26.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2019 09:26:15 -0700 (PDT)
-Subject: Re: [PATCH] i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V
- enlightenment
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20191018163908.10246-1-vkuznets@redhat.com>
- <4d89f852-85bc-8370-5929-848d24b80a6f@redhat.com>
- <878spe197z.fsf@vitty.brq.redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
+ bh=azQt8Z06gMI9xiCQyxLEYi1cY1m2itmsYE9zyv2qBEI=;
+ b=LR9/KsFEXPCEezHyB6pQl2FML+sWlL1ZvIziKdZafmH3dYUidi5NNgEJ4KCGJTrzy8
+ 3k2JdcQ0RZyaVqreaOKT9Wk53oUZW/LdRrdBrLUsQ6jGfKuINR9MT/gIDLkRncAK2WAe
+ 2M6py6yV4keVYaFH+4TFlQVofK2dba8nmFCzFt4aWtDT57eyxBm7pqlv1h+cqxA+ALqg
+ kpDXVJxeFrkNH+v6sTW7UgU0KUcHYnNnAFas0F4ZtukjC/6cWoTKM8HmjDVkUmH3fxkj
+ amrsBWe6KY40tRviBz1XuaTbjRZao2J2jUecx9WoODB5vN9yRCxqGbj7oVGo4eFLT4XQ
+ HfYg==
+X-Gm-Message-State: APjAAAV6DSEg4g4a3PJ7uvdIZ4oAHyQ4ANdbWORixVFQQ8PaHLk3mtTb
+ dQ2lb89gYTF9AfpSj9qeM4UQJw==
+X-Google-Smtp-Source: APXvYqz3qQVOk09BMuIQZeJItL77COqRGHxp+w5hqwbCzqRVl/3OvBMHJHjBy/YWCwUcYhsDAEHbKg==
+X-Received: by 2002:a17:902:8c98:: with SMTP id
+ t24mr25469864plo.334.1571675198926; 
+ Mon, 21 Oct 2019 09:26:38 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id d7sm4250271pgv.6.2019.10.21.09.26.37
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 21 Oct 2019 09:26:38 -0700 (PDT)
+Subject: Re: [PATCH] tcg/LICENSE: Remove no-longer-true statement that TCG is
+ BSD-licensed
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191021145839.12684-1-peter.maydell@linaro.org>
+ <06e15851-0b4e-63c3-001d-dd7ea5855872@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <66f1dd30-3e45-4dc6-ba0a-d52e5aae6501@redhat.com>
-Date: Mon, 21 Oct 2019 18:26:14 +0200
+Message-ID: <155991c2-523f-0721-c7a8-4fbe4986387c@linaro.org>
+Date: Mon, 21 Oct 2019 09:26:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <878spe197z.fsf@vitty.brq.redhat.com>
+In-Reply-To: <06e15851-0b4e-63c3-001d-dd7ea5855872@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,28 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/19 16:09, Vitaly Kuznetsov wrote:
->>> +    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
->>> +        env->features[FEAT_HV_RECOMM_EAX] |= HV_NO_NONARCH_CORESHARING;
->>> +    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
->> Do you want to make auto the default if "-cpu host,migratable=off"?  It
->> can be done on top so I started queueing this patch.
-> Hm, one thing is that CPUID 0x40000004 doesn't exist if no Hyper-V
-> enlightenments are passed so we'll probably have to modify your idea to
-> "-cpu host,migratable=off,+any-hyperv-enlightenment" but then the
-> question is how conservative are we, like if QEMU command line doesn't
-> change can new CPUID flags appear or not? And we'll probably need a way
-> to explicitly disable HV_NO_NONARCH_CORESHARING if needed.
+On 10/21/19 8:52 AM, Richard Henderson wrote:
+> On 10/21/19 7:58 AM, Peter Maydell wrote:
+>> Since 2008 the tcg/LICENSE file has not changed: it claims that
+>> everything under tcg/ is BSD-licensed.
+>>
+>> This is not true and hasn't been true for years: in 2013 we
+>> accepted the tcg/aarch64 target code under a GPLv2-or-later
+>> license statement. We don't really consider the tcg
+>> subdirectory to be a distinct part of QEMU anyway.
+>>
+>> Remove the LICENSE file, since claiming false information
+>> about the license of the code is confusing, and update
+>> the main project LICENSE file also to be clearer about
+>> the license used by TCG.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>> This patch takes the simple approach of just documenting
+>> the de-facto current reality; does anybody want to argue
+>> for something else? Other possibilities I guess would be
+>> specifically documenting tcg/aarch64 as an accidental
+>> exception to the general licensing rule for tcg/, or even
+>> trying to get it relicensed.
+>>
+>> Does having tcg/ be BSD-licensed gain the project anything?
+>> From my point of view I don't really see it as a cleanly
+>> separable module of code -- it's quite tightly integrated
+>> with the rest of QEMU, including code in accel/tcg which
+>> is variously GPL or LGPL.
+> 
+> I think this is the best solution.  I've never been convinced that TCG can
+> usefully be extracted and reused for something else.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I would defer to Eduardo on whether "migratable=off" would allow adding
-new CPUID flags.  The follow-up question however is whether we would
-benefit from a "+hyperv" option that enables all known Hyper-V
-enlightenment for a given machine type.
+Queued to tcg-next, as I think there's a couple of other things pending.
 
-Paolo
+
+r~
 
