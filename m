@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2E4DE744
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 10:58:46 +0200 (CEST)
-Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B1CDE6FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 10:48:02 +0200 (CEST)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMTWX-0001hr-3m
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 04:58:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59090)
+	id 1iMTM9-0001TO-ES
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 04:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iMTUE-0000J1-EY
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:56:23 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iMTL2-000101-3E
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:46:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iMTUD-0007dP-51
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:56:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51732)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iMTUC-0007cf-N0
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:56:20 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iMTUA-0007Hl-ED
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:56:18 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6803E2E8054
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:56:18 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1iMTL0-00035r-Q5
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:46:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36466)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMTL0-00034T-KT
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:46:50 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 98A52C057EC6
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:46:48 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id u17so241061wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 01:46:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yguR9XSrQSy4qyjSZ4WvBI3X1UqOF2kgF3I5zwSLgAU=;
+ b=Tu/nbaT0S6tyk0LdE0HtZq9YeBTcfNSgIzoM2mBpGtq63Y5Ay0DmxGrMjhlrPEMT0k
+ TZ3yhveSukNGhK4+JUrtSXOScONBG/ul0VT3z/62EfMOZqu8afQheBA/qlRlhWFUZtFk
+ s+5+OjinGlEbpgOguk/SiQQ03EtWgK4XndTJC7ZAZtpcn/LhHfNI+22SyveL8T7sg3U/
+ q8YN2zxXdlpZh+QIHcfi8eOKx+8h+zRlph5RqTqmR25Gt+B3qOl9uF9Q/H7nwPCHY5eT
+ TCijxrhLBXAUvrlw/K2uPjgBtDBfg/GShbnqQLPMegiwAl9oci/0xJu7d+qxqo9ZMNdX
+ dU+w==
+X-Gm-Message-State: APjAAAUyp3J+BUP/om5YfFJ8NENFyx/D7rXoc1nRpWTrgaCPJbheqVHl
+ 1fnQHFo/B0PsliTbfpXkA69pe2uGUoX1bzpVS8vI5LahLyGQRStt81TUk71/MhAWy6sapbyerpG
+ mQL6bA3E/WrkDhWY=
+X-Received: by 2002:a7b:c4c6:: with SMTP id g6mr18343056wmk.126.1571647607297; 
+ Mon, 21 Oct 2019 01:46:47 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwb+1Qs44J4OWK0u6z9sN5zmMqBnRi/XpRw9/nJ0/quK/n5hB9kGzNzc93cx+EaQvwebTi6Eg==
+X-Received: by 2002:a7b:c4c6:: with SMTP id g6mr18343039wmk.126.1571647607043; 
+ Mon, 21 Oct 2019 01:46:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:566:fc24:94f2:2f13?
+ ([2001:b07:6468:f312:566:fc24:94f2:2f13])
+ by smtp.gmail.com with ESMTPSA id y5sm3819787wmi.10.2019.10.21.01.46.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Oct 2019 01:46:46 -0700 (PDT)
+Subject: Re: [PATCH] error: Fix -msg timestamp default
+To: Markus Armbruster <armbru@redhat.com>
+References: <20191010081508.8978-1-armbru@redhat.com>
+ <167c9b31-7592-de9f-a1a3-e79d8e66fc5c@redhat.com>
+ <878spe8ts7.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <29710dbf-c362-2e62-e9ad-e33ee90a0a3a@redhat.com>
+Date: Mon, 21 Oct 2019 10:46:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Oct 2019 08:46:03 -0000
-From: Max Reitz <1847793@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: c-paetow dgilbert-h lersek psyhomb xanclic
-X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157164756346.19689.9991766301695706463.malone@gac.canonical.com>
-Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
- install
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ce9e80c2e8b097155f8424ac3bdb47abaca7db4f
+In-Reply-To: <878spe8ts7.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,98 +83,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
+Cc: msmarduch@digitalocean.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bug reported here is not about qcow2 metadata corruption, but about
-guest data corruption (qemu-img check reports a clean image).  It=E2=80=99s
-entirely possible (and I would even say likely) that there are two
-different causes.
+On 21/10/19 09:03, Markus Armbruster wrote:
+> In my review, I proposed replacing it by error_guest_name, to avoid
+> having to get -name parameter "guest" all the time.  I included a
+> revised patch to illustrate.  Goes on top of this one.  My revised patch
+> doesn't fully address my review.  In particular, there's a TODO in the
+> commit message.  Mario, would you be willing to complete it and post it?
 
-We know about two guest data corruptions already (which appeared in
-4.1), and both seem to only appear on XFS.  We have fixed one, the other
-we don=E2=80=99t quite know yet.
+Yes, it's better if I leave the whole series to you and Mario.  I'll
+just get the KVM MCE changes.
 
-Therefore, I=E2=80=99m wondering whether this is a guest data corruption th=
-at we
-probably already know about (because it=E2=80=99s on XFS), or whether we do=
-n=E2=80=99t
-(because it isn=E2=80=99t).
-
-In any case, I would separate these two bug reports on the basis that
-this one here is about guest data corruption, whereas 1846427 is about
-qcow2 metadata corruption.
-
-Max
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847793
-
-Title:
-  qemu 4.1.0 - Corrupt guest filesystem after new vm install
-
-Status in QEMU:
-  New
-
-Bug description:
-  When I install a new vm with qemu 4.1.0 all the guest filesystems are
-  corrupt. The first boot from the install dvd iso is ok and the
-  installer work fine. But the guest system hangs after the installer
-  finishes and I reboot the guest. I can see the grub boot menue but the
-  system cannot load the initramfs.
-
-  Testet with:
-  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
- and / partition)
-  Guided install with the graphical installer, no lvm selected.
-  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
-  Guidet install with the graphical installer and default options.
-
-  Used commandline to create the vm disk image:
-  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
-
-  Used qemu commandline for vm installation:
-  #!/bin/sh
-  # vmtest10 Installation
-  #
-  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
-      -soundhw hda \
-      -M q35 \
-      -k de \
-      -vga qxl \
-      -machine accel=3Dkvm \
-      -m 4096 \
-      -display gtk \
-      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
-so,if=3Dide,media=3Dcdrom \
-      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
-o,media=3Ddisk,cache=3Dwriteback \
-      -boot once=3Dd,menu=3Doff \
-      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
-      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
-      -rtc base=3Dlocaltime \
-      -name "vmtest10" \
-      -usb -device usb-tablet \
-      -spice disable-ticketing \
-      -device virtio-serial-pci \
-      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
-e.0 \
-      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
-
-  Host OS:
-  Archlinux (last updated at 10.10.2019)
-  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
-19 x86_64 GNU/Linux
-  No libvirt in use.
-
-  =
-
-  With qemu 4.0.0 it works fine without any errors.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
+Paolo
 
