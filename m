@@ -2,100 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36943DF5F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 21:26:13 +0200 (CEST)
-Received: from localhost ([::1]:47144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6678CDF655
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 21:53:58 +0200 (CEST)
+Received: from localhost ([::1]:47350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMdJk-0006eC-7x
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 15:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60843)
+	id 1iMdkb-0007dy-1M
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 15:53:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36157)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <amarkovic@wavecomp.com>) id 1iMdI1-0004rV-8U
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:24:26 -0400
+ (envelope-from <ard.biesheuvel@linaro.org>) id 1iMdjZ-0007Cb-LJ
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:52:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <amarkovic@wavecomp.com>) id 1iMdHz-0001ec-Sc
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:24:25 -0400
-Received: from mail-eopbgr790129.outbound.protection.outlook.com
- ([40.107.79.129]:51055 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <amarkovic@wavecomp.com>)
- id 1iMdHz-0001dy-FZ; Mon, 21 Oct 2019 15:24:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i3WsG0hXi5IHWWtXmhr+La3bme+guKPu6nHewO5tU/1DVPDvWlgjeIsF63YOdp6KaE/SDZhapdQeRulVAPVfWvw2GtELXke2/yyl5JF1f8eiSUIQGoegubQr2oMM9cS9NtDiqnVUISWYCF3R/t1C19f+iPL1X/QpJhia+D4hp0BmKXVlP/+7nkcMVQia0s+Ihc5SxOHS5/8+8LisR02h8j6mYFjRYx7wARzvVkIpek1KW9mx118elbauz6SkSZDdIxwe7FBxV8DGUH17+tZxAhcxRFq01YDUcAGR9O0UM5kzkt57aOJIY88zOIpzBw4kUKdWGlsCWQWeULl64vw97w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=73H29hOaq20Z0USTOfWYxLEfqab4x4mR7l1SWJ7ADtA=;
- b=hViqvG0DdKEGJXk5JKgdob4rCtx644T2otbOT3WV4DJSs75Ilk9Sn1f77BG6ksbNrqAE5cKHB/3hhP6+cMsRw6OVi7Z14NaUT4o3GpTt9IwSoRS2jr+J42FZcT/gYL3IgazSsSVoS8IrFOA9oTRDHxqsBqWCtAhFJrKPMg32bTwV8RkujfK5BRp4CznH9niLkZ0uk6jY3nvaEnB3SK+sqJE/ZYioLCu1gAqZqjgDoGL2NWCiR2JUUj/Rgy33KJ4ODCp88ORPKWoS/mpaYLMXiJDoYjxntUXtUB8e0CsToZQgw7XaWkg5oML7RyLjnzhAwsk0llKUkPeLc9zGy9pZhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wavecomp.com; dmarc=pass action=none header.from=wavecomp.com;
- dkim=pass header.d=wavecomp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wavecomp.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=73H29hOaq20Z0USTOfWYxLEfqab4x4mR7l1SWJ7ADtA=;
- b=vm9HarLw4KI6XmGqMOp7rwglOZ80pVjmGnSYoXfPhxGHvT8qXaR1rAWt2sSRcCCC6DKMxU1SRoVk0/vwBcCoSbflTju7O9WFo8sy38Ibfwl/dCwB+vuIsaH6fHU06E/YhonJ8BlRwTRqBfBDFAkN9Jz7+jOLmEFdZNoXDKR4wdc=
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com (10.174.81.139) by
- BN6PR2201MB1442.namprd22.prod.outlook.com (10.174.91.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.17; Mon, 21 Oct 2019 19:24:11 +0000
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::850f:a4cc:f2f8:364a]) by BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::850f:a4cc:f2f8:364a%11]) with mapi id 15.20.2347.029; Mon, 21 Oct
- 2019 19:24:11 +0000
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
-To: =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Markus Armbruster
- <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [EXTERNAL][PATCH 18/21] hw/mips: Let the machine be the owner of
- the system memory
-Thread-Topic: [EXTERNAL][PATCH 18/21] hw/mips: Let the machine be the owner of
- the system memory
-Thread-Index: AQHVh5qMTYYCsmPPxUOCxUGGTGsiZ6dleo5T
-Date: Mon, 21 Oct 2019 19:24:11 +0000
-Message-ID: <BN6PR2201MB12510A0641A2D00A823312B8C6690@BN6PR2201MB1251.namprd22.prod.outlook.com>
-References: <20191020225650.3671-1-philmd@redhat.com>,
- <20191020225650.3671-19-philmd@redhat.com>
-In-Reply-To: <20191020225650.3671-19-philmd@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=amarkovic@wavecomp.com; 
-x-originating-ip: [82.117.201.26]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 994070a8-3dcf-47ab-d111-08d7565c407a
-x-ms-traffictypediagnostic: BN6PR2201MB1442:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN6PR2201MB144262DEC457862B9E0DA909C6690@BN6PR2201MB1442.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:113;
-x-forefront-prvs: 0197AFBD92
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(136003)(366004)(39840400004)(376002)(346002)(189003)(199004)(7736002)(305945005)(6246003)(2906002)(6436002)(86362001)(4326008)(7406005)(7416002)(74316002)(229853002)(478600001)(256004)(14454004)(53546011)(64756008)(66556008)(66476007)(66446008)(91956017)(186003)(476003)(71200400001)(54906003)(66946007)(71190400001)(486006)(99286004)(11346002)(52536014)(33656002)(446003)(316002)(102836004)(2501003)(76116006)(81156014)(55016002)(66066001)(81166006)(9686003)(25786009)(3846002)(6116002)(8936002)(110136005)(55236004)(76176011)(7696005)(8676002)(5660300002)(6506007)(26005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR2201MB1442;
- H:BN6PR2201MB1251.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fHmP45t8iJ/Z2hWAHdaiQG0fw7/wQJHUtt3KCbKy1sYhfCpYPaVXuCxVMl31l3RQBUUIFpd99byQUp/eyFAf7uIlR66VA7pqOaJbhdWQOw91f0Dliw3QEDZLrTEYHd7xuT/WGj+k27JC9p03joddkGJoErrw03h2UgxLrsQqzJTdtjg5iSoHNOWznlaTUzuJcUpre8c+FVF3t1VqmvcbnmI9p6PMIV6QLe/TAfR22ayuSsGvr3jbYLBl7y1BMPPDaPtVqY56yAgkSig7zb+HMqPy04ZVOgzGloFrNLZqTZh7cGi1RwgO2GLNaGaL0FVVohU2Kfnxrr5ssl50nYhJ1Mf0hZWw61RYZTMlcFhFa7RCGPMKyD4JOxhnWmOZMAdkwEnC9amoEpy1rkzoqFHEr7ky1hqeIMi2AJwuJrDH891YsyOg6U0XDJala0HahH4l
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <ard.biesheuvel@linaro.org>) id 1iMdjY-0007Bm-68
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:52:53 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34088)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <ard.biesheuvel@linaro.org>)
+ id 1iMdjX-0007AE-Rh
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 15:52:52 -0400
+Received: by mail-wr1-x444.google.com with SMTP id t16so10224494wrr.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 12:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L8JyvHPMyMhokVDTc8Pc971XAPX78Th+iT+yI4+u0UY=;
+ b=APrjY/jSckFYKLgpAX/7sJUP1WMpbrV1cTOjIVLwWFRriqn+UB7xnrivIEdKaUR4ax
+ uA72TabmxaWe/edxMyyI1/wP6BxNsIpsAcCbeXUXOsti0mS3D/XYUhJJ7Cexze5HhO5t
+ FjVontdhT2ObBctqG6Opgf/I+iGZU535YEcBpo/77PJmQ60PZo5kiMmBiuBej2inOLpB
+ PiIsEJa+X0jP/XK7PUMkAJGaXTAUS5DS2TJAI8utjYMhDvEtAISzgCAlO0ii5lDe99qa
+ b6uWFsP8DPQRP0e3zFilGb9pN5qKfXoVbtfIE50XDA73baCX2Lf3/0OqUYiUOvNuUx/z
+ Z2Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L8JyvHPMyMhokVDTc8Pc971XAPX78Th+iT+yI4+u0UY=;
+ b=a4qi/imRqwlg0fgyRun4vVMGROV+ieG7GJf922jGBIoOgH+sn7PeRyrcpGExiXYBzm
+ qfomPQFhJgktl+WPwlzyXPI+ac5CaSZOCDT4ZrhA2t8RP2CBlzEr7SSbbMPCeQlwwq3g
+ GT4XE6jvihHgjw4BvXrF0Ng7zbHqAQe74BMUKF06poIBYn8nc5niBLsAKBLhwGwGSCF4
+ oXKdKVlFPjggLT/rSDfoIO2JkQ0j0dIdD1ocn89yQw6lHrECvYjGOJ/RYNMWfnPOzffQ
+ ug+RKz634FLycS89fGKTObKWTQ7zHBcZMU3VgGY7CeLXSU8cnPeBLjJ0+zKh399mFSEv
+ DhHA==
+X-Gm-Message-State: APjAAAXBIg/zA1t+bbPqYWKSkPkN4KowdAqsEbOdm0/el0X9EZ3JUKm8
+ 6eGWZ+IDw/v6QeD4H8UKC4G5vgZtSqZF3PTTkjdifQ==
+X-Google-Smtp-Source: APXvYqwcugT//qnqufmXFYv7mzW6pXLJFnsI9RIJJUQFrtvIRLaGeVUrR5fl8Axh/4r7ZFcA/B5qxBZnIVYs8fJOW4o=
+X-Received: by 2002:adf:9f08:: with SMTP id l8mr20361667wrf.325.1571687568411; 
+ Mon, 21 Oct 2019 12:52:48 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 994070a8-3dcf-47ab-d111-08d7565c407a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2019 19:24:11.0807 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SiY4zIta3YoXAYsj+AF0/bGakAC2uBWSbKXm0637OZxcdI2ZYKQwCF3UH9NkQYyFasvQlgRMxdN9qqzcFNGBoQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR2201MB1442
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.79.129
+References: <20191021145839.12684-1-peter.maydell@linaro.org>
+ <06e15851-0b4e-63c3-001d-dd7ea5855872@linaro.org>
+ <5dc0737a-f1b0-24aa-015a-1806a6d61e69@redhat.com>
+In-Reply-To: <5dc0737a-f1b0-24aa-015a-1806a6d61e69@redhat.com>
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date: Mon, 21 Oct 2019 21:52:42 +0200
+Message-ID: <CAKv+Gu-QkvyLoJ6jW7eMm48hKKO9pf6r53m6Qi1cvCDt9WJx5g@mail.gmail.com>
+Subject: Re: [PATCH] tcg/LICENSE: Remove no-longer-true statement that TCG is
+ BSD-licensed
+To: Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,159 +74,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- =?iso-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>,
- Beniamino Galvani <b.galvani@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?iso-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Jan Kiszka <jan.kiszka@web.de>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alexander Graf <agraf@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  hw/mips/boston.c        | 2 +-
->  hw/mips/mips_fulong2e.c | 3 ++-
->  hw/mips/mips_jazz.c     | 2 +-
->  hw/mips/mips_malta.c    | 2 +-
->  hw/mips/mips_mipssim.c  | 2 +-
->  hw/mips/mips_r4k.c      | 3 ++-
->  6 files changed, 8 insertions(+), 6 deletions(-)
+On Mon, 21 Oct 2019 at 19:57, Laszlo Ersek <lersek@redhat.com> wrote:
+>
+> (+Ard, Alex)
+>
+> On 10/21/19 17:52, Richard Henderson wrote:
+> > On 10/21/19 7:58 AM, Peter Maydell wrote:
+> >> Since 2008 the tcg/LICENSE file has not changed: it claims that
+> >> everything under tcg/ is BSD-licensed.
+> >>
+> >> This is not true and hasn't been true for years: in 2013 we
+> >> accepted the tcg/aarch64 target code under a GPLv2-or-later
+> >> license statement. We don't really consider the tcg
+> >> subdirectory to be a distinct part of QEMU anyway.
+> >>
+> >> Remove the LICENSE file, since claiming false information
+> >> about the license of the code is confusing, and update
+> >> the main project LICENSE file also to be clearer about
+> >> the license used by TCG.
+> >>
+> >> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >> ---
+> >> This patch takes the simple approach of just documenting
+> >> the de-facto current reality; does anybody want to argue
+> >> for something else? Other possibilities I guess would be
+> >> specifically documenting tcg/aarch64 as an accidental
+> >> exception to the general licensing rule for tcg/, or even
+> >> trying to get it relicensed.
+> >>
+> >> Does having tcg/ be BSD-licensed gain the project anything?
+> >> From my point of view I don't really see it as a cleanly
+> >> separable module of code -- it's quite tightly integrated
+> >> with the rest of QEMU, including code in accel/tcg which
+> >> is variously GPL or LGPL.
+> >
+> > I think this is the best solution.  I've never been convinced that TCG can
+> > usefully be extracted and reused for something else.
+>
+> Side comment:
+>
+> Ard and Alex extracted TCG to run x86 PCIe UEFI option ROMs on aarch64
+> hardware.
+>
+> https://github.com/ardbiesheuvel/X86EmulatorPkg
+> https://kvmforum2017.sched.com/event/Bo0S/qemu-in-uefi-alexander-graf-suse
+> https://www.youtube.com/watch?v=uxvAH1Q4Mx0
+>
+> If I remember correctly, they specifically picked a git commit hash that
+> was still purely BSD licensed.
+>
+> FWIW,
+> <https://github.com/ardbiesheuvel/X86EmulatorPkg/blob/master/LICENSE> is
+> not any BSD license, so I'm almost surely out of date on that aspect;
+> just wanted to confirm that TCG has been usefully extracted.
+>
 
-When the commit message is completed:
-
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-
-________________________________________
-From: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-Sent: Monday, October 21, 2019 12:56 AM
-To: Paolo Bonzini; Igor Mammedov; qemu-devel@nongnu.org; Markus Armbruster;=
- Eduardo Habkost
-Cc: Thomas Huth; Antony Pavlov; Michael Walle; David Gibson; qemu-arm@nongn=
-u.org; KONRAD Frederic; C=E9dric Le Goater; Fabien Chouteau; Andrey Smirnov=
-; Joel Stanley; Peter Chubb; Andrew Jeffery; Helge Deller; Aurelien Jarno; =
-Jean-Christophe Dubois; Jan Kiszka; Paul Burton; qemu-ppc@nongnu.org; Herv=
-=E9 Poussineau; Andrew Baumann; Mark Cave-Ayland; Beniamino Galvani; Artyom=
- Tarasenko; Edgar E. Iglesias; Leif Lindholm; Aleksandar Markovic; Michael =
-S. Tsirkin; Radoslaw Biernacki; Rob Herring; Richard Henderson; Alistair Fr=
-ancis; Andrzej Zaborowski; Marcel Apfelbaum; Philippe Mathieu-Daud=E9; Alek=
-sandar Rikalo; Peter Maydell
-Subject: [EXTERNAL][PATCH 18/21] hw/mips: Let the machine be the owner of t=
-he system memory
-
-Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
----
- hw/mips/boston.c        | 2 +-
- hw/mips/mips_fulong2e.c | 3 ++-
- hw/mips/mips_jazz.c     | 2 +-
- hw/mips/mips_malta.c    | 2 +-
- hw/mips/mips_mipssim.c  | 2 +-
- hw/mips/mips_r4k.c      | 3 ++-
- 6 files changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index ca7d813a52..8445fee0f1 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -474,7 +474,7 @@ static void boston_mach_init(MachineState *machine)
-     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
-
-     ddr =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
-+    memory_region_allocate_system_memory(ddr, machine, "boston.ddr",
-                                          machine->ram_size);
-     memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
-
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index cf537dd7e6..d5a5cef619 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -318,7 +318,8 @@ static void mips_fulong2e_init(MachineState *machine)
-     ram_size =3D 256 * MiB;
-
-     /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram", ram_si=
-ze);
-+    memory_region_allocate_system_memory(ram, machine,
-+                                         "fulong2e.ram", ram_size);
-     memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
-                            &error_fatal);
-     memory_region_set_readonly(bios, true);
-diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
-index 8d010a0b6e..88b125855f 100644
---- a/hw/mips/mips_jazz.c
-+++ b/hw/mips/mips_jazz.c
-@@ -188,7 +188,7 @@ static void mips_jazz_init(MachineState *machine,
-     cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
-
-     /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
-+    memory_region_allocate_system_memory(ram, machine, "mips_jazz.ram",
-                                          machine->ram_size);
-     memory_region_add_subregion(address_space, 0, ram);
-
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 4d9c64b36a..af56a29ccb 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -1267,7 +1267,7 @@ void mips_malta_init(MachineState *machine)
-     }
-
-     /* register RAM at high address where it is undisturbed by IO */
--    memory_region_allocate_system_memory(ram_high, NULL, "mips_malta.ram",
-+    memory_region_allocate_system_memory(ram_high, machine, "mips_malta.ra=
-m",
-                                          ram_size);
-     memory_region_add_subregion(system_memory, 0x80000000, ram_high);
-
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index 282bbecb24..c1933231e2 100644
---- a/hw/mips/mips_mipssim.c
-+++ b/hw/mips/mips_mipssim.c
-@@ -166,7 +166,7 @@ mips_mipssim_init(MachineState *machine)
-     qemu_register_reset(main_cpu_reset, reset_info);
-
-     /* Allocate RAM. */
--    memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
-+    memory_region_allocate_system_memory(ram, machine, "mips_mipssim.ram",
-                                          ram_size);
-     memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
-                            &error_fatal);
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index bc0be26544..59f8cacfb6 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -203,7 +203,8 @@ void mips_r4k_init(MachineState *machine)
-                      " maximum 256MB", ram_size / MiB);
-         exit(1);
-     }
--    memory_region_allocate_system_memory(ram, NULL, "mips_r4k.ram", ram_si=
-ze);
-+    memory_region_allocate_system_memory(ram, machine, "mips_r4k.ram",
-+                                         ram_size);
-
-     memory_region_add_subregion(address_space_mem, 0, ram);
-
---
-2.21.0
-
+This commit has the background info
+https://github.com/ardbiesheuvel/X86EmulatorPkg/commit/552c44d2cbc778f3e53d6d3985a8787c7df99733
 
