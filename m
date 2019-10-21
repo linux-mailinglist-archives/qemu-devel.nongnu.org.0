@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC02DEA76
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:10:03 +0200 (CEST)
-Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0AEDEAAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:19:33 +0200 (CEST)
+Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMVZa-0004Vv-T7
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46268)
+	id 1iMVim-0005Vx-Jl
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iMVP7-0002nm-CQ
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:59:17 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iMVPF-00031D-Pn
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:59:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iMVP3-0003jA-F0
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:59:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58553
+ (envelope-from <dgilbert@redhat.com>) id 1iMVPB-0003ky-Mw
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:59:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57414
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVP3-0003iu-5l
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:59:09 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVPB-0003kp-Gu
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:59:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571655548;
+ s=mimecast20190719; t=1571655557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eQWj74Mw4J2oB3XTLkpmBGULxlDcfipq0xmYKYAAS3o=;
- b=SLm/ytPIYbO5cIn5y3InXy0FI95SB2jsaWT4Ea8ICmpCGON96ZjCyaBWnkwlnHQYElGFjv
- txU7yt0RST5ZuczJ/XkTt+bn5FwU/zg4zPztOVX0VlwjLxo4wRV/8ywJUbBYVTBq4NpaUK
- j41ZCLSmg3MDuiGZYUQgtJ9JsRK8eXM=
+ bh=dSkS+/srM2EQsUQw8jFeB59tu47Pqodjx7oNqHqUKQU=;
+ b=DKaKT/p97Ak419EsAC+r4ScZcf1HtwemAMuWfGrtTekviFyXS0on5EQYBkkGs2qW1VjtnO
+ TscANXZxTNwKRU05wcGbxjJy15rOlupS1jr8a4au9J9unHqjm4Ft6YhlKJTN1boWr+cq1o
+ eitjd6V3pa2G+WjlLXHM360RKEJGo54=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-_yuXnxAuNIG51VmUS2mTyw-1; Mon, 21 Oct 2019 06:59:04 -0400
+ us-mta-147-Q7nZnr1ONLK4ISah863IgA-1; Mon, 21 Oct 2019 06:59:09 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBCA35E9;
- Mon, 21 Oct 2019 10:59:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E18F8800D41;
+ Mon, 21 Oct 2019 10:59:08 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
  [10.36.117.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B32D56060D;
- Mon, 21 Oct 2019 10:58:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 153AB6060D;
+ Mon, 21 Oct 2019 10:59:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com
-Subject: [PATCH 05/30] virtiofsd: Add passthrough_ll
-Date: Mon, 21 Oct 2019 11:58:07 +0100
-Message-Id: <20191021105832.36574-6-dgilbert@redhat.com>
+Subject: [PATCH 06/30] virtiofsd: Trim down imported files
+Date: Mon, 21 Oct 2019 11:58:08 +0100
+Message-Id: <20191021105832.36574-7-dgilbert@redhat.com>
 In-Reply-To: <20191021105832.36574-1-dgilbert@redhat.com>
 References: <20191021105832.36574-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: _yuXnxAuNIG51VmUS2mTyw-1
+X-MC-Unique: Q7nZnr1ONLK4ISah863IgA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,1372 +78,1431 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-passthrough_ll is one of the examples in the upstream fuse project
-and is the main part of our daemon here.  It passes through requests
-from fuse to the underlying filesystem, using syscalls as directly
-as possible.
-
-From libfuse a0d713619d4f21e8240ede38eefe6101ea580724
+There's a lot of the original fuse code we don't need; trim them down.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- contrib/virtiofsd/passthrough_ll.c | 1322 ++++++++++++++++++++++++++++
- 1 file changed, 1322 insertions(+)
- create mode 100644 contrib/virtiofsd/passthrough_ll.c
+ contrib/virtiofsd/fuse_i.h        |  22 -
+ contrib/virtiofsd/fuse_loop_mt.c  | 308 --------------
+ contrib/virtiofsd/fuse_lowlevel.c | 653 +-----------------------------
+ contrib/virtiofsd/helper.c        | 136 -------
+ 4 files changed, 5 insertions(+), 1114 deletions(-)
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
-ough_ll.c
-new file mode 100644
-index 0000000000..4e3760294a
---- /dev/null
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -0,0 +1,1322 @@
-+/*
-+  FUSE: Filesystem in Userspace
-+  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-+
-+  This program can be distributed under the terms of the GNU GPL.
-+  See the file COPYING.
-+*/
-+
-+/** @file
-+ *
-+ * This file system mirrors the existing file system hierarchy of the
-+ * system, starting at the root file system. This is implemented by
-+ * just "passing through" all requests to the corresponding user-space
-+ * libc functions. In contrast to passthrough.c and passthrough_fh.c,
-+ * this implementation uses the low-level API. Its performance should
-+ * be the least bad among the three, but many operations are not
-+ * implemented. In particular, it is not possible to remove files (or
-+ * directories) because the code necessary to defer actual removal
-+ * until the file is not opened anymore would make the example much
-+ * more complicated.
-+ *
-+ * When writeback caching is enabled (-o writeback mount option), it
-+ * is only possible to write to files for which the mounting user has
-+ * read permissions. This is because the writeback cache requires the
-+ * kernel to be able to issue read requests for all files (which the
-+ * passthrough filesystem cannot satisfy if it can't read the file in
-+ * the underlying filesystem).
-+ *
-+ * Compile with:
-+ *
-+ *     gcc -Wall passthrough_ll.c `pkg-config fuse3 --cflags --libs` -o pa=
-ssthrough_ll
-+ *
-+ * ## Source code ##
-+ * \include passthrough_ll.c
-+ */
-+
-+#define _GNU_SOURCE
-+#define FUSE_USE_VERSION 31
-+
-+#include "config.h"
-+
-+#include <fuse_lowlevel.h>
-+#include <unistd.h>
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <stddef.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <limits.h>
-+#include <dirent.h>
-+#include <assert.h>
-+#include <errno.h>
-+#include <inttypes.h>
-+#include <pthread.h>
-+#include <sys/file.h>
-+#include <sys/xattr.h>
-+
-+#include "passthrough_helpers.h"
-+
-+/* We are re-using pointers to our `struct lo_inode` and `struct
-+   lo_dirp` elements as inodes. This means that we must be able to
-+   store uintptr_t values in a fuse_ino_t variable. The following
-+   incantation checks this condition at compile time. */
-+#if defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ =3D=3D 4 && __GNUC_MINO=
-R__ >=3D 6) && !defined __cplusplus
-+_Static_assert(sizeof(fuse_ino_t) >=3D sizeof(uintptr_t),
-+=09       "fuse_ino_t too small to hold uintptr_t values!");
-+#else
-+struct _uintptr_to_must_hold_fuse_ino_t_dummy_struct \
-+=09{ unsigned _uintptr_to_must_hold_fuse_ino_t:
-+=09=09=09((sizeof(fuse_ino_t) >=3D sizeof(uintptr_t)) ? 1 : -1); };
-+#endif
-+
-+struct lo_inode {
-+=09struct lo_inode *next; /* protected by lo->mutex */
-+=09struct lo_inode *prev; /* protected by lo->mutex */
-+=09int fd;
-+=09bool is_symlink;
-+=09ino_t ino;
-+=09dev_t dev;
-+=09uint64_t refcount; /* protected by lo->mutex */
-+};
-+
-+enum {
-+=09CACHE_NEVER,
-+=09CACHE_NORMAL,
-+=09CACHE_ALWAYS,
-+};
-+
-+struct lo_data {
-+=09pthread_mutex_t mutex;
-+=09int debug;
-+=09int writeback;
-+=09int flock;
-+=09int xattr;
-+=09const char *source;
-+=09double timeout;
-+=09int cache;
-+=09int timeout_set;
-+=09struct lo_inode root; /* protected by lo->mutex */
-+};
-+
-+static const struct fuse_opt lo_opts[] =3D {
-+=09{ "writeback",
-+=09  offsetof(struct lo_data, writeback), 1 },
-+=09{ "no_writeback",
-+=09  offsetof(struct lo_data, writeback), 0 },
-+=09{ "source=3D%s",
-+=09  offsetof(struct lo_data, source), 0 },
-+=09{ "flock",
-+=09  offsetof(struct lo_data, flock), 1 },
-+=09{ "no_flock",
-+=09  offsetof(struct lo_data, flock), 0 },
-+=09{ "xattr",
-+=09  offsetof(struct lo_data, xattr), 1 },
-+=09{ "no_xattr",
-+=09  offsetof(struct lo_data, xattr), 0 },
-+=09{ "timeout=3D%lf",
-+=09  offsetof(struct lo_data, timeout), 0 },
-+=09{ "timeout=3D",
-+=09  offsetof(struct lo_data, timeout_set), 1 },
-+=09{ "cache=3Dnever",
-+=09  offsetof(struct lo_data, cache), CACHE_NEVER },
-+=09{ "cache=3Dauto",
-+=09  offsetof(struct lo_data, cache), CACHE_NORMAL },
-+=09{ "cache=3Dalways",
-+=09  offsetof(struct lo_data, cache), CACHE_ALWAYS },
-+
-+=09FUSE_OPT_END
-+};
-+
-+static struct lo_data *lo_data(fuse_req_t req)
-+{
-+=09return (struct lo_data *) fuse_req_userdata(req);
-+}
-+
-+static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
-+{
-+=09if (ino =3D=3D FUSE_ROOT_ID)
-+=09=09return &lo_data(req)->root;
-+=09else
-+=09=09return (struct lo_inode *) (uintptr_t) ino;
-+}
-+
-+static int lo_fd(fuse_req_t req, fuse_ino_t ino)
-+{
-+=09return lo_inode(req, ino)->fd;
-+}
-+
-+static bool lo_debug(fuse_req_t req)
-+{
-+=09return lo_data(req)->debug !=3D 0;
-+}
-+
-+static void lo_init(void *userdata,
-+=09=09    struct fuse_conn_info *conn)
-+{
-+=09struct lo_data *lo =3D (struct lo_data*) userdata;
-+
-+=09if(conn->capable & FUSE_CAP_EXPORT_SUPPORT)
-+=09=09conn->want |=3D FUSE_CAP_EXPORT_SUPPORT;
-+
-+=09if (lo->writeback &&
-+=09    conn->capable & FUSE_CAP_WRITEBACK_CACHE) {
-+=09=09if (lo->debug)
-+=09=09=09fuse_log(FUSE_LOG_DEBUG, "lo_init: activating writeback\n");
-+=09=09conn->want |=3D FUSE_CAP_WRITEBACK_CACHE;
-+=09}
-+=09if (lo->flock && conn->capable & FUSE_CAP_FLOCK_LOCKS) {
-+=09=09if (lo->debug)
-+=09=09=09fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
-+=09=09conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
-+=09}
-+}
-+
-+static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-+=09=09=09     struct fuse_file_info *fi)
-+{
-+=09int res;
-+=09struct stat buf;
-+=09struct lo_data *lo =3D lo_data(req);
-+
-+=09(void) fi;
-+
-+=09res =3D fstatat(lo_fd(req, ino), "", &buf, AT_EMPTY_PATH | AT_SYMLINK_N=
-OFOLLOW);
-+=09if (res =3D=3D -1)
-+=09=09return (void) fuse_reply_err(req, errno);
-+
-+=09fuse_reply_attr(req, &buf, lo->timeout);
-+}
-+
-+static int utimensat_empty_nofollow(struct lo_inode *inode,
-+=09=09=09=09    const struct timespec *tv)
-+{
-+=09int res;
-+=09char procname[64];
-+
-+=09if (inode->is_symlink) {
-+=09=09res =3D utimensat(inode->fd, "", tv,
-+=09=09=09=09AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+=09=09if (res =3D=3D -1 && errno =3D=3D EINVAL) {
-+=09=09=09/* Sorry, no race free way to set times on symlink. */
-+=09=09=09errno =3D EPERM;
-+=09=09}
-+=09=09return res;
-+=09}
-+=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
-+
-+=09return utimensat(AT_FDCWD, procname, tv, 0);
-+}
-+
-+static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-+=09=09       int valid, struct fuse_file_info *fi)
-+{
-+=09int saverr;
-+=09char procname[64];
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+=09int ifd =3D inode->fd;
-+=09int res;
-+
-+=09if (valid & FUSE_SET_ATTR_MODE) {
-+=09=09if (fi) {
-+=09=09=09res =3D fchmod(fi->fh, attr->st_mode);
-+=09=09} else {
-+=09=09=09sprintf(procname, "/proc/self/fd/%i", ifd);
-+=09=09=09res =3D chmod(procname, attr->st_mode);
-+=09=09}
-+=09=09if (res =3D=3D -1)
-+=09=09=09goto out_err;
-+=09}
-+=09if (valid & (FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID)) {
-+=09=09uid_t uid =3D (valid & FUSE_SET_ATTR_UID) ?
-+=09=09=09attr->st_uid : (uid_t) -1;
-+=09=09gid_t gid =3D (valid & FUSE_SET_ATTR_GID) ?
-+=09=09=09attr->st_gid : (gid_t) -1;
-+
-+=09=09res =3D fchownat(ifd, "", uid, gid,
-+=09=09=09       AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+=09=09if (res =3D=3D -1)
-+=09=09=09goto out_err;
-+=09}
-+=09if (valid & FUSE_SET_ATTR_SIZE) {
-+=09=09if (fi) {
-+=09=09=09res =3D ftruncate(fi->fh, attr->st_size);
-+=09=09} else {
-+=09=09=09sprintf(procname, "/proc/self/fd/%i", ifd);
-+=09=09=09res =3D truncate(procname, attr->st_size);
-+=09=09}
-+=09=09if (res =3D=3D -1)
-+=09=09=09goto out_err;
-+=09}
-+=09if (valid & (FUSE_SET_ATTR_ATIME | FUSE_SET_ATTR_MTIME)) {
-+=09=09struct timespec tv[2];
-+
-+=09=09tv[0].tv_sec =3D 0;
-+=09=09tv[1].tv_sec =3D 0;
-+=09=09tv[0].tv_nsec =3D UTIME_OMIT;
-+=09=09tv[1].tv_nsec =3D UTIME_OMIT;
-+
-+=09=09if (valid & FUSE_SET_ATTR_ATIME_NOW)
-+=09=09=09tv[0].tv_nsec =3D UTIME_NOW;
-+=09=09else if (valid & FUSE_SET_ATTR_ATIME)
-+=09=09=09tv[0] =3D attr->st_atim;
-+
-+=09=09if (valid & FUSE_SET_ATTR_MTIME_NOW)
-+=09=09=09tv[1].tv_nsec =3D UTIME_NOW;
-+=09=09else if (valid & FUSE_SET_ATTR_MTIME)
-+=09=09=09tv[1] =3D attr->st_mtim;
-+
-+=09=09if (fi)
-+=09=09=09res =3D futimens(fi->fh, tv);
-+=09=09else
-+=09=09=09res =3D utimensat_empty_nofollow(inode, tv);
-+=09=09if (res =3D=3D -1)
-+=09=09=09goto out_err;
-+=09}
-+
-+=09return lo_getattr(req, ino, fi);
-+
-+out_err:
-+=09saverr =3D errno;
-+=09fuse_reply_err(req, saverr);
-+}
-+
-+static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st)
-+{
-+=09struct lo_inode *p;
-+=09struct lo_inode *ret =3D NULL;
-+
-+=09pthread_mutex_lock(&lo->mutex);
-+=09for (p =3D lo->root.next; p !=3D &lo->root; p =3D p->next) {
-+=09=09if (p->ino =3D=3D st->st_ino && p->dev =3D=3D st->st_dev) {
-+=09=09=09assert(p->refcount > 0);
-+=09=09=09ret =3D p;
-+=09=09=09ret->refcount++;
-+=09=09=09break;
-+=09=09}
-+=09}
-+=09pthread_mutex_unlock(&lo->mutex);
-+=09return ret;
-+}
-+
-+static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
-e,
-+=09=09=09 struct fuse_entry_param *e)
-+{
-+=09int newfd;
-+=09int res;
-+=09int saverr;
-+=09struct lo_data *lo =3D lo_data(req);
-+=09struct lo_inode *inode;
-+
-+=09memset(e, 0, sizeof(*e));
-+=09e->attr_timeout =3D lo->timeout;
-+=09e->entry_timeout =3D lo->timeout;
-+
-+=09newfd =3D openat(lo_fd(req, parent), name, O_PATH | O_NOFOLLOW);
-+=09if (newfd =3D=3D -1)
-+=09=09goto out_err;
-+
-+=09res =3D fstatat(newfd, "", &e->attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLO=
-W);
-+=09if (res =3D=3D -1)
-+=09=09goto out_err;
-+
-+=09inode =3D lo_find(lo_data(req), &e->attr);
-+=09if (inode) {
-+=09=09close(newfd);
-+=09=09newfd =3D -1;
-+=09} else {
-+=09=09struct lo_inode *prev, *next;
-+
-+=09=09saverr =3D ENOMEM;
-+=09=09inode =3D calloc(1, sizeof(struct lo_inode));
-+=09=09if (!inode)
-+=09=09=09goto out_err;
-+
-+=09=09inode->is_symlink =3D S_ISLNK(e->attr.st_mode);
-+=09=09inode->refcount =3D 1;
-+=09=09inode->fd =3D newfd;
-+=09=09inode->ino =3D e->attr.st_ino;
-+=09=09inode->dev =3D e->attr.st_dev;
-+
-+=09=09pthread_mutex_lock(&lo->mutex);
-+=09=09prev =3D &lo->root;
-+=09=09next =3D prev->next;
-+=09=09next->prev =3D inode;
-+=09=09inode->next =3D next;
-+=09=09inode->prev =3D prev;
-+=09=09prev->next =3D inode;
-+=09=09pthread_mutex_unlock(&lo->mutex);
-+=09}
-+=09e->ino =3D (uintptr_t) inode;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
-+=09=09=09(unsigned long long) parent, name, (unsigned long long) e->ino);
-+
-+=09return 0;
-+
-+out_err:
-+=09saverr =3D errno;
-+=09if (newfd !=3D -1)
-+=09=09close(newfd);
-+=09return saverr;
-+}
-+
-+static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-+{
-+=09struct fuse_entry_param e;
-+=09int err;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_lookup(parent=3D%" PRIu64 ", name=3D%s)=
-\n",
-+=09=09=09parent, name);
-+
-+=09err =3D lo_do_lookup(req, parent, name, &e);
-+=09if (err)
-+=09=09fuse_reply_err(req, err);
-+=09else
-+=09=09fuse_reply_entry(req, &e);
-+}
-+
-+static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-+=09=09=09     const char *name, mode_t mode, dev_t rdev,
-+=09=09=09     const char *link)
-+{
-+=09int res;
-+=09int saverr;
-+=09struct lo_inode *dir =3D lo_inode(req, parent);
-+=09struct fuse_entry_param e;
-+
-+=09saverr =3D ENOMEM;
-+
-+=09res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
-+
-+=09saverr =3D errno;
-+=09if (res =3D=3D -1)
-+=09=09goto out;
-+
-+=09saverr =3D lo_do_lookup(req, parent, name, &e);
-+=09if (saverr)
-+=09=09goto out;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
-+=09=09=09(unsigned long long) parent, name, (unsigned long long) e.ino);
-+
-+=09fuse_reply_entry(req, &e);
-+=09return;
-+
-+out:
-+=09fuse_reply_err(req, saverr);
-+}
-+
-+static void lo_mknod(fuse_req_t req, fuse_ino_t parent,
-+=09=09     const char *name, mode_t mode, dev_t rdev)
-+{
-+=09lo_mknod_symlink(req, parent, name, mode, rdev, NULL);
-+}
-+
-+static void lo_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
-+=09=09     mode_t mode)
-+{
-+=09lo_mknod_symlink(req, parent, name, S_IFDIR | mode, 0, NULL);
-+}
-+
-+static void lo_symlink(fuse_req_t req, const char *link,
-+=09=09       fuse_ino_t parent, const char *name)
-+{
-+=09lo_mknod_symlink(req, parent, name, S_IFLNK, 0, link);
-+}
-+
-+static int linkat_empty_nofollow(struct lo_inode *inode, int dfd,
-+=09=09=09=09 const char *name)
-+{
-+=09int res;
-+=09char procname[64];
-+
-+=09if (inode->is_symlink) {
-+=09=09res =3D linkat(inode->fd, "", dfd, name, AT_EMPTY_PATH);
-+=09=09if (res =3D=3D -1 && (errno =3D=3D ENOENT || errno =3D=3D EINVAL)) {
-+=09=09=09/* Sorry, no race free way to hard-link a symlink. */
-+=09=09=09errno =3D EPERM;
-+=09=09}
-+=09=09return res;
-+=09}
-+
-+=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
-+
-+=09return linkat(AT_FDCWD, procname, dfd, name, AT_SYMLINK_FOLLOW);
-+}
-+
-+static void lo_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
-+=09=09    const char *name)
-+{
-+=09int res;
-+=09struct lo_data *lo =3D lo_data(req);
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+=09struct fuse_entry_param e;
-+=09int saverr;
-+
-+=09memset(&e, 0, sizeof(struct fuse_entry_param));
-+=09e.attr_timeout =3D lo->timeout;
-+=09e.entry_timeout =3D lo->timeout;
-+
-+=09res =3D linkat_empty_nofollow(inode, lo_fd(req, parent), name);
-+=09if (res =3D=3D -1)
-+=09=09goto out_err;
-+
-+=09res =3D fstatat(inode->fd, "", &e.attr, AT_EMPTY_PATH | AT_SYMLINK_NOFO=
-LLOW);
-+=09if (res =3D=3D -1)
-+=09=09goto out_err;
-+
-+=09pthread_mutex_lock(&lo->mutex);
-+=09inode->refcount++;
-+=09pthread_mutex_unlock(&lo->mutex);
-+=09e.ino =3D (uintptr_t) inode;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
-+=09=09=09(unsigned long long) parent, name,
-+=09=09=09(unsigned long long) e.ino);
-+
-+=09fuse_reply_entry(req, &e);
-+=09return;
-+
-+out_err:
-+=09saverr =3D errno;
-+=09fuse_reply_err(req, saverr);
-+}
-+
-+static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
-+{
-+=09int res;
-+
-+=09res =3D unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
-+
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
-+=09=09      fuse_ino_t newparent, const char *newname,
-+=09=09      unsigned int flags)
-+{
-+=09int res;
-+
-+=09if (flags) {
-+=09=09fuse_reply_err(req, EINVAL);
+diff --git a/contrib/virtiofsd/fuse_i.h b/contrib/virtiofsd/fuse_i.h
+index d38b630ac5..bcd6a140fc 100644
+--- a/contrib/virtiofsd/fuse_i.h
++++ b/contrib/virtiofsd/fuse_i.h
+@@ -9,8 +9,6 @@
+ #include "fuse.h"
+ #include "fuse_lowlevel.h"
+=20
+-struct mount_opts;
+-
+ struct fuse_req {
+ =09struct fuse_session *se;
+ =09uint64_t unique;
+@@ -45,7 +43,6 @@ struct fuse_session {
+ =09char *mountpoint;
+ =09volatile int exited;
+ =09int fd;
+-=09struct mount_opts *mo;
+ =09int debug;
+ =09int deny_others;
+ =09struct fuse_lowlevel_ops op;
+@@ -58,7 +55,6 @@ struct fuse_session {
+ =09struct fuse_req interrupts;
+ =09pthread_mutex_t lock;
+ =09int got_destroy;
+-=09pthread_key_t pipe_key;
+ =09int broken_splice_nonblock;
+ =09uint64_t notify_ctr;
+ =09struct fuse_notify_req notify_list;
+@@ -106,34 +102,16 @@ struct fuse_chan *fuse_chan_get(struct fuse_chan *ch)=
+;
+  */
+ void fuse_chan_put(struct fuse_chan *ch);
+=20
+-struct mount_opts *parse_mount_opts(struct fuse_args *args);
+-void destroy_mount_opts(struct mount_opts *mo);
+-void fuse_mount_version(void);
+-unsigned get_max_read(struct mount_opts *o);
+-void fuse_kern_unmount(const char *mountpoint, int fd);
+-int fuse_kern_mount(const char *mountpoint, struct mount_opts *mo);
+-
+ int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *io=
+v,
+ =09=09=09       int count);
+ void fuse_free_req(fuse_req_t req);
+=20
+-void cuse_lowlevel_init(fuse_req_t req, fuse_ino_t nodeide, const void *in=
+arg);
+-
+-int fuse_start_thread(pthread_t *thread_id, void *(*func)(void *), void *a=
+rg);
+-
+-int fuse_session_receive_buf_int(struct fuse_session *se, struct fuse_buf =
+*buf,
+-=09=09=09=09 struct fuse_chan *ch);
+ void fuse_session_process_buf_int(struct fuse_session *se,
+ =09=09=09=09  const struct fuse_buf *buf, struct fuse_chan *ch);
+=20
+-struct fuse *fuse_new_31(struct fuse_args *args, const struct fuse_operati=
+ons *op,
+-=09=09      size_t op_size, void *private_data);
+-int fuse_loop_mt_32(struct fuse *f, struct fuse_loop_config *config);
+-int fuse_session_loop_mt_32(struct fuse_session *se, struct fuse_loop_conf=
+ig *config);
+=20
+ #define FUSE_MAX_MAX_PAGES 256
+ #define FUSE_DEFAULT_MAX_PAGES_PER_REQ 32
+=20
+ /* room needed in buffer to accommodate header */
+ #define FUSE_BUFFER_HEADER_SIZE 0x1000
+-
+diff --git a/contrib/virtiofsd/fuse_loop_mt.c b/contrib/virtiofsd/fuse_loop=
+_mt.c
+index 445e9a0ab0..6fcd47e42c 100644
+--- a/contrib/virtiofsd/fuse_loop_mt.c
++++ b/contrib/virtiofsd/fuse_loop_mt.c
+@@ -28,48 +28,6 @@
+ /* Environment var controlling the thread stack size */
+ #define ENVNAME_THREAD_STACK "FUSE_THREAD_STACK"
+=20
+-struct fuse_worker {
+-=09struct fuse_worker *prev;
+-=09struct fuse_worker *next;
+-=09pthread_t thread_id;
+-=09size_t bufsize;
+-
+-=09// We need to include fuse_buf so that we can properly free
+-=09// it when a thread is terminated by pthread_cancel().
+-=09struct fuse_buf fbuf;
+-=09struct fuse_chan *ch;
+-=09struct fuse_mt *mt;
+-};
+-
+-struct fuse_mt {
+-=09pthread_mutex_t lock;
+-=09int numworker;
+-=09int numavail;
+-=09struct fuse_session *se;
+-=09struct fuse_worker main;
+-=09sem_t finish;
+-=09int exit;
+-=09int error;
+-=09int clone_fd;
+-=09int max_idle;
+-};
+-
+-static struct fuse_chan *fuse_chan_new(int fd)
+-{
+-=09struct fuse_chan *ch =3D (struct fuse_chan *) malloc(sizeof(*ch));
+-=09if (ch =3D=3D NULL) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate channel\n");
+-=09=09return NULL;
+-=09}
+-
+-=09memset(ch, 0, sizeof(*ch));
+-=09ch->fd =3D fd;
+-=09ch->ctr =3D 1;
+-=09fuse_mutex_init(&ch->lock);
+-
+-=09return ch;
+-}
+-
+ struct fuse_chan *fuse_chan_get(struct fuse_chan *ch)
+ {
+ =09assert(ch->ctr > 0);
+@@ -94,269 +52,3 @@ void fuse_chan_put(struct fuse_chan *ch)
+ =09} else
+ =09=09pthread_mutex_unlock(&ch->lock);
+ }
+-
+-static void list_add_worker(struct fuse_worker *w, struct fuse_worker *nex=
+t)
+-{
+-=09struct fuse_worker *prev =3D next->prev;
+-=09w->next =3D next;
+-=09w->prev =3D prev;
+-=09prev->next =3D w;
+-=09next->prev =3D w;
+-}
+-
+-static void list_del_worker(struct fuse_worker *w)
+-{
+-=09struct fuse_worker *prev =3D w->prev;
+-=09struct fuse_worker *next =3D w->next;
+-=09prev->next =3D next;
+-=09next->prev =3D prev;
+-}
+-
+-static int fuse_loop_start_thread(struct fuse_mt *mt);
+-
+-static void *fuse_do_work(void *data)
+-{
+-=09struct fuse_worker *w =3D (struct fuse_worker *) data;
+-=09struct fuse_mt *mt =3D w->mt;
+-
+-=09while (!fuse_session_exited(mt->se)) {
+-=09=09int isforget =3D 0;
+-=09=09int res;
+-
+-=09=09pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+-=09=09res =3D fuse_session_receive_buf_int(mt->se, &w->fbuf, w->ch);
+-=09=09pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+-=09=09if (res =3D=3D -EINTR)
+-=09=09=09continue;
+-=09=09if (res <=3D 0) {
+-=09=09=09if (res < 0) {
+-=09=09=09=09fuse_session_exit(mt->se);
+-=09=09=09=09mt->error =3D res;
+-=09=09=09}
+-=09=09=09break;
+-=09=09}
+-
+-=09=09pthread_mutex_lock(&mt->lock);
+-=09=09if (mt->exit) {
+-=09=09=09pthread_mutex_unlock(&mt->lock);
+-=09=09=09return NULL;
+-=09=09}
+-
+-=09=09/*
+-=09=09 * This disgusting hack is needed so that zillions of threads
+-=09=09 * are not created on a burst of FORGET messages
+-=09=09 */
+-=09=09if (!(w->fbuf.flags & FUSE_BUF_IS_FD)) {
+-=09=09=09struct fuse_in_header *in =3D w->fbuf.mem;
+-
+-=09=09=09if (in->opcode =3D=3D FUSE_FORGET ||
+-=09=09=09    in->opcode =3D=3D FUSE_BATCH_FORGET)
+-=09=09=09=09isforget =3D 1;
+-=09=09}
+-
+-=09=09if (!isforget)
+-=09=09=09mt->numavail--;
+-=09=09if (mt->numavail =3D=3D 0)
+-=09=09=09fuse_loop_start_thread(mt);
+-=09=09pthread_mutex_unlock(&mt->lock);
+-
+-=09=09fuse_session_process_buf_int(mt->se, &w->fbuf, w->ch);
+-
+-=09=09pthread_mutex_lock(&mt->lock);
+-=09=09if (!isforget)
+-=09=09=09mt->numavail++;
+-=09=09if (mt->numavail > mt->max_idle) {
+-=09=09=09if (mt->exit) {
+-=09=09=09=09pthread_mutex_unlock(&mt->lock);
+-=09=09=09=09return NULL;
+-=09=09=09}
+-=09=09=09list_del_worker(w);
+-=09=09=09mt->numavail--;
+-=09=09=09mt->numworker--;
+-=09=09=09pthread_mutex_unlock(&mt->lock);
+-
+-=09=09=09pthread_detach(w->thread_id);
+-=09=09=09free(w->fbuf.mem);
+-=09=09=09fuse_chan_put(w->ch);
+-=09=09=09free(w);
+-=09=09=09return NULL;
+-=09=09}
+-=09=09pthread_mutex_unlock(&mt->lock);
+-=09}
+-
+-=09sem_post(&mt->finish);
+-
+-=09return NULL;
+-}
+-
+-int fuse_start_thread(pthread_t *thread_id, void *(*func)(void *), void *a=
+rg)
+-{
+-=09sigset_t oldset;
+-=09sigset_t newset;
+-=09int res;
+-=09pthread_attr_t attr;
+-=09char *stack_size;
+-
+-=09/* Override default stack size */
+-=09pthread_attr_init(&attr);
+-=09stack_size =3D getenv(ENVNAME_THREAD_STACK);
+-=09if (stack_size && pthread_attr_setstacksize(&attr, atoi(stack_size)))
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: invalid stack size: %s\n", stack_size)=
+;
+-
+-=09/* Disallow signal reception in worker threads */
+-=09sigemptyset(&newset);
+-=09sigaddset(&newset, SIGTERM);
+-=09sigaddset(&newset, SIGINT);
+-=09sigaddset(&newset, SIGHUP);
+-=09sigaddset(&newset, SIGQUIT);
+-=09pthread_sigmask(SIG_BLOCK, &newset, &oldset);
+-=09res =3D pthread_create(thread_id, &attr, func, arg);
+-=09pthread_sigmask(SIG_SETMASK, &oldset, NULL);
+-=09pthread_attr_destroy(&attr);
+-=09if (res !=3D 0) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: error creating thread: %s\n",
+-=09=09=09strerror(res));
+-=09=09return -1;
+-=09}
+-
+-=09return 0;
+-}
+-
+-static struct fuse_chan *fuse_clone_chan(struct fuse_mt *mt)
+-{
+-=09int res;
+-=09int clonefd;
+-=09uint32_t masterfd;
+-=09struct fuse_chan *newch;
+-=09const char *devname =3D "/dev/fuse";
+-
+-#ifndef O_CLOEXEC
+-#define O_CLOEXEC 0
+-#endif
+-=09clonefd =3D open(devname, O_RDWR | O_CLOEXEC);
+-=09if (clonefd =3D=3D -1) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: failed to open %s: %s\n", devname,
+-=09=09=09strerror(errno));
+-=09=09return NULL;
+-=09}
+-=09fcntl(clonefd, F_SETFD, FD_CLOEXEC);
+-
+-=09masterfd =3D mt->se->fd;
+-=09res =3D ioctl(clonefd, FUSE_DEV_IOC_CLONE, &masterfd);
+-=09if (res =3D=3D -1) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: failed to clone device fd: %s\n",
+-=09=09=09strerror(errno));
+-=09=09close(clonefd);
+-=09=09return NULL;
+-=09}
+-=09newch =3D fuse_chan_new(clonefd);
+-=09if (newch =3D=3D NULL)
+-=09=09close(clonefd);
+-
+-=09return newch;
+-}
+-
+-static int fuse_loop_start_thread(struct fuse_mt *mt)
+-{
+-=09int res;
+-
+-=09struct fuse_worker *w =3D malloc(sizeof(struct fuse_worker));
+-=09if (!w) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate worker structure\n"=
+);
+-=09=09return -1;
+-=09}
+-=09memset(w, 0, sizeof(struct fuse_worker));
+-=09w->fbuf.mem =3D NULL;
+-=09w->mt =3D mt;
+-
+-=09w->ch =3D NULL;
+-=09if (mt->clone_fd) {
+-=09=09w->ch =3D fuse_clone_chan(mt);
+-=09=09if(!w->ch) {
+-=09=09=09/* Don't attempt this again */
+-=09=09=09fuse_log(FUSE_LOG_ERR, "fuse: trying to continue "
+-=09=09=09=09"without -o clone_fd.\n");
+-=09=09=09mt->clone_fd =3D 0;
+-=09=09}
+-=09}
+-
+-=09res =3D fuse_start_thread(&w->thread_id, fuse_do_work, w);
+-=09if (res =3D=3D -1) {
+-=09=09fuse_chan_put(w->ch);
+-=09=09free(w);
+-=09=09return -1;
+-=09}
+-=09list_add_worker(w, &mt->main);
+-=09mt->numavail ++;
+-=09mt->numworker ++;
+-
+-=09return 0;
+-}
+-
+-static void fuse_join_worker(struct fuse_mt *mt, struct fuse_worker *w)
+-{
+-=09pthread_join(w->thread_id, NULL);
+-=09pthread_mutex_lock(&mt->lock);
+-=09list_del_worker(w);
+-=09pthread_mutex_unlock(&mt->lock);
+-=09free(w->fbuf.mem);
+-=09fuse_chan_put(w->ch);
+-=09free(w);
+-}
+-
+-FUSE_SYMVER(".symver fuse_session_loop_mt_32,fuse_session_loop_mt@@FUSE_3.=
+2");
+-int fuse_session_loop_mt_32(struct fuse_session *se, struct fuse_loop_conf=
+ig *config)
+-{
+-=09int err;
+-=09struct fuse_mt mt;
+-=09struct fuse_worker *w;
+-
+-=09memset(&mt, 0, sizeof(struct fuse_mt));
+-=09mt.se =3D se;
+-=09mt.clone_fd =3D config->clone_fd;
+-=09mt.error =3D 0;
+-=09mt.numworker =3D 0;
+-=09mt.numavail =3D 0;
+-=09mt.max_idle =3D config->max_idle_threads;
+-=09mt.main.thread_id =3D pthread_self();
+-=09mt.main.prev =3D mt.main.next =3D &mt.main;
+-=09sem_init(&mt.finish, 0, 0);
+-=09fuse_mutex_init(&mt.lock);
+-
+-=09pthread_mutex_lock(&mt.lock);
+-=09err =3D fuse_loop_start_thread(&mt);
+-=09pthread_mutex_unlock(&mt.lock);
+-=09if (!err) {
+-=09=09/* sem_wait() is interruptible */
+-=09=09while (!fuse_session_exited(se))
+-=09=09=09sem_wait(&mt.finish);
+-
+-=09=09pthread_mutex_lock(&mt.lock);
+-=09=09for (w =3D mt.main.next; w !=3D &mt.main; w =3D w->next)
+-=09=09=09pthread_cancel(w->thread_id);
+-=09=09mt.exit =3D 1;
+-=09=09pthread_mutex_unlock(&mt.lock);
+-
+-=09=09while (mt.main.next !=3D &mt.main)
+-=09=09=09fuse_join_worker(&mt, mt.main.next);
+-
+-=09=09err =3D mt.error;
+-=09}
+-
+-=09pthread_mutex_destroy(&mt.lock);
+-=09sem_destroy(&mt.finish);
+-=09if(se->error !=3D 0)
+-=09=09err =3D se->error;
+-=09fuse_session_reset(se);
+-=09return err;
+-}
+-
+-int fuse_session_loop_mt_31(struct fuse_session *se, int clone_fd);
+-FUSE_SYMVER(".symver fuse_session_loop_mt_31,fuse_session_loop_mt@FUSE_3.0=
+");
+-int fuse_session_loop_mt_31(struct fuse_session *se, int clone_fd)
+-{
+-=09struct fuse_loop_config config;
+-=09config.clone_fd =3D clone_fd;
+-=09config.max_idle_threads =3D 10;
+-=09return fuse_session_loop_mt_32(se, &config);
+-}
+diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_low=
+level.c
+index f7fbc8f5db..f83cc2855d 100644
+--- a/contrib/virtiofsd/fuse_lowlevel.c
++++ b/contrib/virtiofsd/fuse_lowlevel.c
+@@ -28,12 +28,6 @@
+ #include <assert.h>
+ #include <sys/file.h>
+=20
+-#ifndef F_LINUX_SPECIFIC_BASE
+-#define F_LINUX_SPECIFIC_BASE       1024
+-#endif
+-#ifndef F_SETPIPE_SZ
+-#define F_SETPIPE_SZ=09(F_LINUX_SPECIFIC_BASE + 7)
+-#endif
+=20
+=20
+ #define PARAM(inarg) (((char *)(inarg)) + sizeof(*(inarg)))
+@@ -184,19 +178,7 @@ static int fuse_send_msg(struct fuse_session *se, stru=
+ct fuse_chan *ch,
+ =09=09}
+ =09}
+=20
+-=09ssize_t res =3D writev(ch ? ch->fd : se->fd,
+-=09=09=09     iov, count);
+-=09int err =3D errno;
+-
+-=09if (res =3D=3D -1) {
+-=09=09assert(se !=3D NULL);
+-
+-=09=09/* ENOENT means the operation was interrupted */
+-=09=09if (!fuse_session_exited(se) && err !=3D ENOENT)
+-=09=09=09perror("fuse: writing device");
+-=09=09return -err;
+-=09}
+-
++=09abort(); /* virtio should have taken it before here */
+ =09return 0;
+ }
+=20
+@@ -480,10 +462,6 @@ static int fuse_send_data_iov_fallback(struct fuse_ses=
+sion *se,
+ =09=09=09=09       struct fuse_bufvec *buf,
+ =09=09=09=09       size_t len)
+ {
+-=09struct fuse_bufvec mem_buf =3D FUSE_BUFVEC_INIT(len);
+-=09void *mbuf;
+-=09int res;
+-
+ =09/* Optimize common case */
+ =09if (buf->count =3D=3D 1 && buf->idx =3D=3D 0 && buf->off =3D=3D 0 &&
+ =09    !(buf->buf[0].flags & FUSE_BUF_IS_FD)) {
+@@ -496,350 +474,10 @@ static int fuse_send_data_iov_fallback(struct fuse_s=
+ession *se,
+ =09=09return fuse_send_msg(se, ch, iov, iov_count);
+ =09}
+=20
+-=09res =3D posix_memalign(&mbuf, pagesize, len);
+-=09if (res !=3D 0)
+-=09=09return res;
+-
+-=09mem_buf.buf[0].mem =3D mbuf;
+-=09res =3D fuse_buf_copy(&mem_buf, buf, 0);
+-=09if (res < 0) {
+-=09=09free(mbuf);
+-=09=09return -res;
+-=09}
+-=09len =3D res;
+-
+-=09iov[iov_count].iov_base =3D mbuf;
+-=09iov[iov_count].iov_len =3D len;
+-=09iov_count++;
+-=09res =3D fuse_send_msg(se, ch, iov, iov_count);
+-=09free(mbuf);
+-
+-=09return res;
+-}
+-
+-struct fuse_ll_pipe {
+-=09size_t size;
+-=09int can_grow;
+-=09int pipe[2];
+-};
+-
+-static void fuse_ll_pipe_free(struct fuse_ll_pipe *llp)
+-{
+-=09close(llp->pipe[0]);
+-=09close(llp->pipe[1]);
+-=09free(llp);
+-}
+-
+-#ifdef HAVE_SPLICE
+-#if !defined(HAVE_PIPE2) || !defined(O_CLOEXEC)
+-static int fuse_pipe(int fds[2])
+-{
+-=09int rv =3D pipe(fds);
+-
+-=09if (rv =3D=3D -1)
+-=09=09return rv;
+-
+-=09if (fcntl(fds[0], F_SETFL, O_NONBLOCK) =3D=3D -1 ||
+-=09    fcntl(fds[1], F_SETFL, O_NONBLOCK) =3D=3D -1 ||
+-=09    fcntl(fds[0], F_SETFD, FD_CLOEXEC) =3D=3D -1 ||
+-=09    fcntl(fds[1], F_SETFD, FD_CLOEXEC) =3D=3D -1) {
+-=09=09close(fds[0]);
+-=09=09close(fds[1]);
+-=09=09rv =3D -1;
+-=09}
+-=09return rv;
+-}
+-#else
+-static int fuse_pipe(int fds[2])
+-{
+-=09return pipe2(fds, O_CLOEXEC | O_NONBLOCK);
+-}
+-#endif
+-
+-static struct fuse_ll_pipe *fuse_ll_get_pipe(struct fuse_session *se)
+-{
+-=09struct fuse_ll_pipe *llp =3D pthread_getspecific(se->pipe_key);
+-=09if (llp =3D=3D NULL) {
+-=09=09int res;
+-
+-=09=09llp =3D malloc(sizeof(struct fuse_ll_pipe));
+-=09=09if (llp =3D=3D NULL)
+-=09=09=09return NULL;
+-
+-=09=09res =3D fuse_pipe(llp->pipe);
+-=09=09if (res =3D=3D -1) {
+-=09=09=09free(llp);
+-=09=09=09return NULL;
+-=09=09}
+-
+-=09=09/*
+-=09=09 *the default size is 16 pages on linux
+-=09=09 */
+-=09=09llp->size =3D pagesize * 16;
+-=09=09llp->can_grow =3D 1;
+-
+-=09=09pthread_setspecific(se->pipe_key, llp);
+-=09}
+-
+-=09return llp;
+-}
+-#endif
+-
+-static void fuse_ll_clear_pipe(struct fuse_session *se)
+-{
+-=09struct fuse_ll_pipe *llp =3D pthread_getspecific(se->pipe_key);
+-=09if (llp) {
+-=09=09pthread_setspecific(se->pipe_key, NULL);
+-=09=09fuse_ll_pipe_free(llp);
+-=09}
+-}
+-
+-#if defined(HAVE_SPLICE) && defined(HAVE_VMSPLICE)
+-static int read_back(int fd, char *buf, size_t len)
+-{
+-=09int res;
+-
+-=09res =3D read(fd, buf, len);
+-=09if (res =3D=3D -1) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: internal error: failed to read back fr=
+om pipe: %s\n", strerror(errno));
+-=09=09return -EIO;
+-=09}
+-=09if (res !=3D len) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: internal error: short read back from p=
+ipe: %i from %zi\n", res, len);
+-=09=09return -EIO;
+-=09}
++=09abort(); /* Will have taken vhost path */
+ =09return 0;
+ }
+=20
+-static int grow_pipe_to_max(int pipefd)
+-{
+-=09int max;
+-=09int res;
+-=09int maxfd;
+-=09char buf[32];
+-
+-=09maxfd =3D open("/proc/sys/fs/pipe-max-size", O_RDONLY);
+-=09if (maxfd < 0)
+-=09=09return -errno;
+-
+-=09res =3D read(maxfd, buf, sizeof(buf) - 1);
+-=09if (res < 0) {
+-=09=09int saved_errno;
+-
+-=09=09saved_errno =3D errno;
+-=09=09close(maxfd);
+-=09=09return -saved_errno;
+-=09}
+-=09close(maxfd);
+-=09buf[res] =3D '\0';
+-
+-=09max =3D atoi(buf);
+-=09res =3D fcntl(pipefd, F_SETPIPE_SZ, max);
+-=09if (res < 0)
+-=09=09return -errno;
+-=09return max;
+-}
+-
+-static int fuse_send_data_iov(struct fuse_session *se, struct fuse_chan *c=
+h,
+-=09=09=09       struct iovec *iov, int iov_count,
+-=09=09=09       struct fuse_bufvec *buf, unsigned int flags)
+-{
+-=09int res;
+-=09size_t len =3D fuse_buf_size(buf);
+-=09struct fuse_out_header *out =3D iov[0].iov_base;
+-=09struct fuse_ll_pipe *llp;
+-=09int splice_flags;
+-=09size_t pipesize;
+-=09size_t total_fd_size;
+-=09size_t idx;
+-=09size_t headerlen;
+-=09struct fuse_bufvec pipe_buf =3D FUSE_BUFVEC_INIT(len);
+-
+-=09if (se->broken_splice_nonblock)
+-=09=09goto fallback;
+-
+-=09if (flags & FUSE_BUF_NO_SPLICE)
+-=09=09goto fallback;
+-
+-=09total_fd_size =3D 0;
+-=09for (idx =3D buf->idx; idx < buf->count; idx++) {
+-=09=09if (buf->buf[idx].flags & FUSE_BUF_IS_FD) {
+-=09=09=09total_fd_size =3D buf->buf[idx].size;
+-=09=09=09if (idx =3D=3D buf->idx)
+-=09=09=09=09total_fd_size -=3D buf->off;
+-=09=09}
+-=09}
+-=09if (total_fd_size < 2 * pagesize)
+-=09=09goto fallback;
+-
+-=09if (se->conn.proto_minor < 14 ||
+-=09    !(se->conn.want & FUSE_CAP_SPLICE_WRITE))
+-=09=09goto fallback;
+-
+-=09llp =3D fuse_ll_get_pipe(se);
+-=09if (llp =3D=3D NULL)
+-=09=09goto fallback;
+-
+-
+-=09headerlen =3D iov_length(iov, iov_count);
+-
+-=09out->len =3D headerlen + len;
+-
+-=09/*
+-=09 * Heuristic for the required pipe size, does not work if the
+-=09 * source contains less than page size fragments
+-=09 */
+-=09pipesize =3D pagesize * (iov_count + buf->count + 1) + out->len;
+-
+-=09if (llp->size < pipesize) {
+-=09=09if (llp->can_grow) {
+-=09=09=09res =3D fcntl(llp->pipe[0], F_SETPIPE_SZ, pipesize);
+-=09=09=09if (res =3D=3D -1) {
+-=09=09=09=09res =3D grow_pipe_to_max(llp->pipe[0]);
+-=09=09=09=09if (res > 0)
+-=09=09=09=09=09llp->size =3D res;
+-=09=09=09=09llp->can_grow =3D 0;
+-=09=09=09=09goto fallback;
+-=09=09=09}
+-=09=09=09llp->size =3D res;
+-=09=09}
+-=09=09if (llp->size < pipesize)
+-=09=09=09goto fallback;
+-=09}
+-
+-
+-=09res =3D vmsplice(llp->pipe[1], iov, iov_count, SPLICE_F_NONBLOCK);
+-=09if (res =3D=3D -1)
+-=09=09goto fallback;
+-
+-=09if (res !=3D headerlen) {
+-=09=09res =3D -EIO;
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: short vmsplice to pipe: %u/%zu\n", res=
+,
+-=09=09=09headerlen);
+-=09=09goto clear_pipe;
+-=09}
+-
+-=09pipe_buf.buf[0].flags =3D FUSE_BUF_IS_FD;
+-=09pipe_buf.buf[0].fd =3D llp->pipe[1];
+-
+-=09res =3D fuse_buf_copy(&pipe_buf, buf,
+-=09=09=09    FUSE_BUF_FORCE_SPLICE | FUSE_BUF_SPLICE_NONBLOCK);
+-=09if (res < 0) {
+-=09=09if (res =3D=3D -EAGAIN || res =3D=3D -EINVAL) {
+-=09=09=09/*
+-=09=09=09 * Should only get EAGAIN on kernels with
+-=09=09=09 * broken SPLICE_F_NONBLOCK support (<=3D
+-=09=09=09 * 2.6.35) where this error or a short read is
+-=09=09=09 * returned even if the pipe itself is not
+-=09=09=09 * full
+-=09=09=09 *
+-=09=09=09 * EINVAL might mean that splice can't handle
+-=09=09=09 * this combination of input and output.
+-=09=09=09 */
+-=09=09=09if (res =3D=3D -EAGAIN)
+-=09=09=09=09se->broken_splice_nonblock =3D 1;
+-
+-=09=09=09pthread_setspecific(se->pipe_key, NULL);
+-=09=09=09fuse_ll_pipe_free(llp);
+-=09=09=09goto fallback;
+-=09=09}
+-=09=09res =3D -res;
+-=09=09goto clear_pipe;
+-=09}
+-
+-=09if (res !=3D 0 && res < len) {
+-=09=09struct fuse_bufvec mem_buf =3D FUSE_BUFVEC_INIT(len);
+-=09=09void *mbuf;
+-=09=09size_t now_len =3D res;
+-=09=09/*
+-=09=09 * For regular files a short count is either
+-=09=09 *  1) due to EOF, or
+-=09=09 *  2) because of broken SPLICE_F_NONBLOCK (see above)
+-=09=09 *
+-=09=09 * For other inputs it's possible that we overflowed
+-=09=09 * the pipe because of small buffer fragments.
+-=09=09 */
+-
+-=09=09res =3D posix_memalign(&mbuf, pagesize, len);
+-=09=09if (res !=3D 0)
+-=09=09=09goto clear_pipe;
+-
+-=09=09mem_buf.buf[0].mem =3D mbuf;
+-=09=09mem_buf.off =3D now_len;
+-=09=09res =3D fuse_buf_copy(&mem_buf, buf, 0);
+-=09=09if (res > 0) {
+-=09=09=09char *tmpbuf;
+-=09=09=09size_t extra_len =3D res;
+-=09=09=09/*
+-=09=09=09 * Trickiest case: got more data.  Need to get
+-=09=09=09 * back the data from the pipe and then fall
+-=09=09=09 * back to regular write.
+-=09=09=09 */
+-=09=09=09tmpbuf =3D malloc(headerlen);
+-=09=09=09if (tmpbuf =3D=3D NULL) {
+-=09=09=09=09free(mbuf);
+-=09=09=09=09res =3D ENOMEM;
+-=09=09=09=09goto clear_pipe;
+-=09=09=09}
+-=09=09=09res =3D read_back(llp->pipe[0], tmpbuf, headerlen);
+-=09=09=09free(tmpbuf);
+-=09=09=09if (res !=3D 0) {
+-=09=09=09=09free(mbuf);
+-=09=09=09=09goto clear_pipe;
+-=09=09=09}
+-=09=09=09res =3D read_back(llp->pipe[0], mbuf, now_len);
+-=09=09=09if (res !=3D 0) {
+-=09=09=09=09free(mbuf);
+-=09=09=09=09goto clear_pipe;
+-=09=09=09}
+-=09=09=09len =3D now_len + extra_len;
+-=09=09=09iov[iov_count].iov_base =3D mbuf;
+-=09=09=09iov[iov_count].iov_len =3D len;
+-=09=09=09iov_count++;
+-=09=09=09res =3D fuse_send_msg(se, ch, iov, iov_count);
+-=09=09=09free(mbuf);
+-=09=09=09return res;
+-=09=09}
+-=09=09free(mbuf);
+-=09=09res =3D now_len;
+-=09}
+-=09len =3D res;
+-=09out->len =3D headerlen + len;
+-
+-=09if (se->debug) {
+-=09=09fuse_log(FUSE_LOG_DEBUG,
+-=09=09=09"   unique: %llu, success, outsize: %i (splice)\n",
+-=09=09=09(unsigned long long) out->unique, out->len);
+-=09}
+-
+-=09splice_flags =3D 0;
+-=09if ((flags & FUSE_BUF_SPLICE_MOVE) &&
+-=09    (se->conn.want & FUSE_CAP_SPLICE_MOVE))
+-=09=09splice_flags |=3D SPLICE_F_MOVE;
+-
+-=09res =3D splice(llp->pipe[0], NULL, ch ? ch->fd : se->fd,
+-=09=09     NULL, out->len, splice_flags);
+-=09if (res =3D=3D -1) {
+-=09=09res =3D -errno;
+-=09=09perror("fuse: splice from pipe");
+-=09=09goto clear_pipe;
+-=09}
+-=09if (res !=3D out->len) {
+-=09=09res =3D -EIO;
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: short splice from pipe: %u/%u\n",
+-=09=09=09res, out->len);
+-=09=09goto clear_pipe;
+-=09}
+-=09return 0;
+-
+-clear_pipe:
+-=09fuse_ll_clear_pipe(se);
+-=09return res;
+-
+-fallback:
+-=09return fuse_send_data_iov_fallback(se, ch, iov, iov_count, buf, len);
+-}
+-#else
+ static int fuse_send_data_iov(struct fuse_session *se, struct fuse_chan *c=
+h,
+ =09=09=09       struct iovec *iov, int iov_count,
+ =09=09=09       struct fuse_bufvec *buf, unsigned int flags)
+@@ -849,7 +487,6 @@ static int fuse_send_data_iov(struct fuse_session *se, =
+struct fuse_chan *ch,
+=20
+ =09return fuse_send_data_iov_fallback(se, ch, iov, iov_count, buf, len);
+ }
+-#endif
+=20
+ int fuse_reply_data(fuse_req_t req, struct fuse_bufvec *bufv,
+ =09=09    enum fuse_buf_copy_flags flags)
+@@ -1398,16 +1035,11 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t=
+ nodeid, const void *inarg,
+ =09if (bufv.buf[0].size < arg->size) {
+ =09=09fuse_log(FUSE_LOG_ERR, "fuse: do_write_buf: buffer size too small\n"=
+);
+ =09=09fuse_reply_err(req, EIO);
+-=09=09goto out;
 +=09=09return;
-+=09}
-+
-+=09res =3D renameat(lo_fd(req, parent), name,
-+=09=09=09lo_fd(req, newparent), newname);
-+
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
-+{
-+=09int res;
-+
-+=09res =3D unlinkat(lo_fd(req, parent), name, 0);
-+
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
-_t n)
-+{
-+=09if (!inode)
+ =09}
+ =09bufv.buf[0].size =3D arg->size;
+=20
+ =09se->op.write_buf(req, nodeid, &bufv, arg->offset, &fi);
+-
+-out:
+-=09/* Need to reset the pipe if ->write_buf() didn't consume all data */
+-=09if ((ibuf->flags & FUSE_BUF_IS_FD) && bufv.idx < bufv.count)
+-=09=09fuse_ll_clear_pipe(se);
+ }
+=20
+ static void do_flush(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
+@@ -2014,17 +1646,6 @@ static void do_init(fuse_req_t req, fuse_ino_t nodei=
+d, const void *inarg)
+ =09=09return;
+ =09}
+=20
+-=09unsigned max_read_mo =3D get_max_read(se->mo);
+-=09if (se->conn.max_read !=3D max_read_mo) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: error: init() and fuse_session_new() "
+-=09=09=09"requested different maximum read size (%u vs %u)\n",
+-=09=09=09se->conn.max_read, max_read_mo);
+-=09=09fuse_reply_err(req, EPROTO);
+-=09=09se->error =3D -EPROTO;
+-=09=09fuse_session_exit(se);
+-=09=09return;
+-=09}
+-
+ =09if (se->conn.max_write < bufsize - FUSE_BUFFER_HEADER_SIZE) {
+ =09=09se->bufsize =3D se->conn.max_write + FUSE_BUFFER_HEADER_SIZE;
+ =09}
+@@ -2340,8 +1961,6 @@ static void fuse_ll_retrieve_reply(struct fuse_notify=
+_req *nreq,
+ =09}
+ out:
+ =09free(rreq);
+-=09if ((ibuf->flags & FUSE_BUF_IS_FD) && bufv.idx < bufv.count)
+-=09=09fuse_ll_clear_pipe(se);
+ }
+=20
+ int fuse_lowlevel_notify_retrieve(struct fuse_session *se, fuse_ino_t ino,
+@@ -2484,21 +2103,6 @@ static const char *opname(enum fuse_opcode opcode)
+ =09=09return fuse_ll_ops[opcode].name;
+ }
+=20
+-static int fuse_ll_copy_from_pipe(struct fuse_bufvec *dst,
+-=09=09=09=09  struct fuse_bufvec *src)
+-{
+-=09ssize_t res =3D fuse_buf_copy(dst, src, 0);
+-=09if (res < 0) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: copy from pipe: %s\n", strerror(-res))=
+;
+-=09=09return res;
+-=09}
+-=09if ((size_t)res < fuse_buf_size(dst)) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: copy from pipe: short read\n");
+-=09=09return -1;
+-=09}
+-=09return 0;
+-}
+-
+ void fuse_session_process_buf(struct fuse_session *se,
+ =09=09=09      const struct fuse_buf *buf)
+ {
+@@ -2508,36 +2112,12 @@ void fuse_session_process_buf(struct fuse_session *=
+se,
+ void fuse_session_process_buf_int(struct fuse_session *se,
+ =09=09=09=09  const struct fuse_buf *buf, struct fuse_chan *ch)
+ {
+-=09const size_t write_header_size =3D sizeof(struct fuse_in_header) +
+-=09=09sizeof(struct fuse_write_in);
+-=09struct fuse_bufvec bufv =3D { .buf[0] =3D *buf, .count =3D 1 };
+-=09struct fuse_bufvec tmpbuf =3D FUSE_BUFVEC_INIT(write_header_size);
+ =09struct fuse_in_header *in;
+ =09const void *inarg;
+ =09struct fuse_req *req;
+-=09void *mbuf =3D NULL;
+ =09int err;
+-=09int res;
+=20
+-=09if (buf->flags & FUSE_BUF_IS_FD) {
+-=09=09if (buf->size < tmpbuf.buf[0].size)
+-=09=09=09tmpbuf.buf[0].size =3D buf->size;
+-
+-=09=09mbuf =3D malloc(tmpbuf.buf[0].size);
+-=09=09if (mbuf =3D=3D NULL) {
+-=09=09=09fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate header\n");
+-=09=09=09goto clear_pipe;
+-=09=09}
+-=09=09tmpbuf.buf[0].mem =3D mbuf;
+-
+-=09=09res =3D fuse_ll_copy_from_pipe(&tmpbuf, &bufv);
+-=09=09if (res < 0)
+-=09=09=09goto clear_pipe;
+-
+-=09=09in =3D mbuf;
+-=09} else {
+-=09=09in =3D buf->mem;
+-=09}
++=09in =3D buf->mem;
+=20
+ =09if (se->debug) {
+ =09=09fuse_log(FUSE_LOG_DEBUG,
+@@ -2559,7 +2139,7 @@ void fuse_session_process_buf_int(struct fuse_session=
+ *se,
+ =09=09};
+=20
+ =09=09fuse_send_msg(se, ch, &iov, 1);
+-=09=09goto clear_pipe;
 +=09=09return;
-+
-+=09pthread_mutex_lock(&lo->mutex);
-+=09assert(inode->refcount >=3D n);
-+=09inode->refcount -=3D n;
-+=09if (!inode->refcount) {
-+=09=09struct lo_inode *prev, *next;
-+
-+=09=09prev =3D inode->prev;
-+=09=09next =3D inode->next;
-+=09=09next->prev =3D prev;
-+=09=09prev->next =3D next;
-+
-+=09=09pthread_mutex_unlock(&lo->mutex);
-+=09=09close(inode->fd);
-+=09=09free(inode);
-+
-+=09} else {
-+=09=09pthread_mutex_unlock(&lo->mutex);
-+=09}
-+}
-+
-+static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
+ =09}
+=20
+ =09req->unique =3D in->unique;
+@@ -2602,28 +2182,6 @@ void fuse_session_process_buf_int(struct fuse_sessio=
+n *se,
+ =09=09=09fuse_reply_err(intr, EAGAIN);
+ =09}
+=20
+-=09if ((buf->flags & FUSE_BUF_IS_FD) && write_header_size < buf->size &&
+-=09    (in->opcode !=3D FUSE_WRITE || !se->op.write_buf) &&
+-=09    in->opcode !=3D FUSE_NOTIFY_REPLY) {
+-=09=09void *newmbuf;
+-
+-=09=09err =3D ENOMEM;
+-=09=09newmbuf =3D realloc(mbuf, buf->size);
+-=09=09if (newmbuf =3D=3D NULL)
+-=09=09=09goto reply_err;
+-=09=09mbuf =3D newmbuf;
+-
+-=09=09tmpbuf =3D FUSE_BUFVEC_INIT(buf->size - write_header_size);
+-=09=09tmpbuf.buf[0].mem =3D (char *)mbuf + write_header_size;
+-
+-=09=09res =3D fuse_ll_copy_from_pipe(&tmpbuf, &bufv);
+-=09=09err =3D -res;
+-=09=09if (res < 0)
+-=09=09=09goto reply_err;
+-
+-=09=09in =3D mbuf;
+-=09}
+-
+ =09inarg =3D (void *) &in[1];
+ =09if (in->opcode =3D=3D FUSE_WRITE && se->op.write_buf)
+ =09=09do_write_buf(req, in->nodeid, inarg, buf);
+@@ -2632,16 +2190,10 @@ void fuse_session_process_buf_int(struct fuse_sessi=
+on *se,
+ =09else
+ =09=09fuse_ll_ops[in->opcode].func(req, in->nodeid, inarg);
+=20
+-out_free:
+-=09free(mbuf);
+ =09return;
+=20
+ reply_err:
+ =09fuse_reply_err(req, err);
+-clear_pipe:
+-=09if (buf->flags & FUSE_BUF_IS_FD)
+-=09=09fuse_ll_clear_pipe(se);
+-=09goto out_free;
+ }
+=20
+ #define LL_OPTION(n,o,v) \
+@@ -2674,197 +2226,23 @@ void fuse_lowlevel_help(void)
+=20
+ void fuse_session_destroy(struct fuse_session *se)
+ {
+-=09struct fuse_ll_pipe *llp;
+-
+ =09if (se->got_init && !se->got_destroy) {
+ =09=09if (se->op.destroy)
+ =09=09=09se->op.destroy(se->userdata);
+ =09}
+-=09llp =3D pthread_getspecific(se->pipe_key);
+-=09if (llp !=3D NULL)
+-=09=09fuse_ll_pipe_free(llp);
+-=09pthread_key_delete(se->pipe_key);
+ =09pthread_mutex_destroy(&se->lock);
+ =09free(se->cuse_data);
+ =09if (se->fd !=3D -1)
+ =09=09close(se->fd);
+-=09destroy_mount_opts(se->mo);
+ =09free(se);
+ }
+=20
+=20
+-static void fuse_ll_pipe_destructor(void *data)
+-{
+-=09struct fuse_ll_pipe *llp =3D data;
+-=09fuse_ll_pipe_free(llp);
+-}
+-
+-int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf *buf=
 )
-+{
-+=09struct lo_data *lo =3D lo_data(req);
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+
-+=09if (lo_debug(req)) {
-+=09=09fuse_log(FUSE_LOG_DEBUG, "  forget %lli %lli -%lli\n",
-+=09=09=09(unsigned long long) ino,
-+=09=09=09(unsigned long long) inode->refcount,
-+=09=09=09(unsigned long long) nlookup);
-+=09}
-+
-+=09unref_inode(lo, inode, nlookup);
-+}
-+
-+static void lo_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
-+{
-+=09lo_forget_one(req, ino, nlookup);
-+=09fuse_reply_none(req);
-+}
-+
-+static void lo_forget_multi(fuse_req_t req, size_t count,
-+=09=09=09=09struct fuse_forget_data *forgets)
-+{
-+=09int i;
-+
-+=09for (i =3D 0; i < count; i++)
-+=09=09lo_forget_one(req, forgets[i].ino, forgets[i].nlookup);
-+=09fuse_reply_none(req);
-+}
-+
-+static void lo_readlink(fuse_req_t req, fuse_ino_t ino)
-+{
-+=09char buf[PATH_MAX + 1];
-+=09int res;
-+
-+=09res =3D readlinkat(lo_fd(req, ino), "", buf, sizeof(buf));
-+=09if (res =3D=3D -1)
-+=09=09return (void) fuse_reply_err(req, errno);
-+
-+=09if (res =3D=3D sizeof(buf))
-+=09=09return (void) fuse_reply_err(req, ENAMETOOLONG);
-+
-+=09buf[res] =3D '\0';
-+
-+=09fuse_reply_readlink(req, buf);
-+}
-+
-+struct lo_dirp {
-+=09int fd;
-+=09DIR *dp;
-+=09struct dirent *entry;
-+=09off_t offset;
-+};
-+
-+static struct lo_dirp *lo_dirp(struct fuse_file_info *fi)
-+{
-+=09return (struct lo_dirp *) (uintptr_t) fi->fh;
-+}
-+
-+static void lo_opendir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_in=
-fo *fi)
-+{
-+=09int error =3D ENOMEM;
-+=09struct lo_data *lo =3D lo_data(req);
-+=09struct lo_dirp *d =3D calloc(1, sizeof(struct lo_dirp));
-+=09if (d =3D=3D NULL)
-+=09=09goto out_err;
-+
-+=09d->fd =3D openat(lo_fd(req, ino), ".", O_RDONLY);
-+=09if (d->fd =3D=3D -1)
-+=09=09goto out_errno;
-+
-+=09d->dp =3D fdopendir(d->fd);
-+=09if (d->dp =3D=3D NULL)
-+=09=09goto out_errno;
-+
-+=09d->offset =3D 0;
-+=09d->entry =3D NULL;
-+
-+=09fi->fh =3D (uintptr_t) d;
-+=09if (lo->cache =3D=3D CACHE_ALWAYS)
-+=09=09fi->keep_cache =3D 1;
-+=09fuse_reply_open(req, fi);
-+=09return;
-+
-+out_errno:
-+=09error =3D errno;
-+out_err:
-+=09if (d) {
-+=09=09if (d->fd !=3D -1)
-+=09=09=09close(d->fd);
-+=09=09free(d);
-+=09}
-+=09fuse_reply_err(req, error);
-+}
-+
-+static int is_dot_or_dotdot(const char *name)
-+{
-+=09return name[0] =3D=3D '.' && (name[1] =3D=3D '\0' ||
-+=09=09=09=09  (name[1] =3D=3D '.' && name[2] =3D=3D '\0'));
-+}
-+
-+static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-+=09=09=09  off_t offset, struct fuse_file_info *fi, int plus)
-+{
-+=09struct lo_dirp *d =3D lo_dirp(fi);
-+=09char *buf;
-+=09char *p;
-+=09size_t rem =3D size;
-+=09int err;
-+
-+=09(void) ino;
-+
-+=09buf =3D calloc(1, size);
-+=09if (!buf) {
-+=09=09err =3D ENOMEM;
-+=09=09goto error;
-+=09}
-+=09p =3D buf;
-+
-+=09if (offset !=3D d->offset) {
-+=09=09seekdir(d->dp, offset);
-+=09=09d->entry =3D NULL;
-+=09=09d->offset =3D offset;
-+=09}
-+=09while (1) {
-+=09=09size_t entsize;
-+=09=09off_t nextoff;
-+=09=09const char *name;
-+
-+=09=09if (!d->entry) {
-+=09=09=09errno =3D 0;
-+=09=09=09d->entry =3D readdir(d->dp);
-+=09=09=09if (!d->entry) {
-+=09=09=09=09if (errno) {  // Error
-+=09=09=09=09=09err =3D errno;
-+=09=09=09=09=09goto error;
-+=09=09=09=09} else {  // End of stream
-+=09=09=09=09=09break;=20
-+=09=09=09=09}
-+=09=09=09}
-+=09=09}
-+=09=09nextoff =3D d->entry->d_off;
-+=09=09name =3D d->entry->d_name;
-+=09=09fuse_ino_t entry_ino =3D 0;
-+=09=09if (plus) {
-+=09=09=09struct fuse_entry_param e;
-+=09=09=09if (is_dot_or_dotdot(name)) {
-+=09=09=09=09e =3D (struct fuse_entry_param) {
-+=09=09=09=09=09.attr.st_ino =3D d->entry->d_ino,
-+=09=09=09=09=09.attr.st_mode =3D d->entry->d_type << 12,
-+=09=09=09=09};
-+=09=09=09} else {
-+=09=09=09=09err =3D lo_do_lookup(req, ino, name, &e);
-+=09=09=09=09if (err)
-+=09=09=09=09=09goto error;
-+=09=09=09=09entry_ino =3D e.ino;
-+=09=09=09}
-+
-+=09=09=09entsize =3D fuse_add_direntry_plus(req, p, rem, name,
-+=09=09=09=09=09=09=09 &e, nextoff);
-+=09=09} else {
-+=09=09=09struct stat st =3D {
-+=09=09=09=09.st_ino =3D d->entry->d_ino,
-+=09=09=09=09.st_mode =3D d->entry->d_type << 12,
-+=09=09=09};
-+=09=09=09entsize =3D fuse_add_direntry(req, p, rem, name,
-+=09=09=09=09=09=09    &st, nextoff);
-+=09=09}
-+=09=09if (entsize > rem) {
-+=09=09=09if (entry_ino !=3D 0)=20
-+=09=09=09=09lo_forget_one(req, entry_ino, 1);
-+=09=09=09break;
-+=09=09}
-+=09=09
-+=09=09p +=3D entsize;
-+=09=09rem -=3D entsize;
-+
-+=09=09d->entry =3D NULL;
-+=09=09d->offset =3D nextoff;
-+=09}
-+
-+    err =3D 0;
-+error:
-+    // If there's an error, we can only signal it if we haven't stored
-+    // any entries yet - otherwise we'd end up with wrong lookup
-+    // counts for the entries that are already in the buffer. So we
-+    // return what we've collected until that point.
-+    if (err && rem =3D=3D size)
-+=09    fuse_reply_err(req, err);
-+    else
-+=09    fuse_reply_buf(req, buf, size - rem);
-+    free(buf);
-+}
-+
-+static void lo_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
-+=09=09       off_t offset, struct fuse_file_info *fi)
-+{
-+=09lo_do_readdir(req, ino, size, offset, fi, 0);
-+}
-+
-+static void lo_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
-+=09=09=09   off_t offset, struct fuse_file_info *fi)
-+{
-+=09lo_do_readdir(req, ino, size, offset, fi, 1);
-+}
-+
-+static void lo_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file=
-_info *fi)
-+{
-+=09struct lo_dirp *d =3D lo_dirp(fi);
-+=09(void) ino;
-+=09closedir(d->dp);
-+=09free(d);
-+=09fuse_reply_err(req, 0);
-+}
-+
-+static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-+=09=09      mode_t mode, struct fuse_file_info *fi)
-+{
-+=09int fd;
-+=09struct lo_data *lo =3D lo_data(req);
-+=09struct fuse_entry_param e;
-+=09int err;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%s)=
-\n",
-+=09=09=09parent, name);
-+
-+=09fd =3D openat(lo_fd(req, parent), name,
-+=09=09    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
-+=09if (fd =3D=3D -1)
-+=09=09return (void) fuse_reply_err(req, errno);
-+
-+=09fi->fh =3D fd;
-+=09if (lo->cache =3D=3D CACHE_NEVER)
-+=09=09fi->direct_io =3D 1;
-+=09else if (lo->cache =3D=3D CACHE_ALWAYS)
-+=09=09fi->keep_cache =3D 1;
-+
-+=09err =3D lo_do_lookup(req, parent, name, &e);
-+=09if (err)
-+=09=09fuse_reply_err(req, err);
-+=09else
-+=09=09fuse_reply_create(req, &e, fi);
-+}
-+
-+static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
-+=09=09=09struct fuse_file_info *fi)
-+{
-+=09int res;
-+=09int fd =3D dirfd(lo_dirp(fi)->dp);
-+=09(void) ino;
-+=09if (datasync)
-+=09=09res =3D fdatasync(fd);
-+=09else
-+=09=09res =3D fsync(fd);
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info =
-*fi)
-+{
-+=09int fd;
-+=09char buf[64];
-+=09struct lo_data *lo =3D lo_data(req);
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n",
-+=09=09=09ino, fi->flags);
-+
-+=09/* With writeback cache, kernel may send read requests even
-+=09   when userspace opened write-only */
-+=09if (lo->writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
-+=09=09fi->flags &=3D ~O_ACCMODE;
-+=09=09fi->flags |=3D O_RDWR;
-+=09}
-+
-+=09/* With writeback cache, O_APPEND is handled by the kernel.
-+=09   This breaks atomicity (since the file may change in the
-+=09   underlying filesystem, so that the kernel's idea of the
-+=09   end of the file isn't accurate anymore). In this example,
-+=09   we just accept that. A more rigorous filesystem may want
-+=09   to return an error here */
-+=09if (lo->writeback && (fi->flags & O_APPEND))
-+=09=09fi->flags &=3D ~O_APPEND;
-+
-+=09sprintf(buf, "/proc/self/fd/%i", lo_fd(req, ino));
-+=09fd =3D open(buf, fi->flags & ~O_NOFOLLOW);
-+=09if (fd =3D=3D -1)
-+=09=09return (void) fuse_reply_err(req, errno);
-+
-+=09fi->fh =3D fd;
-+=09if (lo->cache =3D=3D CACHE_NEVER)
-+=09=09fi->direct_io =3D 1;
-+=09else if (lo->cache =3D=3D CACHE_ALWAYS)
-+=09=09fi->keep_cache =3D 1;
-+=09fuse_reply_open(req, fi);
-+}
-+
-+static void lo_release(fuse_req_t req, fuse_ino_t ino, struct fuse_file_in=
-fo *fi)
-+{
-+=09(void) ino;
-+
-+=09close(fi->fh);
-+=09fuse_reply_err(req, 0);
-+}
-+
-+static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info=
- *fi)
-+{
-+=09int res;
-+=09(void) ino;
-+=09res =3D close(dup(fi->fh));
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
-+=09=09     struct fuse_file_info *fi)
-+{
-+=09int res;
-+=09(void) ino;
-+=09if (datasync)
-+=09=09res =3D fdatasync(fi->fh);
-+=09else
-+=09=09res =3D fsync(fi->fh);
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void lo_read(fuse_req_t req, fuse_ino_t ino, size_t size,
-+=09=09    off_t offset, struct fuse_file_info *fi)
-+{
-+=09struct fuse_bufvec buf =3D FUSE_BUFVEC_INIT(size);
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_read(ino=3D%" PRIu64 ", size=3D%zd, "
-+=09=09=09"off=3D%lu)\n", ino, size, (unsigned long) offset);
-+
-+=09buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
-+=09buf.buf[0].fd =3D fi->fh;
-+=09buf.buf[0].pos =3D offset;
-+
-+=09fuse_reply_data(req, &buf, FUSE_BUF_SPLICE_MOVE);
-+}
-+
-+static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
-+=09=09=09 struct fuse_bufvec *in_buf, off_t off,
-+=09=09=09 struct fuse_file_info *fi)
-+{
-+=09(void) ino;
-+=09ssize_t res;
-+=09struct fuse_bufvec out_buf =3D FUSE_BUFVEC_INIT(fuse_buf_size(in_buf));
-+
-+=09out_buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
-+=09out_buf.buf[0].fd =3D fi->fh;
-+=09out_buf.buf[0].pos =3D off;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_write(ino=3D%" PRIu64 ", size=3D%zd, of=
-f=3D%lu)\n",
-+=09=09=09ino, out_buf.buf[0].size, (unsigned long) off);
-+
-+=09res =3D fuse_buf_copy(&out_buf, in_buf, 0);
-+=09if(res < 0)
-+=09=09fuse_reply_err(req, -res);
-+=09else
-+=09=09fuse_reply_write(req, (size_t) res);
-+}
-+
-+static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
-+{
-+=09int res;
-+=09struct statvfs stbuf;
-+
-+=09res =3D fstatvfs(lo_fd(req, ino), &stbuf);
-+=09if (res =3D=3D -1)
-+=09=09fuse_reply_err(req, errno);
-+=09else
-+=09=09fuse_reply_statfs(req, &stbuf);
-+}
-+
-+static void lo_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
-+=09=09=09 off_t offset, off_t length, struct fuse_file_info *fi)
-+{
-+=09int err =3D EOPNOTSUPP;
-+=09(void) ino;
-+
-+#ifdef HAVE_FALLOCATE
-+=09err =3D fallocate(fi->fh, mode, offset, length);
-+=09if (err < 0)
-+=09=09err =3D errno;
-+
-+#elif defined(HAVE_POSIX_FALLOCATE)
-+=09if (mode) {
-+=09=09fuse_reply_err(req, EOPNOTSUPP);
-+=09=09return;
-+=09}
-+
-+=09err =3D posix_fallocate(fi->fh, offset, length);
-+#endif
-+
-+=09fuse_reply_err(req, err);
-+}
-+
-+static void lo_flock(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info=
- *fi,
-+=09=09     int op)
-+{
-+=09int res;
-+=09(void) ino;
-+
-+=09res =3D flock(fi->fh, op);
-+
-+=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-+}
-+
-+static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-+=09=09=09size_t size)
-+{
-+=09char *value =3D NULL;
-+=09char procname[64];
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+=09ssize_t ret;
-+=09int saverr;
-+
-+=09saverr =3D ENOSYS;
-+=09if (!lo_data(req)->xattr)
-+=09=09goto out;
-+
-+=09if (lo_debug(req)) {
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_getxattr(ino=3D%" PRIu64 ", name=3D%s s=
-ize=3D%zd)\n",
-+=09=09=09ino, name, size);
-+=09}
-+
-+=09if (inode->is_symlink) {
-+=09=09/* Sorry, no race free way to getxattr on symlink. */
-+=09=09saverr =3D EPERM;
-+=09=09goto out;
-+=09}
-+
-+=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
-+
-+=09if (size) {
-+=09=09value =3D malloc(size);
-+=09=09if (!value)
-+=09=09=09goto out_err;
-+
-+=09=09ret =3D getxattr(procname, name, value, size);
-+=09=09if (ret =3D=3D -1)
-+=09=09=09goto out_err;
-+=09=09saverr =3D 0;
-+=09=09if (ret =3D=3D 0)
-+=09=09=09goto out;
-+
-+=09=09fuse_reply_buf(req, value, ret);
-+=09} else {
-+=09=09ret =3D getxattr(procname, name, NULL, 0);
-+=09=09if (ret =3D=3D -1)
-+=09=09=09goto out_err;
-+
-+=09=09fuse_reply_xattr(req, ret);
-+=09}
-+out_free:
-+=09free(value);
-+=09return;
-+
-+out_err:
-+=09saverr =3D errno;
-+out:
-+=09fuse_reply_err(req, saverr);
-+=09goto out_free;
-+}
-+
-+static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-+{
-+=09char *value =3D NULL;
-+=09char procname[64];
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+=09ssize_t ret;
-+=09int saverr;
-+
-+=09saverr =3D ENOSYS;
-+=09if (!lo_data(req)->xattr)
-+=09=09goto out;
-+
-+=09if (lo_debug(req)) {
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_listxattr(ino=3D%" PRIu64 ", size=3D%zd=
-)\n",
-+=09=09=09ino, size);
-+=09}
-+
-+=09if (inode->is_symlink) {
-+=09=09/* Sorry, no race free way to listxattr on symlink. */
-+=09=09saverr =3D EPERM;
-+=09=09goto out;
-+=09}
-+
-+=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
-+
-+=09if (size) {
-+=09=09value =3D malloc(size);
-+=09=09if (!value)
-+=09=09=09goto out_err;
-+
-+=09=09ret =3D listxattr(procname, value, size);
-+=09=09if (ret =3D=3D -1)
-+=09=09=09goto out_err;
-+=09=09saverr =3D 0;
-+=09=09if (ret =3D=3D 0)
-+=09=09=09goto out;
-+
-+=09=09fuse_reply_buf(req, value, ret);
-+=09} else {
-+=09=09ret =3D listxattr(procname, NULL, 0);
-+=09=09if (ret =3D=3D -1)
-+=09=09=09goto out_err;
-+
-+=09=09fuse_reply_xattr(req, ret);
-+=09}
-+out_free:
-+=09free(value);
-+=09return;
-+
-+out_err:
-+=09saverr =3D errno;
-+out:
-+=09fuse_reply_err(req, saverr);
-+=09goto out_free;
-+}
-+
-+static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-+=09=09=09const char *value, size_t size, int flags)
-+{
-+=09char procname[64];
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+=09ssize_t ret;
-+=09int saverr;
-+
-+=09saverr =3D ENOSYS;
-+=09if (!lo_data(req)->xattr)
-+=09=09goto out;
-+
-+=09if (lo_debug(req)) {
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_setxattr(ino=3D%" PRIu64 ", name=3D%s v=
-alue=3D%s size=3D%zd)\n",
-+=09=09=09ino, name, value, size);
-+=09}
-+
-+=09if (inode->is_symlink) {
-+=09=09/* Sorry, no race free way to setxattr on symlink. */
-+=09=09saverr =3D EPERM;
-+=09=09goto out;
-+=09}
-+
-+=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
-+
-+=09ret =3D setxattr(procname, name, value, size, flags);
-+=09saverr =3D ret =3D=3D -1 ? errno : 0;
-+
-+out:
-+=09fuse_reply_err(req, saverr);
-+}
-+
-+static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
-e)
-+{
-+=09char procname[64];
-+=09struct lo_inode *inode =3D lo_inode(req, ino);
-+=09ssize_t ret;
-+=09int saverr;
-+
-+=09saverr =3D ENOSYS;
-+=09if (!lo_data(req)->xattr)
-+=09=09goto out;
-+
-+=09if (lo_debug(req)) {
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_removexattr(ino=3D%" PRIu64 ", name=3D%=
-s)\n",
-+=09=09=09ino, name);
-+=09}
-+
-+=09if (inode->is_symlink) {
-+=09=09/* Sorry, no race free way to setxattr on symlink. */
-+=09=09saverr =3D EPERM;
-+=09=09goto out;
-+=09}
-+
-+=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
-+
-+=09ret =3D removexattr(procname, name);
-+=09saverr =3D ret =3D=3D -1 ? errno : 0;
-+
-+out:
-+=09fuse_reply_err(req, saverr);
-+}
-+
-+#ifdef HAVE_COPY_FILE_RANGE
-+static void lo_copy_file_range(fuse_req_t req, fuse_ino_t ino_in, off_t of=
-f_in,
-+=09=09=09       struct fuse_file_info *fi_in,
-+=09=09=09       fuse_ino_t ino_out, off_t off_out,
-+=09=09=09       struct fuse_file_info *fi_out, size_t len,
-+=09=09=09       int flags)
-+{
-+=09ssize_t res;
-+
-+=09if (lo_debug(req))
-+=09=09fuse_log(FUSE_LOG_DEBUG, "lo_copy_file_range(ino=3D%" PRIu64 "/fd=3D=
-%lu, "
-+=09=09=09=09"off=3D%lu, ino=3D%" PRIu64 "/fd=3D%lu, "
-+=09=09=09=09"off=3D%lu, size=3D%zd, flags=3D0x%x)\n",
-+=09=09=09ino_in, fi_in->fh, off_in, ino_out, fi_out->fh, off_out,
-+=09=09=09len, flags);
-+
-+=09res =3D copy_file_range(fi_in->fh, &off_in, fi_out->fh, &off_out, len,
-+=09=09=09      flags);
-+=09if (res < 0)
-+=09=09fuse_reply_err(req, -errno);
-+=09else
-+=09=09fuse_reply_write(req, res);
-+}
-+#endif
-+
-+static struct fuse_lowlevel_ops lo_oper =3D {
-+=09.init=09=09=3D lo_init,
-+=09.lookup=09=09=3D lo_lookup,
-+=09.mkdir=09=09=3D lo_mkdir,
-+=09.mknod=09=09=3D lo_mknod,
-+=09.symlink=09=3D lo_symlink,
-+=09.link=09=09=3D lo_link,
-+=09.unlink=09=09=3D lo_unlink,
-+=09.rmdir=09=09=3D lo_rmdir,
-+=09.rename=09=09=3D lo_rename,
-+=09.forget=09=09=3D lo_forget,
-+=09.forget_multi=09=3D lo_forget_multi,
-+=09.getattr=09=3D lo_getattr,
-+=09.setattr=09=3D lo_setattr,
-+=09.readlink=09=3D lo_readlink,
-+=09.opendir=09=3D lo_opendir,
-+=09.readdir=09=3D lo_readdir,
-+=09.readdirplus=09=3D lo_readdirplus,
-+=09.releasedir=09=3D lo_releasedir,
-+=09.fsyncdir=09=3D lo_fsyncdir,
-+=09.create=09=09=3D lo_create,
-+=09.open=09=09=3D lo_open,
-+=09.release=09=3D lo_release,
-+=09.flush=09=09=3D lo_flush,
-+=09.fsync=09=09=3D lo_fsync,
-+=09.read=09=09=3D lo_read,
-+=09.write_buf      =3D lo_write_buf,
-+=09.statfs=09=09=3D lo_statfs,
-+=09.fallocate=09=3D lo_fallocate,
-+=09.flock=09=09=3D lo_flock,
-+=09.getxattr=09=3D lo_getxattr,
-+=09.listxattr=09=3D lo_listxattr,
-+=09.setxattr=09=3D lo_setxattr,
-+=09.removexattr=09=3D lo_removexattr,
-+#ifdef HAVE_COPY_FILE_RANGE
-+=09.copy_file_range =3D lo_copy_file_range,
-+#endif
-+};
-+
-+int main(int argc, char *argv[])
-+{
-+=09struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
-+=09struct fuse_session *se;
-+=09struct fuse_cmdline_opts opts;
-+=09struct lo_data lo =3D { .debug =3D 0,
-+=09                      .writeback =3D 0 };
-+=09int ret =3D -1;
-+
-+=09/* Don't mask creation mode, kernel already did that */
-+=09umask(0);
-+
-+=09pthread_mutex_init(&lo.mutex, NULL);
-+=09lo.root.next =3D lo.root.prev =3D &lo.root;
-+=09lo.root.fd =3D -1;
-+=09lo.cache =3D CACHE_NORMAL;
-+
-+=09if (fuse_parse_cmdline(&args, &opts) !=3D 0)
-+=09=09return 1;
-+=09if (opts.show_help) {
-+=09=09printf("usage: %s [options] <mountpoint>\n\n", argv[0]);
-+=09=09fuse_cmdline_help();
-+=09=09fuse_lowlevel_help();
-+=09=09ret =3D 0;
-+=09=09goto err_out1;
-+=09} else if (opts.show_version) {
-+=09=09printf("FUSE library version %s\n", fuse_pkgversion());
-+=09=09fuse_lowlevel_version();
-+=09=09ret =3D 0;
-+=09=09goto err_out1;
-+=09}
-+
-+=09if(opts.mountpoint =3D=3D NULL) {
-+=09=09printf("usage: %s [options] <mountpoint>\n", argv[0]);
-+=09=09printf("       %s --help\n", argv[0]);
-+=09=09ret =3D 1;
-+=09=09goto err_out1;
-+=09}
-+
-+=09if (fuse_opt_parse(&args, &lo, lo_opts, NULL)=3D=3D -1)
-+=09=09return 1;
-+
-+=09lo.debug =3D opts.debug;
-+=09lo.root.refcount =3D 2;
-+=09if (lo.source) {
-+=09=09struct stat stat;
-+=09=09int res;
-+
-+=09=09res =3D lstat(lo.source, &stat);
-+=09=09if (res =3D=3D -1) {
-+=09=09=09fuse_log(FUSE_LOG_ERR, "failed to stat source (\"%s\"): %m\n",
-+=09=09=09=09 lo.source);
-+=09=09=09exit(1);
-+=09=09}
-+=09=09if (!S_ISDIR(stat.st_mode)) {
-+=09=09=09fuse_log(FUSE_LOG_ERR, "source is not a directory\n");
-+=09=09=09exit(1);
-+=09=09}
-+
-+=09} else {
-+=09=09lo.source =3D "/";
-+=09}
-+=09lo.root.is_symlink =3D false;
-+=09if (!lo.timeout_set) {
-+=09=09switch (lo.cache) {
-+=09=09case CACHE_NEVER:
-+=09=09=09lo.timeout =3D 0.0;
-+=09=09=09break;
-+
-+=09=09case CACHE_NORMAL:
-+=09=09=09lo.timeout =3D 1.0;
-+=09=09=09break;
-+
-+=09=09case CACHE_ALWAYS:
-+=09=09=09lo.timeout =3D 86400.0;
-+=09=09=09break;
-+=09=09}
-+=09} else if (lo.timeout < 0) {
-+=09=09fuse_log(FUSE_LOG_ERR, "timeout is negative (%lf)\n",
-+=09=09=09 lo.timeout);
-+=09=09exit(1);
-+=09}
-+
-+=09lo.root.fd =3D open(lo.source, O_PATH);
-+=09if (lo.root.fd =3D=3D -1) {
-+=09=09fuse_log(FUSE_LOG_ERR, "open(\"%s\", O_PATH): %m\n",
-+=09=09=09 lo.source);
-+=09=09exit(1);
-+=09}
-+
-+=09se =3D fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
-+=09if (se =3D=3D NULL)
-+=09    goto err_out1;
-+
-+=09if (fuse_set_signal_handlers(se) !=3D 0)
-+=09    goto err_out2;
-+
-+=09if (fuse_session_mount(se, opts.mountpoint) !=3D 0)
-+=09    goto err_out3;
-+
-+=09fuse_daemonize(opts.foreground);
-+
-+=09/* Block until ctrl+c or fusermount -u */
-+=09if (opts.singlethread)
-+=09=09ret =3D fuse_session_loop(se);
-+=09else
-+=09=09ret =3D fuse_session_loop_mt(se, opts.clone_fd);
-+
-+=09fuse_session_unmount(se);
-+err_out3:
-+=09fuse_remove_signal_handlers(se);
-+err_out2:
-+=09fuse_session_destroy(se);
-+err_out1:
-+=09free(opts.mountpoint);
-+=09fuse_opt_free_args(&args);
-+
-+=09if (lo.root.fd >=3D 0)
-+=09=09close(lo.root.fd);
-+
-+=09return ret ? 1 : 0;
-+}
+-{
+-=09return fuse_session_receive_buf_int(se, buf, NULL);
+-}
+-
+-int fuse_session_receive_buf_int(struct fuse_session *se, struct fuse_buf =
+*buf,
+-=09=09=09=09 struct fuse_chan *ch)
+-{
+-=09int err;
+-=09ssize_t res;
+-#ifdef HAVE_SPLICE
+-=09size_t bufsize =3D se->bufsize;
+-=09struct fuse_ll_pipe *llp;
+-=09struct fuse_buf tmpbuf;
+-
+-=09if (se->conn.proto_minor < 14 || !(se->conn.want & FUSE_CAP_SPLICE_READ=
+))
+-=09=09goto fallback;
+-
+-=09llp =3D fuse_ll_get_pipe(se);
+-=09if (llp =3D=3D NULL)
+-=09=09goto fallback;
+-
+-=09if (llp->size < bufsize) {
+-=09=09if (llp->can_grow) {
+-=09=09=09res =3D fcntl(llp->pipe[0], F_SETPIPE_SZ, bufsize);
+-=09=09=09if (res =3D=3D -1) {
+-=09=09=09=09llp->can_grow =3D 0;
+-=09=09=09=09res =3D grow_pipe_to_max(llp->pipe[0]);
+-=09=09=09=09if (res > 0)
+-=09=09=09=09=09llp->size =3D res;
+-=09=09=09=09goto fallback;
+-=09=09=09}
+-=09=09=09llp->size =3D res;
+-=09=09}
+-=09=09if (llp->size < bufsize)
+-=09=09=09goto fallback;
+-=09}
+-
+-=09res =3D splice(ch ? ch->fd : se->fd,
+-=09=09     NULL, llp->pipe[1], NULL, bufsize, 0);
+-=09err =3D errno;
+-
+-=09if (fuse_session_exited(se))
+-=09=09return 0;
+-
+-=09if (res =3D=3D -1) {
+-=09=09if (err =3D=3D ENODEV) {
+-=09=09=09/* Filesystem was unmounted, or connection was aborted
+-=09=09=09   via /sys/fs/fuse/connections */
+-=09=09=09fuse_session_exit(se);
+-=09=09=09return 0;
+-=09=09}
+-=09=09if (err !=3D EINTR && err !=3D EAGAIN)
+-=09=09=09perror("fuse: splice from device");
+-=09=09return -err;
+-=09}
+-
+-=09if (res < sizeof(struct fuse_in_header)) {
+-=09=09fuse_log(FUSE_LOG_ERR, "short splice from fuse device\n");
+-=09=09return -EIO;
+-=09}
+-
+-=09tmpbuf =3D (struct fuse_buf) {
+-=09=09.size =3D res,
+-=09=09.flags =3D FUSE_BUF_IS_FD,
+-=09=09.fd =3D llp->pipe[0],
+-=09};
+-
+-=09/*
+-=09 * Don't bother with zero copy for small requests.
+-=09 * fuse_loop_mt() needs to check for FORGET so this more than
+-=09 * just an optimization.
+-=09 */
+-=09if (res < sizeof(struct fuse_in_header) +
+-=09    sizeof(struct fuse_write_in) + pagesize) {
+-=09=09struct fuse_bufvec src =3D { .buf[0] =3D tmpbuf, .count =3D 1 };
+-=09=09struct fuse_bufvec dst =3D { .count =3D 1 };
+-
+-=09=09if (!buf->mem) {
+-=09=09=09buf->mem =3D malloc(se->bufsize);
+-=09=09=09if (!buf->mem) {
+-=09=09=09=09fuse_log(FUSE_LOG_ERR,
+-=09=09=09=09=09"fuse: failed to allocate read buffer\n");
+-=09=09=09=09return -ENOMEM;
+-=09=09=09}
+-=09=09}
+-=09=09buf->size =3D se->bufsize;
+-=09=09buf->flags =3D 0;
+-=09=09dst.buf[0] =3D *buf;
+-
+-=09=09res =3D fuse_buf_copy(&dst, &src, 0);
+-=09=09if (res < 0) {
+-=09=09=09fuse_log(FUSE_LOG_ERR, "fuse: copy from pipe: %s\n",
+-=09=09=09=09strerror(-res));
+-=09=09=09fuse_ll_clear_pipe(se);
+-=09=09=09return res;
+-=09=09}
+-=09=09if (res < tmpbuf.size) {
+-=09=09=09fuse_log(FUSE_LOG_ERR, "fuse: copy from pipe: short read\n");
+-=09=09=09fuse_ll_clear_pipe(se);
+-=09=09=09return -EIO;
+-=09=09}
+-=09=09assert(res =3D=3D tmpbuf.size);
+-
+-=09} else {
+-=09=09/* Don't overwrite buf->mem, as that would cause a leak */
+-=09=09buf->fd =3D tmpbuf.fd;
+-=09=09buf->flags =3D tmpbuf.flags;
+-=09}
+-=09buf->size =3D tmpbuf.size;
+-
+-=09return res;
+-
+-fallback:
+-#endif
+-=09if (!buf->mem) {
+-=09=09buf->mem =3D malloc(se->bufsize);
+-=09=09if (!buf->mem) {
+-=09=09=09fuse_log(FUSE_LOG_ERR,
+-=09=09=09=09"fuse: failed to allocate read buffer\n");
+-=09=09=09return -ENOMEM;
+-=09=09}
+-=09}
+-
+-restart:
+-=09res =3D read(ch ? ch->fd : se->fd, buf->mem, se->bufsize);
+-=09err =3D errno;
+-
+-=09if (fuse_session_exited(se))
+-=09=09return 0;
+-=09if (res =3D=3D -1) {
+-=09=09/* ENOENT means the operation was interrupted, it's safe
+-=09=09   to restart */
+-=09=09if (err =3D=3D ENOENT)
+-=09=09=09goto restart;
+-
+-=09=09if (err =3D=3D ENODEV) {
+-=09=09=09/* Filesystem was unmounted, or connection was aborted
+-=09=09=09   via /sys/fs/fuse/connections */
+-=09=09=09fuse_session_exit(se);
+-=09=09=09return 0;
+-=09=09}
+-=09=09/* Errors occurring during normal operation: EINTR (read
+-=09=09   interrupted), EAGAIN (nonblocking I/O), ENODEV (filesystem
+-=09=09   umounted) */
+-=09=09if (err !=3D EINTR && err !=3D EAGAIN)
+-=09=09=09perror("fuse: reading device");
+-=09=09return -err;
+-=09}
+-=09if ((size_t) res < sizeof(struct fuse_in_header)) {
+-=09=09fuse_log(FUSE_LOG_ERR, "short read on fuse device\n");
+-=09=09return -EIO;
+-=09}
+-
+-=09buf->size =3D res;
+-
+-=09return res;
+-}
+-
+ struct fuse_session *fuse_session_new(struct fuse_args *args,
+ =09=09=09=09      const struct fuse_lowlevel_ops *op,
+ =09=09=09=09      size_t op_size, void *userdata)
+ {
+-=09int err;
+ =09struct fuse_session *se;
+-=09struct mount_opts *mo;
+=20
+ =09if (sizeof(struct fuse_lowlevel_ops) < op_size) {
+ =09=09fuse_log(FUSE_LOG_ERR, "fuse: warning: library too old, some operati=
+ons may not work\n");
+@@ -2898,10 +2276,6 @@ struct fuse_session *fuse_session_new(struct fuse_ar=
+gs *args,
+ =09=09if(fuse_opt_add_arg(args, "-oallow_other") =3D=3D -1)
+ =09=09=09goto out2;
+ =09}
+-=09mo =3D parse_mount_opts(args);
+-=09if (mo =3D=3D NULL)
+-=09=09goto out3;
+-
+ =09if(args->argc =3D=3D 1 &&
+ =09   args->argv[0][0] =3D=3D '-') {
+ =09=09fuse_log(FUSE_LOG_ERR, "fuse: warning: argv[0] looks like an option,=
+ but "
+@@ -2927,26 +2301,14 @@ struct fuse_session *fuse_session_new(struct fuse_a=
+rgs *args,
+ =09se->notify_ctr =3D 1;
+ =09fuse_mutex_init(&se->lock);
+=20
+-=09err =3D pthread_key_create(&se->pipe_key, fuse_ll_pipe_destructor);
+-=09if (err) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: failed to create thread specific key: =
+%s\n",
+-=09=09=09strerror(err));
+-=09=09goto out5;
+-=09}
+-
+ =09memcpy(&se->op, op, op_size);
+ =09se->owner =3D getuid();
+ =09se->userdata =3D userdata;
+=20
+-=09se->mo =3D mo;
+ =09return se;
+=20
+-out5:
+-=09pthread_mutex_destroy(&se->lock);
+ out4:
+ =09fuse_opt_free_args(args);
+-out3:
+-=09free(mo);
+ out2:
+ =09free(se);
+ out1:
+@@ -3010,11 +2372,6 @@ int fuse_session_fd(struct fuse_session *se)
+=20
+ void fuse_session_unmount(struct fuse_session *se)
+ {
+-=09if (se->mountpoint !=3D NULL) {
+-=09=09fuse_kern_unmount(se->mountpoint, se->fd);
+-=09=09free(se->mountpoint);
+-=09=09se->mountpoint =3D NULL;
+-=09}
+ }
+=20
+ #ifdef linux
+diff --git a/contrib/virtiofsd/helper.c b/contrib/virtiofsd/helper.c
+index 64ff7ad6d5..8b993f228b 100644
+--- a/contrib/virtiofsd/helper.c
++++ b/contrib/virtiofsd/helper.c
+@@ -171,34 +171,6 @@ static int fuse_helper_opt_proc(void *data, const char=
+ *arg, int key,
+ =09}
+ }
+=20
+-/* Under FreeBSD, there is no subtype option so this
+-   function actually sets the fsname */
+-static int add_default_subtype(const char *progname, struct fuse_args *arg=
+s)
+-{
+-=09int res;
+-=09char *subtype_opt;
+-
+-=09const char *basename =3D strrchr(progname, '/');
+-=09if (basename =3D=3D NULL)
+-=09=09basename =3D progname;
+-=09else if (basename[1] !=3D '\0')
+-=09=09basename++;
+-
+-=09subtype_opt =3D (char *) malloc(strlen(basename) + 64);
+-=09if (subtype_opt =3D=3D NULL) {
+-=09=09fuse_log(FUSE_LOG_ERR, "fuse: memory allocation failed\n");
+-=09=09return -1;
+-=09}
+-#ifdef __FreeBSD__
+-=09sprintf(subtype_opt, "-ofsname=3D%s", basename);
+-#else
+-=09sprintf(subtype_opt, "-osubtype=3D%s", basename);
+-#endif
+-=09res =3D fuse_opt_add_arg(args, subtype_opt);
+-=09free(subtype_opt);
+-=09return res;
+-}
+-
+ int fuse_parse_cmdline(struct fuse_args *args,
+ =09=09       struct fuse_cmdline_opts *opts)
+ {
+@@ -210,14 +182,6 @@ int fuse_parse_cmdline(struct fuse_args *args,
+ =09=09=09   fuse_helper_opt_proc) =3D=3D -1)
+ =09=09return -1;
+=20
+-=09/* *Linux*: if neither -o subtype nor -o fsname are specified,
+-=09   set subtype to program's basename.
+-=09   *FreeBSD*: if fsname is not specified, set to program's
+-=09   basename. */
+-=09if (!opts->nodefault_subtype)
+-=09=09if (add_default_subtype(args->argv[0], args) =3D=3D -1)
+-=09=09=09return -1;
+-
+ =09return 0;
+ }
+=20
+@@ -276,88 +240,6 @@ int fuse_daemonize(int foreground)
+ =09return 0;
+ }
+=20
+-int fuse_main_real(int argc, char *argv[], const struct fuse_operations *o=
+p,
+-=09=09   size_t op_size, void *user_data)
+-{
+-=09struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+-=09struct fuse *fuse;
+-=09struct fuse_cmdline_opts opts;
+-=09int res;
+-
+-=09if (fuse_parse_cmdline(&args, &opts) !=3D 0)
+-=09=09return 1;
+-
+-=09if (opts.show_version) {
+-=09=09printf("FUSE library version %s\n", PACKAGE_VERSION);
+-=09=09fuse_lowlevel_version();
+-=09=09res =3D 0;
+-=09=09goto out1;
+-=09}
+-
+-=09if (opts.show_help) {
+-=09=09if(args.argv[0][0] !=3D '\0')
+-=09=09=09printf("usage: %s [options] <mountpoint>\n\n",
+-=09=09=09       args.argv[0]);
+-=09=09printf("FUSE options:\n");
+-=09=09fuse_cmdline_help();
+-=09=09fuse_lib_help(&args);
+-=09=09res =3D 0;
+-=09=09goto out1;
+-=09}
+-
+-=09if (!opts.show_help &&
+-=09    !opts.mountpoint) {
+-=09=09fuse_log(FUSE_LOG_ERR, "error: no mountpoint specified\n");
+-=09=09res =3D 2;
+-=09=09goto out1;
+-=09}
+-
+-
+-=09fuse =3D fuse_new_31(&args, op, op_size, user_data);
+-=09if (fuse =3D=3D NULL) {
+-=09=09res =3D 3;
+-=09=09goto out1;
+-=09}
+-
+-=09if (fuse_mount(fuse,opts.mountpoint) !=3D 0) {
+-=09=09res =3D 4;
+-=09=09goto out2;
+-=09}
+-
+-=09if (fuse_daemonize(opts.foreground) !=3D 0) {
+-=09=09res =3D 5;
+-=09=09goto out3;
+-=09}
+-
+-=09struct fuse_session *se =3D fuse_get_session(fuse);
+-=09if (fuse_set_signal_handlers(se) !=3D 0) {
+-=09=09res =3D 6;
+-=09=09goto out3;
+-=09}
+-
+-=09if (opts.singlethread)
+-=09=09res =3D fuse_loop(fuse);
+-=09else {
+-=09=09struct fuse_loop_config loop_config;
+-=09=09loop_config.clone_fd =3D opts.clone_fd;
+-=09=09loop_config.max_idle_threads =3D opts.max_idle_threads;
+-=09=09res =3D fuse_loop_mt_32(fuse, &loop_config);
+-=09}
+-=09if (res)
+-=09=09res =3D 7;
+-
+-=09fuse_remove_signal_handlers(se);
+-out3:
+-=09fuse_unmount(fuse);
+-out2:
+-=09fuse_destroy(fuse);
+-out1:
+-=09free(opts.mountpoint);
+-=09fuse_opt_free_args(&args);
+-=09return res;
+-}
+-
+-
+ void fuse_apply_conn_info_opts(struct fuse_conn_info_opts *opts,
+ =09=09=09       struct fuse_conn_info *conn)
+ {
+@@ -420,21 +302,3 @@ struct fuse_conn_info_opts* fuse_parse_conn_info_opts(=
+struct fuse_args *args)
+ =09}
+ =09return opts;
+ }
+-
+-int fuse_open_channel(const char *mountpoint, const char* options)
+-{
+-=09struct mount_opts *opts =3D NULL;
+-=09int fd =3D -1;
+-=09const char *argv[] =3D { "", "-o", options };
+-=09int argc =3D sizeof(argv) / sizeof(argv[0]);
+-=09struct fuse_args args =3D FUSE_ARGS_INIT(argc, (char**) argv);
+-
+-=09opts =3D parse_mount_opts(&args);
+-=09if (opts =3D=3D NULL)
+-=09=09return -1;
+-
+-=09fd =3D fuse_kern_mount(mountpoint, opts);
+-=09destroy_mount_opts(opts);
+-
+-=09return fd;
+-}
 --=20
 2.23.0
 
