@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E83DDF738
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:00:23 +0200 (CEST)
-Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C53FDF758
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:12:21 +0200 (CEST)
+Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMems-0004jY-CO
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:00:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42575)
+	id 1iMeyS-0006T4-EV
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:12:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <svens@stackframe.org>) id 1iMelg-0004Hx-HF
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:09 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMes6-00018W-8J
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:05:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <svens@stackframe.org>) id 1iMelf-0006O7-99
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:08 -0400
-Received: from smtp.duncanthrax.net ([89.31.1.170]:38465)
+ (envelope-from <alistair23@gmail.com>) id 1iMes5-0001la-5H
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 17:05:46 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39520)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <svens@stackframe.org>)
- id 1iMele-0006K9-NW
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=duncanthrax.net; s=dkim; h=In-Reply-To:Content-Type:MIME-Version:References
- :Message-ID:Subject:Cc:To:From:Date;
- bh=p7oRawM6YBdZk9l6LpW8iJfrVMOvcWy9PPJ5azRCP7w=; b=riIeVtwIM4vMf2NgHQyt88ok72
- H5oaKu/8Qxfr78o+5E2qV4mL2JNTDMOwl3TCP/vIw7Rkq2GrzSKDeZPnim50FpD7TgJ7VgGFrFcMz
- loAL6DVrltzYZpxIpwlXHcisVdYzvWBc0aXnhO8+D6PIpDeKzW0gJPWdp+qLVeev2dDg=;
-Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
- ([46.5.233.221] helo=t470p.stackframe.org)
- by smtp.eurescom.eu with esmtpa (Exim 4.86_2)
- (envelope-from <svens@stackframe.org>)
- id 1iMelV-00035D-VB; Mon, 21 Oct 2019 22:58:58 +0200
-Date: Mon, 21 Oct 2019 22:58:57 +0200
-From: Sven Schnelle <svens@stackframe.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 3/7] hppa: remove ISA region
-Message-ID: <20191021205857.GB1439@t470p.stackframe.org>
-References: <20191020204724.31537-1-svens@stackframe.org>
- <20191020204724.31537-4-svens@stackframe.org>
- <284a4bcc-a076-2b94-86e0-0bffbe3e61a0@linaro.org>
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iMes4-0001lE-UN; Mon, 21 Oct 2019 17:05:45 -0400
+Received: by mail-lj1-x242.google.com with SMTP id y3so14863035ljj.6;
+ Mon, 21 Oct 2019 14:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HHLNUJcgizwsCjrccvpMTH9xPKsLvXCG9xhUWPKSHUs=;
+ b=l4zRQ30oL3sL7kvxOlPXyHeCFa8eLoxVWyxVYm6U7cfax8NI3o0zKyW3IBFu7R7/3T
+ Zh9mWjgaCv17NAYoV+IG3C5EGSxqhBMGCUXnnh1fJ/9yjl+ZZiW1GK7rw8NgGwOrawVk
+ Fkq2CCGMaIyvfv6b4DKqXBZzQmVaDNwryRwILNphqH6xD9ZoFcdGlBZFjyWK6L1hShfh
+ dYZ9TIt+9h8fVhS772Y+f2yY3YvyDT1X21lHkoiEqdYsdd4owo4TisfwAOIHKqK+c9LD
+ Iw5AAg1bg5jEQJXzG11/isw17O4iqayJqL76oMtZB3C7hqTFPDaHqeW5BVM2gQh1nWk0
+ HXew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HHLNUJcgizwsCjrccvpMTH9xPKsLvXCG9xhUWPKSHUs=;
+ b=HJmvuSZ93Xg8DgCtQsooaKVM9m3EM+ArXYtq2YynZX8NMWFiItTYIy2HUU2zMyXX5M
+ QEkVdQnNeFin5q//9pxqU/5HeSe1lmTW1NySxIBUP1iGU+H2k1G658RgPvj4xrfauTtn
+ BYQND3ebX/5gbYnLqpcUQ/zCCtL63wpkIQYsUbT5RU4c2zhgp4pe+FhINpw7N2In1dgQ
+ AF8KPzZLWG6BuGNEINs3ttDWHmOkbDs4mPHI36sJ2XcrmYYs8t1SlvmYgEmMLWX3enGy
+ nBtqKf7b1pEOdSTDWRJ88MDs3SdbEK6d0Q9lSQ9kdQZgi2CmXVxaSe53qRK+GB7PHQwi
+ /lTw==
+X-Gm-Message-State: APjAAAXv3JOR4OJznI/KiGguMnzBFSVMu4gwtw+Jjgontl7qiS4sbp5H
+ scxzzS8tIh8kADFP2l6fDN13ARvElMNEy2r1Tvg=
+X-Google-Smtp-Source: APXvYqxAXXMKytfwRdqq4uyRMy0ABxE6LqKlq1RY+eUHVKzHUVQsN3o5TNn5NC92MLbe18l5U4UHPMS3IioaW1/05ok=
+X-Received: by 2002:a2e:b17b:: with SMTP id a27mr16138627ljm.7.1571691943442; 
+ Mon, 21 Oct 2019 14:05:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <284a4bcc-a076-2b94-86e0-0bffbe3e61a0@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 89.31.1.170
+References: <20191020225650.3671-1-philmd@redhat.com>
+ <20191020225650.3671-22-philmd@redhat.com>
+In-Reply-To: <20191020225650.3671-22-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Oct 2019 14:00:27 -0700
+Message-ID: <CAKmqyKNtTMtjVjJdyCLb_WN5w12ZKV3jMrz1E0rFQ1DBMY1cdw@mail.gmail.com>
+Subject: Re: [PATCH 21/21] hw/core: Assert memory_region_allocate_system_memory
+ has machine owner
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,37 +74,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Michael Walle <michael@walle.cc>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On Sun, Oct 20, 2019 at 4:22 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> All the memory_region_allocate_system_memory() pass a MachineState
+> argument. Add an assertion to ensure the new boards/machines added
+> set this argument, so all system memory object have the machine as
+> its QOM owner.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-On Mon, Oct 21, 2019 at 11:17:24AM -0700, Richard Henderson wrote:
-> On 10/20/19 1:47 PM, Sven Schnelle wrote:
-> > B160L doesn't have an ISA bus, and we no longer need it to
-> > workaround missing hardware, so remove it.
-> > 
-> > Signed-off-by: Sven Schnelle <svens@stackframe.org>
-> > ---
-> >  hw/hppa/hppa_hardware.h |  1 -
-> >  hw/hppa/machine.c       | 32 --------------------------------
-> >  2 files changed, 33 deletions(-)
-> 
-> This should remove ISA_BUS from hw/hppa/Kconfig as well.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Right. I thought to do so is easy, but that turned out to reveal a lot
-of other issues:
+Alistair
 
-- hppa is using the I8259 code, which relies on ISA
-- hw/hppa/pci.c seems to only contain unused stuff
-- LASI use hw/char/parallel.c, which relies on ISA. parallel.c could
-  propably be split up into a ISA dependent part and a generic part
-
-So it is more work to remove ISA completely, therefore i'll drop that
-patch for now and submit it later again.
-
-Thanks
-Sven
+> ---
+>  hw/core/numa.c      | 4 +---
+>  include/hw/boards.h | 2 +-
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index 2e29e4bfe0..3e07e94d00 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -527,9 +527,7 @@ void memory_region_allocate_system_memory(MemoryRegio=
+n *mr, MachineState *ms,
+>      uint64_t addr =3D 0;
+>      int i;
+>
+> -    if (!ms) {
+> -        ms =3D MACHINE(qdev_get_machine());
+> -    }
+> +    g_assert(ms);
+>
+>      if (ms->numa_state =3D=3D NULL ||
+>          ms->numa_state->num_nodes =3D=3D 0 || !have_memdevs) {
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 3b6cb82b6c..31ab6e7586 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -14,7 +14,7 @@
+>  /**
+>   * memory_region_allocate_system_memory - Allocate a board's main memory
+>   * @mr: the #MemoryRegion to be initialized
+> - * @ms: the #MachineState object that own the system memory
+> + * @ms: the #MachineState object that own the system memory (must not be=
+ NULL)
+>   * @name: name of the memory region
+>   * @ram_size: size of the region in bytes
+>   *
+> --
+> 2.21.0
+>
+>
 
