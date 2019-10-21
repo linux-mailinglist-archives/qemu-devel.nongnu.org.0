@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA9CDECC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:51:13 +0200 (CEST)
-Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC08DECCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:52:56 +0200 (CEST)
+Received: from localhost ([::1]:40470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMX9T-0008A0-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59759)
+	id 1iMXB9-0002M0-Co
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMX6p-0007AX-RW
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:48:32 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMX82-0007st-KD
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:49:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMX6o-0004ma-0n
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:48:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21820
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iMX81-00052i-KJ
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:49:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52083
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMX6n-0004lm-Qc
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:48:25 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMX81-00052b-Gw
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:49:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571662101;
+ s=mimecast20190719; t=1571662181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
- bh=umehiM0AGYxBtLhmfqNFAu5uu4wj3HrKeWBADOHY+0U=;
- b=AwP5QLELYrpXnJmQgKWe99UAaLwW3WWydtEGU89NKNdmG6+b+8W/0Qr3J8v/YAfcqLGFF4
- WU1+8AlWMLhFWJ1eLzvt4e+urJPXuGqTt1qWXpPoNCsEJ2/5vEVdNf6weeFshJKd8tQvFh
- cbs8ZSsk2ws9T5bdtrP3532T50FmkTQ=
+ bh=6mqKTULk0N7LL45qtq97ljqqIa9MDJNIXf4mKz7rFgY=;
+ b=P0iADo2fr3tPjNQz16n1YhjvVV8cjeWiE8FwpXBx6GvA3qY34xP6RiFlQ2mGH+M6kUK18V
+ zKq47pduj+k4Yn5C0Mid1a4t+vpMFramupAY2cwdW1TxDQAqFjVU8lauu0d4pLojgbOduD
+ eC2q28UKtKzJaz4EDlOPUrLB1p7bW1w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-ehhZNJRfNEOqeVExsJxIjA-1; Mon, 21 Oct 2019 08:48:19 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-207-FQbrpascO1imY6F3UKKJ4w-1; Mon, 21 Oct 2019 08:49:39 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31583107AD31;
- Mon, 21 Oct 2019 12:48:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B3A45E4;
+ Mon, 21 Oct 2019 12:49:38 +0000 (UTC)
 Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BCD55D9E5;
- Mon, 21 Oct 2019 12:48:09 +0000 (UTC)
-Subject: Re: [PATCH v3 09/16] libqos: access VIRTIO 1.0 vring in little-endian
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0900B60606;
+ Mon, 21 Oct 2019 12:49:28 +0000 (UTC)
+Subject: Re: [PATCH v3 10/16] libqos: add iteration support to
+ qpci_find_capability()
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20191019063810.6944-1-stefanha@redhat.com>
- <20191019063810.6944-10-stefanha@redhat.com>
+ <20191019063810.6944-11-stefanha@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -92,21 +93,21 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <bc98f11d-e067-f18b-2461-dcf56cfd1f47@redhat.com>
-Date: Mon, 21 Oct 2019 14:48:08 +0200
+Message-ID: <54d743a1-2f68-f32d-f84c-c397ef448a21@redhat.com>
+Date: Mon, 21 Oct 2019 14:49:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191019063810.6944-10-stefanha@redhat.com>
+In-Reply-To: <20191019063810.6944-11-stefanha@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: ehhZNJRfNEOqeVExsJxIjA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: FQbrpascO1imY6F3UKKJ4w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,56 +126,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19/10/2019 08.38, Stefan Hajnoczi wrote:
-> VIRTIO 1.0 uses little-endian for the vring.  Legacy VIRTIO uses guest
-> endianness.  Adjust the code to handle both.
->=20
-> Note that qvirtio_readq() is not defined because it has no users.  All
-> the other accessors are really needed.
+> VIRTIO 1.0 PCI devices have multiple PCI_CAP_ID_VNDR capabilities so we
+> need a way to iterate over them.  Extend qpci_find_capability() to take
+> the last address.
 >=20
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> --
+> v3:
+>  * Document qpci_find_capability()
 > ---
->  tests/libqos/virtio.h      |   4 +-
->  tests/libqos/virtio-mmio.c |   1 +
->  tests/libqos/virtio-pci.c  |   1 +
->  tests/libqos/virtio.c      | 131 +++++++++++++++++++++++++++----------
->  tests/virtio-blk-test.c    |   8 +--
->  5 files changed, 106 insertions(+), 39 deletions(-)
-[...]
-> @@ -191,23 +248,23 @@ void qvring_init(QTestState *qts, const QGuestAlloc=
-ator *alloc, QVirtQueue *vq,
-> =20
->      for (i =3D 0; i < vq->size - 1; i++) {
->          /* vq->desc[i].addr */
-> -        qtest_writeq(qts, vq->desc + (16 * i), 0);
-> +        qvirtio_writeq(vq->vdev, qts, vq->desc + (16 * i), 0);
->          /* vq->desc[i].next */
-> -        qtest_writew(qts, vq->desc + (16 * i) + 14, i + 1);
-> +        qvirtio_writew(vq->vdev, qts, vq->desc + (16 * i) + 14, i + 1);
->      }
-> =20
->      /* vq->avail->flags */
-> -    qtest_writew(qts, vq->avail, 0);
-> +    qvirtio_writew(vq->vdev, qts, vq->avail, 0);
->      /* vq->avail->idx */
-> -    qtest_writew(qts, vq->avail + 2, 0);
-> +    qvirtio_writew(vq->vdev, qts, vq->avail + 2, 0);
->      /* vq->avail->used_event */
-> -    qtest_writew(qts, vq->avail + 4 + (2 * vq->size), 0);
-> +    qvirtio_writew(vq->vdev, qts, vq->avail + 4 + (2 * vq->size), 0);
-> =20
->      /* vq->used->flags */
-> -    qtest_writew(qts, vq->used, 0);
-> +    qvirtio_writew(vq->vdev, qts, vq->used, 0);
->      /* vq->used->avail_event */
-> -    qtest_writew(qts, vq->used + 2 + sizeof(struct vring_used_elem) * vq=
-->size,
-> -                 0);
-> +    qvirtio_writew(vq->vdev, qts, vq->used + 2 +
-> +            sizeof(struct vring_used_elem) * vq->size, 0);
-
-Fix indentation in the above line?
-
-Apart from that, patch looks fine to me.
+>  tests/libqos/pci.h |  2 +-
+>  tests/libqos/pci.c | 30 ++++++++++++++++++++++++------
+>  2 files changed, 25 insertions(+), 7 deletions(-)
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
