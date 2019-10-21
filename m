@@ -2,77 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5A6DEB61
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:52:04 +0200 (CEST)
-Received: from localhost ([::1]:38988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECECDEBA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 14:10:17 +0200 (CEST)
+Received: from localhost ([::1]:39748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMWEF-0007L8-Mw
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52791)
+	id 1iMWVs-0002gd-1t
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 08:10:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55431)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBb-0005Vd-Mw
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:20 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMWUV-0002At-4q
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:08:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBZ-0003CA-Ic
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:19 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35353)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBZ-0003BP-Cr
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:17 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l10so13182327wrb.2
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=M3aCjLzoSIL7ixb0kk9ystt7R8xUSVOY/bvuxxJ0uh4=;
- b=YA8XifHwosXQTF7oe0vMEXhR9jchg+Wm9KVRH80wPckh14xp6exDlmarHVXqt2RXTf
- IknPCUODpEyb1XMuL/iS9iwyNV1uKH4pxEEFQpdVGxpkDzr5mnIglWC+7Rg2gBqcFL5a
- 0rEsF9mnYgW8gKzyWpyfAdFIJ3cIDjvqfXUshAsqimX0JAJ2SRBc8ZWuiLR55SORN7ps
- PvlZDMw85li4QfV9qX25i3YNwbbMiw2BD7OoSmqMvgLGKjC2BxtFfoHTSM2FW60VHCrx
- C129a2sNCpn0K9Md+HI1RTG77nLUrivbE9sCtMpTfeHPz1vdQZrToapecmftNLAuIkE6
- JO5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=M3aCjLzoSIL7ixb0kk9ystt7R8xUSVOY/bvuxxJ0uh4=;
- b=S8lY6sN62B1iISESv+9mDH4N104poJk1AEg0Vuh7JEluJdxyLtOeeEjVLRMZIQdKds
- 7Z8VacxoyOu3ftd1Eb6mQm4oYR++ppDOMjlrETP1wG1ClrttvBQT8hs/xI7B+LQgKNl+
- eOU+7ch7bdsRBPiJUZhJ1bD9Vpi/woxCaxS4pVDu0hdGRQltK8XZnqkLT7ZdTKEQWNpz
- DEOWQI4J88sXEyiJv+d7X90hY0p3P5cVe9q2sWMMpldptEPpXYyajyN/ClU4nwCimvWR
- EgkIEMit12qM3jQIRQcSK5R0n2ctUZ6sFtrZ3uoJidaQkH94OcOMdqXiijM/X8VreVFW
- hr5w==
-X-Gm-Message-State: APjAAAVsyCARRYN07R34b3U6c/oAECfJt5z0TXzVfWjLYiXMXhrn8qcK
- IExEW1sTGXrG3WmeqetrlGj7aO+M
-X-Google-Smtp-Source: APXvYqwxrHqbdH7yTo4kSeuX+KqpF26sTgSHv6ohKMUSYKbINZKTGlsIWmJBDTcK20FUWInWxTJxOQ==
-X-Received: by 2002:a05:6000:149:: with SMTP id
- r9mr14754388wrx.90.1571658555467; 
- Mon, 21 Oct 2019 04:49:15 -0700 (PDT)
-Received: from localhost.localdomain
- (129.red-83-57-174.dynamicip.rima-tde.net. [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 04:49:14 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 9/9] linux-user/syscall: Align target_sockaddr fields using
- ABI types
-Date: Mon, 21 Oct 2019 13:48:57 +0200
-Message-Id: <20191021114857.20538-10-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191021114857.20538-1-f4bug@amsat.org>
-References: <20191021114857.20538-1-f4bug@amsat.org>
+ (envelope-from <thuth@redhat.com>) id 1iMWUU-0003Vc-3Y
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:08:51 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40983
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMWUU-0003VG-0D
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:08:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571659729;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
+ bh=f6gq6jjpyhKENJcYg64I2UaxO0dG7PO4642WWrfgtNI=;
+ b=CX5/pIxv7jywMDhGD0P4n5SDeUrgCiY191vOcXbPA3cL15gEzfqe2n4rGu1v5cWNKtvsX+
+ 3Z0QUtopDNi5HJZqqqXbUyWci9lXBGJn/6cYk9xjiaYJy1yasU7dwT3B5DMY38q+62G0lH
+ nNyUwSjfOOCD1BaDAgmP3CrGosc4ILA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-bYYUZO-7OEWLycb7ToDTyA-1; Mon, 21 Oct 2019 08:08:45 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A12C61800DC7;
+ Mon, 21 Oct 2019 12:08:44 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE4876060D;
+ Mon, 21 Oct 2019 12:08:34 +0000 (UTC)
+Subject: Re: [PATCH v3 04/16] virtio-scsi-test: add missing feature negotiation
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191019063810.6944-1-stefanha@redhat.com>
+ <20191019063810.6944-5-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <74f8d009-a2ac-4d8b-429f-522899c03b94@redhat.com>
+Date: Mon, 21 Oct 2019 14:08:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191019063810.6944-5-stefanha@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: bYYUZO-7OEWLycb7ToDTyA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::434
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,93 +118,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Target architectures align types differently for instance m68k
-aligns on 16bit whereas others on 32bit).
-Use ABI types to keep alignments good.
+On 19/10/2019 08.37, Stefan Hajnoczi wrote:
+> VIRTIO Device Initialization requires feature negotiation.  Currently
+> virtio-scsi-test.c is non-compliant.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tests/virtio-scsi-test.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/tests/virtio-scsi-test.c b/tests/virtio-scsi-test.c
+> index 7c8f9b27f8..0415e75876 100644
+> --- a/tests/virtio-scsi-test.c
+> +++ b/tests/virtio-scsi-test.c
+> @@ -123,10 +123,16 @@ static QVirtioSCSIQueues *qvirtio_scsi_init(QVirtio=
+Device *dev)
+>      QVirtioSCSIQueues *vs;
+>      const uint8_t test_unit_ready_cdb[VIRTIO_SCSI_CDB_SIZE] =3D {};
+>      struct virtio_scsi_cmd_resp resp;
+> +    uint64_t features;
+>      int i;
+> =20
+>      vs =3D g_new0(QVirtioSCSIQueues, 1);
+>      vs->dev =3D dev;
+> +
+> +    features =3D qvirtio_get_features(dev);
+> +    features &=3D ~(QVIRTIO_F_BAD_FEATURE | (1ull << VIRTIO_RING_F_EVENT=
+_IDX));
+> +    qvirtio_set_features(dev, features);
 
-Suggested-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v8: Use abi_int for target_sockaddr_ll.sll_ifindex
----
- linux-user/syscall_defs.h | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+I wonder whether this get_feat + "&=3D" + set_feat is really the right way
+here? Maybe we should rather only set the feature bits that we care
+about instead of setting all but BAD_FEATURE and RING_F_EVENT_IDX?
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 7694d72446..98c2119de9 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -134,22 +134,22 @@
- #define TARGET_IOWRU(type,nr)	TARGET_IOC(TARGET_IOC_READ|TARGET_IOC_WRITE,(type),(nr),TARGET_IOC_SIZEMASK)
- 
- struct target_sockaddr {
--    uint16_t sa_family;
-+    abi_ushort sa_family;
-     uint8_t sa_data[14];
- };
- 
- struct target_sockaddr_ll {
--    uint16_t sll_family;   /* Always AF_PACKET */
--    uint16_t sll_protocol; /* Physical layer protocol */
--    int      sll_ifindex;  /* Interface number */
--    uint16_t sll_hatype;   /* ARP hardware type */
--    uint8_t  sll_pkttype;  /* Packet type */
--    uint8_t  sll_halen;    /* Length of address */
--    uint8_t  sll_addr[8];  /* Physical layer address */
-+    abi_ushort sll_family;   /* Always AF_PACKET */
-+    abi_ushort sll_protocol; /* Physical layer protocol */
-+    abi_int    sll_ifindex;  /* Interface number */
-+    abi_ushort sll_hatype;   /* ARP hardware type */
-+    uint8_t    sll_pkttype;  /* Packet type */
-+    uint8_t    sll_halen;    /* Length of address */
-+    uint8_t    sll_addr[8];  /* Physical layer address */
- };
- 
- struct target_sockaddr_un {
--    uint16_t su_family;
-+    abi_ushort su_family;
-     uint8_t sun_path[108];
- };
- 
-@@ -161,24 +161,24 @@ struct target_sockaddr_nl {
- };
- 
- struct target_in_addr {
--    uint32_t s_addr; /* big endian */
-+    abi_uint s_addr; /* big endian */
- };
- 
- struct target_sockaddr_in {
--  uint16_t sin_family;
--  int16_t sin_port; /* big endian */
-+  abi_ushort sin_family;
-+  abi_short sin_port; /* big endian */
-   struct target_in_addr sin_addr;
-   uint8_t __pad[sizeof(struct target_sockaddr) -
--                sizeof(uint16_t) - sizeof(int16_t) -
-+                sizeof(abi_ushort) - sizeof(abi_short) -
-                 sizeof(struct target_in_addr)];
- };
- 
- struct target_sockaddr_in6 {
--    uint16_t sin6_family;
--    uint16_t sin6_port; /* big endian */
--    uint32_t sin6_flowinfo; /* big endian */
-+    abi_ushort sin6_family;
-+    abi_ushort sin6_port; /* big endian */
-+    abi_uint sin6_flowinfo; /* big endian */
-     struct in6_addr sin6_addr; /* IPv6 address, big endian */
--    uint32_t sin6_scope_id;
-+    abi_uint sin6_scope_id;
- };
- 
- struct target_sock_filter {
--- 
-2.21.0
+Otherwise, please mention in the commit message why you've chosen to
+disable just these two bits.
+
+ Thanks,
+  Thomas
 
 
