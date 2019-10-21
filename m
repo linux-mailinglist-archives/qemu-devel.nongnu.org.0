@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DF4DECF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:00:48 +0200 (CEST)
-Received: from localhost ([::1]:40576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37D0DED0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:03:35 +0200 (CEST)
+Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMXIl-0002vz-9N
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32844)
+	id 1iMXLS-0004wX-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMXGm-0001D7-9Q
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:58:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMXI2-0002tG-HU
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:00:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMXGl-00074N-95
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:58:44 -0400
-Received: from 5.mo6.mail-out.ovh.net ([46.105.54.31]:56325)
+ (envelope-from <philmd@redhat.com>) id 1iMXHy-0007KE-Rj
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:00:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49766)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMXGl-00073E-1i
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:58:43 -0400
-Received: from player771.ha.ovh.net (unknown [10.109.159.68])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 883591E69E3
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:58:39 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player771.ha.ovh.net (Postfix) with ESMTPSA id 648A9B36EC99;
- Mon, 21 Oct 2019 12:58:35 +0000 (UTC)
-Subject: Re: [PATCH 0/9] ppc/pnv: XIVE cleanup and fixes
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20191007084102.29776-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <27d92b9d-87d7-7d74-c8dc-3acdce069a98@kaod.org>
-Date: Mon, 21 Oct 2019 14:58:31 +0200
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMXHy-0007Js-JX
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 08:59:58 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 93896C04AC69
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 12:59:57 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id 7so7306605wrl.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 05:59:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VLObdgGCBHKd4NyKqw1nb9Ft4ivPz1Wm47y/KgC4Yfo=;
+ b=ct5p9TfHM27CzGVpjE1USaOpUlfECsJYpeOLsPUBLPSh685AxC6RnaLcopRviCC8H0
+ 6AIFiS2KYOtNVxC4/qsCxGleCd+JVn6DOZCXHrrVzfAEr2qmD/W+IoR1GJyLg+n2OD+v
+ ftzKb9mxp8o+g3yy600ZJ3i3ZxYtibKad+d1eVaSSo5xYF5TKC24tWwAkFq9v4BRff7X
+ SK4yiKgq+JVca0nGpWbzFVijardaVS9IBalBAF5x/PBKtoqXWqrUipToUftDzGi5oXZ9
+ KnkTQHq7qc6O+wyjxOL8o6Ii7aAjSU113L0qs8J1MfjDBrhrXztU80pUnQvgk8b8HTdU
+ huTQ==
+X-Gm-Message-State: APjAAAWiqNOyyTFOuC0sIbfrJ47cYnxzxKcGxJ81D2oqwp4PITFzxVkt
+ 5pKbSTA4MzATR52iUhQNjnQGOVM6X1BEHGbZn1BUBKSMaobsrWOMmJc1IX0s9e9F56Ksb8QEL10
+ upp9IOaNAYaAcdMo=
+X-Received: by 2002:a5d:4644:: with SMTP id j4mr20193605wrs.355.1571662796354; 
+ Mon, 21 Oct 2019 05:59:56 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy9a4mBGzc4Atj27HBMDjG+ZXbuXSzITmVipWUvlu1WEC85D5/kswe/8fIndQB2FRYUdSQ8KA==
+X-Received: by 2002:a5d:4644:: with SMTP id j4mr20193582wrs.355.1571662796132; 
+ Mon, 21 Oct 2019 05:59:56 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id j19sm28075358wre.0.2019.10.21.05.59.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Oct 2019 05:59:54 -0700 (PDT)
+Subject: Re: [PATCH v3 11/16] libqos: pass full QVirtQueue to
+ set_queue_address()
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191019063810.6944-1-stefanha@redhat.com>
+ <20191019063810.6944-12-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0c13b978-9998-cba4-dffb-b76795553398@redhat.com>
+Date: Mon, 21 Oct 2019 14:59:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191007084102.29776-1-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191019063810.6944-12-stefanha@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Ovh-Tracer-Id: 12357595904197954457
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeehgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.54.31
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,46 +82,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, slp@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/10/2019 10:40, C=C3=A9dric Le Goater wrote:
-> Hello,
+On 10/19/19 8:38 AM, Stefan Hajnoczi wrote:
+> Instead of just passing the vring page frame number, pass the full
+> QVirtQueue.  This will allow the VIRTIO 1.0 transport to program the
+> fine-grained vring address registers in the future.
 >=20
-> Here is a short series adding the cleanups and fixes of the bigger
-> series "ppc/pnv: add XIVE support for KVM guests". There is still some
-> rework to be done on the XivePresenter before it can be resent.
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Sergio Lopez <slp@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> ---
+>   tests/libqos/virtio.h      | 2 +-
+>   tests/libqos/virtio-mmio.c | 6 ++++--
+>   tests/libqos/virtio-pci.c  | 6 ++++--
+>   3 files changed, 9 insertions(+), 5 deletions(-)
 >=20
-> These are valuable changes which can come first and which should not
-> impact the work yet to come. Comments have been addressed. They were
-> mostly on the changelog.
-
-David, Do you have some time for these patches ? There are larger
-series coming after.
-
-Thanks,
-
-C.
-=20
-> C=C3=A9dric Le Goater (9):
->   ppc/pnv: Improve trigger data definition
->   ppc/pnv: Use address_space_stq_be() when triggering an interrupt from
->     PSI
->   ppc/xive: Record the IPB in the associated NVT
->   ppc/xive: Introduce helpers for the NVT id
->   ppc/pnv: Remove pnv_xive_vst_size() routine
->   ppc/pnv: Dump the XIVE NVT table
->   ppc/pnv: Quiesce some XIVE errors
->   ppc/xive: Introduce OS CAM line helpers
->   ppc/xive: Check V bit in TM_PULL_POOL_CTX
+> diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
+> index 5777683a2a..407d8fc088 100644
+> --- a/tests/libqos/virtio.h
+> +++ b/tests/libqos/virtio.h
+> @@ -80,7 +80,7 @@ struct QVirtioBus {
+>       uint16_t (*get_queue_size)(QVirtioDevice *d);
+>  =20
+>       /* Set the address of the selected queue */
+> -    void (*set_queue_address)(QVirtioDevice *d, uint32_t pfn);
+> +    void (*set_queue_address)(QVirtioDevice *d, QVirtQueue *vq);
+>  =20
+>       /* Setup the virtqueue specified by index */
+>       QVirtQueue *(*virtqueue_setup)(QVirtioDevice *d, QGuestAllocator =
+*alloc,
+> diff --git a/tests/libqos/virtio-mmio.c b/tests/libqos/virtio-mmio.c
+> index 4db1f1b8bc..e0a2bd7bc6 100644
+> --- a/tests/libqos/virtio-mmio.c
+> +++ b/tests/libqos/virtio-mmio.c
+> @@ -143,9 +143,11 @@ static uint16_t qvirtio_mmio_get_queue_size(QVirti=
+oDevice *d)
+>       return (uint16_t)qtest_readl(dev->qts, dev->addr + QVIRTIO_MMIO_Q=
+UEUE_NUM_MAX);
+>   }
+>  =20
+> -static void qvirtio_mmio_set_queue_address(QVirtioDevice *d, uint32_t =
+pfn)
+> +static void qvirtio_mmio_set_queue_address(QVirtioDevice *d, QVirtQueu=
+e *vq)
+>   {
+>       QVirtioMMIODevice *dev =3D container_of(d, QVirtioMMIODevice, vde=
+v);
+> +    uint64_t pfn =3D vq->desc / dev->page_size;
+> +
+>       qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_QUEUE_PFN, pfn);
+>   }
+>  =20
+> @@ -179,7 +181,7 @@ static QVirtQueue *qvirtio_mmio_virtqueue_setup(QVi=
+rtioDevice *d,
+>  =20
+>       addr =3D guest_alloc(alloc, qvring_size(vq->size, dev->page_size)=
+);
+>       qvring_init(dev->qts, alloc, vq, addr);
+> -    qvirtio_mmio_set_queue_address(d, vq->desc / dev->page_size);
+> +    qvirtio_mmio_set_queue_address(d, vq);
+>  =20
+>       return vq;
+>   }
+> diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
+> index 7ecf5d0a52..e4fa318dcc 100644
+> --- a/tests/libqos/virtio-pci.c
+> +++ b/tests/libqos/virtio-pci.c
+> @@ -199,9 +199,11 @@ static uint16_t qvirtio_pci_get_queue_size(QVirtio=
+Device *d)
+>       return qpci_io_readw(dev->pdev, dev->bar, VIRTIO_PCI_QUEUE_NUM);
+>   }
+>  =20
+> -static void qvirtio_pci_set_queue_address(QVirtioDevice *d, uint32_t p=
+fn)
+> +static void qvirtio_pci_set_queue_address(QVirtioDevice *d, QVirtQueue=
+ *vq)
+>   {
+>       QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev)=
+;
+> +    uint64_t pfn =3D vq->desc / VIRTIO_PCI_VRING_ALIGN;
+> +
+>       qpci_io_writel(dev->pdev, dev->bar, VIRTIO_PCI_QUEUE_PFN, pfn);
+>   }
+>  =20
+> @@ -239,7 +241,7 @@ static QVirtQueue *qvirtio_pci_virtqueue_setup(QVir=
+tioDevice *d,
+>       addr =3D guest_alloc(alloc, qvring_size(vqpci->vq.size,
+>                                             VIRTIO_PCI_VRING_ALIGN));
+>       qvring_init(qvpcidev->pdev->bus->qts, alloc, &vqpci->vq, addr);
+> -    qvirtio_pci_set_queue_address(d, vqpci->vq.desc / VIRTIO_PCI_VRING=
+_ALIGN);
+> +    qvirtio_pci_set_queue_address(d, &vqpci->vq);
+>  =20
+>       return &vqpci->vq;
+>   }
 >=20
->  include/hw/ppc/xive.h      |   5 --
->  include/hw/ppc/xive_regs.h |  50 ++++++++++-
->  hw/intc/pnv_xive.c         | 166 +++++++++++++++++++++----------------
->  hw/intc/xive.c             |  61 ++++++++++++--
->  hw/ppc/pnv_psi.c           |  15 +++-
->  5 files changed, 206 insertions(+), 91 deletions(-)
->=20
-
 
