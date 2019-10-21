@@ -2,74 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A56DE75C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:05:22 +0200 (CEST)
-Received: from localhost ([::1]:36218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E06DE77E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:13:37 +0200 (CEST)
+Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMTcw-0001Jx-0Q
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
+	id 1iMTku-0005hl-6Y
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:13:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMTXr-0004kb-Ii
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:00:12 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMTjh-0004sM-4K
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:12:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMTXl-0000zq-Ha
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:00:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50148)
+ (envelope-from <thuth@redhat.com>) id 1iMTje-0006LU-VC
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:12:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23305
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMTXl-0000zB-AO
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:00:01 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMTje-0006L1-Rr
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:12:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571649138;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
+ bh=XSmN0wCostY+XGUoBZcX/zEtBLjYwJLPwLefsySV3Jc=;
+ b=eNe7XkQ2PLVwVOjwUeI+ZVCLrQVvE8ufRjY5TC8SjB/4i1jgBXrqJew1b2yMDIdITpHH36
+ RHxoyKmITgVTR6DrCzy+yZ92exg/wu7Mvt3oePCXwrrZFGfVKA4ntx8/nvKdEBj19cJ/Dp
+ IoITxNnMZuqEexJCWZo7NAbBiu++hR0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-rb_j00pmMSWS4OPbjQiBsw-1; Mon, 21 Oct 2019 05:12:14 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 767652A09A3
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:59:59 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id e14so6853900wrm.21
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 01:59:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mCXhCGtYaClXkEJyRLZIFTb/AfIa7KjNY4y2g0OIk1Q=;
- b=iEliRtSS9DDsUzYtsTFjpmqmy3NAPeSjQ6+RXEycFld91YaRjP5ljqMcF5e9w5ilgf
- kzhW6dbAk0aJibI4KCqPAq1PK7yQhZd2C1vl/dKJ4uy8/zzwD8ZXliIPBax1JkAP7zS5
- ErFfnrg4GV6TF1BPpOSjK03TwRR8khHnWMpxwQr2KF0CF2mCkAn6rt7UrKyjkTF/45ZH
- DkmshIyOitPUKxwUEBVLZUFO1/iG1tjIiph5UNSyAMC6hwF3EdKSFqhdvRD1MXJdv67y
- erQ96j2aBlYl6P5z1jp7P1xDH78oRG/kKy8bQz69GVYQCrT1tk2OPyAyMGTKIJJHT5Z+
- nK0w==
-X-Gm-Message-State: APjAAAW7gdHmbHvBsd49XRKzo48C0UMe9c/f/D5zPk3aYmW6rwPiWrqn
- WR6dPU1OQEBwvWr8mtOxeg7PfRQ7ghUaZPN13vb2WrJ4QPDKOb4CQDFNjLD0p4a4fcfym+guW/l
- uO0SW/iuDwoR9THk=
-X-Received: by 2002:adf:ea01:: with SMTP id q1mr18167412wrm.240.1571648398205; 
- Mon, 21 Oct 2019 01:59:58 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzAK31YSybP+RFvp6IcB83RyU+iyxV8C3ePkJoh84vvz3V7oUE2ZGCG1dAxEUTsTeeueKV6rw==
-X-Received: by 2002:adf:ea01:: with SMTP id q1mr18167398wrm.240.1571648398033; 
- Mon, 21 Oct 2019 01:59:58 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id u26sm15169711wrd.87.2019.10.21.01.59.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2019 01:59:57 -0700 (PDT)
-Subject: Re: [PATCH 0/3] eliminate remaining places that abuse
- memory_region_allocate_system_memory()
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20191008113318.7012-1-imammedo@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0eed7c18-8758-8f70-7b48-0d9c86ec929a@redhat.com>
-Date: Mon, 21 Oct 2019 10:59:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAA931800DCA;
+ Mon, 21 Oct 2019 09:12:13 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8EB786012A;
+ Mon, 21 Oct 2019 09:12:04 +0000 (UTC)
+Subject: Re: [PATCH v3 01/16] tests/virtio-blk-test: read config space after
+ feature negotiation
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191019063810.6944-1-stefanha@redhat.com>
+ <20191019063810.6944-2-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <2ac4d37d-b2fb-3677-75d7-c49681f13d82@redhat.com>
+Date: Mon, 21 Oct 2019 11:12:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191008113318.7012-1-imammedo@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191019063810.6944-2-stefanha@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: rb_j00pmMSWS4OPbjQiBsw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,37 +119,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: deller@gmx.de, mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org,
- hpoussin@reactos.org, david@gibson.dropbear.id.au, atar4qemu@gmail.com,
- rth@twiddle.net
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+On 19/10/2019 08.37, Stefan Hajnoczi wrote:
+> The VIRTIO Configuration Space cannot be accessed before device feature
+> bits have been read because a driver doesn't know the endianness until
+> it has checked VIRTIO_F_VERSION_1.
+>=20
+> Fix this problem in preparation for VIRTIO 1.0 support.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tests/virtio-blk-test.c | 33 ++++++++++++++++++++-------------
+>  1 file changed, 20 insertions(+), 13 deletions(-)
 
-On 10/8/19 1:33 PM, Igor Mammedov wrote:
-> Series cleans up remaining boards that call memory_region_allocate_system_memory()
-> multiple times, violating interface contract (the function should be called only
-> once).
-> 
-> With that cleaned up, it should be possible to switch from adhoc RAM allocation
-> in memory_region_allocate_system_memory()->allocate_system_memory_nonnuma() to
-> memory-backend based allocation, remaining roadblock for doing it is deprecated
-> -mem-path fallback to RAM allocation, which is scheduled for removal at 4.3
-> merge window. So remaining patches to consolidate system RAM allocation around
-> memory-backends and aliasing -mem-path/mem-prealloc to it are postponed till
-> then.
-> 
-> 
-> Igor Mammedov (3):
->    sparc64: use memory_region_allocate_system_memory() only for '-m'
->      specified RAM
->    ppc: rs6000_mc: drop usage of memory_region_allocate_system_memory()
->    hppa: drop usage of memory_region_allocate_system_memory() for ROM
-> 
->   hw/hppa/machine.c    |  5 ++---
->   hw/ppc/rs6000_mc.c   | 15 ++++++++++-----
->   hw/sparc64/niagara.c | 25 +++++++++++++------------
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-What about the TYPE_SUN4M_MEMORY device in hw/sparc/sun4m.c?
 
