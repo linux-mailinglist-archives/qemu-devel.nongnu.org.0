@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E97DEFB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 16:35:13 +0200 (CEST)
-Received: from localhost ([::1]:43234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F6ADEFE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 16:38:07 +0200 (CEST)
+Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMYm7-00040e-F6
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 10:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
+	id 1iMYow-0007W9-Si
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 10:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cminyard@mvista.com>) id 1iMYhg-0001eV-Sw
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:30:41 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMYiM-0001lr-UM
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cminyard@mvista.com>) id 1iMYhV-0002HF-Q0
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:30:30 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43783)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <cminyard@mvista.com>) id 1iMYhT-0002GA-NZ
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:30:24 -0400
-Received: by mail-oi1-x244.google.com with SMTP id t84so11169200oih.10
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 07:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=SXcw5AkU43kxne3gBCzCvfKZzN7bLa4GfXb2Duxs4fQ=;
- b=ZAfkFZbfUEZk4IUhlTOTTCnWce/rwJa+WLaHCfc0JT57O76seOGSH1juz2e1ZKva7N
- XjpREEsS/DJHWOWU11k/hDTLMuScdl9eEPzBcNUSlSC+2J0SDPwLRjcmesf3HQDAnUOV
- m6Yf5tX+YF/AmzBTOIJ8ZTa9xLuTK9XpoTxyAmb78g/Pd6kAZH5xVB5LfHa6lwTazSxj
- 1f4f3r9ThMR5qA9HrOZEyTB2NU/pZH/8kHWS3xSG4juleyH6Nl6rNWGIfDnQn7GWEpWR
- B3iJrOHFlXJ3rN5zZv1IiYAWhcbjPFpVgmvM+7vRvlpLgk1kd4ContxFknjPb8RCDlGI
- FL6w==
+ (envelope-from <philmd@redhat.com>) id 1iMYiK-0002aF-Jr
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40470)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMYiK-0002ZN-BT
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:16 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2822FC054C52
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:31:15 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id a81so2457907wma.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 07:31:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=SXcw5AkU43kxne3gBCzCvfKZzN7bLa4GfXb2Duxs4fQ=;
- b=DUQbllAQJW/iHDDzDEznbxORUTtCYnj3H4O4L3T421lbna7rtYqBsbIPJvC64ohjae
- 4qL4AX3yym3wuNqFxG6d6kG+NuMnz8n1NTG6tOPjw0FfkddizpBnK2FPH3jLoNys0vWw
- WK8nbjHpfZzf44ihj91ZbbvRYUi2C7sm75PrNZXvt2VGVVVcDFV+Lcl+F7h4GkdlmtDm
- 5SE/juQlzqh75t8nVbEWuwbXTEIN3tmIrNgFgpwZ2Dv1LX1hk+mfazOfD0D2c4jrd3Qj
- vH9MEPTCjRVJfBNqPm3LdnaGI8aRuD0Yb4GnGlwKSlYNU00gyTVMFeci/Epnlf3K/Kdj
- FXxw==
-X-Gm-Message-State: APjAAAVcBrAOPEvJiR9u8rv9y3bzIGw1rCW2mMBTkO1gTN4eb1RK2LCU
- RebqZlAmaUGl1BQsbE+QEG7fDg==
-X-Google-Smtp-Source: APXvYqyTWCFXLa7fWlkHv3KT0u3/B/SYtKglJPKqZKCfDSeHU0ffiPXEVoBYCyDCtXCcFfIDNLULFA==
-X-Received: by 2002:aca:ea55:: with SMTP id i82mr19956833oih.125.1571668219576; 
- Mon, 21 Oct 2019 07:30:19 -0700 (PDT)
-Received: from t560 ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id m14sm4135707otl.26.2019.10.21.07.30.18
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 21 Oct 2019 07:30:18 -0700 (PDT)
-Date: Mon, 21 Oct 2019 09:30:17 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/5] ipmi: Add support to customize OEM functions
-Message-ID: <20191021143017.GH25427@t560>
-References: <20191021131215.3693-1-clg@kaod.org>
- <20191021131215.3693-3-clg@kaod.org>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WW+ZO5Bq/diu4cy8HdXGyuu6WJWD0p3+enACBKkcKJE=;
+ b=SqRDLj8nPlRwbYZt6i4f/IEQ4CNfuMmJAuCp1lrRFvA4GPRcay8FJufeX7B5RYBT55
+ f5VCVx3IEmuBW4h/pjK4MVTHBNdfZVZBsm0A8mdbsYoTiBgYAytVREWG1aRj+1fac9bJ
+ AxHLy7axBwkt0gMBQlQqjhxwUEPw6G4B4FJmCm8chW28i3dSLzPE6bBjP6WHkadPdwU8
+ FcasX9ukU/F/SqAjbkLiMldZdwjcSHIsjSHZSBIzG1fcY+i3bG+j62vQokq8PCxj9Zlq
+ G016RZ238O3YBDlkAMBFhu4oMj9iU0cMpr23xFwN/TB6nFJzPZ3YSRw21wbxb+2QhTux
+ 13CA==
+X-Gm-Message-State: APjAAAWS3vqwXgOA8KgygxiIW9/gk1R3OKDl1OT71lM2fPGPyBtnP4bA
+ OE8+arGbhz/Tg5FXuvHfdzPtMg7Zjvcncyuk00F+45j2FPo2Qjc3D7sbcw8FcJkhjv+7lTmK6xw
+ 7eV1I/NkBKxwX2Zc=
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr5268588wme.100.1571668273651; 
+ Mon, 21 Oct 2019 07:31:13 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzYAt/WmShwAeKTj45zhc7f4MxI0pUH94PejXPs67FO44D1nk0L2s0VcECHDy7SKdTBpQoFcg==
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr5268531wme.100.1571668273345; 
+ Mon, 21 Oct 2019 07:31:13 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id r19sm7926770wrr.47.2019.10.21.07.31.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Oct 2019 07:31:12 -0700 (PDT)
+Subject: Re: [PATCH 00/21] hw: Let the machine be the owner of the system
+ memory
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20191020225650.3671-1-philmd@redhat.com>
+ <aad956d5-986c-bb9f-7735-cf18796b986e@redhat.com>
+Message-ID: <eca291f8-67ce-14eb-bcb6-e743a44327f4@redhat.com>
+Date: Mon, 21 Oct 2019 16:31:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191021131215.3693-3-clg@kaod.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+In-Reply-To: <aad956d5-986c-bb9f-7735-cf18796b986e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,164 +84,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Joel Stanley <joel@jms.id.au>, "Marty E . Plummer" <hanetzer@startmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 21, 2019 at 03:12:12PM +0200, Cédric Le Goater wrote:
-> The routine ipmi_register_oem_netfn() lets external modules register
-> command handlers for OEM functions. Required for the PowerNV machine.
+Hi Peter,
 
-Comments inline.
+On 10/21/19 10:52 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 10/21/19 12:56 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Hi,
+>>
+>> This series is based on Igor's "eliminate remaining places that
+>> abuse memory_region_allocate_system_memory()":
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01601.html
+>>
+>> It is quite simple, we enforce all machines to be the QOM owner
+>> of the system memory.
+>>
+>> This changes the memory tree from:
+>>
+>> =C2=A0=C2=A0 (qemu) info mtree -o
+>> =C2=A0=C2=A0 memory-region: pc.ram
+>> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (prio 0, ra=
+m): pc.ram=20
+>> parent:{obj path=3D/machine/unattached}
+>>
+>> to:
+>>
+>> =C2=A0=C2=A0 (qemu) info mtree -o
+>> =C2=A0=C2=A0 memory-region: pc.ram
+>> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (prio 0, ra=
+m): pc.ram=20
+>> owner:{obj path=3D/machine}
+>>
+>> Few patches are required to clean the codebase first, to unify the
+>> creation of the system memory in the board/machine code. Mostly some
+>> old ARM machines (pre-QOM) were affected.
+>>
+>> Please review (as a generic codebase cleanup).
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>> Based-on: <20191008113318.7012-1-imammedo@redhat.com>
+>>
+>> Philippe Mathieu-Daud=C3=A9 (21):
+>> =C2=A0=C2=A0 hw/arm/xilinx_zynq: Use the IEC binary prefix definitions
+>> =C2=A0=C2=A0 hw/arm/mps2: Use the IEC binary prefix definitions
+>> =C2=A0=C2=A0 hw/arm/collie: Create the RAM in the board
+>> =C2=A0=C2=A0 hw/arm/omap2: Create the RAM in the board
+>> =C2=A0=C2=A0 hw/arm/omap1: Create the RAM in the board
+>> =C2=A0=C2=A0 hw/arm/digic4: Inline digic4_board_setup_ram() function
+>> =C2=A0=C2=A0 hw: Drop QOM ownership on memory_region_allocate_system_m=
+emory() calls
+>> =C2=A0=C2=A0 hw/alpha/dp264: Create the RAM in the board
+>> =C2=A0=C2=A0 hw: Let memory_region_allocate_system_memory take Machine=
+State
+>> =C2=A0=C2=A0=C2=A0=C2=A0 argument
+>> =C2=A0=C2=A0 hw/core: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/alpha: Let the machine be the owner of the system memo=
+ry
+>> =C2=A0=C2=A0 hw/arm: Let the machine be the owner of the system memory
+>> =C2=A0=C2=A0 hw/cris: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/hppa: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/i386: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/lm32: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/m68k: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/mips: Let the machine be the owner of the system memor=
+y
+>> =C2=A0=C2=A0 hw/ppc: Let the machine be the owner of the system memory
+>> =C2=A0=C2=A0 hw/sparc: Let the machine be the owner of the system memo=
+ry
+>> =C2=A0=C2=A0 hw/core: Assert memory_region_allocate_system_memory has =
+machine owner
+>=20
+> I forgot 4 other calls:
+>=20
+> hw/ppc/ppc4xx_devs.c:708:=C2=A0=C2=A0=C2=A0 memory_region_allocate_syst=
+em_memory(ram,=20
+> NULL, "ppc4xx.sdram", ram_size);
+> hw/s390x/s390-virtio-ccw.c:164:=20
+> memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_size);
+> hw/sparc/sun4m.c:791:=C2=A0=C2=A0=C2=A0 memory_region_allocate_system_m=
+emory(&d->ram,=20
+> NULL, "sun4m.ram",
+> hw/sparc64/niagara.c:114:=20
+> memory_region_allocate_system_memory(&s->partition_ram, NULL,
 
-> 
-> Cc: Corey Minyard <cminyard@mvista.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  include/hw/ipmi/ipmi.h | 36 ++++++++++++++++++++++++++++++++++++
->  hw/ipmi/ipmi_bmc_sim.c | 41 ++++++-----------------------------------
->  2 files changed, 42 insertions(+), 35 deletions(-)
-> 
-> diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
-> index 6f2413b39b4a..cb7203b06767 100644
-> --- a/include/hw/ipmi/ipmi.h
-> +++ b/include/hw/ipmi/ipmi.h
-> @@ -265,4 +265,40 @@ int ipmi_bmc_sdr_find(IPMIBmc *b, uint16_t recid,
->                        const struct ipmi_sdr_compact **sdr, uint16_t *nextrec);
->  void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log);
->  
-> +typedef struct IPMIBmcSim IPMIBmcSim;
+I'll need to respin this series because of this omission, but
+- hw/ppc requires more cleanup patches as ARM has,
+- hw/sparc is blocked until Igor sent his "convert
+   memory_region_allocate_system_memory() to memdev" series.
 
-This type isn't very useful outside of the simulator, but changes for
-that can come as they are needed.  I don't see an easy way to avoid
-putting it here.
+I don't plan to rework on the ARM cleanups patches (1-6):
 
-> +
-> +typedef struct RspBuffer {
-> +    uint8_t buffer[MAX_IPMI_MSG_SIZE];
-> +    unsigned int len;
-> +} RspBuffer;
-> +
-> +static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t byte)
-> +{
-> +    rsp->buffer[2] = byte;
-> +}
-> +
-> +/* Add a byte to the response. */
-> +static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
-> +{
-> +    if (rsp->len >= sizeof(rsp->buffer)) {
-> +        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
-> +        return;
-> +    }
-> +    rsp->buffer[rsp->len++] = byte;
-> +}
-> +
-> +typedef struct IPMICmdHandler {
-> +    void (*cmd_handler)(IPMIBmcSim *s,
-> +                        uint8_t *cmd, unsigned int cmd_len,
-> +                        RspBuffer *rsp);
-> +    unsigned int cmd_len_min;
-> +} IPMICmdHandler;
-> +
-> +typedef struct IPMINetfn {
-> +    unsigned int cmd_nums;
-> +    const IPMICmdHandler *cmd_handlers;
-> +} IPMINetfn;
-> +
-> +int ipmi_register_oem_netfn(IPMIBmc *b, const IPMINetfn *netfnd);
-> +
->  #endif
-> diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-> index 71e56f3b13d1..770aace55b08 100644
-> --- a/hw/ipmi/ipmi_bmc_sim.c
-> +++ b/hw/ipmi/ipmi_bmc_sim.c
-> @@ -98,6 +98,7 @@
->  #define IPMI_CMD_GET_SEL_TIME             0x48
->  #define IPMI_CMD_SET_SEL_TIME             0x49
->  
-> +#define IPMI_NETFN_OEM                    0x3a
->  
->  /* Same as a timespec struct. */
->  struct ipmi_time {
-> @@ -167,23 +168,8 @@ typedef struct IPMISensor {
->  #define MAX_SENSORS 20
->  #define IPMI_WATCHDOG_SENSOR 0
->  
-> -typedef struct IPMIBmcSim IPMIBmcSim;
-> -typedef struct RspBuffer RspBuffer;
-> -
->  #define MAX_NETFNS 64
->  
-> -typedef struct IPMICmdHandler {
-> -    void (*cmd_handler)(IPMIBmcSim *s,
-> -                        uint8_t *cmd, unsigned int cmd_len,
-> -                        RspBuffer *rsp);
-> -    unsigned int cmd_len_min;
-> -} IPMICmdHandler;
-> -
-> -typedef struct IPMINetfn {
-> -    unsigned int cmd_nums;
-> -    const IPMICmdHandler *cmd_handlers;
-> -} IPMINetfn;
-> -
->  typedef struct IPMIRcvBufEntry {
->      QTAILQ_ENTRY(IPMIRcvBufEntry) entry;
->      uint8_t len;
-> @@ -279,28 +265,8 @@ struct IPMIBmcSim {
->  #define IPMI_BMC_WATCHDOG_ACTION_POWER_DOWN      2
->  #define IPMI_BMC_WATCHDOG_ACTION_POWER_CYCLE     3
->  
-> -struct RspBuffer {
-> -    uint8_t buffer[MAX_IPMI_MSG_SIZE];
-> -    unsigned int len;
-> -};
-> -
->  #define RSP_BUFFER_INITIALIZER { }
->  
-> -static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t byte)
-> -{
-> -    rsp->buffer[2] = byte;
-> -}
-> -
-> -/* Add a byte to the response. */
-> -static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
-> -{
-> -    if (rsp->len >= sizeof(rsp->buffer)) {
-> -        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
-> -        return;
-> -    }
-> -    rsp->buffer[rsp->len++] = byte;
-> -}
-> -
->  static inline void rsp_buffer_pushmore(RspBuffer *rsp, uint8_t *bytes,
->                                         unsigned int n)
->  {
-> @@ -640,6 +606,11 @@ static int ipmi_register_netfn(IPMIBmcSim *s, unsigned int netfn,
->      return 0;
->  }
->  
-> +int ipmi_register_oem_netfn(IPMIBmc *b, const IPMINetfn *netfnd)
-> +{
-> +    return ipmi_register_netfn(IPMI_BMC_SIMULATOR(b), IPMI_NETFN_OEM, netfnd);
-> +}
+   hw/arm/xilinx_zynq: Use the IEC binary prefix definitions
+   hw/arm/mps2: Use the IEC binary prefix definitions
+   hw/arm/collie: Create the RAM in the board
+   hw/arm/omap2: Create the RAM in the board
+   hw/arm/omap1: Create the RAM in the board
+   hw/arm/digic4: Inline digic4_board_setup_ram() function
 
-I think I would prefer just exposing ipmi_register_netfn() and maybe
-rename it ipmi_sim_register_netfn() or something like that.  There may
-be other netfns needed in the future.
+Maybe you can take them directly in arm-next once they are reviewed,
+then the rest can go via machine-next.
 
-But with that change, this looks good to me:
+Thanks,
 
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
-
-> +
->  static const IPMICmdHandler *ipmi_get_handler(IPMIBmcSim *ibs,
->                                                unsigned int netfn,
->                                                unsigned int cmd)
-> -- 
-> 2.21.0
-> 
+Phil.
 
