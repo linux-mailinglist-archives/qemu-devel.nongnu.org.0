@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05271DF736
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 22:57:58 +0200 (CEST)
-Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B24ECDF739
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 23:01:43 +0200 (CEST)
+Received: from localhost ([::1]:47870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMekX-00032g-2y
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 16:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42215)
+	id 1iMeoA-0005o4-J7
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 17:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iMejQ-0002Q5-Jk
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:56:49 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMemP-0004q9-F9
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iMejP-0004vB-Kr
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:56:48 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:42782)
+ (envelope-from <alistair23@gmail.com>) id 1iMemO-0006jg-83
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 16:59:53 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:36542)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iMejP-0004sZ-D0; Mon, 21 Oct 2019 16:56:47 -0400
-Received: by mail-lf1-x144.google.com with SMTP id z12so11234738lfj.9;
- Mon, 21 Oct 2019 13:56:47 -0700 (PDT)
+ id 1iMemN-0006iv-Us; Mon, 21 Oct 2019 16:59:52 -0400
+Received: by mail-lj1-x244.google.com with SMTP id v24so14851374ljj.3;
+ Mon, 21 Oct 2019 13:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=3Tk342f2DcStfjZLw2ZHCFQBn5YgGbRBBcgwXLtH6i8=;
- b=DGHXapOfedWnXux0qmsHTjTBFeaHjRaU3O3dHuhcArSbFG9/UMoPbtV8fJIZ4vXduw
- Dyx8ecx36HMCkZSDYVxCpS8Y2T54fxRa+B968h1DiWd8ZNdieuq+lTioc8GBBshadQ1I
- y5brwFbqXwh7ZaXYTwBWX6W2mhlCiW22HHBcCQhkXzOPQAhw4LKKi1ASQ86bN6LxRaFd
- 5QP4r1ps0rbaY0FF/QMQV2nDDCRIjLUAZyMML7KyQGprSNWmEisYHxuCO5wW/vDQKY57
- x4tWgvoSmz1T6JZP+mTnGpo18xE4/ISxRwtwyw4TMyrRbih97+PX+6DMbSbPHFWDrCgu
- vjWg==
+ bh=IRfRBhOJ4tK/eyaHwLIDarS0P0zdVadV9K948uMtz8s=;
+ b=Z3LiAsQs+IjfGkUKDDbF1Eh8jAjin6+rbCAjr13gMH1+O4756chEphzWBHW9KhkTtg
+ Vfy4zZyDaC9qftuuzmvNtKt2WE8Em1b8pbfBpqfrLM7dth2Aoe90Q3RRB7zMUP1Ut/Od
+ 1WH7lO5CsnMBEaA6wN6y4VsmP6vpShbUVWx0zPP55QBigdf6Xsgo+wCNSNUfjGxpbaXi
+ TQLnni6KVPzDgcRQQj23rZbgPKUsI7OFOrlngOmPjBYdwoK5jV+/GSAkQIMjuM89n/w4
+ Ei0OlHSptGIj8vdcHSujJryJ8JjnsHUcGw6gQBlSS5Up6POKEeWfAkwemZgCkhFBhSvx
+ +4Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=3Tk342f2DcStfjZLw2ZHCFQBn5YgGbRBBcgwXLtH6i8=;
- b=haCsEmzYGEHEQyXzAugkFd7IpwyOlNFFTMlOk1Bh8UvyKeeCcKNlTxT/0miXBtSYQU
- 1mmWooHEQLPCtCXTKlfn8jIsJ46H4XF1mvHS1/dbK5OsY0V4TpO8+pbFvB46XtzIg14u
- UIzVI7fVBX/4U27MvMNKZhO7lTAwvFPnu6HTp7fcnlkIqXB0y5qpenFYIM8EpWyuYqVo
- mM/W7w/r6E5HE2IYZ0fDd9rbwitcFDV6v14Ks8W5y81+BBpbAWdWqFDNpo2/QOGA4WW5
- rjSJwXrj0JxDZMgmcqBG0uX3pTJnV3RCVZajPIE0ngmdSIxWjpmx8bhCEXC2se3qvxr3
- qvGQ==
-X-Gm-Message-State: APjAAAUxjvRz1kI1z7AnZgsRJzKvhQ8aC85GW6krDWpUzNC0nXzX0dnK
- n0i+rnaBoVnaz3Uos/Z0Xh39HE4mjmA0QfB7ge4=
-X-Google-Smtp-Source: APXvYqyib+1X+c3k+PTUfFsg0S4lQwy6/hSg+Qv416F9OA/Mh4sxeJs+K/f8xzmEsfmGPHHMo2jDfk7uPG7kyRajSWA=
-X-Received: by 2002:a19:f018:: with SMTP id p24mr5613247lfc.93.1571691406146; 
- Mon, 21 Oct 2019 13:56:46 -0700 (PDT)
+ bh=IRfRBhOJ4tK/eyaHwLIDarS0P0zdVadV9K948uMtz8s=;
+ b=MB9m3aaTlgcaWuOeGxrdfnC5xMZHa3JykpRrBXe+TJRtNAHTlGuAGngSp99jicTZQo
+ WqQxvPBcMstDJQKNkOCIDY91XYCTtDRg3fTPHMVsPJ11dRSBlZy2hQwy7Km09+TD114C
+ 4xdsN5343LyxmuO4hdm7jk4B4E5k1r2Iq5d0LUpfm4OepEfOkrlQy8CXd9giA/R1bof4
+ OmhYZNrbtokPLfVvuPSIE/ZAq51kAq93zYFIVgahzPFt2OmBpvK/vzB8yPC+T2w9T1sq
+ tl1qq7f2wWWnFHufNOOzhp6SDWCcnzGuqcu55W/p4zbgqBw7/D3KXN7iWNTtdJDrqzGI
+ oYsQ==
+X-Gm-Message-State: APjAAAVnGdLZNOoqsC5RU9xCZf3gtOesCF9hdHGRLYiUh+GGQlheTRbW
+ Z9USg7NOEIEJkzypLgQKz6fAxPlLtgzHSxhfiB0=
+X-Google-Smtp-Source: APXvYqzCsBN2hgXsSagcEg7xuOuPSWgFcZItyVs84/ugaZX9X+dVHN4bfw1ifOXY6SWgD1xysyceg6Ckd6dmomQzKYI=
+X-Received: by 2002:a2e:894b:: with SMTP id b11mr16221475ljk.152.1571691590645; 
+ Mon, 21 Oct 2019 13:59:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-7-philmd@redhat.com>
-In-Reply-To: <20191020225650.3671-7-philmd@redhat.com>
+References: <20191021190653.9511-1-philmd@redhat.com>
+In-Reply-To: <20191021190653.9511-1-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Oct 2019 13:51:27 -0700
-Message-ID: <CAKmqyKN=RpR=8JB7E7sEUwr=_sJwfhJuimvR9dv9ZqxLCrSLqg@mail.gmail.com>
-Subject: Re: [PATCH 06/21] hw/arm/digic4: Inline digic4_board_setup_ram()
- function
+Date: Mon, 21 Oct 2019 13:54:35 -0700
+Message-ID: <CAKmqyKO7HrqwTkXVadKikT_+2e2BfW2uevQV0UFm0_ZYnZfCLg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] hw/arm: Create the RAM in the board
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,83 +72,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alistair Francis <alistair@alistair23.me>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, "open list:New World" <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 20, 2019 at 4:07 PM Philippe Mathieu-Daud=C3=A9
+On Mon, Oct 21, 2019 at 12:07 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> Having the RAM creation code in a separate function is not
-> very helpful. Move this code directly inside the board_init()
-> function, this will later allow the board to have the QOM
-> ownership of the RAM.
+> Hi Peter,
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> This series contains the ARM patches extracted from the
+> "Let the machine be the owner of the system memory" series [1]
+> reviewed by Richard.
+>
+> These are cleanups moving the creation of the system ram at
+> the board level. The other series will enforce
+> memory_region_allocate_system_memory() get called with a
+> MachineState argument, this preliminary cleanup is required.
+
+For the whole series:
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
-> ---
->  hw/arm/digic_boards.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
 >
-> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-> index 304e4d1a29..ef3fc2b6a5 100644
-> --- a/hw/arm/digic_boards.c
-> +++ b/hw/arm/digic_boards.c
-> @@ -53,12 +53,6 @@ typedef struct DigicBoard {
->      const char *rom1_def_filename;
->  } DigicBoard;
+> Regard,
 >
-> -static void digic4_board_setup_ram(DigicBoardState *s, hwaddr ram_size)
-> -{
-> -    memory_region_allocate_system_memory(&s->ram, NULL, "ram", ram_size)=
-;
-> -    memory_region_add_subregion(get_system_memory(), 0, &s->ram);
-> -}
-> -
->  static void digic4_board_init(DigicBoard *board)
->  {
->      Error *err =3D NULL;
-> @@ -72,7 +66,8 @@ static void digic4_board_init(DigicBoard *board)
->          exit(1);
->      }
+> Phil.
 >
-> -    digic4_board_setup_ram(s, board->ram_size);
-> +    memory_region_allocate_system_memory(&s->ram, NULL, "ram", board->ra=
-m_size);
-> +    memory_region_add_subregion(get_system_memory(), 0, &s->ram);
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg05085.html
 >
->      if (board->add_rom0) {
->          board->add_rom0(s, DIGIC4_ROM0_BASE, board->rom0_def_filename);
+> Philippe Mathieu-Daud=C3=A9 (6):
+>   hw/arm/xilinx_zynq: Use the IEC binary prefix definitions
+>   hw/arm/mps2: Use the IEC binary prefix definitions
+>   hw/arm/collie: Create the RAM in the board
+>   hw/arm/omap2: Create the RAM in the board
+>   hw/arm/omap1: Create the RAM in the board
+>   hw/arm/digic4: Inline digic4_board_setup_ram() function
+>
+>  hw/arm/collie.c       |  8 ++++++--
+>  hw/arm/digic_boards.c |  9 ++-------
+>  hw/arm/mps2-tz.c      |  3 ++-
+>  hw/arm/mps2.c         |  3 ++-
+>  hw/arm/nseries.c      | 10 +++++++---
+>  hw/arm/omap1.c        | 12 +++++-------
+>  hw/arm/omap2.c        | 13 +++++--------
+>  hw/arm/omap_sx1.c     |  8 ++++++--
+>  hw/arm/palm.c         |  8 ++++++--
+>  hw/arm/strongarm.c    |  7 +------
+>  hw/arm/strongarm.h    |  4 +---
+>  hw/arm/xilinx_zynq.c  |  3 ++-
+>  include/hw/arm/omap.h | 10 +++-------
+>  13 files changed, 48 insertions(+), 50 deletions(-)
+>
 > --
 > 2.21.0
 >
