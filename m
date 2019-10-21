@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E444FDE74C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 10:59:54 +0200 (CEST)
-Received: from localhost ([::1]:36066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A353DE756
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:03:24 +0200 (CEST)
+Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMTXd-0003OM-Qm
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 04:59:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
+	id 1iMTb1-0006z0-7I
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iMTVR-0001Kh-AS
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:38 -0400
+ (envelope-from <david@redhat.com>) id 1iMTVK-0001Ae-5g
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iMTVQ-0008HX-6L
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29856
+ (envelope-from <david@redhat.com>) id 1iMTVH-0008De-5e
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55378
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iMTVQ-0008G1-0R
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:36 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iMTVH-0008D4-1b
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 04:57:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571648252;
+ s=mimecast20190719; t=1571648246;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FHlWXoHCnrB0OHhFNh6r59f33Iy5i10scQU1TwDX6JM=;
- b=J/6mbrv9CoNsAzUsLpqzyUhhHKirRK0M2XtfsNK3pItJYq50gGUGddY5y4I6bybrtnVgcG
- p6WzOKUoHQtFvEjxG9iUsoUZLyIi5rJy/+yXm7KDNgM7drrah2BqAEZaaNCpt6bz+MjBr+
- UKAt0Gi5rpR2081wZUr9p3aKS/EgDfI=
+ bh=L6wFx65ZMu/HCNWJsK+5QSfFpB7ABzBFCVZWDSbh/bo=;
+ b=FYBeHPw94vLYVWehyx7Mheq0VrqFynRPMkLxeowXquwflIen56zQspkSNsrMktrqb8R+YQ
+ kTuuBvPcUQeIBt9LLk3S0dW8WUfz+qXE3w6KD7kTwOYqlk3tjss+70Rwynqo1lrKF/SpEY
+ KGB9/lqaJ6OA7j9QBQWnJhhQ7s2eyu4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-xmXgOX7PO56xVTk7WEeFPw-1; Mon, 21 Oct 2019 04:57:28 -0400
+ us-mta-46-AseNvGrXOHezlbmYDtPvYw-1; Mon, 21 Oct 2019 04:57:23 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BF4E1005516;
- Mon, 21 Oct 2019 08:57:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2B4F1800DD0;
+ Mon, 21 Oct 2019 08:57:21 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-198.ams2.redhat.com [10.36.116.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B3A15D6B0;
- Mon, 21 Oct 2019 08:57:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 759875D6B0;
+ Mon, 21 Oct 2019 08:57:20 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/6] s390x/tcg: Fix VECTOR SHIFT RIGHT ARITHMETIC BY BYTE
-Date: Mon, 21 Oct 2019 10:57:12 +0200
-Message-Id: <20191021085715.3797-4-david@redhat.com>
+Subject: [PATCH v2 1/6] s390x/tcg: Fix VECTOR MULTIPLY LOGICAL ODD
+Date: Mon, 21 Oct 2019 10:57:10 +0200
+Message-Id: <20191021085715.3797-2-david@redhat.com>
 In-Reply-To: <20191021085715.3797-1-david@redhat.com>
 References: <20191021085715.3797-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: xmXgOX7PO56xVTk7WEeFPw-1
+X-MC-Unique: AseNvGrXOHezlbmYDtPvYw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,42 +76,37 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We forgot to propagate the highest bit accross the high doubleword in
-two cases (shift >=3D64).
+We have to read from odd offsets.
 
-Fixes: 5f724887e3dd ("s390x/tcg: Implement VECTOR SHIFT RIGHT ARITHMETIC")
+Fixes: 2bf3ee38f1f8 ("s390x/tcg: Implement VECTOR MULTIPLY *")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/vec_int_helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/s390x/vec_int_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.c
-index 1b3aaecbdb..d38405848f 100644
+index 68eaae407b..03ae8631d9 100644
 --- a/target/s390x/vec_int_helper.c
 +++ b/target/s390x/vec_int_helper.c
-@@ -70,15 +70,17 @@ static void s390_vec_sar(S390Vector *d, const S390Vecto=
-r *a, uint64_t count)
-         d->doubleword[0] =3D a->doubleword[0];
-         d->doubleword[1] =3D a->doubleword[1];
-     } else if (count =3D=3D 64) {
-+        tmp =3D (int64_t)a->doubleword[0] >> 63;
-         d->doubleword[1] =3D a->doubleword[0];
--        d->doubleword[0] =3D 0;
-+        d->doubleword[0] =3D tmp;
-     } else if (count < 64) {
-         tmp =3D a->doubleword[1] >> count;
-         d->doubleword[1] =3D deposit64(tmp, 64 - count, count, a->doublewo=
-rd[0]);
-         d->doubleword[0] =3D (int64_t)a->doubleword[0] >> count;
-     } else {
-+        tmp =3D (int64_t)a->doubleword[0] >> 63;
-         d->doubleword[1] =3D (int64_t)a->doubleword[0] >> (count - 64);
--        d->doubleword[0] =3D 0;
-+        d->doubleword[0] =3D tmp;
-     }
- }
-=20
+@@ -488,7 +488,7 @@ void HELPER(gvec_vmlo##BITS)(void *v1, const void *v2, =
+const void *v3,         \
+ {                                                                         =
+     \
+     int i, j;                                                             =
+     \
+                                                                           =
+     \
+-    for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
++    for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
+         const uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);   =
+       \
+         const uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);   =
+       \
+                                                                           =
+     \
 --=20
 2.21.0
 
