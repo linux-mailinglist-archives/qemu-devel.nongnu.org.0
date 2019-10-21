@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D00DF128
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 17:20:27 +0200 (CEST)
-Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FCFDF13C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 17:23:46 +0200 (CEST)
+Received: from localhost ([::1]:44030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMZTu-0000KM-9u
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 11:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56127)
+	id 1iMZX7-0003o9-2c
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 11:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56267)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liq3ea@gmail.com>) id 1iMZSK-00089n-3R
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:18:49 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1iMZTH-0000cD-Un
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:19:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@gmail.com>) id 1iMZSI-0004CZ-Sl
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:18:48 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33463)
+ (envelope-from <liq3ea@gmail.com>) id 1iMZTG-0004OM-H6
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:19:47 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43569)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1iMZSH-0004Ba-0a
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:18:45 -0400
-Received: by mail-ot1-x329.google.com with SMTP id 60so11324356otu.0
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:18:44 -0700 (PDT)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1iMZTG-0004O7-9r
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 11:19:46 -0400
+Received: by mail-ot1-x344.google.com with SMTP id o44so11311430ota.10
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 08:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1x+45LAF6NhcUXFiwpg+YITg80URlofEztTg/h35ZHc=;
- b=lrUyCiY8ecQeKOvK9Z146wY7CcEJ9lSG/SldiZ0WmXluUpt5mDKc6vK0wr5sdkV7yO
- 8Si3MHx1EeDrfzz2TzKnimCvYGHyA1Dc1oay18E3klwoAwLUFBft1yti3frdAQIEVc3w
- CAE0L2THJug1ANkVssSsL3XNyTxbwPScDx6vsabHFC6OGuwQZ6ik8jt/VdGQwLFtVXrS
- ZFKZniDk4yZxcMIZIvUU5oqIQCxCWca+tSDjEGpap0PWcknwBRScRAtX9QlvF6fMthc6
- 5z0SPl9xfM18lCGZKElPZMyJm/ElAihyal7+83Ht0+HKkOBd/254M/rHSUtAz73XPYFb
- 8nLg==
+ :cc; bh=tz6w0C48MWIa2WMtQyrTIW8Jxx5xZ4x8upKdmxdEPCc=;
+ b=DfhIuGJEx+vfA13FAI+Kr0BxOUsjcfZvOgUyPWuZkigj8gPhZEalxZXBA/x+e6emuc
+ rOgs59mC5Ge+/sLvorLtiX0L8qAuVzhoPI9V+20I9MfDKmoPMB1HLBRkOrY5Ewvs0lfF
+ CsMV7W6SfU5her6r6hJc62PsM12uQJvqpJ8SSlwXVBAZ97W2akETwHqxHl2CULSpna5p
+ DWV3IMoG/CNE2QCzY4MlJZ3hoCwCZH5gmcC1BSiCfXKgtJ4JBWZJbJy14mvhXmOQMrJJ
+ v9uY0BB0Lg/xP9qd0HqQ6ppAuveWyTIojQW+YORWGQl29zMQyZrjiyCMocSOaA5nMz/T
+ 0EPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1x+45LAF6NhcUXFiwpg+YITg80URlofEztTg/h35ZHc=;
- b=q9XxLCjPMjmNe4L/PLo+ChOW8GI9ppbkCrCipTnF7EKxyx3VrUJW6YGHK9RlNkQCtZ
- iUXz6IHHABddU2kbUKON4ZkvqSSeQWAvoIy6WDd/nOtLkk0SDxbMh8Mo+tMCdgcAY6eM
- aB/FqlAKrd2r0wqGOY9sYW7qEmhiY7yErv0Rkwb51y5KK9Yk2GU2lxiUwIUXfzxo2UH3
- yEADCGXk4iyGyAp2GZ7aiBdWjpgIoCaA9CVSfosRc3E4Ia/x3rbuLu6v604/n8r5VshG
- h1WOeT0AwACfbmJegdyNTmjdcoc5HDb2RskOPd3xECa4O0AZDlbKO/ZjqLWHTCkwUfj5
- gxEw==
-X-Gm-Message-State: APjAAAXnAC1igyRa+oqmWU6hiQuaeSluzM/ZgbHPQ5WxECKV6WHtrhXx
- ttGtvorzjPw2Osz2oxVd2JIUCRsZVLsb1C8uRv4=
-X-Google-Smtp-Source: APXvYqwY9QIGPCqd7c3usrHMnLqv7GrRFyhQY/vu5ERB5/kp5RYmHsUFmSkXq55rwt4hX/xJoPrI8QVcLsGWSyYrHEc=
-X-Received: by 2002:a9d:6d11:: with SMTP id o17mr18527222otp.333.1571671123476; 
- Mon, 21 Oct 2019 08:18:43 -0700 (PDT)
+ bh=tz6w0C48MWIa2WMtQyrTIW8Jxx5xZ4x8upKdmxdEPCc=;
+ b=RMMDq7P0E1unQ6kFqftdl4ZyRSZ5FefuBg40DG9ZjVbKNm4NMcIiQ0KOHBrE6owK25
+ QShdjn1gYVZueyfXFPgqWSoeNwbXh9Y7j811evANRhCZdbZVizux884UgPKBBrYyK7UA
+ k5b9+7Ar1AaEewzYkMLHanr06L4+VWGeCij3aqrURM2ThmbUVG27PzFql3s6zK4YFjsG
+ ma+i74APIABlsDnbGPsjOcQ3h7kFsqKo1BVB9P4EhwA0WJx2SYnPs0hZ+MkDBGRu/p4E
+ VJX00IDEdPn8AmH6RzrLGuWsUN68ZxZtpSd5k5CUlvXiXe2lHZ1HMUBbU2cRxL5Ilh6D
+ W+kg==
+X-Gm-Message-State: APjAAAVI/1bRT6iWk/kNkEN6dTnQPiiZl8Cj/pSkn6W51AzpC1LcWk+/
+ UjhE2dmB+Ik6gS9i9URQDsPImMBPTB5cmXfcpmycjslkk6I=
+X-Google-Smtp-Source: APXvYqy5B/+fp2AkMQJfPvSCGas9eFYhRWvfZlNsu8RTN1A3+HXPZLn2tBpGzNIYeEMNTibUlnYoA0vhzkxd2+pIJ3k=
+X-Received: by 2002:a9d:3ec:: with SMTP id f99mr17836427otf.353.1571671185421; 
+ Mon, 21 Oct 2019 08:19:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191018134754.16362-1-philmd@redhat.com>
- <20191018134754.16362-5-philmd@redhat.com>
-In-Reply-To: <20191018134754.16362-5-philmd@redhat.com>
+ <20191018134754.16362-6-philmd@redhat.com>
+In-Reply-To: <20191018134754.16362-6-philmd@redhat.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Mon, 21 Oct 2019 23:18:06 +0800
-Message-ID: <CAKXe6S+4eugvZb557znfNxWO1r6QeChQc5QmF55sfTLJ0y8aNA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/20] Revert "irq: introduce qemu_irq_proxy()"
+Date: Mon, 21 Oct 2019 23:19:08 +0800
+Message-ID: <CAKXe6SJOgYN-FeDw8O-e7iBta+OztK4OxJJ73ESmnY+wDB6jAw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/20] piix4: Rename PIIX4 object to piix4-isa
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000004c6d305956d3362"
+Content-Type: multipart/alternative; boundary="000000000000b61af105956d3602"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::329
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,11 +71,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Igor Mammedov <imammedo@redhat.com>,
@@ -86,162 +85,171 @@ Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000004c6d305956d3362
+--000000000000b61af105956d3602
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2019=E5=B9=B410=E6=
-=9C=8818=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:50=E5=86=99=E9=81=
+=9C=8818=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:53=E5=86=99=E9=81=
 =93=EF=BC=9A
 
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
 >
-> This function isn't used anymore.
+> Other piix4 parts are already named piix4-ide and piix4-usb-uhci.
 >
-> This reverts commit 22ec3283efba9ba0792790da786d6776d83f2a92.
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> Message-Id: <20171216090228.28505-15-hpoussin@reactos.org>
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> [PMD: rebased]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
+
 
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 
 > ---
->  hw/core/irq.c    | 14 --------------
->  include/hw/irq.h |  5 -----
->  2 files changed, 19 deletions(-)
+>  hw/isa/piix4.c       | 1 -
+>  hw/mips/mips_malta.c | 2 +-
+>  include/hw/isa/isa.h | 2 ++
+>  3 files changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/core/irq.c b/hw/core/irq.c
-> index 7cc0295d0e..fb3045b912 100644
-> --- a/hw/core/irq.c
-> +++ b/hw/core/irq.c
-> @@ -120,20 +120,6 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2=
-)
->      return qemu_allocate_irq(qemu_splitirq, s, 0);
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 9c37c85ae2..ac9383a658 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -45,7 +45,6 @@ typedef struct PIIX4State {
+>      uint8_t rcr;
+>  } PIIX4State;
+>
+> -#define TYPE_PIIX4_PCI_DEVICE "PIIX4"
+>  #define PIIX4_PCI_DEVICE(obj) \
+>      OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)
+>
+> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+> index 7d25ab6c23..e499b7a6bb 100644
+> --- a/hw/mips/mips_malta.c
+> +++ b/hw/mips/mips_malta.c
+> @@ -1414,7 +1414,7 @@ void mips_malta_init(MachineState *machine)
+>      ide_drive_get(hd, ARRAY_SIZE(hd));
+>
+>      pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> -                                          true, "PIIX4");
+> +                                          true, TYPE_PIIX4_PCI_DEVICE);
+>      dev =3D DEVICE(pci);
+>      isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+>      piix4_devfn =3D pci->devfn;
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 018ada4f6f..79f703fd6c 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -147,4 +147,6 @@ static inline ISABus *isa_bus_from_device(ISADevice *=
+d)
+>      return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
 >  }
 >
-> -static void proxy_irq_handler(void *opaque, int n, int level)
-> -{
-> -    qemu_irq **target =3D opaque;
-> -
-> -    if (*target) {
-> -        qemu_set_irq((*target)[n], level);
-> -    }
-> -}
-> -
-> -qemu_irq *qemu_irq_proxy(qemu_irq **target, int n)
-> -{
-> -    return qemu_allocate_irqs(proxy_irq_handler, target, n);
-> -}
-> -
->  void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler,
-> int n)
->  {
->      int i;
-> diff --git a/include/hw/irq.h b/include/hw/irq.h
-> index fe527f6f51..24ba0ece11 100644
-> --- a/include/hw/irq.h
-> +++ b/include/hw/irq.h
-> @@ -51,11 +51,6 @@ qemu_irq qemu_irq_invert(qemu_irq irq);
->   */
->  qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
->
-> -/* Returns a new IRQ set which connects 1:1 to another IRQ set, which
-> - * may be set later.
-> - */
-> -qemu_irq *qemu_irq_proxy(qemu_irq **target, int n);
-> -
->  /* For internal use in qtest.  Similar to qemu_irq_split, but operating
->     on an existing vector of qemu_irq.  */
->  void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler,
-> int n);
+> +#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> +
+>  #endif
 > --
 > 2.21.0
 >
 >
 >
 
---00000000000004c6d305956d3362
+--000000000000b61af105956d3602
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
 <div dir=3D"ltr" class=3D"gmail_attr">Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
 ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; =E4=BA=8E2019=E5=
-=B9=B410=E6=9C=8818=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:50=E5=86=
+=B9=B410=E6=9C=8818=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:53=E5=86=
 =99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"m=
 argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.o=
-rg" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+:1ex">From: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:hpoussin@reactos.or=
+g" target=3D"_blank">hpoussin@reactos.org</a>&gt;<br>
 <br>
-This function isn&#39;t used anymore.<br>
+Other piix4 parts are already named piix4-ide and piix4-usb-uhci.<br>
 <br>
-This reverts commit 22ec3283efba9ba0792790da786d6776d83f2a92.<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+Acked-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" target=
+=3D"_blank">mst@redhat.com</a>&gt;<br>
+Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=
+=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+Signed-off-by: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:hpoussin@reactos=
+.org" target=3D"_blank">hpoussin@reactos.org</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20171216090228.28505-15-hpoussin@reactos.=
+org" target=3D"_blank">20171216090228.28505-15-hpoussin@reactos.org</a>&gt;=
 <br>
-Reviewed-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"=
-_blank">thuth@redhat.com</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br></blockquote><div><br><=
-/div><div>Reviewed-by: Li Qiang &lt;<a href=3D"mailto:liq3ea@gmail.com">liq=
-3ea@gmail.com</a>&gt;<br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
+Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.c=
+om" target=3D"_blank">amarkovic@wavecomp.com</a>&gt;<br>
+[PMD: rebased]<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br></blockquote><div><=
+br></div><div><br></div><div>Reviewed-by: Li Qiang &lt;<a href=3D"mailto:li=
+q3ea@gmail.com">liq3ea@gmail.com</a>&gt;<br></div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0hw/core/irq.c=C2=A0 =C2=A0 | 14 --------------<br>
-=C2=A0include/hw/irq.h |=C2=A0 5 -----<br>
-=C2=A02 files changed, 19 deletions(-)<br>
+=C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
+=C2=A0hw/mips/mips_malta.c | 2 +-<br>
+=C2=A0include/hw/isa/isa.h | 2 ++<br>
+=C2=A03 files changed, 3 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/hw/core/irq.c b/hw/core/irq.c<br>
-index 7cc0295d0e..fb3045b912 100644<br>
---- a/hw/core/irq.c<br>
-+++ b/hw/core/irq.c<br>
-@@ -120,20 +120,6 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2)<=
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c<br>
+index 9c37c85ae2..ac9383a658 100644<br>
+--- a/hw/isa/piix4.c<br>
++++ b/hw/isa/piix4.c<br>
+@@ -45,7 +45,6 @@ typedef struct PIIX4State {<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t rcr;<br>
+=C2=A0} PIIX4State;<br>
+<br>
+-#define TYPE_PIIX4_PCI_DEVICE &quot;PIIX4&quot;<br>
+=C2=A0#define PIIX4_PCI_DEVICE(obj) \<br>
+=C2=A0 =C2=A0 =C2=A0OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)<=
 br>
-=C2=A0 =C2=A0 =C2=A0return qemu_allocate_irq(qemu_splitirq, s, 0);<br>
+<br>
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
+index 7d25ab6c23..e499b7a6bb 100644<br>
+--- a/hw/mips/mips_malta.c<br>
++++ b/hw/mips/mips_malta.c<br>
+@@ -1414,7 +1414,7 @@ void mips_malta_init(MachineState *machine)<br>
+=C2=A0 =C2=A0 =C2=A0ide_drive_get(hd, ARRAY_SIZE(hd));<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0pci =3D pci_create_simple_multifunction(pci_bus, PCI_DE=
+VFN(10, 0),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
+rue, &quot;PIIX4&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
+rue, TYPE_PIIX4_PCI_DEVICE);<br>
+=C2=A0 =C2=A0 =C2=A0dev =3D DEVICE(pci);<br>
+=C2=A0 =C2=A0 =C2=A0isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, &quot;isa.0=
+&quot;));<br>
+=C2=A0 =C2=A0 =C2=A0piix4_devfn =3D pci-&gt;devfn;<br>
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h<br>
+index 018ada4f6f..79f703fd6c 100644<br>
+--- a/include/hw/isa/isa.h<br>
++++ b/include/hw/isa/isa.h<br>
+@@ -147,4 +147,6 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)=
+<br>
+=C2=A0 =C2=A0 =C2=A0return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));<br>
 =C2=A0}<br>
 <br>
--static void proxy_irq_handler(void *opaque, int n, int level)<br>
--{<br>
--=C2=A0 =C2=A0 qemu_irq **target =3D opaque;<br>
--<br>
--=C2=A0 =C2=A0 if (*target) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_set_irq((*target)[n], level);<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--qemu_irq *qemu_irq_proxy(qemu_irq **target, int n)<br>
--{<br>
--=C2=A0 =C2=A0 return qemu_allocate_irqs(proxy_irq_handler, target, n);<br>
--}<br>
--<br>
-=C2=A0void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handle=
-r, int n)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int i;<br>
-diff --git a/include/hw/irq.h b/include/hw/irq.h<br>
-index fe527f6f51..24ba0ece11 100644<br>
---- a/include/hw/irq.h<br>
-+++ b/include/hw/irq.h<br>
-@@ -51,11 +51,6 @@ qemu_irq qemu_irq_invert(qemu_irq irq);<br>
-=C2=A0 */<br>
-=C2=A0qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);<br>
-<br>
--/* Returns a new IRQ set which connects 1:1 to another IRQ set, which<br>
-- * may be set later.<br>
-- */<br>
--qemu_irq *qemu_irq_proxy(qemu_irq **target, int n);<br>
--<br>
-=C2=A0/* For internal use in qtest.=C2=A0 Similar to qemu_irq_split, but op=
-erating<br>
-=C2=A0 =C2=A0 on an existing vector of qemu_irq.=C2=A0 */<br>
-=C2=A0void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handle=
-r, int n);<br>
++#define TYPE_PIIX4_PCI_DEVICE &quot;piix4-isa&quot;<br>
++<br>
+=C2=A0#endif<br>
 -- <br>
 2.21.0<br>
 <br>
 <br>
 </blockquote></div></div>
 
---00000000000004c6d305956d3362--
+--000000000000b61af105956d3602--
 
