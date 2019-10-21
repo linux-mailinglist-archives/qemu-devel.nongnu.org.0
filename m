@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0103DEA28
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 12:56:26 +0200 (CEST)
-Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1C1DEA2B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 12:56:39 +0200 (CEST)
+Received: from localhost ([::1]:37708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMVMO-0006Cs-Lj
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 06:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45704)
+	id 1iMVMb-0006WW-Jd
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 06:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45705)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMVKI-0004CW-45
+ (envelope-from <thuth@redhat.com>) id 1iMVKI-0004CX-4M
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:54:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMVKG-0001i2-TE
+ (envelope-from <thuth@redhat.com>) id 1iMVKH-0001iC-0S
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:54:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33797
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20024
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMVKG-0001hq-Pl
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMVKG-0001hu-T3
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 06:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1571655252;
@@ -27,38 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F6xpS5jn3FPueHeHNbHmw7PW4u/jvYS3g/pddsd2v1A=;
- b=OZOOvPPvfY2MCg64lP9J9u860Au97C4wWvTSpxkQb0uLDdGO27ONCNG/ohHVxcBou3cr+G
- 3v58crLSw5o5vN2yK7C98YRtlppzcesG3T9wTwLg+QLnFwDwOJ6BDBz7HZ4AxY0I/i86ow
- 0UcIf2zSklPuZDw4+gRGU2PvPG6K60k=
+ bh=U7fE3CimUtLQu2tN3FQVw3n9zYsYUqqPEGbjy3LxWxA=;
+ b=arMCC35MslvvjXdhMpxJT9Rov1uwkjKBHEsDN504vx/NdWsZUSBbfRWYkI9OXApoM+k7/l
+ vN9QEiZ2HsfFa0aClracKZwBXyL4c/shzSlYrRadvb9wrgcbuCdULBYjpWxdwCSfxLikyK
+ u1dY/HjacN1KkcLo7zvLL5WVEWGpMgQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-4rzQJ8NGPWuxSxYyjnLsuQ-1; Mon, 21 Oct 2019 06:54:08 -0400
+ us-mta-29-EdhVZ12nNDKt55oaSxN3pA-1; Mon, 21 Oct 2019 06:54:09 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FC1A100551E;
- Mon, 21 Oct 2019 10:54:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC3D15ED;
+ Mon, 21 Oct 2019 10:54:08 +0000 (UTC)
 Received: from thuth.com (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 454CD60BE2;
- Mon, 21 Oct 2019 10:54:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CAAD60BE2;
+ Mon, 21 Oct 2019 10:54:07 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Max Reitz <mreitz@redhat.com>,
 	qemu-block@nongnu.org
-Subject: [PATCH v2 2/6] iotests: Test 041 only works on certain systems
-Date: Mon, 21 Oct 2019 12:53:46 +0200
-Message-Id: <20191021105350.1710-3-thuth@redhat.com>
+Subject: [PATCH v2 3/6] iotests: Test 183 does not work on macOS and OpenBSD
+Date: Mon, 21 Oct 2019 12:53:47 +0200
+Message-Id: <20191021105350.1710-4-thuth@redhat.com>
 In-Reply-To: <20191021105350.1710-1-thuth@redhat.com>
 References: <20191021105350.1710-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 4rzQJ8NGPWuxSxYyjnLsuQ-1
+X-MC-Unique: EdhVZ12nNDKt55oaSxN3pA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,27 +75,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-041 works fine on Linux, FreeBSD, NetBSD and OpenBSD, but fails on macOS.
-Let's mark it as only supported on the systems where we know that it is
-working fine.
+When running 183 in Cirrus-CI on macOS, or with our vm-build-openbsd
+target, it fails with an "Timeout waiting for return on handle 0" error.
+
+Let's mark it as supported only on systems where the test is working
+fine (i.e. Linux, FreeBSD and NetBSD).
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/041 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/183 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 8568426311..0326888c98 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -1123,4 +1123,5 @@ class TestOrphanedSource(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
+index bced83fae0..0bbae13647 100755
+--- a/tests/qemu-iotests/183
++++ b/tests/qemu-iotests/183
+@@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ . ./common.qemu
 =20
- if __name__ =3D=3D '__main__':
-     iotests.main(supported_fmts=3D['qcow2', 'qed'],
--                 supported_protocols=3D['file'])
-+                 supported_protocols=3D['file'],
-+                 supported_platforms=3D['linux', 'freebsd', 'netbsd', 'ope=
-nbsd'])
++_supported_os Linux FreeBSD NetBSD
+ _supported_fmt qcow2 raw qed quorum
+ _supported_proto file
+=20
 --=20
 2.18.1
 
