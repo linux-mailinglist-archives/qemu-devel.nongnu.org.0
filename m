@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39F2DEE45
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:47:39 +0200 (CEST)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3CEDEE55
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 15:49:59 +0200 (CEST)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMY26-0002Cv-AZ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41789)
+	id 1iMY4K-0004ot-U9
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 09:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iMXzz-0000ja-4E
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:45:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iMY1j-0002jn-Ow
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:47:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iMXzw-0001LK-Dj
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:45:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50833
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMXzw-0001Kw-0H
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:45:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571665523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ug8g62nReSvIQMnl14FTKbex6Ap0tT5L15GGpHCMUmY=;
- b=h0NmcOGuzUITEgJVKcx9ChenLj036HQdHOEYRNuEPbkIB8vcBVXhwEYN7ku12gSeNJd13a
- FOagz7vfHnnBhxH2KAFARc0e3AkRkO2KJ+t9hLiZ16EQ6a8qXTIqSAmlZWALikGDigMmUL
- JMt8hGCVmoMH0qKd/OqD83+lXFHqC9U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-Q1unRYUGNXuMaEBkMom0bg-1; Mon, 21 Oct 2019 09:45:19 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB42476;
- Mon, 21 Oct 2019 13:45:19 +0000 (UTC)
-Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF3B66012A;
- Mon, 21 Oct 2019 13:45:06 +0000 (UTC)
-Date: Mon, 21 Oct 2019 15:45:04 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH 11/11] vfio: unplug failover primary device before
- migration
-Message-ID: <20191021154504.0fbebf39.cohuck@redhat.com>
-In-Reply-To: <20191018202040.30349-12-jfreimann@redhat.com>
-References: <20191018202040.30349-1-jfreimann@redhat.com>
- <20191018202040.30349-12-jfreimann@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <alex.bennee@linaro.org>) id 1iMY1i-000281-II
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:47:15 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35376)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iMY1i-00027W-BX
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 09:47:14 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 14so6223187wmu.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 06:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Btc3sos3iY3Gks2aBAC+2g9Mg/KU69zi9wiSZYCLEwU=;
+ b=aiKh7KB13kdPbxOWwA6ZPS9FwU316rJ6tEOD0xcC0j/GsDMExE77TkyHUoM/TOVL/h
+ PYzYSIDmlJ8ot5McMrrpJcMHeK3foaWlECWH3rB1FPCqsU+n5JAGgkQIXf5i9EsG9GlC
+ UP6Zt7PiKzmDsYFKprU2tlYAG6JR+Xz/ENHxKPNJuRB43ANzB8vP0fm0FJnGI/C246Qp
+ mhq34ImCyH/Z0xJ5zAFNSSRJQKy1x5365JJJ1W8DMSy924Ss301f/E7lKZkZ0y1XkoC2
+ 3bdxx4ldSbdb404jVVgnRK1MtkeTjTkGCAVkwKfbGDG6eLBqtuZ83AbEtSczTdi6U8mc
+ IHCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Btc3sos3iY3Gks2aBAC+2g9Mg/KU69zi9wiSZYCLEwU=;
+ b=bRC0rzNBvqF9Ki9HU1FbDoe917PZsj20bmxcSVWC8amtD2grVLinClcTBXqWetd4iE
+ ZF/dhOK5VzBL4Z+e4LGeNOIimi6DDqkNnuc40FwEOO7jOLFY2/q3M/zm/Ltup6YrhF1Q
+ XMWYzUV2xbXJJTavrzIcxypG1DnWWaMh1q9P4CySmi8w4f2xc0YLGo8kktFN6qFaspaI
+ IW1FgSAjpE1loVMo47VxDO3mV/0WL3dqtaRHxnDx4AUCTiq538lFU6O+3b4HtCsyRwtE
+ c0MnXHprGpUEa9FV+hYEdCFxV3skIUgmRsFTWRb/b5GHCF3XQs0pqf/JWqo5hDKZL1/8
+ C5rQ==
+X-Gm-Message-State: APjAAAUrmAK5LzNhDTMazyDqoTCcGLLBBh3GemqzmBhbg3PDHNeTwIoG
+ 7zNm9jfTwP+co8d1zW9DqOhKrw==
+X-Google-Smtp-Source: APXvYqz+/mXRUpMaYU389E06LpVY7p5ifINs3N4pBcP3XaY5b2+YNrsp+zdadzOYLxvOPAfcEHGGCg==
+X-Received: by 2002:a1c:4c02:: with SMTP id z2mr5583663wmf.78.1571665632773;
+ Mon, 21 Oct 2019 06:47:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x2sm14385913wrn.81.2019.10.21.06.47.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Oct 2019 06:47:12 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9070D1FF87;
+ Mon, 21 Oct 2019 14:47:11 +0100 (BST)
+References: <20191018181705.17957-1-ehabkost@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v5 0/3] tests/vm: netbsd autoinstall, with IPv6 disabled
+In-reply-to: <20191018181705.17957-1-ehabkost@redhat.com>
+Date: Mon, 21 Oct 2019 14:47:11 +0100
+Message-ID: <87r236w6qo.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Q1unRYUGNXuMaEBkMom0bg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,116 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
- parav@mellanox.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 22:20:40 +0200
-Jens Freimann <jfreimann@redhat.com> wrote:
 
-> As usual block all vfio-pci devices from being migrated, but make an
-> exception for failover primary devices. This is achieved by setting
-> unmigratable to 0 but also add a migration blocker for all vfio-pci
-> devices except failover primary devices. These will be unplugged before
-> migration happens by the migration handler of the corresponding
-> virtio-net standby device.
->=20
-> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> ---
->  hw/vfio/pci.c | 31 +++++++++++++++++++++++++------
->  hw/vfio/pci.h |  1 +
->  2 files changed, 26 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 12fac39804..a15b83c6b6 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -40,6 +40,9 @@
->  #include "pci.h"
->  #include "trace.h"
->  #include "qapi/error.h"
-> +#include "migration/blocker.h"
-> +#include "qemu/option.h"
-> +#include "qemu/option_int.h"
-> =20
->  #define TYPE_VFIO_PCI "vfio-pci"
->  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
-> @@ -2712,12 +2715,26 @@ static void vfio_realize(PCIDevice *pdev, Error *=
-*errp)
->      int i, ret;
->      bool is_mdev;
-> =20
-> +    if (!pdev->net_failover_pair_id) {
-> +        error_setg(&vdev->migration_blocker,
-> +                "VFIO device doesn't support migration");
-> +        ret =3D migrate_add_blocker(vdev->migration_blocker, &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            goto error;
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-This looks wrong, you haven't set up vbasedev.name yet.
+> I'm numbering this series v5 because it's a new version of the
+> patch sent by Gerd, at:
+>
+>   Date: Mon, 17 Jun 2019 06:38:56 +0200
+>   Message-Id: <20190617043858.8290-10-kraxel@redhat.com>
+>   Subject: [PATCH v4 09/11] tests/vm: netbsd autoinstall, using serial
+>   console
 
-> +        }
-> +    } else {
-> +            pdev->qdev.allow_unplug_during_migration =3D true;
-> +    }
-> +
->      if (!vdev->vbasedev.sysfsdev) {
->          if (!(~vdev->host.domain || ~vdev->host.bus ||
->                ~vdev->host.slot || ~vdev->host.function)) {
->              error_setg(errp, "No provided host device");
->              error_append_hint(errp, "Use -device vfio-pci,host=3DDDDD:BB=
-:DD.F "
->                                "or -device vfio-pci,sysfsdev=3DPATH_TO_DE=
-VICE\n");
-> +            migrate_del_blocker(vdev->migration_blocker);
-> +            error_free(vdev->migration_blocker);
->              return;
->          }
->          vdev->vbasedev.sysfsdev =3D
-> @@ -2729,6 +2746,8 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
-rrp)
->      if (stat(vdev->vbasedev.sysfsdev, &st) < 0) {
->          error_setg_errno(errp, errno, "no such host device");
->          error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.sysfsdev);
-> +        migrate_del_blocker(vdev->migration_blocker);
-> +        error_free(vdev->migration_blocker);
->          return;
->      }
+Queued to testing/next, thanks. I've made the changes Thomas suggested
+in his review.
 
-Might be a bit easier cleanup-wise if you set up the blocker resp.
-allow unplug during migration only here. The only difference is that
-you'll get a different error message when trying to set up a
-non-failover device with invalid specs on a migratable-only setup.
+>
+> Changes v4 -> v5:
+> * Rebase to latest qemu.git master
+> * Disable IPv6 by default (see
+>   https://lore.kernel.org/qemu-devel/20191017225548.GL4084@habkost.net/ f=
+or context)
+>
+> Eduardo Habkost (2):
+>   tests/vm: Let subclasses disable IPv6
+>   tests/vm/netbsd: Disable IPv6
+>
+> Gerd Hoffmann (1):
+>   tests/vm: netbsd autoinstall, using serial console
+>
+>  tests/vm/basevm.py |   5 +-
+>  tests/vm/netbsd    | 196 ++++++++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 190 insertions(+), 11 deletions(-)
 
-> =20
-> @@ -3008,6 +3027,8 @@ out_teardown:
->      vfio_bars_exit(vdev);
->  error:
->      error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-> +    migrate_del_blocker(vdev->migration_blocker);
-> +    error_free(vdev->migration_blocker);
 
-Shouldn't you check whether migration_block has been set up, like in
-the finalize routine?
-
->  }
-> =20
->  static void vfio_instance_finalize(Object *obj)
-> @@ -3019,6 +3040,10 @@ static void vfio_instance_finalize(Object *obj)
->      vfio_bars_finalize(vdev);
->      g_free(vdev->emulated_config_bits);
->      g_free(vdev->rom);
-> +    if (vdev->migration_blocker) {
-> +        migrate_del_blocker(vdev->migration_blocker);
-> +        error_free(vdev->migration_blocker);
-> +    }
->      /*
->       * XXX Leaking igd_opregion is not an oversight, we can't remove the
->       * fw_cfg entry therefore leaking this allocation seems like the saf=
-est
-
+--
+Alex Benn=C3=A9e
 
