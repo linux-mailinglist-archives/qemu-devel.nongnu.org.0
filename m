@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D47DEA93
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:15:09 +0200 (CEST)
-Received: from localhost ([::1]:38022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D359ADEAAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:19:34 +0200 (CEST)
+Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMVeV-0001dt-SP
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
+	id 1iMVin-0005da-Gb
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iMVQM-000430-Bx
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:32 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iMVQO-00043h-Bw
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iMVQK-0004D3-8F
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:29 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49328
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iMVQM-0004Dt-B9
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37218
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVQK-0004Co-44
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:28 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVQK-0004D9-Q6
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571655627;
+ s=mimecast20190719; t=1571655628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/JeyNqJz1T3jslm/wRaA8pLx0pAbL93w6GM3l07eVjA=;
- b=jDr96bBfb7lN9HwZSHPqWAhoOrXBre9o84NEoKJltQ7JHehF9SDZRNWVgbSSAyxJyTvWle
- K54vbUYH/UQdSaDUFhPCZgbSx3459MMZtWowbPQ4RcO2Ef1/EL8HEGbcjiINdX0IK5Ls1h
- PtCc2ptME6lS2vtMEf/UMgRfXbuPzE8=
+ bh=l8sWYoGbM/90OW7pEFp/PPRmvLrwPftVzn5Qzb5CJlY=;
+ b=BNMC+cbJTLGJb0Dn1jDRWqjKxmbvcS0umjBakF/SOjkxDFcjDFxrW8VCGlSRoZ8j8Zy4Db
+ rZ6uTZcODMiVvTtLmOES+UsDnJzBTBN6N68WlprXgVaWncOrOAmtJL8ixlYXOoDCRr/7B1
+ YYOWv98j4zXwTniIDXahn7GuUXumT7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-yyzO4YViNb2X8zEmdNbndQ-1; Mon, 21 Oct 2019 07:00:23 -0400
+ us-mta-217-ynjZvNBYN9a0099EEN-Mzw-1; Mon, 21 Oct 2019 07:00:25 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA4E4800D41;
- Mon, 21 Oct 2019 11:00:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7C2A8017D9;
+ Mon, 21 Oct 2019 11:00:24 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
  [10.36.117.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 420606060D;
- Mon, 21 Oct 2019 11:00:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 204596060D;
+ Mon, 21 Oct 2019 11:00:22 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com
-Subject: [PATCH 19/30] virtiofsd: Start queue threads
-Date: Mon, 21 Oct 2019 11:58:21 +0100
-Message-Id: <20191021105832.36574-20-dgilbert@redhat.com>
+Subject: [PATCH 20/30] virtiofsd: Poll kick_fd for queue
+Date: Mon, 21 Oct 2019 11:58:22 +0100
+Message-Id: <20191021105832.36574-21-dgilbert@redhat.com>
 In-Reply-To: <20191021105832.36574-1-dgilbert@redhat.com>
 References: <20191021105832.36574-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: yyzO4YViNb2X8zEmdNbndQ-1
+X-MC-Unique: ynjZvNBYN9a0099EEN-Mzw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,152 +78,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Start a thread for each queue when we get notified it's been started.
+In the queue thread poll the kick_fd we're passed.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-fix by:
-Signed-off-by: Jun Piao <piaojun@huawei.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- contrib/virtiofsd/fuse_virtio.c | 89 +++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+ contrib/virtiofsd/fuse_virtio.c | 40 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
 diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virti=
 o.c
-index ee9b3af3a4..66b8421899 100644
+index 66b8421899..0513531c13 100644
 --- a/contrib/virtiofsd/fuse_virtio.c
 +++ b/contrib/virtiofsd/fuse_virtio.c
-@@ -11,6 +11,7 @@
-  * See the file COPYING.LIB
-  */
-=20
-+#include "qemu/osdep.h"
- #include "fuse_virtio.h"
- #include "fuse_i.h"
- #include "fuse_kernel.h"
-@@ -30,6 +31,15 @@
-=20
- #include "contrib/libvhost-user/libvhost-user.h"
-=20
-+struct fv_QueueInfo {
-+    pthread_t thread;
-+    struct fv_VuDev *virtio_dev;
-+
-+    /* Our queue index, corresponds to array position */
-+    int qidx;
-+    int kick_fd;
-+};
-+
- /*
-  * We pass the dev element into libvhost-user
-  * and then use it to get back to the outer
-@@ -38,6 +48,13 @@
- struct fv_VuDev {
-     VuDev dev;
-     struct fuse_session *se;
-+
-+    /*
-+     * The following pair of fields are only accessed in the main
-+     * virtio_loop
-+     */
-+    size_t nqueues;
-+    struct fv_QueueInfo **qi;
- };
-=20
- /* From spec */
-@@ -83,6 +100,75 @@ static void fv_panic(VuDev *dev, const char *err)
+@@ -24,6 +24,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <sys/eventfd.h>
+ #include <sys/socket.h>
+ #include <sys/types.h>
+ #include <sys/un.h>
+@@ -100,13 +101,50 @@ static void fv_panic(VuDev *dev, const char *err)
      exit(EXIT_FAILURE);
  }
 =20
-+static void *fv_queue_thread(void *opaque)
-+{
-+    struct fv_QueueInfo *qi =3D opaque;
-+    fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func_=
-_,
-+             qi->qidx, qi->kick_fd);
-+    while (1) {
-+        /* TODO */
-+    }
-+
-+    return NULL;
-+}
-+
-+/* Callback from libvhost-user on start or stop of a queue */
-+static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-+{
-+    struct fv_VuDev *vud =3D container_of(dev, struct fv_VuDev, dev);
-+    struct fv_QueueInfo *ourqi;
-+
-+    fuse_log(FUSE_LOG_INFO, "%s: qidx=3D%d started=3D%d\n", __func__, qidx=
-,
-+             started);
-+    assert(qidx >=3D 0);
-+
-+    /*
-+     * Ignore additional request queues for now.  passthrough_ll.c must be
-+     * audited for thread-safety issues first.  It was written with a
-+     * well-behaved client in mind and may not protect against all types o=
-f
-+     * races yet.
-+     */
-+    if (qidx > 1) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "%s: multiple request queues not yet implemented, please =
-only "
-+                 "configure 1 request queue\n",
-+                 __func__);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    if (started) {
-+        /* Fire up a thread to watch this queue */
-+        if (qidx >=3D vud->nqueues) {
-+            vud->qi =3D realloc(vud->qi, (qidx + 1) * sizeof(vud->qi[0]));
-+            assert(vud->qi);
-+            memset(vud->qi + vud->nqueues, 0,
-+                   sizeof(vud->qi[0]) * (1 + (qidx - vud->nqueues)));
-+            vud->nqueues =3D qidx + 1;
-+        }
-+        if (!vud->qi[qidx]) {
-+            vud->qi[qidx] =3D calloc(sizeof(struct fv_QueueInfo), 1);
-+            assert(vud->qi[qidx]);
-+            vud->qi[qidx]->virtio_dev =3D vud;
-+            vud->qi[qidx]->qidx =3D qidx;
-+        } else {
-+            /* Shouldn't have been started */
-+            assert(vud->qi[qidx]->kick_fd =3D=3D -1);
-+        }
-+        ourqi =3D vud->qi[qidx];
-+        ourqi->kick_fd =3D dev->vq[qidx].kick_fd;
-+        if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) =
-{
-+            fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue =
-%d\n",
-+                     __func__, qidx);
-+            assert(0);
-+        }
-+    } else {
-+        /* TODO: Kill the thread */
-+        assert(qidx < vud->nqueues);
-+        ourqi =3D vud->qi[qidx];
-+        ourqi->kick_fd =3D -1;
-+    }
-+}
-+
- static bool fv_queue_order(VuDev *dev, int qidx)
++/* Thread function for individual queues, created when a queue is 'started=
+' */
+ static void *fv_queue_thread(void *opaque)
  {
-     return false;
-@@ -92,6 +178,9 @@ static const VuDevIface fv_iface =3D {
-     .get_features =3D fv_get_features,
-     .set_features =3D fv_set_features,
-=20
-+    /* Don't need process message, we've not got any at vhost-user level *=
-/
-+    .queue_set_started =3D fv_queue_set_started,
+     struct fv_QueueInfo *qi =3D opaque;
+     fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func_=
+_,
+              qi->qidx, qi->kick_fd);
+     while (1) {
+-        /* TODO */
++        struct pollfd pf[1];
++        pf[0].fd =3D qi->kick_fd;
++        pf[0].events =3D POLLIN;
++        pf[0].revents =3D 0;
 +
-     .queue_is_processed_in_order =3D fv_queue_order,
- };
++        fuse_log(FUSE_LOG_DEBUG, "%s: Waiting for Queue %d event\n", __fun=
+c__,
++                 qi->qidx);
++        int poll_res =3D ppoll(pf, 1, NULL, NULL);
++
++        if (poll_res =3D=3D -1) {
++            if (errno =3D=3D EINTR) {
++                fuse_log(FUSE_LOG_INFO, "%s: ppoll interrupted, going arou=
+nd\n",
++                         __func__);
++                continue;
++            }
++            fuse_log(FUSE_LOG_ERR, "fv_queue_thread ppoll: %m\n");
++            break;
++        }
++        assert(poll_res =3D=3D 1);
++        if (pf[0].revents & (POLLERR | POLLHUP | POLLNVAL)) {
++            fuse_log(FUSE_LOG_ERR, "%s: Unexpected poll revents %x Queue %=
+d\n",
++                     __func__, pf[0].revents, qi->qidx);
++            break;
++        }
++        assert(pf[0].revents & POLLIN);
++        fuse_log(FUSE_LOG_DEBUG, "%s: Got queue event on Queue %d\n", __fu=
+nc__,
++                 qi->qidx);
++
++        eventfd_t evalue;
++        if (eventfd_read(qi->kick_fd, &evalue)) {
++            fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
++            break;
++        }
++        if (qi->virtio_dev->se->debug) {
++            fprintf(stderr, "%s: Queue %d gave evalue: %zx\n", __func__,
++                    qi->qidx, (size_t)evalue);
++        }
+     }
 =20
+     return NULL;
 --=20
 2.23.0
 
