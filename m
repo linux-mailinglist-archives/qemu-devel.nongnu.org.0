@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28DC2DF452
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 19:33:52 +0200 (CEST)
-Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AECEDF45D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 19:37:06 +0200 (CEST)
+Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMbZ0-0001Yr-Pw
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 13:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
+	id 1iMbc9-0005ex-Ab
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 13:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iMbV8-0007PB-DT
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:29:51 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iMbW8-0008VO-LA
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:30:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iMbV7-0005z2-Cr
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:29:50 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41526)
+ (envelope-from <richard.henderson@linaro.org>) id 1iMbW5-0006Oj-Aw
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:30:52 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42550)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iMbV7-0005yi-6o
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:29:49 -0400
-Received: by mail-pf1-x443.google.com with SMTP id q7so8838381pfh.8
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 10:29:49 -0700 (PDT)
+ id 1iMbW5-0006O1-5J
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:30:49 -0400
+Received: by mail-pg1-x544.google.com with SMTP id f14so8201120pgi.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 10:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/qjmukRbIdBeULuc9m/f9EngualQxpIppRKf4jn8Q0w=;
- b=WicBxLA7ZnJcQFfkcJ6b3JMjFitDtkDLID5YtBHul5o7+CB0Un2KS1/vbLZ77GiZk5
- w5zsLmtqE56KOBA7BZoe9NC/IzBtCkEQbW9rVo7lkKhx4yLDtiTej5WAfQfEJgeqN+ND
- tHhAsM+FI+HXFZej5jaIhu7dajU+boqx0xYIq6Ra5gSMacrhCHb3cBzxqc237QCx682W
- TOde8nFp9qstdc9bqeRO/N1iP9qrHJ27VNJd8/eWQxmmF1PKHMJkdEjw7KYKNA0sbVAo
- 60xC/FP6FKIKo+yd8K7Mmbn6AugDWgWX+arOJySw/KJLLgTXk2K2BhtpJ7wF8ixjWcJf
- fjRQ==
+ bh=iWFNgivYLuuN+/YyhYyGxqv53+ldRK3tdcD/5ti+nwU=;
+ b=v4HENVO6DnPDLHvtOZdmOPDcllhmBzqj0Kgvw88k4J7251GWn5JKWpxAe7gL5sWUmn
+ 1CVL98J7x31Adk5MYM1cg9RuPDMnQ+0+HfC1E2zHvjRMkyDGw3yKMNdZGtfs5KBvAu2S
+ DcV1OM6W6GMJPi9nfiMQl14YXv+v0iDFlKlYQ7Wfklu/boTHxlsBGNrQ5I7HNBm0cBg0
+ jMlOregu5npBz8tEaPbY6wzyt1la2VZTPTiNLvDD2rKE6PAV3vs/PvW1GnIt37H4KB79
+ Dv24EZDkuA2CH8Xk4gQCL9lg93OqtYebD0wlMToJIbCsSnEZkq7JVar6GsM5gb8d8Sa/
+ fYNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/qjmukRbIdBeULuc9m/f9EngualQxpIppRKf4jn8Q0w=;
- b=Ohh7oOWCimU80pT084kBuZIeT/CEQOt06+oz6FDyHkFD4WJTKoSzic/7xoVSNZ9ZkC
- hPoU+CP7Dp6uU5HK1qWika+FdahHh2U49nPHSLghQKWqi71Vq704U/saLG+5QComRSt6
- jiGktGgfpDQKUpvkelpT/sWwngJ2lSgzuYBq5FD+px69nwlXgBELTDFmZbBve4zUK3Yz
- azlc223CA/QkpLO5vRgen7mVCiGOcb0TzD4THHBCl8yte028JWR5LQVej4+n08TXzsTJ
- 0Eb6tSIHWdAdIRO1osLBcyyrpzhm3dinTlyJxIZUXMIG34BX7/X1bmC738GtJjnOtv1P
- i0Lw==
-X-Gm-Message-State: APjAAAVfZI+PltZpzvF/Qzr1S85prij8CA3et8pkxP2v7GM6sOTry2Qk
- 3ckiCJ9EsSUd4YqVuzRLZZ5PQw==
-X-Google-Smtp-Source: APXvYqxMDgk3StIwlVo9mvN71ioVcbqkT2oRgDbp7hX18q4folgKi5G8Q2nU0UUGl6gcZ3SAmckWlA==
-X-Received: by 2002:a63:e853:: with SMTP id a19mr26830570pgk.192.1571678988209; 
- Mon, 21 Oct 2019 10:29:48 -0700 (PDT)
+ bh=iWFNgivYLuuN+/YyhYyGxqv53+ldRK3tdcD/5ti+nwU=;
+ b=n4OAo1ISsk0KmC+JODtrsFLNI73sb9solWtGUlNeOes1RWtOTrG6n5r/bz4XwVt5qO
+ QxOQiMeN4GiJYSKVgUFcGbM09jFJTUTAuHYh/Fiy9u/1GNo6ax4NSPS28geW9V6fFmWY
+ a7B5skMm8dVYuEZz0i73pUT+7Huz72uAIGUC0kla+35eK7/evCfBEaz8aC3kFVtaircZ
+ vvLAHM5FsltgYSApW6k/Z+HPlZzFKm57IDrJJ5yqVEMmsSStGu0GFV/BnwUKo+g2keWE
+ rmQzufdhdAy91Gs6f/By4dP6PTbxUH4YbnX34XnwBGNpOfQ/I9hQYpg9IkGyXXficpRk
+ 3wSA==
+X-Gm-Message-State: APjAAAXmlDc46fmg62kMTY85UfVfQbqPFWvJxJfoOIqyuVZmHWrVzyjX
+ 7nW9d9PEMZCuhgvvC7uH7t/Giw==
+X-Google-Smtp-Source: APXvYqx+kf+uXXJFgZFdL7BFfgJHJ4cdxWJLT++yzSk86FAEv+w5dHZjSbLALwRDOM3e7ZujBxabJQ==
+X-Received: by 2002:a17:90a:8d13:: with SMTP id
+ c19mr30200034pjo.136.1571679047734; 
+ Mon, 21 Oct 2019 10:30:47 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id y7sm18461700pfn.142.2019.10.21.10.29.46
+ by smtp.gmail.com with ESMTPSA id h6sm21836474pfg.123.2019.10.21.10.30.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Oct 2019 10:29:47 -0700 (PDT)
-Subject: Re: [PATCH 15/21] hw/i386: Let the machine be the owner of the system
+ Mon, 21 Oct 2019 10:30:47 -0700 (PDT)
+Subject: Re: [PATCH 16/21] hw/lm32: Let the machine be the owner of the system
  memory
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
 References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-16-philmd@redhat.com>
+ <20191020225650.3671-17-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <5b923131-64e2-2a20-512f-071eb95fb601@linaro.org>
-Date: Mon, 21 Oct 2019 10:29:44 -0700
+Message-ID: <19f107f4-e450-24cf-ba40-2107ddb9bad3@linaro.org>
+Date: Mon, 21 Oct 2019 10:30:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191020225650.3671-16-philmd@redhat.com>
+In-Reply-To: <20191020225650.3671-17-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,8 +118,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/20/19 3:56 PM, Philippe Mathieu-Daudé wrote:
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/i386/pc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/lm32/lm32_boards.c | 4 ++--
+>  hw/lm32/milkymist.c   | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
