@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28BDDE551
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 09:30:28 +0200 (CEST)
-Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD3FDE558
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 09:32:56 +0200 (CEST)
+Received: from localhost ([::1]:35514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMS94-0000Yu-GY
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 03:30:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48037)
+	id 1iMSBT-0002mE-3p
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 03:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <th.huth@posteo.de>) id 1iMS75-0007wH-Iy
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:28:24 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iMS90-0001Ja-Ly
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:30:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@posteo.de>) id 1iMS73-0000aB-Ee
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:28:22 -0400
-Received: from mout02.posteo.de ([185.67.36.66]:42913)
+ (envelope-from <jfreimann@redhat.com>) id 1iMS8y-0001XQ-SY
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:30:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51822
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <th.huth@posteo.de>) id 1iMS73-0000Zv-4x
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:28:21 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
- by mout02.posteo.de (Postfix) with ESMTPS id 7140E240112
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 09:28:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
- t=1571642899; bh=5yVpQvIyiHTnN1VO9do0v9PUCUM+2Iy9l7cE6Mrk9b0=;
- h=Subject:To:Cc:From:Date:From;
- b=Ow13Q3JWjwUpiuJdQ/ISRp4HI3S7+nBNTJGWMZJJ7oHKDWFT5izk5RJ7uMIE/e5wU
- Q3xdkz8vF+EH59Pjk3hkhQwmKRe6MKQpiA1ElgDbQAsN9wbtyp0ua5aQZRnb+RFPcX
- N76ADFMB1S8x3jKwE1aCUhjEINy1Z0iPVzjIC317MK5Pc3l0CISxzI4hoh78rLdWnq
- 7JZl+B/v4wNBEIKvPV3dBPQ3JUSnNBCZoUFuSkTYMK+LLoaqx8xXKCHo8sHMfcnMYG
- f6ic0qb72HGAqnGlKd/HQfoepMp0djtTQ6HlvBz8mApbTiMJMf4MeaeXKz34GgJPgB
- 6HAbM3YZDBESg==
-Received: from customer (localhost [127.0.0.1])
- by submission (posteo.de) with ESMTPSA id 46xSsj5GJdz9rxD;
- Mon, 21 Oct 2019 09:28:09 +0200 (CEST)
-Subject: Re: [PATCH 17/21] hw/m68k: Let the machine be the owner of the system
- memory
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-18-philmd@redhat.com>
-From: Thomas Huth <th.huth@posteo.de>
-Message-ID: <55d66ac3-106a-0be1-626b-b8f9457bb96d@posteo.de>
-Date: Mon, 21 Oct 2019 09:28:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iMS8y-0001X8-OU
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 03:30:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571643019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WLp9NAsFpmEpPQIAM9I1NFONPa+a1KHvoyydxIAtusc=;
+ b=PQ9mg2vCegzfHfw592i36on2A+HEfgTGZ5m1ghtGtXfWd0oR4tbrfAIuLe8Wlt2pjCde76
+ myFpYNdsKoRan66gqF9mSSDJSvWb5pV67nJ+6nMLH1H8XSR7yNa6oo08FMBNX3durvGIo1
+ bN9WhyNQtAsFqdvJJH6gOTr0Jbk8Sok=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-IOr6EGvjMAKVq_IoHzVsxg-1; Mon, 21 Oct 2019 03:30:15 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D8D35E4;
+ Mon, 21 Oct 2019 07:30:14 +0000 (UTC)
+Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 555E260127;
+ Mon, 21 Oct 2019 07:30:02 +0000 (UTC)
+Date: Mon, 21 Oct 2019 09:30:00 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 0/11] add failover feature for assigned network devices
+Message-ID: <20191021073000.7hrkf3hjxjgneibs@jenstp.localdomain>
+References: <20191018202040.30349-1-jfreimann@redhat.com>
+ <157149794605.24734.17200533702799976293@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <20191020225650.3671-18-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <157149794605.24734.17200533702799976293@37313f22b938>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: IOr6EGvjMAKVq_IoHzVsxg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 185.67.36.66
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,88 +74,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
+ parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/2019 00.56, Philippe Mathieu-Daud=C3=A9 wrote:
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/m68k/an5206.c    | 2 +-
->  hw/m68k/mcf5208.c   | 2 +-
->  hw/m68k/next-cube.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
-> index 54ccbe1a82..fb045c2436 100644
-> --- a/hw/m68k/an5206.c
-> +++ b/hw/m68k/an5206.c
-> @@ -46,7 +46,7 @@ static void an5206_init(MachineState *machine)
->      env->rambar0 =3D AN5206_RAMBAR_ADDR | 1;
-> =20
->      /* DRAM at address zero */
-> -    memory_region_allocate_system_memory(ram, NULL, "an5206.ram", ram_=
-size);
-> +    memory_region_allocate_system_memory(ram, machine, "an5206.ram", r=
-am_size);
->      memory_region_add_subregion(address_space_mem, 0, ram);
-> =20
->      /* Internal SRAM.  */
-> diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-> index 34d34eba17..8e8c8ef349 100644
-> --- a/hw/m68k/mcf5208.c
-> +++ b/hw/m68k/mcf5208.c
-> @@ -248,7 +248,7 @@ static void mcf5208evb_init(MachineState *machine)
->      memory_region_add_subregion(address_space_mem, 0x00000000, rom);
-> =20
->      /* DRAM at 0x40000000 */
-> -    memory_region_allocate_system_memory(ram, NULL, "mcf5208.ram", ram=
-_size);
-> +    memory_region_allocate_system_memory(ram, machine, "mcf5208.ram", =
-ram_size);
->      memory_region_add_subregion(address_space_mem, 0x40000000, ram);
-> =20
->      /* Internal SRAM.  */
-> diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-> index e5343348d0..6aed9376f3 100644
-> --- a/hw/m68k/next-cube.c
-> +++ b/hw/m68k/next-cube.c
-> @@ -893,7 +893,7 @@ static void next_cube_init(MachineState *machine)
->      memcpy(ns->rtc.ram, rtc_ram2, 32);
-> =20
->      /* 64MB RAM starting at 0x04000000  */
-> -    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_si=
-ze);
-> +    memory_region_allocate_system_memory(ram, machine, "next.ram", ram=
-_size);
->      memory_region_add_subregion(sysmem, 0x04000000, ram);
-> =20
->      /* Framebuffer */
->=20
+On Sat, Oct 19, 2019 at 08:12:27AM -0700, no-reply@patchew.org wrote:
+>Patchew URL: https://patchew.org/QEMU/20191018202040.30349-1-jfreimann@red=
+hat.com/
+>
+>
+>
+>Hi,
+>
+>This series failed the docker-quick@centos7 build test. Please find the te=
+sting commands and
+>their output below. If you have Docker installed, you can probably reprodu=
+ce it
+>locally.
+>
+>=3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+>#!/bin/bash
+>make docker-image-centos7 V=3D1 NETWORK=3D1
+>time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
+>=3D=3D=3D TEST SCRIPT END =3D=3D=3D
+>
+>  CC      hw/core/or-irq.o
+>  CC      hw/core/split-irq.o
+>/tmp/qemu-test/src/hw/core/qdev.c: In function 'qdev_should_hide_device':
+>/tmp/qemu-test/src/hw/core/qdev.c:235:5: error: 'rc' may be used uninitial=
+ized in this function [-Werror=3Dmaybe-uninitialized]
+>     return rc > 0;
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+hmpf, always run all tests especially after last minute changes on friday a=
+fternoon. I'll fix this.
+
+regards,
+Jens=20
+
+
+     ^
+>cc1: all warnings being treated as errors
+>make: *** [hw/core/qdev.o] Error 1
+>make: *** Waiting for unfinished jobs....
+>Traceback (most recent call last):
+>  File "./tests/docker/docker.py", line 662, in <module>
+>---
+>    raise CalledProcessError(retcode, cmd)
+>subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '-=
+-label', 'com.qemu.instance.uuid=3D45df366e5eaf45f6ac429142fe2cc309', '-u',=
+ '1001', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET_LI=
+ST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '-e'=
+, 'DEBUG=3D', '-e', 'SHOW_ENV=3D1', '-e', 'CCACHE_DIR=3D/var/tmp/ccache', '=
+-v', '/home/patchew/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '/v=
+ar/tmp/patchew-tester-tmp-ozx9dk_0/src/docker-src.2019-10-19-11.10.07.7972:=
+/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']' re=
+turned non-zero exit status 2.
+>filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3D45df366e5eaf45f6ac429=
+142fe2cc309
+>make[1]: *** [docker-run] Error 1
+>make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-ozx9dk_0/src'
+>make: *** [docker-run-test-quick@centos7] Error 2
+>
+>real    2m19.619s
+>user    0m8.409s
+>
+>
+>The full log is available at
+>http://patchew.org/logs/20191018202040.30349-1-jfreimann@redhat.com/testin=
+g.docker-quick@centos7/?type=3Dmessage.
+>---
+>Email generated automatically by Patchew [https://patchew.org/].
+>Please send your feedback to patchew-devel@redhat.com
+
 
