@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5CEDF3C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 19:06:41 +0200 (CEST)
-Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F278ADF3D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 19:10:10 +0200 (CEST)
+Received: from localhost ([::1]:45768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMb8P-0002kc-Kp
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 13:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42153)
+	id 1iMbC6-0005bo-2L
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 13:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iMb6l-0001GS-FC
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:04:40 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iMbBA-00059g-Vg
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:09:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iMb6k-0004H0-EH
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:04:39 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46765)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iMb6k-0004Gd-63
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:04:38 -0400
-Received: by mail-pf1-x441.google.com with SMTP id q5so8786545pfg.13
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 10:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sk2t83DjkVWnrtVbQf47uSIW5xeeBnZ573CRkaV10g0=;
- b=S0Ku+pq5NlWbBoNo2FojBvVxjVFT8KjyO0EzQ1JMqCjGJBiaOxtCYVKfj00/CDGtCL
- Ze536vX9i8Ub9XXWEcQIStEfnOAgC6GmHACwstfl94FhSkUENCiYSjH/fDgJmsTLsvYC
- lbWu/haXJqQFsa7zvliY4LI58lPWjuTsYCi/6IHSL6sb2E/C4pPXj2KSmp41tm6caG68
- WHAYktSXFRhcEb5G3SqlH7bpFFXb7EBkHeaCfVDfKwrJq+JS1XKKvaKMpV0+Y39zLnk1
- Z6RHNsjiBMNijSlizPwu9pUQXwL1qpO2ZFcuQTw+oc4TN6lJkVK+CNEg0uiuQg26qYw7
- 9GCg==
+ (envelope-from <pbonzini@redhat.com>) id 1iMbB8-0006GV-Cn
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:09:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43393)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMbB8-0006EZ-7H
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:09:10 -0400
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D2E5EC04AC69
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 17:09:08 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id o10so7628039wrm.22
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 10:09:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sk2t83DjkVWnrtVbQf47uSIW5xeeBnZ573CRkaV10g0=;
- b=DJNHOX/D2TmmXfL0imnyptKiSqi9kwaTVgXwRT3o6DsewV1gCAcMhr44z3gEyN/+tq
- 1YqrN0QlWXR6JFyqUkeJgoS8s6Pzg7JlQCpkCoPH1vO+C6TXXt74GmDZwTHeMFqJQ/ms
- /GhMm2cPL3wHamBFxtVzLU1a9DAXy7+rDhJS8o++jZCshMuCdVoWKdTbo1RsAWWjqqgr
- sYVpLvKpLBPhjOSpR2vp25D+WEDkhpR4fnlfUwCkBXe7yPhrZoDgV49oeBiols8qOTCm
- sOB+J+IJoXNw6rLPzVcNIc0qpz5caM/8S97xFrXuk8Z5AexqQrefkUdmMae6c9Qej70c
- xbVg==
-X-Gm-Message-State: APjAAAVOWcz018CW1K5jz/z4T38gzdBCSjRHnIxWZfs8zIuEFX9Qvskh
- sZAsvJaABIt6iGl7UcR8O38Jrw==
-X-Google-Smtp-Source: APXvYqxlbxQO5DONqV4XwcPtgzRUI9gs88526kuUY4KJ1RGOtY+sdrwah6fdbmQfWtH7xGtbjeN88w==
-X-Received: by 2002:a65:64da:: with SMTP id t26mr26521521pgv.180.1571677476828; 
- Mon, 21 Oct 2019 10:04:36 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s3sm14619998pjq.32.2019.10.21.10.04.34
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 21 Oct 2019 10:04:36 -0700 (PDT)
-Subject: Re: [PATCH 06/21] hw/arm/digic4: Inline digic4_board_setup_ram()
- function
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-7-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+ bh=oG/4Ft2nwDmu43dRz229mvV+iGdJe44EzN+PQDOEsRI=;
+ b=LTDnsSmXaaMhULxsOb0PVmdWGk8eoULPcMvGHSfjCo3iuaFk2Q63/QNtJdiiLVEei6
+ TZsvgWXqKE1pmdQdKSJzIMxDXpBY9W7TLCAbZdmUyFBVxhymXXNJZtWV3fdAtqdYqtBH
+ BdJdsQDEu1VNRmT0fmdTRyrOqsojonBNXxIvpFKKQjnXk47DIChqM5vhSEmZ3fwiLLxq
+ VIJgga7hRE9mOD6evNdGo/dJAuNNh2Qf4yPC+q+vjVdZTxwk0W9HGlmTin0THKvkpX33
+ MZTKh68/vhK6lcQkGVCD/7ou6uTG7jI+6ksuOR+kbSCQsw0mFYTs3iiQvB5ulcqDrU4M
+ hsbg==
+X-Gm-Message-State: APjAAAW8pL/+3wdvvEkJVbXhuB6hku/uOITMoVuXgcrRcLV26dL91PrQ
+ WktgMa0VBmKUX7r1GFR4WmJQx77z7i7lHM+umeQvC7OWI1a+0CMiX1V9InwUJ+mGRMFvL1u3Ry5
+ +HwTn9pCNJPeqV48=
+X-Received: by 2002:adf:a547:: with SMTP id j7mr20469905wrb.154.1571677747445; 
+ Mon, 21 Oct 2019 10:09:07 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxdi60utLoAcuRQgWWL6AS+UU4OZNoGL3vtf8hBKroUqXQvzW+3UpXDc+3fovQrxYhOjZ7wzg==
+X-Received: by 2002:adf:a547:: with SMTP id j7mr20469881wrb.154.1571677747199; 
+ Mon, 21 Oct 2019 10:09:07 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:847b:6afc:17c:89dd?
+ ([2001:b07:6468:f312:847b:6afc:17c:89dd])
+ by smtp.gmail.com with ESMTPSA id u1sm15793245wrp.56.2019.10.21.10.09.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Oct 2019 10:09:06 -0700 (PDT)
+Subject: Re: [PATCH] tcg/LICENSE: Remove no-longer-true statement that TCG is
+ BSD-licensed
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191021145839.12684-1-peter.maydell@linaro.org>
+ <CAFEAcA_PO7vaxGVpfW2bqRvB9XtDA8uk_6Tw7SauwrbHfJOjxw@mail.gmail.com>
+ <20191021164611.GT4336@redhat.com>
+ <CAFEAcA8O8vb9Rauo99Dfqg3X63VEANcqjAqwJeXUEvAy3wHXGA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <2c557278-8696-3e6b-31ef-00850f48a224@linaro.org>
-Date: Mon, 21 Oct 2019 10:04:32 -0700
+Message-ID: <ffe59d19-dc2c-8d3c-de44-b5191fe3855b@redhat.com>
+Date: Mon, 21 Oct 2019 19:09:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191020225650.3671-7-philmd@redhat.com>
+In-Reply-To: <CAFEAcA8O8vb9Rauo99Dfqg3X63VEANcqjAqwJeXUEvAy3wHXGA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,46 +86,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Leif Lindholm <leif.lindholm@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Peter Maydell <peter.maydell@linaro.org>, Helge Deller <deller@gmx.de>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Jan Kiszka <jan.kiszka@web.de>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Claudio Fontana <claudio.fontana@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/19 3:56 PM, Philippe Mathieu-Daudé wrote:
-> Having the RAM creation code in a separate function is not
-> very helpful. Move this code directly inside the board_init()
-> function, this will later allow the board to have the QOM
-> ownership of the RAM.
+On 21/10/19 18:55, Peter Maydell wrote:
+> There's two parts to this:
+>  (1) is what we say in LICENSE what we actually have in practice?
+>  (answer: clearly "no")
+>  (2) as a policy, do we want to be stricter about the license
+>  for code contributed to tcg/ than to the rest of the codebase?
+>  (which is what this patch is trying to flush out answers to)
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/arm/digic_boards.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+... and from these points of view, your patch is definitely an improvement.
 
-
-r~
+Paolo
 
