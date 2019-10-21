@@ -2,68 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F213ADE47F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 08:26:31 +0200 (CEST)
-Received: from localhost ([::1]:34536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F86DE4D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 08:52:24 +0200 (CEST)
+Received: from localhost ([::1]:35060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMR9C-0002IZ-Hj
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 02:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42265)
+	id 1iMRYF-0007gZ-55
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 02:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iMR7w-0001WG-Au
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:25:14 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iMRWY-0006OT-Uc
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:50:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iMR7u-00044v-GU
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:25:12 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39595)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iMR7u-00044Y-Ay; Mon, 21 Oct 2019 02:25:10 -0400
-Received: by mail-ot1-x342.google.com with SMTP id s22so10003554otr.6;
- Sun, 20 Oct 2019 23:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=rmlrOvahKodlraOulz4ED3OPmzyOXNBOtDy7atqv9jQ=;
- b=E9G3y4hpVHgkbF1w4KSScZ9/CUFIW8MPstlfQ75AACBJu4V2W4my9PoVm7MCM6nz5J
- QDTkTCLS+kLootzntMTqV/Y95cZpreBoc6N3oUHm0E04Nt9AXC77LyGAZtndG7KNA+Tt
- YunioIdDNHZRVUFwydc1iFcyPq4n79p2WKWph1BY/e8RXlASI63ZpgjHZDicJ7SEppwx
- naVyr7iZ2AwlZ109BBX4rI0qGhRNAlELWhqSfUjFXy2Xq46p42E2yf/5uBoJJei38OBD
- eMkPfjbk3aPH7HkqSdMQqVkK82mz+C/iKuyc5qN//wQXIgXHf24dr+mdNKFBqQ/dDKkZ
- yVuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=rmlrOvahKodlraOulz4ED3OPmzyOXNBOtDy7atqv9jQ=;
- b=A3E9Q4ztmDRmyXCyz8nSUCxapIyLOFSgqQAlNamzn7/Q0ZFjReuKDFqMbehvC8VI6x
- vH784qknTE/QgpN0qkNigv544mOZ6yLpCZGINal30EYnVG+Ud623QSPpYDdsUIqZIGF2
- YXfjuqfqeVJxGDEFP+4XrjZC4oZMbBYeOXcTRiuAA88jDK8PgDwAt8Eix7lL1oNKrL9J
- h2r1QvTgrhZDXHajvHe/9AEwnqk/WhM7rztOKjjRFMACpU+MijgMjf5XOSpbjRhagSph
- nmILwsn8I4wrmEf3Tz/PL4wWE2iv6uQ81EliI6kbmb2N/hPNbclY8ZK40RA402kbmp7p
- /Evg==
-X-Gm-Message-State: APjAAAWdnbnC+0FqQWImI63LxBq4j7XYmXrmlFHsEcPJQcydoh9gOmLd
- 2WaLOYh9GP7mcVhNQ19ojb2SPpXR47Q/zsbJEnA=
-X-Google-Smtp-Source: APXvYqw3Vw8koErkNVb0UJNjPhg6oQ7cIIp+7PGaHe5BL3RMVWJTLDpp/xAac4uDKyAIg51D41zLcI6D1xdBndV8trk=
-X-Received: by 2002:a05:6830:452:: with SMTP id
- d18mr17793981otc.295.1571639108992; 
- Sun, 20 Oct 2019 23:25:08 -0700 (PDT)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iMRWX-00041o-C9
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 02:50:38 -0400
+Received: from mail-eopbgr50127.outbound.protection.outlook.com
+ ([40.107.5.127]:39969 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1iMRWW-00040J-P9; Mon, 21 Oct 2019 02:50:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N9XC38sD1hiG1vMbzbLQXUV+ZZpP99BrAAI4i5Ni31k1xFZgvNRowlheCKZwOgb9Qzhe1vfnfY6yMjMlsxb21IOO602pGFVaBjL3AhYbMMyv7lZk0maViC4svSrQ200+VMOMteKfXGMAvoC5SaMI2HyiGOvcF4P/pKSiybJ3puDDKiQKiS7jU4bEYJ8BYVM/R0O6EJT+wcZS0u30xWb3TAPV5wigBXWDpdcmPqbiWPB5uj+HqO6Gi75Qid9V/k8GWJ+F7FSg4uzgJIG1x/BLol91IAZZN08whLTSEA/Dy/p+pioQ/rOK4vp+UNC33dkZdpQpgxDhq9xx4Nc5Iznbdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pXMNcbNqsUqoUix3XM6dh2viOBiIAgmMen713bLOvY0=;
+ b=gJ3qfPBsHeDGtq+qE8z7yHOz+JdAARk17FnGUrdFK3Tl86UnFL3YBG+RLwJov8KYqD7R7STrdQhGNw9ZmPXxH1oIJ/OJio9tYcwpzVVzE0Szw+VtXL7SH+QMT9oujIpogjwhdwzTnHHn2xYPp6iA3QwL6LdpoiZjBN9yCRv0sTVU9umqLDGvlgwJp50+1mVJEAlguU4nJ/W6S8nLrV59weDsuJtNmd2hXJc57M1oa24uUpDYWjhlpKte6m5Fp87DQIsGyQ2sOPhQFaax2jGYJjt9MD56kk+C8HHduqP/s8LhkLGcnpfCCJtesHH1DfFGISJYyZ7iDjA34a65vyY6Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pXMNcbNqsUqoUix3XM6dh2viOBiIAgmMen713bLOvY0=;
+ b=hlmmJz6Q3ftUgRbbBUY8fqt9fL1i2UaaK8PVq99WFqEDEobPhVgDfXmDGIqv9RUVgkbKstmfewjIe6KTYlGZ8iGw+BLLlcYrosLX6Tpp/FDcZPNaTZgamfu8S3SMy5Ju9YNNOWsTcngZY1Pa/hlhKGKQsHQUiX1I6gVzP0bjGhQ=
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
+ AM0PR08MB5297.eurprd08.prod.outlook.com (52.132.215.75) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.18; Mon, 21 Oct 2019 06:50:31 +0000
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::cb5:43e:b23f:9618]) by AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::cb5:43e:b23f:9618%7]) with mapi id 15.20.2347.028; Mon, 21 Oct 2019
+ 06:50:31 +0000
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH] blockdev: modify blockdev-change-medium to change
+ non-removable device
+Thread-Topic: [PATCH] blockdev: modify blockdev-change-medium to change
+ non-removable device
+Thread-Index: AQHVhaz+7x8iUD8wDUy+y9mCSVwunqdgfsuAgAQtggA=
+Date: Mon, 21 Oct 2019 06:50:31 +0000
+Message-ID: <f5d689f6-4b23-8314-f92a-294ffcb6721b@virtuozzo.com>
+References: <20191018120950.26849-1-dplotnikov@virtuozzo.com>
+ <2b6cc2fe-5269-71ab-9f0b-1ab36d4dc050@redhat.com>
+In-Reply-To: <2b6cc2fe-5269-71ab-9f0b-1ab36d4dc050@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: GVAP278CA0017.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:20::27) To AM0PR08MB3745.eurprd08.prod.outlook.com
+ (2603:10a6:208:ff::27)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=dplotnikov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [178.34.161.147]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 806765a9-23ae-4700-af39-08d755f2f71e
+x-ms-traffictypediagnostic: AM0PR08MB5297:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR08MB5297B6F41075249B627AFAADCF690@AM0PR08MB5297.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0197AFBD92
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(979002)(376002)(39830400003)(366004)(136003)(346002)(396003)(189003)(199004)(6512007)(102836004)(99286004)(31696002)(256004)(4326008)(36756003)(31686004)(478600001)(2906002)(6436002)(14444005)(52116002)(76176011)(6486002)(2501003)(229853002)(86362001)(66066001)(305945005)(25786009)(7736002)(66476007)(14454004)(486006)(6506007)(107886003)(476003)(6246003)(71200400001)(54906003)(386003)(3846002)(64756008)(66446008)(8676002)(316002)(66556008)(66946007)(26005)(8936002)(2616005)(5660300002)(71190400001)(81166006)(446003)(53546011)(81156014)(186003)(6116002)(110136005)(4744005)(11346002)(969003)(989001)(999001)(1009001)(1019001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB5297;
+ H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eEKvTl0S6alR4jvAzgZcZDHtBz0D/FkuCmmkYL8f4CYMb7Fdu7NoqVYkvDC+Au+WZE9Rxgjd/mSPgZi/akFhzknoZPy8JZr/xKnJ2PR0lTzAXm5ereFU+YSOusera6xzoM0x+naYeC7IQM4fBpm02KgaTnmBog8XreYH7xvS/7UMwOLPx7Ro21fOtJu/LrApVUT/ptyY9Fg5uw+E+GuWtjxpsDYa5/lJ3x7MOfzGsaStjW2GjG7eJjk9SEoHO6ZBPbXtSTrXtlLtY1AsgK4i4ix4WylU5IQo5KItszgaIGCs5pReGVTKgvIMJydt3fPMAjNtPAeOnxdMmTevdNj4/GgQIhh3bu9XS0JKWCih5qTCT+Y93zMjIRQm5wyJ8AReFtgfu+1VEM5sMnLI4DNyfkMwnNy++mwUdK2ufzve2CU=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <77FA1A360279E249B7F60F86E61C0A2F@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sun, 20 Oct 2019 23:25:08
- -0700 (PDT)
-In-Reply-To: <20191020225650.3671-19-philmd@redhat.com>
-References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-19-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 21 Oct 2019 08:25:08 +0200
-Message-ID: <CAL1e-=ivk8phw5SOd=a6SO8RJ4E=9kN8hN0tocQYcb7AEKeyEA@mail.gmail.com>
-Subject: Re: [PATCH 18/21] hw/mips: Let the machine be the owner of the system
- memory
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ce8753059565bef2"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 806765a9-23ae-4700-af39-08d755f2f71e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2019 06:50:31.5392 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YvAiTHT2Ezl6qp7iJBMvy8x4+4GYRgzz0DgtOc1rRsNTBZuFkcfs2NfYnnaniqdK8nv1Ic5eYJ3bNxRw9u2U/J7HlnWog95eCXu7dYPkL9U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5297
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.5.127
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,300 +110,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ce8753059565bef2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Monday, October 21, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
->
-wrote:
-
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/mips/boston.c        | 2 +-
->  hw/mips/mips_fulong2e.c | 3 ++-
->  hw/mips/mips_jazz.c     | 2 +-
->  hw/mips/mips_malta.c    | 2 +-
->  hw/mips/mips_mipssim.c  | 2 +-
->  hw/mips/mips_r4k.c      | 3 ++-
->  6 files changed, 8 insertions(+), 6 deletions(-)
->
->
-Philippe, can this patch be applied independently (on other patches of this
-series)?
-
-Thanks,
-A.
-
-
-
-
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index ca7d813a52..8445fee0f1 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -474,7 +474,7 @@ static void boston_mach_init(MachineState *machine)
->      memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
->
->      ddr =3D g_new(MemoryRegion, 1);
-> -    memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
-> +    memory_region_allocate_system_memory(ddr, machine, "boston.ddr",
->                                           machine->ram_size);
->      memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
->
-> diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-> index cf537dd7e6..d5a5cef619 100644
-> --- a/hw/mips/mips_fulong2e.c
-> +++ b/hw/mips/mips_fulong2e.c
-> @@ -318,7 +318,8 @@ static void mips_fulong2e_init(MachineState *machine)
->      ram_size =3D 256 * MiB;
->
->      /* allocate RAM */
-> -    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram",
-> ram_size);
-> +    memory_region_allocate_system_memory(ram, machine,
-> +                                         "fulong2e.ram", ram_size);
->      memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
->                             &error_fatal);
->      memory_region_set_readonly(bios, true);
-> diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
-> index 8d010a0b6e..88b125855f 100644
-> --- a/hw/mips/mips_jazz.c
-> +++ b/hw/mips/mips_jazz.c
-> @@ -188,7 +188,7 @@ static void mips_jazz_init(MachineState *machine,
->      cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
->
->      /* allocate RAM */
-> -    memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
-> +    memory_region_allocate_system_memory(ram, machine, "mips_jazz.ram",
->                                           machine->ram_size);
->      memory_region_add_subregion(address_space, 0, ram);
->
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 4d9c64b36a..af56a29ccb 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1267,7 +1267,7 @@ void mips_malta_init(MachineState *machine)
->      }
->
->      /* register RAM at high address where it is undisturbed by IO */
-> -    memory_region_allocate_system_memory(ram_high, NULL,
-> "mips_malta.ram",
-> +    memory_region_allocate_system_memory(ram_high, machine,
-> "mips_malta.ram",
->                                           ram_size);
->      memory_region_add_subregion(system_memory, 0x80000000, ram_high);
->
-> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-> index 282bbecb24..c1933231e2 100644
-> --- a/hw/mips/mips_mipssim.c
-> +++ b/hw/mips/mips_mipssim.c
-> @@ -166,7 +166,7 @@ mips_mipssim_init(MachineState *machine)
->      qemu_register_reset(main_cpu_reset, reset_info);
->
->      /* Allocate RAM. */
-> -    memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
-> +    memory_region_allocate_system_memory(ram, machine,
-> "mips_mipssim.ram",
->                                           ram_size);
->      memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
->                             &error_fatal);
-> diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-> index bc0be26544..59f8cacfb6 100644
-> --- a/hw/mips/mips_r4k.c
-> +++ b/hw/mips/mips_r4k.c
-> @@ -203,7 +203,8 @@ void mips_r4k_init(MachineState *machine)
->                       " maximum 256MB", ram_size / MiB);
->          exit(1);
->      }
-> -    memory_region_allocate_system_memory(ram, NULL, "mips_r4k.ram",
-> ram_size);
-> +    memory_region_allocate_system_memory(ram, machine, "mips_r4k.ram",
-> +                                         ram_size);
->
->      memory_region_add_subregion(address_space_mem, 0, ram);
->
-> --
-> 2.21.0
->
->
->
-
---000000000000ce8753059565bef2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Monday, October 21, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hre=
-f=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
-ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/mips/boston.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0hw/mips/mips_fulong2e.c | 3 ++-<br>
-=C2=A0hw/mips/mips_jazz.c=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A0hw/mips/mips_malta.c=C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0hw/mips/mips_mipssim.c=C2=A0 | 2 +-<br>
-=C2=A0hw/mips/mips_r4k.c=C2=A0 =C2=A0 =C2=A0 | 3 ++-<br>
-=C2=A06 files changed, 8 insertions(+), 6 deletions(-)<br>
-<br></blockquote><div><br></div><div>Philippe, can this patch be applied in=
-dependently (on other patches of this series)?</div><div><br></div><div>Tha=
-nks,</div><div>A.</div><div><br></div><div><br></div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c<br>
-index ca7d813a52..8445fee0f1 100644<br>
---- a/hw/mips/boston.c<br>
-+++ b/hw/mips/boston.c<br>
-@@ -474,7 +474,7 @@ static void boston_mach_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion_<wbr>overlap(sys_mem, 0x180=
-00000, flash, 0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0ddr =3D g_new(MemoryRegion, 1);<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ddr, NULL, &quot;b=
-oston.ddr&quot;,<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ddr, machine, &quo=
-t;boston.ddr&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m=
-achine-&gt;ram_size);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion_<wbr>overlap(sys_mem, 0x800=
-00000, ddr, 0);<br>
-<br>
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c<br>
-index cf537dd7e6..d5a5cef619 100644<br>
---- a/hw/mips/mips_fulong2e.c<br>
-+++ b/hw/mips/mips_fulong2e.c<br>
-@@ -318,7 +318,8 @@ static void mips_fulong2e_init(<wbr>MachineState *machi=
-ne)<br>
-=C2=A0 =C2=A0 =C2=A0ram_size =3D 256 * MiB;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* allocate RAM */<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, NULL, &quot;f=
-ulong2e.ram&quot;, ram_size);<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, machine,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&q=
-uot;fulong2e.ram&quot;, ram_size);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_init_ram(bios, NULL, &quot;fulong2e.bios&=
-quot;, BIOS_SIZE,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_set_readonly(<wbr>bios, true);<br>
-diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c<br>
-index 8d010a0b6e..88b125855f 100644<br>
---- a/hw/mips/mips_jazz.c<br>
-+++ b/hw/mips/mips_jazz.c<br>
-@@ -188,7 +188,7 @@ static void mips_jazz_init(MachineState *machine,<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;do_transaction_failed =3D mips_jazz_do_transacti=
-on_<wbr>failed;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* allocate RAM */<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, NULL, &quot;m=
-ips_jazz.ram&quot;,<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, machine, &quo=
-t;mips_jazz.ram&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m=
-achine-&gt;ram_size);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0, ram)=
-;<br>
-<br>
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
-index 4d9c64b36a..af56a29ccb 100644<br>
---- a/hw/mips/mips_malta.c<br>
-+++ b/hw/mips/mips_malta.c<br>
-@@ -1267,7 +1267,7 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* register RAM at high address where it is undisturbed=
- by IO */<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram_high, NULL, &q=
-uot;mips_malta.ram&quot;,<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram_high, machine,=
- &quot;mips_malta.ram&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-am_size);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>system_memory, 0x80000=
-000, ram_high);<br>
-<br>
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c<br>
-index 282bbecb24..c1933231e2 100644<br>
---- a/hw/mips/mips_mipssim.c<br>
-+++ b/hw/mips/mips_mipssim.c<br>
-@@ -166,7 +166,7 @@ mips_mipssim_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0qemu_register_reset(main_cpu_<wbr>reset, reset_info);<b=
-r>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Allocate RAM. */<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, NULL, &quot;m=
-ips_mipssim.ram&quot;,<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, machine, &quo=
-t;mips_mipssim.ram&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-am_size);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_init_ram(bios, NULL, &quot;mips_mipssim.b=
-ios&quot;, BIOS_SIZE,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal);<br>
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c<br>
-index bc0be26544..59f8cacfb6 100644<br>
---- a/hw/mips/mips_r4k.c<br>
-+++ b/hw/mips/mips_r4k.c<br>
-@@ -203,7 +203,8 @@ void mips_r4k_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot; maximum 256MB&quot;, ram_size / MiB);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(1);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, NULL, &quot;m=
-ips_r4k.ram&quot;, ram_size);<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(ram, machine, &quo=
-t;mips_r4k.ram&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ra=
-m_size);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space_mem, 0, =
-ram);<br>
-=C2=A0<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote>
-
---000000000000ce8753059565bef2--
+DQpPbiAxOC4xMC4yMDE5IDE4OjAyLCBNYXggUmVpdHogd3JvdGU6DQo+IE9uIDE4LjEwLjE5IDE0
+OjA5LCBEZW5pcyBQbG90bmlrb3Ygd3JvdGU6DQo+PiBUaGUgbW9kaWZpY2F0aW9uIGlzIHVzZWZ1
+bCB0byB3b3JrYXJvdW5kIGV4Y2x1c2l2ZSBmaWxlIGFjY2VzcyByZXN0cmljdGlvbnMsDQo+PiBl
+LmcuIHRvIGltcGxlbWVudCBWTSBtaWdyYXRpb24gd2l0aCBzaGFyZWQgZGlzayBzdG9yZWQgb24g
+YSBzdG9yYWdlIHdpdGgNCj4+IHRoZSBleGNsdXNpdmUgZmlsZSBvcGVuaW5nIG1vZGVsOiBhIGRl
+c3RpbmF0aW9uIFZNIGlzIHN0YXJ0ZWQgd2FpdGluZyBmb3INCj4+IGluY29tbWluZyBtaWdyYXRp
+b24gd2l0aCBhIGZha2UgaW1hZ2UgZHJpdmUsIGFuZCBsYXRlciwgb24gdGhlIGxhc3QgbWlncmF0
+aW9uDQo+PiBwaGFzZSwgdGhlIGZha2UgaW1hZ2UgZmlsZSBpcyByZXBsYWNlZCB3aXRoIHRoZSBy
+ZWFsIG9uZS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBEZW5pcyBQbG90bmlrb3YgPGRwbG90bmlr
+b3ZAdmlydHVvenpvLmNvbT4NCj4gSXNu4oCZdCB0aGlzIHdoYXQgd2Ugd291bGQgd2FudCB0byB1
+c2UgcmVvcGVuIGZvcj8NCj4NCj4gTWF4DQoNCkNvdWxkIHlvdSBwbGVhc2UgZXhwbGFpbiB3aGF0
+IGlzICJ1c2UgcmVvcGVuIj8NCg0KRGVuaXMNCg0KPg0K
 
