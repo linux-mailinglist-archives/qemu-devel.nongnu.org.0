@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2C1DE801
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:23:46 +0200 (CEST)
-Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB79DE840
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 11:37:57 +0200 (CEST)
+Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMTuj-0003NZ-Ha
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34769)
+	id 1iMU8S-0001jH-AX
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 05:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMTts-0002oD-DZ
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:22:53 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMU6D-0000AM-6P
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:35:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMTtr-0002fD-32
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:22:52 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35606)
+ (envelope-from <bounces@canonical.com>) id 1iMU6B-0006ph-9J
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:35:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43712)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMTtq-0002ee-Ry
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:22:51 -0400
-Received: by mail-oi1-x243.google.com with SMTP id x3so10462827oig.2
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 02:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=szG+1UapO55MI4I3VrImIiZ0ELN8Poyvt1pm837MU30=;
- b=K0rfojov9wjax38D4q2fCYsnLT9GerreAwYJT/m5qYqXIoJFBimByxZeo1JGX7xb74
- DFOFp8Fn6b+PU7hjJ5K9t8n7NhT1oO49GnGz1x5AnYFJ/RQ3Vjeg5U+INDZrQrmlC/ci
- DABFass3wwAZTHgm/8s07Y+bwb5F3DypSzjBKVbAcYVTq8OX5qd+1OPqie+cHxFx+vLC
- c9P6MlXAB0XGCWNebG6pA07vUVi0XUvyd8qQP6cVqbOEp3LCZqR/TfkyOTdFABpO/UA3
- nD25rP6AUWrSzC3L7o3ImAScrh7HWQ8Ye6ALSMVchdftvF21ouOSHB8E5pjDx0b/33Sk
- vK6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=szG+1UapO55MI4I3VrImIiZ0ELN8Poyvt1pm837MU30=;
- b=kXFRoEZSlLWrG9RhxH2NS7qt/MFjlrl5/gaIWTqHqObR9XP4gze9vkimI5SeJHB1ym
- Z/s/fQY+vlA78K4pNCnrJZqJbjz5dLIaaR14iCuNms5DSzKdlirxjfb7cAthOZjRyxPw
- d5xhoxYkwjsc0uqGMf85i4d6JPsFKy0V9tXl5WZCi/XMZJsif1KGz0JZebEL6yMNpCzL
- h3SCC3U5raSDjYIlfejAM4E1gHVwFVaavnoY0z64q4cr3wcgvnGBjFYThMdcBbMEQ+UP
- XVtyFONjaMZXCN2oJuwl15aUGbf8arxSrS9PRCxjXgLZibwUE9cxhe4f7cxftg3TE5oX
- SF9A==
-X-Gm-Message-State: APjAAAUyAMY6eugJFpxXm41DYvozjFCxDi4SIOV3Lqklv4liKTNEbQBl
- CpOvNWq2FxsK/nChIqPEd0j+ubYrOzENHGoR0OFAiA==
-X-Google-Smtp-Source: APXvYqzZ9nNe8u/ur3gZOkymEs7QjF8bcz8dgBp8gUSCp0BdtUFXXgAQ4mrn3ygvzrhqg8KpPoV76i86d/ZzhbZk75o=
-X-Received: by 2002:aca:49c2:: with SMTP id
- w185mr18595718oia.163.1571649769769; 
- Mon, 21 Oct 2019 02:22:49 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMU6B-0006pC-3j
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 05:35:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMU68-0000oB-S9
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 09:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D0E992E80CB
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 09:35:32 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191020225650.3671-1-philmd@redhat.com>
- <20191020225650.3671-13-philmd@redhat.com>
-In-Reply-To: <20191020225650.3671-13-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Oct 2019 10:22:39 +0100
-Message-ID: <CAFEAcA8bhP9X-2AaTus9=GtEAqmnNA9me6hv8U=vXYwjQp_CnA@mail.gmail.com>
-Subject: Re: [PATCH 12/21] hw/arm: Let the machine be the owner of the system
- memory
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Date: Mon, 21 Oct 2019 09:23:58 -0000
+From: Max Reitz <1848556@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer rodsmith xanclic
+X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
+Message-Id: <157164983850.25467.7439664287249222468.malone@chaenomeles.canonical.com>
+Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 757d05538ba1cfc522f69b7db2078da03fafbdfc
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,50 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, qemu-ppc <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Peter Chubb <peter.chubb@nicta.com.au>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Oct 2019 at 00:01, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
+Hi Christian,
 
->  hw/arm/virt.c             | 2 +-
+I don=E2=80=99t see any issue but the fact that the whole series should be
+backported (0487861685294660b23bc146e1ebd5304aa8bbe0 through
+bfb23b480a49114315877aacf700b49453e0f9d9, maybe also c34dc07f9f01cf686,
+but that isn=E2=80=99t strictly necessary).
 
-I think from a quick code scan that this is ok, but did
-you test that migration compat from old to new still works?
-I vaguely recall that there are some cases when adding an
-owner to a memory region changes the name string used for
-identifying the ramblock in migration.
+Max
 
-thanks
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1848556
+
+Title:
+  qemu-img check failing on remote image in Eoan
+
+Status in QEMU:
+  Confirmed
+Status in qemu package in Ubuntu:
+  Triaged
+Status in qemu source package in Eoan:
+  Triaged
+Status in qemu source package in Focal:
+  Triaged
+
+Bug description:
+  The "qemu-img check" function is failing on remote (HTTP-hosted)
+  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
+  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
+  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
+
+  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
+g-amd64.img
+  No errors were found on the image.
+  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
+usters
+  Image end offset: 514064384
+
+  The 10.193.37.117 server holds an Apache server that hosts the cloud
+  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
+  0ubuntu9, the same command never returns. (I've left it for up to an
+  hour with no change.) I'm able to wget the image from the same server
+  and installation on which qemu-img check fails. I've tried several
+  .img files on the server, ranging from Bionic to Eoan, with the same
+  results with all of them.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
 
