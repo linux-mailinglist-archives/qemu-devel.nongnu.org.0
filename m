@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F6ADEFE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 16:38:07 +0200 (CEST)
-Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A176DF01E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 16:41:33 +0200 (CEST)
+Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMYow-0007W9-Si
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 10:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
+	id 1iMYsF-0001S2-Ri
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 10:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMYiM-0001lr-UM
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:20 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iMYlJ-0004Dt-AR
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:34:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMYiK-0002aF-Jr
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40470)
+ (envelope-from <dgilbert@redhat.com>) id 1iMYlH-0003kx-A7
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:34:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56611
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMYiK-0002ZN-BT
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:16 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMYlG-0003kV-Vf
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:34:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571668458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7HyBUbP6/e2jKhdlomkRT1djgfgfyUV3PqkKehz6jO4=;
+ b=KGMAPlQ6pg0DLZhk1oTk5L5aG3kwc5Phakn8J/oZ7RQieo+URRs2/XcWdK6L0TBftT2j5H
+ oRtELI2la6fbB3jHGGd9fDU5s7enJ7OX8ixzg42LJ4n2x//LjpUrkkbgvKkQ/0mQ21MwBJ
+ xv4wePV/xTSFIWPtn6NC2ifJAGOdfYQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-KfXFFp78PdurKxJX7sDP5w-1; Mon, 21 Oct 2019 10:34:15 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2822FC054C52
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:31:15 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id a81so2457907wma.4
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 07:31:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WW+ZO5Bq/diu4cy8HdXGyuu6WJWD0p3+enACBKkcKJE=;
- b=SqRDLj8nPlRwbYZt6i4f/IEQ4CNfuMmJAuCp1lrRFvA4GPRcay8FJufeX7B5RYBT55
- f5VCVx3IEmuBW4h/pjK4MVTHBNdfZVZBsm0A8mdbsYoTiBgYAytVREWG1aRj+1fac9bJ
- AxHLy7axBwkt0gMBQlQqjhxwUEPw6G4B4FJmCm8chW28i3dSLzPE6bBjP6WHkadPdwU8
- FcasX9ukU/F/SqAjbkLiMldZdwjcSHIsjSHZSBIzG1fcY+i3bG+j62vQokq8PCxj9Zlq
- G016RZ238O3YBDlkAMBFhu4oMj9iU0cMpr23xFwN/TB6nFJzPZ3YSRw21wbxb+2QhTux
- 13CA==
-X-Gm-Message-State: APjAAAWS3vqwXgOA8KgygxiIW9/gk1R3OKDl1OT71lM2fPGPyBtnP4bA
- OE8+arGbhz/Tg5FXuvHfdzPtMg7Zjvcncyuk00F+45j2FPo2Qjc3D7sbcw8FcJkhjv+7lTmK6xw
- 7eV1I/NkBKxwX2Zc=
-X-Received: by 2002:a1c:a90f:: with SMTP id s15mr5268588wme.100.1571668273651; 
- Mon, 21 Oct 2019 07:31:13 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzYAt/WmShwAeKTj45zhc7f4MxI0pUH94PejXPs67FO44D1nk0L2s0VcECHDy7SKdTBpQoFcg==
-X-Received: by 2002:a1c:a90f:: with SMTP id s15mr5268531wme.100.1571668273345; 
- Mon, 21 Oct 2019 07:31:13 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id r19sm7926770wrr.47.2019.10.21.07.31.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Oct 2019 07:31:12 -0700 (PDT)
-Subject: Re: [PATCH 00/21] hw: Let the machine be the owner of the system
- memory
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
- <ehabkost@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20191020225650.3671-1-philmd@redhat.com>
- <aad956d5-986c-bb9f-7735-cf18796b986e@redhat.com>
-Message-ID: <eca291f8-67ce-14eb-bcb6-e743a44327f4@redhat.com>
-Date: Mon, 21 Oct 2019 16:31:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AC6F107AD33;
+ Mon, 21 Oct 2019 14:34:14 +0000 (UTC)
+Received: from work-vm (ovpn-117-232.ams2.redhat.com [10.36.117.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4314A5C219;
+ Mon, 21 Oct 2019 14:34:00 +0000 (UTC)
+Date: Mon, 21 Oct 2019 15:33:57 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/30] virtiofs daemon (base)
+Message-ID: <20191021143357.GB5837@work-vm>
+References: <20191021105832.36574-1-dgilbert@redhat.com>
+ <157166664425.24734.3489596262271351160@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <aad956d5-986c-bb9f-7735-cf18796b986e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <157166664425.24734.3489596262271351160@37313f22b938>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: KfXFFp78PdurKxJX7sDP5w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,141 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
- Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Peter Chubb <peter.chubb@nicta.com.au>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: mst@redhat.com, piaojun@huawei.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On 10/21/19 10:52 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 10/21/19 12:56 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->> Hi,
->>
->> This series is based on Igor's "eliminate remaining places that
->> abuse memory_region_allocate_system_memory()":
->> https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01601.html
->>
->> It is quite simple, we enforce all machines to be the QOM owner
->> of the system memory.
->>
->> This changes the memory tree from:
->>
->> =C2=A0=C2=A0 (qemu) info mtree -o
->> =C2=A0=C2=A0 memory-region: pc.ram
->> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (prio 0, ra=
-m): pc.ram=20
->> parent:{obj path=3D/machine/unattached}
->>
->> to:
->>
->> =C2=A0=C2=A0 (qemu) info mtree -o
->> =C2=A0=C2=A0 memory-region: pc.ram
->> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (prio 0, ra=
-m): pc.ram=20
->> owner:{obj path=3D/machine}
->>
->> Few patches are required to clean the codebase first, to unify the
->> creation of the system memory in the board/machine code. Mostly some
->> old ARM machines (pre-QOM) were affected.
->>
->> Please review (as a generic codebase cleanup).
->>
->> Regards,
->>
->> Phil.
->>
->> Based-on: <20191008113318.7012-1-imammedo@redhat.com>
->>
->> Philippe Mathieu-Daud=C3=A9 (21):
->> =C2=A0=C2=A0 hw/arm/xilinx_zynq: Use the IEC binary prefix definitions
->> =C2=A0=C2=A0 hw/arm/mps2: Use the IEC binary prefix definitions
->> =C2=A0=C2=A0 hw/arm/collie: Create the RAM in the board
->> =C2=A0=C2=A0 hw/arm/omap2: Create the RAM in the board
->> =C2=A0=C2=A0 hw/arm/omap1: Create the RAM in the board
->> =C2=A0=C2=A0 hw/arm/digic4: Inline digic4_board_setup_ram() function
->> =C2=A0=C2=A0 hw: Drop QOM ownership on memory_region_allocate_system_m=
-emory() calls
->> =C2=A0=C2=A0 hw/alpha/dp264: Create the RAM in the board
->> =C2=A0=C2=A0 hw: Let memory_region_allocate_system_memory take Machine=
-State
->> =C2=A0=C2=A0=C2=A0=C2=A0 argument
->> =C2=A0=C2=A0 hw/core: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/alpha: Let the machine be the owner of the system memo=
-ry
->> =C2=A0=C2=A0 hw/arm: Let the machine be the owner of the system memory
->> =C2=A0=C2=A0 hw/cris: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/hppa: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/i386: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/lm32: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/m68k: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/mips: Let the machine be the owner of the system memor=
-y
->> =C2=A0=C2=A0 hw/ppc: Let the machine be the owner of the system memory
->> =C2=A0=C2=A0 hw/sparc: Let the machine be the owner of the system memo=
-ry
->> =C2=A0=C2=A0 hw/core: Assert memory_region_allocate_system_memory has =
-machine owner
+* no-reply@patchew.org (no-reply@patchew.org) wrote:
+> Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dgilbert@red=
+hat.com/
 >=20
-> I forgot 4 other calls:
 >=20
-> hw/ppc/ppc4xx_devs.c:708:=C2=A0=C2=A0=C2=A0 memory_region_allocate_syst=
-em_memory(ram,=20
-> NULL, "ppc4xx.sdram", ram_size);
-> hw/s390x/s390-virtio-ccw.c:164:=20
-> memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_size);
-> hw/sparc/sun4m.c:791:=C2=A0=C2=A0=C2=A0 memory_region_allocate_system_m=
-emory(&d->ram,=20
-> NULL, "sun4m.ram",
-> hw/sparc64/niagara.c:114:=20
-> memory_region_allocate_system_memory(&s->partition_ram, NULL,
+>=20
+> Hi,
+>=20
+> This series seems to have some coding style problems. See output below fo=
+r
+> more information:
+>=20
+> Subject: [PATCH 00/30] virtiofs daemon (base)
+> Type: series
+> Message-id: 20191021105832.36574-1-dgilbert@redhat.com
+>=20
+> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
 
-I'll need to respin this series because of this omission, but
-- hw/ppc requires more cleanup patches as ARM has,
-- hw/sparc is blocked until Igor sent his "convert
-   memory_region_allocate_system_memory() to memdev" series.
+Expecting checkpatch to be broken here; most of the files
+follow FUSE's formatting.
 
-I don't plan to rework on the ARM cleanups patches (1-6):
+Dave
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-   hw/arm/xilinx_zynq: Use the IEC binary prefix definitions
-   hw/arm/mps2: Use the IEC binary prefix definitions
-   hw/arm/collie: Create the RAM in the board
-   hw/arm/omap2: Create the RAM in the board
-   hw/arm/omap1: Create the RAM in the board
-   hw/arm/digic4: Inline digic4_board_setup_ram() function
-
-Maybe you can take them directly in arm-next once they are reviewed,
-then the rest can go via machine-next.
-
-Thanks,
-
-Phil.
 
