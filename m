@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D282DDEABD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:23:19 +0200 (CEST)
-Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885D0DEAC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:24:27 +0200 (CEST)
+Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMVmQ-0002Zr-Ou
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46629)
+	id 1iMVnW-00047c-3m
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iMVQh-00046a-9C
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:53 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iMVQf-0004Jx-7i
+ (envelope-from <dgilbert@redhat.com>) id 1iMVQf-00046G-9p
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57667
- helo=us-smtp-1.mimecast.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgilbert@redhat.com>) id 1iMVQd-0004JO-BF
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:49 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31005
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVQZ-0004HY-Go
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:47 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMVQX-0004HR-G4
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:00:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571655639;
+ s=mimecast20190719; t=1571655638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fjouwg58ShMEwm1HFgAhtE1bxH/orY/c2g8VuzSN5Bw=;
- b=eloCevhXOUNGiVxGIJY11Xlhrc/hY0sGKyWUv8tFkZAQrtc6Yy4Ph48P9WeURf2TQ6sLEg
- 0x0GwmK3WzqL6IQQgghBm9kRA9HwLIAHn6tZxEi/6mQZlm6es6YmneKYbeUJz4c/SrAWvG
- iT2g47XCQh9wxuHrFF2pHTfrAI8Hkig=
+ bh=5/8gRVFaV6XVi7JkkO/PJoY5yM4+DlLNxhHWkhCmLFM=;
+ b=T7E5bcQva4ngaXGnul/RS9X2jA/WYbN0WtIIqrB7b2KS8UOHM/vau2vxj9rhEotW21S9LN
+ Vh3L3RfsoWL/8NdFk+8GxmJrvf4p4jEvjnr8eNwZYVQgyEygf3YmMasF+7LUP9CluyuNy3
+ VxAA8V1vwuOkLz5oSAL32qmAxTV+QWY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-RtdTKVfwNOS7O4isGR6lCw-1; Mon, 21 Oct 2019 07:00:34 -0400
+ us-mta-202-EXOUHuckNfymF7aVBJMe6g-1; Mon, 21 Oct 2019 07:00:36 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC001800DD6;
- Mon, 21 Oct 2019 11:00:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D92C5800D49;
+ Mon, 21 Oct 2019 11:00:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
  [10.36.117.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9EF7C6060D;
- Mon, 21 Oct 2019 11:00:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43F7E6060D;
+ Mon, 21 Oct 2019 11:00:34 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com
-Subject: [PATCH 22/30] virtiofsd: Send replies to messages
-Date: Mon, 21 Oct 2019 11:58:24 +0100
-Message-Id: <20191021105832.36574-23-dgilbert@redhat.com>
+Subject: [PATCH 23/30] virtiofsd: Keep track of replies
+Date: Mon, 21 Oct 2019 11:58:25 +0100
+Message-Id: <20191021105832.36574-24-dgilbert@redhat.com>
 In-Reply-To: <20191021105832.36574-1-dgilbert@redhat.com>
 References: <20191021105832.36574-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: RtdTKVfwNOS7O4isGR6lCw-1
+X-MC-Unique: EXOUHuckNfymF7aVBJMe6g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,187 +78,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Route fuse out messages back through the same queue elements
-that had the command that triggered the request.
+Keep track of whether we sent a reply to a request; this is a bit
+paranoid but it means:
+  a) We should always recycle an element even if there was an error
+     in the request
+  b) Never try and send two replies on one queue element
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- contrib/virtiofsd/fuse_lowlevel.c |   4 ++
- contrib/virtiofsd/fuse_virtio.c   | 107 ++++++++++++++++++++++++++++--
- contrib/virtiofsd/fuse_virtio.h   |   4 ++
- 3 files changed, 111 insertions(+), 4 deletions(-)
+ contrib/virtiofsd/fuse_virtio.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_low=
-level.c
-index 328a9aa001..fc7707b330 100644
---- a/contrib/virtiofsd/fuse_lowlevel.c
-+++ b/contrib/virtiofsd/fuse_lowlevel.c
-@@ -171,6 +171,10 @@ static int fuse_send_msg(struct fuse_session *se, stru=
-ct fuse_chan *ch,
- =09=09}
- =09}
-=20
-+=09if (fuse_lowlevel_is_virtio(se)) {
-+=09=09return virtio_send_msg(se, ch, iov, count);
-+=09}
-+
- =09abort(); /* virtio should have taken it before here */
- =09return 0;
- }
 diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virti=
 o.c
-index e189511729..2dae08c26f 100644
+index 2dae08c26f..8dac47d42a 100644
 --- a/contrib/virtiofsd/fuse_virtio.c
 +++ b/contrib/virtiofsd/fuse_virtio.c
-@@ -40,6 +40,9 @@ struct fv_QueueInfo {
-     /* Our queue index, corresponds to array position */
-     int qidx;
-     int kick_fd;
-+
-+    /* The element for the command currently being processed */
-+    VuVirtqElement *qe;
+@@ -43,6 +43,7 @@ struct fv_QueueInfo {
+=20
+     /* The element for the command currently being processed */
+     VuVirtqElement *qe;
++    bool reply_sent;
  };
 =20
  /*
-@@ -120,6 +123,105 @@ static void copy_from_iov(struct fuse_buf *buf, size_=
-t out_num,
+@@ -177,6 +178,7 @@ int virtio_send_msg(struct fuse_session *se, struct fus=
+e_chan *ch,
+ {
+     VuVirtqElement *elem;
+     VuVirtq *q;
++    int ret =3D 0;
+=20
+     assert(count >=3D 1);
+     assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
+@@ -190,6 +192,7 @@ int virtio_send_msg(struct fuse_session *se, struct fus=
+e_chan *ch,
+     assert(out->unique);
+     /* For virtio we always have ch */
+     assert(ch);
++    assert(!ch->qi->reply_sent);
+     elem =3D ch->qi->qe;
+     q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
+=20
+@@ -207,19 +210,23 @@ int virtio_send_msg(struct fuse_session *se, struct f=
+use_chan *ch,
+     if (in_len < sizeof(struct fuse_out_header)) {
+         fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
+                  __func__, elem->index);
+-        return -E2BIG;
++        ret =3D -E2BIG;
++        goto err;
      }
+     if (in_len < tosend_len) {
+         fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
+                  __func__, elem->index, tosend_len);
+-        return -E2BIG;
++        ret =3D -E2BIG;
++        goto err;
+     }
+=20
+     copy_iov(iov, count, in_sg, in_num, tosend_len);
+     vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
+     vu_queue_notify(&se->virtio_dev->dev, q);
++    ch->qi->reply_sent =3D true;
+=20
+-    return 0;
++err:
++    return ret;
  }
 =20
-+/*
-+ * Copy from one iov to another, the given number of bytes
-+ * The caller must have checked sizes.
-+ */
-+static void copy_iov(struct iovec *src_iov, int src_count,
-+                     struct iovec *dst_iov, int dst_count, size_t to_copy)
-+{
-+    size_t dst_offset =3D 0;
-+    /* Outer loop copies 'src' elements */
-+    while (to_copy) {
-+        assert(src_count);
-+        size_t src_len =3D src_iov[0].iov_len;
-+        size_t src_offset =3D 0;
-+
-+        if (src_len > to_copy) {
-+            src_len =3D to_copy;
-+        }
-+        /* Inner loop copies contents of one 'src' to maybe multiple dst. =
-*/
-+        while (src_len) {
-+            assert(dst_count);
-+            size_t dst_len =3D dst_iov[0].iov_len - dst_offset;
-+            if (dst_len > src_len) {
-+                dst_len =3D src_len;
-+            }
-+
-+            memcpy(dst_iov[0].iov_base + dst_offset,
-+                   src_iov[0].iov_base + src_offset, dst_len);
-+            src_len -=3D dst_len;
-+            to_copy -=3D dst_len;
-+            src_offset +=3D dst_len;
-+            dst_offset +=3D dst_len;
-+
-+            assert(dst_offset <=3D dst_iov[0].iov_len);
-+            if (dst_offset =3D=3D dst_iov[0].iov_len) {
-+                dst_offset =3D 0;
-+                dst_iov++;
-+                dst_count--;
-+            }
-+        }
-+        src_iov++;
-+        src_count--;
-+    }
-+}
-+
-+/*
-+ * Called back by ll whenever it wants to send a reply/message back
-+ * The 1st element of the iov starts with the fuse_out_header
-+ * 'unique'=3D=3D0 means it's a notify message.
-+ */
-+int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-+                    struct iovec *iov, int count)
-+{
-+    VuVirtqElement *elem;
-+    VuVirtq *q;
-+
-+    assert(count >=3D 1);
-+    assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
-+
-+    struct fuse_out_header *out =3D iov[0].iov_base;
-+    /* TODO: Endianness! */
-+
-+    size_t tosend_len =3D iov_length(iov, count);
-+
-+    /* unique =3D=3D 0 is notification, which we don't support */
-+    assert(out->unique);
-+    /* For virtio we always have ch */
-+    assert(ch);
-+    elem =3D ch->qi->qe;
-+    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-+
-+    /* The 'in' part of the elem is to qemu */
-+    unsigned int in_num =3D elem->in_num;
-+    struct iovec *in_sg =3D elem->in_sg;
-+    size_t in_len =3D iov_length(in_sg, in_num);
-+    fuse_log(FUSE_LOG_DEBUG, "%s: elem %d: with %d in desc of length %zd\n=
-",
-+             __func__, elem->index, in_num, in_len);
-+
-+    /*
-+     * The elem should have room for a 'fuse_out_header' (out from fuse)
-+     * plus the data based on the len in the header.
-+     */
-+    if (in_len < sizeof(struct fuse_out_header)) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
-+                 __func__, elem->index);
-+        return -E2BIG;
-+    }
-+    if (in_len < tosend_len) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
-+                 __func__, elem->index, tosend_len);
-+        return -E2BIG;
-+    }
-+
-+    copy_iov(iov, count, in_sg, in_num, tosend_len);
-+    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
-+    vu_queue_notify(&se->virtio_dev->dev, q);
-+
-+    return 0;
-+}
-+
  /* Thread function for individual queues, created when a queue is 'started=
 ' */
- static void *fv_queue_thread(void *opaque)
- {
-@@ -226,13 +328,10 @@ static void *fv_queue_thread(void *opaque)
+@@ -296,6 +303,9 @@ static void *fv_queue_thread(void *opaque)
+                 break;
+             }
 =20
-             /* TODO! Endianness of header */
-=20
--            /* TODO: Fixup fuse_send_msg */
++            qi->qe =3D elem;
++            qi->reply_sent =3D false;
++
+             if (!fbuf.mem) {
+                 fbuf.mem =3D malloc(se->bufsize);
+                 assert(fbuf.mem);
+@@ -331,6 +341,13 @@ static void *fv_queue_thread(void *opaque)
              /* TODO: Add checks for fuse_session_exited */
              fuse_session_process_buf_int(se, &fbuf, &ch);
 =20
--            /* TODO: vu_queue_push(dev, q, elem, qi->write_count); */
--            vu_queue_notify(dev, q);
--
-+            qi->qe =3D NULL;
++            if (!qi->reply_sent) {
++                fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
++                         __func__, elem->index);
++                /* I think we've still got to recycle the element */
++                vu_queue_push(dev, q, elem, 0);
++                vu_queue_notify(dev, q);
++            }
+             qi->qe =3D NULL;
              free(elem);
              elem =3D NULL;
-         }
-diff --git a/contrib/virtiofsd/fuse_virtio.h b/contrib/virtiofsd/fuse_virti=
-o.h
-index 025a4d30ae..f1e7391e44 100644
---- a/contrib/virtiofsd/fuse_virtio.h
-+++ b/contrib/virtiofsd/fuse_virtio.h
-@@ -22,4 +22,8 @@ int virtio_session_mount(struct fuse_session *se);
-=20
- int virtio_loop(struct fuse_session *se);
-=20
-+
-+int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-+                    struct iovec *iov, int count);
-+
- #endif
 --=20
 2.23.0
 
