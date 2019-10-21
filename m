@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A86DDF82B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 00:43:53 +0200 (CEST)
-Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070E8DF891
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 01:21:46 +0200 (CEST)
+Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMgP2-0008GV-0D
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 18:43:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52014)
+	id 1iMgzg-0003l7-GS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 19:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iMgJQ-0001wr-Us
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 18:38:06 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iMgyH-0003Gu-UJ
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 19:20:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iMgJO-00018Q-Sr
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 18:38:04 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35692)
+ (envelope-from <alistair23@gmail.com>) id 1iMgyF-0007q1-Hd
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 19:20:17 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:35210)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iMgJM-00016h-Tn
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 18:38:02 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id l10so15320807wrb.2
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 15:38:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iMgyE-0007pg-PV; Mon, 21 Oct 2019 19:20:15 -0400
+Received: by mail-lj1-x242.google.com with SMTP id m7so15145243lji.2;
+ Mon, 21 Oct 2019 16:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9d/uDGv85dLEv33nEDGWywNGXN8GQJeP0QFNxDLvG8o=;
- b=kyHt3QJu3Snzhu/9s52UEXkULD6ZWlIbn19KWhov1JGlpBpI9vLH8dxEeB5jbtKsbm
- Xm3r7j9sJP/E0oi6urTcPSYkjfewqdGVwNHibw4MwYYkjcU7bTpicjhYkSUa4+Os+7kz
- +BLthlSew+1a4S56Z9okmn7bFCCStJBOs7DCWdrfykALDXV6Q4X1TLv7Ho6HXY9FNNOb
- 2XbJYnuq0uD/0oSqY5C2ooGFW+knKx7dF5DkEjtcopYS0WqzB1UKKLmrHSVZCFzJaU6u
- R0sVLR3UViknFAwz1OT3oxUwk/DmyCxXMFGcLNZaejcFspzVEpxQ/OhHoqOUUNQT4SQ4
- ttqw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=EiZSdHZTxIQrn7R3UMKYO3ieft0tHbUa2HxOXgeQww0=;
+ b=mCf2N8GhcNCWBs/oJWnKGk3o4d5BG55HVbBREs8SxlUAPO2U2J488Q4UJNn5brHilB
+ 0IZrIqSS4LSVNoeT6aIB4GF4V2Vo98eo+8N9SruzG2lXkX/eXhxtn8Rbx7WayTeesnJu
+ f2idVWttRIT21OLeEuTrXOsuhsWL6vC7vIUz72io9gM4iZU9K4Z53To08aCw289T1Ut6
+ 3x+0aahRN8YKMaqnQg7oG6SS5bKrbfdPaXbLNhj/i6wiJwN2oLhcIsJkGOJdzJNl87ed
+ IMBRp969SSMa38FvqePh6N6hGuvUMfp9dXDrF8zJVqh6jKLRjr473GgjSXz/2Ey4N5mp
+ 8KBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9d/uDGv85dLEv33nEDGWywNGXN8GQJeP0QFNxDLvG8o=;
- b=hTQHwKiDMxJENLZAT/VYn17Vow08RtIhPaeTis9yJ7ZHsOaASxxKfkKQic2McgGTrS
- S1GQLgBFbgonlGWLf2BqwchLDhcFUqmkOMBUpOl7Rck+P5bHI2RLyOzE4Lze9610NBsf
- B04qUs0/vWVssV6PHqka/G1tSqzh8A7Es3HDRjjXX23iKCi0qP/MI0o5EsmZHDWTWyNO
- EFLfWe/W+1ps0TB1JTTMPHKs5AME/dNibyBHQ4vdWZv13kVudVyWfy1pbBg/IuE8J7T2
- HgrLjYCWeoxpzQuvVMgtjnrJCaRRQKs06OBHrClxrYigums2P+XqCH9TTpLeTBuYLm2Q
- KP7g==
-X-Gm-Message-State: APjAAAUZysDOwMF/rD1gyJ2uKA+prdxbBe3r9rhDD/5bV7cz4iS61K7v
- ouDIzswUWFyiKu+pc46LNQlvWRrB+ZFhkw==
-X-Google-Smtp-Source: APXvYqwJLNjlnOGe4dlWGGacczlSrFoGKhJPfqPpP1b5SXDuYw9GnpIwy7S9LN4yXECGGE1knTGuhg==
-X-Received: by 2002:adf:fe90:: with SMTP id l16mr443970wrr.81.1571697478664;
- Mon, 21 Oct 2019 15:37:58 -0700 (PDT)
-Received: from 8c859074c0ff.ant.amazon.com.com
- (bzq-109-65-50-254.red.bezeqint.net. [109.65.50.254])
- by smtp.gmail.com with ESMTPSA id q66sm16951271wme.39.2019.10.21.15.37.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Mon, 21 Oct 2019 15:37:58 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v33 13/13] target/avr: Add tests
-Date: Tue, 22 Oct 2019 01:37:11 +0300
-Message-Id: <20191021223711.66955-14-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20191021223711.66955-1-mrolnik@gmail.com>
-References: <20191021223711.66955-1-mrolnik@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EiZSdHZTxIQrn7R3UMKYO3ieft0tHbUa2HxOXgeQww0=;
+ b=uS0+9SAog/lLs9qMOiHwXBsLgVhqvUYIFG3qKT3duk6w+cYifEEAd5my6//n/LLrqt
+ ostUTcCVZzyGc6MDXNAlXgncUDz1oi6kUNC7bnccrCpujnwGaM6YcFFeKWHOjl27Tw2j
+ kB5CN7kPgdRVt01BpHreNyqNuy44glQSUs0WI5uhNm/PjdG/ekDq8y5ACk4r+/aeh7Y4
+ Rv091RRUCQE1oINKeIsiLrNDsMeVmcEY2vi+U7CLD6OxfYAecqU/1xUMqMNflyvUEasU
+ AAU7ixy4uOh0Qy9fmT6qjYsNCeaoxiPZ20m77fUahBFu5Fc63o/UvFpvz6cTqCzTUH7s
+ VhIw==
+X-Gm-Message-State: APjAAAWbrEXNpSIINnELakmFIcjyeg4IAnnx4A7YsKQXV2n9TJwF9uU8
+ g27HxuEyMtE1WuwSgFGNi+w5GH+K7jjQf1GENxY=
+X-Google-Smtp-Source: APXvYqwICR4ycR6FA8699IK53MRiXV8LWLqp6EQR//aZfUAzLYwpea/UrxUOH5XDO+85T9xBTqVPMoBBUIEIKKJpkTY=
+X-Received: by 2002:a2e:420a:: with SMTP id p10mr17048243lja.16.1571700011666; 
+ Mon, 21 Oct 2019 16:20:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20191019234715.25750-1-f4bug@amsat.org>
+ <20191019234715.25750-8-f4bug@amsat.org>
+In-Reply-To: <20191019234715.25750-8-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Oct 2019 16:14:55 -0700
+Message-ID: <CAKmqyKO+gbe9uADAb-y+cu06X_fLRWTNv7u7hY_ivtvRLFNHhg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/16] hw/arm/bcm2836: Use per CPU address spaces
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,116 +73,397 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
- philmd@redhat.com, aleksandar.m.mail@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Matthias Brugger <mbrugger@suse.com>, Rob Herring <robh@kernel.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1. Avocado test
-    The test is based on
-    https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
-    demo which. If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out.
-    it also demostrates that timer and IRQ are working
+On Sat, Oct 19, 2019 at 4:52 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Currently all CPUs access the main system bus. Let each CPU have
+> his own address space.
+>
+> Before:
+>
+>   (qemu) info mtree
+>   address-space: memory
+>     0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>       0000000000000000-000000003fffffff (prio 0, ram): ram
+>       000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripheral=
+s
+>         000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-time=
+r
+>         000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
+>         000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
+>         000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp80=
+4
+>         000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
+>         000000003f100000-000000003f100fff (prio -1000, i/o): bcm2835-cprm=
+an
+>         000000003f102000-000000003f102fff (prio -1000, i/o): bcm2835-a2w
+>         000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
+>         000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
+>         000000003f201000-000000003f201fff (prio 0, i/o): pl011
+>         000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
+>         000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
+>         000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
+>         000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
+>         000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
+>         000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
+>         000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
+>         000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
+>         000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
+>         000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
+>         000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
+>         000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
+>         000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
+>         000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
+>         000000003f980000-000000003f980fff (prio -1000, i/o): dwc-usb2
+>         000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdra=
+mc
+>         000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan=
+15
+>       0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
+>
+>   address-space: cpu-secure-memory-0
+>     0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>       0000000000000000-000000003fffffff (prio 0, ram): ram
+>       000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripheral=
+s
+>         000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-time=
+r
+>         000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
+>         000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
+>         000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp80=
+4
+>         000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
+>         000000003f100000-000000003f100fff (prio -1000, i/o): bcm2835-cprm=
+an
+>         000000003f102000-000000003f102fff (prio -1000, i/o): bcm2835-a2w
+>         000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
+>         000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
+>         000000003f201000-000000003f201fff (prio 0, i/o): pl011
+>         000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
+>         000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
+>         000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
+>         000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
+>         000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
+>         000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
+>         000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
+>         000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
+>         000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
+>         000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
+>         000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
+>         000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
+>         000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
+>         000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
+>         000000003f980000-000000003f980fff (prio -1000, i/o): dwc-usb2
+>         000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdra=
+mc
+>         000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan=
+15
+>       0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
+>
+>   address-space: cpu-memory-0
+>     0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>       0000000000000000-000000003fffffff (prio 0, ram): ram
+>       000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripheral=
+s
+>         000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-time=
+r
+>         000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
+>         000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
+>         000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp80=
+4
+>         000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
+>         000000003f100000-000000003f100fff (prio -1000, i/o): bcm2835-cprm=
+an
+>         000000003f102000-000000003f102fff (prio -1000, i/o): bcm2835-a2w
+>         000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
+>         000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
+>         000000003f201000-000000003f201fff (prio 0, i/o): pl011
+>         000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
+>         000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
+>         000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
+>         000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
+>         000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
+>         000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
+>         000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
+>         000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
+>         000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
+>         000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
+>         000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
+>         000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
+>         000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
+>         000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
+>         000000003f980000-000000003f980fff (prio -1000, i/o): dwc-usb2
+>         000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdra=
+mc
+>         000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan=
+15
+>       0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
+>
+>   memory-region: ram
+>     0000000000000000-000000003fffffff (prio 0, ram): ram
+>
+>   memory-region: bcm2835-peripherals
+>     000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
+>       000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
+>       000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
+>       000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
+>       000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
+>       000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
+>       000000003f100000-000000003f100fff (prio -1000, i/o): bcm2835-cprman
+>       000000003f102000-000000003f102fff (prio -1000, i/o): bcm2835-a2w
+>       000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
+>       000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
+>       000000003f201000-000000003f201fff (prio 0, i/o): pl011
+>       000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
+>       000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
+>       000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
+>       000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
+>       000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
+>       000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
+>       000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
+>       000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
+>       000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
+>       000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
+>       000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
+>       000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
+>       000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
+>       000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
+>       000000003f980000-000000003f980fff (prio -1000, i/o): dwc-usb2
+>       000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
+>       000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
+>
+> After:
+>
+>   (qemu) info mtree
+>   address-space: memory
+>     0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>
+>   address-space: cpu-secure-memory-0
+>     0000000000000000-00000000ffffffff (prio 0, i/o): cpu-bus
+>       0000000000000000-000000003fffffff (prio 1, i/o): alias arm-ram @ram=
+ 0000000000000000-000000003fffffff
+>       000000003f000000-000000003fffffff (prio 2, i/o): alias arm-peripher=
+als @bcm2835-peripherals 0000000000000000-0000000000ffffff
+>       0000000040000000-0000000040003fff (prio 2, i/o): alias arm-control =
+@bcm2836-control 0000000000000000-0000000000003fff
+>
+>   address-space: cpu-memory-0
+>     0000000000000000-00000000ffffffff (prio 0, i/o): cpu-bus
+>       0000000000000000-000000003fffffff (prio 1, i/o): alias arm-ram @ram=
+ 0000000000000000-000000003fffffff
+>       000000003f000000-000000003fffffff (prio 2, i/o): alias arm-peripher=
+als @bcm2835-peripherals 0000000000000000-0000000000ffffff
+>       0000000040000000-0000000040003fff (prio 2, i/o): alias arm-control =
+@bcm2836-control 0000000000000000-0000000000003fff
+>
+>   memory-region: ram
+>     0000000000000000-000000003fffffff (prio 0, ram): ram
+>
+>   memory-region: bcm2835-peripherals
+>     0000000000000000-0000000000ffffff (prio 0, i/o): bcm2835-peripherals
+>       0000000000003000-000000000000301f (prio 0, i/o): bcm2835-sys-timer
+>       0000000000007000-0000000000007fff (prio 0, i/o): bcm2835-dma
+>       000000000000b200-000000000000b3ff (prio 0, i/o): bcm2835-ic
+>       000000000000b400-000000000000b43f (prio -1000, i/o): bcm2835-sp804
+>       000000000000b800-000000000000bbff (prio 0, i/o): bcm2835-mbox
+>       0000000000100000-0000000000100fff (prio -1000, i/o): bcm2835-cprman
+>       0000000000102000-0000000000102fff (prio -1000, i/o): bcm2835-a2w
+>       0000000000104000-000000000010400f (prio 0, i/o): bcm2835-rng
+>       0000000000200000-0000000000200fff (prio 0, i/o): bcm2835_gpio
+>       0000000000201000-0000000000201fff (prio 0, i/o): pl011
+>       0000000000202000-0000000000202fff (prio 0, i/o): bcm2835-sdhost
+>       0000000000203000-00000000002030ff (prio -1000, i/o): bcm2835-i2s
+>       0000000000204000-000000000020401f (prio -1000, i/o): bcm2835-spi0
+>       0000000000205000-000000000020501f (prio -1000, i/o): bcm2835-i2c0
+>       000000000020f000-000000000020f07f (prio -1000, i/o): bcm2835-otp
+>       0000000000212000-0000000000212007 (prio 0, i/o): bcm2835-thermal
+>       0000000000214000-00000000002140ff (prio -1000, i/o): bcm2835-spis
+>       0000000000215000-00000000002150ff (prio 0, i/o): bcm2835-aux
+>       0000000000300000-00000000003000ff (prio 0, i/o): sdhci
+>       0000000000600000-00000000006000ff (prio -1000, i/o): bcm2835-smi
+>       0000000000804000-000000000080401f (prio -1000, i/o): bcm2835-i2c1
+>       0000000000805000-000000000080501f (prio -1000, i/o): bcm2835-i2c2
+>       0000000000900000-0000000000907fff (prio -1000, i/o): bcm2835-dbus
+>       0000000000910000-0000000000917fff (prio -1000, i/o): bcm2835-ave0
+>       0000000000980000-0000000000980fff (prio -1000, i/o): dwc-usb2
+>       0000000000e00000-0000000000e000ff (prio -1000, i/o): bcm2835-sdramc
+>       0000000000e05000-0000000000e050ff (prio 0, i/o): bcm2835-dma-chan15
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-2. Boot serial test
-    Print out 'T' through serial port
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
- tests/Makefile.include           |  2 ++
- tests/acceptance/machine_avr6.py | 36 ++++++++++++++++++++++++++++++++
- tests/boot-serial-test.c         | 10 +++++++++
- 3 files changed, 48 insertions(+)
- create mode 100644 tests/acceptance/machine_avr6.py
+Alistair
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451ed3..376d7dfea3 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -199,6 +199,8 @@ check-qtest-i386-y += tests/test-x86-cpuid-compat$(EXESUF)
- check-qtest-i386-y += tests/numa-test$(EXESUF)
- check-qtest-x86_64-y += $(check-qtest-i386-y)
- 
-+check-qtest-avr-y += tests/boot-serial-test$(EXESUF)
-+
- check-qtest-alpha-y += tests/boot-serial-test$(EXESUF)
- check-qtest-alpha-$(CONFIG_VGA) += tests/display-vga-test$(EXESUF)
- 
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-new file mode 100644
-index 0000000000..0601080b01
---- /dev/null
-+++ b/tests/acceptance/machine_avr6.py
-@@ -0,0 +1,36 @@
-+import logging
-+import time
-+import distutils.spawn
-+
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado.utils import process
-+
-+class AVR6Machine(Test):
-+    timeout = 5
-+
-+    def test_freertos(self):
-+        """
-+        :avocado: tags=arch:avr
-+        :avocado: tags=machine:sample
-+        """
-+        """
-+        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-+        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-+        """
-+        rom_url = 'https://github.com/seharris/qemu-avr-tests'
-+        rom_url += '/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
-+        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-+        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
-+
-+        self.vm.set_machine('sample')
-+        self.vm.add_args('-bios', rom_path)
-+        self.vm.add_args('-nographic')
-+        self.vm.launch()
-+
-+        time.sleep(2)
-+        self.vm.shutdown()
-+
-+        match = 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-+
-+        self.assertIn(match, self.vm.get_log())
-diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
-index d3a54a0ba5..1121ed0db2 100644
---- a/tests/boot-serial-test.c
-+++ b/tests/boot-serial-test.c
-@@ -16,6 +16,15 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
- 
-+static const uint8_t bios_avr[] = {
-+    0x88, 0xe0,             /* ldi r24, 0x08   */
-+    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
-+    0x86, 0xe0,             /* ldi r24, 0x06   */
-+    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
-+    0x84, 0xe5,             /* ldi r24, 0x54   */
-+    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
-+};
-+
- static const uint8_t kernel_mcf5208[] = {
-     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
-     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
-@@ -103,6 +112,7 @@ typedef struct testdef {
- 
- static testdef_t tests[] = {
-     { "alpha", "clipper", "", "PCI:" },
-+    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
-     { "ppc", "ppce500", "", "U-Boot" },
-     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
-     { "ppc", "g3beige", "", "PowerPC,750" },
--- 
-2.17.2 (Apple Git-113)
-
+> ---
+>  hw/arm/bcm2836.c         | 39 ++++++++++++++++++++++++++++++++++-----
+>  hw/arm/raspi.c           |  2 --
+>  include/hw/arm/bcm2836.h |  4 ++++
+>  3 files changed, 38 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+> index 221ff06895..374a44b38c 100644
+> --- a/hw/arm/bcm2836.c
+> +++ b/hw/arm/bcm2836.c
+> @@ -9,6 +9,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+>  #include "cpu.h"
+> @@ -51,6 +52,8 @@ static void bcm2836_init(Object *obj)
+>      int n;
+>
+>      for (n =3D 0; n < BCM283X_NCPUS; n++) {
+> +        memory_region_init(&s->cpu[n].container, obj, "cpu-bus", 4 * GiB=
+);
+> +
+>          object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
+>                                  sizeof(s->cpu[n].core), info->cpu_type,
+>                                  &error_abort, NULL);
+> @@ -72,9 +75,11 @@ static void bcm2836_realize(DeviceState *dev, Error **=
+errp)
+>      BCM283XState *s =3D BCM283X(dev);
+>      BCM283XClass *bc =3D BCM283X_GET_CLASS(dev);
+>      const BCM283XInfo *info =3D bc->info;
+> +    MemoryRegion *ram_mr, *peri_mr, *ctrl_mr;
+>      Object *obj;
+>      Error *err =3D NULL;
+>      int n;
+> +    uint64_t ram_size;
+>
+>      /* common peripherals from bcm2835 */
+>
+> @@ -84,13 +89,14 @@ static void bcm2836_realize(DeviceState *dev, Error *=
+*errp)
+>                     __func__, error_get_pretty(err));
+>          return;
+>      }
+> +    ram_mr =3D MEMORY_REGION(obj);
+> +    ram_size =3D memory_region_size(ram_mr);
+>
+>      object_property_add_const_link(OBJECT(&s->peripherals), "ram", obj, =
+&err);
+>      if (err) {
+>          error_propagate(errp, err);
+>          return;
+>      }
+> -
+>      object_property_set_bool(OBJECT(&s->peripherals), true, "realized", =
+&err);
+>      if (err) {
+>          error_propagate(errp, err);
+> @@ -104,8 +110,7 @@ static void bcm2836_realize(DeviceState *dev, Error *=
+*errp)
+>          return;
+>      }
+>
+> -    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
+> -                            info->peri_base, 1);
+> +    peri_mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->peripherals), =
+0);
+>
+>      /* bcm2836 interrupt controller (and mailboxes, etc.) */
+>      object_property_set_bool(OBJECT(&s->control), true, "realized", &err=
+);
+> @@ -113,8 +118,7 @@ static void bcm2836_realize(DeviceState *dev, Error *=
+*errp)
+>          error_propagate(errp, err);
+>          return;
+>      }
+> -
+> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, info->ctrl_base);
+> +    ctrl_mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->control), 0);
+>
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
+>          qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-irq", 0));
+> @@ -122,6 +126,31 @@ static void bcm2836_realize(DeviceState *dev, Error =
+**errp)
+>          qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-fiq", 0));
+>
+>      for (n =3D 0; n < BCM283X_NCPUS; n++) {
+> +        memory_region_init_alias(&s->cpu[n].ram_alias, OBJECT(s),
+> +                                 "arm-ram", ram_mr, 0, ram_size);
+> +        memory_region_add_subregion_overlap(&s->cpu[n].container, 0,
+> +                                            &s->cpu[n].ram_alias, 1);
+> +
+> +        memory_region_init_alias(&s->cpu[n].peri_alias, OBJECT(s),
+> +                                 "arm-peripherals", peri_mr, 0, 16 * MiB=
+);
+> +        memory_region_add_subregion_overlap(&s->cpu[n].container,
+> +                                            info->peri_base,
+> +                                            &s->cpu[n].peri_alias, 2);
+> +
+> +        memory_region_init_alias(&s->cpu[n].control_alias, OBJECT(s),
+> +                                 "arm-control", ctrl_mr, 0, 16 * KiB);
+> +        memory_region_add_subregion_overlap(&s->cpu[n].container,
+> +                                            info->ctrl_base,
+> +                                            &s->cpu[n].control_alias, 2)=
+;
+> +
+> +        object_property_set_link(OBJECT(&s->cpu[n].core),
+> +                                 OBJECT(&s->cpu[n].container),
+> +                                 "memory", &err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+> +
+>          /* TODO: this should be converted to a property of ARM_CPU */
+>          s->cpu[n].core.mp_affinity =3D (info->clusterid << 8) | n;
+>
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 615d755879..a12459bc41 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -184,8 +184,6 @@ static void raspi_init(MachineState *machine, int ver=
+sion)
+>      /* Allocate and map RAM */
+>      memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram"=
+,
+>                                           machine->ram_size);
+> -    /* FIXME: Remove when we have custom CPU address space support */
+> -    memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ram,=
+ 0);
+>
+>      /* Setup the SOC */
+>      object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ra=
+m),
+> diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
+> index 92a6544816..e3498cb861 100644
+> --- a/include/hw/arm/bcm2836.h
+> +++ b/include/hw/arm/bcm2836.h
+> @@ -37,6 +37,10 @@ typedef struct BCM283XState {
+>
+>      struct {
+>          ARMCPU core;
+> +        MemoryRegion container;
+> +        MemoryRegion ram_alias;
+> +        MemoryRegion peri_alias;
+> +        MemoryRegion control_alias;
+>      } cpu[BCM283X_NCPUS];
+>      BCM2836ControlState control;
+>      BCM2835PeripheralState peripherals;
+> --
+> 2.21.0
+>
+>
 
