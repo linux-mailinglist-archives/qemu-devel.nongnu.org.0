@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F39DF499
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 19:59:27 +0200 (CEST)
-Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C22DF4FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 20:22:04 +0200 (CEST)
+Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMbxm-0000aa-FJ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 13:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49770)
+	id 1iMcJf-0007I6-M1
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 14:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iMbw5-0008PE-OT
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:57:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMcIj-0006q0-FB
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 14:21:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iMbw3-0001Gi-1W
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:57:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25383
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iMbw2-0001Fg-PI
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 13:57:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571680657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KQ5Hs006e8za6SUmdkzeXIZzBBlG6iUFRLacoP5AiXM=;
- b=QhtUI7a54AvKmrI7ncnpM58iGYz1rB5IPI+OdcrMGUY3bI+Mh7BrefGOhT3ks4jvEvJBUv
- mhdKtfaykiZYbOpliTuJqwget4u6KUYNuC3Y1EStle27Fl5qZgORMf5D/LLFwuKdV1s3eo
- V+/uHExfqMPMmFdHO0jPPHZ0VFmgZ2M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-FMlMBTpFPTWJJLhQ18dvYg-1; Mon, 21 Oct 2019 13:57:33 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0755880183E;
- Mon, 21 Oct 2019 17:57:32 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-225.ams2.redhat.com
- [10.36.116.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B1575D6A5;
- Mon, 21 Oct 2019 17:57:27 +0000 (UTC)
-Subject: Re: [PATCH] tcg/LICENSE: Remove no-longer-true statement that TCG is
- BSD-licensed
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191021145839.12684-1-peter.maydell@linaro.org>
- <06e15851-0b4e-63c3-001d-dd7ea5855872@linaro.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <5dc0737a-f1b0-24aa-015a-1806a6d61e69@redhat.com>
-Date: Mon, 21 Oct 2019 19:57:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <bounces@canonical.com>) id 1iMcIh-0001CB-Mm
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 14:21:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46938)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMcIh-0001C2-H6
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 14:21:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMcIg-0000Jx-77
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 18:21:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 331A52E80C0
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 18:21:02 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <06e15851-0b4e-63c3-001d-dd7ea5855872@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: FMlMBTpFPTWJJLhQ18dvYg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Oct 2019 18:12:25 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
+ psyhomb sej7278
+X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
+Message-Id: <157168154634.9675.4405623923748767168.malone@soybean.canonical.com>
+Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3eb34548d27784ceec933bafe32b940aa8d2afa3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,73 +66,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <claudio.fontana@gmail.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>, Alexander Graf <agraf@suse.de>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(+Ard, Alex)
+In reply to Kevin's comment#13:
 
-On 10/21/19 17:52, Richard Henderson wrote:
-> On 10/21/19 7:58 AM, Peter Maydell wrote:
->> Since 2008 the tcg/LICENSE file has not changed: it claims that
->> everything under tcg/ is BSD-licensed.
->>
->> This is not true and hasn't been true for years: in 2013 we
->> accepted the tcg/aarch64 target code under a GPLv2-or-later
->> license statement. We don't really consider the tcg
->> subdirectory to be a distinct part of QEMU anyway.
->>
->> Remove the LICENSE file, since claiming false information
->> about the license of the code is confusing, and update
->> the main project LICENSE file also to be clearer about
->> the license used by TCG.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->> This patch takes the simple approach of just documenting
->> the de-facto current reality; does anybody want to argue
->> for something else? Other possibilities I guess would be
->> specifically documenting tcg/aarch64 as an accidental
->> exception to the general licensing rule for tcg/, or even
->> trying to get it relicensed.
->>
->> Does having tcg/ be BSD-licensed gain the project anything?
->> From my point of view I don't really see it as a cleanly
->> separable module of code -- it's quite tightly integrated
->> with the rest of QEMU, including code in accel/tcg which
->> is variously GPL or LGPL.
->=20
-> I think this is the best solution.  I've never been convinced that TCG ca=
-n
-> usefully be extracted and reused for something else.
+> I find Laszlo's case with a preallocated image particularly surprising
+> because the behaviour isn't supposed to have changed at all for
+> preallocated images, at least if the heuristics still detects them as
+> such.
 
-Side comment:
+But isn't that "if" at the core of this problem? What happens if the
+detection misfires? (This is not a loaded question, I'm not implying any
+particular circumstances; I'm just surprised that heuristics could be
+considered at all.)
 
-Ard and Alex extracted TCG to run x86 PCIe UEFI option ROMs on aarch64
-hardware.
+> Once a preallocated image becomes almost fully allocated, it's
+> expected that we won't detect it any more. So, Laszlo, do you know how
+> much of your images was allocated? 'qemu-img check' prints the
+> allocation statistics.
 
-https://github.com/ardbiesheuvel/X86EmulatorPkg
-https://kvmforum2017.sched.com/event/Bo0S/qemu-in-uefi-alexander-graf-suse
-https://www.youtube.com/watch?v=3DuxvAH1Q4Mx0
+I don't have the images any longer, and since then, I've been running
+qemu 4.0 (for my upstream QEMU binaries).
 
-If I remember correctly, they specifically picked a git commit hash that
-was still purely BSD licensed.
+However, I can say some things (with both affected VMs being Fedora
+installations):
 
-FWIW,
-<https://github.com/ardbiesheuvel/X86EmulatorPkg/blob/master/LICENSE> is
-not any BSD license, so I'm almost surely out of date on that aspect;
-just wanted to confirm that TCG has been usefully extracted.
+- As noted earlier, the images were formatted for 100GB, with
+  preallocation=3Dmetadata.
 
-Thanks,
-Laszlo
+- I always install Fedora from Live ISOs (never starting with
+  pre-installed images), and right after installation, "du" on the host
+  side always reports 5-8 GB usage. Definitely never more than 10GB. So
+  I'd say these images were very sparsely populated.
 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->=20
->=20
-> r~
->=20
+- I always use qcow2 images like this, in the domain XMLs:
 
+  <driver name=3D'qemu' type=3D'qcow2' cache=3D'writeback'
+   error_policy=3D'enospace' discard=3D'unmap'/>
+
+  and I always use virtio-scsi so that discard=3D'unmap' actually have an
+  effect.
+
+- I occasionally run "fstrim" in the guest, and / or "virsh domfstrim"
+  on the host. (And re-run "du" on the host side in every such case.)
+
+- Right after installation (with the VM powered down), I might compress
+  the image with "qemu-img convert -c"; but I don't believe I've done
+  that too recently.
+
+- The general idea on my end is that I'd like to limit guest disk usage
+  by the *host* disk's free space, and not by an arbitrary pre-set disk
+  image size. Hence 100GB stands for "infinity" (I might have used 1TB
+  just as well), and error_policy=3D'enospace' lets me act, should a guest
+  actually run out of space, on the host disk. Finally, discard=3D'unmap'
+  prevents waste. I use "preallocation=3Dmetadata" because the initial
+  size cost is negligible, but I perceive writes to be faster.
+
+Hopefully this helps at least a tiny bit... Thanks!
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846427
+
+Title:
+  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
+  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
+  savevm/quit/loadvm cycles. I've narrowed it down to the following
+  reproducer (further notes below):
+
+  # qemu-img check debian.qcow2
+  No errors were found on the image.
+  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
+96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
+=3Ddebian.qcow2,id=3Dd -S
+  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
+bus: Did not receive a reply. Possible causes include: the remote applicati=
+on did not send a reply, the message bus security policy blocked the reply,=
+ the reply timeout expired, or the network connection was broken.
+  QEMU 4.1.50 monitor - type 'help' for more information
+  (qemu) loadvm foo
+  (qemu) c
+  (qemu) qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  quit
+  [m@nargothrond:~] qemu-img check debian.qcow2
+  Leaked cluster 85179 refcount=3D2 reference=3D1
+  Leaked cluster 85180 refcount=3D2 reference=3D1
+  ERROR cluster 266150 refcount=3D0 reference=3D2
+  [...]
+  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+
+  9493 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  2 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+
+  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
+  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
+  similarly current.
+
+  Reproduced with qemu-4.1.0 from distribution package as well as
+  vanilla git checkout of tag v4.1.0 and commit
+  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
+  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
+  sequence:
+
+  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
+mu --disable-werror --disable-docs
+  [...]
+  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+  [...] (can provide full configure output if helpful)
+  make -j8 install
+
+  The kind of guest OS does not matter: seen with Debian testing 64bit,
+  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+
+  The virtual storage controller does not seem to matter: seen with
+  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+
+  Caching modes (none, directsync, writeback), aio mode (threads,
+  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
+  not influence occurence either.
+
+  Having more RAM in the guest seems to increase odds of corruption:
+  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
+  RAM it happens almost instantly.
+
+  An automated reproducer works as follows:
+
+  - the guest *does* mount its root fs and swap with option discard and
+  my testing leaves me with the impression that file deletion rather
+  than reading is causing the issue
+
+  - foo is a snapshot of the running Debian VM which is already running
+  command
+
+  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
+ne
+
+  to produce some I/O to the disk (4GB file with 4GB of RAM).
+
+  - on the host a loop continuously resumes and saves the guest state
+  and quits qemu inbetween:
+
+  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
+  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
+  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
+  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
+  none ; done
+
+  - quitting qemu inbetween saves and loads seems to be necessary for
+  the problem to occur. Just continusouly in one session saving and
+  loading guest state does not trigger it.
+
+  - For me, after about 2 to 6 iterations of above loop the image is
+  corrupted.
+
+  - corruption manifests with other messages from qemu as well, e.g.:
+
+  (qemu) loadvm foo
+  Error: Device 'd' does not have the requested snapshot 'foo'
+
+  Using above reproducer I have to the be best of my ability bisected
+  the introduction of the problem to commit
+  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
+  block_status call if possible). qemu compiled from the commit before
+  does not exhibit the issue, from that commit on it does and reverting
+  the commit off of current master makes it disappear.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
