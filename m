@@ -2,58 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76031DEFFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 16:38:39 +0200 (CEST)
-Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBDFDEFC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 16:36:22 +0200 (CEST)
+Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMYpS-00083M-G1
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 10:38:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48761)
+	id 1iMYnF-0004tW-8Y
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 10:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iMYjL-0002fY-UF
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:32:21 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMYiL-0001ks-EI
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iMYjK-00030j-IH
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:32:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33966)
+ (envelope-from <bounces@canonical.com>) id 1iMYiJ-0002Zx-VK
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57806)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iMYjK-00030a-Cf
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:32:18 -0400
+ id 1iMYiJ-0002Ym-Oc
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 10:31:15 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iMYjJ-0000wS-LB
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:32:17 +0000
+ id 1iMYiG-00071Y-Lh
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:31:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D0C42E802B
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:32:17 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F2F3E2E820A
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 14:30:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Oct 2019 14:20:57 -0000
-From: Jose Santiago <1829576@bugs.launchpad.net>
+Date: Mon, 21 Oct 2019 14:24:37 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1848556@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: ppc64
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee ivmn jlsantiago0 mark-cave-ayland
-X-Launchpad-Bug-Reporter: Jose Santiago (jlsantiago0)
-X-Launchpad-Bug-Modifier: Jose Santiago (jlsantiago0)
-References: <155812687142.26079.4364411221525864419.malonedeb@soybean.canonical.com>
-Message-Id: <157166765822.9091.15761422455400336726.malone@soybean.canonical.com>
-Subject: [Bug 1829576] Re: QEMU-SYSTEM-PPC64 Regression QEMU-4.0.0
+X-Launchpad-Bug-Commenters: paelzer rodsmith xanclic
+X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
+Message-Id: <157166787795.19203.10327380381774821695.malone@gac.canonical.com>
+Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="186023fa645d8be19d403a76064f0643f510db2f";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1199e3a3825c9c3609a3cad662f7cf6ec0d67bca
+X-Launchpad-Hash: 964d5523bc42417261d446e9f06d4ca6dc9e49db
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -67,99 +74,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829576 <1829576@bugs.launchpad.net>
+Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is fixed with the 4.1.0 release. Thank you.
+For me with the version from the PPA works fine on local as well as remote =
+http connections.
+Thanks @Max for the fix.
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+@Rod:
+Waiting for you to test and verify based on the PPA.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829576
+https://bugs.launchpad.net/bugs/1848556
 
 Title:
-  QEMU-SYSTEM-PPC64 Regression QEMU-4.0.0
+  qemu-img check failing on remote image in Eoan
 
 Status in QEMU:
   Fix Released
+Status in qemu package in Ubuntu:
+  Triaged
+Status in qemu source package in Eoan:
+  Triaged
+Status in qemu source package in Focal:
+  Triaged
 
 Bug description:
-  I have been using QEMU-SYSTEM-PPC64 v3.1.0 to run CentOS7 PPC emulated
-  system. It stopped working when I upgraded to QEMU-4.0.0 . I
-  downgraded back to QEMU-3.1.0 and it started working again. The
-  problem is that my CentOS7 image will not boot up udner QEMU-4.0.0,
-  but works fine under QEMU-3.1.0.
+  Ubuntu SRU Template:
 
-  I have an QCOW2 image available at
-  https://www.mediafire.com/file/d8dda05ro85whn1/linux-
-  centos7-ppc64.qcow2/file . NOTE: It is 15GB. Kind of large.
+  [Impact]
 
-  I run it as follows:
+   * There is fallout due to changes in libcurl that affect qemu and might =
 
-     qemu-system-ppc64 \
-        -name "CENTOS7-PPC64" \
-        -cpu POWER7 -machine pseries \
-        -m 4096 \
-        -netdev bridge,id=3Dnetbr0,br=3Dbr0 \
-        -device e1000,netdev=3Dnetbr0,mac=3D52:54:3c:13:21:33 \
-        -hda "./linux-centos7-ppc64.qcow2" \
-        -monitor stdio
+     lead to a hang.
 
-  HOST: I am using Manjaro Linux on an Intel i7 machine with the QEMU
-  packages installed via the package manager of the distribution.
+   * Fix by backporting the upstream fix
 
-  [jsantiago@jlsws0 ~]$ uname -a
-  Linux jlsws0.haivision.com 4.19.42-1-MANJARO #1 SMP PREEMPT Fri May 10 20=
-:52:43 UTC 2019 x86_64 GNU/Linux
+  [Test Case]
 
-  jsantiago@jlsws0 ~]$ cpuinfo =
+   * If you have network just run
+     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
+.img
 
-  Intel(R) processor family information utility, Version 2019 Update 3 Buil=
-d 20190214 (id: b645a4a54)
-  Copyright (C) 2005-2019 Intel Corporation.  All rights reserved.
+   * Without network, install apache2, and get a complex qemu file (like a =
 
-  =3D=3D=3D=3D=3D  Processor composition  =3D=3D=3D=3D=3D
-  Processor name    : Intel(R) Core(TM) i7-6700K  =
+     cloud image) onto the system. Then access the file via apache http but =
 
-  Packages(sockets) : 1
-  Cores             : 4
-  Processors(CPUs)  : 8
-  Cores per package : 4
-  Threads per core  : 2
+     not localhost (that would work)
 
-  =3D=3D=3D=3D=3D  Processor identification  =3D=3D=3D=3D=3D
-  Processor	Thread Id.	Core Id.	Package Id.
-  0       	0   		0   		0   =
+  [Regression Potential]
 
-  1       	0   		1   		0   =
+   * The change is local to the libcurl usage of qemu, so that could be =
 
-  2       	0   		2   		0   =
+     affected. But then this is what has been found to not work here, so I'=
+d =
 
-  3       	0   		3   		0   =
+     expect not too much trouble. But if so then in the curl usage (which =
 
-  4       	1   		0   		0   =
+     means disks on http)
 
-  5       	1   		1   		0   =
+  [Other Info]
+   =
 
-  6       	1   		2   		0   =
+   * n/a
 
-  7       	1   		3   		0   =
+  ---
 
-  =3D=3D=3D=3D=3D  Placement on packages  =3D=3D=3D=3D=3D
-  Package Id.	Core Id.	Processors
-  0   		0,1,2,3		(0,4)(1,5)(2,6)(3,7)
+  The "qemu-img check" function is failing on remote (HTTP-hosted)
+  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
+  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
+  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
 
-  =3D=3D=3D=3D=3D  Cache sharing  =3D=3D=3D=3D=3D
-  Cache	Size		Processors
-  L1	32  KB		(0,4)(1,5)(2,6)(3,7)
-  L2	256 KB		(0,4)(1,5)(2,6)(3,7)
-  L3	8   MB		(0,1,2,3,4,5,6,7)
+  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
+g-amd64.img
+  No errors were found on the image.
+  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
+usters
+  Image end offset: 514064384
+
+  The 10.193.37.117 server holds an Apache server that hosts the cloud
+  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
+  0ubuntu9, the same command never returns. (I've left it for up to an
+  hour with no change.) I'm able to wget the image from the same server
+  and installation on which qemu-img check fails. I've tried several
+  .img files on the server, ranging from Bionic to Eoan, with the same
+  results with all of them.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829576/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
 
