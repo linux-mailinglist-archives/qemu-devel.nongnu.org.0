@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32BCDEB74
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:57:18 +0200 (CEST)
-Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F146DEB62
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:52:14 +0200 (CEST)
+Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMWJJ-0005v2-QR
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52727)
+	id 1iMWEO-0007eG-So
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBX-0005UK-FV
+ id 1iMWBZ-0005UW-El
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBV-0003AT-H9
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:15 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37654)
+ id 1iMWBX-0003Au-E2
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:17 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33728)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBR-00038H-Pg
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:12 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f22so12459462wmc.2
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:04 -0700 (PDT)
+ id 1iMWBR-00038a-Q1
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:14 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 6so1186856wmf.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8NQh2EnS1JgP+wDg616iXQrQceQKStyvquiY+j2RVrE=;
- b=LZRyyZdwseS7+zVS+ewx1DMbss0zeH8x4kMndWUwewVGpkooXJdLhKtYUO+EXxG3o6
- Wx9cbGv52MF20MvlFdCaGDWI/xxByiRokPQsCMw6hhL+5xphf08s1KPN4ZRO/OgZRrGo
- nSVVZrs6o2sXO+l62a36lESrzcIrxrf7N47ifpyPGVpYidkUxmiAAVjqLLNS2XLmJHoz
- IVj4uXI1puPT6yaOx0fPuroMYhrMeUvVnKwBFPUWUobJDkNt3Qux4OMYh1JrvZNPgHVX
- jc3TjjJydswOtjdQjm5WlPjRPxarIzq/HIxoJwf7Lm1DYIRlP3Z3ZFtz8m6M2hUWq45K
- 1L9w==
+ bh=kVPn/TqsVrLsIWtsYnTYm7mIPjPA8vCaNQCpnpdWJRs=;
+ b=ZaaQZMEIekiB+mZvzO3UPAfQ63y7KMYcpOfBE+mCuBT9eIucUiGueEjleHuz+pY+o3
+ OEqHcFUCrmYAXu7fhCO9qF0o42w6c+gyj/9mBvj3pwp/frvH6x6J6sjVEnx5zFSP/HEZ
+ 86ooKHw/gIfQYYMoUwV3uBcDXDzpAgw26o42uWY47ht6LNQy7TjdFTfp/ioM+oO9wNvu
+ I5tVZy7t2cqDQNvOqJKgRMDwiPvDacgyQKvYIskTA/zHUUsFrfxXGXOc/ohC5vmvOa7M
+ wkyhp5SFFFuaoRFrK2Sx18HzS7qBGvmnn8uIDbHwseFraW974YJu2FaeI6vL64hO5wbd
+ fWKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8NQh2EnS1JgP+wDg616iXQrQceQKStyvquiY+j2RVrE=;
- b=DwnZPdm2/2MHsSNB6lHX+tf8Vf6GHd0geiRZA/VoJn7t/z5ImB7QnqZUqruD6Bxgv7
- gVfk/Z4KRudoXu6RnNtO1goOqsnVw0NIfAN8hPpFkilYC2pJwfy1XwDfqCvSaOH9C/nk
- Ln1WSb6fqNf9qdH4tSItVGS0lmMWOMJXsZ7SBF93mJZVRAIYP5tkQQdlqY6vuHcZEBDl
- 65J3gN17YEnqG5uZj0+uq3GNYKloE9u9YWM48kbLNzfMG8tMPMCk+yvMwtJIqfVKrlWQ
- +zH6Si6StvgYxTGd9b6g3sWTkOEHymqk/m3YDBgpM4BIA9allytMdX2kRHJO/W2a2UJG
- Z4QQ==
-X-Gm-Message-State: APjAAAXqYbUxmncVM/g9V1KK3g8aWWBfm0//oCFiJ92FRTJiqEQuC5MA
- N7BYq9HckZruVeDFlVF7NnejQS/3
-X-Google-Smtp-Source: APXvYqx20xKnmyWBhq/jF7o50m+V4hM/+XJ98M+7wgwfjssqrnqwa7RPAwoOaPRyjKVdQySnJr9lLA==
-X-Received: by 2002:a7b:cb0a:: with SMTP id u10mr19518924wmj.48.1571658543471; 
- Mon, 21 Oct 2019 04:49:03 -0700 (PDT)
+ bh=kVPn/TqsVrLsIWtsYnTYm7mIPjPA8vCaNQCpnpdWJRs=;
+ b=GpioHnBlvnXgGuwI99CzaUZbef8zbI0ZBxsPne7EfIzrzMwVKDM3Ze42IMPmBAdvqR
+ +mj1h0g3cjJkTyvuxKKgICsUwnyZalZhtoDJYEAP6in37xQb79t0/eqHdIpimM3EBEVc
+ OH9C5bcK53q/j7oOITB2KLhUiSnSw92d6idVLDYTqnaThIRiLjVlKgOO0LBcKAkZp2bg
+ DiklXBinofByQHJ5WKdFGB88F3107b8B3XBrRY2Ts8JfOwkpSS2BB25SDfHOb0lkOG9x
+ nB7AyAhYNOZivN2CR40sHtzh45P046uXcUU3H+fHmwlMoREXEYwzMSuvb5IX2XK7x+oh
+ z0rw==
+X-Gm-Message-State: APjAAAV6nkKQG4qFXNca/PkdOpPR+wHSV1jYdhugu+XFwsVRDitclEk+
+ vi7ktXOZINKCAubfJdQ73X7Tu02f
+X-Google-Smtp-Source: APXvYqzVG8jajY24keh4SgZ1BdA+Q7TLB9Q9vV203Y3HpCMvA89X8iHHiqI/Cd/iKltuVXObltLc3A==
+X-Received: by 2002:a1c:b6c4:: with SMTP id g187mr2974263wmf.54.1571658545489; 
+ Mon, 21 Oct 2019 04:49:05 -0700 (PDT)
 Received: from localhost.localdomain
  (129.red-83-57-174.dynamicip.rima-tde.net. [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.02
+ by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 04:49:02 -0700 (PDT)
+ Mon, 21 Oct 2019 04:49:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 2/9] linux-user/strace: Add print_timezone()
-Date: Mon, 21 Oct 2019 13:48:50 +0200
-Message-Id: <20191021114857.20538-3-f4bug@amsat.org>
+Subject: [PATCH v8 3/9] linux-user/strace: Improve settimeofday()
+Date: Mon, 21 Oct 2019 13:48:51 +0200
+Message-Id: <20191021114857.20538-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191021114857.20538-1-f4bug@amsat.org>
 References: <20191021114857.20538-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,63 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-By: Guido Günther <agx@sigxcpu.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
-v7: tz_minuteswest and tz_dsttime are abi_int -> %d/tswap32 (lvivier)
-
-checkpatch error:
- ERROR: storage class should be at the beginning of the declaration
- #9: FILE: linux-user/strace.c:66:
- +UNUSED static void print_timezone(abi_ulong, int);
----
- linux-user/strace.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ linux-user/strace.c    | 13 +++++++++++++
+ linux-user/strace.list |  2 +-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index f326c357a2..2cd6687cd9 100644
+index 2cd6687cd9..fd5596a640 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -63,6 +63,7 @@ UNUSED static void print_string(abi_long, int);
- UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
- UNUSED static void print_timeval(abi_ulong, int);
-+UNUSED static void print_timezone(abi_ulong, int);
- UNUSED static void print_number(abi_long, int);
- UNUSED static void print_signal(abi_ulong, int);
- UNUSED static void print_sockaddr(abi_ulong addr, abi_long addrlen);
-@@ -1254,6 +1255,25 @@ print_timeval(abi_ulong tv_addr, int last)
-         gemu_log("NULL%s", get_comma(last));
+@@ -1583,6 +1583,19 @@ print_futimesat(const struct syscallname *name,
  }
+ #endif
  
++#ifdef TARGET_NR_settimeofday
 +static void
-+print_timezone(abi_ulong tz_addr, int last)
++print_settimeofday(const struct syscallname *name,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    if (tz_addr) {
-+        struct target_timezone *tz;
-+
-+        tz = lock_user(VERIFY_READ, tz_addr, sizeof(*tz), 1);
-+        if (!tz) {
-+            print_pointer(tz_addr, last);
-+            return;
-+        }
-+        gemu_log("{%d,%d}%s", tswap32(tz->tz_minuteswest),
-+                 tswap32(tz->tz_dsttime), get_comma(last));
-+        unlock_user(tz, tz_addr, 0);
-+    } else {
-+        gemu_log("NULL%s", get_comma(last));
-+    }
++    print_syscall_prologue(name);
++    print_timeval(arg0, 0);
++    print_timezone(arg1, 1);
++    print_syscall_epilogue(name);
 +}
++#endif
 +
- #undef UNUSED
- 
- #ifdef TARGET_NR_accept
+ #ifdef TARGET_NR_link
+ static void
+ print_link(const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 63a946642d..1ff9168369 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1345,7 +1345,7 @@
+ { TARGET_NR_set_tid_address, "set_tid_address" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_settimeofday
+-{ TARGET_NR_settimeofday, "settimeofday" , NULL, NULL, NULL },
++{ TARGET_NR_settimeofday, "settimeofday" , NULL, print_settimeofday, NULL },
+ #endif
+ #ifdef TARGET_NR_setuid
+ { TARGET_NR_setuid, "setuid" , NULL, NULL, NULL },
 -- 
 2.21.0
 
