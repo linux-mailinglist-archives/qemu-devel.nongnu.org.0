@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A6DDEB39
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:44:16 +0200 (CEST)
-Received: from localhost ([::1]:38824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBF6DEB6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:54:31 +0200 (CEST)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMW6h-00039U-JM
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51589)
+	id 1iMWGc-0002LH-3N
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iMW3D-00083V-BP
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:40:40 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iMWBW-0005UD-Hs
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iMW3B-0007nd-NP
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:40:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38271
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iMW3B-0007mq-HI
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:40:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571658035;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=STfqfLBYxA/Gob9KNl38W5XGhCLo0Qrkgql6Cgo624s=;
- b=H4Tn6lrxvzgUpwaambsYrg/Vo1GP9GG21bfMiQwOKuHLiTnvFTfCLgI7yMuILZFLLGSO1z
- TvBH2RGZpgad48sWJCm0+4sICpwc6BxFbAkRi2jMZk9eF5mtAyL+/0ABTmW+rqELJ7qsw8
- ASArVWOziblJESsuJQi8U7VkXaV6/7A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-aJB-BtnfOaiaQye-08Vs2g-1; Mon, 21 Oct 2019 07:40:32 -0400
-X-MC-Unique: aJB-BtnfOaiaQye-08Vs2g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42F831800DC7;
- Mon, 21 Oct 2019 11:40:31 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-17.ams2.redhat.com
- [10.36.117.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BC355D9E2;
- Mon, 21 Oct 2019 11:40:29 +0000 (UTC)
-Subject: Re: Problems with c8bb23cbdbe3 on ppc64le
-From: Max Reitz <mreitz@redhat.com>
-To: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Qemu-block <qemu-block@nongnu.org>
-References: <2e7d321c-89f4-f3fd-8331-6bc276880de2@redhat.com>
- <5ba5d289-4450-135c-f058-a7e498725058@virtuozzo.com>
- <cd53cd86-e93c-297a-c08e-3fc1ae2618ac@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4c61a0ba-3a75-fffb-a724-4f4700eaa111@redhat.com>
-Date: Mon, 21 Oct 2019 13:40:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iMWBR-00039O-O6
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:13 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41672)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iMWBN-00037r-IE
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:06 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p4so13597806wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xHuYdZan++o+YIHWDljoqNMc10hWZoNI8Pj+QAknYjI=;
+ b=NkYnASqPGZI2tZF2UdsmWhdxK8E+cAHyTLYcn+3HT+g6Gyr9PfkkVuI9iWAKV05bdI
+ oGkZTH4zupWrHy9f0XHhb2RxYDq9bs9IKfkzTpUSLUPIHg2yVeWehSf/gyWgSNCKo4iD
+ qEwoUJTfkd18SwUVujORCLMMAG9MBlae37J82LCkVpTTx0LgzP8c7DNl+ip+C0XNB0w5
+ FWwEk1EkUR6yZwTaZHiv1d5eG+QmcJxRGxsm4H3dFtlOKLhxOcFiPliFbq1docWt5Pfa
+ xE/bg/X/DK5BDCCT4CT4Inv48cJkn7sHoqaQ8wLDK5nlwXoR1SgBaxFQfCJscyBbYgoL
+ JMJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xHuYdZan++o+YIHWDljoqNMc10hWZoNI8Pj+QAknYjI=;
+ b=QTltrs2oxY09ukV3JxtHYbM/g+bIV+5IYnhOySUUkSzy0TSRwffnXdORsXms5EBZkP
+ ParkVoqS4OqHbRTSY/Y3354Tct4XjIZUB+4dK2t49S4NJUjExO0cR8Rcvtq6IkQaGN0o
+ rmV0qKbC3s4cSK0kzWZuMisvVhxLwtw2IIjJbDrXQyxA/9ro0/NrgKkP4tba3LeDkXfn
+ eqMbF5bGsoagSp9jY7zddy6YRbCfDOXreeljSHy4m//YnWj9G/0+WmrWodbiYxYQq8Yl
+ Wm9DxY2BUi66lHJ3dBOgER6S4BylPZ1PnoanB8qSJN8cOX1I/rwb9m3JAaHP7jXxKDJx
+ 8U8w==
+X-Gm-Message-State: APjAAAXmZT0W32rr3/NI3EhMgmd9lTBk7dIHZPTaAU7TSVw6t4zfjths
+ r4XUxi+GwXVv/suZ0scbh4NReCyc
+X-Google-Smtp-Source: APXvYqzGUj8Ew9aj8lc0zPwf/R12bLjWjv0Ab3e25mPBvTYBjwP00wdDCa0k7elSOuwJ1tUoekz3Rw==
+X-Received: by 2002:adf:e74c:: with SMTP id c12mr13368927wrn.133.1571658540646; 
+ Mon, 21 Oct 2019 04:49:00 -0700 (PDT)
+Received: from localhost.localdomain
+ (129.red-83-57-174.dynamicip.rima-tde.net. [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.48.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Oct 2019 04:48:59 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 0/9] linux-user: strace improvements
+Date: Mon, 21 Oct 2019 13:48:48 +0200
+Message-Id: <20191021114857.20538-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <cd53cd86-e93c-297a-c08e-3fc1ae2618ac@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Q8XEDnvbfCWVR6buquzqooxXRlGB6wUEe"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,115 +80,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Q8XEDnvbfCWVR6buquzqooxXRlGB6wUEe
-Content-Type: multipart/mixed; boundary="5Iz8RuRXY8bOXiDfTxCec1zPcEmC4hWrD"
+Hi Laurent,
 
---5Iz8RuRXY8bOXiDfTxCec1zPcEmC4hWrD
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Few patches I'v been writting while trying to figure out this issue:
+http://lists.nongnu.org/archive/html/qemu-arm/2018-01/msg00514.html
 
-On 11.10.19 09:49, Max Reitz wrote:
-> On 10.10.19 18:15, Anton Nefedov wrote:
->> On 10/10/2019 6:17 PM, Max Reitz wrote:
->>> Hi everyone,
->>>
->>> (CCs just based on tags in the commit in question)
->>>
->>> I have two bug reports which claim problems of qcow2 on XFS on ppc64le
->>> machines since qemu 4.1.0.  One of those is about bad performance
->>> (sorry, is isn=E2=80=99t public :-/), the other about data corruption
->>> (https://bugzilla.redhat.com/show_bug.cgi?id=3D1751934).
->>>
->>> It looks like in both cases reverting c8bb23cbdbe3 solves the problem
->>> (which optimized COW of unallocated areas).
->>>
->>> I think I=E2=80=99ve looked at every angle but can=E2=80=98t find what =
-could be wrong
->>> with it.  Do any of you have any idea? :-/
->>>
->>
->> hi,
->>
->> oh, that patch strikes again..
->>
->> I don't quite follow, was this bug confirmed to happen on x86? Comment 8
->> (https://bugzilla.redhat.com/show_bug.cgi?id=3D1751934#c8) mentioned tha=
-t
->> (or was that mixed up with the old xfsctl bug?)
->=20
-> I think that was mixed up with the xfsctl bug, yes.
->=20
->> Regardless of the platform, does it reproduce? That's comforting
->> already; worst case we can trace each and every request then (unless it
->> will stop to reproduce this way).
->=20
-> I haven=E2=80=99t been able to reproduce it yet (wrestling with the test =
-system
-> and getting ppc64 machines provisioned), but as far as I know it
-> reproduces reliably on ppc64, but only there.
->=20
->> Also, perhaps it's worth to try to replace fallocate with write(0)?
->> Either in qcow2 (in the patch, bdrv_co_pwrite_zeroes -> bdrv_co_pwritev)
->> or in the file driver. It might hint whether it's misbehaving fallocate
->> (in qemu or in kernel) or something else.
->=20
-> Good idea, that should at least tell us something about the corruption.
+As usual with linux-user files, this series will trigger some checkpatch
+benign warnings.
 
-OK, after a week of debugging I=E2=80=99m not really much wiser.
+Regards,
 
-One thing I know is that I can see the issue on x86-64 now, but not on
-ext4, only XFS.
+Phil.
 
-Replacing the zero-write with actually writing zeroes fixes it, but I
-still don=E2=80=99t know whether that=E2=80=99s because of the kernel or be=
-cause the
-write is just slower or takes another code path...
+Since v7:
+- use tswap32,
+- do not name print_sockaddr prototype arguments
+- use abi_int for target_sockaddr_ll.sll_ifindex
+- added R-b tags
 
-The only thing I could narrow it down to is this:
+Since v6:
+- Use ABI types in sockaddr
 
-The issue persists if handle_alloc_space() writes zeroes (with a
-narrowed aligned zero-write with NO_FALLBACK) only to the non-COW area,
-and I keep skip_cow to be false.
+Since v5:
+- dropped 'Verify recvfrom(addr)' since failing LTP testsuite (see [1])
+- also define print_sockfd() for bind() (patches #6 and #7)
 
-So there seems to be some kind of interaction between the zero-write and
-the following write of data.  I don=E2=80=99t know what kind of interaction=
- that
-is, though.  I have tried to write a test case in qemu-img (basically
-rewriting qemu-img bench), but failed so far.
+Since v4:
+- rebased on master (no change)
 
-It certainly looks like a kernel issue, but without a simpler reproducer
-I just cannot tell.
+Since v3:
+- addressed Laurent comments
+- added print_sockfd()
+- removed the print_sockaddr_ptr() patch, also the two
+  getsockname()/recvfrom() patches for after 3.0.
 
-Max
+Since v2:
+- display invalid pointer in print_timeval() and print_timezone()
+- do not display gettimeofday() arguments
 
+Since v1:
+- addressed Laurent comments
+- added 'last' argument to print_sockaddr()
+- reordered series, so patches already correct can get applied directly
+- dropped "linux-user/syscall: simplify recvfrom()" for now
 
---5Iz8RuRXY8bOXiDfTxCec1zPcEmC4hWrD--
+v1: http://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg05855.html
+v2: http://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08216.html
+v3: http://lists.nongnu.org/archive/html/qemu-devel/2018-07/msg00411.html
+v5: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02067.html
+v6: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01346.html
+v7: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03114.html
+[1] https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02807.html
 
---Q8XEDnvbfCWVR6buquzqooxXRlGB6wUEe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Philippe Mathieu-Daudé (9):
+  linux-user/strace: Display invalid pointer in print_timeval()
+  linux-user/strace: Add print_timezone()
+  linux-user/strace: Improve settimeofday()
+  linux-user/syscall: Introduce target_sockaddr_nl
+  linux-user/strace: Dump AF_NETLINK sockaddr content
+  linux-user/strace: Add print_sockfd()
+  linux-user/strace: Improve bind() output
+  linux-user/strace: Let print_sockaddr() have a 'last' argument
+  linux-user/syscall: Align target_sockaddr fields using ABI types
 
------BEGIN PGP SIGNATURE-----
+ linux-user/strace.c       | 120 +++++++++++++++++++++++++++++++++-----
+ linux-user/strace.list    |   4 +-
+ linux-user/syscall.c      |   6 +-
+ linux-user/syscall_defs.h |  41 +++++++------
+ 4 files changed, 137 insertions(+), 34 deletions(-)
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2tmSsACgkQ9AfbAGHV
-z0Dd6Af9GqirJaWzsmjDVypVl4AuiNwYUgMkHJY7bVHEzp+GGVbl1d0ae8guMcAD
-b558gHDw7jIc9bmUkVn+qECBCZwMTJKUEnx6lCa6hCRd3NzaiiijmMznc4Ne1I5e
-zLK3gzytW1iVo3IoP23XLpk9d/K+ePZ5A7xh+8mcAvTZWBbht+RXZ031Q+qse1ot
-qWFSV2pFFGukucaBvHlPOQ4gZyeXopjmHoLsAlnT6+qQc2LSeX8lPd6UVpdCtOUk
-wXdH5y+yJKeEKw2l686l1b6Yn8IcoUx1khNjg0j7pFG8SFH40uAetBUjz1urddAi
-uRLpgQcEX7oxesilZGwlKJTgsENsfQ==
-=9fQy
------END PGP SIGNATURE-----
-
---Q8XEDnvbfCWVR6buquzqooxXRlGB6wUEe--
+-- 
+2.21.0
 
 
