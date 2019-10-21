@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8917DEB76
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:58:53 +0200 (CEST)
-Received: from localhost ([::1]:39116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB08DEB6B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Oct 2019 13:54:30 +0200 (CEST)
+Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMWKq-00073w-Ob
-	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52788)
+	id 1iMWGa-0002Jd-V8
+	for lists+qemu-devel@lfdr.de; Mon, 21 Oct 2019 07:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBb-0005VV-Kv
+ id 1iMWBb-0005Vf-O7
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBX-0003BD-F9
+ id 1iMWBZ-0003Bx-F9
  for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:19 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34577)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43419)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iMWBW-00039m-Hi
- for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:15 -0400
-Received: by mail-wr1-x441.google.com with SMTP id t16so8471319wrr.1
- for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:11 -0700 (PDT)
+ id 1iMWBY-0003AH-H8
+ for qemu-devel@nongnu.org; Mon, 21 Oct 2019 07:49:17 -0400
+Received: by mail-wr1-x441.google.com with SMTP id c2so8366713wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 21 Oct 2019 04:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2SbHTSN9heUjHZHZr60mvvzx0DMavYLdULN0Nc21EaA=;
- b=SwEWUgt4cjSVAgyd/Slb9Q/7XdBThBAZUJfMlFg3HtV+A3anxFf6y3+pWYdeUVNqZy
- aBrRq1WlgozbG0bNV2GBPedKUMR8PSW5JsZK0UWAmbV2I/0L7di4TrZjbh1gOFNGfCPZ
- hF1NQpXUgrMPQHFCzkZV0CWAVwAcktOkAwUGK7+FtPB7JKFnJtXcYGK0Z0+9yCYewdnr
- f5CT+geenw8mbXctqD8qIrwnJhxFTPGqT8lnZiZvtxLD8TsZa6amh2Exsn6ojtIgEunU
- XHuxc2C74593g3dTdxHJ7jq0hgDOFpr9S0fR8KEPwtsR2G2AXsiAYCOiv2BwqlhYUi17
- KwoQ==
+ bh=7PzhWDBr2TcCErcmKtgx3wheeZHdViTC2eISH3wD2UY=;
+ b=dk8w9hePxNkOKwNpLUhu6Towyzx2uLJfblQUVXUARx7NMmTDwkm++HEiRpPdDRzRJI
+ nN3mErDQsO+gYGhWXJ3bkNJf5L+a5HaAWI9BIPcR6tBecuBxm5kcc4XYWKGZhzgxW57M
+ SLL2ohdfoZK8NIC6drmN2jEYv1IK91AxP57Oj1Kt6NZLxe4wFa5v621oyisalKwaXO4A
+ +HVj1f94ydYTS6H/+YLmhAidxB7u1I41TqR8azBS2j0WuKVB8o/lGF9WY4IUT6IeMmZ3
+ YJ8uv9lpde+Wd7V7950dRrUneOwRdrflN4ttFQTB9+csF/kzV4NpjxYw5z3a/w5lP8NZ
+ KMmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2SbHTSN9heUjHZHZr60mvvzx0DMavYLdULN0Nc21EaA=;
- b=Xr/MerggoXjA33McDWveVxjCG3kKQ49DzBBdWAnU2PPxVF2ew5R5ky0DAbwGV/ptGE
- lOLdrQ5kiyhzkpFUx5skym4/RgsOOA3YkIa6X7lQE71ACUb1MS9vw0w0X8kmCSrEUUXc
- AGnpEIW67ZuSFR+F4RVmnbbFlJuZEUQEq3i0RTJ6UA8m577GVLqFLb0H9qxYsr5gve0i
- gBSrJy6g9zCA1f7cDs/gWSC9uC7IN2cAZF8UMNxs/71+BjcqhUUVhP/q+pBnsmuUIVwt
- VdZHskFa7LR9g4UNOqBXcoohHqdkDerwuK4vAGRN7WrcAoTz87T5JeSHadLYymD7F6MQ
- qp2g==
-X-Gm-Message-State: APjAAAVNfFilxKjCFisZPexrdEo57dWV1E7BTeXG282uEJcQSxCajM71
- ZfDcja2U+jo3z8Rmm5a9hRTlH7Ai
-X-Google-Smtp-Source: APXvYqxLrWSAVOP3pSpEsoOOzcX6QOi9oISCevAkDQPhs5fesW+Kc0O27HltHPdicW5rJGCfgogDpA==
-X-Received: by 2002:a5d:4b8b:: with SMTP id b11mr5069585wrt.78.1571658550029; 
- Mon, 21 Oct 2019 04:49:10 -0700 (PDT)
+ bh=7PzhWDBr2TcCErcmKtgx3wheeZHdViTC2eISH3wD2UY=;
+ b=QWir43sCpKP80SHOYfA3YWWWvGF7E6W86ZcDyZo4OrUUxljNbbcg1malgbZe3DQBR3
+ KUAe5Daaq3qj7L+/KsNomoE7NAInDd4X+WwwR37TgJgD43KIdmkcR+ycXeca0h1/wQ6h
+ g2hqsa3f9fX93hb8GcDLSC5daAxuF1xGpTRY0YgN+MjQxd8sa2L1fqp3FqPqWExyP6//
+ o1kaZo+RMFy9huLh/sRZg/AAL1tLg9LQz1luRHJZ8lgJFgd9UVULEQKL9Kj8RiQgdEV4
+ 9QRvs77lONzwX/mP5giNaVIwtKsS8p82JiwUMvnBIXmFH+o8COhL6wcucHA8Hy5m13nT
+ cWSQ==
+X-Gm-Message-State: APjAAAXYCAlgBy76+20bGWPwlfUrR4iMo9HqWMEtBZ49s/MfxDAlWaDc
+ uDyaEhFxGIZgLJxVkE8Ag5wWlN/m
+X-Google-Smtp-Source: APXvYqziiHIr8QyYjiYEWS+bR7m1eROI0BOYgDA0cPB70Ywo+HVr8tgMhlvdLGNpJ4z4VvtSARw/Zg==
+X-Received: by 2002:adf:91e1:: with SMTP id 88mr7748134wri.16.1571658551794;
+ Mon, 21 Oct 2019 04:49:11 -0700 (PDT)
 Received: from localhost.localdomain
  (129.red-83-57-174.dynamicip.rima-tde.net. [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.08
+ by smtp.gmail.com with ESMTPSA id x5sm17156137wrt.75.2019.10.21.04.49.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Oct 2019 04:49:09 -0700 (PDT)
+ Mon, 21 Oct 2019 04:49:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 6/9] linux-user/strace: Add print_sockfd()
-Date: Mon, 21 Oct 2019 13:48:54 +0200
-Message-Id: <20191021114857.20538-7-f4bug@amsat.org>
+Subject: [PATCH v8 7/9] linux-user/strace: Improve bind() output
+Date: Mon, 21 Oct 2019 13:48:55 +0200
+Message-Id: <20191021114857.20538-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191021114857.20538-1-f4bug@amsat.org>
 References: <20191021114857.20538-1-f4bug@amsat.org>
@@ -82,104 +82,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract common print_sockfd() from various socket related syscalls.
-
+Tested-By: Guido Günther <agx@sigxcpu.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v6: use another ifdef TARGET_NR_socketcall
+v6: use TARGET_NR_socketcall || TARGET_NR_bind (lvivier)
 ---
- linux-user/strace.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+ linux-user/strace.c    | 15 ++++++++++++++-
+ linux-user/strace.list |  2 +-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 5fa7748427..0ce2b658a5 100644
+index 0ce2b658a5..cd92c77d33 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1709,6 +1709,15 @@ print_socket(const struct syscallname *name,
+@@ -1707,7 +1707,7 @@ print_socket(const struct syscallname *name,
  
- #if defined(TARGET_NR_socketcall)
+ #endif
  
-+static void print_sockfd(abi_long sockfd, int last)
+-#if defined(TARGET_NR_socketcall)
++#if defined(TARGET_NR_socketcall) || defined(TARGET_NR_bind)
+ 
+ static void print_sockfd(abi_long sockfd, int last)
+ {
+@@ -2054,6 +2054,19 @@ print_socketcall(const struct syscallname *name,
+ }
+ #endif
+ 
++#if defined(TARGET_NR_bind)
++static void
++print_bind(const struct syscallname *name,
++           abi_long arg0, abi_long arg1, abi_long arg2,
++           abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    print_raw_param(TARGET_ABI_FMT_ld, sockfd, last);
++    print_syscall_prologue(name);
++    print_sockfd(arg0, 0);
++    print_sockaddr(arg1, arg2, 1);
++    print_syscall_epilogue(name);
 +}
-+
 +#endif
 +
-+#if defined(TARGET_NR_socketcall)
-+
- #define get_user_ualx(x, gaddr, idx) \
-         get_user_ual(x, (gaddr) + (idx) * sizeof(abi_long))
- 
-@@ -1741,7 +1750,7 @@ static void do_print_sockaddr(const char *name, abi_long arg1)
-     get_user_ualx(addrlen, arg1, 2);
- 
-     gemu_log("%s(", name);
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     print_sockaddr(addr, addrlen);
-     gemu_log(")");
- }
-@@ -1754,7 +1763,7 @@ static void do_print_listen(const char *name, abi_long arg1)
-     get_user_ualx(backlog, arg1, 1);
- 
-     gemu_log("%s(", name);
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     print_raw_param(TARGET_ABI_FMT_ld, backlog, 1);
-     gemu_log(")");
- }
-@@ -1789,7 +1798,7 @@ static void do_print_sendrecv(const char *name, abi_long arg1)
-     get_user_ualx(flags, arg1, 3);
- 
-     gemu_log("%s(", name);
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     print_buf(msg, len, 0);
-     print_raw_param(TARGET_ABI_FMT_ld, len, 0);
-     print_flags(msg_flags, flags, 1);
-@@ -1808,7 +1817,7 @@ static void do_print_msgaddr(const char *name, abi_long arg1)
-     get_user_ualx(addrlen, arg1, 5);
- 
-     gemu_log("%s(", name);
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     print_buf(msg, len, 0);
-     print_raw_param(TARGET_ABI_FMT_ld, len, 0);
-     print_flags(msg_flags, flags, 0);
-@@ -1824,7 +1833,7 @@ static void do_print_shutdown(const char *name, abi_long arg1)
-     get_user_ualx(how, arg1, 1);
- 
-     gemu_log("shutdown(");
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     switch (how) {
-     case SHUT_RD:
-         gemu_log("SHUT_RD");
-@@ -1851,7 +1860,7 @@ static void do_print_msg(const char *name, abi_long arg1)
-     get_user_ualx(flags, arg1, 2);
- 
-     gemu_log("%s(", name);
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     print_pointer(msg, 0);
-     print_flags(msg_flags, flags, 1);
-     gemu_log(")");
-@@ -1868,7 +1877,7 @@ static void do_print_sockopt(const char *name, abi_long arg1)
-     get_user_ualx(optlen, arg1, 4);
- 
-     gemu_log("%s(", name);
--    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
-+    print_sockfd(sockfd, 0);
-     switch (level) {
-     case SOL_TCP:
-         gemu_log("SOL_TCP,");
+ #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) || \
+     defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64)
+ static void
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 1ff9168369..957aa720af 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -41,7 +41,7 @@
+ { TARGET_NR_bdflush, "bdflush" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_bind
+-{ TARGET_NR_bind, "bind" , NULL, NULL, NULL },
++{ TARGET_NR_bind, "bind" , NULL, print_bind, NULL },
+ #endif
+ #ifdef TARGET_NR_bpf
+ { TARGET_NR_bpf, "bpf" , NULL, NULL, NULL },
 -- 
 2.21.0
 
