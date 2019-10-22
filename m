@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27C4DFF1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:11:51 +0200 (CEST)
-Received: from localhost ([::1]:51382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3611DFF45
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:20:34 +0200 (CEST)
+Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpGg-00028q-AA
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43191)
+	id 1iMpP7-0003LO-Pi
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:20:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iMp7g-0001TJ-W4
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:02:34 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMpGH-0002kr-PV
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iMp7e-0000iY-8w
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:02:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35024)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iMp7e-0000gb-0Q
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:02:30 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9F3CD85365
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 08:02:25 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id m16so5482442wmg.8
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:02:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=d84Rak+kkOEUj0XncSQ1btqVylzhM3RhKlS4WYFM0y4=;
- b=Fl0hKE7AUt6RUBtM9OcI2+b58i9D78CTSSD0NY6YW7UnusEFS4MHGvP6o3NOJ+PkDe
- JImes7QsPAMLwdoWTp80u6q+8RmJ9C7d2oDChoTYLLTfkOIUcZJKXprUzcRr7NGNmxiL
- uEkcXA9Lt+UprGZ8OVL0o9Tc/ABeJ98LfAESnwXg9+3l2suabeoBvFWvXsNoRRORKzow
- dOV3q5aaYCzrcUNvWqHxcH8ol+3f5RBGIysg5P0qwGUawwbo/uox6mpb6Bk0mwQwfKGN
- A89xNutzNlxVDktIclhWyI9WydMqnWRFW7EHLi+vwjBNxtydeGDE1CK6wEAtIxSUFkFy
- We1w==
-X-Gm-Message-State: APjAAAXBFhogkC2LU5m6Z9SZoMraR9hASSzRp3bhEQM6n4ezfgg40ugA
- s+iqw11jZMn3nG5TU1LuGZ7bHaae+jNET1dzPbSVtn2rSECjP/Spq6PtGeatj/KZzPyhiafiMnX
- bYHnh8Yof18MbbXQ=
-X-Received: by 2002:a5d:5544:: with SMTP id g4mr2282613wrw.72.1571731344315;
- Tue, 22 Oct 2019 01:02:24 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxEbni/3G6ORby2jGjEE1lUnv8FJ0FGKT7BdbvpExyU9JATweylC4XauhsCZHHQcvTUDeLiKg==
-X-Received: by 2002:a5d:5544:: with SMTP id g4mr2282584wrw.72.1571731343945;
- Tue, 22 Oct 2019 01:02:23 -0700 (PDT)
-Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.200.174])
- by smtp.gmail.com with ESMTPSA id s10sm21033715wrr.5.2019.10.22.01.02.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 01:02:23 -0700 (PDT)
-Date: Tue, 22 Oct 2019 10:02:21 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] virtio: drop unused virtio_device_stop_ioeventfd()
- function
-Message-ID: <20191022080221.pkpasulvg45rny2i@steredhat>
-References: <20191021150343.30742-1-stefanha@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1iMpGG-000553-DB
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:25 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:60857)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGG-00054H-3g
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:24 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MQMdz-1ij9N41MjR-00MLc3; Tue, 22 Oct 2019 10:11:15 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/11] Linux user for 4.2 patches
+Date: Tue, 22 Oct 2019 10:10:53 +0200
+Message-Id: <20191022081104.11814-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191021150343.30742-1-stefanha@redhat.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:8Cxv3CfV13NkA0gKoj8HDv1GM7sQTO1C//jIJ1Pedsim07Y+V0+
+ RZEvuQclXPtd9rxR+XOmOJIgtbAnc8eBK5rspusRqiUCxJ/YSmMy7yGxTGVTJ/GF1HijCaT
+ 6kmjHnaPJRHOBsx4vx6Z3THOvhU/sJ0DyjI3QSkEfTVFZSB51e9NVry86ske3oEPC92yUIk
+ iXSFEEsTrMb3nUFkQD66A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:N0X7SOwmv3Y=:t36orZf8rOoShxc3QsUkGF
+ CNAm1g6IRq4mwDoLLtP1X47cd2CGSBV1nrIrVYcAaxPRDPAaouPstzqICW8LiDUFrebB+HVwg
+ fmBgk8oBCni0SnxoegvDWHZ79DvNNdwuFTHSsXxoNPKE3/Jbs7VP7tPMQqdnSRiDo4tbsnlAn
+ Q4F2RfmHpoUCA24wWLH0KSFrMKgDL/Fb6X90wF7ZTfloXbI0mb9F5+BxuZSBzTbBOa7rJTw7s
+ nLnbTXSblkIrzxvq9pdfdE0MSg57F7A98AvjgI8rzRObcQPajZBwVImHgCV1w4pNXF+rlf1Q2
+ q38vVtyAe4RYCM3b5er55/cSbtsuHd89Jy364gRw8DQJhU4yxfa4znL+PUKlkXQNU8djk6oJe
+ lWJur85kNaz2aJK8zUp0hLptJlkqKwQ8n6BSju3b8SrKg8y29kkZk+dbmPOK5cio+Gz+yIDLg
+ OThJg0k4fXPBkrAmt0Nq2Y98ED3JyTV+KoAigNHK6gt92kZ9XRB/VKwwOjxe9qTwgjSrG4P2k
+ VJnPWHVHv7PKroJZZQcSja4V+Y8KNXYqMvOe0spffDGdH1Wcsg+0RzwpU28XhYx9j6WxnPsiy
+ gmiFEBvlOpC/k63VIDHzlrc/Sh13iL7OIjjtiXCJllrmYWFF3XIsaww3/msjHdovb61lUkNds
+ JQMHBCpdS5xiyTyOIS2nHb2/BGjGxDkoP4/488sn3hDxW0/M8l8oFeohy2ZFIQwsjBarovjLF
+ NRkYC+IbWb7hEuqVk55lbogLy50Ds9GI2i1u2kjJW/6VyAxod5OS7q+MhdVtFJ9kCvf7BqWs3
+ 2Z4HyBUzgD/2SCEKwyFa630Ex0NUBLAqulahVMjQDcH4yAqjzGVzjwlHWkqPynoJSDzRcFdu3
+ RCJqwb7W9+yMf//AkBloyf60kgaBVa4rhfM0plVPw=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,64 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 21, 2019 at 04:03:43PM +0100, Stefan Hajnoczi wrote:
-> virtio_device_stop_ioeventfd() has not been used since commit
-> 310837de6c1e0badfd736b1b316b1698c53120a7 ("virtio: introduce
-> grab/release_ioeventfd to fix vhost") in 2016.
-> 
-> Nowadays ioeventfd is stopped implicitly by the virtio transport when
-> lifecycle events such as the VM pausing or device unplug occur.
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  include/hw/virtio/virtio.h | 1 -
->  hw/virtio/virtio.c         | 8 --------
->  2 files changed, 9 deletions(-)
+The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0b9:
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-request' into staging (2019-10-18 14:13:11 +0100)
 
-> 
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 48e8d04ff6..14660ea30a 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -302,7 +302,6 @@ EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
->  void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
->                                                  bool with_irqfd);
->  int virtio_device_start_ioeventfd(VirtIODevice *vdev);
-> -void virtio_device_stop_ioeventfd(VirtIODevice *vdev);
->  int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
->  void virtio_device_release_ioeventfd(VirtIODevice *vdev);
->  bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 527df03bfd..05186a531c 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -2773,14 +2773,6 @@ static void virtio_device_stop_ioeventfd_impl(VirtIODevice *vdev)
->      }
->  }
->  
-> -void virtio_device_stop_ioeventfd(VirtIODevice *vdev)
-> -{
-> -    BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
-> -    VirtioBusState *vbus = VIRTIO_BUS(qbus);
-> -
-> -    virtio_bus_stop_ioeventfd(vbus);
-> -}
-> -
->  int virtio_device_grab_ioeventfd(VirtIODevice *vdev)
->  {
->      BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
-> -- 
-> 2.21.0
-> 
-> 
+are available in the Git repository at:
+
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.2-pull-request
+
+for you to fetch changes up to 9a68960d8e7fdda16c2ea779a70f7f894ed2ce56:
+
+  linux-user/syscall: Align target_sockaddr fields using ABI types (2019-10-21 15:37:04 +0200)
+
+----------------------------------------------------------------
+sockaddr alignment fixes, strace update and fd-trans fix.
+
+----------------------------------------------------------------
+
+Andreas Schwab (1):
+  linux-user: add strace for dup3
+
+Philippe Mathieu-Daudé (9):
+  linux-user/strace: Display invalid pointer in print_timeval()
+  linux-user/strace: Add print_timezone()
+  linux-user/strace: Improve settimeofday()
+  linux-user/syscall: Introduce target_sockaddr_nl
+  linux-user/strace: Dump AF_NETLINK sockaddr content
+  linux-user/strace: Add print_sockfd()
+  linux-user/strace: Improve bind() output
+  linux-user/strace: Let print_sockaddr() have a 'last' argument
+  linux-user/syscall: Align target_sockaddr fields using ABI types
+
+Shu-Chun Weng (1):
+  Fix unsigned integer underflow in fd-trans.c
+
+ linux-user/fd-trans.c     |  51 ++++++++++++----
+ linux-user/strace.c       | 120 +++++++++++++++++++++++++++++++++-----
+ linux-user/strace.list    |   7 ++-
+ linux-user/syscall.c      |   6 +-
+ linux-user/syscall_defs.h |  41 +++++++------
+ 5 files changed, 180 insertions(+), 45 deletions(-)
 
 -- 
+2.21.0
+
 
