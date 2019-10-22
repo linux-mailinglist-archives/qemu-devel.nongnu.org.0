@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A82E0DC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 23:22:43 +0200 (CEST)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB662E0DBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 23:18:42 +0200 (CEST)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iN1c2-0000ym-Kv
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 17:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51443)
+	id 1iN1Y9-0006YR-8w
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 17:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iN1aN-0000Jm-DI
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:21:00 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iN1Vu-0005no-Je
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:16:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iN1aM-0001N8-4X
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:20:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59820)
+ (envelope-from <alex.bennee@linaro.org>) id 1iN1Vt-00083r-At
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:16:22 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40478)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iN1aL-0001Mi-VN
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:20:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iN1aK-0000pN-Fe
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 21:20:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 74BB22E80C9
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 21:20:56 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iN1Vt-000839-35
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:16:21 -0400
+Received: by mail-wm1-x341.google.com with SMTP id b24so17487554wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 14:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1ritQ+OawXqe3VoqbbZUsskk6zEebrHgRGEunLc3bsA=;
+ b=lkIyYfit97yr8/KIh+JIZgH0iYPZnOwxx7Ouu0DSDpmYmZKY8KLzIBar0USXilkVk8
+ gghzpe3meh8CZsXbid2LCpn0613rzskfKgOoN6vkkW11gCqsAW+sPsNnFRS0aiPiK7sx
+ YZMKt952QVEoYKbqKCagTMjMz80onHBK4QNbosIYVHXhOc0cOeJ+pxzh/jdzT0HQBApW
+ TpnlUucHvh9uofmT/KpfFSO14VnPPE6nWoi9yA4DImQ1qKaczBQHLQOZKE5VpYIyTkjz
+ YCNvs5JBacZRpHTJ32syigC2c5BKWcREmIi+5trRqX2XegjVlnwg++1ztzOC3jt3fRq5
+ 7mFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1ritQ+OawXqe3VoqbbZUsskk6zEebrHgRGEunLc3bsA=;
+ b=sLVA/eFodZeyjV/2n+g3Yl6gXe8YqWbw9kyxMc/fPuwBuL/xEGH42NI6eDxDFODbqk
+ nJHk1xIIHoMNvhCsksxiSIj8QbWg5VI1hANhutyWYjCfswf0u/aVcxJ+iuUJZBiugJB7
+ 40IH/qOlZCOup+ySkW8Jt6wfDTBSw+B8SAShfpMR3u18ioloLU843lzPYi2kuIaDXa5p
+ zbvXF5Km8sWEcBASLlLBS09gj/BV0wK79r6YPgdJb7hQFpyDB0lE68N3++KOZXYZM65A
+ otu5wD70d1LZ50cu3l2rxQqn/ijZ3O5DvgPgJBpYjA4VnrMV/uXDgdRsbvLV99eGuXYq
+ 36KQ==
+X-Gm-Message-State: APjAAAUCUpL+zmS4l56NfJCjm9lIzI3N78i+5vJ4VENvGiLJ0SC3ad1J
+ Wknmz+XxwosIxJ3OjHvqCaJDDw==
+X-Google-Smtp-Source: APXvYqzxSWjW1PDWRYAU8xlF7VUVeV97WFJWvu33yBW0NCcT2QHLxpeIYzUZ6FRoj9zxLnCE2OJgbw==
+X-Received: by 2002:a1c:4e15:: with SMTP id g21mr4407556wmh.148.1571778979082; 
+ Tue, 22 Oct 2019 14:16:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g11sm18857303wmh.45.2019.10.22.14.16.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 14:16:18 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8E0531FF87;
+ Tue, 22 Oct 2019 22:16:17 +0100 (BST)
+References: <20191022072135.11188-1-thuth@redhat.com>
+ <87a79sx6uc.fsf@linaro.org>
+ <123b2e94-3f43-1a8e-2420-12ae09483e2f@redhat.com>
+ <877e4wx55f.fsf@linaro.org>
+ <dcbf2d6d-f7df-7bcf-78a0-bf1964663d3b@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 0/6] Enable more iotests during "make check-block"
+In-reply-to: <dcbf2d6d-f7df-7bcf-78a0-bf1964663d3b@redhat.com>
+Date: Tue, 22 Oct 2019 22:16:17 +0100
+Message-ID: <874l00wkf2.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Oct 2019 21:12:32 -0000
-From: Rod Smith <rod.smith@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Triaged; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=Triaged; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=Triaged; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer rodsmith xanclic
-X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
-X-Launchpad-Bug-Modifier: Rod Smith (rodsmith)
-References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
-Message-Id: <157177875269.25315.9828014070602662159.malone@chaenomeles.canonical.com>
-Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c40e342da871a83a19b90a1d07afd5b562e4bc08
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,92 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I managed to check the PPA version just now, and it's working fine.
-Thanks for the quick fix!
 
--- =
+Thomas Huth <thuth@redhat.com> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848556
+> On 22/10/2019 15.48, Alex Benn=C3=A9e wrote:
+>>
+>> Max Reitz <mreitz@redhat.com> writes:
+>>
+>>> On 22.10.19 15:11, Alex Benn=C3=A9e wrote:
+>>>>
+>>>> Thomas Huth <thuth@redhat.com> writes:
+>>>>
+>>>>> As discussed here:
+>>>>>
+>>>>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg00697.html
+>>>>>
+>>>>> and here:
+>>>>>
+>>>>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01388.html
+>>>>
+>>>> Queued to testing/next, thanks.
+>>>
+>>> It should be noted that this series depends on my SOCK_DIR series (which
+>>> I have in my block branch), or the newly added tests are likely to fail
+>>> in the CI environment.
+>>
+>> Ahh I misread....
+>> <snip>
+>>
+>>>>> it would be good to have some more valuable iotests enabled in the
+>>>>> "auto" group to get better iotest coverage during "make check".
+>>>>>
+>>>>> And once Max' "iotests: Add and use $SOCK_DIR" patch series has been
+>>>>> merged, we can indeed enable these Python-based tests, too.
+>>
+>> I though these weren't enabled in this series. Do I need to drop all the
+>> patches?
+>
+> I think it's better if the iotest patches go through Max' or Kevin's
+> block tree.
 
-Title:
-  qemu-img check failing on remote image in Eoan
+OK I can drop them from my tree.
 
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Triaged
-Status in qemu source package in Eoan:
-  Triaged
-Status in qemu source package in Focal:
-  Triaged
+>
+>  Thomas
 
-Bug description:
-  Ubuntu SRU Template:
 
-  [Impact]
-
-   * There is fallout due to changes in libcurl that affect qemu and might =
-
-     lead to a hang.
-
-   * Fix by backporting the upstream fix
-
-  [Test Case]
-
-   * If you have network just run
-     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
-.img
-
-   * Without network, install apache2, and get a complex qemu file (like a =
-
-     cloud image) onto the system. Then access the file via apache http but =
-
-     not localhost (that would work)
-
-  [Regression Potential]
-
-   * The change is local to the libcurl usage of qemu, so that could be =
-
-     affected. But then this is what has been found to not work here, so I'=
-d =
-
-     expect not too much trouble. But if so then in the curl usage (which =
-
-     means disks on http)
-
-  [Other Info]
-   =
-
-   * n/a
-
-  ---
-
-  The "qemu-img check" function is failing on remote (HTTP-hosted)
-  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
-  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
-  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
-
-  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
-g-amd64.img
-  No errors were found on the image.
-  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
-usters
-  Image end offset: 514064384
-
-  The 10.193.37.117 server holds an Apache server that hosts the cloud
-  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
-  0ubuntu9, the same command never returns. (I've left it for up to an
-  hour with no change.) I'm able to wget the image from the same server
-  and installation on which qemu-img check fails. I've tried several
-  .img files on the server, ranging from Bionic to Eoan, with the same
-  results with all of them.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
+--
+Alex Benn=C3=A9e
 
