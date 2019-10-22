@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6A6E0CA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:38:08 +0200 (CEST)
-Received: from localhost ([::1]:42578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26724E0CA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:35:38 +0200 (CEST)
+Received: from localhost ([::1]:42540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMzyo-0007ru-Pt
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
+	id 1iMzwP-0005QZ-6h
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iMznU-0004wD-Gk
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:25 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iMznT-00026K-5t
+ (envelope-from <alex.bennee@linaro.org>) id 1iMznT-0004uu-VV
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:24 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39319)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iMznS-00025t-Ph
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:23 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55491)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iMznT-00024J-07
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:23 -0400
-Received: by mail-wm1-x334.google.com with SMTP id r141so7674554wme.4
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:26:21 -0700 (PDT)
+ id 1iMznS-00025H-Jb
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id g24so9415493wmh.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QOLEg7xmqkR0qKe9FHUO6HsPeD95QlCUJggtiyjFmQ0=;
- b=Kktoz4rOjD3/indQ0VnDxTqVO+Y5ncCJyy4TthePZts3N2wTjWiX177UIH8VP1A37T
- Q7uyO0PnELr56Hs37bqYt+iF1yHZpBg4ik8MXhbqNEjILVcGKSaWfvJjIBQQZs4OEi1Q
- +5lIjkOoB3o71bpUvW6u+VOjqRdRduEfsAApITDbNpQp2iS6fV8H5MCRC9mE+DMriGsj
- 4ox2VeykM7uV95e5wDG0JPaqD8KrLwm6Cz1lY/wpvpxFa6BHF4zJtX9uXtwj5vXgIlXG
- 91o8J7XUscm/lyZMxd8YviLLj66pDshIFpVolsdv6Z+92JVDFvmq6LdlXH06rZJKVQ0A
- 2HXg==
+ bh=CR15GmJcpTxUHSy0ueYvJce2z343jSaRkeBQ2QiDxqA=;
+ b=C6ZOa74EIOFdkz6DKBKo/YIFzj6BOKROAT4nnwiWM71zgqs8IiNsiCzoDtZvMlHxW9
+ g8hKE3D5C/OLbKfW8naUSl9aWxo44MbNEXRkmZQRX5/vnT9dSOYA3ORMuyDUgBrpdiG4
+ A+2tRZ5vKD+fu+6nHmnI0AenXp7MNqXpvDsV63f2J5tESleaYewu9c4jBm4lY2G3iQnY
+ uWOPcEL1SLJAHkaIdUSvcttgtnWe/+15JZJ+ETkQPLVsgzUxXIfM7TqR8Oc+kYLeY6eQ
+ F5Ucyc0ZeKA6DXX2ptUwiBbOXO+Q+XWREgA8faNB+Un8M0RNPagBW29aKHL36Y97WlrM
+ Enpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QOLEg7xmqkR0qKe9FHUO6HsPeD95QlCUJggtiyjFmQ0=;
- b=L8iXTu8ppvGeFs8O8o3aN0RP9NouwFPemKtd7zYu1HkP92nU6glbeNOZTumBBzFEGx
- dOfBxYyCBbk+EdVCELIg9XwWve5UfUFuOOUHr0EEyHJ+31YPCtVuexRQEQQcj/bM6GTH
- ueVpTCQEFmborNVDn0b2sa6nhvbcmUKtL0qWnzGKqyEZdqDrUiMjjwGaC6wc+pAXvxTG
- C/feVdsxVX691MvLvddQEtNdZk8vNRmjTi9p5l/WQepMGb67MyJvrVx3ZirI7/9Unojz
- A/RnzvAQmfqrPLmvfeX9WPxtt6M7ldCY59FYA68mJ3KJf8YNIx5QbnDnYjZSyMNiC7js
- 5tzw==
-X-Gm-Message-State: APjAAAXgrikiLedHk+6M99eoZt+7IShH2fHVGMcwc4Xp+VufKKLCgPIi
- 4eAjHW50/QMqqUZeqzjHS0UCow==
-X-Google-Smtp-Source: APXvYqyy7s7Rj2O8j/UEncfQTx1m0pcgZqvmbXQsimErEF2gjJ5hXCW9eVvdGaPMSWMqgWFegYyRSA==
-X-Received: by 2002:a1c:35c3:: with SMTP id c186mr4277780wma.94.1571772380832; 
- Tue, 22 Oct 2019 12:26:20 -0700 (PDT)
+ bh=CR15GmJcpTxUHSy0ueYvJce2z343jSaRkeBQ2QiDxqA=;
+ b=XTKpwnI7JEQCAfjlHzQ5P3VWZZhTZpZnYaTg/cLhwvqGdWLi87qR7EIQiJ+4CvMV9p
+ AJ/ShXPxKpk2zJ773ymNVbDK+qZgVtfbKu2CgtOYAcJkC18d5URBpyRixfUFkxk0EaAE
+ ZX3YQrqkhmNuGbONxUWXwyZ35LYwCN4pcbiTYd67kF4nmpXcHmhbue4mrO1ZMLtQ1oOQ
+ ThE0eEdJMm+6/+SC317/pPgHiB5N9ZXld8LpQ0gA1xiykLwnf5OWn2K7h0PZIfn2LKy7
+ KQzZzJQqsYBSE6+1SiW9Nz6o+Hb+dZIKUXqfXEFhQt6V82MNUYK5hGuDDhyB37zoArT0
+ ANOg==
+X-Gm-Message-State: APjAAAU1S+gZFy0UgeQQxrTo8xWX+ecT2f0XJlCblXdID1eqUP0MMCRV
+ Xd2HsP6NzSF5v9FMCaakAlkhTA==
+X-Google-Smtp-Source: APXvYqzUTrHi1MiGsp2DEk4PxGSNBMDpTamEghgokyd8bFeOa4lJkxLPQPusnBF05ELsRV66qG/0Tg==
+X-Received: by 2002:a7b:cf05:: with SMTP id l5mr4278222wmg.119.1571772381393; 
+ Tue, 22 Oct 2019 12:26:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s13sm17352070wmc.28.2019.10.22.12.26.18
+ by smtp.gmail.com with ESMTPSA id h17sm20578690wme.6.2019.10.22.12.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Oct 2019 12:26:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC0D01FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id F14421FF8C;
  Tue, 22 Oct 2019 20:17:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 18/19] iotests: Enable more tests in the 'auto' group to
- improve test coverage
-Date: Tue, 22 Oct 2019 20:17:03 +0100
-Message-Id: <20191022191704.6134-19-alex.bennee@linaro.org>
+Subject: [PATCH  v1 19/19] iotests: Remove 130 from the "auto" group
+Date: Tue, 22 Oct 2019 20:17:04 +0100
+Message-Id: <20191022191704.6134-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022191704.6134-1-alex.bennee@linaro.org>
 References: <20191022191704.6134-1-alex.bennee@linaro.org>
@@ -69,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,98 +83,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
  Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  "open list:Block layer core" <qemu-block@nongnu.org>,
- stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
- Max Reitz <mreitz@redhat.com>, cota@braap.org, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+ stefanb@linux.vnet.ibm.com, John Snow <jsnow@redhat.com>,
+ richard.henderson@linaro.org, f4bug@amsat.org, Max Reitz <mreitz@redhat.com>,
+ cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-According to Kevin, tests 030, 040 and 041 are among the most valuable
-tests that we have, so we should always run them if possible, even if
-they take a little bit longer.
+Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
+'write' lock - Is another process using the image [TEST_DIR/t.IMGFMT]?"
+error with 130 already twice. Looks like this test is a little bit
+shaky, so for the time being, let's disable it from the "auto" group so
+that it does not gate the pull requests.
 
-According to Max, it would be good to have a test for iothreads and
-migration. 127 and 256 seem to be good candidates for iothreads. For
-migration, let's enable 091, 181, and 203 (which also tests iothreads).
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191022072135.11188-6-thuth@redhat.com>
+Message-Id: <20191022072135.11188-7-thuth@redhat.com>
 ---
- tests/qemu-iotests/group | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/group | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index a73df279e5e..33b499ed410 100644
+index 33b499ed410..4596497bced 100644
 --- a/tests/qemu-iotests/group
 +++ b/tests/qemu-iotests/group
-@@ -51,7 +51,7 @@
- 027 rw auto quick
- 028 rw backing quick
- 029 rw auto quick
--030 rw backing
-+030 rw auto backing
- 031 rw auto quick
- 032 rw auto quick
- 033 rw auto quick
-@@ -61,8 +61,8 @@
- 037 rw auto backing quick
- 038 rw auto backing quick
- 039 rw auto quick
--040 rw
--041 rw backing
-+040 rw auto
-+041 rw auto backing
- 042 rw auto quick
- 043 rw auto backing
- 044 rw
-@@ -112,7 +112,7 @@
- 088 rw quick
- 089 rw auto quick
- 090 rw auto quick
--091 rw migration
-+091 rw auto migration
- 092 rw quick
- 093 throttle
- 094 rw quick
-@@ -148,7 +148,7 @@
- 124 rw backing
- 125 rw
- 126 rw auto backing
--127 rw backing quick
-+127 rw auto backing quick
+@@ -151,7 +151,7 @@
+ 127 rw auto backing quick
  128 rw quick
  129 rw quick
- 130 rw auto quick
-@@ -197,7 +197,7 @@
- 177 rw auto quick
- 178 img
- 179 rw auto quick
--181 rw migration
-+181 rw auto migration
- 182 rw quick
- 183 rw migration
- 184 rw auto quick
-@@ -218,7 +218,7 @@
- 200 rw
- 201 rw migration
- 202 rw quick
--203 rw migration
-+203 rw auto migration
- 204 rw quick
- 205 rw quick
- 206 rw
-@@ -270,7 +270,7 @@
- 253 rw quick
- 254 rw backing quick
- 255 rw quick
--256 rw quick
-+256 rw auto quick
- 257 rw
- 258 rw quick
- 260 rw quick
+-130 rw auto quick
++130 rw quick
+ 131 rw quick
+ 132 rw quick
+ 133 auto quick
 -- 
 2.20.1
 
