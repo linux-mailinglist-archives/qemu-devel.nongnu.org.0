@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5753AE0530
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:36:44 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE447E053E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:37:49 +0200 (CEST)
+Received: from localhost ([::1]:57450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuL4-0006yu-SN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:36:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36627)
+	id 1iMuM8-00009L-CA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGS-0002Ie-PI
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGS-0002I4-Bx
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGN-0001AU-Qw
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGR-0001BG-4j
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42905)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41516)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuGN-0001A9-Kt
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:51 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r1so8296786wrs.9
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:31:51 -0700 (PDT)
+ id 1iMuGQ-0001Aw-Uk
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:55 -0400
+Received: by mail-wr1-x443.google.com with SMTP id p4so18096654wrm.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=RtZ6eDxdSnhFwcSQva9Dw3k0dUzdlcR17D7YwApDOzk=;
- b=Q5yOAHESFi/+2tpWoVFf1kKsk/j5mTzwL/GivZQCeaR7PneZez9LJhKxDRC3fgCPlO
- rB/zQaL71aTCyMa5bS9fyX3ETD8ukOGSjBO+MeF9g34Gi/bw+2LmM4nYiCjIhfrEylBR
- NoOBqm3D030JuaECNjxEi3zp52RoSCZTxgbs2xcweVib1Eijo4b6KXQ+pLdl9Sl88M7g
- mUFo2pzM/Ssjiu+AR0k3VJaZP5J0Cwt4d2ycbxLTFJp8cDdQIncUmS9jFOQwb9voIImO
- WJxV5D1sKYG5YaAuVor6v3OLQsnnPd4mbchKUw2JqAYR6IRvg3x5Ozd8dZhFLr8YpIbL
- 7U9A==
+ bh=JUEy3Kpo6e4fixjUzNZTRmi2uqnm25sL1IZPSuv+MZM=;
+ b=RPmklUmDm/FKCimO6Ua1GQtUPMmyPwHDrSwHE9dW5foijSqFPwq8CZ7nS/kLB1KIcF
+ 1V9uKijjPWP1mSCwnQhZQh9SvEoRehLrqeTSSlBT/DwwM/sR8oo2IKl6piRGW0HowC4E
+ jYAQn5Vw1jkvp8DrxKgN3WjfUvhoVDq/SyVh2cLGVbxq7uSIgul0zMybFB2ocgOtKoeT
+ 7x2wvEv8SZFnGldBBqNXhvD5+XhY5itOiw4rUsU5z4BgzR3HZ2GzgjAo4RQEVGzyeSBj
+ 7ESR9S6h41/jLT+R3CNugFG3LoDoBsmGZ2qL45tbGrTZt2SoMkUt3tvQdoAm2VWGg4cI
+ oh3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RtZ6eDxdSnhFwcSQva9Dw3k0dUzdlcR17D7YwApDOzk=;
- b=U99EkRLUQdhaeOrvBdPMjoOFNgPVuWaC9HB/CxWJQrhtG93eV1kLjt9ZsKbI9YaA0z
- E7k0VKGA29bqrybS4bE9L/qNihbKNBKSQrKSFtuoYnGSKS0AfTOjiwfIYtK1XTrjXIiz
- oETPuCfin9Hplv99weSq60iLgOaSAiajd6a458oK0QNnzD2olPmU2N0wl5+VytvjHP3J
- iZZ3/2JTXj/lv4KAHE0sfE4PyTYGlMSOJ5ZATLspPVzyUPbRg5HAUCabsCeFBjuJe0CP
- CjPVoCFFL1H+Vqapyr9Ib64zb0MPoFo9nNArBAIgEYfelmSsGgDwpc64VcDvB9hu7djU
- Z4xw==
-X-Gm-Message-State: APjAAAX2kY4RLMxNQL9ih5+Y4TyIPkHqU6IV6ilBnhndK+Lz6Y3P9+K3
- lM5SmctkG2Yq96KQlr30D6QtR8sd6hg=
-X-Google-Smtp-Source: APXvYqyWlgqKmiaoKvJdb72RL1RtN5rWKMWz38fLvqTjE5eYGdKyRHt2AP2wSuIJ+L/hVFiXcpj2TQ==
-X-Received: by 2002:a5d:4ace:: with SMTP id y14mr3654128wrs.131.1571751109762; 
- Tue, 22 Oct 2019 06:31:49 -0700 (PDT)
+ bh=JUEy3Kpo6e4fixjUzNZTRmi2uqnm25sL1IZPSuv+MZM=;
+ b=jdHDpl3f6zJevGHcDxNb2zoCF47mO+jAC4QWPWiXM8qDfRtsymdISS2GBmQ5aOVLTH
+ e4kF/LjFwUhxnsRfYdHMCxpN6txN/U+GCnV6tS/J1yhVD5E2094kvRdcgsBmBQFvsOeV
+ vQNUmLbecni3GcJb5mztEBeXmKhw3mNblvAMhQsdnqN78X5/5epKJ6XDQA9b/3auchq8
+ fAXAprP31UmFtErL7nPbBWfv+pAQ5JtDYQzlR+FLGv4vslq3FSbjEIptSBX97kNK8aea
+ MpMAptIpwJHQtK5+WCygulLHIHdqxViUb39uFYXPLf0M9sFl7PFeWjfc0outL82fHGVW
+ ZoMw==
+X-Gm-Message-State: APjAAAUeI2NUouHk9ktx834I++9NHfCX6Z6ZoljLYD8iMEMD9idIh08v
+ X+WrMxPjaV+xjikp4sU00yrl7nFVr98=
+X-Google-Smtp-Source: APXvYqxXWZDjGo/YdLHMAwdR98FfSIhL8a3oNsim/wN+aEoooGLpsNDt/tr5tuREAkOyjQfIjypBKA==
+X-Received: by 2002:a5d:6787:: with SMTP id v7mr3697002wru.392.1571751112471; 
+ Tue, 22 Oct 2019 06:31:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.31.47
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.31.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:31:47 -0700 (PDT)
+ Tue, 22 Oct 2019 06:31:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/41] hw/timer/arm_mptimer.c: Undo accidental rename of
- arm_mptimer_init()
-Date: Tue, 22 Oct 2019 14:30:57 +0100
-Message-Id: <20191022133134.14487-5-peter.maydell@linaro.org>
+Subject: [PULL 05/41] hw/timer/puv3_ost.c: Switch to transaction-based ptimer
+ API
+Date: Tue, 22 Oct 2019 14:30:58 +0100
+Message-Id: <20191022133134.14487-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,42 +83,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit b01422622b we did an automated rename of the ptimer_init()
-function to ptimer_init_with_bh().  Unfortunately this caught the
-unrelated arm_mptimer_init() function.  Undo that accidental
-renaming.
+Switch the puv3_ost code away from bottom-half based ptimers to the
+new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
-Fixes: b01422622b7c7293196fdaf1dbb4f495af44ecf9
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20191017133331.5901-1-peter.maydell@linaro.org
+Message-id: 20191017132905.5604-2-peter.maydell@linaro.org
 ---
- hw/timer/arm_mptimer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/timer/puv3_ost.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-index fdf97d1800f..2bf11f788c3 100644
---- a/hw/timer/arm_mptimer.c
-+++ b/hw/timer/arm_mptimer.c
-@@ -237,7 +237,7 @@ static void arm_mptimer_reset(DeviceState *dev)
-     }
- }
+diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
+index 0898da5ce97..697519593bb 100644
+--- a/hw/timer/puv3_ost.c
++++ b/hw/timer/puv3_ost.c
+@@ -13,7 +13,6 @@
+ #include "hw/sysbus.h"
+ #include "hw/irq.h"
+ #include "hw/ptimer.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
  
--static void arm_mptimer_init_with_bh(Object *obj)
-+static void arm_mptimer_init(Object *obj)
- {
-     ARMMPTimerState *s = ARM_MPTIMER(obj);
+ #undef DEBUG_PUV3
+@@ -27,7 +26,6 @@ typedef struct PUV3OSTState {
+     SysBusDevice parent_obj;
  
-@@ -319,7 +319,7 @@ static const TypeInfo arm_mptimer_info = {
-     .name          = TYPE_ARM_MPTIMER,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(ARMMPTimerState),
--    .instance_init = arm_mptimer_init_with_bh,
-+    .instance_init = arm_mptimer_init,
-     .class_init    = arm_mptimer_class_init,
- };
+     MemoryRegion iomem;
+-    QEMUBH *bh;
+     qemu_irq irq;
+     ptimer_state *ptimer;
  
+@@ -68,6 +66,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
+     DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+     switch (offset) {
+     case 0x00: /* Match Register 0 */
++        ptimer_transaction_begin(s->ptimer);
+         s->reg_OSMR0 = value;
+         if (s->reg_OSMR0 > s->reg_OSCR) {
+             ptimer_set_count(s->ptimer, s->reg_OSMR0 - s->reg_OSCR);
+@@ -76,6 +75,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
+                     (0xffffffff - s->reg_OSCR));
+         }
+         ptimer_run(s->ptimer, 2);
++        ptimer_transaction_commit(s->ptimer);
+         break;
+     case 0x14: /* Status Register */
+         assert(value == 0);
+@@ -128,9 +128,10 @@ static void puv3_ost_realize(DeviceState *dev, Error **errp)
+ 
+     sysbus_init_irq(sbd, &s->irq);
+ 
+-    s->bh = qemu_bh_new(puv3_ost_tick, s);
+-    s->ptimer = ptimer_init_with_bh(s->bh, PTIMER_POLICY_DEFAULT);
++    s->ptimer = ptimer_init(puv3_ost_tick, s, PTIMER_POLICY_DEFAULT);
++    ptimer_transaction_begin(s->ptimer);
+     ptimer_set_freq(s->ptimer, 50 * 1000 * 1000);
++    ptimer_transaction_commit(s->ptimer);
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &puv3_ost_ops, s, "puv3_ost",
+             PUV3_REGS_OFFSET);
 -- 
 2.20.1
 
