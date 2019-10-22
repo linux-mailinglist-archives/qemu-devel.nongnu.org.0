@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39EEE0A78
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:20:54 +0200 (CEST)
-Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B66BE0A80
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:22:12 +0200 (CEST)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxq1-0005KI-LI
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47959)
+	id 1iMxrH-00074q-KN
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMxom-00045x-2F
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:19:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMxpq-0005mP-2I
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:20:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMxok-0001vB-Kq
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:19:35 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42028)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMxpp-0002Us-3x
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:20:41 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42412)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMxok-0001uj-G1
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:19:34 -0400
-Received: by mail-ot1-x342.google.com with SMTP id b16so4083837otk.9
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:19:34 -0700 (PDT)
+ id 1iMxpo-0002U2-Uj
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:20:41 -0400
+Received: by mail-oi1-x243.google.com with SMTP id i185so14855682oif.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Ne/hWEhyLPh9P2iF1f90rmFstvnIDJwvxB4L5jsXSuo=;
- b=kAjKDe9ts8LLutdSWhimO3rnDoZSVaFLD8hXo4uggeLRx9cQ6lMwvAZxX/sjTaz1Ex
- wilD7EjhJcwtlumoFu4f8CQDoExbuMAFA6FTMb2ylhLSXkjhPt85ja/OtEzpnlnM19cy
- POdCLMl30scf4SlBHroOqgKcWgz3uiKv5kwRwSKDUSXEl+7UyvIrlBT8hRdFaPBOblk5
- QKYtWD5tp5lonBcX689hhiDG7l2RMlvRRcUjgIwwYU18mpjYdCXI9HfBi+/6VBSXaiLQ
- y2eukzOKlmkxivbBj0yE5U1kfUiH8DcvDNxX8HKxOJXwAaMphQqAOJgZARZgY7G2QX+o
- GuHg==
+ bh=0La5A2pXgYdYZprUXZS7B3dH09V7aLZ8RTJlRKFlNoY=;
+ b=Yhk6ETxrdaUM2oJ+DtchYQZhE3pWS71TXPp0pu4KdJQzXxHLxt47qxXFNobSG/XOZn
+ lDV/bRQ0ZIUYyfZ/OSjc43OxtvlkOnYr6WAjrI6z5nD8+iHJsekiiHkxeKxBhC8Bbo8x
+ augR3pitXD3WmUaFREDO9mVHDn5jlo4vjQRenR7t1ut+KmrWQSrWo4r9Qd+R7YhpF2Mg
+ Fh3rgVFX2tMuYxOQ4w5kqb9vN60t5F50EP1/XmEnprbILtk9qTCJFMv+ybLQ16/SC07U
+ Bq3eOxQTc0ya9boSk75NZjv05W7vqYWP85UiMwlow0Flhvx6KxZPR6Y+gBzEMPTMGyUk
+ tJXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ne/hWEhyLPh9P2iF1f90rmFstvnIDJwvxB4L5jsXSuo=;
- b=JKuVVmoj30IzXQPaEiiv2V36V5AVYi+fuAkraIUXmM9/RU+n71Bd+6Vtx6bH0S/s1o
- iFmgW2R+rmLwPEWDFKuouTKgibYxl3m6Kh4ZQwUbK4vWoUio2eIb1gMZVgXkfrHusu7b
- lgbbkVEytDwhubhLa0gvK0INPnZOhgXZofhwIkL3XxBs+OStir/sp9gs5gwHoH0Pozh9
- hcM164waGAOKUdZ5PuGrjoXj0JpeDHn/8HcVdupN1jPRZiQ6/s1nbPCo7iRgKwWOYqJE
- nU6vIEFyV4brukStA+C83C5dnCnQOS3BpQF7eSWAhIMIc4GSxRVXumCRg3yXPZF/frE4
- cVjg==
-X-Gm-Message-State: APjAAAUdpUBiprFDO3fEBRkTu+5KQWXIvQ7VirbUGikOFLHT5jAtSooD
- PjI8qeH3Q6MqobGPu/XOcTPJWF+5FQex2p5Z+9p4CQ==
-X-Google-Smtp-Source: APXvYqwPDJ8a7SDxn28pcfe8LPi1wUlcUwbQaSokc8T8BEfjFK0fQwnK1Qbht46ymkl889JNdDTTT7W8S5K4ZYNuvEU=
-X-Received: by 2002:a9d:398a:: with SMTP id y10mr3443749otb.97.1571764773451; 
- Tue, 22 Oct 2019 10:19:33 -0700 (PDT)
+ bh=0La5A2pXgYdYZprUXZS7B3dH09V7aLZ8RTJlRKFlNoY=;
+ b=b/5Z7gM3eSMEM/XIJffbzvWKTl3pSMK+traX/8yWZ0iCOcuKSivX+UPPHhnYzeKkML
+ P99LY1BIpxK3pP/mGcTw+kxw4MACfGKzW4eO0e874auprGRSMvy6zURuXG5jgVxpJfA/
+ jHYjLjLydHAPI5j1cpmlRnez2cc147Zi2fwrKqlWyR5UANFcseLtWhdbMcF7+SzKhJdg
+ noE1hoDNGk0VrQON0eJK0R/9fbFQ3AZJ5ZeIpMBdRVc+TGA2uYokgE0Cd3ooAxfCX7eA
+ BCkz6fYf+ydulULX5aDFyt0BC6xVrhOyFOrkJEip7NT+cRdltrTgtBBDXKAegTo7tIDt
+ RO6Q==
+X-Gm-Message-State: APjAAAWVceXq5RB6T8OCRcxOe+fiL/v5Nh7bfop7k7/u3y4jwJOZYaol
+ 9SK93AM2yLM/3gQknL7CGONffAqCRLkTqhxSycoFlw==
+X-Google-Smtp-Source: APXvYqxfACClC+BQM2b9C8yyLX8XftMPWXxeLdChl8HF8hLN7tpdtXoJUc4CJBjC5zsAMfg81Bl498W9yrqc+UspKzA=
+X-Received: by 2002:aca:49c2:: with SMTP id w185mr3959708oia.163.1571764839900; 
+ Tue, 22 Oct 2019 10:20:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
- <20191022162137.27161-24-marcandre.lureau@redhat.com>
-In-Reply-To: <20191022162137.27161-24-marcandre.lureau@redhat.com>
+References: <20191016090745.15334-1-clg@kaod.org>
+ <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
+ <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
+ <CAFEAcA8py1obBXc1o02wTRkXms9NwCnCT6Q9ZZ-4W=NzNocLrQ@mail.gmail.com>
+ <a0b2779c-bcd5-0fe9-ff3f-d4254aba8805@kaod.org>
+In-Reply-To: <a0b2779c-bcd5-0fe9-ff3f-d4254aba8805@kaod.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Oct 2019 18:19:21 +0100
-Message-ID: <CAFEAcA8A4-wEy3ueq+Tz3oN3Fpyy_vXdQ4k_mmOXYiVwjDEe_w@mail.gmail.com>
-Subject: Re: [PATCH v2 23/28] smbus-eeprom: remove PROP_PTR
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 22 Oct 2019 18:20:28 +0100
+Message-ID: <CAFEAcA9nymSxBkEm8GcJm9p4Y_obmK-fbojFEi+Et52H-mPFdA@mail.gmail.com>
+Subject: Re: [PATCH] aspeed: Add an AST2600 eval board
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,43 +77,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 at 17:24, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Instead, set the initial data field directly.
->
-> (the initial data is an array of 256 bytes. As I don't know if it may
-> change over time, I keep the pointer to original buffer as is, but it
-> might be worth to consider to copy it instead)
+On Tue, 22 Oct 2019 at 18:16, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> Is it time for me to install an OSX system for dev and tests or is there
+> a way to reproduce the issue ? no errors spotted in valgrind.
 
-All the callers to smbus_eeprom_init_one() allocate the
-memory for the initial data, populate it, pass the pointer
-to smbus_eeprom_init_one() and do not save the pointer
-anyway. So we effectively "own" the data -- we could choose
-to copy the data and make the callers free the memory instead.
-
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-I'd still like to know what the right QOM way to pass
-256 bytes of constant data to a device as a property is.
-
+I dunno. You could have a look to see if you can repro
+it with the travis builds. I would investigate but I
+don't have time this week given impending softfreeze
+and KVM Forum next week.
 
 thanks
 -- PMM
