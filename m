@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EF8E0D63
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 22:41:35 +0200 (CEST)
-Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AC8E0D95
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 23:02:39 +0200 (CEST)
+Received: from localhost ([::1]:44872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iN0yE-0007Rz-7A
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 16:41:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46790)
+	id 1iN1Ic-0005dT-18
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 17:02:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iN0wx-0006bE-EZ
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 16:40:16 -0400
+ (envelope-from <svens@stackframe.org>) id 1iN1G6-0004Ue-Ch
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:00:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iN0wv-0003EC-KT
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 16:40:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43342
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iN0wv-0003Dv-D7
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 16:40:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571776811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1FfLdU1bYtMC5WDl8iivrnpDaIU5b/Yck0Rr/byTFAs=;
- b=dKyjJMVaCCl/a0otNOfeBP8kx2a1nOzCENygNR4fPe6uIEjntakXbc6QwRtZbkFn9xUjnf
- Liq1LTxny/W/5Xp2/EaIDd29WKCsz7ZmiohXXsL9gK3vgHval0Q7UkAF2SnyWScT8TgHUi
- gfDBpCutTzks46rF5nd5ABBpUcOogYw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-TmzJscmtN_yNcXV4BToUww-1; Tue, 22 Oct 2019 16:40:09 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D0E247B;
- Tue, 22 Oct 2019 20:40:08 +0000 (UTC)
-Received: from [10.3.117.0] (ovpn-117-0.phx2.redhat.com [10.3.117.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB5C85D6A9;
- Tue, 22 Oct 2019 20:40:04 +0000 (UTC)
-Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
-To: "yezhenyu (A)" <yezhenyu2@huawei.com>, stefanha@redhat.com,
- pbonzini@redhat.com, dgilbert@redhat.com
-References: <5DAEB9D3.3080503@huawei.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <95fde68e-9730-ce22-b59d-c5e20f86d0c1@redhat.com>
-Date: Tue, 22 Oct 2019 15:40:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <svens@stackframe.org>) id 1iN1G4-0002OL-VZ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:00:02 -0400
+Received: from [2001:470:70c5:1111::170] (port=37003 helo=smtp.duncanthrax.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iN1G4-0002NA-Bt
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:00:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=WN3+MkzlHNl2FcqBSNFPnGch2ftF/M+xC2nGDFQ58us=; b=CbV4Alo6iIOvhY3HufGnNz34Rw
+ YgLBptCrn4Vwez3pDFbcWhB4cy5wyWRmDR9kpq3yq8Ve0NYiN1jS7JAxf87f1ZkfJhR8q1MgLcyRD
+ aYko15z4u80P9nlWl0MyUzkbGAw9ocuwFFZx5e/HqTVTES8TmFXU4xghV0k0Pyt0n7eI=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=x280.stackframe.org)
+ by smtp.eurescom.eu with esmtpa (Exim 4.86_2)
+ (envelope-from <svens@stackframe.org>)
+ id 1iN1Fy-0004eI-L2; Tue, 22 Oct 2019 22:59:54 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: Richard Henderson <rth@twiddle.net>
+Subject: [PATCH v3 0/6] HPPA: i82596, PS/2 and graphics emulation
+Date: Tue, 22 Oct 2019 22:59:35 +0200
+Message-Id: <20191022205941.23152-1-svens@stackframe.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <5DAEB9D3.3080503@huawei.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: TmzJscmtN_yNcXV4BToUww-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:470:70c5:1111::170
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,83 +55,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jiangyiwen <jiangyiwen@huawei.com>, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/19 3:12 AM, yezhenyu (A) wrote:
-> Since qemu2.9, QEMU added three AioContext poll parameters to struct
-> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties are
-> used to control iothread polling time.
->=20
-> However, there isn't properly hmp commands to adjust them when the VM is
-> alive. It's useful to adjust them online when observing the impact of
-> different property value on performance.
->=20
-> This patch add three hmp commands to adjust iothread poll-* properties
-> for special iothread:
->=20
-> set_iothread_poll_max_ns: set the maximum polling time in ns;
-> set_iothread_poll_grow: set how many ns will be added to polling time;
-> set_iothread_poll_shrink: set how many ns will be removed from polling
-> time.
->=20
-> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
-> ---
-> hmp-commands.hx | 42 ++++++++++++++++++++
-> hmp.c | 30 +++++++++++++++
-> hmp.h | 3 ++
-> include/sysemu/iothread.h | 6 +++
-> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
-> qapi/misc.json | 23 +++++++++++
-> 6 files changed, 184 insertions(+)
+Hi,
 
-Looking at just the QMP...
+these series adds quite a lot to the HPPA emulation in QEMU:
+i82596 emulation from Helge, PS/2 and Artist graphics emulation.
 
-> +++ b/qapi/misc.json
-> @@ -675,6 +675,29 @@
-> { 'command': 'query-iothreads', 'returns': ['IOThreadInfo'],
-> 'allow-preconfig': true }
->=20
-> +##
-> +# @set-iothread-poll-param:
-> +#
-> +# Set poll-* properties for a special iothread.
-> +# The poll-* name can be poll_max_ns/poll_grow/poll_shrink.
+See https://parisc.wiki.kernel.org/index.php/Qemu for a few screenshots
+of QEMU running a X11/CDE session in HP-UX.
 
-This should be an enum.
+Changes in v3:
+ - use BIT() macro in gsc_to_pci_forwarding()
+ - fix version id in vm state
+ - fix an error in the PS/2 KBD_CMD_SET_MAKE_BREAK implementation
 
-> +#
-> +# Notes: can not set the QEMU main loop thread, which is not declared
-> +# using the -object iothread command-line option. The poll_ns property c=
-an not
-> +# be set manually, which is auto-adjust.
+Changes in v2:
+ - dropped 'hppa: remove ISA region' as that patch requires some more work
+ - added shortlog to seabios update
+ - use const and MAKE_64BIT_MASK in dino.c
 
-You failed to document the parameters (iothread_id, name, value).
+Regards,
+Sven
 
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "set-iothread-poll-param",
-> +# "arguments": { "iothread_id": "1",
-> +# "name": "poll_max_ns",
-> +# "value": 1000 } }
-> +# <- { "return": {} }
-> +#
-> +# Since 3.0
 
-4.2 is the earliest this can make it in.
+Helge Deller (2):
+  hw/hppa/dino.c: Improve emulation of Dino PCI chip
+  hppa: Add support for LASI chip with i82596 NIC
 
-> +##
-> +{ 'command': 'set-iothread-poll-param',
-> + 'data': {'iothread_id': 'str', 'name': 'str', 'value': 'int'} }
+Sven Schnelle (4):
+  ps2: accept 'Set Key Make and Break' commands
+  hppa: add emulation of LASI PS2 controllers
+  hppa: Add emulation of Artist graphics
+  seabios-hppa: update to latest version
 
-Our naming convention prefers 'iothread-id'.
+ MAINTAINERS                 |    4 +-
+ hw/display/Kconfig          |    3 +
+ hw/display/Makefile.objs    |    1 +
+ hw/display/artist.c         | 1336 +++++++++++++++++++++++++++++++++++
+ hw/display/trace-events     |    9 +
+ hw/hppa/Kconfig             |    3 +
+ hw/hppa/Makefile.objs       |    2 +-
+ hw/hppa/dino.c              |   97 ++-
+ hw/hppa/hppa_hardware.h     |    1 +
+ hw/hppa/hppa_sys.h          |    2 +
+ hw/hppa/lasi.c              |  368 ++++++++++
+ hw/hppa/machine.c           |   18 +-
+ hw/hppa/trace-events        |   10 +
+ hw/input/Kconfig            |    3 +
+ hw/input/Makefile.objs      |    1 +
+ hw/input/lasips2.c          |  289 ++++++++
+ hw/input/ps2.c              |   15 +
+ hw/input/trace-events       |    5 +
+ hw/net/Kconfig              |    7 +
+ hw/net/Makefile.objs        |    2 +
+ hw/net/i82596.c             |  734 +++++++++++++++++++
+ hw/net/i82596.h             |   55 ++
+ hw/net/lasi_i82596.c        |  188 +++++
+ hw/net/trace-events         |   13 +
+ include/hw/input/lasips2.h  |   16 +
+ include/hw/input/ps2.h      |    1 +
+ include/hw/net/lasi_82596.h |   29 +
+ pc-bios/hppa-firmware.img   |  Bin 783724 -> 772876 bytes
+ roms/seabios-hppa           |    2 +-
+ 29 files changed, 3196 insertions(+), 18 deletions(-)
+ create mode 100644 hw/display/artist.c
+ create mode 100644 hw/hppa/lasi.c
+ create mode 100644 hw/input/lasips2.c
+ create mode 100644 hw/net/i82596.c
+ create mode 100644 hw/net/i82596.h
+ create mode 100644 hw/net/lasi_i82596.c
+ create mode 100644 include/hw/input/lasips2.h
+ create mode 100644 include/hw/net/lasi_82596.h
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- 
+2.23.0
 
 
