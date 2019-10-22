@@ -2,96 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20CEE00C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 11:29:54 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB64EE00CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 11:32:03 +0200 (CEST)
+Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMqUD-0005Iy-Gf
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 05:29:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54149)
+	id 1iMqWI-00073B-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 05:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iMqT2-0004Qq-V0
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:28:42 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMqVG-0006ba-JM
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:30:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iMqT0-0002hc-FQ
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:28:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39580
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iMqT0-0002h0-44
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:28:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571736516;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FD1alTZMj9lSgS/9kAWhN36C1BGxCnGHb/CAdOfOrJ8=;
- b=cP6puUVHfwnzpLaiqY295VSyKe3qcIuSdGO5x5sCNSSaCSu3YXgcSRt7ldZtHZCTSR50aD
- yyPbDcboGd5agfL1GsP06eOrIOZ6vSX6NDdrlVhMtKv0B/q2M9aGbsDqv2WxzHgnW57+R4
- waOydykxUlR+befXcngQ4sVealz1uWs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-qsTNNn3TPy-NULVHRp82Rw-1; Tue, 22 Oct 2019 05:28:35 -0400
-X-MC-Unique: qsTNNn3TPy-NULVHRp82Rw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A0201005512;
- Tue, 22 Oct 2019 09:28:34 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-215.ams2.redhat.com
- [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A28E5DA8D;
- Tue, 22 Oct 2019 09:28:31 +0000 (UTC)
-Subject: Re: [PATCH v5 4/4] tests/qemu-iotests: add case for block-stream
- compress
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1571603828-185910-5-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b707d68c-f9c0-2264-04ac-2070c969770f@redhat.com>
-Date: Tue, 22 Oct 2019 11:28:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iMqVF-00059A-Dj
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:30:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58090)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMqVF-00058X-8I
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:30:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMqVD-0004yl-FK
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:30:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 620552E80C8
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:30:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1571603828-185910-5-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="TtRsnYoRsuv2o8nnHHx9C5zvrn6tusF2s"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 22 Oct 2019 09:21:13 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: razersaiso
+X-Launchpad-Bug-Reporter: razer (razersaiso)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Duplicate: 1847906
+References: <157171099447.21488.3288873580425717496.malonedeb@wampee.canonical.com>
+Message-Id: <157173607378.18932.15507892352193073786.launchpad@gac.canonical.com>
+Subject: [Bug 1849234] Re: Macos Catalina bug
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 34aa727b220168a5c377254470cbfc9385b28130
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,138 +66,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- armbru@redhat.com, stefanha@redhat.com, den@openvz.org
+Reply-To: Bug 1849234 <1849234@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TtRsnYoRsuv2o8nnHHx9C5zvrn6tusF2s
-Content-Type: multipart/mixed; boundary="xmCNGnNnlgoq3M63tI8vhAC31g5lrKWsH"
+*** This bug is a duplicate of bug 1847906 ***
+    https://bugs.launchpad.net/bugs/1847906
 
---xmCNGnNnlgoq3M63tI8vhAC31g5lrKWsH
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+** This bug has been marked a duplicate of bug 1847906
+   Cocoa display hangs on macOS 10.15 (Catalina)
 
-On 20.10.19 22:37, Andrey Shinkevich wrote:
-> Add a case to the iotest #030 that tests the 'compress' option for a
-> block-stream job.
->=20
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->  tests/qemu-iotests/030     | 34 +++++++++++++++++++++++++++++++++-
->  tests/qemu-iotests/030.out |  4 ++--
->  2 files changed, 35 insertions(+), 3 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-> index f3766f2..f33fd21 100755
-> --- a/tests/qemu-iotests/030
-> +++ b/tests/qemu-iotests/030
-> @@ -21,7 +21,8 @@
->  import time
->  import os
->  import iotests
-> -from iotests import qemu_img, qemu_io
-> +from iotests import qemu_img, qemu_io, qemu_img_pipe
-> +import json
-> =20
->  backing_img =3D os.path.join(iotests.test_dir, 'backing.img')
->  mid_img =3D os.path.join(iotests.test_dir, 'mid.img')
-> @@ -956,6 +957,37 @@ class TestSetSpeed(iotests.QMPTestCase):
-> =20
->          self.cancel_and_wait(resume=3DTrue)
-> =20
-> +class TestCompressed(iotests.QMPTestCase):
-> +    allocated_clusters =3D 8
-> +
-> +    def setUp(self):
-> +        qemu_img('create', '-f', iotests.imgfmt, backing_img, '1M')
-> +        qemu_img('create', '-f', iotests.imgfmt, '-o',
-> +                 'backing_file=3D{}'.format(backing_img), test_img)
-> +        cluster_size =3D 0x10000
-> +        data_size =3D self.allocated_clusters * cluster_size
-> +        qemu_io('-c', 'write -P 0x1 0 {}'.format(data_size), backing_img=
-)
-> +        self.vm =3D iotests.VM().add_drive(test_img, "compress=3Don")
+-- =
 
-I don=E2=80=99t think it makes sense to add a drive with compress=3Don to a=
- VM.
-If the VM writes to any cluster more than once, the request will fail.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1849234
 
-> +        self.vm.launch()
-> +
-> +    def tearDown(self):
-> +        self.vm.shutdown()
-> +        os.remove(test_img)
-> +        os.remove(backing_img)
-> +
-> +    def test_stream_compress(self):
-> +        self.assert_no_active_block_jobs()
-> +
-> +        result =3D self.vm.qmp('block-stream', device=3D'drive0')
-> +        self.assert_qmp(result, 'return', {})
+Title:
+  Macos Catalina bug
 
-In this example, it=E2=80=99s actually even a bit worse: The VM might be aw=
-are
-that it may only write to each cluster exactly once.  But if it writes
-to any of the first eight clusters after the stream job as done so
-(invisibly to the VM guest), it will get an error.
+Status in QEMU:
+  New
 
-You could see that by adding a qemu-io write here and see that it fails.
- (In practice you won=E2=80=99t because the error goes to stdout and that i=
-s
-lost in Python tests).
+Bug description:
+  When I want to boot anything with qemu it just stops responding.
 
-Max
-
-> +        match =3D {'data': {'type': 'stream', 'device': 'drive0'}}
-> +        self.vm.event_wait(name=3D'BLOCK_JOB_COMPLETED', match=3Dmatch)
-> +        self.vm.shutdown()
-> +
-> +        top =3D json.loads(qemu_img_pipe('check', '--output=3Djson', tes=
-t_img))
-> +        self.assertEqual(top['compressed-clusters'], self.allocated_clus=
-ters)
-> +
->  if __name__ =3D=3D '__main__':
->      iotests.main(supported_fmts=3D['qcow2', 'qed'],
->                   supported_protocols=3D['file'])
-> diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-> index 6d9bee1..af8dac1 100644
-> --- a/tests/qemu-iotests/030.out
-> +++ b/tests/qemu-iotests/030.out
-> @@ -1,5 +1,5 @@
-> -...........................
-> +............................
->  ----------------------------------------------------------------------
-> -Ran 27 tests
-> +Ran 28 tests
-> =20
->  OK
->=20
-
-
-
---xmCNGnNnlgoq3M63tI8vhAC31g5lrKWsH--
-
---TtRsnYoRsuv2o8nnHHx9C5zvrn6tusF2s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2uy70ACgkQ9AfbAGHV
-z0ApVQf/ZYvd5N89IBoQ7WJNlsMin7tuua5l54S+kWnarWJNUEtOvM3W2Xez1zzC
-S1p3o0Lae23AUj0bTLlQYOKyz5dw+Qbhqt1/kg6xnZixbMn6dMMDQjhnPDpJggdm
-1F1q39O4lcIW5OitwC+0jFdFETh9IrJ5OLC18KbmZE3/WfXbJatngK5tEkrVR63c
-Urbyl1Gg9aHRCY0wXe3/4EXH0sbkRWqFgRDSps4V1X6XV2MIIfRVEDsk33rMge0p
-2YM0tvzr7m0llFc2/Q5ptPi5SClsqITuETth0CFeOURbTjcg64w+LSeVEMhZlhY3
-FPfVsjaytnpvEPUGnBpVm8Q7oWbM7w==
-=K2La
------END PGP SIGNATURE-----
-
---TtRsnYoRsuv2o8nnHHx9C5zvrn6tusF2s--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1849234/+subscriptions
 
