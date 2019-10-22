@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C108E0C76
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:20:13 +0200 (CEST)
-Received: from localhost ([::1]:42016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F049FE0C74
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:20:08 +0200 (CEST)
+Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMzhU-0004fc-4P
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36341)
+	id 1iMzhP-0004aM-6z
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:20:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iMzef-0002QR-Cb
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:19 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzef-0002QI-6s
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005Kz-7R
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005Ko-2H
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:17 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40583)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52808)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iMzed-0005Bs-Vv
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:16 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o28so19317122wro.7
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:08 -0700 (PDT)
+ id 1iMzec-0005D0-2g
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:15 -0400
+Received: by mail-wm1-x331.google.com with SMTP id r19so18588234wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TnPzYaJ5mZGC1gX/sWa80nvOZ3fKPxbclnFkNmnhS90=;
- b=Ucj53R0jBURBr9BLTb2pC47IxubLSj4qQnxUD4Uo7xfUHLPqA6gNVsYpfjxMKZc0y0
- icmxOaThm64wodFgZ02WmU2jkhzZHZKO1Ud/v/jxb5vF4ENZTuv520tldekpWHTQrJdT
- HCsPCftMGXkbqx7frd/UClqFQqZF9ZYxECCoHPbZ8ftlJ5A/ebUtij9xLgfzw/kUAJVY
- m1TPZBARstgZ5W3XtygJkepeednPFF7heahl0+JCXhU1MCUz6Z7nZKCQ+ccshtevEDkb
- MqoP65z2z1VAjPeUL0ezJjqBB+im98cetA4T8ZF9eJscUdqx+rEShlMDToVJHq+VjnSZ
- yVKg==
+ bh=KiDA2cJ0DTJfxqnwbgK1IdDPGYCe7Quzjtxag58HSlE=;
+ b=hS9U0lcLs/HkUxrCswFOn+TrQlA7ykzcifrDPFewXZPj0FC7Of478hMnSavOVFCg/s
+ SYrFphbQaeogf7eWaO4dlWYz4V2mMcDnCJAlZ3qpjMk4yf+r/f6Iyq0+DHL0oCXQncWu
+ S9dQ2RvhSXqENqpz+YMqyVf3bpWKJtopnuSEGj7ZHI8boPREFa1WQpjKyJ9OXD8BFR7Y
+ 3Nd3C+rX2NnyqmflLbWFDRJeebDaOv8a41uFmEAXbl9iSdlipsxlnzL6//k+LSnxsqdU
+ yHaU4LattFc9zlgUJuuEn7wXU6vDepYSm8fdMtJTR2eu8nb12NBQ0qFylv3S7oBtKZlY
+ 7Gdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TnPzYaJ5mZGC1gX/sWa80nvOZ3fKPxbclnFkNmnhS90=;
- b=npRKZTv2DyX/Y7LdyWV6KPq64CPYZHy238X8kBoWy0hQcd0Kj9cMb0EPoqX2JRxv3x
- YfTVVaScpaWmXSJXv2PUMMG7BfodA6b1SNGbaUmgJBmVWlgp7odI6BhMJbQ6/g7bl8aJ
- F3canhPXLMvr9LkV9QqRxiRChjavvyvvpyotmAud47p1OkZX3oBMxgjNxX7PRUNbSk7w
- jG8IG+QDUJ/c5FTK2R/YgdAs3aNAFXkpNZ44bJ3GeDxgr3L3ry1PDFfeibTL5Rs6oTL1
- HESXumLY40LOIii/a6XVtsPHDSs1Py8U0n5YQqMEM6tDZpxCqyH72Ape3Jur2767FvYy
- v0jw==
-X-Gm-Message-State: APjAAAUmT6/zbmmVWNxHRjZlMN231DSYuFkpZKBmfRMRgMmORrlRPdZD
- phkBzg7F+ZShz0HDDLyjAOzx2g==
-X-Google-Smtp-Source: APXvYqygaO3Jo/cjhfZGuzbP2G30pC/RCTQbV7whYacRTlcUSD4SEJCW7BR/0khAcfNVtZZUvhu57Q==
-X-Received: by 2002:adf:f447:: with SMTP id f7mr4716331wrp.210.1571771827248; 
- Tue, 22 Oct 2019 12:17:07 -0700 (PDT)
+ bh=KiDA2cJ0DTJfxqnwbgK1IdDPGYCe7Quzjtxag58HSlE=;
+ b=eno4cZaAMcEyK2BOOSttxl5TaJM8n2hUgCqa494k5CeW/CyvQBG3SdFFspoU4BVJKz
+ fbrhnZkBoKk//tz4FbIYf+KcaGdk7XWsL+4B0CvEfPAdCzumT1LABMXsAhwu0imlWwxx
+ bACE2mf0m7IWL4xwoaVwu0oGvViYRNRPsrPcqLR9N9pPsodVdj1Uib7KSwBZzkIwGmPv
+ L0XQIjcASUuN8Yop2KqGpMxMRWZ0XEyLiNFXo2a05e+5VqYoX29eO394VN8mZ7Frt4aS
+ MBBWaONVBP7jQVtuEgM4Ti9y0mGbLdvNNrI95tABV4mSZNEt7Jh+oUSFRmOlxwNVKZVb
+ nSzA==
+X-Gm-Message-State: APjAAAUNYQ9/vUqqbubFpW8S93r//bJJ0rhEWBK21em7tE/85SS7G6Ak
+ YnoOOPZ4Z7tDsc15KApJWxehbw==
+X-Google-Smtp-Source: APXvYqzujeF8H1WCRd+IkA76OBOS5fZUrTWs1HjBDEkQumkhaMvGpCClI7pPYWqKqn/g0OW/MCO+nA==
+X-Received: by 2002:a1c:5458:: with SMTP id p24mr4163602wmi.32.1571771828178; 
+ Tue, 22 Oct 2019 12:17:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o70sm26017848wme.29.2019.10.22.12.17.05
+ by smtp.gmail.com with ESMTPSA id g184sm12826147wma.8.2019.10.22.12.17.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Oct 2019 12:17:05 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6640E1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 7A6851FF90;
  Tue, 22 Oct 2019 20:17:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 02/19] travis.yml: Add libvdeplug-dev to compile-test
- net/vde.c
-Date: Tue, 22 Oct 2019 20:16:47 +0100
-Message-Id: <20191022191704.6134-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 03/19] travis.yml: Use libsdl2 instead of libsdl1.2,
+ and install libsdl2-image
+Date: Tue, 22 Oct 2019 20:16:48 +0100
+Message-Id: <20191022191704.6134-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022191704.6134-1-alex.bennee@linaro.org>
 References: <20191022191704.6134-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,26 +93,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-This library is needed to compile the VDE network backend.
+We've removed support for SDL 1.2 quite a while ago already, so let's
+use SDL 2 now in Travis to get test coverage for SDL again.
+And while we're at it, also add libsdl2-image-dev which can be used
+by QEMU nowadays, too.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191009170701.14756-2-thuth@redhat.com>
+Message-Id: <20191009170701.14756-3-thuth@redhat.com>
 ---
- .travis.yml | 1 +
- 1 file changed, 1 insertion(+)
+ .travis.yml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index 7d90b87540f..7be2a9949f5 100644
+index 7be2a9949f5..b446e04e8ae 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -46,6 +46,7 @@ addons:
-       - libssh-dev
-       - liburcu-dev
-       - libusb-1.0-0-dev
-+      - libvdeplug-dev
-       - libvte-2.91-dev
-       - sparse
-       - uuid-dev
+@@ -39,7 +39,8 @@ addons:
+       - libpixman-1-dev
+       - libpng12-dev
+       - librados-dev
+-      - libsdl1.2-dev
++      - libsdl2-dev
++      - libsdl2-image-dev
+       - libseccomp-dev
+       - libspice-protocol-dev
+       - libspice-server-dev
+@@ -309,7 +310,8 @@ matrix:
+             - libpixman-1-dev
+             - libpng12-dev
+             - librados-dev
+-            - libsdl1.2-dev
++            - libsdl2-dev
++            - libsdl2-image-dev
+             - libseccomp-dev
+             - libspice-protocol-dev
+             - libspice-server-dev
 -- 
 2.20.1
 
