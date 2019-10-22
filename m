@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD82DFECB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:57:46 +0200 (CEST)
-Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4E2DFE92
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:46:18 +0200 (CEST)
+Received: from localhost ([::1]:51174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMp33-0003sQ-6f
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
+	id 1iMorx-0008Ho-Ky
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iMp1K-0002Bu-9h
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:55:59 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iMor4-0007l6-P4
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:45:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iMp1I-0005Zr-93
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:55:58 -0400
-Received: from ozlabs.org ([203.11.71.1]:43201)
+ (envelope-from <pbonzini@redhat.com>) id 1iMor2-00077x-Fv
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:45:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46336)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iMp1E-0005Vw-Ib; Tue, 22 Oct 2019 03:55:55 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46y5R84lHlz9sPh; Tue, 22 Oct 2019 18:55:48 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1571730948;
- bh=vAp2gikRTBrPeicF8J5RuD9SmmwGPyNfU4muzDVBqP0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ckXaX6AhN8gaFyNwkueeUkmVFSDPkKZ5ZLVOLOB4Rf7SibzCavEAoAmONQBeQUF6/
- Rq8yWOx6zN8ync8nodzRITi1PlX94dv76gm5ea2to+5KEAqHIiQqNcCksxph5uq3O4
- j4LbAYjnU2a+oEDWYZzWe5RWn/4yDNOO+2Jv2j+M=
-Date: Tue, 22 Oct 2019 18:41:15 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [GIT PULL for qemu-pseries] pseries: Update SLOF firmware image
-Message-ID: <20191022074115.GJ6439@umbus.fritz.box>
-References: <20191022040945.35730-1-aik@ozlabs.ru>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMor2-00077P-AP
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:45:20 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C58CF368B1
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 07:45:18 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id o10so8668486wrm.22
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 00:45:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3DkJU6qVIwd1CHHmHQXJNsVx04oduLw/xo3uOgt1ReA=;
+ b=bPjeAAI9cq41ZeTITvmmwmSSA6eLzA1zpmyGfDE8TidZcsaPdApaoQ+BmupPGNmNkt
+ a9COpg3IHXAV3qn7fknH+ZVmaI1UVivMvMQn0gOPIK3GwMeqSKTYOmvg60FlPhbc6k+H
+ v2apCzFun/7nlm3U42vIWmp9A5eUTWmcrHVMvZkRbcBuybOfRb1XzsrwR38tT7KcGB2t
+ XpObv/4WAEOct1NKT/B6Z0kPL9VFA3ZQjcR3IfR8iopxyGZOWYkgLeRFiVL2jEfOhWW/
+ lWX0HiwttN7R1lzIyQxjFB30uiOTH22Gc4+blIv7GmB2JZyXkgvWT6i1bjIiq1JB5+Kk
+ Qx6Q==
+X-Gm-Message-State: APjAAAW7jT/yb7HSk4EvVCxErnqqG2e3B861fZj2klpDaGI4MQbbhH/f
+ 7T8JlduS3DCVTO9SGwJGI2mVQOc7cCCuaGgtjVfauijff2y6NiHl5hBufYkRnwrPZ1OTi/PZR/9
+ P7bsKie+SCWxZYXk=
+X-Received: by 2002:a1c:f018:: with SMTP id a24mr1590268wmb.77.1571730317499; 
+ Tue, 22 Oct 2019 00:45:17 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyY1Gwd1ZKN0g6tgokY/JEmQV3ZcC2ofjvV/plzRPmTCcaz0DEaXlGEU/RUvGOROTzgFI7BdA==
+X-Received: by 2002:a1c:f018:: with SMTP id a24mr1590248wmb.77.1571730317250; 
+ Tue, 22 Oct 2019 00:45:17 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:566:fc24:94f2:2f13?
+ ([2001:b07:6468:f312:566:fc24:94f2:2f13])
+ by smtp.gmail.com with ESMTPSA id f17sm5761230wrs.66.2019.10.22.00.45.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2019 00:45:16 -0700 (PDT)
+Subject: Re: [Patch v2] checkpatch: sugguest to use qemu_real_host_page_size
+ instead of getpagesize() or sysconf(_SC_PAGESIZE)
+To: Wei Yang <richardw.yang@linux.intel.com>, philmd@redhat.com,
+ eblake@redhat.com, thuth@redhat.com, berrange@redhat.com
+References: <20191017004633.13229-1-richardw.yang@linux.intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <0c72a7a3-7d0d-4052-33b4-7a7522fe8a02@redhat.com>
+Date: Tue, 22 Oct 2019 09:45:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Z8yxTSU1mh2gsre7"
-Content-Disposition: inline
-In-Reply-To: <20191022040945.35730-1-aik@ozlabs.ru>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191017004633.13229-1-richardw.yang@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,72 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 17/10/19 02:46, Wei Yang wrote:
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> CC: Richard Henderson <richard.henderson@linaro.org>
+> CC: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> ---
+> v2: add "\b" for better match, suggested by Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  scripts/checkpatch.pl | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index aa9a354a0e..ab68a16fd2 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -2915,6 +2915,12 @@ sub process {
+>  		if ($line =~ /\bbzero\(/) {
+>  			ERROR("use memset() instead of bzero()\n" . $herecurr);
+>  		}
+> +		if ($line =~ /\bgetpagesize\(\)/) {
+> +			ERROR("use qemu_real_host_page_size instead of getpagesize()\n" . $herecurr);
+> +		}
+> +		if ($line =~ /\bsysconf\(_SC_PAGESIZE\)/) {
+> +			ERROR("use qemu_real_host_page_size instead of sysconf(_SC_PAGESIZE)\n" . $herecurr);
+> +		}
+>  		my $non_exit_glib_asserts = qr{g_assert_cmpstr|
+>  						g_assert_cmpint|
+>  						g_assert_cmpuint|
+> 
 
---Z8yxTSU1mh2gsre7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Queued, thanks.
 
-On Tue, Oct 22, 2019 at 03:09:45PM +1100, Alexey Kardashevskiy wrote:
-> The following changes since commit 7cff77c24d8f5e558cef3538a44044d66aa225=
-a5:
->=20
->   spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass (2019-10-16 12:01:4=
-1 +1100)
->=20
-> are available in the Git repository at:
->=20
->   git@github.com:aik/qemu.git tags/qemu-slof-20191022
->=20
-> for you to fetch changes up to 8e59d05f71ae783e12a8eb7eb582e0a86ba3d6dc:
->=20
->   pseries: Update SLOF firmware image (2019-10-22 15:05:36 +1100)
-
-Applied to ppc-for-4.2, thanks.
-
->=20
-> ----------------------------------------------------------------
-> Alexey Kardashevskiy (1):
->       pseries: Update SLOF firmware image
->=20
->  pc-bios/README   |   2 +-
->  pc-bios/slof.bin | Bin 930640 -> 928552 bytes
->  roms/SLOF        |   2 +-
->  3 files changed, 2 insertions(+), 2 deletions(-)
->=20
->=20
-> *** Note: this is not for master, this is for pseries
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Z8yxTSU1mh2gsre7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2uspkACgkQbDjKyiDZ
-s5IZ7A/9F72VCqamzQUP+p8QQcLGqMCtv0QOYnqu33S/3UyASAuDgaAFD03S6qx1
-Y9BcbVSXFobN9lDU7sKtrZlVNlMehmdcoedMCmMW02Oz4deZzzcVrxSOg4Lkhaq0
-K/IPzhrxKPKl+TcwKAhiQ0ohn08B9TvF3IwO0gvZXhDRclvXtRLRdQVdg5RbP6gi
-aeUiulT7j40IUkmBKys+bjD259ptqdgW8hGtg1RKZkBOxJNNj6gOnTXPdo8sZ0uV
-9ReMgqNqjCEgPK+PrFvEZSGR2wZajf2rl8flqRR+2jZoEyKfOo+J0B9zrWV8y8GP
-MQLXDUM3HhAxq7h+OTcOrr5782q//8UjyvGDgW2Eck7eRac0PY+sn4W+8KuRPwTn
-0vuxQ47ATzHocRpYUcbNGj6Rcr7wv4Od5BhSkXXx5z57D1J/TvAeq8UBNJcc+u/4
-pSxt1eAzCOXSo2A4Jq12rcYOVn8teHvOtImlEASXXszPE9xWsXhSUtZqvMxmVVJ8
-/L38anPmAnEQrxQkDtrCTHtJpF/qBk0/Tq2G9z2nov6VsFu+J3qpX9jN63DLl/50
-akywRcTlizaIVHch9hKyiAyx5Zgk+J1uQ3UAKf8y00RDbmKB5Vgcf3LGos3erS6x
-dBX7ZH3TnPiKUegJVRQl9xGzLtYt57Nn+vMD6j1wcQwP9qVFKmQ=
-=i66+
------END PGP SIGNATURE-----
-
---Z8yxTSU1mh2gsre7--
+Paolo
 
