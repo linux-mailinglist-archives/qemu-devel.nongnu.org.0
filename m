@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7FEE046A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:03:05 +0200 (CEST)
-Received: from localhost ([::1]:55928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42A5E04AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:16:49 +0200 (CEST)
+Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMtoV-0000Ou-Gt
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58395)
+	id 1iMu1o-00081U-R4
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:16:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <samuel.thibault@gnu.org>) id 1iMtjw-0006nP-CX
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 08:58:22 -0400
+ (envelope-from <samuel.thibault@gnu.org>) id 1iMtpC-0002sA-HJ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:03:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <samuel.thibault@gnu.org>) id 1iMtjv-0006CL-B1
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 08:58:20 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:46532)
+ (envelope-from <samuel.thibault@gnu.org>) id 1iMtpB-0008QE-ET
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:03:46 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:48762)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <samuel.thibault@gnu.org>)
- id 1iMtjv-0006Aw-0A
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 08:58:19 -0400
+ id 1iMtpB-0008Os-7r
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:03:45 -0400
 Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 512081E7D;
- Tue, 22 Oct 2019 14:58:15 +0200 (CEST)
+ by hera.aquilenet.fr (Postfix) with ESMTP id 654EE1FDA;
+ Tue, 22 Oct 2019 15:03:43 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
 Received: from hera.aquilenet.fr ([127.0.0.1])
  by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id r_apXJ10AHBD; Tue, 22 Oct 2019 14:58:14 +0200 (CEST)
+ with ESMTP id fc1g4LzXio5l; Tue, 22 Oct 2019 15:03:42 +0200 (CEST)
 Received: from function (unknown [62.102.229.57])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 289431172;
- Tue, 22 Oct 2019 14:58:14 +0200 (CEST)
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 5BBBD1E7D;
+ Tue, 22 Oct 2019 15:03:42 +0200 (CEST)
 Received: from samy by function with local (Exim 4.92.2)
  (envelope-from <samuel.thibault@gnu.org>)
- id 1iMtw4-0003Zx-PO; Tue, 22 Oct 2019 15:10:52 +0200
-Date: Tue, 22 Oct 2019 15:10:52 +0200
+ id 1iMu1J-0003jP-3g; Tue, 22 Oct 2019 15:16:17 +0200
+Date: Tue, 22 Oct 2019 15:16:15 +0200
 From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
 Subject: Re: Python 2 and test/vm/netbsd
-Message-ID: <20191022131052.vswq6xkesofx4p3v@function>
+Message-ID: <20191022131615.ivlfwpct22zcjzde@function>
 References: <20191016030021.GD4084@habkost.net>
  <a83d518a-6e39-0017-203d-2ee3d61935ca@redhat.com>
  <20191016224124.GF4084@habkost.net>
@@ -48,16 +48,16 @@ References: <20191016030021.GD4084@habkost.net>
  <20191018142940.GN4084@habkost.net>
  <a0c2df74-360b-79de-132e-f4d5be5bfc12@redhat.com>
  <20191018160019.he52tpvjqolzgswg@function>
+ <20191018164143.GP4084@habkost.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191018160019.he52tpvjqolzgswg@function>
+In-Reply-To: <20191018164143.GP4084@habkost.net>
 Organization: I am not organized
 User-Agent: NeoMutt/20170609 (1.8.3)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a0c:e300::1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 185.233.100.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,33 +70,27 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
  Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Samuel Thibault, le ven. 18 oct. 2019 18:00:19 +0200, a ecrit:
-> Philippe Mathieu-Daud=C3=A9, le ven. 18 oct. 2019 16:58:00 +0200, a ecr=
-it:
-> > On 10/18/19 4:29 PM, Eduardo Habkost wrote:
-> > > In addition to that, the connect() error should be generating a
-> > > ICMP6_UNREACH message, and I'd expect the NetBSD guest to notice
-> > > it instead of waiting for timeout.
-> >=20
-> > Is this missing in SLiRP?
->=20
-> It was implemented at the time of introduction of IPv6 in SLIRP. Perhap=
-s
-> NetBSD has a slightly different behavior which makes the implementation
-> fail to notice the error.
+Eduardo Habkost, le ven. 18 oct. 2019 13:41:43 -0300, a ecrit:
+> On Fri, Oct 18, 2019 at 06:00:19PM +0200, Samuel Thibault wrote:
+> > It was implemented at the time of introduction of IPv6 in SLIRP. Perhaps
+> > NetBSD has a slightly different behavior which makes the implementation
+> > fail to notice the error.
+> 
+> If anybody is interested in investigating it, a network traffic
+> dump generated by `-object filter-dump` is attached.
 
-It definitely is there in tcp_input(): on tcp_fconnect() error an
-ICMP6_UNREACH message is sent.  I can confirm that this works with a
-Linux host and Linux guest.
+The dump does show the Destination Unreachable icmp message, so it seems
+it's the guest which does not notice it for some reason.
 
 Samuel
 
