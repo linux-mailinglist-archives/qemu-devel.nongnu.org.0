@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7816AE0005
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:52:55 +0200 (CEST)
-Received: from localhost ([::1]:51876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366DADFFFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:51:28 +0200 (CEST)
+Received: from localhost ([::1]:51845 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpuQ-0003oN-JK
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49314)
+	id 1iMpt0-0001fc-A0
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <estebanbosse@gmail.com>) id 1iMptS-0002vO-EH
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:56 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMprj-0008SX-QV
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:50:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <estebanbosse@gmail.com>) id 1iMptQ-0005yB-Te
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:54 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34736)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
- id 1iMptQ-0005xG-NL
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:52 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v3so3491588wmh.1
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=rgWSoNQb1MMrAcfBeWm0hLrztGxn+f4hQDhhnGtdGW4=;
- b=feXBOBqYeNnKDjUPkC8qi43Oy9wUkItet2GhbuOxTFmk1pR6cekELsld1aTDPUcEQN
- FxaxCnN0QT5H/6hHNCD/4nLK/n2YJqDIlPio8RABLfGat5FzI34Pm/XSGVUziovASOpc
- H9lYz8WEhw01OLKz194mTcbxtXDj6oaSLREzzOqmColzoMRWWrRKWwck+LJymnfuAYp1
- rmAzI2xZhn9HgBx6wpj5ONznPABe7D86cwMHn+ko996Jb2L3RnnmF0iyOm739w39CwU7
- dcSu431JymvSEWW3Q5PSEyE5LM2OVPfJRTpJR2d3SXs+bCC/rPpvyYRPZ5B57DAgCkYu
- kYIA==
+ (envelope-from <philmd@redhat.com>) id 1iMpri-0005Kr-Np
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:50:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33862
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMpri-0005KQ-JP
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:50:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571734205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m83BXJXtRumeztxB1T8OWFTzQeDHyCuUriLWc5iQYJQ=;
+ b=MegfBaR6AoNs1WEXqyDKB4/KFSs0vvSsZ/tqh6w6bum+ouZuZ2fWvnu17WFhntbx8Oqi8E
+ xZyscMvARv5O9lF8qwKYBvxRuinnsZEe0bK8YIfOtcgzsfMqXX4PsryWflRRfxpTUiRrAU
+ /qBSiDL1DreP+G3wjpD4yzYwLsh6NeI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-134-K4-Je6ZaMRafk3nsDZaZ_g-1; Tue, 22 Oct 2019 04:50:02 -0400
+Received: by mail-wm1-f71.google.com with SMTP id g13so167946wme.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:50:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=rgWSoNQb1MMrAcfBeWm0hLrztGxn+f4hQDhhnGtdGW4=;
- b=ROJS/VEHEt3TdCYUZXHxax/qGEFjYKwKZRxAhhMcJylWKPQmPUVQTMCiONP8d62nFi
- aAwzdsufuQPhTjLzvoEXu9icrZCPw4JeZtO3kSTa5M2dRgqQua3SbNbNw3K1swcyw2mo
- ME+De7tAoW8zjidUgXtPSlseOKFvO/JVkdZZ+jyQtvXRZYOC+lu4alwMBsMH1FNEl0zM
- wfIPRtCuWH489FoM8qS4UB+QAukr4O2ZYgoNYXeohkD8vWNR78PIh85A/4S7fvqMGAxE
- bgn30aiG+tha8twtOpRfwx/a21EytJWjj90UhHRC3wPjGDEBT07SjhQfq7W6RBba/OJl
- /HfA==
-X-Gm-Message-State: APjAAAUdQy8thW1DTKKrg+ASs84tFVtBYhPMV1M6Xn6pDlL8w8d7uC1K
- k/PQhLZbyzuIaRI77J5r+qk=
-X-Google-Smtp-Source: APXvYqxkiPj8CAD5J53zCUB6rUfh4XQXw/PcNq+Vkc5d5NWk19b/EIU9di50bmA8IdEAqechcHxwOg==
-X-Received: by 2002:a05:600c:22d7:: with SMTP id
- 23mr1894342wmg.31.1571734311389; 
- Tue, 22 Oct 2019 01:51:51 -0700 (PDT)
-Received: from ?IPv6:2a01:c23:604c:2a00:af2b:2e92:39f9:c05b?
- ([2a01:c23:604c:2a00:af2b:2e92:39f9:c05b])
- by smtp.gmail.com with ESMTPSA id v8sm20523172wra.79.2019.10.22.01.51.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 01:51:51 -0700 (PDT)
-Message-ID: <b1255a22fe4409244f7a68887137fbe43b71a08d.camel@gmail.com>
-Subject: Re: [PATCH v2 03/20] piix4: Add a i8259 Interrupt Controller as
- specified in datasheet
-From: Esteban Bosse <estebanbosse@gmail.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
- qemu-devel@nongnu.org
-Date: Tue, 22 Oct 2019 10:48:21 +0200
-In-Reply-To: <20191018134754.16362-4-philmd@redhat.com>
-References: <20191018134754.16362-1-philmd@redhat.com>
- <20191018134754.16362-4-philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ei81U+a7i0jHxzrWjOPIbP4KsEGz9Gogem/Q9h4pGMY=;
+ b=PD9PVfipu0myAF+sC1tOgRSbkE6UcqmaryiQ9nPduEVITM7wP8nWKWRlTPVvko2wqp
+ yNa057xKOzhK/QvuibDV1lnqM3/IYbq0BZXDS6BtnHzht57tW7jtuEGX4yzOAMRaKspd
+ oSmBN/aIo6VG0NJLFzqPkFZanGgB58t8nH7YLLGMZIwYHTiu/SQbUtg/uAgK9fwEzabl
+ NgdQ3uzza86bB3L6y95/0cSYWcwTHgfk+WZioPu8hqRyn2tv+uxC6EBnmNsthaWjM6W5
+ DTqrcTKLsRwEA4rsiGEVa0GB6Xf/QJXzUihPC1ofY/6lZ4A+7CCN7C1f/0Yq/PPkTIsy
+ bU+A==
+X-Gm-Message-State: APjAAAWZkBV8iW6ycuzUy5/oOkZ1eAR/W03Nz/Z3Gy0nVleYmDzaYT96
+ 62ca9OF2nwcEb9HjSHlEOGveteJketraf5hK5Bf0j39kBnqbPlvmovpuhj+BYKTNsTW82UOOHdY
+ espeSAD/oZd87SZQ=
+X-Received: by 2002:a7b:cb86:: with SMTP id m6mr1859957wmi.43.1571734201133;
+ Tue, 22 Oct 2019 01:50:01 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx+NDX95Qc/lqBp7NuR+Fz6v1bnFbNe54mS+kJw5+ma1haIbwWFRF5glhigKQnDOgDvDQTVgw==
+X-Received: by 2002:a7b:cb86:: with SMTP id m6mr1859933wmi.43.1571734200798;
+ Tue, 22 Oct 2019 01:50:00 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id 36sm21063042wrp.30.2019.10.22.01.49.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2019 01:50:00 -0700 (PDT)
+Subject: Re: [GIT PULL for qemu-pseries] pseries: Update SLOF firmware image
+To: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20191022040945.35730-1-aik@ozlabs.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1c3c1b36-a355-9ebb-9c68-8ae1af268fff@redhat.com>
+Date: Tue, 22 Oct 2019 10:49:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+In-Reply-To: <20191022040945.35730-1-aik@ozlabs.ru>
+Content-Language: en-US
+X-MC-Unique: K4-Je6ZaMRafk3nsDZaZ_g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,220 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?ISO-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daudé escribió:
-> From: Hervé Poussineau <hpoussin@reactos.org>
-> 
-> Add ISA irqs as piix4 gpio in, and CPU interrupt request as piix4
-> gpio out.
-> Remove i8259 instanciated in malta board, to not have it twice.
-> 
-> We can also remove the now unused piix4_init() function.
-> 
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
-> Message-Id: <20171216090228.28505-8-hpoussin@reactos.org>
-> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> [PMD: rebased, updated includes, use ISA_NUM_IRQS in for loop]
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/isa/piix4.c       | 43 ++++++++++++++++++++++++++++++++--------
-> ---
->  hw/mips/mips_malta.c | 32 +++++++++++++-------------------
->  include/hw/i386/pc.h |  1 -
->  3 files changed, 45 insertions(+), 31 deletions(-)
-> 
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index d0b18e0586..9c37c85ae2 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -24,6 +24,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "hw/irq.h"
->  #include "hw/i386/pc.h"
->  #include "hw/pci/pci.h"
->  #include "hw/isa/isa.h"
-> @@ -36,6 +37,8 @@ PCIDevice *piix4_dev;
->  
->  typedef struct PIIX4State {
->      PCIDevice dev;
-> +    qemu_irq cpu_intr;
-> +    qemu_irq *isa;
->  
->      /* Reset Control Register */
->      MemoryRegion rcr_mem;
-> @@ -94,6 +97,18 @@ static const VMStateDescription vmstate_piix4 = {
->      }
->  };
->  
-> +static void piix4_request_i8259_irq(void *opaque, int irq, int
-> level)
-> +{
-> +    PIIX4State *s = opaque;
-> +    qemu_set_irq(s->cpu_intr, level);
-> +}
-I would like to understand why in `PIIX4State *s = opaque;` its not
-necessary a cast or a object macro magic.
-Something like:
-PIIX4State *s = (PIIX4State*)opaque;
-PIIX4State *s = PIIX4STATE(opaque); 
-> +
-> +static void piix4_set_i8259_irq(void *opaque, int irq, int level)
-> +{
-> +    PIIX4State *s = opaque;
-> +    qemu_set_irq(s->isa[irq], level);
-> +}
-> +
->  static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
->                              unsigned int len)
->  {
-> @@ -127,29 +142,35 @@ static const MemoryRegionOps piix4_rcr_ops = {
->  static void piix4_realize(PCIDevice *dev, Error **errp)
->  {
->      PIIX4State *s = PIIX4_PCI_DEVICE(dev);
-> +    ISABus *isa_bus;
-> +    qemu_irq *i8259_out_irq;
->  
-> -    if (!isa_bus_new(DEVICE(dev), pci_address_space(dev),
-> -                     pci_address_space_io(dev), errp)) {
-> +    isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
-> +                          pci_address_space_io(dev), errp);
-> +    if (!isa_bus) {
->          return;
->      }
->  
-> +    qdev_init_gpio_in_named(DEVICE(dev), piix4_set_i8259_irq,
-> +                            "isa", ISA_NUM_IRQS);
-> +    qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
-> +                             "intr", 1);
-> +
->      memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops,
-> s,
->                            "reset-control", 1);
->      memory_region_add_subregion_overlap(pci_address_space_io(dev),
-> 0xcf9,
->                                          &s->rcr_mem, 1);
->  
-> +    /* initialize i8259 pic */
-> +    i8259_out_irq = qemu_allocate_irqs(piix4_request_i8259_irq, s,
-> 1);
-> +    s->isa = i8259_init(isa_bus, *i8259_out_irq);
-> +
-> +    /* initialize ISA irqs */
-> +    isa_bus_irqs(isa_bus, s->isa);
-> +
->      piix4_dev = dev;
->  }
->  
-> -int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn)
-> -{
-> -    PCIDevice *d;
-> -
-> -    d = pci_create_simple_multifunction(bus, devfn, true, "PIIX4");
-> -    *isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(d), "isa.0"));
-> -    return d->devfn;
-> -}
-> -
->  static void piix4_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 4d9c64b36a..7d25ab6c23 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -97,7 +97,7 @@ typedef struct {
->      SysBusDevice parent_obj;
->  
->      MIPSCPSState cps;
-> -    qemu_irq *i8259;
-> +    qemu_irq i8259[16];
->  } MaltaState;
->  
->  static ISADevice *pit;
-> @@ -1235,8 +1235,8 @@ void mips_malta_init(MachineState *machine)
->      int64_t kernel_entry, bootloader_run_addr;
->      PCIBus *pci_bus;
->      ISABus *isa_bus;
-> -    qemu_irq *isa_irq;
->      qemu_irq cbus_irq, i8259_irq;
-> +    PCIDevice *pci;
->      int piix4_devfn;
->      I2CBus *smbus;
->      DriveInfo *dinfo;
-> @@ -1407,30 +1407,24 @@ void mips_malta_init(MachineState *machine)
->      /* Board ID = 0x420 (Malta Board with CoreLV) */
->      stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
->  
-> -    /*
-> -     * We have a circular dependency problem: pci_bus depends on
-> isa_irq,
-> -     * isa_irq is provided by i8259, i8259 depends on ISA, ISA
-> depends
-> -     * on piix4, and piix4 depends on pci_bus.  To stop the cycle we
-> have
-> -     * qemu_irq_proxy() adds an extra bit of indirection, allowing
-> us
-> -     * to resolve the isa_irq -> i8259 dependency after i8259 is
-> initialized.
-> -     */
-> -    isa_irq = qemu_irq_proxy(&s->i8259, 16);
-> -
->      /* Northbridge */
-> -    pci_bus = gt64120_register(isa_irq);
-> +    pci_bus = gt64120_register(s->i8259);
->  
->      /* Southbridge */
->      ide_drive_get(hd, ARRAY_SIZE(hd));
->  
-> -    piix4_devfn = piix4_init(pci_bus, &isa_bus, 80);
-> +    pci = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
-> +                                          true, "PIIX4");
-> +    dev = DEVICE(pci);
-> +    isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-> +    piix4_devfn = pci->devfn;
->  
-> -    /*
-> -     * Interrupt controller
-> -     * The 8259 is attached to the MIPS CPU INT0 pin, ie interrupt 2
-> -     */
-> -    s->i8259 = i8259_init(isa_bus, i8259_irq);
-> +    /* Interrupt controller */
-> +    qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-> +    for (int i = 0; i < ISA_NUM_IRQS; i++) {
-> +        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
-> +    }
->  
-> -    isa_bus_irqs(isa_bus, s->i8259);
->      pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);
->      pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
->      smbus = piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 37bfd95113..374f3e8835 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -286,7 +286,6 @@ PCIBus *i440fx_init(const char *host_type, const
-> char *pci_type,
->  PCIBus *find_i440fx(void);
->  /* piix4.c */
->  extern PCIDevice *piix4_dev;
-> -int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn);
->  
->  /* pc_sysfw.c */
->  void pc_system_flash_create(PCMachineState *pcms);
+Hi Alekey,
+
+On 10/22/19 6:09 AM, Alexey Kardashevskiy wrote:
+> The following changes since commit 7cff77c24d8f5e558cef3538a44044d66aa225=
+a5:
+>=20
+>    spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass (2019-10-16 12:01:=
+41 +1100)
+>=20
+> are available in the Git repository at:
+>=20
+>    git@github.com:aik/qemu.git tags/qemu-slof-20191022
+>=20
+> for you to fetch changes up to 8e59d05f71ae783e12a8eb7eb582e0a86ba3d6dc:
+>=20
+>    pseries: Update SLOF firmware image (2019-10-22 15:05:36 +1100)
+>=20
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (1):
+>        pseries: Update SLOF firmware image
+>=20
+>   pc-bios/README   |   2 +-
+>   pc-bios/slof.bin | Bin 930640 -> 928552 bytes
+>   roms/SLOF        |   2 +-
+>   3 files changed, 2 insertions(+), 2 deletions(-)
+
+Looking at commit 8e59d05f71ae which update the SLOF submodule,
+in your future updates can you include the git shortlog in the
+commit description?
+
+Simply:
+
+   $ git shortlog qemu-slof-20190911..qemu-slof-20191022
+   Alexey Kardashevskiy (3):
+         pci: Align PCI node names with QEMU
+         libusb: Fix compiler warnings with gcc9
+         version: update to 20191022
+
+   Thomas Huth (1):
+         ipv6: Fix gcc9 warnings
+
+Thanks,
+
+Phil.
 
 
