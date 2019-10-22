@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E03FE0187
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:04:36 +0200 (CEST)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCABE0175
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:02:08 +0200 (CEST)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMr1n-0006Nc-7Z
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:04:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59315)
+	id 1iMqzO-0003eK-Uv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iMqsM-0005bX-2g
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:51 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iMqsQ-0005jo-VU
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iMqsL-0005eK-1H
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:49 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32551
+ (envelope-from <cohuck@redhat.com>) id 1iMqsP-0005hH-Fv
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59260
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMqsK-0005eA-UN
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:48 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMqsP-0005gx-CD
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571738088;
+ s=mimecast20190719; t=1571738092;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jFPWykuMsgieWlJGsSu8oB7ApcBbSMC9vXFxrVCBi0o=;
- b=JNK5/SNKnwkrsoqYwd7Gh/SI2OcaqJ8XK/p1LSIGvKAGsUjllhPAYTjwWweYW15sPQqyvN
- HjLSEmPK3pouEGS5XhPYGoN0wtGG2CpqYH53vke0/XIJrqubWiWyHXXaxhavOVs6NCgVAG
- Q/VLEnoITBiSYMGD/1+BFUH0G1yXfgc=
+ bh=7KCr6i+4t+ywkOlX6JJoUgDJqdx6D7ofzVIFs9U50pA=;
+ b=SlFPso1m2deNuX/znAY5jN2zbTmXB1tHxZ6copAAZfF2feRG/EA+HYx/NxcKeZBq++lhYq
+ yhPxn7SuBPddIbv8BjV2jFaOrIrG1W6QtuwoPOM9EcHmc3QFTdEoZ4XowUBZ1FulsSBBSP
+ fLNKVSvo5fofrYHnkErqBoHLWAM8vj4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-FCPtEwf3NmeIaphByN-zWQ-1; Tue, 22 Oct 2019 05:54:45 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-346-7Y4BkShwNT2ve26Kejgd6w-1; Tue, 22 Oct 2019 05:54:49 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB47800D53;
- Tue, 22 Oct 2019 09:54:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4956C1800D6A;
+ Tue, 22 Oct 2019 09:54:48 +0000 (UTC)
 Received: from localhost (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ED8660126;
- Tue, 22 Oct 2019 09:54:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0F7E194B2;
+ Tue, 22 Oct 2019 09:54:45 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/9] s390x/tcg: Fix VECTOR MULTIPLY LOGICAL ODD
-Date: Tue, 22 Oct 2019 11:54:22 +0200
-Message-Id: <20191022095428.20780-4-cohuck@redhat.com>
+Subject: [PULL 4/9] s390x/tcg: Fix VECTOR MULTIPLY AND ADD *
+Date: Tue, 22 Oct 2019 11:54:23 +0200
+Message-Id: <20191022095428.20780-5-cohuck@redhat.com>
 In-Reply-To: <20191022095428.20780-1-cohuck@redhat.com>
 References: <20191022095428.20780-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: FCPtEwf3NmeIaphByN-zWQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 7Y4BkShwNT2ve26Kejgd6w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,38 +78,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We have to read from odd offsets.
+We missed that we always read a "double-wide even-odd element
+pair of the fourth operand". Fix it in all four variants.
 
-Fixes: 2bf3ee38f1f8 ("s390x/tcg: Implement VECTOR MULTIPLY *")
+Fixes: 1b430aec4157 ("s390x/tcg: Implement VECTOR MULTIPLY AND ADD *")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191021085715.3797-2-david@redhat.com>
+Message-Id: <20191021085715.3797-3-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/vec_int_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/s390x/vec_int_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.c
-index 68eaae407b47..03ae8631d958 100644
+index 03ae8631d958..1b3aaecbdb3d 100644
 --- a/target/s390x/vec_int_helper.c
 +++ b/target/s390x/vec_int_helper.c
-@@ -488,7 +488,7 @@ void HELPER(gvec_vmlo##BITS)(void *v1, const void *v2, =
+@@ -336,7 +336,7 @@ void HELPER(gvec_vmae##BITS)(void *v1, const void *v2, =
 const void *v3,         \
- {                                                                         =
-     \
-     int i, j;                                                             =
-     \
-                                                                           =
-     \
--    for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
+     for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
            \
-+    for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
-           \
-         const uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);   =
-       \
-         const uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);   =
+         int##TBITS##_t a =3D (int##BITS##_t)s390_vec_read_element##BITS(v2=
+, j);  \
+         int##TBITS##_t b =3D (int##BITS##_t)s390_vec_read_element##BITS(v3=
+, j);  \
+-        int##TBITS##_t c =3D (int##BITS##_t)s390_vec_read_element##BITS(v4=
+, j);  \
++        int##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);         =
        \
                                                                            =
+     \
+         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
+     \
+     }                                                                     =
+     \
+@@ -354,7 +354,7 @@ void HELPER(gvec_vmale##BITS)(void *v1, const void *v2,=
+ const void *v3,        \
+     for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
+         uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);         =
+       \
+         uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);         =
+       \
+-        uint##TBITS##_t c =3D s390_vec_read_element##BITS(v4, j);         =
+       \
++        uint##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);        =
+       \
+                                                                           =
+     \
+         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
+     \
+     }                                                                     =
+     \
+@@ -372,7 +372,7 @@ void HELPER(gvec_vmao##BITS)(void *v1, const void *v2, =
+const void *v3,         \
+     for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
+         int##TBITS##_t a =3D (int##BITS##_t)s390_vec_read_element##BITS(v2=
+, j);  \
+         int##TBITS##_t b =3D (int##BITS##_t)s390_vec_read_element##BITS(v3=
+, j);  \
+-        int##TBITS##_t c =3D (int##BITS##_t)s390_vec_read_element##BITS(v4=
+, j);  \
++        int##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);         =
+       \
+                                                                           =
+     \
+         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
+     \
+     }                                                                     =
+     \
+@@ -390,7 +390,7 @@ void HELPER(gvec_vmalo##BITS)(void *v1, const void *v2,=
+ const void *v3,        \
+     for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
+         uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);         =
+       \
+         uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);         =
+       \
+-        uint##TBITS##_t c =3D s390_vec_read_element##BITS(v4, j);         =
+       \
++        uint##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);        =
+       \
+                                                                           =
+     \
+         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
+     \
+     }                                                                     =
      \
 --=20
 2.21.0
