@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B44EE0A67
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:17:42 +0200 (CEST)
-Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C25E0A75
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:19:56 +0200 (CEST)
+Received: from localhost ([::1]:37268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxmv-0001n6-G3
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41353)
+	id 1iMxol-0003RI-Qg
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMxC9-0001oX-Oz
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:42 -0400
+ (envelope-from <clg@kaod.org>) id 1iMxCK-00023L-F0
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMxC8-0006wl-KX
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:41 -0400
-Received: from 13.mo1.mail-out.ovh.net ([178.33.253.128]:50397)
+ (envelope-from <clg@kaod.org>) id 1iMxCJ-00073o-4G
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:52 -0400
+Received: from 1.mo179.mail-out.ovh.net ([178.33.111.220]:51896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxC8-0006wO-EO
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:40 -0400
-Received: from player688.ha.ovh.net (unknown [10.108.54.52])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id C36CD1917CE
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 18:39:38 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxCI-00072e-Uc
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:51 -0400
+Received: from player688.ha.ovh.net (unknown [10.109.159.224])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 1C433145FD0
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 18:39:47 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 350F3B32C42C;
- Tue, 22 Oct 2019 16:39:30 +0000 (UTC)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id A465AB32C457;
+ Tue, 22 Oct 2019 16:39:38 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v5 6/7] ppc/pnv: Fix naming of routines realizing the CPUs
-Date: Tue, 22 Oct 2019 18:38:11 +0200
-Message-Id: <20191022163812.330-7-clg@kaod.org>
+Subject: [PATCH v5 7/7] spapr/xive: Set the OS CAM line at reset
+Date: Tue, 22 Oct 2019 18:38:12 +0200
+Message-Id: <20191022163812.330-8-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022163812.330-1-clg@kaod.org>
 References: <20191022163812.330-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 3515622459560856550
+X-Ovh-Tracer-Id: 3518155734886419430
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.253.128
+X-Received-From: 178.33.111.220
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,60 +62,123 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'vcpu' suffix is inherited from the sPAPR machine. Use better
-names for PowerNV.
+When a Virtual Processor is scheduled to run on a HW thread, the
+hypervisor pushes its identifier in the OS CAM line. When running with
+kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
+
+Set the OS CAM line when the interrupt presenter of the sPAPR core is
+reset. This will also cover the case of hot-plugged CPUs.
+
+This change also has the benefit to remove the use of CPU_FOREACH()
+which can be unsafe.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/pnv_core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/hw/ppc/spapr_xive.h |  1 -
+ hw/intc/spapr_xive.c        | 48 +++++++++++++------------------------
+ 2 files changed, 17 insertions(+), 32 deletions(-)
 
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index be0310ac0340..e81cd3a3e047 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -162,7 +162,7 @@ static const MemoryRegionOps pnv_core_power9_xscom_op=
-s =3D {
-     .endianness =3D DEVICE_BIG_ENDIAN,
- };
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index d84bd5c229f0..742b7e834f2a 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -57,7 +57,6 @@ typedef struct SpaprXive {
+ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
 =20
--static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChip *chip, Error **err=
-p)
-+static void pnv_core_cpu_realize(PowerPCCPU *cpu, PnvChip *chip, Error *=
-*errp)
- {
-     CPUPPCState *env =3D &cpu->env;
-     int core_pir;
-@@ -247,7 +247,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
-     }
+ void spapr_xive_hcall_init(SpaprMachineState *spapr);
+-void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+ void spapr_xive_map_mmio(SpaprXive *xive);
 =20
-     for (j =3D 0; j < cc->nr_threads; j++) {
--        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
-+        pnv_core_cpu_realize(pc->threads[j], pc->chip, &local_err);
-         if (local_err) {
-             goto err;
-         }
-@@ -269,7 +269,7 @@ err:
-     error_propagate(errp, local_err);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 20a8d8285f64..d8e1291905c3 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -205,23 +205,6 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
+ol enable)
+     memory_region_set_enabled(&xive->end_source.esb_mmio, false);
  }
 =20
--static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
-+static void pnv_core_cpu_unrealize(PowerPCCPU *cpu)
+-/*
+- * When a Virtual Processor is scheduled to run on a HW thread, the
+- * hypervisor pushes its identifier in the OS CAM line. Emulate the
+- * same behavior under QEMU.
+- */
+-void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
+-{
+-    uint8_t  nvt_blk;
+-    uint32_t nvt_idx;
+-    uint32_t nvt_cam;
+-
+-    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
+-
+-    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
+_idx));
+-    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
+-}
+-
+ static void spapr_xive_end_reset(XiveEND *end)
  {
-     PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-=20
-@@ -289,7 +289,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
-     qemu_unregister_reset(pnv_core_reset, pc);
-=20
-     for (i =3D 0; i < cc->nr_threads; i++) {
--        pnv_unrealize_vcpu(pc->threads[i]);
-+        pnv_core_cpu_unrealize(pc->threads[i]);
+     memset(end, 0, sizeof(*end));
+@@ -544,21 +527,32 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
+tController *intc,
      }
-     g_free(pc->threads);
+=20
+     spapr_cpu->tctx =3D XIVE_TCTX(obj);
+-
+-    /*
+-     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
+-     * don't beneficiate from the reset of the XIVE IRQ backend
+-     */
+-    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
+     return 0;
  }
+=20
++static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t os_cam)
++{
++    uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | os_cam);
++    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
++}
++
+ static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+                                      PowerPCCPU *cpu)
+ {
+     XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
++    uint8_t  nvt_blk;
++    uint32_t nvt_idx;
+=20
+     xive_tctx_reset(tctx);
++
++    /*
++     * When a Virtual Processor is scheduled to run on a HW thread,
++     * the hypervisor pushes its identifier in the OS CAM line.
++     * Emulate the same behavior under QEMU.
++     */
++    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
++
++    xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
+ }
+=20
+ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
+int val)
+@@ -651,14 +645,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
+intc, uint32_t nr_servers,
+ static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
+rrp)
+ {
+     SpaprXive *xive =3D SPAPR_XIVE(intc);
+-    CPUState *cs;
+-
+-    CPU_FOREACH(cs) {
+-        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-
+-        /* (TCG) Set the OS CAM line of the thread interrupt context. */
+-        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+-    }
+=20
+     if (kvm_enabled()) {
+         int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
 --=20
 2.21.0
 
