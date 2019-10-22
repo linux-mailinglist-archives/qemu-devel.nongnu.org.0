@@ -2,59 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3B6E0300
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:36:13 +0200 (CEST)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F2CE02EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:32:07 +0200 (CEST)
+Received: from localhost ([::1]:53586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsSS-0000aO-8J
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44302)
+	id 1iMsOU-0003gS-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMsBc-0004rc-K5
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:50 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMsCW-00062s-AC
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:19:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMsBX-0007vP-4V
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:48 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:59733)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iMsBQ-0007r4-L7; Tue, 22 Oct 2019 07:18:40 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mz9d7-1i9D933aQF-00wB1Z; Tue, 22 Oct 2019 13:18:07 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v14 9/9] BootLinuxConsoleTest: Test the Quadra 800
-Date: Tue, 22 Oct 2019 13:17:38 +0200
-Message-Id: <20191022111738.20803-10-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191022111738.20803-1-laurent@vivier.eu>
-References: <20191022111738.20803-1-laurent@vivier.eu>
+ (envelope-from <thuth@redhat.com>) id 1iMsCT-0008EJ-Oc
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:19:42 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47599
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMsCT-0008Dm-KS
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:19:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571743180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp:autocrypt:autocrypt;
+ bh=ITwwck6ox3eK/BTIV/wf6GdnObVYjih1cX+Yr/9DqHw=;
+ b=No946mHxWyMNjZaM+V5WcbsS/qUlaSnyd/oyDKXTNOynQHxa+qDBC7hUQ5buo69NLO4JvB
+ UB7TRcOZvnBfG+pI6LtCUh7jJMJlxuh1R6ZBBQbG80pNLuLDRALld00n83SUzwCejz7tdQ
+ 0yyv10BGeSXI5ihqMPAo0ZphCQuJNKs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-fVIUoCbSOvKvvuMKcoxa9A-1; Tue, 22 Oct 2019 07:19:37 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 123BF800D4E;
+ Tue, 22 Oct 2019 11:19:36 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6D681001B2B;
+ Tue, 22 Oct 2019 11:19:29 +0000 (UTC)
+Subject: Re: [PATCH 5/5] travis.yml: Compile on arm64, too
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191009170701.14756-1-thuth@redhat.com>
+ <20191009170701.14756-6-thuth@redhat.com> <87lftdvz8k.fsf@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <7980624e-4613-5ebe-ebd2-0eb5e87d1d7d@redhat.com>
+Date: Tue, 22 Oct 2019 13:19:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <87lftdvz8k.fsf@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: fVIUoCbSOvKvvuMKcoxa9A-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9InZqcPGFiYyRVjpN2mym7hXMy5iHRSo8MiUcp+JUkBBBIm6REU
- ewvDy0BH2jp/XoOtm1dtNyKGhMO8OrdowTxZGG+Uf4ruMQVlX0jLVYSSqTQS39MOiP9aB1z
- evGo933A0Ak4Z0Rg2X3EOIlVoP4rY4kqlUVGQfBqviyjLpC7wX5o3r0OnjK4Rw62TdTwEdZ
- mjzJMCNpzDkE7dciktgew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pYvGcDIAHBY=:kvbAJg43v5Xyd9vHjkDfML
- RDZ2GqG5amd03vg20jq9K0BJFYH8Uvj0/ErjGQHlcM02iomlCUz8jxoh2rY4aI8g64sNSIq4b
- CCw+ygN3IRXWqrSWeGKOu/ZntCdIiKjGS08H9oqMrRc9NjvfJj8UNHeMNxW9+wCrzGLyQ7jvu
- gMDh+lxdn58Paq9EpsHxbSAT3bNfokOVxA69J9YhljmZDoaqf/3rkDMJpc/8NkzzwnBd4hLZs
- CGVjOA3M4WvhdFnZaw76qCABJAGu2ehPgmuHq2bH3CKZTV/b8H7iApK3syH/qC2vXNz4LC3p3
- cVLj//ZilpjdFJ82h/O2xTDAZOCNYKH6NNyGmibLaMNYyf9jo1oTel5PR+DsKu+BeQKnsHMKg
- QTCEGBYgKNFcLfD9IXo/L6DQU2/+3F5k/TmFfaUzXgVmRR0kaegeD9f+hgp0sWDY7tqfILvWs
- RRKyO/fE/UY1NjJfngsaIfl8y+mGutKd34kdEFgOhg+MaDyH21uHNLWsuA7icyFI73i8eA9dn
- hzsZS3k5QYf7Lo6vGw6MYyc5g2XTLVIJ+CrsENkAwreNZIzWa0XemEEFKwSYulptYDUBAUcLW
- Nk5T8zKS4F34lQMVHugeaZONazMYxcHE3Cc6In/GEqMbMmNNzgaeAN/NoN7ZsFdhjxkUqqm1Y
- DZCvKQq0HFPUII9KCacVu8jZQLvMILVeqTi+bxqZ2l1tEgRaWM6Gl9rKdF/dj3jzn3Rf8CeJf
- O9dST6Z2Q4oWWHanT9iTEoo/K9stPs4eNafN3uy6IvW+ApT3g+gSmLBIdtuKrzE4kouFX4XIb
- Ah1B2szvjNo38CIPjqHso1H5nQqGMYPR8oOQQQYWsWTjmoNXfeGjQJZlmuknpGwtbkJ7obJt7
- HPudymBuYZlG+L0GaVjXfDuDsuaTjca72Rxsn6q38=
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.13
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,109 +118,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 22/10/2019 12.41, Alex Benn=C3=A9e wrote:
+>=20
+> Thomas Huth <thuth@redhat.com> writes:
+>=20
+>> Travis now features an arm64 build host, so let's check compilation
+>> there, too.
+>>
+>> Unfortunately, there are some quirks:
+>> - block/ssh.c does not compile properly in this environment, so we have
+>>   to use --disable-libssh until that problem is fixed.
+>> - test-util-filemonitor fails, so we can not run the unit tests there
+>> - The file system size seems to be very limited, so the iotest tests
+>>   can't be used and the hd-geo-test fails (thus we can't compile
+>>   x86_64-softmmu here and run "check-qtest" afterwards)
+>> - Compiling seems to be quite a bit slower than on the x86 builders,
+>>   so we better limit the target list to some few architectures.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  .travis.yml | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/.travis.yml b/.travis.yml
+>> index 0c88e8757b..357ca02890 100644
+>> --- a/.travis.yml
+>> +++ b/.travis.yml
+>> @@ -342,3 +342,9 @@ matrix:
+>>          - CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64-=
+softmmu,alpha-softmmu"
+>>          - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>>          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>> +
+>> +    # Non-x86 builds:
+>> +    - env:
+>> +        - CONFIG=3D"--disable-libssh --target-list=3Daarch64-softmmu,pp=
+c64-softmmu,s390x-softmmu,x86_64-linux-user"
+>> +        - TEST_CMD=3D"make check-qtest check-softfloat -j3 V=3D1"
+>> +      arch: arm64
+>=20
+>=20
+> Hmm this keeps fail for me now but it looks like missing deps:
+>=20
+> Reading state information...
+>=20
+> E: Unable to locate package libspice-server-dev
 
-This test boots a Linux kernel on a Quadra 800 board
-and verify the serial is working.
+It used to work two weeks before:
 
-Example:
+ https://travis-ci.com/huth/qemu/jobs/244124599#L484
 
-  $ avocado --show=app,console run -t machine:q800 tests/acceptance/boot_linux_console.py
-  console: ABCFGHIJK
-  console: Linux version 5.2.0-2-m68k (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-21)) #1 Debian 5.2.9-2 (2019-08-21)
-  console: Detected Macintosh model: 35
-  console: Apple Macintosh Quadra 800
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 32448
-  console: Kernel command line: printk.time=0 console=ttyS0 vga=off
-  [...]
-  console: Calibrating delay loop... 1236.99 BogoMIPS (lpj=6184960)
-  [...]
-  console: NuBus: Scanning NuBus slots.
-  console: Slot 9: Board resource not found!
-  console: SCSI subsystem initialized
-  console: clocksource: Switched to clocksource via1
-  [...]
-  console: macfb: framebuffer at 0xf9001000, mapped to 0x(ptrval), size 468k
-  console: macfb: mode is 800x600x8, linelength=800
-  console: Console: switching to colour frame buffer device 100x37
-  console: fb0: DAFB frame buffer device
-  console: pmac_zilog: 0.6 (Benjamin Herrenschmidt <benh@kernel.crashing.org>)
-  console: scc.0: ttyS0 at MMIO 0x50f0c022 (irq = 4, base_baud = 230400) is a Z85c30 ESCC - Serial port
-  console: scc.1: ttyS1 at MMIO 0x50f0c020 (irq = 4, base_baud = 230400) is a Z85c30 ESCC - Serial port
-  console: Non-volatile memory driver v1.3
-  console: adb: Mac II ADB Driver v1.0 for Unified ADB
-  console: mousedev: PS/2 mouse device common for all mice
-  console: random: fast init done
-  console: Detected ADB keyboard, type <unknown>.
-  console: input: ADB keyboard as /devices/virtual/input/input0
-  console: input: ADB mouse as /devices/virtual/input/input1
-  console: rtc-generic rtc-generic: registered as rtc0
-  console: ledtrig-cpu: registered to indicate activity on CPUs
-  [...]
-  console: rtc-generic rtc-generic: setting system clock to 2019-09-10T16:20:25 UTC (1568132425)
-  console: List of all partitions:
-  console: No filesystem could mount root, tried:
-  JOB TIME   : 2.91 s
+I guess there was an update to a different version and they removed the
+package from arm64 now...?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20190910163430.11326-1-f4bug@amsat.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- tests/acceptance/boot_linux_console.py | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Seems like this arm64 builder is still a moving target (it has been
+announced as alpha software IIRC), so I think we should not include this
+patch yet.
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8a9a314ab4..df27813c78 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -378,3 +378,27 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_m68k_q800(self):
-+        """
-+        :avocado: tags=arch:m68k
-+        :avocado: tags=machine:q800
-+        """
-+        deb_url = ('http://ftp.ports.debian.org/debian-ports/pool-m68k/main'
-+                   '/l/linux/kernel-image-5.2.0-2-m68k-di_5.2.9-2_m68k.udeb')
-+        deb_hash = '0797e05129595f22f3c0142db5e199769a723bf9'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinux-5.2.0-2-m68k')
-+
-+        self.vm.set_machine('q800')
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 vga=off')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+        self.wait_for_console_pattern(console_pattern)
-+        console_pattern = 'No filesystem could mount root'
-+        self.wait_for_console_pattern(console_pattern)
--- 
-2.21.0
+ Thomas
 
 
