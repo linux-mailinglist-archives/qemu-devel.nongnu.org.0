@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33352DFE7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:42:30 +0200 (CEST)
-Received: from localhost ([::1]:51156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD82DFECB
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:57:46 +0200 (CEST)
+Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMooH-0006rM-9q
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
+	id 1iMp33-0003sQ-6f
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cathy.zhang@intel.com>) id 1iMol9-0003gj-UT
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:39:17 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iMp1K-0002Bu-9h
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:55:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cathy.zhang@intel.com>) id 1iMol8-00049q-Id
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:39:15 -0400
-Received: from mga11.intel.com ([192.55.52.93]:62449)
+ (envelope-from <dgibson@ozlabs.org>) id 1iMp1I-0005Zr-93
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:55:58 -0400
+Received: from ozlabs.org ([203.11.71.1]:43201)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cathy.zhang@intel.com>)
- id 1iMol8-00047q-9w
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:39:14 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2019 00:39:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,326,1566889200"; d="scan'208";a="209615716"
-Received: from unknown (HELO localhost.localdomain.bj.intel.com)
- ([10.238.156.101])
- by fmsmga001.fm.intel.com with ESMTP; 22 Oct 2019 00:39:07 -0700
-From: Cathy Zhang <cathy.zhang@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [Resend PATCH 3/3] i386: Add new CPU model Cooperlake
-Date: Tue, 22 Oct 2019 15:35:28 +0800
-Message-Id: <1571729728-23284-4-git-send-email-cathy.zhang@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1571729728-23284-1-git-send-email-cathy.zhang@intel.com>
-References: <1571729728-23284-1-git-send-email-cathy.zhang@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iMp1E-0005Vw-Ib; Tue, 22 Oct 2019 03:55:55 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46y5R84lHlz9sPh; Tue, 22 Oct 2019 18:55:48 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1571730948;
+ bh=vAp2gikRTBrPeicF8J5RuD9SmmwGPyNfU4muzDVBqP0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ckXaX6AhN8gaFyNwkueeUkmVFSDPkKZ5ZLVOLOB4Rf7SibzCavEAoAmONQBeQUF6/
+ Rq8yWOx6zN8ync8nodzRITi1PlX94dv76gm5ea2to+5KEAqHIiQqNcCksxph5uq3O4
+ j4LbAYjnU2a+oEDWYZzWe5RWn/4yDNOO+2Jv2j+M=
+Date: Tue, 22 Oct 2019 18:41:15 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [GIT PULL for qemu-pseries] pseries: Update SLOF firmware image
+Message-ID: <20191022074115.GJ6439@umbus.fritz.box>
+References: <20191022040945.35730-1-aik@ozlabs.ru>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Z8yxTSU1mh2gsre7"
+Content-Disposition: inline
+In-Reply-To: <20191022040945.35730-1-aik@ozlabs.ru>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +55,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cathy Zhang <cathy.zhang@intel.com>, pbonzini@redhat.com,
- ehabkost@redhat.com, rth@twiddle.net
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cooper Lake is intel's successor to Cascade Lake, the new
-CPU model inherits features from Cascadelake-Server, while
-add one platform associated new feature: AVX512_BF16. Meanwhile,
-add STIBP for speculative execution.
 
-Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Reviewed-by: Tao Xu <tao3.xu@intel.com>
----
- target/i386/cpu.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+--Z8yxTSU1mh2gsre7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 44f1bbd..630a190 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2612,6 +2612,66 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         }
-     },
-     {
-+        .name = "Cooperlake",
-+        .level = 0xd,
-+        .vendor = CPUID_VENDOR_INTEL,
-+        .family = 6,
-+        .model = 85,
-+        .stepping = 10,
-+        .features[FEAT_1_EDX] =
-+            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
-+            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA |
-+            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 |
-+            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
-+            CPUID_DE | CPUID_FP87,
-+        .features[FEAT_1_ECX] =
-+            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
-+            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
-+            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
-+            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
-+            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOVBE |
-+            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
-+        .features[FEAT_8000_0001_EDX] =
-+            CPUID_EXT2_LM | CPUID_EXT2_PDPE1GB | CPUID_EXT2_RDTSCP |
-+            CPUID_EXT2_NX | CPUID_EXT2_SYSCALL,
-+        .features[FEAT_8000_0001_ECX] =
-+            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFETCH,
-+        .features[FEAT_7_0_EBX] =
-+            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
-+            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
-+            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID |
-+            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
-+            CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLWB |
-+            CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
-+            CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
-+            CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT,
-+        .features[FEAT_7_0_ECX] =
-+            CPUID_7_0_ECX_PKU |
-+            CPUID_7_0_ECX_AVX512VNNI,
-+        .features[FEAT_7_0_EDX] =
-+            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_STIBP |
-+            CPUID_7_0_EDX_SPEC_CTRL_SSBD | CPUID_7_0_EDX_ARCH_CAPABILITIES,
-+        .features[FEAT_ARCH_CAPABILITIES] =
-+            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
-+            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO,
-+        .features[FEAT_7_1_EAX] =
-+            CPUID_7_1_EAX_AVX512_BF16,
-+        /*
-+         * Missing: XSAVES (not supported by some Linux versions,
-+         * including v4.1 to v4.12).
-+         * KVM doesn't yet expose any XSAVES state save component,
-+         * and the only one defined in Skylake (processor tracing)
-+         * probably will block migration anyway.
-+         */
-+        .features[FEAT_XSAVE] =
-+            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-+            CPUID_XSAVE_XGETBV1,
-+        .features[FEAT_6_EAX] =
-+            CPUID_6_EAX_ARAT,
-+        .xlevel = 0x80000008,
-+        .model_id = "Intel Xeon Processor (Cooperlake)",
-+    },
-+    {
-         .name = "Icelake-Client",
-         .level = 0xd,
-         .vendor = CPUID_VENDOR_INTEL,
--- 
-1.8.3.1
+On Tue, Oct 22, 2019 at 03:09:45PM +1100, Alexey Kardashevskiy wrote:
+> The following changes since commit 7cff77c24d8f5e558cef3538a44044d66aa225=
+a5:
+>=20
+>   spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass (2019-10-16 12:01:4=
+1 +1100)
+>=20
+> are available in the Git repository at:
+>=20
+>   git@github.com:aik/qemu.git tags/qemu-slof-20191022
+>=20
+> for you to fetch changes up to 8e59d05f71ae783e12a8eb7eb582e0a86ba3d6dc:
+>=20
+>   pseries: Update SLOF firmware image (2019-10-22 15:05:36 +1100)
 
+Applied to ppc-for-4.2, thanks.
+
+>=20
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (1):
+>       pseries: Update SLOF firmware image
+>=20
+>  pc-bios/README   |   2 +-
+>  pc-bios/slof.bin | Bin 930640 -> 928552 bytes
+>  roms/SLOF        |   2 +-
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+>=20
+> *** Note: this is not for master, this is for pseries
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Z8yxTSU1mh2gsre7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2uspkACgkQbDjKyiDZ
+s5IZ7A/9F72VCqamzQUP+p8QQcLGqMCtv0QOYnqu33S/3UyASAuDgaAFD03S6qx1
+Y9BcbVSXFobN9lDU7sKtrZlVNlMehmdcoedMCmMW02Oz4deZzzcVrxSOg4Lkhaq0
+K/IPzhrxKPKl+TcwKAhiQ0ohn08B9TvF3IwO0gvZXhDRclvXtRLRdQVdg5RbP6gi
+aeUiulT7j40IUkmBKys+bjD259ptqdgW8hGtg1RKZkBOxJNNj6gOnTXPdo8sZ0uV
+9ReMgqNqjCEgPK+PrFvEZSGR2wZajf2rl8flqRR+2jZoEyKfOo+J0B9zrWV8y8GP
+MQLXDUM3HhAxq7h+OTcOrr5782q//8UjyvGDgW2Eck7eRac0PY+sn4W+8KuRPwTn
+0vuxQ47ATzHocRpYUcbNGj6Rcr7wv4Od5BhSkXXx5z57D1J/TvAeq8UBNJcc+u/4
+pSxt1eAzCOXSo2A4Jq12rcYOVn8teHvOtImlEASXXszPE9xWsXhSUtZqvMxmVVJ8
+/L38anPmAnEQrxQkDtrCTHtJpF/qBk0/Tq2G9z2nov6VsFu+J3qpX9jN63DLl/50
+akywRcTlizaIVHch9hKyiAyx5Zgk+J1uQ3UAKf8y00RDbmKB5Vgcf3LGos3erS6x
+dBX7ZH3TnPiKUegJVRQl9xGzLtYt57Nn+vMD6j1wcQwP9qVFKmQ=
+=i66+
+-----END PGP SIGNATURE-----
+
+--Z8yxTSU1mh2gsre7--
 
