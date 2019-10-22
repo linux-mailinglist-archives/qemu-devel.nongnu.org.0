@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4599BE057F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:51:47 +0200 (CEST)
-Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667DDE058F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:54:13 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuZd-0006cd-Is
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37122)
+	id 1iMuc0-0001zd-9N
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:54:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuHK-0003Mq-69
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuHQ-0003RC-17
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuHI-0001VG-O7
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:49 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35274)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuHO-0001Ye-UH
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:55 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33287)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuHI-0001V0-Hg
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:48 -0400
-Received: by mail-wm1-x330.google.com with SMTP id v9so269352wml.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:48 -0700 (PDT)
+ id 1iMuHO-0001YO-Ny
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:54 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 6so3707781wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=10Ms0HjDWN7ux33iEvzUyQs1UaAMPIAPE/5GBQG8vsk=;
- b=O8Q9LdAaFMwThqoK/1UDeb4silpc/UPTPfA+lOmrzzvIDvV6OR0Z8xrascGhJLU7t7
- dYkx+DvjLWbCUMF1Gp7fMkpr2YabFMIJH9cwA9Lzq8pf+OOJqg/KSYhp21LE/UPOhfrQ
- e707JGo2xZWzWJaqWH8cFvJyA9GdhzT4M2fnzQec9ZbH4bdlfl41lp8UkpdJkUEe4/Ex
- ASDaeW9xJX7+4tCvY3f7XM4xX58uG3udRDto8y9wVkwZx43sh9XokM2jr603MgsQMxFA
- hTBbD5D611pfzwlwpbakjeJsCmeCNN3B04pqr8UsuH3mRG4IACiQF/kILUj6AuMsMckR
- e7oA==
+ bh=5lY7u62vI3+XxTunjo9vzWs8Uh4wfjIbh9S8L0HAuyI=;
+ b=YUpnIJVdO6DVIbNG7gztL2UKLuTluVGPT5dZVuHXeqW22Nabtsfzs7SJSphwMf3Q3K
+ SXM7gFBmGc0GlRBXyydypmQ9YSIMtZogEmly1Kq4cMEmZWT+1HRp1w4luYmo2Ae1O4I5
+ 8HIqjwBOhdJOgoTydEOYonGds+0HSL08K2vB8kIMCigQW+uXfTr5pnrjgFQiL+qduo9e
+ ad1eGCkxZ1litqXZzLiZ/GaGcZFv0hjoIfkLprSwXhiDnT9IKr4Iyff/TITdQUXrLudy
+ obTmxblWnIPsTq2CiHpG4sa2eibyzJ8OkpxLNSNdy8BLqyTazZUqJVypPwZldsnP4lta
+ geIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=10Ms0HjDWN7ux33iEvzUyQs1UaAMPIAPE/5GBQG8vsk=;
- b=W/HeTDJGaYiehp/l19S1yKjPMvAx4d0dMulW/Cp49KY+az3ZW1rjS0aqdYL8H7C0PR
- xt21/Dt5DmlWr9wD3wOHWnERgovgZZXGqp4p1n+2ayUlcS0eRqUEvKEYjY2Ius0EL4uq
- KX02+nfVXRSOov1RgfFPMOgskTGi3hNavF524t0dOf2cLa7nlexgxaOzsKsajB0BeKyR
- YTXTfprnNcg5sV7YtngQaiUoERF6GeL1VnvPzP/TQQxuCHyus2Squ2lO3WZsOrOHEgA8
- qxnVHKyYExZEFf+diMPXcmlmlorWvj0SpqNSywKEApnKRm4qm1yyRHXnIgj+gjQIgIsP
- THNg==
-X-Gm-Message-State: APjAAAVonYWAW0IQLpd7ku2226aaluEA2SBAOb6bnbTZNW3MxhTwU9Ls
- ffiqKPsP9/47vVLia6u7XEu/PiHMD/I=
-X-Google-Smtp-Source: APXvYqwH507K7h86cOhc9VMEFawdv7yzsh/oyGpjNQVW0PV2ub87lJXvQPLL7R/0U3UnsjNPMR0P0A==
-X-Received: by 2002:a05:600c:1007:: with SMTP id
- c7mr3221253wmc.41.1571751166943; 
- Tue, 22 Oct 2019 06:32:46 -0700 (PDT)
+ bh=5lY7u62vI3+XxTunjo9vzWs8Uh4wfjIbh9S8L0HAuyI=;
+ b=aPz3K17CX1JUKMoDOgooIXvnaw6gyGDxAMsuAtafEYULOfwHeaf/sUPAx97n4Q09NX
+ KZ6bGL0YMXFsxLSZqgZmJgo35Nw5kVF4IkeCuaDDf9MPdOgyU3l6/TPvQUE6/PPsUS/q
+ Ho2Ksfgap7btLrB9PtRyAa4wUfkr8Ff60vcOJfvhQolzcmW1KU/6Daun9eWfTv4kpXYf
+ 1QDicaNGC/Ky9KekcLb+UB6qAcposRXrj29G9kMbrhxqf7whDHNerWRsn3brdEJoIo0S
+ G1Sdw60Ii9K9YQGGP+HgtpDMIAqrEgwiPVUmRvKaTM32omDDE7G0ag8yelEs0Ep+rl/r
+ egHA==
+X-Gm-Message-State: APjAAAU+HksDiGLsHyTAH4GRvt/1Ksh2JXrJ+NmSmiP1yyeyZorQ5bC6
+ piLloxxhEODoZp5e4ITopJEx9LPFtm0=
+X-Google-Smtp-Source: APXvYqxN9qPuyM9ryWGtcGXi2+1fTh4qGE9WPNQvWPRj+P/k1LI5RPQ1QxvHR6dqd8VYjxvmx3FTNQ==
+X-Received: by 2002:a1c:c912:: with SMTP id f18mr3296553wmb.168.1571751172991; 
+ Tue, 22 Oct 2019 06:32:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.44
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:32:45 -0700 (PDT)
+ Tue, 22 Oct 2019 06:32:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/41] target/arm: Rebuild hflags for M-profile
-Date: Tue, 22 Oct 2019 14:31:23 +0100
-Message-Id: <20191022133134.14487-31-peter.maydell@linaro.org>
+Subject: [PULL 33/41] hw/sd/sdhci: Add a comment to distinct the i.MX eSDHC
+ functions
+Date: Tue, 22 Oct 2019 14:31:26 +0100
+Message-Id: <20191022133134.14487-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,94 +83,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Continue setting, but not relying upon, env->hflags.
+This file keeps the various QDev blocks separated by comments.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191018174431.1784-21-richard.henderson@linaro.org
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-id: 20191005154748.21718-3-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c  | 6 ++++++
- target/arm/translate.c | 5 ++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ hw/sd/sdhci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 27cd2f3f964..f2512e448e2 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -494,6 +494,7 @@ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-     switch_v7m_security_state(env, dest & 1);
-     env->thumb = 1;
-     env->regs[15] = dest & ~1;
-+    arm_rebuild_hflags(env);
- }
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index e08ec3e3985..82ec5c1b4a4 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1532,6 +1532,8 @@ static const TypeInfo sdhci_bus_info = {
+     .class_init = sdhci_bus_class_init,
+ };
  
- void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-@@ -555,6 +556,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-     switch_v7m_security_state(env, 0);
-     env->thumb = 1;
-     env->regs[15] = dest;
-+    arm_rebuild_hflags(env);
- }
- 
- static uint32_t *get_v7m_sp_ptr(CPUARMState *env, bool secure, bool threadmode,
-@@ -895,6 +897,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-     env->regs[14] = lr;
-     env->regs[15] = addr & 0xfffffffe;
-     env->thumb = addr & 1;
-+    arm_rebuild_hflags(env);
- }
- 
- static void v7m_update_fpccr(CPUARMState *env, uint32_t frameptr,
-@@ -1765,6 +1768,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
- 
-     /* Otherwise, we have a successful exception exit. */
-     arm_clear_exclusive(env);
-+    arm_rebuild_hflags(env);
-     qemu_log_mask(CPU_LOG_INT, "...successful exception return\n");
- }
- 
-@@ -1837,6 +1841,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-     xpsr_write(env, 0, XPSR_IT);
-     env->thumb = newpc & 1;
-     env->regs[15] = newpc & ~1;
-+    arm_rebuild_hflags(env);
- 
-     qemu_log_mask(CPU_LOG_INT, "...function return successful\n");
-     return true;
-@@ -1959,6 +1964,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-     switch_v7m_security_state(env, true);
-     xpsr_write(env, 0, XPSR_IT);
-     env->regs[15] += 4;
-+    arm_rebuild_hflags(env);
-     return true;
- 
- gen_invep:
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 46a0bf51c95..2ea9da7637b 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8327,7 +8327,7 @@ static bool trans_MRS_v7m(DisasContext *s, arg_MRS_v7m *a)
- 
- static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
++/* --- qdev i.MX eSDHC --- */
++
+ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
  {
--    TCGv_i32 addr, reg;
-+    TCGv_i32 addr, reg, el;
- 
-     if (!arm_dc_feature(s, ARM_FEATURE_M)) {
-         return false;
-@@ -8337,6 +8337,9 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
-     gen_helper_v7m_msr(cpu_env, addr, reg);
-     tcg_temp_free_i32(addr);
-     tcg_temp_free_i32(reg);
-+    el = tcg_const_i32(s->current_el);
-+    gen_helper_rebuild_hflags_m32(cpu_env, el);
-+    tcg_temp_free_i32(el);
-     gen_lookup_tb(s);
-     return true;
+     SDHCIState *s = SYSBUS_SDHCI(opaque);
+@@ -1734,7 +1736,6 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+     }
  }
+ 
+-
+ static const MemoryRegionOps usdhc_mmio_ops = {
+     .read = usdhc_read,
+     .write = usdhc_write,
 -- 
 2.20.1
 
