@@ -2,102 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48E4E01FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:24:15 +0200 (CEST)
-Received: from localhost ([::1]:52880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21731E0205
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:25:57 +0200 (CEST)
+Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMrKo-0004oP-MA
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36488)
+	id 1iMrMS-0007Pl-3L
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:25:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMrIU-0002qE-WD
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:21:52 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMrJR-0003ya-15
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:22:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iMrIT-00029h-Lc
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:21:50 -0400
-Received: from mail-eopbgr140115.outbound.protection.outlook.com
- ([40.107.14.115]:63054 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iMrIP-000277-Eu; Tue, 22 Oct 2019 06:21:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tkm5FYgbegdPPSmPaOKHKXRY/WIuO3T7HQe2kvNKt3z9v+49Id+Yr4SspFDqBfYnlMylFdjUvZh9lyEm0Zu+D9qhcZXqth82kR2/pwIda1lX2PWOd0VwHR+ZRyAdz9LQ0ht7YNf5JjOLEprAawhchPxBKTdr7zMfLiJAndszxz5Nje1jfHLCopNvaHQzIh2lv5qc502kfJG/LCD0XJV7KG7ai6NR4CdrPt/croNvRLWSWrev98qgAegb5mSrun8x7T3kYb/A8dqn67yMKWp/3EQ+VsoPFMPg/ljDOI8smfkqH35/f+A6oCT6klWHRisbvnRgyfKdW+uRLqYy3o+VEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7SDcnRGKlHZblgMakycjVDqo/sDjol3SNAwvB6lQBvg=;
- b=ZswBfyNPTEKgf5/OdY9nyfu6Sexlne+xnM1NQPubi2rl9/qt9E+o/UIgz5Hz9/MR0p4w0GWj0x0jASVNRT7fElzmILHW28K/EBfJ5KEr94uJgxFeaEhaKfHhrVMuZ+ILqWP709xtVW/vdBEuObiRaz5T3oONH4Zv2dh7aDQGoV0E1nYOO5zXp1fVleek3no0WExAkpPM5QSgX8rHL/wzNwa5eOqwOkMeOMDjGE22QMZJKvlRnBA8p6TOqYAiiXexQHCz/+/7K0SbQUPnz3L0BTI6qLlhoHQoneh2VF5+TANIxgaG42TiQuUOx7qTY0fji5qjrCOYB+g6F+1HExXlCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7SDcnRGKlHZblgMakycjVDqo/sDjol3SNAwvB6lQBvg=;
- b=v+1WKwcnt8Ad4YDHN+KXSVTVSsI7CMsQ7aDPJhGZMDHsXw4DKPVmivdjRm9d0V2XR1qXMrGiDLoo+a5TVQKh89Vf+V7jPYhwWhW3LgxhHsUn6YB+Ze3hQZm67JHqq8bPptV+WCShwWTPqd/S7K576gCkSwP/LXcZXPRut+dNgBg=
-Received: from DB6PR08MB2757.eurprd08.prod.outlook.com (10.170.220.33) by
- DB6PR08MB2870.eurprd08.prod.outlook.com (10.175.232.161) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Tue, 22 Oct 2019 10:21:42 +0000
-Received: from DB6PR08MB2757.eurprd08.prod.outlook.com
- ([fe80::a1ee:668f:c3a5:87b]) by DB6PR08MB2757.eurprd08.prod.outlook.com
- ([fe80::a1ee:668f:c3a5:87b%4]) with mapi id 15.20.2367.022; Tue, 22 Oct 2019
- 10:21:41 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v5 1/4] block: support compressed write at generic layer
-Thread-Topic: [PATCH v5 1/4] block: support compressed write at generic layer
-Thread-Index: AQHVh4YxkyM0Azl4xEijX5NTK9vhK6dmZxIAgAAO3IA=
-Date: Tue, 22 Oct 2019 10:21:41 +0000
-Message-ID: <eece4ca2-7c40-cae6-b15f-beed73830fd8@virtuozzo.com>
-References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1571603828-185910-2-git-send-email-andrey.shinkevich@virtuozzo.com>
- <408ef2ab-1f6c-2c9f-ad50-92269c20fb27@redhat.com>
-In-Reply-To: <408ef2ab-1f6c-2c9f-ad50-92269c20fb27@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0376.eurprd05.prod.outlook.com
- (2603:10a6:7:94::35) To DB6PR08MB2757.eurprd08.prod.outlook.com
- (2603:10a6:6:18::33)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d7f4c2c6-130a-4ede-156b-08d756d9a17a
-x-ms-traffictypediagnostic: DB6PR08MB2870:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR08MB2870CA006ABABDDD9C8B0DEBF4680@DB6PR08MB2870.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 01986AE76B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(366004)(396003)(376002)(39840400004)(346002)(199004)(189003)(7736002)(6486002)(36756003)(64756008)(66446008)(110136005)(2201001)(66946007)(316002)(14444005)(31696002)(102836004)(229853002)(256004)(66476007)(66556008)(25786009)(305945005)(6436002)(52116002)(44832011)(2501003)(76176011)(54906003)(99286004)(31686004)(2906002)(8936002)(2616005)(11346002)(5660300002)(3846002)(4326008)(8676002)(81156014)(386003)(14454004)(6116002)(446003)(86362001)(6506007)(486006)(81166006)(107886003)(6246003)(478600001)(66066001)(71200400001)(71190400001)(26005)(53546011)(476003)(186003)(6512007)(41533002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR08MB2870;
- H:DB6PR08MB2757.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sNI4ji6xFmVovTJp1iaOhr+izd25udYrSCKFbvjxaMLvKDkuuYqlUuZz1C0g3HH6Fc2nzSzPyuF1BGFLNHQrvBfli7kgnPKaO7spJlVvE3X33Bnxxu7UHCNdqtJjO9zMQAllUQl02UijjokkZEF9iNgvsN7r+kN3hBGNQv3tG8QMEBHW0YGNRdCg8dq9RqS6nXw6hLKOzuc6JlWvecFJ646hGQtBASTga58MSha5scHhC0s36ExGw4H1D+7XSLFX/Wi5I6dNjKzagEGdaHRP1CWuOtXvredMJFsy9gDE7yCJ2G2CP+6tRo2GHIU/3qdqZeu7Ksdh3TLxhNueB8HXrvejCS3znpzGljagnhNUJrRLYM53pWlOwfliLKSiKX4119j9mY2nGEFRqPyAwHP+7I16hxPzYiK2d1DXECahtpipw2oo8f0Rty8zcVjxNlM3
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EF89C88D37FA3B41B3A1658D02533753@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1iMrJP-0002St-GQ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:22:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53976)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMrJP-0002SS-8J
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:22:47 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2CC6CC049E1A
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:22:46 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id z5so4207583wma.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 03:22:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vr4CyH5FsjQ8ehEcFfRUpSQggMXreidJjn0G64Qc2gY=;
+ b=eSIAfnXJ7tAeGNjt+Cl4tUClt4nWwJH2exlyyL1RlcHBSAN8UiWtBzq56sbvN+oAa2
+ 1BFwAOPL5YLbqjI990ZVlmidbKpW1BpWxMxTa5PIv6A6txdnEv6ABbYSMNPaxaWo7hGG
+ pCROrkbH2cM/biSlw0dLXHmEZzIldvTNgzeY7eGI66wtOur6L98x28PGZ8ljvn9ftJ7W
+ IAnjR6YbWXGkyaprCFHbZMl1baL4LZ35kOcmOTKDmaTw6ozTY0mM2H53qL9aHB/aVqJe
+ WODWxFJAYwFlI/Kp8uK5AUyArvnla3cpnMOnh4+/xgF+AB5uzfSq+AtPvugFnbbp8FcS
+ x/cA==
+X-Gm-Message-State: APjAAAVLgwC7cnti+jwodeJLli8J5JAsJD3DnHihgEF48vcWBPquPxqd
+ xOI0Xy8n6Yqt3IIrYkaocIGPgLdCnPXR+kX133X2D5kLNVNWBpP9E2b6/WC3ml5piBmBVylch6H
+ 5cuUAxApG0kCVvHc=
+X-Received: by 2002:a5d:4a45:: with SMTP id v5mr2834175wrs.358.1571739764868; 
+ Tue, 22 Oct 2019 03:22:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwr3VsA7v7ybGFyXj4xBkAXhJeKl51DxieJULIb6RM4vSX/rYGuLOkmhQc4ErEWwuVFgcVqtA==
+X-Received: by 2002:a5d:4a45:: with SMTP id v5mr2834149wrs.358.1571739764624; 
+ Tue, 22 Oct 2019 03:22:44 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id f18sm15421287wmh.43.2019.10.22.03.22.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2019 03:22:44 -0700 (PDT)
+Subject: Re: [PATCH v8 3/8] bootdevice: Add interface to gather LCHS
+To: Sam Eiderman <sameid@google.com>, qemu-devel@nongnu.org
+References: <20191016164145.115898-1-sameid@google.com>
+ <20191016164145.115898-5-sameid@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <49349913-41ed-0861-fc89-dcefc76bc9ea@redhat.com>
+Date: Tue, 22 Oct 2019 12:22:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7f4c2c6-130a-4ede-156b-08d756d9a17a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2019 10:21:41.4828 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zkmUnQRWJKZ+VsbgnoJqYbLlSslYMktKUG6C/n/8uG3OJLFBOhw+2yHxnOSaPqJjv9m9hyZKZRbeuWC0dH/D7IqXNa49037NTw8p7/yZbgs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR08MB2870
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.115
+In-Reply-To: <20191016164145.115898-5-sameid@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,92 +81,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ jsnow@redhat.com, seabios@seabios.org, kevin@koconnor.net,
+ liran.alon@oracle.com, kraxel@redhat.com,
+ Sam Eiderman <shmuel.eiderman@oracle.com>, lersek@redhat.com,
+ karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQpPbiAyMi8xMC8yMDE5IDEyOjI4LCBNYXggUmVpdHogd3JvdGU6DQo+IE9uIDIwLjEwLjE5IDIy
-OjM3LCBBbmRyZXkgU2hpbmtldmljaCB3cm90ZToNCj4+IFRvIGluZm9ybSB0aGUgYmxvY2sgbGF5
-ZXIgYWJvdXQgd3JpdGluZyBhbGwgdGhlIGRhdGEgY29tcHJlc3NlZCwgd2UNCj4+IGludHJvZHVj
-ZSB0aGUgJ2NvbXByZXNzJyBjb21tYW5kIGxpbmUgb3B0aW9uLiBCYXNlZCBvbiB0aGF0IG9wdGlv
-biwgdGhlDQo+PiB3cml0dGVuIGRhdGEgd2lsbCBiZSBhbGlnbmVkIGJ5IHRoZSBjbHVzdGVyIHNp
-emUgYXQgdGhlIGdlbmVyaWMgbGF5ZXIuDQo+Pg0KPj4gU3VnZ2VzdGVkLWJ5OiBSb21hbiBLYWdh
-biA8cmthZ2FuQHZpcnR1b3p6by5jb20+DQo+PiBTdWdnZXN0ZWQtYnk6IFZsYWRpbWlyIFNlbWVu
-dHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCj4+IFNpZ25lZC1vZmYt
-Ynk6IEFuZHJleSBTaGlua2V2aWNoIDxhbmRyZXkuc2hpbmtldmljaEB2aXJ0dW96em8uY29tPg0K
-Pj4gUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZA
-dmlydHVvenpvLmNvbT4NCj4+IC0tLQ0KPj4gICBibG9jay5jICAgICAgICAgICAgICAgICAgIHwg
-MjAgKysrKysrKysrKysrKysrKysrKy0NCj4+ICAgYmxvY2svaW8uYyAgICAgICAgICAgICAgICB8
-IDEzICsrKysrKysrKy0tLS0NCj4+ICAgYmxvY2svcWNvdzIuYyAgICAgICAgICAgICB8ICA0ICsr
-KysNCj4+ICAgYmxvY2tkZXYuYyAgICAgICAgICAgICAgICB8ICA5ICsrKysrKysrLQ0KPj4gICBp
-bmNsdWRlL2Jsb2NrL2Jsb2NrLmggICAgIHwgIDEgKw0KPj4gICBpbmNsdWRlL2Jsb2NrL2Jsb2Nr
-X2ludC5oIHwgIDIgKysNCj4+ICAgcWFwaS9ibG9jay1jb3JlLmpzb24gICAgICB8ICA1ICsrKyst
-DQo+PiAgIHFlbXUtb3B0aW9ucy5oeCAgICAgICAgICAgfCAgNiArKysrLS0NCj4+ICAgOCBmaWxl
-cyBjaGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPiANCj4gVGhlIHBy
-b2JsZW0gd2l0aCBjb21wcmVzc2lvbiBpcyB0aGF0IHRoZXJlIGFyZSBzdWNoIHRpZ2h0IGNvbnN0
-cmFpbnRzIG9uDQo+IGl0IHRoYXQgaXQgY2FuIHJlYWxseSBvbmx5IHdvcmsgZm9yIHZlcnkgZGVm
-aW5lZCB1c2UgY2FzZXMuICBUaG9zZQ0KPiBjb25zdHJhaW50cyBhcmU6DQo+IA0KPiAtIE9ubHkg
-d3JpdGUgd2hvbGUgY2x1c3RlcnMsDQo+IC0gQ2x1c3RlcnMgY2FuIGJlIHdyaXR0ZW4gdG8gb25s
-eSBvbmNlLg0KPiANCj4gVGhlIGZpcnN0IHBvaW50IGlzIGFkZHJlc3NlZCBpbiB0aGlzIHBhdGNo
-IGJ5IHNldHRpbmcgcmVxdWVzdF9hbGlnbm1lbnQuDQo+ICAgQnV0IEkgZG9u4oCZdCBzZWUgaG93
-IHRoZSBzZWNvbmQgb25lIGNhbiBiZSBhZGRyZXNzZWQuICBXZWxsLCBtYXliZSBieQ0KPiBhbGxv
-d2luZyBpdCBpbiBhbGwgZHJpdmVycyB0aGF0IHN1cHBvcnQgY29tcHJlc3Npb24uICBCdXQgaWYg
-SSBqdXN0IGxvb2sNCj4gYXQgcWNvdzIsIHRoYXQgaXNu4oCZdCBnb2luZyB0byBiZSB0cml2aWFs
-OiBZb3UgbmVlZCB0byBhbGxvY2F0ZSBhDQo+IGNvbXBsZXRlbHkgbmV3IGNsdXN0ZXIgd2hlcmUg
-eW91IHdyaXRlIHRoZSBkYXRhIChpbiBjYXNlIGl0IGdyb3dzKSwgYW5kDQo+IHRodXMgeW91IGxl
-YXZlIGJlaGluZCBhIGhvbGUsIHdoaWNoIGtpbmQgb2YgZGVmZWF0cyB0aGUgcHVycG9zZSBvZg0K
-PiBjb21wcmVzc2lvbi4NCj4gDQo+IChGb3IgZGVtb25zdHJhdGlvbjoNCj4gDQo+ICQgLi9xZW11
-LWltZyBjcmVhdGUgLWYgcWNvdzIgdGVzdC5xY293MiA2NE0NCj4gRm9ybWF0dGluZyAndGVzdC5x
-Y293MicsIGZtdD1xY293MiBzaXplPTY3MTA4ODY0IGNsdXN0ZXJfc2l6ZT02NTUzNg0KPiBsYXp5
-X3JlZmNvdW50cz1vZmYgcmVmY291bnRfYml0cz0xNg0KPiAkIHg4Nl82NC1zb2Z0bW11L3FlbXUt
-c3lzdGVtLXg4Nl82NCBcDQo+ICAgICAgLWJsb2NrZGV2ICJ7J25vZGUtbmFtZSc6ICdkcnYwJywg
-J2RyaXZlcic6ICdxY293MicsDQo+ICAgICAgICAgICAgICAgICAgJ2NvbXByZXNzJzogdHJ1ZSwN
-Cj4gICAgICAgICAgICAgICAgICAnZmlsZSc6IHsnZHJpdmVyJzogJ2ZpbGUnLCAnZmlsZW5hbWUn
-OiAndGVzdC5xY293Mid9fSIgXA0KPiAgICAgIC1tb25pdG9yIHN0ZGlvDQo+IFFFTVUgNC4xLjUw
-IG1vbml0b3IgLSB0eXBlICdoZWxwJyBmb3IgbW9yZSBpbmZvcm1hdGlvbg0KPiAocWVtdSkgcWVt
-dS1pbyBkcnYwICJ3cml0ZSAtUCA0MiAwIDY0ayINCj4gd3JvdGUgNjU1MzYvNjU1MzYgYnl0ZXMg
-YXQgb2Zmc2V0IDANCj4gNjQgS2lCLCAxIG9wczsgMDAuMDIgc2VjICg0LjA1NSBNaUIvc2VjIGFu
-ZCA2NC44NzkzIG9wcy9zZWMpDQo+IChxZW11KSBxZW11LWlvIGRydjAgIndyaXRlIC1QIDIzIDAg
-NjRrIg0KPiB3cml0ZSBmYWlsZWQ6IElucHV0L291dHB1dCBlcnJvcg0KPiANCj4gKQ0KPiANCj4g
-Q29tcHJlc3Npb24gcmVhbGx5IG9ubHkgd29ya3Mgd2hlbiB5b3UgZnVsbHkgd3JpdGUgYWxsIG9m
-IGFuIGltYWdlDQo+IGV4YWN0bHkgb25jZTsgaS5lLiBhcyB0aGUgcWVtdS1pbWcgY29udmVydCBv
-ciBhcyBhIGJhY2t1cCB0YXJnZXQuICBGb3INCj4gYm90aCBjYXNlcyB3ZSBhbHJlYWR5IGhhdmUg
-YSBjb21wcmVzc2lvbiBvcHRpb24uICBTbyBJ4oCZbSB3b25kZXJpbmcgd2hlcmUNCj4gdGhpcyBu
-ZXcgb3B0aW9uIGlzIHJlYWxseSB1c2VmdWwuDQo+IA0KPiAoWW91IGRvIGFkZCBhIHRlc3QgZm9y
-IHN0cmVhbSwgYnV0IEkgZG9u4oCZdCBrbm93IHdoZXRoZXIgdGhhdOKAmXMgcmVhbGx5IGENCj4g
-Z29vZCBleGFtcGxlLCBzZWUgbXkgcmVzcG9uc2UgdGhlcmUuKQ0KPiANCj4gTWF4DQo+IA0KDQpU
-aGFuayB5b3UgdmVyeSBtdWNoIE1heCBmb3IgeW91ciBkZXRhaWxlZCByZXNwb25zZS4NCg0KMSkg
-WW91IGFyZSByaWdodCB0aGF0IGNvbXByZXNzaW9uIGlzIHVzZWQgd2l0aCB0aGUgYmFja3VwIG1v
-c3RseS4gVGhlIA0Kb3B0aW9uIGZvciB0aGUgY29tcHJlc3Npb24gd2l0aCBiYWNrdXAgd291bGQg
-YmUgcmVwbGFjZWQgYnkgdXNhZ2UgYXQgdGhlIA0KYmxvY2sgbGF5ZXIsIHdpdGggbm8gZHVwbGlj
-YXRpb24uIEFsc28sIGl0IGNhbiBiZSB1c2VmdWwgZm9yIE5CRCBmb3IgDQppbnN0YW5jZSwNCg0K
-JCAuL3FlbXUtaW1nIGNyZWF0ZSAtZiBxY293MiAtbyBzaXplPTEwRyAuL2ltYWdlLnFjb3cyDQok
-IHN1ZG8gLi9xZW11LW5iZCAtYyAvZGV2L25iZDAgLi9pbWFnZS5xY293Mg0KJCBzdWRvIGRkIGlm
-PS9kZXYvc2RhMSBvZj0vZGV2L25iZDAgYnM9MTBNIGNvdW50PTEwDQoxMCswIHJlY29yZHMgaW4N
-CjEwKzAgcmVjb3JkcyBvdXQNCjEwNDg1NzYwMCBieXRlcyAoMTA1IE1CKSBjb3BpZWQsIDAsMDg5
-MDU4MSBzLCAxLDIgR0Ivcw0KJCBzdWRvIC4vcWVtdS1uYmQgLWQgL2Rldi9uYmQwDQokIGR1IC1z
-aCAuL2ltYWdlLnFjb3cyDQoxMDFNICAgIC4vaW1hZ2UucWNvdzINCg0KYW5kIHdpdGggdGhlIGNv
-bXByZXNzaW9uDQoNCiQgLi9xZW11LWltZyBjcmVhdGUgLWYgcWNvdzIgLW8gc2l6ZT0xMEcgLi9p
-bWFnZS5xY293Mg0KJCBzdWRvIC4vcWVtdS1uYmQgLUMgLWMgL2Rldi9uYmQwIC4vaW1hZ2UucWNv
-dzINCiQgc3VkbyBkZCBpZj0vZGV2L3NkYTEgb2Y9L2Rldi9uYmQwIGJzPTEwTSBjb3VudD0xMA0K
-MTArMCByZWNvcmRzIGluDQoxMCswIHJlY29yZHMgb3V0DQoxMDQ4NTc2MDAgYnl0ZXMgKDEwNSBN
-QikgY29waWVkLCAwLDA3NjA0NiBzLCAxLDQgR0Ivcw0KJCBzdWRvIC4vcWVtdS1uYmQgLWQgL2Rl
-di9uYmQwDQokIGR1IC1zaCAuL2ltYWdlLnFjb3cyDQo1LDNNICAgIC4vaW1hZ2UucWNvdzINCg0K
-VGhlIGlkZWEgYmVoaW5kIGludHJvZHVjaW5nIHRoZSBuZXcgJ2NvbXByZXNzJyBvcHRpb24gaXMg
-dG8gdXNlIHRoYXQgDQpvbmx5IG9uZSBpbnN0ZWFkIG9mIG1hbnkgb3RoZXIgb25lcyBvZiBzdWNo
-IGEga2luZC4NCg0KMikgWW91IGFyZSByaWdodCBhbHNvIHRoYXQgIkNvbXByZXNzaW9uIGNhbid0
-IG92ZXJ3cml0ZSBhbnl0aGluZy4uLiINCkl0IGNhbiBiZSBzZWVuIGluIHRoZSBjb21taXQgbWVz
-c2FnZSANCmIwYjY4NjJlNWUxYTEzOTRlMGFiM2Q1ZGE5NGJhOGIwZGE4NjY0ZTINCg0KSSBhbSBu
-b3Qgc3VyZSBpZiBkYXRhIHNob3VsZCBiZSB3cml0dGVuIGNvbXByZXNzZWQgdG8gdGhlIGFjdGl2
-ZSBsYXllci4NCkkgbWFkZSB0aGUgdGVzdHMgd2l0aCB0aGUgaWRlYSBvZiBicmluZ2luZyBleGFt
-cGxlcyBvZiB1c2FnZSB0aGUgDQonY29tcHJlc3MnIG9wdGlvbiBiZWNhdXNlIHBhc3NpbmcgYW4g
-b3B0aW9uIGlzIGEgdHJpY2t5IHRoaW5nIGluIFFFTVUuDQpCdXQgdGhlIGlzc3VlIHRha2VzIHBs
-YWNlIGFueXdheSBpZiB3ZSB3YW50IHRvIHJld3JpdGUgdG8gYWxsb2NhdGVkIA0KY2x1c3RlcnMu
-DQpJIHdvdWxkIGxpa2UgdG8gaW52ZXN0aWdhdGUgdGhlIG1hdHRlciBhbmQgbWFrZSBhIHBhdGNo
-IHRoYXQgcmVzb2x2ZXMgDQp0aGF0IGlzc3VlLg0KRG8geW91IGFncmVlIHdpdGggdGhhdD8NCg0K
-QW5kcmV5DQotLSANCldpdGggdGhlIGJlc3QgcmVnYXJkcywNCkFuZHJleSBTaGlua2V2aWNoDQoN
-Cg==
+On 10/16/19 6:41 PM, Sam Eiderman wrote:
+> From: Sam Eiderman <shmuel.eiderman@oracle.com>
+>=20
+> Add an interface to provide direct logical CHS values for boot devices.
+> We will use this interface in the next commits.
+>=20
+> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+> Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> Signed-off-by: Sam Eiderman <sameid@google.com>
+> ---
+>   bootdevice.c            | 55 ++++++++++++++++++++++++++++++++++++++++=
++
+>   include/sysemu/sysemu.h |  3 +++
+>   2 files changed, 58 insertions(+)
+>=20
+> diff --git a/bootdevice.c b/bootdevice.c
+> index 1d225202f9..bc5e1c2de4 100644
+> --- a/bootdevice.c
+> +++ b/bootdevice.c
+> @@ -343,3 +343,58 @@ void device_add_bootindex_property(Object *obj, in=
+t32_t *bootindex,
+>       /* initialize devices' bootindex property to -1 */
+>       object_property_set_int(obj, -1, name, NULL);
+>   }
+> +
+> +typedef struct FWLCHSEntry FWLCHSEntry;
+> +
+> +struct FWLCHSEntry {
+> +    QTAILQ_ENTRY(FWLCHSEntry) link;
+> +    DeviceState *dev;
+> +    char *suffix;
+> +    uint32_t lcyls;
+> +    uint32_t lheads;
+> +    uint32_t lsecs;
+> +};
+> +
+> +static QTAILQ_HEAD(, FWLCHSEntry) fw_lchs =3D
+> +    QTAILQ_HEAD_INITIALIZER(fw_lchs);
+> +
+> +void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+> +                          uint32_t lcyls, uint32_t lheads, uint32_t ls=
+ecs)
+> +{
+> +    FWLCHSEntry *node;
+> +
+> +    if (!lcyls && !lheads && !lsecs) {
+> +        return;
+> +    }
+> +
+> +    assert(dev !=3D NULL || suffix !=3D NULL);
+> +
+> +    node =3D g_malloc0(sizeof(FWLCHSEntry));
+> +    node->suffix =3D g_strdup(suffix);
+> +    node->dev =3D dev;
+> +    node->lcyls =3D lcyls;
+> +    node->lheads =3D lheads;
+> +    node->lsecs =3D lsecs;
+> +
+> +    QTAILQ_INSERT_TAIL(&fw_lchs, node, link);
+> +}
+> +
+> +void del_boot_device_lchs(DeviceState *dev, const char *suffix)
+> +{
+> +    FWLCHSEntry *i;
+> +
+> +    if (dev =3D=3D NULL) {
+> +        return;
+> +    }
+> +
+> +    QTAILQ_FOREACH(i, &fw_lchs, link) {
+> +        if ((!suffix || !g_strcmp0(i->suffix, suffix)) &&
+> +             i->dev =3D=3D dev) {
+> +            QTAILQ_REMOVE(&fw_lchs, i, link);
+> +            g_free(i->suffix);
+> +            g_free(i);
+> +
+> +            break;
+> +        }
+> +    }
+> +}
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 44f18eb739..5bc5c79cbc 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -103,6 +103,9 @@ void device_add_bootindex_property(Object *obj, int=
+32_t *bootindex,
+>                                      DeviceState *dev, Error **errp);
+>   void restore_boot_order(void *opaque);
+>   void validate_bootdevices(const char *devices, Error **errp);
+> +void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+> +                          uint32_t lcyls, uint32_t lheads, uint32_t ls=
+ecs);
+> +void del_boot_device_lchs(DeviceState *dev, const char *suffix);
+>  =20
+>   /* handler to set the boot_device order for a specific type of Machin=
+eClass */
+>   typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
+>=20
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
