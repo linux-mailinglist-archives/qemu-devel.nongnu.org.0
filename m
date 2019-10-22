@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59472E015E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:01:00 +0200 (CEST)
-Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E03FE0187
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:04:36 +0200 (CEST)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMqyI-0002dG-TH
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59285)
+	id 1iMr1n-0006Nc-7Z
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iMqsI-0005Tw-7i
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:47 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iMqsM-0005bX-2g
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iMqsH-0005cs-6Z
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58517
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iMqsL-0005eK-1H
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:49 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32551
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMqsH-0005ca-3c
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:45 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMqsK-0005eA-UN
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571738084;
+ s=mimecast20190719; t=1571738088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rYrcuE4hP5bXuO1tSuDw6IhWKt/x8/seD1ANTQVrpmQ=;
- b=Vu2OLjqQlm5wstoQ6BXQHhWvd+AekbEueY2k8JftIpCUXN40STRinjbEoJfzgxanIIDSuK
- o6Y6UbGU51Em9NPO4SSqHyD7OVUC5Dkp+27xQFXukh1YMEJk+6Fqti0iO0KO3YMyntNEXg
- JPreDkBl6snckFxqqfCJioM66SJXkOA=
+ bh=jFPWykuMsgieWlJGsSu8oB7ApcBbSMC9vXFxrVCBi0o=;
+ b=JNK5/SNKnwkrsoqYwd7Gh/SI2OcaqJ8XK/p1LSIGvKAGsUjllhPAYTjwWweYW15sPQqyvN
+ HjLSEmPK3pouEGS5XhPYGoN0wtGG2CpqYH53vke0/XIJrqubWiWyHXXaxhavOVs6NCgVAG
+ Q/VLEnoITBiSYMGD/1+BFUH0G1yXfgc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-GyXdYxFQPgOQCx56XlooKQ-1; Tue, 22 Oct 2019 05:54:41 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-284-FCPtEwf3NmeIaphByN-zWQ-1; Tue, 22 Oct 2019 05:54:45 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DC0C1005509;
- Tue, 22 Oct 2019 09:54:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB47800D53;
+ Tue, 22 Oct 2019 09:54:44 +0000 (UTC)
 Received: from localhost (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 28BCA1001DC0;
- Tue, 22 Oct 2019 09:54:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ED8660126;
+ Tue, 22 Oct 2019 09:54:41 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/9] s390x/mmu: Remove duplicate check for MMU_DATA_STORE
-Date: Tue, 22 Oct 2019 11:54:21 +0200
-Message-Id: <20191022095428.20780-3-cohuck@redhat.com>
+Subject: [PULL 3/9] s390x/tcg: Fix VECTOR MULTIPLY LOGICAL ODD
+Date: Tue, 22 Oct 2019 11:54:22 +0200
+Message-Id: <20191022095428.20780-4-cohuck@redhat.com>
 In-Reply-To: <20191022095428.20780-1-cohuck@redhat.com>
 References: <20191022095428.20780-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: GyXdYxFQPgOQCx56XlooKQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: FCPtEwf3NmeIaphByN-zWQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,37 +78,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-No need to double-check if we have a write.
+We have to read from odd offsets.
 
-Found by Coverity (CID: 1406404).
-
-Fixes: 31b59419069e ("target/s390x: Return exception from mmu_translate_rea=
-l")
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191017121922.18840-1-david@redhat.com>
+Fixes: 2bf3ee38f1f8 ("s390x/tcg: Implement VECTOR MULTIPLY *")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20191021085715.3797-2-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/mmu_helper.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ target/s390x/vec_int_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 90b81335f920..c9f3f3475010 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -556,9 +556,7 @@ int mmu_translate_real(CPUS390XState *env, target_ulong=
- raddr, int rw,
-         *flags |=3D PAGE_WRITE_INV;
-         if (is_low_address(raddr) && rw =3D=3D MMU_DATA_STORE) {
-             /* LAP sets bit 56 */
--            *tec =3D (raddr & TARGET_PAGE_MASK)
--                 | (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ)
--                 | 0x80;
-+            *tec =3D (raddr & TARGET_PAGE_MASK) | FS_WRITE | 0x80;
-             return PGM_PROTECTION;
-         }
-     }
+diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.c
+index 68eaae407b47..03ae8631d958 100644
+--- a/target/s390x/vec_int_helper.c
++++ b/target/s390x/vec_int_helper.c
+@@ -488,7 +488,7 @@ void HELPER(gvec_vmlo##BITS)(void *v1, const void *v2, =
+const void *v3,         \
+ {                                                                         =
+     \
+     int i, j;                                                             =
+     \
+                                                                           =
+     \
+-    for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
++    for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
+           \
+         const uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);   =
+       \
+         const uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);   =
+       \
+                                                                           =
+     \
 --=20
 2.21.0
 
