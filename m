@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5A7E0647
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:22:02 +0200 (CEST)
-Received: from localhost ([::1]:58667 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA79E0650
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:24:36 +0200 (CEST)
+Received: from localhost ([::1]:58820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMv2v-0003DG-Cn
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40515)
+	id 1iMv5P-0007D2-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iMuWX-0005Wz-50
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:48:34 -0400
+ (envelope-from <drjones@redhat.com>) id 1iMuY4-0006iQ-0p
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:50:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iMuWV-0000SO-NI
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:48:32 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42059)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iMuWV-0000Rd-Gz
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:48:31 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r1so8363586wrs.9
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=AMzrIGbN2EkcY9+UM+dIQ4bBwlEUmZgf8B47GERYb4Y=;
- b=YrWXOjDSJd9U65DRacJuQvkPYFT3xBdWKWnIz+L8x4UNLyMCjleca6dFivlPe0HEPW
- yU6QKpnsSA+s/3PYNIVtBZ2GoSQa8ZEXNyJlH9NKfOCj5nlCypknttnikpjQmJvMq5Is
- 5JugZT5c9kYUlo3LWdgjToBH74+ZL5H5hZyDU/iRa0nKVjYdqgK3dhpO3t8q4icUfaAu
- 275FVLVrgxwuJUHoWMUSE99TsIhcLVtlmztEcrC2H+TwpdUGkBU790vSUenT6GLykzKR
- f0+PxXf8G86Wd8MJV3KoVLibC3xZQwbD84QJjrapGd6MXcnxX1PjbiKc8vN/Qce7Q1Tm
- HF1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=AMzrIGbN2EkcY9+UM+dIQ4bBwlEUmZgf8B47GERYb4Y=;
- b=QRpaOXcgh8Tp/3RN4gfLB4sWc+B9VtPzZyLvAjlk6LRfZXndD6hwyqvcZtWmx+tKwP
- yszKsTuc0rPNU4ZZNgMJwhVkD6UiFKH3h4GcYNt1yMMX8i2qt3f/8Ed9k2kA+awCBCPI
- +UuTZhX/xsF53kutVypIpIwCB6t5eNg455vXx/QbauInIchytS+/uFBkBhkiXEUOZ9Kf
- x+SZP7IJNde4J+4T5Rm4lLA584Nls/EZeZd4Lfms6W6kkaorTXlboGnN8ZYU8JsMTmVP
- RmTtW+Em9qSYDKVQKRcu1u4hTybboaID/DI2Xto4Yn+SkLmd4KVGun/urBu1BWZwAqRA
- jAzg==
-X-Gm-Message-State: APjAAAXO1DPJu53V5+GAHVjI1c3r6VT7XewTUqd6pYhn2jeav75Z0EnD
- 9Kfl6AxtHQfcvcvfSemqNLMIDg==
-X-Google-Smtp-Source: APXvYqyW8CQ1WvEsDJOhqkDuPZfP8JUA0oovH4CM4fbaAc1xQ2AVJelXGGkK9KqUmYWOA5tBK9cYIw==
-X-Received: by 2002:a5d:4701:: with SMTP id y1mr3833467wrq.385.1571752109744; 
- Tue, 22 Oct 2019 06:48:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r3sm32235090wre.29.2019.10.22.06.48.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:48:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6574F1FF87;
- Tue, 22 Oct 2019 14:48:28 +0100 (BST)
-References: <20191022072135.11188-1-thuth@redhat.com>
- <87a79sx6uc.fsf@linaro.org>
- <123b2e94-3f43-1a8e-2420-12ae09483e2f@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v3 0/6] Enable more iotests during "make check-block"
-In-reply-to: <123b2e94-3f43-1a8e-2420-12ae09483e2f@redhat.com>
-Date: Tue, 22 Oct 2019 14:48:28 +0100
-Message-ID: <877e4wx55f.fsf@linaro.org>
+ (envelope-from <drjones@redhat.com>) id 1iMuY0-0001RA-Sk
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:50:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37589
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iMuXy-0001Pb-RE
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:50:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571752202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X8qYxAI0WgSx6/CqYTtmZjD3iL28I4NbYPq9pRIVPNU=;
+ b=ELNUak0znVNM9ZiOVIYhtcv70rqhEKh34YLfgmGahuYts1JtEIdQehtYGyzgfFwEKlnG7t
+ qht6RqXwJolV8VJbFDFIaqcevRgRJmyc26bY3Rzd9pLTib1SxgCBUKJQYheY3WWr4ibwFt
+ hUxT275i1BHRvD6+43cH1PjpuWKD/h0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-T-zk6OqVOVC4BXtf4backQ-1; Tue, 22 Oct 2019 09:50:00 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0275D800D4E;
+ Tue, 22 Oct 2019 13:49:59 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EAAB4503;
+ Tue, 22 Oct 2019 13:49:54 +0000 (UTC)
+Date: Tue, 22 Oct 2019 15:49:51 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 0/9] target/arm/kvm: enable SVE in guests
+Message-ID: <20191022134951.znjbk4piuiqwbveb@kamzik.brq.redhat.com>
+References: <20191016085408.24360-1-drjones@redhat.com>
+ <CAFEAcA8pV5batrPk+J6RLU2rv9SNAmL8JS9Kd9tWP3pD-m29eA@mail.gmail.com>
+ <3f54f759-9d6d-bf04-85aa-59c1cac31044@redhat.com>
+ <20191021142336.e4xekqlmqv5txu5w@kamzik.brq.redhat.com>
+ <CAFEAcA-bezS5tSVB+N223+N+xoYYYHuSJmDTaRCJgO+4Y=VjdQ@mail.gmail.com>
+ <20191021161226.mnm6eomghb37xlby@kamzik.brq.redhat.com>
+ <CAFEAcA-vHmtCi3HGqpu34sAaNxGeQwS_+0yZ5Hr4SbnGm+rjYA@mail.gmail.com>
+ <CAFEAcA9o4G5yn0GzgdwvUnT_fEwRA7DChuV=miZaEvgavoU5xg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA9o4G5yn0GzgdwvUnT_fEwRA7DChuV=miZaEvgavoU5xg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: T-zk6OqVOVC4BXtf4backQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,44 +79,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Max Reitz <mreitz@redhat.com> writes:
-
-> On 22.10.19 15:11, Alex Benn=C3=A9e wrote:
->>
->> Thomas Huth <thuth@redhat.com> writes:
->>
->>> As discussed here:
->>>
->>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg00697.html
->>>
->>> and here:
->>>
->>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01388.html
->>
->> Queued to testing/next, thanks.
+On Tue, Oct 22, 2019 at 11:29:05AM +0100, Peter Maydell wrote:
+> On Mon, 21 Oct 2019 at 17:18, Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+> >
+> > On Mon, 21 Oct 2019 at 17:12, Andrew Jones <drjones@redhat.com> wrote:
+> > >
+> > > On Mon, Oct 21, 2019 at 04:43:22PM +0100, Peter Maydell wrote:
+> > > > On Mon, 21 Oct 2019 at 15:23, Andrew Jones <drjones@redhat.com> wro=
+te:
+> > > > > Peter, would you mind running your test on the kvm32 machine with=
+ this
+> > > > > change before I send a v7?
+> > > >
+> > > > Still fails:
+> > > >
+> > > > pm215@pm-ct:~/qemu/build/arm$
+> > > > QTEST_QEMU_BINARY=3Darm-softmmu/qemu-system-arm tests/arm-cpu-featu=
+res
+> > > > /arm/arm/query-cpu-model-expansion: OK
+> > > > /arm/arm/kvm/query-cpu-model-expansion: **
+> > > > ERROR:/home/pm215/qemu/tests/arm-cpu-features.c:498:test_query_cpu_=
+model_expansion_kvm:
+> > > > assertion failed: (resp_has_props(_resp))
+> > > > Aborted
+> > > >
+> > > > This is asserting on the line:
+> > > > 498             assert_has_not_feature(qts, "host", "sve");
+> > > >
+> > >
+> > > Oh, I see. It's not failing the specific absence of 'sve', but the te=
+st
+> > > code (assert_has_not_feature()) is assuming at least one property is
+> > > present. This isn't the case for kvm32 'host' cpus. They apparently
+> > > have none. We need this patch too, then
+> > >
+> > > diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+> > > index 14100ebd8521..9aa728ed8469 100644
+> > > --- a/tests/arm-cpu-features.c
+> > > +++ b/tests/arm-cpu-features.c
+> > > @@ -136,8 +136,8 @@ static bool resp_get_feature(QDict *resp, const c=
+har *feature)
+> > >  ({                                                                  =
+   \
+> > >      QDict *_resp =3D do_query_no_props(qts, cpu_type);              =
+     \
+> > >      g_assert(_resp);                                                =
+   \
+> > > -    g_assert(resp_has_props(_resp));                                =
+   \
+> > > -    g_assert(!qdict_get(resp_get_props(_resp), feature));           =
+   \
+> > > +    g_assert(!resp_has_props(_resp) ||                              =
+   \
+> > > +             !qdict_get(resp_get_props(_resp), feature));           =
+   \
+> > >      qobject_unref(_resp);                                           =
+   \
+> > >  })
+> >
+> > Yep, with that extra the test passes. I'm just rerunning the
+> > full 'make check'...
+>=20
+> ...which passed OK. For the record, the changes on top of the
+> patchset were:
+>=20
+> diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+> index 92668efb8f5..9aa728ed846 100644
+> --- a/tests/arm-cpu-features.c
+> +++ b/tests/arm-cpu-features.c
+> @@ -136,8 +136,8 @@ static bool resp_get_feature(QDict *resp, const
+> char *feature)
+>  ({                                                                     \
+>      QDict *_resp =3D do_query_no_props(qts, cpu_type);                  =
+ \
+>      g_assert(_resp);                                                   \
+> -    g_assert(resp_has_props(_resp));                                   \
+> -    g_assert(!qdict_get(resp_get_props(_resp), feature));              \
+> +    g_assert(!resp_has_props(_resp) ||                                 \
+> +             !qdict_get(resp_get_props(_resp), feature));              \
+>      qobject_unref(_resp);                                              \
+>  })
+>=20
+> @@ -417,8 +417,6 @@ static void
+> test_query_cpu_model_expansion_kvm(const void *data)
+>=20
+>      qts =3D qtest_init(MACHINE "-accel kvm -cpu host");
+>=20
+> -    assert_has_feature(qts, "host", "pmu");
+> -
+>      if (g_str_equal(qtest_get_arch(), "aarch64")) {
+>          bool kvm_supports_sve;
+>          char max_name[8], name[8];
+> @@ -428,6 +426,7 @@ static void
+> test_query_cpu_model_expansion_kvm(const void *data)
+>          char *error;
+>=20
+>          assert_has_feature(qts, "host", "aarch64");
+> +        assert_has_feature(qts, "host", "pmu");
+>=20
+>          assert_error(qts, "cortex-a15",
+>              "We cannot guarantee the CPU type 'cortex-a15' works "
+> @@ -497,9 +496,6 @@ static void
+> test_query_cpu_model_expansion_kvm(const void *data)
+>          }
+>      } else {
+>          assert_has_not_feature(qts, "host", "sve");
+> -        assert_error(qts, "host",
+> -                     "'pmu' feature not supported by KVM on this host",
+> -                     "{ 'pmu': true }");
+>      }
+>=20
+>      qtest_quit(qts);
 >
-> It should be noted that this series depends on my SOCK_DIR series (which
-> I have in my block branch), or the newly added tests are likely to fail
-> in the CI environment.
 
-Ahh I misread....
-<snip>
+Thanks Peter!
 
->>> it would be good to have some more valuable iotests enabled in the
->>> "auto" group to get better iotest coverage during "make check".
->>>
->>> And once Max' "iotests: Add and use $SOCK_DIR" patch series has been
->>> merged, we can indeed enable these Python-based tests, too.
+The changes look good to me. If we wanted to, we could also add
 
-I though these weren't enabled in this series. Do I need to drop all the
-patches?
+ assert_has_not_feature(qts, "host", "pmu");
 
---
-Alex Benn=C3=A9e
+in that kvm32 block where we have the
+
+ assert_has_not_feature(qts, "host", "sve");
+
+and we could even add
+
+ assert_has_not_feature(qts, "host", "aarch64");
+
+there as well.
+
+If I need to spin a v7, then I'll do that. I could also submit just those
+additions as another patch, though, or even just not worry too much about
+those cases and not add the tests...
+
+Thanks,
+drew
+
 
