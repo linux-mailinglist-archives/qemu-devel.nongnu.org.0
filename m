@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A101DFE4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:30:41 +0200 (CEST)
-Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB046DFE51
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:31:30 +0200 (CEST)
+Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMocq-0007Cc-8a
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:30:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39329)
+	id 1iModd-0008H8-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMoVe-0006XS-B3
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:23:15 -0400
+ (envelope-from <clg@kaod.org>) id 1iMoVj-0006fO-CG
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:23:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMoVd-0005j6-3W
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:23:14 -0400
-Received: from 10.mo177.mail-out.ovh.net ([46.105.73.133]:60753)
+ (envelope-from <clg@kaod.org>) id 1iMoVi-0005lh-4s
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:23:19 -0400
+Received: from 5.mo4.mail-out.ovh.net ([188.165.44.50]:50711)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMoVb-0005iN-Tq
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:23:13 -0400
-Received: from player786.ha.ovh.net (unknown [10.108.35.103])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 4FC4C10E9F1
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:23:10 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMoVh-0005kl-Uz
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:23:18 -0400
+Received: from player786.ha.ovh.net (unknown [10.109.160.230])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id E195F20C911
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:23:15 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 41A12B518A68;
- Tue, 22 Oct 2019 07:23:02 +0000 (UTC)
+ by player786.ha.ovh.net (Postfix) with ESMTPSA id 36FF6B518B08;
+ Tue, 22 Oct 2019 07:23:10 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v3 1/4] spapr: move CPU reset after presenter creation
-Date: Tue, 22 Oct 2019 09:22:43 +0200
-Message-Id: <20191022072246.9200-2-clg@kaod.org>
+Subject: [PATCH v3 2/4] spapr_cpu_core: Implement DeviceClass::reset
+Date: Tue, 22 Oct 2019 09:22:44 +0200
+Message-Id: <20191022072246.9200-3-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022072246.9200-1-clg@kaod.org>
 References: <20191022072246.9200-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 12564480011643096038
+X-Ovh-Tracer-Id: 12565887388731542502
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeeigdduudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.73.133
+X-Received-From: 188.165.44.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,51 +61,118 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_realize_vcpu() is modified to call the CPU reset only after the
-the intc presenter has been created.
+From: Greg Kurz <groug@kaod.org>
 
+Since vCPUs aren't plugged into a bus, we manually register a reset
+handler for each vCPU. We also call this handler at realize time
+to ensure hot plugged vCPUs are reset before being exposed to the
+guest. This results in vCPUs being reset twice at machine reset.
+It doesn't break anything but it is slightly suboptimal and above
+all confusing.
+
+The hotplug path in device_set_realized() already knows how to reset
+a hotplugged device if the device reset handler is present. Implement
+one for sPAPR CPU cores that resets all vCPUs under a core.
+
+While here rename spapr_cpu_reset() to spapr_reset_vcpu() for
+consistency with spapr_realize_vcpu() and spapr_unrealize_vcpu().
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr_cpu_core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
 diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 3e4302c7d596..992f00da6540 100644
+index 992f00da6540..5947e39b36ad 100644
 --- a/hw/ppc/spapr_cpu_core.c
 +++ b/hw/ppc/spapr_cpu_core.c
-@@ -234,13 +234,16 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spa=
-prMachineState *spapr,
-     cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
-     kvmppc_set_papr(cpu);
+@@ -25,9 +25,8 @@
+ #include "sysemu/hw_accel.h"
+ #include "qemu/error-report.h"
 =20
+-static void spapr_cpu_reset(void *opaque)
++static void spapr_reset_vcpu(PowerPCCPU *cpu)
+ {
+-    PowerPCCPU *cpu =3D opaque;
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+@@ -193,7 +192,6 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, Spa=
+prCpuCore *sc)
+     if (!sc->pre_3_0_migration) {
+         vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_=
+data);
+     }
+-    qemu_unregister_reset(spapr_cpu_reset, cpu);
+     if (spapr_cpu_state(cpu)->icp) {
+         object_unparent(OBJECT(spapr_cpu_state(cpu)->icp));
+     }
+@@ -204,12 +202,30 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, S=
+paprCpuCore *sc)
+     object_unparent(OBJECT(cpu));
+ }
+=20
++static void spapr_cpu_core_reset(DeviceState *dev)
++{
++    CPUCore *cc =3D CPU_CORE(dev);
++    SpaprCpuCore *sc =3D SPAPR_CPU_CORE(dev);
++    int i;
++
++    for (i =3D 0; i < cc->nr_threads; i++) {
++        spapr_reset_vcpu(sc->threads[i]);
++    }
++}
++
++static void spapr_cpu_core_reset_handler(void *opaque)
++{
++    spapr_cpu_core_reset(opaque);
++}
++
+ static void spapr_cpu_core_unrealize(DeviceState *dev, Error **errp)
+ {
+     SpaprCpuCore *sc =3D SPAPR_CPU_CORE(OBJECT(dev));
+     CPUCore *cc =3D CPU_CORE(dev);
+     int i;
+=20
++    qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
++
+     for (i =3D 0; i < cc->nr_threads; i++) {
+         spapr_unrealize_vcpu(sc->threads[i], sc);
+     }
+@@ -238,12 +254,6 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spap=
+rMachineState *spapr,
+         goto error_intc_create;
+     }
+=20
+-    /*
+-     * FIXME: Hot-plugged CPUs are not reseted. Do it at realize.
+-     */
 -    qemu_register_reset(spapr_cpu_reset, cpu);
 -    spapr_cpu_reset(cpu);
 -
-     if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
--        goto error_unregister;
-+        goto error_intc_create;
-     }
-=20
-+    /*
-+     * FIXME: Hot-plugged CPUs are not reseted. Do it at realize.
-+     */
-+    qemu_register_reset(spapr_cpu_reset, cpu);
-+    spapr_cpu_reset(cpu);
-+
      if (!sc->pre_3_0_migration) {
          vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
                           cpu->machine_data);
-@@ -248,8 +251,7 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spapr=
-MachineState *spapr,
-=20
+@@ -338,6 +348,8 @@ static void spapr_cpu_core_realize(DeviceState *dev, =
+Error **errp)
+             goto err_unrealize;
+         }
+     }
++
++    qemu_register_reset(spapr_cpu_core_reset_handler, sc);
      return;
 =20
--error_unregister:
--    qemu_unregister_reset(spapr_cpu_reset, cpu);
-+error_intc_create:
-     cpu_remove_sync(CPU(cpu));
- error:
-     error_propagate(errp, local_err);
+ err_unrealize:
+@@ -366,6 +378,7 @@ static void spapr_cpu_core_class_init(ObjectClass *oc=
+, void *data)
+=20
+     dc->realize =3D spapr_cpu_core_realize;
+     dc->unrealize =3D spapr_cpu_core_unrealize;
++    dc->reset =3D spapr_cpu_core_reset;
+     dc->props =3D spapr_cpu_core_properties;
+     scc->cpu_type =3D data;
+ }
 --=20
 2.21.0
 
