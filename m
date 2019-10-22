@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39B5E0C78
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:20:59 +0200 (CEST)
-Received: from localhost ([::1]:42020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EBEE0C94
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:28:38 +0200 (CEST)
+Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMziE-0005ky-5b
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:20:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36361)
+	id 1iMzpd-0006a1-Bj
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36351)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iMzef-0002Qv-Rc
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:21 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzef-0002Qe-K1
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005LS-Aa
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005LM-9h
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:17 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38755)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35614)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iMzee-0005I6-0V
+ id 1iMzee-0005Ic-1t
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:16 -0400
-Received: by mail-wr1-x443.google.com with SMTP id v9so8062254wrq.5
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:13 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id l10so18906543wrb.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VVvH7cAnAB8K2nnuUridcFUTxcRBjM1kLOxGGOEimW8=;
- b=J2bSKq5hhCy8tsE1l/M/4RAGDc4CuTkZaccL/noXmv7vBq8j1AvmxEy7eitVMcPvI6
- rBBKG+dEyeq9aVQejkZlzd0eLitU/n4tm38xl68XFqgcsvkaOHw/fzkiy40Vvh0gsmRi
- 7tMiypeyDs9DQk/Q/MPeKof0x6OC+G2H4XHb2tBPNHXK89SfAWaL1WXwZdVKTolK9Say
- Sqcb+UUUd1C0kOshtDLnomiSGW/FIQWEP61msMDufgsmW57THkjkMtc+rzUdnJnk1OFq
- nCkNs284tI5awmAZLsjuxpILzb56cJyxRrKdtXkvy0vLLvnTPHWOsFL5FegTeJNO147G
- O6dw==
+ bh=fIE39M6WEo2MphCpMZQ+O6lu2X6W83TgfKFvtWGX81M=;
+ b=cqXXCneChwyWhXlxhUI8C2VEEOG1YqIwBNmaXA1tcYRrHgpeOol9i0RpBBCk1TMr0N
+ 0VOAYlATli0SDqBQ8HdH3Oka0PaX8zCAXMJpfyOJW8izsDH/bC6GTweK034N7TZmKvV6
+ vsMVzw0VJHcCDy0eHEhq1zDgexVpnhBzhf2+M3GTvdyNdwDNAVynJ1XDYlf8UCZq3XqG
+ kyfx87Nh3chKNeRn09B6PNUSZtuhiT7+e68eNSLznUgfXidZf/DOCGOGGqVPKaJE7xLY
+ a7C6sMjHawJ6vzwb0xOyz7aS4u3IzYxPlxUt5gCSLpJZir9Zb0C1VS/sbGdilJZf8w3l
+ wHPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VVvH7cAnAB8K2nnuUridcFUTxcRBjM1kLOxGGOEimW8=;
- b=F6HhuU7/WZgctqT3vxeXQqWEFf/J4jplogDkop6TVHBX4/kbJURm60IgzEZMjCCi8u
- 5vzpfCuOz2JdLOFI9rFPleEDlRQyLUHvh7NgL/Wq7KaTE4FtzSMWw75D4X5k2fgowowe
- sHa6xoBxF/JmuLCtRBqgz666v4VW1SYXStcwy+KoJZL0BbsccTJSNr+e+R9x8new/5od
- DdAfpajGu3ylmB9XmTMkJSLwBf6IULv7iEfah6IxFKCWedpShya+Kyzl0mxqnRGt5zDq
- eruDFFks845NtuAQfIGrzGBaaaFetgqGYhrB7bS1Irp5W2gWRD6I1xNUBK0Ug5QsNpLw
- ZMkw==
-X-Gm-Message-State: APjAAAVBl2+VqSkF3zWYXq/ov/nixDedqSiAnXxcrvuq8jXdtXdfWyqn
- d5K8/fiMuIfOVxY9tDEKkUlgFA==
-X-Google-Smtp-Source: APXvYqxHDbWDrkskzXYREhqyltYBIa+G6QoCaQJtFLL2NBV2fKxHXN770MC5+zQdVumdNQ6ARtFuVg==
-X-Received: by 2002:a5d:424a:: with SMTP id s10mr4701657wrr.108.1571771832659; 
- Tue, 22 Oct 2019 12:17:12 -0700 (PDT)
+ bh=fIE39M6WEo2MphCpMZQ+O6lu2X6W83TgfKFvtWGX81M=;
+ b=f4fmkH93Bdi4i1/7gG/tEYxPscMaQrMvG9mlBlUctErqb1c2q+16mh98kK4YKdMPVJ
+ xZnfZ42R2kJTfaThS41+T69qqrnrlQl8Qqwv2Z1Rya3qTZ46HnTcRKLal5SyJ8aoy/59
+ HoWo2pxPtX2n12bCsqpOosxjsVFUlnP9tCPnSpvJkSW7yz1TKpjFDhiUO8aAhUfTPvMq
+ /ZjEK5kX17sCiEmL2MXTMQ6hG/gftz45K6cZghSOJ9NVnGuhmeu6GrRtpWyVQz2kw6u3
+ NY25z5/RM9zp8xi6MsmSnxWd1yJZewr0zA5wO//8ZSAFQU2F4WKjUk69PnOeLaMsR8xD
+ PlwQ==
+X-Gm-Message-State: APjAAAWulofCFWKbyK9Tmp5/smXmovd8hN3xRCk/GE0Gukn/SL7x+DFM
+ r7dl6yKCtCubAKEsSPdX5BxhKQ==
+X-Google-Smtp-Source: APXvYqxQTR/rXZUYxMM8zI9wy8RH7IJnEBbxQJ47Q8wHhXRUr6HsLojQZi4JeuYAftACiz6m5F1bJA==
+X-Received: by 2002:a5d:5227:: with SMTP id i7mr4756741wra.39.1571771834059;
+ Tue, 22 Oct 2019 12:17:14 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g11sm18634767wmh.45.2019.10.22.12.17.07
+ by smtp.gmail.com with ESMTPSA id o4sm30892303wre.91.2019.10.22.12.17.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 22 Oct 2019 12:17:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D48F41FF96;
- Tue, 22 Oct 2019 20:17:04 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0B3F71FF99;
+ Tue, 22 Oct 2019 20:17:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 07/19] cirrus.yml: reduce scope of MacOS build
-Date: Tue, 22 Oct 2019 20:16:52 +0100
-Message-Id: <20191022191704.6134-8-alex.bennee@linaro.org>
+Subject: [PATCH  v1 09/19] cirrus.yml: add latest Xcode build target
+Date: Tue, 22 Oct 2019 20:16:54 +0100
+Message-Id: <20191022191704.6134-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022191704.6134-1-alex.bennee@linaro.org>
 References: <20191022191704.6134-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,34 +89,33 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MacOS build can time out on Cirrus running to almost an hour.
-Reduce the scope to the historical MacOS architectures much the same
-way we do on Travis.
+CirrusCI provides a mojave-xcode alias for the latest Xcode available.
+Let's use it to make sure we track the latest releases.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .cirrus.yml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .cirrus.yml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/.cirrus.yml b/.cirrus.yml
-index 8326a3a4b16..4b042c0e12c 100644
+index 4b042c0e12c..59146a89c83 100644
 --- a/.cirrus.yml
 +++ b/.cirrus.yml
-@@ -1,5 +1,6 @@
- env:
-   CIRRUS_CLONE_DEPTH: 1
-+  MACOS_ARCHES: i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu
- 
- freebsd_12_task:
-   freebsd_instance:
-@@ -22,6 +23,6 @@ macos_task:
-   install_script:
-     - brew install pkg-config python gnu-sed glib pixman make sdl2
-   script:
--    - ./configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
-+    - ./configure --python=/usr/local/bin/python3 --target-list=${MACOS_ARCHES} || { cat config.log; exit 1; }
+@@ -26,3 +26,14 @@ macos_task:
+     - ./configure --python=/usr/local/bin/python3 --target-list=${MACOS_ARCHES} || { cat config.log; exit 1; }
      - gmake -j$(sysctl -n hw.ncpu)
      - gmake check -j$(sysctl -n hw.ncpu)
++
++macos_xcode_task:
++  osx_instance:
++    # this is an alias for the latest Xcode
++    image: mojave-xcode
++  install_script:
++    - brew install pkg-config gnu-sed glib pixman make sdl2
++  script:
++    - ./configure --cc=clang --target-list=${MACOS_ARCHES} || { cat config.log; exit 1; }
++    - gmake -j$(sysctl -n hw.ncpu)
++    - gmake check -j$(sysctl -n hw.ncpu)
 -- 
 2.20.1
 
