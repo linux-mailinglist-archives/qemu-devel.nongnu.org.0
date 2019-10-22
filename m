@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCABE0175
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:02:08 +0200 (CEST)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A63E0193
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:06:50 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMqzO-0003eK-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:02:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59357)
+	id 1iMr3x-0000pf-AS
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:06:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59381)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iMqsQ-0005jo-VU
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:56 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iMqsS-0005m9-8p
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iMqsP-0005hH-Fv
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59260
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iMqsR-0005iJ-4b
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26457
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMqsP-0005gx-CD
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:53 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iMqsR-0005hy-16
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:54:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571738092;
+ s=mimecast20190719; t=1571738094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7KCr6i+4t+ywkOlX6JJoUgDJqdx6D7ofzVIFs9U50pA=;
- b=SlFPso1m2deNuX/znAY5jN2zbTmXB1tHxZ6copAAZfF2feRG/EA+HYx/NxcKeZBq++lhYq
- yhPxn7SuBPddIbv8BjV2jFaOrIrG1W6QtuwoPOM9EcHmc3QFTdEoZ4XowUBZ1FulsSBBSP
- fLNKVSvo5fofrYHnkErqBoHLWAM8vj4=
+ bh=nGr4dBFYxGHxCcGYusZ15elORtCXZcgN+it4GugZNNg=;
+ b=PfmN8UckipHLuW2AVd34Ai6I+OXh7wUBYN2n1m4sYD9/XTEpn3GMy7SXIzlafTFL9uapTa
+ GuAl+5rJpHlXPxDO+QcCZblyYRbE4q4ua/Y9Au1mfjo8Zd4+XRoAW/T5ecxIgI6J01iNot
+ diwPBXAx+KgHHbS/AOczbIDyo78nVcc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-7Y4BkShwNT2ve26Kejgd6w-1; Tue, 22 Oct 2019 05:54:49 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-327-AuyqggneMd6LaexHorMubg-1; Tue, 22 Oct 2019 05:54:51 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4956C1800D6A;
- Tue, 22 Oct 2019 09:54:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31BA78017D4;
+ Tue, 22 Oct 2019 09:54:50 +0000 (UTC)
 Received: from localhost (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0F7E194B2;
- Tue, 22 Oct 2019 09:54:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC3E960C5D;
+ Tue, 22 Oct 2019 09:54:49 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/9] s390x/tcg: Fix VECTOR MULTIPLY AND ADD *
-Date: Tue, 22 Oct 2019 11:54:23 +0200
-Message-Id: <20191022095428.20780-5-cohuck@redhat.com>
+Subject: [PULL 5/9] s390x/tcg: Fix VECTOR SHIFT RIGHT ARITHMETIC BY BYTE
+Date: Tue, 22 Oct 2019 11:54:24 +0200
+Message-Id: <20191022095428.20780-6-cohuck@redhat.com>
 In-Reply-To: <20191022095428.20780-1-cohuck@redhat.com>
 References: <20191022095428.20780-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 7Y4BkShwNT2ve26Kejgd6w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: AuyqggneMd6LaexHorMubg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,94 +78,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We missed that we always read a "double-wide even-odd element
-pair of the fourth operand". Fix it in all four variants.
+We forgot to propagate the highest bit accross the high doubleword in
+two cases (shift >=3D64).
 
-Fixes: 1b430aec4157 ("s390x/tcg: Implement VECTOR MULTIPLY AND ADD *")
+Fixes: 5f724887e3dd ("s390x/tcg: Implement VECTOR SHIFT RIGHT ARITHMETIC")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191021085715.3797-3-david@redhat.com>
+Message-Id: <20191021085715.3797-4-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/vec_int_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/s390x/vec_int_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.c
-index 03ae8631d958..1b3aaecbdb3d 100644
+index 1b3aaecbdb3d..d38405848fed 100644
 --- a/target/s390x/vec_int_helper.c
 +++ b/target/s390x/vec_int_helper.c
-@@ -336,7 +336,7 @@ void HELPER(gvec_vmae##BITS)(void *v1, const void *v2, =
-const void *v3,         \
-     for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
-           \
-         int##TBITS##_t a =3D (int##BITS##_t)s390_vec_read_element##BITS(v2=
-, j);  \
-         int##TBITS##_t b =3D (int##BITS##_t)s390_vec_read_element##BITS(v3=
-, j);  \
--        int##TBITS##_t c =3D (int##BITS##_t)s390_vec_read_element##BITS(v4=
-, j);  \
-+        int##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);         =
-       \
-                                                                           =
-     \
-         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
-     \
-     }                                                                     =
-     \
-@@ -354,7 +354,7 @@ void HELPER(gvec_vmale##BITS)(void *v1, const void *v2,=
- const void *v3,        \
-     for (i =3D 0, j =3D 0; i < (128 / TBITS); i++, j +=3D 2) {            =
-           \
-         uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);         =
-       \
-         uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);         =
-       \
--        uint##TBITS##_t c =3D s390_vec_read_element##BITS(v4, j);         =
-       \
-+        uint##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);        =
-       \
-                                                                           =
-     \
-         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
-     \
-     }                                                                     =
-     \
-@@ -372,7 +372,7 @@ void HELPER(gvec_vmao##BITS)(void *v1, const void *v2, =
-const void *v3,         \
-     for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
-           \
-         int##TBITS##_t a =3D (int##BITS##_t)s390_vec_read_element##BITS(v2=
-, j);  \
-         int##TBITS##_t b =3D (int##BITS##_t)s390_vec_read_element##BITS(v3=
-, j);  \
--        int##TBITS##_t c =3D (int##BITS##_t)s390_vec_read_element##BITS(v4=
-, j);  \
-+        int##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);         =
-       \
-                                                                           =
-     \
-         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
-     \
-     }                                                                     =
-     \
-@@ -390,7 +390,7 @@ void HELPER(gvec_vmalo##BITS)(void *v1, const void *v2,=
- const void *v3,        \
-     for (i =3D 0, j =3D 1; i < (128 / TBITS); i++, j +=3D 2) {            =
-           \
-         uint##TBITS##_t a =3D s390_vec_read_element##BITS(v2, j);         =
-       \
-         uint##TBITS##_t b =3D s390_vec_read_element##BITS(v3, j);         =
-       \
--        uint##TBITS##_t c =3D s390_vec_read_element##BITS(v4, j);         =
-       \
-+        uint##TBITS##_t c =3D s390_vec_read_element##TBITS(v4, i);        =
-       \
-                                                                           =
-     \
-         s390_vec_write_element##TBITS(v1, i, a * b + c);                  =
-     \
-     }                                                                     =
-     \
+@@ -70,15 +70,17 @@ static void s390_vec_sar(S390Vector *d, const S390Vecto=
+r *a, uint64_t count)
+         d->doubleword[0] =3D a->doubleword[0];
+         d->doubleword[1] =3D a->doubleword[1];
+     } else if (count =3D=3D 64) {
++        tmp =3D (int64_t)a->doubleword[0] >> 63;
+         d->doubleword[1] =3D a->doubleword[0];
+-        d->doubleword[0] =3D 0;
++        d->doubleword[0] =3D tmp;
+     } else if (count < 64) {
+         tmp =3D a->doubleword[1] >> count;
+         d->doubleword[1] =3D deposit64(tmp, 64 - count, count, a->doublewo=
+rd[0]);
+         d->doubleword[0] =3D (int64_t)a->doubleword[0] >> count;
+     } else {
++        tmp =3D (int64_t)a->doubleword[0] >> 63;
+         d->doubleword[1] =3D (int64_t)a->doubleword[0] >> (count - 64);
+-        d->doubleword[0] =3D 0;
++        d->doubleword[0] =3D tmp;
+     }
+ }
+=20
 --=20
 2.21.0
 
