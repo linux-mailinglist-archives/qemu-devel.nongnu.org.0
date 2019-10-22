@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68590E07FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 17:54:04 +0200 (CEST)
-Received: from localhost ([::1]:34004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C590E0812
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 17:58:20 +0200 (CEST)
+Received: from localhost ([::1]:34296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMwTz-0001Xp-Db
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 11:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60970)
+	id 1iMwY7-0004jh-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 11:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iMwOz-0005Al-2t
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:48:54 -0400
+ (envelope-from <lersek@redhat.com>) id 1iMwPR-0005ff-KP
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:49:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iMwOx-0004BQ-5k
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:48:52 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22596
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <lersek@redhat.com>) id 1iMwPQ-0004WD-Bh
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:49:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53842
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iMwOw-0004An-Sr
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:48:51 -0400
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iMwPQ-0004VF-7p
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:49:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571759330;
+ s=mimecast20190719; t=1571759358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D6yOI/R8uemwWw45AquIfMxN1nhxnYxjMR8iFOr1ZyA=;
- b=W01GX0Kmo87MYEDBZ284aRMlagSJsHUV7o1lbNlykt97quEFYjse/cX7j8DiRL1ZG66b2p
- UPX1AGitUNXu9/Xm9HRUOVk/wq0pnsIgPcZ8foe2Q9Bu5XOHEGn8BGTjlzsVtzH3ws/avP
- k1CXO0ZhgH3z3hRv1xwJnzfUauODRxM=
+ bh=gnwpT+Q5Zp/o83pFEGIwOgDy670eP0jaQSEPZKpjYis=;
+ b=GcnDh1C22oxR0PxJqmvnZKJCTPvMIAviZceQj+llsfEcpmQR+5hVMiv6v/rkleJl1flU6g
+ r/wqlslhY2HZJ7hdySIlRijvLoxN3brXo5+toHKgF3ywcN4BejO4P/20Pxid+jEdF1AbQI
+ SqdfXUio3PO9BQjyyGCvbvRDsGbTSxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-cwBgPb79Ofe3ZM0iqiePxw-1; Tue, 22 Oct 2019 11:48:48 -0400
-X-MC-Unique: cwBgPb79Ofe3ZM0iqiePxw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-212-S6-DziYsMoucE7QuDhAu4g-1; Tue, 22 Oct 2019 11:49:14 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1AAD476;
- Tue, 22 Oct 2019 15:48:46 +0000 (UTC)
-Received: from localhost (ovpn-117-153.ams2.redhat.com [10.36.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCCDF19C4F;
- Tue, 22 Oct 2019 15:48:41 +0000 (UTC)
-Date: Tue, 22 Oct 2019 16:48:40 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 07/16] libqos: enforce Device Initialization order
-Message-ID: <20191022154840.GE32186@stefanha-x1.localdomain>
-References: <20191019063810.6944-1-stefanha@redhat.com>
- <20191019063810.6944-8-stefanha@redhat.com>
- <158ef0b2-c478-1304-3128-8feb7cd943d4@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFC31476;
+ Tue, 22 Oct 2019 15:49:13 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.36.118.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C66E1001B09;
+ Tue, 22 Oct 2019 15:49:06 +0000 (UTC)
+Subject: Re: [RFC 3/3] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20191009132252.17860-1-imammedo@redhat.com>
+ <20191009132252.17860-4-imammedo@redhat.com>
+ <802d0d69-d478-76f5-2bd6-5ad2f1ac4474@redhat.com>
+ <20191018181841.6459533a@redhat.com>
+ <78f49b7d-6fd9-c977-8fe9-2de78025003d@redhat.com>
+ <0f2a4b26-b900-08af-aa3e-f9779ae6b55f@redhat.com>
+ <20191022164232.0d699b45@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <2dcf8863-6584-dfa7-9b15-724d159da1da@redhat.com>
+Date: Tue, 22 Oct 2019 17:49:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <158ef0b2-c478-1304-3128-8feb7cd943d4@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20191022164232.0d699b45@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: S6-DziYsMoucE7QuDhAu4g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ILuaRSyQpoVaJ1HG"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,66 +79,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ILuaRSyQpoVaJ1HG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 21, 2019 at 02:15:53PM +0200, Thomas Huth wrote:
-> On 19/10/2019 08.38, Stefan Hajnoczi wrote:
-> > According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
-> > Initialization", configuration space and virtqueues cannot be accessed
-> > before features have been negotiated.  Enforce this requirement.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  tests/libqos/virtio.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >=20
-> > diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
-> > index 4f7e6bb8a1..2593996c98 100644
-> > --- a/tests/libqos/virtio.c
-> > +++ b/tests/libqos/virtio.c
-> > @@ -13,23 +13,33 @@
-> >  #include "standard-headers/linux/virtio_config.h"
-> >  #include "standard-headers/linux/virtio_ring.h"
-> > =20
-> > +/* Features must be negotiated before config space or virtqueue access=
- */
-> > +static void check_features_negotiated(QVirtioDevice *d)
-> > +{
-> > +    g_assert_cmphex(d->features, !=3D, 0);
-> > +}
+On 10/22/19 16:42, Igor Mammedov wrote:
+> On Tue, 22 Oct 2019 14:39:24 +0200
+> Laszlo Ersek <lersek@redhat.com> wrote:
 >=20
-> Isn't it "legal" to negotiate 0 feature bits, too (for legacy devices)?
+>> On 10/21/19 15:06, Laszlo Ersek wrote:
+>>> On 10/18/19 18:18, Igor Mammedov wrote: =20
 
-Yes, it's possible for Legacy devices.  If someone ever does that
-they'll need to extend this code, but it's unlikely so I'd rather not
-complicate this.
+>>>> Considering firmware runs the first, it should enable modern interface
+>>>> on its own
+>>>>   1. Store 0x0 to selector register (actually it's store into bitmap t=
+o attempt switch).=20
+>>>> and to check if interface is present
+>>>>   2. Store 0x0 to selector register (to ensure valid selector value (o=
+therwise command is ignored))
+>>>>   3. Store 0x0 to command register (to be able to read back selector f=
+rom command data)
+>>>>   4. Store 0x0 to selector register (because #3 can select the a cpu w=
+ith events if any)
+>>>>       be aware libvirt may start QEMU in paused mode (hotplug context)=
+ and hotplugs extra CPUs
+>>>>       with device_add and then let guest run. So firmware may see pres=
+ent CPUs with events
+>>>>       at boot time.
+>>>>   5. Read 'command data' register.
+>>>>   6. If value read is 0, the interface is available. =20
 
-Stefan
+>> When we read the command data register in the last step, that is at
+>> offset 0x8 in the register block. Considering the legacy "CPU present
+>> bitmap", if no CPU is present in that range, then the firmware could
+>> read a zero value. I got confused because I thought we were reading at
+>> offset 0, which would always have bit0 set (for CPU#0).
+>>
+>> Can we detect the modern interface like this:
+>>
+>> 1. store 0x0 to selector register (attempt to switch)
+>> 2. read one byte at offset 0 in the register block
+>> 3. if bit#0 is set, the modern interface is unavailable;
+>>    otherwise (=3D bit#0 clear), the modern interface is available
+>>
+>> Here's why:
+>>
+>> - if even the legacy interface is missing, then step 2 is an unassigned
+>>   read, hence the value read is all-bits-one; bit#0 is set
+>>
+>> - if only the legacy interface is available, then bit#0 stands for
+>>   CPU#0, it will be set
+>>
+>> - if the switch-over in step 1 is successful, then offset 0 is reserved,
+>>   hence it returns all-bits-zero.
+>>
+>> With this, if we ever assigned offset 0 for reading, then we'd have to
+>> define it with bit#0 constantly clear.
+>=20
+> There is no need to reserve bit#0 if in step #5 we use s/'command data'/'=
+Command data 2'/
 
---ILuaRSyQpoVaJ1HG
-Content-Type: application/pgp-signature; name="signature.asc"
+Good idea. We can drop step 4 too:
 
------BEGIN PGP SIGNATURE-----
+    [0x0] Command data 2: (DWORD access, little endian)
+          If the "CPU selector" value last stored by the guest refers to
+          an impossible CPU, then 0.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2vJNgACgkQnKSrs4Gr
-c8hAnggAw1tsUfLNzvTFGPGJi+Dpw9tSx+O3//gwzvvp9HJjql/alI3ktjajonVK
-0qneWxWS2BAY2lQEZKyTL+NXJa9CCkeZKmreqb/YAX+/j51GKbmh0F/tgCmdViNZ
-b5WyFqxZm4VvTgNSOyIKu16E5yOSZsZ5aGwV9KLGruNy77tJaaTEf3p6Kz40ITfk
-ag5CQuyABfgax4NdvMrHIoYdGCJvUJSkxGWDVupnikecgqwg9XEN0y1ZCAja0wZG
-gBkU6yjJSHKWIL4pZUJX16dV1VvJ5hmUqH3WSa29Qau8lx04etAbkdXR/SSQZ+99
-Syp8B0PXQlwJ6DieqeGUiAtQbXXafw==
-=zamH
------END PGP SIGNATURE-----
+This is skipped by step 2.
 
---ILuaRSyQpoVaJ1HG--
+          Otherwise, if the "Command field" value last stored by the
+          guest differs from 3, then 0.
+
+This is triggered by step 3.
+
+So step 4 does not look necessary. (As long as the guest is OK with the
+selector ending up with a changed value.)
+
+          Otherwise, the most significant 32 bits of the selected CPU's
+          architecture specific ID.
+
+Not relevant for this use case.
+
+> Alternatively we can reserve bit#0 and sequentially read upper half from =
+'Command data'
+> (one a new flag to show that there is more data to read).
+
+I like the "Command data 2" register more. The "temporal domain" is
+always a complication in register definitions.
+
+> (Upper half currently is not necessary, it's there for future ARM's MPIDR=
+).
+>=20
+> One more thing, this behavior is based on artifacts of x86 machine and Al=
+lOnes fallback.
+> Obviously it won't work with arm/virt, do we care about AVMF at this poin=
+t?
+
+No, in the firmware, all this is strictly x86 code. The ArmVirtQemu
+guest firmware has no support for multiprocessing at this time, to my
+understanding.
+
+(Nonetheless, if the register block got placed at an MMIO base address
+on arm/virt, I think "unassigned_mem_ops" would apply there just the same.)
+
+Thanks!
+Laszlo
 
 
