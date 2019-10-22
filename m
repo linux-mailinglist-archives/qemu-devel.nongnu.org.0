@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1ABE090A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:36:30 +0200 (CEST)
-Received: from localhost ([::1]:35862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E71E093C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:39:15 +0200 (CEST)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMx92-0004Y6-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38346)
+	id 1iMxBi-0008EH-9l
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iMwwT-0007YS-WF
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:23:31 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iMwwV-0007bV-Sd
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:23:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iMwwS-0007VA-NY
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:23:29 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36815
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iMwwU-0007WI-L1
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:23:31 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56622
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iMwwS-0007Uy-KQ
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:23:28 -0400
+ id 1iMwwU-0007Vp-Gu
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:23:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571761408;
+ s=mimecast20190719; t=1571761409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YKn0rkeEmo85GVGGJBaBivsp9eHGS4vNvWaaLOlUKWM=;
- b=V+vNYKM4873AQgmvTSsnPHU7EwGgLxZGc6iFTNZt+NmlCSOnsiGKlDkIbIsOEIyk0abudi
- CVA6hB5okpoel4RVF5ca/rTWUiKqdixd4f9feF+pgVfDVpEw765OJ5IP26U/Qm1t1ofNjd
- 5afHk+RK2Bq9wp7nNaDock3fmoyC4C4=
+ bh=HotPPiIJVVyamwtat6NAZnHGetIQoRDZ3osWMjFNcac=;
+ b=GkNFnZteX+k+H51Zvl73xWKiqzQFpjwVg/dtmft6819WT5CUEwuIn2RrFjwgTdRDgDafx1
+ Z3yMJ5860oPvvz2U1DXx90dW75Y3SPa76Jcx4ojLFI3Wsn9BJwIiXQ4SP4UWC2Wxy7jdeE
+ eAOqbiLoGff6iSuan2BBr+Y/mps4MuU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-sXBTBNP1PviJqGVqsHcRzg-1; Tue, 22 Oct 2019 12:23:24 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-145-BChp7aKON_SZ8m5KR-Ctng-1; Tue, 22 Oct 2019 12:23:26 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EDAB476;
- Tue, 22 Oct 2019 16:23:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21D511800D6A;
+ Tue, 22 Oct 2019 16:23:19 +0000 (UTC)
 Received: from localhost (ovpn-112-21.ams2.redhat.com [10.36.112.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DBC610027A1;
- Tue, 22 Oct 2019 16:23:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83FEB6012C;
+ Tue, 22 Oct 2019 16:23:18 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/28] serial: replace serial_exit_core() with unrealize
-Date: Tue, 22 Oct 2019 18:21:21 +0200
-Message-Id: <20191022162137.27161-13-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 13/28] serial: factor out serial_mm_connect
+Date: Tue, 22 Oct 2019 18:21:22 +0200
+Message-Id: <20191022162137.27161-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20191022162137.27161-1-marcandre.lureau@redhat.com>
 References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: sXBTBNP1PviJqGVqsHcRzg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: BChp7aKON_SZ8m5KR-Ctng-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -89,81 +89,76 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of calling serial_exit_core() directly, use the QDev unrealize
-callback.
+Split IRQ and memory region initialization in a different function to
+be reused by callers that realize the serial device themself, and
+connect irq/mem after.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/char/serial-pci-multi.c | 2 +-
- hw/char/serial-pci.c       | 2 +-
- hw/char/serial.c           | 5 ++++-
- include/hw/char/serial.h   | 1 -
- 4 files changed, 6 insertions(+), 4 deletions(-)
+ hw/char/serial.c         | 20 +++++++++++++-------
+ include/hw/char/serial.h |  3 +++
+ 2 files changed, 16 insertions(+), 7 deletions(-)
 
-diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index 60c1c948b8..a3200555aa 100644
---- a/hw/char/serial-pci-multi.c
-+++ b/hw/char/serial-pci-multi.c
-@@ -56,7 +56,7 @@ static void multi_serial_pci_exit(PCIDevice *dev)
-=20
-     for (i =3D 0; i < pci->ports; i++) {
-         s =3D pci->state + i;
--        serial_exit_core(s);
-+        object_property_set_bool(OBJECT(s), false, "realized", NULL);
-         memory_region_del_subregion(&pci->iobar, &s->io);
-         g_free(pci->name[i]);
-     }
-diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
-index 35a8552674..54bdd98325 100644
---- a/hw/char/serial-pci.c
-+++ b/hw/char/serial-pci.c
-@@ -69,7 +69,7 @@ static void serial_pci_exit(PCIDevice *dev)
-     PCISerialState *pci =3D DO_UPCAST(PCISerialState, dev, dev);
-     SerialState *s =3D &pci->state;
-=20
--    serial_exit_core(s);
-+    object_property_set_bool(OBJECT(s), false, "realized", NULL);
-     qemu_free_irq(s->irq);
- }
-=20
 diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 1500216c69..72d48b5cd8 100644
+index 72d48b5cd8..41548e159c 100644
 --- a/hw/char/serial.c
 +++ b/hw/char/serial.c
-@@ -952,8 +952,10 @@ static void serial_realize(DeviceState *dev, Error **e=
-rrp)
-     qdev_set_legacy_instance_id(dev, s->base, 2);
+@@ -1078,27 +1078,33 @@ static const MemoryRegionOps serial_mm_ops[3] =3D {
+     },
+ };
+=20
++void serial_mm_connect(SerialMMState *self, enum device_endian end,
++                       MemoryRegion *address_space, qemu_irq irq)
++{
++    SerialState *s =3D SERIAL(self);
++
++    qdev_connect_gpio_out_named(DEVICE(self), "serial-irq", 0, irq);
++    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], self,
++                          "serial", 8 << self->regshift);
++    memory_region_add_subregion(address_space, s->base, &s->io);
++}
++
+ SerialState *serial_mm_init(MemoryRegion *address_space,
+                             hwaddr base, int regshift,
+                             qemu_irq irq, int baudbase,
+                             Chardev *chr, enum device_endian end)
+ {
+     DeviceState *dev =3D DEVICE(object_new(TYPE_SERIAL_MM));
+-    SerialMMState *m =3D SERIAL_MM(dev);
+-    SerialState *s =3D SERIAL(dev);
+=20
+-    qdev_connect_gpio_out_named(dev, "serial-irq", 0, irq);
+     qdev_prop_set_uint32(dev, "baudbase", baudbase);
+     qdev_prop_set_chr(dev, "chardev", chr);
+     qdev_prop_set_uint8(dev, "regshift", regshift);
+     qdev_prop_set_uint64(dev, "base", base);
+     qdev_init_nofail(dev);
+=20
+-    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], s,
+-                          "serial", 8 << m->regshift);
+-    memory_region_add_subregion(address_space, base, &s->io);
++    serial_mm_connect(SERIAL_MM(dev), end, address_space, irq);
+=20
+-    return s;
++    return SERIAL(dev);
  }
 =20
--void serial_exit_core(SerialState *s)
-+static void serial_unrealize(DeviceState *dev, Error **errp)
- {
-+    SerialState *s =3D SERIAL(dev);
-+
-     qemu_chr_fe_deinit(&s->chr, false);
-=20
-     timer_del(s->modem_status_poll);
-@@ -1015,6 +1017,7 @@ static void serial_class_init(ObjectClass *klass, voi=
-d* data)
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-     dc->realize =3D serial_realize;
-+    dc->unrealize =3D serial_unrealize;
-     dc->user_creatable =3D false;
-     dc->vmsd =3D &vmstate_serial;
-     dc->props =3D serial_properties;
+ static Property serial_mm_properties[] =3D {
 diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 28bce0a791..5e657d8ade 100644
+index 5e657d8ade..84ef8f01f0 100644
 --- a/include/hw/char/serial.h
 +++ b/include/hw/char/serial.h
-@@ -89,7 +89,6 @@ typedef struct SerialMMState {
- extern const VMStateDescription vmstate_serial;
- extern const MemoryRegionOps serial_io_ops;
+@@ -104,6 +104,9 @@ SerialState *serial_mm_init(MemoryRegion *address_space=
+,
+                             qemu_irq irq, int baudbase,
+                             Chardev *chr, enum device_endian end);
 =20
--void serial_exit_core(SerialState *s);
- void serial_set_frequency(SerialState *s, uint32_t frequency);
++void serial_mm_connect(SerialMMState *self, enum device_endian end,
++                       MemoryRegion *address_space, qemu_irq irq);
++
+ /* serial-isa.c */
 =20
- #define TYPE_SERIAL "serial"
+ #define MAX_ISA_SERIAL_PORTS 4
 --=20
 2.23.0.606.g08da6496b6
 
