@@ -2,49 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95054E0628
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:15:17 +0200 (CEST)
-Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5A7E0647
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:22:02 +0200 (CEST)
+Received: from localhost ([::1]:58667 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuwO-00043g-DP
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40299)
+	id 1iMv2v-0003DG-Cn
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMuVo-0004nP-SH
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iMuWX-0005Wz-50
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:48:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMuVj-0008SM-ON
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:48 -0400
-Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:46917)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMuVj-0008RP-I6
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:43 -0400
-Received: from player772.ha.ovh.net (unknown [10.109.143.232])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 40AB01E6CB6
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 15:47:41 +0200 (CEST)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 8734FB3F35DA;
- Tue, 22 Oct 2019 13:47:34 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v4 7/7] spapr/xive: Set the OS CAM line at reset
-Date: Tue, 22 Oct 2019 15:46:32 +0200
-Message-Id: <20191022134632.29098-8-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191022134632.29098-1-clg@kaod.org>
-References: <20191022134632.29098-1-clg@kaod.org>
+ (envelope-from <alex.bennee@linaro.org>) id 1iMuWV-0000SO-NI
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:48:32 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42059)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iMuWV-0000Rd-Gz
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:48:31 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r1so8363586wrs.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=AMzrIGbN2EkcY9+UM+dIQ4bBwlEUmZgf8B47GERYb4Y=;
+ b=YrWXOjDSJd9U65DRacJuQvkPYFT3xBdWKWnIz+L8x4UNLyMCjleca6dFivlPe0HEPW
+ yU6QKpnsSA+s/3PYNIVtBZ2GoSQa8ZEXNyJlH9NKfOCj5nlCypknttnikpjQmJvMq5Is
+ 5JugZT5c9kYUlo3LWdgjToBH74+ZL5H5hZyDU/iRa0nKVjYdqgK3dhpO3t8q4icUfaAu
+ 275FVLVrgxwuJUHoWMUSE99TsIhcLVtlmztEcrC2H+TwpdUGkBU790vSUenT6GLykzKR
+ f0+PxXf8G86Wd8MJV3KoVLibC3xZQwbD84QJjrapGd6MXcnxX1PjbiKc8vN/Qce7Q1Tm
+ HF1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=AMzrIGbN2EkcY9+UM+dIQ4bBwlEUmZgf8B47GERYb4Y=;
+ b=QRpaOXcgh8Tp/3RN4gfLB4sWc+B9VtPzZyLvAjlk6LRfZXndD6hwyqvcZtWmx+tKwP
+ yszKsTuc0rPNU4ZZNgMJwhVkD6UiFKH3h4GcYNt1yMMX8i2qt3f/8Ed9k2kA+awCBCPI
+ +UuTZhX/xsF53kutVypIpIwCB6t5eNg455vXx/QbauInIchytS+/uFBkBhkiXEUOZ9Kf
+ x+SZP7IJNde4J+4T5Rm4lLA584Nls/EZeZd4Lfms6W6kkaorTXlboGnN8ZYU8JsMTmVP
+ RmTtW+Em9qSYDKVQKRcu1u4hTybboaID/DI2Xto4Yn+SkLmd4KVGun/urBu1BWZwAqRA
+ jAzg==
+X-Gm-Message-State: APjAAAXO1DPJu53V5+GAHVjI1c3r6VT7XewTUqd6pYhn2jeav75Z0EnD
+ 9Kfl6AxtHQfcvcvfSemqNLMIDg==
+X-Google-Smtp-Source: APXvYqyW8CQ1WvEsDJOhqkDuPZfP8JUA0oovH4CM4fbaAc1xQ2AVJelXGGkK9KqUmYWOA5tBK9cYIw==
+X-Received: by 2002:a5d:4701:: with SMTP id y1mr3833467wrq.385.1571752109744; 
+ Tue, 22 Oct 2019 06:48:29 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r3sm32235090wre.29.2019.10.22.06.48.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 06:48:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6574F1FF87;
+ Tue, 22 Oct 2019 14:48:28 +0100 (BST)
+References: <20191022072135.11188-1-thuth@redhat.com>
+ <87a79sx6uc.fsf@linaro.org>
+ <123b2e94-3f43-1a8e-2420-12ae09483e2f@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v3 0/6] Enable more iotests during "make check-block"
+In-reply-to: <123b2e94-3f43-1a8e-2420-12ae09483e2f@redhat.com>
+Date: Tue, 22 Oct 2019 14:48:28 +0100
+Message-ID: <877e4wx55f.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 611645125904075750
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 178.32.124.17
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,131 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a Virtual Processor is scheduled to run on a HW thread, the
-hypervisor pushes its identifier in the OS CAM line. When running with
-kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
 
-Set the OS CAM line when the interrupt presenter of the sPAPR core is
-reset. This will also cover the case of hot-plugged CPUs.
+Max Reitz <mreitz@redhat.com> writes:
 
-This change also has the benefit to remove the use of CPU_FOREACH()
-which can be unsafe.
+> On 22.10.19 15:11, Alex Benn=C3=A9e wrote:
+>>
+>> Thomas Huth <thuth@redhat.com> writes:
+>>
+>>> As discussed here:
+>>>
+>>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg00697.html
+>>>
+>>> and here:
+>>>
+>>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01388.html
+>>
+>> Queued to testing/next, thanks.
+>
+> It should be noted that this series depends on my SOCK_DIR series (which
+> I have in my block branch), or the newly added tests are likely to fail
+> in the CI environment.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/ppc/spapr_xive.h |  1 -
- hw/intc/spapr_xive.c        | 48 +++++++++++++------------------------
- 2 files changed, 17 insertions(+), 32 deletions(-)
+Ahh I misread....
+<snip>
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index d84bd5c229f0..742b7e834f2a 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -57,7 +57,6 @@ typedef struct SpaprXive {
- void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
-=20
- void spapr_xive_hcall_init(SpaprMachineState *spapr);
--void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
- void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
- void spapr_xive_map_mmio(SpaprXive *xive);
-=20
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 20a8d8285f64..d8e1291905c3 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -205,23 +205,6 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
-ol enable)
-     memory_region_set_enabled(&xive->end_source.esb_mmio, false);
- }
-=20
--/*
-- * When a Virtual Processor is scheduled to run on a HW thread, the
-- * hypervisor pushes its identifier in the OS CAM line. Emulate the
-- * same behavior under QEMU.
-- */
--void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
--{
--    uint8_t  nvt_blk;
--    uint32_t nvt_idx;
--    uint32_t nvt_cam;
--
--    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
--
--    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
-_idx));
--    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
--}
--
- static void spapr_xive_end_reset(XiveEND *end)
- {
-     memset(end, 0, sizeof(*end));
-@@ -544,21 +527,32 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
-tController *intc,
-     }
-=20
-     spapr_cpu->tctx =3D XIVE_TCTX(obj);
--
--    /*
--     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
--     * don't beneficiate from the reset of the XIVE IRQ backend
--     */
--    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
-     return 0;
- }
-=20
-+static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t os_cam)
-+{
-+    uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | os_cam);
-+    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
-+}
-+
- static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
-                                      PowerPCCPU *cpu)
- {
-     XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
-+    uint8_t  nvt_blk;
-+    uint32_t nvt_idx;
-=20
-     xive_tctx_reset(tctx);
-+
-+    /*
-+     * When a Virtual Processor is scheduled to run on a HW thread,
-+     * the hypervisor pushes its identifier in the OS CAM line.
-+     * Emulate the same behavior under QEMU.
-+     */
-+    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
-+
-+    xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
- }
-=20
- static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
-@@ -651,14 +645,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
-intc, uint32_t nr_servers,
- static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
-rrp)
- {
-     SpaprXive *xive =3D SPAPR_XIVE(intc);
--    CPUState *cs;
--
--    CPU_FOREACH(cs) {
--        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--
--        /* (TCG) Set the OS CAM line of the thread interrupt context. */
--        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
--    }
-=20
-     if (kvm_enabled()) {
-         int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
---=20
-2.21.0
+>>> it would be good to have some more valuable iotests enabled in the
+>>> "auto" group to get better iotest coverage during "make check".
+>>>
+>>> And once Max' "iotests: Add and use $SOCK_DIR" patch series has been
+>>> merged, we can indeed enable these Python-based tests, too.
 
+I though these weren't enabled in this series. Do I need to drop all the
+patches?
+
+--
+Alex Benn=C3=A9e
 
