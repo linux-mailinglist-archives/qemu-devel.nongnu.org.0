@@ -2,106 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D7DE04CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:20:19 +0200 (CEST)
-Received: from localhost ([::1]:56512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D54E04B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:17:54 +0200 (CEST)
+Received: from localhost ([::1]:56414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMu5C-00027v-5h
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60078)
+	id 1iMu2r-0000fr-Eu
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMttG-000869-Of
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:08:00 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iMtuP-00018b-RO
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:09:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMttE-0001Ps-WA
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:07:58 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:55857)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iMttA-0001NO-W8; Tue, 22 Oct 2019 09:07:53 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MRVy9-1ihz0V0dNd-00NPlu; Tue, 22 Oct 2019 15:07:26 +0200
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191022111738.20803-1-laurent@vivier.eu>
- <20191022111738.20803-2-laurent@vivier.eu>
- <815dc0fe-02e1-fb75-9012-fe0378bd0fee@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v14 1/9] esp: add pseudo-DMA as used by Macintosh
-Message-ID: <78334413-96b8-2cbe-e905-30c752c85478@vivier.eu>
-Date: Tue, 22 Oct 2019 15:07:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <alex.bennee@linaro.org>) id 1iMtuO-0001wc-K1
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:09:09 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34969)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iMtuO-0001va-D6
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:09:08 -0400
+Received: by mail-wr1-x443.google.com with SMTP id l10so17588022wrb.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HLFEhb4yWyFLuZldasRJU+5tlwNrCRGjNpkGcYT3knE=;
+ b=EUXGAVBrB0X33Yt56fYtzQ1sjCJzmd6n855IiFa1DB4zyvT844w7QNYvXRB1ternUu
+ zeyfArIisVstRyZzA7rc/ZRxYPufXujBy9iIYQPz2Muhjjrnmec0S+uMzme2npzHZDbw
+ rn/9bd6esIkZY56RrlAL0AloNipLS0josSR2IjILN2XGT6qMD4dTXyy+tWaAOMzVFg+3
+ Pisb3Egv0U/CUEk5+Dk6tDzZg9OPbRq3J3rArsoCuRDWRbzR/KVM4umg2xncpin9RQDB
+ o8yzDYtnyVnSML3mBEChybOpsSb0+A57xkBdN8s4dsDBfKBGjZkQ+x4apI4s90RoQxBh
+ 9f0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=HLFEhb4yWyFLuZldasRJU+5tlwNrCRGjNpkGcYT3knE=;
+ b=BDzGy8+vwSFGTF7QU9XHAqZn89NGtlzQMfqN/c5Lu+eJN4kgMjY2IiA1TZPtlqUHZh
+ lg/J4n8K13qkFzYE9NTsyw/5tlUH8v5fVOs9nNMb+/sArIDRXF4FOaUUtys2RhgoQr59
+ ZRVENv55sYOKoKZjAYK7+iW/x/pNqkLWVXSvZJbkh0EyuloTKoDQtxZZhI84nFSEcnh/
+ n7y6nRowXytukbDVmR4fI2psU7ltC3whqTCb992kb9FdzuBVtnZH9IeYfOIOp/kzcNg8
+ y9mn37hjOYB8N97N7rV6zB3oRvkVDQvHKFCuRse3ajj0zhnGDhAkFuAhbLBQdJc2RRWt
+ VtWg==
+X-Gm-Message-State: APjAAAUhxzYPMzsHgRSNJKv1Y0rbL5o+8PdmKt3LkhFs1J0vXNt9C1MU
+ ZWsewXH8WNDJqVSViCyuYmZ0Og==
+X-Google-Smtp-Source: APXvYqycSDtAkTOGGMIlsnH1N2cJwFZd710oJpAYd95I51vQ7xhgxHJWZBUC4fWVK9kjgxbaNm1mxw==
+X-Received: by 2002:adf:eed2:: with SMTP id a18mr3693966wrp.273.1571749746601; 
+ Tue, 22 Oct 2019 06:09:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 74sm28931923wrm.92.2019.10.22.06.09.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 06:09:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F197B1FF87;
+ Tue, 22 Oct 2019 14:09:04 +0100 (BST)
+References: <20191022072135.11188-1-thuth@redhat.com>
+ <8e7b1ebe-edd7-6a45-e95b-dd2fd0d6f1c1@redhat.com>
+ <87ftjlvwjd.fsf@linaro.org>
+ <622d7844-c532-2de8-f39d-ba81082ed5d2@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 0/6] Enable more iotests during "make check-block"
+In-reply-to: <622d7844-c532-2de8-f39d-ba81082ed5d2@redhat.com>
+Date: Tue, 22 Oct 2019 14:09:04 +0100
+Message-ID: <87d0epvsen.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <815dc0fe-02e1-fb75-9012-fe0378bd0fee@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oVSDj7keEc5nr/GaKj66LYQP+/RSQfE5c5LIi40qmYSu5aSb5E2
- 0K9qbz59FXb345Y+ttTJ1ZqwfIE4xklk1dVVGD6UAK7GH9Z2XOYfuo/D98W0q5hrQpxIzAQ
- 8N4VNPpL6nlywekspziAb9WR3HjVveKCEVQeB3K6aO123zswhEJPaKoRBVVSefRyPijh+EO
- yR0uIVtXWditBerORG9hg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bEyWRlIqY/Y=:KxTwd+r90lODzUUvQxXLal
- IzQDiNvqXTPkPiJ9ej22wTSq1DGSwK4BRLqVhdsrf4kon+upmXiU/MWsNu5BqCbpDrmSjgsgq
- hnW+mIVcjNhibZcOjB9pCs6zlBTa1KVBL61SbnSpKkRlNq4y33gxgfJs9BGpiPlBOdho9ZP7t
- BDfI9MmSi2gTmnqWoXjoJ8BLoVDLQtJR/SueMcVh/pRSIpaiqHsC8nwfNiRXnZgxAgXTbNMOu
- Wp9QhzoVWhGCgLCmmGYKzS4lYZnqPEc683uQ0oxeLIIbw3xrPySnFI65KyjNt5xJ+58V0z0O5
- Ky+AF52i3/4AL4uxEsPCYsteaOH7/+d0WIXkwrLpcfYt9HCR77myQ1FPaFAHL3JbiGOvDQ+BL
- Gy/nozv25WjPG0YhKTXwcRy6BAEMU1KVK+0T1E9/ReKlde1JrL9riFsMg6geZ0Bip9fdMkvQA
- N2Rf11XjpcEHvGRYjXS8dSEmoFqQtfztY8G4sThKh70ZQ/G15EDZQzfWw4g/KR8XSZ1nYEG8Y
- SJlXA/g7wBELuyxo9wXaTgUWxyVd0289PecstH6szTk+0DVnSkwx7kAURzmlDU+ATeqcbMVg8
- Oevs32DxauS3tx8zaN/0banu/9mtDQC8+hoHi/g+HhxzpdcaiNi7SijfBqRiitCAaDHWB0Zhn
- ALGA/DIbmLY2Pr95/sEeRRYI6s9F+woZghhvQKSiG2DzQdB0biMGwViI5i1WYFTYrgCXv0g6G
- iPNIm7NpOnG62hnZjsXhEDXlP+z2TFfPd+LkckL2Tao3trIVCzQitau+Ouh/1BwjxcjFjcBqL
- zw019CNdK8wCOcywo7LWJFd3gep91MHA9553TWzT0VtiwZO1fqgQpW+y0ha892I+urVhFJrxP
- XbcR9LnuAVw+QoX8H8Vp2UbM/yfl4BKY8iqaXKR9M=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.134
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,201 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/10/2019 à 14:21, Philippe Mathieu-Daudé a écrit :
-> Hi Laurent,
-> 
-> On 10/22/19 1:17 PM, Laurent Vivier wrote:
->> There is no DMA in Quadra 800, so the CPU reads/writes the data from the
->> PDMA register (offset 0x100, ESP_PDMA in hw/m68k/q800.c) and copies them
->> to/from the memory.
+
+Thomas Huth <thuth@redhat.com> writes:
+
+> On 22/10/2019 13.39, Alex Benn=C3=A9e wrote:
 >>
->> There is a nice assembly loop in the kernel to do that, see
->> linux/drivers/scsi/mac_esp.c:MAC_ESP_PDMA_LOOP().
+>> Thomas Huth <thuth@redhat.com> writes:
 >>
->> The start of the transfer is triggered by the DREQ interrupt (see linux
->> mac_esp_send_pdma_cmd()), the CPU polls on the IRQ flag to start the
->> transfer after a SCSI command has been sent (in Quadra 800 it goes
->> through the VIA2, the via2-irq line and the vIFR register)
+>>> On 22/10/2019 09.21, Thomas Huth wrote:
+>>>> As discussed here:
+>>>>
+>>>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg00697.html
+>>>>
+>>>> and here:
+>>>>
+>>>>  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01388.html
+>>>>
+>>>> it would be good to have some more valuable iotests enabled in the
+>>>> "auto" group to get better iotest coverage during "make check".
+>>>>
+>>>> And once Max' "iotests: Add and use $SOCK_DIR" patch series has been
+>>>> merged, we can indeed enable these Python-based tests, too.
+>>>
+>>> Oh well, some Travis jobs are now running too long and hit the 50
+>>> minutes limit:
+>>>
+>>>  https://travis-ci.com/huth/qemu/jobs/248158477
+>>>
+>>> ... so we either might need to remove some other iotests from the "auto"
+>>> group again, or change the Travis jobs to include less targets...
+>>>
+>>> That "clang + sanitizer" job was already running 45 minutes before my
+>>> change, so it was already close to the limit. So I'd suggest to change
+>>> it to include less targets. Opinions?
 >>
->> The Macintosh hardware includes hardware handshaking to prevent the CPU
->> from reading invalid data or writing data faster than the peripheral
->> device can accept it.
->>
->> This is the "blind mode", and from the doc:
->> "Approximate maximum SCSI transfer rates within a blocks are 1.4 MB per
->> second for blind transfers in the Macintosh II"
->>
->> Some references can be found in:
->>    Apple Macintosh Family Hardware Reference, ISBN 0-201-19255-1
->>    Guide to the Macintosh Family Hardware, ISBN-0-201-52405-8
->>
->> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>   include/hw/scsi/esp.h |  15 ++
->>   hw/scsi/esp.c         | 338 ++++++++++++++++++++++++++++++++++++++----
->>   2 files changed, 324 insertions(+), 29 deletions(-)
->>
->> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
->> index adab63d1c9..6ba47dac41 100644
->> --- a/include/hw/scsi/esp.h
->> +++ b/include/hw/scsi/esp.h
->> @@ -14,10 +14,18 @@ typedef void (*ESPDMAMemoryReadWriteFunc)(void
->> *opaque, uint8_t *buf, int len);
->>     typedef struct ESPState ESPState;
->>   +enum pdma_origin_id {
->> +    PDMA,
->> +    TI,
->> +    CMD,
->> +    ASYNC,
->> +};
->> +
->>   struct ESPState {
->>       uint8_t rregs[ESP_REGS];
->>       uint8_t wregs[ESP_REGS];
->>       qemu_irq irq;
->> +    qemu_irq irq_data;
->>       uint8_t chip_id;
->>       bool tchi_written;
->>       int32_t ti_size;
->> @@ -48,6 +56,12 @@ struct ESPState {
->>       ESPDMAMemoryReadWriteFunc dma_memory_write;
->>       void *dma_opaque;
->>       void (*dma_cb)(ESPState *s);
->> +    uint8_t pdma_buf[32];
->> +    int pdma_origin;
->> +    uint32_t pdma_len;
->> +    uint32_t pdma_start;
->> +    uint32_t pdma_cur;
->> +    void (*pdma_cb)(ESPState *s);
->>   };
->>     #define TYPE_ESP "esp"
->> @@ -59,6 +73,7 @@ typedef struct {
->>       /*< public >*/
->>         MemoryRegion iomem;
->> +    MemoryRegion pdma;
->>       uint32_t it_shift;
->>       ESPState esp;
->>   } SysBusESPState;
->> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->> index 841d79b60e..90b40c4cb5 100644
->> --- a/hw/scsi/esp.c
->> +++ b/hw/scsi/esp.c
->> @@ -38,6 +38,8 @@
->>    *
->> http://www.ibiblio.org/pub/historic-linux/early-ports/Sparc/NCR/NCR89C100.txt
->>
->>    * and
->>    *
->> http://www.ibiblio.org/pub/historic-linux/early-ports/Sparc/NCR/NCR53C9X.txt
->>
->> + *
->> + * On Macintosh Quadra it is a NCR53C96.
->>    */
->>     static void esp_raise_irq(ESPState *s)
->> @@ -58,6 +60,16 @@ static void esp_lower_irq(ESPState *s)
->>       }
->>   }
->>   +static void esp_raise_drq(ESPState *s)
->> +{
->> +    qemu_irq_raise(s->irq_data);
->> +}
->> +
->> +static void esp_lower_drq(ESPState *s)
->> +{
->> +    qemu_irq_lower(s->irq_data);
->> +}
->> +
->>   void esp_dma_enable(ESPState *s, int irq, int level)
->>   {
->>       if (level) {
->> @@ -84,29 +96,35 @@ void esp_request_cancelled(SCSIRequest *req)
->>       }
->>   }
->>   -static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
->> +static void set_pdma(ESPState *s, enum pdma_origin_id origin,
->> +                     uint32_t index, uint32_t len)
->> +{
->> +    s->pdma_origin = origin;
->> +    s->pdma_start = index;
->> +    s->pdma_cur = index;
->> +    s->pdma_len = len;
-> 
-> Can you pass the pdma_cb to this function, and:
-> 
->        s->pdma_cb = pdma_cb;
+>> Which one is clang with sanitizers? I think we only build softmmu for
+>> gcc + sanitizer at the moment.
+>
+> I meant this one here:
+>
+>     - env:
+>         - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS} "
+>       compiler: clang
+>       before_script:
+>         - ./configure ${CONFIG} --extra-cflags=3D"-fsanitize=3Dundefined
+> -Werror" || { cat config.log && exit 1; }
 
-I agree but I tried that in the past, but in get_cmd() we call
-set_pdma() without setting pdma_cb, so no.
+Hmm we already only do the main SOFTMMU targets. I wonder if we could be
+caching better?
 
->> @@ -252,10 +397,25 @@ static void esp_do_dma(ESPState *s)
->>           trace_esp_do_dma(s->cmdlen, len);
->>           assert (s->cmdlen <= sizeof(s->cmdbuf) &&
->>                   len <= sizeof(s->cmdbuf) - s->cmdlen);
->> -        s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
->> +        if (s->dma_memory_read) {
->> +            s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen],
->> len);
->> +        } else {
->> +            set_pdma(s, CMD, s->cmdlen, len);
->> +            s->pdma_cb = do_dma_pdma_cb;
->> +            esp_raise_drq(s);
->> +            return;
->> +        }
->> +        trace_esp_handle_ti_cmd(s->cmdlen);
->> +        s->ti_size = 0;
->> +        s->cmdlen = 0;
->> +        s->do_cmd = 0;
->> +        do_cmd(s, s->cmdbuf);
->>           return;
->>       }
->>       if (s->async_len == 0) {
->> +        if (s->dma_left == 0) {
->> +            esp_dma_done(s);
->> +        }
-> 
-> This change seems unrelated to PDMA, is this a fix?
+>
+>  Thomas
 
-All changes are related to PDMA. It's complicated enough to not mix
-several things.
 
-This change is related to your following comment:
-
->> @@ -373,8 +547,7 @@ static void handle_ti(ESPState *s)
->>           s->dma_left = minlen;
->>           s->rregs[ESP_RSTAT] &= ~STAT_TC;
->>           esp_do_dma(s);
->> -    }
->> -    if (s->do_cmd) {
->> +    } else if (s->do_cmd) {
-> 
-> Hmmm, unrelated too?
-
-It's needed, see my answer to Thomas question for the v6 of the patch:
-
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06028.html
-
-"The "else" is needed because this code has been duplicated inside
-esp_do_dma() to be executed only in the case of "real" dma and not for
-pseudo-dma."
-
-Thanks,
-Laurent
-[1] I wrote this patch 7 years ago, so no more obvious or detailed
-comments come to my mind at the moment.
-
+--
+Alex Benn=C3=A9e
 
