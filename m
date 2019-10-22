@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FDAE060F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:11:48 +0200 (CEST)
-Received: from localhost ([::1]:58216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C6FE062E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:18:41 +0200 (CEST)
+Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMut0-0007di-Mx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37268)
+	id 1iMuzf-0007sG-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuHk-0003YB-4G
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:19 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuHq-0003Zs-DD
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuHc-0001eb-Ja
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:12 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55029)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuHo-0001hp-AC
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:22 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46977)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuHY-0001dC-Tp
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:06 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id p7so17325574wmp.4
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:33:04 -0700 (PDT)
+ id 1iMuHo-0001f4-3e
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:20 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n15so7303500wrw.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:33:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=IoXcmOl+RMmkT7xPfub9s2J7YQU8S0ooN19xanzMCEA=;
- b=OmebtgvYfFM4G3zMSBEEYA9Etqke1bPa1zLFy6PcQKqN0ojX9UXs8KFWEa3mt2E3n5
- wqhodWjJaQOAvRhAiNFA197qw+S1LgSY+SDy1WNFMpI/VxrKqXIv1HzBMUyB+IB2fEOY
- C6D73JvNeBO2AC+Ky/+AHtXM2CdURi6kyQddELiZslB+6nrDcSM+rbA6ebX8BSUbLLCK
- oIX0q+7qhPylaxQnSq98Ne5OJHINHS/kjAveeriaQDikkux405GKRKlRFxaR0QMD2z8g
- FSU23T76IunPp2WVNay+dajnvMPyOAp6vRPjuXPZBU199pYX6YHruBTAqMIT3YejsVFH
- XgpA==
+ bh=35JGdkX+Qbs+3j0Y2Ds4qNx/4PsRHF6QNmtmflqtCQ0=;
+ b=hT31gfl90dmpUk4jbJJ54inUhmDZn0UyovEp/TFIhF20BPiQGYATjaAoI+Dx3sEZ7T
+ rNs82uCPbpuD+NK2JuMhT5Em50N4b80Wggx4zXr0LlYYvGgngieZ2hvzWpEvNAjzaWHw
+ 7JO+FBOgs5skcyehvzdXxwnun2HVHowtnbPbUmK1tM+tgb8RYqvwmeDcH7DktERf4puR
+ gZ5l6N809MDG5gigXwNIK1go3hIUYgioYaN7TaEYt9I1ZBTVZu+3HGgOJBIwrhwrYoz2
+ 3GkluQjLUrrJeb32tojhKFruqzmiyB0BKJTYmonjZ5L55kxcTkAOetGyjQDjhuZG+CK6
+ DpCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IoXcmOl+RMmkT7xPfub9s2J7YQU8S0ooN19xanzMCEA=;
- b=DKuPQr3rh+ZQ6w+uhEhv2AhJBuULzGHha3364jPrsvEjXtjK0wlBFlBsGgqazKS8pP
- Goiu0MI0lA3mjx9cHfxSO0CnCqoCaDMeSd8mKUX8Q/U36+QyJORVp3fHdG8NVFZnoJEf
- cOBcf/Bms8z5mAv8nAD08B/IuhoAxIRztc4WEbrzkt4KK0M5KWXWNdR3yEXP2VcsVivK
- oXRzwAsN3VUA7vOYVfSeMHQlITmUhon4g26lub/4ftpPA5VOgqn3FG2wji3VGRh1ImMe
- 3VFLwn9cR+Q/IIH6lgFH8EEHbM0V8uCYiESXZKVOSEbOwcLOmUgN482v+Z1I2UU4RDqc
- hEEA==
-X-Gm-Message-State: APjAAAUOyNnSjCv73bobdN+rLLg7qI1aUvPIYJ8SdS5mn15GWcPIi1Xc
- 265Cuho62pmAMLL8u4O+ErA73/r71Ew=
-X-Google-Smtp-Source: APXvYqyXTfOk3hgQWVxA9NU2IlEy9XlKXsor8G+O26cLhvF4+nKMr7YOkf1GVoTYKcCqThcoqcDSWA==
-X-Received: by 2002:a05:600c:214:: with SMTP id
- 20mr3183868wmi.45.1571751182209; 
- Tue, 22 Oct 2019 06:33:02 -0700 (PDT)
+ bh=35JGdkX+Qbs+3j0Y2Ds4qNx/4PsRHF6QNmtmflqtCQ0=;
+ b=B+Y4BT4+AxIWPx/QG+my7/Sj+/Gm2phjSTUZ8DYOMJlrZrc5jN6+U9BbwL983O/EVj
+ wDRGSmIXq1A1dwdI7nUJ/NVyJs82TN+33xXD/9ZmESatKFvCdiiOWPuojg7TAueSUhBL
+ QwIwK4wYz9wiPmL8o2nbFAsMi2GQsjBB0TsC7ent+Ky1rEtzqWaCP/EtlVeylEctG93l
+ WPnR4HuBzWNkBmYKZ8kx76GrlAEPT7PaTyCla9UG8CBVaz3ewaiywBR28j/YgVm9Kc0n
+ qGTZuqSFVZCixIck52nyNz+UkdobG1fDiz2XU4ToFqc7yDRYSSuvpOatYr/KMeWHI7ri
+ DLMg==
+X-Gm-Message-State: APjAAAUMN2mF7ybqUfzKja8qgwf3tecyiPvctWp9uWVxw/zBKoOCHLBx
+ /Ku2d8YcbGu+HX1EV+IiCNYGyYsDKWA=
+X-Google-Smtp-Source: APXvYqzValH3fzpPKicGwfeWlUa8gQ2KZYOl1f5JKHtlJ5lt6TgFb6ArjcklTdr9PaiqatSieehEeQ==
+X-Received: by 2002:a5d:5392:: with SMTP id d18mr3859854wrv.382.1571751188590; 
+ Tue, 22 Oct 2019 06:33:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.59
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.33.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:33:00 -0700 (PDT)
+ Tue, 22 Oct 2019 06:33:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/41] hw/arm/mps2: Use the IEC binary prefix definitions
-Date: Tue, 22 Oct 2019 14:31:30 +0100
-Message-Id: <20191022133134.14487-38-peter.maydell@linaro.org>
+Subject: [PULL 40/41] hw/arm/omap1: Create the RAM in the board
+Date: Tue, 22 Oct 2019 14:31:33 +0100
+Message-Id: <20191022133134.14487-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,60 +84,161 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-IEC binary prefixes ease code review: the unit is explicit.
+The SDRAM is incorrectly created in the OMAP310 SoC.
+Move its creation in the board code, this will later allow the
+board to have the QOM ownership of the RAM.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191021190653.9511-3-philmd@redhat.com
+Message-id: 20191021190653.9511-6-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 3 ++-
- hw/arm/mps2.c    | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ include/hw/arm/omap.h |  6 ++----
+ hw/arm/omap1.c        | 12 +++++-------
+ hw/arm/omap_sx1.c     |  8 ++++++--
+ hw/arm/palm.c         |  8 ++++++--
+ 4 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 6b24aaacded..f8b620bcc65 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -38,6 +38,7 @@
-  */
+diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
+index 763d8eab4fa..f3aa6700361 100644
+--- a/include/hw/arm/omap.h
++++ b/include/hw/arm/omap.h
+@@ -823,7 +823,6 @@ struct omap_mpu_state_s {
+     MemoryRegion mpui_io_iomem;
+     MemoryRegion tap_iomem;
+     MemoryRegion imif_ram;
+-    MemoryRegion emiff_ram;
+     MemoryRegion sram;
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "hw/arm/boot.h"
-@@ -458,7 +459,7 @@ static void mps2tz_common_init(MachineState *machine)
-      * call the 16MB our "system memory", as it's the largest lump.
-      */
-     memory_region_allocate_system_memory(&mms->psram,
--                                         NULL, "mps.ram", 0x01000000);
-+                                         NULL, "mps.ram", 16 * MiB);
-     memory_region_add_subregion(system_memory, 0x80000000, &mms->psram);
+     struct omap_dma_port_if_s {
+@@ -835,7 +834,7 @@ struct omap_mpu_state_s {
+                         hwaddr addr);
+     } port[__omap_dma_port_last];
  
-     /* The overflow IRQs for all UARTs are ORed together.
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 10efff36b23..d002b126d39 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
+-    unsigned long sdram_size;
++    uint64_t sdram_size;
+     unsigned long sram_size;
+ 
+     /* MPUI-TIPB peripherals */
+@@ -932,8 +931,7 @@ struct omap_mpu_state_s {
+ };
+ 
+ /* omap1.c */
+-struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
+-                unsigned long sdram_size,
++struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *sdram,
+                 const char *core);
+ 
+ /* omap2.c */
+diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+index 0400593805e..6ce038a4535 100644
+--- a/hw/arm/omap1.c
++++ b/hw/arm/omap1.c
 @@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
  #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "hw/arm/boot.h"
-@@ -146,7 +147,7 @@ static void mps2_common_init(MachineState *machine)
-      * zbt_boot_ctrl is always zero).
-      */
-     memory_region_allocate_system_memory(&mms->psram,
--                                         NULL, "mps.ram", 0x1000000);
-+                                         NULL, "mps.ram", 16 * MiB);
-     memory_region_add_subregion(system_memory, 0x21000000, &mms->psram);
+ #include "qemu-common.h"
+ #include "cpu.h"
++#include "exec/address-spaces.h"
+ #include "hw/boards.h"
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+@@ -3858,8 +3859,7 @@ static int omap_validate_tipb_mpui_addr(struct omap_mpu_state_s *s,
+     return range_covers_byte(0xe1010000, 0xe1020004 - 0xe1010000, addr);
+ }
  
-     switch (mmc->fpga_type) {
+-struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
+-                unsigned long sdram_size,
++struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *dram,
+                 const char *cpu_type)
+ {
+     int i;
+@@ -3867,11 +3867,12 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
+     qemu_irq dma_irqs[6];
+     DriveInfo *dinfo;
+     SysBusDevice *busdev;
++    MemoryRegion *system_memory = get_system_memory();
+ 
+     /* Core */
+     s->mpu_model = omap310;
+     s->cpu = ARM_CPU(cpu_create(cpu_type));
+-    s->sdram_size = sdram_size;
++    s->sdram_size = memory_region_size(dram);
+     s->sram_size = OMAP15XX_SRAM_SIZE;
+ 
+     s->wakeup = qemu_allocate_irq(omap_mpu_wakeup, s, 0);
+@@ -3880,9 +3881,6 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
+     omap_clk_init(s);
+ 
+     /* Memory-mapped stuff */
+-    memory_region_allocate_system_memory(&s->emiff_ram, NULL, "omap1.dram",
+-                                         s->sdram_size);
+-    memory_region_add_subregion(system_memory, OMAP_EMIFF_BASE, &s->emiff_ram);
+     memory_region_init_ram(&s->imif_ram, NULL, "omap1.sram", s->sram_size,
+                            &error_fatal);
+     memory_region_add_subregion(system_memory, OMAP_IMIF_BASE, &s->imif_ram);
+@@ -3925,7 +3923,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
+     s->port[tipb_mpui].addr_valid = omap_validate_tipb_mpui_addr;
+ 
+     /* Register SDRAM and SRAM DMA ports for fast transfers.  */
+-    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->emiff_ram),
++    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(dram),
+                          OMAP_EMIFF_BASE, s->sdram_size);
+     soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->imif_ram),
+                          OMAP_IMIF_BASE, s->sram_size);
+diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
+index c071197be7f..be245714dbb 100644
+--- a/hw/arm/omap_sx1.c
++++ b/hw/arm/omap_sx1.c
+@@ -103,6 +103,7 @@ static void sx1_init(MachineState *machine, const int version)
+ {
+     struct omap_mpu_state_s *mpu;
+     MemoryRegion *address_space = get_system_memory();
++    MemoryRegion *dram = g_new(MemoryRegion, 1);
+     MemoryRegion *flash = g_new(MemoryRegion, 1);
+     MemoryRegion *cs = g_new(MemoryRegion, 4);
+     static uint32_t cs0val = 0x00213090;
+@@ -118,8 +119,11 @@ static void sx1_init(MachineState *machine, const int version)
+         flash_size = flash2_size;
+     }
+ 
+-    mpu = omap310_mpu_init(address_space, sx1_binfo.ram_size,
+-                           machine->cpu_type);
++    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
++                                         sx1_binfo.ram_size);
++    memory_region_add_subregion(address_space, OMAP_EMIFF_BASE, dram);
++
++    mpu = omap310_mpu_init(dram, machine->cpu_type);
+ 
+     /* External Flash (EMIFS) */
+     memory_region_init_ram(flash, NULL, "omap_sx1.flash0-0", flash_size,
+diff --git a/hw/arm/palm.c b/hw/arm/palm.c
+index 02a3a82b9b5..72eca8cc556 100644
+--- a/hw/arm/palm.c
++++ b/hw/arm/palm.c
+@@ -190,16 +190,20 @@ static void palmte_init(MachineState *machine)
+     MemoryRegion *address_space_mem = get_system_memory();
+     struct omap_mpu_state_s *mpu;
+     int flash_size = 0x00800000;
+-    int sdram_size = palmte_binfo.ram_size;
+     static uint32_t cs0val = 0xffffffff;
+     static uint32_t cs1val = 0x0000e1a0;
+     static uint32_t cs2val = 0x0000e1a0;
+     static uint32_t cs3val = 0xe1a0e1a0;
+     int rom_size, rom_loaded = 0;
++    MemoryRegion *dram = g_new(MemoryRegion, 1);
+     MemoryRegion *flash = g_new(MemoryRegion, 1);
+     MemoryRegion *cs = g_new(MemoryRegion, 4);
+ 
+-    mpu = omap310_mpu_init(address_space_mem, sdram_size, machine->cpu_type);
++    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
++                                         palmte_binfo.ram_size);
++    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE, dram);
++
++    mpu = omap310_mpu_init(dram, machine->cpu_type);
+ 
+     /* External Flash (EMIFS) */
+     memory_region_init_ram(flash, NULL, "palmte.flash", flash_size,
 -- 
 2.20.1
 
