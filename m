@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366DADFFFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:51:28 +0200 (CEST)
-Received: from localhost ([::1]:51845 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38AAE0013
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:55:27 +0200 (CEST)
+Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpt0-0001fc-A0
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49043)
+	id 1iMpws-00061V-Np
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMprj-0008SX-QV
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:50:08 -0400
+ (envelope-from <estebanbosse@gmail.com>) id 1iMpvo-0005AA-Cv
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:54:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMpri-0005Kr-Np
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:50:07 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33862
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMpri-0005KQ-JP
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:50:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571734205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m83BXJXtRumeztxB1T8OWFTzQeDHyCuUriLWc5iQYJQ=;
- b=MegfBaR6AoNs1WEXqyDKB4/KFSs0vvSsZ/tqh6w6bum+ouZuZ2fWvnu17WFhntbx8Oqi8E
- xZyscMvARv5O9lF8qwKYBvxRuinnsZEe0bK8YIfOtcgzsfMqXX4PsryWflRRfxpTUiRrAU
- /qBSiDL1DreP+G3wjpD4yzYwLsh6NeI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-K4-Je6ZaMRafk3nsDZaZ_g-1; Tue, 22 Oct 2019 04:50:02 -0400
-Received: by mail-wm1-f71.google.com with SMTP id g13so167946wme.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:50:02 -0700 (PDT)
+ (envelope-from <estebanbosse@gmail.com>) id 1iMpvn-0006vS-8N
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:54:20 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33785)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
+ id 1iMpvn-0006v3-2T
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:54:19 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s1so8314711wro.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=V4VhBihoolZqFYIN54r9nmx9vYW/oQSJU4NMMDQk7As=;
+ b=Dgu+TC/pYPvxFl322P5ZQxatcCTlZr9/Na3bgs3e7uOoeVESu2uvhuRLFlA7Vx7/JT
+ /eva777fMJ8YfTgOGc73Mx0YxP01s6+hevrbvcCTqdpw/rTSEltteQbcZoXK4PmPIUBm
+ cl1ypCckqOcn43h6toBhuentFcrt9KGnXUPqpaFPa4bW3E56B+6i3Tx8qAHh1iiETUX3
+ dGqXsu8Ew2uALCJSx4VFErFJJJcuSnDcWNuVe97h231nTAgZjz2TP8/8KWalCN6fqC//
+ yNJAMz15ra9LHEt59Z0uirpJUswkt76MyYPG+hYLPwDY8SCBSYcr4fVQzU3aNLfA4uei
+ GoKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ei81U+a7i0jHxzrWjOPIbP4KsEGz9Gogem/Q9h4pGMY=;
- b=PD9PVfipu0myAF+sC1tOgRSbkE6UcqmaryiQ9nPduEVITM7wP8nWKWRlTPVvko2wqp
- yNa057xKOzhK/QvuibDV1lnqM3/IYbq0BZXDS6BtnHzht57tW7jtuEGX4yzOAMRaKspd
- oSmBN/aIo6VG0NJLFzqPkFZanGgB58t8nH7YLLGMZIwYHTiu/SQbUtg/uAgK9fwEzabl
- NgdQ3uzza86bB3L6y95/0cSYWcwTHgfk+WZioPu8hqRyn2tv+uxC6EBnmNsthaWjM6W5
- DTqrcTKLsRwEA4rsiGEVa0GB6Xf/QJXzUihPC1ofY/6lZ4A+7CCN7C1f/0Yq/PPkTIsy
- bU+A==
-X-Gm-Message-State: APjAAAWZkBV8iW6ycuzUy5/oOkZ1eAR/W03Nz/Z3Gy0nVleYmDzaYT96
- 62ca9OF2nwcEb9HjSHlEOGveteJketraf5hK5Bf0j39kBnqbPlvmovpuhj+BYKTNsTW82UOOHdY
- espeSAD/oZd87SZQ=
-X-Received: by 2002:a7b:cb86:: with SMTP id m6mr1859957wmi.43.1571734201133;
- Tue, 22 Oct 2019 01:50:01 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx+NDX95Qc/lqBp7NuR+Fz6v1bnFbNe54mS+kJw5+ma1haIbwWFRF5glhigKQnDOgDvDQTVgw==
-X-Received: by 2002:a7b:cb86:: with SMTP id m6mr1859933wmi.43.1571734200798;
- Tue, 22 Oct 2019 01:50:00 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id 36sm21063042wrp.30.2019.10.22.01.49.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 01:50:00 -0700 (PDT)
-Subject: Re: [GIT PULL for qemu-pseries] pseries: Update SLOF firmware image
-To: Alexey Kardashevskiy <aik@ozlabs.ru>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20191022040945.35730-1-aik@ozlabs.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1c3c1b36-a355-9ebb-9c68-8ae1af268fff@redhat.com>
-Date: Tue, 22 Oct 2019 10:49:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=V4VhBihoolZqFYIN54r9nmx9vYW/oQSJU4NMMDQk7As=;
+ b=jchSzmO0xAlxcHp5n7+amjlAyIFcYgRZXiyptNoJZd4WnbmiTk+MqtPaMi6bYycvq5
+ 9iVTqYXmHYv2utSR3kG/CAtbrona5uBRACCDiEAUbJoeCyWhUUExb9kp4eSRvoq3hw6y
+ Sr7dhqwj6VzqTxSFyev7Xm4bxrpmuD0aLs8C7Ilgb1MLx/pzojkhrZsGLGZl0Y2wsMw3
+ uoXtnJuy2sdYqTudmByXOM4jJD3X53lJ3QRaC9gV8qTGIP8mveqGPR47RXCnesQ90ZqG
+ UDIBna5vcJFs4a5wITjTc3rM7WT8DOwx1zZN2wIPVbr3LAF2n5B+A+AGuseE/hurPw0K
+ 0IMA==
+X-Gm-Message-State: APjAAAUGbjjgGz1arpoDoGEHPof0fTsYilpzaijpMns7NQqN0+BUMWxi
+ hd9oZrukynUu1WUqKyYBefE=
+X-Google-Smtp-Source: APXvYqz8BBP5wYK70GC9RnObS4GNK085VbmK6595Ok53rEH80UBeoYuODXHUVHqO1KEoZ2xkh46u7g==
+X-Received: by 2002:a5d:6b0a:: with SMTP id v10mr2269042wrw.32.1571734457519; 
+ Tue, 22 Oct 2019 01:54:17 -0700 (PDT)
+Received: from ?IPv6:2a01:c23:604c:2a00:af2b:2e92:39f9:c05b?
+ ([2a01:c23:604c:2a00:af2b:2e92:39f9:c05b])
+ by smtp.gmail.com with ESMTPSA id p21sm8365131wmc.25.2019.10.22.01.54.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 01:54:17 -0700 (PDT)
+Message-ID: <80119c423b25ff027844fd04a4e57e5fcb7dfbb9.camel@gmail.com>
+Subject: Re: [PATCH v2 04/20] Revert "irq: introduce qemu_irq_proxy()"
+From: Esteban Bosse <estebanbosse@gmail.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
+ qemu-devel@nongnu.org
+Date: Tue, 22 Oct 2019 10:50:46 +0200
+In-Reply-To: <20191018134754.16362-5-philmd@redhat.com>
+References: <20191018134754.16362-1-philmd@redhat.com>
+ <20191018134754.16362-5-philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20191022040945.35730-1-aik@ozlabs.ru>
-Content-Language: en-US
-X-MC-Unique: K4-Je6ZaMRafk3nsDZaZ_g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,53 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ xen-devel@lists.xenproject.org, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?ISO-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alekey,
-
-On 10/22/19 6:09 AM, Alexey Kardashevskiy wrote:
-> The following changes since commit 7cff77c24d8f5e558cef3538a44044d66aa225=
-a5:
->=20
->    spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass (2019-10-16 12:01:=
-41 +1100)
->=20
-> are available in the Git repository at:
->=20
->    git@github.com:aik/qemu.git tags/qemu-slof-20191022
->=20
-> for you to fetch changes up to 8e59d05f71ae783e12a8eb7eb582e0a86ba3d6dc:
->=20
->    pseries: Update SLOF firmware image (2019-10-22 15:05:36 +1100)
->=20
-> ----------------------------------------------------------------
-> Alexey Kardashevskiy (1):
->        pseries: Update SLOF firmware image
->=20
->   pc-bios/README   |   2 +-
->   pc-bios/slof.bin | Bin 930640 -> 928552 bytes
->   roms/SLOF        |   2 +-
->   3 files changed, 2 insertions(+), 2 deletions(-)
-
-Looking at commit 8e59d05f71ae which update the SLOF submodule,
-in your future updates can you include the git shortlog in the
-commit description?
-
-Simply:
-
-   $ git shortlog qemu-slof-20190911..qemu-slof-20191022
-   Alexey Kardashevskiy (3):
-         pci: Align PCI node names with QEMU
-         libusb: Fix compiler warnings with gcc9
-         version: update to 20191022
-
-   Thomas Huth (1):
-         ipv6: Fix gcc9 warnings
-
-Thanks,
-
-Phil.
+El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daudé escribió:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> This function isn't used anymore.
+> 
+> This reverts commit 22ec3283efba9ba0792790da786d6776d83f2a92.
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/core/irq.c    | 14 --------------
+>  include/hw/irq.h |  5 -----
+>  2 files changed, 19 deletions(-)
+> 
+> diff --git a/hw/core/irq.c b/hw/core/irq.c
+> index 7cc0295d0e..fb3045b912 100644
+> --- a/hw/core/irq.c
+> +++ b/hw/core/irq.c
+> @@ -120,20 +120,6 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq
+> irq2)
+>      return qemu_allocate_irq(qemu_splitirq, s, 0);
+>  }
+>  
+> -static void proxy_irq_handler(void *opaque, int n, int level)
+> -{
+> -    qemu_irq **target = opaque;
+> -
+> -    if (*target) {
+> -        qemu_set_irq((*target)[n], level);
+> -    }
+> -}
+> -
+> -qemu_irq *qemu_irq_proxy(qemu_irq **target, int n)
+> -{
+> -    return qemu_allocate_irqs(proxy_irq_handler, target, n);
+> -}
+> -
+>  void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler
+> handler, int n)
+>  {
+>      int i;
+> diff --git a/include/hw/irq.h b/include/hw/irq.h
+> index fe527f6f51..24ba0ece11 100644
+> --- a/include/hw/irq.h
+> +++ b/include/hw/irq.h
+> @@ -51,11 +51,6 @@ qemu_irq qemu_irq_invert(qemu_irq irq);
+>   */
+>  qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
+>  
+> -/* Returns a new IRQ set which connects 1:1 to another IRQ set,
+> which
+> - * may be set later.
+> - */
+> -qemu_irq *qemu_irq_proxy(qemu_irq **target, int n);
+> -
+>  /* For internal use in qtest.  Similar to qemu_irq_split, but
+> operating
+>     on an existing vector of qemu_irq.  */
+>  void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler
+> handler, int n);
+Reviewed-by: Esteban Bosse <estebanbosse@gmail.com>
 
 
