@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA78E02D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:26:46 +0200 (CEST)
-Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49946E02C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:24:25 +0200 (CEST)
+Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsJJ-00069W-CZ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44289)
+	id 1iMsH1-0002zU-U4
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMsBb-0004qZ-TY
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:49 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMsBN-0004ei-9A
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMsBZ-0007xb-HB
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:42835)
+ (envelope-from <laurent@vivier.eu>) id 1iMsBK-0007oo-9o
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:32 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:55347)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iMsBK-0007oH-3O; Tue, 22 Oct 2019 07:18:30 -0400
+ id 1iMsBJ-0007o7-Vc; Tue, 22 Oct 2019 07:18:30 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M9npT-1iQSXp2pcb-005rqt; Tue, 22 Oct 2019 13:17:56 +0200
+ id 1McY0J-1hkW5K2Yw9-00czjv; Tue, 22 Oct 2019 13:17:59 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v14 2/9] dp8393x: manage big endian bus
-Date: Tue, 22 Oct 2019 13:17:31 +0200
-Message-Id: <20191022111738.20803-3-laurent@vivier.eu>
+Subject: [PATCH v14 4/9] hw/m68k: implement ADB bus support for via
+Date: Tue, 22 Oct 2019 13:17:33 +0200
+Message-Id: <20191022111738.20803-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022111738.20803-1-laurent@vivier.eu>
 References: <20191022111738.20803-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zZa0r8Bj/1Is2Hv0Jeq/Pd2J6JdPAlZqjZyGh3tN0gdbt3PDOam
- ySqEj+J4CLJe3+Yc9U8Bhglts9Uq4+xOvBLKAHMC/ZqEeamN4tXQvVgZ4mow4ElJr2vvcew
- kyKSIDWHaXRBMT7F1I6g1tio0qgkEw4DoeLmAcQ0u5Lnea4Db6Ucpcyom6XSx7XQ5jwH0t4
- DVli5TZiTxNedkY+QKXdg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:S9YVdV7r+v8=:UgkgVhKiqogcqZ98noaAKP
- 03wn6jz4E4vyeKNIUTIf/rv8Aur1VTvuM3gDXqR7KKS3hqE7J3eO/wFXujBHr8yzjDwl2vYA3
- zNikooRWHopmuNfBncY0wuUfYpk+sjAq47RhjivcQRlfyOC0ziDzCCGePJPlHJJ4QHBkG29bv
- W4LL5ouVkXVQ81BI5KmZYUJOm68Sa/virAXGkOLMgKDHBGjU3a5r8egc4C8TbZUeEo0TxV4qB
- bzEK/U15x8mZwa3rskfpMHdZf9pRnIubXnWU24Elrp6WrPsvGob/Rjm8B9knq3w0BFqP1fIYS
- 62J5KSuCyEA8d/hbeBzkqg2CU0PHQImwHtEQaSlfBFKJ98Ys/8Fl4bU+Na2AyJl+0shbYWSKs
- F+YQZZQmLwpXOmAFlzQ/RvjZWnpeRBdaJ5QBxcYYxU4KNkNwgAtxWKAB/nvV23vd15I8nx7gO
- fUmxeznve1OvsBl9+As73WoaSQetyWmzsJmTJ9SZqprVES/YpxB1UmBa7Z7pe5E4qtVpY/cs1
- 2vSmMsiNm3sPYZm7OB6CNoRlPzEpnnv5Om/8h/p7VHNuVLLV/QZZYEVp1IFSO0tBuTXhLanCy
- /h9av0g062HUyAgQcmCtHJK0Y1l1OBbiMTPwU8hJv2KlKddGwfJ/Hnd4pssA/Lu7steTRf21n
- Tzluz4Km+xpvL6jY8mOWtXjqg/r98BenxZ654iDnYzdnqa4bcRXopXXbuTL4PGgu+dcDc0WD2
- TIIfQ4lEwRhZMPMnrG7G/lXhkgaUdaoVhALv7z8b4ae6UhQsYXuO7kDe0cpoolxLqAlqdIlXe
- nso9uG+mnKFCUKICma/hwUsgqPCPLIXjNKrljrRqCU9SqwrvA7sB+gn1lvCp8WYHCxXHykWQG
- mKcuIvYqwnGO8u/VR3TsEWUm+HsXJFJIKJvJ31MC4=
+X-Provags-ID: V03:K1:F7fu6Z+6FksfunG2Z2SbJ3mRvoBcwz8x5z8lT60EGjqe4speIiU
+ wvBRaoEbRZ4Yw5JXrFRlwyrmqYRP/Sey6nVQoQZmQZihcd2EGWRegZO6N90SzS+ANjo79eg
+ SJhInO72BoMuhkvrqsctxnQrnNhwkAltLufsmR3mXz/f36VkTEskDxoqEgD50YfXCNu/ICM
+ mXIbNsDlW3Q36pVaF5/nA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:43v2KnH9owo=:dPSL4ja+w1V+8CzwKswV/j
+ LHfF4Eg4AQ4xwH5mzefsjmRexy93Om+J9RYdiVBqmdPe+pMHyTfNY7VQep3pX+6ai1CRnVyMJ
+ vj1Vg+iUY7kdC+v3ICQY0UqyskozW6hLumaSjd4BRsQ5y1PLUfa0RITT6aAl8Hg1lo6ROh4y6
+ U28rlWHCJGlxfeqg1Ytp8ulf+aEMABIHzeQ0PBF5EflfyGBk3SGJxr2a0f/uMabdFVXeTtoRT
+ /wHMBoEoqsRm1NZ2qCWqVpeup8h2VC8oYuJO6iWz0zaEMDJOiSWK0tt8SNJbu1Q2WCngAt0OX
+ QYkI9QkLCgvXD3cfU1ceHAW9DJbnqZ4zZZcoCUQbDjbHYvb9qAYTa/i0hYRNCZ/UhjkFqPxb5
+ PNtLE9kvDgKgIxqO6LJUficmV1N5vuDD0v8um/YKia/9NhJ8encEEzQbdMO/nTaWx38LQMPSJ
+ 56DAi5WKDspN5Euz9TNVB878mYD6N/yFmXafWeyDCIBnEMob1LrgTe87zeVW87P/ckIAN7Gjn
+ 0xbxCN8LC/RL9vUWQMQ3OwleW45TrIEbAuNxfJgU/hPsx8kZC4RqHho4VpXexqSen4IG9aBVa
+ GDF3MTvoOmkiXvxkfgtH/cO9rHRWv+oo4ydRd/IV8xcpaWungal4Ehs42y0aQa4tlDtC8mTe7
+ 0lS6Yh2Y1SzVBiH1nJ9uLvzxh4HKQTfikOJjivlzRkVhjHlURWWXR4eFzFGlYaOC0wqlotinF
+ V5aoazgDJaluQoE9JBNrN2vZfwP/VSyIo0efjt11MDNZ/6QmyNtQGN9JflCCg2FW3/0uqV1Xf
+ hxDwXEpapoGa9BC3D3oAr0BglxGl+QvEsnuDTIuK3m4xdrbK52Y8ietQaRiuMtLGDHVOly2gN
+ fXkeJgcdhMrqwKjCU70dOKSeEkHIn7QZ7jg42R17g=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 217.72.192.74
@@ -77,209 +77,302 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is needed by Quadra 800, this card can run on little-endian
-or big-endian bus.
+VIA needs to be able to poll the ADB interface and to read/write data
+from/to the bus.
 
+This patch adds functions allowing that.
+
+Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Hervé Poussineau <hpoussin@reactos.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 ---
- hw/net/dp8393x.c | 88 +++++++++++++++++++++++++++++++-----------------
- 1 file changed, 57 insertions(+), 31 deletions(-)
+ include/hw/misc/mac_via.h |   7 ++
+ hw/misc/mac_via.c         | 197 ++++++++++++++++++++++++++++++++++++++
+ hw/misc/Kconfig           |   1 +
+ 3 files changed, 205 insertions(+)
 
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index a5678e11fa..693e244ce6 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -153,6 +153,7 @@ typedef struct dp8393xState {
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index efc8ef3ce3..3f86fcb7e1 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -103,6 +103,13 @@ typedef struct MacVIAState {
  
-     /* Hardware */
-     uint8_t it_shift;
-+    bool big_endian;
-     qemu_irq irq;
- #ifdef DEBUG_SONIC
-     int irq_level;
-@@ -223,6 +224,29 @@ static uint32_t dp8393x_wt(dp8393xState *s)
-     return s->regs[SONIC_WT1] << 16 | s->regs[SONIC_WT0];
+     /* ADB */
+     ADBBusState adb_bus;
++    QEMUTimer *adb_poll_timer;
++    qemu_irq adb_data_ready;
++    int adb_data_in_size;
++    int adb_data_in_index;
++    int adb_data_out_index;
++    uint8_t adb_data_in[128];
++    uint8_t adb_data_out[16];
+ } MacVIAState;
+ 
+ #endif
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index d2da8b8e60..f3f130ad96 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -264,10 +264,16 @@
+  * Table 19-10 ADB transaction states
+  */
+ 
++#define ADB_STATE_NEW       0
++#define ADB_STATE_EVEN      1
++#define ADB_STATE_ODD       2
++#define ADB_STATE_IDLE      3
++
+ #define VIA1B_vADB_StateMask    (VIA1B_vADBS1 | VIA1B_vADBS2)
+ #define VIA1B_vADB_StateShift   4
+ 
+ #define VIA_TIMER_FREQ (783360)
++#define VIA_ADB_POLL_FREQ 50 /* XXX: not real */
+ 
+ /* VIA returns time offset from Jan 1, 1904, not 1970 */
+ #define RTC_OFFSET 2082844800
+@@ -472,6 +478,181 @@ static void via1_rtc_update(MacVIAState *m)
+     }
  }
  
-+static uint16_t dp8393x_get(dp8393xState *s, int width, uint16_t *base,
-+                            int offset)
++static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
 +{
-+    uint16_t val;
-+
-+    if (s->big_endian) {
-+        val = be16_to_cpu(base[offset * width + width - 1]);
-+    } else {
-+        val = le16_to_cpu(base[offset * width]);
++    if (state != ADB_STATE_IDLE) {
++        return 0;
 +    }
-+    return val;
++
++    if (s->adb_data_in_size < s->adb_data_in_index) {
++        return 0;
++    }
++
++    if (s->adb_data_out_index != 0) {
++        return 0;
++    }
++
++    s->adb_data_in_index = 0;
++    s->adb_data_out_index = 0;
++    s->adb_data_in_size = adb_poll(&s->adb_bus, s->adb_data_in, 0xffff);
++
++    if (s->adb_data_in_size) {
++        *data = s->adb_data_in[s->adb_data_in_index++];
++        qemu_irq_raise(s->adb_data_ready);
++    }
++
++    return s->adb_data_in_size;
 +}
 +
-+static void dp8393x_put(dp8393xState *s, int width, uint16_t *base, int offset,
-+                        uint16_t val)
++static int adb_via_send(MacVIAState *s, int state, uint8_t data)
 +{
-+    if (s->big_endian) {
-+        base[offset * width + width - 1] = cpu_to_be16(val);
++    switch (state) {
++    case ADB_STATE_NEW:
++        s->adb_data_out_index = 0;
++        break;
++    case ADB_STATE_EVEN:
++        if ((s->adb_data_out_index & 1) == 0) {
++            return 0;
++        }
++        break;
++    case ADB_STATE_ODD:
++        if (s->adb_data_out_index & 1) {
++            return 0;
++        }
++        break;
++    case ADB_STATE_IDLE:
++        return 0;
++    }
++
++    assert(s->adb_data_out_index < sizeof(s->adb_data_out) - 1);
++
++    s->adb_data_out[s->adb_data_out_index++] = data;
++    qemu_irq_raise(s->adb_data_ready);
++    return 1;
++}
++
++static int adb_via_receive(MacVIAState *s, int state, uint8_t *data)
++{
++    switch (state) {
++    case ADB_STATE_NEW:
++        return 0;
++
++    case ADB_STATE_EVEN:
++        if (s->adb_data_in_size <= 0) {
++            qemu_irq_raise(s->adb_data_ready);
++            return 0;
++        }
++
++        if (s->adb_data_in_index >= s->adb_data_in_size) {
++            *data = 0;
++            qemu_irq_raise(s->adb_data_ready);
++            return 1;
++        }
++
++        if ((s->adb_data_in_index & 1) == 0) {
++            return 0;
++        }
++
++        break;
++
++    case ADB_STATE_ODD:
++        if (s->adb_data_in_size <= 0) {
++            qemu_irq_raise(s->adb_data_ready);
++            return 0;
++        }
++
++        if (s->adb_data_in_index >= s->adb_data_in_size) {
++            *data = 0;
++            qemu_irq_raise(s->adb_data_ready);
++            return 1;
++        }
++
++        if (s->adb_data_in_index & 1) {
++            return 0;
++        }
++
++        break;
++
++    case ADB_STATE_IDLE:
++        if (s->adb_data_out_index == 0) {
++            return 0;
++        }
++
++        s->adb_data_in_size = adb_request(&s->adb_bus, s->adb_data_in,
++                                          s->adb_data_out,
++                                          s->adb_data_out_index);
++        s->adb_data_out_index = 0;
++        s->adb_data_in_index = 0;
++        if (s->adb_data_in_size < 0) {
++            *data = 0xff;
++            qemu_irq_raise(s->adb_data_ready);
++            return -1;
++        }
++
++        if (s->adb_data_in_size == 0) {
++            return 0;
++        }
++
++        break;
++    }
++
++    assert(s->adb_data_in_index < sizeof(s->adb_data_in) - 1);
++
++    *data = s->adb_data_in[s->adb_data_in_index++];
++    qemu_irq_raise(s->adb_data_ready);
++    if (*data == 0xff || *data == 0) {
++        return 0;
++    }
++    return 1;
++}
++
++static void via1_adb_update(MacVIAState *m)
++{
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++    int state;
++    int ret;
++
++    state = (s->b & VIA1B_vADB_StateMask) >> VIA1B_vADB_StateShift;
++
++    if (s->acr & VIA1ACR_vShiftOut) {
++        /* output mode */
++        ret = adb_via_send(m, state, s->sr);
++        if (ret > 0) {
++            s->b &= ~VIA1B_vADBInt;
++        } else {
++            s->b |= VIA1B_vADBInt;
++        }
 +    } else {
-+        base[offset * width] = cpu_to_le16(val);
++        /* input mode */
++        ret = adb_via_receive(m, state, &s->sr);
++        if (ret > 0 && s->sr != 0xff) {
++            s->b &= ~VIA1B_vADBInt;
++        } else {
++            s->b |= VIA1B_vADBInt;
++        }
 +    }
 +}
 +
- static void dp8393x_update_irq(dp8393xState *s)
++static void via_adb_poll(void *opaque)
++{
++    MacVIAState *m = opaque;
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++    int state;
++
++    if (s->b & VIA1B_vADBInt) {
++        state = (s->b & VIA1B_vADB_StateMask) >> VIA1B_vADB_StateShift;
++        if (adb_via_poll(m, state, &s->sr)) {
++            s->b &= ~VIA1B_vADBInt;
++        }
++    }
++
++    timer_mod(m->adb_poll_timer,
++              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
++}
++
+ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
  {
-     int level = (s->regs[SONIC_IMR] & s->regs[SONIC_ISR]) ? 1 : 0;
-@@ -254,12 +278,12 @@ static void dp8393x_do_load_cam(dp8393xState *s)
-         /* Fill current entry */
-         address_space_rw(&s->as, dp8393x_cdp(s),
-             MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
--        s->cam[index][0] = data[1 * width] & 0xff;
--        s->cam[index][1] = data[1 * width] >> 8;
--        s->cam[index][2] = data[2 * width] & 0xff;
--        s->cam[index][3] = data[2 * width] >> 8;
--        s->cam[index][4] = data[3 * width] & 0xff;
--        s->cam[index][5] = data[3 * width] >> 8;
-+        s->cam[index][0] = dp8393x_get(s, width, data, 1) & 0xff;
-+        s->cam[index][1] = dp8393x_get(s, width, data, 1) >> 8;
-+        s->cam[index][2] = dp8393x_get(s, width, data, 2) & 0xff;
-+        s->cam[index][3] = dp8393x_get(s, width, data, 2) >> 8;
-+        s->cam[index][4] = dp8393x_get(s, width, data, 3) & 0xff;
-+        s->cam[index][5] = dp8393x_get(s, width, data, 3) >> 8;
-         DPRINTF("load cam[%d] with %02x%02x%02x%02x%02x%02x\n", index,
-             s->cam[index][0], s->cam[index][1], s->cam[index][2],
-             s->cam[index][3], s->cam[index][4], s->cam[index][5]);
-@@ -272,7 +296,7 @@ static void dp8393x_do_load_cam(dp8393xState *s)
-     /* Read CAM enable */
-     address_space_rw(&s->as, dp8393x_cdp(s),
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
--    s->regs[SONIC_CE] = data[0 * width];
-+    s->regs[SONIC_CE] = dp8393x_get(s, width, data, 0);
-     DPRINTF("load cam done. cam enable mask 0x%04x\n", s->regs[SONIC_CE]);
+     MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
+@@ -553,6 +734,10 @@ static void mac_via_reset(DeviceState *dev)
+     MacVIAState *m = MAC_VIA(dev);
+     MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
  
-     /* Done */
-@@ -293,10 +317,10 @@ static void dp8393x_do_read_rra(dp8393xState *s)
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
++    timer_mod(m->adb_poll_timer,
++              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
++
+     timer_del(v1s->VBL_timer);
+     v1s->next_VBL = 0;
+     timer_del(v1s->one_second_timer);
+@@ -593,6 +778,10 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
  
-     /* Update SONIC registers */
--    s->regs[SONIC_CRBA0] = data[0 * width];
--    s->regs[SONIC_CRBA1] = data[1 * width];
--    s->regs[SONIC_RBWC0] = data[2 * width];
--    s->regs[SONIC_RBWC1] = data[3 * width];
-+    s->regs[SONIC_CRBA0] = dp8393x_get(s, width, data, 0);
-+    s->regs[SONIC_CRBA1] = dp8393x_get(s, width, data, 1);
-+    s->regs[SONIC_RBWC0] = dp8393x_get(s, width, data, 2);
-+    s->regs[SONIC_RBWC1] = dp8393x_get(s, width, data, 3);
-     DPRINTF("CRBA0/1: 0x%04x/0x%04x, RBWC0/1: 0x%04x/0x%04x\n",
-         s->regs[SONIC_CRBA0], s->regs[SONIC_CRBA1],
-         s->regs[SONIC_RBWC0], s->regs[SONIC_RBWC1]);
-@@ -411,12 +435,12 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
-         tx_len = 0;
+     qemu_get_timedate(&tm, 0);
+     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
++
++    m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
++    m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
++                                               VIA1_IRQ_ADB_READY_BIT);
+ }
  
-         /* Update registers */
--        s->regs[SONIC_TCR] = data[0 * width] & 0xf000;
--        s->regs[SONIC_TPS] = data[1 * width];
--        s->regs[SONIC_TFC] = data[2 * width];
--        s->regs[SONIC_TSA0] = data[3 * width];
--        s->regs[SONIC_TSA1] = data[4 * width];
--        s->regs[SONIC_TFS] = data[5 * width];
-+        s->regs[SONIC_TCR] = dp8393x_get(s, width, data, 0) & 0xf000;
-+        s->regs[SONIC_TPS] = dp8393x_get(s, width, data, 1);
-+        s->regs[SONIC_TFC] = dp8393x_get(s, width, data, 2);
-+        s->regs[SONIC_TSA0] = dp8393x_get(s, width, data, 3);
-+        s->regs[SONIC_TSA1] = dp8393x_get(s, width, data, 4);
-+        s->regs[SONIC_TFS] = dp8393x_get(s, width, data, 5);
- 
-         /* Handle programmable interrupt */
-         if (s->regs[SONIC_TCR] & SONIC_TCR_PINT) {
-@@ -442,9 +466,9 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
-                 address_space_rw(&s->as,
-                     dp8393x_ttda(s) + sizeof(uint16_t) * (4 + 3 * i) * width,
-                     MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
--                s->regs[SONIC_TSA0] = data[0 * width];
--                s->regs[SONIC_TSA1] = data[1 * width];
--                s->regs[SONIC_TFS] = data[2 * width];
-+                s->regs[SONIC_TSA0] = dp8393x_get(s, width, data, 0);
-+                s->regs[SONIC_TSA1] = dp8393x_get(s, width, data, 1);
-+                s->regs[SONIC_TFS] = dp8393x_get(s, width, data, 2);
-             }
-         }
- 
-@@ -471,7 +495,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
-         s->regs[SONIC_TCR] |= SONIC_TCR_PTX;
- 
-         /* Write status */
--        data[0 * width] = s->regs[SONIC_TCR] & 0x0fff; /* status */
-+        dp8393x_put(s, width, data, 0,
-+                    s->regs[SONIC_TCR] & 0x0fff); /* status */
-         size = sizeof(uint16_t) * width;
-         address_space_rw(&s->as,
-             dp8393x_ttda(s),
-@@ -485,8 +510,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
-                              sizeof(uint16_t) *
-                              (4 + 3 * s->regs[SONIC_TFC]) * width,
-                 MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
--            s->regs[SONIC_CTDA] = data[0 * width] & ~0x1;
--            if (data[0 * width] & 0x1) {
-+            s->regs[SONIC_CTDA] = dp8393x_get(s, width, data, 0) & ~0x1;
-+            if (dp8393x_get(s, width, data, 0) & 0x1) {
-                 /* EOL detected */
-                 break;
-             }
-@@ -749,7 +774,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
-         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-                          (uint8_t *)data, size, 0);
--        if (data[0 * width] & 0x1) {
-+        if (dp8393x_get(s, width, data, 0) & 0x1) {
-             /* Still EOL ; stop reception */
-             return -1;
-         } else {
-@@ -793,11 +818,11 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
- 
-     /* Write status to memory */
-     DPRINTF("Write status at %08x\n", dp8393x_crda(s));
--    data[0 * width] = s->regs[SONIC_RCR]; /* status */
--    data[1 * width] = rx_len; /* byte count */
--    data[2 * width] = s->regs[SONIC_TRBA0]; /* pkt_ptr0 */
--    data[3 * width] = s->regs[SONIC_TRBA1]; /* pkt_ptr1 */
--    data[4 * width] = s->regs[SONIC_RSC]; /* seq_no */
-+    dp8393x_put(s, width, data, 0, s->regs[SONIC_RCR]); /* status */
-+    dp8393x_put(s, width, data, 1, rx_len); /* byte count */
-+    dp8393x_put(s, width, data, 2, s->regs[SONIC_TRBA0]); /* pkt_ptr0 */
-+    dp8393x_put(s, width, data, 3, s->regs[SONIC_TRBA1]); /* pkt_ptr1 */
-+    dp8393x_put(s, width, data, 4, s->regs[SONIC_RSC]); /* seq_no */
-     size = sizeof(uint16_t) * 5 * width;
-     address_space_rw(&s->as, dp8393x_crda(s),
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 1);
-@@ -806,12 +831,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     size = sizeof(uint16_t) * width;
-     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
--    s->regs[SONIC_LLFA] = data[0 * width];
-+    s->regs[SONIC_LLFA] = dp8393x_get(s, width, data, 0);
-     if (s->regs[SONIC_LLFA] & 0x1) {
-         /* EOL detected */
-         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
-     } else {
--        data[0 * width] = 0; /* in_use */
-+        dp8393x_put(s, width, data, 0, 0); /* in_use */
-         address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 6 * width,
-             MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, sizeof(uint16_t), 1);
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-@@ -924,6 +949,7 @@ static Property dp8393x_properties[] = {
-     DEFINE_NIC_PROPERTIES(dp8393xState, conf),
-     DEFINE_PROP_PTR("dma_mr", dp8393xState, dma_mr),
-     DEFINE_PROP_UINT8("it_shift", dp8393xState, it_shift, 0),
-+    DEFINE_PROP_BOOL("big_endian", dp8393xState, big_endian, false),
-     DEFINE_PROP_END_OF_LIST(),
+ static void mac_via_init(Object *obj)
+@@ -642,6 +831,13 @@ static const VMStateDescription vmstate_mac_via = {
+         VMSTATE_UINT8(cmd, MacVIAState),
+         VMSTATE_INT32(wprotect, MacVIAState),
+         VMSTATE_INT32(alt, MacVIAState),
++        /* ADB */
++        VMSTATE_TIMER_PTR(adb_poll_timer, MacVIAState),
++        VMSTATE_INT32(adb_data_in_size, MacVIAState),
++        VMSTATE_INT32(adb_data_in_index, MacVIAState),
++        VMSTATE_INT32(adb_data_out_index, MacVIAState),
++        VMSTATE_BUFFER(adb_data_in, MacVIAState),
++        VMSTATE_BUFFER(adb_data_out, MacVIAState),
+         VMSTATE_END_OF_LIST()
+     }
  };
+@@ -671,6 +867,7 @@ static void mos6522_q800_via1_portB_write(MOS6522State *s)
+     MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
  
+     via1_rtc_update(m);
++    via1_adb_update(m);
+ 
+     v1s->last_b = s->b;
+ }
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 18a5dc9c09..2164646553 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -123,5 +123,6 @@ config UNIMP
+ config MAC_VIA
+     bool
+     select MOS6522
++    select ADB
+ 
+ source macio/Kconfig
 -- 
 2.21.0
 
