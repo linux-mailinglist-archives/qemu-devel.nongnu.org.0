@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DFCDFF4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:22:30 +0200 (CEST)
-Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B052DFF46
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:20:48 +0200 (CEST)
+Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpQz-0006UU-Ll
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:22:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44280)
+	id 1iMpPL-0003eH-Ec
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMpGS-00032V-E2
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:37 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMpGH-0002jR-5p
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMpGR-0005DD-Bv
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:36 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:59977)
+ (envelope-from <laurent@vivier.eu>) id 1iMpGF-00054q-So
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:25 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:60673)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGR-0005By-1q
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:35 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGF-00053n-JA
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:23 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MYe6H-1iZlhj3Ksd-00VjY1; Tue, 22 Oct 2019 10:11:20 +0200
+ id 1MkIAB-1hcinI192H-00kfrP; Tue, 22 Oct 2019 10:11:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/11] linux-user/strace: Improve bind() output
-Date: Tue, 22 Oct 2019 10:11:02 +0200
-Message-Id: <20191022081104.11814-10-laurent@vivier.eu>
+Subject: [PULL 10/11] linux-user/strace: Let print_sockaddr() have a 'last'
+ argument
+Date: Tue, 22 Oct 2019 10:11:03 +0200
+Message-Id: <20191022081104.11814-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022081104.11814-1-laurent@vivier.eu>
 References: <20191022081104.11814-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Xdd+r7GY/qZzaOF66zQ1MYlqJ3Y0zOwwi/ejhmnpZZtv+BToISa
- DS3E7xWtMLVHYM2wSWF0EXK+yxqAAVRV44JX1aV3QFCPfC1DHFsFbYxcz+bLTBPJqNU5eSa
- ntsBZ0JipY3pTVh7sgl6RBZV25mLT4vm5ftWsv9uipnvdwFGlzbj3iW32FcDWOlJyr6xlmC
- gitvG+q9kmngxt/J5wcxA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fHu1Xq0zEe8=:+g8Or0jkTRy8yLVlsA23/r
- 2AwvEQrf/zP9uXV6cQOgKuJ21WFr5C4UuqYRBdRkMaXJxtuX6tjXnBoZSihSCGcmyCd6jXDYm
- WNR/hHMr6BB0h55saEANbyFLqumzTIMzc9KVAQ4RdSN1IdSAEwFqCJNSUbkJTPopWvmU++ezZ
- cUzygfiHmnK4gtwdCieP0l4943RkE0xEeU+E75zRLuhKrVOiBwB33Uqms1Dxm7/cyfcffZ2nE
- FFf7phTh0lbzSUzzVnWBpJcEPRW7LmN8rLGT4kwOo/B6JVxmJP53zqFptfVkPJGS1z3bubm+n
- 8JgK4s4QwqA5H4Az4XnCSAmVoSuqZEQXbSyJ3MPu8UnfZgpsqnqRgGD16CSlnbsEIKLXFRtGn
- k20S6lWejWf4WWMn37MYgYfM4Cboy0BYVdVNtCTIKpmOe49KBQD8wfjYZ+GjbqJkM+/CejRYY
- iHYObgpFJJPbKul//cBOclfxaGrSFHAhptkzav3Yq83LCp/G62HJKKcLnJxY3z4OiYQnTEEmE
- r+yxDljjLez8D2MUEjVZkZPDSPfap9xH1wVrF3YUqZyp8ZLndBcDdlSUkUIHW6toufa7Xys0J
- DVLlf2rcQWt1mRGtRDe/ayna3lAlQJdkZ/i8Uuv2YokALovXWzFreXfbjMPf2z6u0ftpYPKG+
- YaOVHTJBd+OABtLktJf69G+VMTLOFqfF2XqFTfZtVcv+gGajgsZA4848goMRPpZP+dDiIodQ0
- 1LAtN+XYMWfUEUdII6U88J71I/+/TVL1oUyvQTsLAZ4TevjLWEDj9gYIacOU8ecFiNWp0H4c+
- 4EgoCXZFJoTciD+sGs49sjgC6vyHd+dXr7CKcQIumuaJqKulSV1Ppd9tE5cKqd1EIBm+X8Pvm
- XM8PO/vGks9HFD1/2wDtYrPZiHYLUhQ9bta6a/4Gw=
+X-Provags-ID: V03:K1:+eWyWt+jEeAqX7ytazpX5umvzc8LjyX/xkhUAMODHFMpjd5Dly3
+ yetQpVLUcQ2tvnl0D/zNYRr9yaUwhKsHk9c8F9cNCTdJz0NGDJT2i8+SWAwEqTdfI69a3zV
+ SjCVrvRZD+kubO24PFuLQdf9BxuZvzMAyJJVzmiZAxFH6j3qCZ07YtmDWRCUmFgs/BFSjxQ
+ thl8JfdsII27v/k04I8Rw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ddRbnsiiX34=:dcTAew5CMiDdxirgVkKVT4
+ OS7CUi2h+ddAyoNLj0Ntvv+T60b6AIDlh2eU65YKAxvYyszp+DrOVXVi+7OA4TwbqdDGXioO6
+ 7DziRPRz5gsGVmQ7FQND6R33Pl8K0wc7BtjurGc4ZpaHE1eN2C9adXjaAq/FJsUmmRw2Ckg0F
+ wteq8447K04zQoT7hHotX3tJlRBwR+PJehdUPOI64DgjyKakuytbUWIxQ3MVIi+RZVNhZPz6q
+ fVR5KIwNumHa65ArMMN1oCIlIraEo1+vsdur0o58HeGIRE9OuCAGRfiXbL+ASO8TBCEKmDxHZ
+ iWhe8cwKcPyg3PcJoZMo4ob5FgYNJzXmKUxLZ2jQ/S713L3iZ2SmURRQmqiDxUAhVya0EJPY8
+ 6kjD3zXDe20pYCDuhVS0iAtNvOJMQ1m/SgB7dZgK9s2kC0kGoznGL2Mmss6dVxiMbhrCgzE03
+ 5OZfCwmnp0fDDTZKaaP0EaPtCKnc/H6KKZ3JbwLmhhlc2Xnj6NbcMAPj4VZwtc2fuOTJU5vrF
+ CjWG2VUwcwaNleOodpfan2hYQrv506HZbfxSf+ZMm7OjSz+MMYIcgvazRZwaLGK3E6gRmBL5h
+ 1U7PAxEg7IJ5huOgVIaDQ6bm+iJKlF5wa6sFwE7WTN16JFZPgepu+kk0xd4uDuC7ODr+XSmtt
+ 5TYha9GdGqhNYHRip9s0LTX25TMiWyb4FmJlPwv042fkG9u1oTw5GGnwkz3qL1Y7Q4s74lq5O
+ 4I1MG2M6CAQ1DntxQW7jhNPbZ3TvB2HXESrQeXZfjLxZ2kIQnxPiDXah5ZZL4YWVwMUygI89A
+ hXqiVp/Ibtkna3XR2VH7DsZ5EpZuKU2v2dokonUIuzr0/5t2XK3sXsDVKK5NvHUwTVeVL/kiQ
+ 0n7ZAgs6AijKinRjbbV+E9MAtfams6XaW3z05fMMc=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,70 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Tested-By: Guido Günther <agx@sigxcpu.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+If the format is not the syscall last argument, a comma is append.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20191021114857.20538-8-f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20191021114857.20538-9-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 15 ++++++++++++++-
- linux-user/strace.list |  2 +-
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ linux-user/strace.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 0ce2b658a52d..cd92c77d3366 100644
+index cd92c77d3366..3d4d6844500e 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1707,7 +1707,7 @@ print_socket(const struct syscallname *name,
- 
- #endif
- 
--#if defined(TARGET_NR_socketcall)
-+#if defined(TARGET_NR_socketcall) || defined(TARGET_NR_bind)
- 
- static void print_sockfd(abi_long sockfd, int last)
- {
-@@ -2054,6 +2054,19 @@ print_socketcall(const struct syscallname *name,
+@@ -67,7 +67,7 @@ UNUSED static void print_timeval(abi_ulong, int);
+ UNUSED static void print_timezone(abi_ulong, int);
+ UNUSED static void print_number(abi_long, int);
+ UNUSED static void print_signal(abi_ulong, int);
+-UNUSED static void print_sockaddr(abi_ulong addr, abi_long addrlen);
++UNUSED static void print_sockaddr(abi_ulong, abi_long, int);
+ UNUSED static void print_socket_domain(int domain);
+ UNUSED static void print_socket_type(int type);
+ UNUSED static void print_socket_protocol(int domain, int type, int protocol);
+@@ -336,7 +336,7 @@ static void print_siginfo(const target_siginfo_t *tinfo)
  }
- #endif
  
-+#if defined(TARGET_NR_bind)
-+static void
-+print_bind(const struct syscallname *name,
-+           abi_long arg0, abi_long arg1, abi_long arg2,
-+           abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_sockfd(arg0, 0);
-+    print_sockaddr(arg1, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) || \
-     defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64)
  static void
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 6f95466dc59d..1de4319dcf87 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -41,7 +41,7 @@
- { TARGET_NR_bdflush, "bdflush" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_bind
--{ TARGET_NR_bind, "bind" , NULL, NULL, NULL },
-+{ TARGET_NR_bind, "bind" , NULL, print_bind, NULL },
- #endif
- #ifdef TARGET_NR_bpf
- { TARGET_NR_bpf, "bpf" , NULL, NULL, NULL },
+-print_sockaddr(abi_ulong addr, abi_long addrlen)
++print_sockaddr(abi_ulong addr, abi_long addrlen, int last)
+ {
+     struct target_sockaddr *sa;
+     int i;
+@@ -418,7 +418,7 @@ print_sockaddr(abi_ulong addr, abi_long addrlen)
+     } else {
+         print_raw_param("0x"TARGET_ABI_FMT_lx, addr, 0);
+     }
+-    gemu_log(", "TARGET_ABI_FMT_ld, addrlen);
++    gemu_log(", "TARGET_ABI_FMT_ld"%s", addrlen, get_comma(last));
+ }
+ 
+ static void
+@@ -1751,7 +1751,7 @@ static void do_print_sockaddr(const char *name, abi_long arg1)
+ 
+     gemu_log("%s(", name);
+     print_sockfd(sockfd, 0);
+-    print_sockaddr(addr, addrlen);
++    print_sockaddr(addr, addrlen, 0);
+     gemu_log(")");
+ }
+ 
+@@ -1821,7 +1821,7 @@ static void do_print_msgaddr(const char *name, abi_long arg1)
+     print_buf(msg, len, 0);
+     print_raw_param(TARGET_ABI_FMT_ld, len, 0);
+     print_flags(msg_flags, flags, 0);
+-    print_sockaddr(addr, addrlen);
++    print_sockaddr(addr, addrlen, 0);
+     gemu_log(")");
+ }
+ 
 -- 
 2.21.0
 
