@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4954FE000C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:54:41 +0200 (CEST)
-Received: from localhost ([::1]:51904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4900E002B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:59:45 +0200 (CEST)
+Received: from localhost ([::1]:51932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpw8-00051B-Ag
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49565)
+	id 1iMq12-0007jt-TE
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50157)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMpuz-0004Vm-Sr
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:53:30 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMq0B-0007Bv-Hg
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:58:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMpux-0006WL-DU
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:53:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46530
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iMq09-0000lx-Iu
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:58:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52014
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMpux-0006WA-9j
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:53:27 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMq09-0000l8-Ei
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:58:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571734406;
+ s=mimecast20190719; t=1571734728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Teat/O7Thvzjviv6gKgPmC90IP01JvMG/rS8O7GH+8=;
- b=bwXbEUJ0wVPUFe1ZNN/RGA0EYsFzGDHZn/ohL4n9++Z7IafqNy2VuC3rCKk1GaP11RgFUe
- O/mG/lveX/7PG2orJ9iVSwx5Ztp+SDD8bJVlcJ6BsHp0KP1lDlp+bBZ5zeK24UnoBMAXcT
- jsOxzluj4YdjY6yF8X5cC2xzE36gRdE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-ADMBJ88qML6I06wZtXkY0w-1; Tue, 22 Oct 2019 04:53:25 -0400
-Received: by mail-wm1-f72.google.com with SMTP id a81so3518204wma.4
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:53:25 -0700 (PDT)
+ bh=ClnMIVCVSchrhUH/X8rae5F4lXRxmQWqJIcm8qZiUrg=;
+ b=RnCbv1gryTrwFJCZ2mDoaDU9yk3qGXL6m/Z5HgMw/pIEWeR0kEqvdpcKVnGeGCOJryT3H8
+ mEeLQfSR0CXuYKRLp27MrPzSWvz8sWyOGeLCYVrSCJtAWdJ6vi8HvcXemUgxJuXop0nvaC
+ GS64kioRb7corjtsezl7SwaFea5ZKz4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-23TObJhPNIyQDnKyWgQ_bQ-1; Tue, 22 Oct 2019 04:58:46 -0400
+Received: by mail-wr1-f69.google.com with SMTP id x9so2465331wrq.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:58:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=81ijpT7mXrnoP0yxcW0WPzWKgomsl4GpFfUcpIMV87k=;
- b=QQlzDSSFKO49qW1+5Tf7q17UAnpx6adJIg+gO6NM5U7Oc45mQXcKq8ZCivlaLji4GT
- J9lDACzfhli8IiSfAkiRx73wUpkNedTDw/UkFfCHcQmR4e9uj8onnG6S4lxgXhlMHqcR
- o3rDS7cNcAbBczh/Sqy/cwyPLafKvchUQb6+qxfIp/AsiCgZDFloH8lP+UsJRK6eeHO6
- xmXs4eQvIm3E5L+f6wzd8/8uCIU3pF0VOvtQJ7tE4OSR4RTi3zB3bZanwJzJOXPSXNFc
- C3xWO2GRez5uVDpnCd9AMYas++GNp8cerO9vT9erdHgRVSPn2ZL9/EjyTen9XUek3seE
- BH/w==
-X-Gm-Message-State: APjAAAWqt5+Lo3MlRvugEVMMOHDBE6E23eqraFH7akqrXtzCWE3wXYV2
- OKyLkNyR2v3czfT5oTeVxqDcUKMoQC3073jMpKMx5Us4miLs4gTH14vQ3rddXfMy3iqSg+lncp4
- 37We66xxKPlGzmFI=
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr2139307wru.136.1571734403827; 
- Tue, 22 Oct 2019 01:53:23 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwlIMk5NuX+tnaNYjjOyBBAghKOtcZ/1Ag5UhUryP6rhPBYhrNog9mcrqyCmgJobQsKFqaM0w==
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr2139293wru.136.1571734403574; 
- Tue, 22 Oct 2019 01:53:23 -0700 (PDT)
+ bh=Ayd/SeWTSZAemrH7DapWEzpe3D7Ajn0oec+PTWibXxI=;
+ b=ncqbOT5p1we21pWFtdcdUf1ndtytAiKdhM2b5lBYMik7q6mOqfkjFW5IiWbPSjAoDX
+ osB0XBY/MjsRCsrh/C3b2qQJxIcXCyUC4wVBWU85CCuDlAXCLFaDWE9TfZlaOtQk5JXT
+ 0WKlQRbmjqu1aTwBHuufNJvol2bW7Qpchj+gtjxrhyxAaNikTO6169KW5HLltTMUpjfW
+ dpMu6S+FYdoJloXj2myYWicujJ8nDPEfZU1zda7QTu3wynnypuOrIB9krGm22GfXuCzf
+ GMmvVuTFWjM+3yu4nqwlcsOCMZQkzOwQDyzhkFE10xPS9kg4E4FMClA8U+HneoR1vKM3
+ KnHw==
+X-Gm-Message-State: APjAAAVHhqLBt0n3bvwinadmi1cZsy4awoCMh2I/YPVeiZSS8u8SkBrj
+ AFMwCmlEuoEHjg0xs9K588mIWdqZyoyyeXJE4T59djwathVPWgdJvN7NayT8Q7S2Cn5jpMd/tJw
+ sVU+emrKN6eqF8Zc=
+X-Received: by 2002:a5d:44c6:: with SMTP id z6mr2335990wrr.313.1571734724911; 
+ Tue, 22 Oct 2019 01:58:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwTXcOWmju4U9ee5t+FOXHv4KB5VV1t0sfWzoQ9v/XQMMNwTbL8+6Uyz8PGsUq5a1LMGJq1FQ==
+X-Received: by 2002:a5d:44c6:: with SMTP id z6mr2335966wrr.313.1571734724627; 
+ Tue, 22 Oct 2019 01:58:44 -0700 (PDT)
 Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id 79sm26272751wmb.7.2019.10.22.01.53.22
+ by smtp.gmail.com with ESMTPSA id z9sm18223061wrl.35.2019.10.22.01.58.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 01:53:23 -0700 (PDT)
-Subject: Re: [PATCH v3 1/4] spapr: move CPU reset after presenter creation
+ Tue, 22 Oct 2019 01:58:44 -0700 (PDT)
+Subject: Re: [PATCH v3 2/4] spapr_cpu_core: Implement DeviceClass::reset
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 References: <20191022072246.9200-1-clg@kaod.org>
- <20191022072246.9200-2-clg@kaod.org>
+ <20191022072246.9200-3-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <71a4409c-6dc2-891b-d1c8-b60acbc94919@redhat.com>
-Date: Tue, 22 Oct 2019 10:53:21 +0200
+Message-ID: <31941faa-88bd-b029-89e2-15374498af8a@redhat.com>
+Date: Tue, 22 Oct 2019 10:58:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191022072246.9200-2-clg@kaod.org>
+In-Reply-To: <20191022072246.9200-3-clg@kaod.org>
 Content-Language: en-US
-X-MC-Unique: ADMBJ88qML6I06wZtXkY0w-1
+X-MC-Unique: 23TObJhPNIyQDnKyWgQ_bQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,55 +97,121 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/22/19 9:22 AM, C=C3=A9dric Le Goater wrote:
-> spapr_realize_vcpu() is modified to call the CPU reset only after the
-> the intc presenter has been created.
+> From: Greg Kurz <groug@kaod.org>
 >=20
+> Since vCPUs aren't plugged into a bus, we manually register a reset
+> handler for each vCPU. We also call this handler at realize time
+> to ensure hot plugged vCPUs are reset before being exposed to the
+> guest. This results in vCPUs being reset twice at machine reset.
+> It doesn't break anything but it is slightly suboptimal and above
+> all confusing.
+>=20
+> The hotplug path in device_set_realized() already knows how to reset
+> a hotplugged device if the device reset handler is present. Implement
+> one for sPAPR CPU cores that resets all vCPUs under a core.
+>=20
+> While here rename spapr_cpu_reset() to spapr_reset_vcpu() for
+> consistency with spapr_realize_vcpu() and spapr_unrealize_vcpu().
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > ---
->   hw/ppc/spapr_cpu_core.c | 14 ++++++++------
->   1 file changed, 8 insertions(+), 6 deletions(-)
+>   hw/ppc/spapr_cpu_core.c | 31 ++++++++++++++++++++++---------
+>   1 file changed, 22 insertions(+), 9 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 3e4302c7d596..992f00da6540 100644
+> index 992f00da6540..5947e39b36ad 100644
 > --- a/hw/ppc/spapr_cpu_core.c
 > +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -234,13 +234,16 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spa=
-prMachineState *spapr,
->       cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
->       kvmppc_set_papr(cpu);
+> @@ -25,9 +25,8 @@
+>   #include "sysemu/hw_accel.h"
+>   #include "qemu/error-report.h"
 >  =20
+> -static void spapr_cpu_reset(void *opaque)
+> +static void spapr_reset_vcpu(PowerPCCPU *cpu)
+>   {
+> -    PowerPCCPU *cpu =3D opaque;
+>       CPUState *cs =3D CPU(cpu);
+>       CPUPPCState *env =3D &cpu->env;
+>       PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> @@ -193,7 +192,6 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, Spa=
+prCpuCore *sc)
+>       if (!sc->pre_3_0_migration) {
+>           vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine=
+_data);
+>       }
+> -    qemu_unregister_reset(spapr_cpu_reset, cpu);
+>       if (spapr_cpu_state(cpu)->icp) {
+>           object_unparent(OBJECT(spapr_cpu_state(cpu)->icp));
+>       }
+> @@ -204,12 +202,30 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, S=
+paprCpuCore *sc)
+>       object_unparent(OBJECT(cpu));
+>   }
+>  =20
+> +static void spapr_cpu_core_reset(DeviceState *dev)
+> +{
+> +    CPUCore *cc =3D CPU_CORE(dev);
+> +    SpaprCpuCore *sc =3D SPAPR_CPU_CORE(dev);
+> +    int i;
+> +
+> +    for (i =3D 0; i < cc->nr_threads; i++) {
+> +        spapr_reset_vcpu(sc->threads[i]);
+> +    }
+> +}
+> +
+> +static void spapr_cpu_core_reset_handler(void *opaque)
+> +{
+> +    spapr_cpu_core_reset(opaque);
+> +}
+> +
+>   static void spapr_cpu_core_unrealize(DeviceState *dev, Error **errp)
+>   {
+>       SpaprCpuCore *sc =3D SPAPR_CPU_CORE(OBJECT(dev));
+>       CPUCore *cc =3D CPU_CORE(dev);
+>       int i;
+>  =20
+> +    qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
+> +
+>       for (i =3D 0; i < cc->nr_threads; i++) {
+>           spapr_unrealize_vcpu(sc->threads[i], sc);
+>       }
+> @@ -238,12 +254,6 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spap=
+rMachineState *spapr,
+>           goto error_intc_create;
+>       }
+>  =20
+> -    /*
+> -     * FIXME: Hot-plugged CPUs are not reseted. Do it at realize.
+> -     */
 > -    qemu_register_reset(spapr_cpu_reset, cpu);
 > -    spapr_cpu_reset(cpu);
 > -
->       if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
-> -        goto error_unregister;
-> +        goto error_intc_create;
->       }
->  =20
-> +    /*
-> +     * FIXME: Hot-plugged CPUs are not reseted. Do it at realize.
-
-Typo: "reset" (past tense of reset is also reset).
-
-> +     */
-> +    qemu_register_reset(spapr_cpu_reset, cpu);
-> +    spapr_cpu_reset(cpu);
-> +
 >       if (!sc->pre_3_0_migration) {
 >           vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
 >                            cpu->machine_data);
-> @@ -248,8 +251,7 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spapr=
-MachineState *spapr,
->  =20
+> @@ -338,6 +348,8 @@ static void spapr_cpu_core_realize(DeviceState *dev, =
+Error **errp)
+>               goto err_unrealize;
+>           }
+>       }
+> +
+> +    qemu_register_reset(spapr_cpu_core_reset_handler, sc);
 >       return;
 >  =20
-> -error_unregister:
-> -    qemu_unregister_reset(spapr_cpu_reset, cpu);
-> +error_intc_create:
->       cpu_remove_sync(CPU(cpu));
->   error:
->       error_propagate(errp, local_err);
+>   err_unrealize:
+> @@ -366,6 +378,7 @@ static void spapr_cpu_core_class_init(ObjectClass *oc=
+, void *data)
+>  =20
+>       dc->realize =3D spapr_cpu_core_realize;
+>       dc->unrealize =3D spapr_cpu_core_unrealize;
+> +    dc->reset =3D spapr_cpu_core_reset;
+>       dc->props =3D spapr_cpu_core_properties;
+>       scc->cpu_type =3D data;
+>   }
 >=20
+
+Good cleanup!
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
