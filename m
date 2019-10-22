@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC5FE053A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:37:40 +0200 (CEST)
-Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AB1E054F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:40:42 +0200 (CEST)
+Received: from localhost ([::1]:57504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuLz-0008Py-AI
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1iMuOu-0003vL-6W
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:40:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGX-0002OB-Dd
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:02 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGZ-0002QE-6t
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGW-0001Do-46
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:01 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39124)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGX-0001EM-SC
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:03 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51970)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuGV-0001DX-TT
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:00 -0400
-Received: by mail-wm1-x343.google.com with SMTP id r141so6597270wme.4
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:31:59 -0700 (PDT)
+ id 1iMuGX-0001E5-MJ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:01 -0400
+Received: by mail-wm1-x344.google.com with SMTP id q70so10126193wme.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=62R1pMICSQgalMj3UXUALVQERlO54EdusG7o+yE6TlY=;
- b=Z4vb/i3R6ex105D81hSYBBuA86o9BCOBOVC1weSVsW3O56iD+KGBAQW8DB/Mb6jefh
- jCKCMDbF7Z3MA2a/DkXZkPuOMHWPPeAERCwXy2e4YLNCtWzFnBQa7S4ubGr2JYxTqI4V
- 4UicT21g0dxnFaP6ZClIwR7c+7RaxpgF7nyt82ZNRrXfW8MPcKnlwHYKS1djxs3Nii2C
- p8h7jyAmZ49SolDLwlR2ZImF35Qm6iR+COQlO6v/Mhq8LMhESETkMAmuSlXVikFhQgLg
- Vl3pX7nyrFRJRr+KZiZ0I5XdBlHZCef1f5FP/uk3pSTeAwnAB8PNN6F3VqPIuJNcyEkN
- fvGw==
+ bh=S/QCyLDKmYi4qFNoLejQGFlQ6w8d+jjMc7szR08wghI=;
+ b=xRrPIVPZ492raVhjOCqPdOZNBB/RY8d64YbKQqsI629hGWLCQWpb8W4TZ8gz/PG0pS
+ 3gPZySL0YJxTfJ+OMxEmjEZI8xi4vZVKuIYZ6ABssfJ9l5jKwhC/Iwik59mCf28yQYb/
+ fQx8ElmIIQA9EE8e3BPpEBouW2kN1NPgN+CRpOuSb/gaBkFw04u60H9X5CAuFIUxqmu5
+ SQ4XvFeRuXoeG32e3FGtc64Q4+33WV6AW9bmJI7KA/5N6253uz56a7i5qH+poDfRpao5
+ SxhOKnLXEA22oN969Kh6jX5fhuVWbdcoROfZVtDOljlzs8uMTNRwOkfafgqyS8FT4U6W
+ os7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=62R1pMICSQgalMj3UXUALVQERlO54EdusG7o+yE6TlY=;
- b=O8ofZUb8c3dgd2OeiBtBq5HmQ0jweVVemnUrqerC5kkAyJ6gSji12BkxnqCB+dWUSG
- VExO356ESKBVPSeYRgXREXeAeGsQsbwPdlIbZJfSrc7T9S6gSapLyxZLRQFe02BYFPQz
- mMlbPQOYXYr/JIJtul4ARhWstPXEjGH4shGTCe7Lr3wpTaJ1XN0364C7U7Tn2wLImd4B
- mitc16QMwGejYbDo2W837w78zBdvQZlAI+Y0hh2zLgxrsXB/iR4o4+VN2igHbb5DsZeR
- YyxC7csAhCXySS7oMz5w4of+gnF65KcaVzymveftd67hfhUn2NNUdOwm5LYZjIsq1eCe
- vQmw==
-X-Gm-Message-State: APjAAAWsi+ulPMCenZoRLrI68IUs0gBMp/XgVOJTpfNOEwyh0KUkccxB
- zHKxAPDBeK6h+8F4KVvnKwKLrQpQeAI=
-X-Google-Smtp-Source: APXvYqy0zEg3x1lefwuCs0LcKZ2x9Qu3CHF12Yvp0lOmJI4JI6kkO8mHc4pH8NoUSZgud29oYSBMlQ==
-X-Received: by 2002:a05:600c:28d:: with SMTP id
- 13mr3286359wmk.100.1571751118316; 
- Tue, 22 Oct 2019 06:31:58 -0700 (PDT)
+ bh=S/QCyLDKmYi4qFNoLejQGFlQ6w8d+jjMc7szR08wghI=;
+ b=HBI0vTXPN9Z/2I1nAoyCqI4cjplfNPeTWyj6hKV28YvNxkSlZ8ZGAkkm5Kdm1jyp+/
+ eTSu1dB9nLC6uoeylKxZBVl+1+ryt9XJYpz+1neZipXbnkWtriaVG5J4wMyfw3ahk2dL
+ 6J/A67gHgtoX0un8P5oxsqSFr+R2smQHb53hA95os132zE51TIAZTmWYzGYLVf+pJEnJ
+ gR9ia0WdEqwlFnSGNyoROwtKl4bA16JJP1Ly5b91qmxrJAbBHfaecVmx+bju2yKh7ZzQ
+ enuHeWMhwphBRrEitnr8CwJWigu49Tms02IL6Cpi2dpoL7/pXJoLSaOVfDn3FcHJz7Up
+ 1iMQ==
+X-Gm-Message-State: APjAAAVFz2Uz9YTkCzC4VKJcNL8gx70Ct9lJA2CD7FIgggGmVK/SheCS
+ ZdKlYcd2gOSu4PosqCdirIXvov4N+mc=
+X-Google-Smtp-Source: APXvYqxkNNaDQuxYfNlqOi/fKGugdAK6m2Xono5C8gVB4Nn/7itB+etuw1JruDEhhgc/+Ms8ef220g==
+X-Received: by 2002:a05:600c:225a:: with SMTP id
+ a26mr3110214wmm.73.1571751120082; 
+ Tue, 22 Oct 2019 06:32:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.31.55
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.31.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:31:56 -0700 (PDT)
+ Tue, 22 Oct 2019 06:31:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/41] hw/timer/lm32_timer: Switch to transaction-based ptimer
- API
-Date: Tue, 22 Oct 2019 14:31:00 +0100
-Message-Id: <20191022133134.14487-8-peter.maydell@linaro.org>
+Subject: [PULL 08/41] hw/timer/altera_timer.c: Switch to transaction-based
+ ptimer API
+Date: Tue, 22 Oct 2019 14:31:01 +0100
+Message-Id: <20191022133134.14487-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,85 +84,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the lm32_timer code away from bottom-half based ptimers to the
-new transaction-based ptimer API.  This just requires adding
+Switch the altera_timer code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the ytimer.
+state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20191017132905.5604-4-peter.maydell@linaro.org
+Message-id: 20191017132905.5604-6-peter.maydell@linaro.org
 ---
- hw/timer/lm32_timer.c | 13 +++++++++----
+ hw/timer/altera_timer.c | 13 +++++++++----
  1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/lm32_timer.c b/hw/timer/lm32_timer.c
-index fabde760b2d..3fdecd09fe2 100644
---- a/hw/timer/lm32_timer.c
-+++ b/hw/timer/lm32_timer.c
-@@ -30,7 +30,6 @@
- #include "hw/ptimer.h"
- #include "hw/qdev-properties.h"
- #include "qemu/error-report.h"
+diff --git a/hw/timer/altera_timer.c b/hw/timer/altera_timer.c
+index ee32e0ec1ff..79fc381252d 100644
+--- a/hw/timer/altera_timer.c
++++ b/hw/timer/altera_timer.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
+ #include "qapi/error.h"
  
- #define DEFAULT_FREQUENCY (50*1000000)
-@@ -63,7 +62,6 @@ struct LM32TimerState {
- 
-     MemoryRegion iomem;
- 
--    QEMUBH *bh;
+@@ -53,7 +52,6 @@ typedef struct AlteraTimer {
+     MemoryRegion  mmio;
+     qemu_irq      irq;
+     uint32_t      freq_hz;
+-    QEMUBH       *bh;
      ptimer_state *ptimer;
- 
-     qemu_irq irq;
-@@ -119,6 +117,7 @@ static void timer_write(void *opaque, hwaddr addr,
-         s->regs[R_SR] &= ~SR_TO;
+     uint32_t      regs[R_MAX];
+ } AlteraTimer;
+@@ -105,6 +103,7 @@ static void timer_write(void *opaque, hwaddr addr,
          break;
-     case R_CR:
-+        ptimer_transaction_begin(s->ptimer);
-         s->regs[R_CR] = value;
-         if (s->regs[R_CR] & CR_START) {
-             ptimer_run(s->ptimer, 1);
-@@ -126,10 +125,13 @@ static void timer_write(void *opaque, hwaddr addr,
-         if (s->regs[R_CR] & CR_STOP) {
-             ptimer_stop(s->ptimer);
+ 
+     case R_CONTROL:
++        ptimer_transaction_begin(t->ptimer);
+         t->regs[R_CONTROL] = value & (CONTROL_ITO | CONTROL_CONT);
+         if ((value & CONTROL_START) &&
+             !(t->regs[R_STATUS] & STATUS_RUN)) {
+@@ -115,10 +114,12 @@ static void timer_write(void *opaque, hwaddr addr,
+             ptimer_stop(t->ptimer);
+             t->regs[R_STATUS] &= ~STATUS_RUN;
          }
-+        ptimer_transaction_commit(s->ptimer);
++        ptimer_transaction_commit(t->ptimer);
          break;
-     case R_PERIOD:
-         s->regs[R_PERIOD] = value;
-+        ptimer_transaction_begin(s->ptimer);
-         ptimer_set_count(s->ptimer, value);
-+        ptimer_transaction_commit(s->ptimer);
+ 
+     case R_PERIODL:
+     case R_PERIODH:
++        ptimer_transaction_begin(t->ptimer);
+         t->regs[addr] = value & 0xFFFF;
+         if (t->regs[R_STATUS] & STATUS_RUN) {
+             ptimer_stop(t->ptimer);
+@@ -126,6 +127,7 @@ static void timer_write(void *opaque, hwaddr addr,
+         }
+         tvalue = (t->regs[R_PERIODH] << 16) | t->regs[R_PERIODL];
+         ptimer_set_limit(t->ptimer, tvalue + 1, 1);
++        ptimer_transaction_commit(t->ptimer);
          break;
-     case R_SNAPSHOT:
-         error_report("lm32_timer: write access to read only register 0x"
-@@ -176,7 +178,9 @@ static void timer_reset(DeviceState *d)
-     for (i = 0; i < R_MAX; i++) {
-         s->regs[i] = 0;
+ 
+     case R_SNAPL:
+@@ -183,9 +185,10 @@ static void altera_timer_realize(DeviceState *dev, Error **errp)
+         return;
      }
-+    ptimer_transaction_begin(s->ptimer);
-     ptimer_stop(s->ptimer);
-+    ptimer_transaction_commit(s->ptimer);
- }
  
- static void lm32_timer_init(Object *obj)
-@@ -195,10 +199,11 @@ static void lm32_timer_realize(DeviceState *dev, Error **errp)
+-    t->bh = qemu_bh_new(timer_hit, t);
+-    t->ptimer = ptimer_init_with_bh(t->bh, PTIMER_POLICY_DEFAULT);
++    t->ptimer = ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
++    ptimer_transaction_begin(t->ptimer);
+     ptimer_set_freq(t->ptimer, t->freq_hz);
++    ptimer_transaction_commit(t->ptimer);
+ 
+     memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
+                           TYPE_ALTERA_TIMER, R_MAX * sizeof(uint32_t));
+@@ -204,8 +207,10 @@ static void altera_timer_reset(DeviceState *dev)
  {
-     LM32TimerState *s = LM32_TIMER(dev);
+     AlteraTimer *t = ALTERA_TIMER(dev);
  
--    s->bh = qemu_bh_new(timer_hit, s);
--    s->ptimer = ptimer_init_with_bh(s->bh, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(timer_hit, s, PTIMER_POLICY_DEFAULT);
- 
-+    ptimer_transaction_begin(s->ptimer);
-     ptimer_set_freq(s->ptimer, s->freq_hz);
-+    ptimer_transaction_commit(s->ptimer);
++    ptimer_transaction_begin(t->ptimer);
+     ptimer_stop(t->ptimer);
+     ptimer_set_limit(t->ptimer, 0xffffffff, 1);
++    ptimer_transaction_commit(t->ptimer);
+     memset(t->regs, 0, sizeof(t->regs));
  }
  
- static const VMStateDescription vmstate_lm32_timer = {
 -- 
 2.20.1
 
