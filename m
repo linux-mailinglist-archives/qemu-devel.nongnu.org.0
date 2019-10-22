@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EBEE0C94
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:28:38 +0200 (CEST)
-Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308B8E0C89
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:25:48 +0200 (CEST)
+Received: from localhost ([::1]:42130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMzpd-0006a1-Bj
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:28:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36351)
+	id 1iMzms-0003NQ-VT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iMzef-0002Qe-K1
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzeg-0002RH-8Z
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005LM-9h
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:17 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35614)
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005MG-Vh
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:18 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44858)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iMzee-0005Ic-1t
+ id 1iMzee-0005Ku-Oi
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:16 -0400
-Received: by mail-wr1-x444.google.com with SMTP id l10so18906543wrb.2
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:15 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id z9so19298818wrl.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fIE39M6WEo2MphCpMZQ+O6lu2X6W83TgfKFvtWGX81M=;
- b=cqXXCneChwyWhXlxhUI8C2VEEOG1YqIwBNmaXA1tcYRrHgpeOol9i0RpBBCk1TMr0N
- 0VOAYlATli0SDqBQ8HdH3Oka0PaX8zCAXMJpfyOJW8izsDH/bC6GTweK034N7TZmKvV6
- vsMVzw0VJHcCDy0eHEhq1zDgexVpnhBzhf2+M3GTvdyNdwDNAVynJ1XDYlf8UCZq3XqG
- kyfx87Nh3chKNeRn09B6PNUSZtuhiT7+e68eNSLznUgfXidZf/DOCGOGGqVPKaJE7xLY
- a7C6sMjHawJ6vzwb0xOyz7aS4u3IzYxPlxUt5gCSLpJZir9Zb0C1VS/sbGdilJZf8w3l
- wHPQ==
+ bh=vLJ2YSmOllt3Q5f6C9bffaEhtm/oTDIY5U5spBdjavA=;
+ b=GreiRrDrn1dTZvi+EVPtSfZ2qeMn4Q1x/1sQt24uacUchA3poE31MCxyLvMX2LalGH
+ goenCo2T7vnVJBeIQ4wNLz3Uxf0wKVOnuZj34sTjXDoqbY2FWRza+Ksq1jeCDsQ2/ORR
+ vj8qJN+5U5BVBoVvudHtmcRnfX7iHXLtYOE3NYd3pLb4AN9BXXxsRko4yeA5F3D7aTjT
+ ZLDhrajPKcx84Lfu9nMx+8SE1E9JF5ewdmaYV+nHRYhqErJVBrlsW1L3AKn7bewTtWgV
+ xtRbspt8Nn4PIBgecefaSOD5nnfR2pmUdYB6cnznEdybTG0GNwORqekj3N+CPxPqcCr4
+ bang==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fIE39M6WEo2MphCpMZQ+O6lu2X6W83TgfKFvtWGX81M=;
- b=f4fmkH93Bdi4i1/7gG/tEYxPscMaQrMvG9mlBlUctErqb1c2q+16mh98kK4YKdMPVJ
- xZnfZ42R2kJTfaThS41+T69qqrnrlQl8Qqwv2Z1Rya3qTZ46HnTcRKLal5SyJ8aoy/59
- HoWo2pxPtX2n12bCsqpOosxjsVFUlnP9tCPnSpvJkSW7yz1TKpjFDhiUO8aAhUfTPvMq
- /ZjEK5kX17sCiEmL2MXTMQ6hG/gftz45K6cZghSOJ9NVnGuhmeu6GrRtpWyVQz2kw6u3
- NY25z5/RM9zp8xi6MsmSnxWd1yJZewr0zA5wO//8ZSAFQU2F4WKjUk69PnOeLaMsR8xD
- PlwQ==
-X-Gm-Message-State: APjAAAWulofCFWKbyK9Tmp5/smXmovd8hN3xRCk/GE0Gukn/SL7x+DFM
- r7dl6yKCtCubAKEsSPdX5BxhKQ==
-X-Google-Smtp-Source: APXvYqxQTR/rXZUYxMM8zI9wy8RH7IJnEBbxQJ47Q8wHhXRUr6HsLojQZi4JeuYAftACiz6m5F1bJA==
-X-Received: by 2002:a5d:5227:: with SMTP id i7mr4756741wra.39.1571771834059;
- Tue, 22 Oct 2019 12:17:14 -0700 (PDT)
+ bh=vLJ2YSmOllt3Q5f6C9bffaEhtm/oTDIY5U5spBdjavA=;
+ b=PDnB4uyQLTKxnlZQaAIEYOEBW32ilSB084YzDUrORXHikyWhJd/T6+eo8ea2PrRkbx
+ 6BY4jnTXHDKOVVvmFMGoymQQFlwCQ647R9WaeLyswzyJrfsLYizuYQPwIjevTkW4VP61
+ poOT+wQgJ4H0u6K5erCLxmd8zo6zsCIAOh9WJfp+t9jw2RQZbxhW+4RfPhg4dv/HfLPW
+ 2KHGxdbBtiRMWFj/FWqKIXDDVqHMYYIPAIEkpotMkAsbTqqIKhYD25G7NdMMEr7k4D6p
+ RONX31HOzgV5fB0Mbxi/L9qI298/EGtQNGFnNLDjugy58+6A8TdOrq5K5cmbgjo3sJPL
+ kE/w==
+X-Gm-Message-State: APjAAAXeo76oZQ/RbzORBKsOt6ItR2E3rLd20BslwZCV9HgC+we0f+4b
+ SLOWHadxEWq/7hwQMEaUleYuhw==
+X-Google-Smtp-Source: APXvYqxqWOx/BjJJ6Jn6AI5kPJwHNVS6cL72N5MU/zfvRWNaiYHDL6lr3RxWJnT4Gk3Drrgj6yvL2w==
+X-Received: by 2002:a5d:4003:: with SMTP id n3mr4596124wrp.95.1571771835578;
+ Tue, 22 Oct 2019 12:17:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o4sm30892303wre.91.2019.10.22.12.17.07
+ by smtp.gmail.com with ESMTPSA id e3sm17592237wme.39.2019.10.22.12.17.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 12:17:09 -0700 (PDT)
+ Tue, 22 Oct 2019 12:17:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0B3F71FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 3CAC81FF9B;
  Tue, 22 Oct 2019 20:17:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 09/19] cirrus.yml: add latest Xcode build target
-Date: Tue, 22 Oct 2019 20:16:54 +0100
-Message-Id: <20191022191704.6134-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 11/19] tests/vm: Let subclasses disable IPv6
+Date: Tue, 22 Oct 2019 20:16:56 +0100
+Message-Id: <20191022191704.6134-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022191704.6134-1-alex.bennee@linaro.org>
 References: <20191022191704.6134-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, Ed Maste <emaste@freebsd.org>,
- cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, Li-Wen Hsu <lwhsu@freebsd.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CirrusCI provides a mojave-xcode alias for the latest Xcode available.
-Let's use it to make sure we track the latest releases.
+From: Eduardo Habkost <ehabkost@redhat.com>
 
+The mechanism will be used to work around issues related to IPv6
+on the netbsd image builder.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191018181705.17957-3-ehabkost@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .cirrus.yml | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ tests/vm/basevm.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 4b042c0e12c..59146a89c83 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -26,3 +26,14 @@ macos_task:
-     - ./configure --python=/usr/local/bin/python3 --target-list=${MACOS_ARCHES} || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check -j$(sysctl -n hw.ncpu)
-+
-+macos_xcode_task:
-+  osx_instance:
-+    # this is an alias for the latest Xcode
-+    image: mojave-xcode
-+  install_script:
-+    - brew install pkg-config gnu-sed glib pixman make sdl2
-+  script:
-+    - ./configure --cc=clang --target-list=${MACOS_ARCHES} || { cat config.log; exit 1; }
-+    - gmake -j$(sysctl -n hw.ncpu)
-+    - gmake check -j$(sysctl -n hw.ncpu)
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 4921e47f9f2..59bd1d31fbe 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -57,6 +57,8 @@ class BaseVM(object):
+     arch = "#arch"
+     # command to halt the guest, can be overridden by subclasses
+     poweroff = "poweroff"
++    # enable IPv6 networking
++    ipv6 = True
+     def __init__(self, debug=False, vcpus=None):
+         self._guest = None
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+@@ -81,7 +83,8 @@ class BaseVM(object):
+         self._args = [ \
+             "-nodefaults", "-m", "4G",
+             "-cpu", "max",
+-            "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22",
++            "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22" +
++                       (",ipv6=no" if not self.ipv6 else ""),
+             "-device", "virtio-net-pci,netdev=vnet",
+             "-vnc", "127.0.0.1:0,to=20"]
+         if vcpus and vcpus > 1:
 -- 
 2.20.1
 
