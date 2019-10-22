@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757A4E0A10
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:07:03 +0200 (CEST)
-Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E133AE0A25
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:10:32 +0200 (CEST)
+Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxcc-0008Pn-51
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43984)
+	id 1iMxfz-0004k3-U3
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:10:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iMxRq-00045F-LN
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:55:55 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iMxTM-0005z3-AC
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:57:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iMxRp-0004aE-0b
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:55:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50942)
+ (envelope-from <pbonzini@redhat.com>) id 1iMxTI-0005Xb-NR
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:57:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48688)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMxRo-0004Zw-Oa
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:55:52 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMxTI-0005XD-Ff
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:57:24 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C6A67C04AC69
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 16:55:51 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id u17so2176848wmd.3
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:55:51 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 885A5C058CBD
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 16:57:23 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id s19so6171729wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:57:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=H7ugKiL/Kpw5w93fZK98ssWHzL9FBxJXPh5vcqrz8Yw=;
- b=trUXPEjiWfIKMzWp0Hv92Mnm+wmGpxQ7rnXzI9MzHrsLdbzIv3LsvyEp9X2Z6WDH9V
- F1VEzmIksP5fklZBxE3fAldbvVVI28yk0JQ2uCNuvDF5/pYlFkTN+19vQglEk0Mj4ODp
- +BFWF8MpF4wph0dfEJ8YcMUvKDkjaJ8ns4E9Y6pJZZDuw92clI0+2qlJUBF7wPqHBrGO
- JnDj73SHzKk9g95JxTomUrOECdgJMoWwD5i2M7DTki25x53Ob0Aj4WAIlnf6KH86RrTK
- 4M6dW5jJQpKA2wsqya596/9ORVGDvA9uALA/6pEjSvG8FKkvLwOJGnjdWbshAn9uoC9E
- LjEw==
-X-Gm-Message-State: APjAAAVaALFnswTnwuLeh5iG38mfUpC5AHAD3I3hxCLOtd56N2GindsN
- nC9ZvBBqcdvrINNVp4DTgWovR7Ebh4CkeId94wiaZZxSwC3yAITotIQ7ykOT4TZeCz2daWM21W5
- azW3NimB6HTalL0o=
-X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr4029589wmg.46.1571763350371; 
- Tue, 22 Oct 2019 09:55:50 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwcAL2ovxEemkcDaBwMIJCIy+WJYc/2M6aoygBw5OKXDjZCR1q5QWxb12G/EVOXqD8pSaQCrw==
-X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr4029572wmg.46.1571763350086; 
- Tue, 22 Oct 2019 09:55:50 -0700 (PDT)
+ bh=rpq7Nqp/E9RoUvfJrrerAkiFPkO8VSgI4ozv2JmTa/s=;
+ b=Nm/zcB+LfsZxc8of/WlQemgVCyvIPB2Y4TVMvED8OFhDTfayRvSzctnQqrZiHekaCJ
+ FNQhAuhFOWsB21jOs8/oKU0WbAcBVj1kPwTkBgqYfADr4PBEFvr2Jma5GxF9Dl2sjGPz
+ WZhgJV6RC166aRRtJxx4h2Aaw9i5EWf8ZZahbSfvSa8I4w0ig+y2Q7pUZ2PffKJcUgM2
+ EkJHDwEXqjhgGycAZLxgQQuNLxfCla0O2V3EzoSSDVbWyUegmRuiZcU51Y7Yw68Vzfub
+ 6gbc459gbGBxKCCN3xTScVPmSvM0J9lSx4yJ2i1SBkXMaz54/S8ehEEiQLSqX4gQ41FZ
+ De/w==
+X-Gm-Message-State: APjAAAWmVh57+spMMtj/QY0JIejjlxlEUkg5WWD0KvtyV4OJY8/24ojw
+ iLYygG9SPafe21Pf0OQ/ugpDmj8ya6ra0D7h3fZ3fmvLbzFU4sqlRB6Knru0johicXL0nbfO8TN
+ J+O7V3xK9ejZ134s=
+X-Received: by 2002:a1c:9ec6:: with SMTP id h189mr3709528wme.71.1571763442128; 
+ Tue, 22 Oct 2019 09:57:22 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqweH+eDZQBjQQFiq4Eoh3TGZHPYjB8PsGTJgSUXJSYXHQ8WRdVZ+CO1GRildLbB0do7svA/DA==
+X-Received: by 2002:a1c:9ec6:: with SMTP id h189mr3709510wme.71.1571763441830; 
+ Tue, 22 Oct 2019 09:57:21 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c0e4:dcf4:b543:ce19?
  ([2001:b07:6468:f312:c0e4:dcf4:b543:ce19])
- by smtp.gmail.com with ESMTPSA id h17sm16264637wmb.33.2019.10.22.09.55.49
+ by smtp.gmail.com with ESMTPSA id r15sm7274680wro.20.2019.10.22.09.57.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 09:55:49 -0700 (PDT)
-Subject: Re: [PATCH 0/5] hw/i386/pc: Extract pc_gsi_create() and
- pc_i8259_create()
+ Tue, 22 Oct 2019 09:57:21 -0700 (PDT)
+Subject: Re: [PATCH 0/4] mc146818rtc: Allow call
+ object_initialize(MC146818_RTC) instead of rtc_init()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20191018135910.24286-1-philmd@redhat.com>
+References: <20191018133547.10936-1-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <22db5316-648a-9416-87b5-a76772e8539e@redhat.com>
-Date: Tue, 22 Oct 2019 18:55:49 +0200
+Message-ID: <408f168a-f124-18d8-6cda-805c223411f0@redhat.com>
+Date: Tue, 22 Oct 2019 18:57:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191018135910.24286-1-philmd@redhat.com>
+In-Reply-To: <20191018133547.10936-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -83,25 +83,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/10/19 15:59, Philippe Mathieu-Daud=C3=A9 wrote:
-> These are few patches extracted from the previous too big series:
-> hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge
+On 18/10/19 15:35, Philippe Mathieu-Daud=C3=A9 wrote:
+> Four RTC146818 patches extracted from a bigger series:
+> "hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge"
 > https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg03685.html
 >=20
-> Dropped "Move kvm_i8259_init() declaration to sysemu/kvm.h" (thuth),
-> no logical changes:
-
-I queued this, but neither I nor patchew got patch 5.  I just got it
-from the PIIX3/i440FX series.
-
-paolo
-
-> $ git backport-diff -u pc_split_i440fx_piix-v1
+> This step is required to be able to create a MC146818_RTC within
+> a QOM object (which will be used in the "piix4: add a mc146818rtc
+> controller" patch later).
+>=20
+> No changes since previous post:
+> $ git backport-diff -u pc_split_i440fx_piix
 > Key:
 > [----] : patches are identical
 > [####] : number of functional differences between upstream/downstream p=
@@ -110,28 +108,28 @@ atch
 > The flags [FC] indicate (F)unctional and (C)ontextual differences, resp=
 ectively
 >=20
-> 001/5:[----] [-C] 'hw/i386/pc: Extract pc_gsi_create()'
-> 002/5:[----] [--] 'hw/i386/pc: Reduce gsi_handler scope'
-> 003/5:[----] [--] 'hw/i386/pc: Move gsi_state creation code'
-> 004/5:[----] [--] 'hw/i386/pc: Extract pc_i8259_create()'
-> 005/5:[----] [--] 'hw/i386/pc: Remove kvm_i386.h include'
+> 001/4:[----] [--] 'mc146818rtc: move structure to header file'
+> 002/4:[----] [--] 'mc146818rtc: Move RTC_ISA_IRQ definition'
+> 003/4:[----] [--] 'mc146818rtc: Include "mc146818rtc_regs.h" directly i=
+n mc146818rtc.c'
+> 004/4:[----] [--] 'mc146818rtc: always register rtc to rtc list'
 >=20
-> Based-on: <20191018134754.16362-1-philmd@redhat.com>
-> hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge [v2]
-> https://mid.mail-archive.com/20191018134754.16362-1-philmd@redhat.com
+> Herv=C3=A9 Poussineau (2):
+>   mc146818rtc: move structure to header file
+>   mc146818rtc: always register rtc to rtc list
 >=20
-> Philippe Mathieu-Daud=C3=A9 (5):
->   hw/i386/pc: Extract pc_gsi_create()
->   hw/i386/pc: Reduce gsi_handler scope
->   hw/i386/pc: Move gsi_state creation code
->   hw/i386/pc: Extract pc_i8259_create()
->   hw/i386/pc: Remove kvm_i386.h include
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   mc146818rtc: Move RTC_ISA_IRQ definition
+>   mc146818rtc: Include mc146818rtc_regs.h directly in mc146818rtc.c
 >=20
->  hw/i386/pc.c         | 36 +++++++++++++++++++++++++++++++++++-
->  hw/i386/pc_piix.c    | 23 ++---------------------
->  hw/i386/pc_q35.c     | 28 ++++------------------------
->  include/hw/i386/pc.h |  3 ++-
->  4 files changed, 43 insertions(+), 47 deletions(-)
+>  hw/timer/mc146818rtc.c              | 39 +++--------------------------
+>  include/hw/timer/mc146818rtc.h      | 36 +++++++++++++++++++++++++-
+>  include/hw/timer/mc146818rtc_regs.h |  2 --
+>  tests/rtc-test.c                    |  1 +
+>  4 files changed, 39 insertions(+), 39 deletions(-)
 >=20
 
+Queued, thanks.
+
+Paolo
 
