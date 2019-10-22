@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA8AE05B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:01:25 +0200 (CEST)
-Received: from localhost ([::1]:57988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6ECE0651
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:25:32 +0200 (CEST)
+Received: from localhost ([::1]:58886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuix-0001fb-Bv
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:01:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39328)
+	id 1iMv6J-0008J0-EW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMuRK-0007fY-MY
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:43:11 -0400
+ (envelope-from <clg@kaod.org>) id 1iMuRS-0007sR-Sf
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:43:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMuRJ-0005ke-8A
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:43:10 -0400
-Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:53001)
+ (envelope-from <clg@kaod.org>) id 1iMuRR-0005o6-FS
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:43:18 -0400
+Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:32817)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMuRJ-0005jo-1K
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:43:09 -0400
-Received: from player761.ha.ovh.net (unknown [10.108.35.119])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id B415C11D206
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 15:43:06 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMuRR-0005nN-8w
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:43:17 -0400
+Received: from player761.ha.ovh.net (unknown [10.109.146.122])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 5C63810E7B1
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 15:43:15 +0200 (CEST)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player761.ha.ovh.net (Postfix) with ESMTPSA id DC769B475F18;
- Tue, 22 Oct 2019 13:42:57 +0000 (UTC)
+ by player761.ha.ovh.net (Postfix) with ESMTPSA id 1D732B475FEA;
+ Tue, 22 Oct 2019 13:43:06 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v4 0/6] ppc: reset the interrupt presenter from the CPU reset
- handler
-Date: Tue, 22 Oct 2019 15:42:48 +0200
-Message-Id: <20191022134254.28692-1-clg@kaod.org>
+Subject: [PATCH v4 1/6] spapr_cpu_core: Implement DeviceClass::reset
+Date: Tue, 22 Oct 2019 15:42:49 +0200
+Message-Id: <20191022134254.28692-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191022134254.28692-1-clg@kaod.org>
+References: <20191022134254.28692-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 533958033164962790
+X-Ovh-Tracer-Id: 536772781488901094
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.44.159
+X-Received-From: 46.105.72.238
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,69 +62,126 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+From: Greg Kurz <groug@kaod.org>
 
-On the sPAPR machine and PowerNV machine, the interrupt presenters are
-created by a machine handler at the core level and are reseted
-independently. This is not consistent and it raises issues when it
-comes to handle hot-plugged CPUs. In that case, the presenters are not
-reseted. This is less of an issue in XICS, although a zero MFFR could
-be a concern, but in XIVE, the OS CAM line is not set and this breaks
-the presenting algorithm. The current code has workarounds which need
-a global cleanup.
+Since vCPUs aren't plugged into a bus, we manually register a reset
+handler for each vCPU. We also call this handler at realize time
+to ensure hot plugged vCPUs are reset before being exposed to the
+guest. This results in vCPUs being reset twice at machine reset.
+It doesn't break anything but it is slightly suboptimal and above
+all confusing.
 
-Extend the sPAPR IRQ backend and the PowerNV Chip class with a new
-cpu_intc_reset() handler called by the CPU reset handler and remove
-the XiveTCTX reset handler which is now redundant.
+The hotplug path in device_set_realized() already knows how to reset
+a hotplugged device if the device reset handler is present. Implement
+one for sPAPR CPU cores that resets all vCPUs under a core.
 
-Set the OS CAM line when the interrupt presenter of the sPAPR core is
-reseted. This will also cover the case of hot-plugged CPUs.
+While here rename spapr_cpu_reset() to spapr_reset_vcpu() for
+consistency with spapr_realize_vcpu() and spapr_unrealize_vcpu().
 
-Thanks,
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+[clg: add documentation on the reset helper usage ]
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/ppc/spapr_cpu_core.c | 37 ++++++++++++++++++++++++++++---------
+ 1 file changed, 28 insertions(+), 9 deletions(-)
 
-C.
-
-Changes in v4:
-
- - Introduce a PnvCore reset handler
- - Add PnvChip pointer to PnvCore
-
-Changes in v3:
-
- - Introduced a DeviceClass::reset for the CPU (Greg)
- - add support for PowerNV
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 2b21285d2009..2e34832d0ea2 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -25,9 +25,8 @@
+ #include "sysemu/hw_accel.h"
+ #include "qemu/error-report.h"
 =20
-Changes in v2:
-
- - removed property
- - simplified reset handlers
-
-C=C3=A9dric Le Goater (5):
-  ppc/pnv: Introduce a PnvCore reset handler
-  ppc/pnv: Add a PnvChip pointer to PnvCore
-  ppc: Reset the interrupt presenter from the CPU reset handler
-  ppc/pnv: Fix naming of routines realizing the CPUs
-  spapr/xive: Set the OS CAM line at reset
-
-Greg Kurz (1):
-  spapr_cpu_core: Implement DeviceClass::reset
-
- include/hw/ppc/pnv.h        |  1 +
- include/hw/ppc/pnv_core.h   |  3 +++
- include/hw/ppc/spapr_irq.h  |  2 ++
- include/hw/ppc/spapr_xive.h |  1 -
- include/hw/ppc/xics.h       |  1 +
- include/hw/ppc/xive.h       |  1 +
- hw/intc/spapr_xive.c        | 53 +++++++++++++++++--------------------
- hw/intc/xics.c              |  8 ++----
- hw/intc/xics_spapr.c        |  7 +++++
- hw/intc/xive.c              | 12 +--------
- hw/ppc/pnv.c                | 18 +++++++++++++
- hw/ppc/pnv_core.c           | 32 ++++++++++++++++------
- hw/ppc/spapr_cpu_core.c     | 42 ++++++++++++++++++++++-------
- hw/ppc/spapr_irq.c          | 14 ++++++++++
- 14 files changed, 130 insertions(+), 65 deletions(-)
-
+-static void spapr_cpu_reset(void *opaque)
++static void spapr_reset_vcpu(PowerPCCPU *cpu)
+ {
+-    PowerPCCPU *cpu =3D opaque;
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+@@ -193,7 +192,6 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, Spa=
+prCpuCore *sc)
+     if (!sc->pre_3_0_migration) {
+         vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_=
+data);
+     }
+-    qemu_unregister_reset(spapr_cpu_reset, cpu);
+     if (spapr_cpu_state(cpu)->icp) {
+         object_unparent(OBJECT(spapr_cpu_state(cpu)->icp));
+     }
+@@ -204,12 +202,36 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, S=
+paprCpuCore *sc)
+     object_unparent(OBJECT(cpu));
+ }
+=20
++/*
++ * Called when CPUs are hot-plugged.
++ */
++static void spapr_cpu_core_reset(DeviceState *dev)
++{
++    CPUCore *cc =3D CPU_CORE(dev);
++    SpaprCpuCore *sc =3D SPAPR_CPU_CORE(dev);
++    int i;
++
++    for (i =3D 0; i < cc->nr_threads; i++) {
++        spapr_reset_vcpu(sc->threads[i]);
++    }
++}
++
++/*
++ * Called by the machine reset.
++ */
++static void spapr_cpu_core_reset_handler(void *opaque)
++{
++    spapr_cpu_core_reset(opaque);
++}
++
+ static void spapr_cpu_core_unrealize(DeviceState *dev, Error **errp)
+ {
+     SpaprCpuCore *sc =3D SPAPR_CPU_CORE(OBJECT(dev));
+     CPUCore *cc =3D CPU_CORE(dev);
+     int i;
+=20
++    qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
++
+     for (i =3D 0; i < cc->nr_threads; i++) {
+         spapr_unrealize_vcpu(sc->threads[i], sc);
+     }
+@@ -238,12 +260,6 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spap=
+rMachineState *spapr,
+         goto error_intc_create;
+     }
+=20
+-    /*
+-     * FIXME: Hot-plugged CPUs are not reset. Do it at realize.
+-     */
+-    qemu_register_reset(spapr_cpu_reset, cpu);
+-    spapr_cpu_reset(cpu);
+-
+     if (!sc->pre_3_0_migration) {
+         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+                          cpu->machine_data);
+@@ -338,6 +354,8 @@ static void spapr_cpu_core_realize(DeviceState *dev, =
+Error **errp)
+             goto err_unrealize;
+         }
+     }
++
++    qemu_register_reset(spapr_cpu_core_reset_handler, sc);
+     return;
+=20
+ err_unrealize:
+@@ -366,6 +384,7 @@ static void spapr_cpu_core_class_init(ObjectClass *oc=
+, void *data)
+=20
+     dc->realize =3D spapr_cpu_core_realize;
+     dc->unrealize =3D spapr_cpu_core_unrealize;
++    dc->reset =3D spapr_cpu_core_reset;
+     dc->props =3D spapr_cpu_core_properties;
+     scc->cpu_type =3D data;
+ }
 --=20
 2.21.0
 
