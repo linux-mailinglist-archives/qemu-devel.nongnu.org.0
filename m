@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49983E021B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:32:15 +0200 (CEST)
-Received: from localhost ([::1]:53014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB60E0222
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:33:39 +0200 (CEST)
+Received: from localhost ([::1]:53046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMrST-0004FP-5p
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:32:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
+	id 1iMrTu-0005hj-5I
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iMrQg-0003D6-ER
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:30:23 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iMrRE-0003rp-UQ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:30:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iMrQf-00063A-2c
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:30:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:29832)
+ (envelope-from <mreitz@redhat.com>) id 1iMrRC-0006JP-S9
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:30:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50721
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMrQe-00062k-Qc
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:30:17 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iMrRC-0006IB-NT
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:30:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571740249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=A6WEeKdq+0TzWx5GjwTw6Y5+tFw85YFrATiaS2wRXM8=;
+ b=XLiwrpC3E5+9mbQweq8e2Gz+4wi1i5kC3YoWkNjbkA/UYGIkr4MndCpUppGj2wJWcbTWvv
+ dqFK+IMvhhra51X1gIAFI2s+7sA6312LZx3vt2PMpbOfxzHtaX9JkWD3hF2MMcaPtuzU42
+ oJu3It42OKd7ciNGrBcx2xgiK54Q0qI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-CA_tXLtzNPOs47iTwiQgDg-1; Tue, 22 Oct 2019 06:30:47 -0400
+X-MC-Unique: CA_tXLtzNPOs47iTwiQgDg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8497085537
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:30:15 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id n18so8907873wro.11
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 03:30:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kWFx4GJHHX1unc3yl5qkieSTvZybA3YQ8dkUz1v3gfQ=;
- b=fveMpxWMomssxTp79AULrMqAkkr31fDmGV/ziHVG3UwSKvQtdBvOQ1e7DszxBGIPuY
- AeFQ/KPPjHBotIKus1M8j2zhXeMdhdTi4BxeqHwwtIPyKhUeo0Xx1KaytzF2b5FYwQL8
- qMOQwQEbhSzI7V22pZWShp/jVXtKEzWYCrqv3VvM4slKdoWFCU4o5207wYn8GrU4pGG1
- hclHf+UFE60/Fc53SI/hyvuIrTDe8fjSjpx7kGeFKg+2tkUtzTRDfjqcMN6MsOx3VwA5
- r/wWfO++iRRRdenUAJhIusJHE/kndaR54++ntHTR5mOaCYcpOhkIhX2CVIEFift95LvG
- KEyQ==
-X-Gm-Message-State: APjAAAVltGJA8tbpIuBviKZltz0UXdpwua5r0We9RctzhRgR1nWCbvCc
- qmat4qcAuowKf3fS/wwnzD+I6rGa+dA0Nvulrg1AkxWVZyt9x8RcdOpLfHn2tBpSaH8xU0E8bbl
- pgaUMIHfm6lXdrd4=
-X-Received: by 2002:a1c:2c88:: with SMTP id s130mr2465031wms.66.1571740214253; 
- Tue, 22 Oct 2019 03:30:14 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwiM/ZLGIHbn43oGUu3rgNG8VB1ifjrhkAXBJLknYGCj3yP+s5p6LPQsaG398agXldXKyxnuQ==
-X-Received: by 2002:a1c:2c88:: with SMTP id s130mr2464987wms.66.1571740213867; 
- Tue, 22 Oct 2019 03:30:13 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id q66sm18760474wme.39.2019.10.22.03.30.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 03:30:13 -0700 (PDT)
-Subject: Re: [PATCH v8 5/8] bootdevice: Gather LCHS from all relevant devices
-To: Sam Eiderman <sameid@google.com>, qemu-devel@nongnu.org
-References: <20191016164145.115898-1-sameid@google.com>
- <20191016164145.115898-7-sameid@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f2c3ddad-06c4-3c5c-3064-e80e94f9727c@redhat.com>
-Date: Tue, 22 Oct 2019 12:30:11 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48A680183E;
+ Tue, 22 Oct 2019 10:30:46 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-215.ams2.redhat.com
+ [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CEBE5D6A5;
+ Tue, 22 Oct 2019 10:30:42 +0000 (UTC)
+Subject: Re: [PATCH v2 5/6] block/block-copy: add memory limit
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191016170905.8325-1-vsementsov@virtuozzo.com>
+ <20191016170905.8325-6-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <2580217a-41a0-7154-4230-e2b9179bf96d@redhat.com>
+Date: Tue, 22 Oct 2019 12:30:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191016164145.115898-7-sameid@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191016170905.8325-6-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="yiGjQ0yv9FbEYtsAC1ClflKK4aZbLVzxR"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,125 +99,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- jsnow@redhat.com, seabios@seabios.org, kevin@koconnor.net,
- liran.alon@oracle.com, kraxel@redhat.com,
- Sam Eiderman <shmuel.eiderman@oracle.com>, lersek@redhat.com,
- karl.heubaum@oracle.com
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/16/19 6:41 PM, Sam Eiderman wrote:
-> From: Sam Eiderman <shmuel.eiderman@oracle.com>
->=20
-> Relevant devices are:
->      * ide-hd (and ide-cd, ide-drive)
->      * scsi-hd (and scsi-cd, scsi-disk, scsi-block)
->      * virtio-blk-pci
->=20
-> We do not call del_boot_device_lchs() for ide-* since we don't need to =
--
-> IDE block devices do not support unplugging.
->=20
-> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-> Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
-> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-> Signed-off-by: Sam Eiderman <sameid@google.com>
-> ---
->   hw/block/virtio-blk.c |  6 ++++++
->   hw/ide/qdev.c         |  5 +++++
->   hw/scsi/scsi-disk.c   | 12 ++++++++++++
->   3 files changed, 23 insertions(+)
->=20
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index ed2ddebd2b..c56e905f80 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -1200,6 +1200,11 @@ static void virtio_blk_device_realize(DeviceStat=
-e *dev, Error **errp)
->       blk_set_guest_block_size(s->blk, s->conf.conf.logical_block_size)=
-;
->  =20
->       blk_iostatus_enable(s->blk);
-> +
-> +    add_boot_device_lchs(dev, "/disk@0,0",
-> +                         conf->conf.lcyls,
-> +                         conf->conf.lheads,
-> +                         conf->conf.lsecs);
->   }
->  =20
->   static void virtio_blk_device_unrealize(DeviceState *dev, Error **err=
-p)
-> @@ -1207,6 +1212,7 @@ static void virtio_blk_device_unrealize(DeviceSta=
-te *dev, Error **errp)
->       VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
->       VirtIOBlock *s =3D VIRTIO_BLK(dev);
->  =20
-> +    del_boot_device_lchs(dev, "/disk@0,0");
->       virtio_blk_data_plane_destroy(s->dataplane);
->       s->dataplane =3D NULL;
->       qemu_del_vm_change_state_handler(s->change);
-> diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-> index 6dd219944f..2ffd387a73 100644
-> --- a/hw/ide/qdev.c
-> +++ b/hw/ide/qdev.c
-> @@ -220,6 +220,11 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriv=
-eKind kind, Error **errp)
->  =20
->       add_boot_device_path(dev->conf.bootindex, &dev->qdev,
->                            dev->unit ? "/disk@1" : "/disk@0");
-> +
-> +    add_boot_device_lchs(&dev->qdev, dev->unit ? "/disk@1" : "/disk@0"=
-,
-> +                         dev->conf.lcyls,
-> +                         dev->conf.lheads,
-> +                         dev->conf.lsecs);
->   }
->  =20
->   static void ide_dev_get_bootindex(Object *obj, Visitor *v, const char=
- *name,
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index 68b1675fd9..07fb5ebdf1 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -35,6 +35,7 @@
->   #include "hw/block/block.h"
->   #include "hw/qdev-properties.h"
->   #include "sysemu/dma.h"
-> +#include "sysemu/sysemu.h"
->   #include "qemu/cutils.h"
->   #include "trace.h"
->  =20
-> @@ -2414,6 +2415,16 @@ static void scsi_realize(SCSIDevice *dev, Error =
-**errp)
->       blk_set_guest_block_size(s->qdev.conf.blk, s->qdev.blocksize);
->  =20
->       blk_iostatus_enable(s->qdev.conf.blk);
-> +
-> +    add_boot_device_lchs(&dev->qdev, NULL,
-> +                         dev->conf.lcyls,
-> +                         dev->conf.lheads,
-> +                         dev->conf.lsecs);
-> +}
-> +
-> +static void scsi_unrealize(SCSIDevice *dev, Error **errp)
-> +{
-> +    del_boot_device_lchs(&dev->qdev, NULL);
->   }
->  =20
->   static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
-> @@ -3018,6 +3029,7 @@ static void scsi_hd_class_initfn(ObjectClass *kla=
-ss, void *data)
->       SCSIDeviceClass *sc =3D SCSI_DEVICE_CLASS(klass);
->  =20
->       sc->realize      =3D scsi_hd_realize;
-> +    sc->unrealize    =3D scsi_unrealize;
->       sc->alloc_req    =3D scsi_new_request;
->       sc->unit_attention_reported =3D scsi_disk_unit_attention_reported=
-;
->       dc->desc =3D "virtual SCSI disk";
->=20
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--yiGjQ0yv9FbEYtsAC1ClflKK4aZbLVzxR
+Content-Type: multipart/mixed; boundary="umByOOC84fLQ2wznrrvnipLI0ZFz8YCRC"
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+--umByOOC84fLQ2wznrrvnipLI0ZFz8YCRC
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 16.10.19 19:09, Vladimir Sementsov-Ogievskiy wrote:
+> Currently total allocation for parallel requests to block-copy instance
+> is unlimited. Let's limit it to 128 MiB.
+>=20
+> For now block-copy is used only in backup, so actually we limit total
+> allocation for backup job.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/block-copy.h | 3 +++
+>  block/block-copy.c         | 5 +++++
+>  2 files changed, 8 insertions(+)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--umByOOC84fLQ2wznrrvnipLI0ZFz8YCRC--
+
+--yiGjQ0yv9FbEYtsAC1ClflKK4aZbLVzxR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2u2lEACgkQ9AfbAGHV
+z0Bzxgf/RaVRbGiM1wWK3G+lWIBhMTBbDzTPK4RAdEwwj2vuA7TORLR7kUP8+iQw
+jcsEXC5WLbRCeeBO7wnP64lVltJfjkLB/BUPkjpZ898ZhGO3cOFaQ7/3hwLEitYC
+XgpDQfvBkmtpQEwfebO9WdTkQDHvKX1rpHIsxekpOZGk4F9aDclkcviRHdwM/tuY
+S8AlpRFkMCbE8TSSXXQsmLj7Q+ycVc7TTSTmDKlRlIjmNW5jg05HL6dAot2vpDdB
+tIg5wnRr8r7n2orn6izFyu8JkwwY/nznjyoZA75kKK9NE/ptrwgpiDgTHTvngg8K
+EyzufmR3+E1Gn0NSy5DrrJclTc5Stg==
+=y/d8
+-----END PGP SIGNATURE-----
+
+--yiGjQ0yv9FbEYtsAC1ClflKK4aZbLVzxR--
+
 
