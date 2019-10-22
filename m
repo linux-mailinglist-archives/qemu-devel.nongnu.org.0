@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B38E0564
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:44:14 +0200 (CEST)
-Received: from localhost ([::1]:57570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E20E055E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:43:04 +0200 (CEST)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuSK-0007vo-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:44:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
+	id 1iMuRD-00063K-08
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGd-0002Tu-8c
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:08 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGg-0002XM-3i
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGb-0001FE-Ul
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:07 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35168)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGe-0001Fn-Hx
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:09 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38233)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuGb-0001F1-OV
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:05 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v9so266503wml.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:05 -0700 (PDT)
+ id 1iMuGe-0001Fc-Bj
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:08 -0400
+Received: by mail-wr1-x442.google.com with SMTP id v9so6838331wrq.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Fwd2iBNusbM/OQvc1QbvND2II8QsKKZ6PUURuQhaBB0=;
- b=XHjSRSNbhRJY+4m6I3uwOrSX8IB4HQ+2R9Jwy5wfDz0Bk/vkpAAsW+RqC1KoFspqRC
- vt/PEbSbenMjJcKttgn/DYhdsMhIP4Gw2KYZxnCRaNgc8B8vaAY9Bbx/lZJ0cCPz48Mh
- gLLTuo7EIxwpVFkVu/6XhuflpMPjdx3EaYdlMvrDiBM4PleiXQMt17z99gnCZ5LdGTea
- 2wR8kARrS8zA3vwwbYd/cToTGZDEiNPiWuIOP9lLX+Fldq9dIWoT5GDmI/Fm1hwkBjVy
- AY9EuEXsqlWxOA1MEPWxQUsd5W4IL/KQIy+tr7UQbukk8x4CG058l/DBbe8vm7Z0VP2z
- j0SQ==
+ bh=emBzWLxUZK2MevrSuS1VObn1t11YZXLXP0lH9BsVSFU=;
+ b=BVHjo1Oloy6sCd8UKYexxGd1dVWnEkA80TmiEPmlRxBm4AIE/ckE8T9sKeJDJcPY6C
+ LR3PsCItfmB4Grf5ERu0sv1AYz3oun9RQ6Ljd0hQMRDpiPxXCOwCxxq+qMuCI/RLdXEc
+ wxjJ4ZbKkxeOL9R4gr8TGXvLhDFeEppVMqxabIfmJcPuWhUZz2al2nj97IsP+lrBV+Fy
+ rhwMwHLSc1y8UKyODhfv/uAOTKR0s7H+xV/eEZHm3wCH8AzvbzIlAmpGAO1qBcYygNRe
+ +q22AWsWQ6qkyeiz/Pur6floxIUUSCTV5N4K8CWcD0EuRy2NIYich+a1kbAdL4qmgil3
+ 3OJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Fwd2iBNusbM/OQvc1QbvND2II8QsKKZ6PUURuQhaBB0=;
- b=dw2CSy2VLfDwwn+eSjGByMd3ZVx8BixjH5dYpfetCSEDen8Z4SW4/8i7lbZMqXWNSH
- 9k7RyXXWxyGBSHoIPaxOzGkDG3YJM3UtB4gxmcFckI6PRAIztfhCE3WeFPdhElmPvm9B
- 5EPNhuM6x4KmrAwRQFeom5+HQ+0Pz2/luh1LXQBmZ3vPv3Yl8lL9crfScL8Rc3RL6a8n
- owI6icJqqhgdF5GRNKXfPeaf40eX7pQbrUOridd7zSCtIegh3bhsfLQFhBtAUunLAhLx
- kUXL09AEdqb0Yjj5AwBpIlbwdNUzdQ+X/a9PcKIgwkw90JnubpYFS4IjVLppMWEomian
- eOjg==
-X-Gm-Message-State: APjAAAXzMlQlNYVZm5NgXNQmN7bwKMaIYxJFwFgNftV0WSQWiNutzDV4
- LVKvn8JRELJXJ0cTmQX+zTGtbGv4Jso=
-X-Google-Smtp-Source: APXvYqxbXJBy8Wjay+8PGErsvjRy4TJe+lrg8zf4fhvP5Iu6/X8bT88nKdtsnep65UZ40mAxLkNYPg==
-X-Received: by 2002:a1c:7d95:: with SMTP id y143mr3197804wmc.143.1571751124203; 
- Tue, 22 Oct 2019 06:32:04 -0700 (PDT)
+ bh=emBzWLxUZK2MevrSuS1VObn1t11YZXLXP0lH9BsVSFU=;
+ b=ZAcFH8TDmmeyOzIgAf2ihpYmMGJeO1qNmh5lImP8zVl6vmBGyX5Ka9oCpWpMxr/gGV
+ m3qNhCkqDAOTHW7Q+cdxhoYwtCsxSRw8cr+/kBHzcS/s4ZEhX+btmqFKHlMNc7uMNTgt
+ z/qAZ0KDhZUO44petWrPgKPKr0zJ91gDEk4syDXWEVYLTYAcW7Qg9pgmxpvJj0Qhl0z2
+ GXx/zluCWwIz/xKW3F7CxGnnp3PjvL4Im+AUJ/xWxSG/TArzoVp8MKAKUBexXvBrvUTV
+ dI1USpJmzBKZ0K0CBar/r47kdIH20aoc42DqMy5I6urRFHll/YrYtU8y+KjFB1nhOA/P
+ DFQQ==
+X-Gm-Message-State: APjAAAXSZZAupqIhlTgex7Pnrh2LUfkizeLqATa2pp/OlOx1GvmXPuoF
+ 0YH+/TDRs77nmzodQzTpKqoNxhMkHTk=
+X-Google-Smtp-Source: APXvYqww/FAofBTRxtxI51XLRPs6o08V9UuZrNEX5NzdaaqkT6up1UMPcl2+62R+WMO3eKWl4RdrIg==
+X-Received: by 2002:adf:f60a:: with SMTP id t10mr2972990wrp.35.1571751126344; 
+ Tue, 22 Oct 2019 06:32:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.02
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:32:03 -0700 (PDT)
+ Tue, 22 Oct 2019 06:32:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/41] hw/m68k/mcf5208.c: Switch to transaction-based ptimer API
-Date: Tue, 22 Oct 2019 14:31:03 +0100
-Message-Id: <20191022133134.14487-11-peter.maydell@linaro.org>
+Subject: [PULL 11/41] target/arm: Split out rebuild_hflags_common
+Date: Tue, 22 Oct 2019 14:31:04 +0100
+Message-Id: <20191022133134.14487-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,77 +82,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the mcf5208 code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+Create a function to compute the values of the TBFLAG_ANY bits
+that will be cached.  For now, the env->hflags variable is not
+used, and the results are fed back to cpu_get_tb_cpu_state.
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191018174431.1784-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Thomas Huth <huth@tuxfamily.org>
-Message-id: 20191017132905.5604-9-peter.maydell@linaro.org
 ---
- hw/m68k/mcf5208.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ target/arm/cpu.h    | 29 ++++++++++++++++++-----------
+ target/arm/helper.c | 26 +++++++++++++++++++-------
+ 2 files changed, 37 insertions(+), 18 deletions(-)
 
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index 34d34eba17c..158c5e4be75 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -9,7 +9,6 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/error-report.h"
--#include "qemu/main-loop.h"
- #include "qapi/error.h"
- #include "qemu-common.h"
- #include "cpu.h"
-@@ -79,6 +78,7 @@ static void m5208_timer_write(void *opaque, hwaddr offset,
-             return;
-         }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 297ad5e47ad..ad79a6153bb 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -231,6 +231,9 @@ typedef struct CPUARMState {
+     uint32_t pstate;
+     uint32_t aarch64; /* 1 if CPU is in aarch64 state; inverse of PSTATE.nRW */
  
-+        ptimer_transaction_begin(s->timer);
-         if (s->pcsr & PCSR_EN)
-             ptimer_stop(s->timer);
++    /* Cached TBFLAGS state.  See below for which bits are included.  */
++    uint32_t hflags;
++
+     /* Frequently accessed CPSR bits are stored separately for efficiency.
+        This contains all the other bits.  Use cpsr_{read,write} to access
+        the whole CPSR.  */
+@@ -3140,15 +3143,18 @@ typedef ARMCPU ArchCPU;
  
-@@ -94,8 +94,10 @@ static void m5208_timer_write(void *opaque, hwaddr offset,
+ #include "exec/cpu-all.h"
  
-         if (s->pcsr & PCSR_EN)
-             ptimer_run(s->timer, 0);
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case 2:
-+        ptimer_transaction_begin(s->timer);
-         s->pmr = value;
-         s->pcsr &= ~PCSR_PIF;
-         if ((s->pcsr & PCSR_RLD) == 0) {
-@@ -104,6 +106,7 @@ static void m5208_timer_write(void *opaque, hwaddr offset,
-         } else {
-             ptimer_set_limit(s->timer, value, s->pcsr & PCSR_OVW);
-         }
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case 4:
-         break;
-@@ -182,7 +185,6 @@ static void mcf5208_sys_init(MemoryRegion *address_space, qemu_irq *pic)
+-/* Bit usage in the TB flags field: bit 31 indicates whether we are
++/*
++ * Bit usage in the TB flags field: bit 31 indicates whether we are
+  * in 32 or 64 bit mode. The meaning of the other bits depends on that.
+  * We put flags which are shared between 32 and 64 bit mode at the top
+  * of the word, and flags which apply to only one mode at the bottom.
++ *
++ * Unless otherwise noted, these bits are cached in env->hflags.
+  */
+ FIELD(TBFLAG_ANY, AARCH64_STATE, 31, 1)
+ FIELD(TBFLAG_ANY, MMUIDX, 28, 3)
+ FIELD(TBFLAG_ANY, SS_ACTIVE, 27, 1)
+-FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)
++FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)     /* Not cached. */
+ /* Target EL if we take a floating-point-disabled exception */
+ FIELD(TBFLAG_ANY, FPEXC_EL, 24, 2)
+ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
+@@ -3159,13 +3165,14 @@ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
+ FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 21, 2)
+ 
+ /* Bit usage when in AArch32 state: */
+-FIELD(TBFLAG_A32, THUMB, 0, 1)
+-FIELD(TBFLAG_A32, VECLEN, 1, 3)
+-FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)
++FIELD(TBFLAG_A32, THUMB, 0, 1)          /* Not cached. */
++FIELD(TBFLAG_A32, VECLEN, 1, 3)         /* Not cached. */
++FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)      /* Not cached. */
+ /*
+  * We store the bottom two bits of the CPAR as TB flags and handle
+  * checks on the other bits at runtime. This shares the same bits as
+  * VECSTRIDE, which is OK as no XScale CPU has VFP.
++ * Not cached, because VECLEN+VECSTRIDE are not cached.
+  */
+ FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
+ /*
+@@ -3174,15 +3181,15 @@ FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
+  * the same thing as the current security state of the processor!
+  */
+ FIELD(TBFLAG_A32, NS, 6, 1)
+-FIELD(TBFLAG_A32, VFPEN, 7, 1)
+-FIELD(TBFLAG_A32, CONDEXEC, 8, 8)
++FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Not cached. */
++FIELD(TBFLAG_A32, CONDEXEC, 8, 8)       /* Not cached. */
+ FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
+ /* For M profile only, set if FPCCR.LSPACT is set */
+-FIELD(TBFLAG_A32, LSPACT, 18, 1)
++FIELD(TBFLAG_A32, LSPACT, 18, 1)        /* Not cached. */
+ /* For M profile only, set if we must create a new FP context */
+-FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1)
++FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1) /* Not cached. */
+ /* For M profile only, set if FPCCR.S does not match current security state */
+-FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1)
++FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1) /* Not cached. */
+ /* For M profile only, Handler (ie not Thread) mode */
+ FIELD(TBFLAG_A32, HANDLER, 21, 1)
+ /* For M profile only, whether we should generate stack-limit checks */
+@@ -3194,7 +3201,7 @@ FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
+ FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
+ FIELD(TBFLAG_A64, PAUTH_ACTIVE, 8, 1)
+ FIELD(TBFLAG_A64, BT, 9, 1)
+-FIELD(TBFLAG_A64, BTYPE, 10, 2)
++FIELD(TBFLAG_A64, BTYPE, 10, 2)         /* Not cached. */
+ FIELD(TBFLAG_A64, TBID, 12, 2)
+ 
+ static inline bool bswap_code(bool sctlr_b)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 0d9a2d2ab74..8829d91ae1d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11054,6 +11054,22 @@ ARMMMUIdx arm_stage1_mmu_idx(CPUARMState *env)
+ }
+ #endif
+ 
++static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
++                                      ARMMMUIdx mmu_idx, uint32_t flags)
++{
++    flags = FIELD_DP32(flags, TBFLAG_ANY, FPEXC_EL, fp_el);
++    flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX,
++                       arm_to_core_mmu_idx(mmu_idx));
++
++    if (arm_cpu_data_is_big_endian(env)) {
++        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
++    }
++    if (arm_singlestep_active(env)) {
++        flags = FIELD_DP32(flags, TBFLAG_ANY, SS_ACTIVE, 1);
++    }
++    return flags;
++}
++
+ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+                           target_ulong *cs_base, uint32_t *pflags)
  {
-     MemoryRegion *iomem = g_new(MemoryRegion, 1);
-     m5208_timer_state *s;
--    QEMUBH *bh;
-     int i;
+@@ -11145,7 +11161,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+         }
+     }
  
-     /* SDRAMC.  */
-@@ -191,8 +193,7 @@ static void mcf5208_sys_init(MemoryRegion *address_space, qemu_irq *pic)
-     /* Timers.  */
-     for (i = 0; i < 2; i++) {
-         s = g_new0(m5208_timer_state, 1);
--        bh = qemu_bh_new(m5208_timer_trigger, s);
--        s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+        s->timer = ptimer_init(m5208_timer_trigger, s, PTIMER_POLICY_DEFAULT);
-         memory_region_init_io(&s->iomem, NULL, &m5208_timer_ops, s,
-                               "m5208-timer", 0x00004000);
-         memory_region_add_subregion(address_space, 0xfc080000 + 0x4000 * i,
+-    flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX, arm_to_core_mmu_idx(mmu_idx));
++    flags = rebuild_hflags_common(env, fp_el, mmu_idx, flags);
+ 
+     /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
+      * states defined in the ARM ARM for software singlestep:
+@@ -11153,9 +11169,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+      *     0            x       Inactive (the TB flag for SS is always 0)
+      *     1            0       Active-pending
+      *     1            1       Active-not-pending
++     * SS_ACTIVE is set in hflags; PSTATE_SS is computed every TB.
+      */
+-    if (arm_singlestep_active(env)) {
+-        flags = FIELD_DP32(flags, TBFLAG_ANY, SS_ACTIVE, 1);
++    if (FIELD_EX32(flags, TBFLAG_ANY, SS_ACTIVE)) {
+         if (is_a64(env)) {
+             if (env->pstate & PSTATE_SS) {
+                 flags = FIELD_DP32(flags, TBFLAG_ANY, PSTATE_SS, 1);
+@@ -11166,10 +11182,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+             }
+         }
+     }
+-    if (arm_cpu_data_is_big_endian(env)) {
+-        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
+-    }
+-    flags = FIELD_DP32(flags, TBFLAG_ANY, FPEXC_EL, fp_el);
+ 
+     if (arm_v7m_is_handler_mode(env)) {
+         flags = FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
 -- 
 2.20.1
 
