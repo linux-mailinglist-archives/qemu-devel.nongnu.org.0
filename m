@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C875E0A33
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:12:49 +0200 (CEST)
-Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CD2E0A45
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:15:12 +0200 (CEST)
+Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxiC-0006UJ-2S
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39510)
+	id 1iMxkV-0000QG-5s
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:15:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <waynli329@gmail.com>) id 1iMx11-0005Vn-QL
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:28:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMx4o-0001NE-Ja
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:32:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <waynli329@gmail.com>) id 1iMx0z-0000zW-W4
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:28:11 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43840)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMx4n-0003A9-A2
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:32:06 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42304)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <waynli329@gmail.com>)
- id 1iMx0z-0000zO-Qw; Tue, 22 Oct 2019 12:28:09 -0400
-Received: by mail-io1-xd33.google.com with SMTP id c11so12090250iom.10;
- Tue, 22 Oct 2019 09:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iMx4n-00039h-3C
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:32:05 -0400
+Received: by mail-il1-x144.google.com with SMTP id o16so7946997ilq.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L5P1GvfwZvWXeVc9gT7XM9XjwTFzNjPpDh72su7n6fs=;
- b=khu5mRZ3JSOi7fHrQ6MT6cxKHIShDvfK5modgvPzQ7W9kHe+2vs710QGw/lwHyvifP
- 9pDpvBELuFiPTrtnZ1ibMB75Pn+40ypGUZPn9UDQ+wxI3gwfAKXNz/QPc1lwcVZ3nYgM
- 7vLYLCXjTFad+vI9Mf5+oNelrVrPvY7j5u7M3YO/pLe44hU7qYYFFFEsNwxQMf1zyDh3
- IxQjzZT0q0OA88y/l3Ssnc9aVe5HVpf56koEqMRWKcIg7+YEItFiotLyC4ANnFG/O8Bk
- PMVPgLKtEJSrSAZdLtwY5zzPbCV/XTn0+wfWYBi7bB7G3iu7mzUWFhYbtdKDNxMeqZBv
- +HJw==
+ :cc:content-transfer-encoding;
+ bh=RXMHFBShVmiszzOvNW17FM5H8iVamBoj76040flZLAo=;
+ b=oMctjm9SIIbHaWX55nm4tLFuSOKeqkHVaA54WQWXrI/vaVBeFyzHudjnV0IwNGFCUa
+ EG9sTJ5877Qnw8xFrJjTp6bY810f2cyAP1gLKCzoBpyKZulbye31KRKcbEenNRh0loWI
+ cKXFdxRpeIdhZAWAspB+tRJhkYu9FOhZXs61nMJS7S0ePH0Us/RLggmlaTvPIQONKZBk
+ lJNx04Su8OtYbdBwnLB72V5TzvNPPSc1+V907fbuAScShyoh1UV+M7nuOoRkYj0JBGxP
+ 9a7bnZvS4F65KxPCGLy7/jC1DvPoRwwEutMusYZcZiOePJYOS19vbPJTq3XVeXaxCHB8
+ K0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L5P1GvfwZvWXeVc9gT7XM9XjwTFzNjPpDh72su7n6fs=;
- b=l7XAeb55uSsh0kbvuWNc1X3jzJcmoxEzokFn2QNz/7DC18dz1ycrecpon00OCaytIZ
- hKfAkxFP+FUgw2ASMgoWm0Q9Da/PvZcEPviHQw0lyY9Xj/M5PFFJPNamhCwy+3LdoR4K
- +h+MWQDHcbgA76pGWfkm3WBbRYyy8REQrgg/W1zIz8xkTjStwbaZ074afxDIlFEfvUzd
- nStc+2B/XkdzK8F9lH3DcaVN5QI46SPPAH8Sx+YQrz4PKZd3JnDPcMjT083e9y8YxiJ9
- MzZ4YKTfCJ9MzIZpk8CarWScWtZvYEEKCa6hplwwfe08ezyj/2LRUsfa0vBxJL2T1nk6
- uPCg==
-X-Gm-Message-State: APjAAAUrW/molEnspxFsedUB1tINbjMNabxrYXMHIHX6zqts455hKiwp
- XTJSimgv7bJTmQjoX48YMIyWQGqSRUBkbPQuJQ8=
-X-Google-Smtp-Source: APXvYqzQrgZA9qBqJ4av4QFEucVuPNy4dY2aHIWdmyFWx8WAq/6PuMDiKz8Mch45lycn9nk6d02j0nuW1gqofsCvNvY=
-X-Received: by 2002:a05:6638:392:: with SMTP id
- y18mr4568527jap.98.1571761688926; 
- Tue, 22 Oct 2019 09:28:08 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RXMHFBShVmiszzOvNW17FM5H8iVamBoj76040flZLAo=;
+ b=QrOOAAs5zKaFII2r4r82oRYr4qnmh5RaBa+eNsvdkk5+skCwWQ5Z9OaObIZ9qq8eCS
+ CuulKhGZ7jPu8vOYCoUvDAoH4C1DzUlqjRR2Qo1ze3kMZ0cRYuK1Cs3vXevSoMPy5Ytd
+ IiUfvw+sw+iaxbw6OI04x132bWRKnr9rv56/By4MeK+e6OwF13xk6zMh8jh0zj4iLVFq
+ 5Y0R+/Q9TZ54XzrIvY1lHC5oVOdTRmVIcahmR/9a8ry8O2XP2jvY4U43J5xKfssFm3T1
+ ifGCHbs4h6imfFA52SAh2JDB/ZBLMK3PTgw+gciK+0JB6UCwe39jpn+4Fib5mEXUOS8h
+ 8T7Q==
+X-Gm-Message-State: APjAAAU34VyUlhN+XMVMT/IqXN/ImTQ9Fd3DwAS/w80uRGJrw/MDUzVJ
+ DZryzlqs6sD5h2wi+hyn3dFPgNkc4uGNtLtkxTqJvg==
+X-Google-Smtp-Source: APXvYqyA749qz9+ZDeXSYDNML5A7eWwdWokymhMnl0XK3KG3Pd4Xogwv/q8/LQiYUoYoGQzWZeQExVYU0OA9ReyY47U=
+X-Received: by 2002:a92:dac4:: with SMTP id o4mr34780227ilq.137.1571761924033; 
+ Tue, 22 Oct 2019 09:32:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAM2K0np63wni3G7GNWPxTq40Kb1VeTN7Ocn=E=BqSmd+pDsX9A@mail.gmail.com>
- <7e2a821c-ed6b-ccb1-f517-405359358a26@redhat.com>
- <CAM2K0nox06JcmjfM20G1-p2Vwq5Xb7hRAX0DVBfdCepnqUiZQg@mail.gmail.com>
-In-Reply-To: <CAM2K0nox06JcmjfM20G1-p2Vwq5Xb7hRAX0DVBfdCepnqUiZQg@mail.gmail.com>
-From: Wayne Li <waynli329@gmail.com>
-Date: Tue, 22 Oct 2019 11:27:57 -0500
-Message-ID: <CAM2K0nqQ3kDQBm-fgGxSEzTWVfQnkKyw4y2zceY_PHSN8Go_DQ@mail.gmail.com>
-Subject: Re: Missing PVR setting capability
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000023e31c0595824964"
+References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
+ <20191022162137.27161-11-marcandre.lureau@redhat.com>
+In-Reply-To: <20191022162137.27161-11-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Oct 2019 17:31:51 +0100
+Message-ID: <CAFEAcA-5DkdB-iUHBRONB0SHO6rYmU7ZzdojJd5iZbQdLHswTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 10/28] serial: add "base" property
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d33
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,147 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000023e31c0595824964
-Content-Type: text/plain; charset="UTF-8"
-
-And yes that is correct it has the e6500 core using PowerPC.
-
-On Tue, Oct 22, 2019 at 11:24 AM Wayne Li <waynli329@gmail.com> wrote:
-
-> If I run "lsmod | grep kvm" nothing shows up but if I just do a "find .
-> -name "kvm"" I get the following:
+On Tue, 22 Oct 2019 at 17:23, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
 >
-> ./usr/src/kernel/Documentation/virtual/kvm
-> ./usr/src/kernel/arch/arm/kvm
-> ./usr/src/kernel/arch/arm64/kvm
-> ./usr/src/kernel/arch/mips/kvm
-> ./usr/src/kernel/arch/powerpc/kvm
-> ./usr/src/kernel/arch/s390/kvm
-> ./usr/src/kernel/arch/tile/kvm
-> ./usr/src/kernel/arch/x86/kvm
-> ./usr/src/kernel/drivers/s390/kvm
-> ./usr/src/kernel/include/config/kvm
-> ./usr/src/kernel/include/config/have/kvm
-> ./usr/src/kernel/include/kvm
-> ./usr/src/kernel/virt/kvm
-> ./dev/kvm
-> ./sys/devices/virtual/misc/kvm
-> ./sys/class/misc/kvm
-> ./sys/kernel/debug/kvm
-> ./sys/module/kvm
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  hw/char/serial.c         | 3 +++
+>  include/hw/char/serial.h | 1 +
+>  2 files changed, 4 insertions(+)
 >
-> I guess this shows my OS does have KVM on it?  I added the two flags you
-> mentioned when running QEMU (the -cpu and the -machine flags) but the -cpu
-> flag doesn't seem like it's doing anything as even when I put a clearly
-> wrong argument after the flag no error related to the cpu is thrown.  Also
-> it says ppce500 is not a machine type and that the supported machines are:
+> diff --git a/hw/char/serial.c b/hw/char/serial.c
+> index 0ae52ec60c..4748a2b023 100644
+> --- a/hw/char/serial.c
+> +++ b/hw/char/serial.c
+> @@ -990,6 +990,7 @@ SerialState *serial_init(int base, qemu_irq irq, int =
+baudbase,
+>      qdev_connect_gpio_out_named(dev, "serial-irq", 0, irq);
+>      qdev_prop_set_uint32(dev, "baudbase", baudbase);
+>      qdev_prop_set_chr(dev, "chardev", chr);
+> +    qdev_prop_set_uint64(dev, "base", base);
+>      serial_realize_core(s, &error_fatal);
+>      qdev_set_legacy_instance_id(dev, base, 2);
+>      qdev_init_nofail(dev);
+> @@ -1003,6 +1004,7 @@ SerialState *serial_init(int base, qemu_irq irq, in=
+t baudbase,
+>  static Property serial_properties[] =3D {
+>      DEFINE_PROP_CHR("chardev", SerialState, chr),
+>      DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
+> +    DEFINE_PROP_UINT64("base", SerialState, base, 0),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
 >
-> bamboo               bamboo
-> boeing-machine       Boeing Machine
-> none                 empty machine
-> ref405ep             ref405ep
-> taihu                taihu
-> virtex-ml507         Xilinx Virtex ML507 reference design
+> @@ -1083,6 +1085,7 @@ SerialState *serial_mm_init(MemoryRegion *address_s=
+pace,
+>      qdev_prop_set_uint32(dev, "baudbase", baudbase);
+>      qdev_prop_set_chr(dev, "chardev", chr);
+>      qdev_prop_set_uint8(dev, "regshift", regshift);
+> +    qdev_prop_set_uint64(dev, "base", base);
 >
-> The one being used right now is boeing-machine which is clearly specific
-> to the project I am working on.  I'm not exactly sure what boeing-machine
-> refers to but I'll ask the person who wrote the code that specified that
-> machine,
+>      serial_realize_core(s, &error_fatal);
+>      qdev_set_legacy_instance_id(DEVICE(s), base, 2);
+> diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
+> index ecbd3f1b40..6e9c9768ed 100644
+> --- a/include/hw/char/serial.h
+> +++ b/include/hw/char/serial.h
+> @@ -77,6 +77,7 @@ typedef struct SerialState {
 >
-> On Tue, Oct 22, 2019 at 2:04 AM Thomas Huth <thuth@redhat.com> wrote:
->
->> On 21/10/2019 23.06, Wayne Li wrote:
->> > Dear Qemu list members,
->> >
->> > I'm attempting to enable KVM in a Qemu-based project that is running on
->> > a T4240RDB board.  After compiling my code with the -enable-kvm option I
->> > ran the qemu executable with the -enable-kvm option.  The application
->> > exited with the following error message: "kvm error: missing PVR setting
->> > capability."  What are some possibilities causing this error?
->>
->> That's an e6500 bas PPC board, isn't it? ... I guess nobody has been
->> running KVM on such a system in a while...
->>
->> What do you get when running "lsmod | grep kvm" ? How did you run QEMU?
->> I think you have to make sure to run with the right CPU model ("-cpu
->> e6500") and machine (likely "-M ppce500" ?).
->>
->>  Thomas
->>
->>
+>      QEMUTimer *modem_status_poll;
+>      MemoryRegion io;
+> +    uint64_t base;
+>  } SerialState;
 
---00000000000023e31c0595824964
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Devices shouldn't have properties to set their MMIO base
+address -- instead the memory-mapped serial device should
+be a child of TYPE_SYSBUS_DEVICE, and should provide
+a sysbus mmio region, which users of the device can
+map at the address they want to map the registers.
 
-<div dir=3D"ltr">And yes that is correct it has the e6500 core using PowerP=
-C.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Tue, Oct 22, 2019 at 11:24 AM Wayne Li &lt;<a href=3D"mailto:waynli329=
-@gmail.com">waynli329@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr">If I run &quot;lsmod | gr=
-ep kvm&quot; nothing shows up but if I just do a &quot;find . -name &quot;k=
-vm&quot;&quot; I get the following:<div><br></div><div>./usr/src/kernel/Doc=
-umentation/virtual/kvm<br>./usr/src/kernel/arch/arm/kvm<br>./usr/src/kernel=
-/arch/arm64/kvm<br>./usr/src/kernel/arch/mips/kvm<br>./usr/src/kernel/arch/=
-powerpc/kvm<br>./usr/src/kernel/arch/s390/kvm<br>./usr/src/kernel/arch/tile=
-/kvm<br>./usr/src/kernel/arch/x86/kvm<br>./usr/src/kernel/drivers/s390/kvm<=
-br>./usr/src/kernel/include/config/kvm<br>./usr/src/kernel/include/config/h=
-ave/kvm<br>./usr/src/kernel/include/kvm<br>./usr/src/kernel/virt/kvm<br>./d=
-ev/kvm</div><div>./sys/devices/virtual/misc/kvm<br>./sys/class/misc/kvm<br>=
-./sys/kernel/debug/kvm<br>./sys/module/kvm<br></div><div><br></div><div>I g=
-uess this shows my OS does have KVM on it?=C2=A0 I added the two flags you =
-mentioned when running QEMU (the -cpu and the -machine flags) but the -cpu =
-flag doesn&#39;t seem like it&#39;s doing anything as even when I put a cle=
-arly wrong argument after the flag no error related to the cpu is thrown.=
-=C2=A0 Also it says ppce500 is not a machine type and that the supported ma=
-chines are:</div><div><br></div><div>bamboo =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 bamboo<br>boeing-machine =C2=A0 =C2=A0 =C2=A0 Boeing Mach=
-ine<br>none =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 empty m=
-achine<br>ref405ep =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ref405ep<br>ta=
-ihu =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0taihu<br>virtex-=
-ml507 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Xilinx Virtex ML507 reference design<br><=
-/div><div><br></div><div>The one being used right now is boeing-machine whi=
-ch is clearly specific to the project I am working on.=C2=A0 I&#39;m not ex=
-actly sure what boeing-machine refers to but I&#39;ll ask the person who wr=
-ote the code that specified that machine,</div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 22, 2019 at 2:04=
- AM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">t=
-huth@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">On 21/10/2019 23.06, Wayne Li wrote:<br>
-&gt; Dear Qemu list members,<br>
-&gt; <br>
-&gt; I&#39;m attempting to enable KVM in a Qemu-based project that is runni=
-ng on<br>
-&gt; a T4240RDB board.=C2=A0 After compiling my code with the -enable-kvm o=
-ption I<br>
-&gt; ran the qemu executable with the -enable-kvm option.=C2=A0 The applica=
-tion<br>
-&gt; exited with the following error message: &quot;kvm error: missing PVR =
-setting<br>
-&gt; capability.&quot;=C2=A0 What are some possibilities causing this error=
-?<br>
-<br>
-That&#39;s an e6500 bas PPC board, isn&#39;t it? ... I guess nobody has bee=
-n<br>
-running KVM on such a system in a while...<br>
-<br>
-What do you get when running &quot;lsmod | grep kvm&quot; ? How did you run=
- QEMU?<br>
-I think you have to make sure to run with the right CPU model (&quot;-cpu<b=
-r>
-e6500&quot;) and machine (likely &quot;-M ppce500&quot; ?).<br>
-<br>
-=C2=A0Thomas<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000023e31c0595824964--
+thanks
+-- PMM
 
