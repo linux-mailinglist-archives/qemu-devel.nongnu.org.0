@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B988E05A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:58:00 +0200 (CEST)
-Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DCDE064F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:23:53 +0200 (CEST)
+Received: from localhost ([::1]:58794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMufe-00064X-SG
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37287)
+	id 1iMv4i-0006LK-4r
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39055)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuHo-0003Yr-2n
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1iMuPn-0006Sz-4R
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:41:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuHk-0001gG-3G
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:19 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38884)
+ (envelope-from <bounces@canonical.com>) id 1iMuPl-0004nX-5W
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:41:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60532)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuHc-0001eC-Kp
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:33:10 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id 3so16201096wmi.3
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:33:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=fMt1yXYtkl6zou9KhMTTPZc3Shey7XPrKQCkblw9TjE=;
- b=Tb8zhrNKre8VAtq1yNL+5h+vGFzBdfJmbIDmMKRI9jOcYvFBwvbPNv8sn9GwnfpPMd
- M8c64/b7ALFRgO2pMKzn87Z3zSbGsDKIB6/OTPuhoQghcVWtOzSItOgAp9Kg7wsqc7+c
- AfMJLPD6kZositvV5wAJisOAkCnzygJEUNX6tliLrr3owYJxScHtmf5XT5RjPR2/y7tx
- mFLj7S9bhRREhisXNETN+7nY5v9Gre4mCQ2PLfsUrWq+PdXkzYDPdSYhq4v5Dmv00HEv
- 0G3rdCxkIHcKjP4XX25A7tZn25nsbdjTNAyuDa4CQGH3yjGIYsxvupfNgg5SrH0v8iwR
- mdxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fMt1yXYtkl6zou9KhMTTPZc3Shey7XPrKQCkblw9TjE=;
- b=BtFFXrOgnkQBuLmCckRhC8+PY9DZHCP3sWqTksPinPXfOgNRgTTmo0qFzCYx6oQuGn
- 2Qot6bHx41PTkW7/R4TaYUYmalFJkOo4fVptiC6bskGcgqKqUEn2JgyeaujBXwXnFRus
- y+aXvrKXK8Y6cdx5ERzdKS+h0J+8PCkUQfmDIYIAiG3y809m8PL09a/l5DQ0FtBVLTi1
- +75VvBNS8JUzHbql73hmpdARKBhZWDvrbbw2IatSnK4ym0gpKi7PZ2/cVgm5pMK0Fz7/
- XxvHFIOFBaYE1yXD5CDfoJKjwP4ZgbKfanb5Rvjcv5ACTlT+D1HEYSWiV0thvQ47cBkq
- fNEg==
-X-Gm-Message-State: APjAAAXINXUvor4iWOIHYpJ0Y7OH5jB9LSPDPz81qW8Il4cvfwCS+EDE
- nNhBHRKm/zALUzDAabvu5HrphNvUv+8=
-X-Google-Smtp-Source: APXvYqxwucb4BW0dcCa8o1q7wcuwaKApPqGNAtOKVf4BNe6xqeX4lVjy3RTBkdwnrsMWQl1LolDz9A==
-X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr2751581wmd.10.1571751186680; 
- Tue, 22 Oct 2019 06:33:06 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.33.04
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:33:04 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 39/41] hw/arm/omap2: Create the RAM in the board
-Date: Tue, 22 Oct 2019 14:31:32 +0100
-Message-Id: <20191022133134.14487-40-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
-References: <20191022133134.14487-1-peter.maydell@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iMuPj-0004kT-Ns
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:41:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iMuPf-0001So-Rw
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:41:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D254C2E80C3
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:41:27 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 22 Oct 2019 13:27:36 -0000
+From: Kevin Wolf <1846427@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
+ psyhomb sej7278
+X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
+X-Launchpad-Bug-Modifier: Kevin Wolf (kwolf-redhat)
+References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
+Message-Id: <157175085638.21792.15363523124548485446.malone@wampee.canonical.com>
+Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b29260d61468ea9121f54ecab210a22e28c77fc3
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,135 +66,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> To avoid any suspicion as to what that may have brought with it in
+> breakage I just created a fresh image using this command: [...]
 
-The SDRAM is incorrectly created in the OMAP2420 SoC.
-Move its creation in the board code, this will later allow the
-board to have the QOM ownership of the RAM.
+I tried to reproduce the problem locally, on the same commit, with the
+steps you described, but I wasn't lucky. I tried keeping the image on my
+home directory (XFS), on tmpfs, and finally on a newly created ext4
+filesystem on a spare LVM volume, but the image just wouldn't break even
+after letting the loop run for a quite a while.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191021190653.9511-5-philmd@redhat.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/omap.h |  4 +---
- hw/arm/nseries.c      | 10 +++++++---
- hw/arm/omap2.c        | 13 +++++--------
- 3 files changed, 13 insertions(+), 14 deletions(-)
+> So I'd postulate that discard does at most play an aggravating role here
+> but is not necessary for the problem to occur.
 
-diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index 2fda9966484..763d8eab4fa 100644
---- a/include/hw/arm/omap.h
-+++ b/include/hw/arm/omap.h
-@@ -824,7 +824,6 @@ struct omap_mpu_state_s {
-     MemoryRegion tap_iomem;
-     MemoryRegion imif_ram;
-     MemoryRegion emiff_ram;
--    MemoryRegion sdram;
-     MemoryRegion sram;
- 
-     struct omap_dma_port_if_s {
-@@ -938,8 +937,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *system_memory,
-                 const char *core);
- 
- /* omap2.c */
--struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
--                unsigned long sdram_size,
-+struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sdram,
-                 const char *core);
- 
- uint32_t omap_badwidth_read8(void *opaque, hwaddr addr);
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index a36971d39aa..7e361936a9d 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -47,6 +47,7 @@
- 
- /* Nokia N8x0 support */
- struct n800_s {
-+    MemoryRegion sdram;
-     struct omap_mpu_state_s *mpu;
- 
-     struct rfbi_chip_s blizzard;
-@@ -1311,11 +1312,14 @@ static int n810_atag_setup(const struct arm_boot_info *info, void *p)
- static void n8x0_init(MachineState *machine,
-                       struct arm_boot_info *binfo, int model)
- {
--    MemoryRegion *sysmem = get_system_memory();
-     struct n800_s *s = (struct n800_s *) g_malloc0(sizeof(*s));
--    int sdram_size = binfo->ram_size;
-+    uint64_t sdram_size = binfo->ram_size;
- 
--    s->mpu = omap2420_mpu_init(sysmem, sdram_size, machine->cpu_type);
-+    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
-+                                         sdram_size);
-+    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE, &s->sdram);
-+
-+    s->mpu = omap2420_mpu_init(&s->sdram, machine->cpu_type);
- 
-     /* Setup peripherals
-      *
-diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
-index bd7ddff9831..457f152baca 100644
---- a/hw/arm/omap2.c
-+++ b/hw/arm/omap2.c
-@@ -22,6 +22,7 @@
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "cpu.h"
-+#include "exec/address-spaces.h"
- #include "sysemu/blockdev.h"
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
-@@ -2276,8 +2277,7 @@ static const struct dma_irq_map omap2_dma_irq_map[] = {
-     { 0, OMAP_INT_24XX_SDMA_IRQ3 },
- };
- 
--struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
--                unsigned long sdram_size,
-+struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sdram,
-                 const char *cpu_type)
- {
-     struct omap_mpu_state_s *s = g_new0(struct omap_mpu_state_s, 1);
-@@ -2286,11 +2286,11 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
-     int i;
-     SysBusDevice *busdev;
-     struct omap_target_agent_s *ta;
-+    MemoryRegion *sysmem = get_system_memory();
- 
-     /* Core */
-     s->mpu_model = omap2420;
-     s->cpu = ARM_CPU(cpu_create(cpu_type));
--    s->sdram_size = sdram_size;
-     s->sram_size = OMAP242X_SRAM_SIZE;
- 
-     s->wakeup = qemu_allocate_irq(omap_mpu_wakeup, s, 0);
-@@ -2299,9 +2299,6 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
-     omap_clk_init(s);
- 
-     /* Memory-mapped stuff */
--    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
--                                         s->sdram_size);
--    memory_region_add_subregion(sysmem, OMAP2_Q2_BASE, &s->sdram);
-     memory_region_init_ram(&s->sram, NULL, "omap2.sram", s->sram_size,
-                            &error_fatal);
-     memory_region_add_subregion(sysmem, OMAP2_SRAM_BASE, &s->sram);
-@@ -2338,8 +2335,8 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sysmem,
-     s->port->addr_valid = omap2_validate_addr;
- 
-     /* Register SDRAM and SRAM ports for fast DMA transfers.  */
--    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->sdram),
--                         OMAP2_Q2_BASE, s->sdram_size);
-+    soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(sdram),
-+                         OMAP2_Q2_BASE, memory_region_size(sdram));
-     soc_dma_port_add_mem(s->dma, memory_region_get_ram_ptr(&s->sram),
-                          OMAP2_SRAM_BASE, s->sram_size);
- 
--- 
-2.20.1
+That makes sense to me because you have internal snapshots. Both discard
+and snapshots mean that the next write to the block will trigger a
+cluster allocation (and with it a handle_alloc_space() call) again.
 
+> So I guess it's safe to say that the bug occurs in the
+> handle_alloc_space() codepath.
+
+This is an important finding.
+
+It's a bit odd because the only related thing handle_alloc_space() calls
+is bdrv_is_allocated_above(), which only cares about
+BDRV_BLOCK_ALLOCATED. I don't think the commit in question should make
+any difference as to whether this flag is set or cleared. The only
+possible difference should be BDRV_BLOCK_ZERO, and we don't even check
+that flag.
+
+So as the next step I would like to test my theory that the problem
+isn't bdrv_co_block_status() returning a different value after the
+commit, but that qcow2_detect_metadata_preallocation() even runs. I
+think the easiest way to do this would be modifying handle_alloc_space()
+so that it performs the checks, but skips its optimisation regardless of
+the is_zero_cow() return value:
+
+        if (!is_zero_cow(bs, m) || true) {
+            continue;
+        }
+
+Unfortunately, as long as I can't reproduce the problem, I'll have to
+rely on you to actually run the tests I come up with after each step. If
+you'd prefer some more real-time interaction, feel free to ping me on
+IRC (kwolf on OFTC or Freenode).
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846427
+
+Title:
+  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
+  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
+  savevm/quit/loadvm cycles. I've narrowed it down to the following
+  reproducer (further notes below):
+
+  # qemu-img check debian.qcow2
+  No errors were found on the image.
+  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
+96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
+=3Ddebian.qcow2,id=3Dd -S
+  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
+bus: Did not receive a reply. Possible causes include: the remote applicati=
+on did not send a reply, the message bus security policy blocked the reply,=
+ the reply timeout expired, or the network connection was broken.
+  QEMU 4.1.50 monitor - type 'help' for more information
+  (qemu) loadvm foo
+  (qemu) c
+  (qemu) qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  quit
+  [m@nargothrond:~] qemu-img check debian.qcow2
+  Leaked cluster 85179 refcount=3D2 reference=3D1
+  Leaked cluster 85180 refcount=3D2 reference=3D1
+  ERROR cluster 266150 refcount=3D0 reference=3D2
+  [...]
+  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+
+  9493 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  2 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+
+  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
+  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
+  similarly current.
+
+  Reproduced with qemu-4.1.0 from distribution package as well as
+  vanilla git checkout of tag v4.1.0 and commit
+  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
+  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
+  sequence:
+
+  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
+mu --disable-werror --disable-docs
+  [...]
+  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+  [...] (can provide full configure output if helpful)
+  make -j8 install
+
+  The kind of guest OS does not matter: seen with Debian testing 64bit,
+  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+
+  The virtual storage controller does not seem to matter: seen with
+  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+
+  Caching modes (none, directsync, writeback), aio mode (threads,
+  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
+  not influence occurence either.
+
+  Having more RAM in the guest seems to increase odds of corruption:
+  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
+  RAM it happens almost instantly.
+
+  An automated reproducer works as follows:
+
+  - the guest *does* mount its root fs and swap with option discard and
+  my testing leaves me with the impression that file deletion rather
+  than reading is causing the issue
+
+  - foo is a snapshot of the running Debian VM which is already running
+  command
+
+  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
+ne
+
+  to produce some I/O to the disk (4GB file with 4GB of RAM).
+
+  - on the host a loop continuously resumes and saves the guest state
+  and quits qemu inbetween:
+
+  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
+  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
+  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
+  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
+  none ; done
+
+  - quitting qemu inbetween saves and loads seems to be necessary for
+  the problem to occur. Just continusouly in one session saving and
+  loading guest state does not trigger it.
+
+  - For me, after about 2 to 6 iterations of above loop the image is
+  corrupted.
+
+  - corruption manifests with other messages from qemu as well, e.g.:
+
+  (qemu) loadvm foo
+  Error: Device 'd' does not have the requested snapshot 'foo'
+
+  Using above reproducer I have to the be best of my ability bisected
+  the introduction of the problem to commit
+  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
+  block_status call if possible). qemu compiled from the commit before
+  does not exhibit the issue, from that commit on it does and reverting
+  the commit off of current master makes it disappear.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
