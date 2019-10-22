@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386E8E0A0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:07:00 +0200 (CEST)
-Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38EFE0A8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:23:19 +0200 (CEST)
+Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxcZ-00089y-62
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43414)
+	id 1iMxsM-00005P-T9
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iMxMl-0005ib-DB
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:50:41 -0400
+ (envelope-from <dinechin@redhat.com>) id 1iMxOE-0007yb-Ri
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:52:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iMxMj-0002ad-GW
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:50:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48520)
+ (envelope-from <dinechin@redhat.com>) id 1iMxOD-00037D-QM
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:52:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39222
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMxMj-0002aH-8E
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:50:37 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1iMxOD-000374-N9
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571763129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FP9OfujuMXPnc05uatDJDsk9/3Ngir+jIMpvI0HfuFo=;
+ b=RHaG1F24PrcKN5Gq0qgStaJ6InDuTVhMQmN5tK95XLsJSKb9y5hItcmOCSIYVLhNClcDIN
+ 0jIAb98owyBz1ptZNICYeF3hI/9SBwIhCBUyHDZ37+FBkUDZWDR8e7l7JMWud+3meOR5N7
+ eyL2eQq8ffOdDusk3projuPCmrrUpk0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-V6OQk6rVP0W6XMLYqII2ZA-1; Tue, 22 Oct 2019 12:52:05 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 59B91C049E17
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 16:50:36 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id o8so7755898wmc.2
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:50:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ilUdqbrYy8ySaTQ6ZcthNEde+QTyn7VVTo6FG7DI6ho=;
- b=N+u3I5m4WxWizTYKq3U+OeJ5eYNJgkFtboXjFMtWfVnAjBbZvXXEfM+bnoBGWxVPvV
- 89TjRIq19/pvlSB9NMtUf/mG3LTBunSwjIkEZNJiLHtnzg8b9NEcg73/3mOKx9gpfHg4
- GcQr3UpCNKfX5ezy/JT7kNSZyfR+MXjKjH3+l5gaH4l3PVhd6rU321PdvHacWsb6FELP
- AMRo8dvcksMuCiPolEW4wyQAdcyHBxVAMv+vqbvJvexmc6cuYH34jtjCQJ2RlHHEYh12
- jWT9UuG9uuwxztJaRpBDDx+v4JLvNh9cjPLKIA6ahQPLIDn3eaPe2TSmsno6WoqMP6GK
- LZRA==
-X-Gm-Message-State: APjAAAWobPKVC7NTbsuSNSeWP+4izInisRRtVpnQsWpYZ061cwIa6tRw
- GztQeTSR4vsJxGQCPUYt/YiujAFPk3z+PMV8NiPlLBQ+qzqv8YGxrpa0x8ghA7MTnsMvEDSRGt/
- DTvK5BPH8Ed103ro=
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr3966510wru.136.1571763035004; 
- Tue, 22 Oct 2019 09:50:35 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx4hJVmjBEEIjlMnRd/woKAUXyjdR00JU3x721XYw4PDBHU0IVP/HgLbhGW9Zh+iu6O8gJCcQ==
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr3966487wru.136.1571763034703; 
- Tue, 22 Oct 2019 09:50:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c0e4:dcf4:b543:ce19?
- ([2001:b07:6468:f312:c0e4:dcf4:b543:ce19])
- by smtp.gmail.com with ESMTPSA id w18sm1678274wrl.75.2019.10.22.09.50.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 09:50:34 -0700 (PDT)
-Subject: Re: [PATCH RESEND v6 0/2] x86: Enable user wait instructions
-To: Tao Xu <tao3.xu@intel.com>, rth@twiddle.net, ehabkost@redhat.com,
- mtosatti@redhat.com
-References: <20191011074103.30393-1-tao3.xu@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <393ea49d-1da3-9454-eae3-f8393a6ce72b@redhat.com>
-Date: Tue, 22 Oct 2019 18:50:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 741D3800D49;
+ Tue, 22 Oct 2019 16:52:04 +0000 (UTC)
+Received: from ptitpuce (ovpn-117-172.ams2.redhat.com [10.36.117.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E45C19C69;
+ Tue, 22 Oct 2019 16:51:48 +0000 (UTC)
+References: <20191019063810.6944-1-stefanha@redhat.com>
+ <20191019063810.6944-10-stefanha@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.2
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 09/16] libqos: access VIRTIO 1.0 vring in little-endian
+In-reply-to: <20191019063810.6944-10-stefanha@redhat.com>
+Date: Tue, 22 Oct 2019 18:51:39 +0200
+Message-ID: <m136fkoh9g.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191011074103.30393-1-tao3.xu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: V6OQk6rVP0W6XMLYqII2ZA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,67 +72,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, slp@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/19 09:41, Tao Xu wrote:
-> UMONITOR, UMWAIT and TPAUSE are a set of user wait instructions.
->=20
-> UMONITOR arms address monitoring hardware using an address. A store
-> to an address within the specified address range triggers the
-> monitoring hardware to wake up the processor waiting in umwait.
->=20
-> UMWAIT instructs the processor to enter an implementation-dependent
-> optimized state while monitoring a range of addresses. The optimized
-> state may be either a light-weight power/performance optimized state
-> (c0.1 state) or an improved power/performance optimized state
-> (c0.2 state).
->=20
-> TPAUSE instructs the processor to enter an implementation-dependent
-> optimized state c0.1 or c0.2 state and wake up when time-stamp counter
-> reaches specified timeout.
->=20
-> Availability of the user wait instructions is indicated by the presence
-> of the CPUID feature flag WAITPKG CPUID.0x07.0x0:ECX[5].
->=20
-> The patches enable the umonitor, umwait and tpause features in KVM.
-> Because umwait and tpause can put a (psysical) CPU into a power saving
-> state, by default we dont't expose it in kvm and provide a capability t=
-o
-> enable it. Use kvm capability to enable UMONITOR, UMWAIT and TPAUSE whe=
-n
-> QEMU use "-overcommit cpu-pm=3Don, a VM can use UMONITOR, UMWAIT and TP=
-AUSE
-> instructions. If the instruction causes a delay, the amount of time
-> delayed is called here the physical delay. The physical delay is first
-> computed by determining the virtual delay (the time to delay relative t=
-o
-> the VM=E2=80=99s timestamp counter). Otherwise, UMONITOR, UMWAIT and TP=
-AUSE cause
-> an invalid-opcode exception(#UD).
->=20
-> The release document ref below link:
-> https://software.intel.com/sites/default/files/\
-> managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf
->=20
-> Changelog:
-> v6:
-> 	Remove CPUID_7_0_ECX_WAITPKG if enable_cpu_pm is not set.
->         (Paolo)
->=20
-> Tao Xu (2):
->   x86/cpu: Add support for UMONITOR/UMWAIT/TPAUSE
->   target/i386: Add support for save/load IA32_UMWAIT_CONTROL MSR
->=20
->  target/i386/cpu.c     |  2 +-
->  target/i386/cpu.h     |  3 +++
->  target/i386/kvm.c     | 19 +++++++++++++++++++
->  target/i386/machine.c | 20 ++++++++++++++++++++
->  4 files changed, 43 insertions(+), 1 deletion(-)
->=20
 
-Queued, thanks.
+Stefan Hajnoczi writes:
+[...]
+> +static uint16_t qvirtio_readw(QVirtioDevice *d, QTestState *qts, uint64_=
+t addr)
+> +{
+> +    uint16_t val =3D qtest_readw(qts, addr);
+> +
+> +    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(q=
+ts)) {
 
-Paolo
+For my education, I was wondering why tests use the (1ull << FEATURE)
+notation and not an equivalent of virtio_has_feature()? Is this
+intentional, or just legacy?
+
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
+
 
