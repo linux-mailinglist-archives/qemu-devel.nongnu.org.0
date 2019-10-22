@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1F1E08BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:24:58 +0200 (CEST)
-Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F5BE08BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:25:09 +0200 (CEST)
+Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMwxs-0007mh-E3
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37834)
+	id 1iMwy3-00087t-KL
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iMwv7-0005uH-MM
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:22:07 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iMwvI-000671-Gu
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:22:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iMwv5-0006zp-Od
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:22:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33065
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iMwvH-00074j-Fw
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:22:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49986
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iMwv5-0006z0-Jy
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:22:03 -0400
+ id 1iMwvH-00074B-Cq
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:22:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571761322;
+ s=mimecast20190719; t=1571761334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/qSKp+Dha50wwfkLLlipKox8Za+pAS4L71giPOhThTA=;
- b=hvbTw0wq0u3nHa9Mbj86aajZJgLzmjfciPoBYWv2QyAOSmLDNCoHLg8yPNigCAUhGJItOJ
- K//t5YWz96FBN/I36sXSdyYFmE7SeJKYOej+4lMxdgpvqnzLgKjrh70UWCxghrywxmHVCm
- 45IwfBsPTFDLgVO4evJRR4qN3djC4/4=
+ bh=Zajraj59pME0gi/ZjzC9D6McCl95VtlZ5ILronSxHvI=;
+ b=dL0YeaR1E3GTEs6UqZuPl0MNoJHfOA4CsbmYgVtp3fXOcsYGcGG6a0/GbzGRDrbs7CP3fm
+ TnfJeYwnFaqrzo2Fnm1KcFaR/UV6wAxMZVjs+v/iFHb7+XoFjrHURlpE66NlqcEY+x9EEp
+ Cjh14Xm5tAfK5Tf5y4Py6XwqkKutZAE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-g1YdJS2rNKCKh0dfbsptjA-1; Tue, 22 Oct 2019 12:21:58 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-191-gR0SR3QGPX6fIWEo1PhvGg-1; Tue, 22 Oct 2019 12:22:11 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 576B3107AD33;
- Tue, 22 Oct 2019 16:21:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F53C1005512;
+ Tue, 22 Oct 2019 16:22:09 +0000 (UTC)
 Received: from localhost (ovpn-112-21.ams2.redhat.com [10.36.112.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 494D35D6B2;
- Tue, 22 Oct 2019 16:21:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 011E360856;
+ Tue, 22 Oct 2019 16:21:57 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/28] chardev: generate an internal id when none given
-Date: Tue, 22 Oct 2019 18:21:10 +0200
-Message-Id: <20191022162137.27161-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 02/28] serial-pci-multi: factor out
+ multi_serial_get_nr_ports
+Date: Tue, 22 Oct 2019 18:21:11 +0200
+Message-Id: <20191022162137.27161-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20191022162137.27161-1-marcandre.lureau@redhat.com>
 References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: g1YdJS2rNKCKh0dfbsptjA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: gR0SR3QGPX6fIWEo1PhvGg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,117 +90,57 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Internally, qemu may create chardev without ID. Those will not be
-looked up with qemu_chr_find(), which prevents using qdev_prop_set_chr().
-
-Use id_generate(), to generate an internal name (prefixed with #), so
-no conflict exist with user-named chardev.
+Reused in following patch.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- chardev/char.c    | 32 ++++++++++++++++++++++++--------
- include/qemu/id.h |  1 +
- util/id.c         |  1 +
- 3 files changed, 26 insertions(+), 8 deletions(-)
+ hw/char/serial-pci-multi.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/chardev/char.c b/chardev/char.c
-index 7b6b2cb123..e7e7492b0e 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -37,6 +37,7 @@
- #include "qemu/help_option.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-+#include "qemu/id.h"
-=20
- #include "chardev/char-mux.h"
-=20
-@@ -944,10 +945,10 @@ void qemu_chr_set_feature(Chardev *chr,
-     return set_bit(feature, chr->features);
+diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
+index 5f13b5663b..6fa1cc6225 100644
+--- a/hw/char/serial-pci-multi.c
++++ b/hw/char/serial-pci-multi.c
+@@ -77,24 +77,26 @@ static void multi_serial_irq_mux(void *opaque, int n, i=
+nt level)
+     pci_set_irq(&pci->dev, pending);
  }
 =20
--Chardev *qemu_chardev_new(const char *id, const char *typename,
--                          ChardevBackend *backend,
--                          GMainContext *gcontext,
--                          Error **errp)
-+static Chardev *chardev_new(const char *id, const char *typename,
-+                            ChardevBackend *backend,
-+                            GMainContext *gcontext,
-+                            Error **errp)
- {
-     Object *obj;
-     Chardev *chr =3D NULL;
-@@ -991,6 +992,21 @@ end:
-     return chr;
- }
-=20
-+Chardev *qemu_chardev_new(const char *id, const char *typename,
-+                          ChardevBackend *backend,
-+                          GMainContext *gcontext,
-+                          Error **errp)
++static int multi_serial_get_nr_ports(PCIDeviceClass *pc)
 +{
-+    g_autofree char *genid =3D NULL;
-+
-+    if (!id) {
-+        genid =3D id_generate(ID_CHR);
-+        id =3D genid;
++    switch (pc->device_id) {
++    case 0x0003:
++        return 2;
++    case 0x0004:
++        return 4;
 +    }
 +
-+    return chardev_new(id, typename, backend, gcontext, errp);
++    g_assert_not_reached();
 +}
 +
- ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-                                Error **errp)
++
+ static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
  {
-@@ -1003,8 +1019,8 @@ ChardevReturn *qmp_chardev_add(const char *id, Charde=
-vBackend *backend,
-         return NULL;
-     }
+     PCIDeviceClass *pc =3D PCI_DEVICE_GET_CLASS(dev);
+     PCIMultiSerialState *pci =3D DO_UPCAST(PCIMultiSerialState, dev, dev);
+     SerialState *s;
+     Error *err =3D NULL;
+-    int i, nr_ports =3D 0;
+-
+-    switch (pc->device_id) {
+-    case 0x0003:
+-        nr_ports =3D 2;
+-        break;
+-    case 0x0004:
+-        nr_ports =3D 4;
+-        break;
+-    }
+-    assert(nr_ports > 0);
+-    assert(nr_ports <=3D PCI_SERIAL_MAX_PORTS);
++    int i, nr_ports =3D multi_serial_get_nr_ports(pc);
 =20
--    chr =3D qemu_chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
--                           backend, NULL, errp);
-+    chr =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
-+                      backend, NULL, errp);
-     if (!chr) {
-         return NULL;
-     }
-@@ -1061,8 +1077,8 @@ ChardevReturn *qmp_chardev_change(const char *id, Cha=
-rdevBackend *backend,
-         return NULL;
-     }
-=20
--    chr_new =3D qemu_chardev_new(NULL, object_class_get_name(OBJECT_CLASS(=
-cc)),
--                               backend, chr->gcontext, errp);
-+    chr_new =3D chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
-+                          backend, chr->gcontext, errp);
-     if (!chr_new) {
-         return NULL;
-     }
-diff --git a/include/qemu/id.h b/include/qemu/id.h
-index 40c70103e4..b55c406e69 100644
---- a/include/qemu/id.h
-+++ b/include/qemu/id.h
-@@ -4,6 +4,7 @@
- typedef enum IdSubSystems {
-     ID_QDEV,
-     ID_BLOCK,
-+    ID_CHR,
-     ID_MAX      /* last element, used as array size */
- } IdSubSystems;
-=20
-diff --git a/util/id.c b/util/id.c
-index af1c5f1b81..5addb4460e 100644
---- a/util/id.c
-+++ b/util/id.c
-@@ -34,6 +34,7 @@ bool id_wellformed(const char *id)
- static const char *const id_subsys_str[ID_MAX] =3D {
-     [ID_QDEV]  =3D "qdev",
-     [ID_BLOCK] =3D "block",
-+    [ID_CHR] =3D "chr",
- };
-=20
- /*
+     pci->dev.config[PCI_CLASS_PROG] =3D pci->prog_if;
+     pci->dev.config[PCI_INTERRUPT_PIN] =3D 0x01;
 --=20
 2.23.0.606.g08da6496b6
 
