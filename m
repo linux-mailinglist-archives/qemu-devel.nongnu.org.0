@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38AAE0013
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:55:27 +0200 (CEST)
-Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F90E0004
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:52:37 +0200 (CEST)
+Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpws-00061V-Np
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49667)
+	id 1iMpu8-0003JO-MW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <estebanbosse@gmail.com>) id 1iMpvo-0005AA-Cv
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:54:21 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iMpt8-0002T4-1g
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <estebanbosse@gmail.com>) id 1iMpvn-0006vS-8N
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:54:20 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33785)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
- id 1iMpvn-0006v3-2T
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:54:19 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s1so8314711wro.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=V4VhBihoolZqFYIN54r9nmx9vYW/oQSJU4NMMDQk7As=;
- b=Dgu+TC/pYPvxFl322P5ZQxatcCTlZr9/Na3bgs3e7uOoeVESu2uvhuRLFlA7Vx7/JT
- /eva777fMJ8YfTgOGc73Mx0YxP01s6+hevrbvcCTqdpw/rTSEltteQbcZoXK4PmPIUBm
- cl1ypCckqOcn43h6toBhuentFcrt9KGnXUPqpaFPa4bW3E56B+6i3Tx8qAHh1iiETUX3
- dGqXsu8Ew2uALCJSx4VFErFJJJcuSnDcWNuVe97h231nTAgZjz2TP8/8KWalCN6fqC//
- yNJAMz15ra9LHEt59Z0uirpJUswkt76MyYPG+hYLPwDY8SCBSYcr4fVQzU3aNLfA4uei
- GoKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=V4VhBihoolZqFYIN54r9nmx9vYW/oQSJU4NMMDQk7As=;
- b=jchSzmO0xAlxcHp5n7+amjlAyIFcYgRZXiyptNoJZd4WnbmiTk+MqtPaMi6bYycvq5
- 9iVTqYXmHYv2utSR3kG/CAtbrona5uBRACCDiEAUbJoeCyWhUUExb9kp4eSRvoq3hw6y
- Sr7dhqwj6VzqTxSFyev7Xm4bxrpmuD0aLs8C7Ilgb1MLx/pzojkhrZsGLGZl0Y2wsMw3
- uoXtnJuy2sdYqTudmByXOM4jJD3X53lJ3QRaC9gV8qTGIP8mveqGPR47RXCnesQ90ZqG
- UDIBna5vcJFs4a5wITjTc3rM7WT8DOwx1zZN2wIPVbr3LAF2n5B+A+AGuseE/hurPw0K
- 0IMA==
-X-Gm-Message-State: APjAAAUGbjjgGz1arpoDoGEHPof0fTsYilpzaijpMns7NQqN0+BUMWxi
- hd9oZrukynUu1WUqKyYBefE=
-X-Google-Smtp-Source: APXvYqz8BBP5wYK70GC9RnObS4GNK085VbmK6595Ok53rEH80UBeoYuODXHUVHqO1KEoZ2xkh46u7g==
-X-Received: by 2002:a5d:6b0a:: with SMTP id v10mr2269042wrw.32.1571734457519; 
- Tue, 22 Oct 2019 01:54:17 -0700 (PDT)
-Received: from ?IPv6:2a01:c23:604c:2a00:af2b:2e92:39f9:c05b?
- ([2a01:c23:604c:2a00:af2b:2e92:39f9:c05b])
- by smtp.gmail.com with ESMTPSA id p21sm8365131wmc.25.2019.10.22.01.54.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 01:54:17 -0700 (PDT)
-Message-ID: <80119c423b25ff027844fd04a4e57e5fcb7dfbb9.camel@gmail.com>
-Subject: Re: [PATCH v2 04/20] Revert "irq: introduce qemu_irq_proxy()"
-From: Esteban Bosse <estebanbosse@gmail.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
- qemu-devel@nongnu.org
-Date: Tue, 22 Oct 2019 10:50:46 +0200
-In-Reply-To: <20191018134754.16362-5-philmd@redhat.com>
-References: <20191018134754.16362-1-philmd@redhat.com>
- <20191018134754.16362-5-philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ (envelope-from <dgilbert@redhat.com>) id 1iMpt6-0005mH-8u
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:33 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35552
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMpt6-0005lt-3o
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571734291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JGKcvmGG2k6fYnbxd9yqI/ztnyy/WE37Czkk2ecRcgs=;
+ b=JQK5rv3ck1TrCae65bprCQ/l5TBg/LY/NcJeQ8FfX1Gtdp9hX5rer2S0wTbq7jVcIcpogj
+ luS9dAjYIXMAPW6sNcgTSrTdvQHuyqIXSHfT+4ncuDhWyl3zkDf2ajdCrNOno+16xfbXa2
+ EHIfRm+haEOibHzeQxbr0oBQvlks7js=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-mAQ8opp1Pl-qncRVl9_OwA-1; Tue, 22 Oct 2019 04:51:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77EA41800E00;
+ Tue, 22 Oct 2019 08:51:26 +0000 (UTC)
+Received: from work-vm (ovpn-117-248.ams2.redhat.com [10.36.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD0F11001DE0;
+ Tue, 22 Oct 2019 08:51:21 +0000 (UTC)
+Date: Tue, 22 Oct 2019 09:51:19 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "yezhenyu (A)" <yezhenyu2@huawei.com>
+Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
+Message-ID: <20191022085119.GB2815@work-vm>
+References: <5DAEB9D3.3080503@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+In-Reply-To: <5DAEB9D3.3080503@huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: mAQ8opp1Pl-qncRVl9_OwA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,81 +72,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?ISO-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ jiangyiwen <jiangyiwen@huawei.com>, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daudé escribió:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> This function isn't used anymore.
-> 
-> This reverts commit 22ec3283efba9ba0792790da786d6776d83f2a92.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+* yezhenyu (A) (yezhenyu2@huawei.com) wrote:
+> Since qemu2.9, QEMU added three AioContext poll parameters to struct
+> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties are
+> used to control iothread polling time.
+>=20
+> However, there isn't properly hmp commands to adjust them when the VM is
+> alive. It's useful to adjust them online when observing the impact of
+> different property value on performance.
+>=20
+> This patch add three hmp commands to adjust iothread poll-* properties
+> for special iothread:
+>=20
+> set_iothread_poll_max_ns: set the maximum polling time in ns;
+> set_iothread_poll_grow: set how many ns will be added to polling time;
+> set_iothread_poll_shrink: set how many ns will be removed from polling
+> time.
+
+Thanks;  I don't know much about iothread, so I'll answer just from the
+HMP side.
+
+> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
 > ---
->  hw/core/irq.c    | 14 --------------
->  include/hw/irq.h |  5 -----
->  2 files changed, 19 deletions(-)
-> 
-> diff --git a/hw/core/irq.c b/hw/core/irq.c
-> index 7cc0295d0e..fb3045b912 100644
-> --- a/hw/core/irq.c
-> +++ b/hw/core/irq.c
-> @@ -120,20 +120,6 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq
-> irq2)
->      return qemu_allocate_irq(qemu_splitirq, s, 0);
->  }
->  
-> -static void proxy_irq_handler(void *opaque, int n, int level)
-> -{
-> -    qemu_irq **target = opaque;
-> -
-> -    if (*target) {
-> -        qemu_set_irq((*target)[n], level);
-> -    }
-> -}
-> -
-> -qemu_irq *qemu_irq_proxy(qemu_irq **target, int n)
-> -{
-> -    return qemu_allocate_irqs(proxy_irq_handler, target, n);
-> -}
-> -
->  void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler
-> handler, int n)
->  {
->      int i;
-> diff --git a/include/hw/irq.h b/include/hw/irq.h
-> index fe527f6f51..24ba0ece11 100644
-> --- a/include/hw/irq.h
-> +++ b/include/hw/irq.h
-> @@ -51,11 +51,6 @@ qemu_irq qemu_irq_invert(qemu_irq irq);
->   */
->  qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
->  
-> -/* Returns a new IRQ set which connects 1:1 to another IRQ set,
-> which
-> - * may be set later.
-> - */
-> -qemu_irq *qemu_irq_proxy(qemu_irq **target, int n);
-> -
->  /* For internal use in qtest.  Similar to qemu_irq_split, but
-> operating
->     on an existing vector of qemu_irq.  */
->  void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler
-> handler, int n);
-Reviewed-by: Esteban Bosse <estebanbosse@gmail.com>
+> hmp-commands.hx | 42 ++++++++++++++++++++
+> hmp.c | 30 +++++++++++++++
+> hmp.h | 3 ++
+> include/sysemu/iothread.h | 6 +++
+> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
+> qapi/misc.json | 23 +++++++++++
+> 6 files changed, 184 insertions(+)
+>=20
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index a2c3ffc218..6fa0c5227a 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -74,6 +74,48 @@ VM initialization using configuration data provided on=
+ the command line
+> and via the QMP monitor during the preconfig state. The command is only
+> available during the preconfig state (i.e. when the --preconfig command
+> line option was in use).
+> +ETEXI
+> +
+> + {
+> + .name =3D "set_iothread_poll_max_ns",
+> + .args_type =3D "iothread_id:s,poll_max_ns:i",
+> + .params =3D "iothread_id poll_max_ns",
+> + .help =3D "set poll_max_ns for a special iothread",
+> + .cmd =3D hmp_set_iothread_poll_max_ns,
+> + },
+> +
+> +STEXI
+> +@item set_iothread_poll_max_ns
+> +@findex set_iothread_poll_max_ns
+> +set poll_max_ns property for a special iothread.
+> +ETEXI
+> +
+> + {
+> + .name =3D "set_iothread_poll_grow",
+> + .args_type =3D "iothread_id:s,poll_grow:i",
+> + .params =3D "iothread_id poll_grow",
+> + .help =3D "set poll_grow for a special iothread",
+> + .cmd =3D hmp_set_iothread_poll_grow,
+> + },
+> +
+> +STEXI
+> +@item set_iothread_poll_grow
+> +@findex set_iothread_poll_grow
+> +set poll_grow property for a special iothread.
+> +ETEXI
+> +
+> + {
+> + .name =3D "set_iothread_poll_shrink",
+> + .args_type =3D "iothread_id:s,poll_shrink:i",
+> + .params =3D "iothread_id poll_shrink",
+> + .help =3D "set poll_shrink for a special iothread",
+> + .cmd =3D hmp_set_iothread_poll_shrink,
+> + },
+> +
+> +STEXI
+> +@item set_iothread_poll_shrink
+> +@findex set_iothread_poll_shrink
+> +set poll_shrink property for a special iothread.
+> ETEXI
+
+I think I'd prefer one command with a parameter to select
+the value to be set;   in migration we used to have lots of commands
+but are moving to migrate_set_parameter which then handles all of them.
+
+So something like,
+
+    iothread set_parameter poll_shrink 10
+
+The code is a little more complex, but a lot less repetative!
+
+> {
+> diff --git a/hmp.c b/hmp.c
+> index 56a3ed7375..87520bcc85 100644
+> --- a/hmp.c
+> +++ b/hmp.c
+> @@ -2711,6 +2711,36 @@ void hmp_info_iothreads(Monitor *mon, const QDict =
+*qdict)
+> qapi_free_IOThreadInfoList(info_list);
+> }
+>=20
+> +void hmp_set_iothread_poll_max_ns(Monitor *mon, const QDict *qdict)
+> +{
+> + const char *iothread_id =3D qdict_get_str(qdict, "iothread_id");
+> + int64_t poll_max_ns =3D qdict_get_int(qdict, "poll_max_ns");
+> + Error *err =3D NULL;
+> +
+> + qmp_set_iothread_poll_param(iothread_id, "poll_max_ns", poll_max_ns, &e=
+rr);
+> + hmp_handle_error(mon, &err);
+> +}
+> +
+> +void hmp_set_iothread_poll_grow(Monitor *mon, const QDict *qdict)
+> +{
+> + const char *iothread_id =3D qdict_get_str(qdict, "iothread_id");
+> + int64_t poll_grow =3D qdict_get_int(qdict, "poll_grow");
+> + Error *err =3D NULL;
+> +
+> + qmp_set_iothread_poll_param(iothread_id, "poll_grow", poll_grow, &err);
+> + hmp_handle_error(mon, &err);
+> +}
+> +
+> +void hmp_set_iothread_poll_shrink(Monitor *mon, const QDict *qdict)
+> +{
+> + const char *iothread_id =3D qdict_get_str(qdict, "iothread_id");
+> + int64_t poll_shrink =3D qdict_get_int(qdict, "poll_shrink");
+> + Error *err =3D NULL;
+> +
+> + qmp_set_iothread_poll_param(iothread_id, "poll_shrink", poll_shrink, &e=
+rr);
+> + hmp_handle_error(mon, &err);
+> +}
+> +
+> void hmp_qom_list(Monitor *mon, const QDict *qdict)
+> {
+> const char *path =3D qdict_get_try_str(qdict, "path");
+> diff --git a/hmp.h b/hmp.h
+> index 43617f2646..8ce3b53556 100644
+> --- a/hmp.h
+> +++ b/hmp.h
+> @@ -41,6 +41,9 @@ void hmp_info_pci(Monitor *mon, const QDict *qdict);
+> void hmp_info_block_jobs(Monitor *mon, const QDict *qdict);
+> void hmp_info_tpm(Monitor *mon, const QDict *qdict);
+> void hmp_info_iothreads(Monitor *mon, const QDict *qdict);
+> +void hmp_set_iothread_poll_max_ns(Monitor *mon, const QDict *qdict);
+> +void hmp_set_iothread_poll_grow(Monitor *mon, const QDict *qdict);
+> +void hmp_set_iothread_poll_shrink(Monitor *mon, const QDict *qdict);
+> void hmp_quit(Monitor *mon, const QDict *qdict);
+> void hmp_stop(Monitor *mon, const QDict *qdict);
+> void hmp_sync_profile(Monitor *mon, const QDict *qdict);
+> diff --git a/include/sysemu/iothread.h b/include/sysemu/iothread.h
+> index 5f6240d5cb..7ebeb51f37 100644
+> --- a/include/sysemu/iothread.h
+> +++ b/include/sysemu/iothread.h
+> @@ -45,6 +45,12 @@ char *iothread_get_id(IOThread *iothread);
+> IOThread *iothread_by_id(const char *id);
+> AioContext *iothread_get_aio_context(IOThread *iothread);
+> GMainContext *iothread_get_g_main_context(IOThread *iothread);
+> +void iothread_set_poll_max_ns(IOThread *iothread, int64_t poll_max_ns);
+> +int64_t iothread_get_poll_max_ns(IOThread *iothread);
+> +void iothread_set_poll_grow(IOThread *iothread, int64_t poll_grow);
+> +int64_t iothread_get_poll_grow(IOThread *iothread);
+> +void iothread_set_poll_shrink(IOThread *iothread, int64_t poll_shrink);
+> +int64_t iothread_get_poll_shrink(IOThread *iothread);
+>=20
+> /*
+> * Helpers used to allocate iothreads for internal use. These
+> diff --git a/iothread.c b/iothread.c
+> index 7130be58e3..4ab6128c5f 100644
+> --- a/iothread.c
+> +++ b/iothread.c
+> @@ -384,3 +384,83 @@ IOThread *iothread_by_id(const char *id)
+> {
+> return IOTHREAD(object_resolve_path_type(id, TYPE_IOTHREAD, NULL));
+> }
+> +
+> +void iothread_set_poll_max_ns(IOThread *iothread, int64_t poll_max_ns)
+> +{
+> + iothread->poll_max_ns =3D poll_max_ns;
+> +}
+
+Is the indentation correct here? It looks a bit off.
+
+> +int64_t iothread_get_poll_max_ns(IOThread *iothread)
+> +{
+> + return iothread->poll_max_ns;
+> +}
+> +
+> +void iothread_set_poll_grow(IOThread *iothread, int64_t poll_grow)
+> +{
+> + iothread->poll_grow =3D poll_grow;
+> +}
+> +
+> +int64_t iothread_get_poll_grow(IOThread *iothread)
+> +{
+> + return iothread->poll_grow;
+> +}
+> +
+> +void iothread_set_poll_shrink(IOThread *iothread, int64_t poll_shrink)
+> +{
+> + iothread->poll_shrink =3D poll_shrink;
+> +}
+> +
+> +int64_t iothread_get_poll_shrink(IOThread *iothread)
+> +{
+> + return iothread->poll_shrink;
+> +}
+> +
+> +void qmp_set_iothread_poll_param(const char *iothread_id, const char *na=
+me,
+> + int64_t value, Error **errp)
+
+OK, so you should split the patch into a qmp patch and and then an HMP
+patch.
+I'll leave the QMP review to others, but I'm guessing they'd prefer
+to take a QAPI enum here rather than the name.
+
+Are there some docs somewhere that describe what grow and shrink
+actually are - are they % ?  If so, then you should range check
+them to make sure someone doesn't set them to something silly like -5.
+
+
+> +{
+> + Error *local_error =3D NULL;
+> + int64_t old_value =3D 0;
+> + IOThread *iothread =3D iothread_by_id(iothread_id);
+> + if (!iothread) {
+> + error_setg(errp, "can not find iothread: %s", iothread_id);
+> + return;
+> + }
+> +
+> + if (strcmp(name, "poll_max_ns") =3D=3D 0) {
+> + old_value =3D iothread_get_poll_max_ns(iothread);
+> + iothread_set_poll_max_ns(iothread, value);
+> + } else if (strcmp(name, "poll_grow") =3D=3D 0) {
+> + old_value =3D iothread_get_poll_grow(iothread);
+> + iothread_set_poll_grow(iothread, value);
+> + } else if (strcmp(name, "poll_shrink") =3D=3D 0) {
+> + old_value =3D iothread_get_poll_shrink(iothread);
+> + iothread_set_poll_shrink(iothread, value);
+> + } else {
+> + error_setg(errp, "can not find param name: %s", name);
+> + return;
+> + }
+> +
+> + /* update the value in context */
+> + aio_context_set_poll_params(iothread->ctx,
+> + iothread->poll_max_ns,
+> + iothread->poll_grow,
+> + iothread->poll_shrink,
+> + &local_error);
+> +
+> + if (local_error) {
+> + error_propagate(errp, local_error);
+> +
+> + /* reset the property to old value */
+> + if (strcmp(name, "poll_max_ns") =3D=3D 0) {
+> + iothread_set_poll_max_ns(iothread, old_value);
+> + } else if (strcmp(name, "poll_grow") =3D=3D 0) {
+> + iothread_set_poll_grow(iothread, old_value);
+> + } else if (strcmp(name, "poll_shrink") =3D=3D 0) {
+> + iothread_set_poll_shrink(iothread, old_value);
+> + }
+> +
+> + return;
+> + }
+> +
+> + return;
+> +}
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 8b3ca4fdd3..43d3f4351c 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -675,6 +675,29 @@
+> { 'command': 'query-iothreads', 'returns': ['IOThreadInfo'],
+> 'allow-preconfig': true }
+>=20
+> +##
+> +# @set-iothread-poll-param:
+> +#
+> +# Set poll-* properties for a special iothread.
+> +# The poll-* name can be poll_max_ns/poll_grow/poll_shrink.
+> +#
+> +# Notes: can not set the QEMU main loop thread, which is not declared
+> +# using the -object iothread command-line option. The poll_ns property c=
+an not
+> +# be set manually, which is auto-adjust.
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "set-iothread-poll-param",
+> +# "arguments": { "iothread_id": "1",
+> +# "name": "poll_max_ns",
+> +# "value": 1000 } }
+> +# <- { "return": {} }
+> +#
+> +# Since 3.0
+
+3.0 was long long ago; needs updating.
+
+> +##
+> +{ 'command': 'set-iothread-poll-param',
+> + 'data': {'iothread_id': 'str', 'name': 'str', 'value': 'int'} }
+> +
+> ##
+> # @BalloonInfo:
+> #
+> --=20
+> 2.22.0.windows.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
