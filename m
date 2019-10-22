@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723A6E0A3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:14:03 +0200 (CEST)
-Received: from localhost ([::1]:37050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2AEE0A8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:27:16 +0200 (CEST)
+Received: from localhost ([::1]:37784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxjO-0007dW-Fy
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:14:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45488)
+	id 1iMxwB-0003Q7-An
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47568)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iMxZx-0005WQ-RI
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:04:19 -0400
+ (envelope-from <clg@kaod.org>) id 1iMxls-0001Lt-Qo
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:16:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iMxZv-0001SD-Uc
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:04:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36784)
+ (envelope-from <clg@kaod.org>) id 1iMxlq-0000GP-Sx
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:16:36 -0400
+Received: from 8.mo69.mail-out.ovh.net ([46.105.56.233]:52975)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMxZv-0001Rq-MR
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:04:15 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 588B54E92A
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 17:04:14 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id v26so4451962wmh.2
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:04:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0NEhBoFQokh3U/F7hNVxe9sOLNn7d5EW0/bTrybnHeQ=;
- b=JszdGRiZiCyHIKw6I2L2OTt07MH3kjCzj15L/DWBCP5hEjQRIUxIMeywV7poZcHqOu
- sA3m3xWJyREGhOtvWAmVRyuhJWIpP5/KyQpHZF+Pi9QzokmawT4khRB/LcNbrHwgf8AW
- pWVq3nEisdvtk8bXatRbHCzTRwHw8+YsV7jw+4l6iO0mx2VhWal3GrpeAvXhgT7VGbjA
- m0WvSI8j06s79Edg23d0yO7pkn7epOoAjW+X9kWG2CWrbx8ytbu2N2ryXjNrBy796OdA
- 1sYbHcD9Jyl6fRszfdRMgsSeDokBkEeogazw8fmZ1mHF3U7OTYUj3SjKbefsqpQISChL
- paIA==
-X-Gm-Message-State: APjAAAXQcWZ+wAZ2d0zRl60VsST9chB1b3ZAUp1LstaFgRm5ihwFjqwj
- F8dnjJ+UxTV+IkRfCkB4qLnO1Jr+dDiaDmVkEo/uqOtkAyjMzlxfI606OBCQDYRk/mGNV5omm1k
- X055opr2qnYyTn9Y=
-X-Received: by 2002:adf:ef83:: with SMTP id d3mr4006625wro.299.1571763852787; 
- Tue, 22 Oct 2019 10:04:12 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzMBmpDaHqVcBvasZq/rspcGCZmV3reipzfYXuv+HEgy3YzczYUN9Jn864xlfc7aFDK1y8p8A==
-X-Received: by 2002:adf:ef83:: with SMTP id d3mr4006598wro.299.1571763852380; 
- Tue, 22 Oct 2019 10:04:12 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c0e4:dcf4:b543:ce19?
- ([2001:b07:6468:f312:c0e4:dcf4:b543:ce19])
- by smtp.gmail.com with ESMTPSA id t16sm18962170wrq.52.2019.10.22.10.04.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 10:04:11 -0700 (PDT)
-Subject: Re: [PATCH V3 2/2] target/i386/kvm: Add Hyper-V direct tlb flush
- support
-To: lantianyu1986@gmail.com, rth@twiddle.net, ehabkost@redhat.com,
- mtosatti@redhat.com, vkuznets@redhat.com, Roman Kagan <rkagan@virtuozzo.com>
-References: <20191016130725.5045-1-Tianyu.Lan@microsoft.com>
- <20191016130725.5045-3-Tianyu.Lan@microsoft.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <7de12770-271e-d386-a105-d53b50aa731f@redhat.com>
-Date: Tue, 22 Oct 2019 19:04:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxlp-0000Ez-Ew
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:16:34 -0400
+Received: from player738.ha.ovh.net (unknown [10.108.57.140])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 0C8026CFDC
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 19:16:28 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player738.ha.ovh.net (Postfix) with ESMTPSA id 0E711B65F0EB;
+ Tue, 22 Oct 2019 17:16:17 +0000 (UTC)
+Subject: Re: [PATCH] aspeed: Add an AST2600 eval board
+To: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
+References: <20191016090745.15334-1-clg@kaod.org>
+ <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
+ <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
+ <CAFEAcA8py1obBXc1o02wTRkXms9NwCnCT6Q9ZZ-4W=NzNocLrQ@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <a0b2779c-bcd5-0fe9-ff3f-d4254aba8805@kaod.org>
+Date: Tue, 22 Oct 2019 19:16:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191016130725.5045-3-Tianyu.Lan@microsoft.com>
+In-Reply-To: <CAFEAcA8py1obBXc1o02wTRkXms9NwCnCT6Q9ZZ-4W=NzNocLrQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 4137682159691664192
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdduudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 46.105.56.233
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,140 +61,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tianyu Lan <Tianyu.Lan@microsoft.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/10/19 15:07, lantianyu1986@gmail.com wrote:
-> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> 
-> Hyper-V direct tlb flush targets KVM on Hyper-V guest.
-> Enable direct TLB flush for its guests meaning that TLB
-> flush hypercalls are handled by Level 0 hypervisor (Hyper-V)
-> bypassing KVM in Level 1. Due to the different ABI for hypercall
-> parameters between Hyper-V and KVM, KVM capabilities should be
-> hidden when enable Hyper-V direct tlb flush otherwise KVM
-> hypercalls may be intercepted by Hyper-V. Add new parameter
-> "hv-direct-tlbflush". Check expose_kvm and Hyper-V tlb flush
-> capability status before enabling the feature.
-> 
-> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> ---
-> Change sicne v2:
->        - Update new feature description and name.
->        - Change failure print log.
-> 
-> Change since v1:
->        - Add direct tlb flush's Hyper-V property and use
->        hv_cpuid_check_and_set() to check the dependency of tlbflush
->        feature.
->        - Make new feature work with Hyper-V passthrough mode.
-> ---
->  docs/hyperv.txt   | 10 ++++++++++
->  target/i386/cpu.c |  2 ++
->  target/i386/cpu.h |  1 +
->  target/i386/kvm.c | 24 ++++++++++++++++++++++++
->  4 files changed, 37 insertions(+)
-> 
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index 8fdf25c829..140a5c7e44 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -184,6 +184,16 @@ enabled.
->  
->  Requires: hv-vpindex, hv-synic, hv-time, hv-stimer
->  
-> +3.18. hv-direct-tlbflush
-> +=======================
-> +Enable direct TLB flush for KVM when it is running as a nested
-> +hypervisor on top Hyper-V. When enabled, TLB flush hypercalls from L2
-> +guests are being passed through to L0 (Hyper-V) for handling. Due to ABI
-> +differences between Hyper-V and KVM hypercalls, L2 guests will not be
-> +able to issue KVM hypercalls (as those could be mishanled by L0
-> +Hyper-V), this requires KVM hypervisor signature to be hidden.
-> +
-> +Requires: hv-tlbflush, -kvm
->  
->  4. Development features
->  ========================
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 44f1bbdcac..7bc7fee512 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6156,6 +6156,8 @@ static Property x86_cpu_properties[] = {
->                        HYPERV_FEAT_IPI, 0),
->      DEFINE_PROP_BIT64("hv-stimer-direct", X86CPU, hyperv_features,
->                        HYPERV_FEAT_STIMER_DIRECT, 0),
-> +    DEFINE_PROP_BIT64("hv-direct-tlbflush", X86CPU, hyperv_features,
-> +                      HYPERV_FEAT_DIRECT_TLBFLUSH, 0),
->      DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
->  
->      DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index eaa5395aa5..3cb105f7d6 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -907,6 +907,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
->  #define HYPERV_FEAT_EVMCS               12
->  #define HYPERV_FEAT_IPI                 13
->  #define HYPERV_FEAT_STIMER_DIRECT       14
-> +#define HYPERV_FEAT_DIRECT_TLBFLUSH     15
->  
->  #ifndef HYPERV_SPINLOCK_NEVER_RETRY
->  #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 11b9c854b5..043b66ab22 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -900,6 +900,10 @@ static struct {
->          },
->          .dependencies = BIT(HYPERV_FEAT_STIMER)
->      },
-> +    [HYPERV_FEAT_DIRECT_TLBFLUSH] = {
-> +        .desc = "direct paravirtualized TLB flush (hv-direct-tlbflush)",
-> +        .dependencies = BIT(HYPERV_FEAT_TLBFLUSH)
-> +    },
->  };
->  
->  static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-> @@ -1224,6 +1228,7 @@ static int hyperv_handle_properties(CPUState *cs,
->      r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_EVMCS);
->      r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_IPI);
->      r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_STIMER_DIRECT);
-> +    r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_DIRECT_TLBFLUSH);
->  
->      /* Additional dependencies not covered by kvm_hyperv_properties[] */
->      if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
-> @@ -1243,6 +1248,25 @@ static int hyperv_handle_properties(CPUState *cs,
->          goto free;
->      }
->  
-> +    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_DIRECT_TLBFLUSH) ||
-> +        cpu->hyperv_passthrough) {
-> +        if (!cpu->expose_kvm) {
-> +            r = kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_DIRECT_TLBFLUSH, 0, 0);
-> +            if (hyperv_feat_enabled(cpu, HYPERV_FEAT_DIRECT_TLBFLUSH) && r) {
-> +                fprintf(stderr,
-> +                    "Hyper-V %s is not supported by kernel\n",
-> +                    kvm_hyperv_properties[HYPERV_FEAT_DIRECT_TLBFLUSH].desc);
-> +                return -ENOSYS;
-> +            }
-> +        } else if (!cpu->hyperv_passthrough) {
-> +            fprintf(stderr,
-> +                "Hyper-V %s requires KVM hypervisor signature "
-> +                "to be hidden (-kvm).\n",
-> +                kvm_hyperv_properties[HYPERV_FEAT_DIRECT_TLBFLUSH].desc);
-> +            return -ENOSYS;
-> +        }
-> +    }
-> +
->      if (cpu->hyperv_passthrough) {
->          /* We already copied all feature words from KVM as is */
->          r = cpuid->nent;
-> 
+On 22/10/2019 18:43, Peter Maydell wrote:
+> On Thu, 17 Oct 2019 at 14:54, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>>
+>> On Thu, 17 Oct 2019 at 07:33, Joel Stanley <joel@jms.id.au> wrote:
+>>>
+>>> On Wed, 16 Oct 2019 at 09:08, C=C3=A9dric Le Goater <clg@kaod.org> wr=
+ote:
+>>>>
+>>>> Define the board with 1 GiB of RAM but some boards can have up to 2
+>>>> GiB.
+>>>>
+>>>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>>>> Reviewed-by: Joel Stanley <joel@jms.id.au>
+>>>> ---
+>>>>
+>>>>  Changes since AST2600 patchset:
+>>>>
+>>>>  - lowered the RAM size to 1 GiB as it was breaking the tests on som=
+e
+>>>>    hosts.
+>>>
+>>> Peter,
+>>>
+>>> After chatting with C=C3=A9dric I agree we should merge this patch.
+>>>
+>>> As it turns out the EVBs have differing amounts of RAM; his has 1GB
+>>> while mine has 2GB. So we are not being inaccurate by setting 1GB as
+>>> the default here.
+>>
+>> That's convenient, means we don't have to figure out how to
+>> special-case the test infrastructure for it :-)
+>=20
+> This is now OK on the 32-bit boxes, but still fails 'make check'
+> on my OSX system:
+>=20
+> manooth$ QTEST_QEMU_BINARY=3Daarch64-softmmu/qemu-system-aarch64
+> tests/qom-test -p /aarch64/qom/ast2600-evb
+> /aarch64/qom/ast2600-evb: Broken pipe
+> /Users/pm215/src/qemu-for-merges/tests/libqtest.c:149: kill_qemu()
+> detected QEMU death from signal 6 (Abort trap: 6)
+> Abort trap: 6
+>=20
+> Dropping from the pullreq again :-(
 
-Queued, thanks.  Patch 1 is not needed anymore.
+It will be back !
 
-Paolo
+
+Is it time for me to install an OSX system for dev and tests or is there=20
+a way to reproduce the issue ? no errors spotted in valgrind.
+
+Thanks,
+
+C.
 
