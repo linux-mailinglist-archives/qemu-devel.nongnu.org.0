@@ -2,51 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2B7E02DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:29:01 +0200 (CEST)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E83E02F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:32:19 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsLT-0000AW-Cq
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44464)
+	id 1iMsOf-00046X-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iMsCV-00062c-1L
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:19:45 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMsBQ-0004jH-NX
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iMsCS-0008E2-K5
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:19:42 -0400
-Received: from 6.mo5.mail-out.ovh.net ([178.32.119.138]:55580)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iMsCS-0008DE-9S
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:19:40 -0400
-Received: from player760.ha.ovh.net (unknown [10.108.57.50])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id ADF32254279
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:19:37 +0200 (CEST)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player760.ha.ovh.net (Postfix) with ESMTPSA id 340AFB45C124;
- Tue, 22 Oct 2019 11:19:33 +0000 (UTC)
-Date: Tue, 22 Oct 2019 13:19:27 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v3 3/4] ppc: reset the interrupt presenter from the CPU
- reset handler
-Message-ID: <20191022131927.29079cf9@bahia.lan>
-In-Reply-To: <20191022072246.9200-4-clg@kaod.org>
-References: <20191022072246.9200-1-clg@kaod.org>
- <20191022072246.9200-4-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <laurent@vivier.eu>) id 1iMsBN-0007qb-BH
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:36 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:44003)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iMsBM-0007pG-EP; Tue, 22 Oct 2019 07:18:33 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MOiLp-1ifFZl3dmx-00Q9ab; Tue, 22 Oct 2019 13:17:55 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v14 1/9] esp: add pseudo-DMA as used by Macintosh
+Date: Tue, 22 Oct 2019 13:17:30 +0200
+Message-Id: <20191022111738.20803-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191022111738.20803-1-laurent@vivier.eu>
+References: <20191022111738.20803-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 16557765508214069643
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdefkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:6yDDqwImp2tvGc9FClAzX7hkotG8MVMGSxfyXSDzT6rx5sMhMDV
+ TR6A0Vq80iifi80dDexvOm9ruCb5G2wDXHJOv/hzW8gHuZDiu8crm98c9y+5oy9nkTo/gr7
+ nTZggMIBWSQPJOqREhDFv6iDevp7RFHUbvt2qhKN6s+G3PFunUY+Ta3ZPDc4qMQfkyTOsvw
+ B/GrlqyAOa8GtRTDBKaJQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cDDsbyVVmkg=:SxOWIXesToNxQeziKvHSYW
+ o+vt915hzu0reyQ5buo3TBnVDq3vsZFrTr8rFgkZAtUyFvxaZ850YHvQ0yMkOZrtp/Te+FlpR
+ L+v3vxkbFR80CtRgR7sC9y03CmyPqREU4f0Qo6esJ6jjjmsE8DtEHpI4mtpdG6dVQAiNfgkgl
+ q70DrQHgXiaceU439mF38eNWaQM8Kq7rFOHK+NEp/PwsWGtTA50j10+QCVYHuxtD1wMWkGJ/A
+ XJq8iZVckn3nOCIFQlE5zO/9SjBBDVYGt9UBNWFLzgU6ZxE7S7IEV5UvmJNDaEFRCA7j1wFV7
+ g98dNaWmL0EgTyfESn6lMp6a0IB6+NqwSnAk39dme15IzdH1ZgGUHUHlOCHyJrRUc4YCCOqva
+ FnWrx2WStUyux96A4RLYSNPMM8bdqtShaomOMENdXHV0+luEUgAptX2CHUim1hmb4q0YUT7YZ
+ M2S0ZYq2kY6UoynlEpyBX8JVWH5jJisb1RR9mXxIRUWa8LK39eWVgxZViLriWfhdkxbhlGuKv
+ olumqRVubSoA3ESkVL2pvZAzj5GaNiw5n7zAPwuh2vdmfiYWbBIyMwAdH0P55qKjIsviyvqGQ
+ FD/KoKg3q/SH971Jv55p7IQkeQqZ0SB4eCJB/qdCVCTzY+17sdyztJ0oMy5lIyRnx3tKpgFU5
+ r8nGpniBcREegymOFfhylQqXIb5c2kNnmVJB6ZLMTvK9s5GO8om5y4rRReqmFFZRzPtjlJ1ka
+ gbmdgXwMYNcuF9SZTFV+RtibOC3RJwhVG4oRjcLGlRAlEdCKBnzdehanv5O6IhYFck0Z6Ph8w
+ Me8s51yGCZkGIaDW1Rj8GOW4QQDi17g3VAFRL76md3+iO9pRN3+wFryK8HIoU/Mf80XoVo8Mu
+ be5SJoV47DVY1dagu3KQ==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.119.138
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,404 +65,598 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 09:22:45 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+There is no DMA in Quadra 800, so the CPU reads/writes the data from the
+PDMA register (offset 0x100, ESP_PDMA in hw/m68k/q800.c) and copies them
+to/from the memory.
 
-> On the sPAPR machine and PowerNV machine, the interrupt presenters are
-> created by a machine handler at the core level and are reseted
-> independently. This is not consistent and it raises issues when it
-> comes to handle hot-plugged CPUs. In that case, the presenters are not
-> reseted. This is less of an issue in XICS, although a zero MFFR could
-> be a concern, but in XIVE, the OS CAM line is not set and this breaks
-> the presenting algorithm. The current code has workarounds which need
-> a global cleanup.
->=20
-> Extend the sPAPR IRQ backend and the PowerNV Chip class with a new
-> cpu_intc_reset() handler called by the CPU reset handler and remove
-> the XiveTCTX reset handler which is now redundant.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
+There is a nice assembly loop in the kernel to do that, see
+linux/drivers/scsi/mac_esp.c:MAC_ESP_PDMA_LOOP().
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+The start of the transfer is triggered by the DREQ interrupt (see linux
+mac_esp_send_pdma_cmd()), the CPU polls on the IRQ flag to start the
+transfer after a SCSI command has been sent (in Quadra 800 it goes
+through the VIA2, the via2-irq line and the vIFR register)
 
->  include/hw/ppc/pnv.h       |  1 +
->  include/hw/ppc/spapr_irq.h |  2 ++
->  include/hw/ppc/xics.h      |  1 +
->  include/hw/ppc/xive.h      |  1 +
->  hw/intc/spapr_xive.c       |  9 +++++++++
->  hw/intc/xics.c             |  8 ++------
->  hw/intc/xics_spapr.c       |  7 +++++++
->  hw/intc/xive.c             | 12 +-----------
->  hw/ppc/pnv.c               | 18 ++++++++++++++++++
->  hw/ppc/pnv_core.c          |  8 ++++++++
->  hw/ppc/spapr_cpu_core.c    |  5 ++++-
->  hw/ppc/spapr_irq.c         | 14 ++++++++++++++
->  12 files changed, 68 insertions(+), 18 deletions(-)
->=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 1cdbe55bf86c..2a780e633f23 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -111,6 +111,7 @@ typedef struct PnvChipClass {
-> =20
->      uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
->      void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
-> +    void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
->      ISABus *(*isa_create)(PnvChip *chip, Error **errp);
->      void (*dt_populate)(PnvChip *chip, void *fdt);
->      void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 5e150a667902..09232999b07e 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -52,6 +52,7 @@ typedef struct SpaprInterruptControllerClass {
->       */
->      int (*cpu_intc_create)(SpaprInterruptController *intc,
->                              PowerPCCPU *cpu, Error **errp);
-> +    void (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU *c=
-pu);
->      int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
->                       Error **errp);
->      void (*free_irq)(SpaprInterruptController *intc, int irq);
-> @@ -68,6 +69,7 @@ void spapr_irq_update_active_intc(SpaprMachineState *sp=
-apr);
-> =20
->  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
->                                PowerPCCPU *cpu, Error **errp);
-> +void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cpu);
->  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
->  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
->                    void *fdt, uint32_t phandle);
-> diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> index 1e6a9300eb2b..602173c12250 100644
-> --- a/include/hw/ppc/xics.h
-> +++ b/include/hw/ppc/xics.h
-> @@ -161,6 +161,7 @@ void icp_set_mfrr(ICPState *icp, uint8_t mfrr);
->  uint32_t icp_accept(ICPState *ss);
->  uint32_t icp_ipoll(ICPState *ss, uint32_t *mfrr);
->  void icp_eoi(ICPState *icp, uint32_t xirr);
-> +void icp_reset(ICPState *icp);
-> =20
->  void ics_write_xive(ICSState *ics, int nr, int server,
->                      uint8_t priority, uint8_t saved_priority);
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index fd3319bd3202..99381639f50c 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -415,6 +415,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
-set, unsigned size);
-> =20
->  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
->  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-> +void xive_tctx_reset(XiveTCTX *tctx);
-> =20
->  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
-dx)
->  {
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index ba32d2cc5b0f..20a8d8285f64 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -553,6 +553,14 @@ static int spapr_xive_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
->      return 0;
->  }
-> =20
-> +static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
-> +                                     PowerPCCPU *cpu)
-> +{
-> +    XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
-> +
-> +    xive_tctx_reset(tctx);
-> +}
-> +
->  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
->  {
->      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> @@ -697,6 +705,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
- void *data)
->      sicc->activate =3D spapr_xive_activate;
->      sicc->deactivate =3D spapr_xive_deactivate;
->      sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
-> +    sicc->cpu_intc_reset =3D spapr_xive_cpu_intc_reset;
->      sicc->claim_irq =3D spapr_xive_claim_irq;
->      sicc->free_irq =3D spapr_xive_free_irq;
->      sicc->set_irq =3D spapr_xive_set_irq;
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index b5ac408f7b74..6da05763f9db 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -274,10 +274,8 @@ static const VMStateDescription vmstate_icp_server =
-=3D {
->      },
->  };
-> =20
-> -static void icp_reset_handler(void *dev)
-> +void icp_reset(ICPState *icp)
->  {
-> -    ICPState *icp =3D ICP(dev);
-> -
->      icp->xirr =3D 0;
->      icp->pending_priority =3D 0xff;
->      icp->mfrr =3D 0xff;
-> @@ -288,7 +286,7 @@ static void icp_reset_handler(void *dev)
->      if (kvm_irqchip_in_kernel()) {
->          Error *local_err =3D NULL;
-> =20
-> -        icp_set_kvm_state(ICP(dev), &local_err);
-> +        icp_set_kvm_state(icp, &local_err);
->          if (local_err) {
->              error_report_err(local_err);
->          }
-> @@ -351,7 +349,6 @@ static void icp_realize(DeviceState *dev, Error **err=
-p)
->          }
->      }
-> =20
-> -    qemu_register_reset(icp_reset_handler, dev);
->      vmstate_register(NULL, icp->cs->cpu_index, &vmstate_icp_server, icp);
->  }
-> =20
-> @@ -360,7 +357,6 @@ static void icp_unrealize(DeviceState *dev, Error **e=
-rrp)
->      ICPState *icp =3D ICP(dev);
-> =20
->      vmstate_unregister(NULL, &vmstate_icp_server, icp);
-> -    qemu_unregister_reset(icp_reset_handler, dev);
->  }
-> =20
->  static void icp_class_init(ObjectClass *klass, void *data)
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 4f64b9a9fc66..7418fb9f370c 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -346,6 +346,12 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
->      return 0;
->  }
-> =20
-> +static void xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
-> +                                     PowerPCCPU *cpu)
-> +{
-> +    icp_reset(spapr_cpu_state(cpu)->icp);
-> +}
-> +
->  static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
->                                  bool lsi, Error **errp)
->  {
-> @@ -433,6 +439,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
-void *data)
->      sicc->activate =3D xics_spapr_activate;
->      sicc->deactivate =3D xics_spapr_deactivate;
->      sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
-> +    sicc->cpu_intc_reset =3D xics_spapr_cpu_intc_reset;
->      sicc->claim_irq =3D xics_spapr_claim_irq;
->      sicc->free_irq =3D xics_spapr_free_irq;
->      sicc->set_irq =3D xics_spapr_set_irq;
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index d420c6571e14..f066be5eb5e3 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -547,10 +547,8 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monito=
-r *mon)
->      }
->  }
-> =20
-> -static void xive_tctx_reset(void *dev)
-> +void xive_tctx_reset(XiveTCTX *tctx)
->  {
-> -    XiveTCTX *tctx =3D XIVE_TCTX(dev);
-> -
->      memset(tctx->regs, 0, sizeof(tctx->regs));
-> =20
->      /* Set some defaults */
-> @@ -607,13 +605,6 @@ static void xive_tctx_realize(DeviceState *dev, Erro=
-r **errp)
->              return;
->          }
->      }
-> -
-> -    qemu_register_reset(xive_tctx_reset, dev);
-> -}
-> -
-> -static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
-> -{
-> -    qemu_unregister_reset(xive_tctx_reset, dev);
->  }
-> =20
->  static int vmstate_xive_tctx_pre_save(void *opaque)
-> @@ -668,7 +659,6 @@ static void xive_tctx_class_init(ObjectClass *klass, =
-void *data)
-> =20
->      dc->desc =3D "XIVE Interrupt Thread Context";
->      dc->realize =3D xive_tctx_realize;
-> -    dc->unrealize =3D xive_tctx_unrealize;
->      dc->vmsd =3D &vmstate_xive_tctx;
->      /*
->       * Reason: part of XIVE interrupt controller, needs to be wired up
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 7cf64b6d2533..4a51fb65a834 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -778,6 +778,13 @@ static void pnv_chip_power8_intc_create(PnvChip *chi=
-p, PowerPCCPU *cpu,
->      pnv_cpu->intc =3D obj;
->  }
-> =20
-> +static void pnv_chip_power8_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
-> +{
-> +    PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> +
-> +    icp_reset(ICP(pnv_cpu->intc));
-> +}
-> +
->  /*
->   *    0:48  Reserved - Read as zeroes
->   *   49:52  Node ID
-> @@ -815,6 +822,13 @@ static void pnv_chip_power9_intc_create(PnvChip *chi=
-p, PowerPCCPU *cpu,
->      pnv_cpu->intc =3D obj;
->  }
-> =20
-> +static void pnv_chip_power9_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
-> +{
-> +    PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> +
-> +    xive_tctx_reset(XIVE_TCTX(pnv_cpu->intc));
-> +}
-> +
->  /*
->   * Allowed core identifiers on a POWER8 Processor Chip :
->   *
-> @@ -984,6 +998,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *=
-klass, void *data)
->      k->cores_mask =3D POWER8E_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
->      k->intc_create =3D pnv_chip_power8_intc_create;
-> +    k->intc_reset =3D pnv_chip_power8_intc_reset;
->      k->isa_create =3D pnv_chip_power8_isa_create;
->      k->dt_populate =3D pnv_chip_power8_dt_populate;
->      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> @@ -1003,6 +1018,7 @@ static void pnv_chip_power8_class_init(ObjectClass =
-*klass, void *data)
->      k->cores_mask =3D POWER8_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
->      k->intc_create =3D pnv_chip_power8_intc_create;
-> +    k->intc_reset =3D pnv_chip_power8_intc_reset;
->      k->isa_create =3D pnv_chip_power8_isa_create;
->      k->dt_populate =3D pnv_chip_power8_dt_populate;
->      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> @@ -1022,6 +1038,7 @@ static void pnv_chip_power8nvl_class_init(ObjectCla=
-ss *klass, void *data)
->      k->cores_mask =3D POWER8_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
->      k->intc_create =3D pnv_chip_power8_intc_create;
-> +    k->intc_reset =3D pnv_chip_power8_intc_reset;
->      k->isa_create =3D pnv_chip_power8nvl_isa_create;
->      k->dt_populate =3D pnv_chip_power8_dt_populate;
->      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> @@ -1191,6 +1208,7 @@ static void pnv_chip_power9_class_init(ObjectClass =
-*klass, void *data)
->      k->cores_mask =3D POWER9_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p9;
->      k->intc_create =3D pnv_chip_power9_intc_create;
-> +    k->intc_reset =3D pnv_chip_power9_intc_reset;
->      k->isa_create =3D pnv_chip_power9_isa_create;
->      k->dt_populate =3D pnv_chip_power9_dt_populate;
->      k->pic_print_info =3D pnv_chip_power9_pic_print_info;
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index b1a7489e7abf..f36cb39dbf77 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -45,6 +45,8 @@ static void pnv_cpu_reset(void *opaque)
->      PowerPCCPU *cpu =3D opaque;
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-> +    PnvChipClass *pcc;
-> +    Object *chip;
-> =20
->      cpu_reset(cs);
-> =20
-> @@ -55,6 +57,10 @@ static void pnv_cpu_reset(void *opaque)
->      env->gpr[3] =3D PNV_FDT_ADDR;
->      env->nip =3D 0x10;
->      env->msr |=3D MSR_HVB; /* Hypervisor mode */
-> +
-> +    chip =3D object_property_get_link(OBJECT(cpu), "chip", &error_fatal);
-> +    pcc =3D PNV_CHIP_GET_CLASS(chip);
-> +    pcc->intc_reset(PNV_CHIP(chip), cpu);
->  }
-> =20
->  /*
-> @@ -169,6 +175,8 @@ static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChip=
- *chip, Error **errp)
->      Error *local_err =3D NULL;
->      PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-> =20
-> +    object_property_add_const_link(OBJECT(cpu), "chip",
-> +                                   OBJECT(chip), &error_fatal);
->      object_property_set_bool(OBJECT(cpu), true, "realized", &local_err);
->      if (local_err) {
->          error_propagate(errp, local_err);
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 5947e39b36ad..d2903c2d0f22 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -32,6 +32,7 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
->      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
->      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
->      target_ulong lpcr;
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> =20
->      cpu_reset(cs);
-> =20
-> @@ -76,9 +77,11 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
->      spapr_cpu->dtl_addr =3D 0;
->      spapr_cpu->dtl_size =3D 0;
-> =20
-> -    spapr_caps_cpu_apply(SPAPR_MACHINE(qdev_get_machine()), cpu);
-> +    spapr_caps_cpu_apply(spapr, cpu);
-> =20
->      kvm_check_mmu(cpu, &error_fatal);
-> +
-> +    spapr_irq_cpu_intc_reset(spapr, cpu);
->  }
-> =20
->  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target=
-_ulong r3)
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 234d1073e518..b941608b69ba 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -220,6 +220,20 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spa=
-pr,
->      return 0;
->  }
-> =20
-> +void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cpu)
-> +{
-> +    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-> +    int i;
-> +
-> +    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
-> +        SpaprInterruptController *intc =3D intcs[i];
-> +        if (intc) {
-> +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
-(intc);
-> +            sicc->cpu_intc_reset(intc, cpu);
-> +        }
-> +    }
-> +}
-> +
->  static void spapr_set_irq(void *opaque, int irq, int level)
->  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
+The Macintosh hardware includes hardware handshaking to prevent the CPU
+from reading invalid data or writing data faster than the peripheral
+device can accept it.
+
+This is the "blind mode", and from the doc:
+"Approximate maximum SCSI transfer rates within a blocks are 1.4 MB per
+second for blind transfers in the Macintosh II"
+
+Some references can be found in:
+  Apple Macintosh Family Hardware Reference, ISBN 0-201-19255-1
+  Guide to the Macintosh Family Hardware, ISBN-0-201-52405-8
+
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ include/hw/scsi/esp.h |  15 ++
+ hw/scsi/esp.c         | 338 ++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 324 insertions(+), 29 deletions(-)
+
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index adab63d1c9..6ba47dac41 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -14,10 +14,18 @@ typedef void (*ESPDMAMemoryReadWriteFunc)(void *opaque, uint8_t *buf, int len);
+ 
+ typedef struct ESPState ESPState;
+ 
++enum pdma_origin_id {
++    PDMA,
++    TI,
++    CMD,
++    ASYNC,
++};
++
+ struct ESPState {
+     uint8_t rregs[ESP_REGS];
+     uint8_t wregs[ESP_REGS];
+     qemu_irq irq;
++    qemu_irq irq_data;
+     uint8_t chip_id;
+     bool tchi_written;
+     int32_t ti_size;
+@@ -48,6 +56,12 @@ struct ESPState {
+     ESPDMAMemoryReadWriteFunc dma_memory_write;
+     void *dma_opaque;
+     void (*dma_cb)(ESPState *s);
++    uint8_t pdma_buf[32];
++    int pdma_origin;
++    uint32_t pdma_len;
++    uint32_t pdma_start;
++    uint32_t pdma_cur;
++    void (*pdma_cb)(ESPState *s);
+ };
+ 
+ #define TYPE_ESP "esp"
+@@ -59,6 +73,7 @@ typedef struct {
+     /*< public >*/
+ 
+     MemoryRegion iomem;
++    MemoryRegion pdma;
+     uint32_t it_shift;
+     ESPState esp;
+ } SysBusESPState;
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 841d79b60e..90b40c4cb5 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -38,6 +38,8 @@
+  * http://www.ibiblio.org/pub/historic-linux/early-ports/Sparc/NCR/NCR89C100.txt
+  * and
+  * http://www.ibiblio.org/pub/historic-linux/early-ports/Sparc/NCR/NCR53C9X.txt
++ *
++ * On Macintosh Quadra it is a NCR53C96.
+  */
+ 
+ static void esp_raise_irq(ESPState *s)
+@@ -58,6 +60,16 @@ static void esp_lower_irq(ESPState *s)
+     }
+ }
+ 
++static void esp_raise_drq(ESPState *s)
++{
++    qemu_irq_raise(s->irq_data);
++}
++
++static void esp_lower_drq(ESPState *s)
++{
++    qemu_irq_lower(s->irq_data);
++}
++
+ void esp_dma_enable(ESPState *s, int irq, int level)
+ {
+     if (level) {
+@@ -84,29 +96,35 @@ void esp_request_cancelled(SCSIRequest *req)
+     }
+ }
+ 
+-static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
++static void set_pdma(ESPState *s, enum pdma_origin_id origin,
++                     uint32_t index, uint32_t len)
++{
++    s->pdma_origin = origin;
++    s->pdma_start = index;
++    s->pdma_cur = index;
++    s->pdma_len = len;
++}
++
++static uint8_t *get_pdma_buf(ESPState *s)
++{
++    switch (s->pdma_origin) {
++    case PDMA:
++        return s->pdma_buf;
++    case TI:
++        return s->ti_buf;
++    case CMD:
++        return s->cmdbuf;
++    case ASYNC:
++        return s->async_buf;
++    }
++    return NULL;
++}
++
++static int get_cmd_cb(ESPState *s)
+ {
+-    uint32_t dmalen;
+     int target;
+ 
+     target = s->wregs[ESP_WBUSID] & BUSID_DID;
+-    if (s->dma) {
+-        dmalen = s->rregs[ESP_TCLO];
+-        dmalen |= s->rregs[ESP_TCMID] << 8;
+-        dmalen |= s->rregs[ESP_TCHI] << 16;
+-        if (dmalen > buflen) {
+-            return 0;
+-        }
+-        s->dma_memory_read(s->dma_opaque, buf, dmalen);
+-    } else {
+-        dmalen = s->ti_size;
+-        if (dmalen > TI_BUFSZ) {
+-            return 0;
+-        }
+-        memcpy(buf, s->ti_buf, dmalen);
+-        buf[0] = buf[2] >> 5;
+-    }
+-    trace_esp_get_cmd(dmalen, target);
+ 
+     s->ti_size = 0;
+     s->ti_rptr = 0;
+@@ -125,8 +143,46 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
+         s->rregs[ESP_RINTR] = INTR_DC;
+         s->rregs[ESP_RSEQ] = SEQ_0;
+         esp_raise_irq(s);
++        return -1;
++    }
++    return 0;
++}
++
++static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
++{
++    int target;
++    uint32_t dmalen;
++
++    target = s->wregs[ESP_WBUSID] & BUSID_DID;
++    if (s->dma) {
++        dmalen = s->rregs[ESP_TCLO];
++        dmalen |= s->rregs[ESP_TCMID] << 8;
++        dmalen |= s->rregs[ESP_TCHI] << 16;
++        if (dmalen > buflen) {
++            return 0;
++        }
++        if (s->dma_memory_read) {
++            s->dma_memory_read(s->dma_opaque, buf, dmalen);
++        } else {
++            memcpy(s->pdma_buf, buf, dmalen);
++            set_pdma(s, PDMA, 0, dmalen);
++            esp_raise_drq(s);
++            return 0;
++        }
++    } else {
++        dmalen = s->ti_size;
++        if (dmalen > TI_BUFSZ) {
++            return 0;
++        }
++        memcpy(buf, s->ti_buf, dmalen);
++        buf[0] = buf[2] >> 5;
++    }
++    trace_esp_get_cmd(dmalen, target);
++
++    if (get_cmd_cb(s) < 0) {
+         return 0;
+     }
++
+     return dmalen;
+ }
+ 
+@@ -165,6 +221,16 @@ static void do_cmd(ESPState *s, uint8_t *buf)
+     do_busid_cmd(s, &buf[1], busid);
+ }
+ 
++static void satn_pdma_cb(ESPState *s)
++{
++    if (get_cmd_cb(s) < 0) {
++        return;
++    }
++    if (s->pdma_cur != s->pdma_start) {
++        do_cmd(s, get_pdma_buf(s) + s->pdma_start);
++    }
++}
++
+ static void handle_satn(ESPState *s)
+ {
+     uint8_t buf[32];
+@@ -174,11 +240,22 @@ static void handle_satn(ESPState *s)
+         s->dma_cb = handle_satn;
+         return;
+     }
++    s->pdma_cb = satn_pdma_cb;
+     len = get_cmd(s, buf, sizeof(buf));
+     if (len)
+         do_cmd(s, buf);
+ }
+ 
++static void s_without_satn_pdma_cb(ESPState *s)
++{
++    if (get_cmd_cb(s) < 0) {
++        return;
++    }
++    if (s->pdma_cur != s->pdma_start) {
++        do_busid_cmd(s, get_pdma_buf(s) + s->pdma_start, 0);
++    }
++}
++
+ static void handle_s_without_atn(ESPState *s)
+ {
+     uint8_t buf[32];
+@@ -188,18 +265,36 @@ static void handle_s_without_atn(ESPState *s)
+         s->dma_cb = handle_s_without_atn;
+         return;
+     }
++    s->pdma_cb = s_without_satn_pdma_cb;
+     len = get_cmd(s, buf, sizeof(buf));
+     if (len) {
+         do_busid_cmd(s, buf, 0);
+     }
+ }
+ 
++static void satn_stop_pdma_cb(ESPState *s)
++{
++    if (get_cmd_cb(s) < 0) {
++        return;
++    }
++    s->cmdlen = s->pdma_cur - s->pdma_start;
++    if (s->cmdlen) {
++        trace_esp_handle_satn_stop(s->cmdlen);
++        s->do_cmd = 1;
++        s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
++        s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        esp_raise_irq(s);
++    }
++}
++
+ static void handle_satn_stop(ESPState *s)
+ {
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_satn_stop;
+         return;
+     }
++    s->pdma_cb = satn_stop_pdma_cb;;
+     s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
+     if (s->cmdlen) {
+         trace_esp_handle_satn_stop(s->cmdlen);
+@@ -211,16 +306,31 @@ static void handle_satn_stop(ESPState *s)
+     }
+ }
+ 
++static void write_response_pdma_cb(ESPState *s)
++{
++    s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
++    s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
++    s->rregs[ESP_RSEQ] = SEQ_CD;
++    esp_raise_irq(s);
++}
++
+ static void write_response(ESPState *s)
+ {
+     trace_esp_write_response(s->status);
+     s->ti_buf[0] = s->status;
+     s->ti_buf[1] = 0;
+     if (s->dma) {
+-        s->dma_memory_write(s->dma_opaque, s->ti_buf, 2);
+-        s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
+-        s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
+-        s->rregs[ESP_RSEQ] = SEQ_CD;
++        if (s->dma_memory_write) {
++            s->dma_memory_write(s->dma_opaque, s->ti_buf, 2);
++            s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
++            s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
++            s->rregs[ESP_RSEQ] = SEQ_CD;
++        } else {
++            set_pdma(s, TI, 0, 2);
++            s->pdma_cb = write_response_pdma_cb;
++            esp_raise_drq(s);
++            return;
++        }
+     } else {
+         s->ti_size = 2;
+         s->ti_rptr = 0;
+@@ -242,6 +352,41 @@ static void esp_dma_done(ESPState *s)
+     esp_raise_irq(s);
+ }
+ 
++static void do_dma_pdma_cb(ESPState *s)
++{
++    int to_device = (s->ti_size < 0);
++    int len = s->pdma_cur - s->pdma_start;
++    if (s->do_cmd) {
++        s->ti_size = 0;
++        s->cmdlen = 0;
++        s->do_cmd = 0;
++        do_cmd(s, s->cmdbuf);
++        return;
++    }
++    s->dma_left -= len;
++    s->async_buf += len;
++    s->async_len -= len;
++    if (to_device) {
++        s->ti_size += len;
++    } else {
++        s->ti_size -= len;
++    }
++    if (s->async_len == 0) {
++        scsi_req_continue(s->current_req);
++        /*
++         * If there is still data to be read from the device then
++         * complete the DMA operation immediately.  Otherwise defer
++         * until the scsi layer has completed.
++         */
++        if (to_device || s->dma_left != 0 || s->ti_size == 0) {
++            return;
++        }
++    }
++
++    /* Partially filled a scsi buffer. Complete immediately.  */
++    esp_dma_done(s);
++}
++
+ static void esp_do_dma(ESPState *s)
+ {
+     uint32_t len;
+@@ -252,10 +397,25 @@ static void esp_do_dma(ESPState *s)
+         trace_esp_do_dma(s->cmdlen, len);
+         assert (s->cmdlen <= sizeof(s->cmdbuf) &&
+                 len <= sizeof(s->cmdbuf) - s->cmdlen);
+-        s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
++        if (s->dma_memory_read) {
++            s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
++        } else {
++            set_pdma(s, CMD, s->cmdlen, len);
++            s->pdma_cb = do_dma_pdma_cb;
++            esp_raise_drq(s);
++            return;
++        }
++        trace_esp_handle_ti_cmd(s->cmdlen);
++        s->ti_size = 0;
++        s->cmdlen = 0;
++        s->do_cmd = 0;
++        do_cmd(s, s->cmdbuf);
+         return;
+     }
+     if (s->async_len == 0) {
++        if (s->dma_left == 0) {
++            esp_dma_done(s);
++        }
+         /* Defer until data is available.  */
+         return;
+     }
+@@ -264,9 +424,23 @@ static void esp_do_dma(ESPState *s)
+     }
+     to_device = (s->ti_size < 0);
+     if (to_device) {
+-        s->dma_memory_read(s->dma_opaque, s->async_buf, len);
++        if (s->dma_memory_read) {
++            s->dma_memory_read(s->dma_opaque, s->async_buf, len);
++        } else {
++            set_pdma(s, ASYNC, 0, len);
++            s->pdma_cb = do_dma_pdma_cb;
++            esp_raise_drq(s);
++            return;
++        }
+     } else {
+-        s->dma_memory_write(s->dma_opaque, s->async_buf, len);
++        if (s->dma_memory_write) {
++            s->dma_memory_write(s->dma_opaque, s->async_buf, len);
++        } else {
++            set_pdma(s, ASYNC, 0, len);
++            s->pdma_cb = do_dma_pdma_cb;
++            esp_raise_drq(s);
++            return;
++        }
+     }
+     s->dma_left -= len;
+     s->async_buf += len;
+@@ -373,8 +547,7 @@ static void handle_ti(ESPState *s)
+         s->dma_left = minlen;
+         s->rregs[ESP_RSTAT] &= ~STAT_TC;
+         esp_do_dma(s);
+-    }
+-    if (s->do_cmd) {
++    } else if (s->do_cmd) {
+         trace_esp_handle_ti_cmd(s->cmdlen);
+         s->ti_size = 0;
+         s->cmdlen = 0;
+@@ -401,6 +574,7 @@ void esp_hard_reset(ESPState *s)
+ static void esp_soft_reset(ESPState *s)
+ {
+     qemu_irq_lower(s->irq);
++    qemu_irq_lower(s->irq_data);
+     esp_hard_reset(s);
+ }
+ 
+@@ -590,6 +764,28 @@ static bool esp_mem_accepts(void *opaque, hwaddr addr,
+     return (size == 1) || (is_write && size == 4);
+ }
+ 
++static bool esp_pdma_needed(void *opaque)
++{
++    ESPState *s = opaque;
++    return s->dma_memory_read == NULL && s->dma_memory_write == NULL &&
++           s->dma_enabled;
++}
++
++static const VMStateDescription vmstate_esp_pdma = {
++    .name = "esp/pdma",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = esp_pdma_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_BUFFER(pdma_buf, ESPState),
++        VMSTATE_INT32(pdma_origin, ESPState),
++        VMSTATE_UINT32(pdma_len, ESPState),
++        VMSTATE_UINT32(pdma_start, ESPState),
++        VMSTATE_UINT32(pdma_cur, ESPState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_esp = {
+     .name ="esp",
+     .version_id = 4,
+@@ -611,6 +807,10 @@ const VMStateDescription vmstate_esp = {
+         VMSTATE_UINT32(do_cmd, ESPState),
+         VMSTATE_UINT32(dma_left, ESPState),
+         VMSTATE_END_OF_LIST()
++    },
++    .subsections = (const VMStateDescription * []) {
++        &vmstate_esp_pdma,
++        NULL
+     }
+ };
+ 
+@@ -641,6 +841,82 @@ static const MemoryRegionOps sysbus_esp_mem_ops = {
+     .valid.accepts = esp_mem_accepts,
+ };
+ 
++static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
++                                  uint64_t val, unsigned int size)
++{
++    SysBusESPState *sysbus = opaque;
++    ESPState *s = &sysbus->esp;
++    uint32_t dmalen;
++    uint8_t *buf = get_pdma_buf(s);
++
++    dmalen = s->rregs[ESP_TCLO];
++    dmalen |= s->rregs[ESP_TCMID] << 8;
++    dmalen |= s->rregs[ESP_TCHI] << 16;
++    if (dmalen == 0 || s->pdma_len == 0) {
++        return;
++    }
++    switch (size) {
++    case 1:
++        buf[s->pdma_cur++] = val;
++        s->pdma_len--;
++        dmalen--;
++        break;
++    case 2:
++        buf[s->pdma_cur++] = val >> 8;
++        buf[s->pdma_cur++] = val;
++        s->pdma_len -= 2;
++        dmalen -= 2;
++        break;
++    }
++    s->rregs[ESP_TCLO] = dmalen & 0xff;
++    s->rregs[ESP_TCMID] = dmalen >> 8;
++    s->rregs[ESP_TCHI] = dmalen >> 16;
++    if (s->pdma_len == 0 && s->pdma_cb) {
++        esp_lower_drq(s);
++        s->pdma_cb(s);
++        s->pdma_cb = NULL;
++    }
++}
++
++static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
++                                     unsigned int size)
++{
++    SysBusESPState *sysbus = opaque;
++    ESPState *s = &sysbus->esp;
++    uint8_t *buf = get_pdma_buf(s);
++    uint64_t val = 0;
++
++    if (s->pdma_len == 0) {
++        return 0;
++    }
++    switch (size) {
++    case 1:
++        val = buf[s->pdma_cur++];
++        s->pdma_len--;
++        break;
++    case 2:
++        val = buf[s->pdma_cur++];
++        val = (val << 8) | buf[s->pdma_cur++];
++        s->pdma_len -= 2;
++        break;
++    }
++
++    if (s->pdma_len == 0 && s->pdma_cb) {
++        esp_lower_drq(s);
++        s->pdma_cb(s);
++        s->pdma_cb = NULL;
++    }
++    return val;
++}
++
++static const MemoryRegionOps sysbus_esp_pdma_ops = {
++    .read = sysbus_esp_pdma_read,
++    .write = sysbus_esp_pdma_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 2,
++};
++
+ static const struct SCSIBusInfo esp_scsi_info = {
+     .tcq = false,
+     .max_target = ESP_MAX_DEVS,
+@@ -673,12 +949,16 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
+     ESPState *s = &sysbus->esp;
+ 
+     sysbus_init_irq(sbd, &s->irq);
++    sysbus_init_irq(sbd, &s->irq_data);
+     assert(sysbus->it_shift != -1);
+ 
+     s->chip_id = TCHI_FAS100A;
+     memory_region_init_io(&sysbus->iomem, OBJECT(sysbus), &sysbus_esp_mem_ops,
+-                          sysbus, "esp", ESP_REGS << sysbus->it_shift);
++                          sysbus, "esp-regs", ESP_REGS << sysbus->it_shift);
+     sysbus_init_mmio(sbd, &sysbus->iomem);
++    memory_region_init_io(&sysbus->pdma, OBJECT(sysbus), &sysbus_esp_pdma_ops,
++                          sysbus, "esp-pdma", 2);
++    sysbus_init_mmio(sbd, &sysbus->pdma);
+ 
+     qdev_init_gpio_in(dev, sysbus_esp_gpio_demux, 2);
+ 
+-- 
+2.21.0
 
 
