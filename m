@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA5AE0C33
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:04:42 +0200 (CEST)
-Received: from localhost ([::1]:41506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A16DAE0C80
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:22:44 +0200 (CEST)
+Received: from localhost ([::1]:42058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMzST-0007cy-Pd
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:04:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
+	id 1iMzjv-00086M-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iMzQa-00074Y-2h
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:02:45 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzeh-0002QO-B8
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iMzQX-0000IB-R1
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:02:43 -0400
-Resent-Date: Tue, 22 Oct 2019 15:02:43 -0400
-Resent-Message-Id: <E1iMzQX-0000IB-R1@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21468)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iMzQX-0000Hl-ET; Tue, 22 Oct 2019 15:02:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571770932; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=HlVe8mti7whsOfzYxKWZAwz0SQs2vA0CnbepQmJWS7ApTBheS9Qm9AxdabrJP0wsm40Wb9reJWa/DnwqPu8HPFDC80N7X0nsWR9BP03iV06RMfTDxhSIjngWv7r4AbnIMjXXdNzChk7wgBpVCPSp0gtoQAy6+Ob4If2b61/R5Y8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571770932;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6aFQURCgMk4UGFShsJp9H33SSNHFid2bawIVpZQs22w=; 
- b=L7RcdcF+5nTC/ZKaWbEtfwJRPnCjuMJugmQTMSBZ8+YkNEdHEGznbdXT/WvUSQDT/AntP/6/xkuCaxHQYETrocRDCZi4RqDPa4/o/3GRRLXBkK5gDKVWxx0hZJG8dYBxdDl8Spo+yYMMO35XrRSafhIymtxn0IiEhTrdLwAD190=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571770930359371.31486011532695;
- Tue, 22 Oct 2019 12:02:10 -0700 (PDT)
-In-Reply-To: <20191022111738.20803-1-laurent@vivier.eu>
-Subject: Re: [PATCH v14 0/9] hw/m68k: add Apple Machintosh Quadra 800 machine
-Message-ID: <157177092820.12860.9657269944687850302@37313f22b938>
+ (envelope-from <alex.bennee@linaro.org>) id 1iMzee-0005Kc-1o
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:17 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38594)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iMzec-0005Bh-3g
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:17:15 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 3so17248492wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5n/Del3i3mT5eJ43EABNcCzBNbRxcjW2MNK6RlSEeSg=;
+ b=GeAR6izDQLxCQOSpdD9GmUzDSF+M0AYCQh03uT0bDoAhGghHxgDwzKzOxGl1a6PlDY
+ Dt+KSaIqmHJKCTIhTdCXZ4SRFGcyn9TsTSLpdwTM5vMZ2iQTDx9oMYr45XItjVK6fJSq
+ mb2ckrvEXps0Byer7Pkb0UyFrH8O4dGv8uFbHN8FZtbXxR3Z/Z6Wnimh4NAgDwbhHAfY
+ VdM+Z9/EPJCGIlFmZ92CUQIqgs+DyfYFCmVsE0eNhz1rI3FAzNhUJ5+Uf3BafR7J1FGt
+ mvu+W4B3ho8kZ412BRQYPb2dBfY8G7dgQpFFPvgjQ7v9eeCTU5bLh2FDlAwCKNxGRtKy
+ Hu1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5n/Del3i3mT5eJ43EABNcCzBNbRxcjW2MNK6RlSEeSg=;
+ b=ulH7KIq7JraveIXN5iGnzcbnLrc1UysRR1qOp++Azjrw93NkI9Qu27H12VpBSaGDnq
+ ibvb8BGi+HwrfKcWjYmPP7Ud4aCk5ZfvtSEn+TA01WErlFvcPorYK08E5K7U8VXlMWdX
+ R/8hU1GriEHC/JbkMbzWbJuAnxyiwFgw2u/KV07HbT1TbgTltnEY2NPOeRJ/JG/ERl81
+ bZRysw206utw8AdvQoxsiBHQ8sOfaP1u7X5dAS+09bSuXt2XIqzEP47UcgPODmXR78dq
+ cR8d6qKdAVqxUikFZbFk3CcogDRE71hujRIafnUswCw5x9emwf8nu/p97jSOb+dkwX63
+ OtQQ==
+X-Gm-Message-State: APjAAAXHAOA7BpTYTYp20EPkYQYLRkt/v0qV7hJ6Zhevxq7jY/nIxa7P
+ 9GnycZwCfCLBM+znhV2qe0tOCQ==
+X-Google-Smtp-Source: APXvYqxN+loYZvY3OCA07ZyW9dyxEkPTRcPkjEv+ncwGbPxi/uOzBA2qcv/DrkWFGIT0kS7z1D/Rwg==
+X-Received: by 2002:a1c:9990:: with SMTP id b138mr4539141wme.176.1571771826616; 
+ Tue, 22 Oct 2019 12:17:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y3sm31834778wro.36.2019.10.22.12.17.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 12:17:05 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3A80B1FF87;
+ Tue, 22 Oct 2019 20:17:04 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 4.2 v1 00/19] testing/next before softfreeze
+Date: Tue, 22 Oct 2019 20:16:45 +0100
+Message-Id: <20191022191704.6134-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Tue, 22 Oct 2019 12:02:10 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,80 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, huth@tuxfamily.org,
- jasowang@redhat.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- dgilbert@redhat.com, hpoussin@reactos.org, kraxel@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, mreitz@redhat.com,
- philmd@redhat.com, aurelien@aurel32.net, laurent@vivier.eu
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyMjExMTczOC4yMDgw
-My0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjE0IDAvOV0gaHcvbTY4azogYWRkIEFwcGxlIE1h
-Y2hpbnRvc2ggUXVhZHJhIDgwMCBtYWNoaW5lClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5
-MTAyMjExMTczOC4yMDgwMy0xLWxhdXJlbnRAdml2aWVyLmV1Cgo9PT0gVEVTVCBTQ1JJUFQgQkVH
-SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
-c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
-VCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRi
-ZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjk1MjNiNGUgQm9vdExp
-bnV4Q29uc29sZVRlc3Q6IFRlc3QgdGhlIFF1YWRyYSA4MDAKNmMxMjU5ZCBody9tNjhrOiBkZWZp
-bmUgTWFjaW50b3NoIFF1YWRyYSA4MDAKYWQ2ZjA3YSBody9tNjhrOiBhZGQgYSBkdW1teSBTV0lN
-IGZsb3BweSBjb250cm9sbGVyCjA1M2VlOWMgaHcvbTY4azogYWRkIE51YnVzIG1hY2ZiIHZpZGVv
-IGNhcmQKMzdmMmUwMyBody9tNjhrOiBhZGQgTnVidXMgc3VwcG9ydAo0MDkyOGRlIGh3L202OGs6
-IGltcGxlbWVudCBBREIgYnVzIHN1cHBvcnQgZm9yIHZpYQo2M2ZiNjhkIGh3L202OGs6IGFkZCBW
-SUEgc3VwcG9ydAo3Mjg1NWY5IGRwODM5M3g6IG1hbmFnZSBiaWcgZW5kaWFuIGJ1cwpjM2E2NzNh
-IGVzcDogYWRkIHBzZXVkby1ETUEgYXMgdXNlZCBieSBNYWNpbnRvc2gKCj09PSBPVVRQVVQgQkVH
-SU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgYzNhNjczYTI3YzcyIChlc3A6IGFkZCBwc2V1ZG8t
-RE1BIGFzIHVzZWQgYnkgTWFjaW50b3NoKQoyLzkgQ2hlY2tpbmcgY29tbWl0IDcyODU1ZjliNzRj
-NCAoZHA4MzkzeDogbWFuYWdlIGJpZyBlbmRpYW4gYnVzKQozLzkgQ2hlY2tpbmcgY29tbWl0IDYz
-ZmI2OGRjYzNlMiAoaHcvbTY4azogYWRkIFZJQSBzdXBwb3J0KQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM4
-MzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0
-aGF0ICcmJicgKGN0eDpXeFcpCiM0NTU6IEZJTEU6IGh3L21pc2MvbWFjX3ZpYS5jOjM2ODoKKyAg
-ICAgICAgaWYgKCEodjFzLT5sYXN0X2IgJiBWSUExQl92UlRDQ2xrKSAmJiAocy0+YiAmIFZJQTFC
-X3ZSVENDbGspKSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-XgoKdG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA5MTIgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
-My85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo0LzkgQ2hlY2tpbmcgY29tbWl0IDQwOTI4
-ZGViZTRlYiAoaHcvbTY4azogaW1wbGVtZW50IEFEQiBidXMgc3VwcG9ydCBmb3IgdmlhKQo1Lzkg
-Q2hlY2tpbmcgY29tbWl0IDM3ZjJlMDMzZTNlNiAoaHcvbTY4azogYWRkIE51YnVzIHN1cHBvcnQp
-CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
-UlMgbmVlZCB1cGRhdGluZz8KIzY0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVy
-cm9ycywgMSB3YXJuaW5ncywgNTMxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOSBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgo2LzkgQ2hlY2tpbmcgY29tbWl0IDA1M2VlOWM2NTcwNSAoaHcvbTY4
-azogYWRkIE51YnVzIG1hY2ZiIHZpZGVvIGNhcmQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzc1OiAKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTk3IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDYvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzkgQ2hlY2tp
-bmcgY29tbWl0IGFkNmYwN2FiNjE2YiAoaHcvbTY4azogYWRkIGEgZHVtbXkgU1dJTSBmbG9wcHkg
-Y29udHJvbGxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9l
-cyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjI6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoK
-dG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OTMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNy85
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjgvOSBDaGVja2luZyBjb21taXQgNmMxMjU5ZDUy
-ZjY1IChody9tNjhrOiBkZWZpbmUgTWFjaW50b3NoIFF1YWRyYSA4MDApCldBUk5JTkc6IGFkZGVk
-LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
-Zz8KIzcxOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5n
-cywgNTMwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-Lgo5LzkgQ2hlY2tpbmcgY29tbWl0IDk1MjNiNGViODkyNyAoQm9vdExpbnV4Q29uc29sZVRlc3Q6
-IFRlc3QgdGhlIFF1YWRyYSA4MDApCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4
-aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9w
-YXRjaGV3Lm9yZy9sb2dzLzIwMTkxMDIyMTExNzM4LjIwODAzLTEtbGF1cmVudEB2aXZpZXIuZXUv
-dGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
-b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
-IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Hi,
+
+This is the current status of testing/next. I dropped the Travis arm64
+build due to stability concerns. As far as I can tell Thomas' latest
+iotest updates are working fine. If there are any other patches worth
+considering before the softfreeze now is the time to shout.
+
+Alex Bennée (5):
+  travis.yml: reduce scope of the --enable-debug build
+  cirrus.yml: reduce scope of MacOS build
+  travis.yml: bump Xcode 10 to latest dot release
+  cirrus.yml: add latest Xcode build target
+  travis.yml: cache the clang sanitizer build
+
+Eduardo Habkost (2):
+  tests/vm: Let subclasses disable IPv6
+  tests/vm/netbsd: Disable IPv6
+
+Gerd Hoffmann (1):
+  tests/vm: netbsd autoinstall, using serial console
+
+John Snow (1):
+  iotests: remove 'linux' from default supported platforms
+
+Philippe Mathieu-Daudé (1):
+  travis.yml: Test the release tarball
+
+Thomas Huth (9):
+  travis.yml: Add libvdeplug-dev to compile-test net/vde.c
+  travis.yml: Use libsdl2 instead of libsdl1.2, and install
+    libsdl2-image
+  travis.yml: Use newer version of libgnutls and libpng
+  travis.yml: Fix the ccache lines
+  iotests: Test 041 only works on certain systems
+  iotests: Test 183 does not work on macOS and OpenBSD
+  iotests: Skip "make check-block" if QEMU does not support virtio-blk
+  iotests: Enable more tests in the 'auto' group to improve test
+    coverage
+  iotests: Remove 130 from the "auto" group
+
+ .cirrus.yml                   |  14 ++-
+ .travis.yml                   |  46 ++++++--
+ tests/check-block.sh          |  16 ++-
+ tests/qemu-iotests/041        |   3 +-
+ tests/qemu-iotests/183        |   1 +
+ tests/qemu-iotests/group      |  18 ++--
+ tests/qemu-iotests/iotests.py |  16 ++-
+ tests/vm/basevm.py            |  15 ++-
+ tests/vm/netbsd               | 195 ++++++++++++++++++++++++++++++++--
+ 9 files changed, 285 insertions(+), 39 deletions(-)
+
+-- 
+2.20.1
 
 
