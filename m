@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BBBE02C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:24:47 +0200 (CEST)
-Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9CCE02C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:22:16 +0200 (CEST)
+Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsHO-0003da-E2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44058)
+	id 1iMsEx-0000MG-0b
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iMsB5-0004Bt-8s
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:16 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iMsB3-0004AU-Sx
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iMsB3-0007hl-Ib
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:15 -0400
-Received: from relay.sw.ru ([185.231.240.75]:51908)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iMsB2-0007h7-Rg
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:13 -0400
+Received: from relay.sw.ru ([185.231.240.75]:51920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iMsB0-0007dk-2y; Tue, 22 Oct 2019 07:18:10 -0400
+ id 1iMsB0-0007dn-2x; Tue, 22 Oct 2019 07:18:10 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iMsAw-0003JX-PD; Tue, 22 Oct 2019 14:18:06 +0300
+ id 1iMsAw-0003JX-TA; Tue, 22 Oct 2019 14:18:06 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 4/6] util: introduce SharedResource
-Date: Tue, 22 Oct 2019 14:18:03 +0300
-Message-Id: <20191022111805.3432-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 5/6] block/block-copy: add memory limit
+Date: Tue, 22 Oct 2019 14:18:04 +0300
+Message-Id: <20191022111805.3432-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022111805.3432-1-vsementsov@virtuozzo.com>
 References: <20191022111805.3432-1-vsementsov@virtuozzo.com>
@@ -52,197 +52,78 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce an API for some shared splittable resource, like memory.
-It's going to be used by backup. Backup uses both read/write io and
-copy_range. copy_range may consume memory implictly, so the new API is
-abstract: it doesn't allocate any real memory but only hands out
-tickets.
+Currently total allocation for parallel requests to block-copy instance
+is unlimited. Let's limit it to 128 MiB.
 
-The idea is that we have some total amount of something and callers
-should wait in coroutine queue if there is not enough of the resource
-at the moment.
+For now block-copy is used only in backup, so actually we limit total
+allocation for backup job.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/qemu/co-shared-resource.h | 71 +++++++++++++++++++++++++++++
- util/qemu-co-shared-resource.c    | 76 +++++++++++++++++++++++++++++++
- util/Makefile.objs                |  1 +
- 3 files changed, 148 insertions(+)
- create mode 100644 include/qemu/co-shared-resource.h
- create mode 100644 util/qemu-co-shared-resource.c
+ include/block/block-copy.h | 3 +++
+ block/block-copy.c         | 5 +++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/include/qemu/co-shared-resource.h b/include/qemu/co-shared-resource.h
-new file mode 100644
-index 0000000000..4e4503004c
---- /dev/null
-+++ b/include/qemu/co-shared-resource.h
-@@ -0,0 +1,71 @@
-+/*
-+ * Helper functionality for distributing a fixed total amount of
-+ * an abstract resource among multiple coroutines.
-+ *
-+ * Copyright (c) 2019 Virtuozzo International GmbH
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef QEMU_CO_SHARED_RESOURCE_H
-+#define QEMU_CO_SHARED_RESOURCE_H
-+
-+
-+typedef struct SharedResource SharedResource;
-+
-+/*
-+ * Create SharedResource structure
-+ *
-+ * @total: total amount of some resource to be shared between clients
-+ *
-+ * Note: this API is not thread-safe.
-+ */
-+SharedResource *shres_create(uint64_t total);
-+
-+/*
-+ * Release SharedResource structure
-+ *
-+ * This function may only be called once everything allocated by all
-+ * clients has been deallocated.
-+ */
-+void shres_destroy(SharedResource *s);
-+
-+/*
-+ * Try to allocate an amount of @n.  Return true on success, and false
-+ * if there is too little left of the collective resource to fulfill
-+ * the request.
-+ */
-+bool co_try_get_from_shres(SharedResource *s, uint64_t n);
-+
-+/*
-+ * Allocate an amount of @n, and, if necessary, yield until
-+ * that becomes possible.
-+ */
-+void coroutine_fn co_get_from_shres(SharedResource *s, uint64_t n);
-+
-+/*
-+ * Deallocate an amount of @n.  The total amount allocated by a caller
-+ * does not need to be deallocated/released with a single call, but may
-+ * be split over several calls.  For example, get(4), get(3), and then
-+ * put(5), put(2).
-+ */
-+void coroutine_fn co_put_to_shres(SharedResource *s, uint64_t n);
-+
-+
-+#endif /* QEMU_CO_SHARED_RESOURCE_H */
-diff --git a/util/qemu-co-shared-resource.c b/util/qemu-co-shared-resource.c
-new file mode 100644
-index 0000000000..1c83cd9d29
---- /dev/null
-+++ b/util/qemu-co-shared-resource.c
-@@ -0,0 +1,76 @@
-+/*
-+ * Helper functionality for distributing a fixed total amount of
-+ * an abstract resource among multiple coroutines.
-+ *
-+ * Copyright (c) 2019 Virtuozzo International GmbH
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/coroutine.h"
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index e2e135ff1b..edcdf0072d 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -16,6 +16,7 @@
+ #define BLOCK_COPY_H
+ 
+ #include "block/block.h"
 +#include "qemu/co-shared-resource.h"
+ 
+ typedef struct BlockCopyInFlightReq {
+     int64_t start_byte;
+@@ -69,6 +70,8 @@ typedef struct BlockCopyState {
+      */
+     ProgressResetCallbackFunc progress_reset_callback;
+     void *progress_opaque;
 +
-+struct SharedResource {
-+    uint64_t total;
-+    uint64_t available;
-+
-+    CoQueue queue;
-+};
-+
-+SharedResource *shres_create(uint64_t total)
-+{
-+    SharedResource *s = g_new0(SharedResource, 1);
-+
-+    s->total = s->available = total;
-+    qemu_co_queue_init(&s->queue);
-+
-+    return s;
-+}
-+
-+void shres_destroy(SharedResource *s)
-+{
-+    assert(s->available == s->total);
-+    g_free(s);
-+}
-+
-+bool co_try_get_from_shres(SharedResource *s, uint64_t n)
-+{
-+    if (s->available >= n) {
-+        s->available -= n;
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+void coroutine_fn co_get_from_shres(SharedResource *s, uint64_t n)
-+{
-+    assert(n <= s->total);
-+    while (!co_try_get_from_shres(s, n)) {
-+        qemu_co_queue_wait(&s->queue, NULL);
-+    }
-+}
-+
-+void coroutine_fn co_put_to_shres(SharedResource *s, uint64_t n)
-+{
-+    assert(s->total - s->available >= n);
-+    s->available += n;
-+    qemu_co_queue_restart_all(&s->queue);
-+}
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 41bf59d127..df124af1c5 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -37,6 +37,7 @@ util-obj-y += rcu.o
- util-obj-$(CONFIG_MEMBARRIER) += sys_membarrier.o
- util-obj-y += qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
- util-obj-y += qemu-coroutine-sleep.o
-+util-obj-y += qemu-co-shared-resource.o
- util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
- util-obj-y += buffer.o
- util-obj-y += timed-average.o
++    SharedResource *mem;
+ } BlockCopyState;
+ 
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+diff --git a/block/block-copy.c b/block/block-copy.c
+index 845b2423dc..7f0ebb58f8 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -21,6 +21,7 @@
+ #include "qemu/units.h"
+ 
+ #define BLOCK_COPY_MAX_COPY_RANGE (16 * MiB)
++#define BLOCK_COPY_MAX_MEM (128 * MiB)
+ 
+ static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
+                                                        int64_t start,
+@@ -64,6 +65,7 @@ void block_copy_state_free(BlockCopyState *s)
+     }
+ 
+     bdrv_release_dirty_bitmap(s->copy_bitmap);
++    shres_destroy(s->mem);
+     g_free(s);
+ }
+ 
+@@ -95,6 +97,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         .cluster_size = cluster_size,
+         .len = bdrv_dirty_bitmap_size(copy_bitmap),
+         .write_flags = write_flags,
++        .mem = shres_create(BLOCK_COPY_MAX_MEM),
+     };
+ 
+     s->copy_range_size = QEMU_ALIGN_DOWN(max_transfer, cluster_size),
+@@ -313,7 +316,9 @@ int coroutine_fn block_copy(BlockCopyState *s,
+ 
+         bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+ 
++        co_get_from_shres(s->mem, chunk_end - start);
+         ret = block_copy_do_copy(s, start, chunk_end, error_is_read);
++        co_put_to_shres(s->mem, chunk_end - start);
+         if (ret < 0) {
+             bdrv_set_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+             break;
 -- 
 2.21.0
 
