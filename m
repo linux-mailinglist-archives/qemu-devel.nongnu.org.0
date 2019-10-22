@@ -2,62 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03705E0487
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:08:07 +0200 (CEST)
-Received: from localhost ([::1]:56054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4F0E0463
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:00:31 +0200 (CEST)
+Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMttN-0006xu-Gd
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1iMtm2-0006w4-4Q
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:00:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57595)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iMtn0-0000r4-CM
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:01:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iMtie-000678-3F
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 08:57:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iMtmu-0007Q6-Hk
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:01:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45166)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iMtmu-0007PT-Ay
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:01:24 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iMtms-00022F-4o
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:01:22 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DDEB52E80CD
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:01:21 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iMtib-0005Nr-Of
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 08:57:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40992
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iMtib-0005NK-GJ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 08:56:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571749016;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Tr8RX7ceyZ3vwuPfabWmGL8Ua7lHVkBHZxtzNMQr7Gc=;
+ b=VPGLK8W0rSKnET9kH+kL7z1b5P3Oa203xbjHGjeXmbRozpLH7Doe/EYNMPqo7pb3F+N2sw
+ o+ckMUiPBXfgZ9nqkrfAY2koVJQOqEvpTywtjN5Is4DGFrVHomLQxc797BG74DGL2XVBCm
+ 8zyLYMVwieD8aTI07PXgpEt/wBVYIUo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-FPE0fOifMsqnOfcJG-g6Zw-1; Tue, 22 Oct 2019 08:56:49 -0400
+X-MC-Unique: FPE0fOifMsqnOfcJG-g6Zw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7731F107AD31;
+ Tue, 22 Oct 2019 12:56:48 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-215.ams2.redhat.com
+ [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C860760C4E;
+ Tue, 22 Oct 2019 12:56:42 +0000 (UTC)
+Subject: Re: [PATCH v5 1/4] block: support compressed write at generic layer
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1571603828-185910-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <408ef2ab-1f6c-2c9f-ad50-92269c20fb27@redhat.com>
+ <eece4ca2-7c40-cae6-b15f-beed73830fd8@virtuozzo.com>
+ <cc3f87c2-3ad5-da4e-4750-27a48bce1ee6@virtuozzo.com>
+ <787da788-9aca-2110-a092-b63ef498a9fa@redhat.com>
+ <ae5bc00f-e65e-8c33-2620-a9147e48ea78@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1088f0ff-d882-083f-705c-95c08bdc486f@redhat.com>
+Date: Tue, 22 Oct 2019 14:56:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Oct 2019 12:48:04 -0000
-From: Kevin Wolf <1846427@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
- psyhomb sej7278
-X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
-X-Launchpad-Bug-Modifier: Kevin Wolf (kwolf-redhat)
-References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
-Message-Id: <157174848468.9025.16931492303047950507.malone@soybean.canonical.com>
-Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 73dea18df58b68b7c6077f1a6dfc5684e79ae548
+In-Reply-To: <ae5bc00f-e65e-8c33-2620-a9147e48ea78@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="VFVWKze6O9YUk0DZLmMdRN8Br8eIy4syP"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,178 +106,404 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ Denis Lunev <den@virtuozzo.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> But isn't that "if" at the core of this problem? What happens if the
-> detection misfires?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--VFVWKze6O9YUk0DZLmMdRN8Br8eIy4syP
+Content-Type: multipart/mixed; boundary="tviVrs9h7G4lsqI4OK3zVdTk0ymI9ZwkF"
 
-The information that a block driver must give is just whether the given
-block is allocated by the image or whether it is taken from the backing
-file. Almost everything else is just a hint that can be given if the
-driver can be more specific, but that can be omitted.
+--tviVrs9h7G4lsqI4OK3zVdTk0ymI9ZwkF
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-In the specific case, what commit 69f4750 intends to do is avoid too
-much effort to determine whether a block is fully zeroed on the
-filesystem level because the qcow2 metadata should already accurately
-answer the question. It still keeps the additional checks for metadata
-preallocation because in this case, the qcow2 metadata says that the
-whole image is allocated while it's created sparse on the filesystem
-level, so the check can actually be useful in practice.
+On 22.10.19 14:23, Vladimir Sementsov-Ogievskiy wrote:
+> 22.10.2019 14:31, Max Reitz wrote:
+>> On 22.10.19 12:46, Vladimir Sementsov-Ogievskiy wrote:
+>>> 22.10.2019 13:21, Andrey Shinkevich wrote:
+>>>>
+>>>> On 22/10/2019 12:28, Max Reitz wrote:
+>>>>> On 20.10.19 22:37, Andrey Shinkevich wrote:
+>>>>>> To inform the block layer about writing all the data compressed, we
+>>>>>> introduce the 'compress' command line option. Based on that option, =
+the
+>>>>>> written data will be aligned by the cluster size at the generic laye=
+r.
+>>>>>>
+>>>>>> Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
+>>>>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com=
+>
+>>>>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>>>>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>>>> ---
+>>>>>>     block.c                   | 20 +++++++++++++++++++-
+>>>>>>     block/io.c                | 13 +++++++++----
+>>>>>>     block/qcow2.c             |  4 ++++
+>>>>>>     blockdev.c                |  9 ++++++++-
+>>>>>>     include/block/block.h     |  1 +
+>>>>>>     include/block/block_int.h |  2 ++
+>>>>>>     qapi/block-core.json      |  5 ++++-
+>>>>>>     qemu-options.hx           |  6 ++++--
+>>>>>>     8 files changed, 51 insertions(+), 9 deletions(-)
+>>>>>
+>>>>> The problem with compression is that there are such tight constraints=
+ on
+>>>>> it that it can really only work for very defined use cases.  Those
+>>>>> constraints are:
+>>>>>
+>>>>> - Only write whole clusters,
+>>>>> - Clusters can be written to only once.
+>>>>>
+>>>>> The first point is addressed in this patch by setting request_alignme=
+nt.
+>>>>>     But I don=E2=80=99t see how the second one can be addressed.  Wel=
+l, maybe by
+>>>>> allowing it in all drivers that support compression.  But if I just l=
+ook
+>>>>> at qcow2, that isn=E2=80=99t going to be trivial: You need to allocat=
+e a
+>>>>> completely new cluster where you write the data (in case it grows), a=
+nd
+>>>>> thus you leave behind a hole, which kind of defeats the purpose of
+>>>>> compression.
+>>>>>
+>>>>> (For demonstration:
+>>>>>
+>>>>> $ ./qemu-img create -f qcow2 test.qcow2 64M
+>>>>> Formatting 'test.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D6=
+5536
+>>>>> lazy_refcounts=3Doff refcount_bits=3D16
+>>>>> $ x86_64-softmmu/qemu-system-x86_64 \
+>>>>>        -blockdev "{'node-name': 'drv0', 'driver': 'qcow2',
+>>>>>                    'compress': true,
+>>>>>                    'file': {'driver': 'file', 'filename': 'test.qcow2=
+'}}" \
+>>>>>        -monitor stdio
+>>>>> QEMU 4.1.50 monitor - type 'help' for more information
+>>>>> (qemu) qemu-io drv0 "write -P 42 0 64k"
+>>>>> wrote 65536/65536 bytes at offset 0
+>>>>> 64 KiB, 1 ops; 00.02 sec (4.055 MiB/sec and 64.8793 ops/sec)
+>>>>> (qemu) qemu-io drv0 "write -P 23 0 64k"
+>>>>> write failed: Input/output error
+>>>>>
+>>>>> )
+>>>>>
+>>>>> Compression really only works when you fully write all of an image
+>>>>> exactly once; i.e. as the qemu-img convert or as a backup target.  Fo=
+r
+>>>>> both cases we already have a compression option.  So I=E2=80=99m wond=
+ering where
+>>>>> this new option is really useful.
+>>>>>
+>>>>> (You do add a test for stream, but I don=E2=80=99t know whether that=
+=E2=80=99s really a
+>>>>> good example, see my response there.)
+>>>>>
+>>>>> Max
+>>>>>
+>>>>
+>>>> Thank you very much Max for your detailed response.
+>>>>
+>>>> 1) You are right that compression is used with the backup mostly. The
+>>>> option for the compression with backup would be replaced by usage at t=
+he
+>>>> block layer, with no duplication. Also, it can be useful for NBD for
+>>>> instance,
+>>>>
+>>>> $ ./qemu-img create -f qcow2 -o size=3D10G ./image.qcow2
+>>>> $ sudo ./qemu-nbd -c /dev/nbd0 ./image.qcow2
+>>>> $ sudo dd if=3D/dev/sda1 of=3D/dev/nbd0 bs=3D10M count=3D10
+>>>> 10+0 records in
+>>>> 10+0 records out
+>>>> 104857600 bytes (105 MB) copied, 0,0890581 s, 1,2 GB/s
+>>>> $ sudo ./qemu-nbd -d /dev/nbd0
+>>>> $ du -sh ./image.qcow2
+>>>> 101M    ./image.qcow2
+>>>>
+>>>> and with the compression
+>>>>
+>>>> $ ./qemu-img create -f qcow2 -o size=3D10G ./image.qcow2
+>>>> $ sudo ./qemu-nbd -C -c /dev/nbd0 ./image.qcow2
+>>>> $ sudo dd if=3D/dev/sda1 of=3D/dev/nbd0 bs=3D10M count=3D10
+>>>> 10+0 records in
+>>>> 10+0 records out
+>>>> 104857600 bytes (105 MB) copied, 0,076046 s, 1,4 GB/s
+>>>> $ sudo ./qemu-nbd -d /dev/nbd0
+>>>> $ du -sh ./image.qcow2
+>>>> 5,3M    ./image.qcow2
+>>
+>> That seems wrong to me.  Why not use qemu-img convert for this case?
+>>
+>> Attaching an NBD server to a compressed disk has exactly the same
+>> problem as attaching a compressed disk to a VM.  It won=E2=80=99t work u=
+nless
+>> the client/guest is aware of the limitations.
+>>
+>>>> The idea behind introducing the new 'compress' option is to use that
+>>>> only one instead of many other ones of such a kind.
+>>>>
+>>>> 2) You are right also that "Compression can't overwrite anything..."
+>>>> It can be seen in the commit message
+>>>> b0b6862e5e1a1394e0ab3d5da94ba8b0da8664e2
+>>>>
+>>>> I am not sure if data should be written compressed to the active layer=
+.
+>>>> I made the tests with the idea of bringing examples of usage the
+>>>> 'compress' option because passing an option is a tricky thing in QEMU.
+>>>> But the issue takes place anyway if we want to rewrite to allocated
+>>>> clusters.
+>>>> I would like to investigate the matter and make a patch that resolves
+>>>> that issue.
+>>>> Do you agree with that?
+>>
+>> What seems wrong to me is that this series just adds a generic compress
+>> option without ensuring that it works generically.
+>>
+>> Either (1) it only works in well-defined cases, then either (1A) we have
+>> to ensure that we only allow it then (as we do now, because only
+>> qemu-img convert and the backup job have such an option; and those two
+>> are safe), or (1B) we have to clearly give a big warning for the new
+>> option that it doesn=E2=80=99t work correctly.  I don=E2=80=99t know whe=
+ther such a
+>> warning is even possible with just a generic node-level option.
+>>
+>> Or (2) we make it work in generic cases.  Well, that might be possible
+>> for qcow2, but who=E2=80=99s going to make it work for VMDK=E2=80=99s st=
+reamOptimized
+>> subformat?
+>>
+>> More on all of that below.
+>>
+>>> Yes, we want this option not to allow compressed writes for guests, but=
+ to
+>>> allow
+>>> - stream with compression (used to remove compressed incremental backup=
+, we
+>>> need to merge it to the next incremental)
+>>
+>> Based on the assumption that one shouldn=E2=80=99t attach a compressed d=
+isk to a
+>> VM, I don=E2=80=99t see how streaming makes sense then.  Well, I suppose
+>> intermediate streaming would work.
+>>
+>>> - backup with compression (we have an optional already, so it works)
+>>> - backup to nbd server with compression: enable compression on nbd serv=
+er
+>>
+>> The problem is clearly that if a generic client were to connect to the
+>> NBD server, it wouldn=E2=80=99t work.  In this case, compression will wo=
+rk only
+>> if the clients understands the limitation.
+>>
+>> (The safe way would be to make the NBD server provide an option that
+>> clients can see so they know this limitation and agree they=E2=80=99ll a=
+dhere to
+>> it.  It=E2=80=99s also a stupid way.)
+>>
+>>> So instead of adding two options (for stream and for nbd), it seems bet=
+ter to
+>>> add only one for generic layer.
+>>
+>> I don=E2=80=99t know.  It doesn=E2=80=99t work generically, so I don=E2=
+=80=99t know whether it
+>> should be a generic option.
+>>
+>>> Then, it becomes possible to run guest on image with compress=3Don. It'=
+s a side
+>>> effect, but still it should work correctly.
+>>
+>> How so?  compress=3Don only works if every party involved only writes to
+>> any cluster of the image exactly once.  That is just not the case for
+>> guests unless they know this limitation, and even I don=E2=80=99t see a =
+use case.
+>>
+>>> I think the simplest thing is to just run normal write, if compressed w=
+rite
+>>> failed because of reallocation. We should check that on that failure-pa=
+th
+>>> ENOTSUP is returned and handle it for compress=3Don option by fallback =
+to
+>>> normal write in generic block/io.c
+>>
+>> It seems wrong to not compress data with compress=3Don.
+>=20
+> We already fallback to normal write if can't compress in qcow2.
 
-If the detection fails (and the code is implemented correctly), we have
-two cases:
+In a very specific case, namely where the compressed size is larger than
+the uncompressed size.  It would be a whole different story to only
+compress the first write to a given cluster but not any following one.
 
-1. Preallocated image detected as non-preallocated: It could happens
-that a fully zeroed block wouldn't be reported as "fully zeroed", but as
-"allocated (unknown content)". This could prevent some optimisations,
-but it's still a correct description of the block.
+>>> (Note, that in case with stream we rewrite only unallocated clusters)
+>>
+>> Yes, but if the stream job writes the cluster before the guest, the
+>> guest gets an I/O error.
+>=20
+> I don't think that using compressed writes by guest is really usable thin=
+g.
+> In our case with stream there is no guest (just use qemu binary to operat=
+e
+> on block layer)
+>=20
+>>
+>>
+>> By the way, the other thing I wondered was whether this should be a
+>> filter driver instead (if it makes sense at all).  Such a filter driver
+>> would at least be sufficiently cumbersome to use that probably only
+>> users who understand the implications would make use of it (1B above).
+>>
+>>
+>> I=E2=80=99m not against adding a generic compress=3Don option if we ensu=
+re that it
+>> actually works generically (2 above).  It doesn=E2=80=99t right now, so =
+I don=E2=80=99t
+>> think this is right.
+>>
+>> I=E2=80=99m already not sure whether it=E2=80=99s really possible to sup=
+port generic
+>> compressed writes in qcow2.  I suppose it=E2=80=99d be at least awkward.=
+  In
+>> theory it should work, it=E2=80=99s just that we can=E2=80=99t keep trac=
+k of subcluster
+>> allocations, which in the worst case means that some compressed clusters
+>> take up a whole cluster of space.
+>>
+>> For VMDK...  I suppose we could consider a new flag for block drivers
+>> that flags whether a driver supports arbitrary compressed writes or has
+>> the old limitations.  compress=3Don could then refuse to work on any blo=
+ck
+>> driver but the ones that support arbitrary compressed writes.
+>>
+>>
+>> Our current model (1A) is simply to ensure that all compressed writes
+>> can adhere to the limitations.  As I=E2=80=99ve said above, extending th=
+is to
+>> NBD would mean adding some NBD negotiation so both client and server
+>> agree on this limitation.
+>=20
+> In this case, I'd prefere simple cmdline option fro qemu-nbd.
+>=20
+>> That seems kind of reasonable from the qemu
+>> side, but probably very unreasonable from an NBD side.  Why would NBD
+>> bother to reproduce qemu=E2=80=99s limitations?
+>>
+>>
+>> So these are the three ways (1A, 1B, 2) I can imagine.  But just adding
+>> a generic option that unsuspecting users are not unlikely to use but
+>> that simply doesn=E2=80=99t work generically doesn=E2=80=99t seem right =
+to me.
+>>
+>=20
+> Firstly, 1A already doesn't work correctly: we have compress option for b=
+ackup.
+> So, it will not work if backup target is not empty.
 
-2. Non-preallocated image detected as preallocated: We waste some cycles
-on finding out that the filesystem doesn't know more than the qcow2
-layer.
+I=E2=80=99m not sure whether that qualifies because the user is simply
+responsible to ensure that the target is empty.
 
-> Hopefully this helps at least a tiny bit... Thanks!
+Otherwise, you could also argue that backup doesn=E2=80=99t necessarily cre=
+ate a
+real backup because with sync=3Dtop it won=E2=80=99t copy unallocated clust=
+ers, so
+if the target already has data in such a place, it won=E2=80=99t be overwri=
+tten.
 
-Yes, that helps. With an image that is mostly sparse, preallocation
-detection should work perfectly. It works by comparing the number of
-allocated qcow2 clusters (the full 100 GB in your case) to the file size
-(around 10 GB). In other words, your case is one where the behaviour
-isn't supposed to have changed at all.
+Furthermore I=E2=80=99d argue this would hardly be an accident.  Both
+drive-backup with mode=3Dexisting and qemu-img convert -n are most likely
+not used blindly but only when the situation requires it.
 
-I had a thought earlier that maybe the problem isn't with the value
-returned by bdrv_co_block_status(), but with the fact that
-bdrv_co_block_status(), and with it preallocation detection, is even
-running in some code paths. Your cases might support that idea.
+My point is that using compress=3Don can be an accident because people see
+that option and think =E2=80=9CThat sounds useful!=E2=80=9D without reading=
+ the warning.
 
--- =
+> So, 1A is impossible, as it's already broken, adding separate options for=
+ stream
+> and qemu-nbd is not better than just add one generic option.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1846427
+I disagree that 1A is broken, and I disagree a generic option would not
+be worse.  I still believe a simple generic option is prone to
+accidental misuse.
 
-Title:
-  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+> I don't like (2) as it means a lot of effort to support actually not need=
+ed case.
 
-Status in QEMU:
-  New
+Well, you say it isn=E2=80=99t needed.  I suppose if it were supported, peo=
+ple
+would indeed use it.
 
-Bug description:
-  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
-  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
-  savevm/quit/loadvm cycles. I've narrowed it down to the following
-  reproducer (further notes below):
+> I don't really like filter solution (as at seems too much to add a filter=
+ for simple
+> boolean option), but I think, we can live with it.
 
-  # qemu-img check debian.qcow2
-  No errors were found on the image.
-  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
-usters
-  Image end offset: 18340446208
-  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
-96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
-=3Ddebian.qcow2,id=3Dd -S
-  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
-bus: Did not receive a reply. Possible causes include: the remote applicati=
-on did not send a reply, the message bus security policy blocked the reply,=
- the reply timeout expired, or the network connection was broken.
-  QEMU 4.1.50 monitor - type 'help' for more information
-  (qemu) loadvm foo
-  (qemu) c
-  (qemu) qcow2_free_clusters failed: Invalid argument
-  qcow2_free_clusters failed: Invalid argument
-  qcow2_free_clusters failed: Invalid argument
-  qcow2_free_clusters failed: Invalid argument
-  quit
-  [m@nargothrond:~] qemu-img check debian.qcow2
-  Leaked cluster 85179 refcount=3D2 reference=3D1
-  Leaked cluster 85180 refcount=3D2 reference=3D1
-  ERROR cluster 266150 refcount=3D0 reference=3D2
-  [...]
-  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+First, it is not a simple boolean option.  This patch brings
+implementation with it that converts writes to compressed writes and
+sets a request alignment.  I actually think it=E2=80=99s better to do thing=
+s
+like that in a dedicated block driver than in the generic block layer code.
 
-  9493 errors were found on the image.
-  Data may be corrupted, or further writes to the image may corrupt it.
+Second, we already this basically this for copy-on-read (which is also a
+boolean option for -drive).
 
-  2 leaked clusters were found on the image.
-  This means waste of disk space, but no harm to data.
-  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
-usters
-  Image end offset: 18340446208
+(FWIW, I=E2=80=99d prefer if detect-zeroes were a block driver instead of
+generic block layer code.)
 
-  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
-  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
-  similarly current.
+> 1B is OK for me, that is, just document what the option does in fact.
+>=20
+> May be, name the option "compress-new-writes" instead of just "compress"?
+> And document, that writes to clusters, which was not written before will =
+be
+> compressed?
+>=20
+> Or make the option to be compress=3D<x>, where x may be 'no' or 'new-writ=
+es',
+> reserving 'all-writes' for future?
 
-  Reproduced with qemu-4.1.0 from distribution package as well as
-  vanilla git checkout of tag v4.1.0 and commit
-  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
-  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
-  sequence:
+I don=E2=80=99t know whether the limitations can be captured in three words=
+, but
+it would at least make users pay closer attention to what the option is
+really doing.
 
-  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
-mu --disable-werror --disable-docs
-  [...]
-  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
-  [...] (can provide full configure output if helpful)
-  make -j8 install
+OTOH, the only downsides to a dedicated block driver to me appear that
+it=E2=80=99s more cumbersome to use (which I actually consider a benefit) a=
+nd
+that it requires the usual filter driver boilerplate =E2=80=93 but that can=
+ be
+copied from other drivers[1].
 
-  The kind of guest OS does not matter: seen with Debian testing 64bit,
-  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+(The benefits are that we don=E2=80=99t need to modify generic code and tha=
+t
+people need to read into the filter and its caveats before they can use it.=
+)
 
-  The virtual storage controller does not seem to matter: seen with
-  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+Max
 
-  Caching modes (none, directsync, writeback), aio mode (threads,
-  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
-  not influence occurence either.
 
-  Having more RAM in the guest seems to increase odds of corruption:
-  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
-  RAM it happens almost instantly.
+[1] Actually, we could provide default implementations somewhere and
+make block filters use them.  That should reduce the boilerplate size.
 
-  An automated reproducer works as follows:
 
-  - the guest *does* mount its root fs and swap with option discard and
-  my testing leaves me with the impression that file deletion rather
-  than reading is causing the issue
+--tviVrs9h7G4lsqI4OK3zVdTk0ymI9ZwkF--
 
-  - foo is a snapshot of the running Debian VM which is already running
-  command
+--VFVWKze6O9YUk0DZLmMdRN8Br8eIy4syP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
-ne
+-----BEGIN PGP SIGNATURE-----
 
-  to produce some I/O to the disk (4GB file with 4GB of RAM).
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2u/IkACgkQ9AfbAGHV
+z0BygAgAg/LhO7M6VHbbqX1pE9ALkfkCB2cBL5FXzrNZL9WZfD3hKfLHG2+sRqGM
+1nFeUYT0LqZK1cteLP3pDbRQVySyEkBQJuF5cTaC9ZrkCQ8PGxA2xw9VcV6+qBRb
+epxtqlSxssAQvg95vkQHjXoMyqBm4piv4ouDOaN9bg0kXAwFo6izH5oFF/c64lw7
+KyN08O53ss/S5cg9ICDdxl1rXRuSEUlfnvouujLi0zsAyPKHKwGlmSLakstSkHU8
+YFiE1/aTMirt0yBqqH9rnbttTt7zb7/JIg+qZVYF/DIPY94KxGPsWrWWE879HmJV
+skDrYG7ay3I9EtnB5uVMwjKSq2fztw==
+=hcxD
+-----END PGP SIGNATURE-----
 
-  - on the host a loop continuously resumes and saves the guest state
-  and quits qemu inbetween:
+--VFVWKze6O9YUk0DZLmMdRN8Br8eIy4syP--
 
-  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
-  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
-  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
-  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
-  none ; done
-
-  - quitting qemu inbetween saves and loads seems to be necessary for
-  the problem to occur. Just continusouly in one session saving and
-  loading guest state does not trigger it.
-
-  - For me, after about 2 to 6 iterations of above loop the image is
-  corrupted.
-
-  - corruption manifests with other messages from qemu as well, e.g.:
-
-  (qemu) loadvm foo
-  Error: Device 'd' does not have the requested snapshot 'foo'
-
-  Using above reproducer I have to the be best of my ability bisected
-  the introduction of the problem to commit
-  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
-  block_status call if possible). qemu compiled from the commit before
-  does not exhibit the issue, from that commit on it does and reverting
-  the commit off of current master makes it disappear.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
