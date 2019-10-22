@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B4EE09E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:57:52 +0200 (CEST)
-Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA01E09B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:52:12 +0200 (CEST)
+Received: from localhost ([::1]:36270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxTi-00053g-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41125)
+	id 1iMxOE-0006fU-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41147)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMxBQ-0000kp-Lm
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:38:57 -0400
+ (envelope-from <clg@kaod.org>) id 1iMxBY-0000yy-5P
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMxBO-0006hU-Uh
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:38:56 -0400
-Received: from 5.mo1.mail-out.ovh.net ([178.33.45.107]:46775)
+ (envelope-from <clg@kaod.org>) id 1iMxBX-0006jw-2y
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:04 -0400
+Received: from 2.mo4.mail-out.ovh.net ([46.105.72.36]:38108)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxBO-0006gh-Nk
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:38:54 -0400
-Received: from player688.ha.ovh.net (unknown [10.108.35.185])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id 6E2DF194F67
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 18:38:52 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxBW-0006jF-TN
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:03 -0400
+Received: from player688.ha.ovh.net (unknown [10.108.35.223])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id DF63D20C819
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 18:39:00 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 70050B32C2DD;
- Tue, 22 Oct 2019 16:38:46 +0000 (UTC)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 003A6B32C31F;
+ Tue, 22 Oct 2019 16:38:51 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v5 0/7] ppc: reset the interrupt presenter from the CPU reset
- handler
-Date: Tue, 22 Oct 2019 18:38:05 +0200
-Message-Id: <20191022163812.330-1-clg@kaod.org>
+Subject: [PATCH v5 1/7] spapr: move CPU reset after presenter creation
+Date: Tue, 22 Oct 2019 18:38:06 +0200
+Message-Id: <20191022163812.330-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191022163812.330-1-clg@kaod.org>
+References: <20191022163812.330-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 3502393138045684710
+X-Ovh-Tracer-Id: 3504926411544628198
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.45.107
+X-Received-From: 46.105.72.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,74 +62,54 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+This change prepares ground for future changes which will reset the
+interrupt presenter in the reset handler of the sPAPR and PowerNV
+cores.
 
-On the sPAPR machine and PowerNV machine, the interrupt presenters are
-created by a machine handler at the core level and are reseted
-independently. This is not consistent and it raises issues when it
-comes to handle hot-plugged CPUs. In that case, the presenters are not
-reseted. This is less of an issue in XICS, although a zero MFFR could
-be a concern, but in XIVE, the OS CAM line is not set and this breaks
-the presenting algorithm. The current code has workarounds which need
-a global cleanup.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/ppc/spapr_cpu_core.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-Extend the sPAPR IRQ backend and the PowerNV Chip class with a new
-cpu_intc_reset() handler called by the CPU reset handler and remove
-the XiveTCTX reset handler which is now redundant.
-
-Set the OS CAM line when the interrupt presenter of the sPAPR core is
-reseted. This will also cover the case of hot-plugged CPUs.
-
-Thanks,
-
-C.
-
-Changes in v5:
-
- - Removed useless PNV_CHIP() cast
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 3e4302c7d596..2b21285d2009 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -234,13 +234,16 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+     cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
+     kvmppc_set_papr(cpu);
 =20
-Changes in v4:
-
- - Introduce a PnvCore reset handler
- - Add PnvChip pointer to PnvCore
-
-Changes in v3:
-
- - Introduced a DeviceClass::reset for the CPU (Greg)
- - add support for PowerNV
+-    qemu_register_reset(spapr_cpu_reset, cpu);
+-    spapr_cpu_reset(cpu);
+-
+     if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
+-        goto error_unregister;
++        goto error_intc_create;
+     }
 =20
-Changes in v2:
-
- - removed property
- - simplified reset handlers
-
-C=C3=A9dric Le Goater (6):
-  spapr: move CPU reset after presenter creation
-  ppc/pnv: Introduce a PnvCore reset handler
-  ppc/pnv: Add a PnvChip pointer to PnvCore
-  ppc: Reset the interrupt presenter from the CPU reset handler
-  ppc/pnv: Fix naming of routines realizing the CPUs
-  spapr/xive: Set the OS CAM line at reset
-
-Greg Kurz (1):
-  spapr_cpu_core: Implement DeviceClass::reset
-
- include/hw/ppc/pnv.h        |  1 +
- include/hw/ppc/pnv_core.h   |  3 +++
- include/hw/ppc/spapr_irq.h  |  2 ++
- include/hw/ppc/spapr_xive.h |  1 -
- include/hw/ppc/xics.h       |  1 +
- include/hw/ppc/xive.h       |  1 +
- hw/intc/spapr_xive.c        | 53 +++++++++++++++++--------------------
- hw/intc/xics.c              |  8 ++----
- hw/intc/xics_spapr.c        |  7 +++++
- hw/intc/xive.c              | 12 +--------
- hw/ppc/pnv.c                | 18 +++++++++++++
- hw/ppc/pnv_core.c           | 31 ++++++++++++++++------
- hw/ppc/spapr_cpu_core.c     | 44 +++++++++++++++++++++++-------
- hw/ppc/spapr_irq.c          | 14 ++++++++++
- 14 files changed, 131 insertions(+), 65 deletions(-)
-
++    /*
++     * FIXME: Hot-plugged CPUs are not reset. Do it at realize.
++     */
++    qemu_register_reset(spapr_cpu_reset, cpu);
++    spapr_cpu_reset(cpu);
++
+     if (!sc->pre_3_0_migration) {
+         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+                          cpu->machine_data);
+@@ -248,8 +251,7 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spapr=
+MachineState *spapr,
+=20
+     return;
+=20
+-error_unregister:
+-    qemu_unregister_reset(spapr_cpu_reset, cpu);
++error_intc_create:
+     cpu_remove_sync(CPU(cpu));
+ error:
+     error_propagate(errp, local_err);
 --=20
 2.21.0
 
