@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFDFE06AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:46:05 +0200 (CEST)
-Received: from localhost ([::1]:59502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAB3E06EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 17:03:31 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMvQC-0005kr-DU
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49370)
+	id 1iMvh4-0003e0-2x
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 11:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iMvNK-0004JJ-UG
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:43:08 -0400
+ (envelope-from <armbru@redhat.com>) id 1iMvet-0002Bo-9I
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:01:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iMvNH-0001Ah-EY
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:43:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56345
+ (envelope-from <armbru@redhat.com>) id 1iMveq-0001Yv-UZ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:01:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21297
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iMvNG-00017g-O6
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:43:03 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iMveq-0001WP-Ll
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:01:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571755380;
+ s=mimecast20190719; t=1571756470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MCnrqxOA1FxHJgY2uXRgRnx/jj+MK6t1vDDyq3ARQ4A=;
- b=Wq8uCEKf2ZEtj6BOBmHpT3UlS1+OABXJdgPgx2HFPmhO2aGH36vf5qpyKSXUy0oT17rDND
- GlC/hYyK8pp0r8kvSuLWnm8V2vuzIdywc7KXsRM0GfcFuJnKVEvL9HYbfaefC1Avcaum4m
- knB47j/n35R+8MFD/41VM4/Dg7iwcFg=
+ bh=HR3RpM0y2hJ2TEQOSZIib5AmT2WNIcrn7N7SVG2KRxg=;
+ b=JgvFFUuKmTvbwuGDayNTBjoEvC4qVTYy9lRh4c3B0gCkmTuf/vxYCF3V+8LDlKeuMYI32C
+ ewcy+67RipIQGAOcg1NgINkKeDBAyQRBa8W4J3bVf0Gut+RPomn4y196Qj8JNSpwtHD/Tq
+ 1d6RMshMoylhpSd0lVTfZdjuIyaWnDk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-7n_DdZMqMOCGdJyNPUb9sQ-1; Tue, 22 Oct 2019 10:42:58 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-336-KFBTdHWzNvWZtDYopx1bfw-1; Tue, 22 Oct 2019 11:01:04 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9B81800D4E;
- Tue, 22 Oct 2019 14:42:57 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF54B60C83;
- Tue, 22 Oct 2019 14:42:34 +0000 (UTC)
-Date: Tue, 22 Oct 2019 16:42:32 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [RFC 3/3] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-Message-ID: <20191022164232.0d699b45@redhat.com>
-In-Reply-To: <0f2a4b26-b900-08af-aa3e-f9779ae6b55f@redhat.com>
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191009132252.17860-4-imammedo@redhat.com>
- <802d0d69-d478-76f5-2bd6-5ad2f1ac4474@redhat.com>
- <20191018181841.6459533a@redhat.com>
- <78f49b7d-6fd9-c977-8fe9-2de78025003d@redhat.com>
- <0f2a4b26-b900-08af-aa3e-f9779ae6b55f@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5331F800D4E;
+ Tue, 22 Oct 2019 15:01:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 02AD260167;
+ Tue, 22 Oct 2019 15:01:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 666D01138619; Tue, 22 Oct 2019 17:01:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/12] QAPI patches for 2019-10-22
+References: <20191022122145.27792-1-armbru@redhat.com>
+ <CAFEAcA-nZW+RkkRKrfZQ9_nFi7y=wCjciqgFqV5c+8PWeG3Ztg@mail.gmail.com>
+Date: Tue, 22 Oct 2019 17:01:01 +0200
+In-Reply-To: <CAFEAcA-nZW+RkkRKrfZQ9_nFi7y=wCjciqgFqV5c+8PWeG3Ztg@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 22 Oct 2019 15:28:50 +0100")
+Message-ID: <87zhhsygcy.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 7n_DdZMqMOCGdJyNPUb9sQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: KFBTdHWzNvWZtDYopx1bfw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -75,123 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 14:39:24 +0200
-Laszlo Ersek <lersek@redhat.com> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On 10/21/19 15:06, Laszlo Ersek wrote:
-> > On 10/18/19 18:18, Igor Mammedov wrote: =20
-> >> On Thu, 10 Oct 2019 16:56:18 +0200
-> >> Laszlo Ersek <lersek@redhat.com> wrote: =20
->=20
-> [...]
->=20
-> >>> Can I use the following sequence to detect whether the interface is
-> >>> available?
-> >>>
-> >>> 1. Store 0x0 to command register.
-> >>> 2. Store 0x0 to selector register.
-> >>> 3. Read 'command data' register.
-> >>> 4. If value read is 0, the interface is available. =20
-> >>
-> >> By default legacy register block layout is in place
-> >> (i.e. present cpus bitmap) where 1st byte is guarantied to be ">0" as =
-it has
-> >> at least the boot CPU bit set and writes to legacy bitmap are ignored.
-> >>
-> >> Currently AML code code does switching to modern interface, see
-> >> docs/specs/acpi_cpu_hotplug.txt:
-> >> "
-> >>   The first DWORD in bitmap is used in write mode to switch from legac=
-y         =20
-> >>   to new CPU hotplug interface, write 0 into it to do switch.
-> >> "
-> >> related code "if (opts.has_legacy_cphp) {" and cpu_status_write()
-> >>
-> >> Considering firmware runs the first, it should enable modern interface
-> >> on its own
-> >>   1. Store 0x0 to selector register (actually it's store into bitmap t=
-o attempt switch).=20
-> >> and to check if interface is present
-> >>   2. Store 0x0 to selector register (to ensure valid selector value (o=
-therwise command is ignored))
-> >>   3. Store 0x0 to command register (to be able to read back selector f=
-rom command data)
-> >>   4. Store 0x0 to selector register (because #3 can select the a cpu w=
-ith events if any)
-> >>       be aware libvirt may start QEMU in paused mode (hotplug context)=
- and hotplugs extra CPUs
-> >>       with device_add and then let guest run. So firmware may see pres=
-ent CPUs with events
-> >>       at boot time.
-> >>   5. Read 'command data' register.
-> >>   6. If value read is 0, the interface is available. =20
-> >=20
-> > Perfect!
-> >=20
-> > Basically this is prepending two "write 0 to selector register" steps t=
-o
-> > what I suspected. I certainly couldn't figure out the "switch to modern=
-"
-> > step, and whether initializing the selector to something valid was
-> > needed at boot. Now I know. :) Thanks!
-> >  =20
-> >> =20
-> >>> (Because I assume that unmapped IO ports read as all-bits-one. Is tha=
-t
-> >>> right?) =20
-> >> that's right but ports are mapped to legacy CPU bitmap, you can't coun=
-t on all-bits-one case here. =20
->=20
-> It seems I rejoiced too soon.
->=20
-> When we read the command data register in the last step, that is at
-> offset 0x8 in the register block. Considering the legacy "CPU present
-> bitmap", if no CPU is present in that range, then the firmware could
-> read a zero value. I got confused because I thought we were reading at
-> offset 0, which would always have bit0 set (for CPU#0).
->=20
-> Can we detect the modern interface like this:
->=20
-> 1. store 0x0 to selector register (attempt to switch)
-> 2. read one byte at offset 0 in the register block
-> 3. if bit#0 is set, the modern interface is unavailable;
->    otherwise (=3D bit#0 clear), the modern interface is available
->=20
-> Here's why:
->=20
-> - if even the legacy interface is missing, then step 2 is an unassigned
->   read, hence the value read is all-bits-one; bit#0 is set
->=20
-> - if only the legacy interface is available, then bit#0 stands for
->   CPU#0, it will be set
->=20
-> - if the switch-over in step 1 is successful, then offset 0 is reserved,
->   hence it returns all-bits-zero.
->=20
-> With this, if we ever assigned offset 0 for reading, then we'd have to
-> define it with bit#0 constantly clear.
+> On Tue, 22 Oct 2019 at 13:25, Markus Armbruster <armbru@redhat.com> wrote=
+:
+>>
+>> The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed=
+0b9:
+>>
+>>   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-=
+request' into staging (2019-10-18 14:13:11 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2019-10-22
+>>
+>> for you to fetch changes up to 0582bce69e8688fd7dd5501d352695e5c675b89b:
+>>
+>>   qapi: Allow introspecting fix for savevm's cooperation with blockdev (=
+2019-10-22 09:28:11 +0200)
+>>
+>> ----------------------------------------------------------------
+>> QAPI patches for 2019-10-22
+>>
+>> v2:
+>> * PATCH 6: Add "# -*- coding: utf-8 -*-" lines
+>>
+>
+> Still fails, same way. Both your pullreq emails have the same
+> "changes up to 0582bce69e8688fd7d" line -- did you forget
+> to push the changed patches or something ?
 
-There is no need to reserve bit#0 if in step #5 we use s/'command data'/'Co=
-mmand data 2'/
-
-Alternatively we can reserve bit#0 and sequentially read upper half from 'C=
-ommand data'
-(one a new flag to show that there is more data to read).
-(Upper half currently is not necessary, it's there for future ARM's MPIDR).
-
-One more thing, this behavior is based on artifacts of x86 machine and AllO=
-nes fallback.
-Obviously it won't work with arm/virt, do we care about AVMF at this point?
-
-> Thanks,
-> Laszlo
+Fat-fingered the tag name, v3 coming.  My apologies!
 
 
