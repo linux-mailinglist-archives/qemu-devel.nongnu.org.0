@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09D3DFF80
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:36:16 +0200 (CEST)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C451E0001
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:51:32 +0200 (CEST)
+Received: from localhost ([::1]:51848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpeJ-00038x-Oo
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46879)
+	id 1iMpt5-0001ly-8m
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iMpcQ-00021J-Kb
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:34:20 -0400
+ (envelope-from <estebanbosse@gmail.com>) id 1iMpqD-0006rd-00
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:48:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iMpcP-0007DV-8Q
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:34:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34136
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMpcO-0007C5-1K
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:34:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571733253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=EoYrb2qtL19XBGGIWYU+vJio620TxOIYm0uiqYTeKSc=;
- b=GcXgWYAVhftyPQ7fCKpSKP9ZJFk0ltaGnS5IVIZl+Wqa222ddPtGCWdqBjCULqQ34IFMTN
- b4YspnxnAzbgwSDcTTU6v9jU+cOSXiWEoajZtJv6sc9HjH5i2iSXVmuahiG2nbKDVwfUsH
- 33PDJjozbRiIZ+QDeHDjOVT8Lb1qJZs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-C5XLpxxlP06ckDoAfZIzNQ-1; Tue, 22 Oct 2019 04:34:12 -0400
-Received: by mail-wm1-f70.google.com with SMTP id o188so7088539wmo.5
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:34:12 -0700 (PDT)
+ (envelope-from <estebanbosse@gmail.com>) id 1iMpqB-0004tD-Ci
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:48:32 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44530)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
+ id 1iMpqB-0004sB-62
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:48:31 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z9so17023513wrl.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=PfdPJmUvnGMSyb0QvY2cAJRWDOWGOUx4wadQl+kGBSo=;
+ b=XffrVqn4R3wl7i4l+v5mr3OSJE4AWWvhi1mYomo5m58aJ6uL9YsNVhv9J71O0QlrGs
+ g96TzRCal3J7ewSTNLEGQyzYRYxIMNMtkEAzbhkq9kum3OgJU0xT/tbemPjMAhN1aDRJ
+ QYHJUffd5QbDNcv9RAvz875+QxtYz9vv+xp+DkgIreKXrjChnet1XP4dBZ1AzGVuZkvy
+ EAEX79rX2wh3TjA655Ft+tK6j7KQDUKgFoZHFTdCpFZZka6K/d1glEQxnhHQyHuGTGgd
+ ph76k19Pbudn/uiUYobgYTd1efVlhEpP0BAFhbLWf918nQo0MBEBGxmuocO3s6iviV7J
+ Ysvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6wbpy6sfnJTNjtUXNQcI+hAzgAqW8DDHA9ysT8boTQU=;
- b=JN8tVwZ7cABmJ5t/CXL4wJYrqfyxwTNASPKdO3W0j8BLo6+g8+LQBZPQAwalcs9+jv
- LEod1xujk4SaNKnx8n+tHDvuBXcyrwxa3mhvDo+DQhxQT/+cIFmRrl98xiPlLpc2WcNY
- CqEfp5HMQ5tDsCcA5ZL4VMIjnF3TQOAWsPe99C0nEnrYwMicu4Agde55w0y9kHeS/nXC
- eQ4/FjFkupi/P7EW4+IelW9q1MqocxiN3WQneVafmO0ewzjJ/UX2UCFzw7qAZ9pVk/EA
- 9tC0XwKa72H5bqv5gGgjI4UpE/PAw21Zpndao3+1TP0AWsAirz0TtcF0EDnmkCT1zXRY
- pMFQ==
-X-Gm-Message-State: APjAAAUH6JA7EbUU78WIf99+oXYwpSuBIBzWSGZj2Y3coXDFlplFUFAC
- jBUMuUQLSeSP1qLZ0IS9Vtu5fPdWMv0RZUo9q+gTsrSytoRxckbVmPhHQGcfKsEwnCOoNsp0LJR
- MfQOkgTvUN3eHb1Y=
-X-Received: by 2002:adf:a157:: with SMTP id r23mr2244948wrr.51.1571733250726; 
- Tue, 22 Oct 2019 01:34:10 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyIic1u9i+Jsae1+KZcYsVK0fK2qhcDhGwWaMZYC6ZtH+pUhrYuQyNkbrI/OJoYjr7B8kKhcQ==
-X-Received: by 2002:adf:a157:: with SMTP id r23mr2244914wrr.51.1571733250340; 
- Tue, 22 Oct 2019 01:34:10 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:566:fc24:94f2:2f13?
- ([2001:b07:6468:f312:566:fc24:94f2:2f13])
- by smtp.gmail.com with ESMTPSA id 37sm28128625wrc.96.2019.10.22.01.34.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 01:34:09 -0700 (PDT)
-Subject: Re: [PATCH] Semihost SYS_READC implementation
-To: Keith Packard <keithp@keithp.com>, qemu-devel@nongnu.org
-References: <20191022031335.9880-1-keithp@keithp.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d7470bfa-ba4e-3287-326f-ee63c5d76407@redhat.com>
-Date: Tue, 22 Oct 2019 10:34:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=PfdPJmUvnGMSyb0QvY2cAJRWDOWGOUx4wadQl+kGBSo=;
+ b=I0cX45043NJEQkNp+6ZiWtw88btWMKTIE+Y/OUBs05vK9NXb27t3bOaqekGu540ENT
+ 27MtGgWvElXd/R7pvxuIr4p+kva9kkXXIwPXyzv4wKQP1VjULcVBrduAGRC45D7IPuzE
+ 8DOpO9gNuer23/RUlQTYI7M7QZfXeULYqz2FJ+VhCDbHVxakn+DVZMuaXg031UMf4quz
+ dDyQE2Dpi8IsKtSxoB8J5ZHE9UNTwq8V05Qra1rnDIjcfbiwdvs3wTsns8wPQ9R9cde+
+ Cbx3cCO2XAq5Bm6p0KBDXNDcLFSMiC2YeRWFHX/aUYQAA/t9VvoRPj/0QCo3xLB0Ly81
+ SyJA==
+X-Gm-Message-State: APjAAAUL6GL0OlYYYJYIsPcF5QRaw4rIRWCxW3pXwd5AoffhkPT9sFqf
+ H1tLojEtxXvjqBZPbbz/tmM=
+X-Google-Smtp-Source: APXvYqx+Axd83lMU8LKnJVkLcqDfJMA32L6CmH/KHO9BkSG7KUkKodkfYAvEvPQwd4h0EdPh/S8EIA==
+X-Received: by 2002:adf:f010:: with SMTP id j16mr2437638wro.317.1571734107470; 
+ Tue, 22 Oct 2019 01:48:27 -0700 (PDT)
+Received: from ?IPv6:2a01:c23:604c:2a00:af2b:2e92:39f9:c05b?
+ ([2a01:c23:604c:2a00:af2b:2e92:39f9:c05b])
+ by smtp.gmail.com with ESMTPSA id z13sm20538123wrm.64.2019.10.22.01.48.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 01:48:26 -0700 (PDT)
+Message-ID: <27c31440fdab11eff969e656a8ad7063c5e7234c.camel@gmail.com>
+Subject: Re: [PATCH v2 03/20] piix4: Add a i8259 Interrupt Controller as
+ specified in datasheet
+From: Esteban Bosse <estebanbosse@gmail.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
+ qemu-devel@nongnu.org
+Date: Tue, 22 Oct 2019 10:44:57 +0200
+In-Reply-To: <20191018134754.16362-4-philmd@redhat.com>
+References: <20191018134754.16362-1-philmd@redhat.com>
+ <20191018134754.16362-4-philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20191022031335.9880-1-keithp@keithp.com>
-Content-Language: en-US
-X-MC-Unique: C5XLpxxlP06ckDoAfZIzNQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,219 +82,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?ISO-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/10/19 05:13, Keith Packard wrote:
-> Provides a blocking call to read a character from the console by hooking
-> into the console input chain. This happens *after* any uart has hooked in=
-,
-> so specifying -semihost overrides input to any emulated uarts.
->=20
-> Signed-off-by: Keith Packard <keithp@keithp.com>
-
-I'm a bit confused, why is it not using semihosting_get_chardev?  That
-would be
-
-=09-chardev stdio,id=3Dsemihost
-=09-semihosting-config on,chardev=3Dsemihost
-
-Paolo
-
+El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daudé escribió:
+> From: Hervé Poussineau <hpoussin@reactos.org>
+> 
+> Add ISA irqs as piix4 gpio in, and CPU interrupt request as piix4
+> gpio out.
+> Remove i8259 instanciated in malta board, to not have it twice.
+> 
+> We can also remove the now unused piix4_init() function.
+> 
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+> Message-Id: <20171216090228.28505-8-hpoussin@reactos.org>
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> [PMD: rebased, updated includes, use ISA_NUM_IRQS in for loop]
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/semihosting/console.c          | 92 +++++++++++++++++++++++++++++++
->  include/hw/semihosting/console.h  | 12 ++++
->  include/hw/semihosting/semihost.h |  1 +
->  stubs/semihost.c                  |  4 ++
->  target/arm/arm-semi.c             |  3 +-
->  vl.c                              |  3 +
->  6 files changed, 113 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
-> index b4b17c8afb..7345e2cce0 100644
-> --- a/hw/semihosting/console.c
-> +++ b/hw/semihosting/console.c
-> @@ -98,3 +98,95 @@ void qemu_semihosting_console_outc(CPUArchState *env, =
-target_ulong addr)
->                        __func__, addr);
->      }
->  }
-> +
-> +#include <pthread.h>
-> +#include "chardev/char-fe.h"
-> +#include "sysemu/sysemu.h"
-> +#include "qemu/main-loop.h"
-> +#include "qapi/error.h"
-> +
-> +#define FIFO_SIZE   1024
-> +
-> +typedef struct SemihostingFifo {
-> +    unsigned int     insert, remove;
-> +
-> +    uint8_t fifo[FIFO_SIZE];
-> +} SemihostingFifo;
-> +
-> +#define fifo_insert(f, c) do { \
-> +    (f)->fifo[(f)->insert] =3D (c); \
-> +    (f)->insert =3D ((f)->insert + 1) & (FIFO_SIZE - 1); \
-> +} while (0)
-> +
-> +#define fifo_remove(f, c) do {\
-> +    c =3D (f)->fifo[(f)->remove]; \
-> +    (f)->remove =3D ((f)->remove + 1) & (FIFO_SIZE - 1); \
-> +} while (0)
-> +
-> +#define fifo_full(f)        ((((f)->insert + 1) & (FIFO_SIZE - 1)) =3D=
-=3D \
-> +                             (f)->remove)
-> +#define fifo_empty(f)       ((f)->insert =3D=3D (f)->remove)
-> +#define fifo_space(f)       (((f)->remove - ((f)->insert + 1)) & \
-> +                             (FIFO_SIZE - 1))
-> +
-> +typedef struct SemihostingConsole {
-> +    CharBackend         backend;
-> +    pthread_mutex_t     mutex;
-> +    pthread_cond_t      cond;
-> +    bool                got;
-> +    SemihostingFifo     fifo;
-> +} SemihostingConsole;
-> +
-> +static SemihostingConsole console =3D {
-> +    .mutex =3D PTHREAD_MUTEX_INITIALIZER,
-> +    .cond =3D PTHREAD_COND_INITIALIZER
-> +};
-> +
-> +static int console_can_read(void *opaque)
-> +{
-> +    SemihostingConsole *c =3D opaque;
-> +    int ret;
-> +    pthread_mutex_lock(&c->mutex);
-> +    ret =3D fifo_space(&c->fifo);
-> +    pthread_mutex_unlock(&c->mutex);
-> +    return ret;
-> +}
-> +
-> +static void console_read(void *opaque, const uint8_t *buf, int size)
-> +{
-> +    SemihostingConsole *c =3D opaque;
-> +    pthread_mutex_lock(&c->mutex);
-> +    while (size-- && !fifo_full(&c->fifo)) {
-> +        fifo_insert(&c->fifo, *buf++);
-> +    }
-> +    pthread_cond_broadcast(&c->cond);
-> +    pthread_mutex_unlock(&c->mutex);
-> +}
-> +
-> +target_ulong qemu_semihosting_console_inc(CPUArchState *env)
-> +{
-> +    (void) env;
-> +    SemihostingConsole *c =3D &console;
-> +    qemu_mutex_unlock_iothread();
-> +    pthread_mutex_lock(&c->mutex);
-> +    while (fifo_empty(&c->fifo)) {
-> +        pthread_cond_wait(&c->cond, &c->mutex);
-> +    }
-> +    uint8_t ch;
-> +    fifo_remove(&c->fifo, ch);
-> +    pthread_mutex_unlock(&c->mutex);
-> +    qemu_mutex_lock_iothread();
-> +    return (target_ulong) ch;
-> +}
-> +
-> +void qemu_semihosting_console_init(void)
-> +{
-> +    if (semihosting_enabled()) {
-> +        qemu_chr_fe_init(&console.backend, serial_hd(0), &error_abort);
-> +        qemu_chr_fe_set_handlers(&console.backend,
-> +                                 console_can_read,
-> +                                 console_read,
-> +                                 NULL, NULL, &console,
-> +                                 NULL, true);
-> +    }
-> +}
-> diff --git a/include/hw/semihosting/console.h b/include/hw/semihosting/co=
-nsole.h
-> index 9be9754bcd..56f3606a2a 100644
-> --- a/include/hw/semihosting/console.h
-> +++ b/include/hw/semihosting/console.h
-> @@ -37,6 +37,18 @@ int qemu_semihosting_console_outs(CPUArchState *env, t=
-arget_ulong s);
+>  hw/isa/piix4.c       | 43 ++++++++++++++++++++++++++++++++--------
+> ---
+>  hw/mips/mips_malta.c | 32 +++++++++++++-------------------
+>  include/hw/i386/pc.h |  1 -
+>  3 files changed, 45 insertions(+), 31 deletions(-)
+> 
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index d0b18e0586..9c37c85ae2 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -24,6 +24,7 @@
 >   */
->  void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
-> =20
-> +/**
-> + * qemu_semihosting_console_outc:
-> + * @env: CPUArchState
-> + *
-> + * Receive single character from debug console. This
-> + * may be the remote gdb session if a softmmu guest is currently being
-> + * debugged.
-> + *
-> + * Returns: character read or -1 on error
-> + */
-> +target_ulong qemu_semihosting_console_inc(CPUArchState *env);
-> +
->  /**
->   * qemu_semihosting_log_out:
->   * @s: pointer to string
-> diff --git a/include/hw/semihosting/semihost.h b/include/hw/semihosting/s=
-emihost.h
-> index 60fc42d851..a13d17c087 100644
-> --- a/include/hw/semihosting/semihost.h
-> +++ b/include/hw/semihosting/semihost.h
-> @@ -68,6 +68,7 @@ Chardev *semihosting_get_chardev(void);
->  void qemu_semihosting_enable(void);
->  int qemu_semihosting_config_options(const char *opt);
->  void qemu_semihosting_connect_chardevs(void);
-> +void qemu_semihosting_console_init(void);
->  #endif /* CONFIG_USER_ONLY */
-> =20
->  #endif /* SEMIHOST_H */
-> diff --git a/stubs/semihost.c b/stubs/semihost.c
-> index f90589259c..1d8b37f7b2 100644
-> --- a/stubs/semihost.c
-> +++ b/stubs/semihost.c
-> @@ -69,3 +69,7 @@ void semihosting_arg_fallback(const char *file, const c=
-har *cmd)
->  void qemu_semihosting_connect_chardevs(void)
->  {
->  }
-> +
-> +void qemu_semihosting_console_init(void)
+>  
+>  #include "qemu/osdep.h"
+> +#include "hw/irq.h"
+>  #include "hw/i386/pc.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/isa/isa.h"
+> @@ -36,6 +37,8 @@ PCIDevice *piix4_dev;
+>  
+>  typedef struct PIIX4State {
+>      PCIDevice dev;
+> +    qemu_irq cpu_intr;
+> +    qemu_irq *isa;
+>  
+>      /* Reset Control Register */
+>      MemoryRegion rcr_mem;
+> @@ -94,6 +97,18 @@ static const VMStateDescription vmstate_piix4 = {
+>      }
+>  };
+>  
+> +static void piix4_request_i8259_irq(void *opaque, int irq, int
+> level)
 > +{
+> +    PIIX4State *s = opaque;
+> +    qemu_set_irq(s->cpu_intr, level);
 > +}
-> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> index 6f7b6d801b..47d61f6fe1 100644
-> --- a/target/arm/arm-semi.c
-> +++ b/target/arm/arm-semi.c
-> @@ -802,8 +802,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-> =20
->          return guestfd_fns[gf->type].readfn(cpu, gf, arg1, len);
->      case TARGET_SYS_READC:
-> -        qemu_log_mask(LOG_UNIMP, "%s: SYS_READC not implemented", __func=
-__);
-> -        return 0;
-> +        return qemu_semihosting_console_inc(env);
->      case TARGET_SYS_ISTTY:
->          GET_ARG(0);
-> =20
-> diff --git a/vl.c b/vl.c
-> index 4489cfb2bb..ac584d97ea 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -4381,6 +4381,9 @@ int main(int argc, char **argv, char **envp)
->      ds =3D init_displaystate();
->      qemu_display_init(ds, &dpy);
-> =20
-> +    /* connect semihosting console input if requested */
-> +    qemu_semihosting_console_init();
 > +
->      /* must be after terminal init, SDL library changes signal handlers =
-*/
->      os_setup_signal_handling();
-> =20
->=20
+> +static void piix4_set_i8259_irq(void *opaque, int irq, int level)
+> +{
+> +    PIIX4State *s = opaque;
+> +    qemu_set_irq(s->isa[irq], level);
+> +}
+> +
+>  static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+>                              unsigned int len)
+>  {
+> @@ -127,29 +142,35 @@ static const MemoryRegionOps piix4_rcr_ops = {
+>  static void piix4_realize(PCIDevice *dev, Error **errp)
+>  {
+>      PIIX4State *s = PIIX4_PCI_DEVICE(dev);
+> +    ISABus *isa_bus;
+> +    qemu_irq *i8259_out_irq;
+>  
+> -    if (!isa_bus_new(DEVICE(dev), pci_address_space(dev),
+> -                     pci_address_space_io(dev), errp)) {
+> +    isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
+> +                          pci_address_space_io(dev), errp);
+> +    if (!isa_bus) {
+>          return;
+>      }
+>  
+> +    qdev_init_gpio_in_named(DEVICE(dev), piix4_set_i8259_irq,
+> +                            "isa", ISA_NUM_IRQS);
+> +    qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
+> +                             "intr", 1);
+My question is not about this patch:
+
+The function name is "qdev_init_gpio_out_named" but support more than 1
+gpio, right? in this case, the name shouldn't be something like
+"qdev_init_gpios_out_named"?
+> +
+>      memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops,
+> s,
+>                            "reset-control", 1);
+>      memory_region_add_subregion_overlap(pci_address_space_io(dev),
+> 0xcf9,
+>                                          &s->rcr_mem, 1);
+Why do you use the priority 1 in this case?
+>  
+> +    /* initialize i8259 pic */
+> +    i8259_out_irq = qemu_allocate_irqs(piix4_request_i8259_irq, s,
+> 1);
+> +    s->isa = i8259_init(isa_bus, *i8259_out_irq);
+> +
+> +    /* initialize ISA irqs */
+> +    isa_bus_irqs(isa_bus, s->isa);
+> +
+>      piix4_dev = dev;
+>  }
+>  
+> -int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn)
+> -{
+> -    PCIDevice *d;
+> -
+> -    d = pci_create_simple_multifunction(bus, devfn, true, "PIIX4");
+> -    *isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(d), "isa.0"));
+> -    return d->devfn;
+> -}
+> -
+>  static void piix4_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+> index 4d9c64b36a..7d25ab6c23 100644
+> --- a/hw/mips/mips_malta.c
+> +++ b/hw/mips/mips_malta.c
+> @@ -97,7 +97,7 @@ typedef struct {
+>      SysBusDevice parent_obj;
+>  
+>      MIPSCPSState cps;
+> -    qemu_irq *i8259;
+> +    qemu_irq i8259[16];
+>  } MaltaState;
+>  
+>  static ISADevice *pit;
+> @@ -1235,8 +1235,8 @@ void mips_malta_init(MachineState *machine)
+>      int64_t kernel_entry, bootloader_run_addr;
+>      PCIBus *pci_bus;
+>      ISABus *isa_bus;
+> -    qemu_irq *isa_irq;
+>      qemu_irq cbus_irq, i8259_irq;
+> +    PCIDevice *pci;
+>      int piix4_devfn;
+>      I2CBus *smbus;
+>      DriveInfo *dinfo;
+> @@ -1407,30 +1407,24 @@ void mips_malta_init(MachineState *machine)
+>      /* Board ID = 0x420 (Malta Board with CoreLV) */
+>      stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+>  
+> -    /*
+> -     * We have a circular dependency problem: pci_bus depends on
+> isa_irq,
+> -     * isa_irq is provided by i8259, i8259 depends on ISA, ISA
+> depends
+> -     * on piix4, and piix4 depends on pci_bus.  To stop the cycle we
+> have
+> -     * qemu_irq_proxy() adds an extra bit of indirection, allowing
+> us
+> -     * to resolve the isa_irq -> i8259 dependency after i8259 is
+> initialized.
+> -     */
+> -    isa_irq = qemu_irq_proxy(&s->i8259, 16);
+> -
+>      /* Northbridge */
+> -    pci_bus = gt64120_register(isa_irq);
+> +    pci_bus = gt64120_register(s->i8259);
+>  
+>      /* Southbridge */
+>      ide_drive_get(hd, ARRAY_SIZE(hd));
+>  
+> -    piix4_devfn = piix4_init(pci_bus, &isa_bus, 80);
+> +    pci = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> +                                          true, "PIIX4");
+> +    dev = DEVICE(pci);
+> +    isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> +    piix4_devfn = pci->devfn;
+>  
+> -    /*
+> -     * Interrupt controller
+> -     * The 8259 is attached to the MIPS CPU INT0 pin, ie interrupt 2
+> -     */
+> -    s->i8259 = i8259_init(isa_bus, i8259_irq);
+> +    /* Interrupt controller */
+> +    qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
+> +    for (int i = 0; i < ISA_NUM_IRQS; i++) {
+> +        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
+> +    }
+>  
+> -    isa_bus_irqs(isa_bus, s->i8259);
+>      pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);
+>      pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
+>      smbus = piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 37bfd95113..374f3e8835 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -286,7 +286,6 @@ PCIBus *i440fx_init(const char *host_type, const
+> char *pci_type,
+>  PCIBus *find_i440fx(void);
+>  /* piix4.c */
+>  extern PCIDevice *piix4_dev;
+> -int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn);
+>  
+>  /* pc_sysfw.c */
+>  void pc_system_flash_create(PCMachineState *pcms);
 
 
