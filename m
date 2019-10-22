@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108FBDFE32
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:24:08 +0200 (CEST)
-Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB42DFE46
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:28:26 +0200 (CEST)
+Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMoWU-0006k7-KG
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39116)
+	id 1iMoaf-0004wf-Sw
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39169)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMoUT-0005Ep-Pl
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:02 -0400
+ (envelope-from <thuth@redhat.com>) id 1iMoUg-0005ZE-CQ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMoUS-0005Gm-LP
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52195
+ (envelope-from <thuth@redhat.com>) id 1iMoUf-0005L5-9q
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24737
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMoUS-0005GM-IJ
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:00 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMoUf-0005Ku-5l
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571728920;
+ s=mimecast20190719; t=1571728932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ChAKUyJC7iiVoJsEwLh+lO4vhVCdqQ6OROJITLpnBN8=;
- b=ETfJnLhH+xb4e5j2QyGWJtQOWP67JwFbG/Mt6CEPs8EnofkAzl5nmeiqOu7SdEJJ62n9MF
- mXoYZHKCLWma9RDawjFvlQZQaJfuAwcyEmVGFP5HkE2keDQvOFPgN3XS8DjUzBtXWiIyE1
- eDLSR7gnyOgJ3hJd06myuuiOgXr3ZyQ=
+ bh=W/3jEa0khY8EIsvamGoGXV0Y4SSFZ2VbgKsJcLDSgeg=;
+ b=Gte1KvYqP9CygaoKifNYfa3VVUjJN438PgjK8Ya1RXUpS3OJsn0oHy3Eh6hxqo3Aue0i3z
+ JJXWa/HAB/AK2sOAc8s1jcCubAOZuk19+niLydhswmOTn+kzZ3eWyMRt4jt4P0F21weYEM
+ u//ES4jEe3qUWVR203YIN747G8gP6OA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-gw2Cj09lNzKv0Qp_yfy4mA-1; Tue, 22 Oct 2019 03:21:58 -0400
+ us-mta-264-Dn9t54yaO2-3ghxvc8YNtw-1; Tue, 22 Oct 2019 03:22:09 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67AAD800D57;
- Tue, 22 Oct 2019 07:21:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 554251800D6A;
+ Tue, 22 Oct 2019 07:22:08 +0000 (UTC)
 Received: from thuth.com (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C2DC2965D;
- Tue, 22 Oct 2019 07:21:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB2942965D;
+ Tue, 22 Oct 2019 07:21:57 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Max Reitz <mreitz@redhat.com>,
 	qemu-block@nongnu.org
-Subject: [PATCH v3 4/6] iotests: Skip "make check-block" if QEMU does not
- support virtio-blk
-Date: Tue, 22 Oct 2019 09:21:33 +0200
-Message-Id: <20191022072135.11188-5-thuth@redhat.com>
+Subject: [PATCH v3 5/6] iotests: Enable more tests in the 'auto' group to
+ improve test coverage
+Date: Tue, 22 Oct 2019 09:21:34 +0200
+Message-Id: <20191022072135.11188-6-thuth@redhat.com>
 In-Reply-To: <20191022072135.11188-1-thuth@redhat.com>
 References: <20191022072135.11188-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: gw2Cj09lNzKv0Qp_yfy4mA-1
+X-MC-Unique: Dn9t54yaO2-3ghxvc8YNtw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,55 +76,89 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next patch is going to add some python-based tests to the "auto"
-group, and these tests require virtio-blk to work properly. Running
-iotests without virtio-blk likely does not make too much sense anyway,
-so instead of adding a check for the availability of virtio-blk to each
-and every test (which does not sound very appealing), let's rather add
-a check for this at the top level in the check-block.sh script instead
-(so that it is possible to run "make check" without the "check-block"
-part for qemu-system-tricore for example).
+According to Kevin, tests 030, 040 and 041 are among the most valuable
+tests that we have, so we should always run them if possible, even if
+they take a little bit longer.
+
+According to Max, it would be good to have a test for iothreads and
+migration. 127 and 256 seem to be good candidates for iothreads. For
+migration, let's enable 091, 181, and 203 (which also tests iothreads).
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/check-block.sh | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/group | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index 679aedec50..e9e2978818 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -26,10 +26,24 @@ if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/dev/=
-null ; then
-     exit 0
- fi
-=20
--if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-+if [ -n "$QEMU_PROG" ]; then
-+    qemu_prog=3D"$QEMU_PROG"
-+else
-+    for binary in *-softmmu/qemu-system-* ; do
-+        if [ -x "$binary" ]; then
-+            qemu_prog=3D"$binary"
-+            break
-+        fi
-+    done
-+fi
-+if [ -z "$qemu_prog" ]; then
-     echo "No qemu-system binary available =3D=3D> Not running the qemu-iot=
-ests."
-     exit 0
- fi
-+if ! "$qemu_prog" -M none -device help | grep -q virtio-blk >/dev/null 2>&=
-1 ; then
-+    echo "$qemu_prog does not support virtio-blk =3D=3D> Not running the q=
-emu-iotests."
-+    exit 0
-+fi
-=20
- if ! command -v bash >/dev/null 2>&1 ; then
-     echo "bash not available =3D=3D> Not running the qemu-iotests."
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index a73df279e5..33b499ed41 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -51,7 +51,7 @@
+ 027 rw auto quick
+ 028 rw backing quick
+ 029 rw auto quick
+-030 rw backing
++030 rw auto backing
+ 031 rw auto quick
+ 032 rw auto quick
+ 033 rw auto quick
+@@ -61,8 +61,8 @@
+ 037 rw auto backing quick
+ 038 rw auto backing quick
+ 039 rw auto quick
+-040 rw
+-041 rw backing
++040 rw auto
++041 rw auto backing
+ 042 rw auto quick
+ 043 rw auto backing
+ 044 rw
+@@ -112,7 +112,7 @@
+ 088 rw quick
+ 089 rw auto quick
+ 090 rw auto quick
+-091 rw migration
++091 rw auto migration
+ 092 rw quick
+ 093 throttle
+ 094 rw quick
+@@ -148,7 +148,7 @@
+ 124 rw backing
+ 125 rw
+ 126 rw auto backing
+-127 rw backing quick
++127 rw auto backing quick
+ 128 rw quick
+ 129 rw quick
+ 130 rw auto quick
+@@ -197,7 +197,7 @@
+ 177 rw auto quick
+ 178 img
+ 179 rw auto quick
+-181 rw migration
++181 rw auto migration
+ 182 rw quick
+ 183 rw migration
+ 184 rw auto quick
+@@ -218,7 +218,7 @@
+ 200 rw
+ 201 rw migration
+ 202 rw quick
+-203 rw migration
++203 rw auto migration
+ 204 rw quick
+ 205 rw quick
+ 206 rw
+@@ -270,7 +270,7 @@
+ 253 rw quick
+ 254 rw backing quick
+ 255 rw quick
+-256 rw quick
++256 rw auto quick
+ 257 rw
+ 258 rw quick
+ 260 rw quick
 --=20
 2.18.1
 
