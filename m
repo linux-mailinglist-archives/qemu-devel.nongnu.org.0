@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC09E00F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 11:43:33 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DE0E0124
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 11:51:15 +0200 (CEST)
+Received: from localhost ([::1]:52496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMqhQ-0005Xi-Bq
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 05:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56861)
+	id 1iMqor-0001NQ-AE
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 05:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMqgY-00058h-0z
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:42:39 -0400
+ (envelope-from <atar4qemu@gmail.com>) id 1iMqnL-0008Vv-SU
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:49:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMqgW-0001iV-3S
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:42:37 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43634)
+ (envelope-from <atar4qemu@gmail.com>) id 1iMqnH-0003lw-MK
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:49:39 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMqgV-0001iF-Tz
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 05:42:36 -0400
-Received: by mail-oi1-x241.google.com with SMTP id t84so13577009oih.10
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 02:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <atar4qemu@gmail.com>)
+ id 1iMqlP-0003HR-9s; Tue, 22 Oct 2019 05:49:35 -0400
+Received: by mail-io1-xd42.google.com with SMTP id z19so19673248ior.0;
+ Tue, 22 Oct 2019 02:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=AWDQsNcnEDFIcVKDwUT9YNcZRuv6IBRMy3EtcZqV0EQ=;
- b=h70lvQ7TyNXB21tFyDZroFl6Fq6Hl1eqNQUbH6dMlA8JfQraDnKMKVOU81jNG6sq1/
- q/Qi75OkmSa2ECksv0gtVj7U6c+BjzX8dX5GO3TtqfGkCCk6BajmsZYTEJtGdWWG2Lvf
- cga7Hgbjp2G9B+qBMDFaveNAPG+svmofglchsyQ6uJAAxotK0jg3GJ34ZYR/wJy90WBu
- TzJonBMAlbADkLRX115CP+hkrZfVBMrkepq437Ur60o4dzwJGSa3gJdqeqOaCzi/39IK
- qY3iz1AorWY+U9/8HXABi0B87e71aPhR/caHA69dWYE1uejRDlUsYqVJ8LhEaMfmjiRX
- HC1A==
+ bh=z5nwDi4FvKIql2/B77bkolyYgv+OoJEY8Lh+8lXHXi4=;
+ b=nD0tY6Y++u02mDyniTNZYZL/7UfJ1r60sekxxI0pTouHIBT2ioSNC/vh2fBXupr5aB
+ s+dyj6kQ/BX0v6eqpeSUcZuj7epqxPCxvVqvUY1FD6usotCONqhyRk9sNsVA/S0iXFAE
+ Zq/yUW01lbMh/H5F3P1yTmjdcHmZFw75VxcmggFhR0EsSGNmU7jBVoWnfC/n4xXDpQdH
+ oPBv1l++xG5Dn3KI0MK1Cu10UVUsY7eq342J2bSumL+1wimc6fMjoCl0TGadaZYb1mcK
+ IObvPZRu+mY/IBYFEafjmSjhPPzCP/wm9QkMc1nOcfXegIpTwHRgnhwX/jfqAqYQr/lz
+ Wmyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=AWDQsNcnEDFIcVKDwUT9YNcZRuv6IBRMy3EtcZqV0EQ=;
- b=TlhpCHTs7rzFDA+dFkyBGROS1rbJx7hQe1G+UjF2Wp+lPY8ECTELC5sAB7WuHzi8Bz
- Qxy3AcCUGwBlqdqRkQQWpRtfQC2eFevqmR49p7plxDm7XwOtPWC6kY4AdP+AqO3RUPTY
- 7eEA0IZSCS/M0ksSJpVpdY8UrHxKSE0X5VN/TcnzWWSFnPluYCqDOcQ4sjXaIpqOH4Vq
- 3hWgUfrI1OGzfGpRLIOrNxe0PUCIMC0IxOlanySxg8u/S1td5zCjRJjXmx1E0BGc0iPw
- 5AqBU479OGtDaI6W9kSsvTirzM/ovueuFwFE979FSV2rZpgjwuAgU969KQ/baJVLGYdG
- qfhg==
-X-Gm-Message-State: APjAAAVIyaDm/NFK68wmp5DiVE0NCXjwE6OYRdiJAGDfJDMy8OaFipXs
- Mi3mRxjqK5lXSe5cZnnOwgQUCTjAYI/ZT1XPSxGPFQ==
-X-Google-Smtp-Source: APXvYqy1pKOdTvHcFP0XzOJuYsvQj/PHqE3DixwCFjquN5kcVT5U1DWjRFzC5idMPh4Y1iB7MBwDm6ikZe/nY8+oUcE=
-X-Received: by 2002:a05:6808:9:: with SMTP id u9mr2183082oic.98.1571737355053; 
- Tue, 22 Oct 2019 02:42:35 -0700 (PDT)
+ bh=z5nwDi4FvKIql2/B77bkolyYgv+OoJEY8Lh+8lXHXi4=;
+ b=KHiChv5JBgre4hIAHyn5KsECQlszR7OlHu+ZTc/beS3LBx2oovRtK5gvN4FW0nXpfg
+ TJAshXui/Pf42Evrb9QXMXFUSh+EkQIoe8FbxRECLpjegEOcBzESkRKAUqp5ao+ByWjx
+ uwethQsit5SR02rehzXz7/6LFzcYIx5hGP6IgeuqGLNFimkch0VR5iIHLSDeR8fL61O9
+ reA/gigYRyjcj5Y4Gkey6iZLhCmJfSpyPcMETsONKnK1WQ7i+lik7n4oII1lZOkds6Di
+ 7wtze3+fbpbI9y+V5h10UnWGFSR0Zx2FY3i63/uodJcG7p3374LvcsSQL8kOAo6GKYQr
+ 8kJg==
+X-Gm-Message-State: APjAAAX/NwhQC3UCO47JofxINcqVmVfgo9lsr1QF6NXrZiWAafNYa8c1
+ CdZge1k9bS4N+4HrMO4qTOCes9KYdqH6HyYUKFlCkPQkXtkL0Q==
+X-Google-Smtp-Source: APXvYqwmVqRuClsybTs6LMI6thmB5ni0MxhUxyoPXCZ/AQ47Gd4qTSynP+zicH/b2vFtG0XxofOIST4LJaxctOqyHEc=
+X-Received: by 2002:a6b:b210:: with SMTP id b16mr2878824iof.72.1571737655336; 
+ Tue, 22 Oct 2019 02:47:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191018134754.16362-1-philmd@redhat.com>
- <20191018134754.16362-4-philmd@redhat.com>
- <b1255a22fe4409244f7a68887137fbe43b71a08d.camel@gmail.com>
-In-Reply-To: <b1255a22fe4409244f7a68887137fbe43b71a08d.camel@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Oct 2019 10:42:24 +0100
-Message-ID: <CAFEAcA-FesfcimTutrYwZFdB93mEE42ha7X93jDqAW7CFUd+0w@mail.gmail.com>
-Subject: Re: [PATCH v2 03/20] piix4: Add a i8259 Interrupt Controller as
- specified in datasheet
-To: Esteban Bosse <estebanbosse@gmail.com>
+References: <20191020225650.3671-1-philmd@redhat.com>
+ <20191020225650.3671-8-philmd@redhat.com>
+ <CAKmqyKM23N2GFiLOtLtkoK=WnjkEzynj6ctHZgqYQZB87OiCeQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKM23N2GFiLOtLtkoK=WnjkEzynj6ctHZgqYQZB87OiCeQ@mail.gmail.com>
+From: Artyom Tarasenko <atar4qemu@gmail.com>
+Date: Tue, 22 Oct 2019 11:47:24 +0200
+Message-ID: <CACXAS8DiGW9NeOS1Ouknevn4+JnxMDi-UG9sCctd6=mzDiQYMg@mail.gmail.com>
+Subject: Re: [PATCH 07/21] hw: Drop QOM ownership on
+ memory_region_allocate_system_memory() calls
+To: Alistair Francis <alistair23@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::d42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,53 +75,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paul Durrant <paul@xen.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paul Burton <pburton@wavecomp.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Helge Deller <deller@gmx.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+ Joel Stanley <joel@jms.id.au>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Fabien Chouteau <chouteau@adacore.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Michael Walle <michael@walle.cc>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 at 09:52, Esteban Bosse <estebanbosse@gmail.com> wrote:
+On Tue, Oct 22, 2019 at 1:23 AM Alistair Francis <alistair23@gmail.com> wro=
+te:
 >
-> El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daud=C3=A9 escribi=
-=C3=B3:
-> > +static void piix4_request_i8259_irq(void *opaque, int irq, int
-> > level)
-> > +{
-> > +    PIIX4State *s =3D opaque;
-> > +    qemu_set_irq(s->cpu_intr, level);
-> > +}
-> I would like to understand why in `PIIX4State *s =3D opaque;` its not
-> necessary a cast or a object macro magic.
-> Something like:
-> PIIX4State *s =3D (PIIX4State*)opaque;
-> PIIX4State *s =3D PIIX4STATE(opaque);
+> On Sun, Oct 20, 2019 at 4:10 PM Philippe Mathieu-Daud=C3=A9
+> <philmd@redhat.com> wrote:
+> >
+> > All the memory_region_allocate_system_memory() calls are in the
+> > board_init() code.  From the 58 calls in the repository, only
+> > 4 set the 'owner' parameter. It is obvious we want the Machine
+> > to be the owner of the RAM, so we want to use OBJECT(machine)
+> > as owner. We can simplify a bit by passing MachineState to
+> > memory_region_allocate_system_memory(). In preparation of this
+> > refactor, first drop the 'owner' argument from these 4 uses.
+> >
+> >   $ git grep memory_region_allocate_system_memory hw/ | wc -l
+> >   58
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-The simple answer to "why don't we need a cast" is
-"because the type of 'opaque' is 'void *', and in C there is
-no need to explicitly cast a 'void *' as it will be implicitly
-converted to the pointer type of the destination". (This is
-different from C++, which does require an explicit cast for void*.)
+Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 
-For QOM types, QEMU conventionally uses the QOM casting
-macro to convert a pointer-to-instance to
-pointer-to-instance-of-parent-class and vice versa.
-In some places, like this one, what we have is just a
-void* representing opaque data having been passed around.
-You could use the QOM cast macro here, which would add
-a bit of extra type-safety, but the project doesn't have
-a strong convention here on whether to do so or not, so
-you'll often see the just-assignment code.
+>
+> Alistair
+>
+> > ---
+> >  hw/alpha/typhoon.c | 2 +-
+> >  hw/arm/raspi.c     | 2 +-
+> >  hw/hppa/machine.c  | 2 +-
+> >  hw/sparc/sun4m.c   | 2 +-
+> >  4 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+> > index 179e1f7658..8489ec335c 100644
+> > --- a/hw/alpha/typhoon.c
+> > +++ b/hw/alpha/typhoon.c
+> > @@ -851,7 +851,7 @@ PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **=
+isa_bus,
+> >
+> >      /* Main memory region, 0x00.0000.0000.  Real hardware supports 32G=
+B,
+> >         but the address space hole reserved at this point is 8TB.  */
+> > -    memory_region_allocate_system_memory(&s->ram_region, OBJECT(s), "r=
+am",
+> > +    memory_region_allocate_system_memory(&s->ram_region, NULL, "ram",
+> >                                           ram_size);
+> >      memory_region_add_subregion(addr_space, 0, &s->ram_region);
+> >
+> > diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> > index 615d755879..f76b6eaad3 100644
+> > --- a/hw/arm/raspi.c
+> > +++ b/hw/arm/raspi.c
+> > @@ -182,7 +182,7 @@ static void raspi_init(MachineState *machine, int v=
+ersion)
+> >                              &error_abort, NULL);
+> >
+> >      /* Allocate and map RAM */
+> > -    memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ra=
+m",
+> > +    memory_region_allocate_system_memory(&s->ram, NULL, "ram",
+> >                                           machine->ram_size);
+> >      /* FIXME: Remove when we have custom CPU address space support */
+> >      memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ra=
+m, 0);
+> > diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+> > index 953d454f48..dbe1ff0fe5 100644
+> > --- a/hw/hppa/machine.c
+> > +++ b/hw/hppa/machine.c
+> > @@ -96,7 +96,7 @@ static void machine_hppa_init(MachineState *machine)
+> >
+> >      /* Main memory region. */
+> >      ram_region =3D g_new(MemoryRegion, 1);
+> > -    memory_region_allocate_system_memory(ram_region, OBJECT(machine),
+> > +    memory_region_allocate_system_memory(ram_region, NULL,
+> >                                           "ram", ram_size);
+> >      memory_region_add_subregion(addr_space, 0, ram_region);
+> >
+> > diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+> > index 6c5a17a020..0bb7524655 100644
+> > --- a/hw/sparc/sun4m.c
+> > +++ b/hw/sparc/sun4m.c
+> > @@ -788,7 +788,7 @@ static void ram_realize(DeviceState *dev, Error **e=
+rrp)
+> >      RamDevice *d =3D SUN4M_RAM(dev);
+> >      SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+> >
+> > -    memory_region_allocate_system_memory(&d->ram, OBJECT(d), "sun4m.ra=
+m",
+> > +    memory_region_allocate_system_memory(&d->ram, NULL, "sun4m.ram",
+> >                                           d->size);
+> >      sysbus_init_mmio(sbd, &d->ram);
+> >  }
+> > --
+> > 2.21.0
+> >
+> >
 
-thanks
--- PMM
+
+
+--=20
+Regards,
+Artyom Tarasenko
+
+SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/q=
+emu
 
