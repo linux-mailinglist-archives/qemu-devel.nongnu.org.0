@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E83E02F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:32:19 +0200 (CEST)
-Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE13E02FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:34:44 +0200 (CEST)
+Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsOf-00046X-Sy
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:32:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44207)
+	id 1iMsR0-0006Rh-Vr
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44231)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMsBQ-0004jH-NX
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:45 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMsBX-0004lo-Sb
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMsBN-0007qb-BH
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:44003)
+ (envelope-from <laurent@vivier.eu>) id 1iMsBN-0007qo-Ib
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:41 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:36349)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iMsBM-0007pG-EP; Tue, 22 Oct 2019 07:18:33 -0400
+ id 1iMsBN-0007pm-2k; Tue, 22 Oct 2019 07:18:33 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MOiLp-1ifFZl3dmx-00Q9ab; Tue, 22 Oct 2019 13:17:55 +0200
+ id 1MC2sF-1iB18C3qpR-00CUbr; Tue, 22 Oct 2019 13:17:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v14 1/9] esp: add pseudo-DMA as used by Macintosh
-Date: Tue, 22 Oct 2019 13:17:30 +0200
-Message-Id: <20191022111738.20803-2-laurent@vivier.eu>
+Subject: [PATCH v14 3/9] hw/m68k: add VIA support
+Date: Tue, 22 Oct 2019 13:17:32 +0200
+Message-Id: <20191022111738.20803-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022111738.20803-1-laurent@vivier.eu>
 References: <20191022111738.20803-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6yDDqwImp2tvGc9FClAzX7hkotG8MVMGSxfyXSDzT6rx5sMhMDV
- TR6A0Vq80iifi80dDexvOm9ruCb5G2wDXHJOv/hzW8gHuZDiu8crm98c9y+5oy9nkTo/gr7
- nTZggMIBWSQPJOqREhDFv6iDevp7RFHUbvt2qhKN6s+G3PFunUY+Ta3ZPDc4qMQfkyTOsvw
- B/GrlqyAOa8GtRTDBKaJQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cDDsbyVVmkg=:SxOWIXesToNxQeziKvHSYW
- o+vt915hzu0reyQ5buo3TBnVDq3vsZFrTr8rFgkZAtUyFvxaZ850YHvQ0yMkOZrtp/Te+FlpR
- L+v3vxkbFR80CtRgR7sC9y03CmyPqREU4f0Qo6esJ6jjjmsE8DtEHpI4mtpdG6dVQAiNfgkgl
- q70DrQHgXiaceU439mF38eNWaQM8Kq7rFOHK+NEp/PwsWGtTA50j10+QCVYHuxtD1wMWkGJ/A
- XJq8iZVckn3nOCIFQlE5zO/9SjBBDVYGt9UBNWFLzgU6ZxE7S7IEV5UvmJNDaEFRCA7j1wFV7
- g98dNaWmL0EgTyfESn6lMp6a0IB6+NqwSnAk39dme15IzdH1ZgGUHUHlOCHyJrRUc4YCCOqva
- FnWrx2WStUyux96A4RLYSNPMM8bdqtShaomOMENdXHV0+luEUgAptX2CHUim1hmb4q0YUT7YZ
- M2S0ZYq2kY6UoynlEpyBX8JVWH5jJisb1RR9mXxIRUWa8LK39eWVgxZViLriWfhdkxbhlGuKv
- olumqRVubSoA3ESkVL2pvZAzj5GaNiw5n7zAPwuh2vdmfiYWbBIyMwAdH0P55qKjIsviyvqGQ
- FD/KoKg3q/SH971Jv55p7IQkeQqZ0SB4eCJB/qdCVCTzY+17sdyztJ0oMy5lIyRnx3tKpgFU5
- r8nGpniBcREegymOFfhylQqXIb5c2kNnmVJB6ZLMTvK9s5GO8om5y4rRReqmFFZRzPtjlJ1ka
- gbmdgXwMYNcuF9SZTFV+RtibOC3RJwhVG4oRjcLGlRAlEdCKBnzdehanv5O6IhYFck0Z6Ph8w
- Me8s51yGCZkGIaDW1Rj8GOW4QQDi17g3VAFRL76md3+iO9pRN3+wFryK8HIoU/Mf80XoVo8Mu
- be5SJoV47DVY1dagu3KQ==
+X-Provags-ID: V03:K1:rpfcnMeZQ2Mu3U3020dEqwqa3ZjI+nwT7lJxMG0CMPe+mPd6HPm
+ nZ6UA/XbtPieD3SGIbiYAcLC4rwYPnEQMTiLA0NRdJHbywnoRQ3eFO+5pOUtFbIUnMKCPAk
+ qQhkNn2JCnGyoqcmNR0wWfJ2F26hMlq7Kf22W5vNXBz+0VqAJxR26RDDmLP38bOaBfSWA6q
+ Hnm5eA46Ugfof4hTbEEgQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2hx7SQsK+ZA=:f+alHFb1mgmw3XT/QXcp6m
+ 6g5atGlm6S6rZRXT8FF2F+vsHq8YlbF6UjBWn451rt0jKTMn1iCHoKFOWokrhh7lalqHkSwpQ
+ XIdMABUNVCIQo96IQi5pDgF6huWo6terL3EkSeZ2Qs1DLsNCoeI00SEcaMbsepL4JUMq4tSDk
+ RbBNae8AZKdgOChQ/j2V6xBrlL5mCPhjbdw26i/1oxvliZq7YEzfLRaIfVtGBufKkCwfQNpWl
+ e9f8r2qMkUrIiqDhTTMlVSf9fZ1pSj5tClleCaUB2t1AVPCivVKqsjKbxt+tCaD/RQ3895UgH
+ dkcVHuQ7FWM9RY7h9i+1qRFpm2L0i2eLEw93GzOJ+bgHAuhTxgaozdaDKtQGmkKZ1azyxJjFa
+ UAQVtFszo66BQwc7LuZPnAadMe7Ivfnn5xoSbgh8WV5Fc4UWyYRbh/D2tNM5RjeUHrvaHaybI
+ p3F1bUchExDwAzFrEExhJbFO95OfGiPhmPVDl1hwtUFtEoH9/re881AIyEjLZsSYhcYMOneuT
+ zfAXs34IY7p/ttPdEUoBPM5MMU7JMtdFbXi6OhcURxYCE5Q+r5Axuvyx8ibea3peTMovC+RFK
+ eDwBgD25KB+HiwufLUnnE/3tVRNaNEOjm6XzoLov44HLaH235u+gWKfslMiPZ8BDsD/0L8ZUR
+ JBgXX4H32vXnuoB62L8HVXf8GSx1Nduvz7AMWNirTCmw3EMg32bFAFiqVPOm5hRZGwpMNpHdF
+ ghvx873D0OCb56LCikFgNwKsQIqaWBAJNkKZ/2JXPzmAmbiZwvhi3M4YSmiemEPgJXwMRTNba
+ CUeNE6dQIAc3xe8zKWHlbadO9vkUmnp9IRfHVu1edrsPt+JzYwRj3MfAi7bkcvzQhm4THKiuo
+ 57OACdcHieomrX95o6sodhX65woRxHD2vWpZrXtpQ=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.10
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,582 +81,978 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no DMA in Quadra 800, so the CPU reads/writes the data from the
-PDMA register (offset 0x100, ESP_PDMA in hw/m68k/q800.c) and copies them
-to/from the memory.
+Inside the 680x0 Macintosh, VIA (Versatile Interface Adapter) is used
+to interface the keyboard, Mouse, and real-time clock. It also provides
+control line for the floppy disk driver, video interface, sound circuitry
+and serial interface.
 
-There is a nice assembly loop in the kernel to do that, see
-linux/drivers/scsi/mac_esp.c:MAC_ESP_PDMA_LOOP().
+This implementation is based on the MOS6522 object.
 
-The start of the transfer is triggered by the DREQ interrupt (see linux
-mac_esp_send_pdma_cmd()), the CPU polls on the IRQ flag to start the
-transfer after a SCSI command has been sent (in Quadra 800 it goes
-through the VIA2, the via2-irq line and the vIFR register)
-
-The Macintosh hardware includes hardware handshaking to prevent the CPU
-from reading invalid data or writing data faster than the peripheral
-device can accept it.
-
-This is the "blind mode", and from the doc:
-"Approximate maximum SCSI transfer rates within a blocks are 1.4 MB per
-second for blind transfers in the Macintosh II"
-
-Some references can be found in:
-  Apple Macintosh Family Hardware Reference, ISBN 0-201-19255-1
-  Guide to the Macintosh Family Hardware, ISBN-0-201-52405-8
-
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 ---
- include/hw/scsi/esp.h |  15 ++
- hw/scsi/esp.c         | 338 ++++++++++++++++++++++++++++++++++++++----
- 2 files changed, 324 insertions(+), 29 deletions(-)
+ default-configs/m68k-softmmu.mak |   1 +
+ include/hw/misc/mac_via.h        | 108 +++++
+ hw/misc/mac_via.c                | 767 +++++++++++++++++++++++++++++++
+ MAINTAINERS                      |   6 +
+ hw/m68k/Kconfig                  |   4 +
+ hw/misc/Kconfig                  |   4 +
+ hw/misc/Makefile.objs            |   1 +
+ 7 files changed, 891 insertions(+)
+ create mode 100644 include/hw/misc/mac_via.h
+ create mode 100644 hw/misc/mac_via.c
 
-diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-index adab63d1c9..6ba47dac41 100644
---- a/include/hw/scsi/esp.h
-+++ b/include/hw/scsi/esp.h
-@@ -14,10 +14,18 @@ typedef void (*ESPDMAMemoryReadWriteFunc)(void *opaque, uint8_t *buf, int len);
- 
- typedef struct ESPState ESPState;
- 
-+enum pdma_origin_id {
-+    PDMA,
-+    TI,
-+    CMD,
-+    ASYNC,
+diff --git a/default-configs/m68k-softmmu.mak b/default-configs/m68k-softmmu.mak
+index d67ab8b96d..6629fd2aa3 100644
+--- a/default-configs/m68k-softmmu.mak
++++ b/default-configs/m68k-softmmu.mak
+@@ -7,3 +7,4 @@ CONFIG_SEMIHOSTING=y
+ CONFIG_AN5206=y
+ CONFIG_MCF5208=y
+ CONFIG_NEXTCUBE=y
++CONFIG_Q800=y
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+new file mode 100644
+index 0000000000..efc8ef3ce3
+--- /dev/null
++++ b/include/hw/misc/mac_via.h
+@@ -0,0 +1,108 @@
++/*
++ *
++ * Copyright (c) 2011-2018 Laurent Vivier
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef HW_MISC_MAC_VIA_H
++#define HW_MISC_MAC_VIA_H
++
++#include "exec/memory.h"
++#include "hw/sysbus.h"
++#include "hw/misc/mos6522.h"
++
++
++/* VIA 1 */
++#define VIA1_IRQ_ONE_SECOND_BIT 0
++#define VIA1_IRQ_VBLANK_BIT     1
++#define VIA1_IRQ_ADB_READY_BIT  2
++#define VIA1_IRQ_ADB_DATA_BIT   3
++#define VIA1_IRQ_ADB_CLOCK_BIT  4
++
++#define VIA1_IRQ_NB             8
++
++#define VIA1_IRQ_ONE_SECOND (1 << VIA1_IRQ_ONE_SECOND_BIT)
++#define VIA1_IRQ_VBLANK     (1 << VIA1_IRQ_VBLANK_BIT)
++#define VIA1_IRQ_ADB_READY  (1 << VIA1_IRQ_ADB_READY_BIT)
++#define VIA1_IRQ_ADB_DATA   (1 << VIA1_IRQ_ADB_DATA_BIT)
++#define VIA1_IRQ_ADB_CLOCK  (1 << VIA1_IRQ_ADB_CLOCK_BIT)
++
++
++#define TYPE_MOS6522_Q800_VIA1 "mos6522-q800-via1"
++#define MOS6522_Q800_VIA1(obj)  OBJECT_CHECK(MOS6522Q800VIA1State, (obj), \
++                                    TYPE_MOS6522_Q800_VIA1)
++
++typedef struct MOS6522Q800VIA1State {
++    /*< private >*/
++    MOS6522State parent_obj;
++
++    qemu_irq irqs[VIA1_IRQ_NB];
++    uint8_t last_b;
++    uint8_t PRAM[256];
++
++    /* external timers */
++    QEMUTimer *one_second_timer;
++    int64_t next_second;
++    QEMUTimer *VBL_timer;
++    int64_t next_VBL;
++} MOS6522Q800VIA1State;
++
++
++/* VIA 2 */
++#define VIA2_IRQ_SCSI_DATA_BIT  0
++#define VIA2_IRQ_SLOT_BIT       1
++#define VIA2_IRQ_UNUSED_BIT     2
++#define VIA2_IRQ_SCSI_BIT       3
++#define VIA2_IRQ_ASC_BIT        4
++
++#define VIA2_IRQ_NB             8
++
++#define VIA2_IRQ_SCSI_DATA  (1 << VIA2_IRQ_SCSI_DATA_BIT)
++#define VIA2_IRQ_SLOT       (1 << VIA2_IRQ_SLOT_BIT)
++#define VIA2_IRQ_UNUSED     (1 << VIA2_IRQ_SCSI_BIT)
++#define VIA2_IRQ_SCSI       (1 << VIA2_IRQ_UNUSED_BIT)
++#define VIA2_IRQ_ASC        (1 << VIA2_IRQ_ASC_BIT)
++
++#define TYPE_MOS6522_Q800_VIA2 "mos6522-q800-via2"
++#define MOS6522_Q800_VIA2(obj)  OBJECT_CHECK(MOS6522Q800VIA2State, (obj), \
++                                    TYPE_MOS6522_Q800_VIA2)
++
++typedef struct MOS6522Q800VIA2State {
++    /*< private >*/
++    MOS6522State parent_obj;
++} MOS6522Q800VIA2State;
++
++
++#define TYPE_MAC_VIA "mac_via"
++#define MAC_VIA(obj)   OBJECT_CHECK(MacVIAState, (obj), TYPE_MAC_VIA)
++
++typedef struct MacVIAState {
++    SysBusDevice busdev;
++
++    /* MMIO */
++    MemoryRegion mmio;
++    MemoryRegion via1mem;
++    MemoryRegion via2mem;
++
++    /* VIAs */
++    MOS6522Q800VIA1State mos6522_via1;
++    MOS6522Q800VIA2State mos6522_via2;
++
++    /* RTC */
++    uint32_t tick_offset;
++
++    uint8_t data_out;
++    int data_out_cnt;
++    uint8_t data_in;
++    uint8_t data_in_cnt;
++    uint8_t cmd;
++    int wprotect;
++    int alt;
++
++    /* ADB */
++    ADBBusState adb_bus;
++} MacVIAState;
++
++#endif
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+new file mode 100644
+index 0000000000..d2da8b8e60
+--- /dev/null
++++ b/hw/misc/mac_via.c
+@@ -0,0 +1,767 @@
++/*
++ * QEMU m68k Macintosh VIA device support
++ *
++ * Copyright (c) 2011-2018 Laurent Vivier
++ * Copyright (c) 2018 Mark Cave-Ayland
++ *
++ * Some parts from hw/misc/macio/cuda.c
++ *
++ * Copyright (c) 2004-2007 Fabrice Bellard
++ * Copyright (c) 2007 Jocelyn Mayer
++ *
++ * some parts from linux-2.6.29, arch/m68k/include/asm/mac_via.h
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "migration/vmstate.h"
++#include "hw/sysbus.h"
++#include "hw/irq.h"
++#include "qemu/timer.h"
++#include "hw/misc/mac_via.h"
++#include "hw/misc/mos6522.h"
++#include "hw/input/adb.h"
++#include "sysemu/runstate.h"
++#include "qapi/error.h"
++#include "qemu/cutils.h"
++
++
++/*
++ * VIAs: There are two in every machine,
++ */
++
++#define VIA_SIZE (0x2000)
++
++/*
++ * Not all of these are true post MacII I think.
++ * CSA: probably the ones CHRP marks as 'unused' change purposes
++ * when the IWM becomes the SWIM.
++ * http://www.rs6000.ibm.com/resource/technology/chrpio/via5.mak.html
++ * ftp://ftp.austin.ibm.com/pub/technology/spec/chrp/inwork/CHRP_IORef_1.0.pdf
++ *
++ * also, http://developer.apple.com/technotes/hw/hw_09.html claims the
++ * following changes for IIfx:
++ * VIA1A_vSccWrReq not available and that VIA1A_vSync has moved to an IOP.
++ * Also, "All of the functionality of VIA2 has been moved to other chips".
++ */
++
++#define VIA1A_vSccWrReq 0x80   /*
++                                * SCC write. (input)
++                                * [CHRP] SCC WREQ: Reflects the state of the
++                                * Wait/Request pins from the SCC.
++                                * [Macintosh Family Hardware]
++                                * as CHRP on SE/30,II,IIx,IIcx,IIci.
++                                * on IIfx, "0 means an active request"
++                                */
++#define VIA1A_vRev8     0x40   /*
++                                * Revision 8 board ???
++                                * [CHRP] En WaitReqB: Lets the WaitReq_L
++                                * signal from port B of the SCC appear on
++                                * the PA7 input pin. Output.
++                                * [Macintosh Family] On the SE/30, this
++                                * is the bit to flip screen buffers.
++                                * 0=alternate, 1=main.
++                                * on II,IIx,IIcx,IIci,IIfx this is a bit
++                                * for Rev ID. 0=II,IIx, 1=IIcx,IIci,IIfx
++                                */
++#define VIA1A_vHeadSel  0x20   /*
++                                * Head select for IWM.
++                                * [CHRP] unused.
++                                * [Macintosh Family] "Floppy disk
++                                * state-control line SEL" on all but IIfx
++                                */
++#define VIA1A_vOverlay  0x10   /*
++                                * [Macintosh Family] On SE/30,II,IIx,IIcx
++                                * this bit enables the "Overlay" address
++                                * map in the address decoders as it is on
++                                * reset for mapping the ROM over the reset
++                                * vector. 1=use overlay map.
++                                * On the IIci,IIfx it is another bit of the
++                                * CPU ID: 0=normal IIci, 1=IIci with parity
++                                * feature or IIfx.
++                                * [CHRP] En WaitReqA: Lets the WaitReq_L
++                                * signal from port A of the SCC appear
++                                * on the PA7 input pin (CHRP). Output.
++                                * [MkLinux] "Drive Select"
++                                *  (with 0x20 being 'disk head select')
++                                */
++#define VIA1A_vSync     0x08   /*
++                                * [CHRP] Sync Modem: modem clock select:
++                                * 1: select the external serial clock to
++                                *    drive the SCC's /RTxCA pin.
++                                * 0: Select the 3.6864MHz clock to drive
++                                *    the SCC cell.
++                                * [Macintosh Family] Correct on all but IIfx
++                                */
++
++/*
++ * Macintosh Family Hardware sez: bits 0-2 of VIA1A are volume control
++ * on Macs which had the PWM sound hardware.  Reserved on newer models.
++ * On IIci,IIfx, bits 1-2 are the rest of the CPU ID:
++ * bit 2: 1=IIci, 0=IIfx
++ * bit 1: 1 on both IIci and IIfx.
++ * MkLinux sez bit 0 is 'burnin flag' in this case.
++ * CHRP sez: VIA1A bits 0-2 and 5 are 'unused': if programmed as
++ * inputs, these bits will read 0.
++ */
++#define VIA1A_vVolume   0x07    /* Audio volume mask for PWM */
++#define VIA1A_CPUID0    0x02    /* CPU id bit 0 on RBV, others */
++#define VIA1A_CPUID1    0x04    /* CPU id bit 0 on RBV, others */
++#define VIA1A_CPUID2    0x10    /* CPU id bit 0 on RBV, others */
++#define VIA1A_CPUID3    0x40    /* CPU id bit 0 on RBV, others */
++
++/*
++ * Info on VIA1B is from Macintosh Family Hardware & MkLinux.
++ * CHRP offers no info.
++ */
++#define VIA1B_vSound   0x80    /*
++                                * Sound enable (for compatibility with
++                                * PWM hardware) 0=enabled.
++                                * Also, on IIci w/parity, shows parity error
++                                * 0=error, 1=OK.
++                                */
++#define VIA1B_vMystery 0x40    /*
++                                * On IIci, parity enable. 0=enabled,1=disabled
++                                * On SE/30, vertical sync interrupt enable.
++                                * 0=enabled. This vSync interrupt shows up
++                                * as a slot $E interrupt.
++                                */
++#define VIA1B_vADBS2   0x20    /* ADB state input bit 1 (unused on IIfx) */
++#define VIA1B_vADBS1   0x10    /* ADB state input bit 0 (unused on IIfx) */
++#define VIA1B_vADBInt  0x08    /* ADB interrupt 0=interrupt (unused on IIfx)*/
++#define VIA1B_vRTCEnb  0x04    /* Enable Real time clock. 0=enabled. */
++#define VIA1B_vRTCClk  0x02    /* Real time clock serial-clock line. */
++#define VIA1B_vRTCData 0x01    /* Real time clock serial-data line. */
++
++/*
++ *    VIA2 A register is the interrupt lines raised off the nubus
++ *    slots.
++ *      The below info is from 'Macintosh Family Hardware.'
++ *      MkLinux calls the 'IIci internal video IRQ' below the 'RBV slot 0 irq.'
++ *      It also notes that the slot $9 IRQ is the 'Ethernet IRQ' and
++ *      defines the 'Video IRQ' as 0x40 for the 'EVR' VIA work-alike.
++ *      Perhaps OSS uses vRAM1 and vRAM2 for ADB.
++ */
++
++#define VIA2A_vRAM1    0x80    /* RAM size bit 1 (IIci: reserved) */
++#define VIA2A_vRAM0    0x40    /* RAM size bit 0 (IIci: internal video IRQ) */
++#define VIA2A_vIRQE    0x20    /* IRQ from slot $E */
++#define VIA2A_vIRQD    0x10    /* IRQ from slot $D */
++#define VIA2A_vIRQC    0x08    /* IRQ from slot $C */
++#define VIA2A_vIRQB    0x04    /* IRQ from slot $B */
++#define VIA2A_vIRQA    0x02    /* IRQ from slot $A */
++#define VIA2A_vIRQ9    0x01    /* IRQ from slot $9 */
++
++/*
++ * RAM size bits decoded as follows:
++ * bit1 bit0  size of ICs in bank A
++ *  0    0    256 kbit
++ *  0    1    1 Mbit
++ *  1    0    4 Mbit
++ *  1    1   16 Mbit
++ */
++
++/*
++ *    Register B has the fun stuff in it
++ */
++
++#define VIA2B_vVBL    0x80    /*
++                               * VBL output to VIA1 (60.15Hz) driven by
++                               * timer T1.
++                               * on IIci, parity test: 0=test mode.
++                               * [MkLinux] RBV_PARODD: 1=odd,0=even.
++                               */
++#define VIA2B_vSndJck 0x40    /*
++                               * External sound jack status.
++                               * 0=plug is inserted.  On SE/30, always 0
++                               */
++#define VIA2B_vTfr0   0x20    /* Transfer mode bit 0 ack from NuBus */
++#define VIA2B_vTfr1   0x10    /* Transfer mode bit 1 ack from NuBus */
++#define VIA2B_vMode32 0x08    /*
++                               * 24/32bit switch - doubles as cache flush
++                               * on II, AMU/PMMU control.
++                               *   if AMU, 0=24bit to 32bit translation
++                               *   if PMMU, 1=PMMU is accessing page table.
++                               * on SE/30 tied low.
++                               * on IIx,IIcx,IIfx, unused.
++                               * on IIci/RBV, cache control. 0=flush cache.
++                               */
++#define VIA2B_vPower  0x04   /*
++                              * Power off, 0=shut off power.
++                              * on SE/30 this signal sent to PDS card.
++                              */
++#define VIA2B_vBusLk  0x02   /*
++                              * Lock NuBus transactions, 0=locked.
++                              * on SE/30 sent to PDS card.
++                              */
++#define VIA2B_vCDis   0x01   /*
++                              * Cache control. On IIci, 1=disable cache card
++                              * on others, 0=disable processor's instruction
++                              * and data caches.
++                              */
++
++/* interrupt flags */
++
++#define IRQ_SET         0x80
++
++/* common */
++
++#define VIA_IRQ_TIMER1      0x40
++#define VIA_IRQ_TIMER2      0x20
++
++/*
++ * Apple sez: http://developer.apple.com/technotes/ov/ov_04.html
++ * Another example of a valid function that has no ROM support is the use
++ * of the alternate video page for page-flipping animation. Since there
++ * is no ROM call to flip pages, it is necessary to go play with the
++ * right bit in the VIA chip (6522 Versatile Interface Adapter).
++ * [CSA: don't know which one this is, but it's one of 'em!]
++ */
++
++/*
++ *    6522 registers - see databook.
++ * CSA: Assignments for VIA1 confirmed from CHRP spec.
++ */
++
++/* partial address decode.  0xYYXX : XX part for RBV, YY part for VIA */
++/* Note: 15 VIA regs, 8 RBV regs */
++
++#define vBufB    0x0000  /* [VIA/RBV]  Register B */
++#define vBufAH   0x0200  /* [VIA only] Buffer A, with handshake. DON'T USE! */
++#define vDirB    0x0400  /* [VIA only] Data Direction Register B. */
++#define vDirA    0x0600  /* [VIA only] Data Direction Register A. */
++#define vT1CL    0x0800  /* [VIA only] Timer one counter low. */
++#define vT1CH    0x0a00  /* [VIA only] Timer one counter high. */
++#define vT1LL    0x0c00  /* [VIA only] Timer one latches low. */
++#define vT1LH    0x0e00  /* [VIA only] Timer one latches high. */
++#define vT2CL    0x1000  /* [VIA only] Timer two counter low. */
++#define vT2CH    0x1200  /* [VIA only] Timer two counter high. */
++#define vSR      0x1400  /* [VIA only] Shift register. */
++#define vACR     0x1600  /* [VIA only] Auxilary control register. */
++#define vPCR     0x1800  /* [VIA only] Peripheral control register. */
++                         /*
++                          *           CHRP sez never ever to *write* this.
++                          *            Mac family says never to *change* this.
++                          * In fact we need to initialize it once at start.
++                          */
++#define vIFR     0x1a00  /* [VIA/RBV]  Interrupt flag register. */
++#define vIER     0x1c00  /* [VIA/RBV]  Interrupt enable register. */
++#define vBufA    0x1e00  /* [VIA/RBV] register A (no handshake) */
++
++/* from linux 2.6 drivers/macintosh/via-macii.c */
++
++/* Bits in ACR */
++
++#define VIA1ACR_vShiftCtrl         0x1c        /* Shift register control bits */
++#define VIA1ACR_vShiftExtClk       0x0c        /* Shift on external clock */
++#define VIA1ACR_vShiftOut          0x10        /* Shift out if 1 */
++
++/*
++ * Apple Macintosh Family Hardware Refenece
++ * Table 19-10 ADB transaction states
++ */
++
++#define VIA1B_vADB_StateMask    (VIA1B_vADBS1 | VIA1B_vADBS2)
++#define VIA1B_vADB_StateShift   4
++
++#define VIA_TIMER_FREQ (783360)
++
++/* VIA returns time offset from Jan 1, 1904, not 1970 */
++#define RTC_OFFSET 2082844800
++
++static void via1_VBL_update(MOS6522Q800VIA1State *v1s)
++{
++    MOS6522State *s = MOS6522(v1s);
++
++    /* 60 Hz irq */
++    v1s->next_VBL = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 16630) /
++                    16630 * 16630;
++
++    if (s->ier & VIA1_IRQ_VBLANK) {
++        timer_mod(v1s->VBL_timer, v1s->next_VBL);
++    } else {
++        timer_del(v1s->VBL_timer);
++    }
++}
++
++static void via1_one_second_update(MOS6522Q800VIA1State *v1s)
++{
++    MOS6522State *s = MOS6522(v1s);
++
++    v1s->next_second = (qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1000) /
++                       1000 * 1000;
++    if (s->ier & VIA1_IRQ_ONE_SECOND) {
++        timer_mod(v1s->one_second_timer, v1s->next_second);
++    } else {
++        timer_del(v1s->one_second_timer);
++    }
++}
++
++static void via1_VBL(void *opaque)
++{
++    MOS6522Q800VIA1State *v1s = opaque;
++    MOS6522State *s = MOS6522(v1s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
++
++    s->ifr |= VIA1_IRQ_VBLANK;
++    mdc->update_irq(s);
++
++    via1_VBL_update(v1s);
++}
++
++static void via1_one_second(void *opaque)
++{
++    MOS6522Q800VIA1State *v1s = opaque;
++    MOS6522State *s = MOS6522(v1s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
++
++    s->ifr |= VIA1_IRQ_ONE_SECOND;
++    mdc->update_irq(s);
++
++    via1_one_second_update(v1s);
++}
++
++static void via1_irq_request(void *opaque, int irq, int level)
++{
++    MOS6522Q800VIA1State *v1s = opaque;
++    MOS6522State *s = MOS6522(v1s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
++
++    if (level) {
++        s->ifr |= 1 << irq;
++    } else {
++        s->ifr &= ~(1 << irq);
++    }
++
++    mdc->update_irq(s);
++}
++
++static void via2_irq_request(void *opaque, int irq, int level)
++{
++    MOS6522Q800VIA2State *v2s = opaque;
++    MOS6522State *s = MOS6522(v2s);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(s);
++
++    if (level) {
++        s->ifr |= 1 << irq;
++    } else {
++        s->ifr &= ~(1 << irq);
++    }
++
++    mdc->update_irq(s);
++}
++
++static void via1_rtc_update(MacVIAState *m)
++{
++    MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
++    MOS6522State *s = MOS6522(v1s);
++
++    if (s->b & VIA1B_vRTCEnb) {
++        return;
++    }
++
++    if (s->dirb & VIA1B_vRTCData) {
++        /* send bits to the RTC */
++        if (!(v1s->last_b & VIA1B_vRTCClk) && (s->b & VIA1B_vRTCClk)) {
++            m->data_out <<= 1;
++            m->data_out |= s->b & VIA1B_vRTCData;
++            m->data_out_cnt++;
++        }
++    } else {
++        /* receive bits from the RTC */
++        if ((v1s->last_b & VIA1B_vRTCClk) &&
++            !(s->b & VIA1B_vRTCClk) &&
++            m->data_in_cnt) {
++            s->b = (s->b & ~VIA1B_vRTCData) |
++                   ((m->data_in >> 7) & VIA1B_vRTCData);
++            m->data_in <<= 1;
++            m->data_in_cnt--;
++        }
++    }
++
++    if (m->data_out_cnt == 8) {
++        m->data_out_cnt = 0;
++
++        if (m->cmd == 0) {
++            if (m->data_out & 0x80) {
++                /* this is a read command */
++                uint32_t time = m->tick_offset +
++                               (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
++                               NANOSECONDS_PER_SECOND);
++                if (m->data_out == 0x81) {        /* seconds register 0 */
++                    m->data_in = time & 0xff;
++                    m->data_in_cnt = 8;
++                } else if (m->data_out == 0x85) { /* seconds register 1 */
++                    m->data_in = (time >> 8) & 0xff;
++                    m->data_in_cnt = 8;
++                } else if (m->data_out == 0x89) { /* seconds register 2 */
++                    m->data_in = (time >> 16) & 0xff;
++                    m->data_in_cnt = 8;
++                } else if (m->data_out == 0x8d) { /* seconds register 3 */
++                    m->data_in = (time >> 24) & 0xff;
++                    m->data_in_cnt = 8;
++                } else if ((m->data_out & 0xf3) == 0xa1) {
++                    /* PRAM address 0x10 -> 0x13 */
++                    int addr = (m->data_out >> 2) & 0x03;
++                    m->data_in = v1s->PRAM[addr];
++                    m->data_in_cnt = 8;
++                } else if ((m->data_out & 0xf3) == 0xa1) {
++                    /* PRAM address 0x00 -> 0x0f */
++                    int addr = (m->data_out >> 2) & 0x0f;
++                    m->data_in = v1s->PRAM[addr];
++                    m->data_in_cnt = 8;
++                } else if ((m->data_out & 0xf8) == 0xb8) {
++                    /* extended memory designator and sector number */
++                    m->cmd = m->data_out;
++                }
++            } else {
++                /* this is a write command */
++                m->cmd = m->data_out;
++            }
++        } else {
++            if (m->cmd & 0x80) {
++                if ((m->cmd & 0xf8) == 0xb8) {
++                    /* extended memory designator and sector number */
++                    int sector = m->cmd & 0x07;
++                    int addr = (m->data_out >> 2) & 0x1f;
++
++                    m->data_in = v1s->PRAM[sector * 8 + addr];
++                    m->data_in_cnt = 8;
++                }
++            } else if (!m->wprotect) {
++                /* this is a write command */
++                if (m->alt != 0) {
++                    /* extended memory designator and sector number */
++                    int sector = m->cmd & 0x07;
++                    int addr = (m->alt >> 2) & 0x1f;
++
++                    v1s->PRAM[sector * 8 + addr] = m->data_out;
++
++                    m->alt = 0;
++                } else if (m->cmd == 0x01) { /* seconds register 0 */
++                    /* FIXME */
++                } else if (m->cmd == 0x05) { /* seconds register 1 */
++                    /* FIXME */
++                } else if (m->cmd == 0x09) { /* seconds register 2 */
++                    /* FIXME */
++                } else if (m->cmd == 0x0d) { /* seconds register 3 */
++                    /* FIXME */
++                } else if (m->cmd == 0x31) {
++                    /* Test Register */
++                } else if (m->cmd == 0x35) {
++                    /* Write Protect register */
++                    m->wprotect = m->data_out & 1;
++                } else if ((m->cmd & 0xf3) == 0xa1) {
++                    /* PRAM address 0x10 -> 0x13 */
++                    int addr = (m->cmd >> 2) & 0x03;
++                    v1s->PRAM[addr] = m->data_out;
++                } else if ((m->cmd & 0xf3) == 0xa1) {
++                    /* PRAM address 0x00 -> 0x0f */
++                    int addr = (m->cmd >> 2) & 0x0f;
++                    v1s->PRAM[addr] = m->data_out;
++                } else if ((m->cmd & 0xf8) == 0xb8) {
++                    /* extended memory designator and sector number */
++                    m->alt = m->cmd;
++                }
++            }
++        }
++        m->data_out = 0;
++    }
++}
++
++static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
++{
++    MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
++    MOS6522State *ms = MOS6522(s);
++    int64_t now = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
++
++    /*
++     * If IRQs are disabled, timers are disabled, but we need to update
++     * VIA1_IRQ_VBLANK and VIA1_IRQ_ONE_SECOND bits in the IFR
++     */
++
++    if (now >= s->next_VBL) {
++        ms->ifr |= VIA1_IRQ_VBLANK;
++        via1_VBL_update(s);
++    }
++    if (now >= s->next_second) {
++        ms->ifr |= VIA1_IRQ_ONE_SECOND;
++        via1_one_second_update(s);
++    }
++
++    addr = (addr >> 9) & 0xf;
++    return mos6522_read(ms, addr, size);
++}
++
++static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
++                                    unsigned size)
++{
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(opaque);
++    MOS6522State *ms = MOS6522(v1s);
++
++    addr = (addr >> 9) & 0xf;
++    mos6522_write(ms, addr, val, size);
++
++    via1_one_second_update(v1s);
++    via1_VBL_update(v1s);
++}
++
++static const MemoryRegionOps mos6522_q800_via1_ops = {
++    .read = mos6522_q800_via1_read,
++    .write = mos6522_q800_via1_write,
++    .endianness = DEVICE_BIG_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
 +};
 +
- struct ESPState {
-     uint8_t rregs[ESP_REGS];
-     uint8_t wregs[ESP_REGS];
-     qemu_irq irq;
-+    qemu_irq irq_data;
-     uint8_t chip_id;
-     bool tchi_written;
-     int32_t ti_size;
-@@ -48,6 +56,12 @@ struct ESPState {
-     ESPDMAMemoryReadWriteFunc dma_memory_write;
-     void *dma_opaque;
-     void (*dma_cb)(ESPState *s);
-+    uint8_t pdma_buf[32];
-+    int pdma_origin;
-+    uint32_t pdma_len;
-+    uint32_t pdma_start;
-+    uint32_t pdma_cur;
-+    void (*pdma_cb)(ESPState *s);
- };
- 
- #define TYPE_ESP "esp"
-@@ -59,6 +73,7 @@ typedef struct {
-     /*< public >*/
- 
-     MemoryRegion iomem;
-+    MemoryRegion pdma;
-     uint32_t it_shift;
-     ESPState esp;
- } SysBusESPState;
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 841d79b60e..90b40c4cb5 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -38,6 +38,8 @@
-  * http://www.ibiblio.org/pub/historic-linux/early-ports/Sparc/NCR/NCR89C100.txt
-  * and
-  * http://www.ibiblio.org/pub/historic-linux/early-ports/Sparc/NCR/NCR53C9X.txt
-+ *
-+ * On Macintosh Quadra it is a NCR53C96.
-  */
- 
- static void esp_raise_irq(ESPState *s)
-@@ -58,6 +60,16 @@ static void esp_lower_irq(ESPState *s)
-     }
- }
- 
-+static void esp_raise_drq(ESPState *s)
++static uint64_t mos6522_q800_via2_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    qemu_irq_raise(s->irq_data);
++    MOS6522Q800VIA2State *s = MOS6522_Q800_VIA2(opaque);
++    MOS6522State *ms = MOS6522(s);
++
++    addr = (addr >> 9) & 0xf;
++    return mos6522_read(ms, addr, size);
 +}
 +
-+static void esp_lower_drq(ESPState *s)
++static void mos6522_q800_via2_write(void *opaque, hwaddr addr, uint64_t val,
++                                    unsigned size)
 +{
-+    qemu_irq_lower(s->irq_data);
++    MOS6522Q800VIA2State *s = MOS6522_Q800_VIA2(opaque);
++    MOS6522State *ms = MOS6522(s);
++
++    addr = (addr >> 9) & 0xf;
++    mos6522_write(ms, addr, val, size);
 +}
 +
- void esp_dma_enable(ESPState *s, int irq, int level)
- {
-     if (level) {
-@@ -84,29 +96,35 @@ void esp_request_cancelled(SCSIRequest *req)
-     }
- }
- 
--static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-+static void set_pdma(ESPState *s, enum pdma_origin_id origin,
-+                     uint32_t index, uint32_t len)
++static const MemoryRegionOps mos6522_q800_via2_ops = {
++    .read = mos6522_q800_via2_read,
++    .write = mos6522_q800_via2_write,
++    .endianness = DEVICE_BIG_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static void mac_via_reset(DeviceState *dev)
 +{
-+    s->pdma_origin = origin;
-+    s->pdma_start = index;
-+    s->pdma_cur = index;
-+    s->pdma_len = len;
++    MacVIAState *m = MAC_VIA(dev);
++    MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
++
++    timer_del(v1s->VBL_timer);
++    v1s->next_VBL = 0;
++    timer_del(v1s->one_second_timer);
++    v1s->next_second = 0;
 +}
 +
-+static uint8_t *get_pdma_buf(ESPState *s)
++static void mac_via_realize(DeviceState *dev, Error **errp)
 +{
-+    switch (s->pdma_origin) {
-+    case PDMA:
-+        return s->pdma_buf;
-+    case TI:
-+        return s->ti_buf;
-+    case CMD:
-+        return s->cmdbuf;
-+    case ASYNC:
-+        return s->async_buf;
-+    }
-+    return NULL;
++    MacVIAState *m = MAC_VIA(dev);
++    MOS6522State *ms;
++    struct tm tm;
++
++    /* Init VIAs 1 and 2 */
++    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
++                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
++
++    sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
++                          sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
++
++    /* Pass through mos6522 output IRQs */
++    ms = MOS6522(&m->mos6522_via1);
++    object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
++                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
++    ms = MOS6522(&m->mos6522_via2);
++    object_property_add_alias(OBJECT(dev), "irq[1]", OBJECT(ms),
++                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
++
++    /* Pass through mos6522 input IRQs */
++    qdev_pass_gpios(DEVICE(&m->mos6522_via1), dev, "via1-irq");
++    qdev_pass_gpios(DEVICE(&m->mos6522_via2), dev, "via2-irq");
++
++    /* VIA 1 */
++    m->mos6522_via1.one_second_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                                     via1_one_second,
++                                                     &m->mos6522_via1);
++    m->mos6522_via1.VBL_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via1_VBL,
++                                              &m->mos6522_via1);
++
++    qemu_get_timedate(&tm, 0);
++    m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
 +}
 +
-+static int get_cmd_cb(ESPState *s)
- {
--    uint32_t dmalen;
-     int target;
- 
-     target = s->wregs[ESP_WBUSID] & BUSID_DID;
--    if (s->dma) {
--        dmalen = s->rregs[ESP_TCLO];
--        dmalen |= s->rregs[ESP_TCMID] << 8;
--        dmalen |= s->rregs[ESP_TCHI] << 16;
--        if (dmalen > buflen) {
--            return 0;
--        }
--        s->dma_memory_read(s->dma_opaque, buf, dmalen);
--    } else {
--        dmalen = s->ti_size;
--        if (dmalen > TI_BUFSZ) {
--            return 0;
--        }
--        memcpy(buf, s->ti_buf, dmalen);
--        buf[0] = buf[2] >> 5;
--    }
--    trace_esp_get_cmd(dmalen, target);
- 
-     s->ti_size = 0;
-     s->ti_rptr = 0;
-@@ -125,8 +143,46 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-         s->rregs[ESP_RINTR] = INTR_DC;
-         s->rregs[ESP_RSEQ] = SEQ_0;
-         esp_raise_irq(s);
-+        return -1;
-+    }
-+    return 0;
++static void mac_via_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    MacVIAState *m = MAC_VIA(obj);
++
++    /* MMIO */
++    memory_region_init(&m->mmio, obj, "mac-via", 2 * VIA_SIZE);
++    sysbus_init_mmio(sbd, &m->mmio);
++
++    memory_region_init_io(&m->via1mem, obj, &mos6522_q800_via1_ops,
++                          &m->mos6522_via1, "via1", VIA_SIZE);
++    memory_region_add_subregion(&m->mmio, 0x0, &m->via1mem);
++
++    memory_region_init_io(&m->via2mem, obj, &mos6522_q800_via2_ops,
++                          &m->mos6522_via2, "via2", VIA_SIZE);
++    memory_region_add_subregion(&m->mmio, VIA_SIZE, &m->via2mem);
++
++    /* ADB */
++    qbus_create_inplace((BusState *)&m->adb_bus, sizeof(m->adb_bus),
++                        TYPE_ADB_BUS, DEVICE(obj), "adb.0");
 +}
 +
-+static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-+{
-+    int target;
-+    uint32_t dmalen;
-+
-+    target = s->wregs[ESP_WBUSID] & BUSID_DID;
-+    if (s->dma) {
-+        dmalen = s->rregs[ESP_TCLO];
-+        dmalen |= s->rregs[ESP_TCMID] << 8;
-+        dmalen |= s->rregs[ESP_TCHI] << 16;
-+        if (dmalen > buflen) {
-+            return 0;
-+        }
-+        if (s->dma_memory_read) {
-+            s->dma_memory_read(s->dma_opaque, buf, dmalen);
-+        } else {
-+            memcpy(s->pdma_buf, buf, dmalen);
-+            set_pdma(s, PDMA, 0, dmalen);
-+            esp_raise_drq(s);
-+            return 0;
-+        }
-+    } else {
-+        dmalen = s->ti_size;
-+        if (dmalen > TI_BUFSZ) {
-+            return 0;
-+        }
-+        memcpy(buf, s->ti_buf, dmalen);
-+        buf[0] = buf[2] >> 5;
-+    }
-+    trace_esp_get_cmd(dmalen, target);
-+
-+    if (get_cmd_cb(s) < 0) {
-         return 0;
-     }
-+
-     return dmalen;
- }
- 
-@@ -165,6 +221,16 @@ static void do_cmd(ESPState *s, uint8_t *buf)
-     do_busid_cmd(s, &buf[1], busid);
- }
- 
-+static void satn_pdma_cb(ESPState *s)
-+{
-+    if (get_cmd_cb(s) < 0) {
-+        return;
-+    }
-+    if (s->pdma_cur != s->pdma_start) {
-+        do_cmd(s, get_pdma_buf(s) + s->pdma_start);
-+    }
-+}
-+
- static void handle_satn(ESPState *s)
- {
-     uint8_t buf[32];
-@@ -174,11 +240,22 @@ static void handle_satn(ESPState *s)
-         s->dma_cb = handle_satn;
-         return;
-     }
-+    s->pdma_cb = satn_pdma_cb;
-     len = get_cmd(s, buf, sizeof(buf));
-     if (len)
-         do_cmd(s, buf);
- }
- 
-+static void s_without_satn_pdma_cb(ESPState *s)
-+{
-+    if (get_cmd_cb(s) < 0) {
-+        return;
-+    }
-+    if (s->pdma_cur != s->pdma_start) {
-+        do_busid_cmd(s, get_pdma_buf(s) + s->pdma_start, 0);
-+    }
-+}
-+
- static void handle_s_without_atn(ESPState *s)
- {
-     uint8_t buf[32];
-@@ -188,18 +265,36 @@ static void handle_s_without_atn(ESPState *s)
-         s->dma_cb = handle_s_without_atn;
-         return;
-     }
-+    s->pdma_cb = s_without_satn_pdma_cb;
-     len = get_cmd(s, buf, sizeof(buf));
-     if (len) {
-         do_busid_cmd(s, buf, 0);
-     }
- }
- 
-+static void satn_stop_pdma_cb(ESPState *s)
-+{
-+    if (get_cmd_cb(s) < 0) {
-+        return;
-+    }
-+    s->cmdlen = s->pdma_cur - s->pdma_start;
-+    if (s->cmdlen) {
-+        trace_esp_handle_satn_stop(s->cmdlen);
-+        s->do_cmd = 1;
-+        s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-+        s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
-+        s->rregs[ESP_RSEQ] = SEQ_CD;
-+        esp_raise_irq(s);
-+    }
-+}
-+
- static void handle_satn_stop(ESPState *s)
- {
-     if (s->dma && !s->dma_enabled) {
-         s->dma_cb = handle_satn_stop;
-         return;
-     }
-+    s->pdma_cb = satn_stop_pdma_cb;;
-     s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
-     if (s->cmdlen) {
-         trace_esp_handle_satn_stop(s->cmdlen);
-@@ -211,16 +306,31 @@ static void handle_satn_stop(ESPState *s)
-     }
- }
- 
-+static void write_response_pdma_cb(ESPState *s)
-+{
-+    s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
-+    s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
-+    s->rregs[ESP_RSEQ] = SEQ_CD;
-+    esp_raise_irq(s);
-+}
-+
- static void write_response(ESPState *s)
- {
-     trace_esp_write_response(s->status);
-     s->ti_buf[0] = s->status;
-     s->ti_buf[1] = 0;
-     if (s->dma) {
--        s->dma_memory_write(s->dma_opaque, s->ti_buf, 2);
--        s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
--        s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
--        s->rregs[ESP_RSEQ] = SEQ_CD;
-+        if (s->dma_memory_write) {
-+            s->dma_memory_write(s->dma_opaque, s->ti_buf, 2);
-+            s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
-+            s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
-+            s->rregs[ESP_RSEQ] = SEQ_CD;
-+        } else {
-+            set_pdma(s, TI, 0, 2);
-+            s->pdma_cb = write_response_pdma_cb;
-+            esp_raise_drq(s);
-+            return;
-+        }
-     } else {
-         s->ti_size = 2;
-         s->ti_rptr = 0;
-@@ -242,6 +352,41 @@ static void esp_dma_done(ESPState *s)
-     esp_raise_irq(s);
- }
- 
-+static void do_dma_pdma_cb(ESPState *s)
-+{
-+    int to_device = (s->ti_size < 0);
-+    int len = s->pdma_cur - s->pdma_start;
-+    if (s->do_cmd) {
-+        s->ti_size = 0;
-+        s->cmdlen = 0;
-+        s->do_cmd = 0;
-+        do_cmd(s, s->cmdbuf);
-+        return;
-+    }
-+    s->dma_left -= len;
-+    s->async_buf += len;
-+    s->async_len -= len;
-+    if (to_device) {
-+        s->ti_size += len;
-+    } else {
-+        s->ti_size -= len;
-+    }
-+    if (s->async_len == 0) {
-+        scsi_req_continue(s->current_req);
-+        /*
-+         * If there is still data to be read from the device then
-+         * complete the DMA operation immediately.  Otherwise defer
-+         * until the scsi layer has completed.
-+         */
-+        if (to_device || s->dma_left != 0 || s->ti_size == 0) {
-+            return;
-+        }
-+    }
-+
-+    /* Partially filled a scsi buffer. Complete immediately.  */
-+    esp_dma_done(s);
-+}
-+
- static void esp_do_dma(ESPState *s)
- {
-     uint32_t len;
-@@ -252,10 +397,25 @@ static void esp_do_dma(ESPState *s)
-         trace_esp_do_dma(s->cmdlen, len);
-         assert (s->cmdlen <= sizeof(s->cmdbuf) &&
-                 len <= sizeof(s->cmdbuf) - s->cmdlen);
--        s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
-+        if (s->dma_memory_read) {
-+            s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
-+        } else {
-+            set_pdma(s, CMD, s->cmdlen, len);
-+            s->pdma_cb = do_dma_pdma_cb;
-+            esp_raise_drq(s);
-+            return;
-+        }
-+        trace_esp_handle_ti_cmd(s->cmdlen);
-+        s->ti_size = 0;
-+        s->cmdlen = 0;
-+        s->do_cmd = 0;
-+        do_cmd(s, s->cmdbuf);
-         return;
-     }
-     if (s->async_len == 0) {
-+        if (s->dma_left == 0) {
-+            esp_dma_done(s);
-+        }
-         /* Defer until data is available.  */
-         return;
-     }
-@@ -264,9 +424,23 @@ static void esp_do_dma(ESPState *s)
-     }
-     to_device = (s->ti_size < 0);
-     if (to_device) {
--        s->dma_memory_read(s->dma_opaque, s->async_buf, len);
-+        if (s->dma_memory_read) {
-+            s->dma_memory_read(s->dma_opaque, s->async_buf, len);
-+        } else {
-+            set_pdma(s, ASYNC, 0, len);
-+            s->pdma_cb = do_dma_pdma_cb;
-+            esp_raise_drq(s);
-+            return;
-+        }
-     } else {
--        s->dma_memory_write(s->dma_opaque, s->async_buf, len);
-+        if (s->dma_memory_write) {
-+            s->dma_memory_write(s->dma_opaque, s->async_buf, len);
-+        } else {
-+            set_pdma(s, ASYNC, 0, len);
-+            s->pdma_cb = do_dma_pdma_cb;
-+            esp_raise_drq(s);
-+            return;
-+        }
-     }
-     s->dma_left -= len;
-     s->async_buf += len;
-@@ -373,8 +547,7 @@ static void handle_ti(ESPState *s)
-         s->dma_left = minlen;
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
-         esp_do_dma(s);
--    }
--    if (s->do_cmd) {
-+    } else if (s->do_cmd) {
-         trace_esp_handle_ti_cmd(s->cmdlen);
-         s->ti_size = 0;
-         s->cmdlen = 0;
-@@ -401,6 +574,7 @@ void esp_hard_reset(ESPState *s)
- static void esp_soft_reset(ESPState *s)
- {
-     qemu_irq_lower(s->irq);
-+    qemu_irq_lower(s->irq_data);
-     esp_hard_reset(s);
- }
- 
-@@ -590,6 +764,28 @@ static bool esp_mem_accepts(void *opaque, hwaddr addr,
-     return (size == 1) || (is_write && size == 4);
- }
- 
-+static bool esp_pdma_needed(void *opaque)
-+{
-+    ESPState *s = opaque;
-+    return s->dma_memory_read == NULL && s->dma_memory_write == NULL &&
-+           s->dma_enabled;
-+}
-+
-+static const VMStateDescription vmstate_esp_pdma = {
-+    .name = "esp/pdma",
++static const VMStateDescription vmstate_mac_via = {
++    .name = "mac-via",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
-+    .needed = esp_pdma_needed,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_BUFFER(pdma_buf, ESPState),
-+        VMSTATE_INT32(pdma_origin, ESPState),
-+        VMSTATE_UINT32(pdma_len, ESPState),
-+        VMSTATE_UINT32(pdma_start, ESPState),
-+        VMSTATE_UINT32(pdma_cur, ESPState),
++        /* VIAs */
++        VMSTATE_STRUCT(mos6522_via1.parent_obj, MacVIAState, 0, vmstate_mos6522,
++                       MOS6522State),
++        VMSTATE_UINT8(mos6522_via1.last_b, MacVIAState),
++        VMSTATE_BUFFER(mos6522_via1.PRAM, MacVIAState),
++        VMSTATE_TIMER_PTR(mos6522_via1.one_second_timer, MacVIAState),
++        VMSTATE_INT64(mos6522_via1.next_second, MacVIAState),
++        VMSTATE_TIMER_PTR(mos6522_via1.VBL_timer, MacVIAState),
++        VMSTATE_INT64(mos6522_via1.next_VBL, MacVIAState),
++        VMSTATE_STRUCT(mos6522_via2.parent_obj, MacVIAState, 0, vmstate_mos6522,
++                       MOS6522State),
++        /* RTC */
++        VMSTATE_UINT32(tick_offset, MacVIAState),
++        VMSTATE_UINT8(data_out, MacVIAState),
++        VMSTATE_INT32(data_out_cnt, MacVIAState),
++        VMSTATE_UINT8(data_in, MacVIAState),
++        VMSTATE_UINT8(data_in_cnt, MacVIAState),
++        VMSTATE_UINT8(cmd, MacVIAState),
++        VMSTATE_INT32(wprotect, MacVIAState),
++        VMSTATE_INT32(alt, MacVIAState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
- const VMStateDescription vmstate_esp = {
-     .name ="esp",
-     .version_id = 4,
-@@ -611,6 +807,10 @@ const VMStateDescription vmstate_esp = {
-         VMSTATE_UINT32(do_cmd, ESPState),
-         VMSTATE_UINT32(dma_left, ESPState),
-         VMSTATE_END_OF_LIST()
-+    },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_esp_pdma,
-+        NULL
-     }
- };
- 
-@@ -641,6 +841,82 @@ static const MemoryRegionOps sysbus_esp_mem_ops = {
-     .valid.accepts = esp_mem_accepts,
- };
- 
-+static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
-+                                  uint64_t val, unsigned int size)
++static void mac_via_class_init(ObjectClass *oc, void *data)
 +{
-+    SysBusESPState *sysbus = opaque;
-+    ESPState *s = &sysbus->esp;
-+    uint32_t dmalen;
-+    uint8_t *buf = get_pdma_buf(s);
++    DeviceClass *dc = DEVICE_CLASS(oc);
 +
-+    dmalen = s->rregs[ESP_TCLO];
-+    dmalen |= s->rregs[ESP_TCMID] << 8;
-+    dmalen |= s->rregs[ESP_TCHI] << 16;
-+    if (dmalen == 0 || s->pdma_len == 0) {
-+        return;
-+    }
-+    switch (size) {
-+    case 1:
-+        buf[s->pdma_cur++] = val;
-+        s->pdma_len--;
-+        dmalen--;
-+        break;
-+    case 2:
-+        buf[s->pdma_cur++] = val >> 8;
-+        buf[s->pdma_cur++] = val;
-+        s->pdma_len -= 2;
-+        dmalen -= 2;
-+        break;
-+    }
-+    s->rregs[ESP_TCLO] = dmalen & 0xff;
-+    s->rregs[ESP_TCMID] = dmalen >> 8;
-+    s->rregs[ESP_TCHI] = dmalen >> 16;
-+    if (s->pdma_len == 0 && s->pdma_cb) {
-+        esp_lower_drq(s);
-+        s->pdma_cb(s);
-+        s->pdma_cb = NULL;
-+    }
++    dc->realize = mac_via_realize;
++    dc->reset = mac_via_reset;
++    dc->vmsd = &vmstate_mac_via;
 +}
 +
-+static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
-+                                     unsigned int size)
-+{
-+    SysBusESPState *sysbus = opaque;
-+    ESPState *s = &sysbus->esp;
-+    uint8_t *buf = get_pdma_buf(s);
-+    uint64_t val = 0;
-+
-+    if (s->pdma_len == 0) {
-+        return 0;
-+    }
-+    switch (size) {
-+    case 1:
-+        val = buf[s->pdma_cur++];
-+        s->pdma_len--;
-+        break;
-+    case 2:
-+        val = buf[s->pdma_cur++];
-+        val = (val << 8) | buf[s->pdma_cur++];
-+        s->pdma_len -= 2;
-+        break;
-+    }
-+
-+    if (s->pdma_len == 0 && s->pdma_cb) {
-+        esp_lower_drq(s);
-+        s->pdma_cb(s);
-+        s->pdma_cb = NULL;
-+    }
-+    return val;
-+}
-+
-+static const MemoryRegionOps sysbus_esp_pdma_ops = {
-+    .read = sysbus_esp_pdma_read,
-+    .write = sysbus_esp_pdma_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 2,
++static TypeInfo mac_via_info = {
++    .name = TYPE_MAC_VIA,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MacVIAState),
++    .instance_init = mac_via_init,
++    .class_init = mac_via_class_init,
 +};
 +
- static const struct SCSIBusInfo esp_scsi_info = {
-     .tcq = false,
-     .max_target = ESP_MAX_DEVS,
-@@ -673,12 +949,16 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
-     ESPState *s = &sysbus->esp;
++/* VIA 1 */
++static void mos6522_q800_via1_portB_write(MOS6522State *s)
++{
++    MOS6522Q800VIA1State *v1s = container_of(s, MOS6522Q800VIA1State,
++                                             parent_obj);
++    MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
++
++    via1_rtc_update(m);
++
++    v1s->last_b = s->b;
++}
++
++static void mos6522_q800_via1_reset(DeviceState *dev)
++{
++    MOS6522State *ms = MOS6522(dev);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(ms);
++
++    mdc->parent_reset(dev);
++
++    ms->timers[0].frequency = VIA_TIMER_FREQ;
++    ms->timers[1].frequency = VIA_TIMER_FREQ;
++
++    ms->b = VIA1B_vADB_StateMask | VIA1B_vADBInt | VIA1B_vRTCEnb;
++}
++
++static void mos6522_q800_via1_init(Object *obj)
++{
++    qdev_init_gpio_in_named(DEVICE(obj), via1_irq_request, "via1-irq",
++                            VIA1_IRQ_NB);
++}
++
++static void mos6522_q800_via1_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_CLASS(oc);
++
++    dc->reset = mos6522_q800_via1_reset;
++    mdc->portB_write = mos6522_q800_via1_portB_write;
++}
++
++static const TypeInfo mos6522_q800_via1_type_info = {
++    .name = TYPE_MOS6522_Q800_VIA1,
++    .parent = TYPE_MOS6522,
++    .instance_size = sizeof(MOS6522Q800VIA1State),
++    .instance_init = mos6522_q800_via1_init,
++    .class_init = mos6522_q800_via1_class_init,
++};
++
++/* VIA 2 */
++static void mos6522_q800_via2_portB_write(MOS6522State *s)
++{
++    if (s->dirb & VIA2B_vPower && (s->b & VIA2B_vPower) == 0) {
++        /* shutdown */
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
++}
++
++static void mos6522_q800_via2_reset(DeviceState *dev)
++{
++    MOS6522State *ms = MOS6522(dev);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_GET_CLASS(ms);
++
++    mdc->parent_reset(dev);
++
++    ms->timers[0].frequency = VIA_TIMER_FREQ;
++    ms->timers[1].frequency = VIA_TIMER_FREQ;
++
++    ms->dirb = 0;
++    ms->b = 0;
++}
++
++static void mos6522_q800_via2_init(Object *obj)
++{
++    qdev_init_gpio_in_named(DEVICE(obj), via2_irq_request, "via2-irq",
++                            VIA2_IRQ_NB);
++}
++
++static void mos6522_q800_via2_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    MOS6522DeviceClass *mdc = MOS6522_DEVICE_CLASS(oc);
++
++    dc->reset = mos6522_q800_via2_reset;
++    mdc->portB_write = mos6522_q800_via2_portB_write;
++}
++
++static const TypeInfo mos6522_q800_via2_type_info = {
++    .name = TYPE_MOS6522_Q800_VIA2,
++    .parent = TYPE_MOS6522,
++    .instance_size = sizeof(MOS6522Q800VIA2State),
++    .instance_init = mos6522_q800_via2_init,
++    .class_init = mos6522_q800_via2_class_init,
++};
++
++static void mac_via_register_types(void)
++{
++    type_register_static(&mos6522_q800_via1_type_info);
++    type_register_static(&mos6522_q800_via2_type_info);
++    type_register_static(&mac_via_info);
++}
++
++type_init(mac_via_register_types);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 250ce8e7a1..0583a752a2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -917,6 +917,12 @@ F: hw/m68k/next-*.c
+ F: hw/display/next-fb.c
+ F: include/hw/m68k/next-cube.h
  
-     sysbus_init_irq(sbd, &s->irq);
-+    sysbus_init_irq(sbd, &s->irq_data);
-     assert(sysbus->it_shift != -1);
++q800
++M: Laurent Vivier <laurent@vivier.eu>
++S: Maintained
++F: hw/misc/mac_via.c
++F: include/hw/misc/mac_via.h
++
+ MicroBlaze Machines
+ -------------------
+ petalogix_s3adsp1800
+diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
+index a74fac5abd..22a357609c 100644
+--- a/hw/m68k/Kconfig
++++ b/hw/m68k/Kconfig
+@@ -12,3 +12,7 @@ config NEXTCUBE
+     bool
+     select FRAMEBUFFER
+     select ESCC
++
++config Q800
++    bool
++    select MAC_VIA
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 51754bb47c..18a5dc9c09 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -120,4 +120,8 @@ config AUX
+ config UNIMP
+     bool
  
-     s->chip_id = TCHI_FAS100A;
-     memory_region_init_io(&sysbus->iomem, OBJECT(sysbus), &sysbus_esp_mem_ops,
--                          sysbus, "esp", ESP_REGS << sysbus->it_shift);
-+                          sysbus, "esp-regs", ESP_REGS << sysbus->it_shift);
-     sysbus_init_mmio(sbd, &sysbus->iomem);
-+    memory_region_init_io(&sysbus->pdma, OBJECT(sysbus), &sysbus_esp_pdma_ops,
-+                          sysbus, "esp-pdma", 2);
-+    sysbus_init_mmio(sbd, &sysbus->pdma);
++config MAC_VIA
++    bool
++    select MOS6522
++
+ source macio/Kconfig
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index a150680966..8cde75c9dd 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -78,5 +78,6 @@ common-obj-$(CONFIG_ASPEED_SOC) += aspeed_xdma.o
+ common-obj-$(CONFIG_ASPEED_SOC) += aspeed_scu.o aspeed_sdmc.o
+ common-obj-$(CONFIG_MSF2) += msf2-sysreg.o
+ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
++obj-$(CONFIG_MAC_VIA) += mac_via.o
  
-     qdev_init_gpio_in(dev, sysbus_esp_gpio_demux, 2);
- 
+ common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
 -- 
 2.21.0
 
