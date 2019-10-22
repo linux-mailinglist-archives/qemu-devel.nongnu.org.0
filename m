@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282C6DFF41
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:18:20 +0200 (CEST)
-Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DE9DFF52
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:24:21 +0200 (CEST)
+Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpMx-0000aS-0t
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44130)
+	id 1iMpSm-0000qs-3c
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMpGF-0002em-KL
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:24 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMpGT-00034C-Iu
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMpGE-00053c-Cc
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:23 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:57117)
+ (envelope-from <laurent@vivier.eu>) id 1iMpGO-0005AN-Ji
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:37 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:37835)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGE-00052o-3E
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:22 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGO-00059V-A3
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:32 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MwPfX-1i4Ku301yv-00sOZb; Tue, 22 Oct 2019 10:11:18 +0200
+ id 1M4aEC-1iLBMe31jq-001fWm; Tue, 22 Oct 2019 10:11:18 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/11] linux-user/strace: Add print_timezone()
-Date: Tue, 22 Oct 2019 10:10:57 +0200
-Message-Id: <20191022081104.11814-5-laurent@vivier.eu>
+Subject: [PULL 05/11] linux-user/strace: Improve settimeofday()
+Date: Tue, 22 Oct 2019 10:10:58 +0200
+Message-Id: <20191022081104.11814-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022081104.11814-1-laurent@vivier.eu>
 References: <20191022081104.11814-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9wKceQZbFkT5WG5OXBjMel3+MhU5aaKV4bJghqBP929uN6MkBc9
- y2wyt8DhKKgC0Et1hOplhxI7aYXnqCLI/tCpKTuetUQaNsnCD32xKdx1C1Ck4wXOE87Gfy3
- CQ6bWgtNujLQ2oh/9f++HswjCmzki3COEZ52c7ufTaaPO1oWBqGlQwOIUTCCIrjMyKJ8b3e
- JIBd7MpTIunI4c3CrDQLg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:58T0ejQNKkI=:BrwCANgLcZm5oXNFfUYTeO
- 6gkrC75oCqsOIpqjbxW6vaP40g70zaOaqEcdLlpKIQLHhmGULNXtKdmwVBvhfpR19jsmIZoFH
- n0f3mY1bMreTbk/KgcaKQWJpf+6iSHPdpC0fqxBLdynpGE5mX4Gj/vmGWyCndK2mLfsqjanNF
- 9aAtQxqFxFIyUCy9tMtGQXheqYhmzSeFBXVEtSdCOO/W9K+n/WtM+QGNvUeCMe4O0XxoAfmFs
- Q17KZ3uU/zUFc1bH3a5Fpj+xjHPTTX7C7E/Vc0Gdfa1Dt9FS1xh9lSqzDpKzwa4DO1F6vxuyG
- pNN46ZR0rUMuspdt3UJsfd20eawgegFW6/cEZwva1NKkMruQ7iymNNthUuvUH2cW6t42VIJLw
- BUDoalsdrW+woBhhmLV+HKVlelwLalHTjGakff6X5E7h3W6cRM2rmt6hn/sXRtqeu4WDjeFKi
- I75iRT3/f9vl3PKY6Z8dmAlEhsrYUEWXIgmEQielWNwwBuLNMOtZwsaeAeIWLjoO3Zi6sTtVJ
- A6unb+387osC3Spasu7qPMxAKEu/iCYBkMXmOwDxhrbbYPRNaoyBip3WrOdoxiFVGdxooYSLH
- 2cjrWWS8tE+WxH1pA3Gnr8rV4fqTB0e+8fgk5t75qrwkK6tMUzDJ13fkq1aPu2+i5xThaA2B3
- 0BIJHylKz6MVwvaavBwmzV/5yjJwFBxiycM8Vxf+lJeJjozDy8UYUprvxJing6kAn528x9IyS
- SXiRjIA1Yi3VvIGPNriajDjs4c7o7l5EqofecrALUYJDGkerG8zM1fOOWpAVxEVj88Q5KYg31
- w1fsMC90TWOISKfVqweLrylWpH0Py2szMxbVxVzQmbeyn9JvI3wZ46OcLejzyfmyAma+wfJ86
- Sn5x6R3YO3EQlGW4cCm8oiUZKV/ejUishSgYTBUSE=
+X-Provags-ID: V03:K1:NsWC2Xt4bpl0q1ey+XXa/QhosycTjZyo5vAKPhfl8h2CIrRvDpC
+ imrRTCLQwdE69H8QDoXA5fTGhJsIZYZ5sjVxOmWARjvSJ+RRdlOzvKRpShOR5AQROAzSS4T
+ H299Y5/5gn+txrxFPT6KZzkc77h84E6pchKbq89dy+9B1+RYesTbb0TF5QbfZ4s/hH/OV2v
+ ROgB/rpVKIFJ5rDeLyzow==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:R9kOsov3XtI=:T65UAa9OtCm+puzDh6PPgx
+ v5gmLQLbh/3q1vM6Bn6eUroHMtSOo/meGAY1BINSgyYGuA8W3jJKVBqomVjAO5S2ooC55craO
+ MLNyYr5GgNLQrVIQDSAYVLn3XWO/fGFxAjTx6WY697QvXRULH1aK2QRPgkE7Nvjn6EjfcCYTv
+ nWpD7fNTEa5/zYI46nksDc3WJqHHsMZJyD3M146ZeMaV3pnOZRESbCnZMFHWcvkSqKskIFcOq
+ dnQb7esPnnfcnOUjPwYkh1IkGH6SvnrKS8f2Bl0wxGOomhoTYukA395agMsAyBkdMQtZXrby4
+ W88t3tTJhWIbqfvhcazxkCwRQBqfFdKwq0EoIKxQoiX2EY2lFIhFT7TB07Pmi4tiAYrHQMIEi
+ eUc3SgZs7nzu/wwwhFZFRHedHE54oGyu2VjhN9wQg/GJ1RDXIgHHLC2nu20n80HBNLRcObqnp
+ MfUsdNxr76QBkmwF06i5I6vqCvF4VQW8AajNMmsRE8Xconok/oNQcpxrtJ0kdsdnsy0dVkVD8
+ IBiYNjqrYCrA8UU9hX5r8twzZPwFArysG9fZe8WRFS6YmsGwFmOoC55dwJjTG8uGq/apmdnDp
+ zuGRq9x09Vli6Nu7W/AYthtJbD+dbDwx0R8WMjEqpRrWiU/LrswPZDe9oXEbsWeYC+hWUVwGt
+ jKFO9kqv++BrzMDeB1zdgJrqBL6P4021qGPJnfXrRQcGXWDhJ1iaSwwf5SQr7E8Py2OTWkDCn
+ fHxbtjjfOhpFoztvMsIre9mHGmIQp0hLs12b6VxiSEZ1iSkRmVpjk22mRqppr3mSB2m4WyfJf
+ pw24pxFzt0bx70TMPLSFBf0S6AUj/jVVQMHbMW+B8CuO+1ScjpkkZkFdPBUwGRUVs1GK+53o3
+ lDYA3hpMW+9rb8FqTAIsvRw9O11iTGhRwfo2AatjI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.75
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,61 +66,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Suggested-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-By: Guido Günther <agx@sigxcpu.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191021114857.20538-3-f4bug@amsat.org>
+Message-Id: <20191021114857.20538-4-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ linux-user/strace.c    | 13 +++++++++++++
+ linux-user/strace.list |  2 +-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index f326c357a26d..2cd6687cd99b 100644
+index 2cd6687cd99b..fd5596a64074 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -63,6 +63,7 @@ UNUSED static void print_string(abi_long, int);
- UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
- UNUSED static void print_timeval(abi_ulong, int);
-+UNUSED static void print_timezone(abi_ulong, int);
- UNUSED static void print_number(abi_long, int);
- UNUSED static void print_signal(abi_ulong, int);
- UNUSED static void print_sockaddr(abi_ulong addr, abi_long addrlen);
-@@ -1254,6 +1255,25 @@ print_timeval(abi_ulong tv_addr, int last)
-         gemu_log("NULL%s", get_comma(last));
+@@ -1583,6 +1583,19 @@ print_futimesat(const struct syscallname *name,
  }
+ #endif
  
++#ifdef TARGET_NR_settimeofday
 +static void
-+print_timezone(abi_ulong tz_addr, int last)
++print_settimeofday(const struct syscallname *name,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    if (tz_addr) {
-+        struct target_timezone *tz;
-+
-+        tz = lock_user(VERIFY_READ, tz_addr, sizeof(*tz), 1);
-+        if (!tz) {
-+            print_pointer(tz_addr, last);
-+            return;
-+        }
-+        gemu_log("{%d,%d}%s", tswap32(tz->tz_minuteswest),
-+                 tswap32(tz->tz_dsttime), get_comma(last));
-+        unlock_user(tz, tz_addr, 0);
-+    } else {
-+        gemu_log("NULL%s", get_comma(last));
-+    }
++    print_syscall_prologue(name);
++    print_timeval(arg0, 0);
++    print_timezone(arg1, 1);
++    print_syscall_epilogue(name);
 +}
++#endif
 +
- #undef UNUSED
- 
- #ifdef TARGET_NR_accept
+ #ifdef TARGET_NR_link
+ static void
+ print_link(const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 863283418ef9..6f95466dc59d 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1348,7 +1348,7 @@
+ { TARGET_NR_set_tid_address, "set_tid_address" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_settimeofday
+-{ TARGET_NR_settimeofday, "settimeofday" , NULL, NULL, NULL },
++{ TARGET_NR_settimeofday, "settimeofday" , NULL, print_settimeofday, NULL },
+ #endif
+ #ifdef TARGET_NR_setuid
+ { TARGET_NR_setuid, "setuid" , NULL, NULL, NULL },
 -- 
 2.21.0
 
