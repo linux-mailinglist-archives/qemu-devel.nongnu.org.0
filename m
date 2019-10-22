@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C451E0001
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:51:32 +0200 (CEST)
-Received: from localhost ([::1]:51848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7816AE0005
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:52:55 +0200 (CEST)
+Received: from localhost ([::1]:51876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpt5-0001ly-8m
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48909)
+	id 1iMpuQ-0003oN-JK
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <estebanbosse@gmail.com>) id 1iMpqD-0006rd-00
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:48:34 -0400
+ (envelope-from <estebanbosse@gmail.com>) id 1iMptS-0002vO-EH
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <estebanbosse@gmail.com>) id 1iMpqB-0004tD-Ci
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:48:32 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44530)
+ (envelope-from <estebanbosse@gmail.com>) id 1iMptQ-0005yB-Te
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:54 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34736)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
- id 1iMpqB-0004sB-62
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:48:31 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z9so17023513wrl.11
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:48:30 -0700 (PDT)
+ id 1iMptQ-0005xG-NL
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:51:52 -0400
+Received: by mail-wm1-x344.google.com with SMTP id v3so3491588wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 01:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=message-id:subject:from:to:cc:date:in-reply-to:references
  :user-agent:mime-version:content-transfer-encoding;
- bh=PfdPJmUvnGMSyb0QvY2cAJRWDOWGOUx4wadQl+kGBSo=;
- b=XffrVqn4R3wl7i4l+v5mr3OSJE4AWWvhi1mYomo5m58aJ6uL9YsNVhv9J71O0QlrGs
- g96TzRCal3J7ewSTNLEGQyzYRYxIMNMtkEAzbhkq9kum3OgJU0xT/tbemPjMAhN1aDRJ
- QYHJUffd5QbDNcv9RAvz875+QxtYz9vv+xp+DkgIreKXrjChnet1XP4dBZ1AzGVuZkvy
- EAEX79rX2wh3TjA655Ft+tK6j7KQDUKgFoZHFTdCpFZZka6K/d1glEQxnhHQyHuGTGgd
- ph76k19Pbudn/uiUYobgYTd1efVlhEpP0BAFhbLWf918nQo0MBEBGxmuocO3s6iviV7J
- Ysvg==
+ bh=rgWSoNQb1MMrAcfBeWm0hLrztGxn+f4hQDhhnGtdGW4=;
+ b=feXBOBqYeNnKDjUPkC8qi43Oy9wUkItet2GhbuOxTFmk1pR6cekELsld1aTDPUcEQN
+ FxaxCnN0QT5H/6hHNCD/4nLK/n2YJqDIlPio8RABLfGat5FzI34Pm/XSGVUziovASOpc
+ H9lYz8WEhw01OLKz194mTcbxtXDj6oaSLREzzOqmColzoMRWWrRKWwck+LJymnfuAYp1
+ rmAzI2xZhn9HgBx6wpj5ONznPABe7D86cwMHn+ko996Jb2L3RnnmF0iyOm739w39CwU7
+ dcSu431JymvSEWW3Q5PSEyE5LM2OVPfJRTpJR2d3SXs+bCC/rPpvyYRPZ5B57DAgCkYu
+ kYIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=PfdPJmUvnGMSyb0QvY2cAJRWDOWGOUx4wadQl+kGBSo=;
- b=I0cX45043NJEQkNp+6ZiWtw88btWMKTIE+Y/OUBs05vK9NXb27t3bOaqekGu540ENT
- 27MtGgWvElXd/R7pvxuIr4p+kva9kkXXIwPXyzv4wKQP1VjULcVBrduAGRC45D7IPuzE
- 8DOpO9gNuer23/RUlQTYI7M7QZfXeULYqz2FJ+VhCDbHVxakn+DVZMuaXg031UMf4quz
- dDyQE2Dpi8IsKtSxoB8J5ZHE9UNTwq8V05Qra1rnDIjcfbiwdvs3wTsns8wPQ9R9cde+
- Cbx3cCO2XAq5Bm6p0KBDXNDcLFSMiC2YeRWFHX/aUYQAA/t9VvoRPj/0QCo3xLB0Ly81
- SyJA==
-X-Gm-Message-State: APjAAAUL6GL0OlYYYJYIsPcF5QRaw4rIRWCxW3pXwd5AoffhkPT9sFqf
- H1tLojEtxXvjqBZPbbz/tmM=
-X-Google-Smtp-Source: APXvYqx+Axd83lMU8LKnJVkLcqDfJMA32L6CmH/KHO9BkSG7KUkKodkfYAvEvPQwd4h0EdPh/S8EIA==
-X-Received: by 2002:adf:f010:: with SMTP id j16mr2437638wro.317.1571734107470; 
- Tue, 22 Oct 2019 01:48:27 -0700 (PDT)
+ bh=rgWSoNQb1MMrAcfBeWm0hLrztGxn+f4hQDhhnGtdGW4=;
+ b=ROJS/VEHEt3TdCYUZXHxax/qGEFjYKwKZRxAhhMcJylWKPQmPUVQTMCiONP8d62nFi
+ aAwzdsufuQPhTjLzvoEXu9icrZCPw4JeZtO3kSTa5M2dRgqQua3SbNbNw3K1swcyw2mo
+ ME+De7tAoW8zjidUgXtPSlseOKFvO/JVkdZZ+jyQtvXRZYOC+lu4alwMBsMH1FNEl0zM
+ wfIPRtCuWH489FoM8qS4UB+QAukr4O2ZYgoNYXeohkD8vWNR78PIh85A/4S7fvqMGAxE
+ bgn30aiG+tha8twtOpRfwx/a21EytJWjj90UhHRC3wPjGDEBT07SjhQfq7W6RBba/OJl
+ /HfA==
+X-Gm-Message-State: APjAAAUdQy8thW1DTKKrg+ASs84tFVtBYhPMV1M6Xn6pDlL8w8d7uC1K
+ k/PQhLZbyzuIaRI77J5r+qk=
+X-Google-Smtp-Source: APXvYqxkiPj8CAD5J53zCUB6rUfh4XQXw/PcNq+Vkc5d5NWk19b/EIU9di50bmA8IdEAqechcHxwOg==
+X-Received: by 2002:a05:600c:22d7:: with SMTP id
+ 23mr1894342wmg.31.1571734311389; 
+ Tue, 22 Oct 2019 01:51:51 -0700 (PDT)
 Received: from ?IPv6:2a01:c23:604c:2a00:af2b:2e92:39f9:c05b?
  ([2a01:c23:604c:2a00:af2b:2e92:39f9:c05b])
- by smtp.gmail.com with ESMTPSA id z13sm20538123wrm.64.2019.10.22.01.48.25
+ by smtp.gmail.com with ESMTPSA id v8sm20523172wra.79.2019.10.22.01.51.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 01:48:26 -0700 (PDT)
-Message-ID: <27c31440fdab11eff969e656a8ad7063c5e7234c.camel@gmail.com>
+ Tue, 22 Oct 2019 01:51:51 -0700 (PDT)
+Message-ID: <b1255a22fe4409244f7a68887137fbe43b71a08d.camel@gmail.com>
 Subject: Re: [PATCH v2 03/20] piix4: Add a i8259 Interrupt Controller as
  specified in datasheet
 From: Esteban Bosse <estebanbosse@gmail.com>
 To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
  qemu-devel@nongnu.org
-Date: Tue, 22 Oct 2019 10:44:57 +0200
+Date: Tue, 22 Oct 2019 10:48:21 +0200
 In-Reply-To: <20191018134754.16362-4-philmd@redhat.com>
 References: <20191018134754.16362-1-philmd@redhat.com>
  <20191018134754.16362-4-philmd@redhat.com>
@@ -70,7 +71,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -149,6 +150,11 @@ El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daudé escribió:
 > +    PIIX4State *s = opaque;
 > +    qemu_set_irq(s->cpu_intr, level);
 > +}
+I would like to understand why in `PIIX4State *s = opaque;` its not
+necessary a cast or a object macro magic.
+Something like:
+PIIX4State *s = (PIIX4State*)opaque;
+PIIX4State *s = PIIX4STATE(opaque); 
 > +
 > +static void piix4_set_i8259_irq(void *opaque, int irq, int level)
 > +{
@@ -178,11 +184,6 @@ El vie, 18-10-2019 a las 15:47 +0200, Philippe Mathieu-Daudé escribió:
 > +                            "isa", ISA_NUM_IRQS);
 > +    qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
 > +                             "intr", 1);
-My question is not about this patch:
-
-The function name is "qdev_init_gpio_out_named" but support more than 1
-gpio, right? in this case, the name shouldn't be something like
-"qdev_init_gpios_out_named"?
 > +
 >      memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops,
 > s,
@@ -190,7 +191,6 @@ gpio, right? in this case, the name shouldn't be something like
 >      memory_region_add_subregion_overlap(pci_address_space_io(dev),
 > 0xcf9,
 >                                          &s->rcr_mem, 1);
-Why do you use the priority 1 in this case?
 >  
 > +    /* initialize i8259 pic */
 > +    i8259_out_irq = qemu_allocate_irqs(piix4_request_i8259_irq, s,
