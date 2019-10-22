@@ -2,50 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B60E02E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:30:20 +0200 (CEST)
-Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9AAE02F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:33:21 +0200 (CEST)
+Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsMl-0002C0-0y
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:30:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45497)
+	id 1iMsPg-0005j7-Vq
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iMsKH-0000SN-Qc
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:27:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iMsNp-0004Ri-C4
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iMsKG-0002iX-EW
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:27:45 -0400
-Received: from 10.mo173.mail-out.ovh.net ([46.105.74.148]:49433)
+ (envelope-from <mreitz@redhat.com>) id 1iMsNm-0004y0-U7
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:31:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43287
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iMsKG-0002hw-5i
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:27:44 -0400
-Received: from player698.ha.ovh.net (unknown [10.109.143.249])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 98ED311D504
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:27:41 +0200 (CEST)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player698.ha.ovh.net (Postfix) with ESMTPSA id B0250B3E64BE;
- Tue, 22 Oct 2019 11:27:33 +0000 (UTC)
-Date: Tue, 22 Oct 2019 13:27:28 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v3 4/4] spapr/xive: Set the OS CAM line at reset
-Message-ID: <20191022132728.17a86789@bahia.lan>
-In-Reply-To: <20191022072246.9200-5-clg@kaod.org>
-References: <20191022072246.9200-1-clg@kaod.org>
- <20191022072246.9200-5-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iMsNm-0004xO-OJ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:31:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571743881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HnPyeR2vqKEpSRtReB454uLrxdgPmUfsiihUOydoSyY=;
+ b=eICyS+PjkmkKQHynK2rK3CKxHO4kJma+vOZ9j/QPYPAwHZaep0u/yFgQ4n6+ORCZVbMpKm
+ cktFKHsUT63vkmgBwY6DttXm7zODfWSd/ViGlPRYrDlUblNrZoN/CT4zdmae2IgURraGiZ
+ qpk2dTDiOXqMz/WFCOGuxaI8kJm+Jo0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-IersrsR-Pumpu9oUwzGssg-1; Tue, 22 Oct 2019 07:31:14 -0400
+X-MC-Unique: IersrsR-Pumpu9oUwzGssg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC2C1800DFA;
+ Tue, 22 Oct 2019 11:31:13 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-215.ams2.redhat.com
+ [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8E7060161;
+ Tue, 22 Oct 2019 11:31:08 +0000 (UTC)
+Subject: Re: [PATCH v5 1/4] block: support compressed write at generic layer
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1571603828-185910-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <408ef2ab-1f6c-2c9f-ad50-92269c20fb27@redhat.com>
+ <eece4ca2-7c40-cae6-b15f-beed73830fd8@virtuozzo.com>
+ <cc3f87c2-3ad5-da4e-4750-27a48bce1ee6@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <787da788-9aca-2110-a092-b63ef498a9fa@redhat.com>
+Date: Tue, 22 Oct 2019 13:31:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 16693999397685401995
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+In-Reply-To: <cc3f87c2-3ad5-da4e-4750-27a48bce1ee6@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="gWzTNzs3fTcBwvKluYrzQ3vCI04jfEH27"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.74.148
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,137 +104,289 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ Denis Lunev <den@virtuozzo.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 09:22:46 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--gWzTNzs3fTcBwvKluYrzQ3vCI04jfEH27
+Content-Type: multipart/mixed; boundary="0ntlWQojfiabiKVugCSuF331LVIvB3f4H"
 
-> When a Virtual Processor is scheduled to run on a HW thread, the
-> hypervisor pushes its identifier in the OS CAM line. When running with
-> kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
->=20
-> Set the OS CAM line when the interrupt presenter of the sPAPR core is
-> reseted. This will also cover the case of hot-plugged CPUs.
->=20
-> This change also has the benefit to remove the use of CPU_FOREACH()
-> which can be unsafe.
->=20
+--0ntlWQojfiabiKVugCSuF331LVIvB3f4H
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-CPU_FOREACH() is indeed an unsafe way to loop on presenters. There
-are some other users in XICS and XIVE that do cause QEMU to crash.
-I shall send fixes as soon as this series reaches ppc-for-4.2.
+On 22.10.19 12:46, Vladimir Sementsov-Ogievskiy wrote:
+> 22.10.2019 13:21, Andrey Shinkevich wrote:
+>>
+>> On 22/10/2019 12:28, Max Reitz wrote:
+>>> On 20.10.19 22:37, Andrey Shinkevich wrote:
+>>>> To inform the block layer about writing all the data compressed, we
+>>>> introduce the 'compress' command line option. Based on that option, th=
+e
+>>>> written data will be aligned by the cluster size at the generic layer.
+>>>>
+>>>> Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
+>>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>> ---
+>>>>    block.c                   | 20 +++++++++++++++++++-
+>>>>    block/io.c                | 13 +++++++++----
+>>>>    block/qcow2.c             |  4 ++++
+>>>>    blockdev.c                |  9 ++++++++-
+>>>>    include/block/block.h     |  1 +
+>>>>    include/block/block_int.h |  2 ++
+>>>>    qapi/block-core.json      |  5 ++++-
+>>>>    qemu-options.hx           |  6 ++++--
+>>>>    8 files changed, 51 insertions(+), 9 deletions(-)
+>>>
+>>> The problem with compression is that there are such tight constraints o=
+n
+>>> it that it can really only work for very defined use cases.  Those
+>>> constraints are:
+>>>
+>>> - Only write whole clusters,
+>>> - Clusters can be written to only once.
+>>>
+>>> The first point is addressed in this patch by setting request_alignment=
+.
+>>>    But I don=E2=80=99t see how the second one can be addressed.  Well, =
+maybe by
+>>> allowing it in all drivers that support compression.  But if I just loo=
+k
+>>> at qcow2, that isn=E2=80=99t going to be trivial: You need to allocate =
+a
+>>> completely new cluster where you write the data (in case it grows), and
+>>> thus you leave behind a hole, which kind of defeats the purpose of
+>>> compression.
+>>>
+>>> (For demonstration:
+>>>
+>>> $ ./qemu-img create -f qcow2 test.qcow2 64M
+>>> Formatting 'test.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D655=
+36
+>>> lazy_refcounts=3Doff refcount_bits=3D16
+>>> $ x86_64-softmmu/qemu-system-x86_64 \
+>>>       -blockdev "{'node-name': 'drv0', 'driver': 'qcow2',
+>>>                   'compress': true,
+>>>                   'file': {'driver': 'file', 'filename': 'test.qcow2'}}=
+" \
+>>>       -monitor stdio
+>>> QEMU 4.1.50 monitor - type 'help' for more information
+>>> (qemu) qemu-io drv0 "write -P 42 0 64k"
+>>> wrote 65536/65536 bytes at offset 0
+>>> 64 KiB, 1 ops; 00.02 sec (4.055 MiB/sec and 64.8793 ops/sec)
+>>> (qemu) qemu-io drv0 "write -P 23 0 64k"
+>>> write failed: Input/output error
+>>>
+>>> )
+>>>
+>>> Compression really only works when you fully write all of an image
+>>> exactly once; i.e. as the qemu-img convert or as a backup target.  For
+>>> both cases we already have a compression option.  So I=E2=80=99m wonder=
+ing where
+>>> this new option is really useful.
+>>>
+>>> (You do add a test for stream, but I don=E2=80=99t know whether that=E2=
+=80=99s really a
+>>> good example, see my response there.)
+>>>
+>>> Max
+>>>
+>>
+>> Thank you very much Max for your detailed response.
+>>
+>> 1) You are right that compression is used with the backup mostly. The
+>> option for the compression with backup would be replaced by usage at the
+>> block layer, with no duplication. Also, it can be useful for NBD for
+>> instance,
+>>
+>> $ ./qemu-img create -f qcow2 -o size=3D10G ./image.qcow2
+>> $ sudo ./qemu-nbd -c /dev/nbd0 ./image.qcow2
+>> $ sudo dd if=3D/dev/sda1 of=3D/dev/nbd0 bs=3D10M count=3D10
+>> 10+0 records in
+>> 10+0 records out
+>> 104857600 bytes (105 MB) copied, 0,0890581 s, 1,2 GB/s
+>> $ sudo ./qemu-nbd -d /dev/nbd0
+>> $ du -sh ./image.qcow2
+>> 101M    ./image.qcow2
+>>
+>> and with the compression
+>>
+>> $ ./qemu-img create -f qcow2 -o size=3D10G ./image.qcow2
+>> $ sudo ./qemu-nbd -C -c /dev/nbd0 ./image.qcow2
+>> $ sudo dd if=3D/dev/sda1 of=3D/dev/nbd0 bs=3D10M count=3D10
+>> 10+0 records in
+>> 10+0 records out
+>> 104857600 bytes (105 MB) copied, 0,076046 s, 1,4 GB/s
+>> $ sudo ./qemu-nbd -d /dev/nbd0
+>> $ du -sh ./image.qcow2
+>> 5,3M    ./image.qcow2
 
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
+That seems wrong to me.  Why not use qemu-img convert for this case?
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Attaching an NBD server to a compressed disk has exactly the same
+problem as attaching a compressed disk to a VM.  It won=E2=80=99t work unle=
+ss
+the client/guest is aware of the limitations.
 
->  include/hw/ppc/spapr_xive.h |  1 -
->  hw/intc/spapr_xive.c        | 48 +++++++++++++------------------------
->  2 files changed, 17 insertions(+), 32 deletions(-)
->=20
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index d84bd5c229f0..742b7e834f2a 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -57,7 +57,6 @@ typedef struct SpaprXive {
->  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
-> =20
->  void spapr_xive_hcall_init(SpaprMachineState *spapr);
-> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
->  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
->  void spapr_xive_map_mmio(SpaprXive *xive);
-> =20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 20a8d8285f64..d8e1291905c3 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -205,23 +205,6 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
-ol enable)
->      memory_region_set_enabled(&xive->end_source.esb_mmio, false);
->  }
-> =20
-> -/*
-> - * When a Virtual Processor is scheduled to run on a HW thread, the
-> - * hypervisor pushes its identifier in the OS CAM line. Emulate the
-> - * same behavior under QEMU.
-> - */
-> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
-> -{
-> -    uint8_t  nvt_blk;
-> -    uint32_t nvt_idx;
-> -    uint32_t nvt_cam;
-> -
-> -    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
-> -
-> -    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
-_idx));
-> -    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
-> -}
-> -
->  static void spapr_xive_end_reset(XiveEND *end)
->  {
->      memset(end, 0, sizeof(*end));
-> @@ -544,21 +527,32 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
-tController *intc,
->      }
-> =20
->      spapr_cpu->tctx =3D XIVE_TCTX(obj);
-> -
-> -    /*
-> -     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
-> -     * don't beneficiate from the reset of the XIVE IRQ backend
-> -     */
-> -    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
->      return 0;
->  }
-> =20
-> +static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t os_cam)
-> +{
-> +    uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | os_cam);
-> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
-> +}
-> +
->  static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
->                                       PowerPCCPU *cpu)
->  {
->      XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
-> +    uint8_t  nvt_blk;
-> +    uint32_t nvt_idx;
-> =20
->      xive_tctx_reset(tctx);
-> +
-> +    /*
-> +     * When a Virtual Processor is scheduled to run on a HW thread,
-> +     * the hypervisor pushes its identifier in the OS CAM line.
-> +     * Emulate the same behavior under QEMU.
-> +     */
-> +    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
-> +
-> +    xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
->  }
-> =20
->  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
-> @@ -651,14 +645,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
-intc, uint32_t nr_servers,
->  static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
-rrp)
->  {
->      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> -    CPUState *cs;
-> -
-> -    CPU_FOREACH(cs) {
-> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -
-> -        /* (TCG) Set the OS CAM line of the thread interrupt context. */
-> -        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
-> -    }
-> =20
->      if (kvm_enabled()) {
->          int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
+>> The idea behind introducing the new 'compress' option is to use that
+>> only one instead of many other ones of such a kind.
+>>
+>> 2) You are right also that "Compression can't overwrite anything..."
+>> It can be seen in the commit message
+>> b0b6862e5e1a1394e0ab3d5da94ba8b0da8664e2
+>>
+>> I am not sure if data should be written compressed to the active layer.
+>> I made the tests with the idea of bringing examples of usage the
+>> 'compress' option because passing an option is a tricky thing in QEMU.
+>> But the issue takes place anyway if we want to rewrite to allocated
+>> clusters.
+>> I would like to investigate the matter and make a patch that resolves
+>> that issue.
+>> Do you agree with that?
+
+What seems wrong to me is that this series just adds a generic compress
+option without ensuring that it works generically.
+
+Either (1) it only works in well-defined cases, then either (1A) we have
+to ensure that we only allow it then (as we do now, because only
+qemu-img convert and the backup job have such an option; and those two
+are safe), or (1B) we have to clearly give a big warning for the new
+option that it doesn=E2=80=99t work correctly.  I don=E2=80=99t know whethe=
+r such a
+warning is even possible with just a generic node-level option.
+
+Or (2) we make it work in generic cases.  Well, that might be possible
+for qcow2, but who=E2=80=99s going to make it work for VMDK=E2=80=99s strea=
+mOptimized
+subformat?
+
+More on all of that below.
+
+> Yes, we want this option not to allow compressed writes for guests, but t=
+o
+> allow
+> - stream with compression (used to remove compressed incremental backup, =
+we
+> need to merge it to the next incremental)
+
+Based on the assumption that one shouldn=E2=80=99t attach a compressed disk=
+ to a
+VM, I don=E2=80=99t see how streaming makes sense then.  Well, I suppose
+intermediate streaming would work.
+
+> - backup with compression (we have an optional already, so it works)
+> - backup to nbd server with compression: enable compression on nbd server
+
+The problem is clearly that if a generic client were to connect to the
+NBD server, it wouldn=E2=80=99t work.  In this case, compression will work =
+only
+if the clients understands the limitation.
+
+(The safe way would be to make the NBD server provide an option that
+clients can see so they know this limitation and agree they=E2=80=99ll adhe=
+re to
+it.  It=E2=80=99s also a stupid way.)
+
+> So instead of adding two options (for stream and for nbd), it seems bette=
+r to
+> add only one for generic layer.
+
+I don=E2=80=99t know.  It doesn=E2=80=99t work generically, so I don=E2=80=
+=99t know whether it
+should be a generic option.
+
+> Then, it becomes possible to run guest on image with compress=3Don. It's =
+a side
+> effect, but still it should work correctly.
+
+How so?  compress=3Don only works if every party involved only writes to
+any cluster of the image exactly once.  That is just not the case for
+guests unless they know this limitation, and even I don=E2=80=99t see a use=
+ case.
+
+> I think the simplest thing is to just run normal write, if compressed wri=
+te
+> failed because of reallocation. We should check that on that failure-path
+> ENOTSUP is returned and handle it for compress=3Don option by fallback to
+> normal write in generic block/io.c
+
+It seems wrong to not compress data with compress=3Don.
+
+> (Note, that in case with stream we rewrite only unallocated clusters)
+
+Yes, but if the stream job writes the cluster before the guest, the
+guest gets an I/O error.
+
+
+By the way, the other thing I wondered was whether this should be a
+filter driver instead (if it makes sense at all).  Such a filter driver
+would at least be sufficiently cumbersome to use that probably only
+users who understand the implications would make use of it (1B above).
+
+
+I=E2=80=99m not against adding a generic compress=3Don option if we ensure =
+that it
+actually works generically (2 above).  It doesn=E2=80=99t right now, so I d=
+on=E2=80=99t
+think this is right.
+
+I=E2=80=99m already not sure whether it=E2=80=99s really possible to suppor=
+t generic
+compressed writes in qcow2.  I suppose it=E2=80=99d be at least awkward.  I=
+n
+theory it should work, it=E2=80=99s just that we can=E2=80=99t keep track o=
+f subcluster
+allocations, which in the worst case means that some compressed clusters
+take up a whole cluster of space.
+
+For VMDK...  I suppose we could consider a new flag for block drivers
+that flags whether a driver supports arbitrary compressed writes or has
+the old limitations.  compress=3Don could then refuse to work on any block
+driver but the ones that support arbitrary compressed writes.
+
+
+Our current model (1A) is simply to ensure that all compressed writes
+can adhere to the limitations.  As I=E2=80=99ve said above, extending this =
+to
+NBD would mean adding some NBD negotiation so both client and server
+agree on this limitation.  That seems kind of reasonable from the qemu
+side, but probably very unreasonable from an NBD side.  Why would NBD
+bother to reproduce qemu=E2=80=99s limitations?
+
+
+So these are the three ways (1A, 1B, 2) I can imagine.  But just adding
+a generic option that unsuspecting users are not unlikely to use but
+that simply doesn=E2=80=99t work generically doesn=E2=80=99t seem right to =
+me.
+
+Max
+
+
+--0ntlWQojfiabiKVugCSuF331LVIvB3f4H--
+
+--gWzTNzs3fTcBwvKluYrzQ3vCI04jfEH27
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2u6HsACgkQ9AfbAGHV
+z0Cjlgf8DoqguJa3ACImgMNAeCuO2pCPVTkgCmDUybeF8S72GsWt3S86p+eXmyqB
+MKQBwxx4+VglB8JV2l4C44+5OtjyKS+QdVZ+nKUasXwbPw8HlmrW3siypTR3MS0f
+Kg6LpmR8AyA+k9KwQOywgqIY82rAqYPi3tW3YDV4A7WLPdp+KO16RdTju71SKwa7
+CBlF/z5HJSHNsub7royX2UQKE6epSDOCR0P/B/YJfrBrlC4hp3MzD5Kkd9Hf5+bg
+QVcnCHV4uX5I352++AKeGL17fRSlNrhp9uhvK+z3T4ckshIDbxYAt5kNAgYp2Cj8
+mrKXsjjuKFeNLfS7E7VxXuqJU4Bt5w==
+=x86d
+-----END PGP SIGNATURE-----
+
+--gWzTNzs3fTcBwvKluYrzQ3vCI04jfEH27--
 
 
