@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B66BE0A80
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:22:12 +0200 (CEST)
-Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F1CE0ABE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:34:38 +0200 (CEST)
+Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxrH-00074q-KN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:22:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48119)
+	id 1iMy3J-00063w-AZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMxpq-0005mP-2I
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:20:43 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMy1j-0005Vp-GG
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:33:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMxpp-0002Us-3x
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:20:41 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42412)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMxpo-0002U2-Uj
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:20:41 -0400
-Received: by mail-oi1-x243.google.com with SMTP id i185so14855682oif.9
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0La5A2pXgYdYZprUXZS7B3dH09V7aLZ8RTJlRKFlNoY=;
- b=Yhk6ETxrdaUM2oJ+DtchYQZhE3pWS71TXPp0pu4KdJQzXxHLxt47qxXFNobSG/XOZn
- lDV/bRQ0ZIUYyfZ/OSjc43OxtvlkOnYr6WAjrI6z5nD8+iHJsekiiHkxeKxBhC8Bbo8x
- augR3pitXD3WmUaFREDO9mVHDn5jlo4vjQRenR7t1ut+KmrWQSrWo4r9Qd+R7YhpF2Mg
- Fh3rgVFX2tMuYxOQ4w5kqb9vN60t5F50EP1/XmEnprbILtk9qTCJFMv+ybLQ16/SC07U
- Bq3eOxQTc0ya9boSk75NZjv05W7vqYWP85UiMwlow0Flhvx6KxZPR6Y+gBzEMPTMGyUk
- tJXA==
+ (envelope-from <philmd@redhat.com>) id 1iMy1g-0008Hs-T8
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:32:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40908)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMy1g-0008HS-LO
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 13:32:56 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 17C67C04AC50
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 17:32:55 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id z205so7798984wmb.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:32:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0La5A2pXgYdYZprUXZS7B3dH09V7aLZ8RTJlRKFlNoY=;
- b=b/5Z7gM3eSMEM/XIJffbzvWKTl3pSMK+traX/8yWZ0iCOcuKSivX+UPPHhnYzeKkML
- P99LY1BIpxK3pP/mGcTw+kxw4MACfGKzW4eO0e874auprGRSMvy6zURuXG5jgVxpJfA/
- jHYjLjLydHAPI5j1cpmlRnez2cc147Zi2fwrKqlWyR5UANFcseLtWhdbMcF7+SzKhJdg
- noE1hoDNGk0VrQON0eJK0R/9fbFQ3AZJ5ZeIpMBdRVc+TGA2uYokgE0Cd3ooAxfCX7eA
- BCkz6fYf+ydulULX5aDFyt0BC6xVrhOyFOrkJEip7NT+cRdltrTgtBBDXKAegTo7tIDt
- RO6Q==
-X-Gm-Message-State: APjAAAWVceXq5RB6T8OCRcxOe+fiL/v5Nh7bfop7k7/u3y4jwJOZYaol
- 9SK93AM2yLM/3gQknL7CGONffAqCRLkTqhxSycoFlw==
-X-Google-Smtp-Source: APXvYqxfACClC+BQM2b9C8yyLX8XftMPWXxeLdChl8HF8hLN7tpdtXoJUc4CJBjC5zsAMfg81Bl498W9yrqc+UspKzA=
-X-Received: by 2002:aca:49c2:: with SMTP id w185mr3959708oia.163.1571764839900; 
- Tue, 22 Oct 2019 10:20:39 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qKfAao7pCi9HzPG9klIVg5xq0ShvtMXGHraAxDS4OAs=;
+ b=RgCfy2ZG5+jwGBjSL1YLLA1XN0DClJci27wVszk+hRWK9VWer3IXsyHcOpylUALR2n
+ bhtGVamlcBFJl21VIX7ad1vhZvsAJMmOZfdxCmBifuVo4GJsjgbNGBK3wl/IErHM/tDv
+ RYQcu2B7pCIdJH/eS1MyEl9quAE8+/XDYaLNcwYxKjOjIB7oOo6IBMWPoeoW6Pi3h01l
+ xIa+YCeDSanLtptsLAY/fbVJzEoBNHsAm/wQwwGo6jTpZGr4CSbSa+ZgRLa9U3Ku+eBC
+ Z9ckBG3TyIljPt+hE/lgOvfiwYzquH/JgopC4juCNTjkEtX/dstZbzyxgTRRPmev6IIg
+ E4eg==
+X-Gm-Message-State: APjAAAU8zJ1W1a18HM6yC3FIFNr4qkTzoZVakGKnoZ8qaYcU8si7r6cr
+ me8RlmWTEg8wBfIOL8fkPwN4D//j6m+4s/aZ35dE5XoP9vs1StSyr4w2kItxdXj98Vkrd6L/dUn
+ Rxzvj5AM5eZoH4i8=
+X-Received: by 2002:a5d:4701:: with SMTP id y1mr4784782wrq.385.1571765573799; 
+ Tue, 22 Oct 2019 10:32:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxhAQ6GFH58QKv6VXuWy0IbsVz/USuNhFa92orINTG8+IApgym4IDZgtH45P0dkGhI9CDiCtA==
+X-Received: by 2002:a5d:4701:: with SMTP id y1mr4784755wrq.385.1571765573553; 
+ Tue, 22 Oct 2019 10:32:53 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id 17sm7439727wmg.29.2019.10.22.10.32.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2019 10:32:52 -0700 (PDT)
+Subject: Re: [PATCH 0/5] hw/i386/pc: Extract pc_gsi_create() and
+ pc_i8259_create()
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20191018135910.24286-1-philmd@redhat.com>
+ <22db5316-648a-9416-87b5-a76772e8539e@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <aac6bd30-317b-d8a2-6442-6f3d37941785@redhat.com>
+Date: Tue, 22 Oct 2019 19:32:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191016090745.15334-1-clg@kaod.org>
- <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
- <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
- <CAFEAcA8py1obBXc1o02wTRkXms9NwCnCT6Q9ZZ-4W=NzNocLrQ@mail.gmail.com>
- <a0b2779c-bcd5-0fe9-ff3f-d4254aba8805@kaod.org>
-In-Reply-To: <a0b2779c-bcd5-0fe9-ff3f-d4254aba8805@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Oct 2019 18:20:28 +0100
-Message-ID: <CAFEAcA9nymSxBkEm8GcJm9p4Y_obmK-fbojFEi+Et52H-mPFdA@mail.gmail.com>
-Subject: Re: [PATCH] aspeed: Add an AST2600 eval board
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <22db5316-648a-9416-87b5-a76772e8539e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,20 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 at 18:16, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> Is it time for me to install an OSX system for dev and tests or is there
-> a way to reproduce the issue ? no errors spotted in valgrind.
+On 10/22/19 6:55 PM, Paolo Bonzini wrote:
+> On 18/10/19 15:59, Philippe Mathieu-Daud=C3=A9 wrote:
+>> These are few patches extracted from the previous too big series:
+>> hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg03685.html
+>>
+>> Dropped "Move kvm_i8259_init() declaration to sysemu/kvm.h" (thuth),
+>> no logical changes:
+>=20
+> I queued this, but neither I nor patchew got patch 5.  I just got it
+> from the PIIX3/i440FX series.
 
-I dunno. You could have a look to see if you can repro
-it with the travis builds. I would investigate but I
-don't have time this week given impending softfreeze
-and KVM Forum next week.
+Odd... Yes this is the same patch resent with no change. Thanks for
+noticing this and carrying about finding it!
 
-thanks
--- PMM
+>=20
+> paolo
+>=20
+>> $ git backport-diff -u pc_split_i440fx_piix-v1
+>> Key:
+>> [----] : patches are identical
+>> [####] : number of functional differences between upstream/downstream =
+patch
+>> [down] : patch is downstream-only
+>> The flags [FC] indicate (F)unctional and (C)ontextual differences, res=
+pectively
+>>
+>> 001/5:[----] [-C] 'hw/i386/pc: Extract pc_gsi_create()'
+>> 002/5:[----] [--] 'hw/i386/pc: Reduce gsi_handler scope'
+>> 003/5:[----] [--] 'hw/i386/pc: Move gsi_state creation code'
+>> 004/5:[----] [--] 'hw/i386/pc: Extract pc_i8259_create()'
+>> 005/5:[----] [--] 'hw/i386/pc: Remove kvm_i386.h include'
+>>
+>> Based-on: <20191018134754.16362-1-philmd@redhat.com>
+>> hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge [v2]
+>> https://mid.mail-archive.com/20191018134754.16362-1-philmd@redhat.com
+>>
+>> Philippe Mathieu-Daud=C3=A9 (5):
+>>    hw/i386/pc: Extract pc_gsi_create()
+>>    hw/i386/pc: Reduce gsi_handler scope
+>>    hw/i386/pc: Move gsi_state creation code
+>>    hw/i386/pc: Extract pc_i8259_create()
+>>    hw/i386/pc: Remove kvm_i386.h include
+>>
+>>   hw/i386/pc.c         | 36 +++++++++++++++++++++++++++++++++++-
+>>   hw/i386/pc_piix.c    | 23 ++---------------------
+>>   hw/i386/pc_q35.c     | 28 ++++------------------------
+>>   include/hw/i386/pc.h |  3 ++-
+>>   4 files changed, 43 insertions(+), 47 deletions(-)
+>>
+>=20
 
