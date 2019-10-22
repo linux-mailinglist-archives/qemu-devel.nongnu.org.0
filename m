@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB42DFE46
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:28:26 +0200 (CEST)
-Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0070DFE35
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 09:26:24 +0200 (CEST)
+Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMoaf-0004wf-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39169)
+	id 1iMoYh-0001l1-Uz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 03:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iMoUg-0005ZE-CQ
+ (envelope-from <thuth@redhat.com>) id 1iMoUg-0005Z1-8T
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iMoUf-0005L5-9q
+ (envelope-from <thuth@redhat.com>) id 1iMoUf-0005L9-9u
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24737
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20006
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMoUf-0005Ku-5l
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iMoUf-0005Ks-5S
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:22:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1571728932;
@@ -27,39 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W/3jEa0khY8EIsvamGoGXV0Y4SSFZ2VbgKsJcLDSgeg=;
- b=Gte1KvYqP9CygaoKifNYfa3VVUjJN438PgjK8Ya1RXUpS3OJsn0oHy3Eh6hxqo3Aue0i3z
- JJXWa/HAB/AK2sOAc8s1jcCubAOZuk19+niLydhswmOTn+kzZ3eWyMRt4jt4P0F21weYEM
- u//ES4jEe3qUWVR203YIN747G8gP6OA=
+ bh=gFfpjxekHST6uwbNE0nULW3Vo8TkWtQwwVYbEy8y9PI=;
+ b=VEUsCTzYPfd3EB+NxN31N2yvnyVuXcfA0Ceq0gYiGFhmWP5DzyET6yMRsUQjnMboQ8pPP2
+ L525uMRozM2x+8dTR2PRNeNZ8UUhJVbhK+6ubHHTCUiJEo4HtiTBXgSC28Vf/XvIjC/D8j
+ TAiZchm6WaMcxKXKU8e9BPU2gTAyx8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-Dn9t54yaO2-3ghxvc8YNtw-1; Tue, 22 Oct 2019 03:22:09 -0400
+ us-mta-224-MBWIknRvPvy3StnlBFaiPw-1; Tue, 22 Oct 2019 03:22:10 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 554251800D6A;
- Tue, 22 Oct 2019 07:22:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5551476;
+ Tue, 22 Oct 2019 07:22:09 +0000 (UTC)
 Received: from thuth.com (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB2942965D;
- Tue, 22 Oct 2019 07:21:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 963B92965D;
+ Tue, 22 Oct 2019 07:22:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Max Reitz <mreitz@redhat.com>,
 	qemu-block@nongnu.org
-Subject: [PATCH v3 5/6] iotests: Enable more tests in the 'auto' group to
- improve test coverage
-Date: Tue, 22 Oct 2019 09:21:34 +0200
-Message-Id: <20191022072135.11188-6-thuth@redhat.com>
+Subject: [PATCH v3 6/6] iotests: Remove 130 from the "auto" group
+Date: Tue, 22 Oct 2019 09:21:35 +0200
+Message-Id: <20191022072135.11188-7-thuth@redhat.com>
 In-Reply-To: <20191022072135.11188-1-thuth@redhat.com>
 References: <20191022072135.11188-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: Dn9t54yaO2-3ghxvc8YNtw-1
+X-MC-Unique: MBWIknRvPvy3StnlBFaiPw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,89 +75,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to Kevin, tests 030, 040 and 041 are among the most valuable
-tests that we have, so we should always run them if possible, even if
-they take a little bit longer.
+Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
+'write' lock - Is another process using the image [TEST_DIR/t.IMGFMT]?"
+error with 130 already twice. Looks like this test is a little bit
+shaky, so for the time being, let's disable it from the "auto" group so
+that it does not gate the pull requests.
 
-According to Max, it would be good to have a test for iothreads and
-migration. 127 and 256 seem to be good candidates for iothreads. For
-migration, let's enable 091, 181, and 203 (which also tests iothreads).
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/group | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/group | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index a73df279e5..33b499ed41 100644
+index 33b499ed41..4596497bce 100644
 --- a/tests/qemu-iotests/group
 +++ b/tests/qemu-iotests/group
-@@ -51,7 +51,7 @@
- 027 rw auto quick
- 028 rw backing quick
- 029 rw auto quick
--030 rw backing
-+030 rw auto backing
- 031 rw auto quick
- 032 rw auto quick
- 033 rw auto quick
-@@ -61,8 +61,8 @@
- 037 rw auto backing quick
- 038 rw auto backing quick
- 039 rw auto quick
--040 rw
--041 rw backing
-+040 rw auto
-+041 rw auto backing
- 042 rw auto quick
- 043 rw auto backing
- 044 rw
-@@ -112,7 +112,7 @@
- 088 rw quick
- 089 rw auto quick
- 090 rw auto quick
--091 rw migration
-+091 rw auto migration
- 092 rw quick
- 093 throttle
- 094 rw quick
-@@ -148,7 +148,7 @@
- 124 rw backing
- 125 rw
- 126 rw auto backing
--127 rw backing quick
-+127 rw auto backing quick
+@@ -151,7 +151,7 @@
+ 127 rw auto backing quick
  128 rw quick
  129 rw quick
- 130 rw auto quick
-@@ -197,7 +197,7 @@
- 177 rw auto quick
- 178 img
- 179 rw auto quick
--181 rw migration
-+181 rw auto migration
- 182 rw quick
- 183 rw migration
- 184 rw auto quick
-@@ -218,7 +218,7 @@
- 200 rw
- 201 rw migration
- 202 rw quick
--203 rw migration
-+203 rw auto migration
- 204 rw quick
- 205 rw quick
- 206 rw
-@@ -270,7 +270,7 @@
- 253 rw quick
- 254 rw backing quick
- 255 rw quick
--256 rw quick
-+256 rw auto quick
- 257 rw
- 258 rw quick
- 260 rw quick
+-130 rw auto quick
++130 rw quick
+ 131 rw quick
+ 132 rw quick
+ 133 auto quick
 --=20
 2.18.1
 
