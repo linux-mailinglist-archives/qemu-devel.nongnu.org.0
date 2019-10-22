@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9F5E07D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 17:49:17 +0200 (CEST)
-Received: from localhost ([::1]:33764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68590E07FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 17:54:04 +0200 (CEST)
+Received: from localhost ([::1]:34004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMwPL-0004aa-L7
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 11:49:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1iMwTz-0001Xp-Db
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 11:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iMwMN-0002pU-Np
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:46:13 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iMwOz-0005Al-2t
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:48:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iMwML-00021U-Pt
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:46:11 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:41207)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iMwML-00020b-JN
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:46:09 -0400
-Received: by mail-il1-x143.google.com with SMTP id z10so15874895ilo.8
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 08:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R1/1+7Md91Hq7JIEadkFQbLhX++CiuasU+Gk0+oBnZw=;
- b=ISMA6S0BVgaHS1z9CzfMidhqweschHi0F8RqCgg17TjEW6Y56k2X/2TQp6LNkrCQP0
- lQpLyXVIYof2TX5Tkzwq08vHrb/2plPLsCqrpiRTKse1u0z2Eq5yohHxh3prfEMan56e
- nYfhW5wJs1pcnmDWxT3/Xmzz6gT6Dh3eJ8Pz2ec3ZzRC50r9JwoGm02Tk5azHQZivpo7
- U7XXTEsIyDgxBxcj7KMc4uEndeEQCphV4d90bVdaJnp6esLnpjj+qEPtWq8QVfsI2LOz
- 1pLd7RISm77JmMIpRbWRiJ/1Du4sWAkM2bFJfg03OdcbTA4ZSD3oqbfGxxHPcTxrWEJo
- ADXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R1/1+7Md91Hq7JIEadkFQbLhX++CiuasU+Gk0+oBnZw=;
- b=LgcQvF4iLGtxZTzCaqbb4tCBj7ShXkp6HwpvWBBKk0SaHe2r9R3WosDsVqn1qAOUWr
- OlUIsihgB4KHzPPKegZ6aq5AaXtdvt9yc/QX6R1Py41wDOzVzr/1IlMZZiUK9kpdPZyk
- SStJYx2ChxlHl35wpX3dj7hnPWE13D15zzrHpiJE+huQ9LecA8z2RjOO3FHJFnrHTmvf
- WsAYRsrunMHThH8N5w9KYmLTE8vQ05zeg8os/0OWpFOnzHUypwu18dpDE7paPxrC0fha
- ALO5yNTg6TR2Ap1DqceUyWVwaqTZ7p8fkTDNXZ8pUgWqFCmQ4Bt0BJ6KCQWsNVmqBRJh
- /FsQ==
-X-Gm-Message-State: APjAAAXtlHFGETioZ0u9UofnDRjbh9fw8RBqdD+naJUrcMWVCZFRxJbL
- 1Hw3eiV9YvNurmi6hhk6jDLgN0lAIKIC4b8bs5vjnQ==
-X-Google-Smtp-Source: APXvYqxN+vp7nTy2MxPrGN5tWHsb1KGo8nRkrbkCTryoiCn4KFntgNNVa0RUQeKNo2ZeabNAeI9GYZEotKEpBONN7ko=
-X-Received: by 2002:a92:2406:: with SMTP id k6mr34342536ilk.260.1571759168185; 
- Tue, 22 Oct 2019 08:46:08 -0700 (PDT)
+ (envelope-from <stefanha@redhat.com>) id 1iMwOx-0004BQ-5k
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:48:52 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22596
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iMwOw-0004An-Sr
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 11:48:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571759330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D6yOI/R8uemwWw45AquIfMxN1nhxnYxjMR8iFOr1ZyA=;
+ b=W01GX0Kmo87MYEDBZ284aRMlagSJsHUV7o1lbNlykt97quEFYjse/cX7j8DiRL1ZG66b2p
+ UPX1AGitUNXu9/Xm9HRUOVk/wq0pnsIgPcZ8foe2Q9Bu5XOHEGn8BGTjlzsVtzH3ws/avP
+ k1CXO0ZhgH3z3hRv1xwJnzfUauODRxM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-cwBgPb79Ofe3ZM0iqiePxw-1; Tue, 22 Oct 2019 11:48:48 -0400
+X-MC-Unique: cwBgPb79Ofe3ZM0iqiePxw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1AAD476;
+ Tue, 22 Oct 2019 15:48:46 +0000 (UTC)
+Received: from localhost (ovpn-117-153.ams2.redhat.com [10.36.117.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCCDF19C4F;
+ Tue, 22 Oct 2019 15:48:41 +0000 (UTC)
+Date: Tue, 22 Oct 2019 16:48:40 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 07/16] libqos: enforce Device Initialization order
+Message-ID: <20191022154840.GE32186@stefanha-x1.localdomain>
+References: <20191019063810.6944-1-stefanha@redhat.com>
+ <20191019063810.6944-8-stefanha@redhat.com>
+ <158ef0b2-c478-1304-3128-8feb7cd943d4@redhat.com>
 MIME-Version: 1.0
-References: <20191016085408.24360-1-drjones@redhat.com>
- <20191016085408.24360-8-drjones@redhat.com>
-In-Reply-To: <20191016085408.24360-8-drjones@redhat.com>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Tue, 22 Oct 2019 16:45:57 +0100
-Message-ID: <CADSWDztWryn0uPwEo+Kd6JvF-NOGomt1CYu7N-+VYva-v817nw@mail.gmail.com>
-Subject: Re: [PATCH v6 7/9] target/arm/kvm: scratch vcpu: Preserve input
- kvm_vcpu_init features
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::143
+In-Reply-To: <158ef0b2-c478-1304-3128-8feb7cd943d4@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ILuaRSyQpoVaJ1HG"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,130 +73,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- armbru@redhat.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
- imammedo@redhat.com, Dave.Martin@arm.com
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HI Andrew
+--ILuaRSyQpoVaJ1HG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 16 Oct 2019 at 09:57, Andrew Jones <drjones@redhat.com> wrote:
->
-> kvm_arm_create_scratch_host_vcpu() takes a struct kvm_vcpu_init
-> parameter. Rather than just using it as an output parameter to
-> pass back the preferred target, use it also as an input parameter,
-> allowing a caller to pass a selected target if they wish and to
-> also pass cpu features. If the caller doesn't want to select a
-> target they can pass -1 for the target which indicates they want
-> to use the preferred target and have it passed back like before.
->
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+On Mon, Oct 21, 2019 at 02:15:53PM +0200, Thomas Huth wrote:
+> On 19/10/2019 08.38, Stefan Hajnoczi wrote:
+> > According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
+> > Initialization", configuration space and virtqueues cannot be accessed
+> > before features have been negotiated.  Enforce this requirement.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  tests/libqos/virtio.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
+> > index 4f7e6bb8a1..2593996c98 100644
+> > --- a/tests/libqos/virtio.c
+> > +++ b/tests/libqos/virtio.c
+> > @@ -13,23 +13,33 @@
+> >  #include "standard-headers/linux/virtio_config.h"
+> >  #include "standard-headers/linux/virtio_ring.h"
+> > =20
+> > +/* Features must be negotiated before config space or virtqueue access=
+ */
+> > +static void check_features_negotiated(QVirtioDevice *d)
+> > +{
+> > +    g_assert_cmphex(d->features, !=3D, 0);
+> > +}
+>=20
+> Isn't it "legal" to negotiate 0 feature bits, too (for legacy devices)?
 
-Reviewed-by: Beata Michalska <beata.michalska@linaro.org>
+Yes, it's possible for Legacy devices.  If someone ever does that
+they'll need to extend this code, but it's unlikely so I'd rather not
+complicate this.
 
-Thanks
+Stefan
 
-BR
-Beata
-> ---
->  target/arm/kvm.c   | 20 +++++++++++++++-----
->  target/arm/kvm32.c |  6 +++++-
->  target/arm/kvm64.c |  6 +++++-
->  3 files changed, 25 insertions(+), 7 deletions(-)
->
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index f07332bbda30..5b82cefef608 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -66,7 +66,7 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->                                        int *fdarray,
->                                        struct kvm_vcpu_init *init)
->  {
-> -    int ret, kvmfd = -1, vmfd = -1, cpufd = -1;
-> +    int ret = 0, kvmfd = -1, vmfd = -1, cpufd = -1;
->
->      kvmfd = qemu_open("/dev/kvm", O_RDWR);
->      if (kvmfd < 0) {
-> @@ -86,7 +86,14 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->          goto finish;
->      }
->
-> -    ret = ioctl(vmfd, KVM_ARM_PREFERRED_TARGET, init);
-> +    if (init->target == -1) {
-> +        struct kvm_vcpu_init preferred;
-> +
-> +        ret = ioctl(vmfd, KVM_ARM_PREFERRED_TARGET, &preferred);
-> +        if (!ret) {
-> +            init->target = preferred.target;
-> +        }
-> +    }
->      if (ret >= 0) {
->          ret = ioctl(cpufd, KVM_ARM_VCPU_INIT, init);
->          if (ret < 0) {
-> @@ -98,10 +105,12 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->           * creating one kind of guest CPU which is its preferred
->           * CPU type.
->           */
-> +        struct kvm_vcpu_init try;
-> +
->          while (*cpus_to_try != QEMU_KVM_ARM_TARGET_NONE) {
-> -            init->target = *cpus_to_try++;
-> -            memset(init->features, 0, sizeof(init->features));
-> -            ret = ioctl(cpufd, KVM_ARM_VCPU_INIT, init);
-> +            try.target = *cpus_to_try++;
-> +            memcpy(try.features, init->features, sizeof(init->features));
-> +            ret = ioctl(cpufd, KVM_ARM_VCPU_INIT, &try);
->              if (ret >= 0) {
->                  break;
->              }
-> @@ -109,6 +118,7 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->          if (ret < 0) {
->              goto err;
->          }
-> +        init->target = try.target;
->      } else {
->          /* Treat a NULL cpus_to_try argument the same as an empty
->           * list, which means we will fail the call since this must
-> diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-> index 2451a2d4bbef..32bf8d6757c4 100644
-> --- a/target/arm/kvm32.c
-> +++ b/target/arm/kvm32.c
-> @@ -53,7 +53,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->          QEMU_KVM_ARM_TARGET_CORTEX_A15,
->          QEMU_KVM_ARM_TARGET_NONE
->      };
-> -    struct kvm_vcpu_init init;
-> +    /*
-> +     * target = -1 informs kvm_arm_create_scratch_host_vcpu()
-> +     * to use the preferred target
-> +     */
-> +    struct kvm_vcpu_init init = { .target = -1, };
->
->      if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
->          return false;
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 850da1b5e6aa..c7ecefbed720 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -502,7 +502,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->          KVM_ARM_TARGET_CORTEX_A57,
->          QEMU_KVM_ARM_TARGET_NONE
->      };
-> -    struct kvm_vcpu_init init;
-> +    /*
-> +     * target = -1 informs kvm_arm_create_scratch_host_vcpu()
-> +     * to use the preferred target
-> +     */
-> +    struct kvm_vcpu_init init = { .target = -1, };
->
->      if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
->          return false;
-> --
-> 2.21.0
->
->
+--ILuaRSyQpoVaJ1HG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2vJNgACgkQnKSrs4Gr
+c8hAnggAw1tsUfLNzvTFGPGJi+Dpw9tSx+O3//gwzvvp9HJjql/alI3ktjajonVK
+0qneWxWS2BAY2lQEZKyTL+NXJa9CCkeZKmreqb/YAX+/j51GKbmh0F/tgCmdViNZ
+b5WyFqxZm4VvTgNSOyIKu16E5yOSZsZ5aGwV9KLGruNy77tJaaTEf3p6Kz40ITfk
+ag5CQuyABfgax4NdvMrHIoYdGCJvUJSkxGWDVupnikecgqwg9XEN0y1ZCAja0wZG
+gBkU6yjJSHKWIL4pZUJX16dV1VvJ5hmUqH3WSa29Qau8lx04etAbkdXR/SSQZ+99
+Syp8B0PXQlwJ6DieqeGUiAtQbXXafw==
+=zamH
+-----END PGP SIGNATURE-----
+
+--ILuaRSyQpoVaJ1HG--
+
 
