@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77530E0A15
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:08:27 +0200 (CEST)
-Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C875E0A33
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:12:49 +0200 (CEST)
+Received: from localhost ([::1]:37032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxdy-0001jb-1l
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:08:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39114)
+	id 1iMxiC-0006UJ-2S
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iMwyM-0001PL-Jy
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:25:27 -0400
+ (envelope-from <waynli329@gmail.com>) id 1iMx11-0005Vn-QL
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:28:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iMwyL-0008KX-7M
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:25:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58276
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iMwyL-0008KO-2u
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:25:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571761524;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iXTj0c9mnsZUNU3c6vAQwWlOMZGkI+hF1/jsq9eDS60=;
- b=YBhP0d564QFDIc65HH/gSNgQppjL0u3SNL5R4xKwNay0r8B91cKfPmgAE+o4fMrT9uzG26
- ZMBVTUFi3YLLQMWFRAy5INvuqq9DYaZGimdMutbf0M++4bfC2/nmO81VTmrx4fVY5L4uZu
- tbmjhRxCE2lBZbukFoYg8RQY3ZxJIDU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-8_Rnom3WPXSisZa7y5iblw-1; Tue, 22 Oct 2019 12:25:18 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99F9E80183D;
- Tue, 22 Oct 2019 16:25:16 +0000 (UTC)
-Received: from localhost (ovpn-112-21.ams2.redhat.com [10.36.112.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C52419C4F;
- Tue, 22 Oct 2019 16:25:10 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 28/28] Remove QDEV_PROP_PTR
-Date: Tue, 22 Oct 2019 18:21:37 +0200
-Message-Id: <20191022162137.27161-29-marcandre.lureau@redhat.com>
-In-Reply-To: <20191022162137.27161-1-marcandre.lureau@redhat.com>
-References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
+ (envelope-from <waynli329@gmail.com>) id 1iMx0z-0000zW-W4
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:28:11 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43840)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <waynli329@gmail.com>)
+ id 1iMx0z-0000zO-Qw; Tue, 22 Oct 2019 12:28:09 -0400
+Received: by mail-io1-xd33.google.com with SMTP id c11so12090250iom.10;
+ Tue, 22 Oct 2019 09:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L5P1GvfwZvWXeVc9gT7XM9XjwTFzNjPpDh72su7n6fs=;
+ b=khu5mRZ3JSOi7fHrQ6MT6cxKHIShDvfK5modgvPzQ7W9kHe+2vs710QGw/lwHyvifP
+ 9pDpvBELuFiPTrtnZ1ibMB75Pn+40ypGUZPn9UDQ+wxI3gwfAKXNz/QPc1lwcVZ3nYgM
+ 7vLYLCXjTFad+vI9Mf5+oNelrVrPvY7j5u7M3YO/pLe44hU7qYYFFFEsNwxQMf1zyDh3
+ IxQjzZT0q0OA88y/l3Ssnc9aVe5HVpf56koEqMRWKcIg7+YEItFiotLyC4ANnFG/O8Bk
+ PMVPgLKtEJSrSAZdLtwY5zzPbCV/XTn0+wfWYBi7bB7G3iu7mzUWFhYbtdKDNxMeqZBv
+ +HJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L5P1GvfwZvWXeVc9gT7XM9XjwTFzNjPpDh72su7n6fs=;
+ b=l7XAeb55uSsh0kbvuWNc1X3jzJcmoxEzokFn2QNz/7DC18dz1ycrecpon00OCaytIZ
+ hKfAkxFP+FUgw2ASMgoWm0Q9Da/PvZcEPviHQw0lyY9Xj/M5PFFJPNamhCwy+3LdoR4K
+ +h+MWQDHcbgA76pGWfkm3WBbRYyy8REQrgg/W1zIz8xkTjStwbaZ074afxDIlFEfvUzd
+ nStc+2B/XkdzK8F9lH3DcaVN5QI46SPPAH8Sx+YQrz4PKZd3JnDPcMjT083e9y8YxiJ9
+ MzZ4YKTfCJ9MzIZpk8CarWScWtZvYEEKCa6hplwwfe08ezyj/2LRUsfa0vBxJL2T1nk6
+ uPCg==
+X-Gm-Message-State: APjAAAUrW/molEnspxFsedUB1tINbjMNabxrYXMHIHX6zqts455hKiwp
+ XTJSimgv7bJTmQjoX48YMIyWQGqSRUBkbPQuJQ8=
+X-Google-Smtp-Source: APXvYqzQrgZA9qBqJ4av4QFEucVuPNy4dY2aHIWdmyFWx8WAq/6PuMDiKz8Mch45lycn9nk6d02j0nuW1gqofsCvNvY=
+X-Received: by 2002:a05:6638:392:: with SMTP id
+ y18mr4568527jap.98.1571761688926; 
+ Tue, 22 Oct 2019 09:28:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 8_Rnom3WPXSisZa7y5iblw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <CAM2K0np63wni3G7GNWPxTq40Kb1VeTN7Ocn=E=BqSmd+pDsX9A@mail.gmail.com>
+ <7e2a821c-ed6b-ccb1-f517-405359358a26@redhat.com>
+ <CAM2K0nox06JcmjfM20G1-p2Vwq5Xb7hRAX0DVBfdCepnqUiZQg@mail.gmail.com>
+In-Reply-To: <CAM2K0nox06JcmjfM20G1-p2Vwq5Xb7hRAX0DVBfdCepnqUiZQg@mail.gmail.com>
+From: Wayne Li <waynli329@gmail.com>
+Date: Tue, 22 Oct 2019 11:27:57 -0500
+Message-ID: <CAM2K0nqQ3kDQBm-fgGxSEzTWVfQnkKyw4y2zceY_PHSN8Go_DQ@mail.gmail.com>
+Subject: Re: Missing PVR setting capability
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000023e31c0595824964"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d33
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,120 +73,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No longer used in the tree. The comment about user_creatable is still
-quite relevant, but there is already a similar comment in qdev-core.h.
+--00000000000023e31c0595824964
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- hw/core/qdev-properties.c    | 18 ------------------
- include/hw/qdev-properties.h | 22 ----------------------
- 2 files changed, 40 deletions(-)
+And yes that is correct it has the e6500 core using PowerPC.
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index ac28890e5a..6ca7697599 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -501,13 +501,6 @@ const PropertyInfo qdev_prop_string =3D {
-     .set   =3D set_string,
- };
-=20
--/* --- pointer --- */
--
--/* Not a proper property, just for dirty hacks.  TODO Remove it!  */
--const PropertyInfo qdev_prop_ptr =3D {
--    .name  =3D "ptr",
--};
--
- /* --- mac address --- */
-=20
- /*
-@@ -1165,17 +1158,6 @@ void qdev_prop_set_enum(DeviceState *dev, const char=
- *name, int value)
-                             name, &error_abort);
- }
-=20
--void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value)
--{
--    Property *prop;
--    void **ptr;
--
--    prop =3D qdev_prop_find(dev, name);
--    assert(prop && prop->info =3D=3D &qdev_prop_ptr);
--    ptr =3D qdev_get_prop_ptr(dev, prop);
--    *ptr =3D value;
--}
--
- static GPtrArray *global_props(void)
- {
-     static GPtrArray *gp;
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 16837ab5dd..a90a9cec80 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -18,7 +18,6 @@ extern const PropertyInfo qdev_prop_size;
- extern const PropertyInfo qdev_prop_string;
- extern const PropertyInfo qdev_prop_chr;
- extern const PropertyInfo qdev_prop_tpm;
--extern const PropertyInfo qdev_prop_ptr;
- extern const PropertyInfo qdev_prop_macaddr;
- extern const PropertyInfo qdev_prop_on_off_auto;
- extern const PropertyInfo qdev_prop_losttickpolicy;
-@@ -171,25 +170,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
- #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-=20
--/*
-- * Please avoid pointer properties.  If you must use them, you must
-- * cover them in their device's class init function as follows:
-- *
-- * - If the property must be set, the device cannot be used with
-- *   device_add, so add code like this:
-- *   |* Reason: pointer property "NAME-OF-YOUR-PROP" *|
-- *   DeviceClass *dc =3D DEVICE_CLASS(class);
-- *   dc->user_creatable =3D false;
-- *
-- * - If the property may safely remain null, document it like this:
-- *   |*
-- *    * Note: pointer property "interrupt_vector" may remain null, thus
-- *    * no need for dc->user_creatable =3D false;
-- *    *|
-- */
--#define DEFINE_PROP_PTR(_n, _s, _f)             \
--    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, void*)
--
- #define DEFINE_PROP_CHR(_n, _s, _f)             \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
- #define DEFINE_PROP_STRING(_n, _s, _f)             \
-@@ -262,8 +242,6 @@ void qdev_prop_set_drive(DeviceState *dev, const char *=
-name,
- void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
-                            const uint8_t *value);
- void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
--/* FIXME: Remove opaque pointer properties.  */
--void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value);
-=20
- void qdev_prop_register_global(GlobalProperty *prop);
- int qdev_prop_check_globals(void);
---=20
-2.23.0.606.g08da6496b6
+On Tue, Oct 22, 2019 at 11:24 AM Wayne Li <waynli329@gmail.com> wrote:
 
+> If I run "lsmod | grep kvm" nothing shows up but if I just do a "find .
+> -name "kvm"" I get the following:
+>
+> ./usr/src/kernel/Documentation/virtual/kvm
+> ./usr/src/kernel/arch/arm/kvm
+> ./usr/src/kernel/arch/arm64/kvm
+> ./usr/src/kernel/arch/mips/kvm
+> ./usr/src/kernel/arch/powerpc/kvm
+> ./usr/src/kernel/arch/s390/kvm
+> ./usr/src/kernel/arch/tile/kvm
+> ./usr/src/kernel/arch/x86/kvm
+> ./usr/src/kernel/drivers/s390/kvm
+> ./usr/src/kernel/include/config/kvm
+> ./usr/src/kernel/include/config/have/kvm
+> ./usr/src/kernel/include/kvm
+> ./usr/src/kernel/virt/kvm
+> ./dev/kvm
+> ./sys/devices/virtual/misc/kvm
+> ./sys/class/misc/kvm
+> ./sys/kernel/debug/kvm
+> ./sys/module/kvm
+>
+> I guess this shows my OS does have KVM on it?  I added the two flags you
+> mentioned when running QEMU (the -cpu and the -machine flags) but the -cpu
+> flag doesn't seem like it's doing anything as even when I put a clearly
+> wrong argument after the flag no error related to the cpu is thrown.  Also
+> it says ppce500 is not a machine type and that the supported machines are:
+>
+> bamboo               bamboo
+> boeing-machine       Boeing Machine
+> none                 empty machine
+> ref405ep             ref405ep
+> taihu                taihu
+> virtex-ml507         Xilinx Virtex ML507 reference design
+>
+> The one being used right now is boeing-machine which is clearly specific
+> to the project I am working on.  I'm not exactly sure what boeing-machine
+> refers to but I'll ask the person who wrote the code that specified that
+> machine,
+>
+> On Tue, Oct 22, 2019 at 2:04 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+>> On 21/10/2019 23.06, Wayne Li wrote:
+>> > Dear Qemu list members,
+>> >
+>> > I'm attempting to enable KVM in a Qemu-based project that is running on
+>> > a T4240RDB board.  After compiling my code with the -enable-kvm option I
+>> > ran the qemu executable with the -enable-kvm option.  The application
+>> > exited with the following error message: "kvm error: missing PVR setting
+>> > capability."  What are some possibilities causing this error?
+>>
+>> That's an e6500 bas PPC board, isn't it? ... I guess nobody has been
+>> running KVM on such a system in a while...
+>>
+>> What do you get when running "lsmod | grep kvm" ? How did you run QEMU?
+>> I think you have to make sure to run with the right CPU model ("-cpu
+>> e6500") and machine (likely "-M ppce500" ?).
+>>
+>>  Thomas
+>>
+>>
+
+--00000000000023e31c0595824964
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">And yes that is correct it has the e6500 core using PowerP=
+C.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Tue, Oct 22, 2019 at 11:24 AM Wayne Li &lt;<a href=3D"mailto:waynli329=
+@gmail.com">waynli329@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr">If I run &quot;lsmod | gr=
+ep kvm&quot; nothing shows up but if I just do a &quot;find . -name &quot;k=
+vm&quot;&quot; I get the following:<div><br></div><div>./usr/src/kernel/Doc=
+umentation/virtual/kvm<br>./usr/src/kernel/arch/arm/kvm<br>./usr/src/kernel=
+/arch/arm64/kvm<br>./usr/src/kernel/arch/mips/kvm<br>./usr/src/kernel/arch/=
+powerpc/kvm<br>./usr/src/kernel/arch/s390/kvm<br>./usr/src/kernel/arch/tile=
+/kvm<br>./usr/src/kernel/arch/x86/kvm<br>./usr/src/kernel/drivers/s390/kvm<=
+br>./usr/src/kernel/include/config/kvm<br>./usr/src/kernel/include/config/h=
+ave/kvm<br>./usr/src/kernel/include/kvm<br>./usr/src/kernel/virt/kvm<br>./d=
+ev/kvm</div><div>./sys/devices/virtual/misc/kvm<br>./sys/class/misc/kvm<br>=
+./sys/kernel/debug/kvm<br>./sys/module/kvm<br></div><div><br></div><div>I g=
+uess this shows my OS does have KVM on it?=C2=A0 I added the two flags you =
+mentioned when running QEMU (the -cpu and the -machine flags) but the -cpu =
+flag doesn&#39;t seem like it&#39;s doing anything as even when I put a cle=
+arly wrong argument after the flag no error related to the cpu is thrown.=
+=C2=A0 Also it says ppce500 is not a machine type and that the supported ma=
+chines are:</div><div><br></div><div>bamboo =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 bamboo<br>boeing-machine =C2=A0 =C2=A0 =C2=A0 Boeing Mach=
+ine<br>none =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 empty m=
+achine<br>ref405ep =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ref405ep<br>ta=
+ihu =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0taihu<br>virtex-=
+ml507 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Xilinx Virtex ML507 reference design<br><=
+/div><div><br></div><div>The one being used right now is boeing-machine whi=
+ch is clearly specific to the project I am working on.=C2=A0 I&#39;m not ex=
+actly sure what boeing-machine refers to but I&#39;ll ask the person who wr=
+ote the code that specified that machine,</div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 22, 2019 at 2:04=
+ AM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">t=
+huth@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">On 21/10/2019 23.06, Wayne Li wrote:<br>
+&gt; Dear Qemu list members,<br>
+&gt; <br>
+&gt; I&#39;m attempting to enable KVM in a Qemu-based project that is runni=
+ng on<br>
+&gt; a T4240RDB board.=C2=A0 After compiling my code with the -enable-kvm o=
+ption I<br>
+&gt; ran the qemu executable with the -enable-kvm option.=C2=A0 The applica=
+tion<br>
+&gt; exited with the following error message: &quot;kvm error: missing PVR =
+setting<br>
+&gt; capability.&quot;=C2=A0 What are some possibilities causing this error=
+?<br>
+<br>
+That&#39;s an e6500 bas PPC board, isn&#39;t it? ... I guess nobody has bee=
+n<br>
+running KVM on such a system in a while...<br>
+<br>
+What do you get when running &quot;lsmod | grep kvm&quot; ? How did you run=
+ QEMU?<br>
+I think you have to make sure to run with the right CPU model (&quot;-cpu<b=
+r>
+e6500&quot;) and machine (likely &quot;-M ppce500&quot; ?).<br>
+<br>
+=C2=A0Thomas<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--00000000000023e31c0595824964--
 
