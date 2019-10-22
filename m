@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CD2E0A45
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:15:12 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CC6E09FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:01:38 +0200 (CEST)
+Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxkV-0000QG-5s
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:15:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
+	id 1iMxXN-0001Vf-3i
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:01:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMx4o-0001NE-Ja
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:32:07 -0400
+ (envelope-from <clg@kaod.org>) id 1iMxC0-0001a7-B3
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMx4n-0003A9-A2
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:32:06 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42304)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMx4n-00039h-3C
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:32:05 -0400
-Received: by mail-il1-x144.google.com with SMTP id o16so7946997ilq.9
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RXMHFBShVmiszzOvNW17FM5H8iVamBoj76040flZLAo=;
- b=oMctjm9SIIbHaWX55nm4tLFuSOKeqkHVaA54WQWXrI/vaVBeFyzHudjnV0IwNGFCUa
- EG9sTJ5877Qnw8xFrJjTp6bY810f2cyAP1gLKCzoBpyKZulbye31KRKcbEenNRh0loWI
- cKXFdxRpeIdhZAWAspB+tRJhkYu9FOhZXs61nMJS7S0ePH0Us/RLggmlaTvPIQONKZBk
- lJNx04Su8OtYbdBwnLB72V5TzvNPPSc1+V907fbuAScShyoh1UV+M7nuOoRkYj0JBGxP
- 9a7bnZvS4F65KxPCGLy7/jC1DvPoRwwEutMusYZcZiOePJYOS19vbPJTq3XVeXaxCHB8
- K0MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RXMHFBShVmiszzOvNW17FM5H8iVamBoj76040flZLAo=;
- b=QrOOAAs5zKaFII2r4r82oRYr4qnmh5RaBa+eNsvdkk5+skCwWQ5Z9OaObIZ9qq8eCS
- CuulKhGZ7jPu8vOYCoUvDAoH4C1DzUlqjRR2Qo1ze3kMZ0cRYuK1Cs3vXevSoMPy5Ytd
- IiUfvw+sw+iaxbw6OI04x132bWRKnr9rv56/By4MeK+e6OwF13xk6zMh8jh0zj4iLVFq
- 5Y0R+/Q9TZ54XzrIvY1lHC5oVOdTRmVIcahmR/9a8ry8O2XP2jvY4U43J5xKfssFm3T1
- ifGCHbs4h6imfFA52SAh2JDB/ZBLMK3PTgw+gciK+0JB6UCwe39jpn+4Fib5mEXUOS8h
- 8T7Q==
-X-Gm-Message-State: APjAAAU34VyUlhN+XMVMT/IqXN/ImTQ9Fd3DwAS/w80uRGJrw/MDUzVJ
- DZryzlqs6sD5h2wi+hyn3dFPgNkc4uGNtLtkxTqJvg==
-X-Google-Smtp-Source: APXvYqyA749qz9+ZDeXSYDNML5A7eWwdWokymhMnl0XK3KG3Pd4Xogwv/q8/LQiYUoYoGQzWZeQExVYU0OA9ReyY47U=
-X-Received: by 2002:a92:dac4:: with SMTP id o4mr34780227ilq.137.1571761924033; 
- Tue, 22 Oct 2019 09:32:04 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1iMxBy-0006rn-BG
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:32 -0400
+Received: from 2.mo177.mail-out.ovh.net ([178.33.109.80]:35486)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxBw-0006qb-Ce
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:39:30 -0400
+Received: from player688.ha.ovh.net (unknown [10.109.146.166])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id F2A6210C72C
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 18:39:23 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 25092B32C3C5;
+ Tue, 22 Oct 2019 16:39:15 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
+Date: Tue, 22 Oct 2019 18:38:09 +0200
+Message-Id: <20191022163812.330-5-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191022163812.330-1-clg@kaod.org>
+References: <20191022163812.330-1-clg@kaod.org>
 MIME-Version: 1.0
-References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
- <20191022162137.27161-11-marcandre.lureau@redhat.com>
-In-Reply-To: <20191022162137.27161-11-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Oct 2019 17:31:51 +0100
-Message-ID: <CAFEAcA-5DkdB-iUHBRONB0SHO6rYmU7ZzdojJd5iZbQdLHswTQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/28] serial: add "base" property
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 3511400336961342438
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::144
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 178.33.109.80
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,80 +56,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 at 17:23, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/char/serial.c         | 3 +++
->  include/hw/char/serial.h | 1 +
->  2 files changed, 4 insertions(+)
->
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index 0ae52ec60c..4748a2b023 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -990,6 +990,7 @@ SerialState *serial_init(int base, qemu_irq irq, int =
-baudbase,
->      qdev_connect_gpio_out_named(dev, "serial-irq", 0, irq);
->      qdev_prop_set_uint32(dev, "baudbase", baudbase);
->      qdev_prop_set_chr(dev, "chardev", chr);
-> +    qdev_prop_set_uint64(dev, "base", base);
->      serial_realize_core(s, &error_fatal);
->      qdev_set_legacy_instance_id(dev, base, 2);
->      qdev_init_nofail(dev);
-> @@ -1003,6 +1004,7 @@ SerialState *serial_init(int base, qemu_irq irq, in=
-t baudbase,
->  static Property serial_properties[] =3D {
->      DEFINE_PROP_CHR("chardev", SerialState, chr),
->      DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
-> +    DEFINE_PROP_UINT64("base", SerialState, base, 0),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> @@ -1083,6 +1085,7 @@ SerialState *serial_mm_init(MemoryRegion *address_s=
-pace,
->      qdev_prop_set_uint32(dev, "baudbase", baudbase);
->      qdev_prop_set_chr(dev, "chardev", chr);
->      qdev_prop_set_uint8(dev, "regshift", regshift);
-> +    qdev_prop_set_uint64(dev, "base", base);
->
->      serial_realize_core(s, &error_fatal);
->      qdev_set_legacy_instance_id(DEVICE(s), base, 2);
-> diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-> index ecbd3f1b40..6e9c9768ed 100644
-> --- a/include/hw/char/serial.h
-> +++ b/include/hw/char/serial.h
-> @@ -77,6 +77,7 @@ typedef struct SerialState {
->
->      QEMUTimer *modem_status_poll;
->      MemoryRegion io;
-> +    uint64_t base;
->  } SerialState;
+We will use it to reset the interrupt presenter from the CPU reset
+handler.
 
-Devices shouldn't have properties to set their MMIO base
-address -- instead the memory-mapped serial device should
-be a child of TYPE_SYSBUS_DEVICE, and should provide
-a sysbus mmio region, which users of the device can
-map at the address they want to map the registers.
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ include/hw/ppc/pnv_core.h | 3 +++
+ hw/ppc/pnv_core.c         | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+index bfbd2ec42aa6..55eee95104da 100644
+--- a/include/hw/ppc/pnv_core.h
++++ b/include/hw/ppc/pnv_core.h
+@@ -31,6 +31,8 @@
+ #define PNV_CORE_GET_CLASS(obj) \
+      OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
+=20
++typedef struct PnvChip PnvChip;
++
+ typedef struct PnvCore {
+     /*< private >*/
+     CPUCore parent_obj;
+@@ -38,6 +40,7 @@ typedef struct PnvCore {
+     /*< public >*/
+     PowerPCCPU **threads;
+     uint32_t pir;
++    PnvChip *chip;
+=20
+     MemoryRegion xscom_regs;
+ } PnvCore;
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 9f981a4940e6..cc17bbfed829 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -222,6 +222,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+                                 "required link 'chip' not found: ");
+         return;
+     }
++    pc->chip =3D PNV_CHIP(chip);
+=20
+     pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
+     for (i =3D 0; i < cc->nr_threads; i++) {
+@@ -243,7 +244,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+     }
+=20
+     for (j =3D 0; j < cc->nr_threads; j++) {
+-        pnv_realize_vcpu(pc->threads[j], PNV_CHIP(chip), &local_err);
++        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
+         if (local_err) {
+             goto err;
+         }
+--=20
+2.21.0
+
 
