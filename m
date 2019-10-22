@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBAFDFF6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:28:38 +0200 (CEST)
-Received: from localhost ([::1]:51580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F6ADFF69
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:28:10 +0200 (CEST)
+Received: from localhost ([::1]:51564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpWu-0006H4-U3
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45345)
+	id 1iMpWR-0005h9-Vy
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45797)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iMpQk-0006xt-Pl
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:22:15 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMpUP-0003sw-Bx
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:26:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iMpQi-000277-Ki
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:22:13 -0400
-Received: from mga05.intel.com ([192.55.52.43]:9373)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iMpQi-00025e-CA
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:22:12 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2019 01:22:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,326,1566889200"; d="scan'208";a="227619923"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.197.6])
- ([10.239.197.6])
- by fmsmga002.fm.intel.com with ESMTP; 22 Oct 2019 01:22:07 -0700
-Subject: Re: [PATCH v13 06/12] numa: Extend CLI to provide memory latency and
- bandwidth information
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20191020111125.27659-1-tao3.xu@intel.com>
- <20191020111125.27659-7-tao3.xu@intel.com>
- <20191022090803.51731313@redhat.com>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <14c72140-7006-d306-81cd-ae71d0331f22@intel.com>
-Date: Tue, 22 Oct 2019 16:22:06 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <laurent@vivier.eu>) id 1iMpUO-0004L4-Bg
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:26:01 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:47913)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iMpUO-0004Kf-2j; Tue, 22 Oct 2019 04:26:00 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1Mc1hn-1hjuN00Ng7-00dane; Tue, 22 Oct 2019 10:25:57 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] Trivial branch patches
+Date: Tue, 22 Oct 2019 10:25:51 +0200
+Message-Id: <20191022082553.10204-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191022090803.51731313@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.43
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:kzuY2wXh51v1n+hhHEeiWdtRKrc094DEqYR4R9AIfWNU1eKLfam
+ jsLGd4eWbm0ioqL24tWbfVBvG2Ik+YPyDkXTBHIPj7/KVeU+WGfgZtlLJbQWqoBpMG7e0HO
+ +RYNUbAfjIBcPCfPMXUCPZNyyM6plNN0TGl/sOdJdfM3EXJ98il+glFu+kEylwwlhHMf6mt
+ eW34wzJzzxXl1BKx3Nc2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tHPPXjttYjE=:gj2jxpQE5oqojhcnvlRIcV
+ 9Wcv75fAH7Kdr1+Qxp7K2X0ooqiLlqh6NKEIOB5CmW+e2ooARoj7BMfvwifV87/AgdAea+qaz
+ NWme1J22bmJVqh0wBwAIU0fAzHSRspwACr0ZKdr/Mm/39g9ds/iYseyTm1E+2hI6OtTjXSJH2
+ 9uJ4m6/+fw5BmC/jIA80GGs+V473kQT2WZ2ywE/AP3p//NETG9BYl8LBCNSy50uYk2XvO7GT6
+ dv4vdQlPmoABCNyzRAvmjQR9s5Yst18y/yZwYOWGz2Ol7pz2M0BjVwcOBCa/BPAG6HnujjH3a
+ aBcOjP/JDA0Get0qrVZL2LOdqegNaav0fZYhtwXOYBNaBts3VTHshI812orHX3MgYxo3e1zed
+ 585Id6J/TewqLpNRKzG1BTc+vkyKClFVb85VTa/Umii2Fk18EeglZUfeSpFOWvWHfs/WwXuyh
+ ZhT/f8YniCc3rnbYyDiHyL337soQe3U45DxdvsLmQYGI1/q+VPMId3AD2H6gZrrMrwnFJj2aX
+ 3s1peQ3xmlCG/IYVN04ogU01shpaTCUZetcK3PO3552j1xQF9sRdidKIOuMjeRTK6XgO8mXNr
+ NJrZVREDWn9ltk7KWMzYjbuKgB15dZcw+QX9VAlIE2xtESFLhZOHgyjpOxFMVWydbsETDQYb3
+ 3X0WoEoNhF5TTfmGk5raNA/8V4KVbqk2MuUCuoZAMgN8ZjMCqQ+kHaioKf3Rb92I6wUAzwiCt
+ zX9AM97Gbe5lhoDy01j4QR8kswhsvG+zviuEsAq4n4HyCJ34ZkZlAL947HusodI1iTW+1eK1X
+ FhxpioWWDulCZvom7snEvvtQnkOHqnewtBGdvAXDi8z8U0r1teqSSpdVsufUNwCXPOSoPIXEA
+ uVowQ5ltVQClW7tS9gEDQ98ZsS8/9t3YtmHkidrJI=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,105 +64,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/2019 3:08 PM, Igor Mammedov wrote:
-> On Sun, 20 Oct 2019 19:11:19 +0800
-> Tao Xu <tao3.xu@intel.com> wrote:
-> 
->> From: Liu Jingqi <jingqi.liu@intel.com>
->>
->> Add -numa hmat-lb option to provide System Locality Latency and
->> Bandwidth Information. These memory attributes help to build
->> System Locality Latency and Bandwidth Information Structure(s)
->> in ACPI Heterogeneous Memory Attribute Table (HMAT).
->>
->> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
->> Signed-off-by: Tao Xu <tao3.xu@intel.com>
->> ---
-[...]
->> +void parse_numa_hmat_lb(NumaState *numa_state, NumaHmatLBOptions *node,
->> +                        Error **errp)
->> +{
->> +    int first_bit, last_bit;
->> +    uint64_t temp_latency;
->> +    NodeInfo *numa_info = numa_state->nodes;
->> +    HMAT_LB_Info *hmat_lb =
->> +        numa_state->hmat_lb[node->hierarchy][node->data_type];
->> +    HMAT_LB_Data lb_data;
->> +
->> +    /* Error checking */
->> +    if (node->initiator >= numa_state->num_nodes) {
->> +        error_setg(errp, "Invalid initiator=%d, it should be less than %d.",
->> +                   node->initiator, numa_state->num_nodes);
->> +        return;
->> +    }
->> +    if (node->target >= numa_state->num_nodes) {
->> +        error_setg(errp, "Invalid target=%d, it should be less than %d.",
->> +                   node->target, numa_state->num_nodes);
->> +        return;
->> +    }
->> +    if (!numa_info[node->initiator].has_cpu) {
->> +        error_setg(errp, "Invalid initiator=%d, it isn't an "
->> +                   "initiator proximity domain.", node->initiator);
->> +        return;
->> +    }
->> +    if (!numa_info[node->target].present) {
->> +        error_setg(errp, "Invalid target=%d, it hasn't a valid NUMA node.",
->> +                   node->target);
->> +        return;
->> +    }
->> +
->> +    if (!hmat_lb) {
->> +        hmat_lb = g_malloc0(sizeof(*hmat_lb));
->> +        numa_state->hmat_lb[node->hierarchy][node->data_type] = hmat_lb;
->> +        hmat_lb->latency = g_array_new(false, true, sizeof(HMAT_LB_Data));
->> +        hmat_lb->bandwidth = g_array_new(false, true, sizeof(HMAT_LB_Data));
->> +    }
->> +    hmat_lb->hierarchy = node->hierarchy;
->> +    hmat_lb->data_type = node->data_type;
->> +    lb_data.initiator = node->initiator;
->> +    lb_data.target = node->target;
->> +
->> +    /* Input latency data */
->> +    if (node->data_type <= HMATLB_DATA_TYPE_WRITE_LATENCY) {
->> +        if (!node->has_latency) {
->> +            error_setg(errp, "Missing 'latency' option.");
->> +            return;
->> +        }
->> +        if (node->has_bandwidth) {
->> +            error_setg(errp, "Invalid option 'bandwidth' since "
->> +                       "the data type is latency.");
->> +            return;
->> +        }
->> +
->> +        temp_latency = node->latency;
->> +        hmat_lb->base_latency = 1;
->> +        while (QEMU_IS_ALIGNED(temp_latency, 10)) {
->> +            temp_latency /= 10;
->> +            hmat_lb->base_latency *= 10;
->> +        }
->> +
->> +        if (temp_latency >= UINT64_MAX) {
->                              ^  ^^^^ doesn't make sense
-> 
-> can't you use range bitmap here as well?
-> 
-Because the time unit is decimal. For example, if latency are 
-1ns(1000ps, bit 0011 1110 1000) and 65534ns(0011 1110 0111 1111 1000 
-0011 0000)
+The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0b9:
 
-0000 0000 0000 0000 0011 1110 1000
-0011 1110 0111 1111 1000 0011 0000
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-request' into staging (2019-10-18 14:13:11 +0100)
 
-Then we can get the first_bit is 3 and last_bit is 25, 25 - 3 > 16.
+are available in the Git repository at:
 
-But if we use 10 to find base, we can find the base is 1000ps, 
-compressed latency are 1 and 65534(< UINT16_MAX).
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+
+for you to fetch changes up to 81864c2e6166c015d30b8d8ae998a5a1238a68e9:
+
+  tests/migration: fix a typo in comment (2019-10-21 18:14:43 +0200)
+
+----------------------------------------------------------------
+Documentation update and a typo fix
+
+----------------------------------------------------------------
+
+Mao Zhongyi (1):
+  tests/migration: fix a typo in comment
+
+Thomas Huth (1):
+  qemu-doc: Remove paragraph about requiring a HD image with -kernel
+
+ qemu-doc.texi            | 4 ----
+ tests/migration/stress.c | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
+
+-- 
+2.21.0
 
 
