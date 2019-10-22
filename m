@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF95DFEDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:01:04 +0200 (CEST)
-Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CD9DFF0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:08:55 +0200 (CEST)
+Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMp6F-0007XT-0Y
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:01:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42431)
+	id 1iMpDq-00078N-Dd
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iMp1j-0002ik-C7
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:56:24 -0400
+ (envelope-from <clg@kaod.org>) id 1iMp3j-00065h-P1
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:58:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iMp1i-0005sQ-9W
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:56:23 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26986
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iMp3i-0006oo-Ca
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:58:27 -0400
+Received: from 18.mo3.mail-out.ovh.net ([87.98.172.162]:49243)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iMp1i-0005rK-5E
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:56:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571730981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IvicZeuGgMc11j095K3+QYG6XC/p0SLAFGOOc9IjEnE=;
- b=PZjTu6woCIEUzo2AOFYv0OjHrwjL3DGTr19voeZdjMp92ZCyO7FtRx79dx3ghU3U+VfYYW
- jeSzSvd9sR0xbesXc4zULLxosbNq40TRGXg0XkKeTKTwji/9X6soIPVk9ffgh++AMmhaRs
- INhQAqloCMH1QpN5o0dDslxCVLBVhUA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-29bL_cRVNi2yuAAVLjbOFg-1; Tue, 22 Oct 2019 03:56:20 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36E5F1800DFE
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 07:56:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0724360C4E;
- Tue, 22 Oct 2019 07:56:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9279611328A8; Tue, 22 Oct 2019 09:56:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] qapi: Allow introspecting fix for savevm's cooperation
- with blockdev
-Date: Tue, 22 Oct 2019 09:56:15 +0200
-Message-Id: <20191022075615.956-13-armbru@redhat.com>
-In-Reply-To: <20191022075615.956-1-armbru@redhat.com>
-References: <20191022075615.956-1-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMp3i-0006nj-5l
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 03:58:26 -0400
+Received: from player793.ha.ovh.net (unknown [10.108.35.74])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 537DE22C1A6
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:58:23 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player793.ha.ovh.net (Postfix) with ESMTPSA id 8C0CEB391131;
+ Tue, 22 Oct 2019 07:58:11 +0000 (UTC)
+Subject: Re: qemu/powernv: coreboot support?
+To: "Marty E. Plummer" <hanetzer@startmail.com>
+References: <20191018172622.kz4smemh5cwesfit@proprietary-killer>
+ <21ba3404-dcd3-fe06-7725-d58e249f9fd2@kaod.org>
+ <20191019153108.gkupn3tnihspq7th@proprietary-killer>
+ <1cbd1882-15c8-5471-cd65-1c84c2920ba8@kaod.org>
+ <20191019160933.fizoc6tpu5jday4o@proprietary-killer>
+ <20191020062842.GI1960@umbus.fritz.box>
+ <0a7cbd9b-2c46-259d-4e0d-9084ee2875a3@kaod.org>
+ <20191021053439.GA6439@umbus.fritz.box>
+ <f196a1a6-fcbf-f409-e7e7-95b42135c0be@kaod.org>
+ <20191022003209.6ssq2ojiv57ixeyd@proprietary-killer>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <cfc2186f-52e2-53e8-bc3a-9511428542d0@kaod.org>
+Date: Tue, 22 Oct 2019 09:58:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 29bL_cRVNi2yuAAVLjbOFg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191022003209.6ssq2ojiv57ixeyd@proprietary-killer>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 13158955164694776787
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeeigdduvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 87.98.172.162
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,64 +67,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>
+Cc: Joel Stanley <joel@jms.id.au>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Krempa <pkrempa@redhat.com>
-
-'savevm' was buggy as it considered all monitor-owned block device
-nodes for snapshot. With the introduction of -blockdev, the common
-usage made all nodes including protocol and backing file nodes be
-monitor-owned and thus considered for snapshot.
-
-This is a problem since the 'file' protocol nodes can't have internal
-snapshots and it does not make sense to take snapshot of nodes
-representing backing files.
-
-This was fixed by commit 05f4aced658a02b02. Clients need to be able to
-detect whether this fix is present.
-
-Since savevm does not have an QMP alternative, add the feature for the
-'human-monitor-command' backdoor which is used to call this command in
-modern use.
-
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191018081454.21369-6-armbru@redhat.com>
----
- qapi/misc.json | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 6bd11f50e6..33b94e3589 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1020,6 +1020,12 @@
- #
- # @cpu-index: The CPU to use for commands that require an implicit CPU
- #
-+# Features:
-+# @savevm-monitor-nodes: If present, HMP command savevm only snapshots
-+#                        monitor-owned nodes if they have no parents.
-+#                        This allows the use of 'savevm' with
-+#                        -blockdev. (since 4.2)
-+#
- # Returns: the output of the command as a string
- #
- # Since: 0.14.0
-@@ -1047,7 +1053,8 @@
- ##
- { 'command': 'human-monitor-command',
-   'data': {'command-line': 'str', '*cpu-index': 'int'},
--  'returns': 'str' }
-+  'returns': 'str',
-+  'features': [ 'savevm-monitor-nodes' ] }
+On 22/10/2019 02:32, Marty E. Plummer wrote:
+> On Mon, Oct 21, 2019 at 02:46:59PM +0200, C=C3=A9dric Le Goater wrote:
+>> On 21/10/2019 07:34, David Gibson wrote:
+>>> On Sun, Oct 20, 2019 at 08:51:47AM +0200, C=C3=A9dric Le Goater wrote=
+:
+>>>> On 20/10/2019 08:28, David Gibson wrote:
+>>>>>
+>>>>> Ok.  Note that the qemu emulated machine doesn't model the hardware
+>>>>> right down to the level of hostboot.  That's wy we're just loading
+>>>>> skiboot and jumping straight into it usually.  I guess clg's stuff =
+to
+>>>>> load pnor images gets us a little closer to the hardware behaviour,
+>>>>> but I think it's still only a rough approximation.
+>>>>
+> On that note, is qemu-ppc64 currently capable of running LE firmware? M=
+y
+> coreboot port has currently reached a hitch in that part of the firmwar=
+e
+> headers mapping stuff out is saved in LE mode while the cpu (real or em=
+u)
+> is running in BE mode (FMAP headers are saved LE but CBFS headers are
+> saved BE)
+>>>> It's really tied to the OpenPOWER firmwares using the HIOMAP protoco=
+l
+>>>> to discuss with the BMC and load the flash. We could loosen how QEMU=
 =20
- ##
- # @change:
---=20
-2.21.0
+>>>> interprets the MTD device and use a property to inform QEMU that thi=
+s
+>>>> is an OpenPOWER  PNOR file and that skiboot and can be loaded from i=
+t.
+>>>> Something to discuss.
+>>>
+>>> Right.  I'm guessing one significant issue here is that to fully mode=
+l
+>>> the BMC, with *its* firmware and comms channels with the main host
+>>> would be quite a lot of work, hence cheating a bit to bypass that.
+>>
+>> In fact, we are not cheating that much. We use the IPMI BT interface o=
+f=20
+>> QEMU to handle the HIOMAP communication with the BMC and this model is=
+=20
+>> quite precise.=20
+>>
+>> The mapping of the PNOR is simply mapped on the LPC FW address space.=20
+>> The underlying access are simplified because we don't have a LPC model
+>> but we could generate all the SPI transaction using the Aspeed models.=
+=20
+>> I had experiments in that sense for P8.=20
+>>
+> Honestly getting the coreboot.rom into the lpc fw addr space in the sam=
+e
+> way you do pnor images would be a useful sim, as that's more or less ho=
+w
+> its going to be done on existing hardware.
 
+That is covered by patch 'ppc/pnv: Add HIOMAP commands' in the series
+I sent.
+
+C.=20
 
