@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26724E0CA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 21:35:38 +0200 (CEST)
-Received: from localhost ([::1]:42540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E8FE0D14
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 22:08:58 +0200 (CEST)
+Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMzwP-0005QZ-6h
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 15:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37490)
+	id 1iN0Se-0001SI-LT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 16:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iMznT-0004uu-VV
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:24 -0400
+ (envelope-from <clg@kaod.org>) id 1iN0Ri-0000wd-0F
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 16:07:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iMznS-00025t-Ph
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:23 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55491)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iMznS-00025H-Jb
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 15:26:22 -0400
-Received: by mail-wm1-x336.google.com with SMTP id g24so9415493wmh.5
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 12:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CR15GmJcpTxUHSy0ueYvJce2z343jSaRkeBQ2QiDxqA=;
- b=C6ZOa74EIOFdkz6DKBKo/YIFzj6BOKROAT4nnwiWM71zgqs8IiNsiCzoDtZvMlHxW9
- g8hKE3D5C/OLbKfW8naUSl9aWxo44MbNEXRkmZQRX5/vnT9dSOYA3ORMuyDUgBrpdiG4
- A+2tRZ5vKD+fu+6nHmnI0AenXp7MNqXpvDsV63f2J5tESleaYewu9c4jBm4lY2G3iQnY
- uWOPcEL1SLJAHkaIdUSvcttgtnWe/+15JZJ+ETkQPLVsgzUxXIfM7TqR8Oc+kYLeY6eQ
- F5Ucyc0ZeKA6DXX2ptUwiBbOXO+Q+XWREgA8faNB+Un8M0RNPagBW29aKHL36Y97WlrM
- Enpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CR15GmJcpTxUHSy0ueYvJce2z343jSaRkeBQ2QiDxqA=;
- b=XTKpwnI7JEQCAfjlHzQ5P3VWZZhTZpZnYaTg/cLhwvqGdWLi87qR7EIQiJ+4CvMV9p
- AJ/ShXPxKpk2zJ773ymNVbDK+qZgVtfbKu2CgtOYAcJkC18d5URBpyRixfUFkxk0EaAE
- ZX3YQrqkhmNuGbONxUWXwyZ35LYwCN4pcbiTYd67kF4nmpXcHmhbue4mrO1ZMLtQ1oOQ
- ThE0eEdJMm+6/+SC317/pPgHiB5N9ZXld8LpQ0gA1xiykLwnf5OWn2K7h0PZIfn2LKy7
- KQzZzJQqsYBSE6+1SiW9Nz6o+Hb+dZIKUXqfXEFhQt6V82MNUYK5hGuDDhyB37zoArT0
- ANOg==
-X-Gm-Message-State: APjAAAU1S+gZFy0UgeQQxrTo8xWX+ecT2f0XJlCblXdID1eqUP0MMCRV
- Xd2HsP6NzSF5v9FMCaakAlkhTA==
-X-Google-Smtp-Source: APXvYqzUTrHi1MiGsp2DEk4PxGSNBMDpTamEghgokyd8bFeOa4lJkxLPQPusnBF05ELsRV66qG/0Tg==
-X-Received: by 2002:a7b:cf05:: with SMTP id l5mr4278222wmg.119.1571772381393; 
- Tue, 22 Oct 2019 12:26:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h17sm20578690wme.6.2019.10.22.12.26.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 12:26:19 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F14421FF8C;
- Tue, 22 Oct 2019 20:17:05 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 19/19] iotests: Remove 130 from the "auto" group
-Date: Tue, 22 Oct 2019 20:17:04 +0100
-Message-Id: <20191022191704.6134-20-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191022191704.6134-1-alex.bennee@linaro.org>
-References: <20191022191704.6134-1-alex.bennee@linaro.org>
+ (envelope-from <clg@kaod.org>) id 1iN0Rf-0006QO-Ve
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 16:07:57 -0400
+Received: from 10.mo179.mail-out.ovh.net ([46.105.79.46]:59431)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iN0Rf-0006Pg-Gu
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 16:07:55 -0400
+Received: from player763.ha.ovh.net (unknown [10.108.54.87])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 247B9145D43
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 22:07:52 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player763.ha.ovh.net (Postfix) with ESMTPSA id 41CD4B4822EC;
+ Tue, 22 Oct 2019 20:07:46 +0000 (UTC)
+Subject: Re: [PATCH] aspeed: Add an AST2600 eval board
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191016090745.15334-1-clg@kaod.org>
+ <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
+ <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
+ <CAFEAcA8py1obBXc1o02wTRkXms9NwCnCT6Q9ZZ-4W=NzNocLrQ@mail.gmail.com>
+ <a0b2779c-bcd5-0fe9-ff3f-d4254aba8805@kaod.org>
+ <CAFEAcA9nymSxBkEm8GcJm9p4Y_obmK-fbojFEi+Et52H-mPFdA@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <5da3ef50-cf48-b5fd-f343-abac72774842@kaod.org>
+Date: Tue, 22 Oct 2019 22:07:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::336
+In-Reply-To: <CAFEAcA9nymSxBkEm8GcJm9p4Y_obmK-fbojFEi+Et52H-mPFdA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 7032370818775157568
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgddugeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.79.46
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,45 +63,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- stefanb@linux.vnet.ibm.com, John Snow <jsnow@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org, Max Reitz <mreitz@redhat.com>,
- cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On 22/10/2019 19:20, Peter Maydell wrote:
+> On Tue, 22 Oct 2019 at 18:16, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
+e:
+>> Is it time for me to install an OSX system for dev and tests or is the=
+re
+>> a way to reproduce the issue ? no errors spotted in valgrind.
+>=20
+> I dunno. You could have a look to see if you can repro
+> it with the travis builds. I would investigate but I
+> don't have time this week given impending softfreeze
+> and KVM Forum next week.
 
-Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
-'write' lock - Is another process using the image [TEST_DIR/t.IMGFMT]?"
-error with 130 already twice. Looks like this test is a little bit
-shaky, so for the time being, let's disable it from the "auto" group so
-that it does not gate the pull requests.
+Sure. I will reinstall a Mac I have under OSX.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191022072135.11188-7-thuth@redhat.com>
----
- tests/qemu-iotests/group | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 33b499ed410..4596497bced 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -151,7 +151,7 @@
- 127 rw auto backing quick
- 128 rw quick
- 129 rw quick
--130 rw auto quick
-+130 rw quick
- 131 rw quick
- 132 rw quick
- 133 auto quick
--- 
-2.20.1
-
+C.=20
 
