@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA79E0650
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:24:36 +0200 (CEST)
-Received: from localhost ([::1]:58820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD061E0609
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:10:31 +0200 (CEST)
+Received: from localhost ([::1]:58180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMv5P-0007D2-Kr
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
+	id 1iMurm-0005aa-2I
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iMuY4-0006iQ-0p
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:50:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMua8-0000Ri-V0
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:52:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iMuY0-0001RA-Sk
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:50:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37589
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iMuXy-0001Pb-RE
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:50:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571752202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X8qYxAI0WgSx6/CqYTtmZjD3iL28I4NbYPq9pRIVPNU=;
- b=ELNUak0znVNM9ZiOVIYhtcv70rqhEKh34YLfgmGahuYts1JtEIdQehtYGyzgfFwEKlnG7t
- qht6RqXwJolV8VJbFDFIaqcevRgRJmyc26bY3Rzd9pLTib1SxgCBUKJQYheY3WWr4ibwFt
- hUxT275i1BHRvD6+43cH1PjpuWKD/h0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-T-zk6OqVOVC4BXtf4backQ-1; Tue, 22 Oct 2019 09:50:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0275D800D4E;
- Tue, 22 Oct 2019 13:49:59 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EAAB4503;
- Tue, 22 Oct 2019 13:49:54 +0000 (UTC)
-Date: Tue, 22 Oct 2019 15:49:51 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 0/9] target/arm/kvm: enable SVE in guests
-Message-ID: <20191022134951.znjbk4piuiqwbveb@kamzik.brq.redhat.com>
-References: <20191016085408.24360-1-drjones@redhat.com>
- <CAFEAcA8pV5batrPk+J6RLU2rv9SNAmL8JS9Kd9tWP3pD-m29eA@mail.gmail.com>
- <3f54f759-9d6d-bf04-85aa-59c1cac31044@redhat.com>
- <20191021142336.e4xekqlmqv5txu5w@kamzik.brq.redhat.com>
- <CAFEAcA-bezS5tSVB+N223+N+xoYYYHuSJmDTaRCJgO+4Y=VjdQ@mail.gmail.com>
- <20191021161226.mnm6eomghb37xlby@kamzik.brq.redhat.com>
- <CAFEAcA-vHmtCi3HGqpu34sAaNxGeQwS_+0yZ5Hr4SbnGm+rjYA@mail.gmail.com>
- <CAFEAcA9o4G5yn0GzgdwvUnT_fEwRA7DChuV=miZaEvgavoU5xg@mail.gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iMua7-0002x5-T3
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:52:16 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:44013)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iMua7-0002wR-ON
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:52:15 -0400
+Received: by mail-oi1-x235.google.com with SMTP id t84so14185666oih.10
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TVirM9N+z9auapfxL//WdfFc5Vp5MVTgfhrL8YaxCe8=;
+ b=ub/YGZBbgTMud+yLVTMWhbndQQc24tkMpF9JtiY0/l0FnnHdaU14J5d0L+uMpR4lxp
+ ZLyaTiP/0QkI9K1SuR3DPs+WxJtSQZEh9j3P7ZCtLcy7JBaeet6WXUFNxGB+XwpI5s7q
+ gRw3M6VWQT92F4R5Ddugc00M+BA+tAdIZxeErd+JiM2s7Ag682v8AcjOoweQuf6TUgME
+ WZK0GGQXS55pNRHTfTphFfGb2RV/dEc2kBFGQy2XEYtJfBqvgMFLOZ4V+/YxtRJmWQjI
+ k2WwVXO6Rk9zzarP6vcGwyYXzMo5Ane6o0OzLCgUeyMh77XkxPyGlffM7xQ4AJbYtIgm
+ Y9ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TVirM9N+z9auapfxL//WdfFc5Vp5MVTgfhrL8YaxCe8=;
+ b=Tm9PQBcvP/Si8ka5KKm++5nKFysPolrjk73w4Mg9T5bGUSQ61Ul1cLLRbEO/Pp0JDy
+ EBKjX9H9yGZOR/Ww7Y2P+pmK1BX8h296KEyX4ROb4C6rjnTrWPx0D9Gi2qBjMWqONfzH
+ Oel2QDysmErakyveb9SHrEJMDP4iaFr06rIA0qybZAXS0tanJU+5lfRS7mRj5cDspjAD
+ HK1JcJ0RhXG7TBH2CctOiuMbxtdEASlCw97SDo349MSFH/M9ISajp4+7N6v21h9ckCsa
+ Lq4R4D2nN4jI3xcT/aSmWwuAoeSc0QokLPN8ood4lbBviXbPfZ5teK+qUyebC0mNjvU/
+ D7AA==
+X-Gm-Message-State: APjAAAWyZ/Sk1PSt2UOhv4e9bEOyOHU11VECrGa2/wa8jIfF65FD2XuT
+ dEZhLCOa/qBNujtgBA/3b67NV+QrWEeYq/jcpp37vM+pqlY=
+X-Google-Smtp-Source: APXvYqxggEb137VxG4G7QMYi3vbxA7OBgAq77uThIO1FWeduXSaAMUrhG+gfsgPyo/MpGd4jmE1a5mQMRz46dKYSPCo=
+X-Received: by 2002:aca:2b08:: with SMTP id i8mr2948411oik.146.1571752334606; 
+ Tue, 22 Oct 2019 06:52:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9o4G5yn0GzgdwvUnT_fEwRA7DChuV=miZaEvgavoU5xg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: T-zk6OqVOVC4BXtf4backQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191022095428.20780-1-cohuck@redhat.com>
+In-Reply-To: <20191022095428.20780-1-cohuck@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Oct 2019 14:52:03 +0100
+Message-ID: <CAFEAcA_GrAdAtOnn3DKqSJcdWaNM3+8FZdiWpdZOY0N-cDdnfg@mail.gmail.com>
+Subject: Re: [PULL 0/9] more s390x fixes
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::235
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,151 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Dave P Martin <Dave.Martin@arm.com>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 22, 2019 at 11:29:05AM +0100, Peter Maydell wrote:
-> On Mon, 21 Oct 2019 at 17:18, Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
-> >
-> > On Mon, 21 Oct 2019 at 17:12, Andrew Jones <drjones@redhat.com> wrote:
-> > >
-> > > On Mon, Oct 21, 2019 at 04:43:22PM +0100, Peter Maydell wrote:
-> > > > On Mon, 21 Oct 2019 at 15:23, Andrew Jones <drjones@redhat.com> wro=
-te:
-> > > > > Peter, would you mind running your test on the kvm32 machine with=
- this
-> > > > > change before I send a v7?
-> > > >
-> > > > Still fails:
-> > > >
-> > > > pm215@pm-ct:~/qemu/build/arm$
-> > > > QTEST_QEMU_BINARY=3Darm-softmmu/qemu-system-arm tests/arm-cpu-featu=
-res
-> > > > /arm/arm/query-cpu-model-expansion: OK
-> > > > /arm/arm/kvm/query-cpu-model-expansion: **
-> > > > ERROR:/home/pm215/qemu/tests/arm-cpu-features.c:498:test_query_cpu_=
-model_expansion_kvm:
-> > > > assertion failed: (resp_has_props(_resp))
-> > > > Aborted
-> > > >
-> > > > This is asserting on the line:
-> > > > 498             assert_has_not_feature(qts, "host", "sve");
-> > > >
-> > >
-> > > Oh, I see. It's not failing the specific absence of 'sve', but the te=
-st
-> > > code (assert_has_not_feature()) is assuming at least one property is
-> > > present. This isn't the case for kvm32 'host' cpus. They apparently
-> > > have none. We need this patch too, then
-> > >
-> > > diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-> > > index 14100ebd8521..9aa728ed8469 100644
-> > > --- a/tests/arm-cpu-features.c
-> > > +++ b/tests/arm-cpu-features.c
-> > > @@ -136,8 +136,8 @@ static bool resp_get_feature(QDict *resp, const c=
-har *feature)
-> > >  ({                                                                  =
-   \
-> > >      QDict *_resp =3D do_query_no_props(qts, cpu_type);              =
-     \
-> > >      g_assert(_resp);                                                =
-   \
-> > > -    g_assert(resp_has_props(_resp));                                =
-   \
-> > > -    g_assert(!qdict_get(resp_get_props(_resp), feature));           =
-   \
-> > > +    g_assert(!resp_has_props(_resp) ||                              =
-   \
-> > > +             !qdict_get(resp_get_props(_resp), feature));           =
-   \
-> > >      qobject_unref(_resp);                                           =
-   \
-> > >  })
-> >
-> > Yep, with that extra the test passes. I'm just rerunning the
-> > full 'make check'...
->=20
-> ...which passed OK. For the record, the changes on top of the
-> patchset were:
->=20
-> diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-> index 92668efb8f5..9aa728ed846 100644
-> --- a/tests/arm-cpu-features.c
-> +++ b/tests/arm-cpu-features.c
-> @@ -136,8 +136,8 @@ static bool resp_get_feature(QDict *resp, const
-> char *feature)
->  ({                                                                     \
->      QDict *_resp =3D do_query_no_props(qts, cpu_type);                  =
- \
->      g_assert(_resp);                                                   \
-> -    g_assert(resp_has_props(_resp));                                   \
-> -    g_assert(!qdict_get(resp_get_props(_resp), feature));              \
-> +    g_assert(!resp_has_props(_resp) ||                                 \
-> +             !qdict_get(resp_get_props(_resp), feature));              \
->      qobject_unref(_resp);                                              \
->  })
->=20
-> @@ -417,8 +417,6 @@ static void
-> test_query_cpu_model_expansion_kvm(const void *data)
->=20
->      qts =3D qtest_init(MACHINE "-accel kvm -cpu host");
->=20
-> -    assert_has_feature(qts, "host", "pmu");
-> -
->      if (g_str_equal(qtest_get_arch(), "aarch64")) {
->          bool kvm_supports_sve;
->          char max_name[8], name[8];
-> @@ -428,6 +426,7 @@ static void
-> test_query_cpu_model_expansion_kvm(const void *data)
->          char *error;
->=20
->          assert_has_feature(qts, "host", "aarch64");
-> +        assert_has_feature(qts, "host", "pmu");
->=20
->          assert_error(qts, "cortex-a15",
->              "We cannot guarantee the CPU type 'cortex-a15' works "
-> @@ -497,9 +496,6 @@ static void
-> test_query_cpu_model_expansion_kvm(const void *data)
->          }
->      } else {
->          assert_has_not_feature(qts, "host", "sve");
-> -        assert_error(qts, "host",
-> -                     "'pmu' feature not supported by KVM on this host",
-> -                     "{ 'pmu': true }");
->      }
->=20
->      qtest_quit(qts);
+On Tue, 22 Oct 2019 at 10:54, Cornelia Huck <cohuck@redhat.com> wrote:
+>
+> The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0b9:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-request' into staging (2019-10-18 14:13:11 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/cohuck/qemu tags/s390x-20191022
+>
+> for you to fetch changes up to de60a92ea7b7977854420c58fd98f38cb6de6de6:
+>
+>   s390x/kvm: Set default cpu model for all machine classes (2019-10-21 18:03:08 +0200)
+>
+> ----------------------------------------------------------------
+> s390x fixes in tcg vector instruction handling and in the
+> cpu model code
 >
 
-Thanks Peter!
 
-The changes look good to me. If we wanted to, we could also add
+Applied, thanks.
 
- assert_has_not_feature(qts, "host", "pmu");
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-in that kvm32 block where we have the
-
- assert_has_not_feature(qts, "host", "sve");
-
-and we could even add
-
- assert_has_not_feature(qts, "host", "aarch64");
-
-there as well.
-
-If I need to spin a v7, then I'll do that. I could also submit just those
-additions as another patch, though, or even just not worry too much about
-those cases and not add the tests...
-
-Thanks,
-drew
-
+-- PMM
 
