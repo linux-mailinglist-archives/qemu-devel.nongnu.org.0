@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A35E0A7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:21:35 +0200 (CEST)
-Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E6DE0A04
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:03:30 +0200 (CEST)
+Received: from localhost ([::1]:36576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxqg-0006HT-42
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:21:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42077)
+	id 1iMxZA-00038J-L0
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42381)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMxGN-0007EH-N0
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:44:08 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMxHh-0000Oj-9R
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:45:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMxGM-0008QH-Iq
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:44:03 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:32778)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMxHf-0000Zb-SX
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:45:25 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37368)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMxGM-0008Pt-9j
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:44:02 -0400
-Received: by mail-io1-xd44.google.com with SMTP id z19so21305642ior.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:44:02 -0700 (PDT)
+ id 1iMxHf-0000ZD-Kq
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:45:23 -0400
+Received: by mail-wm1-x335.google.com with SMTP id f22so16847985wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OCGkXFnU4OsZEBP/GIGg38T0H1SpL5cw+lVoLIDdrFk=;
- b=E4S7QWXhEMhUEowZIKmBh7NtC3VYJWELeOO4z0RVid7wdrxSOFh39pgpux5Wwb91m6
- 1Zt9ZwUEKD8X31S/fSLz7qikhRt67ZpKqxqZbCTRhb1fgvC2ZdpjjW3YDIpIdGv6gSxj
- tuvng9E6F+BQtqjsLSaX2eGVf3pt3Pd2vqfAQ/hZzHExeygo0r4a+ChoDahtt90ud7OK
- dGlpHvXN6gJOC/SqbgmTOcxGiJClU+e5OwPhzNpz4mZzXpdE01DX0YEj7Y4w2JxDwyzR
- lFZuXxX24/LaQJgBQQEeEK34b3kEdAxj0j8zdj9GThRQYQgdVY349nJYgy8/ZKZ9gltY
- qEDA==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QVge7cXCIY/J8VzoOmh7ufVtuSZJIoNxcx6cil5SDVk=;
+ b=HUxRQIwH/W/zSqdWZ+Jenrujb8AvgPgiIXlrKksiH+Kpmh27wc0bzRjZSpNVem+Fpl
+ mxM7hb1eSNWqIT1TrJjntinmGLzXp4Vec+jcjSV08tvfvSWOqk2FYZ5mqBSOQIthQhiP
+ gDc5EBiUYzIQQJyyvEpy+bfxJZWSiNN+myTfbFp+MXfFJwfi2i2lAmhjqFaU+nEtwUUP
+ 3xAUDvakFSOM78G1qq00JgKbTLSUPJTda2yB5vhu4JBRGwFb7n129n44FF6sjeAj/L1K
+ NOP4L70ZGPMe9MAzlxfd936tL4BdQmVIs4D5D8WHudVAvAbddjVF4IIRBYcDTGIg6djs
+ BSxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OCGkXFnU4OsZEBP/GIGg38T0H1SpL5cw+lVoLIDdrFk=;
- b=MFzglzhkQn07XrpYPfsRi7cDUJTuicajVpcT++kPds5TwOPtlE84Rovw4u6PiBtR4Q
- pO/noZ/XwR3XsLg0TcZeZLiNFnZVfEiMSgwAoWR310z00FsZowjdmhcJTLOGWXn4SR7g
- B/Q2ApYXj9NP5vUwg0hnCOWbdiiwBm9HYbq8ivQLeB/zAkJOz5lCkuoS5rAO4afbf8Qk
- 7tgEn1YpMLBt/nTyCUX4c8DAtjdcaGeASOzzVP+9NhflxfMcjhBNRYio79nDyWvkcgy+
- NMocXuVerxOJmsLWT1p6xsx7GTPFxYB5XEKNP1F3ZPS2WZXG9XD/9WxiWUsNN+MTCm+O
- tqjw==
-X-Gm-Message-State: APjAAAX96d2HPrmaPKGY0/nPbOTq/ZhEjfgv/UVZfO7jSp+13bV5ooN5
- 66QLN3nKgleY/XxK2Bw54LJoZc8MCjO3SyFSx+fFCw==
-X-Google-Smtp-Source: APXvYqx7ygXu+u+5ewqKKCnykk5aU4VAZDv/Zk+S532vUBJU1KZSJsnnznsugS9EVFI5yKODa29k12HGxQ67wzHB1jo=
-X-Received: by 2002:a5d:9a98:: with SMTP id c24mr4760068iom.203.1571762641397; 
- Tue, 22 Oct 2019 09:44:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191016090745.15334-1-clg@kaod.org>
- <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
- <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QVge7cXCIY/J8VzoOmh7ufVtuSZJIoNxcx6cil5SDVk=;
+ b=g9V7+BM2Yju/DbGe+vaZvuYvRWeKWFg0e7Qsbna2nb6P8b1CdYTrxudzI6resbr/dX
+ 1mL707u39sEAXX4XyQl7CsILWu7LPaK9YRs4cHhiz3LGk8E5OwuHLE7kZW/NNNM8endA
+ uW5+3Dbrx5heAJAFZYLwZcXkDBcClQxJJ4AaVVWf1G7TbDmRy59Q5SdI5I5zEqaygXbG
+ pXe6FsJQFdYfF58sGTzmuWY356MB2Lf8tBHvirvHbtu/52dZQTWU+LZcW/PvYrdEdZey
+ 1SCgBJ+W3BZE3V2ij0oSCWJW2AQ7T/+VEUrwb9qgFZDpbZlf4KyLXjbkbxZTC/Iqm66c
+ CGEA==
+X-Gm-Message-State: APjAAAUKpfGZfWhXh4h+93QntaCzOn582QC/GpcZSgHo6ekTYy6Fz3hJ
+ myB/0OWEbUpw78qdVZWA3eb2gOgj1zU=
+X-Google-Smtp-Source: APXvYqxNeBFOIxhEuyjRjAf17dL0gCIrP4IK36VP0tDf3M6GdQlbBeDxPv8IYX5PE3DEBQFOppTREw==
+X-Received: by 2002:a7b:c041:: with SMTP id u1mr3810517wmc.88.1571762721854;
+ Tue, 22 Oct 2019 09:45:21 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g10sm4396289wrr.28.2019.10.22.09.45.20
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Oct 2019 09:45:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Oct 2019 17:43:49 +0100
-Message-ID: <CAFEAcA8py1obBXc1o02wTRkXms9NwCnCT6Q9ZZ-4W=NzNocLrQ@mail.gmail.com>
-Subject: Re: [PATCH] aspeed: Add an AST2600 eval board
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: qemu-devel@nongnu.org
+Subject: [PULL v3 00/18] target-arm queue
+Date: Tue, 22 Oct 2019 17:45:18 +0100
+Message-Id: <20191022164518.6933-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +77,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Oct 2019 at 14:54, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> On Thu, 17 Oct 2019 at 07:33, Joel Stanley <joel@jms.id.au> wrote:
-> >
-> > On Wed, 16 Oct 2019 at 09:08, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
-e:
-> > >
-> > > Define the board with 1 GiB of RAM but some boards can have up to 2
-> > > GiB.
-> > >
-> > > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> > > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > > ---
-> > >
-> > >  Changes since AST2600 patchset:
-> > >
-> > >  - lowered the RAM size to 1 GiB as it was breaking the tests on some
-> > >    hosts.
-> >
-> > Peter,
-> >
-> > After chatting with C=C3=A9dric I agree we should merge this patch.
-> >
-> > As it turns out the EVBs have differing amounts of RAM; his has 1GB
-> > while mine has 2GB. So we are not being inaccurate by setting 1GB as
-> > the default here.
->
-> That's convenient, means we don't have to figure out how to
-> special-case the test infrastructure for it :-)
-
-This is now OK on the 32-bit boxes, but still fails 'make check'
-on my OSX system:
-
-manooth$ QTEST_QEMU_BINARY=3Daarch64-softmmu/qemu-system-aarch64
-tests/qom-test -p /aarch64/qom/ast2600-evb
-/aarch64/qom/ast2600-evb: Broken pipe
-/Users/pm215/src/qemu-for-merges/tests/libqtest.c:149: kill_qemu()
-detected QEMU death from signal 6 (Abort trap: 6)
-Abort trap: 6
-
-Dropping from the pullreq again :-(
+Changes v2->v3:
+dropped the aspeed new board patch as it fails in
+tests/qom-test on OSX (intermittently).
 
 thanks
 -- PMM
+
+The following changes since commit f9bec781379dd7ccf9d01b4b6a79a9ec82c192e5:
+
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20191022' into staging (2019-10-22 13:45:09 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191022-2
+
+for you to fetch changes up to 90600829b3355b8d27b791b893095c18f529aec3:
+
+  hw/arm/digic4: Inline digic4_board_setup_ram() function (2019-10-22 17:44:01 +0100)
+
+----------------------------------------------------------------
+ * Fix sign-extension for SMLAL* instructions
+ * Various ptimer device conversions to new transaction API
+ * Add a dummy Samsung SDHCI controller model to exynos4 boards
+ * Minor refactorings of RAM creation for some arm boards
+
+----------------------------------------------------------------
+Guenter Roeck (1):
+      hw/timer/exynos4210_mct: Initialize ptimer before starting it
+
+Peter Maydell (7):
+      hw/timer/arm_mptimer.c: Undo accidental rename of arm_mptimer_init()
+      hw/timer/puv3_ost.c: Switch to transaction-based ptimer API
+      hw/timer/sh_timer: Switch to transaction-based ptimer API
+      hw/timer/lm32_timer: Switch to transaction-based ptimer API
+      hw/timer/altera_timer.c: Switch to transaction-based ptimer API
+      hw/watchdog/etraxfs_timer.c: Switch to transaction-based ptimer API
+      hw/m68k/mcf5208.c: Switch to transaction-based ptimer API
+
+Philippe Mathieu-Daudé (9):
+      hw/sd/sdhci: Add a comment to distinct the i.MX eSDHC functions
+      hw/sd/sdhci: Add dummy Samsung SDHCI controller
+      hw/arm/exynos4210: Use the Samsung s3c SDHCI controller
+      hw/arm/xilinx_zynq: Use the IEC binary prefix definitions
+      hw/arm/mps2: Use the IEC binary prefix definitions
+      hw/arm/collie: Create the RAM in the board
+      hw/arm/omap2: Create the RAM in the board
+      hw/arm/omap1: Create the RAM in the board
+      hw/arm/digic4: Inline digic4_board_setup_ram() function
+
+Richard Henderson (1):
+      target/arm: Fix sign-extension for SMLAL*
+
+ hw/arm/strongarm.h        |  4 +--
+ include/hw/arm/omap.h     | 10 +++----
+ include/hw/sd/sdhci.h     |  2 ++
+ hw/arm/collie.c           |  8 ++++--
+ hw/arm/digic_boards.c     |  9 ++-----
+ hw/arm/exynos4210.c       |  2 +-
+ hw/arm/mps2-tz.c          |  3 ++-
+ hw/arm/mps2.c             |  3 ++-
+ hw/arm/nseries.c          | 10 ++++---
+ hw/arm/omap1.c            | 12 ++++-----
+ hw/arm/omap2.c            | 13 ++++-----
+ hw/arm/omap_sx1.c         |  8 ++++--
+ hw/arm/palm.c             |  8 ++++--
+ hw/arm/strongarm.c        |  7 +----
+ hw/arm/xilinx_zynq.c      |  3 ++-
+ hw/m68k/mcf5208.c         |  9 ++++---
+ hw/sd/sdhci.c             | 68 ++++++++++++++++++++++++++++++++++++++++++++++-
+ hw/timer/altera_timer.c   | 13 ++++++---
+ hw/timer/arm_mptimer.c    |  4 +--
+ hw/timer/etraxfs_timer.c  | 23 +++++++++-------
+ hw/timer/exynos4210_mct.c |  2 +-
+ hw/timer/lm32_timer.c     | 13 ++++++---
+ hw/timer/puv3_ost.c       |  9 ++++---
+ hw/timer/sh_timer.c       | 13 ++++++---
+ target/arm/translate.c    |  4 ++-
+ 25 files changed, 174 insertions(+), 86 deletions(-)
 
