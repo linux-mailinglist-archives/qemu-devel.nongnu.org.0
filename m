@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D510E0189
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:04:43 +0200 (CEST)
-Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B1FE01A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 12:10:01 +0200 (CEST)
+Received: from localhost ([::1]:52762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMr1u-0006aw-AO
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60374)
+	id 1iMr72-00050G-Lc
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 06:10:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iMqzB-0004iZ-Dd
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:01:54 -0400
+ (envelope-from <philmd@redhat.com>) id 1iMr6D-0004LR-5S
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:09:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iMqzA-0000In-4E
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:01:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33896
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iMr6B-0005VE-Af
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:09:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43126)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iMqz9-0000IJ-T7
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:01:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571738511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vkmro+l3+G+1mWsXlcDgUxYskuq0EJbbcrOVWe9fqCo=;
- b=afZADn0XFbZhnmqPOBQ1xXDig4XuwdeK1PKBIpIF+DLN56hH+kXfGQtFVkC8BrcZGrqhmp
- pmaXbhMMbT4RPtehxWuBpTDNP7pKkaMoCcn42S2RIvzmh9/cUgxbiVXkiiQvMunkY5hll+
- gB0QoE7BOERr7v8q/Dxu/rokO+xCUFY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-TnAh9E7bNxW28sOC9bpa1g-1; Tue, 22 Oct 2019 06:01:47 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iMr6B-0005U9-2R
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 06:09:07 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF1AE107AD31;
- Tue, 22 Oct 2019 10:01:46 +0000 (UTC)
-Received: from work-vm (ovpn-117-248.ams2.redhat.com [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D746B5D6A5;
- Tue, 22 Oct 2019 10:01:39 +0000 (UTC)
-Date: Tue, 22 Oct 2019 11:01:37 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH 11/30] virtiofsd: fuse: Make iov_length usable outside
- fuse_lowlevel.c
-Message-ID: <20191022100137.GC2815@work-vm>
-References: <20191021105832.36574-1-dgilbert@redhat.com>
- <20191021105832.36574-12-dgilbert@redhat.com>
- <CAJ+F1CKqbj-FgfyFTwDwwQgrE-D-UJJd4wHT2KjZ1HmrqHbNRw@mail.gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id D5A9485538
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 10:09:05 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id j14so8586411wrm.6
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 03:09:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cDIcC71X2j9LYsUN5sPmNj6EXJxvGKxWzrnLFwfa96M=;
+ b=I3CO6tsmnqu/7e5h2PAxiq7HXQg1HEzRoCseCEoQMvx9zjf+V0vIawM3713TrfiqO7
+ i6gKjBQk7nvYDKGRdcoU9gL4Tg1D6m5RdUVwKSM4JfunjAjUG4w9HEQrJMJNn3P3Oj4Z
+ GqjGGHsfoCjoLnoVNPzX0PtY6w3mTXg0c8A+kcfpAANlXwRkaR9gC3BbhfWn2dYB2nbs
+ x29gKDbedX/3jCARfEyXlfwy/quENSD+MWzyKKg0AYodvJnv9UtEh/WUYusXtCz279Kg
+ 6XbFfQupK8uhmGSppv5GZ9otxMuVkWf/pF0+tfJMIOZabsp/a+wfLMUuclkYOzB2P1A1
+ O22g==
+X-Gm-Message-State: APjAAAVKPdyBW8KLFIOJM8C1NeHRVQ4fSFerJ/nretkZRIVo00R2Kq1A
+ TyyvtFwm58SaecpG9LbFfzGR8+/YxYpfdq1VOmbFllyIannEDwRIuH+g3qSZRU+duzREtFL/pFO
+ FOs+vpZPztb15lgA=
+X-Received: by 2002:adf:b219:: with SMTP id u25mr2579502wra.327.1571738944624; 
+ Tue, 22 Oct 2019 03:09:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwi5wHiKhxAtgMDwyR2/pEx6MJWzdYADcmQ7oliJoFdviyyJI7d3qbM+MbGjcSKc0iW3nsRYg==
+X-Received: by 2002:adf:b219:: with SMTP id u25mr2579475wra.327.1571738944403; 
+ Tue, 22 Oct 2019 03:09:04 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id f7sm10525268wre.68.2019.10.22.03.09.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2019 03:09:03 -0700 (PDT)
+Subject: Re: [PATCH v2 03/20] piix4: Add a i8259 Interrupt Controller as
+ specified in datasheet
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20191018134754.16362-1-philmd@redhat.com>
+ <20191018134754.16362-4-philmd@redhat.com>
+ <CAL1e-=hOQqRj2_QA8LqWdsD9JM6t6YzoyxC1cEaMBhs1vmN8oA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a6aee537-f433-a350-1679-fcb402cabccd@redhat.com>
+Date: Tue, 22 Oct 2019 12:09:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CKqbj-FgfyFTwDwwQgrE-D-UJJd4wHT2KjZ1HmrqHbNRw@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: TnAh9E7bNxW28sOC9bpa1g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+In-Reply-To: <CAL1e-=hOQqRj2_QA8LqWdsD9JM6t6YzoyxC1cEaMBhs1vmN8oA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,86 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- piaojun@huawei.com, Stefan Hajnoczi <stefanha@redhat.com>,
- eguan@linux.alibaba.com, vgoyal@redhat.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-Andr=E9 Lureau (marcandre.lureau@gmail.com) wrote:
-> Hi
+On 10/22/19 11:53 AM, Aleksandar Markovic wrote:
 >=20
-> On Mon, Oct 21, 2019 at 1:24 PM Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 >=20
-> Similar function already exists in util/iov.c, iov_size()
+> On Friday, October 18, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com=20
+> <mailto:philmd@redhat.com>> wrote:
 >=20
-> Perhaps you could link with util/iov.o and others to avoid code duplicati=
-on.
+>     From: Herv=C3=A9 Poussineau <hpoussin@reactos.org
+>     <mailto:hpoussin@reactos.org>>
+>=20
+>     Add ISA irqs as piix4 gpio in, and CPU interrupt request as piix4
+>     gpio out.
+>     Remove i8259 instanciated in malta board, to not have it twice.
+>=20
+>     We can also remove the now unused piix4_init() function.
+>=20
+>     Acked-by: Michael S. Tsirkin <mst@redhat.com <mailto:mst@redhat.com=
+>>
+>     Acked-by: Paolo Bonzini <pbonzini@redhat.com
+>     <mailto:pbonzini@redhat.com>>
+>     Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org
+>     <mailto:hpoussin@reactos.org>>
+>     Message-Id: <20171216090228.28505-8-hpoussin@reactos.org
+>     <mailto:20171216090228.28505-8-hpoussin@reactos.org>>
+>     Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com
+>     <mailto:amarkovic@wavecomp.com>>
+>     [PMD: rebased, updated includes, use ISA_NUM_IRQS in for loop]
+>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
+>     <mailto:philmd@redhat.com>>
+>     ---
+>      =C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 43 ++++++++++++++=
+++++++++++++++++++-----------
+>      =C2=A0hw/mips/mips_malta.c | 32 +++++++++++++-------------------
+>      =C2=A0include/hw/i386/pc.h |=C2=A0 1 -
+>      =C2=A03 files changed, 45 insertions(+), 31 deletions(-)
+>=20
+>=20
+>=20
+> A detail: In the title:
+> Add a i8259=C2=A0 -> Add an i8259
 
-Done.
-(It's a shame there's no iov_* functions in glib; every project
-reinvents iov_ functions).
-
-Dave
-
->=20
-> > ---
-> >  contrib/virtiofsd/fuse_lowlevel.c | 2 +-
-> >  contrib/virtiofsd/fuse_lowlevel.h | 9 +++++++++
-> >  2 files changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse=
-_lowlevel.c
-> > index 5ea113ab49..ff68ec0c9d 100644
-> > --- a/contrib/virtiofsd/fuse_lowlevel.c
-> > +++ b/contrib/virtiofsd/fuse_lowlevel.c
-> > @@ -74,7 +74,7 @@ static void convert_attr(const struct fuse_setattr_in=
- *attr, struct stat *stbuf)
-> >         ST_CTIM_NSEC_SET(stbuf, attr->ctimensec);
-> >  }
-> >
-> > -static size_t iov_length(const struct iovec *iov, size_t count)
-> > +size_t iov_length(const struct iovec *iov, size_t count)
-> >  {
-> >         size_t seg;
-> >         size_t ret =3D 0;
-> > diff --git a/contrib/virtiofsd/fuse_lowlevel.h b/contrib/virtiofsd/fuse=
-_lowlevel.h
-> > index 018e7c0be0..84379a4761 100644
-> > --- a/contrib/virtiofsd/fuse_lowlevel.h
-> > +++ b/contrib/virtiofsd/fuse_lowlevel.h
-> > @@ -2000,6 +2000,15 @@ void fuse_session_process_buf(struct fuse_sessio=
-n *se,
-> >   */
-> >  int fuse_session_receive_buf(struct fuse_session *se, struct fuse_buf =
-*buf);
-> >
-> > +/**
-> > + * General utility to get the length of an iov, not Fuse specific
-> > + *
-> > + * @param iov The iovec to get the length of
-> > + * @param count Number of entries in the iovec
-> > + * @return the total length of iov in bytes
-> > + */
-> > +size_t iov_length(const struct iovec *iov, size_t count);
-> > +
-> >  #ifdef __cplusplus
-> >  }
-> >  #endif
-> > --
-> > 2.23.0
-> >
-> >
->=20
->=20
-> --=20
-> Marc-Andr=E9 Lureau
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+OK.
 
