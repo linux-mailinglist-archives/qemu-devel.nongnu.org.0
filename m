@@ -2,46 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7B5E0314
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:38:36 +0200 (CEST)
-Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B60E02E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:30:20 +0200 (CEST)
+Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsUl-0002eH-U6
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:38:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45079)
+	id 1iMsMl-0002C0-0y
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45497)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@pond.sub.org>) id 1iMsFf-0002WT-J6
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:23:01 -0400
+ (envelope-from <groug@kaod.org>) id 1iMsKH-0000SN-Qc
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:27:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@pond.sub.org>) id 1iMsFe-0000sZ-3E
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:22:59 -0400
-Received: from oxygen.pond.sub.org ([2a01:4f8:13b:3ad0:1::3]:46688)
+ (envelope-from <groug@kaod.org>) id 1iMsKG-0002iX-EW
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:27:45 -0400
+Received: from 10.mo173.mail-out.ovh.net ([46.105.74.148]:49433)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@pond.sub.org>) id 1iMsFd-0000py-Pe
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:22:58 -0400
-Received: from blackfin.pond.sub.org
- (p200300D36F484800DACB8AFFFEE0C842.dip0.t-ipconnect.de
- [IPv6:2003:d3:6f48:4800:dacb:8aff:fee0:c842])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by oxygen.pond.sub.org (Postfix) with ESMTPSA id E0AAE4A9F4;
- Tue, 22 Oct 2019 13:22:52 +0200 (CEST)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3203B1138619; Tue, 22 Oct 2019 13:22:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v13 00/12] Build ACPI Heterogeneous Memory Attribute Table
- (HMAT)
-References: <20191020111125.27659-1-tao3.xu@intel.com>
-Date: Tue, 22 Oct 2019 13:22:50 +0200
-Message-ID: <87v9sh10tx.fsf@dusky.pond.sub.org>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iMsKG-0002hw-5i
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:27:44 -0400
+Received: from player698.ha.ovh.net (unknown [10.109.143.249])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 98ED311D504
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 13:27:41 +0200 (CEST)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player698.ha.ovh.net (Postfix) with ESMTPSA id B0250B3E64BE;
+ Tue, 22 Oct 2019 11:27:33 +0000 (UTC)
+Date: Tue, 22 Oct 2019 13:27:28 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v3 4/4] spapr/xive: Set the OS CAM line at reset
+Message-ID: <20191022132728.17a86789@bahia.lan>
+In-Reply-To: <20191022072246.9200-5-clg@kaod.org>
+References: <20191022072246.9200-1-clg@kaod.org>
+ <20191022072246.9200-5-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:13b:3ad0:1::3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 16693999397685401995
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.74.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,113 +57,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, jonathan.cameron@huawei.com, imammedo@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I just stumbled over this series.  It touches the QAPI visitors and even
-the generator, without cc'ing its maintainers.  Such changes require
-review.  There's precious little time until the soft freeze now.  I'll
-try, but no promises.
+On Tue, 22 Oct 2019 09:22:46 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Please cc me and Michael Roth <mdroth@linux.vnet.ibm.com> on future
-revisions.
+> When a Virtual Processor is scheduled to run on a HW thread, the
+> hypervisor pushes its identifier in the OS CAM line. When running with
+> kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
+>=20
+> Set the OS CAM line when the interrupt presenter of the sPAPR core is
+> reseted. This will also cover the case of hot-plugged CPUs.
+>=20
+> This change also has the benefit to remove the use of CPU_FOREACH()
+> which can be unsafe.
+>=20
 
-In general, peruse output of scripts/get_maintainer.pl to find relevant
-maintainers.
+CPU_FOREACH() is indeed an unsafe way to loop on presenters. There
+are some other users in XICS and XIVE that do cause QEMU to crash.
+I shall send fixes as soon as this series reaches ppc-for-4.2.
 
-Tao Xu <tao3.xu@intel.com> writes:
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
 
-> This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
-> according to the command line. The ACPI HMAT describes the memory attributes,
-> such as memory side cache attributes and bandwidth and latency details,
-> related to the Memory Proximity Domain.
-> The software is expected to use HMAT information as hint for optimization.
->
-> In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
-> the platform's HMAT tables.
->
-> The V12 patches link:
-> https://patchwork.kernel.org/cover/11153861/
->
-> Changelog:
-> v13:
->     - Modify some text description
->     - Drop "initiator_valid" field in struct NodeInfo
->     - Reuse Garray to store the raw bandwidth and bandwidth data
->     - Calculate common base unit using range bitmap
->     - Add a patch to alculate hmat latency and bandwidth entry list
->     - Drop the total_levels option and use readable cache size
->     - Remove the unnecessary head file
->     - Use decimal notation with appropriate suffix for cache size
-> v12:
->     - Fix a bug that a memory-only node without initiator setting
->       doesn't report error. (reported by Danmei Wei)
->     - Fix a bug that if HMAT is enabled and without hmat-lb setting,
->       QEMU will crash. (reported by Danmei Wei)
-> v11:
->     - Move numa option patches forward.
->     - Add num_initiator in Numa_state to record the number of
->     initiators.
->     - Simplify struct HMAT_LB_Info, use uint64_t array to store data.
->     - Drop hmat_get_base().
->     - Calculate base in build_hmat_lb().
-> v10:
->     - Add qemu_strtotime_ps() to convert strings with time suffixes
->     to numbers, and add some tests for it.
->     - Add qapi buildin type time, and add some tests for it.
->     - Add machine oprion properties "-machine hmat=on|off" for
-> 	  enabling or disabling HMAT in QEMU.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-I guess this is where you started messing with QAPI.  Seven weeks ago.
-The time crunch is of your own making, I'm afraid.
+>  include/hw/ppc/spapr_xive.h |  1 -
+>  hw/intc/spapr_xive.c        | 48 +++++++++++++------------------------
+>  2 files changed, 17 insertions(+), 32 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> index d84bd5c229f0..742b7e834f2a 100644
+> --- a/include/hw/ppc/spapr_xive.h
+> +++ b/include/hw/ppc/spapr_xive.h
+> @@ -57,7 +57,6 @@ typedef struct SpaprXive {
+>  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+> =20
+>  void spapr_xive_hcall_init(SpaprMachineState *spapr);
+> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+>  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+>  void spapr_xive_map_mmio(SpaprXive *xive);
+> =20
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index 20a8d8285f64..d8e1291905c3 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -205,23 +205,6 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
+ol enable)
+>      memory_region_set_enabled(&xive->end_source.esb_mmio, false);
+>  }
+> =20
+> -/*
+> - * When a Virtual Processor is scheduled to run on a HW thread, the
+> - * hypervisor pushes its identifier in the OS CAM line. Emulate the
+> - * same behavior under QEMU.
+> - */
+> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
+> -{
+> -    uint8_t  nvt_blk;
+> -    uint32_t nvt_idx;
+> -    uint32_t nvt_cam;
+> -
+> -    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
+> -
+> -    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
+_idx));
+> -    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
+> -}
+> -
+>  static void spapr_xive_end_reset(XiveEND *end)
+>  {
+>      memset(end, 0, sizeof(*end));
+> @@ -544,21 +527,32 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
+tController *intc,
+>      }
+> =20
+>      spapr_cpu->tctx =3D XIVE_TCTX(obj);
+> -
+> -    /*
+> -     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
+> -     * don't beneficiate from the reset of the XIVE IRQ backend
+> -     */
+> -    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
+>      return 0;
+>  }
+> =20
+> +static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t os_cam)
+> +{
+> +    uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | os_cam);
+> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
+> +}
+> +
+>  static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+>                                       PowerPCCPU *cpu)
+>  {
+>      XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
+> +    uint8_t  nvt_blk;
+> +    uint32_t nvt_idx;
+> =20
+>      xive_tctx_reset(tctx);
+> +
+> +    /*
+> +     * When a Virtual Processor is scheduled to run on a HW thread,
+> +     * the hypervisor pushes its identifier in the OS CAM line.
+> +     * Emulate the same behavior under QEMU.
+> +     */
+> +    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
+> +
+> +    xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
+>  }
+> =20
+>  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
+int val)
+> @@ -651,14 +645,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
+intc, uint32_t nr_servers,
+>  static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
+rrp)
+>  {
+>      SpaprXive *xive =3D SPAPR_XIVE(intc);
+> -    CPUState *cs;
+> -
+> -    CPU_FOREACH(cs) {
+> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -
+> -        /* (TCG) Set the OS CAM line of the thread interrupt context. */
+> -        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+> -    }
+> =20
+>      if (kvm_enabled()) {
+>          int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
 
-> v9:
->     - change the CLI input way, make it more user firendly (Daniel Black)
->     use latency=NUM[p|n|u]s and bandwidth=NUM[M|G|P](B/s) as input and drop
->     the base-lat and base-bw input.
-> Liu Jingqi (5):
->   numa: Extend CLI to provide memory latency and bandwidth information
->   numa: Extend CLI to provide memory side cache information
->   hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
->   hmat acpi: Build System Locality Latency and Bandwidth Information
->     Structure(s)
->   hmat acpi: Build Memory Side Cache Information Structure(s)
->
-> Tao Xu (7):
->   util/cutils: Add qemu_strtotime_ps()
->   tests/cutils: Add test for qemu_strtotime_ps()
->   qapi: Add builtin type time
->   tests: Add test for QAPI builtin type time
->   numa: Extend CLI to provide initiator information for numa nodes
->   numa: Calculate hmat latency and bandwidth entry list
->   tests/bios-tables-test: add test cases for ACPI HMAT
->
->  hw/acpi/Kconfig                    |   7 +-
->  hw/acpi/Makefile.objs              |   1 +
->  hw/acpi/hmat.c                     | 263 +++++++++++++++++++++++++++
->  hw/acpi/hmat.h                     |  42 +++++
->  hw/core/machine.c                  |  70 ++++++++
->  hw/core/numa.c                     | 273 ++++++++++++++++++++++++++++-
->  hw/i386/acpi-build.c               |   5 +
->  include/qapi/visitor-impl.h        |   4 +
->  include/qapi/visitor.h             |   9 +
->  include/qemu/cutils.h              |   1 +
->  include/sysemu/numa.h              | 104 +++++++++++
->  qapi/machine.json                  | 179 ++++++++++++++++++-
->  qapi/opts-visitor.c                |  22 +++
->  qapi/qapi-visit-core.c             |  12 ++
->  qapi/qobject-input-visitor.c       |  18 ++
->  qapi/trace-events                  |   1 +
->  qemu-options.hx                    |  96 +++++++++-
->  scripts/qapi/common.py             |   1 +
->  tests/bios-tables-test.c           |  44 +++++
->  tests/test-cutils.c                | 199 +++++++++++++++++++++
->  tests/test-keyval.c                | 125 +++++++++++++
->  tests/test-qobject-input-visitor.c |  29 +++
->  util/cutils.c                      |  82 +++++++++
->  23 files changed, 1575 insertions(+), 12 deletions(-)
->  create mode 100644 hw/acpi/hmat.c
->  create mode 100644 hw/acpi/hmat.h
 
