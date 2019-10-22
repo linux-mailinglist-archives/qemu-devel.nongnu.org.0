@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A919DFF37
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:16:28 +0200 (CEST)
-Received: from localhost ([::1]:51422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D03DFF4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:22:29 +0200 (CEST)
+Received: from localhost ([::1]:51488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpL9-0006mP-5M
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:16:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
+	id 1iMpQy-0006SM-62
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMpGG-0002hh-QR
+ (envelope-from <laurent@vivier.eu>) id 1iMpGH-0002iq-1h
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMpGF-00054T-Ho
+ (envelope-from <laurent@vivier.eu>) id 1iMpGF-00054e-Oi
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:24 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:55701)
+Received: from mout.kundenserver.de ([212.227.17.10]:57585)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGF-00053g-7z
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGF-00053l-FW
  for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:23 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MF45G-1iGAM33J8K-00FRiM; Tue, 22 Oct 2019 10:11:19 +0200
+ id 1MvJjz-1i5Qpl17qL-00rIdv; Tue, 22 Oct 2019 10:11:20 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/11] linux-user/strace: Dump AF_NETLINK sockaddr content
-Date: Tue, 22 Oct 2019 10:11:00 +0200
-Message-Id: <20191022081104.11814-8-laurent@vivier.eu>
+Subject: [PULL 08/11] linux-user/strace: Add print_sockfd()
+Date: Tue, 22 Oct 2019 10:11:01 +0200
+Message-Id: <20191022081104.11814-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022081104.11814-1-laurent@vivier.eu>
 References: <20191022081104.11814-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:DESsI0QzkWz1nsQbcal9gf9LarrsZojwOWRoWfhXnSB6PiAk9J0
- HmHMa349MQ/A2yJ7oxS8THE4ccjvm/5HADO1EEQSX5EOxuQ4wX4BQlQ2ZEC7zITDySJqcKF
- O14pXkgyYAhLbIq6q528N9IrmbPfsF2iVNtJFn1D2GoSAmICcv+ZYKOHpGe/AuAGWKX0aOt
- WGsMKH9s+6MUMQl9yymsA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s4Tb9goKibs=:O+4G6uWWuVfeER3YZyJbzq
- F9aW3+zrOnrxMdHdPuBJzcgLvItCNS190WrzXDwzUBgUjCFhYSwm0JhZyT2zyXg6XUeLjOCql
- 4t/e7SehfklTMw0LIWhQlwyWLPy5dEDEYj7NsT2p8HNQfl4hBIjEnQUac+UfdQIaC1TxvoXS7
- oHzkiwdh5vq9KRnkJsuykzNgR06Xm0YXNJvad4FtBeO/DZ4sWxZNLJUIvPhqtbujvMD8gfR+8
- qJ8BT8+7CoAZweyj2cBAqkVUa+9B8oyo1Iquh2wHEw4vvmQlz+Ng4Zd/oSx9XmbRpNgXRutJD
- XvEhgzwsJAe09nU2v75OoPyHj4dYHPIxsnsSnNga1DYdz14WsUEeagD9VFZAZvE3Af5/5QM8C
- zpa+UmYg4OEJ2yR0zoxLS1P/Mq8Uew02nSRvVBM/a/JSs/IKInWALhnZ6H7BOXbkfsati83Mh
- 9Swg0wUSsDeadgpm9rJQcLzu39jgUn7FmHLYv2yzCQI9OcnwTDFfFSWbgEs4AnWZAB8HUnBjf
- D6xSeV2HPyPeqDjnPXOxWaoSagQjf1uzc0z2nP3zUusQl+rFHAac/K1rSdd+/8XMa//0thytU
- jDhShrjEfwtVI5A3YSxC0M8gWopprZXOSBZmSGokbCsl+w+438JxeD1el93O8EP3D1Hj9ep2Y
- M++35S1knKga4Fgi3stRJ9tczkcQvHxvyEw6CCCkF8/F4uXsQ3KTTyVR4zWlQZUcnNgOl3t6K
- dy39WbG5Z8SvodnGEirOA4kKX4l/28FOR08ZXgtm7+RT219VDO+453OHDrpS+jxu9JyrLFlKg
- WhkSZ47bHqFK3O600URAIf7W/QsiG7eHunUodxseuYsDD7qD7aD6NfEUkGIZRy5N1uLkiTXXX
- BCSo0OjDWoIfIMaMird21gCanoKdx0zHl1GnI7Baw=
+X-Provags-ID: V03:K1:aIxCoJcwnpaYf33vOCZNVpNcU8+ktlueahCgsyBYALPNleEqRrq
+ VLY8HeEUPQB1HZedvhpjwOGSBs/iRUcK9nOkfde4xYS8ftkFw3zUKXlAC84D+javr+vQyDL
+ h8FhltB1jvpLeQp/BOGc0tZnCe3Z77Zm+4nZc0a1Tm+VUfgGWBJoXBNfS7VJz55661LwC6k
+ RdQott0w5Hi3ZfjrIGmpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7BAujVHsBMs=:KdfPWzQrTCNgCcHSq0ttXM
+ 4h3JrV17J6ulNAXMB9juvApYC5pKKi3hu3fIRlch+CKB4QX3O5JelS2C95/Gc//NRqtWSnDDy
+ n8vfkQbAxRVFZdDot/G3dUHrql4vpzgcnwMsWEGW+IlYjqsYEi726cyK6C2mklCyR2skCxK07
+ jDlIfg46fPsAaqP8NsHBVzCLfOx+Yfy6tEK9b3uQ2ImgtdC7ZodNpcc95cbLZz0OLvnZ68Sj/
+ IGX0X/b429g2Du8k9y6c7LlOl2arzYT3Auk8ZWMKfew5eC3N+VEaYcwDrY/CKXCJnZ5wxOMDI
+ vpUYfWKVnWZ3HBc+qgYxsE5pQoECRnNLtHEFYBKr0JIFIM7Iq5fa/kgczGJskmjqsn9TR9tzk
+ NmA+fWvs0Lb8pJ4CEkAUi0H2J/aHESLI9QR69QxlbF3hm0agbOvBZk5/YOMMxh5iOoWJCIlf9
+ XRFmH3yiaRL44JjiUu/S6IEgGJ9PPFMBKJmtGSEM3jyOY6ZXlZpehpM+rLl8AK/kOMQyu9I09
+ t3HXgmk2U+oI9TFeslPtQm0UGbRmMUkXYiRuIV/g/p9PzVRwxaMjUAcjwDT9L8h5C3062QgrQ
+ OeV4CA/P4tbtB+uo7I+YsT49v6xSzDdef6/rF/X91pSAD1fQ3Iua+sO45HIlC7Gx7jkWGCz2L
+ qGOMltlu6MopFVJ0urPN7e94YG3759Nc9Nef9+QF44fEABOiOTs5tWkAAxKN4DdHGAC9x8Pxl
+ ABTmtNcSYxZ1AOsJg/sBsJQ4LD1MdesBAiKmrGzaguT83eRbCFqPLFJaFPzIGzpp2pMRrmC0S
+ ZHrX4yx0g8i2C/9ajQFL4a04d5WYOqRQlvU69uHzM5wPZQr1yWYQlteI8I1aF+LRUJDwRdNod
+ N8c6sY9vXsRKraZwCXDHZYGooxWBzCxugQrAoq5P8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.17.10
@@ -66,92 +66,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-By: Guido Günther <agx@sigxcpu.org>
+Extract common print_sockfd() from various socket related syscalls.
+
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191021114857.20538-6-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20191021114857.20538-7-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ linux-user/strace.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index fd5596a64074..5fa7748427f0 100644
+index 5fa7748427f0..0ce2b658a52d 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -8,6 +8,7 @@
- #include <arpa/inet.h>
- #include <netinet/tcp.h>
- #include <linux/if_packet.h>
-+#include <linux/netlink.h>
- #include <sched.h>
- #include "qemu.h"
+@@ -1709,6 +1709,15 @@ print_socket(const struct syscallname *name,
  
-@@ -398,6 +399,12 @@ print_sockaddr(abi_ulong addr, abi_long addrlen)
-             gemu_log("}");
-             break;
-         }
-+        case AF_NETLINK: {
-+            struct target_sockaddr_nl *nl = (struct target_sockaddr_nl *)sa;
-+            gemu_log("{nl_family=AF_NETLINK,nl_pid=%u,nl_groups=%u}",
-+                     tswap32(nl->nl_pid), tswap32(nl->nl_groups));
-+            break;
-+        }
-         default:
-             gemu_log("{sa_family=%d, sa_data={", sa->sa_family);
-             for (i = 0; i < 13; i++) {
-@@ -424,6 +431,9 @@ print_socket_domain(int domain)
-     case PF_INET:
-         gemu_log("PF_INET");
-         break;
-+    case PF_NETLINK:
-+        gemu_log("PF_NETLINK");
-+        break;
-     case PF_PACKET:
-         gemu_log("PF_PACKET");
-         break;
-@@ -473,6 +483,33 @@ print_socket_protocol(int domain, int type, int protocol)
-         return;
-     }
+ #if defined(TARGET_NR_socketcall)
  
-+    if (domain == PF_NETLINK) {
-+        switch (protocol) {
-+        case NETLINK_ROUTE:
-+            gemu_log("NETLINK_ROUTE");
-+            break;
-+        case NETLINK_AUDIT:
-+            gemu_log("NETLINK_AUDIT");
-+            break;
-+        case NETLINK_NETFILTER:
-+            gemu_log("NETLINK_NETFILTER");
-+            break;
-+        case NETLINK_KOBJECT_UEVENT:
-+            gemu_log("NETLINK_KOBJECT_UEVENT");
-+            break;
-+        case NETLINK_RDMA:
-+            gemu_log("NETLINK_RDMA");
-+            break;
-+        case NETLINK_CRYPTO:
-+            gemu_log("NETLINK_CRYPTO");
-+            break;
-+        default:
-+            gemu_log("%d", protocol);
-+            break;
-+        }
-+        return;
-+    }
++static void print_sockfd(abi_long sockfd, int last)
++{
++    print_raw_param(TARGET_ABI_FMT_ld, sockfd, last);
++}
 +
-     switch (protocol) {
-     case IPPROTO_IP:
-         gemu_log("IPPROTO_IP");
++#endif
++
++#if defined(TARGET_NR_socketcall)
++
+ #define get_user_ualx(x, gaddr, idx) \
+         get_user_ual(x, (gaddr) + (idx) * sizeof(abi_long))
+ 
+@@ -1741,7 +1750,7 @@ static void do_print_sockaddr(const char *name, abi_long arg1)
+     get_user_ualx(addrlen, arg1, 2);
+ 
+     gemu_log("%s(", name);
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     print_sockaddr(addr, addrlen);
+     gemu_log(")");
+ }
+@@ -1754,7 +1763,7 @@ static void do_print_listen(const char *name, abi_long arg1)
+     get_user_ualx(backlog, arg1, 1);
+ 
+     gemu_log("%s(", name);
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     print_raw_param(TARGET_ABI_FMT_ld, backlog, 1);
+     gemu_log(")");
+ }
+@@ -1789,7 +1798,7 @@ static void do_print_sendrecv(const char *name, abi_long arg1)
+     get_user_ualx(flags, arg1, 3);
+ 
+     gemu_log("%s(", name);
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     print_buf(msg, len, 0);
+     print_raw_param(TARGET_ABI_FMT_ld, len, 0);
+     print_flags(msg_flags, flags, 1);
+@@ -1808,7 +1817,7 @@ static void do_print_msgaddr(const char *name, abi_long arg1)
+     get_user_ualx(addrlen, arg1, 5);
+ 
+     gemu_log("%s(", name);
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     print_buf(msg, len, 0);
+     print_raw_param(TARGET_ABI_FMT_ld, len, 0);
+     print_flags(msg_flags, flags, 0);
+@@ -1824,7 +1833,7 @@ static void do_print_shutdown(const char *name, abi_long arg1)
+     get_user_ualx(how, arg1, 1);
+ 
+     gemu_log("shutdown(");
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     switch (how) {
+     case SHUT_RD:
+         gemu_log("SHUT_RD");
+@@ -1851,7 +1860,7 @@ static void do_print_msg(const char *name, abi_long arg1)
+     get_user_ualx(flags, arg1, 2);
+ 
+     gemu_log("%s(", name);
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     print_pointer(msg, 0);
+     print_flags(msg_flags, flags, 1);
+     gemu_log(")");
+@@ -1868,7 +1877,7 @@ static void do_print_sockopt(const char *name, abi_long arg1)
+     get_user_ualx(optlen, arg1, 4);
+ 
+     gemu_log("%s(", name);
+-    print_raw_param(TARGET_ABI_FMT_ld, sockfd, 0);
++    print_sockfd(sockfd, 0);
+     switch (level) {
+     case SOL_TCP:
+         gemu_log("SOL_TCP,");
 -- 
 2.21.0
 
