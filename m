@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6A3E05AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:59:40 +0200 (CEST)
-Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AAAE056F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:47:15 +0200 (CEST)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuhH-0008BF-7i
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36985)
+	id 1iMuVG-0002em-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37060)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuH8-00038C-7q
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:39 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuHD-0003Ex-JZ
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuH5-0001Q8-Vz
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:37 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44015)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuHB-0001Su-U5
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:43 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44021)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuH5-0001PZ-Pq
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:35 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c2so12855883wrr.10
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:35 -0700 (PDT)
+ id 1iMuHB-0001SS-NN
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:41 -0400
+Received: by mail-wr1-x433.google.com with SMTP id c2so12856236wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XIcMLgLOy6AOjihetZxPEvZlo29WPIvHIy0xHe5Xspw=;
- b=Cw0FXpfYiZ0MB8qI9iXrI5B0xjpmT94qfAYKX5hbnRaV+gxwEvRLw7xxFPix9GkBGK
- v2SixdegqgmQONCeazgzWtw32b2akft8j1k7MX0r6usDCiwmYCmii4odkYvLDEX4YIU0
- EI+vl2lfTt28+lfiqbE4hhS59jW/xoG8mB6+olZHfn90FU1k9xuQrfql16/yyey3r2Qi
- IV0yErEgKOOYUBY0ITgJka7IH2xJcg0djOHYpd2shJq3cpOjbWwrET+1oLNh0812Xqfm
- PbD7JjnNcEVAM7PUYUd41UUmyz70zNjm/HaZIIyUqiIa1VFJk/HXGpEeEvivsdK+OzPo
- gOjw==
+ bh=SrVz8zV33u4/B/5UmvJ5uDPbu/uO8YsNIkly3MZVQcQ=;
+ b=QCSxk0TLq3Jp5roB8gh9m+o6QyLSraW4EPIkaL6DfiYrU6Cs6Je9j3mAmXGjOxCSj/
+ 9cGAdzi2lYFKbAXyq0tdccqIsNl0m/2i6HiewZRGriSW50dCmwsx/+bDYYqRgpmU4z//
+ gagFEZF5hXTFvJ0ZPJxQAp09mzsKqRMQcc9Kg7+6O1vuP4yjIxvesYY+UnM5lflPKVkY
+ tEXP497FUpurT3ZSpYxfVnVefFI/PFr95AKgsE43vxcFENu0mMu8bITMxDc/f+ZeXbVw
+ MGre0uXxxDl6ddFKF+EWPhXD5c01A1IN+UaBa5a7oZRqDSe6WPoT8nVXqhB4w3vjP/5l
+ siGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XIcMLgLOy6AOjihetZxPEvZlo29WPIvHIy0xHe5Xspw=;
- b=CpXk5a5qHokQEJ+0eX9xDkd96p7WWQjYZge6qW4pmY+qMNSmFaCtrvqZ8aZ2kAGONT
- vpxZFHvGr3XE5b0+WS+JytRjf7l1/sJKOQG6JvY0KM5QCJsiVfspMP/nVkr613kn8h96
- ovCqlrH8xrvhJCYpneU2/Vl3U7sWUJD3oiqTQP+bDPbRsgy6qwORF1CsJ0K2mbCjpLWQ
- KwDedR5pqQeVqpal0C0EZgmck+pKo1eYXHBmvC4VIq38jfAoeiTLDwTX3nje128T7IFA
- LAdFDyC8s6yuZRg3HhsCL37rOsrgDf4WPKaSb6CK6ENg/ofNG2ilsyH35eCNUT6EDgeM
- WWPQ==
-X-Gm-Message-State: APjAAAXl2tSLL18ye+Jqa0lVgrku/rPgX9AoCcvuqKDiDbj2nqTpzruv
- ykOb9iQJMKi4yXb2VJ+pDezbuZ8ljG0=
-X-Google-Smtp-Source: APXvYqwt7TVu0nuElov9iGVoNVfyW9Oe1UJ2PJmOtjSLNSLJ91uFfreIW07trc4SX8l//IYcgI1XrA==
-X-Received: by 2002:a5d:6a02:: with SMTP id m2mr3807170wru.304.1571751154248; 
- Tue, 22 Oct 2019 06:32:34 -0700 (PDT)
+ bh=SrVz8zV33u4/B/5UmvJ5uDPbu/uO8YsNIkly3MZVQcQ=;
+ b=PDb6wPNIpfEwOKUjf+Lq8FT+AKNeLachPak00Ugz/0jqw3ks3Q5c3Xatzz6ZrHUUeH
+ xVq28Zo2B1f6Ka1qwsaPKRlDluiTbE76cotPLlgbSagyDsG2kIi7iLb9BUx+yCYqB5fT
+ vTTLoO4kc96lHcgMIG4/jgKnQCDIgU+BzbnxWD3vyBFehbkK689ql2Q9B2RbTu0jjHR+
+ lqfVq9hh5Vd61Wr+bN0mnNbyMzF1JIBQIxkpbj+cdynfQZVGNhaqbuoX7RZXtUD4RXLv
+ V7Vf2bLuQl/nGadUgrJzyF5GUFYc4saqBupcp0TRgejYK0fIKfC/Po3aVMh8bABfOpfL
+ gKOw==
+X-Gm-Message-State: APjAAAXmIJk9RdO2ASPBItBk3MHkNnHWp+YX/3oKTC6fO3o/pEgjeGWW
+ Lhnc8f3j2eEIX6z4bLPP7ksteeRdLB8=
+X-Google-Smtp-Source: APXvYqyW/u+KrBefo36TV/IPdXXUXAwWeM9fpxfC5G7VlBgeJatV3s7D0/Ns7jdv4rswQtJAWDJ++A==
+X-Received: by 2002:adf:978a:: with SMTP id s10mr3759209wrb.264.1571751160008; 
+ Tue, 22 Oct 2019 06:32:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.32
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:32:33 -0700 (PDT)
+ Tue, 22 Oct 2019 06:32:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/41] target/arm: Hoist store to cs_base in
- cpu_get_tb_cpu_state
-Date: Tue, 22 Oct 2019 14:31:17 +0100
-Message-Id: <20191022133134.14487-25-peter.maydell@linaro.org>
+Subject: [PULL 27/41] target/arm: Rebuild hflags at MSR writes
+Date: Tue, 22 Oct 2019 14:31:20 +0100
+Message-Id: <20191022133134.14487-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,37 +84,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-By performing this store early, we avoid having to save and restore
-the register holding the address around any function calls.
+Continue setting, but not relying upon, env->hflags.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191018174431.1784-15-richard.henderson@linaro.org
+Message-id: 20191018174431.1784-18-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/translate-a64.c | 13 +++++++++++--
+ target/arm/translate.c     | 28 +++++++++++++++++++++++-----
+ 2 files changed, 34 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3f7d3f257d8..37424e3d4dd 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11225,6 +11225,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
- {
-     uint32_t flags, pstate_for_ss;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 2d6cd09634c..d4bebbe6295 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1789,8 +1789,17 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+     if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
+         /* I/O operations must end the TB here (whether read or write) */
+         s->base.is_jmp = DISAS_UPDATE;
+-    } else if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
+-        /* We default to ending the TB on a coprocessor register write,
++    }
++    if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
++        /*
++         * A write to any coprocessor regiser that ends a TB
++         * must rebuild the hflags for the next TB.
++         */
++        TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
++        gen_helper_rebuild_hflags_a64(cpu_env, tcg_el);
++        tcg_temp_free_i32(tcg_el);
++        /*
++         * We default to ending the TB on a coprocessor register write,
+          * but allow this to be suppressed by the register definition
+          * (usually only necessary to work around guest bugs).
+          */
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 96340520ee2..46a0bf51c95 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -6890,6 +6890,8 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+     ri = get_arm_cp_reginfo(s->cp_regs,
+             ENCODE_CP_REG(cpnum, is64, s->ns, crn, crm, opc1, opc2));
+     if (ri) {
++        bool need_exit_tb;
++
+         /* Check access permissions */
+         if (!cp_access_ok(s->current_el, ri, isread)) {
+             return 1;
+@@ -7068,14 +7070,30 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+             }
+         }
  
-+    *cs_base = 0;
-     flags = rebuild_hflags_internal(env);
+-        if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
+-            /* I/O operations must end the TB here (whether read or write) */
+-            gen_lookup_tb(s);
+-        } else if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
+-            /* We default to ending the TB on a coprocessor register write,
++        /* I/O operations must end the TB here (whether read or write) */
++        need_exit_tb = ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) &&
++                        (ri->type & ARM_CP_IO));
++
++        if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
++            /*
++             * A write to any coprocessor regiser that ends a TB
++             * must rebuild the hflags for the next TB.
++             */
++            TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
++            if (arm_dc_feature(s, ARM_FEATURE_M)) {
++                gen_helper_rebuild_hflags_m32(cpu_env, tcg_el);
++            } else {
++                gen_helper_rebuild_hflags_a32(cpu_env, tcg_el);
++            }
++            tcg_temp_free_i32(tcg_el);
++            /*
++             * We default to ending the TB on a coprocessor register write,
+              * but allow this to be suppressed by the register definition
+              * (usually only necessary to work around guest bugs).
+              */
++            need_exit_tb = true;
++        }
++        if (need_exit_tb) {
+             gen_lookup_tb(s);
+         }
  
-     if (is_a64(env)) {
-@@ -11298,7 +11299,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-     }
- 
-     *pflags = flags;
--    *cs_base = 0;
- }
- 
- #ifdef TARGET_AARCH64
 -- 
 2.20.1
 
