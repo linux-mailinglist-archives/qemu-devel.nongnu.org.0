@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2F1E0529
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:35:12 +0200 (CEST)
-Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E7CE053C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:37:44 +0200 (CEST)
+Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuJb-0004Vy-46
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36588)
+	id 1iMuM3-0008VN-Hx
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGK-00027r-8g
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGM-0002Aj-NG
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGI-00018s-QT
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:48 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35259)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGL-00019r-D7
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:50 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50811)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuGI-00018c-KI
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:46 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id v9so265176wml.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:31:46 -0700 (PDT)
+ id 1iMuGL-00019b-6s
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:31:49 -0400
+Received: by mail-wm1-x344.google.com with SMTP id q13so7247837wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=GiGGoct5QT0NRciJUJZ8OfIOiz/gs+M8OMGCdLem8zI=;
- b=kTThksGcOrvic9/PBkd9pcPAfj2nLPp2N6yEUZd5IcQ71yucX57/V5NRLEezGtUAW5
- UYrsGERzSFHP/44fqkptoYtbpPituwjO6yf6j2ZfBS6/k42Oow5LjyMKGbAa9WWyogaX
- bx2d198S1cq3IApVjK/mYZcfiAXZpkqKqKnwNriIuCFyT0h/zYWaA0VeI7Yb7Bay31xr
- KlPWRcx2dx/Tq/rjsW63YyR31nnrsZO01AOzTzi3XoQQDEAlZQgoh5jlHeo1Mzv7cbX8
- FqazRn4EgjcKv36IfT6H3RjQ4KfydGn4zWUPVxHN515YH+nqaDuNvWZtub6j3nZ927Jb
- xcvA==
+ bh=y6cZwi7KnbEYaso3vcojBuwQDGlT+TuR2VSfnVl/yHw=;
+ b=Pu4HPBHE6wh6yIGgJmQGtkbOOqdp+absTXqhV56SuiWz64OmSCLI+dovTvV8nZuYQG
+ i0UV1f+YQKz9DvGq+AuWw7ozk3579dnR6Jg2m67mDOr//czPGLoZXeZhGCzQDYdME5I+
+ 7oS1AHHYlKeSsbWu0jm+0DYWmnQeNgxJSemSsClYMyssA1R4ApjX+NiOmL9vCcunkfB+
+ kvrfhtcu7SNKwgRadzQfhghNQ9QymPGaRJp3WOTTbcCwDp2gw+dq3Xd9GcHK8SpjpRZO
+ U2m20DNs0K15w0FH+Urd+F0N16zcYf/zKgxDsukrrVfu7zu1P+D1kvq8bBv0+qa3cifB
+ lixQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GiGGoct5QT0NRciJUJZ8OfIOiz/gs+M8OMGCdLem8zI=;
- b=a2s5ZPU0/UA5E4XccMvcVL3b08Snkzr1CkPIpmx2Dq2NoDpH46Jx2QvKJ1lykCCCO8
- LarTRufSrhHywkeKkMSCGYBPUtZv0pcw2wzN6VipBu3FegIHVrqPRtefo2rLe9fKK+7h
- b5qlFe0aOzvdSK6duMFloLdn1szsostaJB+EIQ3JsFH1wWOXzs4LO7ULvn1h4X9fzfAA
- h28bE+tQ6V945SsMZXv3ijDM9t91Sv6N7YrYZF1jyuqIrwhN517Eoov1YqEcy2Ydf5ph
- wP2nJHTBOZdZp+92pXlprOIUr/pZr8sTEdCFc21I9SHry7bOwsruD/KoE4LWyl3z+i/G
- snHw==
-X-Gm-Message-State: APjAAAWIwLmFZvPxPuDM3r3hgN5bWKPBYU/n6sVpxwPryWT3O9aAqeco
- LQQ0+DGhBY8ERvA6/Ake8oJbsH+9/nk=
-X-Google-Smtp-Source: APXvYqxYuGbCUiE34bEKQA/fHTu00jhwpMTJZh/s9P5uiNtUTP9A+fbeEPGGpqs2iPEyvomjfmj2Zw==
-X-Received: by 2002:a1c:7d95:: with SMTP id y143mr3195982wmc.143.1571751103637; 
- Tue, 22 Oct 2019 06:31:43 -0700 (PDT)
+ bh=y6cZwi7KnbEYaso3vcojBuwQDGlT+TuR2VSfnVl/yHw=;
+ b=k/l5fZCDs/j8aI8SFXJFLunU9me+e4MLSz+eEAoP2UZ03gFrTGEi/zYjSegXndTb+8
+ PBL6dJG7kNmEhlxd/mQcINP9udv2f6ZM7rrIGstul0qnM5EViLEbGEAwyXLm3TQWjC0P
+ r26wDkyTEZAeV0vQ4U4kNviwH2pCYZmCGXObbFHCD+17B33/uX/87NZ70ZhYKMnNwkf4
+ qhTk+ClEQLOyxQFjInUzM8XlLJpoGWpws5aDxm02jLJqv4HCOmSJC9bLMy3ufbEHnkNk
+ 8X9ASO3hTeVOuBBrmCxjodgsBOXhXVsH82CYtSzHcvnX+2C1owRoMDIIKE4EkDZI4t8k
+ j5ww==
+X-Gm-Message-State: APjAAAUDX43a3csm8gq5a0eahWBmHQdDdP+vKhQU3BRlXz8lkM+lMGGN
+ SPgK8yjqWAOdnzNUdLbzUf+Y7pf6abQ=
+X-Google-Smtp-Source: APXvYqzQ6Rt26WlSYDjAViSo0SR6oe8n7E+5iRRdvfiQZ+glSiTd0bp9OBSafWZtW1TVB93aGQanwA==
+X-Received: by 2002:a1c:234c:: with SMTP id j73mr3290812wmj.51.1571751107457; 
+ Tue, 22 Oct 2019 06:31:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.31.41
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.31.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:31:41 -0700 (PDT)
+ Tue, 22 Oct 2019 06:31:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/41] aspeed: Add an AST2600 eval board
-Date: Tue, 22 Oct 2019 14:30:55 +0100
-Message-Id: <20191022133134.14487-3-peter.maydell@linaro.org>
+Subject: [PULL 03/41] hw/timer/exynos4210_mct: Initialize ptimer before
+ starting it
+Date: Tue, 22 Oct 2019 14:30:56 +0100
+Message-Id: <20191022133134.14487-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,87 +83,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Guenter Roeck <linux@roeck-us.net>
 
-Define the board with 1 GiB of RAM but some boards can have up to 2
-GiB.
+When booting a recent Linux kernel, the qemu message "Timer with delta
+zero, disabling" is seen, apparently because a ptimer is started before
+being initialized.  Fix the problem by initializing the offending ptimer
+before starting it.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20191016090745.15334-1-clg@kaod.org
+The bug is effectively harmless in the old QEMUBH setup
+because the sequence of events is:
+ * the delta zero means the timer expires immediately
+ * ptimer_reload() arranges for exynos4210_gfrc_event() to be called
+ * ptimer_reload() notices the zero delta and disables the timer
+ * later, the QEMUBH runs, and exynos4210_gfrc_event() correctly
+   configures the timer and restarts it
+
+In the new transaction based API the bug is still harmless,
+but differences of when the callback function runs mean the
+message is not printed any more:
+ * ptimer_run() does nothing as it's inside a transaction block
+ * ptimer_transaction_commit() sees it has work to do and
+   calls ptimer_reload()
+ * the zero delta means the timer expires immediately
+ * ptimer_reload() calls exynos4210_gfrc_event() directly
+ * exynos4210_gfrc_event() configures the timer
+ * the delta is no longer zero so ptimer_reload() doesn't complain
+   (the zero-delta test is after the trigger-callback in
+   the ptimer_reload() function)
+
+Regardless, the behaviour here was not intentional, and we should
+just program the ptimer correctly to start with.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20191018143149.9216-1-peter.maydell@linaro.org
+[PMM: Expansion/clarification of the commit message:
+ the message is about a zero delta, not a zero period;
+ added detail to the commit message of the analysis of what
+ is happening and why the kernel boots even with the message;
+ added note that the message goes away with the new ptimer API]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed.h |  1 +
- hw/arm/aspeed.c         | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ hw/timer/exynos4210_mct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index 02073a6b4d6..f49bc7081e4 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -18,6 +18,7 @@ typedef struct AspeedBoardConfig {
-     const char *desc;
-     const char *soc_name;
-     uint32_t hw_strap1;
-+    uint32_t hw_strap2;
-     const char *fmc_model;
-     const char *spi_model;
-     uint32_t num_cs;
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 52993f84b46..028191ff36f 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -88,6 +88,10 @@ struct AspeedBoardState {
- /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
- #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
- 
-+/* AST2600 evb hardware value */
-+#define AST2600_EVB_HW_STRAP1 0x000000C0
-+#define AST2600_EVB_HW_STRAP2 0x00000003
-+
- /*
-  * The max ram region is for firmwares that scan the address space
-  * with load/store to guess how much RAM the SoC has.
-@@ -187,6 +191,8 @@ static void aspeed_board_init(MachineState *machine,
-                              &error_abort);
-     object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap1, "hw-strap1",
-                             &error_abort);
-+    object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap2, "hw-strap2",
-+                            &error_abort);
-     object_property_set_int(OBJECT(&bmc->soc), cfg->num_cs, "num-cs",
-                             &error_abort);
-     object_property_set_int(OBJECT(&bmc->soc), machine->smp.cpus, "num-cpus",
-@@ -308,6 +314,12 @@ static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
- }
- 
-+static void ast2600_evb_i2c_init(AspeedBoardState *bmc)
-+{
-+    /* Start with some devices on our I2C busses */
-+    ast2500_evb_i2c_init(bmc);
-+}
-+
- static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
- {
-     AspeedSoCState *soc = &bmc->soc;
-@@ -455,6 +467,17 @@ static const AspeedBoardConfig aspeed_boards[] = {
-         .num_cs    = 2,
-         .i2c_init  = witherspoon_bmc_i2c_init,
-         .ram       = 512 * MiB,
-+    }, {
-+        .name      = MACHINE_TYPE_NAME("ast2600-evb"),
-+        .desc      = "Aspeed AST2600 EVB (Cortex A7)",
-+        .soc_name  = "ast2600-a0",
-+        .hw_strap1 = AST2600_EVB_HW_STRAP1,
-+        .hw_strap2 = AST2600_EVB_HW_STRAP2,
-+        .fmc_model = "w25q512jv",
-+        .spi_model = "mx66u51235f",
-+        .num_cs    = 1,
-+        .i2c_init  = ast2600_evb_i2c_init,
-+        .ram       = 1 * GiB,
-     },
- };
- 
+diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+index 72257584145..944120aea59 100644
+--- a/hw/timer/exynos4210_mct.c
++++ b/hw/timer/exynos4210_mct.c
+@@ -1254,7 +1254,7 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+         /* Start FRC if transition from disabled to enabled */
+         if ((value & G_TCON_TIMER_ENABLE) > (old_val &
+                 G_TCON_TIMER_ENABLE)) {
+-            exynos4210_gfrc_start(&s->g_timer);
++            exynos4210_gfrc_restart(s);
+         }
+         if ((value & G_TCON_TIMER_ENABLE) < (old_val &
+                 G_TCON_TIMER_ENABLE)) {
 -- 
 2.20.1
 
