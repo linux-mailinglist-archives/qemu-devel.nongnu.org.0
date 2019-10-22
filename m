@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C174DE0A06
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:03:57 +0200 (CEST)
-Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3921CE0A0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:07:01 +0200 (CEST)
+Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxZb-0003fz-LS
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
+	id 1iMxcZ-00085Z-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iMxKv-0003iG-Qp
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:48:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMxMe-0005dX-3K
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:50:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iMxKu-0001jj-0g
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:48:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42234)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMxKt-0001j7-QN
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:48:43 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AB1B4C057EC6
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 16:48:42 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id s19so6163455wmj.0
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:48:42 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMxMc-0002XA-7m
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:50:31 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:35913)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iMxMX-0002Uw-BC
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:50:27 -0400
+Received: by mail-il1-x144.google.com with SMTP id s75so6331797ilc.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3rbLX8hyHjXvC0RWsfQyJiuqcLKv+R/GgI5pEEIOve0=;
+ b=yuhdHhHEonv2R7nvjZMd/z8YNvHQJ0qji0VX6sqJ27SUOcXuEWHub47WlFQXe9+gQw
+ a7Ze5mc696/xXbY7XIHYYhAyT9eVWlxdmkE5QsTKs7yT3Pf2UpnEUVpmtDmQkdHLQ6Av
+ O27SDyQ4XQtqb/n65RNtulQkpbpPTG+Lsvg5nTCBVPLtlfefuaOR4bXF8qr8WZl0YNpK
+ q61dCUNLFJWMJSioX25i1aw9iU7hTw6czYWoBkZyv0IBDT+hxczWa1p9SEG5EXllFCBI
+ l9TCm4yzshu436aP6WWAw5y/cprhoKkBD82/42gtEFasHimmTCXeQGGODpq/W8iwyG4B
+ RsUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8XdubcR4QC1xaNPRCKO6AEMrLBJsl5gYaPZXzSLnoJg=;
- b=RPEuXmGxVGZeVtZ9ODelcsArpXmhy12lwf28YOPruDqmoALgnJBMOcwYweCbIEz7nE
- PrkdXJ6duhLTKjZhTKbtnauHteE123pJpsUMNh0pkuyKsaM4SSVkcpX6DZT6FGjtSvkR
- 4HWGmbaVXu6z0uAeglRPPTYBtWmATWG9OnRV6Q4vCpvocWv/lAYM70gdwwccpbx3+ker
- 8P+S1hMMA1yk35unHDpQi2ft8XJHshfXh1W+q/MrtVnrgOPhsrOmfqqKKwK1f5Jcw4kP
- QKbnedZGO70AUkTu5PWisvnJP9ejJHP+YBhRqlHhU8ZctjI6PadJApVh5jyzKjv6mavL
- qd2A==
-X-Gm-Message-State: APjAAAXtO0PRvO7fKGbcGVb1nA0mhxIwtCItgz+S4TYs24x3PqI1ZjkB
- umWawZy7p314qrf1JuoMkXbVzUr1mVImWNHUp9nmNBwI2c871VmePjOaVKv6naZB7X98AJM97bh
- +RVEtuljWHi5k2qU=
-X-Received: by 2002:a5d:4705:: with SMTP id y5mr4336159wrq.364.1571762921082; 
- Tue, 22 Oct 2019 09:48:41 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwJZ7+DrPOejRZ6d7/5QHnBaQEvdO9rYkFjrrlAbxoEa7uiCaLWAnaOrAyiePfyedD3hLqt+g==
-X-Received: by 2002:a5d:4705:: with SMTP id y5mr4336134wrq.364.1571762920758; 
- Tue, 22 Oct 2019 09:48:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c0e4:dcf4:b543:ce19?
- ([2001:b07:6468:f312:c0e4:dcf4:b543:ce19])
- by smtp.gmail.com with ESMTPSA id v16sm18290823wrt.12.2019.10.22.09.48.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Oct 2019 09:48:39 -0700 (PDT)
-Subject: Re: [PATCH] hw/timer/mc146818rtc: Only include qapi-commands-misc on
- I386
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <20191017162614.21327-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <20ba703a-b25f-078b-69fa-dcc5a7072ccf@redhat.com>
-Date: Tue, 22 Oct 2019 18:48:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3rbLX8hyHjXvC0RWsfQyJiuqcLKv+R/GgI5pEEIOve0=;
+ b=ldXHisqWOuz7+8Uu9x6zJhN65XBYBXHscObEZFVR8e/CW7mLcnbGwJ+268h1ZxXb3R
+ DRsE+aoIOmNyoeNIuTV/qmzazVOW1mnC3HfZSS/3duEg8XS2Cn1+U/F7Z4oAom3fopfW
+ wXxpbb+9y17X3S3QPn8oVH3czITomCoHoQT4CFQzhGKK9E2y6F0utBU8ZGfNzEN9SUya
+ XuB7Sn/up/K26MM0kz3JY7fMjQFEIvGiOK+f5AcvgrdB75VgfZTmTSLYGoqVFT92ZuLT
+ O5dpeyVjQS8oZUF/i+R63Ell3c6BV6a4KfpXcg5pM5RAgQ+PS+IkiqtcUvRh8k7BDMUV
+ S0HA==
+X-Gm-Message-State: APjAAAV0+NJFoTLKzEFs9GNpVFqrJsv1qtOrWF2ZxdWE0D2tWEMtdDFM
+ ZHmjX9RucGX7KdozuK764wVG94/Vh6QLl/gQGVlwIg==
+X-Google-Smtp-Source: APXvYqxLu6/mERiDrayLVOeihPNAjBX1iBfn20sr2uw3l4T8CC8K1/90J7oxvmaezsbkBJxKF5qTy52M+K64S1dg/iU=
+X-Received: by 2002:a92:8dd9:: with SMTP id w86mr31836132ill.93.1571763024655; 
+ Tue, 22 Oct 2019 09:50:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191017162614.21327-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
+ <20191022162137.27161-11-marcandre.lureau@redhat.com>
+ <CAFEAcA-5DkdB-iUHBRONB0SHO6rYmU7ZzdojJd5iZbQdLHswTQ@mail.gmail.com>
+ <CAMxuvaxTdPyODFAofKWURq8_zJNQtxiX7Xj8dogB1iFPqgbj4A@mail.gmail.com>
+In-Reply-To: <CAMxuvaxTdPyODFAofKWURq8_zJNQtxiX7Xj8dogB1iFPqgbj4A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Oct 2019 17:50:13 +0100
+Message-ID: <CAFEAcA_QEdzo2usdkfaJGsVjeLcSM1bxVN4APVWAUvcB7oj0zw@mail.gmail.com>
+Subject: Re: [PATCH v2 10/28] serial: add "base" property
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,41 +76,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/10/19 18:26, Philippe Mathieu-Daud=C3=A9 wrote:
-> Commit a6c7040fb09 restricted the rtc-reset-reinjection command
-> to the I386 target.
-> Restrict the "qapi/qapi-commands-misc-target.h" header to it too.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/timer/mc146818rtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-> index 6cb378751b..c1eb0a7376 100644
-> --- a/hw/timer/mc146818rtc.c
-> +++ b/hw/timer/mc146818rtc.c
-> @@ -37,12 +37,12 @@
->  #include "hw/timer/mc146818rtc.h"
->  #include "migration/vmstate.h"
->  #include "qapi/error.h"
-> -#include "qapi/qapi-commands-misc-target.h"
->  #include "qapi/qapi-events-misc-target.h"
->  #include "qapi/visitor.h"
->  #include "exec/address-spaces.h"
-> =20
->  #ifdef TARGET_I386
-> +#include "qapi/qapi-commands-misc-target.h"
->  #include "hw/i386/apic.h"
->  #endif
-> =20
->=20
+On Tue, 22 Oct 2019 at 17:42, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Hi
+>
+> On Tue, Oct 22, 2019 at 6:32 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >
+> > On Tue, 22 Oct 2019 at 17:23, Marc-Andr=C3=A9 Lureau
+> > <marcandre.lureau@redhat.com> wrote:
+> > Devices shouldn't have properties to set their MMIO base
+> > address -- instead the memory-mapped serial device should
+> > be a child of TYPE_SYSBUS_DEVICE, and should provide
+> > a sysbus mmio region, which users of the device can
+> > map at the address they want to map the registers.
+>
+>
+> Can we make serial a sysbus device? It seems to be embedded from
+> various places, in various buses. Not sure that makes sense, please
+> advise me :)
 
-Queued, thanks.
+You want the SerialMMState to be is-a sysbus-device, and to
+has-a SerialState, I think.
 
-Paolo
+> "base" is mostly needed to set qdev_set_legacy_instance_id(), I should
+> have added a commit comment. Otherwise, it can be passed to
+> serial_mm_connect() directly.
+
+serial_mm_connect() shouldn't exist at all, though -- we
+want to end up with a normal sysbus device whose users
+create it and wire up its MMIO and IRQ in the same way they
+do any other sysbus device.
+
+thanks
+-- PMM
 
