@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38EFE0A8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:23:19 +0200 (CEST)
-Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757A4E0A10
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 19:07:03 +0200 (CEST)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxsM-00005P-T9
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43564)
+	id 1iMxcc-0008Pn-51
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 13:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dinechin@redhat.com>) id 1iMxOE-0007yb-Ri
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:52:11 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iMxRq-00045F-LN
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:55:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1iMxOD-00037D-QM
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:52:10 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39222
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iMxRp-0004aE-0b
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:55:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50942)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1iMxOD-000374-N9
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:52:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571763129;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FP9OfujuMXPnc05uatDJDsk9/3Ngir+jIMpvI0HfuFo=;
- b=RHaG1F24PrcKN5Gq0qgStaJ6InDuTVhMQmN5tK95XLsJSKb9y5hItcmOCSIYVLhNClcDIN
- 0jIAb98owyBz1ptZNICYeF3hI/9SBwIhCBUyHDZ37+FBkUDZWDR8e7l7JMWud+3meOR5N7
- eyL2eQq8ffOdDusk3projuPCmrrUpk0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-V6OQk6rVP0W6XMLYqII2ZA-1; Tue, 22 Oct 2019 12:52:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iMxRo-0004Zw-Oa
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:55:52 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 741D3800D49;
- Tue, 22 Oct 2019 16:52:04 +0000 (UTC)
-Received: from ptitpuce (ovpn-117-172.ams2.redhat.com [10.36.117.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E45C19C69;
- Tue, 22 Oct 2019 16:51:48 +0000 (UTC)
-References: <20191019063810.6944-1-stefanha@redhat.com>
- <20191019063810.6944-10-stefanha@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.2
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 09/16] libqos: access VIRTIO 1.0 vring in little-endian
-In-reply-to: <20191019063810.6944-10-stefanha@redhat.com>
-Date: Tue, 22 Oct 2019 18:51:39 +0200
-Message-ID: <m136fkoh9g.fsf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id C6A67C04AC69
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 16:55:51 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id u17so2176848wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:55:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H7ugKiL/Kpw5w93fZK98ssWHzL9FBxJXPh5vcqrz8Yw=;
+ b=trUXPEjiWfIKMzWp0Hv92Mnm+wmGpxQ7rnXzI9MzHrsLdbzIv3LsvyEp9X2Z6WDH9V
+ F1VEzmIksP5fklZBxE3fAldbvVVI28yk0JQ2uCNuvDF5/pYlFkTN+19vQglEk0Mj4ODp
+ +BFWF8MpF4wph0dfEJ8YcMUvKDkjaJ8ns4E9Y6pJZZDuw92clI0+2qlJUBF7wPqHBrGO
+ JnDj73SHzKk9g95JxTomUrOECdgJMoWwD5i2M7DTki25x53Ob0Aj4WAIlnf6KH86RrTK
+ 4M6dW5jJQpKA2wsqya596/9ORVGDvA9uALA/6pEjSvG8FKkvLwOJGnjdWbshAn9uoC9E
+ LjEw==
+X-Gm-Message-State: APjAAAVaALFnswTnwuLeh5iG38mfUpC5AHAD3I3hxCLOtd56N2GindsN
+ nC9ZvBBqcdvrINNVp4DTgWovR7Ebh4CkeId94wiaZZxSwC3yAITotIQ7ykOT4TZeCz2daWM21W5
+ azW3NimB6HTalL0o=
+X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr4029589wmg.46.1571763350371; 
+ Tue, 22 Oct 2019 09:55:50 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwcAL2ovxEemkcDaBwMIJCIy+WJYc/2M6aoygBw5OKXDjZCR1q5QWxb12G/EVOXqD8pSaQCrw==
+X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr4029572wmg.46.1571763350086; 
+ Tue, 22 Oct 2019 09:55:50 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c0e4:dcf4:b543:ce19?
+ ([2001:b07:6468:f312:c0e4:dcf4:b543:ce19])
+ by smtp.gmail.com with ESMTPSA id h17sm16264637wmb.33.2019.10.22.09.55.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Oct 2019 09:55:49 -0700 (PDT)
+Subject: Re: [PATCH 0/5] hw/i386/pc: Extract pc_gsi_create() and
+ pc_i8259_create()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191018135910.24286-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <22db5316-648a-9416-87b5-a76772e8539e@redhat.com>
+Date: Tue, 22 Oct 2019 18:55:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: V6OQk6rVP0W6XMLYqII2ZA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+In-Reply-To: <20191018135910.24286-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,31 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, slp@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 18/10/19 15:59, Philippe Mathieu-Daud=C3=A9 wrote:
+> These are few patches extracted from the previous too big series:
+> hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge
+> https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg03685.html
+>=20
+> Dropped "Move kvm_i8259_init() declaration to sysemu/kvm.h" (thuth),
+> no logical changes:
 
-Stefan Hajnoczi writes:
-[...]
-> +static uint16_t qvirtio_readw(QVirtioDevice *d, QTestState *qts, uint64_=
-t addr)
-> +{
-> +    uint16_t val =3D qtest_readw(qts, addr);
-> +
-> +    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(q=
-ts)) {
+I queued this, but neither I nor patchew got patch 5.  I just got it
+from the PIIX3/i440FX series.
 
-For my education, I was wondering why tests use the (1ull << FEATURE)
-notation and not an equivalent of virtio_has_feature()? Is this
-intentional, or just legacy?
+paolo
 
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+> $ git backport-diff -u pc_split_i440fx_piix-v1
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream p=
+atch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences, resp=
+ectively
+>=20
+> 001/5:[----] [-C] 'hw/i386/pc: Extract pc_gsi_create()'
+> 002/5:[----] [--] 'hw/i386/pc: Reduce gsi_handler scope'
+> 003/5:[----] [--] 'hw/i386/pc: Move gsi_state creation code'
+> 004/5:[----] [--] 'hw/i386/pc: Extract pc_i8259_create()'
+> 005/5:[----] [--] 'hw/i386/pc: Remove kvm_i386.h include'
+>=20
+> Based-on: <20191018134754.16362-1-philmd@redhat.com>
+> hw/i386/pc: Split PIIX3 southbridge from i440FX northbridge [v2]
+> https://mid.mail-archive.com/20191018134754.16362-1-philmd@redhat.com
+>=20
+> Philippe Mathieu-Daud=C3=A9 (5):
+>   hw/i386/pc: Extract pc_gsi_create()
+>   hw/i386/pc: Reduce gsi_handler scope
+>   hw/i386/pc: Move gsi_state creation code
+>   hw/i386/pc: Extract pc_i8259_create()
+>   hw/i386/pc: Remove kvm_i386.h include
+>=20
+>  hw/i386/pc.c         | 36 +++++++++++++++++++++++++++++++++++-
+>  hw/i386/pc_piix.c    | 23 ++---------------------
+>  hw/i386/pc_q35.c     | 28 ++++------------------------
+>  include/hw/i386/pc.h |  3 ++-
+>  4 files changed, 43 insertions(+), 47 deletions(-)
+>=20
 
 
