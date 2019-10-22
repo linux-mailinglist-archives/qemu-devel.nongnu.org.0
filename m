@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5321CE0DBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 23:19:38 +0200 (CEST)
-Received: from localhost ([::1]:45350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C238E0DC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 23:26:07 +0200 (CEST)
+Received: from localhost ([::1]:45508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iN1Z3-0007my-Cm
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 17:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51023)
+	id 1iN1fJ-0002XJ-V6
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 17:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51524)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iN1X9-0006cy-M1
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:17:42 -0400
+ (envelope-from <dayeol@berkeley.edu>) id 1iN1b1-0000bj-2m
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:21:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iN1X8-0008Pj-M2
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:17:39 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54622)
+ (envelope-from <dayeol@berkeley.edu>) id 1iN1az-0001ei-Fk
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:21:38 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:41024)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iN1X8-0008Os-Ej
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:17:38 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g7so814960wmk.4
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 14:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=vAN4yF+WMDBLTLHD8AUtoccJ/pWPasV18VP0hsw/NFY=;
- b=zcjvTSKZXeaAw/Ys7OB5S3bTBBFCojMsxktwqoJswzPrU/3rhOB/XtDMUpO+F+0Zqd
- ErU9egN++SWk5ROyx/LsuT5Ypl02h/ulLflvCAHhXSUIbzbUfu9UpOgyBCrI/r8VpLhY
- 4hjFm5Tf42rwccFWbkAOuBErulnWSO0sh0xXy8aTlfNG9Ne3kHX77hWH3da9u09lcuwf
- 8gcxixg5NsLTptKPlgkfvmnYmt1POEXAgUbdur5gZhlGi+6GTIA4u3Kdmr8Wer2FN8N8
- RH/KQ8PGS4EWNZzmsdVUvNH07ATWf0ZL9oUT5V8XmaiE6MrO28fWGJmgYd4j/392aQEQ
- 1VyA==
+ (Exim 4.71) (envelope-from <dayeol@berkeley.edu>) id 1iN1az-0001eN-5p
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 17:21:37 -0400
+Received: by mail-qt1-x842.google.com with SMTP id c17so26077522qtn.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 14:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=berkeley-edu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4ciWYO+JQTfvwrYJqiccgIFokh0umLIjCGNk8VTvZkI=;
+ b=cVTdazFlt+E+xN+sUem5370SgcTGwyhjVxJXbzsYy5by9y4njNglJcHtu5y8/bCCo4
+ zH3mOFyd9FNKLwkhqVHzDkEi2P/yryiJ0of76nnqxTUFoAYWpXE5Mr1UZKzjez4E0BOd
+ lqrlYqirqnyc1aXGMbQwsiTV85oPWafEVzjCedjHurVnBmPA8e6D4hOj5cekY2OmmJIQ
+ 6nX9Xrfl3gFQ0hTlIQrK858UdOBWept0FA9qnCnIk3ZBCbaUjdMDAFBEC1mTK95Wh+42
+ +Ya05P/CM77DB3u9Cfg8tAQOUj+hC4FvIPbUJZ3CfO0RiU2TETaBiGXzc9Ri89HbP3vw
+ kFxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=vAN4yF+WMDBLTLHD8AUtoccJ/pWPasV18VP0hsw/NFY=;
- b=YqfY2ZWMUdZ8R8Zl0GroZVM1sL5uCMbKGiCPn5dQIipXyiFKZJ8hXIQ3ozWV78r2L/
- b2+naQK/WM3NQjbx3yHYW0UT6qAACbXZrJWE+bvrjEnvEuSosrXKBxEG0AcUvrxG/pLM
- h/IJy0O1JgJE6+E3YNkaPRc/vNJjdRK5NcPKGXLTGemU/S2igj4TCcLYu8spw9E1aPVn
- xRVNBafjTF+U8cF7djJWBV/cDhS13IUR6QmfxrbeIuMBQ4jD6oXlRtjiome+TSvdtJy0
- PQB7Mi5J99SRbCA7ZQJpOM/JoV5hw6zAxLWXsEAC4EPcnIZh5oLnF53Xx8oYhLgfkFpe
- 1FZw==
-X-Gm-Message-State: APjAAAWmYITzMu4tV3LBZDuD6roEbWh5E964JeJWYR1W7GPGsf/Q2Zxj
- oCEA8UJTPtA813mrKbLJZDpyVQ==
-X-Google-Smtp-Source: APXvYqyC97i9qrua5Jog8ocuTKvmYjxRdtPjXO1xv/aEE/2GQp1V2UzhZcR6DzziaA2HEJoyYkSogw==
-X-Received: by 2002:a1c:4c02:: with SMTP id z2mr2852828wmf.78.1571779056529;
- Tue, 22 Oct 2019 14:17:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z142sm20023427wmc.24.2019.10.22.14.17.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 14:17:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 03D361FF87;
- Tue, 22 Oct 2019 22:17:35 +0100 (BST)
-References: <20191022191704.6134-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4ciWYO+JQTfvwrYJqiccgIFokh0umLIjCGNk8VTvZkI=;
+ b=Q6XbG/uOIZUEi7RvX691bNZzTcpJeUM+ZE7ojCcyYQnFRyT3j59GblN50yYogNUgV5
+ X/G4kKLwPLyGH4vvvmtxUoAyvElQCO4feYsE+luczfGPnM3QMY28qf/U6KiUMbyqJMv4
+ 9hbP5yhqaVQejrje9egwNmQFpUnqoEoQWJImERehRpmGUuAhApLWMzA02RMSt8590dQS
+ AshK9vtjRmuQOM1B87+14vpevBY1ptL12Zn640PclGF2kxHXPBoCs/n623Nwo0m4ioD7
+ sU2nGQcN/faeaUI7J9P0+YLe5zVAc7CTOLMwVdgrZmKcLhJNeZdnCmvgypLByIeDzEHq
+ +h/Q==
+X-Gm-Message-State: APjAAAWC+TDcu1pEGzhhJlo7wkFHcY/dgtO7rSVB8JWATkOzChDfaH8N
+ rxZrMB/8AVwPMJMCQ1xzc8AZXPh8Im1Zkw==
+X-Google-Smtp-Source: APXvYqwsdr6ZhYJ8iiAjz/Hg+tgGmCI7x+R7tbcmQgArv30Q09txhTI2OVFfcCfN2iRTQPqYmh99Lg==
+X-Received: by 2002:ac8:73cf:: with SMTP id v15mr1610041qtp.310.1571779295221; 
+ Tue, 22 Oct 2019 14:21:35 -0700 (PDT)
+Received: from ip-172-31-33-50.ec2.internal
+ (ec2-34-206-44-154.compute-1.amazonaws.com. [34.206.44.154])
+ by smtp.gmail.com with ESMTPSA id z5sm9625014qkl.101.2019.10.22.14.21.34
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Tue, 22 Oct 2019 14:21:34 -0700 (PDT)
+From: Dayeol Lee <dayeol@berkeley.edu>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH for 4.2 v1 00/19] testing/next before softfreeze
-In-reply-to: <20191022191704.6134-1-alex.bennee@linaro.org>
-Date: Tue, 22 Oct 2019 22:17:35 +0100
-Message-ID: <871rv4wkcw.fsf@linaro.org>
+Subject: [PATCH] target/riscv: PMP violation due to wrong size parameter
+Date: Tue, 22 Oct 2019 21:21:29 +0000
+Message-Id: <20191022212129.8452-1-dayeol@berkeley.edu>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::842
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +76,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Dayeol Lee <dayeol@berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, diodesign@tuta.io
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+riscv_cpu_tlb_fill() uses the `size` parameter to check PMP violation
+using pmp_hart_has_privs().
+However, if the size is unknown (=0), the ending address will be
+`addr - 1` as it is `addr + size - 1` in `pmp_hart_has_privs()`.
+This always causes a false PMP violation on the starting address of the
+range, as `addr - 1` is not in the range.
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+In order to fix, we just assume that all bytes from addr to the end of
+the page will be accessed if the size is unknown.
 
-> Hi,
->
-> This is the current status of testing/next. I dropped the Travis arm64
-> build due to stability concerns. As far as I can tell Thomas' latest
-> iotest updates are working fine. If there are any other patches worth
-> considering before the softfreeze now is the time to shout.
->
-<snip>
-> John Snow (1):
->   iotests: remove 'linux' from default supported platforms
->
-> Thomas Huth (5):
-<snip>
->   iotests: Test 041 only works on certain systems
->   iotests: Test 183 does not work on macOS and OpenBSD
->   iotests: Skip "make check-block" if QEMU does not support virtio-blk
->   iotests: Enable more tests in the 'auto' group to improve test
->     coverage
->   iotests: Remove 130 from the "auto" group
-<snip>
+Signed-off-by: Dayeol Lee <dayeol@berkeley.edu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/pmp.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-I'll drop these from my tree so they can go in with the rest of the
-iotests stuff.
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 958c7502a0..7a9fd415ba 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -232,6 +232,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+ {
+     int i = 0;
+     int ret = -1;
++    int pmp_size = 0;
+     target_ulong s = 0;
+     target_ulong e = 0;
+     pmp_priv_t allowed_privs = 0;
+@@ -241,11 +242,21 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+         return true;
+     }
+ 
++    /*
++     * if size is unknown (0), assume that all bytes
++     * from addr to the end of the page will be accessed.
++     */
++    if (size == 0) {
++        pmp_size = -(addr | TARGET_PAGE_MASK);
++    } else {
++        pmp_size = size;
++    }
++
+     /* 1.10 draft priv spec states there is an implicit order
+          from low to high */
+     for (i = 0; i < MAX_RISCV_PMPS; i++) {
+         s = pmp_is_in_range(env, i, addr);
+-        e = pmp_is_in_range(env, i, addr + size - 1);
++        e = pmp_is_in_range(env, i, addr + pmp_size - 1);
+ 
+         /* partially inside */
+         if ((s + e) == 1) {
+-- 
+2.23.0
 
---
-Alex Benn=C3=A9e
 
