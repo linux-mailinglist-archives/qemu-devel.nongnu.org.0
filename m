@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E20E055E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:43:04 +0200 (CEST)
-Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5273DE056A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 15:46:01 +0200 (CEST)
+Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuRD-00063K-08
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:43:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36719)
+	id 1iMuU2-0001T9-Lt
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 09:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGg-0002XM-3i
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGi-0002Z1-2K
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMuGe-0001Fn-Hx
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:09 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38233)
+ (envelope-from <peter.maydell@linaro.org>) id 1iMuGg-0001G9-F2
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:11 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38584)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMuGe-0001Fc-Bj
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:08 -0400
-Received: by mail-wr1-x442.google.com with SMTP id v9so6838331wrq.5
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:08 -0700 (PDT)
+ id 1iMuGg-0001Fx-8b
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:32:10 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 3so16197232wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 06:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=emBzWLxUZK2MevrSuS1VObn1t11YZXLXP0lH9BsVSFU=;
- b=BVHjo1Oloy6sCd8UKYexxGd1dVWnEkA80TmiEPmlRxBm4AIE/ckE8T9sKeJDJcPY6C
- LR3PsCItfmB4Grf5ERu0sv1AYz3oun9RQ6Ljd0hQMRDpiPxXCOwCxxq+qMuCI/RLdXEc
- wxjJ4ZbKkxeOL9R4gr8TGXvLhDFeEppVMqxabIfmJcPuWhUZz2al2nj97IsP+lrBV+Fy
- rhwMwHLSc1y8UKyODhfv/uAOTKR0s7H+xV/eEZHm3wCH8AzvbzIlAmpGAO1qBcYygNRe
- +q22AWsWQ6qkyeiz/Pur6floxIUUSCTV5N4K8CWcD0EuRy2NIYich+a1kbAdL4qmgil3
- 3OJw==
+ bh=Y3CwxZ6AkYJNl+EhdLlXfHN9G+q8kHaXoA+Z1AMzPBo=;
+ b=Z0Cu0lm5IY9fj1I7LovzV/J/fNrkLFtG/xET6Jd4PeU0QzkftEkERmhCcqK60N945G
+ XFEM6ngJ66zJy+phBXAoZ2tg8CgZQbDfEGg86LC/dxL0v6mVNCAvBmGSmdJxPHpogVj1
+ 5sRHKG5B8gjigg8ID8OI20LRaG+foqjM2Dh6bXMuZ4DtKkfwH82EGV+ey63RcfGPpUgX
+ VD69zeYAN5LOpbKub/HC4boI7lSHu2Ne6M+ZZ9MHv1O62ZuOoELl1QQDaihO499rkLj7
+ Jq3AWh+wHeRTuF5YFEJrw8SEcfyTGMwlqLvf5IaqMOKS8mAFtcwMPeBuiK9Jne6mvmuB
+ hzhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=emBzWLxUZK2MevrSuS1VObn1t11YZXLXP0lH9BsVSFU=;
- b=ZAcFH8TDmmeyOzIgAf2ihpYmMGJeO1qNmh5lImP8zVl6vmBGyX5Ka9oCpWpMxr/gGV
- m3qNhCkqDAOTHW7Q+cdxhoYwtCsxSRw8cr+/kBHzcS/s4ZEhX+btmqFKHlMNc7uMNTgt
- z/qAZ0KDhZUO44petWrPgKPKr0zJ91gDEk4syDXWEVYLTYAcW7Qg9pgmxpvJj0Qhl0z2
- GXx/zluCWwIz/xKW3F7CxGnnp3PjvL4Im+AUJ/xWxSG/TArzoVp8MKAKUBexXvBrvUTV
- dI1USpJmzBKZ0K0CBar/r47kdIH20aoc42DqMy5I6urRFHll/YrYtU8y+KjFB1nhOA/P
- DFQQ==
-X-Gm-Message-State: APjAAAXSZZAupqIhlTgex7Pnrh2LUfkizeLqATa2pp/OlOx1GvmXPuoF
- 0YH+/TDRs77nmzodQzTpKqoNxhMkHTk=
-X-Google-Smtp-Source: APXvYqww/FAofBTRxtxI51XLRPs6o08V9UuZrNEX5NzdaaqkT6up1UMPcl2+62R+WMO3eKWl4RdrIg==
-X-Received: by 2002:adf:f60a:: with SMTP id t10mr2972990wrp.35.1571751126344; 
- Tue, 22 Oct 2019 06:32:06 -0700 (PDT)
+ bh=Y3CwxZ6AkYJNl+EhdLlXfHN9G+q8kHaXoA+Z1AMzPBo=;
+ b=K6p3PRex+XBHz12TVZjoA+x+KnhCkzdy8/fM0HlDBM9CeQiPplskC11zc1t5+YV4fB
+ /WO9in6XxVjjAN/yAB/E2r7zzlR1q/2PVFbDuZktoDCsPIRXtzsUa/FXmADY/bfKHPtV
+ lSfOiOSzBTUmJ0pp9TswokTVmzKyeIl6K6cjrf1ntLIZ76KCTkkRNHg3liz22JHNtoaE
+ bnxB90IqxzfyQc45v1b4bJKpGy3PaU7LARL7sB2OFN2/6I8SY3pk8IYMWU3Jatza8E0o
+ FoaIEhuJCyMNpy3nnZpqze51i4ooMr5VnB8cvIT1Dk7THjjff6v/3M5r3e8Ch51Rlrxm
+ JEPg==
+X-Gm-Message-State: APjAAAV2Z185gkv1RJI2ylph/T9LFfw3TrG/H+Kw0Qken+HLxPOxNqsF
+ z22qUvLEDdUfUdsqG7ruNUSPZUlO9Vs=
+X-Google-Smtp-Source: APXvYqw5MzrXqp6RmuD/sWW2Nhh7Viof+EUYe67sb39yovB80JHerzX0euHUyWHLq3UiLvmmxtbBvA==
+X-Received: by 2002:a1c:1d10:: with SMTP id d16mr3290975wmd.14.1571751128854; 
+ Tue, 22 Oct 2019 06:32:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.04
+ by smtp.gmail.com with ESMTPSA id r2sm20263856wma.1.2019.10.22.06.32.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Oct 2019 06:32:04 -0700 (PDT)
+ Tue, 22 Oct 2019 06:32:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/41] target/arm: Split out rebuild_hflags_common
-Date: Tue, 22 Oct 2019 14:31:04 +0100
-Message-Id: <20191022133134.14487-12-peter.maydell@linaro.org>
+Subject: [PULL 12/41] target/arm: Split out rebuild_hflags_a64
+Date: Tue, 22 Oct 2019 14:31:05 +0100
+Message-Id: <20191022133134.14487-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191022133134.14487-1-peter.maydell@linaro.org>
 References: <20191022133134.14487-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,161 +84,181 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Create a function to compute the values of the TBFLAG_ANY bits
+Create a function to compute the values of the TBFLAG_A64 bits
 that will be cached.  For now, the env->hflags variable is not
 used, and the results are fed back to cpu_get_tb_cpu_state.
 
+Note that not all BTI related flags are cached, so we have to
+test the BTI feature twice -- once for those bits moved out to
+rebuild_hflags_a64 and once for those bits that remain in
+cpu_get_tb_cpu_state.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191018174431.1784-2-richard.henderson@linaro.org
+Message-id: 20191018174431.1784-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h    | 29 ++++++++++++++++++-----------
- target/arm/helper.c | 26 +++++++++++++++++++-------
- 2 files changed, 37 insertions(+), 18 deletions(-)
+ target/arm/helper.c | 131 +++++++++++++++++++++++---------------------
+ 1 file changed, 69 insertions(+), 62 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 297ad5e47ad..ad79a6153bb 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -231,6 +231,9 @@ typedef struct CPUARMState {
-     uint32_t pstate;
-     uint32_t aarch64; /* 1 if CPU is in aarch64 state; inverse of PSTATE.nRW */
- 
-+    /* Cached TBFLAGS state.  See below for which bits are included.  */
-+    uint32_t hflags;
-+
-     /* Frequently accessed CPSR bits are stored separately for efficiency.
-        This contains all the other bits.  Use cpsr_{read,write} to access
-        the whole CPSR.  */
-@@ -3140,15 +3143,18 @@ typedef ARMCPU ArchCPU;
- 
- #include "exec/cpu-all.h"
- 
--/* Bit usage in the TB flags field: bit 31 indicates whether we are
-+/*
-+ * Bit usage in the TB flags field: bit 31 indicates whether we are
-  * in 32 or 64 bit mode. The meaning of the other bits depends on that.
-  * We put flags which are shared between 32 and 64 bit mode at the top
-  * of the word, and flags which apply to only one mode at the bottom.
-+ *
-+ * Unless otherwise noted, these bits are cached in env->hflags.
-  */
- FIELD(TBFLAG_ANY, AARCH64_STATE, 31, 1)
- FIELD(TBFLAG_ANY, MMUIDX, 28, 3)
- FIELD(TBFLAG_ANY, SS_ACTIVE, 27, 1)
--FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)
-+FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)     /* Not cached. */
- /* Target EL if we take a floating-point-disabled exception */
- FIELD(TBFLAG_ANY, FPEXC_EL, 24, 2)
- FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
-@@ -3159,13 +3165,14 @@ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
- FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 21, 2)
- 
- /* Bit usage when in AArch32 state: */
--FIELD(TBFLAG_A32, THUMB, 0, 1)
--FIELD(TBFLAG_A32, VECLEN, 1, 3)
--FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)
-+FIELD(TBFLAG_A32, THUMB, 0, 1)          /* Not cached. */
-+FIELD(TBFLAG_A32, VECLEN, 1, 3)         /* Not cached. */
-+FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)      /* Not cached. */
- /*
-  * We store the bottom two bits of the CPAR as TB flags and handle
-  * checks on the other bits at runtime. This shares the same bits as
-  * VECSTRIDE, which is OK as no XScale CPU has VFP.
-+ * Not cached, because VECLEN+VECSTRIDE are not cached.
-  */
- FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
- /*
-@@ -3174,15 +3181,15 @@ FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
-  * the same thing as the current security state of the processor!
-  */
- FIELD(TBFLAG_A32, NS, 6, 1)
--FIELD(TBFLAG_A32, VFPEN, 7, 1)
--FIELD(TBFLAG_A32, CONDEXEC, 8, 8)
-+FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Not cached. */
-+FIELD(TBFLAG_A32, CONDEXEC, 8, 8)       /* Not cached. */
- FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
- /* For M profile only, set if FPCCR.LSPACT is set */
--FIELD(TBFLAG_A32, LSPACT, 18, 1)
-+FIELD(TBFLAG_A32, LSPACT, 18, 1)        /* Not cached. */
- /* For M profile only, set if we must create a new FP context */
--FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1)
-+FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1) /* Not cached. */
- /* For M profile only, set if FPCCR.S does not match current security state */
--FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1)
-+FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1) /* Not cached. */
- /* For M profile only, Handler (ie not Thread) mode */
- FIELD(TBFLAG_A32, HANDLER, 21, 1)
- /* For M profile only, whether we should generate stack-limit checks */
-@@ -3194,7 +3201,7 @@ FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
- FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
- FIELD(TBFLAG_A64, PAUTH_ACTIVE, 8, 1)
- FIELD(TBFLAG_A64, BT, 9, 1)
--FIELD(TBFLAG_A64, BTYPE, 10, 2)
-+FIELD(TBFLAG_A64, BTYPE, 10, 2)         /* Not cached. */
- FIELD(TBFLAG_A64, TBID, 12, 2)
- 
- static inline bool bswap_code(bool sctlr_b)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0d9a2d2ab74..8829d91ae1d 100644
+index 8829d91ae1d..69da04786e8 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11054,6 +11054,22 @@ ARMMMUIdx arm_stage1_mmu_idx(CPUARMState *env)
+@@ -11070,6 +11070,71 @@ static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
+     return flags;
  }
- #endif
  
-+static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
-+                                      ARMMMUIdx mmu_idx, uint32_t flags)
++static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
++                                   ARMMMUIdx mmu_idx)
 +{
-+    flags = FIELD_DP32(flags, TBFLAG_ANY, FPEXC_EL, fp_el);
-+    flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX,
-+                       arm_to_core_mmu_idx(mmu_idx));
++    ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
++    ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
++    uint32_t flags = 0;
++    uint64_t sctlr;
++    int tbii, tbid;
 +
-+    if (arm_cpu_data_is_big_endian(env)) {
-+        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
++    flags = FIELD_DP32(flags, TBFLAG_ANY, AARCH64_STATE, 1);
++
++    /* FIXME: ARMv8.1-VHE S2 translation regime.  */
++    if (regime_el(env, stage1) < 2) {
++        ARMVAParameters p1 = aa64_va_parameters_both(env, -1, stage1);
++        tbid = (p1.tbi << 1) | p0.tbi;
++        tbii = tbid & ~((p1.tbid << 1) | p0.tbid);
++    } else {
++        tbid = p0.tbi;
++        tbii = tbid & !p0.tbid;
 +    }
-+    if (arm_singlestep_active(env)) {
-+        flags = FIELD_DP32(flags, TBFLAG_ANY, SS_ACTIVE, 1);
++
++    flags = FIELD_DP32(flags, TBFLAG_A64, TBII, tbii);
++    flags = FIELD_DP32(flags, TBFLAG_A64, TBID, tbid);
++
++    if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
++        int sve_el = sve_exception_el(env, el);
++        uint32_t zcr_len;
++
++        /*
++         * If SVE is disabled, but FP is enabled,
++         * then the effective len is 0.
++         */
++        if (sve_el != 0 && fp_el == 0) {
++            zcr_len = 0;
++        } else {
++            zcr_len = sve_zcr_len_for_el(env, el);
++        }
++        flags = FIELD_DP32(flags, TBFLAG_A64, SVEEXC_EL, sve_el);
++        flags = FIELD_DP32(flags, TBFLAG_A64, ZCR_LEN, zcr_len);
 +    }
-+    return flags;
++
++    sctlr = arm_sctlr(env, el);
++
++    if (cpu_isar_feature(aa64_pauth, env_archcpu(env))) {
++        /*
++         * In order to save space in flags, we record only whether
++         * pauth is "inactive", meaning all insns are implemented as
++         * a nop, or "active" when some action must be performed.
++         * The decision of which action to take is left to a helper.
++         */
++        if (sctlr & (SCTLR_EnIA | SCTLR_EnIB | SCTLR_EnDA | SCTLR_EnDB)) {
++            flags = FIELD_DP32(flags, TBFLAG_A64, PAUTH_ACTIVE, 1);
++        }
++    }
++
++    if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
++        /* Note that SCTLR_EL[23].BT == SCTLR_BT1.  */
++        if (sctlr & (el == 0 ? SCTLR_BT0 : SCTLR_BT1)) {
++            flags = FIELD_DP32(flags, TBFLAG_A64, BT, 1);
++        }
++    }
++
++    return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
 +}
 +
  void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
                            target_ulong *cs_base, uint32_t *pflags)
  {
-@@ -11145,7 +11161,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-         }
-     }
+@@ -11079,67 +11144,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+     uint32_t flags = 0;
  
--    flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX, arm_to_core_mmu_idx(mmu_idx));
-+    flags = rebuild_hflags_common(env, fp_el, mmu_idx, flags);
+     if (is_a64(env)) {
+-        ARMCPU *cpu = env_archcpu(env);
+-        uint64_t sctlr;
+-
+         *pc = env->pc;
+-        flags = FIELD_DP32(flags, TBFLAG_ANY, AARCH64_STATE, 1);
+-
+-        /* Get control bits for tagged addresses.  */
+-        {
+-            ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
+-            ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
+-            int tbii, tbid;
+-
+-            /* FIXME: ARMv8.1-VHE S2 translation regime.  */
+-            if (regime_el(env, stage1) < 2) {
+-                ARMVAParameters p1 = aa64_va_parameters_both(env, -1, stage1);
+-                tbid = (p1.tbi << 1) | p0.tbi;
+-                tbii = tbid & ~((p1.tbid << 1) | p0.tbid);
+-            } else {
+-                tbid = p0.tbi;
+-                tbii = tbid & !p0.tbid;
+-            }
+-
+-            flags = FIELD_DP32(flags, TBFLAG_A64, TBII, tbii);
+-            flags = FIELD_DP32(flags, TBFLAG_A64, TBID, tbid);
+-        }
+-
+-        if (cpu_isar_feature(aa64_sve, cpu)) {
+-            int sve_el = sve_exception_el(env, current_el);
+-            uint32_t zcr_len;
+-
+-            /* If SVE is disabled, but FP is enabled,
+-             * then the effective len is 0.
+-             */
+-            if (sve_el != 0 && fp_el == 0) {
+-                zcr_len = 0;
+-            } else {
+-                zcr_len = sve_zcr_len_for_el(env, current_el);
+-            }
+-            flags = FIELD_DP32(flags, TBFLAG_A64, SVEEXC_EL, sve_el);
+-            flags = FIELD_DP32(flags, TBFLAG_A64, ZCR_LEN, zcr_len);
+-        }
+-
+-        sctlr = arm_sctlr(env, current_el);
+-
+-        if (cpu_isar_feature(aa64_pauth, cpu)) {
+-            /*
+-             * In order to save space in flags, we record only whether
+-             * pauth is "inactive", meaning all insns are implemented as
+-             * a nop, or "active" when some action must be performed.
+-             * The decision of which action to take is left to a helper.
+-             */
+-            if (sctlr & (SCTLR_EnIA | SCTLR_EnIB | SCTLR_EnDA | SCTLR_EnDB)) {
+-                flags = FIELD_DP32(flags, TBFLAG_A64, PAUTH_ACTIVE, 1);
+-            }
+-        }
+-
+-        if (cpu_isar_feature(aa64_bti, cpu)) {
+-            /* Note that SCTLR_EL[23].BT == SCTLR_BT1.  */
+-            if (sctlr & (current_el == 0 ? SCTLR_BT0 : SCTLR_BT1)) {
+-                flags = FIELD_DP32(flags, TBFLAG_A64, BT, 1);
+-            }
++        flags = rebuild_hflags_a64(env, current_el, fp_el, mmu_idx);
++        if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
+             flags = FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
+         }
+     } else {
+@@ -11159,9 +11166,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+             flags = FIELD_DP32(flags, TBFLAG_A32,
+                                XSCALE_CPAR, env->cp15.c15_cpar);
+         }
+-    }
+ 
+-    flags = rebuild_hflags_common(env, fp_el, mmu_idx, flags);
++        flags = rebuild_hflags_common(env, fp_el, mmu_idx, flags);
++    }
  
      /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
       * states defined in the ARM ARM for software singlestep:
-@@ -11153,9 +11169,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-      *     0            x       Inactive (the TB flag for SS is always 0)
-      *     1            0       Active-pending
-      *     1            1       Active-not-pending
-+     * SS_ACTIVE is set in hflags; PSTATE_SS is computed every TB.
-      */
--    if (arm_singlestep_active(env)) {
--        flags = FIELD_DP32(flags, TBFLAG_ANY, SS_ACTIVE, 1);
-+    if (FIELD_EX32(flags, TBFLAG_ANY, SS_ACTIVE)) {
-         if (is_a64(env)) {
-             if (env->pstate & PSTATE_SS) {
-                 flags = FIELD_DP32(flags, TBFLAG_ANY, PSTATE_SS, 1);
-@@ -11166,10 +11182,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-             }
-         }
-     }
--    if (arm_cpu_data_is_big_endian(env)) {
--        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
--    }
--    flags = FIELD_DP32(flags, TBFLAG_ANY, FPEXC_EL, fp_el);
- 
-     if (arm_v7m_is_handler_mode(env)) {
-         flags = FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
 -- 
 2.20.1
 
