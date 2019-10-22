@@ -2,67 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804FCE09A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:50:06 +0200 (CEST)
-Received: from localhost ([::1]:36186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B4EE09E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 18:57:52 +0200 (CEST)
+Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMxMC-0003ud-Td
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:50:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
+	id 1iMxTi-00053g-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 12:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iMx76-0003EZ-BV
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:34:29 -0400
+ (envelope-from <clg@kaod.org>) id 1iMxBQ-0000kp-Lm
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:38:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iMx75-0004PS-5s
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:34:28 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43175)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iMx75-0004Oy-0U
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:34:27 -0400
-Received: by mail-io1-xd41.google.com with SMTP id c11so12116993iom.10
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 09:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=S7GLYTWYwKDPqMMyl5E+zvOg9SPh+U8P5YdjfmkwQj8=;
- b=mWSfDd1rr5Red/bw5zq3ut4i5XC3u+rCoQii8nz0HvyGNBf4TyWiSHqxBqUMMTXH8L
- 9rRUBUHKlecIOD6Psm9Y+11k+Afxv0JZaMblfQSHSD249mBbjQpVkI56NMA35ieOPL+K
- yvNYbI4q92DqYJWGkp83B/+lAKD3sLuwc0gxuWffK2mzLjwYgRnL6oJml1lvl/HoOUji
- QGHGqjLwPcyB4UH23q+GkMMl+CDYGzsPTQRSW0S7yvLfefIXgUI3BbV7hsEkyg6E4mVz
- +ReBPcIOaJnPzW0bCaoOd83SFFrJ3JIwJG+N0Ny34ZZihaXIzNIkBiFz2Dnm/7Z6TdKG
- m5dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=S7GLYTWYwKDPqMMyl5E+zvOg9SPh+U8P5YdjfmkwQj8=;
- b=HxFgWQG5chqbiM4mirZ6aFC1PJIWktkIA4f4428QIBUOzezsDwUiDXsL4Vii2jn+NQ
- 77ODNzCS8vfgF/1VSQiOn0SUM5L/zTQ+A9XfjBZpeDNAD4LWTerVVc/iAwawcpQ66TF1
- 98JqeyoTaWFoW8oPBNAVWh/YcyNrgqlO2LqiPP/kbMEKyn0GCs4dvRbgJlps4hcCuOid
- 0APPCkKPB7X4yw/OuoV288u29oENk8PQboPUI0KggOE4wWc1N/Z89zUGcVRYASqHRKKA
- VnDGDK0KgX6Q5RjbaX8Y5gi6v3+1cqI2TvGmzFJ0Tc/h/vUSb56Ke3Dmmo8SucLoUh35
- a0pA==
-X-Gm-Message-State: APjAAAWmBJD/vYo53SfPGftJzL/NTS+cFrHfKX1DL62Vee5Zk2Wcf8ZE
- 1V5a1FMEETRFdDgrCUAkCyLDPCuPvRfwzNA9uOjR5g==
-X-Google-Smtp-Source: APXvYqwoXcBN9SxZ/mfYJqRMvWMYs3V8qGaQdTjHfQvnzpdCy6Mj8261eI/85rTRY2BU7i8XMlirH67CJC6On9ua/Sw=
-X-Received: by 2002:a5e:8219:: with SMTP id l25mr4712782iom.292.1571762066131; 
- Tue, 22 Oct 2019 09:34:26 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1iMxBO-0006hU-Uh
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:38:56 -0400
+Received: from 5.mo1.mail-out.ovh.net ([178.33.45.107]:46775)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMxBO-0006gh-Nk
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 12:38:54 -0400
+Received: from player688.ha.ovh.net (unknown [10.108.35.185])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 6E2DF194F67
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 18:38:52 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 70050B32C2DD;
+ Tue, 22 Oct 2019 16:38:46 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v5 0/7] ppc: reset the interrupt presenter from the CPU reset
+ handler
+Date: Tue, 22 Oct 2019 18:38:05 +0200
+Message-Id: <20191022163812.330-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191022162137.27161-1-marcandre.lureau@redhat.com>
- <20191022162137.27161-14-marcandre.lureau@redhat.com>
-In-Reply-To: <20191022162137.27161-14-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Oct 2019 17:34:14 +0100
-Message-ID: <CAFEAcA8B9x0nWk38bOSH_7NmD8FU+pRd22OTN2NFdvNVhCAktg@mail.gmail.com>
-Subject: Re: [PATCH v2 13/28] serial: factor out serial_mm_connect
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 3502393138045684710
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 178.33.45.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,60 +55,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 at 17:23, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Split IRQ and memory region initialization in a different function to
-> be reused by callers that realize the serial device themself, and
-> connect irq/mem after.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/char/serial.c         | 20 +++++++++++++-------
->  include/hw/char/serial.h |  3 +++
->  2 files changed, 16 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index 72d48b5cd8..41548e159c 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -1078,27 +1078,33 @@ static const MemoryRegionOps serial_mm_ops[3] =3D=
- {
->      },
->  };
->
-> +void serial_mm_connect(SerialMMState *self, enum device_endian end,
-> +                       MemoryRegion *address_space, qemu_irq irq)
-> +{
-> +    SerialState *s =3D SERIAL(self);
-> +
-> +    qdev_connect_gpio_out_named(DEVICE(self), "serial-irq", 0, irq);
-> +    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], self,
-> +                          "serial", 8 << self->regshift);
-> +    memory_region_add_subregion(address_space, s->base, &s->io);
-> +}
+Hello,
 
-This function isn't needed if you make SerialMMState a sysbus
-device which provides the MMIO region and the IRQ in the
-usual way.
+On the sPAPR machine and PowerNV machine, the interrupt presenters are
+created by a machine handler at the core level and are reseted
+independently. This is not consistent and it raises issues when it
+comes to handle hot-plugged CPUs. In that case, the presenters are not
+reseted. This is less of an issue in XICS, although a zero MFFR could
+be a concern, but in XIVE, the OS CAM line is not set and this breaks
+the presenting algorithm. The current code has workarounds which need
+a global cleanup.
 
-thanks
--- PMM
+Extend the sPAPR IRQ backend and the PowerNV Chip class with a new
+cpu_intc_reset() handler called by the CPU reset handler and remove
+the XiveTCTX reset handler which is now redundant.
+
+Set the OS CAM line when the interrupt presenter of the sPAPR core is
+reseted. This will also cover the case of hot-plugged CPUs.
+
+Thanks,
+
+C.
+
+Changes in v5:
+
+ - Removed useless PNV_CHIP() cast
+=20
+Changes in v4:
+
+ - Introduce a PnvCore reset handler
+ - Add PnvChip pointer to PnvCore
+
+Changes in v3:
+
+ - Introduced a DeviceClass::reset for the CPU (Greg)
+ - add support for PowerNV
+=20
+Changes in v2:
+
+ - removed property
+ - simplified reset handlers
+
+C=C3=A9dric Le Goater (6):
+  spapr: move CPU reset after presenter creation
+  ppc/pnv: Introduce a PnvCore reset handler
+  ppc/pnv: Add a PnvChip pointer to PnvCore
+  ppc: Reset the interrupt presenter from the CPU reset handler
+  ppc/pnv: Fix naming of routines realizing the CPUs
+  spapr/xive: Set the OS CAM line at reset
+
+Greg Kurz (1):
+  spapr_cpu_core: Implement DeviceClass::reset
+
+ include/hw/ppc/pnv.h        |  1 +
+ include/hw/ppc/pnv_core.h   |  3 +++
+ include/hw/ppc/spapr_irq.h  |  2 ++
+ include/hw/ppc/spapr_xive.h |  1 -
+ include/hw/ppc/xics.h       |  1 +
+ include/hw/ppc/xive.h       |  1 +
+ hw/intc/spapr_xive.c        | 53 +++++++++++++++++--------------------
+ hw/intc/xics.c              |  8 ++----
+ hw/intc/xics_spapr.c        |  7 +++++
+ hw/intc/xive.c              | 12 +--------
+ hw/ppc/pnv.c                | 18 +++++++++++++
+ hw/ppc/pnv_core.c           | 31 ++++++++++++++++------
+ hw/ppc/spapr_cpu_core.c     | 44 +++++++++++++++++++++++-------
+ hw/ppc/spapr_irq.c          | 14 ++++++++++
+ 14 files changed, 131 insertions(+), 65 deletions(-)
+
+--=20
+2.21.0
+
 
