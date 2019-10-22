@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E716E02BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:20:47 +0200 (CEST)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA78E02D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 13:26:46 +0200 (CEST)
+Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMsDW-0006PG-2a
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44125)
+	id 1iMsJJ-00069W-CZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 07:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMsBK-0004dz-OT
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:34 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMsBb-0004qZ-TY
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMsBI-0007nz-OH
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:30 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:44479)
+ (envelope-from <laurent@vivier.eu>) id 1iMsBZ-0007xb-HB
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 07:18:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:42835)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iMsBI-0007n0-EM; Tue, 22 Oct 2019 07:18:28 -0400
+ id 1iMsBK-0007oH-3O; Tue, 22 Oct 2019 07:18:30 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MxUfn-1i7ZFY2cHp-00xpyx; Tue, 22 Oct 2019 13:17:53 +0200
+ id 1M9npT-1iQSXp2pcb-005rqt; Tue, 22 Oct 2019 13:17:56 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v14 0/9] hw/m68k: add Apple Machintosh Quadra 800 machine
-Date: Tue, 22 Oct 2019 13:17:29 +0200
-Message-Id: <20191022111738.20803-1-laurent@vivier.eu>
+Subject: [PATCH v14 2/9] dp8393x: manage big endian bus
+Date: Tue, 22 Oct 2019 13:17:31 +0200
+Message-Id: <20191022111738.20803-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191022111738.20803-1-laurent@vivier.eu>
+References: <20191022111738.20803-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7cMf2rB3GqnHs0cvrUQNnAoEzZaBoxdNRaAP/hJ1rfkW167fH1L
- s6kpy0/+4p2uDrFdX0Fpq+mAPrvi3d3/CMs3v2e068BR8N+vxesOi6K+eHwid4jxHWO6wbo
- 9ATc1mVn4tMZ3cOpNHMM3WkNcg+S8OEDKjJuWZNH6iCiHcZP2GN3ZJQ2m6qQWycjoSqU5Fs
- GxjjAnDUkdX7+NbyAmykA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7D+q3waynoI=:hkYS0BepIdY3b0XVDFc4yn
- YFYMxrV+bjir+MTmMsMwXT1xy++ypHWZRW0UAshUZUWM9OWoCMVqKXqxhFOz4mhX+mvT0YLXW
- 7Epu4NNosxnhHTyzFzCFu3VFJ4xAGN/6zOyJ9MPzf0Q7vQFH1muylcCdvMt1M/3DUtuKXoDhK
- 23BnFbK61srVPZWDfbqx4DnENrxAbCHSmLWR1Ohu1nPzk/uhC+CqN2Pt8qiwoz+92yVp30DXF
- 9Lae5MuA5PRhd6DWsC2iZkgExlpz9JFDkN36uKvQZafJLRiQsU2VEZjXEZIblSr6YuqFsDdvY
- YR9tQDibZkmavBKp2qaT+W8EROYWhVLzpepOqz5+CWT94x3C9YlKWMCiM0cDVyweFmcO5ma1w
- 0a33ABXJUpf1sCW0vyv2rpF+q12sIoUZLC6c2e3+HN6oeGVujnS4N48xBsLwYGkorOhNuhiC+
- Wtctbh3tKDT6Ya1pypEvp25A+81WU20qeTRmrwG8Pvqcydv0RDleS6QFw3e3SbXk0rsel4+ZS
- hWYzV0WJVEHePxSKfTKbJ+5uYOWJ8tp+wYSr2fgz/vC2Ovxsh4j7JjEr4AI5LExuEIG2A2G62
- NnYc426JBUkgGGJK6nzbIkxh7EOdCtHKlgxkICitznAf3tUoFtkQZcCVOaaud5c8TjCXwg0M/
- 0xB8PTaSkwIVdDdYm9XA83UyQ/gYuic1RvzcZCXOntUbS+dHDG0nUzZ3RYQow2v0zy5s4WgQP
- tmvGxNnQmehuhwctXNw9REZlncO0I4F0JaKr77dcaF3gN8X+vNmwcvWx6/RVGztBFkmu27OQQ
- HpFC540rT3F+8/w5l0aldd+aalOS8ONe6QUACdZSwXFqS+gFLLxCkSVFsSa+Nm1u85UdljvBw
- t5IU5z45or03iLcbEHKzlrbY6iRTSv5wgXvSXkPI4=
+X-Provags-ID: V03:K1:zZa0r8Bj/1Is2Hv0Jeq/Pd2J6JdPAlZqjZyGh3tN0gdbt3PDOam
+ ySqEj+J4CLJe3+Yc9U8Bhglts9Uq4+xOvBLKAHMC/ZqEeamN4tXQvVgZ4mow4ElJr2vvcew
+ kyKSIDWHaXRBMT7F1I6g1tio0qgkEw4DoeLmAcQ0u5Lnea4Db6Ucpcyom6XSx7XQ5jwH0t4
+ DVli5TZiTxNedkY+QKXdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S9YVdV7r+v8=:UgkgVhKiqogcqZ98noaAKP
+ 03wn6jz4E4vyeKNIUTIf/rv8Aur1VTvuM3gDXqR7KKS3hqE7J3eO/wFXujBHr8yzjDwl2vYA3
+ zNikooRWHopmuNfBncY0wuUfYpk+sjAq47RhjivcQRlfyOC0ziDzCCGePJPlHJJ4QHBkG29bv
+ W4LL5ouVkXVQ81BI5KmZYUJOm68Sa/virAXGkOLMgKDHBGjU3a5r8egc4C8TbZUeEo0TxV4qB
+ bzEK/U15x8mZwa3rskfpMHdZf9pRnIubXnWU24Elrp6WrPsvGob/Rjm8B9knq3w0BFqP1fIYS
+ 62J5KSuCyEA8d/hbeBzkqg2CU0PHQImwHtEQaSlfBFKJ98Ys/8Fl4bU+Na2AyJl+0shbYWSKs
+ F+YQZZQmLwpXOmAFlzQ/RvjZWnpeRBdaJ5QBxcYYxU4KNkNwgAtxWKAB/nvV23vd15I8nx7gO
+ fUmxeznve1OvsBl9+As73WoaSQetyWmzsJmTJ9SZqprVES/YpxB1UmBa7Z7pe5E4qtVpY/cs1
+ 2vSmMsiNm3sPYZm7OB6CNoRlPzEpnnv5Om/8h/p7VHNuVLLV/QZZYEVp1IFSO0tBuTXhLanCy
+ /h9av0g062HUyAgQcmCtHJK0Y1l1OBbiMTPwU8hJv2KlKddGwfJ/Hnd4pssA/Lu7steTRf21n
+ Tzluz4Km+xpvL6jY8mOWtXjqg/r98BenxZ654iDnYzdnqa4bcRXopXXbuTL4PGgu+dcDc0WD2
+ TIIfQ4lEwRhZMPMnrG7G/lXhkgaUdaoVhALv7z8b4ae6UhQsYXuO7kDe0cpoolxLqAlqdIlXe
+ nso9uG+mnKFCUKICma/hwUsgqPCPLIXjNKrljrRqCU9SqwrvA7sB+gn1lvCp8WYHCxXHykWQG
+ mKcuIvYqwnGO8u/VR3TsEWUm+HsXJFJIKJvJ31MC4=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.13
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,240 +77,209 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm rebasing some of these patches for seven years now,
-too many years...
+This is needed by Quadra 800, this card can run on little-endian
+or big-endian bus.
 
-if you want to test the machine, I'm sorry, it doesn't boot
-a MacROM, but you can boot a linux kernel from the command line.
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Tested-by: Hervé Poussineau <hpoussin@reactos.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+---
+ hw/net/dp8393x.c | 88 +++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 57 insertions(+), 31 deletions(-)
 
-You can install your own disk using debian-installer, with:
-
-    ...
-    -M q800 \
-    -serial none -serial mon:stdio \
-    -m 1000M \
-    -net nic,model=dp83932,addr=09:00:07:12:34:57 \
-    -append "console=ttyS0 vga=off" \
-    -kernel vmlinux-4.16.0-1-m68k \
-    -initrd initrd.gz \
-    -drive file=debian-10.0-m68k-NETINST-1.iso,media=cdrom \
-    -drive file=m68k.qcow2,format=qcow2 \
-    -nographic
-
-If you use a graphic adapter instead of "-nographic", you can use "-g" to set the
-size of the display (I use "-g 1600x800x24").
-
-You can get the ISO from:
-
-https://cdimage.debian.org/cdimage/ports/10.0/m68k/iso-cd/debian-10.0-m68k-NETINST-1.iso
-
-and extract the kernel and initrd.gz:
-
-guestfish --add debian-10.0-m68k-NETINST-1.iso --ro \
-          --mount /dev/sda:/ <<_EOF_
-copy-out /install/cdrom/initrd.gz .
-copy-out /install/kernels/vmlinux-4.16.0-1-m68k .
-_EOF_
-
-The mirror to use is: http://ftp.ports.debian.org/debian-ports/
-when it fails, continue without boot loader.
-
-In the same way, you can extract the kernel and the initramfs from the qcow2
-image to use it with "-kernel" and "-initrd":
-
-guestfish --add m68k.qcow2 --mount /dev/sda2:/ <<_EOF_
-copy-out /boot/vmlinux-4.16.0-1-m68k .
-copy-out /boot/initrd.img-4.16.0-1-m68k .
-_EOF_
-
-and boot with:
-
-   ...
-   -append "root=/dev/sda2 rw console=ttyS0 console=tty \
-   -kernel vmlinux-4.16.0-1-m68k \
-   -initrd initrd.img-4.16.0-1-m68k
-
-NOTE: DHCP doesn't work but you can assign a static IP address.
-      We need some patches for dp8393x that are not ready to be merged.
-      See http://patchwork.ozlabs.org/patch/927020/
-          http://patchwork.ozlabs.org/patch/927030/
-          http://patchwork.ozlabs.org/patch/927026/
-
-v14: rebase
-     update VBL and SECOND IFR flags even if the timer is stopped
-     updated swim.c header
-
-v13: rebase
-     Stop 1-second and VBL timers when the interrupt is disabled
-     (fix some performance regressions on PowerMac G5, and 100% CPU
-      usage on x86_64)
-
-v12: Merge macfb and nubus macfb patches
-     Add some commit messages
-     replace DEFINE_MACHINE() by type_init()
-     Add BootLinuxConsoleTest from Philippe
-     rebase
-
-v11: Add VMState to migrate ESP PDMA
-
-     The new VMState structures cannot be tested because m68k is not
-     migratable and then Q800 is not either.
-     I've tested the ESP VMState is not broken by the change
-     with 'migrate "exec:cat > mig"' with qemu-system-sparc and
-     I have compared the result with/without the patch with
-     scripts/analyze-migrate.py: files desc.json are identical.
-
-v10: Add SWIM VMState and reset function
-     Add MacVIA VMState
-     rework Kconfig
-
-v9: Fix comments format
-    rebase on top of NeXTcube
-
-v8: rebase (new blk_new(), add "qemu-common.h")
-    update bootinfo information and license
-    add some braces
-    Rename Q800IRQState to GLUEState:
-    it's more like a Logic Unit than an IRQ controller,
-    and Apple calls it "GLUE" (Mark: I prefer to keep it
-    like this for the moment, in the future this part
-    need to be reworked, we have to review the IRQ levels
-    and to wire NUBUS IRQ. The implementation is really trivial
-    for the moment and we will move it to QOM in the future)
-
-v7: rebase and port to Kconfig
-    move IRQ controller back to q800.c (we don't need an object for this)
-    update log message for ESP changes and add some g_assert()
-    re-order patches: put esp, escc and dp8393x first
-
-v6: Rebase onto git master (this now includes the m68k EXCP_ILLEGAL fix required
-      for this patchset to boot)
-    Add Hervé's R-B tags
-    Drop ASC (Apple Sound Chip) device since the Linux driver is broken and
-      it is not required for a successful boot
-    Remove extra esp_raise_irq() from ESP pseudo-DMA patch (Hervé)
-    Remove "return" from unimplemented write functions and instead add a
-      "read only" comment (Hervé)
-    Rename MAX_FD to SWIM_MAX_FD in SWIM floppy controller patch to prevent
-      potential conflicts with other files (Hervé)
-
-v5: Rebase onto git master
-    Add Philippe's R-B to patch 10
-    Include the command line to boot a Linux kernel under the q800 machine in the
-    commit message for patch 11 (Philippe)
-    Fix up comments in hw/misc/mac_via.c (Thomas)
-    Add asserts to VIA ADB support to prevent potential buffer overflows (Thomas)
-    Move macfb surface/resolution checks to realise and remove hw_error (Thomas)
-    Move macfb draw_line functions inline and remove macfb-template.h (Mark)
-    Use guest address rather than source pointer in draw_line functions - this brings
-      macfb in line with the VGA device and can prevent a potential buffer overflow
-    Use g_strdup_printf() for memory region names in NuBus devices instead of
-      hardcoded length char arrays (Thomas)
-    Move NuBus QOM types from patch 7 to patch 8 (spotted by Thomas)
-    Move CONFIG_COLDFIRE sections together in hw/m68k/Makefile.objs (Thomas)
-    Remove obsolete comment from q800.c in patch 11 (Thomas)
-
-v4: Drop RFC from subject prefix as this is getting close to final
-    Rebased onto master (fixing ESP, rom_ptr() conflicts)
-    Reworked q800.c based upon Thomas' comments about cpu_init() and
-      qemu_check_nic_model()
-    Address Thomas' comments on using error_report() instead of hw_error()
-    Change the NuBus memory regions from DEVICE_NATIVE_ENDIAN to
-      DEVICE_BIG_ENDIAN
-    Split macfb Nubus support into separate commit
-    Change VMSTATE_BUFFER_UNSAFE() to VMSTATE_UINT8_ARRAY() in macfb.c as
-      suggested by David
-    Remove dummy Apple Sound Chip migration state as pointed out by David
-    Keep VIA ADB state and buffers in the mac_via device rather than adding
-      to existing ADBState (this matches the pattern used in the PPC CUDA/PMU
-      VIAs)
-    Remove blacklisting for q800 machine from "make check" as requested by
-      Thomas with the following fixes:
-        - Fix incorrect MemoryRegion owner in ASC device
-        - Add qtest_enabled() check in q800_init() to allow testing when no
-          kernel is specified
-        - Move some Mac VIA initialisation from init to realize
-    Remove legacy drive properties from SWIM floppy controller and instead
-      expose separate floppy bus and drive devices as requested by Kevin
-
-v3: fix subject prefix "C" -> "RFC"
-
-v2: remove the dp8393x fixes, because one of the patch breaks something
-    Update "dp8393x: manage big endian bus" with idea from Thomas
-    Mark has reworked most of the patches:
-    - use mos6522
-    - some code move, renamings and cleanup
-
-Laurent Vivier (8):
-  esp: add pseudo-DMA as used by Macintosh
-  dp8393x: manage big endian bus
-  hw/m68k: add VIA support
-  hw/m68k: implement ADB bus support for via
-  hw/m68k: add Nubus support
-  hw/m68k: add Nubus macfb video card
-  hw/m68k: add a dummy SWIM floppy controller
-  hw/m68k: define Macintosh Quadra 800
-
-Philippe Mathieu-Daudé (1):
-  BootLinuxConsoleTest: Test the Quadra 800
-
- default-configs/m68k-softmmu.mak       |   1 +
- hw/m68k/bootinfo.h                     | 114 +++
- include/hw/block/swim.h                |  76 ++
- include/hw/display/macfb.h             |  64 ++
- include/hw/misc/mac_via.h              | 115 +++
- include/hw/nubus/mac-nubus-bridge.h    |  24 +
- include/hw/nubus/nubus.h               |  69 ++
- include/hw/scsi/esp.h                  |  15 +
- arch_init.c                            |   4 +
- hw/block/swim.c                        | 489 +++++++++++++
- hw/display/macfb.c                     | 477 ++++++++++++
- hw/m68k/q800.c                         | 394 ++++++++++
- hw/misc/mac_via.c                      | 964 +++++++++++++++++++++++++
- hw/net/dp8393x.c                       |  88 ++-
- hw/nubus/mac-nubus-bridge.c            |  45 ++
- hw/nubus/nubus-bridge.c                |  34 +
- hw/nubus/nubus-bus.c                   | 111 +++
- hw/nubus/nubus-device.c                | 215 ++++++
- hw/scsi/esp.c                          | 338 ++++++++-
- vl.c                                   |   3 +-
- MAINTAINERS                            |  14 +
- hw/Kconfig                             |   1 +
- hw/Makefile.objs                       |   1 +
- hw/block/Kconfig                       |   3 +
- hw/block/Makefile.objs                 |   1 +
- hw/display/Kconfig                     |   5 +
- hw/display/Makefile.objs               |   1 +
- hw/m68k/Kconfig                        |  10 +
- hw/m68k/Makefile.objs                  |   1 +
- hw/misc/Kconfig                        |   5 +
- hw/misc/Makefile.objs                  |   1 +
- hw/nubus/Kconfig                       |   2 +
- hw/nubus/Makefile.objs                 |   4 +
- qemu-options.hx                        |   2 +-
- tests/acceptance/boot_linux_console.py |  24 +
- 35 files changed, 3653 insertions(+), 62 deletions(-)
- create mode 100644 hw/m68k/bootinfo.h
- create mode 100644 include/hw/block/swim.h
- create mode 100644 include/hw/display/macfb.h
- create mode 100644 include/hw/misc/mac_via.h
- create mode 100644 include/hw/nubus/mac-nubus-bridge.h
- create mode 100644 include/hw/nubus/nubus.h
- create mode 100644 hw/block/swim.c
- create mode 100644 hw/display/macfb.c
- create mode 100644 hw/m68k/q800.c
- create mode 100644 hw/misc/mac_via.c
- create mode 100644 hw/nubus/mac-nubus-bridge.c
- create mode 100644 hw/nubus/nubus-bridge.c
- create mode 100644 hw/nubus/nubus-bus.c
- create mode 100644 hw/nubus/nubus-device.c
- create mode 100644 hw/nubus/Kconfig
- create mode 100644 hw/nubus/Makefile.objs
-
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index a5678e11fa..693e244ce6 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -153,6 +153,7 @@ typedef struct dp8393xState {
+ 
+     /* Hardware */
+     uint8_t it_shift;
++    bool big_endian;
+     qemu_irq irq;
+ #ifdef DEBUG_SONIC
+     int irq_level;
+@@ -223,6 +224,29 @@ static uint32_t dp8393x_wt(dp8393xState *s)
+     return s->regs[SONIC_WT1] << 16 | s->regs[SONIC_WT0];
+ }
+ 
++static uint16_t dp8393x_get(dp8393xState *s, int width, uint16_t *base,
++                            int offset)
++{
++    uint16_t val;
++
++    if (s->big_endian) {
++        val = be16_to_cpu(base[offset * width + width - 1]);
++    } else {
++        val = le16_to_cpu(base[offset * width]);
++    }
++    return val;
++}
++
++static void dp8393x_put(dp8393xState *s, int width, uint16_t *base, int offset,
++                        uint16_t val)
++{
++    if (s->big_endian) {
++        base[offset * width + width - 1] = cpu_to_be16(val);
++    } else {
++        base[offset * width] = cpu_to_le16(val);
++    }
++}
++
+ static void dp8393x_update_irq(dp8393xState *s)
+ {
+     int level = (s->regs[SONIC_IMR] & s->regs[SONIC_ISR]) ? 1 : 0;
+@@ -254,12 +278,12 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+         /* Fill current entry */
+         address_space_rw(&s->as, dp8393x_cdp(s),
+             MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-        s->cam[index][0] = data[1 * width] & 0xff;
+-        s->cam[index][1] = data[1 * width] >> 8;
+-        s->cam[index][2] = data[2 * width] & 0xff;
+-        s->cam[index][3] = data[2 * width] >> 8;
+-        s->cam[index][4] = data[3 * width] & 0xff;
+-        s->cam[index][5] = data[3 * width] >> 8;
++        s->cam[index][0] = dp8393x_get(s, width, data, 1) & 0xff;
++        s->cam[index][1] = dp8393x_get(s, width, data, 1) >> 8;
++        s->cam[index][2] = dp8393x_get(s, width, data, 2) & 0xff;
++        s->cam[index][3] = dp8393x_get(s, width, data, 2) >> 8;
++        s->cam[index][4] = dp8393x_get(s, width, data, 3) & 0xff;
++        s->cam[index][5] = dp8393x_get(s, width, data, 3) >> 8;
+         DPRINTF("load cam[%d] with %02x%02x%02x%02x%02x%02x\n", index,
+             s->cam[index][0], s->cam[index][1], s->cam[index][2],
+             s->cam[index][3], s->cam[index][4], s->cam[index][5]);
+@@ -272,7 +296,7 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+     /* Read CAM enable */
+     address_space_rw(&s->as, dp8393x_cdp(s),
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-    s->regs[SONIC_CE] = data[0 * width];
++    s->regs[SONIC_CE] = dp8393x_get(s, width, data, 0);
+     DPRINTF("load cam done. cam enable mask 0x%04x\n", s->regs[SONIC_CE]);
+ 
+     /* Done */
+@@ -293,10 +317,10 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+ 
+     /* Update SONIC registers */
+-    s->regs[SONIC_CRBA0] = data[0 * width];
+-    s->regs[SONIC_CRBA1] = data[1 * width];
+-    s->regs[SONIC_RBWC0] = data[2 * width];
+-    s->regs[SONIC_RBWC1] = data[3 * width];
++    s->regs[SONIC_CRBA0] = dp8393x_get(s, width, data, 0);
++    s->regs[SONIC_CRBA1] = dp8393x_get(s, width, data, 1);
++    s->regs[SONIC_RBWC0] = dp8393x_get(s, width, data, 2);
++    s->regs[SONIC_RBWC1] = dp8393x_get(s, width, data, 3);
+     DPRINTF("CRBA0/1: 0x%04x/0x%04x, RBWC0/1: 0x%04x/0x%04x\n",
+         s->regs[SONIC_CRBA0], s->regs[SONIC_CRBA1],
+         s->regs[SONIC_RBWC0], s->regs[SONIC_RBWC1]);
+@@ -411,12 +435,12 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+         tx_len = 0;
+ 
+         /* Update registers */
+-        s->regs[SONIC_TCR] = data[0 * width] & 0xf000;
+-        s->regs[SONIC_TPS] = data[1 * width];
+-        s->regs[SONIC_TFC] = data[2 * width];
+-        s->regs[SONIC_TSA0] = data[3 * width];
+-        s->regs[SONIC_TSA1] = data[4 * width];
+-        s->regs[SONIC_TFS] = data[5 * width];
++        s->regs[SONIC_TCR] = dp8393x_get(s, width, data, 0) & 0xf000;
++        s->regs[SONIC_TPS] = dp8393x_get(s, width, data, 1);
++        s->regs[SONIC_TFC] = dp8393x_get(s, width, data, 2);
++        s->regs[SONIC_TSA0] = dp8393x_get(s, width, data, 3);
++        s->regs[SONIC_TSA1] = dp8393x_get(s, width, data, 4);
++        s->regs[SONIC_TFS] = dp8393x_get(s, width, data, 5);
+ 
+         /* Handle programmable interrupt */
+         if (s->regs[SONIC_TCR] & SONIC_TCR_PINT) {
+@@ -442,9 +466,9 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+                 address_space_rw(&s->as,
+                     dp8393x_ttda(s) + sizeof(uint16_t) * (4 + 3 * i) * width,
+                     MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-                s->regs[SONIC_TSA0] = data[0 * width];
+-                s->regs[SONIC_TSA1] = data[1 * width];
+-                s->regs[SONIC_TFS] = data[2 * width];
++                s->regs[SONIC_TSA0] = dp8393x_get(s, width, data, 0);
++                s->regs[SONIC_TSA1] = dp8393x_get(s, width, data, 1);
++                s->regs[SONIC_TFS] = dp8393x_get(s, width, data, 2);
+             }
+         }
+ 
+@@ -471,7 +495,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+         s->regs[SONIC_TCR] |= SONIC_TCR_PTX;
+ 
+         /* Write status */
+-        data[0 * width] = s->regs[SONIC_TCR] & 0x0fff; /* status */
++        dp8393x_put(s, width, data, 0,
++                    s->regs[SONIC_TCR] & 0x0fff); /* status */
+         size = sizeof(uint16_t) * width;
+         address_space_rw(&s->as,
+             dp8393x_ttda(s),
+@@ -485,8 +510,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+                              sizeof(uint16_t) *
+                              (4 + 3 * s->regs[SONIC_TFC]) * width,
+                 MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-            s->regs[SONIC_CTDA] = data[0 * width] & ~0x1;
+-            if (data[0 * width] & 0x1) {
++            s->regs[SONIC_CTDA] = dp8393x_get(s, width, data, 0) & ~0x1;
++            if (dp8393x_get(s, width, data, 0) & 0x1) {
+                 /* EOL detected */
+                 break;
+             }
+@@ -749,7 +774,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
+         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+                          (uint8_t *)data, size, 0);
+-        if (data[0 * width] & 0x1) {
++        if (dp8393x_get(s, width, data, 0) & 0x1) {
+             /* Still EOL ; stop reception */
+             return -1;
+         } else {
+@@ -793,11 +818,11 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+ 
+     /* Write status to memory */
+     DPRINTF("Write status at %08x\n", dp8393x_crda(s));
+-    data[0 * width] = s->regs[SONIC_RCR]; /* status */
+-    data[1 * width] = rx_len; /* byte count */
+-    data[2 * width] = s->regs[SONIC_TRBA0]; /* pkt_ptr0 */
+-    data[3 * width] = s->regs[SONIC_TRBA1]; /* pkt_ptr1 */
+-    data[4 * width] = s->regs[SONIC_RSC]; /* seq_no */
++    dp8393x_put(s, width, data, 0, s->regs[SONIC_RCR]); /* status */
++    dp8393x_put(s, width, data, 1, rx_len); /* byte count */
++    dp8393x_put(s, width, data, 2, s->regs[SONIC_TRBA0]); /* pkt_ptr0 */
++    dp8393x_put(s, width, data, 3, s->regs[SONIC_TRBA1]); /* pkt_ptr1 */
++    dp8393x_put(s, width, data, 4, s->regs[SONIC_RSC]); /* seq_no */
+     size = sizeof(uint16_t) * 5 * width;
+     address_space_rw(&s->as, dp8393x_crda(s),
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 1);
+@@ -806,12 +831,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     size = sizeof(uint16_t) * width;
+     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-    s->regs[SONIC_LLFA] = data[0 * width];
++    s->regs[SONIC_LLFA] = dp8393x_get(s, width, data, 0);
+     if (s->regs[SONIC_LLFA] & 0x1) {
+         /* EOL detected */
+         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
+     } else {
+-        data[0 * width] = 0; /* in_use */
++        dp8393x_put(s, width, data, 0, 0); /* in_use */
+         address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 6 * width,
+             MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, sizeof(uint16_t), 1);
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+@@ -924,6 +949,7 @@ static Property dp8393x_properties[] = {
+     DEFINE_NIC_PROPERTIES(dp8393xState, conf),
+     DEFINE_PROP_PTR("dma_mr", dp8393xState, dma_mr),
+     DEFINE_PROP_UINT8("it_shift", dp8393xState, it_shift, 0),
++    DEFINE_PROP_BOOL("big_endian", dp8393xState, big_endian, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.21.0
 
