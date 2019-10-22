@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865F0E0629
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:15:34 +0200 (CEST)
-Received: from localhost ([::1]:58328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98682E0648
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:22:09 +0200 (CEST)
+Received: from localhost ([::1]:58670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuwe-0004KG-PK
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:15:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43778)
+	id 1iMv32-0003OP-5i
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aaron@os.amperecomputing.com>) id 1iMuoa-0002be-6B
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:07:13 -0400
+ (envelope-from <aaron@os.amperecomputing.com>) id 1iMuu0-0001uD-PC
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:12:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aaron@os.amperecomputing.com>) id 1iMuoZ-0002nV-1K
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:07:12 -0400
-Received: from mail-eopbgr720121.outbound.protection.outlook.com
- ([40.107.72.121]:30903 helo=NAM05-CO1-obe.outbound.protection.outlook.com)
+ (envelope-from <aaron@os.amperecomputing.com>) id 1iMutz-0005P7-Qd
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:12:48 -0400
+Received: from mail-eopbgr780105.outbound.protection.outlook.com
+ ([40.107.78.105]:6328 helo=NAM03-BY2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aaron@os.amperecomputing.com>)
- id 1iMuoY-0002n0-RJ
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:07:10 -0400
+ id 1iMuty-0005O5-1O
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 10:12:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V7xW+JBJHNXr0KXmBR97cq9N0fXl/qh6ji/EkdrB1TtTXBZh9/oaYcb5za30KeDlUvyVtJO7wDQ3xqfVE6ANl3SgFiMdqOee9Rb0V9s7J6+rYhjtooOVGlJ2cKqEePV7zixsCs9apPM7nZ7/luie2ltQnvmCurMdICpQqM1chX8dJTYSdpw6tJvPBS2EApiokWKVv7bpGCs0ra+ia+X31Hd24aVDnz3O+bgabkTffdjhovgMpT5b9KOze6YncTr7Mfuxy+nA1NGbK2TWbKRmztDzZ8+L6dOaTbWupCI9YBHCQLUthSJxMq5AjLHdhUjgUcQXnjGtIuIOTbpP4FphMg==
+ b=hGCq1AIIACnecXZZxeeqzKRg3SfHrZr9bT8g7t0OHAQbN1inAOUOaXDHwTICptISexJnvdKGCBSRGYl4w2/Zo7UD0sjKRorKEwJUfWJCywXABZQXNPonYf4SGHy1Xu1AetVjIjMi1p5ET/KEx8JJxt0L9UKild0uAkVM6HjXtY059KswMntnFefEHCXrTvZlv9N3POcJ2Z+gs7U2fVvotMFdEKoPFAX7k3pCRMSH2Unkqnx8sFslG8vnHPXpU6YKOTkuVG6Gi+mgYLrOqn0Q1tlPi1Ahl2ikCmciAZJHgFYcltUxwfWpTXKKeUAoSdmxXp7Wo627lXGDuZADW37+Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v0+1EVVhcUf00loUVtV2NIHs20Q+61OHq35OaHFDFKQ=;
- b=caBxVCSR8BwoJ5VFrQGIEHCAvfBZuu4+f03tg12Odc2QM+2ouyeF8O8llXlc9U2EyGQ1J0Y+y5PLN/Oxr586twG98ztIiWCjLC15g1AgVl8UDm8A1uNPJDbInsaCOJpFDIH46dPh1U2BnHJXe4jaI3slkl/qEMPYRrlRZ24nLxeGyDc35vA3s53xSizVDwwDBLhQ3wwmP30d3ISr6QeRsAh/KwE1Mzfvxs/5llpeOIvAuklHxymQPtLis3ytRYH+hT3UBsBYQ58XFXhg21RmkcPgQcGeV00AOtXkYIbRHp+yj7JSWupcvcu44BAlxahpE02+xJKO80KPBvwLPmiUuw==
+ bh=FXomyPeBUs3gHAXjvCeY6AENdEGPAZ2/d1bzyPvrMvg=;
+ b=CMCFjkADcIH+pCCLXwbGkeWMpkh57+JijxSx3RL3FKYAtS/pYYbJNgplb2LNqGfVBgvjK8iWni1W3e0xYJeiYmckWdfor6KHgaU+2Dy68CdukODc10WpgykLN0iWmo9VOOXwluIPRawxIimlnRD02aysziy6mBFgT2wSKLHfZnz6dX/KjLYi1zvDyWkty8SCzr/ooox5H8/M16gcRr/zV4QQuJHDy7y2DvhBYGk1cUq5CnIvi7uu52fSOolj5uTrttSUO+nI38eXYbQl8BcRAhHS6Aa9Le+V4hKihui8tlFgXggzR6ZE0kb40CSwHS5KncW9Ij1dY351N+hN34Br1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -36,70 +36,73 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v0+1EVVhcUf00loUVtV2NIHs20Q+61OHq35OaHFDFKQ=;
- b=tQnakT/zMxcPTOjX+LefQRug9/cxXItrOXW8IBIFcBJU9/YGtYabUUlY10N9aR3yJ3zexuHYzWY7QS5jqz3+q6M/u8mUWmHAuHCi92iNh8fvwRsTILq+9pNdAR9ON/l43lq0YtCnfTZzGcBHm9Lx4RIQ5+dVIxmLGRgPJN+3Rk0=
+ bh=FXomyPeBUs3gHAXjvCeY6AENdEGPAZ2/d1bzyPvrMvg=;
+ b=KWOtCsv8RX+dqJn2TG66oQ4FvoQZBvycsY4rbdv1aBLAaugmbu9G3WbQnsW7cLKxOMJ94GtdXgBKUszBGecUbK0Rry9S5UXWtxsEv5HKuVpZKJQuk9FdfV0JboH3sVf8MWPyecKpDksvNcIbbgnSFxnEubBJPDLd0jPW3C1bLbQ=
 Received: from DM6PR01MB6027.prod.exchangelabs.com (52.132.249.89) by
- DM6PR01MB5612.prod.exchangelabs.com (20.179.69.220) with Microsoft SMTP
+ DM6PR01MB5164.prod.exchangelabs.com (20.176.121.209) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.24; Tue, 22 Oct 2019 14:07:07 +0000
+ 15.20.2347.16; Tue, 22 Oct 2019 14:12:42 +0000
 Received: from DM6PR01MB6027.prod.exchangelabs.com
  ([fe80::3029:7c3:24fc:bb60]) by DM6PR01MB6027.prod.exchangelabs.com
  ([fe80::3029:7c3:24fc:bb60%7]) with mapi id 15.20.2347.029; Tue, 22 Oct 2019
- 14:07:07 +0000
+ 14:12:42 +0000
 From: Aaron Lindsay OS <aaron@os.amperecomputing.com>
 To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
 CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "cota@braap.org"
  <cota@braap.org>, "peter.puhov@futurewei.com" <peter.puhov@futurewei.com>,
  "robert.foley@futurewei.com" <robert.foley@futurewei.com>
-Subject: Re: [PATCH  v6 39/54] plugin: add qemu_plugin_outs helper
-Thread-Topic: [PATCH  v6 39/54] plugin: add qemu_plugin_outs helper
-Thread-Index: AQHVhO5VFQaxqC28QE2m7X2ER1g5SqdmugWA
-Date: Tue, 22 Oct 2019 14:07:07 +0000
-Message-ID: <20191022140647.GG42857@RDU-FVFX20TUHV2H>
+Subject: Re: [PATCH  v6 54/54] scripts/checkpatch.pl: don't complain about
+ (foo, /* empty */)
+Thread-Topic: [PATCH  v6 54/54] scripts/checkpatch.pl: don't complain about
+ (foo, /* empty */)
+Thread-Index: AQHVhO5bzPQS85aN70OLU/D5vJfzUKdmu5OA
+Date: Tue, 22 Oct 2019 14:12:42 +0000
+Message-ID: <20191022141221.GH42857@RDU-FVFX20TUHV2H>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
- <20191017131615.19660-40-alex.bennee@linaro.org>
-In-Reply-To: <20191017131615.19660-40-alex.bennee@linaro.org>
+ <20191017131615.19660-55-alex.bennee@linaro.org>
+In-Reply-To: <20191017131615.19660-55-alex.bennee@linaro.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: CY4PR01CA0022.prod.exchangelabs.com (2603:10b6:903:1f::32)
- To DM6PR01MB6027.prod.exchangelabs.com (2603:10b6:5:1da::25)
+x-clientproxiedby: CY1PR07CA0011.namprd07.prod.outlook.com
+ (2a01:111:e400:c60a::21) To DM6PR01MB6027.prod.exchangelabs.com
+ (2603:10b6:5:1da::25)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=aaron@os.amperecomputing.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [108.169.132.82]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7d5da8ce-233a-44db-0cd1-08d756f91f55
-x-ms-traffictypediagnostic: DM6PR01MB5612:
-x-microsoft-antispam-prvs: <DM6PR01MB561240C6DBE84CBC0DA02C1A8A680@DM6PR01MB5612.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:469;
+x-ms-office365-filtering-correlation-id: e8b09fe2-40f2-4859-055d-08d756f9e71e
+x-ms-traffictypediagnostic: DM6PR01MB5164:
+x-microsoft-antispam-prvs: <DM6PR01MB5164124B7C6A9ADF93EC02A68A680@DM6PR01MB5164.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2089;
 x-forefront-prvs: 01986AE76B
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(7916004)(4636009)(39850400004)(136003)(376002)(346002)(396003)(366004)(199004)(189003)(6436002)(6486002)(7736002)(305945005)(229853002)(14454004)(3846002)(6506007)(386003)(26005)(6116002)(99286004)(102836004)(1076003)(9686003)(4326008)(186003)(6512007)(66476007)(81166006)(446003)(66556008)(64756008)(5660300002)(86362001)(81156014)(8676002)(486006)(478600001)(476003)(8936002)(11346002)(66446008)(66946007)(33716001)(256004)(316002)(54906003)(25786009)(558084003)(33656002)(2906002)(6916009)(71200400001)(71190400001)(6246003)(52116002)(76176011)(66066001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR01MB5612;
+ SFS:(10019020)(4636009)(7916004)(136003)(376002)(346002)(366004)(39850400004)(396003)(199004)(189003)(14454004)(33656002)(478600001)(102836004)(52116002)(186003)(5660300002)(229853002)(14444005)(99286004)(256004)(6436002)(26005)(6916009)(1076003)(66574012)(76176011)(6486002)(4326008)(386003)(6506007)(66476007)(66556008)(66946007)(305945005)(6512007)(66446008)(3846002)(9686003)(54906003)(71200400001)(6116002)(558084003)(486006)(6246003)(8676002)(86362001)(316002)(8936002)(81166006)(81156014)(64756008)(25786009)(7736002)(66066001)(2906002)(33716001)(71190400001)(446003)(476003)(11346002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR01MB5164;
  H:DM6PR01MB6027.prod.exchangelabs.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:0; MX:1; 
 received-spf: None (protection.outlook.com: os.amperecomputing.com does not
  designate permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /V6T7LzeWQPgx1ZQnja3h/kESHpeeC+fCEpvoSmiHqAxuHF07vQ/KQJAfvfr5rPeb5/y6n/t8CG/EOSFTzcds6TLeSEXBT1+63B15pM3bSwMWv2Ei4sXNp8tw/WN0Qla6frvGTZ8zKk6+hrBAhTK9FKKpPp3dCQj5qm+d2HSbVz+lgAC3w6fd/0BfjkdlEhQPJyN+axukGsCdV06sk/3038CYsrPlrnneMLdzv+fFcfyydmS56snyZAbF5t5wFeBFewcZfT26yirhjmA/si5YAYgDRIignqAHBaJ+Mmw0UKezmf9sUpHEqGPj3jMhMgwOKcFJATPeJH5g5bpSB9yiGAjHPxVx303J6oRUhPZB3MO1TWOMtrRV4Vkx364TNLvtgdxbiHU5C44aFW2BDg5FTTJRPuMzAyOL6LeQ+pqvmlBlk8LoXlaxCrXjy8NmUxM
+x-microsoft-antispam-message-info: FOPYSsuTGQJq8OKNDq+RGJrFUunQzkZZgsg3JV/MeaDHn6kWiC618oiFbT6SZbqoPFA8pwGnqlo6isrDIczEUxGtZ91R9UbDnvj0htYSOv4j85bDlhLxHNr3lekWmYUCxfNGuFpgvoMu2/x9Fdx2VET3FZuJSLFhC6JtlhE4YsOXp6EP00lCd9tNf4Rq5arH5gTwMRXYHHnjWxeASl5Y3SUoYCvWPHDsbR8X60PIyI5O0TlwnVyDgf6IZ0UgNUlz9iRB5MHK415LKmSK36KkdDiW4ioTzViSqsBacLh4P+XWyI8d06DupTAr/EFJSo57TrQX79ZCBdYjZ0dJ7QTaQcazNqOmN8zvPNbkLINrwF0ZPeJPKGLucJTc3wUlulHCrwUjotap1DHoX2D3c7wjA6zJKCOnAF5mfegj4w5AuUw=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <77FBF3CF0EB67543B3A13E0867BB963A@prod.exchangelabs.com>
+Content-ID: <7613B0DE722E4540812685888B035B61@prod.exchangelabs.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d5da8ce-233a-44db-0cd1-08d756f91f55
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2019 14:07:07.2095 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8b09fe2-40f2-4859-055d-08d756f9e71e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2019 14:12:42.2053 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DkOUNRASPvElc5ZMy4tqW4Ry7O0R9CFlZ7uymzYULM3pRcby5/p9ZRkCy5uno1kriVq+BqA9bVXt/VUYshv5Wi6WEJQ/g9T3Erv32JQaJ2k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5612
+X-MS-Exchange-CrossTenant-userprincipalname: 9PfFb0q8CPjNS4AqOzXs6PUOTYHA5a2wBc1T9GwDXlurukpjbOsWAgx3purlOR2YEeK1VIDJAQ0z2yNVWf0MlCpfCw3e9oGtKg9v0UH+Z8s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5164
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.72.121
+X-Received-From: 40.107.78.105
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,9 +118,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Oct 17 14:16, Alex Benn=E9e wrote:
-> Having the plugins grab stdout and spew stuff there is a bit ugly and
-> certainly makes the tests look ugly. Provide a hook back into QEMU
-> which can be redirected as needed.
+> It's quite common to have a mini comment inside braces to acknowledge
+> we know it's empty. Expand the inline detection to allow closing
+> braces before the end of line.
 >=20
 > Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
 
