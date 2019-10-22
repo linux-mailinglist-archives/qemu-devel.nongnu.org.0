@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8FEE05FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:07:19 +0200 (CEST)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95054E0628
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 16:15:17 +0200 (CEST)
+Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMuof-0001PG-F6
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40100)
+	id 1iMuwO-00043g-DP
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 10:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iMuVB-00046u-RT
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:10 -0400
+ (envelope-from <clg@kaod.org>) id 1iMuVo-0004nP-SH
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iMuVA-00085a-EI
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:09 -0400
-Received: from 5.mo177.mail-out.ovh.net ([46.105.39.154]:57071)
+ (envelope-from <clg@kaod.org>) id 1iMuVj-0008SM-ON
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:48 -0400
+Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:46917)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMuVA-00083i-6U
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:08 -0400
-Received: from player772.ha.ovh.net (unknown [10.109.143.201])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 8C93310EBCA
- for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 15:47:06 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iMuVj-0008RP-I6
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 09:47:43 -0400
+Received: from player772.ha.ovh.net (unknown [10.109.143.232])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 40AB01E6CB6
+ for <qemu-devel@nongnu.org>; Tue, 22 Oct 2019 15:47:41 +0200 (CEST)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id F1AC2B3F317D;
- Tue, 22 Oct 2019 13:46:57 +0000 (UTC)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id 8734FB3F35DA;
+ Tue, 22 Oct 2019 13:47:34 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v4 3/7] ppc/pnv: Introduce a PnvCore reset handler
-Date: Tue, 22 Oct 2019 15:46:28 +0200
-Message-Id: <20191022134632.29098-4-clg@kaod.org>
+Subject: [PATCH v4 7/7] spapr/xive: Set the OS CAM line at reset
+Date: Tue, 22 Oct 2019 15:46:32 +0200
+Message-Id: <20191022134632.29098-8-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022134632.29098-1-clg@kaod.org>
 References: <20191022134632.29098-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 601793503523408870
+X-Ovh-Tracer-Id: 611645125904075750
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.39.154
+X-Received-From: 178.32.124.17
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,78 +62,124 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-in which individual CPUs are reset. It will ease the introduction of
-future change reseting the interrupt presenter from the CPU reset
-handler.
+When a Virtual Processor is scheduled to run on a HW thread, the
+hypervisor pushes its identifier in the OS CAM line. When running with
+kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
+
+Set the OS CAM line when the interrupt presenter of the sPAPR core is
+reset. This will also cover the case of hot-plugged CPUs.
+
+This change also has the benefit to remove the use of CPU_FOREACH()
+which can be unsafe.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/pnv_core.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ include/hw/ppc/spapr_xive.h |  1 -
+ hw/intc/spapr_xive.c        | 48 +++++++++++++------------------------
+ 2 files changed, 17 insertions(+), 32 deletions(-)
 
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index b1a7489e7abf..9f981a4940e6 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -40,9 +40,8 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
-     return cpu_type;
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index d84bd5c229f0..742b7e834f2a 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -57,7 +57,6 @@ typedef struct SpaprXive {
+ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+=20
+ void spapr_xive_hcall_init(SpaprMachineState *spapr);
+-void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+ void spapr_xive_map_mmio(SpaprXive *xive);
+=20
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 20a8d8285f64..d8e1291905c3 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -205,23 +205,6 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
+ol enable)
+     memory_region_set_enabled(&xive->end_source.esb_mmio, false);
  }
 =20
--static void pnv_cpu_reset(void *opaque)
-+static void pnv_core_cpu_reset(PowerPCCPU *cpu)
+-/*
+- * When a Virtual Processor is scheduled to run on a HW thread, the
+- * hypervisor pushes its identifier in the OS CAM line. Emulate the
+- * same behavior under QEMU.
+- */
+-void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
+-{
+-    uint8_t  nvt_blk;
+-    uint32_t nvt_idx;
+-    uint32_t nvt_cam;
+-
+-    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
+-
+-    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
+_idx));
+-    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
+-}
+-
+ static void spapr_xive_end_reset(XiveEND *end)
  {
--    PowerPCCPU *cpu =3D opaque;
-     CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
+     memset(end, 0, sizeof(*end));
+@@ -544,21 +527,32 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
+tController *intc,
+     }
 =20
-@@ -192,8 +191,17 @@ static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChi=
-p *chip, Error **errp)
+     spapr_cpu->tctx =3D XIVE_TCTX(obj);
+-
+-    /*
+-     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
+-     * don't beneficiate from the reset of the XIVE IRQ backend
+-     */
+-    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
+     return 0;
+ }
 =20
-     /* Set time-base frequency to 512 MHz */
-     cpu_ppc_tb_init(env, PNV_TIMEBASE_FREQ);
++static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t os_cam)
++{
++    uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | os_cam);
++    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
 +}
 +
-+static void pnv_core_reset(void *dev)
-+{
-+    CPUCore *cc =3D CPU_CORE(dev);
-+    PnvCore *pc =3D PNV_CORE(dev);
-+    int i;
+ static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+                                      PowerPCCPU *cpu)
+ {
+     XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
++    uint8_t  nvt_blk;
++    uint32_t nvt_idx;
 =20
--    qemu_register_reset(pnv_cpu_reset, cpu);
-+    for (i =3D 0; i < cc->nr_threads; i++) {
-+        pnv_core_cpu_reset(pc->threads[i]);
-+    }
+     xive_tctx_reset(tctx);
++
++    /*
++     * When a Virtual Processor is scheduled to run on a HW thread,
++     * the hypervisor pushes its identifier in the OS CAM line.
++     * Emulate the same behavior under QEMU.
++     */
++    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
++
++    xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
  }
 =20
- static void pnv_core_realize(DeviceState *dev, Error **errp)
-@@ -244,6 +252,8 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
-     snprintf(name, sizeof(name), "xscom-core.%d", cc->core_id);
-     pnv_xscom_region_init(&pc->xscom_regs, OBJECT(dev), pcc->xscom_ops,
-                           pc, name, PNV_XSCOM_EX_SIZE);
-+
-+    qemu_register_reset(pnv_core_reset, pc);
-     return;
-=20
- err:
-@@ -259,7 +269,6 @@ static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
+ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
+int val)
+@@ -651,14 +645,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
+intc, uint32_t nr_servers,
+ static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
+rrp)
  {
-     PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
+     SpaprXive *xive =3D SPAPR_XIVE(intc);
+-    CPUState *cs;
+-
+-    CPU_FOREACH(cs) {
+-        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-
+-        /* (TCG) Set the OS CAM line of the thread interrupt context. */
+-        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+-    }
 =20
--    qemu_unregister_reset(pnv_cpu_reset, cpu);
-     object_unparent(OBJECT(pnv_cpu_state(cpu)->intc));
-     cpu_remove_sync(CPU(cpu));
-     cpu->machine_data =3D NULL;
-@@ -273,6 +282,8 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
-     CPUCore *cc =3D CPU_CORE(dev);
-     int i;
-=20
-+    qemu_unregister_reset(pnv_core_reset, pc);
-+
-     for (i =3D 0; i < cc->nr_threads; i++) {
-         pnv_unrealize_vcpu(pc->threads[i]);
-     }
+     if (kvm_enabled()) {
+         int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
 --=20
 2.21.0
 
