@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5F9DFF50
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:24:19 +0200 (CEST)
-Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6C9DFF58
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Oct 2019 10:26:04 +0200 (CEST)
+Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iMpSk-0000le-6n
-	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44221)
+	id 1iMpUR-0003KN-MI
+	for lists+qemu-devel@lfdr.de; Tue, 22 Oct 2019 04:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iMpGN-0002ul-MX
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:32 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iMpGP-0002x4-1L
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iMpGM-00058u-Kv
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:31 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:42603)
+ (envelope-from <laurent@vivier.eu>) id 1iMpGN-00059p-Mr
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:42839)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGM-00058A-Bg
- for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:30 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iMpGN-00058r-D5
+ for qemu-devel@nongnu.org; Tue, 22 Oct 2019 04:11:31 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MfHxt-1hpOG71tW7-00gm6j; Tue, 22 Oct 2019 10:11:16 +0200
+ id 1MxEcg-1i7KeK3sL2-00xcAc; Tue, 22 Oct 2019 10:11:17 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/11] linux-user: add strace for dup3
-Date: Tue, 22 Oct 2019 10:10:54 +0200
-Message-Id: <20191022081104.11814-2-laurent@vivier.eu>
+Subject: [PULL 02/11] Fix unsigned integer underflow in fd-trans.c
+Date: Tue, 22 Oct 2019 10:10:55 +0200
+Message-Id: <20191022081104.11814-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191022081104.11814-1-laurent@vivier.eu>
 References: <20191022081104.11814-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RR4AWW1XqeuM8d8mmcTDsQsW1cV/ZLplwIccKd6itxu9om1ngQt
- bIuBWH5jEdvYUm8H2CzhHCWvFrMRJIOI8pJOS659Zez+hkPE9hioQoETi6WVL0EXrpFmCjX
- TMALwjiixlr/LAriKwxPehRHNADwKdclcqX77kNv5yN7uZlKQKLcqd6EFNj/QFAFw9HgRW2
- ivVmz+HVFT6s1H9dXzbLw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bS+SaQOO7/M=:3Z9rYR8sM9R4pL+fWW6aJJ
- kGp3ab5hRwty8N01n79gG0KK+ze7a4ZFg9UsQrnhIi1vv4AE1ZNE8ohRaDFfhU3L9A+qeDeEh
- oXqCE0xYV4yv6YGZ07VKu3BWVru6SWklkFxqi6xyDE8KkW/JagcC4jdFETtyEFJietdUi2f12
- NkvQIgA+AkEcYrkWwCKbqPYAzjQqlvKcwL7bzFz1XUlJI1Vf1rwJyDHCVBqf1UMBJ9v1DKlIN
- VYKyZNQ3IkJhef8oSzHtKvidk7zxc7PEatJSRMsywTnBHsrjAeHCoHZvJ5Atdt4ogigex+j3O
- NNXEYNGH4KsYKp/U0zYpENQ20nIRNM5NrxSgwte9mRus5NOtZHlniC2Kmm5YgnWPmToU/Jiov
- RfHdKXEElj+NXGDxdt1jUPFG0/J0OO370kqH4l8VNZLIhPCA4RUz/0rQlzPPf3Y34V0JJQtJe
- bQbbMPytWEukPGnEPTaclqIFc8n5zMnjnGGSr+OhY6RGEndWLp/AwTrfsvHb5bTjeSN3FH7ZS
- lwScNQf4h3RMqI0NbAbGmxZ1pHpV0UvSizpu8Zoyp8jTHXo6oQn0iat67UUcDRjDD5ZBWjeDr
- QwisggROl2XCPK6hzGcHciv3TR53whpp1UcrfCxo33Ay+1TMSpMw0q+mOGKIv4srm1sPOGgp+
- asDZAyPfq71L7SUIiGSuL1Ffib1qa3NbiZgOg3SWApE3CzakWpmileeXoVgej17dWgHwbZo0u
- pwS2znAde7LYGlLuC9EFuzq10spAi5tJlwefoOw01BsO8BjvNH3QADuLmJpNN/AV2N9GywP+e
- 2Jyd8FeUSLcn4Emqh3rxF2E3+G4WiQt/WsuSLFlCRFajbPU5wvocUznvhcFNWXfAZlyobyL/o
- m5sdGhl+abkL6INZLcts2t+GQePqCLj+zFyagwfPs=
+X-Provags-ID: V03:K1:/EOLVfh5U6JtshaL7XfHmPPLuvVwQL+Pm/VOhnw9mXZBSPzVfCH
+ ACw/s4wckistsVigmphzCAubR7VRbTeVZ4opReuxbh2rMFJR9Uf4Ot64XfQZ5gnnG0pfYgg
+ eTjyBHSkhSYqorkw5SaXOUd0trmg17NA/wPnmg1S6SPel0tDgpJQPMz1OmzK2b3CVEbTXAt
+ X+J2zvHaBt24Ixo9jPQKQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hScm5NS3y3g=:46Mq5zLSD0MfCA6poFUlYD
+ pDJUoNglsi/HbDZhkh/VifSnHY8GwZkoJHw0YfsjK4f/unBEs5J5OVUaM5koz9fl78aa6CR/3
+ LcnprfpNeYYRTGNTGg6R9jNE0a8Yn8VN3OsRUmb87CnS8mPVPAXBsRp9TOv+uUYDR/WJxm3wB
+ svOFEHaSLIYmL14nyCqJtMhQjTA95ucnZVwXb90bPpaJyur5fay4/66rU5qJQYy+ZoH03RvI1
+ vbvrs/cS/LMHUYfjTkWq/X7AVx+U7cNWA+rDwYOtx2cm+bwtaCgj90xPWHeyVVG2fZ+IBeBAZ
+ QUg98Wt1cTP9CES9P0dOXs/px+FLhph+fhDnC9km7XhIUxSdFejr8cN/26gm1l6/iZPzYde4A
+ j0LqBj94eOrP5whVPJvdegul+ABXi5BDpFr3rhBDCvz9YCTZUXlkgNoYg0g2T0h47ciXIcUWL
+ cLxrxJZ62AQeaUcaJgFvUIgsb8hABonv+L5DBopC2VMJhsaXTSOhJODJMJ02KoKuPuhTpmw6h
+ TH93NK31GcLPoVJA5ED3EqTN1kkIzNH/XbTaBeGVUr039ZrrjYnz2/lDC3LwQV+yRi67PLm5v
+ TC/xUluQh/vUXaUxUIkUiHagO5uqwXZzwTmsLt5yLiOpz+FytuizL2UbTvflrsLg8l8ondKty
+ xmhBp+d3MclUDerOZ2iHixnaczqI8eXzWf9aVHX/oFeIoBntMX4SX5VvE7ZtA4AJ0cf0/SPWb
+ cJ0fheIYFYRcpDxY3rPoyDoXTRt6PR16qF7gijbuxvqftee5jJjY3Sdna+kkF5wcpy5Vj5u3b
+ sZxLW0W+UZcdALJiNeqCjeL3LmIAotWWaGgmk99qMSfmshsB1vsZLx+8+udCQLsZEsFXOKiUm
+ XaJYbKBQRkdWKZJU0hIw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.10
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,36 +65,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Schwab <schwab@suse.de>, Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Schwab <schwab@suse.de>
+From: Shu-Chun Weng <scw@google.com>
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <mvmsgoe17l5.fsf@suse.de>
+In any of these `*_for_each_*` functions, the last entry in the buffer (so the
+"remaining length in the buffer" `len` is equal to the length of the
+entry `nlmsg_len`/`nla_len`/etc) has size that is not a multiple of the
+alignment, the aligned lengths `*_ALIGN(*_len)` will be greater than `len`.
+Since `len` is unsigned (`size_t`), it underflows and the loop will read
+pass the buffer.
+
+This may manifest as random EINVAL or EOPNOTSUPP error on IO or network
+system calls.
+
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20191018001920.178283-1-scw@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.list | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/fd-trans.c | 51 +++++++++++++++++++++++++++++++++----------
+ 1 file changed, 40 insertions(+), 11 deletions(-)
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 63a946642d29..863283418ef9 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -121,6 +121,9 @@
- #ifdef TARGET_NR_dup2
- { TARGET_NR_dup2, "dup2" , NULL, NULL, NULL },
- #endif
-+#ifdef TARGET_NR_dup3
-+{ TARGET_NR_dup3, "dup3" , NULL, NULL, NULL },
-+#endif
- #ifdef TARGET_NR_epoll_create
- { TARGET_NR_epoll_create, "epoll_create" , NULL, NULL, NULL },
- #endif
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 60077ce5319d..9b92386abf51 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -279,6 +279,7 @@ static abi_long host_to_target_for_each_nlmsg(struct nlmsghdr *nlh,
+                                                        (struct nlmsghdr *))
+ {
+     uint32_t nlmsg_len;
++    uint32_t aligned_nlmsg_len;
+     abi_long ret;
+ 
+     while (len > sizeof(struct nlmsghdr)) {
+@@ -312,8 +313,13 @@ static abi_long host_to_target_for_each_nlmsg(struct nlmsghdr *nlh,
+             break;
+         }
+         tswap_nlmsghdr(nlh);
+-        len -= NLMSG_ALIGN(nlmsg_len);
+-        nlh = (struct nlmsghdr *)(((char*)nlh) + NLMSG_ALIGN(nlmsg_len));
++
++        aligned_nlmsg_len = NLMSG_ALIGN(nlmsg_len);
++        if (aligned_nlmsg_len >= len) {
++            break;
++        }
++        len -= aligned_nlmsg_len;
++        nlh = (struct nlmsghdr *)(((char*)nlh) + aligned_nlmsg_len);
+     }
+     return 0;
+ }
+@@ -323,6 +329,7 @@ static abi_long target_to_host_for_each_nlmsg(struct nlmsghdr *nlh,
+                                               abi_long (*target_to_host_nlmsg)
+                                                        (struct nlmsghdr *))
+ {
++    uint32_t aligned_nlmsg_len;
+     int ret;
+ 
+     while (len > sizeof(struct nlmsghdr)) {
+@@ -349,8 +356,13 @@ static abi_long target_to_host_for_each_nlmsg(struct nlmsghdr *nlh,
+                 return ret;
+             }
+         }
+-        len -= NLMSG_ALIGN(nlh->nlmsg_len);
+-        nlh = (struct nlmsghdr *)(((char *)nlh) + NLMSG_ALIGN(nlh->nlmsg_len));
++
++        aligned_nlmsg_len = NLMSG_ALIGN(nlh->nlmsg_len);
++        if (aligned_nlmsg_len >= len) {
++            break;
++        }
++        len -= aligned_nlmsg_len;
++        nlh = (struct nlmsghdr *)(((char *)nlh) + aligned_nlmsg_len);
+     }
+     return 0;
+ }
+@@ -363,6 +375,7 @@ static abi_long host_to_target_for_each_nlattr(struct nlattr *nlattr,
+                                                          void *context))
+ {
+     unsigned short nla_len;
++    unsigned short aligned_nla_len;
+     abi_long ret;
+ 
+     while (len > sizeof(struct nlattr)) {
+@@ -377,8 +390,13 @@ static abi_long host_to_target_for_each_nlattr(struct nlattr *nlattr,
+         if (ret < 0) {
+             return ret;
+         }
+-        len -= NLA_ALIGN(nla_len);
+-        nlattr = (struct nlattr *)(((char *)nlattr) + NLA_ALIGN(nla_len));
++
++        aligned_nla_len = NLA_ALIGN(nla_len);
++        if (aligned_nla_len >= len) {
++            break;
++        }
++        len -= aligned_nla_len;
++        nlattr = (struct nlattr *)(((char *)nlattr) + aligned_nla_len);
+     }
+     return 0;
+ }
+@@ -389,6 +407,7 @@ static abi_long host_to_target_for_each_rtattr(struct rtattr *rtattr,
+                                                         (struct rtattr *))
+ {
+     unsigned short rta_len;
++    unsigned short aligned_rta_len;
+     abi_long ret;
+ 
+     while (len > sizeof(struct rtattr)) {
+@@ -403,8 +422,13 @@ static abi_long host_to_target_for_each_rtattr(struct rtattr *rtattr,
+         if (ret < 0) {
+             return ret;
+         }
+-        len -= RTA_ALIGN(rta_len);
+-        rtattr = (struct rtattr *)(((char *)rtattr) + RTA_ALIGN(rta_len));
++
++        aligned_rta_len = RTA_ALIGN(rta_len);
++        if (aligned_rta_len >= len) {
++            break;
++        }
++        len -= aligned_rta_len;
++        rtattr = (struct rtattr *)(((char *)rtattr) + aligned_rta_len);
+     }
+     return 0;
+ }
+@@ -1058,6 +1082,7 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
+                                                abi_long (*target_to_host_rtattr)
+                                                         (struct rtattr *))
+ {
++    unsigned short aligned_rta_len;
+     abi_long ret;
+ 
+     while (len >= sizeof(struct rtattr)) {
+@@ -1071,9 +1096,13 @@ static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
+         if (ret < 0) {
+             return ret;
+         }
+-        len -= RTA_ALIGN(rtattr->rta_len);
+-        rtattr = (struct rtattr *)(((char *)rtattr) +
+-                 RTA_ALIGN(rtattr->rta_len));
++
++        aligned_rta_len = RTA_ALIGN(rtattr->rta_len);
++        if (aligned_rta_len >= len) {
++            break;
++        }
++        len -= aligned_rta_len;
++        rtattr = (struct rtattr *)(((char *)rtattr) + aligned_rta_len);
+     }
+     return 0;
+ }
 -- 
 2.21.0
 
