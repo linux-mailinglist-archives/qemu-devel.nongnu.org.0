@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D47E2015
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:01:11 +0200 (CEST)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F74EE204D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:15:15 +0200 (CEST)
+Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNJ4Q-0001QH-TN
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:01:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38152)
+	id 1iNJI0-0007g4-VT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:15:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNIOF-0004rr-0G
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:17:36 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iNIV2-0002YZ-IO
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:24:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNIOC-0002A0-Oh
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:17:34 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55504)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNIOB-00024F-3G
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:17:32 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g24so12529775wmh.5
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=LkbhuD5pIVRCOZE9QzNmZaewcdQSd00uLYzuVQL0OIw=;
- b=qxD56Ad8OJUXWcwibqfP5nZ8yjXvdedafHX2G7g1BdWwYLNiE6GocyZZyAcF/gG0zs
- 1JPKTJyBfgpA67SUNAJ93aVOqG3TrW8CK/TEeyOntCIzsv0APl2u/AswJaGhdcgYT9gg
- KcF3KsG8TWo7HX0SOUcceNzaJ4MLP3nwrzeyuHsgNif940iDfmfX7bD86OFFDr4bjZf/
- lIQ11H5a4E0w3uyYezD0jEZWCRxgODsywOgAJ2uhctolRrVszOOYmeCjJK7Jut8ybiku
- vRXMWyetNjDjx4iNq7Bq7THqvqGKKHNRvAc59cKHO63BKhKZ5P/Knp72+ry1e74vp755
- O4Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=LkbhuD5pIVRCOZE9QzNmZaewcdQSd00uLYzuVQL0OIw=;
- b=m2w7vf9b9MpUqrexFsiRRRxigs+QCTf5QEc5RHnhhaACOF42GxVxuyXqlPNDxUwdEf
- DWEp3ub3tZKSVqf8JBPoCNeJHI3o1ZJtfflNgDiBEdILRr4NE0aAyD4fkLF64BuUFzTv
- AyHP7akzxpus0+32cloHPxa1+WS7RKa3TbyBcHiTuIXas4Xz2mCN9Y9s6mAHpINOGcz0
- vs8UqvN32jear01ASe4lrMn9YuFRGt6PtdxwcWBEVsY7LaGCY2RnNOQTdTB9IaidA/2t
- tTY3GZwNDw0ZkVOlHTpirZrN5bKWG15IFIP19QsZraNXKEyt1yTA0mySMTOhx2sUeW5j
- wxNw==
-X-Gm-Message-State: APjAAAVJFbxoo99g5f2YdHm2VbfKQBUD6vLJJWm0IFs9bJJ1hSRwAlRz
- jz0kGVqWw013N9EXgyx700FFjA==
-X-Google-Smtp-Source: APXvYqwnElo9SghmsYeKjtnq9FpnlWLmGksW8kgNII56XXXoTyqv7CcfgSdJ6r+sL+cA25YXBUYa4w==
-X-Received: by 2002:a1c:1d7:: with SMTP id 206mr372859wmb.33.1571843848046;
- Wed, 23 Oct 2019 08:17:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r1sm16280104wrw.60.2019.10.23.08.17.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 08:17:27 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7ED5E1FF87;
- Wed, 23 Oct 2019 16:17:26 +0100 (BST)
-References: <20191018174431.1784-1-richard.henderson@linaro.org>
- <CAFEAcA-MyKoA63UF6DYQ6J-dKihYn9iyG09eFCgWT8j4OqsQnw@mail.gmail.com>
- <CAFEAcA-Xj-6CdVzgfcVONipApD5b5PZ84nPnvbbOQjQkqQLnqA@mail.gmail.com>
- <6e06dede-2470-92e1-eba9-40646ed56af0@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH v8 00/22] target/arm: Reduce overhead of
- cpu_get_tb_cpu_state
-In-reply-to: <6e06dede-2470-92e1-eba9-40646ed56af0@linaro.org>
-Date: Wed, 23 Oct 2019 16:17:26 +0100
-Message-ID: <87zhhrmqyh.fsf@linaro.org>
+ (envelope-from <stefanha@redhat.com>) id 1iNIV1-0001RC-Fc
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:24:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43650
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNIV1-0001Qb-BJ
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571844274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GkE+hDlB5fFKLn+2E0jRJ3qxFPV0UL3vNbXeQOwxfpk=;
+ b=VF5iUgui6cofgC16pk3bzVH5VNhklE/W7pdbBj011EbqI0ysOeJk/lXQ+EoVbQzZzhoYcR
+ iHtVLEWnGHgSEBpbhdf6iMtfFICj2u+nvHfxsAdQE7UNEeehZl0DgideoLOsCPMxmVi2tl
+ LOMxbBydwaleJXdET40j1DzgZDKzDwE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-130-cqJ1O4tgOSaouQeKXqJRhw-1; Wed, 23 Oct 2019 11:24:29 -0400
+X-MC-Unique: cqJ1O4tgOSaouQeKXqJRhw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B6A8107AD40;
+ Wed, 23 Oct 2019 15:19:13 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 793D160166;
+ Wed, 23 Oct 2019 15:19:04 +0000 (UTC)
+Date: Wed, 23 Oct 2019 16:19:03 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "yezhenyu (A)" <yezhenyu2@huawei.com>
+Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
+Message-ID: <20191023151903.GI9574@stefanha-x1.localdomain>
+References: <5DAEB9D3.3080503@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <5DAEB9D3.3080503@huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kH8JNVvasRCCW1Oz"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,41 +71,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
+ jiangyiwen <jiangyiwen@huawei.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--kH8JNVvasRCCW1Oz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On Tue, Oct 22, 2019 at 04:12:03PM +0800, yezhenyu (A) wrote:
+> Since qemu2.9, QEMU added three AioContext poll parameters to struct
+> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties are
+> used to control iothread polling time.
+>=20
+> However, there isn't properly hmp commands to adjust them when the VM is
+> alive. It's useful to adjust them online when observing the impact of
+> different property value on performance.
+>=20
+> This patch add three hmp commands to adjust iothread poll-* properties
+> for special iothread:
+>=20
+> set_iothread_poll_max_ns: set the maximum polling time in ns;
+> set_iothread_poll_grow: set how many ns will be added to polling time;
+> set_iothread_poll_shrink: set how many ns will be removed from polling
+> time.
+>=20
+> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
+> ---
+> hmp-commands.hx | 42 ++++++++++++++++++++
+> hmp.c | 30 +++++++++++++++
+> hmp.h | 3 ++
+> include/sysemu/iothread.h | 6 +++
+> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
+> qapi/misc.json | 23 +++++++++++
+> 6 files changed, 184 insertions(+)
 
-> On 10/22/19 11:38 AM, Peter Maydell wrote:
->> Turns out this asserts in qemu-armeb :-(
->>
->> /home/petmay01/linaro/qemu-for-merges/build/all-linux-static/armeb-linux=
--user/qemu-armeb
->> -L ./gnemul/qemu-armeb armeb/ls -l dummyfile
->> qemu-armeb: /home/petmay01/linaro/qemu-for-merges/target/arm/helper.c:11=
-267:
->> cpu_get_tb_cpu_state: Assertion `flags =3D=3D
->> rebuild_hflags_internal(env)' failed.
->> qemu: uncaught target signal 11 (Segmentation fault) - core dumped
->> Segmentation fault (core dumped)
->>
->> Dropping this series again for the moment.
-> Argh!  I had forgotten that we have no testing of armeb in check-tcg.
+poll-max-ns, poll-grow, poll-shrink are properties of IOThread objects.
+They can already be modified at runtime using:
 
-Does it need it's own toolchain or can it be done with flags?
+  $ qemu -object iothread,id=3Diothread1
+  (qemu) qom-set /objects/iothread1 poll-max-ns 100000
 
->
-> Yes, I see now that we need a recompute in linux-user/{aarch64,arm}/cpu_l=
-oop.c
-> specific to TARGET_WORDS_BIGENDIAN.
->
->
-> r~
+I think there is no need for a patch.
 
+Stefan
 
---
-Alex Benn=C3=A9e
+--kH8JNVvasRCCW1Oz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2wb2cACgkQnKSrs4Gr
+c8j+TQf9GOdblXMO8mK7BVUu9vQ1TQkWGGGDAwJNU/cWmFglAOf3cnV7pZupKrcO
+9Mx8hVe7guURupVflHNPWu8YTKDbFUabETz01dOiTgAvZ9RL4GRDBd2Eg8T/a7UY
+Xa5hsR9ppepmLu2xjh0B0Ua6Sh832dJQTfNOxFkZTtqzLTpYfLpRSNsB+me8UiS/
+v2Kq4utPgwETRnFEawivN9aLDyiB9cRtNCoVan7hXXgcazmoJXREsokxC2vmVrt+
+s7JbXCsZMBSyj/y+mgY3SBybVl/GlJRbyoeLpo8sqRmNtQ6FLUArlpzXOheg1TyP
+fSFwsPoLIGYfN7oV6IDg4k37FsF8QQ==
+=9778
+-----END PGP SIGNATURE-----
+
+--kH8JNVvasRCCW1Oz--
+
 
