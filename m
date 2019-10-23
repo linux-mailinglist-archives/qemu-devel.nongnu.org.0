@@ -2,62 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED36E1EB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:00:07 +0200 (CEST)
-Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC559E1E8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 16:48:36 +0200 (CEST)
+Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNI7J-0005vx-K3
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
+	id 1iNHwB-0006CC-NF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 10:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNHz2-0000KP-1y
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:51:33 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNHtX-0004Rd-2L
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:45:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNHz0-0003Wa-3X
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:51:31 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35746)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNHyz-0003UH-Sk
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:51:30 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNHyv-0005lA-VW
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:51:25 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D80E92E8083
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:51:25 +0000 (UTC)
+ (envelope-from <laurent@vivier.eu>) id 1iNHtV-0000Jw-VY
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:45:51 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:60887)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iNHt2-0008Kf-Bt; Wed, 23 Oct 2019 10:45:40 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MgNlH-1hnyGI3P9b-00hu3x; Wed, 23 Oct 2019 16:45:09 +0200
+Subject: Re: [PATCH 3/3] qemu-timer: reuse MIN macro in qemu_timeout_ns_to_ms
+To: Eric Blake <eblake@redhat.com>, Frediano Ziglio <fziglio@redhat.com>
+References: <20191023122652.2999-1-fziglio@redhat.com>
+ <20191023122652.2999-3-fziglio@redhat.com>
+ <5f20705e-60bc-08d5-8b6e-72438afabefe@vivier.eu>
+ <c2836c58-5a3c-2356-6e94-9b2341ab2194@redhat.com>
+ <1860840671.8198083.1571840126307.JavaMail.zimbra@redhat.com>
+ <21fd3aa0-232c-06e8-1e20-b5c98f125468@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <8b52c02c-1e26-4ac7-3f79-db4459f9c178@vivier.eu>
+Date: Wed, 23 Oct 2019 16:45:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 14:38:50 -0000
-From: Thomas Huth <1656234@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: robert-hu stefanha th-huth
-X-Launchpad-Bug-Reporter: Robert Hu (robert-hu)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170113084022.20152.24498.malonedeb@wampee.canonical.com>
-Message-Id: <157184153031.28406.10800705354498659048.malone@chaenomeles.canonical.com>
-Subject: [Bug 1656234] Re: Qemu core dumped if using virtio-net
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 66e745a025d3e073aee79e478014d32ef1bfb214
+In-Reply-To: <21fd3aa0-232c-06e8-1e20-b5c98f125468@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:yaOJPgl7oFy0xUmi7sFeukwyBRLcZ6LZCrNtFSzugpvKAnK7oYn
+ UGC+ZZvb5W0IRIqyieLCs61bJ928Nkx+toyYyPCEzHUQwpJr6fXSmktuW5uDoODxiaorfAH
+ 78F3hGef/Vq9hv56OiuPPDrl+15oHPV0SkiUlO7IiRGfk02g/7EYWPbdSnqV6++eEyHCgyE
+ cSCivnvDAvFhjS87tmpqg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u9fa8MSPNq8=:1gFildFXe1i/H+gjCDDBJp
+ rg2iqnC53wcPggPaQB+1elUQJTuAyog6XZ4doh6d0TP5wXnXvZcKeF7taHh8CgUP/QpXHjLp4
+ i7MnCDGDJeHpEf1x65jSxA2dH7fZ0bzrfN1aDZwfucsWZDbR960ZP/y7CtSdniG2LazD+6Soi
+ D33+X9Z8iTxAv9j7r5D99meekntsh2C6hkSI0LQUvkezHn95CWEIw7uNaw8YMZSy0JF1LuIat
+ IU/wAukDWBMuLBLiY2RRWIMuXbcF5Z1m+VbXNf6PxFR8OqmtsX2UFqslASc0zaEGnaG3u8OA6
+ 6yDaAgluHzvzaVyE8ES1iIxA5/gwiCYI9+MlxkUVb6pVaZcoW6cKDTOYs6FQpl8sShiYn4wOL
+ SxQal6u3E5o6gy6opemm7ZBxUiqgw4ku7PRW8rMSsrGN0Sjn7lj8JBxxiNkaISH4MCR2aAsIn
+ P9z8jfXYD2tM3KCveDv8LJRrvhp7nhiTLnoOEhDpnJ46VTU26dH116gcYu0AEOhaeBrZOGCxm
+ GKgwcCNdKctWBKUtoJ/csBmplHvkudc+Nj6YhvliousyiJ5uN3toJ7DOSjVQFRBntjjRDxu4h
+ m9Gpv2IV8MdUfTOWNi1gyWfpW7OwEu6DdW9hQNoG5PRqYWMp1JdRRtbu33XYzHvkg4u2OE0j+
+ XOTxvwirU+l3wM4zH8N6D18iz/KD2FubJ/H2BswcxfKCIv/DFLiJTlUSAkezhhdzuPCEFt8B8
+ 5Wl5sN2yEK9a0qsuF3AKjyc8gxqd1/pAN55trLRPh0LFh/ED7X7Wg2H0OJPBCO4vXG+JupyPF
+ Y/nxSpTXBWtKBgeeb5QFCybQfQU5tSgWqMDkJlRpucVoHMQHKrGFtncGChrMKiJJ9q+1Y4X1X
+ I14anmu39AcKUSgVCJtTqalPXuV4O4f2QmWuYQjGU=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,74 +115,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1656234 <1656234@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix had been included here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D332fa82d0963409
+Le 23/10/2019 à 16:23, Eric Blake a écrit :
+> On 10/23/19 9:15 AM, Frediano Ziglio wrote:
+>>>
+>>> On 10/23/19 8:42 AM, Laurent Vivier wrote:
+>>>> Le 23/10/2019 à 14:26, Frediano Ziglio a écrit :
+>>>>> Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
+>>>>> ---
+>>>>>    util/qemu-timer.c | 6 +-----
+>>>>>    1 file changed, 1 insertion(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+>>>>> index d428fec567..094a20a05a 100644
+>>>>> --- a/util/qemu-timer.c
+>>>>> +++ b/util/qemu-timer.c
+>>>>> @@ -322,11 +322,7 @@ int qemu_timeout_ns_to_ms(int64_t ns)
+>>>>>        ms = DIV_ROUND_UP(ns, SCALE_MS);
+>>>>>           /* To avoid overflow problems, limit this to 2^31, i.e.
+>>>>> approx 25
+>>>>>        days */
+>>>>> -    if (ms > (int64_t) INT32_MAX) {
+>>>>> -        ms = INT32_MAX;
+>>>>> -    }
+>>>>> -
+>>>>> -    return (int) ms;
+>>>>> +    return (int) MIN(ms, (int64_t) INT32_MAX);
+>>>>>    }
+>>>
+>>> Why so many casts?  It should also work as:
+>>>
+>>> return MIN(ms, INT32_MAX);
+>>>
+>>
+>> This was former version. Laurent pointed out that MIN macro
+>> is using ternary operator which is expected to find the same time
+>> on second and third part so the cast inside the MIN macro.
+>> The cast before MIN was kept from previous code.
+> 
+> The C rules for ternary type promotion guarantee that the MIN macro
+> produces the correct type without the cast ('cond ? int64_t : int32_t'
+> produces int64_t). 
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+gdb seems to disagree with that:
 
--- =
+(gdb) whatis l
+type = long long
+(gdb) whatis i
+type = int
+(gdb) whatis 1 ? l : i
+type = long long
+(gdb) whatis 0 ? l : i
+type = int
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1656234
+It's on what I based my previous comment.
 
-Title:
-  Qemu core dumped if using virtio-net
+But both approaches are correct in the end.
 
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  System Environment
-  =3D=3D=3D=3D=3D=3D=3D
-  Qemu commit/branch: e92fbc75
-  Host OS: RHEL7.2 ia32e
-  Host Kernel: 4.9.0
-  Guest OS: RHEL7.2 ia32e
-  Guest Kernel: 4.9.0
-
-  Bug detailed description
-  =3D=3D=3D=3D=3D=3D=3D
-  While create a kvm guest using virtio-net, the qemu will core dump with s=
-howing "Aborted (core dumped)".
-  Reproduce Steps
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  create a guest:
-  qemu-system-x86_64 -enable-kvm -m 4096 -smp 4 -device virtio-net-pci,netd=
-ev=3Dnic0,mac=3D00:16:3e:49:be:24 -netdev tap,id=3Dnic0,script=3D/etc/kvm/q=
-emu-ifup -drive file=3D/ia32e_rhel7u2_kvm.qcow2,if=3Dnone,id=3Dvirtio-disk0=
- -device virtio-blk-pci,drive=3Dvirtio-disk0 -serial file:serial.log
-
-  Current Result:
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  qemu-system-x86_64: /workspace/ia32e/nightly/kvm-next-20170105-ef85b6-e92=
-fbc/kvm/qemu/hw/virtio/virtio.c:214: virtio_queue_set_notification: Asserti=
-on `vq->notification_disabled > 0' failed.
-  Aborted (core dumped)
-
-  add info
-  =3D=3D=3D=3D=3D=3D=3D=3D
-  [root@hsw-ep2 Desktop]# dmesg |grep -v virbr0 |tail -n 10
-  [ 1760.265000] device tap0 left promiscuous mode
-  [ 1879.148642] device tap0 entered promiscuous mode
-  [ 1885.213702] kvm [14186]: vcpu0, guest rIP: 0xffffffff81066784 disabled=
- perfctr wrmsr: 0xc2 data 0xffff
-  [ 1912.258783] device tap0 left promiscuous mode
-  [ 1995.972267] device tap0 entered promiscuous mode
-  [ 2001.990207] kvm [14335]: vcpu0, guest rIP: 0xffffffff81066784 disabled=
- perfctr wrmsr: 0xc2 data 0xffff
-  [ 2024.703072] device tap0 left promiscuous mode
-  [ 2145.374239] device tap0 entered promiscuous mode
-  [ 2151.409948] kvm [14541]: vcpu0, guest rIP: 0xffffffff81066784 disabled=
- perfctr wrmsr: 0xc2 data 0xffff
-  [ 2178.281446] device tap0 left promiscuous mode
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1656234/+subscriptions
+Thanks,
+Laurent
 
