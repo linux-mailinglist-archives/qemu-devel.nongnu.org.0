@@ -2,82 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50E1E1EFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:12:18 +0200 (CEST)
-Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A76E1F07
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:16:24 +0200 (CEST)
+Received: from localhost ([::1]:39266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNIJ7-0006sf-JU
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:12:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33162)
+	id 1iNIN4-0002t2-KD
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iNI0B-0000qu-0y
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:44 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNI5q-00062u-5P
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:58:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iNI09-0004Ok-1e
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17950)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNI08-0004JJ-BS
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:40 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9NEiuZo063546
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:34 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vtqypaw5k-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:33 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 23 Oct 2019 15:52:31 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 23 Oct 2019 15:52:28 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9NEqRtq58523898
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Oct 2019 14:52:28 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D2DB74C058;
- Wed, 23 Oct 2019 14:52:27 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A422D4C04A;
- Wed, 23 Oct 2019 14:52:27 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.36.67])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 23 Oct 2019 14:52:27 +0000 (GMT)
-Subject: [PATCH 6/6] xive: Don't use CPU_FOREACH() to perform CAM line matching
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 23 Oct 2019 16:52:27 +0200
-In-Reply-To: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
-References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+ (envelope-from <laurent@vivier.eu>) id 1iNI5n-0007ze-T9
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:58:33 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:53997)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iNI5l-0007y6-Th; Wed, 23 Oct 2019 10:58:31 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MTR6K-1iZHbX2leG-00Thjr; Wed, 23 Oct 2019 16:58:23 +0200
+Subject: Re: [PATCH 3/3] qemu-timer: reuse MIN macro in qemu_timeout_ns_to_ms
+To: Eric Blake <eblake@redhat.com>, Frediano Ziglio <fziglio@redhat.com>
+References: <20191023122652.2999-1-fziglio@redhat.com>
+ <20191023122652.2999-3-fziglio@redhat.com>
+ <5f20705e-60bc-08d5-8b6e-72438afabefe@vivier.eu>
+ <c2836c58-5a3c-2356-6e94-9b2341ab2194@redhat.com>
+ <1860840671.8198083.1571840126307.JavaMail.zimbra@redhat.com>
+ <21fd3aa0-232c-06e8-1e20-b5c98f125468@redhat.com>
+ <8b52c02c-1e26-4ac7-3f79-db4459f9c178@vivier.eu>
+ <173d8641-ff6b-adc4-b0d4-f4dd5909f87c@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <fbc49211-35f6-2b98-b21d-faad37ed8aea@vivier.eu>
+Date: Wed, 23 Oct 2019 16:58:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19102314-4275-0000-0000-00000376343F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102314-4276-0000-0000-000038895BE9
-Message-Id: <157184234731.3053790.18369348907304339634.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-23_03:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910230148
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+In-Reply-To: <173d8641-ff6b-adc4-b0d4-f4dd5909f87c@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:1ThzeD0fXIluSylcZnTq3BtMqF+doyJAVa8fqc19LWfjC/ZIUq8
+ 8FbzeOppJEFCkxk1NrEUigxexQWikaZThBEIH80euqsu3I1aeE0Z0A3KZAIXgqfdzQic/6p
+ lvrXTwcJvvYzrE1tyH9c8JZPLD8iR9zAX83h/2fr1mKMHHxlmVVzo418zW8GgpndUGfhyWy
+ E6kOHvh++hKLKCkuyIVyA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3DxG/JVHJkQ=:fMyqK2o14IQ4pIDm8Qflfe
+ XaOGvz1tolYyKU5FAHHCXvHZ87zVSmTvbKhIS26cw7xi2xpQtqHRMWfzlNN5BjDpqb/1Aloau
+ tOt5f1n8jaadrWtiTLSl/84KgKOMB7MJ6rbh+wN9nTdKupH6/ItFXI1PQ0uPYFmMFPt4uu7f6
+ TQssX3rxwLJS0eBOvFlcWPm1e/6BGnzX2kSr0XS4F5Zy9LGvSdlaA+FL28vA3MKnfQSiphQiT
+ Q1/zgRQd220DBltmYU1mkDpGeO110LFiziRuCpEW0nzwU7zJ4p0xr6ly4Ng1g9ADt0+vuu1aI
+ kgy9dfwztaZ96EIrX5PaY1ta7VDBXSI3iTQGr1Mwd4Nd1wG+ZMy6aB9hFyoppW5IxKVAYQRXn
+ SXY+ROX0I2sOY14TMr1CbNmufITJB03rCwyGULO1kgKjnSnwFyHXS+oOFKjGXBNz9gDr8MxfJ
+ UokrjCS/0IirDZ+aa5ny/3oIPxwhjfVVtgzrZQtLNjo5LpVWulraMLIfDFlfUpoK/jKud9wKL
+ ZIrBSAM4t1T1e4WI/4yUTsZaHwDwsufisKQ2T31VJi9ehvmwlVbEt6e7ed9WlWo7cg8GB8GgV
+ XyUZ6sX6o7e04YMq0MrLoU27WtWGoa6DVemxzWQDjy99i0GIPdC/p7Te2WvEcT0Zvqhwx9tID
+ ixGSx/s+6sOUsrx91VvnoL8Y/UJ/W5v3bcPIB0FZbc5wZYnnC5dUiO0Y+4ysDBbHCsGbYO0WT
+ +xEmR4ZS0V+sni8vYyywjv3w5Q7X1a2QRd5t8Nxb1foDhRYplRXIGcXs8pKd0/Ijy58Giyd/L
+ L7hO7VmLgpw2d3z0U2QVFLnZA/aRfuvRk6geYntUwlzQtb593bc3ct64QqBesg+ot2yPfhJLT
+ /GKdbpsUG8XeeagKBQmox6GDK1ubQNXf0T0xb914w=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,140 +117,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the TCTX objects are children of the XIVE router, stop
-using CPU_FOREACH() when looking for a matching VCPU target.
+Le 23/10/2019 à 16:51, Eric Blake a écrit :
+> On 10/23/19 9:45 AM, Laurent Vivier wrote:
+> 
+>>> The C rules for ternary type promotion guarantee that the MIN macro
+>>> produces the correct type without the cast ('cond ? int64_t : int32_t'
+>>> produces int64_t).
+>>
+>> gdb seems to disagree with that:
+>>
+>> (gdb) whatis l
+>> type = long long
+>> (gdb) whatis i
+>> type = int
+>> (gdb) whatis 1 ? l : i
+>> type = long long
+>> (gdb) whatis 0 ? l : i
+>> type = int
+> 
+> It looks like you've found a gdb bug.
+> 
+> C99 6.5.15 p5 states:
+> "If both the second and third operands have arithmetic type, the result
+> type that would be determined by the usual arithmetic conversions, were
+> they applied to those two operands, is the type of the result."
+> 
+> and the usual arithmetic conversion of 'long long OP int' is 'long
+> long', per 6.3.1.8.
+> 
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/intc/xive.c |  100 +++++++++++++++++++++++++++++++++++---------------------
- 1 file changed, 62 insertions(+), 38 deletions(-)
+Ok, you're right [1]
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 40ce43152456..ec5e7d0ee39a 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1403,55 +1403,79 @@ typedef struct XiveTCTXMatch {
-     uint8_t ring;
- } XiveTCTXMatch;
- 
--static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
--                                 uint8_t nvt_blk, uint32_t nvt_idx,
--                                 bool cam_ignore, uint8_t priority,
--                                 uint32_t logic_serv, XiveTCTXMatch *match)
-+typedef struct XivePresenterMatch {
-+    uint8_t format;
-+    uint8_t nvt_blk;
-+    uint32_t nvt_idx;
-+    bool cam_ignore;
-+    uint8_t priority;
-+    uint32_t logic_serv;
-+    XiveTCTXMatch *match;
-+    int count;
-+} XivePresenterMatch;
-+
-+static int do_xive_presenter_match(Object *child, void *opaque)
- {
--    CPUState *cs;
-+    XiveTCTX *tctx = XIVE_TCTX(child);
-+    XivePresenterMatch *xpm = opaque;
-+    int ring;
- 
-     /*
-      * TODO (PowerNV): handle chip_id overwrite of block field for
-      * hardwired CAM compares
-      */
- 
--    CPU_FOREACH(cs) {
--        XiveTCTX *tctx = xive_router_get_tctx(xrtr, cs);
--        int ring;
-+    /*
-+     * HW checks that the CPU is enabled in the Physical Thread
-+     * Enable Register (PTER).
-+     */
- 
--        /*
--         * Skip partially initialized vCPUs. This can happen when
--         * vCPUs are hotplugged.
--         */
--        if (!tctx) {
--            continue;
-+    /*
-+     * Check the thread context CAM lines and record matches. We
-+     * will handle CPU exception delivery later
-+     */
-+    ring = xive_presenter_tctx_match(tctx, xpm->format, xpm->nvt_blk,
-+                                     xpm->nvt_idx, xpm->cam_ignore,
-+                                     xpm->logic_serv);
-+
-+    /*
-+     * Save the context and follow on to catch duplicates, that we
-+     * don't support yet.
-+     */
-+    if (ring != -1) {
-+        if (xpm->match->tctx) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a thread "
-+                          "context NVT %x/%x\n", xpm->nvt_blk, xpm->nvt_idx);
-+            return -1;
-         }
- 
--        /*
--         * HW checks that the CPU is enabled in the Physical Thread
--         * Enable Register (PTER).
--         */
-+        xpm->match->ring = ring;
-+        xpm->match->tctx = tctx;
-+        xpm->count++;
-+    }
- 
--        /*
--         * Check the thread context CAM lines and record matches. We
--         * will handle CPU exception delivery later
--         */
--        ring = xive_presenter_tctx_match(tctx, format, nvt_blk, nvt_idx,
--                                         cam_ignore, logic_serv);
--        /*
--         * Save the context and follow on to catch duplicates, that we
--         * don't support yet.
--         */
--        if (ring != -1) {
--            if (match->tctx) {
--                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a thread "
--                              "context NVT %x/%x\n", nvt_blk, nvt_idx);
--                return false;
--            }
--
--            match->ring = ring;
--            match->tctx = tctx;
--        }
-+    return 0;
-+}
-+
-+static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
-+                                 uint8_t nvt_blk, uint32_t nvt_idx,
-+                                 bool cam_ignore, uint8_t priority,
-+                                 uint32_t logic_serv, XiveTCTXMatch *match)
-+{
-+    XivePresenterMatch xpm = {
-+        .format     = format,
-+        .nvt_blk    = nvt_blk,
-+        .nvt_idx    = nvt_idx,
-+        .cam_ignore = cam_ignore,
-+        .priority   = priority,
-+        .logic_serv = logic_serv,
-+        .match      = match,
-+        .count      = 0,
-+    };
-+
-+    if (object_child_foreach_type(OBJECT(xrtr), TYPE_XIVE_TCTX,
-+                                  do_xive_presenter_match, &xpm) < 0) {
-+        return false;
-     }
- 
-     if (!match->tctx) {
+Frediano, sorry for my misleading comment.
 
+Thanks,
+Laurent
+
+[1] and gcc agrees:
+
+int main(void)
+{
+        long long l;
+        int i;
+        typeof(0 ? l : i) f;
+        typeof(1 ? l : i) t;
+}
+
+(gdb) whatis l
+type = long long
+(gdb) whatis i
+type = int
+(gdb) whatis f
+type = long long
+(gdb) whatis t
+type = long long
 
