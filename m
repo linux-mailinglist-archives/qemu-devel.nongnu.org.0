@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F80DE16A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 11:52:20 +0200 (CEST)
-Received: from localhost ([::1]:59368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35B8E1770
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:12:39 +0200 (CEST)
+Received: from localhost ([::1]:59794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNDJT-0006VS-Lt
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 05:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36700)
+	id 1iNDd8-0007Av-Uw
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNDED-0004I1-NH
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 05:47:04 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iNDVZ-0003x6-94
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:04:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNDE9-0004Ai-P7
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 05:46:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35145
+ (envelope-from <stefanha@redhat.com>) id 1iNDVW-0001F7-Br
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:04:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42267
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNDE9-0004AM-Kg
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 05:46:49 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNDVW-0001CL-4k
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571824008;
+ s=mimecast20190719; t=1571825084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4Y2t/BhyVmvDozLXHPKCzDy1H1TUrEvSVf9l6QuSFEM=;
- b=gx2cuvcOmjXR0Qd8A+rBgKlb81DSIgitadFDXsw9M4e7J4jd74ocp4VtM4FxKMXngqJICz
- D8Tmn4x8yVqy4vbX+qcqfAnDOECTnVO6Ous+2XJx3huiXTBOC6X0dMW7K7zt9aAwcmD8xw
- 4aJqqhxrTlihMRYjQXEVf3TVJEc6a1c=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QmMBb8HSzILN2HbYCv6AJeBCV8YBTJZzTlnuexK3qq8=;
+ b=OHbVAkOpU6NOMMLe2ebBwSxeFKrCsWyLWtGzGqLuUaAfgSm9iCv4woUtvWpXYcAtptL7wf
+ McJ2kqt2gA6CQnzJuzzEI4voQPP35NCxJ4wCEmcebiEEaJChl9ThgxQ65lSlGMEqL1gQK5
+ x5Q2J/FeD5haRD+5grrbUpCI1hOeMpg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-3gdE4MFZPIiBuVufVgZDKQ-1; Wed, 23 Oct 2019 05:46:46 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-123-jDvPS2jRPfWn_rOBjtdgCA-1; Wed, 23 Oct 2019 06:04:40 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0B201800D6B
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 09:46:45 +0000 (UTC)
-Received: from work-vm (ovpn-117-198.ams2.redhat.com [10.36.117.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8261E600CC;
- Wed, 23 Oct 2019 09:46:39 +0000 (UTC)
-Date: Wed, 23 Oct 2019 10:46:36 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 2/2] virtiofsd: move to a new pid namespace
-Message-ID: <20191023094636.GB2834@work-vm>
-References: <20191016160157.12414-1-stefanha@redhat.com>
- <20191016160157.12414-3-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A743800D49;
+ Wed, 23 Oct 2019 10:04:39 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 547A319C78;
+ Wed, 23 Oct 2019 10:04:25 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/16] libqos: add VIRTIO PCI 1.0 support
+Date: Wed, 23 Oct 2019 11:04:09 +0100
+Message-Id: <20191023100425.12168-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191016160157.12414-3-stefanha@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 3gdE4MFZPIiBuVufVgZDKQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: jDvPS2jRPfWn_rOBjtdgCA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,193 +67,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, slp@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> virtiofsd needs access to /proc/self/fd.  Let's move to a new pid
-> namespace so that a compromised process cannot see another other
-> processes running on the system.
->=20
-> One wrinkle in this approach: unshare(CLONE_NEWPID) affects *child*
-> processes and not the current process.  Therefore we need to fork the
-> pid 1 process that will actually run virtiofsd and leave a parent in
-> waitpid(2).  This is not the same thing as daemonization and parent
-> processes should not notice a difference.
->=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+v4:
+ * Introduce bool d->features_negotiated so that tests can negotiate a
+   0 feature bit set in Legacy mode [Thomas]
+ * Make the FEATURES_OK code change in qvirtio_set_driver_ok() clearer and
+   mention it in the commit description [Thomas]
+ * Fix indentation in qvring_init() [Thomas]
+v3:
+ * Now implements VIRTIO 1.0 fully (vring, device initialization).
+   This required several new patches to address the following issues:
+   1. Tests that do not negotiate features (non-compliant!)
+   2. Tests that access configuration space before feature negotiation
+      (non-compliant!)
+   3. Tests that set up virtqueues before feature negotiation (non-complian=
+t!)
+   4. vring accesses require byte-swapping when VIRTIO 1.0 is used with a
+      big-endian guest because the qtest_readX/writeX() API automatically
+      converts to guest-endian
+   5. VIRTIO 1.0 has an additional FEATURES_OK step during Device
+      Initialization
+ * Change uint8_t bar_idx to int [Thomas]
+ * Document qpci_find_capability() [Thomas]
+ * Every commit tested with arm, ppc64, and x86_64 targets using:
+   git rebase -i origin/master -x 'make tests/qos-test &&
+   QTEST_QEMU_BINARY=3Dppc64-softmmu/qemu-system-ppc64 tests/qos-test &&
+   QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64 tests/qos-test'
+   QTEST_QEMU_BINARY=3Darm-softmmu/qemu-system-arm tests/qos-test'
+v2:
+ * Fix checkpatch.pl issues, except MAINTAINERS file warning.  libqos alrea=
+dy
+   has maintainers and the new virtio-pci-modern.[ch] files don't need extr=
+a
+   entries since they are already covered by the existing libqos/ entry.
 
-OK, I think that's OK (I don't know the mount semantics that well).
+New VIRTIO devices are Non-Transitional.  This means they only expose the
+VIRTIO 1.0 interface, not the Legacy interface.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+The libqos only supports Legacy and Transitional devices (in Legacy mode).
+This patch series adds VIRTIO 1.0 support so that tests can run against
+Non-Transitional devices too.
 
-> ---
->  contrib/virtiofsd/passthrough_ll.c | 95 ++++++++++++++++++++++--------
->  1 file changed, 72 insertions(+), 23 deletions(-)
->=20
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
-hrough_ll.c
-> index c27ff7d800..b6ee9b2e90 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -56,9 +56,12 @@
->  #include <sys/xattr.h>
->  #include <sys/mman.h>
->  #include <sys/socket.h>
-> +#include <sys/types.h>
->  #include <sys/un.h>
-> +#include <sys/wait.h>
->  #include <sys/capability.h>
-> =20
-> +
->  #include "ireg.h"
->  #include <sys/mount.h>
->  #include <sys/resource.h>
-> @@ -2749,6 +2752,72 @@ static void setup_net_namespace(void)
->  =09}
->  }
-> =20
-> +/*
-> + * Move to a new pid namespace to prevent access to other processes if t=
-his
-> + * process is compromised.
-> + */
-> +static void setup_pid_namespace(void)
-> +{
-> +=09pid_t child;
-> +
-> +=09/*
-> +=09 * Create a new pid namespace for *child* processes.  We'll have to
-> +=09 * fork in order to enter the new pid namespace.  A new mount namespa=
-ce
-> +=09 * is also needed so that we can remount /proc for the new pid
-> +=09 * namespace.
-> +=09 */
-> +=09if (unshare(CLONE_NEWPID | CLONE_NEWNS) !=3D 0) {
-> +=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\n"=
-);
-> +=09=09exit(1);
-> +=09}
-> +
-> +=09child =3D fork();
-> +=09if (child < 0) {
-> +=09=09fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
-> +=09=09exit(1);
-> +=09}
-> +=09if (child > 0) {
-> +=09=09pid_t waited;
-> +=09=09int wstatus;
-> +
-> +=09=09/* The parent waits for the child */
-> +=09=09do {
-> +=09=09=09waited =3D waitpid(child, &wstatus, 0);
-> +=09=09} while (waited < 0 && errno =3D=3D EINTR);
-> +
-> +=09=09if (WIFEXITED(wstatus)) {
-> +=09=09=09exit(WEXITSTATUS(wstatus));
-> +=09=09}
-> +
-> +=09=09exit(1);
-> +=09}
-> +
-> +=09/*
-> +=09 * If the mounts have shared propagation then we want to opt out so o=
-ur
-> +=09 * mount changes don't affect the parent mount namespace.
-> +=09 */
-> +=09if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
-> +=09=09fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
-> +=09=09exit(1);
-> +=09}
-> +
-> +=09/* The child must remount /proc to use the new pid namespace */
-> +=09if (mount("proc", "/proc", "proc",
-> +=09=09  MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_RELATIME, NULL) < 0) {
-> +=09=09fuse_log(FUSE_LOG_ERR, "mount(/proc): %m\n");
-> +=09=09exit(1);
-> +=09}
-> +}
-> +
-> +static void setup_proc_self_fd(struct lo_data *lo)
-> +{
-> +=09lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
-> +=09if (lo->proc_self_fd =3D=3D -1) {
-> +=09=09fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
-> +=09=09exit(1);
-> +=09}
-> +}
-> +
->  /* This magic is based on lxc's lxc_pivot_root() */
->  static void setup_pivot_root(const char *source)
->  {
-> @@ -2803,20 +2872,10 @@ static void setup_pivot_root(const char *source)
-> =20
->  /*
->   * Make the source directory our root so symlinks cannot escape and no o=
-ther
-> - * files are accessible.
-> + * files are accessible.  Assumes unshare(CLONE_NEWNS) was already calle=
-d.
->   */
->  static void setup_mount_namespace(const char *source)
->  {
-> -=09if (unshare(CLONE_NEWNS) !=3D 0) {
-> -=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNS): %m\n");
-> -=09=09exit(1);
-> -=09}
-> -
-> -=09if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
-> -=09=09fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_PRIVATE): %m\n");
-> -=09=09exit(1);
-> -=09}
-> -
->  =09if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
->  =09=09fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
-rce);
->  =09=09exit(1);
-> @@ -2831,6 +2890,8 @@ static void setup_mount_namespace(const char *sourc=
-e)
->   */
->  static void setup_sandbox(struct lo_data *lo, bool enable_syslog)
->  {
-> +=09setup_pid_namespace();
-> +=09setup_proc_self_fd(lo);
->  =09setup_net_namespace();
->  =09setup_mount_namespace(lo->source);
->  =09setup_seccomp(enable_syslog);
-> @@ -2860,15 +2921,6 @@ static void setup_root(struct lo_data *lo, struct =
-lo_inode *root)
->  =09g_atomic_int_set(&root->refcount, 2);
->  }
-> =20
-> -static void setup_proc_self_fd(struct lo_data *lo)
-> -{
-> -=09lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
-> -=09if (lo->proc_self_fd =3D=3D -1) {
-> -=09=09fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
-> -=09=09exit(1);
-> -=09}
-> -}
-> -
->  /* Raise the maximum number of open file descriptors to the system limit=
- */
->  static void setup_nofile_rlimit(void)
->  {
-> @@ -3110,9 +3162,6 @@ int main(int argc, char *argv[])
->  =09=09get_shared(&lo, &lo.root);
->  =09}
-> =20
-> -=09/* Must be after daemonize to get the right /proc/self/fd */
-> -=09setup_proc_self_fd(&lo);
-> -
->  =09setup_sandbox(&lo, opts.syslog);
-> =20
->  =09setup_root(&lo, &lo.root);
-> --=20
-> 2.21.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+The virtio-fs device is Non-Transitional, so this is a prerequisite for
+virtio-fs qos tests.
+
+Stefan Hajnoczi (16):
+  tests/virtio-blk-test: read config space after feature negotiation
+  libqos: read QVIRTIO_MMIO_VERSION register
+  libqos: extend feature bits to 64-bit
+  virtio-scsi-test: add missing feature negotiation
+  tests/virtio-blk-test: set up virtqueue after feature negotiation
+  libqos: add missing virtio-9p feature negotiation
+  libqos: enforce Device Initialization order
+  libqos: implement VIRTIO 1.0 FEATURES_OK step
+  libqos: access VIRTIO 1.0 vring in little-endian
+  libqos: add iteration support to qpci_find_capability()
+  libqos: pass full QVirtQueue to set_queue_address()
+  libqos: add MSI-X callbacks to QVirtioPCIDevice
+  libqos: expose common virtqueue setup/cleanup functions
+  libqos: make the virtio-pci BAR index configurable
+  libqos: extract Legacy virtio-pci.c code
+  libqos: add VIRTIO PCI 1.0 support
+
+ tests/Makefile.include           |   1 +
+ tests/libqos/pci.h               |   2 +-
+ tests/libqos/virtio-mmio.h       |   1 +
+ tests/libqos/virtio-pci-modern.h |  17 ++
+ tests/libqos/virtio-pci.h        |  34 ++-
+ tests/libqos/virtio.h            |  19 +-
+ tests/libqos/pci.c               |  30 ++-
+ tests/libqos/virtio-9p.c         |   6 +
+ tests/libqos/virtio-mmio.c       |  38 ++-
+ tests/libqos/virtio-net.c        |   6 +-
+ tests/libqos/virtio-pci-modern.c | 443 +++++++++++++++++++++++++++++++
+ tests/libqos/virtio-pci.c        | 105 +++++---
+ tests/libqos/virtio.c            | 160 ++++++++---
+ tests/virtio-blk-test.c          |  66 +++--
+ tests/virtio-scsi-test.c         |   8 +
+ 15 files changed, 802 insertions(+), 134 deletions(-)
+ create mode 100644 tests/libqos/virtio-pci-modern.h
+ create mode 100644 tests/libqos/virtio-pci-modern.c
+
+--=20
+2.21.0
 
 
