@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7E1E264D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 00:18:03 +0200 (CEST)
-Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268A7E24A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:36:26 +0200 (CEST)
+Received: from localhost ([::1]:47260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNOx7-0002Tt-P3
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 18:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38412)
+	id 1iNNMm-0001dt-OL
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:36:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNNHR-00073M-Cw
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:30:54 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNNIS-0007oB-9N
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:31:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNNHP-0007e5-P2
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:30:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41006)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNNHP-0007dw-In
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:30:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNNHN-0000gL-Fc
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 20:30:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 751082E807E
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 20:30:49 +0000 (UTC)
+ (envelope-from <jfreimann@redhat.com>) id 1iNNIP-0007lr-Pa
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:31:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40970
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iNNIP-0007lj-Fa
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:31:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571862711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U0ByoxOI47HUVV3oa3QKrU7w/LSshe0fJ+JKePZDklQ=;
+ b=ZOwnKTLRWAgQxWmbdFQYRdwPdVlKBodMmUZWHoMQoO4RrcrbsfxevRT29ebDrBuencWro9
+ BL+KpJAnu+TMioANlC6YJZOMsl2hZYMLcDnpscdURufHYSzmjHFYCKcY/DAXeshhcSaGcG
+ QPdw8SEeXhQnivnoVgO2ntf7DVALo0I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-rZ2kYfgjP62BNoUfG4N0mw-1; Wed, 23 Oct 2019 16:31:47 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E246B800D5A;
+ Wed, 23 Oct 2019 20:31:46 +0000 (UTC)
+Received: from localhost (ovpn-116-38.ams2.redhat.com [10.36.116.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D46A45DE5B;
+ Wed, 23 Oct 2019 20:31:39 +0000 (UTC)
+Date: Wed, 23 Oct 2019 22:31:37 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v5 02/11] pci: add option for net failover
+Message-ID: <20191023203137.meh3edoudxulecys@jenstp.localdomain>
+References: <20191023082711.16694-1-jfreimann@redhat.com>
+ <20191023082711.16694-3-jfreimann@redhat.com>
+ <20191023120648.57e50ae1@x1.home>
+ <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
+ <20191023140211.4ada7ff3@x1.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191023140211.4ada7ff3@x1.home>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: rZ2kYfgjP62BNoUfG4N0mw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 20:17:11 -0000
-From: Michael Weiser <michael@weiser.dinsnail.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
- psyhomb sej7278
-X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
-X-Launchpad-Bug-Modifier: Michael Weiser (michael-weiser)
-References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
-Message-Id: <157186183145.18830.11596753021644778983.malone@wampee.canonical.com>
-Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0269576e30cc2d73b9861eea19802871b2555978
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,144 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ laine@redhat.com, ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For completeness's sake: All the changes you proposed (replacing call to
-qcow2_detect_metadata_preallocation() with ret =3D true and ret =3D false,
-moving acquiring s->lock before the call and replacing the call with a
-sleep) prevent corruption on my system. The latter would suggest that
-it's not so much a race being exposed by a timing change as a race
-directly when accessing qcow2 internals without the lock being held.
+On Wed, Oct 23, 2019 at 02:02:11PM -0600, Alex Williamson wrote:
+>On Wed, 23 Oct 2019 21:30:35 +0200
+>Jens Freimann <jfreimann@redhat.com> wrote:
+>
+>> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
+>> >On Wed, 23 Oct 2019 10:27:02 +0200
+>> >Jens Freimann <jfreimann@redhat.com> wrote:
+[...]
+>> >Are there also multi-function considerations that
+>> >should be prevented or documented?  For example, if a user tries to
+>> >configure both the primary and failover NICs in the same slot, I assume
+>> >bad things will happen.
+>>
+>>   I would have expected that this is already checked in pci code, but
+>> it is not. I tried it and when I put both devices into the same slot
+>> they are both unplugged from the guest during boot but nothing else
+>> happens. I don't know what triggers that unplug of the devices.
+>>
+>> I'm not aware of any other problems regarding multi-function, which
+>> doesn't mean there aren't any.
+>
+>Hmm, was the hidden device at function #0?  The guest won't find any
+>functions if function #0 isn't present, but I don't know what would
+>trigger the hotplug.  The angle I'm thinking is that we only have slot
+>level granularity for hotplug, so any sort of automatic hotplug of a
+>slot should probably think about bystander devices within the slot.
 
--- =
+Yes that would be a problem, but isn't it the same in the non-failover case
+where a user configures it wrong? The slot where the device is plugged is n=
+ot
+chosen automatically it's configured by the user, no? I might be mixing som=
+ething
+up here.  I have no idea yet how to check if a slot is already populated, b=
+ut
+I'll think about it.=20
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1846427
+Thanks!
 
-Title:
-  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+regards,
+Jens=20
 
-Status in QEMU:
-  New
-
-Bug description:
-  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
-  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
-  savevm/quit/loadvm cycles. I've narrowed it down to the following
-  reproducer (further notes below):
-
-  # qemu-img check debian.qcow2
-  No errors were found on the image.
-  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
-usters
-  Image end offset: 18340446208
-  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
-96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
-=3Ddebian.qcow2,id=3Dd -S
-  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
-bus: Did not receive a reply. Possible causes include: the remote applicati=
-on did not send a reply, the message bus security policy blocked the reply,=
- the reply timeout expired, or the network connection was broken.
-  QEMU 4.1.50 monitor - type 'help' for more information
-  (qemu) loadvm foo
-  (qemu) c
-  (qemu) qcow2_free_clusters failed: Invalid argument
-  qcow2_free_clusters failed: Invalid argument
-  qcow2_free_clusters failed: Invalid argument
-  qcow2_free_clusters failed: Invalid argument
-  quit
-  [m@nargothrond:~] qemu-img check debian.qcow2
-  Leaked cluster 85179 refcount=3D2 reference=3D1
-  Leaked cluster 85180 refcount=3D2 reference=3D1
-  ERROR cluster 266150 refcount=3D0 reference=3D2
-  [...]
-  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
-
-  9493 errors were found on the image.
-  Data may be corrupted, or further writes to the image may corrupt it.
-
-  2 leaked clusters were found on the image.
-  This means waste of disk space, but no harm to data.
-  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
-usters
-  Image end offset: 18340446208
-
-  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
-  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
-  similarly current.
-
-  Reproduced with qemu-4.1.0 from distribution package as well as
-  vanilla git checkout of tag v4.1.0 and commit
-  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
-  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
-  sequence:
-
-  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
-mu --disable-werror --disable-docs
-  [...]
-  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
-  [...] (can provide full configure output if helpful)
-  make -j8 install
-
-  The kind of guest OS does not matter: seen with Debian testing 64bit,
-  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
-
-  The virtual storage controller does not seem to matter: seen with
-  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
-
-  Caching modes (none, directsync, writeback), aio mode (threads,
-  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
-  not influence occurence either.
-
-  Having more RAM in the guest seems to increase odds of corruption:
-  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
-  RAM it happens almost instantly.
-
-  An automated reproducer works as follows:
-
-  - the guest *does* mount its root fs and swap with option discard and
-  my testing leaves me with the impression that file deletion rather
-  than reading is causing the issue
-
-  - foo is a snapshot of the running Debian VM which is already running
-  command
-
-  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
-ne
-
-  to produce some I/O to the disk (4GB file with 4GB of RAM).
-
-  - on the host a loop continuously resumes and saves the guest state
-  and quits qemu inbetween:
-
-  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
-  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
-  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
-  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
-  none ; done
-
-  - quitting qemu inbetween saves and loads seems to be necessary for
-  the problem to occur. Just continusouly in one session saving and
-  loading guest state does not trigger it.
-
-  - For me, after about 2 to 6 iterations of above loop the image is
-  corrupted.
-
-  - corruption manifests with other messages from qemu as well, e.g.:
-
-  (qemu) loadvm foo
-  Error: Device 'd' does not have the requested snapshot 'foo'
-
-  Using above reproducer I have to the be best of my ability bisected
-  the introduction of the problem to commit
-  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
-  block_status call if possible). qemu compiled from the commit before
-  does not exhibit the issue, from that commit on it does and reverting
-  the commit off of current master makes it disappear.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
