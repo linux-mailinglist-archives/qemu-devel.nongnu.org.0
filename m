@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA14E1873
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:01:01 +0200 (CEST)
-Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D1FE187F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:07:14 +0200 (CEST)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNENw-0000eb-PL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43049)
+	id 1iNETx-0003xa-BL
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNDpz-00010p-VZ
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNDpz-00010k-Ug
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNDpx-00031Q-Pt
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNDpx-00032E-WF
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:25:55 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:35708 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:35870 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iNDpv-0002xi-Cp
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:25:51 -0400
+ id 1iNDpv-0002yq-Lt
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:25:53 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 694E01A2151;
- Wed, 23 Oct 2019 12:24:40 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id 685961A1E62;
+ Wed, 23 Oct 2019 12:24:43 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 94BBD1A214B;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id B1A2C1A219A;
  Wed, 23 Oct 2019 12:24:00 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 13/14] target/mips: Add support for emulation of CRC32
- group of instructions
-Date: Wed, 23 Oct 2019 12:23:46 +0200
-Message-Id: <1571826227-10583-14-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v7 14/14] target/mips: Demacro LMI decoder
+Date: Wed, 23 Oct 2019 12:23:47 +0200
+Message-Id: <1571826227-10583-15-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1571826227-10583-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1571826227-10583-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -51,180 +50,285 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com, Yongbok Kim <yongbok.kim@mips.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: aleksandar.rikalo@rt-rk.com, Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Add emulation of MIPS' CRC32 (Cyclic Redundancy Check) instructions.
-Reuse zlib crc32() and Linux crc32c(). Note that, at the time being,
-there is no MIPS CPU that supports CRC32 instructions (they are an
-optional part of MIPS64/32 R6 anf nanoMIPS ISAs).
+This makes searches for instances of opcode usages easier.
 
-Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- disas/mips.c            |  8 ++++++++
- target/mips/helper.h    |  2 ++
- target/mips/op_helper.c | 22 ++++++++++++++++++++++
- target/mips/translate.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 73 insertions(+)
+ target/mips/translate.c | 247 +++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 173 insertions(+), 74 deletions(-)
 
-diff --git a/disas/mips.c b/disas/mips.c
-index dfefe5e..75c48b3 100644
---- a/disas/mips.c
-+++ b/disas/mips.c
-@@ -1409,6 +1409,14 @@ const struct mips_opcode mips_builtin_opcodes[] =
- {"dvp",        "t",     0x41600024, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
- {"evp",        "",      0x41600004, 0xffffffff, TRAP,                 0, I32R6},
- {"evp",        "t",     0x41600004, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
-+{"crc32b",     "t,v,t", 0x7c00000f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32h",     "t,v,t", 0x7c00004f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32w",     "t,v,t", 0x7c00008f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32d",     "t,v,t", 0x7c0000cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
-+{"crc32cb",    "t,v,t", 0x7c00010f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32ch",    "t,v,t", 0x7c00014f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32cw",    "t,v,t", 0x7c00018f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32cd",    "t,v,t", 0x7c0001cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
- 
- /* MSA */
- {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index 7b8ad74..2095330 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -40,6 +40,8 @@ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
- #endif
- 
-+DEF_HELPER_3(crc32, tl, tl, tl, i32)
-+DEF_HELPER_3(crc32c, tl, tl, tl, i32)
- DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 18fcee4..3298980 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -27,6 +27,8 @@
- #include "exec/memop.h"
- #include "sysemu/kvm.h"
- #include "fpu/softfloat.h"
-+#include "qemu/crc32c.h"
-+#include <zlib.h>
- 
- /*****************************************************************************/
- /* Exceptions processing helpers */
-@@ -350,6 +352,26 @@ target_ulong helper_rotx(target_ulong rs, uint32_t shift, uint32_t shiftx,
-     return (int64_t)(int32_t)(uint32_t)tmp5;
- }
- 
-+/* these crc32 functions are based on target/arm/helper-a64.c */
-+target_ulong helper_crc32(target_ulong val, target_ulong m, uint32_t sz)
-+{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32(val ^ 0xffffffff, buf, sz) ^ 0xffffffff);
-+}
-+
-+target_ulong helper_crc32c(target_ulong val, target_ulong m, uint32_t sz)
-+{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32c(val, buf, sz) ^ 0xffffffff);
-+}
-+
- #ifndef CONFIG_USER_ONLY
- 
- static inline hwaddr do_translate_address(CPUMIPSState *env,
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 20c69d2..b8e2707 100644
+index b8e2707..36f57b1 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -451,6 +451,7 @@ enum {
-     OPC_LWE            = 0x2F | OPC_SPECIAL3,
+@@ -5548,78 +5548,180 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+     gen_load_fpr64(ctx, t0, rs);
+     gen_load_fpr64(ctx, t1, rt);
  
-     /* R6 */
-+    OPC_CRC32          = 0x0F | OPC_SPECIAL3,
-     R6_OPC_PREF        = 0x35 | OPC_SPECIAL3,
-     R6_OPC_CACHE       = 0x25 | OPC_SPECIAL3,
-     R6_OPC_LL          = 0x36 | OPC_SPECIAL3,
-@@ -2547,6 +2548,7 @@ typedef struct DisasContext {
-     bool nan2008;
-     bool abs2008;
-     bool saar;
-+    bool crcp;
- } DisasContext;
- 
- #define DISAS_STOP       DISAS_TARGET_0
-@@ -27017,6 +27019,33 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
-     }
- }
- 
-+static void gen_crc32(DisasContext *ctx, int rd, int rs, int rt, int sz,
-+                      int crc32c)
-+{
-+    TCGv t0;
-+    TCGv t1;
-+    TCGv_i32 tsz = tcg_const_i32(1 << sz);
-+    if (rd == 0) {
-+        /* Treat as NOP. */
-+        return;
-+    }
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+
-+    gen_load_gpr(t0, rt);
-+    gen_load_gpr(t1, rs);
-+
-+    if (crc32c) {
-+        gen_helper_crc32c(cpu_gpr[rd], t0, t1, tsz);
-+    } else {
-+        gen_helper_crc32(cpu_gpr[rd], t0, t1, tsz);
-+    }
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
-+    tcg_temp_free_i32(tsz);
-+}
-+
- static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
- {
-     int rs, rt, rd, sa;
-@@ -27031,6 +27060,17 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
- 
-     op1 = MASK_SPECIAL3(ctx->opcode);
-     switch (op1) {
-+    case OPC_CRC32:
-+        if (unlikely(!ctx->crcp) ||
-+            unlikely((extract32(ctx->opcode, 6, 2) == 3) &&
-+                     (!(ctx->hflags & MIPS_HFLAG_64))) ||
-+            unlikely((extract32(ctx->opcode, 8, 3) >= 2))) {
-+            generate_exception_end(ctx, EXCP_RI);
-+        }
-+        gen_crc32(ctx, rt, rs, rt,
-+                  extract32(ctx->opcode, 6, 2),
-+                  extract32(ctx->opcode, 8, 3));
+-#define LMI_HELPER(UP, LO) \
+-    case OPC_##UP: gen_helper_##LO(t0, t0, t1); break
+-#define LMI_HELPER_1(UP, LO) \
+-    case OPC_##UP: gen_helper_##LO(t0, t0); break
+-#define LMI_DIRECT(UP, LO, OP) \
+-    case OPC_##UP: tcg_gen_##OP##_i64(t0, t0, t1); break
+-
+     switch (opc) {
+-    LMI_HELPER(PADDSH, paddsh);
+-    LMI_HELPER(PADDUSH, paddush);
+-    LMI_HELPER(PADDH, paddh);
+-    LMI_HELPER(PADDW, paddw);
+-    LMI_HELPER(PADDSB, paddsb);
+-    LMI_HELPER(PADDUSB, paddusb);
+-    LMI_HELPER(PADDB, paddb);
+-
+-    LMI_HELPER(PSUBSH, psubsh);
+-    LMI_HELPER(PSUBUSH, psubush);
+-    LMI_HELPER(PSUBH, psubh);
+-    LMI_HELPER(PSUBW, psubw);
+-    LMI_HELPER(PSUBSB, psubsb);
+-    LMI_HELPER(PSUBUSB, psubusb);
+-    LMI_HELPER(PSUBB, psubb);
+-
+-    LMI_HELPER(PSHUFH, pshufh);
+-    LMI_HELPER(PACKSSWH, packsswh);
+-    LMI_HELPER(PACKSSHB, packsshb);
+-    LMI_HELPER(PACKUSHB, packushb);
+-
+-    LMI_HELPER(PUNPCKLHW, punpcklhw);
+-    LMI_HELPER(PUNPCKHHW, punpckhhw);
+-    LMI_HELPER(PUNPCKLBH, punpcklbh);
+-    LMI_HELPER(PUNPCKHBH, punpckhbh);
+-    LMI_HELPER(PUNPCKLWD, punpcklwd);
+-    LMI_HELPER(PUNPCKHWD, punpckhwd);
+-
+-    LMI_HELPER(PAVGH, pavgh);
+-    LMI_HELPER(PAVGB, pavgb);
+-    LMI_HELPER(PMAXSH, pmaxsh);
+-    LMI_HELPER(PMINSH, pminsh);
+-    LMI_HELPER(PMAXUB, pmaxub);
+-    LMI_HELPER(PMINUB, pminub);
+-
+-    LMI_HELPER(PCMPEQW, pcmpeqw);
+-    LMI_HELPER(PCMPGTW, pcmpgtw);
+-    LMI_HELPER(PCMPEQH, pcmpeqh);
+-    LMI_HELPER(PCMPGTH, pcmpgth);
+-    LMI_HELPER(PCMPEQB, pcmpeqb);
+-    LMI_HELPER(PCMPGTB, pcmpgtb);
+-
+-    LMI_HELPER(PSLLW, psllw);
+-    LMI_HELPER(PSLLH, psllh);
+-    LMI_HELPER(PSRLW, psrlw);
+-    LMI_HELPER(PSRLH, psrlh);
+-    LMI_HELPER(PSRAW, psraw);
+-    LMI_HELPER(PSRAH, psrah);
+-
+-    LMI_HELPER(PMULLH, pmullh);
+-    LMI_HELPER(PMULHH, pmulhh);
+-    LMI_HELPER(PMULHUH, pmulhuh);
+-    LMI_HELPER(PMADDHW, pmaddhw);
+-
+-    LMI_HELPER(PASUBUB, pasubub);
+-    LMI_HELPER_1(BIADD, biadd);
+-    LMI_HELPER_1(PMOVMSKB, pmovmskb);
+-
+-    LMI_DIRECT(PADDD, paddd, add);
+-    LMI_DIRECT(PSUBD, psubd, sub);
+-    LMI_DIRECT(XOR_CP2, xor, xor);
+-    LMI_DIRECT(NOR_CP2, nor, nor);
+-    LMI_DIRECT(AND_CP2, and, and);
+-    LMI_DIRECT(OR_CP2, or, or);
++    case OPC_PADDSH:
++        gen_helper_paddsh(t0, t0, t1);
 +        break;
-     case R6_OPC_PREF:
-         if (rt >= 24) {
-             /* hint codes 24-31 are reserved and signal RI */
-@@ -30627,6 +30667,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->mrp = (env->CP0_Config5 >> CP0C5_MRP) & 1;
-     ctx->nan2008 = (env->active_fpu.fcr31 >> FCR31_NAN2008) & 1;
-     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
-+    ctx->crcp = (env->CP0_Config5 >> CP0C5_CRCP) & 1;
-     restore_cpu_state(env, ctx);
- #ifdef CONFIG_USER_ONLY
-         ctx->mem_idx = MIPS_HFLAG_UM;
++    case OPC_PADDUSH:
++        gen_helper_paddush(t0, t0, t1);
++        break;
++    case OPC_PADDH:
++        gen_helper_paddh(t0, t0, t1);
++        break;
++    case OPC_PADDW:
++        gen_helper_paddw(t0, t0, t1);
++        break;
++    case OPC_PADDSB:
++        gen_helper_paddsb(t0, t0, t1);
++        break;
++    case OPC_PADDUSB:
++        gen_helper_paddusb(t0, t0, t1);
++        break;
++    case OPC_PADDB:
++        gen_helper_paddb(t0, t0, t1);
++        break;
++
++    case OPC_PSUBSH: gen_helper_psubsh(t0, t0, t1);
++        break;
++    case OPC_PSUBUSH:
++        gen_helper_psubush(t0, t0, t1);
++        break;
++    case OPC_PSUBH:
++        gen_helper_psubh(t0, t0, t1);
++        break;
++    case OPC_PSUBW:
++        gen_helper_psubw(t0, t0, t1);
++        break;
++    case OPC_PSUBSB:
++        gen_helper_psubsb(t0, t0, t1);
++        break;
++    case OPC_PSUBUSB:
++        gen_helper_psubusb(t0, t0, t1);
++        break;
++    case OPC_PSUBB:
++        gen_helper_psubb(t0, t0, t1);
++        break;
++
++    case OPC_PSHUFH:
++        gen_helper_pshufh(t0, t0, t1);
++        break;
++    case OPC_PACKSSWH:
++        gen_helper_packsswh(t0, t0, t1);
++        break;
++    case OPC_PACKSSHB:
++        gen_helper_packsshb(t0, t0, t1);
++        break;
++    case OPC_PACKUSHB:
++        gen_helper_packushb(t0, t0, t1);
++        break;
++
++    case OPC_PUNPCKLHW:
++        gen_helper_punpcklhw(t0, t0, t1);
++        break;
++    case OPC_PUNPCKHHW:
++        gen_helper_punpckhhw(t0, t0, t1);
++        break;
++    case OPC_PUNPCKLBH:
++        gen_helper_punpcklbh(t0, t0, t1);
++        break;
++    case OPC_PUNPCKHBH:
++        gen_helper_punpckhbh(t0, t0, t1);
++        break;
++    case OPC_PUNPCKLWD:
++        gen_helper_punpcklwd(t0, t0, t1);
++        break;
++    case OPC_PUNPCKHWD:
++        gen_helper_punpckhwd(t0, t0, t1);
++        break;
++
++    case OPC_PAVGH:
++        gen_helper_pavgh(t0, t0, t1);
++        break;
++    case OPC_PAVGB:
++        gen_helper_pavgb(t0, t0, t1);
++        break;
++    case OPC_PMAXSH:
++        gen_helper_pmaxsh(t0, t0, t1);
++        break;
++    case OPC_PMINSH:
++        gen_helper_pminsh(t0, t0, t1);
++        break;
++    case OPC_PMAXUB:
++        gen_helper_pmaxub(t0, t0, t1);
++        break;
++    case OPC_PMINUB:
++        gen_helper_pminub(t0, t0, t1);
++        break;
++
++    case OPC_PCMPEQW:
++        gen_helper_pcmpeqw(t0, t0, t1);
++        break;
++    case OPC_PCMPGTW:
++        gen_helper_pcmpgtw(t0, t0, t1);
++        break;
++    case OPC_PCMPEQH:
++        gen_helper_pcmpeqh(t0, t0, t1);
++        break;
++    case OPC_PCMPGTH:
++        gen_helper_pcmpgth(t0, t0, t1);
++        break;
++    case OPC_PCMPEQB:
++        gen_helper_pcmpeqb(t0, t0, t1);
++        break;
++    case OPC_PCMPGTB:
++        gen_helper_pcmpgtb(t0, t0, t1);
++        break;
++
++    case OPC_PSLLW:
++        gen_helper_psllw(t0, t0, t1);
++        break;
++    case OPC_PSLLH:
++        gen_helper_psllh(t0, t0, t1);
++        break;
++    case OPC_PSRLW:
++        gen_helper_psrlw(t0, t0, t1);
++        break;
++    case OPC_PSRLH:
++        gen_helper_psrlh(t0, t0, t1);
++        break;
++    case OPC_PSRAW:
++        gen_helper_psraw(t0, t0, t1);
++        break;
++    case OPC_PSRAH:
++        gen_helper_psrah(t0, t0, t1);
++        break;
++
++    case OPC_PMULLH:
++        gen_helper_pmullh(t0, t0, t1);
++        break;
++    case OPC_PMULHH:
++        gen_helper_pmulhh(t0, t0, t1);
++        break;
++    case OPC_PMULHUH:
++        gen_helper_pmulhuh(t0, t0, t1);
++        break;
++    case OPC_PMADDHW:
++        gen_helper_pmaddhw(t0, t0, t1);
++        break;
++
++    case OPC_PASUBUB:
++        gen_helper_pasubub(t0, t0, t1);
++        break;
++    case OPC_BIADD:
++        gen_helper_biadd(t0, t0);
++        break;
++    case OPC_PMOVMSKB:
++        gen_helper_pmovmskb(t0, t0);
++        break;
++
++    case OPC_PADDD:
++        tcg_gen_add_i64(t0, t0, t1);
++        break;
++    case OPC_PSUBD:
++        tcg_gen_sub_i64(t0, t0, t1);
++        break;
++    case OPC_XOR_CP2:
++        tcg_gen_xor_i64(t0, t0, t1);
++        break;
++    case OPC_NOR_CP2:
++        tcg_gen_nor_i64(t0, t0, t1);
++        break;
++    case OPC_AND_CP2:
++        tcg_gen_and_i64(t0, t0, t1);
++        break;
++    case OPC_OR_CP2:
++        tcg_gen_or_i64(t0, t0, t1);
++        break;
+ 
+     case OPC_PANDN:
+         tcg_gen_andc_i64(t0, t1, t0);
+@@ -5772,9 +5874,6 @@ static void gen_loongson_multimedia(DisasContext *ctx, int rd, int rs, int rt)
+         return;
+     }
+ 
+-#undef LMI_HELPER
+-#undef LMI_DIRECT
+-
+     gen_store_fpr64(ctx, t0, rd);
+ 
+     tcg_temp_free_i64(t0);
 -- 
 2.7.4
 
