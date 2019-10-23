@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A344E1421
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:26:40 +0200 (CEST)
-Received: from localhost ([::1]:57170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D617E14D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:57:16 +0200 (CEST)
+Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNByZ-0001tu-MB
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
+	id 1iNCSB-00035w-1H
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNBwe-00015J-CD
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:24:42 -0400
+ (envelope-from <bounces@canonical.com>) id 1iNC8r-0008TU-V7
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:37:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNBwa-0003fR-Hh
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:24:39 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53166)
+ (envelope-from <bounces@canonical.com>) id 1iNC8p-0006rQ-M8
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:37:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49496)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNBwY-0003dt-Nf
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:24:36 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r19so20186947wmh.2
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 01:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VMV+6575Q+m9914+vgxwQ9KJMHnLqPfbP/SeVonxq20=;
- b=olyA8lfx/OAZVunPC0Tx31m6B2ruzyD9iDZZ8YTVKvEm/IDXg6J7O+gh1PQtcrL3Dc
- 1sTzZzvADcQG4gC3XROr8JOVM9Wnl798vokcEWN6RurkQtPlvhxgy784drAyyp3WflFU
- w6wWsCqnsu/cUFCFLkoc5QC3jccRirha6fFgsXWd9acOLw3SCeFpF5+lOxijxkjVJ0xs
- tGieEUHf7uXJzCuXnj9UNEbw4P/8OSaYUemoeNq3GQxYLK2+jqhghWyASfrg2sTghsO8
- xS9Upp1CgmpTljZfBOb+iOxMTYrdIdbcLhGmTmWw202yrvWCMZd1O9xMxPKcn8OOASDR
- rhfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=VMV+6575Q+m9914+vgxwQ9KJMHnLqPfbP/SeVonxq20=;
- b=TJWcWkK957LLyVLgL9Q4FI4gsg7mIFOew4hZ4xjcU8qOafBO+5dX5om0ZLyCwfoHqk
- 5UA1eWAcq37IG1Cqdu/sDd57alj9lmwvyS0xb2LGG1raAK8Ppcdp34Oyn7LMO4v3jQzi
- n5PYwZ4oCcnvqE5UocAsXOUPnTQF1D66qF8n0y0BbSakZ3RcGieVYwy8rwfQ66t2bXSu
- j//wkLuU+6AC3tFy5q7LdxFC22DZJhWv43CLz8qEOSHylsSDSEC05j10Xx4UEdM+ikPJ
- yCLpu25N6WSTUZnVzBXo5mqhWVp3fjj2FmNnzJcavUf29kNm3Ny0bVl89eBpgsNxFGyM
- y6Xw==
-X-Gm-Message-State: APjAAAV6CqiirDMaRXRiHDA2vrVwaRhi2Z0Ya7z6LYhDM9UbegqthA+i
- uNaHe7+EbhdFI8IDrpnO6e7Ai5uG
-X-Google-Smtp-Source: APXvYqxMUwagOILUxyIG387ynvsfhUFSPIkl+Ms8fU6NoqJwyzm8iD0Zp2MZ60txeV+G0MxY3/NT1g==
-X-Received: by 2002:a1c:64d6:: with SMTP id y205mr6204975wmb.136.1571819072884; 
- Wed, 23 Oct 2019 01:24:32 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:45c:4f58:5841:71b2])
- by smtp.gmail.com with ESMTPSA id s21sm25512913wrb.31.2019.10.23.01.24.32
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 01:24:32 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] audio: fix missing break
-Date: Wed, 23 Oct 2019 10:24:31 +0200
-Message-Id: <20191023082431.30780-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iNC8k-0006nE-Kv
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:37:10 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iNC8h-0006Lc-JZ
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:37:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 77AF32E8079
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:37:07 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 23 Oct 2019 08:25:06 -0000
+From: Thomas Huth <1596579@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson eduardok th-huth
+X-Launchpad-Bug-Reporter: Eduardo (eduardok)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20160627153749.31174.93791.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157181910693.21612.14590430833451281479.malone@wampee.canonical.com>
+Subject: [Bug 1596579] Re: segfault upon reboot
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ef27858c5fb1d2b570c79958135321718e590f03
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,29 +66,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1596579 <1596579@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reported by Coverity (CID 1406449).
+Can you reproduce this problem with the latest upstream version of QEMU
+(currently version 4.1)? Or is it only reproducible in the qemu-kvm from
+your distribution? (In the latter case, please report this bug to your
+distro instead)
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- audio/paaudio.c | 1 +
- 1 file changed, 1 insertion(+)
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index df541a72d3..55a91f8980 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -385,6 +385,7 @@ static pa_stream *qpa_simple_new (
-         map.map[5] = PA_CHANNEL_POSITION_REAR_RIGHT;
-         map.map[6] = PA_CHANNEL_POSITION_SIDE_LEFT;
-         map.map[7] = PA_CHANNEL_POSITION_SIDE_RIGHT;
-+        break;
- 
-     default:
-         dolog("Internal error: unsupported channel count %d\n", ss->channels);
--- 
-2.21.0
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1596579
+
+Title:
+  segfault upon reboot
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  [   31.167946] VFIO - User Level meta-driver version: 0.3
+  [   34.969182] kvm: zapping shadow pages for mmio generation wraparound
+  [   43.095077] vfio-pci 0000:1a:00.0: irq 50 for MSI/MSI-X
+  [166493.891331] perf interrupt took too long (2506 > 2500), lowering kern=
+el.perf_event_max_sample_rate to 50000
+  [315765.858431] qemu-kvm[1385]: segfault at 0 ip           (null) sp 0000=
+7ffe5430db18 error 14
+  [315782.002077] vfio-pci 0000:1a:00.0: transaction is not cleared; procee=
+ding with reset anyway
+  [315782.910854] mptsas 0000:1a:00.0: Refused to change power state, curre=
+ntly in D3
+  [315782.911236] mptbase: ioc1: Initiating bringup
+  [315782.911238] mptbase: ioc1: WARNING - Unexpected doorbell active!
+  [315842.957613] mptbase: ioc1: ERROR - Failed to come READY after reset! =
+IocState=3Df0000000
+  [315842.957670] mptbase: ioc1: WARNING - ResetHistory bit failed to clear!
+  [315842.957675] mptbase: ioc1: ERROR - Diagnostic reset FAILED! (ffffffff=
+h)
+  [315842.957717] mptbase: ioc1: WARNING - NOT READY WARNING!
+  [315842.957720] mptbase: ioc1: ERROR - didn't initialize properly! (-1)
+  [315842.957890] mptsas: probe of 0000:1a:00.0 failed with error -1
+
+  The qemu-kvm segfault happens when I issue a reboot on the Windows VM. Th=
+e card I have is:
+  1a:00.0 SCSI storage controller: LSI Logic / Symbios Logic SAS1068E PCI-E=
+xpress Fusion-MPT SAS (rev ff)
+
+  I have two of these cards (bought with many years difference), exact same=
+ model, and they fail the same way. I'm using PCI passthrough on this card =
+for access to the tape drive.
+  This is very easy to reproduce, so feel free to let me know what to try.
+  Kernel 3.10.0-327.18.2.el7.x86_64 (Centos 7.2.1511).
+  qemu-kvm-1.5.3-105.el7_2.4.x86_64
+  Reporting it here because of the segfault, but I guess I might have to op=
+en a bug report with mptbase as well?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1596579/+subscriptions
 
