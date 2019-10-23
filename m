@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3753FE1F4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:27:27 +0200 (CEST)
-Received: from localhost ([::1]:39426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE7CE1F61
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:32:56 +0200 (CEST)
+Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNIXm-0003e5-1J
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35106)
+	id 1iNId5-0000dF-9K
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNI8r-00086C-Vf
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:48 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNI8v-0008Dk-RW
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNI8q-0001EG-Ul
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:41 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:35196)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNI8q-0001Db-M3
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:45 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:38830)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNI8q-0001BV-N4
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:40 -0400
-Received: by mail-qk1-x743.google.com with SMTP id w2so20045124qkf.2
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:01:34 -0700 (PDT)
+ id 1iNI8o-0000yd-Ju
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:38 -0400
+Received: by mail-qt1-x843.google.com with SMTP id o25so19348572qtr.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=EixSCP/+s4Pul7ok7q0wZeyo8cfwDyotG9VjfWeZAIo=;
- b=GlbSIzeRKSN/EHYUAeDY7EnT8G2ux3tThi7Ui+TJAxomVtmu7TRpeE52UIwqz4aDcr
- 469KLYqwpj3BoNTWyfywn0cHwFt2SvViu15RU8ayL4i6KJFRtaYiSYQ7mcfogCzpUvib
- mqLFyGotWK4wklkSCUEsjMaZrOHoVtDra4ZGUgNlGDlEcaby9FsVA2xW+59FE5styI/P
- zWbuM5dF8JWYSZB/zblE3Xv6jBFhcYBXSJlof+R3eRHVXDg1Qrdujt4kxm6p8TJnGYqy
- eIj87hd1XxUL0hlnclvAi6A/WPrYaQofwKUnX7BpJP0e/ViK6xWdYhe6J2ZMEe75oBel
- 2ffQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G2RHHCFtsP5auZ4wmaveYQuuH6u7l3/77Cc/6E9VhRU=;
+ b=oNlh9OpJdglfNTjhTYgZNIGISi32kTmvH0YOBux5UM5605QPr0d0B0bAinIAoZqDsT
+ vvk1WvcbqN3oqgrbadClOCpr8emdHK41QHVkTcDyscl6u224wbq/zWtViA6MCZkrE+jK
+ XwehN3wEmhMKbG42dCxegyLjpLHkDeEh2kJgzKho+osgSpFOzVvK5PQyuB8AqRJrGgD8
+ iA2SWYzLcP5R8ocqQZdgP4+i37Ks0HCgXWpNHc0qugJDDm5jz51eX5I6WW0q0H/ykv5d
+ INSDxa5e3ke5H6MqPPgJZ1ge1cj8T6n64Qcn5g/ffMLve8P2ycUF0BaBBTeyA9Jw9hXt
+ 5KSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=EixSCP/+s4Pul7ok7q0wZeyo8cfwDyotG9VjfWeZAIo=;
- b=VFsQ3QhxGSJEZF8yHZLtvAJMSbWC5yk3tOYH64l8KMYARLurDyI8uJ5sT6C+stzESd
- l3Y3MQ0eiecxh00/48arl20qYphm8RlHKGcCLZjB4K8Dwf0tDchz9IWNUxZO332tKbdR
- 35/TAfdMayvwJ2/i+I4Mre1a41fYnixtSEtVA5qaxoWvG0/kdjp/7QnnDmKjx8yKTRQQ
- AfZ5i7BJxf/mzTlw6mm6bwFkO4zR+Kst0NV2piFmLS0AXUa7h+RkrAPDUoSKCWtJiDdM
- 8JFYT3+pIzZuQtWdw0DcuGT1Suej46PXod2hykZvLWZshr2WEXg6WiLV8L9zJbxVklo/
- 3Ejg==
-X-Gm-Message-State: APjAAAWtnfjbTttfOLV3r5yysaqy9maQm4hz2EKCI2RYulGmJtqFXO1Q
- 4ReCa45NF0bdqzJK7LzB6XV61bxkgVA=
-X-Google-Smtp-Source: APXvYqwQmtF6+GgcY9RhEJtB9xJKxvUKmTqvnBhoo8B/iDW8C87j/k22/3iAmix5iRLok56JmNLn2w==
-X-Received: by 2002:a37:6554:: with SMTP id z81mr3910082qkb.9.1571842893582;
- Wed, 23 Oct 2019 08:01:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G2RHHCFtsP5auZ4wmaveYQuuH6u7l3/77Cc/6E9VhRU=;
+ b=TiLMkpbeQaVYFOS5fgyvE1qpieIfWSaE02oqSXhgvUO4AriRyads5u4HJ5FpI5xWFo
+ BJnSUbEZnTOCj02sbYMCM9Yrb9iC33D7jpz9Nm5Manc6RzfXRrrhqVhtcEWsG7t4o6q5
+ TYnLSc9nLNZM/1kBQLJhHpr6ZsgZr2Ua0yxjQsEoEsApUA18kW0iEhbcfl7x2J5Vy2u7
+ +Yj7SJOvn4FaHlPQxmz2ybp+yS/9pvVz9FFNPbDM0z/UhKPHKMZJbMcfTuXgedvRY4V/
+ SE0+nK6WnO39w1+kQdYQW0rOUcMbF48gxDXFtaWFhbhV0MWOZ3Dl8Vlbph6zvZdCBbd4
+ fwyQ==
+X-Gm-Message-State: APjAAAURiejIRGu8bJpvI2r8Ee2HUgHJ99BQHTGkzFDQjbmgv/fufa9h
+ mlj8NhfFgigdAA5yI7jcobn+FZjatmo=
+X-Google-Smtp-Source: APXvYqyWjwMwjQ0j3AFrSZ396cSQ45oI5+IwgorOOumkuFlVUCU8zt5nd3/m+mbd12jP6O7rxmT5Uw==
+X-Received: by 2002:ac8:7052:: with SMTP id y18mr9879850qtm.24.1571842861327; 
+ Wed, 23 Oct 2019 08:01:01 -0700 (PDT)
 Received: from localhost.localdomain (198-4-20-64.static.cosmoweb.net.
  [64.20.4.198])
- by smtp.gmail.com with ESMTPSA id l189sm11030168qke.69.2019.10.23.08.01.32
+ by smtp.gmail.com with ESMTPSA id l189sm11030168qke.69.2019.10.23.08.00.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 08:01:32 -0700 (PDT)
+ Wed, 23 Oct 2019 08:00:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 23/24] linux-user/arm: Rebuild hflags for
- TARGET_WORDS_BIGENDIAN
-Date: Wed, 23 Oct 2019 11:00:56 -0400
-Message-Id: <20191023150057.25731-24-richard.henderson@linaro.org>
+Subject: [PATCH v9 00/24] target/arm: Reduce overhead of cpu_get_tb_cpu_state
+Date: Wed, 23 Oct 2019 11:00:33 -0400
+Message-Id: <20191023150057.25731-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191023150057.25731-1-richard.henderson@linaro.org>
-References: <20191023150057.25731-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::743
+X-Received-From: 2607:f8b0:4864:20::843
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,25 +81,67 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue setting, but not relying upon, env->hflags.
+Changes since v8:
+  * Rebuild hflags in linux-user/*/cpu_loop.c, after changing to big-endian.
+    This allows the armeb busybox ls to pass.  I don't have a test image for
+    aarch64_eb, but the code looks the same.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/arm/cpu_loop.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes since v7:
+  * Rebuild hflags for all successful nvic writes (Peter).
+  * Rebuild hflags for Xscale sctlr writes (Peter).
 
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index e28c45cd4a..7be4071751 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -440,6 +440,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     } else {
-         env->cp15.sctlr_el[1] |= SCTLR_B;
-     }
-+    arm_rebuild_hflags(env);
- #endif
- 
-     ts->stack_base = info->start_stack;
+Changes since v6:
+  * Regen hflags in two more places for m-profile (patch 19).
+...
+
+
+r~
+
+
+Richard Henderson (24):
+  target/arm: Split out rebuild_hflags_common
+  target/arm: Split out rebuild_hflags_a64
+  target/arm: Split out rebuild_hflags_common_32
+  target/arm: Split arm_cpu_data_is_big_endian
+  target/arm: Split out rebuild_hflags_m32
+  target/arm: Reduce tests vs M-profile in cpu_get_tb_cpu_state
+  target/arm: Split out rebuild_hflags_a32
+  target/arm: Split out rebuild_hflags_aprofile
+  target/arm: Hoist XSCALE_CPAR, VECLEN, VECSTRIDE in
+    cpu_get_tb_cpu_state
+  target/arm: Simplify set of PSTATE_SS in cpu_get_tb_cpu_state
+  target/arm: Hoist computation of TBFLAG_A32.VFPEN
+  target/arm: Add arm_rebuild_hflags
+  target/arm: Split out arm_mmu_idx_el
+  target/arm: Hoist store to cs_base in cpu_get_tb_cpu_state
+  target/arm: Add HELPER(rebuild_hflags_{a32,a64,m32})
+  target/arm: Rebuild hflags at EL changes
+  target/arm: Rebuild hflags at MSR writes
+  target/arm: Rebuild hflags at CPSR writes
+  target/arm: Rebuild hflags at Xscale SCTLR writes
+  target/arm: Rebuild hflags for M-profile
+  target/arm: Rebuild hflags for M-profile NVIC
+  linux-user/aarch64: Rebuild hflags for TARGET_WORDS_BIGENDIAN
+  linux-user/arm: Rebuild hflags for TARGET_WORDS_BIGENDIAN
+  target/arm: Rely on hflags correct in cpu_get_tb_cpu_state
+
+ target/arm/cpu.h              |  84 +++++---
+ target/arm/helper.h           |   4 +
+ target/arm/internals.h        |   9 +
+ hw/intc/armv7m_nvic.c         |  22 +-
+ linux-user/aarch64/cpu_loop.c |   1 +
+ linux-user/arm/cpu_loop.c     |   1 +
+ linux-user/syscall.c          |   1 +
+ target/arm/cpu.c              |   1 +
+ target/arm/helper-a64.c       |   3 +
+ target/arm/helper.c           | 393 ++++++++++++++++++++++------------
+ target/arm/m_helper.c         |   6 +
+ target/arm/machine.c          |   1 +
+ target/arm/op_helper.c        |   4 +
+ target/arm/translate-a64.c    |  13 +-
+ target/arm/translate.c        |  33 ++-
+ 15 files changed, 392 insertions(+), 184 deletions(-)
+
 -- 
 2.17.1
 
