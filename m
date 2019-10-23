@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268A7E24A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:36:26 +0200 (CEST)
-Received: from localhost ([::1]:47260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4213FE2517
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 23:19:59 +0200 (CEST)
+Received: from localhost ([::1]:48080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNNMm-0001dt-OL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38547)
+	id 1iNO2v-0008EQ-K3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 17:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44697)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iNNIS-0007oB-9N
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:31:57 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1iNNyS-0004wt-VJ
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 17:15:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iNNIP-0007lr-Pa
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:31:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40970
+ (envelope-from <alex.williamson@redhat.com>) id 1iNNyQ-0002dC-9r
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 17:15:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49570
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iNNIP-0007lj-Fa
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:31:53 -0400
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iNNyP-0002br-KO
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 17:15:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571862711;
+ s=mimecast20190719; t=1571865315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U0ByoxOI47HUVV3oa3QKrU7w/LSshe0fJ+JKePZDklQ=;
- b=ZOwnKTLRWAgQxWmbdFQYRdwPdVlKBodMmUZWHoMQoO4RrcrbsfxevRT29ebDrBuencWro9
- BL+KpJAnu+TMioANlC6YJZOMsl2hZYMLcDnpscdURufHYSzmjHFYCKcY/DAXeshhcSaGcG
- QPdw8SEeXhQnivnoVgO2ntf7DVALo0I=
+ bh=vmonXWEQwEaz1G6Y2kqfWwPJsStxLI7N9Gd+VEBWUtY=;
+ b=QhqjAJvJWqzSjBuHfVSbS0r2ZDsmgPSmwEM+yjUIxpaAiqj6oaIqnY0S/YajDQqu8BrmnW
+ 4/CJ8CJo0EyFzIvLErGVnkc3x+VgF6T5qcwLMS8z4UYZ5K37Arhc2cdNsx5FfPv9whNuGU
+ 38jNlG2geeh393OlWZ9WaV16w9Q/n4g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-rZ2kYfgjP62BNoUfG4N0mw-1; Wed, 23 Oct 2019 16:31:47 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-118-yz9bPQoWNp-fZW3ZovnZ6g-1; Wed, 23 Oct 2019 17:15:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E246B800D5A;
- Wed, 23 Oct 2019 20:31:46 +0000 (UTC)
-Received: from localhost (ovpn-116-38.ams2.redhat.com [10.36.116.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D46A45DE5B;
- Wed, 23 Oct 2019 20:31:39 +0000 (UTC)
-Date: Wed, 23 Oct 2019 22:31:37 +0200
-From: Jens Freimann <jfreimann@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 434A41005509;
+ Wed, 23 Oct 2019 21:15:11 +0000 (UTC)
+Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C11715D6D0;
+ Wed, 23 Oct 2019 21:15:01 +0000 (UTC)
+Date: Wed, 23 Oct 2019 15:15:00 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
 Subject: Re: [PATCH v5 02/11] pci: add option for net failover
-Message-ID: <20191023203137.meh3edoudxulecys@jenstp.localdomain>
+Message-ID: <20191023151500.547d200a@x1.home>
+In-Reply-To: <20191023203137.meh3edoudxulecys@jenstp.localdomain>
 References: <20191023082711.16694-1-jfreimann@redhat.com>
  <20191023082711.16694-3-jfreimann@redhat.com>
  <20191023120648.57e50ae1@x1.home>
  <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
  <20191023140211.4ada7ff3@x1.home>
+ <20191023203137.meh3edoudxulecys@jenstp.localdomain>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20191023140211.4ada7ff3@x1.home>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: rZ2kYfgjP62BNoUfG4N0mw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: yz9bPQoWNp-fZW3ZovnZ6g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,45 +83,65 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 02:02:11PM -0600, Alex Williamson wrote:
->On Wed, 23 Oct 2019 21:30:35 +0200
->Jens Freimann <jfreimann@redhat.com> wrote:
->
->> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
->> >On Wed, 23 Oct 2019 10:27:02 +0200
->> >Jens Freimann <jfreimann@redhat.com> wrote:
-[...]
->> >Are there also multi-function considerations that
->> >should be prevented or documented?  For example, if a user tries to
->> >configure both the primary and failover NICs in the same slot, I assume
->> >bad things will happen.
->>
->>   I would have expected that this is already checked in pci code, but
->> it is not. I tried it and when I put both devices into the same slot
->> they are both unplugged from the guest during boot but nothing else
->> happens. I don't know what triggers that unplug of the devices.
->>
->> I'm not aware of any other problems regarding multi-function, which
->> doesn't mean there aren't any.
->
->Hmm, was the hidden device at function #0?  The guest won't find any
->functions if function #0 isn't present, but I don't know what would
->trigger the hotplug.  The angle I'm thinking is that we only have slot
->level granularity for hotplug, so any sort of automatic hotplug of a
->slot should probably think about bystander devices within the slot.
+On Wed, 23 Oct 2019 22:31:37 +0200
+Jens Freimann <jfreimann@redhat.com> wrote:
 
-Yes that would be a problem, but isn't it the same in the non-failover case
-where a user configures it wrong? The slot where the device is plugged is n=
-ot
-chosen automatically it's configured by the user, no? I might be mixing som=
-ething
-up here.  I have no idea yet how to check if a slot is already populated, b=
-ut
-I'll think about it.=20
+> On Wed, Oct 23, 2019 at 02:02:11PM -0600, Alex Williamson wrote:
+> >On Wed, 23 Oct 2019 21:30:35 +0200
+> >Jens Freimann <jfreimann@redhat.com> wrote:
+> > =20
+> >> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote: =20
+> >> >On Wed, 23 Oct 2019 10:27:02 +0200
+> >> >Jens Freimann <jfreimann@redhat.com> wrote: =20
+> [...]
+> >> >Are there also multi-function considerations that
+> >> >should be prevented or documented?  For example, if a user tries to
+> >> >configure both the primary and failover NICs in the same slot, I assu=
+me
+> >> >bad things will happen. =20
+> >>
+> >>   I would have expected that this is already checked in pci code, but
+> >> it is not. I tried it and when I put both devices into the same slot
+> >> they are both unplugged from the guest during boot but nothing else
+> >> happens. I don't know what triggers that unplug of the devices.
+> >>
+> >> I'm not aware of any other problems regarding multi-function, which
+> >> doesn't mean there aren't any. =20
+> >
+> >Hmm, was the hidden device at function #0?  The guest won't find any
+> >functions if function #0 isn't present, but I don't know what would
+> >trigger the hotplug.  The angle I'm thinking is that we only have slot
+> >level granularity for hotplug, so any sort of automatic hotplug of a
+> >slot should probably think about bystander devices within the slot. =20
+>=20
+> Yes that would be a problem, but isn't it the same in the non-failover ca=
+se
+> where a user configures it wrong? The slot where the device is plugged is=
+ not
+> chosen automatically it's configured by the user, no? I might be mixing s=
+omething
+> up here.  I have no idea yet how to check if a slot is already populated,=
+ but
+> I'll think about it.=20
 
-Thanks!
+I don't think libvirt will automatically make use of multifunction
+endpoints, except maybe for some built-in devices, so yes it probably
+would be up to the user to explicitly create a multifunction device.
+But are there other scenarios that generate an automatic hot-unplug?
+If a user creates a multifunction slot and then triggers a hot-unplug
+themselves, it's easy to place the blame on the user if the result is
+unexpected, but is it so obviously a user configuration error if the
+hotplug occurs as an automatic response to a migration?  I'm not as
+sure about that.
 
-regards,
-Jens=20
+As indicated, I don't know whether this should just be documented or if
+we should spend time preventing it, but someone, somewhere will
+probably think it's a good idea to put their primary and failover NIC
+in the same slot and be confused that the underlying mechanisms cannot
+support it.  It doesn't appear that it would be too difficult to test
+QEMU_PCI_CAP_MULTIFUNCTION (not set) and PCI_FUNC (is 0) for the
+primary, but maybe I'm just being paranoid.  Thanks,
+
+Alex
 
 
