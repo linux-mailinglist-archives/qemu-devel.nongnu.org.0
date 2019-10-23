@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EB1E2427
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:15:22 +0200 (CEST)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7E1E264D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 00:18:03 +0200 (CEST)
+Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNN2N-0001Wl-Pe
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
+	id 1iNOx7-0002Tt-P3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 18:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1iNMvU-0006R1-0n
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:08:13 -0400
+ (envelope-from <bounces@canonical.com>) id 1iNNHR-00073M-Cw
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1iNMvR-0000X8-Ea
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:08:11 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20965
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iNMvN-0000Te-T9
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:08:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571861278;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DV57IeAGE7muFbgsSXEAzr7szdNnSscAymHx15rpSdo=;
- b=KKw6MPyWFclqIWBcAS8PAxCF0YuZSJ6om1tT7CjWK3Nd6ONeL18WYjooDmnE7/UYrCkNrS
- v72q1IfnEdh2ol3EdmbK5Z0IrTg300olD6PtHVNT5JScAJVA/9akQQ0mz+3q2+KQjI/C4Y
- V6de736IGssng4bdBjI2Z3FcDH7Wd8s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-weEFzt3MOt6ISbq2U7NGZg-1; Wed, 23 Oct 2019 16:07:56 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C6595E6;
- Wed, 23 Oct 2019 20:07:56 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 737545DE5B;
- Wed, 23 Oct 2019 20:07:53 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 068A52202E5; Wed, 23 Oct 2019 16:07:53 -0400 (EDT)
-Date: Wed, 23 Oct 2019 16:07:52 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Fix data corruption with O_APPEND
- wirte in writeback mode
-Message-ID: <20191023200752.GB6942@redhat.com>
-References: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
+ (envelope-from <bounces@canonical.com>) id 1iNNHP-0007e5-P2
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:30:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41006)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iNNHP-0007dw-In
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:30:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iNNHN-0000gL-Fc
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 20:30:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 751082E807E
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 20:30:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: weEFzt3MOt6ISbq2U7NGZg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Wed, 23 Oct 2019 20:17:11 -0000
+From: Michael Weiser <michael@weiser.dinsnail.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
+ psyhomb sej7278
+X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
+X-Launchpad-Bug-Modifier: Michael Weiser (michael-weiser)
+References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
+Message-Id: <157186183145.18830.11596753021644778983.malone@wampee.canonical.com>
+Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0269576e30cc2d73b9861eea19802871b2555978
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,133 +66,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 09:25:23PM +0900, Misono Tomohiro wrote:
-> When writeback mode is enabled (-o writeback), O_APPEND handling is
-> done in kernel. Therefore virtiofsd clears O_APPEND flag when open.
-> Otherwise O_APPEND flag takes precedence over pwrite() and write
-> data may corrupt.
->=20
-> Currently clearing O_APPEND flag is done in lo_open(), but we also
-> need the same operation in lo_create().
+For completeness's sake: All the changes you proposed (replacing call to
+qcow2_detect_metadata_preallocation() with ret =3D true and ret =3D false,
+moving acquiring s->lock before the call and replacing the call with a
+sleep) prevent corruption on my system. The latter would suggest that
+it's not so much a race being exposed by a timing change as a race
+directly when accessing qcow2 internals without the lock being held.
 
-> So, factor out the flag
-> update operation in lo_open() to update_open_flags() and call it
-> in both lo_open() and lo_create().
->=20
-> This fixes the failure of xfstest generic/069 in writeback mode
-> (which tests O_APPEND write data integrity).
->=20
+-- =
 
-Hi,
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846427
 
-Consolidating updation of flags both for lo_create() and lo_open() makes
-sense to me. I will test it tomorrow.
+Title:
+  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
 
-Thanks
-Vivek
+Status in QEMU:
+  New
 
-> Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> ---
->  contrib/virtiofsd/passthrough_ll.c | 56 +++++++++++++++---------------
->  1 file changed, 28 insertions(+), 28 deletions(-)
->=20
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
-hrough_ll.c
-> index e8892c3c32..79fb78ecce 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -1733,6 +1733,32 @@ static void lo_releasedir(fuse_req_t req, fuse_ino=
-_t ino, struct fuse_file_info
->  =09fuse_reply_err(req, 0);
->  }
-> =20
-> +static void update_open_flags(int writeback, struct fuse_file_info *fi)
-> +{
-> +=09/* With writeback cache, kernel may send read requests even
-> +=09   when userspace opened write-only */
-> +=09if (writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
-> +=09=09fi->flags &=3D ~O_ACCMODE;
-> +=09=09fi->flags |=3D O_RDWR;
-> +=09}
-> +
-> +=09/* With writeback cache, O_APPEND is handled by the kernel.
-> +=09   This breaks atomicity (since the file may change in the
-> +=09   underlying filesystem, so that the kernel's idea of the
-> +=09   end of the file isn't accurate anymore). In this example,
-> +=09   we just accept that. A more rigorous filesystem may want
-> +=09   to return an error here */
-> +=09if (writeback && (fi->flags & O_APPEND))
-> +=09=09fi->flags &=3D ~O_APPEND;
-> +
-> +=09/*
-> +=09 * O_DIRECT in guest should not necessarily mean bypassing page
-> +=09 * cache on host as well. If somebody needs that behavior, it
-> +=09 * probably should be a configuration knob in daemon.
-> +=09 */
-> +=09fi->flags &=3D ~O_DIRECT;
-> +}
-> +
->  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *nam=
-e,
->  =09=09      mode_t mode, struct fuse_file_info *fi)
->  {
-> @@ -1760,12 +1786,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t p=
-arent, const char *name,
->  =09if (err)
->  =09=09goto out;
-> =20
-> -=09/*
-> -=09 * O_DIRECT in guest should not necessarily mean bypassing page
-> -=09 * cache on host as well. If somebody needs that behavior, it
-> -=09 * probably should be a configuration knob in daemon.
-> -=09 */
-> -=09fi->flags &=3D ~O_DIRECT;
-> +=09update_open_flags(lo->writeback, fi);
-> =20
->  =09fd =3D openat(parent_inode->fd, name,
->  =09=09    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
-> @@ -1966,28 +1987,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino=
-, struct fuse_file_info *fi)
-> =20
->  =09fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n", =
-ino, fi->flags);
-> =20
-> -=09/* With writeback cache, kernel may send read requests even
-> -=09   when userspace opened write-only */
-> -=09if (lo->writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
-> -=09=09fi->flags &=3D ~O_ACCMODE;
-> -=09=09fi->flags |=3D O_RDWR;
-> -=09}
-> -
-> -=09/* With writeback cache, O_APPEND is handled by the kernel.
-> -=09   This breaks atomicity (since the file may change in the
-> -=09   underlying filesystem, so that the kernel's idea of the
-> -=09   end of the file isn't accurate anymore). In this example,
-> -=09   we just accept that. A more rigorous filesystem may want
-> -=09   to return an error here */
-> -=09if (lo->writeback && (fi->flags & O_APPEND))
-> -=09=09fi->flags &=3D ~O_APPEND;
-> -
-> -=09/*
-> -=09 * O_DIRECT in guest should not necessarily mean bypassing page
-> -=09 * cache on host as well. If somebody needs that behavior, it
-> -=09 * probably should be a configuration knob in daemon.
-> -=09 */
-> -=09fi->flags &=3D ~O_DIRECT;
-> +=09update_open_flags(lo->writeback, fi);
-> =20
->  =09sprintf(buf, "%i", lo_fd(req, ino));
->  =09fd =3D openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
-> --=20
-> 2.21.0
->=20
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://www.redhat.com/mailman/listinfo/virtio-fs
+Bug description:
+  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
+  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
+  savevm/quit/loadvm cycles. I've narrowed it down to the following
+  reproducer (further notes below):
 
+  # qemu-img check debian.qcow2
+  No errors were found on the image.
+  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
+96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
+=3Ddebian.qcow2,id=3Dd -S
+  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
+bus: Did not receive a reply. Possible causes include: the remote applicati=
+on did not send a reply, the message bus security policy blocked the reply,=
+ the reply timeout expired, or the network connection was broken.
+  QEMU 4.1.50 monitor - type 'help' for more information
+  (qemu) loadvm foo
+  (qemu) c
+  (qemu) qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  quit
+  [m@nargothrond:~] qemu-img check debian.qcow2
+  Leaked cluster 85179 refcount=3D2 reference=3D1
+  Leaked cluster 85180 refcount=3D2 reference=3D1
+  ERROR cluster 266150 refcount=3D0 reference=3D2
+  [...]
+  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+
+  9493 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  2 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+
+  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
+  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
+  similarly current.
+
+  Reproduced with qemu-4.1.0 from distribution package as well as
+  vanilla git checkout of tag v4.1.0 and commit
+  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
+  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
+  sequence:
+
+  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
+mu --disable-werror --disable-docs
+  [...]
+  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+  [...] (can provide full configure output if helpful)
+  make -j8 install
+
+  The kind of guest OS does not matter: seen with Debian testing 64bit,
+  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+
+  The virtual storage controller does not seem to matter: seen with
+  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+
+  Caching modes (none, directsync, writeback), aio mode (threads,
+  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
+  not influence occurence either.
+
+  Having more RAM in the guest seems to increase odds of corruption:
+  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
+  RAM it happens almost instantly.
+
+  An automated reproducer works as follows:
+
+  - the guest *does* mount its root fs and swap with option discard and
+  my testing leaves me with the impression that file deletion rather
+  than reading is causing the issue
+
+  - foo is a snapshot of the running Debian VM which is already running
+  command
+
+  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
+ne
+
+  to produce some I/O to the disk (4GB file with 4GB of RAM).
+
+  - on the host a loop continuously resumes and saves the guest state
+  and quits qemu inbetween:
+
+  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
+  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
+  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
+  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
+  none ; done
+
+  - quitting qemu inbetween saves and loads seems to be necessary for
+  the problem to occur. Just continusouly in one session saving and
+  loading guest state does not trigger it.
+
+  - For me, after about 2 to 6 iterations of above loop the image is
+  corrupted.
+
+  - corruption manifests with other messages from qemu as well, e.g.:
+
+  (qemu) loadvm foo
+  Error: Device 'd' does not have the requested snapshot 'foo'
+
+  Using above reproducer I have to the be best of my ability bisected
+  the introduction of the problem to commit
+  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
+  block_status call if possible). qemu compiled from the commit before
+  does not exhibit the issue, from that commit on it does and reverting
+  the commit off of current master makes it disappear.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
