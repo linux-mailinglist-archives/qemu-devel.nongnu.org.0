@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7AFE17B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:19:18 +0200 (CEST)
-Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA099E17C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:24:38 +0200 (CEST)
+Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNDjY-0003Fq-E9
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
+	id 1iNDoj-0007JG-Pk
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iNDWv-0004OL-S2
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:06:14 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iNDWz-0004R6-1A
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:06:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iNDWt-0002SA-E9
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:06:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31439
+ (envelope-from <stefanha@redhat.com>) id 1iNDWw-0002VN-Lm
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:06:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42254
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNDWk-0002My-N3
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:06:06 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNDWw-0002Ua-IL
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:06:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571825161;
+ s=mimecast20190719; t=1571825174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kNGzs6XBfUuX9h6V7eDmm96BCP+yvOpdjBrhtPUVLls=;
- b=bgA3jtf//4Q8BkmlAIHnGhZ4Nk2AhmzImJxtAHZWo4wIIHU+vtbuSNGLokaugWLsvuttMl
- siTGROZQ+NUP1JTFodHoW6QKZqbKSpM6JArdA0bIKlqS1gPk1BUwruE8FacsIxZWXrzBo6
- 7GfPeADi6ETacQ/9XmzJGXH0k+xtHpw=
+ bh=o1ZWAZET2aCYr6F3lk3hGVyaMah3+lLXcCNuqtgSeG0=;
+ b=dHeHkTA/cP0kqaLelhGd6GnyLhnSiQfQvMuYwPfVLD3nc7+jYDExTeZk9Mtz+PpSRD/FJk
+ vtXfn2/uIYyXuB1MKJgkeHXSdh6ZZGydqJ0+USUejERh4TQoOeiuJ+0Mw6wbnL9W0la1ki
+ 3P5c3DFCmYn6JxUackBBEShHB3XgmXY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-FVzT1ULeMkKffdmnER5QhA-1; Wed, 23 Oct 2019 06:05:57 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-169-RBN4SAoMMrKpRGUTfQPEcA-1; Wed, 23 Oct 2019 06:06:10 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBE37107AD33;
- Wed, 23 Oct 2019 10:05:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA66647B;
+ Wed, 23 Oct 2019 10:06:09 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 108C35C1B2;
- Wed, 23 Oct 2019 10:05:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 492556061E;
+ Wed, 23 Oct 2019 10:05:58 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/16] libqos: add missing virtio-9p feature negotiation
-Date: Wed, 23 Oct 2019 11:04:15 +0100
-Message-Id: <20191023100425.12168-7-stefanha@redhat.com>
+Subject: [PATCH v4 07/16] libqos: enforce Device Initialization order
+Date: Wed, 23 Oct 2019 11:04:16 +0100
+Message-Id: <20191023100425.12168-8-stefanha@redhat.com>
 In-Reply-To: <20191023100425.12168-1-stefanha@redhat.com>
 References: <20191023100425.12168-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: FVzT1ULeMkKffdmnER5QhA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: RBN4SAoMMrKpRGUTfQPEcA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,38 +79,85 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VIRTIO Device Initialization requires feature negotiation.  The libqos
-virtio-9p driver lacks feature negotiation and is therefore
-non-compliant.
-
-libqos tests acknowledge all feature bits advertised by the device,
-except VIRTIO_F_BAD_FEATURE (which devices use to detect broken
-drivers!) and VIRTIO_RING_F_EVENT_IDX (which is not implemented in
-libqos and accepting it would break notifications).
+According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
+Initialization", configuration space and virtqueues cannot be accessed
+before features have been negotiated.  Enforce this requirement.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/libqos/virtio-9p.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+v4:
+ * Introduce bool d->features_negotiated so that tests can negotiate a
+   0 feature bit set in Legacy mode [Thomas]
+---
+ tests/libqos/virtio.h | 1 +
+ tests/libqos/virtio.c | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/tests/libqos/virtio-9p.c b/tests/libqos/virtio-9p.c
-index 8c9efce3e1..77dbfb62ad 100644
---- a/tests/libqos/virtio-9p.c
-+++ b/tests/libqos/virtio-9p.c
-@@ -32,6 +32,12 @@ static void virtio_9p_cleanup(QVirtio9P *interface)
+diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
+index a5c99fb3c9..0e8f823c7b 100644
+--- a/tests/libqos/virtio.h
++++ b/tests/libqos/virtio.h
+@@ -23,6 +23,7 @@ typedef struct QVirtioDevice {
+     uint16_t device_type;
+     uint64_t features;
+     bool big_endian;
++    bool features_negotiated;
+ } QVirtioDevice;
 =20
- static void virtio_9p_setup(QVirtio9P *interface)
+ typedef struct QVirtQueue {
+diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
+index 4f7e6bb8a1..6049ff3b3e 100644
+--- a/tests/libqos/virtio.c
++++ b/tests/libqos/virtio.c
+@@ -15,21 +15,25 @@
+=20
+ uint8_t qvirtio_config_readb(QVirtioDevice *d, uint64_t addr)
  {
-+    uint64_t features;
-+
-+    features =3D qvirtio_get_features(interface->vdev);
-+    features &=3D ~(QVIRTIO_F_BAD_FEATURE | (1ull << VIRTIO_RING_F_EVENT_I=
-DX));
-+    qvirtio_set_features(interface->vdev, features);
-+
-     interface->vq =3D qvirtqueue_setup(interface->vdev, alloc, 0);
-     qvirtio_set_driver_ok(interface->vdev);
++    g_assert_true(d->features_negotiated);
+     return d->bus->config_readb(d, addr);
  }
+=20
+ uint16_t qvirtio_config_readw(QVirtioDevice *d, uint64_t addr)
+ {
++    g_assert_true(d->features_negotiated);
+     return d->bus->config_readw(d, addr);
+ }
+=20
+ uint32_t qvirtio_config_readl(QVirtioDevice *d, uint64_t addr)
+ {
++    g_assert_true(d->features_negotiated);
+     return d->bus->config_readl(d, addr);
+ }
+=20
+ uint64_t qvirtio_config_readq(QVirtioDevice *d, uint64_t addr)
+ {
++    g_assert_true(d->features_negotiated);
+     return d->bus->config_readq(d, addr);
+ }
+=20
+@@ -42,11 +46,13 @@ void qvirtio_set_features(QVirtioDevice *d, uint64_t fe=
+atures)
+ {
+     d->features =3D features;
+     d->bus->set_features(d, features);
++    d->features_negotiated =3D true;
+ }
+=20
+ QVirtQueue *qvirtqueue_setup(QVirtioDevice *d,
+                              QGuestAllocator *alloc, uint16_t index)
+ {
++    g_assert_true(d->features_negotiated);
+     return d->bus->virtqueue_setup(d, alloc, index);
+ }
+=20
+@@ -60,6 +66,7 @@ void qvirtio_reset(QVirtioDevice *d)
+ {
+     d->bus->set_status(d, 0);
+     g_assert_cmphex(d->bus->get_status(d), =3D=3D, 0);
++    d->features_negotiated =3D false;
+ }
+=20
+ void qvirtio_set_acknowledge(QVirtioDevice *d)
 --=20
 2.21.0
 
