@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACE7E183A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:47:13 +0200 (CEST)
-Received: from localhost ([::1]:60130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF050E181D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:38:40 +0200 (CEST)
+Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNEAZ-0006oq-Q4
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40971)
+	id 1iNE2J-0008H9-Hm
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:38:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40457)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNDc2-0007uL-9W
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:11:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNDXw-0005OQ-6E
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNDc0-0005LT-5g
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:11:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51780)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNDXu-0003BO-30
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:15 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51530)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNDbz-0005Kz-Pa
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:11:28 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNDby-0006Ww-MI
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:11:26 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A4E972E8037
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:11:26 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNDXt-00039f-6x
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:14 -0400
+Received: by mail-wm1-x335.google.com with SMTP id q70so13360738wme.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 03:07:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Z6lK17UQmr8eYfSUfvewTyfTNhH4uVDKwgkN/WXk0n0=;
+ b=seQU58Sgeet0hvCg3bW/RlctHhpWbIa2/VEJaLLSywYyJAw8Di7K8OPyGCkhwpY47Q
+ Jgsf0xXgknsl7YdH8bPtlto85ZeBGiAJM8ZPmVScFrr0DXJVoKwt7yAg8T4UI7fyJB3I
+ YlrTTciArqZ1HiP+cMsElQCSkmMXIU1+MRnDMHzNI55pLnoDyhPpYY5BZYmRjCkGb/58
+ SvAMRpDctDq6A0/WVzdykB20Pftd8BiMkoh8H88xDSb5s/9la60T4HQSzImL4OlB522B
+ RNtiCTWEXwNWkmWJWtjUdSLUlW8+kdF5fRcO0q3Huz4NjopvZqERZTfr6NBi0HAR0BgX
+ gSfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Z6lK17UQmr8eYfSUfvewTyfTNhH4uVDKwgkN/WXk0n0=;
+ b=bXw6IzGhcAaU5FNzD9XaTdX6QZZ4kvojddJJ3j36MAjbpskYJspPDv2asA9GLbMmQg
+ 02y4HYDB/4wjVWZ1yg9aO/0OAXBy2swt7VCJ5nEgDsG54J9EoMebTJ6kVc6jGlGlXBH5
+ R+y5Gi1jAX1qui8FtZNO4phKNkbbdEFH2DCgv99nGGJTciN+fFRHUohPwORo9H0VZNIg
+ WECmVoyCpYFrQHQB9c3GLtrVGot4Pc3iDRnbJMv55zdP38pQcIht2Ra1EAzjC33/MEtv
+ Exxi1F1ohUlrvuKKZfo9daQs7tYOdBr5QbWaHGvkNmlvG9JvD0OfMW0DRm2a719eeQ0b
+ 1Y1w==
+X-Gm-Message-State: APjAAAUU8OowW/6oSoF3k0h1RxR0tO6eFB658DZj5e4UH62vktqgNuAW
+ jVtDIV0cGGkpJVJ8hTz8QScyMQ==
+X-Google-Smtp-Source: APXvYqxtsJ/YIrEhbdQuKgbAaqbtVsUQ6ZkcE1vpSFgsM6Qu84nsU4Hk+chb2o2v9rI1DzI4Y3mVBg==
+X-Received: by 2002:a7b:c313:: with SMTP id k19mr7406606wmj.6.1571825231010;
+ Wed, 23 Oct 2019 03:07:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o1sm17962595wmc.38.2019.10.23.03.07.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 03:07:10 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8F1B71FF87;
+ Wed, 23 Oct 2019 11:07:09 +0100 (BST)
+References: <20191022191704.6134-1-alex.bennee@linaro.org>
+ <20191022191704.6134-8-alex.bennee@linaro.org>
+ <2020367759.8121043.1571815677935.JavaMail.zimbra@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH  v1 07/19] cirrus.yml: reduce scope of MacOS build
+In-reply-to: <2020367759.8121043.1571815677935.JavaMail.zimbra@redhat.com>
+Date: Wed, 23 Oct 2019 11:07:09 +0100
+Message-ID: <87y2xbvkqa.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 10:05:14 -0000
-From: David Hildenbrand <1847232@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=david@redhat.com; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: davidhildenbrand ivmn
-X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
-X-Launchpad-Bug-Modifier: David Hildenbrand (davidhildenbrand)
-References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
- <157182344968.26037.260550507074298149.malone@chaenomeles.canonical.com>
-Message-Id: <2c3d94b3-2737-227c-cb7d-8e82982bfc5a@redhat.com>
-Subject: Re: [Bug 1847232] Re: qemu TCG in s390x mode issue with calculating
- HASH
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7c280aa56eeb65978ba36b4383939895d889e856
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,65 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847232 <1847232@bugs.launchpad.net>
+Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
+ stefanb@linux.vnet.ibm.com, richard henderson <richard.henderson@linaro.org>,
+ f4bug@amsat.org, qemu-devel@nongnu.org, cota@braap.org, stefanha@redhat.com,
+ marcandre lureau <marcandre.lureau@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.10.19 11:37, Ivan Warren wrote:
-> Looks fixed to me ! The issue no longer shows even without specifying
-> vx=3Doff
-> =
 
+Thomas Huth <thuth@redhat.com> writes:
 
-Nice, I suspect that there might be more issues when using golang (as it =
+> ----- Original Message -----
+>> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
+>> Sent: Tuesday, October 22, 2019 9:16:52 PM
+>>
+>> The MacOS build can time out on Cirrus running to almost an hour.
+>> Reduce the scope to the historical MacOS architectures much the same
+>> way we do on Travis.
+>
+> Oh, really? For me, the builds on Cirrus-CI work reasonable fast and
+> almost always finish within 20 minutes, e.g.:
 
-really makes excessive use of vector registers to my surprise). So in =
+It seems to be an intermittent thing:
 
-case you run into problems (and especially can't reproduce with vx=3Doff), =
+  https://cirrus-ci.com/github/stsquad/qemu
 
-please inform me!
+but looking again maybe it's only the xcode build that is reliably long...
 
-Thanks!
+>
+> https://cirrus-ci.com/build/4976412120842240
+>
+> Also the last macos_task from the official QEMU mirror on github finished=
+ within 15 minutes:
+>
+> https://github.com/qemu/qemu/runs/269964092
+>
+> ... so was your issue maybe just a temporary dropout?
+>
+>  Thomas
+
 
 --
-
-Thanks,
-
-David / dhildenb
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847232
-
-Title:
-  qemu TCG in s390x mode issue with calculating HASH
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  When using go on s390x on Debian x64 (buster) (host) and debian s390x
-  (sid) (guest) I run into the following problem :
-
-  The following occurs while trying to build a custom project :
-
-  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
-  Get
-  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
-0150613233007-fe3947df716e.mod:
-  local error: tls: bad record MAC
-
-  Doing a git bisect I find that this problem only occurs on and after
-  commit 08ef92d556c584c7faf594ff3af46df456276e1b
-
-  Before that commit, all works fine. Past this commit, build always
-  fails.
-
-  Without any proof, It looks like a hash calculation bug related to
-  using z/Arch vector facilities...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
+Alex Benn=C3=A9e
 
