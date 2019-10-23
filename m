@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F54E189B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:18:19 +0200 (CEST)
-Received: from localhost ([::1]:60584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5B2E1911
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:29:22 +0200 (CEST)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNEeg-0004WX-F0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:18:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44848)
+	id 1iNEpM-0004ky-Hq
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iNE3F-0002ET-BB
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:39:44 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNEOO-0002EY-A9
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:01:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iNE38-00038Y-JQ
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:39:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33104)
+ (envelope-from <philmd@redhat.com>) id 1iNEOJ-0002XI-Rw
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:01:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52314)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iNE38-000376-3t
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:39:30 -0400
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEOJ-0002WD-7y
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:01:23 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E9E42368CF
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:39:28 +0000 (UTC)
-Received: by mail-pf1-f199.google.com with SMTP id a2so15819268pfo.12
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 03:39:28 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 30F055AFE9
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:01:21 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id i23so2144543wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:01:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=yKoXBzPSInXw7cjhLnujJEafH/ygkaHp1DRwDQJH9cc=;
- b=NlO6RJcO7zuZT25PYApmnVqQkQHP8RSGefgrUb5GL/xHCuKiWh/YtYhRn5xst2NYgL
- e7kakH1sXLgSNICPhXQdUWoFu83httHxkhbVio+ypfkqAi3SF8iZ3FCXdhCd/fkb/V+V
- Naqqz/FFMlSYdG0Ikws5koYCqW3pvkO0kiSnpS99l6JzOMZ9s8jy4xD+KuPcIu0u7LKz
- AUFkgVQtZhBIQ4V+mttSmX2wekXqGEcKWYcdJByqsWbSGiWdvHoT2piEadofXd6aqOn9
- 5SFdNeXuwhfN6GOjbwJEcLG6k3oNhRM89mXn7wXc8W8tCE/YlW94hA6iZxBAL3vZfeBS
- ZvEw==
-X-Gm-Message-State: APjAAAX8ZN2h4V+vnVMPzDuUaircKcF8WUNQ9Ekte4urBLKBq+DndgeC
- ClsPUNqsxFuOsgRzJThQ9mF/1XSlFw6ZEkV+P8uIHQqBvVcsX2MHxBWjNGXc898s8yRiCrUoUXB
- b3h4sMqNcSrz81ac=
-X-Received: by 2002:a17:902:8c96:: with SMTP id
- t22mr8745660plo.290.1571827168383; 
- Wed, 23 Oct 2019 03:39:28 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxgmQgsqTIcYPYmD1iSWQlo4PBd0zza8H2OcY7/eRbyHN3dfbLY39uTaLkwF+yYtxbuSFq0SA==
-X-Received: by 2002:a17:902:8c96:: with SMTP id
- t22mr8745635plo.290.1571827168163; 
- Wed, 23 Oct 2019 03:39:28 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id c9sm3122781pfb.114.2019.10.23.03.39.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 03:39:27 -0700 (PDT)
-Date: Wed, 23 Oct 2019 18:39:17 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 0/4] apic: Fix migration breakage of >255 vcpus
-Message-ID: <20191023103917.GD18443@xz-x1>
-References: <20191016022933.7276-1-peterx@redhat.com>
- <20191016144001.GE4084@habkost.net> <20191019034153.GB9478@xz-x1>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=C2Z/rTiEMaiDytYVEo6f72hYjHtOqpzp1cbeYjpz/Xw=;
+ b=a3HYsyguMQP9UdoLYZObivgbnq5Y0pkWDE6P2GhFqK939odv9ZDuy8uhl5Y6UH81vA
+ NBzFAxdv9ei5pCcZKqryucdRG2ly0lMRfx+thdNXg2aIMhC3PZgenbYHEQyNPMMXY6Pb
+ 2Ky0kUPr6Aac/gGTFwe7ObGEnohrlV4UbqUe9praOdX0wqHWQo8ahYA0WHIPInXejcIE
+ 97bcnXCdUcIL+Jgi0mVdZKEB9yHcZEMs5WRVnfIkxi69TW/ydj0fCaEjoiAY70CiKxmt
+ juII14siCFqi7gn6acpxN2ar/iznfrHJf+2LOITSoa6EJumZEYV0rMlnFzq3k6Xmx0Fk
+ tf5w==
+X-Gm-Message-State: APjAAAX4AvmaNAHnTO0k5G/URNvVsNrcC2PkFa/wgg08H3+FvnTb9tbn
+ 1JTawRu+d03UqkjaI0BWHK7c2xxvNsAWS7uTKrAkEzwVBRUXI2WFqfhpgrXP9vg845JNlzXMllC
+ iodh5k+CqnjVzvAk=
+X-Received: by 2002:a5d:5392:: with SMTP id d18mr8464465wrv.382.1571828479785; 
+ Wed, 23 Oct 2019 04:01:19 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwebaogxXHrqdg5Ip6m9LEvtHQyVHO3gUa2HwuXpFaSPlX+NkV08ZfV3zz3RHKEH/F8yea9AA==
+X-Received: by 2002:a5d:5392:: with SMTP id d18mr8464449wrv.382.1571828479562; 
+ Wed, 23 Oct 2019 04:01:19 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id u1sm21455278wrp.56.2019.10.23.04.01.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 04:01:18 -0700 (PDT)
+Subject: Re: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog module
+ framework
+To: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
+References: <20191016112209.9024-1-chen.zhang@intel.com>
+ <20191016112209.9024-2-chen.zhang@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e294876e-d26b-b401-78ab-487e1b44685f@redhat.com>
+Date: Wed, 23 Oct 2019 13:01:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191019034153.GB9478@xz-x1>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20191016112209.9024-2-chen.zhang@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -79,50 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 19, 2019 at 11:41:53AM +0800, Peter Xu wrote:
-> On Wed, Oct 16, 2019 at 11:40:01AM -0300, Eduardo Habkost wrote:
-> > On Wed, Oct 16, 2019 at 10:29:29AM +0800, Peter Xu wrote:
-> > > v2:
-> > > - use uint32_t rather than int64_t [Juan]
-> > > - one more patch (patch 4) to check dup SaveStateEntry [Dave]
-> > > - one more patch to define a macro (patch 1) to simplify patch 2
-> > > 
-> > > Please review, thanks.
-> > 
-> > I wonder how hard it is to write a simple test case to reproduce
-> > the original bug.  We can extend tests/migration-test.c or
-> > tests/acceptance/migration.py.  If using -device with explicit
-> > apic-id, we probably don't even need to create >255 VCPUs.
+Hi Chen,
+
+On 10/16/19 1:22 PM, Zhang Chen wrote:
+> From: Zhang Chen <chen.zhang@intel.com>
 > 
-> I can give it a shot next week. :)
+> This patch introduce a new module named Advanced Watch Dog,
+> and defined the input and output parameter. AWD use standard chardev
+> as the way of communicationg with the outside world.
+> Demo command:
+> -object advanced-watchdog,id=heart1,server=on,awd_node=h1,notification_node=heartbeat0,opt_script=opt_script_path,iothread=iothread1,pulse_interval=1000,timeout=5000
+> 
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>   net/Makefile.objs |   1 +
+>   net/awd.c         | 261 ++++++++++++++++++++++++++++++++++++++++++++++
+>   qemu-options.hx   |   6 ++
+>   3 files changed, 268 insertions(+)
+>   create mode 100644 net/awd.c
+> 
+> diff --git a/net/Makefile.objs b/net/Makefile.objs
+> index c5d076d19c..139b1394e9 100644
+> --- a/net/Makefile.objs
+> +++ b/net/Makefile.objs
+> @@ -19,6 +19,7 @@ common-obj-y += colo-compare.o
+>   common-obj-y += colo.o
+>   common-obj-y += filter-rewriter.o
+>   common-obj-y += filter-replay.o
+> +common-obj-y += awd.o
+Can you add a net/Kconfig file introducing the ADVANCED_WATCHDOG selector?
 
-When I was playing with it, I noticed that it's not that easy at least
-for the migration-test.  We need to do these:
+config COLO_ADVANCED_WATCHDOG
+     bool
+     default n
 
-- add one specific CPU with apic-id>255, this is easy by using
-  "-device qemu64-x86_64-cpu,..."
+Then use here:
 
-- enable x2apic in the guest code, read apic-id on the special vcpu to
-  make sure it's correct even after migration, but before that...
+     common-obj-$(COLO_ADVANCED_WATCHDOG) += awd.o
 
-- I failed to find a way to use apic-id>255 as the BSP of system but I
-  can only create APs with apic-id>255, so we need to add initial MP
-  support for the migration guest code, then run that apic-id check
-  code on the new AP
+Thanks,
 
-- I also probably found that q35 bug on bootstraping the 512B disk, so
-  we probably need to workaround that too until fixed
+Phil.
 
-Unless someone has better idea on this, I'll simply stop here because
-I'm afraid it does not worth the effort so far... (or until we have
-some other requirement to enrich the migration qtest framework)
-
--- 
-Peter Xu
+>   
+>   tap-obj-$(CONFIG_LINUX) = tap-linux.o
+>   tap-obj-$(CONFIG_BSD) = tap-bsd.o
+[...]
 
