@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D12E185E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:55:45 +0200 (CEST)
-Received: from localhost ([::1]:60320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C27CE1868
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:57:47 +0200 (CEST)
+Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNEIq-0004tI-A6
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42116)
+	id 1iNEKo-0006xq-5j
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iNDjd-0004ug-4u
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:22 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iNDkQ-0005ai-O8
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:20:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iNDjc-0000wL-1w
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:21 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53768
+ (envelope-from <kraxel@redhat.com>) id 1iNDkO-00015b-LE
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:20:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33031
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iNDjb-0000wD-V0
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:20 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iNDkM-00015H-Lz
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:20:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571825959;
+ s=mimecast20190719; t=1571826006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=msvm480ex05gsqUIOx1/dHm00x/HecbiFX8wRD05BwU=;
- b=Rk1Xn8ymYhPyOrZ3qDlJ8EEBMQuNEm4e3+ERRyZIXXzK9yMHch6GWNeqIig8ZFw9x7FQ/9
- g9W1rsNuQfQrG1X+Eh2pyv8/dEbWgRc7v5sqg62VE9RxLG8JUSGD+JpdZy6edSEaREZ5RE
- MPHuQegtIjgACZWvbn9nAAB4n+TLi+Q=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0Af9xttnP6T0tmusNckrvezjvKcSIWh1YYsIlikpwI0=;
+ b=SXh5NbPFbIgdce6Yl/VEVKL0O7Wu/xTM0vW8qo0F+2/Y6rbjfht21S65ICO3EecdUIY0eV
+ 88cZr4tOCapcmTzNsCDdpg4BReLAF1BjwfBGSJs02T1EiJMAmXIqcm5MlnwabpbGw/YsWE
+ X37uiX9jokBA0QWdV+fyh1VFwBDXWvQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-IAVTGeyUN_aq8V6ntNLgHw-1; Wed, 23 Oct 2019 06:19:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-94-wg7nenPCOUKzo5wLwgnwoQ-1; Wed, 23 Oct 2019 06:20:04 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C79CA1800D6B;
- Wed, 23 Oct 2019 10:19:14 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD97460624;
- Wed, 23 Oct 2019 10:19:14 +0000 (UTC)
-Received: from zmail25.collab.prod.int.phx2.redhat.com
- (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id A90494EE50;
- Wed, 23 Oct 2019 10:19:14 +0000 (UTC)
-Date: Wed, 23 Oct 2019 06:19:14 -0400 (EDT)
-From: Thomas Huth <thuth@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <1425198155.8144323.1571825954529.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20191023100425.12168-5-stefanha@redhat.com>
-References: <20191023100425.12168-1-stefanha@redhat.com>
- <20191023100425.12168-5-stefanha@redhat.com>
-Subject: Re: [PATCH v4 04/16] virtio-scsi-test: add missing feature negotiation
-MIME-Version: 1.0
-X-Originating-IP: [149.14.88.107, 10.4.196.29, 10.5.100.50, 10.4.195.25]
-Thread-Topic: virtio-scsi-test: add missing feature negotiation
-Thread-Index: DaZghX7nFYRKs5RbtdKPo+3+4DOVwg==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: IAVTGeyUN_aq8V6ntNLgHw-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBC01800D49
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:20:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
+ [10.36.116.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 221981001B33;
+ Wed, 23 Oct 2019 10:20:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4156917535; Wed, 23 Oct 2019 12:20:00 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] buildfix: update texinfo menu
+Date: Wed, 23 Oct 2019 12:19:56 +0200
+Message-Id: <20191023101956.19120-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: wg7nenPCOUKzo5wLwgnwoQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -79,31 +69,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, slp@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
------ Original Message -----
-> From: "Stefan Hajnoczi" <stefanha@redhat.com>
-> Sent: Wednesday, October 23, 2019 12:04:13 PM
->=20
-> VIRTIO Device Initialization requires feature negotiation.  Currently
-> virtio-scsi-test.c is non-compliant.
->=20
-> libqos tests acknowledge all feature bits advertised by the device,
-> except VIRTIO_F_BAD_FEATURE (which devices use to detect broken
-> drivers!) and VIRTIO_RING_F_EVENT_IDX (which is not implemented in
-> libqos and accepting it would break notifications).
->=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tests/virtio-scsi-test.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+Build error message:
+qemu-doc.texi:34: node `Top' lacks menu item for `Recently removed features=
+' despite being its Up target
 
-Reviewed-by: Thomas Huth" <thuth@redhat.com>
+Fixes: 3264ffced3d0 ("dirty-bitmaps: remove deprecated autoload parameter")
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ qemu-doc.texi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/qemu-doc.texi b/qemu-doc.texi
+index 3c5022050f0f..3ddf5c0a6865 100644
+--- a/qemu-doc.texi
++++ b/qemu-doc.texi
+@@ -44,6 +44,7 @@
+ * Security::
+ * Implementation notes::
+ * Deprecated features::
++* Recently removed features::
+ * Supported build platforms::
+ * License::
+ * Index::
+--=20
+2.18.1
 
 
