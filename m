@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210CBE2125
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:58:07 +0200 (CEST)
-Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4FBE2117
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:54:23 +0200 (CEST)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNJxV-0003sD-LU
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42527)
+	id 1iNJtt-0008Py-Pn
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNIp3-0004iA-18
+ (envelope-from <richard.henderson@linaro.org>) id 1iNIp3-0004iF-16
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNIp1-0005VQ-2y
+ (envelope-from <richard.henderson@linaro.org>) id 1iNIp1-0005Ws-Nx
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:16 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:38958)
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:34108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNIoz-0005Nw-3Y
+ id 1iNIp0-0005Pr-W2
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:15 -0400
-Received: by mail-qt1-x843.google.com with SMTP id t8so15415592qtc.6
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:45:11 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id e14so13184339qto.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PzEJPTABzvYPmN/2adJfy5uLdEuaRGm0+mdzHd64cl8=;
- b=DrjcKVqMKxbcZyq0X/pR2ND36ep6US7cUZWY57k9PsE4RyArSC6l97TFoIIN52WWRs
- t1NC/LEP+njpM75STy6IiBgWw6/E9R7iYfeVB0viiosCU1H0jgvJiDkJOIspaEGNqwXV
- h52rrVNW+Wx8t1H8qTSTCgM3/cIXA5Q0+Z/HNdk8SE8z0IPsA9sfUHZTqyB1QIQ0Jka2
- LbejPbtmfhQv6jeI6EfLcEeLFpKg9eBdnOIQ1XFDXIcFTi2zS5DhRvdrPS1bzbrRUy4l
- TW01AS054vW39CBmDTcb/DBYBJYaNf5aggxuFKf3p3MvUUmHRikYnwdmmALhJQvBw7Ev
- OrYg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=/AKbLHXTnM8m/9emDbjfL8Myv0gqqIqdV5s6THzE+7U=;
+ b=C9frGU0AzZ7BnyrHTHH9SfZnuJGxFsRol9ai81q7DPmj+TZAlXLm2UZJm1RyH591z4
+ uGtpGcZmP3LxSQZk4vwhzXR2j3m14aMX9C4R7o6pFultK4PKS1mFHKpThXsaobnmb7kb
+ fYBS4sU9N+CPR45APZke8b9i+cfu3Ox4akvLQlzMfbVk/qcp5+wqdK3y1gCh4VQ0ax3c
+ jvf5pUy/0suRMmJqADyg7MYg5hHKroeOp33XJocDZ8eSNz0kFUbHPWppmeHtjV4VYpxd
+ 5keHgySgfUuS0Xc/RL45RzxkxoHC8LQohSYw2thj96dFav8KvCPv2PtkbGJqsXN4ivAp
+ uLxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PzEJPTABzvYPmN/2adJfy5uLdEuaRGm0+mdzHd64cl8=;
- b=r81khUpJehhF8wsmftcmBxiHrSWO/gwpfgC6QDOiZ0hQ4afqEhWBt4BQYj7fZdJlBz
- vHa8efw5l9DcbdYX0trZBoXShqW4aTjN6jUMA+MCwq5mUeVxwF/2h9g60k5zFHAc5JBC
- ZPExmtYZiIJzPTg2saaU54NSV6fChQCUOBR+VbJvNewitQ9LaED4Z1uWC+onjz4NCgAk
- 0EMurENAATZJppObpzO2Ps+YwLwUupXxeQHt7kqQWefH0a4xQK3cyDgTKAfW2I978fGC
- c+VxP7K1zUs/UcFlGTJKXJaOIpcLLe47n/Tm6hyY5uHoAkNeSJYkEAoDsxqNMR3/Pphc
- T4OQ==
-X-Gm-Message-State: APjAAAXxoYMRlU6OWZvgF9j7pXpjJ6qhGrPNg0qJRQ3meSqQNciyJvfT
- cAMBn9cJKorHWuThSFoUhxUaceYLrE0=
-X-Google-Smtp-Source: APXvYqyo/3SEPMr1inThK2IabmZ4wG9NUE2l4purg4v/UFYveD25eBVmxB0QQofw34Udy65ki6acpw==
-X-Received: by 2002:ac8:2247:: with SMTP id p7mr10137158qtp.180.1571845510213; 
- Wed, 23 Oct 2019 08:45:10 -0700 (PDT)
+ :references;
+ bh=/AKbLHXTnM8m/9emDbjfL8Myv0gqqIqdV5s6THzE+7U=;
+ b=OlUbLE5fshO9Xpy8qf6kQQ7N6VEYBxFMzSY4h1vrNoQEsl3Tkyj9zBlrQzZSRT/Fa0
+ tpYx0ZSsRbUohfj0/juwxGeCqIx8bvxFTTUhg/iSyFsbmg944sLyHm/hN2WbWIPdpNLq
+ /VwUNIB/iMBHOEPWjmhkIPBaj4GGbu3N33zgpUslx68GUJKGP5x035WE6VVOSdHkmc91
+ FilnK4t86HPTtx+u0TkJxWucxECGW48ECVHi1rMbgyue7rV36qKx20lPFD6PGMXCZsIh
+ YVT9sE3o4kSsAcamkVSmxjUiZmpED3DH0pQRLcj0uXzyXEPUKWOE5W+wt+NYkdJkz07+
+ M7vA==
+X-Gm-Message-State: APjAAAW9xyRjoSWnrBYqRZuZBCHWNlN61APpL34rsQ1K4YEYmVH9ps1l
+ ECeQKiLxjIVr9/xFoCdSwmHf7ZG0QrY=
+X-Google-Smtp-Source: APXvYqyVks026fWC02gOchDmwaZKGKv5LNjSigxBXb9gMxFgvtwYNxLXjuq1jTL0I5PdtBZgEXRopQ==
+X-Received: by 2002:aed:3225:: with SMTP id y34mr9955341qtd.353.1571845511156; 
+ Wed, 23 Oct 2019 08:45:11 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
  [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id o1sm2456272qtb.82.2019.10.23.08.45.08
+ by smtp.gmail.com with ESMTPSA id o1sm2456272qtb.82.2019.10.23.08.45.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 08:45:09 -0700 (PDT)
+ Wed, 23 Oct 2019 08:45:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] exec: Split out variable page size support to
- exec-vary.c
-Date: Wed, 23 Oct 2019 11:45:00 -0400
-Message-Id: <20191023154505.30521-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 3/7] configure: Detect compiler support for
+ __attribute__((alias))
+Date: Wed, 23 Oct 2019 11:45:01 -0400
+Message-Id: <20191023154505.30521-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191023154505.30521-1-richard.henderson@linaro.org>
 References: <20191023154505.30521-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
+X-Received-From: 2607:f8b0:4864:20::833
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,171 +80,52 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next patch will play a trick with "const" that will
-confuse the compiler about the uses of target_page_bits
-within exec.c.  Moving everything to a new file prevents
-this confusion.
+Such support is present almost everywhere, except for Xcode 9.
+It is added in Xcode 10, but travis uses xcode9 by default,
+so we should support it for a while yet.
 
-No functional change so far.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- Makefile.target       |  2 +-
- include/qemu-common.h |  6 +++++
- exec-vary.c           | 57 +++++++++++++++++++++++++++++++++++++++++++
- exec.c                | 34 --------------------------
- 4 files changed, 64 insertions(+), 35 deletions(-)
- create mode 100644 exec-vary.c
+ configure | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/Makefile.target b/Makefile.target
-index 5e916230c4..ca3d14efe1 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -107,7 +107,7 @@ obj-y += trace/
+diff --git a/configure b/configure
+index 145fcabbb3..3a9862fe5e 100755
+--- a/configure
++++ b/configure
+@@ -5518,6 +5518,21 @@ if compile_prog "" "" ; then
+   vector16=yes
+ fi
  
- #########################################################
- # cpu emulator library
--obj-y += exec.o
-+obj-y += exec.o exec-vary.o
- obj-y += accel/
- obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
- obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 8d84db90b0..082da59e85 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -74,6 +74,12 @@ void cpu_exec_step_atomic(CPUState *cpu);
-  */
- bool set_preferred_target_page_bits(int bits);
- 
-+/**
-+ * finalize_target_page_bits:
-+ * Commit the final value set by set_preferred_target_page_bits.
-+ */
-+void finalize_target_page_bits(void);
++########################################
++# See if __attribute__((alias)) is supported.
++# This false for Xcode 9, but has been remedied for Xcode 10.
++# Unfortunately, travis uses Xcode 9 by default.
 +
- /**
-  * Sends a (part of) iovec down a socket, yielding when the socket is full, or
-  * Receives data into a (part of) iovec from a socket,
-diff --git a/exec-vary.c b/exec-vary.c
-new file mode 100644
-index 0000000000..48c0ab306c
---- /dev/null
-+++ b/exec-vary.c
-@@ -0,0 +1,57 @@
-+/*
-+ * Variable page size handling
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
++attralias=no
++cat > $TMPC << EOF
++int x = 1;
++extern const int y __attribute__((alias("x")));
++int main(void) { return 0; }
++EOF
++if compile_prog "" "" ; then
++    attralias=yes
++fi
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "exec/exec-all.h"
+ ########################################
+ # check if getauxval is available.
+ 
+@@ -7083,6 +7098,10 @@ if test "$vector16" = "yes" ; then
+   echo "CONFIG_VECTOR16=y" >> $config_host_mak
+ fi
+ 
++if test "$attralias" = "yes" ; then
++  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
++fi
 +
-+#ifdef TARGET_PAGE_BITS_VARY
-+int target_page_bits;
-+bool target_page_bits_decided;
-+#endif
-+
-+bool set_preferred_target_page_bits(int bits)
-+{
-+    /*
-+     * The target page size is the lowest common denominator for all
-+     * the CPUs in the system, so we can only make it smaller, never
-+     * larger. And we can't make it smaller once we've committed to
-+     * a particular size.
-+     */
-+#ifdef TARGET_PAGE_BITS_VARY
-+    assert(bits >= TARGET_PAGE_BITS_MIN);
-+    if (target_page_bits == 0 || target_page_bits > bits) {
-+        if (target_page_bits_decided) {
-+            return false;
-+        }
-+        target_page_bits = bits;
-+    }
-+#endif
-+    return true;
-+}
-+
-+void finalize_target_page_bits(void)
-+{
-+#ifdef TARGET_PAGE_BITS_VARY
-+    if (target_page_bits == 0) {
-+        target_page_bits = TARGET_PAGE_BITS_MIN;
-+    }
-+    target_page_bits_decided = true;
-+#endif
-+}
-diff --git a/exec.c b/exec.c
-index fb0943cfed..5bf181d23e 100644
---- a/exec.c
-+++ b/exec.c
-@@ -91,11 +91,6 @@ AddressSpace address_space_memory;
- static MemoryRegion io_mem_unassigned;
- #endif
- 
--#ifdef TARGET_PAGE_BITS_VARY
--int target_page_bits;
--bool target_page_bits_decided;
--#endif
--
- CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
- 
- /* current CPU in the current thread. It is only valid inside
-@@ -109,37 +104,8 @@ int use_icount;
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
- 
--bool set_preferred_target_page_bits(int bits)
--{
--    /* The target page size is the lowest common denominator for all
--     * the CPUs in the system, so we can only make it smaller, never
--     * larger. And we can't make it smaller once we've committed to
--     * a particular size.
--     */
--#ifdef TARGET_PAGE_BITS_VARY
--    assert(bits >= TARGET_PAGE_BITS_MIN);
--    if (target_page_bits == 0 || target_page_bits > bits) {
--        if (target_page_bits_decided) {
--            return false;
--        }
--        target_page_bits = bits;
--    }
--#endif
--    return true;
--}
--
- #if !defined(CONFIG_USER_ONLY)
- 
--static void finalize_target_page_bits(void)
--{
--#ifdef TARGET_PAGE_BITS_VARY
--    if (target_page_bits == 0) {
--        target_page_bits = TARGET_PAGE_BITS_MIN;
--    }
--    target_page_bits_decided = true;
--#endif
--}
--
- typedef struct PhysPageEntry PhysPageEntry;
- 
- struct PhysPageEntry {
+ if test "$getauxval" = "yes" ; then
+   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
+ fi
 -- 
 2.17.1
 
