@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3ABE1960
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:52:38 +0200 (CEST)
-Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6220EE193E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:46:59 +0200 (CEST)
+Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFBs-0006p6-VE
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53196)
+	id 1iNF6Q-0001ut-3A
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:46:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEeh-0005VI-Rt
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:18:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNEfm-0005xf-0i
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:19:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEeg-0001MQ-FC
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:18:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41742
+ (envelope-from <philmd@redhat.com>) id 1iNEfi-0001bp-53
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:19:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52032
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEee-0001L4-FW
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:18:18 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEfg-0001b3-5q
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571829493;
+ s=mimecast20190719; t=1571829559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2ftW1HDTjgHchxI1sBiXxqXZ8nyuXShsgsD7QjOpNC8=;
- b=MNuHubwPiSnbc9mGKnLnYgsHIq+a6cg2Q72/5+daJK2m5LNCq4hS1ILs9VsimH2JabB6Rs
- T+6WsIhS6Xuq0ar8R5+xB01hgb0OHUU7O3PlB8bngOnv1+oeHud68sax/atqxDTSri4svr
- 9peUCsLEGVf3e7aARdnXL7RytdhIKDk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-aJ0nrJWMP3yIUenkvceeaA-1; Wed, 23 Oct 2019 07:18:09 -0400
-Received: by mail-wm1-f72.google.com with SMTP id v26so5372253wmh.2
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:18:09 -0700 (PDT)
+ bh=2Jts3e9l2ylTadIAJh1BkTXV8OTL4o3m8xGmEG2sLsg=;
+ b=i/171ktTLGrD69tBBhQvL9vJVFDiWTqisDAwByC2wxl/cEIU6Ma6mTG95+Amkp3tqbrfFA
+ yXHc4PCGYH/fAJI3GT8FcW0LBFEjtIUOknM+Xwmi9djfmS97bvsVCo6kujcLsH1//Tmdd3
+ h7zsm+huSe0iX+GeoFZnyYkZORLCP94=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-QAc8rRGXM_2sSTxbWXizWQ-1; Wed, 23 Oct 2019 07:19:17 -0400
+Received: by mail-wm1-f71.google.com with SMTP id k9so8659060wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:19:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fYU8LVB63QJbgTUtlnIadcPQToPg+TsuOTP1E19G/ws=;
- b=Mc+B6MT3cuD28KXRdcY1IpeMsyDvCILRXbdmh7DVqS0sCW37ABVHPQZ/MS/3+uP1iQ
- gmxVLblBLiAK0f6IyaKNZ8JvtbFwbK6sol2fs8Lr+vhHy9Lm4RKe3TmXcWn9YWsONT5y
- Tkj4WsZ9sk+oj5L65eVZBvy3lfH7axFg19KYZSbvqK1JKgBnGJzd2IjZ5p/bcCrrrHW1
- 2+pOTnVs7L1L/JRbuKw2uuZBJPGmPuXJHXxKQ96y79xpjxZfpMrvRJ89w9/ncS6j4TT7
- jPGnIFNUhI+rLC+57Jp1q8R5+WYBRDs9IYGkOB7c3OutgDlDNfCnbK5b602eYJBXDP5F
- sGfw==
-X-Gm-Message-State: APjAAAWwMEVSavU2CXu+tb++nxSCwL9YiWyYsRobPyalVt/lpseeK7zR
- R2PzhCm9s6IQ18i5rWWPtnVOaw01Xl3XKPCPdW98j7DP2hQ/4aS6xFHpXSDn6lCU9QsUH8e8dQO
- KZMG+PjcBbihKJ3s=
-X-Received: by 2002:a1c:3b42:: with SMTP id i63mr6904474wma.37.1571829488708; 
- Wed, 23 Oct 2019 04:18:08 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw9jCaWrV9vzDWK8DtN97xeIpT2CjTNvJhPxS2eBwZGbHkaVR2TqKiGcIUq/Mn82BIBzLR0Qg==
-X-Received: by 2002:a1c:3b42:: with SMTP id i63mr6904457wma.37.1571829488462; 
- Wed, 23 Oct 2019 04:18:08 -0700 (PDT)
+ bh=GbMPl5h6OvyoA03HzLo1GmohD/3Urvdfg+1Kb3wnqP8=;
+ b=lQkmwL4Qjlef/j7J4ABna99GoRq5+tH6++rF7d35mj7Ne/mwAOM0+yPFP0qg2R15di
+ x3cJ32myElLWU+KyfQeWZEPUslKe8cUUvPGBWZn4uFdkVCpcvbh7dbqy2Yq6x103Ac3m
+ zxZqkKtiwXH+bU7T8z9cvoMsGyCSiuVIzDY/VJDpq/CXhipuLEHA/tpSwIYMDRJMESiS
+ nIzU1sEMZlGP5KokpGmxPuJR/0KUe0K/4gxUc11v4A30MJTfzkyBnUehxzR/JNXD/aSe
+ 204L/jrt6O5PRv+EZn2AnAdhxOdJXiOhiAO64a9YJAGpGfk2PDlqBozJVcaxgnaKmF26
+ VclQ==
+X-Gm-Message-State: APjAAAVBnPo5gUE9eEBKlFfwC4WZN2pmDGnNYZsARyEYGE5VDW8WweYE
+ AGzZwsSmtyd5P6NfQK1gbmwb1klUpTB7K9AsHi2d9SJBe4jXQXcvjBL9+Cuit4q4BoVUnINo9hN
+ 66Z6iFBOfy7/+lqc=
+X-Received: by 2002:a5d:628e:: with SMTP id k14mr7861702wru.60.1571829556431; 
+ Wed, 23 Oct 2019 04:19:16 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzc37GrnPGjCWfKzzzrAthzS3ZBnsCrgZSMwjjsWesF8GkRpW836WW0VdMbTQNO9BxCiRqWxg==
+X-Received: by 2002:a5d:628e:: with SMTP id k14mr7861688wru.60.1571829556228; 
+ Wed, 23 Oct 2019 04:19:16 -0700 (PDT)
 Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id u7sm15390368wre.59.2019.10.23.04.18.07
+ by smtp.gmail.com with ESMTPSA id r1sm15711961wrw.60.2019.10.23.04.19.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 04:18:07 -0700 (PDT)
-Subject: Re: [PATCH v5 3/7] ppc/pnv: Introduce a PnvCore reset handler
+ Wed, 23 Oct 2019 04:19:15 -0700 (PDT)
+Subject: Re: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 References: <20191022163812.330-1-clg@kaod.org>
- <20191022163812.330-4-clg@kaod.org>
+ <20191022163812.330-5-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <21ea9a84-0a26-0ff7-c2a3-458c2c9016a1@redhat.com>
-Date: Wed, 23 Oct 2019 13:18:06 +0200
+Message-ID: <b4c6e217-05e4-a87d-7e5e-116b0259808b@redhat.com>
+Date: Wed, 23 Oct 2019 13:19:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191022163812.330-4-clg@kaod.org>
+In-Reply-To: <20191022163812.330-5-clg@kaod.org>
 Content-Language: en-US
-X-MC-Unique: aJ0nrJWMP3yIUenkvceeaA-1
+X-MC-Unique: QAc8rRGXM_2sSTxbWXizWQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -96,96 +96,63 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi C=C3=A9dric,
-
 On 10/22/19 6:38 PM, C=C3=A9dric Le Goater wrote:
-> in which individual CPUs are reset. It will ease the introduction of
-> future change reseting the interrupt presenter from the CPU reset
+> We will use it to reset the interrupt presenter from the CPU reset
 > handler.
 >=20
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > Reviewed-by: Greg Kurz <groug@kaod.org>
 > ---
->   hw/ppc/pnv_core.c | 19 +++++++++++++++----
->   1 file changed, 15 insertions(+), 4 deletions(-)
+>   include/hw/ppc/pnv_core.h | 3 +++
+>   hw/ppc/pnv_core.c         | 3 ++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
 >=20
+> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+> index bfbd2ec42aa6..55eee95104da 100644
+> --- a/include/hw/ppc/pnv_core.h
+> +++ b/include/hw/ppc/pnv_core.h
+> @@ -31,6 +31,8 @@
+>   #define PNV_CORE_GET_CLASS(obj) \
+>        OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
+>  =20
+> +typedef struct PnvChip PnvChip;
+> +
+>   typedef struct PnvCore {
+>       /*< private >*/
+>       CPUCore parent_obj;
+> @@ -38,6 +40,7 @@ typedef struct PnvCore {
+>       /*< public >*/
+>       PowerPCCPU **threads;
+>       uint32_t pir;
+> +    PnvChip *chip;
+>  =20
+>       MemoryRegion xscom_regs;
+>   } PnvCore;
 > diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index b1a7489e7abf..9f981a4940e6 100644
+> index 9f981a4940e6..cc17bbfed829 100644
 > --- a/hw/ppc/pnv_core.c
 > +++ b/hw/ppc/pnv_core.c
-> @@ -40,9 +40,8 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
->       return cpu_type;
->   }
->  =20
-> -static void pnv_cpu_reset(void *opaque)
-> +static void pnv_core_cpu_reset(PowerPCCPU *cpu)
->   {
-> -    PowerPCCPU *cpu =3D opaque;
->       CPUState *cs =3D CPU(cpu);
->       CPUPPCState *env =3D &cpu->env;
->  =20
-> @@ -192,8 +191,17 @@ static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChi=
-p *chip, Error **errp)
->  =20
->       /* Set time-base frequency to 512 MHz */
->       cpu_ppc_tb_init(env, PNV_TIMEBASE_FREQ);
-> +}
-> +
-> +static void pnv_core_reset(void *dev)
-
-Here the opaque pointer is a 'PnvCore *pc'.
-If you don't want to call it 'opaque', maybe 'pc' is better.
-
-> +{
-> +    CPUCore *cc =3D CPU_CORE(dev);
-> +    PnvCore *pc =3D PNV_CORE(dev);
-
-This type conversion is not necessary.
-
-What about:
-
-    static void pnv_core_reset(void *opaque)
-    {
-        PnvCore *pc =3D opaque;
-        CPUCore *cc =3D CPU_CORE(pc);
-
-> +    int i;
->  =20
-> -    qemu_register_reset(pnv_cpu_reset, cpu);
-> +    for (i =3D 0; i < cc->nr_threads; i++) {
-> +        pnv_core_cpu_reset(pc->threads[i]);
-> +    }
->   }
->  =20
->   static void pnv_core_realize(DeviceState *dev, Error **errp)
-> @@ -244,6 +252,8 @@ static void pnv_core_realize(DeviceState *dev, Error =
+> @@ -222,6 +222,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
 **errp)
->       snprintf(name, sizeof(name), "xscom-core.%d", cc->core_id);
->       pnv_xscom_region_init(&pc->xscom_regs, OBJECT(dev), pcc->xscom_ops,
->                             pc, name, PNV_XSCOM_EX_SIZE);
-> +
-> +    qemu_register_reset(pnv_core_reset, pc);
->       return;
->  =20
->   err:
-> @@ -259,7 +269,6 @@ static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
->   {
->       PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
->  =20
-> -    qemu_unregister_reset(pnv_cpu_reset, cpu);
->       object_unparent(OBJECT(pnv_cpu_state(cpu)->intc));
->       cpu_remove_sync(CPU(cpu));
->       cpu->machine_data =3D NULL;
-> @@ -273,6 +282,8 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
->       CPUCore *cc =3D CPU_CORE(dev);
->       int i;
->  =20
-> +    qemu_unregister_reset(pnv_core_reset, pc);
-> +
->       for (i =3D 0; i < cc->nr_threads; i++) {
->           pnv_unrealize_vcpu(pc->threads[i]);
+>                                   "required link 'chip' not found: ");
+>           return;
 >       }
+> +    pc->chip =3D PNV_CHIP(chip);
+>  =20
+>       pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
+>       for (i =3D 0; i < cc->nr_threads; i++) {
+> @@ -243,7 +244,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+>       }
+>  =20
+>       for (j =3D 0; j < cc->nr_threads; j++) {
+> -        pnv_realize_vcpu(pc->threads[j], PNV_CHIP(chip), &local_err);
+> +        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
+>           if (local_err) {
+>               goto err;
+>           }
 >=20
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
