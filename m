@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61575E1865
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:57:30 +0200 (CEST)
-Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02173E187A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:04:15 +0200 (CEST)
+Received: from localhost ([::1]:60390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNEKX-0006tS-9K
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46189)
+	id 1iNER3-0002Tw-Tn
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEFG-0003LC-Hn
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:52:03 -0400
+ (envelope-from <thuth@redhat.com>) id 1iNDks-0005jG-MM
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:20:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEFE-0008EH-OT
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:52:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50266)
+ (envelope-from <thuth@redhat.com>) id 1iNDkr-0001E1-LH
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:20:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21709
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEFE-0008Dj-Go
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:52:00 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iNDkq-000184-SI
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:20:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571826025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OquOmkEfZF5p6tudPamBAGc+vmIYN15LADIIIuBk+Co=;
+ b=T7ivHhEzt2MzTXMyLIaaxQnQgRGZIz1FAgWknvgS4g4Hk6aFHw5grOtxtDa2kJUZ46c8Qi
+ Eu7CltoMJI5tGpm3UjxfrWSxt04IeoHVPot0upE558AT6M0FCEMNzNSD+gk8j1n6DMqYoP
+ /IiL7s6kEtuMEFZkzlhufzxLf1IwVOc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-sd6wuK3APz-zqobgdpb-tw-1; Wed, 23 Oct 2019 06:20:21 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 09D4F5AFDE
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:51:59 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id i10so2588425wrp.7
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 03:51:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WMc7qHfCxariqvJyjPA71V487velwX0/vWxbT+R95lA=;
- b=PkhfXVUO8FGNtQK/vaWSx+Q9Hg8NICstP50UI5AV+sf9JYoRKUz/RjXWfNdaZopmis
- ztZV3HmlI1Ah31rM1lEEC1CeS/nwCtFY0KVctRvEiTrl4dXlBGt1VW/Rq2/VXb6iGatD
- bbB1waNdJiZ4OcasBjj7Wqn0TCLuYehK5+1R7mDrYpGP6ZppWbBVUWKLPpbgcAExC+w8
- UfzEbwcCggGia6QC+aNJEDfu+eYysayYLsx7B86qThhk9o/uDecpQG/FlwqrRPVFj3bQ
- 7woiVkUwXMajlAGiMmfmG0LqwUoSr3+dJB+ulXYV7msmJLRXYFojc+qOBpw9fM/aSNu8
- VObg==
-X-Gm-Message-State: APjAAAWEC9Mg4CAnaQVNkuil0ZrFM6IFu+KLRrT0iTe4H0J8XcEa+bia
- VsNImbGSHRzTOY/+fBDIttgPDpHj4e0ZQZz/5tgrdI780BdXvqnwNAEdduXu+o4TOLFCSrvOPfu
- T7WV8bz2xRPAk3l4=
-X-Received: by 2002:a1c:44b:: with SMTP id 72mr7002776wme.72.1571827917312;
- Wed, 23 Oct 2019 03:51:57 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzfd+HEGZ6gV4BA2yuY6kJFvPkl1mVg41nV/NVNVRijQ9dT7FkK9plnAUy5bmfgL1lqXU/mZw==
-X-Received: by 2002:a1c:44b:: with SMTP id 72mr7002755wme.72.1571827917044;
- Wed, 23 Oct 2019 03:51:57 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id o4sm33462452wre.91.2019.10.23.03.51.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 03:51:56 -0700 (PDT)
-Subject: Re: [PATCH] audio: fix missing break
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20191023082431.30780-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <540cedf0-a8ec-36ea-14cd-080125f63386@redhat.com>
-Date: Wed, 23 Oct 2019 12:51:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5C04107AD31;
+ Wed, 23 Oct 2019 10:20:20 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98F3060C57;
+ Wed, 23 Oct 2019 10:20:20 +0000 (UTC)
+Received: from zmail25.collab.prod.int.phx2.redhat.com
+ (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 83C5C4EE50;
+ Wed, 23 Oct 2019 10:20:20 +0000 (UTC)
+Date: Wed, 23 Oct 2019 06:20:20 -0400 (EDT)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <653174242.8144394.1571826020499.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20191023100425.12168-7-stefanha@redhat.com>
+References: <20191023100425.12168-1-stefanha@redhat.com>
+ <20191023100425.12168-7-stefanha@redhat.com>
+Subject: Re: [PATCH v4 06/16] libqos: add missing virtio-9p feature negotiation
 MIME-Version: 1.0
-In-Reply-To: <20191023082431.30780-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Originating-IP: [149.14.88.107, 10.4.196.23, 10.5.100.50, 10.4.195.12]
+Thread-Topic: libqos: add missing virtio-9p feature negotiation
+Thread-Index: jj5HLj1cpVr3Yy1BdGgTdhsTltAWgA==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: sd6wuK3APz-zqobgdpb-tw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,36 +79,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, slp@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 10:24 AM, Paolo Bonzini wrote:
-> Reported by Coverity (CID 1406449).
-
-Gerd sent the same patch earlier:
-https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg05923.html
-
-But your description is better.
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+----- Original Message -----
+> From: "Stefan Hajnoczi" <stefanha@redhat.com>
+> Sent: Wednesday, October 23, 2019 12:04:15 PM
 >=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> VIRTIO Device Initialization requires feature negotiation.  The libqos
+> virtio-9p driver lacks feature negotiation and is therefore
+> non-compliant.
+>=20
+> libqos tests acknowledge all feature bits advertised by the device,
+> except VIRTIO_F_BAD_FEATURE (which devices use to detect broken
+> drivers!) and VIRTIO_RING_F_EVENT_IDX (which is not implemented in
+> libqos and accepting it would break notifications).
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   audio/paaudio.c | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/audio/paaudio.c b/audio/paaudio.c
-> index df541a72d3..55a91f8980 100644
-> --- a/audio/paaudio.c
-> +++ b/audio/paaudio.c
-> @@ -385,6 +385,7 @@ static pa_stream *qpa_simple_new (
->           map.map[5] =3D PA_CHANNEL_POSITION_REAR_RIGHT;
->           map.map[6] =3D PA_CHANNEL_POSITION_SIDE_LEFT;
->           map.map[7] =3D PA_CHANNEL_POSITION_SIDE_RIGHT;
-> +        break;
->  =20
->       default:
->           dolog("Internal error: unsupported channel count %d\n", ss->c=
-hannels);
->=20
+>  tests/libqos/virtio-9p.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+
+Reviewed-by: Thomas Huth" <thuth@redhat.com>
+
 
