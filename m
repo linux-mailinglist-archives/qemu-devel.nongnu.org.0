@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583B6E195B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:51:51 +0200 (CEST)
-Received: from localhost ([::1]:33028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B68E197E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:59:24 +0200 (CEST)
+Received: from localhost ([::1]:33354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFB7-0005lz-RI
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54800)
+	id 1iNFIR-0005tZ-RP
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iNEtB-00086G-SL
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:33:18 -0400
+ (envelope-from <bounces@canonical.com>) id 1iNF6E-0003K1-2z
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:46:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iNEtA-0003oQ-Ls
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:33:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21803
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iNEtA-0003oK-Hr
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:33:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571830396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5eU5g1UeZOxkZuc38LGAeFmPpsDbBPjfhepyp9TW5HI=;
- b=UPUhVhzsg+44moRRJWsQj+F47XrR+iWMX6zQFbgATYgPg9InHY+KQr9UlUfL+GpaIy0evA
- WSJie9WesxJMddluA0aX6SRkiHoo7nWiQ0d6Mw528t9hbHTQXeAU3IFPrS9led2KuDOve+
- GmUbtTMjhYDJnwRV+gm6tgdBrv15rfw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-7EGQ1fTJNBC_Lle9iKDNiQ-1; Wed, 23 Oct 2019 07:33:11 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6A401800D6B;
- Wed, 23 Oct 2019 11:33:09 +0000 (UTC)
-Received: from [10.3.117.0] (ovpn-117-0.phx2.redhat.com [10.3.117.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A84219C70;
- Wed, 23 Oct 2019 11:33:07 +0000 (UTC)
-Subject: Re: [PATCH v10 3/3] iotests: test nbd reconnect
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191009084158.15614-1-vsementsov@virtuozzo.com>
- <20191009084158.15614-4-vsementsov@virtuozzo.com>
- <0c87e5cd-cddf-b91a-3cca-fa3af9799d2b@redhat.com>
- <45ff7437-6b8a-c430-5a19-06ccd9742f5e@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6d0245f0-7d31-fe32-48ad-3964d18eda20@redhat.com>
-Date: Wed, 23 Oct 2019 06:33:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iNF6C-00018c-3P
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:46:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47678)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iNF67-00015o-Ne
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:46:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iNF62-0004EY-5q
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:46:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 13FD82E8082
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:46:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <45ff7437-6b8a-c430-5a19-06ccd9742f5e@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 7EGQ1fTJNBC_Lle9iKDNiQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 23 Oct 2019 11:33:31 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1192464@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bk-rakesh hramrach philmd th-huth
+X-Launchpad-Bug-Reporter: bk.rakesh (bk-rakesh)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <20130619071409.29504.88410.malonedeb@wampee.canonical.com>
+Message-Id: <157183041188.19842.3559963641338667344.malone@gac.canonical.com>
+Subject: [Bug 1192464] Re: udp checksum computed as 0 not converted to 0xffff, 
+ from guest os that share a common linux bridge among multiple guest os
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 56924e80647bf8edafec4e27ee216df2ce12d4fe
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,77 +68,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Reply-To: Bug 1192464 <1192464@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 3:33 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 23.10.2019 4:31, Eric Blake wrote:
->> On 10/9/19 3:41 AM, Vladimir Sementsov-Ogievskiy wrote:
->>> Add test, which starts backup to nbd target and restarts nbd server
->>> during backup.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
+Fixed:
 
->>> +vm.qmp_log('blockdev-backup', device=3D'drive0', sync=3D'full', target=
-=3D'backup0',
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 speed=3D(=
-1 * 1024 * 1024))
->>
->> This starts the job throttled, to give us time...
->>
->>> +
->>> +# Wait for some progress
->>> +t =3D 0
->>> +while t < wait_limit:
->>> +=C2=A0=C2=A0=C2=A0 jobs =3D vm.qmp('query-block-jobs')['return']
->>> +=C2=A0=C2=A0=C2=A0 if jobs and jobs[0]['offset'] > 0:
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break
->>> +=C2=A0=C2=A0=C2=A0 time.sleep(wait_step)
->>> +=C2=A0=C2=A0=C2=A0 t +=3D wait_step
->>> +
->>> +if jobs and jobs[0]['offset'] > 0:
->>> +=C2=A0=C2=A0=C2=A0 log('Backup job is started')
->>> +
->>> +log('Kill NBD server')
->>> +srv.kill()
->>> +srv.wait()
->>> +
->>> +jobs =3D vm.qmp('query-block-jobs')['return']
->>> +if jobs and jobs[0]['offset'] < jobs[0]['len']:
->>> +=C2=A0=C2=A0=C2=A0 log('Backup job is still in progress')
->>> +
->>> +vm.qmp_log('block-job-set-speed', device=3D'drive0', speed=3D0)
+commit 0dacea92d26c31d453c58de2e99c178fee554166
+Author: Ed Swierk <eswierk@skyportsystems.com>
+Date:   Thu Nov 16 06:06:06 2017 -0800
 
-Ah, I overlooked this line in my late-night review.
+    net: Transmit zero UDP checksum as 0xFFFF
+    =
 
->>> +
->>> +# Emulate server down time for 1 second
->>> +time.sleep(1)
->>
->> ...but once we restart,...
->>
->>> +
->>> +log('Start NBD server')
->>> +srv =3D qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
->>> +
->>> +e =3D vm.event_wait('BLOCK_JOB_COMPLETED')
->>
->> ...should we unthrottle the job to allow the test to complete slightly f=
-aster after the reconnect?=C2=A0 But that can be done as an improvement on =
-top, if it helps.
->=20
-> It is done above, before time.sleep(1)
+    The checksum algorithm used by IPv4, TCP and UDP allows a zero value
+    to be represented by either 0x0000 and 0xFFFF. But per RFC 768, a zero
+    UDP checksum must be transmitted as 0xFFFF because 0x0000 is a special
+    value meaning no checksum.
+    =
 
-Yep, so I feel better now.
+    Substitute 0xFFFF whenever a checksum is computed as zero when
+    modifying a UDP datagram header. Doing this on IPv4 and TCP checksums
+    is unnecessary but legal. Add a wrapper for net_checksum_finish() that
+    makes the substitution.
+    =
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+    (We can't just change net_checksum_finish(), as that function is also
+    used by receivers to verify checksums, and in that case the expected
+    value is always 0x0000.)
+    =
 
+    Signed-off-by: Ed Swierk <eswierk@skyportsystems.com>
+    Signed-off-by: Jason Wang <jasowang@redhat.com>
+
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1192464
+
+Title:
+  udp checksum computed as 0 not converted to 0xffff, from guest os that
+  share a common linux bridge among multiple guest os
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  UDP checksum computed as '0' during transmission of packets that uses
+  e1000 NIC in the Guest as well as emulated h/w in the qemu layer, That
+  needs to be converted to 0xffff, This occurs only when Hardware
+  checksum offload is been set in the guest OS NIC and made it as a
+  transmitter. The guest O.S use the N/W interface that is been shared
+  to the linux brige created in the host (used source=3D<bridge>) in the
+  xml tags of libvirt.
+
+  As per RFC768(http://tools.ietf.org/html/rfc768 [^]), If the computed
+  checksum is zero, it is transmitted as all ones (the equivalent in
+  one's complement arithmetic). An all zero transmitted checksum value
+  means that the transmitter generated no checksum (for debugging or for
+  higher level protocols that don't care).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1192464/+subscriptions
 
