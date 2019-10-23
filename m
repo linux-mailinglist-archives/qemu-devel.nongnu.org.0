@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC9DE2584
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 23:40:25 +0200 (CEST)
-Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97424E23F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:07:00 +0200 (CEST)
+Received: from localhost ([::1]:46478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNOMi-0004d0-BQ
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 17:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51499)
+	id 1iNMuH-0002or-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <keithp@keithp.com>) id 1iNM6s-0006Qw-S6
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:15:55 -0400
+ (envelope-from <groug@kaod.org>) id 1iNM8p-00084w-Ho
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:17:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <keithp@keithp.com>) id 1iNM6r-0001Go-QP
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:15:54 -0400
-Received: from home.keithp.com ([63.227.221.253]:51588 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <keithp@keithp.com>)
- id 1iNM6p-0001Ek-CW; Wed, 23 Oct 2019 15:15:51 -0400
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id B1FE03F23ED3;
- Wed, 23 Oct 2019 12:15:47 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id VKIcKvzv9SZ9; Wed, 23 Oct 2019 12:15:47 -0700 (PDT)
-Received: from keithp.com (keithp-172.keithp.com [10.0.0.172])
- by elaine.keithp.com (Postfix) with ESMTPSA id 7655C3F23EB1;
- Wed, 23 Oct 2019 12:15:47 -0700 (PDT)
-Received: by keithp.com (Postfix, from userid 1000)
- id CD50E1582118; Wed, 23 Oct 2019 12:15:46 -0700 (PDT)
-From: "Keith Packard" <keithp@keithp.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] Semihost SYS_READC implementation
-In-Reply-To: <5e8913f8-558d-6a2e-c7d0-787ec533e4a9@redhat.com>
-References: <20191022031335.9880-1-keithp@keithp.com>
- <d7470bfa-ba4e-3287-326f-ee63c5d76407@redhat.com> <87sgnk3b0k.fsf@keithp.com>
- <5e8913f8-558d-6a2e-c7d0-787ec533e4a9@redhat.com>
-Date: Wed, 23 Oct 2019 12:15:46 -0700
-Message-ID: <87eez31del.fsf@keithp.com>
+ (envelope-from <groug@kaod.org>) id 1iNM8m-0002Jy-GT
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:17:54 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16676
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNM8k-0002JG-Qm
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:17:52 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9NJHeRB029463
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 15:17:46 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vtvtj059w-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 15:17:45 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Wed, 23 Oct 2019 20:17:43 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 23 Oct 2019 20:17:41 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9NJHem550790404
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Oct 2019 19:17:41 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA09CA4060;
+ Wed, 23 Oct 2019 19:17:40 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B1322A4054;
+ Wed, 23 Oct 2019 19:17:40 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.36.67])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 23 Oct 2019 19:17:40 +0000 (GMT)
+Subject: [PATCH] spapr: Don't request to unplug the same core twice
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 23 Oct 2019 21:17:40 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 63.227.221.253
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19102319-0012-0000-0000-0000035C4E2B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19102319-0013-0000-0000-000021977DE0
+Message-Id: <157185826035.3073024.1664101000438499392.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-23_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910230177
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,56 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+We must not call spapr_drc_detach() on a detached DRC otherwise bad things
+can happen, ie. QEMU hangs or crashes. This is easily demonstrated with
+a CPU hotplug/unplug loop using QMP.
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/ppc/spapr.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> Please take a look at include/qemu/fifo8.h instead of rolling your own
-> ring buffer.  Note that it is not thread-safe so you'll have to keep
-> that part.
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index f9410d390a07..94f9d27096af 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3741,9 +3741,10 @@ void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
+                           spapr_vcpu_id(spapr, cc->core_id));
+     g_assert(drc);
+ 
+-    spapr_drc_detach(drc);
+-
+-    spapr_hotplug_req_remove_by_index(drc);
++    if (!spapr_drc_unplug_requested(drc)) {
++        spapr_drc_detach(drc);
++        spapr_hotplug_req_remove_by_index(drc);
++    }
+ }
+ 
+ int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
 
-Sorry for not looking around sooner, and thanks for the pointer.
-I've also cleaned up the other issues.
-
-> Kudos for the unlock/lock_iothread; I am not really familiar with the
-> semihosting code and I would have naively assumed that it runs without
-> that lock taken.
-
-I discovered by testing that the semihosting functions were entered with
-the lock taken :-)
-
-I'll post an updated version of this patch to the list shortly. Thanks
-again for your review; I really appreciate the time you've taken to look
-at my patch.
-
-=2D-=20
-=2Dkeith
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl2wpuIACgkQ2yIaaQAA
-ABHAOQ//V73ZQhAgWfci8AUC0QDOrOsGQ/ysuGomZ6O56MKNsYUmXrVYzD+eXxRc
-Uh8bYM68rPn4JCeDwVJiBKKkGrhN138cieEb2if/cZ0hn71xZc9wiGn0bu33pU9e
-d7rY3SWqBwUI3Km24o3qwNBD36mAmeiZHm1Htmv8hg8dBsH+kkBvVUGr/SkxcXhL
-/yEKaqsqYIG3+sCetyXlv4iOmdxZjc0ljELhhPfrrM+7z7Czb+jK+syBj7u2SdqY
-R04VyvmMjWEfm7xD5ON4A+sWT7GIXKzwSe88zJ8AO3w/0LFTR+m5ZinKeSOIgsdA
-MBIKXT3sJkRy8F4kPI3kzsET6pwU5GhrUF2hMJ9Zlt6LWYl3gm77etw53Q6fZrsc
-ZsLLckRHoQ7Ocot7pulXyFQMfDmY+NkolngPR7rPUkN/RsM1v0lHeAAvJBAxWR5k
-lrr59wbn8dfE0/SoQHihhISu3oSTOTOHi3jP5LK3ekg83Pa/V2U20wNYW514qs2b
-JcQYiW+l047MIGOO8qKRnmrApSD8xnq6ZWk6cA6rVsh3BmTjW9u5RMk4tQH9ouCc
-OBUb3tVeUD2C4I4CU+a8CMSv1fIbisUg0batn3nnCpZG3jeIGX/ctIdqhnZZNd/a
-ZbbiSSiWa5u6QJnUGOInZWRfPJVUcQ2Z+FyOEUWhkU8rgnYOjIw=
-=Gk4J
------END PGP SIGNATURE-----
---=-=-=--
 
