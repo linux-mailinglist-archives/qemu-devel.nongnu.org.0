@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4FBE2117
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:54:23 +0200 (CEST)
-Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F606E20C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:38:35 +0200 (CEST)
+Received: from localhost ([::1]:41330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNJtt-0008Py-Pn
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1iNJeb-0005Xf-8J
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:38:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNIp3-0004iF-16
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNJGD-0007F5-0w
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:13:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNIp1-0005Ws-Nx
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:16 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:34108)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNJGB-0005oZ-Ml
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:13:20 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:41700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNIp0-0005Pr-W2
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:15 -0400
-Received: by mail-qt1-x833.google.com with SMTP id e14so13184339qto.1
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:45:12 -0700 (PDT)
+ id 1iNJGB-0005oK-I8
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:13:19 -0400
+Received: by mail-qt1-x844.google.com with SMTP id c17so30084401qtn.8
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 09:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/AKbLHXTnM8m/9emDbjfL8Myv0gqqIqdV5s6THzE+7U=;
- b=C9frGU0AzZ7BnyrHTHH9SfZnuJGxFsRol9ai81q7DPmj+TZAlXLm2UZJm1RyH591z4
- uGtpGcZmP3LxSQZk4vwhzXR2j3m14aMX9C4R7o6pFultK4PKS1mFHKpThXsaobnmb7kb
- fYBS4sU9N+CPR45APZke8b9i+cfu3Ox4akvLQlzMfbVk/qcp5+wqdK3y1gCh4VQ0ax3c
- jvf5pUy/0suRMmJqADyg7MYg5hHKroeOp33XJocDZ8eSNz0kFUbHPWppmeHtjV4VYpxd
- 5keHgySgfUuS0Xc/RL45RzxkxoHC8LQohSYw2thj96dFav8KvCPv2PtkbGJqsXN4ivAp
- uLxQ==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nrvAJTS/jezBLWvO+M8F8gQv267wMLuwRBhFnSGEFeM=;
+ b=H6kM1rbhivP4l30+902GgNfOQQV06aLx3rfEcQUrn8aEcH0hmVUgMEPS8e9V+pipyg
+ j/3aAddl/1EyoYMEJNfSBwXbuLgPI131z2nFXc8lolP4gHEFKNynJsJCg723iAi+GKPX
+ o+3s5fT9PrJ+hyD6sS5ODt2IFxARWkaqluWGZniURp3tBMhY+HzuxrioSX6BpaOxrWn3
+ T1JDHv26QH0FQg2tGnYvJVP/SEGDYQMC4dOkISUjDRZqy+/0FdiCWvyZzr3h3VcngkZo
+ 3kXu5Jq299aUm94grA6mcO/REahpsNudQKhKTdRkE/ThW9LlN1h2PlFqa9jpd2lgWFrk
+ NuZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=/AKbLHXTnM8m/9emDbjfL8Myv0gqqIqdV5s6THzE+7U=;
- b=OlUbLE5fshO9Xpy8qf6kQQ7N6VEYBxFMzSY4h1vrNoQEsl3Tkyj9zBlrQzZSRT/Fa0
- tpYx0ZSsRbUohfj0/juwxGeCqIx8bvxFTTUhg/iSyFsbmg944sLyHm/hN2WbWIPdpNLq
- /VwUNIB/iMBHOEPWjmhkIPBaj4GGbu3N33zgpUslx68GUJKGP5x035WE6VVOSdHkmc91
- FilnK4t86HPTtx+u0TkJxWucxECGW48ECVHi1rMbgyue7rV36qKx20lPFD6PGMXCZsIh
- YVT9sE3o4kSsAcamkVSmxjUiZmpED3DH0pQRLcj0uXzyXEPUKWOE5W+wt+NYkdJkz07+
- M7vA==
-X-Gm-Message-State: APjAAAW9xyRjoSWnrBYqRZuZBCHWNlN61APpL34rsQ1K4YEYmVH9ps1l
- ECeQKiLxjIVr9/xFoCdSwmHf7ZG0QrY=
-X-Google-Smtp-Source: APXvYqyVks026fWC02gOchDmwaZKGKv5LNjSigxBXb9gMxFgvtwYNxLXjuq1jTL0I5PdtBZgEXRopQ==
-X-Received: by 2002:aed:3225:: with SMTP id y34mr9955341qtd.353.1571845511156; 
- Wed, 23 Oct 2019 08:45:11 -0700 (PDT)
-Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nrvAJTS/jezBLWvO+M8F8gQv267wMLuwRBhFnSGEFeM=;
+ b=JziwqvdGNS6Q4fhPY039VaFxyHI+LAon/3eGW9JSlxOdbdDzXn8OkdoAggKIE+Mkit
+ rU+fEUoghXUNT0EHLvtkqm+bRP5uW/83L1GhnQAXcU6g94rsT25uu2MifxLOMI4QIU6d
+ sq2kJw+tkGqv4EmyTd0eLa8Heb3kvtZtE0F7ZFwYiUR2SLAfLTizWx65SPq7WjLID0yI
+ 4U/zKst8+qwxp3+eTwkz2ywjIHGGjjkyoX9K2krhQcX6HWJLVhxHn1FseJQfItD84hDX
+ e/CXzi511nnmaLF2wZ2GTy6YHXpiAXlaVYKuk/w9E3KPVhRScdVN16VU7ZeWNL7IyFbD
+ iIGA==
+X-Gm-Message-State: APjAAAXT/CReONS4cSpnIKAY5yx56otbrlohQx5zNbjnYPKTdXqgQJxW
+ jbB1oxBdLvmBQiNdPKRbW7lHBLlevJA=
+X-Google-Smtp-Source: APXvYqy394SF9xkkWaG3lftyOqPnhFJh4yEDe9NZamGJd+2yUihx/Yt7DUAVisMG1ApRAR7mLgjMwA==
+X-Received: by 2002:ac8:1408:: with SMTP id k8mr9854763qtj.327.1571847198500; 
+ Wed, 23 Oct 2019 09:13:18 -0700 (PDT)
+Received: from [172.20.87.163] (rrcs-172-254-253-50.nyc.biz.rr.com.
  [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id o1sm2456272qtb.82.2019.10.23.08.45.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 08:45:10 -0700 (PDT)
+ by smtp.gmail.com with ESMTPSA id c126sm12954799qkd.13.2019.10.23.09.13.17
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 23 Oct 2019 09:13:17 -0700 (PDT)
+Subject: Re: [PATCH v8 00/22] target/arm: Reduce overhead of
+ cpu_get_tb_cpu_state
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org
+References: <20191018174431.1784-1-richard.henderson@linaro.org>
+ <CAFEAcA-MyKoA63UF6DYQ6J-dKihYn9iyG09eFCgWT8j4OqsQnw@mail.gmail.com>
+ <CAFEAcA-Xj-6CdVzgfcVONipApD5b5PZ84nPnvbbOQjQkqQLnqA@mail.gmail.com>
+ <6e06dede-2470-92e1-eba9-40646ed56af0@linaro.org> <87zhhrmqyh.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/7] configure: Detect compiler support for
- __attribute__((alias))
-Date: Wed, 23 Oct 2019 11:45:01 -0400
-Message-Id: <20191023154505.30521-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191023154505.30521-1-richard.henderson@linaro.org>
-References: <20191023154505.30521-1-richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <3e366a5d-0de6-ff1d-7a0c-a40ef8a2bf98@linaro.org>
+Date: Wed, 23 Oct 2019 12:13:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <87zhhrmqyh.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::833
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,57 +87,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Such support is present almost everywhere, except for Xcode 9.
-It is added in Xcode 10, but travis uses xcode9 by default,
-so we should support it for a while yet.
+On 10/23/19 11:17 AM, Alex Bennée wrote:
+>>> Dropping this series again for the moment.
+>> Argh!  I had forgotten that we have no testing of armeb in check-tcg.
+> 
+> Does it need it's own toolchain or can it be done with flags?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- configure | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+I think the compiler only needs flags, so we might be able to gin something up
+for {aarch64_eb,armeb}-linux-user from __start.
 
-diff --git a/configure b/configure
-index 145fcabbb3..3a9862fe5e 100755
---- a/configure
-+++ b/configure
-@@ -5518,6 +5518,21 @@ if compile_prog "" "" ; then
-   vector16=yes
- fi
- 
-+########################################
-+# See if __attribute__((alias)) is supported.
-+# This false for Xcode 9, but has been remedied for Xcode 10.
-+# Unfortunately, travis uses Xcode 9 by default.
-+
-+attralias=no
-+cat > $TMPC << EOF
-+int x = 1;
-+extern const int y __attribute__((alias("x")));
-+int main(void) { return 0; }
-+EOF
-+if compile_prog "" "" ; then
-+    attralias=yes
-+fi
-+
- ########################################
- # check if getauxval is available.
- 
-@@ -7083,6 +7098,10 @@ if test "$vector16" = "yes" ; then
-   echo "CONFIG_VECTOR16=y" >> $config_host_mak
- fi
- 
-+if test "$attralias" = "yes" ; then
-+  echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
-+fi
-+
- if test "$getauxval" = "yes" ; then
-   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
- fi
--- 
-2.17.1
 
+r~
 
