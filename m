@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD853E1383
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 09:59:56 +0200 (CEST)
-Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA34E1401
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:22:41 +0200 (CEST)
+Received: from localhost ([::1]:57078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNBYh-00047A-9L
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 03:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44909)
+	id 1iNBui-0007Vf-Ot
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iNBWA-0003W8-6j
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 03:57:19 -0400
+ (envelope-from <bounces@canonical.com>) id 1iNBou-0005OS-1O
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:16:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iNBW7-0002YU-AO
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 03:57:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32920)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iNBW7-0002XC-1X
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 03:57:15 -0400
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 080E1369AC
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 07:57:13 +0000 (UTC)
-Received: by mail-pl1-f200.google.com with SMTP id 62so8443771plb.12
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 00:57:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=nB4NWBURjG9ByWN7k0QFBAQHGM4V5bbnZqEoQkn0PRQ=;
- b=DtCDNwNvIx+FnMtQqWGIwnLPvtUidyhxl8QzDbLmGPQp6kM0Rdv0coPhP+7kGLBMSp
- cJl8kF6Dgar0gOBW36nYxgUAIqr5heywAOzDriWzj6Br7sGfkqMO2Cw/OnLvZtoATAn4
- C1472qJOhiJm6ZVEJ8jF7WYUMfrvdm2D4O2WMw+L9Gb4V/gEku6RDFpPBCNRuPcS80ff
- 9UOrO5AcdKZHdI6E40kAalHQaaF9sJ/etew2q90VRoR9uD7KGgc6WJL6VaMDFdZn0uCx
- 27q8Osy8NSvGBngjgb8uMZCAjqjFxOKV6xs6r9pQzgEMVlpXuJNV5+M/D59tR6e1/aze
- NNKQ==
-X-Gm-Message-State: APjAAAWKMMfh840/vJqa47UwXS0viR1r2tcmSAj2DnKrakwNRdDi7VEd
- VCB2Fwc/NUTJheICkTX95sdqE0nNAq77kcIueFAKagIgkTP1RVM5VrHXUW5cc+PAlnUB+A3mzmg
- iCW2Yvip7LPrub50=
-X-Received: by 2002:a17:902:1:: with SMTP id 1mr7647400pla.338.1571817432511; 
- Wed, 23 Oct 2019 00:57:12 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxeolfTa78QB6KmKhSOwnfbnK2w5UcfS56/ry2pGq8YEVuhwhGgE43oyb4GhmTTLmnwy1TxUQ==
-X-Received: by 2002:a17:902:1:: with SMTP id 1mr7647377pla.338.1571817432216; 
- Wed, 23 Oct 2019 00:57:12 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id q42sm28440466pja.16.2019.10.23.00.57.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 00:57:11 -0700 (PDT)
-Date: Wed, 23 Oct 2019 15:57:01 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 0/4] apic: Fix migration breakage of >255 vcpus
-Message-ID: <20191023075701.GA18443@xz-x1>
-References: <20191016022933.7276-1-peterx@redhat.com>
- <20191016144001.GE4084@habkost.net> <20191019034153.GB9478@xz-x1>
+ (envelope-from <bounces@canonical.com>) id 1iNBos-0005bT-3m
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:16:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42064)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iNBoo-0005Te-GW
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:16:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iNBol-0002Gi-4w
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:16:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 11C7C2E80C8
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:16:31 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191019034153.GB9478@xz-x1>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 23 Oct 2019 07:58:43 -0000
+From: Thomas Huth <1192464@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bk-rakesh th-huth
+X-Launchpad-Bug-Reporter: bk.rakesh (bk-rakesh)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20130619071409.29504.88410.malonedeb@wampee.canonical.com>
+Message-Id: <157181752333.22114.1821230983583297846.malone@wampee.canonical.com>
+Subject: [Bug 1192464] Re: udp checksum computed as 0 not converted to 0xffff, 
+ from guest os that share a common linux bridge among multiple guest os
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="186023fa645d8be19d403a76064f0643f510db2f";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a0f56c1de7779be7de8c4847a39ccdc6c98c04ec
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,86 +67,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, QEMU Block List <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1192464 <1192464@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 19, 2019 at 11:41:53AM +0800, Peter Xu wrote:
-> On Wed, Oct 16, 2019 at 11:40:01AM -0300, Eduardo Habkost wrote:
-> > On Wed, Oct 16, 2019 at 10:29:29AM +0800, Peter Xu wrote:
-> > > v2:
-> > > - use uint32_t rather than int64_t [Juan]
-> > > - one more patch (patch 4) to check dup SaveStateEntry [Dave]
-> > > - one more patch to define a macro (patch 1) to simplify patch 2
-> > > 
-> > > Please review, thanks.
-> > 
-> > I wonder how hard it is to write a simple test case to reproduce
-> > the original bug.  We can extend tests/migration-test.c or
-> > tests/acceptance/migration.py.  If using -device with explicit
-> > apic-id, we probably don't even need to create >255 VCPUs.
-> 
-> I can give it a shot next week. :)
+Triaging old buck tickets ... can you still reproduce this issue with
+the latest version of QEMU? Is it only happening with e1000 or also with
+other NICs? What kind of network backend are you using (--netdev user ?
+tap ? ....). Could you please provide the full command line that you use
+to run QEMU? Thanks!
 
-When trying this, I probably noticed a block layer issue: q35 seems to
-have problem on booting from a very small block device (like 512B,
-which is the image size that currently used for migration-test.c).
-For example, this cmdline can boot successfully into the test image:
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-$qemu -M pc -m 200m -accel kvm -nographic \
-      -drive file=$image,id=drive0,index=0,format=raw \
-      -device ide-hd,drive=drive0
+-- =
 
-While this cannot:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1192464
 
-$qemu -M q35 -m 200m -accel kvm -nographic \
-      -drive file=$image,id=drive0,index=0,format=raw \
-      -device ide-hd,drive=drive0
+Title:
+  udp checksum computed as 0 not converted to 0xffff, from guest os that
+  share a common linux bridge among multiple guest os
 
-With error (BIOS debug messages on):
+Status in QEMU:
+  Incomplete
 
-Booting from Hard Disk..invalid basic_access:143:
-   a=00000201  b=00000000  c=00000001  d=00000080 ds=0000 es=07c0 ss=d980
-  si=00000000 di=00000000 bp=00000000 sp=0000fd8e cs=f000 ip=cb81  f=0202
-invalid basic_access:144:
-   a=00000201  b=00000000  c=00000001  d=00000080 ds=0000 es=07c0 ss=d980
-  si=00000000 di=00000000 bp=00000000 sp=0000fd8e cs=f000 ip=cb81  f=0202
-.
-Boot failed: could not read the boot disenter handle_18:
-  NULL
-k
+Bug description:
+  UDP checksum computed as '0' during transmission of packets that uses
+  e1000 NIC in the Guest as well as emulated h/w in the qemu layer, That
+  needs to be converted to 0xffff, This occurs only when Hardware
+  checksum offload is been set in the guest OS NIC and made it as a
+  transmitter. The guest O.S use the N/W interface that is been shared
+  to the linux brige created in the host (used source=3D<bridge>) in the
+  xml tags of libvirt.
 
-This corresponds to this SeaBIOS check error:
+  As per RFC768(http://tools.ietf.org/html/rfc768 [^]), If the computed
+  checksum is zero, it is transmitted as all ones (the equivalent in
+  one's complement arithmetic). An all zero transmitted checksum value
+  means that the transmitter generated no checksum (for debugging or for
+  higher level protocols that don't care).
 
-static void noinline
-basic_access(struct bregs *regs, struct drive_s *drive_fl, u16 command)
-{
-    ...
-    // sanity check on cyl heads, sec
-    if (cylinder >= nlc || head >= nlh || sector > nls) {
-        warn_invalid(regs);
-        disk_ret(regs, DISK_RET_EPARAM);
-        return;
-    }
-    ...
-}
-
-And... below cmdline will work even for q35 (as suggested by Fam when
-we talked offline):
-
-$qemu -M q35 -m 200m -accel kvm -nographic \
-      -drive file=$image,id=drive0,index=0,format=raw \
-      -device ide-hd,drive=drive0,secs=1,cyls=1,heads=1
-
-I think for migration test we can workaround like above, but I'm also
-curious whether this is a real bug somewhere because I don't see a
-reason for q35 to refuse to boot on a one-sector image.
-
-Thanks,
-
--- 
-Peter Xu
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1192464/+subscriptions
 
