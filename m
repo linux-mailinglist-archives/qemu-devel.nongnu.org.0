@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C56CE218D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 19:14:08 +0200 (CEST)
-Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BF0E2155
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 19:03:47 +0200 (CEST)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNKD0-00039Y-Jq
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 13:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
+	id 1iNK2z-0000cA-Jb
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 13:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNK10-0000Nz-Mp
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:01:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNJxx-0005ss-Q1
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:58:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNK0z-0007FT-7q
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:01:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50936)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNJxw-0005TJ-Hs
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:58:33 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36366)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNK0z-0007FF-1S
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:01:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNK0x-00017D-B9
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 17:01:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 536C72E8078
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 17:01:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNJxv-0005SN-RQ
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:58:31 -0400
+Received: by mail-ot1-x343.google.com with SMTP id c7so7277743otm.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 09:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PyRVgurUS8HqVE4A/x8kYiZvg84IiaRSvtOIhlZ8FVk=;
+ b=cnh+aeuc37TtyrbGmTnwX+5cLFyCCV5Ht9aUPUOZU3qyfD37HnvEbg940vAnYv8yPw
+ h4UMAstXGnTN2o1ITvStCwsQrbctu4kaNQi0MjWlsKeo1NGW6yGHBF3ZR/0yxxO0K9az
+ 3CjsB0CWPaBMe1iVpTQgmNspA6EVD2gveDKlBKsDbS5MFUxBmSeX4ARPjTkybA1ajpj/
+ yefK+Y9djXVRqdg9ohjApxajV89NzpAy7QqR2j/CN2p1E3iw/ybklLt1FQ1ZSKmHwXEo
+ ZOtZO2gmFRPq7kHC0fZnT3qeKUeQChjVrPGlOzNms3MA9QQx9u82blU+QyVAugH0ShHc
+ VZeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PyRVgurUS8HqVE4A/x8kYiZvg84IiaRSvtOIhlZ8FVk=;
+ b=otrSuWYRq/oIBsEd0NbtWCgUi/ttXtv8zIVLPs5oZMtep1Iok8+6Tmxseh3rxLCPn5
+ jB+qPH/S9bsJ7hzElYuGaqrGYTnf38h+rTXdSoLY1bk6QxtZEMr7cXsAjwce6lemYEEW
+ BVnLto3VZiN5ikZGwIQYBGTS8gzl/Skm4bBe82nmwMAV6HxF6ertYbwUJxKXdpVhKEj3
+ qo0fx3XCz1Tsj6W7KW7vuWiU/hvAL6lt3EwdzZ7kldhN5/Wxef58heW6yaeyiIHnK86X
+ 7wwpKQavCVGPuLawwTJ+WVRIgF9Hy+TlyM8slGlCHNwYznBfd5qLRZNFxu6KY52Viaac
+ syrQ==
+X-Gm-Message-State: APjAAAXb/Q7SEBJtPE+1y71v2hRtAStjukdMhU2hdiGkKNOX8PQ98ibn
+ 1QqZVG+RZKa4d4ob53TseQsWUc6C0OmL7MfbjSk74w==
+X-Google-Smtp-Source: APXvYqwYPnuyon/PUZG4CMvOnhK+QVG/okcHwlmmyWVr9YEDcmdYOZ7C4fQrjzyk++gr5HPuSLL1LSZH5XV/Zn5z+js=
+X-Received: by 2002:a9d:708e:: with SMTP id l14mr8150247otj.135.1571849910809; 
+ Wed, 23 Oct 2019 09:58:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 16:50:52 -0000
-From: "P.O." <1848901@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: d33m0n jnsnow
-X-Launchpad-Bug-Reporter: P.O. (d33m0n)
-X-Launchpad-Bug-Modifier: P.O. (d33m0n)
-References: <157153622475.25094.3691269102491613645.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157184945282.19587.7110598328223548082.malone@wampee.canonical.com>
-Subject: [Bug 1848901] Re: kvm_mem_ioeventfd_add: error adding ioeventfd: No
- space left on device (28)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2badc1c14dab97d83162c1e3cf0ddd64e5357360
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+References: <20191023020126.24991-1-eblake@redhat.com>
+In-Reply-To: <20191023020126.24991-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 23 Oct 2019 17:58:19 +0100
+Message-ID: <CAFEAcA_O94Lr+HwapYPfgJ6oLpJ8y-H6E=3NMA4Qr04ZVTOCjw@mail.gmail.com>
+Subject: Re: [PULL 0/3] NBD patches for 2019-10-22
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,97 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848901 <1848901@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-apparently then the fix didn't work :P
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848901
-
-Title:
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device
-  (28)
-
-Status in QEMU:
-  New
-
-Bug description:
-  =3D> QEMU process has stopped, return code: -6
-
-  Start QEMU with /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m
-  2048M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive
-  'file=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu
-  /7725cdea-5e66-4777-b4dd-
-  c3905f258394/hda_disk.qcow2,if=3Dvirtio,index=3D0,media=3Ddisk,id=3Ddrive=
-0'
-  -uuid 7725cdea-5e66-4777-b4dd-c3905f258394 -serial
-  telnet:127.0.0.1:5000,server,nowait -monitor
-  tcp:127.0.0.1:44629,server,nowait -net none -device
-  e1000,mac=3D0c:7a:1d:83:94:00,netdev=3Dgns3-0 -netdev
-  socket,id=3Dgns3-0,udp=3D127.0.0.1:10001,localaddr=3D127.0.0.1:10000 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:01,netdev=3Dgns3-1 -netdev
-  socket,id=3Dgns3-1,udp=3D127.0.0.1:10003,localaddr=3D127.0.0.1:10002 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:02,netdev=3Dgns3-2 -netdev
-  socket,id=3Dgns3-2,udp=3D127.0.0.1:10005,localaddr=3D127.0.0.1:10004 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:03,netdev=3Dgns3-3 -netdev
-  socket,id=3Dgns3-3,udp=3D127.0.0.1:10007,localaddr=3D127.0.0.1:10006 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:04,netdev=3Dgns3-4 -netdev
-  socket,id=3Dgns3-4,udp=3D127.0.0.1:10009,localaddr=3D127.0.0.1:10008 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:05,netdev=3Dgns3-5 -netdev
-  socket,id=3Dgns3-5,udp=3D127.0.0.1:10011,localaddr=3D127.0.0.1:10010 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:06,netdev=3Dgns3-6 -netdev
-  socket,id=3Dgns3-6,udp=3D127.0.0.1:10013,localaddr=3D127.0.0.1:10012 -dev=
-ice
-  e1000,mac=3D0c:7a:1d:83:94:07,netdev=3Dgns3-7 -netdev
-  socket,id=3Dgns3-7,udp=3D127.0.0.1:10015,localaddr=3D127.0.0.1:10014
-  -nographic
-
-   =
-
-  Execution log:
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device (2=
-8)
-
-  and then it just closes...
+On Wed, 23 Oct 2019 at 03:04, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit f9bec781379dd7ccf9d01b4b6a79a9ec82c192e5:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20191022' into staging (2019-10-22 13:45:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2019-10-22
+>
+> for you to fetch changes up to 23ee0ec2360b51619cae452c4faa8590dea74a6e:
+>
+>   iotests: test nbd reconnect (2019-10-22 20:51:31 -0500)
+>
+> Several other NBD patches have appeared on list, but need respins based
+> on review comments, and may still be okay after soft freeze. But this one
+> is a feature addition, so I'm sending the PR now, rather than waiting to
+> bundle in a few more.
+>
+> ----------------------------------------------------------------
+> nbd patches for 2019-10-22
+>
+> - add ability for NBD client reconnect
 
 
-  [deemon@Zen ~]$ coredumpctl info 8638
-             PID: 8638 (qemu-system-x86)
-             UID: 1000 (deemon)
-             GID: 1000 (deemon)
-          Signal: 6 (ABRT)
-       Timestamp: Sun 2019-10-20 04:27:29 EEST (5min ago)
-    Command Line: /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m 204=
-8M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive file=
-=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu>
-      Executable: /usr/bin/qemu-system-x86_64
-   Control Group: /user.slice/user-1000.slice/session-2.scope
-            Unit: session-2.scope
-           Slice: user-1000.slice
-         Session: 2
-       Owner UID: 1000 (deemon)
-         Boot ID: cd30f69a8d194359a31889dc7b6b026c
-      Machine ID: d0a2d74a5cd9430797d902f5237c448d
-        Hostname: Zen
-         Storage: /var/lib/systemd/coredump/core.qemu-system-x86.1000.cd30f=
-69a8d194359a31889dc7b6b026c.8638.1571534849000000.lz4 (truncated)
-         Message: Process 8638 (qemu-system-x86) of user 1000 dumped core.
-                  =
+Applied, thanks.
 
-                  Stack trace of thread 8642:
-                  #0  0x00007f1a33609f25 n/a (n/a)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848901/+subscriptions
+-- PMM
 
