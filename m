@@ -2,63 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BBFE17B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:19:18 +0200 (CEST)
-Received: from localhost ([::1]:59860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812E6E17E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:29:03 +0200 (CEST)
+Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNDjZ-0003Fg-Oc
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40633)
+	id 1iNDt0-00028O-60
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iNDYi-0005em-F0
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:08:06 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNDjn-0004yY-74
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iNDYg-0003d3-DX
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:08:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32992
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNDYg-0003bV-8y
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:08:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571825279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VGXsySC3CD9/9kCq/1CSF79CJqClIPOWzVhKaZ/m5T0=;
- b=DAm98BDNkrtAcNBBsZXNBqqC8t5syFV64JqbSdS7JrD6GsSwyeSyo+YEcwtUgiC8Ob3S0F
- yqxEBaBWmWAZM+4rEzX2XElqS0geWdqPuTHPy7Sxu0KGv3H+CGDtsv4iBfQQGXLNrpJGry
- PpkgGiRkocrVbOT/oq0zN0pWr38LG9w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-CyDo1OtQNbCOsOMelTkPWQ-1; Wed, 23 Oct 2019 06:07:56 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B0F8107AD31;
- Wed, 23 Oct 2019 10:07:55 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BB5660BE1;
- Wed, 23 Oct 2019 10:07:42 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 15/16] libqos: extract Legacy virtio-pci.c code
-Date: Wed, 23 Oct 2019 11:04:24 +0100
-Message-Id: <20191023100425.12168-16-stefanha@redhat.com>
-In-Reply-To: <20191023100425.12168-1-stefanha@redhat.com>
-References: <20191023100425.12168-1-stefanha@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iNDjk-0000xg-GM
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39571)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNDji-0000xE-IE
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:26 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a11so5346733wra.6
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 03:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+9BvmH+auf+Mrzy4Y1NGV6GIRCAfWK3RmjHBCwFVAQw=;
+ b=iRmEynj6DXZogf5FcP8a0MAcAyH/3JtOT67FlvFN6fIO35J66ND36KvHeLS4s/Zkpp
+ 5gdaelzcsfESqO7SSVm/iMI8F/rTJtGAENeD2wD64mjQLMgRyF2Dlo4r+pnPI0hVbKCy
+ /2PwB/XmIqWE24M0/dlumw/yRcW5FxurfESTcLckQ0MNIhkj/P26W+k/QaR7HaDA855Q
+ ccOsrjeK15DPCtAM4VvRRUoec+ZpADXAS0Apf1IyAod3G+v8xypphBhviZGzyeWIILGW
+ k85Yl6IxvBRi6nqTZeSCDgU4ovwY2izhQgzZtio30mH28OFbe4d6MRmNaUUSLv87jd/8
+ iwAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+9BvmH+auf+Mrzy4Y1NGV6GIRCAfWK3RmjHBCwFVAQw=;
+ b=aIoaO5S3M3ZujJDE72hJ1ru3n7QIzMDnwD0qIhk1PdPymn3IyX/9xeibVOpzNaCOmP
+ 9A7bmuPdedkZXxIEJFQNNkdOdtAV5ONQuwMC/9MFtq5zTZC3wv9id6qH+PD/jM7CLjZU
+ 4ie2TkratggjKZwGVa7ZRcQ7TRqelDz3OUcnTQdTYehIbc1ujU21F7X5+QhHnsagauUh
+ e1irJH10SEz60ORKKRoQpBUFGsxltcal7K8SdUhHInUHwwKGFI6uASQLaW7ZaRE6SaOG
+ zWyPFImFwgAQuAzz2f9UAIGC01P6McHQ9u8Xc4dO7mhn1XC7huDW6zN8SuVUMvl6JvGv
+ kctg==
+X-Gm-Message-State: APjAAAXpbVVHlxmemeFW1MruccBKjkL4TeW9QnYErgTCTl2d5FwpVV/G
+ +xnqc63kXiCIe0TUg3IZ+6OOuKZowTY=
+X-Google-Smtp-Source: APXvYqyo70vf/PuInvo6KNaYJNYHFsf/e155A6qRw32ZHFM3YXYhjC47UTSpPC3++y2BYnxmLdvB3g==
+X-Received: by 2002:adf:9799:: with SMTP id s25mr7735442wrb.390.1571825964089; 
+ Wed, 23 Oct 2019 03:19:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x7sm29073287wrg.63.2019.10.23.03.19.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 03:19:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CF0FF1FF87;
+ Wed, 23 Oct 2019 11:19:22 +0100 (BST)
+References: <20191022191704.6134-1-alex.bennee@linaro.org>
+ <381938133.8120078.1571815205455.JavaMail.zimbra@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for 4.2 v1 00/19] testing/next before softfreeze
+In-reply-to: <381938133.8120078.1571815205455.JavaMail.zimbra@redhat.com>
+Date: Wed, 23 Oct 2019 11:19:22 +0100
+Message-ID: <87tv7zvk5x.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: CyDo1OtQNbCOsOMelTkPWQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,118 +82,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, slp@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current libqos virtio-pci.c code implements the VIRTIO Legacy
-interface.  Extract existing code in preparation for VIRTIO 1.0 support.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/libqos/virtio-pci.h |  2 --
- tests/libqos/virtio-pci.c | 29 ++++++++++++-----------------
- 2 files changed, 12 insertions(+), 19 deletions(-)
+Thomas Huth <thuth@redhat.com> writes:
 
-diff --git a/tests/libqos/virtio-pci.h b/tests/libqos/virtio-pci.h
-index 78a1c15c2a..6b3a385b06 100644
---- a/tests/libqos/virtio-pci.h
-+++ b/tests/libqos/virtio-pci.h
-@@ -45,8 +45,6 @@ typedef struct QVirtQueuePCI {
-     uint32_t msix_data;
- } QVirtQueuePCI;
-=20
--extern const QVirtioBus qvirtio_pci;
--
- void virtio_pci_init(QVirtioPCIDevice *dev, QPCIBus *bus, QPCIAddress * ad=
-dr);
- QVirtioPCIDevice *virtio_pci_new(QPCIBus *bus, QPCIAddress * addr);
-=20
-diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index e9595603f5..11866f7772 100644
---- a/tests/libqos/virtio-pci.c
-+++ b/tests/libqos/virtio-pci.c
-@@ -35,14 +35,6 @@
-  * original qvirtio_pci_destructor and qvirtio_pci_start_hw.
-  */
-=20
--static inline bool qvirtio_pci_is_big_endian(QVirtioPCIDevice *dev)
--{
--    QPCIBus *bus =3D dev->pdev->bus;
--
--    /* FIXME: virtio 1.0 is always little-endian */
--    return qtest_big_endian(bus->qts);
--}
--
- #define CONFIG_BASE(dev) (VIRTIO_PCI_CONFIG_OFF((dev)->pdev->msix_enabled)=
-)
-=20
- static uint8_t qvirtio_pci_config_readb(QVirtioDevice *d, uint64_t off)
-@@ -55,8 +47,7 @@ static uint8_t qvirtio_pci_config_readb(QVirtioDevice *d,=
- uint64_t off)
-  * but virtio ( < 1.0) is in guest order
-  * so with a big-endian guest the order has been reversed,
-  * reverse it again
-- * virtio-1.0 is always little-endian, like PCI, but this
-- * case will be managed inside qvirtio_pci_is_big_endian()
-+ * virtio-1.0 is always little-endian, like PCI
-  */
-=20
- static uint16_t qvirtio_pci_config_readw(QVirtioDevice *d, uint64_t off)
-@@ -262,7 +253,7 @@ static void qvirtio_pci_virtqueue_kick(QVirtioDevice *d=
-, QVirtQueue *vq)
-     qpci_io_writew(dev->pdev, dev->bar, VIRTIO_PCI_QUEUE_NOTIFY, vq->index=
-);
- }
-=20
--const QVirtioBus qvirtio_pci =3D {
-+static const QVirtioBus qvirtio_pci_legacy =3D {
-     .config_readb =3D qvirtio_pci_config_readb,
-     .config_readw =3D qvirtio_pci_config_readw,
-     .config_readl =3D qvirtio_pci_config_readl,
-@@ -396,17 +387,21 @@ void qvirtio_pci_start_hw(QOSGraphObject *obj)
-     qvirtio_start_device(&dev->vdev);
- }
-=20
-+static void qvirtio_pci_init_legacy(QVirtioPCIDevice *dev)
-+{
-+    dev->vdev.device_type =3D qpci_config_readw(dev->pdev, PCI_SUBSYSTEM_I=
-D);
-+    dev->bar_idx =3D 0;
-+    dev->vdev.bus =3D &qvirtio_pci_legacy;
-+    dev->msix_ops =3D &qvirtio_pci_msix_ops_legacy;
-+    dev->vdev.big_endian =3D qtest_big_endian(dev->pdev->bus->qts);
-+}
-+
- static void qvirtio_pci_init_from_pcidev(QVirtioPCIDevice *dev, QPCIDevice=
- *pci_dev)
- {
-     dev->pdev =3D pci_dev;
--    dev->vdev.device_type =3D qpci_config_readw(pci_dev, PCI_SUBSYSTEM_ID)=
-;
--    dev->bar_idx =3D 0;
--
-     dev->config_msix_entry =3D -1;
--    dev->msix_ops =3D &qvirtio_pci_msix_ops_legacy;
-=20
--    dev->vdev.bus =3D &qvirtio_pci;
--    dev->vdev.big_endian =3D qvirtio_pci_is_big_endian(dev);
-+    qvirtio_pci_init_legacy(dev);
-=20
-     /* each virtio-xxx-pci device should override at least this function *=
-/
-     dev->obj.get_driver =3D NULL;
---=20
-2.21.0
+> ----- Original Message -----
+>> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
+>> Sent: Tuesday, October 22, 2019 9:16:45 PM
+>>
+>> Hi,
+>>
+>> This is the current status of testing/next. I dropped the Travis arm64
+>> build due to stability concerns. As far as I can tell Thomas' latest
+>> iotest updates are working fine. If there are any other patches worth
+>> considering before the softfreeze now is the time to shout.
+>
+> Feel free to include:
+>
+> https://lists.nongnu.org/archive/html/qemu-devel/2019-10/msg03912.html
+> ("gitlab-ci.yml: Use libvdeplug-dev to compile-test the VDE network
+> backend")
 
+done.
+
+--
+Alex Benn=C3=A9e
 
