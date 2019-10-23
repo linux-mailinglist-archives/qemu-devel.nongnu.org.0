@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39260E22C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 20:53:52 +0200 (CEST)
-Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBAEE22ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 20:57:49 +0200 (CEST)
+Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNLlW-0003Al-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 14:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58769)
+	id 1iNLpM-0006WK-5X
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 14:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iNKUj-0003I6-2c
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:32:27 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iNKVF-0003Yq-Tv
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:32:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iNKUh-0001Sm-0F
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:32:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29751
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iNKVC-0001dC-VB
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:32:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29815
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iNKUg-0001Rn-Sl
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:32:22 -0400
+ id 1iNKVC-0001cZ-RT
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:32:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571851939;
+ s=mimecast20190719; t=1571851971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CuZ5SUzdpmMCqJbsDvqIHkAvfyUA4Ds20xJsF4SzYxI=;
- b=RGo7VMuaaU03/X+Yi5RJHq2T3MmM8EH5R6urK4iSvynSacJFYbIdeEIK8y60QlLkFqoYHF
- c3OgHcvFA44XXjtadv7sx27TJGmBOXqmz0KUNyWRlL2zh7iwqNYjrC5nB+1GO+Jb/lEr4J
- yn+YaEAUhpd3ezYcLt6t3Ll5W+dgro8=
+ bh=erhtuldwyK3E+RzzrVrDprCGejZBAHO61QUqKFkdfAk=;
+ b=dG22qFIcLj67y7xp+me9hIDc/Bb12Wz771k0Vl0c2Ye8+Ddfb3yNQdC1VxAhaE7z9OpYPk
+ 8EabNW9zdLV/Ib3mdMPGA8+lrIYckceoyQtJUK872VA6DVtlmV1E7BK2PJi0wGf3byCb0R
+ h/WbVs8FcPzZxJ+GkTHUf1Dtpu5Gnis=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-BDx2WK7xNfWRUADhv51G2A-1; Wed, 23 Oct 2019 13:32:16 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-319-AG7nAZJIM1C5TrTsB32LxA-1; Wed, 23 Oct 2019 13:32:43 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A824107AD33;
- Wed, 23 Oct 2019 17:32:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F31DA801E72;
+ Wed, 23 Oct 2019 17:32:39 +0000 (UTC)
 Received: from localhost (ovpn-112-21.ams2.redhat.com [10.36.112.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A12521001B20;
- Wed, 23 Oct 2019 17:32:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF47D60C63;
+ Wed, 23 Oct 2019 17:32:14 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/33] qdev: remove unused qdev_prop_int64
-Date: Wed, 23 Oct 2019 19:31:22 +0200
-Message-Id: <20191023173154.30051-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 02/33] sysbus: remove unused sysbus_try_create*
+Date: Wed, 23 Oct 2019 19:31:23 +0200
+Message-Id: <20191023173154.30051-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20191023173154.30051-1-marcandre.lureau@redhat.com>
 References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: BDx2WK7xNfWRUADhv51G2A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: AG7nAZJIM1C5TrTsB32LxA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,82 +92,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/core/qdev-properties.c    | 32 --------------------------------
- include/hw/qdev-properties.h |  3 ---
- 2 files changed, 35 deletions(-)
+ hw/core/sysbus.c    | 32 --------------------------------
+ hw/i386/pc.c        |  1 -
+ include/hw/sysbus.h |  9 +--------
+ 3 files changed, 1 insertion(+), 41 deletions(-)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index ac28890e5a..be4cb01f0b 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -409,31 +409,6 @@ static void set_uint64(Object *obj, Visitor *v, const =
-char *name,
-     visit_type_uint64(v, name, ptr, errp);
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+index 9e69c83aed..08b0311c5f 100644
+--- a/hw/core/sysbus.c
++++ b/hw/core/sysbus.c
+@@ -250,38 +250,6 @@ DeviceState *sysbus_create_varargs(const char *name,
+     return dev;
  }
 =20
--static void get_int64(Object *obj, Visitor *v, const char *name,
--                      void *opaque, Error **errp)
+-DeviceState *sysbus_try_create_varargs(const char *name,
+-                                       hwaddr addr, ...)
 -{
--    DeviceState *dev =3D DEVICE(obj);
--    Property *prop =3D opaque;
--    int64_t *ptr =3D qdev_get_prop_ptr(dev, prop);
+-    DeviceState *dev;
+-    SysBusDevice *s;
+-    va_list va;
+-    qemu_irq irq;
+-    int n;
 -
--    visit_type_int64(v, name, ptr, errp);
--}
--
--static void set_int64(Object *obj, Visitor *v, const char *name,
--                      void *opaque, Error **errp)
--{
--    DeviceState *dev =3D DEVICE(obj);
--    Property *prop =3D opaque;
--    int64_t *ptr =3D qdev_get_prop_ptr(dev, prop);
--
--    if (dev->realized) {
--        qdev_prop_set_after_realize(dev, name, errp);
--        return;
+-    dev =3D qdev_try_create(NULL, name);
+-    if (!dev) {
+-        return NULL;
 -    }
--
--    visit_type_int64(v, name, ptr, errp);
+-    s =3D SYS_BUS_DEVICE(dev);
+-    qdev_init_nofail(dev);
+-    if (addr !=3D (hwaddr)-1) {
+-        sysbus_mmio_map(s, 0, addr);
+-    }
+-    va_start(va, addr);
+-    n =3D 0;
+-    while (1) {
+-        irq =3D va_arg(va, qemu_irq);
+-        if (!irq) {
+-            break;
+-        }
+-        sysbus_connect_irq(s, n, irq);
+-        n++;
+-    }
+-    va_end(va);
+-    return dev;
 -}
 -
- const PropertyInfo qdev_prop_uint64 =3D {
-     .name  =3D "uint64",
-     .get   =3D get_uint64,
-@@ -441,13 +416,6 @@ const PropertyInfo qdev_prop_uint64 =3D {
-     .set_default_value =3D set_default_value_uint,
- };
+ static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+ {
+     SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 4b1904237e..00ee16ccab 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1902,7 +1902,6 @@ void pc_basic_device_init(ISABus *isa_bus, qemu_irq *=
+gsi,
+      * when the HPET wants to take over. Thus we have to disable the latte=
+r.
+      */
+     if (!no_hpet && (!kvm_irqchip_in_kernel() || kvm_has_pit_state2())) {
+-        /* In order to set property, here not using sysbus_try_create_simp=
+le */
+         hpet =3D qdev_try_create(NULL, TYPE_HPET);
+         if (hpet) {
+             /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
+index 27e80881da..2eb0484388 100644
+--- a/include/hw/sysbus.h
++++ b/include/hw/sysbus.h
+@@ -117,8 +117,7 @@ void foreach_dynamic_sysbus_device(FindSysbusDeviceFunc=
+ *func, void *opaque);
+ /* Legacy helper function for creating devices.  */
+ DeviceState *sysbus_create_varargs(const char *name,
+                                  hwaddr addr, ...);
+-DeviceState *sysbus_try_create_varargs(const char *name,
+-                                       hwaddr addr, ...);
++
+ static inline DeviceState *sysbus_create_simple(const char *name,
+                                               hwaddr addr,
+                                               qemu_irq irq)
+@@ -126,11 +125,5 @@ static inline DeviceState *sysbus_create_simple(const =
+char *name,
+     return sysbus_create_varargs(name, addr, irq, NULL);
+ }
 =20
--const PropertyInfo qdev_prop_int64 =3D {
--    .name  =3D "int64",
--    .get   =3D get_int64,
--    .set   =3D set_int64,
--    .set_default_value =3D set_default_value_int,
--};
--
- /* --- string --- */
+-static inline DeviceState *sysbus_try_create_simple(const char *name,
+-                                                    hwaddr addr,
+-                                                    qemu_irq irq)
+-{
+-    return sysbus_try_create_varargs(name, addr, irq, NULL);
+-}
 =20
- static void release_string(Object *obj, const char *name, void *opaque)
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index c6a8cb5516..690ff07ae2 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -13,7 +13,6 @@ extern const PropertyInfo qdev_prop_uint16;
- extern const PropertyInfo qdev_prop_uint32;
- extern const PropertyInfo qdev_prop_int32;
- extern const PropertyInfo qdev_prop_uint64;
--extern const PropertyInfo qdev_prop_int64;
- extern const PropertyInfo qdev_prop_size;
- extern const PropertyInfo qdev_prop_string;
- extern const PropertyInfo qdev_prop_chr;
-@@ -164,8 +163,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_int32, int32_t)
- #define DEFINE_PROP_UINT64(_n, _s, _f, _d)                      \
-     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_uint64, uint64_t)
--#define DEFINE_PROP_INT64(_n, _s, _f, _d)                      \
--    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_int64, int64_t)
- #define DEFINE_PROP_SIZE(_n, _s, _f, _d)                       \
-     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_size, uint64_t)
- #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
+ #endif /* HW_SYSBUS_H */
 --=20
 2.23.0.606.g08da6496b6
 
