@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DFFE1999
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:07:42 +0200 (CEST)
-Received: from localhost ([::1]:33936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6678BE19AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:13:05 +0200 (CEST)
+Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFQS-0004Io-Vg
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
+	id 1iNFVg-0000i7-6a
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEyj-0005Jt-22
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:39:02 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iNFFF-0002ad-2A
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:56:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEyh-0005eP-A1
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:39:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34412)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEyh-0005cd-0N
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:38:59 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C13FAC0568FA
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:38:57 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id z5so5661011wma.5
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:38:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WcYlKaqZ5QlZLXf1AJA7h2HtklaqRPbbFWAJuQWfLG8=;
- b=aFSbH6H8U7DLboxKF0a1O2I1z+qK/s7NILGDzFWzWhNmrVFcTsH7mm91eWpUzOHArk
- i/iPLSi4QDBacBa1G3pKAFjWE/JzNjH8gEOmDVV9ZCCJ25ag+zYukRK8E2O3z+b4sg7n
- ++D4HdeYg9Rat4FuDrK+zn2Wwj1g9r2cLxrZ/PTiNV5UUtSGEm1+noKsPyoUHyyLyR/f
- sDIHUjD5VriTxVqNXzhku10tiA6B8eB5wj3SopuP7F46KehHZlW/7pg4Nhh4OQiIFXte
- ezmsNlCjkDIA+fnzOUCKLLS3Fj1j4OeuTyzMGNywiXmBEUAA/F1BiDvTOhllPwYHC2Z3
- B1og==
-X-Gm-Message-State: APjAAAV3zLX/w1tz6I5lvp0dXt/PK7p/kP296BMTzokO4VKl4Q6/FU4D
- KYmqvFYJChyqekmMO6SnOlfSwqVebmQ+j9aN4Hm4PuF89CocNsgPNj5NPoqWwC+5WC4wrpgw3kq
- q4WMBX/GPD7HbIls=
-X-Received: by 2002:a05:6000:44:: with SMTP id
- k4mr8208016wrx.170.1571830736576; 
- Wed, 23 Oct 2019 04:38:56 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxCNlw4oabzu7Be343MTb/0BJhOOjleLZkxRs8kg1iMyp8T7uAaGwtDz5zk6fluCTC6L18gjA==
-X-Received: by 2002:a05:6000:44:: with SMTP id
- k4mr8208002wrx.170.1571830736391; 
- Wed, 23 Oct 2019 04:38:56 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id r3sm36745763wre.29.2019.10.23.04.38.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 04:38:55 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog module
- framework
-To: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
-References: <20191016112209.9024-1-chen.zhang@intel.com>
- <20191016112209.9024-2-chen.zhang@intel.com>
- <e294876e-d26b-b401-78ab-487e1b44685f@redhat.com>
- <9CFF81C0F6B98A43A459C9EDAD400D78062C3894@shsmsx102.ccr.corp.intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bea650cd-b790-ba3c-3872-3b1af5682318@redhat.com>
-Date: Wed, 23 Oct 2019 13:38:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <no-reply@patchew.org>) id 1iNFFD-0003PQ-E3
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:56:04 -0400
+Resent-Date: Wed, 23 Oct 2019 07:56:04 -0400
+Resent-Message-Id: <E1iNFFD-0003PQ-E3@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21461)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iNFFD-0003Oo-67
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:56:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1571831756; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AzrILPvmy4W0/w3qwt+sO7Y98SwNN87WPjqf3I7jfZGxizgLVqOL2OqgfJZI5gVMsAeF+SdfO0Kt4LOo7bG4J6b2Pw/k1SM5+eQm30TRx/n6SNcP663mi3qi3nMq8G927G4rPpQPOfZhF9EVuDWA0zGiUx0PcWJuHrYzYEAGwCA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1571831756;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Z3SfVHTgtq9ly36pAflEFZh6clTEQJW+oyejjnkco5Q=; 
+ b=BEO6wradEmlPL54RDHH+ngQ6EkHfWKYPrq5DBYmxtAD+kbWU0zkbdoPIlhhRPVCUNhHvWctLTp8cxFDl4OyjCHJOMGaOoNwWjqXtl7TWQmRQqdYKboWgPLKePjvYbCZGjJ14HiwlpsxUjqJMfsAziKTAmVTRGIiDIQg+RS1l/7E=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1571831754627957.9802485720151;
+ Wed, 23 Oct 2019 04:55:54 -0700 (PDT)
+In-Reply-To: <20191023020126.24991-1-eblake@redhat.com>
+Subject: Re: [PULL 0/3] NBD patches for 2019-10-22
+Message-ID: <157183175375.17590.12883932088108636951@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <9CFF81C0F6B98A43A459C9EDAD400D78062C3894@shsmsx102.ccr.corp.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eblake@redhat.com
+Date: Wed, 23 Oct 2019 04:55:54 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,83 +64,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 1:09 PM, Zhang, Chen wrote:
->> -----Original Message-----
->> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> Sent: Wednesday, October 23, 2019 7:01 PM
->> To: Zhang, Chen <chen.zhang@intel.com>; Jason Wang
->> <jasowang@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>; qemu-
->> dev <qemu-devel@nongnu.org>
->> Cc: Zhang Chen <zhangckid@gmail.com>
->> Subject: Re: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog
->> module framework
->>
->> Hi Chen,
->>
->> On 10/16/19 1:22 PM, Zhang Chen wrote:
->>> From: Zhang Chen <chen.zhang@intel.com>
->>>
->>> This patch introduce a new module named Advanced Watch Dog, and
->>> defined the input and output parameter. AWD use standard chardev as
->>> the way of communicationg with the outside world.
->>> Demo command:
->>> -object
->>> advanced-
->> watchdog,id=3Dheart1,server=3Don,awd_node=3Dh1,notification_node=3Dhe
->>> artbeat0,opt_script=3Dopt_script_path,iothread=3Diothread1,pulse_inte=
-rval=3D
->>> 1000,timeout=3D5000
->>>
->>> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
->>> ---
->>>    net/Makefile.objs |   1 +
->>>    net/awd.c         | 261
->> ++++++++++++++++++++++++++++++++++++++++++++++
->>>    qemu-options.hx   |   6 ++
->>>    3 files changed, 268 insertions(+)
->>>    create mode 100644 net/awd.c
->>>
->>> diff --git a/net/Makefile.objs b/net/Makefile.objs index
->>> c5d076d19c..139b1394e9 100644
->>> --- a/net/Makefile.objs
->>> +++ b/net/Makefile.objs
->>> @@ -19,6 +19,7 @@ common-obj-y +=3D colo-compare.o
->>>    common-obj-y +=3D colo.o
->>>    common-obj-y +=3D filter-rewriter.o
->>>    common-obj-y +=3D filter-replay.o
->>> +common-obj-y +=3D awd.o
->> Can you add a net/Kconfig file introducing the ADVANCED_WATCHDOG
->> selector?
->>
->> config COLO_ADVANCED_WATCHDOG
->>       bool
->>       default n
->>
->> Then use here:
->>
->>       common-obj-$(COLO_ADVANCED_WATCHDOG) +=3D awd.o
->>
->=20
-> Sure, but AWD is a universal module,  COLO is just the first user.
-> Maybe use "config ADVANCED_WATCHDOG" is better.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyMzAyMDEyNi4yNDk5
+MS0xLWVibGFrZUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
+a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
+V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
+NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBjaGVjay11bml0
+OiB0ZXN0cy90ZXN0LXFodC1wYXIKICBURVNUICAgIGNoZWNrLXF0ZXN0LXg4Nl82NDogdGVzdHMv
+aGQtZ2VvLXRlc3QKKioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlvbi10
+ZXN0LmM6MTMxNjp0ZXN0X21pZ3JhdGVfYXV0b19jb252ZXJnZTogYXNzZXJ0aW9uIGZhaWxlZCAo
+cmVtYWluaW5nIDwgZXhwZWN0ZWRfdGhyZXNob2xkKTogKDEwMDAwMzg0MCA8IDEwMDAwMDAwMCkK
+RVJST1IgLSBCYWlsIG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlv
+bi10ZXN0LmM6MTMxNjp0ZXN0X21pZ3JhdGVfYXV0b19jb252ZXJnZTogYXNzZXJ0aW9uIGZhaWxl
+ZCAocmVtYWluaW5nIDwgZXhwZWN0ZWRfdGhyZXNob2xkKTogKDEwMDAwMzg0MCA8IDEwMDAwMDAw
+MCkKbWFrZTogKioqIFtjaGVjay1xdGVzdC1hYXJjaDY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0
+aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBjaGVjay1xdGVzdC14ODZfNjQ6
+IHRlc3RzL2Jvb3Qtb3JkZXItdGVzdAogIFRFU1QgICAgY2hlY2stdW5pdDogdGVzdHMvdGVzdC1i
+aXRvcHMKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
+cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tl
+cicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTg2MjUzZGQ5OGRi
+MTQyODFiNGVjYzdkMGVlMDJmZDE4JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAn
+c2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywg
+J0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywg
+J0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAv
+Y2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6
+L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWtp
+dWlvcmFlL3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMjMtMDcuNDQuMTAuMjM5MDg6L3Zhci90bXAv
+cWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1
+aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
+YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTg2MjUzZGQ5OGRiMTQyODFiNGVjYzdkMGVlMDJm
+ZDE4Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
+cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWtpdWlvcmFlL3NyYycKbWFrZTog
+KioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxMW00
+My43NTZzCnVzZXIgICAgMG04LjE4M3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMDIzMDIwMTI2LjI0OTkxLTEtZWJsYWtlQHJlZGhh
+dC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
+aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
+Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
+bQ==
 
-Oh I see, better then.
-
-Then we might add (later)
-
-   config COLO
-       ...
-       select ADVANCED_WATCHDOG
-
-Thanks!
-
-Phil.
-
->>>    tap-obj-$(CONFIG_LINUX) =3D tap-linux.o
->>>    tap-obj-$(CONFIG_BSD) =3D tap-bsd.o
->> [...]
 
