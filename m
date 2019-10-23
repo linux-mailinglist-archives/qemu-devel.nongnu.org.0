@@ -2,64 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75456E1A3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:31:30 +0200 (CEST)
-Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B90E1ABD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:36:47 +0200 (CEST)
+Received: from localhost ([::1]:34816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFnU-00048H-Uy
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:31:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
+	id 1iNFsb-0000io-0s
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fziglio@redhat.com>) id 1iNFjN-0002Eg-HS
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:27:14 -0400
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1iNFnI-0005Y1-5E
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:31:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fziglio@redhat.com>) id 1iNFjM-00007z-HN
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:27:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53467
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1iNFnG-0001Fj-Dx
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:31:15 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:36741 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fziglio@redhat.com>) id 1iNFjM-00007Z-DQ
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:27:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571833630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CGzk93WfUIysNZwO3uWZD42RzDLieVYJKoUgml5RCA8=;
- b=K7k/s3Ui+Cu+LeNUV7RBUAgWuFjkMwH5GY5w+EqtqaDcHIpanAXIzL0oKEfXTARwQmHEYk
- Us/7mokuAH01vF5EN7asu9sZ+MvJhYD8fqSh5j6X/ByazBmsYNHDUZhPw/qsw9eyHCqlWT
- GL3ZO2E2O6ulLIjktwF3EerAlAv2Jl0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-BKHL_aazPmaA7aF3o3yCHA-1; Wed, 23 Oct 2019 08:27:04 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42999801E5C;
- Wed, 23 Oct 2019 12:27:03 +0000 (UTC)
-Received: from fziglio.remote.csb (unknown [10.34.247.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36285600CC;
- Wed, 23 Oct 2019 12:26:59 +0000 (UTC)
-From: Frediano Ziglio <fziglio@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 3/3] qemu-timer: reuse MIN macro in qemu_timeout_ns_to_ms
-Date: Wed, 23 Oct 2019 13:26:52 +0100
-Message-Id: <20191023122652.2999-3-fziglio@redhat.com>
-In-Reply-To: <20191023122652.2999-1-fziglio@redhat.com>
-References: <20191023122652.2999-1-fziglio@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: BKHL_aazPmaA7aF3o3yCHA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
+ id 1iNFnG-0000wA-7O
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:31:14 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 112511A23B6;
+ Wed, 23 Oct 2019 14:30:08 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
+ [10.10.14.77])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id AE8281A23AA;
+ Wed, 23 Oct 2019 14:30:07 +0200 (CEST)
+From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 0/3] Optimize emulation of some Altivec instructions
+Date: Wed, 23 Oct 2019 14:30:01 +0200
+Message-Id: <1571833804-31334-1-git-send-email-stefan.brankovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +48,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Frediano Ziglio <fziglio@redhat.com>
+Cc: aleksandar.markovic@rt-rk.com, stefan.brankovic@rt-rk.com,
+ richard.henderson@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
----
- util/qemu-timer.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Optimize emulation of twelve Altivec instructions: lvsl, lvsr, vsl, vsr, vpkpx,
+vgbbd, vclzb, vclzh, vclzw, vclzd, vupkhpx and vupklpx.
 
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index d428fec567..094a20a05a 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -322,11 +322,7 @@ int qemu_timeout_ns_to_ms(int64_t ns)
-     ms =3D DIV_ROUND_UP(ns, SCALE_MS);
-=20
-     /* To avoid overflow problems, limit this to 2^31, i.e. approx 25 days=
- */
--    if (ms > (int64_t) INT32_MAX) {
--        ms =3D INT32_MAX;
--    }
--
--    return (int) ms;
-+    return (int) MIN(ms, (int64_t) INT32_MAX);
- }
-=20
-=20
---=20
-2.21.0
+This series builds up on and complements recent work of Thomas Murta, Mark
+Cave-Ayland and Richard Henderson in the same area. It is based on devising TCG
+translation implementation for selected instructions rather than using helpers.
+The selected instructions are most of the time idiosyncratic to ppc platform,
+so relatively complex TCG translation (without direct mapping to host
+instruction that is not possible in these cases) seems to be the best option,
+and that approach is presented in this series. The performance improvements
+are significant in all cases.
+
+V8:
+
+Addressed Aleksandar Markovic's suggestions.
+
+V7:
+
+Added optimization for vupkhpx and vupklpx instructions.
+
+V6:
+
+Rebased series to the latest qemu code.
+Excluded all patches that are already accepted.
+
+V5:
+
+Fixed vpkpx bug and added it back in patch.
+Fixed graphical distortions on OSX 10.3 and 10.4.
+Removed conversion of vmrgh and vmrgl instructions to vector operations for
+further investigation.
+
+V4:
+
+Addressed Richard's Henderson's suggestions.
+Removed vpkpx's optimization for further investigation on graphical distortions
+it caused on OSX 10.2-4 guests.
+Added opcodes for vector vmrgh(b|h|w) and vmrgl(b|h|w) in tcg.
+Implemented vector vmrgh and vmrgl instructions for i386.
+Converted vmrgh and vmrgl instructions to vector operations.
+
+V3:
+
+Fixed problem during build.
+
+V2:
+
+Addressed Richard's Henderson's suggestions.
+Fixed problem during build on patch 2/8.
+Rebased series to the latest qemu code.
+
+Stefan Brankovic (3):
+  target/ppc: Optimize emulation of vclzh and vclzb instructions
+  target/ppc: Optimize emulation of vpkpx instruction
+  target/ppc: Optimize emulation of vupkhpx and vupklpx instructions
+
+ target/ppc/helper.h                 |   5 -
+ target/ppc/int_helper.c             |  50 ------
+ target/ppc/translate/vmx-impl.inc.c | 307 +++++++++++++++++++++++++++++++++++-
+ 3 files changed, 302 insertions(+), 60 deletions(-)
+
+-- 
+2.7.4
 
 
