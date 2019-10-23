@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21654E2620
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 00:10:19 +0200 (CEST)
-Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EB1E2427
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:15:22 +0200 (CEST)
+Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNOpd-00052m-TL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 18:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
+	id 1iNN2N-0001Wl-Pe
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:15:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iNMq2-0008QZ-9i
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:02:35 -0400
+ (envelope-from <vgoyal@redhat.com>) id 1iNMvU-0006R1-0n
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:08:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iNMpz-0007fv-Dq
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:02:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30988
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <vgoyal@redhat.com>) id 1iNMvR-0000X8-Ea
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:08:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20965
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iNMpz-0007fM-8F
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:02:31 -0400
+ (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iNMvN-0000Te-T9
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 16:08:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571860948;
+ s=mimecast20190719; t=1571861278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DqDExiXzTMiAOX5/u5TZPgpduavpJDhOAHilmlQa/g8=;
- b=hQKzr8KS//iWdZiU8Gxjl48ze8f0mr63UqBHncgKr8+Aj49f/iVS4/votKaC/pFH9rd7os
- E2/689UllCx/mSI1qWsTW583OAwHkEPGn8Rybtx+y4orVRgxNsfMUuOoTHBHYcV9c1GHm3
- RKIkh/9QrLlJTKDruKcZ8NOS95nRZBA=
+ bh=DV57IeAGE7muFbgsSXEAzr7szdNnSscAymHx15rpSdo=;
+ b=KKw6MPyWFclqIWBcAS8PAxCF0YuZSJ6om1tT7CjWK3Nd6ONeL18WYjooDmnE7/UYrCkNrS
+ v72q1IfnEdh2ol3EdmbK5Z0IrTg300olD6PtHVNT5JScAJVA/9akQQ0mz+3q2+KQjI/C4Y
+ V6de736IGssng4bdBjI2Z3FcDH7Wd8s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-ZBAP488yMf6aqW9_9dhk0w-1; Wed, 23 Oct 2019 16:02:25 -0400
+ us-mta-351-weEFzt3MOt6ISbq2U7NGZg-1; Wed, 23 Oct 2019 16:07:56 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0731F107AD33;
- Wed, 23 Oct 2019 20:02:24 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D2985DD7A;
- Wed, 23 Oct 2019 20:02:12 +0000 (UTC)
-Date: Wed, 23 Oct 2019 14:02:11 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH v5 02/11] pci: add option for net failover
-Message-ID: <20191023140211.4ada7ff3@x1.home>
-In-Reply-To: <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
-References: <20191023082711.16694-1-jfreimann@redhat.com>
- <20191023082711.16694-3-jfreimann@redhat.com>
- <20191023120648.57e50ae1@x1.home>
- <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
-Organization: Red Hat
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C6595E6;
+ Wed, 23 Oct 2019 20:07:56 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.18.25.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 737545DE5B;
+ Wed, 23 Oct 2019 20:07:53 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 068A52202E5; Wed, 23 Oct 2019 16:07:53 -0400 (EDT)
+Date: Wed, 23 Oct 2019 16:07:52 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Fix data corruption with O_APPEND
+ wirte in writeback mode
+Message-ID: <20191023200752.GB6942@redhat.com>
+References: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
 MIME-Version: 1.0
+In-Reply-To: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: ZBAP488yMf6aqW9_9dhk0w-1
+X-MC-Unique: weEFzt3MOt6ISbq2U7NGZg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,148 +75,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- laine@redhat.com, ailan@redhat.com, parav@mellanox.com
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Oct 2019 21:30:35 +0200
-Jens Freimann <jfreimann@redhat.com> wrote:
+On Wed, Oct 23, 2019 at 09:25:23PM +0900, Misono Tomohiro wrote:
+> When writeback mode is enabled (-o writeback), O_APPEND handling is
+> done in kernel. Therefore virtiofsd clears O_APPEND flag when open.
+> Otherwise O_APPEND flag takes precedence over pwrite() and write
+> data may corrupt.
+>=20
+> Currently clearing O_APPEND flag is done in lo_open(), but we also
+> need the same operation in lo_create().
 
-> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
-> >On Wed, 23 Oct 2019 10:27:02 +0200
-> >Jens Freimann <jfreimann@redhat.com> wrote:
-> > =20
-> >> This patch adds a net_failover_pair_id property to PCIDev which is
-> >> used to link the primary device in a failover pair (the PCI dev) to
-> >> a standby (a virtio-net-pci) device.
-> >>
-> >> It only supports ethernet devices. Also currently it only supports
-> >> PCIe devices. QEMU will exit with an error message otherwise.
-> >>
-> >> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> >> ---
-> >>  hw/pci/pci.c         | 17 +++++++++++++++++
-> >>  include/hw/pci/pci.h |  3 +++
-> >>  2 files changed, 20 insertions(+)
-> >>
-> >> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> >> index aa05c2b9b2..fa9b5219f8 100644
-> >> --- a/hw/pci/pci.c
-> >> +++ b/hw/pci/pci.c
-> >> @@ -75,6 +75,8 @@ static Property pci_props[] =3D {
-> >>                      QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
-> >>      DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
-> >>                      QEMU_PCIE_EXTCAP_INIT_BITNR, true),
-> >> +    DEFINE_PROP_STRING("net_failover_pair_id", PCIDevice,
-> >> +            net_failover_pair_id), =20
-> >
-> >Nit, white space appears broken here. =20
+> So, factor out the flag
+> update operation in lo_open() to update_open_flags() and call it
+> in both lo_open() and lo_create().
 >=20
-> I'll fix it.
+> This fixes the failure of xfstest generic/069 in writeback mode
+> (which tests O_APPEND write data integrity).
 >=20
-> >>      DEFINE_PROP_END_OF_LIST()
-> >>  };
-> >>
-> >> @@ -2077,6 +2079,7 @@ static void pci_qdev_realize(DeviceState *qdev, =
-Error **errp)
-> >>      ObjectClass *klass =3D OBJECT_CLASS(pc);
-> >>      Error *local_err =3D NULL;
-> >>      bool is_default_rom;
-> >> +    uint16_t class_id;
-> >>
-> >>      /* initialize cap_present for pci_is_express() and pci_config_siz=
-e(),
-> >>       * Note that hybrid PCIs are not set automatically and need to ma=
-nage
-> >> @@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev,=
- Error **errp)
-> >>          }
-> >>      }
-> >>
-> >> +    if (pci_dev->net_failover_pair_id) {
-> >> +        if (!pci_is_express(pci_dev)) {
-> >> +            error_setg(errp, "failover device is not a PCIExpress dev=
-ice");
-> >> +            error_propagate(errp, local_err);
-> >> +            return;
-> >> +        } =20
-> >
-> >Did we decide we don't need to test that the device is also in a
-> >hotpluggable slot?   =20
->=20
-> Hmm, my reply to you was never sent. I thought the check for
-> qdev_device_add() was sufficient but you said that works only
-> after qdev_hotplug is set (after machine creation). I modified
-> the check to this:
->=20
->     hide =3D should_hide_device(opts);                                   =
-                                  =20
->                                                                          =
-                                =20
->     if ((hide || qdev_hotplug) && bus && !qbus_is_hotpluggable(bus)) {   =
-                                =20
->         error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);                =
-                                =20
->         return NULL;                                                     =
-                                =20
->     }                                                                    =
-                                =20
->                                                                          =
-                                =20
->     if (hide) {                                                          =
-                                =20
->         return NULL;                                                     =
-                                =20
->     }
->=20
-> This will make qemu fail when we have the device in the initial
-> configuration or when we hotplug it to a bus that doesn't support it.
-> I tested both with a device on pcie.0. Am I missing something?=20
 
-Nope, sorry, I was expecting the check here and didn't see that you
-perform it elsewhere.  Seems good enough for me.
-=20
-> >Are there also multi-function considerations that
-> >should be prevented or documented?  For example, if a user tries to
-> >configure both the primary and failover NICs in the same slot, I assume
-> >bad things will happen. =20
->=20
->   I would have expected that this is already checked in pci code, but
-> it is not. I tried it and when I put both devices into the same slot
-> they are both unplugged from the guest during boot but nothing else
-> happens. I don't know what triggers that unplug of the devices.
->=20
-> I'm not aware of any other problems regarding multi-function, which
-> doesn't mean there aren't any.=20
+Hi,
 
-Hmm, was the hidden device at function #0?  The guest won't find any
-functions if function #0 isn't present, but I don't know what would
-trigger the hotplug.  The angle I'm thinking is that we only have slot
-level granularity for hotplug, so any sort of automatic hotplug of a
-slot should probably think about bystander devices within the slot.
-Thanks,
+Consolidating updation of flags both for lo_create() and lo_open() makes
+sense to me. I will test it tomorrow.
 
-Alex
+Thanks
+Vivek
 
-> >> +        class_id =3D pci_get_word(pci_dev->config + PCI_CLASS_DEVICE)=
-;
-> >> +        if (class_id !=3D PCI_CLASS_NETWORK_ETHERNET) {
-> >> +            error_setg(errp, "failover device is not an Ethernet devi=
-ce");
-> >> +            error_propagate(errp, local_err);
-> >> +            return;
-> >> +        }
-> >> +    } =20
-> >
-> >Looks like cleanup is missing both both error cases, the option rom
-> >error path below this does a pci_qdev_unrealize() before returning so
-> >I'd assume we want the same here.  Thanks, =20
+> Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+> ---
+>  contrib/virtiofsd/passthrough_ll.c | 56 +++++++++++++++---------------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
 >=20
-> Thanks, I'll fix this too.
+> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
+hrough_ll.c
+> index e8892c3c32..79fb78ecce 100644
+> --- a/contrib/virtiofsd/passthrough_ll.c
+> +++ b/contrib/virtiofsd/passthrough_ll.c
+> @@ -1733,6 +1733,32 @@ static void lo_releasedir(fuse_req_t req, fuse_ino=
+_t ino, struct fuse_file_info
+>  =09fuse_reply_err(req, 0);
+>  }
+> =20
+> +static void update_open_flags(int writeback, struct fuse_file_info *fi)
+> +{
+> +=09/* With writeback cache, kernel may send read requests even
+> +=09   when userspace opened write-only */
+> +=09if (writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
+> +=09=09fi->flags &=3D ~O_ACCMODE;
+> +=09=09fi->flags |=3D O_RDWR;
+> +=09}
+> +
+> +=09/* With writeback cache, O_APPEND is handled by the kernel.
+> +=09   This breaks atomicity (since the file may change in the
+> +=09   underlying filesystem, so that the kernel's idea of the
+> +=09   end of the file isn't accurate anymore). In this example,
+> +=09   we just accept that. A more rigorous filesystem may want
+> +=09   to return an error here */
+> +=09if (writeback && (fi->flags & O_APPEND))
+> +=09=09fi->flags &=3D ~O_APPEND;
+> +
+> +=09/*
+> +=09 * O_DIRECT in guest should not necessarily mean bypassing page
+> +=09 * cache on host as well. If somebody needs that behavior, it
+> +=09 * probably should be a configuration knob in daemon.
+> +=09 */
+> +=09fi->flags &=3D ~O_DIRECT;
+> +}
+> +
+>  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e,
+>  =09=09      mode_t mode, struct fuse_file_info *fi)
+>  {
+> @@ -1760,12 +1786,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t p=
+arent, const char *name,
+>  =09if (err)
+>  =09=09goto out;
+> =20
+> -=09/*
+> -=09 * O_DIRECT in guest should not necessarily mean bypassing page
+> -=09 * cache on host as well. If somebody needs that behavior, it
+> -=09 * probably should be a configuration knob in daemon.
+> -=09 */
+> -=09fi->flags &=3D ~O_DIRECT;
+> +=09update_open_flags(lo->writeback, fi);
+> =20
+>  =09fd =3D openat(parent_inode->fd, name,
+>  =09=09    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
+> @@ -1966,28 +1987,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino=
+, struct fuse_file_info *fi)
+> =20
+>  =09fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n", =
+ino, fi->flags);
+> =20
+> -=09/* With writeback cache, kernel may send read requests even
+> -=09   when userspace opened write-only */
+> -=09if (lo->writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
+> -=09=09fi->flags &=3D ~O_ACCMODE;
+> -=09=09fi->flags |=3D O_RDWR;
+> -=09}
+> -
+> -=09/* With writeback cache, O_APPEND is handled by the kernel.
+> -=09   This breaks atomicity (since the file may change in the
+> -=09   underlying filesystem, so that the kernel's idea of the
+> -=09   end of the file isn't accurate anymore). In this example,
+> -=09   we just accept that. A more rigorous filesystem may want
+> -=09   to return an error here */
+> -=09if (lo->writeback && (fi->flags & O_APPEND))
+> -=09=09fi->flags &=3D ~O_APPEND;
+> -
+> -=09/*
+> -=09 * O_DIRECT in guest should not necessarily mean bypassing page
+> -=09 * cache on host as well. If somebody needs that behavior, it
+> -=09 * probably should be a configuration knob in daemon.
+> -=09 */
+> -=09fi->flags &=3D ~O_DIRECT;
+> +=09update_open_flags(lo->writeback, fi);
+> =20
+>  =09sprintf(buf, "%i", lo_fd(req, ino));
+>  =09fd =3D openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> --=20
+> 2.21.0
 >=20
-> regards,
-> Jens=20
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://www.redhat.com/mailman/listinfo/virtio-fs
 
 
