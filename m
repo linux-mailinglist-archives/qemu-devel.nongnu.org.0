@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED98E19ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:22:47 +0200 (CEST)
-Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEEFE1A03
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:29:09 +0200 (CEST)
+Received: from localhost ([::1]:34708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFf4-0007mN-En
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1iNFlE-0002kA-DV
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iNFao-0004N5-CP
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:18:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNFiq-0001sH-IY
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:26:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iNFal-0004gW-Vq
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:18:21 -0400
-Received: from mgwkm02.jp.fujitsu.com ([202.219.69.169]:29449)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1iNFak-0004S8-Lb
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:18:19 -0400
-Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
- mgwkm02.jp.fujitsu.com with smtp
- id 15b5_42ff_ccf113f5_d6ac_4027_b146_fbd2a933b416;
- Wed, 23 Oct 2019 21:18:00 +0900
-Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
- (g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
- by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id B17D3AC00CB
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 21:17:59 +0900 (JST)
-Received: from g01jpexchyt36.g01.fujitsu.local (unknown [10.128.193.4])
- by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id C35C7298027;
- Wed, 23 Oct 2019 21:17:58 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- g01jpexchyt36.g01.fujitsu.local (10.128.193.54) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 23 Oct 2019 21:17:59 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <virtio-fs@redhat.com>
-Subject: [PATCH] virtiofsd: Fix data corruption with O_APPEND wirte in
- writeback mode
-Date: Wed, 23 Oct 2019 21:25:23 +0900
-Message-ID: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <philmd@redhat.com>) id 1iNFip-0008U0-2g
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:26:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52582)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNFio-0008To-Qu
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:26:39 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 87CCA83F4C
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 12:26:37 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id q22so7195273wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:26:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kG2VJPWlib/EVgwK7cjcMhWIbOFL3UnY50Xn1k3+8YQ=;
+ b=D6dpGT6pTTrsxvAATc0wFDppCJ3EvpG9jOocEKi5H80NrRW0U75iW3bz5OfRGvMt1P
+ ykmS5CWNZwR/qYlTOk5GheMes4szULUekis2X5spo6pPoxRejOOpT2zEl/2r4HKnEzvi
+ Vzp7HCnE49tkduAFf68yGW44DQRlE/g9CyOADySFvnyTofGcOXKlF4lISoAItFiTB8dI
+ xToWoDRHbT84KGe5DeuqrmUnY8Bp0N4uqztyTK8M27EWhX8DcqevRDC16I7OnW/ETcog
+ 1Caqk00NDiFhY0BB9hRRpqElcEmuchiH2Eke9b/wpPurUxbjCS/KxDCNWMXkum/2fziY
+ jBVg==
+X-Gm-Message-State: APjAAAXkLF/Hu1FK3guGp5tB6KrvhorZXQmdR1q3Ibj7kqNU0lMUZ1Dv
+ i4846KRK8mYDn1dQ2Zm2lKI7K0yERavdJUKpH11xCw7HJSfYKnfNoNujP+4RWRyKLlCqP1VAhmt
+ WgT6YjZUNqVQBdKo=
+X-Received: by 2002:a1c:1a4b:: with SMTP id a72mr7627684wma.17.1571833596316; 
+ Wed, 23 Oct 2019 05:26:36 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw5jPTehaexsTYblw4Ojlb/COLFKn/+L/j2Zl89zptSWkjU83ENR0quX++IXYV4oyNCkl703Q==
+X-Received: by 2002:a1c:1a4b:: with SMTP id a72mr7627666wma.17.1571833596108; 
+ Wed, 23 Oct 2019 05:26:36 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id y3sm35088409wro.36.2019.10.23.05.26.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 05:26:35 -0700 (PDT)
+Subject: Re: [PATCH] qemu-options: Rework the help text of the '-display'
+ option
+To: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org
+References: <20191023120129.13721-1-huth@tuxfamily.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <41420b03-b938-2e62-2b33-5cc63e488fe5@redhat.com>
+Date: Wed, 23 Oct 2019 14:26:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.219.69.169
+In-Reply-To: <20191023120129.13721-1-huth@tuxfamily.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,110 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When writeback mode is enabled (-o writeback), O_APPEND handling is
-done in kernel. Therefore virtiofsd clears O_APPEND flag when open.
-Otherwise O_APPEND flag takes precedence over pwrite() and write
-data may corrupt.
+On 10/23/19 2:01 PM, Thomas Huth wrote:
+> Improve the help text of the "-display" option:
+>=20
+> - Only print the options that we have enabled in the binary
+>    (similar to what we do for other options like -netdev already)
+>=20
+> - The "frame=3Don|off" from "-display sdl" has been removed in commit
+>    09bd7ba9f5f7 ("Remove deprecated -no-frame option"), so we should
+>    not show this in the help text anymore
+>=20
+> - The "-display egl-headless" line was missing a "\n" at the end
+>=20
+> - Indent the default display text in a nicer way
+>=20
+> Signed-off-by: Thomas Huth <huth@tuxfamily.org>
+> ---
+>   qemu-options.hx | 30 +++++++++++++++++++++---------
+>   1 file changed, 21 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 996b6fba74..917c54b302 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1526,26 +1526,38 @@ STEXI
+>   ETEXI
+>  =20
+>   DEF("display", HAS_ARG, QEMU_OPTION_display,
+> +#if defined(CONFIG_SPICE)
+>       "-display spice-app[,gl=3Don|off]\n"
+> -    "-display sdl[,frame=3Don|off][,alt_grab=3Don|off][,ctrl_grab=3Don=
+|off]\n"
+> +#endif
+> +#if defined(CONFIG_SDL)
+> +    "-display sdl[,alt_grab=3Don|off][,ctrl_grab=3Don|off]\n"
+>       "            [,window_close=3Don|off][,gl=3Don|core|es|off]\n"
+> +#endif
+> +#if defined(CONFIG_GTK)
+>       "-display gtk[,grab_on_hover=3Don|off][,gl=3Don|off]|\n"
+> +#endif
+> +#if defined(CONFIG_VNC)
+>       "-display vnc=3D<display>[,<optargs>]\n"
+> +#endif
+> +#if defined(CONFIG_CURSES)
+>       "-display curses[,charset=3D<encoding>]\n"
+> +#endif
+> +#if defined(CONFIG_OPENGL)
+> +    "-display egl-headless[,rendernode=3D<file>]\n"
+> +#endif
+>       "-display none\n"
+> -    "-display egl-headless[,rendernode=3D<file>]"
+> -    "                select display type\n"
+> -    "The default display is equivalent to\n"
+> +    "                select display backend type\n"
+> +    "                The default display is equivalent to\n           =
+     "
 
-Currently clearing O_APPEND flag is done in lo_open(), but we also
-need the same operation in lo_create(). So, factor out the flag
-update operation in lo_open() to update_open_flags() and call it
-in both lo_open() and lo_create().
+Easier to understand in 2 lines:
 
-This fixes the failure of xfstest generic/069 in writeback mode
-(which tests O_APPEND write data integrity).
+        "                The default display is equivalent to\n"
+        "                "
 
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
----
- contrib/virtiofsd/passthrough_ll.c | 56 +++++++++++++++---------------
- 1 file changed, 28 insertions(+), 28 deletions(-)
+Regardless,
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-index e8892c3c32..79fb78ecce 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -1733,6 +1733,32 @@ static void lo_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info
- 	fuse_reply_err(req, 0);
- }
- 
-+static void update_open_flags(int writeback, struct fuse_file_info *fi)
-+{
-+	/* With writeback cache, kernel may send read requests even
-+	   when userspace opened write-only */
-+	if (writeback && (fi->flags & O_ACCMODE) == O_WRONLY) {
-+		fi->flags &= ~O_ACCMODE;
-+		fi->flags |= O_RDWR;
-+	}
-+
-+	/* With writeback cache, O_APPEND is handled by the kernel.
-+	   This breaks atomicity (since the file may change in the
-+	   underlying filesystem, so that the kernel's idea of the
-+	   end of the file isn't accurate anymore). In this example,
-+	   we just accept that. A more rigorous filesystem may want
-+	   to return an error here */
-+	if (writeback && (fi->flags & O_APPEND))
-+		fi->flags &= ~O_APPEND;
-+
-+	/*
-+	 * O_DIRECT in guest should not necessarily mean bypassing page
-+	 * cache on host as well. If somebody needs that behavior, it
-+	 * probably should be a configuration knob in daemon.
-+	 */
-+	fi->flags &= ~O_DIRECT;
-+}
-+
- static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
- 		      mode_t mode, struct fuse_file_info *fi)
- {
-@@ -1760,12 +1786,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
- 	if (err)
- 		goto out;
- 
--	/*
--	 * O_DIRECT in guest should not necessarily mean bypassing page
--	 * cache on host as well. If somebody needs that behavior, it
--	 * probably should be a configuration knob in daemon.
--	 */
--	fi->flags &= ~O_DIRECT;
-+	update_open_flags(lo->writeback, fi);
- 
- 	fd = openat(parent_inode->fd, name,
- 		    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
-@@ -1966,28 +1987,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
- 
- 	fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino, fi->flags);
- 
--	/* With writeback cache, kernel may send read requests even
--	   when userspace opened write-only */
--	if (lo->writeback && (fi->flags & O_ACCMODE) == O_WRONLY) {
--		fi->flags &= ~O_ACCMODE;
--		fi->flags |= O_RDWR;
--	}
--
--	/* With writeback cache, O_APPEND is handled by the kernel.
--	   This breaks atomicity (since the file may change in the
--	   underlying filesystem, so that the kernel's idea of the
--	   end of the file isn't accurate anymore). In this example,
--	   we just accept that. A more rigorous filesystem may want
--	   to return an error here */
--	if (lo->writeback && (fi->flags & O_APPEND))
--		fi->flags &= ~O_APPEND;
--
--	/*
--	 * O_DIRECT in guest should not necessarily mean bypassing page
--	 * cache on host as well. If somebody needs that behavior, it
--	 * probably should be a configuration knob in daemon.
--	 */
--	fi->flags &= ~O_DIRECT;
-+	update_open_flags(lo->writeback, fi);
- 
- 	sprintf(buf, "%i", lo_fd(req, ino));
- 	fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
--- 
-2.21.0
-
+>   #if defined(CONFIG_GTK)
+> -            "\t\"-display gtk\"\n"
+> +            "\"-display gtk\"\n"
+>   #elif defined(CONFIG_SDL)
+> -            "\t\"-display sdl\"\n"
+> +            "\"-display sdl\"\n"
+>   #elif defined(CONFIG_COCOA)
+> -            "\t\"-display cocoa\"\n"
+> +            "\"-display cocoa\"\n"
+>   #elif defined(CONFIG_VNC)
+> -            "\t\"-vnc localhost:0,to=3D99,id=3Ddefault\"\n"
+> +            "\"-vnc localhost:0,to=3D99,id=3Ddefault\"\n"
+>   #else
+> -            "\t\"-display none\"\n"
+> +            "\"-display none\"\n"
+>   #endif
+>       , QEMU_ARCH_ALL)
+>   STEXI
+>=20
 
