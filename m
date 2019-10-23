@@ -2,62 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A5EE232F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:12:01 +0200 (CEST)
-Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC51E251E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 23:21:02 +0200 (CEST)
+Received: from localhost ([::1]:48100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNM36-0001Tt-D5
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34609)
+	id 1iNO3v-0002lu-Hx
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 17:20:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNKrF-0004o7-K5
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:55:43 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNKri-0005DL-Tl
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:56:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNKrE-0005Rw-Eg
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:55:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33796)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNKrE-0005RY-9P
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:55:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNKrD-0006rg-1n
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 17:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 067032E8074
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 17:55:39 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iNKre-0005hY-BU
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:56:09 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29821
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNKra-0005eC-EZ
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:56:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571853361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V17e9w4VZ/sRplMGBacPciw87+P8AjTgevZX+f/EuDY=;
+ b=WY4kMsiJyQGKmE4s5GLhZ+UsOpHwmScjzzSimfj4dt64KAw77cj7PBxgFSzHcY8hk97q8z
+ 5JlVZTBREf0t1YBw/FgQ1aAf2bVwECV2a4KRsXA8CO1nlJ3nyr0xllQ7r4wT1yaxFUDGed
+ qvgBo5oXv0apNM/P29I3n48MV/cqmJs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-an4seo8bMiewK0jf8cUAoA-1; Wed, 23 Oct 2019 13:56:00 -0400
+Received: by mail-wr1-f69.google.com with SMTP id f4so11391488wrj.12
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:56:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BhuKc4XGTaz6vsD/c/Vl350EvmpVjQ/JTR0Qe98Nxg0=;
+ b=ILgL/8bvZntTWXOzhVeitzGshQ7af1Tt8R324H2c80XlGZF8odla3yYKn212om6QuE
+ MV3+s1bsG+LoGA4XXbDYzIssveByKuAS8+evZ7cE64l5H6bxx8x7sx51yXRdl605M+Xr
+ eVcieHrgP6qCYXhzfBqxxcZxfeFFi0YQFQ59vVUYOE2mIybMzjkrIamaMLxFFV6myiBP
+ Vt2Qwa95Ok3+UDhTouGiFXybLZhRh1bV4h4I+yTP99eNBDnIl0M/OL2kmvyNTq6PpGEb
+ NQs4F5YWJjwy7Ik9jboNZcqPZcgFN3knAlqUCA9kmjn7nTzszXxBsy4D9JhqXQoFh4c9
+ D2lA==
+X-Gm-Message-State: APjAAAUJuMI633CGvfeWYLc1hYhbf5SsA6AGLMs8GB5sI4GP4xij/KIM
+ XwV2YXwqaGet3cZrkj43irXAWJaYRl22W1bXtzbCVvFDrHAzm8fVA29hVIGdpufIoEhJwmuTm8P
+ 64CzaNYTqoWO9IF8=
+X-Received: by 2002:a1c:9c03:: with SMTP id f3mr971963wme.161.1571853359268;
+ Wed, 23 Oct 2019 10:55:59 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwTHydLQX4etoD/pBBXyKCbonP0FpSlQrwDs+qMwpHtFngN3CgpIJIeThXWap/6kUEt0IvsyQ==
+X-Received: by 2002:a1c:9c03:: with SMTP id f3mr971948wme.161.1571853359064;
+ Wed, 23 Oct 2019 10:55:59 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id y5sm11190369wmi.10.2019.10.23.10.55.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 10:55:58 -0700 (PDT)
+Subject: Re: [PATCH] translate-all: Remove tb_alloc
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20191023164645.5518-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d52f0299-12ff-a070-1171-2d6e0f73385d@redhat.com>
+Date: Wed, 23 Oct 2019 19:55:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191023164645.5518-1-richard.henderson@linaro.org>
+Content-Language: en-US
+X-MC-Unique: an4seo8bMiewK0jf8cUAoA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 17:40:41 -0000
-From: Eduardo <1596579@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson eduardok th-huth
-X-Launchpad-Bug-Reporter: Eduardo (eduardok)
-X-Launchpad-Bug-Modifier: Eduardo (eduardok)
-References: <20160627153749.31174.93791.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157185244187.3410.5702145833081104575.malone@gac.canonical.com>
-Subject: [Bug 1596579] Re: segfault upon reboot
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e891a84927f03796c690080ab23de06acc77bfa0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,62 +90,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1596579 <1596579@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have no way of reproducing now, should be good by now, I wouldn't
-worry about it, just close this, thanks.
+On 10/23/19 6:46 PM, Richard Henderson wrote:
+> Since 2ac01d6dafab, this function does only two things: assert a
+> lock is held, and call tcg_tb_alloc.  It is used exactly once,
+> and its user has already done the assert.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
--- =
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1596579
+> ---
+>=20
+> I noticed that this function was essentially a stub while
+> reviewing Clement's tb->orig_tb fix.
+>=20
+> Note that the added newline in tb_gen_code both adds the
+> missing break after the variable declaration block and
+> also happens to highlight the assert mentioned above.  ;-)
+>=20
+>=20
+> r~
+>=20
+> ---
+>   accel/tcg/translate-all.c | 20 ++------------------
+>   1 file changed, 2 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index f9b7ba159d..ae063b53f9 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1156,23 +1156,6 @@ void tcg_exec_init(unsigned long tb_size)
+>   #endif
+>   }
+>  =20
+> -/*
+> - * Allocate a new translation block. Flush the translation buffer if
+> - * too many translation blocks or too much generated code.
+> - */
+> -static TranslationBlock *tb_alloc(target_ulong pc)
+> -{
+> -    TranslationBlock *tb;
+> -
+> -    assert_memory_lock();
+> -
+> -    tb =3D tcg_tb_alloc(tcg_ctx);
+> -    if (unlikely(tb =3D=3D NULL)) {
+> -        return NULL;
+> -    }
+> -    return tb;
+> -}
+> -
+>   /* call with @p->lock held */
+>   static inline void invalidate_page_bitmap(PageDesc *p)
+>   {
+> @@ -1681,6 +1664,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>       TCGProfile *prof =3D &tcg_ctx->prof;
+>       int64_t ti;
+>   #endif
+> +
+>       assert_memory_lock();
+>  =20
+>       phys_pc =3D get_page_addr_code(env, pc);
+> @@ -1706,7 +1690,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>       }
+>  =20
+>    buffer_overflow:
+> -    tb =3D tb_alloc(pc);
+> +    tb =3D tcg_tb_alloc(tcg_ctx);
+>       if (unlikely(!tb)) {
+>           /* flush must be done */
+>           tb_flush(cpu);
+>=20
 
-Title:
-  segfault upon reboot
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  [   31.167946] VFIO - User Level meta-driver version: 0.3
-  [   34.969182] kvm: zapping shadow pages for mmio generation wraparound
-  [   43.095077] vfio-pci 0000:1a:00.0: irq 50 for MSI/MSI-X
-  [166493.891331] perf interrupt took too long (2506 > 2500), lowering kern=
-el.perf_event_max_sample_rate to 50000
-  [315765.858431] qemu-kvm[1385]: segfault at 0 ip           (null) sp 0000=
-7ffe5430db18 error 14
-  [315782.002077] vfio-pci 0000:1a:00.0: transaction is not cleared; procee=
-ding with reset anyway
-  [315782.910854] mptsas 0000:1a:00.0: Refused to change power state, curre=
-ntly in D3
-  [315782.911236] mptbase: ioc1: Initiating bringup
-  [315782.911238] mptbase: ioc1: WARNING - Unexpected doorbell active!
-  [315842.957613] mptbase: ioc1: ERROR - Failed to come READY after reset! =
-IocState=3Df0000000
-  [315842.957670] mptbase: ioc1: WARNING - ResetHistory bit failed to clear!
-  [315842.957675] mptbase: ioc1: ERROR - Diagnostic reset FAILED! (ffffffff=
-h)
-  [315842.957717] mptbase: ioc1: WARNING - NOT READY WARNING!
-  [315842.957720] mptbase: ioc1: ERROR - didn't initialize properly! (-1)
-  [315842.957890] mptsas: probe of 0000:1a:00.0 failed with error -1
-
-  The qemu-kvm segfault happens when I issue a reboot on the Windows VM. Th=
-e card I have is:
-  1a:00.0 SCSI storage controller: LSI Logic / Symbios Logic SAS1068E PCI-E=
-xpress Fusion-MPT SAS (rev ff)
-
-  I have two of these cards (bought with many years difference), exact same=
- model, and they fail the same way. I'm using PCI passthrough on this card =
-for access to the tape drive.
-  This is very easy to reproduce, so feel free to let me know what to try.
-  Kernel 3.10.0-327.18.2.el7.x86_64 (Centos 7.2.1511).
-  qemu-kvm-1.5.3-105.el7_2.4.x86_64
-  Reporting it here because of the segfault, but I guess I might have to op=
-en a bug report with mptbase as well?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1596579/+subscriptions
 
