@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD38E1936
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:42:12 +0200 (CEST)
-Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3ABE1960
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:52:38 +0200 (CEST)
+Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNF1m-0006Hl-SL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
+	id 1iNFBs-0006p6-VE
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53196)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vkuznets@redhat.com>) id 1iNEdB-0004fz-NU
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:16:47 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNEeh-0005VI-Rt
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:18:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vkuznets@redhat.com>) id 1iNEdA-00012c-Cb
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:16:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50920)
+ (envelope-from <philmd@redhat.com>) id 1iNEeg-0001MQ-FC
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:18:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41742
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1iNEdA-00010v-3a
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:16:44 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A57FD81F01
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:16:41 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id e14so10695902wrm.21
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:16:41 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEee-0001L4-FW
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571829493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2ftW1HDTjgHchxI1sBiXxqXZ8nyuXShsgsD7QjOpNC8=;
+ b=MNuHubwPiSnbc9mGKnLnYgsHIq+a6cg2Q72/5+daJK2m5LNCq4hS1ILs9VsimH2JabB6Rs
+ T+6WsIhS6Xuq0ar8R5+xB01hgb0OHUU7O3PlB8bngOnv1+oeHud68sax/atqxDTSri4svr
+ 9peUCsLEGVf3e7aARdnXL7RytdhIKDk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-aJ0nrJWMP3yIUenkvceeaA-1; Wed, 23 Oct 2019 07:18:09 -0400
+Received: by mail-wm1-f72.google.com with SMTP id v26so5372253wmh.2
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:18:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=fx+Qd1+oKx6AAPNgHaXOu8hmEaI2vLObi6OcuggfHxY=;
- b=GGJzTqIZMq98zBt3sZ2YWUHst0lxjwrSXMjDcfYSD4nQP8ndqirMqkhfgYI2fG4hvJ
- pHUGkmy4TTjJbdmWpUMHWSSPUYtDqBIrPPqnIvWTMhgscypvdv5T0HkIXvWR9/djOPbs
- ZKnp9rhIV6AFPc4QVJM1qyajzvqY98niwYNt9IaIr0IrfZvoGO/W/IwpVd4FWJ6rCY+I
- PPEft3rclRav/ruh16CJwYygqAJxOA05XZcReiz7wUeDvB8oj1GOxV7ye7JATX/9NIbo
- /fuiRZr/SeIjnJ5eAzsJrD7CEEZ/t1DlUat+BLkiVzl31oVpDaNrIbiSQaNhGTRHwRAU
- 9Fhw==
-X-Gm-Message-State: APjAAAVDKC/BBhFLk50KoC5yWRIOJXGC8uSTCpDatLwuJEbarRohbGJo
- Pa7t0nz8Ulxbdb1eKLKkbnReB7TyYEIQ1ORvhmAvNBh0rAf113qxJkpkvICsOSLLpHwgjJ2nFnQ
- mlIgq69rUP9mtuZI=
-X-Received: by 2002:a5d:464f:: with SMTP id j15mr7877100wrs.366.1571829400309; 
- Wed, 23 Oct 2019 04:16:40 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwvPY2Aw54n4lryuHsYi9FIHoD4hmOCmleqPALoYg9D4vAZ4O2bOAmFy3bGx/DXwQJiK52f6Q==
-X-Received: by 2002:a5d:464f:: with SMTP id j15mr7877072wrs.366.1571829399990; 
- Wed, 23 Oct 2019 04:16:39 -0700 (PDT)
-Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id z9sm21990839wrl.35.2019.10.23.04.16.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 04:16:39 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V
- enlightenment
-In-Reply-To: <20191021171533.GT4084@habkost.net>
-References: <20191018163908.10246-1-vkuznets@redhat.com>
- <4d89f852-85bc-8370-5929-848d24b80a6f@redhat.com>
- <878spe197z.fsf@vitty.brq.redhat.com>
- <66f1dd30-3e45-4dc6-ba0a-d52e5aae6501@redhat.com>
- <20191021171533.GT4084@habkost.net>
-Date: Wed, 23 Oct 2019 13:16:38 +0200
-Message-ID: <87k18vzp7t.fsf@vitty.brq.redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fYU8LVB63QJbgTUtlnIadcPQToPg+TsuOTP1E19G/ws=;
+ b=Mc+B6MT3cuD28KXRdcY1IpeMsyDvCILRXbdmh7DVqS0sCW37ABVHPQZ/MS/3+uP1iQ
+ gmxVLblBLiAK0f6IyaKNZ8JvtbFwbK6sol2fs8Lr+vhHy9Lm4RKe3TmXcWn9YWsONT5y
+ Tkj4WsZ9sk+oj5L65eVZBvy3lfH7axFg19KYZSbvqK1JKgBnGJzd2IjZ5p/bcCrrrHW1
+ 2+pOTnVs7L1L/JRbuKw2uuZBJPGmPuXJHXxKQ96y79xpjxZfpMrvRJ89w9/ncS6j4TT7
+ jPGnIFNUhI+rLC+57Jp1q8R5+WYBRDs9IYGkOB7c3OutgDlDNfCnbK5b602eYJBXDP5F
+ sGfw==
+X-Gm-Message-State: APjAAAWwMEVSavU2CXu+tb++nxSCwL9YiWyYsRobPyalVt/lpseeK7zR
+ R2PzhCm9s6IQ18i5rWWPtnVOaw01Xl3XKPCPdW98j7DP2hQ/4aS6xFHpXSDn6lCU9QsUH8e8dQO
+ KZMG+PjcBbihKJ3s=
+X-Received: by 2002:a1c:3b42:: with SMTP id i63mr6904474wma.37.1571829488708; 
+ Wed, 23 Oct 2019 04:18:08 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw9jCaWrV9vzDWK8DtN97xeIpT2CjTNvJhPxS2eBwZGbHkaVR2TqKiGcIUq/Mn82BIBzLR0Qg==
+X-Received: by 2002:a1c:3b42:: with SMTP id i63mr6904457wma.37.1571829488462; 
+ Wed, 23 Oct 2019 04:18:08 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id u7sm15390368wre.59.2019.10.23.04.18.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 04:18:07 -0700 (PDT)
+Subject: Re: [PATCH v5 3/7] ppc/pnv: Introduce a PnvCore reset handler
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20191022163812.330-1-clg@kaod.org>
+ <20191022163812.330-4-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <21ea9a84-0a26-0ff7-c2a3-458c2c9016a1@redhat.com>
+Date: Wed, 23 Oct 2019 13:18:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20191022163812.330-4-clg@kaod.org>
+Content-Language: en-US
+X-MC-Unique: aJ0nrJWMP3yIUenkvceeaA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,58 +92,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+Hi C=C3=A9dric,
 
-> On Mon, Oct 21, 2019 at 06:26:14PM +0200, Paolo Bonzini wrote:
->> On 21/10/19 16:09, Vitaly Kuznetsov wrote:
->> >>> +    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
->> >>> +        env->features[FEAT_HV_RECOMM_EAX] |= HV_NO_NONARCH_CORESHARING;
->> >>> +    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
->> >> Do you want to make auto the default if "-cpu host,migratable=off"?  It
->> >> can be done on top so I started queueing this patch.
->> > Hm, one thing is that CPUID 0x40000004 doesn't exist if no Hyper-V
->> > enlightenments are passed so we'll probably have to modify your idea to
->> > "-cpu host,migratable=off,+any-hyperv-enlightenment" but then the
->> > question is how conservative are we, like if QEMU command line doesn't
->> > change can new CPUID flags appear or not? And we'll probably need a way
->> > to explicitly disable HV_NO_NONARCH_CORESHARING if needed.
->> 
->> I would defer to Eduardo on whether "migratable=off" would allow adding
->> new CPUID flags.  The follow-up question however is whether we would
->> benefit from a "+hyperv" option that enables all known Hyper-V
->> enlightenment for a given machine type.
->
-> I'm not sure what "adding new CPUID flags" means exactly, but on
-> both cases, the answer is yes:
->
-> If you mean having new flags appear with the same QEMU command
-> line, this is 100% OK with "-cpu host".  Doubly so with
-> "migratable=off".  "-cpu host" doesn't guarantee a stable guest
-> ABI, and migratable=off doesn't guarantee the ability to live
-> migrate.
->
-> If you just mean the ability to write "-cpu
-> host,migratable=off,+some-extra-flag", that's OK too.
->
-> I would try to make "-cpu host,migratable=off" enable all
-> features out of the box (because users probably expect that).
-> But we you have a compelling reason to not enable the hyperv
-> flags by default (do we?), it's OK to require something like
-> "-cpu host,...,+hyperv".
+On 10/22/19 6:38 PM, C=C3=A9dric Le Goater wrote:
+> in which individual CPUs are reset. It will ease the introduction of
+> future change reseting the interrupt presenter from the CPU reset
+> handler.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> ---
+>   hw/ppc/pnv_core.c | 19 +++++++++++++++----
+>   1 file changed, 15 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+> index b1a7489e7abf..9f981a4940e6 100644
+> --- a/hw/ppc/pnv_core.c
+> +++ b/hw/ppc/pnv_core.c
+> @@ -40,9 +40,8 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
+>       return cpu_type;
+>   }
+>  =20
+> -static void pnv_cpu_reset(void *opaque)
+> +static void pnv_core_cpu_reset(PowerPCCPU *cpu)
+>   {
+> -    PowerPCCPU *cpu =3D opaque;
+>       CPUState *cs =3D CPU(cpu);
+>       CPUPPCState *env =3D &cpu->env;
+>  =20
+> @@ -192,8 +191,17 @@ static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChi=
+p *chip, Error **errp)
+>  =20
+>       /* Set time-base frequency to 512 MHz */
+>       cpu_ppc_tb_init(env, PNV_TIMEBASE_FREQ);
+> +}
+> +
+> +static void pnv_core_reset(void *dev)
 
-I'm not sure if the reason is compelling enough but I remember some
-Linux tools were only looking at the first hypervisor signature and
-reporting that we're now running on Hyper-V. Also, more features you
-enable larger the atack surface...
+Here the opaque pointer is a 'PnvCore *pc'.
+If you don't want to call it 'opaque', maybe 'pc' is better.
 
-Actually, we already '-cpu host,hv_passthrough' option which implies
-'migratable=off', not sure if another one is needed.
+> +{
+> +    CPUCore *cc =3D CPU_CORE(dev);
+> +    PnvCore *pc =3D PNV_CORE(dev);
 
--- 
-Vitaly
+This type conversion is not necessary.
+
+What about:
+
+    static void pnv_core_reset(void *opaque)
+    {
+        PnvCore *pc =3D opaque;
+        CPUCore *cc =3D CPU_CORE(pc);
+
+> +    int i;
+>  =20
+> -    qemu_register_reset(pnv_cpu_reset, cpu);
+> +    for (i =3D 0; i < cc->nr_threads; i++) {
+> +        pnv_core_cpu_reset(pc->threads[i]);
+> +    }
+>   }
+>  =20
+>   static void pnv_core_realize(DeviceState *dev, Error **errp)
+> @@ -244,6 +252,8 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+>       snprintf(name, sizeof(name), "xscom-core.%d", cc->core_id);
+>       pnv_xscom_region_init(&pc->xscom_regs, OBJECT(dev), pcc->xscom_ops,
+>                             pc, name, PNV_XSCOM_EX_SIZE);
+> +
+> +    qemu_register_reset(pnv_core_reset, pc);
+>       return;
+>  =20
+>   err:
+> @@ -259,7 +269,6 @@ static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
+>   {
+>       PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
+>  =20
+> -    qemu_unregister_reset(pnv_cpu_reset, cpu);
+>       object_unparent(OBJECT(pnv_cpu_state(cpu)->intc));
+>       cpu_remove_sync(CPU(cpu));
+>       cpu->machine_data =3D NULL;
+> @@ -273,6 +282,8 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
+r **errp)
+>       CPUCore *cc =3D CPU_CORE(dev);
+>       int i;
+>  =20
+> +    qemu_unregister_reset(pnv_core_reset, pc);
+> +
+>       for (i =3D 0; i < cc->nr_threads; i++) {
+>           pnv_unrealize_vcpu(pc->threads[i]);
+>       }
+>=20
+
 
