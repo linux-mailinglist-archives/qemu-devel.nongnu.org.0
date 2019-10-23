@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04E2E1E14
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 16:26:16 +0200 (CEST)
-Received: from localhost ([::1]:37535 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EDBE1E40
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 16:34:54 +0200 (CEST)
+Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNHaX-000368-PV
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 10:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55747)
+	id 1iNHiu-0008RZ-PF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 10:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iNHYA-00024M-DD
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:23:48 -0400
+ (envelope-from <bounces@canonical.com>) id 1iNHfj-0007Bd-VS
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:31:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iNHY8-0005JE-S8
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:23:46 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44765
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iNHY5-0005Fc-3I
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:23:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571840618;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=852MNNpWoxzU+vbzauULoBdshCgX7n7YuDCoOQFJXo8=;
- b=AMiwFXmrNrEY6tBCLw7oL5CN/3FYiqVxlTvjzi5CXsTNp4RugA8NUYpSU+mAys6IKtEUkb
- Wm+4TymokcACD/nq9wToeJ5V+yVr3xWy72R0A0/kEAkSiNM8rNu4RPzw2hZRsO59qj/dB4
- 32Q6JBy6JXGKiBuMELDtpfvtgkSiP+w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-rI9CsMl8OG2w6m6zMy4OlQ-1; Wed, 23 Oct 2019 10:23:35 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08BFC80183D;
- Wed, 23 Oct 2019 14:23:34 +0000 (UTC)
-Received: from [10.3.117.0] (ovpn-117-0.phx2.redhat.com [10.3.117.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AA311001DC0;
- Wed, 23 Oct 2019 14:23:33 +0000 (UTC)
-Subject: Re: [PATCH 3/3] qemu-timer: reuse MIN macro in qemu_timeout_ns_to_ms
-To: Frediano Ziglio <fziglio@redhat.com>
-References: <20191023122652.2999-1-fziglio@redhat.com>
- <20191023122652.2999-3-fziglio@redhat.com>
- <5f20705e-60bc-08d5-8b6e-72438afabefe@vivier.eu>
- <c2836c58-5a3c-2356-6e94-9b2341ab2194@redhat.com>
- <1860840671.8198083.1571840126307.JavaMail.zimbra@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <21fd3aa0-232c-06e8-1e20-b5c98f125468@redhat.com>
-Date: Wed, 23 Oct 2019 09:23:32 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iNHff-0001OP-Kh
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:31:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52110)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iNHff-0001K3-7g
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:31:31 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iNHfT-0000TU-Gi
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:31:19 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7AD692E807E
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:31:19 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1860840671.8198083.1571840126307.JavaMail.zimbra@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: rI9CsMl8OG2w6m6zMy4OlQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 23 Oct 2019 14:16:20 -0000
+From: Michael Weiser <michael@weiser.dinsnail.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek michael-weiser
+ psyhomb sej7278
+X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
+X-Launchpad-Bug-Modifier: Michael Weiser (michael-weiser)
+References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
+Message-Id: <157184018055.29370.15805371719733534577.malone@soybean.canonical.com>
+Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 10a4505afa28c78ef53279a418ecfe017fb36beb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,56 +66,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 9:15 AM, Frediano Ziglio wrote:
->>
->> On 10/23/19 8:42 AM, Laurent Vivier wrote:
->>> Le 23/10/2019 =C3=A0 14:26, Frediano Ziglio a =C3=A9crit=C2=A0:
->>>> Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
->>>> ---
->>>>    util/qemu-timer.c | 6 +-----
->>>>    1 file changed, 1 insertion(+), 5 deletions(-)
->>>>
->>>> diff --git a/util/qemu-timer.c b/util/qemu-timer.c
->>>> index d428fec567..094a20a05a 100644
->>>> --- a/util/qemu-timer.c
->>>> +++ b/util/qemu-timer.c
->>>> @@ -322,11 +322,7 @@ int qemu_timeout_ns_to_ms(int64_t ns)
->>>>        ms =3D DIV_ROUND_UP(ns, SCALE_MS);
->>>>   =20
->>>>        /* To avoid overflow problems, limit this to 2^31, i.e. approx =
-25
->>>>        days */
->>>> -    if (ms > (int64_t) INT32_MAX) {
->>>> -        ms =3D INT32_MAX;
->>>> -    }
->>>> -
->>>> -    return (int) ms;
->>>> +    return (int) MIN(ms, (int64_t) INT32_MAX);
->>>>    }
->>
->> Why so many casts?  It should also work as:
->>
->> return MIN(ms, INT32_MAX);
->>
->=20
-> This was former version. Laurent pointed out that MIN macro
-> is using ternary operator which is expected to find the same time
-> on second and third part so the cast inside the MIN macro.
-> The cast before MIN was kept from previous code.
+> I think I may have had the wrong image size before because both tmpfs and
+> my spare LVM volume are rather limited in size.
 
-The C rules for ternary type promotion guarantee that the MIN macro=20
-produces the correct type without the cast ('cond ? int64_t : int32_t'=20
-produces int64_t).  I agree that the (int) cast was pre-existing, but as=20
-long as we are cleaning up useless casts, we might as well clean up both.
+I also had a hard time to get my image to corrupt on tmpfs because it
+could not grow to its final size, it seems. Sometimes qemu ran into
+acutal ENOSPC but most of the time lack of space on tmpfs seemed to
+trigger early cleanup of unused blocks and in turn prevent corruption.
+Only after I increased tmpfs size again and again until my machine
+actually started to swap would I get the spurious corruption. Both facts
+would seems to support your suspicion of a race condition because
+qcow2_detect_metadata_preallocation() would run longer the more of the
+image is/was allocated.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846427
+
+Title:
+  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
+  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
+  savevm/quit/loadvm cycles. I've narrowed it down to the following
+  reproducer (further notes below):
+
+  # qemu-img check debian.qcow2
+  No errors were found on the image.
+  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
+96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
+=3Ddebian.qcow2,id=3Dd -S
+  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
+bus: Did not receive a reply. Possible causes include: the remote applicati=
+on did not send a reply, the message bus security policy blocked the reply,=
+ the reply timeout expired, or the network connection was broken.
+  QEMU 4.1.50 monitor - type 'help' for more information
+  (qemu) loadvm foo
+  (qemu) c
+  (qemu) qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  quit
+  [m@nargothrond:~] qemu-img check debian.qcow2
+  Leaked cluster 85179 refcount=3D2 reference=3D1
+  Leaked cluster 85180 refcount=3D2 reference=3D1
+  ERROR cluster 266150 refcount=3D0 reference=3D2
+  [...]
+  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+
+  9493 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  2 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+
+  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
+  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
+  similarly current.
+
+  Reproduced with qemu-4.1.0 from distribution package as well as
+  vanilla git checkout of tag v4.1.0 and commit
+  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
+  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
+  sequence:
+
+  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
+mu --disable-werror --disable-docs
+  [...]
+  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+  [...] (can provide full configure output if helpful)
+  make -j8 install
+
+  The kind of guest OS does not matter: seen with Debian testing 64bit,
+  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+
+  The virtual storage controller does not seem to matter: seen with
+  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+
+  Caching modes (none, directsync, writeback), aio mode (threads,
+  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
+  not influence occurence either.
+
+  Having more RAM in the guest seems to increase odds of corruption:
+  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
+  RAM it happens almost instantly.
+
+  An automated reproducer works as follows:
+
+  - the guest *does* mount its root fs and swap with option discard and
+  my testing leaves me with the impression that file deletion rather
+  than reading is causing the issue
+
+  - foo is a snapshot of the running Debian VM which is already running
+  command
+
+  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
+ne
+
+  to produce some I/O to the disk (4GB file with 4GB of RAM).
+
+  - on the host a loop continuously resumes and saves the guest state
+  and quits qemu inbetween:
+
+  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
+  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
+  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
+  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
+  none ; done
+
+  - quitting qemu inbetween saves and loads seems to be necessary for
+  the problem to occur. Just continusouly in one session saving and
+  loading guest state does not trigger it.
+
+  - For me, after about 2 to 6 iterations of above loop the image is
+  corrupted.
+
+  - corruption manifests with other messages from qemu as well, e.g.:
+
+  (qemu) loadvm foo
+  Error: Device 'd' does not have the requested snapshot 'foo'
+
+  Using above reproducer I have to the be best of my ability bisected
+  the introduction of the problem to commit
+  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
+  block_status call if possible). qemu compiled from the commit before
+  does not exhibit the issue, from that commit on it does and reverting
+  the commit off of current master makes it disappear.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
