@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0C4E1F1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:22:26 +0200 (CEST)
-Received: from localhost ([::1]:39350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804F8E1EF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:10:38 +0200 (CEST)
+Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNISv-0007LL-LX
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34780)
+	id 1iNIHV-0004yc-9j
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:10:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iNI7Q-0007ZY-2C
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:00:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNI8r-000861-T6
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iNI7K-0000Ms-7o
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:00:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56633
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iNI7K-0000MG-3n
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:00:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571842804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5V/DVkx7bbSaPqGw0TBkessld/4DuUudfyNyqi2W5VY=;
- b=Uej6VmmgPQTkf8XFZhnh6eINW1foXvpLHcpUzP7GRQTk0Owe1WeKzSU/p7xTEoswXEHIzc
- lTZ181c1B8t4R49jNHhZ0zHVQkXQYSVOukFNj/DRnRiKhYpbsmg80L3o7uSvNJbZX3EWk5
- 6bBr9TGKrg+1gIevPB7pGbY4TVci0tU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-MG6-iWOOPxOomrajVCLLww-1; Wed, 23 Oct 2019 11:00:01 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 636301800D6B;
- Wed, 23 Oct 2019 15:00:00 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E72445D6D0;
- Wed, 23 Oct 2019 14:59:51 +0000 (UTC)
-Date: Wed, 23 Oct 2019 16:59:50 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [RFC 3/3] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-Message-ID: <20191023165950.3e36ba15@redhat.com>
-In-Reply-To: <2dcf8863-6584-dfa7-9b15-724d159da1da@redhat.com>
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191009132252.17860-4-imammedo@redhat.com>
- <802d0d69-d478-76f5-2bd6-5ad2f1ac4474@redhat.com>
- <20191018181841.6459533a@redhat.com>
- <78f49b7d-6fd9-c977-8fe9-2de78025003d@redhat.com>
- <0f2a4b26-b900-08af-aa3e-f9779ae6b55f@redhat.com>
- <20191022164232.0d699b45@redhat.com>
- <2dcf8863-6584-dfa7-9b15-724d159da1da@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iNI8q-0001Dg-MX
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:41 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:37773)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iNI8o-00013Z-L2
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:40 -0400
+Received: by mail-qt1-x843.google.com with SMTP id g50so18582133qtb.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:01:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=IBA+abtZ26hlRDDlZ8eTB3Pn4yNYwZChmFB+u2JQGOM=;
+ b=Kl7dFo28PEXr9icb+mFQdKLB4ia3YW7xNtm5+36Axi5JLbMVMjmEJg+o1rLT7O6hFY
+ Njdd1uj18qTWYtm1tKivlXWozJ0IXiXkjEMBjxjH1Xtqcy78egANpG+uFQbfRcZOwDj0
+ FVcZcImevfyeqhw6Xii0bm3EbKKIVsuiQ5xidiZxYuFShVTIpllo8EOt/iqv9JiKt2eb
+ WPe8B12kbWYO8FX4R67m6AdhgjfSeB2Ia0IyFw4pgky5hh7WXRlLZGZNQTU4Ib3rH9ka
+ hjw2vkFPUXNyDR1/FBkytveJpl2WqoS2zJUzfWkrFDoVRFw+xsmiuz3xMdtAv+Z/ZY/+
+ 2YXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=IBA+abtZ26hlRDDlZ8eTB3Pn4yNYwZChmFB+u2JQGOM=;
+ b=L42PabNQYuvb39SSpTAAOyURxuS6tzclsG/BVRQw4vJM7NJJPOwcV3BS47XE8Vw9yG
+ IJyfsE4aJUDwJvFAWedqVtpPK234nomQ2EhRsU+6o6kJx09keUONxqQ0oOvKaa1bSeRf
+ DobIfi1EBrgRywsaFqhFysb5sWBIAhmxato5JK24iIXuZDezuhK/CQKlVuk5fv0AuiJq
+ cJU+AWX5Xishg+slX0z/v4j5nc5/oCrGWhHEIXXRKN6ScZAvY4szPGSaQbgHttfnOv3n
+ p0tme1TBPIhOfop5RdeRCAshk0mIg+XxoG1x2hZqVQvxJqOLMa8vPNoaCehP34AmOy04
+ 5O5A==
+X-Gm-Message-State: APjAAAVWPYdKqzrUO4+ZHJiAfTRm5LD+d/He/XgfbNdUCKvY+c+ctr6w
+ E5+I/w9/P2Ahs2JBfWVPmbihuuhKnxE=
+X-Google-Smtp-Source: APXvYqy3W63RxWhSSR5seFaLZo0aDIGTzsWVncaCydtEqw8o04kC8LCJtNLOZTHhGvLZzwcdsoQHFA==
+X-Received: by 2002:ac8:3597:: with SMTP id k23mr3420879qtb.195.1571842871709; 
+ Wed, 23 Oct 2019 08:01:11 -0700 (PDT)
+Received: from localhost.localdomain (198-4-20-64.static.cosmoweb.net.
+ [64.20.4.198])
+ by smtp.gmail.com with ESMTPSA id l189sm11030168qke.69.2019.10.23.08.01.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 08:01:11 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 07/24] target/arm: Split out rebuild_hflags_a32
+Date: Wed, 23 Oct 2019 11:00:40 -0400
+Message-Id: <20191023150057.25731-8-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191023150057.25731-1-richard.henderson@linaro.org>
+References: <20191023150057.25731-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: MG6-iWOOPxOomrajVCLLww-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::843
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,126 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 17:49:06 +0200
-Laszlo Ersek <lersek@redhat.com> wrote:
+Currently a trivial wrapper for rebuild_hflags_common_32.
 
-> On 10/22/19 16:42, Igor Mammedov wrote:
-> > On Tue, 22 Oct 2019 14:39:24 +0200
-> > Laszlo Ersek <lersek@redhat.com> wrote:
-> >  =20
-> >> On 10/21/19 15:06, Laszlo Ersek wrote: =20
-> >>> On 10/18/19 18:18, Igor Mammedov wrote:   =20
->=20
-> >>>> Considering firmware runs the first, it should enable modern interfa=
-ce
-> >>>> on its own
-> >>>>   1. Store 0x0 to selector register (actually it's store into bitmap=
- to attempt switch).=20
-> >>>> and to check if interface is present
-> >>>>   2. Store 0x0 to selector register (to ensure valid selector value =
-(otherwise command is ignored))
-> >>>>   3. Store 0x0 to command register (to be able to read back selector=
- from command data)
-> >>>>   4. Store 0x0 to selector register (because #3 can select the a cpu=
- with events if any)
-> >>>>       be aware libvirt may start QEMU in paused mode (hotplug contex=
-t) and hotplugs extra CPUs
-> >>>>       with device_add and then let guest run. So firmware may see pr=
-esent CPUs with events
-> >>>>       at boot time.
-> >>>>   5. Read 'command data' register.
-> >>>>   6. If value read is 0, the interface is available.   =20
->=20
-> >> When we read the command data register in the last step, that is at
-> >> offset 0x8 in the register block. Considering the legacy "CPU present
-> >> bitmap", if no CPU is present in that range, then the firmware could
-> >> read a zero value. I got confused because I thought we were reading at
-> >> offset 0, which would always have bit0 set (for CPU#0).
-> >>
-> >> Can we detect the modern interface like this:
-> >>
-> >> 1. store 0x0 to selector register (attempt to switch)
-> >> 2. read one byte at offset 0 in the register block
-> >> 3. if bit#0 is set, the modern interface is unavailable;
-> >>    otherwise (=3D bit#0 clear), the modern interface is available
-> >>
-> >> Here's why:
-> >>
-> >> - if even the legacy interface is missing, then step 2 is an unassigne=
-d
-> >>   read, hence the value read is all-bits-one; bit#0 is set
-> >>
-> >> - if only the legacy interface is available, then bit#0 stands for
-> >>   CPU#0, it will be set
-> >>
-> >> - if the switch-over in step 1 is successful, then offset 0 is reserve=
-d,
-> >>   hence it returns all-bits-zero.
-> >>
-> >> With this, if we ever assigned offset 0 for reading, then we'd have to
-> >> define it with bit#0 constantly clear. =20
-> >=20
-> > There is no need to reserve bit#0 if in step #5 we use s/'command data'=
-/'Command data 2'/ =20
->=20
-> Good idea. We can drop step 4 too:
->=20
->     [0x0] Command data 2: (DWORD access, little endian)
->           If the "CPU selector" value last stored by the guest refers to
->           an impossible CPU, then 0.
->=20
-> This is skipped by step 2.
->=20
->           Otherwise, if the "Command field" value last stored by the
->           guest differs from 3, then 0.
->=20
-> This is triggered by step 3.
->=20
-> So step 4 does not look necessary. (As long as the guest is OK with the
-> selector ending up with a changed value.)
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-sounds good,
-I'll respin patches taking this into account.
-
->           Otherwise, the most significant 32 bits of the selected CPU's
->           architecture specific ID.
->=20
-> Not relevant for this use case.
->=20
-> > Alternatively we can reserve bit#0 and sequentially read upper half fro=
-m 'Command data'
-> > (one a new flag to show that there is more data to read). =20
->=20
-> I like the "Command data 2" register more. The "temporal domain" is
-> always a complication in register definitions.
->=20
-> > (Upper half currently is not necessary, it's there for future ARM's MPI=
-DR).
-> >=20
-> > One more thing, this behavior is based on artifacts of x86 machine and =
-AllOnes fallback.
-> > Obviously it won't work with arm/virt, do we care about AVMF at this po=
-int? =20
->=20
-> No, in the firmware, all this is strictly x86 code. The ArmVirtQemu
-> guest firmware has no support for multiprocessing at this time, to my
-> understanding.
->=20
-> (Nonetheless, if the register block got placed at an MMIO base address
-> on arm/virt, I think "unassigned_mem_ops" would apply there just the same=
-.)
->=20
-> Thanks!
-> Laszlo
->=20
->=20
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 296a4b2232..d1cd54cc93 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11106,6 +11106,12 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
+     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
+ 
++static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
++                                   ARMMMUIdx mmu_idx)
++{
++    return rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
++}
++
+ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+                                    ARMMMUIdx mmu_idx)
+ {
+@@ -11218,7 +11224,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+                 flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
+             }
+         } else {
+-            flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
++            flags = rebuild_hflags_a32(env, fp_el, mmu_idx);
+         }
+ 
+         flags = FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
+-- 
+2.17.1
 
 
