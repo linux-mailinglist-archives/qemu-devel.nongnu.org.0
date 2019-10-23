@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D617E14D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:57:16 +0200 (CEST)
-Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF95E1453
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:35:26 +0200 (CEST)
+Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNCSB-00035w-1H
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
+	id 1iNC72-0005W5-Nt
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:35:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNC8r-0008TU-V7
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:37:21 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNBzP-0002r4-MN
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNC8p-0006rQ-M8
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:37:17 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49496)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNC8k-0006nE-Kv
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:37:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNC8h-0006Lc-JZ
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:37:07 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 77AF32E8079
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:37:07 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 08:25:06 -0000
-From: Thomas Huth <1596579@bugs.launchpad.net>
+ (envelope-from <jfreimann@redhat.com>) id 1iNBzN-0005jf-8v
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:31 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23598
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iNBzN-0005gZ-3j
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571819245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VKsS+5S1Bf5wcaKxnRQSdtP6pBejdgvzZ5N+9/bdZWQ=;
+ b=cSCy9ezkrTV+dzmT0LsKpi9soYLXeCJK5CZ0IpZGOjLQQQNtzfpjc+DmITbqJSTlWi0kG5
+ ER72aIq/ZTDR74DTXViV+346phb1C8lUSo76Vb+wL2jPy57ACCgrku9Xh/MkwUIGHLcyif
+ /DcKTwe2jodHx7UiwuupfXwJAxrX7L0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-chPYwVCONPyXsV8HKl3TEA-1; Wed, 23 Oct 2019 04:27:21 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46DE2800D54;
+ Wed, 23 Oct 2019 08:27:20 +0000 (UTC)
+Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5ECB5D6D0;
+ Wed, 23 Oct 2019 08:27:12 +0000 (UTC)
+From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson eduardok th-huth
-X-Launchpad-Bug-Reporter: Eduardo (eduardok)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160627153749.31174.93791.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157181910693.21612.14590430833451281479.malone@wampee.canonical.com>
-Subject: [Bug 1596579] Re: segfault upon reboot
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ef27858c5fb1d2b570c79958135321718e590f03
+Subject: [PATCH v5 0/11] add failover feature for assigned network devices
+Date: Wed, 23 Oct 2019 10:27:00 +0200
+Message-Id: <20191023082711.16694-1-jfreimann@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: chPYwVCONPyXsV8HKl3TEA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,67 +68,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1596579 <1596579@bugs.launchpad.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
+ parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you reproduce this problem with the latest upstream version of QEMU
-(currently version 4.1)? Or is it only reproducible in the qemu-kvm from
-your distribution? (In the latter case, please report this bug to your
-distro instead)
+This is implementing the host side of the net_failover concept
+(https://www.kernel.org/doc/html/latest/networking/net_failover.html)
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Changes since v4:
+* Patch 1, qdev, add comment to DeviceClass and qdev_should_hide_device
+           function
+* Patch 2  pci, set flag that allows unplug during migration in qdev
+           code (aw)
+* Patch 10 virtio, fix error handling
+* Patch 11 vfio, fix error handling in vfio_realize (Conny)
+           move allow_unplug_during_migraton flag to generic PCI=20
 
--- =
+The general idea is that we have a pair of devices, a vfio-pci and a
+virtio-net device. Before migration the vfio device is unplugged and data
+flows to the virtio-net device, on the target side another vfio-pci device
+is plugged in to take over the data-path. In the guest the net_failover
+module will pair net devices with the same MAC address.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1596579
+* Patch 1 adds the infrastructure to hide the device for the qbus and qdev =
+APIs
 
-Title:
-  segfault upon reboot
+* Patch 2 adds checks to PCIDevice for only allowing ethernet devices as
+  failover primary and only PCIExpress capable devices
 
-Status in QEMU:
-  Incomplete
+* Patch 3 sets a new flag for PCIDevice 'partially_hotplugged' which we
+  use to skip the unrealize code path when doing a unplug of the primary
+  device
 
-Bug description:
-  [   31.167946] VFIO - User Level meta-driver version: 0.3
-  [   34.969182] kvm: zapping shadow pages for mmio generation wraparound
-  [   43.095077] vfio-pci 0000:1a:00.0: irq 50 for MSI/MSI-X
-  [166493.891331] perf interrupt took too long (2506 > 2500), lowering kern=
-el.perf_event_max_sample_rate to 50000
-  [315765.858431] qemu-kvm[1385]: segfault at 0 ip           (null) sp 0000=
-7ffe5430db18 error 14
-  [315782.002077] vfio-pci 0000:1a:00.0: transaction is not cleared; procee=
-ding with reset anyway
-  [315782.910854] mptsas 0000:1a:00.0: Refused to change power state, curre=
-ntly in D3
-  [315782.911236] mptbase: ioc1: Initiating bringup
-  [315782.911238] mptbase: ioc1: WARNING - Unexpected doorbell active!
-  [315842.957613] mptbase: ioc1: ERROR - Failed to come READY after reset! =
-IocState=3Df0000000
-  [315842.957670] mptbase: ioc1: WARNING - ResetHistory bit failed to clear!
-  [315842.957675] mptbase: ioc1: ERROR - Diagnostic reset FAILED! (ffffffff=
-h)
-  [315842.957717] mptbase: ioc1: WARNING - NOT READY WARNING!
-  [315842.957720] mptbase: ioc1: ERROR - didn't initialize properly! (-1)
-  [315842.957890] mptsas: probe of 0000:1a:00.0 failed with error -1
+* Patch 4 sets the pending_deleted_event before triggering the guest
+  unplug request
 
-  The qemu-kvm segfault happens when I issue a reboot on the Windows VM. Th=
-e card I have is:
-  1a:00.0 SCSI storage controller: LSI Logic / Symbios Logic SAS1068E PCI-E=
-xpress Fusion-MPT SAS (rev ff)
+* Patch 5 and 6 add new qmp events, one sends the device id of a device
+  that was just requested to be unplugged from the guest and another one
+  to let libvirt know if VIRTIO_NET_F_STANDBY was negotiated
 
-  I have two of these cards (bought with many years difference), exact same=
- model, and they fail the same way. I'm using PCI passthrough on this card =
-for access to the tape drive.
-  This is very easy to reproduce, so feel free to let me know what to try.
-  Kernel 3.10.0-327.18.2.el7.x86_64 (Centos 7.2.1511).
-  qemu-kvm-1.5.3-105.el7_2.4.x86_64
-  Reporting it here because of the segfault, but I guess I might have to op=
-en a bug report with mptbase as well?
+* Patch 7 make sure that we can unplug the vfio-device before
+  migration starts
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1596579/+subscriptions
+* Patch 8 adds a new migration state that is entered while we wait for
+  devices to be unplugged by guest OS
+
+* Patch 9 just adds the new migration state to a check in libqos code
+
+* Patch 10 In the second patch the virtio-net uses the API to defer adding =
+the vfio
+  device until the VIRTIO_NET_F_STANDBY feature is acked. It also
+  implements the migration handler to unplug the device from the guest and
+  re-plug in case of migration failure
+
+* Patch 11 allows migration for failover vfio-pci devices
+
+Previous discussion:
+  RFC v1 https://patchwork.ozlabs.org/cover/989098/
+  RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
+  v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03968.html
+  v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg635214.html
+  v3: https://patchew.org/QEMU/20191011112015.11785-1-jfreimann@redhat.com/
+  v4: https://patchew.org/QEMU/20191018202040.30349-1-jfreimann@redhat.com/
+
+To summarize concerns/feedback from previous discussion:
+1.- guest OS can reject or worse _delay_ unplug by any amount of time.
+  Migration might get stuck for unpredictable time with unclear reason.
+  This approach combines two tricky things, hot/unplug and migration.
+  -> We need to let libvirt know what's happening. Add new qmp events
+     and a new migration state. When a primary device is (partially)
+     unplugged (only from guest) we send a qmp event with the device id. Wh=
+en
+     it is unplugged from the guest the DEVICE_DELETED event is sent.
+     Migration will enter the wait-unplug state while waiting for the guest
+     os to unplug all primary devices and then move on with migration.
+2. PCI devices are a precious ressource. The primary device should never
+  be added to QEMU if it won't be used by guest instead of hiding it in
+  QEMU.
+  -> We only hotplug the device when the standby feature bit was
+     negotiated. We save the device cmdline options until we need it for
+     qdev_device_add()
+     Hiding a device can be a useful concept to model. For example a
+     pci device in a powered-off slot could be marked as hidden until the s=
+lot is
+     powered on (mst).
+3. Management layer software should handle this. Open Stack already has
+  components/code to handle unplug/replug VFIO devices and metadata to
+  provide to the guest for detecting which devices should be paired.
+  -> An approach that includes all software from firmware to
+     higher-level management software wasn't tried in the last years. This =
+is
+     an attempt to keep it simple and contained in QEMU as much as possible=
+.
+     One of the problems that stopped management software and libvirt from
+     implementing this idea is that it can't be sure that it's possible to
+     re-plug the primary device. By not freeing the devices resources in QE=
+MU
+     and only asking the guest OS to unplug it is possible to re-plug the
+     device in case of a migration failure.
+4. Hotplugging a device and then making it part of a failover setup is
+   not possible
+  -> addressed by extending qdev hotplug functions to check for hidden
+     attribute, so e.g. device_add can be used to plug a device.
+
+
+I have tested this with a mlx5 and igb NIC and was able to migrate the VM.
+
+Command line example:
+
+qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
+        -machine q35,kernel-irqchip=3Dsplit -cpu host   \
+        -serial stdio   \
+        -net none \
+        -qmp unix:/tmp/qmp.socket,server,nowait \
+        -monitor telnet:127.0.0.1:5555,server,nowait \
+        -device pcie-root-port,id=3Droot0,multifunction=3Don,chassis=3D0,ad=
+dr=3D0xa \
+        -device pcie-root-port,id=3Droot1,bus=3Dpcie.0,chassis=3D1 \
+        -device pcie-root-port,id=3Droot2,bus=3Dpcie.0,chassis=3D2 \
+        -netdev tap,script=3D/root/bin/bridge.sh,downscript=3Dno,id=3Dhostn=
+et1,vhost=3Don \
+        -device virtio-net-pci,netdev=3Dhostnet1,id=3Dnet1,mac=3D52:54:00:6=
+f:55:cc,bus=3Droot2,failover=3Don \
+=09-device vfio-pci,host=3D5e:00.2,id=3Dhostdev0,bus=3Droot1,net_failover_p=
+air_id =3Dnet1 \
+        /root/rhel-guest-image-8.0-1781.x86_64.qcow2
+
+I'm grateful for any remarks or ideas!
+
+Thanks!
+
+regards,
+Jens=20
+
+Jens Freimann (11):
+  qdev/qbus: add hidden device support
+  pci: add option for net failover
+  pci: mark devices partially unplugged
+  pci: mark device having guest unplug request pending
+  qapi: add unplug primary event
+  qapi: add failover negotiated event
+  migration: allow unplug during migration for failover devices
+  migration: add new migration state wait-unplug
+  libqos: tolerate wait-unplug migration state
+  net/virtio: add failover support
+  vfio: unplug failover primary device before migration
+
+ hw/core/qdev.c                 |  24 +++
+ hw/net/virtio-net.c            | 302 +++++++++++++++++++++++++++++++++
+ hw/pci/pci.c                   |  18 ++
+ hw/pci/pcie.c                  |   6 +
+ hw/vfio/pci.c                  |  26 ++-
+ hw/vfio/pci.h                  |   1 +
+ include/hw/pci/pci.h           |   4 +
+ include/hw/qdev-core.h         |  30 ++++
+ include/hw/virtio/virtio-net.h |  12 ++
+ include/hw/virtio/virtio.h     |   1 +
+ include/migration/vmstate.h    |   2 +
+ migration/migration.c          |  21 +++
+ migration/migration.h          |   3 +
+ migration/savevm.c             |  36 ++++
+ migration/savevm.h             |   2 +
+ qapi/migration.json            |  24 ++-
+ qapi/net.json                  |  16 ++
+ qdev-monitor.c                 |  43 ++++-
+ tests/libqos/libqos.c          |   3 +-
+ vl.c                           |   6 +-
+ 20 files changed, 565 insertions(+), 15 deletions(-)
+
+--=20
+2.21.0
+
 
