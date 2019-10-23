@@ -2,45 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67400E2212
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 19:49:03 +0200 (CEST)
-Received: from localhost ([::1]:43010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1699CE2165
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 19:06:45 +0200 (CEST)
+Received: from localhost ([::1]:41958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNKkn-0006au-Qy
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 13:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48186)
+	id 1iNK5r-0003zg-KK
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 13:06:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iNGqI-0007IA-2X
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 09:38:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNIp4-0004mb-PT
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iNGqF-0002KI-1j
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 09:38:25 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:58042 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1iNGqE-00026q-M1
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 09:38:22 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 4AB861A2143;
- Wed, 23 Oct 2019 15:37:16 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
- [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2A4931A216D;
- Wed, 23 Oct 2019 15:37:16 +0200 (CEST)
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iNIp2-0005Z8-Un
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:18 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:42859)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iNIp1-0005R8-1L
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:45:15 -0400
+Received: by mail-qt1-x843.google.com with SMTP id w14so32933492qto.9
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=GvLqP4YBrj+nrlStAyuwbfcMGIRPPiTu+vJ+23TQgAw=;
+ b=aEmAmX23InlnUT2icHg3aEvWcd49dzoz4tbuKp+wnSiTzBvcUrDLYrPrMHv9kwvBoR
+ b9WlmgYjlZNXvCaej6FvgZSEcjkfVLvTg0I2djVAFWAo0wCkqt0x/I/MGRu5n0mKdczy
+ EgPCoqsGfSzTt6VKsxkEkJndlPDk6k+3KNgacLCS2Ybu495vzIGN4JYK05cRLjoQZ76+
+ cNKnvW5Q21wIaLH1lFYI589K+Sx2g3Eq9EJ68KivWEP/s/pI9xrm6vTjbjMKjlnm7zjK
+ G/5Nh2kpQH5y7DvVUzICh0Vt4VXFkQV0U2P63J1fm3dAzE8v/SkuOHN0HXK/YHErMhkM
+ vuug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=GvLqP4YBrj+nrlStAyuwbfcMGIRPPiTu+vJ+23TQgAw=;
+ b=bsiBlAs5Cc30BerFvt6cBckN5g5tX5K61GIRRkUDZAxC4GCXk9wW+IsujyEOIkSvU/
+ WfNSplOqd1SHGK5u+AxAYZvyn43sPN+Vw+dY57VCxxThbSI2o9kWc0VnZ18wIIJXTrw+
+ E/y66wF4tO1NSfsL8SJmOF+BEW13bsdhgc1mc4tvsqZmm19j6QzdxUZU1XrCvu33UDiv
+ nv0Va0ntohc8F2iNSq/YM2nJycx5iKmDCZ4cnGGJ2k8KHqzPVsDNQgQxLrYE2kJHLQlI
+ cnPwvULRxcpHnKjinb77md85PFRnj6ST51M8V9toFHatcFT9fxORhu4RHD8vqVAl0UWT
+ ltnw==
+X-Gm-Message-State: APjAAAVIWCbhcTswvbxCXC/zL6hqs4Xc4fnK+iXDbAuBqNXO1x5F/ROr
+ lxmPEcM6XDWjaw7d+8MnzrksswKVnZk=
+X-Google-Smtp-Source: APXvYqzPMQXqII0RIFiLAvVcq6huIg3ZdYpjVAcAQydEIsP9Juw2FS79y0dcZR3YvaOHq2B9IG9zyA==
+X-Received: by 2002:aed:2687:: with SMTP id q7mr9746711qtd.382.1571845512179; 
+ Wed, 23 Oct 2019 08:45:12 -0700 (PDT)
+Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
+ [172.254.253.50])
+ by smtp.gmail.com with ESMTPSA id o1sm2456272qtb.82.2019.10.23.08.45.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 08:45:11 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/mips: Rearrange vector compare less than (signed)
- instructions
-Date: Wed, 23 Oct 2019 15:37:05 +0200
-Message-Id: <1571837825-24438-3-git-send-email-Filip.Bozuta@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1571837825-24438-1-git-send-email-Filip.Bozuta@rt-rk.com>
-References: <1571837825-24438-1-git-send-email-Filip.Bozuta@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
-X-Mailman-Approved-At: Wed, 23 Oct 2019 13:09:41 -0400
+Subject: [PATCH v2 4/7] exec: Use const alias for TARGET_PAGE_BITS_VARY
+Date: Wed, 23 Oct 2019 11:45:02 -0400
+Message-Id: <20191023154505.30521-5-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191023154505.30521-1-richard.henderson@linaro.org>
+References: <20191023154505.30521-1-richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::843
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,138 +75,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com, aurelien@aurel32.net
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove unnecessary argument and provide separate function for each
-instruction.
+Using a variable that is declared "const" for this tells the
+compiler that it may read the value once and assume that it
+does not change across function calls.
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+For target_page_size, this means we have only one assert per
+function, and one read of the variable.
+
+This reduces the size of qemu-system-aarch64 by 8k.
+
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/msa_helper.c | 80 ++++++++++++++++++++++++++++++------------------
- 1 file changed, 50 insertions(+), 30 deletions(-)
+v2: Notice CONFIG_ATTRIBUTE_ALIAS, and work around Xcode 9 lossage.
+---
+ include/exec/cpu-all.h | 14 +++++++---
+ exec-vary.c            | 60 ++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 62 insertions(+), 12 deletions(-)
 
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index b5027e7..35bbf26 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -1389,6 +1389,11 @@ static inline int64_t msa_clt_s_df(uint32_t df, int64_t arg1, int64_t arg2)
-     return arg1 < arg2 ? -1 : 0;
- }
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 255bb186ac..76515dc8d9 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -210,10 +210,16 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
+ /* page related stuff */
  
-+static inline int8_t msa_clt_s_b(int8_t arg1, int8_t arg2)
-+{
-+    return arg1 < arg2 ? -1 : 0;
-+}
+ #ifdef TARGET_PAGE_BITS_VARY
+-extern bool target_page_bits_decided;
+-extern int target_page_bits;
+-#define TARGET_PAGE_BITS ({ assert(target_page_bits_decided); \
+-                            target_page_bits; })
++typedef struct {
++    bool decided;
++    int bits;
++} TargetPageBits;
++# if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
++extern const TargetPageBits target_page;
++#else
++extern TargetPageBits target_page;
++# endif
++#define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
+ #else
+ #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
+ #endif
+diff --git a/exec-vary.c b/exec-vary.c
+index 48c0ab306c..e0befd502a 100644
+--- a/exec-vary.c
++++ b/exec-vary.c
+@@ -19,11 +19,55 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
 +
- void helper_msa_clt_s_b(CPUMIPSState *env,
-                         uint32_t wd, uint32_t ws, uint32_t wt)
++#define IN_EXEC_VARY 1
++
+ #include "exec/exec-all.h"
+ 
+ #ifdef TARGET_PAGE_BITS_VARY
+-int target_page_bits;
+-bool target_page_bits_decided;
++# ifdef CONFIG_ATTRIBUTE_ALIAS
++/*
++ * We want to declare the "target_page" variable as const, which tells
++ * the compiler that it can cache any value that it reads across calls.
++ * This avoids multiple assertions and multiple reads within any one user.
++ *
++ * This works because we initialize the target_page data very early, in a
++ * location far removed from the functions that require the final results.
++ *
++ * This also requires that we have a non-constant symbol by which we can
++ * perform the actual initialization, and which forces the data to be
++ * allocated within writable memory.  Thus "init_target_page", and we use
++ * that symbol exclusively in the two functions that initialize this value.
++ *
++ * The "target_page" symbol is created as an alias of "init_target_page".
++ */
++static TargetPageBits init_target_page;
++
++/*
++ * Note that this is *not* a redundant decl, this is the definition of
++ * the "target_page" symbol.  The syntax for this definition requires
++ * the use of the extern keyword.  This seems to be a GCC bug in
++ * either the syntax for the alias attribute or in -Wredundant-decls.
++ *
++ * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
++ */
++#  pragma GCC diagnostic push
++#  pragma GCC diagnostic ignored "-Wredundant-decls"
++
++extern const TargetPageBits target_page
++    __attribute__((alias("init_target_page")));
++
++#  pragma GCC diagnostic pop
++# else
++/*
++ * When aliases are not supported then we force two different declarations,
++ * by way of suppressing the header declaration with IN_EXEC_VARY.
++ * We assume that on such an old compiler, LTO cannot be used, and so the
++ * compiler cannot not detect the mismatched declarations, and all is well.
++ */
++TargetPageBits target_page;
++#  define init_target_page target_page
++# endif
+ #endif
+ 
+ bool set_preferred_target_page_bits(int bits)
+@@ -36,11 +80,11 @@ bool set_preferred_target_page_bits(int bits)
+      */
+ #ifdef TARGET_PAGE_BITS_VARY
+     assert(bits >= TARGET_PAGE_BITS_MIN);
+-    if (target_page_bits == 0 || target_page_bits > bits) {
+-        if (target_page_bits_decided) {
++    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
++        if (init_target_page.decided) {
+             return false;
+         }
+-        target_page_bits = bits;
++        init_target_page.bits = bits;
+     }
+ #endif
+     return true;
+@@ -49,9 +93,9 @@ bool set_preferred_target_page_bits(int bits)
+ void finalize_target_page_bits(void)
  {
-@@ -1396,22 +1401,27 @@ void helper_msa_clt_s_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--    pwd->b[0]  = msa_clt_s_df(DF_BYTE, pws->b[0],  pwt->b[0]);
--    pwd->b[1]  = msa_clt_s_df(DF_BYTE, pws->b[1],  pwt->b[1]);
--    pwd->b[2]  = msa_clt_s_df(DF_BYTE, pws->b[2],  pwt->b[2]);
--    pwd->b[3]  = msa_clt_s_df(DF_BYTE, pws->b[3],  pwt->b[3]);
--    pwd->b[4]  = msa_clt_s_df(DF_BYTE, pws->b[4],  pwt->b[4]);
--    pwd->b[5]  = msa_clt_s_df(DF_BYTE, pws->b[5],  pwt->b[5]);
--    pwd->b[6]  = msa_clt_s_df(DF_BYTE, pws->b[6],  pwt->b[6]);
--    pwd->b[7]  = msa_clt_s_df(DF_BYTE, pws->b[7],  pwt->b[7]);
--    pwd->b[8]  = msa_clt_s_df(DF_BYTE, pws->b[8],  pwt->b[8]);
--    pwd->b[9]  = msa_clt_s_df(DF_BYTE, pws->b[9],  pwt->b[9]);
--    pwd->b[10] = msa_clt_s_df(DF_BYTE, pws->b[10], pwt->b[10]);
--    pwd->b[11] = msa_clt_s_df(DF_BYTE, pws->b[11], pwt->b[11]);
--    pwd->b[12] = msa_clt_s_df(DF_BYTE, pws->b[12], pwt->b[12]);
--    pwd->b[13] = msa_clt_s_df(DF_BYTE, pws->b[13], pwt->b[13]);
--    pwd->b[14] = msa_clt_s_df(DF_BYTE, pws->b[14], pwt->b[14]);
--    pwd->b[15] = msa_clt_s_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+    pwd->b[0]  = msa_clt_s_b(pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_clt_s_b(pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_clt_s_b(pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_clt_s_b(pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_clt_s_b(pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_clt_s_b(pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_clt_s_b(pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_clt_s_b(pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_clt_s_b(pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_clt_s_b(pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_clt_s_b(pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_clt_s_b(pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_clt_s_b(pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_clt_s_b(pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_clt_s_b(pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_clt_s_b(pws->b[15], pwt->b[15]);
-+}
-+
-+static inline int16_t msa_clt_s_h(int16_t arg1, int16_t arg2)
-+{
-+    return arg1 < arg2 ? -1 : 0;
+ #ifdef TARGET_PAGE_BITS_VARY
+-    if (target_page_bits == 0) {
+-        target_page_bits = TARGET_PAGE_BITS_MIN;
++    if (init_target_page.bits == 0) {
++        init_target_page.bits = TARGET_PAGE_BITS_MIN;
+     }
+-    target_page_bits_decided = true;
++    init_target_page.decided = true;
+ #endif
  }
- 
- void helper_msa_clt_s_h(CPUMIPSState *env,
-@@ -1421,14 +1431,19 @@ void helper_msa_clt_s_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--    pwd->h[0]  = msa_clt_s_df(DF_HALF, pws->h[0],  pwt->h[0]);
--    pwd->h[1]  = msa_clt_s_df(DF_HALF, pws->h[1],  pwt->h[1]);
--    pwd->h[2]  = msa_clt_s_df(DF_HALF, pws->h[2],  pwt->h[2]);
--    pwd->h[3]  = msa_clt_s_df(DF_HALF, pws->h[3],  pwt->h[3]);
--    pwd->h[4]  = msa_clt_s_df(DF_HALF, pws->h[4],  pwt->h[4]);
--    pwd->h[5]  = msa_clt_s_df(DF_HALF, pws->h[5],  pwt->h[5]);
--    pwd->h[6]  = msa_clt_s_df(DF_HALF, pws->h[6],  pwt->h[6]);
--    pwd->h[7]  = msa_clt_s_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+    pwd->h[0]  = msa_clt_s_h(pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_clt_s_h(pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_clt_s_h(pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_clt_s_h(pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_clt_s_h(pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_clt_s_h(pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_clt_s_h(pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_clt_s_h(pws->h[7],  pwt->h[7]);
-+}
-+
-+static inline int32_t msa_clt_s_w(int32_t arg1, int32_t arg2)
-+{
-+    return arg1 < arg2 ? -1 : 0;
- }
- 
- void helper_msa_clt_s_w(CPUMIPSState *env,
-@@ -1438,10 +1453,15 @@ void helper_msa_clt_s_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--    pwd->w[0]  = msa_clt_s_df(DF_WORD, pws->w[0],  pwt->w[0]);
--    pwd->w[1]  = msa_clt_s_df(DF_WORD, pws->w[1],  pwt->w[1]);
--    pwd->w[2]  = msa_clt_s_df(DF_WORD, pws->w[2],  pwt->w[2]);
--    pwd->w[3]  = msa_clt_s_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+    pwd->w[0]  = msa_clt_s_w(pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_clt_s_w(pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_clt_s_w(pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_clt_s_w(pws->w[3],  pwt->w[3]);
-+}
-+
-+static inline int64_t msa_clt_s_d(int64_t arg1, int64_t arg2)
-+{
-+    return arg1 < arg2 ? -1 : 0;
- }
- 
- void helper_msa_clt_s_d(CPUMIPSState *env,
-@@ -1451,8 +1471,8 @@ void helper_msa_clt_s_d(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--    pwd->d[0]  = msa_clt_s_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
--    pwd->d[1]  = msa_clt_s_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+    pwd->d[0]  = msa_clt_s_d(pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_clt_s_d(pws->d[1],  pwt->d[1]);
- }
- 
- static inline int64_t msa_clt_u_df(uint32_t df, int64_t arg1, int64_t arg2)
 -- 
-2.7.4
+2.17.1
 
 
