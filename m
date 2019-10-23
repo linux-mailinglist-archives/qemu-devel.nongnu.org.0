@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FE9E1989
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:04:17 +0200 (CEST)
-Received: from localhost ([::1]:33848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DFFE1999
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:07:42 +0200 (CEST)
+Received: from localhost ([::1]:33936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFNA-0000sl-I9
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:04:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54745)
+	id 1iNFQS-0004Io-Vg
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iNEsd-0007vK-SQ
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:32:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNEyj-0005Jt-22
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:39:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iNEsa-0003cy-7C
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:32:42 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38571
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNEyh-0005eP-A1
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:39:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34412)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iNEsY-0003Mo-LH
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:32:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571830340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/59X2Omb6FYUcGXfhxnI/lxrSBG+w9/vrP99TGSedlM=;
- b=DyYYIIwKEO3s/6iOFSkNA1fRhW+Jz5R612xFV3/o/KWVYQDgDzvnz9x9rwTnmNS8Hu0R8w
- XX/xpF80YPRTdgYYL3HlLVQxx/6sKDFpKEvpqRDB9oIYjMEKJ/ylDur8NSb5DGjLKMBW8A
- EzIVzNOE0M9R9UTK4y5udMsEZ3ksIDI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-OtMda3kmM_qrbgjZKcI9pQ-1; Wed, 23 Oct 2019 07:32:17 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEyh-0005cd-0N
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:38:59 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DD04801E66;
- Wed, 23 Oct 2019 11:32:16 +0000 (UTC)
-Received: from [10.3.117.0] (ovpn-117-0.phx2.redhat.com [10.3.117.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B2D45C1B2;
- Wed, 23 Oct 2019 11:32:01 +0000 (UTC)
-Subject: Re: [PATCH v5 05/11] qapi: add unplug primary event
-To: Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org
-References: <20191023082711.16694-1-jfreimann@redhat.com>
- <20191023082711.16694-6-jfreimann@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <1064f550-353d-0a5d-38ae-76a934fac3cc@redhat.com>
-Date: Wed, 23 Oct 2019 06:32:01 -0500
+ by mx1.redhat.com (Postfix) with ESMTPS id C13FAC0568FA
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:38:57 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id z5so5661011wma.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:38:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WcYlKaqZ5QlZLXf1AJA7h2HtklaqRPbbFWAJuQWfLG8=;
+ b=aFSbH6H8U7DLboxKF0a1O2I1z+qK/s7NILGDzFWzWhNmrVFcTsH7mm91eWpUzOHArk
+ i/iPLSi4QDBacBa1G3pKAFjWE/JzNjH8gEOmDVV9ZCCJ25ag+zYukRK8E2O3z+b4sg7n
+ ++D4HdeYg9Rat4FuDrK+zn2Wwj1g9r2cLxrZ/PTiNV5UUtSGEm1+noKsPyoUHyyLyR/f
+ sDIHUjD5VriTxVqNXzhku10tiA6B8eB5wj3SopuP7F46KehHZlW/7pg4Nhh4OQiIFXte
+ ezmsNlCjkDIA+fnzOUCKLLS3Fj1j4OeuTyzMGNywiXmBEUAA/F1BiDvTOhllPwYHC2Z3
+ B1og==
+X-Gm-Message-State: APjAAAV3zLX/w1tz6I5lvp0dXt/PK7p/kP296BMTzokO4VKl4Q6/FU4D
+ KYmqvFYJChyqekmMO6SnOlfSwqVebmQ+j9aN4Hm4PuF89CocNsgPNj5NPoqWwC+5WC4wrpgw3kq
+ q4WMBX/GPD7HbIls=
+X-Received: by 2002:a05:6000:44:: with SMTP id
+ k4mr8208016wrx.170.1571830736576; 
+ Wed, 23 Oct 2019 04:38:56 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxCNlw4oabzu7Be343MTb/0BJhOOjleLZkxRs8kg1iMyp8T7uAaGwtDz5zk6fluCTC6L18gjA==
+X-Received: by 2002:a05:6000:44:: with SMTP id
+ k4mr8208002wrx.170.1571830736391; 
+ Wed, 23 Oct 2019 04:38:56 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id r3sm36745763wre.29.2019.10.23.04.38.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 04:38:55 -0700 (PDT)
+Subject: Re: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog module
+ framework
+To: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
+References: <20191016112209.9024-1-chen.zhang@intel.com>
+ <20191016112209.9024-2-chen.zhang@intel.com>
+ <e294876e-d26b-b401-78ab-487e1b44685f@redhat.com>
+ <9CFF81C0F6B98A43A459C9EDAD400D78062C3894@shsmsx102.ccr.corp.intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bea650cd-b790-ba3c-3872-3b1af5682318@redhat.com>
+Date: Wed, 23 Oct 2019 13:38:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191023082711.16694-6-jfreimann@redhat.com>
+In-Reply-To: <9CFF81C0F6B98A43A459C9EDAD400D78062C3894@shsmsx102.ccr.corp.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: OtMda3kmM_qrbgjZKcI9pQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +87,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, laine@redhat.com, ailan@redhat.com,
- parav@mellanox.com
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 3:27 AM, Jens Freimann wrote:
-> This event is emitted when we sent a request to unplug a
-> failover primary device from the Guest OS and it includes the
-> device id of the primary device.
+On 10/23/19 1:09 PM, Zhang, Chen wrote:
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Sent: Wednesday, October 23, 2019 7:01 PM
+>> To: Zhang, Chen <chen.zhang@intel.com>; Jason Wang
+>> <jasowang@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>; qemu-
+>> dev <qemu-devel@nongnu.org>
+>> Cc: Zhang Chen <zhangckid@gmail.com>
+>> Subject: Re: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog
+>> module framework
+>>
+>> Hi Chen,
+>>
+>> On 10/16/19 1:22 PM, Zhang Chen wrote:
+>>> From: Zhang Chen <chen.zhang@intel.com>
+>>>
+>>> This patch introduce a new module named Advanced Watch Dog, and
+>>> defined the input and output parameter. AWD use standard chardev as
+>>> the way of communicationg with the outside world.
+>>> Demo command:
+>>> -object
+>>> advanced-
+>> watchdog,id=3Dheart1,server=3Don,awd_node=3Dh1,notification_node=3Dhe
+>>> artbeat0,opt_script=3Dopt_script_path,iothread=3Diothread1,pulse_inte=
+rval=3D
+>>> 1000,timeout=3D5000
+>>>
+>>> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>>> ---
+>>>    net/Makefile.objs |   1 +
+>>>    net/awd.c         | 261
+>> ++++++++++++++++++++++++++++++++++++++++++++++
+>>>    qemu-options.hx   |   6 ++
+>>>    3 files changed, 268 insertions(+)
+>>>    create mode 100644 net/awd.c
+>>>
+>>> diff --git a/net/Makefile.objs b/net/Makefile.objs index
+>>> c5d076d19c..139b1394e9 100644
+>>> --- a/net/Makefile.objs
+>>> +++ b/net/Makefile.objs
+>>> @@ -19,6 +19,7 @@ common-obj-y +=3D colo-compare.o
+>>>    common-obj-y +=3D colo.o
+>>>    common-obj-y +=3D filter-rewriter.o
+>>>    common-obj-y +=3D filter-replay.o
+>>> +common-obj-y +=3D awd.o
+>> Can you add a net/Kconfig file introducing the ADVANCED_WATCHDOG
+>> selector?
+>>
+>> config COLO_ADVANCED_WATCHDOG
+>>       bool
+>>       default n
+>>
+>> Then use here:
+>>
+>>       common-obj-$(COLO_ADVANCED_WATCHDOG) +=3D awd.o
+>>
 >=20
-> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> ---
->   qapi/migration.json | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
->=20
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 82feb5bd39..52e69e2868 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1448,3 +1448,22 @@
->   # Since: 3.0
->   ##
->   { 'command': 'migrate-pause', 'allow-oob': true }
-> +
-> +##
-> +# @UNPLUG_PRIMARY:
-> +#
-> +# Emitted from source side of a migration when migration state is
-> +# WAIT_UNPLUG. Device was unplugged by guest operating system.
-> +# Device resources in QEMU are kept on standby to be able to re-plug it =
-in case
-> +# of migration failure.
-> +#
-> +# @device_id: QEMU device id of the unplugged device
-> +#
-> +# Since: 4.2
-> +#
-> +# Example:
-> +#   {"event": "UNPLUG_PRIMARY", "data": {"device_id": "hostdev0"} }
+> Sure, but AWD is a universal module,  COLO is just the first user.
+> Maybe use "config ADVANCED_WATCHDOG" is better.
 
-Should be device-id
+Oh I see, better then.
 
+Then we might add (later)
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+   config COLO
+       ...
+       select ADVANCED_WATCHDOG
 
+Thanks!
+
+Phil.
+
+>>>    tap-obj-$(CONFIG_LINUX) =3D tap-linux.o
+>>>    tap-obj-$(CONFIG_BSD) =3D tap-bsd.o
+>> [...]
 
