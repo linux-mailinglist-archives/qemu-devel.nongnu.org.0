@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3B6E192C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:38:05 +0200 (CEST)
-Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8A4E1939
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:43:03 +0200 (CEST)
+Received: from localhost ([::1]:32796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNExo-0002gb-DO
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:38:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48766)
+	id 1iNF2b-00076T-Os
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEVQ-0006x9-G1
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:08:45 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1iNEW5-0007ca-CY
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:09:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEVO-0004tK-6d
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:08:43 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53849
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <chen.zhang@intel.com>) id 1iNEW0-00059O-NN
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:09:24 -0400
+Received: from mga12.intel.com ([192.55.52.136]:22916)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEVN-0004tB-Uk
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:08:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571828921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xaHQctyskDLwRIW1KNuWKPpk2zdbKxiGEFeRak1FKR0=;
- b=bx/MZJmVVbJ75pW/zSv/uMCo7hpvLEO85sm/JlxyIciYzPPGU2ttGOxR4TGrAp1eSv47Zv
- /g6ZgiIoicBxNB6TaDWvuoj9Nv6h79zfEXHMcBP4VOOoTHQNvTpgQy5RRNz2LQtN+cdw3S
- mdNzuCiab/hkDacJSo0L61S6qs+NlFk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-vHZo8FRsNgqYfNV_ji3UXA-1; Wed, 23 Oct 2019 07:08:39 -0400
-Received: by mail-wm1-f71.google.com with SMTP id g13so1166467wme.0
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:08:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Y2z5AVAZYUT5R5LFM0Mqatb/Cq143VOGCwmmySD8DzM=;
- b=HfcB/JYI9QWfIt/MEaJwXj3s8BqWJmZsmTBHI4uhPuckYN4Kwp6r2LjWBjUmJOCEFF
- pd4qRRTYW09SmL5zQYDZKLx5f/3bj8+qqftXiftqIegOZk1fYzWsnHCkxKnAKpFRX3+B
- 5hZN20202Jwj/+j5kCXDW8CrmQZ9vcJX0IvW0++FR2NPhuP2hEQfRWuhjKeu8E9IAONH
- Jbre2zmG8bY6YlDqDmPH9kk/nXRdmiS6yE1X4g9kfVOSn09s2E+4UyXr+i6mBDSpJ1qz
- f/AXP+jux8mhvJRQ418VfgyHqE3GRW4kH1NptydCZ+MWmWLb8fZThcvmPBV3D8JTJHhH
- 6oDQ==
-X-Gm-Message-State: APjAAAXzbmd60GljX6Kan8u93vnSybw5lnjJpoDzHtBdSQK2qnKHDQcI
- RD+2CS/0hCmg0QPzv/djSS1ri3uAb6ifPkhQIGLkKK1kcOqK2jejbSyg69rdXBxQBHyCif2q6F2
- 8Z39E+2+IngaG384=
-X-Received: by 2002:adf:f343:: with SMTP id e3mr84290wrp.315.1571828917755;
- Wed, 23 Oct 2019 04:08:37 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyxyuvEL23J7qETjsDaF4qKbdej3gltPeYCm4JeRcHNvYwe7Ef/LNUgFYC5e4zSIjzv8nQPJA==
-X-Received: by 2002:adf:f343:: with SMTP id e3mr84268wrp.315.1571828917510;
- Wed, 23 Oct 2019 04:08:37 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id g69sm8550397wme.31.2019.10.23.04.08.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 04:08:36 -0700 (PDT)
-Subject: Re: [PATCH v3 3/6] ps2: accept 'Set Key Make and Break' commands
-To: Sven Schnelle <svens@stackframe.org>, Richard Henderson <rth@twiddle.net>
-References: <20191022205941.23152-1-svens@stackframe.org>
- <20191022205941.23152-4-svens@stackframe.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c0a0c73a-496f-e6bc-54ce-a6631ef3a81d@redhat.com>
-Date: Wed, 23 Oct 2019 13:08:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191022205941.23152-4-svens@stackframe.org>
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1iNEVz-00052m-Su
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:09:20 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2019 04:09:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; d="scan'208";a="188218613"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by orsmga007.jf.intel.com with ESMTP; 23 Oct 2019 04:09:07 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 23 Oct 2019 04:09:07 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 23 Oct 2019 04:09:07 -0700
+Received: from shsmsx104.ccr.corp.intel.com (10.239.4.70) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Wed, 23 Oct 2019 04:09:06 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.176]) by
+ SHSMSX104.ccr.corp.intel.com ([169.254.5.166]) with mapi id 14.03.0439.000;
+ Wed, 23 Oct 2019 19:09:05 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, "Jason
+ Wang" <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, qemu-dev
+ <qemu-devel@nongnu.org>
+Subject: RE: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog module
+ framework
+Thread-Topic: [RFC PATCH 1/4] net/awd.c: Introduce Advanced Watch Dog module
+ framework
+Thread-Index: AQHVhBTjxTqcvh6BcUahjVnjYn1+nKdnlByAgACGwZA=
+Date: Wed, 23 Oct 2019 11:09:05 +0000
+Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D78062C3894@shsmsx102.ccr.corp.intel.com>
+References: <20191016112209.9024-1-chen.zhang@intel.com>
+ <20191016112209.9024-2-chen.zhang@intel.com>
+ <e294876e-d26b-b401-78ab-487e1b44685f@redhat.com>
+In-Reply-To: <e294876e-d26b-b401-78ab-487e1b44685f@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-MC-Unique: vHZo8FRsNgqYfNV_ji3UXA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZmM4ZTI3MTktMzUxYS00OWFkLWIwZmUtNjY5YTVjNTA4ZTViIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQUVUbzV1clFpclpSOVBCT3l0WjFzVUF1VTI2VUt0K2xiTW00QnJaYXh6U3cwRU9RSW52WStRYmVpYUd0NTF2OCJ9
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.136
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,82 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sven,
-
-(Please Cc reviewers who previously commented your patch)
-
-On 10/22/19 10:59 PM, Sven Schnelle wrote:
-> HP-UX sends both the 'Set key make and break (0xfc) and
-> 'Set all key typematic make and break' (0xfa). QEMU response
-> with 'Resend' as it doesn't handle these commands. HP-UX than
-> reports an PS/2 max retransmission exceeded error. Add these
-> commands and just reply with ACK.
->=20
-> Signed-off-by: Sven Schnelle <svens@stackframe.org>
-> ---
->   hw/input/ps2.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->=20
-> diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-> index 67f92f6112..0b671b6339 100644
-> --- a/hw/input/ps2.c
-> +++ b/hw/input/ps2.c
-> @@ -49,6 +49,8 @@
->   #define KBD_CMD_RESET_DISABLE=090xF5=09/* reset and disable scanning */
->   #define KBD_CMD_RESET_ENABLE   =090xF6    /* reset and enable scanning =
-*/
->   #define KBD_CMD_RESET=09=090xFF=09/* Reset */
-> +#define KBD_CMD_SET_MAKE_BREAK  0xFC    /* Set Make and Break mode */
-> +#define KBD_CMD_SET_TYPEMATIC   0xFA    /* Set Typematic Make and Break =
-mode */
->  =20
->   /* Keyboard Replies */
->   #define KBD_REPLY_POR=09=090xAA=09/* Power on reset */
-> @@ -573,6 +575,7 @@ void ps2_write_keyboard(void *opaque, int val)
->           case KBD_CMD_SCANCODE:
->           case KBD_CMD_SET_LEDS:
->           case KBD_CMD_SET_RATE:
-> +        case KBD_CMD_SET_MAKE_BREAK:
-
-OK
-
->               s->common.write_cmd =3D val;
->               ps2_queue(&s->common, KBD_REPLY_ACK);
->               break;
-> @@ -592,11 +595,18 @@ void ps2_write_keyboard(void *opaque, int val)
->                   KBD_REPLY_ACK,
->                   KBD_REPLY_POR);
->               break;
-> +        case KBD_CMD_SET_TYPEMATIC:
-> +            ps2_queue(&s->common, KBD_REPLY_ACK);
-
-I'm not sure, can't this loop?
-
-Can you fold it with the '0x00' case?
-
-> +            break;
->           default:
->               ps2_queue(&s->common, KBD_REPLY_RESEND);
->               break;
->           }
->           break;
-> +    case KBD_CMD_SET_MAKE_BREAK:
-
-We can reorder this one in the same case with:
-
-     case KBD_CMD_SET_LEDS:
-     case KBD_CMD_SET_RATE:
-
-> +        ps2_queue(&s->common, KBD_REPLY_ACK);
-> +        s->common.write_cmd =3D -1;
-> +        break;
->       case KBD_CMD_SCANCODE:
->           if (val =3D=3D 0) {
->               if (s->common.queue.count <=3D PS2_QUEUE_SIZE - 2) {
->=20
-
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFBoaWxpcHBlIE1hdGhpZXUt
+RGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBPY3RvYmVyIDIz
+LCAyMDE5IDc6MDEgUE0NCj4gVG86IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT47
+IEphc29uIFdhbmcNCj4gPGphc293YW5nQHJlZGhhdC5jb20+OyBQYW9sbyBCb256aW5pIDxwYm9u
+emluaUByZWRoYXQuY29tPjsgcWVtdS0NCj4gZGV2IDxxZW11LWRldmVsQG5vbmdudS5vcmc+DQo+
+IENjOiBaaGFuZyBDaGVuIDx6aGFuZ2NraWRAZ21haWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1JG
+QyBQQVRDSCAxLzRdIG5ldC9hd2QuYzogSW50cm9kdWNlIEFkdmFuY2VkIFdhdGNoIERvZw0KPiBt
+b2R1bGUgZnJhbWV3b3JrDQo+IA0KPiBIaSBDaGVuLA0KPiANCj4gT24gMTAvMTYvMTkgMToyMiBQ
+TSwgWmhhbmcgQ2hlbiB3cm90ZToNCj4gPiBGcm9tOiBaaGFuZyBDaGVuIDxjaGVuLnpoYW5nQGlu
+dGVsLmNvbT4NCj4gPg0KPiA+IFRoaXMgcGF0Y2ggaW50cm9kdWNlIGEgbmV3IG1vZHVsZSBuYW1l
+ZCBBZHZhbmNlZCBXYXRjaCBEb2csIGFuZA0KPiA+IGRlZmluZWQgdGhlIGlucHV0IGFuZCBvdXRw
+dXQgcGFyYW1ldGVyLiBBV0QgdXNlIHN0YW5kYXJkIGNoYXJkZXYgYXMNCj4gPiB0aGUgd2F5IG9m
+IGNvbW11bmljYXRpb25nIHdpdGggdGhlIG91dHNpZGUgd29ybGQuDQo+ID4gRGVtbyBjb21tYW5k
+Og0KPiA+IC1vYmplY3QNCj4gPiBhZHZhbmNlZC0NCj4gd2F0Y2hkb2csaWQ9aGVhcnQxLHNlcnZl
+cj1vbixhd2Rfbm9kZT1oMSxub3RpZmljYXRpb25fbm9kZT1oZQ0KPiA+IGFydGJlYXQwLG9wdF9z
+Y3JpcHQ9b3B0X3NjcmlwdF9wYXRoLGlvdGhyZWFkPWlvdGhyZWFkMSxwdWxzZV9pbnRlcnZhbD0N
+Cj4gPiAxMDAwLHRpbWVvdXQ9NTAwMA0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWmhhbmcgQ2hl
+biA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gICBuZXQvTWFrZWZpbGUub2Jq
+cyB8ICAgMSArDQo+ID4gICBuZXQvYXdkLmMgICAgICAgICB8IDI2MQ0KPiArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gICBxZW11LW9wdGlvbnMuaHgg
+ICB8ICAgNiArKw0KPiA+ICAgMyBmaWxlcyBjaGFuZ2VkLCAyNjggaW5zZXJ0aW9ucygrKQ0KPiA+
+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9hd2QuYw0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL25l
+dC9NYWtlZmlsZS5vYmpzIGIvbmV0L01ha2VmaWxlLm9ianMgaW5kZXgNCj4gPiBjNWQwNzZkMTlj
+Li4xMzliMTM5NGU5IDEwMDY0NA0KPiA+IC0tLSBhL25ldC9NYWtlZmlsZS5vYmpzDQo+ID4gKysr
+IGIvbmV0L01ha2VmaWxlLm9ianMNCj4gPiBAQCAtMTksNiArMTksNyBAQCBjb21tb24tb2JqLXkg
+Kz0gY29sby1jb21wYXJlLm8NCj4gPiAgIGNvbW1vbi1vYmoteSArPSBjb2xvLm8NCj4gPiAgIGNv
+bW1vbi1vYmoteSArPSBmaWx0ZXItcmV3cml0ZXIubw0KPiA+ICAgY29tbW9uLW9iai15ICs9IGZp
+bHRlci1yZXBsYXkubw0KPiA+ICtjb21tb24tb2JqLXkgKz0gYXdkLm8NCj4gQ2FuIHlvdSBhZGQg
+YSBuZXQvS2NvbmZpZyBmaWxlIGludHJvZHVjaW5nIHRoZSBBRFZBTkNFRF9XQVRDSERPRw0KPiBz
+ZWxlY3Rvcj8NCj4gDQo+IGNvbmZpZyBDT0xPX0FEVkFOQ0VEX1dBVENIRE9HDQo+ICAgICAgYm9v
+bA0KPiAgICAgIGRlZmF1bHQgbg0KPiANCj4gVGhlbiB1c2UgaGVyZToNCj4gDQo+ICAgICAgY29t
+bW9uLW9iai0kKENPTE9fQURWQU5DRURfV0FUQ0hET0cpICs9IGF3ZC5vDQo+IA0KDQpTdXJlLCBi
+dXQgQVdEIGlzIGEgdW5pdmVyc2FsIG1vZHVsZSwgIENPTE8gaXMganVzdCB0aGUgZmlyc3QgdXNl
+ci4NCk1heWJlIHVzZSAiY29uZmlnIEFEVkFOQ0VEX1dBVENIRE9HIiBpcyBiZXR0ZXIuDQoNClRo
+YW5rcw0KWmhhbmcgQ2hlbg0KDQo+IFRoYW5rcywNCj4gDQo+IFBoaWwuDQo+IA0KPiA+DQo+ID4g
+ICB0YXAtb2JqLSQoQ09ORklHX0xJTlVYKSA9IHRhcC1saW51eC5vDQo+ID4gICB0YXAtb2JqLSQo
+Q09ORklHX0JTRCkgPSB0YXAtYnNkLm8NCj4gWy4uLl0NCg==
 
