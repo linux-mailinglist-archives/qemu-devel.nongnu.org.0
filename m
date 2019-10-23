@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A556E1972
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:56:28 +0200 (CEST)
-Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2676EE194F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:49:56 +0200 (CEST)
+Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFFb-000288-CO
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53459)
+	id 1iNF9G-0004Oe-TQ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53751)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iNEhZ-0007lY-Ot
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:21:19 -0400
+ (envelope-from <thuth@redhat.com>) id 1iNEkC-0001CH-PM
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:24:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iNEhY-000287-Hq
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:21:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38077
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iNEkA-0003Xj-DE
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:24:00 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50563
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNEhY-000280-Dr
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:21:16 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iNEkA-0003WU-0R
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:23:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571829676;
+ s=mimecast20190719; t=1571829837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/oCgiAmZFjC7ZbtmbLU4B9PKa5cwt3i6+CMsLzBu6Lk=;
- b=fsp+b0F+DSMmd7FTLfEZKFug21SgRbIX8QkURaxRcNb5WO1SxR5tULCdNsPxSDgcglQ7Vl
- 6XCiuwYKOiN02tscsbciDYV2fFcTRe/L3+urnXDK4UjgQoyNJR3NjBCizaUHCp7wmuqpx7
- WZ0NMMtNGo0a1KzgtnDBGgOQuCr2Sbs=
+ bh=vdyLITlbt1G2PAZ+zH6EalHEYyCkaolOk/S03WNTkWM=;
+ b=GMRb1wCeNc7/Iyon5ftzak8W1nszg60vuUYjMqt/lqRdDHtu6SYN8ONuqEWlja+WpWyv9k
+ 99qjTDmRPZ29tlLogUxMCHVnzT9e0/BUhmFtJM7beEZz0PpZAv7GzzwiR3oU5oX3iCGOnv
+ QKAssFjSJRnuU5XKvqfYL9TzH1lBsg4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-pWYzUt99Mg6NdO6WhQ8jhg-1; Wed, 23 Oct 2019 07:21:12 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-40-dy8NPmurMU-6YVrqkGA5jA-1; Wed, 23 Oct 2019 07:23:55 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA69C1800D6B;
- Wed, 23 Oct 2019 11:21:11 +0000 (UTC)
-Received: from localhost (ovpn-116-104.gru2.redhat.com [10.97.116.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80E331001B39;
- Wed, 23 Oct 2019 11:21:11 +0000 (UTC)
-Date: Wed, 23 Oct 2019 08:21:09 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH] i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V
- enlightenment
-Message-ID: <20191023112109.GJ4084@habkost.net>
-References: <20191018163908.10246-1-vkuznets@redhat.com>
- <4d89f852-85bc-8370-5929-848d24b80a6f@redhat.com>
- <878spe197z.fsf@vitty.brq.redhat.com>
- <66f1dd30-3e45-4dc6-ba0a-d52e5aae6501@redhat.com>
- <20191021171533.GT4084@habkost.net>
- <87k18vzp7t.fsf@vitty.brq.redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59236800D57;
+ Wed, 23 Oct 2019 11:23:54 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CD6419C70;
+ Wed, 23 Oct 2019 11:23:54 +0000 (UTC)
+Received: from zmail25.collab.prod.int.phx2.redhat.com
+ (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 3A3FE18089C8;
+ Wed, 23 Oct 2019 11:23:54 +0000 (UTC)
+Date: Wed, 23 Oct 2019 07:23:54 -0400 (EDT)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <1674218278.8152184.1571829834180.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20191023100425.12168-8-stefanha@redhat.com>
+References: <20191023100425.12168-1-stefanha@redhat.com>
+ <20191023100425.12168-8-stefanha@redhat.com>
+Subject: Re: [PATCH v4 07/16] libqos: enforce Device Initialization order
 MIME-Version: 1.0
-In-Reply-To: <87k18vzp7t.fsf@vitty.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: pWYzUt99Mg6NdO6WhQ8jhg-1
+X-Originating-IP: [149.14.88.107, 10.4.196.10, 10.5.101.130, 10.4.195.24]
+Thread-Topic: libqos: enforce Device Initialization order
+Thread-Index: Ugg0Kwpe1CA5Nu705oUpG32OBPQ6MQ==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: dy8NPmurMU-6YVrqkGA5jA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,72 +79,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Roman Kagan <rkagan@virtuozzo.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, slp@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 01:16:38PM +0200, Vitaly Kuznetsov wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
+----- Original Message -----
+> From: "Stefan Hajnoczi" <stefanha@redhat.com>
+> Sent: Wednesday, October 23, 2019 12:04:16 PM
 >=20
-> > On Mon, Oct 21, 2019 at 06:26:14PM +0200, Paolo Bonzini wrote:
-> >> On 21/10/19 16:09, Vitaly Kuznetsov wrote:
-> >> >>> +    if (cpu->hyperv_no_nonarch_cs =3D=3D ON_OFF_AUTO_ON) {
-> >> >>> +        env->features[FEAT_HV_RECOMM_EAX] |=3D HV_NO_NONARCH_CORE=
-SHARING;
-> >> >>> +    } else if (cpu->hyperv_no_nonarch_cs =3D=3D ON_OFF_AUTO_AUTO)=
- {
-> >> >> Do you want to make auto the default if "-cpu host,migratable=3Doff=
-"?  It
-> >> >> can be done on top so I started queueing this patch.
-> >> > Hm, one thing is that CPUID 0x40000004 doesn't exist if no Hyper-V
-> >> > enlightenments are passed so we'll probably have to modify your idea=
- to
-> >> > "-cpu host,migratable=3Doff,+any-hyperv-enlightenment" but then the
-> >> > question is how conservative are we, like if QEMU command line doesn=
-'t
-> >> > change can new CPUID flags appear or not? And we'll probably need a =
-way
-> >> > to explicitly disable HV_NO_NONARCH_CORESHARING if needed.
-> >>=20
-> >> I would defer to Eduardo on whether "migratable=3Doff" would allow add=
-ing
-> >> new CPUID flags.  The follow-up question however is whether we would
-> >> benefit from a "+hyperv" option that enables all known Hyper-V
-> >> enlightenment for a given machine type.
-> >
-> > I'm not sure what "adding new CPUID flags" means exactly, but on
-> > both cases, the answer is yes:
-> >
-> > If you mean having new flags appear with the same QEMU command
-> > line, this is 100% OK with "-cpu host".  Doubly so with
-> > "migratable=3Doff".  "-cpu host" doesn't guarantee a stable guest
-> > ABI, and migratable=3Doff doesn't guarantee the ability to live
-> > migrate.
-> >
-> > If you just mean the ability to write "-cpu
-> > host,migratable=3Doff,+some-extra-flag", that's OK too.
-> >
-> > I would try to make "-cpu host,migratable=3Doff" enable all
-> > features out of the box (because users probably expect that).
-> > But we you have a compelling reason to not enable the hyperv
-> > flags by default (do we?), it's OK to require something like
-> > "-cpu host,...,+hyperv".
+> According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
+> Initialization", configuration space and virtqueues cannot be accessed
+> before features have been negotiated.  Enforce this requirement.
 >=20
-> I'm not sure if the reason is compelling enough but I remember some
-> Linux tools were only looking at the first hypervisor signature and
-> reporting that we're now running on Hyper-V. Also, more features you
-> enable larger the atack surface...
->=20
-> Actually, we already '-cpu host,hv_passthrough' option which implies
-> 'migratable=3Doff', not sure if another one is needed.
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v4:
+>  * Introduce bool d->features_negotiated so that tests can negotiate a
+>    0 feature bit set in Legacy mode [Thomas]
+> ---
+>  tests/libqos/virtio.h | 1 +
+>  tests/libqos/virtio.c | 7 +++++++
+>  2 files changed, 8 insertions(+)
 
-So, if I understood correctly, Paolo's "+hyperv" suggestion above
-is already implemented by "hv_passthrough"?  Sounds good enough
-to me.
-
---=20
-Eduardo
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
