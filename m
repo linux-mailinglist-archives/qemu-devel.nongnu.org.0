@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C273E1EC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:02:52 +0200 (CEST)
-Received: from localhost ([::1]:38524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50E1E1EFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:12:18 +0200 (CEST)
+Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNI9z-0007A2-8r
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33160)
+	id 1iNIJ7-0006sf-JU
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iNI0B-0000qt-0W
+ (envelope-from <groug@kaod.org>) id 1iNI0B-0000qu-0y
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iNI08-0004Nx-C9
+ (envelope-from <groug@kaod.org>) id 1iNI09-0004Ok-1e
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5986)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17950)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNI06-0004Eb-QK
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:39 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNI08-0004JJ-BS
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:40 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9NEjsn5055204
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:28 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vtr77a4m8-1
+ x9NEiuZo063546
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:34 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vtqypaw5k-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:28 -0400
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:33 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 23 Oct 2019 15:52:25 +0100
+ Wed, 23 Oct 2019 15:52:31 +0100
 Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 23 Oct 2019 15:52:23 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
+ Wed, 23 Oct 2019 15:52:28 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
  by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9NEqMBW62521360
+ x9NEqRtq58523898
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Oct 2019 14:52:22 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4D0A25204F;
- Wed, 23 Oct 2019 14:52:22 +0000 (GMT)
+ Wed, 23 Oct 2019 14:52:28 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D2DB74C058;
+ Wed, 23 Oct 2019 14:52:27 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A422D4C04A;
+ Wed, 23 Oct 2019 14:52:27 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.36.67])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1583C5204E;
- Wed, 23 Oct 2019 14:52:22 +0000 (GMT)
-Subject: [PATCH 5/6] spapr: Don't use CPU_FOREACH() in 'info pic'
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 23 Oct 2019 14:52:27 +0000 (GMT)
+Subject: [PATCH 6/6] xive: Don't use CPU_FOREACH() to perform CAM line matching
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 23 Oct 2019 16:52:21 +0200
+Date: Wed, 23 Oct 2019 16:52:27 +0200
 In-Reply-To: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
 References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -61,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19102314-0020-0000-0000-0000037D2E47
+x-cbid: 19102314-4275-0000-0000-00000376343F
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102314-0021-0000-0000-000021D37080
-Message-Id: <157184234176.3053790.8577967462603127139.stgit@bahia.lan>
+x-cbparentid: 19102314-4276-0000-0000-000038895BE9
+Message-Id: <157184234731.3053790.18369348907304339634.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-23_03:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=400 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910230148
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
@@ -91,129 +94,135 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that presenter objects are parented to the interrupt controller, stop
-relying on CPU_FOREACH() which can race with CPU hotplug and crash QEMU.
+Now that the TCTX objects are children of the XIVE router, stop
+using CPU_FOREACH() when looking for a matching VCPU target.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/spapr_xive.c  |    8 +-------
- hw/intc/xics.c        |   12 ++++++++++++
- hw/intc/xics_spapr.c  |    8 +-------
- hw/intc/xive.c        |   12 ++++++++++++
- include/hw/ppc/xics.h |    1 +
- include/hw/ppc/xive.h |    2 ++
- 6 files changed, 29 insertions(+), 14 deletions(-)
+ hw/intc/xive.c |  100 +++++++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 62 insertions(+), 38 deletions(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index d74ee71e76b4..05763a58cf5d 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -579,14 +579,8 @@ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
- static void spapr_xive_print_info(SpaprInterruptController *intc, Monitor *mon)
- {
-     SpaprXive *xive = SPAPR_XIVE(intc);
--    CPUState *cs;
--
--    CPU_FOREACH(cs) {
--        PowerPCCPU *cpu = POWERPC_CPU(cs);
--
--        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
--    }
- 
-+    xive_presenter_print_info(XIVE_ROUTER(intc), mon);
-     spapr_xive_pic_print_info(xive, mon);
- }
- 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index d5e4db668a4b..6e820c4851f3 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -88,6 +88,18 @@ void ics_pic_print_info(ICSState *ics, Monitor *mon)
-     }
- }
- 
-+static int do_ics_pic_print_icp_infos(Object *child, void *opaque)
-+{
-+    icp_pic_print_info(ICP(child), opaque);
-+    return 0;
-+}
-+
-+void ics_pic_print_icp_infos(ICSState *ics, const char *type, Monitor *mon)
-+{
-+    object_child_foreach_type(OBJECT(ics), type, do_ics_pic_print_icp_infos,
-+                              mon);
-+}
-+
- /*
-  * ICP: Presentation layer
-  */
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 080ed73aad64..7624d693c8da 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -400,14 +400,8 @@ static void xics_spapr_set_irq(SpaprInterruptController *intc, int irq, int val)
- static void xics_spapr_print_info(SpaprInterruptController *intc, Monitor *mon)
- {
-     ICSState *ics = ICS_SPAPR(intc);
--    CPUState *cs;
--
--    CPU_FOREACH(cs) {
--        PowerPCCPU *cpu = POWERPC_CPU(cs);
--
--        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
--    }
- 
-+    ics_pic_print_icp_infos(ics, TYPE_ICP, mon);
-     ics_pic_print_info(ics, mon);
- }
- 
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 8d2da4a11163..40ce43152456 100644
+index 40ce43152456..ec5e7d0ee39a 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -547,6 +547,18 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon)
-     }
- }
+@@ -1403,55 +1403,79 @@ typedef struct XiveTCTXMatch {
+     uint8_t ring;
+ } XiveTCTXMatch;
  
-+static int do_xive_presenter_print_info(Object *child, void *opaque)
-+{
-+    xive_tctx_pic_print_info(XIVE_TCTX(child), opaque);
+-static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
+-                                 uint8_t nvt_blk, uint32_t nvt_idx,
+-                                 bool cam_ignore, uint8_t priority,
+-                                 uint32_t logic_serv, XiveTCTXMatch *match)
++typedef struct XivePresenterMatch {
++    uint8_t format;
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    bool cam_ignore;
++    uint8_t priority;
++    uint32_t logic_serv;
++    XiveTCTXMatch *match;
++    int count;
++} XivePresenterMatch;
++
++static int do_xive_presenter_match(Object *child, void *opaque)
+ {
+-    CPUState *cs;
++    XiveTCTX *tctx = XIVE_TCTX(child);
++    XivePresenterMatch *xpm = opaque;
++    int ring;
+ 
+     /*
+      * TODO (PowerNV): handle chip_id overwrite of block field for
+      * hardwired CAM compares
+      */
+ 
+-    CPU_FOREACH(cs) {
+-        XiveTCTX *tctx = xive_router_get_tctx(xrtr, cs);
+-        int ring;
++    /*
++     * HW checks that the CPU is enabled in the Physical Thread
++     * Enable Register (PTER).
++     */
+ 
+-        /*
+-         * Skip partially initialized vCPUs. This can happen when
+-         * vCPUs are hotplugged.
+-         */
+-        if (!tctx) {
+-            continue;
++    /*
++     * Check the thread context CAM lines and record matches. We
++     * will handle CPU exception delivery later
++     */
++    ring = xive_presenter_tctx_match(tctx, xpm->format, xpm->nvt_blk,
++                                     xpm->nvt_idx, xpm->cam_ignore,
++                                     xpm->logic_serv);
++
++    /*
++     * Save the context and follow on to catch duplicates, that we
++     * don't support yet.
++     */
++    if (ring != -1) {
++        if (xpm->match->tctx) {
++            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a thread "
++                          "context NVT %x/%x\n", xpm->nvt_blk, xpm->nvt_idx);
++            return -1;
+         }
+ 
+-        /*
+-         * HW checks that the CPU is enabled in the Physical Thread
+-         * Enable Register (PTER).
+-         */
++        xpm->match->ring = ring;
++        xpm->match->tctx = tctx;
++        xpm->count++;
++    }
+ 
+-        /*
+-         * Check the thread context CAM lines and record matches. We
+-         * will handle CPU exception delivery later
+-         */
+-        ring = xive_presenter_tctx_match(tctx, format, nvt_blk, nvt_idx,
+-                                         cam_ignore, logic_serv);
+-        /*
+-         * Save the context and follow on to catch duplicates, that we
+-         * don't support yet.
+-         */
+-        if (ring != -1) {
+-            if (match->tctx) {
+-                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a thread "
+-                              "context NVT %x/%x\n", nvt_blk, nvt_idx);
+-                return false;
+-            }
+-
+-            match->ring = ring;
+-            match->tctx = tctx;
+-        }
 +    return 0;
 +}
 +
-+void xive_presenter_print_info(XiveRouter *xrtr, Monitor *mon)
++static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
++                                 uint8_t nvt_blk, uint32_t nvt_idx,
++                                 bool cam_ignore, uint8_t priority,
++                                 uint32_t logic_serv, XiveTCTXMatch *match)
 +{
-+    object_child_foreach_type(OBJECT(xrtr), TYPE_XIVE_TCTX,
-+                              do_xive_presenter_print_info, mon);
-+}
++    XivePresenterMatch xpm = {
++        .format     = format,
++        .nvt_blk    = nvt_blk,
++        .nvt_idx    = nvt_idx,
++        .cam_ignore = cam_ignore,
++        .priority   = priority,
++        .logic_serv = logic_serv,
++        .match      = match,
++        .count      = 0,
++    };
 +
- void xive_tctx_reset(XiveTCTX *tctx)
- {
-     memset(tctx->regs, 0, sizeof(tctx->regs));
-diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-index f4827e748fd8..4de1f421c997 100644
---- a/include/hw/ppc/xics.h
-+++ b/include/hw/ppc/xics.h
-@@ -175,6 +175,7 @@ static inline bool ics_irq_free(ICSState *ics, uint32_t srcno)
- void ics_set_irq_type(ICSState *ics, int srcno, bool lsi);
- void icp_pic_print_info(ICPState *icp, Monitor *mon);
- void ics_pic_print_info(ICSState *ics, Monitor *mon);
-+void ics_pic_print_icp_infos(ICSState *ics, const char *type, Monitor *mon);
++    if (object_child_foreach_type(OBJECT(xrtr), TYPE_XIVE_TCTX,
++                                  do_xive_presenter_match, &xpm) < 0) {
++        return false;
+     }
  
- void ics_resend(ICSState *ics);
- void icp_resend(ICPState *ss);
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 8fd439ec9bba..14690428a0aa 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -367,6 +367,8 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx,
- XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
- void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
- 
-+void xive_presenter_print_info(XiveRouter *xrtr, Monitor *mon);
-+
- /*
-  * XIVE END ESBs
-  */
+     if (!match->tctx) {
 
 
