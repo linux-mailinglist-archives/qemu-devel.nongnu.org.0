@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C54E1EBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:00:36 +0200 (CEST)
-Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45F1E1ED8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:06:46 +0200 (CEST)
+Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNI7m-0006QV-1L
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:00:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32960)
+	id 1iNIDl-0002ZY-FR
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iNHzi-0000mx-Kb
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:15 -0400
+ (envelope-from <groug@kaod.org>) id 1iNHzm-0000oo-Pm
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iNHzh-00042a-GO
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25014
+ (envelope-from <groug@kaod.org>) id 1iNHzl-000463-3u
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53614
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNHzh-000426-A0
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:13 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNHzk-00045Z-Vp
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:52:17 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9NEiowi062724
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:12 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vtqvyk8c9-1
+ x9NEj7dp128863
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:16 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vtqg6ccum-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:11 -0400
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:52:16 -0400
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 23 Oct 2019 15:52:09 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Wed, 23 Oct 2019 15:52:14 +0100
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 23 Oct 2019 15:52:06 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9NEq5fF49348844
+ Wed, 23 Oct 2019 15:52:12 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x9NEpcm829229436
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Oct 2019 14:52:05 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8BE1F11C05C;
- Wed, 23 Oct 2019 14:52:05 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5456011C04A;
- Wed, 23 Oct 2019 14:52:05 +0000 (GMT)
+ Wed, 23 Oct 2019 14:51:38 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2744FAE053;
+ Wed, 23 Oct 2019 14:52:11 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E2B1BAE05A;
+ Wed, 23 Oct 2019 14:52:10 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.36.67])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 23 Oct 2019 14:52:05 +0000 (GMT)
-Subject: [PATCH 2/6] xive, xics: Fix reference counting on CPU objects
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 23 Oct 2019 14:52:10 +0000 (GMT)
+Subject: [PATCH 3/6] ppc: Reparent presenter objects to the interrupt
+ controller object
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 23 Oct 2019 16:52:05 +0200
+Date: Wed, 23 Oct 2019 16:52:10 +0200
 In-Reply-To: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
 References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -65,17 +66,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19102314-0008-0000-0000-00000326285C
+x-cbid: 19102314-0016-0000-0000-000002BC2A79
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102314-0009-0000-0000-00004A455840
-Message-Id: <157184232497.3053790.5571330781863409160.stgit@bahia.lan>
+x-cbparentid: 19102314-0017-0000-0000-0000331D6B04
+Message-Id: <157184233056.3053790.13073641279894392321.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-23_03:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=860 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910230148
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -95,81 +96,201 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a VCPU gets connected to the XIVE interrupt controller, we add a
-const link targetting the CPU object to the TCTX object. Similar links
-are added to the ICP object when using the XICS interrupt controller.
+Each VCPU is associated to a presenter object within the interrupt
+controller, ie. TCTX for XIVE and ICP for XICS, but our current
+models put these objects below the VCPU, and we rely on CPU_FOREACH()
+to do anything that involves presenters.
 
-As explained in <qom/object.h>:
+This recently bit us with the CAM line matching logic in XIVE because
+CPU_FOREACH() can race with CPU hotplug and we ended up considering a
+VCPU that wasn't associated to a TCTX object yet. Other users of
+CPU_FOREACH() are 'info pic' for both XICS and XIVE. It is again very
+easy to crash QEMU with concurrent VCPU hotplug/unplug and 'info pic'.
 
- * The caller must ensure that @target stays alive as long as
- * this property exists.  In the case @target is a child of @obj,
- * this will be the case.  Otherwise, the caller is responsible for
- * taking a reference.
+Reparent the presenter objects to the corresponding interrupt controller
+object, ie. XIVE router or ICS, to make it clear they are not some extra
+data hanging from the CPU but internal XIVE or XICS entities. The CPU
+object now needs to explicitely take a reference on the presenter to
+ensure its pointer remains valid until unrealize time.
 
-We're in the latter case for both XICS and XIVE. Add the missing
-calls to object_ref() and object_unref().
+This will allow to get rid of CPU_FOREACH() and ease further improvements
+to the XIVE model.
 
-This doesn't fix any known issue because the life cycle of the TCTX or
-ICP happens to be shorter than the one of the CPU or XICS fabric, but
-better safe than sorry.
+This change doesn't impact section ids and is thus transparent to
+migration.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/xics.c |    8 +++++++-
- hw/intc/xive.c |    6 +++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ hw/intc/spapr_xive.c  |    6 +++++-
+ hw/intc/xics.c        |    7 +++++--
+ hw/intc/xics_spapr.c  |    8 ++++++--
+ hw/intc/xive.c        |    4 +++-
+ hw/ppc/pnv.c          |   17 +++++++++++++----
+ include/hw/ppc/xics.h |    2 +-
+ 6 files changed, 33 insertions(+), 11 deletions(-)
 
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index b09cc48bcb61..d74ee71e76b4 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -526,6 +526,7 @@ static int spapr_xive_cpu_intc_create(SpaprInterruptController *intc,
+         return -1;
+     }
+ 
++    object_ref(obj);
+     spapr_cpu->tctx = XIVE_TCTX(obj);
+     return 0;
+ }
+@@ -558,7 +559,10 @@ static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+ static void spapr_xive_cpu_intc_destroy(SpaprInterruptController *intc,
+                                         PowerPCCPU *cpu)
+ {
+-    xive_tctx_destroy(spapr_cpu_state(cpu)->tctx);
++    XiveTCTX *tctx = spapr_cpu_state(cpu)->tctx;
++
++    object_unref(OBJECT(tctx));
++    xive_tctx_destroy(tctx);
+ }
+ 
+ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
 diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index 935f325749cb..5f746079be46 100644
+index 5f746079be46..d5e4db668a4b 100644
 --- a/hw/intc/xics.c
 +++ b/hw/intc/xics.c
-@@ -388,8 +388,10 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
-     obj = object_new(type);
-     object_property_add_child(cpu, type, obj, &error_abort);
-     object_unref(obj);
-+    object_ref(OBJECT(xi));
-     object_property_add_const_link(obj, ICP_PROP_XICS, OBJECT(xi),
-                                    &error_abort);
-+    object_ref(cpu);
-     object_property_add_const_link(obj, ICP_PROP_CPU, cpu, &error_abort);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-@@ -403,7 +405,11 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
+@@ -380,13 +380,16 @@ static const TypeInfo icp_info = {
+     .class_size = sizeof(ICPStateClass),
+ };
  
- void icp_destroy(ICPState *icp)
+-Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
++Object *icp_create(Object *cpu, const char *type, ICSState *ics, XICSFabric *xi,
++                   Error **errp)
  {
--    object_unparent(OBJECT(icp));
-+    Object *obj = OBJECT(icp);
+     Error *local_err = NULL;
++    g_autofree char *name = NULL;
+     Object *obj;
+ 
+     obj = object_new(type);
+-    object_property_add_child(cpu, type, obj, &error_abort);
++    name = g_strdup_printf("%s[%d]", type, CPU(cpu)->cpu_index);
++    object_property_add_child(OBJECT(ics), name, obj, &error_abort);
+     object_unref(obj);
+     object_ref(OBJECT(xi));
+     object_property_add_const_link(obj, ICP_PROP_XICS, OBJECT(xi),
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 5977d1bdb73f..080ed73aad64 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -337,11 +337,12 @@ static int xics_spapr_cpu_intc_create(SpaprInterruptController *intc,
+     Object *obj;
+     SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+ 
+-    obj = icp_create(OBJECT(cpu), TYPE_ICP, ics->xics, errp);
++    obj = icp_create(OBJECT(cpu), TYPE_ICP, ics, ics->xics, errp);
+     if (!obj) {
+         return -1;
+     }
+ 
++    object_ref(obj);
+     spapr_cpu->icp = ICP(obj);
+     return 0;
+ }
+@@ -355,7 +356,10 @@ static void xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
+ static void xics_spapr_cpu_intc_destroy(SpaprInterruptController *intc,
+                                         PowerPCCPU *cpu)
+ {
+-    icp_destroy(spapr_cpu_state(cpu)->icp);
++    ICPState *icp = spapr_cpu_state(cpu)->icp;
 +
-+    object_unref(object_property_get_link(obj, ICP_PROP_CPU, &error_abort));
-+    object_unref(object_property_get_link(obj, ICP_PROP_XICS, &error_abort));
-+    object_unparent(obj);
++    object_unref(OBJECT(icp));
++    icp_destroy(icp);
  }
  
- /*
+ static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 38257aa02083..952a461d5329 100644
+index 952a461d5329..8d2da4a11163 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -682,6 +682,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
-     obj = object_new(TYPE_XIVE_TCTX);
-     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
-     object_unref(obj);
-+    object_ref(cpu);
-     object_property_add_const_link(obj, "cpu", cpu, &error_abort);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-@@ -698,7 +699,10 @@ error:
- 
- void xive_tctx_destroy(XiveTCTX *tctx)
+@@ -677,10 +677,12 @@ static const TypeInfo xive_tctx_info = {
+ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
  {
--    object_unparent(OBJECT(tctx));
-+    Object *obj = OBJECT(tctx);
+     Error *local_err = NULL;
++    g_autofree char *name = NULL;
+     Object *obj;
+ 
+     obj = object_new(TYPE_XIVE_TCTX);
+-    object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
++    name = g_strdup_printf(TYPE_XIVE_TCTX "[%d]", CPU(cpu)->cpu_index);
++    object_property_add_child(OBJECT(xrtr), name, obj, &error_abort);
+     object_unref(obj);
+     object_ref(cpu);
+     object_property_add_const_link(obj, "cpu", cpu, &error_abort);
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index bd17c3536dd5..cbeabf98bff6 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -767,14 +767,16 @@ static void pnv_chip_power8_intc_create(PnvChip *chip, PowerPCCPU *cpu,
+     Error *local_err = NULL;
+     Object *obj;
+     PnvCPUState *pnv_cpu = pnv_cpu_state(cpu);
++    Pnv8Chip *chip8 = PNV8_CHIP(chip);
+ 
+-    obj = icp_create(OBJECT(cpu), TYPE_PNV_ICP, XICS_FABRIC(qdev_get_machine()),
+-                     &local_err);
++    obj = icp_create(OBJECT(cpu), TYPE_PNV_ICP, &chip8->psi.ics,
++                     XICS_FABRIC(qdev_get_machine()), &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
++    object_ref(obj);
+     pnv_cpu->intc = obj;
+ }
+ 
+@@ -788,7 +790,10 @@ static void pnv_chip_power8_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
+ 
+ static void pnv_chip_power8_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
+ {
+-    icp_destroy(ICP(pnv_cpu_state(cpu)->intc));
++    Object *intc = pnv_cpu_state(cpu)->intc;
 +
-+    object_unref(object_property_get_link(obj, "cpu", &error_abort));
-+    object_unparent(obj);
++    object_unref(intc);
++    icp_destroy(ICP(intc));
  }
  
  /*
+@@ -825,6 +830,7 @@ static void pnv_chip_power9_intc_create(PnvChip *chip, PowerPCCPU *cpu,
+         return;
+     }
+ 
++    object_ref(obj);
+     pnv_cpu->intc = obj;
+ }
+ 
+@@ -837,7 +843,10 @@ static void pnv_chip_power9_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
+ 
+ static void pnv_chip_power9_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
+ {
+-    xive_tctx_destroy(XIVE_TCTX(pnv_cpu_state(cpu)->intc));
++    Object *intc = pnv_cpu_state(cpu)->intc;
++
++    object_unref(intc);
++    xive_tctx_destroy(XIVE_TCTX(intc));
+ }
+ 
+ /*
+diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+index 48a75aa4ab75..f4827e748fd8 100644
+--- a/include/hw/ppc/xics.h
++++ b/include/hw/ppc/xics.h
+@@ -179,7 +179,7 @@ void ics_pic_print_info(ICSState *ics, Monitor *mon);
+ void ics_resend(ICSState *ics);
+ void icp_resend(ICPState *ss);
+ 
+-Object *icp_create(Object *cpu, const char *type, XICSFabric *xi,
++Object *icp_create(Object *cpu, const char *type, ICSState *ics, XICSFabric *xi,
+                    Error **errp);
+ void icp_destroy(ICPState *icp);
+ 
 
 
