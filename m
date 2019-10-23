@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4F0E1938
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:42:36 +0200 (CEST)
-Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06359E195F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:52:17 +0200 (CEST)
+Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNF2B-0006oq-0t
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54067)
+	id 1iNFBX-0006H3-MG
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54277)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEmK-00032B-8N
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:26:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNEnU-0004Oj-WB
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:27:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEmI-00066p-30
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:26:12 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31112
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNEnU-0007Wq-1q
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:27:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37224)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEmG-000625-6I
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:26:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571829966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wp/92vFeJJwHk8zHiYRk0f0kQL5XroUuv/jkwu+Fk+E=;
- b=Q7LTboUE8IsqeHoSzH6cRRrU3ks+V12sbLEUawPEbRjJhkISvtJEujmjzHjWJePADWbT3B
- wY7W7aERKuK6XUI8HYPe4jvg7N1I+jn3oNIwDnxryj9JLFqqn+xdNqceP7zX9hXYPePhdl
- t/SbpWZBA7n4URv6OL2tPwz9Uo3NYBQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-XeVTI48qMh-QGEpwhMElIA-1; Wed, 23 Oct 2019 07:26:03 -0400
-Received: by mail-wr1-f71.google.com with SMTP id 92so5433077wro.14
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:26:02 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEnT-0007Va-NK
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:27:24 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C172D4ACA5
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:27:22 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id 92so5434611wro.14
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:27:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=m9q/U1JTiiMa06l0oVGiV/ZCGM5x1enfqDjDlRWfRKo=;
- b=roUk4Q2LbYT6lD+TwUJI+8JB5nLlYf4WWL1tytaPuyzmvFtB2uhkw3z+FyYuo1yrXi
- D3bspjOjsYl1PJ8tsncqDqvGPS9ZtmYxcNuSqB1kW/fTanXg239B0xlFxxXuuGi3Sej8
- 7WYoHBvQeYfN6voxt2hblEkXFqpU1nR//sf0W0ceVlOS2yNomt0qEakbbETh1rwFfQ2Z
- xiDl9jNQcHOU3gISZrgt2DS5KwNa+CrrbscUowxBPQxwO5LmnVO+7/L3eLRLxR4Lyb+3
- XxchUWhHB/WydJZIyebCu4Z6RQcareXv8B3O9Lacm9spcdqgOIWeiFzY5Aa5qsb4dBpQ
- CuhQ==
-X-Gm-Message-State: APjAAAUSeXnz6fzl1t/c72DL7ypst1rDUtUEAiQjhxj8HtP4EwKXq1Is
- MbSc2DevbObUvkg0syYCHxFnHrkhfZCEFq67WTdsM7FHnL6eKN6f+dq6TiI4mO9wKMbLSNhREMp
- o8u6xsCyHLlxWZBA=
-X-Received: by 2002:a5d:5221:: with SMTP id i1mr7392485wra.297.1571829961866; 
- Wed, 23 Oct 2019 04:26:01 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxivxE+HICPDznw+3ROOUIuGj+yZhjEMG4cYbi3E5JbSL24HtUu3KvsH1lW5f6quA9GZx3Rfw==
-X-Received: by 2002:a5d:5221:: with SMTP id i1mr7392472wra.297.1571829961653; 
- Wed, 23 Oct 2019 04:26:01 -0700 (PDT)
+ bh=ePuC57VwSKpSQ2wXoLmJq2KLCqJrItXgLd5Kjve1l64=;
+ b=dGNpiGXzGaSzyIh/xpLfEqPip9JD0VmMvJbPME2zPCry6alLwo5nIKowioE5QAyXiq
+ Gz0XLbJdoCJXps75mcijgCLXgJkrhf6qkDGwdL80Jawt+UBTXvtoU07s8N5fMS+tNQt7
+ ZylO/Ou2s9evD3ZrAs1Cbl1WVUoA4R4a9E2wNRUR0m2z2eZCfz/lffzWvxR3lrsHi9PQ
+ 1c886BubHNL7ZDNlqtU/S9V2Hd01xTiYz57ie/NDKT4P/m8/yGiGN7aMG2bvYwoNQuCK
+ rS1KJQ0iU56sC3XoN/a3mXVxTjwrhiTvUWTswlYAP3ehi799OYZRcY3ID0NdNuw0EwD7
+ oQtw==
+X-Gm-Message-State: APjAAAW6ab5yUIur7DXHATuIw9HJv0z9FnsBpawVipu7Frm6NXfw27In
+ ww3x+sLhzDRcKMFsNg0f5dKeNbzik2PUavrdbNamH4wQPU1T4ZhJi0u4qhYtvQURmJRthGkIUa/
+ +wMyAk0Z40XPUOtE=
+X-Received: by 2002:a5d:464f:: with SMTP id j15mr7920705wrs.366.1571830041485; 
+ Wed, 23 Oct 2019 04:27:21 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyk5D9g0pgy3/IGWg1Tga/sCh5bRkcu0TvNBfh/+vHLJDOhrsgvS8/3y5xxTVYrY8NqxZHZog==
+X-Received: by 2002:a5d:464f:: with SMTP id j15mr7920678wrs.366.1571830041126; 
+ Wed, 23 Oct 2019 04:27:21 -0700 (PDT)
 Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id w15sm13756333wro.65.2019.10.23.04.26.00
+ by smtp.gmail.com with ESMTPSA id l5sm3837937wmj.44.2019.10.23.04.27.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 04:26:01 -0700 (PDT)
-Subject: Re: [PATCH v5 6/7] ppc/pnv: Fix naming of routines realizing the CPUs
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20191022163812.330-1-clg@kaod.org>
- <20191022163812.330-7-clg@kaod.org>
+ Wed, 23 Oct 2019 04:27:20 -0700 (PDT)
+Subject: Re: [PATCH v1 05/19] travis.yml: Fix the ccache lines
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191022191704.6134-1-alex.bennee@linaro.org>
+ <20191022191704.6134-6-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a8389f4b-6dc5-95ed-f89e-737598ef1059@redhat.com>
-Date: Wed, 23 Oct 2019 13:26:00 +0200
+Message-ID: <182668f2-ba8d-0c32-6968-659cf9a29614@redhat.com>
+Date: Wed, 23 Oct 2019 13:27:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191022163812.330-7-clg@kaod.org>
+In-Reply-To: <20191022191704.6134-6-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MC-Unique: XeVTI48qMh-QGEpwhMElIA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,67 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/19 6:38 PM, C=C3=A9dric Le Goater wrote:
-> The 'vcpu' suffix is inherited from the sPAPR machine. Use better
-> names for PowerNV.
+On 10/22/19 9:16 PM, Alex Benn=C3=A9e wrote:
+> From: Thomas Huth <thuth@redhat.com>
 >=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> ---
->   hw/ppc/pnv_core.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+> The "command -v ccache && ccache ..." likely were supposed to test
+> the availability of ccache before running the program. But this
+> shell construct causes Travis to abort if ccache is not available.
+> Use an if-statement instead to fix this problem.
 >=20
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index be0310ac0340..e81cd3a3e047 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -162,7 +162,7 @@ static const MemoryRegionOps pnv_core_power9_xscom_op=
-s =3D {
->       .endianness =3D DEVICE_BIG_ENDIAN,
->   };
->  =20
-> -static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChip *chip, Error **err=
-p)
-> +static void pnv_core_cpu_realize(PowerPCCPU *cpu, PnvChip *chip, Error *=
-*errp)
->   {
->       CPUPPCState *env =3D &cpu->env;
->       int core_pir;
-> @@ -247,7 +247,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
->       }
->  =20
->       for (j =3D 0; j < cc->nr_threads; j++) {
-> -        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
-> +        pnv_core_cpu_realize(pc->threads[j], pc->chip, &local_err);
->           if (local_err) {
->               goto err;
->           }
-> @@ -269,7 +269,7 @@ err:
->       error_propagate(errp, local_err);
->   }
->  =20
-> -static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
-> +static void pnv_core_cpu_unrealize(PowerPCCPU *cpu)
->   {
->       PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
->  =20
-> @@ -289,7 +289,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
->       qemu_unregister_reset(pnv_core_reset, pc);
->  =20
->       for (i =3D 0; i < cc->nr_threads; i++) {
-> -        pnv_unrealize_vcpu(pc->threads[i]);
-> +        pnv_core_cpu_unrealize(pc->threads[i]);
->       }
->       g_free(pc->threads);
->   }
->=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20191009170701.14756-5-thuth@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+> ---
+>   .travis.yml | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index e65e53f3d7e..7e0d4ad2b31 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -91,13 +91,13 @@ git:
+>  =20
+>   before_script:
+>     - if [ "$TRAVIS_OS_NAME" =3D=3D "osx" ] ; then export PATH=3D"/usr/=
+local/opt/ccache/libexec:$PATH" ; fi
+> -  - command -v ccache && ccache --zero-stats
+> +  - if command -v ccache ; then ccache --zero-stats ; fi
+>     - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+>     - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log=
+ && exit 1; }
+>   script:
+>     - make -j3 && travis_retry ${TEST_CMD}
+>   after_script:
+> -  - command -v ccache && ccache --show-stats
+> +  - if command -v ccache ; then ccache --show-stats ; fi
+>  =20
+>  =20
+>   matrix:
+>=20
 
