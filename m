@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AFDE19F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:22:57 +0200 (CEST)
-Received: from localhost ([::1]:34586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6F9E19CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:17:03 +0200 (CEST)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFfE-0007xd-C0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33799)
+	id 1iNFZV-0003WO-UT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:17:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNFdO-0006uw-7G
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:21:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNFWy-0002ZL-Tb
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:14:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNFdN-000729-2q
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:21:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55820)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNFdL-00070Y-7o
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:20:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNFdJ-0000fQ-RJ
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 12:20:57 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A8D672E8079
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 12:20:57 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iNFWw-0000SI-5r
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:14:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48140)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNFWw-0000R6-0D
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:14:22 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA185C056808
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 12:14:20 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id v7so8958930wrf.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:14:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dEij+SvigyC3yn1CUgby1y1pvbIfyJud3/tGu/K0MDw=;
+ b=qvl1Fyg7nOXxavfkPgLMYWqBf4GIe7a5EF7cLoUWSPC6uS8c6HV1OpvPnDdybbWvwJ
+ nn0XaBi3DkdQPDkN8ljEm+75OGO+qhcp4yE/iZKHkV9ZlcxmxYj+7X53p1qEYAuVIx48
+ v0BAHZX/v0U2Spg7ckjLLqxH2PZiHScNT3GVVeGTzGutlOV1pM9plbztQF4ZHGaGouvL
+ BGiJ9PuxmxsVIlKtPfLUrGlsUWvFfiac+Ohn5ICQJorA3Wd73RREzhwBwCH4iJA9wq3U
+ i1qKpmU9Bl7MnuSTqj2sq8z2mNTfyrtZu68WAe33NnqvcVYU3YQLWDyPrIeq7AvL3uXB
+ vCtA==
+X-Gm-Message-State: APjAAAUXCiC9PXxGH0G+1veEbCICq5ZvILLf/F+J4a0MGlOy/67ETxbA
+ 0KUXmM2ltqzw9Uyd6E1IIC7QijYCSor3UMAQkFOhDLCaY59Ute1VGTstDoTrQ/w2uqMrkTnBANe
+ f1spTY3Opa88MAUI=
+X-Received: by 2002:a7b:c05a:: with SMTP id u26mr7534882wmc.128.1571832859417; 
+ Wed, 23 Oct 2019 05:14:19 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzt62MaXqNdgKvc08o6r5HgbiW1x2x3lpoFOE7gpRLNAj+21meigcVgYkkhf4AsDMGPruGNwQ==
+X-Received: by 2002:a7b:c05a:: with SMTP id u26mr7534861wmc.128.1571832859215; 
+ Wed, 23 Oct 2019 05:14:19 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id x2sm20412678wrn.81.2019.10.23.05.14.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 05:14:18 -0700 (PDT)
+Subject: Re: [PATCH v1 13/19] travis.yml: cache the clang sanitizer build
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191022191704.6134-1-alex.bennee@linaro.org>
+ <20191022191704.6134-14-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <19a22c53-aada-6e45-313a-2b8b317fb7cb@redhat.com>
+Date: Wed, 23 Oct 2019 14:14:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191022191704.6134-14-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 12:12:06 -0000
-From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon pmaydell
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
-References: <150712892432.28170.15132413345734525245.malonedeb@gac.canonical.com>
-Message-Id: <157183272636.25749.10275518415437475732.malone@chaenomeles.canonical.com>
-Subject: [Bug 1721275] Re: Support more ARM CPUs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d3d50e7b5812bc5ee0ae9b44c5acebb448ce14fb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,62 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1721275 <1721275@bugs.launchpad.net>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seemed "easy" to add cortex-m7 based on cortex-m4 (copy m4
-description, update ID register values), but I realized that QEMU does
-not support FPv5 which not only supports DP, but also adds new
-instructions that QEMU does not handle yet (see section A2.5 of the
-ARMv7-M ARM).
+On 10/22/19 9:16 PM, Alex Benn=C3=A9e wrote:
+> Hopefully we'll see the same benefits as the other builds.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   .travis.yml | 1 +
+>   1 file changed, 1 insertion(+)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index da6a2063fca..c43597f1331 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -189,6 +189,7 @@ matrix:
+>  =20
+>       - env:
+>           - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS} "
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-sanitize"
+>         compiler: clang
+>         before_script:
+>           - ./configure ${CONFIG} --extra-cflags=3D"-fsanitize=3Dundefi=
+ned -Werror" || { cat config.log && exit 1; }
+>=20
 
-* Are there plans to implement them?
-* If not, how difficult is it? (for a developer not very familiar with the =
-QEMU code base)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1721275
-
-Title:
-  Support more ARM CPUs
-
-Status in QEMU:
-  Won't Fix
-
-Bug description:
-  Hi,
-
-  This is an enhancement request, rather than a bug report.
-
-  After some discussions/presentations during the last Linaro Connect
-  (SFO17), I understand that it may be easy to add support for more ARM
-  CPUs in QEMU. I am interested in user-mode, if that matters.
-
-  I'm primarily using QEMU for GCC validations, and I'd like to make
-  sure that GCC doesn't generate instructions not supported by the CPU
-  it's supposed to generate code for.
-
-  I'd like to have:
-  cortex-m0
-  cortex-m4
-  cortex-m7
-  cortex-m23
-  cortex-m33
-
-  cortex-a35
-  cortex-a53
-  cortex-a57
-
-  Is it possible?
-  Is it the right place to ask?
-  Should I file separate requests for each?
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1721275/+subscriptions
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
