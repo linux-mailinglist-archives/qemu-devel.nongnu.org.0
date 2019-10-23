@@ -2,63 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45A7E1DD6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 16:14:38 +0200 (CEST)
-Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94261E1DA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 16:05:16 +0200 (CEST)
+Received: from localhost ([::1]:36900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNHPJ-00038n-MI
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 10:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52957)
+	id 1iNHGB-0004I2-SK
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 10:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNHGu-0005gC-Ry
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:05:58 -0400
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1iNHBN-0002Zq-GK
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:00:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNHGt-0007lI-1H
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:05:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40268)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNHGp-0007kN-2V
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:05:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNHGn-0003AX-PW
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:05:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B50C02E8074
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:05:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 13:55:14 -0000
-From: Thomas Huth <1605506@bugs.launchpad.net>
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1iNHBH-0004p5-Ea
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:00:13 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:46538 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
+ id 1iNHBH-0004mJ-23
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 10:00:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id A98B91A2268;
+ Wed, 23 Oct 2019 16:00:02 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
+ [10.10.14.77])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 66CCA1A215C;
+ Wed, 23 Oct 2019 16:00:02 +0200 (CEST)
+From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: qemu
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: justcaca th-huth
-X-Launchpad-Bug-Reporter: lisiheng (justcaca)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160722071222.4694.55918.malonedeb@wampee.canonical.com>
-Message-Id: <157183891429.21488.9309368442602329628.malone@wampee.canonical.com>
-Subject: [Bug 1605506] Re: qemu driver_mirror error "Operation not permitted"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 80e8052579d7af0b6d7442a02247da2fd45434ba
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Subject: [PATCH v9 0/3] Optimize emulation of some Altivec instructions
+Date: Wed, 23 Oct 2019 15:59:53 +0200
+Message-Id: <1571839196-1739-1-git-send-email-stefan.brankovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,225 +48,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1605506 <1605506@bugs.launchpad.net>
+Cc: aleksandar.markovic@rt-rk.com, stefan.brankovic@rt-rk.com,
+ richard.henderson@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do you have SELinux or AppArmor or something similar enabled?
+Optimize emulation of twelve Altivec instructions: lvsl, lvsr, vsl, vsr, vpkpx,
+vgbbd, vclzb, vclzh, vclzw, vclzd, vupkhpx and vupklpx.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+This series builds up on and complements recent work of Thomas Murta, Mark
+Cave-Ayland and Richard Henderson in the same area. It is based on devising TCG
+translation implementation for selected instructions rather than using helpers.
+The selected instructions are most of the time idiosyncratic to ppc platform,
+so relatively complex TCG translation (without direct mapping to host
+instruction that is not possible in these cases) seems to be the best option,
+and that approach is presented in this series. The performance improvements
+are significant in all cases.
 
--- =
+V9:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1605506
+Fixed comments and commit messages.
 
-Title:
-  qemu driver_mirror error "Operation not permitted"
+V8:
 
-Status in QEMU:
-  Incomplete
+Addressed Aleksandar Markovic's suggestions.
 
-Bug description:
-  I use libvirtd to call qemu drive_mirror return error message "Operation =
-not permitted", But directly run qemu and call drive_mirror is OK;
-  when drive_mirror target is logic device return error message "Operation =
-not permitted",But the file is OK;
+V7:
 
-  Operating Environment=EF=BC=9A
-  OS:ubuntu 14.04
-  kernel:3.16.0-28-generic
-  libvirt-bin version: 1.2.2-0ubuntu13.1.17
-  qemu:2.5.0 or 2.6.0
-  run vm user: root
-  =EF=BC=88retry in redhat7.2 have the same problem=EF=BC=81=EF=BC=89
+Added optimization for vupkhpx and vupklpx instructions.
 
-  Here is my running process:
-  libvirtd call
-  prepare libvirt xml   libvirt.xml
-  <?xml version=3D"1.0"?><domain type=3D"kvm">
-      <name>i-745F35DC</name>
-      <memory>65536</memory>
-      <vcpu>1</vcpu>
-      <cpu mode=3D"host-model"><model fallback=3D"allow"/><topology sockets=
-=3D"1" threads=3D"1" cores=3D"1"/></cpu>
-      <os><type>hvm</type><boot dev=3D"cdrom"/><boot dev=3D"hd"/></os>
-      <features><acpi/><apic/><pae/></features>
-      <on_poweroff>destroy</on_poweroff>
-      <on_reboot>restart</on_reboot>
-      <on_crash>destroy</on_crash>
-      <devices>
-          <emulator>/usr/local/qemu-2.5.0-20160720/bin/qemu-system-x86_64</=
-emulator>
-          <graphics type=3D"vnc" passwd=3D"" autoport=3D"yes" keymap=3D"en-=
-us" listen=3D"0.0.0.0"/>
-          <disk type=3D"file" device=3D"disk">
-              <driver name=3D"qemu" type=3D"raw" cache=3D"none"/>
-              <source file=3D"/tmp/image.raw"/>
-              <target dev=3D"hda" bus=3D"ide"/>
-              <serial>bc-system</serial>
-          </disk>
-      </devices>
-      <clock offset=3D"localtime"/>
-  </domain>
+V6:
 
-  virsh create libvirt.xml
-  root@test:/opt/run/instance/i-745F35DC# virsh list
-   Id    Name                           State
-  ----------------------------------------------------
-   2     i-745F35DC                     running
-  call drive_mirror:
-  virsh qemu-monitor-command --hmp i-745F35DC 'drive_mirror -n -f drive-ide=
-0-0-0 /dev/vg_bc_local/test raw'
-  Could not open '/dev/vg_bc_local/test': Operation not permitted
+Rebased series to the latest qemu code.
+Excluded all patches that are already accepted.
 
-  directly run qemu and call drive_mirror:
-  /usr/local/qemu-2.5.0-20160720/bin/qemu-system-x86_64 -hda /tmp/image.raw=
- -m 64 --enable-kvm -vnc :51 -monitor stdio
-  QEMU 2.5.0 monitor - type 'help' for more information
-  (qemu) info block
-  ide0-hd0 (#block135): /tmp/image.raw (raw)
-      Cache mode:       writeback
-  (qemu) drive_mirror -n -f ide0-hd0 /dev/vg_bc_local/test raw
-  (qemu) info block-jobs
-  Type mirror, device ide0-hd0: Completed 41126400 of 41126400 bytes, speed=
- limit 0 bytes/s
-  (qemu) block_job_cancel ide0-hd0
-  (qemu) info block-jobs
-  No active jobs
+V5:
 
-  It is OK!!!
+Fixed vpkpx bug and added it back in patch.
+Fixed graphical distortions on OSX 10.3 and 10.4.
+Removed conversion of vmrgh and vmrgl instructions to vector operations for
+further investigation.
 
-  =
+V4:
 
-  Here is my debugging process:
-  Recompile qemu-2.5.0 to  enable debug
-  ../configure --prefix=3D/usr/local/qemu-2.5.0-20160720 --enable-trace-bac=
-kend=3Dsimple --enable-werror --disable-xen --disable-virtfs --enable-kvm -=
--enable-seccomp --enable-docs --enable-debug-tcg --enable-vnc-sasl --enable=
--linux-aio --enable-lzo --enable-snappy --enable-usb-redir --enable-vnc-png=
- --disable-vnc-jpeg --enable-uuid --disable-vhost-scsi --enable-rbd --block=
--drv-rw-whitelist=3Dqcow2,raw,file,host_device,blkdebug,nbd,iscsi,rbd,cdp -=
--block-drv-ro-whitelist=3Dvmdk,vhdx,vpc --target-list=3Dx86_64-softmmu CFLA=
-GS=3D-O0
+Addressed Richard's Henderson's suggestions.
+Removed vpkpx's optimization for further investigation on graphical distortions
+it caused on OSX 10.2-4 guests.
+Added opcodes for vector vmrgh(b|h|w) and vmrgl(b|h|w) in tcg.
+Implemented vector vmrgh and vmrgl instructions for i386.
+Converted vmrgh and vmrgl instructions to vector operations.
 
-  Use libvirtd to Re-run VM and debug by gdb
-  VM process info:
-  root      7804     1  0 10:45 ?        00:00:10 /usr/local/qemu-2.5.0-201=
-60720/bin/qemu-system-x86_64 -name i-745F35DC -S -machine pc-i440fx-2.5,acc=
-el=3Dkvm,usb=3Doff -cpu Westmere,+invpcid,+erms,+bmi2,+smep,+avx2,+bmi1,+fs=
-gsbase,+abm,+rdtscp,+pdpe1gb,+rdrand,+f16c,+avx,+osxsave,+xsave,+tsc-deadli=
-ne,+movbe,+pcid,+pdcm,+xtpr,+fma,+tm2,+est,+vmx,+ds_cpl,+monitor,+dtes64,+p=
-clmuldq,+pbe,+tm,+ht,+ss,+acpi,+ds,+vme -m 64 -realtime mlock=3Doff -smp 1,=
-sockets=3D1,cores=3D1,threads=3D1 -uuid ef55dfa6-b82e-488d-a7fc-4c882f8091a=
-b -no-user-config -nodefaults -chardev socket,id=3Dcharmonitor,path=3D/var/=
-lib/libvirt/qemu/i-745F35DC.monitor,server,nowait -mon chardev=3Dcharmonito=
-r,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dlocaltime -no-shutdown -boot stri=
-ct=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive f=
-ile=3D/tmp/image.raw,if=3Dnone,id=3Ddrive-ide0-0-0,format=3Draw,serial=3Dbc=
--system,cache=3Dnone -device ide-hd,bus=3Dide.0,unit=3D0,drive=3Ddrive-ide0=
--0-0,id=3Dide0-0-0,bootindex=3D2 -vnc 0.0.0.0:0,password -k en-us -device c=
-irrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 -device virtio-balloon-pci,id=
-=3Dballoon0,bus=3Dpci.0,addr=3D0x3
+V3:
 
-  gdb -p  7804
-  set breakpoint
-  (gdb) i b
-  Num     Type           Disp Enb Address            What
-  1       breakpoint     keep y   0x00007f51d9e92cb1 in qmp_drive_mirror at=
- /opt/qemu/qemu-2.5.0/blockdev.c:3310
-  2       breakpoint     keep y   0x00007f51da1252f2 in raw_open_common at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:457
-  3       breakpoint     keep y   0x00007f51da12500f in raw_parse_flags at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:358
-  (gdb)
+Fixed problem during build.
 
-  call drive_mirror and debug:
+V2:
 
-  (gdb)
-  raw_open_common (bs=3D0x7f4b27259ab0, options=3D0x7f4b27480290, bdrv_flag=
-s=3D24674, open_flags=3D0, errp=3D0x7fff4a19f548)
-      at /opt/qemu/qemu-2.5.0/block/raw-posix.c:484
-  484        s->fd =3D -1;
-  (gdb) n
-  485        fd =3D qemu_open(filename, s->open_flags, 0644);
-  (gdb) s
-  qemu_open (name=3D0x7f4b2642b5c0 "/dev/vg_bc_local/test", flags=3D2) at /=
-opt/qemu/qemu-2.5.0/util/osdep.c:177
-  177        int mode =3D 0;
-  (gdb) n
-  183        if (strstart(name, "/dev/fdset/", &fdset_id_str)) {
-  (gdb)
-  214        if (flags & O_CREAT) {
-  (gdb)
-  223    char arg[1000] =3D {0};
-  (gdb)
-  227        ret =3D open(name, flags , mode);
-  (gdb) p name
-  $1 =3D 0x7f4b2642b5c0 "/dev/vg_bc_local/test"
-  (gdb) p flags
-  $2 =3D 2
-  (gdb) p mode
-  $3 =3D 0
-  (gdb) n
-  (gdb) p ret
-  $4 =3D -1
+Addressed Richard's Henderson's suggestions.
+Fixed problem during build on patch 2/8.
+Rebased series to the latest qemu code.
 
-  get system erroron is :Operation not permitted  =
+Stefan Brankovic (3):
+  target/ppc: Optimize emulation of vclzh and vclzb instructions
+  target/ppc: Optimize emulation of vpkpx instruction
+  target/ppc: Optimize emulation of vupkhpx and vupklpx instructions
 
-  !!!!!!!!!!!!!!
+ target/ppc/helper.h                 |   5 -
+ target/ppc/int_helper.c             |  50 ------
+ target/ppc/translate/vmx-impl.inc.c | 307 +++++++++++++++++++++++++++++++++++-
+ 3 files changed, 302 insertions(+), 60 deletions(-)
 
-  =
+-- 
+2.7.4
 
-  Re-run VM Directly  and debug by gdb
-  /usr/local/qemu-2.5.0-20160720/bin/qemu-system-x86_64 -hda /tmp/image.raw=
- -m 64 --enable-kvm -vnc :51 -monitor stdio
-  (qemu) info block
-  ide0-hd0 (#block135): /tmp/image.raw (raw)
-      Cache mode:       writeback
-  (qemu) drive_mirror -n -f ide0-hd0 /dev/vg_bc_local/test raw
-
-  gdb debug:
-  (gdb) i b
-  Num     Type           Disp Enb Address            What
-  1       breakpoint     keep y   0x00007f51d9e92cb1 in qmp_drive_mirror at=
- /opt/qemu/qemu-2.5.0/blockdev.c:3310
-  2       breakpoint     keep y   0x00007f51da1252f2 in raw_open_common at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:457
-  3       breakpoint     keep y   0x00007f51da12500f in raw_parse_flags at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:358
-  (gdb)
-  raw_open_common (bs=3D0x7f51dc15d350, options=3D0x7f51dc083110, bdrv_flag=
-s=3D24642, open_flags=3D0, errp=3D0x7fff5aaa9738)
-      at /opt/qemu/qemu-2.5.0/block/raw-posix.c:484
-  484        s->fd =3D -1;
-  (gdb) n
-  485        fd =3D qemu_open(filename, s->open_flags, 0644);
-  (gdb) s
-  qemu_open (name=3D0x7f51dca09230 "/dev/vg_bc_local/test", flags=3D2) at /=
-opt/qemu/qemu-2.5.0/util/osdep.c:177
-  177        int mode =3D 0;
-  (gdb) n
-  183        if (strstart(name, "/dev/fdset/", &fdset_id_str)) {
-  (gdb)
-  214        if (flags & O_CREAT) {
-  (gdb)
-  223    char arg[1000] =3D {0};
-  (gdb)
-  227        ret =3D open(name, flags , mode);
-  (gdb) p name
-  $1 =3D 0x7f51dca09230 "/dev/vg_bc_local/test"
-  (gdb) p flags
-  $2 =3D 2
-  (gdb) p mode
-  $3 =3D 0
-  (gdb) n
-  (gdb) p ret
-  $4 =3D 16
-  (gdb)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1605506/+subscriptions
 
