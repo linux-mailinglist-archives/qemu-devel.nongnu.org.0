@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF050E181D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:38:40 +0200 (CEST)
-Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D12E185E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:55:45 +0200 (CEST)
+Received: from localhost ([::1]:60320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNE2J-0008H9-Hm
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40457)
+	id 1iNEIq-0004tI-A6
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:55:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42116)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNDXw-0005OQ-6E
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:17 -0400
+ (envelope-from <thuth@redhat.com>) id 1iNDjd-0004ug-4u
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNDXu-0003BO-30
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:15 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51530)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNDXt-00039f-6x
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:14 -0400
-Received: by mail-wm1-x335.google.com with SMTP id q70so13360738wme.1
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 03:07:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Z6lK17UQmr8eYfSUfvewTyfTNhH4uVDKwgkN/WXk0n0=;
- b=seQU58Sgeet0hvCg3bW/RlctHhpWbIa2/VEJaLLSywYyJAw8Di7K8OPyGCkhwpY47Q
- Jgsf0xXgknsl7YdH8bPtlto85ZeBGiAJM8ZPmVScFrr0DXJVoKwt7yAg8T4UI7fyJB3I
- YlrTTciArqZ1HiP+cMsElQCSkmMXIU1+MRnDMHzNI55pLnoDyhPpYY5BZYmRjCkGb/58
- SvAMRpDctDq6A0/WVzdykB20Pftd8BiMkoh8H88xDSb5s/9la60T4HQSzImL4OlB522B
- RNtiCTWEXwNWkmWJWtjUdSLUlW8+kdF5fRcO0q3Huz4NjopvZqERZTfr6NBi0HAR0BgX
- gSfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Z6lK17UQmr8eYfSUfvewTyfTNhH4uVDKwgkN/WXk0n0=;
- b=bXw6IzGhcAaU5FNzD9XaTdX6QZZ4kvojddJJ3j36MAjbpskYJspPDv2asA9GLbMmQg
- 02y4HYDB/4wjVWZ1yg9aO/0OAXBy2swt7VCJ5nEgDsG54J9EoMebTJ6kVc6jGlGlXBH5
- R+y5Gi1jAX1qui8FtZNO4phKNkbbdEFH2DCgv99nGGJTciN+fFRHUohPwORo9H0VZNIg
- WECmVoyCpYFrQHQB9c3GLtrVGot4Pc3iDRnbJMv55zdP38pQcIht2Ra1EAzjC33/MEtv
- Exxi1F1ohUlrvuKKZfo9daQs7tYOdBr5QbWaHGvkNmlvG9JvD0OfMW0DRm2a719eeQ0b
- 1Y1w==
-X-Gm-Message-State: APjAAAUU8OowW/6oSoF3k0h1RxR0tO6eFB658DZj5e4UH62vktqgNuAW
- jVtDIV0cGGkpJVJ8hTz8QScyMQ==
-X-Google-Smtp-Source: APXvYqxtsJ/YIrEhbdQuKgbAaqbtVsUQ6ZkcE1vpSFgsM6Qu84nsU4Hk+chb2o2v9rI1DzI4Y3mVBg==
-X-Received: by 2002:a7b:c313:: with SMTP id k19mr7406606wmj.6.1571825231010;
- Wed, 23 Oct 2019 03:07:11 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o1sm17962595wmc.38.2019.10.23.03.07.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 03:07:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F1B71FF87;
- Wed, 23 Oct 2019 11:07:09 +0100 (BST)
-References: <20191022191704.6134-1-alex.bennee@linaro.org>
- <20191022191704.6134-8-alex.bennee@linaro.org>
- <2020367759.8121043.1571815677935.JavaMail.zimbra@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH  v1 07/19] cirrus.yml: reduce scope of MacOS build
-In-reply-to: <2020367759.8121043.1571815677935.JavaMail.zimbra@redhat.com>
-Date: Wed, 23 Oct 2019 11:07:09 +0100
-Message-ID: <87y2xbvkqa.fsf@linaro.org>
+ (envelope-from <thuth@redhat.com>) id 1iNDjc-0000wL-1w
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53768
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iNDjb-0000wD-V0
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:19:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571825959;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=msvm480ex05gsqUIOx1/dHm00x/HecbiFX8wRD05BwU=;
+ b=Rk1Xn8ymYhPyOrZ3qDlJ8EEBMQuNEm4e3+ERRyZIXXzK9yMHch6GWNeqIig8ZFw9x7FQ/9
+ g9W1rsNuQfQrG1X+Eh2pyv8/dEbWgRc7v5sqg62VE9RxLG8JUSGD+JpdZy6edSEaREZ5RE
+ MPHuQegtIjgACZWvbn9nAAB4n+TLi+Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-IAVTGeyUN_aq8V6ntNLgHw-1; Wed, 23 Oct 2019 06:19:15 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C79CA1800D6B;
+ Wed, 23 Oct 2019 10:19:14 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD97460624;
+ Wed, 23 Oct 2019 10:19:14 +0000 (UTC)
+Received: from zmail25.collab.prod.int.phx2.redhat.com
+ (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id A90494EE50;
+ Wed, 23 Oct 2019 10:19:14 +0000 (UTC)
+Date: Wed, 23 Oct 2019 06:19:14 -0400 (EDT)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <1425198155.8144323.1571825954529.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20191023100425.12168-5-stefanha@redhat.com>
+References: <20191023100425.12168-1-stefanha@redhat.com>
+ <20191023100425.12168-5-stefanha@redhat.com>
+Subject: Re: [PATCH v4 04/16] virtio-scsi-test: add missing feature negotiation
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Originating-IP: [149.14.88.107, 10.4.196.29, 10.5.100.50, 10.4.195.25]
+Thread-Topic: virtio-scsi-test: add missing feature negotiation
+Thread-Index: DaZghX7nFYRKs5RbtdKPo+3+4DOVwg==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: IAVTGeyUN_aq8V6ntNLgHw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,47 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
- stefanb@linux.vnet.ibm.com, richard henderson <richard.henderson@linaro.org>,
- f4bug@amsat.org, qemu-devel@nongnu.org, cota@braap.org, stefanha@redhat.com,
- marcandre lureau <marcandre.lureau@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, aurelien@aurel32.net
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, slp@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+----- Original Message -----
+> From: "Stefan Hajnoczi" <stefanha@redhat.com>
+> Sent: Wednesday, October 23, 2019 12:04:13 PM
+>=20
+> VIRTIO Device Initialization requires feature negotiation.  Currently
+> virtio-scsi-test.c is non-compliant.
+>=20
+> libqos tests acknowledge all feature bits advertised by the device,
+> except VIRTIO_F_BAD_FEATURE (which devices use to detect broken
+> drivers!) and VIRTIO_RING_F_EVENT_IDX (which is not implemented in
+> libqos and accepting it would break notifications).
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tests/virtio-scsi-test.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Thomas Huth <thuth@redhat.com> writes:
+Reviewed-by: Thomas Huth" <thuth@redhat.com>
 
-> ----- Original Message -----
->> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
->> Sent: Tuesday, October 22, 2019 9:16:52 PM
->>
->> The MacOS build can time out on Cirrus running to almost an hour.
->> Reduce the scope to the historical MacOS architectures much the same
->> way we do on Travis.
->
-> Oh, really? For me, the builds on Cirrus-CI work reasonable fast and
-> almost always finish within 20 minutes, e.g.:
-
-It seems to be an intermittent thing:
-
-  https://cirrus-ci.com/github/stsquad/qemu
-
-but looking again maybe it's only the xcode build that is reliably long...
-
->
-> https://cirrus-ci.com/build/4976412120842240
->
-> Also the last macos_task from the official QEMU mirror on github finished=
- within 15 minutes:
->
-> https://github.com/qemu/qemu/runs/269964092
->
-> ... so was your issue maybe just a temporary dropout?
->
->  Thomas
-
-
---
-Alex Benn=C3=A9e
 
