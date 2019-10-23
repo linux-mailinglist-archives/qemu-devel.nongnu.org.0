@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41B7E19D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:20:16 +0200 (CEST)
-Received: from localhost ([::1]:34522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED98E19ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:22:47 +0200 (CEST)
+Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFcd-0005aZ-HO
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33331)
+	id 1iNFf4-0007mN-En
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNFa5-0004GF-ME
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:17:38 -0400
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1iNFao-0004N5-CP
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:18:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNFa4-0003u8-Ly
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:17:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39984)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNFa4-0003t5-EK
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:17:36 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8F4B885539
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 12:17:35 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id a6so8002374wru.1
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:17:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eNxJz2IYgT7TEJXv56X31ryvHb3/rMkvAMHOoTcdUSc=;
- b=cvkO7TzQS9qAHyLvksKzD1a6Iwaec3orf343a5SbT2lQ9a1hy4k3jRrd0YCq1dWHwt
- GoIOoyhcRiutW9cJBDqx3mVu7dT0o1dRmQxlk2G7H5oiEopZvbI2XO4EhbCRYElSKd75
- cDagwn5oAhxMMH3FTlGSUYReayc8SjfDSCoJd/m1exBd4dzd7SMFbGOlPq7O9Uc+2x+7
- XFiwrccPtU56mwasqzMD2QY50MhreaE6Wj+KZvwbq4a70e1YEl3SH27ZNxWlCcse1Gi4
- l05fyQhdoMCBakoVdTStN9uxK5GiSKvIRWT9Wn9pHCODB2lxreI86r1w0XhXNgSxOQsv
- 5BIQ==
-X-Gm-Message-State: APjAAAU6HqC90514xPCC3wI9qW2/mYX+melbOauGlOCTtt8DSv5lqBEP
- W+8eHvKLXIP/t3myO5oukzEbTorhj3+Vft4QhgGAiFsbKW6qf4Aj6h7rGP3B5S3Rc8Fr8TfxmHm
- iD1O/C3UjuaCL+k4=
-X-Received: by 2002:a1c:9dd3:: with SMTP id g202mr7905828wme.43.1571833054133; 
- Wed, 23 Oct 2019 05:17:34 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw2MNDIC7gKMEOQ8rq62bKjYr5IWiMQFVUpBOKOfWk6UsritRqg2b7990QhhuG3wInAx6wSmQ==
-X-Received: by 2002:a1c:9dd3:: with SMTP id g202mr7905813wme.43.1571833053941; 
- Wed, 23 Oct 2019 05:17:33 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id x8sm21222875wrr.43.2019.10.23.05.17.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 05:17:33 -0700 (PDT)
-Subject: Re: [PATCH v1 16/19] iotests: Test 183 does not work on macOS and
- OpenBSD
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191022191704.6134-1-alex.bennee@linaro.org>
- <20191022191704.6134-17-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c7c85258-17b7-2fa8-779d-74f723af5cd1@redhat.com>
-Date: Wed, 23 Oct 2019 14:17:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1iNFal-0004gW-Vq
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:18:21 -0400
+Received: from mgwkm02.jp.fujitsu.com ([202.219.69.169]:29449)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1iNFak-0004S8-Lb
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:18:19 -0400
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+ mgwkm02.jp.fujitsu.com with smtp
+ id 15b5_42ff_ccf113f5_d6ac_4027_b146_fbd2a933b416;
+ Wed, 23 Oct 2019 21:18:00 +0900
+Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
+ (g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
+ by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id B17D3AC00CB
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 21:17:59 +0900 (JST)
+Received: from g01jpexchyt36.g01.fujitsu.local (unknown [10.128.193.4])
+ by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id C35C7298027;
+ Wed, 23 Oct 2019 21:17:58 +0900 (JST)
+Received: from luna3.soft.fujitsu.com (10.124.196.199) by
+ g01jpexchyt36.g01.fujitsu.local (10.128.193.54) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 23 Oct 2019 21:17:59 +0900
+From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+To: <virtio-fs@redhat.com>
+Subject: [PATCH] virtiofsd: Fix data corruption with O_APPEND wirte in
+ writeback mode
+Date: Wed, 23 Oct 2019 21:25:23 +0900
+Message-ID: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191022191704.6134-17-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-GCONF: 00
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.219.69.169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,46 +61,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
- Max Reitz <mreitz@redhat.com>, cota@braap.org, stefanha@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, aurelien@aurel32.net
+Cc: qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/19 9:17 PM, Alex Benn=C3=A9e wrote:
-> From: Thomas Huth <thuth@redhat.com>
->=20
-> In the long term, we might want to add test 183 to the "auto" group
-> (but it still fails occasionally, so we cannot do that yet). However,
-> when running 183 in Cirrus-CI on macOS, or with our vm-build-openbsd
-> target, it currently always fails with an "Timeout waiting for return
-> on handle 0" error.
->=20
-> Let's mark it as supported only on systems where the test is working
-> fine (i.e. Linux, FreeBSD and NetBSD).
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20191022072135.11188-4-thuth@redhat.com>
-> ---
->   tests/qemu-iotests/183 | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
-> index 04fb344d08e..ab5a7089549 100755
-> --- a/tests/qemu-iotests/183
-> +++ b/tests/qemu-iotests/183
-> @@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
->   . ./common.filter
->   . ./common.qemu
->  =20
-> +_supported_os Linux FreeBSD NetBSD
->   _supported_fmt qcow2 raw qed quorum
->   _supported_proto file
->  =20
->=20
+When writeback mode is enabled (-o writeback), O_APPEND handling is
+done in kernel. Therefore virtiofsd clears O_APPEND flag when open.
+Otherwise O_APPEND flag takes precedence over pwrite() and write
+data may corrupt.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Currently clearing O_APPEND flag is done in lo_open(), but we also
+need the same operation in lo_create(). So, factor out the flag
+update operation in lo_open() to update_open_flags() and call it
+in both lo_open() and lo_create().
+
+This fixes the failure of xfstest generic/069 in writeback mode
+(which tests O_APPEND write data integrity).
+
+Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+---
+ contrib/virtiofsd/passthrough_ll.c | 56 +++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
+
+diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
+index e8892c3c32..79fb78ecce 100644
+--- a/contrib/virtiofsd/passthrough_ll.c
++++ b/contrib/virtiofsd/passthrough_ll.c
+@@ -1733,6 +1733,32 @@ static void lo_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info
+ 	fuse_reply_err(req, 0);
+ }
+ 
++static void update_open_flags(int writeback, struct fuse_file_info *fi)
++{
++	/* With writeback cache, kernel may send read requests even
++	   when userspace opened write-only */
++	if (writeback && (fi->flags & O_ACCMODE) == O_WRONLY) {
++		fi->flags &= ~O_ACCMODE;
++		fi->flags |= O_RDWR;
++	}
++
++	/* With writeback cache, O_APPEND is handled by the kernel.
++	   This breaks atomicity (since the file may change in the
++	   underlying filesystem, so that the kernel's idea of the
++	   end of the file isn't accurate anymore). In this example,
++	   we just accept that. A more rigorous filesystem may want
++	   to return an error here */
++	if (writeback && (fi->flags & O_APPEND))
++		fi->flags &= ~O_APPEND;
++
++	/*
++	 * O_DIRECT in guest should not necessarily mean bypassing page
++	 * cache on host as well. If somebody needs that behavior, it
++	 * probably should be a configuration knob in daemon.
++	 */
++	fi->flags &= ~O_DIRECT;
++}
++
+ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+ 		      mode_t mode, struct fuse_file_info *fi)
+ {
+@@ -1760,12 +1786,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+ 	if (err)
+ 		goto out;
+ 
+-	/*
+-	 * O_DIRECT in guest should not necessarily mean bypassing page
+-	 * cache on host as well. If somebody needs that behavior, it
+-	 * probably should be a configuration knob in daemon.
+-	 */
+-	fi->flags &= ~O_DIRECT;
++	update_open_flags(lo->writeback, fi);
+ 
+ 	fd = openat(parent_inode->fd, name,
+ 		    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
+@@ -1966,28 +1987,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+ 
+ 	fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino, fi->flags);
+ 
+-	/* With writeback cache, kernel may send read requests even
+-	   when userspace opened write-only */
+-	if (lo->writeback && (fi->flags & O_ACCMODE) == O_WRONLY) {
+-		fi->flags &= ~O_ACCMODE;
+-		fi->flags |= O_RDWR;
+-	}
+-
+-	/* With writeback cache, O_APPEND is handled by the kernel.
+-	   This breaks atomicity (since the file may change in the
+-	   underlying filesystem, so that the kernel's idea of the
+-	   end of the file isn't accurate anymore). In this example,
+-	   we just accept that. A more rigorous filesystem may want
+-	   to return an error here */
+-	if (lo->writeback && (fi->flags & O_APPEND))
+-		fi->flags &= ~O_APPEND;
+-
+-	/*
+-	 * O_DIRECT in guest should not necessarily mean bypassing page
+-	 * cache on host as well. If somebody needs that behavior, it
+-	 * probably should be a configuration knob in daemon.
+-	 */
+-	fi->flags &= ~O_DIRECT;
++	update_open_flags(lo->writeback, fi);
+ 
+ 	sprintf(buf, "%i", lo_fd(req, ino));
+ 	fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+-- 
+2.21.0
+
 
