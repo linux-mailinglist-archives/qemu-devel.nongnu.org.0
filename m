@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B131E1914
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:31:17 +0200 (CEST)
-Received: from localhost ([::1]:60818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DA2E1924
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:36:15 +0200 (CEST)
+Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNErE-0005pI-8o
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:31:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
+	id 1iNEw0-0000Rn-Ja
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEBL-0000Tw-0x
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:48:01 -0400
+ (envelope-from <thuth@redhat.com>) id 1iNERk-00041P-Da
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:04:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEBH-0006V2-OA
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:47:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43836)
+ (envelope-from <thuth@redhat.com>) id 1iNERi-0003k3-6m
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:04:55 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39480
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEBH-0006Ua-FW
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:47:55 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iNERi-0003jd-3V
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:04:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571828693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U6Tug7bQdLju1iBfx4LAU0FpVEH7FZOr4RXnZMT3SJk=;
+ b=goTxWXH6tBUqUdP01E2nzhlIyYRkWMEpM2VcCrlc4PIw9mbXhs1fipAAqQCfshxFk5Ee6i
+ iPdC8EihRf6U22i77V2V2bY4rqOP8qJGk2Ft7gED+5J1lqKfHlCUvFGAqfi7PEXtBRtSa2
+ qCk7oXgZ/nNpzdYOodHclXdV4Ny2BCI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-buZIOQZ-P_mKOk6hhn0EDg-1; Wed, 23 Oct 2019 07:04:51 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A2AC81F13
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:47:52 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id 6so4059803wmj.9
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 03:47:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tk4BUPP+rPwfc0L6tXLGTogKMBLg6zQUR9RBveb4iJ8=;
- b=JjN4JKRT8YALABW0q3Hu9N4bZJgNsEYiIh0iBj0mcnNzYMp2j8QFHbR2rdRSDXrfd8
- gZBL7DPtJuCjRmZEgxbfgVm4Y2dQmtD5Ktcu02UIvEZQRQFm1taJvUhdwoMztB8jzUeg
- fZ7I00tHMt0jlaqRL/BcgPQuy83n6Y5LuSXlocKFtxpoJMCyQWjBkdGjeKbz0coUQJGf
- cJnIvZTAo0z5CjEs5yZoutN6ryD7TwYom6rismTe3YjxDCiQPqyj7qFzED5NITmuJ8N+
- nrihGX7rR44D0vboTCtgC/jT4b2s7+Dl2xSpVGTNq1eqJVem6Mxo6aVnG8lvi8Lg2Ex9
- BDjg==
-X-Gm-Message-State: APjAAAUdv78TLIPbVsMLysRxvwBerUEcApEH2v92AOht0NRizpsGmseJ
- LqyYW/p98Kzy+xA68TOCoTxxklGGXTXnwTKT71M5m2ze4atkHbovwB0+Rro+5cHnF91aiNOPWZ3
- QIRDpdeW5bQJ2k2A=
-X-Received: by 2002:a5d:488f:: with SMTP id g15mr8314521wrq.9.1571827671232;
- Wed, 23 Oct 2019 03:47:51 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzxD6dGk+L/p3d8NRYOuR+o4250ZqkdOgvFS3adAgLY343wvFC8LBh32hZgnaA+cWd7dDwJXQ==
-X-Received: by 2002:a5d:488f:: with SMTP id g15mr8314488wrq.9.1571827670906;
- Wed, 23 Oct 2019 03:47:50 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id o19sm20317772wmh.27.2019.10.23.03.47.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 03:47:50 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH] pci_bridge: fix a typo in comment
-To: maozy <maozhongyi@cmss.chinamobile.com>, qemu-devel@nongnu.org
-References: <20181108122102.9915-1-maozhongyi@cmss.chinamobile.com>
- <1898dc23-c512-88bd-cb73-5a2cffccd176@redhat.com>
- <7f3e7954-3574-9f44-7710-4a488c1d0fe2@cmss.chinamobile.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f68aacf9-2ac3-2a9d-8aab-6a86c52cbacb@redhat.com>
-Date: Wed, 23 Oct 2019 12:47:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A3C41800D6B;
+ Wed, 23 Oct 2019 11:04:50 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 370B054681;
+ Wed, 23 Oct 2019 11:04:50 +0000 (UTC)
+Received: from zmail25.collab.prod.int.phx2.redhat.com
+ (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0A51E18089C8;
+ Wed, 23 Oct 2019 11:04:50 +0000 (UTC)
+Date: Wed, 23 Oct 2019 07:04:49 -0400 (EDT)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <442729553.8150608.1571828689863.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20191023100425.12168-9-stefanha@redhat.com>
+References: <20191023100425.12168-1-stefanha@redhat.com>
+ <20191023100425.12168-9-stefanha@redhat.com>
+Subject: Re: [PATCH v4 08/16] libqos: implement VIRTIO 1.0 FEATURES_OK step
 MIME-Version: 1.0
-In-Reply-To: <7f3e7954-3574-9f44-7710-4a488c1d0fe2@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Originating-IP: [149.14.88.107, 10.4.196.7, 10.5.100.50, 10.4.195.8]
+Thread-Topic: libqos: implement VIRTIO 1.0 FEATURES_OK step
+Thread-Index: 5X4OA3CFCYziXQhrt3GL/AUwzOo2vA==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: buZIOQZ-P_mKOk6hhn0EDg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,47 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, slp@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 5:32 AM, maozy wrote:
-> ping...
+----- Original Message -----
+> From: "Stefan Hajnoczi" <stefanha@redhat.com>
+> Sent: Wednesday, October 23, 2019 12:04:17 PM
+>=20
+> Device initialization has an extra step in VIRTIO 1.0.  The FEATURES_OK
+> status bit is set to indicate that feature negotiation has completed.
+> The driver then reads the status register again to check that the device
+> agrees with the final features.
+>=20
+> Implement this step as part of qvirtio_set_features() instead of
+> introducing a separate function.  This way all existing code works
+> without modifications.
+>=20
+> The check in qvirtio_set_driver_ok() needs to be updated because
+> FEATURES_OK will be set for VIRTIO 1.0 devices.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v4:
+>  * Make FEATURES_OK change in qvirtio_set_driver_ok() clearer and
+>    mention it in the commit description [Thomas]
+> ---
+>  tests/libqos/virtio.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 
-I'm not sure qemu-trivial@ received this one because the email address=20
-looked odd (now fixed).
+Reviewed-by: Thomas Huth" <thuth@redhat.com>
 
->=20
-> On 11/8/18 9:12 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> Cc'ing qemu-trivial@
->>
->> On 8/11/18 13:21, Mao Zhongyi wrote:
->>> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
->>
->> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>
->>> ---
->>> =C2=A0 hw/pci/pci_bridge.c | 2 +-
->>> =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
->>> index ee9dff2d3a..da8daa3ff2 100644
->>> --- a/hw/pci/pci_bridge.c
->>> +++ b/hw/pci/pci_bridge.c
->>> @@ -310,7 +310,7 @@ void pci_bridge_reset(DeviceState *qdev)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the default values for base/li=
-mit registers aren't specified
->>> -=C2=A0=C2=A0=C2=A0=C2=A0 * in the PCI-to-PCI-bridge spec. So we don'=
-t thouch them here.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * in the PCI-to-PCI-bridge spec. So we don'=
-t touch them here.
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Each implementation can overri=
-de it.
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * typical implementation does
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * zero base/limit registers or
->>>
->>
->=20
->=20
 
