@@ -2,47 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D6BE25B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 23:47:06 +0200 (CEST)
-Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CC1E2357
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:35:24 +0200 (CEST)
+Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNOT9-0001ue-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 17:47:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54199)
+	id 1iNMPj-0005KK-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:35:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <keithp@keithp.com>) id 1iNMHm-00044I-RI
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:27:12 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNMLM-0001lM-Nj
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <keithp@keithp.com>) id 1iNMHk-0006qc-R1
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:27:10 -0400
-Received: from home.keithp.com ([63.227.221.253]:51678 helo=elaine.keithp.com)
+ (envelope-from <jfreimann@redhat.com>) id 1iNMLK-0000aS-Ee
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:30:51 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53640
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <keithp@keithp.com>)
- id 1iNMHf-0006mu-6g; Wed, 23 Oct 2019 15:27:04 -0400
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id F1D8D3F2403C;
- Wed, 23 Oct 2019 12:26:57 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id f22q8JQ4hIgC; Wed, 23 Oct 2019 12:26:57 -0700 (PDT)
-Received: from keithp.com (keithp-172.keithp.com [10.0.0.172])
- by elaine.keithp.com (Postfix) with ESMTPSA id 85D563F23FF8;
- Wed, 23 Oct 2019 12:26:57 -0700 (PDT)
-Received: by keithp.com (Postfix, from userid 1000)
- id 6A1671582118; Wed, 23 Oct 2019 12:26:57 -0700 (PDT)
-From: Keith Packard <keithp@keithp.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Semihost SYS_READC implementation (v3)
-Date: Wed, 23 Oct 2019 12:26:40 -0700
-Message-Id: <20191023192640.13125-1-keithp@keithp.com>
-X-Mailer: git-send-email 2.24.0.rc0
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iNMLK-0000a8-9x
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:30:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571859049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KnujnO/KuApV2nCDBo9KNNikQGgcgXCIzUPXYlDL3Gc=;
+ b=Sfw7v7NIMKx+bV0U1Jw+RXzCtbytK6+EkRqen0TuvYewBwjTWwtF4KQhqn4np9SHg3tO2G
+ s6FJfRgHiiV5nej7YOVdnhwwi/K+XUFA7vlCKP9EiA0v5eKxAGNr3GcDGtTeRql2cW78s6
+ YtIZRQ/NNEL/DZ5sdClaV/04fL/KGXg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-7dxen6axPvSobGNO5FcdQw-1; Wed, 23 Oct 2019 15:30:45 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0E80107AD31;
+ Wed, 23 Oct 2019 19:30:44 +0000 (UTC)
+Received: from localhost (ovpn-116-38.ams2.redhat.com [10.36.116.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E14AB60872;
+ Wed, 23 Oct 2019 19:30:37 +0000 (UTC)
+Date: Wed, 23 Oct 2019 21:30:35 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v5 02/11] pci: add option for net failover
+Message-ID: <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
+References: <20191023082711.16694-1-jfreimann@redhat.com>
+ <20191023082711.16694-3-jfreimann@redhat.com>
+ <20191023120648.57e50ae1@x1.home>
 MIME-Version: 1.0
+In-Reply-To: <20191023120648.57e50ae1@x1.home>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 7dxen6axPvSobGNO5FcdQw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 63.227.221.253
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,244 +75,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Keith Packard <keithp@keithp.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ laine@redhat.com, ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provides a blocking call to read a character from the console using
-semihosting.chardev, if specified. This takes some careful command
-line options to use stdio successfully as the serial ports, monitor
-and semihost all want to use stdio. Here's a sample set of command
-line options which share stdio betwen semihost, monitor and serial
-ports:
+On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
+>On Wed, 23 Oct 2019 10:27:02 +0200
+>Jens Freimann <jfreimann@redhat.com> wrote:
+>
+>> This patch adds a net_failover_pair_id property to PCIDev which is
+>> used to link the primary device in a failover pair (the PCI dev) to
+>> a standby (a virtio-net-pci) device.
+>>
+>> It only supports ethernet devices. Also currently it only supports
+>> PCIe devices. QEMU will exit with an error message otherwise.
+>>
+>> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+>> ---
+>>  hw/pci/pci.c         | 17 +++++++++++++++++
+>>  include/hw/pci/pci.h |  3 +++
+>>  2 files changed, 20 insertions(+)
+>>
+>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>> index aa05c2b9b2..fa9b5219f8 100644
+>> --- a/hw/pci/pci.c
+>> +++ b/hw/pci/pci.c
+>> @@ -75,6 +75,8 @@ static Property pci_props[] =3D {
+>>                      QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
+>>      DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
+>>                      QEMU_PCIE_EXTCAP_INIT_BITNR, true),
+>> +    DEFINE_PROP_STRING("net_failover_pair_id", PCIDevice,
+>> +            net_failover_pair_id),
+>
+>Nit, white space appears broken here.
 
-	qemu \
-	-chardev stdio,mux=3Don,id=3Dstdio0 \
-	-serial chardev:stdio0 \
-	-semihosting-config enable=3Don,chardev=3Dstdio0 \
-	-mon chardev=3Dstdio0,mode=3Dreadline
+I'll fix it.
 
-This creates a chardev hooked to stdio and then connects all of the
-subsystems to it. A shorter mechanism would be good to hear about.
+>>      DEFINE_PROP_END_OF_LIST()
+>>  };
+>>
+>> @@ -2077,6 +2079,7 @@ static void pci_qdev_realize(DeviceState *qdev, Er=
+ror **errp)
+>>      ObjectClass *klass =3D OBJECT_CLASS(pc);
+>>      Error *local_err =3D NULL;
+>>      bool is_default_rom;
+>> +    uint16_t class_id;
+>>
+>>      /* initialize cap_present for pci_is_express() and pci_config_size(=
+),
+>>       * Note that hybrid PCIs are not set automatically and need to mana=
+ge
+>> @@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev, E=
+rror **errp)
+>>          }
+>>      }
+>>
+>> +    if (pci_dev->net_failover_pair_id) {
+>> +        if (!pci_is_express(pci_dev)) {
+>> +            error_setg(errp, "failover device is not a PCIExpress devic=
+e");
+>> +            error_propagate(errp, local_err);
+>> +            return;
+>> +        }
+>
+>Did we decide we don't need to test that the device is also in a
+>hotpluggable slot? =20
 
-v2:
-	Add implementation in linux-user/arm/semihost.c
+Hmm, my reply to you was never sent. I thought the check for
+qdev_device_add() was sufficient but you said that works only
+after qdev_hotplug is set (after machine creation). I modified
+the check to this:
 
-v3:  (thanks to Paolo Bonzini <pbonzini@redhat.com>)
-	Replace hand-rolled fifo with fifo8
-	Avoid mixing code and declarations
-	Remove spurious (void) cast of function parameters
-	Define qemu_semihosting_console_init when CONFIG_USER_ONLY
+    hide =3D should_hide_device(opts);                                     =
+                                =20
+                                                                           =
+                              =20
+    if ((hide || qdev_hotplug) && bus && !qbus_is_hotpluggable(bus)) {     =
+                              =20
+        error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);                  =
+                              =20
+        return NULL;                                                       =
+                              =20
+    }                                                                      =
+                              =20
+                                                                           =
+                              =20
+    if (hide) {                                                            =
+                              =20
+        return NULL;                                                       =
+                              =20
+    }
 
-Signed-off-by: Keith Packard <keithp@keithp.com>
----
- hw/semihosting/console.c          | 73 +++++++++++++++++++++++++++++++
- include/hw/semihosting/console.h  | 12 +++++
- include/hw/semihosting/semihost.h |  4 ++
- linux-user/arm/semihost.c         | 24 ++++++++++
- target/arm/arm-semi.c             |  3 +-
- vl.c                              |  3 ++
- 6 files changed, 117 insertions(+), 2 deletions(-)
+This will make qemu fail when we have the device in the initial
+configuration or when we hotplug it to a bus that doesn't support it.
+I tested both with a device on pcie.0. Am I missing something?=20
 
-diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
-index b4b17c8afb..197bff079b 100644
---- a/hw/semihosting/console.c
-+++ b/hw/semihosting/console.c
-@@ -98,3 +98,76 @@ void qemu_semihosting_console_outc(CPUArchState *env, =
-target_ulong addr)
-                       __func__, addr);
-     }
- }
-+
-+#include <pthread.h>
-+#include "chardev/char-fe.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/error.h"
-+#include "qemu/fifo8.h"
-+
-+#define FIFO_SIZE   1024
-+
-+typedef struct SemihostingConsole {
-+    CharBackend         backend;
-+    pthread_mutex_t     mutex;
-+    pthread_cond_t      cond;
-+    bool                got;
-+    Fifo8               fifo;
-+} SemihostingConsole;
-+
-+static SemihostingConsole console =3D {
-+    .mutex =3D PTHREAD_MUTEX_INITIALIZER,
-+    .cond =3D PTHREAD_COND_INITIALIZER
-+};
-+
-+static int console_can_read(void *opaque)
-+{
-+    SemihostingConsole *c =3D opaque;
-+    int ret;
-+    pthread_mutex_lock(&c->mutex);
-+    ret =3D (int) fifo8_num_free(&c->fifo);
-+    pthread_mutex_unlock(&c->mutex);
-+    return ret;
-+}
-+
-+static void console_read(void *opaque, const uint8_t *buf, int size)
-+{
-+    SemihostingConsole *c =3D opaque;
-+    pthread_mutex_lock(&c->mutex);
-+    while (size-- && !fifo8_is_full(&c->fifo)) {
-+        fifo8_push(&c->fifo, *buf++);
-+    }
-+    pthread_cond_broadcast(&c->cond);
-+    pthread_mutex_unlock(&c->mutex);
-+}
-+
-+target_ulong qemu_semihosting_console_inc(CPUArchState *env)
-+{
-+    uint8_t ch;
-+    SemihostingConsole *c =3D &console;
-+    qemu_mutex_unlock_iothread();
-+    pthread_mutex_lock(&c->mutex);
-+    while (fifo8_is_empty(&c->fifo)) {
-+        pthread_cond_wait(&c->cond, &c->mutex);
-+    }
-+    ch =3D fifo8_pop(&c->fifo);
-+    pthread_mutex_unlock(&c->mutex);
-+    qemu_mutex_lock_iothread();
-+    return (target_ulong) ch;
-+}
-+
-+void qemu_semihosting_console_init(void)
-+{
-+    Chardev *chr =3D semihosting_get_chardev();
-+
-+    if  (chr) {
-+        fifo8_create(&console.fifo, FIFO_SIZE);
-+        qemu_chr_fe_init(&console.backend, chr, &error_abort);
-+        qemu_chr_fe_set_handlers(&console.backend,
-+                                 console_can_read,
-+                                 console_read,
-+                                 NULL, NULL, &console,
-+                                 NULL, true);
-+    }
-+}
-diff --git a/include/hw/semihosting/console.h b/include/hw/semihosting/co=
-nsole.h
-index 9be9754bcd..f7d5905b41 100644
---- a/include/hw/semihosting/console.h
-+++ b/include/hw/semihosting/console.h
-@@ -37,6 +37,18 @@ int qemu_semihosting_console_outs(CPUArchState *env, t=
-arget_ulong s);
-  */
- void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
-=20
-+/**
-+ * qemu_semihosting_console_inc:
-+ * @env: CPUArchState
-+ *
-+ * Receive single character from debug console. This
-+ * may be the remote gdb session if a softmmu guest is currently being
-+ * debugged.
-+ *
-+ * Returns: character read or -1 on error
-+ */
-+target_ulong qemu_semihosting_console_inc(CPUArchState *env);
-+
- /**
-  * qemu_semihosting_log_out:
-  * @s: pointer to string
-diff --git a/include/hw/semihosting/semihost.h b/include/hw/semihosting/s=
-emihost.h
-index 60fc42d851..b8ce5117ae 100644
---- a/include/hw/semihosting/semihost.h
-+++ b/include/hw/semihosting/semihost.h
-@@ -56,6 +56,9 @@ static inline Chardev *semihosting_get_chardev(void)
- {
-     return NULL;
- }
-+static inline void qemu_semihosting_console_init(void)
-+{
-+}
- #else /* !CONFIG_USER_ONLY */
- bool semihosting_enabled(void);
- SemihostingTarget semihosting_get_target(void);
-@@ -68,6 +71,7 @@ Chardev *semihosting_get_chardev(void);
- void qemu_semihosting_enable(void);
- int qemu_semihosting_config_options(const char *opt);
- void qemu_semihosting_connect_chardevs(void);
-+void qemu_semihosting_console_init(void);
- #endif /* CONFIG_USER_ONLY */
-=20
- #endif /* SEMIHOST_H */
-diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
-index a16b525eec..13a097515b 100644
---- a/linux-user/arm/semihost.c
-+++ b/linux-user/arm/semihost.c
-@@ -47,3 +47,27 @@ void qemu_semihosting_console_outc(CPUArchState *env, =
-target_ulong addr)
-         }
-     }
- }
-+
-+#include <poll.h>
-+
-+target_ulong qemu_semihosting_console_inc(CPUArchState *env)
-+{
-+    uint8_t c;
-+    struct pollfd pollfd =3D {
-+        .fd =3D STDIN_FILENO,
-+        .events =3D POLLIN
-+    };
-+
-+    if (poll(&pollfd, 1, -1) !=3D 1) {
-+        qemu_log_mask(LOG_UNIMP, "%s: unexpected read from stdin failure=
-",
-+                      __func__);
-+        return (target_ulong) -1;
-+    }
-+
-+    if (read(STDIN_FILENO, &c, 1) !=3D 1) {
-+        qemu_log_mask(LOG_UNIMP, "%s: unexpected read from stdin failure=
-",
-+                      __func__);
-+        return (target_ulong) -1;
-+    }
-+    return (target_ulong) c;
-+}
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index 6f7b6d801b..47d61f6fe1 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -802,8 +802,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-=20
-         return guestfd_fns[gf->type].readfn(cpu, gf, arg1, len);
-     case TARGET_SYS_READC:
--        qemu_log_mask(LOG_UNIMP, "%s: SYS_READC not implemented", __func=
-__);
--        return 0;
-+        return qemu_semihosting_console_inc(env);
-     case TARGET_SYS_ISTTY:
-         GET_ARG(0);
-=20
-diff --git a/vl.c b/vl.c
-index 4489cfb2bb..ac584d97ea 100644
---- a/vl.c
-+++ b/vl.c
-@@ -4381,6 +4381,9 @@ int main(int argc, char **argv, char **envp)
-     ds =3D init_displaystate();
-     qemu_display_init(ds, &dpy);
-=20
-+    /* connect semihosting console input if requested */
-+    qemu_semihosting_console_init();
-+
-     /* must be after terminal init, SDL library changes signal handlers =
-*/
-     os_setup_signal_handling();
-=20
---=20
-2.24.0.rc0
+>Are there also multi-function considerations that
+>should be prevented or documented?  For example, if a user tries to
+>configure both the primary and failover NICs in the same slot, I assume
+>bad things will happen.
+
+  I would have expected that this is already checked in pci code, but
+it is not. I tried it and when I put both devices into the same slot
+they are both unplugged from the guest during boot but nothing else
+happens. I don't know what triggers that unplug of the devices.
+
+I'm not aware of any other problems regarding multi-function, which
+doesn't mean there aren't any.=20
+
+>
+>> +        class_id =3D pci_get_word(pci_dev->config + PCI_CLASS_DEVICE);
+>> +        if (class_id !=3D PCI_CLASS_NETWORK_ETHERNET) {
+>> +            error_setg(errp, "failover device is not an Ethernet device=
+");
+>> +            error_propagate(errp, local_err);
+>> +            return;
+>> +        }
+>> +    }
+>
+>Looks like cleanup is missing both both error cases, the option rom
+>error path below this does a pci_qdev_unrealize() before returning so
+>I'd assume we want the same here.  Thanks,
+
+Thanks, I'll fix this too.
+
+regards,
+Jens=20
 
 
