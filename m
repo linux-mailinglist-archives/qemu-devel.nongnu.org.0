@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06D0E20DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:45:34 +0200 (CEST)
-Received: from localhost ([::1]:41494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F95E210A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:52:48 +0200 (CEST)
+Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNJlM-0005cY-KU
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:45:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48548)
+	id 1iNJsM-0005kO-E9
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iNJQV-0008HH-Os
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:24:00 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNJmc-0008PS-S1
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:46:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iNJQS-0004XT-Ct
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:23:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35726
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iNJQS-0004Wg-9G
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:23:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571847834;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XJ2K2GJxpKAfkNsURNC6mJmIbnmlynPVTOZpP4D4MiE=;
- b=cwR845OPMj40UrchBHb1SpZWSynKCxI6bWYGf6iPulEAo5wS2C3lXFgadRAe8vZ/HpWaoZ
- DT2DYMbx10dQobGWcMyzMYVyYzpF0JBGwihHuF/RXdJci9aq/jBWZf/TXD2ho10in6K0Vw
- nrrr8sCRO2VipfFFR0JM75HhDDr1EK4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-QBd_2ebGPDS_Al5uivcLbg-1; Wed, 23 Oct 2019 12:23:50 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 018B01005500;
- Wed, 23 Oct 2019 16:23:50 +0000 (UTC)
-Received: from [10.36.116.105] (ovpn-116-105.ams2.redhat.com [10.36.116.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5160019C78;
- Wed, 23 Oct 2019 16:23:49 +0000 (UTC)
-Subject: Re: [PATCH] cputlb: Fix tlb_vaddr_to_host
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20191023154952.30731-1-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <82dba2ed-4ed6-7ff4-64d6-119e3eefc8fa@redhat.com>
-Date: Wed, 23 Oct 2019 18:23:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191023154952.30731-1-richard.henderson@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: QBd_2ebGPDS_Al5uivcLbg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (envelope-from <richard.henderson@linaro.org>) id 1iNJma-0000Kd-RR
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:46:50 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:46339)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iNJma-0000KQ-Na
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 12:46:48 -0400
+Received: by mail-qt1-x844.google.com with SMTP id u22so33191060qtq.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 09:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id;
+ bh=xuHzog+jgtYpIJtmII9MEywPYX9XQKQHUxgkXOaOldY=;
+ b=XmTfV4+RpDdWrj/Y+bFAmZi3uM90+NUbPPhJRztWnNHrvACKhfP+MmjGROfy2Cuj1e
+ Jwhb1T200MI4rKvRXckEqVt7P52Ys0Ix7abj7Cl3fuWIJ4kPaTgdpP04NRm9dRLKcPTi
+ xlkqs+qN9DpLrv8oVnw0Et2LnEb+CLsrbENCoGBuZJu7fqR1y8Iblr+4J/PC1AnD1L23
+ +bw0t1vis1ObX96l2R3qXIp+5FF2jxY+N0et1Sj68qSnJo4KdJYYNh/sDk0bs1xIAMlK
+ sgkXJDgigXt7bL60tQi8tAjDwXOfR/RvAqU8U6otpd7KEDUxeTDzqXMYsMbWDQGgk1KL
+ 5cZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=xuHzog+jgtYpIJtmII9MEywPYX9XQKQHUxgkXOaOldY=;
+ b=nkWd/cVnsLckUQpDThx8KWB2mUWJBqz1du1qKUtj0t5Gwwkr7ZZmmJvb/+TEi4FIuI
+ oP2Z+2hcj32h1pdZ+shm22cwqGmUWnss6/SVH5PmxIImk+F3WTYlIuvg8PBSXHhAbzTI
+ VrlRNVgraq09DGpjRjg+AJyuDniBzQ53IVmOC1xW+O7T9u5N33IeYZi0Niwv3l9xb5KV
+ djcNdpfuOUEIdJznzCeZN6POqf/72unxM6wJ7tezn/duIYnAV+JI15SMhHAeGw6dTARs
+ vcqp6ekZDeZjZVBX4q49TeBGxkgsLqbUQ4I2S4NxJD8it4Epm+nQA4egU8EndTM18Peo
+ o9gQ==
+X-Gm-Message-State: APjAAAUlF4IHEughe/dOARpYoSEJUvhWuxuu9F4hdnRny8NOi0P+QFbg
+ 3Wm95XG1Yqu0Se16Wg6LcLYNeNHeUZc=
+X-Google-Smtp-Source: APXvYqyZQFzrHyvwZq3lQ88tTW7qiPI/SOraMViRgT5G0MLDzZI6MZ1xNTf6jOVhgAxN+nhX3PrmOA==
+X-Received: by 2002:ac8:4149:: with SMTP id e9mr9731924qtm.321.1571849207332; 
+ Wed, 23 Oct 2019 09:46:47 -0700 (PDT)
+Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
+ [172.254.253.50])
+ by smtp.gmail.com with ESMTPSA id t13sm8380540qtn.18.2019.10.23.09.46.45
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 09:46:46 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] translate-all: Remove tb_alloc
+Date: Wed, 23 Oct 2019 12:46:45 -0400
+Message-Id: <20191023164645.5518-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,49 +76,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.10.19 17:49, Richard Henderson wrote:
-> Using uintptr_t instead of target_ulong meant that, for 64-bit guest
-> and 32-bit host, we truncated the guest address comparator and so may
-> not hit the tlb when we should.
->=20
-> Fixes: 4811e9095c0
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->=20
-> Fixes aarch64 emulation on arm32 host, after our recent changes
-> to tlb probing.
->=20
->=20
-> r~
->=20
-> ---
->   accel/tcg/cputlb.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index 6f4194df96..5eebddcca8 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -1189,7 +1189,7 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr =
-addr,
->                           MMUAccessType access_type, int mmu_idx)
->   {
->       CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
-> -    uintptr_t tlb_addr, page;
-> +    target_ulong tlb_addr, page;
->       size_t elt_ofs;
->  =20
->       switch (access_type) {
->=20
+Since 2ac01d6dafab, this function does only two things: assert a
+lock is held, and call tcg_tb_alloc.  It is used exactly once,
+and its user has already done the assert.
 
-probe_access() seems to be fine
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+I noticed that this function was essentially a stub while
+reviewing Clement's tb->orig_tb fix.
 
---=20
+Note that the added newline in tb_gen_code both adds the
+missing break after the variable declaration block and
+also happens to highlight the assert mentioned above.  ;-)
 
-Thanks,
 
-David / dhildenb
+r~
+
+---
+ accel/tcg/translate-all.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
+
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index f9b7ba159d..ae063b53f9 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1156,23 +1156,6 @@ void tcg_exec_init(unsigned long tb_size)
+ #endif
+ }
+ 
+-/*
+- * Allocate a new translation block. Flush the translation buffer if
+- * too many translation blocks or too much generated code.
+- */
+-static TranslationBlock *tb_alloc(target_ulong pc)
+-{
+-    TranslationBlock *tb;
+-
+-    assert_memory_lock();
+-
+-    tb = tcg_tb_alloc(tcg_ctx);
+-    if (unlikely(tb == NULL)) {
+-        return NULL;
+-    }
+-    return tb;
+-}
+-
+ /* call with @p->lock held */
+ static inline void invalidate_page_bitmap(PageDesc *p)
+ {
+@@ -1681,6 +1664,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     TCGProfile *prof = &tcg_ctx->prof;
+     int64_t ti;
+ #endif
++
+     assert_memory_lock();
+ 
+     phys_pc = get_page_addr_code(env, pc);
+@@ -1706,7 +1690,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     }
+ 
+  buffer_overflow:
+-    tb = tb_alloc(pc);
++    tb = tcg_tb_alloc(tcg_ctx);
+     if (unlikely(!tb)) {
+         /* flush must be done */
+         tb_flush(cpu);
+-- 
+2.17.1
 
 
