@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C30E181C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:38:09 +0200 (CEST)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4E9E1807
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 12:32:31 +0200 (CEST)
+Received: from localhost ([::1]:59994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNE1n-0007tv-HV
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40425)
+	id 1iNDwL-00040b-5y
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 06:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iNDXo-0005Lm-U3
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:12 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iNDY2-0005Qr-EH
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iNDXn-00037g-Nn
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22708
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1iNDY0-0003FK-3c
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46203
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNDXn-00036I-Hj
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:07 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNDXz-0003Di-Vm
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 06:07:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571825225;
+ s=mimecast20190719; t=1571825238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b1+p4tcQY08BVFyjCo72mvhJJ+wYreWjS/AeXVIm/U0=;
- b=B7arMzukbeiSkrUPUKweRSnmRg+HT7lJzbvirHE0GeCX63dK+3RwUp5M9QsyB87fYSghil
- ngTcS2kBj+rqXh+Dtbmu1GyddiYTXkC1oE5OImlmvWw7qTveUrHGb8v+lD0HfJstg99RI0
- S/WhY01sRDW2D4x22XgGgtdnZmOj1qc=
+ bh=tqLry4Ki6u2h7xn3uagKAxOS0sqBOly9DaQ+AXZ+604=;
+ b=gzldFOKxmiahIT1+Zl9EBal7nWmnFTK0XLlTK4WifVsta2h1xyPZIa4WF+Q8RBpHkC6YKQ
+ DlDvtJYtM/dvyroTN4cRP1ZJ/kxsaV2lMXAxDULncqYIZSf8qAJKzpbIc56PKAGuoLC8ZI
+ MrjyrBq0tlnjTjWhRH+0AGMFF/260fo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-aql1H7JMNE-mMvMUVgS2Gw-1; Wed, 23 Oct 2019 06:07:02 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-189-lk7PHi-YMcepJdRpEHNjpw-1; Wed, 23 Oct 2019 06:07:16 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE9BB80183D;
- Wed, 23 Oct 2019 10:07:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ACE5107AD31;
+ Wed, 23 Oct 2019 10:07:15 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8D6860629;
- Wed, 23 Oct 2019 10:06:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D1FA1001B08;
+ Wed, 23 Oct 2019 10:07:02 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/16] libqos: pass full QVirtQueue to set_queue_address()
-Date: Wed, 23 Oct 2019 11:04:20 +0100
-Message-Id: <20191023100425.12168-12-stefanha@redhat.com>
+Subject: [PATCH v4 12/16] libqos: add MSI-X callbacks to QVirtioPCIDevice
+Date: Wed, 23 Oct 2019 11:04:21 +0100
+Message-Id: <20191023100425.12168-13-stefanha@redhat.com>
 In-Reply-To: <20191023100425.12168-1-stefanha@redhat.com>
 References: <20191023100425.12168-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: aql1H7JMNE-mMvMUVgS2Gw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: lk7PHi-YMcepJdRpEHNjpw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,100 +75,144 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of just passing the vring page frame number, pass the full
-QVirtQueue.  This will allow the VIRTIO 1.0 transport to program the
-fine-grained vring address registers in the future.
+The MSI-X vectors are programmed differently in the VIRTIO 1.0 and
+Legacy interfaces.  Introduce callbacks so different implementations can
+be used depending on the interface version.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/libqos/virtio.h      | 2 +-
- tests/libqos/virtio-mmio.c | 6 ++++--
- tests/libqos/virtio-pci.c  | 6 ++++--
- 3 files changed, 9 insertions(+), 5 deletions(-)
+ tests/libqos/virtio-pci.h | 12 ++++++++++++
+ tests/libqos/virtio-pci.c | 37 ++++++++++++++++++++++++++++---------
+ 2 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
-index ebbff5193b..529ef7555a 100644
---- a/tests/libqos/virtio.h
-+++ b/tests/libqos/virtio.h
-@@ -81,7 +81,7 @@ struct QVirtioBus {
-     uint16_t (*get_queue_size)(QVirtioDevice *d);
+diff --git a/tests/libqos/virtio-pci.h b/tests/libqos/virtio-pci.h
+index 728b4715f1..4299efc023 100644
+--- a/tests/libqos/virtio-pci.h
++++ b/tests/libqos/virtio-pci.h
+@@ -14,16 +14,28 @@
+ #include "libqos/pci.h"
+ #include "libqos/qgraph.h"
 =20
-     /* Set the address of the selected queue */
--    void (*set_queue_address)(QVirtioDevice *d, uint32_t pfn);
-+    void (*set_queue_address)(QVirtioDevice *d, QVirtQueue *vq);
-=20
-     /* Setup the virtqueue specified by index */
-     QVirtQueue *(*virtqueue_setup)(QVirtioDevice *d, QGuestAllocator *allo=
-c,
-diff --git a/tests/libqos/virtio-mmio.c b/tests/libqos/virtio-mmio.c
-index 4db1f1b8bc..e0a2bd7bc6 100644
---- a/tests/libqos/virtio-mmio.c
-+++ b/tests/libqos/virtio-mmio.c
-@@ -143,9 +143,11 @@ static uint16_t qvirtio_mmio_get_queue_size(QVirtioDev=
-ice *d)
-     return (uint16_t)qtest_readl(dev->qts, dev->addr + QVIRTIO_MMIO_QUEUE_=
-NUM_MAX);
- }
-=20
--static void qvirtio_mmio_set_queue_address(QVirtioDevice *d, uint32_t pfn)
-+static void qvirtio_mmio_set_queue_address(QVirtioDevice *d, QVirtQueue *v=
-q)
- {
-     QVirtioMMIODevice *dev =3D container_of(d, QVirtioMMIODevice, vdev);
-+    uint64_t pfn =3D vq->desc / dev->page_size;
++typedef struct QVirtioPCIMSIXOps QVirtioPCIMSIXOps;
 +
-     qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_QUEUE_PFN, pfn);
- }
+ typedef struct QVirtioPCIDevice {
+     QOSGraphObject obj;
+     QVirtioDevice vdev;
+     QPCIDevice *pdev;
+     QPCIBar bar;
++    const QVirtioPCIMSIXOps *msix_ops;
+     uint16_t config_msix_entry;
+     uint64_t config_msix_addr;
+     uint32_t config_msix_data;
+ } QVirtioPCIDevice;
 =20
-@@ -179,7 +181,7 @@ static QVirtQueue *qvirtio_mmio_virtqueue_setup(QVirtio=
-Device *d,
-=20
-     addr =3D guest_alloc(alloc, qvring_size(vq->size, dev->page_size));
-     qvring_init(dev->qts, alloc, vq, addr);
--    qvirtio_mmio_set_queue_address(d, vq->desc / dev->page_size);
-+    qvirtio_mmio_set_queue_address(d, vq);
-=20
-     return vq;
- }
++struct QVirtioPCIMSIXOps {
++    /* Set the Configuration Vector for MSI-X */
++    void (*set_config_vector)(QVirtioPCIDevice *d, uint16_t entry);
++
++    /* Set the Queue Vector for MSI-X */
++    void (*set_queue_vector)(QVirtioPCIDevice *d, uint16_t vq_idx,
++                             uint16_t entry);
++};
++
+ typedef struct QVirtQueuePCI {
+     QVirtQueue vq;
+     uint16_t msix_entry;
 diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index 7ecf5d0a52..e4fa318dcc 100644
+index e4fa318dcc..0725777a8d 100644
 --- a/tests/libqos/virtio-pci.c
 +++ b/tests/libqos/virtio-pci.c
-@@ -199,9 +199,11 @@ static uint16_t qvirtio_pci_get_queue_size(QVirtioDevi=
-ce *d)
-     return qpci_io_readw(dev->pdev, dev->bar, VIRTIO_PCI_QUEUE_NUM);
- }
+@@ -281,6 +281,31 @@ const QVirtioBus qvirtio_pci =3D {
+     .virtqueue_kick =3D qvirtio_pci_virtqueue_kick,
+ };
 =20
--static void qvirtio_pci_set_queue_address(QVirtioDevice *d, uint32_t pfn)
-+static void qvirtio_pci_set_queue_address(QVirtioDevice *d, QVirtQueue *vq=
-)
- {
-     QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    uint64_t pfn =3D vq->desc / VIRTIO_PCI_VRING_ALIGN;
++static void qvirtio_pci_set_config_vector(QVirtioPCIDevice *d, uint16_t en=
+try)
++{
++    uint16_t vector;
 +
-     qpci_io_writel(dev->pdev, dev->bar, VIRTIO_PCI_QUEUE_PFN, pfn);
++    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR, entry);
++    vector =3D qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR);
++    g_assert_cmphex(vector, !=3D, VIRTIO_MSI_NO_VECTOR);
++}
++
++static void qvirtio_pci_set_queue_vector(QVirtioPCIDevice *d, uint16_t vq_=
+idx,
++                                         uint16_t entry)
++{
++    uint16_t vector;
++
++    qvirtio_pci_queue_select(&d->vdev, vq_idx);
++    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR, entry);
++    vector =3D qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR);
++    g_assert_cmphex(vector, !=3D, VIRTIO_MSI_NO_VECTOR);
++}
++
++static const QVirtioPCIMSIXOps qvirtio_pci_msix_ops_legacy =3D {
++    .set_config_vector =3D qvirtio_pci_set_config_vector,
++    .set_queue_vector =3D qvirtio_pci_set_queue_vector,
++};
++
+ void qvirtio_pci_device_enable(QVirtioPCIDevice *d)
+ {
+     qpci_device_enable(d->pdev);
+@@ -295,7 +320,6 @@ void qvirtio_pci_device_disable(QVirtioPCIDevice *d)
+ void qvirtqueue_pci_msix_setup(QVirtioPCIDevice *d, QVirtQueuePCI *vqpci,
+                                         QGuestAllocator *alloc, uint16_t e=
+ntry)
+ {
+-    uint16_t vector;
+     uint32_t control;
+     uint64_t off;
+=20
+@@ -321,16 +345,12 @@ void qvirtqueue_pci_msix_setup(QVirtioPCIDevice *d, Q=
+VirtQueuePCI *vqpci,
+                    off + PCI_MSIX_ENTRY_VECTOR_CTRL,
+                    control & ~PCI_MSIX_ENTRY_CTRL_MASKBIT);
+=20
+-    qvirtio_pci_queue_select(&d->vdev, vqpci->vq.index);
+-    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR, entry);
+-    vector =3D qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR);
+-    g_assert_cmphex(vector, !=3D, VIRTIO_MSI_NO_VECTOR);
++    d->msix_ops->set_queue_vector(d, vqpci->vq.index, entry);
  }
 =20
-@@ -239,7 +241,7 @@ static QVirtQueue *qvirtio_pci_virtqueue_setup(QVirtioD=
-evice *d,
-     addr =3D guest_alloc(alloc, qvring_size(vqpci->vq.size,
-                                           VIRTIO_PCI_VRING_ALIGN));
-     qvring_init(qvpcidev->pdev->bus->qts, alloc, &vqpci->vq, addr);
--    qvirtio_pci_set_queue_address(d, vqpci->vq.desc / VIRTIO_PCI_VRING_ALI=
-GN);
-+    qvirtio_pci_set_queue_address(d, &vqpci->vq);
+ void qvirtio_pci_set_msix_configuration_vector(QVirtioPCIDevice *d,
+                                         QGuestAllocator *alloc, uint16_t e=
+ntry)
+ {
+-    uint16_t vector;
+     uint32_t control;
+     uint64_t off;
 =20
-     return &vqpci->vq;
+@@ -358,9 +378,7 @@ void qvirtio_pci_set_msix_configuration_vector(QVirtioP=
+CIDevice *d,
+                    off + PCI_MSIX_ENTRY_VECTOR_CTRL,
+                    control & ~PCI_MSIX_ENTRY_CTRL_MASKBIT);
+=20
+-    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR, entry);
+-    vector =3D qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR);
+-    g_assert_cmphex(vector, !=3D, VIRTIO_MSI_NO_VECTOR);
++    d->msix_ops->set_config_vector(d, entry);
  }
+=20
+ void qvirtio_pci_destructor(QOSGraphObject *obj)
+@@ -383,6 +401,7 @@ static void qvirtio_pci_init_from_pcidev(QVirtioPCIDevi=
+ce *dev, QPCIDevice *pci_
+     dev->vdev.device_type =3D qpci_config_readw(pci_dev, PCI_SUBSYSTEM_ID)=
+;
+=20
+     dev->config_msix_entry =3D -1;
++    dev->msix_ops =3D &qvirtio_pci_msix_ops_legacy;
+=20
+     dev->vdev.bus =3D &qvirtio_pci;
+     dev->vdev.big_endian =3D qvirtio_pci_is_big_endian(dev);
 --=20
 2.21.0
 
