@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B001BE25CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 23:54:35 +0200 (CEST)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372B2E2666
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 00:32:35 +0200 (CEST)
+Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNOaP-0003rZ-Qk
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 17:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50136)
+	id 1iNPBC-0007WP-83
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 18:32:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56334)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iNOWd-0006Jw-DP
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 17:50:41 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNP9w-0006Db-0H
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 18:31:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iNOWa-0007fW-5V
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 17:50:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33254)
+ (envelope-from <philmd@redhat.com>) id 1iNP9t-0003WV-9K
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 18:31:14 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60245
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iNOWZ-0007eh-SF
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 17:50:36 -0400
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A2125369AC
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 21:50:34 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id y10so22809017qti.1
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 14:50:34 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNP9s-0003Ud-SS
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 18:31:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571869871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ECVZ/JDh1uQ3niNBtcpzb7flDVxLkyBOJo8qKRQafnk=;
+ b=HWoJZqtw/CC9S7IkPBWuShCDAwTaMTbaiSEBKFXgrPtcF5z6oRB3r7tesNw5p840eHkN04
+ TVSBAJQ4rUkOPbUUbcvSCqj6irH1xCoGezTdOw8Smlg8Z7KXC91ijrmQT80vI6AbjAOtjS
+ Agx/d4NtzAv/Oy0aI93Rkq56cZMVric=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-o7qUQfLkNCy-yH6b8Bznvw-1; Wed, 23 Oct 2019 18:31:08 -0400
+Received: by mail-wr1-f71.google.com with SMTP id 67so11731804wrm.18
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 15:31:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vf2Gujh1D+kIfLyLKSFywI9uwqFrxpfl5qAZxk1EKKQ=;
- b=g5HhSnS1/3pmdMWjSpjLln/KV+/jO10gKKQ4/FRgDzrxr5ghV0mb7IHvD2R3QKberT
- 981vaYRF7oCVp/Db6xNhlTvJb8AgwWsJZ1R7zcBiaS2YO49ROWXuy1jACMhB+wnfRPFe
- jDJqP6wzlKBFlPMlc9kzei/rslufnyvfM/QJ8dfNf2ZdPIgPcaZY5M0gUKnJxMtw7zXy
- dKx5WTqY+pT0f2gu8VFgRPEVCUV2wIfJ7ipD8AaNliPAZPPDXm3t3DaHsKfgXexs5d6C
- XQE2vaDVfgJvrnRN0mIbsiJhocNr+XL6nyvbA7F6XMv9Gcgn7JcyPYBA7YPp3mC236rO
- 9HUg==
-X-Gm-Message-State: APjAAAXknllPy1QZgFMDOjDq8+UezRpwzrtb2TMofJXy2qJ+G8n23s1Z
- XHWu0BwIE0VAJSP5OTYhgQHgDo14GFAL9uZ1jgNoEZt+rG5LAoR/jtHo8a5WAY3SnxEf1My+1l8
- ecPi1nNbAni9fCag=
-X-Received: by 2002:ac8:72ce:: with SMTP id o14mr886003qtp.62.1571867433914;
- Wed, 23 Oct 2019 14:50:33 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxmHGOMRePmVhVDbI4mndRio6jgZN0om/ykrr4Z9IGi8om/Xyb7XgfJ+4eU/fi8AgSdPIaR/w==
-X-Received: by 2002:ac8:72ce:: with SMTP id o14mr885986qtp.62.1571867433642;
- Wed, 23 Oct 2019 14:50:33 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- y188sm9917277qke.31.2019.10.23.14.50.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 14:50:32 -0700 (PDT)
-Date: Wed, 23 Oct 2019 17:50:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] virtio: fix IO request length in virtio SCSI/block
- #PSBM-78839
-Message-ID: <20191023174957-mutt-send-email-mst@kernel.org>
-References: <20191018115547.19299-1-dplotnikov@virtuozzo.com>
- <20191021132455.GH22659@stefanha-x1.localdomain>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8/GJhTevpVSL48GXLqGTJhISuPMtzfiyq6zRzaXI90g=;
+ b=rxbVkKaV5Wgg+N5Yfo5bGWOewBEnnt5HTDENsJzyTyOhqG9Kr0K4WTpgNaJm0XCbwA
+ 5ZTt8nxxiPvA5oJqHZbTncKQBpMM0X7me5a1tmPGc3P2di+DLG8BVy12qHtTqbbUwE5p
+ 3nan1dHzM2XuH0N3YDcQDVXzjGlZDLydVEnEynoZdSwtfbPbgLpUXCocp6853uUBwjwu
+ 4O2kgFDd82kBbX0tk1s8Wlvr9aNYWB6MyGRUSkYH7koPepN2IzvvHvXBZk6UhU9HziOa
+ RnMRp70tVWQ1fQ/xTNbznV3OJbKRrLJ9FOhG47M2ByDCXifWDtx2t21q+aEfVpKCfiW0
+ Qcqg==
+X-Gm-Message-State: APjAAAVHkIRi7jBZyrvpegiiPL+iS0mq7TdmgscVQLI7683FAo4Geh3l
+ QaEPMVrhFPibKCMLen9NpDo/hZsHBSyq+ULj+aOqV0lgojwm9gMbqpEY+q2O3WHyijUnURp0QQR
+ WbXkDJqPL5hdKd3g=
+X-Received: by 2002:a05:600c:2295:: with SMTP id
+ 21mr1828741wmf.106.1571869867228; 
+ Wed, 23 Oct 2019 15:31:07 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzVxfZHoPAk677d9eZsgjibiAkke8jjMPCY19YoVs9nzQSX0KFw9KgtQfSigiG28RmryR0Yag==
+X-Received: by 2002:a05:600c:2295:: with SMTP id
+ 21mr1828727wmf.106.1571869866974; 
+ Wed, 23 Oct 2019 15:31:06 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id e3sm129356wme.36.2019.10.23.15.31.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 15:31:06 -0700 (PDT)
+Subject: Re: LEON3 networking
+To: Jiri Gaisler <jiri@gaisler.se>,
+ Joshua Shaffer <joshua.shaffer@astrobotic.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>
+References: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+ <6bb8abb2-68f0-db85-1557-6e04839b5ea2@redhat.com>
+ <32c38984-e745-de6c-792e-09910b68cedd@adacore.com>
+ <CAPJW7GLOTyjdMozrb+TSnqpEyoiFh2sxZjYkLXx2pz2_J_dPgA@mail.gmail.com>
+ <a6783ce6-eea2-214f-7dbd-7224e830db0b@gaisler.se>
+ <2ea63643-5cb2-017e-8889-bb8c77fd75cf@gaisler.se>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6d0ffeda-68c4-3c0e-39bb-e00d544e1b8e@redhat.com>
+Date: Thu, 24 Oct 2019 00:31:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191021132455.GH22659@stefanha-x1.localdomain>
+In-Reply-To: <2ea63643-5cb2-017e-8889-bb8c77fd75cf@gaisler.se>
+Content-Language: en-US
+X-MC-Unique: o7qUQfLkNCy-yH6b8Bznvw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,106 +100,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, Denis Plotnikov <dplotnikov@virtuozzo.com>,
- kraxel@redhat.com
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 21, 2019 at 02:24:55PM +0100, Stefan Hajnoczi wrote:
-> On Fri, Oct 18, 2019 at 02:55:47PM +0300, Denis Plotnikov wrote:
-> > From: "Denis V. Lunev" <den@openvz.org>
-> > 
-> > Linux guests submit IO requests no longer than PAGE_SIZE * max_seg
-> > field reported by SCSI controler. Thus typical sequential read with
-> > 1 MB size results in the following pattern of the IO from the guest:
-> >   8,16   1    15754     2.766095122  2071  D   R 2095104 + 1008 [dd]
-> >   8,16   1    15755     2.766108785  2071  D   R 2096112 + 1008 [dd]
-> >   8,16   1    15756     2.766113486  2071  D   R 2097120 + 32 [dd]
-> >   8,16   1    15757     2.767668961     0  C   R 2095104 + 1008 [0]
-> >   8,16   1    15758     2.768534315     0  C   R 2096112 + 1008 [0]
-> >   8,16   1    15759     2.768539782     0  C   R 2097120 + 32 [0]
-> > The IO was generated by
-> >   dd if=/dev/sda of=/dev/null bs=1024 iflag=direct
-> > 
-> > This effectively means that on rotational disks we will observe 3 IOPS
-> > for each 2 MBs processed. This definitely negatively affects both
-> > guest and host IO performance.
-> > 
-> > The cure is relatively simple - we should report lengthy scatter-gather
-> > ability of the SCSI controller. Fortunately the situation here is very
-> > good. VirtIO transport layer can accomodate 1024 items in one request
-> > while we are using only 128. This situation is present since almost
-> > very beginning. 2 items are dedicated for request metadata thus we
-> > should publish VIRTQUEUE_MAX_SIZE - 2 as max_seg.
-> > 
-> > The following pattern is observed after the patch:
-> >   8,16   1     9921     2.662721340  2063  D   R 2095104 + 1024 [dd]
-> >   8,16   1     9922     2.662737585  2063  D   R 2096128 + 1024 [dd]
-> >   8,16   1     9923     2.665188167     0  C   R 2095104 + 1024 [0]
-> >   8,16   1     9924     2.665198777     0  C   R 2096128 + 1024 [0]
-> > which is much better.
-> > 
-> > The dark side of this patch is that we are tweaking guest visible
-> > parameter, though this should be relatively safe as above transport
-> > layer support is present in QEMU/host Linux for a very long time.
-> > The patch adds configurable property for VirtIO SCSI with a new default
-> > and hardcode option for VirtBlock which does not provide good
-> > configurable framework.
-> > 
-> > Unfortunately the commit can not be applied as is. For the real cure we
-> > need guest to be fixed to accomodate that queue length, which is done
-> > only in the latest 4.14 kernel. Thus we are going to expose the property
-> > and tweak it on machine type level.
-> > 
-> > The problem with the old kernels is that they have
-> > max_segments <= virtqueue_size restriction which cause the guest
-> > crashing in the case of violation.
-> > To fix the case described above in the old kernels we can increase
-> > virtqueue_size to 256 and max_segments to 254. The pitfall here is
-> > that seabios allows the virtqueue_size-s < 128, however, the seabios
-> > patch extending that value to 256 is pending.
-> 
-> If I understand correctly you are relying on Indirect Descriptor support
-> in the guest driver in order to exceed the Virtqueue Descriptor Table
-> size.
-> 
-> Unfortunately the "max_segments <= virtqueue_size restriction" is
-> required by the VIRTIO 1.1 specification:
-> 
->   2.6.5.3.1 Driver Requirements: Indirect Descriptors
-> 
->   A driver MUST NOT create a descriptor chain longer than the Queue
->   Size of the device.
-> 
-> So this idea seems to be in violation of the specification?
-> 
-> There is a bug in hw/block/virtio-blk.c:virtio_blk_update_config() and
-> hw/scsi/virtio-scsi.c:virtio_scsi_get_config():
-> 
->   virtio_stl_p(vdev, &blkcfg.seg_max, 128 - 2);
-> 
-> This number should be the minimum of blk_get_max_iov() and
-> virtio_queue_get_num(), minus 2 for the header and footer.
-> 
-> I looked at the Linux SCSI driver code and it seems each HBA has a
-> single max_segments number - it does not vary on a per-device basis.
-> This could be a problem if two host block device with different
-> max_segments are exposed to the guest through the same virtio-scsi
-> controller.  Another bug? :(
-> 
-> Anyway, if you want ~1024 descriptors you should set Queue Size to 1024.
-> I don't see a spec-compliant way of doing it otherwise.  Hopefully I
-> have overlooked something and there is a nice way to solve this.
-> 
-> Stefan
+Hi Jiri,
 
+On 10/23/19 9:55 PM, Jiri Gaisler wrote:
+> BTW, here is a patch that you might want to apply to qemu if you intend
+> to run RTEMS on leon3. The plug&play area must support byte accesses,
+> which is used by the RTEMS grlib scanning functions...
 
+Do you mean this one?
 
-We can extend the spec of course. And we can also
-have different vq sizes between legacy and modern
-interfaces.
+http://gaisler.org/qemu/qemu-4.1.0-leon3.patch
 
--- 
-MST
+-- >8 --
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -228,6 +228,9 @@ static uint64_t grlib_apb_pnp_read(void *opaque,=20
+hwaddr offset, unsigned size)
+  {
+      APBPnp *apb_pnp =3D GRLIB_APB_PNP(opaque);
+
++    if (size !=3D 4)
++        return apb_pnp->regs[offset >> 2] >> ((~offset & 3) * 8);
++
+      return apb_pnp->regs[offset >> 2];
+  }
+
+---
+
+But then this is incorrect for 16-bit accesses.
+
+The proper patch might be:
+
+-- >8 --
+@@ -234,6 +234,13 @@ static uint64_t grlib_apb_pnp_read(void *opaque,=20
+hwaddr offset, unsigned size)
+  static const MemoryRegionOps grlib_apb_pnp_ops =3D {
+      .read       =3D grlib_apb_pnp_read,
+      .endianness =3D DEVICE_BIG_ENDIAN,
++    .valid =3D {
++        .min_access_size =3D 1,
++    },
++    .impl =3D {
++        .min_access_size =3D 4,
++        .max_access_size =3D 4,
++    },
+  };
+
+---
+
+(Unrelated note, this device model lacks the MemoryRegionOps::write=20
+handler).
+
+> Jiri.
+>=20
+> On 10/23/19 8:37 PM, Jiri Gaisler wrote:
+>> Leon3 uses the GRETH ethernet IP core for networking. You would need to
+>> write a qemu emulation model of it to get networking support. The GRETH
+>> is fairly well described in the GRLIB IP manual, so it should not be
+>> impossible. The core is also available in open-source (VHDL) if you need
+>> to look up some finer details ... :-)
+>>
+>> Jiri.
+>>
+>> On 10/23/19 6:59 PM, Joshua Shaffer wrote:
+>>> Does anyone know what needs implemented to get networking supported?
+>>>
+>>> Joshua
+>>>
+>>> On Wed, Oct 16, 2019 at 6:34 AM Fabien Chouteau <chouteau@adacore.com> =
+wrote:
+>>>> Hello people,
+>>>>
+>>>> On 15/10/2019 18:57, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>>> Hi Joshua,
+>>>>>
+>>>>> On 10/15/19 3:17 PM, Joshua Shaffer wrote:
+>>>>>> Hello,
+>>>>>>
+>>>>>> I've been using the LEON3 port of qemu, and am wondering if anyone h=
+as touched the networking setup for such since the thread here: https://lis=
+ts.rtems.org/pipermail/users/2014-September/028224.html
+>>>>> Thanks for sharing this!
+>>>>>
+>>>>> Good news, Jiri keeps rebasing his patch with the latest stable versi=
+on.
+>>>>> Bad news, he didn't not signed his work with a "Signed-off-by" tag so=
+ we can not take this as it into the mainstream repository, see https://wik=
+i.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-b=
+y:_line
+>>>>>
+>>>> The Gaisler patches have been rewrote by my colleague Frederic (in CC)=
+ and they are now in mainstream.
+>>>> (see https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03869.ht=
+ml)
+>>>>
+>>>> But none of them are implementing network support, and I never heard o=
+f someone working on network for leon3.
+>>>>
+>>>> Regards,
+>>>>
+
 
