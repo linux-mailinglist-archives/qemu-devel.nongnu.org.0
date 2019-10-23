@@ -2,140 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C804E1FF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:53:55 +0200 (CEST)
-Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D42E2001
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:57:32 +0200 (CEST)
+Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNIxN-0002Ep-Oy
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39908)
+	id 1iNJ0t-0006Wm-Dt
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iNIXn-0005Uk-5R
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:27:28 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iNIZM-0007Ji-OH
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:29:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iNIXm-0002um-00
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:27:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51215
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iNIZK-0003Nq-Ha
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:29:04 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46308
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iNIXj-0002tz-Vf
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:27:24 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iNIZK-0003Ng-Dg
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:29:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571844443;
+ s=mimecast20190719; t=1571844542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GR/oCfpnj3Ao0zKrmKrJOZAZrEfbLkwQAphRPXU7sTE=;
- b=f1GYbqksPsDK8Gtbr4115Ad/YeFej+BbubA0/ZWDBEEFTPKFkDGDbGMBpxCvtzAn6oYfJT
- RNFgRtlY3JINWMSIUEqybaU5S7n+yUfJrJiochl/nEWSUIohY1xN6DeUVcRayUIsRPrFej
- VF3PPUg5WeK0Y4jmRReRkwGBsaTKZ0E=
+ in-reply-to:in-reply-to:references:references;
+ bh=MHTQpGI74b8/oA0QRYy5/0PHL/SRsovJ61XNt3Pw6f8=;
+ b=V2L2VoEowXtthz/C05dH7P6BRel/eRae3T0wF1Z4M5qrPsk++UO2JNOdDOczereLCME+K4
+ BzDCvlapcIy3CoK6d09g413Rqgu8MCNWEOsIY2ug3XwR/QbVc7jZzpQauHO3K7JrDkQcCK
+ C4eE+f+N3qWlfQcJBAg6eWY7Nb5U4YI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-1wDbRem1PAOW-YoyU0FSvQ-1; Wed, 23 Oct 2019 11:27:00 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-185-oH1Gnxv6OPeOTzfCvbejKQ-1; Wed, 23 Oct 2019 11:28:58 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57E42476;
- Wed, 23 Oct 2019 15:26:58 +0000 (UTC)
-Received: from [10.10.121.110] (ovpn-121-110.rdu2.redhat.com [10.10.121.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72CAE10027AB;
- Wed, 23 Oct 2019 15:26:57 +0000 (UTC)
-Subject: Re: [PATCH] nvme: fix NSSRS offset in CAP register
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-References: <20191023073315.446534-1-its@irrelevant.dk>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <4a51bf95-c38b-7fef-9b97-0bec2bd36854@redhat.com>
-Date: Wed, 23 Oct 2019 11:26:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 775CB476;
+ Wed, 23 Oct 2019 15:28:57 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6C1D5D6D0;
+ Wed, 23 Oct 2019 15:28:55 +0000 (UTC)
+Date: Wed, 23 Oct 2019 17:28:54 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v13 06/12] numa: Extend CLI to provide memory latency
+ and bandwidth information
+Message-ID: <20191023172854.42c495d5@redhat.com>
+In-Reply-To: <20191020111125.27659-7-tao3.xu@intel.com>
+References: <20191020111125.27659-1-tao3.xu@intel.com>
+ <20191020111125.27659-7-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191023073315.446534-1-its@irrelevant.dk>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 1wDbRem1PAOW-YoyU0FSvQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: oH1Gnxv6OPeOTzfCvbejKQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -147,48 +72,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, 20 Oct 2019 19:11:19 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-
-On 10/23/19 3:33 AM, Klaus Jensen wrote:
-> Fix the offset of the NSSRS field the CAP register.
-
-From NVME 1.4, section 3 ("Controller Registers"), subsection 3.1.1
-("Offset 0h: CAP =E2=80=93 Controller Capabilities") CAP_NSSRS_SHIFT is bit=
- 36,
-not 33.
-
+> From: Liu Jingqi <jingqi.liu@intel.com>
 >=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Reported-by: Javier Gonzalez <javier.gonz@samsung.com>
+> Add -numa hmat-lb option to provide System Locality Latency and
+> Bandwidth Information. These memory attributes help to build
+> System Locality Latency and Bandwidth Information Structure(s)
+> in ACPI Heterogeneous Memory Attribute Table (HMAT).
+>=20
+> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
 > ---
->  include/block/nvme.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 3ec8efcc435e..fa15b51c33bb 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -23,7 +23,7 @@ enum NvmeCapShift {
->      CAP_AMS_SHIFT      =3D 17,
->      CAP_TO_SHIFT       =3D 24,
->      CAP_DSTRD_SHIFT    =3D 32,
-> -    CAP_NSSRS_SHIFT    =3D 33,
-> +    CAP_NSSRS_SHIFT    =3D 36,
->      CAP_CSS_SHIFT      =3D 37,
->      CAP_MPSMIN_SHIFT   =3D 48,
->      CAP_MPSMAX_SHIFT   =3D 52,
->=20
+> Changes in v13:
+>     - Reuse Garray to store the raw bandwidth and bandwidth data
+>     - Calculate common base unit using range bitmap (Igor)
+> ---
+>  hw/core/numa.c        | 127 ++++++++++++++++++++++++++++++++++++++++++
+>  include/sysemu/numa.h |  68 ++++++++++++++++++++++
+>  qapi/machine.json     |  95 ++++++++++++++++++++++++++++++-
+>  qemu-options.hx       |  49 +++++++++++++++-
+>  4 files changed, 336 insertions(+), 3 deletions(-)
+Below some comments on doc parts of the patch
+(since I'm too familiar with the topic y now I can't properly review doc pa=
+rts)
 
-I like updating commit messages with spec references; if it can be
-updated that would be nice.
+perhaps Eric and Markus can suggest a better way to describe new options.
 
-Regardless:
+[...]
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index f1b07b3486..9ca008810b 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -426,10 +426,12 @@
+>  #
+>  # @cpu: property based CPU(s) to node mapping (Since: 2.10)
+>  #
+> +# @hmat-lb: memory latency and bandwidth information (Since: 4.2)
+> +#
+>  # Since: 2.1
+>  ##
+>  { 'enum': 'NumaOptionsType',
+> -  'data': [ 'node', 'dist', 'cpu' ] }
+> +  'data': [ 'node', 'dist', 'cpu', 'hmat-lb' ] }
+> =20
+>  ##
+>  # @NumaOptions:
+> @@ -444,7 +446,8 @@
+>    'data': {
+>      'node': 'NumaNodeOptions',
+>      'dist': 'NumaDistOptions',
+> -    'cpu': 'NumaCpuOptions' }}
+> +    'cpu': 'NumaCpuOptions',
+> +    'hmat-lb': 'NumaHmatLBOptions' }}
+> =20
+>  ##
+>  # @NumaNodeOptions:
+> @@ -557,6 +560,94 @@
+>     'base': 'CpuInstanceProperties',
+>     'data' : {} }
+> =20
+> +##
+> +# @HmatLBMemoryHierarchy:
+> +#
+> +# The memory hierarchy in the System Locality Latency
+> +# and Bandwidth Information Structure of HMAT (Heterogeneous
+> +# Memory Attribute Table)
+> +#
+> +# For more information of @HmatLBMemoryHierarchy see
+> +# the chapter 5.2.27.4: Table 5-142: Field "Flags" of ACPI 6.3 spec.
+> +#
+> +# @memory: the structure represents the memory performance
+> +#
+> +# @first-level: first level memory of memory side cached memory
+> +#
+> +# @second-level: second level memory of memory side cached memory
+> +#
+> +# @third-level: third level memory of memory side cached memory
+> +#
+> +# Since: 4.2
+> +##
+> +{ 'enum': 'HmatLBMemoryHierarchy',
+> +  'data': [ 'memory', 'first-level', 'second-level', 'third-level' ] }
+> +
+> +##
+> +# @HmatLBDataType:
+> +#
+> +# Data type in the System Locality Latency
+> +# and Bandwidth Information Structure of HMAT (Heterogeneous
+> +# Memory Attribute Table)
+> +#
+> +# For more information of @HmatLBDataType see
+> +# the chapter 5.2.27.4: Table 5-142:  Field "Data Type" of ACPI 6.3 spec=
+.
+> +#
+> +# @access-latency: access latency (nanoseconds)
+> +#
+> +# @read-latency: read latency (nanoseconds)
+> +#
+> +# @write-latency: write latency (nanoseconds)
+> +#
+> +# @access-bandwidth: access bandwidth (MB/s)
+> +#
+> +# @read-bandwidth: read bandwidth (MB/s)
+> +#
+> +# @write-bandwidth: write bandwidth (MB/s)
+I think units here are not appropriate, values stored in fields are
+minimal base units only and nothing else (i.e. ps and B/s)
+
+> +#
+> +# Since: 4.2
+> +##
+> +{ 'enum': 'HmatLBDataType',
+> +  'data': [ 'access-latency', 'read-latency', 'write-latency',
+> +            'access-bandwidth', 'read-bandwidth', 'write-bandwidth' ] }
+> +
+> +##
+> +# @NumaHmatLBOptions:
+> +#
+> +# Set the system locality latency and bandwidth information
+> +# between Initiator and Target proximity Domains.
+> +#
+> +# For more information of @NumaHmatLBOptions see
+> +# the chapter 5.2.27.4: Table 5-142 of ACPI 6.3 spec.
+> +#
+> +# @initiator: the Initiator Proximity Domain.
+> +#
+> +# @target: the Target Proximity Domain.
+> +#
+> +# @hierarchy: the Memory Hierarchy. Indicates the performance
+> +#             of memory or side cache.
+> +#
+> +# @data-type: presents the type of data, access/read/write
+> +#             latency or hit latency.
+
+> +# @latency: the value of latency from @initiator to @target proximity do=
+main,
+> +#           the latency units are "ps(picosecond)", "ns(nanosecond)" or
+> +#           "us(microsecond)".
+> +#
+> +# @bandwidth: the value of bandwidth between @initiator and @target prox=
+imity
+> +#             domain, the bandwidth units are "MB(/s)","GB(/s)" or "TB(/=
+s)".
+ditto
+
+> +# Since: 4.2
+> +##
+> +{ 'struct': 'NumaHmatLBOptions',
+> +    'data': {
+> +    'initiator': 'uint16',
+> +    'target': 'uint16',
+> +    'hierarchy': 'HmatLBMemoryHierarchy',
+> +    'data-type': 'HmatLBDataType',
+> +    '*latency': 'time',
+> +    '*bandwidth': 'size' }}
+> +
+>  ##
+>  # @HostMemPolicy:
+>  #
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 1f96399521..de97939f9a 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -168,16 +168,19 @@ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+>      "-numa node[,mem=3Dsize][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnode]=
+[,initiator=3Dnode]\n"
+>      "-numa node[,memdev=3Did][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnode=
+][,initiator=3Dnode]\n"
+>      "-numa dist,src=3Dsource,dst=3Ddestination,val=3Ddistance\n"
+> -    "-numa cpu,node-id=3Dnode[,socket-id=3Dx][,core-id=3Dy][,thread-id=
+=3Dz]\n",
+> +    "-numa cpu,node-id=3Dnode[,socket-id=3Dx][,core-id=3Dy][,thread-id=
+=3Dz]\n"
+> +    "-numa hmat-lb,initiator=3Dnode,target=3Dnode,hierarchy=3Dmemory|fir=
+st-level|second-level|third-level,data-type=3Daccess-latency|read-latency|w=
+rite-latency[,latency=3Dlat][,bandwidth=3Dbw]\n",
+>      QEMU_ARCH_ALL)
+>  STEXI
+>  @item -numa node[,mem=3D@var{size}][,cpus=3D@var{firstcpu}[-@var{lastcpu=
+}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
+>  @itemx -numa node[,memdev=3D@var{id}][,cpus=3D@var{firstcpu}[-@var{lastc=
+pu}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
+>  @itemx -numa dist,src=3D@var{source},dst=3D@var{destination},val=3D@var{=
+distance}
+>  @itemx -numa cpu,node-id=3D@var{node}[,socket-id=3D@var{x}][,core-id=3D@=
+var{y}][,thread-id=3D@var{z}]
+> +@itemx -numa hmat-lb,initiator=3D@var{node},target=3D@var{node},hierarch=
+y=3D@var{str},data-type=3D@var{str}[,latency=3D@var{lat}][,bandwidth=3D@var=
+{bw}]
+                                                                           =
+   ^^^                 ^^^
+Using the same 'str' for 2 different enums is confusing.
+Suggest for 1st use 'level' and for the second just 'type'
+
+>  @findex -numa
+>  Define a NUMA node and assign RAM and VCPUs to it.
+>  Set the NUMA distance from a source node to a destination node.
+> +Set the ACPI Heterogeneous Memory Attributes for the given nodes.
+> =20
+>  Legacy VCPU assignment uses @samp{cpus} option where
+>  @var{firstcpu} and @var{lastcpu} are CPU indexes. Each
+> @@ -256,6 +259,50 @@ specified resources, it just assigns existing resour=
+ces to NUMA
+>  nodes. This means that one still has to use the @option{-m},
+>  @option{-smp} options to allocate RAM and VCPUs respectively.
+> =20
+> +Use @samp{hmat-lb} to set System Locality Latency and Bandwidth Informat=
+ion
+> +between initiator and target NUMA nodes in ACPI Heterogeneous Attribute =
+Memory Table (HMAT).
+> +Initiator NUMA node can create memory requests, usually including one or=
+ more processors.
+s/including/it has/
+
+> +Target NUMA node contains addressable memory.
+> +
+> +In @samp{hmat-lb} option, @var{node} are NUMA node IDs. @var{str} of 'hi=
+erarchy'
+> +is the memory hierarchy of the target NUMA node: if @var{str} is 'memory=
+', the structure
+> +represents the memory performance; if @var{str} is 'first-level|second-l=
+evel|third-level',
+> +this structure represents aggregated performance of memory side caches f=
+or each domain.
+> +@var{str} of 'data-type' is type of data represented by this structure i=
+nstance:
+> +if 'hierarchy' is 'memory', 'data-type' is 'access|read|write' latency(n=
+anoseconds)
+is nanoseconds is right here? Looking at previous patches default value of =
+suffix-less
+should be picoseconds. I'd just drop '(nanoseconds)'. User will use appropr=
+iate suffix.
+
+> +or 'access|read|write' bandwidth(MB/s) of the target memory; if 'hierarc=
+hy' is
+ditto (MB/s), probably should be Bytes/s for default suffix-less value
+(well, I'm not sure how to express it better)
+
+> +'first-level|second-level|third-level', 'data-type' is 'access|read|writ=
+e' hit latency
+> +or 'access|read|write' hit bandwidth of the target memory side cache.
+> +
+> +@var{lat} of 'latency' is latency value, the possible value and units ar=
+e
+> +NUM[ps|ns|us] (picosecond|nanosecond|microsecond), the recommended unit =
+is 'ns'. @var{bw}
+> +is bandwidth value, the possible value and units are NUM[M|G|T], mean th=
+at
+
+> +the bandwidth value are NUM MB/s, GB/s or TB/s. Note that max NUM is 655=
+34,
+> +if NUM is 0, means the corresponding latency or bandwidth information is=
+ not provided.
+> +And if input numbers without any unit, the latency unit will be 'ps' and=
+ the bandwidth
+> +will be MB/s.
+ 1st: above is applicable to both bw and lat values and should be documente=
+d as such
+ 2nd: 'max NUM is 65534' when different suffixes is fleeting target,
+      spec says that entry with 0xFFFF is unreachable, so how about documen=
+ting
+      unreachable value as 0xFFFFFFFFFFFFFFFF (then CLI parsing code will
+      exclude it from range detection and acpi table building code translat=
+e it
+      to internal 0xFFFF it could fit into the tables)
+
+> +For example, the following option assigns NUMA node 0 and 1. Node 0 has =
+2 cpus and
+> +a ram, node 1 has only a ram. The processors in node 0 access memory in =
+node
+> +0 with access-latency 5 nanoseconds, access-bandwidth is 200 MB/s;
+> +The processors in NUMA node 0 access memory in NUMA node 1 with access-l=
+atency 10
+> +nanoseconds, access-bandwidth is 100 MB/s.
+> +@example
+> +-machine hmat=3Don \
+> +-m 2G \
+> +-object memory-backend-ram,size=3D1G,id=3Dm0 \
+> +-object memory-backend-ram,size=3D1G,id=3Dm1 \
+> +-smp 2 \
+> +-numa node,nodeid=3D0,memdev=3Dm0 \
+> +-numa node,nodeid=3D1,memdev=3Dm1,initiator=3D0 \
+> +-numa cpu,node-id=3D0,socket-id=3D0 \
+> +-numa cpu,node-id=3D0,socket-id=3D1 \
+> +-numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D5ns \
+> +-numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D200M \
+> +-numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D10ns \
+> +-numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D100M
+> +@end example
+> +
+>  ETEXI
+> =20
+>  DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
 
 
