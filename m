@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CB9E14BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:51:32 +0200 (CEST)
-Received: from localhost ([::1]:57476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9F4E1488
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:43:35 +0200 (CEST)
+Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNCMd-0007nc-JT
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50845)
+	id 1iNCEw-0002hd-72
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNCIB-00064B-6d
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:46:56 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iNC5c-0006IE-0f
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:33:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNCI9-0003yl-SX
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:46:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53654)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNCI5-0003yW-Tg
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:46:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNCI2-0008Rf-Tt
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:46:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DBDC42E8076
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:46:46 +0000 (UTC)
+ (envelope-from <stefanha@redhat.com>) id 1iNC5a-0003RF-Il
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:33:55 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56946
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNC5a-0003QR-4e
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:33:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571819633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h5sAqzXouO31bHj6Puayn6PQgcdo7+EuOZ9tV622jIU=;
+ b=Sg9NTpoCWK28E8y6vq/I9vxlA1Q64vm910CatMAkqo+IGit0hCA4YFwrhZPOKMBbTLdjwh
+ 89u8GSueZQmpl8cOHSwf8pgkqk44Bildao/3DS0HMG+TifDZnnimb2hQqMbZLriacuMrmt
+ 1m9EwZHyBZz2DG9eFKEN2ONdYguqLsE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-BGEXVxeMPmS3UTfDqb2Z0w-1; Wed, 23 Oct 2019 04:33:51 -0400
+X-MC-Unique: BGEXVxeMPmS3UTfDqb2Z0w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3F581800D6B;
+ Wed, 23 Oct 2019 08:33:50 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD6915DC18;
+ Wed, 23 Oct 2019 08:33:45 +0000 (UTC)
+Date: Wed, 23 Oct 2019 09:33:44 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 07/16] libqos: enforce Device Initialization order
+Message-ID: <20191023083344.GA9574@stefanha-x1.localdomain>
+References: <20191019063810.6944-1-stefanha@redhat.com>
+ <20191019063810.6944-8-stefanha@redhat.com>
+ <158ef0b2-c478-1304-3128-8feb7cd943d4@redhat.com>
+ <20191022154840.GE32186@stefanha-x1.localdomain>
+ <a2c46a4f-7c60-f6ef-06b6-1e283053ea9f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 08:27:25 -0000
-From: Thomas Huth <1575561@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth ztehypervisor
-X-Launchpad-Bug-Reporter: Michael liu (ztehypervisor)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160427094249.5722.69432.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157181924522.22028.5342739091194654339.malone@wampee.canonical.com>
-Subject: =?utf-8?q?=5BBug_1575561=5D_Re=3A_config_qemu_virtio=5Fqueue=5Fsiz?=
- =?utf-8?q?e_to_1024=EF=BC=8Ccreate_vm_boot_from_network_failed?=
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="186023fa645d8be19d403a76064f0643f510db2f";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a03e24cd058dbf1d229cf45e78d10fd3930df3f8
+In-Reply-To: <a2c46a4f-7c60-f6ef-06b6-1e283053ea9f@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,37 +75,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1575561 <1575561@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ slp@redhat.com, qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Which version of QEMU were you using here? Can you still reproduce this
-issue with the latest version of QEMU? If so, please also provide the
-full command line parameters that you used to start QEMU.
+--YiEDa0DAkWCtVeE4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+On Tue, Oct 22, 2019 at 08:48:31PM +0200, Thomas Huth wrote:
+> On 22/10/2019 17.48, Stefan Hajnoczi wrote:
+> > On Mon, Oct 21, 2019 at 02:15:53PM +0200, Thomas Huth wrote:
+> >> On 19/10/2019 08.38, Stefan Hajnoczi wrote:
+> >>> According to VIRTIO 1.1 "3.1.1 Driver Requirements: Device
+> >>> Initialization", configuration space and virtqueues cannot be accesse=
+d
+> >>> before features have been negotiated.  Enforce this requirement.
+> >>>
+> >>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> >>> ---
+> >>>  tests/libqos/virtio.c | 11 +++++++++++
+> >>>  1 file changed, 11 insertions(+)
+> >>>
+> >>> diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
+> >>> index 4f7e6bb8a1..2593996c98 100644
+> >>> --- a/tests/libqos/virtio.c
+> >>> +++ b/tests/libqos/virtio.c
+> >>> @@ -13,23 +13,33 @@
+> >>>  #include "standard-headers/linux/virtio_config.h"
+> >>>  #include "standard-headers/linux/virtio_ring.h"
+> >>> =20
+> >>> +/* Features must be negotiated before config space or virtqueue acce=
+ss */
+> >>> +static void check_features_negotiated(QVirtioDevice *d)
+> >>> +{
+> >>> +    g_assert_cmphex(d->features, !=3D, 0);
+> >>> +}
+> >>
+> >> Isn't it "legal" to negotiate 0 feature bits, too (for legacy devices)=
+?
+> >=20
+> > Yes, it's possible for Legacy devices.  If someone ever does that
+> > they'll need to extend this code, but it's unlikely so I'd rather not
+> > complicate this.
+>=20
+> Could you please add at least a comment here with that explanation?
 
--- =
+I'll try adding a bool field in v4 so there are no problems with a 0
+feature bit set.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1575561
+Stefan
 
-Title:
-  config qemu virtio_queue_size to 1024=EF=BC=8Ccreate vm boot from network
-  failed
+--YiEDa0DAkWCtVeE4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Status in QEMU:
-  Incomplete
+-----BEGIN PGP SIGNATURE-----
 
-Bug description:
-  config qemu virtio_queue_size to 1024=EF=BC=8Ccreate vm boot from network=
- failed=E3=80=82
-  in the vm vncviewer=EF=BC=8Csee the error log=EF=BC=9A
-  =E2=80=9CERROR queue size 1024 > 256
-  could  not open net0: no such file or directory"
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2wEGgACgkQnKSrs4Gr
+c8jEzwf/Q+iwO1rXUczT6UeNgy6mxwpbG2OPxFf70UP/iGHdwKT9k91U0lp+9M4i
+Qy8Bo9JlsehxdiRnqnVfKBkyiSLdbW+yzpB/jw2tFWu7Fn+4lJhu+Ji8J8crTLkw
+D+sP4bNGtpJ1h5ImGIcH0Kr5YaM1T465lcvsNfEa4Ml/UycuCTf0p9RP3c7XOWO+
+9RiRhii1MwG1mDsX7Af80Pgl1Suk0W6hzZ54YRRn/dWa3WOV2ayUCkOZoI46zACq
+UJWQdZc+m0v53n3FdPlE2rDGhhJYFguUANVaMtIRtl805oUdRsyEQ4ySwwQpNbQT
+Z2UWuS47yUiIK9RQwtF/DAjNJMD3Cw==
+=ko/o
+-----END PGP SIGNATURE-----
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1575561/+subscriptions
+--YiEDa0DAkWCtVeE4--
+
 
