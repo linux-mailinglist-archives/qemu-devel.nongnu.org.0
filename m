@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF95E1453
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:35:26 +0200 (CEST)
-Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8166EE144E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:34:29 +0200 (CEST)
+Received: from localhost ([::1]:57250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNC72-0005W5-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48245)
+	id 1iNC68-0004wp-2B
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iNBzP-0002r4-MN
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:35 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNBze-0002v9-90
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iNBzN-0005jf-8v
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:31 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23598
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jfreimann@redhat.com>) id 1iNBzb-0005te-LG
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37896
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iNBzN-0005gZ-3j
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:29 -0400
+ id 1iNBzS-0005mp-Ge
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571819245;
+ s=mimecast20190719; t=1571819253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VKsS+5S1Bf5wcaKxnRQSdtP6pBejdgvzZ5N+9/bdZWQ=;
- b=cSCy9ezkrTV+dzmT0LsKpi9soYLXeCJK5CZ0IpZGOjLQQQNtzfpjc+DmITbqJSTlWi0kG5
- ER72aIq/ZTDR74DTXViV+346phb1C8lUSo76Vb+wL2jPy57ACCgrku9Xh/MkwUIGHLcyif
- /DcKTwe2jodHx7UiwuupfXwJAxrX7L0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N1mXYBWjlIW+rCQl00usBp8V13DJOB43c4Zk4huMvtw=;
+ b=QCVnNoUw6dzHUOPdtjk1i16wr6sYGmxH0YPogxLfxGBRNI/RSW1XfiKZLOKBFCC4qOzVVk
+ 2t9AuRN6tLtPc9+rJ+AuS90gX6lrXpo0wRAJBIIok+i9EQGVPgnwgvc/ACqH4PxsvginS2
+ bDq/ep9ad+v8e5ibFpUg8D6NMhGh8VA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-chPYwVCONPyXsV8HKl3TEA-1; Wed, 23 Oct 2019 04:27:21 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-155-ofTJ5aN6Ormn2l3eygDQRw-1; Wed, 23 Oct 2019 04:27:30 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46DE2800D54;
- Wed, 23 Oct 2019 08:27:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 922221800E01;
+ Wed, 23 Oct 2019 08:27:29 +0000 (UTC)
 Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5ECB5D6D0;
- Wed, 23 Oct 2019 08:27:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9E2B60628;
+ Wed, 23 Oct 2019 08:27:21 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/11] add failover feature for assigned network devices
-Date: Wed, 23 Oct 2019 10:27:00 +0200
-Message-Id: <20191023082711.16694-1-jfreimann@redhat.com>
+Subject: [PATCH v5 01/11] qdev/qbus: add hidden device support
+Date: Wed, 23 Oct 2019 10:27:01 +0200
+Message-Id: <20191023082711.16694-2-jfreimann@redhat.com>
+In-Reply-To: <20191023082711.16694-1-jfreimann@redhat.com>
+References: <20191023082711.16694-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: chPYwVCONPyXsV8HKl3TEA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: ofTJ5aN6Ormn2l3eygDQRw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,170 +78,245 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is implementing the host side of the net_failover concept
-(https://www.kernel.org/doc/html/latest/networking/net_failover.html)
+This adds support for hiding a device to the qbus and qdev APIs.  The
+first user of this will be the virtio-net failover feature but the API
+introduced with this patch could be used to implement other features as
+well, for example hiding pci devices when a pci bus is powered off.
 
-Changes since v4:
-* Patch 1, qdev, add comment to DeviceClass and qdev_should_hide_device
-           function
-* Patch 2  pci, set flag that allows unplug during migration in qdev
-           code (aw)
-* Patch 10 virtio, fix error handling
-* Patch 11 vfio, fix error handling in vfio_realize (Conny)
-           move allow_unplug_during_migraton flag to generic PCI=20
+qdev_device_add() is modified to check for a net_failover_pair_id
+argument in the option string. A DeviceListener callback
+should_be_hidden() is added. It can be used by a standby device to
+inform qdev that this device should not be added now. The standby device
+handler can store the device options to plug the device in at a later
+point in time.
 
-The general idea is that we have a pair of devices, a vfio-pci and a
-virtio-net device. Before migration the vfio device is unplugged and data
-flows to the virtio-net device, on the target side another vfio-pci device
-is plugged in to take over the data-path. In the guest the net_failover
-module will pair net devices with the same MAC address.
+One reason for hiding the device is that we don't want to expose both
+devices to the guest kernel until the respective virtio feature bit
+VIRTIO_NET_F_STANDBY was negotiated and we know that the devices will be
+handled correctly by the guest.
 
-* Patch 1 adds the infrastructure to hide the device for the qbus and qdev =
-APIs
+More information on the kernel feature this is using:
+ https://www.kernel.org/doc/html/latest/networking/net_failover.html
 
-* Patch 2 adds checks to PCIDevice for only allowing ethernet devices as
-  failover primary and only PCIExpress capable devices
+An example where the primary device is a vfio-pci device and the standby
+device is a virtio-net device:
 
-* Patch 3 sets a new flag for PCIDevice 'partially_hotplugged' which we
-  use to skip the unrealize code path when doing a unplug of the primary
-  device
+A device is hidden when it has an "net_failover_pair_id" option, e.g.
 
-* Patch 4 sets the pending_deleted_event before triggering the guest
-  unplug request
+ -device virtio-net-pci,...,failover=3Don,...
+ -device vfio-pci,...,net_failover_pair_id=3Dnet1,...
 
-* Patch 5 and 6 add new qmp events, one sends the device id of a device
-  that was just requested to be unplugged from the guest and another one
-  to let libvirt know if VIRTIO_NET_F_STANDBY was negotiated
+Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/core/qdev.c         | 23 +++++++++++++++++++++++
+ include/hw/qdev-core.h | 29 +++++++++++++++++++++++++++++
+ qdev-monitor.c         | 41 +++++++++++++++++++++++++++++++++++++----
+ vl.c                   |  6 ++++--
+ 4 files changed, 93 insertions(+), 6 deletions(-)
 
-* Patch 7 make sure that we can unplug the vfio-device before
-  migration starts
-
-* Patch 8 adds a new migration state that is entered while we wait for
-  devices to be unplugged by guest OS
-
-* Patch 9 just adds the new migration state to a check in libqos code
-
-* Patch 10 In the second patch the virtio-net uses the API to defer adding =
-the vfio
-  device until the VIRTIO_NET_F_STANDBY feature is acked. It also
-  implements the migration handler to unplug the device from the guest and
-  re-plug in case of migration failure
-
-* Patch 11 allows migration for failover vfio-pci devices
-
-Previous discussion:
-  RFC v1 https://patchwork.ozlabs.org/cover/989098/
-  RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
-  v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03968.html
-  v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg635214.html
-  v3: https://patchew.org/QEMU/20191011112015.11785-1-jfreimann@redhat.com/
-  v4: https://patchew.org/QEMU/20191018202040.30349-1-jfreimann@redhat.com/
-
-To summarize concerns/feedback from previous discussion:
-1.- guest OS can reject or worse _delay_ unplug by any amount of time.
-  Migration might get stuck for unpredictable time with unclear reason.
-  This approach combines two tricky things, hot/unplug and migration.
-  -> We need to let libvirt know what's happening. Add new qmp events
-     and a new migration state. When a primary device is (partially)
-     unplugged (only from guest) we send a qmp event with the device id. Wh=
-en
-     it is unplugged from the guest the DEVICE_DELETED event is sent.
-     Migration will enter the wait-unplug state while waiting for the guest
-     os to unplug all primary devices and then move on with migration.
-2. PCI devices are a precious ressource. The primary device should never
-  be added to QEMU if it won't be used by guest instead of hiding it in
-  QEMU.
-  -> We only hotplug the device when the standby feature bit was
-     negotiated. We save the device cmdline options until we need it for
-     qdev_device_add()
-     Hiding a device can be a useful concept to model. For example a
-     pci device in a powered-off slot could be marked as hidden until the s=
-lot is
-     powered on (mst).
-3. Management layer software should handle this. Open Stack already has
-  components/code to handle unplug/replug VFIO devices and metadata to
-  provide to the guest for detecting which devices should be paired.
-  -> An approach that includes all software from firmware to
-     higher-level management software wasn't tried in the last years. This =
-is
-     an attempt to keep it simple and contained in QEMU as much as possible=
-.
-     One of the problems that stopped management software and libvirt from
-     implementing this idea is that it can't be sure that it's possible to
-     re-plug the primary device. By not freeing the devices resources in QE=
-MU
-     and only asking the guest OS to unplug it is possible to re-plug the
-     device in case of a migration failure.
-4. Hotplugging a device and then making it part of a failover setup is
-   not possible
-  -> addressed by extending qdev hotplug functions to check for hidden
-     attribute, so e.g. device_add can be used to plug a device.
-
-
-I have tested this with a mlx5 and igb NIC and was able to migrate the VM.
-
-Command line example:
-
-qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
-        -machine q35,kernel-irqchip=3Dsplit -cpu host   \
-        -serial stdio   \
-        -net none \
-        -qmp unix:/tmp/qmp.socket,server,nowait \
-        -monitor telnet:127.0.0.1:5555,server,nowait \
-        -device pcie-root-port,id=3Droot0,multifunction=3Don,chassis=3D0,ad=
-dr=3D0xa \
-        -device pcie-root-port,id=3Droot1,bus=3Dpcie.0,chassis=3D1 \
-        -device pcie-root-port,id=3Droot2,bus=3Dpcie.0,chassis=3D2 \
-        -netdev tap,script=3D/root/bin/bridge.sh,downscript=3Dno,id=3Dhostn=
-et1,vhost=3Don \
-        -device virtio-net-pci,netdev=3Dhostnet1,id=3Dnet1,mac=3D52:54:00:6=
-f:55:cc,bus=3Droot2,failover=3Don \
-=09-device vfio-pci,host=3D5e:00.2,id=3Dhostdev0,bus=3Droot1,net_failover_p=
-air_id =3Dnet1 \
-        /root/rhel-guest-image-8.0-1781.x86_64.qcow2
-
-I'm grateful for any remarks or ideas!
-
-Thanks!
-
-regards,
-Jens=20
-
-Jens Freimann (11):
-  qdev/qbus: add hidden device support
-  pci: add option for net failover
-  pci: mark devices partially unplugged
-  pci: mark device having guest unplug request pending
-  qapi: add unplug primary event
-  qapi: add failover negotiated event
-  migration: allow unplug during migration for failover devices
-  migration: add new migration state wait-unplug
-  libqos: tolerate wait-unplug migration state
-  net/virtio: add failover support
-  vfio: unplug failover primary device before migration
-
- hw/core/qdev.c                 |  24 +++
- hw/net/virtio-net.c            | 302 +++++++++++++++++++++++++++++++++
- hw/pci/pci.c                   |  18 ++
- hw/pci/pcie.c                  |   6 +
- hw/vfio/pci.c                  |  26 ++-
- hw/vfio/pci.h                  |   1 +
- include/hw/pci/pci.h           |   4 +
- include/hw/qdev-core.h         |  30 ++++
- include/hw/virtio/virtio-net.h |  12 ++
- include/hw/virtio/virtio.h     |   1 +
- include/migration/vmstate.h    |   2 +
- migration/migration.c          |  21 +++
- migration/migration.h          |   3 +
- migration/savevm.c             |  36 ++++
- migration/savevm.h             |   2 +
- qapi/migration.json            |  24 ++-
- qapi/net.json                  |  16 ++
- qdev-monitor.c                 |  43 ++++-
- tests/libqos/libqos.c          |   3 +-
- vl.c                           |   6 +-
- 20 files changed, 565 insertions(+), 15 deletions(-)
-
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index cbad6c1d55..f786650446 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -212,6 +212,29 @@ void device_listener_unregister(DeviceListener *listen=
+er)
+     QTAILQ_REMOVE(&device_listeners, listener, link);
+ }
+=20
++bool qdev_should_hide_device(QemuOpts *opts)
++{
++    int rc =3D -1;
++    DeviceListener *listener;
++
++    QTAILQ_FOREACH(listener, &device_listeners, link) {
++       if (listener->should_be_hidden) {
++            /* should_be_hidden_will return
++             *  1 if device matches opts and it should be hidden
++             *  0 if device matches opts and should not be hidden
++             *  -1 if device doesn't match opts
++             */
++            rc =3D listener->should_be_hidden(listener, opts);
++        }
++
++        if (rc > 0) {
++            break;
++        }
++    }
++
++    return rc > 0;
++}
++
+ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+                                  int required_for_version)
+ {
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index aa123f88cb..710981af36 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -78,6 +78,19 @@ typedef void (*BusUnrealize)(BusState *bus, Error **errp=
+);
+  * respective parent types.
+  *   </para>
+  * </note>
++ *
++ * # Hiding a device #
++ * To hide a device, a DeviceListener function should_be_hidden() needs to
++ * be registered.
++ * It can be used to defer adding a device and therefore hide it from the
++ * guest. The handler registering to this DeviceListener can save the QOpt=
+s
++ * passed to it for re-using it later and must return that it wants the de=
+vice
++ * to be/remain hidden or not. When the handler function decides the devic=
+e
++ * shall not be hidden it will be added in qdev_device_add() and
++ * realized as any other device. Otherwise qdev_device_add() will return e=
+arly
++ * without adding the device. The guest will not see a "hidden" device
++ * until it was marked don't hide and qdev_device_add called again.
++ *
+  */
+ typedef struct DeviceClass {
+     /*< private >*/
+@@ -154,6 +167,12 @@ struct DeviceState {
+ struct DeviceListener {
+     void (*realize)(DeviceListener *listener, DeviceState *dev);
+     void (*unrealize)(DeviceListener *listener, DeviceState *dev);
++    /*
++     * This callback is called upon init of the DeviceState and allows to
++     * inform qdev that a device should be hidden, depending on the device
++     * opts, for example, to hide a standby device.
++     */
++    int (*should_be_hidden)(DeviceListener *listener, QemuOpts *device_opt=
+s);
+     QTAILQ_ENTRY(DeviceListener) link;
+ };
+=20
+@@ -451,4 +470,14 @@ static inline bool qbus_is_hotpluggable(BusState *bus)
+ void device_listener_register(DeviceListener *listener);
+ void device_listener_unregister(DeviceListener *listener);
+=20
++/**
++ * @qdev_should_hide_device:
++ * @opts: QemuOpts as passed on cmdline.
++ *
++ * Check if a device should be added.
++ * When a device is added via qdev_device_add() this will be called,
++ * and return if the device should be added now or not.
++ */
++bool qdev_should_hide_device(QemuOpts *opts);
++
+ #endif
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 148df9cacf..676a759fb4 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -32,9 +32,11 @@
+ #include "qemu/help_option.h"
+ #include "qemu/option.h"
+ #include "qemu/qemu-print.h"
++#include "qemu/option_int.h"
+ #include "sysemu/block-backend.h"
+ #include "sysemu/sysemu.h"
+ #include "migration/misc.h"
++#include "migration/migration.h"
+=20
+ /*
+  * Aliases were a bad idea from the start.  Let's keep them
+@@ -562,13 +564,36 @@ void qdev_set_id(DeviceState *dev, const char *id)
+     }
+ }
+=20
++static int is_failover_device(void *opaque, const char *name, const char *=
+value,
++                        Error **errp)
++{
++    if (strcmp(name, "net_failover_pair_id") =3D=3D 0) {
++        QemuOpts *opts =3D (QemuOpts *)opaque;
++
++        if (qdev_should_hide_device(opts)) {
++            return 1;
++        }
++    }
++
++    return 0;
++}
++
++static bool should_hide_device(QemuOpts *opts)
++{
++    if (qemu_opt_foreach(opts, is_failover_device, opts, NULL) =3D=3D 0) {
++        return false;
++    }
++    return true;
++}
++
+ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+ {
+     DeviceClass *dc;
+     const char *driver, *path;
+-    DeviceState *dev;
++    DeviceState *dev =3D NULL;
+     BusState *bus =3D NULL;
+     Error *err =3D NULL;
++    bool hide;
+=20
+     driver =3D qemu_opt_get(opts, "driver");
+     if (!driver) {
+@@ -602,11 +627,17 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **=
+errp)
+             return NULL;
+         }
+     }
+-    if (qdev_hotplug && bus && !qbus_is_hotpluggable(bus)) {
++    hide =3D should_hide_device(opts);
++
++    if ((hide || qdev_hotplug) && bus && !qbus_is_hotpluggable(bus)) {
+         error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+         return NULL;
+     }
+=20
++    if (hide) {
++        return NULL;
++    }
++
+     if (!migration_is_idle()) {
+         error_setg(errp, "device_add not allowed while migrating");
+         return NULL;
+@@ -648,8 +679,10 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **e=
+rrp)
+=20
+ err_del_dev:
+     error_propagate(errp, err);
+-    object_unparent(OBJECT(dev));
+-    object_unref(OBJECT(dev));
++    if (dev) {
++        object_unparent(OBJECT(dev));
++        object_unref(OBJECT(dev));
++    }
+     return NULL;
+ }
+=20
+diff --git a/vl.c b/vl.c
+index 4489cfb2bb..62c388cb49 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2204,10 +2204,12 @@ static int device_init_func(void *opaque, QemuOpts =
+*opts, Error **errp)
+     DeviceState *dev;
+=20
+     dev =3D qdev_device_add(opts, errp);
+-    if (!dev) {
++    if (!dev && *errp) {
++        error_report_err(*errp);
+         return -1;
++    } else if (dev) {
++        object_unref(OBJECT(dev));
+     }
+-    object_unref(OBJECT(dev));
+     return 0;
+ }
+=20
 --=20
 2.21.0
 
