@@ -2,143 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334E8E2345
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:22:39 +0200 (CEST)
-Received: from localhost ([::1]:44792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3913BE2280
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 20:31:00 +0200 (CEST)
+Received: from localhost ([::1]:43422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNMDN-0003g6-EV
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:22:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59383)
+	id 1iNLPO-0005cV-Ku
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 14:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iNKWO-0004cQ-A8
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:09 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNKbA-0000sd-Hu
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:39:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iNKWM-00021B-Ic
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42163
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iNKWM-00020W-BW
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571852045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=lX/3QxEsVxDkQeF2JlWiQZAaJNICVWnllYRdeXZE0zg=;
- b=MFiPr59WcLLeLp1EMrRRArl23QUUaX1bJ+FlucUbCUaB3td/jhu+56JeGxsHVKvF0G6A7B
- 0vZcJJvfVIalYgl0TMA2yNKZzJwMzfxWsnI/lIWdrWjYgKKAjfpGPmoLom3aPr65NJRxfN
- e9s+Z+fGAxQ/nu+KY2KiNVu94n+kGfM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-8LlAzWhINzqgD_3Fi8Y9Lg-1; Wed, 23 Oct 2019 13:34:01 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF0DC800D62;
- Wed, 23 Oct 2019 17:34:00 +0000 (UTC)
-Received: from [10.10.121.155] (ovpn-121-155.rdu2.redhat.com [10.10.121.155])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 458845DC18;
- Wed, 23 Oct 2019 17:34:00 +0000 (UTC)
-Subject: Re: qemu crashing when attaching an ISO file to a virtio-scsi CD-ROM
- device through libvirt
-To: =?UTF-8?Q?Fernando_Casas_Sch=c3=b6ssow?= <casasfernando@outlook.com>
-References: <VI1PR03MB481484C08A04458ACA64F7A0A46C0@VI1PR03MB4814.eurprd03.prod.outlook.com>
- <dbb363cf-bc3a-6de5-a62a-1467208d0017@redhat.com>
- <VI1PR03MB4814DBEC71814C520D123ADDA46B0@VI1PR03MB4814.eurprd03.prod.outlook.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <73ddcea3-0e0a-45be-55e7-bca81076c12d@redhat.com>
-Date: Wed, 23 Oct 2019 13:33:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNKb1-0005NN-PO
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:39:04 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41290)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iNKaz-0005GF-Ix
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:38:55 -0400
+Received: by mail-ot1-x341.google.com with SMTP id g13so18142943otp.8
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 10:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=uJJLze5ZWDvoBnyAxc8bbmoDCnc3I0c3y+BwhLBx9Kg=;
+ b=hM98h0e98nnlDrfwELEY1Juf/ZbukuFi95kHnYJCb2y1t48tn1DuYBei6ZrfwPBxV9
+ zhyg/b2xJW3Cue4Kt/c+YYPLYFN6Bf2JmBYgohey3ZNnb56Im8gXZs0HsoM94SZJtVMs
+ FLTBZUaOuAWvFsGdqP0LMIwe8Z8oNZcV154c4UsqFcVf64zvgeoC86Kz0m4Tj9qhiFQR
+ w5FW88Wz6DIRiUGtPVvWhULe0YFgR7StU26ZEsbImHAdXxpJuahaIg0jt8QcIxa5WSq6
+ RroufYgjMKMHLOYF2z/X8+w1FUWH2EV/anroIaBJw2fKLpmEH8+iAMvedCCVGdBk2mSI
+ buVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=uJJLze5ZWDvoBnyAxc8bbmoDCnc3I0c3y+BwhLBx9Kg=;
+ b=CWx8qZziO+gX/65OQAzDPYyeMVND+qZ5t//iIpSJvtYaPT41AyvgDAchNfdre4tPGb
+ woSQMjtpXMpFhA8g2xTf3Nq8JJtUjzkQvzmek/kxZ4QOy8as2aj/djHCWDz4tBB6FxIQ
+ RBiKEuc3udgpsQT7osAGULXc84IyrqijT7QQFwRNIXjbl9pgY+jP8bU+6kLNmq+ESTwG
+ I54VB/aTd42ha9rYVl0QuIszD+cGlDskIPu54Y/cB104ROB4NZzJUOFCodxIiI8R8HUX
+ 0ZkJs3tjcHGwEJhgFA+0uCAPiWos+DXy1mXWyd4lFJDryhmtC4ET4PFkz5cObQehBX5U
+ V/qg==
+X-Gm-Message-State: APjAAAVpz2grNdgr8FIVWGLrVFXI8/WJvFah1os7SINKmtjLYJ5WUsSq
+ IUJ1k/h2JocKfZLyZnmK5qvY413Wd9ciZF3s75I=
+X-Google-Smtp-Source: APXvYqwFTkSs/fdgALXoN3/i2oOet9WG0i9kbFsyYfd7UXPWqkPDtDQbuUDb68L1BclOoiUubZsvNZ7oWcSryN17jVU=
+X-Received: by 2002:a9d:5914:: with SMTP id t20mr8200784oth.306.1571852328141; 
+ Wed, 23 Oct 2019 10:38:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <VI1PR03MB4814DBEC71814C520D123ADDA46B0@VI1PR03MB4814.eurprd03.prod.outlook.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 8LlAzWhINzqgD_3Fi8Y9Lg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Wed, 23 Oct 2019 10:38:47
+ -0700 (PDT)
+In-Reply-To: <CAK4993jyka4=+QEs+Q9+PWpkKfcA+w7F933HfSSw+Xb7dNd=7w@mail.gmail.com>
+References: <20191021223711.66955-1-mrolnik@gmail.com>
+ <20191021223711.66955-2-mrolnik@gmail.com>
+ <CAK4993jyka4=+QEs+Q9+PWpkKfcA+w7F933HfSSw+Xb7dNd=7w@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 23 Oct 2019 19:38:47 +0200
+Message-ID: <CAL1e-=iyXX2jSEZXdcsi2q4LtkOk6OrChA6dXPLkER-5_8DpOw@mail.gmail.com>
+Subject: Re: [PATCH v33 01/13] target/avr: Add outward facing interfaces and
+ core CPU logic
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000a888720595976322"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -150,158 +76,2705 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "thuth@redhat.com" <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000a888720595976322
+Content-Type: text/plain; charset="UTF-8"
+
+On Wednesday, October 23, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+
+> Hi Aleksandar.
+>
+> I am fixing flag C and I will make flag Z to be like the others, just once
+> bit
+>
+> Sent from my cell phone, please ignore typos
+>
+
+No worries, thanks.
+
+A.
 
 
-On 10/23/19 1:28 PM, Fernando Casas Sch=F6ssow wrote:
-> Hi John,
->=20
-> Thanks for looking into this.
-> I can quickly repro the problem with qemu 4.0 binary with debugging
-> symbols enabled as I have it available already.
-> Doing the same with qemu 4.1 or development head may be too much hassle
-> but if it's really the only way I can give it try.
->=20
-> Would it worth it to try with 4.0 first and get the strack trace or it
-> will not help and the only way to go is with 4.1 (or dev)?
->=20
-> Thanks,
->=20
-> Fernando
->=20
+>
+> On Tue, Oct 22, 2019, 1:37 AM Michael Rolnik <mrolnik@gmail.com> wrote:
+>
+>> This includes:
+>> - CPU data structures
+>> - object model classes and functions
+>> - migration functions
+>> - GDB hooks
+>>
+>> Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
+>> Co-developed-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+>> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+>> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+>> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+>> Acked-by: Igor Mammedov <imammedo@redhat.com>
+>> ---
+>>  gdb-xml/avr-cpu.xml    |  49 ++++
+>>  target/avr/cpu-param.h |  37 +++
+>>  target/avr/cpu-qom.h   |  54 ++++
+>>  target/avr/cpu.c       | 576 +++++++++++++++++++++++++++++++++++++++++
+>>  target/avr/cpu.h       | 254 ++++++++++++++++++
+>>  target/avr/gdbstub.c   |  85 ++++++
+>>  target/avr/machine.c   | 121 +++++++++
+>>  7 files changed, 1176 insertions(+)
+>>  create mode 100644 gdb-xml/avr-cpu.xml
+>>  create mode 100644 target/avr/cpu-param.h
+>>  create mode 100644 target/avr/cpu-qom.h
+>>  create mode 100644 target/avr/cpu.c
+>>  create mode 100644 target/avr/cpu.h
+>>  create mode 100644 target/avr/gdbstub.c
+>>  create mode 100644 target/avr/machine.c
+>>
+>> diff --git a/gdb-xml/avr-cpu.xml b/gdb-xml/avr-cpu.xml
+>> new file mode 100644
+>> index 0000000000..c4747f5b40
+>> --- /dev/null
+>> +++ b/gdb-xml/avr-cpu.xml
+>> @@ -0,0 +1,49 @@
+>> +<?xml version="1.0"?>
+>> +<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
+>> +
+>> +     Copying and distribution of this file, with or without modification,
+>> +     are permitted in any medium without royalty provided the copyright
+>> +     notice and this notice are preserved.  -->
+>> +
+>> +<!-- Register numbers are hard-coded in order to maintain backward
+>> +     compatibility with older versions of tools that didn't use xml
+>> +     register descriptions.  -->
+>> +
+>> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>> +<feature name="org.gnu.gdb.riscv.cpu">
+>> +  <reg name="r0" bitsize="8" type="int" regnum="0"/>
+>> +  <reg name="r1" bitsize="8" type="int"/>
+>> +  <reg name="r2" bitsize="8" type="int"/>
+>> +  <reg name="r3" bitsize="8" type="int"/>
+>> +  <reg name="r4" bitsize="8" type="int"/>
+>> +  <reg name="r5" bitsize="8" type="int"/>
+>> +  <reg name="r6" bitsize="8" type="int"/>
+>> +  <reg name="r7" bitsize="8" type="int"/>
+>> +  <reg name="r8" bitsize="8" type="int"/>
+>> +  <reg name="r9" bitsize="8" type="int"/>
+>> +  <reg name="r10" bitsize="8" type="int"/>
+>> +  <reg name="r11" bitsize="8" type="int"/>
+>> +  <reg name="r12" bitsize="8" type="int"/>
+>> +  <reg name="r13" bitsize="8" type="int"/>
+>> +  <reg name="r14" bitsize="8" type="int"/>
+>> +  <reg name="r15" bitsize="8" type="int"/>
+>> +  <reg name="r16" bitsize="8" type="int"/>
+>> +  <reg name="r17" bitsize="8" type="int"/>
+>> +  <reg name="r18" bitsize="8" type="int"/>
+>> +  <reg name="r19" bitsize="8" type="int"/>
+>> +  <reg name="r20" bitsize="8" type="int"/>
+>> +  <reg name="r21" bitsize="8" type="int"/>
+>> +  <reg name="r22" bitsize="8" type="int"/>
+>> +  <reg name="r23" bitsize="8" type="int"/>
+>> +  <reg name="r24" bitsize="8" type="int"/>
+>> +  <reg name="r25" bitsize="8" type="int"/>
+>> +  <reg name="r26" bitsize="8" type="int"/>
+>> +  <reg name="r27" bitsize="8" type="int"/>
+>> +  <reg name="r28" bitsize="8" type="int"/>
+>> +  <reg name="r29" bitsize="8" type="int"/>
+>> +  <reg name="r30" bitsize="8" type="int"/>
+>> +  <reg name="r31" bitsize="8" type="int"/>
+>> +  <reg name="sreg" bitsize="8" type="int"/>
+>> +  <reg name="sp" bitsize="8" type="int"/>
+>> +  <reg name="pc" bitsize="8" type="int"/>
+>> +</feature>
+>> diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h
+>> new file mode 100644
+>> index 0000000000..ccd1ea3429
+>> --- /dev/null
+>> +++ b/target/avr/cpu-param.h
+>> @@ -0,0 +1,37 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#ifndef AVR_CPU_PARAM_H
+>> +#define AVR_CPU_PARAM_H 1
+>> +
+>> +#define TARGET_LONG_BITS 32
+>> +/*
+>> + * TARGET_PAGE_BITS cannot be more than 8 bits because
+>> + * 1.  all IO registers occupy [0x0000 .. 0x00ff] address range, and they
+>> + *     should be implemented as a device and not memory
+>> + * 2.  SRAM starts at the address 0x0100
+>> + */
+>> +#define TARGET_PAGE_BITS 8
+>> +#define TARGET_PHYS_ADDR_SPACE_BITS 24
+>> +#define TARGET_VIRT_ADDR_SPACE_BITS 24
+>> +#define NB_MMU_MODES 2
+>> +
+>> +
+>> +#endif
+>> diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+>> new file mode 100644
+>> index 0000000000..e28b58c897
+>> --- /dev/null
+>> +++ b/target/avr/cpu-qom.h
+>> @@ -0,0 +1,54 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#ifndef QEMU_AVR_QOM_H
+>> +#define QEMU_AVR_QOM_H
+>> +
+>> +#include "hw/core/cpu.h"
+>> +
+>> +#define TYPE_AVR_CPU "avr-cpu"
+>> +
+>> +#define AVR_CPU_CLASS(klass) \
+>> +    OBJECT_CLASS_CHECK(AVRCPUClass, (klass), TYPE_AVR_CPU)
+>> +#define AVR_CPU(obj) \
+>> +    OBJECT_CHECK(AVRCPU, (obj), TYPE_AVR_CPU)
+>> +#define AVR_CPU_GET_CLASS(obj) \
+>> +    OBJECT_GET_CLASS(AVRCPUClass, (obj), TYPE_AVR_CPU)
+>> +
+>> +/**
+>> + *  AVRCPUClass:
+>> + *  @parent_realize: The parent class' realize handler.
+>> + *  @parent_reset: The parent class' reset handler.
+>> + *  @vr: Version Register value.
+>> + *
+>> + *  A AVR CPU model.
+>> + */
+>> +typedef struct AVRCPUClass {
+>> +    /*< private >*/
+>> +    CPUClass parent_class;
+>> +    /*< public >*/
+>> +    DeviceRealize parent_realize;
+>> +    void (*parent_reset)(CPUState *cpu);
+>> +} AVRCPUClass;
+>> +
+>> +typedef struct AVRCPU AVRCPU;
+>> +
+>> +
+>> +#endif /* !defined (QEMU_AVR_CPU_QOM_H) */
+>> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+>> new file mode 100644
+>> index 0000000000..dae56d7845
+>> --- /dev/null
+>> +++ b/target/avr/cpu.c
+>> @@ -0,0 +1,576 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/qemu-print.h"
+>> +#include "exec/exec-all.h"
+>> +#include "cpu.h"
+>> +
+>> +static void avr_cpu_set_pc(CPUState *cs, vaddr value)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +
+>> +    cpu->env.pc_w = value / 2; /* internally PC points to words */
+>> +}
+>> +
+>> +static bool avr_cpu_has_work(CPUState *cs)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    return (cs->interrupt_request & (CPU_INTERRUPT_HARD |
+>> CPU_INTERRUPT_RESET))
+>> +            && cpu_interrupts_enabled(env);
+>> +}
+>> +
+>> +static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock
+>> *tb)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    env->pc_w = tb->pc / 2; /* internally PC points to words */
+>> +}
+>> +
+>> +static void avr_cpu_reset(CPUState *cs)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +    AVRCPUClass *mcc = AVR_CPU_GET_CLASS(cpu);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    mcc->parent_reset(cs);
+>> +
+>> +    env->pc_w = 0;
+>> +    env->sregI = 1;
+>> +    env->sregC = 0;
+>> +    env->sregZ = 0;
+>> +    env->sregN = 0;
+>> +    env->sregV = 0;
+>> +    env->sregS = 0;
+>> +    env->sregH = 0;
+>> +    env->sregT = 0;
+>> +
+>> +    env->rampD = 0;
+>> +    env->rampX = 0;
+>> +    env->rampY = 0;
+>> +    env->rampZ = 0;
+>> +    env->eind = 0;
+>> +    env->sp = 0;
+>> +
+>> +    env->skip = 0;
+>> +
+>> +    memset(env->r, 0, sizeof(env->r));
+>> +
+>> +    tlb_flush(cs);
+>> +}
+>> +
+>> +static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info
+>> *info)
+>> +{
+>> +    info->mach = bfd_arch_avr;
+>> +    info->print_insn = NULL;
+>> +}
+>> +
+>> +static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
+>> +{
+>> +    CPUState *cs = CPU(dev);
+>> +    AVRCPUClass *mcc = AVR_CPU_GET_CLASS(dev);
+>> +    Error *local_err = NULL;
+>> +
+>> +    cpu_exec_realizefn(cs, &local_err);
+>> +    if (local_err != NULL) {
+>> +        error_propagate(errp, local_err);
+>> +        return;
+>> +    }
+>> +    qemu_init_vcpu(cs);
+>> +    cpu_reset(cs);
+>> +
+>> +    mcc->parent_realize(dev, errp);
+>> +}
+>> +
+>> +static void avr_cpu_set_int(void *opaque, int irq, int level)
+>> +{
+>> +    AVRCPU *cpu = opaque;
+>> +    CPUAVRState *env = &cpu->env;
+>> +    CPUState *cs = CPU(cpu);
+>> +
+>> +    uint64_t mask = (1ull << irq);
+>> +    if (level) {
+>> +        env->intsrc |= mask;
+>> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+>> +    } else {
+>> +        env->intsrc &= ~mask;
+>> +        if (env->intsrc == 0) {
+>> +            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +static void avr_cpu_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +
+>> +    cpu_set_cpustate_pointers(cpu);
+>> +
+>> +#ifndef CONFIG_USER_ONLY
+>> +    /* Set the number of interrupts supported by the CPU. */
+>> +    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int, 57);
+>> +#endif
+>> +}
+>> +
+>> +static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
+>> +{
+>> +    ObjectClass *oc;
+>> +
+>> +    oc = object_class_by_name(cpu_model);
+>> +    if (object_class_dynamic_cast(oc, TYPE_AVR_CPU) == NULL ||
+>> +        object_class_is_abstract(oc)) {
+>> +        oc = NULL;
+>> +    }
+>> +    return oc;
+>> +}
+>> +
+>> +static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +    CPUAVRState *env = &cpu->env;
+>> +    int i;
+>> +
+>> +    qemu_fprintf(f, "\n");
+>> +    qemu_fprintf(f, "PC:    %06x\n", env->pc_w);
+>> +    qemu_fprintf(f, "SP:      %04x\n", env->sp);
+>> +    qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
+>> +    qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
+>> +    qemu_fprintf(f, "rampY:     %02x\n", env->rampY >> 16);
+>> +    qemu_fprintf(f, "rampZ:     %02x\n", env->rampZ >> 16);
+>> +    qemu_fprintf(f, "EIND:      %02x\n", env->eind >> 16);
+>> +    qemu_fprintf(f, "X:       %02x%02x\n", env->r[27], env->r[26]);
+>> +    qemu_fprintf(f, "Y:       %02x%02x\n", env->r[29], env->r[28]);
+>> +    qemu_fprintf(f, "Z:       %02x%02x\n", env->r[31], env->r[30]);
+>> +    qemu_fprintf(f, "SREG:    [ %c %c %c %c %c %c %c %c ]\n",
+>> +                        env->sregI ? 'I' : '-',
+>> +                        env->sregT ? 'T' : '-',
+>> +                        env->sregH ? 'H' : '-',
+>> +                        env->sregS ? 'S' : '-',
+>> +                        env->sregV ? 'V' : '-',
+>> +                        env->sregN ? '-' : 'N', /* Zf has negative logic
+>> */
+>> +                        env->sregZ ? 'Z' : '-',
+>> +                        env->sregC ? 'I' : '-');
+>> +    qemu_fprintf(f, "SKIP:    %02x\n", env->skip);
+>> +
+>> +    qemu_fprintf(f, "\n");
+>> +    for (i = 0; i < ARRAY_SIZE(env->r); i++) {
+>> +        qemu_fprintf(f, "R[%02d]:  %02x   ", i, env->r[i]);
+>> +
+>> +        if ((i % 8) == 7) {
+>> +            qemu_fprintf(f, "\n");
+>> +        }
+>> +    }
+>> +    qemu_fprintf(f, "\n");
+>> +}
+>> +
+>> +static void avr_cpu_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +    CPUClass *cc = CPU_CLASS(oc);
+>> +    AVRCPUClass *mcc = AVR_CPU_CLASS(oc);
+>> +
+>> +    mcc->parent_realize = dc->realize;
+>> +    dc->realize = avr_cpu_realizefn;
+>> +
+>> +    mcc->parent_reset = cc->reset;
+>> +    cc->reset = avr_cpu_reset;
+>> +
+>> +    cc->class_by_name = avr_cpu_class_by_name;
+>> +
+>> +    cc->has_work = avr_cpu_has_work;
+>> +    cc->do_interrupt = avr_cpu_do_interrupt;
+>> +    cc->cpu_exec_interrupt = avr_cpu_exec_interrupt;
+>> +    cc->dump_state = avr_cpu_dump_state;
+>> +    cc->set_pc = avr_cpu_set_pc;
+>> +#if !defined(CONFIG_USER_ONLY)
+>> +    cc->memory_rw_debug = avr_cpu_memory_rw_debug;
+>> +#endif
+>> +#ifdef CONFIG_USER_ONLY
+>> +    cc->handle_mmu_fault = avr_cpu_handle_mmu_fault;
+>> +#else
+>> +    cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
+>> +    cc->vmsd = &vms_avr_cpu;
+>> +#endif
+>> +    cc->disas_set_info = avr_cpu_disas_set_info;
+>> +    cc->tlb_fill = avr_cpu_tlb_fill;
+>> +    cc->tcg_initialize = avr_cpu_tcg_init;
+>> +    cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
+>> +    cc->gdb_read_register = avr_cpu_gdb_read_register;
+>> +    cc->gdb_write_register = avr_cpu_gdb_write_register;
+>> +    cc->gdb_num_core_regs = 35;
+>> +    cc->gdb_core_xml_file = "avr-cpu.xml";
+>> +}
+>> +
+>> +static void avr_avr1_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +}
+>> +
+>> +static void avr_avr2_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +}
+>> +
+>> +static void avr_avr25_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +}
+>> +
+>> +static void avr_avr3_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +}
+>> +
+>> +static void avr_avr31_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +}
+>> +
+>> +static void avr_avr35_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +}
+>> +
+>> +static void avr_avr4_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +}
+>> +
+>> +static void avr_avr5_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +}
+>> +
+>> +static void avr_avr51_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +}
+>> +
+>> +static void avr_avr6_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +}
+>> +
+>> +static void avr_xmega2_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +    avr_set_feature(env, AVR_FEATURE_RMW);
+>> +}
+>> +
+>> +static void avr_xmega4_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +    avr_set_feature(env, AVR_FEATURE_RMW);
+>> +}
+>> +
+>> +static void avr_xmega5_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPD);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPX);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPY);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +    avr_set_feature(env, AVR_FEATURE_RMW);
+>> +}
+>> +
+>> +static void avr_xmega6_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +    avr_set_feature(env, AVR_FEATURE_RMW);
+>> +}
+>> +
+>> +static void avr_xmega7_initfn(Object *obj)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(obj);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_LPM);
+>> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+>> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+>> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+>> +
+>> +    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
+>> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPD);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPX);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPY);
+>> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+>> +    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+>> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+>> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+>> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+>> +    avr_set_feature(env, AVR_FEATURE_MUL);
+>> +    avr_set_feature(env, AVR_FEATURE_RMW);
+>> +}
+>> +
+>> +typedef struct AVRCPUInfo {
+>> +    const char *name;
+>> +    void (*initfn)(Object *obj);
+>> +} AVRCPUInfo;
+>> +
+>> +
+>> +static void avr_cpu_list_entry(gpointer data, gpointer user_data)
+>> +{
+>> +    const char *typename = object_class_get_name(OBJECT_CLASS(data));
+>> +
+>> +    qemu_printf("%s\n", typename);
+>> +}
+>> +
+>> +void avr_cpu_list(void)
+>> +{
+>> +    GSList *list;
+>> +    list = object_class_get_list_sorted(TYPE_AVR_CPU, false);
+>> +    g_slist_foreach(list, avr_cpu_list_entry, NULL);
+>> +    g_slist_free(list);
+>> +}
+>> +
+>> +#define DEFINE_AVR_CPU_TYPE(model, initfn) \
+>> +    { \
+>> +        .parent = TYPE_AVR_CPU, \
+>> +        .instance_init = initfn, \
+>> +        .name = model "-avr-cpu", \
+>> +    }
+>> +
+>> +static const TypeInfo avr_cpu_type_info[] = {
+>> +    {
+>> +        .name = TYPE_AVR_CPU,
+>> +        .parent = TYPE_CPU,
+>> +        .instance_size = sizeof(AVRCPU),
+>> +        .instance_init = avr_cpu_initfn,
+>> +        .class_size = sizeof(AVRCPUClass),
+>> +        .class_init = avr_cpu_class_init,
+>> +        .abstract = true,
+>> +    },
+>> +    DEFINE_AVR_CPU_TYPE("avr1", avr_avr1_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr2", avr_avr2_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr25", avr_avr25_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr3", avr_avr3_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr31", avr_avr31_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr35", avr_avr35_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr4", avr_avr4_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr5", avr_avr5_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr51", avr_avr51_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("avr6", avr_avr6_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("xmega2", avr_xmega2_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("xmega4", avr_xmega4_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("xmega5", avr_xmega5_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("xmega6", avr_xmega6_initfn),
+>> +    DEFINE_AVR_CPU_TYPE("xmega7", avr_xmega7_initfn),
+>> +};
+>> +
+>> +DEFINE_TYPES(avr_cpu_type_info)
+>> diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+>> new file mode 100644
+>> index 0000000000..45d644f4f4
+>> --- /dev/null
+>> +++ b/target/avr/cpu.h
+>> @@ -0,0 +1,254 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#ifndef QEMU_AVR_CPU_H
+>> +#define QEMU_AVR_CPU_H
+>> +
+>> +#include "cpu-qom.h"
+>> +#include "exec/cpu-defs.h"
+>> +
+>> +#define TCG_GUEST_DEFAULT_MO 0
+>> +
+>> +#define CPU_RESOLVING_TYPE TYPE_AVR_CPU
+>> +
+>> +/*
+>> + * AVR has two memory spaces, data & code.
+>> + * e.g. both have 0 address
+>> + * ST/LD instructions access data space
+>> + * LPM/SPM and instruction fetching access code memory space
+>> + */
+>> +#define MMU_CODE_IDX 0
+>> +#define MMU_DATA_IDX 1
+>> +
+>> +#define EXCP_RESET 1
+>> +#define EXCP_INT(n) (EXCP_RESET + (n) + 1)
+>> +
+>> +/* Number of CPU registers */
+>> +#define NO_CPU_REGISTERS 32
+>> +/* Number of IO registers accessible by ld/st/in/out */
+>> +#define NO_IO_REGISTERS 64
+>> +
+>> +/*
+>> + * Offsets of AVR memory regions in host memory space.
+>> + *
+>> + * This is needed because the AVR has separate code and data address
+>> + * spaces that both have start from zero but have to go somewhere in
+>> + * host memory.
+>> + *
+>> + * It's also useful to know where some things are, like the IO registers.
+>> + */
+>> +/* Flash program memory */
+>> +#define OFFSET_CODE 0x00000000
+>> +/* CPU registers, IO registers, and SRAM */
+>> +#define OFFSET_DATA 0x00800000
+>> +/* CPU registers specifically, these are mapped at the start of data */
+>> +#define OFFSET_CPU_REGISTERS OFFSET_DATA
+>> +/*
+>> + * IO registers, including status register, stack pointer, and memory
+>> + * mapped peripherals, mapped just after CPU registers
+>> + */
+>> +#define OFFSET_IO_REGISTERS (OFFSET_DATA + NO_CPU_REGISTERS)
+>> +
+>> +enum avr_features {
+>> +    AVR_FEATURE_SRAM,
+>> +
+>> +    AVR_FEATURE_1_BYTE_PC,
+>> +    AVR_FEATURE_2_BYTE_PC,
+>> +    AVR_FEATURE_3_BYTE_PC,
+>> +
+>> +    AVR_FEATURE_1_BYTE_SP,
+>> +    AVR_FEATURE_2_BYTE_SP,
+>> +
+>> +    AVR_FEATURE_BREAK,
+>> +    AVR_FEATURE_DES,
+>> +    AVR_FEATURE_RMW, /* Read Modify Write - XCH LAC LAS LAT */
+>> +
+>> +    AVR_FEATURE_EIJMP_EICALL,
+>> +    AVR_FEATURE_IJMP_ICALL,
+>> +    AVR_FEATURE_JMP_CALL,
+>> +
+>> +    AVR_FEATURE_ADIW_SBIW,
+>> +
+>> +    AVR_FEATURE_SPM,
+>> +    AVR_FEATURE_SPMX,
+>> +
+>> +    AVR_FEATURE_ELPMX,
+>> +    AVR_FEATURE_ELPM,
+>> +    AVR_FEATURE_LPMX,
+>> +    AVR_FEATURE_LPM,
+>> +
+>> +    AVR_FEATURE_MOVW,
+>> +    AVR_FEATURE_MUL,
+>> +    AVR_FEATURE_RAMPD,
+>> +    AVR_FEATURE_RAMPX,
+>> +    AVR_FEATURE_RAMPY,
+>> +    AVR_FEATURE_RAMPZ,
+>> +};
+>> +
+>> +typedef struct CPUAVRState CPUAVRState;
+>> +
+>> +struct CPUAVRState {
+>> +    uint32_t pc_w; /* 0x003fffff up to 22 bits */
+>> +
+>> +    uint32_t sregC; /* 0x00000001 1 bits */
+>> +    uint32_t sregZ; /* 0x0000ffff 16 bits, negative logic; */
+>> +                    /* 0=flag set, >0=flag cleared */
+>> +    uint32_t sregN; /* 0x00000001 1 bits */
+>> +    uint32_t sregV; /* 0x00000001 1 bits */
+>> +    uint32_t sregS; /* 0x00000001 1 bits */
+>> +    uint32_t sregH; /* 0x00000001 1 bits */
+>> +    uint32_t sregT; /* 0x00000001 1 bits */
+>> +    uint32_t sregI; /* 0x00000001 1 bits */
+>> +
+>> +    uint32_t rampD; /* 0x00ff0000 8 bits */
+>> +    uint32_t rampX; /* 0x00ff0000 8 bits */
+>> +    uint32_t rampY; /* 0x00ff0000 8 bits */
+>> +    uint32_t rampZ; /* 0x00ff0000 8 bits */
+>> +    uint32_t eind; /* 0x00ff0000 8 bits */
+>> +
+>> +    uint32_t r[NO_CPU_REGISTERS]; /* 8 bits each */
+>> +    uint32_t sp; /* 16 bits */
+>> +
+>> +    uint32_t skip; /* if set skip instruction */
+>> +
+>> +    uint64_t intsrc; /* interrupt sources */
+>> +    bool fullacc; /* CPU/MEM if true MEM only otherwise */
+>> +
+>> +    uint32_t features;
+>> +};
+>> +
+>> +/**
+>> + *  AVRCPU:
+>> + *  @env: #CPUAVRState
+>> + *
+>> + *  A AVR CPU.
+>> + */
+>> +typedef struct AVRCPU {
+>> +    /*< private >*/
+>> +    CPUState parent_obj;
+>> +    /*< public >*/
+>> +
+>> +    CPUNegativeOffsetState neg;
+>> +    CPUAVRState env;
+>> +} AVRCPU;
+>> +
+>> +#ifndef CONFIG_USER_ONLY
+>> +extern const struct VMStateDescription vms_avr_cpu;
+>> +#endif
+>> +
+>> +void avr_cpu_do_interrupt(CPUState *cpu);
+>> +bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
+>> +hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>> +int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+>> +int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>> +
+>> +static inline int avr_feature(CPUAVRState *env, int feature)
+>> +{
+>> +    return (env->features & (1U << feature)) != 0;
+>> +}
+>> +
+>> +static inline void avr_set_feature(CPUAVRState *env, int feature)
+>> +{
+>> +    env->features |= (1U << feature);
+>> +}
+>> +
+>> +#define cpu_list avr_cpu_list
+>> +#define cpu_signal_handler cpu_avr_signal_handler
+>> +#define cpu_mmu_index avr_cpu_mmu_index
+>> +
+>> +static inline int avr_cpu_mmu_index(CPUAVRState *env, bool ifetch)
+>> +{
+>> +    return ifetch ? MMU_CODE_IDX : MMU_DATA_IDX;
+>> +}
+>> +
+>> +void avr_cpu_tcg_init(void);
+>> +
+>> +void avr_cpu_list(void);
+>> +int cpu_avr_exec(CPUState *cpu);
+>> +int cpu_avr_signal_handler(int host_signum, void *pinfo, void *puc);
+>> +int avr_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size,
+>> +                                int rw, int mmu_idx);
+>> +int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
+>> +                                int len, bool is_write);
+>> +
+>> +enum {
+>> +    TB_FLAGS_FULL_ACCESS = 1,
+>> +    TB_FLAGS_SKIP = 2,
+>> +};
+>> +
+>> +static inline void cpu_get_tb_cpu_state(CPUAVRState *env, target_ulong
+>> *pc,
+>> +                                target_ulong *cs_base, uint32_t *pflags)
+>> +{
+>> +    uint32_t flags = 0;
+>> +
+>> +    *pc = env->pc_w * 2;
+>> +    *cs_base = 0;
+>> +
+>> +    if (env->fullacc) {
+>> +        flags |= TB_FLAGS_FULL_ACCESS;
+>> +    }
+>> +    if (env->skip) {
+>> +        flags |= TB_FLAGS_SKIP;
+>> +    }
+>> +
+>> +    *pflags = flags;
+>> +}
+>> +
+>> +static inline int cpu_interrupts_enabled(CPUAVRState *env)
+>> +{
+>> +    return env->sregI != 0;
+>> +}
+>> +
+>> +static inline uint8_t cpu_get_sreg(CPUAVRState *env)
+>> +{
+>> +    uint8_t sreg;
+>> +    sreg = (env->sregC & 0x01) << 0
+>> +         | (env->sregZ == 0 ? 1 : 0) << 1
+>> +         | (env->sregN) << 2
+>> +         | (env->sregV) << 3
+>> +         | (env->sregS) << 4
+>> +         | (env->sregH) << 5
+>> +         | (env->sregT) << 6
+>> +         | (env->sregI) << 7;
+>> +    return sreg;
+>> +}
+>> +
+>> +static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
+>> +{
+>> +    env->sregC = (sreg >> 0) & 0x01;
+>> +    env->sregZ = (sreg >> 1) & 0x01 ? 0 : 1;
+>> +    env->sregN = (sreg >> 2) & 0x01;
+>> +    env->sregV = (sreg >> 3) & 0x01;
+>> +    env->sregS = (sreg >> 4) & 0x01;
+>> +    env->sregH = (sreg >> 5) & 0x01;
+>> +    env->sregT = (sreg >> 6) & 0x01;
+>> +    env->sregI = (sreg >> 7) & 0x01;
+>> +}
+>> +
+>> +bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>> +                        MMUAccessType access_type, int mmu_idx,
+>> +                        bool probe, uintptr_t retaddr);
+>> +
+>> +typedef CPUAVRState CPUArchState;
+>> +typedef AVRCPU ArchCPU;
+>> +
+>> +#include "exec/cpu-all.h"
+>> +
+>> +#endif /* !defined (QEMU_AVR_CPU_H) */
+>> diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
+>> new file mode 100644
+>> index 0000000000..20a5252482
+>> --- /dev/null
+>> +++ b/target/avr/gdbstub.c
+>> @@ -0,0 +1,85 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu-common.h"
+>> +#include "exec/gdbstub.h"
+>> +
+>> +int avr_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    /*  R */
+>> +    if (n < 32) {
+>> +        return gdb_get_reg8(mem_buf, env->r[n]);
+>> +    }
+>> +
+>> +    /*  SREG */
+>> +    if (n == 32) {
+>> +        uint8_t sreg = cpu_get_sreg(env);
+>> +
+>> +        return gdb_get_reg8(mem_buf, sreg);
+>> +    }
+>> +
+>> +    /*  SP */
+>> +    if (n == 33) {
+>> +        return gdb_get_reg16(mem_buf, env->sp & 0x0000ffff);
+>> +    }
+>> +
+>> +    /*  PC */
+>> +    if (n == 34) {
+>> +        return gdb_get_reg32(mem_buf, env->pc_w * 2);
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +int avr_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>> +{
+>> +    AVRCPU *cpu = AVR_CPU(cs);
+>> +    CPUAVRState *env = &cpu->env;
+>> +
+>> +    /*  R */
+>> +    if (n < 32) {
+>> +        env->r[n] = *mem_buf;
+>> +        return 1;
+>> +    }
+>> +
+>> +    /*  SREG */
+>> +    if (n == 32) {
+>> +        cpu_set_sreg(env, *mem_buf);
+>> +        return 1;
+>> +    }
+>> +
+>> +    /*  SP */
+>> +    if (n == 33) {
+>> +        env->sp = lduw_p(mem_buf);
+>> +        return 2;
+>> +    }
+>> +
+>> +    /*  PC */
+>> +    if (n == 34) {
+>> +        env->pc_w = ldl_p(mem_buf) / 2;
+>> +        return 4;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> diff --git a/target/avr/machine.c b/target/avr/machine.c
+>> new file mode 100644
+>> index 0000000000..f6dcda7adc
+>> --- /dev/null
+>> +++ b/target/avr/machine.c
+>> @@ -0,0 +1,121 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "cpu.h"
+>> +#include "migration/cpu.h"
+>> +
+>> +static int get_sreg(QEMUFile *f, void *opaque, size_t size,
+>> +    const VMStateField *field)
+>> +{
+>> +    CPUAVRState *env = opaque;
+>> +    uint8_t sreg;
+>> +
+>> +    sreg = qemu_get_byte(f);
+>> +    cpu_set_sreg(env, sreg);
+>> +    return 0;
+>> +}
+>> +
+>> +static int put_sreg(
+>> +    QEMUFile *f, void *opaque, size_t size,
+>> +    const VMStateField *field, QJSON *vmdesc)
+>> +{
+>> +    CPUAVRState *env = opaque;
+>> +    uint8_t sreg = cpu_get_sreg(env);
+>> +
+>> +    qemu_put_byte(f, sreg);
+>> +    return 0;
+>> +}
+>> +
+>> +static const VMStateInfo vms_sreg = {
+>> +    .name = "sreg",
+>> +    .get = get_sreg,
+>> +    .put = put_sreg,
+>> +};
+>> +
+>> +static int get_segment(
+>> +    QEMUFile *f, void *opaque, size_t size, const VMStateField *field)
+>> +{
+>> +    uint32_t *ramp = opaque;
+>> +    uint8_t temp;
+>> +
+>> +    temp = qemu_get_byte(f);
+>> +    *ramp = ((uint32_t)temp) << 16;
+>> +    return 0;
+>> +}
+>> +
+>> +static int put_segment(
+>> +    QEMUFile *f, void *opaque, size_t size,
+>> +    const VMStateField *field, QJSON *vmdesc)
+>> +{
+>> +    uint32_t *ramp = opaque;
+>> +    uint8_t temp = *ramp >> 16;
+>> +
+>> +    qemu_put_byte(f, temp);
+>> +    return 0;
+>> +}
+>> +
+>> +static const VMStateInfo vms_rampD = {
+>> +    .name = "rampD",
+>> +    .get = get_segment,
+>> +    .put = put_segment,
+>> +};
+>> +static const VMStateInfo vms_rampX = {
+>> +    .name = "rampX",
+>> +    .get = get_segment,
+>> +    .put = put_segment,
+>> +};
+>> +static const VMStateInfo vms_rampY = {
+>> +    .name = "rampY",
+>> +    .get = get_segment,
+>> +    .put = put_segment,
+>> +};
+>> +static const VMStateInfo vms_rampZ = {
+>> +    .name = "rampZ",
+>> +    .get = get_segment,
+>> +    .put = put_segment,
+>> +};
+>> +static const VMStateInfo vms_eind = {
+>> +    .name = "eind",
+>> +    .get = get_segment,
+>> +    .put = put_segment,
+>> +};
+>> +
+>> +const VMStateDescription vms_avr_cpu = {
+>> +    .name = "cpu",
+>> +    .version_id = 0,
+>> +    .minimum_version_id = 0,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_UINT32(env.pc_w, AVRCPU),
+>> +        VMSTATE_UINT32(env.sp, AVRCPU),
+>> +        VMSTATE_UINT32(env.skip, AVRCPU),
+>> +
+>> +        VMSTATE_UINT32_ARRAY(env.r, AVRCPU, NO_CPU_REGISTERS),
+>> +
+>> +        VMSTATE_SINGLE(env, AVRCPU, 0, vms_sreg, CPUAVRState),
+>> +        VMSTATE_SINGLE(env.rampD, AVRCPU, 0, vms_rampD, uint32_t),
+>> +        VMSTATE_SINGLE(env.rampX, AVRCPU, 0, vms_rampX, uint32_t),
+>> +        VMSTATE_SINGLE(env.rampY, AVRCPU, 0, vms_rampY, uint32_t),
+>> +        VMSTATE_SINGLE(env.rampZ, AVRCPU, 0, vms_rampZ, uint32_t),
+>> +        VMSTATE_SINGLE(env.eind, AVRCPU, 0, vms_eind, uint32_t),
+>> +
+>> +        VMSTATE_END_OF_LIST()
+>> +    }
+>> +};
+>> --
+>> 2.17.2 (Apple Git-113)
+>>
+>>
 
-If 4.0 is what you have access to, having the stack trace for that is
-better than not, but confirming it happens on the latest release would
-be nice.
+--000000000000a888720595976322
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Can you share your workflow for virsh that reproduces the failure?
+<br><br>On Wednesday, October 23, 2019, Michael Rolnik &lt;<a href=3D"mailt=
+o:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div dir=3D"auto">Hi Aleksandar.<div dir=3D"auto"><br></div><=
+div dir=3D"auto">I am fixing flag C and I will make flag Z to be like the o=
+thers, just once bit<br><br><div data-smartmail=3D"gmail_signature" dir=3D"=
+auto">Sent from my cell phone, please ignore typos</div></div></div></block=
+quote><div><br></div><div>No worries, thanks.</div><div><br></div><div>A.</=
+div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div =
+dir=3D"auto"></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Tue, Oct 22, 2019, 1:37 AM Michael Rolnik &lt;<a href=
+=3D"mailto:mrolnik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">This includes:<br>
+- CPU data structures<br>
+- object model classes and functions<br>
+- migration functions<br>
+- GDB hooks<br>
+<br>
+Co-developed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" re=
+l=3D"noreferrer" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+Co-developed-by: Sarah Harris &lt;<a href=3D"mailto:S.E.Harris@kent.ac.uk" =
+rel=3D"noreferrer" target=3D"_blank">S.E.Harris@kent.ac.uk</a>&gt;<br>
+Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" rel=
+=3D"noreferrer" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+Signed-off-by: Sarah Harris &lt;<a href=3D"mailto:S.E.Harris@kent.ac.uk" re=
+l=3D"noreferrer" target=3D"_blank">S.E.Harris@kent.ac.uk</a>&gt;<br>
+Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" rel=
+=3D"noreferrer" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+Acked-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" rel=3D"n=
+oreferrer" target=3D"_blank">imammedo@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0gdb-xml/avr-cpu.xml=C2=A0 =C2=A0 |=C2=A0 49 ++++<br>
+=C2=A0target/avr/cpu-param.h |=C2=A0 37 +++<br>
+=C2=A0target/avr/cpu-qom.h=C2=A0 =C2=A0|=C2=A0 54 ++++<br>
+=C2=A0target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 576 ++++++++++++++++++++=
+++++++++++<wbr>+++++++++++<br>
+=C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0| 254 ++++++++++++++++++<b=
+r>
+=C2=A0target/avr/gdbstub.c=C2=A0 =C2=A0|=C2=A0 85 ++++++<br>
+=C2=A0target/avr/machine.c=C2=A0 =C2=A0| 121 +++++++++<br>
+=C2=A07 files changed, 1176 insertions(+)<br>
+=C2=A0create mode 100644 gdb-xml/avr-cpu.xml<br>
+=C2=A0create mode 100644 target/avr/cpu-param.h<br>
+=C2=A0create mode 100644 target/avr/cpu-qom.h<br>
+=C2=A0create mode 100644 target/avr/cpu.c<br>
+=C2=A0create mode 100644 target/avr/cpu.h<br>
+=C2=A0create mode 100644 target/avr/gdbstub.c<br>
+=C2=A0create mode 100644 target/avr/machine.c<br>
+<br>
+diff --git a/gdb-xml/avr-cpu.xml b/gdb-xml/avr-cpu.xml<br>
+new file mode 100644<br>
+index 0000000000..c4747f5b40<br>
+--- /dev/null<br>
++++ b/gdb-xml/avr-cpu.xml<br>
+@@ -0,0 +1,49 @@<br>
++&lt;?xml version=3D&quot;1.0&quot;?&gt;<br>
++&lt;!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0Copying and distribution of this file, with or without=
+ modification,<br>
++=C2=A0 =C2=A0 =C2=A0are permitted in any medium without royalty provided t=
+he copyright<br>
++=C2=A0 =C2=A0 =C2=A0notice and this notice are preserved.=C2=A0 --&gt;<br>
++<br>
++&lt;!-- Register numbers are hard-coded in order to maintain backward<br>
++=C2=A0 =C2=A0 =C2=A0compatibility with older versions of tools that didn&#=
+39;t use xml<br>
++=C2=A0 =C2=A0 =C2=A0register descriptions.=C2=A0 --&gt;<br>
++<br>
++&lt;!DOCTYPE feature SYSTEM &quot;gdb-target.dtd&quot;&gt;<br>
++&lt;feature name=3D&quot;org.gnu.gdb.riscv.cpu&quot;&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r0&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot; regnum=3D&quot;0&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r1&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r2&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r3&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r4&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r5&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r6&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r7&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r8&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r9&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r10&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r11&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r12&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r13&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r14&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r15&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r16&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r17&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r18&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r19&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r20&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r21&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r22&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r23&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r24&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r25&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r26&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r27&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r28&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r29&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r30&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;r31&quot; bitsize=3D&quot;8&quot; type=3D&quot=
+;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;sreg&quot; bitsize=3D&quot;8&quot; type=3D&quo=
+t;int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;sp&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++=C2=A0 &lt;reg name=3D&quot;pc&quot; bitsize=3D&quot;8&quot; type=3D&quot;=
+int&quot;/&gt;<br>
++&lt;/feature&gt;<br>
+diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h<br>
+new file mode 100644<br>
+index 0000000000..ccd1ea3429<br>
+--- /dev/null<br>
++++ b/target/avr/cpu-param.h<br>
+@@ -0,0 +1,37 @@<br>
++/*<br>
++ * QEMU AVR CPU<br>
++ *<br>
++ * Copyright (c) 2019 Michael Rolnik<br>
++ *<br>
++ * This library is free software; you can redistribute it and/or<br>
++ * modify it under the terms of the GNU Lesser General Public<br>
++ * License as published by the Free Software Foundation; either<br>
++ * version 2.1 of the License, or (at your option) any later version.<br>
++ *<br>
++ * This library is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * Lesser General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU Lesser General Public<br>
++ * License along with this library; if not, see<br>
++ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.gnu.org/licenses/<wbr>lgpl-2.=
+1.html</a>&gt;<br>
++ */<br>
++<br>
++#ifndef AVR_CPU_PARAM_H<br>
++#define AVR_CPU_PARAM_H 1<br>
++<br>
++#define TARGET_LONG_BITS 32<br>
++/*<br>
++ * TARGET_PAGE_BITS cannot be more than 8 bits because<br>
++ * 1.=C2=A0 all IO registers occupy [0x0000 .. 0x00ff] address range, and =
+they<br>
++ *=C2=A0 =C2=A0 =C2=A0should be implemented as a device and not memory<br>
++ * 2.=C2=A0 SRAM starts at the address 0x0100<br>
++ */<br>
++#define TARGET_PAGE_BITS 8<br>
++#define TARGET_PHYS_ADDR_SPACE_BITS 24<br>
++#define TARGET_VIRT_ADDR_SPACE_BITS 24<br>
++#define NB_MMU_MODES 2<br>
++<br>
++<br>
++#endif<br>
+diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h<br>
+new file mode 100644<br>
+index 0000000000..e28b58c897<br>
+--- /dev/null<br>
++++ b/target/avr/cpu-qom.h<br>
+@@ -0,0 +1,54 @@<br>
++/*<br>
++ * QEMU AVR CPU<br>
++ *<br>
++ * Copyright (c) 2019 Michael Rolnik<br>
++ *<br>
++ * This library is free software; you can redistribute it and/or<br>
++ * modify it under the terms of the GNU Lesser General Public<br>
++ * License as published by the Free Software Foundation; either<br>
++ * version 2.1 of the License, or (at your option) any later version.<br>
++ *<br>
++ * This library is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * Lesser General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU Lesser General Public<br>
++ * License along with this library; if not, see<br>
++ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.gnu.org/licenses/<wbr>lgpl-2.=
+1.html</a>&gt;<br>
++ */<br>
++<br>
++#ifndef QEMU_AVR_QOM_H<br>
++#define QEMU_AVR_QOM_H<br>
++<br>
++#include &quot;hw/core/cpu.h&quot;<br>
++<br>
++#define TYPE_AVR_CPU &quot;avr-cpu&quot;<br>
++<br>
++#define AVR_CPU_CLASS(klass) \<br>
++=C2=A0 =C2=A0 OBJECT_CLASS_CHECK(<wbr>AVRCPUClass, (klass), TYPE_AVR_CPU)<=
+br>
++#define AVR_CPU(obj) \<br>
++=C2=A0 =C2=A0 OBJECT_CHECK(AVRCPU, (obj), TYPE_AVR_CPU)<br>
++#define AVR_CPU_GET_CLASS(obj) \<br>
++=C2=A0 =C2=A0 OBJECT_GET_CLASS(AVRCPUClass, (obj), TYPE_AVR_CPU)<br>
++<br>
++/**<br>
++ *=C2=A0 AVRCPUClass:<br>
++ *=C2=A0 @parent_realize: The parent class&#39; realize handler.<br>
++ *=C2=A0 @parent_reset: The parent class&#39; reset handler.<br>
++ *=C2=A0 @vr: Version Register value.<br>
++ *<br>
++ *=C2=A0 A AVR CPU model.<br>
++ */<br>
++typedef struct AVRCPUClass {<br>
++=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
++=C2=A0 =C2=A0 CPUClass parent_class;<br>
++=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
++=C2=A0 =C2=A0 DeviceRealize parent_realize;<br>
++=C2=A0 =C2=A0 void (*parent_reset)(CPUState *cpu);<br>
++} AVRCPUClass;<br>
++<br>
++typedef struct AVRCPU AVRCPU;<br>
++<br>
++<br>
++#endif /* !defined (QEMU_AVR_CPU_QOM_H) */<br>
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c<br>
+new file mode 100644<br>
+index 0000000000..dae56d7845<br>
+--- /dev/null<br>
++++ b/target/avr/cpu.c<br>
+@@ -0,0 +1,576 @@<br>
++/*<br>
++ * QEMU AVR CPU<br>
++ *<br>
++ * Copyright (c) 2019 Michael Rolnik<br>
++ *<br>
++ * This library is free software; you can redistribute it and/or<br>
++ * modify it under the terms of the GNU Lesser General Public<br>
++ * License as published by the Free Software Foundation; either<br>
++ * version 2.1 of the License, or (at your option) any later version.<br>
++ *<br>
++ * This library is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * Lesser General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU Lesser General Public<br>
++ * License along with this library; if not, see<br>
++ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.gnu.org/licenses/<wbr>lgpl-2.=
+1.html</a>&gt;<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++#include &quot;qemu/qemu-print.h&quot;<br>
++#include &quot;exec/exec-all.h&quot;<br>
++#include &quot;cpu.h&quot;<br>
++<br>
++static void avr_cpu_set_pc(CPUState *cs, vaddr value)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++<br>
++=C2=A0 =C2=A0 cpu-&gt;env.pc_w =3D value / 2; /* internally PC points to w=
+ords */<br>
++}<br>
++<br>
++static bool avr_cpu_has_work(CPUState *cs)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 return (cs-&gt;interrupt_request &amp; (CPU_INTERRUPT_HARD |=
+ CPU_INTERRUPT_RESET))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; cpu_interrupts_enable=
+d(env);<br>
++}<br>
++<br>
++static void avr_cpu_synchronize_from_tb(<wbr>CPUState *cs, TranslationBloc=
+k *tb)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 env-&gt;pc_w =3D tb-&gt;pc / 2; /* internally PC points to w=
+ords */<br>
++}<br>
++<br>
++static void avr_cpu_reset(CPUState *cs)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++=C2=A0 =C2=A0 AVRCPUClass *mcc =3D AVR_CPU_GET_CLASS(cpu);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 mcc-&gt;parent_reset(cs);<br>
++<br>
++=C2=A0 =C2=A0 env-&gt;pc_w =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregI =3D 1;<br>
++=C2=A0 =C2=A0 env-&gt;sregC =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregZ =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregN =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregV =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregS =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregH =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sregT =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 env-&gt;rampD =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;rampX =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;rampY =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;rampZ =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;eind =3D 0;<br>
++=C2=A0 =C2=A0 env-&gt;sp =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 env-&gt;skip =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 memset(env-&gt;r, 0, sizeof(env-&gt;r));<br>
++<br>
++=C2=A0 =C2=A0 tlb_flush(cs);<br>
++}<br>
++<br>
++static void avr_cpu_disas_set_info(<wbr>CPUState *cpu, disassemble_info *i=
+nfo)<br>
++{<br>
++=C2=A0 =C2=A0 info-&gt;mach =3D bfd_arch_avr;<br>
++=C2=A0 =C2=A0 info-&gt;print_insn =3D NULL;<br>
++}<br>
++<br>
++static void avr_cpu_realizefn(DeviceState *dev, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 CPUState *cs =3D CPU(dev);<br>
++=C2=A0 =C2=A0 AVRCPUClass *mcc =3D AVR_CPU_GET_CLASS(dev);<br>
++=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 cpu_exec_realizefn(cs, &amp;local_err);<br>
++=C2=A0 =C2=A0 if (local_err !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 qemu_init_vcpu(cs);<br>
++=C2=A0 =C2=A0 cpu_reset(cs);<br>
++<br>
++=C2=A0 =C2=A0 mcc-&gt;parent_realize(dev, errp);<br>
++}<br>
++<br>
++static void avr_cpu_set_int(void *opaque, int irq, int level)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D opaque;<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++=C2=A0 =C2=A0 CPUState *cs =3D CPU(cpu);<br>
++<br>
++=C2=A0 =C2=A0 uint64_t mask =3D (1ull &lt;&lt; irq);<br>
++=C2=A0 =C2=A0 if (level) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;intsrc |=3D mask;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_interrupt(cs, CPU_INTERRUPT_HARD);<br>
++=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;intsrc &amp;=3D ~mask;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (env-&gt;intsrc =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_reset_interrupt(cs, CPU_INTE=
+RRUPT_HARD);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void avr_cpu_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++<br>
++=C2=A0 =C2=A0 cpu_set_cpustate_pointers(cpu)<wbr>;<br>
++<br>
++#ifndef CONFIG_USER_ONLY<br>
++=C2=A0 =C2=A0 /* Set the number of interrupts supported by the CPU. */<br>
++=C2=A0 =C2=A0 qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int, 57);<br>
++#endif<br>
++}<br>
++<br>
++static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)<br>
++{<br>
++=C2=A0 =C2=A0 ObjectClass *oc;<br>
++<br>
++=C2=A0 =C2=A0 oc =3D object_class_by_name(cpu_<wbr>model);<br>
++=C2=A0 =C2=A0 if (object_class_dynamic_cast(oc, TYPE_AVR_CPU) =3D=3D NULL =
+||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_class_is_abstract(oc)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 oc =3D NULL;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 return oc;<br>
++}<br>
++<br>
++static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;PC:=C2=A0 =C2=A0 %06x\n&quot;, env-&gt=
+;pc_w);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;SP:=C2=A0 =C2=A0 =C2=A0 %04x\n&quot;, =
+env-&gt;sp);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;rampD:=C2=A0 =C2=A0 =C2=A0%02x\n&quot;=
+, env-&gt;rampD &gt;&gt; 16);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;rampX:=C2=A0 =C2=A0 =C2=A0%02x\n&quot;=
+, env-&gt;rampX &gt;&gt; 16);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;rampY:=C2=A0 =C2=A0 =C2=A0%02x\n&quot;=
+, env-&gt;rampY &gt;&gt; 16);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;rampZ:=C2=A0 =C2=A0 =C2=A0%02x\n&quot;=
+, env-&gt;rampZ &gt;&gt; 16);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;EIND:=C2=A0 =C2=A0 =C2=A0 %02x\n&quot;=
+, env-&gt;eind &gt;&gt; 16);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;X:=C2=A0 =C2=A0 =C2=A0 =C2=A0%02x%02x\=
+n&quot;, env-&gt;r[27], env-&gt;r[26]);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;Y:=C2=A0 =C2=A0 =C2=A0 =C2=A0%02x%02x\=
+n&quot;, env-&gt;r[29], env-&gt;r[28]);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;Z:=C2=A0 =C2=A0 =C2=A0 =C2=A0%02x%02x\=
+n&quot;, env-&gt;r[31], env-&gt;r[30]);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;SREG:=C2=A0 =C2=A0 [ %c %c %c %c %c %c=
+ %c %c ]\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregI ? &#39;I&#39; : &#39;-&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregT ? &#39;T&#39; : &#39;-&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregH ? &#39;H&#39; : &#39;-&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregS ? &#39;S&#39; : &#39;-&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregV ? &#39;V&#39; : &#39;-&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregN ? &#39;-&#39; : &#39;N&#39;, /* Zf has negative lo=
+gic */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregZ ? &#39;Z&#39; : &#39;-&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 env-&gt;sregC ? &#39;I&#39; : &#39;-&#39;);<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;SKIP:=C2=A0 =C2=A0 %02x\n&quot;, env-&=
+gt;skip);<br>
++<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(env-&gt;r); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;R[%02d]:=C2=A0 %02x=C2=
+=A0 =C2=A0&quot;, i, env-&gt;r[i]);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((i % 8) =3D=3D 7) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 qemu_fprintf(f, &quot;\n&quot;);<br>
++}<br>
++<br>
++static void avr_cpu_class_init(ObjectClass *oc, void *data)<br>
++{<br>
++=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(oc);<br>
++=C2=A0 =C2=A0 CPUClass *cc =3D CPU_CLASS(oc);<br>
++=C2=A0 =C2=A0 AVRCPUClass *mcc =3D AVR_CPU_CLASS(oc);<br>
++<br>
++=C2=A0 =C2=A0 mcc-&gt;parent_realize =3D dc-&gt;realize;<br>
++=C2=A0 =C2=A0 dc-&gt;realize =3D avr_cpu_realizefn;<br>
++<br>
++=C2=A0 =C2=A0 mcc-&gt;parent_reset =3D cc-&gt;reset;<br>
++=C2=A0 =C2=A0 cc-&gt;reset =3D avr_cpu_reset;<br>
++<br>
++=C2=A0 =C2=A0 cc-&gt;class_by_name =3D avr_cpu_class_by_name;<br>
++<br>
++=C2=A0 =C2=A0 cc-&gt;has_work =3D avr_cpu_has_work;<br>
++=C2=A0 =C2=A0 cc-&gt;do_interrupt =3D avr_cpu_do_interrupt;<br>
++=C2=A0 =C2=A0 cc-&gt;cpu_exec_interrupt =3D avr_cpu_exec_interrupt;<br>
++=C2=A0 =C2=A0 cc-&gt;dump_state =3D avr_cpu_dump_state;<br>
++=C2=A0 =C2=A0 cc-&gt;set_pc =3D avr_cpu_set_pc;<br>
++#if !defined(CONFIG_USER_ONLY)<br>
++=C2=A0 =C2=A0 cc-&gt;memory_rw_debug =3D avr_cpu_memory_rw_debug;<br>
++#endif<br>
++#ifdef CONFIG_USER_ONLY<br>
++=C2=A0 =C2=A0 cc-&gt;handle_mmu_fault =3D avr_cpu_handle_mmu_fault;<br>
++#else<br>
++=C2=A0 =C2=A0 cc-&gt;get_phys_page_debug =3D avr_cpu_get_phys_page_debug;<=
+br>
++=C2=A0 =C2=A0 cc-&gt;vmsd =3D &amp;vms_avr_cpu;<br>
++#endif<br>
++=C2=A0 =C2=A0 cc-&gt;disas_set_info =3D avr_cpu_disas_set_info;<br>
++=C2=A0 =C2=A0 cc-&gt;tlb_fill =3D avr_cpu_tlb_fill;<br>
++=C2=A0 =C2=A0 cc-&gt;tcg_initialize =3D avr_cpu_tcg_init;<br>
++=C2=A0 =C2=A0 cc-&gt;synchronize_from_tb =3D avr_cpu_synchronize_from_tb;<=
+br>
++=C2=A0 =C2=A0 cc-&gt;gdb_read_register =3D avr_cpu_gdb_read_register;<br>
++=C2=A0 =C2=A0 cc-&gt;gdb_write_register =3D avr_cpu_gdb_write_register;<br=
+>
++=C2=A0 =C2=A0 cc-&gt;gdb_num_core_regs =3D 35;<br>
++=C2=A0 =C2=A0 cc-&gt;gdb_core_xml_file =3D &quot;avr-cpu.xml&quot;;<br>
++}<br>
++<br>
++static void avr_avr1_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++}<br>
++<br>
++static void avr_avr2_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++}<br>
++<br>
++static void avr_avr25_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++}<br>
++<br>
++static void avr_avr3_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++}<br>
++<br>
++static void avr_avr31_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++}<br>
++<br>
++static void avr_avr35_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++}<br>
++<br>
++static void avr_avr4_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++}<br>
++<br>
++static void avr_avr5_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++}<br>
++<br>
++static void avr_avr51_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++}<br>
++<br>
++static void avr_avr6_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++}<br>
++<br>
++static void avr_xmega2_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RMW);<br>
++}<br>
++<br>
++static void avr_xmega4_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RMW);<br>
++}<br>
++<br>
++static void avr_xmega5_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPD);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPY);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RMW);<br>
++}<br>
++<br>
++static void avr_xmega6_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RMW);<br>
++}<br>
++<br>
++static void avr_xmega7_initfn(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_SRAM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_BREAK);<br>
++<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPD);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPY);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RAMPZ);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_ELPM);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_JMP_CALL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_LPMX);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MOVW);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_MUL);<br>
++=C2=A0 =C2=A0 avr_set_feature(env, AVR_FEATURE_RMW);<br>
++}<br>
++<br>
++typedef struct AVRCPUInfo {<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 void (*initfn)(Object *obj);<br>
++} AVRCPUInfo;<br>
++<br>
++<br>
++static void avr_cpu_list_entry(gpointer data, gpointer user_data)<br>
++{<br>
++=C2=A0 =C2=A0 const char *typename =3D object_class_get_name(OBJECT_<wbr>C=
+LASS(data));<br>
++<br>
++=C2=A0 =C2=A0 qemu_printf(&quot;%s\n&quot;, typename);<br>
++}<br>
++<br>
++void avr_cpu_list(void)<br>
++{<br>
++=C2=A0 =C2=A0 GSList *list;<br>
++=C2=A0 =C2=A0 list =3D object_class_get_list_sorted(<wbr>TYPE_AVR_CPU, fal=
+se);<br>
++=C2=A0 =C2=A0 g_slist_foreach(list, avr_cpu_list_entry, NULL);<br>
++=C2=A0 =C2=A0 g_slist_free(list);<br>
++}<br>
++<br>
++#define DEFINE_AVR_CPU_TYPE(model, initfn) \<br>
++=C2=A0 =C2=A0 { \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .parent =3D TYPE_AVR_CPU, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .instance_init =3D initfn, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D model &quot;-avr-cpu&quot;, \<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++static const TypeInfo avr_cpu_type_info[] =3D {<br>
++=C2=A0 =C2=A0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D TYPE_AVR_CPU,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .parent =3D TYPE_CPU,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .instance_size =3D sizeof(AVRCPU),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .instance_init =3D avr_cpu_initfn,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .class_size =3D sizeof(AVRCPUClass),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .class_init =3D avr_cpu_class_init,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .abstract =3D true,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr1&quot;, avr_avr1_initfn),<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr2&quot;, avr_avr2_initfn),<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr25&quot;, avr_avr25_initfn),<br=
+>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr3&quot;, avr_avr3_initfn),<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr31&quot;, avr_avr31_initfn),<br=
+>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr35&quot;, avr_avr35_initfn),<br=
+>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr4&quot;, avr_avr4_initfn),<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr5&quot;, avr_avr5_initfn),<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr51&quot;, avr_avr51_initfn),<br=
+>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;avr6&quot;, avr_avr6_initfn),<br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;xmega2&quot;, avr_xmega2_initfn),<=
+br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;xmega4&quot;, avr_xmega4_initfn),<=
+br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;xmega5&quot;, avr_xmega5_initfn),<=
+br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;xmega6&quot;, avr_xmega6_initfn),<=
+br>
++=C2=A0 =C2=A0 DEFINE_AVR_CPU_TYPE(&quot;xmega7&quot;, avr_xmega7_initfn),<=
+br>
++};<br>
++<br>
++DEFINE_TYPES(avr_cpu_type_<wbr>info)<br>
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h<br>
+new file mode 100644<br>
+index 0000000000..45d644f4f4<br>
+--- /dev/null<br>
++++ b/target/avr/cpu.h<br>
+@@ -0,0 +1,254 @@<br>
++/*<br>
++ * QEMU AVR CPU<br>
++ *<br>
++ * Copyright (c) 2019 Michael Rolnik<br>
++ *<br>
++ * This library is free software; you can redistribute it and/or<br>
++ * modify it under the terms of the GNU Lesser General Public<br>
++ * License as published by the Free Software Foundation; either<br>
++ * version 2.1 of the License, or (at your option) any later version.<br>
++ *<br>
++ * This library is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * Lesser General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU Lesser General Public<br>
++ * License along with this library; if not, see<br>
++ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.gnu.org/licenses/<wbr>lgpl-2.=
+1.html</a>&gt;<br>
++ */<br>
++<br>
++#ifndef QEMU_AVR_CPU_H<br>
++#define QEMU_AVR_CPU_H<br>
++<br>
++#include &quot;cpu-qom.h&quot;<br>
++#include &quot;exec/cpu-defs.h&quot;<br>
++<br>
++#define TCG_GUEST_DEFAULT_MO 0<br>
++<br>
++#define CPU_RESOLVING_TYPE TYPE_AVR_CPU<br>
++<br>
++/*<br>
++ * AVR has two memory spaces, data &amp; code.<br>
++ * e.g. both have 0 address<br>
++ * ST/LD instructions access data space<br>
++ * LPM/SPM and instruction fetching access code memory space<br>
++ */<br>
++#define MMU_CODE_IDX 0<br>
++#define MMU_DATA_IDX 1<br>
++<br>
++#define EXCP_RESET 1<br>
++#define EXCP_INT(n) (EXCP_RESET + (n) + 1)<br>
++<br>
++/* Number of CPU registers */<br>
++#define NO_CPU_REGISTERS 32<br>
++/* Number of IO registers accessible by ld/st/in/out */<br>
++#define NO_IO_REGISTERS 64<br>
++<br>
++/*<br>
++ * Offsets of AVR memory regions in host memory space.<br>
++ *<br>
++ * This is needed because the AVR has separate code and data address<br>
++ * spaces that both have start from zero but have to go somewhere in<br>
++ * host memory.<br>
++ *<br>
++ * It&#39;s also useful to know where some things are, like the IO registe=
+rs.<br>
++ */<br>
++/* Flash program memory */<br>
++#define OFFSET_CODE 0x00000000<br>
++/* CPU registers, IO registers, and SRAM */<br>
++#define OFFSET_DATA 0x00800000<br>
++/* CPU registers specifically, these are mapped at the start of data */<br=
+>
++#define OFFSET_CPU_REGISTERS OFFSET_DATA<br>
++/*<br>
++ * IO registers, including status register, stack pointer, and memory<br>
++ * mapped peripherals, mapped just after CPU registers<br>
++ */<br>
++#define OFFSET_IO_REGISTERS (OFFSET_DATA + NO_CPU_REGISTERS)<br>
++<br>
++enum avr_features {<br>
++=C2=A0 =C2=A0 AVR_FEATURE_SRAM,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_1_BYTE_PC,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_2_BYTE_PC,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_3_BYTE_PC,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_1_BYTE_SP,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_2_BYTE_SP,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_BREAK,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_DES,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_RMW, /* Read Modify Write - XCH LAC LAS LAT */<b=
+r>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_EIJMP_EICALL,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_IJMP_ICALL,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_JMP_CALL,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_ADIW_SBIW,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_SPM,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_SPMX,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_ELPMX,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_ELPM,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_LPMX,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_LPM,<br>
++<br>
++=C2=A0 =C2=A0 AVR_FEATURE_MOVW,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_MUL,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_RAMPD,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_RAMPX,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_RAMPY,<br>
++=C2=A0 =C2=A0 AVR_FEATURE_RAMPZ,<br>
++};<br>
++<br>
++typedef struct CPUAVRState CPUAVRState;<br>
++<br>
++struct CPUAVRState {<br>
++=C2=A0 =C2=A0 uint32_t pc_w; /* 0x003fffff up to 22 bits */<br>
++<br>
++=C2=A0 =C2=A0 uint32_t sregC; /* 0x00000001 1 bits */<br>
++=C2=A0 =C2=A0 uint32_t sregZ; /* 0x0000ffff 16 bits, negative logic; */<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 0=
+=3Dflag set, &gt;0=3Dflag cleared */<br>
++=C2=A0 =C2=A0 uint32_t sregN; /* 0x00000001 1 bits */<br>
++=C2=A0 =C2=A0 uint32_t sregV; /* 0x00000001 1 bits */<br>
++=C2=A0 =C2=A0 uint32_t sregS; /* 0x00000001 1 bits */<br>
++=C2=A0 =C2=A0 uint32_t sregH; /* 0x00000001 1 bits */<br>
++=C2=A0 =C2=A0 uint32_t sregT; /* 0x00000001 1 bits */<br>
++=C2=A0 =C2=A0 uint32_t sregI; /* 0x00000001 1 bits */<br>
++<br>
++=C2=A0 =C2=A0 uint32_t rampD; /* 0x00ff0000 8 bits */<br>
++=C2=A0 =C2=A0 uint32_t rampX; /* 0x00ff0000 8 bits */<br>
++=C2=A0 =C2=A0 uint32_t rampY; /* 0x00ff0000 8 bits */<br>
++=C2=A0 =C2=A0 uint32_t rampZ; /* 0x00ff0000 8 bits */<br>
++=C2=A0 =C2=A0 uint32_t eind; /* 0x00ff0000 8 bits */<br>
++<br>
++=C2=A0 =C2=A0 uint32_t r[NO_CPU_REGISTERS]; /* 8 bits each */<br>
++=C2=A0 =C2=A0 uint32_t sp; /* 16 bits */<br>
++<br>
++=C2=A0 =C2=A0 uint32_t skip; /* if set skip instruction */<br>
++<br>
++=C2=A0 =C2=A0 uint64_t intsrc; /* interrupt sources */<br>
++=C2=A0 =C2=A0 bool fullacc; /* CPU/MEM if true MEM only otherwise */<br>
++<br>
++=C2=A0 =C2=A0 uint32_t features;<br>
++};<br>
++<br>
++/**<br>
++ *=C2=A0 AVRCPU:<br>
++ *=C2=A0 @env: #CPUAVRState<br>
++ *<br>
++ *=C2=A0 A AVR CPU.<br>
++ */<br>
++typedef struct AVRCPU {<br>
++=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
++=C2=A0 =C2=A0 CPUState parent_obj;<br>
++=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
++<br>
++=C2=A0 =C2=A0 CPUNegativeOffsetState neg;<br>
++=C2=A0 =C2=A0 CPUAVRState env;<br>
++} AVRCPU;<br>
++<br>
++#ifndef CONFIG_USER_ONLY<br>
++extern const struct VMStateDescription vms_avr_cpu;<br>
++#endif<br>
++<br>
++void avr_cpu_do_interrupt(CPUState *cpu);<br>
++bool avr_cpu_exec_interrupt(<wbr>CPUState *cpu, int int_req);<br>
++hwaddr avr_cpu_get_phys_page_debug(<wbr>CPUState *cpu, vaddr addr);<br>
++int avr_cpu_gdb_read_register(<wbr>CPUState *cpu, uint8_t *buf, int reg);<=
+br>
++int avr_cpu_gdb_write_register(<wbr>CPUState *cpu, uint8_t *buf, int reg);=
+<br>
++<br>
++static inline int avr_feature(CPUAVRState *env, int feature)<br>
++{<br>
++=C2=A0 =C2=A0 return (env-&gt;features &amp; (1U &lt;&lt; feature)) !=3D 0=
+;<br>
++}<br>
++<br>
++static inline void avr_set_feature(CPUAVRState *env, int feature)<br>
++{<br>
++=C2=A0 =C2=A0 env-&gt;features |=3D (1U &lt;&lt; feature);<br>
++}<br>
++<br>
++#define cpu_list avr_cpu_list<br>
++#define cpu_signal_handler cpu_avr_signal_handler<br>
++#define cpu_mmu_index avr_cpu_mmu_index<br>
++<br>
++static inline int avr_cpu_mmu_index(CPUAVRState *env, bool ifetch)<br>
++{<br>
++=C2=A0 =C2=A0 return ifetch ? MMU_CODE_IDX : MMU_DATA_IDX;<br>
++}<br>
++<br>
++void avr_cpu_tcg_init(void);<br>
++<br>
++void avr_cpu_list(void);<br>
++int cpu_avr_exec(CPUState *cpu);<br>
++int cpu_avr_signal_handler(int host_signum, void *pinfo, void *puc);<br>
++int avr_cpu_handle_mmu_fault(<wbr>CPUState *cpu, vaddr address, int size,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int rw, int mmu_idx);<br>
++int avr_cpu_memory_rw_debug(<wbr>CPUState *cs, vaddr address, uint8_t *buf=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int len, bool is_write);<br>
++<br>
++enum {<br>
++=C2=A0 =C2=A0 TB_FLAGS_FULL_ACCESS =3D 1,<br>
++=C2=A0 =C2=A0 TB_FLAGS_SKIP =3D 2,<br>
++};<br>
++<br>
++static inline void cpu_get_tb_cpu_state(<wbr>CPUAVRState *env, target_ulon=
+g *pc,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong *cs_base, uint32_t *pfl=
+ags)<br>
++{<br>
++=C2=A0 =C2=A0 uint32_t flags =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 *pc =3D env-&gt;pc_w * 2;<br>
++=C2=A0 =C2=A0 *cs_base =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 if (env-&gt;fullacc) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 flags |=3D TB_FLAGS_FULL_ACCESS;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (env-&gt;skip) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 flags |=3D TB_FLAGS_SKIP;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 *pflags =3D flags;<br>
++}<br>
++<br>
++static inline int cpu_interrupts_enabled(<wbr>CPUAVRState *env)<br>
++{<br>
++=C2=A0 =C2=A0 return env-&gt;sregI !=3D 0;<br>
++}<br>
++<br>
++static inline uint8_t cpu_get_sreg(CPUAVRState *env)<br>
++{<br>
++=C2=A0 =C2=A0 uint8_t sreg;<br>
++=C2=A0 =C2=A0 sreg =3D (env-&gt;sregC &amp; 0x01) &lt;&lt; 0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregZ =3D=3D 0 ? 1 : 0) &lt;&=
+lt; 1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregN) &lt;&lt; 2<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregV) &lt;&lt; 3<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregS) &lt;&lt; 4<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregH) &lt;&lt; 5<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregT) &lt;&lt; 6<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| (env-&gt;sregI) &lt;&lt; 7;<br>
++=C2=A0 =C2=A0 return sreg;<br>
++}<br>
++<br>
++static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)<br>
++{<br>
++=C2=A0 =C2=A0 env-&gt;sregC =3D (sreg &gt;&gt; 0) &amp; 0x01;<br>
++=C2=A0 =C2=A0 env-&gt;sregZ =3D (sreg &gt;&gt; 1) &amp; 0x01 ? 0 : 1;<br>
++=C2=A0 =C2=A0 env-&gt;sregN =3D (sreg &gt;&gt; 2) &amp; 0x01;<br>
++=C2=A0 =C2=A0 env-&gt;sregV =3D (sreg &gt;&gt; 3) &amp; 0x01;<br>
++=C2=A0 =C2=A0 env-&gt;sregS =3D (sreg &gt;&gt; 4) &amp; 0x01;<br>
++=C2=A0 =C2=A0 env-&gt;sregH =3D (sreg &gt;&gt; 5) &amp; 0x01;<br>
++=C2=A0 =C2=A0 env-&gt;sregT =3D (sreg &gt;&gt; 6) &amp; 0x01;<br>
++=C2=A0 =C2=A0 env-&gt;sregI =3D (sreg &gt;&gt; 7) &amp; 0x01;<br>
++}<br>
++<br>
++bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 MMUAccessType access_type, int mmu_idx,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 bool probe, uintptr_t retaddr);<br>
++<br>
++typedef CPUAVRState CPUArchState;<br>
++typedef AVRCPU ArchCPU;<br>
++<br>
++#include &quot;exec/cpu-all.h&quot;<br>
++<br>
++#endif /* !defined (QEMU_AVR_CPU_H) */<br>
+diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c<br>
+new file mode 100644<br>
+index 0000000000..20a5252482<br>
+--- /dev/null<br>
++++ b/target/avr/gdbstub.c<br>
+@@ -0,0 +1,85 @@<br>
++/*<br>
++ * QEMU AVR CPU<br>
++ *<br>
++ * Copyright (c) 2019 Michael Rolnik<br>
++ *<br>
++ * This library is free software; you can redistribute it and/or<br>
++ * modify it under the terms of the GNU Lesser General Public<br>
++ * License as published by the Free Software Foundation; either<br>
++ * version 2.1 of the License, or (at your option) any later version.<br>
++ *<br>
++ * This library is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * Lesser General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU Lesser General Public<br>
++ * License along with this library; if not, see<br>
++ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.gnu.org/licenses/<wbr>lgpl-2.=
+1.html</a>&gt;<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu-common.h&quot;<br>
++#include &quot;exec/gdbstub.h&quot;<br>
++<br>
++int avr_cpu_gdb_read_register(<wbr>CPUState *cs, uint8_t *mem_buf, int n)<=
+br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 R */<br>
++=C2=A0 =C2=A0 if (n &lt; 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return gdb_get_reg8(mem_buf, env-&gt;r[n]);<br=
+>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 SREG */<br>
++=C2=A0 =C2=A0 if (n =3D=3D 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t sreg =3D cpu_get_sreg(env);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return gdb_get_reg8(mem_buf, sreg);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 SP */<br>
++=C2=A0 =C2=A0 if (n =3D=3D 33) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return gdb_get_reg16(mem_buf, env-&gt;sp &amp;=
+ 0x0000ffff);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 PC */<br>
++=C2=A0 =C2=A0 if (n =3D=3D 34) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return gdb_get_reg32(mem_buf, env-&gt;pc_w * 2=
+);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++int avr_cpu_gdb_write_register(<wbr>CPUState *cs, uint8_t *mem_buf, int n)=
+<br>
++{<br>
++=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(cs);<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D &amp;cpu-&gt;env;<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 R */<br>
++=C2=A0 =C2=A0 if (n &lt; 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;r[n] =3D *mem_buf;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 SREG */<br>
++=C2=A0 =C2=A0 if (n =3D=3D 32) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_set_sreg(env, *mem_buf);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 SP */<br>
++=C2=A0 =C2=A0 if (n =3D=3D 33) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;sp =3D lduw_p(mem_buf);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 2;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*=C2=A0 PC */<br>
++=C2=A0 =C2=A0 if (n =3D=3D 34) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;pc_w =3D ldl_p(mem_buf) / 2;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 4;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
+diff --git a/target/avr/machine.c b/target/avr/machine.c<br>
+new file mode 100644<br>
+index 0000000000..f6dcda7adc<br>
+--- /dev/null<br>
++++ b/target/avr/machine.c<br>
+@@ -0,0 +1,121 @@<br>
++/*<br>
++ * QEMU AVR CPU<br>
++ *<br>
++ * Copyright (c) 2019 Michael Rolnik<br>
++ *<br>
++ * This library is free software; you can redistribute it and/or<br>
++ * modify it under the terms of the GNU Lesser General Public<br>
++ * License as published by the Free Software Foundation; either<br>
++ * version 2.1 of the License, or (at your option) any later version.<br>
++ *<br>
++ * This library is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * Lesser General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU Lesser General Public<br>
++ * License along with this library; if not, see<br>
++ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.gnu.org/licenses/<wbr>lgpl-2.=
+1.html</a>&gt;<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;cpu.h&quot;<br>
++#include &quot;migration/cpu.h&quot;<br>
++<br>
++static int get_sreg(QEMUFile *f, void *opaque, size_t size,<br>
++=C2=A0 =C2=A0 const VMStateField *field)<br>
++{<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D opaque;<br>
++=C2=A0 =C2=A0 uint8_t sreg;<br>
++<br>
++=C2=A0 =C2=A0 sreg =3D qemu_get_byte(f);<br>
++=C2=A0 =C2=A0 cpu_set_sreg(env, sreg);<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++static int put_sreg(<br>
++=C2=A0 =C2=A0 QEMUFile *f, void *opaque, size_t size,<br>
++=C2=A0 =C2=A0 const VMStateField *field, QJSON *vmdesc)<br>
++{<br>
++=C2=A0 =C2=A0 CPUAVRState *env =3D opaque;<br>
++=C2=A0 =C2=A0 uint8_t sreg =3D cpu_get_sreg(env);<br>
++<br>
++=C2=A0 =C2=A0 qemu_put_byte(f, sreg);<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++static const VMStateInfo vms_sreg =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;sreg&quot;,<br>
++=C2=A0 =C2=A0 .get =3D get_sreg,<br>
++=C2=A0 =C2=A0 .put =3D put_sreg,<br>
++};<br>
++<br>
++static int get_segment(<br>
++=C2=A0 =C2=A0 QEMUFile *f, void *opaque, size_t size, const VMStateField *=
+field)<br>
++{<br>
++=C2=A0 =C2=A0 uint32_t *ramp =3D opaque;<br>
++=C2=A0 =C2=A0 uint8_t temp;<br>
++<br>
++=C2=A0 =C2=A0 temp =3D qemu_get_byte(f);<br>
++=C2=A0 =C2=A0 *ramp =3D ((uint32_t)temp) &lt;&lt; 16;<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++static int put_segment(<br>
++=C2=A0 =C2=A0 QEMUFile *f, void *opaque, size_t size,<br>
++=C2=A0 =C2=A0 const VMStateField *field, QJSON *vmdesc)<br>
++{<br>
++=C2=A0 =C2=A0 uint32_t *ramp =3D opaque;<br>
++=C2=A0 =C2=A0 uint8_t temp =3D *ramp &gt;&gt; 16;<br>
++<br>
++=C2=A0 =C2=A0 qemu_put_byte(f, temp);<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++static const VMStateInfo vms_rampD =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;rampD&quot;,<br>
++=C2=A0 =C2=A0 .get =3D get_segment,<br>
++=C2=A0 =C2=A0 .put =3D put_segment,<br>
++};<br>
++static const VMStateInfo vms_rampX =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;rampX&quot;,<br>
++=C2=A0 =C2=A0 .get =3D get_segment,<br>
++=C2=A0 =C2=A0 .put =3D put_segment,<br>
++};<br>
++static const VMStateInfo vms_rampY =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;rampY&quot;,<br>
++=C2=A0 =C2=A0 .get =3D get_segment,<br>
++=C2=A0 =C2=A0 .put =3D put_segment,<br>
++};<br>
++static const VMStateInfo vms_rampZ =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;rampZ&quot;,<br>
++=C2=A0 =C2=A0 .get =3D get_segment,<br>
++=C2=A0 =C2=A0 .put =3D put_segment,<br>
++};<br>
++static const VMStateInfo vms_eind =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;eind&quot;,<br>
++=C2=A0 =C2=A0 .get =3D get_segment,<br>
++=C2=A0 =C2=A0 .put =3D put_segment,<br>
++};<br>
++<br>
++const VMStateDescription vms_avr_cpu =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;cpu&quot;,<br>
++=C2=A0 =C2=A0 .version_id =3D 0,<br>
++=C2=A0 =C2=A0 .minimum_version_id =3D 0,<br>
++=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(env.pc_w, AVRCPU),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(env.sp, AVRCPU),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(env.skip, AVRCPU),<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32_ARRAY(env.r, AVRCPU, NO_CPU_REG=
+ISTERS),<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_SINGLE(env, AVRCPU, 0, vms_sreg, CPUAV=
+RState),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_SINGLE(env.rampD, AVRCPU, 0, vms_rampD=
+, uint32_t),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_SINGLE(env.rampX, AVRCPU, 0, vms_rampX=
+, uint32_t),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_SINGLE(env.rampY, AVRCPU, 0, vms_rampY=
+, uint32_t),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_SINGLE(env.rampZ, AVRCPU, 0, vms_rampZ=
+, uint32_t),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_SINGLE(env.eind, AVRCPU, 0, vms_eind, =
+uint32_t),<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
++=C2=A0 =C2=A0 }<br>
++};<br>
+-- <br>
+2.17.2 (Apple Git-113)<br>
+<br>
+</blockquote></div>
+</blockquote>
 
---js
-
-> On mi=E9, oct 23, 2019 at 5:34 PM, John Snow <jsnow@redhat.com> wrote:
->> On 10/18/19 5:41 PM, Fernando Casas Sch=F6ssow wrote:
->>
->>     Hi,=20
->>
->> Hi! Thanks for the report.
->>
->>     Today while working with two different Windows Server 2012 R2
->>     guests I found that when I try to attach an ISO file to a SCSI
->>     CD-ROM device through libvirt (virsh or virt-manager) while the
->>     guest is running, qemu crashes and the following message is
->>     logged: Assertion failed: blk_get_aio_context(d->conf.blk) =3D=3D
->>     s->ctx
->>     (/home/buildozer/aports/main/qemu/src/qemu-4.0.0/hw/scsi/virtio-scsi=
-.c:
->>     virtio_scsi_ctx_check: 246) I can repro this at will. All I have
->>     to do is to try to attach an ISO file to the SCSI CDROM while the
->>     guest is running. The SCSI controller model is virtio-scsi with
->>     iothread enabled. Please find below all the details about my setup
->>     that I considered relevant but I missed something please don't
->>     hesitate to let me know:=20
->>
->> Looks like we got aio_context management wrong with iothread for the
->> media change events somewhere. Should be easy enough to fix if we
->> figure out where the bad assumption is.
->>
->>     Host arch: x86_64 Distro: Alpine Linux 3.10.2 qemu version: 4.0=20
->>
->> Do you have the ability to try 4.1, or the latest development head
->> with debugging symbols enabled?
->>
->>     Linux kernel version: 4.19.67 libvirt: 5.5.0 Emulated SCSI
->>     controller: virtio-scsi (with iothread enabled) Guest firmware:
->>     OVMF-EFI Guest OS: Window Server 2012 R2 Guest virtio drivers
->>     version: 171 (current stable) qemu command line:
->>     /usr/bin/qemu-system-x86_64 -name
->>     guest=3DDCHOMENET01,debug-threads=3Don -S -object
->>     secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
-ain-78-DCHOMENET01/master-key.aes
->>     -machine pc-i440fx-4.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Don -c=
-pu
->>     IvyBridge,ss=3Don,vmx=3Doff,pcid=3Don,hypervisor=3Don,arat=3Don,tsc_=
-adjust=3Don,umip=3Don,xsaveopt=3Don,hv_time,hv_relaxed,hv_vapic,hv_spinlock=
-s=3D0x1fff
->>     -drive
->>     file=3D/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd,if=3Dpflas=
-h,format=3Draw,unit=3D0,readonly=3Don
->>     -drive
->>     file=3D/var/lib/libvirt/qemu/nvram/DCHOMENET01_VARS.fd,if=3Dpflash,f=
-ormat=3Draw,unit=3D1
->>     -m 1536 -overcommit mem-lock=3Doff -smp
->>     1,sockets=3D1,cores=3D1,threads=3D1 -object iothread,id=3Diothread1 =
--uuid
->>     f06978ad-2734-44ab-a518-5dfcf71d625e -no-user-config -nodefaults
->>     -chardev socket,id=3Dcharmonitor,fd=3D33,server,nowait -mon
->>     chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
->>     base=3Dlocaltime,driftfix=3Dslew -global
->>     kvm-pit.lost_tick_policy=3Ddelay -no-hpet -no-shutdown -global
->>     PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=3D1 -boot
->>     strict=3Don -device qemu-xhci,id=3Dusb,bus=3Dpci.0,addr=3D0x4 -devic=
-e
->>     virtio-scsi-pci,iothread=3Diothread1,id=3Dscsi0,num_queues=3D1,bus=
-=3Dpci.0,addr=3D0x5
->>     -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x6
->>     -drive
->>     file=3D/storage/storage-hdd-vms/virtual_machines_hdd/dchomenet01.qco=
-w2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,cache=3Dnone,discard=3Du=
-nmap,aio=3Dthreads
->>     -device
->>     scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddr=
-ive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1,wr=
-ite-cache=3Don
->>     -drive if=3Dnone,id=3Ddrive-scsi0-0-0-1,readonly=3Don -device
->>     scsi-cd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Ddr=
-ive-scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1
->>     -netdev tap,fd=3D41,id=3Dhostnet0,vhost=3Don,vhostfd=3D43 -device
->>     virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:99:b5:62,b=
-us=3Dpci.0,addr=3D0x3
->>     -chardev
->>     socket,id=3Dcharserial0,host=3D127.0.0.1,port=3D4900,telnet,server,n=
-owait -device
->>     isa-serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
->>     spicevmc,id=3Dcharchannel0,name=3Dvdagent -device
->>     virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,=
-id=3Dchannel0,name=3Dcom.redhat.spice.0
->>     -chardev socket,id=3Dcharchannel1,fd=3D45,server,nowait -device
->>     virtserialport,bus=3Dvirtio-serial0.0,nr=3D2,chardev=3Dcharchannel1,=
-id=3Dchannel1,name=3Dorg.qemu.guest_agent.0
->>     -chardev spiceport,id=3Dcharchannel2,name=3Dorg.spice-space.webdav.0
->>     -device
->>     virtserialport,bus=3Dvirtio-serial0.0,nr=3D3,chardev=3Dcharchannel2,=
-id=3Dchannel2,name=3Dorg.spice-space.webdav.0
->>     -device virtio-tablet-pci,id=3Dinput2,bus=3Dpci.0,addr=3D0x7 -spice
->>     port=3D5900,addr=3D127.0.0.1,disable-ticketing,seamless-migration=3D=
-on
->>     -device
->>     qxl-vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vram64_=
-size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2
->>     -chardev spicevmc,id=3Dcharredir0,name=3Dusbredir -device
->>     usb-redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -cha=
-rdev
->>     spicevmc,id=3Dcharredir1,name=3Dusbredir -device
->>     usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D3 -dev=
-ice
->>     virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x8 -sandbox
->>     on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecon=
-trol=3Ddeny
->>     -msg timestamp=3Don I can provide a core dump of the process if
->>     needed for debugging and the guest XML as well.=20
->>
->> A backtrace is probably a great starting point (from gdb: `thread
->> apply all bt`.) I don't know exactly what codepath is being exercised
->> when you "attach an ISO file" through libvirt's interface. If you
->> don't mind the hassle, trying on the 4.1 (or a development build would
->> be even more luxurious) and giving a stacktrace would be nice.
->>
->>     Thanks. Fernando=20
->>
->> Thanks! --js
->=20
->=20
-
+--000000000000a888720595976322--
 
