@@ -2,58 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D703E198B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:04:31 +0200 (CEST)
-Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A74DE19A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:10:16 +0200 (CEST)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFNO-0001HC-J9
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
+	id 1iNFSx-00067T-FJ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <th.huth@gmail.com>) id 1iNFKb-0008OF-FG
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:01:42 -0400
+ (envelope-from <svens@stackframe.org>) id 1iNFRf-0005EX-0H
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:08:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1iNFKa-0004Nk-1x
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:01:37 -0400
-Received: from mail-wr1-f45.google.com ([209.85.221.45]:41782)
+ (envelope-from <svens@stackframe.org>) id 1iNFRd-0006gR-SK
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:08:54 -0400
+Received: from [2001:470:70c5:1111::170] (port=44125 helo=smtp.duncanthrax.net)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1iNFKZ-0004NM-S2
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:01:36 -0400
-Received: by mail-wr1-f45.google.com with SMTP id p4so21790375wrm.8
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:01:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pZk0MZLQdMzXbJMr9doDgj8waKfXrWSNV2vK14XQpRw=;
- b=je3a15RwBOn5qa0e2N/2JALpp3bm3z6YyNIEovfyswTtiENRkOJ3LGn4ODr7v2adbW
- aFVhhOhyNZdQUjO3jNZVGLl3v1zTM8M8zOnzkw2EEWbvt3amMA/o8Z13qzKbjQBLZxbU
- 4Gy54fl5mcqmEMrMLunoVBCmMvaK0EVg9UaPykMbpPpOOBmXOW/8LRrzEaFGzeuS0sqv
- DgeBVGewHBme7BpgqKp4+TAQ8L1wmoH2x8L2WuVAn9pcMeQyvDyHOYj/MVztYHO/XbZQ
- sx8p4ga8O8I2AA5gs9EOdA5SDJc5/iflBrdGqWaA1VOrBOs4ELounxFoftkJqUeWe9OI
- 09Dw==
-X-Gm-Message-State: APjAAAUvTSrIjGkkqjHKd8Y0VC+ZjMoKdzg/Rr9R3y3CW0Lwl+I9Q7N5
- uOQ55rU4yREahS7pSEt4UPPXGuhE
-X-Google-Smtp-Source: APXvYqwDyLhvXFCGuPBTuAMYlGSte/svhmdQBz7xp6052u0Pm9N5yNbqS1MFnV8uuSaLfShZQYA4iQ==
-X-Received: by 2002:adf:ec0b:: with SMTP id x11mr7764858wrn.107.1571832093633; 
- Wed, 23 Oct 2019 05:01:33 -0700 (PDT)
-Received: from thl530.redhat.com (nat-pool-str-u.redhat.com. [149.14.88.107])
- by smtp.gmail.com with ESMTPSA id
- p7sm19621115wma.34.2019.10.23.05.01.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 05:01:32 -0700 (PDT)
-From: Thomas Huth <huth@tuxfamily.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-options: Rework the help text of the '-display' option
-Date: Wed, 23 Oct 2019 14:01:28 +0200
-Message-Id: <20191023120129.13721-1-huth@tuxfamily.org>
-X-Mailer: git-send-email 2.21.0
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iNFRc-0006av-87
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:08:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
+ bh=C0dHHW8teXUT72ZxMlhpJju4R7xe7/z13dEinZjD/sQ=; b=p6wB/f5cvrHAFz+J5LdIzpSsZa
+ 82r2WP5DpiJqUOn8lJnVO0iaeuSSKzDf0mAILvc5xOuKpbRTNSOPdT0QzHBUWIw3FIicjtNKpbrL7
+ /D728+X5k8loURoNhlC64YzHuBAvLQ+tMXy6qJuta3hO/cDdfFNkfRU8x1PWJeMgNzco=;
+Received: from [2a01:4f8:121:41fa::170] (helo=stackframe.org)
+ by smtp.eurescom.eu with esmtpa (Exim 4.86_2)
+ (envelope-from <svens@stackframe.org>)
+ id 1iNFRU-0004DT-8f; Wed, 23 Oct 2019 14:08:44 +0200
+Date: Wed, 23 Oct 2019 14:08:44 +0200
+From: Sven Schnelle <svens@stackframe.org>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 3/6] ps2: accept 'Set Key Make and Break' commands
+Message-ID: <20191023120844.GA22554@stackframe.org>
+References: <20191022205941.23152-1-svens@stackframe.org>
+ <20191022205941.23152-4-svens@stackframe.org>
+ <c0a0c73a-496f-e6bc-54ce-a6631ef3a81d@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.45
+In-Reply-To: <c0a0c73a-496f-e6bc-54ce-a6631ef3a81d@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:470:70c5:1111::170
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,81 +59,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve the help text of the "-display" option:
+Hi Philippe,
 
-- Only print the options that we have enabled in the binary
-  (similar to what we do for other options like -netdev already)
+On Wed, Oct 23, 2019 at 01:08:35PM +0200, Philippe Mathieu-Daudé wrote:
+> Hi Sven,
+> 
+> (Please Cc reviewers who previously commented your patch)
+>
+> On 10/22/19 10:59 PM, Sven Schnelle wrote:
+> > HP-UX sends both the 'Set key make and break (0xfc) and
+> > 'Set all key typematic make and break' (0xfa). QEMU response
+> > with 'Resend' as it doesn't handle these commands. HP-UX than
+> > reports an PS/2 max retransmission exceeded error. Add these
+> > commands and just reply with ACK.
+> > 
+> > Signed-off-by: Sven Schnelle <svens@stackframe.org>
+> > ---
+> >   hw/input/ps2.c | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+> > index 67f92f6112..0b671b6339 100644
+> > --- a/hw/input/ps2.c
+> > +++ b/hw/input/ps2.c
+> > @@ -49,6 +49,8 @@
+> >   #define KBD_CMD_RESET_DISABLE	0xF5	/* reset and disable scanning */
+> >   #define KBD_CMD_RESET_ENABLE   	0xF6    /* reset and enable scanning */
+> >   #define KBD_CMD_RESET		0xFF	/* Reset */
+> > +#define KBD_CMD_SET_MAKE_BREAK  0xFC    /* Set Make and Break mode */
+> > +#define KBD_CMD_SET_TYPEMATIC   0xFA    /* Set Typematic Make and Break mode */
+> >   /* Keyboard Replies */
+> >   #define KBD_REPLY_POR		0xAA	/* Power on reset */
+> > @@ -573,6 +575,7 @@ void ps2_write_keyboard(void *opaque, int val)
+> >           case KBD_CMD_SCANCODE:
+> >           case KBD_CMD_SET_LEDS:
+> >           case KBD_CMD_SET_RATE:
+> > +        case KBD_CMD_SET_MAKE_BREAK:
+> 
+> OK
+> 
+> >               s->common.write_cmd = val;
+> >               ps2_queue(&s->common, KBD_REPLY_ACK);
+> >               break;
+> > @@ -592,11 +595,18 @@ void ps2_write_keyboard(void *opaque, int val)
+> >                   KBD_REPLY_ACK,
+> >                   KBD_REPLY_POR);
+> >               break;
+> > +        case KBD_CMD_SET_TYPEMATIC:
+> > +            ps2_queue(&s->common, KBD_REPLY_ACK);
+> 
+> I'm not sure, can't this loop?
 
-- The "frame=on|off" from "-display sdl" has been removed in commit
-  09bd7ba9f5f7 ("Remove deprecated -no-frame option"), so we should
-  not show this in the help text anymore
+I don't see how?
 
-- The "-display egl-headless" line was missing a "\n" at the end
+> Can you fold it with the '0x00' case?
 
-- Indent the default display text in a nicer way
+Ok.
 
-Signed-off-by: Thomas Huth <huth@tuxfamily.org>
----
- qemu-options.hx | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+> > +            break;
+> >           default:
+> >               ps2_queue(&s->common, KBD_REPLY_RESEND);
+> >               break;
+> >           }
+> >           break;
+> > +    case KBD_CMD_SET_MAKE_BREAK:
+> 
+> We can reorder this one in the same case with:
+> 
+>     case KBD_CMD_SET_LEDS:
+>     case KBD_CMD_SET_RATE:
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 996b6fba74..917c54b302 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1526,26 +1526,38 @@ STEXI
- ETEXI
- 
- DEF("display", HAS_ARG, QEMU_OPTION_display,
-+#if defined(CONFIG_SPICE)
-     "-display spice-app[,gl=on|off]\n"
--    "-display sdl[,frame=on|off][,alt_grab=on|off][,ctrl_grab=on|off]\n"
-+#endif
-+#if defined(CONFIG_SDL)
-+    "-display sdl[,alt_grab=on|off][,ctrl_grab=on|off]\n"
-     "            [,window_close=on|off][,gl=on|core|es|off]\n"
-+#endif
-+#if defined(CONFIG_GTK)
-     "-display gtk[,grab_on_hover=on|off][,gl=on|off]|\n"
-+#endif
-+#if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-+#endif
-+#if defined(CONFIG_CURSES)
-     "-display curses[,charset=<encoding>]\n"
-+#endif
-+#if defined(CONFIG_OPENGL)
-+    "-display egl-headless[,rendernode=<file>]\n"
-+#endif
-     "-display none\n"
--    "-display egl-headless[,rendernode=<file>]"
--    "                select display type\n"
--    "The default display is equivalent to\n"
-+    "                select display backend type\n"
-+    "                The default display is equivalent to\n                "
- #if defined(CONFIG_GTK)
--            "\t\"-display gtk\"\n"
-+            "\"-display gtk\"\n"
- #elif defined(CONFIG_SDL)
--            "\t\"-display sdl\"\n"
-+            "\"-display sdl\"\n"
- #elif defined(CONFIG_COCOA)
--            "\t\"-display cocoa\"\n"
-+            "\"-display cocoa\"\n"
- #elif defined(CONFIG_VNC)
--            "\t\"-vnc localhost:0,to=99,id=default\"\n"
-+            "\"-vnc localhost:0,to=99,id=default\"\n"
- #else
--            "\t\"-display none\"\n"
-+            "\"-display none\"\n"
- #endif
-     , QEMU_ARCH_ALL)
- STEXI
--- 
-2.21.0
+Ok.
 
+> > +        ps2_queue(&s->common, KBD_REPLY_ACK);
+> > +        s->common.write_cmd = -1;
+> > +        break;
+> >       case KBD_CMD_SCANCODE:
+> >           if (val == 0) {
+> >               if (s->common.queue.count <= PS2_QUEUE_SIZE - 2) {
+> > 
+> 
+
+Regards
+Sven
 
