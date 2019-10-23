@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F198E2348
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:25:49 +0200 (CEST)
-Received: from localhost ([::1]:44922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4DDE24AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:38:50 +0200 (CEST)
+Received: from localhost ([::1]:47306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNMGQ-0000Hb-AJ
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59352)
+	id 1iNNP7-0004kG-0O
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iNKWN-0004bn-KP
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:09 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iNKWS-0004ev-FJ
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iNKWM-000213-Gs
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46173
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iNKWQ-000245-6S
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37824
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iNKWM-0001zx-Bz
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:06 -0400
+ id 1iNKWQ-00023s-3M
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 13:34:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571852041;
+ s=mimecast20190719; t=1571852049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zfAfvfn2NYgPOsG/TtKLv7pUl16aLJ11n4/0NbxENhs=;
- b=Vr626uTbIcpI0FEbhC1N7HaO2oCapaWKWWzKEh8jsccF8mDcbWvUo49ZD+CLqtJpL0UUea
- YEyCW24yC183I6ClVBwrCplEkXlNlvRtcUYLlKenMxvgb54r8kXkHJoOIgdwUVLFWpbOu3
- u0hvUXiL7t7mXD9qp4IDprzD6kFnqbA=
+ bh=SuNuTh9HEsEKkVAfEnTaFjjWEGe/RTOYLDx8IqmZ30E=;
+ b=VOjp/JbQKYDFYYHKV38yhsq5oaMGyzYRwwMzLlWpA0E2EDRNJBk/4xjQqJSX0Ud/zyasVL
+ lNqel2X4iriMuOB+5xKeJvI4vHLsJG1mUSGNQYrwOaWFdsgcKvRPuCkoTFJEcvPnxSSlur
+ SHNgzri24/5l94a0vism6Bj4DbkuigI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-bP8vp91vPQeRl637whQmtw-1; Wed, 23 Oct 2019 13:33:59 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-294-h38LJog8OiuZCqEGQxpX3A-1; Wed, 23 Oct 2019 13:34:06 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F7B6107AD34;
- Wed, 23 Oct 2019 17:33:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D5B800D63;
+ Wed, 23 Oct 2019 17:34:03 +0000 (UTC)
 Received: from localhost (ovpn-112-21.ams2.redhat.com [10.36.112.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E832D6012D;
- Wed, 23 Oct 2019 17:33:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DB775C1D4;
+ Wed, 23 Oct 2019 17:33:58 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/33] serial-mm: add endianness property
-Date: Wed, 23 Oct 2019 19:31:36 +0200
-Message-Id: <20191023173154.30051-16-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 16/33] serial-mm: use sysbus facilities
+Date: Wed, 23 Oct 2019 19:31:37 +0200
+Message-Id: <20191023173154.30051-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20191023173154.30051-1-marcandre.lureau@redhat.com>
 References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: bP8vp91vPQeRl637whQmtw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: h38LJog8OiuZCqEGQxpX3A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,48 +90,86 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a qdev property for endianness, so memory region setup can be done
-in realize.
+Make SerialMM a regular sysbus device, by registering the irq, and the
+mmio region. Reexport the internal serial properties.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/char/serial.c         | 2 ++
- include/hw/char/serial.h | 1 +
- 2 files changed, 3 insertions(+)
+ hw/char/serial.c | 35 ++++++++++++++++++++++++-----------
+ 1 file changed, 24 insertions(+), 11 deletions(-)
 
 diff --git a/hw/char/serial.c b/hw/char/serial.c
-index c28cfc94fd..2f7667c30c 100644
+index 2f7667c30c..a40bc3ab81 100644
 --- a/hw/char/serial.c
 +++ b/hw/char/serial.c
-@@ -1081,6 +1081,7 @@ SerialMM *serial_mm_init(MemoryRegion *address_space,
-     qdev_prop_set_uint32(DEVICE(s), "baudbase", baudbase);
-     qdev_prop_set_chr(DEVICE(s), "chardev", chr);
-     qdev_prop_set_int32(DEVICE(s), "instance-id", base);
-+    qdev_prop_set_uint8(DEVICE(s), "endianness", end);
+@@ -1074,21 +1074,18 @@ SerialMM *serial_mm_init(MemoryRegion *address_spac=
+e,
+                             Chardev *chr, enum device_endian end)
+ {
+     SerialMM *self =3D SERIAL_MM(qdev_create(NULL, TYPE_SERIAL_MM));
+-    SerialState *s =3D &self->serial;
++    MemoryRegion *mr;
 =20
-     qdev_init_nofail(DEVICE(s));
+     qdev_prop_set_uint8(DEVICE(self), "regshift", regshift);
+-    s->irq =3D irq;
+-    qdev_prop_set_uint32(DEVICE(s), "baudbase", baudbase);
+-    qdev_prop_set_chr(DEVICE(s), "chardev", chr);
+-    qdev_prop_set_int32(DEVICE(s), "instance-id", base);
+-    qdev_prop_set_uint8(DEVICE(s), "endianness", end);
+-
+-    qdev_init_nofail(DEVICE(s));
++    qdev_prop_set_uint32(DEVICE(self), "baudbase", baudbase);
++    qdev_prop_set_chr(DEVICE(self), "chardev", chr);
++    qdev_prop_set_int32(DEVICE(self), "instance-id", base);
++    qdev_prop_set_uint8(DEVICE(self), "endianness", end);
      qdev_init_nofail(DEVICE(self));
-@@ -1102,6 +1103,7 @@ static void serial_mm_instance_init(Object *o)
+=20
+-    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], self,
+-                          "serial", 8 << regshift);
+-    memory_region_add_subregion(address_space, base, &s->io);
++    sysbus_connect_irq(SYS_BUS_DEVICE(self), 0, irq);
++    mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(self), 0);
++    memory_region_add_subregion(address_space, base, mr);
+=20
+     return self;
+ }
+@@ -1099,6 +1096,8 @@ static void serial_mm_instance_init(Object *o)
+=20
+     object_initialize_child(o, "serial", &self->serial, sizeof(self->seria=
+l),
+                             TYPE_SERIAL, &error_abort, NULL);
++
++    qdev_alias_all_properties(DEVICE(&self->serial), o);
+ }
 =20
  static Property serial_mm_properties[] =3D {
-     DEFINE_PROP_UINT8("regshift", SerialMM, regshift, 0),
-+    DEFINE_PROP_UINT8("endianness", SerialMM, endianness, DEVICE_NATIVE_EN=
-DIAN),
+@@ -1107,11 +1106,25 @@ static Property serial_mm_properties[] =3D {
      DEFINE_PROP_END_OF_LIST(),
  };
 =20
-diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 759c85976d..2d0802a909 100644
---- a/include/hw/char/serial.h
-+++ b/include/hw/char/serial.h
-@@ -86,6 +86,7 @@ typedef struct SerialMM {
-     SerialState serial;
++static void serial_mm_realize(DeviceState *dev, Error **errp)
++{
++    SerialMM *self =3D SERIAL_MM(dev);
++    SerialState *s =3D &self->serial;
++
++    qdev_init_nofail(DEVICE(s));
++
++    memory_region_init_io(&s->io, NULL, &serial_mm_ops[self->endianness], =
+self,
++                          "serial", 8 << self->regshift);
++    sysbus_init_mmio(SYS_BUS_DEVICE(self), &s->io);
++    sysbus_init_irq(SYS_BUS_DEVICE(self), &self->serial.irq);
++}
++
+ static void serial_mm_class_init(ObjectClass *klass, void* data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
 =20
-     uint8_t regshift;
-+    uint8_t endianness;
- } SerialMM;
+     dc->props =3D serial_mm_properties;
++    dc->realize =3D serial_mm_realize;
+ }
 =20
- extern const VMStateDescription vmstate_serial;
+ static const TypeInfo serial_mm_info =3D {
 --=20
 2.23.0.606.g08da6496b6
 
