@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85398E1944
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:48:08 +0200 (CEST)
-Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD38E1936
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:42:12 +0200 (CEST)
+Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNF7X-000336-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49870)
+	id 1iNF1m-0006Hl-SL
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEXH-00008f-7f
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:10:41 -0400
+ (envelope-from <vkuznets@redhat.com>) id 1iNEdB-0004fz-NU
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:16:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEXF-0005j3-3r
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:10:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53622)
+ (envelope-from <vkuznets@redhat.com>) id 1iNEdA-00012c-Cb
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:16:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEXE-0005ij-Ue
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:10:37 -0400
+ (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1iNEdA-00010v-3a
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:16:44 -0400
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BE6B7C057F31
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:10:35 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id s17so5077943wrp.17
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:10:35 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id A57FD81F01
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:16:41 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id e14so10695902wrm.21
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:16:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VRFiJO6Qlu2vaCinOdmr2MBN1mbX17AzbJs78dTUux4=;
- b=U+aNsjE2nig6OnJVTcIIAa4nG5n4ocJHrq1jXrGqs7T7ZOqefZdXDXfuYEQ1xFvEUL
- uI8y4MRC97qwBkWUx5K7GA6vr6X/IoMOl1nAQcomgoHtVY1OkTZCJQM377O3RVjAA94k
- IRGENdDriL0lF8m+5K7MmJT5ZddyETI/4sn/EY6qGAqkVeLvIXobzJlCod3wfotUcRnt
- u7HzVtsf8tHAjSWZYnv0nk8OePlghVCUTPDp7ecbbappHOnQp6u9ZmiPuN/Ah13CpB3Z
- lgc5aTpTY/HC3/czXj4LDmVRpRCOyR10kyV2NTTVmTRKeTwEDz8UKqBe/IqIUdEQseji
- qINA==
-X-Gm-Message-State: APjAAAUKpj7f1YxZ0RYGIMYT9OIkNJ8XXzes6IhsAXi+ZzFIB0cCzGgU
- TwO9AzKTOLLJjs+zS9XIZOP+NU/epu5EuRFLS82JaPH4tV5bOX3sylPfIEkKENodrCTlO149hg7
- ZblGybYrQLjzoJR8=
-X-Received: by 2002:adf:dbd2:: with SMTP id e18mr7915412wrj.268.1571829034548; 
- Wed, 23 Oct 2019 04:10:34 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwz8T96XwdJfMaaoRIYeAkB00/JTFKTK6RwgASBuSQ/ONnqKz0nZID3fTJg7VhtmJ+/GfZDFw==
-X-Received: by 2002:adf:dbd2:: with SMTP id e18mr7915404wrj.268.1571829034380; 
- Wed, 23 Oct 2019 04:10:34 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id p17sm18022566wrn.4.2019.10.23.04.10.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 04:10:33 -0700 (PDT)
-Subject: Re: [PATCH] buildfix: update texinfo menu
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20191023101956.19120-1-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d88a6ffb-9a58-51b7-c772-f3e646d3bb5f@redhat.com>
-Date: Wed, 23 Oct 2019 13:10:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=fx+Qd1+oKx6AAPNgHaXOu8hmEaI2vLObi6OcuggfHxY=;
+ b=GGJzTqIZMq98zBt3sZ2YWUHst0lxjwrSXMjDcfYSD4nQP8ndqirMqkhfgYI2fG4hvJ
+ pHUGkmy4TTjJbdmWpUMHWSSPUYtDqBIrPPqnIvWTMhgscypvdv5T0HkIXvWR9/djOPbs
+ ZKnp9rhIV6AFPc4QVJM1qyajzvqY98niwYNt9IaIr0IrfZvoGO/W/IwpVd4FWJ6rCY+I
+ PPEft3rclRav/ruh16CJwYygqAJxOA05XZcReiz7wUeDvB8oj1GOxV7ye7JATX/9NIbo
+ /fuiRZr/SeIjnJ5eAzsJrD7CEEZ/t1DlUat+BLkiVzl31oVpDaNrIbiSQaNhGTRHwRAU
+ 9Fhw==
+X-Gm-Message-State: APjAAAVDKC/BBhFLk50KoC5yWRIOJXGC8uSTCpDatLwuJEbarRohbGJo
+ Pa7t0nz8Ulxbdb1eKLKkbnReB7TyYEIQ1ORvhmAvNBh0rAf113qxJkpkvICsOSLLpHwgjJ2nFnQ
+ mlIgq69rUP9mtuZI=
+X-Received: by 2002:a5d:464f:: with SMTP id j15mr7877100wrs.366.1571829400309; 
+ Wed, 23 Oct 2019 04:16:40 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwvPY2Aw54n4lryuHsYi9FIHoD4hmOCmleqPALoYg9D4vAZ4O2bOAmFy3bGx/DXwQJiK52f6Q==
+X-Received: by 2002:a5d:464f:: with SMTP id j15mr7877072wrs.366.1571829399990; 
+ Wed, 23 Oct 2019 04:16:39 -0700 (PDT)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id z9sm21990839wrl.35.2019.10.23.04.16.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 04:16:39 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V
+ enlightenment
+In-Reply-To: <20191021171533.GT4084@habkost.net>
+References: <20191018163908.10246-1-vkuznets@redhat.com>
+ <4d89f852-85bc-8370-5929-848d24b80a6f@redhat.com>
+ <878spe197z.fsf@vitty.brq.redhat.com>
+ <66f1dd30-3e45-4dc6-ba0a-d52e5aae6501@redhat.com>
+ <20191021171533.GT4084@habkost.net>
+Date: Wed, 23 Oct 2019 13:16:38 +0200
+Message-ID: <87k18vzp7t.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191023101956.19120-1-kraxel@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -81,37 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ed trivial@
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-On 10/23/19 12:19 PM, Gerd Hoffmann wrote:
-> Build error message:
-> qemu-doc.texi:34: node `Top' lacks menu item for `Recently removed feat=
-ures' despite being its Up target
->=20
-> Fixes: 3264ffced3d0 ("dirty-bitmaps: remove deprecated autoload paramet=
-er")
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> On Mon, Oct 21, 2019 at 06:26:14PM +0200, Paolo Bonzini wrote:
+>> On 21/10/19 16:09, Vitaly Kuznetsov wrote:
+>> >>> +    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+>> >>> +        env->features[FEAT_HV_RECOMM_EAX] |= HV_NO_NONARCH_CORESHARING;
+>> >>> +    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+>> >> Do you want to make auto the default if "-cpu host,migratable=off"?  It
+>> >> can be done on top so I started queueing this patch.
+>> > Hm, one thing is that CPUID 0x40000004 doesn't exist if no Hyper-V
+>> > enlightenments are passed so we'll probably have to modify your idea to
+>> > "-cpu host,migratable=off,+any-hyperv-enlightenment" but then the
+>> > question is how conservative are we, like if QEMU command line doesn't
+>> > change can new CPUID flags appear or not? And we'll probably need a way
+>> > to explicitly disable HV_NO_NONARCH_CORESHARING if needed.
+>> 
+>> I would defer to Eduardo on whether "migratable=off" would allow adding
+>> new CPUID flags.  The follow-up question however is whether we would
+>> benefit from a "+hyperv" option that enables all known Hyper-V
+>> enlightenment for a given machine type.
+>
+> I'm not sure what "adding new CPUID flags" means exactly, but on
+> both cases, the answer is yes:
+>
+> If you mean having new flags appear with the same QEMU command
+> line, this is 100% OK with "-cpu host".  Doubly so with
+> "migratable=off".  "-cpu host" doesn't guarantee a stable guest
+> ABI, and migratable=off doesn't guarantee the ability to live
+> migrate.
+>
+> If you just mean the ability to write "-cpu
+> host,migratable=off,+some-extra-flag", that's OK too.
+>
+> I would try to make "-cpu host,migratable=off" enable all
+> features out of the box (because users probably expect that).
+> But we you have a compelling reason to not enable the hyperv
+> flags by default (do we?), it's OK to require something like
+> "-cpu host,...,+hyperv".
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+I'm not sure if the reason is compelling enough but I remember some
+Linux tools were only looking at the first hypervisor signature and
+reporting that we're now running on Hyper-V. Also, more features you
+enable larger the atack surface...
 
-> ---
->   qemu-doc.texi | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/qemu-doc.texi b/qemu-doc.texi
-> index 3c5022050f0f..3ddf5c0a6865 100644
-> --- a/qemu-doc.texi
-> +++ b/qemu-doc.texi
-> @@ -44,6 +44,7 @@
->   * Security::
->   * Implementation notes::
->   * Deprecated features::
-> +* Recently removed features::
->   * Supported build platforms::
->   * License::
->   * Index::
->=20
+Actually, we already '-cpu host,hv_passthrough' option which implies
+'migratable=off', not sure if another one is needed.
+
+-- 
+Vitaly
 
