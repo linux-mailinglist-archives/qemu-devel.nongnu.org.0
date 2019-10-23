@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A75E2346
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:24:00 +0200 (CEST)
-Received: from localhost ([::1]:44880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9D9E234A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:27:53 +0200 (CEST)
+Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNMEg-0006Kf-VC
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40047)
+	id 1iNMIR-0002zQ-Mf
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iNLFl-0007ev-1N
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 14:21:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNLHr-0000lH-KN
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 14:23:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iNLFg-0001Ym-8Q
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 14:20:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38838)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iNLFc-0001P0-Cm
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 14:20:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iNLFW-00011Y-TW
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 18:20:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DD87F2E802A
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 18:20:46 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iNLHo-0003dT-6E
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 14:23:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48902)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNLHm-0003ZB-4Q
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 14:23:08 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C9614C04B31E
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 18:23:02 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id z5so6266206wma.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 11:23:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aabKx3Sw58gZ8F5vMUyxedq8mepIjKfbdhzgpSqLYKU=;
+ b=S/lxnJ8HTR3Hr4zGOoMVkuUvUdr9fumPd3fCiq0a90RIfQEak/uMVzwt9S09+BcHVi
+ flkVbWPGODWG+kJR+Umgd6qta9DwneY/Pe6+ichyMniUswSVFsrxI1WCdM0Z0nHtNOYl
+ PZgJlUUQedOdindFDjjYcGPHCwvg46zpAZi1FboogGMN+aMCZcBHMRQWFpbFACrU9FAM
+ dprV/WgZ+CqAti5Es9lM8uMfMEJNKHJ9myx2BYmWuYzUc/EVrbZLzgruRXpfqTLvEIjB
+ PORnxFWzY0GlWvmBHYegjqM7FuiVpdMPs7Gqe7+8vwzzgO2Ika140jKhXxNBojx+vUXK
+ Cj4A==
+X-Gm-Message-State: APjAAAVCrusDI2X15s6fAnqG7O3GmAFFfupYSXEOlMqLIJ40y2ohrgIY
+ 7hyr8d+P1hcuZZrNYrKD9nlrv7BcVj1L/Uk0UtiapkQnQku8hmoteCcSj6FW7BU1hD4YxiehxBD
+ jM20rX3ngfk2M5rc=
+X-Received: by 2002:a5d:53c1:: with SMTP id a1mr66917wrw.243.1571854981556;
+ Wed, 23 Oct 2019 11:23:01 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx62nRFKjGA+3JxwMsNzp8z20yv6BiN2z4HiUFAv0RrZeGa8wI8Ru/Vq+K9DGcRH/HFA3GtDw==
+X-Received: by 2002:a5d:53c1:: with SMTP id a1mr66902wrw.243.1571854981266;
+ Wed, 23 Oct 2019 11:23:01 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id p1sm7211086wmg.11.2019.10.23.11.22.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Oct 2019 11:23:00 -0700 (PDT)
+Subject: Re: [PATCH] cputlb: Fix tlb_vaddr_to_host
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20191023154952.30731-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1aefcc9f-67fe-d4c6-207f-db0de292df27@redhat.com>
+Date: Wed, 23 Oct 2019 20:22:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191023154952.30731-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Oct 2019 18:14:06 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon pmaydell rth
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <150712892432.28170.15132413345734525245.malonedeb@gac.canonical.com>
-Message-Id: <157185444645.29920.1434842458502380844.malone@soybean.canonical.com>
-Subject: [Bug 1721275] Re: Support more ARM CPUs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5b52a2731df6a9d92ef0c296d9cc803d7ebd07d1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,57 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1721275 <1721275@bugs.launchpad.net>
+Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They are implemented, because they also appear in A-profile.
-We just need to set the corresponding MVFR field to enable them.
+On 10/23/19 5:49 PM, Richard Henderson wrote:
+> Using uintptr_t instead of target_ulong meant that, for 64-bit guest
+> and 32-bit host, we truncated the guest address comparator and so may
+> not hit the tlb when we should.
+>=20
+> Fixes: 4811e9095c0
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>=20
+> Fixes aarch64 emulation on arm32 host, after our recent changes
+> to tlb probing.
+>=20
+>=20
+> r~
+>=20
+> ---
+>   accel/tcg/cputlb.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 6f4194df96..5eebddcca8 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1189,7 +1189,7 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_pt=
+r addr,
+>                           MMUAccessType access_type, int mmu_idx)
+>   {
+>       CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
+> -    uintptr_t tlb_addr, page;
+> +    target_ulong tlb_addr, page;
+>       size_t elt_ofs;
+>  =20
+>       switch (access_type) {
+>=20
 
-Setting MVFR2.FPMISC =3D 4 will do the job, I believe.
+Clang catched this with -Wshorten-64-to-32 but there are so many other=20
+warnings to fix that we can not use it :(
 
--- =
+accel/tcg/cputlb.c:620:26: error: implicit conversion loses integer=20
+precision: 'size_t' (aka 'unsigned long') to 'unsigned int'=20
+[-Werror,-Wshorten-64-to-32]
+         unsigned int n =3D tlb_n_entries(env, mmu_idx);
+                      ~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+accel/tcg/cputlb.c:788:13: error: implicit conversion loses integer=20
+precision: 'uintptr_t' (aka 'unsigned long') to 'unsigned int'=20
+[-Werror,-Wshorten-64-to-32]
+     index =3D tlb_index(env, mmu_idx, vaddr_page);
+           ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1721275
+Maybe we could try to clean accel/tcg/ and use it there at least.
 
-Title:
-  Support more ARM CPUs
-
-Status in QEMU:
-  Won't Fix
-
-Bug description:
-  Hi,
-
-  This is an enhancement request, rather than a bug report.
-
-  After some discussions/presentations during the last Linaro Connect
-  (SFO17), I understand that it may be easy to add support for more ARM
-  CPUs in QEMU. I am interested in user-mode, if that matters.
-
-  I'm primarily using QEMU for GCC validations, and I'd like to make
-  sure that GCC doesn't generate instructions not supported by the CPU
-  it's supposed to generate code for.
-
-  I'd like to have:
-  cortex-m0
-  cortex-m4
-  cortex-m7
-  cortex-m23
-  cortex-m33
-
-  cortex-a35
-  cortex-a53
-  cortex-a57
-
-  Is it possible?
-  Is it the right place to ask?
-  Should I file separate requests for each?
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1721275/+subscriptions
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
