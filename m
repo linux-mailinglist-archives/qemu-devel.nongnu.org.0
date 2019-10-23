@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28104E2008
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:59:21 +0200 (CEST)
-Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C54E2020
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 18:06:24 +0200 (CEST)
+Received: from localhost ([::1]:40472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNJ2e-0008Tf-6m
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40997)
+	id 1iNJ9T-0005eb-7T
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 12:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37099)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iNIf0-0002uS-BZ
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:34:55 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iNIHJ-00074R-Tb
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:10:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iNIey-0006ml-OT
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:34:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30674
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jsnow@redhat.com>) id 1iNIHG-00012w-8l
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:10:24 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35051
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iNIey-0006mH-L9
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:34:52 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iNIHA-0000Fo-HK
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:10:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571844892;
+ s=mimecast20190719; t=1571843396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4UwFW3ofKox7TkLynPfP56a/KzXwJNHOHyFU9qW3eZI=;
- b=ND1z+2GytbBq04RVj+phAsyPCXPIb8a6toNxdm3v7vUHDDZwmJZi2x/ibjMuCsTC0z1Bib
- gwXWT8/JajPEeRyGbtja+OVhNoA+vcZQiPTBhzp4rlp186AD0/4dlvSHbYLsdmqYbqy4jO
- rC8a05tTMZS8ih7AjGb0p7gofTMGkZ0=
+ bh=rPUaznNYtzBm5KrK8wc7LG1vLuSqfjA2isVPw47iyfs=;
+ b=bA6ZQkV+Em99a6ClE+ZyTme4uDj0G4BVtwZA78e0WJrscV1TIyHGSikr8uTJ8Vp4ipjO7S
+ ZmmVMDO5/uVKMR3gpZzOBt283nBaoru3zw0DTAA5e36VQiNNc2glqerFsHCOFheKbXRYOI
+ CYDpgaCu0nlwSg09M/th13Lrufq5R8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-u_Nr_UbpMUCWM9h9rh5K4A-1; Wed, 23 Oct 2019 11:34:47 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-47-Kfv2wiRzO_a7pnBt2ZsN9Q-1; Wed, 23 Oct 2019 11:05:50 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72A65107AD35;
- Wed, 23 Oct 2019 15:34:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F36B6801E72;
+ Wed, 23 Oct 2019 15:04:51 +0000 (UTC)
 Received: from [10.10.121.110] (ovpn-121-110.rdu2.redhat.com [10.10.121.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE91F5C1D4;
- Wed, 23 Oct 2019 15:34:45 +0000 (UTC)
-Subject: Re: qemu crashing when attaching an ISO file to a virtio-scsi CD-ROM
- device through libvirt
-To: =?UTF-8?Q?Fernando_Casas_Sch=c3=b6ssow?= <casasfernando@outlook.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <VI1PR03MB481484C08A04458ACA64F7A0A46C0@VI1PR03MB4814.eurprd03.prod.outlook.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96DFC60852;
+ Wed, 23 Oct 2019 15:04:51 +0000 (UTC)
+Subject: Re: [Bug 1848901] [NEW] kvm_mem_ioeventfd_add: error adding
+ ioeventfd: No space left on device (28)
+To: Bug 1848901 <1848901@bugs.launchpad.net>, qemu-devel@nongnu.org
+References: <157153622475.25094.3691269102491613645.malonedeb@chaenomeles.canonical.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -123,21 +122,21 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <dbb363cf-bc3a-6de5-a62a-1467208d0017@redhat.com>
-Date: Wed, 23 Oct 2019 11:34:45 -0400
+Message-ID: <8d4cd62b-c8b2-f9ea-2e67-a2f4ecd357bc@redhat.com>
+Date: Wed, 23 Oct 2019 11:04:51 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <VI1PR03MB481484C08A04458ACA64F7A0A46C0@VI1PR03MB4814.eurprd03.prod.outlook.com>
+In-Reply-To: <157153622475.25094.3691269102491613645.malonedeb@chaenomeles.canonical.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: u_Nr_UbpMUCWM9h9rh5K4A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: Kfv2wiRzO_a7pnBt2ZsN9Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -149,147 +148,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 10/18/19 5:41 PM, Fernando Casas Sch=C3=B6ssow wrote:
-> Hi,
+On 10/19/19 9:50 PM, P.O. wrote:
+> Public bug reported:
+>=20
+> =3D> QEMU process has stopped, return code: -6
+>=20
+> Start QEMU with /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m
+> 2048M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive
+> 'file=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu
+> /7725cdea-5e66-4777-b4dd-
+> c3905f258394/hda_disk.qcow2,if=3Dvirtio,index=3D0,media=3Ddisk,id=3Ddrive=
+0'
+> -uuid 7725cdea-5e66-4777-b4dd-c3905f258394 -serial
+> telnet:127.0.0.1:5000,server,nowait -monitor
+> tcp:127.0.0.1:44629,server,nowait -net none -device
+> e1000,mac=3D0c:7a:1d:83:94:00,netdev=3Dgns3-0 -netdev
+> socket,id=3Dgns3-0,udp=3D127.0.0.1:10001,localaddr=3D127.0.0.1:10000 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:01,netdev=3Dgns3-1 -netdev
+> socket,id=3Dgns3-1,udp=3D127.0.0.1:10003,localaddr=3D127.0.0.1:10002 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:02,netdev=3Dgns3-2 -netdev
+> socket,id=3Dgns3-2,udp=3D127.0.0.1:10005,localaddr=3D127.0.0.1:10004 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:03,netdev=3Dgns3-3 -netdev
+> socket,id=3Dgns3-3,udp=3D127.0.0.1:10007,localaddr=3D127.0.0.1:10006 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:04,netdev=3Dgns3-4 -netdev
+> socket,id=3Dgns3-4,udp=3D127.0.0.1:10009,localaddr=3D127.0.0.1:10008 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:05,netdev=3Dgns3-5 -netdev
+> socket,id=3Dgns3-5,udp=3D127.0.0.1:10011,localaddr=3D127.0.0.1:10010 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:06,netdev=3Dgns3-6 -netdev
+> socket,id=3Dgns3-6,udp=3D127.0.0.1:10013,localaddr=3D127.0.0.1:10012 -dev=
+ice
+> e1000,mac=3D0c:7a:1d:83:94:07,netdev=3Dgns3-7 -netdev
+> socket,id=3Dgns3-7,udp=3D127.0.0.1:10015,localaddr=3D127.0.0.1:10014
+> -nographic
 >=20
 
-Hi! Thanks for the report.
+Reminds me of #1813940 https://bugs.launchpad.net/qemu/+bug/1813940
 
-> Today while working with two different Windows Server 2012 R2 guests I=20
-> found that when I try to attach an ISO file to a SCSI CD-ROM device=20
-> through libvirt (virsh or virt-manager) while the guest is running,=20
-> qemu crashes and the following message is logged:
->=20
-> Assertion failed: blk_get_aio_context(d->conf.blk) =3D=3D s->ctx=20
-> (/home/buildozer/aports/main/qemu/src/qemu-4.0.0/hw/scsi/virtio-scsi.c:=
-=20
-> virtio_scsi_ctx_check: 246)
->=20
-> I can repro this at will. All I have to do is to try to attach an ISO=20
-> file to the SCSI CDROM while the guest is running.
-> The SCSI controller model is virtio-scsi with iothread enabled.
-> Please find below all the details about my setup that I considered=20
-> relevant but I missed something please don't hesitate to let me know:
->=20
+but that fix was in v4.1.0.
 
-Looks like we got aio_context management wrong with iothread for the
-media change events somewhere. Should be easy enough to fix if we figure
-out where the bad assumption is.
-
-> Host arch: x86_64
-> Distro: Alpine Linux 3.10.2
-> qemu version: 4.0
-
-Do you have the ability to try 4.1, or the latest development head with
-debugging symbols enabled?
-
-> Linux kernel version: 4.19.67
-> libvirt: 5.5.0
-> Emulated SCSI controller: virtio-scsi (with iothread enabled)
-> Guest firmware: OVMF-EFI
-> Guest OS: Window Server 2012 R2
-> Guest virtio drivers version: 171 (current stable)
+> =20
+> Execution log:
+> kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device (2=
+8)
 >=20
-> qemu command line:
->=20
-> /usr/bin/qemu-system-x86_64 -name guest=3DDCHOMENET01,debug-threads=3Don =
--S=20
-> -object=20
-> secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-7=
-8-DCHOMENET01/master-key.aes=20
-> -machine pc-i440fx-4.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Don -cpu=20
-> IvyBridge,ss=3Don,vmx=3Doff,pcid=3Don,hypervisor=3Don,arat=3Don,tsc_adjus=
-t=3Don,umip=3Don,xsaveopt=3Don,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0=
-x1fff=20
-> -drive=20
-> file=3D/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd,if=3Dpflash,for=
-mat=3Draw,unit=3D0,readonly=3Don=20
-> -drive=20
-> file=3D/var/lib/libvirt/qemu/nvram/DCHOMENET01_VARS.fd,if=3Dpflash,format=
-=3Draw,unit=3D1=20
-> -m 1536 -overcommit mem-lock=3Doff -smp 1,sockets=3D1,cores=3D1,threads=
-=3D1=20
-> -object iothread,id=3Diothread1 -uuid=20
-> f06978ad-2734-44ab-a518-5dfcf71d625e -no-user-config -nodefaults=20
-> -chardev socket,id=3Dcharmonitor,fd=3D33,server,nowait -mon=20
-> chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc=20
-> base=3Dlocaltime,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay=
-=20
-> -no-hpet -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global=20
-> PIIX4_PM.disable_s4=3D1 -boot strict=3Don -device=20
-> qemu-xhci,id=3Dusb,bus=3Dpci.0,addr=3D0x4 -device=20
-> virtio-scsi-pci,iothread=3Diothread1,id=3Dscsi0,num_queues=3D1,bus=3Dpci.=
-0,addr=3D0x5=20
-> -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x6 -dri=
-ve=20
-> file=3D/storage/storage-hdd-vms/virtual_machines_hdd/dchomenet01.qcow2,fo=
-rmat=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,cache=3Dnone,discard=3Dunmap,=
-aio=3Dthreads=20
-> -device=20
-> scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddrive-s=
-csi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1,write-c=
-ache=3Don=20
-> -drive if=3Dnone,id=3Ddrive-scsi0-0-0-1,readonly=3Don -device=20
-> scsi-cd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Ddrive-s=
-csi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1=20
-> -netdev tap,fd=3D41,id=3Dhostnet0,vhost=3Don,vhostfd=3D43 -device=20
-> virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:99:b5:62,bus=3D=
-pci.0,addr=3D0x3=20
-> -chardev=20
-> socket,id=3Dcharserial0,host=3D127.0.0.1,port=3D4900,telnet,server,nowait=
-=20
-> -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 -chardev=20
-> spicevmc,id=3Dcharchannel0,name=3Dvdagent -device=20
-> virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3D=
-channel0,name=3Dcom.redhat.spice.0=20
-> -chardev socket,id=3Dcharchannel1,fd=3D45,server,nowait -device=20
-> virtserialport,bus=3Dvirtio-serial0.0,nr=3D2,chardev=3Dcharchannel1,id=3D=
-channel1,name=3Dorg.qemu.guest_agent.0=20
-> -chardev spiceport,id=3Dcharchannel2,name=3Dorg.spice-space.webdav.0=20
-> -device=20
-> virtserialport,bus=3Dvirtio-serial0.0,nr=3D3,chardev=3Dcharchannel2,id=3D=
-channel2,name=3Dorg.spice-space.webdav.0=20
-> -device virtio-tablet-pci,id=3Dinput2,bus=3Dpci.0,addr=3D0x7 -spice=20
-> port=3D5900,addr=3D127.0.0.1,disable-ticketing,seamless-migration=3Don=20
-> -device=20
-> qxl-vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vram64_size_=
-mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2=20
-> -chardev spicevmc,id=3Dcharredir0,name=3Dusbredir -device=20
-> usb-redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -chardev=
-=20
-> spicevmc,id=3Dcharredir1,name=3Dusbredir -device=20
-> usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D3 -device=
-=20
-> virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x8 -sandbox=20
-> on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
-=3Ddeny=20
-> -msg timestamp=3Don
->=20
-> I can provide a core dump of the process if needed for debugging and=20
-> the guest XML as well.
->=20
-
-A backtrace is probably a great starting point (from gdb: `thread apply
-all bt`.) I don't know exactly what codepath is being exercised when you
-"attach an ISO file" through libvirt's interface.
-
-If you don't mind the hassle, trying on the 4.1 (or a development build
-would be even more luxurious) and giving a stacktrace would be nice.
-
-> Thanks.
->=20
-> Fernando
+> and then it just closes...
 >=20
 >=20
-
-Thanks!
---js
+> [deemon@Zen ~]$ coredumpctl info 8638
+>            PID: 8638 (qemu-system-x86)
+>            UID: 1000 (deemon)
+>            GID: 1000 (deemon)
+>         Signal: 6 (ABRT)
+>      Timestamp: Sun 2019-10-20 04:27:29 EEST (5min ago)
+>   Command Line: /usr/bin/qemu-system-x86_64 -name CiscoASAv9.8.1-1 -m 204=
+8M -smp cpus=3D1 -enable-kvm -machine smm=3Doff -boot order=3Dc -drive file=
+=3D/home/deemon/GNS3/projects/ASAv my ass/project-files/qemu>
+>     Executable: /usr/bin/qemu-system-x86_64
+>  Control Group: /user.slice/user-1000.slice/session-2.scope
+>           Unit: session-2.scope
+>          Slice: user-1000.slice
+>        Session: 2
+>      Owner UID: 1000 (deemon)
+>        Boot ID: cd30f69a8d194359a31889dc7b6b026c
+>     Machine ID: d0a2d74a5cd9430797d902f5237c448d
+>       Hostname: Zen
+>        Storage: /var/lib/systemd/coredump/core.qemu-system-x86.1000.cd30f=
+69a8d194359a31889dc7b6b026c.8638.1571534849000000.lz4 (truncated)
+>        Message: Process 8638 (qemu-system-x86) of user 1000 dumped core.
+>                =20
+>                 Stack trace of thread 8642:
+>                 #0  0x00007f1a33609f25 n/a (n/a)
+>=20
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+>=20
 
 
