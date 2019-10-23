@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CDDE1481
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:41:22 +0200 (CEST)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115C7E1452
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 10:35:24 +0200 (CEST)
+Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNCCn-0001DP-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48288)
+	id 1iNC70-0005TO-Sr
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 04:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iNBze-0002vF-DN
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:48 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNBzo-00037b-Gf
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iNBzc-0005vZ-6j
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60226
+ (envelope-from <jfreimann@redhat.com>) id 1iNBzn-00065v-EV
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27185
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iNBzc-0005sN-1p
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:44 -0400
+ id 1iNBzn-00065Y-Ak
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 04:27:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571819262;
+ s=mimecast20190719; t=1571819274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kprYC2KPvV+4Y2xOO3jQb8weHZrVvaPaWMGwzcgV3KU=;
- b=fdDQCWAXbzKXU3sibKljPKgVpmx1lpIXC9+sEu3KuEHt+ASoz5iO2m3U0prBwqqljG7IeR
- R8a6ys77FTcjPcwnz+lozbJCb/5jTprU6Zo3Qim9W76yFtRlM7MLo/rmb3tDIOB/843zBu
- 9ihuNvigb1dBHhy3bRF8zLozQiyzVsk=
+ bh=XIilRMF3CC/CW5jbJi+pIxz32bjewuFi7+thsamBRu0=;
+ b=S8c1aB1gyEDUeC6vO4smK6ACGlQSVRd7uX2+Owrp7pVYvkMKmWuFUq5Mz8QK3rH1d6FxA/
+ I196jQiKNk2CIV1RSJ0p1U/eA9lq01GFJgzjAem3nv5TvnRe8s1FZ3gifejVGdsxNuWVqB
+ s7h3veRnIDVxKVLOFWV9vV0nW/H/kcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-W5o8t1UWMzueesezgljQrA-1; Wed, 23 Oct 2019 04:27:39 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-125-HUfEIWybOM-7SSgJFhSAMQ-1; Wed, 23 Oct 2019 04:27:47 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C7441005509;
- Wed, 23 Oct 2019 08:27:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E84DA476;
+ Wed, 23 Oct 2019 08:27:46 +0000 (UTC)
 Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 097205D6C8;
- Wed, 23 Oct 2019 08:27:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA5B95DD78;
+ Wed, 23 Oct 2019 08:27:39 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/11] pci: add option for net failover
-Date: Wed, 23 Oct 2019 10:27:02 +0200
-Message-Id: <20191023082711.16694-3-jfreimann@redhat.com>
+Subject: [PATCH v5 03/11] pci: mark devices partially unplugged
+Date: Wed, 23 Oct 2019 10:27:03 +0200
+Message-Id: <20191023082711.16694-4-jfreimann@redhat.com>
 In-Reply-To: <20191023082711.16694-1-jfreimann@redhat.com>
 References: <20191023082711.16694-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: W5o8t1UWMzueesezgljQrA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: HUfEIWybOM-7SSgJFhSAMQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -78,78 +78,44 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a net_failover_pair_id property to PCIDev which is
-used to link the primary device in a failover pair (the PCI dev) to
-a standby (a virtio-net-pci) device.
-
-It only supports ethernet devices. Also currently it only supports
-PCIe devices. QEMU will exit with an error message otherwise.
+Only the guest unplug request was triggered. This is needed for
+the failover feature. In case of a failed migration we need to
+plug the device back to the guest.
 
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
 ---
- hw/pci/pci.c         | 17 +++++++++++++++++
- include/hw/pci/pci.h |  3 +++
- 2 files changed, 20 insertions(+)
+ hw/pci/pcie.c        | 3 +++
+ include/hw/pci/pci.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index aa05c2b9b2..fa9b5219f8 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -75,6 +75,8 @@ static Property pci_props[] =3D {
-                     QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
-     DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
-                     QEMU_PCIE_EXTCAP_INIT_BITNR, true),
-+    DEFINE_PROP_STRING("net_failover_pair_id", PCIDevice,
-+            net_failover_pair_id),
-     DEFINE_PROP_END_OF_LIST()
- };
-=20
-@@ -2077,6 +2079,7 @@ static void pci_qdev_realize(DeviceState *qdev, Error=
- **errp)
-     ObjectClass *klass =3D OBJECT_CLASS(pc);
-     Error *local_err =3D NULL;
-     bool is_default_rom;
-+    uint16_t class_id;
-=20
-     /* initialize cap_present for pci_is_express() and pci_config_size(),
-      * Note that hybrid PCIs are not set automatically and need to manage
-@@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev, Erro=
-r **errp)
-         }
-     }
-=20
-+    if (pci_dev->net_failover_pair_id) {
-+        if (!pci_is_express(pci_dev)) {
-+            error_setg(errp, "failover device is not a PCIExpress device")=
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index a6beb567bd..19363ff8ce 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -456,6 +456,9 @@ static void pcie_unplug_device(PCIBus *bus, PCIDevice *=
+dev, void *opaque)
+ {
+     HotplugHandler *hotplug_ctrl =3D qdev_get_hotplug_handler(DEVICE(dev))=
 ;
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+        class_id =3D pci_get_word(pci_dev->config + PCI_CLASS_DEVICE);
-+        if (class_id !=3D PCI_CLASS_NETWORK_ETHERNET) {
-+            error_setg(errp, "failover device is not an Ethernet device");
-+            error_propagate(errp, local_err);
-+            return;
-+        }
+=20
++    if (dev->partially_hotplugged) {
++        return;
 +    }
-+
-     /* rom loading */
-     is_default_rom =3D false;
-     if (pci_dev->romfile =3D=3D NULL && pc->romfile !=3D NULL) {
+     hotplug_handler_unplug(hotplug_ctrl, DEVICE(dev), &error_abort);
+     object_unparent(OBJECT(dev));
+ }
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index f3f0ffd5fb..def5435685 100644
+index def5435685..7b7eac845c 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -352,6 +352,9 @@ struct PCIDevice {
-     MSIVectorUseNotifier msix_vector_use_notifier;
-     MSIVectorReleaseNotifier msix_vector_release_notifier;
-     MSIVectorPollNotifier msix_vector_poll_notifier;
-+
-+    /* ID of standby device in net_failover pair */
-+    char *net_failover_pair_id;
- };
+@@ -265,6 +265,7 @@ typedef struct PCIReqIDCache PCIReqIDCache;
 =20
- void pci_register_bar(PCIDevice *pci_dev, int region_num,
+ struct PCIDevice {
+     DeviceState qdev;
++    bool partially_hotplugged;
+=20
+     /* PCI config space */
+     uint8_t *config;
 --=20
 2.21.0
 
