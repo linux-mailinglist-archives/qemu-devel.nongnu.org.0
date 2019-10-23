@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CC1E2357
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 21:35:24 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA21E2485
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 22:22:46 +0200 (CEST)
+Received: from localhost ([::1]:46890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNMPj-0005KK-Ju
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 15:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55095)
+	id 1iNN9Z-0004Hb-HV
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 16:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iNMLM-0001lM-Nj
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:30:54 -0400
+ (envelope-from <jiri@gaisler.se>) id 1iNMis-000224-Er
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:55:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iNMLK-0000aS-Ee
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:30:51 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53640
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jiri@gaisler.se>) id 1iNMiq-0005KC-Qp
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:55:10 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:22983)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iNMLK-0000a8-9x
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:30:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571859049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KnujnO/KuApV2nCDBo9KNNikQGgcgXCIzUPXYlDL3Gc=;
- b=Sfw7v7NIMKx+bV0U1Jw+RXzCtbytK6+EkRqen0TuvYewBwjTWwtF4KQhqn4np9SHg3tO2G
- s6FJfRgHiiV5nej7YOVdnhwwi/K+XUFA7vlCKP9EiA0v5eKxAGNr3GcDGtTeRql2cW78s6
- YtIZRQ/NNEL/DZ5sdClaV/04fL/KGXg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-7dxen6axPvSobGNO5FcdQw-1; Wed, 23 Oct 2019 15:30:45 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0E80107AD31;
- Wed, 23 Oct 2019 19:30:44 +0000 (UTC)
-Received: from localhost (ovpn-116-38.ams2.redhat.com [10.36.116.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E14AB60872;
- Wed, 23 Oct 2019 19:30:37 +0000 (UTC)
-Date: Wed, 23 Oct 2019 21:30:35 +0200
-From: Jens Freimann <jfreimann@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v5 02/11] pci: add option for net failover
-Message-ID: <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
-References: <20191023082711.16694-1-jfreimann@redhat.com>
- <20191023082711.16694-3-jfreimann@redhat.com>
- <20191023120648.57e50ae1@x1.home>
+ (Exim 4.71) (envelope-from <jiri@gaisler.se>) id 1iNMiq-0005Jl-2I
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 15:55:08 -0400
+X-Halon-ID: ec5a13d4-f5ce-11e9-bdc3-005056917a89
+Authorized-sender: jiri@gaisler.se
+Received: from [192.168.9.107] (unknown [92.33.136.219])
+ by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPSA
+ id ec5a13d4-f5ce-11e9-bdc3-005056917a89;
+ Wed, 23 Oct 2019 21:54:31 +0200 (CEST)
+Subject: Re: LEON3 networking
+From: Jiri Gaisler <jiri@gaisler.se>
+To: Joshua Shaffer <joshua.shaffer@astrobotic.com>,
+ Fabien Chouteau <chouteau@adacore.com>
+References: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+ <6bb8abb2-68f0-db85-1557-6e04839b5ea2@redhat.com>
+ <32c38984-e745-de6c-792e-09910b68cedd@adacore.com>
+ <CAPJW7GLOTyjdMozrb+TSnqpEyoiFh2sxZjYkLXx2pz2_J_dPgA@mail.gmail.com>
+ <a6783ce6-eea2-214f-7dbd-7224e830db0b@gaisler.se>
+Message-ID: <2ea63643-5cb2-017e-8889-bb8c77fd75cf@gaisler.se>
+Date: Wed, 23 Oct 2019 21:55:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191023120648.57e50ae1@x1.home>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 7dxen6axPvSobGNO5FcdQw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+In-Reply-To: <a6783ce6-eea2-214f-7dbd-7224e830db0b@gaisler.se>
+Content-Type: multipart/mixed; boundary="------------EA0E40AF1CCD503B17540F97"
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 195.74.38.227
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,133 +56,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- laine@redhat.com, ailan@redhat.com, parav@mellanox.com
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
->On Wed, 23 Oct 2019 10:27:02 +0200
->Jens Freimann <jfreimann@redhat.com> wrote:
+This is a multi-part message in MIME format.
+--------------EA0E40AF1CCD503B17540F97
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+BTW, here is a patch that you might want to apply to qemu if you intend
+to run RTEMS on leon3. The plug&play area must support byte accesses,
+which is used by the RTEMS grlib scanning functions...
+
+Jiri.
+
+On 10/23/19 8:37 PM, Jiri Gaisler wrote:
+> Leon3 uses the GRETH ethernet IP core for networking. You would need to
+> write a qemu emulation model of it to get networking support. The GRETH
+> is fairly well described in the GRLIB IP manual, so it should not be
+> impossible. The core is also available in open-source (VHDL) if you need
+> to look up some finer details ... :-)
 >
->> This patch adds a net_failover_pair_id property to PCIDev which is
->> used to link the primary device in a failover pair (the PCI dev) to
->> a standby (a virtio-net-pci) device.
->>
->> It only supports ethernet devices. Also currently it only supports
->> PCIe devices. QEMU will exit with an error message otherwise.
->>
->> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
->> ---
->>  hw/pci/pci.c         | 17 +++++++++++++++++
->>  include/hw/pci/pci.h |  3 +++
->>  2 files changed, 20 insertions(+)
->>
->> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->> index aa05c2b9b2..fa9b5219f8 100644
->> --- a/hw/pci/pci.c
->> +++ b/hw/pci/pci.c
->> @@ -75,6 +75,8 @@ static Property pci_props[] =3D {
->>                      QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
->>      DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
->>                      QEMU_PCIE_EXTCAP_INIT_BITNR, true),
->> +    DEFINE_PROP_STRING("net_failover_pair_id", PCIDevice,
->> +            net_failover_pair_id),
+> Jiri.
 >
->Nit, white space appears broken here.
-
-I'll fix it.
-
->>      DEFINE_PROP_END_OF_LIST()
->>  };
+> On 10/23/19 6:59 PM, Joshua Shaffer wrote:
+>> Does anyone know what needs implemented to get networking supported?
 >>
->> @@ -2077,6 +2079,7 @@ static void pci_qdev_realize(DeviceState *qdev, Er=
-ror **errp)
->>      ObjectClass *klass =3D OBJECT_CLASS(pc);
->>      Error *local_err =3D NULL;
->>      bool is_default_rom;
->> +    uint16_t class_id;
+>> Joshua
 >>
->>      /* initialize cap_present for pci_is_express() and pci_config_size(=
-),
->>       * Note that hybrid PCIs are not set automatically and need to mana=
-ge
->> @@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev, E=
-rror **errp)
->>          }
->>      }
->>
->> +    if (pci_dev->net_failover_pair_id) {
->> +        if (!pci_is_express(pci_dev)) {
->> +            error_setg(errp, "failover device is not a PCIExpress devic=
-e");
->> +            error_propagate(errp, local_err);
->> +            return;
->> +        }
->
->Did we decide we don't need to test that the device is also in a
->hotpluggable slot? =20
+>> On Wed, Oct 16, 2019 at 6:34 AM Fabien Chouteau <chouteau@adacore.com> wrote:
+>>> Hello people,
+>>>
+>>> On 15/10/2019 18:57, Philippe Mathieu-Daudé wrote:
+>>>> Hi Joshua,
+>>>>
+>>>> On 10/15/19 3:17 PM, Joshua Shaffer wrote:
+>>>>> Hello,
+>>>>>
+>>>>> I've been using the LEON3 port of qemu, and am wondering if anyone has touched the networking setup for such since the thread here: https://lists.rtems.org/pipermail/users/2014-September/028224.html
+>>>> Thanks for sharing this!
+>>>>
+>>>> Good news, Jiri keeps rebasing his patch with the latest stable version.
+>>>> Bad news, he didn't not signed his work with a "Signed-off-by" tag so we can not take this as it into the mainstream repository, see https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
+>>>>
+>>> The Gaisler patches have been rewrote by my colleague Frederic (in CC) and they are now in mainstream.
+>>> (see https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03869.html)
+>>>
+>>> But none of them are implementing network support, and I never heard of someone working on network for leon3.
+>>>
+>>> Regards,
+>>>
 
-Hmm, my reply to you was never sent. I thought the check for
-qdev_device_add() was sufficient but you said that works only
-after qdev_hotplug is set (after machine creation). I modified
-the check to this:
+--------------EA0E40AF1CCD503B17540F97
+Content-Type: text/x-patch;
+ name="qemu-4.1.0-leon3.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="qemu-4.1.0-leon3.patch"
 
-    hide =3D should_hide_device(opts);                                     =
-                                =20
-                                                                           =
-                              =20
-    if ((hide || qdev_hotplug) && bus && !qbus_is_hotpluggable(bus)) {     =
-                              =20
-        error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);                  =
-                              =20
-        return NULL;                                                       =
-                              =20
-    }                                                                      =
-                              =20
-                                                                           =
-                              =20
-    if (hide) {                                                            =
-                              =20
-        return NULL;                                                       =
-                              =20
-    }
+diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index 7338461694..eaaedbfbcc 100644
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -228,6 +228,9 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     APBPnp *apb_pnp = GRLIB_APB_PNP(opaque);
+ 
++    if (size != 4)
++        return apb_pnp->regs[offset >> 2] >> ((~offset & 3) * 8);
++
+     return apb_pnp->regs[offset >> 2];
+ }
+ 
 
-This will make qemu fail when we have the device in the initial
-configuration or when we hotplug it to a bus that doesn't support it.
-I tested both with a device on pcie.0. Am I missing something?=20
-
->Are there also multi-function considerations that
->should be prevented or documented?  For example, if a user tries to
->configure both the primary and failover NICs in the same slot, I assume
->bad things will happen.
-
-  I would have expected that this is already checked in pci code, but
-it is not. I tried it and when I put both devices into the same slot
-they are both unplugged from the guest during boot but nothing else
-happens. I don't know what triggers that unplug of the devices.
-
-I'm not aware of any other problems regarding multi-function, which
-doesn't mean there aren't any.=20
-
->
->> +        class_id =3D pci_get_word(pci_dev->config + PCI_CLASS_DEVICE);
->> +        if (class_id !=3D PCI_CLASS_NETWORK_ETHERNET) {
->> +            error_setg(errp, "failover device is not an Ethernet device=
-");
->> +            error_propagate(errp, local_err);
->> +            return;
->> +        }
->> +    }
->
->Looks like cleanup is missing both both error cases, the option rom
->error path below this does a pci_qdev_unrealize() before returning so
->I'd assume we want the same here.  Thanks,
-
-Thanks, I'll fix this too.
-
-regards,
-Jens=20
-
+--------------EA0E40AF1CCD503B17540F97--
 
