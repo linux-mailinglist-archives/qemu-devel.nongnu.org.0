@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643B8E1F81
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:38:56 +0200 (CEST)
-Received: from localhost ([::1]:39644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BECE2000
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:57:16 +0200 (CEST)
+Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNIit-0005k5-7j
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35245)
+	id 1iNJ0d-00066b-Gk
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNI8u-00089G-AX
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:52 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1iNIBc-00023n-1B
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:04:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNI8r-0001Ff-Ca
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:43 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:39581)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNI8r-0001CZ-2a
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:41 -0400
-Received: by mail-qk1-x742.google.com with SMTP id 4so20038632qki.6
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:01:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xYzA79nlkAAXT+tYBTRBvIlOCILLFnnuEHFTBSl+bu8=;
- b=ZivIxCUwhBahdfwsD+jB9v9enkTyy4s1h8QmliJq3nU6rG7z0ArOqafJwiMOzZVcO3
- JnKE1LAj5rVNTUbPS1nwgEZvlGE/ERU3ygD6/9+zTRcQCEf1xUKX5nbbnx9TgtUp0bac
- Wly9VPhtukbkXDeaVg9AjGRl9YkOfRNNJJHvqBhsDExHkmDaa1iqKU/05zzu08zupMAA
- BIDnToG4ihtrYzYPTslSlFN6xKD51r8b7ae5xEhShXjNseBedcLkfwW+z+0jA3JmvmKo
- pCDB6Vq2lT1lgz9lFzumAb+e2a+W8IGMzHy6s9FOpDcd4HgpJa9sGRwI+rQ3E5shXVcX
- FoyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xYzA79nlkAAXT+tYBTRBvIlOCILLFnnuEHFTBSl+bu8=;
- b=AbkA8dNMEm6USSf6la+Z7RJeIl/zZJMy/4Z0JEJJ0zOnARgF/ycXlH3FOC9SBGKYVU
- bEzOQUXAh4LmuiEkUWHjCRoZsDbaNIRnTv5l/xXAyC82ggHlzJI8bSNXqjCzAWIgjedU
- oYD8XSASCmi1fNnOV50L+F7zBcUbxiOByWlrgeUBE13awQjXwxSVBGk/kynA6L20+S24
- vE7gG3rhBf2v5d8GYE+hWTTME8RWWj+5tW9jrqWevO3veMUVCP2nWNZAJ3VhHUCOStp+
- VkoosrGjOjdVw/7KMFWBV9zgmE8xoWbxaQNuYwEVmWAv1+1fQjaMtKyZjlY5dxJo4ezR
- LYJw==
-X-Gm-Message-State: APjAAAUb7bSY3qbzBOgivcraaMTeA8UoGrC+5Z+XNz2byowmw7cJ2huf
- zFAXjYd84VlIBeAxs+WLJOXsttCqIDA=
-X-Google-Smtp-Source: APXvYqyrEX+iVc67UgrQRraWRhosEPAngw2m6XlEIcYJ1njJhORgHSa4En49LmxiwB5vJ30i39Q1Uw==
-X-Received: by 2002:a37:684c:: with SMTP id d73mr8797940qkc.176.1571842895829; 
- Wed, 23 Oct 2019 08:01:35 -0700 (PDT)
-Received: from localhost.localdomain (198-4-20-64.static.cosmoweb.net.
- [64.20.4.198])
- by smtp.gmail.com with ESMTPSA id l189sm11030168qke.69.2019.10.23.08.01.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 08:01:34 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 24/24] target/arm: Rely on hflags correct in
- cpu_get_tb_cpu_state
-Date: Wed, 23 Oct 2019 11:00:57 -0400
-Message-Id: <20191023150057.25731-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191023150057.25731-1-richard.henderson@linaro.org>
-References: <20191023150057.25731-1-richard.henderson@linaro.org>
+ (envelope-from <eric.auger@redhat.com>) id 1iNIBZ-0002KM-UP
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:04:31 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24892
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iNIBR-0002Fq-Ui
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:04:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571843057;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mGhSLOC6lp8DfM87wfF4c97GxCTzK/qwdM3fXdWSZ4o=;
+ b=RYEx7qYAklb269KlEaG8BZr1bjwBDJTNclSuisf3u0/mH2AUhbndmWiTJ76m8hh0efuAvJ
+ FeTdRu55PhvlEqtEJ567HqgJufFdixbliO8jp+ePfFHf/A7u9FNgtY7I69GYFg57WZfjlC
+ xd0Nyxfyoq2louyckcfOmDZa2VjYnV4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-140-yjOOmm2nO7a4IkaM1HINHg-1; Wed, 23 Oct 2019 11:04:15 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3937E107AD33;
+ Wed, 23 Oct 2019 15:03:14 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-117-28.ams2.redhat.com [10.36.117.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97D5B5D70E;
+ Wed, 23 Oct 2019 15:02:51 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, quintela@redhat.com
+Subject: [PATCH v5] migration: Support QLIST migration
+Date: Wed, 23 Oct 2019 17:02:37 +0200
+Message-Id: <20191023150237.17324-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: yjOOmm2nO7a4IkaM1HINHg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,84 +69,444 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the payoff.
+Support QLIST migration using the same principle as QTAILQ:
+94869d5c52 ("migration: migrate QTAILQ").
 
-From perf record -g data of ubuntu 18 boot and shutdown:
+The VMSTATE_QLIST_V macro has the same proto as VMSTATE_QTAILQ_V.
+The change mainly resides in QLIST RAW macros: QLIST_RAW_INSERT_HEAD
+and QLIST_RAW_REVERSE.
 
-BEFORE:
+Tests also are provided.
 
--   23.02%     2.82%  qemu-system-aar  [.] helper_lookup_tb_ptr
-   - 20.22% helper_lookup_tb_ptr
-      + 10.05% tb_htable_lookup
-      - 9.13% cpu_get_tb_cpu_state
-           3.20% aa64_va_parameters_both
-           0.55% fp_exception_el
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
--   11.66%     4.74%  qemu-system-aar  [.] cpu_get_tb_cpu_state
-   - 6.96% cpu_get_tb_cpu_state
-        3.63% aa64_va_parameters_both
-        0.60% fp_exception_el
-        0.53% sve_exception_el
-
-AFTER:
-
--   16.40%     3.40%  qemu-system-aar  [.] helper_lookup_tb_ptr
-   - 13.03% helper_lookup_tb_ptr
-      + 11.19% tb_htable_lookup
-        0.55% cpu_get_tb_cpu_state
-
-     0.98%     0.71%  qemu-system-aar  [.] cpu_get_tb_cpu_state
-
-     0.87%     0.24%  qemu-system-aar  [.] rebuild_hflags_a64
-
-Before, helper_lookup_tb_ptr is the second hottest function in the
-application, consuming almost a quarter of the runtime.  Within the
-entire execution, cpu_get_tb_cpu_state consumes about 12%.
-
-After, helper_lookup_tb_ptr has dropped to the fourth hottest function,
-with consumption dropping to a sixth of the runtime.  Within the
-entire execution, cpu_get_tb_cpu_state has dropped below 1%, and the
-supporting function to rebuild hflags also consumes about 1%.
-
-Assertions are retained for --enable-debug-tcg.
-
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Retain asserts for future debugging.
----
- target/arm/helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c55783e540..63815fc4cf 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11259,12 +11259,15 @@ void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
- void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                           target_ulong *cs_base, uint32_t *pflags)
- {
--    uint32_t flags, pstate_for_ss;
-+    uint32_t flags = env->hflags;
-+    uint32_t pstate_for_ss;
- 
-     *cs_base = 0;
--    flags = rebuild_hflags_internal(env);
-+#ifdef CONFIG_DEBUG_TCG
-+    assert(flags == rebuild_hflags_internal(env));
-+#endif
- 
--    if (is_a64(env)) {
-+    if (FIELD_EX32(flags, TBFLAG_ANY, AARCH64_STATE)) {
-         *pc = env->pc;
-         if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-             flags = FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
--- 
-2.17.1
+v4 -> v5:
+- fix indent issue and previous assignment (Peter)
+- add Juan's R-b
+
+v3 -> v4:
+- replace QLIST_RAW_INSERT_TAIL by QLIST_RAW_INSERT_HEAD and
+  QLIST_RAW_REVERSE as suggested by Juan
+
+v2 -> v3:
+- remove 2 spurious changes in gtree tests
+
+v1 -> v2:
+- rebase on top of gtree addition
+- add trace points
+- add g_free on error
+---
+ include/migration/vmstate.h |  21 ++++++
+ include/qemu/queue.h        |  39 +++++++++++
+ migration/trace-events      |   5 ++
+ migration/vmstate-types.c   |  70 +++++++++++++++++++
+ tests/test-vmstate.c        | 133 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 268 insertions(+)
+
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index b9ee563aa4..ea2f1f4749 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -225,6 +225,7 @@ extern const VMStateInfo vmstate_info_tmp;
+ extern const VMStateInfo vmstate_info_bitmap;
+ extern const VMStateInfo vmstate_info_qtailq;
+ extern const VMStateInfo vmstate_info_gtree;
++extern const VMStateInfo vmstate_info_qlist;
+=20
+ #define type_check_2darray(t1,t2,n,m) ((t1(*)[n][m])0 - (t2*)0)
+ /*
+@@ -794,6 +795,26 @@ extern const VMStateInfo vmstate_info_gtree;
+     .offset       =3D offsetof(_state, _field),                           =
+       \
+ }
+=20
++/*
++ * For migrating a QLIST
++ * Target QLIST needs be properly initialized.
++ * _type: type of QLIST element
++ * _next: name of QLIST_ENTRY entry field in QLIST element
++ * _vmsd: VMSD for QLIST element
++ * size: size of QLIST element
++ * start: offset of QLIST_ENTRY in QTAILQ element
++ */
++#define VMSTATE_QLIST_V(_field, _state, _version, _vmsd, _type, _next)  \
++{                                                                        \
++    .name         =3D (stringify(_field)),                                =
+ \
++    .version_id   =3D (_version),                                         =
+ \
++    .vmsd         =3D &(_vmsd),                                           =
+ \
++    .size         =3D sizeof(_type),                                      =
+ \
++    .info         =3D &vmstate_info_qlist,                                =
+ \
++    .offset       =3D offsetof(_state, _field),                           =
+ \
++    .start        =3D offsetof(_type, _next),                             =
+ \
++}
++
+ /* _f : field name
+    _f_n : num of elements field_name
+    _n : num of elements
+diff --git a/include/qemu/queue.h b/include/qemu/queue.h
+index 73bf4a984d..c82c7fe447 100644
+--- a/include/qemu/queue.h
++++ b/include/qemu/queue.h
+@@ -491,4 +491,43 @@ union {                                               =
+                  \
+         QTAILQ_RAW_TQH_CIRC(head)->tql_prev =3D QTAILQ_RAW_TQE_CIRC(elm, e=
+ntry);  \
+ } while (/*CONSTCOND*/0)
+=20
++#define QLIST_RAW_FIRST(head)                                             =
+     \
++        field_at_offset(head, 0, void *)
++
++#define QLIST_RAW_NEXT(elm, entry)                                        =
+     \
++        field_at_offset(elm, entry, void *)
++
++#define QLIST_RAW_PREVIOUS(elm, entry)                                    =
+     \
++        field_at_offset(elm, entry + sizeof(void *), void *)
++
++#define QLIST_RAW_FOREACH(elm, head, entry)                               =
+     \
++        for ((elm) =3D *QLIST_RAW_FIRST(head);                            =
+       \
++             (elm);                                                       =
+     \
++             (elm) =3D *QLIST_RAW_NEXT(elm, entry))
++
++#define QLIST_RAW_INSERT_HEAD(head, elm, entry) do {                      =
+     \
++        void *first =3D *QLIST_RAW_FIRST(head);                           =
+       \
++        *QLIST_RAW_FIRST(head) =3D elm;                                   =
+       \
++        *QLIST_RAW_PREVIOUS(elm, entry) =3D head;                         =
+       \
++        if (first) {                                                      =
+     \
++            *QLIST_RAW_PREVIOUS(first, entry) =3D elm;                    =
+       \
++            *QLIST_RAW_NEXT(elm, entry) =3D first;                        =
+       \
++        } else {                                                          =
+     \
++            *QLIST_RAW_NEXT(elm, entry) =3D NULL;                         =
+       \
++        }                                                                 =
+     \
++} while (0)
++
++#define QLIST_RAW_REVERSE(head, elm, entry) do {                          =
+     \
++        void *iter =3D *QLIST_RAW_FIRST(head), *prev =3D NULL, *next;     =
+         \
++        while (iter) {                                                    =
+     \
++            next =3D *QLIST_RAW_NEXT(iter, entry);                        =
+       \
++            *QLIST_RAW_PREVIOUS(iter, entry) =3D next;                    =
+       \
++            *QLIST_RAW_NEXT(iter, entry) =3D prev;                        =
+       \
++            prev =3D iter;                                                =
+       \
++            iter =3D next;                                                =
+       \
++        }                                                                 =
+     \
++        *QLIST_RAW_FIRST(head) =3D prev;                                  =
+       \
++        *QLIST_RAW_PREVIOUS(prev, entry) =3D head;                        =
+       \
++} while (0)
++
+ #endif /* QEMU_SYS_QUEUE_H */
+diff --git a/migration/trace-events b/migration/trace-events
+index 6dee7b5389..e0a33cffca 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -76,6 +76,11 @@ get_gtree_end(const char *field_name, const char *key_vm=
+sd_name, const char *val
+ put_gtree(const char *field_name, const char *key_vmsd_name, const char *v=
+al_vmsd_name, uint32_t nnodes) "%s(%s/%s) nnodes=3D%d"
+ put_gtree_end(const char *field_name, const char *key_vmsd_name, const cha=
+r *val_vmsd_name, int ret) "%s(%s/%s) %d"
+=20
++get_qlist(const char *field_name, const char *vmsd_name, int version_id) "=
+%s(%s v%d)"
++get_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
++put_qlist(const char *field_name, const char *vmsd_name, int version_id) "=
+%s(%s v%d)"
++put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
++
+ # qemu-file.c
+ qemu_file_fclose(void) ""
+=20
+diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
+index 7236cf92bc..1eee36773a 100644
+--- a/migration/vmstate-types.c
++++ b/migration/vmstate-types.c
+@@ -843,3 +843,73 @@ const VMStateInfo vmstate_info_gtree =3D {
+     .get  =3D get_gtree,
+     .put  =3D put_gtree,
+ };
++
++static int put_qlist(QEMUFile *f, void *pv, size_t unused_size,
++                     const VMStateField *field, QJSON *vmdesc)
++{
++    const VMStateDescription *vmsd =3D field->vmsd;
++    /* offset of the QTAILQ entry in a QTAILQ element*/
++    size_t entry_offset =3D field->start;
++    void *elm;
++    int ret;
++
++    trace_put_qlist(field->name, vmsd->name, vmsd->version_id);
++    QLIST_RAW_FOREACH(elm, pv, entry_offset) {
++        qemu_put_byte(f, true);
++        ret =3D vmstate_save_state(f, vmsd, elm, vmdesc);
++        if (ret) {
++            error_report("%s: failed to save %s (%d)", field->name,
++                         vmsd->name, ret);
++            return ret;
++        }
++    }
++    qemu_put_byte(f, false);
++    trace_put_qlist_end(field->name, vmsd->name);
++
++    return 0;
++}
++
++static int get_qlist(QEMUFile *f, void *pv, size_t unused_size,
++                     const VMStateField *field)
++{
++    int ret =3D 0;
++    const VMStateDescription *vmsd =3D field->vmsd;
++    /* size of a QLIST element */
++    size_t size =3D field->size;
++    /* offset of the QLIST entry in a QLIST element */
++    size_t entry_offset =3D field->start;
++    int version_id =3D field->version_id;
++    void *elm;
++
++    trace_get_qlist(field->name, vmsd->name, vmsd->version_id);
++    if (version_id > vmsd->version_id) {
++        error_report("%s %s",  vmsd->name, "too new");
++        return -EINVAL;
++    }
++    if (version_id < vmsd->minimum_version_id) {
++        error_report("%s %s",  vmsd->name, "too old");
++        return -EINVAL;
++    }
++
++    while (qemu_get_byte(f)) {
++        elm =3D g_malloc(size);
++        ret =3D vmstate_load_state(f, vmsd, elm, version_id);
++        if (ret) {
++            error_report("%s: failed to load %s (%d)", field->name,
++                         vmsd->name, ret);
++            g_free(elm);
++            return ret;
++        }
++        QLIST_RAW_INSERT_HEAD(pv, elm, entry_offset);
++    }
++    QLIST_RAW_REVERSE(pv, elm, entry_offset);
++    trace_get_qlist_end(field->name, vmsd->name);
++
++    return ret;
++}
++
++const VMStateInfo vmstate_info_qlist =3D {
++    .name =3D "qlist",
++    .get  =3D get_qlist,
++    .put  =3D put_qlist,
++};
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index 1e5be1d4ff..22161bb34f 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -926,6 +926,28 @@ static const VMStateDescription vmstate_domain =3D {
+     }
+ };
+=20
++/* test QLIST Migration */
++
++typedef struct TestQListElement {
++    uint32_t  id;
++    QLIST_ENTRY(TestQListElement) next;
++} TestQListElement;
++
++typedef struct TestQListContainer {
++    uint32_t  id;
++    QLIST_HEAD(, TestQListElement) list;
++} TestQListContainer;
++
++static const VMStateDescription vmstate_qlist_element =3D {
++    .name =3D "test/queue list",
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT32(id, TestQListElement),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_iommu =3D {
+     .name =3D "iommu",
+     .version_id =3D 1,
+@@ -939,6 +961,18 @@ static const VMStateDescription vmstate_iommu =3D {
+     }
+ };
+=20
++static const VMStateDescription vmstate_container =3D {
++    .name =3D "test/container/qlist",
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT32(id, TestQListContainer),
++        VMSTATE_QLIST_V(list, TestQListContainer, 1, vmstate_qlist_element=
+,
++                        TestQListElement, next),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ uint8_t first_domain_dump[] =3D {
+     /* id */
+     0x00, 0x0, 0x0, 0x6,
+@@ -1229,6 +1263,103 @@ static void test_gtree_load_iommu(void)
+     qemu_fclose(fload);
+ }
+=20
++static uint8_t qlist_dump[] =3D {
++    0x00, 0x00, 0x00, 0x01, /* container id */
++    0x1, /* start of a */
++    0x00, 0x00, 0x00, 0x0a,
++    0x1, /* start of b */
++    0x00, 0x00, 0x0b, 0x00,
++    0x1, /* start of c */
++    0x00, 0x0c, 0x00, 0x00,
++    0x1, /* start of d */
++    0x0d, 0x00, 0x00, 0x00,
++    0x0, /* end of list */
++    QEMU_VM_EOF, /* just to ensure we won't get EOF reported prematurely *=
+/
++};
++
++static TestQListContainer *alloc_container(void)
++{
++    TestQListElement *a =3D g_malloc(sizeof(TestQListElement));
++    TestQListElement *b =3D g_malloc(sizeof(TestQListElement));
++    TestQListElement *c =3D g_malloc(sizeof(TestQListElement));
++    TestQListElement *d =3D g_malloc(sizeof(TestQListElement));
++    TestQListContainer *container =3D g_malloc(sizeof(TestQListContainer))=
+;
++
++    a->id =3D 0x0a;
++    b->id =3D 0x0b00;
++    c->id =3D 0xc0000;
++    d->id =3D 0xd000000;
++    container->id =3D 1;
++
++    QLIST_INIT(&container->list);
++    QLIST_INSERT_HEAD(&container->list, d, next);
++    QLIST_INSERT_HEAD(&container->list, c, next);
++    QLIST_INSERT_HEAD(&container->list, b, next);
++    QLIST_INSERT_HEAD(&container->list, a, next);
++    return container;
++}
++
++static void free_container(TestQListContainer *container)
++{
++    TestQListElement *iter, *tmp;
++
++    QLIST_FOREACH_SAFE(iter, &container->list, next, tmp) {
++        QLIST_REMOVE(iter, next);
++        g_free(iter);
++    }
++    g_free(container);
++}
++
++static void compare_containers(TestQListContainer *c1, TestQListContainer =
+*c2)
++{
++    TestQListElement *first_item_c1, *first_item_c2;
++
++    while (!QLIST_EMPTY(&c1->list)) {
++        first_item_c1 =3D QLIST_FIRST(&c1->list);
++        first_item_c2 =3D QLIST_FIRST(&c2->list);
++        assert(first_item_c2);
++        assert(first_item_c1->id =3D=3D first_item_c2->id);
++        QLIST_REMOVE(first_item_c1, next);
++        QLIST_REMOVE(first_item_c2, next);
++        g_free(first_item_c1);
++        g_free(first_item_c2);
++    }
++    assert(QLIST_EMPTY(&c2->list));
++}
++
++static void test_save_qlist(void)
++{
++    TestQListContainer *container =3D alloc_container();
++
++    save_vmstate(&vmstate_container, container);
++    compare_vmstate(qlist_dump, sizeof(qlist_dump));
++    free_container(container);
++}
++
++static void test_load_qlist(void)
++{
++    QEMUFile *fsave, *fload;
++    TestQListContainer *orig_container =3D alloc_container();
++    TestQListContainer *dest_container =3D g_malloc0(sizeof(TestQListConta=
+iner));
++    char eof;
++
++    QLIST_INIT(&dest_container->list);
++
++    fsave =3D open_test_file(true);
++    qemu_put_buffer(fsave, qlist_dump, sizeof(qlist_dump));
++    g_assert(!qemu_file_get_error(fsave));
++    qemu_fclose(fsave);
++
++    fload =3D open_test_file(false);
++    vmstate_load_state(fload, &vmstate_container, dest_container, 1);
++    eof =3D qemu_get_byte(fload);
++    g_assert(!qemu_file_get_error(fload));
++    g_assert_cmpint(eof, =3D=3D, QEMU_VM_EOF);
++    compare_containers(orig_container, dest_container);
++    free_container(orig_container);
++    free_container(dest_container);
++}
++
+ typedef struct TmpTestStruct {
+     TestStruct *parent;
+     int64_t diff;
+@@ -1353,6 +1484,8 @@ int main(int argc, char **argv)
+     g_test_add_func("/vmstate/gtree/load/loaddomain", test_gtree_load_doma=
+in);
+     g_test_add_func("/vmstate/gtree/save/saveiommu", test_gtree_save_iommu=
+);
+     g_test_add_func("/vmstate/gtree/load/loadiommu", test_gtree_load_iommu=
+);
++    g_test_add_func("/vmstate/qlist/save/saveqlist", test_save_qlist);
++    g_test_add_func("/vmstate/qlist/load/loadqlist", test_load_qlist);
+     g_test_add_func("/vmstate/tmp_struct", test_tmp_struct);
+     g_test_run();
+=20
+--=20
+2.20.1
 
 
