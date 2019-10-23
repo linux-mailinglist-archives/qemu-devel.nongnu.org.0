@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F6E1ACD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:37:55 +0200 (CEST)
-Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC8AE1AEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:41:28 +0200 (CEST)
+Received: from localhost ([::1]:34940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFti-00026I-Js
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35577)
+	id 1iNFx9-0005Sh-8G
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:41:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36369)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNFof-0006yq-2i
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:32:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNFue-0004JA-Sv
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:38:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNFod-00029F-P4
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:32:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45163
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNFod-00028n-LH
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:32:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571833959;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/m7/secoBFmHtG+lhTVngcjPLIOZgYH4Vrn09+sL2e8=;
- b=VLiE56tJZ8iZJHZave+jtR1Zz85iEwXpx9xTzQVJ1QFn5cTf4zcsHCH1Zy9VllmDuEHth0
- cM2YzBE4Wljf3HHIgnjSBTOSp/YvRvF9jf8H3cH2w6kNvWqC3VKTKwH5PgUpDy/OGFlkIX
- RxTqWnBnfKyiIh4CZbc5ydDQUxLYm8E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-TYbvdqOoMkWoEHtM2I0RiQ-1; Wed, 23 Oct 2019 08:32:37 -0400
-Received: by mail-wm1-f71.google.com with SMTP id o8so8761448wmc.2
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:32:37 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNFud-00072j-Kv
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:38:52 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33145)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNFud-00070o-F0
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:38:51 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 60so17248564otu.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=oDYgoZDmDppPYehkm5+0JwhEyXj0b0nG8wIDLW33I4U=;
+ b=GHe5zfTgZ3RlldE9jn8BrAKhwQzc2eS+4xuO08FWG+I7tFs7VTbZUTC2B3ARIFqOvZ
+ F+F7qRoCbCn5QTeNl5SuywgFM+Aq28zjzg2iAjePfvjJ2qjFByZojJ9D2eMWlghP2IaZ
+ 85qRedz1zrjLRJvsVP+RP5zXbIdfEOo4RB5p9s2T6tbvYkTprsU9lrb/3h9mJgU9o0tG
+ iW1INthHSkkXLUH2W11WfS11faakbQHIQjNv28axfRVqTBTCk/MR3VSSpitXW8ZVU+V8
+ oGeN2PWPf/L7/FU1HL8uhNM7jVu3XspDLwW0ERy+mSOS8FpKEB9txLoNLho1aVwLH4bY
+ n04w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=khzsXHxphTt5lF3JUkT+BVbSWLmqvJ1qAycv7xALohw=;
- b=txqHqVKemOL5bEfh2D39ZiF1GlYoIqga7W378BU0iZ5+nomreogy/SVZpX2w+5/Uym
- myhI0gL/0dKUmmx5ZXOx6XP+c0mtavh31SPs2l4bczgkykR5mJcxOmACFFU5O15vrqWg
- FWLQkf8LDOy7C8gcKTHao0FJAQ3dCs/KFNBXZHh1wsNnnx14kZJH1Vi6y1FESKrQg/jm
- DW6A6khtYn5uBU3Nn/hNkpQEeorXtPkHJkmkSdagFdBX0VMqKEG7J9cVyXhicwI96Sdj
- 5YQbdyj/JBXFtaGiPKDaQhDVqewpnGlWn59NnXD9BpMohNVkLvTRE+EM3VD6g0MZQ1VV
- BqJA==
-X-Gm-Message-State: APjAAAV0xC0bp1fmAo06is83XSW89rGMnm2GOwjEaWdotCJJvbRvKo0U
- D4z0b/T3la4w7c7A00hv18sVA8b8/qP7bF3t0k38yVrbvjBRDcMHUNbh3NpEbGSP+2R4l5EppaO
- ZQVLVCB0VBL/FPHA=
-X-Received: by 2002:adf:e2cc:: with SMTP id d12mr8410023wrj.345.1571833956406; 
- Wed, 23 Oct 2019 05:32:36 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw2ZM4S1KEY8/Zi3X0Q0uBsYApbjk0Z3NZsE+vRvMnhyj1maLHCN8RNSY9/mPZuSbY6zigydQ==
-X-Received: by 2002:adf:e2cc:: with SMTP id d12mr8410004wrj.345.1571833956185; 
- Wed, 23 Oct 2019 05:32:36 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id m18sm24800850wrg.97.2019.10.23.05.32.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 05:32:35 -0700 (PDT)
-Subject: Re: [PATCH v3 3/6] ps2: accept 'Set Key Make and Break' commands
-To: Sven Schnelle <svens@stackframe.org>
-References: <20191022205941.23152-1-svens@stackframe.org>
- <20191022205941.23152-4-svens@stackframe.org>
- <c0a0c73a-496f-e6bc-54ce-a6631ef3a81d@redhat.com>
- <20191023120844.GA22554@stackframe.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b9f952bc-dad7-3656-ef2b-1dd874c6a660@redhat.com>
-Date: Wed, 23 Oct 2019 14:32:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=oDYgoZDmDppPYehkm5+0JwhEyXj0b0nG8wIDLW33I4U=;
+ b=n/Rp725tW/qSJilOvAKZVLpX0drex3JMBKU0aCBSensSyWAcxPUtJcu3gte4AFq7TZ
+ 5mgae0UR9yWtsyGd/lXrigf90sI92yGp4V8e2MxwNWLqOVJ4PAgtp/OyA5YTN3L4fyEC
+ eYfJVz3+FeBm4qYZaCxQomJ3LUrmL+08at7ZKG/BtAbLx+ZVL2ZUuPNOTZEGhRxPrg69
+ CvIS7DExC/6gc9NR1XAfEPQvfLPv0iDYU6xgnYyZ7uNoG4umhiWDd5atSB34F1+UqxVW
+ L2YXzCgRVfd8hBePVlA5OlRe8hyUsjnxGwVHhQiBZlGk4EF+jTIxyWfsZ+jvOaxjt9bD
+ 37wA==
+X-Gm-Message-State: APjAAAW7gsS9Jm9UDWPCZlBW60LSFq9WrvmBcf4ktQAWzghjoKfWUzc2
+ B75rc5QNek6nbvxSvawgUt64F9U2K2NUUkcdymnBu8fu
+X-Google-Smtp-Source: APXvYqxe92nPCGg1OXgDgvDcJmohgrOYzNiLpFUYHd/CIvJpEb70OMjvDa7svYhXsASbCLdQX65jGmYpGvSOwOEA7AQ=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr7242661otg.91.1571834329680;
+ Wed, 23 Oct 2019 05:38:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191023120844.GA22554@stackframe.org>
-Content-Language: en-US
-X-MC-Unique: TYbvdqOoMkWoEHtM2I0RiQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191022164518.6933-1-peter.maydell@linaro.org>
+In-Reply-To: <20191022164518.6933-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 23 Oct 2019 13:38:38 +0100
+Message-ID: <CAFEAcA8ShDW=XNZ2ZVNEbwnqgVYi3+xub2Tm0w0BLYu6o81xrw@mail.gmail.com>
+Subject: Re: [PULL v3 00/18] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,105 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 2:08 PM, Sven Schnelle wrote:
-> Hi Philippe,
->=20
-> On Wed, Oct 23, 2019 at 01:08:35PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> Hi Sven,
->>
->> (Please Cc reviewers who previously commented your patch)
->>
->> On 10/22/19 10:59 PM, Sven Schnelle wrote:
->>> HP-UX sends both the 'Set key make and break (0xfc) and
->>> 'Set all key typematic make and break' (0xfa). QEMU response
->>> with 'Resend' as it doesn't handle these commands. HP-UX than
->>> reports an PS/2 max retransmission exceeded error. Add these
->>> commands and just reply with ACK.
->>>
->>> Signed-off-by: Sven Schnelle <svens@stackframe.org>
->>> ---
->>>    hw/input/ps2.c | 10 ++++++++++
->>>    1 file changed, 10 insertions(+)
->>>
->>> diff --git a/hw/input/ps2.c b/hw/input/ps2.c
->>> index 67f92f6112..0b671b6339 100644
->>> --- a/hw/input/ps2.c
->>> +++ b/hw/input/ps2.c
->>> @@ -49,6 +49,8 @@
->>>    #define KBD_CMD_RESET_DISABLE=090xF5=09/* reset and disable scanning=
- */
->>>    #define KBD_CMD_RESET_ENABLE   =090xF6    /* reset and enable scanni=
-ng */
->>>    #define KBD_CMD_RESET=09=090xFF=09/* Reset */
->>> +#define KBD_CMD_SET_MAKE_BREAK  0xFC    /* Set Make and Break mode */
->>> +#define KBD_CMD_SET_TYPEMATIC   0xFA    /* Set Typematic Make and Brea=
-k mode */
->>>    /* Keyboard Replies */
->>>    #define KBD_REPLY_POR=09=090xAA=09/* Power on reset */
->>> @@ -573,6 +575,7 @@ void ps2_write_keyboard(void *opaque, int val)
->>>            case KBD_CMD_SCANCODE:
->>>            case KBD_CMD_SET_LEDS:
->>>            case KBD_CMD_SET_RATE:
->>> +        case KBD_CMD_SET_MAKE_BREAK:
->>
->> OK
->>
->>>                s->common.write_cmd =3D val;
->>>                ps2_queue(&s->common, KBD_REPLY_ACK);
->>>                break;
->>> @@ -592,11 +595,18 @@ void ps2_write_keyboard(void *opaque, int val)
->>>                    KBD_REPLY_ACK,
->>>                    KBD_REPLY_POR);
->>>                break;
->>> +        case KBD_CMD_SET_TYPEMATIC:
->>> +            ps2_queue(&s->common, KBD_REPLY_ACK);
->>
->> I'm not sure, can't this loop?
->=20
-> I don't see how?
+On Tue, 22 Oct 2019 at 17:45, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Changes v2->v3:
+> dropped the aspeed new board patch as it fails in
+> tests/qom-test on OSX (intermittently).
+>
+> thanks
+> -- PMM
+>
+> The following changes since commit f9bec781379dd7ccf9d01b4b6a79a9ec82c192e5:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20191022' into staging (2019-10-22 13:45:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191022-2
+>
+> for you to fetch changes up to 90600829b3355b8d27b791b893095c18f529aec3:
+>
+>   hw/arm/digic4: Inline digic4_board_setup_ram() function (2019-10-22 17:44:01 +0100)
+>
+> ----------------------------------------------------------------
+>  * Fix sign-extension for SMLAL* instructions
+>  * Various ptimer device conversions to new transaction API
+>  * Add a dummy Samsung SDHCI controller model to exynos4 boards
+>  * Minor refactorings of RAM creation for some arm boards
+>
+> ----------------------------------------------------------------
 
-I misunderstood the two switch statements.
 
->> Can you fold it with the '0x00' case?
->=20
-> Ok.
->=20
->>> +            break;
->>>            default:
->>>                ps2_queue(&s->common, KBD_REPLY_RESEND);
->>>                break;
->>>            }
->>>            break;
->>> +    case KBD_CMD_SET_MAKE_BREAK:
->>
->> We can reorder this one in the same case with:
->>
->>      case KBD_CMD_SET_LEDS:
->>      case KBD_CMD_SET_RATE:
->=20
-> Ok.
+Applied, thanks.
 
-With these changes:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
->=20
->>> +        ps2_queue(&s->common, KBD_REPLY_ACK);
->>> +        s->common.write_cmd =3D -1;
->>> +        break;
->>>        case KBD_CMD_SCANCODE:
->>>            if (val =3D=3D 0) {
->>>                if (s->common.queue.count <=3D PS2_QUEUE_SIZE - 2) {
->>>
->>
->=20
-> Regards
-> Sven
->=20
-
+-- PMM
 
