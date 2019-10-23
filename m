@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6678BE19AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:13:05 +0200 (CEST)
-Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D703E198B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 14:04:31 +0200 (CEST)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNFVg-0000i7-6a
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58288)
+	id 1iNFNO-0001HC-J9
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 08:04:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iNFFF-0002ad-2A
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:56:07 -0400
+ (envelope-from <th.huth@gmail.com>) id 1iNFKb-0008OF-FG
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:01:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iNFFD-0003PQ-E3
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:56:04 -0400
-Resent-Date: Wed, 23 Oct 2019 07:56:04 -0400
-Resent-Message-Id: <E1iNFFD-0003PQ-E3@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21461)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iNFFD-0003Oo-67
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:56:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571831756; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=AzrILPvmy4W0/w3qwt+sO7Y98SwNN87WPjqf3I7jfZGxizgLVqOL2OqgfJZI5gVMsAeF+SdfO0Kt4LOo7bG4J6b2Pw/k1SM5+eQm30TRx/n6SNcP663mi3qi3nMq8G927G4rPpQPOfZhF9EVuDWA0zGiUx0PcWJuHrYzYEAGwCA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571831756;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Z3SfVHTgtq9ly36pAflEFZh6clTEQJW+oyejjnkco5Q=; 
- b=BEO6wradEmlPL54RDHH+ngQ6EkHfWKYPrq5DBYmxtAD+kbWU0zkbdoPIlhhRPVCUNhHvWctLTp8cxFDl4OyjCHJOMGaOoNwWjqXtl7TWQmRQqdYKboWgPLKePjvYbCZGjJ14HiwlpsxUjqJMfsAziKTAmVTRGIiDIQg+RS1l/7E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571831754627957.9802485720151;
- Wed, 23 Oct 2019 04:55:54 -0700 (PDT)
-In-Reply-To: <20191023020126.24991-1-eblake@redhat.com>
-Subject: Re: [PULL 0/3] NBD patches for 2019-10-22
-Message-ID: <157183175375.17590.12883932088108636951@37313f22b938>
+ (envelope-from <th.huth@gmail.com>) id 1iNFKa-0004Nk-1x
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:01:37 -0400
+Received: from mail-wr1-f45.google.com ([209.85.221.45]:41782)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1iNFKZ-0004NM-S2
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 08:01:36 -0400
+Received: by mail-wr1-f45.google.com with SMTP id p4so21790375wrm.8
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 05:01:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pZk0MZLQdMzXbJMr9doDgj8waKfXrWSNV2vK14XQpRw=;
+ b=je3a15RwBOn5qa0e2N/2JALpp3bm3z6YyNIEovfyswTtiENRkOJ3LGn4ODr7v2adbW
+ aFVhhOhyNZdQUjO3jNZVGLl3v1zTM8M8zOnzkw2EEWbvt3amMA/o8Z13qzKbjQBLZxbU
+ 4Gy54fl5mcqmEMrMLunoVBCmMvaK0EVg9UaPykMbpPpOOBmXOW/8LRrzEaFGzeuS0sqv
+ DgeBVGewHBme7BpgqKp4+TAQ8L1wmoH2x8L2WuVAn9pcMeQyvDyHOYj/MVztYHO/XbZQ
+ sx8p4ga8O8I2AA5gs9EOdA5SDJc5/iflBrdGqWaA1VOrBOs4ELounxFoftkJqUeWe9OI
+ 09Dw==
+X-Gm-Message-State: APjAAAUvTSrIjGkkqjHKd8Y0VC+ZjMoKdzg/Rr9R3y3CW0Lwl+I9Q7N5
+ uOQ55rU4yREahS7pSEt4UPPXGuhE
+X-Google-Smtp-Source: APXvYqwDyLhvXFCGuPBTuAMYlGSte/svhmdQBz7xp6052u0Pm9N5yNbqS1MFnV8uuSaLfShZQYA4iQ==
+X-Received: by 2002:adf:ec0b:: with SMTP id x11mr7764858wrn.107.1571832093633; 
+ Wed, 23 Oct 2019 05:01:33 -0700 (PDT)
+Received: from thl530.redhat.com (nat-pool-str-u.redhat.com. [149.14.88.107])
+ by smtp.gmail.com with ESMTPSA id
+ p7sm19621115wma.34.2019.10.23.05.01.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Oct 2019 05:01:32 -0700 (PDT)
+From: Thomas Huth <huth@tuxfamily.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qemu-options: Rework the help text of the '-display' option
+Date: Wed, 23 Oct 2019 14:01:28 +0200
+Message-Id: <20191023120129.13721-1-huth@tuxfamily.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: eblake@redhat.com
-Date: Wed, 23 Oct 2019 04:55:54 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 209.85.221.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,50 +65,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyMzAyMDEyNi4yNDk5
-MS0xLWVibGFrZUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBjaGVjay11bml0
-OiB0ZXN0cy90ZXN0LXFodC1wYXIKICBURVNUICAgIGNoZWNrLXF0ZXN0LXg4Nl82NDogdGVzdHMv
-aGQtZ2VvLXRlc3QKKioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlvbi10
-ZXN0LmM6MTMxNjp0ZXN0X21pZ3JhdGVfYXV0b19jb252ZXJnZTogYXNzZXJ0aW9uIGZhaWxlZCAo
-cmVtYWluaW5nIDwgZXhwZWN0ZWRfdGhyZXNob2xkKTogKDEwMDAwMzg0MCA8IDEwMDAwMDAwMCkK
-RVJST1IgLSBCYWlsIG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlv
-bi10ZXN0LmM6MTMxNjp0ZXN0X21pZ3JhdGVfYXV0b19jb252ZXJnZTogYXNzZXJ0aW9uIGZhaWxl
-ZCAocmVtYWluaW5nIDwgZXhwZWN0ZWRfdGhyZXNob2xkKTogKDEwMDAwMzg0MCA8IDEwMDAwMDAw
-MCkKbWFrZTogKioqIFtjaGVjay1xdGVzdC1hYXJjaDY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0
-aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBjaGVjay1xdGVzdC14ODZfNjQ6
-IHRlc3RzL2Jvb3Qtb3JkZXItdGVzdAogIFRFU1QgICAgY2hlY2stdW5pdDogdGVzdHMvdGVzdC1i
-aXRvcHMKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
-cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tl
-cicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTg2MjUzZGQ5OGRi
-MTQyODFiNGVjYzdkMGVlMDJmZDE4JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAn
-c2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywg
-J0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywg
-J0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAv
-Y2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6
-L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWtp
-dWlvcmFlL3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMjMtMDcuNDQuMTAuMjM5MDg6L3Zhci90bXAv
-cWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1
-aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
-YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTg2MjUzZGQ5OGRiMTQyODFiNGVjYzdkMGVlMDJm
-ZDE4Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
-cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWtpdWlvcmFlL3NyYycKbWFrZTog
-KioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxMW00
-My43NTZzCnVzZXIgICAgMG04LjE4M3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMDIzMDIwMTI2LjI0OTkxLTEtZWJsYWtlQHJlZGhh
-dC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
-aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
-Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
-bQ==
+Improve the help text of the "-display" option:
+
+- Only print the options that we have enabled in the binary
+  (similar to what we do for other options like -netdev already)
+
+- The "frame=on|off" from "-display sdl" has been removed in commit
+  09bd7ba9f5f7 ("Remove deprecated -no-frame option"), so we should
+  not show this in the help text anymore
+
+- The "-display egl-headless" line was missing a "\n" at the end
+
+- Indent the default display text in a nicer way
+
+Signed-off-by: Thomas Huth <huth@tuxfamily.org>
+---
+ qemu-options.hx | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 996b6fba74..917c54b302 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1526,26 +1526,38 @@ STEXI
+ ETEXI
+ 
+ DEF("display", HAS_ARG, QEMU_OPTION_display,
++#if defined(CONFIG_SPICE)
+     "-display spice-app[,gl=on|off]\n"
+-    "-display sdl[,frame=on|off][,alt_grab=on|off][,ctrl_grab=on|off]\n"
++#endif
++#if defined(CONFIG_SDL)
++    "-display sdl[,alt_grab=on|off][,ctrl_grab=on|off]\n"
+     "            [,window_close=on|off][,gl=on|core|es|off]\n"
++#endif
++#if defined(CONFIG_GTK)
+     "-display gtk[,grab_on_hover=on|off][,gl=on|off]|\n"
++#endif
++#if defined(CONFIG_VNC)
+     "-display vnc=<display>[,<optargs>]\n"
++#endif
++#if defined(CONFIG_CURSES)
+     "-display curses[,charset=<encoding>]\n"
++#endif
++#if defined(CONFIG_OPENGL)
++    "-display egl-headless[,rendernode=<file>]\n"
++#endif
+     "-display none\n"
+-    "-display egl-headless[,rendernode=<file>]"
+-    "                select display type\n"
+-    "The default display is equivalent to\n"
++    "                select display backend type\n"
++    "                The default display is equivalent to\n                "
+ #if defined(CONFIG_GTK)
+-            "\t\"-display gtk\"\n"
++            "\"-display gtk\"\n"
+ #elif defined(CONFIG_SDL)
+-            "\t\"-display sdl\"\n"
++            "\"-display sdl\"\n"
+ #elif defined(CONFIG_COCOA)
+-            "\t\"-display cocoa\"\n"
++            "\"-display cocoa\"\n"
+ #elif defined(CONFIG_VNC)
+-            "\t\"-vnc localhost:0,to=99,id=default\"\n"
++            "\"-vnc localhost:0,to=99,id=default\"\n"
+ #else
+-            "\t\"-display none\"\n"
++            "\"-display none\"\n"
+ #endif
+     , QEMU_ARCH_ALL)
+ STEXI
+-- 
+2.21.0
 
 
