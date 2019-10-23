@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6220EE193E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:46:59 +0200 (CEST)
-Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A556E1972
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 13:56:28 +0200 (CEST)
+Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNF6Q-0001ut-3A
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:46:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
+	id 1iNFFb-000288-CO
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 07:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNEfm-0005xf-0i
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:19:27 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNEhZ-0007lY-Ot
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:21:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNEfi-0001bp-53
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:19:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52032
+ (envelope-from <ehabkost@redhat.com>) id 1iNEhY-000287-Hq
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:21:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38077
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNEfg-0001b3-5q
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:19:21 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNEhY-000280-Dr
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 07:21:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571829559;
+ s=mimecast20190719; t=1571829676;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2Jts3e9l2ylTadIAJh1BkTXV8OTL4o3m8xGmEG2sLsg=;
- b=i/171ktTLGrD69tBBhQvL9vJVFDiWTqisDAwByC2wxl/cEIU6Ma6mTG95+Amkp3tqbrfFA
- yXHc4PCGYH/fAJI3GT8FcW0LBFEjtIUOknM+Xwmi9djfmS97bvsVCo6kujcLsH1//Tmdd3
- h7zsm+huSe0iX+GeoFZnyYkZORLCP94=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-QAc8rRGXM_2sSTxbWXizWQ-1; Wed, 23 Oct 2019 07:19:17 -0400
-Received: by mail-wm1-f71.google.com with SMTP id k9so8659060wmb.0
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 04:19:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GbMPl5h6OvyoA03HzLo1GmohD/3Urvdfg+1Kb3wnqP8=;
- b=lQkmwL4Qjlef/j7J4ABna99GoRq5+tH6++rF7d35mj7Ne/mwAOM0+yPFP0qg2R15di
- x3cJ32myElLWU+KyfQeWZEPUslKe8cUUvPGBWZn4uFdkVCpcvbh7dbqy2Yq6x103Ac3m
- zxZqkKtiwXH+bU7T8z9cvoMsGyCSiuVIzDY/VJDpq/CXhipuLEHA/tpSwIYMDRJMESiS
- nIzU1sEMZlGP5KokpGmxPuJR/0KUe0K/4gxUc11v4A30MJTfzkyBnUehxzR/JNXD/aSe
- 204L/jrt6O5PRv+EZn2AnAdhxOdJXiOhiAO64a9YJAGpGfk2PDlqBozJVcaxgnaKmF26
- VclQ==
-X-Gm-Message-State: APjAAAVBnPo5gUE9eEBKlFfwC4WZN2pmDGnNYZsARyEYGE5VDW8WweYE
- AGzZwsSmtyd5P6NfQK1gbmwb1klUpTB7K9AsHi2d9SJBe4jXQXcvjBL9+Cuit4q4BoVUnINo9hN
- 66Z6iFBOfy7/+lqc=
-X-Received: by 2002:a5d:628e:: with SMTP id k14mr7861702wru.60.1571829556431; 
- Wed, 23 Oct 2019 04:19:16 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzc37GrnPGjCWfKzzzrAthzS3ZBnsCrgZSMwjjsWesF8GkRpW836WW0VdMbTQNO9BxCiRqWxg==
-X-Received: by 2002:a5d:628e:: with SMTP id k14mr7861688wru.60.1571829556228; 
- Wed, 23 Oct 2019 04:19:16 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id r1sm15711961wrw.60.2019.10.23.04.19.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Oct 2019 04:19:15 -0700 (PDT)
-Subject: Re: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20191022163812.330-1-clg@kaod.org>
- <20191022163812.330-5-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b4c6e217-05e4-a87d-7e5e-116b0259808b@redhat.com>
-Date: Wed, 23 Oct 2019 13:19:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=/oCgiAmZFjC7ZbtmbLU4B9PKa5cwt3i6+CMsLzBu6Lk=;
+ b=fsp+b0F+DSMmd7FTLfEZKFug21SgRbIX8QkURaxRcNb5WO1SxR5tULCdNsPxSDgcglQ7Vl
+ 6XCiuwYKOiN02tscsbciDYV2fFcTRe/L3+urnXDK4UjgQoyNJR3NjBCizaUHCp7wmuqpx7
+ WZ0NMMtNGo0a1KzgtnDBGgOQuCr2Sbs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-pWYzUt99Mg6NdO6WhQ8jhg-1; Wed, 23 Oct 2019 07:21:12 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA69C1800D6B;
+ Wed, 23 Oct 2019 11:21:11 +0000 (UTC)
+Received: from localhost (ovpn-116-104.gru2.redhat.com [10.97.116.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80E331001B39;
+ Wed, 23 Oct 2019 11:21:11 +0000 (UTC)
+Date: Wed, 23 Oct 2019 08:21:09 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH] i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V
+ enlightenment
+Message-ID: <20191023112109.GJ4084@habkost.net>
+References: <20191018163908.10246-1-vkuznets@redhat.com>
+ <4d89f852-85bc-8370-5929-848d24b80a6f@redhat.com>
+ <878spe197z.fsf@vitty.brq.redhat.com>
+ <66f1dd30-3e45-4dc6-ba0a-d52e5aae6501@redhat.com>
+ <20191021171533.GT4084@habkost.net>
+ <87k18vzp7t.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191022163812.330-5-clg@kaod.org>
-Content-Language: en-US
-X-MC-Unique: QAc8rRGXM_2sSTxbWXizWQ-1
+In-Reply-To: <87k18vzp7t.fsf@vitty.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: pWYzUt99Mg6NdO6WhQ8jhg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -92,67 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/19 6:38 PM, C=C3=A9dric Le Goater wrote:
-> We will use it to reset the interrupt presenter from the CPU reset
-> handler.
+On Wed, Oct 23, 2019 at 01:16:38PM +0200, Vitaly Kuznetsov wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
 >=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> ---
->   include/hw/ppc/pnv_core.h | 3 +++
->   hw/ppc/pnv_core.c         | 3 ++-
->   2 files changed, 5 insertions(+), 1 deletion(-)
+> > On Mon, Oct 21, 2019 at 06:26:14PM +0200, Paolo Bonzini wrote:
+> >> On 21/10/19 16:09, Vitaly Kuznetsov wrote:
+> >> >>> +    if (cpu->hyperv_no_nonarch_cs =3D=3D ON_OFF_AUTO_ON) {
+> >> >>> +        env->features[FEAT_HV_RECOMM_EAX] |=3D HV_NO_NONARCH_CORE=
+SHARING;
+> >> >>> +    } else if (cpu->hyperv_no_nonarch_cs =3D=3D ON_OFF_AUTO_AUTO)=
+ {
+> >> >> Do you want to make auto the default if "-cpu host,migratable=3Doff=
+"?  It
+> >> >> can be done on top so I started queueing this patch.
+> >> > Hm, one thing is that CPUID 0x40000004 doesn't exist if no Hyper-V
+> >> > enlightenments are passed so we'll probably have to modify your idea=
+ to
+> >> > "-cpu host,migratable=3Doff,+any-hyperv-enlightenment" but then the
+> >> > question is how conservative are we, like if QEMU command line doesn=
+'t
+> >> > change can new CPUID flags appear or not? And we'll probably need a =
+way
+> >> > to explicitly disable HV_NO_NONARCH_CORESHARING if needed.
+> >>=20
+> >> I would defer to Eduardo on whether "migratable=3Doff" would allow add=
+ing
+> >> new CPUID flags.  The follow-up question however is whether we would
+> >> benefit from a "+hyperv" option that enables all known Hyper-V
+> >> enlightenment for a given machine type.
+> >
+> > I'm not sure what "adding new CPUID flags" means exactly, but on
+> > both cases, the answer is yes:
+> >
+> > If you mean having new flags appear with the same QEMU command
+> > line, this is 100% OK with "-cpu host".  Doubly so with
+> > "migratable=3Doff".  "-cpu host" doesn't guarantee a stable guest
+> > ABI, and migratable=3Doff doesn't guarantee the ability to live
+> > migrate.
+> >
+> > If you just mean the ability to write "-cpu
+> > host,migratable=3Doff,+some-extra-flag", that's OK too.
+> >
+> > I would try to make "-cpu host,migratable=3Doff" enable all
+> > features out of the box (because users probably expect that).
+> > But we you have a compelling reason to not enable the hyperv
+> > flags by default (do we?), it's OK to require something like
+> > "-cpu host,...,+hyperv".
 >=20
-> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-> index bfbd2ec42aa6..55eee95104da 100644
-> --- a/include/hw/ppc/pnv_core.h
-> +++ b/include/hw/ppc/pnv_core.h
-> @@ -31,6 +31,8 @@
->   #define PNV_CORE_GET_CLASS(obj) \
->        OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
->  =20
-> +typedef struct PnvChip PnvChip;
-> +
->   typedef struct PnvCore {
->       /*< private >*/
->       CPUCore parent_obj;
-> @@ -38,6 +40,7 @@ typedef struct PnvCore {
->       /*< public >*/
->       PowerPCCPU **threads;
->       uint32_t pir;
-> +    PnvChip *chip;
->  =20
->       MemoryRegion xscom_regs;
->   } PnvCore;
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index 9f981a4940e6..cc17bbfed829 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -222,6 +222,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
->                                   "required link 'chip' not found: ");
->           return;
->       }
-> +    pc->chip =3D PNV_CHIP(chip);
->  =20
->       pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
->       for (i =3D 0; i < cc->nr_threads; i++) {
-> @@ -243,7 +244,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
->       }
->  =20
->       for (j =3D 0; j < cc->nr_threads; j++) {
-> -        pnv_realize_vcpu(pc->threads[j], PNV_CHIP(chip), &local_err);
-> +        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
->           if (local_err) {
->               goto err;
->           }
+> I'm not sure if the reason is compelling enough but I remember some
+> Linux tools were only looking at the first hypervisor signature and
+> reporting that we're now running on Hyper-V. Also, more features you
+> enable larger the atack surface...
 >=20
+> Actually, we already '-cpu host,hv_passthrough' option which implies
+> 'migratable=3Doff', not sure if another one is needed.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+So, if I understood correctly, Paolo's "+hyperv" suggestion above
+is already implemented by "hv_passthrough"?  Sounds good enough
+to me.
+
+--=20
+Eduardo
 
 
