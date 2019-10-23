@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661DBE1F60
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:32:49 +0200 (CEST)
-Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3D9E1FE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Oct 2019 17:48:26 +0200 (CEST)
+Received: from localhost ([::1]:39910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNIcy-0000V2-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
+	id 1iNIs5-0005ma-DP
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 11:48:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNI8u-0008A7-Oy
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:49 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNI8u-00089H-AU
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNI8r-0001GY-NJ
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:44 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:46550)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNI8r-0001Fi-Cf
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:43 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:37710)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNI8r-00017c-GO
+ id 1iNI8r-00019G-5g
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 11:01:41 -0400
-Received: by mail-qt1-x841.google.com with SMTP id u22so32678675qtq.13
- for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:01:22 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id u184so20055030qkd.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Oct 2019 08:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bIwXZuVFcex8c2gsnRtwJL32LXPTCWgJCQzC/Gsa6O8=;
- b=m2C8RoibueHknxvHHmygii7frJMQFcjjKTc7biRX04nhvioilXfsWLektiwgg02/gs
- 2dGtRi03vI5AFS0Yw60XH+QL1UikrZ4ujJxcEaCVHmyIFdgt2hLcU20zgRF49kCkqsp5
- Kz4g8aL7OD7ihrlK8KUB/tGvfDnAo9vC1DdvCoAp5bGrmLmbNHncrjDIzgrYrwMLLVKv
- Mb29/Kd/ftwtdKCJoRhpjg4/og4NAy2LNJx3+y5LmFu5vAQtDKNyJXlD5c/MXZRp5zwo
- jx5jAU1kiEBJlK6IdWzMUprT9Ymmx2+IEMIkvPULrmMU/REsY7B/llk+po+YWh8Dd96W
- kE9A==
+ bh=Iym+ywFHjEBpwuu12wdHsU0gouX4jDUf3/+DDNH9pyk=;
+ b=JBY+uoi/+fsxKtaVdEUfo1r3jJJ5rjOraTo2FNLPBuEm++0n3Useh7V3OBM7lNWtVl
+ BwFFrYx2/65n8V4wsrimWFSkDg9Rx0yhIz1U7FMqv10Faud1dPXihm+aY02nZEUx0li7
+ YLYjtbsHzXvhKxikF+MJnDRIz888rOYaPOaAgFn+afBbHBEtzY+hORHnaIT/IeXFuE9Q
+ WYVHfnlckqHzjRAJ948RWqES6iMm5PEUob0LAYQukgTP8flk3E1bZPMTquIaSSWBQb5+
+ p2JZStIJfYpkIaR39moIqnwOQO0Ve9CJUuLvdN0p5Et8aCCFiixR0g21GcXhIveVA3EP
+ 3VeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bIwXZuVFcex8c2gsnRtwJL32LXPTCWgJCQzC/Gsa6O8=;
- b=cX4N/iecPhmXIp93EsoAnwPpKf3HjIy0pIGMLeF1iUAhHXZuhAYzZIFiJYs1n7+ZKE
- hcde4c33ysETsr8jHIUbsf5PVLG5sF1lNTXdr/zGubKP5MYl8Jj35uLLkXEzc28Q5cP9
- va6SX/7vB71qRUa3tIj1Is0jX1MFu08hdJ9cPw+LbFlE9Dqd9qqHWZf/8pADFDcx7cDj
- erZYBy5PGpZOxXf04LL9ggW2UFPI0s6E9vnTmWFrwvuaXvr6jmKc9gQzeaztvmmOtvyI
- JOtdM8J2w8l9ZcoLRS6yRY2cOrHJdk4eq573NtGIOu8U4Pm+jZcbTK3Si0lE28FlheVc
- DBew==
-X-Gm-Message-State: APjAAAVAgeqXjSUPdJ4DN1ZbXsihY6sVI0+09vHjzbHrhm4W6XqxMhnv
- ZJnhPbXG1s33iP9zmnis+IgHhSMsrfA=
-X-Google-Smtp-Source: APXvYqyuG20jKzkwbvXtrRkkDZ1tv+rSWd1in05BROTQsfWpdtAal92eOyCIQ4VAjC/NGBxZOVy04A==
-X-Received: by 2002:ac8:2a66:: with SMTP id l35mr10054665qtl.340.1571842881175; 
- Wed, 23 Oct 2019 08:01:21 -0700 (PDT)
+ bh=Iym+ywFHjEBpwuu12wdHsU0gouX4jDUf3/+DDNH9pyk=;
+ b=fDfArEoMbuOpMPHO3yZ1LmciQC7OcA/gIALOEnzOnnzHHymCPEZLGD5/uT4OLfZJ0z
+ MB7HNMACr3QGtxb1/PYBXsH1fBRG1CaQedLZ2sBhn2se7Y7055+CzJG6OBLHvpk2QCjo
+ NBtjcA5om8aYiuL9P8kFbnJDQxNqcdjgW4RSRU36Qib72BJM7JxE41aGNuhdkHZ5hwkK
+ siyrQ9+MzNdIu8GoheE525EtuA0ovHfe4B7zkj/oOelJVUaoxxVi/Z90Jk7W4JZ2/rAh
+ PxLv3k3OWhpxBUFTTIdlf7Edys5L77AqJ76u0YzlkLTEMkBcHWbA5Jkrqa/LFPMj1rbY
+ zCVA==
+X-Gm-Message-State: APjAAAWFCZT7JN4mrGB1nF2dQLSSyAUp6YIioDMVaIODhzR8u0pO7Epo
+ LILovL4nIiw1jY54a5PuQPNBBX5P+W8=
+X-Google-Smtp-Source: APXvYqwVLYygu3aZa5y8PikWE9QpbG4d78hexpVHPahE5sDQBPTYv8jX5EFgGDYbZBpcJoLPsBSoPg==
+X-Received: by 2002:a05:620a:20d2:: with SMTP id
+ f18mr8909266qka.474.1571842886526; 
+ Wed, 23 Oct 2019 08:01:26 -0700 (PDT)
 Received: from localhost.localdomain (198-4-20-64.static.cosmoweb.net.
  [64.20.4.198])
- by smtp.gmail.com with ESMTPSA id l189sm11030168qke.69.2019.10.23.08.01.19
+ by smtp.gmail.com with ESMTPSA id l189sm11030168qke.69.2019.10.23.08.01.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Oct 2019 08:01:20 -0700 (PDT)
+ Wed, 23 Oct 2019 08:01:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 14/24] target/arm: Hoist store to cs_base in
- cpu_get_tb_cpu_state
-Date: Wed, 23 Oct 2019 11:00:47 -0400
-Message-Id: <20191023150057.25731-15-richard.henderson@linaro.org>
+Subject: [PATCH v9 18/24] target/arm: Rebuild hflags at CPSR writes
+Date: Wed, 23 Oct 2019 11:00:51 -0400
+Message-Id: <20191023150057.25731-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191023150057.25731-1-richard.henderson@linaro.org>
 References: <20191023150057.25731-1-richard.henderson@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::841
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,35 +84,35 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By performing this store early, we avoid having to save and restore
-the register holding the address around any function calls.
+Continue setting, but not relying upon, env->hflags.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/op_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3f7d3f257d..37424e3d4d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11225,6 +11225,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index ccc2cecb46..b529d6c1bf 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -224,6 +224,7 @@ uint32_t HELPER(usat16)(CPUARMState *env, uint32_t x, uint32_t shift)
+ void HELPER(setend)(CPUARMState *env)
  {
-     uint32_t flags, pstate_for_ss;
- 
-+    *cs_base = 0;
-     flags = rebuild_hflags_internal(env);
- 
-     if (is_a64(env)) {
-@@ -11298,7 +11299,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-     }
- 
-     *pflags = flags;
--    *cs_base = 0;
+     env->uncached_cpsr ^= CPSR_E;
++    arm_rebuild_hflags(env);
  }
  
- #ifdef TARGET_AARCH64
+ /* Function checks whether WFx (WFI/WFE) instructions are set up to be trapped.
+@@ -387,6 +388,8 @@ uint32_t HELPER(cpsr_read)(CPUARMState *env)
+ void HELPER(cpsr_write)(CPUARMState *env, uint32_t val, uint32_t mask)
+ {
+     cpsr_write(env, val, mask, CPSRWriteByInstr);
++    /* TODO: Not all cpsr bits are relevant to hflags.  */
++    arm_rebuild_hflags(env);
+ }
+ 
+ /* Write the CPSR for a 32-bit exception return */
 -- 
 2.17.1
 
