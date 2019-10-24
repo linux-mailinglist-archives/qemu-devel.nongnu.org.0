@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71ACE2F6A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:51:55 +0200 (CEST)
-Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96972E2F60
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:49:00 +0200 (CEST)
+Received: from localhost ([::1]:38484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNaig-0000cc-K3
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55265)
+	id 1iNafr-0003zR-K5
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaOx-0000dt-BN
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:31:32 -0400
+ (envelope-from <berrange@redhat.com>) id 1iNaK5-0001o5-2a
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:26:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaOw-0007nn-74
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:31:31 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46743)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNaOv-0007nQ-UD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:31:30 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n15so14668879wrw.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=U3W8sIO/2ZBTMPLoFcozYjR2QmMLtyhRSYqqV0DovIY=;
- b=fFTSKMhkI56d1fwFDm9DK7QpOriiwWI025mJidCgT28Mw2dxEqfMFsIYC1lTMP3sNv
- EafbVILZIHmDZVHjhe+b4E1HSwvIUIjA+yScohUIXiXTllDgXgiPFMejGZdfPjmIMGVj
- hnSMCGS4Ls0i3qwV816/p5R0z9X0tFF6LCEWGSLvLxhTFmJi8sivAimceUYg/W+oe1wC
- 8FekQ8VISl2wJGAkjaLQ1ff7NTmrTKK8tvrAIG1OT+TTns3BMW1oRKgN6Y+Xmj5Mz3Mf
- tG9TkBqENdoMhhExlxr3ep6om7aUxYw8jK+8+d8O9D2EWMKf+citpCDnHLVbe7WZlmAE
- H2GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=U3W8sIO/2ZBTMPLoFcozYjR2QmMLtyhRSYqqV0DovIY=;
- b=BxhoPDsRXhWzKvyNbXw5Zmx8KJDINFSdwZsp7rWLnwJuo7rwBpopMe7B0NScpNMef2
- tyhOb+4ryhZsPBoi6IcNLL6ykFQC927YJIUcYEK9m+lCqmr3i6nhaESPXh6eNzO0kEvB
- yuNYp7lKxfWFMq99OPD2u8UjmaKroeY2OIq5AdFLo+ByX4h0cesM82ioa/AblTVLRUhz
- gkxL7Cu8SZlSMbiNCn5j8cGH94i2Xd/TFRlYO6rpH/r0RJBFmi0wYBUTgxffVEu58RvQ
- TK1MEC65MB5DwoSajPVsvGv38UvgPhQjgRjqV9e0jGpwLfcAIx6l9LisP6srNbdZguKO
- LywA==
-X-Gm-Message-State: APjAAAXL0uVbnkBE0z96vY8D2xI3tCZD0d9s9k/HkmSGVlRH3UZNl2KV
- nBy4f+O7uPhDdNo8K7ATbUS7Vg==
-X-Google-Smtp-Source: APXvYqyV+EjgB2DFHunNqA4wVGmkEgfzxHqiRd4RnMsIttKqy8RGEh+rNxks3t6u1HjWYR68V5LvVg==
-X-Received: by 2002:adf:cf11:: with SMTP id o17mr3151322wrj.284.1571913088707; 
- Thu, 24 Oct 2019 03:31:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g5sm2246857wma.43.2019.10.24.03.31.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 03:31:27 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D98C71FFA5;
- Thu, 24 Oct 2019 11:22:41 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/17] tests/docker: update Travis image to a more current
- version
-Date: Thu, 24 Oct 2019 11:22:40 +0100
-Message-Id: <20191024102240.2778-18-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191024102240.2778-1-alex.bennee@linaro.org>
-References: <20191024102240.2778-1-alex.bennee@linaro.org>
+ (envelope-from <berrange@redhat.com>) id 1iNaK2-0005gD-42
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:26:27 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29253
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iNaK0-0005fM-6H
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:26:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571912782;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Phis3ZiVLeE4i/I7Up7oncRANQvVerLgwndX9J9dRX8=;
+ b=G5Fy3K9bK/21/jEU7JoOmFDEVAXJlq1o9bBjQUof1s697JyIf/Z95mR/F2UeL5SDQWKXtA
+ mkqpXUj3wkb3frHR1WjCw0PCtQf3VjpWHOyRpftRV6BSoD4C5okAgmaq8pOKO6eRoQN4Mv
+ dCCkSe2jJkN2wrWTh9wA0h/jLKQPQFU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-WuyoZ-MJMBC0fhXuoMP6mQ-1; Thu, 24 Oct 2019 06:26:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A4651800DD0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:26:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD9360BF3;
+ Thu, 24 Oct 2019 10:26:13 +0000 (UTC)
+Date: Thu, 24 Oct 2019 11:26:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 2/2] virtiofsd: move to a new pid namespace
+Message-ID: <20191024102611.GF3700@redhat.com>
+References: <20191016160157.12414-1-stefanha@redhat.com>
+ <20191016160157.12414-3-stefanha@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20191016160157.12414-3-stefanha@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: WuyoZ-MJMBC0fhXuoMP6mQ-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,40 +74,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This isn't the latest one available on hub.docker.com but it does
-match the ID reported by the Xenial builds running on Travis:
+On Wed, Oct 16, 2019 at 05:01:57PM +0100, Stefan Hajnoczi wrote:
+> virtiofsd needs access to /proc/self/fd.  Let's move to a new pid
+> namespace so that a compromised process cannot see another other
+> processes running on the system.
+>=20
+> One wrinkle in this approach: unshare(CLONE_NEWPID) affects *child*
+> processes and not the current process.  Therefore we need to fork the
+> pid 1 process that will actually run virtiofsd and leave a parent in
+> waitpid(2).  This is not the same thing as daemonization and parent
+> processes should not notice a difference.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  contrib/virtiofsd/passthrough_ll.c | 95 ++++++++++++++++++++++--------
+>  1 file changed, 72 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
+hrough_ll.c
+> index c27ff7d800..b6ee9b2e90 100644
+> --- a/contrib/virtiofsd/passthrough_ll.c
+> +++ b/contrib/virtiofsd/passthrough_ll.c
+> @@ -56,9 +56,12 @@
+>  #include <sys/xattr.h>
+>  #include <sys/mman.h>
+>  #include <sys/socket.h>
+> +#include <sys/types.h>
+>  #include <sys/un.h>
+> +#include <sys/wait.h>
+>  #include <sys/capability.h>
+> =20
+> +
+>  #include "ireg.h"
+>  #include <sys/mount.h>
+>  #include <sys/resource.h>
+> @@ -2749,6 +2752,72 @@ static void setup_net_namespace(void)
+>  =09}
+>  }
+> =20
+> +/*
+> + * Move to a new pid namespace to prevent access to other processes if t=
+his
+> + * process is compromised.
+> + */
+> +static void setup_pid_namespace(void)
+> +{
+> +=09pid_t child;
+> +
+> +=09/*
+> +=09 * Create a new pid namespace for *child* processes.  We'll have to
+> +=09 * fork in order to enter the new pid namespace.  A new mount namespa=
+ce
+> +=09 * is also needed so that we can remount /proc for the new pid
+> +=09 * namespace.
+> +=09 */
+> +=09if (unshare(CLONE_NEWPID | CLONE_NEWNS) !=3D 0) {
+> +=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\n"=
+);
+> +=09=09exit(1);
+> +=09}
+> +
+> +=09child =3D fork();
+> +=09if (child < 0) {
+> +=09=09fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
+> +=09=09exit(1);
+> +=09}
+> +=09if (child > 0) {
+> +=09=09pid_t waited;
+> +=09=09int wstatus;
+> +
+> +=09=09/* The parent waits for the child */
+> +=09=09do {
+> +=09=09=09waited =3D waitpid(child, &wstatus, 0);
+> +=09=09} while (waited < 0 && errno =3D=3D EINTR);
+> +
+> +=09=09if (WIFEXITED(wstatus)) {
+> +=09=09=09exit(WEXITSTATUS(wstatus));
+> +=09=09}
+> +
+> +=09=09exit(1);
+> +=09}
 
-  instance: ... travis-ci-sardonyx-xenial-1553530528-f909ac5
+It might be useful to call prctl(PR_SET_PDEATHSIG) here, so that
+if the parent process exits for any reason, the child will be killed
+off too.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/docker/dockerfiles/travis.docker | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> +
+> +=09/*
+> +=09 * If the mounts have shared propagation then we want to opt out so o=
+ur
+> +=09 * mount changes don't affect the parent mount namespace.
+> +=09 */
+> +=09if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
+> +=09=09fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
+> +=09=09exit(1);
+> +=09}
+> +
+> +=09/* The child must remount /proc to use the new pid namespace */
+> +=09if (mount("proc", "/proc", "proc",
+> +=09=09  MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_RELATIME, NULL) < 0) {
+> +=09=09fuse_log(FUSE_LOG_ERR, "mount(/proc): %m\n");
+> +=09=09exit(1);
+> +=09}
+> +}
 
-diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/dockerfiles/travis.docker
-index ea14da29d97..e8eb48dccfd 100644
---- a/tests/docker/dockerfiles/travis.docker
-+++ b/tests/docker/dockerfiles/travis.docker
-@@ -1,4 +1,8 @@
--FROM travisci/ci-sardonyx:packer-1546978056-2c98a19
-+#
-+# Travis Image - this is broadly the same image that we run our CI
-+# tests on.
-+#
-+FROM travisci/ci-sardonyx:packer-1552557266-f909ac5
- ENV DEBIAN_FRONTEND noninteractive
- ENV LANG en_US.UTF-8
- ENV LC_ALL en_US.UTF-8
--- 
-2.20.1
+I feel like this is making things a bit misleading.
+
+ setup_pid_namespace()
+
+is now creating the mount namespace and pid namespace, and doing
+some mount point config
+
+ setup_mount_namespace()
+
+is not creating the mount namespace, but is doing some more mount
+point config.
+
+And then there's setup_net_namespace() too.
+
+I think there could be a  single
+
+  setup_namespaces()
+
+method that does the unshare(CLONE_NEWNS|CLONE_NEWNET|CLONE_NEWPID)
+and forking the child.
+
+And a setup_mounts()
+
+method that does all the mount() calls.
+
+> +
+> +static void setup_proc_self_fd(struct lo_data *lo)
+> +{
+> +=09lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
+> +=09if (lo->proc_self_fd =3D=3D -1) {
+> +=09=09fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
+> +=09=09exit(1);
+> +=09}
+> +}
+> +
+>  /* This magic is based on lxc's lxc_pivot_root() */
+>  static void setup_pivot_root(const char *source)
+>  {
+> @@ -2803,20 +2872,10 @@ static void setup_pivot_root(const char *source)
+> =20
+>  /*
+>   * Make the source directory our root so symlinks cannot escape and no o=
+ther
+> - * files are accessible.
+> + * files are accessible.  Assumes unshare(CLONE_NEWNS) was already calle=
+d.
+>   */
+>  static void setup_mount_namespace(const char *source)
+>  {
+> -=09if (unshare(CLONE_NEWNS) !=3D 0) {
+> -=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNS): %m\n");
+> -=09=09exit(1);
+> -=09}
+> -
+> -=09if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
+> -=09=09fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_PRIVATE): %m\n");
+> -=09=09exit(1);
+> -=09}
+> -
+>  =09if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
+>  =09=09fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
+rce);
+>  =09=09exit(1);
+> @@ -2831,6 +2890,8 @@ static void setup_mount_namespace(const char *sourc=
+e)
+>   */
+>  static void setup_sandbox(struct lo_data *lo, bool enable_syslog)
+>  {
+> +=09setup_pid_namespace();
+> +=09setup_proc_self_fd(lo);
+>  =09setup_net_namespace();
+>  =09setup_mount_namespace(lo->source);
+>  =09setup_seccomp(enable_syslog);
+> @@ -2860,15 +2921,6 @@ static void setup_root(struct lo_data *lo, struct =
+lo_inode *root)
+>  =09g_atomic_int_set(&root->refcount, 2);
+>  }
+> =20
+> -static void setup_proc_self_fd(struct lo_data *lo)
+> -{
+> -=09lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
+> -=09if (lo->proc_self_fd =3D=3D -1) {
+> -=09=09fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
+> -=09=09exit(1);
+> -=09}
+> -}
+> -
+>  /* Raise the maximum number of open file descriptors to the system limit=
+ */
+>  static void setup_nofile_rlimit(void)
+>  {
+> @@ -3110,9 +3162,6 @@ int main(int argc, char *argv[])
+>  =09=09get_shared(&lo, &lo.root);
+>  =09}
+> =20
+> -=09/* Must be after daemonize to get the right /proc/self/fd */
+> -=09setup_proc_self_fd(&lo);
+> -
+>  =09setup_sandbox(&lo, opts.syslog);
+> =20
+>  =09setup_root(&lo, &lo.root);
+> --=20
+> 2.21.0
+>=20
+>=20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
