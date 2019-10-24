@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0D4E3967
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:10:07 +0200 (CEST)
-Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491B8E3979
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:12:49 +0200 (CEST)
+Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgcf-0007My-Ro
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58127)
+	id 1iNgfH-00041e-T2
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy6-0007vr-AG
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy7-0007z8-KI
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy4-0000wp-3k
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:09 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34393)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy6-0000xi-FA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:11 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39015)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfy3-0000wd-TR
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:08 -0400
-Received: by mail-wr1-x441.google.com with SMTP id t16so21672295wrr.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:07 -0700 (PDT)
+ id 1iNfy6-0000xE-9N
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:10 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a11so10714966wra.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mBAa8aOzaEjXceVb3slP1wzsJg0PhsoOqpMdKz0RtWI=;
- b=q5wOMzfBUZSBfoYqvwoI3DZ0t3VubE6hhsTEl1Ga43k3ckJPOPHe9xq5BJMzrUHK4g
- NFisXtDSB+CeqgpvpW9YRUFmfxUCkwxo2GSIdNzcSfnbz+1fKkdX9RQcj8ZZbk+seU0h
- l3X3pcVLxHBtkKGZN3jBl8m5ndJGo6UYc9PcyKxTM7rsTsI0yIIR9LMgcQ2s22SS7Hnl
- 9HwrapTt5wHLumq+K7wlMC0oDM93BNVKqTo6QLDxEE9P5/O8N0XyKZYPGFiMYwoKbwW8
- FqdoXc2kdZ4YcPJt0Nf2WvdYt8v56hhNR4yjBA3ZeA1egn11V+NQ7bD1wCcq+UAUDGaB
- E1pQ==
+ bh=J21kyHeYFa+RY7GcWXJAZvmmTTUgznnvXHxn75vs05A=;
+ b=c1UvOL+ZcoyfHigvuNr9oOa5gz0YKfEj0cmPw1DuUWoh8Vs8g4zcGqK/GoizhB01UP
+ 8xAwfC+vkMGHnUyb/m1jmCr291Rf+v8Ope1LltBpzSPj4WIJPVDRq/QNaZreT5XIm/+Q
+ AVuYYP3aA0tMqDIqo25vzdFAhWGJj/1NHXBxPd6LgoPGIn5fTIb8PIomw6egGo/L7EE0
+ oxDnVPLalMSAbL1R4VQpCcf2FJX+rSFgT4PzbH/aAdmN6L8s/5PvdcUfdOSntg4p7B3i
+ RoM7zlKrpqtkvEs1/I9gGZIrqNGecTdjCfjQVxtTWKLXrDK/SpZhtdWgAxg+EB1gbcK/
+ dowg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mBAa8aOzaEjXceVb3slP1wzsJg0PhsoOqpMdKz0RtWI=;
- b=SAMjlRpiasqKMIr/L2JOYlpSB7zDlb14nBHxt3N0HqCM+rdFrCwaDu6ce9DzGh5Ghz
- h1wOZyBo3Sbi76o3LUP4sgf9VBe7ORphuqS5CelhhMAxba+2jOYV3ncSmJ24xq0MtRjV
- w0QrqvDdywjjZ7sGI1L7uu9VJVoZ0iheN2vgZMQR/rsqCCQUrzvkopHBS9eZAw4kjjil
- x4l3T0vdWdWnI1xxWcVCFuHoUyLR+yTrImcN1a3VtPtLfO1UI0dg9ZC4N4fOlXwkUpzP
- aOdow7j2+n53mL1P7mmqVf6zkGUHBjwdMCzybvPkjJVvgCOmdkZzyWDpCiZWgL/Z6Hew
- xMog==
-X-Gm-Message-State: APjAAAXFu26kz1v6OJD/LJGoW9FSBnNbV73hu1PpnXIw1gtFzSHOG+l3
- NbmX9O6diUmCVuj2rU6qbDLL9KGX3gM=
-X-Google-Smtp-Source: APXvYqz4p9YF4uDfPnmJbqM+lki7tb+ShC9krv5KZSkmZeBhzS8T8ciXrqEKjVARprZ+XTP7Ue9IeA==
-X-Received: by 2002:adf:ce87:: with SMTP id r7mr4584277wrn.307.1571934486640; 
- Thu, 24 Oct 2019 09:28:06 -0700 (PDT)
+ bh=J21kyHeYFa+RY7GcWXJAZvmmTTUgznnvXHxn75vs05A=;
+ b=nTVFQvhvE/xcTeGfFk4MWdicMrLU2lylXFGzEi2cN4o4xNn3VodQyl7ZTAwzx9sTkU
+ ThBEYhvGDjWeUkw0ZaNeRRfNZurAf7SZ6Xtb3KMVbw1VzE0l7KeiXgVpqkBytdjfQu/d
+ uUtsx+B8ka1b6TTOBfICT+oUijY5OJ3ZCdalAKbZr6VfGFRJ+4wuB2QMDppj3dhysz4R
+ iQ/tg0ySH0vHdBWzIFK9C+TLRL6JtcEfgVuQBMolmgYVbVKaCzzj/vDA6zPajTb1+4Xi
+ 1dfYp+IuCN4QaKccMTL/ez3hmA/hLKABqulCXxdAAiINi+0G1JjKwT8JijyL/j8r5v9Y
+ wsrw==
+X-Gm-Message-State: APjAAAUHaFmKAUy5EcBwBt3CyUzA7fzVF96zmjzjSByZjRSYVekd/PT9
+ bJHXhBhPFCv2IJwx31/Grri8+zNVl8E=
+X-Google-Smtp-Source: APXvYqyU26pU3Oi9FioIDWaPoR2V09qVT2df71ZItWcrVijFyRQkeq7EbhYgIQ6QIeW9TMouPIOzpQ==
+X-Received: by 2002:adf:f04e:: with SMTP id t14mr4448645wro.106.1571934488067; 
+ Thu, 24 Oct 2019 09:28:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.05
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:05 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/51] hw/timer/grlib_gptimer.c: Switch to transaction-based
- ptimer API
-Date: Thu, 24 Oct 2019 17:27:05 +0100
-Message-Id: <20191024162724.31675-33-peter.maydell@linaro.org>
+Subject: [PULL 33/51] hw/m68k/mcf5206.c: Switch to transaction-based ptimer API
+Date: Thu, 24 Oct 2019 17:27:06 +0100
+Message-Id: <20191024162724.31675-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,134 +81,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the grlib_gptimer code away from bottom-half based ptimers to
+Switch the mcf5206 code away from bottom-half based ptimers to
 the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
 state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20191021134357.14266-3-peter.maydell@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20191021140600.10725-1-peter.maydell@linaro.org
 ---
- hw/timer/grlib_gptimer.c | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
+ hw/m68k/mcf5206.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
-index bb09268ea14..7a9371c0e30 100644
---- a/hw/timer/grlib_gptimer.c
-+++ b/hw/timer/grlib_gptimer.c
-@@ -29,7 +29,6 @@
- #include "hw/irq.h"
- #include "hw/ptimer.h"
- #include "hw/qdev-properties.h"
+diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
+index a49096367cb..b155dd81705 100644
+--- a/hw/m68k/mcf5206.c
++++ b/hw/m68k/mcf5206.c
+@@ -8,7 +8,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
 -#include "qemu/main-loop.h"
- #include "qemu/module.h"
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/irq.h"
+@@ -57,10 +56,12 @@ static void m5206_timer_recalibrate(m5206_timer_state *s)
+     int prescale;
+     int mode;
  
- #include "trace.h"
-@@ -63,7 +62,6 @@ typedef struct GPTimer     GPTimer;
- typedef struct GPTimerUnit GPTimerUnit;
++    ptimer_transaction_begin(s->timer);
+     ptimer_stop(s->timer);
  
- struct GPTimer {
+-    if ((s->tmr & TMR_RST) == 0)
+-        return;
++    if ((s->tmr & TMR_RST) == 0) {
++        goto exit;
++    }
+ 
+     prescale = (s->tmr >> 8) + 1;
+     mode = (s->tmr >> 1) & 3;
+@@ -78,6 +79,8 @@ static void m5206_timer_recalibrate(m5206_timer_state *s)
+     ptimer_set_limit(s->timer, s->trr, 0);
+ 
+     ptimer_run(s->timer, 0);
++exit:
++    ptimer_transaction_commit(s->timer);
+ }
+ 
+ static void m5206_timer_trigger(void *opaque)
+@@ -123,7 +126,9 @@ static void m5206_timer_write(m5206_timer_state *s, uint32_t addr, uint32_t val)
+         s->tcr = val;
+         break;
+     case 0xc:
++        ptimer_transaction_begin(s->timer);
+         ptimer_set_count(s->timer, val);
++        ptimer_transaction_commit(s->timer);
+         break;
+     case 0x11:
+         s->ter &= ~val;
+@@ -137,11 +142,9 @@ static void m5206_timer_write(m5206_timer_state *s, uint32_t addr, uint32_t val)
+ static m5206_timer_state *m5206_timer_init(qemu_irq irq)
+ {
+     m5206_timer_state *s;
 -    QEMUBH *bh;
-     struct ptimer_state *ptimer;
  
-     qemu_irq     irq;
-@@ -93,6 +91,17 @@ struct GPTimerUnit {
-     uint32_t config;
- };
- 
-+static void grlib_gptimer_tx_begin(GPTimer *timer)
-+{
-+    ptimer_transaction_begin(timer->ptimer);
-+}
-+
-+static void grlib_gptimer_tx_commit(GPTimer *timer)
-+{
-+    ptimer_transaction_commit(timer->ptimer);
-+}
-+
-+/* Must be called within grlib_gptimer_tx_begin/commit block */
- static void grlib_gptimer_enable(GPTimer *timer)
- {
-     assert(timer != NULL);
-@@ -115,6 +124,7 @@ static void grlib_gptimer_enable(GPTimer *timer)
-     ptimer_run(timer->ptimer, 1);
- }
- 
-+/* Must be called within grlib_gptimer_tx_begin/commit block */
- static void grlib_gptimer_restart(GPTimer *timer)
- {
-     assert(timer != NULL);
-@@ -141,7 +151,9 @@ static void grlib_gptimer_set_scaler(GPTimerUnit *unit, uint32_t scaler)
-     trace_grlib_gptimer_set_scaler(scaler, value);
- 
-     for (i = 0; i < unit->nr_timers; i++) {
-+        ptimer_transaction_begin(unit->timers[i].ptimer);
-         ptimer_set_freq(unit->timers[i].ptimer, value);
-+        ptimer_transaction_commit(unit->timers[i].ptimer);
-     }
- }
- 
-@@ -266,8 +278,10 @@ static void grlib_gptimer_write(void *opaque, hwaddr addr,
-         switch (timer_addr) {
-         case COUNTER_OFFSET:
-             trace_grlib_gptimer_writel(id, addr, value);
-+            grlib_gptimer_tx_begin(&unit->timers[id]);
-             unit->timers[id].counter = value;
-             grlib_gptimer_enable(&unit->timers[id]);
-+            grlib_gptimer_tx_commit(&unit->timers[id]);
-             return;
- 
-         case COUNTER_RELOAD_OFFSET:
-@@ -291,6 +305,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr addr,
-             /* gptimer_restart calls gptimer_enable, so if "enable" and "load"
-                bits are present, we just have to call restart. */
- 
-+            grlib_gptimer_tx_begin(&unit->timers[id]);
-             if (value & GPTIMER_LOAD) {
-                 grlib_gptimer_restart(&unit->timers[id]);
-             } else if (value & GPTIMER_ENABLE) {
-@@ -301,6 +316,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr addr,
-             value &= ~(GPTIMER_LOAD & GPTIMER_DEBUG_HALT);
- 
-             unit->timers[id].config = value;
-+            grlib_gptimer_tx_commit(&unit->timers[id]);
-             return;
- 
-         default:
-@@ -344,9 +360,11 @@ static void grlib_gptimer_reset(DeviceState *d)
-         timer->counter = 0;
-         timer->reload = 0;
-         timer->config = 0;
-+        ptimer_transaction_begin(timer->ptimer);
-         ptimer_stop(timer->ptimer);
-         ptimer_set_count(timer->ptimer, 0);
-         ptimer_set_freq(timer->ptimer, unit->freq_hz);
-+        ptimer_transaction_commit(timer->ptimer);
-     }
- }
- 
-@@ -365,14 +383,16 @@ static void grlib_gptimer_realize(DeviceState *dev, Error **errp)
-         GPTimer *timer = &unit->timers[i];
- 
-         timer->unit   = unit;
--        timer->bh     = qemu_bh_new(grlib_gptimer_hit, timer);
--        timer->ptimer = ptimer_init_with_bh(timer->bh, PTIMER_POLICY_DEFAULT);
-+        timer->ptimer = ptimer_init(grlib_gptimer_hit, timer,
-+                                    PTIMER_POLICY_DEFAULT);
-         timer->id     = i;
- 
-         /* One IRQ line for each timer */
-         sysbus_init_irq(sbd, &timer->irq);
- 
-+        ptimer_transaction_begin(timer->ptimer);
-         ptimer_set_freq(timer->ptimer, unit->freq_hz);
-+        ptimer_transaction_commit(timer->ptimer);
-     }
- 
-     memory_region_init_io(&unit->iomem, OBJECT(unit), &grlib_gptimer_ops,
+     s = g_new0(m5206_timer_state, 1);
+-    bh = qemu_bh_new(m5206_timer_trigger, s);
+-    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++    s->timer = ptimer_init(m5206_timer_trigger, s, PTIMER_POLICY_DEFAULT);
+     s->irq = irq;
+     m5206_timer_reset(s);
+     return s;
 -- 
 2.20.1
 
