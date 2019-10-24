@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B0E3237
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:25:01 +0200 (CEST)
-Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF975E3258
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:28:28 +0200 (CEST)
+Received: from localhost ([::1]:41026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcAl-0003uI-Cp
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:24:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39444)
+	id 1iNcE7-0003Oc-A4
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39457)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIG-0003ro-RR
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:41 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbII-0003wH-Pc
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIF-00007q-G5
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60761
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIH-00008K-Au
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46758
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIF-00007Z-BG
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:39 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIH-00008D-6c
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571916518;
+ s=mimecast20190719; t=1571916520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hDDFSLl6Vav0RkNlE+wabtjmTyQMQM9+El2XueyOjyQ=;
- b=fvjcYUbl5Q2i2h/p1OUGrk7xfzSmUWfemwAsMP91tD427Ra+ZEz6ZYQolq/a6hQm/kUY7q
- Y+vwfhRzB8boy52dRRsV7Kl4zhRhlCmJ0d/3xcb8Ho/NsBkpnxvbNcgEyVyfnApWnXyQMx
- L1vH9DloQpwwotw+cIRdOEcpy/98qjw=
+ bh=DLd7Tp/kvk7CtQEiJaNPsk+MgWDyOqf5yg0pdVj2peM=;
+ b=HX5vQRmSmmi4XN22FdYRbOQI9xJauVn+Xb+a7P0e0E3ETHxnM5/IOpX5xubeXbEt9QupRM
+ YUyz8pwfkH2J1RU4TJtJgeg/1kuvqjfDh5r6d1uieaMGLSsrz/RsVxgJjkyzuqdbuVrrO7
+ qFwbK8NMSwEoKHGQ2NOAGPGshdqWGvs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-Qv_B0wuiOUiN551RX96EMQ-1; Thu, 24 Oct 2019 07:28:34 -0400
+ us-mta-188-ADKqlAH8Mw6L7dXLM_TJBQ-1; Thu, 24 Oct 2019 07:28:37 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D208D476;
- Thu, 24 Oct 2019 11:28:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A57C1800D49;
+ Thu, 24 Oct 2019 11:28:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
  [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 558B752D8;
- Thu, 24 Oct 2019 11:28:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2AE3652D5;
+ Thu, 24 Oct 2019 11:28:33 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
  ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
  misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
  piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
  berrange@redhat.com
-Subject: [PATCH 17/25] virtiofsd: move to an empty network namespace
-Date: Thu, 24 Oct 2019 12:27:10 +0100
-Message-Id: <20191024112718.34657-18-dgilbert@redhat.com>
+Subject: [PATCH 18/25] virtiofsd: move to a new pid namespace
+Date: Thu, 24 Oct 2019 12:27:11 +0100
+Message-Id: <20191024112718.34657-19-dgilbert@redhat.com>
 In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
 References: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Qv_B0wuiOUiN551RX96EMQ-1
+X-MC-Unique: ADKqlAH8Mw6L7dXLM_TJBQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -80,35 +80,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-If the process is compromised there should be no network access.  Use an
-empty network namespace to sandbox networking.
+virtiofsd needs access to /proc/self/fd.  Let's move to a new pid
+namespace so that a compromised process cannot see another other
+processes running on the system.
+
+One wrinkle in this approach: unshare(CLONE_NEWPID) affects *child*
+processes and not the current process.  Therefore we need to fork the
+pid 1 process that will actually run virtiofsd and leave a parent in
+waitpid(2).  This is not the same thing as daemonization and parent
+processes should not notice a difference.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- contrib/virtiofsd/passthrough_ll.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ contrib/virtiofsd/passthrough_ll.c | 76 ++++++++++++++++++++++++------
+ 1 file changed, 62 insertions(+), 14 deletions(-)
 
 diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
 ough_ll.c
-index 20a34d4d83..58cf82a89f 100644
+index 58cf82a89f..c027db64e6 100644
 --- a/contrib/virtiofsd/passthrough_ll.c
 +++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -1822,6 +1822,19 @@ static void print_capabilities(void)
- =09printf("}\n");
+@@ -52,6 +52,8 @@
+ #include <sys/syscall.h>
+ #include <sys/xattr.h>
+ #include <sys/mount.h>
++#include <sys/types.h>
++#include <sys/wait.h>
+=20
+ #include "passthrough_helpers.h"
+=20
+@@ -1835,6 +1837,63 @@ static void setup_net_namespace(void)
+ =09}
  }
 =20
 +/*
-+ * Called after our UNIX domain sockets have been created, now we can move=
- to
-+ * an empty network namespace to prevent TCP/IP and other network activity=
- in
-+ * case this process is compromised.
++ * Move to a new pid namespace to prevent access to other processes if thi=
+s
++ * process is compromised.
 + */
-+static void setup_net_namespace(void)
++static void setup_pid_namespace(void)
 +{
-+=09if (unshare(CLONE_NEWNET) !=3D 0) {
-+=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNET): %m\n");
++=09pid_t child;
++
++=09/*
++=09 * Create a new pid namespace for *child* processes.  We'll have to
++=09 * fork in order to enter the new pid namespace.  A new mount namespace
++=09 * is also needed so that we can remount /proc for the new pid
++=09 * namespace.
++=09 */
++=09if (unshare(CLONE_NEWPID | CLONE_NEWNS) !=3D 0) {
++=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\n");
++=09=09exit(1);
++=09}
++
++=09child =3D fork();
++=09if (child < 0) {
++=09=09fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
++=09=09exit(1);
++=09}
++=09if (child > 0) {
++=09=09pid_t waited;
++=09=09int wstatus;
++
++=09=09/* The parent waits for the child */
++=09=09do {
++=09=09=09waited =3D waitpid(child, &wstatus, 0);
++=09=09} while (waited < 0 && errno =3D=3D EINTR);
++
++=09=09if (WIFEXITED(wstatus)) {
++=09=09=09exit(WEXITSTATUS(wstatus));
++=09=09}
++
++=09=09exit(1);
++=09}
++
++=09/*
++=09 * If the mounts have shared propagation then we want to opt out so our
++=09 * mount changes don't affect the parent mount namespace.
++=09 */
++=09if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
++=09=09fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
++=09=09exit(1);
++=09}
++
++=09/* The child must remount /proc to use the new pid namespace */
++=09if (mount("proc", "/proc", "proc",
++=09=09  MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_RELATIME, NULL) < 0) {
++=09=09fuse_log(FUSE_LOG_ERR, "mount(/proc): %m\n");
 +=09=09exit(1);
 +=09}
 +}
@@ -116,14 +174,49 @@ index 20a34d4d83..58cf82a89f 100644
  /* This magic is based on lxc's lxc_pivot_root() */
  static void setup_pivot_root(const char *source)
  {
-@@ -1913,6 +1926,7 @@ static void setup_mount_namespace(const char *source)
+@@ -1898,20 +1957,10 @@ static void setup_proc_self_fd(struct lo_data *lo)
+=20
+ /*
+  * Make the source directory our root so symlinks cannot escape and no oth=
+er
+- * files are accessible.
++ * files are accessible.  Assumes unshare(CLONE_NEWNS) was already called.
+  */
+ static void setup_mount_namespace(const char *source)
+ {
+-=09if (unshare(CLONE_NEWNS) !=3D 0) {
+-=09=09fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNS): %m\n");
+-=09=09exit(1);
+-=09}
+-
+-=09if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
+-=09=09fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_PRIVATE): %m\n");
+-=09=09exit(1);
+-=09}
+-
+ =09if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
+ =09=09fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sourc=
+e);
+ =09=09exit(1);
+@@ -1926,6 +1975,8 @@ static void setup_mount_namespace(const char *source)
   */
  static void setup_sandbox(struct lo_data *lo)
  {
-+=09setup_net_namespace();
++=09setup_pid_namespace();
++=09setup_proc_self_fd(lo);
+ =09setup_net_namespace();
  =09setup_mount_namespace(lo->source);
  }
+@@ -2046,9 +2097,6 @@ int main(int argc, char *argv[])
 =20
+ =09fuse_daemonize(opts.foreground);
+=20
+-=09/* Must be after daemonize to get the right /proc/self/fd */
+-=09setup_proc_self_fd(&lo);
+-
+ =09setup_sandbox(&lo);
+=20
+ =09/* Block until ctrl+c or fusermount -u */
 --=20
 2.23.0
 
