@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65AFE2CE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:12:16 +0200 (CEST)
-Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0FEE2CFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:15:49 +0200 (CEST)
+Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZAF-0007em-D7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43499)
+	id 1iNZDg-00018B-0q
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:15:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ83-0004ja-1s
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:01 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ88-0004v2-Nv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ81-0003gs-SR
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:09:58 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:44682)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ86-0003kP-SX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:04 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59118)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ81-0003g0-Kv
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:09:57 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94MlK116305;
- Thu, 24 Oct 2019 09:09:52 GMT
+ id 1iNZ86-0003jg-MU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:02 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94ooY100039;
+ Thu, 24 Oct 2019 09:09:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=T3mfHAj9+HL3xKXNgTXtFXhOJtn0MsOFyDfMHjSkdBA=;
- b=FonJNxvzL2C/NAPOsAjsxjW+2KPo/VFnT2q07FFh9oGH13ByetO9ZBUPN/PYZuMSBuM3
- ncx9ln83vn39UrGqLgRloE155h7j4TF8bLVkXnxRn/cGLAf5kT+kgSouuxLcSzkckgOh
- 7takQHlbUI8WJ6J18TzAI7sLE4gFslgiPQiws6eVsMq/xHwUXjrYa+FLSZCGwTpTXHhU
- LZoUcJEtL1JT05SZx1yy+aI8V+JHrQspkPTQDkU83e2Ej4HHkP0NAbzHfKeajeGQPTce
- avnqqCBPBVCJPfDGNuBZy2jAy2Ro+RmUV4yhNxVHH3One7IXruCTs4OJvyhREnhqwma2 OA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2vqswttdvg-1
+ bh=WvBi4mcTucarrJC3mEUiNqJBXEVPDzCZQ0Lwyocd0PQ=;
+ b=M3/0OtyPr/wKwVb30/EVXB9usKlZK1asaSi0mQ7P4Ti6CAHLJRmwKFpMNAqaqFIWafFA
+ b8TXMPiyr2Grk7hEORJQ6lscmAkcmcTi+TaSsWcHLmXd6mJq/k7uQ8nE9Aeqx6dhxiBx
+ OfRxZVGziFaaCJcT+uhWnzmj4HzSED9QwKfwgxw5YwLm9N4pCfuOJ30XDkmKTwFuTaK3
+ 1oHbnLfG83CeEaJwS2wc7yniLbqRNaAuFf4BX7H9+y6LfFnEpz5Phx2hcmAav9PtlGdd
+ Feh0eTC4SNurtK9rFtn0I6CjCUqPKRuD5DM+694l4jWuuCAooohHW6YVbVDYbqio5hQP 9g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2vqteq2ac9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:09:52 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jao170543;
- Thu, 24 Oct 2019 09:09:51 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2vtsk484gc-1
+ Thu, 24 Oct 2019 09:09:57 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98nq0076212;
+ Thu, 24 Oct 2019 09:09:56 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2vtjkj2vrd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:09:51 +0000
+ Thu, 24 Oct 2019 09:09:56 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O99oFj001641;
- Thu, 24 Oct 2019 09:09:50 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O99sgN011422;
+ Thu, 24 Oct 2019 09:09:54 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:09:50 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:09:53 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 03/49] multi-process: add a command line option for
- debug file
-Date: Thu, 24 Oct 2019 05:08:44 -0400
-Message-Id: <a321649464d9176634ade5b6f7e6175f654f6a46.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 04/49] multi-process: Add stub functions to facilate
+ build of multi-process
+Date: Thu, 24 Oct 2019 05:08:45 -0400
+Message-Id: <47d48853e305377e04143c4623f23299b448b666.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -78,7 +78,7 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
  definitions=main-1910240089
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,43 +100,462 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Add stub functions that are needed during compile time but not in
+runtime.
 
-Can be used with -d rdebug command options when starting qemu.
-
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- include/qemu/log.h | 1 +
- util/log.c         | 2 ++
- 2 files changed, 3 insertions(+)
+ accel/stubs/kvm-stub.c    |  5 +++
+ accel/stubs/tcg-stub.c    | 96 +++++++++++++++++++++++++++++++++++++++++++++++
+ stubs/audio.c             | 12 ++++++
+ stubs/machine-init-done.c |  4 ++
+ stubs/monitor.c           | 41 ++++++++++++++++++++
+ stubs/net-stub.c          | 31 +++++++++++++++
+ stubs/replay.c            | 14 +++++++
+ stubs/vl-stub.c           | 79 ++++++++++++++++++++++++++++++++++++++
+ stubs/vmstate.c           | 20 ++++++++++
+ stubs/xen-mapcache.c      | 22 +++++++++++
+ 10 files changed, 324 insertions(+)
+ create mode 100644 stubs/audio.c
+ create mode 100644 stubs/net-stub.c
+ create mode 100644 stubs/vl-stub.c
+ create mode 100644 stubs/xen-mapcache.c
 
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index b097a6c..ca6f490 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -45,6 +45,7 @@ static inline bool qemu_log_separate(void)
- /* LOG_TRACE (1 << 15) is defined in log-for-trace.h */
- #define CPU_LOG_TB_OP_IND  (1 << 16)
- #define CPU_LOG_TB_FPU     (1 << 17)
-+#define LOG_REMOTE_DEBUG   (1 << 18)
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 6feb66e..f129dfb 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -31,6 +31,7 @@ bool kvm_allowed;
+ bool kvm_readonly_mem_allowed;
+ bool kvm_ioeventfd_any_length_allowed;
+ bool kvm_msi_use_devid;
++bool kvm_halt_in_kernel_allowed;
  
- /* Lock output for a series of related logs.  Since this is not needed
-  * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
-diff --git a/util/log.c b/util/log.c
-index 1d1b33f..78e3e82 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -273,6 +273,8 @@ const QEMULogItem qemu_log_items[] = {
-     { CPU_LOG_TB_NOCHAIN, "nochain",
-       "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
-       "complete traces" },
-+    { LOG_REMOTE_DEBUG, "rdebug",
-+      "log remote debug" },
-     { 0, NULL, NULL },
- };
+ int kvm_destroy_vcpu(CPUState *cpu)
+ {
+@@ -58,6 +59,10 @@ void kvm_cpu_synchronize_post_init(CPUState *cpu)
+ {
+ }
  
++void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu)
++{
++}
++
+ int kvm_cpu_exec(CPUState *cpu)
+ {
+     abort();
+diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+index e2d23ed..9b55fb0 100644
+--- a/accel/stubs/tcg-stub.c
++++ b/accel/stubs/tcg-stub.c
+@@ -15,11 +15,107 @@
+ #include "cpu.h"
+ #include "tcg/tcg.h"
+ #include "exec/exec-all.h"
++#include "translate-all.h"
++#include "exec/ram_addr.h"
++
++bool parallel_cpus;
+ 
+ void tb_flush(CPUState *cpu)
+ {
+ }
+ 
++void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
++{
++}
++
++void tb_invalidate_phys_range(ram_addr_t start, ram_addr_t end)
++{
++}
++
++void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end)
++{
++}
++
++void tb_invalidate_phys_page_fast(struct page_collection *pages,
++                                  tb_page_addr_t start, int len,
++                                  uintptr_t retaddr)
++{
++}
++
++void tlb_init(CPUState *cpu)
++{
++}
++
+ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
+ {
+ }
++
++void tlb_flush(CPUState *cpu)
++{
++}
++
++void tlb_flush_page(CPUState *cpu, target_ulong addr)
++{
++}
++
++void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1, ram_addr_t length)
++{
++}
++
++void tcg_region_init(void)
++{
++}
++
++void tcg_register_thread(void)
++{
++}
++
++void tcg_flush_softmmu_tlb(CPUState *cs)
++{
++}
++
++void cpu_loop_exit_noexc(CPUState *cpu)
++{
++    cpu->exception_index = -1;
++    cpu_loop_exit(cpu);
++}
++
++void cpu_loop_exit(CPUState *cpu)
++{
++    cpu->can_do_io = 1;
++    siglongjmp(cpu->jmp_env, 1);
++}
++
++void cpu_reloading_memory_map(void)
++{
++}
++
++int cpu_exec(CPUState *cpu)
++{
++    return 0;
++}
++
++void cpu_exec_step_atomic(CPUState *cpu)
++{
++}
++
++bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
++{
++    return false;
++}
++
++void cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc)
++{
++    while (1) {
++    }
++}
++
++struct page_collection *
++page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
++{
++    return NULL;
++}
++
++void page_collection_unlock(struct page_collection *set)
++{
++}
+diff --git a/stubs/audio.c b/stubs/audio.c
+new file mode 100644
+index 0000000..8ae3b0f
+--- /dev/null
++++ b/stubs/audio.c
+@@ -0,0 +1,12 @@
++#include "qemu/osdep.h"
++#include "audio/audio.h"
++
++AudioState *audio_state_by_name(const char *name)
++{
++    return NULL;
++}
++
++const char *audio_get_id(QEMUSoundCard *card)
++{
++    return NULL;
++}
+diff --git a/stubs/machine-init-done.c b/stubs/machine-init-done.c
+index cd8e813..3deabc9 100644
+--- a/stubs/machine-init-done.c
++++ b/stubs/machine-init-done.c
+@@ -6,3 +6,7 @@ bool machine_init_done = true;
+ void qemu_add_machine_init_done_notifier(Notifier *notify)
+ {
+ }
++
++void qemu_remove_machine_init_done_notifier(Notifier *notify)
++{
++}
+diff --git a/stubs/monitor.c b/stubs/monitor.c
+index c3e9a2e..17d2493 100644
+--- a/stubs/monitor.c
++++ b/stubs/monitor.c
+@@ -2,9 +2,19 @@
+ #include "qapi/error.h"
+ #include "qapi/qapi-emit-events.h"
+ #include "monitor/monitor.h"
++#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-commands-misc.h"
++#include "qapi/qapi-types-qom.h"
++#include "qapi/qapi-commands-qdev.h"
++#include "hw/qdev-core.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/runstate.h"
++#include "monitor/hmp.h"
+ 
+ __thread Monitor *cur_mon;
+ 
++#pragma weak hmp_handle_error
++
+ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
+ {
+     abort();
+@@ -27,3 +37,34 @@ void monitor_init_hmp(Chardev *chr, bool use_readline)
+ void qapi_event_emit(QAPIEvent event, QDict *qdict)
+ {
+ }
++
++int monitor_get_cpu_index(void)
++{
++    return -ENOSYS;
++}
++int monitor_printf(Monitor *mon, const char *fmt, ...)
++{
++    return -ENOSYS;
++}
++
++bool monitor_cur_is_qmp(void)
++{
++    return false;
++}
++
++ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
++                                                   Error **errp)
++{
++    return NULL;
++}
++
++VMChangeStateEntry *qdev_add_vm_change_state_handler(DeviceState *dev,
++                                                     VMChangeStateHandler *cb,
++                                                     void *opaque)
++{
++    return NULL;
++}
++
++void hmp_handle_error(Monitor *mon, Error **errp)
++{
++}
+diff --git a/stubs/net-stub.c b/stubs/net-stub.c
+new file mode 100644
+index 0000000..cb2274b
+--- /dev/null
++++ b/stubs/net-stub.c
+@@ -0,0 +1,31 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "net/net.h"
++
++int qemu_find_net_clients_except(const char *id, NetClientState **ncs,
++                                 NetClientDriver type, int max)
++{
++    return -ENOSYS;
++}
++
++NetClientState *net_hub_port_find(int hub_id)
++{
++    return NULL;
++}
++
++int net_hub_id_for_client(NetClientState *nc, int *id)
++{
++    return -ENOSYS;
++}
++
++int qemu_show_nic_models(const char *arg, const char *const *models)
++{
++    return -ENOSYS;
++}
++
++int qemu_find_nic_model(NICInfo *nd, const char * const *models,
++                        const char *default_model)
++{
++    return -ENOSYS;
++}
++
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 10b3925..c0b51cb 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -79,3 +79,17 @@ void replay_mutex_lock(void)
+ void replay_mutex_unlock(void)
+ {
+ }
++
++bool replay_has_checkpoint(void)
++{
++    return false;
++}
++
++int replay_get_instructions(void)
++{
++    return 0;
++}
++
++void replay_account_executed_instructions(void)
++{
++}
+diff --git a/stubs/vl-stub.c b/stubs/vl-stub.c
+new file mode 100644
+index 0000000..fff72be
+--- /dev/null
++++ b/stubs/vl-stub.c
+@@ -0,0 +1,79 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/uuid.h"
++#include "sysemu/sysemu.h"
++#include "exec/cpu-common.h"
++#include "exec/gdbstub.h"
++#include "sysemu/replay.h"
++#include "disas/disas.h"
++#include "sysemu/runstate.h"
++
++bool tcg_allowed;
++bool xen_allowed;
++bool boot_strict;
++bool qemu_uuid_set;
++
++int mem_prealloc;
++int smp_cpus;
++int vga_interface_type = VGA_NONE;
++int smp_cores = 1;
++int smp_threads = 1;
++int icount_align_option;
++int boot_menu;
++
++unsigned int max_cpus;
++const uint32_t arch_type;
++const char *mem_path;
++uint8_t qemu_extra_params_fw[2];
++uint8_t *boot_splash_filedata;
++size_t boot_splash_filedata_size;
++struct syminfo *syminfos;
++
++ram_addr_t ram_size;
++MachineState *current_machine;
++QemuUUID qemu_uuid;
++
++int runstate_is_running(void)
++{
++    return 0;
++}
++
++void runstate_set(RunState new_state)
++{
++}
++
++void vm_state_notify(int running, RunState state)
++{
++}
++
++bool qemu_vmstop_requested(RunState *r)
++{
++    return false;
++}
++
++void qemu_system_debug_request(void)
++{
++}
++
++char *qemu_find_file(int type, const char *name)
++{
++    return NULL;
++}
++
++void gdb_set_stop_cpu(CPUState *cpu)
++{
++}
++
++void replay_enable_events(void)
++{
++}
++
++void replay_disable_events(void)
++{
++}
++
++#ifdef TARGET_I386
++void x86_cpu_list(void)
++{
++}
++#endif
+diff --git a/stubs/vmstate.c b/stubs/vmstate.c
+index e1e89b8..a9824bc 100644
+--- a/stubs/vmstate.c
++++ b/stubs/vmstate.c
+@@ -1,8 +1,11 @@
+ #include "qemu/osdep.h"
+ #include "migration/vmstate.h"
++#include "migration/misc.h"
+ 
+ const VMStateDescription vmstate_dummy = {};
+ 
++const VMStateInfo vmstate_info_timer;
++
+ int vmstate_register_with_alias_id(DeviceState *dev,
+                                    int instance_id,
+                                    const VMStateDescription *vmsd,
+@@ -23,3 +26,20 @@ bool vmstate_check_only_migratable(const VMStateDescription *vmsd)
+ {
+     return true;
+ }
++
++void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
++{
++}
++
++void vmstate_unregister_ram(MemoryRegion *mr, DeviceState *dev)
++{
++}
++
++void vmstate_register_ram_global(MemoryRegion *mr)
++{
++}
++
++bool migration_is_idle(void)
++{
++    return true;
++}
+diff --git a/stubs/xen-mapcache.c b/stubs/xen-mapcache.c
+new file mode 100644
+index 0000000..af5c031
+--- /dev/null
++++ b/stubs/xen-mapcache.c
+@@ -0,0 +1,22 @@
++#include "qemu/osdep.h"
++#include "exec/hwaddr.h"
++#include "exec/cpu-common.h"
++#include "sysemu/xen-mapcache.h"
++
++#ifdef CONFIG_XEN
++
++void xen_invalidate_map_cache_entry(uint8_t *buffer)
++{
++}
++
++uint8_t *xen_map_cache(hwaddr phys_addr, hwaddr size, uint8_t lock, bool dma)
++{
++    return NULL;
++}
++
++ram_addr_t xen_ram_addr_from_mapcache(void *ptr)
++{
++    return 0;
++}
++
++#endif
 -- 
 1.8.3.1
 
