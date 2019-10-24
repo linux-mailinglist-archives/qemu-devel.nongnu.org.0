@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB83E35EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:47:35 +0200 (CEST)
-Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECDFE35A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:34:50 +0200 (CEST)
+Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeOg-0007SV-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:47:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
+	id 1iNeCO-00055V-Gw
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51503)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1iNclB-0006NB-5h
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:38 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iNckT-0005WE-EM
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1iNcl5-0003JE-Qy
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:36 -0400
-Received: from mga11.intel.com ([192.55.52.93]:40516)
+ (envelope-from <pbonzini@redhat.com>) id 1iNckR-0002bp-Kb
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58138)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNcl5-0002aG-FE
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 06:02:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156361"
-Received: from iov.bj.intel.com ([10.238.145.67])
- by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:02:12 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
- alex.williamson@redhat.com, peterx@redhat.com
-Subject: [RFC v2 22/22] intel_iommu: process PASID-based Device-TLB
- invalidation
-Date: Thu, 24 Oct 2019 08:34:43 -0400
-Message-Id: <1571920483-3382-23-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iNckR-0002bR-C8
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:51 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 37343C049E17
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 13:01:50 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id z23so1056068wml.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:01:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vSc3owgLawv5MFYpzoX1TjEMMoTIOV7tcHhCX7Da5OU=;
+ b=kBDk/HdBULoTgqZukT8KyH44zIyQqbAtvF+I9K5+Heqzd06edvUJLmX+twKtPutx0y
+ nQXX2ibASh4KnJdx4gA5+8ysw53I8Rp//MvnBu08m2X+dt4bO5XNLsE4UgeOx+aezgo1
+ jAfXFGzR3BAHb8Rnyg1oDBCeG/Q4LIhJi3wEJEfcoL7ScHLVjAtHwGRNQxiDpNOHByPz
+ Aj/4uh7OkwbEB/AZbiTHaxwFfE9XeMhySQmS+U8PkwFf9oB/antsgTvD28eFdYx/HDf7
+ iGhObFWIXg6VL3iHbXmqei0bF4G7Zin0MT28ejCo63i4FTlyM6ulptjXDnTdUr08DZJ9
+ +0AQ==
+X-Gm-Message-State: APjAAAUTg9Ig9/yDp07x3ujx7LDdoWTjSNPUWFuzhcQgtWLObLoxf2Oc
+ cBIDkYD0ZmRmR0fNzNv283uuV9ISzuQvcV5832wLtJxIG/JyKQRUG/AE2NkndQWx3dHR4/qpwJA
+ +KQytYj8ZWwWGmTE=
+X-Received: by 2002:a5d:678e:: with SMTP id v14mr3619906wru.393.1571922108833; 
+ Thu, 24 Oct 2019 06:01:48 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwl0fRVb3Fl2P3Dg7gTf20NvmYh1CwZwia+rb6tod4kvBQCQOXsmPwICPFjkPdwIMKF83Wg5w==
+X-Received: by 2002:a5d:678e:: with SMTP id v14mr3619855wru.393.1571922108419; 
+ Thu, 24 Oct 2019 06:01:48 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:6887:47f9:72a7:24e6?
+ ([2001:b07:6468:f312:6887:47f9:72a7:24e6])
+ by smtp.gmail.com with ESMTPSA id h10sm22506591wrq.95.2019.10.24.06.01.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 06:01:47 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] mc146818rtc: Tidy up indentation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+References: <20191024122425.2483-1-philmd@redhat.com>
+ <20191024122425.2483-3-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <c4fef2c4-32f1-cb4a-295f-13a03434becd@redhat.com>
+Date: Thu, 24 Oct 2019 15:01:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191024122425.2483-3-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,76 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com, jacob.jun.pan@linux.intel.com,
- david@gibson.dropbear.id.au
+Cc: Xiao Guangrong <guangrong.xiao@gmail.com>,
+ Vadim Rozenfeld <vrozenfe@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds an empty handling for PASID-based Device-TLB invalidation.
-For now it is enough as it is not necessary to propagate it to host for
-passthru device and also there is no emulated device has device tlb.
+On 24/10/19 14:24, Philippe Mathieu-Daud=C3=A9 wrote:
+> -        * if the periodic timer's update is due to period re-configura=
+tion,
+> -        * we should count the clock since last interrupt.
+> -        */
+> -        if (old_period) {
+> -            int64_t last_periodic_clock, next_periodic_clock;
+> +    /*
+> +     * if the periodic timer's update is due to period re-configuratio=
+n,
+> +     * we should count the clock since last interrupt.
+> +     */
+> +    if (old_period) {
+> +        int64_t last_periodic_clock, next_periodic_clock;
+> =20
+> -            next_periodic_clock =3D muldiv64(s->next_periodic_time,
+> -                                    RTC_CLOCK_RATE, NANOSECONDS_PER_SE=
+COND);
+> -            last_periodic_clock =3D next_periodic_clock - old_period;
+> -            lost_clock =3D cur_clock - last_periodic_clock;
+> -            assert(lost_clock >=3D 0);
+> +        next_periodic_clock =3D muldiv64(s->next_periodic_time,
+> +                                RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND=
+);
+> +        last_periodic_clock =3D next_periodic_clock - old_period;
+> +        lost_clock =3D cur_clock - last_periodic_clock;
+> +        assert(lost_clock >=3D 0);
+>          }
+> =20
+>          /*
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- hw/i386/intel_iommu.c          | 18 ++++++++++++++++++
- hw/i386/intel_iommu_internal.h |  1 +
- 2 files changed, 19 insertions(+)
+Still not entirely tidy, is it?  I understand making Marcelo's fix just
+move a brace, but in general you can review with "git show -b" to see
+more clearly what's going on.  Therefore, it would make the most sense
+to have just two patches, one reversing the if and one fixing the bug
+(and both of them having indentation changes).
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 5ca9ee1..1c00e9c 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3285,6 +3285,17 @@ static bool vtd_process_inv_iec_desc(IntelIOMMUState *s,
-     return true;
- }
- 
-+static bool vtd_process_device_piotlb_desc(IntelIOMMUState *s,
-+                                           VTDInvDesc *inv_desc)
-+{
-+    /*
-+     * no need to handle it for passthru device, for emulated
-+     * devices with device tlb, it may be required, but for now,
-+     * return is enough
-+     */
-+    return true;
-+}
-+
- static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
-                                           VTDInvDesc *inv_desc)
- {
-@@ -3406,6 +3417,13 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
-         }
-         break;
- 
-+    case VTD_INV_DESC_DEV_PIOTLB:
-+        trace_vtd_inv_desc("device-piotlb", inv_desc.hi, inv_desc.lo);
-+        if (!vtd_process_device_piotlb_desc(s, &inv_desc)) {
-+            return false;
-+        }
-+        break;
-+
-     case VTD_INV_DESC_DEVICE:
-         trace_vtd_inv_desc("device", inv_desc.hi, inv_desc.lo);
-         if (!vtd_process_device_iotlb_desc(s, &inv_desc)) {
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 6a83f6c..714dc09 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -390,6 +390,7 @@ typedef union VTDInvDesc VTDInvDesc;
- #define VTD_INV_DESC_WAIT               0x5 /* Invalidation Wait Descriptor */
- #define VTD_INV_DESC_PIOTLB             0x6 /* PASID-IOTLB Invalidate Desc */
- #define VTD_INV_DESC_PC                 0x7 /* PASID-cache Invalidate Desc */
-+#define VTD_INV_DESC_DEV_PIOTLB         0x8 /* PASID-based-DIOTLB inv_desc*/
- #define VTD_INV_DESC_NONE               0   /* Not an Invalidate Descriptor */
- 
- /* Masks for Invalidation Wait Descriptor*/
--- 
-2.7.4
+However, I'm preparing the pull request now so I think I'll just keep
+Marcelo's version.
 
+Paolo
 
