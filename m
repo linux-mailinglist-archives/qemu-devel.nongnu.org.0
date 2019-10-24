@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56184E326A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:32:53 +0200 (CEST)
-Received: from localhost ([::1]:41084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70B8E3269
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:32:47 +0200 (CEST)
+Received: from localhost ([::1]:41082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcIN-00048O-Su
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:32:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39477)
+	id 1iNcIH-0003x6-EH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIQ-0004H1-EJ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:51 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIY-0004W0-S2
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIO-0000C3-Pn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53323
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIX-0000FQ-Mr
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25447
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIO-0000Bz-Le
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:48 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIX-0000FF-Ih
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571916528;
+ s=mimecast20190719; t=1571916537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K58GGzAip+2dZ/mZYZArAE9ijZ6rn56P+KDGUgMRovI=;
- b=Pu+Hf5SvAYCDOu/s2YnKiVQAeA+wuPAM/XJZQQrpNREt1r6Kg5Snn7sgn8RWCkYh3UQRfz
- xnSrnZxgycYETxuvweceS2TXpwHVwhsc0tOhGaWogRjBSuTpyqAF9lG4aMn+hN676phwcP
- VZ1RLV+sfmWbZmJ0AW3KM2XkNW+Tq9E=
+ bh=2zmQoqXTuy3AmkJlK9V5BPRo4oz08bz1cJxtEi8udjo=;
+ b=IhLbCnEbvHKaUzfoMjPGiUFJeAJdXNjiHyCLk0+iBEdWFsUUaQ7UakLuqUPmFSf/TFblIN
+ dOJgHNFsJr5gm6YmO7yU1MCzkpr750u2+3mPVtkscgMPQAM2C4IpBYZ3re7izd34MZCCKa
+ 7k91G0LhRsEEjc0KfZUqCVApucwFANk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-t2R1WiDZOHmLewGpIi7eUQ-1; Thu, 24 Oct 2019 07:28:44 -0400
+ us-mta-312-UYg3KWsvPGWWtg4SU_Ismg-1; Thu, 24 Oct 2019 07:28:53 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 726CB800D49;
- Thu, 24 Oct 2019 11:28:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37886476;
+ Thu, 24 Oct 2019 11:28:52 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
  [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEDF0196B2;
- Thu, 24 Oct 2019 11:28:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7321C93D;
+ Thu, 24 Oct 2019 11:28:49 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
  ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
  misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
  piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
  berrange@redhat.com
-Subject: [PATCH 19/25] virtiofsd: add seccomp whitelist
-Date: Thu, 24 Oct 2019 12:27:12 +0100
-Message-Id: <20191024112718.34657-20-dgilbert@redhat.com>
+Subject: [PATCH 22/25] virtiofsd: set maximum RLIMIT_NOFILE limit
+Date: Thu, 24 Oct 2019 12:27:15 +0100
+Message-Id: <20191024112718.34657-23-dgilbert@redhat.com>
 In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
 References: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: t2R1WiDZOHmLewGpIi7eUQ-1
+X-MC-Unique: UYg3KWsvPGWWtg4SU_Ismg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,224 +80,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Only allow system calls that are needed by virtiofsd.  All other system
-calls cause SIGSYS to be directed at the thread.
-
-Restricting system calls reduces the kernel attack surface and limits
-what the process can do when compromised.
+virtiofsd can exceed the default open file descriptor limit easily on
+most systems.  Take advantage of the fact that it runs as root to set up
+the maximum open file descriptor limit allowed on the system (the
+nr_open sysctl).
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-with additional entries by:
-Signed-off-by: Ganesh Maharaj Mahalingam <ganesh.mahalingam@intel.com>
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-Signed-off-by: piaojun <piaojun@huawei.com>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Eric Ren <renzhen@linux.alibaba.com>
 ---
- contrib/virtiofsd/Makefile.objs    |   5 +-
- contrib/virtiofsd/passthrough_ll.c |   2 +
- contrib/virtiofsd/seccomp.c        | 132 +++++++++++++++++++++++++++++
- contrib/virtiofsd/seccomp.h        |  14 +++
- 4 files changed, 152 insertions(+), 1 deletion(-)
- create mode 100644 contrib/virtiofsd/seccomp.c
- create mode 100644 contrib/virtiofsd/seccomp.h
+ contrib/virtiofsd/passthrough_ll.c | 34 ++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/contrib/virtiofsd/Makefile.objs b/contrib/virtiofsd/Makefile.o=
-bjs
-index 67be16332c..941b19f18e 100644
---- a/contrib/virtiofsd/Makefile.objs
-+++ b/contrib/virtiofsd/Makefile.objs
-@@ -6,5 +6,8 @@ virtiofsd-obj-y =3D buffer.o \
-                   fuse_signals.o \
-                   fuse_virtio.o \
-                   helper.o \
--                  passthrough_ll.o
-+                  passthrough_ll.o \
-+                  seccomp.o
-=20
-+seccomp.o-cflags :=3D $(SECCOMP_CFLAGS)
-+seccomp.o-libs :=3D $(SECCOMP_LIBS)
 diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
 ough_ll.c
-index c027db64e6..93873bf6f4 100644
+index fe46b25fb6..25f7ad854a 100644
 --- a/contrib/virtiofsd/passthrough_ll.c
 +++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -56,6 +56,7 @@
+@@ -53,9 +53,11 @@
+ #include <sys/xattr.h>
+ #include <sys/capability.h>
+ #include <sys/mount.h>
++#include <sys/resource.h>
+ #include <sys/types.h>
  #include <sys/wait.h>
 =20
++#include <glib.h>
  #include "passthrough_helpers.h"
-+#include "seccomp.h"
+ #include "seccomp.h"
 =20
- #define HAVE_POSIX_FALLOCATE 1
-=20
-@@ -1979,6 +1980,7 @@ static void setup_sandbox(struct lo_data *lo)
- =09setup_proc_self_fd(lo);
- =09setup_net_namespace();
- =09setup_mount_namespace(lo->source);
-+=09setup_seccomp();
+@@ -2110,6 +2112,36 @@ static void setup_sandbox(struct lo_data *lo)
+ =09setup_seccomp();
  }
 =20
- int main(int argc, char *argv[])
-diff --git a/contrib/virtiofsd/seccomp.c b/contrib/virtiofsd/seccomp.c
-new file mode 100644
-index 0000000000..df1390d6be
---- /dev/null
-+++ b/contrib/virtiofsd/seccomp.c
-@@ -0,0 +1,132 @@
-+/*
-+ * Seccomp sandboxing for virtiofsd
-+ *
-+ * Copyright (C) 2019 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "seccomp.h"
-+#include "fuse_i.h"
-+#include "fuse_log.h"
-+#include <errno.h>
-+#include <glib.h>
-+#include <seccomp.h>
-+#include <stdlib.h>
-+
-+static const int syscall_whitelist[] =3D {
-+    /* TODO ireg sem*() syscalls */
-+    SCMP_SYS(brk),
-+    SCMP_SYS(capget), /* For CAP_FSETID */
-+    SCMP_SYS(capset),
-+    SCMP_SYS(clock_gettime),
-+    SCMP_SYS(clone),
-+    SCMP_SYS(close),
-+    SCMP_SYS(copy_file_range),
-+    SCMP_SYS(dup),
-+    SCMP_SYS(eventfd2),
-+    SCMP_SYS(exit),
-+    SCMP_SYS(exit_group),
-+    SCMP_SYS(fallocate),
-+    SCMP_SYS(fchmodat),
-+    SCMP_SYS(fchownat),
-+    SCMP_SYS(fcntl),
-+    SCMP_SYS(fdatasync),
-+    SCMP_SYS(fgetxattr),
-+    SCMP_SYS(flistxattr),
-+    SCMP_SYS(flock),
-+    SCMP_SYS(fremovexattr),
-+    SCMP_SYS(fsetxattr),
-+    SCMP_SYS(fstat),
-+    SCMP_SYS(fstatfs),
-+    SCMP_SYS(fsync),
-+    SCMP_SYS(ftruncate),
-+    SCMP_SYS(futex),
-+    SCMP_SYS(getdents),
-+    SCMP_SYS(getdents64),
-+    SCMP_SYS(getegid),
-+    SCMP_SYS(geteuid),
-+    SCMP_SYS(getpid),
-+    SCMP_SYS(gettid),
-+    SCMP_SYS(gettimeofday),
-+    SCMP_SYS(linkat),
-+    SCMP_SYS(lseek),
-+    SCMP_SYS(madvise),
-+    SCMP_SYS(mkdirat),
-+    SCMP_SYS(mknodat),
-+    SCMP_SYS(mmap),
-+    SCMP_SYS(mprotect),
-+    SCMP_SYS(mremap),
-+    SCMP_SYS(munmap),
-+    SCMP_SYS(newfstatat),
-+    SCMP_SYS(open),
-+    SCMP_SYS(openat),
-+    SCMP_SYS(ppoll),
-+    SCMP_SYS(prctl), /* TODO restrict to just PR_SET_NAME? */
-+    SCMP_SYS(preadv),
-+    SCMP_SYS(pread64),
-+    SCMP_SYS(pwritev),
-+    SCMP_SYS(pwrite64),
-+    SCMP_SYS(read),
-+    SCMP_SYS(readlinkat),
-+    SCMP_SYS(recvmsg),
-+    SCMP_SYS(renameat),
-+    SCMP_SYS(renameat2),
-+    SCMP_SYS(rt_sigaction),
-+    SCMP_SYS(rt_sigprocmask),
-+    SCMP_SYS(rt_sigreturn),
-+    SCMP_SYS(sendmsg),
-+    SCMP_SYS(setresgid),
-+    SCMP_SYS(setresuid),
-+    SCMP_SYS(set_robust_list),
-+    SCMP_SYS(symlinkat),
-+    SCMP_SYS(time), /* Rarely needed, except on static builds */
-+    SCMP_SYS(tgkill),
-+    SCMP_SYS(unlinkat),
-+    SCMP_SYS(utimensat),
-+    SCMP_SYS(write),
-+    SCMP_SYS(writev),
-+};
-+
-+void setup_seccomp(void)
++/* Raise the maximum number of open file descriptors to the system limit *=
+/
++static void setup_nofile_rlimit(void)
 +{
-+    scmp_filter_ctx ctx;
-+    size_t i;
++=09gchar *nr_open =3D NULL;
++=09struct rlimit rlim;
++=09long long max;
 +
-+#ifdef SCMP_ACT_KILL_PROCESS
-+    ctx =3D seccomp_init(SCMP_ACT_KILL_PROCESS);
-+    /* Handle a newer libseccomp but an older kernel */
-+    if (!ctx && errno =3D=3D EOPNOTSUPP) {
-+        ctx =3D seccomp_init(SCMP_ACT_KILL);
-+    }
-+#else
-+    ctx =3D seccomp_init(SCMP_ACT_KILL);
-+#endif
-+    if (!ctx) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_init() failed\n");
-+        exit(1);
-+    }
++=09if (!g_file_get_contents("/proc/sys/fs/nr_open", &nr_open, NULL, NULL))=
+ {
++=09=09fuse_log(FUSE_LOG_ERR, "unable to read /proc/sys/fs/nr_open\n");
++=09=09exit(1);
++=09}
 +
-+    for (i =3D 0; i < G_N_ELEMENTS(syscall_whitelist); i++) {
-+        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
-+                             syscall_whitelist[i], 0) !=3D 0) {
-+            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d",
-+                     syscall_whitelist[i]);
-+            exit(1);
-+        }
-+    }
++=09errno =3D 0;
++=09max =3D strtoll(nr_open, NULL, 0);
++=09if (errno) {
++=09=09fuse_log(FUSE_LOG_ERR, "strtoll(%s): %m\n", nr_open);
++=09=09exit(1);
++=09}
 +
-+    /* libvhost-user calls this for post-copy migration, we don't need it =
-*/
-+    if (seccomp_rule_add(ctx, SCMP_ACT_ERRNO(ENOSYS),
-+                         SCMP_SYS(userfaultfd), 0) !=3D 0) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_rule_add userfaultfd failed\n");
-+        exit(1);
-+    }
++=09rlim.rlim_cur =3D max;
++=09rlim.rlim_max =3D max;
 +
-+    if (seccomp_load(ctx) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_load() failed\n");
-+        exit(1);
-+    }
++=09if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
++=09=09fuse_log(FUSE_LOG_ERR, "setrlimit(RLIMIT_NOFILE): %m\n");
++=09=09exit(1);
++=09}
 +
-+    seccomp_release(ctx);
++=09g_free(nr_open);
 +}
-diff --git a/contrib/virtiofsd/seccomp.h b/contrib/virtiofsd/seccomp.h
-new file mode 100644
-index 0000000000..86bce72652
---- /dev/null
-+++ b/contrib/virtiofsd/seccomp.h
-@@ -0,0 +1,14 @@
-+/*
-+ * Seccomp sandboxing for virtiofsd
-+ *
-+ * Copyright (C) 2019 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
 +
-+#ifndef VIRTIOFSD_SECCOMP_H
-+#define VIRTIOFSD_SECCOMP_H
+ int main(int argc, char *argv[])
+ {
+ =09struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+@@ -2125,6 +2157,8 @@ int main(int argc, char *argv[])
+ =09/* Don't mask creation mode, kernel already did that */
+ =09umask(0);
+=20
++=09setup_nofile_rlimit();
 +
-+void setup_seccomp(void);
-+
-+#endif /* VIRTIOFSD_SECCOMP_H */
+ =09pthread_mutex_init(&lo.mutex, NULL);
+ =09lo.root.next =3D lo.root.prev =3D &lo.root;
+ =09lo.root.fd =3D -1;
 --=20
 2.23.0
 
