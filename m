@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA0EE37B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:18:34 +0200 (CEST)
-Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D87E37D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:25:30 +0200 (CEST)
+Received: from localhost ([::1]:46732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfom-0004dM-PU
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46062)
+	id 1iNfvU-0007rK-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNepQ-0004Pa-MD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:15:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNf5M-0008N9-K2
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:31:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNepN-0000kz-3c
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:15:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49080)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNepL-0000iv-Sz
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:15:05 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 444DD356C9
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 15:15:02 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id s9so13000204wrw.23
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 08:15:02 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNf5L-0005cM-Du
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:31:36 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40168)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNf5K-0005bn-5b
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:31:35 -0400
+Received: by mail-ot1-x342.google.com with SMTP id d8so9837393otc.7
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 08:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vuNzvSaBraIFLt8uoV90RNwLo/LGzjlc4pA2Q+3haAE=;
+ b=ic9n0shd81jfYrQfgsj9GVgWmZ0/iHYok/QHtmw1pXz7CMvy++bXLBS6Wk8pWS4N0m
+ 5TjbmRudqde8Yc9W6orVmnArE0JVnhJQbwt7RXr47kBNbPQZirh/G+GgEs+CaxZBNQsv
+ dzzZxOFFvL9BI8TB0go2M6rDhI3V8gUuIF7hC7Uj0Jt9q+oifV3Xdzgq/AIoKw56A6Wq
+ rVzRydxTlV77IK1hu6+oVE8Tb6SHHnTd4x4O66AgXTVXpPrdcpBiF6DVHsZNDjkcL/Md
+ dv3POWYx3Tb9ddTtO0y39xDm7C6leMKKar34oVgsbKfJxvoPpXk9HiNLT2ZILdazv9kU
+ 9wQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Et4riH+rOkY2Iq7ZfHlw4dNR2LGBJigWGH1xlsunf00=;
- b=KuuXi5PCipeaJmGz3JDXOnI/ehWo6AJYRmtXsZRaOxjzqAHitYYGCGhFVrTFZBOFVN
- 7PvCV84i8TPyVPnZPyRRnuPdtjAQDUcFb8iLCbNdE/XXeobsTa5gnzH6fMbhcNKMkzTj
- rwSr7GHLOOsoryi32blGXbDcUbdZ6+XS4rHdO1T9wpiRmtVHCBpMaVve0NJiGKESRY0F
- XrBG6aloxqplrpzXd4rKbp6p2I/wd5n7EfxuV3YadYyXtgJPNValQV2n+ywrTB8tCveq
- iVO9BYKDaA0c/CQMD4qMId5EnCNhUshL2zrkQR7WbGCvzYO6YMesXg8qbAItyD4Wq8aP
- ZzSg==
-X-Gm-Message-State: APjAAAUhCU3fUTJk+k8ywGbeP3M3U/rrXjteKL+IvG9ZxCs/YZnHcTf+
- 5wxK+ACOdCydWlqNsN4X1e42/mi78tfADUEKe/yuVpTMpJ83I3/TJ+ofXr8anF8NTJIzWngRfzi
- ddRWSYTYqmkPlZR8=
-X-Received: by 2002:a5d:404d:: with SMTP id w13mr4545098wrp.185.1571930100672; 
- Thu, 24 Oct 2019 08:15:00 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyhgBOTo27Yj4sbJOMWBKjuGfmZmHxXQ5VUc730nVN2eWaQ3v7joo1ejQlS+m9qbCY4pwKOMw==
-X-Received: by 2002:a5d:404d:: with SMTP id w13mr4545081wrp.185.1571930100462; 
- Thu, 24 Oct 2019 08:15:00 -0700 (PDT)
-Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id k24sm4086621wmi.1.2019.10.24.08.14.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 08:14:59 -0700 (PDT)
-Subject: Re: [PULL 35/39] audio: fix missing break
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
- <1571925835-31930-36-git-send-email-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ec80810d-3821-9a30-5f52-c36fd2ba8845@redhat.com>
-Date: Thu, 24 Oct 2019 17:14:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vuNzvSaBraIFLt8uoV90RNwLo/LGzjlc4pA2Q+3haAE=;
+ b=I3hWz7q6CBD0N5PGdWyMDJQhG1t3Bt3Qss8e5nRAhbhQEk7qIX9qyduw1amg8/FN5G
+ uCvJs0YncIpe1BodSnjV/85OXa2CYSHd3JMQwjkNOX6c6TpSpPu7HYtDPeJ3hTNjaAKR
+ n88+xbkUHgxKxdmfKuhfOUDhVjAigcbs70oGM/YKoyJDGw+SPLn5VgR61Sq/jCqizoVn
+ mLDSxMBOrPygS9nXX8YDZPQwuUhjleOAcF7LDahvgX/yytAbQzJs/nzrbMbTLPxXXN4H
+ bvvgzAYZmp5BJTQu4+tb8uwDO3jCe0JsSHC7Zh/J66KNtji6ORb7a4R5oAGyEJNEl90S
+ srgA==
+X-Gm-Message-State: APjAAAW0JLxpkS3Y1OQXm3bJ93J7QOAvhYQ8zTyO1LP7vwBj/R2u+zpe
+ bW/PMTN5L0w4b8bqwgpSbn4sMWYbFebCwBN+9iCFJA==
+X-Google-Smtp-Source: APXvYqxaJgpk8wLDPfzMPfGtiJwY2NxiVtTwifxN7KLvgeTvniiUQlEXQFbq7BCgV7WOapZxp7FM6PQ7nJ9QPdkvM1M=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr12580473otg.91.1571931091907; 
+ Thu, 24 Oct 2019 08:31:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1571925835-31930-36-git-send-email-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191019234715.25750-1-f4bug@amsat.org>
+ <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
+In-Reply-To: <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Oct 2019 16:31:20 +0100
+Message-ID: <CAFEAcA-0qg+VbE6VQpdCAX5g6=GzZG18j_FoiamHR8YrKHrmFg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
+ space, run U-boot
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,31 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 4:03 PM, Paolo Bonzini wrote:
-> Reported by Coverity (CID 1406449).
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Thu, 24 Oct 2019 at 14:42, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
+>
+> On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+> >
+> > Since v2:
+> > - fixed issue in videocore address space
+> > - allow to start with some cores OFF (to boot firmwares)
+> > - add proof-of-concept test for '-smp cores=3D1' and U-boot
+> > - fixed my email setup
+> >
+> > Previous cover:
+> >
+> > Hi,
+> >
+> > Some patches from v1 are already merged. This v2 addresses the
+> > review comment from v1, and add patches to clean the memory
+> > space when using multiple cores.
+> >
+> > Laurent, if you test U-Boot with this patchset again, do you mind
+> > replying with a "Tested-by:" tag?
+> >
+> > The next patchset is probably about the interrupt controller blocks,
+> > then will come another one about the MBox/Properties.
+> >
+> > The last patch is unrelated to the series, but since I cleaned this
+> > for the raspi and the highbank is the only board with the same issue,
+> > I included the patch in this series.
+>
+> I'm going to apply 1-10 and 14 to target-arm.next.
+> (I've reviewed 10, and the rest have been reviewed.)
 
-I reviewed this one.
+...but that causes tests/boot-serial-test to throw
+a clang sanitizer error and then hang:
 
-> ---
->   audio/paaudio.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/audio/paaudio.c b/audio/paaudio.c
-> index df541a7..55a91f8 100644
-> --- a/audio/paaudio.c
-> +++ b/audio/paaudio.c
-> @@ -385,6 +385,7 @@ static pa_stream *qpa_simple_new (
->           map.map[5] = PA_CHANNEL_POSITION_REAR_RIGHT;
->           map.map[6] = PA_CHANNEL_POSITION_SIDE_LEFT;
->           map.map[7] = PA_CHANNEL_POSITION_SIDE_RIGHT;
-> +        break;
->   
->       default:
->           dolog("Internal error: unsupported channel count %d\n", ss->channels);
-> 
+e104462:bionic:clang$ QTEST_QEMU_BINARY=3Darm-softmmu/qemu-system-arm
+./tests/boot-serial-test
+/arm/boot-serial/raspi2:
+/home/petmay01/linaro/qemu-from-laptop/qemu/memory.c:2517:27: runtime
+error: null pointer passed as argument 2, which is declared to never
+be null
+/usr/include/stdlib.h:819:6: note: nonnull attribute specified here
+
+The offending patch is "hw/arm/bcm2836: Use per CPU address spaces"
+(patch 7). So I'm dropping 7/8/9.
+
+thanks
+-- PMM
 
