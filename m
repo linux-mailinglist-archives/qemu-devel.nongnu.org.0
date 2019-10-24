@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2438E35F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:51:05 +0200 (CEST)
-Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D856E360C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:57:20 +0200 (CEST)
+Received: from localhost ([::1]:44788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeS7-0004rQ-IC
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60432)
+	id 1iNeYA-00077p-V6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iNdVw-0002NU-DL
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:50:57 -0400
+ (envelope-from <cenjiahui@huawei.com>) id 1iNdYp-0001BU-Jm
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:53:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iNdVu-0000mc-Tn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:50:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35803
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cenjiahui@huawei.com>) id 1iNdYm-0002FR-SN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:53:55 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2254 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iNdVu-0000mQ-Qh
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:50:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571925054;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BkRu9O/LGYG7Ckpif1sYhvpdwANHY7Qxk1wEnUjiK1U=;
- b=PeCSVdcu0BZv0RxkG4NowF/Uy31SC6kUqO5ljaDFLFwws2ZuhaWi2dNW0zkWRn9yTTMd7X
- Au5aUQNKGhONdKe/8WDfMvTxMCNEbGLykwIqchxg18GIMwy68DJYaKTYTr8g5rxzpyoD93
- 0CGh41ffKokavFwXSmQsvGb4CHYd3Rg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-KgaaG4frNweX9tvOpmE5sg-1; Thu, 24 Oct 2019 09:50:50 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C06DD1800E00;
- Thu, 24 Oct 2019 13:50:49 +0000 (UTC)
-Received: from [10.3.117.0] (ovpn-117-0.phx2.redhat.com [10.3.117.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B49A6012E;
- Thu, 24 Oct 2019 13:50:49 +0000 (UTC)
-Subject: Re: [RFC PATCH 01/18] qemu-storage-daemon: Add barebone tool
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20191017130204.16131-1-kwolf@redhat.com>
- <20191017130204.16131-2-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f04318fd-0ae3-75ca-c08f-eb186d12ce80@redhat.com>
-Date: Thu, 24 Oct 2019 08:50:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <cenjiahui@huawei.com>)
+ id 1iNdYm-00027P-GS
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:53:52 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 2DFB7ED8112EB3F97DF3;
+ Thu, 24 Oct 2019 21:53:45 +0800 (CST)
+Received: from [127.0.0.1] (10.173.220.89) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Thu, 24 Oct 2019
+ 21:53:35 +0800
+Subject: Re: [PATCH 3/3] migration/multifd: fix potential wrong acception
+ order of IOChannel
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191023033214.31592-1-cenjiahui@huawei.com>
+ <20191023033214.31592-3-cenjiahui@huawei.com>
+ <20191024095227.GC3700@redhat.com>
+From: cenjiahui <cenjiahui@huawei.com>
+Message-ID: <1356aa1a-346d-29a7-8064-ac1e572b6512@huawei.com>
+Date: Thu, 24 Oct 2019 21:53:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <20191017130204.16131-2-kwolf@redhat.com>
+In-Reply-To: <20191024095227.GC3700@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: KgaaG4frNweX9tvOpmE5sg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Originating-IP: [10.173.220.89]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,214 +59,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pkrempa@redhat.com, armbru@redhat.com,
- mreitz@redhat.com
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, zhouyibo3@huawei.com,
+ dgilbert@redhat.com, peterx@redhat.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 8:01 AM, Kevin Wolf wrote:
-> This adds a new binary qemu-storage-daemon that doesn't yet do more than
-> some typical initialisation for tools and parsing the basic command
-> options --version, --help and --trace.
+On 2019/10/24 17:52, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Oct 23, 2019 at 11:32:14AM +0800, cenjiahui wrote:
+>> From: Jiahui Cen <cenjiahui@huawei.com>
+>>
+>> Multifd assumes the migration thread IOChannel is always established b=
+efore
+>> the multifd IOChannels, but this assumption will be broken in many sit=
+uations
+>> like network packet loss.
+>>
+>> For example:
+>> Step1: Source (migration thread IOChannel)  --SYN-->  Destination
+>> Step2: Source (migration thread IOChannel)  <--SYNACK  Destination
+>> Step3: Source (migration thread IOChannel, lost) --ACK-->X  Destinatio=
+n
+>> Step4: Source (multifd IOChannel) --SYN-->    Destination
+>> Step5: Source (multifd IOChannel) <--SYNACK   Destination
+>> Step6: Source (multifd IOChannel, ESTABLISHED) --ACK-->  Destination
+>> Step7: Destination accepts multifd IOChannel
+>> Step8: Source (migration thread IOChannel, ESTABLISHED) -ACK,DATA->  D=
+estination
+>> Step9: Destination accepts migration thread IOChannel
+>>
+>> The above situation can be reproduced by creating a weak network envir=
+onment,
+>> such as "tc qdisc add dev eth0 root netem loss 50%". The wrong accepti=
+on order
+>> will cause magic check failure and thus lead to migration failure.
+>>
+>> This patch fixes this issue by sending a migration IOChannel initial p=
+acket with
+>> a unique id when using multifd migration. Since the multifd IOChannels=
+ will also
+>> send initial packets, the destination can judge whether the processing=
+ IOChannel
+>> belongs to multifd by checking the id in the initial packet. This mech=
+anism can
+>> ensure that different IOChannels will go to correct branches in our te=
+st.
 >=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   configure             |   2 +-
->   qemu-storage-daemon.c | 141 ++++++++++++++++++++++++++++++++++++++++++
->   Makefile              |   1 +
->   3 files changed, 143 insertions(+), 1 deletion(-)
->   create mode 100644 qemu-storage-daemon.c
+> Isn't this going to break back compatibility when new QEMU talks to old
+> QEMU with multifd enabled ? New QEMU will be sending a packet that old
+> QEMU isn't expecting IIUC.
+
+Yes, it actually breaks back compatibility. But since the old QEMU has bu=
+g with
+multifd, it may be not suitable to use multifd to migrate from new QEMU t=
+o old
+QEMU in my opinion.
+
+Hi, Quintela, how do you think about this ?
+
 >=20
-> diff --git a/configure b/configure
+>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+>> Signed-off-by: Ying Fang <fangying1@huawei.com>
 
-> +++ b/qemu-storage-daemon.c
-> @@ -0,0 +1,141 @@
-> +/*
-> + * QEMU storage daemon
-> + *
-> + * Copyright (c) 2019 Kevin Wolf <kwolf@redhat.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-> + * of this software and associated documentation files (the "Software"),=
- to deal
-> + * in the Software without restriction, including without limitation the=
- rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be includ=
-ed in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-> + * THE SOFTWARE.
-
-Is there an intent to license this binary as BSD (by restricting sources=20
-that can be linked in), or is it going to end up as GPLv2+ for other=20
-reasons? If the latter, would it be better to license this file GPLv2+?
-
-
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "block/block.h"
-> +#include "crypto/init.h"
-> +
-> +#include "qapi/error.h"
-> +#include "qemu-common.h"
-> +#include "qemu-version.h"
-> +#include "qemu/config-file.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/log.h"
-> +#include "qemu/main-loop.h"
-> +#include "qemu/module.h"
-> +
-> +#include "trace/control.h"
-> +
-> +#include <getopt.h>
-
-Shouldn't system headers appear right after qemu/osdep.h?
-
-> +
-> +static void help(void)
-> +{
-> +    printf(
-> +"Usage: %s [options]\n"
-> +"QEMU storage daemon\n"
-> +"\n"
-> +"  -h, --help             display this help and exit\n"
-> +"  -T, --trace [[enable=3D]<pattern>][,events=3D<file>][,file=3D<file>]\=
-n"
-> +"                         specify tracing options\n"
-> +"  -V, --version          output version information and exit\n"
-> +"\n"
-> +QEMU_HELP_BOTTOM "\n",
-> +    error_get_progname());
-> +}
-> +
-> +static int process_options(int argc, char *argv[], Error **errp)
-> +{
-> +    int c;
-> +    char *trace_file =3D NULL;
-> +    int ret =3D -EINVAL;
-> +
-> +    static const struct option long_options[] =3D {
-> +        {"help", no_argument, 0, 'h'},
-> +        {"version", no_argument, 0, 'V'},
-> +        {"trace", required_argument, NULL, 'T'},
-
-I find it harder to maintain lists of options (which will get longer=20
-over time) when the order of the struct...
-
-> +        {0, 0, 0, 0}
-> +    };
-> +
-> +    while ((c =3D getopt_long(argc, argv, ":hT:V", long_options, NULL)) =
-!=3D -1) {
-
-...the order of the short options...
-
-> +        switch (c) {
-> +        case '?':
-> +            error_setg(errp, "Unknown option '%s'", argv[optind - 1]);
-> +            goto out;
-> +        case ':':
-> +            error_setg(errp, "Missing option argument for '%s'",
-> +                       argv[optind - 1]);
-> +            goto out;
-> +        case 'h':
-> +            help();
-> +            exit(EXIT_SUCCESS);
-> +        case 'V':
-> +            printf("qemu-storage-daemon version "
-> +                   QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\n");
-> +            exit(EXIT_SUCCESS);
-> +        case 'T':
-> +            g_free(trace_file);
-> +            trace_file =3D trace_opt_parse(optarg);
-> +            break;
-
-...and the order of the case statements are not identical.=20
-Case-insensitive alphabetical may be easiest (matching your shortopt=20
-ordering of ":hT:V").
-
-> +        }
-> +    }
-> +    if (optind !=3D argc) {
-> +        error_setg(errp, "Unexpected argument: %s", argv[optind]);
-> +        goto out;
-> +    }
-> +
-> +    if (!trace_init_backends()) {
-> +        error_setg(errp, "Could not initialize trace backends");
-> +        goto out;
-> +    }
-> +    trace_init_file(trace_file);
-> +    qemu_set_log(LOG_TRACE);
-> +
-> +    ret =3D 0;
-> +out:
-> +    g_free(trace_file);
-
-Mark trace_file as g_auto, and you can avoid the out: label altogether.
-
-> +    return ret;
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +    Error *local_err =3D NULL;
-> +    int ret;
-> +
-> +#ifdef CONFIG_POSIX
-> +    signal(SIGPIPE, SIG_IGN);
-> +#endif
-> +
-> +    error_init(argv[0]);
-> +    qemu_init_exec_dir(argv[0]);
-> +
-> +    module_call_init(MODULE_INIT_QOM);
-> +    module_call_init(MODULE_INIT_TRACE);
-> +    qemu_add_opts(&qemu_trace_opts);
-> +    qcrypto_init(&error_fatal);
-> +    bdrv_init();
-> +
-> +    if (qemu_init_main_loop(&local_err)) {
-> +        error_report_err(local_err);
-> +        return EXIT_FAILURE;
-> +    }
-> +
-> +    ret =3D process_options(argc, argv, &local_err);
-> +    if (ret < 0) {
-> +        error_report_err(local_err);
-> +        return EXIT_FAILURE;
-> +    }
-> +
-> +    return EXIT_SUCCESS;
-> +}
-
-Quite a trivial shell for now, but looks interesting.  Sadly, I don't=20
-have much time to review the rest of the series until after KVM Forum,=20
-which means getting this in (even as experimental) for 4.2 is at risk.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Regards,
+Jiahui Cen
 
 
