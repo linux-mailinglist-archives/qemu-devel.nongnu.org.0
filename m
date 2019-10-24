@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02BAE374F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:58:00 +0200 (CEST)
-Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF321E3758
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:00:44 +0200 (CEST)
+Received: from localhost ([::1]:45864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfUt-0003zl-Lv
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39239)
+	id 1iNfXX-0002HZ-8x
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iNe5T-0003Cw-CG
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:41 -0400
+ (envelope-from <groug@kaod.org>) id 1iNe5X-0003MV-KB
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iNe5P-0004hf-Ag
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20588
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <groug@kaod.org>) id 1iNe5V-0004ns-KA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24404)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNe5P-0004gB-5H
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:35 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9OEOHbW003495
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:27:33 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vucbgm3b3-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNe5V-0004mC-CR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:41 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9OEOcKX056201
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:27:39 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vucuytmmf-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:27:33 -0400
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:27:39 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 24 Oct 2019 15:27:31 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Thu, 24 Oct 2019 15:27:36 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 24 Oct 2019 15:27:29 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9OERSVu53149886
+ Thu, 24 Oct 2019 15:27:34 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9OERXq153870660
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 14:27:28 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 421C8AE051;
- Thu, 24 Oct 2019 14:27:28 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 12EECAE053;
- Thu, 24 Oct 2019 14:27:28 +0000 (GMT)
+ Thu, 24 Oct 2019 14:27:34 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD12A11C052;
+ Thu, 24 Oct 2019 14:27:33 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9B56411C04A;
+ Thu, 24 Oct 2019 14:27:33 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.36.67])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 24 Oct 2019 14:27:28 +0000 (GMT)
-Subject: [PATCH 2/3] xive, xics: Fix reference counting on CPU objects
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 24 Oct 2019 14:27:33 +0000 (GMT)
+Subject: [PATCH 3/3] ppc: Skip partially initialized vCPUs in 'info pic'
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 24 Oct 2019 16:27:27 +0200
+Date: Thu, 24 Oct 2019 16:27:33 +0200
 In-Reply-To: <157192723646.3146912.1271674896169655201.stgit@bahia.lan>
 References: <157192723646.3146912.1271674896169655201.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -65,20 +64,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19102414-0028-0000-0000-000003AEDB3B
+x-cbid: 19102414-0008-0000-0000-00000326DF3E
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19102414-0029-0000-0000-000024710E01
-Message-Id: <157192724770.3146912.15400869269097231255.stgit@bahia.lan>
+x-cbparentid: 19102414-0009-0000-0000-00004A46131F
+Message-Id: <157192725327.3146912.12047076483178652551.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-24_09:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=760 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910240135
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,82 +94,62 @@ Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a VCPU gets connected to the XIVE interrupt controller, we add a
-const link targetting the CPU object to the TCTX object. Similar links
-are added to the ICP object when using the XICS interrupt controller.
+CPU_FOREACH() can race with vCPU hotplug/unplug on sPAPR machines, ie.
+we may try to print out info about a vCPU with a NULL presenter pointer.
 
-As explained in <qom/object.h>:
-
- * The caller must ensure that @target stays alive as long as
- * this property exists.  In the case @target is a child of @obj,
- * this will be the case.  Otherwise, the caller is responsible for
- * taking a reference.
-
-We're in the latter case for both XICS and XIVE. Add the missing
-calls to object_ref() and object_unref().
-
-This doesn't fix any known issue because the life cycle of the TCTX or
-ICP happens to be shorter than the one of the CPU or XICS fabric, but
-better safe than sorry.
+Check that in order to prevent QEMU from crashing.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics.c |    8 +++++++-
- hw/intc/xive.c |    6 +++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ hw/intc/xics.c |   11 ++++++++++-
+ hw/intc/xive.c |   11 ++++++++++-
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index 935f325749cb..5f746079be46 100644
+index 5f746079be46..e7ac9ba618fa 100644
 --- a/hw/intc/xics.c
 +++ b/hw/intc/xics.c
-@@ -388,8 +388,10 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
-     obj = object_new(type);
-     object_property_add_child(cpu, type, obj, &error_abort);
-     object_unref(obj);
-+    object_ref(OBJECT(xi));
-     object_property_add_const_link(obj, ICP_PROP_XICS, OBJECT(xi),
-                                    &error_abort);
-+    object_ref(cpu);
-     object_property_add_const_link(obj, ICP_PROP_CPU, cpu, &error_abort);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-@@ -403,7 +405,11 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
+@@ -44,7 +44,16 @@
  
- void icp_destroy(ICPState *icp)
+ void icp_pic_print_info(ICPState *icp, Monitor *mon)
  {
--    object_unparent(OBJECT(icp));
-+    Object *obj = OBJECT(icp);
+-    int cpu_index = icp->cs ? icp->cs->cpu_index : -1;
++    int cpu_index;
 +
-+    object_unref(object_property_get_link(obj, ICP_PROP_CPU, &error_abort));
-+    object_unref(object_property_get_link(obj, ICP_PROP_XICS, &error_abort));
-+    object_unparent(obj);
- }
++    /* Skip partially initialized vCPUs. This can happen on sPAPR when vCPUs
++     * are hot plugged or unplugged.
++     */
++    if (!icp) {
++        return;
++    }
++
++    cpu_index = icp->cs ? icp->cs->cpu_index : -1;
  
- /*
+     if (!icp->output) {
+         return;
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 38257aa02083..952a461d5329 100644
+index 952a461d5329..75dce82fb205 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -682,6 +682,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
-     obj = object_new(TYPE_XIVE_TCTX);
-     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
-     object_unref(obj);
-+    object_ref(cpu);
-     object_property_add_const_link(obj, "cpu", cpu, &error_abort);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-@@ -698,7 +699,10 @@ error:
+@@ -523,9 +523,18 @@ static const char * const xive_tctx_ring_names[] = {
  
- void xive_tctx_destroy(XiveTCTX *tctx)
+ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon)
  {
--    object_unparent(OBJECT(tctx));
-+    Object *obj = OBJECT(tctx);
-+
-+    object_unref(object_property_get_link(obj, "cpu", &error_abort));
-+    object_unparent(obj);
- }
+-    int cpu_index = tctx->cs ? tctx->cs->cpu_index : -1;
++    int cpu_index;
+     int i;
  
- /*
++    /* Skip partially initialized vCPUs. This can happen on sPAPR when vCPUs
++     * are hot plugged or unplugged.
++     */
++    if (!tctx) {
++        return;
++    }
++
++    cpu_index = tctx->cs ? tctx->cs->cpu_index : -1;
++
+     if (kvm_irqchip_in_kernel()) {
+         Error *local_err = NULL;
+ 
 
 
