@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DA5E35A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:34:39 +0200 (CEST)
-Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEFAE35AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:38:15 +0200 (CEST)
+Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeCD-0004hc-Dj
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1iNeFi-0001SQ-6y
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iNdIh-000894-2D
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:37:16 -0400
+ id 1iNdNi-0002CD-3d
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:42:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iNdIf-0004QX-IJ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:37:14 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39107)
+ id 1iNdNg-00061W-6G
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:42:25 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54358)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iNdIb-0004Md-Dk; Thu, 24 Oct 2019 09:37:09 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a11so10043063wra.6;
- Thu, 24 Oct 2019 06:37:09 -0700 (PDT)
+ id 1iNdNb-00060G-TI; Thu, 24 Oct 2019 09:42:20 -0400
+Received: by mail-wm1-x343.google.com with SMTP id g7so2901183wmk.4;
+ Thu, 24 Oct 2019 06:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=e0UbnJ+yzB1G3ORMCib7xkuHeRJ1ILE6xP/Kp8yAg0c=;
- b=dudvNZjP6toM3VR0VGvj7/ZLBmQ/eHnnfy8Q3lLo623rT+cW5EI2TW5VJc01nAKLoa
- SqK6JAxxrt/xKhn2MnH5kkZdfCLntllzC8zyqmYvgGkXMV6axg7N8cof+3XQ7p/q3j/K
- bQWOCqtqpYJBC32fvWmZfun6DlPo2c3jlmqAWNPT7Ys2aiZO9oCvBfDL7VslSC3gv7jz
- maTzs6MGLUUBYNy6rkO6z4cUhuEzlMaA962F8bqc8wReW01VqQmmDrRvndLN6OtUIUuf
- qDbOT6fZ6bK7DELkWK4a196QxXzXc0/bROBUhQfcAiJ6TOqS9/HI8CPmUGEjdoeXNy+B
- Bbvg==
+ bh=TdqrUktuxA5u4g3NMPEZx5ELAhdVB8wB3lU93EoPCbo=;
+ b=hiLLWt9jG7TPYrre/l4GdFdXb5YiZ+pJaBWlD5oZ25YZrcFygKcEKwOVxHAksmlP7I
+ GPVLz81oY7/kF69cin6uxzuU/VxHxHKgp6PdIjTjDLF3iE54TY+uYYRvwCguv/yJvFlr
+ VHH0im3MpSl8YTdVSWWBRszGBS2/qm2wO2aaPbRLDXPErHKQDv60gZEfRx7gif7VfEP9
+ T9h7jxVeNDvoq6QL7/Hke1LxCmLpgWdrSfGPqavNek1DZxi6DP0lshyiSVVnyCM/nlk4
+ h+B9IPMVJWU4KoQd6ZhfARvuFH9jgcb3PriE13msqnLR/kJ/Eiho6T+j1oAuuo8ArMdJ
+ qDXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=e0UbnJ+yzB1G3ORMCib7xkuHeRJ1ILE6xP/Kp8yAg0c=;
- b=PxO/CqUSsSHmnQP0TvcYh5jk2ysPJ3sEkFGcy4kc5lwJDYeulCm9OfwDDi8qbR6VEi
- gV4j7+37ntbhbKEsfDgyI1T+Lv92HTUuJ8u9FADdgUg4K2lqEbDLQ8asKsWmAELHF5f0
- kr3EFH9Ai2tI9FCori18ogmKDkcI5QBIKtCJ6CBy65h74Ygd40H5JZqwMLyOmEYfcbhA
- 4CvmCwcwpwSwuJZlkdANjLchMNLypnfimwAxFK/5VTcXHvZ3Tro4KzLz+G5vhYzUcUN8
- leZsiO7vwgqdXasw1LQKucaGWDXkz+cI+MDda0CszffSv3i/J2wtmQ/uUFbV83EUVApi
- v8Nw==
-X-Gm-Message-State: APjAAAWu4KbLr1qoHyo+ZyxPd5RM9fHkvaY09cdh53xh1v5EV5LWPrbA
- 1+jHbukAnCJQ6sEPTlvlnfc=
-X-Google-Smtp-Source: APXvYqyW0utzlvEGpSFsMyPZFmM5qfYpXPmipu0s1B/ne+kC7eeJlU+XI3uZ8Y92W2jdOv6xOKnoPw==
-X-Received: by 2002:a5d:6585:: with SMTP id q5mr4252448wru.74.1571924227985;
- Thu, 24 Oct 2019 06:37:07 -0700 (PDT)
+ bh=TdqrUktuxA5u4g3NMPEZx5ELAhdVB8wB3lU93EoPCbo=;
+ b=f5TQarZRX66rDesC08djbxHjcQ+2jduRqwcXzc7Nuz4zStNAY+gzyNwj5kCwU3nlYc
+ gYD3ONJYqYDFlBqyoIwBJ6UacWbZwNdAkIpzquec7PG2eM8JaSRDttOL0TM9d2sF4B0K
+ 5RtRdPVXpBjGLwltjmu3BUiu+QKKVOQ94D2ZiHENafYjhecl3/9ZwaNgZeHHfSUx62pq
+ 6+8SJ5qVXNA1etT2I2+rvV8nMyVYVuoxZ/1077MWvM+TJCX1xxNeomW1iDb79XKqM7ni
+ zC9XRtB5Scc9qAGoPagFCgwQKTDuLLnw8iqU2T8QltkPoNwe04O6OfIplGjwPQ5gSlWW
+ vMEQ==
+X-Gm-Message-State: APjAAAW5J6OwAm8Xk5Q1WJddPW8HBrARNMtKYuReYioOMPEqv8KluAyY
+ HprtjzbuVlz3L3DUaL5g4QA=
+X-Google-Smtp-Source: APXvYqzvceFvA4AydrVGgqjnLGhRJHOUg3CdfIKDeaJtTFBYmOfvTQabRnwkCESjH9rX6r7DPdOjxw==
+X-Received: by 2002:a1c:2407:: with SMTP id k7mr4690199wmk.99.1571924538059;
+ Thu, 24 Oct 2019 06:42:18 -0700 (PDT)
 Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id s26sm2687945wmh.23.2019.10.24.06.37.06
+ by smtp.gmail.com with ESMTPSA id r27sm42137869wrc.55.2019.10.24.06.42.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 06:37:07 -0700 (PDT)
-Subject: Re: [PATCH v3 11/16] hw/arm/raspi: Use -smp cores=<N> option to
- restrict enabled cores
-To: Peter Maydell <peter.maydell@linaro.org>
+ Thu, 24 Oct 2019 06:42:16 -0700 (PDT)
+Subject: Re: [PATCH v3 03/16] hw/timer/bcm2835: Add the BCM2835 SYS_timer
+To: Alistair Francis <alistair23@gmail.com>
 References: <20191019234715.25750-1-f4bug@amsat.org>
- <20191019234715.25750-12-f4bug@amsat.org>
- <CAFEAcA_w1zW4ewY-ts=yJbKFNRVhOjXuAtj9_0rt4EvD3qkm3Q@mail.gmail.com>
+ <20191019234715.25750-4-f4bug@amsat.org>
+ <CAKmqyKNHTrOWfyuzG+s=iZ-AifD_OzDrTgvXGCXqXa2bsZiPOg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <cc387b5c-e7a9-9340-2cc7-130f36eb6773@amsat.org>
-Date: Thu, 24 Oct 2019 15:37:05 +0200
+Message-ID: <6ca703f7-d76b-04ca-0386-556391f535e5@amsat.org>
+Date: Thu, 24 Oct 2019 15:42:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_w1zW4ewY-ts=yJbKFNRVhOjXuAtj9_0rt4EvD3qkm3Q@mail.gmail.com>
+In-Reply-To: <CAKmqyKNHTrOWfyuzG+s=iZ-AifD_OzDrTgvXGCXqXa2bsZiPOg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,10 +85,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Matthias Brugger <mbrugger@suse.com>, Rob Herring <robh@kernel.org>,
  Alistair Francis <alistair@alistair23.me>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
  Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
  Clement Deschamps <clement.deschamps@antfield.fr>,
@@ -101,85 +101,291 @@ Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 3:23 PM, Peter Maydell wrote:
-> On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+On 10/21/19 10:31 PM, Alistair Francis wrote:
+> On Sat, Oct 19, 2019 at 4:47 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->> The abstract TYPE_BCM283X device provides a 'enabled-cpus' property
->> to restrict the number of cores powered on reset. This because on
->> real hardware the GPU is responsible of starting the cores and keep
->> them spinning until the Linux kernel is ready to use them.
->> When using the -kernel paramenter, QEMU does this by installing the
->> 'raspi_smpboot' code when arm_boot_info::write_board_setup() is
->> called. This is a special feature to help the Linux kernel, and can
->> only be used with a Linux kernel.
+>> Add the 64-bit free running timer. Do not model the COMPARE register
+>> (no IRQ generated).
+>> This timer is used by Linux kernel and recently U-Boot:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clocksource/bcm2835_timer.c?h=v3.7
+>> https://github.com/u-boot/u-boot/blob/v2019.07/include/configs/rpi.h#L19
 >>
->> Even if loaded with the -kernel option, U-boot is not Linux, thus
->> is not recognized as it and the raspi_smpboot code is not installed.
+>> Datasheet used:
+>> https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
 >>
->> Upon introduction of this machine in commit 1df7d1f9303, the -smp <N>
->> option allowd to limit the number of cores powered on reset.
->> Unfortunately later commit 72649619341 added a check which made this
->> feature unusable:
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> v2:
+>> - Add status/compare* registers
+>> - Add vmstate and reset handler
 >>
->>    $ qemu-system-aarch64 -M raspi3 -smp 1
->>    qemu-system-aarch64: Invalid SMP CPUs 1. The min CPUs supported by machine 'raspi3' is 4
+>> checkpatch warning:
+>> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+>> This is OK because the regex are:
 >>
->> Fortunately, the -smp option allow various kind of CPU topology:
+>>    F: hw/*/bcm283*
+>>    F: include/hw/*/bcm283*
+>> ---
+>>   hw/timer/Makefile.objs            |   1 +
+>>   hw/timer/bcm2835_systmr.c         | 166 ++++++++++++++++++++++++++++++
+>>   hw/timer/trace-events             |   5 +
+>>   include/hw/timer/bcm2835_systmr.h |  33 ++++++
+>>   4 files changed, 205 insertions(+)
+>>   create mode 100644 hw/timer/bcm2835_systmr.c
+>>   create mode 100644 include/hw/timer/bcm2835_systmr.h
 >>
->>    -smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]
->>             set the number of CPUs to 'n' [default=1]
->>             maxcpus= maximum number of total cpus, including
->>             offline CPUs for hotplug, etc
->>             cores= number of CPU cores on one socket (for PC, it's on one die)
->>             threads= number of threads on one CPU core
->>             dies= number of CPU dies on one socket (for PC only)
->>             sockets= number of discrete sockets in the system
->>
->> Let's use the 'cores' argument to specify the number of cores powered
->> at reset to restore this feature, and allow to boot U-boot.
+>> diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+>> index 123d92c969..696cda5905 100644
+>> --- a/hw/timer/Makefile.objs
+>> +++ b/hw/timer/Makefile.objs
+>> @@ -47,3 +47,4 @@ common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
+>>   common-obj-$(CONFIG_CMSDK_APB_TIMER) += cmsdk-apb-timer.o
+>>   common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) += cmsdk-apb-dualtimer.o
+>>   common-obj-$(CONFIG_MSF2) += mss-timer.o
+>> +common-obj-$(CONFIG_RASPI) += bcm2835_systmr.o
+>> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+>> new file mode 100644
+>> index 0000000000..49b40b55f9
+>> --- /dev/null
+>> +++ b/hw/timer/bcm2835_systmr.c
+>> @@ -0,0 +1,166 @@
+>> +/*
+>> + * BCM2835 SYS timer emulation
+>> + *
+>> + * Copyright (C) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> + *
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + *
+>> + * Datasheet: BCM2835 ARM Peripherals (C6357-M-1398)
+>> + * https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+>> + *
+>> + * Only the free running 64-bit counter is implemented.
+>> + * The 4 COMPARE registers and the interruption are not implemented.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu/log.h"
+>> +#include "qemu/timer.h"
+>> +#include "hw/timer/bcm2835_systmr.h"
+>> +#include "hw/registerfields.h"
+>> +#include "migration/vmstate.h"
+>> +#include "trace.h"
+>> +
+>> +REG32(CTRL_STATUS,  0x00)
+>> +REG32(COUNTER_LOW,  0x04)
+>> +REG32(COUNTER_HIGH, 0x08)
+>> +REG32(COMPARE0,     0x0c)
+>> +REG32(COMPARE1,     0x10)
+>> +REG32(COMPARE2,     0x14)
+>> +REG32(COMPARE3,     0x18)
+>> +
+>> +static void bcm2835_systmr_update_irq(BCM2835SystemTimerState *s)
+>> +{
+>> +    bool enable = !!s->reg.status;
+>> +
+>> +    trace_bcm2835_systmr_irq(enable);
+>> +    qemu_set_irq(s->irq, enable);
+>> +}
+>> +
+>> +static void bcm2835_systmr_update_compare(BCM2835SystemTimerState *s,
+>> +                                          unsigned timer_index)
+>> +{
+>> +    /* TODO fow now, since neither Linux nor U-boot use these timers. */
+>> +    qemu_log_mask(LOG_UNIMP, "COMPARE register %u not implemented\n",
+>> +                  timer_index);
+>> +}
+>> +
+>> +static uint64_t bcm2835_systmr_read(void *opaque, hwaddr offset,
+>> +                                    unsigned size)
+>> +{
+>> +    BCM2835SystemTimerState *s = BCM2835_SYSTIMER(opaque);
+>> +    uint64_t r = 0;
+>> +
+>> +    switch (offset) {
+>> +    case A_CTRL_STATUS:
+>> +        r = s->reg.status;
+>> +        break;
+>> +    case A_COMPARE0 ... A_COMPARE3:
+>> +        r = s->reg.compare[(offset - A_COMPARE0) >> 2];
+>> +        break;
+>> +    case A_COUNTER_LOW:
+>> +    case A_COUNTER_HIGH:
+>> +        /* Free running counter at 1MHz */
+>> +        r = qemu_clock_get_us(QEMU_CLOCK_VIRTUAL);
+>> +        r >>= 8 * (offset - A_COUNTER_LOW);
+>> +        r &= UINT32_MAX;
+>> +        break;
+>> +    default:
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad offset 0x%" HWADDR_PRIx "\n",
+>> +                      __func__, offset);
+>> +        break;
+>> +    }
+>> +    trace_bcm2835_systmr_read(offset, r);
+>> +
+>> +    return r;
+>> +}
+>> +
+>> +static void bcm2835_systmr_write(void *opaque, hwaddr offset,
+>> +                                 uint64_t value, unsigned size)
+>> +{
+>> +    BCM2835SystemTimerState *s = BCM2835_SYSTIMER(opaque);
+>> +
+>> +    trace_bcm2835_systmr_write(offset, value);
+>> +    switch (offset) {
+>> +    case A_CTRL_STATUS:
+>> +        s->reg.status &= ~value; /* Ack */
+>> +        bcm2835_systmr_update_irq(s);
+>> +        break;
+>> +    case A_COMPARE0 ... A_COMPARE3:
+>> +        s->reg.compare[(offset - A_COMPARE0) >> 2] = value;
+>> +        bcm2835_systmr_update_compare(s, (offset - A_COMPARE0) >> 2);
+>> +        break;
+>> +    case A_COUNTER_LOW:
+>> +    case A_COUNTER_HIGH:
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: read-only ofs 0x%" HWADDR_PRIx "\n",
+>> +                      __func__, offset);
+>> +        break;
+>> +    default:
+>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad offset 0x%" HWADDR_PRIx "\n",
+>> +                      __func__, offset);
+>> +        break;
+>> +    }
+>> +}
+>> +
+>> +static const MemoryRegionOps bcm2835_systmr_ops = {
+>> +    .read = bcm2835_systmr_read,
+>> +    .write = bcm2835_systmr_write,
+>> +    .endianness = DEVICE_LITTLE_ENDIAN,
+>> +    .impl = {
+>> +        .min_access_size = 4,
+>> +        .max_access_size = 4,
+>> +    },
+>> +};
+>> +
+>> +static void bcm2835_systmr_reset(DeviceState *dev)
+>> +{
+>> +    BCM2835SystemTimerState *s = BCM2835_SYSTIMER(dev);
+>> +
+>> +    s->reg.status = 0;
+>> +    for (size_t i = 0; i < ARRAY_SIZE(s->reg.compare); i++) {
+>> +        s->reg.compare[i] = 0;
+>> +    }
 > 
->  From the help message quoted, 'cores' is about NUMA topology,
-> it's nothing to do with "how many cores do we have powerd on
-> on reset". We should definitely not be borrowing it for
-> an unrelated purpose.
+> Can we use meset (or the glib version) here instead?
 
-Yes, I was not sure. Is -smp only about NUMA topology?
+My first thought was "I'd rather not" because I thought the
+COUNTER registers weren't reinitialized on reset, but they
+are, so OK. (there is no glib memset AFAIK).
 
-Should I try adding another argument, such 'online_cpus_mask'?
+> 
+> Otherwise:
+> 
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
->> We can now run U-boot using:
+Thanks for reviewing this series!
+
+> 
+> Alistair
+> 
+>> +}
+>> +
+>> +static void bcm2835_systmr_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    BCM2835SystemTimerState *s = BCM2835_SYSTIMER(dev);
+>> +
+>> +    memory_region_init_io(&s->iomem, OBJECT(dev), &bcm2835_systmr_ops,
+>> +                          s, "bcm2835-sys-timer", 0x20);
+>> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+>> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+>> +}
+>> +
+>> +static const VMStateDescription bcm2835_systmr_vmstate = {
+>> +    .name = "bcm2835_sys_timer",
+>> +    .version_id = 1,
+>> +    .minimum_version_id = 1,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_UINT32(reg.status, BCM2835SystemTimerState),
+>> +        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState, 4),
+>> +        VMSTATE_END_OF_LIST()
+>> +    }
+>> +};
+>> +
+>> +static void bcm2835_systmr_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +
+>> +    dc->realize = bcm2835_systmr_realize;
+>> +    dc->reset = bcm2835_systmr_reset;
+>> +    dc->vmsd = &bcm2835_systmr_vmstate;
+>> +}
+>> +
+>> +static const TypeInfo bcm2835_systmr_info = {
+>> +    .name = TYPE_BCM2835_SYSTIMER,
+>> +    .parent = TYPE_SYS_BUS_DEVICE,
+>> +    .instance_size = sizeof(BCM2835SystemTimerState),
+>> +    .class_init = bcm2835_systmr_class_init,
+>> +};
+>> +
+>> +static void bcm2835_systmr_register_types(void)
+>> +{
+>> +    type_register_static(&bcm2835_systmr_info);
+>> +}
+>> +
+>> +type_init(bcm2835_systmr_register_types);
+>> diff --git a/hw/timer/trace-events b/hw/timer/trace-events
+>> index db02a9142c..0aa399ac69 100644
+>> --- a/hw/timer/trace-events
+>> +++ b/hw/timer/trace-events
+>> @@ -87,3 +87,8 @@ pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+>>   pl031_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+>>   pl031_alarm_raised(void) "alarm raised"
+>>   pl031_set_alarm(uint32_t ticks) "alarm set for %u ticks"
+>> +
+>> +# bcm2835_systmr.c
+>> +bcm2835_systmr_irq(bool enable) "timer irq state %u"
+>> +bcm2835_systmr_read(uint64_t offset, uint64_t data) "timer read: offset 0x%" PRIx64 " data 0x%" PRIx64
+>> +bcm2835_systmr_write(uint64_t offset, uint64_t data) "timer write: offset 0x%" PRIx64 " data 0x%" PRIx64
+>> diff --git a/include/hw/timer/bcm2835_systmr.h b/include/hw/timer/bcm2835_systmr.h
+>> new file mode 100644
+>> index 0000000000..c0bc5c8127
+>> --- /dev/null
+>> +++ b/include/hw/timer/bcm2835_systmr.h
+>> @@ -0,0 +1,33 @@
+>> +/*
+>> + * BCM2835 SYS timer emulation
+>> + *
+>> + * Copyright (c) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> + *
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + */
+>> +
+>> +#ifndef BCM2835_SYSTIMER_H
+>> +#define BCM2835_SYSTIMER_H
+>> +
+>> +#include "hw/sysbus.h"
+>> +#include "hw/irq.h"
+>> +
+>> +#define TYPE_BCM2835_SYSTIMER "bcm2835-sys-timer"
+>> +#define BCM2835_SYSTIMER(obj) \
+>> +    OBJECT_CHECK(BCM2835SystemTimerState, (obj), TYPE_BCM2835_SYSTIMER)
+>> +
+>> +typedef struct {
+>> +    /*< private >*/
+>> +    SysBusDevice parent_obj;
+>> +
+>> +    /*< public >*/
+>> +    MemoryRegion iomem;
+>> +    qemu_irq irq;
+>> +
+>> +    struct {
+>> +        uint32_t status;
+>> +        uint32_t compare[4];
+>> +    } reg;
+>> +} BCM2835SystemTimerState;
+>> +
+>> +#endif
+>> --
+>> 2.21.0
 >>
->>    $ qemu-system-aarch64 -M raspi3 -smp 4,cores=1 ...
-> 
-> Either:
->   (a) we need to support "act like the firmware/GPU" for
-> booting guest binaries on this board, in the same way that our PSCI
-> support is effectively emulating firmware-level facilities
->   (b) the u-boot binary should be provided to QEMU in the
-> right image format to use the kernel boot ABI
-
-Well, u-boot is in the same format than the /boot/bootcode.bin 
-closed-source firmware provided by the Raspberry Pi foundation. This is 
-the format the GPU firmware understand when loading it on the 1st ARM core.
-
-I'll see what I can do (ab)using the -bios parameter.
-
->   (c) u-boot could be wrapped in a small guest binary that
-> deals with handling all the secondary cores
-> 
-> I'm not really a huge fan of (a) because we already have a
-> huge pile of random weird ways of loading guest images
-> that are undocumented, behave differently from board to
-> board or architecture to architecture, etc. I'm not too
-> keen on making that swamp worse, even though there's an
-> argument that the right UI for a raspi board model is to
-> provide the same "load an ELF file" handling that the real
-> hardware does for ELF files via the GPU/firmware combo.
-
-This patch doesn't modify hw/arm/boot.c and reuse -smp features,
-it didn't seemed too invasive. Anyway I'll look for another path.
-
-Thanks,
-
-Phil.
+>>
 
