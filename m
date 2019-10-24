@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39193E35F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:51:29 +0200 (CEST)
-Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622E6E3608
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:55:38 +0200 (CEST)
+Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeSV-0002Fp-Ki
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:51:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38903)
+	id 1iNeWX-0003TZ-0k
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:55:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1iNe48-0008DX-6h
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:26:18 -0400
+ (envelope-from <groug@kaod.org>) id 1iNe5M-0002uR-K1
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1iNe46-0002fF-2B
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:26:16 -0400
-Received: from mout.web.de ([212.227.17.11]:57843)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
- id 1iNe3z-0002T6-Vv; Thu, 24 Oct 2019 10:26:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1571927151;
- bh=6Uf5G14Now/peaYZfO+y9x/dGzGKbhnBYYKyspPJYcQ=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=D/M17jeYHTyUdlVEzF2vZUmGaAnQQYQJcB/Pm+/2BuuhJBRiQgsT4xvdoG/5wNNLI
- Y+wz4EnfgS12x426zTxksqA4MZjb9xN99doBAwl5/guWjNVS1csbZEviLCKkrj6aTU
- nyuSecSVXx7gUps5AXVQe8wRgWr3nM/iYRhZIXHY=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.150]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Mf0pJ-1icpWx31Yn-00OXC5; Thu, 24
- Oct 2019 16:25:50 +0200
-Date: Thu, 24 Oct 2019 16:25:48 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v7 3/4] net/filter.c: Add Options to insert filters anywhere
- in the filter list
-Message-ID: <08d0f857cead8b41d1dca5168dc9552c843644bd.1571925700.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1571925699.git.lukasstraub2@web.de>
-References: <cover.1571925699.git.lukasstraub2@web.de>
+ (envelope-from <groug@kaod.org>) id 1iNe5J-0004bq-QS
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32044)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNe5I-0004Zn-Qv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:27:29 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9OEO7Ot084739
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:27:27 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vucdrjaj8-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:27:27 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Thu, 24 Oct 2019 15:27:25 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 24 Oct 2019 15:27:23 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9OERMrO48627858
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Oct 2019 14:27:22 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ABBFBA4051;
+ Thu, 24 Oct 2019 14:27:22 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 70A6BA4053;
+ Thu, 24 Oct 2019 14:27:22 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.36.67])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 24 Oct 2019 14:27:22 +0000 (GMT)
+Subject: [PATCH 1/3] ppc: Add intc_destroy() handlers to
+ SpaprInterruptController/PnvChip
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Thu, 24 Oct 2019 16:27:22 +0200
+In-Reply-To: <157192723646.3146912.1271674896169655201.stgit@bahia.lan>
+References: <157192723646.3146912.1271674896169655201.stgit@bahia.lan>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:LCvjcEZF5weijcqBIA8BP5NO8f3y+5ePDyT69+hhBoud6ZGVa7F
- x+k0FawAvED/Cwr6HB0/8DZfGNNfuDms2PL1rnAqiigRURhBKbmxdO+H83UFVPt0wzv24F6
- CcmCiz3cFbI/K7gyCurViVN1OZV2XClLfFAfqxuws7+rlH1DTaoIawXaeNjT7fuVxKAvU8P
- NtaAD0AC9hatlnEkSOy1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NVboErVue28=:HcpN6C5nYdGysiJZUoXyQl
- tdeJupE6NnP0Nq8gpBEKnmiOhY6P6ZnEA7hxT3TgfTGObYPSZZZo+b/sdG740Cki7BtJg/tMa
- 6J8DXpQkIToHITIYzbidKOwUOFB/Gk+1pHBYIaS0eKwyM1BxMeYNRUNEznUEmw+3pCnmnvm8y
- FsHalxdjWgfU3rFrFGwPxC1zaNxHaZu8Ww7isA3+1RcnIfU2sh51URwmEKCkmbL49qI88CFfr
- AB5ONX7RspbKYqVwzCFKvUa0J6QyAPc3My2jKOGqjanvSMcUWq0N2odtJev5/3X7F/4oBGTDG
- /mxAgdtjblO67FC46GGcDlZu7Zfh8zSz28/SEBe/UBpTPnBdvtbAd54Sn6ujj7Csx3Y/8DIQr
- BqIflJKfSdxPG8x6e8c5zLvuSND6YqAVT1gRyMOqcMsH1MkQ73eWqpvaUPwN3Ljh+QZSLUJFu
- 8nlKuGMYyUjnVx+ydgIHaF9/7LGcpZwG0E5HNIZiqz2NQxp0zYSym2vikK9VETk4toz8axJ8D
- lu75LHmryk44BFV3FB6rqZtx+ajtW0mDGRwsu5Kfcv0gDN7Cs4enojBoAUSJVNzcjU6StgCos
- VWVqfP6aCRhM87cBAYJZVfyR0BEZVOWnlGY5E1UpL1lgPDmp8MX64nhu7UF9ShLomuqgyfi0Y
- CfwmJUoIpbmC8iyatThM2l2mzyZRw64JfexkcNtziCdRtmv1zh6g7MRHNBA0kEE8Nj/AehIeM
- OOd9C5Y4n/dGYOSf/j2LWcuXlyLmr0JQzxWa146eQgyC5z0TcRkRViBOIin91K3J6FPMoJPbn
- Va5nAO1OJhM75RgVnvfMKKbK53QmIuhBAO+dFMPJs+IEniE5pYRxFXqRzSWjLfxpXcdEiWSNw
- 0GmKAtmAXNOMAzDVW4+OM2qg0t1XXTctu/UHMXOZVapXfOlwH/NfLepryrMBMRuxMA/QlMqSc
- ei7aCpggu3ha07V0DwJhRpPFIcwFgOnWltz1WOTafPgdiACZBgq+o+hnM6SiEGdqFPoVUYzZF
- D+MYPQUk1xrOHQl3/xonaUeYMMRveVFZN1foi9mhu+rPfc9qvqIuWlwCgxUwbJq2R+KzpuHfR
- jvSrGNE+Ws02ZuGagE4+nEw0Yv6OlzU1UBZQrOPr739L2zl26M9ceycSe59xwSeUxzPj1PDSR
- cPNcd1YAns8e/tbiVmBh64vZLV71Y/PMlyZzXY1SLD+hvQJhW1UpkHzd3O/gep5ZK2QGcSDwJ
- K3Mo8+oSylxzm1N6q5ciSIeY9ROc+V60KzeXekjyT61c/V2l1LudWhtT/tiE=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.17.11
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19102414-0008-0000-0000-00000326DF19
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19102414-0009-0000-0000-00004A4612FB
+Message-Id: <157192724208.3146912.7254684777515287626.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-24_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=713 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910240135
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,292 +90,332 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Wen Congyang <wency@cn.fujitsu.com>, Wen Congyang <wencongyang2@huawei.com>,
- Jason Wang <jasowang@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>, Xie Changlong <xiechanglong.d@gmail.com>
+Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To switch the Secondary to Primary, we need to insert new filters
-before the filter-rewriter.
+SpaprInterruptControllerClass and PnvChipClass have an intc_create() method
+that calls the appropriate routine, ie. icp_create() or xive_tctx_create(),
+to establish the link between the VCPU and the presenter component of the
+interrupt controller during realize.
 
-Add the options insert=3D and position=3D to be able to insert filters
-anywhere in the filter list.
+There aren't any symmetrical call to be called when the VCPU gets unrealized
+though. It is assumed that object_unparent() is the only thing to do.
 
-position should be "head" or "tail" to insert at the head or
-tail of the filter list or it should be "id=3D<id>" to specify
-the id of another filter.
-insert should be either "before" or "behind" to specify where to
-insert the new filter relative to the one specified with position.
+This is questionable because the parenting logic around the CPU and
+presenter objects is really an implementation detail of the interrupt
+controller. It shouldn't be open-coded in the machine code.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-=2D--
- include/net/filter.h |  2 +
- net/filter.c         | 92 +++++++++++++++++++++++++++++++++++++++++++-
- qemu-options.hx      | 31 ++++++++++++---
- 3 files changed, 119 insertions(+), 6 deletions(-)
+Fix this by adding an intc_destroy() method that undoes what was done in
+intc_create(). Also NULLify the presenter pointers to avoid having
+stale pointers around. This will allow to reliably check if a vCPU has
+a valid presenter.
 
-diff --git a/include/net/filter.h b/include/net/filter.h
-index 49da666ac0..22a723305b 100644
-=2D-- a/include/net/filter.h
-+++ b/include/net/filter.h
-@@ -62,6 +62,8 @@ struct NetFilterState {
-     NetClientState *netdev;
-     NetFilterDirection direction;
-     bool on;
-+    char *position;
-+    bool insert_before_flag;
-     QTAILQ_ENTRY(NetFilterState) next;
- };
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/intc/spapr_xive.c       |   10 ++++++++++
+ hw/intc/xics.c             |    5 +++++
+ hw/intc/xics_spapr.c       |   10 ++++++++++
+ hw/intc/xive.c             |    5 +++++
+ hw/ppc/pnv.c               |   21 +++++++++++++++++++++
+ hw/ppc/pnv_core.c          |    7 ++++---
+ hw/ppc/spapr_cpu_core.c    |    7 +------
+ hw/ppc/spapr_irq.c         |   14 ++++++++++++++
+ include/hw/ppc/pnv.h       |    1 +
+ include/hw/ppc/spapr_irq.h |    2 ++
+ include/hw/ppc/xics.h      |    1 +
+ include/hw/ppc/xive.h      |    1 +
+ 12 files changed, 75 insertions(+), 9 deletions(-)
 
-diff --git a/net/filter.c b/net/filter.c
-index 28d1930db7..cd2ef9e979 100644
-=2D-- a/net/filter.c
-+++ b/net/filter.c
-@@ -171,11 +171,47 @@ static void netfilter_set_status(Object *obj, const =
-char *str, Error **errp)
-     }
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index d8e1291905c3..9cb8d38a3bab 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -555,6 +555,15 @@ static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+     xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
  }
-
-+static char *netfilter_get_position(Object *obj, Error **errp)
+ 
++static void spapr_xive_cpu_intc_destroy(SpaprInterruptController *intc,
++                                        PowerPCCPU *cpu)
 +{
-+    NetFilterState *nf =3D NETFILTER(obj);
++    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
 +
-+    return g_strdup(nf->position);
++    xive_tctx_destroy(spapr_cpu->tctx);
++    spapr_cpu->tctx = NULL;
 +}
 +
-+static void netfilter_set_position(Object *obj, const char *str, Error **=
-errp)
-+{
-+    NetFilterState *nf =3D NETFILTER(obj);
-+
-+    nf->position =3D g_strdup(str);
-+}
-+
-+static char *netfilter_get_insert(Object *obj, Error **errp)
-+{
-+    NetFilterState *nf =3D NETFILTER(obj);
-+
-+    return nf->insert_before_flag ? g_strdup("before") : g_strdup("behind=
-");
-+}
-+
-+static void netfilter_set_insert(Object *obj, const char *str, Error **er=
-rp)
-+{
-+    NetFilterState *nf =3D NETFILTER(obj);
-+
-+    if (strcmp(str, "before") && strcmp(str, "behind")) {
-+        error_setg(errp, "Invalid value for netfilter insert, "
-+                         "should be 'before' or 'behind'");
-+        return;
-+    }
-+
-+    nf->insert_before_flag =3D !strcmp(str, "before");
-+}
-+
- static void netfilter_init(Object *obj)
+ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
  {
-     NetFilterState *nf =3D NETFILTER(obj);
-
-     nf->on =3D true;
-+    nf->insert_before_flag =3D false;
-+    nf->position =3D g_strdup("tail");
-
-     object_property_add_str(obj, "netdev",
-                             netfilter_get_netdev_id, netfilter_set_netdev=
-_id,
-@@ -187,11 +223,18 @@ static void netfilter_init(Object *obj)
-     object_property_add_str(obj, "status",
-                             netfilter_get_status, netfilter_set_status,
-                             NULL);
-+    object_property_add_str(obj, "position",
-+                            netfilter_get_position, netfilter_set_positio=
-n,
-+                            NULL);
-+    object_property_add_str(obj, "insert",
-+                            netfilter_get_insert, netfilter_set_insert,
-+                            NULL);
+     SpaprXive *xive = SPAPR_XIVE(intc);
+@@ -692,6 +701,7 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
+     sicc->deactivate = spapr_xive_deactivate;
+     sicc->cpu_intc_create = spapr_xive_cpu_intc_create;
+     sicc->cpu_intc_reset = spapr_xive_cpu_intc_reset;
++    sicc->cpu_intc_destroy = spapr_xive_cpu_intc_destroy;
+     sicc->claim_irq = spapr_xive_claim_irq;
+     sicc->free_irq = spapr_xive_free_irq;
+     sicc->set_irq = spapr_xive_set_irq;
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index 6da05763f9db..935f325749cb 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -401,6 +401,11 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
+     return obj;
  }
-
- static void netfilter_complete(UserCreatable *uc, Error **errp)
+ 
++void icp_destroy(ICPState *icp)
++{
++    object_unparent(OBJECT(icp));
++}
++
+ /*
+  * ICS: Source layer
+  */
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 7418fb9f370c..b3705dab0e8a 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -352,6 +352,15 @@ static void xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
+     icp_reset(spapr_cpu_state(cpu)->icp);
+ }
+ 
++static void xics_spapr_cpu_intc_destroy(SpaprInterruptController *intc,
++                                        PowerPCCPU *cpu)
++{
++    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
++
++    icp_destroy(spapr_cpu->icp);
++    spapr_cpu->icp = NULL;
++}
++
+ static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
+                                 bool lsi, Error **errp)
  {
-     NetFilterState *nf =3D NETFILTER(uc);
-+    NetFilterState *position =3D NULL;
-     NetClientState *ncs[MAX_QUEUE_NUM];
-     NetFilterClass *nfc =3D NETFILTER_GET_CLASS(uc);
-     int queues;
-@@ -219,6 +262,41 @@ static void netfilter_complete(UserCreatable *uc, Err=
-or **errp)
-         return;
-     }
-
-+    if (strcmp(nf->position, "head") && strcmp(nf->position, "tail")) {
-+        Object *container;
-+        Object *obj;
-+        char *position_id;
-+
-+        if (!g_str_has_prefix(nf->position, "id=3D")) {
-+            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "position",
-+                       "'head', 'tail' or 'id=3D<id>'");
-+            return;
-+        }
-+
-+        /* get the id from the string */
-+        position_id =3D g_strndup(nf->position + 3, strlen(nf->position) =
-- 3);
-+
-+        /* Search for the position to insert before/behind */
-+        container =3D object_get_objects_root();
-+        obj =3D object_resolve_path_component(container, position_id);
-+        if (!obj) {
-+            error_setg(errp, "filter '%s' not found", position_id);
-+            g_free(position_id);
-+            return;
-+        }
-+
-+        position =3D NETFILTER(obj);
-+
-+        if (position->netdev !=3D ncs[0]) {
-+            error_setg(errp, "filter '%s' belongs to a different netdev",
-+                        position_id);
-+            g_free(position_id);
-+            return;
-+        }
-+
-+        g_free(position_id);
-+    }
-+
-     nf->netdev =3D ncs[0];
-
-     if (nfc->setup) {
-@@ -228,7 +306,18 @@ static void netfilter_complete(UserCreatable *uc, Err=
-or **errp)
-             return;
-         }
-     }
--    QTAILQ_INSERT_TAIL(&nf->netdev->filters, nf, next);
-+
-+    if (position) {
-+        if (nf->insert_before_flag) {
-+            QTAILQ_INSERT_BEFORE(position, nf, next);
-+        } else {
-+            QTAILQ_INSERT_AFTER(&nf->netdev->filters, position, nf, next)=
-;
-+        }
-+    } else if (!strcmp(nf->position, "head")) {
-+        QTAILQ_INSERT_HEAD(&nf->netdev->filters, nf, next);
-+    } else if (!strcmp(nf->position, "tail")) {
-+        QTAILQ_INSERT_TAIL(&nf->netdev->filters, nf, next);
-+    }
+@@ -440,6 +449,7 @@ static void ics_spapr_class_init(ObjectClass *klass, void *data)
+     sicc->deactivate = xics_spapr_deactivate;
+     sicc->cpu_intc_create = xics_spapr_cpu_intc_create;
+     sicc->cpu_intc_reset = xics_spapr_cpu_intc_reset;
++    sicc->cpu_intc_destroy = xics_spapr_cpu_intc_destroy;
+     sicc->claim_irq = xics_spapr_claim_irq;
+     sicc->free_irq = xics_spapr_free_irq;
+     sicc->set_irq = xics_spapr_set_irq;
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index f066be5eb5e3..38257aa02083 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -696,6 +696,11 @@ error:
+     return NULL;
  }
-
- static void netfilter_finalize(Object *obj)
-@@ -245,6 +334,7 @@ static void netfilter_finalize(Object *obj)
-         QTAILQ_REMOVE(&nf->netdev->filters, nf, next);
-     }
-     g_free(nf->netdev_id);
-+    g_free(nf->position);
+ 
++void xive_tctx_destroy(XiveTCTX *tctx)
++{
++    object_unparent(OBJECT(tctx));
++}
++
+ /*
+  * XIVE ESB helpers
+  */
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 4a51fb65a834..68cc3c81aa75 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -778,6 +778,7 @@ static void pnv_chip_power8_intc_create(PnvChip *chip, PowerPCCPU *cpu,
+     pnv_cpu->intc = obj;
  }
-
- static void default_handle_event(NetFilterState *nf, int event, Error **e=
-rrp)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 08749a3391..d2a6cb7da1 100644
-=2D-- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4368,7 +4368,7 @@ applications, they can do this through this paramete=
-r. Its format is
- a gnutls priority string as described at
- @url{https://gnutls.org/manual/html_node/Priority-Strings.html}.
-
--@item -object filter-buffer,id=3D@var{id},netdev=3D@var{netdevid},interva=
-l=3D@var{t}[,queue=3D@var{all|rx|tx}][,status=3D@var{on|off}]
-+@item -object filter-buffer,id=3D@var{id},netdev=3D@var{netdevid},interva=
-l=3D@var{t}[,queue=3D@var{all|rx|tx}][,status=3D@var{on|off}][,position=3D=
-@var{head|tail|id=3D<id>}][,insert=3D@var{behind|before}]
-
- Interval @var{t} can't be 0, this filter batches the packet delivery: all
- packets arriving in a given interval on netdev @var{netdevid} are delayed
-@@ -4387,11 +4387,32 @@ queue @var{all|rx|tx} is an option that can be app=
-lied to any netfilter.
- @option{tx}: the filter is attached to the transmit queue of the netdev,
-              where it will receive packets sent by the netdev.
-
--@item -object filter-mirror,id=3D@var{id},netdev=3D@var{netdevid},outdev=
-=3D@var{chardevid},queue=3D@var{all|rx|tx}[,vnet_hdr_support]
-+position @var{head|tail|id=3D<id>} is an option to specify where the
-+filter should be inserted in the filter list. It can be applied to any
-+netfilter.
+ 
 +
-+@option{head}: the filter is inserted at the head of the filter
-+               list, before any existing filters.
+ static void pnv_chip_power8_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
+ {
+     PnvCPUState *pnv_cpu = pnv_cpu_state(cpu);
+@@ -785,6 +786,14 @@ static void pnv_chip_power8_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
+     icp_reset(ICP(pnv_cpu->intc));
+ }
+ 
++static void pnv_chip_power8_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
++{
++    PnvCPUState *pnv_cpu = pnv_cpu_state(cpu);
 +
-+@option{tail}: the filter is inserted at the tail of the filter
-+               list, behind any existing filters (default).
++    icp_destroy(ICP(pnv_cpu->intc));
++    pnv_cpu->intc = NULL;
++}
 +
-+@option{id=3D<id>}: the filter is inserted before or behind the filter
-+                  specified by <id>, see the insert option below.
+ /*
+  *    0:48  Reserved - Read as zeroes
+  *   49:52  Node ID
+@@ -829,6 +838,14 @@ static void pnv_chip_power9_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
+     xive_tctx_reset(XIVE_TCTX(pnv_cpu->intc));
+ }
+ 
++static void pnv_chip_power9_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
++{
++    PnvCPUState *pnv_cpu = pnv_cpu_state(cpu);
 +
-+insert @var{behind|before} is an option to specify where to insert the
-+new filter relative to the one specified with position=3Did=3D<id>. It ca=
-n
-+be applied to any netfilter.
++    xive_tctx_destroy(XIVE_TCTX(pnv_cpu->intc));
++    pnv_cpu->intc = NULL;
++}
 +
-+@option{before}: insert before the specified filter.
+ /*
+  * Allowed core identifiers on a POWER8 Processor Chip :
+  *
+@@ -999,6 +1016,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
+     k->core_pir = pnv_chip_core_pir_p8;
+     k->intc_create = pnv_chip_power8_intc_create;
+     k->intc_reset = pnv_chip_power8_intc_reset;
++    k->intc_destroy = pnv_chip_power8_intc_destroy;
+     k->isa_create = pnv_chip_power8_isa_create;
+     k->dt_populate = pnv_chip_power8_dt_populate;
+     k->pic_print_info = pnv_chip_power8_pic_print_info;
+@@ -1019,6 +1037,7 @@ static void pnv_chip_power8_class_init(ObjectClass *klass, void *data)
+     k->core_pir = pnv_chip_core_pir_p8;
+     k->intc_create = pnv_chip_power8_intc_create;
+     k->intc_reset = pnv_chip_power8_intc_reset;
++    k->intc_destroy = pnv_chip_power8_intc_destroy;
+     k->isa_create = pnv_chip_power8_isa_create;
+     k->dt_populate = pnv_chip_power8_dt_populate;
+     k->pic_print_info = pnv_chip_power8_pic_print_info;
+@@ -1039,6 +1058,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
+     k->core_pir = pnv_chip_core_pir_p8;
+     k->intc_create = pnv_chip_power8_intc_create;
+     k->intc_reset = pnv_chip_power8_intc_reset;
++    k->intc_destroy = pnv_chip_power8_intc_destroy;
+     k->isa_create = pnv_chip_power8nvl_isa_create;
+     k->dt_populate = pnv_chip_power8_dt_populate;
+     k->pic_print_info = pnv_chip_power8_pic_print_info;
+@@ -1209,6 +1229,7 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
+     k->core_pir = pnv_chip_core_pir_p9;
+     k->intc_create = pnv_chip_power9_intc_create;
+     k->intc_reset = pnv_chip_power9_intc_reset;
++    k->intc_destroy = pnv_chip_power9_intc_destroy;
+     k->isa_create = pnv_chip_power9_isa_create;
+     k->dt_populate = pnv_chip_power9_dt_populate;
+     k->pic_print_info = pnv_chip_power9_pic_print_info;
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index e81cd3a3e047..61b3d3ce2250 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -269,11 +269,12 @@ err:
+     error_propagate(errp, local_err);
+ }
+ 
+-static void pnv_core_cpu_unrealize(PowerPCCPU *cpu)
++static void pnv_core_cpu_unrealize(PowerPCCPU *cpu, PnvChip *chip)
+ {
+     PnvCPUState *pnv_cpu = pnv_cpu_state(cpu);
++    PnvChipClass *pcc = PNV_CHIP_GET_CLASS(chip);
+ 
+-    object_unparent(OBJECT(pnv_cpu_state(cpu)->intc));
++    pcc->intc_destroy(chip, cpu);
+     cpu_remove_sync(CPU(cpu));
+     cpu->machine_data = NULL;
+     g_free(pnv_cpu);
+@@ -289,7 +290,7 @@ static void pnv_core_unrealize(DeviceState *dev, Error **errp)
+     qemu_unregister_reset(pnv_core_reset, pc);
+ 
+     for (i = 0; i < cc->nr_threads; i++) {
+-        pnv_core_cpu_unrealize(pc->threads[i]);
++        pnv_core_cpu_unrealize(pc->threads[i], pc->chip);
+     }
+     g_free(pc->threads);
+ }
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index ef7b27a66d56..8339c4c0f86b 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -195,12 +195,7 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
+     if (!sc->pre_3_0_migration) {
+         vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_data);
+     }
+-    if (spapr_cpu_state(cpu)->icp) {
+-        object_unparent(OBJECT(spapr_cpu_state(cpu)->icp));
+-    }
+-    if (spapr_cpu_state(cpu)->tctx) {
+-        object_unparent(OBJECT(spapr_cpu_state(cpu)->tctx));
+-    }
++    spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
+     cpu_remove_sync(CPU(cpu));
+     object_unparent(OBJECT(cpu));
+ }
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index b941608b69ba..168044be853a 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -234,6 +234,20 @@ void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cpu)
+     }
+ }
+ 
++void spapr_irq_cpu_intc_destroy(SpaprMachineState *spapr, PowerPCCPU *cpu)
++{
++    SpaprInterruptController *intcs[] = ALL_INTCS(spapr);
++    int i;
 +
-+@option{behind}: insert behind the specified filter (default).
++    for (i = 0; i < ARRAY_SIZE(intcs); i++) {
++        SpaprInterruptController *intc = intcs[i];
++        if (intc) {
++            SpaprInterruptControllerClass *sicc = SPAPR_INTC_GET_CLASS(intc);
++            sicc->cpu_intc_destroy(intc, cpu);
++        }
++    }
++}
 +
-+@item -object filter-mirror,id=3D@var{id},netdev=3D@var{netdevid},outdev=
-=3D@var{chardevid},queue=3D@var{all|rx|tx}[,vnet_hdr_support][,position=3D=
-@var{head|tail|id=3D<id>}][,insert=3D@var{behind|before}]
-
- filter-mirror on netdev @var{netdevid},mirror net packet to chardev@var{c=
-hardevid}, if it has the vnet_hdr_support flag, filter-mirror will mirror =
-packet with vnet_hdr_len.
-
--@item -object filter-redirector,id=3D@var{id},netdev=3D@var{netdevid},ind=
-ev=3D@var{chardevid},outdev=3D@var{chardevid},queue=3D@var{all|rx|tx}[,vne=
-t_hdr_support]
-+@item -object filter-redirector,id=3D@var{id},netdev=3D@var{netdevid},ind=
-ev=3D@var{chardevid},outdev=3D@var{chardevid},queue=3D@var{all|rx|tx}[,vne=
-t_hdr_support][,position=3D@var{head|tail|id=3D<id>}][,insert=3D@var{behin=
-d|before}]
-
- filter-redirector on netdev @var{netdevid},redirect filter's net packet t=
-o chardev
- @var{chardevid},and redirect indev's packet to filter.if it has the vnet_=
-hdr_support flag,
-@@ -4400,7 +4421,7 @@ Create a filter-redirector we need to differ outdev =
-id from indev id, id can not
- be the same. we can just use indev or outdev, but at least one of indev o=
-r outdev
- need to be specified.
-
--@item -object filter-rewriter,id=3D@var{id},netdev=3D@var{netdevid},queue=
-=3D@var{all|rx|tx},[vnet_hdr_support]
-+@item -object filter-rewriter,id=3D@var{id},netdev=3D@var{netdevid},queue=
-=3D@var{all|rx|tx},[vnet_hdr_support][,position=3D@var{head|tail|id=3D<id>=
-}][,insert=3D@var{behind|before}]
-
- Filter-rewriter is a part of COLO project.It will rewrite tcp packet to
- secondary from primary to keep secondary tcp connection,and rewrite
-@@ -4413,7 +4434,7 @@ colo secondary:
- -object filter-redirector,id=3Df2,netdev=3Dhn0,queue=3Drx,outdev=3Dred1
- -object filter-rewriter,id=3Drew0,netdev=3Dhn0,queue=3Dall
-
--@item -object filter-dump,id=3D@var{id},netdev=3D@var{dev}[,file=3D@var{f=
-ilename}][,maxlen=3D@var{len}]
-+@item -object filter-dump,id=3D@var{id},netdev=3D@var{dev}[,file=3D@var{f=
-ilename}][,maxlen=3D@var{len}][,position=3D@var{head|tail|id=3D<id>}][,ins=
-ert=3D@var{behind|before}]
-
- Dump the network traffic on netdev @var{dev} to the file specified by
- @var{filename}. At most @var{len} bytes (64k by default) per packet are s=
-tored.
-=2D-
-2.20.1
+ static void spapr_set_irq(void *opaque, int irq, int level)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(opaque);
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 2a780e633f23..0b4c722e6b48 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -112,6 +112,7 @@ typedef struct PnvChipClass {
+     uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
+     void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
+     void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
++    void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
+     ISABus *(*isa_create)(PnvChip *chip, Error **errp);
+     void (*dt_populate)(PnvChip *chip, void *fdt);
+     void (*pic_print_info)(PnvChip *chip, Monitor *mon);
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index 09232999b07e..ff814d13de37 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -53,6 +53,7 @@ typedef struct SpaprInterruptControllerClass {
+     int (*cpu_intc_create)(SpaprInterruptController *intc,
+                             PowerPCCPU *cpu, Error **errp);
+     void (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU *cpu);
++    void (*cpu_intc_destroy)(SpaprInterruptController *intc, PowerPCCPU *cpu);
+     int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
+                      Error **errp);
+     void (*free_irq)(SpaprInterruptController *intc, int irq);
+@@ -70,6 +71,7 @@ void spapr_irq_update_active_intc(SpaprMachineState *spapr);
+ int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+                               PowerPCCPU *cpu, Error **errp);
+ void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cpu);
++void spapr_irq_cpu_intc_destroy(SpaprMachineState *spapr, PowerPCCPU *cpu);
+ void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
+ void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+                   void *fdt, uint32_t phandle);
+diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+index 602173c12250..48a75aa4ab75 100644
+--- a/include/hw/ppc/xics.h
++++ b/include/hw/ppc/xics.h
+@@ -181,6 +181,7 @@ void icp_resend(ICPState *ss);
+ 
+ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi,
+                    Error **errp);
++void icp_destroy(ICPState *icp);
+ 
+ /* KVM */
+ void icp_get_kvm_state(ICPState *icp);
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 99381639f50c..8fd439ec9bba 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -416,6 +416,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr offset, unsigned size);
+ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+ void xive_tctx_reset(XiveTCTX *tctx);
++void xive_tctx_destroy(XiveTCTX *tctx);
+ 
+ static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_idx)
+ {
 
 
