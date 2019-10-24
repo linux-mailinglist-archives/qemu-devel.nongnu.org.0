@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A701E2E60
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:10:44 +0200 (CEST)
-Received: from localhost ([::1]:37465 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CADE2E1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:06:50 +0200 (CEST)
+Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNa4o-00006Q-UR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1iNa12-0000eU-GW
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:06:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46741)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNZLX-0002ea-5f
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:23:56 -0400
+ (envelope-from <groug@kaod.org>) id 1iNZQS-00012N-43
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:29:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNZLV-0002Y5-Up
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:23:55 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46752)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iNZLV-0002Xx-Q3
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:23:53 -0400
-Received: by mail-oi1-x243.google.com with SMTP id k25so19958857oiw.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 02:23:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=cASFsJucXib3nrUJECLJsPBKbh1yQRG/gE0j5Bbte2k=;
- b=ch2IScRd4LHbB+EH7P8RX0nRaLif7ShZKEMyDcr2sJATmFOqX9XFTvaqc9e1u9MFu2
- IfsLmJ/X4gZOp8RlyDVAUZRLsTubw1PegBSY6MdGv/qhd+8dkgaXOY7DLpAF7oro4ix6
- dSase7AhaiStrM4BNyTAxeMl5+lmC94hhnrWaRkTkTiBv5Cm7hX6CQkn7CIipTnxrEqQ
- ZDSdimkI8eNj6+95d4PR2d7oxRbVS8RnQUkL+iAHGiF80IaXv04p4tXKVRq/GlGfvSCo
- j21Yvve4l1Djdp5+QwCBJZ5b10HtA4+CTWYspLk3EhN2fidgCwr3oTKeoeB0l9offM0C
- d0NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=cASFsJucXib3nrUJECLJsPBKbh1yQRG/gE0j5Bbte2k=;
- b=kxrrkpTKPblgtHKAe2o9kmNovKMe2h7e12VxsX0Y7J39neeR51719oqb9zUWnIlC09
- k3sam97GDrJkB+87BeKV2vNpGB3Yyj57IktBUXNuYKOANkewP4LyxkcwoHGTM2E6WN7M
- +gefAKZwDnCRhBsQGb9x4IB+XYN1+g6eYpHeqlwqYh2233NYYWmMGbMRv/GkW02acQq9
- bOn+TrdOGX75124p7tusqNb1dYTafesb/0cKbFk9b/I4VYGJYJQICKzAr8VENEd+ZIym
- /0YthTAklQ8BUWjqbH55NYd5P7j72Jk3wrghirCtwPzR8pE2TYZSJG6Y7L7RO0SrHRq+
- scLQ==
-X-Gm-Message-State: APjAAAUTyttcK5AvVHAYTMvwIyrU/KQPnbB56A6m0APSTg4SGhOUnzZP
- dp5QEW4/pkb3hy4ysSyeVl6dUFOJgFXppT+qR5g=
-X-Google-Smtp-Source: APXvYqy9EA7Su9stU56+mUy8RTpBXchNbtVDWsLI5/da89lVAnmA/HAFEimQOaVfDjrh0VzIf/9n6HYwAJa4QOipuig=
-X-Received: by 2002:aca:62d5:: with SMTP id w204mr3795228oib.136.1571909032914; 
- Thu, 24 Oct 2019 02:23:52 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1iNZQQ-0004DG-7i
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:29:00 -0400
+Received: from 5.mo2.mail-out.ovh.net ([87.98.181.248]:39566)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNZQP-0004Cj-SU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:28:58 -0400
+Received: from player730.ha.ovh.net (unknown [10.109.146.137])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 8242D1B0719
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:28:55 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player730.ha.ovh.net (Postfix) with ESMTPSA id 7D319B36B026;
+ Thu, 24 Oct 2019 09:28:49 +0000 (UTC)
+Date: Thu, 24 Oct 2019 11:28:45 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 5/6] spapr: Don't use CPU_FOREACH() in 'info pic'
+Message-ID: <20191024112845.43005bae@bahia.lan>
+In-Reply-To: <20191024030231.GV6439@umbus.fritz.box>
+References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
+ <157184234176.3053790.8577967462603127139.stgit@bahia.lan>
+ <20191024030231.GV6439@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 24 Oct 2019 02:23:52
- -0700 (PDT)
-In-Reply-To: <20191019153437.9820-1-f4bug@amsat.org>
-References: <20191019153437.9820-1-f4bug@amsat.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 24 Oct 2019 11:23:52 +0200
-Message-ID: <CAL1e-=hMJmmRzD8iQdKji__RKPbGrV0fGNciz2bgLjkhmC2v6Q@mail.gmail.com>
-Subject: Re: [PATCH 00/11] tests/acceptance: Fix 64-bit MIPS target tests
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000086d37e0595a49796"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Content-Type: multipart/signed; boundary="Sig_/Sw8TTc3ySUnpCs7zuV=Aa4H";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 7986852464264190438
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrledugdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 87.98.181.248
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,120 +58,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000086d37e0595a49796
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/Sw8TTc3ySUnpCs7zuV=Aa4H
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-ping for Cleber and Eduardo
+On Thu, 24 Oct 2019 14:02:31 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-On Saturday, October 19, 2019, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
->
-wrote:
+> On Wed, Oct 23, 2019 at 04:52:21PM +0200, Greg Kurz wrote:
+> > Now that presenter objects are parented to the interrupt controller, st=
+op
+> > relying on CPU_FOREACH() which can race with CPU hotplug and crash QEMU.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+>=20
+> So.. we might be able to go further than this.  Having the
+> TYPE_INTERRUPT_STATS_PROVIDER interrupt on the machine is actually an
+> spapr and pnv oddity.  In most cases that interface is on the various
+> components of the interrupt controller directly.  hmp_info_irq() scans
+> the whole QOM tree looking for everything with the interface to
+> produce the info pic output.
+>=20
+> It would be nice if we can do the same for xics and xive.  The tricky
+> bit is that we do have the possibility of both, in which case the
+> individual components would need to know if they're currently "active"
+> and minimize their output if so.
+>=20
 
-> v2:
-> - Fixed GIT_COMMITTER_NAME
-> - do no include Aleksandar Rikalo mailmap change
->
-> Commit 9090d3332cdcc introduced a regression which makes the
-> 64-bit target tests to fail.
->
-> This series fix it (by previously refactoring the linux_ssh_malta
-> test), and also add another test for the 5KEc CPU.
->
-> I had to include Avocado-related patches not yet merged again to
-> avoid sending patches that will later not apply.
->
-> Please review,
->
-> Phil.
->
-> Cleber Rosa (1):
->   Acceptance tests: refactor wait_for_console_pattern
->
-> Philippe Mathieu-Daud=C3=A9 (10):
->   tests/acceptance: Fixe wait_for_console_pattern() hangs
->   tests/acceptance: Send <carriage return> on serial lines
->   tests/acceptance: Refactor exec_command_and_wait_for_pattern()
->   tests/boot_linux_console: Use Avocado archive::gzip_uncompress()
->   tests/boot_linux_console: Run BusyBox on 5KEc 64-bit cpu
->   tests/ssh_linux_malta: Run tests using a snapshot image
->   tests/ssh_linux_malta: Remove duplicated test
->   tests/ssh_linux_malta: Match stricter console output
->   tests/ssh_linux_malta: Refactor how to get image/kernel info
->   tests/ssh_linux_malta: Fix 64-bit target tests
->
->  tests/acceptance/avocado_qemu/__init__.py |  45 ++++++++
->  tests/acceptance/boot_linux_console.py    |  88 ++++++++-------
->  tests/acceptance/linux_ssh_mips_malta.py  | 124 +++++++++++-----------
->  3 files changed, 158 insertions(+), 99 deletions(-)
->
-> --
-> 2.21.0
->
->
->
+Yes but this looks like 4.3 material. If we want to fix this for 4.2,
+I'm now thinking it might be safer to keep CPU_FOREACH() and check the
+state.
 
---00000000000086d37e0595a49796
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > ---
+> >  hw/intc/spapr_xive.c  |    8 +-------
+> >  hw/intc/xics.c        |   12 ++++++++++++
+> >  hw/intc/xics_spapr.c  |    8 +-------
+> >  hw/intc/xive.c        |   12 ++++++++++++
+> >  include/hw/ppc/xics.h |    1 +
+> >  include/hw/ppc/xive.h |    2 ++
+> >  6 files changed, 29 insertions(+), 14 deletions(-)
+> >=20
+> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > index d74ee71e76b4..05763a58cf5d 100644
+> > --- a/hw/intc/spapr_xive.c
+> > +++ b/hw/intc/spapr_xive.c
+> > @@ -579,14 +579,8 @@ static void spapr_xive_set_irq(SpaprInterruptContr=
+oller *intc, int irq, int val)
+> >  static void spapr_xive_print_info(SpaprInterruptController *intc, Moni=
+tor *mon)
+> >  {
+> >      SpaprXive *xive =3D SPAPR_XIVE(intc);
+> > -    CPUState *cs;
+> > -
+> > -    CPU_FOREACH(cs) {
+> > -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> > -
+> > -        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
+> > -    }
+> > =20
+> > +    xive_presenter_print_info(XIVE_ROUTER(intc), mon);
+> >      spapr_xive_pic_print_info(xive, mon);
+> >  }
+> > =20
+> > diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> > index d5e4db668a4b..6e820c4851f3 100644
+> > --- a/hw/intc/xics.c
+> > +++ b/hw/intc/xics.c
+> > @@ -88,6 +88,18 @@ void ics_pic_print_info(ICSState *ics, Monitor *mon)
+> >      }
+> >  }
+> > =20
+> > +static int do_ics_pic_print_icp_infos(Object *child, void *opaque)
+> > +{
+> > +    icp_pic_print_info(ICP(child), opaque);
+> > +    return 0;
+> > +}
+> > +
+> > +void ics_pic_print_icp_infos(ICSState *ics, const char *type, Monitor =
+*mon)
+> > +{
+> > +    object_child_foreach_type(OBJECT(ics), type, do_ics_pic_print_icp_=
+infos,
+> > +                              mon);
+> > +}
+> > +
+> >  /*
+> >   * ICP: Presentation layer
+> >   */
+> > diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> > index 080ed73aad64..7624d693c8da 100644
+> > --- a/hw/intc/xics_spapr.c
+> > +++ b/hw/intc/xics_spapr.c
+> > @@ -400,14 +400,8 @@ static void xics_spapr_set_irq(SpaprInterruptContr=
+oller *intc, int irq, int val)
+> >  static void xics_spapr_print_info(SpaprInterruptController *intc, Moni=
+tor *mon)
+> >  {
+> >      ICSState *ics =3D ICS_SPAPR(intc);
+> > -    CPUState *cs;
+> > -
+> > -    CPU_FOREACH(cs) {
+> > -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> > -
+> > -        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
+> > -    }
+> > =20
+> > +    ics_pic_print_icp_infos(ics, TYPE_ICP, mon);
+> >      ics_pic_print_info(ics, mon);
+> >  }
+> > =20
+> > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> > index 8d2da4a11163..40ce43152456 100644
+> > --- a/hw/intc/xive.c
+> > +++ b/hw/intc/xive.c
+> > @@ -547,6 +547,18 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Moni=
+tor *mon)
+> >      }
+> >  }
+> > =20
+> > +static int do_xive_presenter_print_info(Object *child, void *opaque)
+> > +{
+> > +    xive_tctx_pic_print_info(XIVE_TCTX(child), opaque);
+> > +    return 0;
+> > +}
+> > +
+> > +void xive_presenter_print_info(XiveRouter *xrtr, Monitor *mon)
+> > +{
+> > +    object_child_foreach_type(OBJECT(xrtr), TYPE_XIVE_TCTX,
+> > +                              do_xive_presenter_print_info, mon);
+> > +}
+> > +
+> >  void xive_tctx_reset(XiveTCTX *tctx)
+> >  {
+> >      memset(tctx->regs, 0, sizeof(tctx->regs));
+> > diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+> > index f4827e748fd8..4de1f421c997 100644
+> > --- a/include/hw/ppc/xics.h
+> > +++ b/include/hw/ppc/xics.h
+> > @@ -175,6 +175,7 @@ static inline bool ics_irq_free(ICSState *ics, uint=
+32_t srcno)
+> >  void ics_set_irq_type(ICSState *ics, int srcno, bool lsi);
+> >  void icp_pic_print_info(ICPState *icp, Monitor *mon);
+> >  void ics_pic_print_info(ICSState *ics, Monitor *mon);
+> > +void ics_pic_print_icp_infos(ICSState *ics, const char *type, Monitor =
+*mon);
+> > =20
+> >  void ics_resend(ICSState *ics);
+> >  void icp_resend(ICPState *ss);
+> > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> > index 8fd439ec9bba..14690428a0aa 100644
+> > --- a/include/hw/ppc/xive.h
+> > +++ b/include/hw/ppc/xive.h
+> > @@ -367,6 +367,8 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8_t=
+ nvt_blk, uint32_t nvt_idx,
+> >  XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
+> >  void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
+> > =20
+> > +void xive_presenter_print_info(XiveRouter *xrtr, Monitor *mon);
+> > +
+> >  /*
+> >   * XIVE END ESBs
+> >   */
+> >=20
+>=20
 
-ping for Cleber and Eduardo<br><br>On Saturday, October 19, 2019, Philippe =
-Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</=
-a>&gt; wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">v2:<br>
-- Fixed GIT_COMMITTER_NAME<br>
-- do no include Aleksandar Rikalo mailmap change<br>
-<br>
-Commit 9090d3332cdcc introduced a regression which makes the<br>
-64-bit target tests to fail.<br>
-<br>
-This series fix it (by previously refactoring the linux_ssh_malta<br>
-test), and also add another test for the 5KEc CPU.<br>
-<br>
-I had to include Avocado-related patches not yet merged again to<br>
-avoid sending patches that will later not apply.<br>
-<br>
-Please review,<br>
-<br>
-Phil.<br>
-<br>
-Cleber Rosa (1):<br>
-=C2=A0 Acceptance tests: refactor wait_for_console_pattern<br>
-<br>
-Philippe Mathieu-Daud=C3=A9 (10):<br>
-=C2=A0 tests/acceptance: Fixe wait_for_console_pattern() hangs<br>
-=C2=A0 tests/acceptance: Send &lt;carriage return&gt; on serial lines<br>
-=C2=A0 tests/acceptance: Refactor exec_command_and_wait_for_<wbr>pattern()<=
-br>
-=C2=A0 tests/boot_linux_console: Use Avocado archive::gzip_uncompress()<br>
-=C2=A0 tests/boot_linux_console: Run BusyBox on 5KEc 64-bit cpu<br>
-=C2=A0 tests/ssh_linux_malta: Run tests using a snapshot image<br>
-=C2=A0 tests/ssh_linux_malta: Remove duplicated test<br>
-=C2=A0 tests/ssh_linux_malta: Match stricter console output<br>
-=C2=A0 tests/ssh_linux_malta: Refactor how to get image/kernel info<br>
-=C2=A0 tests/ssh_linux_malta: Fix 64-bit target tests<br>
-<br>
-=C2=A0tests/acceptance/avocado_qemu/<wbr>__init__.py |=C2=A0 45 ++++++++<br=
->
-=C2=A0tests/acceptance/boot_linux_<wbr>console.py=C2=A0 =C2=A0 |=C2=A0 88 +=
-+++++++-------<br>
-=C2=A0tests/acceptance/linux_ssh_<wbr>mips_malta.py=C2=A0 | 124 +++++++++++=
------------<br>
-=C2=A03 files changed, 158 insertions(+), 99 deletions(-)<br>
-<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote>
 
---00000000000086d37e0595a49796--
+--Sig_/Sw8TTc3ySUnpCs7zuV=Aa4H
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2xbs0ACgkQcdTV5YIv
+c9ZVHg/9FR6YWDwO6IIDz/J/S2VrT/2k6oMdH0sDPPVDCmThAQpy2VQFjr9NXNib
+nWsI1JPKllraVPKtC9Vk1H4VooNibUV5TEMIg5qE0KJq50cWOwGYDR/uppQ9TpQk
+tHfXfqlcnC10eV60LTXYq4pud5aABHjKJ1bHVgww0AMKyVS+JQ8HVmJnBMiU++ES
++zFKyh6XVWZjy+JqlqgxNPMBirc0Cg4gSBDTBlhdnaGOwD894z3hyDtMATj0Jc8k
+/Sat3Rx22tdSCOzFWwXwN/u+PdjgQwvuvP4RTOp8JOCNLykPD7wIusmJ+kDxY99V
+jMtQXfVj48ejp9MzIxZUNBj6Jxsod/Da10rYYBVy9I+GtOG64VcDrnTTbz2bm4KV
+4TITZFmG2QaN9SWfGIfV2p4RTJjm5V4jntzWhsM2JNle1Cx5tI2h8RvugkJgqm0B
+kTW+wL7M5I+9HDacpjaaHqLUMQOfmVZsqbqMHmLC4RKpU/jSNO1r6OpP1IB96E+I
+bOUcOd3AtpLe5Gc8fqAm8Gl4f6Yb/2IHQHUDFxmtBOrdKDeZGvmF20WIuD6nj46m
+Nwm2+cmeAZYKNSapzpQDcOzOWaqHhc1tu40pUQsN5q9WwPgHGrV4/LaxKmaENSJL
+67Bdgfsx/c7oOOimLZzzdqLFcTSHAIBIevsXzsaTtnTlplQSWiY=
+=Yqop
+-----END PGP SIGNATURE-----
+
+--Sig_/Sw8TTc3ySUnpCs7zuV=Aa4H--
 
