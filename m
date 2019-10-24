@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97544E36AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:30:33 +0200 (CEST)
-Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2B6E36D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:39:04 +0200 (CEST)
+Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNf4K-00041j-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34912)
+	id 1iNfCZ-0002Ne-Im
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj5-00085c-T7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj7-000882-51
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj0-0007mh-MA
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:31 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36121)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj1-0007nD-SO
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:32 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54185)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdj0-0007mK-FT
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:26 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w18so25704097wrt.3
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:26 -0700 (PDT)
+ id 1iNdj1-0007mo-Kl
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:27 -0400
+Received: by mail-wm1-x341.google.com with SMTP id n7so2167426wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Kzf1c4TzoS2R1SZRxcUgo2l6hUVF5Eo0UE969kM5Oa0=;
- b=Cdi8J5G9WR+ndYXf7tLlWejwFtV5vnf/Rr/CMx1lmiu1wk0LbSjBopudbufhFNvSZu
- CwMS/UTaAEoyJEAYewA6PdWbAejEEKBGPCKdzpcW1IjvF0pAwQi70HNwIKFdoBWmC7XN
- CxGuxJhP5+ni9LnBIG2ZctCYD8z90h7EH4VhPKLjYfwtImTqI+79Oiif0v4xbHbr1Pkz
- jAEM0HRMj/yI5MOQkkhht5BPkxzF/Yc7HM/sU4aaldng150RuM4Ix3JAWlOhklVYXhC8
- 86VwYVf1J4QdwLHt+gLNGQ/hLmEGfcc4UEW14vqQhBIHNcj9IaMlW/U6wdCNHxfKHr4v
- 40hg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=fkvm9nrySjtGqEqh6sk4DK7nSHHS/gX3BsRBOkEFvus=;
+ b=keDUGG/yBFtGV3tw0WN+roAJAig/BbaIL5TL8UsKIMmHKdZrNGNomWs8vvDGXJZJQc
+ 4hvk5IqjzwP3RQqJ+tRKAEvq7QXbgihs0K9luApE6DuOCquBPozsHknbVvj12wwfBqdU
+ Ula6s90gUqrZEN5BD6bGJDYPli23wLEGWVHsJJYcdZIwlD3+0HfDsPkz8085BcgWGM7f
+ yyUkjlPZci87gV+dbIWRHqqiHsvNAOmptXzQUR1WXlkURYFKpZ/d9BGnUy68f7yWUA85
+ X+T79EyMyNNnO9LHWiFWjs2j6ufdxyJ9kAWMxj9hzkm/psva+ZskX9bsJpod5xaLAOXz
+ HYqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Kzf1c4TzoS2R1SZRxcUgo2l6hUVF5Eo0UE969kM5Oa0=;
- b=r5sbHEX7k7Jh3EPbwZIHFuYjp0yfDj+jgEBTzXA5c/2LdtNNcrIwpk+Qj+mAze0zoI
- TkK5Xfnd2JGiHB7RcWQlnpmbv8nbPggv/gF4Aa0pSeWDzX+AqSHUM2uZJZGudz0l2vLO
- +j/IhtPF9rE1Gf9pK8ckhC3D8bqxl3XoSq/Dds3VHsCvL6sE04I6CajM+wQOgq4Jtw/o
- 47nN24IT0ZLboURHVvSbkCB+g/ZD9Wk36UJZZFeZv3lizHBz6PrX3GyddQcLvrY0aTjf
- U8SBW5YM2aEyowFkIdhlm1Xi1Zg1FNchRLHLj2W0DxJMZtZyKZOcBibAc8wqnZ6C8EFy
- Ltdg==
-X-Gm-Message-State: APjAAAWY5xYJHTsCa1yBsW0vB8YRfd+TjSmf1Ok5bEGmSB8R/3rjmcAM
- pQGYKiFs/yQDJeVgprTPsR6PsP6J
-X-Google-Smtp-Source: APXvYqwOPEWyxZCon/NCiEhGbJNTw9d6Hkezv6qcgkyZQTBlHdXrIvGsbi3b1XwO1HQ1rC6GjcNAeA==
-X-Received: by 2002:a5d:674f:: with SMTP id l15mr4390717wrw.80.1571925864951; 
- Thu, 24 Oct 2019 07:04:24 -0700 (PDT)
+ :in-reply-to:references;
+ bh=fkvm9nrySjtGqEqh6sk4DK7nSHHS/gX3BsRBOkEFvus=;
+ b=FoMt3pnre1gCkR8IK4zQs4WLU8Vu4WBTsJt1sz8S5eRL/xPdEp3QefXQiV8/8A0egh
+ k2WCZfvWLfOPhDRSqxX7FHg2mfaJvWXeWtVZQG40NLRW0NC6U49oUvRLho3H37fsMhY4
+ wQxPYAiK4S/78Kn6cupMdwbLjxxM8OqGABRqk0auyyKsRarH6uyrJoiTtz9U2UA67WrZ
+ xiUXlcpWwVjwk7n+ZzeZw2ha0ruPI6aFL8MEGbVRQ2cu91IKcd9BfF42Vd7UzPR2Zpa5
+ c6MZMTXafOfqsTcBt3EwUetHE+Zi+DfppirugxNJHSLlUu4eeURkAhOxcAEiqv7W16p1
+ RBuA==
+X-Gm-Message-State: APjAAAWYLH+wEfAD31pg/YZgfW2qXDRLPKAaqIFr2DVPOmFNw+mFG9e7
+ BpZmeiaOfhnmqLhGUwywtPudC9Wz
+X-Google-Smtp-Source: APXvYqyFt9a5EGOmmNolhHIF2RhmlnTgzXeu+AsTZkhVqNvnIkmUcx6GqhI1YugNJWoagccy6cxg5g==
+X-Received: by 2002:a1c:2d49:: with SMTP id t70mr432720wmt.131.1571925866214; 
+ Thu, 24 Oct 2019 07:04:26 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.23
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.24
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:24 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/39] x86/cpu: Add support for UMONITOR/UMWAIT/TPAUSE
-Date: Thu, 24 Oct 2019 16:03:41 +0200
-Message-Id: <1571925835-31930-26-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 26/39] target/i386: Add support for save/load
+ IA32_UMWAIT_CONTROL MSR
+Date: Thu, 24 Oct 2019 16:03:42 +0200
+Message-Id: <1571925835-31930-27-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,82 +81,134 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tao Xu <tao3.xu@intel.com>
 
-UMONITOR, UMWAIT and TPAUSE are a set of user wait instructions.
-This patch adds support for user wait instructions in KVM. Availability
-of the user wait instructions is indicated by the presence of the CPUID
-feature flag WAITPKG CPUID.0x07.0x0:ECX[5]. User wait instructions may
-be executed at any privilege level, and use IA32_UMWAIT_CONTROL MSR to
-set the maximum time.
+UMWAIT and TPAUSE instructions use 32bits IA32_UMWAIT_CONTROL at MSR
+index E1H to determines the maximum time in TSC-quanta that the processor
+can reside in either C0.1 or C0.2.
 
-The patch enable the umonitor, umwait and tpause features in KVM.
-Because umwait and tpause can put a (psysical) CPU into a power saving
-state, by default we dont't expose it to kvm and enable it only when
-guest CPUID has it. And use QEMU command-line "-overcommit cpu-pm=on"
-(enable_cpu_pm is enabled), a VM can use UMONITOR, UMWAIT and TPAUSE
-instructions. If the instruction causes a delay, the amount of time
-delayed is called here the physical delay. The physical delay is first
-computed by determining the virtual delay (the time to delay relative to
-the VMâ€™s timestamp counter). Otherwise, UMONITOR, UMWAIT and TPAUSE cause
-an invalid-opcode exception(#UD).
-
-The release document ref below link:
-https://software.intel.com/sites/default/files/\
-managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf
+This patch is to Add support for save/load IA32_UMWAIT_CONTROL MSR in
+guest.
 
 Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
 Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Message-Id: <20191011074103.30393-2-tao3.xu@intel.com>
+Message-Id: <20191011074103.30393-3-tao3.xu@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- target/i386/kvm.c | 6 ++++++
- 3 files changed, 9 insertions(+), 1 deletion(-)
+ target/i386/cpu.h     |  2 ++
+ target/i386/kvm.c     | 13 +++++++++++++
+ target/i386/machine.c | 20 ++++++++++++++++++++
+ 3 files changed, 35 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6c87c99..b635302 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1058,7 +1058,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-             NULL, "avx512vbmi", "umip", "pku",
--            NULL /* ospke */, NULL, "avx512vbmi2", NULL,
-+            NULL /* ospke */, "waitpkg", "avx512vbmi2", NULL,
-             "gfni", "vaes", "vpclmulqdq", "avx512vnni",
-             "avx512bitalg", NULL, "avx512-vpopcntdq", NULL,
-             "la57", NULL, NULL, NULL,
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c50a9c7..112f867 100644
+index 112f867..b772e82 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -731,6 +731,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_ECX_PKU               (1U << 3)
- /* OS Enable Protection Keys */
- #define CPUID_7_0_ECX_OSPKE             (1U << 4)
-+/* UMONITOR/UMWAIT/TPAUSE Instructions */
-+#define CPUID_7_0_ECX_WAITPKG           (1U << 5)
- /* Additional AVX-512 Vector Byte Manipulation Instruction */
- #define CPUID_7_0_ECX_AVX512_VBMI2      (1U << 6)
- /* Galois Field New Instructions */
+@@ -452,6 +452,7 @@ typedef enum X86Seg {
+ 
+ #define MSR_IA32_BNDCFGS                0x00000d90
+ #define MSR_IA32_XSS                    0x00000da0
++#define MSR_IA32_UMWAIT_CONTROL         0xe1
+ 
+ #define MSR_IA32_VMX_BASIC              0x00000480
+ #define MSR_IA32_VMX_PINBASED_CTLS      0x00000481
+@@ -1587,6 +1588,7 @@ typedef struct CPUX86State {
+     uint16_t fpregs_format_vmstate;
+ 
+     uint64_t xss;
++    uint32_t umwait;
+ 
+     TPRAccess tpr_access_type;
+ 
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 49a3011..94c2339 100644
+index 94c2339..bfd09bd 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -401,6 +401,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         if (host_tsx_blacklisted()) {
-             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
-         }
-+    } else if (function == 7 && index == 0 && reg == R_ECX) {
-+        if (enable_cpu_pm) {
-+            ret |= CPUID_7_0_ECX_WAITPKG;
-+        } else {
-+            ret &= ~CPUID_7_0_ECX_WAITPKG;
-+        }
-     } else if (function == 7 && index == 0 && reg == R_EDX) {
-         /*
-          * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
+@@ -95,6 +95,7 @@ static bool has_msr_hv_stimer;
+ static bool has_msr_hv_frequencies;
+ static bool has_msr_hv_reenlightenment;
+ static bool has_msr_xss;
++static bool has_msr_umwait;
+ static bool has_msr_spec_ctrl;
+ static bool has_msr_virt_ssbd;
+ static bool has_msr_smi_count;
+@@ -2005,6 +2006,9 @@ static int kvm_get_supported_msrs(KVMState *s)
+             case MSR_IA32_XSS:
+                 has_msr_xss = true;
+                 break;
++            case MSR_IA32_UMWAIT_CONTROL:
++                has_msr_umwait = true;
++                break;
+             case HV_X64_MSR_CRASH_CTL:
+                 has_msr_hv_crash = true;
+                 break;
+@@ -2684,6 +2688,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+     if (has_msr_xss) {
+         kvm_msr_entry_add(cpu, MSR_IA32_XSS, env->xss);
+     }
++    if (has_msr_umwait) {
++        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, env->umwait);
++    }
+     if (has_msr_spec_ctrl) {
+         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
+     }
+@@ -3097,6 +3104,9 @@ static int kvm_get_msrs(X86CPU *cpu)
+     if (has_msr_xss) {
+         kvm_msr_entry_add(cpu, MSR_IA32_XSS, 0);
+     }
++    if (has_msr_umwait) {
++        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, 0);
++    }
+     if (has_msr_spec_ctrl) {
+         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
+     }
+@@ -3349,6 +3359,9 @@ static int kvm_get_msrs(X86CPU *cpu)
+         case MSR_IA32_XSS:
+             env->xss = msrs[i].data;
+             break;
++        case MSR_IA32_UMWAIT_CONTROL:
++            env->umwait = msrs[i].data;
++            break;
+         default:
+             if (msrs[i].index >= MSR_MC0_CTL &&
+                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 2767b30..6481f84 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -943,6 +943,25 @@ static const VMStateDescription vmstate_xss = {
+     }
+ };
+ 
++static bool umwait_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->umwait != 0;
++}
++
++static const VMStateDescription vmstate_umwait = {
++    .name = "cpu/umwait",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = umwait_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(env.umwait, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ #ifdef TARGET_X86_64
+ static bool pkru_needed(void *opaque)
+ {
+@@ -1391,6 +1410,7 @@ VMStateDescription vmstate_x86_cpu = {
+         &vmstate_msr_hyperv_reenlightenment,
+         &vmstate_avx512,
+         &vmstate_xss,
++        &vmstate_umwait,
+         &vmstate_tsc_khz,
+         &vmstate_msr_smi_count,
+ #ifdef TARGET_X86_64
 -- 
 1.8.3.1
 
