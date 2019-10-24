@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1B7E2FF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:06:48 +0200 (CEST)
-Received: from localhost ([::1]:38896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81799E3001
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:10:09 +0200 (CEST)
+Received: from localhost ([::1]:38939 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNax4-0003ut-Vl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59237)
+	id 1iNb0I-0002gq-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59236)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatG-0000sc-Om
+ (envelope-from <armbru@redhat.com>) id 1iNatG-0000sb-Po
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatE-0004pk-Ae
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004qF-EJ
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60251
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42824
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004mA-4m
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004oR-6c
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914964;
+ s=mimecast20190719; t=1571914966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y0LluG9x73pG1eSjKT6+/4tvxwpeWh3fys+DjJoQOMg=;
- b=f2+7BTENNjDXdpS7USRAoyXErWQjS8fuqJqo6MPS3Xg626T7MCKojvPq3M5gB92ctPipDg
- fkgN3dj6r+5p09TUTISRYg7rg9WtPXPdwyz8FtEdpPwoC3cwYsDDS+snEC+ZOe0D2ThaBW
- uMczbgN936sGbG9YwOQXgE9OBfTri9k=
+ bh=rUuZyBI5+Ihso7z459NcAIGfMCtpvZVrWlCZYt8BQyI=;
+ b=UyHuH8rV1+bGQokP4kQuP3SVRSgtnB/sTSj1ZWOC01T6VtQlUrfc5hQ+5jeYv2NiPPpYYy
+ Wl6Ap+QYzHzEYyqV0ItmKnsLibYPlun3RKMusc7TGhcTb16L+9GB302d2eNz3tW8E5rpVH
+ 0cQyeMUdPooCnPszOXti2b93E6I1OJg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-_jn1AztyOcmJM2z2geaMwQ-1; Thu, 24 Oct 2019 07:02:42 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-378-n0nVzL8kOgWlUgDTEflufA-1; Thu, 24 Oct 2019 07:02:42 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72922800D5A;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0C031800E05;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DA24600CC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D267608C1;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6095D113294C; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 6AAF711328A8; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/19] qapi: Clean up doc comment checking for implicit union
- base
-Date: Thu, 24 Oct 2019 13:02:28 +0200
-Message-Id: <20191024110237.30963-11-armbru@redhat.com>
+Subject: [PATCH 12/19] qapi: Simplify ._make_implicit_object_type()
+Date: Thu, 24 Oct 2019 13:02:30 +0200
+Message-Id: <20191024110237.30963-13-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: _jn1AztyOcmJM2z2geaMwQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: n0nVzL8kOgWlUgDTEflufA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,123 +76,80 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An object type's doc comment describes the type's members, less the
-ones defined in a named base type.  Cases:
-
-* Struct: the members are defined in 'data' and inherited from 'base'.
-  Since the base type cannot be implicit, the doc comment describes
-  just 'data'.
-
-* Simple union: the only member is the implicit tag member @type, and
-  the doc comment describes it.
-
-* Flat union with implicit base type: the members are defined in
-  'base', and the doc comment describes it.
-
-* Flat union with named base type: the members are inherited from
-  'base'.  The doc comment describes no members.
-
-Before we can check a doc comment with .check_doc(), we need
-.connect_doc() connect each of its "argument sections" to the member
-it documents.
-
-For structs and simple unions, this is straightforward: the members in
-question are in .local_members, and .connect_doc() connects them.
-
-For flat unions with a named base type, it's trivial: .local_members
-is empty, and .connect_doc() does nothing.
-
-For flat unions with an implicit base type, it's tricky.  We have
-QAPISchema._make_implicit_object_type() forward the union's doc
-comment to the implicit base type, so that the base type's
-.connect_doc() connects the members.  The union's .connect_doc() does
-nothing, as .local_members is empty.
-
-Dirt effect: we check the doc comment twice, once for the union type,
-and once for the implicit base type.
-
-This is needlessly brittle and hard to understand.  Clean up as
-follows.  Make the union's .connect_doc() connect an implicit base's
-members itself.  Do not forward the union's doc comment to its
-implicit base type.
-
-Requires extending .connect_doc() so it can work with a doc comment
-other than self.doc.  Add an optional argument for that.
+All callers now pass doc=3DNone.  Drop the argument.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/schema.py | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ scripts/qapi/schema.py | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 0381e3cb40..c16dce1fe0 100644
+index 06e37c9c49..27da4e0f7d 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -51,7 +51,7 @@ class QAPISchemaEntity(object):
-                                            os.path.dirname(schema.fname))
-         self._checked =3D True
+@@ -920,8 +920,7 @@ class QAPISchema(object):
+             self._def_entity(QAPISchemaArrayType(name, info, element_type)=
+)
+         return name
 =20
--    def connect_doc(self):
-+    def connect_doc(self, doc=3DNone):
-         pass
+-    def _make_implicit_object_type(self, name, info, doc, ifcond,
+-                                   role, members):
++    def _make_implicit_object_type(self, name, info, ifcond, role, members=
+):
+         if not members:
+             return None
+         # See also QAPISchemaObjectTypeMember.describe()
+@@ -939,7 +938,7 @@ class QAPISchema(object):
+             # TODO kill simple unions or implement the disjunction
+             assert (ifcond or []) =3D=3D typ._ifcond # pylint: disable=3Dp=
+rotected-access
+         else:
+-            self._def_entity(QAPISchemaObjectType(name, info, doc, ifcond,
++            self._def_entity(QAPISchemaObjectType(name, info, None, ifcond=
+,
+                                                   None, members, None, [])=
+)
+         return name
 =20
-     def check_doc(self):
-@@ -224,10 +224,11 @@ class QAPISchemaEnumType(QAPISchemaType):
-         for m in self.members:
-             m.check_clash(self.info, seen)
+@@ -986,7 +985,7 @@ class QAPISchema(object):
+             assert len(typ) =3D=3D 1
+             typ =3D self._make_array_type(typ[0], info)
+         typ =3D self._make_implicit_object_type(
+-            typ, info, None, self.lookup_type(typ),
++            typ, info, self.lookup_type(typ),
+             'wrapper', [self._make_member('data', typ, None, info)])
+         return QAPISchemaObjectTypeVariant(case, info, typ, ifcond)
 =20
--    def connect_doc(self):
--        if self.doc:
-+    def connect_doc(self, doc=3DNone):
-+        doc =3D doc or self.doc
-+        if doc:
-             for m in self.members:
--                self.doc.connect_member(m)
-+                doc.connect_member(m)
-=20
-     def check_doc(self):
-         if self.doc:
-@@ -380,10 +381,13 @@ class QAPISchemaObjectType(QAPISchemaType):
-         for m in self.members:
-             m.check_clash(info, seen)
-=20
--    def connect_doc(self):
--        if self.doc:
-+    def connect_doc(self, doc=3DNone):
-+        doc =3D doc or self.doc
-+        if doc:
-+            if self.base and self.base.is_implicit():
-+                self.base.connect_doc(doc)
-             for m in self.local_members:
--                self.doc.connect_member(m)
-+                doc.connect_member(m)
-=20
-     def check_doc(self):
-         if self.doc:
-@@ -657,10 +661,11 @@ class QAPISchemaAlternateType(QAPISchemaType):
-                         % (v.describe(self.info), types_seen[qt]))
-                 types_seen[qt] =3D v.name
-=20
--    def connect_doc(self):
--        if self.doc:
-+    def connect_doc(self, doc=3DNone):
-+        doc =3D doc or self.doc
-+        if doc:
-             for v in self.variants.variants:
--                self.doc.connect_member(v)
-+                doc.connect_member(v)
-=20
-     def check_doc(self):
-         if self.doc:
-@@ -974,7 +979,7 @@ class QAPISchema(object):
+@@ -999,7 +998,7 @@ class QAPISchema(object):
          tag_member =3D None
          if isinstance(base, dict):
              base =3D self._make_implicit_object_type(
--                name, info, doc, ifcond,
-+                name, info, None, ifcond,
+-                name, info, None, ifcond,
++                name, info, ifcond,
                  'base', self._make_members(base, info))
          if tag_name:
              variants =3D [self._make_variant(key, value['type'],
+@@ -1046,7 +1045,7 @@ class QAPISchema(object):
+         features =3D expr.get('features', [])
+         if isinstance(data, OrderedDict):
+             data =3D self._make_implicit_object_type(
+-                name, info, None, ifcond, 'arg', self._make_members(data, =
+info))
++                name, info, ifcond, 'arg', self._make_members(data, info))
+         if isinstance(rets, list):
+             assert len(rets) =3D=3D 1
+             rets =3D self._make_array_type(rets[0], info)
+@@ -1062,7 +1061,7 @@ class QAPISchema(object):
+         ifcond =3D expr.get('if')
+         if isinstance(data, OrderedDict):
+             data =3D self._make_implicit_object_type(
+-                name, info, None, ifcond, 'arg', self._make_members(data, =
+info))
++                name, info, ifcond, 'arg', self._make_members(data, info))
+         self._def_entity(QAPISchemaEvent(name, info, doc, ifcond, data, bo=
+xed))
+=20
+     def _def_exprs(self, exprs):
 --=20
 2.21.0
 
