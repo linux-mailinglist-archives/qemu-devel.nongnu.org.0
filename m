@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C739AE359C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:33:04 +0200 (CEST)
-Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D7BE35A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:36:44 +0200 (CEST)
+Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeAg-0003Dp-Uf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34631)
+	id 1iNeEE-0008JA-I2
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdih-0006x8-RV
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:15 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdim-0007DH-Mp
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdig-0007d5-JT
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:07 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51392)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdih-0007do-0L
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:12 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34927)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdif-0007c4-Ou
+ id 1iNdig-0007cd-Pl
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id q70so3010998wme.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:04 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id l10so25813771wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iL8S6iR4ZZdsmfsAcUJx7cMaYd8Hzxazv3RVTVkKUIU=;
- b=r5qECsBzMoHnH9oYTdqnwSkwxzMAcjqDHgOrOENov38N4SKCao4pyClT42QpKYifIx
- SZIUAJw3EL+zNKVP9N9KG7cS79k/tGMej1nPTKIQYeGXMNQG8wMobEQbhXcMYqoliLRP
- 6oCVCrSaVmUoUECfmTCHroDpy/+wvYUGKAwnkzxz3YpgPePlTv/RRxJWLWfVTe/KFkgr
- /AVxYOc6QbrO22odbMy/JkKZfWx5B9upbvVf7ma4WyH5OuI5t06BtKr1gjRm4xEeQVIb
- 32Jdm7a52ejFoo7VJq2JtXg14/GHXZw6kzu2+ijHfHrY/1sHc9eHSSVYm6oJ8MSoRL8g
- WrtQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yXqREab8+Dht8ov84n50u33TUba4e4JzVsBJv+Jjg+k=;
+ b=KWwi/RvL2ZE8LcP1Ah3xM7VL8nv5WEwfRy+DSqaL/hTvEI/ivcQMXfyJxwMI6NUJXm
+ 47ExC9L4qgeNMv/x92inQBJmaSru24W8o9BzagFVIoKSOLwZVgmVOcd2ZGtHtAAv9/tU
+ CzC2x3lbJQDM84l6pneKDZxIfZEyaJGrkaoj3CAMMvOc/iFR8TXDGbvSYKzMwQKNBR2z
+ FnOh91ZmGebNsKY1POPQwSoOs/vwy2+TPZbg1TbHbH5D4fHtzxjRVv/FNVw0FRE2ySH8
+ DjN7o01ulbm7tcQf4XbtgOnhV7TIi5SXPRJ6yeJq/C0FJkQ5eHZFTGWuK2XNTEeqtalY
+ CIUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=iL8S6iR4ZZdsmfsAcUJx7cMaYd8Hzxazv3RVTVkKUIU=;
- b=QNp+1/qgS9Yc+3xUHDLxH18LSBUdiLgN0/5gfSuuPKJgdUJGe9WkbxRJbCDd4hTpzC
- p6PVbYpOeIYdH3oTrzPH3vDgMidpcjBtKlQK9bTcZoQL1RbqzC2W23+GgZcd/WC6+6cN
- V6y/AWA/o5ZMad6at6Eo9miItQhZmPngWg6Gaut2FhxGjsHfHkJ4NEHI1sih77/0r53e
- IPZhUqMUk/O7K/4RavfJieNLWATP5P7nVDkAsgj+Q9yK2RvMXwfsiRC+/upIjcpsd+PV
- uoif9QilS3lSnRr8grSQ3m4dl5fbWLX9AU1VxnqP2hO0f5jjqFtTAwwsXZLhjnyPWahy
- 93Kg==
-X-Gm-Message-State: APjAAAXF8sMU4kfS6rf4Dnm9Ll+g6g/+jaXcCE6AYCild+sJ4xXDx93A
- esNqfDul6UBvoTGJQMnPXYgVgAs8
-X-Google-Smtp-Source: APXvYqx06gt8bV4kHJTdwiiTMWl8QalRrQ3caQB2z6aONCWr0QBxGt5XsfAj8EXyKTgjO1/8MqY9ag==
-X-Received: by 2002:a1c:7913:: with SMTP id l19mr5391774wme.26.1571925843125; 
- Thu, 24 Oct 2019 07:04:03 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=yXqREab8+Dht8ov84n50u33TUba4e4JzVsBJv+Jjg+k=;
+ b=lSCSgs0FShz+RUmcQxHgKzbXNWnbB1Iw8tDKzd8dYG++3eWFqUNW4i8c0HpXN3E9m5
+ xzKkKrnyxoDAFIV0QvqjJ+vY0FrOjMixwUQq8paIG+eNHgBd84riNqFbi8I2TCv92YWk
+ FcXXFJH+6J/lIazOZ5RJjcawMaeLuEKAoZAF38GCH8ZboxgzTKCErqaQsMfLlkKeXlEi
+ PAt7DPM5lXgH6bx7AI0HpO6OYHbmnTwxug95BdJio638RBNoq3NxiFo13ZUHxm/Iz4S5
+ Hv1IWisZ2oSgG8VE/2pL6XWHe7aOmPgkXgyhdBkWKN0v8zsYXl/tnVlYDl4zDp1jHZkU
+ Z5BQ==
+X-Gm-Message-State: APjAAAXSjq09jhkHPqmrjW2x+u5Y50evay9klM/GoNzdVybUKU8ZS36Y
+ c2yoD2Ye3ykCk1nofDXQGy7Lg/E5
+X-Google-Smtp-Source: APXvYqyyzR9H7eU4wyqYOmmLtldLClmpsM358SNHyBTDb7Q+R1LUAqcd9JYdYoJBYB6kRFTtPeYW6g==
+X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr4223154wrw.206.1571925845015; 
+ Thu, 24 Oct 2019 07:04:05 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.01
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.04
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:02 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:04 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/39] Do not use %m in common code to print error messages
-Date: Thu, 24 Oct 2019 16:03:21 +0200
-Message-Id: <1571925835-31930-6-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 07/39] hw/virtio: Factorize virtio-mmio headers
+Date: Thu, 24 Oct 2019 16:03:23 +0200
+Message-Id: <1571925835-31930-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,86 +78,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Sergio Lopez <slp@redhat.com>
 
-The %m format specifier is an extension from glibc - and when compiling
-QEMU for NetBSD, the compiler correctly complains, e.g.:
+Put QOM and main struct definition in a separate header file, so it
+can be accessed from other components.
 
-/home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c: In function 'sigfd_handler':
-/home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c:64:13: warning: %m is only
- allowed in syslog(3) like functions [-Wformat=]
-             printf("read from sigfd returned %zd: %m\n", len);
-             ^
-Let's use g_strerror() here instead, which is an easy-to-use wrapper
-around the thread-safe strerror_r() function.
-
-While we're at it, also convert the "printf()" in main-loop.c into
-the preferred "error_report()".
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191018130716.25438-1-thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/misc/tmp421.c | 4 ++--
- util/main-loop.c | 3 ++-
- util/systemd.c   | 4 ++--
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ hw/virtio/virtio-mmio.c         | 48 +--------------------------
+ include/hw/virtio/virtio-mmio.h | 73 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+), 47 deletions(-)
+ create mode 100644 include/hw/virtio/virtio-mmio.h
 
-diff --git a/hw/misc/tmp421.c b/hw/misc/tmp421.c
-index 9f04470..c0bc150 100644
---- a/hw/misc/tmp421.c
-+++ b/hw/misc/tmp421.c
-@@ -120,7 +120,7 @@ static void tmp421_get_temperature(Object *obj, Visitor *v, const char *name,
-     int tempid;
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 3d5ca0f..94d934c 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -29,57 +29,11 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
+-#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/virtio-mmio.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "trace.h"
  
-     if (sscanf(name, "temperature%d", &tempid) != 1) {
--        error_setg(errp, "error reading %s: %m", name);
-+        error_setg(errp, "error reading %s: %s", name, g_strerror(errno));
-         return;
-     }
- 
-@@ -160,7 +160,7 @@ static void tmp421_set_temperature(Object *obj, Visitor *v, const char *name,
-     }
- 
-     if (sscanf(name, "temperature%d", &tempid) != 1) {
--        error_setg(errp, "error reading %s: %m", name);
-+        error_setg(errp, "error reading %s: %s", name, g_strerror(errno));
-         return;
-     }
- 
-diff --git a/util/main-loop.c b/util/main-loop.c
-index e3eaa55..eda63fe 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -61,7 +61,8 @@ static void sigfd_handler(void *opaque)
-         }
- 
-         if (len != sizeof(info)) {
--            printf("read from sigfd returned %zd: %m\n", len);
-+            error_report("read from sigfd returned %zd: %s", len,
-+                         g_strerror(errno));
-             return;
-         }
- 
-diff --git a/util/systemd.c b/util/systemd.c
-index d22e86c..1dd0367 100644
---- a/util/systemd.c
-+++ b/util/systemd.c
-@@ -60,8 +60,8 @@ unsigned int check_socket_activation(void)
-              * and we should exit.
-              */
-             error_report("Socket activation failed: "
--                         "invalid file descriptor fd = %d: %m",
--                         fd);
-+                         "invalid file descriptor fd = %d: %s",
-+                         fd, g_strerror(errno));
-             exit(EXIT_FAILURE);
-         }
-     }
+-/* QOM macros */
+-/* virtio-mmio-bus */
+-#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
+-#define VIRTIO_MMIO_BUS(obj) \
+-        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
+-        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_CLASS(klass) \
+-        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS)
+-
+-/* virtio-mmio */
+-#define TYPE_VIRTIO_MMIO "virtio-mmio"
+-#define VIRTIO_MMIO(obj) \
+-        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
+-
+-#define VIRT_MAGIC 0x74726976 /* 'virt' */
+-#define VIRT_VERSION 2
+-#define VIRT_VERSION_LEGACY 1
+-#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
+-
+-typedef struct VirtIOMMIOQueue {
+-    uint16_t num;
+-    bool enabled;
+-    uint32_t desc[2];
+-    uint32_t avail[2];
+-    uint32_t used[2];
+-} VirtIOMMIOQueue;
+-
+-typedef struct {
+-    /* Generic */
+-    SysBusDevice parent_obj;
+-    MemoryRegion iomem;
+-    qemu_irq irq;
+-    bool legacy;
+-    /* Guest accessible state needing migration and reset */
+-    uint32_t host_features_sel;
+-    uint32_t guest_features_sel;
+-    uint32_t guest_page_shift;
+-    /* virtio-bus */
+-    VirtioBusState bus;
+-    bool format_transport_address;
+-    /* Fields only used for non-legacy (v2) devices */
+-    uint32_t guest_features[2];
+-    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
+-} VirtIOMMIOProxy;
+-
+ static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
+ {
+     return kvm_eventfds_enabled();
+diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
+new file mode 100644
+index 0000000..7dbfd03
+--- /dev/null
++++ b/include/hw/virtio/virtio-mmio.h
+@@ -0,0 +1,73 @@
++/*
++ * Virtio MMIO bindings
++ *
++ * Copyright (c) 2011 Linaro Limited
++ *
++ * Author:
++ *  Peter Maydell <peter.maydell@linaro.org>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_VIRTIO_MMIO_H
++#define HW_VIRTIO_MMIO_H
++
++#include "hw/virtio/virtio-bus.h"
++
++/* QOM macros */
++/* virtio-mmio-bus */
++#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
++#define VIRTIO_MMIO_BUS(obj) \
++        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
++#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
++        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
++#define VIRTIO_MMIO_BUS_CLASS(klass) \
++        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS)
++
++/* virtio-mmio */
++#define TYPE_VIRTIO_MMIO "virtio-mmio"
++#define VIRTIO_MMIO(obj) \
++        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
++
++#define VIRT_MAGIC 0x74726976 /* 'virt' */
++#define VIRT_VERSION 2
++#define VIRT_VERSION_LEGACY 1
++#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
++
++typedef struct VirtIOMMIOQueue {
++    uint16_t num;
++    bool enabled;
++    uint32_t desc[2];
++    uint32_t avail[2];
++    uint32_t used[2];
++} VirtIOMMIOQueue;
++
++typedef struct {
++    /* Generic */
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++    qemu_irq irq;
++    bool legacy;
++    /* Guest accessible state needing migration and reset */
++    uint32_t host_features_sel;
++    uint32_t guest_features_sel;
++    uint32_t guest_page_shift;
++    /* virtio-bus */
++    VirtioBusState bus;
++    bool format_transport_address;
++    /* Fields only used for non-legacy (v2) devices */
++    uint32_t guest_features[2];
++    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
++} VirtIOMMIOProxy;
++
++#endif
 -- 
 1.8.3.1
 
