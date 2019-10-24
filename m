@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89B6E363D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:13:35 +0200 (CEST)
-Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F42E368F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:25:40 +0200 (CEST)
+Received: from localhost ([::1]:45372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNenu-0008E0-E2
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34683)
+	id 1iNezb-0008HZ-UE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34717)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdim-0007DL-Ns
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:18 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdir-0007aO-QB
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdil-0007fj-Jx
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:12 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40352)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdim-0007g9-Es
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45527)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdil-0007fO-Dv
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:11 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o28so26220755wro.7
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:10 -0700 (PDT)
+ id 1iNdim-0007ff-4x
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:12 -0400
+Received: by mail-wr1-x442.google.com with SMTP id q13so21264718wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XLu8pI7WGdyihkGj3zvR1VjIQBcJDdmLEAnpGb6JmbI=;
- b=ro1JCFa7K7/sOdiZQmuLBW2JMyn/QVKeYTyTRkPLNC4ZI26s00byG38j95twkdfBsq
- g1mbTjrSS+TPifWtdtiJQYbRQkBD6LP1l2JGv+dn373Q+twMuCK1Sebhs76mKvSYAIUa
- RMXhbSYSdG0ESnCa+9OEBgxUWAMC10BZT9vgkYcZm7V80NvgG14H6pw+N9qXoHMLS4Dx
- hc2U3tLxARs+jLOCKvwtNay0/FWrMtPbdjKL/47NRWkuFR61A304nqZ3ESRCFjWTK5dS
- MyHfiytNvbEbRVVro4WGJBVfsQD8I/Qmr1uDQdY5XFgI4+WaBDlZY5lmUn9X/aFiNOky
- fNrQ==
+ bh=Dj03/Yqw2HLWY4su1lbnJ5oTSp3WYGgIZYAiK8OHCfc=;
+ b=sa/u5UXvW7bIAM29nT9SfCwoR7RUZ2o7/pJsXRH+pZ0ffKo0o14IHybwhGly5ZUQDp
+ nX88YRQbX6wpv/MMDWzp4lX4XbIMoy7qpXoCDoD/nqPkaq2UHNJUkAwWkrih4066F3Bv
+ sT5mam9r7EdqhCzAR+Ap7Wne8A8j2vP9NTnx/v+DOYtoSI7MfDDMt+w7LlqSw9GH0yBR
+ kZFl+CcyNjSMFlRV8lA7A59daX/itt1X+SVRv1ywh8/z2jAVIB1orpkaVQVv5Gy1FFDk
+ SqOcgSfJPvjcjikNLJ9PxZ4LyB2YR6U1QH6x3oDp0wlnQTtc/OYFxy3muZgizkC2wELl
+ 4hWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XLu8pI7WGdyihkGj3zvR1VjIQBcJDdmLEAnpGb6JmbI=;
- b=rnyY5hg31asRbYB8jIGW1u/X94w3mXWjNUvsGq8FKC+1BmP+gVBOJ5OMTXXJVyPV92
- w7AaTdc4DPawS52IXepNyNV0uJU/RzV94Y6ZnkbbheR0e06R24u41L4LXE4V2UMUm20R
- 8Q0a9LnmUala+17O2IZeTQLqw3fR8xFSvTlLJB+WWkR74npNYHgmVM/T1Rfvirti68jQ
- 10eqky0+b9lWBxtuXItLHeYv14hjWRkT7JLn/XCDLGkzhydVJCR4uo0cRiyQNhbXC41o
- Z/kpqCHy3mUn+ApeSmJJozOJBDAbrdyLcOQJmES4R/lDdZs6AiM5xzxnvbkbcAq97cy1
- iYPA==
-X-Gm-Message-State: APjAAAXmW5qc+IupCkw4q86eburKKgDn60jvKSCUg0wi1KYuqLcjjtB1
- ZXozG27AaJDuK159aq4ADQWBeGK1
-X-Google-Smtp-Source: APXvYqxY0MuMFPY+fnBWfrA2mFZz+HiRjMfhzJ2FJgXJ6/tYbCxBCibh9wEPiSqbBl1EkZGZJvf3sw==
-X-Received: by 2002:adf:9185:: with SMTP id 5mr4252458wri.389.1571925849710;
- Thu, 24 Oct 2019 07:04:09 -0700 (PDT)
+ bh=Dj03/Yqw2HLWY4su1lbnJ5oTSp3WYGgIZYAiK8OHCfc=;
+ b=hN9W3vF8DBi6TRVzeX3B0bYFuNwsojJR3vu1JF25tzkdA1UnvHhNRamG9z8uWfhLIp
+ tX7rUq2c7JZUgbpEcNWJQ3V9B6SI03h2C4o7qOBxSo+7ZveFY22qR9i1EInFzwEH4nZJ
+ zWzymo3cxxFAWekIvMdJJ2unSQvjZfAIEwKqbBmyu+y/1BEFsULvHXmUmypdZJ0oiwLZ
+ Ye0ajJ3gaApTBCYLt8Gfg9eaY0pODj2y5HSmxkDoADGnCE/VnSqhx7t4HzUalars3K/R
+ nKe1GPTjVefmMX2gdLgZj3TlABQEKqlQXLf8VrBFBROBB19sI58hUikie/df8ENV3J5j
+ pd3Q==
+X-Gm-Message-State: APjAAAUlT1NDf/U7iPRZdae7BdDF49JXFPKaInkOKF4cjNXI5INxHO94
+ 6Q6tYPNYZyDrvj3wjEUomh6kR+d9
+X-Google-Smtp-Source: APXvYqxfzqKCxNokxBjtcaDfEc8Hfe8IVUZwHnBiWJ+CJ2qMwXS6gNcWpgckElSEocsbLsOC2kcG7Q==
+X-Received: by 2002:adf:9c81:: with SMTP id d1mr3871019wre.238.1571925850869; 
+ Thu, 24 Oct 2019 07:04:10 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.07
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:07 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/39] hw/i386/pc: replace use of strtol with qemu_strtoui in
+Subject: [PULL 11/39] hw/i386/pc: avoid an assignment in if condition in
  x86_load_linux()
-Date: Thu, 24 Oct 2019 16:03:26 +0200
-Message-Id: <1571925835-31930-11-git-send-email-pbonzini@redhat.com>
+Date: Thu, 24 Oct 2019 16:03:27 +0200
+Message-Id: <1571925835-31930-12-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,50 +85,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sergio Lopez <slp@redhat.com>
 
-Follow checkpatch.pl recommendation and replace the use of strtol with
-qemu_strtoui in x86_load_linux().
+Follow checkpatch.pl recommendation and avoid an assignment in if
+condition in x86_load_linux().
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
  hw/i386/pc.c | 9 ++++++++-
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 75a97c2..b5b660f 100644
+index b5b660f..77198d5 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -68,6 +68,7 @@
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qemu/option.h"
-+#include "qemu/cutils.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/cpu_hotplug.h"
- #include "hw/boards.h"
-@@ -1202,6 +1203,7 @@ static void x86_load_linux(PCMachineState *pcms,
-     vmode = strstr(kernel_cmdline, "vga=");
-     if (vmode) {
-         unsigned int video_mode;
-+        int ret;
-         /* skip "vga=" */
-         vmode += 4;
-         if (!strncmp(vmode, "normal", 6)) {
-@@ -1211,7 +1213,12 @@ static void x86_load_linux(PCMachineState *pcms,
-         } else if (!strncmp(vmode, "ask", 3)) {
-             video_mode = 0xfffd;
-         } else {
--            video_mode = strtol(vmode, NULL, 0);
-+            ret = qemu_strtoui(vmode, NULL, 0, &video_mode);
-+            if (ret != 0) {
-+                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s\n",
-+                        strerror(-ret));
-+                exit(1);
-+            }
-         }
-         stw_p(header + 0x1fa, video_mode);
-     }
+@@ -1045,7 +1045,14 @@ static void x86_load_linux(PCMachineState *pcms,
+ 
+     /* load the kernel header */
+     f = fopen(kernel_filename, "rb");
+-    if (!f || !(kernel_size = get_file_size(f)) ||
++    if (!f) {
++        fprintf(stderr, "qemu: could not open kernel file '%s': %s\n",
++                kernel_filename, strerror(errno));
++        exit(1);
++    }
++
++    kernel_size = get_file_size(f);
++    if (!kernel_size ||
+         fread(header, 1, MIN(ARRAY_SIZE(header), kernel_size), f) !=
+         MIN(ARRAY_SIZE(header), kernel_size)) {
+         fprintf(stderr, "qemu: could not load kernel '%s': %s\n",
 -- 
 1.8.3.1
 
