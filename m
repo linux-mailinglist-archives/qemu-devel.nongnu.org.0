@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7D0E34ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:01:42 +0200 (CEST)
-Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F72E34FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:05:34 +0200 (CEST)
+Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdgK-0006hU-VR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
+	id 1iNdk4-0006ZO-RE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iNdRt-00069X-PH
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:46:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNdUv-0007YW-DR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:49:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iNdRs-0007Qk-Ls
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:46:45 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43462)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNdUt-0000MQ-S1
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:49:52 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43103)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iNdRp-0007PJ-DU; Thu, 24 Oct 2019 09:46:41 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c2so20929845wrr.10;
- Thu, 24 Oct 2019 06:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PiDWom4c6Rr19xjKo+tDaPEyShkwqoaa566oCfkTRBc=;
- b=h5GanjIO9zPlA1t592GgK6fTFpU2eeeqqXkKndNs44bPaFKvGw+uhnt9s4nkK25bS1
- fwx6J1k6MCozAJiqNWVvQ0CQ9TNCSOiyToDnnMpmEwgIykcZHNr+Ym3x4t+/KcPLrI4C
- 0mz3RklnfKRU5/tXeT/rtzzdeH4sI+i/z9C6m9Da9OAZnY5ld1Zl4VmPu5Elfbx2yiMT
- z+tVUMvZSegTFJ6/liSGky0VKtPi6zd/YGSj2re4Xkz53/ov/BNeYzYqdqNljEKYrPRE
- vzv583/Ry6HzYgV6StucTuP6FnM9rPuYRDyofL5w64zhHrp+Wvqs6Shb7AOPMDc143ph
- vXBg==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNdUt-0000MB-Jz
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:49:51 -0400
+Received: by mail-ot1-x343.google.com with SMTP id z20so2049210otk.10
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ooq7dmnoQZtK8JLOj0nV7TogF6dsbmHh45dAnnb9lFM=;
+ b=xqZp6AVygjUS+fLnDwZgV0rNwHygjKB0AVtyfOav+XZTbD8ZjMGAshzqTijQAdnM4P
+ oqowkWWEuFnbf+8xvh1suLDt/O7EDOjUrLXATOzZSAxsTOZCQX+FzIySbF7jJf4fWRAg
+ cV9TJttna/8HGY5DqA4khngD0ze72KTPTe7T23EBU+6uqrr/mUQohznAUq4sC4qE+4nz
+ SJd1U5hdzu6V3pqw/VrtQAuREXihKL8X6zWQFbN5VsPOPJ+rzKY7E9rlixCr01NsTmMX
+ cjwqlEJ2Tj9jEQWN6c5Ik1oS8nJYdNW7t01aDluQ5/DnILyqWwDi5KCQ49uNDNXpaLWB
+ gr0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PiDWom4c6Rr19xjKo+tDaPEyShkwqoaa566oCfkTRBc=;
- b=De1QP5PfwhuOg/dQ3dhKzqjCDOE2/Y51iYLY9GaBC4BBorZZsJdV9do4uh3mASZEGE
- 4B6VNM/MS3Osllg/nF38jcExNnK5mv7MmS6+qN2g4cSPhN3tDkyL/gGt9XFM9oeYBJMe
- kWPBHYIhKLqvck2pArIBo9EWVexkgnJXqfsdDz4HtctqTWMtWnmtTzC29ZylWug6Wp7W
- iobchBgZAnePfMingpPQ4CHSlRbZiNqPBMdqfrCK3q+jZi+R15z4khNGSb9TaoXpH/dP
- LW0e3lVqM+4+bM8j7c6VWbHn8s2xBPbq8l8jLaE14+vJKEBvYfF6LmgWh1uHI2uQWZR8
- WIew==
-X-Gm-Message-State: APjAAAU2c/Fb+DtVyZuSH0LS7WrLMtBYkSb8YBe9VbZCKdr9FLrBmnmH
- q6QbsCnuQYmZRD8bke5MWfs=
-X-Google-Smtp-Source: APXvYqyZygIrnPWNcqTxtHDhw0Px1SfZgZWv3ufvbhgsPWY1BNRQ6kvVxuQ2HSqtNzWadrptpRcuIg==
-X-Received: by 2002:adf:e441:: with SMTP id t1mr3767830wrm.395.1571924800186; 
- Thu, 24 Oct 2019 06:46:40 -0700 (PDT)
-Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id y13sm37094271wrg.8.2019.10.24.06.46.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 06:46:38 -0700 (PDT)
-Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
- space, run U-boot
-To: Peter Maydell <peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ooq7dmnoQZtK8JLOj0nV7TogF6dsbmHh45dAnnb9lFM=;
+ b=gEf9TEpq5aUr/xIa2KVMe5YphAPXAVN/MzxsFlV4IEHHKz4X/cInlyQ2Yf/asNRbQM
+ S779/Y0Xfrh89mjaFcCfNlSSPWaPybBANyCh9T4NYnbyjvNNkEGarXxs+nhe7t7RZH4k
+ x3zQC0hXXO76Gb9LksxnhO5w40isS4wkCB5/o2hZEBAix55D7YhfJcgkEQ8Gkm1WdNXe
+ qqUXBGwOdUtRhAUMpEgWhRUHi0EW3Z8kRngHG7frbTwbwxKCJtggcJx7p6ydNHGeWu0U
+ WP2Lwlrhz+jUFv17/eCIlce7YCSFeKiLuUgNMHWIlzlHj5APbJzPEU324BNsCGI9HsnX
+ PdNw==
+X-Gm-Message-State: APjAAAXPY1nzEOmAXqDEaLRAw/AEU3EfqLx/3PjZYtJ+ijD80X/zEO61
+ 7RRE+KLZLDuxIQIDE9M4wApaymmO0DJANY7IW0xSHw==
+X-Google-Smtp-Source: APXvYqwzf76lClbs5Ms5b+ntxQWC5jjtMJRUX7RK8HcXHI8cxGUPYd28KblCZ9wDFxKm/YdTWy/qa3rxudFJexKEyjI=
+X-Received: by 2002:a9d:708e:: with SMTP id l14mr11906940otj.135.1571924990613; 
+ Thu, 24 Oct 2019 06:49:50 -0700 (PDT)
+MIME-Version: 1.0
 References: <20191019234715.25750-1-f4bug@amsat.org>
  <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
-Date: Thu, 24 Oct 2019 15:46:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+ <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
+In-Reply-To: <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Oct 2019 14:49:39 +0100
+Message-ID: <CAFEAcA8Zst6XbPWiAat=z1s7HBzEMscsP=ibrPxP75kHXjZ3Kw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
+ space, run U-boot
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,66 +86,69 @@ Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
  qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
  Laurent Bonnans <laurent.bonnans@here.com>,
  Cheng Xiang <ext-cheng.xiang@here.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 3:42 PM, Peter Maydell wrote:
-> On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Since v2:
->> - fixed issue in videocore address space
->> - allow to start with some cores OFF (to boot firmwares)
->> - add proof-of-concept test for '-smp cores=1' and U-boot
->> - fixed my email setup
->>
->> Previous cover:
->>
->> Hi,
->>
->> Some patches from v1 are already merged. This v2 addresses the
->> review comment from v1, and add patches to clean the memory
->> space when using multiple cores.
->>
->> Laurent, if you test U-Boot with this patchset again, do you mind
->> replying with a "Tested-by:" tag?
->>
->> The next patchset is probably about the interrupt controller blocks,
->> then will come another one about the MBox/Properties.
->>
->> The last patch is unrelated to the series, but since I cleaned this
->> for the raspi and the highbank is the only board with the same issue,
->> I included the patch in this series.
-> 
-> I'm going to apply 1-10 and 14 to target-arm.next.
-> (I've reviewed 10, and the rest have been reviewed.)
+On Thu, 24 Oct 2019 at 14:46, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> On 10/24/19 3:42 PM, Peter Maydell wrote:
+> > On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org> wrote:
+> >>
+> >> Since v2:
+> >> - fixed issue in videocore address space
+> >> - allow to start with some cores OFF (to boot firmwares)
+> >> - add proof-of-concept test for '-smp cores=3D1' and U-boot
+> >> - fixed my email setup
+> >>
+> >> Previous cover:
+> >>
+> >> Hi,
+> >>
+> >> Some patches from v1 are already merged. This v2 addresses the
+> >> review comment from v1, and add patches to clean the memory
+> >> space when using multiple cores.
+> >>
+> >> Laurent, if you test U-Boot with this patchset again, do you mind
+> >> replying with a "Tested-by:" tag?
+> >>
+> >> The next patchset is probably about the interrupt controller blocks,
+> >> then will come another one about the MBox/Properties.
+> >>
+> >> The last patch is unrelated to the series, but since I cleaned this
+> >> for the raspi and the highbank is the only board with the same issue,
+> >> I included the patch in this series.
+> >
+> > I'm going to apply 1-10 and 14 to target-arm.next.
+> > (I've reviewed 10, and the rest have been reviewed.)
+>
+> Thanks!
+>
+> Do you mind amending this to patch #3
+> "hw/timer/bcm2835: Add the BCM2835 SYS_timer"
+> or should I respin (or resend it alone)?
+>
+> -- >8 --
+> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+> index 49b40b55f9..3387a6214a 100644
+> --- a/hw/timer/bcm2835_systmr.c
+> +++ b/hw/timer/bcm2835_systmr.c
+> @@ -115,10 +115,7 @@ static void bcm2835_systmr_reset(DeviceState *dev)
+>   {
+>       BCM2835SystemTimerState *s =3D BCM2835_SYSTIMER(dev);
+>
+> -    s->reg.status =3D 0;
+> -    for (size_t i =3D 0; i < ARRAY_SIZE(s->reg.compare); i++) {
+> -        s->reg.compare[i] =3D 0;
+> -    }
+> +    memset(&s->reg, 0, sizeof(s->reg));
+>   }
+>
 
-Thanks!
+Sure, I'll just squash that in.
 
-Do you mind amending this to patch #3
-"hw/timer/bcm2835: Add the BCM2835 SYS_timer"
-or should I respin (or resend it alone)?
-
--- >8 --
-diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
-index 49b40b55f9..3387a6214a 100644
---- a/hw/timer/bcm2835_systmr.c
-+++ b/hw/timer/bcm2835_systmr.c
-@@ -115,10 +115,7 @@ static void bcm2835_systmr_reset(DeviceState *dev)
-  {
-      BCM2835SystemTimerState *s = BCM2835_SYSTIMER(dev);
-
--    s->reg.status = 0;
--    for (size_t i = 0; i < ARRAY_SIZE(s->reg.compare); i++) {
--        s->reg.compare[i] = 0;
--    }
-+    memset(&s->reg, 0, sizeof(s->reg));
-  }
-
----
-
-Thanks,
-
-Phil.
+-- PMM
 
