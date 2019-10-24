@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7507AE3497
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:45:42 +0200 (CEST)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96702E344A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:33:58 +0200 (CEST)
+Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdQq-0007lp-BL
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:45:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47809)
+	id 1iNdFU-00050Z-UH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47741)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKm-00043P-3l
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:21 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKi-0003v9-U7
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKk-0006D7-5s
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55788
+ (envelope-from <armbru@redhat.com>) id 1iNcKh-0006BD-K3
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37315
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKk-0006CS-0H
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:18 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKh-0006Ai-Eq
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920517;
+ s=mimecast20190719; t=1571920514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=isHjpUvn/iUK1K1nf4w+2NkSPn5cX3hNfUlLTgszW2c=;
- b=jIPbMgUngVtfb7q0gYQfRk7CdE8tag18Q0cp7eh0SO1kHYQ443rL6+ET3tH7SkMSDj0vNk
- /HKTOOIHKAuEEzFMD5Ccpy9IS7rGNxtaDIquJmWNHtN7njDoEnAuC3Ot/FaKcJArIHhNQU
- KU6dUz8cmgEpQ7sp6uEy221msd2cZjw=
+ bh=w68YnewbiPS7fEui1YXuGwai5ALcO+GSjwBTz6xGpog=;
+ b=atCgNN3R6+PgzHwhO5l+tkywNUCbFnsd/HfhwVD5CYKhbbCbyHwSSkb7bJOzQs0dGXXn5v
+ hy/nAn9oc33n4v2JkjvgvTT3BlLuFPm8jOsGerm/teh+trjg5Xnh1hZpLfpRvtSTa2p3cu
+ sqjSVoeD4kRra/aDeQTpPbkAJbFpJHs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-pNP7UHTLO3OL1NHpS2BVaw-1; Thu, 24 Oct 2019 08:35:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-230-YQRnQqtCMby0P_1f6FrmPg-1; Thu, 24 Oct 2019 08:35:10 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA5EA800D4C;
- Thu, 24 Oct 2019 12:35:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB671107AD33;
+ Thu, 24 Oct 2019 12:35:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0F1C60BE0;
- Thu, 24 Oct 2019 12:35:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 944645D9CA;
+ Thu, 24 Oct 2019 12:35:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 149921132989; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
+ id 317951130348; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 08/19] qapi: Consistently put @features parameter right
- after @ifcond
-Date: Thu, 24 Oct 2019 14:34:47 +0200
-Message-Id: <20191024123458.13505-9-armbru@redhat.com>
+Subject: [RFC PATCH 17/19] qapi: Implement -compat deprecated-input=crash for
+ commands
+Date: Thu, 24 Oct 2019 14:34:56 +0200
+Message-Id: <20191024123458.13505-18-armbru@redhat.com>
 In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
 References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: pNP7UHTLO3OL1NHpS2BVaw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: YQRnQqtCMby0P_1f6FrmPg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -77,231 +77,81 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This policy calls abort() when a deprecated command is received.
+
+Crashing should reliably[*] fail existing integration tests with very
+little additional work (just pass the option).
+
+[*] Bugs in tests can conceivably mask even crashes, but that seems
+unlikely.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/commands.py       |  6 +++---
- scripts/qapi/doc.py            | 10 +++++-----
- scripts/qapi/introspect.py     | 10 +++++-----
- scripts/qapi/schema.py         | 36 ++++++++++++++++------------------
- scripts/qapi/types.py          |  4 ++--
- scripts/qapi/visit.py          |  4 ++--
- tests/qapi-schema/test-qapi.py | 10 +++++-----
- 7 files changed, 39 insertions(+), 41 deletions(-)
+ qapi/common.json    | 4 ++--
+ qapi/qmp-dispatch.c | 1 +
+ qemu-options.hx     | 4 +++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index ab98e504f3..11e9a6c095 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -276,9 +276,9 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)=
-;
-                        c_prefix=3Dc_name(self._prefix, protect=3DFalse)))
-         genc.add(gen_registry(self._regy.get_content(), self._prefix))
+diff --git a/qapi/common.json b/qapi/common.json
+index 3e9d12c90f..06e54642bb 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -152,14 +152,14 @@
+ #
+ # @accept: Accept silently
+ # @reject: Reject with an error
+-# TODO @crash: abort() the process
++# @crash: abort() the process
+ #
+ # FIXME Guidance on intended use.
+ #
+ # Since: 4.2
+ ##
+ { 'enum': 'CompatPolicyInput',
+-  'data': [ 'accept', 'reject' ] }
++  'data': [ 'accept', 'reject', 'crash' ] }
 =20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         if not gen:
-             return
-         # FIXME: If T is a user-defined type, the user is responsible
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 53a1f8e952..55c4892a1e 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -250,8 +250,8 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
-                                 texi_members(doc, 'Values',
-                                              member_func=3Dtexi_enum_value=
-)))
+ ##
+ # @CompatPolicyOutput:
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index b079db85d2..6436417844 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -141,6 +141,7 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *requ=
+est,
+                       "Deprecated command %s disabled by policy",
+                       command);
+             goto out;
++        case COMPAT_POLICY_INPUT_CRASH:
+         default:
+             abort();
+         }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index f107a57c81..3a740ea7b1 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3320,7 +3320,7 @@ STEXI
+ ETEXI
 =20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         doc =3D self.cur_doc
-         if base and base.is_implicit():
-             base =3D None
-@@ -263,9 +263,9 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
-         self._gen.add(texi_type('Alternate', doc, ifcond,
-                                 texi_members(doc, 'Members')))
-=20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         doc =3D self.cur_doc
-         self._gen.add(texi_msg('Command', doc, ifcond,
-                                texi_arguments(doc,
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index ba493977cf..f71b984d3b 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -195,8 +195,8 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-         self._gen_qlit('[' + element + ']', 'array', {'element-type': elem=
-ent},
-                        ifcond, None)
-=20
--    def visit_object_type_flat(self, name, info, ifcond, members, variants=
-,
--                               features):
-+    def visit_object_type_flat(self, name, info, ifcond, features,
-+                               members, variants):
-         obj =3D {'members': [self._gen_member(m) for m in members]}
-         if variants:
-             obj.update(self._gen_variants(variants.tag_member.name,
-@@ -211,9 +211,9 @@ const QLitObject %(c_name)s =3D %(c_string)s;
-                            for m in variants.variants]},
-                        ifcond, features)
-=20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         arg_type =3D arg_type or self._schema.the_empty_object_type
-         ret_type =3D ret_type or self._schema.the_empty_object_type
-         obj =3D {'arg-type': self._use_type(arg_type),
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index f13f442896..639140fceb 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -115,20 +115,20 @@ class QAPISchemaVisitor(object):
-     def visit_array_type(self, name, info, ifcond, element_type):
-         pass
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         pass
-=20
--    def visit_object_type_flat(self, name, info, ifcond, members, variants=
-,
--                               features):
-+    def visit_object_type_flat(self, name, info, features, ifcond,
-+                               members, variants):
-         pass
-=20
-     def visit_alternate_type(self, name, info, ifcond, features, variants)=
-:
-         pass
-=20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         pass
-=20
-     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-@@ -422,12 +422,12 @@ class QAPISchemaObjectType(QAPISchemaType):
-=20
-     def visit(self, visitor):
-         QAPISchemaType.visit(self, visitor)
--        visitor.visit_object_type(self.name, self.info, self.ifcond,
--                                  self.base, self.local_members, self.vari=
-ants,
--                                  self.features)
--        visitor.visit_object_type_flat(self.name, self.info, self.ifcond,
--                                       self.members, self.variants,
--                                       self.features)
-+        visitor.visit_object_type(
-+            self.name, self.info, self.ifcond, self.features,
-+            self.base, self.local_members, self.variants)
-+        visitor.visit_object_type_flat(
-+            self.name, self.info, self.ifcond, self.features,
-+            self.members, self.variants)
-=20
-=20
- class QAPISchemaMember(object):
-@@ -729,12 +729,10 @@ class QAPISchemaCommand(QAPISchemaEntity):
-=20
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
--        visitor.visit_command(self.name, self.info, self.ifcond,
--                              self.arg_type, self.ret_type,
--                              self.gen, self.success_response,
--                              self.boxed, self.allow_oob,
--                              self.allow_preconfig,
--                              self.features)
-+        visitor.visit_command(
-+            self.name, self.info, self.ifcond, self.features,
-+            self.arg_type, self.ret_type, self.gen, self.success_response,
-+            self.boxed, self.allow_oob, self.allow_preconfig)
-=20
-=20
- class QAPISchemaEvent(QAPISchemaEntity):
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 2a108b6911..9dc07f6308 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -288,8 +288,8 @@ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisito=
-r):
-             self._genh.add(gen_array(name, element_type))
-             self._gen_type_cleanup(name)
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         # Nothing to do for the special empty builtin
-         if name =3D=3D 'q_empty':
-             return
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index b21e1340a2..4db94e5e80 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -326,8 +326,8 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisit=
-or):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_list(name, element_type))
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         # Nothing to do for the special empty builtin
-         if name =3D=3D 'q_empty':
-             return
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.p=
-y
-index 078fc63f97..9ee8993f8d 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -51,8 +51,8 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         print('array %s %s' % (name, element_type.name))
-         self._print_if(ifcond)
-=20
--    def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
--                          features):
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-         print('object %s' % name)
-         if base:
-             print('    base %s' % base.name)
-@@ -70,9 +70,9 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         self._print_if(ifcond)
-         self._print_features(features)
-=20
--    def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
--                      success_response, boxed, allow_oob, allow_preconfig,
--                      features):
-+    def visit_command(self, name, info, ifcond, features,
-+                      arg_type, ret_type, gen, success_response, boxed,
-+                      allow_oob, allow_preconfig):
-         print('command %s %s -> %s'
-               % (name, arg_type and arg_type.name,
-                  ret_type and ret_type.name))
+ DEF("compat", HAS_ARG, QEMU_OPTION_compat,
+-    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Daccep=
+t]\n"
++    "-compat [deprecated-input=3Daccept|reject|crash][,deprecated-output=
+=3Daccept]\n"
+     "                Policy for handling deprecated management interfaces\=
+n",
+     QEMU_ARCH_ALL)
+ STEXI
+@@ -3333,6 +3333,8 @@ Set policy for handling deprecated management interfa=
+ces:
+ Accept deprecated commands
+ @item deprecated-input=3Dreject
+ Reject deprecated commands
++@item deprecated-input=3Dcrash
++Crash on deprecated command
+ @item deprecated-output=3Daccept (default)
+ Emit deprecated events
+ @end table
 --=20
 2.21.0
 
