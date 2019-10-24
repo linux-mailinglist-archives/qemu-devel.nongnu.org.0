@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EF6E2C5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:41:42 +0200 (CEST)
-Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01823E2C51
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:38:34 +0200 (CEST)
+Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYgf-0000pg-89
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36737)
+	id 1iNYdc-0000S1-O1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKY-0004u9-BD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:52 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKu-0005cy-BJ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:19:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKV-0005GF-Cp
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:49 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56399 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKs-0005x8-6U
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:19:12 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49959 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNYKU-00059Q-W3; Thu, 24 Oct 2019 04:18:47 -0400
+ id 1iNYKr-0005Ff-3e; Thu, 24 Oct 2019 04:19:10 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zKrb1QMMz9sRt; Thu, 24 Oct 2019 19:18:37 +1100 (AEDT)
+ id 46zKrc02XSz9sS8; Thu, 24 Oct 2019 19:18:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1571905119;
- bh=0xroAoogH/n6iQTehhcMVK4LTjQRlDojtcSKJlA+WKQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1571905120;
+ bh=Z2T5X90rkUlGdktll16peXsxkC/IypKtcNGi46Zo65g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WbJ4FuHUJ4l/T5eajcucLh2PDpoY14y8uADQA5E3W8QB4H8lF/GYiYbXCkq8BqvrU
- bL1BMxEbuHFi2Hs5H7Pk7+CON5vyGdjGlORyw6de3c7lzlx3p9259KLL+EY+JuK2K7
- rxvY/qqD+Y2YWid4CPD0zwilKfbwWa2AQLYN6RVU=
+ b=fFVx8WL6KLAbGD7IT4Nd1mNpElnRqdRfyvnPV9dcd4iaW5thQNJPX8F6QUQWFfrPp
+ uqWy3iwKEy8qFUbXXNOc0HqXN3MVO3iSXtC26a70yGTMyIq+ba60/UYq0zbF/d8daR
+ NSr2Cu1VK5VLjUuz+LuTcY4PUm+rfDiJXSiizVlk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/28] spapr: Remove SpaprIrq::nr_msis
-Date: Thu, 24 Oct 2019 19:18:03 +1100
-Message-Id: <20191024081813.2115-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/28] spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass
+Date: Thu, 24 Oct 2019 19:18:04 +1100
+Message-Id: <20191024081813.2115-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191024081813.2115-1-david@gibson.dropbear.id.au>
 References: <20191024081813.2115-1-david@gibson.dropbear.id.au>
@@ -59,207 +59,221 @@ Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nr_msis value we use here has to line up with whether we're using
-legacy or modern irq allocation.  Therefore it's safer to derive it based
-on legacy_irq_allocation rather than having SpaprIrq contain a canned
-value.
+For the benefit of peripheral device allocation, the number of available
+irqs really wants to be the same on a given machine type version,
+regardless of what irq backends we are using.  That's the case now, but
+only because we make sure the different SpaprIrq instances have the same
+value except for the special legacy one.
+
+Since this really only depends on machine type version, move the value to
+SpaprMachineClass instead of SpaprIrq.  This also puts the code to set it
+to the lower value on old machine types right next to setting
+legacy_irq_allocation, which needs to go hand in hand.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr.c              |  5 ++---
- hw/ppc/spapr_irq.c          | 26 +++++++++++++++++---------
- hw/ppc/spapr_pci.c          |  7 ++++---
- include/hw/pci-host/spapr.h |  4 ++--
- include/hw/ppc/spapr_irq.h  |  4 +---
- 5 files changed, 26 insertions(+), 20 deletions(-)
+ hw/ppc/spapr.c             |  2 ++
+ hw/ppc/spapr_irq.c         | 33 ++++++++++++++++-----------------
+ include/hw/ppc/spapr.h     |  1 +
+ include/hw/ppc/spapr_irq.h |  1 -
+ 4 files changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index c9623600c2..99867b5e6d 100644
+index 99867b5e6d..f9410d390a 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -1267,7 +1267,7 @@ static void *spapr_build_fdt(SpaprMachineState *spa=
-pr)
-     }
-=20
-     QLIST_FOREACH(phb, &spapr->phbs, list) {
--        ret =3D spapr_dt_phb(phb, PHANDLE_INTC, fdt, spapr->irq->nr_msis=
-, NULL);
-+        ret =3D spapr_dt_phb(spapr, phb, PHANDLE_INTC, fdt, NULL);
-         if (ret < 0) {
-             error_report("couldn't setup PCI devices in fdt");
-             exit(1);
-@@ -3905,8 +3905,7 @@ int spapr_phb_dt_populate(SpaprDrc *drc, SpaprMachi=
-neState *spapr,
-         return -1;
-     }
-=20
--    if (spapr_dt_phb(sphb, intc_phandle, fdt, spapr->irq->nr_msis,
--                     fdt_start_offset)) {
-+    if (spapr_dt_phb(spapr, sphb, intc_phandle, fdt, fdt_start_offset)) =
-{
-         error_setg(errp, "unable to create FDT node for PHB %d", sphb->i=
-ndex);
-         return -1;
-     }
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index f3d18b1dad..be90d36333 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -29,9 +29,14 @@ static const TypeInfo spapr_intc_info =3D {
-     .class_size =3D sizeof(SpaprInterruptControllerClass),
- };
-=20
--void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis)
-+static void spapr_irq_msi_init(SpaprMachineState *spapr)
- {
--    spapr->irq_map_nr =3D nr_msis;
-+    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-+        /* Legacy mode doesn't use this allocator */
-+        return;
-+    }
-+
-+    spapr->irq_map_nr =3D spapr_irq_nr_msis(spapr);
-     spapr->irq_map =3D bitmap_new(spapr->irq_map_nr);
+@@ -4440,6 +4440,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+     smc->dr_phb_enabled =3D true;
+     smc->linux_pci_probe =3D true;
+     smc->smp_threads_vsmt =3D true;
++    smc->nr_xirqs =3D SPAPR_NR_XIRQS;
  }
 =20
-@@ -102,7 +107,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptContro=
+ static const TypeInfo spapr_machine_info =3D {
+@@ -4576,6 +4577,7 @@ static void spapr_machine_3_0_class_options(Machine=
+Class *mc)
+     compat_props_add(mc->compat_props, hw_compat_3_0, hw_compat_3_0_len)=
+;
+=20
+     smc->legacy_irq_allocation =3D true;
++    smc->nr_xirqs =3D 0x400;
+     smc->irq =3D &spapr_irq_xics_legacy;
+ }
+=20
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index be90d36333..234d1073e5 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -106,7 +106,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptContro=
 ller *, Error **),
+  */
 =20
  SpaprIrq spapr_irq_xics =3D {
-     .nr_xirqs    =3D SPAPR_NR_XIRQS,
--    .nr_msis     =3D SPAPR_NR_MSIS,
+-    .nr_xirqs    =3D SPAPR_NR_XIRQS,
      .xics        =3D true,
      .xive        =3D false,
  };
-@@ -113,7 +117,6 @@ SpaprIrq spapr_irq_xics =3D {
+@@ -116,7 +115,6 @@ SpaprIrq spapr_irq_xics =3D {
+  */
 =20
  SpaprIrq spapr_irq_xive =3D {
-     .nr_xirqs    =3D SPAPR_NR_XIRQS,
--    .nr_msis     =3D SPAPR_NR_MSIS,
+-    .nr_xirqs    =3D SPAPR_NR_XIRQS,
      .xics        =3D false,
      .xive        =3D true,
  };
-@@ -132,7 +135,6 @@ SpaprIrq spapr_irq_xive =3D {
+@@ -134,7 +132,6 @@ SpaprIrq spapr_irq_xive =3D {
+  * Define values in sync with the XIVE and XICS backend
   */
  SpaprIrq spapr_irq_dual =3D {
-     .nr_xirqs    =3D SPAPR_NR_XIRQS,
--    .nr_msis     =3D SPAPR_NR_MSIS,
+-    .nr_xirqs    =3D SPAPR_NR_XIRQS,
      .xics        =3D true,
      .xive        =3D true,
  };
-@@ -247,6 +249,15 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32_t=
- nr_servers,
-     sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
+@@ -251,16 +248,19 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32_=
+t nr_servers,
+=20
+ uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
+ {
+-    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
+-        return spapr->irq->nr_xirqs;
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
++
++    if (smc->legacy_irq_allocation) {
++        return smc->nr_xirqs;
+     } else {
+-        return SPAPR_XIRQ_BASE + spapr->irq->nr_xirqs - SPAPR_IRQ_MSI;
++        return SPAPR_XIRQ_BASE + smc->nr_xirqs - SPAPR_IRQ_MSI;
+     }
  }
 =20
-+uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
-+{
-+    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-+        return spapr->irq->nr_xirqs;
-+    } else {
-+        return SPAPR_XIRQ_BASE + spapr->irq->nr_xirqs - SPAPR_IRQ_MSI;
-+    }
-+}
-+
  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
  {
      MachineState *machine =3D MACHINE(spapr);
-@@ -267,9 +278,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+=20
+     if (machine_kernel_irqchip_split(machine)) {
+         error_setg(errp, "kernel_irqchip split mode not supported on pse=
+ries");
+@@ -298,8 +298,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
 *errp)
+             return;
+         }
+=20
+-        object_property_set_int(obj, spapr->irq->nr_xirqs, "nr-irqs",
+-                                &local_err);
++        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &local_er=
+r);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+@@ -320,8 +319,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
+*errp)
+         int i;
+=20
+         dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
+-        qdev_prop_set_uint32(dev, "nr-irqs",
+-                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
++        qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIRQ_=
+BASE);
+         /*
+          * 8 XIVE END structures per CPU. One for each available
+          * priority
+@@ -346,17 +344,18 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
+ **errp)
      }
 =20
-     /* Initialize the MSI IRQ allocator. */
--    if (!SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
--        spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
--    }
-+    spapr_irq_msi_init(spapr);
+     spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
+-                                      spapr->irq->nr_xirqs + SPAPR_XIRQ_=
+BASE);
++                                      smc->nr_xirqs + SPAPR_XIRQ_BASE);
+ }
 =20
-     if (spapr->irq->xics) {
-         Error *local_err =3D NULL;
-@@ -551,7 +560,6 @@ int spapr_irq_find(SpaprMachineState *spapr, int num,=
- bool align, Error **errp)
+ int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
+*errp)
+ {
+     SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
+     int i;
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+     int rc;
 =20
+     assert(irq >=3D SPAPR_XIRQ_BASE);
+-    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
++    assert(irq < (smc->nr_xirqs + SPAPR_XIRQ_BASE));
+=20
+     for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
+         SpaprInterruptController *intc =3D intcs[i];
+@@ -376,9 +375,10 @@ void spapr_irq_free(SpaprMachineState *spapr, int ir=
+q, int num)
+ {
+     SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
+     int i, j;
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+=20
+     assert(irq >=3D SPAPR_XIRQ_BASE);
+-    assert((irq + num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
++    assert((irq + num) <=3D (smc->nr_xirqs + SPAPR_XIRQ_BASE));
+=20
+     for (i =3D irq; i < (irq + num); i++) {
+         for (j =3D 0; j < ARRAY_SIZE(intcs); j++) {
+@@ -395,6 +395,8 @@ void spapr_irq_free(SpaprMachineState *spapr, int irq=
+, int num)
+=20
+ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
+ {
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
++
+     /*
+      * This interface is basically for VIO and PHB devices to find the
+      * right qemu_irq to manipulate, so we only allow access to the
+@@ -403,7 +405,7 @@ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq=
+)
+      * interfaces, we can change this if we need to in future.
+      */
+     assert(irq >=3D SPAPR_XIRQ_BASE);
+-    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
++    assert(irq < (smc->nr_xirqs + SPAPR_XIRQ_BASE));
+=20
+     if (spapr->ics) {
+         assert(ics_valid_irq(spapr->ics, irq));
+@@ -556,10 +558,7 @@ int spapr_irq_find(SpaprMachineState *spapr, int num=
+, bool align, Error **errp)
+     return first + ics->offset;
+ }
+=20
+-#define SPAPR_IRQ_XICS_LEGACY_NR_XIRQS     0x400
+-
  SpaprIrq spapr_irq_xics_legacy =3D {
-     .nr_xirqs    =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
--    .nr_msis     =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+-    .nr_xirqs    =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
      .xics        =3D true,
      .xive        =3D false,
  };
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 01ff41d4c4..cc0e7829b6 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -2277,8 +2277,8 @@ static void spapr_phb_pci_enumerate(SpaprPhbState *=
-phb)
-=20
- }
-=20
--int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
--                 uint32_t nr_msis, int *node_offset)
-+int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
-+                 uint32_t intc_phandle, void *fdt, int *node_offset)
- {
-     int bus_off, i, j, ret;
-     uint32_t bus_range[] =3D { cpu_to_be32(0), cpu_to_be32(0xff) };
-@@ -2343,7 +2343,8 @@ int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_=
-phandle, void *fdt,
-     _FDT(fdt_setprop(fdt, bus_off, "ranges", &ranges, sizeof_ranges));
-     _FDT(fdt_setprop(fdt, bus_off, "reg", &bus_reg, sizeof(bus_reg)));
-     _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pci-config-space-type", 0x1=
-));
--    _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pe-total-#msi", nr_msis));
-+    _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pe-total-#msi",
-+                          spapr_irq_nr_msis(spapr)));
-=20
-     /* Dynamic DMA window */
-     if (phb->ddw_enabled) {
-diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-index 23506f05d9..8877ff51fb 100644
---- a/include/hw/pci-host/spapr.h
-+++ b/include/hw/pci-host/spapr.h
-@@ -128,8 +128,8 @@ struct SpaprPhbState {
- #define SPAPR_PCI_NV2ATSD_WIN_SIZE   (NVGPU_MAX_NUM * NVGPU_MAX_LINKS * =
-\
-                                       64 * KiB)
-=20
--int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
--                 uint32_t nr_msis, int *node_offset);
-+int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
-+                 uint32_t intc_phandle, void *fdt, int *node_offset);
-=20
- void spapr_pci_rtas_init(void);
-=20
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 3b34cf5207..d5ab5ea7b2 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -119,6 +119,7 @@ struct SpaprMachineClass {
+     bool use_ohci_by_default;  /* use USB-OHCI instead of XHCI */
+     bool pre_2_10_has_unused_icps;
+     bool legacy_irq_allocation;
++    uint32_t nr_xirqs;
+     bool broken_host_serial_model; /* present real host info to the gues=
+t */
+     bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
+     bool linux_pci_probe;
 diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 08173e714c..befe8e01dc 100644
+index befe8e01dc..5e150a6679 100644
 --- a/include/hw/ppc/spapr_irq.h
 +++ b/include/hw/ppc/spapr_irq.h
-@@ -27,7 +27,6 @@
- #define SPAPR_IRQ_MSI        (SPAPR_XIRQ_BASE + 0x0300)
-=20
- #define SPAPR_NR_XIRQS       0x1000
--#define SPAPR_NR_MSIS        (SPAPR_XIRQ_BASE + SPAPR_NR_XIRQS - SPAPR_I=
-RQ_MSI)
-=20
- typedef struct SpaprMachineState SpaprMachineState;
-=20
-@@ -73,14 +72,13 @@ void spapr_irq_print_info(SpaprMachineState *spapr, M=
-onitor *mon);
- void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
-                   void *fdt, uint32_t phandle);
-=20
--void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
-+uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr);
- int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool ali=
-gn,
-                         Error **errp);
+@@ -78,7 +78,6 @@ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint3=
+2_t num, bool align,
  void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num)=
 ;
 =20
  typedef struct SpaprIrq {
-     uint32_t    nr_xirqs;
--    uint32_t    nr_msis;
+-    uint32_t    nr_xirqs;
      bool        xics;
      bool        xive;
  } SpaprIrq;
