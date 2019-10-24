@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5FFE3060
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:29:49 +0200 (CEST)
-Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1B7E2FF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:06:48 +0200 (CEST)
+Received: from localhost ([::1]:38896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbJL-0003Jm-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59336)
+	id 1iNax4-0003ut-Vl
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:06:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatK-0000zk-UY
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:56 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNatG-0000sc-Om
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatE-0004qN-Fb
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53603
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004pk-Ae
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60251
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004oF-8D
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004mA-4m
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914966;
+ s=mimecast20190719; t=1571914964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OPBd4x/97RP023wsihC+zq3VLAl/9PZbaQaixKkNOCU=;
- b=SLWxCr3anMIxvDGhTi7mfPZh3FXf674TH1rkBngXSqxRYTiq8t7W+y3flKRXs+VyrmyMwx
- Agvx/pV+2Y95zFY5z3XnMQonfosZccA9RiPMnrzUxukTTNRAcumvGQO4MdEaJv2UbCI60N
- NaZyyL7jzdhm1e1lNQusKU6hLpH5NfE=
+ bh=y0LluG9x73pG1eSjKT6+/4tvxwpeWh3fys+DjJoQOMg=;
+ b=f2+7BTENNjDXdpS7USRAoyXErWQjS8fuqJqo6MPS3Xg626T7MCKojvPq3M5gB92ctPipDg
+ fkgN3dj6r+5p09TUTISRYg7rg9WtPXPdwyz8FtEdpPwoC3cwYsDDS+snEC+ZOe0D2ThaBW
+ uMczbgN936sGbG9YwOQXgE9OBfTri9k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-PUB9gDmxPZCTX_6Z8-QMnw-1; Thu, 24 Oct 2019 07:02:42 -0400
+ us-mta-32-_jn1AztyOcmJM2z2geaMwQ-1; Thu, 24 Oct 2019 07:02:42 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 676E31800E04;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72922800D5A;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33D84600C4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DA24600CC;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5C878113292F; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 6095D113294C; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/19] qapi: Fix enum doc comment checking
-Date: Thu, 24 Oct 2019 13:02:27 +0200
-Message-Id: <20191024110237.30963-10-armbru@redhat.com>
+Subject: [PATCH 10/19] qapi: Clean up doc comment checking for implicit union
+ base
+Date: Thu, 24 Oct 2019 13:02:28 +0200
+Message-Id: <20191024110237.30963-11-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: PUB9gDmxPZCTX_6Z8-QMnw-1
+X-MC-Unique: _jn1AztyOcmJM2z2geaMwQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,82 +77,123 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enumeration type documentation comments are not checked, as
-demonstrated by test doc-bad-enum-member.  This is because we neglect
-to call self.doc.check() for enumeration types.  Messed up in
-816a57cd6e "qapi: Fix detection of bogus member documentation".  Fix
-it.
+An object type's doc comment describes the type's members, less the
+ones defined in a named base type.  Cases:
+
+* Struct: the members are defined in 'data' and inherited from 'base'.
+  Since the base type cannot be implicit, the doc comment describes
+  just 'data'.
+
+* Simple union: the only member is the implicit tag member @type, and
+  the doc comment describes it.
+
+* Flat union with implicit base type: the members are defined in
+  'base', and the doc comment describes it.
+
+* Flat union with named base type: the members are inherited from
+  'base'.  The doc comment describes no members.
+
+Before we can check a doc comment with .check_doc(), we need
+.connect_doc() connect each of its "argument sections" to the member
+it documents.
+
+For structs and simple unions, this is straightforward: the members in
+question are in .local_members, and .connect_doc() connects them.
+
+For flat unions with a named base type, it's trivial: .local_members
+is empty, and .connect_doc() does nothing.
+
+For flat unions with an implicit base type, it's tricky.  We have
+QAPISchema._make_implicit_object_type() forward the union's doc
+comment to the implicit base type, so that the base type's
+.connect_doc() connects the members.  The union's .connect_doc() does
+nothing, as .local_members is empty.
+
+Dirt effect: we check the doc comment twice, once for the union type,
+and once for the implicit base type.
+
+This is needlessly brittle and hard to understand.  Clean up as
+follows.  Make the union's .connect_doc() connect an implicit base's
+members itself.  Do not forward the union's doc comment to its
+implicit base type.
+
+Requires extending .connect_doc() so it can work with a doc comment
+other than self.doc.  Add an optional argument for that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/schema.py                     |  4 ++++
- tests/qapi-schema/doc-bad-enum-member.err  |  1 +
- tests/qapi-schema/doc-bad-enum-member.json |  1 -
- tests/qapi-schema/doc-bad-enum-member.out  | 21 ---------------------
- 4 files changed, 5 insertions(+), 22 deletions(-)
+ scripts/qapi/schema.py | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 9b62c8d74d..0381e3cb40 100644
+index 0381e3cb40..c16dce1fe0 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -229,6 +229,10 @@ class QAPISchemaEnumType(QAPISchemaType):
+@@ -51,7 +51,7 @@ class QAPISchemaEntity(object):
+                                            os.path.dirname(schema.fname))
+         self._checked =3D True
+=20
+-    def connect_doc(self):
++    def connect_doc(self, doc=3DNone):
+         pass
+=20
+     def check_doc(self):
+@@ -224,10 +224,11 @@ class QAPISchemaEnumType(QAPISchemaType):
+         for m in self.members:
+             m.check_clash(self.info, seen)
+=20
+-    def connect_doc(self):
+-        if self.doc:
++    def connect_doc(self, doc=3DNone):
++        doc =3D doc or self.doc
++        if doc:
              for m in self.members:
-                 self.doc.connect_member(m)
+-                self.doc.connect_member(m)
++                doc.connect_member(m)
 =20
-+    def check_doc(self):
-+        if self.doc:
-+            self.doc.check()
-+
-     def is_implicit(self):
-         # See QAPISchema._make_implicit_enum_type() and ._def_predefineds(=
-)
-         return self.name.endswith('Kind') or self.name =3D=3D 'QType'
-diff --git a/tests/qapi-schema/doc-bad-enum-member.err b/tests/qapi-schema/=
-doc-bad-enum-member.err
-index e69de29bb2..dfa1e786d7 100644
---- a/tests/qapi-schema/doc-bad-enum-member.err
-+++ b/tests/qapi-schema/doc-bad-enum-member.err
-@@ -0,0 +1 @@
-+doc-bad-enum-member.json:3: the following documented members are not in th=
-e declaration: a
-diff --git a/tests/qapi-schema/doc-bad-enum-member.json b/tests/qapi-schema=
-/doc-bad-enum-member.json
-index 9f32fe64b4..9cab35c6e8 100644
---- a/tests/qapi-schema/doc-bad-enum-member.json
-+++ b/tests/qapi-schema/doc-bad-enum-member.json
-@@ -1,5 +1,4 @@
- # Members listed in the doc comment must exist in the actual schema
--# BUG: nonexistent @a is not rejected
+     def check_doc(self):
+         if self.doc:
+@@ -380,10 +381,13 @@ class QAPISchemaObjectType(QAPISchemaType):
+         for m in self.members:
+             m.check_clash(info, seen)
 =20
- ##
- # @Foo:
-diff --git a/tests/qapi-schema/doc-bad-enum-member.out b/tests/qapi-schema/=
-doc-bad-enum-member.out
-index 6ca31c1e9b..e69de29bb2 100644
---- a/tests/qapi-schema/doc-bad-enum-member.out
-+++ b/tests/qapi-schema/doc-bad-enum-member.out
-@@ -1,21 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module doc-bad-enum-member.json
--enum Foo
--    member b
--doc symbol=3DFoo
--    body=3D
--
--    arg=3Da
--a
--    arg=3Db
--b
+-    def connect_doc(self):
+-        if self.doc:
++    def connect_doc(self, doc=3DNone):
++        doc =3D doc or self.doc
++        if doc:
++            if self.base and self.base.is_implicit():
++                self.base.connect_doc(doc)
+             for m in self.local_members:
+-                self.doc.connect_member(m)
++                doc.connect_member(m)
+=20
+     def check_doc(self):
+         if self.doc:
+@@ -657,10 +661,11 @@ class QAPISchemaAlternateType(QAPISchemaType):
+                         % (v.describe(self.info), types_seen[qt]))
+                 types_seen[qt] =3D v.name
+=20
+-    def connect_doc(self):
+-        if self.doc:
++    def connect_doc(self, doc=3DNone):
++        doc =3D doc or self.doc
++        if doc:
+             for v in self.variants.variants:
+-                self.doc.connect_member(v)
++                doc.connect_member(v)
+=20
+     def check_doc(self):
+         if self.doc:
+@@ -974,7 +979,7 @@ class QAPISchema(object):
+         tag_member =3D None
+         if isinstance(base, dict):
+             base =3D self._make_implicit_object_type(
+-                name, info, doc, ifcond,
++                name, info, None, ifcond,
+                 'base', self._make_members(base, info))
+         if tag_name:
+             variants =3D [self._make_variant(key, value['type'],
 --=20
 2.21.0
 
