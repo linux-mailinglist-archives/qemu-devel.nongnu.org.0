@@ -2,52 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8842E2B74
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 09:51:40 +0200 (CEST)
-Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F176E2B3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 09:37:37 +0200 (CEST)
+Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNXuF-0007dZ-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 03:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57337)
+	id 1iNXgd-0002FJ-J6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 03:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iNXQ4-0005Pc-CC
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 03:20:30 -0400
+ (envelope-from <jiri@gaisler.se>) id 1iNXbG-00051j-2q
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 03:32:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iNXQ2-0002eQ-62
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 03:20:28 -0400
-Received: from 6.mo177.mail-out.ovh.net ([46.105.51.249]:46160)
+ (envelope-from <jiri@gaisler.se>) id 1iNXbD-0001zI-Fo
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 03:32:00 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:34384)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNXQ1-0002dw-Rj
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 03:20:26 -0400
-Received: from player168.ha.ovh.net (unknown [10.109.159.191])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 00BF810EB4D
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:20:22 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player168.ha.ovh.net (Postfix) with ESMTPSA id 23C18B3CD5A7;
- Thu, 24 Oct 2019 07:20:15 +0000 (UTC)
-Date: Thu, 24 Oct 2019 09:20:14 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 1/6] ppc: Add intc_destroy() handlers to
- SpaprInterruptController/PnvChip
-Message-ID: <20191024092014.50e58ed6@bahia.lan>
-In-Reply-To: <20191024025025.GR6439@umbus.fritz.box>
-References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
- <157184231937.3053790.14496504009511167948.stgit@bahia.lan>
- <20191024025025.GR6439@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <jiri@gaisler.se>) id 1iNXb8-0001tS-Ib
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 03:31:59 -0400
+X-Halon-ID: 430d3c75-f630-11e9-bdc3-005056917a89
+Authorized-sender: jiri@gaisler.se
+Received: from [192.168.9.20] (unknown [92.33.136.219])
+ by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPSA
+ id 430d3c75-f630-11e9-bdc3-005056917a89;
+ Thu, 24 Oct 2019 09:31:16 +0200 (CEST)
+Subject: Re: LEON3 networking
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Joshua Shaffer <joshua.shaffer@astrobotic.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>
+References: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+ <6bb8abb2-68f0-db85-1557-6e04839b5ea2@redhat.com>
+ <32c38984-e745-de6c-792e-09910b68cedd@adacore.com>
+ <CAPJW7GLOTyjdMozrb+TSnqpEyoiFh2sxZjYkLXx2pz2_J_dPgA@mail.gmail.com>
+ <a6783ce6-eea2-214f-7dbd-7224e830db0b@gaisler.se>
+ <2ea63643-5cb2-017e-8889-bb8c77fd75cf@gaisler.se>
+ <6d0ffeda-68c4-3c0e-39bb-e00d544e1b8e@redhat.com>
+From: Jiri Gaisler <jiri@gaisler.se>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jiri@gaisler.se; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <9ce71f42-741c-000a-1b44-d473575f7458@gaisler.se>
+Date: Thu, 24 Oct 2019 09:31:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/DaEIa.DE9VW.pBZUsGXUYHR";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Ovh-Tracer-Id: 5815835970006718950
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrledtgdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.51.249
+In-Reply-To: <6d0ffeda-68c4-3c0e-39bb-e00d544e1b8e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 195.74.38.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,394 +104,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/DaEIa.DE9VW.pBZUsGXUYHR
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 24 Oct 2019 13:50:25 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> On Wed, Oct 23, 2019 at 04:51:59PM +0200, Greg Kurz wrote:
-> > SpaprInterruptControllerClass and PnvChipClass have an intc_create() me=
-thod
-> > that calls the appropriate routine, ie. icp_create() or xive_tctx_creat=
-e(),
-> > to establish the link between the VCPU and the presenter component of t=
-he
-> > interrupt controller during realize.
-> >=20
-> > There aren't any symmetrical call to be called when the VCPU gets unrea=
-lized
-> > though. It is assumed that object_unparent() is the only thing to do.
-> >=20
-> > This is questionable because the parenting logic around the CPU and
-> > presenter objects is really an implementation detail of the interrupt
-> > controller. It shouldn't be open-coded in the machine code.
-> >=20
-> > Fix this by adding an intc_destroy() method that undoes what was done in
-> > intc_create().
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
->=20
-> I think it would be good to set the pointers in spapr_cpu_state() to
-> NULL at the point of destroy.  It probably won't matter, since this
-> happens in a path where the cpu's about to go away.  But still,
-> leaving a stale pointer around a moment more than necessary makes me
-> anxious.
->=20
-
-Sure, better safe than sorry :)
-
-> > ---
-> >  hw/intc/spapr_xive.c       |    7 +++++++
-> >  hw/intc/xics.c             |    5 +++++
-> >  hw/intc/xics_spapr.c       |    7 +++++++
-> >  hw/intc/xive.c             |    5 +++++
-> >  hw/ppc/pnv.c               |   15 +++++++++++++++
-> >  hw/ppc/pnv_core.c          |    7 ++++---
-> >  hw/ppc/spapr_cpu_core.c    |    7 +------
-> >  hw/ppc/spapr_irq.c         |   14 ++++++++++++++
-> >  include/hw/ppc/pnv.h       |    1 +
-> >  include/hw/ppc/spapr_irq.h |    2 ++
-> >  include/hw/ppc/xics.h      |    1 +
-> >  include/hw/ppc/xive.h      |    1 +
-> >  12 files changed, 63 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> > index d8e1291905c3..b09cc48bcb61 100644
-> > --- a/hw/intc/spapr_xive.c
-> > +++ b/hw/intc/spapr_xive.c
-> > @@ -555,6 +555,12 @@ static void spapr_xive_cpu_intc_reset(SpaprInterru=
-ptController *intc,
-> >      xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
-> >  }
-> > =20
-> > +static void spapr_xive_cpu_intc_destroy(SpaprInterruptController *intc,
-> > +                                        PowerPCCPU *cpu)
-> > +{
-> > +    xive_tctx_destroy(spapr_cpu_state(cpu)->tctx);
-> > +}
-> > +
-> >  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq=
-, int val)
-> >  {
-> >      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> > @@ -692,6 +698,7 @@ static void spapr_xive_class_init(ObjectClass *klas=
-s, void *data)
-> >      sicc->deactivate =3D spapr_xive_deactivate;
-> >      sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
-> >      sicc->cpu_intc_reset =3D spapr_xive_cpu_intc_reset;
-> > +    sicc->cpu_intc_destroy =3D spapr_xive_cpu_intc_destroy;
-> >      sicc->claim_irq =3D spapr_xive_claim_irq;
-> >      sicc->free_irq =3D spapr_xive_free_irq;
-> >      sicc->set_irq =3D spapr_xive_set_irq;
-> > diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> > index 6da05763f9db..935f325749cb 100644
-> > --- a/hw/intc/xics.c
-> > +++ b/hw/intc/xics.c
-> > @@ -401,6 +401,11 @@ Object *icp_create(Object *cpu, const char *type, =
-XICSFabric *xi, Error **errp)
-> >      return obj;
-> >  }
-> > =20
-> > +void icp_destroy(ICPState *icp)
-> > +{
-> > +    object_unparent(OBJECT(icp));
-> > +}
-> > +
-> >  /*
-> >   * ICS: Source layer
-> >   */
-> > diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> > index 7418fb9f370c..5977d1bdb73f 100644
-> > --- a/hw/intc/xics_spapr.c
-> > +++ b/hw/intc/xics_spapr.c
-> > @@ -352,6 +352,12 @@ static void xics_spapr_cpu_intc_reset(SpaprInterru=
-ptController *intc,
-> >      icp_reset(spapr_cpu_state(cpu)->icp);
-> >  }
-> > =20
-> > +static void xics_spapr_cpu_intc_destroy(SpaprInterruptController *intc,
-> > +                                        PowerPCCPU *cpu)
-> > +{
-> > +    icp_destroy(spapr_cpu_state(cpu)->icp);
-> > +}
-> > +
-> >  static int xics_spapr_claim_irq(SpaprInterruptController *intc, int ir=
-q,
-> >                                  bool lsi, Error **errp)
-> >  {
-> > @@ -440,6 +446,7 @@ static void ics_spapr_class_init(ObjectClass *klass=
-, void *data)
-> >      sicc->deactivate =3D xics_spapr_deactivate;
-> >      sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
-> >      sicc->cpu_intc_reset =3D xics_spapr_cpu_intc_reset;
-> > +    sicc->cpu_intc_destroy =3D xics_spapr_cpu_intc_destroy;
-> >      sicc->claim_irq =3D xics_spapr_claim_irq;
-> >      sicc->free_irq =3D xics_spapr_free_irq;
-> >      sicc->set_irq =3D xics_spapr_set_irq;
-> > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> > index f066be5eb5e3..38257aa02083 100644
-> > --- a/hw/intc/xive.c
-> > +++ b/hw/intc/xive.c
-> > @@ -696,6 +696,11 @@ error:
-> >      return NULL;
-> >  }
-> > =20
-> > +void xive_tctx_destroy(XiveTCTX *tctx)
-> > +{
-> > +    object_unparent(OBJECT(tctx));
-> > +}
-> > +
-> >  /*
-> >   * XIVE ESB helpers
-> >   */
-> > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> > index 4a51fb65a834..bd17c3536dd5 100644
-> > --- a/hw/ppc/pnv.c
-> > +++ b/hw/ppc/pnv.c
-> > @@ -778,6 +778,7 @@ static void pnv_chip_power8_intc_create(PnvChip *ch=
-ip, PowerPCCPU *cpu,
-> >      pnv_cpu->intc =3D obj;
-> >  }
-> > =20
-> > +
-> >  static void pnv_chip_power8_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
-> >  {
-> >      PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> > @@ -785,6 +786,11 @@ static void pnv_chip_power8_intc_reset(PnvChip *ch=
-ip, PowerPCCPU *cpu)
-> >      icp_reset(ICP(pnv_cpu->intc));
-> >  }
-> > =20
-> > +static void pnv_chip_power8_intc_destroy(PnvChip *chip, PowerPCCPU *cp=
-u)
-> > +{
-> > +    icp_destroy(ICP(pnv_cpu_state(cpu)->intc));
-> > +}
-> > +
-> >  /*
-> >   *    0:48  Reserved - Read as zeroes
-> >   *   49:52  Node ID
-> > @@ -829,6 +835,11 @@ static void pnv_chip_power9_intc_reset(PnvChip *ch=
-ip, PowerPCCPU *cpu)
-> >      xive_tctx_reset(XIVE_TCTX(pnv_cpu->intc));
-> >  }
-> > =20
-> > +static void pnv_chip_power9_intc_destroy(PnvChip *chip, PowerPCCPU *cp=
-u)
-> > +{
-> > +    xive_tctx_destroy(XIVE_TCTX(pnv_cpu_state(cpu)->intc));
-> > +}
-> > +
-> >  /*
-> >   * Allowed core identifiers on a POWER8 Processor Chip :
-> >   *
-> > @@ -999,6 +1010,7 @@ static void pnv_chip_power8e_class_init(ObjectClas=
-s *klass, void *data)
-> >      k->core_pir =3D pnv_chip_core_pir_p8;
-> >      k->intc_create =3D pnv_chip_power8_intc_create;
-> >      k->intc_reset =3D pnv_chip_power8_intc_reset;
-> > +    k->intc_destroy =3D pnv_chip_power8_intc_destroy;
-> >      k->isa_create =3D pnv_chip_power8_isa_create;
-> >      k->dt_populate =3D pnv_chip_power8_dt_populate;
-> >      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> > @@ -1019,6 +1031,7 @@ static void pnv_chip_power8_class_init(ObjectClas=
-s *klass, void *data)
-> >      k->core_pir =3D pnv_chip_core_pir_p8;
-> >      k->intc_create =3D pnv_chip_power8_intc_create;
-> >      k->intc_reset =3D pnv_chip_power8_intc_reset;
-> > +    k->intc_destroy =3D pnv_chip_power8_intc_destroy;
-> >      k->isa_create =3D pnv_chip_power8_isa_create;
-> >      k->dt_populate =3D pnv_chip_power8_dt_populate;
-> >      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> > @@ -1039,6 +1052,7 @@ static void pnv_chip_power8nvl_class_init(ObjectC=
-lass *klass, void *data)
-> >      k->core_pir =3D pnv_chip_core_pir_p8;
-> >      k->intc_create =3D pnv_chip_power8_intc_create;
-> >      k->intc_reset =3D pnv_chip_power8_intc_reset;
-> > +    k->intc_destroy =3D pnv_chip_power8_intc_destroy;
-> >      k->isa_create =3D pnv_chip_power8nvl_isa_create;
-> >      k->dt_populate =3D pnv_chip_power8_dt_populate;
-> >      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> > @@ -1209,6 +1223,7 @@ static void pnv_chip_power9_class_init(ObjectClas=
-s *klass, void *data)
-> >      k->core_pir =3D pnv_chip_core_pir_p9;
-> >      k->intc_create =3D pnv_chip_power9_intc_create;
-> >      k->intc_reset =3D pnv_chip_power9_intc_reset;
-> > +    k->intc_destroy =3D pnv_chip_power9_intc_destroy;
-> >      k->isa_create =3D pnv_chip_power9_isa_create;
-> >      k->dt_populate =3D pnv_chip_power9_dt_populate;
-> >      k->pic_print_info =3D pnv_chip_power9_pic_print_info;
-> > diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> > index 328ad07c8d06..a66c4b471407 100644
-> > --- a/hw/ppc/pnv_core.c
-> > +++ b/hw/ppc/pnv_core.c
-> > @@ -270,11 +270,12 @@ err:
-> >      error_propagate(errp, local_err);
-> >  }
-> > =20
-> > -static void pnv_core_cpu_unrealize(PowerPCCPU *cpu)
-> > +static void pnv_core_cpu_unrealize(PowerPCCPU *cpu, PnvChip *chip)
-> >  {
-> >      PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> > +    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-> > =20
-> > -    object_unparent(OBJECT(pnv_cpu_state(cpu)->intc));
-> > +    pcc->intc_destroy(chip, cpu);
-> >      cpu_remove_sync(CPU(cpu));
-> >      cpu->machine_data =3D NULL;
-> >      g_free(pnv_cpu);
-> > @@ -290,7 +291,7 @@ static void pnv_core_unrealize(DeviceState *dev, Er=
-ror **errp)
-> >      qemu_unregister_reset(pnv_core_reset, pc);
-> > =20
-> >      for (i =3D 0; i < cc->nr_threads; i++) {
-> > -        pnv_core_cpu_unrealize(pc->threads[i]);
-> > +        pnv_core_cpu_unrealize(pc->threads[i], pc->chip);
-> >      }
-> >      g_free(pc->threads);
-> >  }
-> > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> > index ef7b27a66d56..8339c4c0f86b 100644
-> > --- a/hw/ppc/spapr_cpu_core.c
-> > +++ b/hw/ppc/spapr_cpu_core.c
-> > @@ -195,12 +195,7 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, =
-SpaprCpuCore *sc)
-> >      if (!sc->pre_3_0_migration) {
-> >          vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machin=
-e_data);
-> >      }
-> > -    if (spapr_cpu_state(cpu)->icp) {
-> > -        object_unparent(OBJECT(spapr_cpu_state(cpu)->icp));
-> > -    }
-> > -    if (spapr_cpu_state(cpu)->tctx) {
-> > -        object_unparent(OBJECT(spapr_cpu_state(cpu)->tctx));
-> > -    }
-> > +    spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
-> >      cpu_remove_sync(CPU(cpu));
-> >      object_unparent(OBJECT(cpu));
-> >  }
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index b941608b69ba..168044be853a 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -234,6 +234,20 @@ void spapr_irq_cpu_intc_reset(SpaprMachineState *s=
-papr, PowerPCCPU *cpu)
-> >      }
-> >  }
-> > =20
-> > +void spapr_irq_cpu_intc_destroy(SpaprMachineState *spapr, PowerPCCPU *=
-cpu)
-> > +{
-> > +    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-> > +    int i;
-> > +
-> > +    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
-> > +        SpaprInterruptController *intc =3D intcs[i];
-> > +        if (intc) {
-> > +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLA=
-SS(intc);
-> > +            sicc->cpu_intc_destroy(intc, cpu);
-> > +        }
-> > +    }
-> > +}
-> > +
-> >  static void spapr_set_irq(void *opaque, int irq, int level)
-> >  {
-> >      SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
-> > diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> > index 2a780e633f23..0b4c722e6b48 100644
-> > --- a/include/hw/ppc/pnv.h
-> > +++ b/include/hw/ppc/pnv.h
-> > @@ -112,6 +112,7 @@ typedef struct PnvChipClass {
-> >      uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
-> >      void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
-> >      void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
-> > +    void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
-> >      ISABus *(*isa_create)(PnvChip *chip, Error **errp);
-> >      void (*dt_populate)(PnvChip *chip, void *fdt);
-> >      void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> > index 09232999b07e..ff814d13de37 100644
-> > --- a/include/hw/ppc/spapr_irq.h
-> > +++ b/include/hw/ppc/spapr_irq.h
-> > @@ -53,6 +53,7 @@ typedef struct SpaprInterruptControllerClass {
-> >      int (*cpu_intc_create)(SpaprInterruptController *intc,
-> >                              PowerPCCPU *cpu, Error **errp);
-> >      void (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU =
-*cpu);
-> > +    void (*cpu_intc_destroy)(SpaprInterruptController *intc, PowerPCCP=
-U *cpu);
-> >      int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
-> >                       Error **errp);
-> >      void (*free_irq)(SpaprInterruptController *intc, int irq);
-> > @@ -70,6 +71,7 @@ void spapr_irq_update_active_intc(SpaprMachineState *=
-spapr);
-> >  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
-> >                                PowerPCCPU *cpu, Error **errp);
-> >  void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cp=
-u);
-> > +void spapr_irq_cpu_intc_destroy(SpaprMachineState *spapr, PowerPCCPU *=
-cpu);
-> >  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
-> >  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
-> >                    void *fdt, uint32_t phandle);
-> > diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> > index 602173c12250..48a75aa4ab75 100644
-> > --- a/include/hw/ppc/xics.h
-> > +++ b/include/hw/ppc/xics.h
-> > @@ -181,6 +181,7 @@ void icp_resend(ICPState *ss);
-> > =20
-> >  Object *icp_create(Object *cpu, const char *type, XICSFabric *xi,
-> >                     Error **errp);
-> > +void icp_destroy(ICPState *icp);
-> > =20
-> >  /* KVM */
-> >  void icp_get_kvm_state(ICPState *icp);
-> > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> > index 99381639f50c..8fd439ec9bba 100644
-> > --- a/include/hw/ppc/xive.h
-> > +++ b/include/hw/ppc/xive.h
-> > @@ -416,6 +416,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr o=
-ffset, unsigned size);
-> >  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
-> >  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-> >  void xive_tctx_reset(XiveTCTX *tctx);
-> > +void xive_tctx_destroy(XiveTCTX *tctx);
-> > =20
-> >  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt=
-_idx)
-> >  {
-> >=20
->=20
+On 10/24/19 12:31 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Jiri,
+>
+> On 10/23/19 9:55 PM, Jiri Gaisler wrote:
+>> BTW, here is a patch that you might want to apply to qemu if you inten=
+d
+>> to run RTEMS on leon3. The plug&play area must support byte accesses,
+>> which is used by the RTEMS grlib scanning functions...
+>
+> Do you mean this one?
+>
+> http://gaisler.org/qemu/qemu-4.1.0-leon3.patch
 
 
---Sig_/DaEIa.DE9VW.pBZUsGXUYHR
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Yes.
 
------BEGIN PGP SIGNATURE-----
+>
+> -- >8 --
+> --- a/hw/misc/grlib_ahb_apb_pnp.c
+> +++ b/hw/misc/grlib_ahb_apb_pnp.c
+> @@ -228,6 +228,9 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hw=
+addr offset, unsigned size)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0 APBPnp *apb_pnp =3D GRLIB_APB_PNP(opaque);
+>
+> +=C2=A0=C2=A0=C2=A0 if (size !=3D 4)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return apb_pnp->regs[offset=
+ >> 2] >> ((~offset & 3) * 8);
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0 return apb_pnp->regs[offset >> 2];
+> =C2=A0}
+>
+> ---
+>
+> But then this is incorrect for 16-bit accesses.
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2xUK4ACgkQcdTV5YIv
-c9b8DBAAhwSE9Kmorj3oWeJGFuNbW6rcaDDkejj7EtVrOLQwAwajJ09wrwuFcQBz
-OJn+6rHc++VEYJpWvfexrkpDvMaAHuFjiacrMr6L9Ob2aReqmJGogX7y+8FgIdOL
-HjSU0La4BiNZxIBrQSl2Ao48t8k9S28C5B9BMOOSyBafA/02+P364IJlR+QvRnOx
-7JgwsmK9O5U4+4f8Yjw0aUqxs/tVMF38kBP6uLq5yXjUULa0db0CdLKWoE+LhmGS
-uG+ESuTo/VIi7basK4p6Ti6vYGjpFFmyjE3p8EwBCnai2d7SFZYrlpHLNcb+Pp6m
-9ecWUHieEhEnBMlrHdEMDQDTj2WIgA3YvLzcuNVK71YqQKhT5/jCM7jSrBWvsQFg
-aRH2+inAhB2JDWTl2uDmguiCTyHVsVWkSU4iHji6y3biR0Dn2TTS/FWzYP6p/IAS
-nWnpEDqCfoqd/0FVRunfcTAznenPJnxsvMbpQvnQofgg3sQsf6+RtZ7cAmHKfFur
-v4PNVKGHP+ZbEJ7aCrI7lFEdNWY/TIeceTz3ssQ6VAhWCxiYkCSLbqrvusOgfrou
-pscSlCJzHxGVPb9twCHoamyqKxHFTvVB3J2nJQJx4ecuBZWfoEhQxIoATwqAzigi
-bOX24/V0DlyxIZ/r9wOPJ4PASNsdF6LR0D+fLrsWliG7iUQ2r7w=
-=QTuR
------END PGP SIGNATURE-----
+Correct, it only fixes 8-bit accesses so that RTEMS can boot.
 
---Sig_/DaEIa.DE9VW.pBZUsGXUYHR--
+
+>
+> The proper patch might be:
+>
+> -- >8 --
+> @@ -234,6 +234,13 @@ static uint64_t grlib_apb_pnp_read(void *opaque, h=
+waddr offset, unsigned size)
+> =C2=A0static const MemoryRegionOps grlib_apb_pnp_ops =3D {
+> =C2=A0=C2=A0=C2=A0=C2=A0 .read=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D =
+grlib_apb_pnp_read,
+> =C2=A0=C2=A0=C2=A0=C2=A0 .endianness =3D DEVICE_BIG_ENDIAN,
+> +=C2=A0=C2=A0=C2=A0 .valid =3D {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =3D 1,
+> +=C2=A0=C2=A0=C2=A0 },
+> +=C2=A0=C2=A0=C2=A0 .impl =3D {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =3D 4,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =3D 4,
+> +=C2=A0=C2=A0=C2=A0 },
+> =C2=A0};
+>
+
+I don't know enough about qemu internals to have an opinion on this, but =
+it certainly looks much more elegant than my simple fix .. :-)
+
+Jiri.
+
+> ---
+>
+> (Unrelated note, this device model lacks the MemoryRegionOps::write han=
+dler).
+>
+>> Jiri.
+>>
+>> On 10/23/19 8:37 PM, Jiri Gaisler wrote:
+>>> Leon3 uses the GRETH ethernet IP core for networking. You would need =
+to
+>>> write a qemu emulation model of it to get networking support. The GRE=
+TH
+>>> is fairly well described in the GRLIB IP manual, so it should not be
+>>> impossible. The core is also available in open-source (VHDL) if you n=
+eed
+>>> to look up some finer details ... :-)
+>>>
+>>> Jiri.
+>>>
+>>> On 10/23/19 6:59 PM, Joshua Shaffer wrote:
+>>>> Does anyone know what needs implemented to get networking supported?=
+
+>>>>
+>>>> Joshua
+>>>>
+>>>> On Wed, Oct 16, 2019 at 6:34 AM Fabien Chouteau <chouteau@adacore.co=
+m> wrote:
+>>>>> Hello people,
+>>>>>
+>>>>> On 15/10/2019 18:57, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>>>> Hi Joshua,
+>>>>>>
+>>>>>> On 10/15/19 3:17 PM, Joshua Shaffer wrote:
+>>>>>>> Hello,
+>>>>>>>
+>>>>>>> I've been using the LEON3 port of qemu, and am wondering if anyon=
+e has touched the networking setup for such since the thread here: https:=
+//lists.rtems.org/pipermail/users/2014-September/028224.html
+>>>>>> Thanks for sharing this!
+>>>>>>
+>>>>>> Good news, Jiri keeps rebasing his patch with the latest stable ve=
+rsion.
+>>>>>> Bad news, he didn't not signed his work with a "Signed-off-by" tag=
+ so we can not take this as it into the mainstream repository, see https:=
+//wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signe=
+d-off-by:_line
+>>>>>>
+>>>>> The Gaisler patches have been rewrote by my colleague Frederic (in =
+CC) and they are now in mainstream.
+>>>>> (see https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03869=
+=2Ehtml)
+>>>>>
+>>>>> But none of them are implementing network support, and I never hear=
+d of someone working on network for leon3.
+>>>>>
+>>>>> Regards,
+>>>>>
+>
+
 
