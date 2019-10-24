@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E773DE2E1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:07:10 +0200 (CEST)
-Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93450E2E0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:02:12 +0200 (CEST)
+Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNa1N-0001Ax-5R
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
+	id 1iNZwY-0006fX-TY
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZBO-0005Qw-Fy
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:13:27 -0400
+ (envelope-from <groug@kaod.org>) id 1iNZIJ-0006RI-Lw
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:20:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZBN-0005my-6S
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:13:26 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:34384)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZBM-0005mk-Uq
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:13:25 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94s7L100066;
- Thu, 24 Oct 2019 09:13:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2019-08-05;
- bh=yI2wGKXkkFdVlfFpbe0//221YQeG7qB/jqZ/0nHBlMY=;
- b=C2hi090uhSq4aOmMojHR/mpeWhpSYhOr9qFLtnqieTGBrTRdG/XvR5Me2jyG4SF8RA9G
- aUTf9c/6oqy20pmnk9uUnV+JzJx7opv4TjzcL7N4BwyJPTirRtkHEGGn+Eu4HWUZ+q4+
- 3yiRtnkIkhZ+jZUxV/IpP+zthnPSfOpR8qgNl1Sv22DINnnrCjgifFEgPKXuRBy1DdG0
- tQegBkS27Hw7xOzYGJtYRu4ZgQVBa7LjitWsVPSPSRhJsDtG7VoSG+rQY34sqcgvRqxv
- yvOEBrd9OEekNZG04h4jZ3zbG79+s7fHvHr1oiLtIkl/DqYiD4k/gbw5OcUHZTu4TWm7 6A== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2vqteq2att-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:13:18 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97n26170844;
- Thu, 24 Oct 2019 09:11:18 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2vtsk4884n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:17 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9BGiU002536;
- Thu, 24 Oct 2019 09:11:16 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:11:16 -0700
-From: Jagannathan Raman <jag.raman@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 33/49] multi-process: perform device reset in the
- remote process
-Date: Thu, 24 Oct 2019 05:09:14 -0400
-Message-Id: <7579c5df98f9c09933685209395aa4a0e0ceb857.1571905346.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910240089
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910240089
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+ (envelope-from <groug@kaod.org>) id 1iNZIH-0000hx-Bw
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:20:35 -0400
+Received: from 8.mo68.mail-out.ovh.net ([46.105.74.219]:40404)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNZIF-0000fu-Sm
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:20:33 -0400
+Received: from player792.ha.ovh.net (unknown [10.109.160.25])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id D014E145D3C
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:20:27 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player792.ha.ovh.net (Postfix) with ESMTPSA id DD139B535424;
+ Thu, 24 Oct 2019 09:20:22 +0000 (UTC)
+Date: Thu, 24 Oct 2019 11:20:21 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 4/6] qom: Add object_child_foreach_type() helper function
+Message-ID: <20191024112021.41c70e7c@bahia.lan>
+In-Reply-To: <20191024030715.GX6439@umbus.fritz.box>
+References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
+ <157184233616.3053790.246919545000657597.stgit@bahia.lan>
+ <20191024025903.GU6439@umbus.fritz.box>
+ <20191024030715.GX6439@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/H77nyE5qLY1xEuKeNR1vVOF";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 7843863179972352486
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrledugddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.74.219
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,141 +59,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
- kraxel@redhat.com, jag.raman@oracle.com, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perform device reset in the remote process when QEMU performs
-device reset. This is required to reset the internal state
-(like registers, etc...) of emulated devices
+--Sig_/H77nyE5qLY1xEuKeNR1vVOF
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
----
- New patch in v3
+On Thu, 24 Oct 2019 14:07:15 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
- hw/proxy/proxy-lsi53c895a.c   |  6 ++++++
- hw/proxy/qemu-proxy.c         | 14 ++++++++++++++
- include/hw/proxy/qemu-proxy.h |  2 ++
- include/io/mpqemu-link.h      |  1 +
- remote/remote-main.c          | 11 +++++++++++
- 5 files changed, 34 insertions(+)
+> On Thu, Oct 24, 2019 at 01:59:03PM +1100, David Gibson wrote:
+> > On Wed, Oct 23, 2019 at 04:52:16PM +0200, Greg Kurz wrote:
+> > > Calling a function for children of a certain type is a recurring patt=
+ern
+> > > in the QEMU code base. In order to avoid the need to setup the same b=
+oiler
+> > > plate again and again, introduce a variant of object_child_foreach() =
+that
+> > > only considers children of the given type.
+> > >=20
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>=20
+> Actually.. a couuple of caveats on that.
+>=20
+> Reading it again the name is potentially misleading it's "for each
+> object of given type" not "for each type"  So maybe
+> "object_child_foreach_of_type()".
+>=20
 
-diff --git a/hw/proxy/proxy-lsi53c895a.c b/hw/proxy/proxy-lsi53c895a.c
-index 7734ae2..f6bd8a1 100644
---- a/hw/proxy/proxy-lsi53c895a.c
-+++ b/hw/proxy/proxy-lsi53c895a.c
-@@ -57,6 +57,11 @@ static void proxy_lsi_realize(PCIProxyDev *dev, Error **errp)
-                           &dev->region[2], "proxy-lsi-ram", 0x2000);
- }
- 
-+static void proxy_lsi_reset(DeviceState *dev)
-+{
-+    proxy_device_reset(dev);
-+}
-+
- static void proxy_lsi_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -74,6 +79,7 @@ static void proxy_lsi_class_init(ObjectClass *klass, void *data)
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
- 
-     dc->desc = "LSI Proxy Device";
-+    dc->reset = proxy_lsi_reset;
- }
- 
- static const TypeInfo lsi_proxy_dev_type_info = {
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 74aecd3..5aada67 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -577,3 +577,17 @@ const MemoryRegionOps proxy_default_ops = {
-         .max_access_size = 1,
-     },
- };
-+
-+void proxy_device_reset(DeviceState *dev)
-+{
-+    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-+    MPQemuMsg msg;
-+
-+    memset(&msg, 0, sizeof(MPQemuMsg));
-+
-+    msg.bytestream = 0;
-+    msg.size = sizeof(msg.data1);
-+    msg.cmd = DEVICE_RESET;
-+
-+    mpqemu_msg_send(pdev->mpqemu_link, &msg, pdev->mpqemu_link->com);
-+}
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index 5e858cc..672303c 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -112,4 +112,6 @@ void proxy_default_bar_write(void *opaque, hwaddr addr, uint64_t val,
- 
- uint64_t proxy_default_bar_read(void *opaque, hwaddr addr, unsigned size);
- 
-+void proxy_device_reset(DeviceState *dev);
-+
- #endif /* QEMU_PROXY_H */
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index 4911eea..6fcc6f5 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -74,6 +74,7 @@ typedef enum {
-     DEVICE_DEL,
-     PROXY_PING,
-     MMIO_RETURN,
-+    DEVICE_RESET,
-     MAX,
- } mpqemu_cmd_t;
- 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 0a1326d..4459d26 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -66,8 +66,11 @@
- #include "qemu/log.h"
- #include "qemu/cutils.h"
- #include "remote-opts.h"
-+#include "monitor/monitor.h"
-+#include "sysemu/reset.h"
- 
- static MPQemuLinkState *mpqemu_link;
-+
- PCIDevice *remote_pci_dev;
- bool create_done;
- 
-@@ -237,6 +240,11 @@ fail:
-     PUT_REMOTE_WAIT(wait);
- }
- 
-+static void process_device_reset_msg(MPQemuMsg *msg)
-+{
-+    qemu_devices_reset();
-+}
-+
- static int init_drive(QDict *rqdict, Error **errp)
- {
-     QemuOpts *opts;
-@@ -441,6 +449,9 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-         notify_proxy(wait, (uint32_t)getpid());
-         PUT_REMOTE_WAIT(wait);
-         break;
-+    case DEVICE_RESET:
-+        process_device_reset_msg(msg);
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
--- 
-1.8.3.1
+Makes sense.
 
+> Also, having created these, using them to simplify hmp_info_irq() and
+> hmp_info_pic() seems like a good idea.
+>=20
+> >=20
+> > > ---
+> > >  include/qom/object.h |   35 +++++++++++++++++++++++++++++++++++
+> > >  qom/object.c         |   30 +++++++++++++++++++++++-------
+> > >  2 files changed, 58 insertions(+), 7 deletions(-)
+> > >=20
+> > > diff --git a/include/qom/object.h b/include/qom/object.h
+> > > index 128d00c77fd6..e9e3c2eae8ed 100644
+> > > --- a/include/qom/object.h
+> > > +++ b/include/qom/object.h
+> > > @@ -1728,6 +1728,41 @@ int object_child_foreach(Object *obj, int (*fn=
+)(Object *child, void *opaque),
+> > >  int object_child_foreach_recursive(Object *obj,
+> > >                                     int (*fn)(Object *child, void *op=
+aque),
+> > >                                     void *opaque);
+> > > +
+> > > +/**
+> > > + * object_child_foreach_type:
+> > > + * @obj: the object whose children will be navigated
+> > > + * @typename: the type of child objects to consider
+> > > + * @fn: the iterator function to be called
+> > > + * @opaque: an opaque value that will be passed to the iterator
+> > > + *
+> > > + * This is similar to object_child_foreach, but it only calls @fn for
+> > > + * child objects of the give @typename.
+> > > + *
+> > > + * Returns: The last value returned by @fn, or 0 if there is no chil=
+d of
+> > > + * the given @typename.
+> > > + */
+> > > +int object_child_foreach_type(Object *obj, const char *typename,
+> > > +                              int (*fn)(Object *child, void *opaque),
+> > > +                              void *opaque);
+> > > +
+> > > +/**
+> > > + * object_child_foreach_recursive_type:
+> > > + * @obj: the object whose children will be navigated
+> > > + * @typename: the type of child objects to consider
+> > > + * @fn: the iterator function to be called
+> > > + * @opaque: an opaque value that will be passed to the iterator
+> > > + *
+> > > + * This is similar to object_child_foreach_recursive, but it only ca=
+lls
+> > > + * @fn for child objects of the give @typename.
+> > > + *
+> > > + * Returns: The last value returned by @fn, or 0 if there is no chil=
+d of
+> > > + * the given @typename.
+> > > + */
+> > > +int object_child_foreach_recursive_type(Object *obj, const char *typ=
+ename,
+> > > +                                        int (*fn)(Object *child, voi=
+d *opaque),
+> > > +                                        void *opaque);
+> > > +
+> > >  /**
+> > >   * container_get:
+> > >   * @root: root of the #path, e.g., object_get_root()
+> > > diff --git a/qom/object.c b/qom/object.c
+> > > index 6fa9c619fac4..a2dec1261ff7 100644
+> > > --- a/qom/object.c
+> > > +++ b/qom/object.c
+> > > @@ -986,7 +986,7 @@ void object_class_foreach(void (*fn)(ObjectClass =
+*klass, void *opaque),
+> > >      enumerating_types =3D false;
+> > >  }
+> > > =20
+> > > -static int do_object_child_foreach(Object *obj,
+> > > +static int do_object_child_foreach(Object *obj, const char *typename,
+> > >                                     int (*fn)(Object *child, void *op=
+aque),
+> > >                                     void *opaque, bool recurse)
+> > >  {
+> > > @@ -999,12 +999,14 @@ static int do_object_child_foreach(Object *obj,
+> > >          if (object_property_is_child(prop)) {
+> > >              Object *child =3D prop->opaque;
+> > > =20
+> > > -            ret =3D fn(child, opaque);
+> > > -            if (ret !=3D 0) {
+> > > -                break;
+> > > +            if (!typename || object_dynamic_cast(child, typename)) {
+> > > +                ret =3D fn(child, opaque);
+> > > +                if (ret !=3D 0) {
+> > > +                    break;
+> > > +                }
+> > >              }
+> > >              if (recurse) {
+> > > -                do_object_child_foreach(child, fn, opaque, true);
+> > > +                do_object_child_foreach(child, typename, fn, opaque,=
+ true);
+> > >              }
+> > >          }
+> > >      }
+> > > @@ -1014,14 +1016,28 @@ static int do_object_child_foreach(Object *ob=
+j,
+> > >  int object_child_foreach(Object *obj, int (*fn)(Object *child, void =
+*opaque),
+> > >                           void *opaque)
+> > >  {
+> > > -    return do_object_child_foreach(obj, fn, opaque, false);
+> > > +    return do_object_child_foreach(obj, NULL, fn, opaque, false);
+> > >  }
+> > > =20
+> > >  int object_child_foreach_recursive(Object *obj,
+> > >                                     int (*fn)(Object *child, void *op=
+aque),
+> > >                                     void *opaque)
+> > >  {
+> > > -    return do_object_child_foreach(obj, fn, opaque, true);
+> > > +    return do_object_child_foreach(obj, NULL, fn, opaque, true);
+> > > +}
+> > > +
+> > > +int object_child_foreach_type(Object *obj, const char *typename,
+> > > +                              int (*fn)(Object *child, void *opaque),
+> > > +                              void *opaque)
+> > > +{
+> > > +    return do_object_child_foreach(obj, typename, fn, opaque, false);
+> > > +}
+> > > +
+> > > +int object_child_foreach_recursive_type(Object *obj, const char *typ=
+ename,
+> > > +                                        int (*fn)(Object *child, voi=
+d *opaque),
+> > > +                                        void *opaque)
+> > > +{
+> > > +    return do_object_child_foreach(obj, typename, fn, opaque, true);
+> > >  }
+> > > =20
+> > >  static void object_class_get_list_tramp(ObjectClass *klass, void *op=
+aque)
+> > >=20
+> >=20
+>=20
+>=20
+>=20
+
+
+--Sig_/H77nyE5qLY1xEuKeNR1vVOF
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2xbNUACgkQcdTV5YIv
+c9axxhAArHSYbUcIMNb1wX/J1yU1MLbnoxcREjI0vzjmnL+TvmEfLu8aWGSyfYkG
+4KaorHT4+NFFhgzi0nSHXpJ1OHC9L/EMqeXD5OoksOsxhsSDDG518ufGODp/uHac
+uDOpfwv5Rw1WXtpQC5AiZVBUBwD4VXTe+LIWgvTsiPHjqyDDpRCW0E5q/4AjxPqY
+cJiPiVLrritBih5rBfxkjxUTForh0U2uRM5wYTD/hTsCFZzs7Uhi4qRKg5d00bFK
+jxdtx/bjDp1hvpKK4oeNORAaMG0B+xDayftgR9MGhX1kMeXKpoaBBFcjU7mFhAMR
+5xILNOCmJz+htpSGa/vGxH6Zy1dOew//cjErCnkvVF1rVVd53ByenZpP9LknUsf3
+xkBPUbgi6yIIjTAVlKq+HSZJoqnQy1llJd5URCwthbh/tm5vAcWmjXjKA29XJDEC
+ARwe4ZLWynTjf2DUI4P7fMONVJsOEOb+71xLVEyFY+GEo4UENMC/qKmaTM1dqb4Q
+NccIk+8GY3Z5pwJ4EF5ni1XpI2fFKruydRTE0PnzsGBidrurfe8vyQJ7VY85+4ZT
+QLXIaURHcamK9hso/NlZ0m3W2REmiyQbGF+avNaH3+CiuOjhuCaUHjWjm3pkjzqk
+HfwGbdJk8//7y11Fw9oKU6VLqjPOQhRp8PA1WCTEg0c5F07W4Qk=
+=uRcl
+-----END PGP SIGNATURE-----
+
+--Sig_/H77nyE5qLY1xEuKeNR1vVOF--
 
