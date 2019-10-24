@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6ECE39C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:22:16 +0200 (CEST)
-Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F52E395B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:09:26 +0200 (CEST)
+Received: from localhost ([::1]:48334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgoQ-0002AS-3E
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58093)
+	id 1iNgc0-0005n5-WF
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy2-0007px-Je
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:07 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy4-0007tW-Hs
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy1-0000vC-Ht
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:06 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36438)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy3-0000w7-3Y
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:08 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39015)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfy1-0000ug-Bs
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:05 -0400
-Received: by mail-wr1-x434.google.com with SMTP id w18so26261015wrt.3
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:05 -0700 (PDT)
+ id 1iNfy2-0000vj-T6
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:07 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a11so10714854wra.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OpXzWlpJhscet03TTtHAiTy/AAuzQKIKHX9oxfpPCRA=;
- b=Z40pSTqONB80Oqdhm67lCCdlNQ71V4OZzAWYdURlvvQdRJ3d4cQRGYAAbJnUQZNyv/
- m0qOqHaXil+e6Ovw7s/rkERoEvJ4E3vOx+7zkKA7y7NbyOXTY2f1HTNOvaCNJ1LjD3TQ
- UFPmwXk74jfu5KndmJjPqAfzeE4+H14GY+1+nGGJhily+/tOJWYJNjEMyq6CRsGzwOGZ
- 90Gc75W0Q5Jp4lFXv9GTMyz4TJ7avq6xXqIh8BTmALg8VEBEjfgedhr5RsPzz9djwMAj
- n+tC6i5kolSakty4vi3dtImeI1x3GUr7iqNN+vOC/bJpjx+tJmsfiTPmDxva8v95T6hK
- ziMg==
+ bh=SSIRbdIen/7fg/3VtseNziJYU9KzRrDZCTawNXozh3I=;
+ b=y22cxE4wfhbYgnmyjP4CDSeN5PCVMUOWL4J/ROx7CvUOChnsGZJx3TujBkED6JIutJ
+ 8lhbmzlXyTeN0kypgs86J1g7tv9YXjMVmlIw+PMWalk9WBh/8Ud7GC79UL5TGN8FWJGS
+ iSO9LM7SZpu1w9F8kJ5XnrUMalzAyyYZMs0lVeOOgI2kiIKrF9p9ierQAyrAv4C5GUF/
+ siBTDiYUqSgkPtfaci7NLfMXf5wyZ1Ahj71BLj4HtFX9AOctGMxFui8vt8FWjrg73HCT
+ 8DFDLizVrACJIzKkJgyKmki9KBMO5WvAZuZVVYgn5GS0kEnxRfCOTHWc0JlydbvcffTA
+ Gbyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OpXzWlpJhscet03TTtHAiTy/AAuzQKIKHX9oxfpPCRA=;
- b=cep53tLO/w6n0dGk0xvjv+mh92O3jtmnI67OwH+L/O/yz9Sd8uKPItYbrJhY4t27WU
- XCTXeZ3+Dz7c5NYophgOxqGI9brc550GGstoDVYhNQhPV0AciL+BvwldEgsmL/J1qu18
- FCNF6Gi/8IExpHtANeXSKSdqy3P7kkU8QlrmiNdaog3cCwLYu8ZJmIUoFnSWYdaYkrLK
- roNWmmBBQBi/AiHWdPK94wQIzMncTBo1z55hO3B6SfvQL2tTHi1Dhhg2dPx77nM3SE+b
- ablo0Ytf1oYuXl0U6fKa+AAo3vw+sxN567RE1M99xjcZqDo0oCVyjUaSMXxt4jLPMvE9
- etZA==
-X-Gm-Message-State: APjAAAV/dD3xSAzFQdQV0ZF5dXwW+AHLQzkkRx1LfvudxtASEqa0eNHp
- fnPe00eUkpdVX5MMzue4jXE4HGIQJHg=
-X-Google-Smtp-Source: APXvYqxVMBfIW8io26v6Le+ppyea6QBlGE77MmLFS0XBReN9BlvMVDKo7w7qyr0P50kjpMMozb77Ew==
-X-Received: by 2002:a05:6000:34f:: with SMTP id
- e15mr5074847wre.232.1571934484111; 
- Thu, 24 Oct 2019 09:28:04 -0700 (PDT)
+ bh=SSIRbdIen/7fg/3VtseNziJYU9KzRrDZCTawNXozh3I=;
+ b=STRH+hulWhDg8eZh4H2iKShKPPWhWi5SbbIGMd1IbAbsnwKDUBH69wwQlwi59rTO4q
+ NDRuiSe2XGNqem4A1/ax7xf9GZF4qjDYzNj7dsF7hlcBiG7JRai7D4WMjNbrGdOMmCCZ
+ T3ffPoqUJUa274spC04lWc36qCZ99H3Oml5e9tZkW0WsHZEyVA4ZbczcYluiNOlo7Fom
+ Ca7Cfyrkr8spxJUjP0vgT77M2HZQiFpON+gECRCIm0XA5pK6R0zjgqah0XAfnRKm7TR/
+ 7wr7+WESJDcKAqsdfhdMGSBVMdLrUWb0Mp1NoLC7yv97y3RD2zQUhbBGUica1tTz5z3h
+ xd/g==
+X-Gm-Message-State: APjAAAUl1dBn53lDf7aXfbEQNQ0wSe8IwqUERQx46aBkz6KGsJfFWbaq
+ IkKllwbjKQjQ1+WFY409B9KQBqBa92c=
+X-Google-Smtp-Source: APXvYqz5c8vrtm8DS2d5ce0hrgQdMm8bBsEvYrMUclsl6mbkNFFCSMtWlH9mMSOfIPdl5xrXWMnomA==
+X-Received: by 2002:a5d:464f:: with SMTP id j15mr4658975wrs.366.1571934485507; 
+ Thu, 24 Oct 2019 09:28:05 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.02
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:02 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/51] hw/timer/slavio_timer: Remove useless check for NULL
- t->timer
-Date: Thu, 24 Oct 2019 17:27:03 +0100
-Message-Id: <20191024162724.31675-31-peter.maydell@linaro.org>
+Subject: [PULL 31/51] hw/timer/slavio_timer.c: Switch to transaction-based
+ ptimer API
+Date: Thu, 24 Oct 2019 17:27:04 +0100
+Message-Id: <20191024162724.31675-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -69,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,46 +83,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the slavio timer devcie, the ptimer TimerContext::timer is
-always created by slavio_timer_init(), so there's no need to
-check it for NULL; remove the single unneeded NULL check.
-
-This will be useful to avoid compiler/Coverity errors when
-a subsequent change adds a use of t->timer before the location
-we currently do the NULL check.
+Switch the slavio_timer code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191021134357.14266-2-peter.maydell@linaro.org
+Message-id: 20191021134357.14266-4-peter.maydell@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/slavio_timer.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ hw/timer/slavio_timer.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-index 692d213897d..890dd53f8d8 100644
+index 890dd53f8d8..c55e8d0bf42 100644
 --- a/hw/timer/slavio_timer.c
 +++ b/hw/timer/slavio_timer.c
-@@ -227,13 +227,11 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
-             // set limit, reset counter
-             qemu_irq_lower(t->irq);
-             t->limit = val & TIMER_MAX_COUNT32;
--            if (t->timer) {
--                if (t->limit == 0) { /* free-run */
--                    ptimer_set_limit(t->timer,
--                                     LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
--                } else {
--                    ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
--                }
-+            if (t->limit == 0) { /* free-run */
-+                ptimer_set_limit(t->timer,
-+                                 LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
-+            } else {
-+                ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
+@@ -30,7 +30,6 @@
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ 
+ /*
+@@ -213,6 +212,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+     saddr = addr >> 2;
+     switch (saddr) {
+     case TIMER_LIMIT:
++        ptimer_transaction_begin(t->timer);
+         if (slavio_timer_is_user(tc)) {
+             uint64_t count;
+ 
+@@ -234,6 +234,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+                 ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
              }
          }
++        ptimer_transaction_commit(t->timer);
          break;
+     case TIMER_COUNTER:
+         if (slavio_timer_is_user(tc)) {
+@@ -245,7 +246,9 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+             t->reached = 0;
+             count = ((uint64_t)t->counthigh) << 32 | t->count;
+             trace_slavio_timer_mem_writel_limit(timer_index, count);
++            ptimer_transaction_begin(t->timer);
+             ptimer_set_count(t->timer, LIMIT_TO_PERIODS(t->limit - count));
++            ptimer_transaction_commit(t->timer);
+         } else {
+             trace_slavio_timer_mem_writel_counter_invalid();
+         }
+@@ -253,13 +256,16 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+     case TIMER_COUNTER_NORST:
+         // set limit without resetting counter
+         t->limit = val & TIMER_MAX_COUNT32;
++        ptimer_transaction_begin(t->timer);
+         if (t->limit == 0) { /* free-run */
+             ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 0);
+         } else {
+             ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 0);
+         }
++        ptimer_transaction_commit(t->timer);
+         break;
+     case TIMER_STATUS:
++        ptimer_transaction_begin(t->timer);
+         if (slavio_timer_is_user(tc)) {
+             // start/stop user counter
+             if (val & 1) {
+@@ -271,6 +277,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+             }
+         }
+         t->run = val & 1;
++        ptimer_transaction_commit(t->timer);
+         break;
+     case TIMER_MODE:
+         if (timer_index == 0) {
+@@ -280,6 +287,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+                 unsigned int processor = 1 << i;
+                 CPUTimerState *curr_timer = &s->cputimer[i + 1];
+ 
++                ptimer_transaction_begin(curr_timer->timer);
+                 // check for a change in timer mode for this processor
+                 if ((val & processor) != (s->cputimer_mode & processor)) {
+                     if (val & processor) { // counter -> user timer
+@@ -306,6 +314,7 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+                         trace_slavio_timer_mem_writel_mode_counter(timer_index);
+                     }
+                 }
++                ptimer_transaction_commit(curr_timer->timer);
+             }
+         } else {
+             trace_slavio_timer_mem_writel_mode_invalid();
+@@ -365,10 +374,12 @@ static void slavio_timer_reset(DeviceState *d)
+         curr_timer->count = 0;
+         curr_timer->reached = 0;
+         if (i <= s->num_cpus) {
++            ptimer_transaction_begin(curr_timer->timer);
+             ptimer_set_limit(curr_timer->timer,
+                              LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
+             ptimer_run(curr_timer->timer, 0);
+             curr_timer->run = 1;
++            ptimer_transaction_commit(curr_timer->timer);
+         }
+     }
+     s->cputimer_mode = 0;
+@@ -378,7 +389,6 @@ static void slavio_timer_init(Object *obj)
+ {
+     SLAVIO_TIMERState *s = SLAVIO_TIMER(obj);
+     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
+-    QEMUBH *bh;
+     unsigned int i;
+     TimerContext *tc;
+ 
+@@ -390,9 +400,11 @@ static void slavio_timer_init(Object *obj)
+         tc->s = s;
+         tc->timer_index = i;
+ 
+-        bh = qemu_bh_new(slavio_timer_irq, tc);
+-        s->cputimer[i].timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++        s->cputimer[i].timer = ptimer_init(slavio_timer_irq, tc,
++                                           PTIMER_POLICY_DEFAULT);
++        ptimer_transaction_begin(s->cputimer[i].timer);
+         ptimer_set_period(s->cputimer[i].timer, TIMER_PERIOD);
++        ptimer_transaction_commit(s->cputimer[i].timer);
+ 
+         size = i == 0 ? SYS_TIMER_SIZE : CPU_TIMER_SIZE;
+         snprintf(timer_name, sizeof(timer_name), "timer-%i", i);
 -- 
 2.20.1
 
