@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B91E2EC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:26:02 +0200 (CEST)
-Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2498E2EEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:30:14 +0200 (CEST)
+Received: from localhost ([::1]:38166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNaJc-00067T-D4
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:26:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53897)
+	id 1iNaNg-0005Aw-UD
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:30:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaGT-0001wP-Pg
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGU-0001yk-Dn
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaGS-000423-Jw
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:45 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39862)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGT-00042Y-AU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:46 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52207)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNaGR-00040X-Ux
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:44 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a11so9342889wra.6
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:43 -0700 (PDT)
+ id 1iNaGT-00041g-4O
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:45 -0400
+Received: by mail-wm1-x332.google.com with SMTP id q70so2188553wme.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jH/0ruA5i4owuXTx/HGX42cpo0SMXjcQEx9rET5hw4Q=;
- b=tEZmI5sqPZqBsazIg5xNlNI4dBNWKcGctCEK/DqFDkcYJjS7HFnOCJbeCrBTp6UXuT
- MSuAZQCEeol+GI9WtWrgnu+oLzqqnHLsvRWzeoHPFRRba28mZnK0CMWJbgHfgNMEZ0tQ
- Pe5WYYg3zlYdQJlc48PPq5mskUlbXg7RbvtfzHVuC1M03ZAJE+4ZwprlC5HlfBrXXT4t
- jwC9ylfyawmDg1nxoXADTG/v6tO9+aWwf6wfERL1UahIz17qSQzFSGZIpoSmodCrrdkl
- DeNpHBt4e9Equ4C0YZSJDSq6hdTzfEXk+n0O9ztXmWpnAKhdXphk4ItScKrU+g3DUiZ/
- tfCQ==
+ bh=5vC+pMfoHMRBCEotAUlhODbfmp7Q411uv5PGK4WJaWY=;
+ b=ocmx/8UbiQhHb5b5H126z557EjDX7hcx7uzpP5T+xv+ArcQP87r6gzmqWe49dRK68q
+ LYSXY893FsEbg4TuIbfeK/2PfN1GmVUk2EEHdBL7cU9ytJooSHeYzqWDqM7zNjN0WQQW
+ CYF9zf9Drl5jlEwrHFfhZkeWG9JUQ9s5oN0fj5UwQYqLOp+elq7vNCENtNOSoWplow5N
+ 93DCzH5gXG23CsPU7wXsm/B/8TO/2Gfi4z7l1eK+LMOTmyPdHuOoDwaLvnAmE3yCwPdm
+ Bs4za/nWUvP1rAs4JAiVmpz/9KnBKtO0j3PGa16Zg8SKWM/5Ofu9Ky0bv15TRnV7NQLN
+ P9NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jH/0ruA5i4owuXTx/HGX42cpo0SMXjcQEx9rET5hw4Q=;
- b=ELgU3wQ+3n8PzqoCgoTOXhnNWLI3RiO/x2b1I/LtXZrVZHO3WVp6ePlMsL8dEn0p8I
- pUO1ORCHFuzo5KQkReVYtWZiKL5JHgvzRQML5sJFDQfnXxLQadpLcMi5Z7xaLqqx2ktd
- npiXArdWAvXDwCFftUDNjS38xf2lk2Dum8zAnuARFQJdgj54pq64XKbWojlCHpN4LJvq
- 2d76LNATAJ9oZn4IirjnYt9I15Tly7PkJOXQyoLaxnJCH+mFmroH1xS5hFZTULNNafWQ
- PW2wBZdZzO7h+YWYkOKwDu9cq5ogQkoIrItU5uh3ql73wlPZaubQ+BeczOifw0UJmNxl
- NysQ==
-X-Gm-Message-State: APjAAAWv1cB3v9g9m/OBEdENfLd7oq8ruvLTSVdamOWh/culgxs7WLrV
- 8SuhfcZYcJcclZ2hFerHdvCQ2g==
-X-Google-Smtp-Source: APXvYqyNeeW+ybSh+QyJtWm07THxz9mYVU5/MAvZAZtgv6bM1cvjLNO+KlijL3mSnXHkUPegUW+Cig==
-X-Received: by 2002:a05:6000:34f:: with SMTP id
- e15mr3414260wre.232.1571912561947; 
- Thu, 24 Oct 2019 03:22:41 -0700 (PDT)
+ bh=5vC+pMfoHMRBCEotAUlhODbfmp7Q411uv5PGK4WJaWY=;
+ b=No1kVQc+1IpR4DHEZ/wMAPSZ9hpTt05nrmgDgnoKWRIxvJMUimWkPJJvw7x3MCprp4
+ jwXIA/hG62RpLEXCsyd2n5fYcvvmEiD15KNjWXQBUDpUu5AgveVL9c63+e7+fVwWdDiK
+ r1Ylru9OiVkUa1wjdaSyJa5rDeZ3xIcVOZi0cQhz566f1u9h65NZZbfTfJV3nSRJrbGw
+ J2jUA7hpHsmxlICZgIdB9mvPwa12GaLuv7Yw/Xq4zqEUwN/lwaHIrvUEWbnZH63y+1Hp
+ V6zJXvBYThy8iSt03YrfMpggXgq71M/WsBsIFdrhAueDxWGtC2hyPetfNCQJHMg6o1ko
+ fBAw==
+X-Gm-Message-State: APjAAAXu9rs+CQ/TBwqR06B+8KDQ/csCv0GrHihl3kX+1lp5VtNYH+7W
+ UNwA/2qMHKKYAUhVw7QAhr5Sug==
+X-Google-Smtp-Source: APXvYqz5XvQP2MQEW1krSQdFJs1oVkrYZrrHdcD0w4Rc448JTxx+xjGj+GDqyQg5k3gdShF1YoxCSQ==
+X-Received: by 2002:a1c:b4c2:: with SMTP id d185mr3836445wmf.159.1571912564011; 
+ Thu, 24 Oct 2019 03:22:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r27sm41534849wrc.55.2019.10.24.03.22.40
+ by smtp.gmail.com with ESMTPSA id a4sm1869609wmm.10.2019.10.24.03.22.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 03:22:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 681641FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id AB83C1FF91;
  Thu, 24 Oct 2019 11:22:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/17] travis.yml: reduce scope of the --enable-debug build
-Date: Thu, 24 Oct 2019 11:22:24 +0100
-Message-Id: <20191024102240.2778-2-alex.bennee@linaro.org>
+Subject: [PATCH v2 04/17] travis.yml: Use newer version of libgnutls and libpng
+Date: Thu, 24 Oct 2019 11:22:27 +0100
+Message-Id: <20191024102240.2778-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024102240.2778-1-alex.bennee@linaro.org>
 References: <20191024102240.2778-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,7 +81,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
@@ -91,38 +91,43 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding debug makes things run a bit slower so lets not hammer all the
-targets.
+From: Thomas Huth <thuth@redhat.com>
 
+libgnutls-dev and libpng12-dev are not available in newer versions
+of Ubuntu anymore, so installing these packages fails e.g. in the
+new arm64 containers on Travis. Let's use newer versions of these
+packages by default instead. (The old versions still get tested in
+the "gcc-9" build).
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191009170701.14756-4-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v2
-  - drop superfluous --enable-debug-tcg in configure string
----
- .travis.yml | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .travis.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index d0b9e099b9c..7d90b87540f 100644
+index b446e04e8ae..e65e53f3d7e 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -124,12 +124,13 @@ matrix:
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
- 
- 
-+    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
-     - env:
--        - CONFIG="--enable-debug --enable-debug-tcg --disable-user"
-+        - CONFIG="--enable-debug --target-list=${MAIN_SOFTMMU_TARGETS}"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
- 
- 
--    # TCG debug can be run just on it's own and is mostly agnostic to user/softmmu distinctions
-+    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
-     - env:
-         - CONFIG="--enable-debug-tcg --disable-system"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
+@@ -29,7 +29,7 @@ addons:
+       - libcap-dev
+       - libcap-ng-dev
+       - libgcc-4.8-dev
+-      - libgnutls-dev
++      - libgnutls28-dev
+       - libgtk-3-dev
+       - libiscsi-dev
+       - liblttng-ust-dev
+@@ -37,7 +37,7 @@ addons:
+       - libnfs-dev
+       - libnss3-dev
+       - libpixman-1-dev
+-      - libpng12-dev
++      - libpng-dev
+       - librados-dev
+       - libsdl2-dev
+       - libsdl2-image-dev
 -- 
 2.20.1
 
