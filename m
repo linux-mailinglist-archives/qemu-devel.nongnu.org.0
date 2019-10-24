@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6720E3562
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:18:46 +0200 (CEST)
-Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F001E358D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:25:53 +0200 (CEST)
+Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdwq-0002Z4-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34971)
+	id 1iNe3k-0005Vq-8z
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjA-0008Ek-Qi
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjB-0008Gj-VN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj9-0007s8-M0
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:36 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36481)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjA-0007sf-Ko
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41163)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdj9-0007rq-Ey
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:35 -0400
-Received: by mail-wm1-x335.google.com with SMTP id c22so2747571wmd.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:35 -0700 (PDT)
+ id 1iNdjA-0007sE-EQ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:36 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id p4so26247502wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DDYGyaLmE3BDNJATtq1uXRqF7WOHQrSKzbLNf8DRnU4=;
- b=KSPjoF7YphRGHDA5M4aW1CfRFb8rv6dWweYc9JOWBBKCkAs31ZKSn054FG/fYFgTuE
- DlUfqzNZ/e39poNqYpd857b+ZgF1XCj6obY/Em4tYMBIN7U/HYJti18BCkFVUNNN8rhv
- 5MgEqNG6M2Fgjryc+8oknarMM1X9RzEeYNQdcgR4jm97Gnfv0Eqp8yTT7EkI+9My5UZm
- YDLQRYRMd4OD2d7hWHmrfXMHiJNhCqqJuQu7n2fjo3Nkji6axAweG9eeQywRwvwZCgvF
- 2/X2Y4d7VTw0YO0vBM6vi0ywUvd86H6oylSP4M5VRJgkMw9ulGOv+rhpFWUYAUS2GFBQ
- v1zQ==
+ bh=TFNvMP30xKoxAS2yg65BboQPupWQoCvJdN+IX9nNhRA=;
+ b=KsLWphywSX1L6cyres/TN1Q3j2zhRs9rTPQFaJ9cslNvZXkpCodV3tIf82ap9gMO5F
+ NCFU1LDCVJs2qOu8cwK9rW2xO+XMbBzBwvFTKSZuu2pPLGKv13xHCW1IuKrnD8XOru0E
+ SkwGn2gUOs3auQ1sZSYkcLKcmmDgmBTjPqdgaN5A87+EFEJu/fAVJdgyRgip0CxW42n1
+ WPKDfI/b0ivFs2v2RFP66gRv8habcPbo4hnnqaaxBUUKqLlRpBm1yZyzk9GwRI1EqhE+
+ u595Qj7mDITmDU6qbq7YbgeePRQ1thscXEHaN4jXM/Q8Vzf6O0ZpuP8DeSJhMzh+SNGO
+ ejBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DDYGyaLmE3BDNJATtq1uXRqF7WOHQrSKzbLNf8DRnU4=;
- b=dgdqlh9DabXp7RkhHc13fE7Nn71p7pk+llhQ6rKyWT50l8Hzy4WQF6UcLYaa9aGZN4
- 8B5uHd0n4zeXP+t8/WrnuhGWLQRyF39pVp/WIgFa6QvhV3CFL3s8XZSJlJ8Sat4znu4d
- aapfpSY6ltWBqyy6j26p/Y03XtJXCHz38i7un3Ta3IatWJrHjVXSpdlMHY1rNV2sp67z
- eBxfm5F2rXexhj3da70f3za6Ntbl0FAkqKJvhmkaArRn2FbK7QlRtSz3hqcZk4pqzbO0
- fP4tHOmZQH6D1AM6C3cpCLbQEJa1UmAwaamWjX4x5PNgE3XirtZsZZKRHqlRAnmJZ7MU
- Jm1g==
-X-Gm-Message-State: APjAAAWff9kYlFcJDF1R9s/56VBpZ9pq41dAtN7WvvxCgwjBd0+61c8d
- xVD9C3gLxOggEtZX6PpPaQVG7JuL
-X-Google-Smtp-Source: APXvYqwgGiMGlJmNFlJBQhO0bNHC3eFg2SEGufh6lb2pmsiHD6kTZV0CwThuqVQWkR+S9GmvOBWumA==
-X-Received: by 2002:a05:600c:2503:: with SMTP id
- d3mr5469199wma.44.1571925874184; 
- Thu, 24 Oct 2019 07:04:34 -0700 (PDT)
+ bh=TFNvMP30xKoxAS2yg65BboQPupWQoCvJdN+IX9nNhRA=;
+ b=oRDH4/7GZrkduTIRlaTWEsdKA+QbO1cYPQI1Z0s+NlQjK+RdaYli/rDzSy8ZXkfvaq
+ RlDvK5FQhw0LC2QeW/eIt5JQaQ8eMkiDkZhXIFHIDaecIjDfVujLAoDsR0kDC0TM4FTS
+ DLBF3E195sRszkuR7odKwtJk0O1f3FPvm/9ypgI5wfhNa/l3WEJKyKunZoHtTYGvt9Lw
+ Vo4CstAHFZQZCPT+QThrAIjZCd4Rx+99yiSmUXm69zq+Ur92h3WffYfiif/Qh2MhVp1X
+ X6QIdiPAs0To7wrMKtR1pzcPLC3IRiHgx8KmnbzBFcbHNJvc850tfDHS7EGPCD9cYbNf
+ GZqA==
+X-Gm-Message-State: APjAAAUd6gqN9reSQW4hioCsR2GnRUQYknMXSTTz6tCAJFQTTJ9StBpl
+ 6z/4bAt5SevaSf0JoK/orV7fYn0O
+X-Google-Smtp-Source: APXvYqztFrsNnrrGr7QkdaPYQE2E5Kh+CcCetQXHY3GRZK5e6nhQ8e+ex9lHLiqv2tv0enQtsV2oeQ==
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr4391648wrw.80.1571925875139; 
+ Thu, 24 Oct 2019 07:04:35 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.33
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:33 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/39] mc146818rtc: Include mc146818rtc_regs.h directly in
- mc146818rtc.c
-Date: Thu, 24 Oct 2019 16:03:49 +0200
-Message-Id: <1571925835-31930-34-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 34/39] mc146818rtc: always register rtc to rtc list
+Date: Thu, 24 Oct 2019 16:03:50 +0200
+Message-Id: <1571925835-31930-35-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
@@ -68,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,53 +79,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Hervé Poussineau <hpoussin@reactos.org>
 
-Devices/boards wanting to use the MC146818 RTC don't need
-the knowledge its internal registers. Move the "mc146818rtc_regs.h"
-inclusion to mc146818rtc.c where it is required.
+We are not required anymore to use rtc_init() function.
 
-We can not move this file from include/hw/timer/ to hw/timer/ for
-local inclusion because the ACPI FADT table use the RTC_CENTURY
-register address.
-
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+Message-Id: <20171216090228.28505-5-hpoussin@reactos.org>
+[PMD: rebased, fix OBJECT() value]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191018133547.10936-4-philmd@redhat.com>
+Message-Id: <20191018133547.10936-5-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/mc146818rtc.c         | 1 +
- include/hw/timer/mc146818rtc.h | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ hw/timer/mc146818rtc.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-index 09edb93..dce4dae 100644
+index dce4dae..0d7784b 100644
 --- a/hw/timer/mc146818rtc.c
 +++ b/hw/timer/mc146818rtc.c
-@@ -40,6 +40,7 @@
- #include "qapi/qapi-events-misc-target.h"
- #include "qapi/visitor.h"
- #include "exec/address-spaces.h"
-+#include "hw/timer/mc146818rtc_regs.h"
+@@ -964,17 +964,16 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+     object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
  
- #ifdef TARGET_I386
- #include "qapi/qapi-commands-misc-target.h"
-diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/mc146818rtc.h
-index 17761cf..a857dcd 100644
---- a/include/hw/timer/mc146818rtc.h
-+++ b/include/hw/timer/mc146818rtc.h
-@@ -5,7 +5,6 @@
- #include "qemu/queue.h"
- #include "qemu/timer.h"
- #include "hw/isa/isa.h"
--#include "hw/timer/mc146818rtc_regs.h"
+     qdev_init_gpio_out(dev, &s->irq, 1);
++    QLIST_INSERT_HEAD(&rtc_devices, s, link);
+ }
  
- #define TYPE_MC146818_RTC "mc146818rtc"
- #define MC146818_RTC(obj) OBJECT_CHECK(RTCState, (obj), TYPE_MC146818_RTC)
+ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+ {
+     DeviceState *dev;
+     ISADevice *isadev;
+-    RTCState *s;
+ 
+     isadev = isa_create(bus, TYPE_MC146818_RTC);
+     dev = DEVICE(isadev);
+-    s = MC146818_RTC(isadev);
+     qdev_prop_set_int32(dev, "base_year", base_year);
+     qdev_init_nofail(dev);
+     if (intercept_irq) {
+@@ -982,9 +981,8 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+     } else {
+         isa_connect_gpio_out(isadev, 0, RTC_ISA_IRQ);
+     }
+-    QLIST_INSERT_HEAD(&rtc_devices, s, link);
+ 
+-    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(s),
++    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isadev),
+                               "date", NULL);
+ 
+     return isadev;
+@@ -1016,8 +1014,6 @@ static void rtc_class_initfn(ObjectClass *klass, void *data)
+     dc->reset = rtc_resetdev;
+     dc->vmsd = &vmstate_rtc;
+     dc->props = mc146818rtc_properties;
+-    /* Reason: needs to be wired up by rtc_init() */
+-    dc->user_creatable = false;
+ }
+ 
+ static const TypeInfo mc146818rtc_info = {
 -- 
 1.8.3.1
 
