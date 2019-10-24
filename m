@@ -2,66 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795D3E3555
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:16:05 +0200 (CEST)
-Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DE7E356C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:22:01 +0200 (CEST)
+Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNduG-0003Ub-46
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47773)
+	id 1iNdzz-0006sW-RR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKk-0003z6-4k
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:19 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iNcRD-0001xl-BW
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:42:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKi-0006BX-1U
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60794
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKh-0006Ay-TV
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920515;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tH3KRe0Iy3dxA+vLYN3e4E2c91fWMAngW0oeY2mbIt0=;
- b=AP+yPhdhvU4/unFvTnouJJTp9JwABZld2Ebxj617ygwzqaJkyFnYw2D4vbgMFcTkRYnWMu
- bcXpsLYND6inAAAFBzXbG2izGi/pijYAMR4Q6yClNUvJzjGTGc4FWz8Gv9McASs1lIpRNQ
- 339vJ4+ABSaZN+uRlv56PCgWBSnxRSo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-Gnydq9ogM5CwbGJGAB-4Mw-1; Thu, 24 Oct 2019 08:35:09 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49E261800DFC;
- Thu, 24 Oct 2019 12:35:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0FAE52E7;
- Thu, 24 Oct 2019 12:35:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2E5A71130346; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 16/19] qapi: Implement -compat deprecated-input=reject for
- commands
-Date: Thu, 24 Oct 2019 14:34:55 +0200
-Message-Id: <20191024123458.13505-17-armbru@redhat.com>
-In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
-References: <20191024123458.13505-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Gnydq9ogM5CwbGJGAB-4Mw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iNcRB-0000J2-25
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:41:58 -0400
+Received: from mail-eopbgr10103.outbound.protection.outlook.com
+ ([40.107.1.103]:64891 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iNcR6-0000Ge-Kh; Thu, 24 Oct 2019 08:41:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hORMKaZ/fZyN2m2nga1zug2/oROncIKS6F7zzVvwxA0y0Z5M6hYiWNEpxiDRLI6Yks5GwMYb07iWu4E/q73UeqGTGnAR+8teP8c0IFmACd2rLgLFdMAtOBkDztkO5ZbrJT2lBh+i5fBx1YLXdwFSmW/7VRzGXY3TrequV1PVBb+fWRyGX9rIh3DZmeUiUv1UK8+7ZWjK0z2X7TLPMiRebliNpJYtCOOGnnjuHTCjFdfi5d97kf8BDz/30X9IwuOM9NKpEkR/Q3juqzv3NJ8Qh1wNaXX5PSARajNZ5AGsizBqII0vFtz3XBOdU9dOB3WIR6ZGV9F2qFPLzuX/v2Zdwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CNXbi4UgmZCm+uQpBW3I7FwkQWKVCagZ60XyHa9EIGE=;
+ b=NbQVgfxXUd3I0OTID7K0x2I0Bf+YcfGoFa8ZhwOxUfCJGj7SCzTPXPBQ7xliDO/nLULRJA17sXvLvyG1PaIPJrPJJbvvlKXTSYWvi+yASTH6JmSLyqAsutw4X6VLyWECxsTiHCAoCt7FfyhEJ7huiwFMQ/GeQ7jn6zlX1CQjRk83ol962kaQmVBlLpdYjV5SorBxPD+X9uIPNvjc0Dlg1dHq+u7F1MjddRh+jNZM0+iBzp+PH2StcXG3D70ChKC/xzCSSrm5OVqNmE+eQrS7+NtsqJgC0ZnRmKMtPCtWMeafmEfgBQ1mV3b4sngklWagEC+ZyB1QYnePjAi7McPd+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CNXbi4UgmZCm+uQpBW3I7FwkQWKVCagZ60XyHa9EIGE=;
+ b=JJk2gPuT2f2vEtrelFEtpDVCXTLDeSUv9Gic0KeF6ohJUtGY8hr2woej7pBGwi5H3BSLjMcFeMTDv1Gt1PtZtSWv3aiT1CT++mPMnBsopoGjXi/AHhi5eTg/ZDkhnXP76Rf0fhc3LI6DvA5dJSI4pQ++T+j0wq0T9J/zyT4F9V4=
+Received: from AM0PR08MB4435.eurprd08.prod.outlook.com (20.179.35.83) by
+ AM0PR08MB3602.eurprd08.prod.outlook.com (20.177.109.216) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.17; Thu, 24 Oct 2019 12:41:50 +0000
+Received: from AM0PR08MB4435.eurprd08.prod.outlook.com
+ ([fe80::4461:dd32:b358:110c]) by AM0PR08MB4435.eurprd08.prod.outlook.com
+ ([fe80::4461:dd32:b358:110c%7]) with mapi id 15.20.2367.027; Thu, 24 Oct 2019
+ 12:41:50 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 3/3] qcow2: Fix corruption bug in
+ qcow2_detect_metadata_preallocation()
+Thread-Topic: [PATCH 3/3] qcow2: Fix corruption bug in
+ qcow2_detect_metadata_preallocation()
+Thread-Index: AQHVibZRVvKZmtdwLUmUBJHEqcF3fadpnRCAgAAIqwCAABelAA==
+Date: Thu, 24 Oct 2019 12:41:50 +0000
+Message-ID: <d241e754-d6be-1d91-6a45-ca3200c3f1a3@virtuozzo.com>
+References: <20191023152620.13166-1-kwolf@redhat.com>
+ <20191023152620.13166-4-kwolf@redhat.com>
+ <3cfee2ed-cebb-44ef-82ce-77a77c1a9e6a@virtuozzo.com>
+ <20191024111710.GC6200@linux.fritz.box>
+In-Reply-To: <20191024111710.GC6200@linux.fritz.box>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR07CA0001.eurprd07.prod.outlook.com
+ (2603:10a6:7:67::11) To AM0PR08MB4435.eurprd08.prod.outlook.com
+ (2603:10a6:208:144::19)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191024154148056
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7a01c2fd-0d46-4573-2458-08d7587f8a34
+x-ms-traffictypediagnostic: AM0PR08MB3602:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR08MB36022C91FE19E7B7216FF73FC16A0@AM0PR08MB3602.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0200DDA8BE
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(396003)(346002)(39840400004)(376002)(366004)(189003)(199004)(52314003)(6486002)(99286004)(478600001)(64756008)(66446008)(186003)(14444005)(6512007)(6436002)(256004)(66946007)(4326008)(14454004)(486006)(2616005)(11346002)(476003)(446003)(31686004)(25786009)(71200400001)(71190400001)(66556008)(76176011)(229853002)(52116002)(26005)(6246003)(102836004)(6506007)(386003)(2906002)(305945005)(66476007)(7736002)(6916009)(36756003)(54906003)(3846002)(8676002)(316002)(81156014)(86362001)(81166006)(5660300002)(6116002)(66066001)(31696002)(8936002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3602;
+ H:AM0PR08MB4435.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 805B4ly0CtZfOp/v6r+uK3cqzU+gbgXv0QSL1Asv9wBtyK4q66kOZAq7rZvaM/tnN8z3YNg2WBnyBXTtXLinm5S2pucKtmn6vNYfqJzcOCERoY0uoQTKKebsiZsxx7so0SAhA329dfdHVHjowJXPKlI6cQG4vs/4AWPXSzNvFYfOFiw683dmunV5TmZ6NekACPJXLdKHkCYdrhrw9MQJIGuoUiJpvIZ6ws2sANI+SZEIJN5SljS4LHQfIs20i4mzy7AmBMBOvC9NQtK1y8HwC64nhj8GNtKTX59PODQF7iiN65TuGGgjA0k2p5A9lKjSoCj+Usr7vjZl/0M//DjpAcEOi/1uyUQsrJUkIQ8fIMKc+n3RNKpjhVm3TLOHBHdpTTbt9fkAK57ObUgTLOJLAo72J9ssJicV3JmcJc87ataKzl0r/HvjEaNOkjfbvSL2
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <6E0430CED5A44C46BDDA639F073742C7@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a01c2fd-0d46-4573-2458-08d7587f8a34
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 12:41:50.1047 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WrMeyGor9288o0P7V+t2S+4oDIhy+oqVVlgCKibO+skG34HTbV4zhLWJydY2KWeiBMOuZuC0HJuZfHMrik5/PJw3nZaITbYEXGX3iooIcAU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3602
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.103
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,199 +112,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
+ "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy makes deprecated commands fail like this:
+24.10.2019 14:17, Kevin Wolf wrote:
+> Am 24.10.2019 um 12:46 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 23.10.2019 18:26, Kevin Wolf wrote:
+>>> qcow2_detect_metadata_preallocation() calls qcow2_get_refcount() which
+>>> requires s->lock to be taken to protect its accesses to the refcount
+>>> table and refcount blocks. However, nothing in this code path actually
+>>> took the lock. This could cause the same cache entry to be used by two
+>>> requests at the same time, for different tables at different offsets,
+>>> resulting in image corruption.
+>>>
+>>> As it would be preferable to base the detection on consistent data (eve=
+n
+>>> though it's just heuristics), let's take the lock not only around the
+>>> qcow2_get_refcount() calls, but around the whole function.
+>>>
+>>> This patch takes the lock in qcow2_co_block_status() earlier and assert=
+s
+>>> in qcow2_detect_metadata_preallocation() that we hold the lock.
+>>>
+>>> Fixes: 69f47505ee66afaa513305de0c1895a224e52c45
+>>> Cc: qemu-stable@nongnu.org
+>>> Reported-by: Michael Weiser <michael@weiser.dinsnail.net>
+>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>
+>> Oh, I'm very sorry. I was going to backport this patch, and found that i=
+t's
+>> fixed in our downstream long ago, even before last upstream version patc=
+h sent :(
+>=20
+> Seriously? Is your downstream QEMU so divergent from upstream that you
+> wouldn't notice something like this? I think you really have to improve
+> something there.
 
-    ---> {"execute": "query-cpus"}
-    <--- {"error": {"class": "CommandNotFound", "desc": "Deprecated command=
- query-cpus disabled by policy"}}
+How to improve it? Months and years are passed to bring patches into upstre=
+am,
+of course we have to live with a bunch (now it's nearer to 300 and this is =
+a lot
+better then 500+ in the recent past) of patches above Rhel release.
 
-When the command is removed, the error will change to
+>=20
+> I mean, we have a serious data corruptor in the 4.1 release and I wasted
+> days to debug this, and you've been sitting on a fix for months without
+> telling anyone?
 
-    <--- {"error": {"class": "CommandNotFound", "desc": "The command query-=
-cpus has not been found"}}
+Of course, it was not my goal to hide the fix, I'll do my best to avoid thi=
+s
+in future. Very sorry for your time wasted.
 
-The policy thus permits "testing the future".
+> This isn't a memory leak or something, this kills
+> people's images. It's eating their data.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/common.json            |  4 ++--
- include/qapi/qmp/dispatch.h |  1 +
- qapi/qmp-dispatch.c         | 13 +++++++++++++
- tests/test-qmp-cmds.c       | 23 +++++++++++++++++++++++
- qemu-options.hx             |  4 +++-
- scripts/qapi/commands.py    | 10 +++++++---
- 6 files changed, 49 insertions(+), 6 deletions(-)
+Possibly, I didn't know about data corruption. For some reason I decided th=
+at
+lock should be taken here, I don't remember. Still I should have
+applied it to upstream version too, of course.
 
-diff --git a/qapi/common.json b/qapi/common.json
-index 9fc3e6400c..3e9d12c90f 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -151,7 +151,7 @@
- # Policy for handling "funny" input.
- #
- # @accept: Accept silently
--# TODO @reject: Reject with an error
-+# @reject: Reject with an error
- # TODO @crash: abort() the process
- #
- # FIXME Guidance on intended use.
-@@ -159,7 +159,7 @@
- # Since: 4.2
- ##
- { 'enum': 'CompatPolicyInput',
--  'data': [ 'accept' ] }
-+  'data': [ 'accept', 'reject' ] }
-=20
- ##
- # @CompatPolicyOutput:
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 9aa426a398..ef256f2bb7 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -24,6 +24,7 @@ typedef enum QmpCommandOptions
-     QCO_NO_SUCCESS_RESP       =3D  (1U << 0),
-     QCO_ALLOW_OOB             =3D  (1U << 1),
-     QCO_ALLOW_PRECONFIG       =3D  (1U << 2),
-+    QCO_DEPRECATED            =3D  (1U << 3),
- } QmpCommandOptions;
-=20
- typedef struct QmpCommand
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 8fe59cf54d..b079db85d2 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -132,6 +132,19 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *req=
-uest,
-                   "The command %s has not been found", command);
-         goto out;
-     }
-+    if (cmd->options & QCO_DEPRECATED) {
-+        switch (qapi_compat_policy.deprecated_input) {
-+        case COMPAT_POLICY_INPUT_ACCEPT:
-+            break;
-+        case COMPAT_POLICY_INPUT_REJECT:
-+            error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-+                      "Deprecated command %s disabled by policy",
-+                      command);
-+            goto out;
-+        default:
-+            abort();
-+        }
-+    }
-     if (!cmd->enabled) {
-         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has been disabled for this instance",
-diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-index cf4fa1a091..005ea24a27 100644
---- a/tests/test-qmp-cmds.c
-+++ b/tests/test-qmp-cmds.c
-@@ -1,4 +1,5 @@
- #include "qemu/osdep.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qnum.h"
-@@ -235,6 +236,26 @@ static void test_dispatch_cmd_success_response(void)
-     qobject_unref(req);
- }
-=20
-+static void test_dispatch_cmd_deprecated(void)
-+{
-+    const char *cmd =3D "{ 'execute': 'test-command-features1' }";
-+    QDict *ret;
-+
-+    /* accept */
-+    ret =3D qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) =3D=3D 0);
-+    qobject_unref(ret);
-+
-+    qapi_compat_policy.has_deprecated_input =3D true;
-+    qapi_compat_policy.deprecated_input =3D COMPAT_POLICY_INPUT_ACCEPT;
-+    ret =3D qobject_to(QDict, do_qmp_dispatch(false, cmd));
-+    assert(ret && qdict_size(ret) =3D=3D 0);
-+    qobject_unref(ret);
-+
-+    qapi_compat_policy.deprecated_input =3D COMPAT_POLICY_INPUT_REJECT;
-+    do_qmp_dispatch_error(false, ERROR_CLASS_COMMAND_NOT_FOUND, cmd);
-+}
-+
- /* test commands that involve both input parameters and return values */
- static void test_dispatch_cmd_io(void)
- {
-@@ -344,6 +365,8 @@ int main(int argc, char **argv)
-     g_test_add_func("/qmp/dispatch_cmd_io", test_dispatch_cmd_io);
-     g_test_add_func("/qmp/dispatch_cmd_success_response",
-                     test_dispatch_cmd_success_response);
-+    g_test_add_func("/qmp/dispatch_cmd_deprecated",
-+                    test_dispatch_cmd_deprecated);
-     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
-     g_test_add_func("/qmp/dealloc_partial", test_dealloc_partial);
-=20
-diff --git a/qemu-options.hx b/qemu-options.hx
-index c43f768a15..f107a57c81 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3320,7 +3320,7 @@ STEXI
- ETEXI
-=20
- DEF("compat", HAS_ARG, QEMU_OPTION_compat,
--    "-compat [deprecated-input=3Daccept][,deprecated-output=3Daccept]\n"
-+    "-compat [deprecated-input=3Daccept|reject][,deprecated-output=3Daccep=
-t]\n"
-     "                Policy for handling deprecated management interfaces\=
-n",
-     QEMU_ARCH_ALL)
- STEXI
-@@ -3331,6 +3331,8 @@ Set policy for handling deprecated management interfa=
-ces:
- @table @option
- @item deprecated-input=3Daccept (default)
- Accept deprecated commands
-+@item deprecated-input=3Dreject
-+Reject deprecated commands
- @item deprecated-output=3Daccept (default)
- Emit deprecated events
- @end table
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 11e9a6c095..df2a132915 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -194,9 +194,13 @@ out:
-     return ret
-=20
-=20
--def gen_register_command(name, success_response, allow_oob, allow_preconfi=
-g):
-+def gen_register_command(name, features,
-+                         success_response, allow_oob, allow_preconfig):
-     options =3D []
-=20
-+    if 'deprecated' in [f.name for f in features]:
-+        options +=3D ['QCO_DEPRECATED']
-+
-     if not success_response:
-         options +=3D ['QCO_NO_SUCCESS_RESP']
-     if allow_oob:
-@@ -295,8 +299,8 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)=
-;
-             self._genh.add(gen_command_decl(name, arg_type, boxed, ret_typ=
-e))
-             self._genh.add(gen_marshal_decl(name))
-             self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
--            self._regy.add(gen_register_command(name, success_response,
--                                                allow_oob, allow_preconfig=
-))
-+            self._regy.add(gen_register_command(
-+                name, features, success_response, allow_oob, allow_preconf=
-ig))
-=20
-=20
- def gen_commands(schema, output_dir, prefix):
+>=20
+> Modifying an image format driver requires utmost care and I think I'll
+> try to make sure to allow only few qcow2 changes per release in the
+> future. Too many changes were made in too short time, and with too
+> little care, and there are even more qcow2 patches pending. Please check
+> whether these series actually match your downstream code.
+
+The difference is that I didn't move the lock() but add separate lock()/unl=
+ock()
+pair around qcow2_detect_metadata_preallocation(). I think there is no seri=
+ous
+difference.
+
+> Anyway, we'll
+> tread very carefully now with the pending patches, even if it means
+> delaying them for another release or two.
+
+What do you mean? What to do with sent patches during several months?
+
+> Stability is way more
+> important for an image format driver than new features and
+> optimisations.
+
+Agree. But I think, the main source of stability is testing.
+
+>=20
+> Do whatever you need to fix your downstream process, but seriously, this
+> must not ever happen again.
+>=20
+
+I don't see how to improve the process to exclude such problems. But I'll
+of course will do my best to avoid them.
+
+
+
 --=20
-2.21.0
-
+Best regards,
+Vladimir
 
