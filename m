@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA3EE3602
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:53:31 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4DAE3615
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:59:30 +0200 (CEST)
+Received: from localhost ([::1]:44840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeUU-0000JV-E5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34819)
+	id 1iNeaG-0004EJ-Bn
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiy-0007rU-Bn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:29 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj5-00083u-00
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiw-0007kk-Qz
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:24 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39998)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj3-0007o6-Um
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:30 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54770)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdiw-0007kL-Ks
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:22 -0400
-Received: by mail-wm1-x334.google.com with SMTP id w9so1562808wmm.5
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:22 -0700 (PDT)
+ id 1iNdj3-0007nl-OU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:29 -0400
+Received: by mail-wm1-x335.google.com with SMTP id g7so2988057wmk.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VxP5UE5BCXFLhC5XcjHpWnJKP5zOKoEUmAkBP6uQR5E=;
- b=FtYaImCerhgmONNB4V1RofJlku4Z6xB5kwbcx65CPuMctA4nq2N4Q68nq841Fa9/7W
- XcCwwnyB7GxUU5vyCUag6ZFOM9URkSKZR/t1vfR15nGwOBA1IAe/ip/oAvi/OUGJha8w
- i+wF9dIcQIh+JtNUH9F64XtGWRO+iDyKlXsGpnEXSvySC9FUuG03u0vj/eYxHr5+j9JE
- ffuP5YW0JYBOQXuk4hrgtJkx0oFvlez7LsBIUru/Ot0LL0wO81RGIZ1R5LkZ3aWAzWTC
- 7PGFApGc8WQUaedROHcOBXwDM9cM/u+WZiUQFXz5yrVZjAal6QKUecAvma9iL40H55sJ
- ftCQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=addr6HEN99Dsw110Mj0HtzWMNzU3f7sx/0UbPvS5mDg=;
+ b=OVYHa+s72RwVBjxxCnMtsPt2upmay1bGC+AFoJR2IZhCyo3+ReEjyZklbIg46fnWhK
+ PWVNf4wWgVNNBOJ9GO49ONYujexVF6FbHibvirIQqxd/Tde7W50NZca4dJ60NSBNMRGS
+ zglJRHljvqFJIcJe1zZnjgrchtDy6kL8DSTW7RSeIRsCrzMHFiUFgn3rnEeB8W39qOk/
+ 8EhMZrnTX6L0IeLNrlPLm7HgTaJkIjgG8CAA5Ew+Ew6M7xySIYeaDm97feblIkLFcfWL
+ JLdTOp/lhLiK8Nag5XmvXJdxQebNQfkqixEEhgds1hn+L0UH3r7I96WFgXu9/9GTvhr7
+ 9Glw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=VxP5UE5BCXFLhC5XcjHpWnJKP5zOKoEUmAkBP6uQR5E=;
- b=Ic7ykaF7WrqdV/162iPGipIO+h64+dobfhe6TNC5//+lJqX5hyAxaz20Xtr5M+DlKW
- nkIZpu3RULldkZu72kCtpbK9C+g9ZDHCAjRE0l4GWSOIZEA6NUHUHSsOGuidreAEBL5a
- EM/cUdIHc7W2roGjRMI/tbZ6sCFCl0LNnxGRqR8ml5AcTzFWwzsfZBgLhqsYgyxxJKp4
- N6xEn/Cbvq+FNeayzCbUvDKMd+N5/LSba1ZftekQkB2deUb9dUkmrWSYSEhcB3bNUvMr
- V4cO3Ww6xESyV5cpekvrBYFCUp3/mBrz1IR08Vv4RK22FcQGDdbFn/3V3M9l/AQ2rdLM
- CXIA==
-X-Gm-Message-State: APjAAAUxd6Unyn73flpf3HQ/R78wv2g/EvwrfxXxqA/FkuWBxg/fI2vY
- XvKp+m0zFYJlCKTd2hL1FG6jtLSj
-X-Google-Smtp-Source: APXvYqxi0x4/74E8dAI2vTtTxCOwIUaRHZSKgRiVOwyU7WO2QCZkxGPsi0a5UgCJ1eIEf/O7N4VOzA==
-X-Received: by 2002:a1c:e91a:: with SMTP id q26mr451061wmc.32.1571925861440;
- Thu, 24 Oct 2019 07:04:21 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=addr6HEN99Dsw110Mj0HtzWMNzU3f7sx/0UbPvS5mDg=;
+ b=j08V+QW9fI+1eCBgx0i/wTF5wfHkgiMMF5pOsNNvJAwFcNVU2u0CRXiCFVzASwAlkI
+ apCCyjALzl7fHwv2GUQ5X+8EWh580W/iXqhPw3qiEaPpWK/0zx0DACiKYskAy4gbPCJw
+ 56SexboA9VnXn+Ly9S6CKoqy9Ozn3SYJAaJKdI94FZJbRvBPR2xobuxdTeXc944zbOsV
+ UUy/oZfcgteItXTyAyTiLpjgQv4zPWRr4FAO6I/TeJuNkYQz6NQe9WImq5/5JQULCRO0
+ n/v+HQ7Ytqsp3r76PxyrJBP1MgVGpci3hC2uk4evxU/DcAInUGZ9zk0XCYVzNvKzZuUg
+ j9Qw==
+X-Gm-Message-State: APjAAAU+4w4cYP1RrWjP/SZWoqyphaCRhb5Cdac0gAoIU2Fj3ETgs8kK
+ uuzNcHZSMYiywa/389Or6aRFtxn2
+X-Google-Smtp-Source: APXvYqxLJ9lOZ6z8Vn2vzHR9som7LoayIqV+8eW0LmGrPqRhPiyohTMerHnAyg28NmZZ202G2aQViw==
+X-Received: by 2002:a1c:7913:: with SMTP id l19mr5394022wme.26.1571925868453; 
+ Thu, 24 Oct 2019 07:04:28 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.20
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.27
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:20 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/39] checkpatch: suggest qemu_real_host_page_size instead of
- getpagesize() or sysconf(_SC_PAGESIZE)
-Date: Thu, 24 Oct 2019 16:03:38 +0200
-Message-Id: <1571925835-31930-23-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 28/39] hw/i386/pc: Move gsi_state creation code
+Date: Thu, 24 Oct 2019 16:03:44 +0200
+Message-Id: <1571925835-31930-29-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,43 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Wei Yang <richardw.yang@linux.intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-CC: Richard Henderson <richard.henderson@linaro.org>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
+The code block related to IRQ starts few lines later. Move
+the comment and the pc_gsi_create() invocation where we start
+to use the IRQs.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20191017004633.13229-1-richardw.yang@linux.intel.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191018135910.24286-4-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/checkpatch.pl | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/i386/pc_q35.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index aa9a354..ab68a16 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2915,6 +2915,12 @@ sub process {
- 		if ($line =~ /\bbzero\(/) {
- 			ERROR("use memset() instead of bzero()\n" . $herecurr);
- 		}
-+		if ($line =~ /\bgetpagesize\(\)/) {
-+			ERROR("use qemu_real_host_page_size instead of getpagesize()\n" . $herecurr);
-+		}
-+		if ($line =~ /\bsysconf\(_SC_PAGESIZE\)/) {
-+			ERROR("use qemu_real_host_page_size instead of sysconf(_SC_PAGESIZE)\n" . $herecurr);
-+		}
- 		my $non_exit_glib_asserts = qr{g_assert_cmpstr|
- 						g_assert_cmpint|
- 						g_assert_cmpuint|
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 255c803..6cf12b7 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -211,9 +211,6 @@ static void pc_q35_init(MachineState *machine)
+                        rom_memory, &ram_memory);
+     }
+ 
+-    /* irq lines */
+-    gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+-
+     /* create pci host bus */
+     q35_host = Q35_HOST_DEVICE(qdev_create(NULL, TYPE_Q35_HOST_DEVICE));
+ 
+@@ -247,6 +244,9 @@ static void pc_q35_init(MachineState *machine)
+     object_property_set_link(OBJECT(machine), OBJECT(lpc),
+                              PC_MACHINE_ACPI_DEVICE_PROP, &error_abort);
+ 
++    /* irq lines */
++    gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
++
+     ich9_lpc = ICH9_LPC_DEVICE(lpc);
+     lpc_dev = DEVICE(lpc);
+     for (i = 0; i < GSI_NUM_PINS; i++) {
 -- 
 1.8.3.1
 
