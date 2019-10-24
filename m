@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAF7E3590
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:29:00 +0200 (CEST)
-Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41211E3504
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:07:20 +0200 (CEST)
+Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe6k-00044Q-Jo
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:28:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34590)
+	id 1iNdlm-0002F1-F1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdif-0006pQ-TJ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:10 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdih-0006vR-DI
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdic-0007aV-Cj
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:04 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38958)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdif-0007cr-Sv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:07 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39153)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdic-0007Zt-5T
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:02 -0400
-Received: by mail-wr1-x432.google.com with SMTP id a11so10151735wra.6
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:02 -0700 (PDT)
+ id 1iNdid-0007ag-VY
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:05 -0400
+Received: by mail-wm1-x334.google.com with SMTP id r141so2730756wme.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fuQszgdPGBPwvusB1Bd3Ai26mEtUdVTfTTnv1HWpc9k=;
- b=fk89SAkAlx/Nn/JW1Za5RwIaD5V7z2cnkGECtpxrIQJaCIrQj+knp6U+tJVdYroGYn
- jWTcnOxv8pBrpV8M0nTqLO6nrMf1p9U6oYLfI1aC5j4SQCtsdBeMBcSH7JNWaNO/EHKl
- kP83FpPfv+geS8yPLQQ/uwGFkmCLio/QowGCx7XeZr8WUlMKDFsnfA9n7oQbIUBurtQI
- sW6ys+tTSVTCgpDhzvWoT9atn3sDNoaTK3vcyH885GjFDNN8sm9p1gR4BMxY2ditH07A
- jQIrchnHQnATyyyaUjm8mPGtcsFNM/e8izVK5DiSK9G5mP1EzI2gefe8P1DiuMU9+9rU
- E3YQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=klIHsHZRArDFTcQXKJkBiIBV52Qlwr6+QqqMGTKzp4Y=;
+ b=MMHLOjgl1bnUBY6IdFLx285S7DNwKFsOmKFUhbFwpwfHtuIGPnwREJjhs8s9HTTy/n
+ ql7iBfG+OFMnetnBsLrSI84jdSAnNQ9mNLiodWzgOE2ijTb5o5UJo5qDXCrWplVGG1Iq
+ 8BgLwLwyCItaLKzAP0SqsHK181uPRsV9eEeY0ilUTzZV/gHHqVG77oNEqTFh3/FynE+W
+ hzHjn1AN6DYdJQ+yKlo3Fp4Bsw3WvFdDCBddjuzzDqlZcOt97h0GWnI0qq+kWTEt7LW/
+ ZPbXCVBv/+aRGAS+sEXElbTxlUsYv9h5I4aHOXQIW6G68I9MH+sIP6AGdivNCm+Cg7Le
+ ylOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fuQszgdPGBPwvusB1Bd3Ai26mEtUdVTfTTnv1HWpc9k=;
- b=jKCp+zCZa30Uk5R3B6LlaPaT/zV9jXV6IhHS3zS6CBWHeXQ99RCtAmNDW6OZD6s1jp
- 4M8+hFt0Lk3+a+AFpGHk9TNsRz0icaiHqbkPO3eeVjPNbxkM3CZ/WGNajSiOn9UVkNwE
- 2sk5/J/F1eZJdvvW3eRpzO3F4BQAiqIw9lCTrRLovR9+BwPRyT9AGJERpeV/ZBoEKn1z
- 9TlZvLQyXUXoqydAhlqqjLgINTOh6T4xNrlawd8cDgZXas+JRKU20EegQn8TP+pGh0Nj
- yvuLQyyDGiZDvqi8RasJ+RGjqStHtajx76tR4OupsoGCV4CwBGURBArTl5WZ0jSqpeyi
- tbvQ==
-X-Gm-Message-State: APjAAAUjTaZy02VyPLom5lKidEHnAQqKtXMHGDMdidaPgJSbPTUc+ErD
- UGWLJYEGB+cda3aweBDI9cYFEtNt
-X-Google-Smtp-Source: APXvYqzRkWulffXzHasD8OjUDZJBDhorCjTD/nzYF1DSfQKnkBKYvbSDUj/bMc7A2ufMMAk19ycEbQ==
-X-Received: by 2002:a5d:674f:: with SMTP id l15mr4388528wrw.80.1571925840725; 
- Thu, 24 Oct 2019 07:04:00 -0700 (PDT)
+ :in-reply-to:references;
+ bh=klIHsHZRArDFTcQXKJkBiIBV52Qlwr6+QqqMGTKzp4Y=;
+ b=le9UAQRbHPMFg6XOhz4m48mwdFsrR1ndj/U9wvz0ShTKva+35NWGqzrRc3U77npm9F
+ 6qdarn/KqccgQRtUHlSul8z3yeF1IuPQ8khnSZa6T9gkFlf1k28tovO980T6hnVHjBXe
+ N+WhfSWzhZIFkPxFn7QuoVuZsNsrs4jzwJRumaK0RYreKrAIP3mJJZfwY7oUsjOOrX9l
+ fGE1+lKbOBqmFUIh5Y7/7XjUL/A5fMwZOMOL5PYggCv5CQAQCn298jUwnNAgX3Pidwi+
+ g+NGe+R6DRdgfdQwIMm5s4SzlnUYN9CZxcIF8n03Vfqv0JW94VbYcgFO9gitqliIDqd2
+ 7dCw==
+X-Gm-Message-State: APjAAAVhSO/ekQ6i1igpZcvvxXUPPiU91mF6ItZrKt7U/HrcNCvE9O2c
+ bOpQZBE1rJ/iUFvEicvWyckxw+FM
+X-Google-Smtp-Source: APXvYqzECZXcbGB7oBpbaaliiXU+gqvirWlpGsd4yHMYg5ElFnnphMNWamuXzaY9vxNqJ+EgrqUoPg==
+X-Received: by 2002:a1c:a556:: with SMTP id o83mr5491549wme.0.1571925841889;
+ Thu, 24 Oct 2019 07:04:01 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.03.59
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.00
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:03:59 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/39] Updated Bulgarian translation (19) - 4.1.0
-Date: Thu, 24 Oct 2019 16:03:19 +0200
-Message-Id: <1571925835-31930-4-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 04/39] i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V
+ enlightenment
+Date: Thu, 24 Oct 2019 16:03:20 +0200
+Message-Id: <1571925835-31930-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,51 +75,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Shopov <ash@kambanaria.org>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Shopov <ash@kambanaria.org>
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Signed-off-by: Alexander Shopov <ash@kambanaria.org>
-Message-Id: <20191019120534.27479-2-ash@kambanaria.org>
+Hyper-V TLFS specifies this enlightenment as:
+"NoNonArchitecturalCoreSharing - Indicates that a virtual processor will never
+share a physical core with another virtual processor, except for virtual
+processors that are reported as sibling SMT threads. This can be used as an
+optimization to avoid the performance overhead of STIBP".
+
+However, STIBP is not the only implication. It was found that Hyper-V on
+KVM doesn't pass MD_CLEAR bit to its guests if it doesn't see
+NoNonArchitecturalCoreSharing bit.
+
+KVM reports NoNonArchitecturalCoreSharing in KVM_GET_SUPPORTED_HV_CPUID to
+indicate that SMT on the host is impossible (not supported of forcefully
+disabled).
+
+Implement NoNonArchitecturalCoreSharing support in QEMU as tristate:
+'off' - the feature is disabled (default)
+'on' - the feature is enabled. This is only safe if vCPUS are properly
+ pinned and correct topology is exposed. As CPU pinning is done outside
+ of QEMU the enablement decision will be made on a higher level.
+'auto' - copy KVM setting. As during live migration SMT settings on the
+source and destination host may differ this requires us to add a migration
+blocker.
+
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Message-Id: <20191018163908.10246-1-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- po/bg.po | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ docs/hyperv.txt            | 13 +++++++++++++
+ target/i386/cpu.c          |  2 ++
+ target/i386/cpu.h          |  2 ++
+ target/i386/hyperv-proto.h |  1 +
+ target/i386/kvm.c          | 26 ++++++++++++++++++++++++++
+ 5 files changed, 44 insertions(+)
 
-diff --git a/po/bg.po b/po/bg.po
-index 3d8c353..98c57e5 100644
---- a/po/bg.po
-+++ b/po/bg.po
-@@ -1,14 +1,14 @@
- # Bulgarian translation of qemu po-file.
--# Copyright (C) 2016 Alexander Shopov <ash@kambanaria.org>
-+# Copyright (C) 2016, 2019 Alexander Shopov <ash@kambanaria.org>
- # This file is distributed under the same license as the qemu package.
--# Alexander Shopov <ash@kambanaria.org>, 2016.
-+# Alexander Shopov <ash@kambanaria.org>, 2016, 2019.
- #
- msgid ""
- msgstr ""
--"Project-Id-Version: QEMU 2.6.50\n"
-+"Project-Id-Version: QEMU 4.1.0\n"
- "Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
- "POT-Creation-Date: 2018-07-18 07:56+0200\n"
--"PO-Revision-Date: 2016-06-09 15:54+0300\n"
-+"PO-Revision-Date: 2019-10-19 13:14+0200\n"
- "Last-Translator: Alexander Shopov <ash@kambanaria.org>\n"
- "Language-Team: Bulgarian <dict@ludost.net>\n"
- "Language: bg\n"
-@@ -66,7 +66,7 @@ msgid "Detach Tab"
- msgstr "Към самостоятелен подпрозорец"
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index 8fdf25c..6518b71 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -184,6 +184,19 @@ enabled.
  
- msgid "Show Menubar"
--msgstr ""
-+msgstr "Лента за менюто"
+ Requires: hv-vpindex, hv-synic, hv-time, hv-stimer
  
- msgid "_Machine"
- msgstr "_Машина"
++3.17. hv-no-nonarch-coresharing=on/off/auto
++===========================================
++This enlightenment tells guest OS that virtual processors will never share a
++physical core unless they are reported as sibling SMT threads. This information
++is required by Windows and Hyper-V guests to properly mitigate SMT related CPU
++vulnerabilities.
++When the option is set to 'auto' QEMU will enable the feature only when KVM
++reports that non-architectural coresharing is impossible, this means that
++hyper-threading is not supported or completely disabled on the host. This
++setting also prevents migration as SMT settings on the destination may differ.
++When the option is set to 'on' QEMU will always enable the feature, regardless
++of host setup. To keep guests secure, this can only be used in conjunction with
++exposing correct vCPU topology and vCPU pinning.
+ 
+ 4. Development features
+ ========================
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 47200b4..6c87c99 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6174,6 +6174,8 @@ static Property x86_cpu_properties[] = {
+                       HYPERV_FEAT_IPI, 0),
+     DEFINE_PROP_BIT64("hv-stimer-direct", X86CPU, hyperv_features,
+                       HYPERV_FEAT_STIMER_DIRECT, 0),
++    DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
++                            hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
+     DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
+ 
+     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index cedb5bc..c50a9c7 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -24,6 +24,7 @@
+ #include "cpu-qom.h"
+ #include "hyperv-proto.h"
+ #include "exec/cpu-defs.h"
++#include "qapi/qapi-types-common.h"
+ 
+ /* The x86 has a strong memory model with some store-after-load re-ordering */
+ #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
+@@ -1614,6 +1615,7 @@ struct X86CPU {
+     bool hyperv_synic_kvm_only;
+     uint64_t hyperv_features;
+     bool hyperv_passthrough;
++    OnOffAuto hyperv_no_nonarch_cs;
+ 
+     bool check_cpuid;
+     bool enforce_cpuid;
+diff --git a/target/i386/hyperv-proto.h b/target/i386/hyperv-proto.h
+index cffac10..056a305 100644
+--- a/target/i386/hyperv-proto.h
++++ b/target/i386/hyperv-proto.h
+@@ -63,6 +63,7 @@
+ #define HV_CLUSTER_IPI_RECOMMENDED          (1u << 10)
+ #define HV_EX_PROCESSOR_MASKS_RECOMMENDED   (1u << 11)
+ #define HV_ENLIGHTENED_VMCS_RECOMMENDED     (1u << 14)
++#define HV_NO_NONARCH_CORESHARING           (1u << 18)
+ 
+ /*
+  * Basic virtualized MSRs
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 0e3da99..49a3011 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1227,6 +1227,16 @@ static int hyperv_handle_properties(CPUState *cs,
+         }
+     }
+ 
++    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
++        env->features[FEAT_HV_RECOMM_EAX] |= HV_NO_NONARCH_CORESHARING;
++    } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
++        c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
++        if (c) {
++            env->features[FEAT_HV_RECOMM_EAX] |=
++                c->eax & HV_NO_NONARCH_CORESHARING;
++        }
++    }
++
+     /* Features */
+     r = hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_RELAXED);
+     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_VAPIC);
+@@ -1340,6 +1350,7 @@ free:
+ }
+ 
+ static Error *hv_passthrough_mig_blocker;
++static Error *hv_no_nonarch_cs_mig_blocker;
+ 
+ static int hyperv_init_vcpu(X86CPU *cpu)
+ {
+@@ -1359,6 +1370,21 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+         }
+     }
+ 
++    if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO &&
++        hv_no_nonarch_cs_mig_blocker == NULL) {
++        error_setg(&hv_no_nonarch_cs_mig_blocker,
++                   "'hv-no-nonarch-coresharing=auto' CPU flag prevents migration"
++                   " use explicit 'hv-no-nonarch-coresharing=on' instead (but"
++                   " make sure SMT is disabled and/or that vCPUs are properly"
++                   " pinned)");
++        ret = migrate_add_blocker(hv_no_nonarch_cs_mig_blocker, &local_err);
++        if (local_err) {
++            error_report_err(local_err);
++            error_free(hv_no_nonarch_cs_mig_blocker);
++            return ret;
++        }
++    }
++
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_VPINDEX) && !hv_vpindex_settable) {
+         /*
+          * the kernel doesn't support setting vp_index; assert that its value
 -- 
 1.8.3.1
 
