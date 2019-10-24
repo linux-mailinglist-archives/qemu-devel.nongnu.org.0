@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38025E2FAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:01:55 +0200 (CEST)
-Received: from localhost ([::1]:38808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D48E3002
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:10:13 +0200 (CEST)
+Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNasL-0006pm-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:01:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
+	id 1iNb0N-0002eB-R8
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iNaqF-00049A-Ov
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:59:44 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNatG-0000sd-PM
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iNaqD-0003am-PI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:59:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:18448)
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004p5-4R
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58212
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iNaqD-0003aa-JQ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:59:41 -0400
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatC-0004mE-4r
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571914964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZhiueCs0hiaDMiol+Y6BbmQnDCKMQEynZKK4iNNRY3A=;
+ b=Kb4YZEsXN4x1eAmTZKF0KKk9Pi5AI7R65Eg6sXr4oMR6Yw5++cvIud4ahnVoOI1+dkBqb+
+ cw/8/p+mU5127ON0wMgtQ+sO0KB5vTmhbT0OywE7L+BYKEN3bDgHhDHJAYEUkHq7WW+nhs
+ cKcpIv5JrhNOD7qlytl1te0JZpLdmHE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-fQIddSV4Pvuc-rm7du-qwQ-1; Thu, 24 Oct 2019 07:02:40 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6992B37E79
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:59:40 +0000 (UTC)
-Received: by mail-qk1-f200.google.com with SMTP id d127so20413613qkc.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:59:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DyYUIfLK2hBSYRoMphgvgCQwDkgxE96s1Dxb90saGmo=;
- b=bFR/uOGArDZw3NCFS0qs3Uzch/X2zAxwTQkhYMgM39IBtW1JG+RR6QApnWSrctO1MZ
- nsE9giW0ehZYp7qYgTtmRH0TbD8htgHyQhx9hsF0AjtSaZh6np3oHmg7okUgsz0G8wnB
- oZhd+XuCzKdnHpX11/UFQEL5+fR4exrV9ZlhcSL69gXIU7k1KBWOi5DcZW8qHF4dKyoy
- T/uQII30dklOO2cRVKk83JCwotstusfMUXqSC5bPqases8l98LvmdDGAE5/wmkV++sZC
- 59ZKZ7C7a4g1cV3pBTUkyWEFZlDcwDwCPpJfqPks4r0ClVZZRa7/P8SYsDXPsMzSlJv9
- bc5A==
-X-Gm-Message-State: APjAAAX/oauhdHwMx2LnDqbXe3lfxVpBo3TG6QOsx9dGetccy7rx7pRu
- 4b/tS5WONwBLVK1ExvFxqklgpDDWBsW+8Jyg0+lZsaDuyTUePz4d5PzNxudejgwAMDDxT0QxIzV
- WqSj/I189m8tD0t4=
-X-Received: by 2002:a0c:efcd:: with SMTP id a13mr13595977qvt.94.1571914779710; 
- Thu, 24 Oct 2019 03:59:39 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyaOsl5ABF08L3LOb+EhdpaTS551adpaBFZEJFO8To0+J6YJ0oinqx9sZ7RgI3lwvgSwZ5PWg==
-X-Received: by 2002:a0c:efcd:: with SMTP id a13mr13595963qvt.94.1571914779416; 
- Thu, 24 Oct 2019 03:59:39 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- v4sm12551280qkj.28.2019.10.24.03.59.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 03:59:38 -0700 (PDT)
-Date: Thu, 24 Oct 2019 06:59:33 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 00/30] virtiofs daemon (base)
-Message-ID: <20191024065826-mutt-send-email-mst@kernel.org>
-References: <20191021105832.36574-1-dgilbert@redhat.com>
- <157166664425.24734.3489596262271351160@37313f22b938>
- <20191021143357.GB5837@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3FC2800D49;
+ Thu, 24 Oct 2019 11:02:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB6D060BF3;
+ Thu, 24 Oct 2019 11:02:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 318041138619; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/19] qapi: Doc generation fixes
+Date: Thu, 24 Oct 2019 13:02:18 +0200
+Message-Id: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191021143357.GB5837@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: fQIddSV4Pvuc-rm7du-qwQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +69,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
+Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 21, 2019 at 03:33:57PM +0100, Dr. David Alan Gilbert wrote:
-> * no-reply@patchew.org (no-reply@patchew.org) wrote:
-> > Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dgilbert@redhat.com/
-> > 
-> > 
-> > 
-> > Hi,
-> > 
-> > This series seems to have some coding style problems. See output below for
-> > more information:
-> > 
-> > Subject: [PATCH 00/30] virtiofs daemon (base)
-> > Type: series
-> > Message-id: 20191021105832.36574-1-dgilbert@redhat.com
-> > 
-> > === TEST SCRIPT BEGIN ===
-> > #!/bin/bash
-> > git rev-parse base > /dev/null || exit 0
-> > git config --local diff.renamelimit 0
-> > git config --local diff.renames True
-> > git config --local diff.algorithm histogram
-> > ./scripts/checkpatch.pl --mailback base..
-> 
-> Expecting checkpatch to be broken here; most of the files
-> follow FUSE's formatting.
-> 
-> Dave
+The recent patches to introduce feature flags neglected doc
+generation.  While fixing that, I found similar neglect in non-recent
+patches.  Fix all that, and clean up some.
 
-I wonder what do others think about this.
-One problem with such inconsistencies is that people tend to copy code
-around, which tends to result in a mess.
+Markus Armbruster (19):
+  tests/qapi-schema: Demonstrate feature and enum doc comment bugs
+  tests/qapi-schema: Demonstrate command and event doc comment bugs
+  tests/qapi-schema: Cover alternate documentation comments
+  tests/qapi-schema: Fix feature documentation testing
+  qemu-doc: Belatedly document QMP command deprecation
+  qapi: Implement boxed event argument documentation
+  qapi: De-duplicate entity documentation generation code
+  qapi: Split .connect_doc(), .check_doc() off .check()
+  qapi: Fix enum doc comment checking
+  qapi: Clean up doc comment checking for implicit union base
+  qapi: Fix doc comment checking for commands and events
+  qapi: Simplify ._make_implicit_object_type()
+  qapi: Eliminate .check_doc() overrides
+  qapi: Fold normalize_if() into check_if()
+  qapi: Fold normalize_features() into check_features()
+  qapi: Fold normalize_enum() into check_enum()
+  qapi: Lift features into QAPISchemaEntity
+  qapi: Polish reporting of bogus member documentation
+  qapi: Check feature documentation against the schema
 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ qemu-deprecated.texi                          | 12 +++
+ tests/qapi-schema/doc-good.texi               | 27 ++++++
+ qapi/net.json                                 |  2 -
+ scripts/qapi/doc.py                           | 75 +++++++-------
+ scripts/qapi/expr.py                          | 32 +-----
+ scripts/qapi/parser.py                        | 29 ++++--
+ scripts/qapi/schema.py                        | 97 +++++++++++--------
+ tests/Makefile.include                        |  5 +
+ .../qapi-schema/doc-bad-alternate-member.err  |  2 +-
+ .../qapi-schema/doc-bad-boxed-command-arg.err |  1 +
+ .../doc-bad-boxed-command-arg.json            | 14 +++
+ .../qapi-schema/doc-bad-boxed-command-arg.out |  0
+ tests/qapi-schema/doc-bad-command-arg.err     |  2 +-
+ tests/qapi-schema/doc-bad-enum-member.err     |  1 +
+ tests/qapi-schema/doc-bad-enum-member.json    |  8 ++
+ tests/qapi-schema/doc-bad-enum-member.out     |  0
+ tests/qapi-schema/doc-bad-event-arg.err       |  1 +
+ tests/qapi-schema/doc-bad-event-arg.json      |  7 ++
+ tests/qapi-schema/doc-bad-event-arg.out       |  0
+ tests/qapi-schema/doc-bad-feature.err         |  1 +
+ tests/qapi-schema/doc-bad-feature.json        |  9 ++
+ tests/qapi-schema/doc-bad-feature.out         |  0
+ tests/qapi-schema/doc-bad-union-member.err    |  2 +-
+ tests/qapi-schema/doc-good.json               | 14 +++
+ tests/qapi-schema/doc-good.out                | 27 ++++++
+ tests/qapi-schema/doc-undoc-feature.err       |  2 +
+ tests/qapi-schema/doc-undoc-feature.json      |  9 ++
+ tests/qapi-schema/doc-undoc-feature.out       |  0
+ tests/qapi-schema/test-qapi.py                |  2 +
+ 29 files changed, 270 insertions(+), 111 deletions(-)
+ create mode 100644 tests/qapi-schema/doc-bad-boxed-command-arg.err
+ create mode 100644 tests/qapi-schema/doc-bad-boxed-command-arg.json
+ create mode 100644 tests/qapi-schema/doc-bad-boxed-command-arg.out
+ create mode 100644 tests/qapi-schema/doc-bad-enum-member.err
+ create mode 100644 tests/qapi-schema/doc-bad-enum-member.json
+ create mode 100644 tests/qapi-schema/doc-bad-enum-member.out
+ create mode 100644 tests/qapi-schema/doc-bad-event-arg.err
+ create mode 100644 tests/qapi-schema/doc-bad-event-arg.json
+ create mode 100644 tests/qapi-schema/doc-bad-event-arg.out
+ create mode 100644 tests/qapi-schema/doc-bad-feature.err
+ create mode 100644 tests/qapi-schema/doc-bad-feature.json
+ create mode 100644 tests/qapi-schema/doc-bad-feature.out
+ create mode 100644 tests/qapi-schema/doc-undoc-feature.err
+ create mode 100644 tests/qapi-schema/doc-undoc-feature.json
+ create mode 100644 tests/qapi-schema/doc-undoc-feature.out
+
+--=20
+2.21.0
+
 
