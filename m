@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A9FE358E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:26:16 +0200 (CEST)
-Received: from localhost ([::1]:44186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FCCE3593
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:29:38 +0200 (CEST)
+Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe46-00063b-ML
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
+	id 1iNe7N-0005BC-D1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56401)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iNd2H-0001A6-Pi
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:20:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNd3h-0003Z1-1b
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:21:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iNd2G-0004WT-KL
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:20:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59810
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNd3f-0005Aw-VX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:21:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNd2G-0004WC-G2
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:20:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571923215;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dFQoGfpS1HQXwntdG/VX1KVG538kYO/FgEKROyAQN3s=;
- b=iEQaeF/5eNC6VYeWyxpwR2upzM5nHSWRSJrJBjT/poPNeTl1KtF8l3dzUbvyL9DlDvOYhj
- gRVn1j6+Sz1ZaUTZ231E/Cf3s1XDTb++AaXqm1sL5SOHMkRIbd+S2sqkjYGM4O49wIE/Fx
- od5ZczKlluK/g9B/1NirWdrXSad9e6w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-RsMl1G9nOzui0Yugpi__4A-1; Thu, 24 Oct 2019 09:20:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNd3f-0005Ad-NS
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:21:43 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87F1F5E4;
- Thu, 24 Oct 2019 13:20:08 +0000 (UTC)
-Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DE005D9CA;
- Thu, 24 Oct 2019 13:20:07 +0000 (UTC)
-Date: Thu, 24 Oct 2019 10:20:07 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v13 01/12] util/cutils: Add qemu_strtotime_ps()
-Message-ID: <20191024132007.GP6744@habkost.net>
-References: <20191020111125.27659-1-tao3.xu@intel.com>
- <20191020111125.27659-2-tao3.xu@intel.com>
- <20191024095457.GD3700@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id A74658553A
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 13:21:42 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id k184so1013315wmk.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:21:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8ZmlhCsJoIE+YSUtfFBESR4PXWooISs73z1sPHAdYDc=;
+ b=OJKxlx8F9N3xSYK4jKTw5JCB4ipkkZjVWgC7rpNsJQFOeJBdgAVKUbUXKJA4ANnVOy
+ +5sW+IojbW3qMIJ0vwmNWGLvZmVsooi66QoB++NpqWpxXOwBrS2MdZt9s1fP7HoYknie
+ 9km00bXK1qCKAaodenXaoIQzYuhMJl6lA2FKXISzisGqhFRMX0SxgCUCMZhfRuMjbOkA
+ qSFnHeeRrpHG2rnblLQYJ1wy0O13aQjX19lhVF4ZaV1U6RmtHO+GuKxNctMrtYf91hRB
+ HHid7+SbJFBpYGj895d8umYNoD/LZNjbOYd11TyJrQF8zJJS8uSlaZ47Psp2IXSRpILq
+ M82g==
+X-Gm-Message-State: APjAAAXQi/pX4xWQdfeiFQIyXQMKtd2g40C3LbucfDHQW9GNhRpoYXG3
+ maD5+SX+ppgvKFctpunOxULUkw+2epiU3vXh9C71hSNyG44IVkeCodkM0FEvDoJMuU9prVRag8q
+ 0pzSyrA9ZPeNJ8Zk=
+X-Received: by 2002:a7b:cb54:: with SMTP id v20mr4649890wmj.119.1571923301352; 
+ Thu, 24 Oct 2019 06:21:41 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqymvv8boqLPyxAPcUuTqgjvrVyV1JC3xj+OMdE30JANiPp+8Xam/isesUk8gp7ZHrgMiAds7A==
+X-Received: by 2002:a7b:cb54:: with SMTP id v20mr4649874wmj.119.1571923301146; 
+ Thu, 24 Oct 2019 06:21:41 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id d8sm11908890wrr.71.2019.10.24.06.21.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 06:21:40 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] mc146818rtc: Tidy up indentation
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, qemu-devel@nongnu.org
+References: <20191024122425.2483-1-philmd@redhat.com>
+ <20191024122425.2483-3-philmd@redhat.com>
+ <c4fef2c4-32f1-cb4a-295f-13a03434becd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <fb0239d5-5705-9d31-8db2-198c0e6913db@redhat.com>
+Date: Thu, 24 Oct 2019 15:21:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191024095457.GD3700@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: RsMl1G9nOzui0Yugpi__4A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+In-Reply-To: <c4fef2c4-32f1-cb4a-295f-13a03434becd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,34 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, Tao Xu <tao3.xu@intel.com>, fan.du@intel.com,
- qemu-devel@nongnu.org, jonathan.cameron@huawei.com, imammedo@redhat.com
+Cc: Xiao Guangrong <guangrong.xiao@gmail.com>,
+ Vadim Rozenfeld <vrozenfe@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 24, 2019 at 10:54:57AM +0100, Daniel P. Berrang=E9 wrote:
-> On Sun, Oct 20, 2019 at 07:11:14PM +0800, Tao Xu wrote:
-> > To convert strings with time suffixes to numbers, support time unit are
-> > "ps" for picosecond, "ns" for nanosecond, "us" for microsecond, "ms"
-> > for millisecond or "s" for second.
-> >=20
-> > Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> > ---
-> >=20
-> > No changes in v13.
-> > ---
-> >  include/qemu/cutils.h |  1 +
-> >  util/cutils.c         | 82 +++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 83 insertions(+)
+On 10/24/19 3:01 PM, Paolo Bonzini wrote:
+> On 24/10/19 14:24, Philippe Mathieu-Daud=C3=A9 wrote:
+>> -        * if the periodic timer's update is due to period re-configur=
+ation,
+>> -        * we should count the clock since last interrupt.
+>> -        */
+>> -        if (old_period) {
+>> -            int64_t last_periodic_clock, next_periodic_clock;
+>> +    /*
+>> +     * if the periodic timer's update is due to period re-configurati=
+on,
+>> +     * we should count the clock since last interrupt.
+>> +     */
+>> +    if (old_period) {
+>> +        int64_t last_periodic_clock, next_periodic_clock;
+>>  =20
+>> -            next_periodic_clock =3D muldiv64(s->next_periodic_time,
+>> -                                    RTC_CLOCK_RATE, NANOSECONDS_PER_S=
+ECOND);
+>> -            last_periodic_clock =3D next_periodic_clock - old_period;
+>> -            lost_clock =3D cur_clock - last_periodic_clock;
+>> -            assert(lost_clock >=3D 0);
+>> +        next_periodic_clock =3D muldiv64(s->next_periodic_time,
+>> +                                RTC_CLOCK_RATE, NANOSECONDS_PER_SECON=
+D);
+>> +        last_periodic_clock =3D next_periodic_clock - old_period;
+>> +        lost_clock =3D cur_clock - last_periodic_clock;
+>> +        assert(lost_clock >=3D 0);
+>>           }
+>>  =20
+>>           /*
 >=20
-> This really ought to have an addition to the unit tests to validating
-> the parsing, both success and error scenarios, so that we're clear on
-> exactly what strings are accepted & rejected.
+> Still not entirely tidy, is it?  I understand making Marcelo's fix just
+> move a brace, but in general you can review with "git show -b" to see
+> more clearly what's going on.  Therefore, it would make the most sense
+> to have just two patches, one reversing the if and one fixing the bug
+> (and both of them having indentation changes).
+>=20
+> However, I'm preparing the pull request now so I think I'll just keep
+> Marcelo's version.
 
-Unit tests are in patch 02/12.  It's a good idea to squash
-patches 01 and 02 together.
-
---=20
-Eduardo
-
+OK.
 
