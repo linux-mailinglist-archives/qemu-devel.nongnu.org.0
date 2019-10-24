@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A86E3572
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:22:44 +0200 (CEST)
-Received: from localhost ([::1]:43944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A617CE3592
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:29:35 +0200 (CEST)
+Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe0g-0007ZF-HN
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35028)
+	id 1iNe7K-0004vm-87
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjF-0008Kd-8T
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNdkq-0002db-5a
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:06:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjD-0007wo-Kb
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:40 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42758)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNdko-0000Ky-Qb
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:06:19 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:37830)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdjD-0007vp-E0
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:39 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r1so16440046wrs.9
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=+JOO2G3l+Owud+ib4UJhK6+M5ZCzXyr8Z3fX/8cawQs=;
- b=Rh874hEMImHvCUinKoY58uOhIlpd26RjpBkxfheZuwKpM7dEtH8f6ktJmq6Xv14gD7
- 6huDg7GTW/mj9TZ+0cMnTsWUj5wuyLNcJLn4hZaM3bgyD69ZS5ZsCpvLwnypKKU1YyyZ
- xsjdCUTMv/gr2RFkrmgaIb4nK+nT0+IQrqtcu83ullhTFt6V9zVOs9KXP2VDd22Io1oU
- pZDvJMM9Phpqkr4prL5DRshdvSErS9pz0VF3UgUvI/HXILt9CxuEhNuiqw9vIHEVuHgX
- 9pWMua2Iy1PMFb+zchLWIfOCBJtyM+0+GF/ax/ct+JELVA6y2p38Zsj9Tu5eITMc6Cvg
- o5wQ==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iNdko-0000Ko-L1
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:06:18 -0400
+Received: by mail-qk1-x741.google.com with SMTP id u184so23519521qkd.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nfmjIwBPnkA+wvYUM3VvUWJrrt75lDRQLCmDT4Oelhc=;
+ b=aUy+IeyeiEr0dCVl1bdkYDbzGFbXs3PXmVpvnYq8vIV4OmFYST3S55UUsRxT3R6AS5
+ gjjcUHQ24JQ+96M58whEJPGBaD9zvkwZ06m0JbvJUwuBOzaSUjplymHUqYRNLg3sjCxw
+ droWLMjnEHqNp9Wm851h0/jo80rBeB1tg4/EYpN7Ag3JqhGfveoGcZiEzZEnY42R9JFg
+ pF+pjJT94/WxJvIqSEOPqhsxSvYXmeNjE/k6EhMc22jMItYrud+blKMLOlWHpBQ/DDai
+ RGJnbngM5CAGgyFGHrboZH4RTo8HYdSaWU/qNixoeMEvnvZ2md9JwnZnWJgt62B7NAzY
+ EN2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=+JOO2G3l+Owud+ib4UJhK6+M5ZCzXyr8Z3fX/8cawQs=;
- b=Yehds99ke23d6SgnddzacbD74QEDZsXgMvcRXBlLkCC5l/X+43k9o4plRH/N7LDBET
- Ma8JOrU4gDIY8ksGtKNMaK04Ku5zdWIvfpcB5Cjc8yHoPJTCshI/yfID99RVgDNPnNfN
- KQMLEju1JBIlM+/8moYgk0b/CoJ1x0yBYWpefs8xz8XOXMB8CNlebtueRtZJegQfJQys
- v8VeSSArqYjLdpFPg4yX/yfT9NIC9XKtqYl5XLrVi2atXQKqzsA3zlJ9PIbnI29fcud6
- OVwzLYznkTsOXYQn+vOSWmlWrgFFj97qlpy7RBTs9ntF6NO8saVEE26F1SFKZdwsuT2s
- sklw==
-X-Gm-Message-State: APjAAAWbs9/Yu4oPvSSNLF7aVhuRVtv3/0Kzvz5R6bYjkHfVqJ4m4Uee
- GzbUszSL1cE9ozBTmTaa9VzaHIyb
-X-Google-Smtp-Source: APXvYqzt9naXrU4jurylrKsbn6tkRyYlh2bRY9+UxwaVgjItDeVISU16xFjBNZvP+rsy6aA6jHJcfg==
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr3756502wru.136.1571925878013; 
- Thu, 24 Oct 2019 07:04:38 -0700 (PDT)
-Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.37
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nfmjIwBPnkA+wvYUM3VvUWJrrt75lDRQLCmDT4Oelhc=;
+ b=nXeGovGT3t6miOJVn9ouuDhTxRYUCQvUSd/Xw+Sz6LzyAXrDcWR8+TEGl2c+OSn00u
+ iNxHJw1FFapQaUG+qF6Z2BpycAq+kxSol2UnQUZtyzuQhXekWdipY+NN34LTt5ieSmy4
+ td+I7wZ8V5JCr5Xxtx5YLi024aP1O3DSHKlTzAR3MNaZ3QTuVlmelh2zYsd5dCzhsNUE
+ 1p4XJx/aQ7l8V1lVtsoHr/3WxEsX01oG74WT+mMSfnX5HwUtF4TU695U8WQMTjfS+M0o
+ V1vwlg6LB1orW4gNu0YYFXIYVdhQylcW428mcYYE9nFQQYbY5VGwkCH7KBKKKdgvn++E
+ 5CZg==
+X-Gm-Message-State: APjAAAVhetKdCHUfEef6pvWS/pDd//NnyYCWo+3nHjyk6jaaKf1MjEE7
+ ZDe9lLhudvF4DMb5o4YHcSvjaw==
+X-Google-Smtp-Source: APXvYqzI525ktSqQ9coMyMsoE29dnvdQ1QiGVKpwiCf9MntngloXZKXNMaH0ndHqYI5YBvJYh1OKig==
+X-Received: by 2002:a37:4e81:: with SMTP id c123mr1066034qkb.468.1571925977776; 
+ Thu, 24 Oct 2019 07:06:17 -0700 (PDT)
+Received: from [172.20.87.163] (rrcs-172-254-253-50.nyc.biz.rr.com.
+ [172.254.253.50])
+ by smtp.gmail.com with ESMTPSA id d55sm17723809qta.41.2019.10.24.07.06.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:37 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 37/39] target/i386: move FERR handling to target/i386
-Date: Thu, 24 Oct 2019 16:03:53 +0200
-Message-Id: <1571925835-31930-38-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+ Thu, 24 Oct 2019 07:06:17 -0700 (PDT)
+Subject: Re: [PATCH v2 1/7] cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191023154505.30521-1-richard.henderson@linaro.org>
+ <20191023154505.30521-2-richard.henderson@linaro.org>
+ <55b477b7-877e-954f-2175-ed36fa787600@redhat.com>
+ <e41a98e4-189a-1e0f-7b29-51a6e00e4d7e@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <26cb0551-fbac-e059-c1bf-9c17420528b7@linaro.org>
+Date: Thu, 24 Oct 2019 10:06:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <e41a98e4-189a-1e0f-7b29-51a6e00e4d7e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,159 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alex.bennee@linaro.org, Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move it out of pc.c since it is strictly tied to TCG.  This is
-almost exclusively code movement, the next patch will implement
-IGNNE.
+On 10/24/19 8:04 AM, Paolo Bonzini wrote:
+> On 24/10/19 13:52, Philippe Mathieu-Daudé wrote:
+>>> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+>>> index ad9ab85eb3..255bb186ac 100644
+>>> --- a/include/exec/cpu-all.h
+>>> +++ b/include/exec/cpu-all.h
+>>> @@ -220,7 +220,7 @@ extern int target_page_bits;
+>>>     #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+>>>   #define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
+>>> -#define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) &
+>>> TARGET_PAGE_MASK)
+>>> +#define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
+>>>     /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+>>>    * when intptr_t is 32-bit and we are aligning a long long.
+>>> @@ -228,9 +228,8 @@ extern int target_page_bits;
+>>>   extern uintptr_t qemu_host_page_size;
+>>>   extern intptr_t qemu_host_page_mask;
+>>>   -#define HOST_PAGE_ALIGN(addr) (((addr) + qemu_host_page_size - 1) &
+>>> qemu_host_page_mask)
+>>> -#define REAL_HOST_PAGE_ALIGN(addr) (((addr) +
+>>> qemu_real_host_page_size - 1) & \
+>>> -                                    qemu_real_host_page_mask)
+>>> +#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
+>>> +#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr),
+>>> qemu_real_host_page_size)
+>>>     /* same as PROT_xxx */
+>>>   #define PAGE_READ      0x0001
+>>>
+> 
+> Isn't this the patch where Richard pointed out that the compiler
+> generates worse code?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/pc.c             | 17 +++--------------
- hw/i386/pc_piix.c        |  2 +-
- hw/i386/pc_q35.c         |  2 +-
- include/hw/i386/pc.h     |  1 -
- target/i386/cpu.h        |  3 ++-
- target/i386/fpu_helper.c | 26 +++++++++++++++++++++++++-
- 6 files changed, 32 insertions(+), 19 deletions(-)
+Richard confused ROUND_UP with QEMU_ALIGN_UP.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 5fce60c..66d865b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -381,23 +381,12 @@ static uint64_t ioport80_read(void *opaque, hwaddr addr, unsigned size)
- }
- 
- /* MSDOS compatibility mode FPU exception support */
--static qemu_irq ferr_irq;
--
--void pc_register_ferr_irq(qemu_irq irq)
--{
--    ferr_irq = irq;
--}
--
--/* XXX: add IGNNE support */
--void cpu_set_ferr(CPUX86State *s)
--{
--    qemu_irq_raise(ferr_irq);
--}
--
- static void ioportF0_write(void *opaque, hwaddr addr, uint64_t data,
-                            unsigned size)
- {
--    qemu_irq_lower(ferr_irq);
-+    if (tcg_enabled()) {
-+        cpu_clear_ferr();
-+    }
- }
- 
- static uint64_t ioportF0_read(void *opaque, hwaddr addr, unsigned size)
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 3a4a64a..431d657 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -213,7 +213,7 @@ static void pc_init1(MachineState *machine,
-         ioapic_init_gsi(gsi_state, "i440fx");
-     }
- 
--    pc_register_ferr_irq(x86ms->gsi[13]);
-+    x86_register_ferr_irq(x86ms->gsi[13]);
- 
-     pc_vga_init(isa_bus, pcmc->pci_enabled ? pci_bus : NULL);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index def3bc2..c9cdac8 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -261,7 +261,7 @@ static void pc_q35_init(MachineState *machine)
-         ioapic_init_gsi(gsi_state, "q35");
-     }
- 
--    pc_register_ferr_irq(x86ms->gsi[13]);
-+    x86_register_ferr_irq(x86ms->gsi[13]);
- 
-     assert(pcms->vmport != ON_OFF_AUTO__MAX);
-     if (pcms->vmport == ON_OFF_AUTO_AUTO) {
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 5923318..f040a72 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -176,7 +176,6 @@ void vmmouse_set_data(const uint32_t *data);
- extern int fd_bootchk;
- 
- bool pc_machine_is_smm_enabled(PCMachineState *pcms);
--void pc_register_ferr_irq(qemu_irq irq);
- void pc_acpi_smi_interrupt(void *opaque, int irq, int level);
- 
- void pc_hot_add_cpu(MachineState *ms, const int64_t id, Error **errp);
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index b772e82..01e052b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1761,7 +1761,8 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
- 
- int cpu_get_pic_interrupt(CPUX86State *s);
- /* MSDOS compatibility mode FPU exception support */
--void cpu_set_ferr(CPUX86State *s);
-+void x86_register_ferr_irq(qemu_irq irq);
-+void cpu_clear_ferr(void);
- /* mpx_helper.c */
- void cpu_sync_bndcs_hflags(CPUX86State *env);
- 
-diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 005f1f6..4db0059 100644
---- a/target/i386/fpu_helper.c
-+++ b/target/i386/fpu_helper.c
-@@ -26,6 +26,10 @@
- #include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
- 
-+#ifdef CONFIG_SOFTMMU
-+#include "hw/irq.h"
-+#endif
-+
- #define FPU_RC_MASK         0xc00
- #define FPU_RC_NEAR         0x000
- #define FPU_RC_DOWN         0x400
-@@ -58,6 +62,26 @@
- #define floatx80_l2e make_floatx80(0x3fff, 0xb8aa3b295c17f0bcLL)
- #define floatx80_l2t make_floatx80(0x4000, 0xd49a784bcd1b8afeLL)
- 
-+#if !defined(CONFIG_USER_ONLY)
-+static qemu_irq ferr_irq;
-+
-+void x86_register_ferr_irq(qemu_irq irq)
-+{
-+    ferr_irq = irq;
-+}
-+
-+void cpu_clear_ferr(void)
-+{
-+    qemu_irq_lower(ferr_irq);
-+}
-+
-+static void cpu_set_ferr(void)
-+{
-+    qemu_irq_raise(ferr_irq);
-+}
-+#endif
-+
-+
- static inline void fpush(CPUX86State *env)
- {
-     env->fpstt = (env->fpstt - 1) & 7;
-@@ -137,7 +161,7 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
-     }
- #if !defined(CONFIG_USER_ONLY)
-     else {
--        cpu_set_ferr(env);
-+        cpu_set_ferr();
-     }
- #endif
- }
--- 
-1.8.3.1
 
+r~
 
 
