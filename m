@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C5EE3466
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:38:19 +0200 (CEST)
-Received: from localhost ([::1]:42714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5621BE347E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:41:48 +0200 (CEST)
+Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdJh-0007og-Vn
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:38:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
+	id 1iNdN4-0006tq-CG
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKk-0003z7-54
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:19 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKl-00041r-Bv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKi-0006Br-GZ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45377)
+ (envelope-from <armbru@redhat.com>) id 1iNcKk-0006DG-7M
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32191
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKi-0006Bb-C1
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:16 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKk-0006Cg-2s
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920515;
+ s=mimecast20190719; t=1571920517;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X4odpAQ7nc+8SplFp+GgbzjvWEyuzQdbgv2p6t16YVs=;
- b=C0+pqULWJ3E3vAciqHrZLiceNFXvmw02huu1DfORBihrl+GYGFxkMHB5Lqw6///u5+d13d
- GfQvtFK47vOgxg0CtTVna5x52yxFDxbNhqP8PpJdVf0CLCWXJWknhRQlJ3O4GkyTo2SbtD
- SkD0wpyno4JyJMoHKpX9tDR1+XhIaOw=
+ bh=cl5ixxlHRmcLXH72YDIPw6RzCOnm9bLTnzCeBrChbwk=;
+ b=TUeR67lrlccTTundARbD+PmzdC+M1kRAIJtEp0gA1VPb58UMLZkGFMzheKMMIhzgBt6Tcx
+ bQChipX4z5EPl7cJIcyHsISAJqh/ORC4OueJ1Roih72XUUTt0RmxS/xw/LmX9cDkYV03UI
+ ZOiHUFVFmKceCnvuldFUNxA359aLNeo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-lNL973PMOESMAkTQmb4Xyg-1; Thu, 24 Oct 2019 08:35:12 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-308-iorUWnBiO9eqtmQ0jSGABQ-1; Thu, 24 Oct 2019 08:35:13 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E113476;
- Thu, 24 Oct 2019 12:35:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A909107AD34;
+ Thu, 24 Oct 2019 12:35:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A45485D712;
- Thu, 24 Oct 2019 12:35:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A5FF660126;
+ Thu, 24 Oct 2019 12:35:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0A9451132A0B; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
+ id 0DAE111329CF; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 05/19] tests/test-qmp-event: Use qobject_is_equal()
-Date: Thu, 24 Oct 2019 14:34:44 +0200
-Message-Id: <20191024123458.13505-6-armbru@redhat.com>
+Subject: [RFC PATCH 06/19] tests/test-qmp-event: Check event is actually
+ emitted
+Date: Thu, 24 Oct 2019 14:34:45 +0200
+Message-Id: <20191024123458.13505-7-armbru@redhat.com>
 In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
 References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: lNL973PMOESMAkTQmb4Xyg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: iorUWnBiO9eqtmQ0jSGABQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,104 +77,65 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Locally defined helper qdict_cmp_simple() implements just enough of a
-comparison to serve here.  Replace it by qobject_is_equal(), which
-implements all of it.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-event.c | 66 +-----------------------------------------
- 1 file changed, 1 insertion(+), 65 deletions(-)
+ tests/test-qmp-event.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index 430001e622..d64066139c 100644
+index d64066139c..7dd0053190 100644
 --- a/tests/test-qmp-event.c
 +++ b/tests/test-qmp-event.c
-@@ -28,73 +28,9 @@ typedef struct TestEventData {
+@@ -26,6 +26,7 @@
+=20
+ typedef struct TestEventData {
      QDict *expect;
++    bool emitted;
  } TestEventData;
 =20
--typedef struct QDictCmpData {
--    QDict *expect;
--    bool result;
--} QDictCmpData;
--
  TestEventData *test_event_data;
- static GMutex test_event_lock;
-=20
--/* Only compares bool, int, string */
--static
--void qdict_cmp_do_simple(const char *key, QObject *obj1, void *opaque)
--
--{
--    QObject *obj2;
--    QDictCmpData d_new, *d =3D opaque;
--    int64_t val1, val2;
--
--    if (!d->result) {
--        return;
--    }
--
--    obj2 =3D qdict_get(d->expect, key);
--    if (!obj2) {
--        d->result =3D false;
--        return;
--    }
--
--    if (qobject_type(obj1) !=3D qobject_type(obj2)) {
--        d->result =3D false;
--        return;
--    }
--
--    switch (qobject_type(obj1)) {
--    case QTYPE_QBOOL:
--        d->result =3D (qbool_get_bool(qobject_to(QBool, obj1)) =3D=3D
--                     qbool_get_bool(qobject_to(QBool, obj2)));
--        return;
--    case QTYPE_QNUM:
--        g_assert(qnum_get_try_int(qobject_to(QNum, obj1), &val1));
--        g_assert(qnum_get_try_int(qobject_to(QNum, obj2), &val2));
--        d->result =3D val1 =3D=3D val2;
--        return;
--    case QTYPE_QSTRING:
--        d->result =3D g_strcmp0(qstring_get_str(qobject_to(QString, obj1))=
-,
--                              qstring_get_str(qobject_to(QString, obj2))) =
-=3D=3D 0;
--        return;
--    case QTYPE_QDICT:
--        d_new.expect =3D qobject_to(QDict, obj2);
--        d_new.result =3D true;
--        qdict_iter(qobject_to(QDict, obj1), qdict_cmp_do_simple, &d_new);
--        d->result =3D d_new.result;
--        return;
--    default:
--        abort();
--    }
--}
--
--static bool qdict_cmp_simple(QDict *a, QDict *b)
--{
--    QDictCmpData d;
--
--    d.expect =3D b;
--    d.result =3D true;
--    qdict_iter(a, qdict_cmp_do_simple, &d);
--    return d.result;
--}
--
- void test_qapi_event_emit(test_QAPIEvent event, QDict *d)
- {
-     QDict *t;
-@@ -115,7 +51,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict *d=
-)
-=20
+@@ -52,7 +53,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict *d)
      qdict_del(d, "timestamp");
 =20
--    g_assert(qdict_cmp_simple(d, test_event_data->expect));
-+    g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expect)=
+     g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expect)=
 ));
+-
++    test_event_data->emitted =3D true;
+ }
 =20
+ static void event_prepare(TestEventData *data,
+@@ -87,6 +88,7 @@ static void test_event_a(TestEventData *data,
+ {
+     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
+     qapi_event_send_event_a();
++    g_assert(data->emitted);
+     qobject_unref(data->expect);
+ }
+=20
+@@ -95,6 +97,7 @@ static void test_event_b(TestEventData *data,
+ {
+     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
+     qapi_event_send_event_b();
++    g_assert(data->emitted);
+     qobject_unref(data->expect);
+ }
+=20
+@@ -107,6 +110,7 @@ static void test_event_c(TestEventData *data,
+         "{ 'event': 'EVENT_C', 'data': {"
+         " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2' }=
+ }");
+     qapi_event_send_event_c(true, 1, true, &b, "test2");
++    g_assert(data->emitted);
+     qobject_unref(data->expect);
+ }
+=20
+@@ -132,6 +136,7 @@ static void test_event_d(TestEventData *data,
+         "  'string': 'test2', 'enum2': 'value2' },"
+         " 'b': 'test3', 'enum3': 'value3' } }");
+     qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VALUE=
+3);
++    g_assert(data->emitted);
+     qobject_unref(data->expect);
  }
 =20
 --=20
