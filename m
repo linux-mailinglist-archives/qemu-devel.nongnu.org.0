@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E83AE39FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:28:51 +0200 (CEST)
-Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ECEE3A0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:30:01 +0200 (CEST)
+Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgun-0007kE-TD
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58347)
+	id 1iNgvv-0002qO-SH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58381)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfyQ-0008VX-Lv
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfyT-0000Aq-TP
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfyP-00017D-F3
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:30 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41363)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfyS-00018I-TV
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:33 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38070)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfyP-00016u-86
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:29 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p4so26810092wrm.8
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:29 -0700 (PDT)
+ id 1iNfyS-000182-NN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:32 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 3so3221451wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=PQl3KRLLMTqQVuIeb30pOMqlU1Q+h9n4TjUf1vQdg9c=;
- b=fYmn6HIBA7dRRro2xV4cZaHTLEOMMlxD0C0n7MgBh8Vj1ozFkfrm9+omC7HNvko6Ct
- fV9IKXMADK3BDdQhFS4hMaT+llFrDCF/zDtgxCCmjknjQ14g3DNh+oZUJ682o1yyeU3r
- B4iuZX6uTS+e+GteP3JlB+TexOrNIShgAvUSSs3sgqXQMd8J/niSFi2Sz/N1Rzbysg7C
- HmWROBDlZzptg+/0IjlZ+MsdbgD8x3vklM9yDBgLhR7vgkLqJsE5WRbq4C3Rgo0sGMHu
- ChZj6bIFOchgFhfD2K0INRgZAo6gY0NGF6kjDwgxv3Mr71lS8OalKecmKkIncRssAkFn
- H0xw==
+ bh=TW1rHEa4Yt+Clo9YX+nLhtNEgx47fDesU2q7Xi3+SMM=;
+ b=IW1U/8DauZCiUdzyrb45j+OZKBHmnRYYJ0HrHRmfTzQdGpKQMtDk5HGT7M/jXpcpZd
+ iXx+9HL5kQUb8kz3yzM525dIguE9H89a6sv/MlRuwwsLZIQUSo7+IewoQIi5cFlVBATS
+ o1lB4rKrHJZLDTy+1DFdfB0Zm3dA4RD2WQNiWDD1Gp+37u23MZE+lzbTwABj/X777SHj
+ Df4Bxwc/lABBIVPsEo1JD5noz5NSgBTd9CyTrfUPd46DfXEwcDI0yqqMnnt7i7r0uokM
+ RbFW5kyHu2KSIde1fqXotBs/c0hKYblGvSLKjYpy2mgjXES7HztkYPdUufAYq819TReX
+ 2JPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PQl3KRLLMTqQVuIeb30pOMqlU1Q+h9n4TjUf1vQdg9c=;
- b=kYWsVQjvx1afr6a0FXtSPS+j/WzV3LW6sVPm4P3tmSBn+Tyd6YoY1e39s3VQu6iNbM
- vb8Ik4tTbxxv4ZB3auAhPXF/KXrXSiTE5qkajUbzgM+90FvoyKbNV8i6hXZcg7pgYRGE
- DY2m+rhjKqReiCa8KL8ZGqf5OzYEUY4McM6wW8CVx7bIFwKDVgXeAtY26Wun0HDkc/9t
- rF6XOcK8wtcpXYYlaLH1bDBpJsIwLfQ9AQPPXTWIzTs5eazahoh1F5IgvuAA91IeaL6j
- D9XytH0BOiFpinurSERwV2bsesKw9Cxi09ONUKkSi3dZWR0kLQyEScYSxh4sRP6bLEU4
- lU0A==
-X-Gm-Message-State: APjAAAUhI9NEhbdMUPNfvodjh/P5cbb/+4dX5u0iwD6tNbFHXOBiJA50
- QSlLg5+Yrg6vTOGky3EXdnubmXhjFbA=
-X-Google-Smtp-Source: APXvYqwG0L67Q+K133w0CcBAr74CSaiB6KGmJqCtjYNfyH/b5jUG4geUNXsFeBR4hoAa7JjGNjBNUA==
-X-Received: by 2002:adf:e850:: with SMTP id d16mr4459575wrn.251.1571934508049; 
- Thu, 24 Oct 2019 09:28:28 -0700 (PDT)
+ bh=TW1rHEa4Yt+Clo9YX+nLhtNEgx47fDesU2q7Xi3+SMM=;
+ b=kEHgBAE6BtnBICPpSVHltj0jRhPosDIjkIINmhY3jSXJ9mLehsQb5NW92wUVEZFuqL
+ GpO6CyLxvUGxaDLeos3jhxJBFKwjd4tCbZkJs+phX5iiISjP/oYIwfMFJhiiyiwnGEg1
+ 6hVUcknazpvLex0TfuQPaJ0gdwgIdcHTIREg5B8WkAPvT2c3f9nJMQj2slClecZPXq1n
+ nfIhz5wzvv0wizzMjlmrTszahIA+Kt2iUhj5RP7jO4rkGH2hDflcCdv/6gxbA8ddB2sf
+ Y83ygC98KIiM96msFNWgGo8OjlRqFP6QicgrBOJmDGsKKbGcIeroxqqL3zvF8lagcTbm
+ JX1w==
+X-Gm-Message-State: APjAAAVirvn/iL+pZpBNgVjBsnwxDovWHKnzt/cSu1h7XkOiVUrcpSRY
+ 6b4Es6/KO+UJehnALnjqlOt+mSnE8pE=
+X-Google-Smtp-Source: APXvYqwDb1l8z/AUSogAhBAPDc0lzKHagIm7TSIzRnEV2+8es246w946LzWld3yIbFz1Az5sTgtCOg==
+X-Received: by 2002:a1c:7517:: with SMTP id o23mr6001285wmc.34.1571934511495; 
+ Thu, 24 Oct 2019 09:28:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.26
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:27 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/51] hw/arm/bcm2836: Make the SoC code modular
-Date: Thu, 24 Oct 2019 17:27:21 +0100
-Message-Id: <20191024162724.31675-49-peter.maydell@linaro.org>
+Subject: [PULL 51/51] hw/arm/highbank: Use AddressSpace when using
+ write_secondary_boot()
+Date: Thu, 24 Oct 2019 17:27:24 +0100
+Message-Id: <20191024162724.31675-52-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,88 +85,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This file creates the BCM2836/BCM2837 blocks.
-The biggest differences with the BCM2838 we are going to add, are
-the base addresses of the interrupt controller and the peripherals.
-Add these addresses in the BCM283XInfo structure to make this
-block more modular. Remove the MCORE_OFFSET offset as it is
-not useful and rather confusing.
+write_secondary_boot() is used in SMP configurations where the
+CPU address space might not be the main System Bus.
+The rom_add_blob_fixed_as() function allow us to specify an
+address space. Use it to write each boot blob in the corresponding
+CPU address space.
 
-Reviewed-by: Esteban Bosse <estebanbosse@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191019234715.25750-6-f4bug@amsat.org
+Message-id: 20191019234715.25750-15-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/bcm2836.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ hw/arm/highbank.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 723aef6bf51..019e67b9068 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -16,15 +16,11 @@
- #include "hw/arm/raspi_platform.h"
- #include "hw/sysbus.h"
- 
--/* Peripheral base address seen by the CPU */
--#define BCM2836_PERI_BASE       0x3F000000
--
--/* "QA7" (Pi2) interrupt controller and mailboxes etc. */
--#define BCM2836_CONTROL_BASE    0x40000000
--
- struct BCM283XInfo {
-     const char *name;
-     const char *cpu_type;
-+    hwaddr peri_base; /* Peripheral base address seen by the CPU */
-+    hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
-     int clusterid;
- };
- 
-@@ -32,12 +28,16 @@ static const BCM283XInfo bcm283x_socs[] = {
-     {
-         .name = TYPE_BCM2836,
-         .cpu_type = ARM_CPU_TYPE_NAME("cortex-a7"),
-+        .peri_base = 0x3f000000,
-+        .ctrl_base = 0x40000000,
-         .clusterid = 0xf,
-     },
- #ifdef TARGET_AARCH64
-     {
-         .name = TYPE_BCM2837,
-         .cpu_type = ARM_CPU_TYPE_NAME("cortex-a53"),
-+        .peri_base = 0x3f000000,
-+        .ctrl_base = 0x40000000,
-         .clusterid = 0x0,
-     },
- #endif
-@@ -104,7 +104,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index f1724d69290..518d935fdf6 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
+@@ -78,7 +78,8 @@ static void hb_write_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
+     for (n = 0; n < ARRAY_SIZE(smpboot); n++) {
+         smpboot[n] = tswap32(smpboot[n]);
      }
+-    rom_add_blob_fixed("smpboot", smpboot, sizeof(smpboot), SMP_BOOT_ADDR);
++    rom_add_blob_fixed_as("smpboot", smpboot, sizeof(smpboot), SMP_BOOT_ADDR,
++                          arm_boot_address_space(cpu, info));
+ }
  
-     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
--                            BCM2836_PERI_BASE, 1);
-+                            info->peri_base, 1);
- 
-     /* bcm2836 interrupt controller (and mailboxes, etc.) */
-     object_property_set_bool(OBJECT(&s->control), true, "realized", &err);
-@@ -113,7 +113,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, BCM2836_CONTROL_BASE);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, info->ctrl_base);
- 
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
-         qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-irq", 0));
-@@ -126,7 +126,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
- 
-         /* set periphbase/CBAR value for CPU-local registers */
-         object_property_set_int(OBJECT(&s->cpus[n]),
--                                BCM2836_PERI_BASE + MSYNC_OFFSET,
-+                                info->peri_base,
-                                 "reset-cbar", &err);
-         if (err) {
-             error_propagate(errp, err);
+ static void hb_reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
 -- 
 2.20.1
 
