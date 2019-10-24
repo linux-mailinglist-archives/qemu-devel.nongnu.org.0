@@ -2,105 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF5BE3153
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:49:05 +0200 (CEST)
-Received: from localhost ([::1]:40268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3073E318B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:55:14 +0200 (CEST)
+Received: from localhost ([::1]:40352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbc0-00018o-1Q
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:49:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
+	id 1iNbhx-0008IK-Iu
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <den@virtuozzo.com>) id 1iNb4D-0005Lr-Un
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:10 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNb7J-0003PX-Ad
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:17:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1iNb4C-000227-IQ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:09 -0400
-Received: from mail-he1eur01on0708.outbound.protection.outlook.com
- ([2a01:111:f400:fe1e::708]:3328
- helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>)
- id 1iNb49-0001zd-UQ; Thu, 24 Oct 2019 07:14:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k3fomcLYihLpzmVQUyCVFvGdtF8yyxnsEKvg6wpK+0cln69n9vd/GLwjX/CD/o400szonyON5EGSRX0O2kXaRAdVKsVHGF6HlzcLoIfyiyGh/4U5Vm67nxb32f4H1FAawoziMOmiBY+Kxwp+WNcOvO6MmRqoqpCfqSqI2uHNpsx0DsFItLW1+dDB3g6oaTG0sNPcTws4UOL+N7H+9+2UyD5jn1BmG18c0uLlZET80v/dU9hYXlbZJsM3t1nyI8DGKyPZB5EYmNprm7GAAMjz815cWU9AGJ9kS5v2QDlXQ6aB/bniJ569vVyMkjbiF+pJSdRw3M0bhAlZyWPe8k9YLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hxhLi3QYg0sD1RLbwgCis0jEXkdIzkI6rA24E+B1GUs=;
- b=Chq6802//AvJ6Y/IsefgSvQ4LJe0JL4xmFgFYGOYWKtgw9TQMH5p68K6br9axGHbFaUNkEqKWyrZ89Xh73nJIbPyR1AkK9kH4olpdRFiHlx13xdakljXHSUC0DnEENSskSSS7GrFWWQgKySem5MV0n9WAT/B6LIZRFug3Wws/+HtIs8bAzdlhryQYkvEcF9A6sC8RLwmJFyHhSzh81DV4bS6pTua87eQHh/bMX4561Eyeb6qqokSV4BlbPuuTckxF2lJ4nnF5bzJBXQ32KOTyhgQuA8Owh6seyODncypErSXoX4Ycp4FXMSACcA27aIzKnDNQe7rL2E3tPiL5fSR7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hxhLi3QYg0sD1RLbwgCis0jEXkdIzkI6rA24E+B1GUs=;
- b=A5W55rvs+f4p7NCzPYNszFlipK1alrx2QJzqzBGFKkKe4PtWyPRcxTuBoXBCxtnxni/v5vbcTC3VZgD7z+pq4i4Nglt9kQt4ig99+lNHuS6Qwnw80lUT3wxfPMg+20U7TLhZWxtzLWXRt3N6lLX3uOa8YgMfNLfGfOUCS/FUmI0=
-Received: from DB6PR0801MB1702.eurprd08.prod.outlook.com (10.169.221.21) by
- DB6PR0801MB1685.eurprd08.prod.outlook.com (10.169.225.145) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.20; Thu, 24 Oct 2019 11:14:02 +0000
-Received: from DB6PR0801MB1702.eurprd08.prod.outlook.com
- ([fe80::f849:2ba0:2a0b:5b34]) by DB6PR0801MB1702.eurprd08.prod.outlook.com
- ([fe80::f849:2ba0:2a0b:5b34%7]) with mapi id 15.20.2347.030; Thu, 24 Oct 2019
- 11:14:02 +0000
-From: Denis Lunev <den@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
- s->lock
-Thread-Topic: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
- s->lock
-Thread-Index: AQHVibZRoCM6NbrZp0+Q3TpWlZwDWKdpws2A///dggCAAASJAA==
-Date: Thu, 24 Oct 2019 11:14:02 +0000
-Message-ID: <b244c211-aa73-b4f9-7313-474e909359fb@virtuozzo.com>
+ (envelope-from <kwolf@redhat.com>) id 1iNb7H-00049u-Ui
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:17:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48409
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNb7H-00049I-Pf
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:17:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571915839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n+RY8lFTGAdjrHRcz99VTIPSdolgM9nvlWB3O/PEDaU=;
+ b=B/9+iNCyvDOmS2sXZrv0zTfbjNYFvUSNXu9SKGt2Xd9HBEt4KCblqrlA5SdgkSY08asivB
+ ygKI8e9O1YOS56pjCoyAUzT6ja73l837GRt9KrR6CogL3EBloVfTEvBdTfJK9ZpBUhF2oO
+ +pPW7UScI1HDM87oy+6h27/2HDD0Z08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-oH_Vn_SqOkKDblib7NSMRg-1; Thu, 24 Oct 2019 07:17:16 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 999E0100550E;
+ Thu, 24 Oct 2019 11:17:14 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 254495D6D0;
+ Thu, 24 Oct 2019 11:17:11 +0000 (UTC)
+Date: Thu, 24 Oct 2019 13:17:10 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 3/3] qcow2: Fix corruption bug in
+ qcow2_detect_metadata_preallocation()
+Message-ID: <20191024111710.GC6200@linux.fritz.box>
 References: <20191023152620.13166-1-kwolf@redhat.com>
- <20191023152620.13166-3-kwolf@redhat.com>
- <3600fb84-e1f1-c70a-4b83-e7a379f50614@virtuozzo.com>
- <20191024105746.GB6200@linux.fritz.box>
-In-Reply-To: <20191024105746.GB6200@linux.fritz.box>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0202CA0035.eurprd02.prod.outlook.com
- (2603:10a6:3:e4::21) To DB6PR0801MB1702.eurprd08.prod.outlook.com
- (2603:10a6:4:2f::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 716905c6-80d7-449e-6ebc-08d758734692
-x-ms-traffictypediagnostic: DB6PR0801MB1685:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR0801MB1685B8CEC7303E089B0BB824B66A0@DB6PR0801MB1685.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:203;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(136003)(366004)(39840400004)(346002)(376002)(189003)(199004)(52314003)(86362001)(8936002)(2906002)(99286004)(486006)(476003)(2616005)(11346002)(446003)(66446008)(6512007)(66476007)(66556008)(64756008)(25786009)(66946007)(6246003)(31696002)(8676002)(71200400001)(71190400001)(6486002)(386003)(81156014)(76176011)(52116002)(81166006)(53546011)(6506007)(36756003)(6436002)(14454004)(305945005)(229853002)(54906003)(316002)(7736002)(3846002)(5660300002)(6116002)(66066001)(256004)(14444005)(186003)(6916009)(4326008)(102836004)(26005)(31686004)(478600001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR0801MB1685;
- H:DB6PR0801MB1702.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IgO+PaUWawRHkdavLyVcdJomVDQOVZAf9O+kiBGSnR+bgfMbQxdBvwReLwADWrpWGZsBJPM0OLnFvXwwtb+6HUMLBs/EM0ZYLb4dybvAuybAdgavuMQ8TlG1R9HweR93Akep+XxJVuAYL77QElBTcbfV0+wBq9dGEomAIDPXWT1JY92H0gfWlaBu3xJMirWRV6SDHnhyJibgN+sjmwQqNg8xHzulfIyPhOWGi0kOqnQVY7GBWS3gjVlYu/MV9bndlNg/Z9ogJs/qXjQRki0DTut9MnxMt85j3YkOywdcC8lwT8sod9fss1kYga11LbWWMNVccHtvD61Ythpp954LL2SDx6XA8pZ/jTuxK5HWS6LWSrNUIfX3bSfcIY2LsI6GO0FqLi8JmmstVWPZoeXt4iA3EFvDKhEVofpkCLyw0mxtBqnbWjbkF71xDFA9AF1f
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <DB0E61B9902FB449B14C01A391672EE8@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ <20191023152620.13166-4-kwolf@redhat.com>
+ <3cfee2ed-cebb-44ef-82ce-77a77c1a9e6a@virtuozzo.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 716905c6-80d7-449e-6ebc-08d758734692
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 11:14:02.6948 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eS5891G+yNdx2AiWd4EbhpCB0THJyvIrUf3CJsXdSCFZfvTInI0H8rlZcxlb9hygThCLucA/U/hv2ThtuKxf1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB1685
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe1e::708
+In-Reply-To: <3cfee2ed-cebb-44ef-82ce-77a77c1a9e6a@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: oH_Vn_SqOkKDblib7NSMRg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,7 +77,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
  "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
@@ -124,52 +87,56 @@ Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 1:57 PM, Kevin Wolf wrote:
-> Am 24.10.2019 um 12:01 hat Denis Lunev geschrieben:
->> On 10/23/19 6:26 PM, Kevin Wolf wrote:
->>> qcow2_cache_do_get() requires that s->lock is locked because it can
->>> yield between picking a cache entry and actually taking ownership of it
->>> by setting offset and increasing the reference count.
->>>
->>> Add an assertion to make sure the caller really holds the lock. The
->>> function can be called outside of coroutine context, where bdrv_pread
->>> and flushes become synchronous operations. The lock cannot and need not
->>> be taken in this case.
->>>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>>  block/qcow2-cache.c | 5 +++++
->>>  1 file changed, 5 insertions(+)
->>>
->>> diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
->>> index d29b038a67..75b13dad99 100644
->>> --- a/block/qcow2-cache.c
->>> +++ b/block/qcow2-cache.c
->>> @@ -327,6 +327,9 @@ static int qcow2_cache_do_get(BlockDriverState *bs,=
- Qcow2Cache *c,
->>>      int min_lru_index =3D -1;
->>> =20
->>>      assert(offset !=3D 0);
->>> +    if (qemu_in_coroutine()) {
->>> +        qemu_co_mutex_assert_locked(&s->lock);
->>> +    }
->> that is looking not good to me. If this is really requires lock, we shou=
-ld
->> check for the lock always. In the other hand we could face missed
->> lock out of coroutine.
-> As the commit message explains, outside of coroutine context, we can't
-> yield and bdrv_pread and bdrv_flush become synchronous operations
-> instead, so there is nothing else that we need to protect against.
->
-> Kevin
->
-Hmm. It seems I was not careful enough with reading entire message.
-I am fine with this though it looks a bit tricky to me as such things
-can change in the future.
+Am 24.10.2019 um 12:46 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 23.10.2019 18:26, Kevin Wolf wrote:
+> > qcow2_detect_metadata_preallocation() calls qcow2_get_refcount() which
+> > requires s->lock to be taken to protect its accesses to the refcount
+> > table and refcount blocks. However, nothing in this code path actually
+> > took the lock. This could cause the same cache entry to be used by two
+> > requests at the same time, for different tables at different offsets,
+> > resulting in image corruption.
+> >=20
+> > As it would be preferable to base the detection on consistent data (eve=
+n
+> > though it's just heuristics), let's take the lock not only around the
+> > qcow2_get_refcount() calls, but around the whole function.
+> >=20
+> > This patch takes the lock in qcow2_co_block_status() earlier and assert=
+s
+> > in qcow2_detect_metadata_preallocation() that we hold the lock.
+> >=20
+> > Fixes: 69f47505ee66afaa513305de0c1895a224e52c45
+> > Cc: qemu-stable@nongnu.org
+> > Reported-by: Michael Weiser <michael@weiser.dinsnail.net>
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>=20
+> Oh, I'm very sorry. I was going to backport this patch, and found that it=
+'s
+> fixed in our downstream long ago, even before last upstream version patch=
+ sent :(
 
-Anyway, you could consider this as
+Seriously? Is your downstream QEMU so divergent from upstream that you
+wouldn't notice something like this? I think you really have to improve
+something there.
 
-Reviewed-by: Denis V. Lunev <den@openvz.org>
+I mean, we have a serious data corruptor in the 4.1 release and I wasted
+days to debug this, and you've been sitting on a fix for months without
+telling anyone? This isn't a memory leak or something, this kills
+people's images. It's eating their data.
 
-Den
+Modifying an image format driver requires utmost care and I think I'll
+try to make sure to allow only few qcow2 changes per release in the
+future. Too many changes were made in too short time, and with too
+little care, and there are even more qcow2 patches pending. Please check
+whether these series actually match your downstream code. Anyway, we'll
+tread very carefully now with the pending patches, even if it means
+delaying them for another release or two. Stability is way more
+important for an image format driver than new features and
+optimisations.
+
+Do whatever you need to fix your downstream process, but seriously, this
+must not ever happen again.
+
+Kevin
+
 
