@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABDCE330D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:52:45 +0200 (CEST)
-Received: from localhost ([::1]:41642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E816E3336
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:58:43 +0200 (CEST)
+Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcbb-0006s1-OS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47117)
+	id 1iNchN-0000Rg-SD
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <estebanbosse@gmail.com>) id 1iNcGn-0005Uu-J7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:31:15 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKd-0003g0-6p
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <estebanbosse@gmail.com>) id 1iNcGl-0003si-0N
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:31:12 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35303)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
- id 1iNcGj-0003q4-Ty; Thu, 24 Oct 2019 08:31:10 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l10so25448912wrb.2;
- Thu, 24 Oct 2019 05:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=19BvcLrhC04drBgyMJbcXDRsFfZF8OsuOsMBpt+cX/g=;
- b=f+uUksneANaoDpO9i7UyLisFVxC0Sj76AGpkDqqLr4sTS6UCxGCrKFnASzMrhjmefR
- dXr2xJ6a5s5dsfQUeAxovjppld3/tqcP9PNYLwDx0TTEAkOFSuDAJWOR1QdOxJHZOSMG
- Yt7GZpXB2UKV3HwuLOHJT3Bi2UApYeupj9IJLgOLxzcR0CgZFU3OZGeHeUZAfCY4EgmN
- ao3xXdLBGDzqmsFsHejXA2yOOchKt9m0EgMfd+D2cRTm7gArQjhB6C6EMTsYJWH0k09g
- Ggtrb2ukJRx9lDua2ZPjSNKCpVlULGEL4Y2L+bcAcqMgmSj4P5VibfAyFyXtY1YXEkn/
- 0kcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=19BvcLrhC04drBgyMJbcXDRsFfZF8OsuOsMBpt+cX/g=;
- b=O3O1oDcBsW7JVm5d4JPcR0EpyMj2Hr6U/V7LyGOBScDXLPd2uZV+gf4ZuXTYzAsQrj
- rEOzLCg4hOf1zAb6fVdGqxRDSZFoTrWiqaZkAIB7+Ol8IQJQYso1Ui4zMSPwNBrvXwrL
- Iun9SYZ+jn0nBPNfcq/VjqhyFJ5rbJ3qTPlTLOarbCgnwECeA5GG8wfNBW7ar1FfiWSZ
- mpuNFWWBsaoIR4ETqR7R/+UHKL7WU6i5jLs9vLhuAQoYc1QGDJR2G6U6zTsN3YN7QUbE
- Goajv/UY1V68kRpfE0Z0mY8Dg3HlAXleL2B70yu69UfoYGZgIGkpqlK79qsAhj0/+RDy
- KHFA==
-X-Gm-Message-State: APjAAAVwdY+WLpf2AtpiI6a0QS9W5XeYRSzXkwf3KB5ORJEdcSy+GkBu
- 8uqSruymT1+xWV2VTW6NPy0=
-X-Google-Smtp-Source: APXvYqxOEb7S0xXQCghJ+c1+W4+brbvJ1Wk03KzYHLtNGIIKOe47y0qgaBtNpdZxrBnW5kbqbXIGhQ==
-X-Received: by 2002:adf:dc42:: with SMTP id m2mr3858484wrj.314.1571920267000; 
- Thu, 24 Oct 2019 05:31:07 -0700 (PDT)
-Received: from Icho (x590ef5e8.dyn.telefonica.de. [89.14.245.232])
- by smtp.gmail.com with ESMTPSA id a13sm26827645wrf.73.2019.10.24.05.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 05:31:06 -0700 (PDT)
-Message-ID: <7aa51490869f8bbb8f5122b07e42a6c1f7da56ee.camel@gmail.com>
-Subject: Re: [RFC PATCH 14/14] hw/arm/raspi: Add the Raspberry Pi 4B board
-From: Esteban Bosse <estebanbosse@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Date: Thu, 24 Oct 2019 14:26:59 +0200
-In-Reply-To: <CAFEAcA9JXbqnKKK+m-7=FThXTa_x_kxRsvtwONWA69C2nb0=FA@mail.gmail.com>
-References: <20190904171315.8354-1-f4bug@amsat.org>
- <20190904171315.8354-15-f4bug@amsat.org>
- <c8a8c7758104a1a5fe052743b5a22d3a1353de91.camel@gmail.com>
- <5f1dd044-2909-767d-5a79-8a40d330e129@amsat.org>
- <CAFEAcA9JXbqnKKK+m-7=FThXTa_x_kxRsvtwONWA69C2nb0=FA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ (envelope-from <armbru@redhat.com>) id 1iNcKb-00062h-ID
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51200
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKb-00062I-Di
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571920508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hmKmwiIl0XnTJvtIV2JlOi+M6+bPyXoNP5yMw43orPk=;
+ b=dHFqzvS1FnupA9DpbVGEIphPG8v6D7MVs56NBDE+bjTeabdcbKyp3YR7qmsb4v5PBzN58J
+ JqiJM5BMAGCplO3h2XRW1t85XRwjQK7CS7+0qjzeAtCXHWyfcUjaG6wJICL25YHC7bqXMn
+ 580z6TkgQ0AMDGGnYR4nlzxtf4sBJRc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-JHZ6giRqPqSFuzukaj2f8A-1; Thu, 24 Oct 2019 08:35:04 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BB661800D6B;
+ Thu, 24 Oct 2019 12:35:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0B61001B3F;
+ Thu, 24 Oct 2019 12:35:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EFDD91138619; Thu, 24 Oct 2019 14:34:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 00/19] Configurable policy for handling deprecated
+ interfaces
+Date: Thu, 24 Oct 2019 14:34:39 +0200
+Message-Id: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: JHZ6giRqPqSFuzukaj2f8A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,50 +70,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-1?Q?Zolt=E1n?= Baldaszti <bztemail@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Luc Michel <luc.michel@greensocs.com>
+Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-El jue, 24-10-2019 a las 10:07 +0100, Peter Maydell escribió:
-> On Tue, 8 Oct 2019 at 10:04, Philippe Mathieu-Daudé <f4bug@amsat.org>
-> wrote:
-> > Hi Esteban,
-> > 
-> > On 9/29/19 5:53 PM, Esteban Bosse wrote:
-> > > > +static void raspi4_machine_init(MachineClass *mc)
-> > > > +{
-> > > > +    mc->desc = "Raspberry Pi 4B";
-> > > > +    mc->init = raspi4_init;
-> > > > +    mc->block_default_type = IF_SD;
-> > > > +    mc->no_parallel = 1;
-> > > > +    mc->no_floppy = 1;
-> > > > +    mc->no_cdrom = 1;
-> > > > +    mc->max_cpus = BCM283X_NCPUS;
-> > > > +    mc->min_cpus = BCM283X_NCPUS;
-> > > > +    mc->default_cpus = BCM283X_NCPUS;
-> > > > +    mc->default_ram_size = 1 * GiB;
-> > > The comercial models are: 1, 2 and 4 GiB. Why do you choose 1 GiB
-> > > as
-> > > default?
-> > 
-> > Well need one default, and 1GiB is the least beefy :)
-> > You can start a VM with more using the '-m' switch.
-> 
-> Among other things, a 2GB or more board will fail
-> 'make check' on a 32-bit host, because 'make check' tries
-> to start all board models, and 32-bit hosts can only
-> handle up to 2047MB of guest RAM.
-> 
-> thanks
-> -- PMM
+This series is RFC because it's incomplete, and the warning idea in
+PATCH 18 is half-baked.  I'm soliciting feed back from the management
+application crowd: is this going into a useful direction?
 
-Understood, thanks again for the info :).
+The series adresses only deprecated commands and events.  Good enough
+to demonstrate the ideas, I think.  A complete solution should
+additionally cover arguments and return values.  Feels feasible to me.
+
+New option -compat deprecated-input=3D<in-policy>,deprecated-output=3Dout-p=
+olicy
+configures the policy.  Available input policies:
+
+* accept: Accept deprecated commands with a warning (default)
+* reject: Reject deprecated commands
+* crash: Crash on deprecated command
+
+Available output policies:
+
+* accept: Emit deprecated events (default)
+* hide: Suppress deprecated events
+
+See also last item of
+    Subject: Minutes of KVM Forum BoF on deprecating stuff
+    Date: Fri, 26 Oct 2018 16:03:51 +0200
+    Message-ID: <87mur0ls8o.fsf@dusky.pond.sub.org>
+    https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg05828.html
+
+
+Markus Armbruster (19):
+  tests/test-qmp-cmds: Factor out qmp_dispatch() test helpers
+  tests/test-qmp-cmds: Check responses more thoroughly
+  tests/test-qmp-cmds: Simplify test data setup
+  tests/test-qmp-event: Simplify test data setup
+  tests/test-qmp-event: Use qobject_is_equal()
+  tests/test-qmp-event: Check event is actually emitted
+  qapi: Add feature flags to remaining definitions
+  qapi: Consistently put @features parameter right after @ifcond
+  qapi: Inline do_qmp_dispatch() into qmp_dispatch()
+  qapi: Simplify how qmp_dispatch() deals with QCO_NO_SUCCESS_RESP
+  qapi: Simplify how qmp_dispatch() gets the request ID
+  qapi: Replace qmp_dispatch()'s TODO comment by an explanation
+  qapi: New special feature flag "deprecated"
+  qemu-options: New -compat to set policy for "funny" interfaces
+  qapi: Mark deprecated QMP commands with feature 'deprecated'
+  qapi: Implement -compat deprecated-input=3Dreject for commands
+  qapi: Implement -compat deprecated-input=3Dcrash for commands
+  qapi: Include a warning in the response to a deprecated command
+  qapi: Implement -compat deprecated-output=3Dhide for events
+
+ docs/devel/qapi-code-gen.txt                  |  21 +-
+ tests/qapi-schema/doc-good.texi               |  32 ++-
+ qapi/common.json                              |  48 ++++
+ qapi/introspect.json                          |  28 ++-
+ qapi/machine.json                             |  24 +-
+ qapi/migration.json                           |  36 ++-
+ qapi/misc.json                                |  25 +-
+ include/qapi/compat-policy.h                  |  20 ++
+ include/qapi/qmp/dispatch.h                   |   1 +
+ qapi/qmp-dispatch.c                           | 140 +++++++-----
+ tests/test-qmp-cmds.c                         | 216 +++++++++++-------
+ tests/test-qmp-event.c                        | 181 ++++-----------
+ vl.c                                          |  17 ++
+ qemu-options.hx                               |  24 ++
+ scripts/qapi/commands.py                      |  16 +-
+ scripts/qapi/doc.py                           |  16 +-
+ scripts/qapi/events.py                        |  16 +-
+ scripts/qapi/expr.py                          |  11 +-
+ scripts/qapi/introspect.py                    |  41 ++--
+ scripts/qapi/schema.py                        | 138 ++++++-----
+ scripts/qapi/types.py                         |   8 +-
+ scripts/qapi/visit.py                         |   8 +-
+ tests/Makefile.include                        |   1 +
+ tests/qapi-schema/alternate-base.err          |   2 +-
+ tests/qapi-schema/doc-good.json               |  18 +-
+ tests/qapi-schema/doc-good.out                |  20 +-
+ .../qapi-schema/features-deprecated-type.err  |   2 +
+ .../qapi-schema/features-deprecated-type.json |   3 +
+ .../qapi-schema/features-deprecated-type.out  |   0
+ tests/qapi-schema/qapi-schema-test.json       |  31 ++-
+ tests/qapi-schema/qapi-schema-test.out        |  29 ++-
+ tests/qapi-schema/test-qapi.py                |  19 +-
+ 32 files changed, 731 insertions(+), 461 deletions(-)
+ create mode 100644 include/qapi/compat-policy.h
+ create mode 100644 tests/qapi-schema/features-deprecated-type.err
+ create mode 100644 tests/qapi-schema/features-deprecated-type.json
+ create mode 100644 tests/qapi-schema/features-deprecated-type.out
+
+--=20
+2.21.0
 
 
