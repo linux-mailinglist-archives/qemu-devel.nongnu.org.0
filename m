@@ -2,101 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FA3E3550
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:15:02 +0200 (CEST)
-Received: from localhost ([::1]:43762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CB4E356E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:22:31 +0200 (CEST)
+Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdtE-0000tp-I9
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33014)
+	id 1iNe0T-0007HW-VX
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iNda3-0004oR-Fb
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:55:13 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdid-0006du-4F
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iNda1-0002o0-Cc
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:55:10 -0400
-Received: from mail-eopbgr10097.outbound.protection.outlook.com
- ([40.107.1.97]:9069 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iNda0-0002mY-Fm; Thu, 24 Oct 2019 09:55:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BSyuMhxbSBfHGa+o+9agB/bXZCITgnIJhqFIizEZSGTfYvwPpT8RJ6sfj9yG/ln11Fr85dYypmxUQUyB5/GC0Ay4aB7tbk9nu+shtgxNkmohbsIl9bvXSA7IHaQ81dB7R5yhV589yyXvpFucoXaRz/ORAT1G0apazhRDPsUZeqjjU47G0tFdNiaFkr93QSNSITwNzhIrLy1eo0TmXRjAGkxMHH/3dQRKL4gnsS/iKifUtftNrRsDk+CHqSlzwksZhCmZL9hlyC+sUmxNK3m7krJIR5cQ+T19qxkltn4parCoup45sSDk9EITDtcG2FsQrfI6vvtnKO5eqU8UsmW3rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3NTwzbUVbdxI0AjexCaEFNKyN66hY+wwXsEpCHwGcnA=;
- b=AN3U2l+/DeysNOikGxhnz31qhHkrqGjXhm/9IKc27y9sAgmoaBI9t1xORD5jl323/yfkqrghSkt/MzVsQtjdEG7j4OnZEtV3vOECyaqBJzJsMP3f9FWPKBduuL1yw4US0Rs5J/0Cndwph4t8v9ZysGV2tcb5xhyICX2PdhJIQFpQSK6azux22grH2/+y/m24DhWqnhuI1P4KnL7VglDI68boWJytYmYml/IHm5cmt1bXn2aks6j4qbYgZW1JQtt7ObuIzDkRndsLWiDL/Yb9NUp6Q36N6ZvZC14xr/Rbud7ROoHNYNL2ZlErM/bvGmPGqR6o2lepQeXsMqUCU8wRCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3NTwzbUVbdxI0AjexCaEFNKyN66hY+wwXsEpCHwGcnA=;
- b=ZcrXWD71CJhz2kyGhGDtAN8kgxU4C1tgg0ZQb2gPhjRUzAWul2y7/a6KdBbqvw4b8FZRoYwTkaH6LD3D7zhrPIXYWRKbZMT9ZlGGLJ9PPLcIH7URnm1gH7WTjGvdUybJxe0CJM/8PIIxJVyN+fNVRpUpaBCYOOBYYv5/wPIDooM=
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com (20.179.35.83) by
- AM0PR08MB3763.eurprd08.prod.outlook.com (20.178.82.152) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.22; Thu, 24 Oct 2019 13:55:06 +0000
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c]) by AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c%7]) with mapi id 15.20.2367.027; Thu, 24 Oct 2019
- 13:55:06 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [RFC PATCH 00/18] Add qemu-storage-daemon
-Thread-Topic: [RFC PATCH 00/18] Add qemu-storage-daemon
-Thread-Index: AQHVhOwHsbz+7R+kT0iIPJdO9QVzyqdp22yA
-Date: Thu, 24 Oct 2019 13:55:05 +0000
-Message-ID: <45be7a0c-f6ae-5d18-7297-697311046fbd@virtuozzo.com>
-References: <20191017130204.16131-1-kwolf@redhat.com>
-In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR08CA0044.eurprd08.prod.outlook.com
- (2603:10a6:7:2a::15) To AM0PR08MB4435.eurprd08.prod.outlook.com
- (2603:10a6:208:144::19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191024165503693
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c01b68d8-c1a5-478d-1ede-08d75889c661
-x-ms-traffictypediagnostic: AM0PR08MB3763:
-x-microsoft-antispam-prvs: <AM0PR08MB3763B614B261B2EF9BF5E25DC16A0@AM0PR08MB3763.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39840400004)(346002)(396003)(366004)(376002)(136003)(199004)(189003)(305945005)(66556008)(86362001)(66446008)(64756008)(66476007)(486006)(476003)(31686004)(6486002)(2616005)(446003)(36756003)(11346002)(6512007)(71200400001)(71190400001)(6436002)(2906002)(5660300002)(66946007)(14454004)(4326008)(25786009)(478600001)(2501003)(6116002)(3846002)(99286004)(66066001)(14444005)(6246003)(256004)(54906003)(110136005)(229853002)(26005)(186003)(31696002)(102836004)(76176011)(52116002)(386003)(6506007)(7736002)(316002)(8936002)(81156014)(81166006)(8676002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3763;
- H:AM0PR08MB4435.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: y1SE18oheHuYm4wM2lL79WSFakw8HUja3hY5LLr0rQxvUeIC22t9f+2uuGbXadamWLOFqujRlaS4IsHBDiXY1yuCz6qI1KOg0VL0rhjcQ/t89KIJAkcsWvXGF/FYTL5jSZXGdZA8f21jFxSkkVORRe9gFRt6spzkdz9SeUrOtpKJdxtIovRk5aEXnZeyZCZwManW1SI5NbVNMegHF0yzw1EL1CiFDwBqXTflaVR2j7mFNKRdTC/JDSdyMCtgF8PlpxzgIcjJ2OWaaUGWGxHabF3vv2UoFxlgF+SKvznjLQ/U6HBve36SYe3TqKq6BwJ/k3BwHuRWO+mZAxtnivQxsEq283MXqnAu8zy6TXhnbeyMZKb9fcn8V5WgJmevuhuGmInaD79/zKYs3w3QLosK7e8gy2+eCRKV5G3vUmdjnbuJz5z3F2sg8cvxd5Hx/EJ5
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0D18AD0F9BC377459D0EC0B2FAFECC02@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdib-0007a8-ID
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:03 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38047)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iNdib-0007Yi-2P
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:01 -0400
+Received: by mail-wm1-x333.google.com with SMTP id 3so2739376wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:03:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U8OtQi7dnENRNd0ivyUYGx9uZSTNBjcwHQ7Qm/bv+/4=;
+ b=Hp3A+2HgbcCZ9o/v22FU79aqG9gW5SJPv2kzperAzMp15QWPr3mKgtWb1uu4fAXTdx
+ ze/BpablqYwSLWlHMlVL3/uV6/u9JAIvTU53FpB+Z6o5jgkkL74aC4jV7Ft5e4UlIt6w
+ XU78t1jXHMZVQOozkWBUV0EtssCuyS57iWSumy3M/RKGPi+P0/4ZsFEPdyxRHOyV2dlQ
+ tpIetNXU6E363hILKTR4Wer/JsHc6G9oQDc9GdL25U4W8INAX5zaX08NZW78vAhVrMSB
+ u7D7aNqvAcTbXyohJ3iGbT6q+4I8i+IOJVpRsMZUX4Uq1myd+CiE0uF4P2UTt8jrIozz
+ KWlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=U8OtQi7dnENRNd0ivyUYGx9uZSTNBjcwHQ7Qm/bv+/4=;
+ b=Ws1S/IbDQxkre6xSIS4eSEkZNPkzMOTY6OkRbKcqsZKyjcNpej0ryCcS+ZET8bfGUF
+ zlIFIPnoRwTYSOYhekUJQcUir/gdX+HjAZcbJcjVUtw8a+RK1lGkCeJIEdQdfGghZPkL
+ w+eLp7dGTKd3Is/tz4JjCso4gWqVI2XaHanjw3Ta/Y247gNAKs0LCS9AqlRL7yPesKvQ
+ YbhKmc2B6IoJaW0knI9YJ5wU2GybRLs4I1OYALy7XPqyvfsCFA+ABclf3lM4ASFZ7lt0
+ 7+IAzWIvr9U9LcJZIO3Ny0kZIANfX31300C5R01xsT6kbFJ9j1nKWmjlpjp95qpnrEr4
+ P8Mw==
+X-Gm-Message-State: APjAAAV8B/PrKjVCGHlJuNh9gkT7XIcsekFf+OctbvVt2aNEzTih7xU4
+ tc8vSBQ4L5Hng/pvqYvSBKZsZnWj
+X-Google-Smtp-Source: APXvYqwV54jkJUM/bmIDcVD5ReXdtbVbfv/+5pr0tHHkQOneV8ZSxuXobbvSc/Pxv8yis2hR6OGzDg==
+X-Received: by 2002:a1c:10b:: with SMTP id 11mr4904385wmb.118.1571925837713;
+ Thu, 24 Oct 2019 07:03:57 -0700 (PDT)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.03.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 24 Oct 2019 07:03:56 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/39] Misc (mostly x86) patches for 2019-10-24
+Date: Thu, 24 Oct 2019 16:03:16 +0200
+Message-Id: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c01b68d8-c1a5-478d-1ede-08d75889c661
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 13:55:05.9511 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CA6bDCH0mgMoRTPrMYHESWEPq8W8mnXzKeLnIOqQrAIXOLUZ7CRyJRc43Up60g4z1v6qUIrPkGsyN3BdXZHSLOck/j2XwST1fRPxx8OvAjY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3763
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.97
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,147 +77,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pkrempa@redhat.com" <pkrempa@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkhDQoNClRoaXMgcmVmbGVjdHMgb3VyIGlkZWEgb2YgdXNpbmcgcWVtdSBiaW5hcnkgaW5zdGVh
-ZCBvZiBxZW11LWltZyBmb3IgZG9pbmcNCmJsb2NrLWxheWVyIG9wZXJhdGlvbnMgb2ZmbGluZS4N
-Cg0KV2hhdCBpcyB0aGUgcHJhY3RpY2FsIGRpZmZlcmVuY2UgYmV0d2VlbiBxZW11LXN0b3JhZ2Ut
-ZGFlbW9uIGFuZCBzdGFydGluZw0KcWVtdSBiaW5hcnkgaW4gc3RvcHBlZCBzdGF0ZT8NCg0KMTcu
-MTAuMjAxOSAxNjowMSwgS2V2aW4gV29sZiB3cm90ZToNCj4gVGhpcyBzZXJpZXMgYWRkcyBhIG5l
-dyB0b29sICdxZW11LXN0b3JhZ2UtZGFlbW9uJywgd2hpY2ggY2FuIGJlIHVzZWQgdG8NCj4gZXhw
-b3J0IGFuZCBwZXJmb3JtIG9wZXJhdGlvbnMgb24gYmxvY2sgZGV2aWNlcy4gVGhlcmUgaXMgc29t
-ZSBvdmVybGFwDQo+IGJldHdlZW4gcWVtdS1pbWcvcWVtdS1uYmQgYW5kIHRoZSBuZXcgcWVtdS1z
-dG9yYWdlLWRhZW1vbiwgYnV0IHRoZXJlIGFyZQ0KPiBhIGZldyBpbXBvcnRhbnQgZGlmZmVyZW5j
-ZXM6DQo+IA0KPiAqIFRoZSBxZW11LXN0b3JhZ2UtZGFlbW9uIGhhcyBRTVAgc3VwcG9ydC4gVGhl
-IGNvbW1hbmQgc2V0IGlzIG9idmlvdXNseQ0KPiAgICByZXN0cmljdGVkIGNvbXBhcmVkIHRvIHRo
-ZSBzeXN0ZW0gZW11bGF0b3IgYmVjYXVzZSB0aGVyZSBpcyBubyBndWVzdCwNCj4gICAgYnV0IGFs
-bCBvZiB0aGUgYmxvY2sgb3BlcmF0aW9ucyBhcmUgcHJlc2VudC4NCj4gDQo+ICAgIFRoaXMgbWVh
-bnMgdGhhdCBpdCBjYW4gYWNjZXNzIGFkdmFuY2VkIG9wdGlvbnMgb3Igb3BlcmF0aW9ucyB0aGF0
-IHRoZQ0KPiAgICBxZW11LWltZyBjb21tYW5kIGxpbmUgZG9lc24ndCBleHBvc2UuIEZvciBleGFt
-cGxlLCBibG9ja2Rldi1jcmVhdGUgaXMNCj4gICAgYSBsb3QgbW9yZSBwb3dlcmZ1bCB0aGFuICdx
-ZW11LWltZyBjcmVhdGUnLCBhbmQgcWVtdS1zdG9yYWdlLWRhZW1vbg0KPiAgICBhbGxvd3MgdG8g
-ZXhlY3V0ZSBpdCB3aXRob3V0IHN0YXJ0aW5nIGEgZ3Vlc3QuDQoNCnFlbXUgYmluYXJ5IGNhbiBk
-byB0aGF0IHRvbywgd2l0aCAtUyBvcHRpb24uLg0KDQo+IA0KPiAgICBDb21wYXJlZCB0byBxZW11
-LW5iZCBpdCBtZWFucyB0aGF0LCBmb3IgZXhhbXBsZSwgYmxvY2sgam9icyBjYW4gbm93IGJlDQo+
-ICAgIGV4ZWN1dGVkIG9uIHRoZSBzZXJ2ZXIgc2lkZSwgYW5kIGJhY2tpbmcgY2hhaW5zIHNoYXJl
-ZCBieSBtdWx0aXBsZSBWTXMNCj4gICAgY2FuIGJlIG1vZGlmaWVkIHRoaXMgd2F5Lg0KPiANCj4g
-KiBUaGUgZXhpc3RpbmcgdG9vbHMgYWxsIGhhdmUgYSBzZXBhcmF0ZWx5IGludmVudGVkIG9uZS1v
-ZmYgc3ludGF4IGZvcg0KPiAgICB0aGUgam9iIGF0IGhhbmQsIHdoaWNoIHVzdWFsbHkgY29tZXMg
-d2l0aCByZXN0cmljdGlvbnMgY29tcGFyZWQgdG8gdGhlDQo+ICAgIHN5c3RlbSBlbXVsYXRvci4g
-cWVtdS1zdG9yYWdlLWRhZW1vbiBzaGFyZXMgdGhlIHNhbWUgc3ludGF4IHdpdGggdGhlDQo+ICAg
-IHN5c3RlbSBlbXVsYXRvciBmb3IgbW9zdCBvcHRpb25zIGFuZCBwcmVmZXJzIFFBUEkgYmFzZWQg
-aW50ZXJmYWNlcw0KPiAgICB3aGVyZSBwb3NzaWJsZSAoc3VjaCBhcyAtLWJsb2NrZGV2KSwgc28g
-aXQgc2hvdWxkIGJlIGVhc3kgdG8gbWFrZSB1c2UNCj4gICAgb2YgaW4gbGlidmlydC4NCj4gDQo+
-ICogV2hpbGUgdGhpcyBzZXJpZXMgaW1wbGVtZW50cyBvbmx5IE5CRCBleHBvcnRzLCB0aGUgc3Rv
-cmFnZSBkYWVtb24gaXMNCj4gICAgaW50ZW5kZWQgdG8gc2VydmUgbXVsdGlwbGUgcHJvdG9jb2xz
-IGFuZCBpdHMgc3ludGF4IHJlZmxlY3RzIHRoaXMuIEluDQo+ICAgIHRoZSBwYXN0LCB3ZSBoYWQg
-cHJvcG9zYWxzIHRvIGFkZCBuZXcgb25lLW9mZiB0b29scyBmb3IgZXhwb3J0aW5nIG92ZXINCj4g
-ICAgbmV3IHByb3RvY29scyBsaWtlIEZVU0Ugb3IgVENNVS4NCj4gDQo+ICAgIFdpdGggYSBnZW5l
-cmljIHN0b3JhZ2UgZGFlbW9uLCBhZGRpdGlvbmFsIGV4cG9ydCBtZXRob2RzIGhhdmUgYSBob21l
-DQo+ICAgIHdpdGhvdXQgYWRkaW5nIGEgbmV3IHRvb2wgZm9yIGVhY2ggb2YgdGhlbS4NCj4gDQo+
-IEknbSBwb3N0aW5nIHRoaXMgYXMgYW4gUkZDIG1haW5seSBmb3IgdHdvIHJlYXNvbnM6DQo+IA0K
-PiAxLiBUaGUgbW9uaXRvciBpbnRlZ3JhdGlvbiwgd2hpY2ggY291bGQgYmUgYXJndWVkIHRvIGJl
-IGEgbGl0dGxlIGhhY2tpc2gNCj4gICAgIChzb21lIGdlbmVyYXRlZCBRQVBJIHNvdXJjZSBmaWxl
-cyBhcmUgYnVpbHQgZnJvbSBhIHNlcGFyYXRlIFFBUEkNCj4gICAgIHNjaGVtYSwgYnV0IHRoZSBw
-ZXItbW9kdWxlIG9uZXMgYXJlIHRha2VuIGZyb20gdGhlIHN5c3RlbSBlbXVsYXRvcikNCj4gICAg
-IGFuZCBNYXJrdXMgd2lsbCB3YW50IHRvIGhhdmUgYSBjbG9zZXIgbG9vayB0aGVyZS4gQnV0IGZy
-b20gdGhlIElSQw0KPiAgICAgZGlzY3Vzc2lvbnMgd2UgaGFkLCB3ZSBzZWVtIHRvIGFncmVlIG9u
-IHRoZSBnZW5lcmFsIGFwcHJvYWNoIGhlcmUuDQo+IA0KPiAyLiBJJ20gbm90IGNvbXBsZXRlbHkg
-c3VyZSBpZiB0aGUgY29tbWFuZCBsaW5lIHN5bnRheCBpcyB0aGUgZmluYWwNCj4gICAgIHZlcnNp
-b24gdGhhdCB3ZSB3YW50IHRvIHN1cHBvcnQgbG9uZy10ZXJtLiBNYW55IG9wdGlvbnMgZGlyZWN0
-bHkgdXNlDQo+ICAgICBRQVBJIHZpc2l0b3JzICgtLWJsb2NrZGV2LCAtLWV4cG9ydCwgLS1uYmQt
-c2VydmVyKSBhbmQgc2hvdWxkIGJlDQo+ICAgICBmaW5lLiBIb3dldmVyLCBvdGhlcnMgdXNlIFFl
-bXVPcHRzICgtLWNoYXJkZXYsIC0tbW9uaXRvciwgLS1vYmplY3QpLg0KPiANCj4gICAgIFRoaXMg
-aXMgdGhlIHNhbWUgYXMgaW4gdGhlIHN5c3RlbSBlbXVsYXRvciwgc28gd2Ugd291bGRuJ3QgYmUg
-YWRkaW5nDQo+ICAgICBhIG5ldyBwcm9ibGVtLCBidXQgYXMgdGhlcmUgd2FzIHRhbGsgYWJvdXQg
-UUFQSWZ5aW5nIHRoZSBjb21tYW5kDQo+ICAgICBsaW5lLCBhbmQgSSB3b3VsZG4ndCB3YW50IGxh
-dGVyIHN5bnRheCBjaGFuZ2VzIG9yIGFkZGluZyBsb3RzIG9mDQo+ICAgICBjb21wYXRpYmlsaXR5
-IGNvZGUgdG8gYSBuZXcgdG9vbCwgSSB0aG91Z2h0IHdlIHNob3VsZCBwcm9iYWJseQ0KPiAgICAg
-ZGlzY3VzcyB3aGV0aGVyIFFBUElmeWluZyBmcm9tIHRoZSBzdGFydCB3b3VsZCBiZSBhbiBvcHRp
-b24uDQo+IA0KPiBJIHdvdWxkIGxpa2UgdG8gaGF2ZSBzb21ldGhpbmcgbWVyZ2VkIGZvciA0LjIs
-IGJ1dCBJJ20gY29uc2lkZXJpbmcNCj4gbWFya2luZyB0aGUgd2hvbGUgdG9vbCBhcyBleHBlcmlt
-ZW50YWwgYW5kIHVuc3RhYmxlIEFCSSBieSByZXF1aXJpbmcgYQ0KPiBjb21tYW5kIGxpbmUgb3B0
-aW9uIGxpa2UgLS1leHBlcmltZW50YWwgZm9yIHRoZSB0b29sIHRvIGV2ZW4gc3RhcnQgaWYgd2UN
-Cj4ga25vdyB0aGF0IHdlIHdhbnQgdG8gY2hhbmdlIHNvbWUgdGhpbmdzIGxhdGVyLg0KPiANCj4g
-VGhpcyBzZXJpZXMgaXMgYmFzZWQgb246DQo+ICogW1BBVENIXSBibG9ja2RldjogVXNlIGVycm9y
-X3JlcG9ydCgpIGluIGhtcF9jb21taXQoKQ0KPiAqIFtQQVRDSCAwLzddIHFhcGk6IENsZWFudXBz
-IGFuZCB0ZXN0IHNwZWVkdXANCj4gDQo+IEJhc2VkLW9uOiA8MjAxOTEwMTUxMjM5MzIuMTIyMTQt
-MS1rd29sZkByZWRoYXQuY29tPg0KPiBCYXNlZC1vbjogPDIwMTkxMDAxMTkxNTE0LjExMjA4LTEt
-YXJtYnJ1QHJlZGhhdC5jb20+DQo+IA0KPiBLZXZpbiBXb2xmICgxOCk6DQo+ICAgIHFlbXUtc3Rv
-cmFnZS1kYWVtb246IEFkZCBiYXJlYm9uZSB0b29sDQo+ICAgIHFlbXUtc3RvcmFnZS1kYWVtb246
-IEFkZCAtLW9iamVjdCBvcHRpb24NCj4gICAgc3R1YnM6IEFkZCBhcmNoX3R5cGUNCj4gICAgc3R1
-YnM6IEFkZCBibGtfYnlfcWRldl9pZCgpDQo+ICAgIHFlbXUtc3RvcmFnZS1kYWVtb246IEFkZCAt
-LWJsb2NrZGV2IG9wdGlvbg0KPiAgICBxZW11LXN0b3JhZ2UtZGFlbW9uOiBBZGQgLS1uYmQtc2Vy
-dmVyIG9wdGlvbg0KPiAgICBibG9ja2Rldi1uYmQ6IEJveGVkIGFyZ3VtZW50IHR5cGUgZm9yIG5i
-ZC1zZXJ2ZXItYWRkDQo+ICAgIHFlbXUtc3RvcmFnZS1kYWVtb246IEFkZCAtLWV4cG9ydCBvcHRp
-b24NCj4gICAgcWVtdS1zdG9yYWdlLWRhZW1vbjogQWRkIG1haW4gbG9vcA0KPiAgICBxZW11LXN0
-b3JhZ2UtZGFlbW9uOiBBZGQgLS1jaGFyZGV2IG9wdGlvbg0KPiAgICBtb25pdG9yOiBNb3ZlIG1v
-bml0b3Igb3B0aW9uIHBhcnNpbmcgdG8gbW9uaXRvci9tb25pdG9yLmMNCj4gICAgc3R1YnM6IFVw
-ZGF0ZSBtb25pdG9yIHN0dWJzIGZvciBxZW11LXN0b3JhZ2UtZGFlbW9uDQo+ICAgIHFhcGk6IENy
-ZWF0ZSBtb2R1bGUgJ21vbml0b3InDQo+ICAgIG1vbml0b3I6IENyZWF0ZSBtb25pdG9yL3FtcC1j
-bWRzLW1vbml0b3IuYw0KPiAgICBxYXBpOiBTdXBwb3J0IGVtcHR5IG1vZHVsZXMNCj4gICAgcWFw
-aTogQ3JlYXRlICdwcmFnbWEnIG1vZHVsZQ0KPiAgICBtb25pdG9yOiBNb3ZlIHFtcF9xdWVyeV9x
-bXBfc2NoZW1hIHRvIHFtcC1jbWRzLW1vbml0b3IuYw0KPiAgICBxZW11LXN0b3JhZ2UtZGFlbW9u
-OiBBZGQgLS1tb25pdG9yIG9wdGlvbg0KPiANCj4gICBxYXBpL2Jsb2NrLmpzb24gICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDY1ICsrKystDQo+ICAgcWFwaS9taXNjLmpzb24gICAgICAgICAg
-ICAgICAgICAgICAgICAgICB8IDIxMiAtLS0tLS0tLS0tLS0tLS0NCj4gICBxYXBpL21vbml0b3Iu
-anNvbiAgICAgICAgICAgICAgICAgICAgICAgIHwgMjE4ICsrKysrKysrKysrKysrKw0KPiAgIHFh
-cGkvcHJhZ21hLmpzb24gICAgICAgICAgICAgICAgICAgICAgICAgfCAgMjQgKysNCj4gICBxYXBp
-L3FhcGktc2NoZW1hLmpzb24gICAgICAgICAgICAgICAgICAgIHwgIDI2ICstDQo+ICAgc3RvcmFn
-ZS1kYWVtb24vcWFwaS9xYXBpLXNjaGVtYS5qc29uICAgICB8ICAxNSArKw0KPiAgIGNvbmZpZ3Vy
-ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0NCj4gICBpbmNsdWRlL2Js
-b2NrL25iZC5oICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gICBpbmNsdWRlL21vbml0
-b3IvbW9uaXRvci5oICAgICAgICAgICAgICAgIHwgICA0ICsNCj4gICBpbmNsdWRlL3N5c2VtdS9h
-cmNoX2luaXQuaCAgICAgICAgICAgICAgIHwgICAyICsNCj4gICBpbmNsdWRlL3N5c2VtdS9zeXNl
-bXUuaCAgICAgICAgICAgICAgICAgIHwgICAxIC0NCj4gICBtb25pdG9yL21vbml0b3ItaW50ZXJu
-YWwuaCAgICAgICAgICAgICAgIHwgICA0ICsNCj4gICBibG9ja2Rldi1uYmQuYyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDMwICsrLQ0KPiAgIG1vbml0b3IvaG1wLWNtZHMuYyAgICAgICAg
-ICAgICAgICAgICAgICAgfCAgMjIgKy0NCj4gICBtb25pdG9yL21pc2MuYyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgMTI2IC0tLS0tLS0tLQ0KPiAgIG1vbml0b3IvbW9uaXRvci5jICAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgNTIgKysrKw0KPiAgIG1vbml0b3IvcW1wLWNtZHMtbW9uaXRv
-ci5jICAgICAgICAgICAgICAgfCAxNjkgKysrKysrKysrKysrDQo+ICAgbW9uaXRvci9xbXAtY21k
-cy5jICAgICAgICAgICAgICAgICAgICAgICB8ICAxNSArLQ0KPiAgIG1vbml0b3IvcW1wLmMgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0NCj4gICBxZW11LXN0b3JhZ2UtZGFlbW9u
-LmMgICAgICAgICAgICAgICAgICAgIHwgMzI2ICsrKysrKysrKysrKysrKysrKysrKysrDQo+ICAg
-c3R1YnMvYXJjaF90eXBlLmMgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNCArDQo+ICAgc3R1
-YnMvYmxrLWJ5LXFkZXYtaWQuYyAgICAgICAgICAgICAgICAgICB8ICAgOSArDQo+ICAgc3R1YnMv
-bW9uaXRvci1jb3JlLmMgICAgICAgICAgICAgICAgICAgICB8ICAyMSArKw0KPiAgIHN0dWJzL21v
-bml0b3IuYyAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTUgKy0NCj4gICB0ZXN0cy9xbXAt
-dGVzdC5jICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAyICstDQo+ICAgdWkvZ3RrLmMgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICAgdmwuYyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA0NSArLS0tDQo+ICAgTWFrZWZpbGUgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAzNCArKysNCj4gICBNYWtlZmlsZS5vYmpzICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA5ICsNCj4gICBibG9jay9NYWtlZmlsZS5vYmpz
-ICAgICAgICAgICAgICAgICAgICAgIHwgICAyICstDQo+ICAgbW9uaXRvci9NYWtlZmlsZS5vYmpz
-ICAgICAgICAgICAgICAgICAgICB8ICAgNSArLQ0KPiAgIHFhcGkvTWFrZWZpbGUub2JqcyAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgIDkgKy0NCj4gICBxb20vTWFrZWZpbGUub2JqcyAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgICAxICsNCj4gICBzY3JpcHRzL3FhcGkvZ2VuLnB5ICAgICAgICAg
-ICAgICAgICAgICAgIHwgICA1ICsNCj4gICBzY3JpcHRzL3FhcGkvc2NoZW1hLnB5ICAgICAgICAg
-ICAgICAgICAgIHwgICA5ICsNCj4gICBzdG9yYWdlLWRhZW1vbi9NYWtlZmlsZS5vYmpzICAgICAg
-ICAgICAgIHwgICAxICsNCj4gICBzdG9yYWdlLWRhZW1vbi9xYXBpL01ha2VmaWxlLm9ianMgICAg
-ICAgIHwgICAxICsNCj4gICBzdHVicy9NYWtlZmlsZS5vYmpzICAgICAgICAgICAgICAgICAgICAg
-IHwgICAzICsNCj4gICB0ZXN0cy9xYXBpLXNjaGVtYS9jb21tZW50cy5vdXQgICAgICAgICAgIHwg
-ICAyICsNCj4gICB0ZXN0cy9xYXBpLXNjaGVtYS9kb2MtYmFkLXNlY3Rpb24ub3V0ICAgIHwgICAy
-ICsNCj4gICB0ZXN0cy9xYXBpLXNjaGVtYS9kb2MtZ29vZC5vdXQgICAgICAgICAgIHwgICAyICsN
-Cj4gICB0ZXN0cy9xYXBpLXNjaGVtYS9lbXB0eS5vdXQgICAgICAgICAgICAgIHwgICAyICsNCj4g
-ICB0ZXN0cy9xYXBpLXNjaGVtYS9ldmVudC1jYXNlLm91dCAgICAgICAgIHwgICAyICsNCj4gICB0
-ZXN0cy9xYXBpLXNjaGVtYS9pbmNsdWRlLXJlcGV0aXRpb24ub3V0IHwgICA0ICsNCj4gICB0ZXN0
-cy9xYXBpLXNjaGVtYS9pbmNsdWRlLXNpbXBsZS5vdXQgICAgIHwgICAzICsNCj4gICB0ZXN0cy9x
-YXBpLXNjaGVtYS9pbmRlbnRlZC1leHByLm91dCAgICAgIHwgICAyICsNCj4gICB0ZXN0cy9xYXBp
-LXNjaGVtYS9xYXBpLXNjaGVtYS10ZXN0Lm91dCAgIHwgICA0ICsNCj4gICA0NyBmaWxlcyBjaGFu
-Z2VkLCAxMDUyIGluc2VydGlvbnMoKyksIDQ2MyBkZWxldGlvbnMoLSkNCj4gICBjcmVhdGUgbW9k
-ZSAxMDA2NDQgcWFwaS9tb25pdG9yLmpzb24NCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgcWFwaS9w
-cmFnbWEuanNvbg0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBzdG9yYWdlLWRhZW1vbi9xYXBpL3Fh
-cGktc2NoZW1hLmpzb24NCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgbW9uaXRvci9xbXAtY21kcy1t
-b25pdG9yLmMNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgcWVtdS1zdG9yYWdlLWRhZW1vbi5jDQo+
-ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IHN0dWJzL2FyY2hfdHlwZS5jDQo+ICAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IHN0dWJzL2Jsay1ieS1xZGV2LWlkLmMNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgc3R1
-YnMvbW9uaXRvci1jb3JlLmMNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgc3RvcmFnZS1kYWVtb24v
-TWFrZWZpbGUub2Jqcw0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBzdG9yYWdlLWRhZW1vbi9xYXBp
-L01ha2VmaWxlLm9ianMNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0b9:
+
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-request' into staging (2019-10-18 14:13:11 +0100)
+
+are available in the git repository at:
+
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to a263f81cb4b302eb392898bdc4ad4381e1961629:
+
+  i386: implement IGNNE (2019-10-24 16:02:04 +0200)
+
+----------------------------------------------------------------
+* Bulgarian translation update (Alexander)
+* RTC and PC refactorings (Hervé, Philippe, Sergio)
+* RTC fix (Marcelo)
+* More comprehensive MCE logging (Mario)
+* x86 IGNNE implementation (Paolo)
+* Microvm machine type (Sergio)
+* Support for UMONITOR/UMWAIT/TPAUSE (Tao)
+* Do not use %m in common code (Thomas)
+* NoNonArchitecturalCoreSharing Hyper-V enlightenment (Vitaly)
+* getpagesize cleanups (Wei)
+
+----------------------------------------------------------------
+Alexander Shopov (1):
+      Updated Bulgarian translation (19) - 4.1.0
+
+Hervé Poussineau (2):
+      mc146818rtc: move structure to header file
+      mc146818rtc: always register rtc to rtc list
+
+Laurent Vivier (1):
+      runstate: ignore exit request in finish migrate state
+
+Marcelo Tosatti (1):
+      mc146818rtc: fix timer interrupt reinjection
+
+Mario Smarduch (1):
+      target/i386: log MCE guest and host addresses
+
+Paolo Bonzini (6):
+      memory-device: simplify Makefile.objs conditions
+      hw/i386: split PCMachineState deriving X86MachineState from it
+      audio: fix missing break
+      target/i386: move FERR handling to target/i386
+      target/i386: introduce cpu_set_fpus
+      i386: implement IGNNE
+
+Philippe Mathieu-Daudé (7):
+      hw/timer/mc146818rtc: Only include qapi-commands-misc on I386
+      hw/i386/pc: Extract pc_gsi_create()
+      hw/i386/pc: Move gsi_state creation code
+      hw/i386/pc: Extract pc_i8259_create()
+      hw/i386/pc: Remove kvm_i386.h include
+      mc146818rtc: Move RTC_ISA_IRQ definition
+      mc146818rtc: Include mc146818rtc_regs.h directly in mc146818rtc.c
+
+Sergio Lopez (14):
+      hw/virtio: Factorize virtio-mmio headers
+      hw/i386/pc: rename functions shared with non-PC machines
+      hw/i386/pc: fix code style issues on functions that will be moved out
+      hw/i386/pc: replace use of strtol with qemu_strtoui in x86_load_linux()
+      hw/i386/pc: avoid an assignment in if condition in x86_load_linux()
+      hw/i386/pc: remove commented out code from x86_load_linux()
+      hw/i386/pc: move shared x86 functions to x86.c and export them
+      hw/i386: make x86.c independent from PCMachineState
+      fw_cfg: add "modify" functions for all types
+      hw/intc/apic: reject pic ints if isa_pic == NULL
+      roms: add microvm-bios (qboot) as binary and git submodule
+      docs/microvm.rst: document the new microvm machine type
+      hw/i386: Introduce the microvm machine type
+      MAINTAINERS: add microvm related files
+
+Tao Xu (2):
+      x86/cpu: Add support for UMONITOR/UMWAIT/TPAUSE
+      target/i386: Add support for save/load IA32_UMWAIT_CONTROL MSR
+
+Thomas Huth (1):
+      Do not use %m in common code to print error messages
+
+Vitaly Kuznetsov (1):
+      i386/kvm: add NoNonArchitecturalCoreSharing Hyper-V enlightenment
+
+Wei Yang (2):
+      checkpatch: suggest qemu_real_host_page_size instead of getpagesize() or sysconf(_SC_PAGESIZE)
+      core: replace getpagesize() with qemu_real_host_page_size
+
+ .gitmodules                         |   3 +
+ MAINTAINERS                         |   9 +
+ accel/kvm/kvm-all.c                 |   6 +-
+ audio/paaudio.c                     |   1 +
+ backends/hostmem.c                  |   2 +-
+ block.c                             |   4 +-
+ block/file-posix.c                  |   9 +-
+ block/io.c                          |   2 +-
+ block/parallels.c                   |   2 +-
+ block/qcow2-cache.c                 |   2 +-
+ contrib/vhost-user-gpu/vugbm.c      |   2 +-
+ default-configs/i386-softmmu.mak    |   1 +
+ docs/hyperv.txt                     |  13 +
+ docs/microvm.rst                    | 108 +++++
+ exec.c                              |   6 +-
+ hw/acpi/cpu_hotplug.c               |  10 +-
+ hw/i386/Kconfig                     |  10 +
+ hw/i386/Makefile.objs               |   2 +
+ hw/i386/acpi-build.c                |  29 +-
+ hw/i386/amd_iommu.c                 |   3 +-
+ hw/i386/intel_iommu.c               |   3 +-
+ hw/i386/microvm.c                   | 572 +++++++++++++++++++++++++
+ hw/i386/pc.c                        | 832 +++++-------------------------------
+ hw/i386/pc_piix.c                   |  65 ++-
+ hw/i386/pc_q35.c                    |  62 +--
+ hw/i386/pc_sysfw.c                  |  60 +--
+ hw/i386/x86.c                       | 795 ++++++++++++++++++++++++++++++++++
+ hw/i386/xen/xen-hvm.c               |  28 +-
+ hw/intc/apic.c                      |   2 +-
+ hw/intc/ioapic.c                    |   2 +-
+ hw/intc/s390_flic_kvm.c             |   2 +-
+ hw/mem/Makefile.objs                |   2 +-
+ hw/misc/tmp421.c                    |   4 +-
+ hw/nvram/fw_cfg.c                   |  29 ++
+ hw/ppc/mac_newworld.c               |   2 +-
+ hw/ppc/spapr_pci.c                  |   2 +-
+ hw/rdma/vmw/pvrdma_main.c           |   2 +-
+ hw/timer/mc146818rtc.c              |  94 ++--
+ hw/vfio/spapr.c                     |   7 +-
+ hw/virtio/virtio-mmio.c             |  48 +--
+ include/exec/ram_addr.h             |   2 +-
+ include/hw/i386/microvm.h           |  71 +++
+ include/hw/i386/pc.h                |  32 +-
+ include/hw/i386/x86.h               |  96 +++++
+ include/hw/nvram/fw_cfg.h           |  42 ++
+ include/hw/timer/mc146818rtc.h      |  36 +-
+ include/hw/timer/mc146818rtc_regs.h |   2 -
+ include/hw/virtio/virtio-mmio.h     |  73 ++++
+ include/qemu/osdep.h                |   4 +-
+ migration/migration.c               |   2 +-
+ migration/postcopy-ram.c            |   4 +-
+ monitor/misc.c                      |   2 +-
+ pc-bios/bios-microvm.bin            | Bin 0 -> 65536 bytes
+ po/bg.po                            |  10 +-
+ roms/Makefile                       |   6 +
+ roms/qboot                          |   1 +
+ scripts/checkpatch.pl               |   6 +
+ target/i386/cpu.c                   |   4 +-
+ target/i386/cpu.h                   |  11 +-
+ target/i386/fpu_helper.c            |  60 ++-
+ target/i386/hyperv-proto.h          |   1 +
+ target/i386/kvm.c                   |  74 +++-
+ target/i386/machine.c               |  20 +
+ target/ppc/kvm.c                    |   2 +-
+ tests/rtc-test.c                    |   1 +
+ tests/vhost-user-bridge.c           |   8 +-
+ util/main-loop.c                    |   3 +-
+ util/mmap-alloc.c                   |  10 +-
+ util/oslib-posix.c                  |   4 +-
+ util/oslib-win32.c                  |   2 +-
+ util/systemd.c                      |   4 +-
+ util/vfio-helpers.c                 |  12 +-
+ vl.c                                |   3 +
+ 73 files changed, 2338 insertions(+), 1107 deletions(-)
+ create mode 100644 docs/microvm.rst
+ create mode 100644 hw/i386/microvm.c
+ create mode 100644 hw/i386/x86.c
+ create mode 100644 include/hw/i386/microvm.h
+ create mode 100644 include/hw/i386/x86.h
+ create mode 100644 include/hw/virtio/virtio-mmio.h
+ create mode 100644 pc-bios/bios-microvm.bin
+ create mode 160000 roms/qboot
+-- 
+1.8.3.1
+
 
