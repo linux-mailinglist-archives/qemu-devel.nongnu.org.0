@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1AEE36CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:36:44 +0200 (CEST)
-Received: from localhost ([::1]:45450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D231DE36FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:48:14 +0200 (CEST)
+Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfAI-00017m-Cw
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:36:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38886)
+	id 1iNfLR-0006rr-IJ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1iNe46-0008AA-TK
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:26:17 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1iNe4B-0008QB-Vs
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:26:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1iNe45-0002eS-FD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:26:14 -0400
-Received: from mout.web.de ([212.227.17.11]:43101)
+ (envelope-from <lukasstraub2@web.de>) id 1iNe4A-0002oC-Nf
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:26:19 -0400
+Received: from mout.web.de ([212.227.15.4]:46739)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
- id 1iNe40-0002RH-07; Thu, 24 Oct 2019 10:26:09 -0400
+ id 1iNe47-0002hh-QU; Thu, 24 Oct 2019 10:26:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1571927139;
- bh=9FbTgtuzcaCTjHUA8BY5mKaFybBmxQpiWe1iZMpLbP8=;
+ s=dbaedf251592; t=1571927145;
+ bh=OfJkK2vnGkQe8T1r5KQyutlaZ4TJ+K9pB9jGve8qHNk=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=ECteYd6W7+tp3RAxMUKZ2oADi66QCSQVMtP+Pw595ghY+Rz/s1Idpn3PXaxkT5iO5
- Ict4U5HrjWYjyMXkoOFSbRWjUKURK3hDInCIkz3AEcIr6VWeo1ezyPwvHtKSPkA0+d
- NT7hWX1IqqiSDVhnobU1upEvRUbVNu2+00JFOa6c=
+ b=lGQgBB/FqY7YomFrbayzQXuH0TFlk1D6pOdg3MMZBzvSOpUKRJ5Ry/6AjD0gbQ2/+
+ i2FDuGDcMBi3vALQypOB54Yl1bmxe2rsH23IYFiCLldK8Ehr0L3/WMpbFb4fm9Kvod
+ TpmAtoMZIZR6XAk4zvqmsf3F75Myo5RAJJLHQ3VM=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.150]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LbrZ2-1hgZWx132a-00jMnl; Thu, 24
- Oct 2019 16:25:39 +0200
-Date: Thu, 24 Oct 2019 16:25:35 +0200
+Received: from luklap ([89.247.255.150]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0M6V2p-1i430c1cYF-00yT6q; Thu, 24
+ Oct 2019 16:25:45 +0200
+Date: Thu, 24 Oct 2019 16:25:44 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v7 1/4] block/replication.c: Ignore requests after failover
-Message-ID: <039d59f89205824273eef070cdfa7d5e94f95697.1571925699.git.lukasstraub2@web.de>
+Subject: [PATCH v7 2/4] tests/test-replication.c: Add test for for secondary
+ node continuing replication
+Message-ID: <60b4c574f996824210f7b2282eac030dbe9f9e41.1571925699.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1571925699.git.lukasstraub2@web.de>
 References: <cover.1571925699.git.lukasstraub2@web.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:N+uedjqvs76OPbOtDsp0z41+9k3NWKoNkTJgPFrKREuJ21iR//o
- ewMsA3MGKGDnBKEt3mZbmHUiuvusrrzdw6Y0n2g5zVy+pmlKmMrkzg2jG0d4Wfm23cU2QSG
- 1PcSZwCQ7XchdE9BZ4ki0HxdQNfRMFwHkCFYqs+yWvPBLMcBAdiYmYU2QRcb5FTzNYyexC6
- XyG5WFbow66C0VRrgpFWQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6iDpevWf7ak=:en4MnMBtuJfdrRM62TmJ0B
- o9lFzlR8nJUrQgAsMGv13tz6cfXNsp1tLlAy+MAOQj3IxjES9VExNgi/pbgwPxMZhgzC3tzFc
- UKC9aLLupGenudyQ8DkKglJB2tKIcb/8vlKiOEhsa6/0Vi8VKCDK+9Sy5/u0pzNzcqx9Ia3yi
- kJNhs1DabApFvxmGE/E7TfyvleRTLduQ6oMuYLxfAwdob6jbk9ys46ocp0n5+kN4yZq38eicu
- gJIFHKR4rhifIooNlHfCnpHevwB6tL3LNE4d4PO4icU5/kIHXKe4uzOuGnuGcag079W+VEgDu
- y98CiFnbUYiRa1p0Mfo4A6nQzjhX1FCUIxUIAVMj9xid3b/PsQzRfnCyJqrEqvjG1zNkGcQW+
- IC1lKzpxZgmMleZEXDBYjZzsYCdcIAWFqB+4WuE3lCjYXFn7ZEk+VFsQmY1qMeaZQyw32lqUT
- wrJO2HKe+h6p/qW6DfAvgi4QrJgfghHxgCegcVqPWEJN2V2MU2AuHj9PCYXCUUOXNoT7k3UTc
- cpowuvCYtQHdPELz+SfZ3hxl7dCL030S+gWoJcWGtSBDQkYPwGsEWt95G+r06N5mNxdjx0AKv
- atRy4Ouqb9CakS+qSxcwFM84OnqI7Dikjo/te+1Iorv/t2nK7Tco0MTOYD5W7HtodyixHcgwu
- U1sn4ivjcre5EE/kJazkzeIzHpIRAaHAu1m/4nRj+7m2TsjZOA+sqatlHTlgh9G2rFsaOMhCV
- uB1F04GIjJo2PEBfXPKH8d7lTzIxBPBJd6DmJvq4rrLvLbArCxILiL6c+RVVd+lER6bjDtlqK
- hptyIBYmYmvfzKiz38E6qv/TvUWWtVMImfAmgcieHq3HAJXfxwDZo6+aOV65+yWmkbvTvFQRE
- NHgYylI5bTAVP4cAuy3Ur9lzNc8GlIxxsE+A9yAL47o5vSjaZ3pfIHNNeCe7F5S2ygZtjKsui
- BgaFLwnnkNfIg6IFjwMNIHDBQxgOZhYkI3iMBg12qY7bficlQDcfSSTEuyWPAKV/am5vl10By
- 5kehvgvJGKGID55kqqhxqq5pHjZQ6pSZ9pXNflEdJ27kXE5Hwrtd5m7Okk5XRRpTF99QQZYno
- rP4ZsBe3c5pzxcGXCX2qNJ9bD4CBqdIZ9vboE8XJNbZ0ZFs+vdCCSqj2GsSzqBClFq0qHKVvD
- k720+tEqLBHpocoAfNYEoVVCNNJMrGEes2mVTh115zxAbfPaSfLSxw29gyPVYaCGJ3+1CeaFo
- UIQyuewuET2/+mlCBMQcp/A9WemIVPFLN1L115R5an2JfQhgGTWMhoVzCUSE=
+X-Provags-ID: V03:K1:V5s0lVOsEJp343Q4r+2aot8a5KDekal2vhV757BxhU3szgkIQkk
+ Ca1LIXE/QxcdcWzTALMks8Tc5IOs6LJ1NayoFVk1Ab8qShiZ9UlPxVnIgyf03Z8S8sybf0H
+ NrRtBysges0FuD41IzzWHByVvjcq26AOVYhbc+FESFqdrtNlAEbikvvG3Wq20+IsDx4Rkum
+ UeD1wpNg3cMfSytJoTPSw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uLNgf5N+nB8=:HLa0Py9yOmgtio6ntdlwv3
+ GkaWct/MAScNOCPofH445DxjJLIbCgte+ZxZneDz5uTKyh1m194AMveo7pwi06N/8NfUCi+Se
+ FGH31cJolgPzmj3wz36sZ2w3uG/y6Qo6iCgiU5D9lVAgnTad1mfjzKjjKHkWpZ1Nsab/bUHdd
+ k85gLY82DqedgsFYv7O0KdfwXquaV6Gh19vh7TFWIgzGX8B6eAvpFErAqxfQbOWT3fKmOY73r
+ VehWk5IFK5DcVjs7uM/sCSkKei4IhuK5syKMy4TKJzq/7F541V+53GIKKZ9GXTuMKLreEvMxG
+ fzSNaud/910YYBMrfAbU4AMzGXKrwwtUErs+GyFsz4Hf2OLWeWWSz6PCjjg+9Z/qYr/tF/Hnh
+ NWgNQdx6QiNXYofyjEGp88y8TvqFY5O8FyP7Mlz1MSGXZf4FyE7Y+L3HxDa5wclJFm0HXk5k7
+ dF5DpuBznILwENzmvI9XJbdPvgQXjxIdYFy9mMlOOYb6UYKjipoU0rSzSFS837ilJrmAaMQS6
+ 4I964NqijpDJtCm7970FwKPJjhtb6QCBs5z/ABeTZ7TnX/GGrO6Mr0774vUBUUe60yC8nuNck
+ KmmqUAnsRa0CbY1nb9L4/MAWxNQjGt6mYjy5hyAC3VTY+w3taSI3X8qzWINs05fM3DxwBMO3h
+ i/yQIr7ZnN72d3rK8deWl3q1wzCnAWJ247waCP3DgFz4/5vIaZ8gf5ySIVudPA59n9i5Jf0bc
+ Kntd333/fNDzQlMTaUzMoa8WTMhhx5Pfw5ucCGcA7c/p3M+ghOTNtBPA51JpCdZQAi0sC010U
+ Wzx37j7nVgOxJRtzWO3UYte1QwpkDXcG9fRa16Etk+emALczQiKs3g+s3VBfQEaGJ9rhTmAJf
+ oA4M8eWakrzsEfBw01pXLlGyEsJ6RODD+G8EWvR5UODNI2BY0DrumYmOdKU3k1JDd5etKfSz8
+ vkj77pGQNQhOVOIz9FRaOiTs5sMDtlESukmT42lXYZQCHvGR6UR0y3/bQQyM2ggHNp0FVA+Mq
+ eTNircCbTClk4GlLlLgJmEmAgEJFudVOnPI5f6B3eoC0tPDy/6YbMa1yxGAAwaICqv66VhVmS
+ eL9Xvy+14rRQlBwjC5iIHOxMdNjT04csCMCSQd3rX7iTs+p1X8jr4EHIwQb8O28oLQ3v1SO8P
+ Vhp7VESMdmMgPe5+fODNKz7RZCFVQJt1EZe6IC6Oev7qP2i6yyKVntJ8vAQZCib+YrRzpCnyH
+ WiVOeWvSLoq5KnAMlKsxK71OowocDJwzx/hmvgq3hnThmM0N+DxwDKi3gOq4=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.11
+X-Received-From: 212.227.15.4
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,94 +86,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After failover the Secondary side of replication shouldn't change state, b=
-ecause
-it now functions as our primary disk.
-
-In replication_start, replication_do_checkpoint, replication_stop, ignore
-the request if current state is BLOCK_REPLICATION_DONE (sucessful failover=
-) or
-BLOCK_REPLICATION_FAILOVER (failover in progres i.e. currently merging act=
-ive
-and hidden images into the base image).
+This simulates the case that happens when we resume COLO after failover.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 =2D--
- block/replication.c | 35 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ tests/test-replication.c | 52 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/block/replication.c b/block/replication.c
-index 3d4dedddfc..78234d1a04 100644
-=2D-- a/block/replication.c
-+++ b/block/replication.c
-@@ -454,6 +454,17 @@ static void replication_start(ReplicationState *rs, R=
-eplicationMode mode,
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
+diff --git a/tests/test-replication.c b/tests/test-replication.c
+index f085d1993a..8e18ecd998 100644
+=2D-- a/tests/test-replication.c
++++ b/tests/test-replication.c
+@@ -489,6 +489,56 @@ static void test_secondary_stop(void)
+     teardown_secondary();
+ }
 
-+    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-+        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-+        /*
-+         * This case happens when a secondary is promoted to primary.
-+         * Ignore the request because the secondary side of replication
-+         * doesn't have to do anything anymore.
-+         */
-+        aio_context_release(aio_context);
-+        return;
-+    }
++static void test_secondary_continuous_replication(void)
++{
++    BlockBackend *top_blk, *local_blk;
++    Error *local_err =3D NULL;
 +
-     if (s->stage !=3D BLOCK_REPLICATION_NONE) {
-         error_setg(errp, "Block replication is running or done");
-         aio_context_release(aio_context);
-@@ -577,6 +588,17 @@ static void replication_do_checkpoint(ReplicationStat=
-e *rs, Error **errp)
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
-
-+    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-+        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-+        /*
-+         * This case happens when a secondary was promoted to primary.
-+         * Ignore the request because the secondary side of replication
-+         * doesn't have to do anything anymore.
-+         */
-+        aio_context_release(aio_context);
-+        return;
-+    }
++    top_blk =3D start_secondary();
++    replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
++    g_assert(!local_err);
 +
-     if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
-         secondary_do_checkpoint(s, errp);
-     }
-@@ -593,7 +615,7 @@ static void replication_get_error(ReplicationState *rs=
-, Error **errp)
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
-
--    if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
-+    if (s->stage =3D=3D BLOCK_REPLICATION_NONE) {
-         error_setg(errp, "Block replication is not running");
-         aio_context_release(aio_context);
-         return;
-@@ -635,6 +657,17 @@ static void replication_stop(ReplicationState *rs, bo=
-ol failover, Error **errp)
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
-
-+    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-+        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-+        /*
-+         * This case happens when a secondary was promoted to primary.
-+         * Ignore the request because the secondary side of replication
-+         * doesn't have to do anything anymore.
-+         */
-+        aio_context_release(aio_context);
-+        return;
-+    }
++    /* write 0x22 to s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
++    local_blk =3D blk_by_name(S_LOCAL_DISK_ID);
++    test_blk_write(local_blk, 0x22, IMG_SIZE / 2, IMG_SIZE / 2, false);
 +
-     if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
-         error_setg(errp, "Block replication is not running");
-         aio_context_release(aio_context);
++    /* replication will backup s_local_disk to s_hidden_disk */
++    test_blk_read(top_blk, 0x11, IMG_SIZE / 2,
++                  IMG_SIZE / 2, 0, IMG_SIZE, false);
++
++    /* write 0x33 to s_active_disk (0, IMG_SIZE / 2) */
++    test_blk_write(top_blk, 0x33, 0, IMG_SIZE / 2, false);
++
++    /* do failover (active commit) */
++    replication_stop_all(true, &local_err);
++    g_assert(!local_err);
++
++    /* it should ignore all requests from now on */
++
++    /* start after failover */
++    replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
++    g_assert(!local_err);
++
++    /* checkpoint */
++    replication_do_checkpoint_all(&local_err);
++    g_assert(!local_err);
++
++    /* stop */
++    replication_stop_all(true, &local_err);
++    g_assert(!local_err);
++
++    /* read from s_local_disk (0, IMG_SIZE / 2) */
++    test_blk_read(top_blk, 0x33, 0, IMG_SIZE / 2,
++                  0, IMG_SIZE / 2, false);
++
++
++    /* read from s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
++    test_blk_read(top_blk, 0x22, IMG_SIZE / 2,
++                  IMG_SIZE / 2, 0, IMG_SIZE, false);
++
++    teardown_secondary();
++}
++
+ static void test_secondary_do_checkpoint(void)
+ {
+     BlockBackend *top_blk, *local_blk;
+@@ -584,6 +634,8 @@ int main(int argc, char **argv)
+     g_test_add_func("/replication/secondary/write", test_secondary_write)=
+;
+     g_test_add_func("/replication/secondary/start", test_secondary_start)=
+;
+     g_test_add_func("/replication/secondary/stop",  test_secondary_stop);
++    g_test_add_func("/replication/secondary/continuous_replication",
++                    test_secondary_continuous_replication);
+     g_test_add_func("/replication/secondary/do_checkpoint",
+                     test_secondary_do_checkpoint);
+     g_test_add_func("/replication/secondary/get_error_all",
 =2D-
 2.20.1
 
