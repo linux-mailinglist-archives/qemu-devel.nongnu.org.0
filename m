@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37241E3024
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:18:36 +0200 (CEST)
-Received: from localhost ([::1]:39338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5FFE3060
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:29:49 +0200 (CEST)
+Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNb8U-0002xF-9S
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59327)
+	id 1iNbJL-0003Jm-NJ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:29:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatK-0000yk-F7
+ (envelope-from <armbru@redhat.com>) id 1iNatK-0000zk-UY
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatI-0004uZ-QM
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004qN-Fb
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31475
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53603
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatI-0004tA-M9
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004oF-8D
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914970;
+ s=mimecast20190719; t=1571914966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mPYIhZn6+9mdslr9fxABZgfdncQ8mFnhSckQXSTPOew=;
- b=jB/7zJqhOa6M0A1cQUFalyjO2NkxAU1Y+qc+coAA4jmy1H1HWC3yzw6fkdbHG3s4RtNUqU
- S4W05AlQqKkPIVDmFUa6l1afBEogz6r42YK1MxAUpIi4kDFVCE7gi8wPm3MaEWPjOmTs8y
- 4HeoxXw88zX51qXb2G1y8YzI1bgco54=
+ bh=OPBd4x/97RP023wsihC+zq3VLAl/9PZbaQaixKkNOCU=;
+ b=SLWxCr3anMIxvDGhTi7mfPZh3FXf674TH1rkBngXSqxRYTiq8t7W+y3flKRXs+VyrmyMwx
+ Agvx/pV+2Y95zFY5z3XnMQonfosZccA9RiPMnrzUxukTTNRAcumvGQO4MdEaJv2UbCI60N
+ NaZyyL7jzdhm1e1lNQusKU6hLpH5NfE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-UwY8DTMiNzyV6uNNWHTixA-1; Thu, 24 Oct 2019 07:02:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-376-PUB9gDmxPZCTX_6Z8-QMnw-1; Thu, 24 Oct 2019 07:02:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6E99800D54;
- Thu, 24 Oct 2019 11:02:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 676E31800E04;
+ Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 795455C1D4;
- Thu, 24 Oct 2019 11:02:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33D84600C4;
+ Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5028B1132986; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 5C878113292F; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/19] qapi: De-duplicate entity documentation generation code
-Date: Thu, 24 Oct 2019 13:02:25 +0200
-Message-Id: <20191024110237.30963-8-armbru@redhat.com>
+Subject: [PATCH 09/19] qapi: Fix enum doc comment checking
+Date: Thu, 24 Oct 2019 13:02:27 +0200
+Message-Id: <20191024110237.30963-10-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: UwY8DTMiNzyV6uNNWHTixA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: PUB9gDmxPZCTX_6Z8-QMnw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,171 +76,82 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPISchemaGenDocVisitor.visit_command() duplicates texi_entity() for
-its boxed arguments case.  The previous commit added another copy in
-.visit_event().
-
-Replace texi_entity() by texi_type() and texi_msg().  Use texi_msg()
-for the boxed arguments case as well.
+Enumeration type documentation comments are not checked, as
+demonstrated by test doc-bad-enum-member.  This is because we neglect
+to call self.doc.check() for enumeration types.  Messed up in
+816a57cd6e "qapi: Fix detection of bogus member documentation".  Fix
+it.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/doc.py | 82 ++++++++++++++++++++++-----------------------
- 1 file changed, 40 insertions(+), 42 deletions(-)
+ scripts/qapi/schema.py                     |  4 ++++
+ tests/qapi-schema/doc-bad-enum-member.err  |  1 +
+ tests/qapi-schema/doc-bad-enum-member.json |  1 -
+ tests/qapi-schema/doc-bad-enum-member.out  | 21 ---------------------
+ 4 files changed, 5 insertions(+), 22 deletions(-)
 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index f2462c9877..c8c4bda153 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -12,7 +12,7 @@ from qapi.gen import QAPIGenDoc, QAPISchemaVisitor
- MSG_FMT =3D """
- @deftypefn {type} {{}} {name}
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 9b62c8d74d..0381e3cb40 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -229,6 +229,10 @@ class QAPISchemaEnumType(QAPISchemaType):
+             for m in self.members:
+                 self.doc.connect_member(m)
 =20
--{body}
-+{body}{members}{features}{sections}
- @end deftypefn
-=20
- """.format
-@@ -20,7 +20,7 @@ MSG_FMT =3D """
- TYPE_FMT =3D """
- @deftp {{{type}}} {name}
-=20
--{body}
-+{body}{members}{features}{sections}
- @end deftp
-=20
- """.format
-@@ -149,7 +149,8 @@ def texi_member(member, desc, suffix):
-         suffix, desc, texi_if(member.ifcond, prefix=3D'@*'))
-=20
-=20
--def texi_members(doc, what, base, variants, member_func):
-+def texi_members(doc, what, base=3DNone, variants=3DNone,
-+                 member_func=3Dtexi_member):
-     """Format the table of members"""
-     items =3D ''
-     for section in doc.args.values():
-@@ -182,6 +183,13 @@ def texi_members(doc, what, base, variants, member_fun=
-c):
-     return '\n@b{%s:}\n@table @asis\n%s@end table\n' % (what, items)
-=20
-=20
-+def texi_arguments(doc, boxed_arg_type):
-+    if boxed_arg_type:
-+        return ('\n@b{Arguments:} the members of @code{%s}\n'
-+                % boxed_arg_type.name)
-+    return texi_members(doc, 'Arguments')
++    def check_doc(self):
++        if self.doc:
++            self.doc.check()
 +
-+
- def texi_features(doc):
-     """Format the table of features"""
-     items =3D ''
-@@ -208,12 +216,22 @@ def texi_sections(doc, ifcond):
-     return body
-=20
-=20
--def texi_entity(doc, what, ifcond, base=3DNone, variants=3DNone,
--                member_func=3Dtexi_member):
--    return (texi_body(doc)
--            + texi_members(doc, what, base, variants, member_func)
--            + texi_features(doc)
--            + texi_sections(doc, ifcond))
-+def texi_type(typ, doc, ifcond, members):
-+    return TYPE_FMT(type=3Dtyp,
-+                    name=3Ddoc.symbol,
-+                    body=3Dtexi_body(doc),
-+                    members=3Dmembers,
-+                    features=3Dtexi_features(doc),
-+                    sections=3Dtexi_sections(doc, ifcond))
-+
-+
-+def texi_msg(typ, doc, ifcond, members):
-+    return MSG_FMT(type=3Dtyp,
-+                   name=3Ddoc.symbol,
-+                   body=3Dtexi_body(doc),
-+                   members=3Dmembers,
-+                   features=3Dtexi_features(doc),
-+                   sections=3Dtexi_sections(doc, ifcond))
-=20
-=20
- class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
-@@ -227,56 +245,36 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
-=20
-     def visit_enum_type(self, name, info, ifcond, members, prefix):
-         doc =3D self.cur_doc
--        self._gen.add(TYPE_FMT(type=3D'Enum',
--                               name=3Ddoc.symbol,
--                               body=3Dtexi_entity(doc, 'Values', ifcond,
--                                                member_func=3Dtexi_enum_va=
-lue)))
-+        self._gen.add(texi_type('Enum', doc, ifcond,
-+                                texi_members(doc, 'Values',
-+                                             member_func=3Dtexi_enum_value=
-)))
-=20
-     def visit_object_type(self, name, info, ifcond, base, members, variant=
-s,
-                           features):
-         doc =3D self.cur_doc
-         if base and base.is_implicit():
-             base =3D None
--        self._gen.add(TYPE_FMT(type=3D'Object',
--                               name=3Ddoc.symbol,
--                               body=3Dtexi_entity(doc, 'Members', ifcond,
--                                                base, variants)))
-+        self._gen.add(texi_type('Object', doc, ifcond,
-+                                texi_members(doc, 'Members', base, variant=
-s)))
-=20
-     def visit_alternate_type(self, name, info, ifcond, variants):
-         doc =3D self.cur_doc
--        self._gen.add(TYPE_FMT(type=3D'Alternate',
--                               name=3Ddoc.symbol,
--                               body=3Dtexi_entity(doc, 'Members', ifcond))=
+     def is_implicit(self):
+         # See QAPISchema._make_implicit_enum_type() and ._def_predefineds(=
 )
-+        self._gen.add(texi_type('Alternate', doc, ifcond,
-+                                texi_members(doc, 'Members')))
+         return self.name.endswith('Kind') or self.name =3D=3D 'QType'
+diff --git a/tests/qapi-schema/doc-bad-enum-member.err b/tests/qapi-schema/=
+doc-bad-enum-member.err
+index e69de29bb2..dfa1e786d7 100644
+--- a/tests/qapi-schema/doc-bad-enum-member.err
++++ b/tests/qapi-schema/doc-bad-enum-member.err
+@@ -0,0 +1 @@
++doc-bad-enum-member.json:3: the following documented members are not in th=
+e declaration: a
+diff --git a/tests/qapi-schema/doc-bad-enum-member.json b/tests/qapi-schema=
+/doc-bad-enum-member.json
+index 9f32fe64b4..9cab35c6e8 100644
+--- a/tests/qapi-schema/doc-bad-enum-member.json
++++ b/tests/qapi-schema/doc-bad-enum-member.json
+@@ -1,5 +1,4 @@
+ # Members listed in the doc comment must exist in the actual schema
+-# BUG: nonexistent @a is not rejected
 =20
-     def visit_command(self, name, info, ifcond, arg_type, ret_type, gen,
-                       success_response, boxed, allow_oob, allow_preconfig,
-                       features):
-         doc =3D self.cur_doc
--        if boxed:
--            body =3D texi_body(doc)
--            body +=3D ('\n@b{Arguments:} the members of @code{%s}\n'
--                     % arg_type.name)
--            body +=3D texi_features(doc)
--            body +=3D texi_sections(doc, ifcond)
--        else:
--            body =3D texi_entity(doc, 'Arguments', ifcond)
--        self._gen.add(MSG_FMT(type=3D'Command',
--                              name=3Ddoc.symbol,
--                              body=3Dbody))
-+        self._gen.add(texi_msg('Command', doc, ifcond,
-+                               texi_arguments(doc,
-+                                              arg_type if boxed else None)=
-))
-=20
-     def visit_event(self, name, info, ifcond, arg_type, boxed):
-         doc =3D self.cur_doc
--        if boxed:
--            body =3D texi_body(doc)
--            body +=3D ('\n@b{Arguments:} the members of @code{%s}\n'
--                     % arg_type.name)
--            body +=3D texi_features(doc)
--            body +=3D texi_sections(doc, ifcond)
--        else:
--            body =3D texi_entity(doc, 'Arguments', ifcond)
--        self._gen.add(MSG_FMT(type=3D'Event',
--                              name=3Ddoc.symbol,
--                              body=3Dbody))
-+        self._gen.add(texi_msg('Event', doc, ifcond,
-+                               texi_arguments(doc,
-+                                              arg_type if boxed else None)=
-))
-=20
-     def symbol(self, doc, entity):
-         if self._gen._body:
+ ##
+ # @Foo:
+diff --git a/tests/qapi-schema/doc-bad-enum-member.out b/tests/qapi-schema/=
+doc-bad-enum-member.out
+index 6ca31c1e9b..e69de29bb2 100644
+--- a/tests/qapi-schema/doc-bad-enum-member.out
++++ b/tests/qapi-schema/doc-bad-enum-member.out
+@@ -1,21 +0,0 @@
+-module None
+-object q_empty
+-enum QType
+-    prefix QTYPE
+-    member none
+-    member qnull
+-    member qnum
+-    member qstring
+-    member qdict
+-    member qlist
+-    member qbool
+-module doc-bad-enum-member.json
+-enum Foo
+-    member b
+-doc symbol=3DFoo
+-    body=3D
+-
+-    arg=3Da
+-a
+-    arg=3Db
+-b
 --=20
 2.21.0
 
