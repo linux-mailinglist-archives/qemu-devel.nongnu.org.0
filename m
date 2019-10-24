@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54720E2E05
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:00:14 +0200 (CEST)
-Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DFBE2D56
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:30:39 +0200 (CEST)
+Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZue-0001eS-Es
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:00:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44441)
+	id 1iNZS1-0001RB-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:30:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZB0-0003vk-Hz
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:13:04 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ99-0007Nn-OQ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZAz-0005eS-EM
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:13:02 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:34638)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ98-0004Vi-Ot
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:07 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:60984)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZAz-0005dN-6s
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:13:01 -0400
+ id 1iNZ98-0004VB-FX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:06 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94MaG094899;
- Thu, 24 Oct 2019 09:12:54 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94LRw094842;
+ Thu, 24 Oct 2019 09:11:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=UCqtZIGXlcDh8wCI6QvJFE2Ebd8V/aXNkefNr+61NL8=;
- b=eE01w91ljJBc6g5mDv/SNn7a7dTTPKPygwZg1Q3XrJl0LUwTheM94hcXs18TIopxcdYg
- xmaqvmhkRapkXVo1L7pVT+EKdI1MMMgi+i7IJ3SZNrqpl0gEXS8SC100/JcQ09rTCaxV
- Drk1MwLKehVx9tUlwEXoBiBeQe3KnYMc9R0w/4SuHqp8FKTWlk0rSXFsPZ6j68oz5tbB
- YP53TwHBqI+76Gmt440BunCpxsRZgBAkZw9EPqZOeIUN3fvWoIa/NW5B7P6zOOZz5Nkq
- 7KpM88nRktFCwydeiBn1oyICB7rzq474JtFvHitJuai3218mMAzHzlhx7MiUhCKQP7Dz ug== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2vqu4r24yx-1
+ bh=C7lsCetm1EC2M2RQ2S0xlTKBg1MaEOc5TwxwRSzkXS4=;
+ b=dZxIjkC6uUykfd+L8O0XFIssUbqTtpDsoHb60n3urVaQskJLsXb9XdUBHEgqB0kfDOnG
+ p2HAcNHDM6sG2CJeYjBBnNdZPXNB2M1m2wQUg+9U236PsVWwtnXjNNfeArZhSh2psh3V
+ 4CK9Ei4U+nzi+rUhMMPc8Lo6lUmg5uvBnamWYRe1ZrlUQuRM3Q2yIeq/RuDMXtjsGH+9
+ G4IXZxoY3sicFtULvkV3QYr+W9eVoOegAXiLV6Q4fXQMK+uKJhrjm/OtqQ0Ck8OAnydw
+ ue5fdfemullsPusyMYCgKjGMfTN5zEbJNkIcW+QpTBiPY76gup0qKQNspN7Qk/fMtKlY Dw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2vqu4r24q0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:12:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98Ld5047105;
- Thu, 24 Oct 2019 09:10:53 GMT
+ Thu, 24 Oct 2019 09:11:00 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jTc170559;
+ Thu, 24 Oct 2019 09:11:00 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 2vu0fnu7e7-1
+ by userp3020.oracle.com with ESMTP id 2vtsk487c2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:10:52 +0000
+ Thu, 24 Oct 2019 09:11:00 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9AqvV023684;
- Thu, 24 Oct 2019 09:10:52 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9Awet023719;
+ Thu, 24 Oct 2019 09:10:58 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:10:51 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:10:57 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 25/49] multi-process: Introduce build flags to separate
- remote process code
-Date: Thu, 24 Oct 2019 05:09:06 -0400
-Message-Id: <ffff5a3cb8dbaa053e1f36933a72a29bb770444b.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 27/49] multi-process: add remote option
+Date: Thu, 24 Oct 2019 05:09:08 -0400
+Message-Id: <191f2d86c1d329618c688c2e8ba964a9ff680d77.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -100,47 +99,49 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce SCSI_PROCESS & REMOTE_PROCESS build flags to separate
-code that applies only to remote processes.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
  New patch in v3
 
- Makefile.target | 4 ++++
- rules.mak       | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ qemu-options.hx | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/Makefile.target b/Makefile.target
-index f16b74a..0ca40f1 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -255,6 +255,10 @@ ifdef CONFIG_DARWIN
- 	$(call quiet-command,SetFile -a C $@,"SETFILE","$(TARGET_DIR)$@")
- endif
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 996b6fb..4734e8e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -27,6 +27,27 @@ STEXI
+ Display version information and exit
+ ETEXI
  
-+ifdef CONFIG_MPQEMU
-+$(SCSI_DEV_BUILD): REMOTE_FLAGS = -DREMOTE_PROCESS -DSCSI_PROCESS
-+endif
++DEF("remote", HAS_ARG, QEMU_OPTION_remote,
++    "-remote socket[,prop[=value][,...]]\n"
++    "                add remote process\n"
++    "                prop=value,... sets driver properties\n"
++    "                use '-remote help' to print all possible properties\n",
++    QEMU_ARCH_ALL)
++STEXI
++@table @option
++@item rid
++@findex -rid
++remote id
++@item socket
++@findex -socket
++Remote process socket
++@item command
++@findex -command
++Remote process command.
 +
- $(SCSI_DEV_BUILD): $(all-remote-lsi-obj-y) $(COMMON_LDADDS)
- 	$(call LINK, $(filter-out %.mak, $^))
- ifdef CONFIG_DARWIN
-diff --git a/rules.mak b/rules.mak
-index 967295d..22e0c36 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -67,7 +67,7 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
- 
- %.o: %.c
- 	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
--	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
-+	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) $(REMOTE_FLAGS) \
- 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
- %.o: %.rc
- 	$(call quiet-command,$(WINDRES) -I. -o $@ $<,"RC","$(TARGET_DIR)$@")
++@end table
++ETEXI
++
+ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "-machine [type=]name[,prop[=value][,...]]\n"
+     "                selects emulated machine ('-machine help' for list)\n"
 -- 
 1.8.3.1
 
