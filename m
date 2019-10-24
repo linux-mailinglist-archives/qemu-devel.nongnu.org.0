@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348E7E367C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:23:09 +0200 (CEST)
-Received: from localhost ([::1]:45302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03913E36C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:36:17 +0200 (CEST)
+Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNexA-0005OE-6l
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34825)
+	id 1iNf9q-0003ZJ-2w
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiy-0007ry-Lh
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:29 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiz-0007tn-PZ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdit-0007ih-At
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:24 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53281)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiu-0007jT-Bj
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:25 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36913)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdir-0007hQ-OI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:18 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id n7so2166733wmc.3
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:16 -0700 (PDT)
+ id 1iNdiu-0007il-4k
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:20 -0400
+Received: by mail-wm1-x342.google.com with SMTP id q130so2569881wme.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nbdM4QsVX6w/vZF6SHA0C1caqBfc8BftNTLt4pHDGbQ=;
- b=d6heQ/OBpiVsx1ecilCPT+HUeoAdccwTZUdXs0eAT//BB9MAAL3NzqsWe8p/rFAwkm
- 4gNQWW4N2VL5S8CpmYZqjdAiJGbt6RYyqZQZqI20oiL0YAqClvyVRwHU1rbl7voyX8RL
- fMWh2w1LvvYVZtF+C8G6N/DiXHC/lZIFamSNcZmlaOA4kqn0NxONoJynF5IuaQD/IHaP
- JfQi5apBa/8GZdf0PuUnm3AI8TzceISZ7AbyXSDbE9Tp12lIGZoXvIrETsPF/pm5XJzj
- 8EQXB1iELmwVJiZ6c1T8cYPClSa6E4s3zBF+LNYUzv62qqKlcEGH0Yic2WxrUdLRCSdt
- bOjg==
+ bh=I9JsqJ1MLvuD5qQCxsE/vI2P7L8FB/WYGzzDrDXMd7I=;
+ b=JP5Q6fx1YrRB6ChMMcZCCZ5fOjoWBV7f4/M6bWUaW8D3M0wNF0JuUf6LoHXt4UvIU8
+ u82cnIEvXjyV+pqemUcvWo9xG5b5lBFaDu4gWHpp9RHrnkONVM5LLZIH7QIbft3/S7Du
+ I0Bh2ztLNTr4w2FD5w+rEp3/w+69TC7cjw4k+UnIbDuydztDb1VEQ76EExgz2R+X1f8a
+ ppTkgHrPFBCffzKRpWRT57X47L57NvXTSEAEJNTMb2ohsU6Pt1PUe4/PhM+EKMbRDPTN
+ XS9mfZM5A4F8VOUtv0bkHa/+vFsSM5Dit13uWpHKi06/PuAxbdQgGMVOQ8i5g4HkKWGo
+ GK8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nbdM4QsVX6w/vZF6SHA0C1caqBfc8BftNTLt4pHDGbQ=;
- b=FGyVzSqzuSCQxWmv+QKCmBw/tSyYVA84WR9aKpO2MI2UjE+jvGv9wH1EqPjtq9OciT
- bIfD5jRGeIjS4Etbu0MPp7rRsV17TjJwTXYSnaY/ksjrNIT+ZyoMRexPnPi+WMwTsZq5
- tEwoQjcPLGNZSQ7MfVamNhNUtf2GWcL8Gb/JfjFaWyadlSWd4SSqMPcLxeeax15nH4ZI
- Ubk3mQO6MdjUVMe1p891CSkPinoo5wPX7jyXb1XZVWcMsPzDYGx0mqFAIkMN74eMPHe0
- gfTEaUmECx73/ZwORlY0tqiwbTUpqSF59bCTlGbGdHI/SRrK3BcbHbGtlccZBhUUksIR
- ZI7Q==
-X-Gm-Message-State: APjAAAU7pu0wZob2cJRLZuiVXkO9dAneVtoz0zkrQUvLKalEwCqMQX4J
- 1NSrPWE8Qm8udkDUvbvLZBhCQbzr
-X-Google-Smtp-Source: APXvYqw7/VeX3i9cgxJ9iiNHwbF3RFDBrDwZ222FLJnkpUPZHsdovMjryKNglHUFm7zPnz9QkrJTSg==
-X-Received: by 2002:a1c:6386:: with SMTP id x128mr4994980wmb.41.1571925855227; 
- Thu, 24 Oct 2019 07:04:15 -0700 (PDT)
+ bh=I9JsqJ1MLvuD5qQCxsE/vI2P7L8FB/WYGzzDrDXMd7I=;
+ b=Ebon9oncuvTIe2ZURp6UuhaXNSmy+lRmj4jP4t/tgn/KT20PMe/DYfmoZCYC/nMNs/
+ +b0eGqG8Wd+G1DrSMT1SdgEMttxwO2IjWaABQJLciRQXynKL1SsRKRthDvW6wWlXjHj6
+ +auAwy+UQlGm0YR6aZr9oy+0wtJcQPDWKppcl0M9rDjZ9ihNn65tLLdclSndvkvFyOg9
+ L7WwxLSmcsdQPcl0ZL/SmRD5bQ4gNXb8aVy6ypYWS4lulLYbk/lycc+8beKQ769/s6a9
+ 8MH/qQbvriaUpnqypEPdlViOjFzsCLAGTSbWjKKTGPU5ZO+c111bdD/fk0CFQO1r12Sh
+ hF5g==
+X-Gm-Message-State: APjAAAXB9EWBYFL+01nWtkqXbnH7eWu/e6fMQx23Zk3SClPvI/FawNxY
+ YHc1OP9Zb4/vonVA+XnfSyMg1gL6
+X-Google-Smtp-Source: APXvYqzLTlA28o+4ls/bYxiv6g1u1Ofs0WFkewu6HSoLKPQ2OVgyhUPp7NifROiI9UgM75+KXwcflw==
+X-Received: by 2002:a1c:e404:: with SMTP id b4mr5557560wmh.90.1571925858542;
+ Thu, 24 Oct 2019 07:04:18 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.14
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:14 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/39] fw_cfg: add "modify" functions for all types
-Date: Thu, 24 Oct 2019 16:03:32 +0200
-Message-Id: <1571925835-31930-17-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 19/39] docs/microvm.rst: document the new microvm machine type
+Date: Thu, 24 Oct 2019 16:03:35 +0200
+Message-Id: <1571925835-31930-20-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,137 +84,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sergio Lopez <slp@redhat.com>
 
-This allows to alter the contents of an already added item.
+Document the new microvm machine type.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/nvram/fw_cfg.c         | 29 +++++++++++++++++++++++++++++
- include/hw/nvram/fw_cfg.h | 42 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
+ docs/microvm.rst | 108 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
+ create mode 100644 docs/microvm.rst
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 7dc3ac3..aef1727 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -690,6 +690,15 @@ void fw_cfg_add_string(FWCfgState *s, uint16_t key, const char *value)
-     fw_cfg_add_bytes(s, key, g_memdup(value, sz), sz);
- }
- 
-+void fw_cfg_modify_string(FWCfgState *s, uint16_t key, const char *value)
-+{
-+    size_t sz = strlen(value) + 1;
-+    char *old;
+diff --git a/docs/microvm.rst b/docs/microvm.rst
+new file mode 100644
+index 0000000..aae811a
+--- /dev/null
++++ b/docs/microvm.rst
+@@ -0,0 +1,108 @@
++====================
++microvm Machine Type
++====================
 +
-+    old = fw_cfg_modify_bytes_read(s, key, g_memdup(value, sz), sz);
-+    g_free(old);
-+}
++``microvm`` is a machine type inspired by ``Firecracker`` and
++constructed after its machine model.
 +
- void fw_cfg_add_i16(FWCfgState *s, uint16_t key, uint16_t value)
- {
-     uint16_t *copy;
-@@ -720,6 +729,16 @@ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uint32_t value)
-     fw_cfg_add_bytes(s, key, copy, sizeof(value));
- }
- 
-+void fw_cfg_modify_i32(FWCfgState *s, uint16_t key, uint32_t value)
-+{
-+    uint32_t *copy, *old;
++It's a minimalist machine type without ``PCI`` nor ``ACPI`` support,
++designed for short-lived guests. microvm also establishes a baseline
++for benchmarking and optimizing both QEMU and guest operating systems,
++since it is optimized for both boot time and footprint.
 +
-+    copy = g_malloc(sizeof(value));
-+    *copy = cpu_to_le32(value);
-+    old = fw_cfg_modify_bytes_read(s, key, copy, sizeof(value));
-+    g_free(old);
-+}
 +
- void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value)
- {
-     uint64_t *copy;
-@@ -730,6 +749,16 @@ void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value)
-     fw_cfg_add_bytes(s, key, copy, sizeof(value));
- }
- 
-+void fw_cfg_modify_i64(FWCfgState *s, uint16_t key, uint64_t value)
-+{
-+    uint64_t *copy, *old;
++Supported devices
++-----------------
 +
-+    copy = g_malloc(sizeof(value));
-+    *copy = cpu_to_le64(value);
-+    old = fw_cfg_modify_bytes_read(s, key, copy, sizeof(value));
-+    g_free(old);
-+}
++The microvm machine type supports the following devices:
 +
- void fw_cfg_set_order_override(FWCfgState *s, int order)
- {
-     assert(s->fw_cfg_order_override == 0);
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index 80e435d..b5291ee 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -99,6 +99,20 @@ void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t len);
- void fw_cfg_add_string(FWCfgState *s, uint16_t key, const char *value);
- 
- /**
-+ * fw_cfg_modify_string:
-+ * @s: fw_cfg device being modified
-+ * @key: selector key value for new fw_cfg item
-+ * @value: NUL-terminated ascii string
-+ *
-+ * Replace the fw_cfg item available by selecting the given key. The new
-+ * data will consist of a dynamically allocated copy of the provided string,
-+ * including its NUL terminator. The data being replaced, assumed to have
-+ * been dynamically allocated during an earlier call to either
-+ * fw_cfg_add_string() or fw_cfg_modify_string(), is freed before returning.
-+ */
-+void fw_cfg_modify_string(FWCfgState *s, uint16_t key, const char *value);
++- ISA bus
++- i8259 PIC (optional)
++- i8254 PIT (optional)
++- MC146818 RTC (optional)
++- One ISA serial port (optional)
++- LAPIC
++- IOAPIC (with kernel-irqchip=split by default)
++- kvmclock (if using KVM)
++- fw_cfg
++- Up to eight virtio-mmio devices (configured by the user)
 +
-+/**
-  * fw_cfg_add_i16:
-  * @s: fw_cfg device being modified
-  * @key: selector key value for new fw_cfg item
-@@ -137,6 +151,20 @@ void fw_cfg_modify_i16(FWCfgState *s, uint16_t key, uint16_t value);
- void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uint32_t value);
- 
- /**
-+ * fw_cfg_modify_i32:
-+ * @s: fw_cfg device being modified
-+ * @key: selector key value for new fw_cfg item
-+ * @value: 32-bit integer
-+ *
-+ * Replace the fw_cfg item available by selecting the given key. The new
-+ * data will consist of a dynamically allocated copy of the given 32-bit
-+ * value, converted to little-endian representation. The data being replaced,
-+ * assumed to have been dynamically allocated during an earlier call to
-+ * either fw_cfg_add_i32() or fw_cfg_modify_i32(), is freed before returning.
-+ */
-+void fw_cfg_modify_i32(FWCfgState *s, uint16_t key, uint32_t value);
 +
-+/**
-  * fw_cfg_add_i64:
-  * @s: fw_cfg device being modified
-  * @key: selector key value for new fw_cfg item
-@@ -149,6 +177,20 @@ void fw_cfg_add_i32(FWCfgState *s, uint16_t key, uint32_t value);
- void fw_cfg_add_i64(FWCfgState *s, uint16_t key, uint64_t value);
- 
- /**
-+ * fw_cfg_modify_i64:
-+ * @s: fw_cfg device being modified
-+ * @key: selector key value for new fw_cfg item
-+ * @value: 64-bit integer
-+ *
-+ * Replace the fw_cfg item available by selecting the given key. The new
-+ * data will consist of a dynamically allocated copy of the given 64-bit
-+ * value, converted to little-endian representation. The data being replaced,
-+ * assumed to have been dynamically allocated during an earlier call to
-+ * either fw_cfg_add_i64() or fw_cfg_modify_i64(), is freed before returning.
-+ */
-+void fw_cfg_modify_i64(FWCfgState *s, uint16_t key, uint64_t value);
++Limitations
++-----------
 +
-+/**
-  * fw_cfg_add_file:
-  * @s: fw_cfg device being modified
-  * @filename: name of new fw_cfg file item
++Currently, microvm does *not* support the following features:
++
++ - PCI-only devices.
++ - Hotplug of any kind.
++ - Live migration across QEMU versions.
++
++
++Using the microvm machine type
++------------------------------
++
++Machine-specific options
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++It supports the following machine-specific options:
++
++- microvm.x-option-roms=bool (Set off to disable loading option ROMs)
++- microvm.pit=OnOffAuto (Enable i8254 PIT)
++- microvm.isa-serial=bool (Set off to disable the instantiation an ISA serial port)
++- microvm.pic=OnOffAuto (Enable i8259 PIC)
++- microvm.rtc=OnOffAuto (Enable MC146818 RTC)
++- microvm.auto-kernel-cmdline=bool (Set off to disable adding virtio-mmio devices to the kernel cmdline)
++
++
++Boot options
++~~~~~~~~~~~~
++
++By default, microvm uses ``qboot`` as its BIOS, to obtain better boot
++times, but it's also compatible with ``SeaBIOS``.
++
++As no current FW is able to boot from a block device using
++``virtio-mmio`` as its transport, a microvm-based VM needs to be run
++using a host-side kernel and, optionally, an initrd image.
++
++
++Running a microvm-based VM
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++By default, microvm aims for maximum compatibility, enabling both
++legacy and non-legacy devices. In this example, a VM is created
++without passing any additional machine-specific option, using the
++legacy ``ISA serial`` device as console::
++
++  $ qemu-system-x86_64 -M microvm \
++     -enable-kvm -cpu host -m 512m -smp 2 \
++     -kernel vmlinux -append "earlyprintk=ttyS0 console=ttyS0 root=/dev/vda" \
++     -nodefaults -no-user-config -nographic \
++     -serial stdio \
++     -drive id=test,file=test.img,format=raw,if=none \
++     -device virtio-blk-device,drive=test \
++     -netdev tap,id=tap0,script=no,downscript=no \
++     -device virtio-net-device,netdev=tap0
++
++While the example above works, you might be interested in reducing the
++footprint further by disabling some legacy devices. If you're using
++``KVM``, you can disable the ``RTC``, making the Guest rely on
++``kvmclock`` exclusively. Additionally, if your host's CPUs have the
++``TSC_DEADLINE`` feature, you can also disable both the i8259 PIC and
++the i8254 PIT (make sure you're also emulating a CPU with such feature
++in the guest).
++
++This is an example of a VM with all optional legacy features
++disabled::
++
++  $ qemu-system-x86_64 \
++     -M microvm,x-option-roms=off,pit=off,pic=off,isa-serial=off,rtc=off \
++     -enable-kvm -cpu host -m 512m -smp 2 \
++     -kernel vmlinux -append "console=hvc0 root=/dev/vda" \
++     -nodefaults -no-user-config -nographic \
++     -chardev stdio,id=virtiocon0 \
++     -device virtio-serial-device \
++     -device virtconsole,chardev=virtiocon0 \
++     -drive id=test,file=test.img,format=raw,if=none \
++     -device virtio-blk-device,drive=test \
++     -netdev tap,id=tap0,script=no,downscript=no \
++     -device virtio-net-device,netdev=tap0
 -- 
 1.8.3.1
 
