@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37AF5E38D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:48:54 +0200 (CEST)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E7BE38D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:51:28 +0200 (CEST)
+Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgI8-0001Lr-KV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56313)
+	id 1iNgKd-0007Hc-8I
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56615)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNfpx-0000dr-AC
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:19:46 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNfsT-0004d0-Tp
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:22:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNfpu-0006tK-96
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:19:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53958
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNfsS-0007LG-Jt
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:22:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51745
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNfpu-0006t6-50
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:19:42 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNfsS-0007Jw-Fz
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:22:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571933981;
+ s=mimecast20190719; t=1571934134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HkHYyCNWQ+JbYzBu1PU9HBH1LY0GgfKVzYAYHerbarY=;
- b=CRt9I3cmIxnHRN45YQhX+aOeCSIQyh99Ee1NjjqgJk71neslPNA32zUes6nYSFEGhl+B4O
- Kct/cTPJOprCJDUAC3v2YBdCoG1f3ME1F8/RlKTKGvMn1DVOJBRvoPbn0Y54BlSsQO5a7F
- ZuzMuqhTGq1MJrMWi+6ctKC+UVZBPh0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-T47ouCagORqtplRn96Srxg-1; Thu, 24 Oct 2019 12:19:36 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18D58107AD34;
- Thu, 24 Oct 2019 16:19:35 +0000 (UTC)
-Received: from work-vm (ovpn-117-248.ams2.redhat.com [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F8555D9CA;
- Thu, 24 Oct 2019 16:19:23 +0000 (UTC)
-Date: Thu, 24 Oct 2019 17:19:21 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 00/30] virtiofs daemon (base)
-Message-ID: <20191024161921.GL2877@work-vm>
-References: <20191021105832.36574-1-dgilbert@redhat.com>
- <20191024071352-mutt-send-email-mst@kernel.org>
+ bh=RndMaEZSHTK+Xh2FcqB56moVFW6n46YXMGknS8nq3sA=;
+ b=JDWx0gGeMWjj+Ayz4mdWxBM0m7LJLosWYJQi74zeD9Pm04s6WaKEXOe4naCVw/ADtvg1bA
+ LVjVXmL2HM6RxUca3F7HBV2zswdKK5PW9ctpN5hQkk8EGmhdaCa9hLIytWngoLLdDh85s4
+ i+pKsScvWgyCqrolWroXYZClADirMd8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-g5aPa8QGN0CTW7BJbKduwQ-1; Thu, 24 Oct 2019 12:21:57 -0400
+Received: by mail-wr1-f69.google.com with SMTP id 67so13094514wrm.18
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:21:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PhW7JFkZwDqQv5z9XfVaWagkWXu0pB1QxYRd89tEwpI=;
+ b=a4DuS4XzVMhsbvGY2r8C0AaNLXVDlidekC9Co0UFSpBy0anUME6SCpzLZ2/DErkcT8
+ YuwtY/5VHqdzAJyF9M/4+avVTa0PybvS5k+m5qsTS9Uxjm+pHZEdNcnQPRZsftIgC0Iu
+ Jc8n9+at4AlB3r4+PKvWz7SiDPXYmrq+hBHbADI6+m/T2dgoVnqYn4AnSMHyEY5HCyFM
+ KCDJqx92DVlSeIsD5VMor0KMGhRoGkkC1r8ZwLZPuAzDYJGh8mffxcpyoF3qZFtLclFL
+ /GPImKU6GeLF0/ipHBQYuIEsMIdCunIr1MqW0RYprE+qo3HdHQVzT9bqPIhMfKh+p/oS
+ d8WQ==
+X-Gm-Message-State: APjAAAUk734gQpCW1xsN+Ze62Vsg1RVEHstX6cdn3CvPmWAF4xLeOsSL
+ uDbNFm0mbCP+0R9mJorqy2OAvb4NkNeIbYYwtvhReEdSD3zEVrkxwBB235BZ57W0o9v83ERhDng
+ Jz15PX9LyUGW+jjI=
+X-Received: by 2002:a05:6000:118f:: with SMTP id
+ g15mr4458417wrx.242.1571934116679; 
+ Thu, 24 Oct 2019 09:21:56 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxxULxWeaNYR65Sn5xkM9qYWEqdrhSxLE6C1scBu4Guql1F4Xt1YtFnjfovrwAEWoT1C2lPYA==
+X-Received: by 2002:a05:6000:118f:: with SMTP id
+ g15mr4458401wrx.242.1571934116423; 
+ Thu, 24 Oct 2019 09:21:56 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id 200sm4052652wme.32.2019.10.24.09.21.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 09:21:55 -0700 (PDT)
+Subject: Re: [PATCH] travis.yml: enable linux-gcc-debug-tcg cache
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191024160619.14179-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4f36130d-f2cc-2432-7098-b73f82c1501e@redhat.com>
+Date: Thu, 24 Oct 2019 18:21:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191024071352-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: T47ouCagORqtplRn96Srxg-1
+In-Reply-To: <20191024160619.14179-1-alex.bennee@linaro.org>
+Content-Language: en-US
+X-MC-Unique: g5aPa8QGN0CTW7BJbKduwQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,170 +93,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
+Cc: Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Mon, Oct 21, 2019 at 11:58:02AM +0100, Dr. David Alan Gilbert (git) wr=
-ote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >=20
-> > Hi,
-> >   This is the 1st set for the virtiofsd - a daemon
-> > that implements the user space side of virtiofs.
-> >=20
-> >   The kernel and qemu device parts recently went in,
-> > so the daemon is the only thing missing to have a working
-> > set.
-> >=20
-> >   This set is the absolute minimal base set of patches;
-> > it's not yet safe to use (from security or correctness);
-> >=20
-> > I'll follow up with ~3 more series in the next few days
-> > with:
-> >=20
-> >     a) Security patches that add sandboxing and checking
-> >        compared with normal fuse - that makes it safe.
-> >     b) Performance improvements including threading
-> >     c) Other fixes, including correctness.
-> >=20
-> > but, this is a good start and gets things rolling.
-> >=20
-> > The set pulls in a big chunk of the upstream libfuse library
-> > (unmodified so that it's easy to check it really is upstream),
-> > chops all the stuff out we don't need and then adds the
-> > new transport we need.
-> >=20
-> > For new files I've formatted the code according to qemu
-> > standards; for files that are from upstream libfuse
-> > I've kept with their standards for ease of future updating.
+On 10/24/19 6:06 PM, Alex Benn=C3=A9e wrote:
+> Create a new cache for the --enable-debug-tcg builds which is separate
+> from the normal debug builds which generate different code. We also
+> enable debug-tcg for the new plugins based builds as we want to ensure
+> any breakage to TCG is picked up by the sanity checks.
 >=20
-> Thinking of future updates, have you given any thought to
-> automating them? Something along the lines of
-> update-linux-headers maybe?
-
-The problem is we're changing the code in some of them;
-libfuse changes slowly enough that rebasing on a new libfuse isn't too
-bad; but once committed, just copying new versions in like update-linux-hea=
-ders
-does isn't going to work because we have to merge in our changes.
-I expect to have to cherry-pick changes.  Libfuse has had 75 patches in
-the last year; so it doesn't worry me too much.
-
-Dave
-
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   .travis.yml | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
 >=20
-> > We can't just link with libfuse, since we have to make ABI incompatible
-> > changes for the new transport.
-> >=20
-> > Running this daemon is typically done with:
-> >=20
-> >    ./virtiofsd -o vhost_user_socket=3D/path/socket -o source=3D/path/to=
-/fs
-> >=20
-> > connected to a qemu that's then started with:
-> >    -chardev socket,id=3Dchar0,path=3D/path/socket -device vhost-user-fs=
--pci,queue-size=3D1024,chardev=3Dchar0,tag=3Dmyfs
-> >=20
-> > and then in the guest mount with:
-> >    mount -t virtiofs myfs /mnt
-> >=20
-> > Our development branch is: https://gitlab.com/virtio-fs/qemu/tree/virti=
-o-fs-dev
-> >=20
-> > Dave
-> >=20
-> >=20
-> > Dr. David Alan Gilbert (22):
-> >   virtiofsd: Pull in upstream headers
-> >   virtiofsd: Pull in kernel's fuse.h
-> >   virtiofsd: Add auxiliary .c's
-> >   virtiofsd: Add fuse_lowlevel.c
-> >   virtiofsd: Add passthrough_ll
-> >   virtiofsd: Trim down imported files
-> >   virtiofsd: Fix fuse_daemonize ignored return values
-> >   virtiofsd: Fix common header and define for QEMU builds
-> >   virtiofsd: fuse: Make iov_length usable outside fuse_lowlevel.c
-> >   virtiofsd: Add options for virtio
-> >   virtiofsd: Open vhost connection instead of mounting
-> >   virtiofsd: Start wiring up vhost-user
-> >   virtiofsd: Add main virtio loop
-> >   virtiofsd: get/set features callbacks
-> >   virtiofsd: Start queue threads
-> >   virtiofsd: Poll kick_fd for queue
-> >   virtiofsd: Start reading commands from queue
-> >   virtiofsd: Send replies to messages
-> >   virtiofsd: Keep track of replies
-> >   virtiofsd: Add Makefile wiring for virtiofsd contrib
-> >   virtiofsd: Fast path for virtio read
-> >   virtiofs: Add maintainers entry
-> >=20
-> > Stefan Hajnoczi (7):
-> >   virtiofsd: remove mountpoint dummy argument
-> >   virtiofsd: remove unused notify reply support
-> >   virtiofsd: add -o source=3DPATH to help output
-> >   virtiofsd: add --fd=3DFDNUM fd passing option
-> >   virtiofsd: make -f (foreground) the default
-> >   virtiofsd: add vhost-user.json file
-> >   virtiofsd: add --print-capabilities option
-> >=20
-> > Vivek Goyal (1):
-> >   virtiofsd: Make fsync work even if only inode is passed in
-> >=20
-> >  .gitignore                                  |    1 +
-> >  MAINTAINERS                                 |    8 +
-> >  Makefile                                    |    9 +
-> >  Makefile.objs                               |    1 +
-> >  contrib/virtiofsd/50-qemu-virtiofsd.json.in |    5 +
-> >  contrib/virtiofsd/Makefile.objs             |   10 +
-> >  contrib/virtiofsd/buffer.c                  |  318 +++
-> >  contrib/virtiofsd/fuse.h                    | 1268 ++++++++++
-> >  contrib/virtiofsd/fuse_common.h             |  823 +++++++
-> >  contrib/virtiofsd/fuse_i.h                  |  131 ++
-> >  contrib/virtiofsd/fuse_kernel.h             |  858 +++++++
-> >  contrib/virtiofsd/fuse_log.c                |   40 +
-> >  contrib/virtiofsd/fuse_log.h                |   82 +
-> >  contrib/virtiofsd/fuse_loop_mt.c            |   54 +
-> >  contrib/virtiofsd/fuse_lowlevel.c           | 2302 +++++++++++++++++++
-> >  contrib/virtiofsd/fuse_lowlevel.h           | 2024 ++++++++++++++++
-> >  contrib/virtiofsd/fuse_misc.h               |   59 +
-> >  contrib/virtiofsd/fuse_opt.c                |  422 ++++
-> >  contrib/virtiofsd/fuse_opt.h                |  271 +++
-> >  contrib/virtiofsd/fuse_signals.c            |   90 +
-> >  contrib/virtiofsd/fuse_virtio.c             |  717 ++++++
-> >  contrib/virtiofsd/fuse_virtio.h             |   33 +
-> >  contrib/virtiofsd/helper.c                  |  300 +++
-> >  contrib/virtiofsd/passthrough_helpers.h     |   76 +
-> >  contrib/virtiofsd/passthrough_ll.c          | 1341 +++++++++++
-> >  docs/interop/vhost-user.json                |    4 +-
-> >  26 files changed, 11246 insertions(+), 1 deletion(-)
-> >  create mode 100644 contrib/virtiofsd/50-qemu-virtiofsd.json.in
-> >  create mode 100644 contrib/virtiofsd/Makefile.objs
-> >  create mode 100644 contrib/virtiofsd/buffer.c
-> >  create mode 100644 contrib/virtiofsd/fuse.h
-> >  create mode 100644 contrib/virtiofsd/fuse_common.h
-> >  create mode 100644 contrib/virtiofsd/fuse_i.h
-> >  create mode 100644 contrib/virtiofsd/fuse_kernel.h
-> >  create mode 100644 contrib/virtiofsd/fuse_log.c
-> >  create mode 100644 contrib/virtiofsd/fuse_log.h
-> >  create mode 100644 contrib/virtiofsd/fuse_loop_mt.c
-> >  create mode 100644 contrib/virtiofsd/fuse_lowlevel.c
-> >  create mode 100644 contrib/virtiofsd/fuse_lowlevel.h
-> >  create mode 100644 contrib/virtiofsd/fuse_misc.h
-> >  create mode 100644 contrib/virtiofsd/fuse_opt.c
-> >  create mode 100644 contrib/virtiofsd/fuse_opt.h
-> >  create mode 100644 contrib/virtiofsd/fuse_signals.c
-> >  create mode 100644 contrib/virtiofsd/fuse_virtio.c
-> >  create mode 100644 contrib/virtiofsd/fuse_virtio.h
-> >  create mode 100644 contrib/virtiofsd/helper.c
-> >  create mode 100644 contrib/virtiofsd/passthrough_helpers.h
-> >  create mode 100644 contrib/virtiofsd/passthrough_ll.c
-> >=20
-> > --=20
-> > 2.23.0
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/.travis.yml b/.travis.yml
+> index e3f10a93683..34bc8134f5b 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -135,7 +135,7 @@ matrix:
+>       # TCG debug can be run just on its own and is mostly agnostic to us=
+er/softmmu distinctions
+>       - env:=09
+>           - CONFIG=3D"--enable-debug-tcg --disable-system"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+
+This one runs default TEST_CMD=3D"make check -j3 V=3D1"
+
+>  =20
+>  =20
+>       - env:
+> @@ -336,29 +336,29 @@ matrix:
+>       - env:
+>           - CONFIG=3D"--disable-system --enable-debug-tcg"
+>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+
+And this one "check-tcg", OK.
+(Maybe we can reorder the $CONFIG arguments so both jobs are more similar).
+
+Too bad Travis 'stages' are an enterprise feature:
+
+https://docs.travis-ci.com/user/conditional-builds-stages-jobs/#conditional=
+-stages
+
+Because here we are building 2x the same, and cache isn't used.
+
+Not this patch problem.
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>  =20
+>  =20
+>       # Run check-tcg against linux-user (with plugins)
+>       # we skip sparc64-linux-user until it has been fixed somewhat
+>       - env:
+> -        - CONFIG=3D"--disable-system --enable-plugins --target-list-excl=
+ude=3Dsparc64-linux-user"
+> +        - CONFIG=3D"--disable-system --enable-plugins --enable-debug-tcg=
+ --target-list-exclude=3Dsparc64-linux-user"
+>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>  =20
+>  =20
+>       # Run check-tcg against softmmu targets
+>       - env:
+>           - CONFIG=3D"--enable-debug-tcg --target-list=3Dxtensa-softmmu,a=
+rm-softmmu,aarch64-softmmu,alpha-softmmu"
+>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>  =20
+>  =20
+>       # Run check-tcg against softmmu targets (with plugins)
+>       - env:
+> -        - CONFIG=3D"--enable-plugins --target-list=3Dxtensa-softmmu,arm-=
+softmmu,aarch64-softmmu,alpha-softmmu"
+> +        - CONFIG=3D"--enable-plugins --enable-debug-tcg --target-list=3D=
+xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>  =20
+>  =20
+>       # Release builds
+>=20
 
 
