@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A08E2CBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:59:21 +0200 (CEST)
-Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD8AE2CD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:07:21 +0200 (CEST)
+Received: from localhost ([::1]:35862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYxk-0002lp-2r
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
+	id 1iNZ5U-0002Mq-Lo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:07:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNYwY-00014j-HL
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:58:07 -0400
+ (envelope-from <estebanbosse@gmail.com>) id 1iNZ3m-0000so-61
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:05:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNYwX-00047F-JP
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:58:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47222
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNYwX-000470-G8
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:58:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571907485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sgj2kHCBhfIDMrtcNYT+KUTTqnro5jh/Ax+LK3eL7Bc=;
- b=AiTSvTtXQvYaYDY5btx7AX9/AqtSCtezws4fA1pH7QMVP1J44hpia74XwZ4/h40ktDVblK
- r5cA8s3uToINi6SFS3zlaGUlrhpYNF7AdIq/1HsMeS2OVi/vMgHxR1a4Q8/0l30Y9Df1Mg
- I/S80ZvE1b+/CwgJtwo/tyNxBew2RV4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-JTeIz7qKOUmyyWix7KMF7A-1; Thu, 24 Oct 2019 04:57:58 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B85095E9;
- Thu, 24 Oct 2019 08:57:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2508362A8A;
- Thu, 24 Oct 2019 08:57:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5C7021138619; Thu, 24 Oct 2019 10:57:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] buildfix: update texinfo menu
-References: <20191023101956.19120-1-kraxel@redhat.com>
-Date: Thu, 24 Oct 2019 10:57:52 +0200
-In-Reply-To: <20191023101956.19120-1-kraxel@redhat.com> (Gerd Hoffmann's
- message of "Wed, 23 Oct 2019 12:19:56 +0200")
-Message-ID: <87ftjitt9r.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <estebanbosse@gmail.com>) id 1iNZ3l-0000dG-1a
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:05:34 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44432)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
+ id 1iNZ3k-0000cO-RW; Thu, 24 Oct 2019 05:05:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z11so1776898wro.11;
+ Thu, 24 Oct 2019 02:05:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=VAqQalthoG+xbrZURmZhEGl6mSw37NtdImucMDrxq9c=;
+ b=PDWJcV+P+qfaTI4Uk9WRKGz1XZ203NYg01OliYBmrrFXFRzkVXtznWDoTWEZy37umI
+ wL3rKi/e1/qDbBC54UrxrKRT8gjMZn/N7ADbJ2V3AT5TECH/0/w6z7u11xg9muSuZ8WX
+ PB5fSuKU+vW6kPhAp5f4RjQFHdSZ2ni6YCvIqqZnBUmEfsgyLGDg2bY7xnLc4IfNXR1H
+ hIf8aJrKkRo+kWvhAYPlHVXkAvNz3DxdAg1h0n0+2QgxNBFGu2WzK+jolf9aW9VDKBqJ
+ HlXvHSArd2zq4v3xIlLlhv/wyZMemCXS4Jjwy4QhHMZkiHlUp5mhXuuWOfGdOjCLISNR
+ hWJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=VAqQalthoG+xbrZURmZhEGl6mSw37NtdImucMDrxq9c=;
+ b=teDp0nZ4kYqQmbZesGjGEJjJd/pK3zxmCVK9kqLz933BahVuQ11alchYMyrZ1ijHQs
+ 13INZd4uW6w7ghBBD49w/xRaya59tKEd0ve4tkfalv3RUcGIkPrJvfgLOdUV1nDSuyG8
+ ROX5n+KA8oaQk1390Kbva56lf0pMVaQgg5Iv3Uflj7YDYZjaj0FstK7mO5Z6pAnlVHdq
+ 4G7R0dPk2P0A06yi5ZNisug+KgaQ0gOIckSC9tdPt6KXQTSoECY4n5wo3WlpOcKpuoRr
+ 0Ni0ZpGOce/q/bV1MfQwG54tWqjxzZNvl1NhTNbvvNBKDKwzIhF6nukramQ4kZzULvX4
+ 9gPQ==
+X-Gm-Message-State: APjAAAWg8ea4r/gmR2hvpA/46PvBZJRnb07SW2W6xVhDrCwv6Oj4nPTh
+ rrmBUX34rUfOyQrLt1r41pT87CCTtnrQEQ==
+X-Google-Smtp-Source: APXvYqx+LNc8c1dbejTMi3x2WgCZPF7Xq26BOkR01LGOSyAsD30rdEefY2o3905WjtSADwI2gOR7sg==
+X-Received: by 2002:adf:aacc:: with SMTP id i12mr2796325wrc.15.1571907930926; 
+ Thu, 24 Oct 2019 02:05:30 -0700 (PDT)
+Received: from Icho (x590ef5e8.dyn.telefonica.de. [89.14.245.232])
+ by smtp.gmail.com with ESMTPSA id w9sm17839792wrt.85.2019.10.24.02.05.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 02:05:30 -0700 (PDT)
+Message-ID: <ff4e0bbb9bfdadace1e0442fee0fdcf7fc34ca4f.camel@gmail.com>
+Subject: Re: [RFC PATCH 14/14] hw/arm/raspi: Add the Raspberry Pi 4B board
+From: Esteban Bosse <estebanbosse@gmail.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Baumann
+ <Andrew.Baumann@microsoft.com>,  qemu-devel@nongnu.org, Pekka Enberg
+ <penberg@iki.fi>,  =?ISO-8859-1?Q?Zolt=E1n?= Baldaszti <bztemail@gmail.com>
+Date: Thu, 24 Oct 2019 11:01:29 +0200
+In-Reply-To: <20190904171315.8354-15-f4bug@amsat.org>
+References: <20190904171315.8354-1-f4bug@amsat.org>
+ <20190904171315.8354-15-f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: JTeIz7qKOUmyyWix7KMF7A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,38 +81,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
-
-> Build error message:
-> qemu-doc.texi:34: node `Top' lacks menu item for `Recently removed featur=
-es' despite being its Up target
->
-> Fixes: 3264ffced3d0 ("dirty-bitmaps: remove deprecated autoload parameter=
-")
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+El mié, 04-09-2019 a las 19:13 +0200, Philippe Mathieu-Daudé escribió:
+> The Raspberry Pi 4 uses a BCM2711 SoC (based on a BCM2838).
+> The SoC can handle up to 8GiB of SDRAM, but we limit it to 4GiB
+> (no 8GiB models in the market yet).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  qemu-doc.texi | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/qemu-doc.texi b/qemu-doc.texi
-> index 3c5022050f0f..3ddf5c0a6865 100644
-> --- a/qemu-doc.texi
-> +++ b/qemu-doc.texi
-> @@ -44,6 +44,7 @@
->  * Security::
->  * Implementation notes::
->  * Deprecated features::
-> +* Recently removed features::
->  * Supported build platforms::
->  * License::
->  * Index::
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-Cc'ing qemu-trivial.
+>  hw/arm/raspi.c | 31 ++++++++++++++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index b4db39661f..59ee2f82b4 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -39,11 +39,13 @@ enum BoardIdChip {
+>      C_BCM2835 = 0,
+>      C_BCM2836 = 1,
+>      C_BCM2837 = 2,
+> +    C_BCM2711 = 3,
+>  };
+>  
+>  enum BoardIdType {
+>      T_2B = 0x04,
+>      T_3B = 0x08,
+> +    T_4B = 0x11,
+>  };
+>  
+>  enum BoardIdRevision {
+> @@ -56,6 +58,7 @@ enum BoardIdRevision {
+>  static const char *processor_typename[] = {
+>      [C_BCM2836] = TYPE_BCM2836,
+>      [C_BCM2837] = TYPE_BCM2837,
+> +    [C_BCM2711] = TYPE_BCM2838,
+>  };
+>  
+>  typedef struct BoardInfo BoardInfo;
+> @@ -90,6 +93,12 @@ static const BoardInfo bcm283x_boards[] = {
+>          .ram_size_min = 1 * GiB,
+>          .ram_size_max = 1 * GiB,
+>      },
+> +    [4] = {
+> +        .board_id = 0xc42,
+> +        .board_rev = { T_4B, R_1_1, C_BCM2711, M_SONY_UK },
+> +        .ram_size_min = 1 * GiB,
+> +        .ram_size_max = 4 * GiB,
+> +    },
+>  };
+>  
+>  typedef struct RasPiState {
+> @@ -336,4 +345,24 @@ static void raspi3_machine_init(MachineClass
+> *mc)
+>      mc->default_ram_size = 1 * GiB;
+>  }
+>  DEFINE_MACHINE("raspi3", raspi3_machine_init)
+> -#endif
+> +
+> +static void raspi4_init(MachineState *machine)
+> +{
+> +    raspi_init(machine, 4);
+> +}
+> +
+> +static void raspi4_machine_init(MachineClass *mc)
+> +{
+> +    mc->desc = "Raspberry Pi 4B";
+> +    mc->init = raspi4_init;
+> +    mc->block_default_type = IF_SD;
+> +    mc->no_parallel = 1;
+> +    mc->no_floppy = 1;
+> +    mc->no_cdrom = 1;
+> +    mc->max_cpus = BCM283X_NCPUS;
+> +    mc->min_cpus = BCM283X_NCPUS;
+> +    mc->default_cpus = BCM283X_NCPUS;
+> +    mc->default_ram_size = 1 * GiB;
+> +}
+> +DEFINE_MACHINE("raspi4", raspi4_machine_init)
+> +#endif /* TARGET_AARCH64 */
+Reviewed-by: Esteban Bosse <estebanbosse@gmail.com>
 
 
