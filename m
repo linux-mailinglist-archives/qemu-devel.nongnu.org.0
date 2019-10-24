@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7AEE31A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:58:07 +0200 (CEST)
-Received: from localhost ([::1]:40402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E05E3082
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:39:52 +0200 (CEST)
+Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbkj-0006ao-QV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37805)
+	id 1iNbT4-0004L0-LP
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iNb9H-0007X3-Gn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:19:24 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbHF-0001Ue-Qr
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iNb9F-0005Me-WF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:19:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47339)
+ (envelope-from <dgilbert@redhat.com>) id 1iNbHE-0008GM-Gz
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58029
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iNb9F-0005Lw-N8
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:19:21 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbHE-0008FM-Cn
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571916455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4FPgYQFbJ3wa5Enj07AEd7Fjkhsti21C0RndqxjWCWY=;
+ b=VQDHu1Y969YbchyvyxlB7wz7ksDIH1spQ1hPTT5s3EbRIhOX0c+g+GjrOHizYqjcPupuNI
+ ybKNQiDQNQdGuoZf5zL10HuryfQ8ak6BDadakIdGhjezD2vcUK9IW/1/n0mxOUVDVHwf2U
+ 3vEWXUJtJJCdLAX2mnXa1n5j2YObV/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-Yg2AnGDPMAGt8oGVVt1gXA-1; Thu, 24 Oct 2019 07:27:32 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD55F83F3C
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:19:20 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id m19so24618502qtm.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:19:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=W9J+8pC0nI1qSWQgoFlrnvJigANruwVWY+QPi7Oi9kc=;
- b=YulAVHkskm69MF7yevWVYYBhtvVrm27zEdG2SotIAgBSW/bEYD5IdP20ZVGS79rf9R
- Zj09S+mzpBvyiHqn80dCpacS7jbFLCjMSCN2gapyI66owVv6XgI/QIGG6WVz062WGe86
- JKnO30eHWHaRteBZ2K2RCSBmPkIMyysF2flJNSHjPsgRubuc/wNHe5qx3Ylxbf+0WI/3
- RTq58RR7esWgDbWPFPyeuyGH1tB77AsnDhRUTu+6wvGc//Su+f+TrkfxPQqHsnXsreNL
- +LNy9y/VGjOqmMLwf32AOmBK6SzP1eBLjEnx281uMmFWjTOZeNUbz+3u3D4nLbaxQjfn
- l0+A==
-X-Gm-Message-State: APjAAAXMtMeZNgnXUmHdbSGjf+12xfRlKBkbN2ewt2qQbf1Gq1kGdMA9
- TXyulkc5d1xJiPsmt8AVch2LKrJYiSe8zpipZ6M3/ekbbywntlULDoDiq3aI+36uyTtLx/VswDt
- 8BeDFbl/svfd7lKU=
-X-Received: by 2002:a0c:fe02:: with SMTP id x2mr6575190qvr.117.1571915960112; 
- Thu, 24 Oct 2019 04:19:20 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxwbZ3igDy9/Zk5fj3+9Q2nFdgrjr95IUlbXzxb5gfGV7G1pl/y4TUMC2a8NpEy1+0a4PPFTQ==
-X-Received: by 2002:a0c:fe02:: with SMTP id x2mr6575148qvr.117.1571915959785; 
- Thu, 24 Oct 2019 04:19:19 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- e13sm10975534qkm.110.2019.10.24.04.19.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 04:19:19 -0700 (PDT)
-Date: Thu, 24 Oct 2019 07:19:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 00/30] virtiofs daemon (base)
-Message-ID: <20191024071738-mutt-send-email-mst@kernel.org>
-References: <20191021105832.36574-1-dgilbert@redhat.com>
- <157166664425.24734.3489596262271351160@37313f22b938>
- <20191021143357.GB5837@work-vm>
- <20191024065826-mutt-send-email-mst@kernel.org>
- <20191024110708.GI3700@redhat.com> <20191024111439.GD2877@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E164100550E;
+ Thu, 24 Oct 2019 11:27:30 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
+ [10.36.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E86224524;
+ Thu, 24 Oct 2019 11:27:27 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
+ ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
+ misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
+ piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
+ berrange@redhat.com
+Subject: [PATCH 01/25] virtiofsd: passthrough_ll: create new files in caller's
+ context
+Date: Thu, 24 Oct 2019 12:26:54 +0100
+Message-Id: <20191024112718.34657-2-dgilbert@redhat.com>
+In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
+References: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20191024111439.GD2877@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Yg2AnGDPMAGt8oGVVt1gXA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,106 +76,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 24, 2019 at 12:14:39PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> > On Thu, Oct 24, 2019 at 06:59:33AM -0400, Michael S. Tsirkin wrote:
-> > > On Mon, Oct 21, 2019 at 03:33:57PM +0100, Dr. David Alan Gilbert wr=
-ote:
-> > > > * no-reply@patchew.org (no-reply@patchew.org) wrote:
-> > > > > Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dg=
-ilbert@redhat.com/
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > Hi,
-> > > > >=20
-> > > > > This series seems to have some coding style problems. See outpu=
-t below for
-> > > > > more information:
-> > > > >=20
-> > > > > Subject: [PATCH 00/30] virtiofs daemon (base)
-> > > > > Type: series
-> > > > > Message-id: 20191021105832.36574-1-dgilbert@redhat.com
-> > > > >=20
-> > > > > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> > > > > #!/bin/bash
-> > > > > git rev-parse base > /dev/null || exit 0
-> > > > > git config --local diff.renamelimit 0
-> > > > > git config --local diff.renames True
-> > > > > git config --local diff.algorithm histogram
-> > > > > ./scripts/checkpatch.pl --mailback base..
-> > > >=20
-> > > > Expecting checkpatch to be broken here; most of the files
-> > > > follow FUSE's formatting.
-> > > >=20
-> > > > Dave
-> > >=20
-> > > I wonder what do others think about this.
-> > > One problem with such inconsistencies is that people tend to copy c=
-ode
-> > > around, which tends to result in a mess.
-> >=20
-> > IIUC, most of this code is simpy copied as-is from the fuse or linux
-> > git repos. I'm wondering what the intention is for it long term ?
-> >=20
-> > For header files, I would have expected us to be able to compile agai=
-nst
-> > the -devel package provided by the kernel or fuse packages. I can
-> > understand if we want to import the headers if the VSOCK additions to
-> > them are not yet widely available in distros though. If this is the c=
-ase
-> > we should put a time limit on how long we'd keep these copied headers
-> > around for before dropping them. It would be fine to violate QEMU cod=
-ing
-> > style in this case as its not code QEMU would "maintain" long term - =
-just
-> > a read-only import.
->=20
-> The headers are really two types;  one are external definitions, the
-> other are internal parts of libfuse.  I'd expect to keep the internal
-> parts long term; teh external parts hmm; where would we pull them in
-> externally from?
->=20
-> > The source files though, we appear to then be modifying locally, whic=
-h
-> > suggests they'll live in our repo forever. In this case I'd expect to
-> > have compliance with QEMU coding standards.
->=20
-> OK.
->=20
-> > I'm surprised we need to copy so much in from fuse though. Is there a
-> > case to be made for fuse to provide a library of APIs for people who
-> > are building fuse daemons to link against, instead of copy & fork ?
->=20
-> libfuse *is* such a library; but it preserves ABI compliance; it's
-> intention is to be used to build filesystem implementations on top of -
-> and that's got a fairly good separation;  however changing the fuse
-> transport, and security models is much more invasive than it was
-> designed for.
->=20
-> Dave
+From: Vivek Goyal <vgoyal@redhat.com>
 
+We need to create files in callers context. Otherwise afer creating file,
+caller himself might not be able to do file operations on that file.
 
-I guess you did try to propose adding the functionality to the libfuse
-maintainer and got rejected? If not it's worth asking.
+Changed effective uid/gid to caller's uid/gid, create file and then
+switch backto uid/gid 0.
 
+Use syscall(setresuid, ...) otherwise glibc does some magic to change EUID
+in all threads, which is not what we want.
 
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+---
+ contrib/virtiofsd/passthrough_ll.c | 75 ++++++++++++++++++++++++++++--
+ 1 file changed, 71 insertions(+), 4 deletions(-)
 
-> > Regards,
-> > Daniel
-> > --=20
-> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dbe=
-rrange :|
-> > |: https://libvirt.org         -o-            https://fstop138.berran=
-ge.com :|
-> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dbe=
-rrange :|
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
+ough_ll.c
+index 2a1a880224..2de35d4d3d 100644
+--- a/contrib/virtiofsd/passthrough_ll.c
++++ b/contrib/virtiofsd/passthrough_ll.c
+@@ -49,6 +49,7 @@
+ #include <inttypes.h>
+ #include <pthread.h>
+ #include <sys/file.h>
++#include <sys/syscall.h>
+ #include <sys/xattr.h>
+=20
+ #include "passthrough_helpers.h"
+@@ -78,6 +79,11 @@ struct lo_inode {
+ =09uint64_t refcount; /* protected by lo->mutex */
+ };
+=20
++struct lo_cred {
++=09uid_t euid;
++=09gid_t egid;
++};
++
+ enum {
+ =09CACHE_NEVER,
+ =09CACHE_NORMAL,
+@@ -376,6 +382,51 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t paren=
+t, const char *name)
+ =09=09fuse_reply_entry(req, &e);
+ }
+=20
++/*
++ * Change to uid/gid of caller so that file is created with
++ * ownership of caller.
++ * TODO: What about selinux context?
++ */
++static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
++{
++=09int res;
++
++=09old->euid =3D geteuid();
++=09old->egid =3D getegid();
++
++=09res =3D syscall(SYS_setresgid, -1,fuse_req_ctx(req)->gid, -1);
++=09if (res =3D=3D -1)
++=09=09return errno;
++
++=09res =3D syscall(SYS_setresuid, -1, fuse_req_ctx(req)->uid, -1);
++=09if (res =3D=3D -1) {
++=09=09int errno_save =3D errno;
++
++=09=09syscall(SYS_setresgid, -1, old->egid, -1);
++=09=09return errno_save;
++=09}
++
++=09return 0;
++}
++
++/* Regain Privileges */
++static void lo_restore_cred(struct lo_cred *old)
++{
++=09int res;
++
++=09res =3D syscall(SYS_setresuid, -1, old->euid, -1);
++=09if (res =3D=3D -1) {
++=09=09fuse_log(FUSE_LOG_ERR, "seteuid(%u): %m\n", old->euid);
++=09=09exit(1);
++=09}
++
++=09res =3D syscall(SYS_setresgid, -1, old->egid, -1);
++=09if (res =3D=3D -1) {
++=09=09fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
++=09=09exit(1);
++=09}
++}
++
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+ =09=09=09     const char *name, mode_t mode, dev_t rdev,
+ =09=09=09     const char *link)
+@@ -384,12 +435,20 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino=
+_t parent,
+ =09int saverr;
+ =09struct lo_inode *dir =3D lo_inode(req, parent);
+ =09struct fuse_entry_param e;
++=09struct lo_cred old =3D {};
+=20
+ =09saverr =3D ENOMEM;
+=20
++=09saverr =3D lo_change_cred(req, &old);
++=09if (saverr)
++=09=09goto out;
++
+ =09res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
+=20
+ =09saverr =3D errno;
++
++=09lo_restore_cred(&old);
++
+ =09if (res =3D=3D -1)
+ =09=09goto out;
+=20
+@@ -768,23 +827,31 @@ static void lo_create(fuse_req_t req, fuse_ino_t pare=
+nt, const char *name,
+ =09struct lo_data *lo =3D lo_data(req);
+ =09struct fuse_entry_param e;
+ =09int err;
++=09struct lo_cred old =3D {};
+=20
+ =09if (lo_debug(req))
+ =09=09fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%s)=
+\n",
+ =09=09=09parent, name);
+=20
++=09err =3D lo_change_cred(req, &old);
++=09if (err)
++=09=09goto out;
++
+ =09fd =3D openat(lo_fd(req, parent), name,
+ =09=09    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
+-=09if (fd =3D=3D -1)
+-=09=09return (void) fuse_reply_err(req, errno);
++=09err =3D fd =3D=3D -1 ? errno : 0;
++=09lo_restore_cred(&old);
+=20
+-=09fi->fh =3D fd;
++=09if (!err) {
++=09=09fi->fh =3D fd;
++=09=09err =3D lo_do_lookup(req, parent, name, &e);
++=09}
+ =09if (lo->cache =3D=3D CACHE_NEVER)
+ =09=09fi->direct_io =3D 1;
+ =09else if (lo->cache =3D=3D CACHE_ALWAYS)
+ =09=09fi->keep_cache =3D 1;
+=20
+-=09err =3D lo_do_lookup(req, parent, name, &e);
++out:
+ =09if (err)
+ =09=09fuse_reply_err(req, err);
+ =09else
+--=20
+2.23.0
+
 
