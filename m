@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77ECBE342A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:29:22 +0200 (CEST)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37FEE3385
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:09:54 +0200 (CEST)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdB2-0004Yo-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47693)
+	id 1iNcsD-0000PA-AS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKg-0003qA-QZ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:16 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKi-0003uk-TR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKf-00068R-2t
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:14 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57160
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iNcKg-0006Ab-UX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35958
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKe-00067t-Uk
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:13 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKg-00069r-OY
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920512;
+ s=mimecast20190719; t=1571920514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c+207YnY0Ct+qBVy2Eo1y/pQo+gHFJd33LWlUQYqF6E=;
- b=D4DmuWjBFsN22xU86J+kTpLDYO6bcmG/WrzkYktrndM/T9N+FKsnJS8OQZjOtmW320/I7z
- bkBJmjxdUGKaHvjttCrtfRJN4qZp6Be4tZEgKx3RS79TxCMzhfoi5SFBsS/rCS2CktchNL
- M1ptQyAKs3q5jBvku7DixsjiWncImIM=
+ bh=DvbDg2uid4r8KXEHdpf9+S6fn+v4ziyThT6wWQ8hgJE=;
+ b=C5AfRgPG34ZiuQQs1yJG4apNNi2/07HxaQ1ME+3bOefZMqBUvfH7P2YcF+Fr+wf0smroAi
+ 5M23321ZgvDeYwXP37RfiJ2Rhyt1JoClMRpBzEpnS8uHzZVs1zAfZxRgEqYvtskst4iP4s
+ L/QoCDLVY5BDFDwUnC4nZQNF7i1tDXo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-zQty8r6DMbmdmKaYHv5mbA-1; Thu, 24 Oct 2019 08:35:09 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-320-8aFgEFYgOemLQvXPpADulg-1; Thu, 24 Oct 2019 08:35:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45E88801E5F;
- Thu, 24 Oct 2019 12:35:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03A66800D4C;
+ Thu, 24 Oct 2019 12:35:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD4A5413A;
- Thu, 24 Oct 2019 12:35:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A3BF60161;
+ Thu, 24 Oct 2019 12:35:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2B2FB1130344; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
+ id 34A8F113034A; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 15/19] qapi: Mark deprecated QMP commands with feature
- 'deprecated'
-Date: Thu, 24 Oct 2019 14:34:54 +0200
-Message-Id: <20191024123458.13505-16-armbru@redhat.com>
+Subject: [RFC PATCH 18/19] qapi: Include a warning in the response to a
+ deprecated command
+Date: Thu, 24 Oct 2019 14:34:57 +0200
+Message-Id: <20191024123458.13505-19-armbru@redhat.com>
 In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
 References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: zQty8r6DMbmdmKaYHv5mbA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 8aFgEFYgOemLQvXPpADulg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,265 +77,140 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add feature 'deprecated' to the deprecated QMP commands, so their
-deprecation becomes visible in output of query-qmp-schema.  Looks like
-this:
+Looks like this
 
-    {"name": "query-cpus",
-     "ret-type": "[164]",
-     "meta-type": "command",
-     "arg-type": "0",
----> "features": ["deprecated"]}
+    ---> {"execute": "query-cpus"}
+    <--- {"return": [...], "warnings": [{"class": "CommandNotFound", "desc"=
+: "command is deprecated"}]}
 
-The deprecated commands are change, cpu-add, migrate-set-cache-size,
-migrate_set_downtime, migrate_set_speed, query-cpus, query-events,
-query-migrate-cache-size.
+Management applications may want to log such warnings.
 
-Management applications can use -compat deprecated-input=3D... to set
-policy for these commands.  So far, the only available policy is
-"accept", which doesn't change behavior.  The next few commits will
-provide more interesting policies.
+This commit is not for merging as is, because
 
-Command deprecation becomes visible in introspection.  Management
-applications could conceivably use this for static checking.
+* docs/interop/qmp-spec.txt needs an update for the new success
+  response member "warnings".
+
+* I'd like to see a prospective user before I extend the QMP protocol.
+  If you have specific plans to put them to use, let me know.
+
+* The same warning should be included in a deprecated event.
+
+* Emitting the same warning over and over again might be annoying or
+  slow.  Perhaps warning just once would be better.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json   | 24 ++++++++++++++----------
- qapi/migration.json | 36 ++++++++++++++++++++++++------------
- qapi/misc.json      | 25 +++++++++++++++----------
- 3 files changed, 53 insertions(+), 32 deletions(-)
+ qapi/qmp-dispatch.c   |  8 ++++++++
+ tests/test-qmp-cmds.c | 43 +++++++++++++++++++++++++++++++++++++++++--
+ qemu-options.hx       |  2 +-
+ 3 files changed, 50 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index ca26779f1a..3913ef2138 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -189,6 +189,11 @@
- # It is recommended to use @query-cpus-fast instead of this command to
- # avoid the vCPU interruption.
- #
-+# Features:
-+# @deprecated: This interface is deprecated (since 2.12.0), and it is
-+#     strongly recommended that you avoid using it.  Use
-+#     @query-cpus-fast to obtain information about virtual CPUs.
-+#
- # Returns: a list of @CpuInfo for each virtual CPU
- #
- # Since: 0.14.0
-@@ -218,12 +223,9 @@
- #       ]
- #    }
- #
--# Notes: This interface is deprecated (since 2.12.0), and it is strongly
--#        recommended that you avoid using it. Use @query-cpus-fast to
--#        obtain information about virtual CPUs.
--#
- ##
--{ 'command': 'query-cpus', 'returns': ['CpuInfo'] }
-+{ 'command': 'query-cpus', 'returns': ['CpuInfo'],
-+  'features': [ 'deprecated' ] }
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 6436417844..9c17a59f31 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -197,6 +197,14 @@ out:
+     } else {
+         rsp =3D qdict_new();
+         qdict_put_obj(rsp, "return", ret);
++        if (cmd->options & QCO_DEPRECATED) {
++            qdict_put_obj(
++                rsp, "warnings",
++                qobject_from_jsonf_nofail(
++                    "[ { 'class': %s, 'desc': %s } ]",
++                    QapiErrorClass_str(ERROR_CLASS_COMMAND_NOT_FOUND),
++                    "command is deprecated"));
++        }
+     }
 =20
- ##
- # @CpuInfoFast:
-@@ -309,21 +311,23 @@
- #
- # @id: ID of CPU to be created, valid values [0..max_cpus)
- #
-+# Features:
-+# @deprecated: This command is deprecated.  The `device_add` command
-+#     should be used instead.  See the `query-hotpluggable-cpus`
-+#     command for details.
-+#
- # Returns: Nothing on success
- #
- # Since: 1.5
- #
--# Note: This command is deprecated.  The `device_add` command should be
--#       used instead.  See the `query-hotpluggable-cpus` command for
--#       details.
--#
- # Example:
- #
- # -> { "execute": "cpu-add", "arguments": { "id": 2 } }
- # <- { "return": {} }
- #
- ##
--{ 'command': 'cpu-add', 'data': {'id': 'int'} }
-+{ 'command': 'cpu-add', 'data': {'id': 'int'},
-+  'features': [ 'deprecated' ] }
+     if (id) {
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index 005ea24a27..38d2e5b4a7 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -2,6 +2,7 @@
+ #include "qapi/compat-policy.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qjson.h"
++#include "qapi/qmp/qlist.h"
+ #include "qapi/qmp/qnum.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qapi/error.h"
+@@ -164,6 +165,40 @@ static QObject *do_qmp_dispatch(bool allow_oob, const =
+char *template, ...)
+     return ret;
+ }
 =20
- ##
- # @MachineInfo:
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 82feb5bd39..a110948bfe 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1119,9 +1119,11 @@
- #
- # @value: maximum downtime in seconds
- #
--# Returns: nothing on success
-+# Features:
-+# @deprecated: This command is deprecated in favor of
-+#     'migrate-set-parameters'.
- #
--# Notes: This command is deprecated in favor of 'migrate-set-parameters'
-+# Returns: nothing on success
- #
- # Since: 0.14.0
- #
-@@ -1131,7 +1133,8 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'migrate_set_downtime', 'data': {'value': 'number'} }
-+{ 'command': 'migrate_set_downtime', 'data': {'value': 'number'},
-+  'features': [ 'deprecated' ] }
++static QObject *do_qmp_dispatch_warning(bool allow_oob, ErrorClass cls,
++                                        const char *template, ...)
++{
++    va_list ap;
++    QDict *req, *resp;
++    QObject *ret;
++    QList *warnings;
++    QDict *warning;
++
++    va_start(ap, template);
++    req =3D qdict_from_vjsonf_nofail(template, ap);
++    va_end(ap);
++
++    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
++    g_assert(resp);
++    ret =3D qdict_get(resp, "return");
++    g_assert(ret);
++    warnings =3D qdict_get_qlist(resp, "warnings");
++    g_assert(warnings);
++    warning =3D qobject_to(QDict, qlist_peek(warnings));
++    g_assert(warning);
++    g_assert_cmpstr(qdict_get_try_str(warning, "class"),
++                    =3D=3D, QapiErrorClass_str(cls));
++    g_assert(qdict_get_try_str(warning, "desc"));
++    g_assert(qdict_size(warning) =3D=3D 2);
++    g_assert(qlist_size(warnings) =3D=3D 1);
++    g_assert(qdict_size(resp) =3D=3D 2);
++
++    qobject_ref(ret);
++    qobject_unref(resp);
++    qobject_unref(req);
++    return ret;
++}
++
+ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+                                   const char *template, ...)
+ {
+@@ -242,13 +277,17 @@ static void test_dispatch_cmd_deprecated(void)
+     QDict *ret;
 =20
- ##
- # @migrate_set_speed:
-@@ -1140,9 +1143,11 @@
- #
- # @value: maximum speed in bytes per second.
- #
--# Returns: nothing on success
-+# Features:
-+# @deprecated: This command is deprecated in favor of
-+#     'migrate-set-parameters'.
- #
--# Notes: This command is deprecated in favor of 'migrate-set-parameters'
-+# Returns: nothing on success
- #
- # Since: 0.14.0
- #
-@@ -1152,7 +1157,8 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'migrate_set_speed', 'data': {'value': 'int'} }
-+{ 'command': 'migrate_set_speed', 'data': {'value': 'int'},
-+  'features': [ 'deprecated' ] }
+     /* accept */
+-    ret =3D qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    ret =3D qobject_to(QDict, do_qmp_dispatch_warning(
++        false, ERROR_CLASS_COMMAND_NOT_FOUND,
++        "{ 'execute': 'test-command-features1' }"));
+     assert(ret && qdict_size(ret) =3D=3D 0);
+     qobject_unref(ret);
 =20
- ##
- # @migrate-set-cache-size:
-@@ -1161,13 +1167,15 @@
- #
- # @value: cache size in bytes
- #
-+# Features:
-+# @deprecated: This command is deprecated in favor of
-+#     'migrate-set-parameters'.
-+#
- # The size will be rounded down to the nearest power of 2.
- # The cache size can be modified before and during ongoing migration
- #
- # Returns: nothing on success
- #
--# Notes: This command is deprecated in favor of 'migrate-set-parameters'
--#
- # Since: 1.2
- #
- # Example:
-@@ -1177,17 +1185,20 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'migrate-set-cache-size', 'data': {'value': 'int'} }
-+{ 'command': 'migrate-set-cache-size', 'data': {'value': 'int'},
-+  'features': [ 'deprecated' ] }
+     qapi_compat_policy.has_deprecated_input =3D true;
+     qapi_compat_policy.deprecated_input =3D COMPAT_POLICY_INPUT_ACCEPT;
+-    ret =3D qobject_to(QDict, do_qmp_dispatch(false, cmd));
++    ret =3D qobject_to(QDict, do_qmp_dispatch_warning(
++        false, ERROR_CLASS_COMMAND_NOT_FOUND,
++        "{ 'execute': 'test-command-features1' }"));
+     assert(ret && qdict_size(ret) =3D=3D 0);
+     qobject_unref(ret);
 =20
- ##
- # @query-migrate-cache-size:
- #
- # Query migration XBZRLE cache size
- #
-+# Features:
-+# @deprecated: This command is deprecated in favor of
-+#     'query-migrate-parameters'.
-+#
- # Returns: XBZRLE cache size in bytes
- #
--# Notes: This command is deprecated in favor of 'query-migrate-parameters'
--#
- # Since: 1.2
- #
- # Example:
-@@ -1196,7 +1207,8 @@
- # <- { "return": 67108864 }
- #
- ##
--{ 'command': 'query-migrate-cache-size', 'returns': 'int' }
-+{ 'command': 'query-migrate-cache-size', 'returns': 'int',
-+  'features': [ 'deprecated' ] }
-=20
- ##
- # @migrate:
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 33b94e3589..abd2e5dc6e 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -316,13 +316,15 @@
- #
- # Return information on QMP events.
- #
-+# Features:
-+# @deprecated: This command is deprecated, because its output doesn't
-+#     reflect compile-time configuration.  Use query-qmp-schema
-+#     instead.
-+#
- # Returns: A list of @EventInfo.
- #
- # Since: 1.2.0
- #
--# Note: This command is deprecated, because its output doesn't reflect
--# compile-time configuration.  Use query-qmp-schema instead.
--#
- # Example:
- #
- # -> { "execute": "query-events" }
-@@ -340,7 +342,8 @@
- # Note: This example has been shortened as the real response is too long.
- #
- ##
--{ 'command': 'query-events', 'returns': ['EventInfo'] }
-+{ 'command': 'query-events', 'returns': ['EventInfo'],
-+  'features': [ 'deprecated' ] }
-=20
- ##
- # @IOThreadInfo:
-@@ -1074,14 +1077,15 @@
- #          If @device is 'vnc' and @target is 'password', this is the new =
-VNC
- #          password to set.  See change-vnc-password for additional notes.
- #
-+# Features:
-+# @deprecated: This command is deprecated, and it is strongly
-+#     recommended that you avoid using it.  For changing block
-+#     devices, use blockdev-change-medium; for changing VNC
-+#     parameters, use change-vnc-password.
-+#
- # Returns: Nothing on success.
- #          If @device is not a valid block device, DeviceNotFound
- #
--# Notes:  This interface is deprecated, and it is strongly recommended tha=
-t you
--#         avoid using it.  For changing block devices, use
--#         blockdev-change-medium; for changing VNC parameters, use
--#         change-vnc-password.
--#
- # Since: 0.14.0
- #
- # Example:
-@@ -1102,7 +1106,8 @@
- #
- ##
- { 'command': 'change',
--  'data': {'device': 'str', 'target': 'str', '*arg': 'str'} }
-+  'data': {'device': 'str', 'target': 'str', '*arg': 'str'},
-+  'features': [ 'deprecated' ] }
-=20
- ##
- # @xen-set-global-dirty-log:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 3a740ea7b1..645629457a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3330,7 +3330,7 @@ STEXI
+ Set policy for handling deprecated management interfaces:
+ @table @option
+ @item deprecated-input=3Daccept (default)
+-Accept deprecated commands
++Accept deprecated commands with a warning
+ @item deprecated-input=3Dreject
+ Reject deprecated commands
+ @item deprecated-input=3Dcrash
 --=20
 2.21.0
 
