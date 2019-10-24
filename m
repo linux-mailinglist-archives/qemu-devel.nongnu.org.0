@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E12E39A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:19:05 +0200 (CEST)
-Received: from localhost ([::1]:48522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215FBE3949
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:05:49 +0200 (CEST)
+Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNglM-0001ic-Ap
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58057)
+	id 1iNgYV-0006j4-Ko
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy0-0007ky-0u
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:05 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy1-0007n9-6h
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxy-0000tp-RO
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:03 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39155)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxz-0000uI-W5
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:05 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38091)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfxy-0000tU-Kx
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:02 -0400
-Received: by mail-wm1-x342.google.com with SMTP id r141so3206741wme.4
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:02 -0700 (PDT)
+ id 1iNfxz-0000u0-Pq
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:03 -0400
+Received: by mail-wr1-x441.google.com with SMTP id v9so15524429wrq.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bZdsncuNDnJQ9EFbxxKEYZAYg/nM+O7WLjtwwmpCRgA=;
- b=tmCbLpdvCUOf21XT0hPElWB8zybl3kwItTk95krsoe+VzpYBuZInMRw4kEIeI5EpOD
- pBhU1TlZdrVIjtDnRwPMkgrmdgwznTeUqFrW/8Gq/sQNIfvzr0eR67X7mM59+sMG2mzW
- p0TuQOSu/iU/BGNFZuLVCFlj6IXntbuATuN/RuqoZsztPRdoCqYIH9vWpP4x0KDrQRQK
- SpQVHWcr/WH+Vg5Fl4/xpNzbiJ51rJORwm1Hilhzr9vXzin3R/MnCqJ2V0A2Udn+28GA
- 5muLIlurWpSH+dFTH3H5lNoNLcAbjsecsx91EOR4otnDCHdnZZzqfzFLMsgVngW1WRZ8
- 4DGw==
+ bh=WzfboK1OQbmWS+2qtK+sgT8HKfmWZJQr5eBbFKdwmAk=;
+ b=ObZ5vpZH5jMOI0+is0hPadcaqMnr26G26JDvyQcxOHxwmG15qFm6GWPTy3nrDbxMkY
+ FSLXY9bDlNm5G0f7Y8A//tRejZyeEt9Xaw6Qd6dOwkb1eZNVO8/jJpPucwrM1dSnbx2x
+ KfPV+mPVMHNSjykh7Zlcts3eiHma9Lb5VZwqjCD/4TEsPelYb60o4gmgJ5OZtfAFDbWt
+ IezzWLRTzXpESJmJrLx6U94/Yls/Zvc7Cznm3wMCXXMe8qAtzk+cIwRNyLQGBz58jr/A
+ Amfc7QLl7wM9p9f5MY+UHS10pwmH03WShDXyyx2SrlXZ2pcuDtVEDgTWaLgK182CnRu0
+ HH3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bZdsncuNDnJQ9EFbxxKEYZAYg/nM+O7WLjtwwmpCRgA=;
- b=YMoZowtzXRlnUTEZo7sIHaMAhYMxI/ttRgnSUIzxUyouFbHB77vW3fNI3fIbS2wPve
- q9NJDarBGmTkvFDOkeMSHMXfbVoZDeXq9I8Ld+Pk3BVKx3HQZrcvbNAcva3KkNU9yKIj
- 7vR2LBhLSw9tytNjqxspY5O4/U5lfpcyYGydu6pdAx+MZFTzE0O9bT0Cs8ckxoL0ZTxG
- jav29LqPvPaD53qfWrDgIJxC+TrWLqRiNn8OGnloA3MOJlf5YbTCCE+vXfdlE9z9mK3p
- lHBXNN+F4iMTEW2aw/oYzWV9GDU8awdxY7I5J0o3M6Iq6dfmMjloXWwSdSBnl//B9jIc
- jn+g==
-X-Gm-Message-State: APjAAAXdKpiULbzFBdfMxkA0H8gam5GTy/OJUBkYVpMf3J5iOqxykZF+
- MtEyKXcmSqsUqXi6Yrx0G6wSEr4/yt0=
-X-Google-Smtp-Source: APXvYqxS5C72jo72kh980pRa6BteDh0onaFTPPPIvbNMValLtpYcAdGSl6aWtdK4e1RYnVBH8W/l3A==
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr5739692wme.53.1571934481299;
- Thu, 24 Oct 2019 09:28:01 -0700 (PDT)
+ bh=WzfboK1OQbmWS+2qtK+sgT8HKfmWZJQr5eBbFKdwmAk=;
+ b=A4itcjiIDLWes3/daVFT+J5L/UTgr5JdjAuB9jChQtUYfB042OOAl5p4u3fHii/w9I
+ pM3vWYu83ieDP4eaGYVNnKnhLdQ32W0PLvLTtXOwMf4jTk3rgikQ4/BXdOTQzDJjps5N
+ 3HW3ikbCKSzKGgqmtNuAv7SCeXZla833guaucxBtaGCsPR0VK3wjH7LBOnCOiplRFQWg
+ npNjb9uqsfsxLHIbMKFxQdZPY0BF3v4trhNi2L6UKOCbUZXkX+43Cx7vShhyg7aAi5OY
+ uFmDgxuMUjP7jMBEQ2OMg1iSAs6vu+wUk60BfWPjhVPGLsLFgdAYOt2EiWDisRvqxisk
+ tqyw==
+X-Gm-Message-State: APjAAAXQq9MWsCuq0MbK9MM+bkljelSlSqbftHuPJPeWv74OMHthLQPp
+ NkEG9dkY1QCY/e05PjiFtfSUF6CLmvo=
+X-Google-Smtp-Source: APXvYqwT3Up8IOLkoitfPxxPsYknULgbOQS0O30IeseBO4A3m4lUKnhSx3yLQiqKNoxH2cdrBX9A6w==
+X-Received: by 2002:adf:ee4f:: with SMTP id w15mr4817276wro.378.1571934482385; 
+ Thu, 24 Oct 2019 09:28:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.00
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:00 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/51] hw/timer/xilinx_timer.c: Switch to transaction-based
+Subject: [PULL 29/51] hw/dma/xilinx_axidma.c: Switch to transaction-based
  ptimer API
-Date: Thu, 24 Oct 2019 17:27:01 +0100
-Message-Id: <20191024162724.31675-29-peter.maydell@linaro.org>
+Date: Thu, 24 Oct 2019 17:27:02 +0100
+Message-Id: <20191024162724.31675-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,7 +83,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the xilinx_timer code away from bottom-half based ptimers to
+Switch the xilinx_axidma code away from bottom-half based ptimers to
 the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
 state, and using the new ptimer_init() function to create the timer.
@@ -92,66 +92,61 @@ Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191017132122.4402-3-peter.maydell@linaro.org
+Message-id: 20191017132122.4402-4-peter.maydell@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/xilinx_timer.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ hw/dma/xilinx_axidma.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/xilinx_timer.c b/hw/timer/xilinx_timer.c
-index 92dbff304d9..7191ea54f58 100644
---- a/hw/timer/xilinx_timer.c
-+++ b/hw/timer/xilinx_timer.c
-@@ -28,7 +28,6 @@
+diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+index e035d1f7504..fb3a978e282 100644
+--- a/hw/dma/xilinx_axidma.c
++++ b/hw/dma/xilinx_axidma.c
+@@ -31,7 +31,6 @@
  #include "hw/ptimer.h"
  #include "hw/qdev-properties.h"
  #include "qemu/log.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
  
- #define D(x)
-@@ -52,7 +51,6 @@
+ #include "hw/stream.h"
+@@ -104,7 +103,6 @@ enum {
+ };
  
- struct xlx_timer
- {
+ struct Stream {
 -    QEMUBH *bh;
      ptimer_state *ptimer;
-     void *parent;
-     int nr; /* for debug.  */
-@@ -134,6 +132,7 @@ timer_read(void *opaque, hwaddr addr, unsigned int size)
-     return r;
+     qemu_irq irq;
+ 
+@@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
+     unsigned int comp_delay;
+ 
+     /* Start the delayed timer.  */
++    ptimer_transaction_begin(s->ptimer);
+     comp_delay = s->regs[R_DMACR] >> 24;
+     if (comp_delay) {
+         ptimer_stop(s->ptimer);
+@@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
+         s->regs[R_DMASR] |= DMASR_IOC_IRQ;
+         stream_reload_complete_cnt(s);
+     }
++    ptimer_transaction_commit(s->ptimer);
  }
  
-+/* Must be called inside ptimer transaction block */
- static void timer_enable(struct xlx_timer *xt)
- {
-     uint64_t count;
-@@ -174,8 +173,11 @@ timer_write(void *opaque, hwaddr addr,
-                 value &= ~TCSR_TINT;
+ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
+@@ -551,9 +551,10 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
+         struct Stream *st = &s->streams[i];
  
-             xt->regs[addr] = value & 0x7ff;
--            if (value & TCSR_ENT)
-+            if (value & TCSR_ENT) {
-+                ptimer_transaction_begin(xt->ptimer);
-                 timer_enable(xt);
-+                ptimer_transaction_commit(xt->ptimer);
-+            }
-             break;
-  
-         default:
-@@ -220,9 +222,10 @@ static void xilinx_timer_realize(DeviceState *dev, Error **errp)
- 
-         xt->parent = t;
-         xt->nr = i;
--        xt->bh = qemu_bh_new(timer_hit, xt);
--        xt->ptimer = ptimer_init_with_bh(xt->bh, PTIMER_POLICY_DEFAULT);
-+        xt->ptimer = ptimer_init(timer_hit, xt, PTIMER_POLICY_DEFAULT);
-+        ptimer_transaction_begin(xt->ptimer);
-         ptimer_set_freq(xt->ptimer, t->freq_hz);
-+        ptimer_transaction_commit(xt->ptimer);
+         st->nr = i;
+-        st->bh = qemu_bh_new(timer_hit, st);
+-        st->ptimer = ptimer_init_with_bh(st->bh, PTIMER_POLICY_DEFAULT);
++        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
++        ptimer_transaction_begin(st->ptimer);
+         ptimer_set_freq(st->ptimer, s->freqhz);
++        ptimer_transaction_commit(st->ptimer);
      }
+     return;
  
-     memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t, "xlnx.xps-timer",
 -- 
 2.20.1
 
