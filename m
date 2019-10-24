@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DFBE2D56
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:30:39 +0200 (CEST)
-Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABFDE2D6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:34:22 +0200 (CEST)
+Received: from localhost ([::1]:36732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZS1-0001RB-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43905)
+	id 1iNZVc-0005wi-C7
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43927)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ99-0007Nn-OQ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:08 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ9C-0007Sm-67
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ98-0004Vi-Ot
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:07 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60984)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ9A-0004Ws-LO
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:10 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:32780)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ98-0004VB-FX
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:06 -0400
+ id 1iNZ9A-0004WG-DA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:08 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94LRw094842;
- Thu, 24 Oct 2019 09:11:01 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94Vn4095033;
+ Thu, 24 Oct 2019 09:11:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=C7lsCetm1EC2M2RQ2S0xlTKBg1MaEOc5TwxwRSzkXS4=;
- b=dZxIjkC6uUykfd+L8O0XFIssUbqTtpDsoHb60n3urVaQskJLsXb9XdUBHEgqB0kfDOnG
- p2HAcNHDM6sG2CJeYjBBnNdZPXNB2M1m2wQUg+9U236PsVWwtnXjNNfeArZhSh2psh3V
- 4CK9Ei4U+nzi+rUhMMPc8Lo6lUmg5uvBnamWYRe1ZrlUQuRM3Q2yIeq/RuDMXtjsGH+9
- G4IXZxoY3sicFtULvkV3QYr+W9eVoOegAXiLV6Q4fXQMK+uKJhrjm/OtqQ0Ck8OAnydw
- ue5fdfemullsPusyMYCgKjGMfTN5zEbJNkIcW+QpTBiPY76gup0qKQNspN7Qk/fMtKlY Dw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2vqu4r24q0-1
+ bh=WdNHLITfvrDzd4lPC3KUZPeX615xYutVUcbkqIUk008=;
+ b=WeaC1lgaUhlIATNVILeX3FC1mw3nAaXQoEOnhzfOl+dSoZ8SV86aBii22cknfhfz+Z/p
+ K5WUt9fROThLf22KIQsH2k/ppi6JViCIc7lLcLxB95oGq4L0PmpG8yoG33OHcoSS8gH3
+ K8R4RBkDz/rouIflsnkn/7Q4QjB5oNENfYde2NFCeacjWWK83CC17BX2+i0DQDPI8ijv
+ TKegYJrvu7Cii6WquhAXOyry+mpQyoRIDwJmqYdHzyQfLL9JBK8mfujvRJCBHdtI5R+o
+ s3k7saunynxtmHZXiF3FVvtkt1QeKsiQ1LXkq6QyqyCly5t/iBDE7/ZzoEMsg/ktRiM4 6w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2vqu4r24q7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:00 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jTc170559;
- Thu, 24 Oct 2019 09:11:00 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2vtsk487c2-1
+ Thu, 24 Oct 2019 09:11:03 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98m8k076179;
+ Thu, 24 Oct 2019 09:11:02 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2vtjkj2y70-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:00 +0000
+ Thu, 24 Oct 2019 09:11:02 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9Awet023719;
- Thu, 24 Oct 2019 09:10:58 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9B0oI012041;
+ Thu, 24 Oct 2019 09:11:00 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:10:57 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:11:00 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 27/49] multi-process: add remote option
-Date: Thu, 24 Oct 2019 05:09:08 -0400
-Message-Id: <191f2d86c1d329618c688c2e8ba964a9ff680d77.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 28/49] multi-process: add remote options parser
+Date: Thu, 24 Oct 2019 05:09:09 -0400
+Message-Id: <cf4d35e8ec087f3fd90b1770f6cdb6f4a4d54401.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -107,41 +107,165 @@ Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
  New patch in v3
 
- qemu-options.hx | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ vl.c | 117 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 117 insertions(+)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 996b6fb..4734e8e 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -27,6 +27,27 @@ STEXI
- Display version information and exit
- ETEXI
+diff --git a/vl.c b/vl.c
+index 3fef694..1417ff2 100644
+--- a/vl.c
++++ b/vl.c
+@@ -280,6 +280,28 @@ static QemuOptsList qemu_option_rom_opts = {
+     },
+ };
  
-+DEF("remote", HAS_ARG, QEMU_OPTION_remote,
-+    "-remote socket[,prop[=value][,...]]\n"
-+    "                add remote process\n"
-+    "                prop=value,... sets driver properties\n"
-+    "                use '-remote help' to print all possible properties\n",
-+    QEMU_ARCH_ALL)
-+STEXI
-+@table @option
-+@item rid
-+@findex -rid
-+remote id
-+@item socket
-+@findex -socket
-+Remote process socket
-+@item command
-+@findex -command
-+Remote process command.
++static QemuOptsList qemu_remote_opts = {
++    .name = "remote",
++    .head = QTAILQ_HEAD_INITIALIZER(qemu_remote_opts.head),
++    .desc = {
++        {
++            .name = "rid",
++            .type = QEMU_OPT_NUMBER,
++            .help = "id of the remote process"
++        },{
++            .name = "socket",
++            .type = QEMU_OPT_NUMBER,
++            .help = "Socket for remote",
++        },{
++            .name = "command",
++            .type = QEMU_OPT_STRING,
++            .help = "command to run",
++        },
++        { /* end of list */ }
++    },
++};
 +
-+@end table
-+ETEXI
 +
- DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "-machine [type=]name[,prop[=value][,...]]\n"
-     "                selects emulated machine ('-machine help' for list)\n"
+ static QemuOptsList qemu_machine_opts = {
+     .name = "machine",
+     .implied_opt_name = "type",
+@@ -347,6 +369,87 @@ static QemuOptsList qemu_boot_opts = {
+     },
+ };
+ 
++#if defined(CONFIG_MPQEMU)
++static int device_remote_add(void *opaque, QemuOpts *opts, Error **errp)
++{
++    unsigned int rid = *(unsigned int *)opaque;
++    const char *opt_rid = NULL;
++    struct remote_process *p = NULL;;
++
++    opt_rid = qemu_opt_get(opts, "rid");
++    if (!opt_rid) {
++        return 0;
++    }
++
++    p = get_remote_process_rid(rid);
++    if (!p) {
++        return -EINVAL;
++    }
++
++    if (atoi(opt_rid) == rid) {
++        qemu_opt_set(opts, "command", p->command, errp);
++        rdevice_init_func(opaque, opts, errp);
++        qemu_opts_del(opts);
++    }
++    return 0;
++}
++
++static int parse_remote(void *opaque, QemuOpts *opts, Error **errp)
++{
++    int rid;
++    int socket;
++    char  *c_sock;
++    const char *command = NULL;
++    struct remote_process r_proc;
++
++    rid = atoi(qemu_opt_get(opts, "rid"));
++    if (rid < 0) {
++        error_setg(errp, "rid is required.");
++        return -1;
++    }
++    if (get_remote_process_rid(rid)) {
++        error_setg(errp, "There is already process with rid %d", rid);
++        goto cont_devices;
++    }
++
++    c_sock = (char *)qemu_opt_get(opts, "socket");
++    if (c_sock) {
++        socket = atoi(c_sock);
++    } else {
++        socket = -1;
++    }
++
++    command = qemu_opt_get(opts, "command");
++
++    if (socket <= STDERR_FILENO && socket != -1) {
++        socket = -1;
++    }
++
++    if (!command && socket < 0) {
++        error_setg(errp, "No correct  socket or command defined for remote.");
++        return -1;
++    }
++
++    if (rid < 0) {
++        error_setg(errp, "id option is required and must be non-negative");
++        return -1;
++    }
++    r_proc.rid = rid;
++    r_proc.socket = socket;
++    r_proc.command = g_strdup(command);
++    remote_process_register(&r_proc);
++
++ cont_devices:
++    if (qemu_opts_foreach(qemu_find_opts("device"), device_remote_add,
++                          &rid, NULL)) {
++        error_setg(errp, "Could not process some of the remote devices.");
++    }
++
++    return 0;
++}
++
++#endif
++
+ static QemuOptsList qemu_add_fd_opts = {
+     .name = "add-fd",
+     .head = QTAILQ_HEAD_INITIALIZER(qemu_add_fd_opts.head),
+@@ -2826,6 +2929,7 @@ int main(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_icount_opts);
+     qemu_add_opts(&qemu_semihosting_config_opts);
+     qemu_add_opts(&qemu_fw_cfg_opts);
++    qemu_add_opts(&qemu_remote_opts);
+     module_call_init(MODULE_INIT_OPTS);
+ 
+     runstate_init();
+@@ -3678,6 +3782,14 @@ int main(int argc, char **argv, char **envp)
+                 exit(1);
+ #endif
+                 break;
++            case QEMU_OPTION_remote:
++                opts = qemu_opts_parse_noisily(qemu_find_opts("remote"),
++                                               optarg, false);
++                if (!opts) {
++                    exit(1);
++                }
++                break;
++
+             case QEMU_OPTION_object:
+                 opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
+                                                optarg, true);
+@@ -4278,6 +4390,11 @@ int main(int argc, char **argv, char **envp)
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       device_init_func, NULL, &error_fatal);
+ 
++#ifdef CONFIG_MPQEMU
++    qemu_opts_foreach(qemu_find_opts("remote"),
++                      parse_remote, NULL, &error_fatal);
++#endif
++
+     cpu_synchronize_all_post_init();
+ 
+     rom_reset_order_override();
 -- 
 1.8.3.1
 
