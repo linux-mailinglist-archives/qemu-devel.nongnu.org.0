@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D3FE286E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 04:49:14 +0200 (CEST)
-Received: from localhost ([::1]:56450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22058E2872
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 04:50:36 +0200 (CEST)
+Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNTBY-00066x-Ul
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 22:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41402)
+	id 1iNTCt-0002Kj-7r
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 22:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iNT94-0002wE-C8
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:39 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNT9A-00036J-1l
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iNT93-0005g2-75
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:38 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28728
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <ehabkost@redhat.com>) id 1iNT98-0005nL-Jq
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38505
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNT93-0005fh-3B
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:37 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNT98-0005mZ-F0
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571885196;
+ s=mimecast20190719; t=1571885201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FFN3G4vy9TZ4XjODrTT4WxsNQU09kGyHD2ISBmvwuXk=;
- b=LRtHYnQWLrU3w9EUbv/WF8hxHfDq3AJmT5qhvKT/1Rmhc2dJbp5eqZ0VDSZQwresupUpV2
- RQAq7kC8EErgYs+cge3T8aS7UVao6Z1zKSH/rpZbVs0TEEr2OdzHHJg73lRoshScK/+iGK
- 05bxG9hFCMrFElSCe5Mkn/SO9HFScss=
+ bh=PssP5r9I/AvGQJl5jbf7fQBnA+KBtK6Jd6fBhm1vPWo=;
+ b=hqpg/Apn1ccYzqKwlVk5PGsYws13mnKEJvA6Do6f6dyiTPK+/VA6mM8/Cxb5LoFbdARUAt
+ g+XgeTSlK6o63pFOtvjpo45FtUumKpeaCJaNgs5GxooNuQuyLFQ96JC3JmRSKJAb0uUCm+
+ QnMkGQrRHzQoQIlHb/cgfL1l9ou9Es8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-XScY6BQVM9yqtB8h_F1azQ-1; Wed, 23 Oct 2019 22:46:33 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-16-LYBzm33DNhaTKQZXoveDBA-1; Wed, 23 Oct 2019 22:46:38 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0743E1005500;
- Thu, 24 Oct 2019 02:46:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAA4080183E;
+ Thu, 24 Oct 2019 02:46:36 +0000 (UTC)
 Received: from localhost (ovpn-116-56.gru2.redhat.com [10.97.116.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 474501001B3F;
- Thu, 24 Oct 2019 02:46:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BFA8194BB;
+ Thu, 24 Oct 2019 02:46:33 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Peter Maydell <peter.maydell@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
  Igor Mammedov <imammedo@redhat.com>
-Subject: [PULL 2/4] sparc64: use memory_region_allocate_system_memory() only
- for '-m' specified RAM
-Date: Wed, 23 Oct 2019 23:46:21 -0300
-Message-Id: <20191024024623.18848-3-ehabkost@redhat.com>
+Subject: [PULL 3/4] ppc: rs6000_mc: drop usage of
+ memory_region_allocate_system_memory()
+Date: Wed, 23 Oct 2019 23:46:22 -0300
+Message-Id: <20191024024623.18848-4-ehabkost@redhat.com>
 In-Reply-To: <20191024024623.18848-1-ehabkost@redhat.com>
 References: <20191024024623.18848-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: XScY6BQVM9yqtB8h_F1azQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: LYBzm33DNhaTKQZXoveDBA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,93 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-memory_region_allocate_system_memory() was designed to be called for
-allocating inital RAM. Using it mutiple times within one board is not
-supported and could fail if -mem-path with non hugepage path is used.
-
-Keep using memory_region_allocate_system_memory() only for initial
-RAM and use memory_region_init_ram() for the rest fixed size regions.
+rs6000mc_realize() violates memory_region_allocate_system_memory() contract
+by calling it multiple times which could break -mem-path. Replace it with
+plain memory_region_init_ram() instead.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20191008113318.7012-2-imammedo@redhat.com>
+Message-Id: <20191008113318.7012-3-imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/sparc64/niagara.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ hw/ppc/rs6000_mc.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
-index 167143bffe..5987693659 100644
---- a/hw/sparc64/niagara.c
-+++ b/hw/sparc64/niagara.c
-@@ -36,6 +36,7 @@
- #include "qemu/error-report.h"
- #include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
-+#include "qapi/error.h"
+diff --git a/hw/ppc/rs6000_mc.c b/hw/ppc/rs6000_mc.c
+index df7c0006fc..66b14db5fa 100644
+--- a/hw/ppc/rs6000_mc.c
++++ b/hw/ppc/rs6000_mc.c
+@@ -144,6 +144,7 @@ static void rs6000mc_realize(DeviceState *dev, Error **=
+errp)
+     RS6000MCState *s =3D RS6000MC_DEVICE(dev);
+     int socket =3D 0;
+     unsigned int ram_size =3D s->ram_size / MiB;
++    Error *local_err =3D NULL;
 =20
- typedef struct NiagaraBoardState {
-     MemoryRegion hv_ram;
-@@ -106,8 +107,8 @@ static void niagara_init(MachineState *machine)
-     /* init CPUs */
-     sparc64_cpu_devinit(machine->cpu_type, NIAGARA_PROM_BASE);
-     /* set up devices */
--    memory_region_allocate_system_memory(&s->hv_ram, NULL, "sun4v-hv.ram",
--                                         NIAGARA_HV_RAM_SIZE);
-+    memory_region_init_ram(&s->hv_ram, NULL, "sun4v-hv.ram",
-+                           NIAGARA_HV_RAM_SIZE, &error_fatal);
-     memory_region_add_subregion(sysmem, NIAGARA_HV_RAM_BASE, &s->hv_ram);
-=20
-     memory_region_allocate_system_memory(&s->partition_ram, NULL,
-@@ -116,17 +117,17 @@ static void niagara_init(MachineState *machine)
-     memory_region_add_subregion(sysmem, NIAGARA_PARTITION_RAM_BASE,
-                                 &s->partition_ram);
-=20
--    memory_region_allocate_system_memory(&s->nvram, NULL,
--                                         "sun4v.nvram", NIAGARA_NVRAM_SIZE=
-);
-+    memory_region_init_ram(&s->nvram, NULL, "sun4v.nvram", NIAGARA_NVRAM_S=
-IZE,
-+                           &error_fatal);
-     memory_region_add_subregion(sysmem, NIAGARA_NVRAM_BASE, &s->nvram);
--    memory_region_allocate_system_memory(&s->md_rom, NULL,
--                                         "sun4v-md.rom", NIAGARA_MD_ROM_SI=
-ZE);
-+    memory_region_init_ram(&s->md_rom, NULL, "sun4v-md.rom",
-+                           NIAGARA_MD_ROM_SIZE, &error_fatal);
-     memory_region_add_subregion(sysmem, NIAGARA_MD_ROM_BASE, &s->md_rom);
--    memory_region_allocate_system_memory(&s->hv_rom, NULL,
--                                         "sun4v-hv.rom", NIAGARA_HV_ROM_SI=
-ZE);
-+    memory_region_init_ram(&s->hv_rom, NULL, "sun4v-hv.rom",
-+                           NIAGARA_HV_ROM_SIZE, &error_fatal);
-     memory_region_add_subregion(sysmem, NIAGARA_HV_ROM_BASE, &s->hv_rom);
--    memory_region_allocate_system_memory(&s->prom, NULL,
--                                         "sun4v.prom", PROM_SIZE_MAX);
-+    memory_region_init_ram(&s->prom, NULL, "sun4v.prom", PROM_SIZE_MAX,
-+                           &error_fatal);
-     memory_region_add_subregion(sysmem, NIAGARA_PROM_BASE, &s->prom);
-=20
-     add_rom_or_fail("nvram1", NIAGARA_NVRAM_BASE);
-@@ -143,8 +144,8 @@ static void niagara_init(MachineState *machine)
-         BlockBackend *blk =3D blk_by_legacy_dinfo(dinfo);
-         int size =3D blk_getlength(blk);
-         if (size > 0) {
--            memory_region_allocate_system_memory(&s->vdisk_ram, NULL,
--                                                 "sun4v_vdisk.ram", size);
-+            memory_region_init_ram(&s->vdisk_ram, NULL, "sun4v_vdisk.ram",=
- size,
-+                                   &error_fatal);
-             memory_region_add_subregion(get_system_memory(),
-                                         NIAGARA_VDISK_BASE, &s->vdisk_ram)=
+     while (socket < 6) {
+         if (ram_size >=3D 64) {
+@@ -165,19 +166,21 @@ static void rs6000mc_realize(DeviceState *dev, Error =
+**errp)
+         if (s->simm_size[socket]) {
+             char name[] =3D "simm.?";
+             name[5] =3D socket + '0';
+-            memory_region_allocate_system_memory(&s->simm[socket], OBJECT(=
+dev),
+-                                                 name,
+-                                                 s->simm_size[socket] * Mi=
+B);
++            memory_region_init_ram(&s->simm[socket], OBJECT(dev), name,
++                                   s->simm_size[socket] * MiB, &local_err)=
 ;
-             dinfo->is_default =3D 1;
++            if (local_err) {
++                goto out;
++            }
+             memory_region_add_subregion_overlap(get_system_memory(), 0,
+                                                 &s->simm[socket], socket);
+         }
+     }
+     if (ram_size) {
+         /* unable to push all requested RAM in SIMMs */
+-        error_setg(errp, "RAM size incompatible with this board. "
++        error_setg(&local_err, "RAM size incompatible with this board. "
+                    "Try again with something else, like %" PRId64 " MB",
+                    s->ram_size / MiB - ram_size);
+-        return;
++        goto out;
+     }
+=20
+     if (s->autoconfigure) {
+@@ -193,6 +196,8 @@ static void rs6000mc_realize(DeviceState *dev, Error **=
+errp)
+=20
+     isa_register_portio_list(ISA_DEVICE(dev), &s->portio, 0x0,
+                              rs6000mc_port_list, s, "rs6000mc");
++out:
++    error_propagate(errp, local_err);
+ }
+=20
+ static const VMStateDescription vmstate_rs6000mc =3D {
 --=20
 2.21.0
 
