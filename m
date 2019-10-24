@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB93E3223
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:20:11 +0200 (CEST)
-Received: from localhost ([::1]:40786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83993E3251
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:27:11 +0200 (CEST)
+Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNc65-0000T2-Kz
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1iNcCr-0001TS-SD
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNbb3-00030i-OD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:48:07 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNbun-0002DT-Da
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:08:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNbb2-0007hC-FC
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:48:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54010)
+ (envelope-from <philmd@redhat.com>) id 1iNbum-0000wz-1E
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:08:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNbb1-0007gb-TI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:48:04 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNbul-0000wg-PJ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:08:27 -0400
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CE3A459451
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:48:02 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id k9so874036wmb.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:48:02 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D5A7F85539
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 12:08:25 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id v26so1171550wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 05:08:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RodsIxNVedoLZrS91xhgv1KPAkM9KvsVpg2mvRylzXQ=;
- b=PQngWDzB+p3Wa+bCuUb+jMe7tVjinQvWNZRfJSoWNLMOzat8TRWW/VkVBbDbG8+KBz
- 80v5ateYIeI7+/k80cm7aKRA+9tU/mlg0i0z5hRMe9MV9oRDD/CK4yguvhSQ918a8k91
- qD/kUzG4eZpAhQxzBrFcK1UUbC2xO9eMOAQa2ZyIyCk7sn9HMJt+GaQQNctKx4rUlFcX
- wAfxI5rniNQ8y9byeSOMT6J+kgIYspb56/UFd+gIWMF5xrw8MafHfi255gz56tvwbot8
- zoveAlt8zqpplDn9ORcvgX+z5P8FnEJ28gw3so7Vr0naVQP7MJcgVsqwlmDAfdVzGpwO
- 229g==
-X-Gm-Message-State: APjAAAVRvPIZRGA6W4bPne+FsowJA9Nil2fXX1I6KPk7nkRsQVbSd8Kx
- UiNyBY+22vTQSUZCVPpY5ZVfVbJh7UPMA2rRTKSaVA8ZLdRd2F3RRWAIurgcIiOEfYCbDZWvReS
- tPyp0Fyvs13aoVY4=
-X-Received: by 2002:a1c:610b:: with SMTP id v11mr4484150wmb.156.1571917678624; 
- Thu, 24 Oct 2019 04:47:58 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyxfMiFP2BKmH4lLaTaZOdZYDg0x2EMewze60npzmA4eQFPdo+dKfAnsbEhlPwavUKl0ucKnQ==
-X-Received: by 2002:a1c:610b:: with SMTP id v11mr4484105wmb.156.1571917678380; 
- Thu, 24 Oct 2019 04:47:58 -0700 (PDT)
+ bh=69Yz9t5vXe3E2E5y37KYoVPQVihQITIuZnzPMtNlO8M=;
+ b=r2VaILFC4/EAQU9gvHEIYjbTEg0akWBJVxBqqdj2q1phxKmuCdniwHgazNfrr1ZpRU
+ +S9srahbFpL6IZ1ryh1pKPWKBQYtKhIQTf2Bg4+Ayw5zmMh8DDh2o36DbWqXbXNET4Xl
+ zQJ2oz4vcBC6INULd+gCuzkpuq1cWDW3JYKc9NAyxJDYl6/hug3x/uxbp2sMMU88q9eH
+ gH3Qd53L6zYPm8BR5//koMoIeTNd6t2Jzyck8dk/RvGPVJuGjya4eXlvPSPfeEXctFng
+ +FKMIUsXFEU7YKo5ZrFqB/VwZUR2nTNvvTbfPLAZzrUo5iHgzFQ5chz9QCXxbbbQdjOI
+ r28w==
+X-Gm-Message-State: APjAAAUvLegtbOMg2+RyQ6cPbt1dDvYJk0jJburmUb75YWYThfGoWfr3
+ jCspGmCJqsKaAn06toWaJMjzsSxnnnm4/acTCefE/EBwIuCBepzIt3+8sSsnWVcaZgIAUqfyyV0
+ L60KAz+I5JujcSnM=
+X-Received: by 2002:adf:e50a:: with SMTP id j10mr3404046wrm.352.1571918904482; 
+ Thu, 24 Oct 2019 05:08:24 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxz0Y6gjnwSHejhYMfs35EF2pd2h84aWv1Ei8/c/b/yZnjF8qUnQ0vwkcXALUuJ84B+6D51IA==
+X-Received: by 2002:adf:e50a:: with SMTP id j10mr3404027wrm.352.1571918904239; 
+ Thu, 24 Oct 2019 05:08:24 -0700 (PDT)
 Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id e3sm2084103wme.36.2019.10.24.04.47.56
+ by smtp.gmail.com with ESMTPSA id l8sm9182104wru.22.2019.10.24.05.08.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 04:47:57 -0700 (PDT)
-Subject: Re: [PATCH v3 21/33] lance: replace PROP_PTR with PROP_LINK
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-22-marcandre.lureau@redhat.com>
- <2d027692-e178-c1c8-8384-ad70ed345f29@redhat.com>
- <CAMxuvay9kroZUo7ZbdhJqKAdp52rMmLGv0LBvktb68B2CKg+Mw@mail.gmail.com>
+ Thu, 24 Oct 2019 05:08:23 -0700 (PDT)
+Subject: Re: [PATCH v2] mc146818rtc: fix timer interrupt reinjection
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2b9352d7-f4de-bd5c-62c5-cebec79e1c48@redhat.com>
-Date: Thu, 24 Oct 2019 13:47:56 +0200
+To: Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <20191010123008.GA19158@amt.cnet>
+ <cc492782-8e5a-5c39-226d-a4e97cabf914@redhat.com>
+Message-ID: <12f2aebb-6919-2ee0-f356-4000652ee3c3@redhat.com>
+Date: Thu, 24 Oct 2019 14:08:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvay9kroZUo7ZbdhJqKAdp52rMmLGv0LBvktb68B2CKg+Mw@mail.gmail.com>
+In-Reply-To: <cc492782-8e5a-5c39-226d-a4e97cabf914@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -83,127 +81,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Xiao Guangrong <guangrong.xiao@gmail.com>,
+ Vadim Rozenfeld <vrozenfe@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 1:09 PM, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->=20
->=20
-> On Thu, Oct 24, 2019 at 1:01 AM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
+On 10/24/19 1:22 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 10/10/19 2:30 PM, Marcelo Tosatti wrote:
 >>
->> On 10/23/19 7:31 PM, Marc-Andr=C3=A9 Lureau wrote:
->>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>    hw/dma/sparc32_dma.c | 2 +-
->>>    hw/net/lance.c       | 5 ++---
->>>    hw/net/pcnet-pci.c   | 2 +-
->>>    hw/net/pcnet.h       | 2 +-
->>>    4 files changed, 5 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
->>> index 0e5bbcdc7f..3e4da0c47f 100644
->>> --- a/hw/dma/sparc32_dma.c
->>> +++ b/hw/dma/sparc32_dma.c
->>> @@ -346,7 +346,7 @@ static void sparc32_ledma_device_realize(DeviceSt=
-ate *dev, Error **errp)
->>>        d =3D qdev_create(NULL, TYPE_LANCE);
->>>        object_property_add_child(OBJECT(dev), "lance", OBJECT(d), err=
-p);
->>>        qdev_set_nic_properties(d, nd);
->>> -    qdev_prop_set_ptr(d, "dma", dev);
->>> +    object_property_set_link(OBJECT(d), OBJECT(dev), "dma", errp);
->>>        qdev_init_nofail(d);
->>>    }
->>>
->>> diff --git a/hw/net/lance.c b/hw/net/lance.c
->>> index 6631e2a4e0..4d96299041 100644
->>> --- a/hw/net/lance.c
->>> +++ b/hw/net/lance.c
->>> @@ -138,7 +138,8 @@ static void lance_instance_init(Object *obj)
->>>    }
->>>
->>>    static Property lance_properties[] =3D {
->>> -    DEFINE_PROP_PTR("dma", SysBusPCNetState, state.dma_opaque),
->>> +    DEFINE_PROP_LINK("dma", SysBusPCNetState, state.dma_opaque,
->>> +                     TYPE_DEVICE, DeviceState *),
->>>        DEFINE_NIC_PROPERTIES(SysBusPCNetState, state.conf),
->>>        DEFINE_PROP_END_OF_LIST(),
->>>    };
->>> @@ -153,8 +154,6 @@ static void lance_class_init(ObjectClass *klass, =
-void *data)
->>>        dc->reset =3D lance_reset;
->>>        dc->vmsd =3D &vmstate_lance;
->>>        dc->props =3D lance_properties;
->>> -    /* Reason: pointer property "dma" */
->>> -    dc->user_creatable =3D false;
+>> commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
+>> reinjection when there is no period change by the guest.
 >>
->> But we still can not start it with the -device option and set the dma,
->> can we?
->=20
-> This is a sysbus device, so you can't. I'll add a commit comment.
-
-Ah OK, understood now.
-
-With comment:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->=20
-> In theory, link property allows you to pass a QOM path to reference a
-> QOM instance from -device.
-
-Just wondering, if we had a "bus_address" property to the abstract=20
-SysBus class (and eventually "bus_name" for later) we could create/map
-sysbus devices from command line?
-
+>> In that case, old_period is 0, which ends up zeroing irq_coalesced
+>> (counter of reinjected interrupts).
 >>
->>>    }
->>>
->>>    static const TypeInfo lance_info =3D {
->>> diff --git a/hw/net/pcnet-pci.c b/hw/net/pcnet-pci.c
->>> index 4723c30c79..d067d21e2c 100644
->>> --- a/hw/net/pcnet-pci.c
->>> +++ b/hw/net/pcnet-pci.c
->>> @@ -231,7 +231,7 @@ static void pci_pcnet_realize(PCIDevice *pci_dev,=
- Error **errp)
->>>        s->irq =3D pci_allocate_irq(pci_dev);
->>>        s->phys_mem_read =3D pci_physical_memory_read;
->>>        s->phys_mem_write =3D pci_physical_memory_write;
->>> -    s->dma_opaque =3D pci_dev;
->>> +    s->dma_opaque =3D DEVICE(pci_dev);
->>>
->>>        pcnet_common_init(DEVICE(pci_dev), s, &net_pci_pcnet_info);
->>>    }
->>> diff --git a/hw/net/pcnet.h b/hw/net/pcnet.h
->>> index 28d19a5c6f..f49b213c57 100644
->>> --- a/hw/net/pcnet.h
->>> +++ b/hw/net/pcnet.h
->>> @@ -50,7 +50,7 @@ struct PCNetState_st {
->>>                             uint8_t *buf, int len, int do_bswap);
->>>        void (*phys_mem_write)(void *dma_opaque, hwaddr addr,
->>>                              uint8_t *buf, int len, int do_bswap);
->>> -    void *dma_opaque;
->>> +    DeviceState *dma_opaque;
->>>        int tx_busy;
->>>        int looptest;
->>>    };
->>>
+>> The consequence is Windows 7 is unable to synchronize time via NTP.
+>> Easily reproducible by playing a fullscreen video with cirrus and VNC.
+>>
+>> Fix by not updating s->irq_coalesced when old_period is 0.
+>>
+>> V2: reorganize code (Paolo Bonzini)
+>=20
+> ^ This line shouldn't be part of git history,
+> Paolo if possible can you drop it?
+>=20
+>>
+>> Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
+>>
+>> diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+>> index 6cb378751b..0e7cf97042 100644
+>> --- a/hw/timer/mc146818rtc.c
+>> +++ b/hw/timer/mc146818rtc.c
+>> @@ -203,24 +203,28 @@ periodic_timer_update(RTCState *s, int64_t=20
+>> current_time, uint32_t old_period)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 period =3D rtc_periodic_clock_ticks(s);
+>> -=C2=A0=C2=A0=C2=A0 if (period) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* compute 32 khz clock */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cur_clock =3D
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mu=
+ldiv64(current_time, RTC_CLOCK_RATE,=20
+>> NANOSECONDS_PER_SECOND);
+>> +=C2=A0=C2=A0=C2=A0 if (!period) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->irq_coalesced =3D 0;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timer_del(s->periodic_time=
+r);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>> +=C2=A0=C2=A0=C2=A0 }
+>=20
+> This is the first change, simplify the if statement with a return.
+>=20
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * if the periodic timer's =
+update is due to period=20
+>> re-configuration,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * we should count the cloc=
+k since last interrupt.
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (old_period) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in=
+t64_t last_periodic_clock, next_periodic_clock;
+>> -
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ne=
+xt_periodic_clock =3D muldiv64(s->next_periodic_time,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RTC_CL=
+OCK_RATE,=20
+>> NANOSECONDS_PER_SECOND);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 la=
+st_periodic_clock =3D next_periodic_clock - old_period;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lo=
+st_clock =3D cur_clock - last_periodic_clock;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as=
+sert(lost_clock >=3D 0);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0 /* compute 32 khz clock */
+>> +=C2=A0=C2=A0=C2=A0 cur_clock =3D
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 muldiv64(current_time, RTC=
+_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * if the periodic timer's update is due to p=
+eriod re-configuration,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * we should count the clock since last inter=
+rupt.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +=C2=A0=C2=A0=C2=A0 if (old_period) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t last_periodic_cloc=
+k, next_periodic_clock;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 next_periodic_clock =3D mu=
+ldiv64(s->next_periodic_time,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RTC_CLOCK_RATE, NANOSECONDS_PE=
+R_SECOND);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 last_periodic_clock =3D ne=
+xt_periodic_clock - old_period;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lost_clock =3D cur_clock -=
+ last_periodic_clock;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(lost_clock >=3D 0);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * s->irq_=
+coalesced can change for two reasons:
+>> @@ -251,22 +255,19 @@ periodic_timer_update(RTCState *s, int64_t=20
+>> current_time, uint32_t old_period)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rtc_coalesced_timer_update(s);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 * no way to compensate the interrupt if=20
+>> LOST_TICK_POLICY_SLEW
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 * is not used, we should make the time progress anyway.
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 lost_clock =3D MIN(lost_clock, period);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0 }
+>=20
+> This is the second change, changing the logic and fixing the bug.
+>=20
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(lost_clock >=3D 0 &=
+& lost_clock <=3D period);
+>> +=C2=A0=C2=A0=C2=A0 assert(lost_clock >=3D 0 && lost_clock <=3D period=
+);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 next_irq_clock =3D cur_clo=
+ck + period - lost_clock;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->next_periodic_time =3D =
+periodic_clock_to_ns(next_irq_clock)=20
+>> + 1;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timer_mod(s->periodic_time=
+r, s->next_periodic_time);
+>> -=C2=A0=C2=A0=C2=A0 } else {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->irq_coalesced =3D 0;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timer_del(s->periodic_time=
+r);
+>> -=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0 next_irq_clock =3D cur_clock + period - lost_clock=
+;
+>> +=C2=A0=C2=A0=C2=A0 s->next_periodic_time =3D periodic_clock_to_ns(nex=
+t_irq_clock) + 1;
+>> +=C2=A0=C2=A0=C2=A0 timer_mod(s->periodic_timer, s->next_periodic_time=
+);
+>=20
+> This is part of the 1st change.
+>=20
+> I'd rather see this patch split in 2 logical changes...
+
+Since this split makes sense to me (easier to understand the patch diff=20
+when reviewing), I can quickly do it if you don't mind.
+
+>> =C2=A0 }
+>> =C2=A0 static void rtc_periodic_timer(void *opaque)
+>>
+>>
 
