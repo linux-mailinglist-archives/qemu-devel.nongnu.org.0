@@ -2,66 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32853E34E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:59:36 +0200 (CEST)
-Received: from localhost ([::1]:43398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCA1E34CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:54:44 +0200 (CEST)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdeI-0003zb-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45714)
+	id 1iNdZb-0000wE-4F
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNc6B-0002dU-Of
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:20:16 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1iNcjv-00052W-VW
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNc69-0004k3-F7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:20:14 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43100)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNc69-0004jl-9i
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:20:13 -0400
-Received: by mail-ot1-x342.google.com with SMTP id z20so1796683otk.10
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 05:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bu9VtAfZyma9hAxIAPgNAkso+ko+dznduw4mStAQrX4=;
- b=W1V51Gy6psD0hgGvm21L1PYu2ondqcZTjpcj1vex7wGwkoaV/SMdqGv2VoXY6TbG1n
- O32tAKuZDs9xigeqUW5/15yW4AHEljgvWPBROVTkBzVjjK8xAKby72rB5JwMMtrwMUCE
- ZOGHOFvPPK/W2m0ygLGNV8vVC3/+Qe/ISI4Fl90aUsWXWdydoDdXk1qvEdURoFEMoVBk
- 81gP1T17T8S1JOJci8DPadwSh7mK8zEdr1OQyqprFgA6KZMR2itaS1uot8Mqj/yH71aG
- BFXG/3Mke1MctGc4nP+EkFq0aI+cesqaEQ1nO3PMqO2LvWAvT8qp+QMz8k/qDnKE3JLO
- EBhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bu9VtAfZyma9hAxIAPgNAkso+ko+dznduw4mStAQrX4=;
- b=QLzgrKnDnGbncmLBRfOlJuGgz8Px80abygeZoMwk9xKBKa1OI1R9Bk5eNfZzkLgQA/
- aGUrC9+v9gz4i7WaRYG9jYN7GcTOTt2XFKrbns6WRCefGPqKprKkLoEFgdbquyT5ly1B
- /04uE0iKYjQp4A1wLhLN8jmte2jfsP9lRW5KeW+QqFhFpFN2Dc/mrlduXHgc/+YVQtpo
- qt6wkeJims79BdTYpzcVc7BMfW0E24YgYSWcu1sRMB538kzC/ESrr/xpSvL5MM23+0vu
- g0rOvGcMabAaSXFFl1iuEFOc1QKbXJt6jdQkme7B3CZ3dooWA60DkbStQRHua0xnX4dH
- MeRg==
-X-Gm-Message-State: APjAAAWpTvjX+ridrnZqiij7Rga6xo6G6tDH9M23xBl1dUrUL4vdPogb
- sNqBqg0fKfjOqdexUWGGyhdHGffGJ/WEmOwXwC7L0w==
-X-Google-Smtp-Source: APXvYqxbQG5fFGaW4WT0rRdLzTcinVRktIWnHLFFN86yGF9vpVmZezzk2qWuS4xeo3gOZeNcmJOkrHb1Lrnun8XXi0c=
-X-Received: by 2002:a9d:30c1:: with SMTP id r1mr11784100otg.91.1571919612565; 
- Thu, 24 Oct 2019 05:20:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191021140600.10725-1-peter.maydell@linaro.org>
- <374ee14a-e462-d839-3997-45f642e849ca@posteo.de>
-In-Reply-To: <374ee14a-e462-d839-3997-45f642e849ca@posteo.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Oct 2019 13:20:01 +0100
-Message-ID: <CAFEAcA_qkqANHkiLXvrw43SBzT3j=gqTZxfkuOCahOhd+MzsAA@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/m68k/mcf5206.c: Switch to transaction-based ptimer
- API
-To: Thomas Huth <th.huth@posteo.de>
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <yi.l.liu@intel.com>) id 1iNcju-0002B8-5b
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:19 -0400
+Received: from mga11.intel.com ([192.55.52.93]:40467)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNcjt-00027p-TV
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Oct 2019 06:01:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156134"
+Received: from iov.bj.intel.com ([10.238.145.67])
+ by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:01:06 -0700
+From: Liu Yi L <yi.l.liu@intel.com>
+To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
+ alex.williamson@redhat.com, peterx@redhat.com
+Subject: [RFC v2 00/22] intel_iommu: expose Shared Virtual Addressing to VM
+Date: Thu, 24 Oct 2019 08:34:21 -0400
+Message-Id: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
+X-Mailer: git-send-email 2.7.4
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 192.55.52.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,33 +50,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ kvm@vger.kernel.org, jun.j.tian@intel.com, eric.auger@redhat.com,
+ yi.y.sun@intel.com, jacob.jun.pan@linux.intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Oct 2019 at 12:40, Thomas Huth <th.huth@posteo.de> wrote:
->
-> On 21/10/2019 16.06, Peter Maydell wrote:
-> > Switch the mcf5206 code away from bottom-half based ptimers to
-> > the new transaction-based ptimer API.  This just requires adding
-> > begin/commit calls around the various places that modify the ptimer
-> > state, and using the new ptimer_init() function to create the timer.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > Changes v1->v2:
-> >  * turn the early-exit in m5206_timer_recalibrate() into a goto-exit
-> >    so we can end the ptimer transaction
->
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+Shared virtual address (SVA), a.k.a, Shared virtual memory (SVM) on Intel
+platforms allow address space sharing between device DMA and applications.
+SVA can reduce programming complexity and enhance security.
+This series is intended to expose SVA capability to VMs. i.e. shared guest
+application address space with passthru devices. The whole SVA virtualization
+requires QEMU/VFIO/IOMMU changes. This series includes the QEMU changes, for
+VFIO and IOMMU changes, they are in separate series (listed in the "Related
+series").
 
+The high-level architecture for SVA virtualization is as below:
 
+    .-------------.  .---------------------------.
+    |   vIOMMU    |  | Guest process CR3, FL only|
+    |             |  '---------------------------'
+    .----------------/
+    | PASID Entry |--- PASID cache flush -
+    '-------------'                       |
+    |             |                       V
+    |             |                CR3 in GPA
+    '-------------'
+Guest
+------| Shadow |--------------------------|--------
+      v        v                          v
+Host
+    .-------------.  .----------------------.
+    |   pIOMMU    |  | Bind FL for GVA-GPA  |
+    |             |  '----------------------'
+    .----------------/  |
+    | PASID Entry |     V (Nested xlate)
+    '----------------\.------------------------------.
+    |             |   |SL for GPA-HPA, default domain|
+    |             |   '------------------------------'
+    '-------------'
+Where:
+ - FL = First level/stage one page tables
+ - SL = Second level/stage two page tables
 
+The complete vSVA upstream patches are divided into three phases:
+    1. Common APIs and PCI device direct assignment
+    2. Page Request Services (PRS) support
+    3. Mediated device assignment
 
-Applied to target-arm.next, thanks.
+This RFC patchset is aiming for the phase 1. Works together with the VT-d
+driver[1] changes and VFIO changes[2].
 
--- PMM
+Related series:
+[1] [PATCH v6 00/10] Nested Shared Virtual Address (SVA) VT-d support:
+https://lkml.org/lkml/2019/10/22/953
+<This series is based on this kernel series from Jacob Pan>
+
+[2] [RFC v2 0/3] vfio: support Shared Virtual Addressing from Yi Liu
+
+There are roughly four parts:
+ 1. Introduce IOMMUContext as abstract layer between vIOMMU emulator and
+    VFIO to avoid direct calling between the two
+ 2. Passdown PASID allocation and free to host
+ 3. Passdown guest PASID binding to host
+ 4. Passdown guest IOMMU cache invalidation to host
+
+The full set can be found in below link:
+https://github.com/luxis1999/qemu.git: sva_vtd_v6_qemu_rfc_v2
+
+Changelog:
+	- RFC v1 -> v2:
+	  Introduce IOMMUContext to abstract the connection between VFIO
+	  and vIOMMU emulator, which is a replacement of the PCIPASIDOps
+	  in RFC v1. Modify x-scalable-mode to be string option instead of
+	  adding a new option as RFC v1 did. Refined the pasid cache management
+	  and addressed the TODOs mentioned in RFC v1. 
+	  RFC v1: https://patchwork.kernel.org/cover/11033657/
+
+Eric Auger (1):
+  update-linux-headers: Import iommu.h
+
+Liu Yi L (20):
+  header update VFIO/IOMMU vSVA APIs against 5.4.0-rc3+
+  intel_iommu: modify x-scalable-mode to be string option
+  vfio/common: add iommu_ctx_notifier in container
+  hw/pci: modify pci_setup_iommu() to set PCIIOMMUOps
+  hw/pci: introduce pci_device_iommu_context()
+  intel_iommu: provide get_iommu_context() callback
+  vfio/pci: add iommu_context notifier for pasid alloc/free
+  intel_iommu: add virtual command capability support
+  intel_iommu: process pasid cache invalidation
+  intel_iommu: add present bit check for pasid table entries
+  intel_iommu: add PASID cache management infrastructure
+  vfio/pci: add iommu_context notifier for pasid bind/unbind
+  intel_iommu: bind/unbind guest page table to host
+  intel_iommu: replay guest pasid bindings to host
+  intel_iommu: replay pasid binds after context cache invalidation
+  intel_iommu: do not passdown pasid bind for PASID #0
+  vfio/pci: add iommu_context notifier for PASID-based iotlb flush
+  intel_iommu: process PASID-based iotlb invalidation
+  intel_iommu: propagate PASID-based iotlb invalidation to host
+  intel_iommu: process PASID-based Device-TLB invalidation
+
+Peter Xu (1):
+  hw/iommu: introduce IOMMUContext
+
+ hw/Makefile.objs                |    1 +
+ hw/alpha/typhoon.c              |    6 +-
+ hw/arm/smmu-common.c            |    6 +-
+ hw/hppa/dino.c                  |    6 +-
+ hw/i386/amd_iommu.c             |    6 +-
+ hw/i386/intel_iommu.c           | 1249 +++++++++++++++++++++++++++++++++++++--
+ hw/i386/intel_iommu_internal.h  |  109 ++++
+ hw/i386/trace-events            |    6 +
+ hw/iommu/Makefile.objs          |    1 +
+ hw/iommu/iommu.c                |   66 +++
+ hw/pci-host/designware.c        |    6 +-
+ hw/pci-host/ppce500.c           |    6 +-
+ hw/pci-host/prep.c              |    6 +-
+ hw/pci-host/sabre.c             |    6 +-
+ hw/pci/pci.c                    |   27 +-
+ hw/ppc/ppc440_pcix.c            |    6 +-
+ hw/ppc/spapr_pci.c              |    6 +-
+ hw/s390x/s390-pci-bus.c         |    8 +-
+ hw/vfio/common.c                |   10 +
+ hw/vfio/pci.c                   |  149 +++++
+ include/hw/i386/intel_iommu.h   |   58 +-
+ include/hw/iommu/iommu.h        |  113 ++++
+ include/hw/pci/pci.h            |   13 +-
+ include/hw/pci/pci_bus.h        |    2 +-
+ include/hw/vfio/vfio-common.h   |    9 +
+ linux-headers/linux/iommu.h     |  324 ++++++++++
+ linux-headers/linux/vfio.h      |   83 +++
+ scripts/update-linux-headers.sh |    2 +-
+ 28 files changed, 2232 insertions(+), 58 deletions(-)
+ create mode 100644 hw/iommu/Makefile.objs
+ create mode 100644 hw/iommu/iommu.c
+ create mode 100644 include/hw/iommu/iommu.h
+ create mode 100644 linux-headers/linux/iommu.h
+
+-- 
+2.7.4
+
 
