@@ -2,50 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B574E307B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:35:35 +0200 (CEST)
-Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35880E3083
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:40:26 +0200 (CEST)
+Received: from localhost ([::1]:40108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbOv-0007bm-UG
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47662)
+	id 1iNbTZ-0008LQ-Nq
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xiajidong@cmss.chinamobile.com>) id 1iNZXo-0003Hr-Gc
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:36:39 -0400
+ (envelope-from <berrange@redhat.com>) id 1iNZqU-000825-HF
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:55:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xiajidong@cmss.chinamobile.com>) id 1iNZXn-0007Oq-2o
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:36:36 -0400
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:2083)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <xiajidong@cmss.chinamobile.com>) id 1iNZXm-0007NU-G9
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:36:35 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.15]) by
- rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee35db170871dd-484ca;
- Thu, 24 Oct 2019 17:36:07 +0800 (CST)
-X-RM-TRANSID: 2ee35db170871dd-484ca
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[112.25.154.149])
- by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee85db17086662-6f7b6;
- Thu, 24 Oct 2019 17:36:07 +0800 (CST)
-X-RM-TRANSID: 2ee85db17086662-6f7b6
-Subject: Re: [PATCH] hw/audio: fix a memory leak in OPLCreate()
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <1571824420-24893-1-git-send-email-xiajidong@cmss.chinamobile.com>
- <20191024082500.q3t4fmsc5crxp2yc@steredhat>
-From: xiajidong <xiajidong@cmss.chinamobile.com>
-Message-ID: <4d1304f5-6b8a-f260-e7ff-127381c0fc4f@cmss.chinamobile.com>
-Date: Thu, 24 Oct 2019 05:36:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <berrange@redhat.com>) id 1iNZqT-0007DY-0V
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:55:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53937
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iNZpj-0006j2-FO
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:55:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571910906;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ipL+a8nv7TsJveOMGJRYhqKbPaCkqKk5prdys7g//og=;
+ b=MpLbaYlujgX2xlD/MbpnhwWUyZ2CGmoCKh7jM5SRdc0CfHshzHhKzXY3MhUeuY6gMfcjhU
+ rfnHHG1dBMmC8vlq0DCteiPf5w2vJvoCMwDAyWqM1AoV33S/0a5YmVJaPUYyLPwkGIka/y
+ ffH++P7fG0TtCBacs79Yxt6VJNVsVV8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-r7f80xdyNMm27t41ooYJjg-1; Thu, 24 Oct 2019 05:55:03 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39DA9476;
+ Thu, 24 Oct 2019 09:55:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1B0B5D6D0;
+ Thu, 24 Oct 2019 09:54:59 +0000 (UTC)
+Date: Thu, 24 Oct 2019 10:54:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v13 01/12] util/cutils: Add qemu_strtotime_ps()
+Message-ID: <20191024095457.GD3700@redhat.com>
+References: <20191020111125.27659-1-tao3.xu@intel.com>
+ <20191020111125.27659-2-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191024082500.q3t4fmsc5crxp2yc@steredhat>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 221.176.66.79
+In-Reply-To: <20191020111125.27659-2-tao3.xu@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: r7f80xdyNMm27t41ooYJjg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,46 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Oct 20, 2019 at 07:11:14PM +0800, Tao Xu wrote:
+> To convert strings with time suffixes to numbers, support time unit are
+> "ps" for picosecond, "ns" for nanosecond, "us" for microsecond, "ms"
+> for millisecond or "s" for second.
+>=20
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+>=20
+> No changes in v13.
+> ---
+>  include/qemu/cutils.h |  1 +
+>  util/cutils.c         | 82 +++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 83 insertions(+)
+
+This really ought to have an addition to the unit tests to validating
+the parsing, both success and error scenarios, so that we're clear on
+exactly what strings are accepted & rejected.
 
 
-On 10/24/19 4:25 AM, Stefano Garzarella wrote:
-> On Wed, Oct 23, 2019 at 05:53:40PM +0800, Jidong Xia wrote:
->> There is a memory leak in OPLCreate(),Should free allocated mem
->> before return.
->>
->> Signed-off-by: Jidong Xia <xiajidong@cmss.chinamobile.com>
->> ---
->>   hw/audio/fmopl.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
->> index 9f50a89..ca9825b 100644
->> --- a/hw/audio/fmopl.c
->> +++ b/hw/audio/fmopl.c
->> @@ -1112,6 +1112,7 @@ FM_OPL *OPLCreate(int clock, int rate)
->>   		opl_dbg_maxchip++;
->>   	}
->>   #endif
->> +	free(ptr);
->>   	return OPL;
-> 
-> I don't know this code well, but I don't think is correct to free 'ptr' in
-> the success case, since it is the pointer returned by this function that
-> will be freed by OPLDestroy().
-> 
-> Does that sound right or did I miss something?
-ok, I understand it.
-> 
-> Thanks,
-> Stefano
-> 
-> 
-Thanks,
-Jidong Xia
-
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
