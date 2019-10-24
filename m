@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D477E2C24
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:27:40 +0200 (CEST)
-Received: from localhost ([::1]:34916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23C7E2C08
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:24:01 +0200 (CEST)
+Received: from localhost ([::1]:34880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYT4-0003ni-RJ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36556)
+	id 1iNYPY-0005dl-Jv
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKT-0004k4-9k
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:47 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKQ-0004c9-G2
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKR-00054r-HT
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:45 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54339 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKP-0004yw-3t
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:42 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:34799 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNYKR-0004zf-5N; Thu, 24 Oct 2019 04:18:43 -0400
+ id 1iNYKO-0004s8-Lw; Thu, 24 Oct 2019 04:18:41 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zKrX6s7hz9sR3; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
+ id 46zKrX5tRCz9sR6; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571905116;
- bh=bDJ+lL6U7/EjRyMJMnAmLePHj2/5rsdcdvyY0UDu9xU=;
+ bh=SQwpN+RW74j0cauvfIg1SAmlAX+IHu0+B9uvfDotYJw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZGmYsw/CupiLTExxSXKfkADhiCYCMymEsc8fkH4oplEbzIBrdRGklkrTxlN8PQlpA
- Np2i0nbiAvuBDcVYIpZhQG9LIT9oDgIcZkjPZAlGUwIx5G/u9OFtTwCLOQ7nXKwp2Q
- r6rmsY7Ltq1jHzRb2cD6y6Z+6g97O0yMhbInUfFE=
+ b=AiNwoTDjffU6mIsWMCImthT6K6awsq+Bo6/mJsJwMvjYwGXEc2K3IIYvCfoT6zetL
+ 5IqEFD9WqjnnS4iahFdwwXn8xV0WRMEAqB/6vC9oJWu19BgEm7nKh935KvBFjpi2sb
+ ciOlFtvcjJVxDT0KuxiP2BQllauMKFit2I/Ikn2U=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/28] target/ppc: Fix for optimized vsl/vsr instructions
-Date: Thu, 24 Oct 2019 19:17:48 +1100
-Message-Id: <20191024081813.2115-4-david@gibson.dropbear.id.au>
+Subject: [PULL 04/28] ppc/pnv: Improve trigger data definition
+Date: Thu, 24 Oct 2019 19:17:49 +1100
+Message-Id: <20191024081813.2115-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191024081813.2115-1-david@gibson.dropbear.id.au>
 References: <20191024081813.2115-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -53,173 +54,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org, groug@kaod.org,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, Stefan Brankovic <stefan.brankovic@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>, "Paul A. Clark" <pc@us.ibm.com>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-In previous implementation, invocation of TCG shift function could reques=
-t
-shift of TCG variable by 64 bits when variable 'sh' is 0, which is not
-supported in TCG (values can be shifted by 0 to 63 bits). This patch fixe=
-s
-this by using two separate invocation of TCG shift functions, with maximu=
-m
-shift amount of 32.
+The trigger data is used for both triggers of a HW source interrupts,
+PHB, PSI, and triggers for rerouting interrupts between interrupt
+controllers.
 
-Name of variable 'shifted' is changed to 'carry' so variable naming
-is similar to old helper implementation.
+When an interrupt is rerouted, the trigger data follows an "END
+trigger" format. In that case, the remote IC needs EAS containing an
+END index to perform a lookup of an END.
 
-Variables 'avrA' and 'avrB' are replaced with variable 'avr'.
+An END trigger, bit0 of word0 set to '1', is defined as :
 
-Fixes: 4e6d0920e7547e6af4bbac5ffe9adfe6ea621822
-Reported-by: "Paul A. Clark" <pc@us.ibm.com>
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Suggested-by: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Message-Id: <1570196639-7025-2-git-send-email-stefan.brankovic@rt-rk.com>
-Tested-by: Paul A. Clarke  <pc@us.ibm.com>
+             |0123|4567|0123|4567|0123|4567|0123|4567|
+    W0 E=3D1   |1P--|BLOC|          END IDX            |
+    W1 E=3D1   |M   |           END DATA               |
+
+An EAS is defined as :
+
+             |0123|4567|0123|4567|0123|4567|0123|4567|
+    W0       |V---|BLOC|          END IDX            |
+    W1       |M   |          END DATA                |
+
+The END trigger adds an extra 'PQ' bit, bit1 of word0 set to '1',
+signaling that the PQ bits have been checked. That bit is unused in
+the initial EAS definition.
+
+When a HW device performs the trigger, the trigger data follows an
+"EAS trigger" format because the trigger data in that case contains an
+EAS index which the IC needs to look for.
+
+An EAS trigger, bit0 of word0 set to '0', is defined as :
+
+             |0123|4567|0123|4567|0123|4567|0123|4567|
+    W0 E=3D0   |0P--|---- ---- ---- ---- ---- ---- ----|
+    W1 E=3D0   |BLOC|            EAS INDEX             |
+
+There is also a 'PQ' bit, bit1 of word0 to '1', signaling that the
+PQ bits have been checked.
+
+Introduce these new trigger bits and rename the XIVE_SRCNO macros in
+XIVE_EAS to reflect better the nature of the data.
+
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20191007084102.29776-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate/vmx-impl.inc.c | 84 ++++++++++++++---------------
- 1 file changed, 40 insertions(+), 44 deletions(-)
+ hw/intc/pnv_xive.c         | 20 ++++++++++++++++----
+ hw/intc/xive.c             |  4 ++--
+ include/hw/ppc/xive_regs.h | 26 +++++++++++++++++++++++---
+ 3 files changed, 41 insertions(+), 9 deletions(-)
 
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
-mx-impl.inc.c
-index 2472a5217a..81d5a7a341 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -590,40 +590,38 @@ static void trans_vsl(DisasContext *ctx)
-     int VT =3D rD(ctx->opcode);
-     int VA =3D rA(ctx->opcode);
-     int VB =3D rB(ctx->opcode);
--    TCGv_i64 avrA =3D tcg_temp_new_i64();
--    TCGv_i64 avrB =3D tcg_temp_new_i64();
-+    TCGv_i64 avr =3D tcg_temp_new_i64();
-     TCGv_i64 sh =3D tcg_temp_new_i64();
--    TCGv_i64 shifted =3D tcg_temp_new_i64();
-+    TCGv_i64 carry =3D tcg_temp_new_i64();
-     TCGv_i64 tmp =3D tcg_temp_new_i64();
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index ed6e9d71bb..348f2fdd26 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -385,7 +385,7 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_t=
+ blk, uint32_t idx,
+     PnvXive *xive =3D PNV_XIVE(xrtr);
 =20
--    /* Place bits 125-127 of vB in sh. */
--    get_avr64(avrB, VB, false);
--    tcg_gen_andi_i64(sh, avrB, 0x07ULL);
-+    /* Place bits 125-127 of vB in 'sh'. */
-+    get_avr64(avr, VB, false);
-+    tcg_gen_andi_i64(sh, avr, 0x07ULL);
+     if (pnv_xive_get_ic(blk) !=3D xive) {
+-        xive_error(xive, "VST: EAS %x is remote !?", XIVE_SRCNO(blk, idx=
+));
++        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx))=
+;
+         return -1;
+     }
 =20
-     /*
--     * Save highest sh bits of lower doubleword element of vA in variabl=
-e
--     * shifted and perform shift on lower doubleword.
-+     * Save highest 'sh' bits of lower doubleword element of vA in varia=
-ble
-+     * 'carry' and perform shift on lower doubleword.
-      */
--    get_avr64(avrA, VA, false);
--    tcg_gen_subfi_i64(tmp, 64, sh);
--    tcg_gen_shr_i64(shifted, avrA, tmp);
--    tcg_gen_andi_i64(shifted, shifted, 0x7fULL);
--    tcg_gen_shl_i64(avrA, avrA, sh);
--    set_avr64(VT, avrA, false);
-+    get_avr64(avr, VA, false);
-+    tcg_gen_subfi_i64(tmp, 32, sh);
-+    tcg_gen_shri_i64(carry, avr, 32);
-+    tcg_gen_shr_i64(carry, carry, tmp);
-+    tcg_gen_shl_i64(avr, avr, sh);
-+    set_avr64(VT, avr, false);
+@@ -431,7 +431,7 @@ static void pnv_xive_notify(XiveNotifier *xn, uint32_=
+t srcno)
+     PnvXive *xive =3D PNV_XIVE(xn);
+     uint8_t blk =3D xive->chip->chip_id;
 =20
-     /*
-      * Perform shift on higher doubleword element of vA and replace lowe=
-st
--     * sh bits with shifted.
-+     * 'sh' bits with 'carry'.
-      */
--    get_avr64(avrA, VA, true);
--    tcg_gen_shl_i64(avrA, avrA, sh);
--    tcg_gen_or_i64(avrA, avrA, shifted);
--    set_avr64(VT, avrA, true);
-+    get_avr64(avr, VA, true);
-+    tcg_gen_shl_i64(avr, avr, sh);
-+    tcg_gen_or_i64(avr, avr, carry);
-+    set_avr64(VT, avr, true);
-=20
--    tcg_temp_free_i64(avrA);
--    tcg_temp_free_i64(avrB);
-+    tcg_temp_free_i64(avr);
-     tcg_temp_free_i64(sh);
--    tcg_temp_free_i64(shifted);
-+    tcg_temp_free_i64(carry);
-     tcg_temp_free_i64(tmp);
+-    xive_router_notify(xn, XIVE_SRCNO(blk, srcno));
++    xive_router_notify(xn, XIVE_EAS(blk, srcno));
  }
 =20
-@@ -639,39 +637,37 @@ static void trans_vsr(DisasContext *ctx)
-     int VT =3D rD(ctx->opcode);
-     int VA =3D rA(ctx->opcode);
-     int VB =3D rB(ctx->opcode);
--    TCGv_i64 avrA =3D tcg_temp_new_i64();
--    TCGv_i64 avrB =3D tcg_temp_new_i64();
-+    TCGv_i64 avr =3D tcg_temp_new_i64();
-     TCGv_i64 sh =3D tcg_temp_new_i64();
--    TCGv_i64 shifted =3D tcg_temp_new_i64();
-+    TCGv_i64 carry =3D tcg_temp_new_i64();
-     TCGv_i64 tmp =3D tcg_temp_new_i64();
+ /*
+@@ -1225,12 +1225,24 @@ static const MemoryRegionOps pnv_xive_ic_reg_ops =
+=3D {
 =20
--    /* Place bits 125-127 of vB in sh. */
--    get_avr64(avrB, VB, false);
--    tcg_gen_andi_i64(sh, avrB, 0x07ULL);
-+    /* Place bits 125-127 of vB in 'sh'. */
-+    get_avr64(avr, VB, false);
-+    tcg_gen_andi_i64(sh, avr, 0x07ULL);
-=20
+ static void pnv_xive_ic_hw_trigger(PnvXive *xive, hwaddr addr, uint64_t =
+val)
+ {
++    uint8_t blk;
++    uint32_t idx;
++
++    if (val & XIVE_TRIGGER_END) {
++        xive_error(xive, "IC: END trigger at @0x%"HWADDR_PRIx" data 0x%"=
+PRIx64,
++                   addr, val);
++        return;
++    }
++
      /*
--     * Save lowest sh bits of higher doubleword element of vA in variabl=
-e
--     * shifted and perform shift on higher doubleword.
-+     * Save lowest 'sh' bits of higher doubleword element of vA in varia=
-ble
-+     * 'carry' and perform shift on higher doubleword.
+      * Forward the source event notification directly to the Router.
+      * The source interrupt number should already be correctly encoded
+      * with the chip block id by the sending device (PHB, PSI).
       */
--    get_avr64(avrA, VA, true);
--    tcg_gen_subfi_i64(tmp, 64, sh);
--    tcg_gen_shl_i64(shifted, avrA, tmp);
--    tcg_gen_andi_i64(shifted, shifted, 0xfe00000000000000ULL);
--    tcg_gen_shr_i64(avrA, avrA, sh);
--    set_avr64(VT, avrA, true);
-+    get_avr64(avr, VA, true);
-+    tcg_gen_subfi_i64(tmp, 32, sh);
-+    tcg_gen_shli_i64(carry, avr, 32);
-+    tcg_gen_shl_i64(carry, carry, tmp);
-+    tcg_gen_shr_i64(avr, avr, sh);
-+    set_avr64(VT, avr, true);
-     /*
-      * Perform shift on lower doubleword element of vA and replace highe=
-st
--     * sh bits with shifted.
-+     * 'sh' bits with 'carry'.
-      */
--    get_avr64(avrA, VA, false);
--    tcg_gen_shr_i64(avrA, avrA, sh);
--    tcg_gen_or_i64(avrA, avrA, shifted);
--    set_avr64(VT, avrA, false);
-+    get_avr64(avr, VA, false);
-+    tcg_gen_shr_i64(avr, avr, sh);
-+    tcg_gen_or_i64(avr, avr, carry);
-+    set_avr64(VT, avr, false);
-=20
--    tcg_temp_free_i64(avrA);
--    tcg_temp_free_i64(avrB);
-+    tcg_temp_free_i64(avr);
-     tcg_temp_free_i64(sh);
--    tcg_temp_free_i64(shifted);
-+    tcg_temp_free_i64(carry);
-     tcg_temp_free_i64(tmp);
+-    xive_router_notify(XIVE_NOTIFIER(xive), val);
++    blk =3D XIVE_EAS_BLOCK(val);
++    idx =3D XIVE_EAS_INDEX(val);
++
++    xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
  }
+=20
+ static void pnv_xive_ic_notify_write(void *opaque, hwaddr addr, uint64_t=
+ val,
+@@ -1566,7 +1578,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
+ {
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+     uint8_t blk =3D xive->chip->chip_id;
+-    uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
++    uint32_t srcno0 =3D XIVE_EAS(blk, 0);
+     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive);
+     uint32_t nr_ends =3D pnv_xive_nr_ends(xive);
+     XiveEAS eas;
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 453d389848..d420c6571e 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1658,8 +1658,8 @@ do_escalation:
+ void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
+ {
+     XiveRouter *xrtr =3D XIVE_ROUTER(xn);
+-    uint8_t eas_blk =3D XIVE_SRCNO_BLOCK(lisn);
+-    uint32_t eas_idx =3D XIVE_SRCNO_INDEX(lisn);
++    uint8_t eas_blk =3D XIVE_EAS_BLOCK(lisn);
++    uint32_t eas_idx =3D XIVE_EAS_INDEX(lisn);
+     XiveEAS eas;
+=20
+     /* EAS cache lookup */
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index 08c8bf7172..55307cd153 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -22,9 +22,29 @@
+ /*
+  * Interrupt source number encoding on PowerBUS
+  */
+-#define XIVE_SRCNO_BLOCK(srcno) (((srcno) >> 28) & 0xf)
+-#define XIVE_SRCNO_INDEX(srcno) ((srcno) & 0x0fffffff)
+-#define XIVE_SRCNO(blk, idx)    ((uint32_t)(blk) << 28 | (idx))
++/*
++ * Trigger data definition
++ *
++ * The trigger definition is used for triggers both for HW source
++ * interrupts (PHB, PSI), as well as for rerouting interrupts between
++ * Interrupt Controller.
++ *
++ * HW source controllers set bit0 of word0 to =E2=80=980=E2=80=99 as the=
+y provide EAS
++ * information (EAS block + EAS index) in the 8 byte data and not END
++ * information, which is use for rerouting interrupts.
++ *
++ * bit1 of word0 to =E2=80=981=E2=80=99 signals that the state bit check=
+ has been
++ * performed.
++ */
++#define XIVE_TRIGGER_END        PPC_BIT(0)
++#define XIVE_TRIGGER_PQ         PPC_BIT(1)
++
++/*
++ * QEMU macros to manipulate the trigger payload in native endian
++ */
++#define XIVE_EAS_BLOCK(n)       (((n) >> 28) & 0xf)
++#define XIVE_EAS_INDEX(n)       ((n) & 0x0fffffff)
++#define XIVE_EAS(blk, idx)      ((uint32_t)(blk) << 28 | (idx))
+=20
+ #define TM_SHIFT                16
 =20
 --=20
 2.21.0
