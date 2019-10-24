@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EBAE2DC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:42:06 +0200 (CEST)
-Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4902E2DDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:46:52 +0200 (CEST)
+Received: from localhost ([::1]:36950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZd6-00042W-0i
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:42:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44315)
+	id 1iNZhf-0002xe-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:46:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZAG-0001Te-KQ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:17 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZAX-000286-SU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZAF-0005C7-C6
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:16 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46804)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZAW-0005MP-My
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:33 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:33392)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZAF-0005BT-4M
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:15 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94Pfb116363;
- Thu, 24 Oct 2019 09:12:09 GMT
+ id 1iNZAW-0005Jw-Ee
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:32 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94M1Y099578;
+ Thu, 24 Oct 2019 09:12:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=btour2UNUU7CDnNRKI6AE+S8OUCK/eeLSqRjU36nKl8=;
- b=dzKhPrwb9dtZda7tj96620UuOifJO9LUzWJp0slqY9T0HDXZC6XMmsGZeKpbNchLMvx7
- RqEcLaO0hKhNlJFQnpqekOY4n1JFJYNe+ryrBtZAywTSMz/0l1oPj41swqtQG4yUjc2E
- xaNg0kxzdeNUKvBfWFHQzgbhyDPpw+g2Ayocp9vaYlkI+Jt0KaWYE50KWZnOkJclMWM4
- RyVGZSSP17kuP/yhi4arNR9ZFgNH9V6dz/tCfJRokKNINqj0qBXKE67YUiSG4NXN4kZ9
- tkho7Zq8x47ehjSalohik3QXRXxjoyyS280YjObttGS38YM5UWPo39rZeFljcqGBV4a8 vg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2vqswtte5n-1
+ bh=Xh2odBnS5dKeeUhdClD/GLP4LQ+P8oTji3dSDPB7dIU=;
+ b=Lo4AQ553ozsyLt95cFbKUOwZtQzdfqMu6X6asCC3EaFS7Qh5JG2vFMgTYWo3oGZmSZP0
+ rhua3whqy50M8LBJzb02LUvaZXwTHhKth//WcBsqHlHcj8+bBH76XLLVZUR5NTFmt0Qb
+ YxAf5MuV3SXZA7TdWhzPCFeBDCTaMA8p4Z5XGtiroC5BNkZcRKDDSi0mTZtAEBbc042h
+ CUCa3IznYtIBSkz/7l76WX/9DpFtUe2vwCmIhtNDLcx26eVueKqeqbXoz85canJTldBs
+ R2ihhMhV7Z8TBse+rQ6rajPmuLANhSa7RpOi/31ZZgP9xAtx0a7l/J29R4IYYNeEtOZl aQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2vqteq2ant-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:12:09 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O982R1093173;
- Thu, 24 Oct 2019 09:10:08 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2vtm244fsx-1
+ Thu, 24 Oct 2019 09:12:22 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98LDH047145;
+ Thu, 24 Oct 2019 09:10:22 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2vu0fnu6r2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:10:07 +0000
+ Thu, 24 Oct 2019 09:10:22 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9A7Bh001853;
- Thu, 24 Oct 2019 09:10:07 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9AKa7009131;
+ Thu, 24 Oct 2019 09:10:20 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:10:06 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:10:19 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 08/49] multi-process: add functions to synchronize
- proxy and remote endpoints
-Date: Thu, 24 Oct 2019 05:08:49 -0400
-Message-Id: <823727c8cf4bbc563cecebd6a231bea77d81adeb.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 12/49] multi-process: remote process initialization
+Date: Thu, 24 Oct 2019 05:08:53 -0400
+Message-Id: <a0550c5a6df8f294528393cfe3c031e194ba2188.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -64,7 +63,7 @@ In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
  signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -73,12 +72,12 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
  signatures=668684
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
  definitions=main-1910240089
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,98 +99,128 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In some cases, for example MMIO read, QEMU has to wait for the remote to
-complete a command before proceeding. An eventfd based mechanism is
-added to synchronize QEMU & remote process.
+Adds the handler to process message from QEMU,
+Initialize remote process main loop, handles SYNC_SYSMEM
+message by updating its "system_memory" container using
+shared file descriptors received from QEMU.
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
  v1 -> v2:
-   - Added timeout to synchronization functions
+   - Separate thread for message processing is removed
 
- include/io/mpqemu-link.h |  9 +++++++++
- io/mpqemu-link.c         | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ v2 -> v3:
+   - Added multi-channel support in the remote end
 
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index 345c67e..dee2dd3 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -30,7 +30,9 @@
+ remote/remote-main.c | 80 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+
+diff --git a/remote/remote-main.c b/remote/remote-main.c
+index bf44310..7689b57 100644
+--- a/remote/remote-main.c
++++ b/remote/remote-main.c
+@@ -26,6 +26,7 @@
+ #include "qemu-common.h"
  
- #include <stddef.h>
- #include <stdint.h>
+ #include <stdio.h>
 +#include <unistd.h>
- #include <pthread.h>
-+#include <sys/eventfd.h>
  
- #include "qom/object.h"
- #include "qemu/thread.h"
-@@ -147,4 +149,11 @@ void mpqemu_destroy_channel(MPQemuChannel *chan);
- void mpqemu_link_set_callback(MPQemuLinkState *s, mpqemu_link_callback callback);
- void mpqemu_start_coms(MPQemuLinkState *s);
- 
-+#define GET_REMOTE_WAIT eventfd(0, 0)
-+#define PUT_REMOTE_WAIT(wait) close(wait)
-+#define PROXY_LINK_WAIT_DONE 1
+ #include "qemu/module.h"
+ #include "remote/pcihost.h"
+@@ -33,12 +34,91 @@
+ #include "hw/boards.h"
+ #include "hw/qdev-core.h"
+ #include "qemu/main-loop.h"
++#include "remote/memory.h"
++#include "io/mpqemu-link.h"
++#include "qapi/error.h"
++#include "qemu/main-loop.h"
++#include "sysemu/cpus.h"
++#include "qemu-common.h"
++#include "hw/pci/pci.h"
++#include "qemu/thread.h"
++#include "qemu/main-loop.h"
++#include "qemu/config-file.h"
++#include "sysemu/sysemu.h"
++#include "block/block.h"
 +
-+uint64_t wait_for_remote(int efd);
-+void notify_proxy(int fd, uint64_t val);
++static MPQemuLinkState *mpqemu_link;
++PCIDevice *remote_pci_dev;
 +
- #endif
-diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index b39f4d0..696aeb1 100644
---- a/io/mpqemu-link.c
-+++ b/io/mpqemu-link.c
-@@ -231,6 +231,46 @@ int mpqemu_msg_recv(MPQemuLinkState *s, MPQemuMsg *msg, MPQemuChannel *chan)
-     return rc;
- }
- 
-+uint64_t wait_for_remote(int efd)
++static void process_msg(GIOCondition cond, MPQemuChannel *chan)
 +{
-+    struct pollfd pfd = { .fd = efd, .events = POLLIN };
-+    uint64_t val;
-+    int ret;
++    MPQemuMsg *msg = NULL;
++    Error *err = NULL;
 +
-+    ret = poll(&pfd, 1, 1000);
++    if ((cond & G_IO_HUP) || (cond & G_IO_ERR)) {
++        error_setg(&err, "socket closed, cond is %d", cond);
++        goto finalize_loop;
++    }
 +
-+    switch (ret) {
-+    case 0:
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: Timed out\n");
-+        /* TODO: Kick-off error recovery */
-+        return ULLONG_MAX;
-+    case -1:
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "Poll error wait_for_remote: %s\n",
-+                      strerror(errno));
-+        return ULLONG_MAX;
++    msg = g_malloc0(sizeof(MPQemuMsg));
++
++    if (mpqemu_msg_recv(mpqemu_link, msg, chan) < 0) {
++        error_setg(&err, "Failed to receive message");
++        goto finalize_loop;
++    }
++
++    switch (msg->cmd) {
++    case INIT:
++        break;
++    case CONF_WRITE:
++        break;
++    case CONF_READ:
++        break;
 +    default:
-+        if (read(efd, &val, sizeof(val)) == -1) {
-+            qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: %s\n",
-+                          strerror(errno));
-+            return ULLONG_MAX;
-+        }
++        error_setg(&err, "Unknown command");
++        goto finalize_loop;
 +    }
 +
-+    val = (val == ULLONG_MAX) ? val : (val - 1);
++    g_free(msg);
 +
-+    return val;
++    return;
++
++finalize_loop:
++    error_report_err(err);
++    g_free(msg);
++    mpqemu_link_finalize(mpqemu_link);
++    mpqemu_link = NULL;
 +}
-+
-+void notify_proxy(int efd, uint64_t val)
-+{
-+    val = (val == ULLONG_MAX) ? val : (val + 1);
-+
-+    if (write(efd, &val, sizeof(val)) == -1) {
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "Error notify_proxy: %s\n",
-+                      strerror(errno));
-+    }
-+}
-+
- static gboolean mpqemu_link_handler_prepare(GSource *gsrc, gint *timeout)
+ 
+ int main(int argc, char *argv[])
  {
-     g_assert(timeout);
++    Error *err = NULL;
++
+     module_call_init(MODULE_INIT_QOM);
+ 
++    bdrv_init_with_whitelist();
++
++    if (qemu_init_main_loop(&err)) {
++        error_report_err(err);
++        return -EBUSY;
++    }
++
++    qemu_init_cpu_loop();
++
++    page_size_init();
++
+     current_machine = MACHINE(REMOTE_MACHINE(object_new(TYPE_REMOTE_MACHINE)));
+ 
++    mpqemu_link = mpqemu_link_create();
++    if (!mpqemu_link) {
++        printf("Could not create MPQemu link\n");
++        return -1;
++    }
++
++    mpqemu_init_channel(mpqemu_link, &mpqemu_link->com, STDIN_FILENO);
++    mpqemu_link_set_callback(mpqemu_link, process_msg);
++
++    mpqemu_start_coms(mpqemu_link);
++
+     return 0;
+ }
 -- 
 1.8.3.1
 
