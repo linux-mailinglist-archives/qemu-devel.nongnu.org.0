@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BC0E3921
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:03:00 +0200 (CEST)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4131E3951
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:06:36 +0200 (CEST)
+Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgVm-0000UP-Ok
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1iNgZG-0008ED-RW
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58041)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxy-0007hP-D6
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxz-0007io-0y
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxw-0000si-P4
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxx-0000tL-PU
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:02 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46810)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53657)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfxw-0000sC-I7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:00 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n15so16009646wrw.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:00 -0700 (PDT)
+ id 1iNfxx-0000so-JP
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:01 -0400
+Received: by mail-wm1-x335.google.com with SMTP id n7so2717854wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EcerNk3YeDT5sQSP3taUcz8aA1kUh9D2O9nEmkTp88Q=;
- b=L2PlupZGCsVM1GVSZCQM9wCd35aNupZyY2spI6UcISexUjjl8KPSUKoW5S+jv2iwOt
- bdTpsbx1iZ1eW+ZF0jWCBFmAZt5Yrsu7yYuUu786/mybqOMSMMhz+gmabKwiuR3cUpk+
- eQwNS0K89OtvMPRGx0TYh8J9ddvuxa4SBNdJNgPEPjYD3Hffr4ri0nzociiyKaLSMUZr
- 1Ziabd+5F+27gaeczKMC6r/Jg0EpIRuo7m5sWzut06l72yBF3Wd7dcaokbSiSwacknI+
- WLA00aEeRFzAy+wrhLn5UMZKR+oiKBAan21lrqLgXWcMRbc7bVm5VUCtqUWDa+CXZ3bi
- QhLQ==
+ bh=uYiMMG2g4SkvD83lkxSsHqqS6mTu3zs23wVOsym/Wvk=;
+ b=YGAt38FM7o8oUVR59UnnmmzkbFzAmnaIZxnUBJH6VKo1MzNxRxOTdY67M90w5P81cx
+ JEa5pRgnv+YsIWkf6q4kRzDZrEhvetjMaYgwtVleJS6g3dSq6NUNJ8PbqKowh45oFBDZ
+ Y8Ss6n4xbbwRiWm7cuMnX1L5gewDcVtdp1kVfg9hohP2+fgmm/AbDF/980hN/GkVQIPb
+ xK6mk9JS+nZNeIhbq727+wgIgP7Ghl3M630OrlwsS/8g13Fj1uhpIyNSVB1J5Ki/IMpf
+ VInc2J/nXEuHwagAht0th5U0jIFQmv64NnAPgO4xrsR74rZStfyznJzy55/AUq3QED8T
+ SXPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EcerNk3YeDT5sQSP3taUcz8aA1kUh9D2O9nEmkTp88Q=;
- b=f4NofocNo+aGKWL6ytVRVNtVTHDxcF0egA5sqIJLlLX8A8datdDKmz8MUwsH2CwRlS
- 21HmRHRflQetdRahshv4GCcacRb7/CdrMZM1MzPaVXlE0uUtcoke0tcZVpUCl0qHzJay
- rebyl2DWUl9LkZp+roxDBzqKcm7uvZ0bUBcv132u1HoDY2+z3phsuDkPQKAs7pmxi+6C
- J8c4tYITeq5NoaW4vXIOL1chV5P/BlpmDD9oEMj93FfLN/YZ9Zkyh5LmxESXgHsSSrlM
- c+U2ZIx+IDKpRs8pKQPJj/2oMIA97G+6cQGRc1hUjNyZ0KZ3Cq12mOcwDwvsjxy3gLpe
- BXGg==
-X-Gm-Message-State: APjAAAWWrdADJkQgek15drZxaFSugha+T0opDBPja3Hu7WWmqfVtM1bZ
- BEuQfCe2ZeS1LCohIGQxTl8vunBZSoA=
-X-Google-Smtp-Source: APXvYqwJ2ATksEuP6UHrnf1xcQPw18vUI7YHW0iXQM/7he4xlEs9ndiPv7ZR4/wknyzdr1as4sZLTA==
-X-Received: by 2002:adf:f5cc:: with SMTP id k12mr4556905wrp.65.1571934479240; 
- Thu, 24 Oct 2019 09:27:59 -0700 (PDT)
+ bh=uYiMMG2g4SkvD83lkxSsHqqS6mTu3zs23wVOsym/Wvk=;
+ b=qUJ7qBQo5eZZcMELbO/yZcH//ik+zBPtFIKtvlHZmz3psSLQLpXXgD5wRplD9VC/gB
+ SRU2S7myNFl3PSoibWMYNSnKl8kjkjyxJzdt3yhEZfjk5J+n52eziTZSOV0gCDziOVfx
+ RnuMjHaZFeJeA9OXRrBKwCgXplXOONGJzV1tFC+a61K1GDBCt60JuhS/RUWiBuNTtLfJ
+ qA5R1o+tudn0DbKoEHB6daH1Sn1GeI1tb/SAcgCO509PW6nyOzRYh8qMnaiwrcUgwRLe
+ 3Lt1pWKsIi/2RDBmUkP/2D+Avuaru1ud8RYCTXUZWDHrTOQOOWKAjGwm9KCbt52UCYMh
+ gmJw==
+X-Gm-Message-State: APjAAAV5eO8R7c0zW0EhQzF4L6ycEecNFSyLEM6Z+N0FEmohLd5nFoPl
+ S5zWhX0em8R3lNOUGPqa7oTvQti2s7A=
+X-Google-Smtp-Source: APXvYqwOuOVyn7fGOM9kiTDjzA30LaLrk2WOvQP0ieRp0MbiRWoQ8MqE+mjgDiTTvqEwDYJxRFGHrQ==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr5677498wmg.44.1571934480301; 
+ Thu, 24 Oct 2019 09:28:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.58
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:27:58 -0700 (PDT)
+ Thu, 24 Oct 2019 09:27:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/51] target/arm: Rely on hflags correct in
- cpu_get_tb_cpu_state
-Date: Thu, 24 Oct 2019 17:26:59 +0100
-Message-Id: <20191024162724.31675-27-peter.maydell@linaro.org>
+Subject: [PULL 27/51] hw/net/fsl_etsec/etsec.c: Switch to transaction-based
+ ptimer API
+Date: Thu, 24 Oct 2019 17:27:00 +0100
+Message-Id: <20191024162724.31675-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -68,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,81 +84,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Switch the fsl_etsec code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
-This is the payoff.
-
-From perf record -g data of ubuntu 18 boot and shutdown:
-
-BEFORE:
-
--   23.02%     2.82%  qemu-system-aar  [.] helper_lookup_tb_ptr
-   - 20.22% helper_lookup_tb_ptr
-      + 10.05% tb_htable_lookup
-      - 9.13% cpu_get_tb_cpu_state
-           3.20% aa64_va_parameters_both
-           0.55% fp_exception_el
-
--   11.66%     4.74%  qemu-system-aar  [.] cpu_get_tb_cpu_state
-   - 6.96% cpu_get_tb_cpu_state
-        3.63% aa64_va_parameters_both
-        0.60% fp_exception_el
-        0.53% sve_exception_el
-
-AFTER:
-
--   16.40%     3.40%  qemu-system-aar  [.] helper_lookup_tb_ptr
-   - 13.03% helper_lookup_tb_ptr
-      + 11.19% tb_htable_lookup
-        0.55% cpu_get_tb_cpu_state
-
-     0.98%     0.71%  qemu-system-aar  [.] cpu_get_tb_cpu_state
-
-     0.87%     0.24%  qemu-system-aar  [.] rebuild_hflags_a64
-
-Before, helper_lookup_tb_ptr is the second hottest function in the
-application, consuming almost a quarter of the runtime.  Within the
-entire execution, cpu_get_tb_cpu_state consumes about 12%.
-
-After, helper_lookup_tb_ptr has dropped to the fourth hottest function,
-with consumption dropping to a sixth of the runtime.  Within the
-entire execution, cpu_get_tb_cpu_state has dropped below 1%, and the
-supporting function to rebuild hflags also consumes about 1%.
-
-Assertions are retained for --enable-debug-tcg.
-
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191023150057.25731-25-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20191017132122.4402-2-peter.maydell@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ hw/net/fsl_etsec/etsec.h | 1 -
+ hw/net/fsl_etsec/etsec.c | 9 +++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c55783e5406..63815fc4cfc 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11259,12 +11259,15 @@ void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
- void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                           target_ulong *cs_base, uint32_t *pflags)
- {
--    uint32_t flags, pstate_for_ss;
-+    uint32_t flags = env->hflags;
-+    uint32_t pstate_for_ss;
+diff --git a/hw/net/fsl_etsec/etsec.h b/hw/net/fsl_etsec/etsec.h
+index 09d05c21338..7951c3ad65f 100644
+--- a/hw/net/fsl_etsec/etsec.h
++++ b/hw/net/fsl_etsec/etsec.h
+@@ -141,7 +141,6 @@ typedef struct eTSEC {
+     uint16_t phy_control;
  
-     *cs_base = 0;
--    flags = rebuild_hflags_internal(env);
-+#ifdef CONFIG_DEBUG_TCG
-+    assert(flags == rebuild_hflags_internal(env));
-+#endif
+     /* Polling */
+-    QEMUBH *bh;
+     struct ptimer_state *ptimer;
  
--    if (is_a64(env)) {
-+    if (FIELD_EX32(flags, TBFLAG_ANY, AARCH64_STATE)) {
-         *pc = env->pc;
-         if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-             flags = FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
+     /* Whether we should flush the rx queue when buffer becomes available. */
+diff --git a/hw/net/fsl_etsec/etsec.c b/hw/net/fsl_etsec/etsec.c
+index d9b3e8c691e..717de76569a 100644
+--- a/hw/net/fsl_etsec/etsec.c
++++ b/hw/net/fsl_etsec/etsec.c
+@@ -34,7 +34,6 @@
+ #include "etsec.h"
+ #include "registers.h"
+ #include "qemu/log.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ 
+ /* #define HEX_DUMP */
+@@ -195,9 +194,11 @@ static void write_dmactrl(eTSEC          *etsec,
+ 
+     if (!(value & DMACTRL_WOP)) {
+         /* Start polling */
++        ptimer_transaction_begin(etsec->ptimer);
+         ptimer_stop(etsec->ptimer);
+         ptimer_set_count(etsec->ptimer, 1);
+         ptimer_run(etsec->ptimer, 1);
++        ptimer_transaction_commit(etsec->ptimer);
+     }
+ }
+ 
+@@ -391,10 +392,10 @@ static void etsec_realize(DeviceState *dev, Error **errp)
+                               object_get_typename(OBJECT(dev)), dev->id, etsec);
+     qemu_format_nic_info_str(qemu_get_queue(etsec->nic), etsec->conf.macaddr.a);
+ 
+-
+-    etsec->bh     = qemu_bh_new(etsec_timer_hit, etsec);
+-    etsec->ptimer = ptimer_init_with_bh(etsec->bh, PTIMER_POLICY_DEFAULT);
++    etsec->ptimer = ptimer_init(etsec_timer_hit, etsec, PTIMER_POLICY_DEFAULT);
++    ptimer_transaction_begin(etsec->ptimer);
+     ptimer_set_freq(etsec->ptimer, 100);
++    ptimer_transaction_commit(etsec->ptimer);
+ }
+ 
+ static void etsec_instance_init(Object *obj)
 -- 
 2.20.1
 
