@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B550AE2C59
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:39:31 +0200 (CEST)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF365E2C85
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:51:37 +0200 (CEST)
+Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYeY-0002XM-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37680)
+	id 1iNYqG-0001ii-EB
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iNYPV-0007bl-4G
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:23:58 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1iNYQg-0000jP-6v
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:25:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iNYPU-0001xb-08
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:23:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38488
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <sgarzare@redhat.com>) id 1iNYQc-0003Yr-Gk
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:25:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46788)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iNYPT-0001wL-S4
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:23:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571905435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h0IWtDF0ADfFiEaFyX2zpoTuXxmHqzoVzuCAkngFNh0=;
- b=W739Kg4HKS69jS7xVLf3WNbJxJHCdkGJVOY64SoEQAp+8QOcehpnJG7BwujiFP/toovmP8
- x1e4Uq6yG4UmrIK0yzixzQ5tQU4qkSVvGcQJ8MXjqMkxgr3VJrMNhdS1O4iqXWskcg6dT3
- AoHsaiPtYAylggiIisOCL27+PXeP35U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-z-8UBYFEMii8hQvvTnRaXw-1; Thu, 24 Oct 2019 04:23:53 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iNYQc-0003QV-9s
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:25:06 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67870800D5A;
- Thu, 24 Oct 2019 08:23:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
- [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 080395D9CA;
- Thu, 24 Oct 2019 08:23:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5A5759DB6; Thu, 24 Oct 2019 10:23:51 +0200 (CEST)
-Date: Thu, 24 Oct 2019 10:23:51 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <huth@tuxfamily.org>
-Subject: Re: [PATCH] qemu-options: Rework the help text of the '-display'
- option
-Message-ID: <20191024082351.n2j3ffimqlpbgqf3@sirius.home.kraxel.org>
-References: <20191023120129.13721-1-huth@tuxfamily.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id 556EE81F13
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 08:25:04 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id v8so11504145wrt.16
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 01:25:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=PMK3FoVqeHtFAHu+Je0eiPFwasL9q0NBMhYVU8ZwzB4=;
+ b=Dba1fZKBXVtRD3qrMSLnKBwN1adyjCBSIvG67Sx9iRnwT41n+AR+4bsRZIK58U4LjK
+ 3GfDbGVAHIRBzHbuRiHDFk4cEzzGDMvegvkHpeJjk6lSa4xQp+ICjjaKiOJtcrMJ/oEv
+ RfkFN+tY+wuv8cYAqFeghPU00AsEh2Y1wDML3ynAdxGw1O4XyVFLLqvtpt7iyDGxf1K/
+ xwkfd9BNlqMgyyQk+Wyw+gHR8VRlaRJX3GvHL8GlyTJ4S6CParrUmpss7NnP59gkJfv5
+ aapl3o6Om/8JhlQpIk1KRWiNYcG4wHjcPGCwmixWpP2gkv6jvXoXA26kIPmZCWzhuaPu
+ D98A==
+X-Gm-Message-State: APjAAAUHA0BJlvBdc7+qdwAnukLk6Qyq36tBva4WxtHzBtlLxnGdhqvg
+ X4/8Zh2CU/qQVozd2hzsj+0p9A2H/mKKS7RVLQO5ohOUSmg2YkNmOlgxJ+1u2j1M3srT5TZPoTP
+ HQqxuBPX3s9f+vEc=
+X-Received: by 2002:a1c:a551:: with SMTP id o78mr3490054wme.4.1571905502997;
+ Thu, 24 Oct 2019 01:25:02 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwCrSfCK0gJgzYTlEHS/uh83ZkT3aeUAG/WwGkPpFjkyxCZ00GHxfDeo0ZBPSVKO59hOMMrkg==
+X-Received: by 2002:a1c:a551:: with SMTP id o78mr3490027wme.4.1571905502713;
+ Thu, 24 Oct 2019 01:25:02 -0700 (PDT)
+Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it.
+ [79.52.200.174])
+ by smtp.gmail.com with ESMTPSA id v128sm2945588wmb.14.2019.10.24.01.25.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 01:25:02 -0700 (PDT)
+Date: Thu, 24 Oct 2019 10:25:00 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Jidong Xia <xiajidong@cmss.chinamobile.com>
+Subject: Re: [PATCH] hw/audio: fix a memory leak in OPLCreate()
+Message-ID: <20191024082500.q3t4fmsc5crxp2yc@steredhat>
+References: <1571824420-24893-1-git-send-email-xiajidong@cmss.chinamobile.com>
 MIME-Version: 1.0
-In-Reply-To: <20191023120129.13721-1-huth@tuxfamily.org>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: z-8UBYFEMii8hQvvTnRaXw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1571824420-24893-1-git-send-email-xiajidong@cmss.chinamobile.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,29 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 02:01:28PM +0200, Thomas Huth wrote:
-> Improve the help text of the "-display" option:
->=20
-> - Only print the options that we have enabled in the binary
->   (similar to what we do for other options like -netdev already)
->=20
-> - The "frame=3Don|off" from "-display sdl" has been removed in commit
->   09bd7ba9f5f7 ("Remove deprecated -no-frame option"), so we should
->   not show this in the help text anymore
->=20
-> - The "-display egl-headless" line was missing a "\n" at the end
->=20
-> - Indent the default display text in a nicer way
->=20
-> Signed-off-by: Thomas Huth <huth@tuxfamily.org>
+On Wed, Oct 23, 2019 at 05:53:40PM +0800, Jidong Xia wrote:
+> There is a memory leak in OPLCreate(),Should free allocated mem
+> before return.
+> 
+> Signed-off-by: Jidong Xia <xiajidong@cmss.chinamobile.com>
+> ---
+>  hw/audio/fmopl.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
+> index 9f50a89..ca9825b 100644
+> --- a/hw/audio/fmopl.c
+> +++ b/hw/audio/fmopl.c
+> @@ -1112,6 +1112,7 @@ FM_OPL *OPLCreate(int clock, int rate)
+>  		opl_dbg_maxchip++;
+>  	}
+>  #endif
+> +	free(ptr);
+>  	return OPL;
 
-Queue up for UI.
+I don't know this code well, but I don't think is correct to free 'ptr' in
+the success case, since it is the pointer returned by this function that
+will be freed by OPLDestroy().
 
-thanks,
-  Gerd
+Does that sound right or did I miss something?
 
+Thanks,
+Stefano
 
