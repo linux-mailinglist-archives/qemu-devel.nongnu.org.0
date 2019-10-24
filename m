@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A617CE3592
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:29:35 +0200 (CEST)
-Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABE3E35E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:46:40 +0200 (CEST)
+Received: from localhost ([::1]:44506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe7K-0004vm-87
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
+	id 1iNeNp-0004NS-VK
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNdkq-0002db-5a
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:06:21 -0400
+ (envelope-from <bounces@canonical.com>) id 1iNaOJ-0008DS-2y
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:30:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNdko-0000Ky-Qb
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:06:19 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:37830)
+ (envelope-from <bounces@canonical.com>) id 1iNaOH-0007c1-M5
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:30:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37530)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNdko-0000Ko-L1
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:06:18 -0400
-Received: by mail-qk1-x741.google.com with SMTP id u184so23519521qkd.4
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nfmjIwBPnkA+wvYUM3VvUWJrrt75lDRQLCmDT4Oelhc=;
- b=aUy+IeyeiEr0dCVl1bdkYDbzGFbXs3PXmVpvnYq8vIV4OmFYST3S55UUsRxT3R6AS5
- gjjcUHQ24JQ+96M58whEJPGBaD9zvkwZ06m0JbvJUwuBOzaSUjplymHUqYRNLg3sjCxw
- droWLMjnEHqNp9Wm851h0/jo80rBeB1tg4/EYpN7Ag3JqhGfveoGcZiEzZEnY42R9JFg
- pF+pjJT94/WxJvIqSEOPqhsxSvYXmeNjE/k6EhMc22jMItYrud+blKMLOlWHpBQ/DDai
- RGJnbngM5CAGgyFGHrboZH4RTo8HYdSaWU/qNixoeMEvnvZ2md9JwnZnWJgt62B7NAzY
- EN2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nfmjIwBPnkA+wvYUM3VvUWJrrt75lDRQLCmDT4Oelhc=;
- b=nXeGovGT3t6miOJVn9ouuDhTxRYUCQvUSd/Xw+Sz6LzyAXrDcWR8+TEGl2c+OSn00u
- iNxHJw1FFapQaUG+qF6Z2BpycAq+kxSol2UnQUZtyzuQhXekWdipY+NN34LTt5ieSmy4
- td+I7wZ8V5JCr5Xxtx5YLi024aP1O3DSHKlTzAR3MNaZ3QTuVlmelh2zYsd5dCzhsNUE
- 1p4XJx/aQ7l8V1lVtsoHr/3WxEsX01oG74WT+mMSfnX5HwUtF4TU695U8WQMTjfS+M0o
- V1vwlg6LB1orW4gNu0YYFXIYVdhQylcW428mcYYE9nFQQYbY5VGwkCH7KBKKKdgvn++E
- 5CZg==
-X-Gm-Message-State: APjAAAVhetKdCHUfEef6pvWS/pDd//NnyYCWo+3nHjyk6jaaKf1MjEE7
- ZDe9lLhudvF4DMb5o4YHcSvjaw==
-X-Google-Smtp-Source: APXvYqzI525ktSqQ9coMyMsoE29dnvdQ1QiGVKpwiCf9MntngloXZKXNMaH0ndHqYI5YBvJYh1OKig==
-X-Received: by 2002:a37:4e81:: with SMTP id c123mr1066034qkb.468.1571925977776; 
- Thu, 24 Oct 2019 07:06:17 -0700 (PDT)
-Received: from [172.20.87.163] (rrcs-172-254-253-50.nyc.biz.rr.com.
- [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id d55sm17723809qta.41.2019.10.24.07.06.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:06:17 -0700 (PDT)
-Subject: Re: [PATCH v2 1/7] cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191023154505.30521-1-richard.henderson@linaro.org>
- <20191023154505.30521-2-richard.henderson@linaro.org>
- <55b477b7-877e-954f-2175-ed36fa787600@redhat.com>
- <e41a98e4-189a-1e0f-7b29-51a6e00e4d7e@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <26cb0551-fbac-e059-c1bf-9c17420528b7@linaro.org>
-Date: Thu, 24 Oct 2019 10:06:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iNaOH-0007be-DD
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:30:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iNaOF-00028R-G8
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:30:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 70A3B2E80C0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:30:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <e41a98e4-189a-1e0f-7b29-51a6e00e4d7e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 24 Oct 2019 10:23:06 -0000
+From: Samuel <samuel@cendio.se>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: samuel-t
+X-Launchpad-Bug-Reporter: Samuel (samuel-t)
+X-Launchpad-Bug-Modifier: Samuel (samuel-t)
+Message-Id: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
+Subject: [Bug 1849644] [NEW] QEMU VNC websocket proxy requires non-standard
+ 'binary' subprotocol
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 172e9ee982931c2985dcd72d3813d9d80f059b59
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Thu, 24 Oct 2019 10:19:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,45 +66,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Wei Yang <richardw.yang@linux.intel.com>
+Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 8:04 AM, Paolo Bonzini wrote:
-> On 24/10/19 13:52, Philippe Mathieu-Daudé wrote:
->>> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
->>> index ad9ab85eb3..255bb186ac 100644
->>> --- a/include/exec/cpu-all.h
->>> +++ b/include/exec/cpu-all.h
->>> @@ -220,7 +220,7 @@ extern int target_page_bits;
->>>     #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
->>>   #define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
->>> -#define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) &
->>> TARGET_PAGE_MASK)
->>> +#define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
->>>     /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
->>>    * when intptr_t is 32-bit and we are aligning a long long.
->>> @@ -228,9 +228,8 @@ extern int target_page_bits;
->>>   extern uintptr_t qemu_host_page_size;
->>>   extern intptr_t qemu_host_page_mask;
->>>   -#define HOST_PAGE_ALIGN(addr) (((addr) + qemu_host_page_size - 1) &
->>> qemu_host_page_mask)
->>> -#define REAL_HOST_PAGE_ALIGN(addr) (((addr) +
->>> qemu_real_host_page_size - 1) & \
->>> -                                    qemu_real_host_page_mask)
->>> +#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
->>> +#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr),
->>> qemu_real_host_page_size)
->>>     /* same as PROT_xxx */
->>>   #define PAGE_READ      0x0001
->>>
-> 
-> Isn't this the patch where Richard pointed out that the compiler
-> generates worse code?
+Public bug reported:
 
-Richard confused ROUND_UP with QEMU_ALIGN_UP.
+When running a machine using "-vnc" and the "websocket" option QEMU
+seems to require the subprotocol called 'binary'. This subprotocol does
+not exist in the WebSocket specification. In fact it has never existed
+in the spec, in one of the very early drafts of WebSockets it was
+briefly mentioned but it never made it to a final version.
 
+When the WebSocket server requires a non-standard subprotocol any
+WebSocket client that works correctly won't be able to connect.
 
-r~
+One example of such a client is noVNC, it tells the server that it
+doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't let
+noVNC connect. If noVNC is modified to ask for 'binary' it will work,
+this is, however, incorrect behavior.
 
+Looking at the code in "io/channel-websock.c" it seems it's quite hard-
+coded to binary:
+
+Look at line 58 and 433 here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+
+This code has to be made more dynamic, and shouldn't require binary.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1849644
+
+Title:
+  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+
+Status in QEMU:
+  New
+
+Bug description:
+  When running a machine using "-vnc" and the "websocket" option QEMU
+  seems to require the subprotocol called 'binary'. This subprotocol
+  does not exist in the WebSocket specification. In fact it has never
+  existed in the spec, in one of the very early drafts of WebSockets it
+  was briefly mentioned but it never made it to a final version.
+
+  When the WebSocket server requires a non-standard subprotocol any
+  WebSocket client that works correctly won't be able to connect.
+
+  One example of such a client is noVNC, it tells the server that it
+  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
+  let noVNC connect. If noVNC is modified to ask for 'binary' it will
+  work, this is, however, incorrect behavior.
+
+  Looking at the code in "io/channel-websock.c" it seems it's quite
+  hard-coded to binary:
+
+  Look at line 58 and 433 here:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+
+  This code has to be made more dynamic, and shouldn't require binary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
