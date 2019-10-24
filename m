@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE56E3698
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:26:45 +0200 (CEST)
-Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97544E36AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:30:33 +0200 (CEST)
+Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNf0f-0000Z3-0h
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
+	id 1iNf4K-00041j-Ln
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:30:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34912)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj0-0007vT-GO
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:31 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj5-00085c-T7
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiz-0007m2-Ah
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:26 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45369)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj0-0007mh-MA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:31 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36121)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdiz-0007lU-4M
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:25 -0400
-Received: by mail-wr1-x436.google.com with SMTP id q13so21265717wrs.12
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:25 -0700 (PDT)
+ id 1iNdj0-0007mK-FT
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:26 -0400
+Received: by mail-wr1-x441.google.com with SMTP id w18so25704097wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7GTd0Y4rUsiUUYjOXhHXbd2x4/qEqgV6Jh7YlKYq2OY=;
- b=FadYr7DeaU2z/kPbeGixm/CF3srccqBCeeTzhUD21MqS4lBqM8CNuJORHtxbjZK4S/
- qcVACiMHClZ7dKmF0ibDP9DmGk7ZOTCLZDt+nEEy9peVBdNovMHkB7Oe3WHFpOKbMwqC
- F3HEjFDjAdqPiw8LDVQ0uKbP3XFRDvcEEktQGepExQr9pss0t6F1i78ftjEkQkCCkf/5
- NtziyQzSMlRT4zDNayvtQw6FJixw4LQIPgBW0eIxNyAvkNo8FpCaTIXZb5GZKMSkn0Yx
- byw/RYH4zH9aOfCIuYuoqM8y+5G5E2g2O5zxaoP7SW4oNCctcon9xPSGK7sGJcv2MfhR
- JX0A==
+ bh=Kzf1c4TzoS2R1SZRxcUgo2l6hUVF5Eo0UE969kM5Oa0=;
+ b=Cdi8J5G9WR+ndYXf7tLlWejwFtV5vnf/Rr/CMx1lmiu1wk0LbSjBopudbufhFNvSZu
+ CwMS/UTaAEoyJEAYewA6PdWbAejEEKBGPCKdzpcW1IjvF0pAwQi70HNwIKFdoBWmC7XN
+ CxGuxJhP5+ni9LnBIG2ZctCYD8z90h7EH4VhPKLjYfwtImTqI+79Oiif0v4xbHbr1Pkz
+ jAEM0HRMj/yI5MOQkkhht5BPkxzF/Yc7HM/sU4aaldng150RuM4Ix3JAWlOhklVYXhC8
+ 86VwYVf1J4QdwLHt+gLNGQ/hLmEGfcc4UEW14vqQhBIHNcj9IaMlW/U6wdCNHxfKHr4v
+ 40hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7GTd0Y4rUsiUUYjOXhHXbd2x4/qEqgV6Jh7YlKYq2OY=;
- b=F3/B+PB3xhELVWeRf5GV4j8QqxoyetBVnYTjXV6Y9cqaZfoUXgs7y02+uoa8UhlX69
- vnemIzWPCzeGnVlMJc9c5bWczDMJ/wWDZOSRkaF/NAThasJYKaBvefSJSfE5StD8UnAe
- xYlUOW4jDiKmmhbZLllsNzJOuUDN1G3EW4gHIjMWfvdzFjHQU/Z1tIvjXcR4Q3ah5nrl
- +DnQbqetQg9KOr75ut57dCM5YbpAnFGbCYwU5mXhNCe+LgY1Yi8TZrS6YozrFgyg/JEA
- gDhTbzSgNcDQ853HuogJrmx3fMjRad5v9lEaZjjcPDCQ3+omC4ZmGaeeSrYRglofKqo7
- UuyQ==
-X-Gm-Message-State: APjAAAWOtBjPW/o1tXBUBcpasdqPIRisXG3d9Lh/GBh/i7lp/dedjTYP
- 723jlpYHoQlTzR57qWeq9CDrzGp3
-X-Google-Smtp-Source: APXvYqwa/DSSmc9ZUag4HqvzvlUhpgy7cZ3c7HSq4u+f/uNPA4s/KDStNkv3NO8eAgJGBd1t3MLLIg==
-X-Received: by 2002:adf:9c81:: with SMTP id d1mr3872040wre.238.1571925863761; 
- Thu, 24 Oct 2019 07:04:23 -0700 (PDT)
+ bh=Kzf1c4TzoS2R1SZRxcUgo2l6hUVF5Eo0UE969kM5Oa0=;
+ b=r5sbHEX7k7Jh3EPbwZIHFuYjp0yfDj+jgEBTzXA5c/2LdtNNcrIwpk+Qj+mAze0zoI
+ TkK5Xfnd2JGiHB7RcWQlnpmbv8nbPggv/gF4Aa0pSeWDzX+AqSHUM2uZJZGudz0l2vLO
+ +j/IhtPF9rE1Gf9pK8ckhC3D8bqxl3XoSq/Dds3VHsCvL6sE04I6CajM+wQOgq4Jtw/o
+ 47nN24IT0ZLboURHVvSbkCB+g/ZD9Wk36UJZZFeZv3lizHBz6PrX3GyddQcLvrY0aTjf
+ U8SBW5YM2aEyowFkIdhlm1Xi1Zg1FNchRLHLj2W0DxJMZtZyKZOcBibAc8wqnZ6C8EFy
+ Ltdg==
+X-Gm-Message-State: APjAAAWY5xYJHTsCa1yBsW0vB8YRfd+TjSmf1Ok5bEGmSB8R/3rjmcAM
+ pQGYKiFs/yQDJeVgprTPsR6PsP6J
+X-Google-Smtp-Source: APXvYqwOPEWyxZCon/NCiEhGbJNTw9d6Hkezv6qcgkyZQTBlHdXrIvGsbi3b1XwO1HQ1rC6GjcNAeA==
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr4390717wrw.80.1571925864951; 
+ Thu, 24 Oct 2019 07:04:24 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.22
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.23
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:22 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/39] hw/timer/mc146818rtc: Only include qapi-commands-misc on
- I386
-Date: Thu, 24 Oct 2019 16:03:40 +0200
-Message-Id: <1571925835-31930-25-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 25/39] x86/cpu: Add support for UMONITOR/UMWAIT/TPAUSE
+Date: Thu, 24 Oct 2019 16:03:41 +0200
+Message-Id: <1571925835-31930-26-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,41 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Jingqi Liu <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
 
-Commit a6c7040fb09 restricted the rtc-reset-reinjection command
-to the I386 target.
-Restrict the "qapi/qapi-commands-misc-target.h" header to it too.
+UMONITOR, UMWAIT and TPAUSE are a set of user wait instructions.
+This patch adds support for user wait instructions in KVM. Availability
+of the user wait instructions is indicated by the presence of the CPUID
+feature flag WAITPKG CPUID.0x07.0x0:ECX[5]. User wait instructions may
+be executed at any privilege level, and use IA32_UMWAIT_CONTROL MSR to
+set the maximum time.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191017162614.21327-1-philmd@redhat.com>
+The patch enable the umonitor, umwait and tpause features in KVM.
+Because umwait and tpause can put a (psysical) CPU into a power saving
+state, by default we dont't expose it to kvm and enable it only when
+guest CPUID has it. And use QEMU command-line "-overcommit cpu-pm=on"
+(enable_cpu_pm is enabled), a VM can use UMONITOR, UMWAIT and TPAUSE
+instructions. If the instruction causes a delay, the amount of time
+delayed is called here the physical delay. The physical delay is first
+computed by determining the virtual delay (the time to delay relative to
+the VMâ€™s timestamp counter). Otherwise, UMONITOR, UMWAIT and TPAUSE cause
+an invalid-opcode exception(#UD).
+
+The release document ref below link:
+https://software.intel.com/sites/default/files/\
+managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf
+
+Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
+Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Message-Id: <20191011074103.30393-2-tao3.xu@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/timer/mc146818rtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c | 2 +-
+ target/i386/cpu.h | 2 ++
+ target/i386/kvm.c | 6 ++++++
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-index 0e7cf97..c979db0 100644
---- a/hw/timer/mc146818rtc.c
-+++ b/hw/timer/mc146818rtc.c
-@@ -37,12 +37,12 @@
- #include "hw/timer/mc146818rtc.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc-target.h"
- #include "qapi/qapi-events-misc-target.h"
- #include "qapi/visitor.h"
- #include "exec/address-spaces.h"
- 
- #ifdef TARGET_I386
-+#include "qapi/qapi-commands-misc-target.h"
- #include "hw/i386/apic.h"
- #endif
- 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6c87c99..b635302 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1058,7 +1058,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             NULL, "avx512vbmi", "umip", "pku",
+-            NULL /* ospke */, NULL, "avx512vbmi2", NULL,
++            NULL /* ospke */, "waitpkg", "avx512vbmi2", NULL,
+             "gfni", "vaes", "vpclmulqdq", "avx512vnni",
+             "avx512bitalg", NULL, "avx512-vpopcntdq", NULL,
+             "la57", NULL, NULL, NULL,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index c50a9c7..112f867 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -731,6 +731,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_ECX_PKU               (1U << 3)
+ /* OS Enable Protection Keys */
+ #define CPUID_7_0_ECX_OSPKE             (1U << 4)
++/* UMONITOR/UMWAIT/TPAUSE Instructions */
++#define CPUID_7_0_ECX_WAITPKG           (1U << 5)
+ /* Additional AVX-512 Vector Byte Manipulation Instruction */
+ #define CPUID_7_0_ECX_AVX512_VBMI2      (1U << 6)
+ /* Galois Field New Instructions */
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 49a3011..94c2339 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -401,6 +401,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         if (host_tsx_blacklisted()) {
+             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+         }
++    } else if (function == 7 && index == 0 && reg == R_ECX) {
++        if (enable_cpu_pm) {
++            ret |= CPUID_7_0_ECX_WAITPKG;
++        } else {
++            ret &= ~CPUID_7_0_ECX_WAITPKG;
++        }
+     } else if (function == 7 && index == 0 && reg == R_EDX) {
+         /*
+          * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
 -- 
 1.8.3.1
 
