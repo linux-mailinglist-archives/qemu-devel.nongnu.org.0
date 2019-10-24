@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5868E36C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:34:06 +0200 (CEST)
-Received: from localhost ([::1]:45452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70616E3631
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:08:31 +0200 (CEST)
+Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNf7l-0001gS-FI
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:34:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34958)
+	id 1iNej0-0001Yb-BY
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjA-0008Cw-0c
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjD-0008IW-Li
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj8-0007rf-Ie
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:35 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43856)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjB-0007tb-I3
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:38 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36888)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdj8-0007qe-Bs
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:34 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c2so21003643wrr.10
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:34 -0700 (PDT)
+ id 1iNdjB-0007tE-C7
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id e11so17538969wrv.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xgA/nfPYbU/wnzE4LWtTg2UNcRZThw4UJ6slzE0LxoU=;
- b=LbMyW7bKdslaII83GV1xbLROtaD+ZotfiirSUVD6vJceeKbss9ykHyWY76DHQkzb0v
- XA0+h3YzwhginXpGBGSbXJ/uCeBUpnrJ9POhoYIbdSqavtLxq/ZJ5SELoRziAnASR9QF
- IWnMcLUyhFgML4IdiMhUXT50eyUApRgvr3C8VzV76BAi9ICNSdXAzLaCN+H/fq1+mu9E
- K6JwA0OrJfvC5ZJ0Gd/3J8rPd5gtPedWe1z4nE/WGayU0KC+AsC8K35yrb8HuDcGMNEZ
- imclijIqlHfgCsKaMkOSokWftwCOyxUcbr6lwcoWu5tvmgseo/tVh7zPAYxdU7zwhW2f
- QgOA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=tKEZ3xBORUH745lD3K4++eyOpvEvcJPLpryLwnDHKcA=;
+ b=KlYALKahNrJgFupyMnWGV0LlYr32drx9DnG/SugQq6IuVOVVjRaWxWpEGDO1XbhjFC
+ keugCdxBvjG5HmVg6dpx4HKuTfXECz1KuMALAnPl59mELmoLQvumifgoOc/siIAg+idl
+ 318wjDZbc6QTr+EHdm9JEIMXuvKGNmZS61D1WZETZOTuYc037mHVHAhTaHkIXrSnw5y/
+ +5E1HyKTsuRxyVea7ZTJcgDQB0xwE97oHkkiZJeI6+ITBK7hwGz+r0ohzlucDetv11t3
+ 28QudQkeS7FqssnX9PkhmdoSGOBlnNL7D3SdPLldYLTlCmjwhhdbgs4JXJ43VSpR1uGb
+ PI6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xgA/nfPYbU/wnzE4LWtTg2UNcRZThw4UJ6slzE0LxoU=;
- b=AYHqkkS31fVG71YoFJl3Fgnn0lmXzH9aOSM+gAnE9DL4+27ZOw+XCm7Zy44iwIm8t4
- k8JRtv9Rp+uZ37Epujq3s0XtU55KqDnM5uJhGU0eqq0nYsLOB576RJdE35q1Kjnw2tqu
- Ll6tcOIxh26JS5ISqZiZSZ89NoL5nRgKp/5bspIUunnMfq027ZnlSjqAk/Fzid5q30Of
- jZ2BD51BJBZzalwGbt5a4ooAJrn1GrPnwNygANX0GELE1qiMYCDJB5Zws8RF63db5+VY
- Qa5QvpP1FLdD90Z9XSrP56wUQKfX2Hcmm1z4YlaERxD+1ZuUh2sfDZgXnwKTx5pf1P9x
- MVJg==
-X-Gm-Message-State: APjAAAXgieRbzd/3Hsm7u2kKfv4n7nUjwUgOtMTba3mWDYPKJSiQI5kJ
- xqS4Omrq/fLK0zAVNx3lbEsvfwyU
-X-Google-Smtp-Source: APXvYqzjj66oYe4cundTg3pmDCwXXDMiAMALKxgoMd1F72ypDGL6L/VT1cbtB0gzBcp5SgsZMSscag==
-X-Received: by 2002:a05:6000:11cd:: with SMTP id
- i13mr3899820wrx.197.1571925872989; 
- Thu, 24 Oct 2019 07:04:32 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=tKEZ3xBORUH745lD3K4++eyOpvEvcJPLpryLwnDHKcA=;
+ b=O5BdOjO7l5r7HkgbAF0mTCczu91/hd+47wC0R9Z+3NbWBu9NqhacONUXJPcNdO9nWF
+ gkE818xdPPcgqGaJs+I968NRPyVaczxXy8y7POAbP+O1YzhZnmd+7hNPzolukoq4jom/
+ XyrfeOpIUVPqz3CUAAh0BphNNqGfRh26wh3KAGP7Z1/LSRyJdUUkM+2DymMhpqaUoMBg
+ kkuXl/+ve+FpLn+nf0SKzAQuwMh662ca2SHb03mUq+ziXqcdFy2/7/ZMflTQxoLKmLfI
+ bk/BkK8tuAwQ8CH1fExwLxbxb7jHhkN5ogC0A68iX1mM56SSVWJpNFQjUP9kX1aK1gEn
+ d0Dg==
+X-Gm-Message-State: APjAAAXX5YcsziPX0pCYe1YswdbWnqy4LWNjsUD+/gcOybAbNbjW6uzS
+ 8Lt13wAHsE8quY4Jy0wstbhPcLM5
+X-Google-Smtp-Source: APXvYqxnVvBj2e5TpYey+vMYgfaOnlGHnVomlb65E2bZN3wJr/Wsage04i80XZzjZehgmA/Zp1v1xw==
+X-Received: by 2002:a5d:424a:: with SMTP id s10mr3904767wrr.108.1571925876167; 
+ Thu, 24 Oct 2019 07:04:36 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.31
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.35
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:32 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/39] mc146818rtc: Move RTC_ISA_IRQ definition
-Date: Thu, 24 Oct 2019 16:03:48 +0200
-Message-Id: <1571925835-31930-33-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 35/39] audio: fix missing break
+Date: Thu, 24 Oct 2019 16:03:51 +0200
+Message-Id: <1571925835-31930-36-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,65 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reported by Coverity (CID 1406449).
 
-The ISA default number for the RTC devices is not related to its
-registers neither. Move this definition to "hw/timer/mc146818rtc.h".
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191018133547.10936-3-philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/timer/mc146818rtc.h      | 2 ++
- include/hw/timer/mc146818rtc_regs.h | 2 --
- tests/rtc-test.c                    | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ audio/paaudio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/mc146818rtc.h
-index 0f1c886..17761cf 100644
---- a/include/hw/timer/mc146818rtc.h
-+++ b/include/hw/timer/mc146818rtc.h
-@@ -39,6 +39,8 @@ typedef struct RTCState {
-     QLIST_ENTRY(RTCState) link;
- } RTCState;
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index df541a7..55a91f8 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -385,6 +385,7 @@ static pa_stream *qpa_simple_new (
+         map.map[5] = PA_CHANNEL_POSITION_REAR_RIGHT;
+         map.map[6] = PA_CHANNEL_POSITION_SIDE_LEFT;
+         map.map[7] = PA_CHANNEL_POSITION_SIDE_RIGHT;
++        break;
  
-+#define RTC_ISA_IRQ 8
-+
- ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
- void rtc_set_memory(ISADevice *dev, int addr, int val);
-diff --git a/include/hw/timer/mc146818rtc_regs.h b/include/hw/timer/mc146818rtc_regs.h
-index bfbb57e..631f71c 100644
---- a/include/hw/timer/mc146818rtc_regs.h
-+++ b/include/hw/timer/mc146818rtc_regs.h
-@@ -27,8 +27,6 @@
- 
- #include "qemu/timer.h"
- 
--#define RTC_ISA_IRQ 8
--
- #define RTC_SECONDS             0
- #define RTC_SECONDS_ALARM       1
- #define RTC_MINUTES             2
-diff --git a/tests/rtc-test.c b/tests/rtc-test.c
-index 6309b0e..18f8956 100644
---- a/tests/rtc-test.c
-+++ b/tests/rtc-test.c
-@@ -15,6 +15,7 @@
- 
- #include "libqtest-single.h"
- #include "qemu/timer.h"
-+#include "hw/timer/mc146818rtc.h"
- #include "hw/timer/mc146818rtc_regs.h"
- 
- #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
+     default:
+         dolog("Internal error: unsupported channel count %d\n", ss->channels);
 -- 
 1.8.3.1
 
