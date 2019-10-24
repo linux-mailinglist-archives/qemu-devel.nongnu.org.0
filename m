@@ -2,106 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5237E3561
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:18:22 +0200 (CEST)
-Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4333CE3571
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:22:41 +0200 (CEST)
+Received: from localhost ([::1]:43940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdwT-0001GI-Q3
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52881)
+	id 1iNe0d-0007Y8-IT
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iNclj-0007D7-7F
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:03:12 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNcrZ-0001AW-UK
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:09:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iNclh-0003ht-Kr
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:03:11 -0400
-Received: from mail-eopbgr140125.outbound.protection.outlook.com
- ([40.107.14.125]:57347 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iNcle-0003fz-0r; Thu, 24 Oct 2019 09:03:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LMrDAtqfv1/Tdcz159SEwX0Ph28Iw74Tc4vpe49dol6pjUjuMEK8ROfjmwjFXU0jrp57xDNoAMdK/PpnCGYw4PlcybJgyBgR818iv70MoMTjsbekKCvb+awRsup9rzzVdH+vk0RLgdVZeZqQSKYHmm8jd/QcSxJfC5j8u6XNpaJrKudzYSSUdB8tkg1muq8+rMRI7ePtzMDI6d6kGOLnS8uU5e8kRZWISef1/YDQSYdHg+K6YvL5CoXk9iYsPjAJ1xsKdVlrUJeDDri0Freh48kSObxFwxrX/BzLSIeR4RJ1tZqzXrGDOC2AxpdqonP1YfWPEP03qu5IaKSWtpHIhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yacGPRWU9MYLS0+/J7IaAQDZemZcXVpU+7TOHacuQ9k=;
- b=Ix1z9St+m1SHqcwm0X0t3AHfkIOAGuoR7dXv8zyKI6p0v+UYY5OXMBYy+zarKyL0+Y27F5IktkbTvdBcIWfoa++NhR8KqFZu1MuSGT7jf1EBP+69hLmW37Exiex4x/UqqtS92xmXLe0fI1AjzI59zT/m5JM0tbaBGvoTGAMd3I7TFzgxxPhUoMsW+RUSXXX0vcDckNIxRFCB4vgjv18j16yMtrK33OWyd7UjByUuTswXd5Z9qZ5cd5XCrC9sDoWy1E8yJUdSQAUpgpCHOrTFPZPNtieifGjrwn8xpbSyf/Zpd0rHcvO+HxoCZm3+jHKYQNBLR/GvylJNjs/p1kw6Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yacGPRWU9MYLS0+/J7IaAQDZemZcXVpU+7TOHacuQ9k=;
- b=PS2PBUGTtYU4g/fWfhrpe5TaQoaHQ9KCMf1GQsd0FssTcGFsUUETbY0FKWVabFNJp9xCPdy9GjyAnjOZ5i6Rk8Kq8yW7aox3qn+l5SFGxumARfgi5o6pnomm+rmNZJesWimBIPbJK8BOIhfYhU719ykwo4AUAn7iQMjHNm2q8ZQ=
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com (20.179.35.83) by
- AM0PR08MB3938.eurprd08.prod.outlook.com (20.178.117.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.24; Thu, 24 Oct 2019 13:03:03 +0000
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c]) by AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c%7]) with mapi id 15.20.2367.027; Thu, 24 Oct 2019
- 13:03:03 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>
-Subject: Re: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
- s->lock
-Thread-Topic: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
- s->lock
-Thread-Index: AQHVibZR6fc2tpZq4EaFSnKTSW5YwadpkIYAgAAPyQCAACL/gA==
-Date: Thu, 24 Oct 2019 13:03:03 +0000
-Message-ID: <a27c197e-c73f-e92f-8e28-1422cf313507@virtuozzo.com>
-References: <20191023152620.13166-1-kwolf@redhat.com>
- <20191023152620.13166-3-kwolf@redhat.com>
- <3600fb84-e1f1-c70a-4b83-e7a379f50614@virtuozzo.com>
- <20191024105746.GB6200@linux.fritz.box>
-In-Reply-To: <20191024105746.GB6200@linux.fritz.box>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0046.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::35)
- To AM0PR08MB4435.eurprd08.prod.outlook.com
- (2603:10a6:208:144::19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191024160301695
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6c723b30-b9da-455a-f8eb-08d758828157
-x-ms-traffictypediagnostic: AM0PR08MB3938:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR08MB393849EF0F64F261BA07CBECC16A0@AM0PR08MB3938.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:213;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39840400004)(396003)(366004)(376002)(136003)(346002)(199004)(189003)(7736002)(386003)(6246003)(6506007)(305945005)(99286004)(53546011)(3846002)(6116002)(6512007)(52116002)(6306002)(966005)(14454004)(478600001)(6636002)(66066001)(31686004)(76176011)(2906002)(6436002)(229853002)(6486002)(316002)(81156014)(81166006)(31696002)(54906003)(8676002)(86362001)(4326008)(8936002)(110136005)(186003)(476003)(2616005)(5660300002)(11346002)(446003)(14444005)(256004)(486006)(71200400001)(66446008)(71190400001)(36756003)(64756008)(66946007)(26005)(25786009)(66556008)(66476007)(102836004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3938;
- H:AM0PR08MB4435.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qwqgKLgDxWJuYcDGhn9RFnZLODKVVxcxaqd7ph8XLn+SNy1EZQCg2sihuyb2CJpT43IMWzoEjMO7QxmkSjihmD2Ds6KefgMxaRt3kfw3NZMF9u2ZH7qWegaScxcbNmCjPuXMy9zpaB8sBaq0Bdy94uuzCOtSA7VARIUwDsSCPSVycTFdxVLXgXHqb/AYEfQZXjbC8nTAeQocNUEYs9u5BdqdmoLsVjA+9MHJ4IFXPUhuEAVPxZnyqhdjwuvb7Vnjozyk7NbCffI/CShrxjuX976nH+xFs/vdi4qKQEvTDD4f2f/UbSu0cMweH5BwLFKe37Jw+2RhkceXEJnDxCq80nStRbjpzEWPnlRzy3TgvW+r/JP4ZJBTq6xY1NV3dqgJ6u1b08spXgpqf9pjs/Ht60JdBxe3FnsdYyFtPNLc9sjd2uBKqOzlW6AqX6W6iR89UryMsADfpfzNzQJxr0YNsXbHBtgo6sbmSv728mFAVHs=
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <F86B32CDA1C3DD4A8D33EEDC204A3BBD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <alex.bennee@linaro.org>) id 1iNcrU-0007sN-FH
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:09:13 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40515)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNcrU-0007rJ-6I
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:09:08 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o28so25999626wro.7
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Nl0+grapAWbnU0MgHxpuUZ4fTaIyjJKE/S1XIluE4AU=;
+ b=I/iMLLAJo42ItFK9fIlEgFTH7JsJ0W8+xhXnakZiB2Tslc2+J2qV33wyNn+X3vFA1s
+ ScTVZCluVBvwFZ3HCYbe2V6r+s3gVEQyrn4/H0r0NZL+6nHrjVz93Jn417VB67EZSZgu
+ A4kbiMtrJHTeAS3SKtbfss5Fadvpp7y/AIIp57RATSrRTPWV1BvVjdA0LykUU8Wj9XOE
+ 5XY60NkGgDnfpNIj8+pyBM24oDhiKRl6x53ZzmlbaMPM2ob9/Wg6o4eKxbcLcthCLnLz
+ 40I3BbilYWhlSGYOGwVbPqT+hHQaLoyRD9WAnMBu9KakNorUKpy+G1bkp8hvD8mkhhZw
+ hCFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Nl0+grapAWbnU0MgHxpuUZ4fTaIyjJKE/S1XIluE4AU=;
+ b=IJNG8r7DznWnniYRtn0F8HjF5HbP4dsD0IiyhPJEzVWjI2sneEwAMQIILVcTxQG0vU
+ 5Br9q7GtJEKrzmcE8bvQDCrBXK2FDN6eMBmVcLPnj3bPHECA3wAslsPkpKfnR7iL6Y04
+ zicGQ/hEe16FOSNHaOIiD7YAz0j7kJE6yYIhDNdqeK0jTjAL7wkGs8+etWz1fDSkZA8Y
+ zzsEhFAz4WB0qhpEgwztoptglMlb9wKP1eHubWv1d7oJZacGCDEIjHfA3cIa5TBirQ+4
+ 4syx8UUQILR3GuY2BTGlOFg4o4weM/EqaO+K0TNm0+qvGAPjqc3Y8r5T1h226PF7r+rg
+ 6ioQ==
+X-Gm-Message-State: APjAAAXkFkztmI3BOQTvd1Aa2SOZA+euFPx5Q76Ag8yMODLN+csNHf7Z
+ eXoNcTBap8hdsUxSczhOkUvUKw==
+X-Google-Smtp-Source: APXvYqxAtk9tsVPQdP6MD80mXAkZElit5pTMi6bSixI6EihNgFBc2+7RpZfUNGIWKZTUSnsuj+lEcA==
+X-Received: by 2002:adf:e38a:: with SMTP id e10mr4000117wrm.348.1571922546287; 
+ Thu, 24 Oct 2019 06:09:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s12sm2435869wrp.18.2019.10.24.06.09.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 06:09:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1B9961FF87;
+ Thu, 24 Oct 2019 14:09:03 +0100 (BST)
+References: <20191017131615.19660-1-alex.bennee@linaro.org>
+ <20191017131615.19660-38-alex.bennee@linaro.org>
+ <20191018153214.GE42857@RDU-FVFX20TUHV2H> <87wod2nj5x.fsf@linaro.org>
+ <20191022140347.GF42857@RDU-FVFX20TUHV2H>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH  v6 37/54] plugin: expand the plugin_init function to
+ include an info block
+In-reply-to: <20191022140347.GF42857@RDU-FVFX20TUHV2H>
+Date: Thu, 24 Oct 2019 14:09:03 +0100
+Message-ID: <87d0emmgsw.fsf@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c723b30-b9da-455a-f8eb-08d758828157
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 13:03:03.6812 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fi1pT88BCs/Uysd6NQskiFjknn0LVSsmtlu1SVF+eTUKVFoz5cS6NABUFCku0VzuQdub6jHwIeTSte4cI+WgWSNjXmSis8Ix4XoDOplGc9M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3938
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.125
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,85 +85,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
- "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+Cc: "robert.foley@futurewei.com" <robert.foley@futurewei.com>,
+ "cota@braap.org" <cota@braap.org>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+ "peter.puhov@futurewei.com" <peter.puhov@futurewei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-24.10.2019 13:57, Kevin Wolf wrote:
-> Am 24.10.2019 um 12:01 hat Denis Lunev geschrieben:
->> On 10/23/19 6:26 PM, Kevin Wolf wrote:
->>> qcow2_cache_do_get() requires that s->lock is locked because it can
->>> yield between picking a cache entry and actually taking ownership of it
->>> by setting offset and increasing the reference count.
->>>
->>> Add an assertion to make sure the caller really holds the lock. The
->>> function can be called outside of coroutine context, where bdrv_pread
->>> and flushes become synchronous operations. The lock cannot and need not
->>> be taken in this case.
->>>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>>   block/qcow2-cache.c | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
->>> index d29b038a67..75b13dad99 100644
->>> --- a/block/qcow2-cache.c
->>> +++ b/block/qcow2-cache.c
->>> @@ -327,6 +327,9 @@ static int qcow2_cache_do_get(BlockDriverState *bs,=
- Qcow2Cache *c,
->>>       int min_lru_index =3D -1;
->>>  =20
->>>       assert(offset !=3D 0);
->>> +    if (qemu_in_coroutine()) {
->>> +        qemu_co_mutex_assert_locked(&s->lock);
->>> +    }
+
+Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
+
+> On Oct 18 16:54, Alex Benn=C3=A9e wrote:
 >>
->> that is looking not good to me. If this is really requires lock, we shou=
-ld
->> check for the lock always. In the other hand we could face missed
->> lock out of coroutine.
->=20
-> As the commit message explains, outside of coroutine context, we can't
-> yield and bdrv_pread and bdrv_flush become synchronous operations
-> instead, so there is nothing else that we need to protect against.
->=20
+>> Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
+>>
+>> > On Oct 17 14:15, Alex Benn=C3=A9e wrote:
+>> >> +    const char *target_name;
+>> >> +    /* is this a full system emulation? */
+>> >> +    bool system_emulation;
+>> >
+>> > It seems that 'system_emulation' is meant primarily in opposition to
+>> > user-mode. I'm wondering if this could/should this be an enum of the
+>> > execution mode being used to allow for future expansion? Or, if your
+>> > intention here is mostly to allow the user to detect when the *_vcpus
+>> > variables are valid, could it be renamed or commented differently to
+>> > make that link more clear?
+>>
+>> The only other operating mode that's ever been mooted is softmmu-user
+>> (and no implementation has been done so far). Even then I don't think
+>> that is a distinction that should be reported to the plugin as we are
+>> trying not to leak implementation details.
+>>
+>> But yes the practical upshot is for system emulation you at least have
+>> sort of bounded size for how many threads you may have running.
+>
+> Fair enough. My fear was that any other operating modes might require
+> different plugin behavior, but it sounds like you think that unlikely.
+> If we're attempting to keep the implementation details hidden, should we
+> name this variable in terms of what it means for plugin implementations
+> instead of what it means for QEMU? (Not sure this is a winner, but maybe
+> something like "hardware_threading_model" )
+>
+>> >> +    info->target_name =3D TARGET_NAME;
+>> >> +#ifndef CONFIG_USER_ONLY
+>> >> +    MachineState *ms =3D MACHINE(qdev_get_machine());
+>> >> +    info->system_emulation =3D true;
+>> >> +    info->system.smp_vcpus =3D ms->smp.cpus;
+>> >> +    info->system.max_vcpus =3D ms->smp.max_cpus;
+>> >> +#else
+>> >> +    info->system_emulation =3D false;
+>> >
+>> > Thinking "out loud" here - I wonder if it would be helpful to set the
+>> > *_vcpus variables even for user mode here. It might allow unconditional
+>> > allocation of "per-cpu" structures that the plugin might need - without
+>> > first needing to check whether the *_vcpus variables were valid.
+>>
+>> but what too? It would certainly be wrong because any user-space process
+>> could create (and destroy) thousands of threads.
+>
+> Hmm, right. To make sure I fully understand, does this mean that for
+> user-mode, `vcpu_index` in the callback function pointer type below is
+> actually the thread index?
 
-Recently we discussed similar problems about block-dirty-bitmap-* qmp comma=
-nds,
-which wanted to update qcow2 metadata about bitmaps from non-coroutine cont=
-ext.
-"qcow2 lock"
-<135df452-397a-30bb-7518-2184fa5971aa@virtuozzo.com>
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01419.html
+No it is a monotonically increasing cpu_index for each new CPUState
+created. So the first thread is 1 and the second is 2 no matter what the
+thread id is.
 
-And, as I understand, the correct way is to convert to coroutine and lock m=
-utex
-appropriately. Or we want to lock aio context and to be in drained section =
-to
-avoid parallel requests accessing critical section. Should we assert such
-conditions in case of !qemu_in_coroutine() ?
+> typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
+>                                              unsigned int vcpu_index);
+
+We don't actually use this prototype anymore. I had removed the concept
+of vcpu_index from the translation time hooks (so people don't get any
+ideas about it's significance there). However we do use vcpu_index with
+the udata form.
+
+> If so, do we have some max number of threads we support? I suppose we
+> could set max_vcpux to that number, and smp_cpus to 1, though I'm not
+> sure if that would be helpful or not.
+>
+>> We could consider just asking plugins to deal with threads with their
+>> own __thread variables but in that case we'd need to expose some sort of
+>> thread exit/cleanup method so they can collect data from threads and
+>> safely place it somewhere else - but I suspect that is a hairy
+>> programming model to impose on plugins.
+>>
+>> So far all the example plugins have just used locks to serialise things
+>> and it's not been too bad. I guess we could do with an example that
+>> tries to use this information to get an idea of how grungy the interface
+>> is. Perhaps exposing the vCPUs at this point is pointless and we should
+>> just stick to TARGET_NAME for now?
+>
+> I'm not sure. I liked the idea of exposing the vCPUs because it
+> theoretically allows you to allocate per-cpu things up front, which can
+> be helpful... but maybe forcing users to deal with dynamically
+> allocating everything will make for more resilient plugins anyway?
+
+So we do use it in the example plugins (hotpages tracks which vCPUs have
+written to which pages). I think it is useful information for a plugin
+but I think if you want per-vCPU structures in your plugin __thread is
+going to be the easiest solution.
 
 --
-Final commit to fix bug about bitmaps:
-
-commit d2c3080e41fd2c9bc36c996cc9d33804462ba803
-Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Date:   Fri Sep 20 11:25:43 2019 +0300
-
-     block/qcow2: proper locking on bitmap add/remove paths
-
-
-
-
---=20
-Best regards,
-Vladimir
+Alex Benn=C3=A9e
 
