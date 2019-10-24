@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F1FE2D36
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:26:11 +0200 (CEST)
-Received: from localhost ([::1]:36596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F834E2D4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:29:07 +0200 (CEST)
+Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZNi-00044M-2K
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43840)
+	id 1iNZQY-0007vQ-EO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ8w-0006vZ-Lu
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:55 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ92-00079E-OY
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ8v-0004Nz-GI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:54 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:45528)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ91-0004RY-8n
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:00 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:60128)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ8v-0004NI-8T
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:53 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94W6c116458;
- Thu, 24 Oct 2019 09:10:48 GMT
+ id 1iNZ91-0004R1-0b
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:59 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94M5L099569;
+ Thu, 24 Oct 2019 09:10:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=CfeS7iUSG1xTfxKr2e8mFCrwRrKlSOQSZckWDmK6o5k=;
- b=N/Uob2or97TR3xzlrHzsQPggk8JtEjnChajKXA3YMQ0ccN+RcN1QIX56IA8PVk1+9e3m
- brk1N/ZqXjyEna8Y5WrPny9yUbf/LAvekJYm5KarItW1AurvktTpM3gr3FTH3qQ5rXEG
- 3XHY4ncb1F07zIa3ID9qtS517PwLxtvs9+W13kyB2Yumvwhd/9NeqsE8dHmAxNL67oAV
- 5E1oX9I9oYW4qPjOJvsys3AUO/rgahmLhN94tDfNqE5H7EPah0DZUbsz9Whz0OzKm3ky
- zCv9i5kNCLvr+yxbZCUc2XsJp9Jf559fmgVrq5OOUl6+YsSRvCKzRubiv9e28TtW2bAS Rw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2vqswtte07-1
+ bh=2RV0rLeLn7ixv+eKg3++hWN0cSKoxiV00Wc1dRjZWg0=;
+ b=rXL9PR2UXRB2lWaa9Vhe8OayNW7xZUgBzCxZ3XQW7b2gIHfVSdlqdVYKJMEF0autJ8hr
+ EATLazjzeZc7bF6/M/pacrm6q+tkGcmLScrlu5CzlnxopPE/DRpnZvtvyJP/n63koD5h
+ kwRZZY4SBupZ/5gzPa29Qky8UlEhZBJn1RpDEHKNj2ADsEbSOYiAtryhnHe+pRjK59RH
+ 7yQriR/mAo7b+I02iFPoILs8ESL3QOww8jrDxqIIY3YbGCckgnXW2hEkPg+tt5GjPiJ4
+ rNrJVfn+ruEZe2WWdI1lKfpHESgofDgOecQRbLxbscqIVbYMwZDUBSSUBeT3kwxFulCM Eg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2vqteq2aga-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:10:48 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97j1R170537;
- Thu, 24 Oct 2019 09:10:48 GMT
+ Thu, 24 Oct 2019 09:10:50 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98LEE047080;
+ Thu, 24 Oct 2019 09:10:50 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2vtsk486v4-1
+ by aserp3020.oracle.com with ESMTP id 2vu0fnu7cp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:10:47 +0000
+ Thu, 24 Oct 2019 09:10:50 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9AkAO002271;
- Thu, 24 Oct 2019 09:10:46 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9Anwf002284;
+ Thu, 24 Oct 2019 09:10:49 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:10:46 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:10:48 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 23/49] multi-process: remote: add create_done condition
-Date: Thu, 24 Oct 2019 05:09:04 -0400
-Message-Id: <4f39a3190d10eef9341cc0b2b7a43f90ceeb17b2.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 24/49] multi-process: add processing of remote drive
+ and device command line
+Date: Thu, 24 Oct 2019 05:09:05 -0400
+Message-Id: <14174d38d82e298f6c1d249b465be6735bcf53b2.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -77,7 +78,7 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
  definitions=main-1910240089
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,77 +102,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Do not allow BAR,MMIO handlers and irq setup to run before
-the configuration of the devices completes.
+Add processing of command line options drive and device.
+After remote devices are created along with their proxies,
+signal the proxies to finish the configuration steps.
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- remote/remote-main.c | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+ v1 -> v2:
+   - change command line option for remote process drive/device to
+     use existing -drive/-device options
+   - process drive and device options only after non-remote devices
+     and drives are added
 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index cb2829e..80d8c02 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -68,6 +68,7 @@
+ vl.c | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+
+diff --git a/vl.c b/vl.c
+index 4489cfb..b19c57b 100644
+--- a/vl.c
++++ b/vl.c
+@@ -35,6 +35,11 @@
+ #include "sysemu/runstate.h"
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
++#include "qapi/qmp/qdict.h"
++#include "block/qdict.h"
++#include "qapi/qmp/qstring.h"
++#include "qapi/qmp/qjson.h"
++#include "qapi/qmp/qlist.h"
  
- static MPQemuLinkState *mpqemu_link;
- PCIDevice *remote_pci_dev;
-+bool create_done;
+ #ifdef CONFIG_SDL
+ #if defined(__APPLE__) || defined(main)
+@@ -1136,11 +1141,45 @@ static int cleanup_add_fd(void *opaque, QemuOpts *opts, Error **errp)
+ #define MTD_OPTS ""
+ #define SD_OPTS ""
  
- static void process_config_write(MPQemuMsg *msg)
++#if defined(CONFIG_MPQEMU)
++static int rdrive_init_func(void *opaque, QemuOpts *opts, Error **errp)
++{
++    DeviceState *dev;
++
++    dev = qdev_remote_add(opts, false /* this is drive */, errp);
++    if (!dev) {
++        error_setg(errp, "qdev_remote_add failed for drive.");
++        return -1;
++    }
++    object_unref(OBJECT(dev));
++    return 0;
++}
++#endif
++
++#if defined(CONFIG_MPQEMU)
++static int pass;
++#endif
++
+ static int drive_init_func(void *opaque, QemuOpts *opts, Error **errp)
  {
-@@ -370,21 +371,31 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-     case INIT:
-         break;
-     case CONF_WRITE:
--        process_config_write(msg);
-+        if (create_done) {
-+            process_config_write(msg);
-+        }
+     BlockInterfaceType *block_default_type = opaque;
+ 
++#if defined(CONFIG_MPQEMU)
++    const char *remote;
 +
-         break;
-     case CONF_READ:
--        process_config_read(msg);
-+        if (create_done) {
-+            process_config_read(msg);
++    remote = qemu_opt_get(opts, "remote");
++    if (pass && remote) {
++        return rdrive_init_func(opaque, opts, errp);
++    } else {
++        if (!remote && !pass) {
++            drive_new(opts, *block_default_type, errp);
 +        }
++    }
 +
-         break;
-     case BAR_WRITE:
--        process_bar_write(msg, &err);
--        if (err) {
--            goto finalize_loop;
-+        if (create_done) {
-+            process_bar_write(msg, &err);
-+            if (err) {
-+                error_report_err(err);
-+            }
-         }
-         break;
-     case BAR_READ:
--        process_bar_read(msg, &err);
--        if (err) {
--            goto finalize_loop;
-+        if (create_done) {
-+            process_bar_read(msg, &err);
-+            if (err) {
-+                error_report_err(err);
-+            }
-         }
-         break;
-     case SYNC_SYSMEM:
-@@ -404,7 +415,7 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-         qemu_mutex_lock_iothread();
-         qemu_run_machine_init_done_notifiers();
-         qemu_mutex_unlock_iothread();
--
-+        create_done = true;
-         break;
-     case DRIVE_OPTS:
-         if (setup_drive(msg, &err)) {
++    return 0;
++#else
+     return drive_new(opts, *block_default_type, errp) == NULL;
++#endif
+ }
+ 
+ static int drive_enable_snapshot(void *opaque, QemuOpts *opts, Error **errp)
+@@ -2199,10 +2238,35 @@ static int device_help_func(void *opaque, QemuOpts *opts, Error **errp)
+     return qdev_device_help(opts);
+ }
+ 
++#if defined(CONFIG_MPQEMU)
++static int rdevice_init_func(void *opaque, QemuOpts *opts, Error **errp)
++{
++    DeviceState *dev;
++
++    dev = qdev_remote_add(opts, true /* this is device */, errp);
++    if (!dev) {
++        error_setg(errp, "qdev_remote_add failed for device.");
++        return -1;
++    }
++    object_unref(OBJECT(dev));
++    return 0;
++}
++#endif
++
+ static int device_init_func(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     DeviceState *dev;
+ 
++#if defined(CONFIG_MPQEMU)
++    const char *remote;
++
++    remote = qemu_opt_get(opts, "remote");
++    if (remote) {
++        /* This will be a remote process */
++        return rdevice_init_func(opaque, opts, errp);
++    }
++#endif
++
+     dev = qdev_device_add(opts, errp);
+     if (!dev) {
+         return -1;
+@@ -4348,6 +4412,17 @@ int main(int argc, char **argv, char **envp)
+     /* Check if IGD GFX passthrough. */
+     igd_gfx_passthru();
+ 
++#if defined(CONFIG_MPQEMU)
++    /*
++     * Parse the list for remote drives here as we launch PCIProxyDev here and
++     * need PCI host initialized. As a TODO: could defer init of PCIProxyDev instead.
++     */
++    if (qemu_opts_foreach(qemu_find_opts("drive"), drive_init_func,
++                          &machine_class->block_default_type, &error_fatal)) {
++        exit(0);
++    }
++#endif
++
+     /* init generic devices */
+     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+     qemu_opts_foreach(qemu_find_opts("device"),
+@@ -4405,6 +4480,9 @@ int main(int argc, char **argv, char **envp)
+     qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
+     qemu_run_machine_init_done_notifiers();
+ 
++#if defined(CONFIG_MPQEMU)
++    qdev_proxy_fire();
++#endif
+     if (rom_check_and_register_reset() != 0) {
+         error_report("rom check and register reset failed");
+         exit(1);
 -- 
 1.8.3.1
 
