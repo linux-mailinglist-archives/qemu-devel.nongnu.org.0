@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81799E3001
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:10:09 +0200 (CEST)
-Received: from localhost ([::1]:38939 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C2FE3023
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:18:27 +0200 (CEST)
+Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNb0I-0002gq-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59236)
+	id 1iNb8L-0002U1-Bf
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59313)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatG-0000sb-Po
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNatJ-0000xi-RX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatE-0004qF-EJ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42824
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004pF-5H
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20743
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004oR-6c
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatC-0004mK-66
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914966;
+ s=mimecast20190719; t=1571914964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rUuZyBI5+Ihso7z459NcAIGfMCtpvZVrWlCZYt8BQyI=;
- b=UyHuH8rV1+bGQokP4kQuP3SVRSgtnB/sTSj1ZWOC01T6VtQlUrfc5hQ+5jeYv2NiPPpYYy
- Wl6Ap+QYzHzEYyqV0ItmKnsLibYPlun3RKMusc7TGhcTb16L+9GB302d2eNz3tW8E5rpVH
- 0cQyeMUdPooCnPszOXti2b93E6I1OJg=
+ bh=TS6mWmulSsOlAprbPsy9Eyv9dHRNJ+A89O7z6zn2tvg=;
+ b=dmNxLKCeGB3d/7yROQ8ztDpiQiHK+6EYTpgRKAX0UJ+IRMZYXhD5m0g1WQV2ixzsMxbAZk
+ dRlXjjka1IYMjWySNtrh2OJd2iXQIlEILA1g5vQD6e7GTXlYA/81XmT5rkNJz3A2gjENbm
+ CRyB57A6LLc8x85BsZ/F/8X92LlIFLk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-n0nVzL8kOgWlUgDTEflufA-1; Thu, 24 Oct 2019 07:02:42 -0400
+ us-mta-278-vMQ4mVauP-C8VRjmJYCDyQ-1; Thu, 24 Oct 2019 07:02:43 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0C031800E05;
- Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 139E6107AD31;
+ Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D267608C1;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3DE1608C1;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6AAF711328A8; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 7AFCF1130344; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/19] qapi: Simplify ._make_implicit_object_type()
-Date: Thu, 24 Oct 2019 13:02:30 +0200
-Message-Id: <20191024110237.30963-13-armbru@redhat.com>
+Subject: [PATCH 15/19] qapi: Fold normalize_features() into check_features()
+Date: Thu, 24 Oct 2019 13:02:33 +0200
+Message-Id: <20191024110237.30963-16-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: n0nVzL8kOgWlUgDTEflufA-1
+X-MC-Unique: vMQ4mVauP-C8VRjmJYCDyQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,80 +76,55 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callers now pass doc=3DNone.  Drop the argument.
+check_features() is always called together with normalize_features():
+the former in check_struct() and check_command(), the latter in their
+caller check_exprs().  Fold the latter into the former.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/schema.py | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ scripts/qapi/expr.py | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 06e37c9c49..27da4e0f7d 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -920,8 +920,7 @@ class QAPISchema(object):
-             self._def_entity(QAPISchemaArrayType(name, info, element_type)=
-)
-         return name
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index aa0fe69f99..66014e2bb2 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -173,17 +173,13 @@ def check_type(value, info, source,
+         check_type(arg['type'], info, key_source, allow_array=3DTrue)
 =20
--    def _make_implicit_object_type(self, name, info, doc, ifcond,
--                                   role, members):
-+    def _make_implicit_object_type(self, name, info, ifcond, role, members=
-):
-         if not members:
-             return None
-         # See also QAPISchemaObjectTypeMember.describe()
-@@ -939,7 +938,7 @@ class QAPISchema(object):
-             # TODO kill simple unions or implement the disjunction
-             assert (ifcond or []) =3D=3D typ._ifcond # pylint: disable=3Dp=
-rotected-access
-         else:
--            self._def_entity(QAPISchemaObjectType(name, info, doc, ifcond,
-+            self._def_entity(QAPISchemaObjectType(name, info, None, ifcond=
-,
-                                                   None, members, None, [])=
-)
-         return name
 =20
-@@ -986,7 +985,7 @@ class QAPISchema(object):
-             assert len(typ) =3D=3D 1
-             typ =3D self._make_array_type(typ[0], info)
-         typ =3D self._make_implicit_object_type(
--            typ, info, None, self.lookup_type(typ),
-+            typ, info, self.lookup_type(typ),
-             'wrapper', [self._make_member('data', typ, None, info)])
-         return QAPISchemaObjectTypeVariant(case, info, typ, ifcond)
-=20
-@@ -999,7 +998,7 @@ class QAPISchema(object):
-         tag_member =3D None
-         if isinstance(base, dict):
-             base =3D self._make_implicit_object_type(
--                name, info, None, ifcond,
-+                name, info, ifcond,
-                 'base', self._make_members(base, info))
-         if tag_name:
-             variants =3D [self._make_variant(key, value['type'],
-@@ -1046,7 +1045,7 @@ class QAPISchema(object):
-         features =3D expr.get('features', [])
-         if isinstance(data, OrderedDict):
-             data =3D self._make_implicit_object_type(
--                name, info, None, ifcond, 'arg', self._make_members(data, =
-info))
-+                name, info, ifcond, 'arg', self._make_members(data, info))
-         if isinstance(rets, list):
-             assert len(rets) =3D=3D 1
-             rets =3D self._make_array_type(rets[0], info)
-@@ -1062,7 +1061,7 @@ class QAPISchema(object):
-         ifcond =3D expr.get('if')
-         if isinstance(data, OrderedDict):
-             data =3D self._make_implicit_object_type(
--                name, info, None, ifcond, 'arg', self._make_members(data, =
-info))
-+                name, info, ifcond, 'arg', self._make_members(data, info))
-         self._def_entity(QAPISchemaEvent(name, info, doc, ifcond, data, bo=
-xed))
-=20
-     def _def_exprs(self, exprs):
+-def normalize_features(features):
+-    if isinstance(features, list):
+-        features[:] =3D [f if isinstance(f, dict) else {'name': f}
+-                       for f in features]
+-
+-
+ def check_features(features, info):
+     if features is None:
+         return
+     if not isinstance(features, list):
+         raise QAPISemError(info, "'features' must be an array")
++    features[:] =3D [f if isinstance(f, dict) else {'name': f}
++                   for f in features]
+     for f in features:
+         source =3D "'features' member"
+         assert isinstance(f, dict)
+@@ -347,7 +343,6 @@ def check_exprs(exprs):
+             check_keys(expr, info, meta,
+                        ['struct', 'data'], ['base', 'if', 'features'])
+             normalize_members(expr['data'])
+-            normalize_features(expr.get('features'))
+             check_struct(expr, info)
+         elif meta =3D=3D 'command':
+             check_keys(expr, info, meta,
+@@ -356,7 +351,6 @@ def check_exprs(exprs):
+                         'gen', 'success-response', 'allow-oob',
+                         'allow-preconfig'])
+             normalize_members(expr.get('data'))
+-            normalize_features(expr.get('features'))
+             check_command(expr, info)
+         elif meta =3D=3D 'event':
+             check_keys(expr, info, meta,
 --=20
 2.21.0
 
