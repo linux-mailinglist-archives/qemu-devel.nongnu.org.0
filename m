@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEDFE32A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:44:33 +0200 (CEST)
-Received: from localhost ([::1]:41382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0BBE331D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:53:43 +0200 (CEST)
+Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcTg-0005G4-Ci
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:44:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41671)
+	id 1iNccY-0001ZO-6H
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNbbO-0003Qq-RG
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:48:28 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNbtr-0000PQ-AV
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:07:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNbbN-0007sx-Jx
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:48:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56162)
+ (envelope-from <kwolf@redhat.com>) id 1iNbtq-0000hB-46
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:07:31 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32953
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNbbI-0007ml-Ji
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:48:23 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNbtq-0000gu-0S
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:07:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571918849;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2fsAC78DMFuXp9eXjzPwcn08LxEhj6JdqPJ4UZ8+Vq0=;
+ b=MZmrrIoMEyK2gzZ3QhnXj3ytdlU+KZm2g1oHcbHfrpmvJBk6R7j1uTzLBRt4BMRLUt7vFw
+ r1ri8MyO6O9cu8iiLMylH/RCSe5cnAyCDrung7WItL9dSZvBBXzCInQqDhYXp09sVlDIjE
+ ARS5Z8rHTQfL3xCCnz2/FdXr6h9ESAA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-4m_uPug9Oym4XCBILVN1Rg-1; Thu, 24 Oct 2019 08:07:26 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3FEE4C049E12
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:48:16 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id a6so9908702wru.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:48:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6ltgiqHhNHaXdrzNuL6lkoiWjNGQwyyjMPT5XIbOJzU=;
- b=t86cJXnbxsFy2yXrF81Q/I7RDl7b8iC+PU31SiFqvD2oKqFhTaXbkG6Lgyzf78L8Mu
- srqfaIlTfdhUk6RBYi4Lg1u59Dac/lAT98yUOEgqmJoMuQw9XUMT2wySUIA1QFpysyiQ
- /EP4zTLQ1QehlubF1/XtstNf8dIFaiRhtA/V0FF/pRZ0C/zn8d9BXUVB/HK0ov1UVlXM
- y36HB778/K2KdrSh2TVzxPNATb4O5HV97KTi3rTiBrlrQ9Q8f5Ii7dDkLNfQQhTx60RV
- Ym2e6aajBlnDLCbb4JLM1G2xAnCiUhsWLkgtBx0xYx2t74vboSWPRohWFC0StUO7QhNz
- p1bg==
-X-Gm-Message-State: APjAAAU8eG+DkZntFTCokyy7Uw42NBSVbsnsTM9OMlRqMEEqyLYO/x/l
- eKwnvXt1D5RgQ9uc7um1ZJQLqpF4oe7eIX1gWQZF7TNSGiGj8FVftc3IlIozjIrGw1acbFNYkU/
- zXjbtbtS/RCggIDU=
-X-Received: by 2002:a05:600c:28d:: with SMTP id
- 13mr4839664wmk.100.1571917694940; 
- Thu, 24 Oct 2019 04:48:14 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyxrVSSXrMjGzB9j/Y2FPvFBtxS02wScHByedkcYPwJfV978muxLTl39lA1OyUxiVOtstataw==
-X-Received: by 2002:a05:600c:28d:: with SMTP id
- 13mr4839587wmk.100.1571917693909; 
- Thu, 24 Oct 2019 04:48:13 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id d8sm11646908wrr.71.2019.10.24.04.48.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 04:48:12 -0700 (PDT)
-Subject: Re: [PATCH v3 23/33] dp8393x: replace PROP_PTR with PROP_LINK
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-24-marcandre.lureau@redhat.com>
- <06288994-a5d3-038d-794e-ed63acdadd95@redhat.com>
- <CAMxuvawLDSsNkoSXNprXAWVZ13FZT_WZ5V3AXyN0euT9SKa1DQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c4d77b9a-1eac-a05f-a26b-bed097667a1f@redhat.com>
-Date: Thu, 24 Oct 2019 13:48:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7AC5801E5C;
+ Thu, 24 Oct 2019 12:07:24 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6644D5DAAE;
+ Thu, 24 Oct 2019 12:07:22 +0000 (UTC)
+Date: Thu, 24 Oct 2019 14:07:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Denis Lunev <den@virtuozzo.com>
+Subject: Re: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
+ s->lock
+Message-ID: <20191024120720.GE6200@linux.fritz.box>
+References: <20191023152620.13166-1-kwolf@redhat.com>
+ <20191023152620.13166-3-kwolf@redhat.com>
+ <3600fb84-e1f1-c70a-4b83-e7a379f50614@virtuozzo.com>
+ <20191024105746.GB6200@linux.fritz.box>
+ <b244c211-aa73-b4f9-7313-474e909359fb@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvawLDSsNkoSXNprXAWVZ13FZT_WZ5V3AXyN0euT9SKa1DQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <b244c211-aa73-b4f9-7313-474e909359fb@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 4m_uPug9Oym4XCBILVN1Rg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +77,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
+ "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 1:12 PM, Marc-Andr=C3=A9 Lureau wrote:
-> On Thu, Oct 24, 2019 at 1:02 AM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
->>
->> On 10/23/19 7:31 PM, Marc-Andr=C3=A9 Lureau wrote:
->>> Link property is the correct way to pass a MemoryRegion to a device
->>> for DMA purposes.
->>>
->>> Sidenote: as a sysbus device, this remains non-usercreatable
->>> even though we can drop the specific flag here.
->>>
->>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>    hw/mips/mips_jazz.c | 3 ++-
->>>    hw/net/dp8393x.c    | 7 +++----
->>>    2 files changed, 5 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
->>> index 8d010a0b6e..878925a963 100644
->>> --- a/hw/mips/mips_jazz.c
->>> +++ b/hw/mips/mips_jazz.c
->>> @@ -284,7 +284,8 @@ static void mips_jazz_init(MachineState *machine,
->>>                dev =3D qdev_create(NULL, "dp8393x");
->>>                qdev_set_nic_properties(dev, nd);
->>>                qdev_prop_set_uint8(dev, "it_shift", 2);
->>> -            qdev_prop_set_ptr(dev, "dma_mr", rc4030_dma_mr);
->>> +            object_property_set_link(OBJECT(dev), OBJECT(rc4030_dma_=
-mr),
->>> +                                     "dma_mr", &error_abort);
->>>                qdev_init_nofail(dev);
->>>                sysbus =3D SYS_BUS_DEVICE(dev);
->>>                sysbus_mmio_map(sysbus, 0, 0x80001000);
->>> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
->>> index a5678e11fa..946c7a8f64 100644
->>> --- a/hw/net/dp8393x.c
->>> +++ b/hw/net/dp8393x.c
->>> @@ -173,7 +173,7 @@ typedef struct dp8393xState {
->>>        int loopback_packet;
->>>
->>>        /* Memory access */
->>> -    void *dma_mr;
->>> +    MemoryRegion *dma_mr;
->>>        AddressSpace as;
->>>    } dp8393xState;
->>>
->>> @@ -922,7 +922,8 @@ static const VMStateDescription vmstate_dp8393x =3D=
- {
->>>
->>>    static Property dp8393x_properties[] =3D {
->>>        DEFINE_NIC_PROPERTIES(dp8393xState, conf),
->>> -    DEFINE_PROP_PTR("dma_mr", dp8393xState, dma_mr),
->>> +    DEFINE_PROP_LINK("dma_mr", dp8393xState, dma_mr,
->>> +                     TYPE_MEMORY_REGION, MemoryRegion *),
->>>        DEFINE_PROP_UINT8("it_shift", dp8393xState, it_shift, 0),
->>>        DEFINE_PROP_END_OF_LIST(),
->>>    };
->>> @@ -936,8 +937,6 @@ static void dp8393x_class_init(ObjectClass *klass=
-, void *data)
->>>        dc->reset =3D dp8393x_reset;
->>>        dc->vmsd =3D &vmstate_dp8393x;
->>>        dc->props =3D dp8393x_properties;
->>> -    /* Reason: dma_mr property can't be set */
->>> -    dc->user_creatable =3D false;
->>
->> Patch is OK except this user_creatable change I don't understand.
->=20
-> It's a sysbus device, so it's not user-creatable anyway. I'll add a
-> commit comment.
+Am 24.10.2019 um 13:14 hat Denis Lunev geschrieben:
+> On 10/24/19 1:57 PM, Kevin Wolf wrote:
+> > Am 24.10.2019 um 12:01 hat Denis Lunev geschrieben:
+> >> On 10/23/19 6:26 PM, Kevin Wolf wrote:
+> >>> qcow2_cache_do_get() requires that s->lock is locked because it can
+> >>> yield between picking a cache entry and actually taking ownership of =
+it
+> >>> by setting offset and increasing the reference count.
+> >>>
+> >>> Add an assertion to make sure the caller really holds the lock. The
+> >>> function can be called outside of coroutine context, where bdrv_pread
+> >>> and flushes become synchronous operations. The lock cannot and need n=
+ot
+> >>> be taken in this case.
+> >>>
+> >>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> >>> ---
+> >>>  block/qcow2-cache.c | 5 +++++
+> >>>  1 file changed, 5 insertions(+)
+> >>>
+> >>> diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+> >>> index d29b038a67..75b13dad99 100644
+> >>> --- a/block/qcow2-cache.c
+> >>> +++ b/block/qcow2-cache.c
+> >>> @@ -327,6 +327,9 @@ static int qcow2_cache_do_get(BlockDriverState *b=
+s, Qcow2Cache *c,
+> >>>      int min_lru_index =3D -1;
+> >>> =20
+> >>>      assert(offset !=3D 0);
+> >>> +    if (qemu_in_coroutine()) {
+> >>> +        qemu_co_mutex_assert_locked(&s->lock);
+> >>> +    }
+> >> that is looking not good to me. If this is really requires lock, we sh=
+ould
+> >> check for the lock always. In the other hand we could face missed
+> >> lock out of coroutine.
+> > As the commit message explains, outside of coroutine context, we can't
+> > yield and bdrv_pread and bdrv_flush become synchronous operations
+> > instead, so there is nothing else that we need to protect against.
+> >
+> Hmm. It seems I was not careful enough with reading entire message.
+> I am fine with this though it looks a bit tricky to me as such things
+> can change in the future.
 
-With comment:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+In which way do you think this could change? It's a pretty fundamental
+fact about non-coroutine code that it can't yield.
 
+What could change, of course, is that some code switches from being
+synchronous to using a coroutine. The assertion would automatically
+apply then and catch the bug if adding proper locking is forgotten.
+
+> Anyway, you could consider this as
 >=20
->>
->>>    }
->>>
->>>    static const TypeInfo dp8393x_info =3D {
->>>
+> Reviewed-by: Denis V. Lunev <den@openvz.org>
+
+Thanks!
+
+Kevin
+
 
