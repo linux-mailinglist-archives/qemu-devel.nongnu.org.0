@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD6CE37B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:19:01 +0200 (CEST)
-Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3930CE379A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:14:18 +0200 (CEST)
+Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfpD-0005aU-Ca
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:18:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
+	id 1iNfkd-0003ix-SU
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iNefS-0004n0-5E
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:04:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNeiH-0001N8-1l
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:07:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iNefQ-0004G1-Nd
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:04:50 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35768
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNeiF-0005SL-Dp
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:07:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55010)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iNefQ-0004Fr-Jk
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:04:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571929488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GiMr20w2rI1E2fFgdOUikpMrLQV+Up+oJpdVo2qzyU=;
- b=SLOqYyKDuM3Ivp7fYoSKcAqK9Pnbvh3RM/9pnFoSnXU+VB/dKsHT3VvvtkInmoexn8Oozm
- atxdEn5oSuvT/hmuncF6CgBO4VTyRRgW/muC/TapoTye9XlZpJabluOKiZK1jhDwx7UqUz
- 3Ptpko6jtftp82Zb75AJpYMCDTlXam8=
-Received: from mimecast-mx01.redhat.com (209.132.183.4 [209.132.183.4])
- (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-1I2SLdhwPbaY-oanSqFgNA-1; Thu, 24 Oct 2019 11:04:40 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNeiF-0005S1-4d
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:07:43 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42615476;
- Thu, 24 Oct 2019 15:02:34 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEEF1196B2;
- Thu, 24 Oct 2019 15:02:33 +0000 (UTC)
-Date: Thu, 24 Oct 2019 09:02:33 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Thanos Makatos <thanos.makatos@nutanix.com>
-Subject: Re: Cannot use more than one MSI interrupts
-Message-ID: <20191024090233.3a532ff6@x1.home>
-In-Reply-To: <MN2PR02MB62053C534A3F1406267EBC4C8B6A0@MN2PR02MB6205.namprd02.prod.outlook.com>
-References: <MN2PR02MB62053C534A3F1406267EBC4C8B6A0@MN2PR02MB6205.namprd02.prod.outlook.com>
-Organization: Red Hat
+ by mx1.redhat.com (Postfix) with ESMTPS id CA5BCA705
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 15:07:41 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id f15so9410664wrs.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 08:07:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qTyjiJwQL7sj7gFZIpB0Qz7YwwY9V+Rt8aR+YW5JeAg=;
+ b=WTGpBbGDyz8Ep1+GTvvTsESxpXU3JXOzxPrbd6KJbMg1dD1juUTEhmp9znT6h3vEIc
+ DiWVP4uPKxLDigyLclJshTaSHiECigirpCSTmBYCnL7EIgvRwXJzCms+44S+d1tfa8xu
+ kDJqB4O+qX7xg1yfwiHDynY9eNYwnUZk9PY40Zsw9pF9OWDKMJzlxTueYwTvtKEd0l0P
+ ULie8HFtuclRZVgD5d+I7o/Jv4VHbVN/Sw1nBSq0KRrWSHn7aTSIvat7KTTzRhmsP6up
+ Me+L0ulItqxKbisPz9AYn8K3FgrCTura5tXoy+f49D/kQo/BTudw+Xpos76MV24pp0JM
+ 7CmQ==
+X-Gm-Message-State: APjAAAX2G7sOWCLfHYSJ/6qMTWwZiH2O7IwZT6NQeDzOKtffq5QOb13h
+ fcwhYYV2UjCTP2XEAP89LWNNuAv99Z0SkMw14QOAJt+1hCfADEghHIABYfJaDqCPa4sgzUYYFYj
+ 8MsRjHl8RdjUEXYc=
+X-Received: by 2002:a1c:49c2:: with SMTP id w185mr5198965wma.16.1571929659348; 
+ Thu, 24 Oct 2019 08:07:39 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxVohNvEbilfVtsAx2tk+/oev8nfF4GKNoL1dVQz6VMhFV4E7VjmrdGEZ3xCMjjUTCn1E8heA==
+X-Received: by 2002:a1c:49c2:: with SMTP id w185mr5198945wma.16.1571929659066; 
+ Thu, 24 Oct 2019 08:07:39 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id v10sm19003915wrm.26.2019.10.24.08.07.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 08:07:38 -0700 (PDT)
+Subject: Re: [RFC 3/3] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20191009132252.17860-1-imammedo@redhat.com>
+ <20191009132252.17860-4-imammedo@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a257d4e0-05ef-c6c9-ca32-e628bca8154a@redhat.com>
+Date: Thu, 24 Oct 2019 17:07:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 1I2SLdhwPbaY-oanSqFgNA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191009132252.17860-4-imammedo@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,158 +81,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Felipe Franciosi <felipe@nutanix.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Oct 2019 14:45:28 +0000
-Thanos Makatos <thanos.makatos@nutanix.com> wrote:
+Hi Igor,
 
-> I have a Ubuntu VM (4.15.0-48-generic) to which I pass through a PCI devi=
-ce,
-> specifically a virtual NVMe controller. The problem I have is that only o=
-ne I/O queue
-> is initialized, while there should be more (e.g. four). I'm using upstrea=
-m QEMU
-> v4.1.0 confgiured without any additional options. Most likely there's som=
-ething
-> broken with my virtual device implementation but I can't figure out exact=
-ly
-> what, I was hoping to get some debugging directions.
->=20
-> I run QEMU as follows:
->=20
-> ~/src/qemu/x86_64-softmmu/qemu-system-x86_64 \
->         -kernel bionic-server-cloudimg-amd64-vmlinuz-generic \
->         -smp cores=3D2,sockets=3D2 \
->         -nographic \
->         -append "console=3DttyS0 root=3D/dev/sda1 single nvme.sgl_thresho=
-ld=3D0 nokaslr nvme.io_queue_depth=3D4" \
->         -initrd bionic-server-cloudimg-amd64-initrd-generic \
->         -hda bionic-server-cloudimg-amd64.raw \
->         -hdb data.raw \
->         -m 1G \
->         -object memory-backend-file,id=3Dram-node0,prealloc=3Dyes,mem-pat=
-h=3Dmem,share=3Dyes,size=3D1073741824 -numa node,nodeid=3D0,cpus=3D0-3,memd=
-ev=3Dram-node0 \
->         -device vfio-pci,sysfsdev=3D/sys/bus/mdev/devices/00000000-0000-0=
-000-0000-000000000000 \
->         -trace enable=3Dvfio*,file=3Dqemu.trace \
->         -net none \
->         -s
->=20
-> This is what QEMU thinks of the devices:
->=20
-> (qemu) info pci
->   Bus  0, device   0, function 0:
->     Host bridge: PCI device 8086:1237
->       PCI subsystem 1af4:1100
->       id ""
->   Bus  0, device   1, function 0:
->     ISA bridge: PCI device 8086:7000
->       PCI subsystem 1af4:1100
->       id ""
->   Bus  0, device   1, function 1:
->     IDE controller: PCI device 8086:7010
->       PCI subsystem 1af4:1100
->       BAR4: I/O at 0xc000 [0xc00f].
->       id ""
->   Bus  0, device   1, function 3:
->     Bridge: PCI device 8086:7113
->       PCI subsystem 1af4:1100
->       IRQ 9.
->       id ""
->   Bus  0, device   2, function 0:
->     VGA controller: PCI device 1234:1111
->       PCI subsystem 1af4:1100
->       BAR0: 32 bit prefetchable memory at 0xfd000000 [0xfdffffff].
->       BAR2: 32 bit memory at 0xfebf4000 [0xfebf4fff].
->       BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].
->       id ""
->   Bus  0, device   3, function 0:
->     Class 0264: PCI device 4e58:0001
->       PCI subsystem 0000:0000
->       IRQ 11.
->       BAR0: 32 bit memory at 0xfebf0000 [0xfebf3fff].
->       id ""
->=20
-> And this is what the guest thinks of the device in question:
->=20
-> root@ubuntu:~# lspci -vvv -s 00:03.0
-> 00:03.0 Non-Volatile memory controller: Device 4e58:0001 (prog-if 02 [NVM=
- Express])
->         Physical Slot: 3
->         Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParEr=
-r- Stepping- SERR+ FastB2B- DisINTx+
->         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
-<TAbort- <MAbort- >SERR- <PERR- INTx-
->         Latency: 0
->         Interrupt: pin A routed to IRQ 24
->         NUMA node: 0
->         Region 0: Memory at febf0000 (32-bit, non-prefetchable) [size=3D1=
-6K]
->         Capabilities: [40] Power Management version 0
->                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=3D0mA PME(D0-,D1-,=
-D2-,D3hot-,D3cold-)
->                 Status: D0 NoSoftRst+ PME-Enable- DSel=3D0 DScale=3D0 PME=
--
->         Capabilities: [48] MSI: Enable+ Count=3D1/4 Maskable- 64bit+
->                 Address: 00000000fee01004  Data: 4023
->         Capabilities: [60] Express (v1) Endpoint, MSI 00
->                 DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s <6=
-4ns, L1 <1us
->                         ExtTag- AttnBtn+ AttnInd- PwrInd- RBE- FLReset- S=
-lotPowerLimit 128.000W
->                 DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Uns=
-upported-
->                         RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
->                         MaxPayload 128 bytes, MaxReadReq 128 bytes
->                 DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- =
-TransPend-
->                 LnkCap: Port #0, Speed unknown, Width x0, ASPM not suppor=
-ted, Exit Latency L0s <64ns, L1 <1us
->                         ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
->                 LnkCtl: ASPM Disabled; RCB 64 bytes Disabled- CommClk-
->                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
->                 LnkSta: Speed unknown, Width x0, TrErr- Train- SlotClk- D=
-LActive- BWMgmt- ABWMgmt-
->         Kernel driver in use: nvme
->         Kernel modules: nvme
->=20
-> I tried debugging the guest kernel and I think the following if is taken =
-in
-> pci_msi_domain_check_cap():
->=20
-> if (pci_msi_desc_is_multi_msi(desc) &&
->     !(info->flags & MSI_FLAG_MULTI_PCI_MSI))                    =20
->         return 1;
->=20
-> because flags is 0x3b (MSI_FLAG_MULTI_PCI_MSI is 0x4). And this I think m=
-eans
-> that MSI_FLAG_MULTI_PCI_MSI is not set for that msi_domain_info.
->=20
-> # grep -i msi qemu.trace
-> 1327@1571926064.595365:vfio_msi_setup 00000000-0000-0000-0000-00000000000=
-0 PCI MSI CAP @0x48
-> 1334@1571926073.489691:vfio_msi_enable  (00000000-0000-0000-0000-00000000=
-0000) Enabled 1 MSI vectors
-> 1334@1571926073.501741:vfio_msi_disable  (00000000-0000-0000-0000-0000000=
-00000)
-> 1334@1571926073.507127:vfio_msi_enable  (00000000-0000-0000-0000-00000000=
-0000) Enabled 1 MSI vectors
-> 1327@1571926073.520840:vfio_msi_interrupt  (00000000-0000-0000-0000-00000=
-0000000) vector 0 0xfee01004/0x4023
-> ... more vfio_msi_interrupt ...
->=20
-> How can I further debug this?
+On 10/9/19 3:22 PM, Igor Mammedov wrote:
+> Extend CPU hotplug interface to return architecture specific
+> identifier for current CPU (in case of x86, it's APIC ID).
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> TODO:
+>    * cripple it to behave old way on old machine types so that
+>      new firmware started on new QEMU won't see a difference
+>      when migrated to an old QEMU (i.e. QEMU that doesn't support
+>      this command)
+> ---
+>   docs/specs/acpi_cpu_hotplug.txt | 10 +++++++++-
+>   hw/acpi/cpu.c                   | 15 +++++++++++++++
+>   hw/acpi/trace-events            |  1 +
+>   3 files changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
+> index 43c5a193f0..0438678249 100644
+> --- a/docs/specs/acpi_cpu_hotplug.txt
+> +++ b/docs/specs/acpi_cpu_hotplug.txt
+> @@ -32,7 +32,9 @@ Register block size:
+>   
+>   read access:
+>       offset:
+> -    [0x0-0x3] reserved
+> +    [0x0-0x3] Command data 2: (DWORD access)
+> +              upper 32 bit of 'Command data' if returned data value is 64 bit.
+> +              in case of error or unsupported command reads is 0x0
+>       [0x4] CPU device status fields: (1 byte access)
+>           bits:
+>              0: Device is enabled and may be used by guest
+> @@ -87,6 +89,8 @@ write access:
+>                 2: stores value into OST status register, triggers
+>                    ACPI_DEVICE_OST QMP event from QEMU to external applications
+>                    with current values of OST event and status registers.
+> +              3: OSPM reads architecture specific value identifying CPU
+> +                 (x86: APIC ID)
+>               other values: reserved
+>   
+>   Selecting CPU device beyond possible range has no effect on platform:
+> @@ -115,3 +119,7 @@ Typical usecases:
+>        5.2 if 'Command data' register has not changed, there is not CPU
+>            corresponding to iterator value and the last valid iterator value
+>            equals to 'max_cpus' + 1
+> +   - Get architecture specific id for a CPU
+> +     1. pick a CPU to read from using 'CPU selector' register
+> +     2. write 0x3 int0 'Command field' register
+> +     3. read architecture specific id from 'Command data' register
+> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+> index 87f30a31d7..701542d860 100644
+> --- a/hw/acpi/cpu.c
+> +++ b/hw/acpi/cpu.c
+> @@ -12,11 +12,13 @@
+>   #define ACPI_CPU_FLAGS_OFFSET_RW 4
+>   #define ACPI_CPU_CMD_OFFSET_WR 5
+>   #define ACPI_CPU_CMD_DATA_OFFSET_RW 8
+> +#define ACPI_CPU_CMD_DATA2_OFFSET_RW 0
 
-The quick answer is to implement MSI-X in your device, MSI requires a
-contiguous block of vectors and there's limited support for actually
-making use of more than a single vector.  There is almost no real
-hardware that doesn't implement MSI-X for multiple vector support.
-Thanks,
+This part confuses me:
 
-Alex
+#define ACPI_CPU_SELECTOR_OFFSET_WR 0
+#define ACPI_CPU_CMD_DATA2_OFFSET_RW 0
 
+What about:
+
+#define ACPI_CPU_SELECTOR_OFFSET_W 0
+#define ACPI_CPU_CMD_DATA2_OFFSET_R 0
+
+>   
+>   enum {
+>       CPHP_GET_NEXT_CPU_WITH_EVENT_CMD = 0,
+>       CPHP_OST_EVENT_CMD = 1,
+>       CPHP_OST_STATUS_CMD = 2,
+> +    CPHP_GET_CPU_ID_CMD = 3,
+>       CPHP_CMD_MAX
+>   };
+>   
+> @@ -74,11 +76,24 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr, unsigned size)
+>           case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
+>              val = cpu_st->selector;
+>              break;
+> +        case CPHP_GET_CPU_ID_CMD:
+> +           val = cpu_to_le64(cdev->arch_id) & 0xFFFFFFFF;
+> +           break;
+>           default:
+>              break;
+>           }
+>           trace_cpuhp_acpi_read_cmd_data(cpu_st->selector, val);
+>           break;
+> +    case ACPI_CPU_CMD_DATA2_OFFSET_RW:
+> +        switch (cpu_st->command) {
+> +        case CPHP_GET_CPU_ID_CMD:
+> +           val = cpu_to_le64(cdev->arch_id) >> 32;
+> +           break;
+> +        default:
+> +           break;
+> +        }
+> +        trace_cpuhp_acpi_read_cmd_data2(cpu_st->selector, val);
+> +        break;
+>       default:
+>           break;
+>       }
+> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+> index 96b8273297..afbc77de1c 100644
+> --- a/hw/acpi/trace-events
+> +++ b/hw/acpi/trace-events
+> @@ -23,6 +23,7 @@ cpuhp_acpi_read_flags(uint32_t idx, uint8_t flags) "idx[0x%"PRIx32"] flags: 0x%"
+>   cpuhp_acpi_write_idx(uint32_t idx) "set active cpu idx: 0x%"PRIx32
+>   cpuhp_acpi_write_cmd(uint32_t idx, uint8_t cmd) "idx[0x%"PRIx32"] cmd: 0x%"PRIx8
+>   cpuhp_acpi_read_cmd_data(uint32_t idx, uint32_t data) "idx[0x%"PRIx32"] data: 0x%"PRIx32
+> +cpuhp_acpi_read_cmd_data2(uint32_t idx, uint32_t data) "idx[0x%"PRIx32"] data: 0x%"PRIx32
+>   cpuhp_acpi_cpu_has_events(uint32_t idx, bool ins, bool rm) "idx[0x%"PRIx32"] inserting: %d, removing: %d"
+>   cpuhp_acpi_clear_inserting_evt(uint32_t idx) "idx[0x%"PRIx32"]"
+>   cpuhp_acpi_clear_remove_evt(uint32_t idx) "idx[0x%"PRIx32"]"
+> 
 
