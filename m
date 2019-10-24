@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B000BE3367
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:06:23 +0200 (CEST)
-Received: from localhost ([::1]:41944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2869E33D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:21:33 +0200 (CEST)
+Received: from localhost ([::1]:42416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcon-0001IR-Re
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47661)
+	id 1iNd3U-0001al-I9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKf-0003mn-Lb
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:15 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKi-0003uy-Q6
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKe-00067J-8o
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56490
+ (envelope-from <armbru@redhat.com>) id 1iNcKh-0006Au-CR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54236
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKe-00066y-4Q
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:12 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKh-0006AT-7G
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920511;
+ s=mimecast20190719; t=1571920514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lQ2Yxrz6hG29z7fMwugJE0BtZQjVtRyBqz5JBxyw26M=;
- b=SzkrSzPTCUF5k0thvaNZnaEGXsI9qXDbSxksZUGAPAPOQTPB+J8KkH3PfZ7WGEbyNFkLX9
- eAe6ILERr1xp0GJ6lpo2uPVx2//x+0/ZuqidFVD0lvM9UQBoE3yoQIMVvtl44gp8Q+v5Cm
- TTNksSz+/Sanwz6e+6Bvg6QyonBo5cw=
+ bh=VwkGbCv7Og2OBZVs11s5/f+xm7Uo964VHovW0vL2Pa4=;
+ b=Ki98oVAXV/10HRyVEbfsC+oECOt7SYx6TKJTN7NsJjs7Y3dwyq/1BfTusRR5Bb7vOVpJFq
+ eocIq2T/j9SG9PPXvQuVfB9Y1Efy+6X2GnHty4hQgWLSRG2xJhDq8Cj3lXXtOTC/hWGSmK
+ J6OidU8rmmvjB5p4DhqImT+1R1egyis=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-h1SAaQn5M8qoQTzUGLtDXQ-1; Thu, 24 Oct 2019 08:35:07 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-354-oULp1_mRNAieugi6TVf_Gg-1; Thu, 24 Oct 2019 08:35:11 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB32801E5C;
- Thu, 24 Oct 2019 12:35:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 104DA801E5C;
+ Thu, 24 Oct 2019 12:35:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A22E252E7;
- Thu, 24 Oct 2019 12:35:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A9CBD10027A1;
+ Thu, 24 Oct 2019 12:35:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 18049113292F; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
+ id 1B371113294C; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 09/19] qapi: Inline do_qmp_dispatch() into qmp_dispatch()
-Date: Thu, 24 Oct 2019 14:34:48 +0200
-Message-Id: <20191024123458.13505-10-armbru@redhat.com>
+Subject: [RFC PATCH 10/19] qapi: Simplify how qmp_dispatch() deals with
+ QCO_NO_SUCCESS_RESP
+Date: Thu, 24 Oct 2019 14:34:49 +0200
+Message-Id: <20191024123458.13505-11-armbru@redhat.com>
 In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
 References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: h1SAaQn5M8qoQTzUGLtDXQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: oULp1_mRNAieugi6TVf_Gg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,166 +77,58 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both functions check @request is a QDict, and both have code for
-QCO_NO_SUCCESS_RESP.  This wasn't the case back when they were
-created.  It's a sign of muddled responsibilities.  Inline.  The next
-commits will clean up some more.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/qmp-dispatch.c | 90 +++++++++++++++++++++------------------------
- 1 file changed, 41 insertions(+), 49 deletions(-)
+ qapi/qmp-dispatch.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index bc264b3c9b..a69d5b5a96 100644
+index a69d5b5a96..d1643fe37a 100644
 --- a/qapi/qmp-dispatch.c
 +++ b/qapi/qmp-dispatch.c
-@@ -75,19 +75,42 @@ static QDict *qmp_dispatch_check_obj(const QObject *req=
-uest, bool allow_oob,
-     return dict;
- }
-=20
--static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
--                                bool allow_oob, Error **errp)
-+QDict *qmp_error_response(Error *err)
- {
--    Error *local_err =3D NULL;
-+    QDict *rsp;
-+
-+    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s =
-} }",
-+                                  QapiErrorClass_str(error_get_class(err))=
-,
-+                                  error_get_pretty(err));
-+    error_free(err);
-+    return rsp;
-+}
-+
-+/*
-+ * Does @qdict look like a command to be run out-of-band?
-+ */
-+bool qmp_is_oob(const QDict *dict)
-+{
-+    return qdict_haskey(dict, "exec-oob")
-+        && !qdict_haskey(dict, "execute");
-+}
-+
-+QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
-+                    bool allow_oob)
-+{
-+    Error *err =3D NULL;
-     bool oob;
-     const char *command;
--    QDict *args, *dict;
-+    QDict *args;
-     QmpCommand *cmd;
-+    QDict *dict =3D qobject_to(QDict, request);
-+    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
-     QObject *ret =3D NULL;
-+    QDict *rsp;
-=20
--    dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
-+    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
-     if (!dict) {
--        return NULL;
-+        goto out;
-     }
-=20
-     command =3D qdict_get_try_str(dict, "execute");
-@@ -99,27 +122,27 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, =
-QObject *request,
-     }
-     cmd =3D qmp_find_command(cmds, command);
-     if (cmd =3D=3D NULL) {
--        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has not been found", command);
--        return NULL;
-+        goto out;
-     }
-     if (!cmd->enabled) {
--        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has been disabled for this instance",
-                   command);
--        return NULL;
-+        goto out;
-     }
-     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
--        error_setg(errp, "The command %s does not support OOB",
-+        error_setg(&err, "The command %s does not support OOB",
-                    command);
--        return NULL;
-+        goto out;
-     }
-=20
-     if (runstate_check(RUN_STATE_PRECONFIG) &&
-         !(cmd->options & QCO_ALLOW_PRECONFIG)) {
--        error_setg(errp, "The command '%s' isn't permitted in '%s' state",
-+        error_setg(&err, "The command '%s' isn't permitted in '%s' state",
-                    cmd->name, RunState_str(RUN_STATE_PRECONFIG));
--        return NULL;
-+        goto out;
-     }
-=20
-     if (!qdict_haskey(dict, "arguments")) {
-@@ -129,9 +152,9 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, Q=
-Object *request,
+@@ -151,31 +151,31 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *re=
+quest,
+         args =3D qdict_get_qdict(dict, "arguments");
          qobject_ref(args);
      }
-=20
--    cmd->fn(args, &ret, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    cmd->fn(args, &ret, &err);=20
-+    if (err) {
-+        ;
-     } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
+-
+     cmd->fn(args, &ret, &err);=20
++    qobject_unref(args);
+     if (err) {
+-        ;
+-    } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
++        goto out;
++    }
++
++    if (cmd->options & QCO_NO_SUCCESS_RESP) {
          g_assert(!ret);
++        return NULL;
      } else if (!ret) {
-@@ -141,38 +164,7 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, =
-QObject *request,
+         /* TODO turn into assertion */
+         ret =3D QOBJECT(qdict_new());
+     }
 =20
-     qobject_unref(args);
-=20
--    return ret;
--}
+-    qobject_unref(args);
 -
--QDict *qmp_error_response(Error *err)
--{
--    QDict *rsp;
--
--    rsp =3D qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s =
-} }",
--                                  QapiErrorClass_str(error_get_class(err))=
-,
--                                  error_get_pretty(err));
--    error_free(err);
--    return rsp;
--}
--
--/*
-- * Does @qdict look like a command to be run out-of-band?
-- */
--bool qmp_is_oob(const QDict *dict)
--{
--    return qdict_haskey(dict, "exec-oob")
--        && !qdict_haskey(dict, "execute");
--}
--
--QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
--                    bool allow_oob)
--{
--    Error *err =3D NULL;
--    QDict *dict =3D qobject_to(QDict, request);
--    QObject *ret, *id =3D dict ? qdict_get(dict, "id") : NULL;
--    QDict *rsp;
--
--    ret =3D do_qmp_dispatch(cmds, request, allow_oob, &err);
-+out:
+ out:
++    assert(!err !=3D !ret);
++
      if (err) {
          rsp =3D qmp_error_response(err);
-     } else if (ret) {
+-    } else if (ret) {
++    } else {
+         rsp =3D qdict_new();
+         qdict_put_obj(rsp, "return", ret);
+-    } else {
+-        /* Can only happen for commands with QCO_NO_SUCCESS_RESP */
+-        rsp =3D NULL;
+     }
+=20
+-    if (rsp && id) {
++    if (id) {
+         qdict_put_obj(rsp, "id", qobject_ref(id));
+     }
+=20
 --=20
 2.21.0
 
