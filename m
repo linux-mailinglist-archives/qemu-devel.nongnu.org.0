@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4B5E2C09
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:24:06 +0200 (CEST)
-Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45D6E2C1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:27:29 +0200 (CEST)
+Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYPc-0005md-NX
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36560)
+	id 1iNYSu-0003EB-BS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:27:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKT-0004k8-Ah
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKT-0004jP-1c
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKR-000558-J6
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:45 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45981 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKR-00054i-Gv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:44 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43339 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNYKR-0004zl-71; Thu, 24 Oct 2019 04:18:43 -0400
+ id 1iNYKR-0004zj-50; Thu, 24 Oct 2019 04:18:43 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zKrY36ctz9sRK; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
+ id 46zKrY1qc1z9sRQ; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571905117;
- bh=UZTZ+rNi2S7nifzD4DHbqXRrfElzrdf4P+U68TJ+Ip4=;
+ bh=QE+VjKlHW32sv6S8hNVKI2dRx7I/EdLEKnK8b1S4tII=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DxlR9TgEwFtNCW49PwOaOBaEmppb7j4rlJDlFz8Rnctd4pAI55/cM1rkMacssxahP
- ypOOWPXn3n/oUwQ909xi92qJ+o/dfPLi3wsp240TCqJZObGhtpKHVvuNR/+Y+mobVZ
- 6CIodkk9dqHTgMSyJ/ZDBRgU9fbBALDixFuU6ZII=
+ b=WmLnmIRilamn5zF4pL5LIcpkopvOST42DzAQDGJPgOTPGBiXfk9Xm+vnfl2n924zH
+ vtydgDT/oNrE1POMsn3q2iohAJjcYbeD5pvT7ozwD1UdG6Avu7R/D+j2ohvxBO+exV
+ 8rtatOalwnHXHQ9JAzjeXrfdOOtAyxdns9bUOkvE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/28] spapr: Set VSMT to smp_threads by default
-Date: Thu, 24 Oct 2019 19:17:51 +1100
-Message-Id: <20191024081813.2115-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/28] spapr, xics,
+ xive: Introduce SpaprInterruptController QOM interface
+Date: Thu, 24 Oct 2019 19:17:52 +1100
+Message-Id: <20191024081813.2115-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191024081813.2115-1-david@gibson.dropbear.id.au>
 References: <20191024081813.2115-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,90 +60,119 @@ Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+The SpaprIrq structure is used to represent ths spapr machine's irq
+backend.  Except that it kind of conflates two concepts: one is the
+backend proper - a specific interrupt controller that we might or
+might not be using, the other is the irq configuration which covers
+the layout of irq space and which interrupt controllers are allowed.
 
-Support for setting VSMT is available in KVM since linux-4.13. Most distr=
-os
-that support KVM on POWER already have it. It thus seem reasonable enough
-to have the default machine to set VSMT to smp_threads.
+This leads to some pretty confusing code paths for the "dual"
+configuration where its hooks redirect to other SpaprIrq structures
+depending on the currently active irq controller.
 
-This brings contiguous VCPU ids and thus brings their upper bound down to
-the machine's max_cpus. This is especially useful for XIVE KVM devices,
-which may thus allocate only one VP descriptor per VCPU.
+To clean this up, we start by introducing a new
+SpaprInterruptController QOM interface to represent strictly an
+interrupt controller backend, not counting anything configuration
+related.  We implement this interface in the XICs and XIVE interrupt
+controllers, and in future we'll move relevant methods from SpaprIrq
+into it.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157010411885.246126.12610015369068227139.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr.c         | 7 ++++++-
- include/hw/ppc/spapr.h | 1 +
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ hw/intc/spapr_xive.c       |  4 ++++
+ hw/intc/xics_spapr.c       |  4 ++++
+ hw/ppc/spapr_irq.c         | 13 +++++++++++++
+ include/hw/ppc/spapr_irq.h | 14 ++++++++++++++
+ 4 files changed, 35 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4eb97d3a9b..428b834f30 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2496,6 +2496,7 @@ static CPUArchId *spapr_find_cpu_slot(MachineState =
-*ms, uint32_t id, int *idx)
- static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 04879abf2e..b67e9c3245 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -519,6 +519,10 @@ static const TypeInfo spapr_xive_info =3D {
+     .instance_init =3D spapr_xive_instance_init,
+     .instance_size =3D sizeof(SpaprXive),
+     .class_init =3D spapr_xive_class_init,
++    .interfaces =3D (InterfaceInfo[]) {
++        { TYPE_SPAPR_INTC },
++        { }
++    },
+ };
+=20
+ static void spapr_xive_register_types(void)
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 6e5eb24b3c..4874e6be55 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -343,6 +343,10 @@ static const TypeInfo ics_spapr_info =3D {
+     .name =3D TYPE_ICS_SPAPR,
+     .parent =3D TYPE_ICS,
+     .class_init =3D ics_spapr_class_init,
++    .interfaces =3D (InterfaceInfo[]) {
++        { TYPE_SPAPR_INTC },
++        { }
++    },
+ };
+=20
+ static void xics_spapr_register_types(void)
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 457eabe24c..8791dec1ba 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -23,6 +23,12 @@
+=20
+ #include "trace.h"
+=20
++static const TypeInfo spapr_intc_info =3D {
++    .name =3D TYPE_SPAPR_INTC,
++    .parent =3D TYPE_INTERFACE,
++    .class_size =3D sizeof(SpaprInterruptControllerClass),
++};
++
+ void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis)
  {
-     MachineState *ms =3D MACHINE(spapr);
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-     Error *local_err =3D NULL;
-     bool vsmt_user =3D !!spapr->vsmt;
-     int kvm_smt =3D kvmppc_smt_threads();
-@@ -2522,7 +2523,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState *=
-spapr, Error **errp)
-             goto out;
-         }
-         /* In this case, spapr->vsmt has been set by the command line */
--    } else {
-+    } else if (!smc->smp_threads_vsmt) {
-         /*
-          * Default VSMT value is tricky, because we need it to be as
-          * consistent as possible (for migration), but this requires
-@@ -2531,6 +2532,8 @@ static void spapr_set_vsmt_mode(SpaprMachineState *=
-spapr, Error **errp)
-          * overwhelmingly common case in production systems.
-          */
-         spapr->vsmt =3D MAX(8, smp_threads);
-+    } else {
-+        spapr->vsmt =3D smp_threads;
-     }
+     spapr->irq_map_nr =3D nr_msis;
+@@ -762,3 +768,10 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .set_irq     =3D spapr_irq_set_irq_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+ };
++
++static void spapr_irq_register_types(void)
++{
++    type_register_static(&spapr_intc_info);
++}
++
++type_init(spapr_irq_register_types)
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index 69a37f608e..b9398e0be3 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -31,6 +31,20 @@
 =20
-     /* KVM: If necessary, set the SMT mode: */
-@@ -4438,6 +4441,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-     smc->irq =3D &spapr_irq_dual;
-     smc->dr_phb_enabled =3D true;
-     smc->linux_pci_probe =3D true;
-+    smc->smp_threads_vsmt =3D true;
- }
+ typedef struct SpaprMachineState SpaprMachineState;
 =20
- static const TypeInfo spapr_machine_info =3D {
-@@ -4505,6 +4509,7 @@ static void spapr_machine_4_1_class_options(Machine=
-Class *mc)
-=20
-     spapr_machine_4_2_class_options(mc);
-     smc->linux_pci_probe =3D false;
-+    smc->smp_threads_vsmt =3D false;
-     compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len)=
-;
-     compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
- }
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index cbd1a4c9f3..2009eb64f9 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -122,6 +122,7 @@ struct SpaprMachineClass {
-     bool broken_host_serial_model; /* present real host info to the gues=
-t */
-     bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
-     bool linux_pci_probe;
-+    bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
-=20
-     void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-                           uint64_t *buid, hwaddr *pio,=20
++typedef struct SpaprInterruptController SpaprInterruptController;
++
++#define TYPE_SPAPR_INTC "spapr-interrupt-controller"
++#define SPAPR_INTC(obj)                                     \
++    INTERFACE_CHECK(SpaprInterruptController, (obj), TYPE_SPAPR_INTC)
++#define SPAPR_INTC_CLASS(klass)                                     \
++    OBJECT_CLASS_CHECK(SpaprInterruptControllerClass, (klass), TYPE_SPAP=
+R_INTC)
++#define SPAPR_INTC_GET_CLASS(obj)                                   \
++    OBJECT_GET_CLASS(SpaprInterruptControllerClass, (obj), TYPE_SPAPR_IN=
+TC)
++
++typedef struct SpaprInterruptControllerClass {
++    InterfaceClass parent;
++} SpaprInterruptControllerClass;
++
+ void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
+ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool ali=
+gn,
+                         Error **errp);
 --=20
 2.21.0
 
