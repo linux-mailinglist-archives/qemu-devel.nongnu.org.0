@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22058E2872
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 04:50:36 +0200 (CEST)
-Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606B4E2874
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 04:52:06 +0200 (CEST)
+Received: from localhost ([::1]:56492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNTCt-0002Kj-7r
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 22:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41470)
+	id 1iNTEL-0005WX-DP
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 22:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iNT9A-00036J-1l
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:45 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNT9G-0003I6-IQ
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iNT98-0005nL-Jq
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38505
+ (envelope-from <ehabkost@redhat.com>) id 1iNT9F-0005xv-Ao
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57352
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNT98-0005mZ-F0
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:42 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNT9F-0005xa-5g
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 22:46:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571885201;
+ s=mimecast20190719; t=1571885208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PssP5r9I/AvGQJl5jbf7fQBnA+KBtK6Jd6fBhm1vPWo=;
- b=hqpg/Apn1ccYzqKwlVk5PGsYws13mnKEJvA6Do6f6dyiTPK+/VA6mM8/Cxb5LoFbdARUAt
- g+XgeTSlK6o63pFOtvjpo45FtUumKpeaCJaNgs5GxooNuQuyLFQ96JC3JmRSKJAb0uUCm+
- QnMkGQrRHzQoQIlHb/cgfL1l9ou9Es8=
+ bh=YwsIntaK93+/QfigO4uKILcu/rtNTqqyJGji00Oz8JM=;
+ b=B7PvY7WpzCx2Pn6tbYnIL5F0fxsRtswOSuuw7SWakNp3zVE6Ralb+BnJqluW9IHPvYKgIA
+ XFEAAz/1n0gtfpWOpeY+cxRxvpOkeg3YUhOX94322My7iGJTVvNXPQsGOHSnKadvGQCx3k
+ EnKMxCPMGBu9ScsYN2utnm2zaihD5bs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-LYBzm33DNhaTKQZXoveDBA-1; Wed, 23 Oct 2019 22:46:38 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-256-KM-bTz0gOzCyOzwkHY3R9A-1; Wed, 23 Oct 2019 22:46:44 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAA4080183E;
- Thu, 24 Oct 2019 02:46:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89AE780183E;
+ Thu, 24 Oct 2019 02:46:43 +0000 (UTC)
 Received: from localhost (ovpn-116-56.gru2.redhat.com [10.97.116.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BFA8194BB;
- Thu, 24 Oct 2019 02:46:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BB7960BF1;
+ Thu, 24 Oct 2019 02:46:37 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Peter Maydell <peter.maydell@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org,
  Igor Mammedov <imammedo@redhat.com>
-Subject: [PULL 3/4] ppc: rs6000_mc: drop usage of
- memory_region_allocate_system_memory()
-Date: Wed, 23 Oct 2019 23:46:22 -0300
-Message-Id: <20191024024623.18848-4-ehabkost@redhat.com>
+Subject: [PULL 4/4] hppa: drop usage of memory_region_allocate_system_memory()
+ for ROM
+Date: Wed, 23 Oct 2019 23:46:23 -0300
+Message-Id: <20191024024623.18848-5-ehabkost@redhat.com>
 In-Reply-To: <20191024024623.18848-1-ehabkost@redhat.com>
 References: <20191024024623.18848-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: LYBzm33DNhaTKQZXoveDBA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: KM-bTz0gOzCyOzwkHY3R9A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -74,80 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-rs6000mc_realize() violates memory_region_allocate_system_memory() contract
-by calling it multiple times which could break -mem-path. Replace it with
-plain memory_region_init_ram() instead.
+machine_hppa_init() violates memory_region_allocate_system_memory() contrac=
+t
+by calling it multiple times which could break with -mem-path. Replace
+the second usage (for 'rom') with memory_region_init_ram() instead.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20191008113318.7012-3-imammedo@redhat.com>
+Message-Id: <20191008113318.7012-4-imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/ppc/rs6000_mc.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ hw/hppa/machine.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/rs6000_mc.c b/hw/ppc/rs6000_mc.c
-index df7c0006fc..66b14db5fa 100644
---- a/hw/ppc/rs6000_mc.c
-+++ b/hw/ppc/rs6000_mc.c
-@@ -144,6 +144,7 @@ static void rs6000mc_realize(DeviceState *dev, Error **=
-errp)
-     RS6000MCState *s =3D RS6000MC_DEVICE(dev);
-     int socket =3D 0;
-     unsigned int ram_size =3D s->ram_size / MiB;
-+    Error *local_err =3D NULL;
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 7e23675429..953d454f48 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -161,9 +161,8 @@ static void machine_hppa_init(MachineState *machine)
+     g_free(firmware_filename);
 =20
-     while (socket < 6) {
-         if (ram_size >=3D 64) {
-@@ -165,19 +166,21 @@ static void rs6000mc_realize(DeviceState *dev, Error =
-**errp)
-         if (s->simm_size[socket]) {
-             char name[] =3D "simm.?";
-             name[5] =3D socket + '0';
--            memory_region_allocate_system_memory(&s->simm[socket], OBJECT(=
-dev),
--                                                 name,
--                                                 s->simm_size[socket] * Mi=
-B);
-+            memory_region_init_ram(&s->simm[socket], OBJECT(dev), name,
-+                                   s->simm_size[socket] * MiB, &local_err)=
-;
-+            if (local_err) {
-+                goto out;
-+            }
-             memory_region_add_subregion_overlap(get_system_memory(), 0,
-                                                 &s->simm[socket], socket);
-         }
-     }
-     if (ram_size) {
-         /* unable to push all requested RAM in SIMMs */
--        error_setg(errp, "RAM size incompatible with this board. "
-+        error_setg(&local_err, "RAM size incompatible with this board. "
-                    "Try again with something else, like %" PRId64 " MB",
-                    s->ram_size / MiB - ram_size);
--        return;
-+        goto out;
-     }
+     rom_region =3D g_new(MemoryRegion, 1);
+-    memory_region_allocate_system_memory(rom_region, OBJECT(machine),
+-                                         "firmware",
+-                                         (FIRMWARE_END - FIRMWARE_START));
++    memory_region_init_ram(rom_region, NULL, "firmware",
++                           (FIRMWARE_END - FIRMWARE_START), &error_fatal);
+     memory_region_add_subregion(addr_space, FIRMWARE_START, rom_region);
 =20
-     if (s->autoconfigure) {
-@@ -193,6 +196,8 @@ static void rs6000mc_realize(DeviceState *dev, Error **=
-errp)
-=20
-     isa_register_portio_list(ISA_DEVICE(dev), &s->portio, 0x0,
-                              rs6000mc_port_list, s, "rs6000mc");
-+out:
-+    error_propagate(errp, local_err);
- }
-=20
- static const VMStateDescription vmstate_rs6000mc =3D {
+     /* Load kernel */
 --=20
 2.21.0
 
