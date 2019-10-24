@@ -2,103 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFE4E3A4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:45:16 +0200 (CEST)
-Received: from localhost ([::1]:49226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC62E3A69
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:53:32 +0200 (CEST)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhAg-0002NP-Uq
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36569)
+	id 1iNhIh-0007RN-5B
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:53:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <BROGERS@suse.com>) id 1iNgYk-0000RG-8O
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:06:03 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNgZF-0001aw-Jn
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:06:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <BROGERS@suse.com>) id 1iNgYh-0007HE-0O
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:06:00 -0400
-Received: from m9a0001g.houston.softwaregrp.com ([15.124.64.66]:53151)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <BROGERS@suse.com>) id 1iNgYg-00079t-QI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:05:58 -0400
-Received: FROM m9a0001g.houston.softwaregrp.com (15.121.0.191) BY
- m9a0001g.houston.softwaregrp.com WITH ESMTP; 
- Thu, 24 Oct 2019 17:05:12 +0000
-Received: from M4W0335.microfocus.com (2002:f78:1193::f78:1193) by
- M9W0068.microfocus.com (2002:f79:bf::f79:bf) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10; Thu, 24 Oct 2019 16:58:30 +0000
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (15.124.8.11) by
- M4W0335.microfocus.com (15.120.17.147) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10 via Frontend Transport; Thu, 24 Oct 2019 16:58:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Np1OL267kPUxL/VhNGy3Fqrtvef5xc7L7y9x0z3vjQKwOz2H9UIyDrHBGfLMiAj7Zhz/Eamof+3u3YqGd4G/J98wZy72SJR/bzwUl9cvH173csYW3cAyFDneqkuysgPwSN6PGyFWCl0ZHiHl28zvSXv8AOJ8isjhiWecYQMNhh8xjCyjVpFRJzJumbDLyRBTs2v+d6I8lRGQSla0ZT/2qJB2FqAr+87q8BrQuepfZfUQfC1CruYR6ITgOsmS4+gj1rWT1XRnGOKYCLXM3Ai9/MsioCC6FzncEIPzuEkY0ZevDSxyB9xIpFLWCJ5dM/8tagP7rIpvuec50zNTUU/tqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cUmSjlz9Ypyg8yqcWh7GBF1Pm9ZFtd+FuNE8X1MbVJg=;
- b=G1RNJiKi1GwX80G4wptNUnAjZnaszEcFxn5Vj/g5MB9uCGMwRaEBu73fExu0w6WS1285e9XkWqoyPU4DfK3JhWuVp7vuGELLiZOq3MV57O7NJBWO1igN64IOV2fE/jUJwC5aHQ9hxVp4IWmX95uzxUBsYqGYBWIda/ktdIKjULUk+BYAZJFtMPO8cpPjVcgV6er08eVilues6jZXwdL9seaFaHGWNXSmECMFogQuXKCvIVwKszbb+rvi97PgR/9oLKNbdYSEYgrUnaMAev4FyDBnsfH5Q9GL/ZK+6wqvGsPDb0BOumpFyV+r+Vy5ELNhaHxAK9nq7DEEiqhczx18kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Received: from DM6PR18MB3098.namprd18.prod.outlook.com (10.255.76.27) by
- DM6PR18MB2363.namprd18.prod.outlook.com (20.179.71.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.20; Thu, 24 Oct 2019 16:58:28 +0000
-Received: from DM6PR18MB3098.namprd18.prod.outlook.com
- ([fe80::a8e4:1c30:1300:226a]) by DM6PR18MB3098.namprd18.prod.outlook.com
- ([fe80::a8e4:1c30:1300:226a%3]) with mapi id 15.20.2387.021; Thu, 24 Oct 2019
- 16:58:28 +0000
-From: Bruce Rogers <BROGERS@suse.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "cathy.zhang@intel.com"
- <cathy.zhang@intel.com>
-Subject: Re: [Resend PATCH 3/3] i386: Add new CPU model Cooperlake
-Thread-Topic: [Resend PATCH 3/3] i386: Add new CPU model Cooperlake
-Thread-Index: AQHViKwscuW931on8USLJe+MArUTzKdqBymA
-Date: Thu, 24 Oct 2019 16:58:28 +0000
-Message-ID: <90b0d32431df459f8961bd7f515c0fdfab2dc0aa.camel@suse.com>
-References: <1571729728-23284-1-git-send-email-cathy.zhang@intel.com>
- <1571729728-23284-4-git-send-email-cathy.zhang@intel.com>
-In-Reply-To: <1571729728-23284-4-git-send-email-cathy.zhang@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=BROGERS@suse.com; 
-x-originating-ip: [137.65.185.78]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 24f3ce24-07b8-49d6-28ee-08d758a3646d
-x-ms-traffictypediagnostic: DM6PR18MB2363:
-x-microsoft-antispam-prvs: <DM6PR18MB23630CACEA08E03BE803EFECD96A0@DM6PR18MB2363.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(376002)(136003)(346002)(366004)(39860400002)(199004)(189003)(25786009)(66946007)(99286004)(71200400001)(14454004)(256004)(478600001)(486006)(81156014)(8676002)(7736002)(36756003)(305945005)(229853002)(71190400001)(81166006)(8936002)(6486002)(476003)(6246003)(6436002)(5660300002)(6512007)(11346002)(2616005)(4326008)(110136005)(76176011)(86362001)(26005)(102836004)(186003)(6506007)(446003)(118296001)(66066001)(316002)(2906002)(76116006)(91956017)(66446008)(64756008)(66476007)(66556008)(6116002)(3846002)(4001150100001)(2501003)(54906003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR18MB2363;
- H:DM6PR18MB3098.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: suse.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4oUIDSN00IALN003kXu+8X8eDiBNUnEYWda0JL6awoCykCQABbFGpNVNDhkpX1LZh5JmKLrruJIMJ8Sg/7AnU+jRpVUGfNpYsEjg71yPKpy3wBMkh+JHVmaMKrjL62L/LUPXtMYoYfrlY1VtbIyEfChNJnRrcW1drW7K0FNZNB9U7sEWjkqmyWp+lTq/5JWlvXbNvGsh9EXv9hYGrFdWVE0/+bv48uvtRByxhGhzE/Y6Akzilza5bxtpjJZWdz/P8BWDxjXYjOKhgzZgLTiVVf6Y30y6gQ1gB0Dv0a5vdK5Tqq19ouVEmX+r5DTi+7lGf07mFHbRHlFz4da17Ubh6ouWpuh2/YrbwaPavj+T114vf1E6QVHF+LHRAnx7DE18iFfeBsSGCdjOqZQEXa2k6VNlF+07BHXGvtzy9Kl4/bpJudprodbgeLdKfrVwruOI
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E31497934EBE594599950EE9AE52645E@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <alex.bennee@linaro.org>) id 1iNgZE-0007dt-4h
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:06:33 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:32925)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNgZD-0007dn-UK
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:06:32 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 6so2435289wmf.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=aK5jMgNLWU7Qsn0qwEkDmmLl00urLpM/NU6gCfZo9fw=;
+ b=Fu0yeYqQteA0T7l9U58T0K7u2CqPyDLVjbX6SmQq1v5yYswCoxIOhtx296iTZm01QX
+ G7Lom3sU6cg3xK1OmDtGkDJyeT2xE+eMGdxc0IM/r5bD5sJ5f/TRXoXoscpuuj4rsrta
+ W/F1UDa2QToIVmeswOPyHPSjC/OtlCxfTENc/SUmIBBjv4Ppf1HWHoWZdlWrG8jwaIAf
+ Dapc61+NyCHJPMb/6J5G9jhKjvbE0+/L77wwbsFjS6J/HvKGkzaJ7q6ScrLBo7J1289+
+ qKn7424U8V5o9RmlrE6D2r3fWENvt8K/klBm/lC+cqOelVzvpXtdWUc773MxbxkY5ttz
+ TkpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=aK5jMgNLWU7Qsn0qwEkDmmLl00urLpM/NU6gCfZo9fw=;
+ b=de3oNOCiBOZGI62nvceXtWPsTvwsWBO5a70yaxMo56CP6oP6dilMpqyxjXCCjH+BWl
+ DJvYglDj030dKMv4xZ+qPXCh3U2G/lnUp/r4VFIJGfTiQSsgy7YZdymo9Y3kgBV5GSJM
+ SFk2+GQp8Fp06t3HchrDc0TC8tMeovuV2I0n44Nrgv9EdLi7fpv/Lhbj5Oyl9LpvMo+/
+ 8rPbFU6OGGSEdeI7tfc5L316mxxtauC1227i0ikG/KdR2hr54SQttiifqFYp46thUslB
+ RZlL/S/TITFZpYFjG2vSzGnMFvjVd1TSXmYtY2Zk02NBlYIT8FuBhs6XXQWpcT4RzY+M
+ 6Qgg==
+X-Gm-Message-State: APjAAAW07bfm1ZGgQn46j6SLYvSVPUV5ZNs8V23T/mp8G3T4MA/jIa4z
+ 5TmKOHVsMq3tJJDwBhVK7Ojocw==
+X-Google-Smtp-Source: APXvYqyZ3l0V4CeSBOfnnuzb/f93YPUJxkuOEnNI6U4hWFtLU3OnNoY0sychz2aNuScESKCIc7lJEA==
+X-Received: by 2002:a7b:c04c:: with SMTP id u12mr3724924wmc.134.1571936790456; 
+ Thu, 24 Oct 2019 10:06:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u187sm2232391wme.15.2019.10.24.10.06.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 10:06:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E2DAF1FF87;
+ Thu, 24 Oct 2019 18:06:28 +0100 (BST)
+References: <20191024160619.14179-1-alex.bennee@linaro.org>
+ <4f36130d-f2cc-2432-7098-b73f82c1501e@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] travis.yml: enable linux-gcc-debug-tcg cache
+In-reply-to: <4f36130d-f2cc-2432-7098-b73f82c1501e@redhat.com>
+Date: Thu, 24 Oct 2019 18:06:28 +0100
+Message-ID: <877e4um5t7.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24f3ce24-07b8-49d6-28ee-08d758a3646d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 16:58:28.3453 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: G2jtwP/jhfFp54SZKtKxb4eHizRDpNpdTRJuJodiL70ajK+QakJSDD5vGa2l7+fwGW3nakZ7EwuV3UnL9frAIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR18MB2363
-X-OriginatorOrg: suse.com
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 15.124.64.66
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,83 +82,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCAyMDE5LTEwLTIyIGF0IDE1OjM1ICswODAwLCBDYXRoeSBaaGFuZyB3cm90ZToNCj4g
-Q29vcGVyIExha2UgaXMgaW50ZWwncyBzdWNjZXNzb3IgdG8gQ2FzY2FkZSBMYWtlLCB0aGUgbmV3
-DQo+IENQVSBtb2RlbCBpbmhlcml0cyBmZWF0dXJlcyBmcm9tIENhc2NhZGVsYWtlLVNlcnZlciwg
-d2hpbGUNCj4gYWRkIG9uZSBwbGF0Zm9ybSBhc3NvY2lhdGVkIG5ldyBmZWF0dXJlOiBBVlg1MTJf
-QkYxNi4gTWVhbndoaWxlLA0KPiBhZGQgU1RJQlAgZm9yIHNwZWN1bGF0aXZlIGV4ZWN1dGlvbi4N
-Cj4gDQo+IFNpZ25lZC1vZmYtYnk6IENhdGh5IFpoYW5nIDxjYXRoeS56aGFuZ0BpbnRlbC5jb20+
-DQo+IFJldmlld2VkLWJ5OiBYaWFveWFvIExpIDx4aWFveWFvLmxpQGludGVsLmNvbT4NCj4gUmV2
-aWV3ZWQtYnk6IFRhbyBYdSA8dGFvMy54dUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgdGFyZ2V0L2kz
-ODYvY3B1LmMgfCA2MA0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgNjAgaW5zZXJ0aW9ucygrKQ0KPiAN
-Cj4gZGlmZiAtLWdpdCBhL3RhcmdldC9pMzg2L2NwdS5jIGIvdGFyZ2V0L2kzODYvY3B1LmMNCj4g
-aW5kZXggNDRmMWJiZC4uNjMwYTE5MCAxMDA2NDQNCj4gLS0tIGEvdGFyZ2V0L2kzODYvY3B1LmMN
-Cj4gKysrIGIvdGFyZ2V0L2kzODYvY3B1LmMNCj4gQEAgLTI2MTIsNiArMjYxMiw2NiBAQCBzdGF0
-aWMgWDg2Q1BVRGVmaW5pdGlvbiBidWlsdGluX3g4Nl9kZWZzW10gPSB7DQo+ICAgICAgICAgIH0N
-Cj4gICAgICB9LA0KPiAgICAgIHsNCj4gKyAgICAgICAgLm5hbWUgPSAiQ29vcGVybGFrZSIsDQo+
-ICsgICAgICAgIC5sZXZlbCA9IDB4ZCwNCj4gKyAgICAgICAgLnZlbmRvciA9IENQVUlEX1ZFTkRP
-Ul9JTlRFTCwNCj4gKyAgICAgICAgLmZhbWlseSA9IDYsDQo+ICsgICAgICAgIC5tb2RlbCA9IDg1
-LA0KPiArICAgICAgICAuc3RlcHBpbmcgPSAxMCwNCj4gKyAgICAgICAgLmZlYXR1cmVzW0ZFQVRf
-MV9FRFhdID0NCj4gKyAgICAgICAgICAgIENQVUlEX1ZNRSB8IENQVUlEX1NTRTIgfCBDUFVJRF9T
-U0UgfCBDUFVJRF9GWFNSIHwNCj4gQ1BVSURfTU1YIHwNCj4gKyAgICAgICAgICAgIENQVUlEX0NM
-RkxVU0ggfCBDUFVJRF9QU0UzNiB8IENQVUlEX1BBVCB8IENQVUlEX0NNT1YgfA0KPiBDUFVJRF9N
-Q0EgfA0KPiArICAgICAgICAgICAgQ1BVSURfUEdFIHwgQ1BVSURfTVRSUiB8IENQVUlEX1NFUCB8
-IENQVUlEX0FQSUMgfA0KPiBDUFVJRF9DWDggfA0KPiArICAgICAgICAgICAgQ1BVSURfTUNFIHwg
-Q1BVSURfUEFFIHwgQ1BVSURfTVNSIHwgQ1BVSURfVFNDIHwNCj4gQ1BVSURfUFNFIHwNCj4gKyAg
-ICAgICAgICAgIENQVUlEX0RFIHwgQ1BVSURfRlA4NywNCj4gKyAgICAgICAgLmZlYXR1cmVzW0ZF
-QVRfMV9FQ1hdID0NCj4gKyAgICAgICAgICAgIENQVUlEX0VYVF9BVlggfCBDUFVJRF9FWFRfWFNB
-VkUgfCBDUFVJRF9FWFRfQUVTIHwNCj4gKyAgICAgICAgICAgIENQVUlEX0VYVF9QT1BDTlQgfCBD
-UFVJRF9FWFRfWDJBUElDIHwgQ1BVSURfRVhUX1NTRTQyIHwNCj4gKyAgICAgICAgICAgIENQVUlE
-X0VYVF9TU0U0MSB8IENQVUlEX0VYVF9DWDE2IHwgQ1BVSURfRVhUX1NTU0UzIHwNCj4gKyAgICAg
-ICAgICAgIENQVUlEX0VYVF9QQ0xNVUxRRFEgfCBDUFVJRF9FWFRfU1NFMyB8DQo+ICsgICAgICAg
-ICAgICBDUFVJRF9FWFRfVFNDX0RFQURMSU5FX1RJTUVSIHwgQ1BVSURfRVhUX0ZNQSB8DQo+IENQ
-VUlEX0VYVF9NT1ZCRSB8DQo+ICsgICAgICAgICAgICBDUFVJRF9FWFRfUENJRCB8IENQVUlEX0VY
-VF9GMTZDIHwgQ1BVSURfRVhUX1JEUkFORCwNCj4gKyAgICAgICAgLmZlYXR1cmVzW0ZFQVRfODAw
-MF8wMDAxX0VEWF0gPQ0KPiArICAgICAgICAgICAgQ1BVSURfRVhUMl9MTSB8IENQVUlEX0VYVDJf
-UERQRTFHQiB8IENQVUlEX0VYVDJfUkRUU0NQIHwNCj4gKyAgICAgICAgICAgIENQVUlEX0VYVDJf
-TlggfCBDUFVJRF9FWFQyX1NZU0NBTEwsDQo+ICsgICAgICAgIC5mZWF0dXJlc1tGRUFUXzgwMDBf
-MDAwMV9FQ1hdID0NCj4gKyAgICAgICAgICAgIENQVUlEX0VYVDNfQUJNIHwgQ1BVSURfRVhUM19M
-QUhGX0xNIHwNCj4gQ1BVSURfRVhUM18zRE5PV1BSRUZFVENILA0KPiArICAgICAgICAuZmVhdHVy
-ZXNbRkVBVF83XzBfRUJYXSA9DQo+ICsgICAgICAgICAgICBDUFVJRF83XzBfRUJYX0ZTR1NCQVNF
-IHwgQ1BVSURfN18wX0VCWF9CTUkxIHwNCj4gKyAgICAgICAgICAgIENQVUlEXzdfMF9FQlhfSExF
-IHwgQ1BVSURfN18wX0VCWF9BVlgyIHwNCj4gQ1BVSURfN18wX0VCWF9TTUVQIHwNCj4gKyAgICAg
-ICAgICAgIENQVUlEXzdfMF9FQlhfQk1JMiB8IENQVUlEXzdfMF9FQlhfRVJNUyB8DQo+IENQVUlE
-XzdfMF9FQlhfSU5WUENJRCB8DQo+ICsgICAgICAgICAgICBDUFVJRF83XzBfRUJYX1JUTSB8IENQ
-VUlEXzdfMF9FQlhfUkRTRUVEIHwNCj4gQ1BVSURfN18wX0VCWF9BRFggfA0KPiArICAgICAgICAg
-ICAgQ1BVSURfN18wX0VCWF9TTUFQIHwgQ1BVSURfN18wX0VCWF9DTFdCIHwNCj4gKyAgICAgICAg
-ICAgIENQVUlEXzdfMF9FQlhfQVZYNTEyRiB8IENQVUlEXzdfMF9FQlhfQVZYNTEyRFEgfA0KPiAr
-ICAgICAgICAgICAgQ1BVSURfN18wX0VCWF9BVlg1MTJCVyB8IENQVUlEXzdfMF9FQlhfQVZYNTEy
-Q0QgfA0KPiArICAgICAgICAgICAgQ1BVSURfN18wX0VCWF9BVlg1MTJWTCB8IENQVUlEXzdfMF9F
-QlhfQ0xGTFVTSE9QVCwNCj4gKyAgICAgICAgLmZlYXR1cmVzW0ZFQVRfN18wX0VDWF0gPQ0KPiAr
-ICAgICAgICAgICAgQ1BVSURfN18wX0VDWF9QS1UgfA0KPiArICAgICAgICAgICAgQ1BVSURfN18w
-X0VDWF9BVlg1MTJWTk5JLA0KPiArICAgICAgICAuZmVhdHVyZXNbRkVBVF83XzBfRURYXSA9DQo+
-ICsgICAgICAgICAgICBDUFVJRF83XzBfRURYX1NQRUNfQ1RSTCB8IENQVUlEXzdfMF9FRFhfU1RJ
-QlAgfA0KPiArICAgICAgICAgICAgQ1BVSURfN18wX0VEWF9TUEVDX0NUUkxfU1NCRCB8DQo+IENQ
-VUlEXzdfMF9FRFhfQVJDSF9DQVBBQklMSVRJRVMsDQo+ICsgICAgICAgIC5mZWF0dXJlc1tGRUFU
-X0FSQ0hfQ0FQQUJJTElUSUVTXSA9DQo+ICsgICAgICAgICAgICBNU1JfQVJDSF9DQVBfUkRDTF9O
-TyB8IE1TUl9BUkNIX0NBUF9JQlJTX0FMTCB8DQo+ICsgICAgICAgICAgICBNU1JfQVJDSF9DQVBf
-U0tJUF9MMURGTF9WTUVOVFJZIHwgTVNSX0FSQ0hfQ0FQX01EU19OTywNCj4gKyAgICAgICAgLmZl
-YXR1cmVzW0ZFQVRfN18xX0VBWF0gPQ0KPiArICAgICAgICAgICAgQ1BVSURfN18xX0VBWF9BVlg1
-MTJfQkYxNiwNCj4gKyAgICAgICAgLyoNCj4gKyAgICAgICAgICogTWlzc2luZzogWFNBVkVTIChu
-b3Qgc3VwcG9ydGVkIGJ5IHNvbWUgTGludXggdmVyc2lvbnMsDQo+ICsgICAgICAgICAqIGluY2x1
-ZGluZyB2NC4xIHRvIHY0LjEyKS4NCj4gKyAgICAgICAgICogS1ZNIGRvZXNuJ3QgeWV0IGV4cG9z
-ZSBhbnkgWFNBVkVTIHN0YXRlIHNhdmUgY29tcG9uZW50LA0KPiArICAgICAgICAgKiBhbmQgdGhl
-IG9ubHkgb25lIGRlZmluZWQgaW4gU2t5bGFrZSAocHJvY2Vzc29yIHRyYWNpbmcpDQo+ICsgICAg
-ICAgICAqIHByb2JhYmx5IHdpbGwgYmxvY2sgbWlncmF0aW9uIGFueXdheS4NCj4gKyAgICAgICAg
-ICovDQo+ICsgICAgICAgIC5mZWF0dXJlc1tGRUFUX1hTQVZFXSA9DQo+ICsgICAgICAgICAgICBD
-UFVJRF9YU0FWRV9YU0FWRU9QVCB8IENQVUlEX1hTQVZFX1hTQVZFQyB8DQo+ICsgICAgICAgICAg
-ICBDUFVJRF9YU0FWRV9YR0VUQlYxLA0KPiArICAgICAgICAuZmVhdHVyZXNbRkVBVF82X0VBWF0g
-PQ0KPiArICAgICAgICAgICAgQ1BVSURfNl9FQVhfQVJBVCwNCj4gKyAgICAgICAgLnhsZXZlbCA9
-IDB4ODAwMDAwMDgsDQo+ICsgICAgICAgIC5tb2RlbF9pZCA9ICJJbnRlbCBYZW9uIFByb2Nlc3Nv
-ciAoQ29vcGVybGFrZSkiLA0KPiArICAgIH0sDQo+ICsgICAgew0KPiAgICAgICAgICAubmFtZSA9
-ICJJY2VsYWtlLUNsaWVudCIsDQo+ICAgICAgICAgIC5sZXZlbCA9IDB4ZCwNCj4gICAgICAgICAg
-LnZlbmRvciA9IENQVUlEX1ZFTkRPUl9JTlRFTCwNCg0KTG9va3MgZmluZSB0byBtZS4NCg0KUmV2
-aWV3ZWQtYnk6IEJydWNlIFJvZ2VycyA8YnJvZ2Vyc0BzdXNlLmNvbT4NCg0KLSBCcnVjZQ0K
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> On 10/24/19 6:06 PM, Alex Benn=C3=A9e wrote:
+>> Create a new cache for the --enable-debug-tcg builds which is separate
+>> from the normal debug builds which generate different code. We also
+>> enable debug-tcg for the new plugins based builds as we want to ensure
+>> any breakage to TCG is picked up by the sanity checks.
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   .travis.yml | 14 +++++++-------
+>>   1 file changed, 7 insertions(+), 7 deletions(-)
+>> diff --git a/.travis.yml b/.travis.yml
+>> index e3f10a93683..34bc8134f5b 100644
+>> --- a/.travis.yml
+>> +++ b/.travis.yml
+>> @@ -135,7 +135,7 @@ matrix:
+>>       # TCG debug can be run just on its own and is mostly agnostic to u=
+ser/softmmu distinctions
+>>       - env:
+>>           - CONFIG=3D"--enable-debug-tcg --disable-system"
+>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug"
+>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>
+> This one runs default TEST_CMD=3D"make check -j3 V=3D1"
+
+That does exercise the TCG a little because the various qemu-system-FOO
+builds have some bootcode. However given we exercise the TCG more
+further down we could just drop this matrix entry.
+
+>
+>>
+>>       - env:
+>> @@ -336,29 +336,29 @@ matrix:
+>>       - env:
+>>           - CONFIG=3D"--disable-system --enable-debug-tcg"
+>>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>
+> And this one "check-tcg", OK.
+> (Maybe we can reorder the $CONFIG arguments so both jobs are more similar=
+).
+>
+> Too bad Travis 'stages' are an enterprise feature:
+>
+> https://docs.travis-ci.com/user/conditional-builds-stages-jobs/#condition=
+al-stages
+>
+> Because here we are building 2x the same, and cache isn't used.
+
+Why isn't the cache used?
+
+>
+> Not this patch problem.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>
+>>       # Run check-tcg against linux-user (with plugins)
+>>       # we skip sparc64-linux-user until it has been fixed somewhat
+>>       - env:
+>> -        - CONFIG=3D"--disable-system --enable-plugins --target-list-exc=
+lude=3Dsparc64-linux-user"
+>> +        - CONFIG=3D"--disable-system --enable-plugins --enable-debug-tc=
+g --target-list-exclude=3Dsparc64-linux-user"
+>>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>
+>>       # Run check-tcg against softmmu targets
+>>       - env:
+>>           - CONFIG=3D"--enable-debug-tcg --target-list=3Dxtensa-softmmu,=
+arm-softmmu,aarch64-softmmu,alpha-softmmu"
+>>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>
+>>       # Run check-tcg against softmmu targets (with plugins)
+>>       - env:
+>> -        - CONFIG=3D"--enable-plugins --target-list=3Dxtensa-softmmu,arm=
+-softmmu,aarch64-softmmu,alpha-softmmu"
+>> +        - CONFIG=3D"--enable-plugins --enable-debug-tcg --target-list=
+=3Dxtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+>>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>
+>>       # Release builds
+>>
+
+
+--
+Alex Benn=C3=A9e
 
