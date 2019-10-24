@@ -2,56 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C4CE3A54
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:47:09 +0200 (CEST)
-Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793F1E3A88
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:01:58 +0200 (CEST)
+Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhCV-0005iG-Tb
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:47:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42909)
+	id 1iNhQr-0001T4-46
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iNh9l-0002cb-Gh
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:44:18 -0400
+ (envelope-from <eperezma@redhat.com>) id 1iNggw-00026W-Gt
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:14:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iNh9j-0002EM-UN
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:44:17 -0400
-Resent-Date: Thu, 24 Oct 2019 13:44:17 -0400
-Resent-Message-Id: <E1iNh9j-0002EM-UN@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21417)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iNh9j-0002EC-Ms; Thu, 24 Oct 2019 13:44:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571939032; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Q1uMC9cdjAg5k6jPzI8re46jIBo+MJ+BvtuuLGutUprjTUg78ENdK6jfV6fYnZRDsvxBU8o0SEtQqpzGnGuh9zRK+wizPUt6D4EA1IqyfpL9L+6CXo6YDBH9TPNCIwwJIjDsRPrmAuh/WaWD68iBGdeHShjqy1wpYopUHu0mlCk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571939032;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=4Rk43Y9w57kJAvGVSvrB0RJmDJrtaweEh771DHro3Bc=; 
- b=hzjtnrnOaqgDL/SGJU+pqxKXrtfN299Fer7a+z+MsrlLT4jSfaIpGcMp9Ms+cGpb20CAQxwV5iJARwCHUps2EekIGXB/xETc+59g7PX4eUu4oCxuiM+svLT99gkRNvaCovPzTEJB4+YLPhOFhrRC7hS0rV+5HXTF5SuYaY+JYP0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571939030276913.0451988225368;
- Thu, 24 Oct 2019 10:43:50 -0700 (PDT)
-In-Reply-To: <20191023192640.13125-1-keithp@keithp.com>
-Subject: Re: [PATCH] Semihost SYS_READC implementation (v3)
-Message-ID: <157193902885.8606.12537127027528133435@37313f22b938>
+ (envelope-from <eperezma@redhat.com>) id 1iNggu-0001jr-Ps
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:14:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41978
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eperezma@redhat.com>) id 1iNggu-0001jM-Ik
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:14:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571937267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MDR76UI1pO5Ow9dwfWjsK7H+3cP8m9o8KKqRhqQ1EMI=;
+ b=Uk+Se7WJWD6WENDX3kiI9aIQSeblSuzHocw08blaIuagoITTuY+zicWXTxG6A5AOnxD4bg
+ 8t6qDSwJkemhTsDTy9vP2OJ/xfxaHen1K6zH6DKkmd+LvLMDpXIyyMz3DinAGhp2VNliSP
+ MoenEi66QSeneko30xpp5QA90e7s0H8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-evkWrwYzPNmDI1V1ANi3HA-1; Thu, 24 Oct 2019 13:14:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1342F801E5F;
+ Thu, 24 Oct 2019 17:14:21 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-116-206.ams2.redhat.com
+ [10.36.116.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 787655D70E;
+ Thu, 24 Oct 2019 17:14:11 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/9] Packed virtqueue for virtio
+Date: Thu, 24 Oct 2019 19:13:57 +0200
+Message-Id: <20191024171406.12504-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: keithp@keithp.com
-Date: Thu, 24 Oct 2019 10:43:50 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: evkWrwYzPNmDI1V1ANi3HA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,49 +68,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, keithp@keithp.com, riku.voipio@iki.fi,
- qemu-devel@nongnu.org, laurent@vivier.eu, qemu-arm@nongnu.org,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, Amit Shah <amit@kernel.org>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyMzE5MjY0MC4xMzEy
-NS0xLWtlaXRocEBrZWl0aHAuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
-YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
-LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWlt
-YWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0BmZWRv
-cmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBhYXJj
-aDY0LXNvZnRtbXUvdGFyZ2V0L2FybS90cmFuc2xhdGUtc3ZlLm8KLi4vdmwubzogSW4gZnVuY3Rp
-b24gYHFlbXVfbWFpbic6Ci90bXAvcWVtdS10ZXN0L3NyYy92bC5jOjQzODU6IHVuZGVmaW5lZCBy
-ZWZlcmVuY2UgdG8gYHFlbXVfc2VtaWhvc3RpbmdfY29uc29sZV9pbml0Jwpjb2xsZWN0MjogZXJy
-b3I6IGxkIHJldHVybmVkIDEgZXhpdCBzdGF0dXMKbWFrZVsxXTogKioqIFtNYWtlZmlsZToyMDY6
-IHFlbXUtc3lzdGVtLXg4Nl82NHcuZXhlXSBFcnJvciAxCm1ha2U6ICoqKiBbTWFrZWZpbGU6NDgy
-OiB4ODZfNjQtc29mdG1tdS9hbGxdIEVycm9yIDIKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmlu
-aXNoZWQgam9icy4uLi4KICBMSU5LICAgIGFhcmNoNjQtc29mdG1tdS9xZW11LXN5c3RlbS1hYXJj
-aDY0dy5leGUKICBHRU4gICAgIGFhcmNoNjQtc29mdG1tdS9xZW11LXN5c3RlbS1hYXJjaDY0LmV4
-ZQotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nl
-c3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywg
-J3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MjA3NTUzMmVhMGExNGNk
-MjliZWNiOGUxMTA0Njk3OWYnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdzZWNj
-b21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhU
-UkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVC
-VUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNo
-ZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIv
-dG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC02MmNnYzl4
-eS9zcmMvZG9ja2VyLXNyYy4yMDE5LTEwLTI0LTEzLjQwLjM1LjIzMzg5Oi92YXIvdG1wL3FlbXU6
-eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10n
-IHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1j
-b20ucWVtdS5pbnN0YW5jZS51dWlkPTIwNzU1MzJlYTBhMTRjZDI5YmVjYjhlMTEwNDY5NzlmCm1h
-a2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9y
-eSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTYyY2djOXh5L3NyYycKbWFrZTogKioqIFtk
-b2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDNtMTQuNDE5cwp1
-c2VyICAgIDBtNy4wNTZzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0
-Y2hldy5vcmcvbG9ncy8yMDE5MTAyMzE5MjY0MC4xMzEyNS0xLWtlaXRocEBrZWl0aHAuY29tL3Rl
-c3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
-dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
-c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Hi:
+
+This is an updated version of packed virtqueue support based on Wei and Jas=
+on's
+V5, mainly solving the clang leak detector error CI gave.
+
+Please review.
+
+Changes from V5:
+- Fix qemu's CI asan error.
+- Move/copy rcu comments.
+- Merge duplicated vdev->broken check between split and packet version.
+
+Eugenio P=C3=A9rez (3):
+  virtio: Free rng and blk virqueues
+  virtio: add some rcu comments
+  virtio: Move vdev->broken check to dispatch drop_all
+
+Jason Wang (4):
+  virtio: basic packed virtqueue support
+  virtio: event suppression support for packed ring
+  vhost_net: enable packed ring support
+  virtio: add property to enable packed virtqueue
+
+Wei Xu (2):
+  virtio: basic structure for packed ring
+  virtio: device/driverr area size calculation refactor for split ring
+
+ hw/block/virtio-blk.c       |    7 +-
+ hw/char/virtio-serial-bus.c |    2 +-
+ hw/net/vhost_net.c          |    2 +
+ hw/scsi/virtio-scsi.c       |    3 +-
+ hw/virtio/virtio-rng.c      |    1 +
+ hw/virtio/virtio.c          | 1154 ++++++++++++++++++++++++++++++++++++++-=
+----
+ include/hw/virtio/virtio.h  |   14 +-
+ 7 files changed, 1045 insertions(+), 138 deletions(-)
+
+--=20
+2.16.5
 
 
