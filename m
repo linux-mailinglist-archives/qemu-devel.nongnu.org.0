@@ -2,68 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6F1E36FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:47:38 +0200 (CEST)
-Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B09E363B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:13:00 +0200 (CEST)
+Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfKq-0002DT-OT
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35054)
+	id 1iNenL-00082T-7B
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjG-0008O6-Pe
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:47 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iNdmF-0004ub-OH
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:07:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjF-0007y5-AH
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:42 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51397)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdjF-0007xO-3i
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:41 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q70so3013197wme.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=hs3ekp8CnLHyDVgFbGkCYGX2UG3bGpyZUnsgM/bA+io=;
- b=r7Fj5dEzBAZJ61VvjvvXtAO8/av+7byDTbxOIH7LMC92gqndUfZNA4YseXUqCNu4rs
- z2epSrmxWUIzvn/OOcas2gF8PsgWtt1EbxdSyl/oQ0u1YgG4btZm6m9TpaSDCM1oF7bT
- wgqI3SqFs/mShN9Kpif7m1jfXrH7OnYbB0hvLyLStFInroJ+tEakRWAlFd9gQYdSVG4j
- aaJnNVxQpKAlNo30rCJN1cF39gd5qSMY5F9LHWGuNMi0jiFpxw2N70RbS51OlDt0slWS
- iIk+PXsvfIeGU3jTy5uwnDI3pySyQWGv5K2wIHfH9KHxucR9r4CpeXOCSWI/rp0tyvqB
- p81g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=hs3ekp8CnLHyDVgFbGkCYGX2UG3bGpyZUnsgM/bA+io=;
- b=er070TLY5z8+FN1f0Usty4U7MHDyr0w5jqAfqvigfYJcOFA3mMJV/6qnvTXQmOZEka
- Ort3gzyHWyIKdK6Oyy6X/+GITbDrq/CgBXpGkZeszHK+Ej85/Ffy1vKubqYyDs/ZEIrz
- +JBx6150Eg60Ab7hQf5W9xabg6NIDMfFH6AYWh9Jv99BaBMgl03MdcRnA0HlBsH6Kmds
- VuI4eQuq+B10tgftt4M6I4riZB0TJdzbUmXwYBePmSoQutZ3O2tEJCrKWpi7cXArOTiw
- cxCgzTnYbd7bNZzr8iY2pDwydJFMdxLwEu5Vjh2qCMotscOSM7q8hk9WQEWEPqS5D7uC
- dnag==
-X-Gm-Message-State: APjAAAUn/5IxtvifgMCY+nzP0siwrC2AOEDOBsoB13frr7FkkpjS2DFo
- WxW0OLVy4Ej6C/NmxYteh2pspCsR
-X-Google-Smtp-Source: APXvYqypAw00Z5CzoK4GZv2D1OoMhxL8/qr0aBKvaXE2h0t7o8np5MIRFgROQ2a07kLFSMOa8WHiJA==
-X-Received: by 2002:a1c:398b:: with SMTP id g133mr5415568wma.130.1571925879801; 
- Thu, 24 Oct 2019 07:04:39 -0700 (PDT)
-Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.38
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:38 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 39/39] i386: implement IGNNE
-Date: Thu, 24 Oct 2019 16:03:55 +0200
-Message-Id: <1571925835-31930-40-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iNdmE-0000yd-G5
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:07:47 -0400
+Received: from mail-eopbgr70138.outbound.protection.outlook.com
+ ([40.107.7.138]:52454 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iNdmA-0000qQ-4S; Thu, 24 Oct 2019 10:07:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DoqWY4d2WXlRI/IxiszEiv/2aVeoYeoV0GmF2XsiFmMvKopSHq0AXYSgYKt9V7vtqbsyUw6s2G38dt410vfa6LhnwfHYBIvuUGCdWEpYyaeJLVBZjiUNLRzSmYNKSjTpx4ZpL/mLlKOjDBnbizhLjRZH68AaxeN0LaZLFFHLZq9bp+3ods7E2NZich+3LoVCVj4WcsV2hQ/wdKieflneCq6RUbzPxYlPTQjaaEev1TtV7+cuci/t+IUwBqxvagk0v8R4UiagleRsC7nkIZzLDGU3rdxGgZp5gJSTgDhvdiTu1cc2al6oEPr0BABp9bPRvoyruYokIVhJ+N07+BepJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fesfcg6Yo9aZX2Ypm3G1bol+PLmLXoxhyULa8eUj0zo=;
+ b=Hcm4RT1VcYZuuM5cRSI1Sly1j5Dnu0eUj29QxPAHxqqZzW5fLW3rXvyApQUNQdywPaeeO0xOq9J1WLf28FQ1C7F8fUnh94aYL19Uj+3YK2TLBFszYMW7lFNkv+BPxa3XGGraGYG70ncJRNQzru0iBMFFeFaUA8otk4hF0+m5Mx0wAs5B9RBk4D4fJYu+05hvtqXHrZy5EwaZUGv5RxxopnTDH7RIBvQe7aemk/EvboHQ900upjSdta5Ym9CQnDdZ4YK12casFSZ4cZ3aA10sRVbFtgE6OcD1CkM/70ZkP9e3TFngAh73ft+sU7NwjC/Ni+fq7IQ/8P5Vm1oM3P9vig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fesfcg6Yo9aZX2Ypm3G1bol+PLmLXoxhyULa8eUj0zo=;
+ b=TaqmjA8d6Pv9RD+kHULUR09Vjp8yyKxaECMyI5m42sATvEGUGXAMgYOobF0O68GPUOc+RWnE8u/5IeVlTva0Zp6CY/Xr9Nb+7YP9ANSW1wpJXzgkKUKwyejrhA7z5PgASE0IvQszay7SgRI3xagveFZTvnZUkO+F3W1zsSBQAnY=
+Received: from DB6PR08MB2757.eurprd08.prod.outlook.com (10.170.220.33) by
+ DB6PR08MB2693.eurprd08.prod.outlook.com (10.170.222.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.18; Thu, 24 Oct 2019 14:07:39 +0000
+Received: from DB6PR08MB2757.eurprd08.prod.outlook.com
+ ([fe80::a1ee:668f:c3a5:87b]) by DB6PR08MB2757.eurprd08.prod.outlook.com
+ ([fe80::a1ee:668f:c3a5:87b%4]) with mapi id 15.20.2387.023; Thu, 24 Oct 2019
+ 14:07:38 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@virtuozzo.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v5 1/4] block: support compressed write at generic layer
+Thread-Topic: [PATCH v5 1/4] block: support compressed write at generic layer
+Thread-Index: AQHVh4YxkyM0Azl4xEijX5NTK9vhK6dmZxIAgABBJ4D//9ScgIAADIKAgAAOngCAAAlKgIAAQkoAgAKp9ICAAGq2gP//3BKAgAAFdAA=
+Date: Thu, 24 Oct 2019 14:07:38 +0000
+Message-ID: <26cfb4ed-941a-11b0-c1cf-bf3c7e354487@virtuozzo.com>
+References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1571603828-185910-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <408ef2ab-1f6c-2c9f-ad50-92269c20fb27@redhat.com>
+ <eece4ca2-7c40-cae6-b15f-beed73830fd8@virtuozzo.com>
+ <cc3f87c2-3ad5-da4e-4750-27a48bce1ee6@virtuozzo.com>
+ <787da788-9aca-2110-a092-b63ef498a9fa@redhat.com>
+ <ae5bc00f-e65e-8c33-2620-a9147e48ea78@virtuozzo.com>
+ <1088f0ff-d882-083f-705c-95c08bdc486f@redhat.com>
+ <cb6db9c4-0dbc-9d9a-4ec5-b436c48178a8@virtuozzo.com>
+ <4fd89d2a-94aa-6f2d-ed7d-7633356e5163@redhat.com>
+ <539e7d9e-0cb7-fdb7-f376-1648361ec2f3@virtuozzo.com>
+ <8828d08f-79aa-f3a6-4387-f1423a8b7d70@redhat.com>
+In-Reply-To: <8828d08f-79aa-f3a6-4387-f1423a8b7d70@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0202CA0035.eurprd02.prod.outlook.com
+ (2603:10a6:3:e4::21) To DB6PR08MB2757.eurprd08.prod.outlook.com
+ (2603:10a6:6:18::33)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0be78f65-b5ef-492a-5152-08d7588b8721
+x-ms-traffictypediagnostic: DB6PR08MB2693:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB6PR08MB2693D2FAA682977196D5C89AF46A0@DB6PR08MB2693.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:669;
+x-forefront-prvs: 0200DDA8BE
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39840400004)(396003)(136003)(346002)(366004)(376002)(189003)(199004)(6486002)(2501003)(107886003)(44832011)(478600001)(14454004)(6436002)(486006)(186003)(31696002)(71200400001)(11346002)(6506007)(53546011)(2201001)(386003)(26005)(99286004)(6512007)(52116002)(102836004)(76176011)(476003)(2906002)(3846002)(6116002)(86362001)(31686004)(66066001)(2616005)(229853002)(316002)(66946007)(64756008)(66446008)(4326008)(66556008)(66476007)(446003)(71190400001)(110136005)(54906003)(5660300002)(25786009)(6246003)(8676002)(256004)(14444005)(36756003)(305945005)(7736002)(8936002)(81156014)(81166006)(41533002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR08MB2693;
+ H:DB6PR08MB2757.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pNx6tjxfqrOTIitaJLKM2mfwdI++97ZZxB7+WxA/Ny9swpxK8msRlxIDUEkJaCVDHpwgKAwhpjynFSb8HdPIruHTbZRF9IuC3a7mXUD7k3Km7XGOW55iEuRnhJddtU7ee8+VVuzzhMjcYus+h1cqXq5bfnAyW28GAExV/4IVYjU4oHMpwYwFLTo2cd//m9tH5aZsDgYJmxQIbp2FdnANDm4Qo68MFfQg741Kv/DGufHwAMeBEn84XdhP34hiPyb5gXRkNsHIwkCqDh60oXp++eN1onO8AnAEudsWAHol/MpDim0wfUnWfC8LPPu0aBMrv7pxSsrRy6vMEc4VAQntRY093CGdcfu/SPkvYHUywFWiMvu1GDPj+pS4KWrbgI4mVOIPSQK1s3Gf5IKWkj41VQL8xIibU5lK6EAduK381ce9tIMFT8ay0KEMXF+Se06U
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <71ED71E897CE0F4283FAD20CCC6FBC2B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0be78f65-b5ef-492a-5152-08d7588b8721
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 14:07:38.9089 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gVnrA2lQ/whyoN+c209GA+iRxfm6pdAk60goD2iESlRJ0egWNgOQm02jPzKKPHep1rOkMaybgjzJrRjH9sd863IhYM11603utARyhw/I79g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR08MB2693
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.138
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,129 +119,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ Denis Lunev <den@virtuozzo.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change the handling of port F0h writes and FPU exceptions to implement IGNNE.
-
-The implementation mixes a bit what the chipset and processor do in real
-hardware, but the effect is the same as what happens with actual FERR#
-and IGNNE# pins: writing to port F0h asserts IGNNE# in addition to lowering
-FP_IRQ; while clearing the SE bit in the FPU status word deasserts IGNNE#.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/pc.c             |  2 +-
- target/i386/cpu.h        |  4 +++-
- target/i386/fpu_helper.c | 34 +++++++++++++++++++++++++++-------
- 3 files changed, 31 insertions(+), 9 deletions(-)
-
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 66d865b..174b0bd 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -385,7 +385,7 @@ static void ioportF0_write(void *opaque, hwaddr addr, uint64_t data,
-                            unsigned size)
- {
-     if (tcg_enabled()) {
--        cpu_clear_ferr();
-+        cpu_set_ignne();
-     }
- }
- 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 01e052b..5352c9f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -203,6 +203,7 @@ typedef enum X86Seg {
- #define HF2_SMM_INSIDE_NMI_SHIFT 4 /* CPU serving SMI nested inside NMI */
- #define HF2_MPX_PR_SHIFT         5 /* BNDCFGx.BNDPRESERVE */
- #define HF2_NPT_SHIFT            6 /* Nested Paging enabled */
-+#define HF2_IGNNE_SHIFT          7 /* Ignore CR0.NE=0 */
- 
- #define HF2_GIF_MASK            (1 << HF2_GIF_SHIFT)
- #define HF2_HIF_MASK            (1 << HF2_HIF_SHIFT)
-@@ -211,6 +212,7 @@ typedef enum X86Seg {
- #define HF2_SMM_INSIDE_NMI_MASK (1 << HF2_SMM_INSIDE_NMI_SHIFT)
- #define HF2_MPX_PR_MASK         (1 << HF2_MPX_PR_SHIFT)
- #define HF2_NPT_MASK            (1 << HF2_NPT_SHIFT)
-+#define HF2_IGNNE_MASK          (1 << HF2_IGNNE_SHIFT)
- 
- #define CR0_PE_SHIFT 0
- #define CR0_MP_SHIFT 1
-@@ -1762,7 +1764,7 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
- int cpu_get_pic_interrupt(CPUX86State *s);
- /* MSDOS compatibility mode FPU exception support */
- void x86_register_ferr_irq(qemu_irq irq);
--void cpu_clear_ferr(void);
-+void cpu_set_ignne(void);
- /* mpx_helper.c */
- void cpu_sync_bndcs_hflags(CPUX86State *env);
- 
-diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 6825024..99f28f2 100644
---- a/target/i386/fpu_helper.c
-+++ b/target/i386/fpu_helper.c
-@@ -70,14 +70,24 @@ void x86_register_ferr_irq(qemu_irq irq)
-     ferr_irq = irq;
- }
- 
--void cpu_clear_ferr(void)
-+static void cpu_clear_ignne(void)
- {
--    qemu_irq_lower(ferr_irq);
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 &= ~HF2_IGNNE_MASK;
- }
- 
--static void cpu_set_ferr(void)
-+void cpu_set_ignne(void)
- {
--    qemu_irq_raise(ferr_irq);
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 |= HF2_IGNNE_MASK;
-+    /*
-+     * We get here in response to a write to port F0h.  The chipset should
-+     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
-+     * cleared, because FERR# and FP_IRQ are two separate pins on real
-+     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
-+     * do directly what the chipset would do, i.e. deassert FP_IRQ.
-+     */
-+    qemu_irq_lower(ferr_irq);
- }
- #endif
- 
-@@ -160,8 +170,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
-         raise_exception_ra(env, EXCP10_COPR, retaddr);
-     }
- #if !defined(CONFIG_USER_ONLY)
--    else {
--        cpu_set_ferr();
-+    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
-+        qemu_irq_raise(ferr_irq);
-     }
- #endif
- }
-@@ -1056,7 +1066,17 @@ void helper_fstenv(CPUX86State *env, target_ulong ptr, int data32)
- static void cpu_set_fpus(CPUX86State *env, uint16_t fpus)
- {
-     env->fpstt = (fpus >> 11) & 7;
--    env->fpus = fpus & ~0x3800;
-+    env->fpus = fpus & ~0x3800 & ~FPUS_B;
-+    env->fpus |= env->fpus & FPUS_SE ? FPUS_B : 0;
-+#if !defined(CONFIG_USER_ONLY)
-+    if (!(env->fpus & FPUS_SE)) {
-+        /*
-+         * Here the processor deasserts FERR#; in response, the chipset deasserts
-+         * IGNNE#.
-+         */
-+        cpu_clear_ignne();
-+    }
-+#endif
- }
- 
- static void do_fldenv(CPUX86State *env, target_ulong ptr, int data32,
--- 
-1.8.3.1
-
+DQoNCk9uIDI0LzEwLzIwMTkgMTY6NDgsIE1heCBSZWl0eiB3cm90ZToNCj4gT24gMjQuMTAuMTkg
+MTQ6NTYsIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPj4NCj4+DQo+PiBPbiAyNC8xMC8yMDE5
+IDEyOjM0LCBNYXggUmVpdHogd3JvdGU6DQo+Pj4gT24gMjIuMTAuMTkgMTU6NTMsIEFuZHJleSBT
+aGlua2V2aWNoIHdyb3RlOg0KPj4+DQo+Pj4gWy4uLl0NCj4+Pg0KPj4+PiBJZiB0aGUgc3VwcG9y
+dCBvZiBDT1cgZm9yIGNvbXByZXNzZWQgd3JpdGVzIGlzIGZvdW5kIGZlYXNpYmxlLCB3aWxsIGl0
+DQo+Pj4+IG1ha2UgYSBzZW5zZSB0byBpbXBsZW1lbnQ/IFRoZW4gdGhpcyBzZXJpZXMgd2lsbCBm
+b2xsb3cuDQo+Pj4NCj4+PiBIbSwgd2hhdCBleGFjdGx5IGRvIHlvdSBtZWFuIGJ5IHN1cHBvcnQg
+b2YgQ09XIGZvciBjb21wcmVzc2VkIHdyaXRlcz8NCj4+Pg0KPj4NCj4+IEkgc3Bva2UgaW4gdGVy
+bXMgb2YgdGhlIGNvbW1pdCBtZXNzYWdlIHdpdGggdGhlIGZvbGxvd2luZyBJRDoNCj4+DQo+PiBi
+MGI2ODYyZTVlMWExMzk0ZTBhYjNkNWRhOTRiYThiMGRhODY2NGUyDQo+Pg0KPj4gInFjb3cyOiBG
+YWlsIHdyaXRlX2NvbXByZXNzZWQgd2hlbiBvdmVyd3JpdGluZyBkYXRhIg0KPj4NCj4+ICIuLi5x
+Y293Ml93cml0ZV9jb21wcmVzc2VkKCkgZG9lc24ndCBwZXJmb3JtIENPVyBhcyBpdCB3b3VsZCBo
+YXZlIHRvIGRvLi4uIg0KPj4NCj4+IFNvLCBJIHN1Z2dlc3QgdGhhdCB3ZSBpbXBsZW1lbnQgd3Jp
+dGluZyBjb21wcmVzc2VkIGRhdGEgdG8gdGhlIGFsbG9jYXRlZA0KPj4gY2x1c3RlcnMgcmF0aGVy
+IHRoYW4gcWNvdzJfYWxsb2NfY29tcHJlc3NlZF9jbHVzdGVyX29mZnNldCgpIHJldHVybnMgdGhl
+DQo+PiBlcnJvci4gUGFydGljdWxhcmx5LCB3aGVuIGl0IGNvbWVzIHRvIE5CRCBzZXJ2ZXIgY29u
+bmVjdGlvbiBmYWlsdXJlIGZvcg0KPj4gd3JpdGhpbmcgYSBjb21wcmVzc2VkIGNsdXN0ZXIsIGl0
+IG1heSBub3QgYmUgcmV3cml0dGVuIGFmdGVyIHRoZQ0KPj4gY29ubmVjdGlvbiBpcyByZXN0b3Jl
+ZC4NCj4+IEFyZSB0aGVyZSBhbnkgaXNzdWVzIHdpdGggdGhhdCBpbXBsZW1lbnRhdGlvbiBpZGVh
+Pw0KPiANCj4gV2VsbCwgdGhlIENPVyBpbiB0aGF0IGNvbW1pdCBpcyBtZWFudCBkaWZmZXJlbnRs
+eSwgYmVjYXVzZSBpdCByZWZlcnMgdG8NCj4gdGhlIENPVyB0aGF04oCZcyByZXF1aXJlZCB3aGVu
+IHdyaXRpbmcgdG8gYSBjbHVzdGVyIHNoYXJlZCBieSBhbiBpbnRlcm5hbA0KPiBzbmFwc2hvdC4N
+Cj4gDQo+IE9UT0gsIHlvdSBjb3VsZCBzYXkgdGhhdCBhbGwgY29tcHJlc3NlZCB3cml0ZXMgdG8g
+YSBjbHVzdGVyIHRoYXQgaXMNCj4gYWxyZWFkeSBhbGxvY2F0ZWQgd291bGQgbmVlZCB0byBkbyBD
+T1cgYmVjYXVzZSB3ZeKAmWQgYWx3YXlzIGhhdmUgdG8gZnVsbHkNCj4gcmV3cml0ZSB0aGF0IGNs
+dXN0ZXIgaW4gYW4gUk1XIGN5Y2xlLg0KPiANCj4gSSBkb27igJl0IHNlZSBob3cgbGV0dGluZyBx
+Y293Ml9hbGxvY19jb21wcmVzc2VkX2NsdXN0ZXJfb2Zmc2V0KCkgdXNlIHRoZQ0KPiBleGlzdGlu
+ZyBjbHVzdGVyIHdvdWxkIHNvbHZlIHRoZSBwcm9ibGVtLCB0aG91Z2guICBZb3XigJlkIGdlbmVy
+YWxseSBuZWVkDQo+IHRvIGFsbG9jYXRlIGEgbmV3IGNsdXN0ZXI7IG9yIGF0dGVtcHQgdG8gcmV1
+c2UgdGhlIGV4aXN0aW5nIHNwYWNlIGluIGENCj4gY29tcHJlc3NlZCBjbHVzdGVyLg0KPiANCj4g
+TWF4DQo+IA0KDQpZZXMsIG5ldyBjbHVzdGVycyB3b3VsZCBiZSBhbGxvY2F0ZWQgZm9yIHRoZSBj
+b21wcmVzc2VkIFJNVyBhbmQgdGhlIA0KZXhpc3Rpbmcgb25lcyB3b3VsZCBiZSByZXVzZWQgaWYg
+cG9zc2libGUuIEl0IHNlYW1zIHRvIGJlIGluZWZmZWN0aXZlIA0KYnV0IHVzZXJzIGFyZSBzdXBw
+b3NlZCB0byBrbm93IHdoYXQgdGhleSBkby4NClNvLCBkb2VzIGl0IHdvcnRoIHRvIGNoZWNrIGEg
+ZmVhc2liaWxpdHkgb2YgdGhlIGltcGxlbWVudGF0aW9uPw0KDQpBbmRyZXkNCg0K
 
