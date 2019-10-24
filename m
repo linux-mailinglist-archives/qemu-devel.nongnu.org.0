@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62254E304E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:25:52 +0200 (CEST)
-Received: from localhost ([::1]:39792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C64BE300A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:14:11 +0200 (CEST)
+Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbFX-0002Bx-2p
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59341)
+	id 1iNb4D-0002Sa-C7
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatL-0000zo-0v
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:56 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatE-0004qe-Ky
+ (envelope-from <armbru@redhat.com>) id 1iNatI-0000ug-MQ
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29323
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004qw-Nj
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52250
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004od-9T
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004oV-D2
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914967;
+ s=mimecast20190719; t=1571914966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HNo8W5kBLPXth+ISSC7U9Yf3Hu3WHiltTwo4vNi9h2Q=;
- b=Qy3rJJS2yWn5996N7bTkawpsllkOSTvb9FVKMCK8hOLlckh1/2UdovkbL3aVojGv5EP56m
- WTCxuIaOsCS6TvEvxdNNDx+PPEGDNs3pWOd6hYozAW0FPMa43JfR91JSHfKcFQiEDRusIF
- GYscBAQWSWZs5KinEfkxiBqbDOqSyDY=
+ bh=Us1Laa7ty3LIOEynSe01xNZMvnTUOEgxnDLSnaNnnIs=;
+ b=UQ0kAXvTvOz8IFtxfJpzm1Zw5ZomdOSDzfp/JyOmAiCS+K8f3tAQ5IISxSdqMVqGH/IFlh
+ /aZCyQa358IO3Uutwd1UdopIS4OqfYXtM0SOIPrE5FaGTJC+qEYCXvW5sYjg07da67jaAc
+ 7qBlrWDYowOp//u5NjpuDK8l9phvhOk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-8iBBIsdTP_qKRAsWWt5p0w-1; Thu, 24 Oct 2019 07:02:43 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-56-7yns4gIlNnq6MfKU3VciHA-1; Thu, 24 Oct 2019 07:02:43 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60883107AD35;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 407041800E06;
  Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0605752DD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A0FE5D9CA;
  Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 843041130348; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 88E67113034A; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/19] qapi: Lift features into QAPISchemaEntity
-Date: Thu, 24 Oct 2019 13:02:35 +0200
-Message-Id: <20191024110237.30963-18-armbru@redhat.com>
+Subject: [PATCH 18/19] qapi: Polish reporting of bogus member documentation
+Date: Thu, 24 Oct 2019 13:02:36 +0200
+Message-Id: <20191024110237.30963-19-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 8iBBIsdTP_qKRAsWWt5p0w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 7yns4gIlNnq6MfKU3VciHA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,128 +76,96 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 6a8c0b5102 "qapi: Add feature flags to struct types" added
-features to QAPISchemaObjectType.  Commit a95daa5093 "qapi: Add
-feature flags to commands in qapi" added them to QAPISchemaCommand,
-duplicating the code.  Tolerable, but the duplication will only get
-worse as we add features to more definitions.
+Improve error messages from
 
-To de-duplicate, lift features from QAPISchemaObjectType and
-QAPISchemaCommand into QAPISchemaEntity.
+    the following documented members are not in the declaration: a
+    the following documented members are not in the declaration: aa, bb
+
+to the more concise
+
+    documented member 'a' does not exist
+    documented members 'aa', 'bb' do not exist
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/schema.py | 32 +++++++++++---------------------
- 1 file changed, 11 insertions(+), 21 deletions(-)
+ scripts/qapi/parser.py                          | 6 ++++--
+ tests/qapi-schema/doc-bad-alternate-member.err  | 2 +-
+ tests/qapi-schema/doc-bad-boxed-command-arg.err | 2 +-
+ tests/qapi-schema/doc-bad-command-arg.err       | 2 +-
+ tests/qapi-schema/doc-bad-enum-member.err       | 2 +-
+ tests/qapi-schema/doc-bad-event-arg.err         | 2 +-
+ tests/qapi-schema/doc-bad-union-member.err      | 2 +-
+ 7 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index ee510f129b..bdea9482fc 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -27,8 +27,11 @@ from qapi.parser import QAPISchemaParser
- class QAPISchemaEntity(object):
-     meta =3D None
-=20
--    def __init__(self, name, info, doc, ifcond=3DNone):
-+    def __init__(self, name, info, doc, ifcond=3DNone, features=3DNone):
-         assert name is None or isinstance(name, str)
-+        for f in features or []:
-+            assert isinstance(f, QAPISchemaFeature)
-+            f.set_defined_in(name)
-         self.name =3D name
-         self._module =3D None
-         # For explicitly defined entities, info points to the (explicit)
-@@ -39,6 +42,7 @@ class QAPISchemaEntity(object):
-         self.info =3D info
-         self.doc =3D doc
-         self._ifcond =3D ifcond or []
-+        self.features =3D features or []
-         self._checked =3D False
-=20
-     def c_name(self):
-@@ -49,6 +53,10 @@ class QAPISchemaEntity(object):
-         if self.info:
-             self._module =3D os.path.relpath(self.info.fname,
-                                            os.path.dirname(schema.fname))
-+        seen =3D {}
-+        for f in self.features:
-+            f.check_clash(self.info, seen)
-+
-         self._checked =3D True
-=20
-     def connect_doc(self, doc=3DNone):
-@@ -307,7 +315,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-         # struct has local_members, optional base, and no variants
-         # flat union has base, variants, and no local_members
-         # simple union has local_members, variants, and no base
--        QAPISchemaType.__init__(self, name, info, doc, ifcond)
-+        QAPISchemaType.__init__(self, name, info, doc, ifcond, features)
-         self.meta =3D 'union' if variants else 'struct'
-         assert base is None or isinstance(base, str)
-         for m in local_members:
-@@ -316,15 +324,11 @@ class QAPISchemaObjectType(QAPISchemaType):
-         if variants is not None:
-             assert isinstance(variants, QAPISchemaObjectTypeVariants)
-             variants.set_defined_in(name)
--        for f in features:
--            assert isinstance(f, QAPISchemaFeature)
--            f.set_defined_in(name)
-         self._base_name =3D base
-         self.base =3D None
-         self.local_members =3D local_members
-         self.variants =3D variants
-         self.members =3D None
--        self.features =3D features
-=20
-     def check(self, schema):
-         # This calls another type T's .check() exactly when the C
-@@ -362,11 +366,6 @@ class QAPISchemaObjectType(QAPISchemaType):
-             self.variants.check(schema, seen)
-             self.variants.check_clash(self.info, seen)
-=20
--        # Features are in a name space separate from members
--        seen =3D {}
--        for f in self.features:
--            f.check_clash(self.info, seen)
--
-         self.members =3D members  # mark completed
-=20
-     # Check that the members of this type do not cause duplicate JSON memb=
-ers,
-@@ -678,12 +677,9 @@ class QAPISchemaCommand(QAPISchemaEntity):
-     def __init__(self, name, info, doc, ifcond, arg_type, ret_type,
-                  gen, success_response, boxed, allow_oob, allow_preconfig,
-                  features):
--        QAPISchemaEntity.__init__(self, name, info, doc, ifcond)
-+        QAPISchemaEntity.__init__(self, name, info, doc, ifcond, features)
-         assert not arg_type or isinstance(arg_type, str)
-         assert not ret_type or isinstance(ret_type, str)
--        for f in features:
--            assert isinstance(f, QAPISchemaFeature)
--            f.set_defined_in(name)
-         self._arg_type_name =3D arg_type
-         self.arg_type =3D None
-         self._ret_type_name =3D ret_type
-@@ -693,7 +689,6 @@ class QAPISchemaCommand(QAPISchemaEntity):
-         self.boxed =3D boxed
-         self.allow_oob =3D allow_oob
-         self.allow_preconfig =3D allow_preconfig
--        self.features =3D features
-=20
-     def check(self, schema):
-         QAPISchemaEntity.check(self, schema)
-@@ -723,11 +718,6 @@ class QAPISchemaCommand(QAPISchemaEntity):
-                         "command's 'returns' cannot take %s"
-                         % self.ret_type.describe())
-=20
--        # Features are in a name space separate from members
--        seen =3D {}
--        for f in self.features:
--            f.check_clash(self.info, seen)
--
-     def connect_doc(self, doc=3DNone):
-         doc =3D doc or self.doc
-         if doc:
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index e800876ad1..6c45a00cf4 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -566,5 +566,7 @@ class QAPIDoc(object):
+         if bogus:
+             raise QAPISemError(
+                 self.info,
+-                "the following documented members are not in "
+-                "the declaration: %s" % ", ".join(bogus))
++                "documented member%s '%s' %s not exist"
++                % ("s" if len(bogus) > 1 else "",
++                   "', '".join(bogus),
++                   "do" if len(bogus) > 1 else "does"))
+diff --git a/tests/qapi-schema/doc-bad-alternate-member.err b/tests/qapi-sc=
+hema/doc-bad-alternate-member.err
+index a1c282f935..d7286bb57c 100644
+--- a/tests/qapi-schema/doc-bad-alternate-member.err
++++ b/tests/qapi-schema/doc-bad-alternate-member.err
+@@ -1 +1 @@
+-doc-bad-alternate-member.json:3: the following documented members are not =
+in the declaration: aa, bb
++doc-bad-alternate-member.json:3: documented members 'aa', 'bb' do not exis=
+t
+diff --git a/tests/qapi-schema/doc-bad-boxed-command-arg.err b/tests/qapi-s=
+chema/doc-bad-boxed-command-arg.err
+index e1101b1667..7137af3ec9 100644
+--- a/tests/qapi-schema/doc-bad-boxed-command-arg.err
++++ b/tests/qapi-schema/doc-bad-boxed-command-arg.err
+@@ -1 +1 @@
+-doc-bad-boxed-command-arg.json:9: the following documented members are not=
+ in the declaration: a
++doc-bad-boxed-command-arg.json:9: documented member 'a' does not exist
+diff --git a/tests/qapi-schema/doc-bad-command-arg.err b/tests/qapi-schema/=
+doc-bad-command-arg.err
+index 153ea0330a..18ed076cef 100644
+--- a/tests/qapi-schema/doc-bad-command-arg.err
++++ b/tests/qapi-schema/doc-bad-command-arg.err
+@@ -1 +1 @@
+-doc-bad-command-arg.json:3: the following documented members are not in th=
+e declaration: b
++doc-bad-command-arg.json:3: documented member 'b' does not exist
+diff --git a/tests/qapi-schema/doc-bad-enum-member.err b/tests/qapi-schema/=
+doc-bad-enum-member.err
+index dfa1e786d7..7efeb47363 100644
+--- a/tests/qapi-schema/doc-bad-enum-member.err
++++ b/tests/qapi-schema/doc-bad-enum-member.err
+@@ -1 +1 @@
+-doc-bad-enum-member.json:3: the following documented members are not in th=
+e declaration: a
++doc-bad-enum-member.json:3: documented member 'a' does not exist
+diff --git a/tests/qapi-schema/doc-bad-event-arg.err b/tests/qapi-schema/do=
+c-bad-event-arg.err
+index 114ff4a3c7..d13cacf21f 100644
+--- a/tests/qapi-schema/doc-bad-event-arg.err
++++ b/tests/qapi-schema/doc-bad-event-arg.err
+@@ -1 +1 @@
+-doc-bad-event-arg.json:3: the following documented members are not in the =
+declaration: a
++doc-bad-event-arg.json:3: documented member 'a' does not exist
+diff --git a/tests/qapi-schema/doc-bad-union-member.err b/tests/qapi-schema=
+/doc-bad-union-member.err
+index 8b9d36eab1..6dd2726a65 100644
+--- a/tests/qapi-schema/doc-bad-union-member.err
++++ b/tests/qapi-schema/doc-bad-union-member.err
+@@ -1 +1 @@
+-doc-bad-union-member.json:3: the following documented members are not in t=
+he declaration: a, b
++doc-bad-union-member.json:3: documented members 'a', 'b' do not exist
 --=20
 2.21.0
 
