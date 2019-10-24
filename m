@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9484AE28A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 05:10:30 +0200 (CEST)
-Received: from localhost ([::1]:56866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAC0E28BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 05:21:11 +0200 (CEST)
+Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNTW8-0000j6-RD
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 23:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53825)
+	id 1iNTgU-0007gP-Fz
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 23:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNTTK-0006TR-Rk
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 23:07:37 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iNTTN-0006ae-Ln
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 23:07:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNTTI-0002sH-J0
- for qemu-devel@nongnu.org; Wed, 23 Oct 2019 23:07:34 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34891 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iNTTL-0002uz-Fj
+ for qemu-devel@nongnu.org; Wed, 23 Oct 2019 23:07:37 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:56863)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNTTH-0002n2-DF; Wed, 23 Oct 2019 23:07:32 -0400
+ id 1iNTTL-0002sY-24; Wed, 23 Oct 2019 23:07:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zBxS468Yz9sPc; Thu, 24 Oct 2019 14:07:24 +1100 (AEDT)
+ id 46zBxS4nLBz9sPh; Thu, 24 Oct 2019 14:07:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571886444;
- bh=f/3vQwWq9segnxXjUhpcTViAvN0aIue5PP36QJMYHuE=;
+ bh=OlAiewe3ff56iqjtufWZGO6NzRootkMXHPxctmaHNow=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OOX5oTe3o/nKyVOlTb1PwtnInVFWvoAmQrFip7DCKoFT2EOP/3MCJ7cjxMcHRrw89
- uAMz81jbhojqDoIt92d9Bcep2Xt550Ymmq/IQvKCBjiBVoHNIOZHkjKBCTVNO+MBI7
- WKLuMR3dE52rjFBtPEeUDrXjfXrpn265toDPgk5U=
-Date: Thu, 24 Oct 2019 13:40:23 +1100
+ b=K3TtuPqQYVgxq3MTbIuXkZyCJCi6zYiajvh/8x0zKIa/gNOGqLHrX79O5hj8maXR5
+ 5EdFsn0yQbCJtrXTZup/7bfUVvHBTVEMiUafSW0hJbUNfFmIf9+eh7bQPb33pC6QbW
+ Z6cSJTNDC3tVbBkdAmdVNa6j7rcwPBQehC2BBHPI=
+Date: Thu, 24 Oct 2019 13:41:30 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v5 5/7] ppc: Reset the interrupt presenter from the CPU
- reset handler
-Message-ID: <20191024024023.GP6439@umbus.fritz.box>
+Subject: Re: [PATCH v5 7/7] spapr/xive: Set the OS CAM line at reset
+Message-ID: <20191024024130.GQ6439@umbus.fritz.box>
 References: <20191022163812.330-1-clg@kaod.org>
- <20191022163812.330-6-clg@kaod.org>
+ <20191022163812.330-8-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DBUa/BSa4z6QPQv1"
+ protocol="application/pgp-signature"; boundary="eLe8FOcWSbbyMVJD"
 Content-Disposition: inline
-In-Reply-To: <20191022163812.330-6-clg@kaod.org>
+In-Reply-To: <20191022163812.330-8-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -63,408 +62,135 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DBUa/BSa4z6QPQv1
+--eLe8FOcWSbbyMVJD
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 22, 2019 at 06:38:10PM +0200, C=E9dric Le Goater wrote:
-> On the sPAPR machine and PowerNV machine, the interrupt presenters are
-> created by a machine handler at the core level and are reset
-> independently. This is not consistent and it raises issues when it
-> comes to handle hot-plugged CPUs. In that case, the presenters are not
-> reset. This is less of an issue in XICS, although a zero MFFR could
-> be a concern, but in XIVE, the OS CAM line is not set and this breaks
-> the presenting algorithm. The current code has workarounds which need
-> a global cleanup.
+On Tue, Oct 22, 2019 at 06:38:12PM +0200, C=E9dric Le Goater wrote:
+> When a Virtual Processor is scheduled to run on a HW thread, the
+> hypervisor pushes its identifier in the OS CAM line. When running with
+> kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
 >=20
-> Extend the sPAPR IRQ backend and the PowerNV Chip class with a new
-> cpu_intc_reset() handler called by the CPU reset handler and remove
-> the XiveTCTX reset handler which is now redundant.
+> Set the OS CAM line when the interrupt presenter of the sPAPR core is
+> reset. This will also cover the case of hot-plugged CPUs.
+>=20
+> This change also has the benefit to remove the use of CPU_FOREACH()
+> which can be unsafe.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Both XiveTCTX and ICPState are QOM subclasses of TYPE_DEVICE.  I think
-that means you could avoid the new hook by using dc->reset on those
-classes instead.  It wouldn't get called automatically, of course,
-since it's not on a bus, but you could call it explicitly via
-device_reset() from the place you currently call the new hook.
+Since the values here should remain constant for the lifetime of a
+(PAPR) guest, it kind of seems like this belongs more in realize()
+than reset.  But this definitely fixes a real problem, so that's
+somethine we can tweak later.
 
 > ---
->  include/hw/ppc/pnv.h       |  1 +
->  include/hw/ppc/spapr_irq.h |  2 ++
->  include/hw/ppc/xics.h      |  1 +
->  include/hw/ppc/xive.h      |  1 +
->  hw/intc/spapr_xive.c       |  9 +++++++++
->  hw/intc/xics.c             |  8 ++------
->  hw/intc/xics_spapr.c       |  7 +++++++
->  hw/intc/xive.c             | 12 +-----------
->  hw/ppc/pnv.c               | 18 ++++++++++++++++++
->  hw/ppc/pnv_core.c          |  7 +++++--
->  hw/ppc/spapr_cpu_core.c    |  5 ++++-
->  hw/ppc/spapr_irq.c         | 14 ++++++++++++++
->  12 files changed, 65 insertions(+), 20 deletions(-)
+>  include/hw/ppc/spapr_xive.h |  1 -
+>  hw/intc/spapr_xive.c        | 48 +++++++++++++------------------------
+>  2 files changed, 17 insertions(+), 32 deletions(-)
 >=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 1cdbe55bf86c..2a780e633f23 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -111,6 +111,7 @@ typedef struct PnvChipClass {
+> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> index d84bd5c229f0..742b7e834f2a 100644
+> --- a/include/hw/ppc/spapr_xive.h
+> +++ b/include/hw/ppc/spapr_xive.h
+> @@ -57,7 +57,6 @@ typedef struct SpaprXive {
+>  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
 > =20
->      uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
->      void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
-> +    void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
->      ISABus *(*isa_create)(PnvChip *chip, Error **errp);
->      void (*dt_populate)(PnvChip *chip, void *fdt);
->      void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 5e150a667902..09232999b07e 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -52,6 +52,7 @@ typedef struct SpaprInterruptControllerClass {
->       */
->      int (*cpu_intc_create)(SpaprInterruptController *intc,
->                              PowerPCCPU *cpu, Error **errp);
-> +    void (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU *c=
-pu);
->      int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
->                       Error **errp);
->      void (*free_irq)(SpaprInterruptController *intc, int irq);
-> @@ -68,6 +69,7 @@ void spapr_irq_update_active_intc(SpaprMachineState *sp=
-apr);
+>  void spapr_xive_hcall_init(SpaprMachineState *spapr);
+> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+>  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+>  void spapr_xive_map_mmio(SpaprXive *xive);
 > =20
->  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
->                                PowerPCCPU *cpu, Error **errp);
-> +void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cpu);
->  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
->  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
->                    void *fdt, uint32_t phandle);
-> diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-> index 1e6a9300eb2b..602173c12250 100644
-> --- a/include/hw/ppc/xics.h
-> +++ b/include/hw/ppc/xics.h
-> @@ -161,6 +161,7 @@ void icp_set_mfrr(ICPState *icp, uint8_t mfrr);
->  uint32_t icp_accept(ICPState *ss);
->  uint32_t icp_ipoll(ICPState *ss, uint32_t *mfrr);
->  void icp_eoi(ICPState *icp, uint32_t xirr);
-> +void icp_reset(ICPState *icp);
-> =20
->  void ics_write_xive(ICSState *ics, int nr, int server,
->                      uint8_t priority, uint8_t saved_priority);
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index fd3319bd3202..99381639f50c 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -415,6 +415,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
-set, unsigned size);
-> =20
->  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
->  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-> +void xive_tctx_reset(XiveTCTX *tctx);
-> =20
->  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
-dx)
->  {
 > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index ba32d2cc5b0f..20a8d8285f64 100644
+> index 20a8d8285f64..d8e1291905c3 100644
 > --- a/hw/intc/spapr_xive.c
 > +++ b/hw/intc/spapr_xive.c
-> @@ -553,6 +553,14 @@ static int spapr_xive_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
->      return 0;
+> @@ -205,23 +205,6 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
+ol enable)
+>      memory_region_set_enabled(&xive->end_source.esb_mmio, false);
 >  }
 > =20
-> +static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
-> +                                     PowerPCCPU *cpu)
-> +{
-> +    XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
-> +
-> +    xive_tctx_reset(tctx);
-> +}
-> +
->  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
-int val)
->  {
->      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> @@ -697,6 +705,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
- void *data)
->      sicc->activate =3D spapr_xive_activate;
->      sicc->deactivate =3D spapr_xive_deactivate;
->      sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
-> +    sicc->cpu_intc_reset =3D spapr_xive_cpu_intc_reset;
->      sicc->claim_irq =3D spapr_xive_claim_irq;
->      sicc->free_irq =3D spapr_xive_free_irq;
->      sicc->set_irq =3D spapr_xive_set_irq;
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index b5ac408f7b74..6da05763f9db 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -274,10 +274,8 @@ static const VMStateDescription vmstate_icp_server =
-=3D {
->      },
->  };
-> =20
-> -static void icp_reset_handler(void *dev)
-> +void icp_reset(ICPState *icp)
->  {
-> -    ICPState *icp =3D ICP(dev);
+> -/*
+> - * When a Virtual Processor is scheduled to run on a HW thread, the
+> - * hypervisor pushes its identifier in the OS CAM line. Emulate the
+> - * same behavior under QEMU.
+> - */
+> -void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
+> -{
+> -    uint8_t  nvt_blk;
+> -    uint32_t nvt_idx;
+> -    uint32_t nvt_cam;
 > -
->      icp->xirr =3D 0;
->      icp->pending_priority =3D 0xff;
->      icp->mfrr =3D 0xff;
-> @@ -288,7 +286,7 @@ static void icp_reset_handler(void *dev)
->      if (kvm_irqchip_in_kernel()) {
->          Error *local_err =3D NULL;
-> =20
-> -        icp_set_kvm_state(ICP(dev), &local_err);
-> +        icp_set_kvm_state(icp, &local_err);
->          if (local_err) {
->              error_report_err(local_err);
->          }
-> @@ -351,7 +349,6 @@ static void icp_realize(DeviceState *dev, Error **err=
-p)
->          }
->      }
-> =20
-> -    qemu_register_reset(icp_reset_handler, dev);
->      vmstate_register(NULL, icp->cs->cpu_index, &vmstate_icp_server, icp);
->  }
-> =20
-> @@ -360,7 +357,6 @@ static void icp_unrealize(DeviceState *dev, Error **e=
-rrp)
->      ICPState *icp =3D ICP(dev);
-> =20
->      vmstate_unregister(NULL, &vmstate_icp_server, icp);
-> -    qemu_unregister_reset(icp_reset_handler, dev);
->  }
-> =20
->  static void icp_class_init(ObjectClass *klass, void *data)
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 4f64b9a9fc66..7418fb9f370c 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -346,6 +346,12 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
->      return 0;
->  }
-> =20
-> +static void xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
-> +                                     PowerPCCPU *cpu)
-> +{
-> +    icp_reset(spapr_cpu_state(cpu)->icp);
-> +}
-> +
->  static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
->                                  bool lsi, Error **errp)
->  {
-> @@ -433,6 +439,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
-void *data)
->      sicc->activate =3D xics_spapr_activate;
->      sicc->deactivate =3D xics_spapr_deactivate;
->      sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
-> +    sicc->cpu_intc_reset =3D xics_spapr_cpu_intc_reset;
->      sicc->claim_irq =3D xics_spapr_claim_irq;
->      sicc->free_irq =3D xics_spapr_free_irq;
->      sicc->set_irq =3D xics_spapr_set_irq;
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index d420c6571e14..f066be5eb5e3 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -547,10 +547,8 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monito=
-r *mon)
->      }
->  }
-> =20
-> -static void xive_tctx_reset(void *dev)
-> +void xive_tctx_reset(XiveTCTX *tctx)
->  {
-> -    XiveTCTX *tctx =3D XIVE_TCTX(dev);
+> -    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
 > -
->      memset(tctx->regs, 0, sizeof(tctx->regs));
-> =20
->      /* Set some defaults */
-> @@ -607,13 +605,6 @@ static void xive_tctx_realize(DeviceState *dev, Erro=
-r **errp)
->              return;
->          }
->      }
-> -
-> -    qemu_register_reset(xive_tctx_reset, dev);
+> -    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
+_idx));
+> -    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
 > -}
 > -
-> -static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
-> -{
-> -    qemu_unregister_reset(xive_tctx_reset, dev);
->  }
-> =20
->  static int vmstate_xive_tctx_pre_save(void *opaque)
-> @@ -668,7 +659,6 @@ static void xive_tctx_class_init(ObjectClass *klass, =
-void *data)
-> =20
->      dc->desc =3D "XIVE Interrupt Thread Context";
->      dc->realize =3D xive_tctx_realize;
-> -    dc->unrealize =3D xive_tctx_unrealize;
->      dc->vmsd =3D &vmstate_xive_tctx;
->      /*
->       * Reason: part of XIVE interrupt controller, needs to be wired up
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 7cf64b6d2533..4a51fb65a834 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -778,6 +778,13 @@ static void pnv_chip_power8_intc_create(PnvChip *chi=
-p, PowerPCCPU *cpu,
->      pnv_cpu->intc =3D obj;
->  }
-> =20
-> +static void pnv_chip_power8_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
-> +{
-> +    PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> +
-> +    icp_reset(ICP(pnv_cpu->intc));
-> +}
-> +
->  /*
->   *    0:48  Reserved - Read as zeroes
->   *   49:52  Node ID
-> @@ -815,6 +822,13 @@ static void pnv_chip_power9_intc_create(PnvChip *chi=
-p, PowerPCCPU *cpu,
->      pnv_cpu->intc =3D obj;
->  }
-> =20
-> +static void pnv_chip_power9_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
-> +{
-> +    PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> +
-> +    xive_tctx_reset(XIVE_TCTX(pnv_cpu->intc));
-> +}
-> +
->  /*
->   * Allowed core identifiers on a POWER8 Processor Chip :
->   *
-> @@ -984,6 +998,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *=
-klass, void *data)
->      k->cores_mask =3D POWER8E_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
->      k->intc_create =3D pnv_chip_power8_intc_create;
-> +    k->intc_reset =3D pnv_chip_power8_intc_reset;
->      k->isa_create =3D pnv_chip_power8_isa_create;
->      k->dt_populate =3D pnv_chip_power8_dt_populate;
->      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> @@ -1003,6 +1018,7 @@ static void pnv_chip_power8_class_init(ObjectClass =
-*klass, void *data)
->      k->cores_mask =3D POWER8_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
->      k->intc_create =3D pnv_chip_power8_intc_create;
-> +    k->intc_reset =3D pnv_chip_power8_intc_reset;
->      k->isa_create =3D pnv_chip_power8_isa_create;
->      k->dt_populate =3D pnv_chip_power8_dt_populate;
->      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> @@ -1022,6 +1038,7 @@ static void pnv_chip_power8nvl_class_init(ObjectCla=
-ss *klass, void *data)
->      k->cores_mask =3D POWER8_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
->      k->intc_create =3D pnv_chip_power8_intc_create;
-> +    k->intc_reset =3D pnv_chip_power8_intc_reset;
->      k->isa_create =3D pnv_chip_power8nvl_isa_create;
->      k->dt_populate =3D pnv_chip_power8_dt_populate;
->      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-> @@ -1191,6 +1208,7 @@ static void pnv_chip_power9_class_init(ObjectClass =
-*klass, void *data)
->      k->cores_mask =3D POWER9_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p9;
->      k->intc_create =3D pnv_chip_power9_intc_create;
-> +    k->intc_reset =3D pnv_chip_power9_intc_reset;
->      k->isa_create =3D pnv_chip_power9_isa_create;
->      k->dt_populate =3D pnv_chip_power9_dt_populate;
->      k->pic_print_info =3D pnv_chip_power9_pic_print_info;
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index cc17bbfed829..be0310ac0340 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -40,10 +40,11 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
->      return cpu_type;
->  }
-> =20
-> -static void pnv_core_cpu_reset(PowerPCCPU *cpu)
-> +static void pnv_core_cpu_reset(PowerPCCPU *cpu, PnvChip *chip)
+>  static void spapr_xive_end_reset(XiveEND *end)
 >  {
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-> +    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-> =20
->      cpu_reset(cs);
-> =20
-> @@ -54,6 +55,8 @@ static void pnv_core_cpu_reset(PowerPCCPU *cpu)
->      env->gpr[3] =3D PNV_FDT_ADDR;
->      env->nip =3D 0x10;
->      env->msr |=3D MSR_HVB; /* Hypervisor mode */
-> +
-> +    pcc->intc_reset(chip, cpu);
->  }
-> =20
->  /*
-> @@ -200,7 +203,7 @@ static void pnv_core_reset(void *dev)
->      int i;
-> =20
->      for (i =3D 0; i < cc->nr_threads; i++) {
-> -        pnv_core_cpu_reset(pc->threads[i]);
-> +        pnv_core_cpu_reset(pc->threads[i], pc->chip);
+>      memset(end, 0, sizeof(*end));
+> @@ -544,21 +527,32 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
+tController *intc,
 >      }
->  }
 > =20
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 2e34832d0ea2..ef7b27a66d56 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -32,6 +32,7 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
->      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
->      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
->      target_ulong lpcr;
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> =20
->      cpu_reset(cs);
-> =20
-> @@ -76,9 +77,11 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
->      spapr_cpu->dtl_addr =3D 0;
->      spapr_cpu->dtl_size =3D 0;
-> =20
-> -    spapr_caps_cpu_apply(SPAPR_MACHINE(qdev_get_machine()), cpu);
-> +    spapr_caps_cpu_apply(spapr, cpu);
-> =20
->      kvm_check_mmu(cpu, &error_fatal);
-> +
-> +    spapr_irq_cpu_intc_reset(spapr, cpu);
->  }
-> =20
->  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target=
-_ulong r3)
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 234d1073e518..b941608b69ba 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -220,6 +220,20 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spa=
-pr,
+>      spapr_cpu->tctx =3D XIVE_TCTX(obj);
+> -
+> -    /*
+> -     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
+> -     * don't beneficiate from the reset of the XIVE IRQ backend
+> -     */
+> -    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
 >      return 0;
 >  }
 > =20
-> +void spapr_irq_cpu_intc_reset(SpaprMachineState *spapr, PowerPCCPU *cpu)
+> +static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t os_cam)
 > +{
-> +    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-> +    int i;
-> +
-> +    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
-> +        SpaprInterruptController *intc =3D intcs[i];
-> +        if (intc) {
-> +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
-(intc);
-> +            sicc->cpu_intc_reset(intc, cpu);
-> +        }
-> +    }
+> +    uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | os_cam);
+> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
 > +}
 > +
->  static void spapr_set_irq(void *opaque, int irq, int level)
+>  static void spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+>                                       PowerPCCPU *cpu)
 >  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
+>      XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
+> +    uint8_t  nvt_blk;
+> +    uint32_t nvt_idx;
+> =20
+>      xive_tctx_reset(tctx);
+> +
+> +    /*
+> +     * When a Virtual Processor is scheduled to run on a HW thread,
+> +     * the hypervisor pushes its identifier in the OS CAM line.
+> +     * Emulate the same behavior under QEMU.
+> +     */
+> +    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
+> +
+> +    xive_tctx_set_os_cam(tctx, xive_nvt_cam_line(nvt_blk, nvt_idx));
+>  }
+> =20
+>  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
+int val)
+> @@ -651,14 +645,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
+intc, uint32_t nr_servers,
+>  static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
+rrp)
+>  {
+>      SpaprXive *xive =3D SPAPR_XIVE(intc);
+> -    CPUState *cs;
+> -
+> -    CPU_FOREACH(cs) {
+> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -
+> -        /* (TCG) Set the OS CAM line of the thread interrupt context. */
+> -        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+> -    }
+> =20
+>      if (kvm_enabled()) {
+>          int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -472,25 +198,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DBUa/BSa4z6QPQv1
+--eLe8FOcWSbbyMVJD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2xDxYACgkQbDjKyiDZ
-s5I46w//Ted/QDWxBj6OUlGWPXbY1/ZZUQWLiSWLakCyfObHfv5qIZx1q7br9cz2
-14VbKoBybiH+9fIQbidqDyLrj1YeW1dBephtyFdiVT4WbROyS6nZm3VMefoal+xl
-jBvD9AepkC2fGMhieJxjKwLmaHZmCyvKFa9f+YQboKzmISDl+4vVm4Ku/AF/lSXT
-/g3xllR189KiTjNaIuGjIy2Gx/dlSJf3Uw9M6kMyzy6a7YQn6SVPEwfLiQgZhwoQ
-Pa9KJ5NpipdmNg3zZhCzJVAqvXv+EJK3wCe52OWyl1NmzYXMG8y2cDDSKlWg/6zM
-dBWYx2r5QoNP6E895U+jzdTWE/buj1lvXp7jOZyB4lFyzww4wujzhQR+il2g4P9d
-FFbxpS9B4W1F4tvCrhe/gl+HT368ZMf8ne3ba6a7p6xyGHaYtZp6NOdVddKxsTHR
-b1gY4ZXipljhHTw97I6vtmSB3LvK4rOcPe0AqADA5AiWAeVtCBUW/4NcZ8xUUcKm
-j+vQlPzm0av73judLc39u+csbWoZWOtZYlOwZF7mWvuMrtBUs470s3bi5t7BV7nS
-gnUPUjtDflylcPqOl+mGkgKip042CkjJ9sNtqiSYxGOKzsOPAvwxpzwZrvERprJG
-pid+48OkmMD5v1m8yGqM0uZktIQnKSyYTMKYnIhDTj+088q+GTA=
-=FutS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2xD1oACgkQbDjKyiDZ
+s5IxBxAAzCPCNMwLXSsu7xUpPWIP0iC683aKnzmx0Fmt1LRylEHRwiTQ90XMz5+g
+OHM7DEI27mxB7Hj028wq0hqhasjdd/3JHxcnDHlvX25fhkzU2KCsfaS1Y77Vi6VT
+rd7JH8DfrtKsYLGTuPKyz3BNs5P2UZDIovHiW4XQinXQ3KR6eA+YFiBzgiReyQ3j
++kR9z4ysB3OePqJ4ydY48ZAFfaxdYOBbI/UnlrR+ceGyoasTcgu0nu2/Jy8V050H
+g6Zf+6B5emj82S4xhP4J2gtqjjzveERDs7sEojaXiRwDRP+VibYDDa2uq8untx6m
+R+9R5xJYaAVfBJREpT7LII7EX6rQH4ygfHfZl7QmFyWFHSvG4HOSNHfWjg3JtVJu
+4rjXEsJ+RD6MWrlEFlwsFIsqqMPNlCUmE5xBVUy0UqbbReN47qqNVi2lZrKb+eyK
+e/OQowNjvvBbgZOtByMG8+gFyLo1/hxRZ2VztpeL8bPmFf7L1CUkmxu8w+G6BBc+
+Csttcg7abzNtXgP4G+U+CMYmMa31Veh6up7uPS3Fcp/R6jyMYAqKpslbWrNigwzs
+BFNvMcai2utWjEYByj2xgxahC+jNkELOiH2az7ix68PSilSL2z5U6dtjA76paKgm
+yAxE3DAixLhHZzvKsnHvVJsKf2Fo75xOZ3+TWJwo2qM/HUtLxO0=
+=rutJ
 -----END PGP SIGNATURE-----
 
---DBUa/BSa4z6QPQv1--
+--eLe8FOcWSbbyMVJD--
 
