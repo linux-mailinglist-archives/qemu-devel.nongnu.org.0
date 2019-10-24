@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91096E3646
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:16:06 +0200 (CEST)
-Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE56E3698
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:26:45 +0200 (CEST)
+Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeqL-0004Eu-FW
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34839)
+	id 1iNf0f-0000Z3-0h
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiz-0007ss-8J
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:26 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj0-0007vT-GO
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiy-0007lH-3b
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:25 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36479)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdiz-0007m2-Ah
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:26 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45369)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdix-0007ku-TS
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:24 -0400
-Received: by mail-wm1-x335.google.com with SMTP id c22so2746815wmd.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:23 -0700 (PDT)
+ id 1iNdiz-0007lU-4M
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:25 -0400
+Received: by mail-wr1-x436.google.com with SMTP id q13so21265717wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LjDK3UIIIZQzr+ukaPn01yLRu1TJq8EAIxhDuDy+SXg=;
- b=Fq/iCStVsMtikAhxEuVBI29wx6aUgrAJ76Ha9z6NOX5XwEwa7KBFRBdg80DU+0ZmOo
- wY9ZEujr0+BNQkOXUyPRvveMgIbLq0wHANG1bid4aqHK/h7nh1GbgagzKihbZQinM0Ul
- Tuj795UBsYHt3+2CgGmgSD8eFHHaRAMQjpDaXkyP1PJLl6CsS1J8bX2FTHntyT6aD7TQ
- U2TYbGt0lz9ICx295CNfN59bJZkR4G2En0UO/bwTeIQnVcZNnP9kU8Jwa9z+iNOKQghQ
- h5BYqyPqXmcAf9NI+zeAm5QlhxWfQ/JpUf7dL7R8N23KKGWTyHmDZl+KbHcON3QWOgFb
- K9Nw==
+ bh=7GTd0Y4rUsiUUYjOXhHXbd2x4/qEqgV6Jh7YlKYq2OY=;
+ b=FadYr7DeaU2z/kPbeGixm/CF3srccqBCeeTzhUD21MqS4lBqM8CNuJORHtxbjZK4S/
+ qcVACiMHClZ7dKmF0ibDP9DmGk7ZOTCLZDt+nEEy9peVBdNovMHkB7Oe3WHFpOKbMwqC
+ F3HEjFDjAdqPiw8LDVQ0uKbP3XFRDvcEEktQGepExQr9pss0t6F1i78ftjEkQkCCkf/5
+ NtziyQzSMlRT4zDNayvtQw6FJixw4LQIPgBW0eIxNyAvkNo8FpCaTIXZb5GZKMSkn0Yx
+ byw/RYH4zH9aOfCIuYuoqM8y+5G5E2g2O5zxaoP7SW4oNCctcon9xPSGK7sGJcv2MfhR
+ JX0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LjDK3UIIIZQzr+ukaPn01yLRu1TJq8EAIxhDuDy+SXg=;
- b=uUw3inW8vDVu+nYjpm2LklBjkAz87zmyjNVuxVcUN8BjzVMhJlXn6HOA/6Y05KudDh
- YOSJxxK5J4xD2Nj2VWTxAbb+vAt54+8gauHAZaR98LY0Wjj4F36ZQpf8ql6YZ3jE0yce
- kDjsRtF/HblR0so+7IBlG7h56icqA36yPunBRConAyN2tM7XRVh+y4bUAqPJ/7KY5BBQ
- CxMsicnBw0/SvuhwiF/bLkYlUobVLXg48eeATUGZeSio/wUaUfj4QT17fhR7WwsvU/zW
- cgdGQmDAkHA47suWDaBWthY2uqHuPlstPnJvQxh80dmA7tcj6UtZdGF/txDFYOt2XhZa
- 3g6A==
-X-Gm-Message-State: APjAAAX6F1UiX+8LY9O8OVWaZ5YdLWOjqKZ2PZbzUFjU4QWHJRhWoJmN
- l2GDcLwcg2pmwjJ+kEeuuyB2hBFM
-X-Google-Smtp-Source: APXvYqyY9vW16QAzONpJk+3GLp6dtHxXrtA5/Q4kUU1312KVwychF1s9x2RQWlWYXTdeHkY+e/FAkw==
-X-Received: by 2002:a7b:ca54:: with SMTP id m20mr5280064wml.142.1571925862669; 
- Thu, 24 Oct 2019 07:04:22 -0700 (PDT)
+ bh=7GTd0Y4rUsiUUYjOXhHXbd2x4/qEqgV6Jh7YlKYq2OY=;
+ b=F3/B+PB3xhELVWeRf5GV4j8QqxoyetBVnYTjXV6Y9cqaZfoUXgs7y02+uoa8UhlX69
+ vnemIzWPCzeGnVlMJc9c5bWczDMJ/wWDZOSRkaF/NAThasJYKaBvefSJSfE5StD8UnAe
+ xYlUOW4jDiKmmhbZLllsNzJOuUDN1G3EW4gHIjMWfvdzFjHQU/Z1tIvjXcR4Q3ah5nrl
+ +DnQbqetQg9KOr75ut57dCM5YbpAnFGbCYwU5mXhNCe+LgY1Yi8TZrS6YozrFgyg/JEA
+ gDhTbzSgNcDQ853HuogJrmx3fMjRad5v9lEaZjjcPDCQ3+omC4ZmGaeeSrYRglofKqo7
+ UuyQ==
+X-Gm-Message-State: APjAAAWOtBjPW/o1tXBUBcpasdqPIRisXG3d9Lh/GBh/i7lp/dedjTYP
+ 723jlpYHoQlTzR57qWeq9CDrzGp3
+X-Google-Smtp-Source: APXvYqwa/DSSmc9ZUag4HqvzvlUhpgy7cZ3c7HSq4u+f/uNPA4s/KDStNkv3NO8eAgJGBd1t3MLLIg==
+X-Received: by 2002:adf:9c81:: with SMTP id d1mr3872040wre.238.1571925863761; 
+ Thu, 24 Oct 2019 07:04:23 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.21
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Thu, 24 Oct 2019 07:04:22 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/39] runstate: ignore exit request in finish migrate state
-Date: Thu, 24 Oct 2019 16:03:39 +0200
-Message-Id: <1571925835-31930-24-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 24/39] hw/timer/mc146818rtc: Only include qapi-commands-misc on
+ I386
+Date: Thu, 24 Oct 2019 16:03:40 +0200
+Message-Id: <1571925835-31930-25-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,49 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Trying to reboot a VM while a migration is running can
-move to the prelaunch state (because of the reset) while
-the runstate is in finish migrate state.
-As the logical step after the finish migrate is postmigrate,
-this can create an invalid state transition from prelaunch state
-to postmigrate state and this raises an error and aborts:
+Commit a6c7040fb09 restricted the rtc-reset-reinjection command
+to the I386 target.
+Restrict the "qapi/qapi-commands-misc-target.h" header to it too.
 
-    invalid runstate transition: 'prelaunch' -> 'postmigrate'
-
-As we are not able to manage reset in finish migrate state the
-best we can do is to ignore any changes and delay them until
-the next state which should be postmigrate and which should allow
-this kind of transition.
-
-Reported-by: Lukáš Doktor <ldoktor@redhat.com>
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20191017101806.3644-1-lvivier@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191017162614.21327-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- vl.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/timer/mc146818rtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/vl.c b/vl.c
-index 4489cfb..4a7d011 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1744,6 +1744,9 @@ static bool main_loop_should_exit(void)
-     RunState r;
-     ShutdownCause request;
+diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+index 0e7cf97..c979db0 100644
+--- a/hw/timer/mc146818rtc.c
++++ b/hw/timer/mc146818rtc.c
+@@ -37,12 +37,12 @@
+ #include "hw/timer/mc146818rtc.h"
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-misc-target.h"
+ #include "qapi/qapi-events-misc-target.h"
+ #include "qapi/visitor.h"
+ #include "exec/address-spaces.h"
  
-+    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
-+        return false;
-+    }
-     if (preconfig_exit_requested) {
-         if (runstate_check(RUN_STATE_PRECONFIG)) {
-             runstate_set(RUN_STATE_PRELAUNCH);
+ #ifdef TARGET_I386
++#include "qapi/qapi-commands-misc-target.h"
+ #include "hw/i386/apic.h"
+ #endif
+ 
 -- 
 1.8.3.1
 
