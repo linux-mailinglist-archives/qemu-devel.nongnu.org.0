@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098C8E3679
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:22:25 +0200 (CEST)
-Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A90E3630
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:08:28 +0200 (CEST)
+Received: from localhost ([::1]:45151 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNewR-0004E0-Ns
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
+	id 1iNeiw-0001Qq-PC
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34607)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdig-0006t7-Sy
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:08 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdig-0006t8-St
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdib-0007Zy-Hp
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdib-0007a3-Hs
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:06 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38049)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40867)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdib-0007Yq-2M
+ id 1iNdib-0007ZZ-3O
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:01 -0400
-Received: by mail-wm1-x335.google.com with SMTP id 3so2739415wmi.3
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:03:59 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id w9so1561263wmm.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QVjziJV/GbvmaoW+DHNw8wzHLwg9ajCUZw0RDTVnmHI=;
- b=PaAWcHzWrL/DTwDYUsib8LN+QztuGuY5I383DlPJsU1zVkdJZTn5bI47veQoEWeviA
- FYxScYSZTk/gxFSANkhe+wMAq9FEeYdIKj9p70SDlnUU3ui42SL5vo7EwihnTJqJVG8d
- V5U8dxpRRk20J/LfGKbYlXrXVXFegPaVjy3TEyIM7RQXkVClmeLmJD7HcheHi/xtZKC2
- Cf+KbvKU9N39RTjR5mLrn3lyYuWmzYc8dMHgDtJRGmL/OMpATcAYFSRH65uOrJ0cEJPw
- 6gcwFayWtCWr6Y8qNt1yERn7KMzaqWxsP8C2lj0rBHNlp/Yh1USChWowuUPTXjmINfQ2
- GLvA==
+ bh=iGmswL4U/5XW7ql7Ew8zQ48E5AkJVaBYfQW9kZ657mI=;
+ b=ps38OElF2RwitS8r3osFXr8symM/iIehe0wXdlIb3ctYk1BNZrHA0bR0eMFzp5+hPP
+ RxPs0TNWiIQFoIaf7dRLZpfTD6CFmtJgxhcaj3lsGsLrrU4XcPgsg/Hs39YPoUpRfH8R
+ c741xxkW87CXl5sVmhSUtXUIqVwzVp+WzsIbMqeqZowSv8+/NMg82kz7l36hUnea5mGL
+ iJU9K0ahgTI0hgpivTpwqVjAGZKNk0PuGFMTbLwk8gw8NquQJRCQ7OJ9Rc6z9GhE7RGk
+ rUA8gqt/4vS0NdPqJxXIZuNe1tKCFLEj1QUbs37eFnuICqT0VLE8LyuWskrxt7FjWtls
+ Hh6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=QVjziJV/GbvmaoW+DHNw8wzHLwg9ajCUZw0RDTVnmHI=;
- b=Szy2pvAA2ILRG0uhbhv2RHHPttZsJIdE3PARoXaOpl3cSgteykN21VsOKKz8IEHrru
- +WylRPJeq7jKw/yCaFY9We/hskDoo6IPyvN+E8hiJ/bB4U9zpQ70ad7tOw+87PAVJLJm
- f2W760eBM+o/SyaQZiMzS8KsD3J0lZjOGWn+KiUXhJFIEFGK+t1eTAk8itN1596YCjdl
- e+J6p85vSqp6b88WuDSUe7lunDwcEfNqp7MmaBwqvnrETmKwoObQ/RAn00xfwC1YAhli
- xM528G4qqqrStdpGxXoLGoXpIPRD/hhtQ+VHzn+fJ0pLmWnVifPQIIdqB+rHmXTCiwzq
- Ctdg==
-X-Gm-Message-State: APjAAAWuTsqha8QZpmr55KN3uWBCKVDXc9/7S/TCkOutjacFuFJuuQpL
- PIBA6QzKxcb9U4wwdB3DViAAS17U
-X-Google-Smtp-Source: APXvYqyGMxkCzR4vc0Ce77FAvO57ZOR5L+mbXrzN2Rg/Fv90ESpNuBOKVawz8GfiWXYz53LWla0p1Q==
-X-Received: by 2002:a1c:e08a:: with SMTP id x132mr5205677wmg.146.1571925838509; 
- Thu, 24 Oct 2019 07:03:58 -0700 (PDT)
+ bh=iGmswL4U/5XW7ql7Ew8zQ48E5AkJVaBYfQW9kZ657mI=;
+ b=DzRkVQ5rADWzRuSv974YPbYlZrWu2y6INKqf+nJsyHlpW+HS6tDh3e5nsL4qxUV4lE
+ Dni8PSs1n880wxhpGLdA6PrPUrDYJIyPlts3bHSaj2OpTMGbhdFNSAhep9APuk6gzJX8
+ zOrKoghR5mhq5UM4XB9wHpCAQJjXEi0zpXtMd4sVeLAgZ+66Y6Np8Qrq7HpBqM4597C7
+ sIXkbuzJ3E5Z596e201PR/xWLOxENojZUNxp4O8mNFWPu1WF86LD2nIHPmPLpZad4H4D
+ WyYKV7ZmzZ1E2ShKdpbrUSDLZMW9YTZgH51h1diJafahqJ1AAgohukMGEybgsIEe7VA1
+ AsJA==
+X-Gm-Message-State: APjAAAVFjyGFOqQJ7IT8rCuPKtzCStcaQqjheiXbDgEChkyUEkt0iHuC
+ s/PPQqAMwKX7tQlpnfU9k/qYN8US
+X-Google-Smtp-Source: APXvYqxV6x/LUk/FGWOTOI4l7+8LG8EaHqdcHV1pkWRoOOYvdchHy1F001MLq6RepbdnpeI92C0Ptg==
+X-Received: by 2002:a1c:e404:: with SMTP id b4mr5555773wmh.90.1571925839703;
+ Thu, 24 Oct 2019 07:03:59 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.03.57
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.03.58
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Thu, 24 Oct 2019 07:03:58 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/39] target/i386: log MCE guest and host addresses
-Date: Thu, 24 Oct 2019 16:03:17 +0200
-Message-Id: <1571925835-31930-2-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 02/39] mc146818rtc: fix timer interrupt reinjection
+Date: Thu, 24 Oct 2019 16:03:18 +0200
+Message-Id: <1571925835-31930-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,86 +74,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mario Smarduch <msmarduch@digitalocean.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mario Smarduch <msmarduch@digitalocean.com>
+From: Marcelo Tosatti <mtosatti@redhat.com>
 
-Patch logs MCE AO, AR messages injected to guest or taken by QEMU itself.
-We print the QEMU address for guest MCEs, helps on hypervisors that have
-another source of MCE logging like mce log, and when they go missing.
+commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
+reinjection when there is no period change by the guest.
 
-For example we found these QEMU logs:
+In that case, old_period is 0, which ends up zeroing irq_coalesced
+(counter of reinjected interrupts).
 
-September 26th 2019, 17:36:02.309        Droplet-153258224: Guest MCE Memory Error at qemu addr 0x7f8ce14f5000 and guest 3d6f5000 addr of type BUS_MCEERR_AR injected   qemu-system-x86_64      amsN    ams3nodeNNNN
+The consequence is Windows 7 is unable to synchronize time via NTP.
+Easily reproducible by playing a fullscreen video with cirrus and VNC.
 
-September 27th 2019, 06:25:03.234        Droplet-153258224: Guest MCE Memory Error at qemu addr 0x7f8ce14f5000 and guest 3d6f5000 addr of type BUS_MCEERR_AR injected   qemu-system-x86_64      amsN    ams3nodeNNNN
+Fix by not updating s->irq_coalesced when old_period is 0.
 
-The first log had a corresponding mce log entry, the second didnt (logging
-thresholds) we can infer from second entry same PA and mce type.
+V2: reorganize code (Paolo Bonzini)
 
-Signed-off-by: Mario Smarduch <msmarduch@digitalocean.com>
-Message-Id: <20191009164459.8209-3-msmarduch@digitalocean.com>
+Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
+
+Message-Id: <20191010123008.GA19158@amt.cnet>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 29 ++++++++++++++++++++++++-----
- 1 file changed, 24 insertions(+), 5 deletions(-)
+ hw/timer/mc146818rtc.c | 53 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 27 insertions(+), 26 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 8c73438..0e3da99 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -592,9 +592,9 @@ static void kvm_mce_inject(X86CPU *cpu, hwaddr paddr, int code)
-                        (MCM_ADDR_PHYS << 6) | 0xc, flags);
- }
+diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+index 6cb3787..0e7cf97 100644
+--- a/hw/timer/mc146818rtc.c
++++ b/hw/timer/mc146818rtc.c
+@@ -203,24 +203,28 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
  
--static void hardware_memory_error(void)
-+static void hardware_memory_error(void *host_addr)
- {
--    fprintf(stderr, "Hardware memory error!\n");
-+    error_report("QEMU got Hardware memory error at addr %p", host_addr);
-     exit(1);
- }
+     period = rtc_periodic_clock_ticks(s);
  
-@@ -618,15 +618,34 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
-             kvm_physical_memory_addr_from_host(c->kvm_state, addr, &paddr)) {
-             kvm_hwpoison_page_add(ram_addr);
-             kvm_mce_inject(cpu, paddr, code);
+-    if (period) {
+-        /* compute 32 khz clock */
+-        cur_clock =
+-            muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
++    if (!period) {
++        s->irq_coalesced = 0;
++        timer_del(s->periodic_timer);
++        return;
++    }
+ 
+-        /*
+-        * if the periodic timer's update is due to period re-configuration,
+-        * we should count the clock since last interrupt.
+-        */
+-        if (old_period) {
+-            int64_t last_periodic_clock, next_periodic_clock;
+-
+-            next_periodic_clock = muldiv64(s->next_periodic_time,
+-                                    RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+-            last_periodic_clock = next_periodic_clock - old_period;
+-            lost_clock = cur_clock - last_periodic_clock;
+-            assert(lost_clock >= 0);
+-        }
++    /* compute 32 khz clock */
++    cur_clock =
++        muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
 +
++    /*
++     * if the periodic timer's update is due to period re-configuration,
++     * we should count the clock since last interrupt.
++     */
++    if (old_period) {
++        int64_t last_periodic_clock, next_periodic_clock;
++
++        next_periodic_clock = muldiv64(s->next_periodic_time,
++                                RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
++        last_periodic_clock = next_periodic_clock - old_period;
++        lost_clock = cur_clock - last_periodic_clock;
++        assert(lost_clock >= 0);
+ 
+         /*
+          * s->irq_coalesced can change for two reasons:
+@@ -251,22 +255,19 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+                 rtc_coalesced_timer_update(s);
+             }
+         } else {
+-           /*
 +            /*
-+             * Use different logging severity based on error type.
-+             * If there is additional MCE reporting on the hypervisor, QEMU VA
-+             * could be another source to identify the PA and MCE details.
-+             */
-+            if (code == BUS_MCEERR_AR) {
-+                error_report("Guest MCE Memory Error at QEMU addr %p and "
-+                    "GUEST addr 0x%" HWADDR_PRIx " of type %s injected",
-+                    addr, paddr, "BUS_MCEERR_AR");
-+            } else {
-+                 warn_report("Guest MCE Memory Error at QEMU addr %p and "
-+                     "GUEST addr 0x%" HWADDR_PRIx " of type %s injected",
-+                     addr, paddr, "BUS_MCEERR_AO");
-+            }
-+
-             return;
+              * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
+              * is not used, we should make the time progress anyway.
+              */
+             lost_clock = MIN(lost_clock, period);
          }
++    }
  
--        fprintf(stderr, "Hardware memory error for memory used by "
--                "QEMU itself instead of guest system!\n");
-+        if (code == BUS_MCEERR_AO) {
-+            warn_report("Hardware memory error at addr %p of type %s "
-+                "for memory used by QEMU itself instead of guest system!",
-+                 addr, "BUS_MCEERR_AO");
-+        }
-     }
+-        assert(lost_clock >= 0 && lost_clock <= period);
++    assert(lost_clock >= 0 && lost_clock <= period);
  
-     if (code == BUS_MCEERR_AR) {
--        hardware_memory_error();
-+        hardware_memory_error(addr);
-     }
+-        next_irq_clock = cur_clock + period - lost_clock;
+-        s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
+-        timer_mod(s->periodic_timer, s->next_periodic_time);
+-    } else {
+-        s->irq_coalesced = 0;
+-        timer_del(s->periodic_timer);
+-    }
++    next_irq_clock = cur_clock + period - lost_clock;
++    s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
++    timer_mod(s->periodic_timer, s->next_periodic_time);
+ }
  
-     /* Hope we are lucky for AO MCE */
+ static void rtc_periodic_timer(void *opaque)
 -- 
 1.8.3.1
 
