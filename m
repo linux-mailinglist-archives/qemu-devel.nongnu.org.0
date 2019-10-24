@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB52DE3B0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:34:14 +0200 (CEST)
-Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352E8E3B1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:37:23 +0200 (CEST)
+Received: from localhost ([::1]:50382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhw5-0004Lm-Bx
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49283)
+	id 1iNhz7-0003Hj-Uo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNhoL-0001pl-RI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:26:15 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNhpY-0003x6-8c
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:27:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNhoK-0004Uq-Gy
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:26:13 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:56647)
+ (envelope-from <laurent@vivier.eu>) id 1iNhpX-0004i3-0w
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:27:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:57643)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNhoK-0004Ug-4m; Thu, 24 Oct 2019 14:26:12 -0400
+ id 1iNhpU-0004gz-Bg; Thu, 24 Oct 2019 14:27:24 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MOz8O-1ie8lB0VG0-00PM48; Thu, 24 Oct 2019 20:25:53 +0200
-Subject: Re: [PATCH v2 07/14] hw: Move TWL92230 device from hw/timer/ to
- hw/rtc/ subdirectory
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MPaQU-1ibPBU0sd8-00MaBY; Thu, 24 Oct 2019 20:27:02 +0200
+Subject: Re: [PATCH v2 08/14] hw: Move DS1338 device from hw/timer/ to hw/rtc/
+ subdirectory
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20191003230404.19384-1-philmd@redhat.com>
- <20191003230404.19384-8-philmd@redhat.com>
+ <20191003230404.19384-9-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,36 +72,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <fcf23019-02e2-128b-61cc-e5d554e47496@vivier.eu>
-Date: Thu, 24 Oct 2019 20:25:47 +0200
+Message-ID: <a0e69faa-1705-a82d-8739-d0de2cf565d3@vivier.eu>
+Date: Thu, 24 Oct 2019 20:26:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191003230404.19384-8-philmd@redhat.com>
+In-Reply-To: <20191003230404.19384-9-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MtYMBhPxCOVpabe3WxksqXWnhDcbXJIOMomRYYMhx/je009/pCv
- XNCauvArpahHmI2vOBeTG84/2tPkrG/c/n//Em+y5bz30JKGh9SDNSZgYR3W6nK3Mn5XcrL
- YLkBILCuMPT3tU9Yh5Kn0xM9Jf//Sxq9XJ/gfKNeBxING4Ug53n5sIdcQyIpcqdiEYql1L0
- brgoa6jliVwKvi3qfMiSw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:O8wnyq7m1lM=:60x+grpeL06QMLfe3jolm/
- 6pgnXQ7FhOlOmm818AM1VaDxUDS0wgyTu/csG330GCTjE0bJ+fvfbiEJ/zY22Bpa25nyDHBsk
- OS/bL1B2VU8S50NQjn42A51+fVxaE/ERtWkx34B57QMAUvXu+cwVFXlUKB8KQ6P+iTPZ47gHy
- S1PMttjj+BPXCu4VIS4fnVrY/4gxlDAyyRshpSyNsgsWE4psNtMJvnkNuigSj2OIboOtLetSi
- AWc6CHUKAZfx91uDqggfmasMq0fj7b2xs9miLviBWVUckHPw9N7Wawzrks3Msk0zAEgVQ4qh1
- HWhVCp9TYhwEXVcv0QQLvG5Xq/CZYmWW/Zs+MZWClIYJCm/aHeS0pvUM2yVcBArvd3XzAXqoU
- cZ5gLX1P4V7ahhWZVkJ5N3mw1r7DfIfTrqaZMTpu9sEOlM844ekItdnNICiLbhOG9kJRnDw37
- jAeTEM7vIcUxO65EAZVUoGP2ush7KbuoJpDfhy0oqA121e/cjBhJt+sHxH2vSkfyj0vLASOJS
- rpMf1+2hdbiIDRDSv4MzOBA7cUs4mVAIUiZFzXNgl+v25tJ7g2tYrY3Paq67XU+Wx9TWxdh93
- 2qqli8Jf4axg9IhZKL6KuDtEYvGvmfS9ALXpFVZChDoHR6nwck9BMqCmOT1v2tx3jmlTZpwgO
- EBzvBV0UhRcR8aFX9wX/GBy36fhEAvHvjLAIufl45qNhpAEVQRERlpVw8+QQijU/77qbJXW3z
- iwFthMFp7M0YzJI4rTA/xkVqDdhOrRPkvAWVSgsS4yCbOV3MdD2oBnu8GjBdeulPSy89DEBKM
- p66BGHji1ZWR8i8wdYAfcQuNdjbBaD8fkkUWzo+GF840CfdJcC15NDYyP0C0dgr04QvBDx3XC
- +fAnYY1xBachFzzkMt3JgJq3Jv5ae4s/UahJzh7Rk=
+X-Provags-ID: V03:K1:2wv/Ey8ZDlOtDKHKnWMlRBZgXCI0L8BthzwmAbilyfhnT64/Lnu
+ N2tuPD+J0H1AZpTPFYBPw6Srx84z9RSCI0Snodn2cD8xfGMRih6mJ9TA780u3MkVn/gpmNz
+ GhbuwjW0eBjnrC60GSz3hUfl18ODWDC5vlwyer6iGsVkviikb50TZzF5eWa5Wn0Il8cNX1R
+ DZp1bebw/Q5qwUe4FfEOw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b+9L5jeWurA=:9yQWWKB9f0JWG5ht2E2M7R
+ 0m+JfF/qT1ZWnyxPtff+VedBPzmvABSK7exFGDsDKHGOOpOYGQmYrTN5sauifnqZAm7ku6dKX
+ lwmUfQJ7+y0tfenn3FHtaM1EK5sKnmr1LUvm7TWCTUAKLFV3nYu7/1sAq+OULEQ90EXRasYlV
+ YoQc/ic37VY0b3ZSdH9MTRzNhsmCbYGQrycFrHWFmC74VGclENlFbt7XErl5WV0auuQo7hy9n
+ ScK1DdCAcrMmUD6hyvVqIMPPVXghaeb7iAdrC5bAT0Pvg82boQjqxIfz//CNiN0WfmzVM2oNc
+ j7nxzIN/TG7hynxeXmeCMM0bPheOXjZb7HtqnOQEBi1JElDWQiu2VKbIHJkNEyC2V5My9MiDi
+ jzZeyU/nM/9r9xHImX3OlWC+guSA+2m0LH9GMsRyf8dI97ZwpoFBNJ9bzOswnd1BCxD4NjnTT
+ pb5loJwRpoFJKplhCNZ14Tez5Z5DTA1kPp9v9BYEmIS5YE///G/Cqj3fTNGJYCjnMzoYyb6PF
+ etYQtyE5sRrtR+vXnDgv8H3zGJvde+nq4HoeXEfSabVuW2w0jGOKmSPc9M6nx4U+j9VVt72JY
+ wmOMXdi3Xz6G4AKZxzr3GpijEmRyH6hTvrauGyzjPY8UxjSxRrBzORWRQ/GD9z2rqUaSzb881
+ In7lU2hvU/MP20OcmIBQrDos3VewAQanYkl73/stQ5zqDj85dzV6IDtM4P2p6tqeALTcQmccy
+ 8qmmi3CfyfW4hSzN0Iu5hzFpqjWwejcfaeHt1KKFxd2lE0gjPZLGk0RkW2bldc8azN5nFuH29
+ 3w0nk86uz91tejBVSFHLldLjnTK/qcAOpT3LYDpEDeVhmb07+EeI1zx3GNcwZ5O2I7982sOHY
+ h8scTxPwmOrUr7gA77pWmw82Ecj9QdzQ1L4739ViY=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,92 +134,72 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 04/10/2019 à 01:03, Philippe Mathieu-Daudé a écrit :
-> The TWL92230 is an "energy management device" companion with
-> a RTC. Since we mostly model the RTC, move it under the hw/rtc/
-> subdirectory.
+> The DS1338 is a Real Time Clock, not a timer.
+> Move it under the hw/rtc/ subdirectory.
 > 
 > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  MAINTAINERS                  | 2 +-
->  hw/rtc/Kconfig               | 4 ++++
->  hw/rtc/Makefile.objs         | 1 +
->  hw/{timer => rtc}/twl92230.c | 0
->  hw/timer/Kconfig             | 4 ----
->  hw/timer/Makefile.objs       | 1 -
->  6 files changed, 6 insertions(+), 6 deletions(-)
->  rename hw/{timer => rtc}/twl92230.c (100%)
+>  hw/rtc/Kconfig             | 4 ++++
+>  hw/rtc/Makefile.objs       | 1 +
+>  hw/{timer => rtc}/ds1338.c | 0
+>  hw/timer/Kconfig           | 4 ----
+>  hw/timer/Makefile.objs     | 1 -
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+>  rename hw/{timer => rtc}/ds1338.c (100%)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 31e4fbf579..daa92cbff0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -663,7 +663,7 @@ F: hw/display/blizzard.c
->  F: hw/input/lm832x.c
->  F: hw/input/tsc2005.c
->  F: hw/misc/cbus.c
-> -F: hw/timer/twl92230.c
-> +F: hw/rtc/twl92230.c
->  F: include/hw/display/blizzard.h
->  F: include/hw/input/tsc2xxx.h
->  F: include/hw/misc/cbus.h
 > diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-> index cc7fead764..dff9d60946 100644
+> index dff9d60946..45daa8d655 100644
 > --- a/hw/rtc/Kconfig
 > +++ b/hw/rtc/Kconfig
-> @@ -8,6 +8,10 @@ config M48T59
->  config PL031
->      bool
->  
-> +config TWL92230
+> @@ -1,3 +1,7 @@
+> +config DS1338
 > +    bool
 > +    depends on I2C
 > +
->  config MC146818RTC
+>  config M41T80
 >      bool
->  
+>      depends on I2C
 > diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-> index 4621b37bc2..810a38ee7b 100644
+> index 810a38ee7b..b195863291 100644
 > --- a/hw/rtc/Makefile.objs
 > +++ b/hw/rtc/Makefile.objs
-> @@ -4,5 +4,6 @@ ifeq ($(CONFIG_ISA_BUS),y)
->  common-obj-$(CONFIG_M48T59) += m48t59-isa.o
->  endif
->  common-obj-$(CONFIG_PL031) += pl031.o
-> +common-obj-$(CONFIG_TWL92230) += twl92230.o
->  obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
->  common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
-> diff --git a/hw/timer/twl92230.c b/hw/rtc/twl92230.c
+> @@ -1,3 +1,4 @@
+> +common-obj-$(CONFIG_DS1338) += ds1338.o
+>  common-obj-$(CONFIG_M41T80) += m41t80.o
+>  common-obj-$(CONFIG_M48T59) += m48t59.o
+>  ifeq ($(CONFIG_ISA_BUS),y)
+> diff --git a/hw/timer/ds1338.c b/hw/rtc/ds1338.c
 > similarity index 100%
-> rename from hw/timer/twl92230.c
-> rename to hw/rtc/twl92230.c
+> rename from hw/timer/ds1338.c
+> rename to hw/rtc/ds1338.c
 > diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-> index b04c928136..9357875f28 100644
+> index 9357875f28..a990f9fe35 100644
 > --- a/hw/timer/Kconfig
 > +++ b/hw/timer/Kconfig
-> @@ -20,10 +20,6 @@ config HPET
->  config I8254
+> @@ -9,10 +9,6 @@ config ARM_MPTIMER
+>  config A9_GTIMER
 >      bool
 >  
-> -config TWL92230
+> -config DS1338
 > -    bool
 > -    depends on I2C
 > -
->  config ALTERA_TIMER
+>  config HPET
 >      bool
->      select PTIMER
+>      default y if PC
 > diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-> index 034bd30255..23be70b71d 100644
+> index 23be70b71d..70b61b69c7 100644
 > --- a/hw/timer/Makefile.objs
 > +++ b/hw/timer/Makefile.objs
-> @@ -7,7 +7,6 @@ common-obj-$(CONFIG_DS1338) += ds1338.o
+> @@ -3,7 +3,6 @@ common-obj-$(CONFIG_ARM_MPTIMER) += arm_mptimer.o
+>  common-obj-$(CONFIG_ARM_V7M) += armv7m_systick.o
+>  common-obj-$(CONFIG_A9_GTIMER) += a9gtimer.o
+>  common-obj-$(CONFIG_CADENCE) += cadence_ttc.o
+> -common-obj-$(CONFIG_DS1338) += ds1338.o
 >  common-obj-$(CONFIG_HPET) += hpet.o
 >  common-obj-$(CONFIG_I8254) += i8254_common.o i8254.o
 >  common-obj-$(CONFIG_PUV3) += puv3_ost.o
-> -common-obj-$(CONFIG_TWL92230) += twl92230.o
->  common-obj-$(CONFIG_XILINX) += xilinx_timer.o
->  common-obj-$(CONFIG_SLAVIO) += slavio_timer.o
->  common-obj-$(CONFIG_ETRAXFS) += etraxfs_timer.o
 > 
 
 Applied to my trivial-patches branch.
