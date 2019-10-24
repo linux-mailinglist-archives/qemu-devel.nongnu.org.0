@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D9BE302A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:19:40 +0200 (CEST)
-Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8FFE3049
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:24:20 +0200 (CEST)
+Received: from localhost ([::1]:39780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNb9W-0004ig-N6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45489)
+	id 1iNbE2-0007vH-Jo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46401)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <estebanbosse@gmail.com>) id 1iNZHY-0005Fm-I4
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:19:49 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNZN9-00057O-41
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:25:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <estebanbosse@gmail.com>) id 1iNZHX-0000Ik-72
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:19:48 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51872)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNZN6-0003Dm-OY
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:25:34 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42143)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
- id 1iNZHW-0000Gx-Uc; Thu, 24 Oct 2019 05:19:47 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q70so1952739wme.1;
- Thu, 24 Oct 2019 02:19:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iNZN6-0003Da-Ep
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:25:32 -0400
+Received: by mail-ot1-x341.google.com with SMTP id b16so9244722otk.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 02:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=MtRiJQgfJ9ZnkixG1KDBOu+rrd/k/A5pzUFTb4qm5p0=;
- b=HWgkSaHLaM4KT2a0iNnpJVNdZUAKQxKNvzIj5Z9o+o53prOV01jRgmPf1DMzsVo4iv
- kxckSCehtsshUTI1VKlHo7W/EtaINb/4TyEztSvKLzO+lMDA6jMk/d09NeK5e0m+BBHJ
- l8ywn6JAXGUx4sHRgwMe3s0CAJV+xtur1DJGCURfqkTXBypl5uxu8Vs7BNYmTOM5jOI8
- LxNBGEBL9pJvr+q8ZLOPgAtAFf9eYo5UytM9mXOENCSrrxoBFQFzJvz8ZQvLuHYUuMbq
- Z2frsHjlvPJsSB1FhH5cms6zfJK0ES26NlzLLf058x6B9Y2kkXVRd0QsqvevZG+1shb7
- MwLQ==
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=syid6krUsPxfc4GmRUpyI794bOgLFo56CLg1zf/h6MY=;
+ b=bOCNtL8K5SdGMnD7ZGnIK3aSJfYlQDbhrzugBaBds2sBNaK+Sq21okTi1AY65bmo+Y
+ 55LkeoOsw1HNr6xLVdyAGdu6MN7r5oUfU/ivDn4tHQNzxtRwhdUpxpCJc+wweEk28xpV
+ pLYMIpAj2BCx29juApR11gP5gZuf+CH6zngBmeVYoiEWUa93GVMzfek1R9C0x+4RC78T
+ qtavjENtk1mCgSKGWOxjfFr0K5qZoyKoaGhPk5BjGid81dgSjmRlxGh8kbW91NBpgRUr
+ 6u1diA6PTzXNn59y7We26l/DljI5LY9aufZiPRJ8JxQsvBIlZmwgPjY52zk8wv8AXYXk
+ vQSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=MtRiJQgfJ9ZnkixG1KDBOu+rrd/k/A5pzUFTb4qm5p0=;
- b=iYYnaXDNBSQBZEs6RYHiRCUSeue5qel61liM05BItbDsTaO/xwQOx/DqemBVITjwuc
- 0ZpYP5xiLSsmAvhYnjRUDa1t+9VFkcMlo3uH+7n2zF7A2Mnk+XVeDZZCkKXGfKIi96b/
- VjqiN+TTyecxebKbSmAJCHdVS4ZPPgMQdjNj+pRxswoTfSntc8u2bliEeiONqWiJBRmV
- dhoOOUNFKq1RXOaE6Gyar1H/i4ejoZs5O5p8YMvyi2Igt2rkBpMIiqG5SOJlOEnwMwvS
- UFBWHsFjEZJHYdSfkBWHBIn91DW4IGfU1km7pEogxLIpyBxEJRCmY49aDSkekyPZhaH0
- mCBw==
-X-Gm-Message-State: APjAAAVXW3tz099tkB682NjTAYpK1Rj9YuhH7LZRxbe1b/WRYURHcI5y
- VpyFDgOp/wVStbYSenYnKrA=
-X-Google-Smtp-Source: APXvYqygb8LalNQ9Md4VTnLJftVwW84EHPEIBxAwaFKBTMV1aPfo4WAWySUbDAqBIrr3RhGaFJ9O7Q==
-X-Received: by 2002:a1c:64d4:: with SMTP id y203mr3976343wmb.27.1571908784275; 
- Thu, 24 Oct 2019 02:19:44 -0700 (PDT)
-Received: from ?IPv6:2a01:c22:b04f:9c00:d5b4:db5f:bfb4:fdb?
- ([2a01:c22:b04f:9c00:d5b4:db5f:bfb4:fdb])
- by smtp.gmail.com with ESMTPSA id f8sm1926360wmb.37.2019.10.24.02.19.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 02:19:43 -0700 (PDT)
-Message-ID: <f623a5e67cec8934b136cf8ae68ba70dd58a6f84.camel@gmail.com>
-Subject: Re: [RFC PATCH 03/14] hw/misc/bcm2835_property: Handle the 'domain
- state' property
-From: Esteban Bosse <estebanbosse@gmail.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Peter
- Maydell <peter.maydell@linaro.org>, Andrew Baumann
- <Andrew.Baumann@microsoft.com>,  qemu-devel@nongnu.org, Pekka Enberg
- <penberg@iki.fi>,  =?ISO-8859-1?Q?Zolt=E1n?= Baldaszti <bztemail@gmail.com>
-Date: Thu, 24 Oct 2019 11:15:33 +0200
-In-Reply-To: <7023ba2c-edfa-8313-8138-0556f4a03023@amsat.org>
-References: <20190904171315.8354-1-f4bug@amsat.org>
- <20190904171315.8354-4-f4bug@amsat.org>
- <d02a29663183b8963bc34a0d1b031442d997ab62.camel@gmail.com>
- <7023ba2c-edfa-8313-8138-0556f4a03023@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=syid6krUsPxfc4GmRUpyI794bOgLFo56CLg1zf/h6MY=;
+ b=L/Brn9XfXnNEdxwC7LfEQ3mxAlBRJnLADa5+TVc5tNfssJdXV/TihJZGt7QWKM/OuN
+ ZptjC1aPOhcegipyFHhl/zyGfdMxKwE8m4uDQ+Vad7jgB9m4+2YJWNaDiXUZVu43lMcY
+ oXY3DVKctDBJaslfmStbA95fjoWz5O2yd9OAZnTBJ8csuyqcrw1H96bWNYtK0qUeFyCY
+ jlYnuX0v9XRTjgzFh2LyBzqH84MWTT6jzlTK6RL7czt6WKr6QLKqvX/YzifYrg0yWx1s
+ ppOlayIVaLSiI2vygkI8iUKn5IuzPxMk0ilYLvVjvXSJVNzymJuV27Ej5IYql9b+1czg
+ h5rg==
+X-Gm-Message-State: APjAAAVgIGz1FVxi/9itF4KxiEUMG2QxGJGW/j6m7Yg9SRmZq7Ccdgu9
+ mLfuvtD/SSYJAgZFW8ZiQwX82/Ofopr7LCrDnAU=
+X-Google-Smtp-Source: APXvYqwhiqctyT3qTRn4DDTRMhsDZDLaMVjelTLR9Q2ZDVloN8EcheOQ+djUtUOiWMcANoIEnPsAcyIdfueZJyTPrCM=
+X-Received: by 2002:a9d:4f0f:: with SMTP id d15mr10475126otl.64.1571909131528; 
+ Thu, 24 Oct 2019 02:25:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 24 Oct 2019 02:25:31
+ -0700 (PDT)
+In-Reply-To: <20191019153437.9820-2-f4bug@amsat.org>
+References: <20191019153437.9820-1-f4bug@amsat.org>
+ <20191019153437.9820-2-f4bug@amsat.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 24 Oct 2019 11:25:31 +0200
+Message-ID: <CAL1e-=hkEQCHHfnNh3=zDEDrYMsTh1DVqBsbWP54XdZ_GnNiNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/11] Acceptance tests: refactor
+ wait_for_console_pattern
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000676d1d0595a49df6"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,94 +75,458 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
- =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-El mar, 08-10-2019 a las 11:32 +0200, Philippe Mathieu-Daudé escribió:
-> On 9/29/19 9:01 AM, Esteban Bosse wrote:
-> > El mié, 04-09-2019 a las 19:13 +0200, Philippe Mathieu-Daudé
-> > escribió:
-> > > The kernel is happy with this change, so we don't need
-> > > to do anything more sophisticated.
-> > > 
-> > > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > ---
-> > >   hw/misc/bcm2835_property.c | 8 ++++++++
-> > >   1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/hw/misc/bcm2835_property.c
-> > > b/hw/misc/bcm2835_property.c
-> > > index 399f0d9dd5..d8eb28f267 100644
-> > > --- a/hw/misc/bcm2835_property.c
-> > > +++ b/hw/misc/bcm2835_property.c
-> > > @@ -127,6 +127,14 @@ static void
-> > > bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t
-> > > value)
-> > >               resplen = 8;
-> > >               break;
-> > >   
-> > > +        case 0x00030030: /* Get domain state */
-> > > +            qemu_log_mask(LOG_UNIMP,
-> > > +                          "bcm2835_property: 0x%08x get domain
-> > > state
-> > > NYI\n",
-> > > +                          tag);
-> > > +            /* FIXME returning uninitialized memory */
-> > > +            resplen = 8;
-> > > +            break;
-> > > +
-> > >           case 0x00038002: /* Set clock rate */
-> > >           case 0x00038004: /* Set max clock rate */
-> > >           case 0x00038007: /* Set min clock rate */
-> > 
-> > Searching this property in the kernel, I found a lot of properties
-> > not
-> > implemented.
-> > https://github.com/raspberrypi/linux/blob/rpi-4.19.y/include/soc/bcm2835/raspberrypi-firmware.h#L41
-> > Are the properties only added when they are necessaries for the
-> > standard kernel use?
-> 
-> Yes, the idea is to emulate the bare minimum required to run your
-> guest 
-> code. To test this series I used the closed source kernel provided
-> by 
-> the Raspberry Pi foundation [1] which the one that does the most of 
-> UNIMP accesses, the Debian trunk one and I build one from [2].
-> 
-> The problem is old kernels don't support the raspi4, and recent
-> kernels 
-> do a lot of property calls to use recent features.
-> 
-> A "property call" is a call from the ARM core to the VideoCore
-> firmware, 
-> like a Remote Procedure Call. The ARM core write some 
-> arguments/structure to a memory space shared with the VideoCore, use
-> a 
-> MailBox to send a 'property' key to the VideoCore and wait/poll for
-> a 
-> response from the VC. The VC handles the 'property' call, if
-> required 
-> fills the structure in the same memory space the ARM used, then
-> reply 
-> via another MailBox channel to notify the ARM core.
-> 
-> QEMU does not model the VideoCore. Instead we directly fill the
-> memory 
-> from the ARM property call. We fake the VC firmware.
-> 
-> [1] 
-> https://github.com/raspberrypi/firmware/blob/master/boot/kernel8.img
-> [2] https://github.com/raspberrypi/linux/tree/rpi-5.3.y
-Thank you very much for all the data Phil.
+--000000000000676d1d0595a49df6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now I understood "the idea is to support the bare minimum for the
-guest", I thought that the idea was a full HW support, but make sense
-it's a lot of work to give full HW support.
+On Saturday, October 19, 2019, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+>
+wrote:
 
+> From: Cleber Rosa <crosa@redhat.com>
+>
+> The same utility method is already present in two different test
+> files, so let's consolidate it into a single utility function.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Message-Id: <20190916164011.7653-1-crosa@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> [PMD: failure_message is optional]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 25 +++++++++++++++++++++
+>  tests/acceptance/boot_linux_console.py    | 27 +++++------------------
+>  tests/acceptance/linux_ssh_mips_malta.py  | 18 +++------------
+>  3 files changed, 33 insertions(+), 37 deletions(-)
+>
+>
+
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+
+
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py
+> b/tests/acceptance/avocado_qemu/__init__.py
+> index bd41e0443c..e3101cba30 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -8,6 +8,7 @@
+>  # This work is licensed under the terms of the GNU GPL, version 2 or
+>  # later.  See the COPYING file in the top-level directory.
+>
+> +import logging
+>  import os
+>  import sys
+>  import uuid
+> @@ -53,6 +54,30 @@ def pick_default_qemu_bin(arch=3DNone):
+>          return qemu_bin_from_src_dir_path
+>
+>
+> +def wait_for_console_pattern(test, success_message, failure_message=3DNo=
+ne):
+> +    """
+> +    Waits for messages to appear on the console, while logging the conte=
+nt
+> +
+> +    :param test: an Avocado test containing a VM that will have its
+> console
+> +                 read and probed for a success or failure message
+> +    :type test: :class:`avocado_qemu.Test`
+> +    :param success_message: if this message appears, test succeeds
+> +    :param failure_message: if this message appears, test fails
+> +    """
+> +    console =3D test.vm.console_socket.makefile()
+> +    console_logger =3D logging.getLogger('console')
+> +    while True:
+> +        msg =3D console.readline().strip()
+> +        if not msg:
+> +            continue
+> +        console_logger.debug(msg)
+> +        if success_message in msg:
+> +            break
+> +        if failure_message and failure_message in msg:
+> +            fail =3D 'Failure message found in console: %s' %
+> failure_message
+> +            test.fail(fail)
+> +
+> +
+>  class Test(avocado.Test):
+>      def setUp(self):
+>          self._vms =3D {}
+> diff --git a/tests/acceptance/boot_linux_console.py
+> b/tests/acceptance/boot_linux_console.py
+> index 8a9a314ab4..8897e0c253 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -9,12 +9,12 @@
+>  # later.  See the COPYING file in the top-level directory.
+>
+>  import os
+> -import logging
+>  import lzma
+>  import gzip
+>  import shutil
+>
+>  from avocado_qemu import Test
+> +from avocado_qemu import wait_for_console_pattern
+>  from avocado.utils import process
+>  from avocado.utils import archive
+>
+> @@ -29,31 +29,14 @@ class BootLinuxConsole(Test):
+>
+>      KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
+>
+> -    def wait_for_console_pattern(self, success_message,
+> -                                 failure_message=3D'Kernel panic - not
+> syncing'):
+> -        """
+> -        Waits for messages to appear on the console, while logging the
+> content
+> -
+> -        :param success_message: if this message appears, test succeeds
+> -        :param failure_message: if this message appears, test fails
+> -        """
+> -        console =3D self.vm.console_socket.makefile()
+> -        console_logger =3D logging.getLogger('console')
+> -        while True:
+> -            msg =3D console.readline().strip()
+> -            if not msg:
+> -                continue
+> -            console_logger.debug(msg)
+> -            if success_message in msg:
+> -                break
+> -            if failure_message in msg:
+> -                fail =3D 'Failure message found in console: %s' %
+> failure_message
+> -                self.fail(fail)
+> +    def wait_for_console_pattern(self, success_message):
+> +        wait_for_console_pattern(self, success_message,
+> +                                 failure_message=3D'Kernel panic - not
+> syncing')
+>
+>      def exec_command_and_wait_for_pattern(self, command,
+> success_message):
+>          command +=3D '\n'
+>          self.vm.console_socket.sendall(command.encode())
+> -        self.wait_for_console_pattern(success_message)
+> +        wait_for_console_pattern(self, success_message)
+>
+>      def extract_from_deb(self, deb, path):
+>          """
+> diff --git a/tests/acceptance/linux_ssh_mips_malta.py
+> b/tests/acceptance/linux_ssh_mips_malta.py
+> index 25a1df5098..ffbb06f846 100644
+> --- a/tests/acceptance/linux_ssh_mips_malta.py
+> +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> @@ -13,6 +13,7 @@ import time
+>
+>  from avocado import skipUnless
+>  from avocado_qemu import Test
+> +from avocado_qemu import wait_for_console_pattern
+>  from avocado.utils import process
+>  from avocado.utils import archive
+>  from avocado.utils import ssh
+> @@ -40,19 +41,6 @@ class LinuxSSH(Test):
+>      def setUp(self):
+>          super(LinuxSSH, self).setUp()
+>
+> -    def wait_for_console_pattern(self, success_message,
+> -                                 failure_message=3D'Oops'):
+> -        console =3D self.vm.console_socket.makefile()
+> -        console_logger =3D logging.getLogger('console')
+> -        while True:
+> -            msg =3D console.readline()
+> -            console_logger.debug(msg.strip())
+> -            if success_message in msg:
+> -                break
+> -            if failure_message in msg:
+> -                fail =3D 'Failure message found in console: %s' %
+> failure_message
+> -                self.fail(fail)
+> -
+>      def get_portfwd(self):
+>          res =3D self.vm.command('human-monitor-command',
+>                                command_line=3D'info usernet')
+> @@ -109,7 +97,7 @@ class LinuxSSH(Test):
+>
+>          self.log.info('VM launched, waiting for sshd')
+>          console_pattern =3D 'Starting OpenBSD Secure Shell server: sshd'
+> -        self.wait_for_console_pattern(console_pattern)
+> +        wait_for_console_pattern(self, console_pattern, 'Oops')
+>          self.log.info('sshd ready')
+>
+>          self.ssh_connect('root', 'root')
+> @@ -117,7 +105,7 @@ class LinuxSSH(Test):
+>      def shutdown_via_ssh(self):
+>          self.ssh_command('poweroff')
+>          self.ssh_disconnect_vm()
+> -        self.wait_for_console_pattern('Power down')
+> +        wait_for_console_pattern(self, 'Power down', 'Oops')
+>
+>      def ssh_command_output_contains(self, cmd, exp):
+>          stdout, _ =3D self.ssh_command(cmd)
+> --
+> 2.21.0
+>
+>
+>
+
+--000000000000676d1d0595a49df6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Saturday, October 19, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a h=
+ref=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">From: Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.c=
+om">crosa@redhat.com</a>&gt;<br>
+<br>
+The same utility method is already present in two different test<br>
+files, so let&#39;s consolidate it into a single utility function.<br>
+<br>
+Signed-off-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.com">crosa@re=
+dhat.com</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20190916164011.7653-1-crosa@redhat.com">2=
+0190916164011.7653-1-crosa@redhat.com</a>&gt;<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
+t.com">philmd@redhat.com</a>&gt;<br>
+[PMD: failure_message is optional]<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/acceptance/avocado_qemu/<wbr>__init__.py | 25 +++++++++++++++++=
+++++<br>
+=C2=A0tests/acceptance/boot_linux_<wbr>console.py=C2=A0 =C2=A0 | 27 +++++--=
+----------------<br>
+=C2=A0tests/acceptance/linux_ssh_<wbr>mips_malta.py=C2=A0 | 18 +++---------=
+---<br>
+=C2=A03 files changed, 33 insertions(+), 37 deletions(-)<br>
+<br></blockquote><div><br></div><div><br></div><div><div id=3D"cvcmsg_16de4=
+b6417ee4d84" class=3D"yh  " style=3D"border-top-left-radius:0px;border-top-=
+right-radius:0px;margin-bottom:11px;overflow:visible"><div class=3D"Vh" id=
+=3D"cvcfullmsg_16de4b6417ee4d84"><div id=3D"cvcmsgbod_16de4b6417ee4d84" cla=
+ss=3D"aj"><div class=3D"Ni"><div class=3D"ni pi " dir=3D"ltr"><div><span st=
+yle=3D"color:rgb(34,34,34)">Reviewed-by: Aleksandar Markovic &lt;</span><a =
+href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank">amarkovic@wavecomp=
+.com</a><span style=3D"color:rgb(34,34,34)">&gt;</span></div><div style=3D"=
+clear:both"></div></div><div style=3D"clear:both"></div><div><div class=3D"=
+M j T b hc Aj S" tabindex=3D"0"><div class=3D"V j hf"></div></div></div><di=
+v style=3D"clear:both"></div></div></div></div></div><div id=3D"cvcmsg_16de=
+4b7a4e116812" class=3D"yh" style=3D"margin-bottom:11px"><div class=3D"Vh" i=
+d=3D"cvcfullmsg_16de4b7a4e116812"><div class=3D"M j Zi Mi  " tabindex=3D"0"=
+><div id=3D"cvcreply_16de4b7a4e116812" class=3D"M j T b hc xh S  " tabindex=
+=3D"0"><div class=3D"V j td"></div></div></div></div></div></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+diff --git a/tests/acceptance/avocado_<wbr>qemu/__init__.py b/tests/accepta=
+nce/avocado_<wbr>qemu/__init__.py<br>
+index bd41e0443c..e3101cba30 100644<br>
+--- a/tests/acceptance/avocado_<wbr>qemu/__init__.py<br>
++++ b/tests/acceptance/avocado_<wbr>qemu/__init__.py<br>
+@@ -8,6 +8,7 @@<br>
+=C2=A0# This work is licensed under the terms of the GNU GPL, version 2 or<=
+br>
+=C2=A0# later.=C2=A0 See the COPYING file in the top-level directory.<br>
+<br>
++import logging<br>
+=C2=A0import os<br>
+=C2=A0import sys<br>
+=C2=A0import uuid<br>
+@@ -53,6 +54,30 @@ def pick_default_qemu_bin(arch=3D<wbr>None):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return qemu_bin_from_src_dir_path<br>
+<br>
+<br>
++def wait_for_console_pattern(test, success_message, failure_message=3DNone=
+):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Waits for messages to appear on the console, while logging t=
+he content<br>
++<br>
++=C2=A0 =C2=A0 :param test: an Avocado test containing a VM that will have =
+its console<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0read and pro=
+bed for a success or failure message<br>
++=C2=A0 =C2=A0 :type test: :class:`avocado_qemu.Test`<br>
++=C2=A0 =C2=A0 :param success_message: if this message appears, test succee=
+ds<br>
++=C2=A0 =C2=A0 :param failure_message: if this message appears, test fails<=
+br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 console =3D test.vm.console_socket.<wbr>makefile()<br>
++=C2=A0 =C2=A0 console_logger =3D logging.getLogger(&#39;console&#39;)<br>
++=C2=A0 =C2=A0 while True:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D console.readline().strip()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not msg:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 console_logger.debug(msg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if success_message in msg:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if failure_message and failure_message in msg:=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fail =3D &#39;Failure message fo=
+und in console: %s&#39; % failure_message<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 test.fail(fail)<br>
++<br>
++<br>
+=C2=A0class Test(avocado.Test):<br>
+=C2=A0 =C2=A0 =C2=A0def setUp(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._vms =3D {}<br>
+diff --git a/tests/acceptance/boot_linux_<wbr>console.py b/tests/acceptance=
+/boot_linux_<wbr>console.py<br>
+index 8a9a314ab4..8897e0c253 100644<br>
+--- a/tests/acceptance/boot_linux_<wbr>console.py<br>
++++ b/tests/acceptance/boot_linux_<wbr>console.py<br>
+@@ -9,12 +9,12 @@<br>
+=C2=A0# later.=C2=A0 See the COPYING file in the top-level directory.<br>
+<br>
+=C2=A0import os<br>
+-import logging<br>
+=C2=A0import lzma<br>
+=C2=A0import gzip<br>
+=C2=A0import shutil<br>
+<br>
+=C2=A0from avocado_qemu import Test<br>
++from avocado_qemu import wait_for_console_pattern<br>
+=C2=A0from avocado.utils import process<br>
+=C2=A0from avocado.utils import archive<br>
+<br>
+@@ -29,31 +29,14 @@ class BootLinuxConsole(Test):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0KERNEL_COMMON_COMMAND_LINE =3D &#39;printk.time=3D0 &#3=
+9;<br>
+<br>
+-=C2=A0 =C2=A0 def wait_for_console_pattern(self, success_message,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0failure_message=3D&#39;Kernel =
+panic - not syncing&#39;):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Waits for messages to appear on the console, w=
+hile logging the content<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 :param success_message: if this message appear=
+s, test succeeds<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 :param failure_message: if this message appear=
+s, test fails<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 console =3D self.vm.console_socket.<wbr>makefi=
+le()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 console_logger =3D logging.getLogger(&#39;cons=
+ole&#39;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 while True:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D console.readline().strip=
+()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not msg:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 console_logger.debug(msg)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if success_message in msg:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if failure_message in msg:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fail =3D &#39;Fail=
+ure message found in console: %s&#39; % failure_message<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fail(fail)<br=
+>
++=C2=A0 =C2=A0 def wait_for_console_pattern(self, success_message):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 wait_for_console_pattern(self, success_message=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0failure_message=3D&#39;Kernel =
+panic - not syncing&#39;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def exec_command_and_wait_for_<wbr>pattern(self, comman=
+d, success_message):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0command +=3D &#39;\n&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.console_socket.<wbr>sendall(comma=
+nd.encode())<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(<wbr>success_mes=
+sage)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 wait_for_console_pattern(self, success_message=
+)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def extract_from_deb(self, deb, path):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+diff --git a/tests/acceptance/linux_ssh_<wbr>mips_malta.py b/tests/acceptan=
+ce/linux_ssh_<wbr>mips_malta.py<br>
+index 25a1df5098..ffbb06f846 100644<br>
+--- a/tests/acceptance/linux_ssh_<wbr>mips_malta.py<br>
++++ b/tests/acceptance/linux_ssh_<wbr>mips_malta.py<br>
+@@ -13,6 +13,7 @@ import time<br>
+<br>
+=C2=A0from avocado import skipUnless<br>
+=C2=A0from avocado_qemu import Test<br>
++from avocado_qemu import wait_for_console_pattern<br>
+=C2=A0from avocado.utils import process<br>
+=C2=A0from avocado.utils import archive<br>
+=C2=A0from avocado.utils import ssh<br>
+@@ -40,19 +41,6 @@ class LinuxSSH(Test):<br>
+=C2=A0 =C2=A0 =C2=A0def setUp(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super(LinuxSSH, self).setUp()<br>
+<br>
+-=C2=A0 =C2=A0 def wait_for_console_pattern(self, success_message,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0failure_message=3D&#39;Oops&#3=
+9;):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 console =3D self.vm.console_socket.<wbr>makefi=
+le()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 console_logger =3D logging.getLogger(&#39;cons=
+ole&#39;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 while True:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D console.readline()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 console_logger.debug(msg.<wbr>st=
+rip())<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if success_message in msg:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if failure_message in msg:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fail =3D &#39;Fail=
+ure message found in console: %s&#39; % failure_message<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fail(fail)<br=
+>
+-<br>
+=C2=A0 =C2=A0 =C2=A0def get_portfwd(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0res =3D self.vm.command(&#39;human-<wbr>m=
+onitor-command&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0command_line=3D&#39;info usernet&#39;=
+)<br>
+@@ -109,7 +97,7 @@ class LinuxSSH(Test):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://self.log.info" target=
+=3D"_blank">self.log.info</a>(&#39;VM launched, waiting for sshd&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0console_pattern =3D &#39;Starting OpenBSD=
+ Secure Shell server: sshd&#39;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(<wbr>console_pat=
+tern)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 wait_for_console_pattern(self, console_pattern=
+, &#39;Oops&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://self.log.info" target=
+=3D"_blank">self.log.info</a>(&#39;sshd ready&#39;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.ssh_connect(&#39;root&#39;, &#39;roo=
+t&#39;)<br>
+@@ -117,7 +105,7 @@ class LinuxSSH(Test):<br>
+=C2=A0 =C2=A0 =C2=A0def shutdown_via_ssh(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.ssh_command(&#39;poweroff&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.ssh_disconnect_vm()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(<wbr>&#39;Power =
+down&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 wait_for_console_pattern(self, &#39;Power down=
+&#39;, &#39;Oops&#39;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def ssh_command_output_contains(<wbr>self, cmd, exp):<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stdout, _ =3D self.ssh_command(cmd)<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote>
+
+--000000000000676d1d0595a49df6--
 
