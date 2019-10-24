@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F72E34FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:05:34 +0200 (CEST)
-Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FC4E350F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:08:38 +0200 (CEST)
+Received: from localhost ([::1]:43666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdk4-0006ZO-RE
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:05:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60243)
+	id 1iNdn3-0004xf-AF
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNdUv-0007YW-DR
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:49:56 -0400
+ (envelope-from <yezhenyu2@huawei.com>) id 1iNdZ8-0001vG-1y
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:54:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNdUt-0000MQ-S1
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:49:52 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43103)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNdUt-0000MB-Jz
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:49:51 -0400
-Received: by mail-ot1-x343.google.com with SMTP id z20so2049210otk.10
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ooq7dmnoQZtK8JLOj0nV7TogF6dsbmHh45dAnnb9lFM=;
- b=xqZp6AVygjUS+fLnDwZgV0rNwHygjKB0AVtyfOav+XZTbD8ZjMGAshzqTijQAdnM4P
- oqowkWWEuFnbf+8xvh1suLDt/O7EDOjUrLXATOzZSAxsTOZCQX+FzIySbF7jJf4fWRAg
- cV9TJttna/8HGY5DqA4khngD0ze72KTPTe7T23EBU+6uqrr/mUQohznAUq4sC4qE+4nz
- SJd1U5hdzu6V3pqw/VrtQAuREXihKL8X6zWQFbN5VsPOPJ+rzKY7E9rlixCr01NsTmMX
- cjwqlEJ2Tj9jEQWN6c5Ik1oS8nJYdNW7t01aDluQ5/DnILyqWwDi5KCQ49uNDNXpaLWB
- gr0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ooq7dmnoQZtK8JLOj0nV7TogF6dsbmHh45dAnnb9lFM=;
- b=gEf9TEpq5aUr/xIa2KVMe5YphAPXAVN/MzxsFlV4IEHHKz4X/cInlyQ2Yf/asNRbQM
- S779/Y0Xfrh89mjaFcCfNlSSPWaPybBANyCh9T4NYnbyjvNNkEGarXxs+nhe7t7RZH4k
- x3zQC0hXXO76Gb9LksxnhO5w40isS4wkCB5/o2hZEBAix55D7YhfJcgkEQ8Gkm1WdNXe
- qqUXBGwOdUtRhAUMpEgWhRUHi0EW3Z8kRngHG7frbTwbwxKCJtggcJx7p6ydNHGeWu0U
- WP2Lwlrhz+jUFv17/eCIlce7YCSFeKiLuUgNMHWIlzlHj5APbJzPEU324BNsCGI9HsnX
- PdNw==
-X-Gm-Message-State: APjAAAXPY1nzEOmAXqDEaLRAw/AEU3EfqLx/3PjZYtJ+ijD80X/zEO61
- 7RRE+KLZLDuxIQIDE9M4wApaymmO0DJANY7IW0xSHw==
-X-Google-Smtp-Source: APXvYqwzf76lClbs5Ms5b+ntxQWC5jjtMJRUX7RK8HcXHI8cxGUPYd28KblCZ9wDFxKm/YdTWy/qa3rxudFJexKEyjI=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr11906940otj.135.1571924990613; 
- Thu, 24 Oct 2019 06:49:50 -0700 (PDT)
+ (envelope-from <yezhenyu2@huawei.com>) id 1iNdZ6-0002PP-VT
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:54:13 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:43624 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yezhenyu2@huawei.com>)
+ id 1iNdZ6-0002Kf-K7
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:54:12 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 9DB1CC57CC76BCC56728;
+ Thu, 24 Oct 2019 21:54:04 +0800 (CST)
+Received: from [127.0.0.1] (10.173.223.212) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0;
+ Thu, 24 Oct 2019 21:53:55 +0800
+Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <5DAEB9D3.3080503@huawei.com>
+ <20191023151903.GI9574@stefanha-x1.localdomain>
+From: Zhenyu Ye <yezhenyu2@huawei.com>
+Message-ID: <5DB1ACF2.9080500@huawei.com>
+Date: Thu, 24 Oct 2019 21:53:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.1.0
 MIME-Version: 1.0
-References: <20191019234715.25750-1-f4bug@amsat.org>
- <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
- <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
-In-Reply-To: <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Oct 2019 14:49:39 +0100
-Message-ID: <CAFEAcA8Zst6XbPWiAat=z1s7HBzEMscsP=ibrPxP75kHXjZ3Kw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
- space, run U-boot
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+In-Reply-To: <20191023151903.GI9574@stefanha-x1.localdomain>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.223.212]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,79 +56,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
+Cc: dgilbert@redhat.com, xiexiangyou@huawei.com, qemu-devel@nongnu.org,
+ jiangyiwen <jiangyiwen@huawei.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Oct 2019 at 14:46, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> On 10/24/19 3:42 PM, Peter Maydell wrote:
-> > On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >>
-> >> Since v2:
-> >> - fixed issue in videocore address space
-> >> - allow to start with some cores OFF (to boot firmwares)
-> >> - add proof-of-concept test for '-smp cores=3D1' and U-boot
-> >> - fixed my email setup
-> >>
-> >> Previous cover:
-> >>
-> >> Hi,
-> >>
-> >> Some patches from v1 are already merged. This v2 addresses the
-> >> review comment from v1, and add patches to clean the memory
-> >> space when using multiple cores.
-> >>
-> >> Laurent, if you test U-Boot with this patchset again, do you mind
-> >> replying with a "Tested-by:" tag?
-> >>
-> >> The next patchset is probably about the interrupt controller blocks,
-> >> then will come another one about the MBox/Properties.
-> >>
-> >> The last patch is unrelated to the series, but since I cleaned this
-> >> for the raspi and the highbank is the only board with the same issue,
-> >> I included the patch in this series.
-> >
-> > I'm going to apply 1-10 and 14 to target-arm.next.
-> > (I've reviewed 10, and the rest have been reviewed.)
->
-> Thanks!
->
-> Do you mind amending this to patch #3
-> "hw/timer/bcm2835: Add the BCM2835 SYS_timer"
-> or should I respin (or resend it alone)?
->
-> -- >8 --
-> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
-> index 49b40b55f9..3387a6214a 100644
-> --- a/hw/timer/bcm2835_systmr.c
-> +++ b/hw/timer/bcm2835_systmr.c
-> @@ -115,10 +115,7 @@ static void bcm2835_systmr_reset(DeviceState *dev)
->   {
->       BCM2835SystemTimerState *s =3D BCM2835_SYSTIMER(dev);
->
-> -    s->reg.status =3D 0;
-> -    for (size_t i =3D 0; i < ARRAY_SIZE(s->reg.compare); i++) {
-> -        s->reg.compare[i] =3D 0;
-> -    }
-> +    memset(&s->reg, 0, sizeof(s->reg));
->   }
->
 
-Sure, I'll just squash that in.
 
--- PMM
+On 2019/10/23 23:19, Stefan Hajnoczi wrote:
+> On Tue, Oct 22, 2019 at 04:12:03PM +0800, yezhenyu (A) wrote:
+>> Since qemu2.9, QEMU added three AioContext poll parameters to struct
+>> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties are
+>> used to control iothread polling time.
+>>
+>> However, there isn't properly hmp commands to adjust them when the VM is
+>> alive. It's useful to adjust them online when observing the impact of
+>> different property value on performance.
+>>
+>> This patch add three hmp commands to adjust iothread poll-* properties
+>> for special iothread:
+>>
+>> set_iothread_poll_max_ns: set the maximum polling time in ns;
+>> set_iothread_poll_grow: set how many ns will be added to polling time;
+>> set_iothread_poll_shrink: set how many ns will be removed from polling
+>> time.
+>>
+>> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
+>> ---
+>> hmp-commands.hx | 42 ++++++++++++++++++++
+>> hmp.c | 30 +++++++++++++++
+>> hmp.h | 3 ++
+>> include/sysemu/iothread.h | 6 +++
+>> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
+>> qapi/misc.json | 23 +++++++++++
+>> 6 files changed, 184 insertions(+)
+> 
+> poll-max-ns, poll-grow, poll-shrink are properties of IOThread objects.
+> They can already be modified at runtime using:
+> 
+>   $ qemu -object iothread,id=iothread1
+>   (qemu) qom-set /objects/iothread1 poll-max-ns 100000
+> 
+> I think there is no need for a patch.
+> 
+> Stefan
+> 
+
+Thanks for your review. I have considered using the `qom-set` command to modify
+IOThread object's properties, however, this command is not friendly to primary
+users. The help info for this command is only:
+
+    qom-set path property value -- set QOM property
+
+It's almost impossible to get the correct `path` parameter for primary user.
+
+This patch provides a more convenient and easy-use hmp&qmp interface to modify
+these IOThread properties. I think this patch still has a little value.
+
+And I can implement this patch compactly by reusing your code.
+
+Waiting for your reply.
+
 
