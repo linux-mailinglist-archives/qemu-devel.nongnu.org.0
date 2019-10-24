@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B1E3751
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:59:22 +0200 (CEST)
-Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78817E3670
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:21:15 +0200 (CEST)
+Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfWD-0008Oe-4K
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:59:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40137)
+	id 1iNevK-0002b2-8X
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:21:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46521)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yezhenyu2@huawei.com>) id 1iNeC2-0006Mm-Hx
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:34:33 -0400
+ (envelope-from <berrange@redhat.com>) id 1iNesK-0008MY-W0
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:18:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yezhenyu2@huawei.com>) id 1iNeBy-0002s8-1E
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:34:23 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:37590 helo=huawei.com)
+ (envelope-from <berrange@redhat.com>) id 1iNesJ-0002If-Iw
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:18:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20334
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yezhenyu2@huawei.com>)
- id 1iNeBw-0002pc-64
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:34:21 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id BF0ABA80BB188A86E9F7;
- Thu, 24 Oct 2019 22:34:14 +0800 (CST)
-Received: from [127.0.0.1] (10.173.223.212) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0;
- Thu, 24 Oct 2019 22:34:05 +0800
-Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <5DAEB9D3.3080503@huawei.com>
- <20191023151903.GI9574@stefanha-x1.localdomain> <5DB1ACF2.9080500@huawei.com>
- <20191024135645.GG2877@work-vm>
-From: Zhenyu Ye <yezhenyu2@huawei.com>
-Message-ID: <5DB1B65C.3020104@huawei.com>
-Date: Thu, 24 Oct 2019 22:34:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.1.0
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iNesJ-0002AD-CH
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:18:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571930200;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Aj2fw3kqMhaYujJmwNQfIp4SzI0JZ/mxRbbJUYOMzuc=;
+ b=OxSWAlCHRDVqDSPGkWDtiy06GAr3siYeFotEaxc2N/wwOsyYEWNNHyg2H4N5qJTVyypOWN
+ MKEE6s0lm7y0gDhURGVPpMnu9Xfk+lCgqailoxazAd6EpRf870RH2rZEpcZrLjRIpeC5BF
+ VmuUj61XLT45WTzWsd5fLgLrO02TETM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-94-2WHtewz8NxSOqUEFzulKwQ-1; Thu, 24 Oct 2019 11:05:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62EF985EE90;
+ Thu, 24 Oct 2019 14:34:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61FB13DB4;
+ Thu, 24 Oct 2019 14:34:52 +0000 (UTC)
+Date: Thu, 24 Oct 2019 15:34:50 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: cenjiahui <cenjiahui@huawei.com>
+Subject: Re: [PATCH 3/3] migration/multifd: fix potential wrong acception
+ order of IOChannel
+Message-ID: <20191024143450.GF8381@redhat.com>
+References: <20191023033214.31592-1-cenjiahui@huawei.com>
+ <20191023033214.31592-3-cenjiahui@huawei.com>
+ <20191024095227.GC3700@redhat.com>
+ <1356aa1a-346d-29a7-8064-ac1e572b6512@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20191024135645.GG2877@work-vm>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.223.212]
-X-CFilter-Loop: Reflected
+In-Reply-To: <1356aa1a-346d-29a7-8064-ac1e572b6512@huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 2WHtewz8NxSOqUEFzulKwQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,119 +77,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- jiangyiwen <jiangyiwen@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- pbonzini@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, zhouyibo3@huawei.com,
+ dgilbert@redhat.com, peterx@redhat.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 24, 2019 at 09:53:24PM +0800, cenjiahui wrote:
+> On 2019/10/24 17:52, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Oct 23, 2019 at 11:32:14AM +0800, cenjiahui wrote:
+> >> From: Jiahui Cen <cenjiahui@huawei.com>
+> >>
+> >> Multifd assumes the migration thread IOChannel is always established b=
+efore
+> >> the multifd IOChannels, but this assumption will be broken in many sit=
+uations
+> >> like network packet loss.
+> >>
+> >> For example:
+> >> Step1: Source (migration thread IOChannel)  --SYN-->  Destination
+> >> Step2: Source (migration thread IOChannel)  <--SYNACK  Destination
+> >> Step3: Source (migration thread IOChannel, lost) --ACK-->X  Destinatio=
+n
+> >> Step4: Source (multifd IOChannel) --SYN-->    Destination
+> >> Step5: Source (multifd IOChannel) <--SYNACK   Destination
+> >> Step6: Source (multifd IOChannel, ESTABLISHED) --ACK-->  Destination
+> >> Step7: Destination accepts multifd IOChannel
+> >> Step8: Source (migration thread IOChannel, ESTABLISHED) -ACK,DATA->  D=
+estination
+> >> Step9: Destination accepts migration thread IOChannel
+> >>
+> >> The above situation can be reproduced by creating a weak network envir=
+onment,
+> >> such as "tc qdisc add dev eth0 root netem loss 50%". The wrong accepti=
+on order
+> >> will cause magic check failure and thus lead to migration failure.
+> >>
+> >> This patch fixes this issue by sending a migration IOChannel initial p=
+acket with
+> >> a unique id when using multifd migration. Since the multifd IOChannels=
+ will also
+> >> send initial packets, the destination can judge whether the processing=
+ IOChannel
+> >> belongs to multifd by checking the id in the initial packet. This mech=
+anism can
+> >> ensure that different IOChannels will go to correct branches in our te=
+st.
+> >=20
+> > Isn't this going to break back compatibility when new QEMU talks to old
+> > QEMU with multifd enabled ? New QEMU will be sending a packet that old
+> > QEMU isn't expecting IIUC.
+>=20
+> Yes, it actually breaks back compatibility. But since the old QEMU has bu=
+g with
+> multifd, it may be not suitable to use multifd to migrate from new QEMU t=
+o old
+> QEMU in my opinion.
 
+We declared multifd supported from v4.0.0 onwards, so changing the wire
+protocol in non-backwards compatibles ways is not acceptable IMHO.
 
-On 2019/10/24 21:56, Dr. David Alan Gilbert wrote:
-> * Zhenyu Ye (yezhenyu2@huawei.com) wrote:
->>
->>
->> On 2019/10/23 23:19, Stefan Hajnoczi wrote:
->>> On Tue, Oct 22, 2019 at 04:12:03PM +0800, yezhenyu (A) wrote:
->>>> Since qemu2.9, QEMU added three AioContext poll parameters to struct
->>>> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties are
->>>> used to control iothread polling time.
->>>>
->>>> However, there isn't properly hmp commands to adjust them when the VM is
->>>> alive. It's useful to adjust them online when observing the impact of
->>>> different property value on performance.
->>>>
->>>> This patch add three hmp commands to adjust iothread poll-* properties
->>>> for special iothread:
->>>>
->>>> set_iothread_poll_max_ns: set the maximum polling time in ns;
->>>> set_iothread_poll_grow: set how many ns will be added to polling time;
->>>> set_iothread_poll_shrink: set how many ns will be removed from polling
->>>> time.
->>>>
->>>> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
->>>> ---
->>>> hmp-commands.hx | 42 ++++++++++++++++++++
->>>> hmp.c | 30 +++++++++++++++
->>>> hmp.h | 3 ++
->>>> include/sysemu/iothread.h | 6 +++
->>>> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
->>>> qapi/misc.json | 23 +++++++++++
->>>> 6 files changed, 184 insertions(+)
->>>
->>> poll-max-ns, poll-grow, poll-shrink are properties of IOThread objects.
->>> They can already be modified at runtime using:
->>>
->>>   $ qemu -object iothread,id=iothread1
->>>   (qemu) qom-set /objects/iothread1 poll-max-ns 100000
->>>
->>> I think there is no need for a patch.
->>>
->>> Stefan
->>>
->>
->> Thanks for your review. I have considered using the `qom-set` command to modify
->> IOThread object's properties, however, this command is not friendly to primary
->> users. The help info for this command is only:
->>
->>     qom-set path property value -- set QOM property
->>
->> It's almost impossible to get the correct `path` parameter for primary user.
-> 
-> Is this just a matter of documenting how to do it?
-> 
-> It sounds like there's no need for a new QMP command though;  if you
-> want an easier HMP command I'd probably still take it (because HMP is ok
-> at having things for convenience) - but not if it turns out that just
-> adding a paragraph of documentation is enough.
-> 
-> Dave
-> 
+Ideally we'd change QEMU so that the src QEMU serializes the connections,
+such that the migration thread I/O channel is established before we attempt
+to establish the multifd channels.
 
-I will show the differences in QMP and HMP:
-If I want to set iothread1.poll-max-ns=1000 and iothread1.poll-grow=2:
+If changing the wire protocol is unavoidable, then we'd need to invent
+a new migration capability for the mgmt apps to detect & opt-in to when
+both sides support it.
 
-Without this patch:
-QMP command:
-
-    qom-set /objects/iothread1 poll-max-ns 1000
-    qom-set /objects/iothread1 poll-grow 2
-
-HMP command:
-
-    { "execute": "qom-set", "arguments": { "path": "/objects/iothread1",
-                                           "property": "poll-max-ns", "value": 1000 } }
-    { "execute": "qom-set", "arguments": { "path": "/objects/iothread1",
-                                           "property": "poll-grow", "value": 2} }
-
-with this patch:
-QMP command:
-
-    iothread_set_parameter iothread1 max-ns 1000
-    iothread_set_parameter iothread1 grow 2
-
-HMP command:
-
-    { "execute": "set-iothread-poll-params", "arguments': { "iothread-id": "iothread1",
-                                                            "max-ns": 1000, "grow": 2 } }
-
-
-I think the inconvenience of qom-set is how to get the correct `path` parameter.
-Anyway, I will consider your advice.
-
-
->> This patch provides a more convenient and easy-use hmp&qmp interface to modify
->> these IOThread properties. I think this patch still has a little value.
->>
->> And I can implement this patch compactly by reusing your code.
->>
->> Waiting for your reply.
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> 
-> .
-> 
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
