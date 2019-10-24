@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87458E2CAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:55:03 +0200 (CEST)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A08E2CBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:59:21 +0200 (CEST)
+Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYta-0002G7-6c
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41499)
+	id 1iNYxk-0002lp-2r
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNYre-0008C0-E4
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:53:03 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNYwY-00014j-HL
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:58:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNYrc-00006y-Se
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:53:02 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33597)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNYrc-00005s-I7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:53:00 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s1so16340569wro.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 01:53:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=QyhvzHK1pGqsjMW4dbVLE7f7Mp1HBgJdCBqtnhdu5hY=;
- b=hjLf8JmciGFLqKDR2opqrUZa04XdSvzDqMoxvzr6H88bhHM2oZ2n9ZiLNSnRs/ovXc
- Yh6DWA5GgD3oxQdhWgErNvKAFvxaMIUwqeZtR/vTDoTY4Eya3u9KL/sdh9+XhUEK6/zK
- pMhtk/1PQYsPipNQ3KiQoVJisTQ1y9c/io4mcDRyEyvHudrbxYPUjCYXd4ik64YZDNCI
- +1fgnOL338nQIPHvaRaQCIFW/NmI9QaYmJSAfKxhLJz9O0yCqrtUJD69RKMxGONNDBEh
- VD1TeQxYWdMHHyv32916PruRRpWFUGwV5nAwexNw4c1E6OWtuum5XvWvhDrI2hKtG7mH
- +ByA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QyhvzHK1pGqsjMW4dbVLE7f7Mp1HBgJdCBqtnhdu5hY=;
- b=Iv6Hd3FQRS6Euf0ytYmTfQjcJ+AD1hNFR9/5oSc4SrEBh0r4ogQBQrhv1WNTw0Sf1u
- ZewXCWFvWbTIO8fn+nIKCtRJ4GbA13NseEPLPAWD7nwZRgZpp2uKG0iavYfGhXDSsNeD
- E6v6gf3tpf8L6Ph2DsNH6rzgpYPFNTTHMpJD+J2dKK/b2AbrPaq3ZNDUJorVoekxkn5k
- SCYAP+hbA/o1DqwvlIw8M6E1t4Av3cqA5xqKSIUaChSHQouXUgZNRa95GZDRZIEIJjCb
- A4hk+yyommhjuYtYiIqHE8nYFVMT5ap0xUvAYj5+2ExtdHGs6X5MnqZldLfozyqfquY7
- sWnQ==
-X-Gm-Message-State: APjAAAWGn8OY/xXAZmRg2XvoICYef1la6mm9FfdKFtwlU0zG+rVCiwdW
- ayX25sFUN4WyB+yCA4mazSxtFg==
-X-Google-Smtp-Source: APXvYqyBj1Xq10bxtxJ57TP3VPnrX1zwMaCJdHnYpiLZfztyLJDhtnkBvmtva2kNv66ypr3Q1noSAA==
-X-Received: by 2002:adf:b1d2:: with SMTP id r18mr2658432wra.138.1571907178841; 
- Thu, 24 Oct 2019 01:52:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t16sm25025054wrq.52.2019.10.24.01.52.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 01:52:58 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B98A1FF87;
- Thu, 24 Oct 2019 09:52:57 +0100 (BST)
-References: <20191022191704.6134-1-alex.bennee@linaro.org>
- <20191022191704.6134-8-alex.bennee@linaro.org>
- <2020367759.8121043.1571815677935.JavaMail.zimbra@redhat.com>
- <87y2xbvkqa.fsf@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH  v1 07/19] cirrus.yml: reduce scope of MacOS build
-In-reply-to: <87y2xbvkqa.fsf@linaro.org>
-Date: Thu, 24 Oct 2019 09:52:57 +0100
-Message-ID: <87lftamsnq.fsf@linaro.org>
+ (envelope-from <armbru@redhat.com>) id 1iNYwX-00047F-JP
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:58:06 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47222
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNYwX-000470-G8
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:58:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571907485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sgj2kHCBhfIDMrtcNYT+KUTTqnro5jh/Ax+LK3eL7Bc=;
+ b=AiTSvTtXQvYaYDY5btx7AX9/AqtSCtezws4fA1pH7QMVP1J44hpia74XwZ4/h40ktDVblK
+ r5cA8s3uToINi6SFS3zlaGUlrhpYNF7AdIq/1HsMeS2OVi/vMgHxR1a4Q8/0l30Y9Df1Mg
+ I/S80ZvE1b+/CwgJtwo/tyNxBew2RV4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-JTeIz7qKOUmyyWix7KMF7A-1; Thu, 24 Oct 2019 04:57:58 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B85095E9;
+ Thu, 24 Oct 2019 08:57:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2508362A8A;
+ Thu, 24 Oct 2019 08:57:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5C7021138619; Thu, 24 Oct 2019 10:57:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] buildfix: update texinfo menu
+References: <20191023101956.19120-1-kraxel@redhat.com>
+Date: Thu, 24 Oct 2019 10:57:52 +0200
+In-Reply-To: <20191023101956.19120-1-kraxel@redhat.com> (Gerd Hoffmann's
+ message of "Wed, 23 Oct 2019 12:19:56 +0200")
+Message-ID: <87ftjitt9r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: JTeIz7qKOUmyyWix7KMF7A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,58 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
- stefanb@linux.vnet.ibm.com, richard henderson <richard.henderson@linaro.org>,
- f4bug@amsat.org, qemu-devel@nongnu.org, cota@braap.org, stefanha@redhat.com,
- marcandre
- lureau <marcandre.lureau@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, aurelien@aurel32.net
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-> Thomas Huth <thuth@redhat.com> writes:
+> Build error message:
+> qemu-doc.texi:34: node `Top' lacks menu item for `Recently removed featur=
+es' despite being its Up target
 >
->> ----- Original Message -----
->>> From: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
->>> Sent: Tuesday, October 22, 2019 9:16:52 PM
->>>
->>> The MacOS build can time out on Cirrus running to almost an hour.
->>> Reduce the scope to the historical MacOS architectures much the same
->>> way we do on Travis.
->>
->> Oh, really? For me, the builds on Cirrus-CI work reasonable fast and
->> almost always finish within 20 minutes, e.g.:
+> Fixes: 3264ffced3d0 ("dirty-bitmaps: remove deprecated autoload parameter=
+")
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  qemu-doc.texi | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> It seems to be an intermittent thing:
->
->   https://cirrus-ci.com/github/stsquad/qemu
->
-> but looking again maybe it's only the xcode build that is reliably
-> long...
+> diff --git a/qemu-doc.texi b/qemu-doc.texi
+> index 3c5022050f0f..3ddf5c0a6865 100644
+> --- a/qemu-doc.texi
+> +++ b/qemu-doc.texi
+> @@ -44,6 +44,7 @@
+>  * Security::
+>  * Implementation notes::
+>  * Deprecated features::
+> +* Recently removed features::
+>  * Supported build platforms::
+>  * License::
+>  * Index::
 
-So the MacOS build failed:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-  https://cirrus-ci.com/task/5574076248096768
+Cc'ing qemu-trivial.
 
-I think the MacOS builds just occasionally get stuck for some reason.
-
->
->>
->> https://cirrus-ci.com/build/4976412120842240
->>
->> Also the last macos_task from the official QEMU mirror on github finishe=
-d within 15 minutes:
->>
->> https://github.com/qemu/qemu/runs/269964092
->>
->> ... so was your issue maybe just a temporary dropout?
->>
->>  Thomas
-
-
---
-Alex Benn=C3=A9e
 
