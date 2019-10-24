@@ -2,105 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73539E3821
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:38:21 +0200 (CEST)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43122E37F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:34:40 +0200 (CEST)
+Received: from localhost ([::1]:47262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNg7u-0007J3-CQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:38:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51921)
+	id 1iNg4M-0000Xn-Q9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iNfSS-0001Dz-Kn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:55:29 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNfCp-0005m3-Ld
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:39:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iNfSP-0006Hi-BU
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:55:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40596
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iNfSP-0006Gt-7D
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:55:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571932521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ogmp402+Z+IcVX9NnkmQlLHSGtAcJg+U0yJd1c0m+iw=;
- b=bj62jRzoysntCy4GalQ+SZn1+xNSvU2XxAgQ3Naa2kGFbJHP5D87oxo5gxHoV4LQQRNh/e
- +v1AtsQmzyvK3XjQoMwqOEYNDRANx9HYSHP4lgwpv9fbfMl3PUEjAFicfHaGUhHj3edM71
- P9vS0yhZQ1c4XYbmLivz4n3HwB34fBE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-Vt5hsn6kPhSf6i_jQrRx8A-1; Thu, 24 Oct 2019 11:55:11 -0400
-X-MC-Unique: Vt5hsn6kPhSf6i_jQrRx8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4B0E86A079;
- Thu, 24 Oct 2019 15:12:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-205.ams2.redhat.com
- [10.36.117.205])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10E2010A33E2;
- Thu, 24 Oct 2019 15:12:03 +0000 (UTC)
-Subject: Re: [PATCH v5 1/4] block: support compressed write at generic layer
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1571603828-185910-2-git-send-email-andrey.shinkevich@virtuozzo.com>
- <408ef2ab-1f6c-2c9f-ad50-92269c20fb27@redhat.com>
- <eece4ca2-7c40-cae6-b15f-beed73830fd8@virtuozzo.com>
- <cc3f87c2-3ad5-da4e-4750-27a48bce1ee6@virtuozzo.com>
- <787da788-9aca-2110-a092-b63ef498a9fa@redhat.com>
- <ae5bc00f-e65e-8c33-2620-a9147e48ea78@virtuozzo.com>
- <1088f0ff-d882-083f-705c-95c08bdc486f@redhat.com>
- <cb6db9c4-0dbc-9d9a-4ec5-b436c48178a8@virtuozzo.com>
- <4fd89d2a-94aa-6f2d-ed7d-7633356e5163@redhat.com>
- <539e7d9e-0cb7-fdb7-f376-1648361ec2f3@virtuozzo.com>
- <8828d08f-79aa-f3a6-4387-f1423a8b7d70@redhat.com>
- <26cfb4ed-941a-11b0-c1cf-bf3c7e354487@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f2463f6b-3d61-b64e-2789-e71d7648105c@redhat.com>
-Date: Thu, 24 Oct 2019 17:12:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <laurent@vivier.eu>) id 1iNfCl-0000S0-VD
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:39:19 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:38911)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iNfCl-0000QG-Lc
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:39:15 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mtfa5-1i9RER2wb1-00v9YY; Thu, 24 Oct 2019 17:38:52 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] linux-user: manage binfmt-misc preserve-arg[0] flag
+Date: Thu, 24 Oct 2019 17:38:47 +0200
+Message-Id: <20191024153847.31815-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <26cfb4ed-941a-11b0-c1cf-bf3c7e354487@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="JIWV1lqDSdOyWxr1j8zBjZfd906fqz8zL"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:x5gh9EuzJOc9DIK8kGSHKB7aeZV96XQ5z4Ni9URsl4w7F61Tu36
+ cAr/X4Y6mYGrOFxRmAmpZds3gWPBVcYZUMT3BldbqI/lGPZ/ikyYJKw8vgi74pZ+wVXgzlQ
+ eKEG151fhrkTrVD0iAuTapepIF+svEWro5MnFoWGodVOah2kl2viW9MVJ3sMIyzX6ISpIPC
+ gxIFd9SEQHNYLiv2trfZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ajhX67FJl74=:flU6qwJvKy2rYmCUSEvI/M
+ nmineMqmWCha/6e1c/RxjfLt3uUCSJIEXPHrL08vVg7eQ8ast1dBe2tteweB/zgUe79qyuTVn
+ UumSoQjr6Jg7e7GwihTarG8hK9LJBtXBFgXBqBM77AKQAQ0qRtGSkUm3JwcH87geGGuy9aTfF
+ r34P8zZ1KWhhk/Sb5temIFcKHJLBll7QXh0xEaGqzAedPHSVd+0DD5aA4+KPFwp4XqMLSQamU
+ uFwjzmJlF+vk95djbR8353Rio/r/JF4FVhUf6yw0tUvGazsXMpEqW/ExyEtqEgfOBE0jXtFkn
+ t2Ek+gT1Hj4QR9EohD9y293Z2v5lc91TJSRKH0xIXqgnd6mlC0G1Ts9wlkK8RGEawe4m3CXYi
+ 68uohws3yvZPLJMxRsBnNHMMqTudBBpEPTFWRhQQYYIuMWuh9vNckkiVYUQChzL9DO2wpWWak
+ d2KGSPcDhexEdUiduZO5F/D1vbDh8jAjg7XAgi+ItgMXhAR1dVYUJdu89O7w3kvxEhka5OE43
+ RSymB7Pi141VcBBKCCiv+38wvZsaExW385phfAKcjzfGXqFC2PQ96GR87bAjG5Hy4cEfYwGpR
+ 25n/fCyX3MtPiUiGI291KR8O14JJfod24TR0hoqO1Qjii45heaMol4j0PqQwhNLsCPYwNs1BV
+ 1C8CLC90wIxODslkjhmFa0nBPL3et3M61P2HcctzgJh/jnwiWYmd/4U41O9NjVlHe4ISGkQBX
+ vJCzj7E21RQybm9J2zuOYptllaAeIsuOx8OyjkqFSbY/JXT225K0yy2k6zp/puNL5ExoiJrr2
+ zTrY0VOVFiyWlZ6Rg9PxPzTpZgo4uT6ldwrV/8cFOOWDxE1nHJv2ycZFUPw+28mIbA7BSSLIx
+ YAgH8DEiwXXQkO//1E1w==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,113 +63,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
- Denis Lunev <den@virtuozzo.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Christophe de Dinechin <dinechin@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JIWV1lqDSdOyWxr1j8zBjZfd906fqz8zL
-Content-Type: multipart/mixed; boundary="nXwzCthMmdqfmLp2moXhqtdIpJpjKEKXp"
+Add --preserve-argv0 in qemu-binfmt-conf.sh to configure the preserve-argv0
+flag.
 
---nXwzCthMmdqfmLp2moXhqtdIpJpjKEKXp
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Now, if QEMU is started with -0 or QEMU_ARGV0 and an empty parameter
+argv[0] (the full pathname provided by binfmt-misc) is removed and
+replaced by argv[1] (the original argv[0] provided by binfmt-misc when
+'P'/preserve-arg[0] is set)
 
-On 24.10.19 16:07, Andrey Shinkevich wrote:
->=20
->=20
-> On 24/10/2019 16:48, Max Reitz wrote:
->> On 24.10.19 14:56, Andrey Shinkevich wrote:
->>>
->>>
->>> On 24/10/2019 12:34, Max Reitz wrote:
->>>> On 22.10.19 15:53, Andrey Shinkevich wrote:
->>>>
->>>> [...]
->>>>
->>>>> If the support of COW for compressed writes is found feasible, will i=
-t
->>>>> make a sense to implement? Then this series will follow.
->>>>
->>>> Hm, what exactly do you mean by support of COW for compressed writes?
->>>>
->>>
->>> I spoke in terms of the commit message with the following ID:
->>>
->>> b0b6862e5e1a1394e0ab3d5da94ba8b0da8664e2
->>>
->>> "qcow2: Fail write_compressed when overwriting data"
->>>
->>> "...qcow2_write_compressed() doesn't perform COW as it would have to do=
-..."
->>>
->>> So, I suggest that we implement writing compressed data to the allocate=
-d
->>> clusters rather than qcow2_alloc_compressed_cluster_offset() returns th=
-e
->>> error. Particularly, when it comes to NBD server connection failure for
->>> writhing a compressed cluster, it may not be rewritten after the
->>> connection is restored.
->>> Are there any issues with that implementation idea?
->>
->> Well, the COW in that commit is meant differently, because it refers to
->> the COW that=E2=80=99s required when writing to a cluster shared by an i=
-nternal
->> snapshot.
->>
->> OTOH, you could say that all compressed writes to a cluster that is
->> already allocated would need to do COW because we=E2=80=99d always have =
-to fully
->> rewrite that cluster in an RMW cycle.
->>
->> I don=E2=80=99t see how letting qcow2_alloc_compressed_cluster_offset() =
-use the
->> existing cluster would solve the problem, though.  You=E2=80=99d general=
-ly need
->> to allocate a new cluster; or attempt to reuse the existing space in a
->> compressed cluster.
->>
->> Max
->>
->=20
-> Yes, new clusters would be allocated for the compressed RMW and the=20
-> existing ones would be reused if possible. It seams to be ineffective=20
-> but users are supposed to know what they do.
-> So, does it worth to check a feasibility of the implementation?
+For instance:
 
-I don=E2=80=99t know, Vladimir said that use case wouldn=E2=80=99t be neede=
-d.
+  $ sudo QEMU_ARGV0= chroot m68k-chroot sh -c 'echo $0'
+  sh
 
-I think if the option was there, people would actually use it.  But I
-doubt that anyone misses it sufficiently to warrant the effort.
+without this patch:
 
-In addition, there=E2=80=99s still VMDK to consider, too.
+  $ sudo chroot m68k-chroot sh -c 'echo $0'
+  /usr/bin/sh
 
-Max
+QEMU can be forced to always use preserve-argv[0] at configuration
+time with --force-preserve-argv0
 
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ configure                   |  8 +++++++
+ linux-user/main.c           | 24 +++++++++++++++++++-
+ scripts/qemu-binfmt-conf.sh | 44 +++++++++++++++++++++++--------------
+ 3 files changed, 58 insertions(+), 18 deletions(-)
 
---nXwzCthMmdqfmLp2moXhqtdIpJpjKEKXp--
-
---JIWV1lqDSdOyWxr1j8zBjZfd906fqz8zL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2xv0IACgkQ9AfbAGHV
-z0DAxwgAxBKm3TKBDPW2H0J4hPoV+A7yDd/Ce7NKEjyNqF9jDphm8YmfnO+y6Il2
-fpRzhQUjqUZRfZOaZqAh5zsizspy+6vbezyYlYRBb5ogb4XkCRFJwm8YIFBCShaO
-nuugg+hk0v60TVEiUAcpw/budtmzurvM7ovZse5yTsTTwVdv4dw/NFN1nZSsNjfY
-yNY3J/Mh+fCPtjSFOIi7/8KGiLiDn2iIFqAKiWnVejTd3Lwr3plWDz7Zw4J9BnxO
-Gn5K/PnHIlhpeBYszPiKKP4fuSDXmVTXuW/VVNhZR/z2DRwY0e01NEv01eD1+NPW
-5UwlfLyeA7kwHOd2S7pubz4L+k22zg==
-=KBnj
------END PGP SIGNATURE-----
-
---JIWV1lqDSdOyWxr1j8zBjZfd906fqz8zL--
+diff --git a/configure b/configure
+index 145fcabbb3c3..94c41f0a068a 100755
+--- a/configure
++++ b/configure
+@@ -497,6 +497,7 @@ sheepdog="yes"
+ libxml2=""
+ debug_mutex="no"
+ libpmem=""
++force_preserve_argv0="no"
+ default_devices="yes"
+ 
+ supported_cpu="no"
+@@ -1529,6 +1530,8 @@ for opt do
+   ;;
+   --disable-xkbcommon) xkbcommon=no
+   ;;
++  --force-preserve-argv0) force_preserve_argv0=yes
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1710,6 +1713,8 @@ Advanced options (experts only):
+   --enable-profiler        profiler support
+   --enable-debug-stack-usage
+                            track the maximum stack usage of stacks created by qemu_alloc_stack
++  --force-preserve-argv0   for linux-user only, force the use of binfmt_misc 'P'
++                           flag (preserve-argv[0])
+ 
+ Optional features, enabled with --enable-FEATURE and
+ disabled with --disable-FEATURE, default is enabled if available:
+@@ -7633,6 +7638,9 @@ if test "$target_user_only" = "yes" ; then
+ fi
+ if test "$target_linux_user" = "yes" ; then
+   echo "CONFIG_LINUX_USER=y" >> $config_target_mak
++  if test "$force_preserve_argv0" = "yes" ; then
++    echo "CONFIG_FORCE_PRESERVE_ARGV0=y" >> $config_target_mak
++  fi
+ fi
+ list=""
+ if test ! -z "$gdb_xml_files" ; then
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 560d053f7249..1b4df24ef483 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -616,6 +616,7 @@ int main(int argc, char **argv, char **envp)
+     int ret;
+     int execfd;
+     unsigned long max_reserved_va;
++    bool preserve_argv0;
+ 
+     error_init(argv[0]);
+     module_call_init(MODULE_INIT_TRACE);
+@@ -664,6 +665,9 @@ int main(int argc, char **argv, char **envp)
+ 
+     init_qemu_uname_release();
+ 
++    /*
++     * Manage binfmt-misc open-binary flag
++     */
+     execfd = qemu_getauxval(AT_EXECFD);
+     if (execfd == 0) {
+         execfd = open(exec_path, O_RDONLY);
+@@ -673,6 +677,24 @@ int main(int argc, char **argv, char **envp)
+         }
+     }
+ 
++     /*
++      * argv0 with an empty string will set argv[optind + 1]
++      * as target_argv[0]
++      */
++#ifdef CONFIG_FORCE_PRESERVE_ARGV0
++    preserve_argv0 = true;
++#else
++    preserve_argv0 = (argv0 != NULL && argv0[0] == 0);
++#endif
++    /*
++     * Manage binfmt-misc preserve-arg[0] flag
++     *    argv[optind]     full path to the binary
++     *    argv[optind + 1] original argv[0]
++     */
++    if (optind + 1 < argc && preserve_argv0) {
++        optind++;
++    }
++
+     if (cpu_model == NULL) {
+         cpu_model = cpu_get_model(get_elf_eflags(execfd));
+     }
+@@ -777,7 +799,7 @@ int main(int argc, char **argv, char **envp)
+      * argv[0] pointer with the given one.
+      */
+     i = 0;
+-    if (argv0 != NULL) {
++    if (argv0 != NULL && argv0[0] != 0) {
+         target_argv[i++] = strdup(argv0);
+     }
+     for (; i < target_argc; i++) {
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index b5a16742a149..275d3cf57e83 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -170,25 +170,27 @@ usage() {
+ Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
+                            [--help][--credential yes|no][--exportdir PATH]
+                            [--persistent yes|no][--qemu-suffix SUFFIX]
++                           [--preserve-argv0 yes|no]
+ 
+        Configure binfmt_misc to use qemu interpreter
+ 
+-       --help:        display this usage
+-       --qemu-path:   set path to qemu interpreter ($QEMU_PATH)
+-       --qemu-suffix: add a suffix to the default interpreter name
+-       --debian:      don't write into /proc,
+-                      instead generate update-binfmts templates
+-       --systemd:     don't write into /proc,
+-                      instead generate file for systemd-binfmt.service
+-                      for the given CPU. If CPU is "ALL", generate a
+-                      file for all known cpus
+-       --exportdir:   define where to write configuration files
+-                      (default: $SYSTEMDDIR or $DEBIANDIR)
+-       --credential:  if yes, credential and security tokens are
+-                      calculated according to the binary to interpret
+-       --persistent:  if yes, the interpreter is loaded when binfmt is
+-                      configured and remains in memory. All future uses
+-                      are cloned from the open file.
++       --help:          display this usage
++       --qemu-path:     set path to qemu interpreter ($QEMU_PATH)
++       --qemu-suffix:   add a suffix to the default interpreter name
++       --debian:        don't write into /proc,
++                        instead generate update-binfmts templates
++       --systemd:       don't write into /proc,
++                        instead generate file for systemd-binfmt.service
++                        for the given CPU. If CPU is "ALL", generate a
++                        file for all known cpus
++       --exportdir:     define where to write configuration files
++                        (default: $SYSTEMDDIR or $DEBIANDIR)
++       --credential:    if yes, credential and security tokens are
++                        calculated according to the binary to interpret
++       --persistent:    if yes, the interpreter is loaded when binfmt is
++                        configured and remains in memory. All future uses
++                        are cloned from the open file.
++       --preserve-argv0 preserve argv[0]
+ 
+     To import templates with update-binfmts, use :
+ 
+@@ -261,6 +263,9 @@ qemu_generate_register() {
+     if [ "$PERSISTENT" = "yes" ] ; then
+         flags="${flags}F"
+     fi
++    if [ "$PRESERVE_ARG0" = "yes" ] ; then
++        flags="${flags}P"
++    fi
+ 
+     echo ":qemu-$cpu:M::$magic:$mask:$qemu:$flags"
+ }
+@@ -322,9 +327,10 @@ DEBIANDIR="/usr/share/binfmts"
+ QEMU_PATH=/usr/local/bin
+ CREDENTIAL=no
+ PERSISTENT=no
++PRESERVE_ARG0=no
+ QEMU_SUFFIX=""
+ 
+-options=$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent: -- "$@")
++options=$(getopt -o ds:Q:S:e:hc:p:0: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
+ eval set -- "$options"
+ 
+ while true ; do
+@@ -380,6 +386,10 @@ while true ; do
+         shift
+         PERSISTENT="$1"
+         ;;
++    -0|--preserve-argv0)
++        shift
++        PRESERVE_ARG0="$1"
++        ;;
+     *)
+         break
+         ;;
+-- 
+2.21.0
 
 
