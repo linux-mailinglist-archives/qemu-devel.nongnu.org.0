@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177F0E3ADF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:24:37 +0200 (CEST)
-Received: from localhost ([::1]:50108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957DFE3AF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:28:25 +0200 (CEST)
+Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhml-0005QJ-J4
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44661)
+	id 1iNhqS-00037o-0J
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNhKR-0003ou-54
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:55:21 -0400
+ (envelope-from <laine@redhat.com>) id 1iNhNM-0003NP-RJ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:58:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNhKO-0008GH-JQ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:55:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53562)
+ (envelope-from <laine@redhat.com>) id 1iNhNK-0001OT-Lh
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:58:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40986
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNhKN-0008FK-PR
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:55:16 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <laine@redhat.com>) id 1iNhNI-0001Mr-OU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:58:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571939893;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6+vvEM3T7cug6j6ihL8OwFmYB35S+GtiHAy6pvmEyYQ=;
+ b=HlkRj/desmRO3c3Jne9oyDSl2h4J0s6FxGMgMJ5nlY+uhaqTnFa+bXXEwZQBAcG8OevHaM
+ f7olrieCQ38sn8c0sSrWTYK9eUV2aCCLJdNeXOaOnSELt5qB67SLXR00z/80/Aqu0G07BT
+ 9yPGeWGuDLQuNGprzRX8Iw4kNEG8Sow=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-K1TkIK9_Oj-LWvkXLFoNNw-1; Thu, 24 Oct 2019 13:58:10 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 90C8E4E919
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 17:55:14 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id a15so13327678wrr.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:55:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6v+fctnKVl/6fYka3XIVf9fH1YaHhqzuYR56MyK9A60=;
- b=VbqaBTluSizzxDR6/MGZiDgXMi3qJ2/FO+HvH2qDNEdPrCXo5s3lC2CXLWGpLjNGIW
- NmwC/aHC2QNyi9Pux2QJUhjNgt9HMn46s7Aw2/2crJS9zPDojFcUqkYUNZMxgkXeSqqE
- khPg+QfwKz8NewemDElOfvI6F5I6iMtKBaNy4f9D6+kAKjxKxLTPdKp/TWytWHAOwtPr
- pppT7vNlOEabqWr2GtGubht3Pq8Y47W05HTBABCtSTxpESebn0Sl9LmmvctD1HxdeLCB
- omwfqVI0AX+foTeS9XOcNpAC03vKt7TMaTMAVhBLOf5VQVXdeMKqvNTGld459UKaNxRt
- 3Qug==
-X-Gm-Message-State: APjAAAWKGz3ab8nBD+GkW5CFSaVjbHUeWW1mHgJI3aVMjI442r9cSlVL
- T9yz1APtygAHsmQyatZyWgbKESzxWWgjCITm1/s5oM1fK5nLqpRuWXVBdbbItwx3HLzGSDTtICe
- mUe4N+txMpaU7o7A=
-X-Received: by 2002:adf:8481:: with SMTP id 1mr5363898wrg.189.1571939713299;
- Thu, 24 Oct 2019 10:55:13 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyDJCsx9Qw7zYvfGHFEcryNWgFO6HIFZ5JybJTxQFAMpUNVQYdTFqK3xVFCKCJaBYCPY3voAA==
-X-Received: by 2002:adf:8481:: with SMTP id 1mr5363848wrg.189.1571939712934;
- Thu, 24 Oct 2019 10:55:12 -0700 (PDT)
-Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id s13sm2892518wmc.28.2019.10.24.10.55.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 10:55:12 -0700 (PDT)
-Subject: Re: [PATCH v2 00/14] hw: Split RTC devices from hw/timer/ to hw/rtc/
-To: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20191003230404.19384-1-philmd@redhat.com>
- <CAFEAcA-rmPuKQyv8d-u-1UAMhy6yGAcF3csVDcvYVXMosZysYw@mail.gmail.com>
- <839e9cb5-6fc2-a2b2-df12-abf9dbf6dcdd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <04b0db79-dfb3-9f28-b649-459214728556@redhat.com>
-Date: Thu, 24 Oct 2019 19:55:10 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A550D107AD31;
+ Thu, 24 Oct 2019 17:58:09 +0000 (UTC)
+Received: from [10.10.123.191] (ovpn-123-191.rdu2.redhat.com [10.10.123.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4B6017F85;
+ Thu, 24 Oct 2019 17:57:56 +0000 (UTC)
+Subject: Re: [PATCH v5 02/11] pci: add option for net failover
+To: qemu-devel@nongnu.org
+References: <20191023082711.16694-1-jfreimann@redhat.com>
+ <20191023082711.16694-3-jfreimann@redhat.com>
+ <20191023120648.57e50ae1@x1.home>
+ <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
+ <20191023140211.4ada7ff3@x1.home>
+ <20191023203137.meh3edoudxulecys@jenstp.localdomain>
+ <20191023151500.547d200a@x1.home>
+From: Laine Stump <laine@redhat.com>
+Message-ID: <5b7e1e51-12fa-4b1d-6d59-1b76873ddda3@redhat.com>
+Date: Thu, 24 Oct 2019 13:57:54 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <839e9cb5-6fc2-a2b2-df12-abf9dbf6dcdd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191023151500.547d200a@x1.home>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: K1TkIK9_Oj-LWvkXLFoNNw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,61 +79,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goat?= =?UTF-8?Q?er?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Andrew Jeffery <andrew@aj.id.au>, QEMU Trivial <qemu-trivial@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, dgilbert@redhat.com,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 7:36 PM, Laurent Vivier wrote:
-> On 24/10/2019 17:51, Peter Maydell wrote:
->> On Fri, 4 Oct 2019 at 00:04, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com> wrote:
->>>
->>> Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03=
-334.html
->>> - addressed review comments (described in patches 3 and 4)
->>> - added R-b/A-b tags
->>>
->>> Whole series now reviewed.
->>
->> for the arm parts:
->> Acked-by: Peter Maydell <peter.maydell@linaro.org>
->>
+On 10/23/19 5:15 PM, Alex Williamson wrote:
+> On Wed, 23 Oct 2019 22:31:37 +0200
+> Jens Freimann <jfreimann@redhat.com> wrote:
 >=20
-> I'm going to queue this series in qemu-trivial queue, so I guess your
-> Acked-by is for patches 2, 10 and 11?
+>> On Wed, Oct 23, 2019 at 02:02:11PM -0600, Alex Williamson wrote:
+>>> On Wed, 23 Oct 2019 21:30:35 +0200
+>>> Jens Freimann <jfreimann@redhat.com> wrote:
+>>>  =20
+>>>> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
+>>>>> On Wed, 23 Oct 2019 10:27:02 +0200
+>>>>> Jens Freimann <jfreimann@redhat.com> wrote:
+>> [...]
+>>>>> Are there also multi-function considerations that
+>>>>> should be prevented or documented?  For example, if a user tries to
+>>>>> configure both the primary and failover NICs in the same slot, I assu=
+me
+>>>>> bad things will happen.
+>>>>
+>>>>    I would have expected that this is already checked in pci code, but
+>>>> it is not. I tried it and when I put both devices into the same slot
+>>>> they are both unplugged from the guest during boot but nothing else
+>>>> happens. I don't know what triggers that unplug of the devices.
+>>>>
+>>>> I'm not aware of any other problems regarding multi-function, which
+>>>> doesn't mean there aren't any.
+>>>
+>>> Hmm, was the hidden device at function #0?  The guest won't find any
+>>> functions if function #0 isn't present, but I don't know what would
+>>> trigger the hotplug.  The angle I'm thinking is that we only have slot
+>>> level granularity for hotplug, so any sort of automatic hotplug of a
+>>> slot should probably think about bystander devices within the slot.
+>>
+>> Yes that would be a problem, but isn't it the same in the non-failover c=
+ase
+>> where a user configures it wrong? The slot where the device is plugged i=
+s not
+>> chosen automatically it's configured by the user, no? I might be mixing =
+something
+>> up here.  I have no idea yet how to check if a slot is already populated=
+, but
+>> I'll think about it.
+>=20
+> I don't think libvirt will automatically make use of multifunction
+> endpoints, except maybe for some built-in devices, so yes it probably
+> would be up to the user to explicitly create a multifunction device.
 
-ARM: 2, 7-11, 13-14:
+Correct. The only place libvirt will ever assign devices anywhere except=20
+function 0 is when we are adding pcie-root-ports - those are combined=20
+8-per-slot in order to conserve space on pcie.0 (this permits us to have=20
+up to 240 PCIe devices without needing to resort to upstream/downstream=20
+switches).
 
-   hw: Move PL031 device from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move TWL92230 device from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move DS1338 device from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move Xilinx ZynqMP RTC from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move Exynos4210 RTC from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move Aspeed RTC from hw/timer/ to hw/rtc/ subdirectory
-   hw/rtc/xlnx-zynqmp-rtc: Remove unused "ptimer.h" include
-   hw/rtc/aspeed_rtc: Remove unused includes
 
-PPC: 3-5
+> But are there other scenarios that generate an automatic hot-unplug?
+> If a user creates a multifunction slot and then triggers a hot-unplug
+> themselves, it's easy to place the blame on the user if the result is
+> unexpected, but is it so obviously a user configuration error if the
+> hotplug occurs as an automatic response to a migration?  I'm not as
+> sure about that.
 
-   hw: Move MC146818 device from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move M48T59 device from hw/timer/ to hw/rtc/ subdirectory
-   hw: Move M41T80 device from hw/timer/ to hw/rtc/ subdirectory
+I guess that's all a matter of opinion. If the user never enters in any=20
+PCI address info and it's all handled by someone else, then I wouldn't=20
+expect them to know exactly where the devices were (and only vaguely=20
+understand that their hostdev network interface is going to be unplugged=20
+during migration). In that case (as long as it's libvirt assigning the=20
+PCI addresses) the situation we're considering would never ever happen,=20
+so it's a non-issue.
 
-SPARC: 6
+If, on the other hand, the user wants to mess around assigning PCI=20
+addresses themselves, then they get to pick up all the pieces. It might=20
+be nice if they could be given a clue about why it broke though.
 
-   hw: Move sun4v hypervisor RTC from hw/timer/ to hw/rtc/ subdirectory
+>=20
+> As indicated, I don't know whether this should just be documented or if
+> we should spend time preventing it, but someone, somewhere will
+> probably think it's a good idea to put their primary and failover NIC
+> in the same slot and be confused that the underlying mechanisms cannot
+> support it.  It doesn't appear that it would be too difficult to test
+> QEMU_PCI_CAP_MULTIFUNCTION (not set) and PCI_FUNC (is 0) for the
+> primary, but maybe I'm just being paranoid.  Thanks,
+
+If, as you claim, it's not difficult, then I guess why not?
+
 
