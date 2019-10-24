@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215FBE3949
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:05:49 +0200 (CEST)
-Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6ECE39C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:22:16 +0200 (CEST)
+Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgYV-0006j4-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58074)
+	id 1iNgoQ-0002AS-3E
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy1-0007n9-6h
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:06 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy2-0007px-Je
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxz-0000uI-W5
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:05 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38091)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy1-0000vC-Ht
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:06 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36438)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfxz-0000u0-Pq
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:03 -0400
-Received: by mail-wr1-x441.google.com with SMTP id v9so15524429wrq.5
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:03 -0700 (PDT)
+ id 1iNfy1-0000ug-Bs
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:05 -0400
+Received: by mail-wr1-x434.google.com with SMTP id w18so26261015wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WzfboK1OQbmWS+2qtK+sgT8HKfmWZJQr5eBbFKdwmAk=;
- b=ObZ5vpZH5jMOI0+is0hPadcaqMnr26G26JDvyQcxOHxwmG15qFm6GWPTy3nrDbxMkY
- FSLXY9bDlNm5G0f7Y8A//tRejZyeEt9Xaw6Qd6dOwkb1eZNVO8/jJpPucwrM1dSnbx2x
- KfPV+mPVMHNSjykh7Zlcts3eiHma9Lb5VZwqjCD/4TEsPelYb60o4gmgJ5OZtfAFDbWt
- IezzWLRTzXpESJmJrLx6U94/Yls/Zvc7Cznm3wMCXXMe8qAtzk+cIwRNyLQGBz58jr/A
- Amfc7QLl7wM9p9f5MY+UHS10pwmH03WShDXyyx2SrlXZ2pcuDtVEDgTWaLgK182CnRu0
- HH3Q==
+ bh=OpXzWlpJhscet03TTtHAiTy/AAuzQKIKHX9oxfpPCRA=;
+ b=Z40pSTqONB80Oqdhm67lCCdlNQ71V4OZzAWYdURlvvQdRJ3d4cQRGYAAbJnUQZNyv/
+ m0qOqHaXil+e6Ovw7s/rkERoEvJ4E3vOx+7zkKA7y7NbyOXTY2f1HTNOvaCNJ1LjD3TQ
+ UFPmwXk74jfu5KndmJjPqAfzeE4+H14GY+1+nGGJhily+/tOJWYJNjEMyq6CRsGzwOGZ
+ 90Gc75W0Q5Jp4lFXv9GTMyz4TJ7avq6xXqIh8BTmALg8VEBEjfgedhr5RsPzz9djwMAj
+ n+tC6i5kolSakty4vi3dtImeI1x3GUr7iqNN+vOC/bJpjx+tJmsfiTPmDxva8v95T6hK
+ ziMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WzfboK1OQbmWS+2qtK+sgT8HKfmWZJQr5eBbFKdwmAk=;
- b=A4itcjiIDLWes3/daVFT+J5L/UTgr5JdjAuB9jChQtUYfB042OOAl5p4u3fHii/w9I
- pM3vWYu83ieDP4eaGYVNnKnhLdQ32W0PLvLTtXOwMf4jTk3rgikQ4/BXdOTQzDJjps5N
- 3HW3ikbCKSzKGgqmtNuAv7SCeXZla833guaucxBtaGCsPR0VK3wjH7LBOnCOiplRFQWg
- npNjb9uqsfsxLHIbMKFxQdZPY0BF3v4trhNi2L6UKOCbUZXkX+43Cx7vShhyg7aAi5OY
- uFmDgxuMUjP7jMBEQ2OMg1iSAs6vu+wUk60BfWPjhVPGLsLFgdAYOt2EiWDisRvqxisk
- tqyw==
-X-Gm-Message-State: APjAAAXQq9MWsCuq0MbK9MM+bkljelSlSqbftHuPJPeWv74OMHthLQPp
- NkEG9dkY1QCY/e05PjiFtfSUF6CLmvo=
-X-Google-Smtp-Source: APXvYqwT3Up8IOLkoitfPxxPsYknULgbOQS0O30IeseBO4A3m4lUKnhSx3yLQiqKNoxH2cdrBX9A6w==
-X-Received: by 2002:adf:ee4f:: with SMTP id w15mr4817276wro.378.1571934482385; 
- Thu, 24 Oct 2019 09:28:02 -0700 (PDT)
+ bh=OpXzWlpJhscet03TTtHAiTy/AAuzQKIKHX9oxfpPCRA=;
+ b=cep53tLO/w6n0dGk0xvjv+mh92O3jtmnI67OwH+L/O/yz9Sd8uKPItYbrJhY4t27WU
+ XCTXeZ3+Dz7c5NYophgOxqGI9brc550GGstoDVYhNQhPV0AciL+BvwldEgsmL/J1qu18
+ FCNF6Gi/8IExpHtANeXSKSdqy3P7kkU8QlrmiNdaog3cCwLYu8ZJmIUoFnSWYdaYkrLK
+ roNWmmBBQBi/AiHWdPK94wQIzMncTBo1z55hO3B6SfvQL2tTHi1Dhhg2dPx77nM3SE+b
+ ablo0Ytf1oYuXl0U6fKa+AAo3vw+sxN567RE1M99xjcZqDo0oCVyjUaSMXxt4jLPMvE9
+ etZA==
+X-Gm-Message-State: APjAAAV/dD3xSAzFQdQV0ZF5dXwW+AHLQzkkRx1LfvudxtASEqa0eNHp
+ fnPe00eUkpdVX5MMzue4jXE4HGIQJHg=
+X-Google-Smtp-Source: APXvYqxVMBfIW8io26v6Le+ppyea6QBlGE77MmLFS0XBReN9BlvMVDKo7w7qyr0P50kjpMMozb77Ew==
+X-Received: by 2002:a05:6000:34f:: with SMTP id
+ e15mr5074847wre.232.1571934484111; 
+ Thu, 24 Oct 2019 09:28:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.01
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:01 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/51] hw/dma/xilinx_axidma.c: Switch to transaction-based
- ptimer API
-Date: Thu, 24 Oct 2019 17:27:02 +0100
-Message-Id: <20191024162724.31675-30-peter.maydell@linaro.org>
+Subject: [PULL 30/51] hw/timer/slavio_timer: Remove useless check for NULL
+ t->timer
+Date: Thu, 24 Oct 2019 17:27:03 +0100
+Message-Id: <20191024162724.31675-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -68,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,70 +84,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the xilinx_axidma code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
+In the slavio timer devcie, the ptimer TimerContext::timer is
+always created by slavio_timer_init(), so there's no need to
+check it for NULL; remove the single unneeded NULL check.
+
+This will be useful to avoid compiler/Coverity errors when
+a subsequent change adds a use of t->timer before the location
+we currently do the NULL check.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191017132122.4402-4-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191021134357.14266-2-peter.maydell@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/dma/xilinx_axidma.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/timer/slavio_timer.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index e035d1f7504..fb3a978e282 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -31,7 +31,6 @@
- #include "hw/ptimer.h"
- #include "hw/qdev-properties.h"
- #include "qemu/log.h"
--#include "qemu/main-loop.h"
- #include "qemu/module.h"
- 
- #include "hw/stream.h"
-@@ -104,7 +103,6 @@ enum {
- };
- 
- struct Stream {
--    QEMUBH *bh;
-     ptimer_state *ptimer;
-     qemu_irq irq;
- 
-@@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
-     unsigned int comp_delay;
- 
-     /* Start the delayed timer.  */
-+    ptimer_transaction_begin(s->ptimer);
-     comp_delay = s->regs[R_DMACR] >> 24;
-     if (comp_delay) {
-         ptimer_stop(s->ptimer);
-@@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
-         s->regs[R_DMASR] |= DMASR_IOC_IRQ;
-         stream_reload_complete_cnt(s);
-     }
-+    ptimer_transaction_commit(s->ptimer);
- }
- 
- static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
-@@ -551,9 +551,10 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
-         struct Stream *st = &s->streams[i];
- 
-         st->nr = i;
--        st->bh = qemu_bh_new(timer_hit, st);
--        st->ptimer = ptimer_init_with_bh(st->bh, PTIMER_POLICY_DEFAULT);
-+        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-+        ptimer_transaction_begin(st->ptimer);
-         ptimer_set_freq(st->ptimer, s->freqhz);
-+        ptimer_transaction_commit(st->ptimer);
-     }
-     return;
- 
+diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
+index 692d213897d..890dd53f8d8 100644
+--- a/hw/timer/slavio_timer.c
++++ b/hw/timer/slavio_timer.c
+@@ -227,13 +227,11 @@ static void slavio_timer_mem_writel(void *opaque, hwaddr addr,
+             // set limit, reset counter
+             qemu_irq_lower(t->irq);
+             t->limit = val & TIMER_MAX_COUNT32;
+-            if (t->timer) {
+-                if (t->limit == 0) { /* free-run */
+-                    ptimer_set_limit(t->timer,
+-                                     LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
+-                } else {
+-                    ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
+-                }
++            if (t->limit == 0) { /* free-run */
++                ptimer_set_limit(t->timer,
++                                 LIMIT_TO_PERIODS(TIMER_MAX_COUNT32), 1);
++            } else {
++                ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 1);
+             }
+         }
+         break;
 -- 
 2.20.1
 
