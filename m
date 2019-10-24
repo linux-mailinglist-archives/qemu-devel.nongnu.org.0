@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5582E3412
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:25:58 +0200 (CEST)
-Received: from localhost ([::1]:42540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD0BE33C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:18:51 +0200 (CEST)
+Received: from localhost ([::1]:42300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNd7l-0007ma-EI
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:25:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47686)
+	id 1iNd0s-0005nb-6V
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKg-0003pX-JD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:16 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNcdJ-0004Fq-Go
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:54:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKf-00068X-5O
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32068
+ (envelope-from <dgilbert@redhat.com>) id 1iNcdG-00071M-Ps
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:54:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21417
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKf-000684-16
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:13 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNcdG-000716-LP
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:54:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920512;
+ s=mimecast20190719; t=1571921666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GLjPN6dVpq/UleY7W+a+Yfax21W6uVXEWUh1XaQk7To=;
- b=imjTnuxdm+gSorXKCVhSsVgHa+xxwGucSIzYURrSLc60LPXfgjQAgbWRhZfFl2j6okWs+o
- 4Yhd2em2BIYKUQH1jqRqW5XUlHcz1uo+F0LCBrkUDjGyGXWcSgVsVW5Ca9wCSE/evyl+RC
- URq2X96K5V2hMS0Lt3WWTR794MpSMss=
+ bh=59X5Zte38Cgzy7JMHUGFe9KOmVyhJUTAXgKbgIdm69k=;
+ b=F6icXuxVIcgnr60PoyC37/dxb87Mf3tniED0ltkgJNhbQGGo2u0r9Wgf3420kxg7ffW9d4
+ OvbSEbtCGrDf2ilMVTs6O6BUcR0bEnNHJkKr9Yc/BnuBJmCT2kZLZNmIUFBavXPI4kjdEd
+ /G3l0CR5NxYRuxpEDSD8jDN3415aad8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-GubLqWuOPLqOlor9v2LbVw-1; Thu, 24 Oct 2019 08:35:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-8-dXN9-o_uONivsNoRgWttMw-1; Thu, 24 Oct 2019 08:54:24 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0683B5E4;
- Thu, 24 Oct 2019 12:35:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CC7760166;
- Thu, 24 Oct 2019 12:35:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 37D1D112FB55; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 19/19] qapi: Implement -compat deprecated-output=hide for
- events
-Date: Thu, 24 Oct 2019 14:34:58 +0200
-Message-Id: <20191024123458.13505-20-armbru@redhat.com>
-In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
-References: <20191024123458.13505-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17ACE5E4;
+ Thu, 24 Oct 2019 12:54:23 +0000 (UTC)
+Received: from work-vm (ovpn-117-248.ams2.redhat.com [10.36.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EAA01001B33;
+ Thu, 24 Oct 2019 12:54:12 +0000 (UTC)
+Date: Thu, 24 Oct 2019 13:54:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 00/30] virtiofs daemon (base)
+Message-ID: <20191024125410.GE2877@work-vm>
+References: <20191021105832.36574-1-dgilbert@redhat.com>
+ <157166664425.24734.3489596262271351160@37313f22b938>
+ <20191021143357.GB5837@work-vm>
+ <20191024065826-mutt-send-email-mst@kernel.org>
+ <20191024110708.GI3700@redhat.com> <20191024111439.GD2877@work-vm>
+ <20191024071738-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: GubLqWuOPLqOlor9v2LbVw-1
+In-Reply-To: <20191024071738-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: dXN9-o_uONivsNoRgWttMw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -73,163 +77,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This policy suppresses deprecated events, and thus permits "testing
-the future".
+* Michael S. Tsirkin (mst@redhat.com) wrote:
+> On Thu, Oct 24, 2019 at 12:14:39PM +0100, Dr. David Alan Gilbert wrote:
+> > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> > > On Thu, Oct 24, 2019 at 06:59:33AM -0400, Michael S. Tsirkin wrote:
+> > > > On Mon, Oct 21, 2019 at 03:33:57PM +0100, Dr. David Alan Gilbert wr=
+ote:
+> > > > > * no-reply@patchew.org (no-reply@patchew.org) wrote:
+> > > > > > Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dg=
+ilbert@redhat.com/
+> > > > > >=20
+> > > > > >=20
+> > > > > >=20
+> > > > > > Hi,
+> > > > > >=20
+> > > > > > This series seems to have some coding style problems. See outpu=
+t below for
+> > > > > > more information:
+> > > > > >=20
+> > > > > > Subject: [PATCH 00/30] virtiofs daemon (base)
+> > > > > > Type: series
+> > > > > > Message-id: 20191021105832.36574-1-dgilbert@redhat.com
+> > > > > >=20
+> > > > > > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> > > > > > #!/bin/bash
+> > > > > > git rev-parse base > /dev/null || exit 0
+> > > > > > git config --local diff.renamelimit 0
+> > > > > > git config --local diff.renames True
+> > > > > > git config --local diff.algorithm histogram
+> > > > > > ./scripts/checkpatch.pl --mailback base..
+> > > > >=20
+> > > > > Expecting checkpatch to be broken here; most of the files
+> > > > > follow FUSE's formatting.
+> > > > >=20
+> > > > > Dave
+> > > >=20
+> > > > I wonder what do others think about this.
+> > > > One problem with such inconsistencies is that people tend to copy c=
+ode
+> > > > around, which tends to result in a mess.
+> > >=20
+> > > IIUC, most of this code is simpy copied as-is from the fuse or linux
+> > > git repos. I'm wondering what the intention is for it long term ?
+> > >=20
+> > > For header files, I would have expected us to be able to compile agai=
+nst
+> > > the -devel package provided by the kernel or fuse packages. I can
+> > > understand if we want to import the headers if the VSOCK additions to
+> > > them are not yet widely available in distros though. If this is the c=
+ase
+> > > we should put a time limit on how long we'd keep these copied headers
+> > > around for before dropping them. It would be fine to violate QEMU cod=
+ing
+> > > style in this case as its not code QEMU would "maintain" long term - =
+just
+> > > a read-only import.
+> >=20
+> > The headers are really two types;  one are external definitions, the
+> > other are internal parts of libfuse.  I'd expect to keep the internal
+> > parts long term; teh external parts hmm; where would we pull them in
+> > externally from?
+> >=20
+> > > The source files though, we appear to then be modifying locally, whic=
+h
+> > > suggests they'll live in our repo forever. In this case I'd expect to
+> > > have compliance with QEMU coding standards.
+> >=20
+> > OK.
+> >=20
+> > > I'm surprised we need to copy so much in from fuse though. Is there a
+> > > case to be made for fuse to provide a library of APIs for people who
+> > > are building fuse daemons to link against, instead of copy & fork ?
+> >=20
+> > libfuse *is* such a library; but it preserves ABI compliance; it's
+> > intention is to be used to build filesystem implementations on top of -
+> > and that's got a fairly good separation;  however changing the fuse
+> > transport, and security models is much more invasive than it was
+> > designed for.
+> >=20
+> > Dave
+>=20
+>=20
+> I guess you did try to propose adding the functionality to the libfuse
+> maintainer and got rejected? If not it's worth asking.
 
-No QMP event is deprecated right now.
+I looked at it; we started off thinking we'd merge much of it up there -
+but there's at least two problems:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/common.json       |  4 ++--
- tests/test-qmp-event.c | 17 +++++++++++++++++
- qemu-options.hx        |  4 +++-
- scripts/qapi/events.py | 14 ++++++++++++--
- 4 files changed, 34 insertions(+), 5 deletions(-)
+  a) Our libvhost-user isn't a separable library either - so we'd need
+to copy it into libfuse which is just as big a problem.
+  b) It's not additional interfaces, it's changes to existing APIs that
+break A*B*I compatibility that are very hard to avoid when you're
+changing the transport.
 
-diff --git a/qapi/common.json b/qapi/common.json
-index 06e54642bb..4e3da4beee 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -167,14 +167,14 @@
- # Policy for handling "funny" output.
- #
- # @accept: Pass on unchanged
--# TODO @hide: Filter out
-+# @hide: Filter out
- #
- # FIXME Guidance on intended use.
- #
- # Since: 4.2
- ##
- { 'enum': 'CompatPolicyOutput',
--  'data': [ 'accept' ] }
-+  'data': [ 'accept', 'hide' ] }
-=20
- ##
- # @CompatPolicy:
-diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index 7dd0053190..303c8d6382 100644
---- a/tests/test-qmp-event.c
-+++ b/tests/test-qmp-event.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
-=20
- #include "qemu-common.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qbool.h"
- #include "qapi/qmp/qdict.h"
-@@ -140,6 +141,21 @@ static void test_event_d(TestEventData *data,
-     qobject_unref(data->expect);
- }
-=20
-+static void test_event_deprecated(TestEventData *data, const void *unused)
-+{
-+    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'TEST-EVENT-FEATU=
-RES1' }");
-+
-+    qapi_event_send_test_event_features1();
-+    g_assert(data->emitted);
-+
-+    qapi_compat_policy.deprecated_output =3D COMPAT_POLICY_OUTPUT_HIDE;
-+    data->emitted =3D false;
-+    qapi_event_send_test_event_features1();
-+    g_assert(!data->emitted);
-+
-+    qobject_unref(data->expect);
-+}
-+
- int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
-@@ -148,6 +164,7 @@ int main(int argc, char **argv)
-     event_test_add("/event/event_b", test_event_b);
-     event_test_add("/event/event_c", test_event_c);
-     event_test_add("/event/event_d", test_event_d);
-+    event_test_add("/event/deprecated", test_event_deprecated);
-     g_test_run();
-=20
-     return 0;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 645629457a..c0128813c6 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3320,7 +3320,7 @@ STEXI
- ETEXI
-=20
- DEF("compat", HAS_ARG, QEMU_OPTION_compat,
--    "-compat [deprecated-input=3Daccept|reject|crash][,deprecated-output=
-=3Daccept]\n"
-+    "-compat [deprecated-input=3Daccept|reject|crash][,deprecated-output=
-=3Daccept|hide]\n"
-     "                Policy for handling deprecated management interfaces\=
-n",
-     QEMU_ARCH_ALL)
- STEXI
-@@ -3337,6 +3337,8 @@ Reject deprecated commands
- Crash on deprecated command
- @item deprecated-output=3Daccept (default)
- Emit deprecated events
-+@item deprecated-output=3Dhide
-+Suppress deprecated events
- @end table
- FIXME Guidance on intended use
- ETEXI
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index f64e61076e..5778fa1a0d 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -61,7 +61,8 @@ def gen_param_var(typ):
-     return ret
-=20
-=20
--def gen_event_send(name, arg_type, boxed, event_enum_name, event_emit):
-+def gen_event_send(name, arg_type, features, boxed,
-+                   event_enum_name, event_emit):
-     # FIXME: Our declaration of local variables (and of 'errp' in the
-     # parameter list) can collide with exploded members of the event's
-     # data type passed in as parameters.  If this collision ever hits in
-@@ -86,6 +87,14 @@ def gen_event_send(name, arg_type, boxed, event_enum_nam=
-e, event_emit):
-         if not boxed:
-             ret +=3D gen_param_var(arg_type)
-=20
-+    if 'deprecated' in [f.name for f in features]:
-+        ret +=3D mcgen('''
-+
-+    if (qapi_compat_policy.deprecated_output =3D=3D COMPAT_POLICY_OUTPUT_H=
-IDE) {
-+        return;
-+    }
-+''')
-+
-     ret +=3D mcgen('''
-=20
-     qmp =3D qmp_event_build_dict("%(name)s");
-@@ -154,6 +163,7 @@ class QAPISchemaGenEventVisitor(QAPISchemaModularCVisit=
-or):
- #include "%(prefix)sqapi-emit-events.h"
- #include "%(events)s.h"
- #include "%(visit)s.h"
-+#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qobject-output-visitor.h"
-@@ -192,7 +202,7 @@ void %(event_emit)s(%(event_enum)s event, QDict *qdict)=
-;
-     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_event_send_decl(name, arg_type, boxed))
--            self._genc.add(gen_event_send(name, arg_type, boxed,
-+            self._genc.add(gen_event_send(name, arg_type, features, boxed,
-                                           self._event_enum_name,
-                                           self._event_emit_name))
-         # Note: we generate the enum member regardless of @ifcond, to
---=20
-2.21.0
+Also, we're not just changing the transport - if you look at the
+security patchset we're inverting the security model and there's a bunch
+of threading changes that you haven't got yet.
+
+Dave
+
+>=20
+>=20
+> > > Regards,
+> > > Daniel
+> > > --=20
+> > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dbe=
+rrange :|
+> > > |: https://libvirt.org         -o-            https://fstop138.berran=
+ge.com :|
+> > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dbe=
+rrange :|
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
