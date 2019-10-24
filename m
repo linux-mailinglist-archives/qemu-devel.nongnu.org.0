@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F6DE359A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:30:53 +0200 (CEST)
-Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5046E35AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:38:06 +0200 (CEST)
+Received: from localhost ([::1]:44386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe8a-0007sN-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51435)
+	id 1iNeFY-0001PA-HA
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1iNckJ-0005Gy-MU
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:48 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1iNckl-0005rf-W0
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1iNckE-0002Oi-Eu
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:43 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1iNckh-0002qG-55
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:11 -0400
 Received: from mga11.intel.com ([192.55.52.93]:40489)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNckD-0002NX-W9
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:38 -0400
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNckg-0002NX-K2
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:06 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 06:01:18 -0700
+ 24 Oct 2019 06:01:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156167"
+X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156302"
 Received: from iov.bj.intel.com ([10.238.145.67])
- by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:01:15 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:01:52 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
  alex.williamson@redhat.com, peterx@redhat.com
-Subject: [RFC v2 03/22] intel_iommu: modify x-scalable-mode to be string option
-Date: Thu, 24 Oct 2019 08:34:24 -0400
-Message-Id: <1571920483-3382-4-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v2 15/22] intel_iommu: bind/unbind guest page table to host
+Date: Thu, 24 Oct 2019 08:34:36 -0400
+Message-Id: <1571920483-3382-16-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
 References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
@@ -59,100 +59,187 @@ Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Intel VT-d 3.0 introduces scalable mode, and it has a bunch of capabilities
-related to scalable mode translation, thus there are multiple combinations.
-While this vIOMMU implementation wants simplify it for user by providing
-typical combinations. User could config it by "x-scalable-mode" option. The
-usage is as below:
-
-"-device intel-iommu,x-scalable-mode=["legacy"|"modern"]"
-
- - "legacy": gives support for SL page table
- - "modern": gives support for FL page table, pasid, virtual command
- -  if not configured, means no scalable mode support, if not proper
-    configured, will throw error
+This patch captures the guest PASID table entry modifications and
+propagates the changes to host to setup nested translation. The
+guest page table is configured as 1st level page table (GVA->GPA)
+whose translation result would further go through host VT-d 2nd
+level page table(GPA->HPA) under nested translation mode. This is
+a key part of vSVA support.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
 ---
- hw/i386/intel_iommu.c          | 15 +++++++++++++--
- hw/i386/intel_iommu_internal.h |  3 +++
- include/hw/i386/intel_iommu.h  |  2 +-
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ hw/i386/intel_iommu.c          | 81 ++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/intel_iommu_internal.h | 20 +++++++++++
+ 2 files changed, 101 insertions(+)
 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 771bed2..4a1a07a 100644
+index d8827c9..793b0de 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -3019,7 +3019,7 @@ static Property vtd_properties[] = {
-     DEFINE_PROP_UINT8("aw-bits", IntelIOMMUState, aw_bits,
-                       VTD_HOST_ADDRESS_WIDTH),
-     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
--    DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
-+    DEFINE_PROP_STRING("x-scalable-mode", IntelIOMMUState, scalable_mode),
-     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -3581,7 +3581,12 @@ static void vtd_init(IntelIOMMUState *s)
+@@ -41,6 +41,7 @@
+ #include "migration/vmstate.h"
+ #include "trace.h"
+ #include "qemu/jhash.h"
++#include <linux/iommu.h>
  
-     /* TODO: read cap/ecap from host to decide which cap to be exposed. */
-     if (s->scalable_mode) {
--        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
-+        if (!strcmp(s->scalable_mode, "legacy")) {
-+            s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
-+        } else if (!strcmp(s->scalable_mode, "modern")) {
-+            s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_PASID
-+                       | VTD_ECAP_FLTS | VTD_ECAP_PSS;
-+        }
-     }
- 
-     vtd_reset_caches(s);
-@@ -3700,6 +3705,12 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-         return false;
-     }
- 
-+    if (s->scalable_mode &&
-+        (strcmp(s->scalable_mode, "modern") &&
-+         strcmp(s->scalable_mode, "legacy"))) {
-+            error_setg(errp, "Invalid x-scalable-mode config");
-+    }
-+
-     return true;
+ /* context entry operations */
+ #define VTD_CE_GET_RID2PASID(ce) \
+@@ -695,6 +696,16 @@ static inline uint16_t vtd_pe_get_domain_id(VTDPASIDEntry *pe)
+     return VTD_SM_PASID_ENTRY_DID((pe)->val[1]);
  }
  
++static inline uint32_t vtd_pe_get_fl_aw(VTDPASIDEntry *pe)
++{
++    return 48 + ((pe->val[2] >> 2) & VTD_SM_PASID_ENTRY_FLPM) * 9;
++}
++
++static inline dma_addr_t vtd_pe_get_flpt_base(VTDPASIDEntry *pe)
++{
++    return pe->val[2] & VTD_SM_PASID_ENTRY_FLPTPTR;
++}
++
+ static inline bool vtd_pdire_present(VTDPASIDDirEntry *pdire)
+ {
+     return pdire->val & 1;
+@@ -1850,6 +1861,67 @@ static void vtd_context_global_invalidate(IntelIOMMUState *s)
+     vtd_iommu_replay_all(s);
+ }
+ 
++static void vtd_bind_guest_pasid(IntelIOMMUState *s, VTDBus *vtd_bus,
++            int devfn, int pasid, VTDPASIDEntry *pe, VTDPASIDOp op)
++{
++#ifdef __linux__
++    VTDIOMMUContext *vtd_ic;
++    IOMMUCTXEventData event_data;
++    IOMMUCTXPASIDBindData bind;
++    struct iommu_gpasid_bind_data *g_bind_data;
++
++    vtd_ic = vtd_bus->dev_ic[devfn];
++    if (!vtd_ic) {
++        return;
++    }
++
++    g_bind_data = g_malloc0(sizeof(*g_bind_data));
++    bind.flag = 0;
++    g_bind_data->flags = 0;
++    g_bind_data->vtd.flags = 0;
++    switch (op) {
++    case VTD_PASID_BIND:
++    case VTD_PASID_UPDATE:
++        g_bind_data->version = IOMMU_GPASID_BIND_VERSION_1;
++        g_bind_data->format = IOMMU_PASID_FORMAT_INTEL_VTD;
++        g_bind_data->gpgd = vtd_pe_get_flpt_base(pe);
++        g_bind_data->addr_width = vtd_pe_get_fl_aw(pe);
++        g_bind_data->hpasid = pasid;
++        g_bind_data->gpasid = pasid;
++        g_bind_data->flags |= IOMMU_SVA_GPASID_VAL;
++        g_bind_data->vtd.flags =
++                             (VTD_SM_PASID_ENTRY_SRE_BIT(pe->val[2]) ? 1 : 0)
++                           | (VTD_SM_PASID_ENTRY_EAFE_BIT(pe->val[2]) ? 1 : 0)
++                           | (VTD_SM_PASID_ENTRY_PCD_BIT(pe->val[1]) ? 1 : 0)
++                           | (VTD_SM_PASID_ENTRY_PWT_BIT(pe->val[1]) ? 1 : 0)
++                           | (VTD_SM_PASID_ENTRY_EMTE_BIT(pe->val[1]) ? 1 : 0)
++                           | (VTD_SM_PASID_ENTRY_CD_BIT(pe->val[1]) ? 1 : 0);
++        g_bind_data->vtd.pat = VTD_SM_PASID_ENTRY_PAT(pe->val[1]);
++        g_bind_data->vtd.emt = VTD_SM_PASID_ENTRY_EMT(pe->val[1]);
++        bind.flag |= IOMMU_CTX_BIND_PASID;
++        break;
++
++    case VTD_PASID_UNBIND:
++        g_bind_data->gpgd = 0;
++        g_bind_data->addr_width = 0;
++        g_bind_data->hpasid = pasid;
++        bind.flag |= IOMMU_CTX_UNBIND_PASID;
++        break;
++
++    default:
++        printf("Unknown VTDPASIDOp!!\n");
++        break;
++    }
++    if (bind.flag) {
++        event_data.event = IOMMU_CTX_EVENT_PASID_BIND;
++        bind.data = g_bind_data;
++        event_data.data = &bind;
++        iommu_ctx_event_notify(&vtd_ic->iommu_context, &event_data);
++    }
++    g_free(g_bind_data);
++#endif
++}
++
+ /* Do a context-cache device-selective invalidation.
+  * @func_mask: FM field after shifting
+  */
+@@ -2528,12 +2600,17 @@ static gboolean vtd_flush_pasid(gpointer key, gpointer value,
+                 pc_entry->pasid_cache_gen = s->pasid_cache_gen;
+                 if (!vtd_pasid_entry_compare(&pe, &pc_entry->pasid_entry)) {
+                     pc_entry->pasid_entry = pe;
++                    vtd_bind_guest_pasid(s, vtd_bus, devfn,
++                                     pasid, &pe, VTD_PASID_UPDATE);
+                     /*
+                      * TODO: when pasid-base-iotlb(piotlb) infrastructure is
+                      * ready, should invalidate QEMU piotlb togehter with this
+                      * change.
+                      */
+                 }
++            } else {
++                vtd_bind_guest_pasid(s, vtd_bus, devfn,
++                                  pasid, NULL, VTD_PASID_UNBIND);
+             }
+         }
+     }
+@@ -2623,6 +2700,10 @@ static inline void vtd_fill_in_pe_cache(
+ 
+     pc_entry->pasid_entry = *pe;
+     pc_entry->pasid_cache_gen = s->pasid_cache_gen;
++    vtd_bind_guest_pasid(s, vtd_pasid_as->vtd_bus,
++                         vtd_pasid_as->devfn,
++                         vtd_pasid_as->pasid,
++                         pe, VTD_PASID_UPDATE);
+ }
+ 
+ static int vtd_pasid_cache_psi(IntelIOMMUState *s,
 diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index c1235a7..be7b30a 100644
+index 12873e1..13e02e8 100644
 --- a/hw/i386/intel_iommu_internal.h
 +++ b/hw/i386/intel_iommu_internal.h
-@@ -190,8 +190,11 @@
- #define VTD_ECAP_PT                 (1ULL << 6)
- #define VTD_ECAP_MHMV               (15ULL << 20)
- #define VTD_ECAP_SRS                (1ULL << 31)
-+#define VTD_ECAP_PSS                (19ULL << 35)
-+#define VTD_ECAP_PASID              (1ULL << 40)
- #define VTD_ECAP_SMTS               (1ULL << 43)
- #define VTD_ECAP_SLTS               (1ULL << 46)
-+#define VTD_ECAP_FLTS               (1ULL << 47)
+@@ -483,6 +483,14 @@ struct VTDRootEntry {
+ };
+ typedef struct VTDRootEntry VTDRootEntry;
  
- /* CAP_REG */
- /* (offset >> 4) << 24 */
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 66b931e..6062588 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -231,7 +231,7 @@ struct IntelIOMMUState {
-     uint32_t version;
++enum VTDPASIDOp {
++    VTD_PASID_BIND,
++    VTD_PASID_UNBIND,
++    VTD_PASID_UPDATE,
++    VTD_OP_NUM
++};
++typedef enum VTDPASIDOp VTDPASIDOp;
++
+ struct VTDPASIDCacheInfo {
+ #define VTD_PASID_CACHE_DOMSI   (1ULL << 0);
+ #define VTD_PASID_CACHE_PASIDSI (1ULL << 1);
+@@ -549,6 +557,18 @@ typedef struct VTDPASIDCacheInfo VTDPASIDCacheInfo;
+ #define VTD_SM_PASID_ENTRY_AW          7ULL /* Adjusted guest-address-width */
+ #define VTD_SM_PASID_ENTRY_DID(val)    ((val) & VTD_DOMAIN_ID_MASK)
  
-     bool caching_mode;              /* RO - is cap CM enabled? */
--    bool scalable_mode;             /* RO - is Scalable Mode supported? */
-+    char *scalable_mode;            /* RO - Scalable Mode model */
++/* Adjusted guest-address-width */
++#define VTD_SM_PASID_ENTRY_FLPM          3ULL
++#define VTD_SM_PASID_ENTRY_FLPTPTR       (~0xfffULL)
++#define VTD_SM_PASID_ENTRY_SRE_BIT(val)  (!!((val) & 1ULL))
++#define VTD_SM_PASID_ENTRY_EAFE_BIT(val) (!!(((val) >> 7) & 1ULL))
++#define VTD_SM_PASID_ENTRY_PCD_BIT(val)  (!!(((val) >> 31) & 1ULL))
++#define VTD_SM_PASID_ENTRY_PWT_BIT(val)  (!!(((val) >> 30) & 1ULL))
++#define VTD_SM_PASID_ENTRY_EMTE_BIT(val) (!!(((val) >> 26) & 1ULL))
++#define VTD_SM_PASID_ENTRY_CD_BIT(val)   (!!(((val) >> 25) & 1ULL))
++#define VTD_SM_PASID_ENTRY_PAT(val)      (((val) >> 32) & 0xFFFFFFFFULL)
++#define VTD_SM_PASID_ENTRY_EMT(val)      (((val) >> 27) & 0x7ULL)
++
+ /* Second Level Page Translation Pointer*/
+ #define VTD_SM_PASID_ENTRY_SLPTPTR     (~0xfffULL)
  
-     dma_addr_t root;                /* Current root table pointer */
-     bool root_scalable;             /* Type of root table (scalable or not) */
 -- 
 2.7.4
 
