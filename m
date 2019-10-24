@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FCCE3593
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:29:38 +0200 (CEST)
-Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7D0E34ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:01:42 +0200 (CEST)
+Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe7N-0005BC-D1
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56401)
+	id 1iNdgK-0006hU-VR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:01:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNd3h-0003Z1-1b
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:21:46 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iNdRt-00069X-PH
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:46:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNd3f-0005Aw-VX
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:21:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40818)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNd3f-0005Ad-NS
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:21:43 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A74658553A
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 13:21:42 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id k184so1013315wmk.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:21:42 -0700 (PDT)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iNdRs-0007Qk-Ls
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:46:45 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43462)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iNdRp-0007PJ-DU; Thu, 24 Oct 2019 09:46:41 -0400
+Received: by mail-wr1-x442.google.com with SMTP id c2so20929845wrr.10;
+ Thu, 24 Oct 2019 06:46:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PiDWom4c6Rr19xjKo+tDaPEyShkwqoaa566oCfkTRBc=;
+ b=h5GanjIO9zPlA1t592GgK6fTFpU2eeeqqXkKndNs44bPaFKvGw+uhnt9s4nkK25bS1
+ fwx6J1k6MCozAJiqNWVvQ0CQ9TNCSOiyToDnnMpmEwgIykcZHNr+Ym3x4t+/KcPLrI4C
+ 0mz3RklnfKRU5/tXeT/rtzzdeH4sI+i/z9C6m9Da9OAZnY5ld1Zl4VmPu5Elfbx2yiMT
+ z+tVUMvZSegTFJ6/liSGky0VKtPi6zd/YGSj2re4Xkz53/ov/BNeYzYqdqNljEKYrPRE
+ vzv583/Ry6HzYgV6StucTuP6FnM9rPuYRDyofL5w64zhHrp+Wvqs6Shb7AOPMDc143ph
+ vXBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8ZmlhCsJoIE+YSUtfFBESR4PXWooISs73z1sPHAdYDc=;
- b=OJKxlx8F9N3xSYK4jKTw5JCB4ipkkZjVWgC7rpNsJQFOeJBdgAVKUbUXKJA4ANnVOy
- +5sW+IojbW3qMIJ0vwmNWGLvZmVsooi66QoB++NpqWpxXOwBrS2MdZt9s1fP7HoYknie
- 9km00bXK1qCKAaodenXaoIQzYuhMJl6lA2FKXISzisGqhFRMX0SxgCUCMZhfRuMjbOkA
- qSFnHeeRrpHG2rnblLQYJ1wy0O13aQjX19lhVF4ZaV1U6RmtHO+GuKxNctMrtYf91hRB
- HHid7+SbJFBpYGj895d8umYNoD/LZNjbOYd11TyJrQF8zJJS8uSlaZ47Psp2IXSRpILq
- M82g==
-X-Gm-Message-State: APjAAAXQi/pX4xWQdfeiFQIyXQMKtd2g40C3LbucfDHQW9GNhRpoYXG3
- maD5+SX+ppgvKFctpunOxULUkw+2epiU3vXh9C71hSNyG44IVkeCodkM0FEvDoJMuU9prVRag8q
- 0pzSyrA9ZPeNJ8Zk=
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr4649890wmj.119.1571923301352; 
- Thu, 24 Oct 2019 06:21:41 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqymvv8boqLPyxAPcUuTqgjvrVyV1JC3xj+OMdE30JANiPp+8Xam/isesUk8gp7ZHrgMiAds7A==
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr4649874wmj.119.1571923301146; 
- Thu, 24 Oct 2019 06:21:41 -0700 (PDT)
+ bh=PiDWom4c6Rr19xjKo+tDaPEyShkwqoaa566oCfkTRBc=;
+ b=De1QP5PfwhuOg/dQ3dhKzqjCDOE2/Y51iYLY9GaBC4BBorZZsJdV9do4uh3mASZEGE
+ 4B6VNM/MS3Osllg/nF38jcExNnK5mv7MmS6+qN2g4cSPhN3tDkyL/gGt9XFM9oeYBJMe
+ kWPBHYIhKLqvck2pArIBo9EWVexkgnJXqfsdDz4HtctqTWMtWnmtTzC29ZylWug6Wp7W
+ iobchBgZAnePfMingpPQ4CHSlRbZiNqPBMdqfrCK3q+jZi+R15z4khNGSb9TaoXpH/dP
+ LW0e3lVqM+4+bM8j7c6VWbHn8s2xBPbq8l8jLaE14+vJKEBvYfF6LmgWh1uHI2uQWZR8
+ WIew==
+X-Gm-Message-State: APjAAAU2c/Fb+DtVyZuSH0LS7WrLMtBYkSb8YBe9VbZCKdr9FLrBmnmH
+ q6QbsCnuQYmZRD8bke5MWfs=
+X-Google-Smtp-Source: APXvYqyZygIrnPWNcqTxtHDhw0Px1SfZgZWv3ufvbhgsPWY1BNRQ6kvVxuQ2HSqtNzWadrptpRcuIg==
+X-Received: by 2002:adf:e441:: with SMTP id t1mr3767830wrm.395.1571924800186; 
+ Thu, 24 Oct 2019 06:46:40 -0700 (PDT)
 Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id d8sm11908890wrr.71.2019.10.24.06.21.40
+ by smtp.gmail.com with ESMTPSA id y13sm37094271wrg.8.2019.10.24.06.46.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 06:21:40 -0700 (PDT)
-Subject: Re: [PATCH v3 2/3] mc146818rtc: Tidy up indentation
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, qemu-devel@nongnu.org
-References: <20191024122425.2483-1-philmd@redhat.com>
- <20191024122425.2483-3-philmd@redhat.com>
- <c4fef2c4-32f1-cb4a-295f-13a03434becd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fb0239d5-5705-9d31-8db2-198c0e6913db@redhat.com>
-Date: Thu, 24 Oct 2019 15:21:39 +0200
+ Thu, 24 Oct 2019 06:46:38 -0700 (PDT)
+Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
+ space, run U-boot
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191019234715.25750-1-f4bug@amsat.org>
+ <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
+Date: Thu, 24 Oct 2019 15:46:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <c4fef2c4-32f1-cb4a-295f-13a03434becd@redhat.com>
+In-Reply-To: <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,51 +85,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <guangrong.xiao@gmail.com>,
- Vadim Rozenfeld <vrozenfe@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 3:01 PM, Paolo Bonzini wrote:
-> On 24/10/19 14:24, Philippe Mathieu-Daud=C3=A9 wrote:
->> -        * if the periodic timer's update is due to period re-configur=
-ation,
->> -        * we should count the clock since last interrupt.
->> -        */
->> -        if (old_period) {
->> -            int64_t last_periodic_clock, next_periodic_clock;
->> +    /*
->> +     * if the periodic timer's update is due to period re-configurati=
-on,
->> +     * we should count the clock since last interrupt.
->> +     */
->> +    if (old_period) {
->> +        int64_t last_periodic_clock, next_periodic_clock;
->>  =20
->> -            next_periodic_clock =3D muldiv64(s->next_periodic_time,
->> -                                    RTC_CLOCK_RATE, NANOSECONDS_PER_S=
-ECOND);
->> -            last_periodic_clock =3D next_periodic_clock - old_period;
->> -            lost_clock =3D cur_clock - last_periodic_clock;
->> -            assert(lost_clock >=3D 0);
->> +        next_periodic_clock =3D muldiv64(s->next_periodic_time,
->> +                                RTC_CLOCK_RATE, NANOSECONDS_PER_SECON=
-D);
->> +        last_periodic_clock =3D next_periodic_clock - old_period;
->> +        lost_clock =3D cur_clock - last_periodic_clock;
->> +        assert(lost_clock >=3D 0);
->>           }
->>  =20
->>           /*
->=20
-> Still not entirely tidy, is it?  I understand making Marcelo's fix just
-> move a brace, but in general you can review with "git show -b" to see
-> more clearly what's going on.  Therefore, it would make the most sense
-> to have just two patches, one reversing the if and one fixing the bug
-> (and both of them having indentation changes).
->=20
-> However, I'm preparing the pull request now so I think I'll just keep
-> Marcelo's version.
+On 10/24/19 3:42 PM, Peter Maydell wrote:
+> On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Since v2:
+>> - fixed issue in videocore address space
+>> - allow to start with some cores OFF (to boot firmwares)
+>> - add proof-of-concept test for '-smp cores=1' and U-boot
+>> - fixed my email setup
+>>
+>> Previous cover:
+>>
+>> Hi,
+>>
+>> Some patches from v1 are already merged. This v2 addresses the
+>> review comment from v1, and add patches to clean the memory
+>> space when using multiple cores.
+>>
+>> Laurent, if you test U-Boot with this patchset again, do you mind
+>> replying with a "Tested-by:" tag?
+>>
+>> The next patchset is probably about the interrupt controller blocks,
+>> then will come another one about the MBox/Properties.
+>>
+>> The last patch is unrelated to the series, but since I cleaned this
+>> for the raspi and the highbank is the only board with the same issue,
+>> I included the patch in this series.
+> 
+> I'm going to apply 1-10 and 14 to target-arm.next.
+> (I've reviewed 10, and the rest have been reviewed.)
 
-OK.
+Thanks!
+
+Do you mind amending this to patch #3
+"hw/timer/bcm2835: Add the BCM2835 SYS_timer"
+or should I respin (or resend it alone)?
+
+-- >8 --
+diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+index 49b40b55f9..3387a6214a 100644
+--- a/hw/timer/bcm2835_systmr.c
++++ b/hw/timer/bcm2835_systmr.c
+@@ -115,10 +115,7 @@ static void bcm2835_systmr_reset(DeviceState *dev)
+  {
+      BCM2835SystemTimerState *s = BCM2835_SYSTIMER(dev);
+
+-    s->reg.status = 0;
+-    for (size_t i = 0; i < ARRAY_SIZE(s->reg.compare); i++) {
+-        s->reg.compare[i] = 0;
+-    }
++    memset(&s->reg, 0, sizeof(s->reg));
+  }
+
+---
+
+Thanks,
+
+Phil.
 
