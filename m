@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35880E3083
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:40:26 +0200 (CEST)
-Received: from localhost ([::1]:40108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9BBE3119
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:45:28 +0200 (CEST)
+Received: from localhost ([::1]:40224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbTZ-0008LQ-Nq
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:40:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49869)
+	id 1iNbYV-0004pq-CR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:45:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iNZqU-000825-HF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:55:56 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGV-00023S-PI
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iNZqT-0007DY-0V
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:55:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53937
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iNZpj-0006j2-FO
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:55:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571910906;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ipL+a8nv7TsJveOMGJRYhqKbPaCkqKk5prdys7g//og=;
- b=MpLbaYlujgX2xlD/MbpnhwWUyZ2CGmoCKh7jM5SRdc0CfHshzHhKzXY3MhUeuY6gMfcjhU
- rfnHHG1dBMmC8vlq0DCteiPf5w2vJvoCMwDAyWqM1AoV33S/0a5YmVJaPUYyLPwkGIka/y
- ffH++P7fG0TtCBacs79Yxt6VJNVsVV8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-r7f80xdyNMm27t41ooYJjg-1; Thu, 24 Oct 2019 05:55:03 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39DA9476;
- Thu, 24 Oct 2019 09:55:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1B0B5D6D0;
- Thu, 24 Oct 2019 09:54:59 +0000 (UTC)
-Date: Thu, 24 Oct 2019 10:54:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v13 01/12] util/cutils: Add qemu_strtotime_ps()
-Message-ID: <20191024095457.GD3700@redhat.com>
-References: <20191020111125.27659-1-tao3.xu@intel.com>
- <20191020111125.27659-2-tao3.xu@intel.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGU-00044o-KR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:47 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39853)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNaGU-000439-Dy
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:46 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id a11so9343078wra.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qmWZe7YRnWYQvnMO9Ft+oK9d0E1Wp0RQ12k34wleFcU=;
+ b=Fsz5fsUNy9O5dVOrwtJWSX7eiXtPZJWeP+wHVOzeNe4RTk2KLBgNNr3iZf1ZqT0chg
+ 1MQyrFSKd5YFbOWB7Jj2cUVpWXDkwEbrfw/ldKLTQ6fHPLvcstuCUhPHGIag+gw9DMOF
+ 0jmK7xo2tvDa4b9KTZZYN433RyuHaB3tdU5uHGwKWodcWCvXYF55Ir9tnPHTzigRwmBS
+ fuA2cdI0Mx8ZIgMhvtfk1CEwj5A4odgcR/CJdXtsVu3pQl4PWO65rcR7ZmmqxQsZ4XF0
+ v5SI+1FcXk00drOIqxjsukq3zCX41TTSeToigXaCAHkRIFIyCHF3r4UPhqb7R5S+4lHd
+ r63g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qmWZe7YRnWYQvnMO9Ft+oK9d0E1Wp0RQ12k34wleFcU=;
+ b=IfjzlupRaBlsWIPWn7LGiVW9nMQvb/ZE6xqGypfB/Fk50X8NHa5lrzw0j0FMTXDaLh
+ S7ZQuCHm5y08I9VPdd1pAraS0s/R+AZGNnmSKH/jszvfFX0fQg3RKtd50zkmk42t2WsO
+ n5teRnlKHoCUQ6IDQMInTLJlfIGtTrkNqJHj8c5qiZGuFdlfu//uDuHdFNYVn0qtKYfF
+ 4zsKFTDdGNnFmo6lLmbLPSyB5t7FL85itwalB7XM0sGVX8aCe0g7tyG4XzISF/BvZR+s
+ Vw7zHRmV2aZAINzPojyuEQgJM63PrpjL6m7egJL2Xq1xRNtv8cbKP8UOeIhFhL4I9IZg
+ lmzQ==
+X-Gm-Message-State: APjAAAUn87nRYPUuDectVf467osUm5cnkOT2z2s4XOeF6Ql50fwSarOL
+ I+VmdGk6cVcCio8kxmVtk5K28A==
+X-Google-Smtp-Source: APXvYqxZGiYRQLl+HuzfSOyfUaOW8+13v+CMVcXhZldgMOWfgqYUZ/GEpzFj01pamzRikc/QRBhMGw==
+X-Received: by 2002:a05:6000:1051:: with SMTP id
+ c17mr3047410wrx.124.1571912565048; 
+ Thu, 24 Oct 2019 03:22:45 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a17sm22512855wrx.84.2019.10.24.03.22.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 03:22:41 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 51FB51FF87;
+ Thu, 24 Oct 2019 11:22:40 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 4.2 v2 00/17] testing/next
+Date: Thu, 24 Oct 2019 11:22:23 +0100
+Message-Id: <20191024102240.2778-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191020111125.27659-2-tao3.xu@intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: r7f80xdyNMm27t41ooYJjg-1
-X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,39 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, jonathan.cameron@huawei.com, imammedo@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 20, 2019 at 07:11:14PM +0800, Tao Xu wrote:
-> To convert strings with time suffixes to numbers, support time unit are
-> "ps" for picosecond, "ns" for nanosecond, "us" for microsecond, "ms"
-> for millisecond or "s" for second.
->=20
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> ---
->=20
-> No changes in v13.
-> ---
->  include/qemu/cutils.h |  1 +
->  util/cutils.c         | 82 +++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 83 insertions(+)
+Hi,
 
-This really ought to have an addition to the unit tests to validating
-the parsing, both success and error scenarios, so that we're clear on
-exactly what strings are accepted & rejected.
+This is the current status of testing/next. I've dropped the iotests
+as they should come in with the rest of the block patches. I've
+included a few more stragglers including some docker tweaks. Currently
+the following could do with review:
+
+   07 - cirrus.yml reduce scope of MacOS build
+   08 - travis.yml bump Xcode 10 to latest dot release
+   09 - cirrus.yml add latest Xcode build target
+   15 - travis.yml enable debug tcg to check tcg
+   16 - tests docker set HOST_ARCH if we don t have ARCH
+   17 - tests docker update Travis image to a more curren
 
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Alex Bennée (8):
+  travis.yml: reduce scope of the --enable-debug build
+  cirrus.yml: reduce scope of MacOS build
+  travis.yml: bump Xcode 10 to latest dot release
+  cirrus.yml: add latest Xcode build target
+  travis.yml: cache the clang sanitizer build
+  travis.yml: --enable-debug-tcg to check-tcg
+  tests/docker: set HOST_ARCH if we don't have ARCH
+  tests/docker: update Travis image to a more current version
+
+Eduardo Habkost (2):
+  tests/vm: Let subclasses disable IPv6
+  tests/vm/netbsd: Disable IPv6
+
+Gerd Hoffmann (1):
+  tests/vm: netbsd autoinstall, using serial console
+
+Philippe Mathieu-Daudé (1):
+  travis.yml: Test the release tarball
+
+Thomas Huth (5):
+  travis.yml: Add libvdeplug-dev to compile-test net/vde.c
+  travis.yml: Use libsdl2 instead of libsdl1.2, and install
+    libsdl2-image
+  travis.yml: Use newer version of libgnutls and libpng
+  travis.yml: Fix the ccache lines
+  gitlab-ci.yml: Use libvdeplug-dev to compile-test the VDE network
+    backend
+
+ .cirrus.yml                            |  14 +-
+ .gitlab-ci.yml                         |   2 +-
+ .shippable.yml                         |   2 -
+ .travis.yml                            |  50 +++++--
+ tests/docker/Makefile.include          |   6 +-
+ tests/docker/dockerfiles/travis.docker |   6 +-
+ tests/vm/basevm.py                     |  15 +-
+ tests/vm/netbsd                        | 195 +++++++++++++++++++++++--
+ 8 files changed, 259 insertions(+), 31 deletions(-)
+
+-- 
+2.20.1
 
 
