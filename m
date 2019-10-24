@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5848FE3B02
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:31:43 +0200 (CEST)
-Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6207E3B0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:35:20 +0200 (CEST)
+Received: from localhost ([::1]:50291 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhtd-0000Uz-VR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40240)
+	id 1iNhx9-000734-KQ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNgtZ-0007jM-Ip
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:27:34 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNgxU-0001yb-5K
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:31:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNgtX-0006ex-J1
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:27:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53669)
+ (envelope-from <laurent@vivier.eu>) id 1iNgxT-0007iE-6f
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:31:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:45151)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNgtX-0006er-9i; Thu, 24 Oct 2019 13:27:31 -0400
+ id 1iNgxN-0007gy-F7; Thu, 24 Oct 2019 13:31:30 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N6srH-1hwGOn1YIZ-018KvV; Thu, 24 Oct 2019 19:27:26 +0200
-Subject: Re: [PATCH 2/3] event_notifier: avoid dandling file descriptor in
- event_notifier_cleanup
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MNtGq-1iczoq2vQu-00OKFX; Thu, 24 Oct 2019 19:31:24 +0200
+Subject: Re: [PATCH 3/3] qemu-timer: reuse MIN macro in qemu_timeout_ns_to_ms
 To: Frediano Ziglio <fziglio@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
 References: <20191023122652.2999-1-fziglio@redhat.com>
- <20191023122652.2999-2-fziglio@redhat.com>
+ <20191023122652.2999-3-fziglio@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,33 +70,33 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <63bab37e-f848-8361-2333-cfae59e81ae6@vivier.eu>
-Date: Thu, 24 Oct 2019 19:27:24 +0200
+Message-ID: <ac0dbd04-c594-0904-020c-ab6384153997@vivier.eu>
+Date: Thu, 24 Oct 2019 19:31:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191023122652.2999-2-fziglio@redhat.com>
+In-Reply-To: <20191023122652.2999-3-fziglio@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RLI+O/ihPBSQVdaCNiHO8/KZeE2zCJ2ej+k0mZq4LqWDWWsk+c0
- 9mrnucF4O2bZsCTgp/CahQo2maS7Ar2a4F21rhPJXX0+Jw5qi5xX6IUwMGRcPqlM1TJ4yjH
- V1YdVlq7z4zqyDUFFUR76XhzZcdUXgls3g6SIWL3aF+TLZJO0l0fmi1e5vqtW8axvy0Mrh9
- 5rEs+XuRkssUmzyu2ozGw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jvQwkczo4Oo=:4YVkAV5/J3N1Wbi2rB3VgN
- VsttpdpA8AIWhNCehBl/Vj9L4VaQKTwsGIOzEm4T2NJedriU1lm153GJQkxF6amkXICPSQd+w
- Vki3AW6nhHEJV/I3ql9vRb4wjbEi5/NzdnNxc2+7sh929RdKQweaSkuREARw361Fub+zDLYiU
- DFL7HKP9sVves04r3JpPkmui6eNMb9kLWL8wLgv4zkwNweCPFwhq0RQKpo8Bp/68mI8on9Z19
- 27uWegrViQtA8KwRtlhm5utprupvknfmqDZN3r09974Pn65ZXwTDVW2wDyPq2cnij16wcGYWY
- Oy7CNCDbB92TvXtYUrMJxSpomjIICSdvHj/C9FmEiUmjl01nQJkdE5Y7o32Z8dytDwx3gVUON
- l5Rna06aQ0Bfiwr0Oib7CJ6Pz2lXLu0sxdclUmrdTTLNi7Gz5D2SJrCvTIjw//rIl3Qht3/9X
- CvGvRDdD/Nx8l6r9A5lBEpTKqy0mXN79diN3Sa4MSvyn3Kkopb00xMwaG91gQ0Ko4dS2iu5zF
- 0Xs5x5Ba7iDgiq7EEJY6eow3sWW4zGOb0n6aoBYGhH7yCCRBbF+rGS5/+sFpEA+ZhCDnVUJ9D
- pBD97hvKBgjy1kDvR/bNK9qKy4qUyA8JN4Mvit7hOzFSPqmRWp+yuBroWf31l+6fUvAZJWjzJ
- Q0KafTcuDbf4e8R6XvjeOrkQmCYvRWBOeHRWUvyQVGkci0q29aG8ollPq7bxFhA63RXDLXzMN
- E0r/G9YzX9jN/J1lvKHjrkRcj0zZDRtjHtxIQqKHTg5L9V66tDLpQuCfh5zg5HhnkIL7Bjj+P
- FcDkoROI76zlY3EfXIN86reLZZRweFNrN6mXc6yHtvcljXrommZtZkcrqVZWi5VE6ALXvzuSa
- IPFM+IzK0CHP9KeVEjKfZ/uo0miunJMvyOryt/7Sc=
+X-Provags-ID: V03:K1:M+BLg6dxyeMHFPabGg2qdduTBcvPdLJEF57XQw+HIrZje6DNOYS
+ +872P28Wq1SKE1oYOVRNn9Nt6VPjYm/7RgbeaT3bJCgwr523QB8Zaol+XIfB/w1kE6q7u5b
+ MI7z4pleLPY0jVCvfprHLhWmzQA4CuHw7B8Cg+JTpeH4BUdEnLeJdZmwLX7SKin2n8IUNov
+ zrK39PCs1uxHj6scdmkrA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KpEhb0yugnM=:ZqMtrKqY7gGSGpHSA8hsbR
+ ZpCI2WRApiumKSmySL2FRjJ/mwWfRgmaPKg2rk57lQqHfYynQwoKojYNQKMC77IkIND1froI4
+ ywnZO7nB0hqTU2TtECY+JXzuORo21ihQn7IZ65KkyMO4RSzyXxmthXpLZohpC9qfOeIFhrjw2
+ bHn8JUxC8unw09pBpYGk7uG98lch9x+RutgPGsxfUGOq4g2OhFZUhqZyst0m1ZzqCIBpYwqfU
+ WWwsZGO3rRuo+/imDbOffOxs2YhrJnt0V6/7SWW0b0UoBoG/Sw+5MpaTHQ/m4NkzY/0Ij3Zox
+ X8uSIEi1vN01HVMBEMUw8disWdT8Z+4pc4HLHLJDdN97rk53hnhNkYVLXTkxBg0HIQV6tOX9u
+ prPbqYRc/MMP/k86sBwiO4zybW34PFeCsC7bth/7/JeMP4HSdInJQgC8W49FXvTYQCfV5wIBW
+ BPqrBdy6I3h4Pq9JadEVT3MPiNmHCAmXAX97ljg7c1ZguDs88PtpUHoIOc2ebKxhvmqIv++oI
+ TKhy/TO7PdK0w1xKOm+vUNx4Mu28s+I6MH2j/WYW4Cd1lEMYXhks7g+SHyH5be51t84vW7VPx
+ U2zcQXrbNuUUoAsv6Lyb3gL9hH5CEYFPQ4Uo4kho3rS4xzfJd3HPDu2gaWo3j9ZrlNQqUDlSm
+ U+W2WUnuatnXxnMe+QRkE3YRtzdvjcy8VRRO2+Qh8I3bn8oWxAccCNLyPcJZX32cCJK8HU28K
+ pMrb0hv9Asfs/1kX621QIIy8cClPm6Lq33z5UtPxbeqrARcDbgX6FxcLfUJbWTn5bwNa+BtOv
+ xdkvVGtun9G+4o3oGTKXO0YyO0YSo8pKkVC/jyvP59ipIwZKROvyQYpTk7ZsN7nuwYuzPxnVg
+ nULVuWJZpWyRbMKJRkJBlJ7ddM/WkMoUVEDpEpOos=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.135
@@ -117,35 +116,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 23/10/2019 à 14:26, Frediano Ziglio a écrit :
-> If rfd is equal to wfd the file descriptor is closed but
-> rfd will still have the closed value.
-> The EventNotifier structure should not be used again after calling
-> event_notifier_cleanup or should be initialized again but make
-> sure to not have dandling file descriptors around.
-> 
 > Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
 > ---
->  util/event_notifier-posix.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  util/qemu-timer.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
-> diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
-> index 73c4046b58..00d93204f9 100644
-> --- a/util/event_notifier-posix.c
-> +++ b/util/event_notifier-posix.c
-> @@ -80,8 +80,8 @@ void event_notifier_cleanup(EventNotifier *e)
->  {
->      if (e->rfd != e->wfd) {
->          close(e->rfd);
-> -        e->rfd = -1;
->      }
-> +    e->rfd = -1;
->      close(e->wfd);
->      e->wfd = -1;
+> diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+> index d428fec567..094a20a05a 100644
+> --- a/util/qemu-timer.c
+> +++ b/util/qemu-timer.c
+> @@ -322,11 +322,7 @@ int qemu_timeout_ns_to_ms(int64_t ns)
+>      ms = DIV_ROUND_UP(ns, SCALE_MS);
+>  
+>      /* To avoid overflow problems, limit this to 2^31, i.e. approx 25 days */
+> -    if (ms > (int64_t) INT32_MAX) {
+> -        ms = INT32_MAX;
+> -    }
+> -
+> -    return (int) ms;
+> +    return (int) MIN(ms, (int64_t) INT32_MAX);
 >  }
+>  
+>  
 > 
 
 Applied to my trivial-patches branch.
 
+I've updated the patch to remove the two useless casts.
+
+Eric, if you want to add your R-b, I can add it to the queued patch.
+
 Thanks,
 Laurent
+
+
 
