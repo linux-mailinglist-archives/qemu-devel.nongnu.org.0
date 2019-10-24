@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7BFE3208
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:14:48 +0200 (CEST)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642E6E3242
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:25:58 +0200 (CEST)
+Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNc0s-0001r7-T0
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59235)
+	id 1iNcBg-00067c-Mk
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:25:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatG-0000sX-Nm
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNatK-0000yX-9F
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatE-0004q6-DU
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54142
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iNatJ-0004ul-01
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47160
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004oY-5r
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatI-0004tQ-QE
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914966;
+ s=mimecast20190719; t=1571914971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BXnSVx7Vzt0JuFqita9BC2V6+56l9afuz3z9CJAcVTI=;
- b=YciLBqVCp4nOet18OWPA0Nk/9h+zvXKqjgcXTnmWmhrmHV1gaAwmfEJe3Mp1c6UO7BWK2g
- LLw6suP/oJCTPcpZzzk/Gk4BfwcqpyJprL3U4IpLbTpkkajvwjP4Llt5jmgjH0KBOJ+JHu
- Jq7xvXGJH4ZR+X50DYrxJkEtfP6FjTU=
+ bh=+GfmVbadjrgclZy0LJ41Pf6eZUvpccx4mCNTJBvCxeE=;
+ b=Xxyxg68t0tsB4Y0yMooD8NH4REXmz1MZyIgUqObSc0sBnsvLhA3SRa0y6+Se1BsndREuk2
+ 4H1y2tmruFJmGqVj4K66SK0VW4JgH0LH7wmgU7bsB39EWgzsmW0TH1k7nzFA8wCC6q1xDt
+ Nr1/1uM2+Bv8Elk0+pfhIZrKbypV77s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-jsWVxz7KOnigqHoOmHG3Tw-1; Thu, 24 Oct 2019 07:02:43 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-150-cWe2SOjIOmuCks5uQDiCWw-1; Thu, 24 Oct 2019 07:02:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15874107AD33;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11DAE476;
  Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1A1A10027A9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D14F0196B2;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6FFDE11328AA; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 759051130341; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/19] qapi: Eliminate .check_doc() overrides
-Date: Thu, 24 Oct 2019 13:02:31 +0200
-Message-Id: <20191024110237.30963-14-armbru@redhat.com>
+Subject: [PATCH 14/19] qapi: Fold normalize_if() into check_if()
+Date: Thu, 24 Oct 2019 13:02:32 +0200
+Message-Id: <20191024110237.30963-15-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: jsWVxz7KOnigqHoOmHG3Tw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: cWe2SOjIOmuCks5uQDiCWw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,88 +76,87 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All sub-classes of QAPISchemaEntity now override .check_doc() the same
-way, except for QAPISchemaType and and QAPISchemaArrayType.
-
-Put the overrides' code in QAPISchemaEntity.check_doc(), and drop the
-overrides.  QAPISchemaType doesn't care because it's abstract.
-QAPISchemaArrayType doesn't care because its .doc is always None.
+check_if() is always called together with normalize_if().  Fold the
+latter into the former.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/schema.py | 23 ++---------------------
- 1 file changed, 2 insertions(+), 21 deletions(-)
+ scripts/qapi/expr.py | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 27da4e0f7d..ee510f129b 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -55,7 +55,8 @@ class QAPISchemaEntity(object):
-         pass
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 7c7394f835..aa0fe69f99 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -95,12 +95,6 @@ def check_flags(expr, info):
+                 info, "flag '%s' may only use true value" % key)
 =20
-     def check_doc(self):
--        pass
-+        if self.doc:
-+            self.doc.check()
 =20
-     @property
-     def ifcond(self):
-@@ -230,10 +231,6 @@ class QAPISchemaEnumType(QAPISchemaType):
-             for m in self.members:
-                 doc.connect_member(m)
-=20
--    def check_doc(self):
--        if self.doc:
--            self.doc.check()
+-def normalize_if(expr):
+-    ifcond =3D expr.get('if')
+-    if isinstance(ifcond, str):
+-        expr['if'] =3D [ifcond]
 -
-     def is_implicit(self):
-         # See QAPISchema._make_implicit_enum_type() and ._def_predefineds(=
-)
-         return self.name.endswith('Kind') or self.name =3D=3D 'QType'
-@@ -389,10 +386,6 @@ class QAPISchemaObjectType(QAPISchemaType):
-             for m in self.local_members:
-                 doc.connect_member(m)
-=20
--    def check_doc(self):
--        if self.doc:
--            self.doc.check()
 -
-     @property
-     def ifcond(self):
-         assert self._checked
-@@ -667,10 +660,6 @@ class QAPISchemaAlternateType(QAPISchemaType):
-             for v in self.variants.variants:
-                 doc.connect_member(v)
+ def check_if(expr, info, source):
 =20
--    def check_doc(self):
--        if self.doc:
--            self.doc.check()
--
-     def c_type(self):
-         return c_name(self.name) + pointer_suffix
+     def check_if_str(ifcond, info):
+@@ -126,6 +120,7 @@ def check_if(expr, info, source):
+             check_if_str(elt, info)
+     else:
+         check_if_str(ifcond, info)
++        expr['if'] =3D [ifcond]
 =20
-@@ -745,10 +734,6 @@ class QAPISchemaCommand(QAPISchemaEntity):
-             if self.arg_type and self.arg_type.is_implicit():
-                 self.arg_type.connect_doc(doc)
 =20
--    def check_doc(self):
--        if self.doc:
--            self.doc.check()
--
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_command(self.name, self.info, self.ifcond,
-@@ -791,10 +776,6 @@ class QAPISchemaEvent(QAPISchemaEntity):
-             if self.arg_type and self.arg_type.is_implicit():
-                 self.arg_type.connect_doc(doc)
+ def normalize_members(members):
+@@ -175,7 +170,6 @@ def check_type(value, info, source,
+             raise QAPISemError(info, "%s uses reserved name" % key_source)
+         check_keys(arg, info, key_source, ['type'], ['if'])
+         check_if(arg, info, key_source)
+-        normalize_if(arg)
+         check_type(arg['type'], info, key_source, allow_array=3DTrue)
 =20
--    def check_doc(self):
--        if self.doc:
--            self.doc.check()
--
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_event(self.name, self.info, self.ifcond,
+=20
+@@ -198,7 +192,6 @@ def check_features(features, info):
+         source =3D "%s '%s'" % (source, f['name'])
+         check_name_str(f['name'], info, source)
+         check_if(f, info, source)
+-        normalize_if(f)
+=20
+=20
+ def normalize_enum(expr):
+@@ -227,7 +220,6 @@ def check_enum(expr, info):
+         check_name_str(member['name'], info, source,
+                        enum_member=3DTrue, permit_upper=3Dpermit_upper)
+         check_if(member, info, source)
+-        normalize_if(member)
+=20
+=20
+ def check_struct(expr, info):
+@@ -259,7 +251,6 @@ def check_union(expr, info):
+         check_name_str(key, info, source)
+         check_keys(value, info, source, ['type'], ['if'])
+         check_if(value, info, source)
+-        normalize_if(value)
+         check_type(value['type'], info, source, allow_array=3Dnot base)
+=20
+=20
+@@ -273,7 +264,6 @@ def check_alternate(expr, info):
+         check_name_str(key, info, source)
+         check_keys(value, info, source, ['type'], ['if'])
+         check_if(value, info, source)
+-        normalize_if(value)
+         check_type(value['type'], info, source)
+=20
+=20
+@@ -376,7 +366,6 @@ def check_exprs(exprs):
+         else:
+             assert False, 'unexpected meta type'
+=20
+-        normalize_if(expr)
+         check_if(expr, info, meta)
+         check_flags(expr, info)
+=20
 --=20
 2.21.0
 
