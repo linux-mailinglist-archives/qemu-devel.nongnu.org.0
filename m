@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2630DE3358
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:02:23 +0200 (CEST)
-Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF75E33DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:22:51 +0200 (CEST)
+Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNckv-0004Z7-IR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47631)
+	id 1iNd4j-00035c-AF
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKd-0003gV-GA
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:12 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKb-00062q-LL
+ (envelope-from <armbru@redhat.com>) id 1iNcKc-0003di-Bo
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49158
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKb-00062J-HD
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <armbru@redhat.com>) id 1iNcKa-00061z-Kv
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28798
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKa-00061c-Gt
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920508;
+ s=mimecast20190719; t=1571920507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZaB6cQbBP3IPVQztMxQOqDmUDs0zqWb6Yq0qbftgKKY=;
- b=iv8OjtPs4cC5IR+0A3o9y7HpTMeP57O832LaA9Nu5cV7flw+3NwkdGHbsnqVo0LbOLii/H
- 3WH9g5K4khyz4hfkcK4lPv7RuY8FVldPVBNbCw4xjCmj8aaUdUbp5E2xudjWxk1BBNVIQb
- cw5k5uMtLvZBdhvJ8aJuda/10VpLJ6k=
+ bh=tUGFGut42C7Eg3kJl6e085bOhjnnZCRoXhBoIDYsbvo=;
+ b=TnPbxi+lhu4VJt6pnSy1dvDTVDewLISY3Uh4y0f8wUaoI9J+Nn9lxQ+PE1kxT3Bwk1ksbp
+ 2GOvfmSaBKlbqQTl7zi7S6lxgslVoulq07UKDY75dZ9gIKkgJFSOeJMY1JK7DNTHaRIS28
+ mGpq4LNs10mxkyEupuGPK1thGlXsVlk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-mqzGqOr0MhSM8Y-hu1DWJQ-1; Thu, 24 Oct 2019 08:35:05 -0400
+ us-mta-330-xqx0-tj1NXOSZQujijkKxQ-1; Thu, 24 Oct 2019 08:35:04 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B7075E4;
- Thu, 24 Oct 2019 12:35:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DF6D801E5C;
+ Thu, 24 Oct 2019 12:35:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8941752F6;
- Thu, 24 Oct 2019 12:35:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EB6A19D70;
+ Thu, 24 Oct 2019 12:35:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F232911384A8; Thu, 24 Oct 2019 14:34:58 +0200 (CEST)
+ id 045121132D6D; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 01/19] tests/test-qmp-cmds: Factor out qmp_dispatch() test
- helpers
-Date: Thu, 24 Oct 2019 14:34:40 +0200
-Message-Id: <20191024123458.13505-2-armbru@redhat.com>
+Subject: [RFC PATCH 03/19] tests/test-qmp-cmds: Simplify test data setup
+Date: Thu, 24 Oct 2019 14:34:42 +0200
+Message-Id: <20191024123458.13505-4-armbru@redhat.com>
 In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
 References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: mqzGqOr0MhSM8Y-hu1DWJQ-1
+X-MC-Unique: xqx0-tj1NXOSZQujijkKxQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,161 +76,194 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Checking the value of qmp_dispatch() is repetitive.  Factor out
-helpers do_qmp_dispatch() and do_qmp_dispatch_error().  Without this,
-the next commit would make things even more repetitive.
+Building requests with qdict_put() & friends is tedious to write and
+hard to read.  Parse them from string literals with
+qdict_from_vjsonf_nofail() instead.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-cmds.c | 72 +++++++++++++++++++++----------------------
- 1 file changed, 35 insertions(+), 37 deletions(-)
+ tests/test-qmp-cmds.c | 93 ++++++++++++++++++-------------------------
+ 1 file changed, 38 insertions(+), 55 deletions(-)
 
 diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-index 27b0afe55a..e738bead86 100644
+index 667e03cb1b..3798ba1b16 100644
 --- a/tests/test-qmp-cmds.c
 +++ b/tests/test-qmp-cmds.c
-@@ -144,34 +144,55 @@ __org_qemu_x_Union1 *qmp___org_qemu_x_command(__org_q=
+@@ -1,5 +1,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qjson.h"
+ #include "qapi/qmp/qnum.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qapi/error.h"
+@@ -144,11 +145,16 @@ __org_qemu_x_Union1 *qmp___org_qemu_x_command(__org_q=
 emu_x_EnumList *a,
  }
 =20
 =20
-+static QObject *do_qmp_dispatch(QDict *req, bool allow_oob)
-+{
-+    QDict *resp;
-+    QObject *ret;
+-static QObject *do_qmp_dispatch(QDict *req, bool allow_oob)
++static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+ {
+-    QDict *resp;
++    va_list ap;
++    QDict *req, *resp;
+     QObject *ret;
+=20
++    va_start(ap, template);
++    req =3D qdict_from_vjsonf_nofail(template, ap);
++    va_end(ap);
 +
-+    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
-+    g_assert(resp && !qdict_haskey(resp, "error"));
-+    ret =3D qdict_get(resp, "return");
-+    g_assert(ret);
-+
-+    qobject_ref(ret);
-+    qobject_unref(resp);
-+    return ret;
-+}
-+
-+static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass c=
+     resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
+     g_assert(resp);
+     ret =3D qdict_get(resp, "return");
+@@ -157,14 +163,21 @@ static QObject *do_qmp_dispatch(QDict *req, bool allo=
+w_oob)
+=20
+     qobject_ref(ret);
+     qobject_unref(resp);
++    qobject_unref(req);
+     return ret;
+ }
+=20
+-static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass c=
 ls)
-+{
-+    QDict *resp;
++static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
++                                  const char *template, ...)
+ {
+-    QDict *resp;
++    va_list ap;
++    QDict *req, *resp;
+     QDict *error;
+=20
++    va_start(ap, template);
++    req =3D qdict_from_vjsonf_nofail(template, ap);
++    va_end(ap);
 +
-+    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
-+    g_assert(resp && qdict_haskey(resp, "error"));
-+
-+    qobject_unref(resp);
-+}
-+
+     resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
+     g_assert(resp);
+     error =3D qdict_get_qdict(resp, "error");
+@@ -176,59 +189,43 @@ static void do_qmp_dispatch_error(QDict *req, bool al=
+low_oob, ErrorClass cls)
+     g_assert(qdict_size(resp) =3D=3D 1);
+=20
+     qobject_unref(resp);
++    qobject_unref(req);
+ }
+=20
  /* test commands with no input and no return value */
  static void test_dispatch_cmd(void)
  {
-     QDict *req =3D qdict_new();
--    QDict *resp;
-+    QObject *ret;
+-    QDict *req =3D qdict_new();
+     QDict *ret;
 =20
-     qdict_put_str(req, "execute", "user_def_cmd");
-=20
--    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
--    assert(resp !=3D NULL);
--    assert(!qdict_haskey(resp, "error"));
-+    ret =3D do_qmp_dispatch(req, false);
-=20
--    qobject_unref(resp);
-+    qobject_unref(ret);
-     qobject_unref(req);
+-    qdict_put_str(req, "execute", "user_def_cmd");
+-
+-    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
++    ret =3D qobject_to(QDict,
++                     do_qmp_dispatch(false,
++                                     "{ 'execute': 'user_def_cmd' }"));
+     assert(ret && qdict_size(ret) =3D=3D 0);
+-
+     qobject_unref(ret);
+-    qobject_unref(req);
  }
 =20
  static void test_dispatch_cmd_oob(void)
  {
-     QDict *req =3D qdict_new();
--    QDict *resp;
-+    QObject *ret;
+-    QDict *req =3D qdict_new();
+     QDict *ret;
 =20
-     qdict_put_str(req, "exec-oob", "test-flags-command");
-=20
--    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), true);
--    assert(resp !=3D NULL);
--    assert(!qdict_haskey(resp, "error"));
-+    ret =3D do_qmp_dispatch(req, true);
-=20
--    qobject_unref(resp);
-+    qobject_unref(ret);
-     qobject_unref(req);
- }
-=20
-@@ -180,15 +201,11 @@ static void test_dispatch_cmd_failure(void)
- {
-     QDict *req =3D qdict_new();
-     QDict *args =3D qdict_new();
--    QDict *resp;
-=20
-     qdict_put_str(req, "execute", "user_def_cmd2");
-=20
--    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
--    assert(resp !=3D NULL);
--    assert(qdict_haskey(resp, "error"));
-+    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
-=20
--    qobject_unref(resp);
-     qobject_unref(req);
-=20
-     /* check that with extra arguments it throws an error */
-@@ -198,11 +215,8 @@ static void test_dispatch_cmd_failure(void)
-=20
-     qdict_put_str(req, "execute", "user_def_cmd");
-=20
--    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
--    assert(resp !=3D NULL);
--    assert(qdict_haskey(resp, "error"));
-+    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
-=20
--    qobject_unref(resp);
-     qobject_unref(req);
- }
-=20
-@@ -217,20 +231,6 @@ static void test_dispatch_cmd_success_response(void)
-     qobject_unref(req);
- }
-=20
--static QObject *test_qmp_dispatch(QDict *req)
--{
--    QDict *resp;
--    QObject *ret;
+-    qdict_put_str(req, "exec-oob", "test-flags-command");
 -
--    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
--    assert(resp && !qdict_haskey(resp, "error"));
--    ret =3D qdict_get(resp, "return");
--    assert(ret);
--    qobject_ref(ret);
--    qobject_unref(resp);
--    return ret;
--}
+-    ret =3D qobject_to(QDict, do_qmp_dispatch(req, true));
++    ret =3D qobject_to(QDict,
++                     do_qmp_dispatch(true,
++                                     "{ 'exec-oob': 'test-flags-command' }=
+"));
+     assert(ret && qdict_size(ret) =3D=3D 0);
 -
- /* test commands that involve both input parameters and return values */
- static void test_dispatch_cmd_io(void)
- {
-@@ -253,7 +253,7 @@ static void test_dispatch_cmd_io(void)
-     qdict_put(req, "arguments", args);
-     qdict_put_str(req, "execute", "user_def_cmd2");
-=20
--    ret =3D qobject_to(QDict, test_qmp_dispatch(req));
-+    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
-=20
-     assert(!strcmp(qdict_get_str(ret, "string0"), "blah1"));
-     ret_dict =3D qdict_get_qdict(ret, "dict1");
-@@ -274,12 +274,10 @@ static void test_dispatch_cmd_io(void)
-     qdict_put(req, "arguments", args3);
-     qdict_put_str(req, "execute", "guest-get-time");
-=20
--    ret3 =3D qobject_to(QNum, test_qmp_dispatch(req));
-+    ret3 =3D qobject_to(QNum, do_qmp_dispatch(req, false));
-     g_assert(qnum_get_try_int(ret3, &val));
-     g_assert_cmpint(val, =3D=3D, 66);
-     qobject_unref(ret3);
--
+     qobject_unref(ret);
 -    qobject_unref(req);
  }
 =20
- /* test generated dealloc functions for generated types */
+ /* test commands that return an error due to invalid parameters */
+ static void test_dispatch_cmd_failure(void)
+ {
+-    QDict *req =3D qdict_new();
+-    QDict *args =3D qdict_new();
+-
+-    qdict_put_str(req, "execute", "user_def_cmd2");
+-
+-    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
+-
+-    qobject_unref(req);
+-
+-    /* check that with extra arguments it throws an error */
+-    req =3D qdict_new();
+-    qdict_put_int(args, "a", 66);
+-    qdict_put(req, "arguments", args);
+-
+-    qdict_put_str(req, "execute", "user_def_cmd");
+-
+-    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
+-
+-    qobject_unref(req);
++    /* missing arguments */
++    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR,
++                          "{ 'execute': 'user_def_cmd2' }");
++
++    /* extra arguments */
++    do_qmp_dispatch_error(false, ERROR_CLASS_GENERIC_ERROR,
++                          "{ 'execute': 'user_def_cmd',"
++                          " 'arguments': { 'a': 66 } }");
+ }
+=20
+ static void test_dispatch_cmd_success_response(void)
+@@ -245,26 +242,15 @@ static void test_dispatch_cmd_success_response(void)
+ /* test commands that involve both input parameters and return values */
+ static void test_dispatch_cmd_io(void)
+ {
+-    QDict *req =3D qdict_new();
+-    QDict *args =3D qdict_new();
+-    QDict *args3 =3D qdict_new();
+-    QDict *ud1a =3D qdict_new();
+-    QDict *ud1b =3D qdict_new();
+     QDict *ret, *ret_dict, *ret_dict_dict, *ret_dict_dict_userdef;
+     QDict *ret_dict_dict2, *ret_dict_dict2_userdef;
+     QNum *ret3;
+     int64_t val;
+=20
+-    qdict_put_int(ud1a, "integer", 42);
+-    qdict_put_str(ud1a, "string", "hello");
+-    qdict_put_int(ud1b, "integer", 422);
+-    qdict_put_str(ud1b, "string", "hello2");
+-    qdict_put(args, "ud1a", ud1a);
+-    qdict_put(args, "ud1b", ud1b);
+-    qdict_put(req, "arguments", args);
+-    qdict_put_str(req, "execute", "user_def_cmd2");
+-
+-    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
++    ret =3D qobject_to(QDict, do_qmp_dispatch(false,
++        "{ 'execute': 'user_def_cmd2', 'arguments': {"
++        " 'ud1a': { 'integer': 42, 'string': 'hello' },"
++        " 'ud1b': { 'integer': 422, 'string': 'hello2' } } }"));
+=20
+     assert(!strcmp(qdict_get_str(ret, "string0"), "blah1"));
+     ret_dict =3D qdict_get_qdict(ret, "dict1");
+@@ -281,11 +267,8 @@ static void test_dispatch_cmd_io(void)
+     assert(!strcmp(qdict_get_str(ret_dict_dict2, "string"), "blah4"));
+     qobject_unref(ret);
+=20
+-    qdict_put_int(args3, "a", 66);
+-    qdict_put(req, "arguments", args3);
+-    qdict_put_str(req, "execute", "guest-get-time");
+-
+-    ret3 =3D qobject_to(QNum, do_qmp_dispatch(req, false));
++    ret3 =3D qobject_to(QNum, do_qmp_dispatch(false,
++        "{ 'execute': 'guest-get-time', 'arguments': { 'a': 66 } }"));
+     g_assert(qnum_get_try_int(ret3, &val));
+     g_assert_cmpint(val, =3D=3D, 66);
+     qobject_unref(ret3);
 --=20
 2.21.0
 
