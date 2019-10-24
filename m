@@ -2,47 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B0BE2C26
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:27:57 +0200 (CEST)
-Received: from localhost ([::1]:34918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784D2E2C7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:50:04 +0200 (CEST)
+Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYTL-0004d9-Ib
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
+	id 1iNYol-00077g-In
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKb-00050m-G6
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:54 -0400
+ (envelope-from <w.bumiller@proxmox.com>) id 1iNYOC-0004SO-8D
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:22:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKZ-0005S3-QG
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:53 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:41411 helo=ozlabs.org)
+ (envelope-from <w.bumiller@proxmox.com>) id 1iNYOA-0000lE-U9
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:22:35 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:3405)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNYKZ-0005Mw-Dh; Thu, 24 Oct 2019 04:18:51 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zKrc3xhsz9sSG; Thu, 24 Oct 2019 19:18:38 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1571905120;
- bh=Xs8W+ykQ9G+OhrnzjhaEi48Z3MoKVYbgdQ4As7qwqyY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZdaYAK8oYIcLEuSh3jRxfGvwNzGBup5FKcMbTNwpTVadOJHcyMHzQpVqbUQ7Sp45U
- rPBs90s05XH51Cec0oC6zFSW/8kTxba7vw/WdMB+hBbULNZc1FWufn13xAyAo70tf2
- h8MuUcaEThjsGscl2NFnqfSeDxr0L6qJy7IF5avE=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 27/28] ppc/pnv: Fix naming of routines realizing the CPUs
-Date: Thu, 24 Oct 2019 19:18:12 +1100
-Message-Id: <20191024081813.2115-28-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191024081813.2115-1-david@gibson.dropbear.id.au>
-References: <20191024081813.2115-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <w.bumiller@proxmox.com>)
+ id 1iNYOA-0000jC-Mq; Thu, 24 Oct 2019 04:22:34 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AE566407FB;
+ Thu, 24 Oct 2019 10:12:32 +0200 (CEST)
+From: Wolfgang Bumiller <w.bumiller@proxmox.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] monitor/qmp: resume monitor when clearing its queue
+Date: Thu, 24 Oct 2019 10:12:31 +0200
+Message-Id: <20191024081231.19087-1-w.bumiller@proxmox.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 212.186.127.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,73 +45,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+When a monitor's queue is filled up in handle_qmp_command()
+it gets suspended. It's the dispatcher bh's job currently to
+resume the monitor, which it does after processing an event
+from the queue. However, it is possible for a
+CHR_EVENT_CLOSED event to be processed before before the bh
+is scheduled, which will clear the queue without resuming
+the monitor, thereby preventing the dispatcher from reaching
+the resume() call.
+Any new connections to the qmp socket will be accept()ed and
+show the greeting, but will not respond to any messages sent
+afterwards (as they will not be read from the
+still-suspended socket).
+Fix this by resuming the monitor when clearing a queue which
+was filled up.
 
-The 'vcpu' suffix is inherited from the sPAPR machine. Use better
-names for PowerNV.
-
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20191022163812.330-7-clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
 ---
- hw/ppc/pnv_core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Changes to v1:
+  * Update commit message to include the resulting symptoms.
+  * Moved the resume code from `monitor_qmp_cleanup_req_queue_locked` to
+    `monitor_qmp_cleanup_queues` to avoid an unnecessary resume when
+    destroying the monitor (as the `_locked` version is also used by
+    `monitor_data_destroy()`.
+  * Renamed `monitor_qmp_cleanup_queues` to
+    `monitor_qmp_cleanup_queues_and_resume` to reflect the change and be
+    verbose about it for potential future users of the function.
+    Currently the only user is `monitor_qmp_event()` in the
+    `CHR_EVENT_CLOSED` case, which is exactly the problematic case curren=
+tly.
 
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index be0310ac03..e81cd3a3e0 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -162,7 +162,7 @@ static const MemoryRegionOps pnv_core_power9_xscom_op=
-s =3D {
-     .endianness =3D DEVICE_BIG_ENDIAN,
- };
-=20
--static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvChip *chip, Error **err=
-p)
-+static void pnv_core_cpu_realize(PowerPCCPU *cpu, PnvChip *chip, Error *=
-*errp)
- {
-     CPUPPCState *env =3D &cpu->env;
-     int core_pir;
-@@ -247,7 +247,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
+Sorry for the deleay :|
+
+ monitor/qmp.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 9d9e5d8b27..df689aa95e 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -75,10 +75,30 @@ static void monitor_qmp_cleanup_req_queue_locked(Moni=
+torQMP *mon)
      }
-=20
-     for (j =3D 0; j < cc->nr_threads; j++) {
--        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
-+        pnv_core_cpu_realize(pc->threads[j], pc->chip, &local_err);
-         if (local_err) {
-             goto err;
-         }
-@@ -269,7 +269,7 @@ err:
-     error_propagate(errp, local_err);
  }
 =20
--static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
-+static void pnv_core_cpu_unrealize(PowerPCCPU *cpu)
+-static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
++static void monitor_qmp_cleanup_queues_and_resume(MonitorQMP *mon)
  {
-     PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-=20
-@@ -289,7 +289,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
-     qemu_unregister_reset(pnv_core_reset, pc);
-=20
-     for (i =3D 0; i < cc->nr_threads; i++) {
--        pnv_unrealize_vcpu(pc->threads[i]);
-+        pnv_core_cpu_unrealize(pc->threads[i]);
-     }
-     g_free(pc->threads);
+     qemu_mutex_lock(&mon->qmp_queue_lock);
++
++    /*
++     * Same condition as in monitor_qmp_bh_dispatcher(), but before remo=
+ving an
++     * element from the queue (hence no `- 1`), also, the queue should n=
+ot be
++     * empty either, otherwise the monitor hasn't been suspended yet (or=
+ was
++     * already resumed).
++     */
++    bool need_resume =3D (!qmp_oob_enabled(mon) && mon->qmp_requests->le=
+ngth > 0)
++        || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
++
+     monitor_qmp_cleanup_req_queue_locked(mon);
++
++    if (need_resume) {
++        /*
++         * Pairs with the monitor_suspend() in handle_qmp_command() in c=
+ase the
++         * queue gets cleared from a CH_EVENT_CLOSED event before the di=
+spatch
++         * bh got scheduled.
++         */
++        monitor_resume(&mon->common);
++    }
++
+     qemu_mutex_unlock(&mon->qmp_queue_lock);
  }
+=20
+@@ -332,7 +352,7 @@ static void monitor_qmp_event(void *opaque, int event=
+)
+          * stdio, it's possible that stdout is still open when stdin
+          * is closed.
+          */
+-        monitor_qmp_cleanup_queues(mon);
++        monitor_qmp_cleanup_queues_and_resume(mon);
+         json_message_parser_destroy(&mon->parser);
+         json_message_parser_init(&mon->parser, handle_qmp_command,
+                                  mon, NULL);
 --=20
-2.21.0
+2.20.1
+
 
 
