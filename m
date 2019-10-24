@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CE9E3168
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:50:53 +0200 (CEST)
-Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC110E3188
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:54:15 +0200 (CEST)
+Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbdj-0006IR-P9
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53968)
+	id 1iNbh0-0007T9-Io
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaGY-0002AN-Gf
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:51 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGZ-0002CL-2L
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaGW-00045m-BC
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGX-00046W-VW
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:50 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33705)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39957)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNaGW-00045D-4o
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:48 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s1so16670546wro.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:48 -0700 (PDT)
+ id 1iNaGX-000467-PE
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:49 -0400
+Received: by mail-wr1-x436.google.com with SMTP id o28so25415720wro.7
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=To1y6osBAB74ZdPanXvzGu0hmS7AhXWKsdyOl06cDGM=;
- b=aA8bhEtjrDcmWFgVQMq5HMDOBRpV3DEJO/pOlvSX0VFp/Lnqs4Bx1u06x2BVEG37fD
- 0Zw4fORCBtun7I8V8gPSkGEPVAAIvtxxzo/nO0UpNFygjo2gXVZhva3/9etLW9krG+QY
- LaicMqeVTscNDfMx2/+m0xr3+vu12Woawbeg6XCY4XLUF27iBIO1tTxrY6fI9E8dkPw+
- n7hpjj47fjcIIpt454qoRII/EaoarNTgC7UlZXy65rmBCJDCywwABab+lwdece9h7v2p
- 161pw59/p5NOTZrOeHshJtkn+lDUdr3P925Tmct7ralWBGb+Kq1mY6BU2rBvGSvZ2yAT
- AvpA==
+ bh=Vc+nT+KPxCdxDvyWLTbHjSdRMwRfzVEoPYWOARbj278=;
+ b=FkSqSfkpevpI1wqK9zemfKDT2uqJPGv4Mceb1UjqvO0GHA98U4zPu2pAzNRV7d81L8
+ EAE38ZYb+icDlGiPM98fm8MCZwc1kg4vdHaaB1nR0HxyjFW3iFbCp2vVLSY2ci3qHkDJ
+ fnIRB1bLfM+S5457Da2uUkkYuc9Zu1WPHgObkMBXrTsKI5UCk+c09YPq/eixeEbuwZmE
+ G/6Wc49yE9JRBi6ePl1o73d4f3NVk11hj4JAZD3e7usZsU4O1GZLDc/V/SWuOj2FoTmI
+ 3IWopQjulRia1Rn9HAmlRG7pqnykyWU9lCOfv6T+U6LUEtIxXq+7tabcoTMk4hlXz1GO
+ 6vDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=To1y6osBAB74ZdPanXvzGu0hmS7AhXWKsdyOl06cDGM=;
- b=eQVifnE803FNslmMkF3CW7+P42FldqfL7odXmOHJIdnsNe1SVN2PYMgSrFEaYxh0Lk
- 7uOGJ0FUlG8akthqgZCmUYZFeJ/xJGe7qgmRiD9lSV8pQiKUkFYBQQ+1j+nzppYabE5m
- Y5viUDfWTmHxGCAQQDAKXf8oKbOiT+cfEkXW9byS8KcMOtkrdJKMTtW04hj8X6ypZHjt
- 5zn1zDpNk97s0kW7b13tfbpX+8t8LoXChTCD7KecFu+fR3LHFa/bhUBh8aC3BIevNbiQ
- WznbQMpT7QDtQ473kDIHEX8ZDSzwpytlJTEl1u4EwUVtm2KwFsHD4ZBXfEAp8lBRGkfw
- QlJQ==
-X-Gm-Message-State: APjAAAWWsZjHBFZqX3fxCVOT7roIGpGY8cdMXyMBQeTLw/8b9k+YWdXJ
- 2jm5GpIkMa08dn4q3Xk4f6qyGQ==
-X-Google-Smtp-Source: APXvYqxmKQJUDWH+zc/G20e+c0TqsBQuHUjh3LwNLX2r0+qaym7ptlW9wqtjnEXK/x9jmGUJykpscw==
-X-Received: by 2002:adf:f192:: with SMTP id h18mr3331237wro.148.1571912567017; 
- Thu, 24 Oct 2019 03:22:47 -0700 (PDT)
+ bh=Vc+nT+KPxCdxDvyWLTbHjSdRMwRfzVEoPYWOARbj278=;
+ b=ih5XZgugI8o1KbEdi6Ajd9F0oH1uHucUUBd+coxrgq4ZMmKHBcCUaLP0tFK7tSrL0C
+ u7EhD83s9RBOHoHz6FsBd4Cj3zKi7zFliAP2NjkHzar8zX9kXfPnysUTgZ16UEcopEx1
+ +P4RzDXt7ehJ+8AhmfuMWpoLrJturx7Mtvr7mBy6FAtBkOB9NDGshG3q1wmNoyxWWiWS
+ JnfqHJFKGZhGeLUUmMKSWWOkB7+sHgmWkCJShGzM5fWkhoz146t1qPM9+sGqQTj/TGW8
+ SNCypBFrXs2LT8HfLLMEzZWjyVEj3e+38u3ViPYPOm8zBjt+Vz/KSpkYoYkP6x9S088E
+ mdlA==
+X-Gm-Message-State: APjAAAVOT6aFuS+rn7VfCNKbzpGJcWI0bmxAJxQkdNiRigLKv+WFoejo
+ nzBb4SMGLfxYcA1Ypx5mnhC8HQ==
+X-Google-Smtp-Source: APXvYqyyXgihKfQtTYzgoOjOJXlxigrT6rk8FLysYYp5FmuyjidjFJwKmlIXncTc/mX5Goz8W5Qlcw==
+X-Received: by 2002:adf:f90d:: with SMTP id b13mr3036440wrr.316.1571912568619; 
+ Thu, 24 Oct 2019 03:22:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q6sm4845037wrx.30.2019.10.24.03.22.42
+ by smtp.gmail.com with ESMTPSA id r5sm8010904wrs.57.2019.10.24.03.22.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 03:22:45 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D5EAE1FF93;
- Thu, 24 Oct 2019 11:22:40 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0EBA11FF98;
+ Thu, 24 Oct 2019 11:22:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 06/17] travis.yml: Test the release tarball
-Date: Thu, 24 Oct 2019 11:22:29 +0100
-Message-Id: <20191024102240.2778-7-alex.bennee@linaro.org>
+Subject: [PATCH  v2 08/17] travis.yml: bump Xcode 10 to latest dot release
+Date: Thu, 24 Oct 2019 11:22:31 +0100
+Message-Id: <20191024102240.2778-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024102240.2778-1-alex.bennee@linaro.org>
 References: <20191024102240.2778-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,63 +82,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+According to:
 
-Add a job to generate the release tarball and build/install few
-QEMU targets from it.
+  https://docs.travis-ci.com/user/reference/osx/#macos-version
 
-Ideally we should build the 'efi' target from the 'roms' directory,
-but it is too time consuming.
+we have 10.3 available so lets use it. I don't know what Apple's
+deprecation policy is for Xcode because it requires an AppleID to find
+out.
 
-This job is only triggered when a tag starting with 'v' is pushed,
-which is the case with release candidate tags.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191007160450.3619-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .travis.yml | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index 7e0d4ad2b31..f2b679fe701 100644
+index f2b679fe701..da6a2063fca 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -343,3 +343,26 @@ matrix:
-         - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-         - TEST_CMD="make -j3 check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+
-+
-+    # Release builds
-+    # The make-release script expect a QEMU version, so our tag must start with a 'v'.
-+    # This is the case when release candidate tags are created.
-+    - if: tag IS present AND tag =~ /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-+      env:
-+        # We want to build from the release tarball
-+        - BUILD_DIR="release/build/dir" SRC_DIR="../../.."
-+        - BASE_CONFIG="--prefix=$PWD/dist"
-+        - CONFIG="--target-list=x86_64-softmmu,aarch64-softmmu,armeb-linux-user,ppc-linux-user"
-+        - TEST_CMD="make install -j3"
-+        - QEMU_VERSION="${TRAVIS_TAG:1}"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+      before_script:
-+        - command -v ccache && ccache --zero-stats
-+        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-+      script:
-+        - make -C ${SRC_DIR} qemu-${QEMU_VERSION}.tar.bz2
-+        - ls -l ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2
-+        - tar -xf ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2 && cd qemu-${QEMU_VERSION}
-+        - ./configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
-+        - make install
+@@ -247,7 +247,7 @@ matrix:
+     - env:
+         - CONFIG="--target-list=i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu"
+       os: osx
+-      osx_image: xcode10.2
++      osx_image: xcode10.3
+       compiler: clang
+ 
+ 
 -- 
 2.20.1
 
