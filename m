@@ -2,46 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEF1E3546
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:13:48 +0200 (CEST)
-Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A81E3501
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:06:25 +0200 (CEST)
+Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNds2-0008HN-I4
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52295)
+	id 1iNdkt-0000pf-IR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1iNcl4-0006Eg-Tm
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:32 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKc-0003dy-D3
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1iNcl2-0003G7-Mx
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:30 -0400
-Received: from mga11.intel.com ([192.55.52.93]:40489)
+ (envelope-from <armbru@redhat.com>) id 1iNcKa-00062D-OG
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45886
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNcl2-0002NX-Bn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:28 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 06:02:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156343"
-Received: from iov.bj.intel.com ([10.238.145.67])
- by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:02:09 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
- alex.williamson@redhat.com, peterx@redhat.com
-Subject: [RFC v2 21/22] intel_iommu: propagate PASID-based iotlb invalidation
- to host
-Date: Thu, 24 Oct 2019 08:34:42 -0400
-Message-Id: <1571920483-3382-22-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKa-00061Y-KB
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571920507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=08Z/3vDLTmPV8Cw6RGFpxwEZ6+GbT4mvXHnI+luovaI=;
+ b=PNJZem0I/dgBMNEOnV7l97LHIRSE7EVHj1phVQMUI3XDHwo3xjqLJV1wJVrYF7C1RvCFDF
+ 0TLReh4TVypEtS8un1KVLDn505ec2Oj9f/ZRKYERwpmaqIGPu+7Ioz77TvnkiYBishUhRE
+ BWiFIQNSwSM7sLUJnXWwA1pWIv9SEaI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-lChZL-3nMb-5lc6j2pM_5w-1; Thu, 24 Oct 2019 08:35:04 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EB4F476;
+ Thu, 24 Oct 2019 12:35:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F7CB4523;
+ Thu, 24 Oct 2019 12:35:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 078BA1132A05; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 04/19] tests/test-qmp-event: Simplify test data setup
+Date: Thu, 24 Oct 2019 14:34:43 +0200
+Message-Id: <20191024123458.13505-5-armbru@redhat.com>
+In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
+References: <20191024123458.13505-1-armbru@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: lChZL-3nMb-5lc6j2pM_5w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,201 +72,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com, jacob.jun.pan@linux.intel.com,
- david@gibson.dropbear.id.au
+Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch propagates PASID-based iotlb invalidation to host.
+Building expected data with qdict_put() & friends is tedious to write
+and hard to read.  Parse them from string literals with
+qdict_from_jsonf_nofail() instead.
 
-Intel VT-d 3.0 supports nested translation in PASID granularity. For guest
-SVA support, nested translation is enabled for specific PASID. This is also
-known as dual stage translation which gives better virtualization support.
+While there, use initializers instead of assignments for initializing
+aggregate event arguments.
 
-Under such configuration, guest owns the GVA->GPA translation which is
-configured as first level page table in host side for a specific pasid, and
-host owns GPA->HPA translation. As guest owns first level translation table,
-piotlb invalidation should be propagated to host since host IOMMU will cache
-first level page table related mappings during DMA address translation.
-
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/i386/intel_iommu.c          | 127 +++++++++++++++++++++++++++++++++++++++++
- hw/i386/intel_iommu_internal.h |   7 +++
- 2 files changed, 134 insertions(+)
+ tests/test-qmp-event.c | 93 ++++++++++++------------------------------
+ 1 file changed, 27 insertions(+), 66 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 6cd922f..5ca9ee1 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3092,15 +3092,142 @@ static bool vtd_process_pasid_desc(IntelIOMMUState *s,
-     return (ret == 0) ? true : false;
+diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
+index eee7e08ab6..430001e622 100644
+--- a/tests/test-qmp-event.c
++++ b/tests/test-qmp-event.c
+@@ -17,6 +17,7 @@
+ #include "qapi/error.h"
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qjson.h"
+ #include "qapi/qmp/qnum.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qapi/qmp-event.h"
+@@ -124,17 +125,13 @@ static void event_prepare(TestEventData *data,
+     /* Global variable test_event_data was used to pass the expectation, s=
+o
+        test cases can't be executed at same time. */
+     g_mutex_lock(&test_event_lock);
+-
+-    data->expect =3D qdict_new();
+     test_event_data =3D data;
  }
- 
-+static void vtd_invalidate_piotlb(IntelIOMMUState *s, VTDBus *vtd_bus,
-+                                  int devfn, IOMMUCTXCacheInvInfo *inv_info)
-+{
-+#ifdef __linux__
-+    VTDIOMMUContext *vtd_ic;
-+    IOMMUCTXEventData event_data;
-+    vtd_ic = vtd_bus->dev_ic[devfn];
-+    if (!vtd_ic) {
-+        return;
-+    }
-+    event_data.event = IOMMU_CTX_EVENT_CACHE_INV;
-+    event_data.data = inv_info;
-+    iommu_ctx_event_notify(&vtd_ic->iommu_context, &event_data);
-+#endif
-+}
-+
-+static inline bool vtd_pasid_cache_valid(
-+                          VTDPASIDAddressSpace *vtd_pasid_as)
-+{
-+    return (vtd_pasid_as->iommu_state->pasid_cache_gen &&
-+            (vtd_pasid_as->iommu_state->pasid_cache_gen
-+             == vtd_pasid_as->pasid_cache_entry.pasid_cache_gen));
-+}
-+
-+/**
-+ * This function is a loop function for the s->vtd_pasid_as
-+ * list with VTDPIOTLBInvInfo as execution filter. It propagates
-+ * the piotlb invalidation to host. Caller of this function
-+ * should hold iommu_lock.
-+ */
-+static void vtd_flush_pasid_iotlb(gpointer key, gpointer value,
-+                                  gpointer user_data)
-+{
-+    VTDPIOTLBInvInfo *piotlb_info = user_data;
-+    VTDPASIDAddressSpace *vtd_pasid_as = value;
-+    uint16_t did;
-+
-+    /*
-+     * Needs to check whether the pasid entry cache stored in
-+     * vtd_pasid_as is valid or not. "invalid" means the pasid
-+     * cache has been flushed, thus host should have done piotlb
-+     * invalidation together with a pasid cache invalidation, so
-+     * no need to pass down piotlb invalidation to host for better
-+     * performance. Only when pasid entry cache is "valid", should
-+     * a piotlb invalidation be propagated to host since it means
-+     * guest just modified a mapping in its page table.
-+     */
-+    if (!vtd_pasid_cache_valid(vtd_pasid_as)) {
-+        return;
-+    }
-+
-+    did = vtd_pe_get_domain_id(
-+                &(vtd_pasid_as->pasid_cache_entry.pasid_entry));
-+
-+    if ((piotlb_info->domain_id == did) &&
-+        (piotlb_info->pasid == vtd_pasid_as->pasid)) {
-+        vtd_invalidate_piotlb(vtd_pasid_as->iommu_state,
-+                              vtd_pasid_as->vtd_bus,
-+                              vtd_pasid_as->devfn,
-+                              &piotlb_info->inv_info);
-+    }
-+
-+    /*
-+     * TODO: needs to add QEMU piotlb flush when QEMU piotlb
-+     * infrastructure is ready. For now, it is enough for passthru
-+     * devices.
-+     */
-+}
-+
- static void vtd_piotlb_pasid_invalidate(IntelIOMMUState *s,
-                                         uint16_t domain_id,
-                                         uint32_t pasid)
+=20
+ static void event_teardown(TestEventData *data,
+                            const void *unused)
  {
-+#ifdef __linux__
-+    VTDPIOTLBInvInfo piotlb_info;
-+    struct iommu_cache_invalidate_info *cache_info;
-+    IOMMUCTXCacheInvInfo *inv_info = &piotlb_info.inv_info;
-+
-+    cache_info = g_malloc0(sizeof(*cache_info));
-+    cache_info->version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
-+    cache_info->cache = IOMMU_CACHE_INV_TYPE_IOTLB;
-+    cache_info->granularity = IOMMU_INV_GRANU_PASID;
-+    cache_info->pasid_info.pasid = pasid;
-+    cache_info->pasid_info.flags = IOMMU_INV_PASID_FLAGS_PASID;
-+    inv_info->info = cache_info;
-+    piotlb_info.domain_id = domain_id;
-+    piotlb_info.pasid = pasid;
-+
-+    vtd_iommu_lock(s);
-+    /*
-+     * Here loops all the vtd_pasid_as instances in s->vtd_pasid_as
-+     * to find out the affected devices since piotlb invalidation
-+     * should check pasid cache per architecture point of view.
-+     */
-+    g_hash_table_foreach(s->vtd_pasid_as,
-+                         vtd_flush_pasid_iotlb, &piotlb_info);
-+    vtd_iommu_unlock(s);
-+
-+    g_free(cache_info);
-+#endif
+-    qobject_unref(data->expect);
+     test_event_data =3D NULL;
+-
+     g_mutex_unlock(&test_event_lock);
  }
- 
- static void vtd_piotlb_page_invalidate(IntelIOMMUState *s, uint16_t domain_id,
-                              uint32_t pasid, hwaddr addr, uint8_t am, bool ih)
+=20
+@@ -152,90 +149,54 @@ static void event_test_add(const char *testpath,
+ static void test_event_a(TestEventData *data,
+                          const void *unused)
  {
-+#ifdef __linux__
-+    VTDPIOTLBInvInfo piotlb_info;
-+    struct iommu_cache_invalidate_info *cache_info;
-+    IOMMUCTXCacheInvInfo *inv_info = &piotlb_info.inv_info;
-+
-+    cache_info = g_malloc0(sizeof(*cache_info));
-+    cache_info->version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
-+    cache_info->cache = IOMMU_CACHE_INV_TYPE_IOTLB;
-+    cache_info->granularity = IOMMU_INV_GRANU_ADDR;
-+    cache_info->addr_info.flags = IOMMU_INV_ADDR_FLAGS_PASID;
-+    cache_info->addr_info.flags |= ih ? IOMMU_INV_ADDR_FLAGS_LEAF : 0;
-+    cache_info->addr_info.pasid = pasid;
-+    cache_info->addr_info.addr = addr;
-+    cache_info->addr_info.granule_size = 1 << (12 + am);
-+    cache_info->addr_info.nb_granules = 1;
-+    inv_info->info = cache_info;
-+    piotlb_info.domain_id = domain_id;
-+    piotlb_info.pasid = pasid;
-+
-+    vtd_iommu_lock(s);
-+    /*
-+     * Here loops all the vtd_pasid_as instances in s->vtd_pasid_as
-+     * to find out the affected devices since piotlb invalidation
-+     * should check pasid cache per architecture point of view.
-+     */
-+    g_hash_table_foreach(s->vtd_pasid_as,
-+                         vtd_flush_pasid_iotlb, &piotlb_info);
-+    vtd_iommu_unlock(s);
-+
-+    g_free(cache_info);
-+#endif
+-    QDict *d;
+-    d =3D data->expect;
+-    qdict_put_str(d, "event", "EVENT_A");
++    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
+     qapi_event_send_event_a();
++    qobject_unref(data->expect);
  }
- 
- static bool vtd_process_piotlb_desc(IntelIOMMUState *s,
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index eddfe54..6a83f6c 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -516,6 +516,13 @@ struct VTDPASIDCacheInfo {
- };
- typedef struct VTDPASIDCacheInfo VTDPASIDCacheInfo;
- 
-+struct VTDPIOTLBInvInfo {
-+    uint16_t domain_id;
-+    uint32_t pasid;
-+    IOMMUCTXCacheInvInfo inv_info;
-+};
-+typedef struct VTDPIOTLBInvInfo VTDPIOTLBInvInfo;
-+
- /* Masks for struct VTDRootEntry */
- #define VTD_ROOT_ENTRY_P            1ULL
- #define VTD_ROOT_ENTRY_CTP          (~0xfffULL)
--- 
-2.7.4
+=20
+ static void test_event_b(TestEventData *data,
+                          const void *unused)
+ {
+-    QDict *d;
+-    d =3D data->expect;
+-    qdict_put_str(d, "event", "EVENT_B");
++    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
+     qapi_event_send_event_b();
++    qobject_unref(data->expect);
+ }
+=20
+ static void test_event_c(TestEventData *data,
+                          const void *unused)
+ {
+-    QDict *d, *d_data, *d_b;
+-
+-    UserDefOne b;
+-    b.integer =3D 2;
+-    b.string =3D g_strdup("test1");
+-    b.has_enum1 =3D false;
+-
+-    d_b =3D qdict_new();
+-    qdict_put_int(d_b, "integer", 2);
+-    qdict_put_str(d_b, "string", "test1");
+-
+-    d_data =3D qdict_new();
+-    qdict_put_int(d_data, "a", 1);
+-    qdict_put(d_data, "b", d_b);
+-    qdict_put_str(d_data, "c", "test2");
+-
+-    d =3D data->expect;
+-    qdict_put_str(d, "event", "EVENT_C");
+-    qdict_put(d, "data", d_data);
++    UserDefOne b =3D { .integer =3D 2, .string =3D (char *)"test1" };
+=20
++    data->expect =3D qdict_from_jsonf_nofail(
++        "{ 'event': 'EVENT_C', 'data': {"
++        " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2' }=
+ }");
+     qapi_event_send_event_c(true, 1, true, &b, "test2");
+-
+-    g_free(b.string);
++    qobject_unref(data->expect);
+ }
+=20
+ /* Complex type */
+ static void test_event_d(TestEventData *data,
+                          const void *unused)
+ {
+-    UserDefOne struct1;
+-    EventStructOne a;
+-    QDict *d, *d_data, *d_a, *d_struct1;
+-
+-    struct1.integer =3D 2;
+-    struct1.string =3D g_strdup("test1");
+-    struct1.has_enum1 =3D true;
+-    struct1.enum1 =3D ENUM_ONE_VALUE1;
+-
+-    a.struct1 =3D &struct1;
+-    a.string =3D g_strdup("test2");
+-    a.has_enum2 =3D true;
+-    a.enum2 =3D ENUM_ONE_VALUE2;
+-
+-    d_struct1 =3D qdict_new();
+-    qdict_put_int(d_struct1, "integer", 2);
+-    qdict_put_str(d_struct1, "string", "test1");
+-    qdict_put_str(d_struct1, "enum1", "value1");
+-
+-    d_a =3D qdict_new();
+-    qdict_put(d_a, "struct1", d_struct1);
+-    qdict_put_str(d_a, "string", "test2");
+-    qdict_put_str(d_a, "enum2", "value2");
+-
+-    d_data =3D qdict_new();
+-    qdict_put(d_data, "a", d_a);
+-    qdict_put_str(d_data, "b", "test3");
+-    qdict_put_str(d_data, "enum3", "value3");
+-
+-    d =3D data->expect;
+-    qdict_put_str(d, "event", "EVENT_D");
+-    qdict_put(d, "data", d_data);
++    UserDefOne struct1 =3D {
++        .integer =3D 2, .string =3D (char *)"test1",
++        .has_enum1 =3D true, .enum1 =3D ENUM_ONE_VALUE1,
++    };
++    EventStructOne a =3D {
++        .struct1 =3D &struct1,
++        .string =3D (char *)"test2",
++        .has_enum2 =3D true,
++        .enum2 =3D ENUM_ONE_VALUE2,
++    };
+=20
++    data->expect =3D qdict_from_jsonf_nofail(
++        "{ 'event': 'EVENT_D', 'data': {"
++        " 'a': {"
++        "  'struct1': { 'integer': 2, 'string': 'test1', 'enum1': 'value1'=
+ },"
++        "  'string': 'test2', 'enum2': 'value2' },"
++        " 'b': 'test3', 'enum3': 'value3' } }");
+     qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VALUE=
+3);
+-
+-    g_free(struct1.string);
+-    g_free(a.string);
++    qobject_unref(data->expect);
+ }
+=20
+ int main(int argc, char **argv)
+--=20
+2.21.0
 
 
