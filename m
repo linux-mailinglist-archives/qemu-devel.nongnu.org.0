@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CAAE39A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:16:45 +0200 (CEST)
-Received: from localhost ([::1]:48484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B4AE39D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:25:05 +0200 (CEST)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgj5-0003LV-RF
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
+	id 1iNgrA-0000bx-2n
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:25:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfyA-00083o-HY
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfyB-00084g-8C
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfy8-0000zG-6V
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:14 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46811)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfy9-000103-9l
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:15 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34424)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfy7-0000yH-U4
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:12 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n15so16010305wrw.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:11 -0700 (PDT)
+ id 1iNfy9-0000ze-2E
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:13 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t16so21672585wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BcKgN/Z0ywVj7mxh6SURNZkc+EcubD4TLlWRL+FxQrM=;
- b=AtlSwa1qaYRQxRcDEgb7lnbdiA/6yOckTpiXSC8zhgfkluAHRcWFH8nBszBBIHsJZ5
- T4z+yZ6y36P3jKVvTpQ4iorhCJCLQCHlyQeWTuIgx8yziZSxtRAz1ETUNXXJTET99kI0
- pFFvCVdO5PoSzmoqCmeuIQMA6pA7+objSt1IrPUMLSU5hTcONrIOhB8S9rzaprxtfPgZ
- o0wvXfT5LvD4P0Raj4gDOCzA1rdviBJDGmv6o/wVCoyAz7SSh/AqTLY4a0lT3bY/ePkj
- pmNnVoL6iyWsKDd4zdPIylGGpq6iKiCMLzQUfUIvEWwkY8/i0HITAy+oG7Pbf6wFafLX
- XSeA==
+ bh=1ppvb5bxHlUarLcdtxXV3E1gkwxQBUxp+2P7V8J9BmA=;
+ b=FrbNTW8kPH2/+8FuqoRH5jHzrzyhFI36zkldr5BkVH52m+hv9r9/Li3pHgXIijtc3t
+ MOIrzLegS9liLAZPGpMlAWleXVAd5b1wTqO1SiIAwUQ1EgrERRnHEPzkqDjkeN4r8nVo
+ cp1r7GZyYuTHfvEpk7iIKAUgohFmFMyRJYvcOLa8YMgKQcAqP1Eul72P9tXnvBQQEVFr
+ +Wiqp4V3S9EiSgsbVWWtzVQdzlFLfC4mx7bINPk5A+EvO2BUVRG+Bne7EkHMmeORRwAM
+ XvL32Kp0i+u8LRPpql3zbJzHaxH19PBhteHZG937ClHm6eivDTmSEQHmVtxjoCI33OxW
+ S2iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BcKgN/Z0ywVj7mxh6SURNZkc+EcubD4TLlWRL+FxQrM=;
- b=L4ly5Gb34yc26rQ+tfMDM5prltMgoi8+dT3rp11GfdQT6N3huiEv/yJgQ1PYAo6vsC
- wNkY4YU0pNEPxOvfts9sCiNdTIZklC8LbQxuqfVCrK4AWr06qwwQFCKNcMfQWe0LLfBJ
- 6YkyZD3dhwpH+yEgiWHYkfRNIZxq4Wf8q1vm+ldwvxNH0peoTYqJySeDGVlRXpJt4TGV
- kvcryoGbBPl3YU66g+b7VUYDsQLEbJKnl7qnXkeJZgGUWcIGOquffzMUx8I1FBKHyNOM
- qGU8fXEn+jxyYNKq08IoIYjh3aaLA7hDA5d10GODAxWEs7LQTCAX7KzhQsdZkFMXzkHb
- ULSg==
-X-Gm-Message-State: APjAAAWUDJeagEH9fIyGi2X3h0c38llmrb0QHIrS+dJl09YUork+zx5L
- +G4rLUrjqIRL+5k38GuVOLEsdc+B1D4=
-X-Google-Smtp-Source: APXvYqzOsXOX1YCzlMzbqzQS0DG/BAjCkF5BTX4FNvgmnqbqRa4WsECs5ADoLQvLOTA1k3yXRno0FA==
-X-Received: by 2002:a5d:624f:: with SMTP id m15mr4252626wrv.59.1571934490343; 
- Thu, 24 Oct 2019 09:28:10 -0700 (PDT)
+ bh=1ppvb5bxHlUarLcdtxXV3E1gkwxQBUxp+2P7V8J9BmA=;
+ b=RNse6/aoCHwpulfliJ3ydHPxJRmPb57jxN4fa2tDqSxIOwMNB8x120BU4JbGh4TiBV
+ 7W+ic0gir3CltXPn30BCS5df4aT+IT4ARFRUgMu5WAf1m5EIwTHvyRmQAeggUP9A4zw5
+ eCv0rpmTrxYSvmy2DQyzGnbkGmgPNWr8RuaxK44Y0c4eD3TU0SsoeIuvfYhi/1VirUJ6
+ BA05wgKH3eKk427Bq7Ehcm07vIVEfVhn/5WuVCNjPCI+5lKNmj4N6vJxmDVkx0UKOm1G
+ BL5Y69yGMLzW5qsmMYxud9mbTH+yyrszdBPPKhxpNat/uYe7V8ZHf8R4YJxq+VxRDqY2
+ 6mRg==
+X-Gm-Message-State: APjAAAXJFtyeNTTsAAnXl6EExEX9m6EZVgOP/+YAjge1u/0fZQXR+AOu
+ USpnPitzaguafKLqDanaPudmn5aP15w=
+X-Google-Smtp-Source: APXvYqxAbeRZ8WMdYcCthF1CDavoKNw1sRkdCXJ+dovoGHNbR4OPkNL6H7qrMkwq/E9AgcVNcicgKg==
+X-Received: by 2002:adf:e7c9:: with SMTP id e9mr4595384wrn.261.1571934491718; 
+ Thu, 24 Oct 2019 09:28:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.09
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:09 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/51] target/arm/monitor: Introduce
- qmp_query_cpu_model_expansion
-Date: Thu, 24 Oct 2019 17:27:08 +0100
-Message-Id: <20191024162724.31675-36-peter.maydell@linaro.org>
+Subject: [PULL 36/51] tests: arm: Introduce cpu feature tests
+Date: Thu, 24 Oct 2019 17:27:09 +0100
+Message-Id: <20191024162724.31675-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,372 +83,295 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Jones <drjones@redhat.com>
 
-Add support for the query-cpu-model-expansion QMP command to Arm. We
-do this selectively, only exposing CPU properties which represent
-optional CPU features which the user may want to enable/disable.
-Additionally we restrict the list of queryable cpu models to 'max',
-'host', or the current type when KVM is in use. And, finally, we only
-implement expansion type 'full', as Arm does not yet have a "base"
-CPU type. More details and example queries are described in a new
-document (docs/arm-cpu-features.rst).
-
-Note, certainly more features may be added to the list of advertised
-features, e.g. 'vfp' and 'neon'. The only requirement is that we can
-detect invalid configurations and emit failures at QMP query time.
-For 'vfp' and 'neon' this will require some refactoring to share a
-validation function between the QMP query and the CPU realize
-functions.
+Now that Arm CPUs have advertised features lets add tests to ensure
+we maintain their expected availability with and without KVM.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Beata Michalska <beata.michalska@linaro.org>
-Message-id: 20191024121808.9612-2-drjones@redhat.com
+Message-id: 20191024121808.9612-3-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qapi/machine-target.json  |   6 +-
- target/arm/monitor.c      | 146 ++++++++++++++++++++++++++++++++++++++
- docs/arm-cpu-features.rst | 137 +++++++++++++++++++++++++++++++++++
- 3 files changed, 286 insertions(+), 3 deletions(-)
- create mode 100644 docs/arm-cpu-features.rst
+ tests/Makefile.include   |   5 +-
+ tests/arm-cpu-features.c | 240 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 244 insertions(+), 1 deletion(-)
+ create mode 100644 tests/arm-cpu-features.c
 
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index 55310a6aa22..04623224720 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -212,7 +212,7 @@
- ##
- { 'struct': 'CpuModelExpansionInfo',
-   'data': { 'model': 'CpuModelInfo' },
--  'if': 'defined(TARGET_S390X) || defined(TARGET_I386)' }
-+  'if': 'defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET_ARM)' }
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 09e5b410dca..d71188f251b 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -262,6 +262,7 @@ check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) = tests/endianness-test$(EXESUF)
+ check-qtest-sparc64-y += tests/prom-env-test$(EXESUF)
+ check-qtest-sparc64-y += tests/boot-serial-test$(EXESUF)
  
- ##
- # @query-cpu-model-expansion:
-@@ -237,7 +237,7 @@
- #   query-cpu-model-expansion while using these is not advised.
- #
- # Some architectures may not support all expansion types. s390x supports
--# "full" and "static".
-+# "full" and "static". Arm only supports "full".
- #
- # Returns: a CpuModelExpansionInfo. Returns an error if expanding CPU models is
- #          not supported, if the model cannot be expanded, if the model contains
-@@ -251,7 +251,7 @@
-   'data': { 'type': 'CpuModelExpansionType',
-             'model': 'CpuModelInfo' },
-   'returns': 'CpuModelExpansionInfo',
--  'if': 'defined(TARGET_S390X) || defined(TARGET_I386)' }
-+  'if': 'defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET_ARM)' }
++check-qtest-arm-y += tests/arm-cpu-features$(EXESUF)
+ check-qtest-arm-y += tests/microbit-test$(EXESUF)
+ check-qtest-arm-y += tests/m25p80-test$(EXESUF)
+ check-qtest-arm-y += tests/test-arm-mptimer$(EXESUF)
+@@ -269,7 +270,8 @@ check-qtest-arm-y += tests/boot-serial-test$(EXESUF)
+ check-qtest-arm-y += tests/hexloader-test$(EXESUF)
+ check-qtest-arm-$(CONFIG_PFLASH_CFI02) += tests/pflash-cfi02-test$(EXESUF)
  
- ##
- # @CpuDefinitionInfo:
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 6457c3c87f7..560970de7f5 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -21,8 +21,16 @@
-  */
+-check-qtest-aarch64-y = tests/numa-test$(EXESUF)
++check-qtest-aarch64-y += tests/arm-cpu-features$(EXESUF)
++check-qtest-aarch64-y += tests/numa-test$(EXESUF)
+ check-qtest-aarch64-y += tests/boot-serial-test$(EXESUF)
+ check-qtest-aarch64-y += tests/migration-test$(EXESUF)
+ # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make test unconditional
+@@ -835,6 +837,7 @@ tests/test-qapi-util$(EXESUF): tests/test-qapi-util.o $(test-util-obj-y)
+ tests/numa-test$(EXESUF): tests/numa-test.o
+ tests/vmgenid-test$(EXESUF): tests/vmgenid-test.o tests/boot-sector.o tests/acpi-utils.o
+ tests/cdrom-test$(EXESUF): tests/cdrom-test.o tests/boot-sector.o $(libqos-obj-y)
++tests/arm-cpu-features$(EXESUF): tests/arm-cpu-features.o
  
- #include "qemu/osdep.h"
-+#include "hw/boards.h"
- #include "kvm_arm.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "qapi/qobject-input-visitor.h"
-+#include "qapi/qapi-commands-machine-target.h"
- #include "qapi/qapi-commands-misc-target.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qom/qom-qobject.h"
- 
- static GICCapability *gic_cap_new(int version)
- {
-@@ -81,3 +89,141 @@ GICCapabilityList *qmp_query_gic_capabilities(Error **errp)
- 
-     return head;
- }
-+
-+/*
-+ * These are cpu model features we want to advertise. The order here
-+ * matters as this is the order in which qmp_query_cpu_model_expansion
-+ * will attempt to set them. If there are dependencies between features,
-+ * then the order that considers those dependencies must be used.
-+ */
-+static const char *cpu_model_advertised_features[] = {
-+    "aarch64", "pmu",
-+    NULL
-+};
-+
-+CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-+                                                     CpuModelInfo *model,
-+                                                     Error **errp)
-+{
-+    CpuModelExpansionInfo *expansion_info;
-+    const QDict *qdict_in = NULL;
-+    QDict *qdict_out;
-+    ObjectClass *oc;
-+    Object *obj;
-+    const char *name;
-+    int i;
-+
-+    if (type != CPU_MODEL_EXPANSION_TYPE_FULL) {
-+        error_setg(errp, "The requested expansion type is not supported");
-+        return NULL;
-+    }
-+
-+    if (!kvm_enabled() && !strcmp(model->name, "host")) {
-+        error_setg(errp, "The CPU type '%s' requires KVM", model->name);
-+        return NULL;
-+    }
-+
-+    oc = cpu_class_by_name(TYPE_ARM_CPU, model->name);
-+    if (!oc) {
-+        error_setg(errp, "The CPU type '%s' is not a recognized ARM CPU type",
-+                   model->name);
-+        return NULL;
-+    }
-+
-+    if (kvm_enabled()) {
-+        const char *cpu_type = current_machine->cpu_type;
-+        int len = strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
-+        bool supported = false;
-+
-+        if (!strcmp(model->name, "host") || !strcmp(model->name, "max")) {
-+            /* These are kvmarm's recommended cpu types */
-+            supported = true;
-+        } else if (strlen(model->name) == len &&
-+                   !strncmp(model->name, cpu_type, len)) {
-+            /* KVM is enabled and we're using this type, so it works. */
-+            supported = true;
-+        }
-+        if (!supported) {
-+            error_setg(errp, "We cannot guarantee the CPU type '%s' works "
-+                             "with KVM on this host", model->name);
-+            return NULL;
-+        }
-+    }
-+
-+    if (model->props) {
-+        qdict_in = qobject_to(QDict, model->props);
-+        if (!qdict_in) {
-+            error_setg(errp, QERR_INVALID_PARAMETER_TYPE, "props", "dict");
-+            return NULL;
-+        }
-+    }
-+
-+    obj = object_new(object_class_get_name(oc));
-+
-+    if (qdict_in) {
-+        Visitor *visitor;
-+        Error *err = NULL;
-+
-+        visitor = qobject_input_visitor_new(model->props);
-+        visit_start_struct(visitor, NULL, NULL, 0, &err);
-+        if (err) {
-+            visit_free(visitor);
-+            object_unref(obj);
-+            error_propagate(errp, err);
-+            return NULL;
-+        }
-+
-+        i = 0;
-+        while ((name = cpu_model_advertised_features[i++]) != NULL) {
-+            if (qdict_get(qdict_in, name)) {
-+                object_property_set(obj, visitor, name, &err);
-+                if (err) {
-+                    break;
-+                }
-+            }
-+        }
-+
-+        if (!err) {
-+            visit_check_struct(visitor, &err);
-+        }
-+        visit_end_struct(visitor, NULL);
-+        visit_free(visitor);
-+        if (err) {
-+            object_unref(obj);
-+            error_propagate(errp, err);
-+            return NULL;
-+        }
-+    }
-+
-+    expansion_info = g_new0(CpuModelExpansionInfo, 1);
-+    expansion_info->model = g_malloc0(sizeof(*expansion_info->model));
-+    expansion_info->model->name = g_strdup(model->name);
-+
-+    qdict_out = qdict_new();
-+
-+    i = 0;
-+    while ((name = cpu_model_advertised_features[i++]) != NULL) {
-+        ObjectProperty *prop = object_property_find(obj, name, NULL);
-+        if (prop) {
-+            Error *err = NULL;
-+            QObject *value;
-+
-+            assert(prop->get);
-+            value = object_property_get_qobject(obj, name, &err);
-+            assert(!err);
-+
-+            qdict_put_obj(qdict_out, name, value);
-+        }
-+    }
-+
-+    if (!qdict_size(qdict_out)) {
-+        qobject_unref(qdict_out);
-+    } else {
-+        expansion_info->model->props = QOBJECT(qdict_out);
-+        expansion_info->model->has_props = true;
-+    }
-+
-+    object_unref(obj);
-+
-+    return expansion_info;
-+}
-diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
+ tests/migration/stress$(EXESUF): tests/migration/stress.o
+ 	$(call quiet-command, $(LINKPROG) -static -O3 $(PTHREAD_LIB) -o $@ $< ,"LINK","$(TARGET_DIR)$@")
+diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
 new file mode 100644
-index 00000000000..c79dcffb555
+index 00000000000..c59fcf409c8
 --- /dev/null
-+++ b/docs/arm-cpu-features.rst
-@@ -0,0 +1,137 @@
-+================
-+ARM CPU Features
-+================
++++ b/tests/arm-cpu-features.c
+@@ -0,0 +1,240 @@
++/*
++ * Arm CPU feature test cases
++ *
++ * Copyright (c) 2019 Red Hat Inc.
++ * Authors:
++ *  Andrew Jones <drjones@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qjson.h"
 +
-+Examples of probing and using ARM CPU features
++#define MACHINE    "-machine virt,gic-version=max "
++#define QUERY_HEAD "{ 'execute': 'query-cpu-model-expansion', " \
++                     "'arguments': { 'type': 'full', "
++#define QUERY_TAIL "}}"
 +
-+Introduction
-+============
++static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
++{
++    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
++                          QUERY_TAIL, cpu_type);
++}
 +
-+CPU features are optional features that a CPU of supporting type may
-+choose to implement or not.  In QEMU, optional CPU features have
-+corresponding boolean CPU proprieties that, when enabled, indicate
-+that the feature is implemented, and, conversely, when disabled,
-+indicate that it is not implemented. An example of an ARM CPU feature
-+is the Performance Monitoring Unit (PMU).  CPU types such as the
-+Cortex-A15 and the Cortex-A57, which respectively implement ARM
-+architecture reference manuals ARMv7-A and ARMv8-A, may both optionally
-+implement PMUs.  For example, if a user wants to use a Cortex-A15 without
-+a PMU, then the `-cpu` parameter should contain `pmu=off` on the QEMU
-+command line, i.e. `-cpu cortex-a15,pmu=off`.
++static QDict *do_query(QTestState *qts, const char *cpu_type,
++                       const char *fmt, ...)
++{
++    QDict *resp;
 +
-+As not all CPU types support all optional CPU features, then whether or
-+not a CPU property exists depends on the CPU type.  For example, CPUs
-+that implement the ARMv8-A architecture reference manual may optionally
-+support the AArch32 CPU feature, which may be enabled by disabling the
-+`aarch64` CPU property.  A CPU type such as the Cortex-A15, which does
-+not implement ARMv8-A, will not have the `aarch64` CPU property.
++    if (fmt) {
++        QDict *args;
++        va_list ap;
 +
-+QEMU's support may be limited for some CPU features, only partially
-+supporting the feature or only supporting the feature under certain
-+configurations.  For example, the `aarch64` CPU feature, which, when
-+disabled, enables the optional AArch32 CPU feature, is only supported
-+when using the KVM accelerator and when running on a host CPU type that
-+supports the feature.
++        va_start(ap, fmt);
++        args = qdict_from_vjsonf_nofail(fmt, ap);
++        va_end(ap);
 +
-+CPU Feature Probing
-+===================
++        resp = qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s, "
++                                                    "'props': %p }"
++                              QUERY_TAIL, cpu_type, args);
++    } else {
++        resp = do_query_no_props(qts, cpu_type);
++    }
 +
-+Determining which CPU features are available and functional for a given
-+CPU type is possible with the `query-cpu-model-expansion` QMP command.
-+Below are some examples where `scripts/qmp/qmp-shell` (see the top comment
-+block in the script for usage) is used to issue the QMP commands.
++    return resp;
++}
 +
-+(1) Determine which CPU features are available for the `max` CPU type
-+    (Note, we started QEMU with qemu-system-aarch64, so `max` is
-+     implementing the ARMv8-A reference manual in this case)::
++static const char *resp_get_error(QDict *resp)
++{
++    QDict *qdict;
 +
-+      (QEMU) query-cpu-model-expansion type=full model={"name":"max"}
-+      { "return": {
-+        "model": { "name": "max", "props": {
-+        "pmu": true, "aarch64": true
-+      }}}}
++    g_assert(resp);
 +
-+We see that the `max` CPU type has the `pmu` and `aarch64` CPU features.
-+We also see that the CPU features are enabled, as they are all `true`.
++    qdict = qdict_get_qdict(resp, "error");
++    if (qdict) {
++        return qdict_get_str(qdict, "desc");
++    }
++    return NULL;
++}
 +
-+(2) Let's try to disable the PMU::
++#define assert_error(qts, cpu_type, expected_error, fmt, ...)          \
++({                                                                     \
++    QDict *_resp;                                                      \
++    const char *_error;                                                \
++                                                                       \
++    _resp = do_query(qts, cpu_type, fmt, ##__VA_ARGS__);               \
++    g_assert(_resp);                                                   \
++    _error = resp_get_error(_resp);                                    \
++    g_assert(_error);                                                  \
++    g_assert(g_str_equal(_error, expected_error));                     \
++    qobject_unref(_resp);                                              \
++})
 +
-+      (QEMU) query-cpu-model-expansion type=full model={"name":"max","props":{"pmu":false}}
-+      { "return": {
-+        "model": { "name": "max", "props": {
-+        "pmu": false, "aarch64": true
-+      }}}}
++static bool resp_has_props(QDict *resp)
++{
++    QDict *qdict;
 +
-+We see it worked, as `pmu` is now `false`.
++    g_assert(resp);
 +
-+(3) Let's try to disable `aarch64`, which enables the AArch32 CPU feature::
++    if (!qdict_haskey(resp, "return")) {
++        return false;
++    }
++    qdict = qdict_get_qdict(resp, "return");
 +
-+      (QEMU) query-cpu-model-expansion type=full model={"name":"max","props":{"aarch64":false}}
-+      {"error": {
-+       "class": "GenericError", "desc":
-+       "'aarch64' feature cannot be disabled unless KVM is enabled and 32-bit EL1 is supported"
-+      }}
++    if (!qdict_haskey(qdict, "model")) {
++        return false;
++    }
++    qdict = qdict_get_qdict(qdict, "model");
 +
-+It looks like this feature is limited to a configuration we do not
-+currently have.
++    return qdict_haskey(qdict, "props");
++}
 +
-+(4) Let's try probing CPU features for the Cortex-A15 CPU type::
++static QDict *resp_get_props(QDict *resp)
++{
++    QDict *qdict;
 +
-+      (QEMU) query-cpu-model-expansion type=full model={"name":"cortex-a15"}
-+      {"return": {"model": {"name": "cortex-a15", "props": {"pmu": true}}}}
++    g_assert(resp);
++    g_assert(resp_has_props(resp));
 +
-+Only the `pmu` CPU feature is available.
++    qdict = qdict_get_qdict(resp, "return");
++    qdict = qdict_get_qdict(qdict, "model");
++    qdict = qdict_get_qdict(qdict, "props");
++    return qdict;
++}
 +
-+A note about CPU feature dependencies
-+-------------------------------------
++#define assert_has_feature(qts, cpu_type, feature)                     \
++({                                                                     \
++    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    g_assert(qdict_get(resp_get_props(_resp), feature));               \
++    qobject_unref(_resp);                                              \
++})
 +
-+It's possible for features to have dependencies on other features. I.e.
-+it may be possible to change one feature at a time without error, but
-+when attempting to change all features at once an error could occur
-+depending on the order they are processed.  It's also possible changing
-+all at once doesn't generate an error, because a feature's dependencies
-+are satisfied with other features, but the same feature cannot be changed
-+independently without error.  For these reasons callers should always
-+attempt to make their desired changes all at once in order to ensure the
-+collection is valid.
++#define assert_has_not_feature(qts, cpu_type, feature)                 \
++({                                                                     \
++    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
++    g_assert(_resp);                                                   \
++    g_assert(!resp_has_props(_resp) ||                                 \
++             !qdict_get(resp_get_props(_resp), feature));              \
++    qobject_unref(_resp);                                              \
++})
 +
-+A note about CPU models and KVM
-+-------------------------------
++static void assert_type_full(QTestState *qts)
++{
++    const char *error;
++    QDict *resp;
 +
-+Named CPU models generally do not work with KVM.  There are a few cases
-+that do work, e.g. using the named CPU model `cortex-a57` with KVM on a
-+seattle host, but mostly if KVM is enabled the `host` CPU type must be
-+used.  This means the guest is provided all the same CPU features as the
-+host CPU type has.  And, for this reason, the `host` CPU type should
-+enable all CPU features that the host has by default.  Indeed it's even
-+a bit strange to allow disabling CPU features that the host has when using
-+the `host` CPU type, but in the absence of CPU models it's the best we can
-+do if we want to launch guests without all the host's CPU features enabled.
++    resp = qtest_qmp(qts, "{ 'execute': 'query-cpu-model-expansion', "
++                            "'arguments': { 'type': 'static', "
++                                           "'model': { 'name': 'foo' }}}");
++    g_assert(resp);
++    error = resp_get_error(resp);
++    g_assert(error);
++    g_assert(g_str_equal(error,
++                         "The requested expansion type is not supported"));
++    qobject_unref(resp);
++}
 +
-+Enabling KVM also affects the `query-cpu-model-expansion` QMP command.  The
-+affect is not only limited to specific features, as pointed out in example
-+(3) of "CPU Feature Probing", but also to which CPU types may be expanded.
-+When KVM is enabled, only the `max`, `host`, and current CPU type may be
-+expanded.  This restriction is necessary as it's not possible to know all
-+CPU types that may work with KVM, but it does impose a small risk of users
-+experiencing unexpected errors.  For example on a seattle, as mentioned
-+above, the `cortex-a57` CPU type is also valid when KVM is enabled.
-+Therefore a user could use the `host` CPU type for the current type, but
-+then attempt to query `cortex-a57`, however that query will fail with our
-+restrictions.  This shouldn't be an issue though as management layers and
-+users have been preferring the `host` CPU type for use with KVM for quite
-+some time.  Additionally, if the KVM-enabled QEMU instance running on a
-+seattle host is using the `cortex-a57` CPU type, then querying `cortex-a57`
-+will work.
++static void assert_bad_props(QTestState *qts, const char *cpu_type)
++{
++    const char *error;
++    QDict *resp;
 +
-+Using CPU Features
-+==================
++    resp = qtest_qmp(qts, "{ 'execute': 'query-cpu-model-expansion', "
++                            "'arguments': { 'type': 'full', "
++                                           "'model': { 'name': %s, "
++                                                      "'props': false }}}",
++                     cpu_type);
++    g_assert(resp);
++    error = resp_get_error(resp);
++    g_assert(error);
++    g_assert(g_str_equal(error,
++                         "Invalid parameter type for 'props', expected: dict"));
++    qobject_unref(resp);
++}
 +
-+After determining which CPU features are available and supported for a
-+given CPU type, then they may be selectively enabled or disabled on the
-+QEMU command line with that CPU type::
++static void test_query_cpu_model_expansion(const void *data)
++{
++    QTestState *qts;
 +
-+  $ qemu-system-aarch64 -M virt -cpu max,pmu=off
++    qts = qtest_init(MACHINE "-cpu max");
 +
-+The example above disables the PMU for the `max` CPU type.
++    /* Test common query-cpu-model-expansion input validation */
++    assert_type_full(qts);
++    assert_bad_props(qts, "max");
++    assert_error(qts, "foo", "The CPU type 'foo' is not a recognized "
++                 "ARM CPU type", NULL);
++    assert_error(qts, "max", "Parameter 'not-a-prop' is unexpected",
++                 "{ 'not-a-prop': false }");
++    assert_error(qts, "host", "The CPU type 'host' requires KVM", NULL);
 +
++    /* Test expected feature presence/absence for some cpu types */
++    assert_has_feature(qts, "max", "pmu");
++    assert_has_feature(qts, "cortex-a15", "pmu");
++    assert_has_not_feature(qts, "cortex-a15", "aarch64");
++
++    if (g_str_equal(qtest_get_arch(), "aarch64")) {
++        assert_has_feature(qts, "max", "aarch64");
++        assert_has_feature(qts, "cortex-a57", "pmu");
++        assert_has_feature(qts, "cortex-a57", "aarch64");
++
++        /* Test that features that depend on KVM generate errors without. */
++        assert_error(qts, "max",
++                     "'aarch64' feature cannot be disabled "
++                     "unless KVM is enabled and 32-bit EL1 "
++                     "is supported",
++                     "{ 'aarch64': false }");
++    }
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_model_expansion_kvm(const void *data)
++{
++    QTestState *qts;
++
++    qts = qtest_init(MACHINE "-accel kvm -cpu host");
++
++    if (g_str_equal(qtest_get_arch(), "aarch64")) {
++        assert_has_feature(qts, "host", "aarch64");
++        assert_has_feature(qts, "host", "pmu");
++
++        assert_error(qts, "cortex-a15",
++            "We cannot guarantee the CPU type 'cortex-a15' works "
++            "with KVM on this host", NULL);
++    } else {
++        assert_has_not_feature(qts, "host", "aarch64");
++        assert_has_not_feature(qts, "host", "pmu");
++    }
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    bool kvm_available = false;
++
++    if (!access("/dev/kvm",  R_OK | W_OK)) {
++#if defined(HOST_AARCH64)
++        kvm_available = g_str_equal(qtest_get_arch(), "aarch64");
++#elif defined(HOST_ARM)
++        kvm_available = g_str_equal(qtest_get_arch(), "arm");
++#endif
++    }
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_data_func("/arm/query-cpu-model-expansion",
++                        NULL, test_query_cpu_model_expansion);
++
++    if (kvm_available) {
++        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
++                            NULL, test_query_cpu_model_expansion_kvm);
++    }
++
++    return g_test_run();
++}
 -- 
 2.20.1
 
