@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671AEE3460
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:35:52 +0200 (CEST)
-Received: from localhost ([::1]:42676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E38E3489
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:43:13 +0200 (CEST)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdHK-0007tL-AL
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42128)
+	id 1iNdOR-0001Qi-Qu
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43503)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNbfW-0006e4-3d
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:52:44 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iNbqj-0002a4-Fp
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:04:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNbfU-0002H9-FV
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:52:41 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39830)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNbfT-0002GL-SP
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:52:40 -0400
-Received: by mail-ot1-x343.google.com with SMTP id s22so20368849otr.6
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Yc2rcnVA2Lk9wwG5059ptOPuD0SUyeMds9j2vZiOKLc=;
- b=n7LBe6S0xgI9UQr1nzYKxNUZioAcah8IYI0SKUFwbmNKSDtwMSRsRMSaXt3d7gDT1e
- qPwnPp7UQvI92ca6jqsEqsi0avZM2vTvW8pEOdZNC646vSrly5dlyhE1eUZ1vLAC4R9O
- 4KdPxuz3PsYoYrZbCfA7TKiBuVD+dV36cI3p+7BaMnH6UjLcbrO+P6lyhzBekLdixsdI
- ACzgaEPeYh2CxtZbaPWWDtxXmWR5Fgtc6TP24Q7PRp+2P7XccSPqP1gl9STVNFz/wxCC
- zknGrHDXdz1gaDR+MKP+H5DEqRK6D5sECNZx8SJABELAsm50d8v0SxoQ4wHTjom2vWiD
- 8gTA==
+ (envelope-from <pbonzini@redhat.com>) id 1iNbqh-0008Di-AW
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:04:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33640)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iNbqh-0008DW-2g
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:04:15 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E0D9EC049D5F
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 12:04:13 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id i23so902261wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 05:04:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Yc2rcnVA2Lk9wwG5059ptOPuD0SUyeMds9j2vZiOKLc=;
- b=JxajM0Na4z8ugaFFx0T7UohYTixbv0Yaj7lIWIKt6tSvWAXsJYakiCXC2vIuN80uId
- P4sgfxJstRGp3DHrQkuocYPNuLRXSBnleCRizgIgQv7zIib+vnHt4D/5CRAHZd1k4503
- 4alHErvXEOxStpI5uY6Ifh8ERZEua6BsweT0bVtLboo0v8J9JIxJyQ1z4E2chUoB5EUm
- LzYWgQUVMmJD7F8EL0yOlozC+6HqQT+suVTiEnPyvWYGhOx4ko5tezrCncAQ4z8ZmY1n
- GFNCWX7hkArtN/KtHXLJ7f0c1vWn9EkwGX7ai9byE81dRNvFUn41gtXp4d5bQ6QEgvVs
- T41Q==
-X-Gm-Message-State: APjAAAWaOxq+hNdpbqAdxEoN25CCqzyPHmGSZJWJIVmNnhIlcpc9MGRb
- zlP5NotQEMl8FIKMTUuEpcnrYEdna4AaIMpElTWmfg==
-X-Google-Smtp-Source: APXvYqy/KMDJ97bmnGus3jcWeHgoJKHhbzvdzJw1X9TWGl4nD3QzwGegpEInEnCw/F78+l9frsTVJqU/udT4SrEZ3xg=
-X-Received: by 2002:a9d:398a:: with SMTP id y10mr10728093otb.97.1571917958865; 
- Thu, 24 Oct 2019 04:52:38 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2H0hJE2AWAcr3cxAOYtlyALKH2Ibc22ygGo+3pTrHGg=;
+ b=AUtV6yCN2pnIJS/tuYmGC0ljfy7agUn4vc+4iVsBznvz1/Gn4rUhUN8fK0TKjYrf2S
+ 3qSMSBshKw46XYZqpNq9F8+eQReLXg4kytdF8Sn0s4q9u2ycy/uJ4zCO4bLxAwHYxbzg
+ KuM3dG2LzU6pgL+U5KRZiyCeqWIEAZ9RlC+5dIFDf8gSoJ4zJMsw4t4cRIiAnuUtuqdW
+ d1nJs8j9h1K2ibZxeAVavJEij2mMvpeDtrb+gCvteVG9fGTWcTyd0PyX4/PBcSi89vgd
+ u9acNrVqsYrrQ4NL7crgD6WcDcdgn6ZRXXz0XVFsE1tkB/K9T7QgblDUfjDpsENrbInn
+ 5umQ==
+X-Gm-Message-State: APjAAAX5XpMGPKT1E3u7sl1urFculRYQKjtPXnvXHtcA2O+n4fbygMcz
+ Fy4+Ny7NiAwBaButCeMjU65nPGBTaDyO7e2RIJA3plA5bmRGc8iRhaMk3phpTzKqhvko64ZbAxl
+ ZQMMvn8usxGpuklI=
+X-Received: by 2002:a5d:4589:: with SMTP id p9mr1245121wrq.397.1571918652445; 
+ Thu, 24 Oct 2019 05:04:12 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxEdfH7pM6CgVFXCDx/dYbtmimQaV4JOcagqth7WZ27/Uh8TapblvjX2s4xKFii7PoOIvin4g==
+X-Received: by 2002:a5d:4589:: with SMTP id p9mr1245089wrq.397.1571918652121; 
+ Thu, 24 Oct 2019 05:04:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:6887:47f9:72a7:24e6?
+ ([2001:b07:6468:f312:6887:47f9:72a7:24e6])
+ by smtp.gmail.com with ESMTPSA id c189sm3154627wme.24.2019.10.24.05.04.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 05:04:11 -0700 (PDT)
+Subject: Re: [PATCH v2 1/7] cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20191023154505.30521-1-richard.henderson@linaro.org>
+ <20191023154505.30521-2-richard.henderson@linaro.org>
+ <55b477b7-877e-954f-2175-ed36fa787600@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <e41a98e4-189a-1e0f-7b29-51a6e00e4d7e@redhat.com>
+Date: Thu, 24 Oct 2019 14:04:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-22-marcandre.lureau@redhat.com>
- <2d027692-e178-c1c8-8384-ad70ed345f29@redhat.com>
- <CAMxuvay9kroZUo7ZbdhJqKAdp52rMmLGv0LBvktb68B2CKg+Mw@mail.gmail.com>
- <2b9352d7-f4de-bd5c-62c5-cebec79e1c48@redhat.com>
-In-Reply-To: <2b9352d7-f4de-bd5c-62c5-cebec79e1c48@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Oct 2019 12:52:28 +0100
-Message-ID: <CAFEAcA_A4edo3fQBJux6QBxkCf_r_EdrmYgv5OPidWDdn4aD8g@mail.gmail.com>
-Subject: Re: [PATCH v3 21/33] lance: replace PROP_PTR with PROP_LINK
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <55b477b7-877e-954f-2175-ed36fa787600@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,51 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: alex.bennee@linaro.org, Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Oct 2019 at 12:48, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> Just wondering, if we had a "bus_address" property to the abstract
-> SysBus class (and eventually "bus_name" for later) we could create/map
-> sysbus devices from command line?
+On 24/10/19 13:52, Philippe Mathieu-Daud=C3=A9 wrote:
+>> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+>> index ad9ab85eb3..255bb186ac 100644
+>> --- a/include/exec/cpu-all.h
+>> +++ b/include/exec/cpu-all.h
+>> @@ -220,7 +220,7 @@ extern int target_page_bits;
+>> =C2=A0 =C2=A0 #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+>> =C2=A0 #define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
+>> -#define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) &
+>> TARGET_PAGE_MASK)
+>> +#define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
+>> =C2=A0 =C2=A0 /* Using intptr_t ensures that qemu_*_page_mask is sign-=
+extended even
+>> =C2=A0=C2=A0 * when intptr_t is 32-bit and we are aligning a long long=
+.
+>> @@ -228,9 +228,8 @@ extern int target_page_bits;
+>> =C2=A0 extern uintptr_t qemu_host_page_size;
+>> =C2=A0 extern intptr_t qemu_host_page_mask;
+>> =C2=A0 -#define HOST_PAGE_ALIGN(addr) (((addr) + qemu_host_page_size -=
+ 1) &
+>> qemu_host_page_mask)
+>> -#define REAL_HOST_PAGE_ALIGN(addr) (((addr) +
+>> qemu_real_host_page_size - 1) & \
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_r=
+eal_host_page_mask)
+>> +#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
+>> +#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr),
+>> qemu_real_host_page_size)
+>> =C2=A0 =C2=A0 /* same as PROT_xxx */
+>> =C2=A0 #define PAGE_READ=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x0001
+>>
 
-I don't think this is a good plan -- users shouldn't have to know
-about the memory map of their boards. Plus it doesn't deal with
-the complications of multiple address spaces, DMA, wiring up
-irq lines to an interrupt controller, SoC reset handling,
-clocks, power-managment...  Command line -device was designed
-for pluggable devices, where in the world of real hardware
-the device can be physically plugged and unplugged and there's
-a clear interface that can be modelled. You can't add an
-extra UART to an embedded board in real hardware either.
+Isn't this the patch where Richard pointed out that the compiler
+generates worse code?
 
-The only plausible argument I've seen for command-line
-plugging of embedded devices is as a sort of side-effect
-of having a configuration language syntax for them for
-the purpose of being able to write board models as
-data-driven config files rather than in C code. But
-that would be a lot of design and engineering work, and
-if we want that I think we should approach it forwards,
-not arrive at it backwards by adding gradual tweaks like
-'address' properties to devices.
-
-thanks
--- PMM
+Paolo
 
