@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAF1E2C41
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:33:26 +0200 (CEST)
-Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B550AE2C59
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:39:31 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYYe-0005SD-Le
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37573)
+	id 1iNYeY-0002XM-Ky
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37680)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iNYOS-00057v-U5
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:22:53 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iNYPV-0007bl-4G
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:23:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iNYOR-00015t-Lh
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:22:52 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60160
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1iNYPU-0001xb-08
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:23:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38488
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iNYOR-000153-Hq
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:22:51 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iNYPT-0001wL-S4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:23:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571905370;
+ s=mimecast20190719; t=1571905435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BSRKvgC0wSSxXvWmmRsmU7KK90TBQk3JaPsD5L2Leug=;
- b=DXkgMF5Ca7joM5k4HoU6RX+CEcL5d0z6lYW0gBMnRlrthQnXm5ZuOIsc7p36gyQJ6A6fzc
- TGbC3bXgo0yz7ICYUMEJVY1oF+TY6LLbQh1bRNX49xDbZ52uq6CLZc+XBJjfVl0MAGE3id
- N/tEWEF4LLTZmRZ2Osq586IUjYTswRU=
+ bh=h0IWtDF0ADfFiEaFyX2zpoTuXxmHqzoVzuCAkngFNh0=;
+ b=W739Kg4HKS69jS7xVLf3WNbJxJHCdkGJVOY64SoEQAp+8QOcehpnJG7BwujiFP/toovmP8
+ x1e4Uq6yG4UmrIK0yzixzQ5tQU4qkSVvGcQJ8MXjqMkxgr3VJrMNhdS1O4iqXWskcg6dT3
+ AoHsaiPtYAylggiIisOCL27+PXeP35U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-nHVlWF9EMnqFqwcaPtGEIg-1; Thu, 24 Oct 2019 04:22:47 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-180-z-8UBYFEMii8hQvvTnRaXw-1; Thu, 24 Oct 2019 04:23:53 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3748247B;
- Thu, 24 Oct 2019 08:22:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67870800D5A;
+ Thu, 24 Oct 2019 08:23:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
  [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDA9860852;
- Thu, 24 Oct 2019 08:22:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 080395D9CA;
+ Thu, 24 Oct 2019 08:23:52 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 330E89DB6; Thu, 24 Oct 2019 10:22:45 +0200 (CEST)
-Date: Thu, 24 Oct 2019 10:22:45 +0200
+ id 5A5759DB6; Thu, 24 Oct 2019 10:23:51 +0200 (CEST)
+Date: Thu, 24 Oct 2019 10:23:51 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Thomas Huth <huth@tuxfamily.org>
-Subject: Re: [PATCH] ui: Print available display backends with '-display help'
-Message-ID: <20191024082245.m4zaa4nhxmcsp2l5@sirius.home.kraxel.org>
-References: <20191023134151.32011-1-huth@tuxfamily.org>
+Subject: Re: [PATCH] qemu-options: Rework the help text of the '-display'
+ option
+Message-ID: <20191024082351.n2j3ffimqlpbgqf3@sirius.home.kraxel.org>
+References: <20191023120129.13721-1-huth@tuxfamily.org>
 MIME-Version: 1.0
-In-Reply-To: <20191023134151.32011-1-huth@tuxfamily.org>
+In-Reply-To: <20191023120129.13721-1-huth@tuxfamily.org>
 User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: nHVlWF9EMnqFqwcaPtGEIg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: z-8UBYFEMii8hQvvTnRaXw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,14 +80,25 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 03:41:51PM +0200, Thomas Huth wrote:
-> We already print availabled devices with "-device help", or available
-> backends with "-netdev help" or "-chardev help". Let's provide a way
-> for the users to query the available display backends, too.
+On Wed, Oct 23, 2019 at 02:01:28PM +0200, Thomas Huth wrote:
+> Improve the help text of the "-display" option:
+>=20
+> - Only print the options that we have enabled in the binary
+>   (similar to what we do for other options like -netdev already)
+>=20
+> - The "frame=3Don|off" from "-display sdl" has been removed in commit
+>   09bd7ba9f5f7 ("Remove deprecated -no-frame option"), so we should
+>   not show this in the help text anymore
+>=20
+> - The "-display egl-headless" line was missing a "\n" at the end
+>=20
+> - Indent the default display text in a nicer way
+>=20
+> Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 
-It isn't that simple, this fails to list backends built as module.
+Queue up for UI.
 
-cheers,
+thanks,
   Gerd
 
 
