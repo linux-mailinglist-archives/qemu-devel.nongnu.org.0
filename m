@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C6FE3361
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:04:56 +0200 (CEST)
-Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E2FE337C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:09:06 +0200 (CEST)
+Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcnP-0007Uu-1M
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
+	id 1iNcrR-0006Dw-76
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iNbFw-0006rs-DE
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:26:18 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbHD-0001K3-Qr
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iNbFq-0007Zm-1O
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:26:16 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28572
+ (envelope-from <dgilbert@redhat.com>) id 1iNbHA-0008DJ-L1
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:33 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39483
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iNbFp-0007ZN-TT
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:26:09 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbHA-0008CP-Gu
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571916368;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E75JQQf3QD7PPe1Mhet7N5RwcxDaRKx0ZFcyOfAXDC8=;
- b=Qz8usbtWiTRyUzZOD+g5iLgJQ5EXmD9K+CBGs8DxYpXCm95nRkxZ2mhaILnTjQke82zIyT
- a5Lt7LY7FecBg56qqMgYsZhjrMPKoLbREOZAJlGiK9N+x+8WRHvi/r6JYIhR7o5DEbKL9N
- lv1Xb9M2NhlzaOXknzuCui8FEO4ezmA=
+ s=mimecast20190719; t=1571916451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=it4CiEy/pOuZjIPx21uT511YdwOrh9/5CQ7tB43lvCo=;
+ b=eEbXqRhQ1gQRPufxKm8BC9gLvqQpUUCO8kbandnebN9ZwpYVfZEjtZItIUzAP1Wnej4zuA
+ 6ZosYNyQG/acBmrUdswM70vjPbaPVjz7k+OJA7EqhtrVF8VOfOnck547kjH2rL/Hl5uwlp
+ RlXP3UezRcWCLrtzZSc9f6GD0PgNzBg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-MIelTLUeMQS5S3e-GxQeMQ-1; Thu, 24 Oct 2019 07:26:06 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-292-kPbYzkaaOz6da7i6-KOyVw-1; Thu, 24 Oct 2019 07:27:29 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 935D3100550E;
- Thu, 24 Oct 2019 11:26:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23AF960852;
- Thu, 24 Oct 2019 11:25:55 +0000 (UTC)
-Date: Thu, 24 Oct 2019 12:25:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 00/30] virtiofs daemon (base)
-Message-ID: <20191024112553.GA8381@redhat.com>
-References: <20191021105832.36574-1-dgilbert@redhat.com>
- <157166664425.24734.3489596262271351160@37313f22b938>
- <20191021143357.GB5837@work-vm>
- <20191024065826-mutt-send-email-mst@kernel.org>
- <20191024110708.GI3700@redhat.com> <20191024111439.GD2877@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F973107AD31;
+ Thu, 24 Oct 2019 11:27:27 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
+ [10.36.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52C2A196B2;
+ Thu, 24 Oct 2019 11:27:20 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
+ ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
+ misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
+ piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
+ berrange@redhat.com
+Subject: [PATCH 00/25] virtiofs daemon (security)
+Date: Thu, 24 Oct 2019 12:26:53 +0100
+Message-Id: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191024111439.GD2877@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: MIelTLUeMQS5S3e-GxQeMQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: kPbYzkaaOz6da7i6-KOyVw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -77,90 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- piaojun@huawei.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
- eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 24, 2019 at 12:14:39PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > On Thu, Oct 24, 2019 at 06:59:33AM -0400, Michael S. Tsirkin wrote:
-> > > On Mon, Oct 21, 2019 at 03:33:57PM +0100, Dr. David Alan Gilbert wrot=
-e:
-> > > > * no-reply@patchew.org (no-reply@patchew.org) wrote:
-> > > > > Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dgil=
-bert@redhat.com/
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > Hi,
-> > > > >=20
-> > > > > This series seems to have some coding style problems. See output =
-below for
-> > > > > more information:
-> > > > >=20
-> > > > > Subject: [PATCH 00/30] virtiofs daemon (base)
-> > > > > Type: series
-> > > > > Message-id: 20191021105832.36574-1-dgilbert@redhat.com
-> > > > >=20
-> > > > > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> > > > > #!/bin/bash
-> > > > > git rev-parse base > /dev/null || exit 0
-> > > > > git config --local diff.renamelimit 0
-> > > > > git config --local diff.renames True
-> > > > > git config --local diff.algorithm histogram
-> > > > > ./scripts/checkpatch.pl --mailback base..
-> > > >=20
-> > > > Expecting checkpatch to be broken here; most of the files
-> > > > follow FUSE's formatting.
-> > > >=20
-> > > > Dave
-> > >=20
-> > > I wonder what do others think about this.
-> > > One problem with such inconsistencies is that people tend to copy cod=
-e
-> > > around, which tends to result in a mess.
-> >=20
-> > IIUC, most of this code is simpy copied as-is from the fuse or linux
-> > git repos. I'm wondering what the intention is for it long term ?
-> >=20
-> > For header files, I would have expected us to be able to compile agains=
-t
-> > the -devel package provided by the kernel or fuse packages. I can
-> > understand if we want to import the headers if the VSOCK additions to
-> > them are not yet widely available in distros though. If this is the cas=
-e
-> > we should put a time limit on how long we'd keep these copied headers
-> > around for before dropping them. It would be fine to violate QEMU codin=
-g
-> > style in this case as its not code QEMU would "maintain" long term - ju=
-st
-> > a read-only import.
->=20
-> The headers are really two types;  one are external definitions, the
-> other are internal parts of libfuse.  I'd expect to keep the internal
-> parts long term; teh external parts hmm; where would we pull them in
-> externally from?
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The fuse3-devel RPM on Fedora has some, but not all, of the fuse headers
-the patches copy in. Not sure if that's enough though.
+Hi,
+  This is the 2nd set for the virtiofsd - this set sits
+on top of the 'base' set recently posted.  Most of the changes
+in the set are security related (with a couple more tagging
+along because they were hard to separate).
 
-The kernel-devel RPM has fuse.h which seems to match fuse_kernel.h header
-being imported.
+  Stefan's main chunks make the daemon check the input from
+the guest;  the upstream fuse code is much more trusting
+about what it gets from the kernel; here the security
+equation is inverted and the daemon is more trusted.
+  In adition the daemon now gets sandboxing/namespacing/seccomp
+limited to stop anything escaping.
 
-Obviously that would mean a configure check to see if the required
-headers exist or not & are new enough for VSOCK
+  With this set virtiofsd is reasonably safe to use; we've
+got some bug fixes (including some threading fixes) to send
+as well though.
 
-Regards,
-Daniel
+Dave
+
+Dr. David Alan Gilbert (2):
+  virtiofsd: Plumb fuse_bufvec through to do_write_buf
+  virtiofsd: Pass write iov's all the way through
+
+Eryu Guan (1):
+  virtiofsd: print log only when priority is high enough
+
+Miklos Szeredi (1):
+  virtiofsd: passthrough_ll: add fallback for racy ops
+
+Stefan Hajnoczi (18):
+  virtiofsd: passthrough_ll: add lo_map for ino/fh indirection
+  virtiofsd: passthrough_ll: add ino_map to hide lo_inode pointers
+  virtiofsd: passthrough_ll: add dirp_map to hide lo_dirp pointers
+  virtiofsd: passthrough_ll: add fd_map to hide file descriptors
+  virtiofsd: validate path components
+  virtiofsd: add fuse_mbuf_iter API
+  virtiofsd: validate input buffer sizes in do_write_buf()
+  virtiofsd: check input buffer size in fuse_lowlevel.c ops
+  virtiofsd: prevent ".." escape in lo_do_lookup()
+  virtiofsd: prevent ".." escape in lo_do_readdir()
+  virtiofsd: use /proc/self/fd/ O_PATH file descriptor
+  virtiofsd: sandbox mount namespace
+  virtiofsd: move to an empty network namespace
+  virtiofsd: move to a new pid namespace
+  virtiofsd: add seccomp whitelist
+  virtiofsd: set maximum RLIMIT_NOFILE limit
+  virtiofsd: add security guide document
+  virtiofsd: add --syslog command-line option
+
+Vivek Goyal (3):
+  virtiofsd: passthrough_ll: create new files in caller's context
+  virtiofsd: Parse flag FUSE_WRITE_KILL_PRIV
+  virtiofsd: Drop CAP_FSETID if client asked for it
+
+ contrib/virtiofsd/Makefile.objs    |    7 +-
+ contrib/virtiofsd/buffer.c         |   28 +
+ contrib/virtiofsd/fuse_common.h    |   53 +-
+ contrib/virtiofsd/fuse_i.h         |    2 +-
+ contrib/virtiofsd/fuse_log.c       |    4 +
+ contrib/virtiofsd/fuse_lowlevel.c  |  779 +++++++++++-----
+ contrib/virtiofsd/fuse_lowlevel.h  |    2 +
+ contrib/virtiofsd/fuse_virtio.c    |   72 +-
+ contrib/virtiofsd/helper.c         |   11 +-
+ contrib/virtiofsd/passthrough_ll.c | 1317 ++++++++++++++++++++++++----
+ contrib/virtiofsd/seccomp.c        |  146 +++
+ contrib/virtiofsd/seccomp.h        |   16 +
+ contrib/virtiofsd/security.rst     |  108 +++
+ 13 files changed, 2152 insertions(+), 393 deletions(-)
+ create mode 100644 contrib/virtiofsd/seccomp.c
+ create mode 100644 contrib/virtiofsd/seccomp.h
+ create mode 100644 contrib/virtiofsd/security.rst
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.23.0
 
 
