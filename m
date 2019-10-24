@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE347E31D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:07:56 +0200 (CEST)
-Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DF8E31E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:11:04 +0200 (CEST)
+Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbuF-0007Y6-Fm
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58039)
+	id 1iNbxG-00044V-PR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:11:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNall-0005s4-UU
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:55:07 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNapo-0003Jr-Kp
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:59:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNalk-0001sd-Es
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:55:05 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:47017)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNapm-0003SD-FX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:59:16 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35014)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNalk-0001rt-5Z
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:55:04 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n15so14748054wrw.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:55:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNapm-0003Rp-9j
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:59:14 -0400
+Received: by mail-ot1-x344.google.com with SMTP id z6so20271135otb.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:59:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ooMnS0LiPSQoZLGSo+BzkAeumpBfuLiUsvNynH34FnY=;
- b=ccomMQYAOSm8l1lLMd2EqP92RmWWEara7WJH+4A2UAHdA4FQY/31xdvwbf07joEMN9
- XswSz6Lvw7HcUzrbxoFxQzZYWYTOUACIJQggeYdTY0o8gtreAnVP+E2c1fZw2guI/wxz
- TJktbmL3k7Qpk/0K9IlfyffKhT3Na9QdsXyGhG5mGFdz5uFrf6Q65wftFr/yTWcgvbfN
- lmDT3WRyHLOmBngVLZTOz8n4h0t0kH/GjSTwwQ1ySnf66ekW8ujvolKpR4IlMP5q+bI8
- nAT1z3wd9b3wTvb4IGVWSCQje+DcJZU9f6HATlUZw1YGlqGqoknYS0+R4GtNNb5QD/Xm
- AxKw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=f1rIXJ4RgBb8yXtWhv7cc8+mFfq8pUHr3wHZ+izWI3k=;
+ b=vrV2F/c/denb9Jgmjf14SYAgCscNAjn5QT4zBUY6jgEY0cri/J7tpcvrufiFnB0P5V
+ g7Gh0mSZHYf7kdUdemVGkpgn/YESi+85pcvwsufNhoOsBV5wbQ+Ae4gFP4aSRRKXY0b8
+ X3qO3ISiq+BSPLW0ANywiCDDf77eb4g1rDjupEanDqr8/aI1FBZ1iEBNkRVv5bWZOhWH
+ fyJuhqP7ubGeLKu9QGSZmENjHR8C5OH0uOhGixQZYfOaj3+OyCvQHdVF7cmZfZj5huMg
+ y533KU0kOf78XuT006xKicvT4qzypcohPxxk8iLRQ+a5BlycC/abZC/7NL7mzjfpwvIL
+ VhGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ooMnS0LiPSQoZLGSo+BzkAeumpBfuLiUsvNynH34FnY=;
- b=Cj/n5p1+37T2ja4SBmvB6A0akUxpz/si4UANpqsXCXoswBw6AkkoceycSK1wBQwpLJ
- B8DP7ULcfaXmdjeBUP0AokqoP27dYms+M18W2MhMkQYb5FfVt9lm+qGinwh5sWVJ8I9c
- yycKTUpzC0XEo7X1CdjWDoA850O/Dl1MhhXnyUZ57ZU4XpKZ+m55V/NnOAP5owIOgPQm
- iS+0ZgI5kr4KPGntXhUUmiOL9GXJ26tAtrB2L0kDNUbwPpISQcGoQXM/ho/Nd/v/LT3j
- MvMIhwkhrZoE1FSmT+7ZK91vuF7mp4xqk/uVnXUTb7wTTGg6gxQo0s4LX+yIrpfNPYH6
- xtTw==
-X-Gm-Message-State: APjAAAUhFUas0aIJijQZRV3667l51hk+IU1rNz3rYKA2pRQvlsABYrbH
- SaAHuG/S7D/Acyk51kCz7xEFSA==
-X-Google-Smtp-Source: APXvYqwk+aY7LBKL7MsN0ILG7pWrZEzxLRXyzI7Wj4jCmYVAWg6w47eAtj9qlxGF6btnjzmR8u/gzw==
-X-Received: by 2002:a05:6000:10d:: with SMTP id
- o13mr3147233wrx.321.1571914502112; 
- Thu, 24 Oct 2019 03:55:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h10sm22224040wrq.95.2019.10.24.03.54.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 03:55:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 676211FF87;
- Thu, 24 Oct 2019 11:54:59 +0100 (BST)
-References: <20191022191704.6134-1-alex.bennee@linaro.org>
- <20191022191704.6134-8-alex.bennee@linaro.org>
- <CAFEAcA9jeb_KBy9jMrFoY9=fp0+7YqNU8WrhRr7zxAk308MFXQ@mail.gmail.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v1 07/19] cirrus.yml: reduce scope of MacOS build
-In-reply-to: <CAFEAcA9jeb_KBy9jMrFoY9=fp0+7YqNU8WrhRr7zxAk308MFXQ@mail.gmail.com>
-Date: Thu, 24 Oct 2019 11:54:59 +0100
-Message-ID: <87imoemn0c.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=f1rIXJ4RgBb8yXtWhv7cc8+mFfq8pUHr3wHZ+izWI3k=;
+ b=Sg9YE4e7VuHSOQ70ZlmmIYztrsblXGiSroNgDiU7YsP25n99KDpYVNi0JV80eVDIqU
+ lU1Y0SRDVHfaVLHKostywpdNeP009XfLoBkrawf9/6AGevOU2eQIFfCZDZ9x/2a1y6fv
+ PTViFsbLpyr3sQYut3EWAmAXfo8bf15J/1W6d3DszAsbyig0bEJwcysyVr32YATJ1vyR
+ 6mOOHSw1MrUahLy9trkU6VXynOyJTdtom6tKcTcoTt9+FrkKBs6dQg+qJ7wIUaAqrwWs
+ MegMmQEESjLdQxxOg+Ml03wYBYQvpC0Mp+oHRyt+i4jzp5HhPXxLuAnDZiHbnJsnfGRE
+ cU0A==
+X-Gm-Message-State: APjAAAXCOOeCFO/BcdftPrOkn7O//9TsQIBki2V7JJPGnC0c2/9/0p9r
+ zqkkrgItf1fWpCr5vS8cN4/kHkK1885uGjv10V3YEg==
+X-Google-Smtp-Source: APXvYqy01hY1quFy05q+pDPf8igsMV537m8x5ge+fMZ/zLbJRMyFQkkCszmH0iiOGXa2Zp+6Id78W9QFtep8A916A4I=
+X-Received: by 2002:a9d:398a:: with SMTP id y10mr10539950otb.97.1571914753323; 
+ Thu, 24 Oct 2019 03:59:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20191023130455.1347-1-clg@kaod.org>
+In-Reply-To: <20191023130455.1347-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Oct 2019 11:59:02 +0100
+Message-ID: <CAFEAcA85+1ccLRy8RNxh2yri85-ZTJd-uSpGwRgWda7F0vnA2A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] hw/gpio: Fix property accessors of the AST2600 GPIO
+ 1.8V model
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,63 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 22 Oct 2019 at 20:20, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The MacOS build can time out on Cirrus running to almost an hour.
->> Reduce the scope to the historical MacOS architectures much the same
->> way we do on Travis.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  .cirrus.yml | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/.cirrus.yml b/.cirrus.yml
->> index 8326a3a4b16..4b042c0e12c 100644
->> --- a/.cirrus.yml
->> +++ b/.cirrus.yml
->> @@ -1,5 +1,6 @@
->>  env:
->>    CIRRUS_CLONE_DEPTH: 1
->> +  MACOS_ARCHES: i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86=
-_64-softmmu
+On Wed, 23 Oct 2019 at 14:05, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> I don't know whether Cirrus is our long-term plan for doing
-> CI of OSX (maybe we'll be using Gitlab and some runner on an
-> OSX platform??), but as a general point: since OSX is one of
-> the non-Linux hosts it's therefore worth making sure our
-> compile-coverage is as wide as possible, not narrow. It's
-> safe(r) to have narrow coverage of x86-Linux because people
-> catch issues with that anyway, but it's exactly the less
-> common platforms like OSX, the BSDs, odd architectures that
-> we want to be compile/make-check testing as much of our code
-> as possible.
-
-OK I can drop the patch. It seems the long builds are just a random
-pause that occasionally happens on their MacOS host.
-
+> Hello,
 >
-> thanks
-> -- PMM
+> The property names of AST2600 GPIO 1.8V model are one character bigger
+> than the names of the other ASPEED GPIO model. This change increases
+> the string buffer size by one and parses the property name with a
+> better pattern.
+>
+> This fixes the QOM test of the ast2600-evb machine under :
+>
+>   Apple LLVM version 10.0.0 (clang-1000.10.44.4)
+>   Target: x86_64-apple-darwin17.7.0
+>   Thread model: posix
+>   InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+>
+> And all tests for the AST2600 EVB machine should now pass !
 
+Aha, thanks for finding this bug. In theory the compiler
+could have caught it, but it looks like this isn't one of
+the things -Wformat/-Wformat-security check for.
 
---
-Alex Benn=C3=A9e
+Applied to target-arm.next.
+
+thanks
+-- PMM
 
