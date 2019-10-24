@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17401E34BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:49:31 +0200 (CEST)
-Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28473E3477
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:40:52 +0200 (CEST)
+Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdUW-0002f2-R3
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:49:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55822)
+	id 1iNdMA-0004Xj-Fv
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iNczx-0006ok-Tx
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:17:57 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNd6G-0007Ee-KR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:24:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iNczu-0003KC-RX
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:17:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52030
+ (envelope-from <ehabkost@redhat.com>) id 1iNd6E-0006Ww-3Z
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:24:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42018
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNczs-0003Ih-VI
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:17:49 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNd6D-0006Wa-VE
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:24:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571923067;
+ s=mimecast20190719; t=1571923461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AL9DcZE1kz6lSCTw9ynvp52WRU3zvCyujWx7l1gnLz4=;
- b=CnrB3vtcFWQsoVFKzJhsy8cJY6VAhdt8np4AupW0YtoTxz26lskHfluSFwbhd0TDCcjqB1
- 1vAxZ4gnQHPdbkEObLko1LvaEbrDCPgkSP0Vil0YvevDOQzYgVpBkH1lvYsjxrgyDHoPYM
- VLYPMU9X+LxTqKOdfN28Yhco/ZUIPF8=
+ bh=1hJ1knkfPhjKeEhTWav39es1pC718+ZBZuT/W9EuBl0=;
+ b=iVEoJpMeJRD44pWpb/dA0agusUa94P+S9JyOuOkMlKaZK6U0ekSnlavPKYIVkCNryp40M/
+ q04+inuHQmDHLWvEYQ/TldOeRJAbyHgiXHjOvK1tPJJZHaHIC/aGkhkMJj/Jd09aSZgMuT
+ Glg0moChj4RGn9YyKsvil3OEVppvJ/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-6OUBI_p-PyqcvyQXgdvfwQ-1; Thu, 24 Oct 2019 09:17:44 -0400
+ us-mta-198-4am-lOfWM8yIhU8DeRE8-A-1; Thu, 24 Oct 2019 09:24:18 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA2C880183D;
- Thu, 24 Oct 2019 13:17:42 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C8D5100EBA2;
- Thu, 24 Oct 2019 13:17:40 +0000 (UTC)
-Date: Thu, 24 Oct 2019 15:17:38 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
- s->lock
-Message-ID: <20191024131738.GF6200@linux.fritz.box>
-References: <20191023152620.13166-1-kwolf@redhat.com>
- <20191023152620.13166-3-kwolf@redhat.com>
- <3600fb84-e1f1-c70a-4b83-e7a379f50614@virtuozzo.com>
- <20191024105746.GB6200@linux.fritz.box>
- <a27c197e-c73f-e92f-8e28-1422cf313507@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5426800D49;
+ Thu, 24 Oct 2019 13:24:16 +0000 (UTC)
+Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48B7110027AB;
+ Thu, 24 Oct 2019 13:24:16 +0000 (UTC)
+Date: Thu, 24 Oct 2019 10:24:14 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Kang, Luwei" <luwei.kang@intel.com>
+Subject: Re: [PATCH v4 2/2] i386: Add support to get/set/migrate Intel
+ Processor Trace feature
+Message-ID: <20191024132414.GQ6744@habkost.net>
+References: <1520182116-16485-1-git-send-email-luwei.kang@intel.com>
+ <1520182116-16485-2-git-send-email-luwei.kang@intel.com>
+ <20191012031407.GK4084@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382A209@SHSMSX104.ccr.corp.intel.com>
+ <20191015132929.GY4084@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382BB76@SHSMSX104.ccr.corp.intel.com>
+ <20191022214416.GA21651@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382D523@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <a27c197e-c73f-e92f-8e28-1422cf313507@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <82D7661F83C1A047AF7DC287873BF1E17382D523@SHSMSX104.ccr.corp.intel.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 6OUBI_p-PyqcvyQXgdvfwQ-1
+X-MC-Unique: 4am-lOfWM8yIhU8DeRE8-A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -77,86 +79,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
- "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+ Chao Peng <chao.p.peng@linux.intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 24.10.2019 um 15:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 24.10.2019 13:57, Kevin Wolf wrote:
-> > Am 24.10.2019 um 12:01 hat Denis Lunev geschrieben:
-> >> On 10/23/19 6:26 PM, Kevin Wolf wrote:
-> >>> qcow2_cache_do_get() requires that s->lock is locked because it can
-> >>> yield between picking a cache entry and actually taking ownership of =
-it
-> >>> by setting offset and increasing the reference count.
-> >>>
-> >>> Add an assertion to make sure the caller really holds the lock. The
-> >>> function can be called outside of coroutine context, where bdrv_pread
-> >>> and flushes become synchronous operations. The lock cannot and need n=
-ot
-> >>> be taken in this case.
-> >>>
-> >>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> >>> ---
-> >>>   block/qcow2-cache.c | 5 +++++
-> >>>   1 file changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
-> >>> index d29b038a67..75b13dad99 100644
-> >>> --- a/block/qcow2-cache.c
-> >>> +++ b/block/qcow2-cache.c
-> >>> @@ -327,6 +327,9 @@ static int qcow2_cache_do_get(BlockDriverState *b=
-s, Qcow2Cache *c,
-> >>>       int min_lru_index =3D -1;
-> >>>  =20
-> >>>       assert(offset !=3D 0);
-> >>> +    if (qemu_in_coroutine()) {
-> >>> +        qemu_co_mutex_assert_locked(&s->lock);
-> >>> +    }
-> >>
-> >> that is looking not good to me. If this is really requires lock, we sh=
-ould
-> >> check for the lock always. In the other hand we could face missed
-> >> lock out of coroutine.
+On Thu, Oct 24, 2019 at 11:22:18AM +0000, Kang, Luwei wrote:
+> > > > > > > f9f4cd1..097c953 100644
+> > > > > > > --- a/target/i386/kvm.c
+> > > > > > > +++ b/target/i386/kvm.c
+> > > > > > > @@ -1811,6 +1811,25 @@ static int kvm_put_msrs(X86CPU *cpu, i=
+nt level)
+> > > > > > >                  kvm_msr_entry_add(cpu, MSR_MTRRphysMask(i), =
+mask);
+> > > > > > >              }
+> > > > > > >          }
+> > > > > > > +        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTE=
+L_PT) {
+> > > > > > > +            int addr_num =3D kvm_arch_get_supported_cpuid(kv=
+m_state,
+> > > > > > > +                                                    0x14, 1,
+> > > > > > > + R_EAX) & 0x7;
+> > > > > > > +
+> > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_CTL,
+> > > > > > > +                            env->msr_rtit_ctrl);
+> > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_STATUS,
+> > > > > > > +                            env->msr_rtit_status);
+> > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_OUTPUT_BASE=
+,
+> > > > > > > +                            env->msr_rtit_output_base);
+> > > > > >
+> > > > > > This causes the following crash on some hosts:
+> > > > > >
+> > > > > >   qemu-system-x86_64: error: failed to set MSR 0x560 to 0x0
+> > > > > >   qemu-system-x86_64: target/i386/kvm.c:2673: kvm_put_msrs: Ass=
+ertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+> > > > > >
+> > > > > > Checking for CPUID_7_0_EBX_INTEL_PT is not enough: KVM has
+> > > > > > additional conditions that might prevent writing to this MSR
+> > > > > > (PT_CAP_topa_output && PT_CAP_single_range_output).  This
+> > > > causes QEMU to crash if some of the conditions aren't met.
+> > > > > >
+> > > > > > Writing and reading this MSR (and the ones below) need to be co=
+nditional on KVM_GET_MSR_INDEX_LIST.
+> > > > > >
+> > > > >
+> > > > > Hi Eduardo,
+> > > > >     I found this issue can't be reproduced in upstream source cod=
+e
+> > > > > but can be reproduced on RHEL8.1. I haven't got the qemu source
+> > > > code of RHEL8.1. But after adding some trace in KVM, I found the KV=
+M
+> > > > has reported the complete Intel PT CPUID information to qemu but th=
+e Intel PT CPUID (0x14) is lost when qemu setting the CPUID
+> > to KVM (cpuid level is 0xd). It looks like lost the below patch.
+> > > > >
+> > > > > commit f24c3a79a415042f6dc195f029a2ba7247d14cac
+> > > > > Author: Luwei Kang <luwei.kang@intel.com>
+> > > > > Date:   Tue Jan 29 18:52:59 2019 -0500
+> > > > >     i386: extended the cpuid_level when Intel PT is enabled
+> > > > >
+> > > > >     Intel Processor Trace required CPUID[0x14] but the cpuid_leve=
+l
+> > > > >     have no change when create a kvm guest with
+> > > > >     e.g. "-cpu qemu64,+intel-pt".
+> > > >
+> > > > Thanks for the pointer.  This may avoid triggering the bug in the
+> > > > default configuration, but we still need to make the MSR writing
+> > > > conditional on KVM_GET_MSR_INDEX_LIST.  Older machine-types have x-=
+intel-pt-auto-level=3Doff, and the user may set `level`
+> > manually.
+> > >
+> > > Hi Eduardo,
+> > > Sorry for a delay reply because my mail filter. I tried with the Q35
+> > > machine type and default, all looks work well (With some old cpu type
+> > > + "intel_pt" also work well).  KVM will check the Intel PT work mode
+> > > and HW to decide if Intel PT can be exposed to guest, only extended
+> > > the CPUID level is useless. If the guest doesn't support Intel PT, an=
+y
+> > > MSR read or write will cause #GP. Please remind me if I lost
+> > > something.
 > >=20
-> > As the commit message explains, outside of coroutine context, we can't
-> > yield and bdrv_pread and bdrv_flush become synchronous operations
-> > instead, so there is nothing else that we need to protect against.
+> > I understand you have tried q35 and pc, but have you tried with older m=
+achine-type versions?
 > >=20
+> > Commit f24c3a79a415 doesn't change behavior on pc-*-3.1 and older, so i=
+t only avoids triggering the crash in the default case.
+> > Doesn't QEMU crash if running:
+> > "-cpu qemu64,+intel-pt -machine pc-i440fx-3.1"?
+> >=20
+> > KVM rejecting MSR writes when something is missing is correct.
+> > QEMU trying to write the MSR when something is missing (and crashing be=
+cause of that) is a bug.
 >=20
-> Recently we discussed similar problems about block-dirty-bitmap-* qmp
-> commands, which wanted to update qcow2 metadata about bitmaps from
-> non-coroutine context.  "qcow2 lock"
-> <135df452-397a-30bb-7518-2184fa5971aa@virtuozzo.com>
-> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg01419.html
+> Hi Eduardo,
+>     Yes, you are right. Intel PT is only set in leaf 0x7.ebx but leaf 0x1=
+4 is lost because of the leaf number still 0xd (should 0x14).=20
+>     May I remove the "off" like this?
 
-Hm, right, I already forgot about the nested event loop again...
+We can't.  This is necessary to keep guest ABI compatibility.
+Instead, we need to make QEMU not crash if xlevel is too low,
+because xlevel can be configured by the user.
 
-> And, as I understand, the correct way is to convert to coroutine and
-> lock mutex appropriately. Or we want to lock aio context and to be in
-> drained section to avoid parallel requests accessing critical section.
-> Should we assert such conditions in case of !qemu_in_coroutine() ?
+>=20
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -132,7 +132,6 @@ GlobalProperty pc_compat_3_1[] =3D {
+>      { "Icelake-Client" "-" TYPE_X86_CPU,      "mpx", "on" },
+>      { "Icelake-Server" "-" TYPE_X86_CPU,      "mpx", "on" },
+>      { "Cascadelake-Server" "-" TYPE_X86_CPU, "stepping", "5" },
+> -    { TYPE_X86_CPU, "x-intel-pt-auto-level", "off" },
+>  };
+>  const size_t pc_compat_3_1_len =3D G_N_ELEMENTS(pc_compat_3_1);
+>=20
+> Thanks,
+> Luwei Kang
+>=20
+> >=20
+> > --
+> > Eduardo
+>=20
 
-The AioContext lock must be held anyway, so I don't think this would be
-a new requirement. As for draining, I'll have to see.
-
-I'm currently still auditing all the callers of qcow2_cache_do_get().
-The synchronous callers I already know are the snapshot functions. I
-think these happen to be in a drained section anyway (or should be at
-least), so AioContext lock + drain seems like a very reasonable option
-for them.
-
-For other synchronous callers, if any, maybe conversion to a coroutine
-would make more sense.
-
-Kevin
+--=20
+Eduardo
 
 
