@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FBEE3280
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:38:19 +0200 (CEST)
-Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D445E329F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:43:07 +0200 (CEST)
+Received: from localhost ([::1]:41312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcNe-00014H-Ao
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:38:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39809)
+	id 1iNcSH-0001v3-Nt
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iNbLG-0002Cd-C8
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:31:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNbUf-00067N-85
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:41:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iNbLE-0001Fo-2N
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:31:45 -0400
-Resent-Date: Thu, 24 Oct 2019 07:31:45 -0400
-Resent-Message-Id: <E1iNbLE-0001Fo-2N@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21428)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iNbLD-0001FR-OH
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:31:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571916688; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QUNsxA7DdW2QHOjkykfrpPsddFl1lyn8+zCtBfBLKNa8QuKlpaz9GwOeThVLClnAUfy1cjnbNjGYs5QfIfih/MHpk1mEA4tfNO6D1TWJBbozjcaodik8NuwbzqaQB+WHBRx+Xvhz7P+nJ+2UEe7FCw4wFJm3oX3Vyv4ah5KVh2Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571916688;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=o4Mz8YSpkLl5XG00gpjjvxu1Ufd+uVjqQ9Lj1AKkmjk=; 
- b=Zrsq+jPvURhNTSW3Bsb2wbQgqhg2I/zVCq0TcWz+1DQ9+trhCfbRE8u9lWWsUzLsJ973vqJ8iXFtS+ZTyKFvQmWcW9cQLK75il/F8DbW3EuniI0TYEdma73YD7zVTzRML8xcpRdBP7QCI1x0Z1vxTUeSXpF/f1+wro+sq/SWXYA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571916684186864.0019471948476;
- Thu, 24 Oct 2019 04:31:24 -0700 (PDT)
-In-Reply-To: <1571824420-24893-1-git-send-email-xiajidong@cmss.chinamobile.com>
-Subject: Re: [PATCH] hw/audio: fix a memory leak in OPLCreate()
-Message-ID: <157191668273.6043.7806241572219217020@37313f22b938>
+ (envelope-from <peter.maydell@linaro.org>) id 1iNbUd-0004Vv-Q4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:41:28 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37785)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNbUd-0004Vl-JN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:41:27 -0400
+Received: by mail-oi1-x244.google.com with SMTP id i16so20304209oie.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BJIN4H2esPOlYHkrD4Fg+pRVtEv/m/K1uo9Tg8DRzj4=;
+ b=Gj/9ClAazeNbD0xLH3fnGdmaeeS7YeresvdjSiZmux1MzRluM12PVj/S5Bm9A+8mLq
+ mRua7+cIpmlmMU5agM4+leBP7hU5ryFWtYwvrRQmM5P0PAbXyOSc/yMqgKkFRzIrofpr
+ Ta3qO6GRQSmQC+a1hyI7jLoLn/AoQtBEBWEu8QWL8k/NVkqHvrjeC4bmuKNUcQsFrnz4
+ zQkstsUfY2FoP8HPpBZyR63QdXXFN1z94H/9c6OQjbhTTdYSAQtpR/9pRER0M+bgd1xH
+ Ys877Dl6shHPsf17E3BHTeAa8UcHpTuxQbPetZuaWwioGJ0JtORer4fB7w4vxhY1Ju58
+ 5VrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BJIN4H2esPOlYHkrD4Fg+pRVtEv/m/K1uo9Tg8DRzj4=;
+ b=Vzju0CXRNEU2uT9gohOy/wmyT4lSJi7vRedQdkAHTwtUyrZC/11Ny6FsLdWiVo69Bm
+ qJHNssbLQ+fGnupapy4CytD4nlLJ1InRGaaGZngRDKYsahm4iL/VbdBj65cmiRU6uQMI
+ wq2IQNzkSszQxvDEaZ9Or89xUm6Ze43XtVWTJEQKjEtsOaZStm7CFZwFYbF2THLEVm0P
+ 9LAL0aju2cGzUrtykJ2hlNw17SticaU72mWCNwJeucwAOBMLsWXwjl8jpDyGGF0uVa0M
+ aPgVObGFw7+AeiUCGu6nyMqukQ+zbveNDIESyr8QA/XZFpbhC4QKLu4u4n+BQxEY/QmW
+ wxog==
+X-Gm-Message-State: APjAAAUNgFQ4jXMFgSCeNiq7QTKCka9/JKOfKVnbSIo2eNaQ8d1bZ0jc
+ MH9H+OBywcNufMl7gw3lMTMJ0mQTSdNtoqYRJsBsFw==
+X-Google-Smtp-Source: APXvYqzrq1FM/pOW0z3KRB6qujFBp5rwFUoSeaUsruT4tIMn/27J77oz7TDv5w6Tk7NRhe/GJ1f2kde6JWdPvuNQIOw=
+X-Received: by 2002:aca:49c2:: with SMTP id w185mr4235052oia.163.1571917286204; 
+ Thu, 24 Oct 2019 04:41:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: xiajidong@cmss.chinamobile.com
-Date: Thu, 24 Oct 2019 04:31:24 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+References: <20191023150057.25731-1-richard.henderson@linaro.org>
+In-Reply-To: <20191023150057.25731-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Oct 2019 12:41:15 +0100
+Message-ID: <CAFEAcA_qAo3+4oO+bLY=m-vCdSAxHSRiLBe4xDUxztofmTw21A@mail.gmail.com>
+Subject: Re: [PATCH v9 00/24] target/arm: Reduce overhead of
+ cpu_get_tb_cpu_state
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,41 +72,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: xiajidong@cmss.chinamobile.com, qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTcxODI0NDIwLTI0ODkzLTEt
-Z2l0LXNlbmQtZW1haWwteGlhamlkb25nQGNtc3MuY2hpbmFtb2JpbGUuY29tLwoKCgpIaSwKClRo
-aXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBv
-dXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0hdIGh3L2F1
-ZGlvOiBmaXggYSBtZW1vcnkgbGVhayBpbiBPUExDcmVhdGUoKQpUeXBlOiBzZXJpZXMKTWVzc2Fn
-ZS1pZDogMTU3MTgyNDQyMC0yNDg5My0xLWdpdC1zZW5kLWVtYWlsLXhpYWppZG9uZ0BjbXNzLmNo
-aW5hbW9iaWxlLmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
-cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
-dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
-cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
-aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczov
-L2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0
-Y2hldy8yMDE5MTAyMzEwMTk1Ni4xOTEyMC0xLWtyYXhlbEByZWRoYXQuY29tIC0+IHBhdGNoZXcv
-MjAxOTEwMjMxMDE5NTYuMTkxMjAtMS1rcmF4ZWxAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAg
-ICAgICBwYXRjaGV3LzIwMTkxMDI0MDc0MzA3LjIyODIxLTEtZ2FuZXNoZ3JAbGludXguaWJtLmNv
-bSAtPiBwYXRjaGV3LzIwMTkxMDI0MDc0MzA3LjIyODIxLTEtZ2FuZXNoZ3JAbGludXguaWJtLmNv
-bQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjhmMDE1NTUgaHcvYXVkaW86IGZpeCBh
-IG1lbW9yeSBsZWFrIGluIE9QTENyZWF0ZSgpCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjog
-Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyMTogRklMRTogaHcvYXVkaW8vZm1v
-cGwuYzoxMTE1OgorXklmcmVlKHB0cik7JAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA3
-IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA4ZjAxNTU1YzdiYmEgKGh3L2F1ZGlvOiBmaXggYSBtZW1v
-cnkgbGVhayBpbiBPUExDcmVhdGUoKSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
-LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
-IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9V
-VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU3MTgyNDQyMC0y
-NDg5My0xLWdpdC1zZW5kLWVtYWlsLXhpYWppZG9uZ0BjbXNzLmNoaW5hbW9iaWxlLmNvbS90ZXN0
-aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Wed, 23 Oct 2019 at 16:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Changes since v8:
+>   * Rebuild hflags in linux-user/*/cpu_loop.c, after changing to big-endian.
+>     This allows the armeb busybox ls to pass.  I don't have a test image for
+>     aarch64_eb, but the code looks the same.
+>
+> Changes since v7:
+>   * Rebuild hflags for all successful nvic writes (Peter).
+>   * Rebuild hflags for Xscale sctlr writes (Peter).
+>
+> Changes since v6:
+>   * Regen hflags in two more places for m-profile (patch 19).
+> ...
 
+
+Applied to target-arm.next; planning a pullreq tomorrow.
+
+thanks
+-- PMM
 
