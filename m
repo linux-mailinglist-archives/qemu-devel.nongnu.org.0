@@ -2,68 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08FFE2BE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:16:06 +0200 (CEST)
-Received: from localhost ([::1]:34800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B496BE2BF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:21:11 +0200 (CEST)
+Received: from localhost ([::1]:34848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYHt-0001le-Jw
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35949)
+	id 1iNYMo-0007SC-FI
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iNYGs-0001Gn-Lh
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:15:07 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKQ-0004bu-Bv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iNYGp-000244-Mp
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:15:01 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39856
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKO-0004yO-Ty
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:42 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41657 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iNYGn-00022Y-3p
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:14:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571904894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jziDkiLBQ9fOC5h1WDvDikwF/Y+E02EBVpxpOpCkMS0=;
- b=cy+SAWbkHMYY2hDEjJKJoLhmDJ7fhqsFv50UIoad9hzv54KBfICvLXf+tdw7uc4QuuugkO
- 1ZwkvUjxlmHugfNR/WoYhbuMwtTvW6p+J6tEVKEa2mf5yRRuDZcsQMiYxGEMRqZX3OQWtI
- wOjCcrGyd5JhQgRl4W6pnLj0IAFCFBI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-qq3dEZ6SOeaOfkAwb93YAg-1; Thu, 24 Oct 2019 04:14:53 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E96247B;
- Thu, 24 Oct 2019 08:14:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
- [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC46D60C80;
- Thu, 24 Oct 2019 08:14:49 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A7DB59DB6; Thu, 24 Oct 2019 10:14:48 +0200 (CEST)
-Date: Thu, 24 Oct 2019 10:14:48 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Jidong Xia <xiajidong@cmss.chinamobile.com>
-Subject: Re: [PATCH] hw/audio: fix a memory leak in OPLCreate()
-Message-ID: <20191024081448.asnqqljxb6zxstzp@sirius.home.kraxel.org>
-References: <1571824420-24893-1-git-send-email-xiajidong@cmss.chinamobile.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iNYKN-0004rB-TN; Thu, 24 Oct 2019 04:18:40 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46zKrX210Xz9sPp; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1571905116;
+ bh=1dcj9qWyGSbcbWlw7ODIxYp/AEUQEevIp7s0MAn7vy8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IlIgPLZJWDwiAjphd9VhMT5r4rujtYU+mXtEtp6uw5VxoFdldP4Btv77ykoojUuZt
+ UYqH+OpXXWIvp7c0cyJ2X41IpXkslBtednnr5svEqNeF7C1vKQbWmXd+I/zrvSoEmG
+ WS/EvhhrpUCRgMMHW461q9+1Or8kUhEVGIubO9G8=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/28] ppc-for-4.2 queue 20191024
+Date: Thu, 24 Oct 2019 19:17:45 +1100
+Message-Id: <20191024081813.2115-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <1571824420-24893-1-git-send-email-xiajidong@cmss.chinamobile.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: qq3dEZ6SOeaOfkAwb93YAg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,16 +52,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 23, 2019 at 05:53:40PM +0800, Jidong Xia wrote:
-> There is a memory leak in OPLCreate(),
+The following changes since commit f78398bfe544db81a974825b0a2aa826f65764=
+14:
 
-No, it's released properly in OPLDestroy().
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2019-10-22' i=
+nto staging (2019-10-23 16:06:13 +0100)
 
-cheers,
-  Gerd
+are available in the Git repository at:
 
+  git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191024
+
+for you to fetch changes up to 97c00c54449b4ff349f85c6ce409dadd1b935a7d:
+
+  spapr/xive: Set the OS CAM line at reset (2019-10-24 13:34:15 +1100)
+
+----------------------------------------------------------------
+ppc patch queue 2019-10-24
+
+Last pull request before soft freeze.
+  * Lots of fixes and cleanups for spapr interrupt controllers
+  * More SLOF updates to fix problems with full FDT rendering at CAS
+    time (alas, more yet are to come)
+  * A few other assorted changes
+
+This isn't quite as well tested as I usually try to do before a pull
+request.  But I've been sick and running into some other difficulties,
+and wanted to get this sent out before heading towards KVM forum.
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      pseries: Update SLOF firmware image
+
+C=C3=A9dric Le Goater (8):
+      ppc/pnv: Improve trigger data definition
+      ppc/pnv: Use address_space_stq_be() when triggering an interrupt fr=
+om PSI
+      spapr: move CPU reset after presenter creation
+      ppc/pnv: Introduce a PnvCore reset handler
+      ppc/pnv: Add a PnvChip pointer to PnvCore
+      ppc: Reset the interrupt presenter from the CPU reset handler
+      ppc/pnv: Fix naming of routines realizing the CPUs
+      spapr/xive: Set the OS CAM line at reset
+
+David Gibson (13):
+      spapr, xics, xive: Introduce SpaprInterruptController QOM interface
+      spapr, xics, xive: Move cpu_intc_create from SpaprIrq to SpaprInter=
+ruptController
+      spapr, xics, xive: Move irq claim and free from SpaprIrq to SpaprIn=
+terruptController
+      spapr: Formalize notion of active interrupt controller
+      spapr, xics, xive: Move set_irq from SpaprIrq to SpaprInterruptCont=
+roller
+      spapr, xics, xive: Move print_info from SpaprIrq to SpaprInterruptC=
+ontroller
+      spapr, xics, xive: Move dt_populate from SpaprIrq to SpaprInterrupt=
+Controller
+      spapr, xics, xive: Match signatures for XICS and XIVE KVM connect r=
+outines
+      spapr: Remove SpaprIrq::init_kvm hook
+      spapr, xics, xive: Move SpaprIrq::reset hook logic into activate/de=
+activate
+      spapr, xics, xive: Move SpaprIrq::post_load hook to backends
+      spapr: Remove SpaprIrq::nr_msis
+      spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass
+
+Greg Kurz (5):
+      xive: Make some device types not user creatable
+      xics: Make some device types not user creatable
+      spapr: Set VSMT to smp_threads by default
+      spapr: Don't request to unplug the same core twice
+      spapr_cpu_core: Implement DeviceClass::reset
+
+Stefan Brankovic (1):
+      target/ppc: Fix for optimized vsl/vsr instructions
+
+ hw/intc/pnv_xive.c                  |  20 +-
+ hw/intc/spapr_xive.c                | 324 ++++++++++++-------
+ hw/intc/spapr_xive_kvm.c            |  22 +-
+ hw/intc/xics.c                      |  18 +-
+ hw/intc/xics_kvm.c                  |   9 +-
+ hw/intc/xics_spapr.c                | 117 ++++++-
+ hw/intc/xive.c                      |  31 +-
+ hw/ppc/pnv.c                        |  18 ++
+ hw/ppc/pnv_core.c                   |  31 +-
+ hw/ppc/pnv_psi.c                    |  15 +-
+ hw/ppc/spapr.c                      |  26 +-
+ hw/ppc/spapr_cpu_core.c             |  47 ++-
+ hw/ppc/spapr_irq.c                  | 611 +++++++++++++-----------------=
+------
+ hw/ppc/spapr_pci.c                  |   7 +-
+ include/hw/pci-host/spapr.h         |   4 +-
+ include/hw/ppc/pnv.h                |   1 +
+ include/hw/ppc/pnv_core.h           |   3 +
+ include/hw/ppc/spapr.h              |   7 +-
+ include/hw/ppc/spapr_irq.h          |  64 +++-
+ include/hw/ppc/spapr_xive.h         |  10 +-
+ include/hw/ppc/xics.h               |   1 +
+ include/hw/ppc/xics_spapr.h         |   6 +-
+ include/hw/ppc/xive.h               |   1 +
+ include/hw/ppc/xive_regs.h          |  26 +-
+ pc-bios/README                      |   2 +-
+ pc-bios/slof.bin                    | Bin 930640 -> 928552 bytes
+ roms/SLOF                           |   2 +-
+ target/ppc/translate/vmx-impl.inc.c |  84 +++--
+ 28 files changed, 840 insertions(+), 667 deletions(-)
 
