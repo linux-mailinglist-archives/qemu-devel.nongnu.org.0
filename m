@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5458EE31D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:07:40 +0200 (CEST)
-Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60520E3224
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:21:12 +0200 (CEST)
+Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbty-0006vG-SS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39573)
+	id 1iNc74-0002Ia-9A
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIc-0004eK-N6
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:04 -0400
+ (envelope-from <geoff@hostfission.com>) id 1iNbIB-0003l1-8e
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIb-0000GQ-3s
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:02 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31139
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIa-0000GC-Vw
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571916540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8dTVSvE67KFlYgfkp/+3oF83RGO43NJQ/jk+/2QTuuE=;
- b=iM8jJ2MAxo8XgmLY2Kr2uNAERySm1B4rSKvF6FHf/W9qVTaO3hiJru7ZqEnj/yIHdyj8Lw
- OV3W4FhatKRsHcbN8Wuwt5hZo6OWcEoFuGUox+xNIVcjfnYljByhERa+aRpyLn6ungYqMO
- dERH/rYCYx6UQ9gCrPcoDHV8enPL6tE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-kkV8MDzgPbGRoNN7o-3R1Q-1; Thu, 24 Oct 2019 07:28:56 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21950100550E;
- Thu, 24 Oct 2019 11:28:55 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
- [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80273196B2;
- Thu, 24 Oct 2019 11:28:52 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
- ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
- misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
- piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
- berrange@redhat.com
-Subject: [PATCH 23/25] virtiofsd: add security guide document
-Date: Thu, 24 Oct 2019 12:27:16 +0100
-Message-Id: <20191024112718.34657-24-dgilbert@redhat.com>
-In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
-References: <20191024112718.34657-1-dgilbert@redhat.com>
+ (envelope-from <geoff@hostfission.com>) id 1iNbI7-00005d-FO
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:33 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:44254)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <geoff@hostfission.com>) id 1iNbI4-0008WB-Jd
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:29 -0400
+Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
+ by mail1.hostfission.com (Postfix) with ESMTP id 7ECFC4B25A;
+ Thu, 24 Oct 2019 22:28:25 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1571916505;
+ bh=soJyGi1Ly7uM+HrPRC6ujhgOZJg6JnaBHFf4UxZNIJc=;
+ h=To:Subject:Date:From:Cc:In-Reply-To:References:From;
+ b=u6PTN9wzWh7+aCxb5HUUpe2Pl9sfSq4KGAhXGl93YX8uL+W/zJNc8oS2umg1gJYII
+ S39Z9dIfZQjT6f45wSKRGCBwKOT+qDe4UEMjwd+WqUyw9Kd4FDZQQMLGXxMYvlR+b8
+ xImM72uYEM/YXmgQox17h9YoMeETA2ZDtcJ2cPYc=
+Received: by www1.hostfission.com (Postfix, from userid 1000)
+ id 7677083493; Thu, 24 Oct 2019 22:28:25 +1100 (AEDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: Adding a memory alias breaks v-rings
+X-PHP-Originating-Script: 0:rcube.php
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: kkV8MDzgPbGRoNN7o-3R1Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date: Thu, 24 Oct 2019 22:28:25 +1100
+Cc: qemu-devel@nongnu.org, Alexey Kardashevskiy <aik@ozlabs.ru>, KONRAD
+ Frederic <frederic.konrad@adacore.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <45003cbd-2fdd-248d-85e8-302b4b87957d@redhat.com>
+References: <19efadd24a38e4e877459404ff12ac20@hostfission.com>
+ <45003cbd-2fdd-248d-85e8-302b4b87957d@redhat.com>
+Message-ID: <0acd3f63dff2db6888dfa6635b6023f3@hostfission.com>
+X-Sender: geoff@hostfission.com
+User-Agent: Roundcube Webmail/1.2.3
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 139.99.139.48
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,179 +65,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: geoff@hostfission.com
+From: geoff--- via <qemu-devel@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+Hi Phil
 
-Many people want to know: what's up with virtiofsd and security?  This
-document provides the answers!
+On 2019-10-24 22:07, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Geoffrey,
+>=20
+> On 10/24/19 10:27 AM, geoff@hostfission.com wrote:
+>> Hi All,
+>>=20
+>> I have been working on adding a feature as a proof of concept to=20
+>> improve the performance of applications like Looking Glass by avoiding=
+=20
+>> additional memory copies. My goal is to alias part of the IVSHMEM=20
+>> shared memory over a pointer provided by the guest OS capture API=20
+>> (DXGI Desktop Duplication or NVIDIA Frame Buffer Capture). I have=20
+>> managed to get this working by adding a few additional configuration=20
+>> registers to the IVSHMEM device and enhanced the IVSHMEM windows=20
+>> driver with suitable IOCTLs to set this all up. While this concept is=20
+>> backwards it needs to work this way as we do not have control over the=
+=20
+>> destination buffer allocation by the GPU driver.
+>>=20
+>> This all works, however, it has exposed a bug (or I am doing things=20
+>> improperly) with the way that vhost tracks memory. When calling=20
+>> memory_region_add_subregion_overlap the memory listener in vhost fires=
+=20
+>> triggering vhost_region_add_section. According to the comments this=20
+>> code depends on being called in memory address order, but because I am=
+=20
+>> adding the alias region late, it's out of order, and also splits the=20
+>> upper memory region. This has the effect of corrupting/breaking one or=
+=20
+>> more random vrings, as evidenced by the crash/hang of vhost-net or=20
+>> other virtio devices.
+>=20
+> I'm not sure this is the same issue I had before, but you might
+> find Frederic and Alexey suggestions from this thread helpful:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg525833.html
+>=20
+> Also note vhost_region_add_section() you mentioned has this comment:
+>=20
+>     if (need_add) {
+>         ...
+>         /* The flatview isn't stable and we don't use it, making it=20
+> NULL
+>          * means we can memcmp the list.
+>          */
+>         dev->tmp_sections[dev->n_tmp_sections - 1].fv =3D NULL;
+>=20
+> Maybe you need this change:
+>=20
+> -- >8 --
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -642,6 +642,7 @@ static void vhost_region_add_section(struct=20
+> vhost_dev *dev,
+>           */
+>          dev->tmp_sections[dev->n_tmp_sections - 1].fv =3D NULL;
+>          memory_region_ref(section->mr);
+> +        memory_region_update_container_subregions(section->mr);
+>      }
+>  }
+>=20
+> ---
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- contrib/virtiofsd/security.rst | 108 +++++++++++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
- create mode 100644 contrib/virtiofsd/security.rst
+Unfortunately not, `memory_region_update_container_subregions` is=20
+private in memory.c hangs the VM even if I expose it and call it as you=20
+suggested. It is also already called via=20
+memory_region_add_subregion_overlap anyway.
 
-diff --git a/contrib/virtiofsd/security.rst b/contrib/virtiofsd/security.rs=
-t
-new file mode 100644
-index 0000000000..1f3037f4e4
---- /dev/null
-+++ b/contrib/virtiofsd/security.rst
-@@ -0,0 +1,108 @@
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Virtiofsd Security Guide
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Introduction
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+This document covers security topics for users of virtiofsd, the daemon th=
-at
-+implements host<->guest file system sharing.  Sharing files between one or=
- more
-+guests and the host raises questions about the trust relationships between
-+these entities.  By understanding these topics users can safely deploy
-+virtiofsd and control access to their data.
-+
-+Architecture
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+The virtiofsd daemon process acts as a vhost-user device backend, implemen=
-ting
-+the virtio-fs device that the corresponding device driver inside the guest
-+interacts with.
-+
-+There is one virtiofsd process per virtio-fs device instance.  For example=
-,
-+when two guests have access to the same shared directory there are still t=
-wo
-+virtiofsd processes since there are two virtio-fs device instances.  Simil=
-arly,
-+if one guest has access to two shared directories, there are two virtiofsd
-+processes since there are two virtio-fs device instances.
-+
-+Files are created on the host with uid/gid values provided by the guest.
-+Furthermore, virtiofsd is unable to enforce file permissions since guests =
-have
-+the ability to access any file within the shared directory.  File permissi=
-ons
-+are implemented in the guest, just like with traditional local file system=
-s.
-+
-+Security Requirements
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Guests have root access to the shared directory.  This is necessary for ro=
-ot
-+file systems on virtio-fs and similar use cases.
-+
-+When multiple guests have access to the same shared directory, the guests =
-have
-+a trust relationship.  A broken or malicious guest could delete or corrupt
-+files.  It could exploit symlink or time-of-check-to-time-of-use (TOCTOU) =
-race
-+conditions against applications in other guests.  It could plant device no=
-des
-+or setuid executables to gain privileges in other guests.  It could perfor=
-m
-+denial-of-service (DoS) attacks by consuming available space or making the=
- file
-+system unavailable to other guests.
-+
-+Guests are restricted to the shared directory and cannot access other file=
-s on
-+the host.
-+
-+Guests should not be able to gain arbitrary code execution inside the virt=
-iofsd
-+process.  If they do, the process is sandboxed to prevent escaping into ot=
-her
-+parts of the host.
-+
-+Daemon Sandboxing
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+The virtiofsd process handles virtio-fs FUSE requests from the untrusted g=
-uest.
-+This attack surface could give the guest access to host resources and must
-+therefore be protected.  Sandboxing mechanisms are integrated into virtiof=
-sd to
-+reduce the impact in the event that an attacker gains control of the proce=
-ss.
-+
-+As a general rule, virtiofsd does not trust inputs from the guest, aside f=
-rom
-+uid/gid values.  Input validation is performed so that the guest cannot co=
-rrupt
-+memory or otherwise gain arbitrary code execution in the virtiofsd process=
-.
-+
-+Sandboxing adds restrictions on the virtiofsd so that even if an attacker =
-is
-+able to exploit a bug, they will be constrained to the virtiofsd process a=
-nd
-+unable to cause damage on the host.
-+
-+Seccomp Whitelist
-+-----------------
-+Many system calls are not required by virtiofsd to perform its function.  =
-For
-+example, ptrace(2) and execve(2) are not necessary and attackers are likel=
-y to
-+use them to further compromise the system.  This is prevented using a secc=
-omp
-+whitelist in virtiofsd.
-+
-+During startup virtiofsd installs a whitelist of allowed system calls.  Al=
-l
-+other system calls are forbidden for the remaining lifetime of the process=
-.
-+This list has been built through experience of running virtiofsd on severa=
-l
-+flavors of Linux and observing which system calls were encountered.
-+
-+It is possible that previously unexplored code paths or newer library vers=
-ions
-+will invoke system calls that have not been whitelisted yet.  In this case=
- the
-+process terminates and a seccomp error is captured in the audit log.  The =
-log
-+can typically be viewed using ``journalctl -xe`` and searching for ``SECCO=
-MP``.
-+
-+Should it be necessary to extend the whitelist, system call numbers from t=
-he
-+audit log can be translated to names through a CPU architecture-specific
-+``.tbl`` file in the Linux source tree.  They can then be added to the
-+whitelist in ``seccomp.c`` in the virtiofsd source tree.
-+
-+Mount Namespace
-+---------------
-+During startup virtiofsd enters a new mount namespace and releases all mou=
-nts
-+except for the shared directory.  This makes the file system root `/` the
-+shared directory.  It is impossible to access files outside the shared
-+directory since they cannot be looked up by path resolution.
-+
-+Several attacks, including `..` traversal and symlink escapes, are prevent=
-ed by
-+the mount namespace.
-+
-+The current virtiofsd implementation keeps a directory file descriptor to
-+/proc/self/fd open in order to implement several FUSE requests.  This file
-+descriptor could be used by attackers to access files outside the shared
-+directory.  This limitation will be addressed in a future release of virti=
-ofsd.
-+
-+Deployment Best Practices
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+If the shared directory is also accessible from a host mount namespace, it=
- is
-+recommended to keep a parent directory with rwx------ permissions so that =
-other
-+users on the host are unable to access any setuid executables or device no=
-des
-+in the shared directory.  The `nosuid` and `nodev` mount options can also =
-be
-+used to prevent this issue.
---=20
-2.23.0
+Thanks for the suggestion though :)
 
+>=20
+> Regards,
+>=20
+> Phil.
+>=20
+>> The following and errors are also logged regarding section alignment:
+>>=20
+>> qemu-system-x86_64: vhost_region_add_section:Section rounded to=20
+>> 3c0000000 prior to previous 3fc4f9000
+>> qemu-system-x86_64: vhost_region_add_section:Section rounded to=20
+>> 3c0000000 prior to previous 3fc4f9000
+>>=20
+>> Here is the flat view after the alias has been added.
+>>=20
+>>  =C2=A0 0000000100000000-00000003fc4f8fff (prio 0, ram): mem=20
+>> @0000000080000000 kvm
+>>  =C2=A0 00000003fc4f9000-00000003fc4f9fff (prio 1, ram): ivshmem kvm
+>>  =C2=A0 00000003fc4fa000-000000043fffffff (prio 0, ram): mem=20
+>> @000000037c4fa000 kvm
+>>=20
+>> When the guest doesn't crash out due to the obvious corruption it is=20
+>> possible to verify that the alias is in the right place and fully=20
+>> functional. Unfortunately, I simply do not have enough of a grasp on=20
+>> vhost to understand exactly what is going on and how to correct it.
+>>=20
+>> Getting this feature working is highly desirable as it should be=20
+>> possible to obtain GPU -> GPU memory transfers between guests without=20
+>> requiring workstation/professional graphics cards.
+>>=20
+>> Kind Regards,
+>> Geoffrey McRae
+>>=20
 
