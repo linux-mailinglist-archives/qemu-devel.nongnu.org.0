@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70B8E3269
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:32:47 +0200 (CEST)
-Received: from localhost ([::1]:41082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9E3E327A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:36:16 +0200 (CEST)
+Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcIH-0003x6-EH
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39551)
+	id 1iNcLf-0003L2-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIY-0004W0-S2
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:59 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIo-0004zZ-9p
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIX-0000FQ-Mr
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:58 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25447
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIk-0000Is-Hy
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57302
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIX-0000FF-Ih
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:57 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIk-0000IV-7R
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571916537;
+ s=mimecast20190719; t=1571916549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2zmQoqXTuy3AmkJlK9V5BPRo4oz08bz1cJxtEi8udjo=;
- b=IhLbCnEbvHKaUzfoMjPGiUFJeAJdXNjiHyCLk0+iBEdWFsUUaQ7UakLuqUPmFSf/TFblIN
- dOJgHNFsJr5gm6YmO7yU1MCzkpr750u2+3mPVtkscgMPQAM2C4IpBYZ3re7izd34MZCCKa
- 7k91G0LhRsEEjc0KfZUqCVApucwFANk=
+ bh=tct+SO+6uHPLQvjaJ4I4j6zkVeClNwIC/9KN2i8NK6o=;
+ b=d/L3E9bzsy2bfMCRhr0UzNf9Ri1rQxzl/0duTV/jFI4UecHYxk4EvdBkoYdkIVV44KPWW4
+ Ab1PShJ9s0DB7C1jwF9q7OlpXTfsttZB7zNVTof8ZF2SHZe/MPFPV3qpRnwWAiN3UNBa1f
+ JgLS7PRT5Ifv7PGSzvqJ5FNPikujwnk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-UYg3KWsvPGWWtg4SU_Ismg-1; Thu, 24 Oct 2019 07:28:53 -0400
+ us-mta-22-pNC4eSWkPmyvE5Li-fqbyA-1; Thu, 24 Oct 2019 07:29:04 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37886476;
- Thu, 24 Oct 2019 11:28:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B406B107AD31;
+ Thu, 24 Oct 2019 11:29:02 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
  [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7321C93D;
- Thu, 24 Oct 2019 11:28:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 806C64524;
+ Thu, 24 Oct 2019 11:28:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
  ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
  misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
  piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
  berrange@redhat.com
-Subject: [PATCH 22/25] virtiofsd: set maximum RLIMIT_NOFILE limit
-Date: Thu, 24 Oct 2019 12:27:15 +0100
-Message-Id: <20191024112718.34657-23-dgilbert@redhat.com>
+Subject: [PATCH 24/25] virtiofsd: add --syslog command-line option
+Date: Thu, 24 Oct 2019 12:27:17 +0100
+Message-Id: <20191024112718.34657-25-dgilbert@redhat.com>
 In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
 References: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: UYg3KWsvPGWWtg4SU_Ismg-1
+X-MC-Unique: pNC4eSWkPmyvE5Li-fqbyA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,81 +80,219 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-virtiofsd can exceed the default open file descriptor limit easily on
-most systems.  Take advantage of the fact that it runs as root to set up
-the maximum open file descriptor limit allowed on the system (the
-nr_open sysctl).
+Sometimes collecting output from stderr is inconvenient or does not fit
+within the overall logging architecture.  Add syslog(3) support for
+cases where stderr cannot be used.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+dgilbert: Reworked as a logging function
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- contrib/virtiofsd/passthrough_ll.c | 34 ++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ contrib/virtiofsd/fuse_lowlevel.h  |  1 +
+ contrib/virtiofsd/helper.c         |  2 ++
+ contrib/virtiofsd/passthrough_ll.c | 34 +++++++++++++++++++++++++++---
+ contrib/virtiofsd/seccomp.c        | 32 ++++++++++++++++++++--------
+ contrib/virtiofsd/seccomp.h        |  4 +++-
+ 5 files changed, 60 insertions(+), 13 deletions(-)
 
+diff --git a/contrib/virtiofsd/fuse_lowlevel.h b/contrib/virtiofsd/fuse_low=
+level.h
+index 13fd9791d5..112596caaf 100644
+--- a/contrib/virtiofsd/fuse_lowlevel.h
++++ b/contrib/virtiofsd/fuse_lowlevel.h
+@@ -1798,6 +1798,7 @@ struct fuse_cmdline_opts {
+ =09int show_help;
+ =09int print_capabilities;
+ =09int clone_fd;
++=09int syslog;
+ =09unsigned int max_idle_threads;
+ };
+=20
+diff --git a/contrib/virtiofsd/helper.c b/contrib/virtiofsd/helper.c
+index 08e00c0d13..b1e45aee05 100644
+--- a/contrib/virtiofsd/helper.c
++++ b/contrib/virtiofsd/helper.c
+@@ -53,6 +53,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
+ #endif
+ =09FUSE_HELPER_OPT("clone_fd",=09clone_fd),
+ =09FUSE_HELPER_OPT("max_idle_threads=3D%u", max_idle_threads),
++=09FUSE_HELPER_OPT("--syslog",=09syslog),
+ =09FUSE_OPT_END
+ };
+=20
+@@ -135,6 +136,7 @@ void fuse_cmdline_help(void)
+ =09       "    -V   --version             print version\n"
+ =09       "    --print-capabilities       print vhost-user.json\n"
+ =09       "    -d   -o debug              enable debug output (implies -f)=
+\n"
++=09       "    --syslog                   log to syslog (default stderr)\n=
+"
+ =09       "    -f                         foreground operation\n"
+ =09       "    --daemonize                run in background\n"
+ =09       "    -s                         disable multi-threaded operation=
+\n"
 diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
 ough_ll.c
-index fe46b25fb6..25f7ad854a 100644
+index 25f7ad854a..b413687720 100644
 --- a/contrib/virtiofsd/passthrough_ll.c
 +++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -53,9 +53,11 @@
- #include <sys/xattr.h>
- #include <sys/capability.h>
- #include <sys/mount.h>
-+#include <sys/resource.h>
- #include <sys/types.h>
- #include <sys/wait.h>
+@@ -42,6 +42,7 @@
+ #include <stddef.h>
+ #include <stdbool.h>
+ #include <string.h>
++#include <syslog.h>
+ #include <limits.h>
+ #include <dirent.h>
+ #include <assert.h>
+@@ -151,6 +152,7 @@ static const struct fuse_opt lo_opts[] =3D {
+ =09  offsetof(struct lo_data, norace), 1 },
+ =09FUSE_OPT_END
+ };
++static bool use_syslog =3D false;
 =20
-+#include <glib.h>
- #include "passthrough_helpers.h"
- #include "seccomp.h"
+ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n);
 =20
-@@ -2110,6 +2112,36 @@ static void setup_sandbox(struct lo_data *lo)
- =09setup_seccomp();
+@@ -2103,13 +2105,13 @@ static void setup_mount_namespace(const char *sourc=
+e)
+  * Lock down this process to prevent access to other processes or files ou=
+tside
+  * source directory.  This reduces the impact of arbitrary code execution =
+bugs.
+  */
+-static void setup_sandbox(struct lo_data *lo)
++static void setup_sandbox(struct lo_data *lo, bool enable_syslog)
+ {
+ =09setup_pid_namespace();
+ =09setup_proc_self_fd(lo);
+ =09setup_net_namespace();
+ =09setup_mount_namespace(lo->source);
+-=09setup_seccomp();
++=09setup_seccomp(enable_syslog);
  }
 =20
-+/* Raise the maximum number of open file descriptors to the system limit *=
+ /* Raise the maximum number of open file descriptors to the system limit *=
 /
-+static void setup_nofile_rlimit(void)
+@@ -2142,6 +2144,27 @@ static void setup_nofile_rlimit(void)
+ =09g_free(nr_open);
+ }
+=20
++static void log_func(enum fuse_log_level level,
++=09=09     const char *fmt, va_list ap)
 +{
-+=09gchar *nr_open =3D NULL;
-+=09struct rlimit rlim;
-+=09long long max;
-+
-+=09if (!g_file_get_contents("/proc/sys/fs/nr_open", &nr_open, NULL, NULL))=
- {
-+=09=09fuse_log(FUSE_LOG_ERR, "unable to read /proc/sys/fs/nr_open\n");
-+=09=09exit(1);
++=09if (use_syslog) {
++=09=09int priority =3D LOG_ERR;
++=09=09switch (level) {
++=09=09=09case FUSE_LOG_EMERG:   priority =3D LOG_EMERG;   break;
++=09=09=09case FUSE_LOG_ALERT:   priority =3D LOG_ALERT;   break;
++=09=09=09case FUSE_LOG_CRIT:    priority =3D LOG_CRIT;    break;
++=09=09=09case FUSE_LOG_ERR:     priority =3D LOG_ERR;     break;
++=09=09=09case FUSE_LOG_WARNING: priority =3D LOG_WARNING; break;
++=09=09=09case FUSE_LOG_NOTICE:  priority =3D LOG_NOTICE;  break;
++=09=09=09case FUSE_LOG_INFO:    priority =3D LOG_INFO;    break;
++=09=09=09case FUSE_LOG_DEBUG:   priority =3D LOG_DEBUG;   break;
++=09=09}
++=09=09vsyslog(priority, fmt, ap);
++=09} else {
++=09=09vfprintf(stderr, fmt, ap);
 +=09}
-+
-+=09errno =3D 0;
-+=09max =3D strtoll(nr_open, NULL, 0);
-+=09if (errno) {
-+=09=09fuse_log(FUSE_LOG_ERR, "strtoll(%s): %m\n", nr_open);
-+=09=09exit(1);
-+=09}
-+
-+=09rlim.rlim_cur =3D max;
-+=09rlim.rlim_max =3D max;
-+
-+=09if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-+=09=09fuse_log(FUSE_LOG_ERR, "setrlimit(RLIMIT_NOFILE): %m\n");
-+=09=09exit(1);
-+=09}
-+
-+=09g_free(nr_open);
 +}
 +
  int main(int argc, char *argv[])
  {
  =09struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
-@@ -2125,6 +2157,8 @@ int main(int argc, char *argv[])
- =09/* Don't mask creation mode, kernel already did that */
- =09umask(0);
+@@ -2179,6 +2202,11 @@ int main(int argc, char *argv[])
 =20
-+=09setup_nofile_rlimit();
+ =09if (fuse_parse_cmdline(&args, &opts) !=3D 0)
+ =09=09return 1;
++=09fuse_set_log_func(log_func);
++=09use_syslog =3D opts.syslog;
++=09if (use_syslog) {
++=09    openlog("virtiofsd", LOG_PID, LOG_DAEMON);
++=09}
+ =09if (opts.show_help) {
+ =09=09printf("usage: %s [options]\n\n", argv[0]);
+ =09=09fuse_cmdline_help();
+@@ -2260,7 +2288,7 @@ int main(int argc, char *argv[])
+=20
+ =09fuse_daemonize(opts.foreground);
+=20
+-=09setup_sandbox(&lo);
++=09setup_sandbox(&lo, opts.syslog);
+=20
+ =09/* Block until ctrl+c or fusermount -u */
+ =09ret =3D virtio_loop(se);
+diff --git a/contrib/virtiofsd/seccomp.c b/contrib/virtiofsd/seccomp.c
+index df1390d6be..77bc405bdc 100644
+--- a/contrib/virtiofsd/seccomp.c
++++ b/contrib/virtiofsd/seccomp.c
+@@ -88,11 +88,28 @@ static const int syscall_whitelist[] =3D {
+     SCMP_SYS(writev),
+ };
+=20
+-void setup_seccomp(void)
++/* Syscalls used when --syslog is enabled */
++static const int syscall_whitelist_syslog[] =3D {
++    SCMP_SYS(sendto),
++};
 +
- =09pthread_mutex_init(&lo.mutex, NULL);
- =09lo.root.next =3D lo.root.prev =3D &lo.root;
- =09lo.root.fd =3D -1;
++static void add_whitelist(scmp_filter_ctx ctx, const int syscalls[], size_=
+t len)
+ {
+-    scmp_filter_ctx ctx;
+     size_t i;
+=20
++    for (i =3D 0; i < len; i++) {
++        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, syscalls[i], 0) !=3D 0) =
+{
++            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d failed\n",
++                     syscalls[i]);
++            exit(1);
++        }
++    }
++}
++
++void setup_seccomp(bool enable_syslog)
++{
++    scmp_filter_ctx ctx;
++
+ #ifdef SCMP_ACT_KILL_PROCESS
+     ctx =3D seccomp_init(SCMP_ACT_KILL_PROCESS);
+     /* Handle a newer libseccomp but an older kernel */
+@@ -107,13 +124,10 @@ void setup_seccomp(void)
+         exit(1);
+     }
+=20
+-    for (i =3D 0; i < G_N_ELEMENTS(syscall_whitelist); i++) {
+-        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
+-                             syscall_whitelist[i], 0) !=3D 0) {
+-            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d",
+-                     syscall_whitelist[i]);
+-            exit(1);
+-        }
++    add_whitelist(ctx, syscall_whitelist, G_N_ELEMENTS(syscall_whitelist))=
+;
++    if (enable_syslog) {
++        add_whitelist(ctx, syscall_whitelist_syslog,
++                      G_N_ELEMENTS(syscall_whitelist_syslog));
+     }
+=20
+     /* libvhost-user calls this for post-copy migration, we don't need it =
+*/
+diff --git a/contrib/virtiofsd/seccomp.h b/contrib/virtiofsd/seccomp.h
+index 86bce72652..d47c8eade6 100644
+--- a/contrib/virtiofsd/seccomp.h
++++ b/contrib/virtiofsd/seccomp.h
+@@ -9,6 +9,8 @@
+ #ifndef VIRTIOFSD_SECCOMP_H
+ #define VIRTIOFSD_SECCOMP_H
+=20
+-void setup_seccomp(void);
++#include <stdbool.h>
++
++void setup_seccomp(bool enable_syslog);
+=20
+ #endif /* VIRTIOFSD_SECCOMP_H */
 --=20
 2.23.0
 
