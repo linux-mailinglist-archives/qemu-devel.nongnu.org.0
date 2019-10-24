@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D694E358F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:27:22 +0200 (CEST)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC6DE34F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:05:25 +0200 (CEST)
+Received: from localhost ([::1]:43610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe5B-0007pG-0D
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51416)
+	id 1iNdjv-0005zI-Tx
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1iNckI-0005G2-RM
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:44 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1iNckY-0005dW-1A
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1iNckG-0002TN-UA
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:42 -0400
-Received: from mga11.intel.com ([192.55.52.93]:40494)
+ (envelope-from <yi.l.liu@intel.com>) id 1iNckW-0002fF-DQ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:57 -0400
+Received: from mga11.intel.com ([192.55.52.93]:40489)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNckG-0002O1-KY
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:40 -0400
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNckW-0002NX-1M
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:01:56 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 06:01:36 -0700
+ 24 Oct 2019 06:01:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156239"
+X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156277"
 Received: from iov.bj.intel.com ([10.238.145.67])
- by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:01:33 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:01:42 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
  alex.williamson@redhat.com, peterx@redhat.com
-Subject: [RFC v2 09/22] vfio/pci: add iommu_context notifier for pasid
- alloc/free
-Date: Thu, 24 Oct 2019 08:34:30 -0400
-Message-Id: <1571920483-3382-10-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v2 12/22] intel_iommu: add present bit check for pasid table
+ entries
+Date: Thu, 24 Oct 2019 08:34:33 -0400
+Message-Id: <1571920483-3382-13-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
 References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
@@ -60,184 +60,189 @@ Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds pasid alloc/free notifiers for vfio-pci. It is
-supposed to be fired by vIOMMU. VFIO then sends PASID allocation
-or free request to host.
+The present bit check for pasid entry (pe) and pasid directory
+entry (pdire) were missed in previous commits as fpd bit check
+doesn't require present bit as "Set". This patch adds the present
+bit check for callers which wants to get a valid pe/pdire.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/vfio/common.c         |  9 ++++++
- hw/vfio/pci.c            | 81 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/hw/iommu/iommu.h | 15 +++++++++
- 3 files changed, 105 insertions(+)
+ hw/i386/intel_iommu.c          | 92 +++++++++++++++++++++++++++++++++---------
+ hw/i386/intel_iommu_internal.h |  1 +
+ 2 files changed, 74 insertions(+), 19 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index d418527..e6ad21c 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1436,6 +1436,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
-     if (QLIST_EMPTY(&container->group_list)) {
-         VFIOAddressSpace *space = container->space;
-         VFIOGuestIOMMU *giommu, *tmp;
-+        VFIOIOMMUContext *giommu_ctx, *ctx;
- 
-         QLIST_REMOVE(container, next);
- 
-@@ -1446,6 +1447,14 @@ static void vfio_disconnect_container(VFIOGroup *group)
-             g_free(giommu);
-         }
- 
-+        QLIST_FOREACH_SAFE(giommu_ctx, &container->iommu_ctx_list,
-+                                                   iommu_ctx_next, ctx) {
-+            iommu_ctx_notifier_unregister(giommu_ctx->iommu_ctx,
-+                                                      &giommu_ctx->n);
-+            QLIST_REMOVE(giommu_ctx, iommu_ctx_next);
-+            g_free(giommu_ctx);
-+        }
-+
-         trace_vfio_disconnect_container(container->fd);
-         close(container->fd);
-         g_free(container);
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 12fac39..8721ff6 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2699,11 +2699,80 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
-     vdev->req_enabled = false;
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 84ff6f0..90b8f6c 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -686,9 +686,18 @@ static inline bool vtd_pe_type_check(X86IOMMUState *x86_iommu,
+     return true;
  }
  
-+static void vfio_register_iommu_ctx_notifier(VFIOPCIDevice *vdev,
-+                                             IOMMUContext *iommu_ctx,
-+                                             IOMMUCTXNotifyFn fn,
-+                                             IOMMUCTXEvent event)
+-static int vtd_get_pasid_dire(dma_addr_t pasid_dir_base,
+-                              uint32_t pasid,
+-                              VTDPASIDDirEntry *pdire)
++static inline bool vtd_pdire_present(VTDPASIDDirEntry *pdire)
 +{
-+    VFIOContainer *container = vdev->vbasedev.group->container;
-+    VFIOIOMMUContext *giommu_ctx;
-+
-+    giommu_ctx = g_malloc0(sizeof(*giommu_ctx));
-+    giommu_ctx->container = container;
-+    giommu_ctx->iommu_ctx = iommu_ctx;
-+    QLIST_INSERT_HEAD(&container->iommu_ctx_list,
-+                      giommu_ctx,
-+                      iommu_ctx_next);
-+    iommu_ctx_notifier_register(iommu_ctx,
-+                                &giommu_ctx->n,
-+                                fn,
-+                                event);
++    return pdire->val & 1;
 +}
 +
-+static void vfio_iommu_pasid_alloc_notify(IOMMUCTXNotifier *n,
-+                                          IOMMUCTXEventData *event_data)
-+{
-+    VFIOIOMMUContext *giommu_ctx = container_of(n, VFIOIOMMUContext, n);
-+    VFIOContainer *container = giommu_ctx->container;
-+    IOMMUCTXPASIDReqDesc *pasid_req =
-+                              (IOMMUCTXPASIDReqDesc *) event_data->data;
-+    struct vfio_iommu_type1_pasid_request req;
-+    unsigned long argsz;
-+    int pasid;
-+
-+    argsz = sizeof(req);
-+    req.argsz = argsz;
-+    req.flag = VFIO_IOMMU_PASID_ALLOC;
-+    req.min_pasid = pasid_req->min_pasid;
-+    req.max_pasid = pasid_req->max_pasid;
-+
-+    pasid = ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-+    if (pasid < 0) {
-+        error_report("%s: %d, alloc failed", __func__, -errno);
-+    }
-+    pasid_req->alloc_result = pasid;
-+}
-+
-+static void vfio_iommu_pasid_free_notify(IOMMUCTXNotifier *n,
-+                                          IOMMUCTXEventData *event_data)
-+{
-+    VFIOIOMMUContext *giommu_ctx = container_of(n, VFIOIOMMUContext, n);
-+    VFIOContainer *container = giommu_ctx->container;
-+    IOMMUCTXPASIDReqDesc *pasid_req =
-+                              (IOMMUCTXPASIDReqDesc *) event_data->data;
-+    struct vfio_iommu_type1_pasid_request req;
-+    unsigned long argsz;
-+    int ret = 0;
-+
-+    argsz = sizeof(req);
-+    req.argsz = argsz;
-+    req.flag = VFIO_IOMMU_PASID_FREE;
-+    req.pasid = pasid_req->pasid;
-+
-+    ret = ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-+    if (ret != 0) {
-+        error_report("%s: %d, pasid %u free failed",
-+                   __func__, -errno, (unsigned) pasid_req->pasid);
-+    }
-+    pasid_req->free_result = ret;
-+}
-+
- static void vfio_realize(PCIDevice *pdev, Error **errp)
++/**
++ * Caller of this function should check present bit if wants
++ * to use pdir entry for futher usage except for fpd bit check.
++ */
++static int vtd_get_pdire_from_pdir_table(dma_addr_t pasid_dir_base,
++                                         uint32_t pasid,
++                                         VTDPASIDDirEntry *pdire)
  {
-     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-+    IOMMUContext *iommu_context;
-     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
-     Error *err = NULL;
-     ssize_t len;
-@@ -3000,6 +3069,18 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     vfio_register_req_notifier(vdev);
-     vfio_setup_resetfn_quirk(vdev);
+     uint32_t index;
+     dma_addr_t addr, entry_size;
+@@ -703,18 +712,22 @@ static int vtd_get_pasid_dire(dma_addr_t pasid_dir_base,
+     return 0;
+ }
  
-+    iommu_context = pci_device_iommu_context(pdev);
-+    if (iommu_context) {
-+        vfio_register_iommu_ctx_notifier(vdev,
-+                                         iommu_context,
-+                                         vfio_iommu_pasid_alloc_notify,
-+                                         IOMMU_CTX_EVENT_PASID_ALLOC);
-+        vfio_register_iommu_ctx_notifier(vdev,
-+                                         iommu_context,
-+                                         vfio_iommu_pasid_free_notify,
-+                                         IOMMU_CTX_EVENT_PASID_FREE);
+-static int vtd_get_pasid_entry(IntelIOMMUState *s,
+-                               uint32_t pasid,
+-                               VTDPASIDDirEntry *pdire,
+-                               VTDPASIDEntry *pe)
++static inline bool vtd_pe_present(VTDPASIDEntry *pe)
++{
++    return pe->val[0] & VTD_PASID_ENTRY_P;
++}
++
++static int vtd_get_pe_in_pasid_leaf_table(IntelIOMMUState *s,
++                                          uint32_t pasid,
++                                          dma_addr_t addr,
++                                          VTDPASIDEntry *pe)
+ {
+     uint32_t index;
+-    dma_addr_t addr, entry_size;
++    dma_addr_t entry_size;
+     X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+ 
+     index = VTD_PASID_TABLE_INDEX(pasid);
+     entry_size = VTD_PASID_ENTRY_SIZE;
+-    addr = pdire->val & VTD_PASID_TABLE_BASE_ADDR_MASK;
+     addr = addr + index * entry_size;
+     if (dma_memory_read(&address_space_memory, addr, pe, entry_size)) {
+         return -VTD_FR_PASID_TABLE_INV;
+@@ -732,25 +745,54 @@ static int vtd_get_pasid_entry(IntelIOMMUState *s,
+     return 0;
+ }
+ 
+-static int vtd_get_pasid_entry_from_pasid(IntelIOMMUState *s,
+-                                          dma_addr_t pasid_dir_base,
+-                                          uint32_t pasid,
+-                                          VTDPASIDEntry *pe)
++/**
++ * Caller of this function should check present bit if wants
++ * to use pasid entry for futher usage except for fpd bit check.
++ */
++static int vtd_get_pe_from_pdire(IntelIOMMUState *s,
++                                 uint32_t pasid,
++                                 VTDPASIDDirEntry *pdire,
++                                 VTDPASIDEntry *pe)
++{
++    dma_addr_t addr = pdire->val & VTD_PASID_TABLE_BASE_ADDR_MASK;
++
++    return vtd_get_pe_in_pasid_leaf_table(s, pasid, addr, pe);
++}
++
++/**
++ * This function gets a pasid entry from a specified pasid
++ * table (includes dir and leaf table) with a specified pasid.
++ * Sanity check should be done to ensure return a present
++ * pasid entry to caller.
++ */
++static int vtd_get_pe_from_pasid_table(IntelIOMMUState *s,
++                                       dma_addr_t pasid_dir_base,
++                                       uint32_t pasid,
++                                       VTDPASIDEntry *pe)
+ {
+     int ret;
+     VTDPASIDDirEntry pdire;
+ 
+-    ret = vtd_get_pasid_dire(pasid_dir_base, pasid, &pdire);
++    ret = vtd_get_pdire_from_pdir_table(pasid_dir_base,
++                                        pasid, &pdire);
+     if (ret) {
+         return ret;
+     }
+ 
+-    ret = vtd_get_pasid_entry(s, pasid, &pdire, pe);
++    if (!vtd_pdire_present(&pdire)) {
++        return -VTD_FR_PASID_TABLE_INV;
 +    }
 +
-     return;
++    ret = vtd_get_pe_from_pdire(s, pasid, &pdire, pe);
+     if (ret) {
+         return ret;
+     }
  
- out_teardown:
-diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
-index c22c442..4352afd 100644
---- a/include/hw/iommu/iommu.h
-+++ b/include/hw/iommu/iommu.h
-@@ -31,10 +31,25 @@
- typedef struct IOMMUContext IOMMUContext;
- 
- enum IOMMUCTXEvent {
-+    IOMMU_CTX_EVENT_PASID_ALLOC,
-+    IOMMU_CTX_EVENT_PASID_FREE,
-     IOMMU_CTX_EVENT_NUM,
- };
- typedef enum IOMMUCTXEvent IOMMUCTXEvent;
- 
-+union IOMMUCTXPASIDReqDesc {
-+    struct {
-+        uint32_t min_pasid;
-+        uint32_t max_pasid;
-+        int32_t alloc_result; /* pasid allocated for the alloc request */
-+    };
-+    struct {
-+        uint32_t pasid; /* pasid to be free */
-+        int free_result;
-+    };
-+};
-+typedef union IOMMUCTXPASIDReqDesc IOMMUCTXPASIDReqDesc;
+-    return ret;
++    if (!vtd_pe_present(pe)) {
++        return -VTD_FR_PASID_TABLE_INV;
++    }
 +
- struct IOMMUCTXEventData {
-     IOMMUCTXEvent event;
-     uint64_t length;
++    return 0;
+ }
+ 
+ static int vtd_ce_get_rid2pasid_entry(IntelIOMMUState *s,
+@@ -763,7 +805,7 @@ static int vtd_ce_get_rid2pasid_entry(IntelIOMMUState *s,
+ 
+     pasid = VTD_CE_GET_RID2PASID(ce);
+     pasid_dir_base = VTD_CE_GET_PASID_DIR_TABLE(ce);
+-    ret = vtd_get_pasid_entry_from_pasid(s, pasid_dir_base, pasid, pe);
++    ret = vtd_get_pe_from_pasid_table(s, pasid_dir_base, pasid, pe);
+ 
+     return ret;
+ }
+@@ -781,7 +823,11 @@ static int vtd_ce_get_pasid_fpd(IntelIOMMUState *s,
+     pasid = VTD_CE_GET_RID2PASID(ce);
+     pasid_dir_base = VTD_CE_GET_PASID_DIR_TABLE(ce);
+ 
+-    ret = vtd_get_pasid_dire(pasid_dir_base, pasid, &pdire);
++    /*
++     * No present bit check since fpd is meaningful even
++     * if the present bit is clear.
++     */
++    ret = vtd_get_pdire_from_pdir_table(pasid_dir_base, pasid, &pdire);
+     if (ret) {
+         return ret;
+     }
+@@ -791,7 +837,15 @@ static int vtd_ce_get_pasid_fpd(IntelIOMMUState *s,
+         return 0;
+     }
+ 
+-    ret = vtd_get_pasid_entry(s, pasid, &pdire, &pe);
++    if (!vtd_pdire_present(&pdire)) {
++        return -VTD_FR_PASID_TABLE_INV;
++    }
++
++    /*
++     * No present bit check since fpd is meaningful even
++     * if the present bit is clear.
++     */
++    ret = vtd_get_pe_from_pdire(s, pasid, &pdire, &pe);
+     if (ret) {
+         return ret;
+     }
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index c6cb28b..879211e 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -529,6 +529,7 @@ typedef struct VTDRootEntry VTDRootEntry;
+ #define VTD_PASID_ENTRY_FPD           (1ULL << 1) /* Fault Processing Disable */
+ 
+ /* PASID Granular Translation Type Mask */
++#define VTD_PASID_ENTRY_P              1ULL
+ #define VTD_SM_PASID_ENTRY_PGTT        (7ULL << 6)
+ #define VTD_SM_PASID_ENTRY_FLT         (1ULL << 6)
+ #define VTD_SM_PASID_ENTRY_SLT         (2ULL << 6)
 -- 
 2.7.4
 
