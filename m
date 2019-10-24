@@ -2,34 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E19E3A9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:06:44 +0200 (CEST)
-Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F035E3AF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:27:55 +0200 (CEST)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhVT-0004zT-8q
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39924)
+	id 1iNhpx-0002U7-KD
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40099)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNgrc-0003gq-UP
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:25:35 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNgsc-0005QT-GP
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNgrb-00061H-76
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:25:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:45061)
+ (envelope-from <laurent@vivier.eu>) id 1iNgsa-0006KO-8g
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:26:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:58911)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNgrX-000607-Pb; Thu, 24 Oct 2019 13:25:31 -0400
+ id 1iNgsY-0006HT-8C; Thu, 24 Oct 2019 13:26:30 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MAwPZ-1iGqIG0FrN-00BIAA; Thu, 24 Oct 2019 19:25:09 +0200
-Subject: Re: [Qemu-devel] [PATCH] pci_bridge: fix a typo in comment
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- maozy <maozhongyi@cmss.chinamobile.com>, qemu-devel@nongnu.org
-References: <20181108122102.9915-1-maozhongyi@cmss.chinamobile.com>
- <1898dc23-c512-88bd-cb73-5a2cffccd176@redhat.com>
- <7f3e7954-3574-9f44-7710-4a488c1d0fe2@cmss.chinamobile.com>
- <f68aacf9-2ac3-2a9d-8aab-6a86c52cbacb@redhat.com>
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MnaTt-1hgPYw3RLx-00jWFm; Thu, 24 Oct 2019 19:26:23 +0200
+Subject: Re: [PATCH 1/3] util/async: avoid useless cast
+To: Frediano Ziglio <fziglio@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
+References: <20191023122652.2999-1-fziglio@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -73,36 +69,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <6e4e6d91-5b79-8c7f-b0bd-846db8850f2c@vivier.eu>
-Date: Thu, 24 Oct 2019 19:25:06 +0200
+Message-ID: <17410622-d980-730d-ae77-9fa53a64a9d4@vivier.eu>
+Date: Thu, 24 Oct 2019 19:26:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <f68aacf9-2ac3-2a9d-8aab-6a86c52cbacb@redhat.com>
+In-Reply-To: <20191023122652.2999-1-fziglio@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jxyzHHTiVQKPQ+1SDPElemjsGE7X8wtNaycwJCQpd4LuOp84HgW
- /FoaPHe0NUi6nvoL0s4qbSIIz6frM+IwTgtmfGbXOHxJZvBhvBPjRl4f4rbSltd+/zncanC
- dR32jNXcWrPZSe9GO/jnecVzEjhUlmGpVjLGEKnasb6yjKunbtaSH9qoZIzkv3AWvW/MiWk
- I6e1kl4X2Fz5FwLPbRbMQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dGlWQQgmkJA=:aF0jztbc6xwHvx8ooBQiBf
- +6ESL21OqrPxEtndDPJ+XIN+t27ZxnvGfFZ1WEZq9miEYHRNgCwR3xtl26KznOJaIrTgWhzQ+
- 3ZTCoiDPiWdBjkGcTUrito+IzWq24HfYXPDdnMIPWqTag8oaiEoenY2Gdy4YrbCrDYJCfhETy
- kXJ5+R0cDcwow3VggHdoKCVLoXanWwTABc67R1w9FtcUDIldT+l6OyeowcOE9x8u2/M1dqN91
- 5Mv59LenJ+wi/iNwVOrDlRJAJDZu8M6cCD6RkGR2mpHyRwFQi5nzFvIC39V6DsZM8HS1jlYGZ
- TEU/BXkyOTlTvRqHIlr7qSYuyvwlOp2+VSReHGSEJxx+oCcj+fILCHAB7giGgueKKwLdnOH7m
- Pmu31yTX0vGrXIAF3ZlSYjJVPSPfFYAwwTZlikLCrNV3iAXNjxI/1yk1f7xSz0Cw0nOupa/Rd
- 2qPWHzRa1IMzL3vqRMNJj5OJkQLIJ808AmjLZU+7rYmW0fd1v6+YPmfXujGD5uCLFRY6l4MEE
- uH104SPHOG3LqYwLkKBRvmpsshBw5Y8w/FUGn3Aj4bFpXkawAzTIjqTwhg9wr9o3ljx1ptuo2
- ApNoLkzjBQlXyNsNoWPAdk91GcZtnSY6dWppTjFjyGfUTE+6pMPxf3rEdKa+xruIdfjDTMWdM
- 8yTUArl4JQmnblSSgojHnZj1r4rhM1/oaqvd0PveIjwK9zzgpIY0nfK8unAt3h3Nw5EjVZQvQ
- QYzV2/3LHZSjUobot6fhRWj30fKDRs+ZraiVBK5p6rrm7/v+8AD8KjjIyJ3Hlz9R9fnTb4DNM
- nV+H60+v1L7ysz6lh326JY7R7090GvvQrsGyA8SDmDQYQtMlDziZvkM8ONATreoq2tYrW0lhe
- gcMuIFVeEA3cFXXjTsPgd1tKQAtTob7JTazqwNcX8=
+X-Provags-ID: V03:K1:k1hPNn20zvIcs/x7bUo89AxCJEyYRCM6OJP4pp/MJ200PRAPkIH
+ veCJ+d2ta61yCV6/6hBhvDkOXjJzE5Dkk2ZCm1NueNz0gZNxgLlRNH3/Qwd5w8N6Re+IEvG
+ oxzVJKim+PBs8SiUyHW1tpZHuAWbSabmJXYv/uMFXGF6soBa//oYpielE9pR2mb7Rl8UgsY
+ XuVeU2i+XMTqF7JKsjz1Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ku2i3mIkSKU=:qLYETMCEAg82cqCZzuoEQF
+ 8uwECz/9qKBvdVkpJvULtiVoydEhjpa2FQy4stBeonv9jaW+8t9Onbrrr8M0AHKQZAym50PKZ
+ sp6jvdtyXEBzkT5s5cCfe2HNaq27iXlkGSuFypM1ZiPUx8uSVo/ZxwoYAG81GrV0GbckW1mVr
+ MbfUZcBRHyUe/0z0RNxB5XtaCFu9maOMR4FAbbVewQDHQfgcrw5YC8rDEukXssvP5N3+mxS0G
+ 2v7HJEYO5ynXnR9uwdkSfw+ezM/oahPiv24zf9GydZuSTXSjKSiDOUMBT6Z5ZSf6S6nWfLTBb
+ v0izP5xCHVD0vrmUyrOMlY4kOPaaZLOd+VEADn9cOv8G3cCdwYe2WhE0o80iQ4gcnSn2cCJZ7
+ sc0yj46uQEOXFvo5xh75xsXunfB/snJ3k5xytjSL7bHo+51VJhkEjCDtTcmrdE4y401uW7pms
+ 0feQ6RB4Ssph8SvlmyRFzkiqnkxfGvBDg7aazbgnyXXLD/DZIv0PRAObp3u5jXZIVQ3epnIt/
+ MvTQUCQRCkiEHBLak57ZnUxhjndOMDeT3EaAxB7yj99yn/XXOEWkl5OtJhVhzs/g0ZRaRooe6
+ EI5YBsFnj0JAxGYp/lWdwmt/eVTXM0XgRch6/e5fsu2LIH3iZyKsCZIGhOL3KqudluLYl/0kb
+ fhsDZKKFryBVWFgzAUc9s1VN755kf5TPzaatR/f5dtSNSYy8zuZQz8zNtiJa1KQkiw4SelhXL
+ 3OoZkZgdM/nI2bLyrQ5DcnxoNOJxpUNq0LZTld51TZGbJNQXD7/5MwSNyWwaEcx1x604ViQc5
+ GPgSghQpKjjJ57/khgGMVVGd5VGxAeu5f25LJKZV8zEHa1vCk6yJJg0QS7KG9mgqF+E0qSKdK
+ OqrI+XlNkYub0OkWEH2oYbPPTXKMfMZEOgDapslYo=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.134
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,46 +110,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, mst@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/10/2019 à 12:47, Philippe Mathieu-Daudé a écrit :
-> On 10/23/19 5:32 AM, maozy wrote:
->> ping...
+Le 23/10/2019 à 14:26, Frediano Ziglio a écrit :
+> event_notifier_dummy_cb is already compatible with EventNotifierHandler.
 > 
-> I'm not sure qemu-trivial@ received this one because the email address
-> looked odd (now fixed).
+> Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
+> ---
+>  util/async.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
->>
->> On 11/8/18 9:12 PM, Philippe Mathieu-Daudé wrote:
->>> Cc'ing qemu-trivial@
->>>
->>> On 8/11/18 13:21, Mao Zhongyi wrote:
->>>> Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
->>>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>
->>>> ---
->>>>   hw/pci/pci_bridge.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
->>>> index ee9dff2d3a..da8daa3ff2 100644
->>>> --- a/hw/pci/pci_bridge.c
->>>> +++ b/hw/pci/pci_bridge.c
->>>> @@ -310,7 +310,7 @@ void pci_bridge_reset(DeviceState *qdev)
->>>>       /*
->>>>        * the default values for base/limit registers aren't specified
->>>> -     * in the PCI-to-PCI-bridge spec. So we don't thouch them here.
->>>> +     * in the PCI-to-PCI-bridge spec. So we don't touch them here.
->>>>        * Each implementation can override it.
->>>>        * typical implementation does
->>>>        * zero base/limit registers or
->>>>
->>>
->>
->>
+> diff --git a/util/async.c b/util/async.c
+> index ca83e32c7f..b1fa5319e5 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -429,7 +429,6 @@ AioContext *aio_context_new(Error **errp)
+>  
+>      aio_set_event_notifier(ctx, &ctx->notifier,
+>                             false,
+> -                           (EventNotifierHandler *)
+>                             event_notifier_dummy_cb,
+>                             event_notifier_poll);
+>  #ifdef CONFIG_LINUX_AIO
 > 
 
 Applied to my trivial-patches branch.
