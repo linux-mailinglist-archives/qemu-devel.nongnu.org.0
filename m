@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A055E31BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:04:01 +0200 (CEST)
-Received: from localhost ([::1]:40520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AE4E31D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:07:17 +0200 (CEST)
+Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbqR-00082S-QZ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33027)
+	id 1iNbtb-0006H6-Up
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNb4Z-000644-Q4
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:32 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNb59-0007Jk-Tw
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:15:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNb4Y-0002DS-Gi
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:31 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45724)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNb4Y-0002Cb-4v
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:30 -0400
-Received: by mail-wr1-x435.google.com with SMTP id q13so20636977wrs.12
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=f63dB6hLG8yXun8B3m+kJKUwp9SZsm+9kHC3CVxTHYY=;
- b=Ldos5N8fDKiQpHNrsRoDB0u2uP++bu15v95BzAvY6kWgJQql7Gvxt6iwtGZtI95hTp
- r/8mwDPVnHJN0TMMnxEDEt1uAO7MuutL6cMhiKGYcT/dMz1FBzuC1EmUWT6HMAtZxkBE
- jkDG4vBJj7P50SVhxMR0BuouvNVChQtlqiaYOsS54d7uKtbLp2JBW9Gk3GMmJqwpU/mF
- hn5X6rpvJlFFCDSl0zhZBajsLm93fiQffU7VQBf5YxzmNyGgyEiQTiuhiQG8caQKPjjb
- Dl8N7Yaa7Vk/68jePtnZpG1k1Q6Pm3zEJh1oRRb5wfzK2Xo7cVxqaE9ei2B0Egq+nUTY
- Ouag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=f63dB6hLG8yXun8B3m+kJKUwp9SZsm+9kHC3CVxTHYY=;
- b=B2CIGflkxWy6WTaZkrpPR8tmmc/Ee3gGC9Djsp0qyiDg+enxYiz9RrXwDTsGlWkQKH
- WX15DJiicCKdrTde0zRGCoAJLJu0ibXhB2P1Yq5LunpOAGtijE8xomgaStiNb+juYXMZ
- nVymPXGdmAD45j1hYv3Q23IieNs+ufOhkw+5TCOF/T8oaU8e0uEbB4LA1nuM2NGRY94i
- luf1z0nEh89GcB723X8BucjNIWQVwNECBxRvRHRkKoaZFo5R/Kze6k4WXhC7HU7kcfqx
- AD6dh9o+f9jk0552cpxLx/2yVbk9kRW9s1zzfw5eJ1i2PQ82nM66ny1D+wbBcr+0g3wz
- 0lZA==
-X-Gm-Message-State: APjAAAUjSYUm3YU9oM9vLn1AcCOqX/Cv+ODSkDc46MNw696V8/jIuQnV
- A4nf7+kOLTqOVd5eMsds859DIQ==
-X-Google-Smtp-Source: APXvYqwAvv+BDWf+ueCxqjW152AvXJJnzNj8JCZyYp+pIRTgCVVATrNnYTOhOt8h8VQeDPIqNDDUYQ==
-X-Received: by 2002:a5d:66c1:: with SMTP id k1mr3543854wrw.73.1571915668347;
- Thu, 24 Oct 2019 04:14:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i18sm22886295wrx.14.2019.10.24.04.14.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 04:14:27 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C0C3C1FF87;
- Thu, 24 Oct 2019 12:14:26 +0100 (BST)
-References: <20191022072135.11188-1-thuth@redhat.com>
- <20191022072135.11188-6-thuth@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 5/6] iotests: Enable more tests in the 'auto' group
- to improve test coverage
-In-reply-to: <20191022072135.11188-6-thuth@redhat.com>
-Date: Thu, 24 Oct 2019 12:14:26 +0100
-Message-ID: <87ftjimm3x.fsf@linaro.org>
+ (envelope-from <dgilbert@redhat.com>) id 1iNb58-0002Yc-6s
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:15:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40496
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNb58-0002UG-2A
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:15:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571915695;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+uHuojtoM4+pRGnc2fC/uASFcIPEoOkUoCTnhlegUO8=;
+ b=TG/ZaXnPiYbTUD5HtL0HxXrw3nsSexAxzMnVAFklbinizlgrh/W+SQa3Ts9ZuHOyiVo/Ys
+ O2NboZ6mHTn9/oky5HN5zCgb1rAXMtZSSln+E76EHSRT2rr1oGBsl1w5GcqLiIpL8v+75V
+ 2Xc0Wx/XDHwJYi4N2dEsJd5kWJ0LES0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-Nr9deEWZPcuaQorcLF1VMw-1; Thu, 24 Oct 2019 07:14:53 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB92D100550E;
+ Thu, 24 Oct 2019 11:14:52 +0000 (UTC)
+Received: from work-vm (ovpn-117-248.ams2.redhat.com [10.36.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6AD560C83;
+ Thu, 24 Oct 2019 11:14:41 +0000 (UTC)
+Date: Thu, 24 Oct 2019 12:14:39 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 00/30] virtiofs daemon (base)
+Message-ID: <20191024111439.GD2877@work-vm>
+References: <20191021105832.36574-1-dgilbert@redhat.com>
+ <157166664425.24734.3489596262271351160@37313f22b938>
+ <20191021143357.GB5837@work-vm>
+ <20191024065826-mutt-send-email-mst@kernel.org>
+ <20191024110708.GI3700@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191024110708.GI3700@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Nr9deEWZPcuaQorcLF1VMw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::435
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,75 +76,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ piaojun@huawei.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Thu, Oct 24, 2019 at 06:59:33AM -0400, Michael S. Tsirkin wrote:
+> > On Mon, Oct 21, 2019 at 03:33:57PM +0100, Dr. David Alan Gilbert wrote:
+> > > * no-reply@patchew.org (no-reply@patchew.org) wrote:
+> > > > Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dgilbe=
+rt@redhat.com/
+> > > >=20
+> > > >=20
+> > > >=20
+> > > > Hi,
+> > > >=20
+> > > > This series seems to have some coding style problems. See output be=
+low for
+> > > > more information:
+> > > >=20
+> > > > Subject: [PATCH 00/30] virtiofs daemon (base)
+> > > > Type: series
+> > > > Message-id: 20191021105832.36574-1-dgilbert@redhat.com
+> > > >=20
+> > > > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> > > > #!/bin/bash
+> > > > git rev-parse base > /dev/null || exit 0
+> > > > git config --local diff.renamelimit 0
+> > > > git config --local diff.renames True
+> > > > git config --local diff.algorithm histogram
+> > > > ./scripts/checkpatch.pl --mailback base..
+> > >=20
+> > > Expecting checkpatch to be broken here; most of the files
+> > > follow FUSE's formatting.
+> > >=20
+> > > Dave
+> >=20
+> > I wonder what do others think about this.
+> > One problem with such inconsistencies is that people tend to copy code
+> > around, which tends to result in a mess.
+>=20
+> IIUC, most of this code is simpy copied as-is from the fuse or linux
+> git repos. I'm wondering what the intention is for it long term ?
+>=20
+> For header files, I would have expected us to be able to compile against
+> the -devel package provided by the kernel or fuse packages. I can
+> understand if we want to import the headers if the VSOCK additions to
+> them are not yet widely available in distros though. If this is the case
+> we should put a time limit on how long we'd keep these copied headers
+> around for before dropping them. It would be fine to violate QEMU coding
+> style in this case as its not code QEMU would "maintain" long term - just
+> a read-only import.
 
-Thomas Huth <thuth@redhat.com> writes:
+The headers are really two types;  one are external definitions, the
+other are internal parts of libfuse.  I'd expect to keep the internal
+parts long term; teh external parts hmm; where would we pull them in
+externally from?
 
-<snip>
->
-> According to Max, it would be good to have a test for iothreads and
-> migration. 127 and 256 seem to be good candidates for iothreads. For
-> migration, let's enable 091, 181, and 203 (which also tests iothreads).
-<snip>
-> @@ -112,7 +112,7 @@
->  088 rw quick
->  089 rw auto quick
->  090 rw auto quick
-> -091 rw migration
-> +091 rw auto migration
+> The source files though, we appear to then be modifying locally, which
+> suggests they'll live in our repo forever. In this case I'd expect to
+> have compliance with QEMU coding standards.
 
+OK.
 
-This is breaking consistently on my ZFS machine:
+> I'm surprised we need to copy so much in from fuse though. Is there a
+> case to be made for fuse to provide a library of APIs for people who
+> are building fuse daemons to link against, instead of copy & fork ?
 
-TEST    iotest-qcow2: 091 [fail]
-QEMU          -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
-x86_64-softmmu/qemu-system-x86_64" -nodefaults -display none -machine accel=
-=3Dqtest
-QEMU_IMG      -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
-qemu-img"
-QEMU_IO       -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
-qemu-io"  --cache writeback -f qcow2
-QEMU_NBD      -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
-qemu-nbd"
-IMGFMT        -- qcow2 (compat=3D1.1)
-IMGPROTO      -- file
-PLATFORM      -- Linux/x86_64 hackbox2 4.15.0-66-generic
-TEST_DIR      -- /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/scratch
-SOCKET_SCM_HELPER -- /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/soc=
-ket_scm_helper
+libfuse *is* such a library; but it preserves ABI compliance; it's
+intention is to be used to build filesystem implementations on top of -
+and that's got a fairly good separation;  however changing the fuse
+transport, and security models is much more invasive than it was
+designed for.
 
---- /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/091.out  2019-02-19 =
-12:32:03.231730789 +0000
-+++ /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/091.out.bad      201=
-9-10-24 12:07:00.624967556 +0100
-@@ -9,20 +9,4 @@
+Dave
 
- =3D=3D=3D VM 1: Migrate from VM1 to VM2 =3D=3D=3D
-
--vm1: qemu-io disk write complete
--vm1: live migration started
--vm1: live migration completed
--
--=3D=3D=3D VM 2: Post-migration, write to disk, verify running =3D=3D=3D
--
--vm2: qemu-io disk write complete
--vm2: qemu process running successfully
--vm2: flush io, and quit
--Check image pattern
--read 4194304/4194304 bytes at offset 0
--4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--Running 'qemu-img check -r all $TEST_IMG'
--No errors were found on the image.
--80/16384 =3D 0.49% allocated, 0.00% fragmented, 0.00% compressed clusters
--Image end offset: 5570560
--*** done
-+Timeout waiting for (qemu) on handle 0
-
-
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 --
-Alex Benn=C3=A9e
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
