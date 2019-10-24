@@ -2,103 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F035E3AF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:27:55 +0200 (CEST)
-Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCC3E3AA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:09:52 +0200 (CEST)
+Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhpx-0002U7-KD
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40099)
+	id 1iNhYV-0002cW-5p
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40601)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNgsc-0005QT-GP
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:26:35 -0400
+ (envelope-from <groug@kaod.org>) id 1iNgwd-0008M7-76
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:30:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNgsa-0006KO-8g
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:26:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:58911)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNgsY-0006HT-8C; Thu, 24 Oct 2019 13:26:30 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MnaTt-1hgPYw3RLx-00jWFm; Thu, 24 Oct 2019 19:26:23 +0200
-Subject: Re: [PATCH 1/3] util/async: avoid useless cast
-To: Frediano Ziglio <fziglio@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-References: <20191023122652.2999-1-fziglio@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <17410622-d980-730d-ae77-9fa53a64a9d4@vivier.eu>
-Date: Thu, 24 Oct 2019 19:26:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <groug@kaod.org>) id 1iNgwb-0007X6-JX
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:30:42 -0400
+Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:46273)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNgwb-0007WS-BA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:30:41 -0400
+Received: from player786.ha.ovh.net (unknown [10.109.143.189])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id F01D66D213
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 19:30:38 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player786.ha.ovh.net (Postfix) with ESMTPSA id BE217B729F92;
+ Thu, 24 Oct 2019 17:30:32 +0000 (UTC)
+Date: Thu, 24 Oct 2019 19:30:30 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
+Message-ID: <20191024193030.40ee674e@bahia.lan>
+In-Reply-To: <20191024023812.GO6439@umbus.fritz.box>
+References: <20191022163812.330-1-clg@kaod.org>
+ <20191022163812.330-5-clg@kaod.org>
+ <20191024023812.GO6439@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191023122652.2999-1-fziglio@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:k1hPNn20zvIcs/x7bUo89AxCJEyYRCM6OJP4pp/MJ200PRAPkIH
- veCJ+d2ta61yCV6/6hBhvDkOXjJzE5Dkk2ZCm1NueNz0gZNxgLlRNH3/Qwd5w8N6Re+IEvG
- oxzVJKim+PBs8SiUyHW1tpZHuAWbSabmJXYv/uMFXGF6soBa//oYpielE9pR2mb7Rl8UgsY
- XuVeU2i+XMTqF7JKsjz1Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ku2i3mIkSKU=:qLYETMCEAg82cqCZzuoEQF
- 8uwECz/9qKBvdVkpJvULtiVoydEhjpa2FQy4stBeonv9jaW+8t9Onbrrr8M0AHKQZAym50PKZ
- sp6jvdtyXEBzkT5s5cCfe2HNaq27iXlkGSuFypM1ZiPUx8uSVo/ZxwoYAG81GrV0GbckW1mVr
- MbfUZcBRHyUe/0z0RNxB5XtaCFu9maOMR4FAbbVewQDHQfgcrw5YC8rDEukXssvP5N3+mxS0G
- 2v7HJEYO5ynXnR9uwdkSfw+ezM/oahPiv24zf9GydZuSTXSjKSiDOUMBT6Z5ZSf6S6nWfLTBb
- v0izP5xCHVD0vrmUyrOMlY4kOPaaZLOd+VEADn9cOv8G3cCdwYe2WhE0o80iQ4gcnSn2cCJZ7
- sc0yj46uQEOXFvo5xh75xsXunfB/snJ3k5xytjSL7bHo+51VJhkEjCDtTcmrdE4y401uW7pms
- 0feQ6RB4Ssph8SvlmyRFzkiqnkxfGvBDg7aazbgnyXXLD/DZIv0PRAObp3u5jXZIVQ3epnIt/
- MvTQUCQRCkiEHBLak57ZnUxhjndOMDeT3EaAxB7yj99yn/XXOEWkl5OtJhVhzs/g0ZRaRooe6
- EI5YBsFnj0JAxGYp/lWdwmt/eVTXM0XgRch6/e5fsu2LIH3iZyKsCZIGhOL3KqudluLYl/0kb
- fhsDZKKFryBVWFgzAUc9s1VN755kf5TPzaatR/f5dtSNSYy8zuZQz8zNtiJa1KQkiw4SelhXL
- 3OoZkZgdM/nI2bLyrQ5DcnxoNOJxpUNq0LZTld51TZGbJNQXD7/5MwSNyWwaEcx1x604ViQc5
- GPgSghQpKjjJ57/khgGMVVGd5VGxAeu5f25LJKZV8zEHa1vCk6yJJg0QS7KG9mgqF+E0qSKdK
- OqrI+XlNkYub0OkWEH2oYbPPTXKMfMZEOgDapslYo=
+Content-Type: multipart/signed; boundary="Sig_/MZtdGY+9DSBGz1VusGPK_0r";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 16122323719608113638
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrledugdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.187
+X-Received-From: 46.105.42.102
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,34 +58,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Philippe =?UTF-8?B?TWF0aGll?= =?UTF-8?B?dS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/10/2019 à 14:26, Frediano Ziglio a écrit :
-> event_notifier_dummy_cb is already compatible with EventNotifierHandler.
-> 
-> Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
-> ---
->  util/async.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/util/async.c b/util/async.c
-> index ca83e32c7f..b1fa5319e5 100644
-> --- a/util/async.c
-> +++ b/util/async.c
-> @@ -429,7 +429,6 @@ AioContext *aio_context_new(Error **errp)
->  
->      aio_set_event_notifier(ctx, &ctx->notifier,
->                             false,
-> -                           (EventNotifierHandler *)
->                             event_notifier_dummy_cb,
->                             event_notifier_poll);
->  #ifdef CONFIG_LINUX_AIO
-> 
+--Sig_/MZtdGY+9DSBGz1VusGPK_0r
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Applied to my trivial-patches branch.
+On Thu, 24 Oct 2019 13:38:12 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Thanks,
-Laurent
+> On Tue, Oct 22, 2019 at 06:38:09PM +0200, C=C3=A9dric Le Goater wrote:
+> > We will use it to reset the interrupt presenter from the CPU reset
+> > handler.
+> >=20
+> > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  include/hw/ppc/pnv_core.h | 3 +++
+> >  hw/ppc/pnv_core.c         | 3 ++-
+> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+> > index bfbd2ec42aa6..55eee95104da 100644
+> > --- a/include/hw/ppc/pnv_core.h
+> > +++ b/include/hw/ppc/pnv_core.h
+> > @@ -31,6 +31,8 @@
+> >  #define PNV_CORE_GET_CLASS(obj) \
+> >       OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
+> > =20
+> > +typedef struct PnvChip PnvChip;
+> > +
+> >  typedef struct PnvCore {
+> >      /*< private >*/
+> >      CPUCore parent_obj;
+> > @@ -38,6 +40,7 @@ typedef struct PnvCore {
+> >      /*< public >*/
+> >      PowerPCCPU **threads;
+> >      uint32_t pir;
+> > +    PnvChip *chip;
+>=20
+> I don't love having this as a redundant encoding of the information
+> already in the property, since it raises the possibility of confusing
+> bugs if they ever got out of sync.
+>=20
+
+Ouch, we also have this pattern in xive_tctx_realize(). The XiveTCXT
+object has both a "cpu" property and a pointer to the vCPU.
+
+> It's not a huge deal, but it would be nice to at least to at least
+> consider either a) grabbing the property everywhere you need it (if
+> there aren't too many places) or b) customizing the property
+> definition so it's written directly into that field.
+>=20
+
+The pointer to the vCPU is used among other things to get the
+value of the PIR, which is needed by the presenting logic to
+match physical CAM lines. This is a _hot_ path so it's probably
+better to go for b).
+
+> > =20
+> >      MemoryRegion xscom_regs;
+> >  } PnvCore;
+> > diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+> > index 9f981a4940e6..cc17bbfed829 100644
+> > --- a/hw/ppc/pnv_core.c
+> > +++ b/hw/ppc/pnv_core.c
+> > @@ -222,6 +222,7 @@ static void pnv_core_realize(DeviceState *dev, Erro=
+r **errp)
+> >                                  "required link 'chip' not found: ");
+> >          return;
+> >      }
+> > +    pc->chip =3D PNV_CHIP(chip);
+> > =20
+> >      pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
+> >      for (i =3D 0; i < cc->nr_threads; i++) {
+> > @@ -243,7 +244,7 @@ static void pnv_core_realize(DeviceState *dev, Erro=
+r **errp)
+> >      }
+> > =20
+> >      for (j =3D 0; j < cc->nr_threads; j++) {
+> > -        pnv_realize_vcpu(pc->threads[j], PNV_CHIP(chip), &local_err);
+> > +        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
+> >          if (local_err) {
+> >              goto err;
+> >          }
+>=20
+
+
+--Sig_/MZtdGY+9DSBGz1VusGPK_0r
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2x37YACgkQcdTV5YIv
+c9YomBAAvX0uUCVX1jZLr0bxt0nf0domv0LIzMRKQJROzMTqo8/DzsLlc3Xuq21a
+lHwTuh3dA8syWQ4TQpbYZvmg+KZIpVeE8R3xYs4YHrUxQE6kpLUYZSqtaXtH5w43
+KlYwB8+SSAIw76zlCiJArf/xXhymHa7MRdfU8MSzW69FG7W2Q+U7Q7/MPez/vY6M
+x4rAjxEAeQcUnyJ9ZCTzh68q0Bh2wAmbMyzvqcmIirtmNHejaNeTjRPsLkLVKg1b
+MEb3vAniBdW3+qF2Y5ifiT5Z3b+dkzmSrCV9nMuoA4yy3UDwc/XTMcTWnBSbho8z
+P4D8GQfCp+uUcUbD9dcOzuT334jhVtK91SgFH6Z403waHOsXHLzbkeP1wCJ7XZbH
+ZTCW1p41ckFAvP/iPBkaBGYISSI5EHEFaA8OA/zCBiUGu8ev8mTUUOnJoZBPlg8+
+p2gh9K3VZU9dSqnpmTas/D/yP2g+cbED1zdLmx1lgPJO5VVMecxpTkXq5/CZZx+3
+PCkT3i3QIBJGdBe+Puj7zcvuEgKzJ9x43QsvVMqLTnv8UTS/ddiOJ/IF0YkUup1l
+P5ukyLXBiHSJWsD6GZTNjZy7x8IU0gHQ2ZBqPdGtl0B6nLwprYFOybT0kMguCfqC
+IwaIqVia34SMAIDLU8qpl04KFYbeUcxH6amJwfs4jcdOppYGDtI=
+=+EOy
+-----END PGP SIGNATURE-----
+
+--Sig_/MZtdGY+9DSBGz1VusGPK_0r--
 
