@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B14E2F51
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:45:22 +0200 (CEST)
-Received: from localhost ([::1]:38421 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2176FE2F63
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:49:29 +0200 (CEST)
+Received: from localhost ([::1]:38490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNacK-0008OY-Jf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:45:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55051)
+	id 1iNagJ-0004gT-I3
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1iNaMh-0006Dt-CD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:29:13 -0400
+ (envelope-from <clg@kaod.org>) id 1iNaSy-0004qN-AP
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:35:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1iNaMd-0006uI-6m
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:29:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58936)
+ (envelope-from <clg@kaod.org>) id 1iNaSw-0002RI-Rk
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:35:39 -0400
+Received: from 3.mo68.mail-out.ovh.net ([46.105.58.60]:37167)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iNaMb-0006qi-Fo
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:29:07 -0400
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 50B80C049E12
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:29:04 +0000 (UTC)
-Received: by mail-oi1-f198.google.com with SMTP id g25so13953840oiy.12
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:29:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=d7Wp61BGCGzkAAW7NSNW4W65oL+oV43yXlrfwYxbZWA=;
- b=kjpNHNh5oUTsLYNPgQa4Ucu2H1ak9TPvsQVlBPGcn8B89uZeQf2cokT440DWtWYpTY
- AN2p/NZouc5F5IdGq5aheKhemaSHwgasojnQzWHMdnzmWwZSLKtsoj2rWWAo1yIP3chi
- vxJ7tqJc8QeMUi47Sq8tmQ4xseyoFYtMBUYuLWvdBKn0y3k4Z2odg5GWz2x3WQLtXXQ1
- BdSGTin1B8EGEaoVFkegC+xNvwN74V5muDux9DdVV/kqMWYHF5og48tLxdcVzhnkoZnD
- TFSLNEghLCZdubQoGswSMMRltZPgVhdGKoR1D6DpXPQ+Kc7cyYjDD+Hoaw3RHKJa19TP
- JTjA==
-X-Gm-Message-State: APjAAAUdHqq+b1VnIb5zhdiAMmk8WD00wRaSx9NZlh7GnxcU5DwUJBgN
- cAh+qxGtg/hYWVI9uUWXYgao0QgVvaoL5Z91FsLqFEjOp3VKExGr21FRqfoONnRQ4xkimfVzn07
- awNhigS0/5l+Q/1fBcO7R/6b3XEImYd0=
-X-Received: by 2002:aca:4fd8:: with SMTP id d207mr4093816oib.33.1571912943708; 
- Thu, 24 Oct 2019 03:29:03 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwvhlXJ3ljF2QTE/gtS6/GxE7AjFNRkjgAfnbulIQ4VaJ8+kJcVKh66ncg9Ks1mqplAbLakCKkklSAL72QCrfQ=
-X-Received: by 2002:aca:4fd8:: with SMTP id d207mr4093783oib.33.1571912943430; 
- Thu, 24 Oct 2019 03:29:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iNaSu-0002Pq-Sp
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:35:37 -0400
+Received: from player697.ha.ovh.net (unknown [10.108.35.90])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id CD1F3147CBB
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 12:35:33 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id D4A14B5E2947;
+ Thu, 24 Oct 2019 10:35:28 +0000 (UTC)
+Subject: Re: PowerNV decrementer fails to fire
+To: Anton Blanchard <anton@ozlabs.org>, qemu-ppc@nongnu.org
+References: <20191024090431.68322431@kryten>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <172499f5-e119-9d47-1815-2b88f0d15a0e@kaod.org>
+Date: Thu, 24 Oct 2019 12:35:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-20-marcandre.lureau@redhat.com>
- <0033fd98-f191-c3f5-4726-ba052254808a@redhat.com>
-In-Reply-To: <0033fd98-f191-c3f5-4726-ba052254808a@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 24 Oct 2019 12:28:52 +0200
-Message-ID: <CAMxuvawtzdWkyuZRoEs9Zmv9EsxeD6H_d+9-aEM0PetKjf1hbQ@mail.gmail.com>
-Subject: Re: [PATCH v3 19/33] sm501: make SerialMM a child,
- export chardev property
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191024090431.68322431@kryten>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 9112189421143493606
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrledugddvlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 46.105.58.60
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,146 +58,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Michael Neuling <mikey@neuling.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Hello Anton,
 
-On Thu, Oct 24, 2019 at 12:58 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 10/23/19 7:31 PM, Marc-Andr=C3=A9 Lureau wrote:
-> > Embed the SerialMM sybus device, and re-export its "chardev" property.
-> > That way, we can get rid of PROP_PTR "chr-state" and better track
-> > devices relationship.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   hw/display/sm501.c | 31 ++++++++++++++++++++++---------
-> >   hw/sh4/r2d.c       |  2 +-
-> >   2 files changed, 23 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-> > index 1f33c87e65..6efdf764c1 100644
-> > --- a/hw/display/sm501.c
-> > +++ b/hw/display/sm501.c
-> > @@ -1930,13 +1930,14 @@ typedef struct {
-> >       SM501State state;
-> >       uint32_t vram_size;
-> >       uint32_t base;
-> > -    void *chr_state;
-> > +    SerialMM serial;
-> >   } SM501SysBusState;
-> >
-> >   static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
-> >   {
-> >       SM501SysBusState *s =3D SYSBUS_SM501(dev);
-> >       SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-> > +    SerialState *ss =3D &s->serial.serial;
-> >       DeviceState *usb_dev;
-> >
-> >       sm501_init(&s->state, dev, s->vram_size);
-> > @@ -1958,17 +1959,18 @@ static void sm501_realize_sysbus(DeviceState *d=
-ev, Error **errp)
-> >       sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
-> >
-> >       /* bridge to serial emulation module */
-> > -    if (s->chr_state) {
-> > -        serial_mm_init(&s->state.mmio_region, SM501_UART0, 2,
-> > -                       NULL, /* TODO : chain irq to IRL */
-> > -                       115200, s->chr_state, DEVICE_LITTLE_ENDIAN);
-> > +    if (qemu_chr_fe_backend_connected(&ss->chr)) {
->
-> Oh, this is a Companion Chip (Northbridge + Southbridge), mostly
-> implementing the display part, that's why it is in hw/display/.
->
-> The SM501_UART0 is always mapped here, no need to check for the backend.
-> (Not related to your series goal, but cleaning this might simplify this
-> patch).
+On 24/10/2019 00:04, Anton Blanchard wrote:
+> Hi,
+> 
+> Mikey and I noticed that the decrementer isn't firing when
+> it should. If a decrementer is pending and an mtmsrd(MSR_EE) is
+> executed then we should take the decrementer exception. From the PPC AS:
+> 
+>   If MSR EE = 0 and an External, Decrementer, or Per-
+>   formance Monitor exception is pending, executing
+>   an mtmsrd instruction that sets MSR EE to 1 will
+>   cause the interrupt to occur before the next instruc-
+>   tion is executed, if no higher priority exception
+>   exists
 
-I see, I will drop a FIXME. Otherwise, it looks ok?
+I suppose we are missing a test on MSR_EE in the store helper routine 
+of MSR to generate the exception ? See helper_store_msr() and 
+hreg_store_msr().
 
 
->
-> > +        MemoryRegion *mr;
-> > +        qdev_init_nofail(DEVICE(&s->serial));
-> > +        mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->serial), 0);
-> > +        memory_region_add_subregion(&s->state.mmio_region, SM501_UART0=
-, mr);
-> > +        /* TODO : chain irq to IRL */
-> >       }
-> >   }
-> >
-> >   static Property sm501_sysbus_properties[] =3D {
-> >       DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
-> >       DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
-> > -    DEFINE_PROP_PTR("chr-state", SM501SysBusState, chr_state),
-> >       DEFINE_PROP_END_OF_LIST(),
-> >   };
-> >
-> > @@ -1999,9 +2001,19 @@ static void sm501_sysbus_class_init(ObjectClass =
-*klass, void *data)
-> >       dc->props =3D sm501_sysbus_properties;
-> >       dc->reset =3D sm501_reset_sysbus;
-> >       dc->vmsd =3D &vmstate_sm501_sysbus;
-> > -    /* Note: pointer property "chr-state" may remain null, thus
-> > -     * no need for dc->user_creatable =3D false;
-> > -     */
-> > +}
-> > +
-> > +static void sm501_sysbus_init(Object *o)
-> > +{
-> > +    SM501SysBusState *self =3D SYSBUS_SM501(o);
-> > +    SerialMM *s =3D &self->serial;
-> > +
-> > +    sysbus_init_child_obj(o, "serial", s, sizeof(SerialMM), TYPE_SERIA=
-L_MM);
-> > +    qdev_prop_set_int32(DEVICE(s), "instance-id", SM501_UART0);
-> > +    qdev_prop_set_uint8(DEVICE(s), "regshift", 2);
-> > +    qdev_prop_set_uint8(DEVICE(s), "endianness", DEVICE_LITTLE_ENDIAN)=
-;
-> > +
-> > +    object_property_add_alias(o, "chardev", OBJECT(s), "chardev", &err=
-or_abort);
-> >   }
-> >
-> >   static const TypeInfo sm501_sysbus_info =3D {
-> > @@ -2009,6 +2021,7 @@ static const TypeInfo sm501_sysbus_info =3D {
-> >       .parent        =3D TYPE_SYS_BUS_DEVICE,
-> >       .instance_size =3D sizeof(SM501SysBusState),
-> >       .class_init    =3D sm501_sysbus_class_init,
-> > +    .instance_init =3D sm501_sysbus_init,
-> >   };
-> >
-> >   #define TYPE_PCI_SM501 "sm501"
-> > diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-> > index ee0840f380..72bb5285cc 100644
-> > --- a/hw/sh4/r2d.c
-> > +++ b/hw/sh4/r2d.c
-> > @@ -272,7 +272,7 @@ static void r2d_init(MachineState *machine)
-> >       busdev =3D SYS_BUS_DEVICE(dev);
-> >       qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
-> >       qdev_prop_set_uint32(dev, "base", 0x10000000);
-> > -    qdev_prop_set_ptr(dev, "chr-state", serial_hd(2));
-> > +    qdev_prop_set_chr(dev, "chardev", serial_hd(2));
-> >       qdev_init_nofail(dev);
-> >       sysbus_mmio_map(busdev, 0, 0x10000000);
-> >       sysbus_mmio_map(busdev, 1, 0x13e00000);
-> >
+C.
+
+
+
+
+
+
+> 
+> A test case is below. r31 is incremented for every decrementer
+> exception.
+> 
+> powerpc64le-linux-gcc -c test.S
+> powerpc64le-linux-ld -Ttext=0x0 -o test.elf test.o
+> powerpc64le-linux-objcopy -O binary test.elf test.bin
+> 
+> r31 never moves. If I build with:
+> 
+> powerpc64le-linux-gcc -DFIX_BROKEN -c test.S
+> 
+> I see r31 move.
+> 
+> Thanks,
+> Anton
+> --
+> 
+> #include <ppc-asm.h>
+> 
+> /* Load an immediate 64-bit value into a register */
+> #define LOAD_IMM64(r, e)			\
+> 	lis	r,(e)@highest;			\
+> 	ori	r,r,(e)@higher;			\
+> 	rldicr	r,r, 32, 31;			\
+> 	oris	r,r, (e)@h;			\
+> 	ori	r,r, (e)@l;
+> 
+> #define FIXUP_ENDIAN						   \
+> 	tdi   0,0,0x48;	  /* Reverse endian of b . + 8		*/ \
+> 	b     191f;	  /* Skip trampoline if endian is good	*/ \
+> 	.long 0xa600607d; /* mfmsr r11				*/ \
+> 	.long 0x01006b69; /* xori r11,r11,1			*/ \
+> 	.long 0x05009f42; /* bcl 20,31,$+4			*/ \
+> 	.long 0xa602487d; /* mflr r10				*/ \
+> 	.long 0x14004a39; /* addi r10,r10,20			*/ \
+> 	.long 0xa64b5a7d; /* mthsrr0 r10			*/ \
+> 	.long 0xa64b7b7d; /* mthsrr1 r11			*/ \
+> 	.long 0x2402004c; /* hrfid				*/ \
+> 191:
+> 
+> 	.= 0x0
+> .globl _start
+> _start:
+> 	b	1f
+> 
+> 	.= 0x10
+> 	FIXUP_ENDIAN
+> 	b	1f
+> 
+> 	.= 0x100
+> 1:
+> 	FIXUP_ENDIAN
+> 	b	__initialize
+> 
+> #define EXCEPTION(nr)		\
+> 	.= nr			;\
+> 	b	.
+> 
+> 	/* More exception stubs */
+> 	EXCEPTION(0x300)
+> 	EXCEPTION(0x380)
+> 	EXCEPTION(0x400)
+> 	EXCEPTION(0x480)
+> 	EXCEPTION(0x500)
+> 	EXCEPTION(0x600)
+> 	EXCEPTION(0x700)
+> 	EXCEPTION(0x800)
+> 
+> 	.= 0x900
+> 	LOAD_IMM64(r0, 0x1000000)
+> 	mtdec	r0
+> 	addi	r31,r31,1
+> 	rfid
+> 
+> 	EXCEPTION(0x980)
+> 	EXCEPTION(0xa00)
+> 	EXCEPTION(0xb00)
+> 	EXCEPTION(0xc00)
+> 	EXCEPTION(0xd00)
+> 	EXCEPTION(0xe00)
+> 	EXCEPTION(0xe20)
+> 	EXCEPTION(0xe40)
+> 	EXCEPTION(0xe60)
+> 	EXCEPTION(0xe80)
+> 	EXCEPTION(0xf00)
+> 	EXCEPTION(0xf20)
+> 	EXCEPTION(0xf40)
+> 	EXCEPTION(0xf60)
+> 	EXCEPTION(0xf80)
+> 	EXCEPTION(0x1000)
+> 	EXCEPTION(0x1100)
+> 	EXCEPTION(0x1200)
+> 	EXCEPTION(0x1300)
+> 	EXCEPTION(0x1400)
+> 	EXCEPTION(0x1500)
+> 	EXCEPTION(0x1600)
+> 
+> __initialize:
+> 	/* SF, HV, EE, RI, LE */
+> 	LOAD_IMM64(r0, 0x9000000000008003)
+> 	mtmsrd	r0
+> 
+> 	LOAD_IMM64(r0, 0x1000000)
+> 	mtdec r0
+> 
+> 1:	LOAD_IMM64(r30,0x8000)
+> 	mtmsrd	r30,1
+> 
+> 	/* We should take the decrementer here */
+> #ifdef FIX_BROKEN
+> 	LOAD_IMM64(r29,0x100000000)
+> 	mtctr	r29
+> 2:	bdnz	2b
+> #endif
+> 
+> 	li	r30,0x0
+> 	mtmsrd	r30,1
+> 	b	1b
+> 
+
 
