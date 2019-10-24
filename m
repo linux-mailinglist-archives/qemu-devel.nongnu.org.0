@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6D8E3A1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:32:29 +0200 (CEST)
-Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FD6E3A24
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:34:16 +0200 (CEST)
+Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgyJ-0000WR-Ut
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58365)
+	id 1iNh03-0003av-3t
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58377)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfyT-000089-28
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfyT-0000AO-Pz
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfyR-00017v-OS
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:32 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52278)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfyR-00017o-Je
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42904)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfyR-00017K-IG
+ id 1iNfyR-00017d-D0
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:31 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id p21so2101721wmg.2
+Received: by mail-wr1-x444.google.com with SMTP id r1so17002372wrs.9
  for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DYAw+JFUSShxadh7hIyLKy0VSgftJwrYe33MmrE6aTY=;
- b=M40LfjeEYv2ob6JYDv4HpJ/kowyBFQpxUwA4Yh4uXOzaII8oNUBzU5WfS2JX2FBqOd
- qzdtQmxkZ2oZtnhnCxx3ULaLKttk1VYBBZVJ5oTh1tX+hLKL1R/37wp6ceFntQ708XSK
- gpGUKTxYfea32s051YKpoVHDUhQl/lFUNB/0EZy4tosgb5SqZC9RNzD92n4OOKd6ST9Q
- nEZK/8dU9lM8J5Qsfoshe4ZysBrFqwH60a6FdGsTQNUv9IPPBLjNBGZkGaVStX6lGZzn
- VUb2Bi+rBASHieUXli2JxqHHlpt3Rh9QAPth1Ci6zh6WSPXCT/NqWnzkHjjL4m9ZtwYD
- yJZA==
+ bh=1dJwftnWoG2W4EHlFbqacOwE41DkQDlktBfsa5t+Z30=;
+ b=o+RzDBN+eeMVcg5RR90hEIrRAWIavD1cz2s96JG6cLAUEZroHYqUkNIHm+WV53OGFc
+ OT2nWEy1GGrwfwLEeAlZcS334lKZhM4KwlOe4DildIcibRcYlOvY3S6fYZNXFr8OXEb0
+ dr+M4asTEO0JqTyFqcNOwpIma0Dc2FQDeF6FvCemHTQWSC9haL6hZGuKfiIW+Jsi0Yb8
+ O5UTI9JeyaylfO+TJn0Z7MCtpvKxzVhgH6+Ub9jfZ4nRrZRP3bR6EQAD6+GnU8/m1KPU
+ MnZcLBWFIwD/TNNpYmwL2iS/xXwlF28ErXJv8/7NDX8ChTe7lEwBKv3fCZQPc552UAV9
+ wLzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DYAw+JFUSShxadh7hIyLKy0VSgftJwrYe33MmrE6aTY=;
- b=d5eklWd9rI8yj5lKFudvMQq6AbZS2dml9K2fd6gKioOzLosyPGpwPCcj5YOLZ0Qm3X
- i8nmyk4TMwFoZ6MiUmYPxwbplNWWGIinGR/LFYyl5G36YBfShQCfH5qPhOyGrvKuPpWT
- KS7radd0UXZ0p0Y37XmcCW72214dgO9l6zv4Mv9/1A9uBd0YTrZZeQ570ncCIxIUzqQA
- KbRghGCwwZTrCyM0uCBAhGRK3yyL0acQ0BpVM9sUWh5mWmk6+9qsqjqF+NvHxgF642Fp
- zRoROKtAlZ+RsR9NvXPeC7C/adYekJU2vjXkkGnDPlqO5mRZfbf6vdKtEWsbHklCf9HM
- NXMQ==
-X-Gm-Message-State: APjAAAVXMM98ohEaBqnZd7P4banI3U0rENNSerlXTldcl3GOuUg9ydlm
- Qwmk6RtLtRG23F+Vokb9233ckMBMnL4=
-X-Google-Smtp-Source: APXvYqwIydKvpv1tjnbZN9F1ekRR2EO+V9YsgDB7BSIRSEQi2zWwNNwlNULytMuoWI4eUgzyGxCYhQ==
-X-Received: by 2002:a1c:7917:: with SMTP id l23mr5276198wme.60.1571934509184; 
- Thu, 24 Oct 2019 09:28:29 -0700 (PDT)
+ bh=1dJwftnWoG2W4EHlFbqacOwE41DkQDlktBfsa5t+Z30=;
+ b=o4zRgeB6q/NvLk5Rpa0/xLgeUeDnxub5X/ihcdhyhczqlPd0v078Jf/Jl7FzPXZ2qY
+ f06ZK14RozlJ4dy2WouUVirDA6FMpmNJMy3nIKCiWUKajdMQY3eA4Z5rY0KEG53Aapd/
+ WbWTY0kiGWtJgdNtU8++d9g+k8Uq4x2fNTHyVUm/GPAXK8SZwFUg82WjvTdOi1/EnUza
+ BbcDnn0X23x7BXyjP36zGuNoe8/WGQf0p8IvlYzXPw9BJaYwhDqedwH2QS0Fw+U0CQjj
+ fzl7USPvHCKrxZ6aXmcarv91Exf3Ge7zX3FoL6m2fZjvMwC6Ro7fJzX4ZBLRJBychkQR
+ xEdg==
+X-Gm-Message-State: APjAAAXxU45QzZEIi01rFFzjVzGTk3GxzjOq2FXZH6UHWP48p2FeGPGb
+ ihD/2/Ska89v+tobbhLmEiz5u/F8nyI=
+X-Google-Smtp-Source: APXvYqykSAcFI9C59gKswgeyeg6Pa9ib3QUOlXAy/dAIFZ16lq8LKhPCUH5oXcZ1C6AOtMErftZFwA==
+X-Received: by 2002:adf:ce87:: with SMTP id r7mr4585736wrn.307.1571934510211; 
+ Thu, 24 Oct 2019 09:28:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.28
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.28.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:28:28 -0700 (PDT)
+ Thu, 24 Oct 2019 09:28:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/51] hw/arm/bcm2836: Rename cpus[] as cpu[].core
-Date: Thu, 24 Oct 2019 17:27:22 +0100
-Message-Id: <20191024162724.31675-50-peter.maydell@linaro.org>
+Subject: [PULL 50/51] hw/arm/raspi: Use AddressSpace when using
+ arm_boot::write_secondary_boot
+Date: Thu, 24 Oct 2019 17:27:23 +0100
+Message-Id: <20191024162724.31675-51-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,105 +85,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-As we are going to add more core-specific fields, add a 'cpu'
-structure and move the ARMCPU field there as 'core'.
+write_secondary_boot() is used in SMP configurations where the
+CPU address space might not be the main System Bus.
+The rom_add_blob_fixed_as() function allow us to specify an
+address space. Use it to write each boot blob in the corresponding
+CPU address space.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191019234715.25750-7-f4bug@amsat.org
+Message-id: 20191019234715.25750-11-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/bcm2836.h |  4 +++-
- hw/arm/bcm2836.c         | 26 ++++++++++++++------------
- 2 files changed, 17 insertions(+), 13 deletions(-)
+ hw/arm/raspi.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index 97187f72be9..92a6544816b 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -35,7 +35,9 @@ typedef struct BCM283XState {
-     char *cpu_type;
-     uint32_t enabled_cpus;
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 615d7558790..6a510aafc19 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -60,12 +60,14 @@ static void write_smpboot(ARMCPU *cpu, const struct arm_boot_info *info)
+     QEMU_BUILD_BUG_ON((BOARDSETUP_ADDR & 0xf) != 0
+                       || (BOARDSETUP_ADDR >> 4) >= 0x100);
  
--    ARMCPU cpus[BCM283X_NCPUS];
-+    struct {
-+        ARMCPU core;
-+    } cpu[BCM283X_NCPUS];
-     BCM2836ControlState control;
-     BCM2835PeripheralState peripherals;
- } BCM283XState;
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 019e67b9068..221ff068956 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -51,8 +51,9 @@ static void bcm2836_init(Object *obj)
-     int n;
- 
-     for (n = 0; n < BCM283X_NCPUS; n++) {
--        object_initialize_child(obj, "cpu[*]", &s->cpus[n], sizeof(s->cpus[n]),
--                                info->cpu_type, &error_abort, NULL);
-+        object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
-+                                sizeof(s->cpu[n].core), info->cpu_type,
-+                                &error_abort, NULL);
-     }
- 
-     sysbus_init_child_obj(obj, "control", &s->control, sizeof(s->control),
-@@ -122,10 +123,10 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
- 
-     for (n = 0; n < BCM283X_NCPUS; n++) {
-         /* TODO: this should be converted to a property of ARM_CPU */
--        s->cpus[n].mp_affinity = (info->clusterid << 8) | n;
-+        s->cpu[n].core.mp_affinity = (info->clusterid << 8) | n;
- 
-         /* set periphbase/CBAR value for CPU-local registers */
--        object_property_set_int(OBJECT(&s->cpus[n]),
-+        object_property_set_int(OBJECT(&s->cpu[n].core),
-                                 info->peri_base,
-                                 "reset-cbar", &err);
-         if (err) {
-@@ -134,14 +135,15 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-         }
- 
-         /* start powered off if not enabled */
--        object_property_set_bool(OBJECT(&s->cpus[n]), n >= s->enabled_cpus,
-+        object_property_set_bool(OBJECT(&s->cpu[n].core), n >= s->enabled_cpus,
-                                  "start-powered-off", &err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-         }
- 
--        object_property_set_bool(OBJECT(&s->cpus[n]), true, "realized", &err);
-+        object_property_set_bool(OBJECT(&s->cpu[n].core), true,
-+                                 "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-@@ -149,18 +151,18 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
- 
-         /* Connect irq/fiq outputs from the interrupt controller. */
-         qdev_connect_gpio_out_named(DEVICE(&s->control), "irq", n,
--                qdev_get_gpio_in(DEVICE(&s->cpus[n]), ARM_CPU_IRQ));
-+                qdev_get_gpio_in(DEVICE(&s->cpu[n].core), ARM_CPU_IRQ));
-         qdev_connect_gpio_out_named(DEVICE(&s->control), "fiq", n,
--                qdev_get_gpio_in(DEVICE(&s->cpus[n]), ARM_CPU_FIQ));
-+                qdev_get_gpio_in(DEVICE(&s->cpu[n].core), ARM_CPU_FIQ));
- 
-         /* Connect timers from the CPU to the interrupt controller */
--        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_PHYS,
-+        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_PHYS,
-                 qdev_get_gpio_in_named(DEVICE(&s->control), "cntpnsirq", n));
--        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_VIRT,
-+        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_VIRT,
-                 qdev_get_gpio_in_named(DEVICE(&s->control), "cntvirq", n));
--        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_HYP,
-+        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_HYP,
-                 qdev_get_gpio_in_named(DEVICE(&s->control), "cnthpirq", n));
--        qdev_connect_gpio_out(DEVICE(&s->cpus[n]), GTIMER_SEC,
-+        qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_SEC,
-                 qdev_get_gpio_in_named(DEVICE(&s->control), "cntpsirq", n));
-     }
+-    rom_add_blob_fixed("raspi_smpboot", smpboot, sizeof(smpboot),
+-                       info->smp_loader_start);
++    rom_add_blob_fixed_as("raspi_smpboot", smpboot, sizeof(smpboot),
++                          info->smp_loader_start,
++                          arm_boot_address_space(cpu, info));
  }
+ 
+ static void write_smpboot64(ARMCPU *cpu, const struct arm_boot_info *info)
+ {
++    AddressSpace *as = arm_boot_address_space(cpu, info);
+     /* Unlike the AArch32 version we don't need to call the board setup hook.
+      * The mechanism for doing the spin-table is also entirely different.
+      * We must have four 64-bit fields at absolute addresses
+@@ -92,10 +94,10 @@ static void write_smpboot64(ARMCPU *cpu, const struct arm_boot_info *info)
+         0, 0, 0, 0
+     };
+ 
+-    rom_add_blob_fixed("raspi_smpboot", smpboot, sizeof(smpboot),
+-                       info->smp_loader_start);
+-    rom_add_blob_fixed("raspi_spintables", spintables, sizeof(spintables),
+-                       SPINTABLE_ADDR);
++    rom_add_blob_fixed_as("raspi_smpboot", smpboot, sizeof(smpboot),
++                          info->smp_loader_start, as);
++    rom_add_blob_fixed_as("raspi_spintables", spintables, sizeof(spintables),
++                          SPINTABLE_ADDR, as);
+ }
+ 
+ static void write_board_setup(ARMCPU *cpu, const struct arm_boot_info *info)
 -- 
 2.20.1
 
