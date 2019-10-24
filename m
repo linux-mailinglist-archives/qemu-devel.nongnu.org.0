@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2429E2D23
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:23:22 +0200 (CEST)
-Received: from localhost ([::1]:36546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E70EE2D0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:19:33 +0200 (CEST)
+Received: from localhost ([::1]:36482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZKz-0000W8-H3
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43738)
+	id 1iNZHG-0001dY-Sp
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ8k-0006QC-6R
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:43 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ8i-0004BX-2m
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ8j-0006Nz-AP
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:42 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:59818)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ8h-0004B0-NN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:41 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59810)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ8h-0004Ag-Qn
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:40 -0400
+ id 1iNZ8h-0004AY-FS
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:39 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94ooa100039;
- Thu, 24 Oct 2019 09:10:32 GMT
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94n9I100030;
+ Thu, 24 Oct 2019 09:10:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=mKVNftuaCcncsIMdPR3nxOIkecEr4x+cuilsoxsQJ2I=;
- b=ESYCUCpL9y1kAaychHLoYWomtsRHwXh/Hrf84/O0AiXyhyM4ZLoCP7ed9jktRbju0ei2
- dK8DcIWaUmyaAE8ww57MaXbPumfT39hVlWWtxXGqElwpgVlDTeihxPo98z6lHa5B6Vj7
- B7og2CtJm9GdUJhOBYbG4YVNzFG06TJLc9DKK2gx8z8zPbTiJsfRQbiIYbEaqWfi2x0W
- VlBu3HqhnWhgVTULtc3IVIZVZRxRPfIUMH0xqHEB+v/QiPOB4TY223GpK/WQk5TPoDVb
- ys2j2Vk1pnUynQPafXlchubmaaJoXr7JrQagYvPNdI8YExShcCNT5zk5KxS71pHuDRJC rg== 
+ bh=vKjhWVPZm7/SLDQnb0NCXeve3bJ0wUWGN6XOviUNcXE=;
+ b=fiRdT/MYEBcJ6SyQUs9/HaRa/p8XmWjEDP1rUYp+CUTDMgZSa+zYrfKtLn6o1Gi77gl/
+ mOQcR+hZly/5UriH74JVNHZGgYSQuIqYbTKp1MYplUQHRl6EypqTLbAxUi9hMPOR5KtH
+ Zr3UfoQSQBxvgbZpdiUVHBI4mSuNvYQSTPj8teT/aJQCAWGWUj/rR4xVyQXFoxid7WUX
+ LIyAubNKGJloot/u9zkE6FDM+WfQaet5i9+ghJG85z6qUUo7TcAycVjmZsjSnlVgnWFU
+ xb7bqFvjZmiU+AQUIc/GAmUCznZ3Y1ae/qvzPiHs2qejAIzNQKtNUqwpBv+os7VMqgao +w== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2vqteq2af0-1
+ by aserp2120.oracle.com with ESMTP id 2vqteq2af6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:10:31 +0000
+ Thu, 24 Oct 2019 09:10:33 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jnv170518;
- Thu, 24 Oct 2019 09:10:31 GMT
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jh6170576;
+ Thu, 24 Oct 2019 09:10:33 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2vtsk4868n-1
+ by userp3020.oracle.com with ESMTP id 2vtsk486ay-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:10:31 +0000
+ Thu, 24 Oct 2019 09:10:32 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9AToU011816;
- Thu, 24 Oct 2019 09:10:29 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9AVUK011830;
+ Thu, 24 Oct 2019 09:10:31 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:10:29 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:10:30 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 15/49] multi-process: PCI BAR read/write handling for
- proxy & remote endpoints
-Date: Thu, 24 Oct 2019 05:08:56 -0400
-Message-Id: <91343147552944eb67fbb98bf619e7eeb98fe324.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 16/49] multi-process: Add LSI device proxy object
+Date: Thu, 24 Oct 2019 05:08:57 -0400
+Message-Id: <d3c12e52cf27ac11a5a0ce3462786f55aca3a04c.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -100,304 +99,173 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Proxy device object implements handler for PCI BAR writes and reads. The handler
-uses BAR_WRITE/BAR_READ message to communicate to the remote process with the BAR address and
-value to be written/read.
-The remote process implements handler for BAR_WRITE/BAR_READ message.
+Adds proxy-lsi53c895a object, as a derivative of the pci-proxy-dev
+object. This object is the proxy for the lsi53c895a object
+instantiated by the remote process.
 
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- hw/proxy/qemu-proxy.c         | 77 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/proxy/qemu-proxy.h | 21 ++++++++++--
- include/io/mpqemu-link.h      | 12 +++++++
- remote/remote-main.c          | 73 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 181 insertions(+), 2 deletions(-)
+ hw/proxy/Makefile.objs              |  1 +
+ hw/proxy/proxy-lsi53c895a.c         | 91 +++++++++++++++++++++++++++++++++++++
+ include/hw/proxy/proxy-lsi53c895a.h | 42 +++++++++++++++++
+ 3 files changed, 134 insertions(+)
+ create mode 100644 hw/proxy/proxy-lsi53c895a.c
+ create mode 100644 include/hw/proxy/proxy-lsi53c895a.h
 
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index ca7dd1a..e1f62d7 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -275,6 +275,7 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-     PCIProxyDev *dev = PCI_PROXY_DEV(device);
-     PCIProxyDevClass *k = PCI_PROXY_DEV_GET_CLASS(dev);
-     Error *local_err = NULL;
-+    int r;
- 
-     if (k->realize) {
-         k->realize(dev, &local_err);
-@@ -283,7 +284,83 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-         }
-     }
- 
-+    for (r = 0; r < PCI_NUM_REGIONS; r++) {
-+        if (!dev->region[r].present) {
-+            continue;
-+        }
+diff --git a/hw/proxy/Makefile.objs b/hw/proxy/Makefile.objs
+index eb81624..f562f5a 100644
+--- a/hw/proxy/Makefile.objs
++++ b/hw/proxy/Makefile.objs
+@@ -1 +1,2 @@
+ common-obj-$(CONFIG_MPQEMU) += qemu-proxy.o
++common-obj-$(CONFIG_MPQEMU) += proxy-lsi53c895a.o
+diff --git a/hw/proxy/proxy-lsi53c895a.c b/hw/proxy/proxy-lsi53c895a.c
+new file mode 100644
+index 0000000..7734ae2
+--- /dev/null
++++ b/hw/proxy/proxy-lsi53c895a.c
+@@ -0,0 +1,91 @@
++/*
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-+        dev->region[r].dev = dev;
++#include <sys/types.h>
 +
-+        pci_register_bar(PCI_DEVICE(dev), r, dev->region[r].type,
-+                         &dev->region[r].mr);
-+    }
++#include "qemu/osdep.h"
++#include "hw/qdev-core.h"
++#include "qemu/bitops.h"
++#include "hw/pci/pci.h"
++#include "hw/proxy/qemu-proxy.h"
++#include "hw/proxy/proxy-lsi53c895a.h"
++#include "exec/memory.h"
 +
-     dev->set_proxy_sock = set_proxy_sock;
-     dev->get_proxy_sock = get_proxy_sock;
-     dev->init_proxy = init_proxy;
- }
-+
-+static void send_bar_access_msg(PCIProxyDev *dev, MemoryRegion *mr,
-+                                bool write, hwaddr addr, uint64_t *val,
-+                                unsigned size, bool memory)
++static void proxy_lsi_realize(PCIProxyDev *dev, Error **errp)
 +{
-+    MPQemuLinkState *mpqemu_link = dev->mpqemu_link;
-+    MPQemuMsg msg;
-+    int wait;
++    ProxyLSIState *s = LSI_PROXY_DEV(dev);
++    PCIDevice *pci_dev = PCI_DEVICE(dev);
++    uint8_t *pci_conf = pci_dev->config;
 +
-+    memset(&msg, 0, sizeof(MPQemuMsg));
++    pci_conf[PCI_LATENCY_TIMER] = 0xff;
++    pci_conf[PCI_INTERRUPT_PIN] = 0x01;
 +
-+    msg.bytestream = 0;
-+    msg.size = sizeof(msg.data1);
-+    msg.data1.bar_access.addr = mr->addr + addr;
-+    msg.data1.bar_access.size = size;
-+    msg.data1.bar_access.memory = memory;
++    dev->region[0].present = true;
++    dev->region[0].type = PCI_BASE_ADDRESS_SPACE_IO;
++    memory_region_init_io(&dev->region[0].mr, OBJECT(s), &proxy_default_ops,
++                          &dev->region[0], "proxy-lsi-io", 256);
 +
-+    if (write) {
-+        msg.cmd = BAR_WRITE;
-+        msg.data1.bar_access.val = *val;
-+    } else {
-+        wait = GET_REMOTE_WAIT;
++    dev->region[1].present = true;
++    dev->region[1].memory = true;
++    dev->region[1].type = PCI_BASE_ADDRESS_SPACE_MEMORY;
++    memory_region_init_io(&dev->region[1].mr, OBJECT(s), &proxy_default_ops,
++                          &dev->region[1], "proxy-lsi-mmio", 0x400);
 +
-+        msg.cmd = BAR_READ;
-+        msg.num_fds = 1;
-+        msg.fds[0] = wait;
-+    }
-+
-+    mpqemu_msg_send(mpqemu_link, &msg, mpqemu_link->com);
-+
-+    if (!write) {
-+        *val = wait_for_remote(wait);
-+        PUT_REMOTE_WAIT(wait);
-+    }
++    dev->region[2].present = true;
++    dev->region[2].memory = true;
++    dev->region[2].type = PCI_BASE_ADDRESS_SPACE_MEMORY;
++    memory_region_init_io(&dev->region[2].mr, OBJECT(s), &proxy_default_ops,
++                          &dev->region[2], "proxy-lsi-ram", 0x2000);
 +}
 +
-+void proxy_default_bar_write(void *opaque, hwaddr addr, uint64_t val,
-+                             unsigned size)
++static void proxy_lsi_class_init(ObjectClass *klass, void *data)
 +{
-+    ProxyMemoryRegion *pmr = opaque;
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *pci_class = PCI_DEVICE_CLASS(klass);
++    PCIProxyDevClass *proxy_class = PCI_PROXY_DEV_CLASS(klass);
 +
-+    send_bar_access_msg(pmr->dev, &pmr->mr, true, addr, &val, size,
-+                        pmr->memory);
++    proxy_class->realize = proxy_lsi_realize;
++    proxy_class->command = g_strdup("qemu-scsi-dev");
++
++    pci_class->vendor_id = PCI_VENDOR_ID_LSI_LOGIC;
++    pci_class->device_id = PCI_DEVICE_ID_LSI_53C895A;
++    pci_class->class_id = PCI_CLASS_STORAGE_SCSI;
++    pci_class->subsystem_id = 0x1000;
++
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
++
++    dc->desc = "LSI Proxy Device";
 +}
 +
-+uint64_t proxy_default_bar_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    ProxyMemoryRegion *pmr = opaque;
-+    uint64_t val;
-+
-+    send_bar_access_msg(pmr->dev, &pmr->mr, false, addr, &val, size,
-+                        pmr->memory);
-+
-+     return val;
-+}
-+
-+const MemoryRegionOps proxy_default_ops = {
-+    .read = proxy_default_bar_read,
-+    .write = proxy_default_bar_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
++static const TypeInfo lsi_proxy_dev_type_info = {
++    .name          = TYPE_PROXY_LSI53C895A,
++    .parent        = TYPE_PCI_PROXY_DEV,
++    .instance_size = sizeof(ProxyLSIState),
++    .class_init    = proxy_lsi_class_init,
 +};
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index f97b103..5f57822 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -36,7 +36,19 @@
- #define PCI_PROXY_DEV_GET_CLASS(obj) \
-             OBJECT_GET_CLASS(PCIProxyDevClass, (obj), TYPE_PCI_PROXY_DEV)
- 
--typedef struct PCIProxyDev {
-+typedef struct PCIProxyDev PCIProxyDev;
 +
-+typedef struct ProxyMemoryRegion {
-+    PCIProxyDev *dev;
-+    MemoryRegion mr;
-+    bool memory;
-+    bool present;
-+    uint8_t type;
-+} ProxyMemoryRegion;
-+
-+extern const MemoryRegionOps proxy_default_ops;
-+
-+struct PCIProxyDev {
-     PCIDevice parent_dev;
- 
-     int n_mr_sections;
-@@ -65,7 +77,8 @@ typedef struct PCIProxyDev {
-     void (*proxy_ready) (PCIDevice *dev);
-     void (*init_proxy) (PCIDevice *dev, char *command, bool need_spawn, Error **errp);
- 
--} PCIProxyDev;
-+    ProxyMemoryRegion region[PCI_NUM_REGIONS];
-+};
- 
- typedef struct PCIProxyDevClass {
-     PCIDeviceClass parent_class;
-@@ -77,5 +90,9 @@ typedef struct PCIProxyDevClass {
- 
- int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp);
- 
-+void proxy_default_bar_write(void *opaque, hwaddr addr, uint64_t val,
-+                             unsigned size);
-+
-+uint64_t proxy_default_bar_read(void *opaque, hwaddr addr, unsigned size);
- 
- #endif /* QEMU_PROXY_H */
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index 7ef8207..89f04c5 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -52,6 +52,8 @@
-  * CONF_READ        PCI config. space read
-  * CONF_WRITE       PCI config. space write
-  * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
-+ * BAR_WRITE        Writes to PCI BAR region
-+ * BAR_READ         Reads from PCI BAR region
-  *
-  * proc_cmd_t enum type to specify the command to be executed on the remote
-  * device.
-@@ -61,6 +63,8 @@ typedef enum {
-     CONF_READ,
-     CONF_WRITE,
-     SYNC_SYSMEM,
-+    BAR_WRITE,
-+    BAR_READ,
-     MAX,
- } mpqemu_cmd_t;
- 
-@@ -84,6 +88,13 @@ typedef struct {
- } sync_sysmem_msg_t;
- 
- typedef struct {
-+    hwaddr addr;
-+    uint64_t val;
-+    unsigned size;
-+    bool memory;
-+} bar_access_msg_t;
-+
-+typedef struct {
-     mpqemu_cmd_t cmd;
-     int bytestream;
-     size_t size;
-@@ -91,6 +102,7 @@ typedef struct {
-     union {
-         uint64_t u64;
-         sync_sysmem_msg_t sync_sysmem;
-+        bar_access_msg_t bar_access;
-     } data1;
- 
-     int fds[REMOTE_MAX_FDS];
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 6c2eb91..49b27d5 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -46,6 +46,7 @@
- #include "qemu/config-file.h"
- #include "sysemu/sysemu.h"
- #include "block/block.h"
-+#include "exec/memattrs.h"
- 
- static MPQemuLinkState *mpqemu_link;
- PCIDevice *remote_pci_dev;
-@@ -76,6 +77,66 @@ static void process_config_read(MPQemuMsg *msg)
-     PUT_REMOTE_WAIT(wait);
- }
- 
-+/* TODO: confirm memtx attrs. */
-+static void process_bar_write(MPQemuMsg *msg, Error **errp)
++static void lsi_proxy_dev_register_types(void)
 +{
-+    bar_access_msg_t *bar_access = &msg->data1.bar_access;
-+    AddressSpace *as =
-+        bar_access->memory ? &address_space_memory : &address_space_io;
-+    MemTxResult res;
-+
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (uint8_t *)&bar_access->val, bar_access->size, true);
-+
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Could not perform address space write operation,"
-+                   " inaccessible address: %lx.", bar_access->addr);
-+    }
++    type_register_static(&lsi_proxy_dev_type_info);
 +}
 +
-+static void process_bar_read(MPQemuMsg *msg, Error **errp)
-+{
-+    bar_access_msg_t *bar_access = &msg->data1.bar_access;
-+    AddressSpace *as;
-+    int wait = msg->fds[0];
-+    MemTxResult res;
-+    uint64_t val = 0;
++type_init(lsi_proxy_dev_register_types)
+diff --git a/include/hw/proxy/proxy-lsi53c895a.h b/include/hw/proxy/proxy-lsi53c895a.h
+new file mode 100644
+index 0000000..8afb8f3
+--- /dev/null
++++ b/include/hw/proxy/proxy-lsi53c895a.h
+@@ -0,0 +1,42 @@
++/*
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-+    as = bar_access->memory ? &address_space_memory : &address_space_io;
++#ifndef LSI_PROXY_H
++#define LSI_PROXY_H
 +
-+    assert(bar_access->size <= sizeof(uint64_t));
++#include "hw/proxy/qemu-proxy.h"
 +
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (uint8_t *)&val, bar_access->size, false);
++#define TYPE_PROXY_LSI53C895A "proxy-lsi53c895a"
 +
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Could not perform address space read operation,"
-+                   " inaccessible address: %lx.", bar_access->addr);
-+        val = (uint64_t)-1;
-+        goto fail;
-+    }
++#define LSI_PROXY_DEV(obj) \
++            OBJECT_CHECK(ProxyLSIState, (obj), TYPE_PROXY_LSI53C895A)
 +
-+    switch (bar_access->size) {
-+    case 4:
-+        val = *((uint32_t *)&val);
-+        break;
-+    case 2:
-+        val = *((uint16_t *)&val);
-+        break;
-+    case 1:
-+        val = *((uint8_t *)&val);
-+        break;
-+    default:
-+        error_setg(errp, "Invalid PCI BAR read size");
-+        return;
-+    }
++typedef struct ProxyLSIState {
++    PCIProxyDev parent_dev;
 +
-+fail:
-+    notify_proxy(wait, val);
++    MemoryRegion mmio_io;
++    MemoryRegion ram_io;
++    MemoryRegion io_io;
 +
-+    PUT_REMOTE_WAIT(wait);
-+}
++} ProxyLSIState;
 +
- static void process_msg(GIOCondition cond, MPQemuChannel *chan)
- {
-     MPQemuMsg *msg = NULL;
-@@ -102,6 +163,18 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-     case CONF_READ:
-         process_config_read(msg);
-         break;
-+    case BAR_WRITE:
-+        process_bar_write(msg, &err);
-+        if (err) {
-+            goto finalize_loop;
-+        }
-+        break;
-+    case BAR_READ:
-+        process_bar_read(msg, &err);
-+        if (err) {
-+            goto finalize_loop;
-+        }
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
++#endif
 -- 
 1.8.3.1
 
