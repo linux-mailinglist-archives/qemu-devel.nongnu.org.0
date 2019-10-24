@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBCBE3057
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:27:04 +0200 (CEST)
-Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4020BE2FAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:00:31 +0200 (CEST)
+Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbGh-0006Uq-K7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46761)
+	id 1iNaqz-0003cP-Mo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:00:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iNZQq-0001Sr-6K
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:29:26 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNaoZ-0001Sp-N5
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:58:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iNZQo-0004HR-GE
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:29:23 -0400
-Resent-Date: Thu, 24 Oct 2019 05:29:23 -0400
-Resent-Message-Id: <E1iNZQo-0004HR-GE@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21428)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iNZQo-0004H5-6a
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:29:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571909354; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZkARMz4Vt+6qqxp8wAGqQx7YTud3CvKol7k/S0KDH1dXXkF9RLuQ5ZYLM5SMTM0P6MGYA8tg1YY3pcQWWyo1xdOcEHfXyD9hl0dPnazdLL+dAwcIr9YXuM27YFVSqw43eTyxhJR7t3NAqacquiK5Bwg1NvNQpnh1WhNchpY7iC8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1571909354;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Vf16AC3NZADSnfS2uVRSd3bDXSs874zvBx700MfjUDQ=; 
- b=PyHwkhYdHCoYJ0lpcY9lCU+sD1rXw5dGg2IvPBSm2DDi/bDJUYUZBwlNvH3Gu+a2siDEjOudWD9OwBhO7k0zSQC/mAa5w+9MQ2ldWCJODB30Q37XK3eKgJ/6aVjJXvYVDrreQm/CovlVZS3BvQ0GKlZHLAozc4CuTo5TLKKxhZM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571909350475183.08446252534384;
- Thu, 24 Oct 2019 02:29:10 -0700 (PDT)
-In-Reply-To: <20191023154505.30521-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 0/7] exec: Improve code for TARGET_PAGE_BITS_VARY
-Message-ID: <157190934929.24565.17569162436118838014@37313f22b938>
+ (envelope-from <kwolf@redhat.com>) id 1iNaoX-0002zL-Oc
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:57:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48895
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNaoX-0002yU-Jm
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:57:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571914676;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x5csi6x/hSuHoKlH7HI8cZRnRu4o5pBVTHoH/EQ8Exw=;
+ b=EGqsxxDIncoFnHrmSqb78PX68Vj1Kt8lL6pcAEFcr0DLaxtvUdqFP8MDJ0AA8eDzzjg8ZO
+ sWU8edf5HSWI0wVI5HVl598HluFz4NjfeDitiZespBhC8aEQjUXw6SXwUcybZ+QZirdNEd
+ /kyump86NXjNutBmLDCbWgPEbnvbRNQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-prHYF28nP2ukvVkroafotw-1; Thu, 24 Oct 2019 06:57:51 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20AA51800DBE;
+ Thu, 24 Oct 2019 10:57:50 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DDD12196B2;
+ Thu, 24 Oct 2019 10:57:47 +0000 (UTC)
+Date: Thu, 24 Oct 2019 12:57:46 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Denis Lunev <den@virtuozzo.com>
+Subject: Re: [PATCH 2/3] qcow2: Assert that qcow2_cache_get() callers hold
+ s->lock
+Message-ID: <20191024105746.GB6200@linux.fritz.box>
+References: <20191023152620.13166-1-kwolf@redhat.com>
+ <20191023152620.13166-3-kwolf@redhat.com>
+ <3600fb84-e1f1-c70a-4b83-e7a379f50614@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Thu, 24 Oct 2019 02:29:10 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <3600fb84-e1f1-c70a-4b83-e7a379f50614@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: prHYF28nP2ukvVkroafotw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,57 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
+ "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyMzE1NDUwNS4zMDUy
-MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2MiAwLzddIGV4ZWM6IEltcHJv
-dmUgY29kZSBmb3IgVEFSR0VUX1BBR0VfQklUU19WQVJZClR5cGU6IHNlcmllcwpNZXNzYWdlLWlk
-OiAyMDE5MTAyMzE1NDUwNS4zMDUyMS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKCj09
-PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4g
-L2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJh
-Y2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFu
-Y2ggJ3Rlc3QnCjE5Y2Q3NTMgZXhlYzogQ2FjaGUgVEFSR0VUX1BBR0VfTUFTSyBmb3IgVEFSR0VU
-X1BBR0VfQklUU19WQVJZCjYwNmIwNzAgZXhlYzogUHJvbW90ZSBUQVJHRVRfUEFHRV9NQVNLIHRv
-IHRhcmdldF9sb25nCjg5NmQ0MmIgZXhlYzogUmVzdHJpY3QgVEFSR0VUX1BBR0VfQklUU19WQVJZ
-IGFzc2VydCB0byBDT05GSUdfREVCVUdfVENHCjcyMmQyMmUgZXhlYzogVXNlIGNvbnN0IGFsaWFz
-IGZvciBUQVJHRVRfUEFHRV9CSVRTX1ZBUlkKNmFjNGVmYyBjb25maWd1cmU6IERldGVjdCBjb21w
-aWxlciBzdXBwb3J0IGZvciBfX2F0dHJpYnV0ZV9fKChhbGlhcykpCmUyOGQwMjUgZXhlYzogU3Bs
-aXQgb3V0IHZhcmlhYmxlIHBhZ2Ugc2l6ZSBzdXBwb3J0IHRvIGV4ZWMtdmFyeS5jCjFkMDIyNTEg
-Y3B1OiB1c2UgUk9VTkRfVVAoKSB0byBkZWZpbmUgeHh4X1BBR0VfQUxJR04KCj09PSBPVVRQVVQg
-QkVHSU4gPT09CjEvNyBDaGVja2luZyBjb21taXQgMWQwMjI1MTY2ZmRlIChjcHU6IHVzZSBST1VO
-RF9VUCgpIHRvIGRlZmluZSB4eHhfUEFHRV9BTElHTikKMi83IENoZWNraW5nIGNvbW1pdCBlMjhk
-MDI1YzdjNmMgKGV4ZWM6IFNwbGl0IG91dCB2YXJpYWJsZSBwYWdlIHNpemUgc3VwcG9ydCB0byBl
-eGVjLXZhcnkuYykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9l
-cyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoK
-dG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi83
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMvNyBDaGVja2luZyBjb21taXQgNmFjNGVmYzMx
-NjhjIChjb25maWd1cmU6IERldGVjdCBjb21waWxlciBzdXBwb3J0IGZvciBfX2F0dHJpYnV0ZV9f
-KChhbGlhcykpKQo0LzcgQ2hlY2tpbmcgY29tbWl0IDcyMmQyMmU0YWY1MiAoZXhlYzogVXNlIGNv
-bnN0IGFsaWFzIGZvciBUQVJHRVRfUEFHRV9CSVRTX1ZBUlkpCkVSUk9SOiBleHRlcm5zIHNob3Vs
-ZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM2NTogRklMRTogZXhlYy12YXJ5LmM6NTc6CitleHRl
-cm4gY29uc3QgVGFyZ2V0UGFnZUJpdHMgdGFyZ2V0X3BhZ2UKCnRvdGFsOiAxIGVycm9ycywgMCB3
-YXJuaW5ncywgMTAzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvNyBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoKNS83IENoZWNraW5nIGNvbW1pdCA4OTZkNDJiOWFjNjggKGV4ZWM6IFJlc3RyaWN0
-IFRBUkdFVF9QQUdFX0JJVFNfVkFSWSBhc3NlcnQgdG8gQ09ORklHX0RFQlVHX1RDRykKNi83IENo
-ZWNraW5nIGNvbW1pdCA2MDZiMDcwZWE3NGUgKGV4ZWM6IFByb21vdGUgVEFSR0VUX1BBR0VfTUFT
-SyB0byB0YXJnZXRfbG9uZykKNy83IENoZWNraW5nIGNvbW1pdCAxOWNkNzUzN2I5MjYgKGV4ZWM6
-IENhY2hlIFRBUkdFVF9QQUdFX01BU0sgZm9yIFRBUkdFVF9QQUdFX0JJVFNfVkFSWSkKPT09IE9V
-VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEwMjMxNTQ1
-MDUuMzA1MjEtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRj
-aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Am 24.10.2019 um 12:01 hat Denis Lunev geschrieben:
+> On 10/23/19 6:26 PM, Kevin Wolf wrote:
+> > qcow2_cache_do_get() requires that s->lock is locked because it can
+> > yield between picking a cache entry and actually taking ownership of it
+> > by setting offset and increasing the reference count.
+> >
+> > Add an assertion to make sure the caller really holds the lock. The
+> > function can be called outside of coroutine context, where bdrv_pread
+> > and flushes become synchronous operations. The lock cannot and need not
+> > be taken in this case.
+> >
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  block/qcow2-cache.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+> > index d29b038a67..75b13dad99 100644
+> > --- a/block/qcow2-cache.c
+> > +++ b/block/qcow2-cache.c
+> > @@ -327,6 +327,9 @@ static int qcow2_cache_do_get(BlockDriverState *bs,=
+ Qcow2Cache *c,
+> >      int min_lru_index =3D -1;
+> > =20
+> >      assert(offset !=3D 0);
+> > +    if (qemu_in_coroutine()) {
+> > +        qemu_co_mutex_assert_locked(&s->lock);
+> > +    }
+>=20
+> that is looking not good to me. If this is really requires lock, we shoul=
+d
+> check for the lock always. In the other hand we could face missed
+> lock out of coroutine.
+
+As the commit message explains, outside of coroutine context, we can't
+yield and bdrv_pread and bdrv_flush become synchronous operations
+instead, so there is nothing else that we need to protect against.
+
+Kevin
 
 
