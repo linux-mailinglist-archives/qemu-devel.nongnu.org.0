@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957DFE3AF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:28:25 +0200 (CEST)
-Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AF2E3A93
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:04:53 +0200 (CEST)
+Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhqS-00037o-0J
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45243)
+	id 1iNhTg-00016Y-Fe
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laine@redhat.com>) id 1iNhNM-0003NP-RJ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:58:22 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNhOy-0001Ef-BC
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:00:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laine@redhat.com>) id 1iNhNK-0001OT-Lh
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:58:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40986
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNhOu-0002Br-HV
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:59:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53292
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laine@redhat.com>) id 1iNhNI-0001Mr-OU
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:58:18 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNhOu-0002Aq-AD
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 13:59:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571939893;
+ s=mimecast20190719; t=1571939994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6+vvEM3T7cug6j6ihL8OwFmYB35S+GtiHAy6pvmEyYQ=;
- b=HlkRj/desmRO3c3Jne9oyDSl2h4J0s6FxGMgMJ5nlY+uhaqTnFa+bXXEwZQBAcG8OevHaM
- f7olrieCQ38sn8c0sSrWTYK9eUV2aCCLJdNeXOaOnSELt5qB67SLXR00z/80/Aqu0G07BT
- 9yPGeWGuDLQuNGprzRX8Iw4kNEG8Sow=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-K1TkIK9_Oj-LWvkXLFoNNw-1; Thu, 24 Oct 2019 13:58:10 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A550D107AD31;
- Thu, 24 Oct 2019 17:58:09 +0000 (UTC)
-Received: from [10.10.123.191] (ovpn-123-191.rdu2.redhat.com [10.10.123.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4B6017F85;
- Thu, 24 Oct 2019 17:57:56 +0000 (UTC)
-Subject: Re: [PATCH v5 02/11] pci: add option for net failover
-To: qemu-devel@nongnu.org
-References: <20191023082711.16694-1-jfreimann@redhat.com>
- <20191023082711.16694-3-jfreimann@redhat.com>
- <20191023120648.57e50ae1@x1.home>
- <20191023193035.tlcumzmgjw242hgw@jenstp.localdomain>
- <20191023140211.4ada7ff3@x1.home>
- <20191023203137.meh3edoudxulecys@jenstp.localdomain>
- <20191023151500.547d200a@x1.home>
-From: Laine Stump <laine@redhat.com>
-Message-ID: <5b7e1e51-12fa-4b1d-6d59-1b76873ddda3@redhat.com>
-Date: Thu, 24 Oct 2019 13:57:54 -0400
+ bh=mra5WsFMDMwMaKphhK95i3CcfFGGRS2c1ypwx7gw2+8=;
+ b=Q46PgCoZqr0Hlctp32o4/Y5SKf/Y8ZcjwoEYQXNjeMg+ECYdy6Mhxh286mOkaCMwfvKhvf
+ vP3ZK/kV58V2FLO2rn4KDaAyFO20thC5uX5QqR7pfAclxeZe42oTLDY3T0aE7GXSWN6TQd
+ sQLlptrgpJOPq/7zqVYRKZAPfxxTEJw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-9S7CbDw6NOan1HIkKkOW4w-1; Thu, 24 Oct 2019 13:59:48 -0400
+Received: by mail-wm1-f69.google.com with SMTP id z23so1383860wml.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 10:59:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wtfUwemMHbbCR3o+kWYCbsDa/IiYXq0j8CinEDPTlLo=;
+ b=HLdfpVOsgYXlYG1lXnZ9msFN73Zlkln0bb3altBiCc+Aaw0RW3S3DAHdWMy52sBvLf
+ BqnCYuDprULD/EwBbKjmEcOgajQ4PupylUCL3XuEnZOsIp2JZy2/suGQeTaO8EUzC4aI
+ S6egfRtBODkqAtaK7NrDmBFkP/Zyq1NUJbxlJMVZNGXcRDs0x8QpSeKBIuDUCfHISSVi
+ ZFYF2xF0XMNF4S7SlphsGeBFYgwf1YOW1zbADYFq5Tboj9PS9gPtnOEpwMeTOc70Y9cm
+ 3QCdDhucyJctfQvMkI9CbZvjRMhQukajB/QHJFrAh+uzIkQA0lU0aYuj7GXdzO2hVQT9
+ Smkg==
+X-Gm-Message-State: APjAAAUT/6nFFbIC305WXy74t5t1YnSNey8dBuSz2KkhByQ220aEgzBH
+ AeLDkWQrWIE+ipJOYmMnOjpoWKBOqx27i43DZHbara4F8fZZVBF7f0V3cGTKsJht+UkNAcWHJKg
+ XQScGs2BSKGxecSA=
+X-Received: by 2002:adf:ea07:: with SMTP id q7mr4873516wrm.102.1571939987499; 
+ Thu, 24 Oct 2019 10:59:47 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwstqnhKvOvRzhfYYrWcopWNGXeQX6iwDzNnzR4g3N3cAoEdkn8sxojNNRst00x46A79vJxnQ==
+X-Received: by 2002:adf:ea07:: with SMTP id q7mr4873497wrm.102.1571939987231; 
+ Thu, 24 Oct 2019 10:59:47 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id g5sm3822944wmg.12.2019.10.24.10.59.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 10:59:46 -0700 (PDT)
+Subject: Re: [PATCH] travis.yml: enable linux-gcc-debug-tcg cache
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191024160619.14179-1-alex.bennee@linaro.org>
+ <4f36130d-f2cc-2432-7098-b73f82c1501e@redhat.com> <877e4um5t7.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <688b8633-72dd-c3d5-019e-4af527a9dc52@redhat.com>
+Date: Thu, 24 Oct 2019 19:59:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191023151500.547d200a@x1.home>
+In-Reply-To: <877e4um5t7.fsf@linaro.org>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: K1TkIK9_Oj-LWvkXLFoNNw-1
+X-MC-Unique: 9S7CbDw6NOan1HIkKkOW4w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,94 +91,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, dgilbert@redhat.com,
- Alex Williamson <alex.williamson@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>, ailan@redhat.com, parav@mellanox.com
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 5:15 PM, Alex Williamson wrote:
-> On Wed, 23 Oct 2019 22:31:37 +0200
-> Jens Freimann <jfreimann@redhat.com> wrote:
+On 10/24/19 7:06 PM, Alex Benn=C3=A9e wrote:
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 >=20
->> On Wed, Oct 23, 2019 at 02:02:11PM -0600, Alex Williamson wrote:
->>> On Wed, 23 Oct 2019 21:30:35 +0200
->>> Jens Freimann <jfreimann@redhat.com> wrote:
->>>  =20
->>>> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
->>>>> On Wed, 23 Oct 2019 10:27:02 +0200
->>>>> Jens Freimann <jfreimann@redhat.com> wrote:
->> [...]
->>>>> Are there also multi-function considerations that
->>>>> should be prevented or documented?  For example, if a user tries to
->>>>> configure both the primary and failover NICs in the same slot, I assu=
-me
->>>>> bad things will happen.
->>>>
->>>>    I would have expected that this is already checked in pci code, but
->>>> it is not. I tried it and when I put both devices into the same slot
->>>> they are both unplugged from the guest during boot but nothing else
->>>> happens. I don't know what triggers that unplug of the devices.
->>>>
->>>> I'm not aware of any other problems regarding multi-function, which
->>>> doesn't mean there aren't any.
->>>
->>> Hmm, was the hidden device at function #0?  The guest won't find any
->>> functions if function #0 isn't present, but I don't know what would
->>> trigger the hotplug.  The angle I'm thinking is that we only have slot
->>> level granularity for hotplug, so any sort of automatic hotplug of a
->>> slot should probably think about bystander devices within the slot.
+>> On 10/24/19 6:06 PM, Alex Benn=C3=A9e wrote:
+>>> Create a new cache for the --enable-debug-tcg builds which is separate
+>>> from the normal debug builds which generate different code. We also
+>>> enable debug-tcg for the new plugins based builds as we want to ensure
+>>> any breakage to TCG is picked up by the sanity checks.
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>>    .travis.yml | 14 +++++++-------
+>>>    1 file changed, 7 insertions(+), 7 deletions(-)
+>>> diff --git a/.travis.yml b/.travis.yml
+>>> index e3f10a93683..34bc8134f5b 100644
+>>> --- a/.travis.yml
+>>> +++ b/.travis.yml
+>>> @@ -135,7 +135,7 @@ matrix:
+>>>        # TCG debug can be run just on its own and is mostly agnostic to=
+ user/softmmu distinctions
+>>>        - env:
+>>>            - CONFIG=3D"--enable-debug-tcg --disable-system"
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug"
+>>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
 >>
->> Yes that would be a problem, but isn't it the same in the non-failover c=
-ase
->> where a user configures it wrong? The slot where the device is plugged i=
-s not
->> chosen automatically it's configured by the user, no? I might be mixing =
-something
->> up here.  I have no idea yet how to check if a slot is already populated=
-, but
->> I'll think about it.
+>> This one runs default TEST_CMD=3D"make check -j3 V=3D1"
 >=20
-> I don't think libvirt will automatically make use of multifunction
-> endpoints, except maybe for some built-in devices, so yes it probably
-> would be up to the user to explicitly create a multifunction device.
+> That does exercise the TCG a little because the various qemu-system-FOO
+> builds have some bootcode. However given we exercise the TCG more
+> further down we could just drop this matrix entry.
 
-Correct. The only place libvirt will ever assign devices anywhere except=20
-function 0 is when we are adding pcie-root-ports - those are combined=20
-8-per-slot in order to conserve space on pcie.0 (this permits us to have=20
-up to 240 PCIe devices without needing to resort to upstream/downstream=20
-switches).
+I haven't checked how long takes "make check check-tcg", hopefully we=20
+could merge both.
 
-
-> But are there other scenarios that generate an automatic hot-unplug?
-> If a user creates a multifunction slot and then triggers a hot-unplug
-> themselves, it's easy to place the blame on the user if the result is
-> unexpected, but is it so obviously a user configuration error if the
-> hotplug occurs as an automatic response to a migration?  I'm not as
-> sure about that.
-
-I guess that's all a matter of opinion. If the user never enters in any=20
-PCI address info and it's all handled by someone else, then I wouldn't=20
-expect them to know exactly where the devices were (and only vaguely=20
-understand that their hostdev network interface is going to be unplugged=20
-during migration). In that case (as long as it's libvirt assigning the=20
-PCI addresses) the situation we're considering would never ever happen,=20
-so it's a non-issue.
-
-If, on the other hand, the user wants to mess around assigning PCI=20
-addresses themselves, then they get to pick up all the pieces. It might=20
-be nice if they could be given a clue about why it broke though.
-
+>>>
+>>>        - env:
+>>> @@ -336,29 +336,29 @@ matrix:
+>>>        - env:
+>>>            - CONFIG=3D"--disable-system --enable-debug-tcg"
+>>>            - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>>
+>> And this one "check-tcg", OK.
+>> (Maybe we can reorder the $CONFIG arguments so both jobs are more simila=
+r).
+>>
+>> Too bad Travis 'stages' are an enterprise feature:
+>>
+>> https://docs.travis-ci.com/user/conditional-builds-stages-jobs/#conditio=
+nal-stages
+>>
+>> Because here we are building 2x the same, and cache isn't used.
 >=20
-> As indicated, I don't know whether this should just be documented or if
-> we should spend time preventing it, but someone, somewhere will
-> probably think it's a good idea to put their primary and failover NIC
-> in the same slot and be confused that the underlying mechanisms cannot
-> support it.  It doesn't appear that it would be too difficult to test
-> QEMU_PCI_CAP_MULTIFUNCTION (not set) and PCI_FUNC (is 0) for the
-> primary, but maybe I'm just being paranoid.  Thanks,
+> Why isn't the cache used?
 
-If, as you claim, it's not difficult, then I guess why not?
+IIUC cache aren't shared within the same jobs of a build, but by jobs at=20
+build+1.
+
+>>
+>> Not this patch problem.
+>>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>>
+>>>        # Run check-tcg against linux-user (with plugins)
+>>>        # we skip sparc64-linux-user until it has been fixed somewhat
+>>>        - env:
+>>> -        - CONFIG=3D"--disable-system --enable-plugins --target-list-ex=
+clude=3Dsparc64-linux-user"
+>>> +        - CONFIG=3D"--disable-system --enable-plugins --enable-debug-t=
+cg --target-list-exclude=3Dsparc64-linux-user"
+>>>            - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>>
+>>>        # Run check-tcg against softmmu targets
+>>>        - env:
+>>>            - CONFIG=3D"--enable-debug-tcg --target-list=3Dxtensa-softmm=
+u,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+>>>            - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>>
+>>>        # Run check-tcg against softmmu targets (with plugins)
+>>>        - env:
+>>> -        - CONFIG=3D"--enable-plugins --target-list=3Dxtensa-softmmu,ar=
+m-softmmu,aarch64-softmmu,alpha-softmmu"
+>>> +        - CONFIG=3D"--enable-plugins --enable-debug-tcg --target-list=
+=3Dxtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+>>>            - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>>> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>>> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>>
+>>>        # Release builds
+>>>
+>=20
+>=20
+> --
+> Alex Benn=C3=A9e
+>=20
 
 
