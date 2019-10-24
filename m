@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3E5E333E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:00:54 +0200 (CEST)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21B6E3364
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:05:19 +0200 (CEST)
+Received: from localhost ([::1]:41936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcjT-0002yW-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:00:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45434)
+	id 1iNcnm-0007qO-0T
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45533)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iNc4e-0000yH-PF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:42 -0400
+ (envelope-from <drjones@redhat.com>) id 1iNc4v-00013p-W4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iNc4c-0003ry-N3
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33630
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1iNc4r-00041a-RQ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:56 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56651
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iNc4a-0003pu-QF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:38 -0400
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iNc4o-0003za-Mq
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571919515;
+ s=mimecast20190719; t=1571919529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=szmjsfgT8axIG3cB7hwJjR9Yjr+/Rggf/VpHqZNmkwY=;
- b=GyD+riapHgz3xaP2wDPfKZmIwQMJXNL3ZtpBmHSXdKg80I+uAgSqg/KCg5XZ2MXHgHkC/k
- 0L1Fdnfae5oL4vESMdQonspN1sHHBuVjRhnSmEONm9Y+eMPcsjVDCfnP4u0Pf/V4x5hwGO
- DVs+/5OwBdcXphIwv4eA66WjALteBys=
+ bh=0q2eLdG4tSE/+xsUHJsEF/xBfS1hzvUal90RKZ0xNtE=;
+ b=YcVaaQphMPZiAlMJ2PoDeWRmxheklIRj2XUMzVmBV4oYu0o8B/em2nUBdVYzZ6iKT1Kqem
+ zWJ4HeBO04WgKsa4FgSq4C7YVsQRp7PQFljwkt0o5fClD14qWk05en1b3sStrlnXdXCEzG
+ jysj47x33nfjbLqq2P3b9/bYXsBM0To=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-Bqa19TvzNGCaCsqJaP5kBA-1; Thu, 24 Oct 2019 08:18:32 -0400
+ us-mta-60-M8H-TqQeOW-V-eidFrAbPQ-1; Thu, 24 Oct 2019 08:18:47 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 767A61800D6B;
- Thu, 24 Oct 2019 12:18:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B9AC800D49;
+ Thu, 24 Oct 2019 12:18:46 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79C2260BF3;
- Thu, 24 Oct 2019 12:18:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A427360BF3;
+ Thu, 24 Oct 2019 12:18:43 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH v7 2/9] tests: arm: Introduce cpu feature tests
-Date: Thu, 24 Oct 2019 14:18:01 +0200
-Message-Id: <20191024121808.9612-3-drjones@redhat.com>
+Subject: [PATCH v7 6/9] target/arm/kvm64: max cpu: Enable SVE when available
+Date: Thu, 24 Oct 2019 14:18:05 +0200
+Message-Id: <20191024121808.9612-7-drjones@redhat.com>
 In-Reply-To: <20191024121808.9612-1-drjones@redhat.com>
 References: <20191024121808.9612-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Bqa19TvzNGCaCsqJaP5kBA-1
+X-MC-Unique: M8H-TqQeOW-V-eidFrAbPQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,306 +78,224 @@ Cc: m.mizuma@jp.fujitsu.com, beata.michalska@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that Arm CPUs have advertised features lets add tests to ensure
-we maintain their expected availability with and without KVM.
+Enable SVE in the KVM guest when the 'max' cpu type is configured
+and KVM supports it. KVM SVE requires use of the new finalize
+vcpu ioctl, so we add that now too. For starters SVE can only be
+turned on or off, getting all vector lengths the host CPU supports
+when on. We'll add the other SVE CPU properties in later patches.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Reviewed-by: Beata Michalska <beata.michalska@linaro.org>
 ---
- tests/Makefile.include   |   5 +-
- tests/arm-cpu-features.c | 240 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 244 insertions(+), 1 deletion(-)
- create mode 100644 tests/arm-cpu-features.c
+ target/arm/cpu64.c       | 17 ++++++++++++++---
+ target/arm/kvm.c         |  5 +++++
+ target/arm/kvm64.c       | 20 +++++++++++++++++++-
+ target/arm/kvm_arm.h     | 27 +++++++++++++++++++++++++++
+ tests/arm-cpu-features.c |  4 ++++
+ 5 files changed, 69 insertions(+), 4 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451ed309..8fd7c90b625e 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -255,6 +255,7 @@ check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) =3D tests/end=
-ianness-test$(EXESUF)
- check-qtest-sparc64-y +=3D tests/prom-env-test$(EXESUF)
- check-qtest-sparc64-y +=3D tests/boot-serial-test$(EXESUF)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 34b0ba2cf6f7..a771a28daa56 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -493,6 +493,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v, c=
+onst char *name,
+         return;
+     }
 =20
-+check-qtest-arm-y +=3D tests/arm-cpu-features$(EXESUF)
- check-qtest-arm-y +=3D tests/microbit-test$(EXESUF)
- check-qtest-arm-y +=3D tests/m25p80-test$(EXESUF)
- check-qtest-arm-y +=3D tests/test-arm-mptimer$(EXESUF)
-@@ -262,7 +263,8 @@ check-qtest-arm-y +=3D tests/boot-serial-test$(EXESUF)
- check-qtest-arm-y +=3D tests/hexloader-test$(EXESUF)
- check-qtest-arm-$(CONFIG_PFLASH_CFI02) +=3D tests/pflash-cfi02-test$(EXESU=
-F)
++    if (value && kvm_enabled() && !kvm_arm_sve_supported(CPU(cpu))) {
++        error_setg(errp, "'sve' feature not supported by KVM on this host"=
+);
++        return;
++    }
++
+     t =3D cpu->isar.id_aa64pfr0;
+     t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, value);
+     cpu->isar.id_aa64pfr0 =3D t;
+@@ -507,11 +512,16 @@ static void aarch64_max_initfn(Object *obj)
+ {
+     ARMCPU *cpu =3D ARM_CPU(obj);
+     uint32_t vq;
++    uint64_t t;
 =20
--check-qtest-aarch64-y =3D tests/numa-test$(EXESUF)
-+check-qtest-aarch64-y +=3D tests/arm-cpu-features$(EXESUF)
-+check-qtest-aarch64-y +=3D tests/numa-test$(EXESUF)
- check-qtest-aarch64-y +=3D tests/boot-serial-test$(EXESUF)
- check-qtest-aarch64-y +=3D tests/migration-test$(EXESUF)
- # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make test unconditio=
-nal
-@@ -827,6 +829,7 @@ tests/test-qapi-util$(EXESUF): tests/test-qapi-util.o $=
-(test-util-obj-y)
- tests/numa-test$(EXESUF): tests/numa-test.o
- tests/vmgenid-test$(EXESUF): tests/vmgenid-test.o tests/boot-sector.o test=
-s/acpi-utils.o
- tests/cdrom-test$(EXESUF): tests/cdrom-test.o tests/boot-sector.o $(libqos=
--obj-y)
-+tests/arm-cpu-features$(EXESUF): tests/arm-cpu-features.o
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
++        if (kvm_arm_sve_supported(CPU(cpu))) {
++            t =3D cpu->isar.id_aa64pfr0;
++            t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
++            cpu->isar.id_aa64pfr0 =3D t;
++        }
+     } else {
+-        uint64_t t;
+         uint32_t u;
+         aarch64_a57_initfn(obj);
 =20
- tests/migration/stress$(EXESUF): tests/migration/stress.o
- =09$(call quiet-command, $(LINKPROG) -static -O3 $(PTHREAD_LIB) -o $@ $< ,=
-"LINK","$(TARGET_DIR)$@")
-diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-new file mode 100644
-index 000000000000..c59fcf409c89
---- /dev/null
-+++ b/tests/arm-cpu-features.c
-@@ -0,0 +1,240 @@
-+/*
-+ * Arm CPU feature test cases
+@@ -612,8 +622,6 @@ static void aarch64_max_initfn(Object *obj)
+=20
+         object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_m=
+ax_vq,
+                             cpu_max_set_sve_max_vq, NULL, NULL, &error_fat=
+al);
+-        object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+-                            cpu_arm_set_sve, NULL, NULL, &error_fatal);
+=20
+         for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
+             char name[8];
+@@ -622,6 +630,9 @@ static void aarch64_max_initfn(Object *obj)
+                                 cpu_arm_set_sve_vq, NULL, NULL, &error_fat=
+al);
+         }
+     }
++
++    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
++                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
+ }
+=20
+ struct ARMCPUInfo {
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index b473c63edb1c..f07332bbda30 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -51,6 +51,11 @@ int kvm_arm_vcpu_init(CPUState *cs)
+     return kvm_vcpu_ioctl(cs, KVM_ARM_VCPU_INIT, &init);
+ }
+=20
++int kvm_arm_vcpu_finalize(CPUState *cs, int feature)
++{
++    return kvm_vcpu_ioctl(cs, KVM_ARM_VCPU_FINALIZE, &feature);
++}
++
+ void kvm_arm_init_serror_injection(CPUState *cs)
+ {
+     cap_has_inject_serror_esr =3D kvm_check_extension(cs->kvm_state,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 4c0b11d105a4..850da1b5e6aa 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -602,6 +602,13 @@ bool kvm_arm_aarch32_supported(CPUState *cpu)
+     return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
+ }
+=20
++bool kvm_arm_sve_supported(CPUState *cpu)
++{
++    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++
++    return kvm_check_extension(s, KVM_CAP_ARM_SVE);
++}
++
+ #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+=20
+ int kvm_arch_init_vcpu(CPUState *cs)
+@@ -630,13 +637,17 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_EL1_32BIT;
+     }
+     if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PMU_V3)) {
+-            cpu->has_pmu =3D false;
++        cpu->has_pmu =3D false;
+     }
+     if (cpu->has_pmu) {
+         cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_PMU_V3;
+     } else {
+         unset_feature(&env->features, ARM_FEATURE_PMU);
+     }
++    if (cpu_isar_feature(aa64_sve, cpu)) {
++        assert(kvm_arm_sve_supported(cs));
++        cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_SVE;
++    }
+=20
+     /* Do KVM_ARM_VCPU_INIT ioctl */
+     ret =3D kvm_arm_vcpu_init(cs);
+@@ -644,6 +655,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         return ret;
+     }
+=20
++    if (cpu_isar_feature(aa64_sve, cpu)) {
++        ret =3D kvm_arm_vcpu_finalize(cs, KVM_ARM_VCPU_SVE);
++        if (ret) {
++            return ret;
++        }
++    }
++
+     /*
+      * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+      * Currently KVM has its own idea about MPIDR assignment, so we
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index b4e19457a094..7c12f1501a8b 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -27,6 +27,20 @@
+  */
+ int kvm_arm_vcpu_init(CPUState *cs);
+=20
++/**
++ * kvm_arm_vcpu_finalize
++ * @cs: CPUState
++ * @feature: int
 + *
-+ * Copyright (c) 2019 Red Hat Inc.
-+ * Authors:
-+ *  Andrew Jones <drjones@redhat.com>
++ * Finalizes the configuration of the specified VCPU feature by
++ * invoking the KVM_ARM_VCPU_FINALIZE ioctl. Features requiring
++ * this are documented in the "KVM_ARM_VCPU_FINALIZE" section of
++ * KVM's API documentation.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
++ * Returns: 0 if success else < 0 error code
 + */
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qjson.h"
++int kvm_arm_vcpu_finalize(CPUState *cs, int feature);
 +
-+#define MACHINE    "-machine virt,gic-version=3Dmax "
-+#define QUERY_HEAD "{ 'execute': 'query-cpu-model-expansion', " \
-+                     "'arguments': { 'type': 'full', "
-+#define QUERY_TAIL "}}"
+ /**
+  * kvm_arm_register_device:
+  * @mr: memory region for this device
+@@ -225,6 +239,14 @@ bool kvm_arm_aarch32_supported(CPUState *cs);
+  */
+ bool kvm_arm_pmu_supported(CPUState *cs);
+=20
++/**
++ * bool kvm_arm_sve_supported:
++ * @cs: CPUState
++ *
++ * Returns true if the KVM VCPU can enable SVE and false otherwise.
++ */
++bool kvm_arm_sve_supported(CPUState *cs);
 +
-+static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
+ /**
+  * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
+  * IPA address space supported by KVM
+@@ -276,6 +298,11 @@ static inline bool kvm_arm_pmu_supported(CPUState *cs)
+     return false;
+ }
+=20
++static inline bool kvm_arm_sve_supported(CPUState *cs)
 +{
-+    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-+                          QUERY_TAIL, cpu_type);
++    return false;
 +}
 +
-+static QDict *do_query(QTestState *qts, const char *cpu_type,
-+                       const char *fmt, ...)
-+{
-+    QDict *resp;
+ static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+ {
+     return -ENOENT;
+diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+index 5eecd38f6c60..3efc168d62a4 100644
+--- a/tests/arm-cpu-features.c
++++ b/tests/arm-cpu-features.c
+@@ -391,12 +391,16 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+         assert_has_feature(qts, "host", "aarch64");
+         assert_has_feature(qts, "host", "pmu");
+=20
++        assert_has_feature(qts, "max", "sve");
 +
-+    if (fmt) {
-+        QDict *args;
-+        va_list ap;
+         assert_error(qts, "cortex-a15",
+             "We cannot guarantee the CPU type 'cortex-a15' works "
+             "with KVM on this host", NULL);
+     } else {
+         assert_has_not_feature(qts, "host", "aarch64");
+         assert_has_not_feature(qts, "host", "pmu");
 +
-+        va_start(ap, fmt);
-+        args =3D qdict_from_vjsonf_nofail(fmt, ap);
-+        va_end(ap);
-+
-+        resp =3D qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s, "
-+                                                    "'props': %p }"
-+                              QUERY_TAIL, cpu_type, args);
-+    } else {
-+        resp =3D do_query_no_props(qts, cpu_type);
-+    }
-+
-+    return resp;
-+}
-+
-+static const char *resp_get_error(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+
-+    qdict =3D qdict_get_qdict(resp, "error");
-+    if (qdict) {
-+        return qdict_get_str(qdict, "desc");
-+    }
-+    return NULL;
-+}
-+
-+#define assert_error(qts, cpu_type, expected_error, fmt, ...)          \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+    const char *_error;                                                \
-+                                                                       \
-+    _resp =3D do_query(qts, cpu_type, fmt, ##__VA_ARGS__);               \
-+    g_assert(_resp);                                                   \
-+    _error =3D resp_get_error(_resp);                                    \
-+    g_assert(_error);                                                  \
-+    g_assert(g_str_equal(_error, expected_error));                     \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+static bool resp_has_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+
-+    if (!qdict_haskey(resp, "return")) {
-+        return false;
-+    }
-+    qdict =3D qdict_get_qdict(resp, "return");
-+
-+    if (!qdict_haskey(qdict, "model")) {
-+        return false;
-+    }
-+    qdict =3D qdict_get_qdict(qdict, "model");
-+
-+    return qdict_haskey(qdict, "props");
-+}
-+
-+static QDict *resp_get_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+
-+    qdict =3D qdict_get_qdict(resp, "return");
-+    qdict =3D qdict_get_qdict(qdict, "model");
-+    qdict =3D qdict_get_qdict(qdict, "props");
-+    return qdict;
-+}
-+
-+#define assert_has_feature(qts, cpu_type, feature)                     \
-+({                                                                     \
-+    QDict *_resp =3D do_query_no_props(qts, cpu_type);                   \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    g_assert(qdict_get(resp_get_props(_resp), feature));               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define assert_has_not_feature(qts, cpu_type, feature)                 \
-+({                                                                     \
-+    QDict *_resp =3D do_query_no_props(qts, cpu_type);                   \
-+    g_assert(_resp);                                                   \
-+    g_assert(!resp_has_props(_resp) ||                                 \
-+             !qdict_get(resp_get_props(_resp), feature));              \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+static void assert_type_full(QTestState *qts)
-+{
-+    const char *error;
-+    QDict *resp;
-+
-+    resp =3D qtest_qmp(qts, "{ 'execute': 'query-cpu-model-expansion', "
-+                            "'arguments': { 'type': 'static', "
-+                                           "'model': { 'name': 'foo' }}}")=
-;
-+    g_assert(resp);
-+    error =3D resp_get_error(resp);
-+    g_assert(error);
-+    g_assert(g_str_equal(error,
-+                         "The requested expansion type is not supported"))=
-;
-+    qobject_unref(resp);
-+}
-+
-+static void assert_bad_props(QTestState *qts, const char *cpu_type)
-+{
-+    const char *error;
-+    QDict *resp;
-+
-+    resp =3D qtest_qmp(qts, "{ 'execute': 'query-cpu-model-expansion', "
-+                            "'arguments': { 'type': 'full', "
-+                                           "'model': { 'name': %s, "
-+                                                      "'props': false }}}"=
-,
-+                     cpu_type);
-+    g_assert(resp);
-+    error =3D resp_get_error(resp);
-+    g_assert(error);
-+    g_assert(g_str_equal(error,
-+                         "Invalid parameter type for 'props', expected: di=
-ct"));
-+    qobject_unref(resp);
-+}
-+
-+static void test_query_cpu_model_expansion(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts =3D qtest_init(MACHINE "-cpu max");
-+
-+    /* Test common query-cpu-model-expansion input validation */
-+    assert_type_full(qts);
-+    assert_bad_props(qts, "max");
-+    assert_error(qts, "foo", "The CPU type 'foo' is not a recognized "
-+                 "ARM CPU type", NULL);
-+    assert_error(qts, "max", "Parameter 'not-a-prop' is unexpected",
-+                 "{ 'not-a-prop': false }");
-+    assert_error(qts, "host", "The CPU type 'host' requires KVM", NULL);
-+
-+    /* Test expected feature presence/absence for some cpu types */
-+    assert_has_feature(qts, "max", "pmu");
-+    assert_has_feature(qts, "cortex-a15", "pmu");
-+    assert_has_not_feature(qts, "cortex-a15", "aarch64");
-+
-+    if (g_str_equal(qtest_get_arch(), "aarch64")) {
-+        assert_has_feature(qts, "max", "aarch64");
-+        assert_has_feature(qts, "cortex-a57", "pmu");
-+        assert_has_feature(qts, "cortex-a57", "aarch64");
-+
-+        /* Test that features that depend on KVM generate errors without. =
-*/
-+        assert_error(qts, "max",
-+                     "'aarch64' feature cannot be disabled "
-+                     "unless KVM is enabled and 32-bit EL1 "
-+                     "is supported",
-+                     "{ 'aarch64': false }");
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_model_expansion_kvm(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts =3D qtest_init(MACHINE "-accel kvm -cpu host");
-+
-+    if (g_str_equal(qtest_get_arch(), "aarch64")) {
-+        assert_has_feature(qts, "host", "aarch64");
-+        assert_has_feature(qts, "host", "pmu");
-+
-+        assert_error(qts, "cortex-a15",
-+            "We cannot guarantee the CPU type 'cortex-a15' works "
-+            "with KVM on this host", NULL);
-+    } else {
-+        assert_has_not_feature(qts, "host", "aarch64");
-+        assert_has_not_feature(qts, "host", "pmu");
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    bool kvm_available =3D false;
-+
-+    if (!access("/dev/kvm",  R_OK | W_OK)) {
-+#if defined(HOST_AARCH64)
-+        kvm_available =3D g_str_equal(qtest_get_arch(), "aarch64");
-+#elif defined(HOST_ARM)
-+        kvm_available =3D g_str_equal(qtest_get_arch(), "arm");
-+#endif
-+    }
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_data_func("/arm/query-cpu-model-expansion",
-+                        NULL, test_query_cpu_model_expansion);
-+
-+    if (kvm_available) {
-+        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
-+                            NULL, test_query_cpu_model_expansion_kvm);
-+    }
-+
-+    return g_test_run();
-+}
++        assert_has_not_feature(qts, "max", "sve");
+     }
+=20
+     qtest_quit(qts);
 --=20
 2.21.0
 
