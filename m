@@ -2,45 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4239E342D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:30:00 +0200 (CEST)
-Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2630DE3358
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:02:23 +0200 (CEST)
+Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdBf-000573-M9
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:29:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52071)
+	id 1iNckv-0004Z7-IR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1iNckt-00061H-MP
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:21 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKd-0003gV-GA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1iNckk-0002vd-Q8
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:19 -0400
-Received: from mga11.intel.com ([192.55.52.93]:40516)
+ (envelope-from <armbru@redhat.com>) id 1iNcKb-00062q-LL
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49158
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iNckk-0002aG-Cv
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:02:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 06:01:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="210156307"
-Received: from iov.bj.intel.com ([10.238.145.67])
- by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 06:01:55 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
- alex.williamson@redhat.com, peterx@redhat.com
-Subject: [RFC v2 16/22] intel_iommu: replay guest pasid bindings to host
-Date: Thu, 24 Oct 2019 08:34:37 -0400
-Message-Id: <1571920483-3382-17-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKb-00062J-HD
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571920508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZaB6cQbBP3IPVQztMxQOqDmUDs0zqWb6Yq0qbftgKKY=;
+ b=iv8OjtPs4cC5IR+0A3o9y7HpTMeP57O832LaA9Nu5cV7flw+3NwkdGHbsnqVo0LbOLii/H
+ 3WH9g5K4khyz4hfkcK4lPv7RuY8FVldPVBNbCw4xjCmj8aaUdUbp5E2xudjWxk1BBNVIQb
+ cw5k5uMtLvZBdhvJ8aJuda/10VpLJ6k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-mqzGqOr0MhSM8Y-hu1DWJQ-1; Thu, 24 Oct 2019 08:35:05 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B7075E4;
+ Thu, 24 Oct 2019 12:35:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8941752F6;
+ Thu, 24 Oct 2019 12:35:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F232911384A8; Thu, 24 Oct 2019 14:34:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 01/19] tests/test-qmp-cmds: Factor out qmp_dispatch() test
+ helpers
+Date: Thu, 24 Oct 2019 14:34:40 +0200
+Message-Id: <20191024123458.13505-2-armbru@redhat.com>
+In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
+References: <20191024123458.13505-1-armbru@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: mqzGqOr0MhSM8Y-hu1DWJQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,257 +73,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com, jacob.jun.pan@linux.intel.com,
- david@gibson.dropbear.id.au
+Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds guest pasid bindings replay for domain-selective(dsi)
-pasid cache invalidation and global pasid cache invalidation by walking
-guest pasid table.
+Checking the value of qmp_dispatch() is repetitive.  Factor out
+helpers do_qmp_dispatch() and do_qmp_dispatch_error().  Without this,
+the next commit would make things even more repetitive.
 
-Reason:
-Guest OS may flush the pasid cache with wrong granularity. e.g. guest
-does a svm_bind() but flush the pasid cache with global or domain
-selective pasid cache invalidation instead of pasid selective(psi)
-pasid cache invalidation. Regards to such case, it works in host.
-Per spec, a global or domain selective pasid cache invalidation should
-be able to cover what a pasid selective invalidation does. The only
-concern is performance deduction since dsi and global cache invalidation
-will flush more than psi. To align with native, vIOMMU needs emulator
-needs to do replay for the two invalidation granularity to reflect the
-latest pasid bindings in guest pasid table.
-
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/i386/intel_iommu.c          | 160 +++++++++++++++++++++++++++++++++++++----
- hw/i386/intel_iommu_internal.h |   1 +
- 2 files changed, 149 insertions(+), 12 deletions(-)
+ tests/test-qmp-cmds.c | 72 +++++++++++++++++++++----------------------
+ 1 file changed, 35 insertions(+), 37 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 793b0de..a9e660c 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -68,6 +68,8 @@ static void vtd_address_space_refresh_all(IntelIOMMUState *s);
- static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n);
- 
- static void vtd_pasid_cache_reset(IntelIOMMUState *s);
-+static int vtd_update_pe_cache_for_dev(IntelIOMMUState *s,
-+              VTDBus *vtd_bus, int devfn, int pasid, VTDPASIDEntry *pe);
- 
- static void vtd_panic_require_caching_mode(void)
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index 27b0afe55a..e738bead86 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -144,34 +144,55 @@ __org_qemu_x_Union1 *qmp___org_qemu_x_command(__org_q=
+emu_x_EnumList *a,
+ }
+=20
+=20
++static QObject *do_qmp_dispatch(QDict *req, bool allow_oob)
++{
++    QDict *resp;
++    QObject *ret;
++
++    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
++    g_assert(resp && !qdict_haskey(resp, "error"));
++    ret =3D qdict_get(resp, "return");
++    g_assert(ret);
++
++    qobject_ref(ret);
++    qobject_unref(resp);
++    return ret;
++}
++
++static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass c=
+ls)
++{
++    QDict *resp;
++
++    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
++    g_assert(resp && qdict_haskey(resp, "error"));
++
++    qobject_unref(resp);
++}
++
+ /* test commands with no input and no return value */
+ static void test_dispatch_cmd(void)
  {
-@@ -2618,6 +2620,111 @@ static gboolean vtd_flush_pasid(gpointer key, gpointer value,
-     return remove;
+     QDict *req =3D qdict_new();
+-    QDict *resp;
++    QObject *ret;
+=20
+     qdict_put_str(req, "execute", "user_def_cmd");
+=20
+-    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
+-    assert(resp !=3D NULL);
+-    assert(!qdict_haskey(resp, "error"));
++    ret =3D do_qmp_dispatch(req, false);
+=20
+-    qobject_unref(resp);
++    qobject_unref(ret);
+     qobject_unref(req);
  }
- 
-+/**
-+ * Constant information used during pasid table walk
-+ * @ic: iommu_context
-+ * @flags: indicates if it is domain selective walk
-+ * @did: domain ID of the pasid table walk
-+ */
-+typedef struct {
-+    VTDIOMMUContext *ic;
-+#define VTD_PASID_TABLE_DID_SEL_WALK   (1ULL << 0);
-+    uint32_t flags;
-+    uint16_t did;
-+} vtd_pt_walk_info;
-+
-+static bool vtd_sm_pasid_table_walk_one(IntelIOMMUState *s,
-+                                       dma_addr_t pt_base,
-+                                       int start,
-+                                       int end,
-+                                       vtd_pt_walk_info *info)
-+{
-+    VTDPASIDEntry pe;
-+    int pasid = start;
-+    int pasid_next;
-+    VTDIOMMUContext *ic = info->ic;
-+
-+    while (pasid < end) {
-+        pasid_next = pasid + 1;
-+
-+        if (!vtd_get_pe_in_pasid_leaf_table(s, pasid, pt_base, &pe)
-+            && vtd_pe_present(&pe)) {
-+            if (vtd_update_pe_cache_for_dev(s,
-+                                      ic->vtd_bus, ic->devfn, pasid, &pe)) {
-+                error_report_once("%s, bus: %d, devfn: %d, pasid: %d",
-+                  __func__, pci_bus_num(ic->vtd_bus->bus), ic->devfn, pasid);
-+                return false;
-+            }
-+        }
-+        pasid = pasid_next;
-+    }
-+    return true;
-+}
-+
-+/*
-+ * Currently, VT-d scalable mode pasid table is a two level table, this
-+ * function aims to loop a range of PASIDs in a given pasid table to
-+ * identify the pasid config in guest.
-+ */
-+static void vtd_sm_pasid_table_walk(IntelIOMMUState *s, dma_addr_t pdt_base,
-+                                  int start, int end, vtd_pt_walk_info *info)
-+{
-+    VTDPASIDDirEntry pdire;
-+    int pasid = start;
-+    int pasid_next;
-+    dma_addr_t pt_base;
-+
-+    while (pasid < end) {
-+        pasid_next = pasid + VTD_PASID_TBL_ENTRY_NUM;
-+        if (!vtd_get_pdire_from_pdir_table(pdt_base, pasid, &pdire)
-+            && vtd_pdire_present(&pdire)) {
-+            pt_base = pdire.val & VTD_PASID_TABLE_BASE_ADDR_MASK;
-+            if (!vtd_sm_pasid_table_walk_one(s,
-+                              pt_base, pasid, pasid_next, info)) {
-+                break;
-+            }
-+        }
-+        pasid = pasid_next;
-+    }
-+}
-+
-+/**
-+ * This function replay the guest pasid bindings to hots by
-+ * walking the guest PASID table. This ensures host will have
-+ * latest guest pasid bindings.
-+ */
-+static void vtd_replay_guest_pasid_bindings(IntelIOMMUState *s,
-+                                           uint16_t *did, bool is_dsi)
-+{
-+    VTDContextEntry ce;
-+    vtd_pt_walk_info info;
-+    VTDIOMMUContext *vtd_ic;
-+
-+    if (is_dsi) {
-+        info.flags = VTD_PASID_TABLE_DID_SEL_WALK;
-+        info.did = *did;
-+    }
-+
-+    /*
-+     * In this replay, only needs to care about the devices which
-+     * has iommu_context created. For the one not have iommu_context,
-+     * it is not necessary to replay the bindings since their cache
-+     * could be re-created in the next DMA address transaltion.
-+     */
-+    QLIST_FOREACH(vtd_ic, &s->vtd_dev_ic_list, next) {
-+        if (!vtd_dev_to_context_entry(s,
-+                                      pci_bus_num(vtd_ic->vtd_bus->bus),
-+                                      vtd_ic->devfn, &ce)) {
-+            info.ic = vtd_ic;
-+            vtd_sm_pasid_table_walk(s,
-+                                    VTD_CE_GET_PASID_DIR_TABLE(&ce),
-+                                    0,
-+                                    VTD_MAX_HPASID,
-+                                    &info);
-+        }
-+    }
-+}
-+
- static int vtd_pasid_cache_dsi(IntelIOMMUState *s, uint16_t domain_id)
+=20
+ static void test_dispatch_cmd_oob(void)
  {
-     VTDPASIDCacheInfo pc_info;
-@@ -2632,15 +2739,17 @@ static int vtd_pasid_cache_dsi(IntelIOMMUState *s, uint16_t domain_id)
-      */
-     vtd_iommu_lock(s);
-     g_hash_table_foreach_remove(s->vtd_pasid_as, vtd_flush_pasid, &pc_info);
--    vtd_iommu_unlock(s);
- 
-     /*
--     * TODO: Domain selective PASID cache invalidation
--     * may be issued wrongly by programmer, to be safe,
--     * after invalidating the pasid caches, emulator
--     * needs to replay the pasid bindings by walking guest
--     * pasid dir and pasid table.
-+     * Domain selective PASID cache invalidation may be
-+     * issued wrongly by programmer, to be safe, after
-+     * invalidating the pasid caches, emulator needs to
-+     * replay the pasid bindings by walking guest pasid
-+     * dir and pasid table.
-      */
-+    vtd_replay_guest_pasid_bindings(s, &domain_id, true);
-+
-+    vtd_iommu_unlock(s);
-     return 0;
+     QDict *req =3D qdict_new();
+-    QDict *resp;
++    QObject *ret;
+=20
+     qdict_put_str(req, "exec-oob", "test-flags-command");
+=20
+-    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), true);
+-    assert(resp !=3D NULL);
+-    assert(!qdict_haskey(resp, "error"));
++    ret =3D do_qmp_dispatch(req, true);
+=20
+-    qobject_unref(resp);
++    qobject_unref(ret);
+     qobject_unref(req);
  }
- 
-@@ -2706,6 +2815,31 @@ static inline void vtd_fill_in_pe_cache(
-                          pe, VTD_PASID_UPDATE);
- }
- 
-+/**
-+ * This function updates the pasid entry cached in &vtd_pasid_as.
-+ * Caller of this function should hold iommu_lock.
-+ */
-+static int vtd_update_pe_cache_for_dev(IntelIOMMUState *s, VTDBus *vtd_bus,
-+                               int devfn, int pasid, VTDPASIDEntry *pe)
-+{
-+    VTDPASIDAddressSpace *vtd_pasid_as;
-+
-+    vtd_pasid_as = vtd_add_find_pasid_as(s, vtd_bus,
-+                                        devfn, pasid, true);
-+    if (!vtd_pasid_as) {
-+        error_report_once("%s, fatal error happened!\n", __func__);
-+        return -1;
-+    }
-+
-+    if (vtd_pasid_as->pasid_cache_entry.pasid_cache_gen ==
-+                                               s->pasid_cache_gen) {
-+        return 0;
-+    }
-+
-+    vtd_fill_in_pe_cache(vtd_pasid_as, pe);
-+    return 0;
-+}
-+
- static int vtd_pasid_cache_psi(IntelIOMMUState *s,
-                                uint16_t domain_id, uint32_t pasid)
+=20
+@@ -180,15 +201,11 @@ static void test_dispatch_cmd_failure(void)
  {
-@@ -2825,15 +2959,17 @@ static int vtd_pasid_cache_gsi(IntelIOMMUState *s)
- 
-     vtd_iommu_lock(s);
-     vtd_pasid_cache_reset(s);
--    vtd_iommu_unlock(s);
- 
-     /*
--     * TODO: Global PASID cache invalidation may be
--     * issued wrongly by programmer, to be safe, after
--     * invalidating the pasid caches, emulator needs
--     * to replay the pasid bindings by walking guest
--     * pasid dir and pasid table.
-+     * Global PASID cache invalidation may be issued
-+     * wrongly by programmer, to be safe, after invalidating
-+     * the pasid caches, emulator needs to replay the
-+     * pasid bindings by walking guest pasid dir and
-+     * pasid table.
-      */
-+    vtd_replay_guest_pasid_bindings(s, NULL, false);
-+
-+    vtd_iommu_unlock(s);
-     return 0;
+     QDict *req =3D qdict_new();
+     QDict *args =3D qdict_new();
+-    QDict *resp;
+=20
+     qdict_put_str(req, "execute", "user_def_cmd2");
+=20
+-    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
+-    assert(resp !=3D NULL);
+-    assert(qdict_haskey(resp, "error"));
++    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
+=20
+-    qobject_unref(resp);
+     qobject_unref(req);
+=20
+     /* check that with extra arguments it throws an error */
+@@ -198,11 +215,8 @@ static void test_dispatch_cmd_failure(void)
+=20
+     qdict_put_str(req, "execute", "user_def_cmd");
+=20
+-    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
+-    assert(resp !=3D NULL);
+-    assert(qdict_haskey(resp, "error"));
++    do_qmp_dispatch_error(req, false, ERROR_CLASS_GENERIC_ERROR);
+=20
+-    qobject_unref(resp);
+     qobject_unref(req);
  }
- 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 13e02e8..eab65ef 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -545,6 +545,7 @@ typedef struct VTDPASIDCacheInfo VTDPASIDCacheInfo;
- #define VTD_PASID_TABLE_BITS_MASK     (0x3fULL)
- #define VTD_PASID_TABLE_INDEX(pasid)  ((pasid) & VTD_PASID_TABLE_BITS_MASK)
- #define VTD_PASID_ENTRY_FPD           (1ULL << 1) /* Fault Processing Disable */
-+#define VTD_PASID_TBL_ENTRY_NUM       (1ULL << 6)
- 
- /* PASID Granular Translation Type Mask */
- #define VTD_PASID_ENTRY_P              1ULL
--- 
-2.7.4
+=20
+@@ -217,20 +231,6 @@ static void test_dispatch_cmd_success_response(void)
+     qobject_unref(req);
+ }
+=20
+-static QObject *test_qmp_dispatch(QDict *req)
+-{
+-    QDict *resp;
+-    QObject *ret;
+-
+-    resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), false);
+-    assert(resp && !qdict_haskey(resp, "error"));
+-    ret =3D qdict_get(resp, "return");
+-    assert(ret);
+-    qobject_ref(ret);
+-    qobject_unref(resp);
+-    return ret;
+-}
+-
+ /* test commands that involve both input parameters and return values */
+ static void test_dispatch_cmd_io(void)
+ {
+@@ -253,7 +253,7 @@ static void test_dispatch_cmd_io(void)
+     qdict_put(req, "arguments", args);
+     qdict_put_str(req, "execute", "user_def_cmd2");
+=20
+-    ret =3D qobject_to(QDict, test_qmp_dispatch(req));
++    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
+=20
+     assert(!strcmp(qdict_get_str(ret, "string0"), "blah1"));
+     ret_dict =3D qdict_get_qdict(ret, "dict1");
+@@ -274,12 +274,10 @@ static void test_dispatch_cmd_io(void)
+     qdict_put(req, "arguments", args3);
+     qdict_put_str(req, "execute", "guest-get-time");
+=20
+-    ret3 =3D qobject_to(QNum, test_qmp_dispatch(req));
++    ret3 =3D qobject_to(QNum, do_qmp_dispatch(req, false));
+     g_assert(qnum_get_try_int(ret3, &val));
+     g_assert_cmpint(val, =3D=3D, 66);
+     qobject_unref(ret3);
+-
+-    qobject_unref(req);
+ }
+=20
+ /* test generated dealloc functions for generated types */
+--=20
+2.21.0
 
 
