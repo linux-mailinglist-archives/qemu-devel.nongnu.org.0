@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10665E36EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:43:54 +0200 (CEST)
-Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6F1E36FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:47:38 +0200 (CEST)
+Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfHF-0000z1-4E
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35030)
+	id 1iNfKq-0002DT-OT
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35054)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjF-0008LG-L8
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:42 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjG-0008O6-Pe
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjE-0007xB-7I
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:41 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33228)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjF-0007y5-AH
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:42 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51397)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdjE-0007we-17
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:40 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s1so17473487wro.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:39 -0700 (PDT)
+ id 1iNdjF-0007xO-3i
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:41 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q70so3013197wme.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=ACSSwd4vLiPduucfk8qILiYK3BU6NBbxPynhmSEzC6A=;
- b=YXoEhScKkoeIwTfYdNx/Gv6m/u6kNPKPze0mWwwCVCV3hmU7UNVgefmnmw41th7Rp+
- mZjC7jet6BAgq6QFHKGuYGQVcB/k8CuoRx+Z0xpdESTe4sIiXz3sCkTSA+5psfnEZbZT
- hnBR5fvkkHuqQzFT70VHLeIBfct0yKoOq/pzdJp6aHdnWGVsERR+PNkZHVZDLWRiyQ4v
- oMCZ4SS6QJzexh3bwll0nFREhKrIrXTFZQGLwdfP3c+jMQvUsCsUMALv+uyNXK1FXN1q
- 0p8hD3evedbLYF6yJo17raNzCpMdV/TzW8RfQ/281Fbt/DniAOC8+1HbSWMafNbYPb0m
- 9a5g==
+ bh=hs3ekp8CnLHyDVgFbGkCYGX2UG3bGpyZUnsgM/bA+io=;
+ b=r7Fj5dEzBAZJ61VvjvvXtAO8/av+7byDTbxOIH7LMC92gqndUfZNA4YseXUqCNu4rs
+ z2epSrmxWUIzvn/OOcas2gF8PsgWtt1EbxdSyl/oQ0u1YgG4btZm6m9TpaSDCM1oF7bT
+ wgqI3SqFs/mShN9Kpif7m1jfXrH7OnYbB0hvLyLStFInroJ+tEakRWAlFd9gQYdSVG4j
+ aaJnNVxQpKAlNo30rCJN1cF39gd5qSMY5F9LHWGuNMi0jiFpxw2N70RbS51OlDt0slWS
+ iIk+PXsvfIeGU3jTy5uwnDI3pySyQWGv5K2wIHfH9KHxucR9r4CpeXOCSWI/rp0tyvqB
+ p81g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=ACSSwd4vLiPduucfk8qILiYK3BU6NBbxPynhmSEzC6A=;
- b=lNhj03OERNVT/G+tZ6hli91wl2gRu7lBr5pdQOOFQIzW26Jdf0S6iyWsA1dPBw2JzH
- A3p3SDqQW6zBrk3uaRVFtSShW+FReHh3jksWxv5gNidV3YP8ZEgTDSOHMmMxOPaoXAqU
- jqRRLszm8k3vbdbtUesPMR0Jbhzu0oI3WFBmNpHZjXy9IsSR3mwscj4GJXlLurEqX9MC
- vuN/HfQyVo4CEyAtIcedMp7guXbOdUUjGTmFWWIwIn3yBbohx/I9XXP5eLRTPJ41xfWH
- 9V+p/vIPGpztTDLJOoJ0WhCczcHWaI25ywDL9YRhFPPhrdGU695gE+5+EMek61/yq8Bv
- ySYw==
-X-Gm-Message-State: APjAAAVZ6Wuv67X3YHayvVjpSz77yK57yvyCHcSCKXrqc2pvKe2llt4r
- ZIqTnBgSfnu2R+QEte4+WYKLhlWh
-X-Google-Smtp-Source: APXvYqxQDSGFdpPuxTzYN3MHJYdSlYSzwda4d+Kf9uxWHaQVOqAYtpeAGeGCSf89acBPCLRhsIRDXQ==
-X-Received: by 2002:adf:a48c:: with SMTP id g12mr3830271wrb.212.1571925878701; 
- Thu, 24 Oct 2019 07:04:38 -0700 (PDT)
+ bh=hs3ekp8CnLHyDVgFbGkCYGX2UG3bGpyZUnsgM/bA+io=;
+ b=er070TLY5z8+FN1f0Usty4U7MHDyr0w5jqAfqvigfYJcOFA3mMJV/6qnvTXQmOZEka
+ Ort3gzyHWyIKdK6Oyy6X/+GITbDrq/CgBXpGkZeszHK+Ej85/Ffy1vKubqYyDs/ZEIrz
+ +JBx6150Eg60Ab7hQf5W9xabg6NIDMfFH6AYWh9Jv99BaBMgl03MdcRnA0HlBsH6Kmds
+ VuI4eQuq+B10tgftt4M6I4riZB0TJdzbUmXwYBePmSoQutZ3O2tEJCrKWpi7cXArOTiw
+ cxCgzTnYbd7bNZzr8iY2pDwydJFMdxLwEu5Vjh2qCMotscOSM7q8hk9WQEWEPqS5D7uC
+ dnag==
+X-Gm-Message-State: APjAAAUn/5IxtvifgMCY+nzP0siwrC2AOEDOBsoB13frr7FkkpjS2DFo
+ WxW0OLVy4Ej6C/NmxYteh2pspCsR
+X-Google-Smtp-Source: APXvYqypAw00Z5CzoK4GZv2D1OoMhxL8/qr0aBKvaXE2h0t7o8np5MIRFgROQ2a07kLFSMOa8WHiJA==
+X-Received: by 2002:a1c:398b:: with SMTP id g133mr5415568wma.130.1571925879801; 
+ Thu, 24 Oct 2019 07:04:39 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.38
  for <qemu-devel@nongnu.org>
@@ -55,15 +55,15 @@ Received: from 640k.localdomain ([93.56.166.5])
  Thu, 24 Oct 2019 07:04:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/39] target/i386: introduce cpu_set_fpus
-Date: Thu, 24 Oct 2019 16:03:54 +0200
-Message-Id: <1571925835-31930-39-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 39/39] i386: implement IGNNE
+Date: Thu, 24 Oct 2019 16:03:55 +0200
+Message-Id: <1571925835-31930-40-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,53 +78,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the next patch, this will provide a hook to detect clearing of
-FSW.ES.
+Change the handling of port F0h writes and FPU exceptions to implement IGNNE.
+
+The implementation mixes a bit what the chipset and processor do in real
+hardware, but the effect is the same as what happens with actual FERR#
+and IGNNE# pins: writing to port F0h asserts IGNNE# in addition to lowering
+FP_IRQ; while clearing the SE bit in the FPU status word deasserts IGNNE#.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/fpu_helper.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ hw/i386/pc.c             |  2 +-
+ target/i386/cpu.h        |  4 +++-
+ target/i386/fpu_helper.c | 34 +++++++++++++++++++++++++++-------
+ 3 files changed, 31 insertions(+), 9 deletions(-)
 
-diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 4db0059..6825024 100644
---- a/target/i386/fpu_helper.c
-+++ b/target/i386/fpu_helper.c
-@@ -1053,6 +1053,12 @@ void helper_fstenv(CPUX86State *env, target_ulong ptr, int data32)
-     do_fstenv(env, ptr, data32, GETPC());
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 66d865b..174b0bd 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -385,7 +385,7 @@ static void ioportF0_write(void *opaque, hwaddr addr, uint64_t data,
+                            unsigned size)
+ {
+     if (tcg_enabled()) {
+-        cpu_clear_ferr();
++        cpu_set_ignne();
+     }
  }
  
-+static void cpu_set_fpus(CPUX86State *env, uint16_t fpus)
-+{
-+    env->fpstt = (fpus >> 11) & 7;
-+    env->fpus = fpus & ~0x3800;
-+}
-+
- static void do_fldenv(CPUX86State *env, target_ulong ptr, int data32,
-                       uintptr_t retaddr)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 01e052b..5352c9f 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -203,6 +203,7 @@ typedef enum X86Seg {
+ #define HF2_SMM_INSIDE_NMI_SHIFT 4 /* CPU serving SMI nested inside NMI */
+ #define HF2_MPX_PR_SHIFT         5 /* BNDCFGx.BNDPRESERVE */
+ #define HF2_NPT_SHIFT            6 /* Nested Paging enabled */
++#define HF2_IGNNE_SHIFT          7 /* Ignore CR0.NE=0 */
+ 
+ #define HF2_GIF_MASK            (1 << HF2_GIF_SHIFT)
+ #define HF2_HIF_MASK            (1 << HF2_HIF_SHIFT)
+@@ -211,6 +212,7 @@ typedef enum X86Seg {
+ #define HF2_SMM_INSIDE_NMI_MASK (1 << HF2_SMM_INSIDE_NMI_SHIFT)
+ #define HF2_MPX_PR_MASK         (1 << HF2_MPX_PR_SHIFT)
+ #define HF2_NPT_MASK            (1 << HF2_NPT_SHIFT)
++#define HF2_IGNNE_MASK          (1 << HF2_IGNNE_SHIFT)
+ 
+ #define CR0_PE_SHIFT 0
+ #define CR0_MP_SHIFT 1
+@@ -1762,7 +1764,7 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
+ int cpu_get_pic_interrupt(CPUX86State *s);
+ /* MSDOS compatibility mode FPU exception support */
+ void x86_register_ferr_irq(qemu_irq irq);
+-void cpu_clear_ferr(void);
++void cpu_set_ignne(void);
+ /* mpx_helper.c */
+ void cpu_sync_bndcs_hflags(CPUX86State *env);
+ 
+diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
+index 6825024..99f28f2 100644
+--- a/target/i386/fpu_helper.c
++++ b/target/i386/fpu_helper.c
+@@ -70,14 +70,24 @@ void x86_register_ferr_irq(qemu_irq irq)
+     ferr_irq = irq;
+ }
+ 
+-void cpu_clear_ferr(void)
++static void cpu_clear_ignne(void)
  {
-@@ -1067,8 +1073,7 @@ static void do_fldenv(CPUX86State *env, target_ulong ptr, int data32,
-         fpus = cpu_lduw_data_ra(env, ptr + 2, retaddr);
-         fptag = cpu_lduw_data_ra(env, ptr + 4, retaddr);
+-    qemu_irq_lower(ferr_irq);
++    CPUX86State *env = &X86_CPU(first_cpu)->env;
++    env->hflags2 &= ~HF2_IGNNE_MASK;
+ }
+ 
+-static void cpu_set_ferr(void)
++void cpu_set_ignne(void)
+ {
+-    qemu_irq_raise(ferr_irq);
++    CPUX86State *env = &X86_CPU(first_cpu)->env;
++    env->hflags2 |= HF2_IGNNE_MASK;
++    /*
++     * We get here in response to a write to port F0h.  The chipset should
++     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
++     * cleared, because FERR# and FP_IRQ are two separate pins on real
++     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
++     * do directly what the chipset would do, i.e. deassert FP_IRQ.
++     */
++    qemu_irq_lower(ferr_irq);
+ }
+ #endif
+ 
+@@ -160,8 +170,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
+         raise_exception_ra(env, EXCP10_COPR, retaddr);
      }
--    env->fpstt = (fpus >> 11) & 7;
+ #if !defined(CONFIG_USER_ONLY)
+-    else {
+-        cpu_set_ferr();
++    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
++        qemu_irq_raise(ferr_irq);
+     }
+ #endif
+ }
+@@ -1056,7 +1066,17 @@ void helper_fstenv(CPUX86State *env, target_ulong ptr, int data32)
+ static void cpu_set_fpus(CPUX86State *env, uint16_t fpus)
+ {
+     env->fpstt = (fpus >> 11) & 7;
 -    env->fpus = fpus & ~0x3800;
-+    cpu_set_fpus(env, fpus);
-     for (i = 0; i < 8; i++) {
-         env->fptags[i] = ((fptag & 3) == 3);
-         fptag >>= 2;
-@@ -1316,8 +1321,7 @@ static void do_xrstor_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-     fpus = cpu_lduw_data_ra(env, ptr + XO(legacy.fsw), ra);
-     fptag = cpu_lduw_data_ra(env, ptr + XO(legacy.ftw), ra);
-     cpu_set_fpuc(env, fpuc);
--    env->fpstt = (fpus >> 11) & 7;
--    env->fpus = fpus & ~0x3800;
-+    cpu_set_fpus(env, fpus);
-     fptag ^= 0xff;
-     for (i = 0; i < 8; i++) {
-         env->fptags[i] = ((fptag >> i) & 1);
++    env->fpus = fpus & ~0x3800 & ~FPUS_B;
++    env->fpus |= env->fpus & FPUS_SE ? FPUS_B : 0;
++#if !defined(CONFIG_USER_ONLY)
++    if (!(env->fpus & FPUS_SE)) {
++        /*
++         * Here the processor deasserts FERR#; in response, the chipset deasserts
++         * IGNNE#.
++         */
++        cpu_clear_ignne();
++    }
++#endif
+ }
+ 
+ static void do_fldenv(CPUX86State *env, target_ulong ptr, int data32,
 -- 
 1.8.3.1
-
 
 
