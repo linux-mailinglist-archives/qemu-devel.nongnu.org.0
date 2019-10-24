@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C647BE2DED
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:53:13 +0200 (CEST)
-Received: from localhost ([::1]:37030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE02E2D87
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:37:56 +0200 (CEST)
+Received: from localhost ([::1]:36790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZnr-00041j-PS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44593)
+	id 1iNZZ5-0003nV-41
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZC2-0007DQ-NM
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:14:07 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZAA-0001FK-Jk
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZC1-00063O-Dr
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:14:06 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:35552)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZA9-00058N-3q
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:10 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:33766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZC1-000631-4y
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:14:05 -0400
+ id 1iNZA8-00057q-Rw
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:09 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94NgV094929;
- Thu, 24 Oct 2019 09:13:59 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94MZM094876;
+ Thu, 24 Oct 2019 09:12:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=KK1DDsl5LoYz0kHfRVhfRF7BswS0wwZQTtSacPGONAc=;
- b=lRDGEXRY8A5sg6k7cou/n+fqputxDSIURN9M7YbDtMfo6c6xKVXbtOpJVNVa8dppgZ8R
- nqpGp99V8qbHXe7AX+uKu9biw7g4xsoHM7pAJ+Mx/YHFzofmFMp5Ng98IHY5Q5a3vv7D
- R/As9aUK6edoi5GTodFX8RIwZql7c6cU6vw4xphQJMxZT97FrsvK0gDJsi8Jx0RIziTt
- Rm0c5AJq0orrMdjCWmsGBPCk8EvNX+p0h9HytCKhzwGLt/Plf7EcLMxyHI/LvJQGz4vg
- xUwaGqYdNhYVrj6AznQSbFE0Dv/66bfMZFEUu/8VxrM/BAusBtL8qgQmy97x1xws5+d3 qQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2vqu4r253u-1
+ bh=gCWsykrT2ZYwtnVJc3JGpccSZ6Ixl2ZrCx98KSbpob0=;
+ b=T7ipIBkPDjTApC0Ir+dPxrP0oYEqzLyBNE2Rr9bCHxp1Hq+DF6GSc9gyCaWZ0D4TFKj2
+ 7Q/rq7WPmteWmnGSVRjfzf4GGSMUuon5Mfb+YwggZugRuO5rrmzebnx5ngE9zBvNHvap
+ V9jvF5C0rn3n0k/iZBVM/x0wBg2AHeNia1QUigA45yiR7sOdZixutwaXhkpOWOWDa4bx
+ QjVvbKjHULXPfN2GK6Pg3cW4Il78hMtIIMigNk47Psry+e2eFfHa7MhylV6luuCEMHk9
+ TMz/qPRec3omKJaJvuyM+BqsA+0AKUU/Cg/Q32FWCxZYSi6O80NpwXAJQdrcQevMEq/R wQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2vqu4r24u0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:13:59 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98LXG047110;
- Thu, 24 Oct 2019 09:11:58 GMT
+ Thu, 24 Oct 2019 09:12:03 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jeA170529;
+ Thu, 24 Oct 2019 09:12:03 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 2vu0fnu90t-1
+ by userp3020.oracle.com with ESMTP id 2vtsk489s5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:58 +0000
+ Thu, 24 Oct 2019 09:12:02 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9BwV3024589;
- Thu, 24 Oct 2019 09:11:58 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9C11F024604;
+ Thu, 24 Oct 2019 09:12:01 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:11:57 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:12:00 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 46/49] multi-process/mig: Restore the VMSD in remote
- process
-Date: Thu, 24 Oct 2019 05:09:27 -0400
-Message-Id: <43b9bcb5db6e427b7ddc66af243f28d75a854dbc.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 47/49] multi-process: Enable support for multiple
+ devices in remote
+Date: Thu, 24 Oct 2019 05:09:28 -0400
+Message-Id: <c67656abcd0e41278710460d2920036254ecffb7.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -102,8 +102,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-The remote process accepts the VMSD from Proxy object and
-restores it
+Add support to allow multiple devices to be configured in the
+remote process
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
@@ -111,132 +111,158 @@ Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
  New patch in v4
 
- migration/savevm.c   | 36 ++++++++++++++++++++++++++++++++++++
- migration/savevm.h   |  1 +
- remote/remote-main.c | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 71 insertions(+)
+ hw/proxy/qemu-proxy.c         |  3 +++
+ include/hw/proxy/qemu-proxy.h |  3 +++
+ include/io/mpqemu-link.h      |  1 +
+ qdev-monitor.c                |  2 ++
+ remote/remote-main.c          | 34 ++++++++++++++++++++++++----------
+ 5 files changed, 33 insertions(+), 10 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 0c84142..d730cd1 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2930,3 +2930,39 @@ int qemu_remote_savevm(QEMUFile *f)
+diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+index eff299b..2231c36 100644
+--- a/hw/proxy/qemu-proxy.c
++++ b/hw/proxy/qemu-proxy.c
+@@ -176,6 +176,7 @@ static void set_remote_opts(PCIDevice *dev, QDict *qdict, unsigned int cmd)
+     msg.bytestream = 1;
+     msg.size = qstring_get_length(qstr) + 1;
+     msg.num_fds = 0;
++    msg.id = pdev->id;
  
-     return 0;
- }
-+
-+int qemu_remote_loadvm(QEMUFile *f)
-+{
-+    uint8_t section_type;
-+    int ret = 0;
-+
-+    qemu_mutex_lock_iothread();
-+
-+    while (true) {
-+        section_type = qemu_get_byte(f);
-+
-+        if (qemu_file_get_error(f)) {
-+            ret = qemu_file_get_error(f);
-+            break;
-+        }
-+
-+        switch (section_type) {
-+        case QEMU_VM_SECTION_FULL:
-+            ret = qemu_loadvm_section_start_full(f, NULL);
-+            if (ret < 0) {
-+                break;
-+            }
-+            break;
-+        case QEMU_VM_EOF:
-+            goto out;
-+        default:
-+            ret = -EINVAL;
-+            goto out;
-+        }
-+    }
-+
-+out:
-+    qemu_mutex_unlock_iothread();
-+
-+    return ret;
-+}
-diff --git a/migration/savevm.h b/migration/savevm.h
-index a6582ac..415b72c 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -65,5 +65,6 @@ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
- int qemu_load_device_state(QEMUFile *f);
+     mpqemu_msg_send(pdev->mpqemu_link, &msg, pdev->mpqemu_link->com);
  
- int qemu_remote_savevm(QEMUFile *f);
-+int qemu_remote_loadvm(QEMUFile *f);
+@@ -322,6 +323,7 @@ static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
+     msg.size = sizeof(conf_data);
+     msg.cmd = op;
+     msg.bytestream = 1;
++    msg.id = dev->id;
  
- #endif
+     if (op == CONF_WRITE) {
+         msg.num_fds = 0;
+@@ -602,6 +604,7 @@ static void setup_irqfd(PCIProxyDev *dev)
+ 
+     memset(&msg, 0, sizeof(MPQemuMsg));
+     msg.cmd = SET_IRQFD;
++    msg.id = dev->id;
+     msg.num_fds = 2;
+     msg.fds[0] = event_notifier_get_fd(&dev->intr);
+     msg.fds[1] = event_notifier_get_fd(&dev->resample);
+diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
+index 7fe987d..6a0a574 100644
+--- a/include/hw/proxy/qemu-proxy.h
++++ b/include/hw/proxy/qemu-proxy.h
+@@ -57,6 +57,9 @@ extern const MemoryRegionOps proxy_default_ops;
+ struct PCIProxyDev {
+     PCIDevice parent_dev;
+ 
++    uint64_t id;
++    uint64_t nr_devices;
++
+     int n_mr_sections;
+     MemoryRegionSection *mr_sections;
+ 
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+index f5a0bbb..ba81515 100644
+--- a/include/io/mpqemu-link.h
++++ b/include/io/mpqemu-link.h
+@@ -124,6 +124,7 @@ typedef struct {
+ typedef struct {
+     mpqemu_cmd_t cmd;
+     int bytestream;
++    uint64_t id;
+     size_t size;
+ 
+     union {
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index c6aa35c..70a7a5a 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -716,9 +716,11 @@ DeviceState *qdev_proxy_add(const char *rid, const char *id, char *bus,
+         pdev->mmio_sock = old_pdev->mmio_sock;
+         pdev->remote_pid = old_pdev->remote_pid;
+         pdev->mem_init = true;
++        pdev->id = old_pdev->nr_devices++;
+     } else {
+         pdev->rsocket = managed ? rsocket : -1;
+         pdev->socket = managed ? rsocket : -1;
++        pdev->id =  pdev->nr_devices++;
+     }
+     pdev->managed = managed;
+ 
 diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 2de5ddf..600c894 100644
+index 600c894..93b8500 100644
 --- a/remote/remote-main.c
 +++ b/remote/remote-main.c
-@@ -81,6 +81,7 @@
- #include "chardev/char.h"
- #include "sysemu/reset.h"
- #include "vl.h"
-+#include "migration/misc.h"
+@@ -85,7 +85,8 @@
  
  static MPQemuLinkState *mpqemu_link;
  
-@@ -403,6 +404,30 @@ static void process_start_mig_out(MPQemuMsg *msg)
-     qemu_fclose(f);
+-PCIDevice *remote_pci_dev;
++PCIDevice **remote_pci_devs;
++uint64_t nr_devices;
+ bool create_done;
+ 
+ static void process_config_write(MPQemuMsg *msg)
+@@ -93,7 +94,8 @@ static void process_config_write(MPQemuMsg *msg)
+     struct conf_data_msg *conf = (struct conf_data_msg *)msg->data2;
+ 
+     qemu_mutex_lock_iothread();
+-    pci_default_write_config(remote_pci_dev, conf->addr, conf->val, conf->l);
++    pci_default_write_config(remote_pci_devs[msg->id], conf->addr, conf->val,
++                             conf->l);
+     qemu_mutex_unlock_iothread();
  }
  
-+static int process_start_mig_in(MPQemuMsg *msg)
-+{
-+    Error *err = NULL;
-+    QIOChannel *ioc;
-+    QEMUFile *f;
-+    int rc = -EINVAL;
-+
-+    ioc = qio_channel_new_fd(msg->fds[0], &err);
-+    if (err) {
-+        error_report_err(err);
-+        return rc;
-+    }
-+
-+    qio_channel_set_name(QIO_CHANNEL(ioc), "remote-migration-channel");
-+
-+    f = qemu_fopen_channel_input(ioc);
-+
-+    rc = qemu_remote_loadvm(f);
-+
-+    qemu_fclose(f);
-+
-+    return rc;
-+}
-+
- static void process_msg(GIOCondition cond, MPQemuChannel *chan)
- {
-     MPQemuMsg *msg = NULL;
-@@ -498,6 +523,13 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-     case START_MIG_OUT:
-         process_start_mig_out(msg);
-         break;
-+    case START_MIG_IN:
-+        if (process_start_mig_in(msg))
-+        {
-+            error_setg(&err, "Incoming migration failed.");
-+            goto finalize_loop;
-+        }
-+        break;
-     case RUNSTATE_SET:
-         remote_runstate_set(msg->data1.runstate.state);
-         break;
-@@ -569,6 +601,8 @@ int main(int argc, char *argv[])
+@@ -106,7 +108,8 @@ static void process_config_read(MPQemuMsg *msg)
+     wait = msg->fds[0];
+ 
+     qemu_mutex_lock_iothread();
+-    val = pci_default_read_config(remote_pci_dev, conf->addr, conf->l);
++    val = pci_default_read_config(remote_pci_devs[msg->id], conf->addr,
++                                  conf->l);
+     qemu_mutex_unlock_iothread();
+ 
+     notify_proxy(wait, val);
+@@ -366,9 +369,17 @@ static int setup_device(MPQemuMsg *msg, Error **errp)
+                    qstring_get_str(qobject_to_json(QOBJECT(qdict))));
+         return rc;
      }
-     mpqemu_init_channel(mpqemu_link, &mpqemu_link->mmio, fd);
- 
-+    migration_object_init();
 +
-     parse_cmdline(argc - 3, argv + 3, NULL);
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+-        remote_pci_dev = PCI_DEVICE(dev);
++        if (nr_devices <= msg->id) {
++            nr_devices = msg->id + 1;
++            remote_pci_devs = g_realloc(remote_pci_devs,
++                                        nr_devices * sizeof(PCIDevice *));
++        }
++
++        remote_pci_devs[msg->id] = PCI_DEVICE(dev);
+     }
++
+     qemu_opts_del(opts);
  
-     mpqemu_link_set_callback(mpqemu_link, process_msg);
+     return 0;
+@@ -489,12 +500,15 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
+         }
+         break;
+     case SET_IRQFD:
+-        process_set_irqfd_msg(remote_pci_dev, msg);
+-        qdev_machine_creation_done();
+-        qemu_mutex_lock_iothread();
+-        qemu_run_machine_init_done_notifiers();
+-        qemu_mutex_unlock_iothread();
+-        create_done = true;
++        process_set_irqfd_msg(remote_pci_devs[msg->id], msg);
++
++        if (!create_done) {
++            qdev_machine_creation_done();
++            qemu_mutex_lock_iothread();
++            qemu_run_machine_init_done_notifiers();
++            qemu_mutex_unlock_iothread();
++            create_done = true;
++        }
+         break;
+     case DRIVE_OPTS:
+         if (setup_drive(msg, &err)) {
 -- 
 1.8.3.1
 
