@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFB7E2F27
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:34:20 +0200 (CEST)
-Received: from localhost ([::1]:38234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088FAE2F38
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:37:53 +0200 (CEST)
+Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNaRf-0001lg-9u
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53911)
+	id 1iNaV5-0006da-Mx
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:37:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaGU-0001yl-AT
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:47 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNaGT-00042S-6t
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGT-0001wU-Pq
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:46 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36601)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNaGS-000428-KT
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:45 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:50487)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNaGT-00041O-0Q
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:45 -0400
-Received: by mail-wm1-x334.google.com with SMTP id c22so2033442wmd.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:44 -0700 (PDT)
+ id 1iNaGR-000410-V3
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:22:44 -0400
+Received: by mail-wm1-x329.google.com with SMTP id q13so2181431wmj.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 03:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S0J0OHtlkhtsiwOiMGa2JCRS3jdwpSxsM23Z6If6Jsg=;
- b=OZxXxbF8jAQlvMqksx4OORc4dFoAAmz8uVxyjJtU4yT8KNiMZYNmO88oFKGmBn2/EC
- o4PIzPgzdjjRugW0EPqVte1QsXijNlNHIgP9cbmN8lAbEM43utKWeGppjXuvJwy1IUTg
- A6jQ+jRCR48zJGNcre2fdOGHxF057aGLvE5ByN7cx5Dp6cRvlJKf0dqR9wb0+DKUkSr6
- QaNi8UVZBI5OraTagLpC0ecgk8rz44Ae5BMdHGBAN972hqYBqzUb+1z+2FHqMzcUap+B
- dTC33Z9kvlnkItavh65yfkar+wmR1y5CjDbWRUOuwPh1Brr2QfcNqdYFA8evsI0+VDkO
- DREw==
+ bh=kRoSu+GZV2ZcoSH/WS9NLUu4AUZmaf8NZ0qnOrd8lIU=;
+ b=EHAPepzBZAlYyy07RghiDCHQBQjM0v6YYz3zLvk5DeujWCLZBovvWcLE+77P2f4ZMc
+ k9JkCVcXVT6WuLVZQ44ErGvJ9CB+g4twhyAmq+Xe9ExLxkawvnO9h5+C1Fru3kxGydUC
+ p7iRX2HXa17PYKF6in54mwn7Icm/gO7TKX5yMZJUF6AH4W1m9WqAoAEyV0EHD2uIWGs3
+ oJk3/qwU9jMvG/PhsY7ut5ceRzeRQCqnNsvTilgbx5S0lgALaYeKjeQoaz6EUncci9iB
+ GpPluhcQsr5d8pcD4gyiVL6HYBl1hco2I2Gk9q8ufe6WPJJgSslruReAgavBciRQ6edM
+ Rxtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S0J0OHtlkhtsiwOiMGa2JCRS3jdwpSxsM23Z6If6Jsg=;
- b=pv98G7MuJFDmhzua3A6ekd1l0RDyiBku/kEWyv3Dfe8A5bvK9FeWJ94oSIZ3oitm8h
- zh7jaV5/OkjMdfyI7dVqv2s0hnOYGW0/IFv16kYKa7B8pfwUY/uoTzLs0J0Qx3dpvJSc
- myBkktBHREISlaWkJfNuGfLQrSqIbCTYQbSXlPl3cJqGAXhkJBaKpp+/dKeO7I697Eug
- mLT7OmssyiqDT6CkH9t+A8FNg028flc+f7WWDTpsTxLDwuL/5Q1BDVLlMv+1Z1FBLakp
- gqxP6wg/rDEXUim5N+tG/hfWQ6Zi+V5tLvfcb4RKwZ2bf20LxGwNGy8+SosjJC2K9PxI
- OC4w==
-X-Gm-Message-State: APjAAAUaLc51bkmHP4fP89jCy9uDzn5jB3IHgVdb4oHPcoNhaf4OyT+c
- ANJZTVY2L5CZRd/afSdseSKMJw==
-X-Google-Smtp-Source: APXvYqyQLRiolmekj0segdDJIcwW/5NNWWzhax1HK57iFlgDkWcPkZi1S1ojMUs7iaAsV1Q+IlFg2w==
-X-Received: by 2002:a7b:ce88:: with SMTP id q8mr3909684wmj.160.1571912563430; 
- Thu, 24 Oct 2019 03:22:43 -0700 (PDT)
+ bh=kRoSu+GZV2ZcoSH/WS9NLUu4AUZmaf8NZ0qnOrd8lIU=;
+ b=FJoF4by4wlNCS25EyAVHBfRZbAfdBgziQVJKotI5r6gDNHCdfdKMl7JVkp6CHWfpyF
+ NuCToq7A9cwIekWd4/sAFznMKShOtOtHNeSG71tyHIJI0xWazRm7A2nAncCH2dDos6Bi
+ C28tZsSNe5kc8mrFfCeBcpii7MYAO/WHiVHxFNJl3JqqitWf2ad+JmB83xCchj197EHc
+ ukHG0huFwvs3TZFSMEhRZ1JO4qOopZEQMzVOSXCfXTGmTmK02A/gC0PeXpfqUL7RqASO
+ R53pjO6Xx4hMD9VYNkBz08zBUp1Jxy7685CwjMuo4/vlOxG/as9qGDa+XGYzZ+biI1E5
+ UnNg==
+X-Gm-Message-State: APjAAAX4MBg1YjI+sFIaA1rFczk0YydV0mhTRNxvJrJXqYgs1PEBWScW
+ Z9KDoV4/wmj2E1az/nvxXEjsrA==
+X-Google-Smtp-Source: APXvYqzCLrCHLl3VevjjLuZbKF685b8ZeRdl1s9lDRkLrBhFodr26EE3CDk2NrQBwxNKrp/SVqgtlg==
+X-Received: by 2002:a05:600c:2948:: with SMTP id
+ n8mr4052307wmd.128.1571912562472; 
+ Thu, 24 Oct 2019 03:22:42 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f143sm2023341wme.40.2019.10.24.03.22.40
+ by smtp.gmail.com with ESMTPSA id a4sm1869605wmm.10.2019.10.24.03.22.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 03:22:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7D94C1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 94C5E1FF90;
  Thu, 24 Oct 2019 11:22:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/17] travis.yml: Add libvdeplug-dev to compile-test
- net/vde.c
-Date: Thu, 24 Oct 2019 11:22:25 +0100
-Message-Id: <20191024102240.2778-3-alex.bennee@linaro.org>
+Subject: [PATCH  v2 03/17] travis.yml: Use libsdl2 instead of libsdl1.2,
+ and install libsdl2-image
+Date: Thu, 24 Oct 2019 11:22:26 +0100
+Message-Id: <20191024102240.2778-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024102240.2778-1-alex.bennee@linaro.org>
 References: <20191024102240.2778-1-alex.bennee@linaro.org>
@@ -70,7 +71,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,27 +95,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-This library is needed to compile the VDE network backend.
+We've removed support for SDL 1.2 quite a while ago already, so let's
+use SDL 2 now in Travis to get test coverage for SDL again.
+And while we're at it, also add libsdl2-image-dev which can be used
+by QEMU nowadays, too.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191009170701.14756-2-thuth@redhat.com>
+Message-Id: <20191009170701.14756-3-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .travis.yml | 1 +
- 1 file changed, 1 insertion(+)
+ .travis.yml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index 7d90b87540f..7be2a9949f5 100644
+index 7be2a9949f5..b446e04e8ae 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -46,6 +46,7 @@ addons:
-       - libssh-dev
-       - liburcu-dev
-       - libusb-1.0-0-dev
-+      - libvdeplug-dev
-       - libvte-2.91-dev
-       - sparse
-       - uuid-dev
+@@ -39,7 +39,8 @@ addons:
+       - libpixman-1-dev
+       - libpng12-dev
+       - librados-dev
+-      - libsdl1.2-dev
++      - libsdl2-dev
++      - libsdl2-image-dev
+       - libseccomp-dev
+       - libspice-protocol-dev
+       - libspice-server-dev
+@@ -309,7 +310,8 @@ matrix:
+             - libpixman-1-dev
+             - libpng12-dev
+             - librados-dev
+-            - libsdl1.2-dev
++            - libsdl2-dev
++            - libsdl2-image-dev
+             - libseccomp-dev
+             - libspice-protocol-dev
+             - libspice-server-dev
 -- 
 2.20.1
 
