@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C2FE3023
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:18:27 +0200 (CEST)
-Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE251E3003
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:10:15 +0200 (CEST)
+Received: from localhost ([::1]:38940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNb8L-0002U1-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:18:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59313)
+	id 1iNb0P-0002jF-LN
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatJ-0000xi-RX
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:59 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNatG-0000sf-OU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatE-0004pF-5H
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20743
+ (envelope-from <armbru@redhat.com>) id 1iNatE-0004qj-Kv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51068
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatC-0004mK-66
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:46 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatE-0004ow-As
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914964;
+ s=mimecast20190719; t=1571914967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TS6mWmulSsOlAprbPsy9Eyv9dHRNJ+A89O7z6zn2tvg=;
- b=dmNxLKCeGB3d/7yROQ8ztDpiQiHK+6EYTpgRKAX0UJ+IRMZYXhD5m0g1WQV2ixzsMxbAZk
- dRlXjjka1IYMjWySNtrh2OJd2iXQIlEILA1g5vQD6e7GTXlYA/81XmT5rkNJz3A2gjENbm
- CRyB57A6LLc8x85BsZ/F/8X92LlIFLk=
+ bh=QN4XS8mVxl3mT4akw3IWg+VFgDuH1hftq+VYLTzdD0g=;
+ b=Rqb+nr/b/W17INdm0iQ6hNwxMft/L7bW5XZoxeoXpMQSZDsYMapvXnPb1I4WPPsU27PrJm
+ MzGv1BkT0G2bjv9RycVbd26vdB7CKp/lP3JrZciP+kRMaWyK8mU5otEhagu1GUbEItX9Qv
+ etV42ELLw41spfxl19k4YZkL5ob24Uc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-vMQ4mVauP-C8VRjmJYCDyQ-1; Thu, 24 Oct 2019 07:02:43 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-262-VEVY2JijNAmKFRPGTlJE8g-1; Thu, 24 Oct 2019 07:02:43 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 139E6107AD31;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2AD107AD34;
  Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3DE1608C1;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D5CD860BF3;
  Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7AFCF1130344; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
+ id 7F8CE1130346; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/19] qapi: Fold normalize_features() into check_features()
-Date: Thu, 24 Oct 2019 13:02:33 +0200
-Message-Id: <20191024110237.30963-16-armbru@redhat.com>
+Subject: [PATCH 16/19] qapi: Fold normalize_enum() into check_enum()
+Date: Thu, 24 Oct 2019 13:02:34 +0200
+Message-Id: <20191024110237.30963-17-armbru@redhat.com>
 In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
 References: <20191024110237.30963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: vMQ4mVauP-C8VRjmJYCDyQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: VEVY2JijNAmKFRPGTlJE8g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,54 +76,47 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-check_features() is always called together with normalize_features():
-the former in check_struct() and check_command(), the latter in their
-caller check_exprs().  Fold the latter into the former.
+check_features() is always called together with normalize_features().
+Fold the latter into the former.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/expr.py | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ scripts/qapi/expr.py | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index aa0fe69f99..66014e2bb2 100644
+index 66014e2bb2..d7a289eded 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -173,17 +173,13 @@ def check_type(value, info, source,
-         check_type(arg['type'], info, key_source, allow_array=3DTrue)
+@@ -190,12 +190,6 @@ def check_features(features, info):
+         check_if(f, info, source)
 =20
 =20
--def normalize_features(features):
--    if isinstance(features, list):
--        features[:] =3D [f if isinstance(f, dict) else {'name': f}
--                       for f in features]
+-def normalize_enum(expr):
+-    if isinstance(expr['data'], list):
+-        expr['data'] =3D [m if isinstance(m, dict) else {'name': m}
+-                        for m in expr['data']]
 -
 -
- def check_features(features, info):
-     if features is None:
-         return
-     if not isinstance(features, list):
-         raise QAPISemError(info, "'features' must be an array")
-+    features[:] =3D [f if isinstance(f, dict) else {'name': f}
-+                   for f in features]
-     for f in features:
-         source =3D "'features' member"
-         assert isinstance(f, dict)
-@@ -347,7 +343,6 @@ def check_exprs(exprs):
+ def check_enum(expr, info):
+     name =3D expr['enum']
+     members =3D expr['data']
+@@ -208,6 +202,8 @@ def check_enum(expr, info):
+=20
+     permit_upper =3D name in info.pragma.name_case_whitelist
+=20
++    members[:] =3D [m if isinstance(m, dict) else {'name': m}
++                  for m in members]
+     for member in members:
+         source =3D "'data' member"
+         check_keys(member, info, source, ['name'], ['if'])
+@@ -325,7 +321,6 @@ def check_exprs(exprs):
+         if meta =3D=3D 'enum':
              check_keys(expr, info, meta,
-                        ['struct', 'data'], ['base', 'if', 'features'])
-             normalize_members(expr['data'])
--            normalize_features(expr.get('features'))
-             check_struct(expr, info)
-         elif meta =3D=3D 'command':
-             check_keys(expr, info, meta,
-@@ -356,7 +351,6 @@ def check_exprs(exprs):
-                         'gen', 'success-response', 'allow-oob',
-                         'allow-preconfig'])
-             normalize_members(expr.get('data'))
--            normalize_features(expr.get('features'))
-             check_command(expr, info)
-         elif meta =3D=3D 'event':
+                        ['enum', 'data'], ['if', 'prefix'])
+-            normalize_enum(expr)
+             check_enum(expr, info)
+         elif meta =3D=3D 'union':
              check_keys(expr, info, meta,
 --=20
 2.21.0
