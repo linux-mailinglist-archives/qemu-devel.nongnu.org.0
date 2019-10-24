@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AC7E3604
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:54:36 +0200 (CEST)
-Received: from localhost ([::1]:44742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C739AE359C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:33:04 +0200 (CEST)
+Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeVX-0001vT-I0
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60920)
+	id 1iNeAg-0003Dp-Uf
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iNdYk-00010P-8r
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:53:51 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdih-0006x8-RV
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iNdYi-0002BU-Fj
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:53:49 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34210)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdig-0007d5-JT
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:07 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51392)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iNdYi-0002AF-7X
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:53:48 -0400
-Received: by mail-ot1-x342.google.com with SMTP id m19so20745244otp.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloud.ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HmogxET9v+HvnhvGZBsQkdFHds5aLbermjRr6JUrQp8=;
- b=YrLAtOpUBXjgwmq4BrlVCczGxguTW8eo60i2zbx01xNmlStCkd94c49C1dQuhGUf0L
- 8FbgJddg2g2O3zGPbVbXSI0fUiy6V5hJStzBYB/Uj7Sx8INL1/xLkIt8ImJaG2IUcI2Y
- 7PIvdC7SAAuX7UAo6CKvTALkaDTnebWjZw8WISZ0t/KyK/6IarkpOp/9ehtAgeg3zy2Q
- DOP5b/RQmTkcyaQd0cpkPRafuIbT6dGfoyFfw5N+cdbqGDCyMtIPOtm/CZRbkdDUjlvq
- Lfn8UOZxadVX4rkySki061+3udCEVKvVNrxYxO5u6wk5sgQVCN4YT8S0KPNF8LkDyodn
- ka3g==
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iNdif-0007c4-Ou
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:06 -0400
+Received: by mail-wm1-x343.google.com with SMTP id q70so3010998wme.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=iL8S6iR4ZZdsmfsAcUJx7cMaYd8Hzxazv3RVTVkKUIU=;
+ b=r5qECsBzMoHnH9oYTdqnwSkwxzMAcjqDHgOrOENov38N4SKCao4pyClT42QpKYifIx
+ SZIUAJw3EL+zNKVP9N9KG7cS79k/tGMej1nPTKIQYeGXMNQG8wMobEQbhXcMYqoliLRP
+ 6oCVCrSaVmUoUECfmTCHroDpy/+wvYUGKAwnkzxz3YpgPePlTv/RRxJWLWfVTe/KFkgr
+ /AVxYOc6QbrO22odbMy/JkKZfWx5B9upbvVf7ma4WyH5OuI5t06BtKr1gjRm4xEeQVIb
+ 32Jdm7a52ejFoo7VJq2JtXg14/GHXZw6kzu2+ijHfHrY/1sHc9eHSSVYm6oJ8MSoRL8g
+ WrtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HmogxET9v+HvnhvGZBsQkdFHds5aLbermjRr6JUrQp8=;
- b=oje4VoX5i2/29hO0+GKwEE9J/eJvj/siZNnNOm+6Ok3z7lXV6SmeuBJLze9MOHg+4L
- ewwzEdnMOy0ak3/iqG7S/vyhtXPD1W1rQ8bjiBrRNB8F/1wxXqykEdOnomLxr6V4MkNx
- gjfVl6C1uNNlO1w7z9aecNLZuam1HGVvpCbXrZ62hPOlkySLxjmKJK7bPT/O+sHVan6/
- kUzhUeA+iYMvNL4/OmSGUmXUSVrsbzckJMENZ6VSw+CpfoHbKz7fZRMQJNmN0P72iFaK
- efBS3SihYHNZhXGWs26E43V51Y0xSIyLV+4z7KKCEHVstS9oGp7Rr9R0a2CF799U2njC
- s8mg==
-X-Gm-Message-State: APjAAAUTvnjUFEjZoCfS4i8T3MQN1PnOnuwnRYZE2+/T/GK5NwfxoE4a
- KvrWYqld6SS5K1d+2sV+Xq0bBzyGahAoRB1HRVWbGg==
-X-Google-Smtp-Source: APXvYqyB+DOmh/ecMs3uJ2QJQ785Y4v8stzCIOSiaeSXuEiuB1xx9Q3sdqBVXvl748D+jpj92sK+dzvE+j5cZfVm0YQ=
-X-Received: by 2002:a9d:458a:: with SMTP id x10mr11195894ote.365.1571925226700; 
- Thu, 24 Oct 2019 06:53:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <1570802284-3064-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
- <1570802284-3064-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
- <20191011101256-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20191011101256-mutt-send-email-mst@kernel.org>
-From: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
-Date: Thu, 24 Oct 2019 15:53:35 +0200
-Message-ID: <CALHVEJYEaoUaWAzhK0313EXdu2ccyfRvDHGVB2EkkT2p33y4xA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] virtio-net: prevent offloads reset on migration
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=iL8S6iR4ZZdsmfsAcUJx7cMaYd8Hzxazv3RVTVkKUIU=;
+ b=QNp+1/qgS9Yc+3xUHDLxH18LSBUdiLgN0/5gfSuuPKJgdUJGe9WkbxRJbCDd4hTpzC
+ p6PVbYpOeIYdH3oTrzPH3vDgMidpcjBtKlQK9bTcZoQL1RbqzC2W23+GgZcd/WC6+6cN
+ V6y/AWA/o5ZMad6at6Eo9miItQhZmPngWg6Gaut2FhxGjsHfHkJ4NEHI1sih77/0r53e
+ IPZhUqMUk/O7K/4RavfJieNLWATP5P7nVDkAsgj+Q9yK2RvMXwfsiRC+/upIjcpsd+PV
+ uoif9QilS3lSnRr8grSQ3m4dl5fbWLX9AU1VxnqP2hO0f5jjqFtTAwwsXZLhjnyPWahy
+ 93Kg==
+X-Gm-Message-State: APjAAAXF8sMU4kfS6rf4Dnm9Ll+g6g/+jaXcCE6AYCild+sJ4xXDx93A
+ esNqfDul6UBvoTGJQMnPXYgVgAs8
+X-Google-Smtp-Source: APXvYqx06gt8bV4kHJTdwiiTMWl8QalRrQ3caQB2z6aONCWr0QBxGt5XsfAj8EXyKTgjO1/8MqY9ag==
+X-Received: by 2002:a1c:7913:: with SMTP id l19mr5391774wme.26.1571925843125; 
+ Thu, 24 Oct 2019 07:04:03 -0700 (PDT)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 24 Oct 2019 07:04:02 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 05/39] Do not use %m in common code to print error messages
+Date: Thu, 24 Oct 2019 16:03:21 +0200
+Message-Id: <1571925835-31930-6-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,142 +74,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- stefanha@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Guys,
+From: Thomas Huth <thuth@redhat.com>
 
-Sorry I was on vacation last week, so did not track it much.
-Seems like the patch has not been applied yet. Is this because there
-are still some concerns about the way of fixing the problem?
+The %m format specifier is an extension from glibc - and when compiling
+QEMU for NetBSD, the compiler correctly complains, e.g.:
 
-Regards,
-Mikhail
+/home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c: In function 'sigfd_handler':
+/home/qemu/qemu-test.ELjfrQ/src/util/main-loop.c:64:13: warning: %m is only
+ allowed in syslog(3) like functions [-Wformat=]
+             printf("read from sigfd returned %zd: %m\n", len);
+             ^
+Let's use g_strerror() here instead, which is an easy-to-use wrapper
+around the thread-safe strerror_r() function.
+
+While we're at it, also convert the "printf()" in main-loop.c into
+the preferred "error_report()".
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191018130716.25438-1-thuth@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/misc/tmp421.c | 4 ++--
+ util/main-loop.c | 3 ++-
+ util/systemd.c   | 4 ++--
+ 3 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/hw/misc/tmp421.c b/hw/misc/tmp421.c
+index 9f04470..c0bc150 100644
+--- a/hw/misc/tmp421.c
++++ b/hw/misc/tmp421.c
+@@ -120,7 +120,7 @@ static void tmp421_get_temperature(Object *obj, Visitor *v, const char *name,
+     int tempid;
+ 
+     if (sscanf(name, "temperature%d", &tempid) != 1) {
+-        error_setg(errp, "error reading %s: %m", name);
++        error_setg(errp, "error reading %s: %s", name, g_strerror(errno));
+         return;
+     }
+ 
+@@ -160,7 +160,7 @@ static void tmp421_set_temperature(Object *obj, Visitor *v, const char *name,
+     }
+ 
+     if (sscanf(name, "temperature%d", &tempid) != 1) {
+-        error_setg(errp, "error reading %s: %m", name);
++        error_setg(errp, "error reading %s: %s", name, g_strerror(errno));
+         return;
+     }
+ 
+diff --git a/util/main-loop.c b/util/main-loop.c
+index e3eaa55..eda63fe 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -61,7 +61,8 @@ static void sigfd_handler(void *opaque)
+         }
+ 
+         if (len != sizeof(info)) {
+-            printf("read from sigfd returned %zd: %m\n", len);
++            error_report("read from sigfd returned %zd: %s", len,
++                         g_strerror(errno));
+             return;
+         }
+ 
+diff --git a/util/systemd.c b/util/systemd.c
+index d22e86c..1dd0367 100644
+--- a/util/systemd.c
++++ b/util/systemd.c
+@@ -60,8 +60,8 @@ unsigned int check_socket_activation(void)
+              * and we should exit.
+              */
+             error_report("Socket activation failed: "
+-                         "invalid file descriptor fd = %d: %m",
+-                         fd);
++                         "invalid file descriptor fd = %d: %s",
++                         fd, g_strerror(errno));
+             exit(EXIT_FAILURE);
+         }
+     }
+-- 
+1.8.3.1
 
 
-Am Fr., 11. Okt. 2019 um 16:13 Uhr schrieb Michael S. Tsirkin <mst@redhat.com>:
->
-> On Fri, Oct 11, 2019 at 03:58:04PM +0200, Mikhail Sennikovsky wrote:
-> > Currently offloads disabled by guest via the VIRTIO_NET_CTRL_GUEST_OFFLOADS_SET
-> > command are not preserved on VM migration.
-> > Instead all offloads reported by guest features (via VIRTIO_PCI_GUEST_FEATURES)
-> > get enabled.
-> > What happens is: first the VirtIONet::curr_guest_offloads gets restored and offloads
-> > are getting set correctly:
-> >
-> >  #0  qemu_set_offload (nc=0x555556a11400, csum=1, tso4=0, tso6=0, ecn=0, ufo=0) at net/net.c:474
-> >  #1  virtio_net_apply_guest_offloads (n=0x555557701ca0) at hw/net/virtio-net.c:720
-> >  #2  virtio_net_post_load_device (opaque=0x555557701ca0, version_id=11) at hw/net/virtio-net.c:2334
-> >  #3  vmstate_load_state (f=0x5555569dc010, vmsd=0x555556577c80 <vmstate_virtio_net_device>, opaque=0x555557701ca0, version_id=11)
-> >      at migration/vmstate.c:168
-> >  #4  virtio_load (vdev=0x555557701ca0, f=0x5555569dc010, version_id=11) at hw/virtio/virtio.c:2197
-> >  #5  virtio_device_get (f=0x5555569dc010, opaque=0x555557701ca0, size=0, field=0x55555668cd00 <__compound_literal.5>) at hw/virtio/virtio.c:2036
-> >  #6  vmstate_load_state (f=0x5555569dc010, vmsd=0x555556577ce0 <vmstate_virtio_net>, opaque=0x555557701ca0, version_id=11) at migration/vmstate.c:143
-> >  #7  vmstate_load (f=0x5555569dc010, se=0x5555578189e0) at migration/savevm.c:829
-> >  #8  qemu_loadvm_section_start_full (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2211
-> >  #9  qemu_loadvm_state_main (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2395
-> >  #10 qemu_loadvm_state (f=0x5555569dc010) at migration/savevm.c:2467
-> >  #11 process_incoming_migration_co (opaque=0x0) at migration/migration.c:449
-> >
-> > However later on the features are getting restored, and offloads get reset to
-> > everything supported by features:
-> >
-> >  #0  qemu_set_offload (nc=0x555556a11400, csum=1, tso4=1, tso6=1, ecn=0, ufo=0) at net/net.c:474
-> >  #1  virtio_net_apply_guest_offloads (n=0x555557701ca0) at hw/net/virtio-net.c:720
-> >  #2  virtio_net_set_features (vdev=0x555557701ca0, features=5104441767) at hw/net/virtio-net.c:773
-> >  #3  virtio_set_features_nocheck (vdev=0x555557701ca0, val=5104441767) at hw/virtio/virtio.c:2052
-> >  #4  virtio_load (vdev=0x555557701ca0, f=0x5555569dc010, version_id=11) at hw/virtio/virtio.c:2220
-> >  #5  virtio_device_get (f=0x5555569dc010, opaque=0x555557701ca0, size=0, field=0x55555668cd00 <__compound_literal.5>) at hw/virtio/virtio.c:2036
-> >  #6  vmstate_load_state (f=0x5555569dc010, vmsd=0x555556577ce0 <vmstate_virtio_net>, opaque=0x555557701ca0, version_id=11) at migration/vmstate.c:143
-> >  #7  vmstate_load (f=0x5555569dc010, se=0x5555578189e0) at migration/savevm.c:829
-> >  #8  qemu_loadvm_section_start_full (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2211
-> >  #9  qemu_loadvm_state_main (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2395
-> >  #10 qemu_loadvm_state (f=0x5555569dc010) at migration/savevm.c:2467
-> >  #11 process_incoming_migration_co (opaque=0x0) at migration/migration.c:449
-> >
-> > Fix this by preserving the state in saved_guest_offloads field and
-> > pushing out offload initialization to the new post load hook.
-> >
-> > Signed-off-by: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
->
-> kind of ugly, but works:
->
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->
-> Jason can you merge this and the previous patch pls?
->
-> > ---
-> >  hw/net/virtio-net.c            | 27 ++++++++++++++++++++++++---
-> >  include/hw/virtio/virtio-net.h |  2 ++
-> >  2 files changed, 26 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index b9e1cd7..6adb0fe 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -2330,9 +2330,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-> >          n->curr_guest_offloads = virtio_net_supported_guest_offloads(n);
-> >      }
-> >
-> > -    if (peer_has_vnet_hdr(n)) {
-> > -        virtio_net_apply_guest_offloads(n);
-> > -    }
-> > +    /*
-> > +     * curr_guest_offloads will be later overwritten by the
-> > +     * virtio_set_features_nocheck call done from the virtio_load.
-> > +     * Here we make sure it is preserved and restored accordingly
-> > +     * in the virtio_net_post_load_virtio callback.
-> > +     */
-> > +    n->saved_guest_offloads = n->curr_guest_offloads;
-> >
-> >      virtio_net_set_queues(n);
-> >
-> > @@ -2367,6 +2371,22 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-> >      return 0;
-> >  }
-> >
-> > +static int virtio_net_post_load_virtio(VirtIODevice *vdev)
-> > +{
-> > +    VirtIONet *n = VIRTIO_NET(vdev);
-> > +    /*
-> > +     * The actual needed state is now in saved_guest_offloads,
-> > +     * see virtio_net_post_load_device for detail.
-> > +     * Restore it back and apply the desired offloads.
-> > +     */
-> > +    n->curr_guest_offloads = n->saved_guest_offloads;
-> > +    if (peer_has_vnet_hdr(n)) {
-> > +        virtio_net_apply_guest_offloads(n);
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >  /* tx_waiting field of a VirtIONetQueue */
-> >  static const VMStateDescription vmstate_virtio_net_queue_tx_waiting = {
-> >      .name = "virtio-net-queue-tx_waiting",
-> > @@ -2909,6 +2929,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
-> >      vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
-> >      vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
-> >      vdc->legacy_features |= (0x1 << VIRTIO_NET_F_GSO);
-> > +    vdc->post_load = virtio_net_post_load_virtio;
-> >      vdc->vmsd = &vmstate_virtio_net_device;
-> >  }
-> >
-> > diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-> > index b96f0c6..07a9319 100644
-> > --- a/include/hw/virtio/virtio-net.h
-> > +++ b/include/hw/virtio/virtio-net.h
-> > @@ -182,6 +182,8 @@ struct VirtIONet {
-> >      char *netclient_name;
-> >      char *netclient_type;
-> >      uint64_t curr_guest_offloads;
-> > +    /* used on saved state restore phase to preserve the curr_guest_offloads */
-> > +    uint64_t saved_guest_offloads;
-> >      AnnounceTimer announce_timer;
-> >      bool needs_vnet_hdr_swap;
-> >      bool mtu_bypass_backend;
-> > --
-> > 2.7.4
 
