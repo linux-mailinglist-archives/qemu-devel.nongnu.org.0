@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79220E34D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:55:18 +0200 (CEST)
-Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D040E34D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:57:53 +0200 (CEST)
+Received: from localhost ([::1]:43352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNda9-00032P-3d
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58388)
+	id 1iNdcd-0001Je-Jh
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luwei.kang@intel.com>) id 1iNdIU-0007YQ-Cm
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:37:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNdNc-0001uW-89
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:42:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luwei.kang@intel.com>) id 1iNdIR-0004IV-IO
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:37:01 -0400
-Received: from mga18.intel.com ([134.134.136.126]:45981)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <luwei.kang@intel.com>)
- id 1iNdIP-0004HL-Ti
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:36:58 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2019 06:36:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; d="scan'208";a="373216700"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by orsmga005.jf.intel.com with ESMTP; 24 Oct 2019 06:36:52 -0700
-Received: from FMSMSX110.amr.corp.intel.com (10.18.116.10) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 24 Oct 2019 06:36:52 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- fmsmsx110.amr.corp.intel.com (10.18.116.10) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 24 Oct 2019 06:36:52 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.166]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.96]) with mapi id 14.03.0439.000;
- Thu, 24 Oct 2019 21:36:50 +0800
-From: "Kang, Luwei" <luwei.kang@intel.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: RE: [PATCH v4 2/2] i386: Add support to get/set/migrate Intel
- Processor Trace feature
-Thread-Topic: [PATCH v4 2/2] i386: Add support to get/set/migrate Intel
- Processor Trace feature
-Thread-Index: AQHVgKsg+eNsNdVZH0GZ6Dwyyz/Lp6dbpngw//+LOYCACWt2QIACHxuAgAL58ED//58DAIAAhvHw
-Date: Thu, 24 Oct 2019 13:36:50 +0000
-Message-ID: <82D7661F83C1A047AF7DC287873BF1E17382D885@SHSMSX104.ccr.corp.intel.com>
-References: <1520182116-16485-1-git-send-email-luwei.kang@intel.com>
- <1520182116-16485-2-git-send-email-luwei.kang@intel.com>
- <20191012031407.GK4084@habkost.net>
- <82D7661F83C1A047AF7DC287873BF1E17382A209@SHSMSX104.ccr.corp.intel.com>
- <20191015132929.GY4084@habkost.net>
- <82D7661F83C1A047AF7DC287873BF1E17382BB76@SHSMSX104.ccr.corp.intel.com>
- <20191022214416.GA21651@habkost.net>
- <82D7661F83C1A047AF7DC287873BF1E17382D523@SHSMSX104.ccr.corp.intel.com>
- <20191024132414.GQ6744@habkost.net>
-In-Reply-To: <20191024132414.GQ6744@habkost.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNTRjMWQ3YzUtMmJkZS00OWQyLWFjOWEtNzljOTNkNzY1OTA3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTTV3ZVF4K2Fla0ZzSjNsZ2RsVUZcL1hQWVRoN2VxSjIzdVNEY0o4RGJaa2ZXTDg2RE5xV2dnNFQxNCtHQmpHSlkifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <peter.maydell@linaro.org>) id 1iNdNb-00060S-2g
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:42:20 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:42845)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNdNa-00060B-Si
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:42:19 -0400
+Received: by mail-oi1-x244.google.com with SMTP id i185so20617509oif.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=svkYQX9Ip6YQ4FFQEFmC1PFZSBnrWFKrE59EzO0oH3A=;
+ b=Gik9ryM2r3Gl/84LiXXVChpMzk/x9TmA0l7+fX3uOiyHQvbDbFQR4GbBRmsJl5qiVM
+ SXwAybh6TSFyzMvklkHHybZbI9BIxj+Xelw1+TvD+15sUE4/T5ourSxoEUbNGbuXIRG3
+ tplxzNtASrn/2dF5oBe6LyxcN9a/DTH+AE8FArrVIgvMWOsBpBZ8ZecrUNzZw/mvccKY
+ OgRqXtYjA49PiqDc46P2yND3ry/7lAHN5KkqlnI8LurPlAFz1StZ2piRP0/TOhreiQnI
+ yrOPH4W5tyiB5t5lq5byPhJ/Njee15xSGTE5txUMZNxsoelNTRkGyodGd4mZa2bAWyT2
+ rP5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=svkYQX9Ip6YQ4FFQEFmC1PFZSBnrWFKrE59EzO0oH3A=;
+ b=aHsgdiytW12ssa/k54pBE/ioDFhVExBfl83joB12Pj2MFR4VAhvtyO19By18Ahtf2X
+ 0dvKpbit3eJLqa4MfL2eyboIqxwDDvZmNYQBjwxjajy68CY7iKceDIQhfso/baXfUymp
+ msCfSFRxtOdoHar6n0Si9X9S6QBWDZleSf1NMiv1qPKXxbDzEb2aumwsOfOEzfd2kw+f
+ wsons2KHJbXUF45s5kXVYXLRbHLexeTKlGYQzi3Ecq0KL3lvnRXNDTZr10OvEee9+Hue
+ Sl5ii7TJObigKtptynYIwx+zXHoxWofkuN5zvGxxcvFrh26nRQdX0Z3PrHwwBWZlx2yw
+ MJFg==
+X-Gm-Message-State: APjAAAWioz37qQdn4mEVr9DG/lxYFGJESc2NezmvBPyHrJQcprH8Mzcd
+ jdH31w33K2c58/ZPG8Hg3LDoMdMbQIKcSXt/C+qjYA==
+X-Google-Smtp-Source: APXvYqxN82VfPmOGF4L8cznBIdyHi7HndV+DgZmU3QYMxIVDCKhagL388OokANsREeFk5Nibvd29N5B7JwrvWgAJZd0=
+X-Received: by 2002:a05:6808:608:: with SMTP id
+ y8mr4531937oih.146.1571924537936; 
+ Thu, 24 Oct 2019 06:42:17 -0700 (PDT)
 MIME-Version: 1.0
+References: <20191019234715.25750-1-f4bug@amsat.org>
+In-Reply-To: <20191019234715.25750-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Oct 2019 14:42:06 +0100
+Message-ID: <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
+ space, run U-boot
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.126
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,143 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mtosatti@redhat.com" <mtosatti@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Chao Peng <chao.p.peng@linux.intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > > > > > > > f9f4cd1..097c953 100644
-> > > > > > > > --- a/target/i386/kvm.c
-> > > > > > > > +++ b/target/i386/kvm.c
-> > > > > > > > @@ -1811,6 +1811,25 @@ static int kvm_put_msrs(X86CPU *cpu,=
- int level)
-> > > > > > > >                  kvm_msr_entry_add(cpu, MSR_MTRRphysMask(i)=
-, mask);
-> > > > > > > >              }
-> > > > > > > >          }
-> > > > > > > > +        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_IN=
-TEL_PT) {
-> > > > > > > > +            int addr_num =3D kvm_arch_get_supported_cpuid(=
-kvm_state,
-> > > > > > > > +                                                    0x14,
-> > > > > > > > + 1,
-> > > > > > > > + R_EAX) & 0x7;
-> > > > > > > > +
-> > > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_CTL,
-> > > > > > > > +                            env->msr_rtit_ctrl);
-> > > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_STATUS,
-> > > > > > > > +                            env->msr_rtit_status);
-> > > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_OUTPUT_BA=
-SE,
-> > > > > > > > +                            env->msr_rtit_output_base);
-> > > > > > >
-> > > > > > > This causes the following crash on some hosts:
-> > > > > > >
-> > > > > > >   qemu-system-x86_64: error: failed to set MSR 0x560 to 0x0
-> > > > > > >   qemu-system-x86_64: target/i386/kvm.c:2673: kvm_put_msrs: A=
-ssertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-> > > > > > >
-> > > > > > > Checking for CPUID_7_0_EBX_INTEL_PT is not enough: KVM has
-> > > > > > > additional conditions that might prevent writing to this MSR
-> > > > > > > (PT_CAP_topa_output && PT_CAP_single_range_output).  This
-> > > > > causes QEMU to crash if some of the conditions aren't met.
-> > > > > > >
-> > > > > > > Writing and reading this MSR (and the ones below) need to be =
-conditional on KVM_GET_MSR_INDEX_LIST.
-> > > > > > >
-> > > > > >
-> > > > > > Hi Eduardo,
-> > > > > >     I found this issue can't be reproduced in upstream source
-> > > > > > code but can be reproduced on RHEL8.1. I haven't got the qemu
-> > > > > > source
-> > > > > code of RHEL8.1. But after adding some trace in KVM, I found the
-> > > > > KVM has reported the complete Intel PT CPUID information to qemu
-> > > > > but the Intel PT CPUID (0x14) is lost when qemu setting the
-> > > > > CPUID
-> > > to KVM (cpuid level is 0xd). It looks like lost the below patch.
-> > > > > >
-> > > > > > commit f24c3a79a415042f6dc195f029a2ba7247d14cac
-> > > > > > Author: Luwei Kang <luwei.kang@intel.com>
-> > > > > > Date:   Tue Jan 29 18:52:59 2019 -0500
-> > > > > >     i386: extended the cpuid_level when Intel PT is enabled
-> > > > > >
-> > > > > >     Intel Processor Trace required CPUID[0x14] but the cpuid_le=
-vel
-> > > > > >     have no change when create a kvm guest with
-> > > > > >     e.g. "-cpu qemu64,+intel-pt".
-> > > > >
-> > > > > Thanks for the pointer.  This may avoid triggering the bug in
-> > > > > the default configuration, but we still need to make the MSR
-> > > > > writing conditional on KVM_GET_MSR_INDEX_LIST.  Older
-> > > > > machine-types have x-intel-pt-auto-level=3Doff, and the user may
-> > > > > set `level`
-> > > manually.
-> > > >
-> > > > Hi Eduardo,
-> > > > Sorry for a delay reply because my mail filter. I tried with the
-> > > > Q35 machine type and default, all looks work well (With some old
-> > > > cpu type
-> > > > + "intel_pt" also work well).  KVM will check the Intel PT work
-> > > > + mode
-> > > > and HW to decide if Intel PT can be exposed to guest, only
-> > > > extended the CPUID level is useless. If the guest doesn't support
-> > > > Intel PT, any MSR read or write will cause #GP. Please remind me
-> > > > if I lost something.
-> > >
-> > > I understand you have tried q35 and pc, but have you tried with older=
- machine-type versions?
-> > >
-> > > Commit f24c3a79a415 doesn't change behavior on pc-*-3.1 and older, so=
- it only avoids triggering the crash in the default case.
-> > > Doesn't QEMU crash if running:
-> > > "-cpu qemu64,+intel-pt -machine pc-i440fx-3.1"?
-> > >
-> > > KVM rejecting MSR writes when something is missing is correct.
-> > > QEMU trying to write the MSR when something is missing (and crashing =
-because of that) is a bug.
-> >
-> > Hi Eduardo,
-> >     Yes, you are right. Intel PT is only set in leaf 0x7.ebx but leaf 0=
-x14 is lost because of the leaf number still 0xd (should 0x14).
-> >     May I remove the "off" like this?
->=20
-> We can't.  This is necessary to keep guest ABI compatibility.
-> Instead, we need to make QEMU not crash if xlevel is too low, because xle=
-vel can be configured by the user.
+On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Since v2:
+> - fixed issue in videocore address space
+> - allow to start with some cores OFF (to boot firmwares)
+> - add proof-of-concept test for '-smp cores=3D1' and U-boot
+> - fixed my email setup
+>
+> Previous cover:
+>
+> Hi,
+>
+> Some patches from v1 are already merged. This v2 addresses the
+> review comment from v1, and add patches to clean the memory
+> space when using multiple cores.
+>
+> Laurent, if you test U-Boot with this patchset again, do you mind
+> replying with a "Tested-by:" tag?
+>
+> The next patchset is probably about the interrupt controller blocks,
+> then will come another one about the MBox/Properties.
+>
+> The last patch is unrelated to the series, but since I cleaned this
+> for the raspi and the highbank is the only board with the same issue,
+> I included the patch in this series.
 
-Thanks Eduardo.  But I think it is a little complex for user. User found cr=
-ash but how does he know it need to configure the xlevel or others?
-If we want to the old machine type support PT can we add some code to exten=
-d the level to 0x14? Or old machine type can't support PT,  mask off this f=
-eature from leaf 0x07.ebx[25] directly and output some messages?
+I'm going to apply 1-10 and 14 to target-arm.next.
+(I've reviewed 10, and the rest have been reviewed.)
 
-Luwei Kang
-
->=20
-> >
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -132,7 +132,6 @@ GlobalProperty pc_compat_3_1[] =3D {
-> >      { "Icelake-Client" "-" TYPE_X86_CPU,      "mpx", "on" },
-> >      { "Icelake-Server" "-" TYPE_X86_CPU,      "mpx", "on" },
-> >      { "Cascadelake-Server" "-" TYPE_X86_CPU, "stepping", "5" },
-> > -    { TYPE_X86_CPU, "x-intel-pt-auto-level", "off" },
-> >  };
-> >  const size_t pc_compat_3_1_len =3D G_N_ELEMENTS(pc_compat_3_1);
-> >
-> > Thanks,
-> > Luwei Kang
-> >
-> > >
-> > > --
-> > > Eduardo
-> >
->=20
-> --
-> Eduardo
-
+thanks
+-- PMM
 
