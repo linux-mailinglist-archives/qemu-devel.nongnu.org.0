@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4333CE3571
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:22:41 +0200 (CEST)
-Received: from localhost ([::1]:43940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A9FE358E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:26:16 +0200 (CEST)
+Received: from localhost ([::1]:44186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNe0d-0007Y8-IT
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54612)
+	id 1iNe46-00063b-ML
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:26:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNcrZ-0001AW-UK
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:09:15 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNd2H-0001A6-Pi
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:20:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNcrU-0007sN-FH
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:09:13 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40515)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNcrU-0007rJ-6I
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:09:08 -0400
-Received: by mail-wr1-x433.google.com with SMTP id o28so25999626wro.7
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 06:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Nl0+grapAWbnU0MgHxpuUZ4fTaIyjJKE/S1XIluE4AU=;
- b=I/iMLLAJo42ItFK9fIlEgFTH7JsJ0W8+xhXnakZiB2Tslc2+J2qV33wyNn+X3vFA1s
- ScTVZCluVBvwFZ3HCYbe2V6r+s3gVEQyrn4/H0r0NZL+6nHrjVz93Jn417VB67EZSZgu
- A4kbiMtrJHTeAS3SKtbfss5Fadvpp7y/AIIp57RATSrRTPWV1BvVjdA0LykUU8Wj9XOE
- 5XY60NkGgDnfpNIj8+pyBM24oDhiKRl6x53ZzmlbaMPM2ob9/Wg6o4eKxbcLcthCLnLz
- 40I3BbilYWhlSGYOGwVbPqT+hHQaLoyRD9WAnMBu9KakNorUKpy+G1bkp8hvD8mkhhZw
- hCFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Nl0+grapAWbnU0MgHxpuUZ4fTaIyjJKE/S1XIluE4AU=;
- b=IJNG8r7DznWnniYRtn0F8HjF5HbP4dsD0IiyhPJEzVWjI2sneEwAMQIILVcTxQG0vU
- 5Br9q7GtJEKrzmcE8bvQDCrBXK2FDN6eMBmVcLPnj3bPHECA3wAslsPkpKfnR7iL6Y04
- zicGQ/hEe16FOSNHaOIiD7YAz0j7kJE6yYIhDNdqeK0jTjAL7wkGs8+etWz1fDSkZA8Y
- zzsEhFAz4WB0qhpEgwztoptglMlb9wKP1eHubWv1d7oJZacGCDEIjHfA3cIa5TBirQ+4
- 4syx8UUQILR3GuY2BTGlOFg4o4weM/EqaO+K0TNm0+qvGAPjqc3Y8r5T1h226PF7r+rg
- 6ioQ==
-X-Gm-Message-State: APjAAAXkFkztmI3BOQTvd1Aa2SOZA+euFPx5Q76Ag8yMODLN+csNHf7Z
- eXoNcTBap8hdsUxSczhOkUvUKw==
-X-Google-Smtp-Source: APXvYqxAtk9tsVPQdP6MD80mXAkZElit5pTMi6bSixI6EihNgFBc2+7RpZfUNGIWKZTUSnsuj+lEcA==
-X-Received: by 2002:adf:e38a:: with SMTP id e10mr4000117wrm.348.1571922546287; 
- Thu, 24 Oct 2019 06:09:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s12sm2435869wrp.18.2019.10.24.06.09.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 06:09:04 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1B9961FF87;
- Thu, 24 Oct 2019 14:09:03 +0100 (BST)
-References: <20191017131615.19660-1-alex.bennee@linaro.org>
- <20191017131615.19660-38-alex.bennee@linaro.org>
- <20191018153214.GE42857@RDU-FVFX20TUHV2H> <87wod2nj5x.fsf@linaro.org>
- <20191022140347.GF42857@RDU-FVFX20TUHV2H>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
-Subject: Re: [PATCH  v6 37/54] plugin: expand the plugin_init function to
- include an info block
-In-reply-to: <20191022140347.GF42857@RDU-FVFX20TUHV2H>
-Date: Thu, 24 Oct 2019 14:09:03 +0100
-Message-ID: <87d0emmgsw.fsf@linaro.org>
+ (envelope-from <ehabkost@redhat.com>) id 1iNd2G-0004WT-KL
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:20:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59810
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNd2G-0004WC-G2
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:20:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571923215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dFQoGfpS1HQXwntdG/VX1KVG538kYO/FgEKROyAQN3s=;
+ b=iEQaeF/5eNC6VYeWyxpwR2upzM5nHSWRSJrJBjT/poPNeTl1KtF8l3dzUbvyL9DlDvOYhj
+ gRVn1j6+Sz1ZaUTZ231E/Cf3s1XDTb++AaXqm1sL5SOHMkRIbd+S2sqkjYGM4O49wIE/Fx
+ od5ZczKlluK/g9B/1NirWdrXSad9e6w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-RsMl1G9nOzui0Yugpi__4A-1; Thu, 24 Oct 2019 09:20:10 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87F1F5E4;
+ Thu, 24 Oct 2019 13:20:08 +0000 (UTC)
+Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DE005D9CA;
+ Thu, 24 Oct 2019 13:20:07 +0000 (UTC)
+Date: Thu, 24 Oct 2019 10:20:07 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v13 01/12] util/cutils: Add qemu_strtotime_ps()
+Message-ID: <20191024132007.GP6744@habkost.net>
+References: <20191020111125.27659-1-tao3.xu@intel.com>
+ <20191020111125.27659-2-tao3.xu@intel.com>
+ <20191024095457.GD3700@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191024095457.GD3700@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: RsMl1G9nOzui0Yugpi__4A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::433
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,106 +73,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "robert.foley@futurewei.com" <robert.foley@futurewei.com>,
- "cota@braap.org" <cota@braap.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peter.puhov@futurewei.com" <peter.puhov@futurewei.com>
+Cc: jingqi.liu@intel.com, Tao Xu <tao3.xu@intel.com>, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 24, 2019 at 10:54:57AM +0100, Daniel P. Berrang=E9 wrote:
+> On Sun, Oct 20, 2019 at 07:11:14PM +0800, Tao Xu wrote:
+> > To convert strings with time suffixes to numbers, support time unit are
+> > "ps" for picosecond, "ns" for nanosecond, "us" for microsecond, "ms"
+> > for millisecond or "s" for second.
+> >=20
+> > Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> > ---
+> >=20
+> > No changes in v13.
+> > ---
+> >  include/qemu/cutils.h |  1 +
+> >  util/cutils.c         | 82 +++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 83 insertions(+)
+>=20
+> This really ought to have an addition to the unit tests to validating
+> the parsing, both success and error scenarios, so that we're clear on
+> exactly what strings are accepted & rejected.
 
-Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
+Unit tests are in patch 02/12.  It's a good idea to squash
+patches 01 and 02 together.
 
-> On Oct 18 16:54, Alex Benn=C3=A9e wrote:
->>
->> Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
->>
->> > On Oct 17 14:15, Alex Benn=C3=A9e wrote:
->> >> +    const char *target_name;
->> >> +    /* is this a full system emulation? */
->> >> +    bool system_emulation;
->> >
->> > It seems that 'system_emulation' is meant primarily in opposition to
->> > user-mode. I'm wondering if this could/should this be an enum of the
->> > execution mode being used to allow for future expansion? Or, if your
->> > intention here is mostly to allow the user to detect when the *_vcpus
->> > variables are valid, could it be renamed or commented differently to
->> > make that link more clear?
->>
->> The only other operating mode that's ever been mooted is softmmu-user
->> (and no implementation has been done so far). Even then I don't think
->> that is a distinction that should be reported to the plugin as we are
->> trying not to leak implementation details.
->>
->> But yes the practical upshot is for system emulation you at least have
->> sort of bounded size for how many threads you may have running.
->
-> Fair enough. My fear was that any other operating modes might require
-> different plugin behavior, but it sounds like you think that unlikely.
-> If we're attempting to keep the implementation details hidden, should we
-> name this variable in terms of what it means for plugin implementations
-> instead of what it means for QEMU? (Not sure this is a winner, but maybe
-> something like "hardware_threading_model" )
->
->> >> +    info->target_name =3D TARGET_NAME;
->> >> +#ifndef CONFIG_USER_ONLY
->> >> +    MachineState *ms =3D MACHINE(qdev_get_machine());
->> >> +    info->system_emulation =3D true;
->> >> +    info->system.smp_vcpus =3D ms->smp.cpus;
->> >> +    info->system.max_vcpus =3D ms->smp.max_cpus;
->> >> +#else
->> >> +    info->system_emulation =3D false;
->> >
->> > Thinking "out loud" here - I wonder if it would be helpful to set the
->> > *_vcpus variables even for user mode here. It might allow unconditional
->> > allocation of "per-cpu" structures that the plugin might need - without
->> > first needing to check whether the *_vcpus variables were valid.
->>
->> but what too? It would certainly be wrong because any user-space process
->> could create (and destroy) thousands of threads.
->
-> Hmm, right. To make sure I fully understand, does this mean that for
-> user-mode, `vcpu_index` in the callback function pointer type below is
-> actually the thread index?
+--=20
+Eduardo
 
-No it is a monotonically increasing cpu_index for each new CPUState
-created. So the first thread is 1 and the second is 2 no matter what the
-thread id is.
-
-> typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
->                                              unsigned int vcpu_index);
-
-We don't actually use this prototype anymore. I had removed the concept
-of vcpu_index from the translation time hooks (so people don't get any
-ideas about it's significance there). However we do use vcpu_index with
-the udata form.
-
-> If so, do we have some max number of threads we support? I suppose we
-> could set max_vcpux to that number, and smp_cpus to 1, though I'm not
-> sure if that would be helpful or not.
->
->> We could consider just asking plugins to deal with threads with their
->> own __thread variables but in that case we'd need to expose some sort of
->> thread exit/cleanup method so they can collect data from threads and
->> safely place it somewhere else - but I suspect that is a hairy
->> programming model to impose on plugins.
->>
->> So far all the example plugins have just used locks to serialise things
->> and it's not been too bad. I guess we could do with an example that
->> tries to use this information to get an idea of how grungy the interface
->> is. Perhaps exposing the vCPUs at this point is pointless and we should
->> just stick to TARGET_NAME for now?
->
-> I'm not sure. I liked the idea of exposing the vCPUs because it
-> theoretically allows you to allocate per-cpu things up front, which can
-> be helpful... but maybe forcing users to deal with dynamically
-> allocating everything will make for more resilient plugins anyway?
-
-So we do use it in the example plugins (hotpages tracks which vCPUs have
-written to which pages). I think it is useful information for a plugin
-but I think if you want per-vCPU structures in your plugin __thread is
-going to be the easiest solution.
-
---
-Alex Benn=C3=A9e
 
