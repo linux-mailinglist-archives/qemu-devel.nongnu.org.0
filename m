@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66AAE3325
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:55:48 +0200 (CEST)
-Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621BEE333B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:00:26 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNceZ-0004Ky-3H
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:55:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47599)
+	id 1iNcj3-0002gp-61
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKc-0003by-2f
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:11 -0400
+ (envelope-from <mst@redhat.com>) id 1iNb4r-0006o1-Q2
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKa-00061k-AQ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23226
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iNb4n-0002Pj-3s
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58906)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKa-00061S-6K
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920507;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SemqXsPAY1Vd+OZb+KKA+UPO0kVAOEgdOZElEzsIGkA=;
- b=IMBfwlSe6wifF3+WSN5m+ikGITDZZCdCif/euiGK0NUnK5tQdRbvCqvvQQUAswxYWnXrL+
- ov1HAphaJqHmiYtkIxOIpPPfCBeJTXPFfruP/hGKmtXbct7iIlA8wOe7xyyiX627NcJ8pA
- U2JMURN7ATaz6M8JaTHb+45JFeIrJpw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-pCLIiQjgN3qmY0WmrV0Wjw-1; Thu, 24 Oct 2019 08:35:05 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iNb4m-0002PD-7H
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:45 -0400
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC629107AD33;
- Thu, 24 Oct 2019 12:35:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B28B5D9CA;
- Thu, 24 Oct 2019 12:35:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 00DB31133034; Thu, 24 Oct 2019 14:34:58 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 02/19] tests/test-qmp-cmds: Check responses more thoroughly
-Date: Thu, 24 Oct 2019 14:34:41 +0200
-Message-Id: <20191024123458.13505-3-armbru@redhat.com>
-In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
-References: <20191024123458.13505-1-armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 4A64AC057F2C
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:14:43 +0000 (UTC)
+Received: by mail-qt1-f200.google.com with SMTP id q54so22185236qtk.15
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:14:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=009wz5QAXyRp17djNalgstBUNMmpVZ+9dNdxHiGTAXM=;
+ b=VjH32nKSMVdWDqQAmm1ut/DMweCYIyPJCcisiU8VYGdabHjhV2J9QhCX++V2AdEwMJ
+ onTIBlvsb+6mvJV3nMsyK64FxM1Ezqu5g4DWMS6nNEGmGyIeOA+euAZMuJYK1hgKFBs9
+ q2zd8ZGmOkqGPP05MJbd3gU2gzok/bryJnb3JLrkaLLEGJ+Y9ZO0lSEzuorH3GsLRHmF
+ XY9wxPHNMOh3vlMrP9z54lhmpW14CeH7r9uet42yHgefxaBbsAYJMYgsoUII4KnxG/3J
+ mMaXR4+36Boxs7ci8eY3JO6WHWD5sknC5zKsDXQLMTAIUGPUyWrKTAyLkXr+bSwxPTfi
+ bCLQ==
+X-Gm-Message-State: APjAAAWiAfBY4xPnGsWFDmBQRSbGV3gT1h9mBl6jH7H8GcnWAme2GUUq
+ P+rlC0iDjUV3xcwZGwf6pXRPyTNpyo6XEA+jdDFsuEwy65cgFwZdcVz5JU6bjv29MS10LNzZ/Nm
+ LdMQ6GJzMyjPItWY=
+X-Received: by 2002:ac8:43d9:: with SMTP id w25mr3490373qtn.65.1571915682524; 
+ Thu, 24 Oct 2019 04:14:42 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx0Cyh7/luImUjkwD+r9pmy9AhZwb8n9F/7m8ZWFQAydJmEbh0vN+tA+7ulmmkBi/5khkYY4w==
+X-Received: by 2002:ac8:43d9:: with SMTP id w25mr3490345qtn.65.1571915682226; 
+ Thu, 24 Oct 2019 04:14:42 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ j5sm12117086qkd.56.2019.10.24.04.14.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 04:14:41 -0700 (PDT)
+Date: Thu, 24 Oct 2019 07:14:36 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 00/30] virtiofs daemon (base)
+Message-ID: <20191024071352-mutt-send-email-mst@kernel.org>
+References: <20191021105832.36574-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: pCLIiQjgN3qmY0WmrV0Wjw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191021105832.36574-1-dgilbert@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,85 +76,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- tests/test-qmp-cmds.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+On Mon, Oct 21, 2019 at 11:58:02AM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Hi,
+>   This is the 1st set for the virtiofsd - a daemon
+> that implements the user space side of virtiofs.
+> 
+>   The kernel and qemu device parts recently went in,
+> so the daemon is the only thing missing to have a working
+> set.
+> 
+>   This set is the absolute minimal base set of patches;
+> it's not yet safe to use (from security or correctness);
+> 
+> I'll follow up with ~3 more series in the next few days
+> with:
+> 
+>     a) Security patches that add sandboxing and checking
+>        compared with normal fuse - that makes it safe.
+>     b) Performance improvements including threading
+>     c) Other fixes, including correctness.
+> 
+> but, this is a good start and gets things rolling.
+> 
+> The set pulls in a big chunk of the upstream libfuse library
+> (unmodified so that it's easy to check it really is upstream),
+> chops all the stuff out we don't need and then adds the
+> new transport we need.
+> 
+> For new files I've formatted the code according to qemu
+> standards; for files that are from upstream libfuse
+> I've kept with their standards for ease of future updating.
 
-diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-index e738bead86..667e03cb1b 100644
---- a/tests/test-qmp-cmds.c
-+++ b/tests/test-qmp-cmds.c
-@@ -150,9 +150,10 @@ static QObject *do_qmp_dispatch(QDict *req, bool allow=
-_oob)
-     QObject *ret;
-=20
-     resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
--    g_assert(resp && !qdict_haskey(resp, "error"));
-+    g_assert(resp);
-     ret =3D qdict_get(resp, "return");
-     g_assert(ret);
-+    g_assert(qdict_size(resp) =3D=3D 1);
-=20
-     qobject_ref(ret);
-     qobject_unref(resp);
-@@ -162,9 +163,17 @@ static QObject *do_qmp_dispatch(QDict *req, bool allow=
-_oob)
- static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass c=
-ls)
- {
-     QDict *resp;
-+    QDict *error;
-=20
-     resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
--    g_assert(resp && qdict_haskey(resp, "error"));
-+    g_assert(resp);
-+    error =3D qdict_get_qdict(resp, "error");
-+    g_assert(error);
-+    g_assert_cmpstr(qdict_get_try_str(error, "class"),
-+                    =3D=3D, QapiErrorClass_str(cls));
-+    g_assert(qdict_get_try_str(error, "desc"));
-+    g_assert(qdict_size(error) =3D=3D 2);
-+    g_assert(qdict_size(resp) =3D=3D 1);
-=20
-     qobject_unref(resp);
- }
-@@ -173,11 +182,12 @@ static void do_qmp_dispatch_error(QDict *req, bool al=
-low_oob, ErrorClass cls)
- static void test_dispatch_cmd(void)
- {
-     QDict *req =3D qdict_new();
--    QObject *ret;
-+    QDict *ret;
-=20
-     qdict_put_str(req, "execute", "user_def_cmd");
-=20
--    ret =3D do_qmp_dispatch(req, false);
-+    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
-+    assert(ret && qdict_size(ret) =3D=3D 0);
-=20
-     qobject_unref(ret);
-     qobject_unref(req);
-@@ -186,11 +196,12 @@ static void test_dispatch_cmd(void)
- static void test_dispatch_cmd_oob(void)
- {
-     QDict *req =3D qdict_new();
--    QObject *ret;
-+    QDict *ret;
-=20
-     qdict_put_str(req, "exec-oob", "test-flags-command");
-=20
--    ret =3D do_qmp_dispatch(req, true);
-+    ret =3D qobject_to(QDict, do_qmp_dispatch(req, true));
-+    assert(ret && qdict_size(ret) =3D=3D 0);
-=20
-     qobject_unref(ret);
-     qobject_unref(req);
---=20
-2.21.0
+Thinking of future updates, have you given any thought to
+automating them? Something along the lines of
+update-linux-headers maybe?
 
+
+> We can't just link with libfuse, since we have to make ABI incompatible
+> changes for the new transport.
+> 
+> Running this daemon is typically done with:
+> 
+>    ./virtiofsd -o vhost_user_socket=/path/socket -o source=/path/to/fs
+> 
+> connected to a qemu that's then started with:
+>    -chardev socket,id=char0,path=/path/socket -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs
+> 
+> and then in the guest mount with:
+>    mount -t virtiofs myfs /mnt
+> 
+> Our development branch is: https://gitlab.com/virtio-fs/qemu/tree/virtio-fs-dev
+> 
+> Dave
+> 
+> 
+> Dr. David Alan Gilbert (22):
+>   virtiofsd: Pull in upstream headers
+>   virtiofsd: Pull in kernel's fuse.h
+>   virtiofsd: Add auxiliary .c's
+>   virtiofsd: Add fuse_lowlevel.c
+>   virtiofsd: Add passthrough_ll
+>   virtiofsd: Trim down imported files
+>   virtiofsd: Fix fuse_daemonize ignored return values
+>   virtiofsd: Fix common header and define for QEMU builds
+>   virtiofsd: fuse: Make iov_length usable outside fuse_lowlevel.c
+>   virtiofsd: Add options for virtio
+>   virtiofsd: Open vhost connection instead of mounting
+>   virtiofsd: Start wiring up vhost-user
+>   virtiofsd: Add main virtio loop
+>   virtiofsd: get/set features callbacks
+>   virtiofsd: Start queue threads
+>   virtiofsd: Poll kick_fd for queue
+>   virtiofsd: Start reading commands from queue
+>   virtiofsd: Send replies to messages
+>   virtiofsd: Keep track of replies
+>   virtiofsd: Add Makefile wiring for virtiofsd contrib
+>   virtiofsd: Fast path for virtio read
+>   virtiofs: Add maintainers entry
+> 
+> Stefan Hajnoczi (7):
+>   virtiofsd: remove mountpoint dummy argument
+>   virtiofsd: remove unused notify reply support
+>   virtiofsd: add -o source=PATH to help output
+>   virtiofsd: add --fd=FDNUM fd passing option
+>   virtiofsd: make -f (foreground) the default
+>   virtiofsd: add vhost-user.json file
+>   virtiofsd: add --print-capabilities option
+> 
+> Vivek Goyal (1):
+>   virtiofsd: Make fsync work even if only inode is passed in
+> 
+>  .gitignore                                  |    1 +
+>  MAINTAINERS                                 |    8 +
+>  Makefile                                    |    9 +
+>  Makefile.objs                               |    1 +
+>  contrib/virtiofsd/50-qemu-virtiofsd.json.in |    5 +
+>  contrib/virtiofsd/Makefile.objs             |   10 +
+>  contrib/virtiofsd/buffer.c                  |  318 +++
+>  contrib/virtiofsd/fuse.h                    | 1268 ++++++++++
+>  contrib/virtiofsd/fuse_common.h             |  823 +++++++
+>  contrib/virtiofsd/fuse_i.h                  |  131 ++
+>  contrib/virtiofsd/fuse_kernel.h             |  858 +++++++
+>  contrib/virtiofsd/fuse_log.c                |   40 +
+>  contrib/virtiofsd/fuse_log.h                |   82 +
+>  contrib/virtiofsd/fuse_loop_mt.c            |   54 +
+>  contrib/virtiofsd/fuse_lowlevel.c           | 2302 +++++++++++++++++++
+>  contrib/virtiofsd/fuse_lowlevel.h           | 2024 ++++++++++++++++
+>  contrib/virtiofsd/fuse_misc.h               |   59 +
+>  contrib/virtiofsd/fuse_opt.c                |  422 ++++
+>  contrib/virtiofsd/fuse_opt.h                |  271 +++
+>  contrib/virtiofsd/fuse_signals.c            |   90 +
+>  contrib/virtiofsd/fuse_virtio.c             |  717 ++++++
+>  contrib/virtiofsd/fuse_virtio.h             |   33 +
+>  contrib/virtiofsd/helper.c                  |  300 +++
+>  contrib/virtiofsd/passthrough_helpers.h     |   76 +
+>  contrib/virtiofsd/passthrough_ll.c          | 1341 +++++++++++
+>  docs/interop/vhost-user.json                |    4 +-
+>  26 files changed, 11246 insertions(+), 1 deletion(-)
+>  create mode 100644 contrib/virtiofsd/50-qemu-virtiofsd.json.in
+>  create mode 100644 contrib/virtiofsd/Makefile.objs
+>  create mode 100644 contrib/virtiofsd/buffer.c
+>  create mode 100644 contrib/virtiofsd/fuse.h
+>  create mode 100644 contrib/virtiofsd/fuse_common.h
+>  create mode 100644 contrib/virtiofsd/fuse_i.h
+>  create mode 100644 contrib/virtiofsd/fuse_kernel.h
+>  create mode 100644 contrib/virtiofsd/fuse_log.c
+>  create mode 100644 contrib/virtiofsd/fuse_log.h
+>  create mode 100644 contrib/virtiofsd/fuse_loop_mt.c
+>  create mode 100644 contrib/virtiofsd/fuse_lowlevel.c
+>  create mode 100644 contrib/virtiofsd/fuse_lowlevel.h
+>  create mode 100644 contrib/virtiofsd/fuse_misc.h
+>  create mode 100644 contrib/virtiofsd/fuse_opt.c
+>  create mode 100644 contrib/virtiofsd/fuse_opt.h
+>  create mode 100644 contrib/virtiofsd/fuse_signals.c
+>  create mode 100644 contrib/virtiofsd/fuse_virtio.c
+>  create mode 100644 contrib/virtiofsd/fuse_virtio.h
+>  create mode 100644 contrib/virtiofsd/helper.c
+>  create mode 100644 contrib/virtiofsd/passthrough_helpers.h
+>  create mode 100644 contrib/virtiofsd/passthrough_ll.c
+> 
+> -- 
+> 2.23.0
 
