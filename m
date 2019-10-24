@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE3E3747
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:56:43 +0200 (CEST)
-Received: from localhost ([::1]:45840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B1E3751
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:59:22 +0200 (CEST)
+Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfTe-0002Jc-H6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1iNfWD-0008Oe-4K
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40137)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNe9v-0003mi-8a
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:32:16 -0400
+ (envelope-from <yezhenyu2@huawei.com>) id 1iNeC2-0006Mm-Hx
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:34:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNe9t-0001IF-3N
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:32:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38932)
+ (envelope-from <yezhenyu2@huawei.com>) id 1iNeBy-0002s8-1E
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:34:23 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:37590 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNe9s-0001HQ-UD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:32:13 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 895BE2A09B9
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 14:32:11 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id z24so1080135wmk.8
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:32:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bRGU8lvoPPPSueBcqxJwyv/EOCH2Ddw03qNJc4MFFew=;
- b=XemF4ow6iKeXduYhdtE4BkWxZMGt6RgbYQ/HqDkb0VrgDUaph6t7uaDCm62ktBmkDK
- eH3xY4eB39BzbtduC3pGWhaEbRj2rn6tplO9yYxiBmTgC4Qa1FQTAjM9ts1/6Cp8LN74
- kB/LIenia6D9nDInDDXmkkf0gtx5ECPm+Fvkc94+1UNu1XzKO6k8/AZp9Xi6uAzUaAcO
- B1aDmyNQ9VolltG41E/cOb1USYk6fhfl1gXmpDdkRKfPBkIwG6+fqmfRy76wp99U9mZP
- nJW0QAOusdSMb2n8Q2kqG92PDP5IVBT1X1w90SsBYebt+5CIAQc3n6BeDD5HVNrk796h
- 8Yyw==
-X-Gm-Message-State: APjAAAVgJ/jZVRHpemWAmOdUHqpEWdOZRZgWDZOmKO0uC4tSuOSI4b/3
- skm/TCsci258ZJXhKl2ZFPXro7VsJvPeLfIFZF08t2uobTGZUJrDO71jFp306ZcVQbaqcJQ8C6m
- uN7+s3+qQEOrd7Jg=
-X-Received: by 2002:a05:600c:c7:: with SMTP id
- u7mr5396883wmm.141.1571927530331; 
- Thu, 24 Oct 2019 07:32:10 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy/2wn1Jp16RXME/OdTE/mqotBBVKkTCKOI3IAugHTFhwEokA8wNPDUpHFa5tcpYSflEkIgCA==
-X-Received: by 2002:a05:600c:c7:: with SMTP id
- u7mr5396859wmm.141.1571927530144; 
- Thu, 24 Oct 2019 07:32:10 -0700 (PDT)
-Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id v20sm2294085wml.26.2019.10.24.07.32.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:32:09 -0700 (PDT)
-Subject: Re: [PATCH v2 08/17] travis.yml: bump Xcode 10 to latest dot release
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191024102240.2778-1-alex.bennee@linaro.org>
- <20191024102240.2778-9-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3e811695-0bfe-3759-42a4-9e7142df6a51@redhat.com>
-Date: Thu, 24 Oct 2019 16:32:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <yezhenyu2@huawei.com>)
+ id 1iNeBw-0002pc-64
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:34:21 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id BF0ABA80BB188A86E9F7;
+ Thu, 24 Oct 2019 22:34:14 +0800 (CST)
+Received: from [127.0.0.1] (10.173.223.212) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0;
+ Thu, 24 Oct 2019 22:34:05 +0800
+Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <5DAEB9D3.3080503@huawei.com>
+ <20191023151903.GI9574@stefanha-x1.localdomain> <5DB1ACF2.9080500@huawei.com>
+ <20191024135645.GG2877@work-vm>
+From: Zhenyu Ye <yezhenyu2@huawei.com>
+Message-ID: <5DB1B65C.3020104@huawei.com>
+Date: Thu, 24 Oct 2019 22:34:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191024102240.2778-9-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191024135645.GG2877@work-vm>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.223.212]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +57,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ jiangyiwen <jiangyiwen@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 12:22 PM, Alex Benn=C3=A9e wrote:
-> According to:
->=20
->    https://docs.travis-ci.com/user/reference/osx/#macos-version
->=20
-> we have 10.3 available so lets use it. I don't know what Apple's
-> deprecation policy is for Xcode because it requires an AppleID to find
-> out.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   .travis.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index f2b679fe701..da6a2063fca 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -247,7 +247,7 @@ matrix:
->       - env:
->           - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-so=
-ftmmu,m68k-softmmu,x86_64-softmmu"
->         os: osx
-> -      osx_image: xcode10.2
-> +      osx_image: xcode10.3
->         compiler: clang
->  =20
->  =20
->=20
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+On 2019/10/24 21:56, Dr. David Alan Gilbert wrote:
+> * Zhenyu Ye (yezhenyu2@huawei.com) wrote:
+>>
+>>
+>> On 2019/10/23 23:19, Stefan Hajnoczi wrote:
+>>> On Tue, Oct 22, 2019 at 04:12:03PM +0800, yezhenyu (A) wrote:
+>>>> Since qemu2.9, QEMU added three AioContext poll parameters to struct
+>>>> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties are
+>>>> used to control iothread polling time.
+>>>>
+>>>> However, there isn't properly hmp commands to adjust them when the VM is
+>>>> alive. It's useful to adjust them online when observing the impact of
+>>>> different property value on performance.
+>>>>
+>>>> This patch add three hmp commands to adjust iothread poll-* properties
+>>>> for special iothread:
+>>>>
+>>>> set_iothread_poll_max_ns: set the maximum polling time in ns;
+>>>> set_iothread_poll_grow: set how many ns will be added to polling time;
+>>>> set_iothread_poll_shrink: set how many ns will be removed from polling
+>>>> time.
+>>>>
+>>>> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
+>>>> ---
+>>>> hmp-commands.hx | 42 ++++++++++++++++++++
+>>>> hmp.c | 30 +++++++++++++++
+>>>> hmp.h | 3 ++
+>>>> include/sysemu/iothread.h | 6 +++
+>>>> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
+>>>> qapi/misc.json | 23 +++++++++++
+>>>> 6 files changed, 184 insertions(+)
+>>>
+>>> poll-max-ns, poll-grow, poll-shrink are properties of IOThread objects.
+>>> They can already be modified at runtime using:
+>>>
+>>>   $ qemu -object iothread,id=iothread1
+>>>   (qemu) qom-set /objects/iothread1 poll-max-ns 100000
+>>>
+>>> I think there is no need for a patch.
+>>>
+>>> Stefan
+>>>
+>>
+>> Thanks for your review. I have considered using the `qom-set` command to modify
+>> IOThread object's properties, however, this command is not friendly to primary
+>> users. The help info for this command is only:
+>>
+>>     qom-set path property value -- set QOM property
+>>
+>> It's almost impossible to get the correct `path` parameter for primary user.
+> 
+> Is this just a matter of documenting how to do it?
+> 
+> It sounds like there's no need for a new QMP command though;  if you
+> want an easier HMP command I'd probably still take it (because HMP is ok
+> at having things for convenience) - but not if it turns out that just
+> adding a paragraph of documentation is enough.
+> 
+> Dave
+> 
+
+I will show the differences in QMP and HMP:
+If I want to set iothread1.poll-max-ns=1000 and iothread1.poll-grow=2:
+
+Without this patch:
+QMP command:
+
+    qom-set /objects/iothread1 poll-max-ns 1000
+    qom-set /objects/iothread1 poll-grow 2
+
+HMP command:
+
+    { "execute": "qom-set", "arguments": { "path": "/objects/iothread1",
+                                           "property": "poll-max-ns", "value": 1000 } }
+    { "execute": "qom-set", "arguments": { "path": "/objects/iothread1",
+                                           "property": "poll-grow", "value": 2} }
+
+with this patch:
+QMP command:
+
+    iothread_set_parameter iothread1 max-ns 1000
+    iothread_set_parameter iothread1 grow 2
+
+HMP command:
+
+    { "execute": "set-iothread-poll-params", "arguments': { "iothread-id": "iothread1",
+                                                            "max-ns": 1000, "grow": 2 } }
+
+
+I think the inconvenience of qom-set is how to get the correct `path` parameter.
+Anyway, I will consider your advice.
+
+
+>> This patch provides a more convenient and easy-use hmp&qmp interface to modify
+>> these IOThread properties. I think this patch still has a little value.
+>>
+>> And I can implement this patch compactly by reusing your code.
+>>
+>> Waiting for your reply.
+>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> 
+> .
+> 
+
 
