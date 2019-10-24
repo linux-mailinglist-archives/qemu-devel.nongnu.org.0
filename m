@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06029E375F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:05:08 +0200 (CEST)
-Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80CDE375D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:04:32 +0200 (CEST)
+Received: from localhost ([::1]:45967 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfbm-0000NJ-L2
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40231)
+	id 1iNfbD-0007Pz-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pmathieu@redhat.com>) id 1iNeCg-0007Sy-NF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:35:07 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNeEx-0002UK-NA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:37:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pmathieu@redhat.com>) id 1iNeCf-00039b-Hp
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:35:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:2167)
+ (envelope-from <philmd@redhat.com>) id 1iNeEw-00048z-Do
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:37:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60340)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1iNeCf-00038C-8x
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:35:05 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNeEw-000483-85
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:37:26 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8CB1381F25
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 14:35:03 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id z5so1363384wma.5
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:35:03 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5FB93C057F2C
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 14:37:24 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id k10so3950892wrl.22
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:37:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Twd/G+y8iSXLmGHx2fj4YB/D7ZUndAyxQxNB6ivdobA=;
- b=AiOCDkunZdBEr+jt2e0x+xiwRtvOMroat3iSNwWpO1rFgiAWIyXjYnvOwy7pD5Mdh7
- XVA+zhys3P8ob4V26sUvfc99ro803iCClzw2sDLQTd5lFQybJu56K5H2F4w2LvLvV6lS
- YTKpQIXhUIRkDuyQB3lsJPIdsiq0lQloYjBF84RUNPYiYTaeUStlLZhyMVwk1jMIl5fA
- hf4rVhtHqSsa3LuxV1io/d9z1MG63v1FCcmIgfT4HaPTGA7PeMJGzTQHs58I0NLSCT0N
- P0MpBJDvDQs6y60SOb/OWLricHx4y8XQAXcL3pDM0u+wnlJU7E73oTKXily8uoGT0b+A
- 0KMA==
-X-Gm-Message-State: APjAAAWYuHHwnhcFjnoSZTDzjA37+uuU4AZAS2QwEXgR0bc4nWLwHxTA
- KslEYrwhuAuLg8DzM+XQMqntfL3PSRD4GWN7pnbXbipM4HGZ2fXTUhrZPEFGIjESppBljFx/kSb
- DvN7qDFiTMp+7gVkawPZ3gzCcrlMzeKc=
-X-Received: by 2002:a1c:4e15:: with SMTP id g21mr4879358wmh.148.1571927702292; 
- Thu, 24 Oct 2019 07:35:02 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx+LmiOrcuJKshqxvHuApoMeFbgKgMYy7aN9cEbSS2UrtU0+wdGVEPEa+ifj5WLZ09BEcpBLFMPzl4/mARtzx4=
-X-Received: by 2002:a1c:4e15:: with SMTP id g21mr4879342wmh.148.1571927702103; 
- Thu, 24 Oct 2019 07:35:02 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cnruebhk2bEkaOp5RS8eQI4qOWVz71S4chgMKsYhcdk=;
+ b=nHh3RxkEX8kKGSx3TKqvGOpS8/1/j2Z3sfHIdG8EWrFb/3MsQWfQgUMZk3fWu68gec
+ u+z9pgB+xeW/U7QloMum8gTYxk3X3jhwiyP4gv89811vTGnDVrz8XaGVkgjIUwMRKb0f
+ 9ZFb5H35a2H/YzYbB13E9N7HYGbpj/jK1aN+dly4H2YhdooOPQ0BcN6gbkwovVNsB7rY
+ Xe7PzSz1sEzWTbcItxdT47cE/OqIV+jzaHmCsfbcQeWQvTtQtHu8mmd0BV5QXISh6l15
+ VPnmvU0DTuzdVbmrvyuyhHcuCga11YTzZN2KVtHJaEvFtkFSIp5DFNNBupVTcbZlGczy
+ ZuIA==
+X-Gm-Message-State: APjAAAWUVffAj0d7d1HGRDBJu4VVVg75HVc3S3g5mvdaelwQ7a4ZfOq5
+ 2Ypu/f3Ll1UBOVQ7pYVegUI2mID1IhkhfDZwAwKfsAwkPOXLjybR4+uOQknIpk0PcIwGAHnjIJe
+ MRkmxL57wMYPODGw=
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr5244720wmk.29.1571927843066;
+ Thu, 24 Oct 2019 07:37:23 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwAfmemB4jOrWw1iM4fciFCtqZXBT7POXvWOXuZlu/kZIkkBwTi/zjcENYZnhXaYVzzWxv7vg==
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr5244694wmk.29.1571927842845;
+ Thu, 24 Oct 2019 07:37:22 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id s14sm2858541wmh.18.2019.10.24.07.37.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 07:37:22 -0700 (PDT)
+Subject: Re: [PATCH v2 02/17] travis.yml: Add libvdeplug-dev to compile-test
+ net/vde.c
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 References: <20191024102240.2778-1-alex.bennee@linaro.org>
- <20191024102240.2778-16-alex.bennee@linaro.org>
- <c4ea7902-b3ad-47ab-ad56-42f604473922@redhat.com>
-In-Reply-To: <c4ea7902-b3ad-47ab-ad56-42f604473922@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Thu, 24 Oct 2019 16:34:51 +0200
-Message-ID: <CAP+75-X4VY=Hk77po2pGF-qjM4dxUQdMC5QaYi=pqMnaoLRxkw@mail.gmail.com>
-Subject: Re: [PATCH v2 15/17] travis.yml: --enable-debug-tcg to check-tcg
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+ <20191024102240.2778-3-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8c93b408-83a3-3358-b0a5-8e0666310510@redhat.com>
+Date: Thu, 24 Oct 2019 16:37:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191024102240.2778-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -74,60 +83,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "Emilio G. Cota" <cota@braap.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 24, 2019 at 4:33 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
-> On 10/24/19 12:22 PM, Alex Benn=C3=A9e wrote:
-> > This adds a whole bunch of asserts which will catch bugs you might
-> > introduce into the TCG code.
->
-> Very good idea.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> >
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > ---
-> >   .travis.yml | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/.travis.yml b/.travis.yml
-> > index c43597f1331..ba3a8d4cfc9 100644
-> > --- a/.travis.yml
-> > +++ b/.travis.yml
-> > @@ -334,14 +334,14 @@ matrix:
-> >
-> >       # Run check-tcg against linux-user
-> >       - env:
-> > -        - CONFIG=3D"--disable-system"
-> > +        - CONFIG=3D"--disable-system --enable-debug-tcg"
-> >           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
-> >           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+On 10/24/19 12:22 PM, Alex Benn=C3=A9e wrote:
+> From: Thomas Huth <thuth@redhat.com>
+>=20
+> This library is needed to compile the VDE network backend.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20191009170701.14756-2-thuth@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   .travis.yml | 1 +
+>   1 file changed, 1 insertion(+)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index 7d90b87540f..7be2a9949f5 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -46,6 +46,7 @@ addons:
+>         - libssh-dev
+>         - liburcu-dev
+>         - libusb-1.0-0-dev
+> +      - libvdeplug-dev
+>         - libvte-2.91-dev
+>         - sparse
+>         - uuid-dev
+>=20
 
-Hmm maybe we should change the ccache name now...
-
-CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"?
-
-> >
-> >
-> >       # Run check-tcg against softmmu targets
-> >       - env:
-> > -        - CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64=
--softmmu,alpha-softmmu"
-> > +        - CONFIG=3D"--enable-debug-tcg --target-list=3Dxtensa-softmmu,=
-arm-softmmu,aarch64-softmmu,alpha-softmmu"
-> >           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
-> >           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
-
-Here too.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
