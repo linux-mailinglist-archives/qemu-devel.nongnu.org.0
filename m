@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20912E3909
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:57:51 +0200 (CEST)
-Received: from localhost ([::1]:48123 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899CCE3837
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:39:40 +0200 (CEST)
+Received: from localhost ([::1]:47556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNgQn-0001cK-Ql
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57744)
+	id 1iNg9D-0001ch-3b
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxd-00075g-R6
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxf-00078S-0Y
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxb-0000hx-IL
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:41 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34391)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxd-0000ij-RM
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:42 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35409)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfxb-0000hi-Bv
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:39 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t16so21670601wrr.1
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:27:39 -0700 (PDT)
+ id 1iNfxd-0000iP-L4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:41 -0400
+Received: by mail-wm1-x342.google.com with SMTP id v6so3230506wmj.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0lnGCVKOKwt9P46Q56BLi+6ul/rpICS/xFMS4taRSZM=;
- b=USm43yl0wezCuR9HjbviXTDsNchFPo8hWLe8HV2XKY+xt7ZXiF+EU/r8BrPe57h3Mm
- deDCifSxU+3xZ+JHkzVIRvsyz20ciMWArSNauCZcychT75hIKRM1cpB5XvH9l47adVd+
- 475pIAzLqYkG6U1X+Ch2hEOGQnZmmapQJV2svoqb4EW2mG3w+xKzyck90OC3b/wJQi59
- vrPITMd5RTDkbMn802RAoxIdm2CghFHw+Zt4Cv5/e5XxomtxLrrf2585arWKh9IDyWiL
- MAQBWUyL0yLG6Cgci5kVDFjKpqNjhyp8JH21p6sbaowVcZKh4twFI4oCZ7nEiraT6gxL
- bGmQ==
+ bh=HhJomiYWFoyGiQnBnfLm1DrjhXgk0FPd/bxO+44fxEo=;
+ b=r1LiLYvL9/JKnkM0wrN8hqzHjWmnLUecPjgIlAub3XQ7/1G3U7cfIimsaJW7iv6Zd0
+ eH4W3hct1VcH3t2Yi09DXHffkliUKwCaYhRY0doErRULRMXOyMWL22GFRUYBRZo6fB7I
+ tnqWjp19Bebbs6G49Qpy6MuCU35g99lQuLI0L+9RQ8HfHacZrilOiIkrsGFhelmdGOV6
+ tZLMXkPj8aQaKPGW1cvogRda8IvLigwBXtPewyn19q8Cms6Vdr7iDDTX8EdTxvx5Uknn
+ HIYydQ8wXoaGjjEioqW6oGNKPcfpzoBLmTdOfAziVjSOyOfIrKEMOUpHH8tHA1xjwhrw
+ naOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0lnGCVKOKwt9P46Q56BLi+6ul/rpICS/xFMS4taRSZM=;
- b=ZkY+DPRxzxUEGlx7ImkKPqXz0c0xYbAMdueShIv3n0FZ2KKpPd31EGmaIPAcJRxUy6
- L206GBehKtrWYvwe7UdghRMWf47c3eHnejAXPzJaPtFh+9/QycGbA/dj6t+9+dAIQkfL
- cFf3uCuEo01W7/rl1jhFzK92ymDXyDra19/XwfyOqC3VrNCs0rfM1UUfSjG0jG4034pa
- Vs7MB0z3VDJO1BHUHicLH50Oy6NJ60RhZIL4qwwQxLnJWCBSAlNJVINiALQwEHtzcub9
- FYBpNZshoGDiEIuRxxji2nut8julPgHr1C2fJW9g9m/EZ6bCDEdVCCNWebakm49WqBBf
- T78A==
-X-Gm-Message-State: APjAAAWvOexPLrN9ycr3f3o/03FqJchbW7WYVomUaegEo6viQFKGSEm5
- tGyKkAKciYSOf9/pXtrPomd6UTEHRS0=
-X-Google-Smtp-Source: APXvYqz+iZUbx0yMYMltTC8Pqf3WR58x8Oq1l/R0fVCeKecFs/8xez22gniQxx3ApkFSvi4Lj5YEuQ==
-X-Received: by 2002:adf:e850:: with SMTP id d16mr4456370wrn.251.1571934457275; 
- Thu, 24 Oct 2019 09:27:37 -0700 (PDT)
+ bh=HhJomiYWFoyGiQnBnfLm1DrjhXgk0FPd/bxO+44fxEo=;
+ b=d4QnKfyHU8GoK2mjjtaV7JOCD6/ekpKeFuk0FWnFJcYQf9sUsjwgKrXY+IqAaU0ux5
+ S6yyBsNOqH7mYdqE3t7GdqX2NYC9U77mm6k9m6GUwjUs7XNJlv1b7HFG14HkwVxBXYc4
+ DwCT2L7+0xMr0Ep09OGG42mMGHTb0aqQBbjQbK3jib9YN33I+IhuBk/Z3ywOSXWtT1Aw
+ JxC9/xeeGZuOi7Rzq+Pk1VwGdjubXTM2rMgcyyTepKmcarMrlwA29PHuXItNGjRgA/da
+ 54SvHHHnTvbLDMZLLqN5sz+YGpev5ayKGkrhg1CHBap2naXvZIoXyH9RPnou95eK1wEy
+ myTQ==
+X-Gm-Message-State: APjAAAUgnxRuipqkUHA1SDafA55vpKp5PFVXOMlkHnR4bGoXLMINr6c8
+ cW7nd1fY+Fgci4alYKSE1KejKizF+0g=
+X-Google-Smtp-Source: APXvYqxjR2WxSwhz4bEAQUSsnKhYdiFcGxTT4ztRx+OINZ1XgoECTUXCVt0h4aXXCpow7/yuCP1reQ==
+X-Received: by 2002:a7b:c74a:: with SMTP id w10mr5674950wmk.30.1571934460028; 
+ Thu, 24 Oct 2019 09:27:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.36
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:27:36 -0700 (PDT)
+ Thu, 24 Oct 2019 09:27:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/51] target/arm: Reduce tests vs M-profile in
- cpu_get_tb_cpu_state
-Date: Thu, 24 Oct 2019 17:26:41 +0100
-Message-Id: <20191024162724.31675-9-peter.maydell@linaro.org>
+Subject: [PULL 10/51] target/arm: Split out rebuild_hflags_aprofile
+Date: Thu, 24 Oct 2019 17:26:43 +0100
+Message-Id: <20191024162724.31675-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,84 +84,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Hoist the computation of some TBFLAG_A32 bits that only apply to
-M-profile under a single test for ARM_FEATURE_M.
+Create a function to compute the values of the TBFLAG_ANY bits
+that will be cached, and are used by A-profile.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191023150057.25731-7-richard.henderson@linaro.org
+Message-id: 20191023150057.25731-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 49 +++++++++++++++++++++------------------------
- 1 file changed, 23 insertions(+), 26 deletions(-)
+ target/arm/helper.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d4303420daf..296a4b2232c 100644
+index d1cd54cc931..ddd21edfcf1 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11194,6 +11194,29 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+@@ -11106,18 +11106,28 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
+     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
  
-         if (arm_feature(env, ARM_FEATURE_M)) {
-             flags = rebuild_hflags_m32(env, fp_el, mmu_idx);
++static uint32_t rebuild_hflags_aprofile(CPUARMState *env)
++{
++    int flags = 0;
 +
-+            if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
-+                FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S)
-+                != env->v7m.secure) {
-+                flags = FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1);
-+            }
++    flags = FIELD_DP32(flags, TBFLAG_ANY, DEBUG_TARGET_EL,
++                       arm_debug_target_el(env));
++    return flags;
++}
 +
-+            if ((env->v7m.fpccr[env->v7m.secure] & R_V7M_FPCCR_ASPEN_MASK) &&
-+                (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK) ||
-+                 (env->v7m.secure &&
-+                  !(env->v7m.control[M_REG_S] & R_V7M_CONTROL_SFPA_MASK)))) {
-+                /*
-+                 * ASPEN is set, but FPCA/SFPA indicate that there is no
-+                 * active FP context; we must create a new FP context before
-+                 * executing any FP insn.
-+                 */
-+                flags = FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED, 1);
-+            }
-+
-+            bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
-+            if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
-+                flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
-+            }
-         } else {
-             flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
-         }
-@@ -11233,32 +11256,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+ static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
+                                    ARMMMUIdx mmu_idx)
+ {
+-    return rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
++    uint32_t flags = rebuild_hflags_aprofile(env);
++    return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
+ 
+ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+                                    ARMMMUIdx mmu_idx)
+ {
++    uint32_t flags = rebuild_hflags_aprofile(env);
+     ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
+     ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
+-    uint32_t flags = 0;
+     uint64_t sctlr;
+     int tbii, tbid;
+ 
+@@ -11262,12 +11272,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
          }
      }
  
--    if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
--        FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S) != env->v7m.secure) {
--        flags = FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1);
+-    if (!arm_feature(env, ARM_FEATURE_M)) {
+-        int target_el = arm_debug_target_el(env);
+-
+-        flags = FIELD_DP32(flags, TBFLAG_ANY, DEBUG_TARGET_EL, target_el);
 -    }
 -
--    if (arm_feature(env, ARM_FEATURE_M) &&
--        (env->v7m.fpccr[env->v7m.secure] & R_V7M_FPCCR_ASPEN_MASK) &&
--        (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK) ||
--         (env->v7m.secure &&
--          !(env->v7m.control[M_REG_S] & R_V7M_CONTROL_SFPA_MASK)))) {
--        /*
--         * ASPEN is set, but FPCA/SFPA indicate that there is no active
--         * FP context; we must create a new FP context before executing
--         * any FP insn.
--         */
--        flags = FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED, 1);
--    }
--
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
--
--        if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
--            flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
--        }
--    }
--
-     if (!arm_feature(env, ARM_FEATURE_M)) {
-         int target_el = arm_debug_target_el(env);
- 
+     *pflags = flags;
+     *cs_base = 0;
+ }
 -- 
 2.20.1
 
