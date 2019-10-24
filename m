@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5371E399C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:15:24 +0200 (CEST)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BC0E3921
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:03:00 +0200 (CEST)
+Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNghn-0000AU-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
+	id 1iNgVm-0000UP-Ok
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxw-0007eK-Oi
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxy-0007hP-D6
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxv-0000s3-KV
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:00 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40424)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxw-0000si-P4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:02 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46810)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfxv-0000rs-EE
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:59 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o28so26784351wro.7
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:27:59 -0700 (PDT)
+ id 1iNfxw-0000sC-I7
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:28:00 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n15so16009646wrw.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=acyYv45nXPHhkUzRU5weWk65uHswNK+60vD7SN3aiY4=;
- b=TmwUmveauFgZfmst5Mk7pRIQjwpBmB8XuGz/9gH8s3AFoYOIxPRAfitCL0jFnkLDv3
- 7RKgH6Nb4cCmD3O+bksDuGNoqMIg7Qmo1734Edsi1cKBvW+xavEib34hfIKRgtnxgOKw
- hGKPsv1zHl4JgXY422T/iEvCTLYGxq8QozTB9Cv+vhwBn4qMq0CRnFLlQDGaH7Yth7nH
- Ij1TMwhhtlDhdwC40PBOYktg7eIJXnN7nWjzp2Lx+PKK3vzxpDgOPPhxeMSATWvqcydu
- kHydFuhq4FyHm1xYTG5o0+RyNEfzJsNLDI5wyLfNHHN+p8GAxvTXyp0x5Kb4KBygcJXW
- BlkA==
+ bh=EcerNk3YeDT5sQSP3taUcz8aA1kUh9D2O9nEmkTp88Q=;
+ b=L2PlupZGCsVM1GVSZCQM9wCd35aNupZyY2spI6UcISexUjjl8KPSUKoW5S+jv2iwOt
+ bdTpsbx1iZ1eW+ZF0jWCBFmAZt5Yrsu7yYuUu786/mybqOMSMMhz+gmabKwiuR3cUpk+
+ eQwNS0K89OtvMPRGx0TYh8J9ddvuxa4SBNdJNgPEPjYD3Hffr4ri0nzociiyKaLSMUZr
+ 1Ziabd+5F+27gaeczKMC6r/Jg0EpIRuo7m5sWzut06l72yBF3Wd7dcaokbSiSwacknI+
+ WLA00aEeRFzAy+wrhLn5UMZKR+oiKBAan21lrqLgXWcMRbc7bVm5VUCtqUWDa+CXZ3bi
+ QhLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=acyYv45nXPHhkUzRU5weWk65uHswNK+60vD7SN3aiY4=;
- b=rWH/ZOVWqbeImDs1QuwFemCai08GJNhlxn7BzgEJGwDPXbqdo2pyMFIousy8oUV+qk
- 6d996zxgBC9Pm8E+ZHrk/vI2FzZBUiXeXgKmzcCM/R/83jOk76rK4EwRrf21IBcNXlDg
- yHH7G2ghnzBgK/fHSxjFMQ+On0tRWteiya/TWECNY9wIk4OTZaRugxxisEq6MTDcV63o
- 7GaFbx0bVjeSYsLGiQD2iiHf8R3EAbtGJBayKls7TdPDlQq5ZxEyMv/JgbRnEOH5bKqV
- er8igsjZAx7suXtktfsS5PHPNy1pBEogApRP/XnKe6tEMEY5T3l0fHEYHjMBkdGL2nH2
- zHiw==
-X-Gm-Message-State: APjAAAVs9L+crEzxVR+TY7plOI6vMtontYmGoLeGlBtHeZqmDsCkBZTM
- syp5Rwh/jIxx5m1mF3B67RVunKSSlp8=
-X-Google-Smtp-Source: APXvYqzBVXnOw+A56LybEnsvJ/nv23IpfI9C5QNjufGeYrsuqOVFfy/KHLlg/Md6TY/BJM+Q85c7Wg==
-X-Received: by 2002:adf:8289:: with SMTP id 9mr4946098wrc.0.1571934478172;
- Thu, 24 Oct 2019 09:27:58 -0700 (PDT)
+ bh=EcerNk3YeDT5sQSP3taUcz8aA1kUh9D2O9nEmkTp88Q=;
+ b=f4NofocNo+aGKWL6ytVRVNtVTHDxcF0egA5sqIJLlLX8A8datdDKmz8MUwsH2CwRlS
+ 21HmRHRflQetdRahshv4GCcacRb7/CdrMZM1MzPaVXlE0uUtcoke0tcZVpUCl0qHzJay
+ rebyl2DWUl9LkZp+roxDBzqKcm7uvZ0bUBcv132u1HoDY2+z3phsuDkPQKAs7pmxi+6C
+ J8c4tYITeq5NoaW4vXIOL1chV5P/BlpmDD9oEMj93FfLN/YZ9Zkyh5LmxESXgHsSSrlM
+ c+U2ZIx+IDKpRs8pKQPJj/2oMIA97G+6cQGRc1hUjNyZ0KZ3Cq12mOcwDwvsjxy3gLpe
+ BXGg==
+X-Gm-Message-State: APjAAAWWrdADJkQgek15drZxaFSugha+T0opDBPja3Hu7WWmqfVtM1bZ
+ BEuQfCe2ZeS1LCohIGQxTl8vunBZSoA=
+X-Google-Smtp-Source: APXvYqwJ2ATksEuP6UHrnf1xcQPw18vUI7YHW0iXQM/7he4xlEs9ndiPv7ZR4/wknyzdr1as4sZLTA==
+X-Received: by 2002:adf:f5cc:: with SMTP id k12mr4556905wrp.65.1571934479240; 
+ Thu, 24 Oct 2019 09:27:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.57
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:27:57 -0700 (PDT)
+ Thu, 24 Oct 2019 09:27:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/51] linux-user/arm: Rebuild hflags for TARGET_WORDS_BIGENDIAN
-Date: Thu, 24 Oct 2019 17:26:58 +0100
-Message-Id: <20191024162724.31675-26-peter.maydell@linaro.org>
+Subject: [PULL 26/51] target/arm: Rely on hflags correct in
+ cpu_get_tb_cpu_state
+Date: Thu, 24 Oct 2019 17:26:59 +0100
+Message-Id: <20191024162724.31675-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,28 +85,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Continue setting, but not relying upon, env->hflags.
+This is the payoff.
 
+From perf record -g data of ubuntu 18 boot and shutdown:
+
+BEFORE:
+
+-   23.02%     2.82%  qemu-system-aar  [.] helper_lookup_tb_ptr
+   - 20.22% helper_lookup_tb_ptr
+      + 10.05% tb_htable_lookup
+      - 9.13% cpu_get_tb_cpu_state
+           3.20% aa64_va_parameters_both
+           0.55% fp_exception_el
+
+-   11.66%     4.74%  qemu-system-aar  [.] cpu_get_tb_cpu_state
+   - 6.96% cpu_get_tb_cpu_state
+        3.63% aa64_va_parameters_both
+        0.60% fp_exception_el
+        0.53% sve_exception_el
+
+AFTER:
+
+-   16.40%     3.40%  qemu-system-aar  [.] helper_lookup_tb_ptr
+   - 13.03% helper_lookup_tb_ptr
+      + 11.19% tb_htable_lookup
+        0.55% cpu_get_tb_cpu_state
+
+     0.98%     0.71%  qemu-system-aar  [.] cpu_get_tb_cpu_state
+
+     0.87%     0.24%  qemu-system-aar  [.] rebuild_hflags_a64
+
+Before, helper_lookup_tb_ptr is the second hottest function in the
+application, consuming almost a quarter of the runtime.  Within the
+entire execution, cpu_get_tb_cpu_state consumes about 12%.
+
+After, helper_lookup_tb_ptr has dropped to the fourth hottest function,
+with consumption dropping to a sixth of the runtime.  Within the
+entire execution, cpu_get_tb_cpu_state has dropped below 1%, and the
+supporting function to rebuild hflags also consumes about 1%.
+
+Assertions are retained for --enable-debug-tcg.
+
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191023150057.25731-24-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20191023150057.25731-25-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/arm/cpu_loop.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/helper.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index e28c45cd4ab..7be40717518 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -440,6 +440,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     } else {
-         env->cp15.sctlr_el[1] |= SCTLR_B;
-     }
-+    arm_rebuild_hflags(env);
- #endif
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c55783e5406..63815fc4cfc 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11259,12 +11259,15 @@ void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
+ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+                           target_ulong *cs_base, uint32_t *pflags)
+ {
+-    uint32_t flags, pstate_for_ss;
++    uint32_t flags = env->hflags;
++    uint32_t pstate_for_ss;
  
-     ts->stack_base = info->start_stack;
+     *cs_base = 0;
+-    flags = rebuild_hflags_internal(env);
++#ifdef CONFIG_DEBUG_TCG
++    assert(flags == rebuild_hflags_internal(env));
++#endif
+ 
+-    if (is_a64(env)) {
++    if (FIELD_EX32(flags, TBFLAG_ANY, AARCH64_STATE)) {
+         *pc = env->pc;
+         if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
+             flags = FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
 -- 
 2.20.1
 
