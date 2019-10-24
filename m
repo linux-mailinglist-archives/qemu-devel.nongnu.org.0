@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F13DE2D71
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:34:57 +0200 (CEST)
-Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B75E2DA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:39:14 +0200 (CEST)
+Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZWB-0006jk-M2
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44122)
+	id 1iNZaK-0006yX-C8
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ9p-0000RD-Fo
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:51 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ9r-0000Y2-LN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ9n-0004uO-Aw
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:49 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46382)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ9p-0004vh-DS
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:51 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:60924)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ9l-0004rT-By
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:47 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94N2A116351;
- Thu, 24 Oct 2019 09:11:36 GMT
+ id 1iNZ9n-0004ro-8h
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:48 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94M5P099569;
+ Thu, 24 Oct 2019 09:11:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=/ad2stwObBARiiY2DPYHk5A75OfLrnaBriLueQ+wnxU=;
- b=nH7SC+q6Ewvqmki0bQv6kuq40smmkhapJmTVfSKaY8YBZAr9yJs6vHq0+QUv1U7BjiEW
- yBJKxc16HgM3XmXTI4qDu4nUGaOxtUpQOyHG+KxRypbPlkdznZuqO9/MwjU3p63iY89z
- e7ZiBfnDKuPNl7COGHJZsyQ1oWGj/KGrdEWmkbODyVwH+GDXSIBtsqiXqKiHFdEA9jos
- Zo74IZCMwGAEB3wQJPT2vpSMRHTfNIeTJlXpcU78INONluzCDtTnMobtr18m8K99YD4w
- Tr5lmXwfwcfJth51djVSFECU0PmAXF7kctUHVnEggds1IjmmLgtMcYK/cLQpgG5xb70t fg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2vqswtte3h-1
+ bh=2Q/cmWeIRc1SHebJ+dlA8HdCfrEYFIIgUk1kTs8jfCI=;
+ b=oXEVFY3RrYH8Vmge+yg0CIchF9Y63AfhCoyW8X8owGiLAJKmUu/Q8QhRp/WWyiMi7Mc8
+ nyfSov6kMtRVAfP0SCHXAyPZJscHIrcnlUiw1f2zEZjDGOv3UeFSq41jFTLfQ4zmtkBp
+ 09ouygl/DptuuVwLL8tDT/xJuHx1yPs4W2wguwCdlBBSiX/oh8D0CTMYExnOy5jCOuaM
+ VGRwGULlhHq/g+bnaMPoWLVqn4hs/R1aXi/+vYYEiDCGYbuLEkBk+eafnBarkpp5BGSB
+ 8swzWMuRN+KUyVqq4f5t0SQUT/X+/jtaOcOj6vJeQHmXHUBtNaUk8swi1K4OtKnCdJy5 pA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2vqteq2ak1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:36 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97jj3170600;
- Thu, 24 Oct 2019 09:11:36 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2vtsk488t9-1
+ Thu, 24 Oct 2019 09:11:40 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98LlY047154;
+ Thu, 24 Oct 2019 09:11:40 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 2vu0fnu8kv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:36 +0000
+ Thu, 24 Oct 2019 09:11:39 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9BYu2002648;
- Thu, 24 Oct 2019 09:11:34 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9Bba4012334;
+ Thu, 24 Oct 2019 09:11:38 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:11:34 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:11:37 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 39/49] multi-process: prevent duplicate memory
- initialization in remote
-Date: Thu, 24 Oct 2019 05:09:20 -0400
-Message-Id: <a3d90ced8e9646b073a18731f10f2d3bf1356efb.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 40/49] multi-process/mig: build migration module in the
+ remote process
+Date: Thu, 24 Oct 2019 05:09:21 -0400
+Message-Id: <b222bbe3dc46e78335d55363fdf4254847175399.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -78,7 +78,7 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
  definitions=main-1910240089
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,88 +100,301 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When multiple controllers are configured in a remote process,
-it's better for the memory to be managed by only one of the proxy
-objects for that process, in order to conserve file descriptors. Added
-"mem_int" flag for this purpose.
+Add Makefile support to enable migration in remote process
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- New patch in v3
+ New patch in v4
 
- hw/proxy/qemu-proxy.c         | 13 ++++++++++++-
- include/hw/proxy/qemu-proxy.h |  1 +
- qdev-monitor.c                |  2 +-
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ Makefile.objs           |  4 ++++
+ Makefile.target         |  1 +
+ migration/Makefile.objs | 12 +++++++++++-
+ net/Makefile.objs       |  2 ++
+ replay/Makefile.objs    |  2 +-
+ stubs/migration.c       | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ stubs/net-stub.c        | 21 +++++++++++++++++++++
+ stubs/qapi-misc.c       |  2 ++
+ stubs/replay.c          |  8 ++++++++
+ stubs/vl-stub.c         | 22 ++++++++++++++++++++++
+ vl-parse.c              |  3 +++
+ vl.c                    |  2 --
+ 12 files changed, 124 insertions(+), 4 deletions(-)
 
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 5aada67..623a6c5 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -350,6 +350,13 @@ static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t val,
-     config_op_send(PCI_PROXY_DEV(d), addr, &val, l, CONF_WRITE);
- }
+diff --git a/Makefile.objs b/Makefile.objs
+index c72db88..ebb1938 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -79,6 +79,8 @@ common-obj-y += qdev-monitor.o device-hotplug.o
+ common-obj-$(CONFIG_WIN32) += os-win32.o
+ common-obj-$(CONFIG_POSIX) += os-posix.o
  
-+static void pci_proxy_dev_inst_init(Object *obj)
-+{
-+    PCIProxyDev *dev = PCI_PROXY_DEV(obj);
++remote-pci-obj-$(CONFIG_POSIX) += os-posix.o
 +
-+    dev->mem_init = false;
+ common-obj-$(CONFIG_LINUX) += fsdev/
+ 
+ common-obj-y += migration/
+@@ -110,6 +112,8 @@ common-obj-$(CONFIG_FDT) += device_tree.o
+ 
+ common-obj-y += vl-parse.o
+ 
++remote-pci-obj-$(CONFIG_MPQEMU) += net/
++
+ ######################################################################
+ # qapi
+ 
+diff --git a/Makefile.target b/Makefile.target
+index 8010998..b60a837 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -225,6 +225,7 @@ all-remote-pci-obj-y += memory.o
+ all-remote-pci-obj-y += exec.o
+ all-remote-pci-obj-y += ioport.o
+ all-remote-pci-obj-y += cpus.o
++all-remote-pci-obj-y += migration/ram.o
+ 
+ remote-pci-obj-y :=
+ remote-lsi-obj-y :=
+diff --git a/migration/Makefile.objs b/migration/Makefile.objs
+index 016b6ab..c9682c6 100644
+--- a/migration/Makefile.objs
++++ b/migration/Makefile.objs
+@@ -14,4 +14,14 @@ common-obj-$(CONFIG_LIVE_BLOCK_MIGRATION) += block.o
+ 
+ rdma.o-libs := $(RDMA_LIBS)
+ 
+-remote-pci-obj-$(CONFIG_MPQEMU) += qemu-file.o vmstate.o qjson.o vmstate-types.o
++remote-pci-obj-$(CONFIG_MPQEMU) += migration.o socket.o fd.o exec.o
++remote-pci-obj-$(CONFIG_MPQEMU) += tls.o channel.o savevm.o
++remote-pci-obj-$(CONFIG_MPQEMU) += colo.o colo-failover.o
++remote-pci-obj-$(CONFIG_MPQEMU) += vmstate.o vmstate-types.o page_cache.o
++remote-pci-obj-$(CONFIG_MPQEMU) += qemu-file.o global_state.o
++remote-pci-obj-$(CONFIG_MPQEMU) += qemu-file-channel.o
++remote-pci-obj-$(CONFIG_MPQEMU) += xbzrle.o postcopy-ram.o
++remote-pci-obj-$(CONFIG_MPQEMU) += qjson.o
++remote-pci-obj-$(CONFIG_MPQEMU) += block-dirty-bitmap.o
++remote-pci-obj-$(CONFIG_RDMA) += rdma.o
++remote-pci-obj-$(CONFIG_MPQEMU) += block.o
+diff --git a/net/Makefile.objs b/net/Makefile.objs
+index c5d076d..a8ad986 100644
+--- a/net/Makefile.objs
++++ b/net/Makefile.objs
+@@ -30,3 +30,5 @@ common-obj-$(CONFIG_WIN32) += tap-win32.o
+ vde.o-libs = $(VDE_LIBS)
+ 
+ common-obj-$(CONFIG_CAN_BUS) += can/
++
++remote-pci-obj-$(CONFIG_MPQEMU) += announce.o
+diff --git a/replay/Makefile.objs b/replay/Makefile.objs
+index cee6539..c64b968 100644
+--- a/replay/Makefile.objs
++++ b/replay/Makefile.objs
+@@ -6,4 +6,4 @@ common-obj-y += replay-input.o
+ common-obj-y += replay-char.o
+ common-obj-y += replay-snapshot.o
+ common-obj-y += replay-net.o
+-common-obj-y += replay-audio.o
+\ No newline at end of file
++common-obj-y += replay-audio.o
+diff --git a/stubs/migration.c b/stubs/migration.c
+index 28ccf80..dbd12db 100644
+--- a/stubs/migration.c
++++ b/stubs/migration.c
+@@ -6,6 +6,35 @@
+ #include "qapi/qapi-types-migration.h"
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-types-net.h"
++#include "net/filter.h"
++#include "net/colo-compare.h"
++
++#pragma weak qmp_query_migrate_capabilities
++#pragma weak qmp_query_migrate_parameters
++#pragma weak migrate_announce_params
++#pragma weak qmp_query_migrate
++#pragma weak qmp_migrate_set_capabilities
++#pragma weak qmp_migrate_set_parameters
++#pragma weak qmp_migrate_incoming
++#pragma weak qmp_migrate_recover
++#pragma weak qmp_migrate_pause
++#pragma weak qmp_migrate
++#pragma weak qmp_migrate_cancel
++#pragma weak qmp_migrate_continue
++#pragma weak qmp_migrate_set_cache_size
++#pragma weak qmp_query_migrate_cache_size
++#pragma weak qmp_migrate_set_speed
++#pragma weak qmp_migrate_set_downtime
++#pragma weak qmp_migrate_start_postcopy
++#pragma weak migration_global_dump
++#pragma weak save_snapshot
++#pragma weak qmp_xen_save_devices_state
++#pragma weak load_snapshot
++#pragma weak qmp_xen_set_replication
++#pragma weak qmp_query_xen_replication_status
++#pragma weak qmp_xen_colo_do_checkpoint
++#pragma weak qmp_query_colo_status
++#pragma weak qmp_x_colo_lost_heartbeat
+ 
+ MigrationInfo *qmp_query_migrate(Error **errp)
+ {
+@@ -160,3 +189,23 @@ AnnounceParameters *migrate_announce_params(void)
+ 
+     return NULL;
+ }
++
++void colo_notify_filters_event(int event, Error **errp)
++{
++    qemu_debug_assert(0);
 +}
 +
- static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
++void colo_notify_compares_event(void *opaque, int event, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void colo_compare_register_notifier(Notifier *notify)
++{
++    qemu_debug_assert(0);
++}
++
++void colo_compare_unregister_notifier(Notifier *notify)
++{
++    qemu_debug_assert(0);
++}
+diff --git a/stubs/net-stub.c b/stubs/net-stub.c
+index 962827e..ddfd1e4 100644
+--- a/stubs/net-stub.c
++++ b/stubs/net-stub.c
+@@ -5,6 +5,8 @@
+ #include "qapi/qapi-commands-net.h"
+ #include "qapi/qapi-commands-rocker.h"
+ 
++#pragma weak qmp_announce_self
++
+ int qemu_find_net_clients_except(const char *id, NetClientState **ncs,
+                                  NetClientDriver type, int max)
  {
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-@@ -364,6 +371,7 @@ static const TypeInfo pci_proxy_dev_type_info = {
-     .name          = TYPE_PCI_PROXY_DEV,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(PCIProxyDev),
-+    .instance_init = pci_proxy_dev_inst_init,
-     .abstract      = true,
-     .class_size    = sizeof(PCIProxyDevClass),
-     .class_init    = pci_proxy_dev_class_init,
-@@ -460,7 +468,10 @@ static void init_proxy(PCIDevice *dev, char *command, bool need_spawn, Error **e
-     mpqemu_init_channel(pdev->mpqemu_link, &pdev->mpqemu_link->mmio,
-                         pdev->mmio_sock);
- 
--    configure_memory_sync(pdev->sync, pdev->mpqemu_link);
-+    if (!pdev->mem_init) {
-+        pdev->mem_init = true;
-+        configure_memory_sync(pdev->sync, pdev->mpqemu_link);
-+    }
+@@ -98,3 +100,22 @@ void netdev_add(QemuOpts *opts, Error **errp)
+ {
+     qemu_debug_assert(0);
  }
++
++NetClientState *qemu_get_queue(NICState *nic)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++ssize_t qemu_send_packet_raw(NetClientState *nc, const uint8_t *buf, int size)
++{
++    qemu_debug_assert(0);
++
++    return 0;
++}
++
++void qemu_foreach_nic(qemu_nic_foreach func, void *opaque)
++{
++    qemu_debug_assert(0);
++}
+diff --git a/stubs/qapi-misc.c b/stubs/qapi-misc.c
+index 3eeedd9..824eac1 100644
+--- a/stubs/qapi-misc.c
++++ b/stubs/qapi-misc.c
+@@ -5,6 +5,8 @@
+ #include "./qapi/qapi-types-dump.h"
+ #include "qapi/qapi-commands-dump.h"
  
- static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index 672303c..17e07ac 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -63,6 +63,7 @@ struct PCIProxyDev {
-     MPQemuLinkState *mpqemu_link;
++#pragma weak qmp_xen_load_devices_state
++
+ void qmp_dump_guest_memory(bool paging, const char *file,
+                            bool has_detach, bool detach,
+                            bool has_begin, int64_t begin, bool has_length,
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 4a966ff..6fcd995 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "sysemu/replay.h"
  
-     RemoteMemSync *sync;
-+    bool mem_init;
-     struct kvm_irqfd irqfd;
+ ReplayMode replay_mode;
+@@ -97,3 +98,10 @@ void replay_account_executed_instructions(void)
+ void replay_add_blocker(Error *reason)
+ {
+ }
++
++bool replay_can_snapshot(void)
++{
++    qemu_debug_assert(0);
++
++    return false;
++}
+diff --git a/stubs/vl-stub.c b/stubs/vl-stub.c
+index 606f078..460d1f3 100644
+--- a/stubs/vl-stub.c
++++ b/stubs/vl-stub.c
+@@ -169,3 +169,25 @@ int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
  
-     EventNotifier intr;
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index f38849e..2a2c10b 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -713,10 +713,10 @@ DeviceState *qdev_proxy_add(const char *rid, const char *id, char *bus,
-         pdev->socket = old_pdev->socket;
-         pdev->mmio_sock = old_pdev->mmio_sock;
-         pdev->remote_pid = old_pdev->remote_pid;
-+        pdev->mem_init = true;
-     } else {
-         pdev->rsocket = managed ? rsocket : -1;
-         pdev->socket = managed ? rsocket : -1;
--
-     }
-     pdev->managed = managed;
+     return -1;
+ }
++
++void qemu_system_killed(int signal, pid_t pid)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_system_reset(ShutdownCause reason)
++{
++    qemu_debug_assert(0);
++}
++
++bool runstate_store(char *str, size_t size)
++{
++    qemu_debug_assert(0);
++
++    return false;
++}
++
++void qemu_add_exit_notifier(Notifier *notify)
++{
++    qemu_debug_assert(0);
++}
+diff --git a/vl-parse.c b/vl-parse.c
+index 011a9ef..1c8ecbe 100644
+--- a/vl-parse.c
++++ b/vl-parse.c
+@@ -41,6 +41,9 @@
  
+ #include "vl.h"
+ 
++int only_migratable; /* turn it off unless user states otherwise */
++bool enable_mlock;
++
+ /***********************************************************/
+ /* QEMU Block devices */
+ 
+diff --git a/vl.c b/vl.c
+index a6a0db8..8a26d81 100644
+--- a/vl.c
++++ b/vl.c
+@@ -148,7 +148,6 @@ const char* keyboard_layout = NULL;
+ ram_addr_t ram_size;
+ const char *mem_path = NULL;
+ int mem_prealloc = 0; /* force preallocation of physical target memory */
+-bool enable_mlock = false;
+ bool enable_cpu_pm = false;
+ int nb_nics;
+ NICInfo nd_table[MAX_NICS];
+@@ -189,7 +188,6 @@ const char *prom_envs[MAX_PROM_ENVS];
+ int boot_menu;
+ bool boot_strict;
+ uint8_t *boot_splash_filedata;
+-int only_migratable; /* turn it off unless user states otherwise */
+ bool wakeup_suspend_enabled;
+ 
+ int icount_align_option;
 -- 
 1.8.3.1
 
