@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A81E3501
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:06:25 +0200 (CEST)
-Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405A6E3511
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:09:13 +0200 (CEST)
+Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNdkt-0000pf-IR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:06:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47611)
+	id 1iNdnb-0005hk-Lz
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKc-0003dy-D3
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:11 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKg-0003nf-1n
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKa-00062D-OG
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45886
+ (envelope-from <armbru@redhat.com>) id 1iNcKe-00067y-M7
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35304
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKa-00061Y-KB
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:08 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKe-00067G-I5
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920507;
+ s=mimecast20190719; t=1571920512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=08Z/3vDLTmPV8Cw6RGFpxwEZ6+GbT4mvXHnI+luovaI=;
- b=PNJZem0I/dgBMNEOnV7l97LHIRSE7EVHj1phVQMUI3XDHwo3xjqLJV1wJVrYF7C1RvCFDF
- 0TLReh4TVypEtS8un1KVLDn505ec2Oj9f/ZRKYERwpmaqIGPu+7Ioz77TvnkiYBishUhRE
- BWiFIQNSwSM7sLUJnXWwA1pWIv9SEaI=
+ bh=a0FX4zw8MbBKnMnJjqqP2YzVBQ+eQCNba0U4sF/U/f8=;
+ b=EWcwltwLW101+I1GtcSJfe5Rxh+KNjiTEuzjcdP7KwtV6athPWNAvi8Wj986RT3kqlWoFE
+ jxBGHq5Byxvxrl0KcwV6R0WNDb/qZ76HN5j6c0lozPq9QejA1bp4osomBVaqCTSkg6bL2d
+ hjz2h0eFNQuSYWolN6Z5goS5gwOqP1Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-lChZL-3nMb-5lc6j2pM_5w-1; Thu, 24 Oct 2019 08:35:04 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-230-1CSS3L2bPx-cETir2I70CA-1; Thu, 24 Oct 2019 08:35:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EB4F476;
- Thu, 24 Oct 2019 12:35:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3CE1005512;
+ Thu, 24 Oct 2019 12:35:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F7CB4523;
- Thu, 24 Oct 2019 12:35:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AA3F600CC;
+ Thu, 24 Oct 2019 12:35:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 078BA1132A05; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
+ id 1E60B113294D; Thu, 24 Oct 2019 14:34:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 04/19] tests/test-qmp-event: Simplify test data setup
-Date: Thu, 24 Oct 2019 14:34:43 +0200
-Message-Id: <20191024123458.13505-5-armbru@redhat.com>
+Subject: [RFC PATCH 11/19] qapi: Simplify how qmp_dispatch() gets the request
+ ID
+Date: Thu, 24 Oct 2019 14:34:50 +0200
+Message-Id: <20191024123458.13505-12-armbru@redhat.com>
 In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
 References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: lChZL-3nMb-5lc6j2pM_5w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 1CSS3L2bPx-cETir2I70CA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,169 +77,65 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Building expected data with qdict_put() & friends is tedious to write
-and hard to read.  Parse them from string literals with
-qdict_from_jsonf_nofail() instead.
+We convert the request object to a QDict twice: first in
+qmp_dispatch() to get the request ID, and then again in
+qmp_dispatch_check_obj(), which converts to QDict, then checks and
+returns it.  We can't get the request ID from the latter, because it's
+null when the qdict flunks the checks.
 
-While there, use initializers instead of assignments for initializing
-aggregate event arguments.
+Move getting the request ID into qmp_dispatch_check_obj().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-event.c | 93 ++++++++++++------------------------------
- 1 file changed, 27 insertions(+), 66 deletions(-)
+ qapi/qmp-dispatch.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index eee7e08ab6..430001e622 100644
---- a/tests/test-qmp-event.c
-+++ b/tests/test-qmp-event.c
-@@ -17,6 +17,7 @@
- #include "qapi/error.h"
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index d1643fe37a..0cbb663097 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -20,7 +20,7 @@
  #include "qapi/qmp/qbool.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
- #include "qapi/qmp-event.h"
-@@ -124,17 +125,13 @@ static void event_prepare(TestEventData *data,
-     /* Global variable test_event_data was used to pass the expectation, s=
-o
-        test cases can't be executed at same time. */
-     g_mutex_lock(&test_event_lock);
--
--    data->expect =3D qdict_new();
-     test_event_data =3D data;
- }
 =20
- static void event_teardown(TestEventData *data,
-                            const void *unused)
+ static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_oo=
+b,
+-                                     Error **errp)
++                                     QObject **id, Error **errp)
  {
--    qobject_unref(data->expect);
-     test_event_data =3D NULL;
--
-     g_mutex_unlock(&test_event_lock);
- }
+     const char *exec_key =3D NULL;
+     const QDictEntry *ent;
+@@ -30,10 +30,13 @@ static QDict *qmp_dispatch_check_obj(const QObject *req=
+uest, bool allow_oob,
 =20
-@@ -152,90 +149,54 @@ static void event_test_add(const char *testpath,
- static void test_event_a(TestEventData *data,
-                          const void *unused)
- {
--    QDict *d;
--    d =3D data->expect;
--    qdict_put_str(d, "event", "EVENT_A");
-+    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
-     qapi_event_send_event_a();
-+    qobject_unref(data->expect);
- }
+     dict =3D qobject_to(QDict, request);
+     if (!dict) {
++        *id =3D NULL;
+         error_setg(errp, "QMP input must be a JSON object");
+         return NULL;
+     }
 =20
- static void test_event_b(TestEventData *data,
-                          const void *unused)
- {
--    QDict *d;
--    d =3D data->expect;
--    qdict_put_str(d, "event", "EVENT_B");
-+    data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
-     qapi_event_send_event_b();
-+    qobject_unref(data->expect);
- }
++    *id =3D qdict_get(dict, "id");
++
+     for (ent =3D qdict_first(dict); ent;
+          ent =3D qdict_next(dict, ent)) {
+         arg_name =3D qdict_entry_key(ent);
+@@ -103,12 +106,12 @@ QDict *qmp_dispatch(QmpCommandList *cmds, QObject *re=
+quest,
+     const char *command;
+     QDict *args;
+     QmpCommand *cmd;
+-    QDict *dict =3D qobject_to(QDict, request);
+-    QObject *id =3D dict ? qdict_get(dict, "id") : NULL;
++    QDict *dict;
++    QObject *id;
+     QObject *ret =3D NULL;
+     QDict *rsp;
 =20
- static void test_event_c(TestEventData *data,
-                          const void *unused)
- {
--    QDict *d, *d_data, *d_b;
--
--    UserDefOne b;
--    b.integer =3D 2;
--    b.string =3D g_strdup("test1");
--    b.has_enum1 =3D false;
--
--    d_b =3D qdict_new();
--    qdict_put_int(d_b, "integer", 2);
--    qdict_put_str(d_b, "string", "test1");
--
--    d_data =3D qdict_new();
--    qdict_put_int(d_data, "a", 1);
--    qdict_put(d_data, "b", d_b);
--    qdict_put_str(d_data, "c", "test2");
--
--    d =3D data->expect;
--    qdict_put_str(d, "event", "EVENT_C");
--    qdict_put(d, "data", d_data);
-+    UserDefOne b =3D { .integer =3D 2, .string =3D (char *)"test1" };
-=20
-+    data->expect =3D qdict_from_jsonf_nofail(
-+        "{ 'event': 'EVENT_C', 'data': {"
-+        " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2' }=
- }");
-     qapi_event_send_event_c(true, 1, true, &b, "test2");
--
--    g_free(b.string);
-+    qobject_unref(data->expect);
- }
-=20
- /* Complex type */
- static void test_event_d(TestEventData *data,
-                          const void *unused)
- {
--    UserDefOne struct1;
--    EventStructOne a;
--    QDict *d, *d_data, *d_a, *d_struct1;
--
--    struct1.integer =3D 2;
--    struct1.string =3D g_strdup("test1");
--    struct1.has_enum1 =3D true;
--    struct1.enum1 =3D ENUM_ONE_VALUE1;
--
--    a.struct1 =3D &struct1;
--    a.string =3D g_strdup("test2");
--    a.has_enum2 =3D true;
--    a.enum2 =3D ENUM_ONE_VALUE2;
--
--    d_struct1 =3D qdict_new();
--    qdict_put_int(d_struct1, "integer", 2);
--    qdict_put_str(d_struct1, "string", "test1");
--    qdict_put_str(d_struct1, "enum1", "value1");
--
--    d_a =3D qdict_new();
--    qdict_put(d_a, "struct1", d_struct1);
--    qdict_put_str(d_a, "string", "test2");
--    qdict_put_str(d_a, "enum2", "value2");
--
--    d_data =3D qdict_new();
--    qdict_put(d_data, "a", d_a);
--    qdict_put_str(d_data, "b", "test3");
--    qdict_put_str(d_data, "enum3", "value3");
--
--    d =3D data->expect;
--    qdict_put_str(d, "event", "EVENT_D");
--    qdict_put(d, "data", d_data);
-+    UserDefOne struct1 =3D {
-+        .integer =3D 2, .string =3D (char *)"test1",
-+        .has_enum1 =3D true, .enum1 =3D ENUM_ONE_VALUE1,
-+    };
-+    EventStructOne a =3D {
-+        .struct1 =3D &struct1,
-+        .string =3D (char *)"test2",
-+        .has_enum2 =3D true,
-+        .enum2 =3D ENUM_ONE_VALUE2,
-+    };
-=20
-+    data->expect =3D qdict_from_jsonf_nofail(
-+        "{ 'event': 'EVENT_D', 'data': {"
-+        " 'a': {"
-+        "  'struct1': { 'integer': 2, 'string': 'test1', 'enum1': 'value1'=
- },"
-+        "  'string': 'test2', 'enum2': 'value2' },"
-+        " 'b': 'test3', 'enum3': 'value3' } }");
-     qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VALUE=
-3);
--
--    g_free(struct1.string);
--    g_free(a.string);
-+    qobject_unref(data->expect);
- }
-=20
- int main(int argc, char **argv)
+-    dict =3D qmp_dispatch_check_obj(request, allow_oob, &err);
++    dict =3D qmp_dispatch_check_obj(request, allow_oob, &id, &err);
+     if (!dict) {
+         goto out;
+     }
 --=20
 2.21.0
 
