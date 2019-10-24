@@ -2,107 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD902E3B44
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:47:26 +0200 (CEST)
-Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E859EE3B23
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:39:31 +0200 (CEST)
+Received: from localhost ([::1]:50448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNi8r-0007hL-DR
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
+	id 1iNi1C-0000G0-Dh
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNhaJ-0006aS-FL
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:11:44 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNhhD-0007Ez-AM
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:18:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNhaI-0008TV-2S
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:11:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:60977)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNhaH-0008Sy-PF; Thu, 24 Oct 2019 14:11:42 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N5mOZ-1hv9FK1EFf-017F3I; Thu, 24 Oct 2019 20:11:37 +0200
-Subject: Re: [PATCH 3/3] qemu-timer: reuse MIN macro in qemu_timeout_ns_to_ms
-To: Eric Blake <eblake@redhat.com>, Frediano Ziglio <fziglio@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>
-References: <20191023122652.2999-1-fziglio@redhat.com>
- <20191023122652.2999-3-fziglio@redhat.com>
- <ac0dbd04-c594-0904-020c-ab6384153997@vivier.eu>
- <45775e9d-5d7d-74b4-8eee-1813b080c2da@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d9bf8d20-a873-57ec-3cc4-542c72016463@vivier.eu>
-Date: Thu, 24 Oct 2019 20:11:35 +0200
+ (envelope-from <philmd@redhat.com>) id 1iNhhB-0002dm-IQ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:18:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40551
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNhhB-0002dB-F1
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:18:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571941128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a4hEX+4cIs0DMwrT8Wl9TOWVtesh0j815VovywBvLEw=;
+ b=QBOrHOdiZypHK4LrGCwKlrOHfcU69j+svufEvC7liFs8uHke+aBX6Q9lEopnn5dzLGJJnx
+ zwlD+/yixCsrQNzDRyXjsQQ3dPall7fiGQq/XwBKOYTHdGrtetnJ8lkTnzjQCylAC/+bT1
+ Lz04QUfrWs0rLvArAGUcFfuh+DCrBtI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-bGXiJUuVO7iGxTfjBUyZMA-1; Thu, 24 Oct 2019 14:18:46 -0400
+Received: by mail-wm1-f71.google.com with SMTP id z24so1303247wmk.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:18:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VFq5AyiYPnMm4nnMbX6TjQe1ZpUV+JiAuX8Oc7/JJiE=;
+ b=bqsqYxcdZJT2MH0M5/084Db4TPe946RUejAdWLS6jMDeFSfJI00ft73bMcYjUmNl+B
+ NdJz6q+uNcrAz5o3qqeWnNiS3cfKiAR+VdokuCZBDc015iiAx9oPZ/fokz6rU8zr5RsJ
+ bBGjD9tVpN2IddwTz1zU9HxyM5uSTjcTY0vcdXHKwhSErhq1bVedaYtyxMjuwXxOuQUH
+ FHxgcnrU1uDIiUOx76SYlaJMejlin90qTXWKCd0vFTIQUTCcfxQsqGQ3b87q5M+EKcaE
+ p5UD08eIchDiSwyxLiiE++uMQ04kFeATJhLhV/qiUQDqzinNXfjKxKPSQGDBAj8Eaocn
+ FxzA==
+X-Gm-Message-State: APjAAAUMc1NoND4uUdzpmbyqh0SnlWFp9mYCEj09FxOPHkRV8RZDGs3h
+ 9cL/CL9UQUZ/LoWFFBIIeQhNQTww5maTtRB4TiMHdEAmxXkGiGg4M18ZQD4c6E3jK4Q/cw2VmUr
+ P20OxLhWP/8GLbNg=
+X-Received: by 2002:adf:9ec7:: with SMTP id b7mr5112989wrf.221.1571941124913; 
+ Thu, 24 Oct 2019 11:18:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyOvINGb6M7dIbNq4iIIYc4/Z9A7pcZAaIl0DJHZKyN9s+FOWd96XPg+eUB17uUW3s/FHlYsg==
+X-Received: by 2002:adf:9ec7:: with SMTP id b7mr5112973wrf.221.1571941124608; 
+ Thu, 24 Oct 2019 11:18:44 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id x8sm26144172wrr.43.2019.10.24.11.18.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 11:18:43 -0700 (PDT)
+Subject: Re: [PULL 00/51] target-arm queue
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191024162724.31675-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1bf876f8-b868-ac37-e7ef-083fdf2544a9@redhat.com>
+Date: Thu, 24 Oct 2019 20:18:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <45775e9d-5d7d-74b4-8eee-1813b080c2da@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Io65x8KOSpNhKJQfe0EV/jvbAueGShzHdDd8ROILf2MwE99pjWn
- V/rnGL2flHK6l+NRaZWXGUADAdlGha3JVN44onLRco5jTZgEQfOHoqghuq6FpjCs27Dvagm
- 9dpSbuA0s4yyzfSwyAzxsyJzccI+jtPp52B68qp2JePGHgTqwUSOMGTfmybqM8YVRU1H00Y
- nty82DnwpzQ3OfW/ZxmOA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ved6pVf0YTo=:B9gM8tPp7C+tLJt3WoeBb0
- lQ+Ma1M+sneFgZmNBO83es5DMY9yYz0P+AzYdopb7Ygig5CcuNIJUseRaA5FCBXU2xG/kFe6l
- H/Ednkw54gq0fncxAxl/N/ojE6OFlXO3lU0YMlXGWrYk+Drz9mOxOqiPBKAZ8qf/OfFcgXdUm
- fJ26hROHG9PWf0NOKD/nNdYMaObz1sgIrU3ID7dNeM1Tt4E9E78QlUCocOMc3uakpSiLuVbrn
- CSY5BFystLlb0xc7/esG5iU19OtHWybm5oMNc++TNo7cdbDX8m4QyIyTb2FabHsD6INEpYfoG
- AHeD5fFJl0JKm4/crxwudOekxD5YMGZjJw4aTll58pT95Sc+LsLJuZ/+kY/ZhIRfKJ0vvEn+V
- QaWcyAJQlA94Je9MMIbADjjelb/Sc7nrHdN2ugkqPWVrEhsPmhsHp3aF2TKm9EQsxa0BDcanU
- sGe++JlTw42omgkFLMbfUQDssAPl0nU04qjLwQQB0ZapxV+niEMp3IcbdHXVKgeZIswVkspRW
- HM1tQ+F5RBxNXPchouBAf01e1rs/ps+cyApJc2LfxkZZWwXBaYujKS1BATNx4hzcHizcQw3W9
- sDhpi8WeB3H4VkKfohXO0MopTafNlcr+fxy6NJyueJ8PTLLMDdhthCAHIDD3qnqmUuayQWY2C
- uAR2AUY16mftqfwuVhXT6y9FIwzinYnZjnClRsF+pfGoTCy1fANSlb4+s4aUTF7rXTyk3zf/6
- JM8A6NCcmCYubudR4OHOjfOHG1FxOZ1V1rL/opeA3kFF3cMSEYHEmMt4eh9/+QNklqDMU49me
- 4I7UINIOT+GtuncI1lSSLySVonL0J1Zhds7ORC3M40UVLmdNVoNmaVzvNGfNXhPZefXLJoT6K
- dnEYo9Dr+lX0Xq2BuArS+tcoK9uA+AOCwyG+fu0xI=
+In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
+Content-Language: en-US
+X-MC-Unique: bGXiJUuVO7iGxTfjBUyZMA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.133
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,38 +90,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/10/2019 à 20:03, Eric Blake a écrit :
-> On 10/24/19 12:31 PM, Laurent Vivier wrote:
->> Le 23/10/2019 à 14:26, Frediano Ziglio a écrit :
->>> Signed-off-by: Frediano Ziglio <fziglio@redhat.com>
->>> ---
->>>   util/qemu-timer.c | 6 +-----
->>>   1 file changed, 1 insertion(+), 5 deletions(-)
->>>
-> 
->>>
->>
->> Applied to my trivial-patches branch.
->>
->> I've updated the patch to remove the two useless casts.
->>
->> Eric, if you want to add your R-b, I can add it to the queued patch.
-> 
-> I don't see it queued on https://github.com/vivier/qemu/branches yet,
+On 10/24/19 6:26 PM, Peter Maydell wrote:
+> Probably the last arm pullreq before softfreeze...
+>=20
+> The following changes since commit 58560ad254fbda71d4daa6622d71683190070e=
+e2:
+>=20
+>    Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.2-2019102=
+4' into staging (2019-10-24 16:22:58 +0100)
+>=20
+> are available in the Git repository at:
+>=20
+>    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-a=
+rm-20191024
+>=20
+> for you to fetch changes up to a01a4a3e85ae8f6fe21adbedc80f7013faabdcf4:
+>=20
+>    hw/arm/highbank: Use AddressSpace when using write_secondary_boot() (2=
+019-10-24 17:16:30 +0100)
+>=20
+> ----------------------------------------------------------------
+> target-arm queue:
+>   * raspi boards: some cleanup
+>   * raspi: implement the bcm2835 system timer device
+>   * raspi: implement a dummy thermal sensor
+>   * KVM: support providing SVE to the guest
+>   * misc devices: switch to ptimer transaction API
+>   * cache TB flag state to improve performance of cpu_get_tb_cpu_state
+>   * aspeed: Add an AST2600 eval board
+>=20
+> ----------------------------------------------------------------
+> Andrew Jones (9):
+>        target/arm/monitor: Introduce qmp_query_cpu_model_expansion
+>        tests: arm: Introduce cpu feature tests
+>        target/arm: Allow SVE to be disabled via a CPU property
+>        target/arm/cpu64: max cpu: Introduce sve<N> properties
+>        target/arm/kvm64: Add kvm_arch_get/put_sve
+>        target/arm/kvm64: max cpu: Enable SVE when available
+>        target/arm/kvm: scratch vcpu: Preserve input kvm_vcpu_init feature=
+s
+>        target/arm/cpu64: max cpu: Support sve properties with KVM
+>        target/arm/kvm: host cpu: Add support for sve<N> properties
+>=20
+> C=C3=A9dric Le Goater (2):
+>        hw/gpio: Fix property accessors of the AST2600 GPIO 1.8V model
+>        aspeed: Add an AST2600 eval board
+>=20
+> Peter Maydell (8):
+>        hw/net/fsl_etsec/etsec.c: Switch to transaction-based ptimer API
+>        hw/timer/xilinx_timer.c: Switch to transaction-based ptimer API
+>        hw/dma/xilinx_axidma.c: Switch to transaction-based ptimer API
+>        hw/timer/slavio_timer: Remove useless check for NULL t->timer
+>        hw/timer/slavio_timer.c: Switch to transaction-based ptimer API
+>        hw/timer/grlib_gptimer.c: Switch to transaction-based ptimer API
+>        hw/m68k/mcf5206.c: Switch to transaction-based ptimer API
+>        hw/watchdog/milkymist-sysctl.c: Switch to transaction-based ptimer=
+ API
+>=20
+> Philippe Mathieu-Daud=C3=A9 (8):
+>        hw/misc/bcm2835_thermal: Add a dummy BCM2835 thermal sensor
+>        hw/arm/bcm2835_peripherals: Use the thermal sensor block
+>        hw/timer/bcm2835: Add the BCM2835 SYS_timer
+>        hw/arm/bcm2835_peripherals: Use the SYS_timer
+>        hw/arm/bcm2836: Make the SoC code modular
+>        hw/arm/bcm2836: Rename cpus[] as cpu[].core
+>        hw/arm/raspi: Use AddressSpace when using arm_boot::write_secondar=
+y_boot
+>        hw/arm/highbank: Use AddressSpace when using write_secondary_boot(=
+)
+>=20
+> Richard Henderson (24):
+>        target/arm: Split out rebuild_hflags_common
+>        target/arm: Split out rebuild_hflags_a64
+>        target/arm: Split out rebuild_hflags_common_32
+>        target/arm: Split arm_cpu_data_is_big_endian
+>        target/arm: Split out rebuild_hflags_m32
+>        target/arm: Reduce tests vs M-profile in cpu_get_tb_cpu_state
+>        target/arm: Split out rebuild_hflags_a32
+>        target/arm: Split out rebuild_hflags_aprofile
+>        target/arm: Hoist XSCALE_CPAR, VECLEN, VECSTRIDE in cpu_get_tb_cpu=
+_state
+>        target/arm: Simplify set of PSTATE_SS in cpu_get_tb_cpu_state
+>        target/arm: Hoist computation of TBFLAG_A32.VFPEN
+>        target/arm: Add arm_rebuild_hflags
+>        target/arm: Split out arm_mmu_idx_el
+>        target/arm: Hoist store to cs_base in cpu_get_tb_cpu_state
+>        target/arm: Add HELPER(rebuild_hflags_{a32, a64, m32})
+>        target/arm: Rebuild hflags at EL changes
+>        target/arm: Rebuild hflags at MSR writes
+>        target/arm: Rebuild hflags at CPSR writes
+>        target/arm: Rebuild hflags at Xscale SCTLR writes
+>        target/arm: Rebuild hflags for M-profile
+>        target/arm: Rebuild hflags for M-profile NVIC
+>        linux-user/aarch64: Rebuild hflags for TARGET_WORDS_BIGENDIAN
+>        linux-user/arm: Rebuild hflags for TARGET_WORDS_BIGENDIAN
+>        target/arm: Rely on hflags correct in cpu_get_tb_cpu_state
+>=20
+>   hw/misc/Makefile.objs                |   1 +
+>   hw/timer/Makefile.objs               |   1 +
+>   tests/Makefile.include               |   5 +-
+>   qapi/machine-target.json             |   6 +-
+>   hw/net/fsl_etsec/etsec.h             |   1 -
+>   include/hw/arm/aspeed.h              |   1 +
+>   include/hw/arm/bcm2835_peripherals.h |   5 +-
+>   include/hw/arm/bcm2836.h             |   4 +-
+>   include/hw/arm/raspi_platform.h      |   1 +
+>   include/hw/misc/bcm2835_thermal.h    |  27 ++
+>   include/hw/timer/bcm2835_systmr.h    |  33 +++
+>   include/qemu/bitops.h                |   1 +
+>   target/arm/cpu.h                     | 105 +++++--
+>   target/arm/helper.h                  |   4 +
+>   target/arm/internals.h               |   9 +
+>   target/arm/kvm_arm.h                 |  39 +++
+>   hw/arm/aspeed.c                      |  23 ++
+>   hw/arm/bcm2835_peripherals.c         |  30 +-
+>   hw/arm/bcm2836.c                     |  44 +--
+>   hw/arm/highbank.c                    |   3 +-
+>   hw/arm/raspi.c                       |  14 +-
+>   hw/dma/xilinx_axidma.c               |   9 +-
+>   hw/gpio/aspeed_gpio.c                |   8 +-
+>   hw/intc/armv7m_nvic.c                |  22 +-
+>   hw/m68k/mcf5206.c                    |  15 +-
+>   hw/misc/bcm2835_thermal.c            | 135 +++++++++
+>   hw/net/fsl_etsec/etsec.c             |   9 +-
+>   hw/timer/bcm2835_systmr.c            | 163 +++++++++++
+>   hw/timer/grlib_gptimer.c             |  28 +-
+>   hw/timer/milkymist-sysctl.c          |  25 +-
+>   hw/timer/slavio_timer.c              |  32 ++-
+>   hw/timer/xilinx_timer.c              |  13 +-
+>   linux-user/aarch64/cpu_loop.c        |   1 +
+>   linux-user/arm/cpu_loop.c            |   1 +
+>   linux-user/syscall.c                 |   1 +
+>   target/arm/cpu.c                     |  26 +-
+>   target/arm/cpu64.c                   | 364 +++++++++++++++++++++--
+>   target/arm/helper-a64.c              |   3 +
+>   target/arm/helper.c                  | 403 +++++++++++++++++---------
+>   target/arm/kvm.c                     |  25 +-
+>   target/arm/kvm32.c                   |   6 +-
+>   target/arm/kvm64.c                   | 325 ++++++++++++++++++---
+>   target/arm/m_helper.c                |   6 +
+>   target/arm/machine.c                 |   1 +
+>   target/arm/monitor.c                 | 158 ++++++++++
+>   target/arm/op_helper.c               |   4 +
+>   target/arm/translate-a64.c           |  13 +-
+>   target/arm/translate.c               |  33 ++-
+>   tests/arm-cpu-features.c             | 540 ++++++++++++++++++++++++++++=
++++++++
+>   docs/arm-cpu-features.rst            | 317 ++++++++++++++++++++
+>   hw/timer/trace-events                |   5 +
+>   51 files changed, 2725 insertions(+), 323 deletions(-)
+>   create mode 100644 include/hw/misc/bcm2835_thermal.h
+>   create mode 100644 include/hw/timer/bcm2835_systmr.h
+>   create mode 100644 hw/misc/bcm2835_thermal.c
+>   create mode 100644 hw/timer/bcm2835_systmr.c
+>   create mode 100644 tests/arm-cpu-features.c
+>   create mode 100644 docs/arm-cpu-features.rst
+>=20
 
-Sorry, forgot to push it.
+If this pull ever fails, please consider fixing:
 
-> but if removing the two casts is the only difference from the original:
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
+typo "device":
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg654117.html
 
-Added and pushed (branch trivial-patches), you can check.
+Tested-by: Mark Cave-Ayland
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg653861.html
 
-Thanks,
-Laurent
 
