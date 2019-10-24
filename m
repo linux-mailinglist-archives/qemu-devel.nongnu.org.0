@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A8CE31CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:06:22 +0200 (CEST)
-Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A48DE31E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:10:21 +0200 (CEST)
+Received: from localhost ([::1]:40668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbsi-0004Yl-Qs
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38611)
+	id 1iNbwa-0002wI-5I
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:10:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNbCM-0006Ky-7O
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:22:35 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbHJ-0001f1-0f
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNbCK-0006Pp-V0
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:22:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44318)
+ (envelope-from <dgilbert@redhat.com>) id 1iNbHG-0008Gu-Nj
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:40 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52803
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNbCK-0006P3-LY
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:22:32 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbHG-0008Gn-KB
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:27:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571916458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4TDQPoSF4UvJcq7ii3li4Ka6lEXcuALQAkQFwosbXC0=;
+ b=hT4G0pRHpNrtUN2uo/tBvHcD2DFk4BI4Iw7sfoHOXXpD9jHQAV0H/x1eWYeSmcNtNhzdR7
+ dBZwTLyhjAcY6RTo6LiPf1a5nLHJ243ml+dpxru26KHimBe31E71p8iem0vHLPnrQ7syUR
+ Byf96pTji2oMf+qEvTK37FStvy0mmqU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-B5MqDZ2XMgS_XUcA8ITOTA-1; Thu, 24 Oct 2019 07:27:34 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 06DF0757C5
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:22:31 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id e25so12117665wra.9
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:22:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ruuFxXL1LpflxoJmVZDBBYvsxawHPfgZFAEmI3wJrgk=;
- b=WeH1UkCqKMbAKVNrOUsVOL4SbcmTPxynAwz8KEXPUCWzafnTzd6a969bu7A5ErjRuc
- MNnrGhJFIkgO2qN28cApyI2mazoaQp/SbIRPSMScXs7GfQctLcUVasJK34Z0C0nz5yNP
- MPao862cqXBtNohhxiE5hLO08rIIyzRdRlH4l9/xVlbPgcsXKaTkRPJGc7Xe6hClMvff
- /7BprgvBUR2TR6Kul3FkohrJigtZf+YTS6y59G4f7oMpOeiof5S5FfEqrIKPeM27pyrb
- zOCOqL2F3/+TEqYDR01uldLtiNyiRjwQU3kaJicddZeCTWljS9Utf/9tx/DjbMlbnJOw
- 3WVQ==
-X-Gm-Message-State: APjAAAXKRJQa5ZOf3MoaDtZOCtBCstHI70aTBv4u4hD4t9PO4A5Z5W6T
- /VVwS1HyjWQ/kC2nFam0AqEMA2IrQjvkyz2+mGChuQZMjQ8Jai24OwO3BlBGy2aSLhU4r6G9QXw
- cqAF8lO9xc3ZTUJo=
-X-Received: by 2002:adf:e446:: with SMTP id t6mr3306634wrm.7.1571916149650;
- Thu, 24 Oct 2019 04:22:29 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyjCj4KKrsNYOJg6tbE976jv3LS2JTKvR2RoIknrzobCLCTCwP8bc9pAgCu0SQwaUcsRtYw1A==
-X-Received: by 2002:adf:e446:: with SMTP id t6mr3306614wrm.7.1571916149430;
- Thu, 24 Oct 2019 04:22:29 -0700 (PDT)
-Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id r13sm36952734wra.74.2019.10.24.04.22.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 04:22:28 -0700 (PDT)
-Subject: Re: [PATCH v2] mc146818rtc: fix timer interrupt reinjection
-To: Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <20191010123008.GA19158@amt.cnet>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cc492782-8e5a-5c39-226d-a4e97cabf914@redhat.com>
-Date: Thu, 24 Oct 2019 13:22:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EA3E80183D;
+ Thu, 24 Oct 2019 11:27:33 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
+ [10.36.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8A19166A0;
+ Thu, 24 Oct 2019 11:27:30 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
+ ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
+ misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
+ piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
+ berrange@redhat.com
+Subject: [PATCH 02/25] virtiofsd: passthrough_ll: add lo_map for ino/fh
+ indirection
+Date: Thu, 24 Oct 2019 12:26:55 +0100
+Message-Id: <20191024112718.34657-3-dgilbert@redhat.com>
+In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
+References: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191010123008.GA19158@amt.cnet>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: B5MqDZ2XMgS_XUcA8ITOTA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,123 +76,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Xiao Guangrong <guangrong.xiao@gmail.com>,
- Vadim Rozenfeld <vrozenfe@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/19 2:30 PM, Marcelo Tosatti wrote:
-> 
-> commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
-> reinjection when there is no period change by the guest.
-> 
-> In that case, old_period is 0, which ends up zeroing irq_coalesced
-> (counter of reinjected interrupts).
-> 
-> The consequence is Windows 7 is unable to synchronize time via NTP.
-> Easily reproducible by playing a fullscreen video with cirrus and VNC.
-> 
-> Fix by not updating s->irq_coalesced when old_period is 0.
-> 
-> V2: reorganize code (Paolo Bonzini)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-^ This line shouldn't be part of git history,
-Paolo if possible can you drop it?
+A layer of indirection is needed because passthrough_ll cannot expose
+pointers or file descriptor numbers to untrusted clients.  Malicious
+clients could send invalid pointers or file descriptors in order to
+crash or exploit the file system daemon.
 
-> 
-> Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
-> 
-> diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-> index 6cb378751b..0e7cf97042 100644
-> --- a/hw/timer/mc146818rtc.c
-> +++ b/hw/timer/mc146818rtc.c
-> @@ -203,24 +203,28 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
->   
->       period = rtc_periodic_clock_ticks(s);
->   
-> -    if (period) {
-> -        /* compute 32 khz clock */
-> -        cur_clock =
-> -            muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-> +    if (!period) {
-> +        s->irq_coalesced = 0;
-> +        timer_del(s->periodic_timer);
-> +        return;
-> +    }
+lo_map provides an integer key->value mapping.  This will be used for
+ino and fh fields in the patches that follow.
 
-This is the first change, simplify the if statement with a return.
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ contrib/virtiofsd/passthrough_ll.c | 113 +++++++++++++++++++++++++++++
+ 1 file changed, 113 insertions(+)
 
->   
-> -        /*
-> -        * if the periodic timer's update is due to period re-configuration,
-> -        * we should count the clock since last interrupt.
-> -        */
-> -        if (old_period) {
-> -            int64_t last_periodic_clock, next_periodic_clock;
-> -
-> -            next_periodic_clock = muldiv64(s->next_periodic_time,
-> -                                    RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-> -            last_periodic_clock = next_periodic_clock - old_period;
-> -            lost_clock = cur_clock - last_periodic_clock;
-> -            assert(lost_clock >= 0);
-> -        }
-> +    /* compute 32 khz clock */
-> +    cur_clock =
-> +        muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-> +
-> +    /*
-> +     * if the periodic timer's update is due to period re-configuration,
-> +     * we should count the clock since last interrupt.
-> +     */
-> +    if (old_period) {
-> +        int64_t last_periodic_clock, next_periodic_clock;
-> +
-> +        next_periodic_clock = muldiv64(s->next_periodic_time,
-> +                                RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-> +        last_periodic_clock = next_periodic_clock - old_period;
-> +        lost_clock = cur_clock - last_periodic_clock;
-> +        assert(lost_clock >= 0);
->   
->           /*
->            * s->irq_coalesced can change for two reasons:
-> @@ -251,22 +255,19 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
->                   rtc_coalesced_timer_update(s);
->               }
->           } else {
-> -           /*
-> +            /*
->                * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
->                * is not used, we should make the time progress anyway.
->                */
->               lost_clock = MIN(lost_clock, period);
->           }
-> +    }
+diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
+ough_ll.c
+index 2de35d4d3d..3093d1171e 100644
+--- a/contrib/virtiofsd/passthrough_ll.c
++++ b/contrib/virtiofsd/passthrough_ll.c
+@@ -69,6 +69,21 @@ struct _uintptr_to_must_hold_fuse_ino_t_dummy_struct \
+ =09=09=09((sizeof(fuse_ino_t) >=3D sizeof(uintptr_t)) ? 1 : -1); };
+ #endif
+=20
++struct lo_map_elem {
++=09union {
++=09=09/* Element values will go here... */
++=09=09ssize_t freelist;
++=09};
++=09bool in_use;
++};
++
++/* Maps FUSE fh or ino values to internal objects */
++struct lo_map {
++=09struct lo_map_elem *elems;
++=09size_t nelems;
++=09ssize_t freelist;
++};
++
+ struct lo_inode {
+ =09struct lo_inode *next; /* protected by lo->mutex */
+ =09struct lo_inode *prev; /* protected by lo->mutex */
+@@ -137,6 +152,104 @@ static struct lo_data *lo_data(fuse_req_t req)
+ =09return (struct lo_data *) fuse_req_userdata(req);
+ }
+=20
++static void lo_map_init(struct lo_map *map)
++{
++=09map->elems =3D NULL;
++=09map->nelems =3D 0;
++=09map->freelist =3D -1;
++}
++
++static void lo_map_destroy(struct lo_map *map)
++{
++=09free(map->elems);
++}
++
++static int lo_map_grow(struct lo_map *map, size_t new_nelems)
++{
++=09struct lo_map_elem *new_elems;
++=09size_t i;
++
++=09if (new_nelems <=3D map->nelems)
++=09=09return 1;
++
++=09new_elems =3D realloc(map->elems, sizeof(map->elems[0]) * new_nelems);
++=09if (!new_elems)
++=09=09return 0;
++
++=09for (i =3D map->nelems; i < new_nelems; i++) {
++=09=09new_elems[i].freelist =3D i + 1;
++=09=09new_elems[i].in_use =3D false;
++=09}
++=09new_elems[new_nelems - 1].freelist =3D -1;
++
++=09map->elems =3D new_elems;
++=09map->freelist =3D map->nelems;
++=09map->nelems =3D new_nelems;
++=09return 1;
++}
++
++static struct lo_map_elem *lo_map_alloc_elem(struct lo_map *map)
++{
++=09struct lo_map_elem *elem;
++
++=09if (map->freelist =3D=3D -1 && !lo_map_grow(map, map->nelems + 256))
++=09=09return NULL;
++
++=09elem =3D &map->elems[map->freelist];
++=09map->freelist =3D elem->freelist;
++
++=09elem->in_use =3D true;
++
++=09return elem;
++}
++
++static struct lo_map_elem *lo_map_reserve(struct lo_map *map, size_t key)
++{
++=09ssize_t *prev;
++
++=09if (!lo_map_grow(map, key + 1))
++=09=09return NULL;
++
++=09for (prev =3D &map->freelist;
++=09     *prev !=3D -1;
++=09     prev =3D &map->elems[*prev].freelist) {
++=09=09if (*prev =3D=3D key) {
++=09=09=09struct lo_map_elem *elem =3D &map->elems[key];
++
++=09=09=09*prev =3D elem->freelist;
++=09=09=09elem->in_use =3D true;
++=09=09=09return elem;
++=09=09}
++=09}
++=09return NULL;
++}
++
++static struct lo_map_elem *lo_map_get(struct lo_map *map, size_t key)
++{
++=09if (key >=3D map->nelems)
++=09=09return NULL;
++=09if (!map->elems[key].in_use)
++=09=09return NULL;
++=09return &map->elems[key];
++}
++
++static void lo_map_remove(struct lo_map *map, size_t key)
++{
++=09struct lo_map_elem *elem;
++
++=09if (key >=3D map->nelems)
++=09=09return;
++
++=09elem =3D &map->elems[key];
++=09if (!elem->in_use)
++=09=09return;
++
++=09elem->in_use =3D false;
++
++=09elem->freelist =3D map->freelist;
++=09map->freelist =3D key;
++}
++
+ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
+ {
+ =09if (ino =3D=3D FUSE_ROOT_ID)
+--=20
+2.23.0
 
-This is the second change, changing the logic and fixing the bug.
-
->   
-> -        assert(lost_clock >= 0 && lost_clock <= period);
-> +    assert(lost_clock >= 0 && lost_clock <= period);
->   
-> -        next_irq_clock = cur_clock + period - lost_clock;
-> -        s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
-> -        timer_mod(s->periodic_timer, s->next_periodic_time);
-> -    } else {
-> -        s->irq_coalesced = 0;
-> -        timer_del(s->periodic_timer);
-> -    }
-> +    next_irq_clock = cur_clock + period - lost_clock;
-> +    s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
-> +    timer_mod(s->periodic_timer, s->next_periodic_time);
-
-This is part of the 1st change.
-
-I'd rather see this patch split in 2 logical changes...
-
->   }
->   
->   static void rtc_periodic_timer(void *opaque)
-> 
-> 
 
