@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B7CE3661
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:19:26 +0200 (CEST)
-Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B41E367A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:22:52 +0200 (CEST)
+Received: from localhost ([::1]:45290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNetY-0008C4-L9
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36723)
+	id 1iNews-0004ii-TO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:22:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iNdtT-0007CJ-Uq
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:15:17 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNdtw-0008Og-3A
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:15:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iNdtS-0003do-9q
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:15:15 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37290)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iNdtS-0003d8-2D
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:15:14 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e11so17584428wrv.4
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wcYGRdE7UgsyvougaG7GUPlX4d+kse0aR02f7E/2K2I=;
- b=EQQv3izY1bruJpnTkhqS8lI08mlMzPDOqHZ/41WceFjG1r8AjDkXMgWVedqaNBCwnB
- 21CrHObLcv4/O8Ula2/HAMExPnCWB8BP9tQ36v8YJxpnVlNTpG75IPlNaLD1sIjlYWdQ
- GvVt74J9ywxJYoG7FhGd/bczRcDV4ycbMTYIueupSRdnDlwjrtECxTSDUlnvbXsTAT2o
- 6Mp1KKEyzQ4waiE7LL+Z4EJG68lJv4pYxZBtgavDb88Dkn+t/HFayAnutxsFj8mleN3y
- qC61dPwuTROKPmxd9rQAF6n+QholMUXUy4QG8RYRbrg1VuS45e/lpqtMku/wcflY2YPL
- 0gdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wcYGRdE7UgsyvougaG7GUPlX4d+kse0aR02f7E/2K2I=;
- b=DCOeQshhipcHXvkVzWRQNUjdodwhIn+5yjvdCg7ZEPSPafmBZMd4dH1worRl7YXqMM
- xfl8lnmGmNnjgRN8LYMoTztE6wmTDiHYZqPySXxW9u1oEXf+brNawSam3x/YD+pG2oLT
- mtzWuFDX0mXWuHroiD0iYd5tqORl+IzhCELLMlph70gTrM5XO2JoyDmfQnmlKQMqmcey
- jgoGVSkBY1+EakTC5cb7xw9Q0emwjsDmGREf5+mpjf2dGIzUMQdWgCGB2nN4B4MmNTeH
- MIF2qnxjLEb5wKHcqLj9SwjIGDD8BdfPdnEb4Bafh6BNvtTyeaqcw/ODgdOKGbT2Kfkw
- sOCA==
-X-Gm-Message-State: APjAAAW3WO3rdc7x5b3QNppi6bU7mWVdP6akQfbF9PHnxselQFyz6b2y
- Z65JUWa/t290czLK+myr5f7wTSG96uYJKqonsbt3I+ph
-X-Google-Smtp-Source: APXvYqwSMKAd32Fesbsdpez/7/FV0yssjJFkoejSXkK/qxm57elDEe+MW5gKftfGKK/9PmVjNzxfKb1KpkAj75/I3YY=
-X-Received: by 2002:a5d:6cc3:: with SMTP id c3mr4078250wrc.202.1571926510033; 
- Thu, 24 Oct 2019 07:15:10 -0700 (PDT)
+ (envelope-from <ehabkost@redhat.com>) id 1iNdtu-0003pe-LZ
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:15:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41832
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNdtu-0003pU-Ha
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:15:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571926542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n2opU6N6m1wz6aDqqkbrk6Znhodiar6RbhpaEcpu0Kk=;
+ b=HGk/Wx4bLi1BsvlM/dRzPPCMPug2rmcFwSepQLJNSFPziKGkBByosr6NDfy+t7XrQk2KGi
+ +n5Z0Z1Mlhd7z6AKa2hN+Gb+tRBcMklcabt2DEIgGD6vYDNC7xQoHNMD3BORBdJmdHIqPg
+ juPWt9unaDoN/kNGAUUDeoyUELApDlM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-KhechL12NUKftkTc7zP1yw-1; Thu, 24 Oct 2019 10:15:39 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CAAD47B;
+ Thu, 24 Oct 2019 14:15:38 +0000 (UTC)
+Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E85F45DC1E;
+ Thu, 24 Oct 2019 14:15:37 +0000 (UTC)
+Date: Thu, 24 Oct 2019 11:15:36 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Kang, Luwei" <luwei.kang@intel.com>
+Subject: Re: [PATCH v4 2/2] i386: Add support to get/set/migrate Intel
+ Processor Trace feature
+Message-ID: <20191024141536.GU6744@habkost.net>
+References: <1520182116-16485-1-git-send-email-luwei.kang@intel.com>
+ <1520182116-16485-2-git-send-email-luwei.kang@intel.com>
+ <20191012031407.GK4084@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382A209@SHSMSX104.ccr.corp.intel.com>
+ <20191015132929.GY4084@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382BB76@SHSMSX104.ccr.corp.intel.com>
+ <20191022214416.GA21651@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382D523@SHSMSX104.ccr.corp.intel.com>
+ <20191024132414.GQ6744@habkost.net>
+ <82D7661F83C1A047AF7DC287873BF1E17382D885@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-References: <20191004102051.19738-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20191004102051.19738-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 24 Oct 2019 16:14:57 +0200
-Message-ID: <CAJ+F1C+Sp-xCyr2KZgEfGXM3TJxjTq9Oh2pu6X-J03E-XrLvUQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] Add dbus-vmstate
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <82D7661F83C1A047AF7DC287873BF1E17382D885@SHSMSX104.ccr.corp.intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: KhechL12NUKftkTc7zP1yw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,160 +81,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Chao Peng <chao.p.peng@linux.intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Thu, Oct 24, 2019 at 01:36:50PM +0000, Kang, Luwei wrote:
+> > > > > > > > > f9f4cd1..097c953 100644
+> > > > > > > > > --- a/target/i386/kvm.c
+> > > > > > > > > +++ b/target/i386/kvm.c
+> > > > > > > > > @@ -1811,6 +1811,25 @@ static int kvm_put_msrs(X86CPU *cp=
+u, int level)
+> > > > > > > > >                  kvm_msr_entry_add(cpu, MSR_MTRRphysMask(=
+i), mask);
+> > > > > > > > >              }
+> > > > > > > > >          }
+> > > > > > > > > +        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_=
+INTEL_PT) {
+> > > > > > > > > +            int addr_num =3D kvm_arch_get_supported_cpui=
+d(kvm_state,
+> > > > > > > > > +                                                    0x14=
+,
+> > > > > > > > > + 1,
+> > > > > > > > > + R_EAX) & 0x7;
+> > > > > > > > > +
+> > > > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_CTL,
+> > > > > > > > > +                            env->msr_rtit_ctrl);
+> > > > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_STATUS,
+> > > > > > > > > +                            env->msr_rtit_status);
+> > > > > > > > > +            kvm_msr_entry_add(cpu, MSR_IA32_RTIT_OUTPUT_=
+BASE,
+> > > > > > > > > +                            env->msr_rtit_output_base);
+> > > > > > > >
+> > > > > > > > This causes the following crash on some hosts:
+> > > > > > > >
+> > > > > > > >   qemu-system-x86_64: error: failed to set MSR 0x560 to 0x0
+> > > > > > > >   qemu-system-x86_64: target/i386/kvm.c:2673: kvm_put_msrs:=
+ Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+> > > > > > > >
+> > > > > > > > Checking for CPUID_7_0_EBX_INTEL_PT is not enough: KVM has
+> > > > > > > > additional conditions that might prevent writing to this MS=
+R
+> > > > > > > > (PT_CAP_topa_output && PT_CAP_single_range_output).  This
+> > > > > > causes QEMU to crash if some of the conditions aren't met.
+> > > > > > > >
+> > > > > > > > Writing and reading this MSR (and the ones below) need to b=
+e conditional on KVM_GET_MSR_INDEX_LIST.
+> > > > > > > >
+> > > > > > >
+> > > > > > > Hi Eduardo,
+> > > > > > >     I found this issue can't be reproduced in upstream source
+> > > > > > > code but can be reproduced on RHEL8.1. I haven't got the qemu
+> > > > > > > source
+> > > > > > code of RHEL8.1. But after adding some trace in KVM, I found th=
+e
+> > > > > > KVM has reported the complete Intel PT CPUID information to qem=
+u
+> > > > > > but the Intel PT CPUID (0x14) is lost when qemu setting the
+> > > > > > CPUID
+> > > > to KVM (cpuid level is 0xd). It looks like lost the below patch.
+> > > > > > >
+> > > > > > > commit f24c3a79a415042f6dc195f029a2ba7247d14cac
+> > > > > > > Author: Luwei Kang <luwei.kang@intel.com>
+> > > > > > > Date:   Tue Jan 29 18:52:59 2019 -0500
+> > > > > > >     i386: extended the cpuid_level when Intel PT is enabled
+> > > > > > >
+> > > > > > >     Intel Processor Trace required CPUID[0x14] but the cpuid_=
+level
+> > > > > > >     have no change when create a kvm guest with
+> > > > > > >     e.g. "-cpu qemu64,+intel-pt".
+> > > > > >
+> > > > > > Thanks for the pointer.  This may avoid triggering the bug in
+> > > > > > the default configuration, but we still need to make the MSR
+> > > > > > writing conditional on KVM_GET_MSR_INDEX_LIST.  Older
+> > > > > > machine-types have x-intel-pt-auto-level=3Doff, and the user ma=
+y
+> > > > > > set `level`
+> > > > manually.
+> > > > >
+> > > > > Hi Eduardo,
+> > > > > Sorry for a delay reply because my mail filter. I tried with the
+> > > > > Q35 machine type and default, all looks work well (With some old
+> > > > > cpu type
+> > > > > + "intel_pt" also work well).  KVM will check the Intel PT work
+> > > > > + mode
+> > > > > and HW to decide if Intel PT can be exposed to guest, only
+> > > > > extended the CPUID level is useless. If the guest doesn't support
+> > > > > Intel PT, any MSR read or write will cause #GP. Please remind me
+> > > > > if I lost something.
+> > > >
+> > > > I understand you have tried q35 and pc, but have you tried with old=
+er machine-type versions?
+> > > >
+> > > > Commit f24c3a79a415 doesn't change behavior on pc-*-3.1 and older, =
+so it only avoids triggering the crash in the default case.
+> > > > Doesn't QEMU crash if running:
+> > > > "-cpu qemu64,+intel-pt -machine pc-i440fx-3.1"?
+> > > >
+> > > > KVM rejecting MSR writes when something is missing is correct.
+> > > > QEMU trying to write the MSR when something is missing (and crashin=
+g because of that) is a bug.
+> > >
+> > > Hi Eduardo,
+> > >     Yes, you are right. Intel PT is only set in leaf 0x7.ebx but leaf=
+ 0x14 is lost because of the leaf number still 0xd (should 0x14).
+> > >     May I remove the "off" like this?
+> >=20
+> > We can't.  This is necessary to keep guest ABI compatibility.
+> > Instead, we need to make QEMU not crash if xlevel is too low, because x=
+level can be configured by the user.
+>=20
+> Thanks Eduardo.  But I think it is a little complex for user.
+> User found crash but how does he know it need to configure the
+> xlevel or others?
+> If we want to the old machine type support PT can we add some
+> code to extend the level to 0x14? Or old machine type can't
+> support PT,  mask off this feature from leaf 0x07.ebx[25]
+> directly and output some messages?
 
-On Fri, Oct 4, 2019 at 1:23 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Hi,
->
-> With external processes or helpers participating to the VM support, it
-> becomes necessary to handle their migration. Various options exist to
-> transfer their state:
-> 1) as the VM memory, RAM or devices (we could say that's how
->    vhost-user devices can be handled today, they are expected to
->    restore from ring state)
-> 2) other "vmstate" (as with TPM emulator state blobs)
-> 3) left to be handled by management layer
->
-> 1) is not practical, since an external processes may legitimatelly
-> need arbitrary state date to back a device or a service, or may not
-> even have an associated device.
->
-> 2) needs ad-hoc code for each helper, but is simple and working
->
-> 3) is complicated for management layer, QEMU has the migration timing
->
-> The proposed "dbus-vmstate" object will connect to a given D-Bus
-> address, and save/load from org.qemu.VMState1 owners on migration.
->
-> Thus helpers can easily have their state migrated with QEMU, without
-> implementing ad-hoc support (such as done for TPM emulation)
->
-> D-Bus is ubiquitous on Linux (it is systemd IPC), and can be made to
-> work on various other OSes. There are several implementations and good
-> bindings for various languages.  (the tests/dbus-vmstate-test.c is a
-> good example of how simple the implementation of services can be, even
-> in C)
->
-> dbus-vmstate is put into use by the libvirt series "[PATCH 00/23] Use
-> a slirp helper process".
->
-> v5:
-> - trying to fix patchew/ci: install dbus-daemon in containers, skip
->   test if unavailable
->
-> v4:
-> - add Daniel security scenarios to the D-Bus document
-> - misc doc improvements
-> - add "util: add dbus helper unit" patch, with
->   qemu_dbus_get_queued_owners()
-> - add "configure: add GDBUS_CODEGEN", explaining why gio-unix is
->   required when available
-> - silence the expected failing tests
-> - update copyright headers, MAINTAINERS
-> - add r-b/a-b tags
-> - rebased
->
-> (Note: patchew dbus test fails for unclear reasons, but I can't
-> reproduce locally nor on travis)
->
-> v3:
-> - after various discussions on helper processes, we settled on a
->   preference for having a bus for communications. This version is
->   actually v1 updated.
-> - added a dbus.rst document to describe D-Bus recommendations for QEMU
-> - added dbus-vmstate-daemon.sh to play with the dbus-daemon configuration
->   (although it is not very useful in the context of a single UID)
-> - added a new vmstate interface, so that any object can implement
->   VMStateDescription, and converted dbus-vmstate
-> - added "migration: fix vmdesc leak on vmstate_save() error"
-> - convert to g_auto
->
-> v2:
-> - D-Bus is most common and practical through a bus, but it requires a
->   daemon to be running. I argue that the benefits outweight the cost
->   of running an extra daemon in v1 in the context of multi-process
->   qemu, but it is also possible to connect in p2p mode as done in this
->   new version.
->
-> Marc-Andr=C3=A9 Lureau (8):
->   vmstate: add qom interface to get id
->   vmstate: replace DeviceState with VMStateIf
->   docs: start a document to describe D-Bus usage
->   util: add dbus helper unit
->   Add dbus-vmstate object
->   configure: add GDBUS_CODEGEN
->   dockerfiles: add dbus-daemon to some of latest distributions
->   tests: add dbus-vmstate-test
->
+I agree it's complex for the user, but let's address this
+separately:
 
-ping, any chance to get it merged before freeze?
+the first issue here is the crash: QEMU must not crash if using
+(e.g.) "-cpu ...,+intel-pt,xlevel=3D0x13".  This can't be solved by
+making any machine-type changes.
 
-thanks
+The second issue is usability.  This is hard to fix on old
+machine-types because we must keep guest ABI compatibility.
 
->  MAINTAINERS                              |  12 +
->  backends/Makefile.objs                   |   4 +
->  backends/dbus-vmstate.c                  | 496 +++++++++++++++++++++++
->  configure                                |   7 +
->  docs/interop/dbus-vmstate.rst            |  74 ++++
->  docs/interop/dbus.rst                    | 104 +++++
->  docs/interop/index.rst                   |   2 +
->  hw/block/onenand.c                       |   2 +-
->  hw/core/Makefile.objs                    |   1 +
->  hw/core/qdev.c                           |  21 +-
->  hw/core/vmstate-if.c                     |  23 ++
->  hw/ide/cmd646.c                          |   2 +-
->  hw/ide/isa.c                             |   2 +-
->  hw/ide/piix.c                            |   2 +-
->  hw/ide/via.c                             |   2 +-
->  hw/misc/max111x.c                        |   2 +-
->  hw/net/eepro100.c                        |   4 +-
->  hw/nvram/eeprom93xx.c                    |   4 +-
->  hw/ppc/spapr_drc.c                       |   9 +-
->  hw/ppc/spapr_iommu.c                     |   4 +-
->  hw/s390x/s390-skeys.c                    |   2 +-
->  include/hw/vmstate-if.h                  |  40 ++
->  include/migration/register.h             |   4 +-
->  include/migration/vmstate.h              |  10 +-
->  include/qemu/dbus.h                      |  18 +
->  migration/savevm.c                       |  20 +-
->  stubs/vmstate.c                          |   4 +-
->  tests/Makefile.include                   |  23 +-
->  tests/dbus-vmstate-daemon.sh             |  95 +++++
->  tests/dbus-vmstate-test.c                | 399 ++++++++++++++++++
->  tests/dbus-vmstate1.xml                  |  12 +
->  tests/docker/dockerfiles/centos7.docker  |   1 +
->  tests/docker/dockerfiles/debian10.docker |   1 +
->  tests/docker/dockerfiles/fedora.docker   |   1 +
->  tests/docker/dockerfiles/ubuntu.docker   |   1 +
->  util/Makefile.objs                       |   3 +
->  util/dbus.c                              |  55 +++
->  37 files changed, 1428 insertions(+), 38 deletions(-)
->  create mode 100644 backends/dbus-vmstate.c
->  create mode 100644 docs/interop/dbus-vmstate.rst
->  create mode 100644 docs/interop/dbus.rst
->  create mode 100644 hw/core/vmstate-if.c
->  create mode 100644 include/hw/vmstate-if.h
->  create mode 100644 include/qemu/dbus.h
->  create mode 100755 tests/dbus-vmstate-daemon.sh
->  create mode 100644 tests/dbus-vmstate-test.c
->  create mode 100644 tests/dbus-vmstate1.xml
->  create mode 100644 util/dbus.c
->
-> --
-> 2.23.0
->
->
+In QEMU 3.1 the results of:
+  -machine pc-i440fx-3.1 -cpu qemu64,+intel-pt
+was:
+  CPUID[0].EAX (level) =3D 7
+  CPUID[7].EBX[25] (intel-pt) =3D 1
 
+and we can't change the behavior of pc-i440fx-3.1.
+
+Your suggestion of printing a warning is good, though.  We can do
+that if intel-pt is enabled and level < 0x14.
+
+>=20
+> Luwei Kang
+>=20
+> >=20
+> > >
+> > > --- a/hw/i386/pc.c
+> > > +++ b/hw/i386/pc.c
+> > > @@ -132,7 +132,6 @@ GlobalProperty pc_compat_3_1[] =3D {
+> > >      { "Icelake-Client" "-" TYPE_X86_CPU,      "mpx", "on" },
+> > >      { "Icelake-Server" "-" TYPE_X86_CPU,      "mpx", "on" },
+> > >      { "Cascadelake-Server" "-" TYPE_X86_CPU, "stepping", "5" },
+> > > -    { TYPE_X86_CPU, "x-intel-pt-auto-level", "off" },
+> > >  };
+> > >  const size_t pc_compat_3_1_len =3D G_N_ELEMENTS(pc_compat_3_1);
+> > >
+> > > Thanks,
+> > > Luwei Kang
+> > >
+> > > >
+> > > > --
+> > > > Eduardo
+> > >
+> >=20
+> > --
+> > Eduardo
+>=20
 
 --=20
-Marc-Andr=C3=A9 Lureau
+Eduardo
+
 
