@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F6FE3B52
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:49:37 +0200 (CEST)
-Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC82E3B57
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:52:41 +0200 (CEST)
+Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNiAx-0003XX-Hx
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50588)
+	id 1iNiDw-0003EN-9v
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNhwk-0008BL-NF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:34:55 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNhyC-0002ff-Lq
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:36:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNhwj-0007JR-Io
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:34:54 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:43285)
+ (envelope-from <laurent@vivier.eu>) id 1iNhyA-0007zr-Hd
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:36:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:33809)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNhwf-0007Hj-8s; Thu, 24 Oct 2019 14:34:49 -0400
+ id 1iNhy1-0007tb-JT; Thu, 24 Oct 2019 14:36:13 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N4i3j-1hyRDS1f1D-011kM8; Thu, 24 Oct 2019 20:34:33 +0200
-Subject: Re: [PATCH v2 13/14] hw/rtc/xlnx-zynqmp-rtc: Remove unused "ptimer.h"
- include
+ 1McH1Q-1hrezo0Xvw-00chCU; Thu, 24 Oct 2019 20:35:56 +0200
+Subject: Re: [PATCH v2 14/14] hw/rtc/aspeed_rtc: Remove unused includes
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20191003230404.19384-1-philmd@redhat.com>
- <20191003230404.19384-14-philmd@redhat.com>
+ <20191003230404.19384-15-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,36 +71,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <e16a9575-d233-d201-bb18-117730c025fc@vivier.eu>
-Date: Thu, 24 Oct 2019 20:34:30 +0200
+Message-ID: <a7021845-b79d-3d0d-3ea7-dd71835d7bda@vivier.eu>
+Date: Thu, 24 Oct 2019 20:35:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191003230404.19384-14-philmd@redhat.com>
+In-Reply-To: <20191003230404.19384-15-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vB5GcqS/QWIfvmEbpf9k4g9Ql1jrV5OMsjYIRD/XF3ZXoybbQGt
- pDTwu88ImAcYz1XtE2iSkNk0RMOhbRQTKUsb5pJCuiZKNchbVSiy+7XpCGS871Tsjytxg9q
- fCgboyRhlCKbBNppei9b59rjmEwEqe6w+01PZpDkLX3aRuCL6XD2147qETQWIw7QkhaDwri
- j01Xrzsf3eJBnpcAGOETg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QfZoVryil1c=:wDE8yaAbktyujUArJR97nh
- 2hhqEugZBcE67QcCoy8LZwWVPStPpaB686JeKhkAbgK/aAXodBk+rvtBJG1VRJ1wQoFvemUHU
- gAi7k1MsgOlT71ZwEThiGs8lPeSwBTSFJ6JTpYZeq+srG3v7TfJY8napW05Bty30agLuaBubX
- 1wC9W1IlWDFOgoVzYHnS1W2nLiu8dvG/eh2usrH75bnmYbNQW57NrMOv6olUbaC8/JKj4szRD
- MQ0jPQmtKccIbWM5qL3REs0RZPJ2TGOgdOPJbRPcIKGdXrNHd/GcPsaxlehAmbG5UfCaWVN3z
- vzbF6rv4slml+XVioeTfzvF3ktd9raV1TX6bNXvkbGydBTQrc7m6t+niuEYh5m1DHI5G7c4vX
- XkB87+9Vfieip7T99+G1nruh9/ilNEK6UuPP9TYYfRjyv2OQln2fqf405USVQRWtqooBNAkKL
- WKHdd1EQ+swj+S7nFT0U86VE1MTVc3erCZTrrt/30yqEkA4NQ73pzjL0XWhR9ogdnSaLAZ4xc
- mrAdT3ywHPlH1pmbWEVV3rW2tisXIWaA2/wkHiB7NM+XAnghOOft7IgL+ZQ+uBKq9dpL1+0z0
- XYsVw7vXf9uXWMsM3eOREifjXs8PLIJ2nlc663rAvWWFYUYjgoi3hS3ipyMs8LgJ7fXM1PV0m
- 5AFH+l38jp9Tm+uAhDmYUp5MzAtyTMz63fabgHLQ3w59RVdN1/aHTxWzxN3zCwmJb8dwmcIes
- l+Lwk6YyVtA6Up0UgNdUMW8AYWYgK/VRwdw+bAYZ1x2HTVT30CYz/qrLR1uksgQfjceq9SGg+
- Iqs9y0FdWQ2EHPed93uuYtbf5B0pVzr13NDmqK3Yis1Lyxrkctlqs/zkSVYhtGnjcsGqw1eWe
- gqYiC65CZRplJI6blGlawtxqV5wu3oy5fuyKAiiXE=
+X-Provags-ID: V03:K1:nAH21MJHPh7V8FPM+nfnRQV7aru0J7+sR40bLRVOn9lxeADLszR
+ 46fdNONTaxkFYX+dY8nl2EhvjUy3eHXeKtG2f68GnDHLtNgCI4wGFSnZjaIhq5cfzVdEV3I
+ Wz6BP4OBqRSXW5FSr+i0/pRTNWFxozKlTguD5jJ2uLH1VWyQ6TCsl7LRha6Wp1QHEvcJbPm
+ lLC7V354Kk4OSKD8ZtWqA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zc9iOTM8Aps=:wDdb/DZ1n1Xa7/CPaO4gz/
+ W5dXvv2bUqcvcCMpnxQ+ftvTeRYmaGjv9uA7GG/9Xj/aZZdJ/ZQnoBJ5olj4YD9PLpz/DMSyY
+ dQqNSDhmzkRXrMFO4rtliuI0u1ki/jklf5UZtQqYcQg28B3V2Na4bue98mm93iqTpqeK/xioX
+ qI8sbXz6Nv0fEEG8S2Ycjlj9WbcZmS3WlCdYdv95IuG8duH4d+OWZMHiPg+aj7oZX7q8me8RA
+ elip8MvK00S9S3QOkvi59HMXKE8TIBz3NpxUzuS9wAHKlYl48UYIdSwwjt/E5T5/9wUrEWs2R
+ i/cAkEaFBacv//S/+lvyNHNc6YpFbAS5AivnR9LJWy/vXkEnk55SikIz10QQFWaIHiw7kaGrk
+ eIxJLey7xA3pEGZNfzrgix2xLzpePInW4hzIDpOvimNpbrUNvIbuWoMvX0d2CKWdWaiaRxCgx
+ yHz/S5bmmwFL1PyQ2fVzBEgi7iX9oKJn6V+4aSW3/DWA06f/TxH2hfadH8Z5al2I5zvSBnCgP
+ 3r9kRVZlki69Kvjm1x7RFO/hJc3Fx/ej2S+tTUAq0PAkWrILTLT39mBytZ+8ja1fxRz6rQckZ
+ Hj21WZ1uW0Xc4e8tW2IXmi8MqweLeGrl4ETozmJqsxA+1f+6nZxJWmoM4b8vTqdet5KmOmCuu
+ +TrqCCLWGWWD1e40XLq2rK5SzWRGGqrRGsMCujMo7TL8N/KEVi11QGsH+ofE7gGmFUKwUyj3T
+ xV/xE6AhyoIQIRdr2EAfbY4hSFUKbvZfihyWsOdwALduTBzVD0g4JQ7ZVqXxxHdq6E4nwkn5U
+ v7JR69IiygTMoEDIztdfoc00Xm1UFTAaHDDsFsHgCE3vR7/nng5qQpZ2wUvFNpSbDMgK+uj/W
+ PsRtjLqTkFMsEA0PiGc1MA2XbdO93SwaMT7lcOC18=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,26 +133,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 04/10/2019 à 01:04, Philippe Mathieu-Daudé a écrit :
-> The "hw/ptimer.h" header is not used, remove it.
+> The system <stdint.h> include is already provided by "osdep.h"
+> (the scripts/clean-includes file clean such headers).
 > 
+> Commit 64552b6be47 suggests we don't need to include "hw/irq.h":
+> 
+>     Move the qemu_irq and qemu_irq_handler typedefs from hw/irq.h to
+>     qemu/typedefs.h, and then include hw/irq.h only where it's still
+>     needed.
+> 
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
 > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/rtc/xlnx-zynqmp-rtc.c | 1 -
->  1 file changed, 1 deletion(-)
+>  include/hw/rtc/aspeed_rtc.h | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
-> diff --git a/hw/rtc/xlnx-zynqmp-rtc.c b/hw/rtc/xlnx-zynqmp-rtc.c
-> index f9f09b7296..2bcd14d779 100644
-> --- a/hw/rtc/xlnx-zynqmp-rtc.c
-> +++ b/hw/rtc/xlnx-zynqmp-rtc.c
-> @@ -32,7 +32,6 @@
->  #include "qemu/log.h"
->  #include "qemu/module.h"
->  #include "hw/irq.h"
-> -#include "hw/ptimer.h"
->  #include "qemu/cutils.h"
->  #include "sysemu/sysemu.h"
->  #include "trace.h"
+> diff --git a/include/hw/rtc/aspeed_rtc.h b/include/hw/rtc/aspeed_rtc.h
+> index 3fde854ad9..b94a710268 100644
+> --- a/include/hw/rtc/aspeed_rtc.h
+> +++ b/include/hw/rtc/aspeed_rtc.h
+> @@ -8,9 +8,6 @@
+>  #ifndef HW_RTC_ASPEED_RTC_H
+>  #define HW_RTC_ASPEED_RTC_H
+>  
+> -#include <stdint.h>
+> -
+> -#include "hw/irq.h"
+>  #include "hw/sysbus.h"
+>  
+>  typedef struct AspeedRtcState {
 > 
 
 Applied to my trivial-patches branch.
