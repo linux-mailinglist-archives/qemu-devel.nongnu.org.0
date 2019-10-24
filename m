@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B496BE2BF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:21:11 +0200 (CEST)
-Received: from localhost ([::1]:34848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AFDE2BF9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 10:21:14 +0200 (CEST)
+Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNYMo-0007SC-FI
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
+	id 1iNYMq-0007My-PB
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 04:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKQ-0004bu-Bv
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKQ-0004b7-8p
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNYKO-0004yO-Ty
+ (envelope-from <dgibson@ozlabs.org>) id 1iNYKO-0004yQ-Tl
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 04:18:42 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41657 helo=ozlabs.org)
+Received: from ozlabs.org ([2401:3900:2:1::2]:59063)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNYKN-0004rB-TN; Thu, 24 Oct 2019 04:18:40 -0400
+ id 1iNYKO-0004rP-Gx; Thu, 24 Oct 2019 04:18:40 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zKrX210Xz9sPp; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
+ id 46zKrX2xX5z9sPc; Thu, 24 Oct 2019 19:18:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571905116;
- bh=1dcj9qWyGSbcbWlw7ODIxYp/AEUQEevIp7s0MAn7vy8=;
- h=From:To:Cc:Subject:Date:From;
- b=IlIgPLZJWDwiAjphd9VhMT5r4rujtYU+mXtEtp6uw5VxoFdldP4Btv77ykoojUuZt
- UYqH+OpXXWIvp7c0cyJ2X41IpXkslBtednnr5svEqNeF7C1vKQbWmXd+I/zrvSoEmG
- WS/EvhhrpUCRgMMHW461q9+1Or8kUhEVGIubO9G8=
+ bh=5KV84r29nIJXr/A9Jl+oWqntFxHPYStDWAbStjFb6C0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=pOIo6nL/g0cs7ZmGtQyiVU+Xwptba5ORRELo0HylMxOJfHIlyM0NGu3E/5XmLd9Zs
+ B6riZ8E/jZ8RC2HkJPL7s7MrJfWtZ4z+/NdFX3LkBWPAY88qyz2XDxnPfvcy/AVoCk
+ 8LshCdkzJzY+USm1i9YBjvUJUAz+MLNGx8pXqTc8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/28] ppc-for-4.2 queue 20191024
-Date: Thu, 24 Oct 2019 19:17:45 +1100
-Message-Id: <20191024081813.2115-1-david@gibson.dropbear.id.au>
+Subject: [PULL 01/28] xive: Make some device types not user creatable
+Date: Thu, 24 Oct 2019 19:17:46 +1100
+Message-Id: <20191024081813.2115-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191024081813.2115-1-david@gibson.dropbear.id.au>
+References: <20191024081813.2115-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -57,108 +59,86 @@ Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f78398bfe544db81a974825b0a2aa826f65764=
-14:
+From: Greg Kurz <groug@kaod.org>
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2019-10-22' i=
-nto staging (2019-10-23 16:06:13 +0100)
+Some device types of the XIVE model are exposed to the QEMU command
+line:
 
-are available in the Git repository at:
+$ ppc64-softmmu/qemu-system-ppc64 -device help | grep xive
+name "xive-end-source", desc "XIVE END Source"
+name "xive-source", desc "XIVE Interrupt Source"
+name "xive-tctx", desc "XIVE Interrupt Thread Context"
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191024
+These are internal devices that shouldn't be instantiable by the
+user. By the way, they can't be because their respective realize
+functions expect link properties that can't be set from the command
+line:
 
-for you to fetch changes up to 97c00c54449b4ff349f85c6ce409dadd1b935a7d:
+qemu-system-ppc64: -device xive-source: required link 'xive' not found:
+ Property '.xive' not found
+qemu-system-ppc64: -device xive-end-source: required link 'xive' not foun=
+d:
+ Property '.xive' not found
+qemu-system-ppc64: -device xive-tctx: required link 'cpu' not found:
+ Property '.cpu' not found
 
-  spapr/xive: Set the OS CAM line at reset (2019-10-24 13:34:15 +1100)
+Hide them by setting dc->user_creatable to false in their respective
+class init functions.
 
-----------------------------------------------------------------
-ppc patch queue 2019-10-24
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <157017473006.331610.2983143972519884544.stgit@bahia.lan>
+Message-Id: <157045578401.865784.6058183726552779559.stgit@bahia.lan>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+[dwg: Folded comment update into base patch]
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/intc/xive.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Last pull request before soft freeze.
-  * Lots of fixes and cleanups for spapr interrupt controllers
-  * More SLOF updates to fix problems with full FDT rendering at CAS
-    time (alas, more yet are to come)
-  * A few other assorted changes
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 29df06df11..453d389848 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -670,6 +670,11 @@ static void xive_tctx_class_init(ObjectClass *klass,=
+ void *data)
+     dc->realize =3D xive_tctx_realize;
+     dc->unrealize =3D xive_tctx_unrealize;
+     dc->vmsd =3D &vmstate_xive_tctx;
++    /*
++     * Reason: part of XIVE interrupt controller, needs to be wired up
++     * by xive_tctx_create().
++     */
++    dc->user_creatable =3D false;
+ }
+=20
+ static const TypeInfo xive_tctx_info =3D {
+@@ -1118,6 +1123,11 @@ static void xive_source_class_init(ObjectClass *kl=
+ass, void *data)
+     dc->props   =3D xive_source_properties;
+     dc->realize =3D xive_source_realize;
+     dc->vmsd    =3D &vmstate_xive_source;
++    /*
++     * Reason: part of XIVE interrupt controller, needs to be wired up,
++     * e.g. by spapr_xive_instance_init().
++     */
++    dc->user_creatable =3D false;
+ }
+=20
+ static const TypeInfo xive_source_info =3D {
+@@ -1853,6 +1863,11 @@ static void xive_end_source_class_init(ObjectClass=
+ *klass, void *data)
+     dc->desc    =3D "XIVE END Source";
+     dc->props   =3D xive_end_source_properties;
+     dc->realize =3D xive_end_source_realize;
++    /*
++     * Reason: part of XIVE interrupt controller, needs to be wired up,
++     * e.g. by spapr_xive_instance_init().
++     */
++    dc->user_creatable =3D false;
+ }
+=20
+ static const TypeInfo xive_end_source_info =3D {
+--=20
+2.21.0
 
-This isn't quite as well tested as I usually try to do before a pull
-request.  But I've been sick and running into some other difficulties,
-and wanted to get this sent out before heading towards KVM forum.
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
-
-C=C3=A9dric Le Goater (8):
-      ppc/pnv: Improve trigger data definition
-      ppc/pnv: Use address_space_stq_be() when triggering an interrupt fr=
-om PSI
-      spapr: move CPU reset after presenter creation
-      ppc/pnv: Introduce a PnvCore reset handler
-      ppc/pnv: Add a PnvChip pointer to PnvCore
-      ppc: Reset the interrupt presenter from the CPU reset handler
-      ppc/pnv: Fix naming of routines realizing the CPUs
-      spapr/xive: Set the OS CAM line at reset
-
-David Gibson (13):
-      spapr, xics, xive: Introduce SpaprInterruptController QOM interface
-      spapr, xics, xive: Move cpu_intc_create from SpaprIrq to SpaprInter=
-ruptController
-      spapr, xics, xive: Move irq claim and free from SpaprIrq to SpaprIn=
-terruptController
-      spapr: Formalize notion of active interrupt controller
-      spapr, xics, xive: Move set_irq from SpaprIrq to SpaprInterruptCont=
-roller
-      spapr, xics, xive: Move print_info from SpaprIrq to SpaprInterruptC=
-ontroller
-      spapr, xics, xive: Move dt_populate from SpaprIrq to SpaprInterrupt=
-Controller
-      spapr, xics, xive: Match signatures for XICS and XIVE KVM connect r=
-outines
-      spapr: Remove SpaprIrq::init_kvm hook
-      spapr, xics, xive: Move SpaprIrq::reset hook logic into activate/de=
-activate
-      spapr, xics, xive: Move SpaprIrq::post_load hook to backends
-      spapr: Remove SpaprIrq::nr_msis
-      spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass
-
-Greg Kurz (5):
-      xive: Make some device types not user creatable
-      xics: Make some device types not user creatable
-      spapr: Set VSMT to smp_threads by default
-      spapr: Don't request to unplug the same core twice
-      spapr_cpu_core: Implement DeviceClass::reset
-
-Stefan Brankovic (1):
-      target/ppc: Fix for optimized vsl/vsr instructions
-
- hw/intc/pnv_xive.c                  |  20 +-
- hw/intc/spapr_xive.c                | 324 ++++++++++++-------
- hw/intc/spapr_xive_kvm.c            |  22 +-
- hw/intc/xics.c                      |  18 +-
- hw/intc/xics_kvm.c                  |   9 +-
- hw/intc/xics_spapr.c                | 117 ++++++-
- hw/intc/xive.c                      |  31 +-
- hw/ppc/pnv.c                        |  18 ++
- hw/ppc/pnv_core.c                   |  31 +-
- hw/ppc/pnv_psi.c                    |  15 +-
- hw/ppc/spapr.c                      |  26 +-
- hw/ppc/spapr_cpu_core.c             |  47 ++-
- hw/ppc/spapr_irq.c                  | 611 +++++++++++++-----------------=
-------
- hw/ppc/spapr_pci.c                  |   7 +-
- include/hw/pci-host/spapr.h         |   4 +-
- include/hw/ppc/pnv.h                |   1 +
- include/hw/ppc/pnv_core.h           |   3 +
- include/hw/ppc/spapr.h              |   7 +-
- include/hw/ppc/spapr_irq.h          |  64 +++-
- include/hw/ppc/spapr_xive.h         |  10 +-
- include/hw/ppc/xics.h               |   1 +
- include/hw/ppc/xics_spapr.h         |   6 +-
- include/hw/ppc/xive.h               |   1 +
- include/hw/ppc/xive_regs.h          |  26 +-
- pc-bios/README                      |   2 +-
- pc-bios/slof.bin                    | Bin 930640 -> 928552 bytes
- roms/SLOF                           |   2 +-
- target/ppc/translate/vmx-impl.inc.c |  84 +++--
- 28 files changed, 840 insertions(+), 667 deletions(-)
 
