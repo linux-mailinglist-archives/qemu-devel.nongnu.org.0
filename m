@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D0DE3A55
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:47:11 +0200 (CEST)
-Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F452E3A4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 19:44:51 +0200 (CEST)
+Received: from localhost ([::1]:49212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNhCX-0005Cr-6Q
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60956)
+	id 1iNhAH-0001y8-44
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 13:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <atar4qemu@gmail.com>) id 1iNgBM-0007lX-2y
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:41:53 -0400
+ (envelope-from <groug@kaod.org>) id 1iNgI0-0003gy-IA
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:48:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <atar4qemu@gmail.com>) id 1iNgBK-0006G5-BB
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:41:51 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:44906)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <atar4qemu@gmail.com>)
- id 1iNgBK-0006G1-6U; Thu, 24 Oct 2019 12:41:50 -0400
-Received: by mail-il1-x143.google.com with SMTP id f13so22993137ils.11;
- Thu, 24 Oct 2019 09:41:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hiXL+/soybWGri/7EPs9zL/lpCAg9l5tF8Rc0DYMON4=;
- b=eJCZ3r2AzuVDtK5IoUajpkUvWoHciQCIB/3rDD/hxj8mXqNKryjbbiZSK8rnYOZ5Lm
- oK7CVUUDFW9IGb3ROLoeNalhDQ7AwuY8A7HkxxaTglp2Rf9SrhjMS4whtrEGIVPuxbN1
- Oct1n2jyVW+FzjO9bR6bry2UpbauMck0la/Kcw2AB5CC9j1qHpsdBEyi2up9TqxibqUE
- /XFVGQ+nW85wJRZQQOOuijSzedU/gdb9tn4u1iJRXJz2jTE0aj8nsVPAD8OfvTzWBb3T
- V6nSMnCazkMZ74EFo98cugOTrOAO0/xMlA2cyo1X2IJmD5uV+bKuQZ4Mgc6CZe4q6n3u
- mXpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hiXL+/soybWGri/7EPs9zL/lpCAg9l5tF8Rc0DYMON4=;
- b=PS33VAgNQT8KDdSz8F92n/8gfk0freIjYzxlG7JTFe0ACWv2G4SSfc+oZVXy/yrf9Y
- h2Uh0tuyFB42mnnnwqbj1eRoMc4AGwiAeZo/CFQhY1zyHWIDcUKEIf4F9XaL+8V31uax
- 9fB7JQ+UqgS+48lonxyS8Q4PNkzlZ1SYjd7Ag8aD8YvyqvW4KZ3z8spG9QmjPD1vkXbd
- 6Vlw+yJqZtj2tq5ByW4mgH22ofy90984aVNKVZBggyV9wjAVGcPbmlzZkS30btdPRCM9
- dXQLxyzkwaq//DHU+WSDqi6qWkiBbQOPwNTuqG//KDww88Zms2cPnXv2A5LMeTSgkz27
- tV5Q==
-X-Gm-Message-State: APjAAAUKLJmBKfJsBEUvpTI+gox8nD3yyzwRUXOtpS3vc1mh4Hk5x7ba
- 76FS14dYuL+juu6eHuHCiKTThRDixBlSsrgJog4=
-X-Google-Smtp-Source: APXvYqxqRHZiQkjVU1sR2xZTP6b6UR8Msgn9UOXGLe1U43COY4fq7PVnsUY2yJ5J4jrd/OeGvBahJzf0p9z/tPVXFbA=
-X-Received: by 2002:a92:1907:: with SMTP id 7mr32472402ilz.72.1571935309302;
- Thu, 24 Oct 2019 09:41:49 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1iNgHy-0000rh-PU
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:48:44 -0400
+Received: from 9.mo1.mail-out.ovh.net ([178.32.108.172]:59576)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iNgHy-0000qW-Jo
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:48:42 -0400
+Received: from player687.ha.ovh.net (unknown [10.109.159.222])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 2A2B919595A
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 18:48:32 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player687.ha.ovh.net (Postfix) with ESMTPSA id 67ECCB55B014;
+ Thu, 24 Oct 2019 16:48:24 +0000 (UTC)
+Date: Thu, 24 Oct 2019 18:48:23 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
+Message-ID: <20191024184823.522c02e6@bahia.lan>
+In-Reply-To: <ed3b2931-7836-058d-6b93-d35eed3ff859@kaod.org>
+References: <20191022163812.330-1-clg@kaod.org>
+ <20191022163812.330-5-clg@kaod.org>
+ <20191024023812.GO6439@umbus.fritz.box>
+ <ed3b2931-7836-058d-6b93-d35eed3ff859@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20191003230404.19384-1-philmd@redhat.com>
- <20191003230404.19384-7-philmd@redhat.com>
- <b1131c3d-d421-6130-b113-faa5e19c42a8@redhat.com>
-In-Reply-To: <b1131c3d-d421-6130-b113-faa5e19c42a8@redhat.com>
-From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Thu, 24 Oct 2019 18:41:37 +0200
-Message-ID: <CACXAS8AF=SBvXnvUtLKo2Q+=79fMWctwJhevYez2paOGJxY=4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 06/14] hw: Move sun4v hypervisor RTC from hw/timer/ to
- hw/rtc/ subdirectory
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::143
+X-Ovh-Tracer-Id: 15411036452350368139
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrledugddutdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 178.32.108.172
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,232 +59,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:ARM" <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Andrew Jeffery <andrew@aj.id.au>, qemu-trivial@nongnu.org,
- "open list:PReP" <qemu-ppc@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 24, 2019 at 4:10 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Hi Artyom,
->
-> Do you mind Acking this patch?
+On Thu, 24 Oct 2019 11:57:05 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Sorry for the late reply:
+> On 24/10/2019 04:38, David Gibson wrote:
+> > On Tue, Oct 22, 2019 at 06:38:09PM +0200, C=C3=A9dric Le Goater wrote:
+> >> We will use it to reset the interrupt presenter from the CPU reset
+> >> handler.
+> >>
+> >> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> >> Reviewed-by: Greg Kurz <groug@kaod.org>
+> >> ---
+> >>  include/hw/ppc/pnv_core.h | 3 +++
+> >>  hw/ppc/pnv_core.c         | 3 ++-
+> >>  2 files changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+> >> index bfbd2ec42aa6..55eee95104da 100644
+> >> --- a/include/hw/ppc/pnv_core.h
+> >> +++ b/include/hw/ppc/pnv_core.h
+> >> @@ -31,6 +31,8 @@
+> >>  #define PNV_CORE_GET_CLASS(obj) \
+> >>       OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
+> >> =20
+> >> +typedef struct PnvChip PnvChip;
+> >> +
+> >>  typedef struct PnvCore {
+> >>      /*< private >*/
+> >>      CPUCore parent_obj;
+> >> @@ -38,6 +40,7 @@ typedef struct PnvCore {
+> >>      /*< public >*/
+> >>      PowerPCCPU **threads;
+> >>      uint32_t pir;
+> >> +    PnvChip *chip;
+> >=20
+> > I don't love having this as a redundant encoding of the information
+> > already in the property, since it raises the possibility of confusing
+> > bugs if they ever got out of sync.
+>=20
+> Indeed.
+>=20
+> > It's not a huge deal, but it would be nice to at least to at least
+> > consider either a) grabbing the property everywhere you need it (if
+> > there aren't too many places)=20
+>=20
+> We need the chip at core creation and core reset to call the=20
+> interrupt chip handlers. These are not hot path but the pointer
+> seemed practical.
+>=20
 
-Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
+FWIW this is also used at core destruction in this patch:
 
->
-> On 10/4/19 1:03 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Move RTC devices under the hw/rtc/ subdirectory.
-> >
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >   MAINTAINERS                   |  4 ++--
-> >   hw/rtc/Kconfig                |  3 +++
-> >   hw/rtc/Makefile.objs          |  1 +
-> >   hw/{timer =3D> rtc}/sun4v-rtc.c |  2 +-
-> >   hw/rtc/trace-events           |  4 ++++
-> >   hw/sparc64/niagara.c          |  2 +-
-> >   hw/timer/Kconfig              |  3 ---
-> >   hw/timer/Makefile.objs        |  1 -
-> >   hw/timer/trace-events         |  4 ----
-> >   include/hw/rtc/sun4v-rtc.h    | 19 +++++++++++++++++++
-> >   include/hw/timer/sun4v-rtc.h  |  1 -
-> >   11 files changed, 31 insertions(+), 13 deletions(-)
-> >   rename hw/{timer =3D> rtc}/sun4v-rtc.c (98%)
-> >   create mode 100644 include/hw/rtc/sun4v-rtc.h
-> >   delete mode 100644 include/hw/timer/sun4v-rtc.h
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 0dfaa05d17..31e4fbf579 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1165,8 +1165,8 @@ Sun4v
-> >   M: Artyom Tarasenko <atar4qemu@gmail.com>
-> >   S: Maintained
-> >   F: hw/sparc64/niagara.c
-> > -F: hw/timer/sun4v-rtc.c
-> > -F: include/hw/timer/sun4v-rtc.h
-> > +F: hw/rtc/sun4v-rtc.c
-> > +F: include/hw/rtc/sun4v-rtc.h
-> >
-> >   Leon3
-> >   M: Fabien Chouteau <chouteau@adacore.com>
-> > diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-> > index 434b20b2b1..cc7fead764 100644
-> > --- a/hw/rtc/Kconfig
-> > +++ b/hw/rtc/Kconfig
-> > @@ -10,3 +10,6 @@ config PL031
-> >
-> >   config MC146818RTC
-> >       bool
-> > +
-> > +config SUN4V_RTC
-> > +    bool
-> > diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-> > index 89e8e48c64..4621b37bc2 100644
-> > --- a/hw/rtc/Makefile.objs
-> > +++ b/hw/rtc/Makefile.objs
-> > @@ -5,3 +5,4 @@ common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
-> >   endif
-> >   common-obj-$(CONFIG_PL031) +=3D pl031.o
-> >   obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
-> > +common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
-> > diff --git a/hw/timer/sun4v-rtc.c b/hw/rtc/sun4v-rtc.c
-> > similarity index 98%
-> > rename from hw/timer/sun4v-rtc.c
-> > rename to hw/rtc/sun4v-rtc.c
-> > index 54272a822f..ada01b5774 100644
-> > --- a/hw/timer/sun4v-rtc.c
-> > +++ b/hw/rtc/sun4v-rtc.c
-> > @@ -13,7 +13,7 @@
-> >   #include "hw/sysbus.h"
-> >   #include "qemu/module.h"
-> >   #include "qemu/timer.h"
-> > -#include "hw/timer/sun4v-rtc.h"
-> > +#include "hw/rtc/sun4v-rtc.h"
-> >   #include "trace.h"
-> >
-> >
-> > diff --git a/hw/rtc/trace-events b/hw/rtc/trace-events
-> > index 54c94ac557..ac9e0e0fba 100644
-> > --- a/hw/rtc/trace-events
-> > +++ b/hw/rtc/trace-events
-> > @@ -1,5 +1,9 @@
-> >   # See docs/devel/tracing.txt for syntax documentation.
-> >
-> > +# sun4v-rtc.c
-> > +sun4v_rtc_read(uint64_t addr, uint64_t value) "read: addr 0x%" PRIx64 =
-" value 0x%" PRIx64
-> > +sun4v_rtc_write(uint64_t addr, uint64_t value) "write: addr 0x%" PRIx6=
-4 " value 0x%" PRIx64
-> > +
-> >   # pl031.c
-> >   pl031_irq_state(int level) "irq state %d"
-> >   pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
-> > diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
-> > index 167143bffe..dfa0817eae 100644
-> > --- a/hw/sparc64/niagara.c
-> > +++ b/hw/sparc64/niagara.c
-> > @@ -30,7 +30,7 @@
-> >   #include "hw/misc/unimp.h"
-> >   #include "hw/loader.h"
-> >   #include "hw/sparc/sparc64.h"
-> > -#include "hw/timer/sun4v-rtc.h"
-> > +#include "hw/rtc/sun4v-rtc.h"
-> >   #include "exec/address-spaces.h"
-> >   #include "sysemu/block-backend.h"
-> >   #include "qemu/error-report.h"
-> > diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-> > index a6b668b255..b04c928136 100644
-> > --- a/hw/timer/Kconfig
-> > +++ b/hw/timer/Kconfig
-> > @@ -35,9 +35,6 @@ config ALLWINNER_A10_PIT
-> >   config STM32F2XX_TIMER
-> >       bool
-> >
-> > -config SUN4V_RTC
-> > -    bool
-> > -
-> >   config CMSDK_APB_TIMER
-> >       bool
-> >       select PTIMER
-> > diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-> > index 2fb12162a6..034bd30255 100644
-> > --- a/hw/timer/Makefile.objs
-> > +++ b/hw/timer/Makefile.objs
-> > @@ -35,7 +35,6 @@ common-obj-$(CONFIG_ALLWINNER_A10_PIT) +=3D allwinner=
--a10-pit.o
-> >   common-obj-$(CONFIG_STM32F2XX_TIMER) +=3D stm32f2xx_timer.o
-> >   common-obj-$(CONFIG_ASPEED_SOC) +=3D aspeed_timer.o aspeed_rtc.o
-> >
-> > -common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
-> >   common-obj-$(CONFIG_CMSDK_APB_TIMER) +=3D cmsdk-apb-timer.o
-> >   common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) +=3D cmsdk-apb-dualtimer.o
-> >   common-obj-$(CONFIG_MSF2) +=3D mss-timer.o
-> > diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-> > index 6936fe8573..ce34b967db 100644
-> > --- a/hw/timer/trace-events
-> > +++ b/hw/timer/trace-events
-> > @@ -70,10 +70,6 @@ cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer=
-: reset"
-> >   aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " =
-value 0x%08" PRIx64
-> >   aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 "=
- value 0x%08" PRIx64
-> >
-> > -# sun4v-rtc.c
-> > -sun4v_rtc_read(uint64_t addr, uint64_t value) "read: addr 0x%" PRIx64 =
-" value 0x%" PRIx64
-> > -sun4v_rtc_write(uint64_t addr, uint64_t value) "write: addr 0x%" PRIx6=
-4 " value 0x%" PRIx64
-> > -
-> >   # xlnx-zynqmp-rtc.c
-> >   xlnx_zynqmp_rtc_gettime(int year, int month, int day, int hour, int m=
-in, int sec) "Get time from host: %d-%d-%d %2d:%02d:%02d"
-> >
-> > diff --git a/include/hw/rtc/sun4v-rtc.h b/include/hw/rtc/sun4v-rtc.h
-> > new file mode 100644
-> > index 0000000000..fd868f6ed2
-> > --- /dev/null
-> > +++ b/include/hw/rtc/sun4v-rtc.h
-> > @@ -0,0 +1,19 @@
-> > +/*
-> > + * QEMU sun4v Real Time Clock device
-> > + *
-> > + * The sun4v_rtc device (sun4v tod clock)
-> > + *
-> > + * Copyright (c) 2016 Artyom Tarasenko
-> > + *
-> > + * This code is licensed under the GNU GPL v3 or (at your option) any =
-later
-> > + * version.
-> > + */
-> > +
-> > +#ifndef HW_RTC_SUN4V
-> > +#define HW_RTC_SUN4V
-> > +
-> > +#include "exec/hwaddr.h"
-> > +
-> > +void sun4v_rtc_init(hwaddr addr);
-> > +
-> > +#endif
-> > diff --git a/include/hw/timer/sun4v-rtc.h b/include/hw/timer/sun4v-rtc.=
-h
-> > deleted file mode 100644
-> > index 407278f918..0000000000
-> > --- a/include/hw/timer/sun4v-rtc.h
-> > +++ /dev/null
-> > @@ -1 +0,0 @@
-> > -void sun4v_rtc_init(hwaddr addr);
-> >
+[1/3] ppc: Add intc_destroy() handlers to SpaprInterruptController/PnvChip
+https://patchwork.ozlabs.org/patch/1183158/
 
+> > or b) customizing the property
+> > definition so it's written directly into that field.
+>=20
+> OK. That is better than just a link.
+>=20
 
+I think David is suggesting to use object_property_add_link()
+instead of object_property_add_const_link() actually. Something
+like that:
 
---=20
-Regards,
-Artyom Tarasenko
+diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+index 55eee95104da..fce6d8d9b31b 100644
+--- a/include/hw/ppc/pnv_core.h
++++ b/include/hw/ppc/pnv_core.h
+@@ -36,11 +36,11 @@ typedef struct PnvChip PnvChip;
+ typedef struct PnvCore {
+     /*< private >*/
+     CPUCore parent_obj;
++    PnvChip *chip;
+=20
+     /*< public >*/
+     PowerPCCPU **threads;
+     uint32_t pir;
+-    PnvChip *chip;
+=20
+     MemoryRegion xscom_regs;
+ } PnvCore;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 68cc3c81aa75..90449d33e422 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1312,8 +1312,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Erro=
+r **errp)
+         object_property_set_int(OBJECT(pnv_core),
+                                 pcc->core_pir(chip, core_hwid),
+                                 "pir", &error_fatal);
+-        object_property_add_const_link(OBJECT(pnv_core), "chip",
+-                                       OBJECT(chip), &error_fatal);
++        object_property_set_link(OBJECT(pnv_core), OBJECT(chip), "chip",
++                                 &error_abort);
+         object_property_set_bool(OBJECT(pnv_core), true, "realized",
+                                  &error_fatal);
+=20
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 61b3d3ce2250..8562a9961845 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -217,15 +217,6 @@ static void pnv_core_realize(DeviceState *dev, Error *=
+*errp)
+     void *obj;
+     int i, j;
+     char name[32];
+-    Object *chip;
+-
+-    chip =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
+-    if (!chip) {
+-        error_propagate_prepend(errp, local_err,
+-                                "required link 'chip' not found: ");
+-        return;
+-    }
+-    pc->chip =3D PNV_CHIP(chip);
+=20
+     pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
+     for (i =3D 0; i < cc->nr_threads; i++) {
+@@ -323,6 +314,14 @@ static void pnv_core_class_init(ObjectClass *oc, void =
+*data)
+     dc->props =3D pnv_core_properties;
+ }
+=20
++static void pnv_core_instance_init(Object *obj)
++{
++    object_property_add_link(obj, "chip", TYPE_PNV_CHIP,
++                             (Object **) &PNV_CORE(obj)->chip,
++                             qdev_prop_allow_set_link_before_realize,
++                             0, &error_abort);
++}
++
+ #define DEFINE_PNV_CORE_TYPE(family, cpu_model) \
+     {                                           \
+         .parent =3D TYPE_PNV_CORE,                \
+@@ -335,6 +334,7 @@ static const TypeInfo pnv_core_infos[] =3D {
+         .name           =3D TYPE_PNV_CORE,
+         .parent         =3D TYPE_CPU_CORE,
+         .instance_size  =3D sizeof(PnvCore),
++        .instance_init  =3D pnv_core_instance_init,
+         .class_size     =3D sizeof(PnvCoreClass),
+         .class_init =3D pnv_core_class_init,
+         .abstract       =3D true,
+----
 
-SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/q=
-emu
+> C.=20
+>=20
+> >=20
+> >> =20
+> >>      MemoryRegion xscom_regs;
+> >>  } PnvCore;
+> >> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+> >> index 9f981a4940e6..cc17bbfed829 100644
+> >> --- a/hw/ppc/pnv_core.c
+> >> +++ b/hw/ppc/pnv_core.c
+> >> @@ -222,6 +222,7 @@ static void pnv_core_realize(DeviceState *dev, Err=
+or **errp)
+> >>                                  "required link 'chip' not found: ");
+> >>          return;
+> >>      }
+> >> +    pc->chip =3D PNV_CHIP(chip);
+> >> =20
+> >>      pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
+> >>      for (i =3D 0; i < cc->nr_threads; i++) {
+> >> @@ -243,7 +244,7 @@ static void pnv_core_realize(DeviceState *dev, Err=
+or **errp)
+> >>      }
+> >> =20
+> >>      for (j =3D 0; j < cc->nr_threads; j++) {
+> >> -        pnv_realize_vcpu(pc->threads[j], PNV_CHIP(chip), &local_err);
+> >> +        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
+> >>          if (local_err) {
+> >>              goto err;
+> >>          }
+> >=20
+>=20
+
 
