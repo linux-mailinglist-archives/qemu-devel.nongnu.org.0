@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E816E3336
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:58:43 +0200 (CEST)
-Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66AAE3325
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:55:48 +0200 (CEST)
+Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNchN-0000Rg-SD
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47624)
+	id 1iNceZ-0004Ky-3H
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:55:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNcKd-0003g0-6p
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:12 -0400
+ (envelope-from <armbru@redhat.com>) id 1iNcKc-0003by-2f
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNcKb-00062h-ID
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:10 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51200
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKb-00062I-Di
+ (envelope-from <armbru@redhat.com>) id 1iNcKa-00061k-AQ
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23226
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNcKa-00061S-6K
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:35:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571920508;
+ s=mimecast20190719; t=1571920507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hmKmwiIl0XnTJvtIV2JlOi+M6+bPyXoNP5yMw43orPk=;
- b=dHFqzvS1FnupA9DpbVGEIphPG8v6D7MVs56NBDE+bjTeabdcbKyp3YR7qmsb4v5PBzN58J
- JqiJM5BMAGCplO3h2XRW1t85XRwjQK7CS7+0qjzeAtCXHWyfcUjaG6wJICL25YHC7bqXMn
- 580z6TkgQ0AMDGGnYR4nlzxtf4sBJRc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SemqXsPAY1Vd+OZb+KKA+UPO0kVAOEgdOZElEzsIGkA=;
+ b=IMBfwlSe6wifF3+WSN5m+ikGITDZZCdCif/euiGK0NUnK5tQdRbvCqvvQQUAswxYWnXrL+
+ ov1HAphaJqHmiYtkIxOIpPPfCBeJTXPFfruP/hGKmtXbct7iIlA8wOe7xyyiX627NcJ8pA
+ U2JMURN7ATaz6M8JaTHb+45JFeIrJpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-JHZ6giRqPqSFuzukaj2f8A-1; Thu, 24 Oct 2019 08:35:04 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-270-pCLIiQjgN3qmY0WmrV0Wjw-1; Thu, 24 Oct 2019 08:35:05 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BB661800D6B;
- Thu, 24 Oct 2019 12:35:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC629107AD33;
+ Thu, 24 Oct 2019 12:35:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0B61001B3F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B28B5D9CA;
  Thu, 24 Oct 2019 12:35:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EFDD91138619; Thu, 24 Oct 2019 14:34:58 +0200 (CEST)
+ id 00DB31133034; Thu, 24 Oct 2019 14:34:58 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/19] Configurable policy for handling deprecated
- interfaces
-Date: Thu, 24 Oct 2019 14:34:39 +0200
-Message-Id: <20191024123458.13505-1-armbru@redhat.com>
+Subject: [RFC PATCH 02/19] tests/test-qmp-cmds: Check responses more thoroughly
+Date: Thu, 24 Oct 2019 14:34:41 +0200
+Message-Id: <20191024123458.13505-3-armbru@redhat.com>
+In-Reply-To: <20191024123458.13505-1-armbru@redhat.com>
+References: <20191024123458.13505-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: JHZ6giRqPqSFuzukaj2f8A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: pCLIiQjgN3qmY0WmrV0Wjw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,93 +76,80 @@ Cc: libvir-list@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series is RFC because it's incomplete, and the warning idea in
-PATCH 18 is half-baked.  I'm soliciting feed back from the management
-application crowd: is this going into a useful direction?
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ tests/test-qmp-cmds.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-The series adresses only deprecated commands and events.  Good enough
-to demonstrate the ideas, I think.  A complete solution should
-additionally cover arguments and return values.  Feels feasible to me.
-
-New option -compat deprecated-input=3D<in-policy>,deprecated-output=3Dout-p=
-olicy
-configures the policy.  Available input policies:
-
-* accept: Accept deprecated commands with a warning (default)
-* reject: Reject deprecated commands
-* crash: Crash on deprecated command
-
-Available output policies:
-
-* accept: Emit deprecated events (default)
-* hide: Suppress deprecated events
-
-See also last item of
-    Subject: Minutes of KVM Forum BoF on deprecating stuff
-    Date: Fri, 26 Oct 2018 16:03:51 +0200
-    Message-ID: <87mur0ls8o.fsf@dusky.pond.sub.org>
-    https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg05828.html
-
-
-Markus Armbruster (19):
-  tests/test-qmp-cmds: Factor out qmp_dispatch() test helpers
-  tests/test-qmp-cmds: Check responses more thoroughly
-  tests/test-qmp-cmds: Simplify test data setup
-  tests/test-qmp-event: Simplify test data setup
-  tests/test-qmp-event: Use qobject_is_equal()
-  tests/test-qmp-event: Check event is actually emitted
-  qapi: Add feature flags to remaining definitions
-  qapi: Consistently put @features parameter right after @ifcond
-  qapi: Inline do_qmp_dispatch() into qmp_dispatch()
-  qapi: Simplify how qmp_dispatch() deals with QCO_NO_SUCCESS_RESP
-  qapi: Simplify how qmp_dispatch() gets the request ID
-  qapi: Replace qmp_dispatch()'s TODO comment by an explanation
-  qapi: New special feature flag "deprecated"
-  qemu-options: New -compat to set policy for "funny" interfaces
-  qapi: Mark deprecated QMP commands with feature 'deprecated'
-  qapi: Implement -compat deprecated-input=3Dreject for commands
-  qapi: Implement -compat deprecated-input=3Dcrash for commands
-  qapi: Include a warning in the response to a deprecated command
-  qapi: Implement -compat deprecated-output=3Dhide for events
-
- docs/devel/qapi-code-gen.txt                  |  21 +-
- tests/qapi-schema/doc-good.texi               |  32 ++-
- qapi/common.json                              |  48 ++++
- qapi/introspect.json                          |  28 ++-
- qapi/machine.json                             |  24 +-
- qapi/migration.json                           |  36 ++-
- qapi/misc.json                                |  25 +-
- include/qapi/compat-policy.h                  |  20 ++
- include/qapi/qmp/dispatch.h                   |   1 +
- qapi/qmp-dispatch.c                           | 140 +++++++-----
- tests/test-qmp-cmds.c                         | 216 +++++++++++-------
- tests/test-qmp-event.c                        | 181 ++++-----------
- vl.c                                          |  17 ++
- qemu-options.hx                               |  24 ++
- scripts/qapi/commands.py                      |  16 +-
- scripts/qapi/doc.py                           |  16 +-
- scripts/qapi/events.py                        |  16 +-
- scripts/qapi/expr.py                          |  11 +-
- scripts/qapi/introspect.py                    |  41 ++--
- scripts/qapi/schema.py                        | 138 ++++++-----
- scripts/qapi/types.py                         |   8 +-
- scripts/qapi/visit.py                         |   8 +-
- tests/Makefile.include                        |   1 +
- tests/qapi-schema/alternate-base.err          |   2 +-
- tests/qapi-schema/doc-good.json               |  18 +-
- tests/qapi-schema/doc-good.out                |  20 +-
- .../qapi-schema/features-deprecated-type.err  |   2 +
- .../qapi-schema/features-deprecated-type.json |   3 +
- .../qapi-schema/features-deprecated-type.out  |   0
- tests/qapi-schema/qapi-schema-test.json       |  31 ++-
- tests/qapi-schema/qapi-schema-test.out        |  29 ++-
- tests/qapi-schema/test-qapi.py                |  19 +-
- 32 files changed, 731 insertions(+), 461 deletions(-)
- create mode 100644 include/qapi/compat-policy.h
- create mode 100644 tests/qapi-schema/features-deprecated-type.err
- create mode 100644 tests/qapi-schema/features-deprecated-type.json
- create mode 100644 tests/qapi-schema/features-deprecated-type.out
-
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index e738bead86..667e03cb1b 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -150,9 +150,10 @@ static QObject *do_qmp_dispatch(QDict *req, bool allow=
+_oob)
+     QObject *ret;
+=20
+     resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
+-    g_assert(resp && !qdict_haskey(resp, "error"));
++    g_assert(resp);
+     ret =3D qdict_get(resp, "return");
+     g_assert(ret);
++    g_assert(qdict_size(resp) =3D=3D 1);
+=20
+     qobject_ref(ret);
+     qobject_unref(resp);
+@@ -162,9 +163,17 @@ static QObject *do_qmp_dispatch(QDict *req, bool allow=
+_oob)
+ static void do_qmp_dispatch_error(QDict *req, bool allow_oob, ErrorClass c=
+ls)
+ {
+     QDict *resp;
++    QDict *error;
+=20
+     resp =3D qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob);
+-    g_assert(resp && qdict_haskey(resp, "error"));
++    g_assert(resp);
++    error =3D qdict_get_qdict(resp, "error");
++    g_assert(error);
++    g_assert_cmpstr(qdict_get_try_str(error, "class"),
++                    =3D=3D, QapiErrorClass_str(cls));
++    g_assert(qdict_get_try_str(error, "desc"));
++    g_assert(qdict_size(error) =3D=3D 2);
++    g_assert(qdict_size(resp) =3D=3D 1);
+=20
+     qobject_unref(resp);
+ }
+@@ -173,11 +182,12 @@ static void do_qmp_dispatch_error(QDict *req, bool al=
+low_oob, ErrorClass cls)
+ static void test_dispatch_cmd(void)
+ {
+     QDict *req =3D qdict_new();
+-    QObject *ret;
++    QDict *ret;
+=20
+     qdict_put_str(req, "execute", "user_def_cmd");
+=20
+-    ret =3D do_qmp_dispatch(req, false);
++    ret =3D qobject_to(QDict, do_qmp_dispatch(req, false));
++    assert(ret && qdict_size(ret) =3D=3D 0);
+=20
+     qobject_unref(ret);
+     qobject_unref(req);
+@@ -186,11 +196,12 @@ static void test_dispatch_cmd(void)
+ static void test_dispatch_cmd_oob(void)
+ {
+     QDict *req =3D qdict_new();
+-    QObject *ret;
++    QDict *ret;
+=20
+     qdict_put_str(req, "exec-oob", "test-flags-command");
+=20
+-    ret =3D do_qmp_dispatch(req, true);
++    ret =3D qobject_to(QDict, do_qmp_dispatch(req, true));
++    assert(ret && qdict_size(ret) =3D=3D 0);
+=20
+     qobject_unref(ret);
+     qobject_unref(req);
 --=20
 2.21.0
 
