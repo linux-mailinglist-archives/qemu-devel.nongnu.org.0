@@ -2,102 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1774E2EAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:20:58 +0200 (CEST)
-Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCC1E2E9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:17:58 +0200 (CEST)
+Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNaEj-0003gn-9O
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:20:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50518)
+	id 1iNaBp-0004qA-7G
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <den@virtuozzo.com>) id 1iNZtm-0002eA-6z
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:59:19 -0400
+ (envelope-from <mlureau@redhat.com>) id 1iNZuS-0004tj-Dn
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:00:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1iNZtl-0001PG-31
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:59:18 -0400
-Received: from mail-db5eur03on070b.outbound.protection.outlook.com
- ([2a01:111:f400:fe0a::70b]:62407
- helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>)
- id 1iNZth-0001Ko-66; Thu, 24 Oct 2019 05:59:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BS+F+P/3uZViK6/HBtmLjzJztpmkhJHRYBY8CA6WpJ633cVvLhNhsFW/Bdz9CsrbtXGDPiLn+5qdzdia2yob09RL+lILkUH8IeKAHC8kamGSGFGxjdd19NSiMydoH4MymiB//qAeRp42qFna9jyH1HLokzlLyE56Bvf9887SmfcLnDjt2093ZP2kX4aHvRG2j4Dh0z82vbWb/RKywRa/QqHGdQJ2h5kwBJPd/GcD00TktTYATvpVb8QxJE/kFFys4agwS+8VD/u4h0puF8cteMOQ5UdlEYJU2PQs6ohaZs5VO5vzJn+hqfmsVb54o5PJgfzVsXfSuO/A0wxHHKHw6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x0qaHlVF/q3N1pnN5ZZOLZGXWoLNUSdE73M3fOJGfn0=;
- b=QWa4sRtsgTD9nTZvH3W+iHSohabgnLOIzHI2d7mgCq3X4Kn9hImA1EN2ypbJpFGiVFdyqKGc+n2o7IEJCRMPxvNmuFOwVH94kiGzu1Y90QgqruA88jzUbkWtSRGPCdW0BSol0Ihm6HMVwjCqK0Bc/tBKTi9hYf58gOUta1uaPmhHiJdPCof7JZufYXbiRCChyRWD8e9YsFV2xdccdd/O4QFbWnmrCNyRxW0BMQP05gUo0FRQDcdtP+cSsXsMA20WOGGkk+20a9l/si8vNMG0h9DtfGvZo2bXGRUNQNwe6ceSXSPBP64NDbOEhNUK50YuQc2iYCD+VfMBg+fMDX4ulg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x0qaHlVF/q3N1pnN5ZZOLZGXWoLNUSdE73M3fOJGfn0=;
- b=QtiOtFx6Klju4wQPsqHwpqmxo4EZTP4LLZQtIEzC9RyamhCABANaxu7qqbtaSde8hUIpFOELtvps0OtwoJEoT4fDv9LPFRB/KBfq7RP7raZVghwdsSstd5NWOw2YrxRy+yThP+j5hbjUbJePCcLrE85QkDztV3R6YlW6lxo/H3c=
-Received: from DB6PR0801MB1702.eurprd08.prod.outlook.com (10.169.221.21) by
- DB6PR0801MB2103.eurprd08.prod.outlook.com (10.168.87.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.20; Thu, 24 Oct 2019 09:59:11 +0000
-Received: from DB6PR0801MB1702.eurprd08.prod.outlook.com
- ([fe80::f849:2ba0:2a0b:5b34]) by DB6PR0801MB1702.eurprd08.prod.outlook.com
- ([fe80::f849:2ba0:2a0b:5b34%7]) with mapi id 15.20.2347.030; Thu, 24 Oct 2019
- 09:59:10 +0000
-From: Denis Lunev <den@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH 1/3] coroutine: Add qemu_co_mutex_assert_locked()
-Thread-Topic: [PATCH 1/3] coroutine: Add qemu_co_mutex_assert_locked()
-Thread-Index: AQHVibZNfmcmX5bV50OrRXkOJjjwradpj+yA
-Date: Thu, 24 Oct 2019 09:59:10 +0000
-Message-ID: <173e0a00-34e3-522a-4e9b-a33661e3f5ba@virtuozzo.com>
-References: <20191023152620.13166-1-kwolf@redhat.com>
- <20191023152620.13166-2-kwolf@redhat.com>
-In-Reply-To: <20191023152620.13166-2-kwolf@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P195CA0021.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::31)
- To DB6PR0801MB1702.eurprd08.prod.outlook.com
- (2603:10a6:4:2f::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9cacd686-f668-46ae-7d99-08d75868d131
-x-ms-traffictypediagnostic: DB6PR0801MB2103:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR0801MB2103BC16D25195E58E444195B66A0@DB6PR0801MB2103.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(346002)(396003)(376002)(136003)(39840400004)(51444003)(199004)(189003)(25786009)(71200400001)(14454004)(478600001)(256004)(81156014)(229853002)(305945005)(8676002)(36756003)(7736002)(486006)(54906003)(71190400001)(81166006)(14444005)(6486002)(6246003)(6436002)(5660300002)(6512007)(11346002)(2616005)(8936002)(476003)(76176011)(110136005)(86362001)(386003)(26005)(102836004)(53546011)(31686004)(4326008)(52116002)(186003)(446003)(99286004)(31696002)(316002)(66066001)(2906002)(66446008)(64756008)(66556008)(66476007)(66946007)(3846002)(6116002)(2501003)(6506007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR0801MB2103;
- H:DB6PR0801MB1702.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 11MBOpK0omciYd/VfPfBSRA6kgzxYGFhynYvw9T/+BPyFmfONLdzqO+gdJGLgEQ6cWgsxCsT1+jXN0kqZJ4hMHFxNUKOmCYhiiE0T3diX69bn3uHeZ0ptd2gOu5XUJDPmtiAczy/Y2N7vbuee8Ug8rjtJzYzk+Vb4AJFsKsXN7ZpRYMnrVTkoWjnPEM3EX6ctJaFRO1nQa4eSdh8eM4MBVm4Apb3BLeursJ14U3MQPJYEv0tZSGrqbfNQSUhGL9t01BjPzA0e+iy9chH4oRvk50QJ8nafJmuZ9UAgAjWdSZoj47R6q9BkUwF/z1ShT5gi9aK6p57vcdpkwsmmwbJKM/Z0Hb4bSYqq4I56N1SARWdmd/UzN+gFJS1eftidRvwyI//AF3YWXHujCWmOfro399W6VSYOS4LyhTMJR3QYpkF/YYEl5DgESqu6KaOrR1k
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <2191336879F72543A4CB45BEB578DA80@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <mlureau@redhat.com>) id 1iNZuR-0001oS-6m
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:00:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35320)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iNZuQ-0001mM-Tn
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:59:59 -0400
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2B7ED4E4E6
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:59:57 +0000 (UTC)
+Received: by mail-ot1-f71.google.com with SMTP id r5so12927209otn.22
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 02:59:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FJB5eNMUoMSyJPvrt8Sm0IHAjPcwYY2MdO0zgEnLntk=;
+ b=oaCxQFGphzVKmEq5nOIPMCoFdNwZfdauTZXo1MMPecAN+DkJwbmNsZW7cNS/PCyNER
+ MXLT43coDJchH8pirGmTq54W38PwdPaWZ+IDSAMyR8or7Irq9RUVN2543xPAdfZ5TEUh
+ lusgkDr1QU94SSqc9MEzan0w1617Fj3/G4uDovVv7B5I3pZ6mKFhtE/VotLkHVM+pLL7
+ ylURIu+Jbf7QJAgGAg4RrTI210uH4h/9ctiHIWI5DSEAZwqGN5wrjAjfAPhhm6elceK6
+ G5SjsKwH/ZyIr0a6fVr/cFungVRG3O8kd/9SF+cTBrMYMmuvJRg04epGboQD5uxDiKPo
+ Ke5Q==
+X-Gm-Message-State: APjAAAU4UhorbNIm2Y+EYITDjIykfkCidZHp20GjYPxl1Ep9EgRIkfN0
+ D02wOK+F/OhjpzkF99GCzRUmfOZY9mI44U8cMQpYGUmidNGIqYC1jjz/MvvnqbMuPTsRBwxSpD6
+ B6HRlIZsjicz43XbQZRvcmQhkUO8zkRY=
+X-Received: by 2002:a05:6830:1617:: with SMTP id
+ g23mr10496113otr.368.1571911196650; 
+ Thu, 24 Oct 2019 02:59:56 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwkZyXSGnuuNrCpiBwX+CEWZWprQ+KPlWkjHXcIO+w4U/1cGzKZ7In7uTQye5nk2QWn4huwsrvEIkQPcR+v2T8=
+X-Received: by 2002:a05:6830:1617:: with SMTP id
+ g23mr10496094otr.368.1571911196347; 
+ Thu, 24 Oct 2019 02:59:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cacd686-f668-46ae-7d99-08d75868d131
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 09:59:10.7128 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: umM64tc478rgNmufd27cNVXRbKcxAEIIRaZFH8BdZv4kCKgOq0g3FCQm6d0tga5s5gjocNj41YDTdPbFYRy1Kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB2103
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe0a::70b
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-6-marcandre.lureau@redhat.com>
+ <6918ee75-31e8-7816-b196-5654cda451e0@redhat.com>
+In-Reply-To: <6918ee75-31e8-7816-b196-5654cda451e0@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 24 Oct 2019 11:59:45 +0200
+Message-ID: <CAMxuvaxoaFTpoDb8NT7D68697td4Wck5wkJYx9zufFu38RBE8w@mail.gmail.com>
+Subject: Re: [PATCH v3 05/33] serial-pci-multi: factor out
+ multi_serial_get_nr_ports
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,51 +76,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
- "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/19 6:26 PM, Kevin Wolf wrote:
-> Some functions require that the caller holds a certain CoMutex for them
-> to operate correctly. Add a function so that they can assert the lock is
-> really held.
+On Thu, Oct 24, 2019 at 12:41 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/qemu/coroutine.h | 7 +++++++
->  1 file changed, 7 insertions(+)
+> On 10/23/19 7:31 PM, Marc-Andr=C3=A9 Lureau wrote:
+> > Reused in following patch.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   hw/char/serial-pci-multi.c | 26 ++++++++++++++------------
+> >   1 file changed, 14 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
+> > index 5f13b5663b..6fa1cc6225 100644
+> > --- a/hw/char/serial-pci-multi.c
+> > +++ b/hw/char/serial-pci-multi.c
+> > @@ -77,24 +77,26 @@ static void multi_serial_irq_mux(void *opaque, int =
+n, int level)
+> >       pci_set_irq(&pci->dev, pending);
+> >   }
+> >
+> > +static int multi_serial_get_nr_ports(PCIDeviceClass *pc)
 >
-> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-> index 9801e7f5a4..a36bcfe5c8 100644
-> --- a/include/qemu/coroutine.h
-> +++ b/include/qemu/coroutine.h
-> @@ -167,6 +167,13 @@ void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex)=
-;
->   */
->  void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex);
-> =20
-> +/**
-> + * Assert that the current coroutine holds @mutex.
-> + */
-> +static inline coroutine_fn void qemu_co_mutex_assert_locked(CoMutex *mut=
-ex)
-> +{
-> +    assert(mutex->locked && mutex->holder =3D=3D qemu_coroutine_self());
-> +}
-> =20
->  /**
->   * CoQueues are a mechanism to queue coroutines in order to continue exe=
-cuting
-I think that we should use atomic_read(&mutex->locked) and require barriers
-working with holder.
+> static size_t multi_serial_get_port_count()?
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Den
+works for me, thanks
+
+>
+> > +{
+> > +    switch (pc->device_id) {
+> > +    case 0x0003:
+> > +        return 2;
+> > +    case 0x0004:
+> > +        return 4;
+> > +    }
+> > +
+> > +    g_assert_not_reached();
+> > +}
+> > +
+> > +
+> >   static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
+> >   {
+> >       PCIDeviceClass *pc =3D PCI_DEVICE_GET_CLASS(dev);
+> >       PCIMultiSerialState *pci =3D DO_UPCAST(PCIMultiSerialState, dev, =
+dev);
+> >       SerialState *s;
+> >       Error *err =3D NULL;
+> > -    int i, nr_ports =3D 0;
+> > -
+> > -    switch (pc->device_id) {
+> > -    case 0x0003:
+> > -        nr_ports =3D 2;
+> > -        break;
+> > -    case 0x0004:
+> > -        nr_ports =3D 4;
+> > -        break;
+> > -    }
+> > -    assert(nr_ports > 0);
+> > -    assert(nr_ports <=3D PCI_SERIAL_MAX_PORTS);
+> > +    int i, nr_ports =3D multi_serial_get_nr_ports(pc);
+> >
+> >       pci->dev.config[PCI_CLASS_PROG] =3D pci->prog_if;
+> >       pci->dev.config[PCI_INTERRUPT_PIN] =3D 0x01;
+> >
 
