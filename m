@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BDCE2D47
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:27:56 +0200 (CEST)
-Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC1FE2DBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:41:15 +0200 (CEST)
+Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZPO-0006Lu-Sn
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43978)
+	id 1iNZcI-0002N0-C0
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ9R-0007yt-3t
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:26 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1iNZAG-0001Si-5d
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ9P-0004ek-Ha
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:25 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:33008)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZAE-0005BE-2q
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:16 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:33846)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ9P-0004eD-8r
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:11:23 -0400
+ id 1iNZAD-0005Ag-QD
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:14 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94MsZ094853;
- Thu, 24 Oct 2019 09:11:16 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94Md7094848;
+ Thu, 24 Oct 2019 09:12:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=l66KlTAWkx0rgCkIPA/MorNRjDtMjhAx90rI/SU9Rmw=;
- b=llIZWlyMiAoZv8TkzRvloRF3RBx3ujdDXKugadF0v+IiCVnJSwyao9pmTJhDG9eyhsGi
- sKEcjKvBA7B0TMLdv4UFBzcgf3u9ezk4nwIBa+fWQp8NqwuatBnztHFF11sLu7oYsvFZ
- UK8WdESP4it3TVIZ4oaA58cNGMdAUDdOwPmtrrxn1nOZ18I2oGwdqKw3AQ1KL/FiBQql
- N3oe3cYWF1ivBKraVuYNb37HVUVDLRz4xV8FPt0o7zcIryo+lQMTvLfpwGRAnqHhb4hZ
- kGL1GX4dSC6Scra0VDgoM7w38ljcxHuFIqGw0rxKxo5s4Y9sG66gpbcZTu/0dDc3aWvC SQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2vqu4r24r2-1
+ bh=F/E41FhsIR2e21OD7DpZqakoxt8Wz7+Qliiw0Bdlxt4=;
+ b=AS3kPjkgooLHwUyNncGazR/qm0hKD+BlEiL/1IN5RKzdPOeusv4yXrnp+UvdoRgoFHUx
+ G3ZBGPDO+2U8jA+AznlEByFQFSTrn2zWF0TgTb2UhM3ullmfg018hg47zE9d5jIGzsMP
+ 4v1DP/rK4axJzJ4BYicZduWNIOPvKUlIAewThWgiVbfIJgVRtAYOKkiyXAfiPmRzddiR
+ VbGxwgD2YAqjB+Xe8L8BAbREfKrya9CsY+YdcMjE5WYWn1WLB3UX2+llp9cLCpvYwi66
+ EH5WNURHtqEVlRGHgfOXWKzGdiexFMTBeEumR1Q5gF5ff8oU1z5x+x4oSW/rLfr6+b27 YA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2vqu4r24ue-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:16 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98mPR076184;
- Thu, 24 Oct 2019 09:11:15 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2vtjkj2ymu-1
+ Thu, 24 Oct 2019 09:12:07 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O97j18170537;
+ Thu, 24 Oct 2019 09:10:06 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2vtsk4857y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:11:15 +0000
+ Thu, 24 Oct 2019 09:10:06 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9BDZr012107;
- Thu, 24 Oct 2019 09:11:13 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O9A4Jk008991;
+ Thu, 24 Oct 2019 09:10:04 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:11:13 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:10:04 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 32/49] multi-process: Use separate MMIO communication
- channel
-Date: Thu, 24 Oct 2019 05:09:13 -0400
-Message-Id: <b2594fdefb278f890762d12639524c4db7667393.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 07/49] multi-process: define mpqemu-link object
+Date: Thu, 24 Oct 2019 05:08:48 -0400
+Message-Id: <b0bc2a517b0a41eb138ed4127aebe8a3952daec6.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
@@ -64,7 +63,7 @@ In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
  signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -73,7 +72,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
  signatures=668684
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
  definitions=main-1910240089
@@ -100,268 +99,515 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using a separate communication channel for MMIO helps
-with improving Performance
+Defines mpqemu-link object which forms the communication link between
+QEMU & emulation program.
+Adds functions to configure members of mpqemu-link object instance.
+Adds functions to send and receive messages over the communication
+channel.
+Adds GMainLoop to handle events received on the communication channel.
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- New patch in v3
+ v1 -> v2:
+   - Use default context for main loop instead of a new context
 
- hw/proxy/qemu-proxy.c         | 39 +++++++++++++++++++++++++++------------
- include/hw/proxy/qemu-proxy.h |  1 +
- include/io/mpqemu-link.h      |  7 +++++++
- io/mpqemu-link.c              |  2 ++
- qdev-monitor.c                |  1 +
- remote/remote-main.c          | 18 +++++++++++++-----
- 6 files changed, 51 insertions(+), 17 deletions(-)
+ v2 -> v3:
+   - Enabled multi-channel support in the communication link
 
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 691b991..74aecd3 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -201,20 +201,22 @@ static int make_argv(char *command_str, char **argv, int argc)
- int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp)
- {
-     pid_t rpid;
--    int fd[2] = {-1, -1};
-+    int fd[2], mmio[2];
-     Error *local_error = NULL;
-     char *argv[64];
-     int argc = 0, _argc;
-     char *sfd;
-     char *exec_dir;
-     int rc = -EINVAL;
-+    struct timeval timeout = {.tv_sec = 10, .tv_usec = 0};
- 
-     if (pdev->managed) {
-         /* Child is forked by external program (such as libvirt). */
-         return rc;
-     }
- 
--    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
-+    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd) ||
-+        socketpair(AF_UNIX, SOCK_STREAM, 0, mmio)) {
-         error_setg(errp, "Unable to create unix socket.");
-         return rc;
-     }
-@@ -222,6 +224,8 @@ int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp)
-     argc = add_argv(exec_dir, argv, argc);
-     sfd = g_strdup_printf("%d", fd[1]);
-     argc = add_argv(sfd, argv, argc);
-+    sfd = g_strdup_printf("%d", mmio[1]);
-+    argc = add_argv(sfd, argv, argc);
-     _argc = argc;
-     argc = make_argv((char *)command, argv, argc);
- 
-@@ -231,22 +235,32 @@ int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp)
-     if (rpid == -1) {
-         error_setg(errp, "Unable to spawn emulation program.");
-         close(fd[0]);
-+        close(mmio[0]);
-         goto fail;
-     }
- 
-     if (rpid == 0) {
-         close(fd[0]);
-+        close(mmio[0]);
-         execvp(argv[0], (char *const *)argv);
-         exit(1);
-     }
-     pdev->remote_pid = rpid;
-     pdev->rsocket = fd[1];
-     pdev->socket = fd[0];
-+    pdev->mmio_sock = mmio[0];
-+
-+    if (setsockopt(mmio[0], SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout,
-+                   sizeof(timeout)) < 0) {
-+        error_setg(errp, "Unable to set timeout for socket");
-+        goto fail;
-+    }
- 
-     rc = 0;
- 
- fail:
-     close(fd[1]);
-+    close(mmio[1]);
- 
-     for (int i = 0; i < _argc; i++) {
-         g_free(argv[i]);
-@@ -443,6 +457,9 @@ static void init_proxy(PCIDevice *dev, char *command, bool need_spawn, Error **e
-     mpqemu_init_channel(pdev->mpqemu_link, &pdev->mpqemu_link->com,
-                         pdev->socket);
- 
-+    mpqemu_init_channel(pdev->mpqemu_link, &pdev->mpqemu_link->mmio,
-+                        pdev->mmio_sock);
-+
-     configure_memory_sync(pdev->sync, pdev->mpqemu_link);
- }
- 
-@@ -503,8 +520,7 @@ static void send_bar_access_msg(PCIProxyDev *dev, MemoryRegion *mr,
-                                 unsigned size, bool memory)
- {
-     MPQemuLinkState *mpqemu_link = dev->mpqemu_link;
--    MPQemuMsg msg;
--    int wait;
-+    MPQemuMsg msg, ret;
- 
-     memset(&msg, 0, sizeof(MPQemuMsg));
- 
-@@ -518,19 +534,18 @@ static void send_bar_access_msg(PCIProxyDev *dev, MemoryRegion *mr,
-         msg.cmd = BAR_WRITE;
-         msg.data1.bar_access.val = *val;
-     } else {
--        wait = GET_REMOTE_WAIT;
--
-         msg.cmd = BAR_READ;
--        msg.num_fds = 1;
--        msg.fds[0] = wait;
-     }
- 
--    mpqemu_msg_send(mpqemu_link, &msg, mpqemu_link->com);
-+    mpqemu_msg_send(mpqemu_link, &msg, mpqemu_link->mmio);
- 
--    if (!write) {
--        *val = wait_for_remote(wait);
--        PUT_REMOTE_WAIT(wait);
-+    if (write) {
-+        return;
-     }
-+
-+    mpqemu_msg_recv(mpqemu_link, &ret, mpqemu_link->mmio);
-+
-+    *val = ret.data1.mmio_ret.val;
- }
- 
- void proxy_default_bar_write(void *opaque, hwaddr addr, uint64_t val,
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index ac61a9b..5e858cc 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -71,6 +71,7 @@ struct PCIProxyDev {
-     pid_t remote_pid;
-     int rsocket;
-     int socket;
-+    int mmio_sock;
- 
-     char *rid;
- 
+ v3 -> v4:
+  - Change the name of proxy-link to mpqemu-link
+  - Use separate locks for sending and receiving messages
+
+ include/io/mpqemu-link.h | 150 +++++++++++++++++++++++
+ io/Makefile.objs         |   2 +
+ io/mpqemu-link.c         | 309 +++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 461 insertions(+)
+ create mode 100644 include/io/mpqemu-link.h
+ create mode 100644 io/mpqemu-link.c
+
 diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index 16a913b..4911eea 100644
---- a/include/io/mpqemu-link.h
+new file mode 100644
+index 0000000..345c67e
+--- /dev/null
 +++ b/include/io/mpqemu-link.h
-@@ -73,6 +73,7 @@ typedef enum {
-     DEVICE_ADD,
-     DEVICE_DEL,
-     PROXY_PING,
-+    MMIO_RETURN,
-     MAX,
- } mpqemu_cmd_t;
- 
-@@ -107,6 +108,10 @@ typedef struct {
- } set_irqfd_msg_t;
- 
- typedef struct {
-+    uint64_t val;
-+} mmio_ret_msg_t;
+@@ -0,0 +1,150 @@
++/*
++ * Communication channel between QEMU and remote device process
++ *
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
++#ifndef MPQEMU_LINK_H
++#define MPQEMU_LINK_H
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include <stddef.h>
++#include <stdint.h>
++#include <pthread.h>
++
++#include "qom/object.h"
++#include "qemu/thread.h"
++
++#define TYPE_MPQEMU_LINK "mpqemu-link"
++#define MPQEMU_LINK(obj) \
++    OBJECT_CHECK(MPQemuLinkState, (obj), TYPE_MPQEMU_LINK)
++
++#define REMOTE_MAX_FDS 8
++
++#define MPQEMU_MSG_HDR_SIZE offsetof(MPQemuMsg, data1.u64)
++
++/**
++ * mpqemu_cmd_t:
++ * CONF_READ        PCI config. space read
++ * CONF_WRITE       PCI config. space write
++ *
++ * proc_cmd_t enum type to specify the command to be executed on the remote
++ * device.
++ */
++typedef enum {
++    INIT = 0,
++    CONF_READ,
++    CONF_WRITE,
++    MAX,
++} mpqemu_cmd_t;
++
++/**
++ * MPQemuMsg:
++ * @cmd: The remote command
++ * @bytestream: Indicates if the data to be shared is structured (data1)
++ *              or unstructured (data2)
++ * @size: Size of the data to be shared
++ * @data1: Structured data
++ * @fds: File descriptors to be shared with remote device
++ * @data2: Unstructured data
++ *
++ * MPQemuMsg Format of the message sent to the remote device from QEMU.
++ *
++ */
 +typedef struct {
-     mpqemu_cmd_t cmd;
-     int bytestream;
-     size_t size;
-@@ -116,6 +121,7 @@ typedef struct {
-         sync_sysmem_msg_t sync_sysmem;
-         bar_access_msg_t bar_access;
-         set_irqfd_msg_t set_irqfd;
-+        mmio_ret_msg_t mmio_ret;
-     } data1;
- 
-     int fds[REMOTE_MAX_FDS];
-@@ -170,6 +176,7 @@ typedef struct MPQemuLinkState {
-     GMainLoop *loop;
- 
-     MPQemuChannel *com;
-+    MPQemuChannel *mmio;
- 
-     mpqemu_link_callback callback;
- } MPQemuLinkState;
-diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index 696aeb1..d91936e 100644
---- a/io/mpqemu-link.c
-+++ b/io/mpqemu-link.c
-@@ -77,6 +77,7 @@ void mpqemu_link_finalize(MPQemuLinkState *s)
-     g_main_loop_quit(s->loop);
- 
-     mpqemu_destroy_channel(s->com);
-+    mpqemu_destroy_channel(s->mmio);
- 
-     object_unref(OBJECT(s));
- }
-@@ -344,6 +345,7 @@ void mpqemu_start_coms(MPQemuLinkState *s)
- {
- 
-     g_assert(g_source_attach(&s->com->gsrc, s->ctx));
-+    g_assert(g_source_attach(&s->mmio->gsrc, s->ctx));
- 
-     g_main_loop_run(s->loop);
- }
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index e1d05e4..f38849e 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -711,6 +711,7 @@ DeviceState *qdev_proxy_add(const char *rid, const char *id, char *bus,
-     if (old_pdev) {
-         pdev->rsocket = old_pdev->rsocket;
-         pdev->socket = old_pdev->socket;
-+        pdev->mmio_sock = old_pdev->mmio_sock;
-         pdev->remote_pid = old_pdev->remote_pid;
-     } else {
-         pdev->rsocket = managed ? rsocket : -1;
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 27e4492..0a1326d 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -117,8 +117,8 @@ static void process_bar_write(MPQemuMsg *msg, Error **errp)
- static void process_bar_read(MPQemuMsg *msg, Error **errp)
- {
-     bar_access_msg_t *bar_access = &msg->data1.bar_access;
-+    MPQemuMsg ret = { 0 };
-     AddressSpace *as;
--    int wait = msg->fds[0];
-     MemTxResult res;
-     uint64_t val = 0;
- 
-@@ -152,9 +152,10 @@ static void process_bar_read(MPQemuMsg *msg, Error **errp)
-     }
- 
- fail:
--    notify_proxy(wait, val);
--
--    PUT_REMOTE_WAIT(wait);
-+    ret.cmd = MMIO_RETURN;
-+    ret.data1.mmio_ret.val = val;
-+    ret.size = sizeof(ret.data1);
-+    mpqemu_msg_send(mpqemu_link, &ret, mpqemu_link->mmio);
- }
- 
- static void process_device_add_msg(MPQemuMsg *msg)
-@@ -497,7 +498,14 @@ int main(int argc, char *argv[])
- 
-     mpqemu_init_channel(mpqemu_link, &mpqemu_link->com, fd);
- 
--    parse_cmdline(argc - 2, argv + 2, NULL);
-+    fd = qemu_parse_fd(argv[2]);
-+    if (fd == -1) {
-+        printf("Failed to parse fd for remote process.\n");
-+        return -EINVAL;
-+    }
-+    mpqemu_init_channel(mpqemu_link, &mpqemu_link->mmio, fd);
++    mpqemu_cmd_t cmd;
++    int bytestream;
++    size_t size;
 +
-+    parse_cmdline(argc - 3, argv + 3, NULL);
- 
-     mpqemu_link_set_callback(mpqemu_link, process_msg);
- 
++    union {
++        uint64_t u64;
++    } data1;
++
++    int fds[REMOTE_MAX_FDS];
++    int num_fds;
++
++    uint8_t *data2;
++} MPQemuMsg;
++
++struct conf_data_msg {
++    uint32_t addr;
++    uint32_t val;
++    int l;
++};
++
++/**
++ * MPQemuChannel:
++ * @gsrc: GSource object to be used by loop
++ * @gpfd: GPollFD object containing the socket & events to monitor
++ * @sock: Socket to send/receive communication, same as the one in gpfd
++ * @send_lock: Mutex to synchronize access to the send stream
++ * @recv_lock: Mutex to synchronize access to the recv stream
++ *
++ * Defines the channel that make up the communication link
++ * between QEMU and remote process
++ */
++
++typedef struct MPQemuChannel {
++    GSource gsrc;
++    GPollFD gpfd;
++    int sock;
++    QemuMutex send_lock;
++    QemuMutex recv_lock;
++} MPQemuChannel;
++
++typedef void (*mpqemu_link_callback)(GIOCondition cond, MPQemuChannel *chan);
++
++/*
++ * MPQemuLinkState Instance info. of the communication
++ * link between QEMU and remote process. The Link could
++ * be made up of multiple channels.
++ *
++ * ctx        GMainContext to be used for communication
++ * loop       Main loop that would be used to poll for incoming data
++ * com        Communication channel to transport control messages
++ *
++ */
++
++typedef struct MPQemuLinkState {
++    Object obj;
++
++    GMainContext *ctx;
++    GMainLoop *loop;
++
++    MPQemuChannel *com;
++
++    mpqemu_link_callback callback;
++} MPQemuLinkState;
++
++MPQemuLinkState *mpqemu_link_create(void);
++void mpqemu_link_finalize(MPQemuLinkState *s);
++
++void mpqemu_msg_send(MPQemuLinkState *s, MPQemuMsg *msg, MPQemuChannel *chan);
++int mpqemu_msg_recv(MPQemuLinkState *s, MPQemuMsg *msg, MPQemuChannel *chan);
++
++void mpqemu_init_channel(MPQemuLinkState *s, MPQemuChannel **chan, int fd);
++void mpqemu_destroy_channel(MPQemuChannel *chan);
++void mpqemu_link_set_callback(MPQemuLinkState *s, mpqemu_link_callback callback);
++void mpqemu_start_coms(MPQemuLinkState *s);
++
++#endif
+diff --git a/io/Makefile.objs b/io/Makefile.objs
+index 9a20fce..5875ab0 100644
+--- a/io/Makefile.objs
++++ b/io/Makefile.objs
+@@ -10,3 +10,5 @@ io-obj-y += channel-util.o
+ io-obj-y += dns-resolver.o
+ io-obj-y += net-listener.o
+ io-obj-y += task.o
++
++io-obj-$(CONFIG_MPQEMU) += mpqemu-link.o
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+new file mode 100644
+index 0000000..b39f4d0
+--- /dev/null
++++ b/io/mpqemu-link.c
+@@ -0,0 +1,309 @@
++/*
++ * Communication channel between QEMU and remote device process
++ *
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include <assert.h>
++#include <errno.h>
++#include <pthread.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <sys/un.h>
++#include <unistd.h>
++#include <limits.h>
++#include <poll.h>
++
++#include "qemu/module.h"
++#include "io/mpqemu-link.h"
++#include "qemu/log.h"
++
++GSourceFuncs gsrc_funcs;
++
++static void mpqemu_link_inst_init(Object *obj)
++{
++    MPQemuLinkState *s = MPQEMU_LINK(obj);
++
++    s->ctx = g_main_context_default();
++    s->loop = g_main_loop_new(s->ctx, FALSE);
++}
++
++static const TypeInfo mpqemu_link_info = {
++    .name = TYPE_MPQEMU_LINK,
++    .parent = TYPE_OBJECT,
++    .instance_size = sizeof(MPQemuLinkState),
++    .instance_init = mpqemu_link_inst_init,
++};
++
++static void mpqemu_link_register_types(void)
++{
++    type_register_static(&mpqemu_link_info);
++}
++
++type_init(mpqemu_link_register_types)
++
++MPQemuLinkState *mpqemu_link_create(void)
++{
++    return MPQEMU_LINK(object_new(TYPE_MPQEMU_LINK));
++}
++
++void mpqemu_link_finalize(MPQemuLinkState *s)
++{
++    g_main_loop_unref(s->loop);
++    g_main_context_unref(s->ctx);
++    g_main_loop_quit(s->loop);
++
++    mpqemu_destroy_channel(s->com);
++
++    object_unref(OBJECT(s));
++}
++
++void mpqemu_msg_send(MPQemuLinkState *s, MPQemuMsg *msg, MPQemuChannel *chan)
++{
++    int rc;
++    uint8_t *data;
++    union {
++        char control[CMSG_SPACE(REMOTE_MAX_FDS * sizeof(int))];
++        struct cmsghdr align;
++    } u;
++    struct msghdr hdr;
++    struct cmsghdr *chdr;
++    int sock = chan->sock;
++    QemuMutex *lock = &chan->send_lock;
++
++    struct iovec iov = {
++        .iov_base = (char *) msg,
++        .iov_len = MPQEMU_MSG_HDR_SIZE,
++    };
++
++    memset(&hdr, 0, sizeof(hdr));
++    memset(&u, 0, sizeof(u));
++
++    hdr.msg_iov = &iov;
++    hdr.msg_iovlen = 1;
++
++    if (msg->num_fds > REMOTE_MAX_FDS) {
++        qemu_log_mask(LOG_REMOTE_DEBUG, "%s: Max FDs exceeded\n", __func__);
++        return;
++    }
++
++    if (msg->num_fds > 0) {
++        size_t fdsize = msg->num_fds * sizeof(int);
++
++        hdr.msg_control = &u;
++        hdr.msg_controllen = sizeof(u);
++
++        chdr = CMSG_FIRSTHDR(&hdr);
++        chdr->cmsg_len = CMSG_LEN(fdsize);
++        chdr->cmsg_level = SOL_SOCKET;
++        chdr->cmsg_type = SCM_RIGHTS;
++        memcpy(CMSG_DATA(chdr), msg->fds, fdsize);
++        hdr.msg_controllen = CMSG_SPACE(fdsize);
++    }
++
++    qemu_mutex_lock(lock);
++
++    do {
++        rc = sendmsg(sock, &hdr, 0);
++    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
++
++    if (rc < 0) {
++        qemu_log_mask(LOG_REMOTE_DEBUG, "%s - sendmsg rc is %d, errno is %d,"
++                      " sock %d\n", __func__, rc, errno, sock);
++        qemu_mutex_unlock(lock);
++        return;
++    }
++
++    if (msg->bytestream) {
++        data = msg->data2;
++    } else {
++        data = (uint8_t *)msg + MPQEMU_MSG_HDR_SIZE;
++    }
++
++    do {
++        rc = write(sock, data, msg->size);
++    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
++
++    qemu_mutex_unlock(lock);
++}
++
++
++int mpqemu_msg_recv(MPQemuLinkState *s, MPQemuMsg *msg, MPQemuChannel *chan)
++{
++    int rc;
++    uint8_t *data;
++    union {
++        char control[CMSG_SPACE(REMOTE_MAX_FDS * sizeof(int))];
++        struct cmsghdr align;
++    } u;
++    struct msghdr hdr;
++    struct cmsghdr *chdr;
++    size_t fdsize;
++    int sock = chan->sock;
++    QemuMutex *lock = &chan->recv_lock;
++
++    struct iovec iov = {
++        .iov_base = (char *) msg,
++        .iov_len = MPQEMU_MSG_HDR_SIZE,
++    };
++
++    memset(&hdr, 0, sizeof(hdr));
++    memset(&u, 0, sizeof(u));
++
++    hdr.msg_iov = &iov;
++    hdr.msg_iovlen = 1;
++    hdr.msg_control = &u;
++    hdr.msg_controllen = sizeof(u);
++
++    qemu_mutex_lock(lock);
++
++    do {
++        rc = recvmsg(sock, &hdr, 0);
++    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
++
++    if (rc < 0) {
++        qemu_log_mask(LOG_REMOTE_DEBUG, "%s - recvmsg rc is %d, errno is %d,"
++                      " sock %d\n", __func__, rc, errno, sock);
++        qemu_mutex_unlock(lock);
++        return rc;
++    }
++
++    msg->num_fds = 0;
++    for (chdr = CMSG_FIRSTHDR(&hdr); chdr != NULL;
++         chdr = CMSG_NXTHDR(&hdr, chdr)) {
++        if ((chdr->cmsg_level == SOL_SOCKET) &&
++            (chdr->cmsg_type == SCM_RIGHTS)) {
++            fdsize = chdr->cmsg_len - CMSG_LEN(0);
++            msg->num_fds = fdsize / sizeof(int);
++            if (msg->num_fds > REMOTE_MAX_FDS) {
++                /*
++                 * TODO: Security issue detected. Sender never sends more
++                 * than REMOTE_MAX_FDS. This condition should be signaled to
++                 * the admin
++                 */
++                qemu_log_mask(LOG_REMOTE_DEBUG, "%s: Max FDs exceeded\n", __func__);
++                return -ERANGE;
++            }
++
++            memcpy(msg->fds, CMSG_DATA(chdr), fdsize);
++            break;
++        }
++    }
++
++    if (msg->size && msg->bytestream) {
++        msg->data2 = calloc(1, msg->size);
++        data = msg->data2;
++    } else {
++        data = (uint8_t *)&msg->data1;
++    }
++
++    if (msg->size) {
++        do {
++            rc = read(sock, data, msg->size);
++        } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
++    }
++
++    qemu_mutex_unlock(lock);
++
++    return rc;
++}
++
++static gboolean mpqemu_link_handler_prepare(GSource *gsrc, gint *timeout)
++{
++    g_assert(timeout);
++
++    *timeout = -1;
++
++    return FALSE;
++}
++
++static gboolean mpqemu_link_handler_check(GSource *gsrc)
++{
++    MPQemuChannel *chan = (MPQemuChannel *)gsrc;
++
++    return chan->gpfd.events & chan->gpfd.revents;
++}
++
++static gboolean mpqemu_link_handler_dispatch(GSource *gsrc, GSourceFunc func,
++                                             gpointer data)
++{
++    MPQemuLinkState *s = (MPQemuLinkState *)data;
++    MPQemuChannel *chan = (MPQemuChannel *)gsrc;
++
++    s->callback(chan->gpfd.revents, chan);
++
++    if ((chan->gpfd.revents & G_IO_HUP) || (chan->gpfd.revents & G_IO_ERR)) {
++        return G_SOURCE_REMOVE;
++    }
++
++    return G_SOURCE_CONTINUE;
++}
++
++void mpqemu_link_set_callback(MPQemuLinkState *s, mpqemu_link_callback callback)
++{
++    s->callback = callback;
++}
++
++void mpqemu_init_channel(MPQemuLinkState *s, MPQemuChannel **chan, int fd)
++{
++    MPQemuChannel *src;
++
++    gsrc_funcs = (GSourceFuncs){
++        .prepare = mpqemu_link_handler_prepare,
++        .check = mpqemu_link_handler_check,
++        .dispatch = mpqemu_link_handler_dispatch,
++        .finalize = NULL,
++    };
++
++    src = (MPQemuChannel *)g_source_new(&gsrc_funcs, sizeof(MPQemuChannel));
++
++    src->sock = fd;
++    qemu_mutex_init(&src->send_lock);
++    qemu_mutex_init(&src->recv_lock);
++
++    g_source_set_callback(&src->gsrc, NULL, (gpointer)s, NULL);
++    src->gpfd.fd = fd;
++    src->gpfd.events = G_IO_IN | G_IO_HUP | G_IO_ERR;
++    g_source_add_poll(&src->gsrc, &src->gpfd);
++
++    *chan = src;
++}
++
++void mpqemu_destroy_channel(MPQemuChannel *chan)
++{
++    g_source_unref(&chan->gsrc);
++    close(chan->sock);
++    qemu_mutex_destroy(&chan->send_lock);
++    qemu_mutex_destroy(&chan->recv_lock);
++}
++
++void mpqemu_start_coms(MPQemuLinkState *s)
++{
++
++    g_assert(g_source_attach(&s->com->gsrc, s->ctx));
++
++    g_main_loop_run(s->loop);
++}
 -- 
 1.8.3.1
 
