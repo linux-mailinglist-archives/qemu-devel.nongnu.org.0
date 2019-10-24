@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642E6E3242
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:25:58 +0200 (CEST)
-Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A055E31BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:04:01 +0200 (CEST)
+Received: from localhost ([::1]:40520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNcBg-00067c-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:25:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59325)
+	id 1iNbqR-00082S-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatK-0000yX-9F
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:55 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNb4Z-000644-Q4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatJ-0004ul-01
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47160
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatI-0004tQ-QE
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+GfmVbadjrgclZy0LJ41Pf6eZUvpccx4mCNTJBvCxeE=;
- b=Xxyxg68t0tsB4Y0yMooD8NH4REXmz1MZyIgUqObSc0sBnsvLhA3SRa0y6+Se1BsndREuk2
- 4H1y2tmruFJmGqVj4K66SK0VW4JgH0LH7wmgU7bsB39EWgzsmW0TH1k7nzFA8wCC6q1xDt
- Nr1/1uM2+Bv8Elk0+pfhIZrKbypV77s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-cWe2SOjIOmuCks5uQDiCWw-1; Thu, 24 Oct 2019 07:02:43 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11DAE476;
- Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D14F0196B2;
- Thu, 24 Oct 2019 11:02:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 759051130341; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iNb4Y-0002DS-Gi
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:31 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45724)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNb4Y-0002Cb-4v
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:14:30 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q13so20636977wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=f63dB6hLG8yXun8B3m+kJKUwp9SZsm+9kHC3CVxTHYY=;
+ b=Ldos5N8fDKiQpHNrsRoDB0u2uP++bu15v95BzAvY6kWgJQql7Gvxt6iwtGZtI95hTp
+ r/8mwDPVnHJN0TMMnxEDEt1uAO7MuutL6cMhiKGYcT/dMz1FBzuC1EmUWT6HMAtZxkBE
+ jkDG4vBJj7P50SVhxMR0BuouvNVChQtlqiaYOsS54d7uKtbLp2JBW9Gk3GMmJqwpU/mF
+ hn5X6rpvJlFFCDSl0zhZBajsLm93fiQffU7VQBf5YxzmNyGgyEiQTiuhiQG8caQKPjjb
+ Dl8N7Yaa7Vk/68jePtnZpG1k1Q6Pm3zEJh1oRRb5wfzK2Xo7cVxqaE9ei2B0Egq+nUTY
+ Ouag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=f63dB6hLG8yXun8B3m+kJKUwp9SZsm+9kHC3CVxTHYY=;
+ b=B2CIGflkxWy6WTaZkrpPR8tmmc/Ee3gGC9Djsp0qyiDg+enxYiz9RrXwDTsGlWkQKH
+ WX15DJiicCKdrTde0zRGCoAJLJu0ibXhB2P1Yq5LunpOAGtijE8xomgaStiNb+juYXMZ
+ nVymPXGdmAD45j1hYv3Q23IieNs+ufOhkw+5TCOF/T8oaU8e0uEbB4LA1nuM2NGRY94i
+ luf1z0nEh89GcB723X8BucjNIWQVwNECBxRvRHRkKoaZFo5R/Kze6k4WXhC7HU7kcfqx
+ AD6dh9o+f9jk0552cpxLx/2yVbk9kRW9s1zzfw5eJ1i2PQ82nM66ny1D+wbBcr+0g3wz
+ 0lZA==
+X-Gm-Message-State: APjAAAUjSYUm3YU9oM9vLn1AcCOqX/Cv+ODSkDc46MNw696V8/jIuQnV
+ A4nf7+kOLTqOVd5eMsds859DIQ==
+X-Google-Smtp-Source: APXvYqwAvv+BDWf+ueCxqjW152AvXJJnzNj8JCZyYp+pIRTgCVVATrNnYTOhOt8h8VQeDPIqNDDUYQ==
+X-Received: by 2002:a5d:66c1:: with SMTP id k1mr3543854wrw.73.1571915668347;
+ Thu, 24 Oct 2019 04:14:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i18sm22886295wrx.14.2019.10.24.04.14.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 04:14:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C0C3C1FF87;
+ Thu, 24 Oct 2019 12:14:26 +0100 (BST)
+References: <20191022072135.11188-1-thuth@redhat.com>
+ <20191022072135.11188-6-thuth@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/19] qapi: Fold normalize_if() into check_if()
-Date: Thu, 24 Oct 2019 13:02:32 +0200
-Message-Id: <20191024110237.30963-15-armbru@redhat.com>
-In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
-References: <20191024110237.30963-1-armbru@redhat.com>
+Subject: Re: [PATCH v3 5/6] iotests: Enable more tests in the 'auto' group
+ to improve test coverage
+In-reply-to: <20191022072135.11188-6-thuth@redhat.com>
+Date: Thu, 24 Oct 2019 12:14:26 +0100
+Message-ID: <87ftjimm3x.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: cWe2SOjIOmuCks5uQDiCWw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,92 +83,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-check_if() is always called together with normalize_if().  Fold the
-latter into the former.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qapi/expr.py | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+Thomas Huth <thuth@redhat.com> writes:
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 7c7394f835..aa0fe69f99 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -95,12 +95,6 @@ def check_flags(expr, info):
-                 info, "flag '%s' may only use true value" % key)
-=20
-=20
--def normalize_if(expr):
--    ifcond =3D expr.get('if')
--    if isinstance(ifcond, str):
--        expr['if'] =3D [ifcond]
+<snip>
+>
+> According to Max, it would be good to have a test for iothreads and
+> migration. 127 and 256 seem to be good candidates for iothreads. For
+> migration, let's enable 091, 181, and 203 (which also tests iothreads).
+<snip>
+> @@ -112,7 +112,7 @@
+>  088 rw quick
+>  089 rw auto quick
+>  090 rw auto quick
+> -091 rw migration
+> +091 rw auto migration
+
+
+This is breaking consistently on my ZFS machine:
+
+TEST    iotest-qcow2: 091 [fail]
+QEMU          -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
+x86_64-softmmu/qemu-system-x86_64" -nodefaults -display none -machine accel=
+=3Dqtest
+QEMU_IMG      -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
+qemu-img"
+QEMU_IO       -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
+qemu-io"  --cache writeback -f qcow2
+QEMU_NBD      -- "/home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/../../=
+qemu-nbd"
+IMGFMT        -- qcow2 (compat=3D1.1)
+IMGPROTO      -- file
+PLATFORM      -- Linux/x86_64 hackbox2 4.15.0-66-generic
+TEST_DIR      -- /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/scratch
+SOCKET_SCM_HELPER -- /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/soc=
+ket_scm_helper
+
+--- /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/091.out  2019-02-19 =
+12:32:03.231730789 +0000
++++ /home/alex.bennee/lsrc/qemu.git/tests/qemu-iotests/091.out.bad      201=
+9-10-24 12:07:00.624967556 +0100
+@@ -9,20 +9,4 @@
+
+ =3D=3D=3D VM 1: Migrate from VM1 to VM2 =3D=3D=3D
+
+-vm1: qemu-io disk write complete
+-vm1: live migration started
+-vm1: live migration completed
 -
+-=3D=3D=3D VM 2: Post-migration, write to disk, verify running =3D=3D=3D
 -
- def check_if(expr, info, source):
-=20
-     def check_if_str(ifcond, info):
-@@ -126,6 +120,7 @@ def check_if(expr, info, source):
-             check_if_str(elt, info)
-     else:
-         check_if_str(ifcond, info)
-+        expr['if'] =3D [ifcond]
-=20
-=20
- def normalize_members(members):
-@@ -175,7 +170,6 @@ def check_type(value, info, source,
-             raise QAPISemError(info, "%s uses reserved name" % key_source)
-         check_keys(arg, info, key_source, ['type'], ['if'])
-         check_if(arg, info, key_source)
--        normalize_if(arg)
-         check_type(arg['type'], info, key_source, allow_array=3DTrue)
-=20
-=20
-@@ -198,7 +192,6 @@ def check_features(features, info):
-         source =3D "%s '%s'" % (source, f['name'])
-         check_name_str(f['name'], info, source)
-         check_if(f, info, source)
--        normalize_if(f)
-=20
-=20
- def normalize_enum(expr):
-@@ -227,7 +220,6 @@ def check_enum(expr, info):
-         check_name_str(member['name'], info, source,
-                        enum_member=3DTrue, permit_upper=3Dpermit_upper)
-         check_if(member, info, source)
--        normalize_if(member)
-=20
-=20
- def check_struct(expr, info):
-@@ -259,7 +251,6 @@ def check_union(expr, info):
-         check_name_str(key, info, source)
-         check_keys(value, info, source, ['type'], ['if'])
-         check_if(value, info, source)
--        normalize_if(value)
-         check_type(value['type'], info, source, allow_array=3Dnot base)
-=20
-=20
-@@ -273,7 +264,6 @@ def check_alternate(expr, info):
-         check_name_str(key, info, source)
-         check_keys(value, info, source, ['type'], ['if'])
-         check_if(value, info, source)
--        normalize_if(value)
-         check_type(value['type'], info, source)
-=20
-=20
-@@ -376,7 +366,6 @@ def check_exprs(exprs):
-         else:
-             assert False, 'unexpected meta type'
-=20
--        normalize_if(expr)
-         check_if(expr, info, meta)
-         check_flags(expr, info)
-=20
---=20
-2.21.0
+-vm2: qemu-io disk write complete
+-vm2: qemu process running successfully
+-vm2: flush io, and quit
+-Check image pattern
+-read 4194304/4194304 bytes at offset 0
+-4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-Running 'qemu-img check -r all $TEST_IMG'
+-No errors were found on the image.
+-80/16384 =3D 0.49% allocated, 0.00% fragmented, 0.00% compressed clusters
+-Image end offset: 5570560
+-*** done
++Timeout waiting for (qemu) on handle 0
 
+
+--
+Alex Benn=C3=A9e
 
