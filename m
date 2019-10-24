@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3073E318B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:55:14 +0200 (CEST)
-Received: from localhost ([::1]:40352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7AEE31A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:58:07 +0200 (CEST)
+Received: from localhost ([::1]:40402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbhx-0008IK-Iu
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35449)
+	id 1iNbkj-0006ao-QV
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37805)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iNb7J-0003PX-Ad
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:17:22 -0400
+ (envelope-from <mst@redhat.com>) id 1iNb9H-0007X3-Gn
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:19:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iNb7H-00049u-Ui
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:17:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48409
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iNb9F-0005Me-WF
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:19:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47339)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNb7H-00049I-Pf
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:17:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571915839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n+RY8lFTGAdjrHRcz99VTIPSdolgM9nvlWB3O/PEDaU=;
- b=B/9+iNCyvDOmS2sXZrv0zTfbjNYFvUSNXu9SKGt2Xd9HBEt4KCblqrlA5SdgkSY08asivB
- ygKI8e9O1YOS56pjCoyAUzT6ja73l837GRt9KrR6CogL3EBloVfTEvBdTfJK9ZpBUhF2oO
- +pPW7UScI1HDM87oy+6h27/2HDD0Z08=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-oH_Vn_SqOkKDblib7NSMRg-1; Thu, 24 Oct 2019 07:17:16 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iNb9F-0005Lw-N8
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:19:21 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 999E0100550E;
- Thu, 24 Oct 2019 11:17:14 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 254495D6D0;
- Thu, 24 Oct 2019 11:17:11 +0000 (UTC)
-Date: Thu, 24 Oct 2019 13:17:10 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 3/3] qcow2: Fix corruption bug in
- qcow2_detect_metadata_preallocation()
-Message-ID: <20191024111710.GC6200@linux.fritz.box>
-References: <20191023152620.13166-1-kwolf@redhat.com>
- <20191023152620.13166-4-kwolf@redhat.com>
- <3cfee2ed-cebb-44ef-82ce-77a77c1a9e6a@virtuozzo.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id DD55F83F3C
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:19:20 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id m19so24618502qtm.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:19:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=W9J+8pC0nI1qSWQgoFlrnvJigANruwVWY+QPi7Oi9kc=;
+ b=YulAVHkskm69MF7yevWVYYBhtvVrm27zEdG2SotIAgBSW/bEYD5IdP20ZVGS79rf9R
+ Zj09S+mzpBvyiHqn80dCpacS7jbFLCjMSCN2gapyI66owVv6XgI/QIGG6WVz062WGe86
+ JKnO30eHWHaRteBZ2K2RCSBmPkIMyysF2flJNSHjPsgRubuc/wNHe5qx3Ylxbf+0WI/3
+ RTq58RR7esWgDbWPFPyeuyGH1tB77AsnDhRUTu+6wvGc//Su+f+TrkfxPQqHsnXsreNL
+ +LNy9y/VGjOqmMLwf32AOmBK6SzP1eBLjEnx281uMmFWjTOZeNUbz+3u3D4nLbaxQjfn
+ l0+A==
+X-Gm-Message-State: APjAAAXMtMeZNgnXUmHdbSGjf+12xfRlKBkbN2ewt2qQbf1Gq1kGdMA9
+ TXyulkc5d1xJiPsmt8AVch2LKrJYiSe8zpipZ6M3/ekbbywntlULDoDiq3aI+36uyTtLx/VswDt
+ 8BeDFbl/svfd7lKU=
+X-Received: by 2002:a0c:fe02:: with SMTP id x2mr6575190qvr.117.1571915960112; 
+ Thu, 24 Oct 2019 04:19:20 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxwbZ3igDy9/Zk5fj3+9Q2nFdgrjr95IUlbXzxb5gfGV7G1pl/y4TUMC2a8NpEy1+0a4PPFTQ==
+X-Received: by 2002:a0c:fe02:: with SMTP id x2mr6575148qvr.117.1571915959785; 
+ Thu, 24 Oct 2019 04:19:19 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ e13sm10975534qkm.110.2019.10.24.04.19.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Oct 2019 04:19:19 -0700 (PDT)
+Date: Thu, 24 Oct 2019 07:19:13 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 00/30] virtiofs daemon (base)
+Message-ID: <20191024071738-mutt-send-email-mst@kernel.org>
+References: <20191021105832.36574-1-dgilbert@redhat.com>
+ <157166664425.24734.3489596262271351160@37313f22b938>
+ <20191021143357.GB5837@work-vm>
+ <20191024065826-mutt-send-email-mst@kernel.org>
+ <20191024110708.GI3700@redhat.com> <20191024111439.GD2877@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <3cfee2ed-cebb-44ef-82ce-77a77c1a9e6a@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: oH_Vn_SqOkKDblib7NSMRg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+In-Reply-To: <20191024111439.GD2877@work-vm>
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,68 +82,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
- "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 24.10.2019 um 12:46 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 23.10.2019 18:26, Kevin Wolf wrote:
-> > qcow2_detect_metadata_preallocation() calls qcow2_get_refcount() which
-> > requires s->lock to be taken to protect its accesses to the refcount
-> > table and refcount blocks. However, nothing in this code path actually
-> > took the lock. This could cause the same cache entry to be used by two
-> > requests at the same time, for different tables at different offsets,
-> > resulting in image corruption.
+On Thu, Oct 24, 2019 at 12:14:39PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> > On Thu, Oct 24, 2019 at 06:59:33AM -0400, Michael S. Tsirkin wrote:
+> > > On Mon, Oct 21, 2019 at 03:33:57PM +0100, Dr. David Alan Gilbert wr=
+ote:
+> > > > * no-reply@patchew.org (no-reply@patchew.org) wrote:
+> > > > > Patchew URL: https://patchew.org/QEMU/20191021105832.36574-1-dg=
+ilbert@redhat.com/
+> > > > >=20
+> > > > >=20
+> > > > >=20
+> > > > > Hi,
+> > > > >=20
+> > > > > This series seems to have some coding style problems. See outpu=
+t below for
+> > > > > more information:
+> > > > >=20
+> > > > > Subject: [PATCH 00/30] virtiofs daemon (base)
+> > > > > Type: series
+> > > > > Message-id: 20191021105832.36574-1-dgilbert@redhat.com
+> > > > >=20
+> > > > > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> > > > > #!/bin/bash
+> > > > > git rev-parse base > /dev/null || exit 0
+> > > > > git config --local diff.renamelimit 0
+> > > > > git config --local diff.renames True
+> > > > > git config --local diff.algorithm histogram
+> > > > > ./scripts/checkpatch.pl --mailback base..
+> > > >=20
+> > > > Expecting checkpatch to be broken here; most of the files
+> > > > follow FUSE's formatting.
+> > > >=20
+> > > > Dave
+> > >=20
+> > > I wonder what do others think about this.
+> > > One problem with such inconsistencies is that people tend to copy c=
+ode
+> > > around, which tends to result in a mess.
 > >=20
-> > As it would be preferable to base the detection on consistent data (eve=
-n
-> > though it's just heuristics), let's take the lock not only around the
-> > qcow2_get_refcount() calls, but around the whole function.
+> > IIUC, most of this code is simpy copied as-is from the fuse or linux
+> > git repos. I'm wondering what the intention is for it long term ?
 > >=20
-> > This patch takes the lock in qcow2_co_block_status() earlier and assert=
-s
-> > in qcow2_detect_metadata_preallocation() that we hold the lock.
-> >=20
-> > Fixes: 69f47505ee66afaa513305de0c1895a224e52c45
-> > Cc: qemu-stable@nongnu.org
-> > Reported-by: Michael Weiser <michael@weiser.dinsnail.net>
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > For header files, I would have expected us to be able to compile agai=
+nst
+> > the -devel package provided by the kernel or fuse packages. I can
+> > understand if we want to import the headers if the VSOCK additions to
+> > them are not yet widely available in distros though. If this is the c=
+ase
+> > we should put a time limit on how long we'd keep these copied headers
+> > around for before dropping them. It would be fine to violate QEMU cod=
+ing
+> > style in this case as its not code QEMU would "maintain" long term - =
+just
+> > a read-only import.
 >=20
-> Oh, I'm very sorry. I was going to backport this patch, and found that it=
-'s
-> fixed in our downstream long ago, even before last upstream version patch=
- sent :(
+> The headers are really two types;  one are external definitions, the
+> other are internal parts of libfuse.  I'd expect to keep the internal
+> parts long term; teh external parts hmm; where would we pull them in
+> externally from?
+>=20
+> > The source files though, we appear to then be modifying locally, whic=
+h
+> > suggests they'll live in our repo forever. In this case I'd expect to
+> > have compliance with QEMU coding standards.
+>=20
+> OK.
+>=20
+> > I'm surprised we need to copy so much in from fuse though. Is there a
+> > case to be made for fuse to provide a library of APIs for people who
+> > are building fuse daemons to link against, instead of copy & fork ?
+>=20
+> libfuse *is* such a library; but it preserves ABI compliance; it's
+> intention is to be used to build filesystem implementations on top of -
+> and that's got a fairly good separation;  however changing the fuse
+> transport, and security models is much more invasive than it was
+> designed for.
+>=20
+> Dave
 
-Seriously? Is your downstream QEMU so divergent from upstream that you
-wouldn't notice something like this? I think you really have to improve
-something there.
 
-I mean, we have a serious data corruptor in the 4.1 release and I wasted
-days to debug this, and you've been sitting on a fix for months without
-telling anyone? This isn't a memory leak or something, this kills
-people's images. It's eating their data.
+I guess you did try to propose adding the functionality to the libfuse
+maintainer and got rejected? If not it's worth asking.
 
-Modifying an image format driver requires utmost care and I think I'll
-try to make sure to allow only few qcow2 changes per release in the
-future. Too many changes were made in too short time, and with too
-little care, and there are even more qcow2 patches pending. Please check
-whether these series actually match your downstream code. Anyway, we'll
-tread very carefully now with the pending patches, even if it means
-delaying them for another release or two. Stability is way more
-important for an image format driver than new features and
-optimisations.
 
-Do whatever you need to fix your downstream process, but seriously, this
-must not ever happen again.
 
-Kevin
-
+> > Regards,
+> > Daniel
+> > --=20
+> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dbe=
+rrange :|
+> > |: https://libvirt.org         -o-            https://fstop138.berran=
+ge.com :|
+> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dbe=
+rrange :|
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
