@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB234E36CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:37:40 +0200 (CEST)
-Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A824E36E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:42:11 +0200 (CEST)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNfBD-0005mG-Ml
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34965)
+	id 1iNfFa-0002jg-IH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjA-0008E7-O7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:37 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdjD-0008Ii-Or
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj5-0007oh-6k
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:36 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46839)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iNdj7-0007qV-D1
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:38 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41165)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iNdj4-0007oD-W5
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:31 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id n15so15445328wrw.13
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:30 -0700 (PDT)
+ id 1iNdj7-0007pT-6h
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:04:33 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id p4so26247263wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=icQSYq8suoWhdg2fa8gVI133nwoWV8pjrk93eMBlBGA=;
- b=MK68BejZ3Z4nC9UHBcYRZ5UWNJLCX4Waik0vNKfwOyZxiQZPRYj7VUkyC4O1Xm38Fu
- F3OEdrkZrSFU/W5yQZ0QASkYXDchj2moAWCExsUOYmhvXBlHwR7FqO2N7XUU8kk4Cl9T
- M4lFN7Ew7cRermDhITObQRqXrANBIe8RV5034bmlm2rD2zomYmD7kMYTxF1qRxaBWRE4
- P09R5K79otV5hNVqlveA3tgTMsnh7qpwenLg3rclyjBsli74Rgd7D/ZctyKcADmxzyt9
- iY1oOu842ETnWp3lsMu1yj3fX7dfBrvL+4nfjPFNJo+ZrIVcusVQQlAAbSDbHbPgH/O2
- b1xA==
+ bh=bW6P2NgO+nuwZAStwk4n4lKvUPFNwzLT5MNnpnO4GMQ=;
+ b=ZAuE0g5h1/sf6lx7tbMjIzenhYtXPfDQUHtzmTcXzEGe+2hb+KOFhz8ZNJqwmEawz/
+ qpTlBNbQSmc1ycUav4M/hoQH/H9RNCcHGsaUM7l66rscTL59Ri0zb6D4dNxNHWtQORBw
+ 6qwKOfOupZy0GS9vk0UvQnCvq/5zi/2Geh30isPTJQoYl8WyXiPWst30MnxHjfJJTDan
+ GUJfGAiRpbXdTNrsJFY7sTgkHCG0AoSl2VSvouRQheQjTdCeYP7h0HxhqzNAOxxMtT8V
+ yCyeuRQUzRjsvC9cdIMqlXwK34cvFdP/2sUHihcWFrxRw2Ao3xY0mQintm9L0vvSu0O4
+ 65fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=icQSYq8suoWhdg2fa8gVI133nwoWV8pjrk93eMBlBGA=;
- b=h5eYMQMWNjXbpAXJdgCSi4qrv5gxobbTSxkzLkTJO4ygkaQQK78UxqG07j1S2ZIiPO
- mpMdaOhXKWZMNP3TOv3ZOJStt4SaJvfknkShlr78mHkHonVpyKTdC5umbVgC7MG5w+Si
- Pdwp2EZP0kK7qNWAJuPU848iY4lBPVMZ1jEMXaQwOf5zRslmpguxnOaCGoDB7Zdf20RA
- FM7EwJwthO6Etong1n0pbKIOGQTykZiuCHiEyaEVBEnSec+CaXd2vs0XKDzlKuc8tEVX
- duRRRJ2+SOTRRIk965+m4Oq5/CxS4gMztnG4DrKSik2Or/ues/onYNXy7dmT7BHzM3kW
- JE/g==
-X-Gm-Message-State: APjAAAV6YTz1FobCcjbSDE8cd9bCr2xd2rl2n04oytPW2AU6nL2a99Y4
- IB0TT00DtosmcR+3k728Mw6j9MyZ
-X-Google-Smtp-Source: APXvYqz0P1zbGWLOsz0D0UkdH9BEmAQ9ZTHJSDdmJjDvQ0hSVxEa/dBbWCVK+NJbpElfZHqIVibzpw==
-X-Received: by 2002:adf:afef:: with SMTP id y47mr2132655wrd.190.1571925869593; 
- Thu, 24 Oct 2019 07:04:29 -0700 (PDT)
+ bh=bW6P2NgO+nuwZAStwk4n4lKvUPFNwzLT5MNnpnO4GMQ=;
+ b=FZVy+IrDcOo+wTUWQpjNVDkQEQLXWuKH+8MGMC2eyv3SYEqR9l3usg4uNKGYqFW4/D
+ Cchp6VLIL+dY3T4b0MlFx/vHAfiOMe6badcKOBR2bQZKJpa1tcOEP9SijcxoZ8RqkHV9
+ pKrr4XbFTRCebhPNSa+6Sdiu49BjaPcZt2lH/xPYUtOTxoo9VflG6YT1icIOXGfxMbKc
+ Gw1+h+KEYfq7/6PbBrHKLc1P77fVGqcWP/X5MVY83RTcsZKfEldl3KL3WXxBFTdtLfjO
+ qoHrqD8pUy54fDPUdWwjHtGYolwkChMsqqCHIT+g5SnfchnwViZZI+JoCe9bXoCf/IYX
+ nRmg==
+X-Gm-Message-State: APjAAAW6hlMw2AywFGKhemlvog9GURBf9DMYtNk/aXgdZTQ0pXSc/ESj
+ uwDkJcZB1I7v4vtuiCCWf5thmeE1
+X-Google-Smtp-Source: APXvYqztTibCuTQvi2u9iQrk872E+KxXKE3LNyVz1ZyQjNfGgxXOEZeqA1kFRahlXLVYkAXo0lXAuA==
+X-Received: by 2002:adf:9185:: with SMTP id 5mr4254381wri.389.1571925871860;
+ Thu, 24 Oct 2019 07:04:31 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.28
+ by smtp.gmail.com with ESMTPSA id b7sm10610155wrn.53.2019.10.24.07.04.30
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:04:28 -0700 (PDT)
+ Thu, 24 Oct 2019 07:04:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/39] hw/i386/pc: Extract pc_i8259_create()
-Date: Thu, 24 Oct 2019 16:03:45 +0200
-Message-Id: <1571925835-31930-30-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 31/39] mc146818rtc: move structure to header file
+Date: Thu, 24 Oct 2019 16:03:47 +0200
+Message-Id: <1571925835-31930-32-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
 References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,131 +78,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Hervé Poussineau <hpoussin@reactos.org>
 
-The i8259 creation code is common to all PC machines, extract the
-common code.
+We are now able to embed a timer in another object.
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+Message-Id: <20171216090228.28505-4-hpoussin@reactos.org>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191018135910.24286-5-philmd@redhat.com>
+Message-Id: <20191018133547.10936-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c         | 19 +++++++++++++++++++
- hw/i386/pc_piix.c    | 13 +------------
- hw/i386/pc_q35.c     | 14 +-------------
- include/hw/i386/pc.h |  1 +
- 4 files changed, 22 insertions(+), 25 deletions(-)
+ hw/timer/mc146818rtc.c         | 30 ------------------------------
+ include/hw/timer/mc146818rtc.h | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 30 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e8a54ac..5fce60c 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1474,6 +1474,25 @@ void pc_nic_init(PCMachineClass *pcmc, ISABus *isa_bus, PCIBus *pci_bus)
-     rom_reset_order_override();
- }
+diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+index c979db0..09edb93 100644
+--- a/hw/timer/mc146818rtc.c
++++ b/hw/timer/mc146818rtc.c
+@@ -71,36 +71,6 @@
+ #define RTC_CLOCK_RATE            32768
+ #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
  
-+void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs)
-+{
-+    qemu_irq *i8259;
-+
-+    if (kvm_pic_in_kernel()) {
-+        i8259 = kvm_i8259_init(isa_bus);
-+    } else if (xen_enabled()) {
-+        i8259 = xen_interrupt_controller_init();
-+    } else {
-+        i8259 = i8259_init(isa_bus, pc_allocate_cpu_irq());
-+    }
-+
-+    for (size_t i = 0; i < ISA_NUM_IRQS; i++) {
-+        i8259_irqs[i] = i8259[i];
-+    }
-+
-+    g_free(i8259);
-+}
-+
- void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
- {
-     DeviceState *dev;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 0cc951a..648dc9a 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -82,7 +82,6 @@ static void pc_init1(MachineState *machine,
-     ISABus *isa_bus;
-     PCII440FXState *i440fx_state;
-     int piix3_devfn = -1;
--    qemu_irq *i8259;
-     qemu_irq smi_irq;
-     GSIState *gsi_state;
-     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-@@ -209,18 +208,8 @@ static void pc_init1(MachineState *machine,
-     }
-     isa_bus_irqs(isa_bus, x86ms->gsi);
- 
--    if (kvm_pic_in_kernel()) {
--        i8259 = kvm_i8259_init(isa_bus);
--    } else if (xen_enabled()) {
--        i8259 = xen_interrupt_controller_init();
--    } else {
--        i8259 = i8259_init(isa_bus, pc_allocate_cpu_irq());
--    }
-+    pc_i8259_create(isa_bus, gsi_state->i8259_irq);
- 
--    for (i = 0; i < ISA_NUM_IRQS; i++) {
--        gsi_state->i8259_irq[i] = i8259[i];
--    }
--    g_free(i8259);
-     if (pcmc->pci_enabled) {
-         ioapic_init_gsi(gsi_state, "i440fx");
-     }
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 6cf12b7..157d1da 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -130,7 +130,6 @@ static void pc_q35_init(MachineState *machine)
-     MemoryRegion *ram_memory;
-     GSIState *gsi_state;
-     ISABus *isa_bus;
--    qemu_irq *i8259;
-     int i;
-     ICH9LPCState *ich9_lpc;
-     PCIDevice *ahci;
-@@ -257,18 +256,7 @@ static void pc_q35_init(MachineState *machine)
-     pci_bus_set_route_irq_fn(host_bus, ich9_route_intx_pin_to_irq);
-     isa_bus = ich9_lpc->isa_bus;
- 
--    if (kvm_pic_in_kernel()) {
--        i8259 = kvm_i8259_init(isa_bus);
--    } else if (xen_enabled()) {
--        i8259 = xen_interrupt_controller_init();
--    } else {
--        i8259 = i8259_init(isa_bus, pc_allocate_cpu_irq());
--    }
+-#define MC146818_RTC(obj) OBJECT_CHECK(RTCState, (obj), TYPE_MC146818_RTC)
 -
--    for (i = 0; i < ISA_NUM_IRQS; i++) {
--        gsi_state->i8259_irq[i] = i8259[i];
--    }
--    g_free(i8259);
-+    pc_i8259_create(isa_bus, gsi_state->i8259_irq);
+-typedef struct RTCState {
+-    ISADevice parent_obj;
+-
+-    MemoryRegion io;
+-    MemoryRegion coalesced_io;
+-    uint8_t cmos_data[128];
+-    uint8_t cmos_index;
+-    int32_t base_year;
+-    uint64_t base_rtc;
+-    uint64_t last_update;
+-    int64_t offset;
+-    qemu_irq irq;
+-    int it_shift;
+-    /* periodic timer */
+-    QEMUTimer *periodic_timer;
+-    int64_t next_periodic_time;
+-    /* update-ended timer */
+-    QEMUTimer *update_timer;
+-    uint64_t next_alarm_time;
+-    uint16_t irq_reinject_on_ack_count;
+-    uint32_t irq_coalesced;
+-    uint32_t period;
+-    QEMUTimer *coalesced_timer;
+-    LostTickPolicy lost_tick_policy;
+-    Notifier suspend_notifier;
+-    QLIST_ENTRY(RTCState) link;
+-} RTCState;
+-
+ static void rtc_set_time(RTCState *s);
+ static void rtc_update_time(RTCState *s);
+ static void rtc_set_cmos(RTCState *s, const struct tm *tm);
+diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/mc146818rtc.h
+index fe6ed63..0f1c886 100644
+--- a/include/hw/timer/mc146818rtc.h
++++ b/include/hw/timer/mc146818rtc.h
+@@ -1,10 +1,43 @@
+ #ifndef MC146818RTC_H
+ #define MC146818RTC_H
  
-     if (pcmc->pci_enabled) {
-         ioapic_init_gsi(gsi_state, "q35");
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 8c5dc39..5923318 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -219,6 +219,7 @@ void pc_pci_device_init(PCIBus *pci_bus);
++#include "qapi/qapi-types-misc.h"
++#include "qemu/queue.h"
++#include "qemu/timer.h"
+ #include "hw/isa/isa.h"
+ #include "hw/timer/mc146818rtc_regs.h"
  
- typedef void (*cpu_set_smm_t)(int smm, void *arg);
+ #define TYPE_MC146818_RTC "mc146818rtc"
++#define MC146818_RTC(obj) OBJECT_CHECK(RTCState, (obj), TYPE_MC146818_RTC)
++
++typedef struct RTCState {
++    ISADevice parent_obj;
++
++    MemoryRegion io;
++    MemoryRegion coalesced_io;
++    uint8_t cmos_data[128];
++    uint8_t cmos_index;
++    int32_t base_year;
++    uint64_t base_rtc;
++    uint64_t last_update;
++    int64_t offset;
++    qemu_irq irq;
++    int it_shift;
++    /* periodic timer */
++    QEMUTimer *periodic_timer;
++    int64_t next_periodic_time;
++    /* update-ended timer */
++    QEMUTimer *update_timer;
++    uint64_t next_alarm_time;
++    uint16_t irq_reinject_on_ack_count;
++    uint32_t irq_coalesced;
++    uint32_t period;
++    QEMUTimer *coalesced_timer;
++    Notifier clock_reset_notifier;
++    LostTickPolicy lost_tick_policy;
++    Notifier suspend_notifier;
++    QLIST_ENTRY(RTCState) link;
++} RTCState;
  
-+void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
- void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
- 
- ISADevice *pc_find_fdc0(void);
+ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+                              qemu_irq intercept_irq);
 -- 
 1.8.3.1
 
