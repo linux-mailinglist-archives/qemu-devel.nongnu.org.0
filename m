@@ -2,105 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F048E2F65
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:50:02 +0200 (CEST)
-Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A175EE2F9D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 12:57:06 +0200 (CEST)
+Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNagq-0005Yb-Dg
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57070)
+	id 1iNanh-0007Du-3E
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 06:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iNadI-0002hv-Df
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:46:21 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNal6-0004u2-1t
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:54:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iNadH-0007AY-5B
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:46:20 -0400
-Received: from mail-he1eur02on0703.outbound.protection.outlook.com
- ([2a01:111:f400:fe05::703]:9190
- helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iNadC-00078D-Rd; Thu, 24 Oct 2019 06:46:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j+jrMlkAxZ04Lqtlmy6ZNubomRtjucsdwKr2g5QRuOsjEKnf9JJR1aZCrk2l+XPC2Q0elTP0n0d25xw92e6KHuul+0LebRZDKTV95NoYzHXF5p+U7gVL/8+bkHJb4OKdK5eFxDUZ7XCpzumgbO2dZ3pMJgubKlZstZySBhLz/Li5kFP/srGXmExKXs/uJHQN5gw/isSptBH8+ELuRaiTxTgNquTO5USjZmz+qyUn/bwoA+7REqZEPYifVicmjJtECqkYSzj6yH8Fg09zrlp3JE9jId+iZzmWhErRSQccYrUp86vnaXXk2sg5+0F34VByJ3J0XUMvG9tYDK5zhLRJYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pbo5365KXbgSlej2izc6pKjLVNGUv3PjWpPEjpRCC8w=;
- b=e36bNcIUYuON/nXwYOON4s5OrNf9IwoSIditP23Z7I8oXkAfYP9epVDxk+S9kJMMawgU2VN6v0+jSHzCe8uQ5Ka3tVjIliZmr1s9N8lWHyffdxuKE7IAiK66CBzkW1rSThjK/MhGoozROArAImIwNs31B4lwrwhvSnNUDNiRIM0Y0dpejy4IR50TTFyq9gN+tkZegNtvuOlUoJ+/QfsYPEKhaS/2NjjCRk9gOVcsYFY3qF+cezslajIk8188zuKZ9U9jCDgboXEDcX6HiIqRvW5wbz43Tax6ZtfMxqDtVSA+PdZFjJm9IvXqFdmuAD4mU4X09uDqeq6rE1vpeaiXLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pbo5365KXbgSlej2izc6pKjLVNGUv3PjWpPEjpRCC8w=;
- b=vv8VkcjKbS9p55tFeJRkvJi0YnsxCfLT/zGzxNonPnZ417O6VBypSmw/u8RtzXIzmnZ+g+PVc7UBVpnGXqoB4zBme4yJVA6DvQOBK/RrEamNeBiRRqxCVvO7Fli2hJP0slG+Bj+MZPstJx1nEZWQaalFVE9vLXKfhduu+o8tSos=
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com (20.179.35.83) by
- AM0PR08MB4161.eurprd08.prod.outlook.com (20.178.203.93) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.24; Thu, 24 Oct 2019 10:46:11 +0000
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c]) by AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c%7]) with mapi id 15.20.2367.027; Thu, 24 Oct 2019
- 10:46:11 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH 3/3] qcow2: Fix corruption bug in
- qcow2_detect_metadata_preallocation()
-Thread-Topic: [PATCH 3/3] qcow2: Fix corruption bug in
- qcow2_detect_metadata_preallocation()
-Thread-Index: AQHVibZRVvKZmtdwLUmUBJHEqcF3fadpnRCA
-Date: Thu, 24 Oct 2019 10:46:11 +0000
-Message-ID: <3cfee2ed-cebb-44ef-82ce-77a77c1a9e6a@virtuozzo.com>
+ (envelope-from <kwolf@redhat.com>) id 1iNal3-0001fW-QR
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:54:22 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49674
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNal3-0001f1-K9
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 06:54:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571914460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J0lYdZ6C06NPcCJlDe0gCUhvu9DciXiqBjimCh+LKec=;
+ b=TzfY5p6zYpNeat1c+3tjEccwYVg89FpkCfc/4NiuGcj2N/lSkN4m+uPR9kalzozWJZfpVv
+ MtgZ7GEe8MckN1ZhPdQU5JVs4FeVnd7HbmSq4fzTi7X2acwUDAj4I75H8RhXnaU2zq++Dv
+ W38UC2YgJ1GlifE6I5Zi/dAx96wbfVY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-R56ei82sN4eDDeFYTofqbQ-1; Thu, 24 Oct 2019 06:54:16 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 564F1107AD31;
+ Thu, 24 Oct 2019 10:54:15 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EE1C600C4;
+ Thu, 24 Oct 2019 10:54:12 +0000 (UTC)
+Date: Thu, 24 Oct 2019 12:54:11 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Denis Lunev <den@virtuozzo.com>
+Subject: Re: [PATCH 1/3] coroutine: Add qemu_co_mutex_assert_locked()
+Message-ID: <20191024105411.GA6200@linux.fritz.box>
 References: <20191023152620.13166-1-kwolf@redhat.com>
- <20191023152620.13166-4-kwolf@redhat.com>
-In-Reply-To: <20191023152620.13166-4-kwolf@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR02CA0097.eurprd02.prod.outlook.com
- (2603:10a6:7:29::26) To AM0PR08MB4435.eurprd08.prod.outlook.com
- (2603:10a6:208:144::19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191024134609162
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 28c91069-5967-4170-e8b0-08d7586f6276
-x-ms-traffictypediagnostic: AM0PR08MB4161:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR08MB41618DAF7C8E47A5F7FC8D8EC16A0@AM0PR08MB4161.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39840400004)(346002)(136003)(396003)(376002)(189003)(199004)(11346002)(305945005)(54906003)(446003)(64756008)(14454004)(86362001)(476003)(81156014)(8676002)(8936002)(478600001)(186003)(31696002)(66556008)(486006)(66476007)(66946007)(66446008)(2501003)(66066001)(31686004)(386003)(25786009)(2616005)(102836004)(5660300002)(14444005)(256004)(6506007)(26005)(52116002)(71190400001)(99286004)(2906002)(7736002)(110136005)(4326008)(6116002)(6246003)(3846002)(6486002)(81166006)(6436002)(229853002)(36756003)(6512007)(71200400001)(316002)(76176011);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4161;
- H:AM0PR08MB4435.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kqnlVQGNLsrA+dFZkZvOCThMX4Pqn7gO/ukvjKJj59HXZErgBNdl7jdBMvtKqF2GSA2vdgI7CTLHxLYbOVYodIuOjGJlQLdtvjAZiMiPLAbBB8C1R38KIZ1aaarpG7uKHp/b7p8XJjPX++gAaLwTjix7/PCNed5iXdCRnYhorVniccKZwdmYfk9SXaOTG69XZ1SYwPOuvaXN5Nl9HmPLlbwMpeX/qqcmJK93Lj5Vi//o984O3qoRYGRIZWozuDLxvDt61/PSZ9SW2dl0jKZQJQuCqm/OtOebKgaKcWT9PBPN45A0tqL6MenqL4yaivRsKRpsEtlg5luS89IhWhRrs4239zdUqfAi6ppMYfJKZLqZ/Hv164p+YAvvpnci24cYFgcrPVpO3OIBaOaNByGd9o066UTMyTCcR9Z5+CLpniTvPC3/iXYA8k00E4rnIL2M
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <74C5A4897E03AB4B81344148B673ABD1@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ <20191023152620.13166-2-kwolf@redhat.com>
+ <173e0a00-34e3-522a-4e9b-a33661e3f5ba@virtuozzo.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28c91069-5967-4170-e8b0-08d7586f6276
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 10:46:11.4507 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vwGVBcgcD8LbSnzv+/GnRGdZGxY/hf9RTsQLKdO2wzIKr1mszxnUKWiKD8fMmBq8LZq8RF1b/qXR42OBZHlZ3sriwwb9mGR+qSLomVotLdg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4161
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe05::703
+In-Reply-To: <173e0a00-34e3-522a-4e9b-a33661e3f5ba@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: R56ei82sN4eDDeFYTofqbQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,7 +76,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
  "michael@weiser.dinsnail.net" <michael@weiser.dinsnail.net>,
- Denis Lunev <den@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
  "dgilbert@redhat.com" <dgilbert@redhat.com>,
@@ -123,79 +86,50 @@ Cc: "psyhomb@gmail.com" <psyhomb@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.10.2019 18:26, Kevin Wolf wrote:
-> qcow2_detect_metadata_preallocation() calls qcow2_get_refcount() which
-> requires s->lock to be taken to protect its accesses to the refcount
-> table and refcount blocks. However, nothing in this code path actually
-> took the lock. This could cause the same cache entry to be used by two
-> requests at the same time, for different tables at different offsets,
-> resulting in image corruption.
->=20
-> As it would be preferable to base the detection on consistent data (even
-> though it's just heuristics), let's take the lock not only around the
-> qcow2_get_refcount() calls, but around the whole function.
->=20
-> This patch takes the lock in qcow2_co_block_status() earlier and asserts
-> in qcow2_detect_metadata_preallocation() that we hold the lock.
->=20
-> Fixes: 69f47505ee66afaa513305de0c1895a224e52c45
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Michael Weiser <michael@weiser.dinsnail.net>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Am 24.10.2019 um 11:59 hat Denis Lunev geschrieben:
+> On 10/23/19 6:26 PM, Kevin Wolf wrote:
+> > Some functions require that the caller holds a certain CoMutex for them
+> > to operate correctly. Add a function so that they can assert the lock i=
+s
+> > really held.
+> >
+> > Cc: qemu-stable@nongnu.org
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  include/qemu/coroutine.h | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+> > index 9801e7f5a4..a36bcfe5c8 100644
+> > --- a/include/qemu/coroutine.h
+> > +++ b/include/qemu/coroutine.h
+> > @@ -167,6 +167,13 @@ void coroutine_fn qemu_co_mutex_lock(CoMutex *mute=
+x);
+> >   */
+> >  void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex);
+> > =20
+> > +/**
+> > + * Assert that the current coroutine holds @mutex.
+> > + */
+> > +static inline coroutine_fn void qemu_co_mutex_assert_locked(CoMutex *m=
+utex)
+> > +{
+> > +    assert(mutex->locked && mutex->holder =3D=3D qemu_coroutine_self()=
+);
+> > +}
+> > =20
+> >  /**
+> >   * CoQueues are a mechanism to queue coroutines in order to continue e=
+xecuting
+> I think that we should use atomic_read(&mutex->locked) and require barrie=
+rs
+> working with holder.
 
-Oh, I'm very sorry. I was going to backport this patch, and found that it's
-fixed in our downstream long ago, even before last upstream version patch s=
-ent :(
+Hm, this would only be necessary for the case that the assertion doesn't
+hold true. I'll do the atomic_read() because it's easy enough, but I
+don't think we need or want barriers here. If another thread modifies
+this concurrently, the condition is false either way.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Kevin
 
-> ---
->   block/qcow2-refcount.c | 2 ++
->   block/qcow2.c          | 3 ++-
->   2 files changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index ef965d7895..0d64bf5a5e 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -3455,6 +3455,8 @@ int qcow2_detect_metadata_preallocation(BlockDriver=
-State *bs)
->       int64_t i, end_cluster, cluster_count =3D 0, threshold;
->       int64_t file_length, real_allocation, real_clusters;
->  =20
-> +    qemu_co_mutex_assert_locked(&s->lock);
-> +
->       file_length =3D bdrv_getlength(bs->file->bs);
->       if (file_length < 0) {
->           return file_length;
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index 8b05933565..0bc69e6996 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -1916,6 +1916,8 @@ static int coroutine_fn qcow2_co_block_status(Block=
-DriverState *bs,
->       unsigned int bytes;
->       int status =3D 0;
->  =20
-> +    qemu_co_mutex_lock(&s->lock);
-> +
->       if (!s->metadata_preallocation_checked) {
->           ret =3D qcow2_detect_metadata_preallocation(bs);
->           s->metadata_preallocation =3D (ret =3D=3D 1);
-> @@ -1923,7 +1925,6 @@ static int coroutine_fn qcow2_co_block_status(Block=
-DriverState *bs,
->       }
->  =20
->       bytes =3D MIN(INT_MAX, count);
-> -    qemu_co_mutex_lock(&s->lock);
->       ret =3D qcow2_get_cluster_offset(bs, offset, &bytes, &cluster_offse=
-t);
->       qemu_co_mutex_unlock(&s->lock);
->       if (ret < 0) {
->=20
-
-
---=20
-Best regards,
-Vladimir
 
