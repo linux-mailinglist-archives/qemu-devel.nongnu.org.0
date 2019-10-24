@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E56E3612
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 16:58:50 +0200 (CEST)
-Received: from localhost ([::1]:44838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CC1E361E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:04:00 +0200 (CEST)
+Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeZd-0002kO-AG
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 10:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39950)
+	id 1iNeec-0006hF-RR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:03:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNeAp-0004ym-4b
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:33:12 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iNdWH-0003Nl-ES
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:51:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNeAn-0002IQ-Vq
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:33:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57982)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNeAn-0002HQ-Mb
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:33:09 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D3959C05683F
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 14:33:08 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id 6so1076197wmj.9
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 07:33:08 -0700 (PDT)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iNdWG-0000v8-7L
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 09:51:17 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35963)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iNdWC-0000sh-1X; Thu, 24 Oct 2019 09:51:12 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w18so25650434wrt.3;
+ Thu, 24 Oct 2019 06:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=N6f3Hfdwoq7dm6WmI2PCE15ux3AudUug4cU85NhzejU=;
+ b=k8CTdGRo0Sbwa8X2+iBKodHLLK/y+lvS8xYXjCdmQ80wQ4BmvJURqEE01GhoAPULpD
+ AVgh6MounJV7IFGPe3lOHuXZQO379Sx/KcHlxZUSq8Ll3ufaW+HBNgiJgaup4zX1odxi
+ yVmN9ksFuu4fr7S/VttJIcAL1sD7AJixnSdXyGugKB1KFj+arwMGjghg3rzS6fCcGEbo
+ 3HXGPDXClYt4+2PwGbpF17MYkGk8FBQPOWZs84VX5fb9+3npadTSaxFwyGWSuGr3Gbsb
+ tR3FiL65N7uO9ZIMWLVRedI0jn/jwhSaG3hoqQrMLABQnRHqbzM/htOO5vKOI2kD8/2n
+ TvpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=imnilA3lbvSojZROB8ERKcIG7XNz8EMO2/f4KNixz+M=;
- b=GYjl0TxOF1jP24pGc5jI8GSxYS+bVG8nMFS7dm5JPmZKe0utBu46xDjHByvn2bdBEj
- WufxRmrey0st1nsFNxuh5uwFeEdy+s3V55EFsqwmB+RMDRGrX6IzJ7hME2X5vc9rSvuL
- mo4ejIz+4om72UH6TMj9sx0gLc329Bw2/a3dh4RRaNGrkwoT/eAyUNbL4iekIqTLwz5M
- UafLD04WQyuMN+aOs4OMRj4z80exhY4MuZg134rb0rsz2f0d5cgpLYtKaK3Fv3266u4I
- DO2k0t/K3wr54ciBnttIGpQr46EPJQy02jRDT+OLG4nPVAC6r/ee11nbsvmOYgyyqEBC
- YK5Q==
-X-Gm-Message-State: APjAAAV+wbOoHrRp5VpDvl+gesMp4dXlBcmgXuMBoMC5bXf6G8HDelgF
- FH5+pfdo8xXjDqmFc/ThEd/WAZJNyBxVE/zliprgVn+VElmBe1HQOjCHdEatNkOGD/qOShxVxPs
- x7BVm4vE8aAwXUr0=
-X-Received: by 2002:a7b:c05a:: with SMTP id u26mr5227321wmc.128.1571927587631; 
- Thu, 24 Oct 2019 07:33:07 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzbFYF5RrO0vstHSeK+jr6YPc5Wy3bFz8ge1MhO0lovZSYMJ3w9ocQHKI/w7vvYwgbiEbgmJw==
-X-Received: by 2002:a7b:c05a:: with SMTP id u26mr5227304wmc.128.1571927587452; 
- Thu, 24 Oct 2019 07:33:07 -0700 (PDT)
+ bh=N6f3Hfdwoq7dm6WmI2PCE15ux3AudUug4cU85NhzejU=;
+ b=JA3RnwrcV8Iq6XgPv2S6aFoI+rGK2Q1HV4r39Xv3N85VvH2notgCCAHOjkpSoReABR
+ yenQ92Gvddii7F9UmOmNisscU02EqwiXGFlQmUBdQ2NGAdT5HolAmtHA3Yc2CQCUL4Jb
+ 46ZaxRjLYuapgutJDHfg8SUQqsWMJAgIic4lk/WGmcFHFd7TeGr+bM5kdYTNJOWe0d19
+ DGeFuHsXn9Yc4nNcyL/PyrUy3tJ6EFgDc1YbCcODG1MgisGP3vYiZ+ev4kh/kPPljSmh
+ pwnCWIVGBHrYOEox1UXpIdOQx3AfxJ+SWfBC8MQ+Rq9YazCXIuJyfaIl+fu2PFeBnFJQ
+ 4wNg==
+X-Gm-Message-State: APjAAAXG85j0xrvA+6iwku1uug9zHEwdQHMMQtE8a3F/FdB+wBBQl+Do
+ 2j1uhjXKYmMelBMZDsdUEnk=
+X-Google-Smtp-Source: APXvYqxOvcvWPosHKluKq1lq29L2nofwRCACRkx9xVQHSdZQGs3gL5Brnwat7X1lSm12ZYB1h2EUJg==
+X-Received: by 2002:a5d:694a:: with SMTP id r10mr3975830wrw.117.1571925070271; 
+ Thu, 24 Oct 2019 06:51:10 -0700 (PDT)
 Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
  [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id i3sm21116127wrw.69.2019.10.24.07.33.06
+ by smtp.gmail.com with ESMTPSA id o189sm1638075wmo.23.2019.10.24.06.51.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Oct 2019 07:33:06 -0700 (PDT)
-Subject: Re: [PATCH v2 15/17] travis.yml: --enable-debug-tcg to check-tcg
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191024102240.2778-1-alex.bennee@linaro.org>
- <20191024102240.2778-16-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c4ea7902-b3ad-47ab-ad56-42f604473922@redhat.com>
-Date: Thu, 24 Oct 2019 16:33:06 +0200
+ Thu, 24 Oct 2019 06:51:06 -0700 (PDT)
+Subject: Re: [PATCH v3 00/16] hw/arm/raspi: Add thermal/timer, improve address
+ space, run U-boot
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191019234715.25750-1-f4bug@amsat.org>
+ <CAFEAcA_WTyJ2AWZfKQSipFmn46ztG1XTL9sE9P2QDD7ob-FKFg@mail.gmail.com>
+ <1ad1b559-13c4-ed2c-f82b-e6a516219e57@amsat.org>
+ <CAFEAcA8Zst6XbPWiAat=z1s7HBzEMscsP=ibrPxP75kHXjZ3Kw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <87b354d2-88aa-4c21-b3a5-8e3313b83156@amsat.org>
+Date: Thu, 24 Oct 2019 15:51:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191024102240.2778-16-alex.bennee@linaro.org>
+In-Reply-To: <CAFEAcA8Zst6XbPWiAat=z1s7HBzEMscsP=ibrPxP75kHXjZ3Kw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,49 +87,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Rob Herring <robh@kernel.org>, Matthias Brugger <mbrugger@suse.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, "Emilio G . Cota" <cota@braap.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ qemu-arm <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Pete Batard <pete@akeo.ie>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/19 12:22 PM, Alex Benn=C3=A9e wrote:
-> This adds a whole bunch of asserts which will catch bugs you might
-> introduce into the TCG code.
+On 10/24/19 3:49 PM, Peter Maydell wrote:
+> On Thu, 24 Oct 2019 at 14:46, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 10/24/19 3:42 PM, Peter Maydell wrote:
+>>> On Sun, 20 Oct 2019 at 00:47, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>>
+>>>> Since v2:
+>>>> - fixed issue in videocore address space
+>>>> - allow to start with some cores OFF (to boot firmwares)
+>>>> - add proof-of-concept test for '-smp cores=1' and U-boot
+>>>> - fixed my email setup
+>>>>
+>>>> Previous cover:
+>>>>
+>>>> Hi,
+>>>>
+>>>> Some patches from v1 are already merged. This v2 addresses the
+>>>> review comment from v1, and add patches to clean the memory
+>>>> space when using multiple cores.
+>>>>
+>>>> Laurent, if you test U-Boot with this patchset again, do you mind
+>>>> replying with a "Tested-by:" tag?
+>>>>
+>>>> The next patchset is probably about the interrupt controller blocks,
+>>>> then will come another one about the MBox/Properties.
+>>>>
+>>>> The last patch is unrelated to the series, but since I cleaned this
+>>>> for the raspi and the highbank is the only board with the same issue,
+>>>> I included the patch in this series.
+>>>
+>>> I'm going to apply 1-10 and 14 to target-arm.next.
+>>> (I've reviewed 10, and the rest have been reviewed.)
 
-Very good idea.
+I guess you meant you reviewed patch 9.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>
+>> Thanks!
+>>
+>> Do you mind amending this to patch #3
+>> "hw/timer/bcm2835: Add the BCM2835 SYS_timer"
+>> or should I respin (or resend it alone)?
+>>
+>> -- >8 --
+>> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+>> index 49b40b55f9..3387a6214a 100644
+>> --- a/hw/timer/bcm2835_systmr.c
+>> +++ b/hw/timer/bcm2835_systmr.c
+>> @@ -115,10 +115,7 @@ static void bcm2835_systmr_reset(DeviceState *dev)
+>>    {
+>>        BCM2835SystemTimerState *s = BCM2835_SYSTIMER(dev);
+>>
+>> -    s->reg.status = 0;
+>> -    for (size_t i = 0; i < ARRAY_SIZE(s->reg.compare); i++) {
+>> -        s->reg.compare[i] = 0;
+>> -    }
+>> +    memset(&s->reg, 0, sizeof(s->reg));
+>>    }
+>>
+> 
+> Sure, I'll just squash that in.
 
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   .travis.yml | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index c43597f1331..ba3a8d4cfc9 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -334,14 +334,14 @@ matrix:
->  =20
->       # Run check-tcg against linux-user
->       - env:
-> -        - CONFIG=3D"--disable-system"
-> +        - CONFIG=3D"--disable-system --enable-debug-tcg"
->           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
->           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
->  =20
->  =20
->       # Run check-tcg against softmmu targets
->       - env:
-> -        - CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64=
--softmmu,alpha-softmmu"
-> +        - CONFIG=3D"--enable-debug-tcg --target-list=3Dxtensa-softmmu,=
-arm-softmmu,aarch64-softmmu,alpha-softmmu"
->           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
->           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
->  =20
->=20
+Thanks a lot!
+
+Phil.
 
