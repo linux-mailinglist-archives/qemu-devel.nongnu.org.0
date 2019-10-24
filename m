@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19FCE3B71
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:57:11 +0200 (CEST)
-Received: from localhost ([::1]:50958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F6FE3B52
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 20:49:37 +0200 (CEST)
+Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNiII-0004Ix-LX
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50379)
+	id 1iNiAx-0003XX-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 14:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNhvj-0006BQ-Or
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:33:52 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNhwk-0008BL-NF
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:34:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNhvi-0006xH-Dm
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:33:51 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:38215)
+ (envelope-from <laurent@vivier.eu>) id 1iNhwj-0007JR-Io
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 14:34:54 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:43285)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNhve-0006sO-VX; Thu, 24 Oct 2019 14:33:47 -0400
+ id 1iNhwf-0007Hj-8s; Thu, 24 Oct 2019 14:34:49 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M7auL-1iML0X2yY1-0081JG; Thu, 24 Oct 2019 20:33:28 +0200
-Subject: Re: [PATCH v2 12/14] hw/rtc/mc146818: Include mc146818rtc_regs.h a
- bit less
+ 1N4i3j-1hyRDS1f1D-011kM8; Thu, 24 Oct 2019 20:34:33 +0200
+Subject: Re: [PATCH v2 13/14] hw/rtc/xlnx-zynqmp-rtc: Remove unused "ptimer.h"
+ include
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20191003230404.19384-1-philmd@redhat.com>
- <20191003230404.19384-13-philmd@redhat.com>
+ <20191003230404.19384-14-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,36 +72,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <af2f4f19-4c2d-f45d-6465-c855d36ac87e@vivier.eu>
-Date: Thu, 24 Oct 2019 20:33:23 +0200
+Message-ID: <e16a9575-d233-d201-bb18-117730c025fc@vivier.eu>
+Date: Thu, 24 Oct 2019 20:34:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191003230404.19384-13-philmd@redhat.com>
+In-Reply-To: <20191003230404.19384-14-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:o8C0VWVPCa687pashCq6PLEks4mDcEFRoG6goLB2anSkxhxtpPP
- O4XsV5ut/dkFc4KoT6kCNcx4zkQcyIRd4gBP11VOAZdvnGXnCcCcEmXz0ZZNFnl9H5rrN9R
- oOc2dxOytmqvDGU5omI1lj4BD2RTIpgYkOB8nzUpEbf6HB4d6WzIwwbDLcRS5G7A1o7xy5H
- lpBwKLGp1Ty+MSmQ0IewQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eqGCSYDIoOw=:xNetUvTA/7k8EwrxNnYCU3
- VSa0XBIMeeQKN5dc7DVJf2Rub+iWt7GeWQ+gl8US8VNjsAjDf0qu7Y6ey+uuEtRgFK77irPub
- 17r6DsXq76dpkK1l6q0yUwaKh6oC3T2jpms6hCurtAL3E2BXzekWGJKOLfeL8aKpxyXwfOrbg
- yYD5L78uVpRrdB/q2JYJSJS+N8lstaXi54Gg/Twx6sPbyDcA2vpM1W5l+iKb3GhQsXfdvsxck
- zvBFqEQ1S8vmV/fpNIZgAiMobq5ECrqwQI7RU4R+Ql+IZlY3J/2bM5Y23EvhcNq2hma1Bbr6w
- MzAJObdHj2bFyEajhIwMGVbaf1GIhZ+CFvitFBxGkm8JLjAe2afUck27nUSnJvwEEExBMZsBo
- Sg7QyZ7bMMeEEa8VUDaFvVj4wBrbt2Uu7hvJGGt8Zn8CEDEkXuS8ba5ZOV6oFVNnHZ0cfpPbb
- LNGjOY2OPnmr5xFSKLQxWm4gHxKX9NwHTlS/abNcmdFmuQZeRo+ZLKMMElYqC/ZY+bB2q1mQb
- 58Pv9GuRDgM6gzjDoYOSn2CskhseSTUHixv7WxkbPrQFQnBfyvp3eQCHRpghGTHyiU5KO6Pyp
- Y2yOhZXKkh8K7oZefym/JovhhTtz+PKXiyEo8rCR6RbaMNYCGjZhL1AqNBoNlh1WpkxW1fST5
- 9v5/fwywjdpT16kuLOS8+eRV3VxuKj4hBhu+aKq12JcNbT4Rpf5WI6xU+OuTEPvWuQjBkN35g
- /OyMq8rRxM1tENsDY8XsDEirBxfE5pbx4HwdbQ/pG/+Bw9p95cnrfa1j1/MbDaTKP1etQ+WXy
- 1dRkLypZpER3SQ8rF1liJZwT72akNqqHzB1EJ6R52mmXE6pQM91v9BGp+H+WVJKN7Azu1beSJ
- XJI9lURBniF7l0egnoo7YulsE+r0Pwp3+GLIPhGv8=
+X-Provags-ID: V03:K1:vB5GcqS/QWIfvmEbpf9k4g9Ql1jrV5OMsjYIRD/XF3ZXoybbQGt
+ pDTwu88ImAcYz1XtE2iSkNk0RMOhbRQTKUsb5pJCuiZKNchbVSiy+7XpCGS871Tsjytxg9q
+ fCgboyRhlCKbBNppei9b59rjmEwEqe6w+01PZpDkLX3aRuCL6XD2147qETQWIw7QkhaDwri
+ j01Xrzsf3eJBnpcAGOETg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QfZoVryil1c=:wDE8yaAbktyujUArJR97nh
+ 2hhqEugZBcE67QcCoy8LZwWVPStPpaB686JeKhkAbgK/aAXodBk+rvtBJG1VRJ1wQoFvemUHU
+ gAi7k1MsgOlT71ZwEThiGs8lPeSwBTSFJ6JTpYZeq+srG3v7TfJY8napW05Bty30agLuaBubX
+ 1wC9W1IlWDFOgoVzYHnS1W2nLiu8dvG/eh2usrH75bnmYbNQW57NrMOv6olUbaC8/JKj4szRD
+ MQ0jPQmtKccIbWM5qL3REs0RZPJ2TGOgdOPJbRPcIKGdXrNHd/GcPsaxlehAmbG5UfCaWVN3z
+ vzbF6rv4slml+XVioeTfzvF3ktd9raV1TX6bNXvkbGydBTQrc7m6t+niuEYh5m1DHI5G7c4vX
+ XkB87+9Vfieip7T99+G1nruh9/ilNEK6UuPP9TYYfRjyv2OQln2fqf405USVQRWtqooBNAkKL
+ WKHdd1EQ+swj+S7nFT0U86VE1MTVc3erCZTrrt/30yqEkA4NQ73pzjL0XWhR9ogdnSaLAZ4xc
+ mrAdT3ywHPlH1pmbWEVV3rW2tisXIWaA2/wkHiB7NM+XAnghOOft7IgL+ZQ+uBKq9dpL1+0z0
+ XYsVw7vXf9uXWMsM3eOREifjXs8PLIJ2nlc663rAvWWFYUYjgoi3hS3ipyMs8LgJ7fXM1PV0m
+ 5AFH+l38jp9Tm+uAhDmYUp5MzAtyTMz63fabgHLQ3w59RVdN1/aHTxWzxN3zCwmJb8dwmcIes
+ l+Lwk6YyVtA6Up0UgNdUMW8AYWYgK/VRwdw+bAYZ1x2HTVT30CYz/qrLR1uksgQfjceq9SGg+
+ Iqs9y0FdWQ2EHPed93uuYtbf5B0pVzr13NDmqK3Yis1Lyxrkctlqs/zkSVYhtGnjcsGqw1eWe
+ gqYiC65CZRplJI6blGlawtxqV5wu3oy5fuyKAiiXE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,54 +134,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 04/10/2019 à 01:04, Philippe Mathieu-Daudé a écrit :
-> Only 2 source files require the "mc146818rtc_regs.h" header.
-> Instead of having it processed 12 times, by all objects
-> using "mc146818rtc.h", include it directly where used.
+> The "hw/ptimer.h" header is not used, remove it.
 > 
 > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/rtc/mc146818rtc.c         | 1 +
->  hw/timer/hpet.c              | 1 +
->  include/hw/rtc/mc146818rtc.h | 1 -
->  3 files changed, 2 insertions(+), 1 deletion(-)
+>  hw/rtc/xlnx-zynqmp-rtc.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index ced15f764f..9d4ed54f65 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -35,6 +35,7 @@
->  #include "sysemu/reset.h"
->  #include "sysemu/runstate.h"
->  #include "hw/rtc/mc146818rtc.h"
-> +#include "hw/rtc/mc146818rtc_regs.h"
->  #include "migration/vmstate.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-commands-misc-target.h"
-> diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-> index 02bf8a8ce8..9f17aaa278 100644
-> --- a/hw/timer/hpet.c
-> +++ b/hw/timer/hpet.c
-> @@ -34,6 +34,7 @@
->  #include "hw/timer/hpet.h"
->  #include "hw/sysbus.h"
->  #include "hw/rtc/mc146818rtc.h"
-> +#include "hw/rtc/mc146818rtc_regs.h"
->  #include "migration/vmstate.h"
->  #include "hw/timer/i8254.h"
->  
-> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-> index 2e9331637a..7fa59d4279 100644
-> --- a/include/hw/rtc/mc146818rtc.h
-> +++ b/include/hw/rtc/mc146818rtc.h
-> @@ -10,7 +10,6 @@
->  #define HW_RTC_MC146818RTC_H
->  
->  #include "hw/isa/isa.h"
-> -#include "hw/rtc/mc146818rtc_regs.h"
->  
->  #define TYPE_MC146818_RTC "mc146818rtc"
->  
+> diff --git a/hw/rtc/xlnx-zynqmp-rtc.c b/hw/rtc/xlnx-zynqmp-rtc.c
+> index f9f09b7296..2bcd14d779 100644
+> --- a/hw/rtc/xlnx-zynqmp-rtc.c
+> +++ b/hw/rtc/xlnx-zynqmp-rtc.c
+> @@ -32,7 +32,6 @@
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+>  #include "hw/irq.h"
+> -#include "hw/ptimer.h"
+>  #include "qemu/cutils.h"
+>  #include "sysemu/sysemu.h"
+>  #include "trace.h"
 > 
 
 Applied to my trivial-patches branch.
