@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6B7E37F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:33:04 +0200 (CEST)
-Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC27E38E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:54:23 +0200 (CEST)
+Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNg2o-00055n-Rv
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57659)
+	id 1iNgNR-00044g-Tc
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxV-0006ps-AZ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxW-0006sl-IK
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNfxS-0000eS-3N
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:32 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41511)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNfxV-0000fb-7E
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:34 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35307)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNfxR-0000dz-TF
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:30 -0400
-Received: by mail-wr1-x434.google.com with SMTP id p4so26806620wrm.8
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:27:29 -0700 (PDT)
+ id 1iNfxV-0000eb-14
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 12:27:33 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id l10so26374632wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:27:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=eiQ4IS489mOFVCAyCVWUyEDk9Y5TrLD5uNTu22NV1VM=;
- b=bhouM6n4np/oeoSzuL4326RTK6Ue0NvudvGGjcz9DO3aFRfCy5pXgmwUYo66WfM2Vz
- /DnsmWd7L4wnz5uYQTc/htqKq2Vw43WrPa6afNtPk3uECmjxijpR1kPTfxiskTCVJZ1C
- qWSFJm41cCmJeRIiH95CiO0acODv/2JyHxT6vi638XDrPdSL+pTExeWAvcINujlz7ql8
- vm/4KmFXahTnL2X5xeziYHCSkHEge7YR9fX7u75pYzUFD9tev2oSu4yvyR9uxCRvA2N4
- Oy/OLG+CQ/zjYn3DglvSkt20XP1RDjt2ZuW4p00wYw3P8y7zNy3LJ8HMGZIQmkRZtAl6
- l0vA==
+ bh=xpXmKegf0IiPtTBa9NzxMTzRYFfOthHDRfOU4bFkq2w=;
+ b=mRUJ6G1OwAb4K4PngOMgJO6xNhDs9M5DzPRo8KOd9tTEj084LuZICvhpG4zFfTWZ3Q
+ tdXYqjjkcBglXGYKWLjkwJyPbBQtRUNZ9L5pX6eZKq/f5gMcNl+fhF9m2SN0Y9adXUK9
+ XnnxSqPs3ZKLEcUwoO9f0twsq9/rbu/UdQesZhwpLM+dkGD6k95rPiHrwrJQ9R8q78Ii
+ ZP8STYM3XYjOrDLNknaWgQ2tRLDOSFnqzCZ1z2m8+lEaxZCoD9iYGBLy+A9Oe6r89oLR
+ fc2PkXEfqjTwHlyCXOPIjIQYJsS5qBRvXtwmshhhE74IqQ1WnVpvznSKTMxh1rv9SRaw
+ YgnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eiQ4IS489mOFVCAyCVWUyEDk9Y5TrLD5uNTu22NV1VM=;
- b=ddBC4p3BC9b+Nq27GVameaFoN5CyJZmRGbolC6gLoS6B6JzMFTiJyBSxQLPFN+268s
- j9iwropIZ+ZE0xtc9ylXwM2pg/TQc+I0drzG3llwMJ+mFyOKpZL8va15xjCJ7hNp/lDq
- qbsrJWSR0dxhgk9HwOvkP9q1Ok7eH3nti5ojn9iHdy97W359OXfoJjrgZNMb0pZmbpR6
- HSfaxVdw0QkGZ0x+ULyxHWqs9/lZLLYDNHe6ujp7uw0IMm/74viN6QlguAYMfDRGnVVS
- XAyPF2ZRFvBZ8VYEzg+AULFK3xINAqEmHI4ZOwq41wkcw7ThVnSN4pn8pAGeYNXo2f+g
- vA2A==
-X-Gm-Message-State: APjAAAUchNPzt/OBUe00rRsC90z/n3MxQxKXMEyiq5oVzACiLbujhjXy
- FZKuRyAsYXRnud9oTXtxONmVc3j+vjo=
-X-Google-Smtp-Source: APXvYqyVSAs3uaX6ljv7+34I7QX0usgjH1U2z8T6nrM4sy9fIFwkuUoZnp0BhoWaORxIFooYzvT6yQ==
-X-Received: by 2002:adf:e7c9:: with SMTP id e9mr4592574wrn.261.1571934448494; 
- Thu, 24 Oct 2019 09:27:28 -0700 (PDT)
+ bh=xpXmKegf0IiPtTBa9NzxMTzRYFfOthHDRfOU4bFkq2w=;
+ b=n8g51dWq4awKtByt6O+CR5C4oucBVIpW0/5rgQQPWP5denVxByu6zcyL+pklk2MJTW
+ K40N89Q/i7MmbJr0lQdEWOW7zy1WQvlVy6Fv/Ny9WX8axoICeTbGd3hlyLkW0IClbz7K
+ 2/V029ldWjqGvPDt0IFVSL4FPlBfetSNPvICK/jsms0fqeNC6rpizbpRggL23FyfG+20
+ vf143T31qnciSU3dYSxDm+gzZV1m+Nmg+6YARGQrrGbBf38okrjsamftJQ/vXcHTrbS9
+ gZBjxd2LgycEZzKMzNS1HTUTYWbItpkJ52NyyAPI2QTzTwU3RbkwpguupLweExEgnTlJ
+ 6QQw==
+X-Gm-Message-State: APjAAAVSEUMJXPHtaQacNY3+ztp6L07KL5wYOMJ9iBq27ITs1uMJ6iKI
+ YsMFimCKdQS0rQsGvdrVACks90WfOKo=
+X-Google-Smtp-Source: APXvYqxt/U09+FG7ZnOKobnnBEJp4XuNXpoIrlnAPRl++JGzxZC/0pdYZMGlj/Iioy3g9Vm27J2m/w==
+X-Received: by 2002:a5d:5591:: with SMTP id i17mr4466259wrv.151.1571934449696; 
+ Thu, 24 Oct 2019 09:27:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.27
+ by smtp.gmail.com with ESMTPSA id r27sm42606124wrc.55.2019.10.24.09.27.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 09:27:27 -0700 (PDT)
+ Thu, 24 Oct 2019 09:27:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/51] hw/gpio: Fix property accessors of the AST2600 GPIO 1.8V
- model
-Date: Thu, 24 Oct 2019 17:26:34 +0100
-Message-Id: <20191024162724.31675-2-peter.maydell@linaro.org>
+Subject: [PULL 02/51] aspeed: Add an AST2600 eval board
+Date: Thu, 24 Oct 2019 17:26:35 +0100
+Message-Id: <20191024162724.31675-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191024162724.31675-1-peter.maydell@linaro.org>
 References: <20191024162724.31675-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,66 +84,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The property names of AST2600 GPIO 1.8V model are one character bigger
-than the names of the other ASPEED GPIO model. Increase the string
-buffer size by one and be more strict on the expected pattern of the
-property name.
-
-This fixes the QOM test of the ast2600-evb machine under :
-
-  Apple LLVM version 10.0.0 (clang-1000.10.44.4)
-  Target: x86_64-apple-darwin17.7.0
-  Thread model: posix
-  InstalledDir: /Library/Developer/CommandLineTools/usr/bin
-
-Cc: Rashmica Gupta <rashmica.g@gmail.com>
-Fixes: 36d737ee82b2 ("hw/gpio: Add in AST2600 specific implementation")
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191023130455.1347-2-clg@kaod.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20191023130455.1347-3-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/gpio/aspeed_gpio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/hw/arm/aspeed.h |  1 +
+ hw/arm/aspeed.c         | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 196e47c2628..7acc5fa8e29 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -733,13 +733,13 @@ static void aspeed_gpio_get_pin(Object *obj, Visitor *v, const char *name,
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index 02073a6b4d6..f49bc7081e4 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -18,6 +18,7 @@ typedef struct AspeedBoardConfig {
+     const char *desc;
+     const char *soc_name;
+     uint32_t hw_strap1;
++    uint32_t hw_strap2;
+     const char *fmc_model;
+     const char *spi_model;
+     uint32_t num_cs;
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 52993f84b46..028191ff36f 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -88,6 +88,10 @@ struct AspeedBoardState {
+ /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
+ #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
+ 
++/* AST2600 evb hardware value */
++#define AST2600_EVB_HW_STRAP1 0x000000C0
++#define AST2600_EVB_HW_STRAP2 0x00000003
++
+ /*
+  * The max ram region is for firmwares that scan the address space
+  * with load/store to guess how much RAM the SoC has.
+@@ -187,6 +191,8 @@ static void aspeed_board_init(MachineState *machine,
+                              &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap1, "hw-strap1",
+                             &error_abort);
++    object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap2, "hw-strap2",
++                            &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), cfg->num_cs, "num-cs",
+                             &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), machine->smp.cpus, "num-cpus",
+@@ -308,6 +314,12 @@ static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
+ }
+ 
++static void ast2600_evb_i2c_init(AspeedBoardState *bmc)
++{
++    /* Start with some devices on our I2C busses */
++    ast2500_evb_i2c_init(bmc);
++}
++
+ static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
  {
-     int pin = 0xfff;
-     bool level = true;
--    char group[3];
-+    char group[4];
-     AspeedGPIOState *s = ASPEED_GPIO(obj);
-     int set_idx, group_idx = 0;
+     AspeedSoCState *soc = &bmc->soc;
+@@ -455,6 +467,17 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .num_cs    = 2,
+         .i2c_init  = witherspoon_bmc_i2c_init,
+         .ram       = 512 * MiB,
++    }, {
++        .name      = MACHINE_TYPE_NAME("ast2600-evb"),
++        .desc      = "Aspeed AST2600 EVB (Cortex A7)",
++        .soc_name  = "ast2600-a0",
++        .hw_strap1 = AST2600_EVB_HW_STRAP1,
++        .hw_strap2 = AST2600_EVB_HW_STRAP2,
++        .fmc_model = "w25q512jv",
++        .spi_model = "mx66u51235f",
++        .num_cs    = 1,
++        .i2c_init  = ast2600_evb_i2c_init,
++        .ram       = 1 * GiB,
+     },
+ };
  
-     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
-         /* 1.8V gpio */
--        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
-+        if (sscanf(name, "gpio%3[18A-E]%1d", group, &pin) != 2) {
-             error_setg(errp, "%s: error reading %s", __func__, name);
-             return;
-         }
-@@ -760,7 +760,7 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor *v, const char *name,
-     Error *local_err = NULL;
-     bool level;
-     int pin = 0xfff;
--    char group[3];
-+    char group[4];
-     AspeedGPIOState *s = ASPEED_GPIO(obj);
-     int set_idx, group_idx = 0;
- 
-@@ -771,7 +771,7 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor *v, const char *name,
-     }
-     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
-         /* 1.8V gpio */
--        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
-+        if (sscanf(name, "gpio%3[18A-E]%1d", group, &pin) != 2) {
-             error_setg(errp, "%s: error reading %s", __func__, name);
-             return;
-         }
 -- 
 2.20.1
 
