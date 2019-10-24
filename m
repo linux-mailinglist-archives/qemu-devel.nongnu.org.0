@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60520E3224
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:21:12 +0200 (CEST)
-Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06018E31E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:11:14 +0200 (CEST)
+Received: from localhost ([::1]:40678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNc74-0002Ia-9A
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
+	id 1iNbxQ-0004JK-C8
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1iNbIB-0003l1-8e
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:37 -0400
+ (envelope-from <drjones@redhat.com>) id 1iNbTa-0003gu-8i
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:40:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iNbI7-00005d-FO
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:33 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:44254)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iNbI4-0008WB-Jd
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:29 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id 7ECFC4B25A;
- Thu, 24 Oct 2019 22:28:25 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1571916505;
- bh=soJyGi1Ly7uM+HrPRC6ujhgOZJg6JnaBHFf4UxZNIJc=;
- h=To:Subject:Date:From:Cc:In-Reply-To:References:From;
- b=u6PTN9wzWh7+aCxb5HUUpe2Pl9sfSq4KGAhXGl93YX8uL+W/zJNc8oS2umg1gJYII
- S39Z9dIfZQjT6f45wSKRGCBwKOT+qDe4UEMjwd+WqUyw9Kd4FDZQQMLGXxMYvlR+b8
- xImM72uYEM/YXmgQox17h9YoMeETA2ZDtcJ2cPYc=
-Received: by www1.hostfission.com (Postfix, from userid 1000)
- id 7677083493; Thu, 24 Oct 2019 22:28:25 +1100 (AEDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: Adding a memory alias breaks v-rings
-X-PHP-Originating-Script: 0:rcube.php
+ (envelope-from <drjones@redhat.com>) id 1iNbTX-0004Ce-3C
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:40:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35259
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iNbTW-0004C8-UY
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:40:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571917216;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FS6wWDrVL59YFy/x/AsMaG0JvH9bLquCtxHlR5belNM=;
+ b=APZ0OCVIiHFqeazrmCeAbDQ8015oWvP+BiYTdAqTj+Fa7SG1BTRit7pmovK+nx+OHJKvVf
+ l+MEMtGIpMNfLHHzR6I1aeoiv2LeL/xc6DI+LUSKCoriWEFz8IvF8yUyfiocCqlCObmFQm
+ xqHZMAnD0wDcodGEZyGrxaAk42/qWqA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-_wK-63zqOz6ZQ7aPZmwEbw-1; Thu, 24 Oct 2019 07:40:13 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBC09100550E;
+ Thu, 24 Oct 2019 11:40:11 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8858D60BF3;
+ Thu, 24 Oct 2019 11:40:04 +0000 (UTC)
+Date: Thu, 24 Oct 2019 13:40:02 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 0/9] target/arm/kvm: enable SVE in guests
+Message-ID: <20191024114002.hmxesluufplkqert@kamzik.brq.redhat.com>
+References: <20191016085408.24360-1-drjones@redhat.com>
+ <CAFEAcA8pV5batrPk+J6RLU2rv9SNAmL8JS9Kd9tWP3pD-m29eA@mail.gmail.com>
+ <3f54f759-9d6d-bf04-85aa-59c1cac31044@redhat.com>
+ <20191021142336.e4xekqlmqv5txu5w@kamzik.brq.redhat.com>
+ <CAFEAcA-bezS5tSVB+N223+N+xoYYYHuSJmDTaRCJgO+4Y=VjdQ@mail.gmail.com>
+ <20191021161226.mnm6eomghb37xlby@kamzik.brq.redhat.com>
+ <CAFEAcA-vHmtCi3HGqpu34sAaNxGeQwS_+0yZ5Hr4SbnGm+rjYA@mail.gmail.com>
+ <CAFEAcA9o4G5yn0GzgdwvUnT_fEwRA7DChuV=miZaEvgavoU5xg@mail.gmail.com>
+ <20191022134951.znjbk4piuiqwbveb@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date: Thu, 24 Oct 2019 22:28:25 +1100
-Cc: qemu-devel@nongnu.org, Alexey Kardashevskiy <aik@ozlabs.ru>, KONRAD
- Frederic <frederic.konrad@adacore.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <45003cbd-2fdd-248d-85e8-302b4b87957d@redhat.com>
-References: <19efadd24a38e4e877459404ff12ac20@hostfission.com>
- <45003cbd-2fdd-248d-85e8-302b4b87957d@redhat.com>
-Message-ID: <0acd3f63dff2db6888dfa6635b6023f3@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.2.3
+In-Reply-To: <20191022134951.znjbk4piuiqwbveb@kamzik.brq.redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: _wK-63zqOz6ZQ7aPZmwEbw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 139.99.139.48
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,112 +80,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: geoff@hostfission.com
-From: geoff--- via <qemu-devel@nongnu.org>
 
-Hi Phil
+On Tue, Oct 22, 2019 at 03:49:51PM +0200, Andrew Jones wrote:
+> On Tue, Oct 22, 2019 at 11:29:05AM +0100, Peter Maydell wrote:
+> > On Mon, 21 Oct 2019 at 17:18, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> > >
+> > > On Mon, 21 Oct 2019 at 17:12, Andrew Jones <drjones@redhat.com> wrote=
+:
+> > > >
+> > > > On Mon, Oct 21, 2019 at 04:43:22PM +0100, Peter Maydell wrote:
+> > > > > On Mon, 21 Oct 2019 at 15:23, Andrew Jones <drjones@redhat.com> w=
+rote:
+> > > > > > Peter, would you mind running your test on the kvm32 machine wi=
+th this
+> > > > > > change before I send a v7?
+> > > > >
+> > > > > Still fails:
+> > > > >
+> > > > > pm215@pm-ct:~/qemu/build/arm$
+> > > > > QTEST_QEMU_BINARY=3Darm-softmmu/qemu-system-arm tests/arm-cpu-fea=
+tures
+> > > > > /arm/arm/query-cpu-model-expansion: OK
+> > > > > /arm/arm/kvm/query-cpu-model-expansion: **
+> > > > > ERROR:/home/pm215/qemu/tests/arm-cpu-features.c:498:test_query_cp=
+u_model_expansion_kvm:
+> > > > > assertion failed: (resp_has_props(_resp))
+> > > > > Aborted
+> > > > >
+> > > > > This is asserting on the line:
+> > > > > 498             assert_has_not_feature(qts, "host", "sve");
+> > > > >
+> > > >
+> > > > Oh, I see. It's not failing the specific absence of 'sve', but the =
+test
+> > > > code (assert_has_not_feature()) is assuming at least one property i=
+s
+> > > > present. This isn't the case for kvm32 'host' cpus. They apparently
+> > > > have none. We need this patch too, then
+> > > >
+> > > > diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+> > > > index 14100ebd8521..9aa728ed8469 100644
+> > > > --- a/tests/arm-cpu-features.c
+> > > > +++ b/tests/arm-cpu-features.c
+> > > > @@ -136,8 +136,8 @@ static bool resp_get_feature(QDict *resp, const=
+ char *feature)
+> > > >  ({                                                                =
+     \
+> > > >      QDict *_resp =3D do_query_no_props(qts, cpu_type);            =
+       \
+> > > >      g_assert(_resp);                                              =
+     \
+> > > > -    g_assert(resp_has_props(_resp));                              =
+     \
+> > > > -    g_assert(!qdict_get(resp_get_props(_resp), feature));         =
+     \
+> > > > +    g_assert(!resp_has_props(_resp) ||                            =
+     \
+> > > > +             !qdict_get(resp_get_props(_resp), feature));         =
+     \
+> > > >      qobject_unref(_resp);                                         =
+     \
+> > > >  })
+> > >
+> > > Yep, with that extra the test passes. I'm just rerunning the
+> > > full 'make check'...
+> >=20
+> > ...which passed OK. For the record, the changes on top of the
+> > patchset were:
+> >=20
+> > diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+> > index 92668efb8f5..9aa728ed846 100644
+> > --- a/tests/arm-cpu-features.c
+> > +++ b/tests/arm-cpu-features.c
+> > @@ -136,8 +136,8 @@ static bool resp_get_feature(QDict *resp, const
+> > char *feature)
+> >  ({                                                                    =
+ \
+> >      QDict *_resp =3D do_query_no_props(qts, cpu_type);                =
+   \
+> >      g_assert(_resp);                                                  =
+ \
+> > -    g_assert(resp_has_props(_resp));                                  =
+ \
+> > -    g_assert(!qdict_get(resp_get_props(_resp), feature));             =
+ \
+> > +    g_assert(!resp_has_props(_resp) ||                                =
+ \
+> > +             !qdict_get(resp_get_props(_resp), feature));             =
+ \
+> >      qobject_unref(_resp);                                             =
+ \
+> >  })
+> >=20
+> > @@ -417,8 +417,6 @@ static void
+> > test_query_cpu_model_expansion_kvm(const void *data)
+> >=20
+> >      qts =3D qtest_init(MACHINE "-accel kvm -cpu host");
+> >=20
+> > -    assert_has_feature(qts, "host", "pmu");
+> > -
+> >      if (g_str_equal(qtest_get_arch(), "aarch64")) {
+> >          bool kvm_supports_sve;
+> >          char max_name[8], name[8];
+> > @@ -428,6 +426,7 @@ static void
+> > test_query_cpu_model_expansion_kvm(const void *data)
+> >          char *error;
+> >=20
+> >          assert_has_feature(qts, "host", "aarch64");
+> > +        assert_has_feature(qts, "host", "pmu");
+> >=20
+> >          assert_error(qts, "cortex-a15",
+> >              "We cannot guarantee the CPU type 'cortex-a15' works "
+> > @@ -497,9 +496,6 @@ static void
+> > test_query_cpu_model_expansion_kvm(const void *data)
+> >          }
+> >      } else {
+> >          assert_has_not_feature(qts, "host", "sve");
+> > -        assert_error(qts, "host",
+> > -                     "'pmu' feature not supported by KVM on this host"=
+,
+> > -                     "{ 'pmu': true }");
+> >      }
+> >=20
+> >      qtest_quit(qts);
+> >
+>=20
+> Thanks Peter!
+>=20
+> The changes look good to me. If we wanted to, we could also add
+>=20
+>  assert_has_not_feature(qts, "host", "pmu");
+>=20
+> in that kvm32 block where we have the
+>=20
+>  assert_has_not_feature(qts, "host", "sve");
+>=20
+> and we could even add
+>=20
+>  assert_has_not_feature(qts, "host", "aarch64");
+>=20
+> there as well.
+>=20
+> If I need to spin a v7, then I'll do that. I could also submit just those
+> additions as another patch, though, or even just not worry too much about
+> those cases and not add the tests...
+>
 
-On 2019-10-24 22:07, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Geoffrey,
->=20
-> On 10/24/19 10:27 AM, geoff@hostfission.com wrote:
->> Hi All,
->>=20
->> I have been working on adding a feature as a proof of concept to=20
->> improve the performance of applications like Looking Glass by avoiding=
-=20
->> additional memory copies. My goal is to alias part of the IVSHMEM=20
->> shared memory over a pointer provided by the guest OS capture API=20
->> (DXGI Desktop Duplication or NVIDIA Frame Buffer Capture). I have=20
->> managed to get this working by adding a few additional configuration=20
->> registers to the IVSHMEM device and enhanced the IVSHMEM windows=20
->> driver with suitable IOCTLs to set this all up. While this concept is=20
->> backwards it needs to work this way as we do not have control over the=
-=20
->> destination buffer allocation by the GPU driver.
->>=20
->> This all works, however, it has exposed a bug (or I am doing things=20
->> improperly) with the way that vhost tracks memory. When calling=20
->> memory_region_add_subregion_overlap the memory listener in vhost fires=
-=20
->> triggering vhost_region_add_section. According to the comments this=20
->> code depends on being called in memory address order, but because I am=
-=20
->> adding the alias region late, it's out of order, and also splits the=20
->> upper memory region. This has the effect of corrupting/breaking one or=
-=20
->> more random vrings, as evidenced by the crash/hang of vhost-net or=20
->> other virtio devices.
->=20
-> I'm not sure this is the same issue I had before, but you might
-> find Frederic and Alexey suggestions from this thread helpful:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg525833.html
->=20
-> Also note vhost_region_add_section() you mentioned has this comment:
->=20
->     if (need_add) {
->         ...
->         /* The flatview isn't stable and we don't use it, making it=20
-> NULL
->          * means we can memcmp the list.
->          */
->         dev->tmp_sections[dev->n_tmp_sections - 1].fv =3D NULL;
->=20
-> Maybe you need this change:
->=20
-> -- >8 --
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -642,6 +642,7 @@ static void vhost_region_add_section(struct=20
-> vhost_dev *dev,
->           */
->          dev->tmp_sections[dev->n_tmp_sections - 1].fv =3D NULL;
->          memory_region_ref(section->mr);
-> +        memory_region_update_container_subregions(section->mr);
->      }
->  }
->=20
-> ---
+I've decided to send a v7 because the changes above generate several
+collisions, I want to add those two has-not tests, and because I have
+more tags to pick up. I'll be sending it shortly.
 
-Unfortunately not, `memory_region_update_container_subregions` is=20
-private in memory.c hangs the VM even if I expose it and call it as you=20
-suggested. It is also already called via=20
-memory_region_add_subregion_overlap anyway.
+Thanks,
+drew
 
-Thanks for the suggestion though :)
-
->=20
-> Regards,
->=20
-> Phil.
->=20
->> The following and errors are also logged regarding section alignment:
->>=20
->> qemu-system-x86_64: vhost_region_add_section:Section rounded to=20
->> 3c0000000 prior to previous 3fc4f9000
->> qemu-system-x86_64: vhost_region_add_section:Section rounded to=20
->> 3c0000000 prior to previous 3fc4f9000
->>=20
->> Here is the flat view after the alias has been added.
->>=20
->>  =C2=A0 0000000100000000-00000003fc4f8fff (prio 0, ram): mem=20
->> @0000000080000000 kvm
->>  =C2=A0 00000003fc4f9000-00000003fc4f9fff (prio 1, ram): ivshmem kvm
->>  =C2=A0 00000003fc4fa000-000000043fffffff (prio 0, ram): mem=20
->> @000000037c4fa000 kvm
->>=20
->> When the guest doesn't crash out due to the obvious corruption it is=20
->> possible to verify that the alias is in the right place and fully=20
->> functional. Unfortunately, I simply do not have enough of a grasp on=20
->> vhost to understand exactly what is going on and how to correct it.
->>=20
->> Getting this feature working is highly desirable as it should be=20
->> possible to obtain GPU -> GPU memory transfers between guests without=20
->> requiring workstation/professional graphics cards.
->>=20
->> Kind Regards,
->> Geoffrey McRae
->>=20
 
