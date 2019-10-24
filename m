@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FD5E31C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:04:17 +0200 (CEST)
-Received: from localhost ([::1]:40526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5458EE31D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 14:07:40 +0200 (CEST)
+Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbqi-0000Qe-9n
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:04:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39540)
+	id 1iNbty-0006vG-SS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 08:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIX-0004T2-Ai
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:58 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIc-0004eK-N6
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNbIV-0000Eo-TB
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55264
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iNbIb-0000GQ-3s
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:02 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31139
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIV-0000EO-Or
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:28:55 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNbIa-0000GC-Vw
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:29:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571916534;
+ s=mimecast20190719; t=1571916540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iix76qz+D3wDmXlNY++4q7SA/90h60kTtY/hGCP0X6c=;
- b=SCabeUcaUS5ULMzHhBxPRJqeneNkJihmbsQmQoiEHMvJmapa+E1ldA5YknOOdrvnCL+ASN
- 4lmV3LAIA+AenQonXLVHTjsUCj4L25tNgPbdnld3bdFPQHNNblruPBIAbr4LnwAWRxa9nf
- x8juoKdmsA+kidPkrm64+4Y3pe/CaAs=
+ bh=8dTVSvE67KFlYgfkp/+3oF83RGO43NJQ/jk+/2QTuuE=;
+ b=iM8jJ2MAxo8XgmLY2Kr2uNAERySm1B4rSKvF6FHf/W9qVTaO3hiJru7ZqEnj/yIHdyj8Lw
+ OV3W4FhatKRsHcbN8Wuwt5hZo6OWcEoFuGUox+xNIVcjfnYljByhERa+aRpyLn6ungYqMO
+ dERH/rYCYx6UQ9gCrPcoDHV8enPL6tE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-gFI1Ck6KPZmbKdaMff5QkQ-1; Thu, 24 Oct 2019 07:28:50 -0400
+ us-mta-106-kkV8MDzgPbGRoNN7o-3R1Q-1; Thu, 24 Oct 2019 07:28:56 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FD39800D49;
- Thu, 24 Oct 2019 11:28:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21950100550E;
+ Thu, 24 Oct 2019 11:28:55 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-248.ams2.redhat.com
  [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F999196B2;
- Thu, 24 Oct 2019 11:28:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80273196B2;
+ Thu, 24 Oct 2019 11:28:52 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, renzhen@linux.alibaba.com, eguan@linux.alibaba.com,
  ganesh.mahalingam@intel.com, m.mizuma@jp.fujitsu.com, mszeredi@redhat.com,
  misono.tomohiro@jp.fujitsu.com, tao.peng@linux.alibaba.com,
  piaojun@huawei.com, stefanha@redhat.com, vgoyal@redhat.com, mst@redhat.com,
  berrange@redhat.com
-Subject: [PATCH 21/25] virtiofsd: Drop CAP_FSETID if client asked for it
-Date: Thu, 24 Oct 2019 12:27:14 +0100
-Message-Id: <20191024112718.34657-22-dgilbert@redhat.com>
+Subject: [PATCH 23/25] virtiofsd: add security guide document
+Date: Thu, 24 Oct 2019 12:27:16 +0100
+Message-Id: <20191024112718.34657-24-dgilbert@redhat.com>
 In-Reply-To: <20191024112718.34657-1-dgilbert@redhat.com>
 References: <20191024112718.34657-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: gFI1Ck6KPZmbKdaMff5QkQ-1
+X-MC-Unique: kkV8MDzgPbGRoNN7o-3R1Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,202 +78,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-If client requested killing setuid/setgid bits on file being written, drop
-CAP_FSETID capability so that setuid/setgid bits are cleared upon write
-automatically.
+Many people want to know: what's up with virtiofsd and security?  This
+document provides the answers!
 
-pjdfstest chown/12.t needs this.
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- contrib/virtiofsd/Makefile.objs    |   2 +
- contrib/virtiofsd/passthrough_ll.c | 127 +++++++++++++++++++++++++++++
- 2 files changed, 129 insertions(+)
+ contrib/virtiofsd/security.rst | 108 +++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
+ create mode 100644 contrib/virtiofsd/security.rst
 
-diff --git a/contrib/virtiofsd/Makefile.objs b/contrib/virtiofsd/Makefile.o=
-bjs
-index 941b19f18e..25f1e8dd73 100644
---- a/contrib/virtiofsd/Makefile.objs
-+++ b/contrib/virtiofsd/Makefile.objs
-@@ -11,3 +11,5 @@ virtiofsd-obj-y =3D buffer.o \
-=20
- seccomp.o-cflags :=3D $(SECCOMP_CFLAGS)
- seccomp.o-libs :=3D $(SECCOMP_LIBS)
+diff --git a/contrib/virtiofsd/security.rst b/contrib/virtiofsd/security.rs=
+t
+new file mode 100644
+index 0000000000..1f3037f4e4
+--- /dev/null
++++ b/contrib/virtiofsd/security.rst
+@@ -0,0 +1,108 @@
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Virtiofsd Security Guide
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+passthrough_ll.o-libs +=3D -lcap
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
-ough_ll.c
-index 93873bf6f4..fe46b25fb6 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -51,6 +51,7 @@
- #include <sys/file.h>
- #include <sys/syscall.h>
- #include <sys/xattr.h>
-+#include <sys/capability.h>
- #include <sys/mount.h>
- #include <sys/types.h>
- #include <sys/wait.h>
-@@ -174,6 +175,115 @@ static struct lo_data *lo_data(fuse_req_t req)
- =09return (struct lo_data *) fuse_req_userdata(req);
- }
-=20
-+/* Helpers for dropping and regaining effective capabilities. Returns 0
-+ * on success, error otherwise  */
-+static int drop_effective_cap(const char *cap_name, bool *cap_dropped)
-+{
-+=09cap_t caps;
-+=09cap_value_t cap;
-+=09cap_flag_value_t cap_value;
-+=09int ret =3D 0;
++Introduction
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++This document covers security topics for users of virtiofsd, the daemon th=
+at
++implements host<->guest file system sharing.  Sharing files between one or=
+ more
++guests and the host raises questions about the trust relationships between
++these entities.  By understanding these topics users can safely deploy
++virtiofsd and control access to their data.
 +
-+=09ret =3D cap_from_name(cap_name, &cap);
-+=09if (ret =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_from_name(%s) failed:%s\n", cap_name,
-+=09=09=09 strerror(errno));
-+=09=09goto out;
-+=09}
++Architecture
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++The virtiofsd daemon process acts as a vhost-user device backend, implemen=
+ting
++the virtio-fs device that the corresponding device driver inside the guest
++interacts with.
 +
-+=09if (!CAP_IS_SUPPORTED(cap)) {
-+=09=09fuse_log(FUSE_LOG_ERR, "capability(%s) is not supported\n", cap_name=
-);
-+=09=09return EINVAL;
-+=09}
++There is one virtiofsd process per virtio-fs device instance.  For example=
+,
++when two guests have access to the same shared directory there are still t=
+wo
++virtiofsd processes since there are two virtio-fs device instances.  Simil=
+arly,
++if one guest has access to two shared directories, there are two virtiofsd
++processes since there are two virtio-fs device instances.
 +
-+=09caps =3D cap_get_proc();
-+=09if (caps =3D=3D NULL) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_get_proc() failed\n");
-+=09=09goto out;
-+=09}
++Files are created on the host with uid/gid values provided by the guest.
++Furthermore, virtiofsd is unable to enforce file permissions since guests =
+have
++the ability to access any file within the shared directory.  File permissi=
+ons
++are implemented in the guest, just like with traditional local file system=
+s.
 +
-+=09if (cap_get_flag(caps, cap, CAP_EFFECTIVE, &cap_value) =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_get_flag() failed\n");
-+=09=09goto out_cap_free;
-+=09}
++Security Requirements
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Guests have root access to the shared directory.  This is necessary for ro=
+ot
++file systems on virtio-fs and similar use cases.
 +
-+=09/* We dont have this capability in effective set already. */
-+=09if (cap_value =3D=3D CAP_CLEAR) {
-+=09=09ret =3D 0;
-+=09=09goto out_cap_free;
-+=09}
++When multiple guests have access to the same shared directory, the guests =
+have
++a trust relationship.  A broken or malicious guest could delete or corrupt
++files.  It could exploit symlink or time-of-check-to-time-of-use (TOCTOU) =
+race
++conditions against applications in other guests.  It could plant device no=
+des
++or setuid executables to gain privileges in other guests.  It could perfor=
+m
++denial-of-service (DoS) attacks by consuming available space or making the=
+ file
++system unavailable to other guests.
 +
-+=09if (cap_set_flag(caps, CAP_EFFECTIVE, 1, &cap, CAP_CLEAR) =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_set_flag() failed\n");
-+=09=09goto out_cap_free;
-+=09}
++Guests are restricted to the shared directory and cannot access other file=
+s on
++the host.
 +
-+=09if (cap_set_proc(caps) =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_set_procs() failed\n");
-+=09=09goto out_cap_free;
-+=09}
++Guests should not be able to gain arbitrary code execution inside the virt=
+iofsd
++process.  If they do, the process is sandboxed to prevent escaping into ot=
+her
++parts of the host.
 +
-+=09ret =3D 0;
-+=09if (cap_dropped)
-+=09=09*cap_dropped =3D true;
++Daemon Sandboxing
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++The virtiofsd process handles virtio-fs FUSE requests from the untrusted g=
+uest.
++This attack surface could give the guest access to host resources and must
++therefore be protected.  Sandboxing mechanisms are integrated into virtiof=
+sd to
++reduce the impact in the event that an attacker gains control of the proce=
+ss.
 +
-+out_cap_free:
-+=09cap_free(caps);
-+out:
-+=09return ret;
-+}
++As a general rule, virtiofsd does not trust inputs from the guest, aside f=
+rom
++uid/gid values.  Input validation is performed so that the guest cannot co=
+rrupt
++memory or otherwise gain arbitrary code execution in the virtiofsd process=
+.
 +
-+static int gain_effective_cap(const char *cap_name)
-+{
-+=09cap_t caps;
-+=09cap_value_t cap;
-+=09int ret =3D 0;
++Sandboxing adds restrictions on the virtiofsd so that even if an attacker =
+is
++able to exploit a bug, they will be constrained to the virtiofsd process a=
+nd
++unable to cause damage on the host.
 +
-+=09ret =3D cap_from_name(cap_name, &cap);
-+=09if (ret =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_from_name(%s) failed:%s\n", cap_name,
-+=09=09=09 strerror(errno));
-+=09=09goto out;
-+=09}
++Seccomp Whitelist
++-----------------
++Many system calls are not required by virtiofsd to perform its function.  =
+For
++example, ptrace(2) and execve(2) are not necessary and attackers are likel=
+y to
++use them to further compromise the system.  This is prevented using a secc=
+omp
++whitelist in virtiofsd.
 +
-+=09if (!CAP_IS_SUPPORTED(cap)) {
-+=09=09fuse_log(FUSE_LOG_ERR, "capability(%s) is not supported\n", cap_name=
-);
-+=09=09return EINVAL;
-+=09}
++During startup virtiofsd installs a whitelist of allowed system calls.  Al=
+l
++other system calls are forbidden for the remaining lifetime of the process=
+.
++This list has been built through experience of running virtiofsd on severa=
+l
++flavors of Linux and observing which system calls were encountered.
 +
-+=09caps =3D cap_get_proc();
-+=09if (caps =3D=3D NULL) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_get_proc() failed\n");
-+=09=09goto out;
-+=09}
++It is possible that previously unexplored code paths or newer library vers=
+ions
++will invoke system calls that have not been whitelisted yet.  In this case=
+ the
++process terminates and a seccomp error is captured in the audit log.  The =
+log
++can typically be viewed using ``journalctl -xe`` and searching for ``SECCO=
+MP``.
 +
++Should it be necessary to extend the whitelist, system call numbers from t=
+he
++audit log can be translated to names through a CPU architecture-specific
++``.tbl`` file in the Linux source tree.  They can then be added to the
++whitelist in ``seccomp.c`` in the virtiofsd source tree.
 +
-+=09if (cap_set_flag(caps, CAP_EFFECTIVE, 1, &cap, CAP_SET) =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_set_flag() failed\n");
-+=09=09goto out_cap_free;
-+=09}
++Mount Namespace
++---------------
++During startup virtiofsd enters a new mount namespace and releases all mou=
+nts
++except for the shared directory.  This makes the file system root `/` the
++shared directory.  It is impossible to access files outside the shared
++directory since they cannot be looked up by path resolution.
 +
-+=09if (cap_set_proc(caps) =3D=3D -1) {
-+=09=09ret =3D errno;
-+=09=09fuse_log(FUSE_LOG_ERR, "cap_set_procs() failed\n");
-+=09=09goto out_cap_free;
-+=09}
-+=09ret =3D 0;
++Several attacks, including `..` traversal and symlink escapes, are prevent=
+ed by
++the mount namespace.
 +
-+out_cap_free:
-+=09cap_free(caps);
-+out:
-+=09return ret;
-+}
++The current virtiofsd implementation keeps a directory file descriptor to
++/proc/self/fd open in order to implement several FUSE requests.  This file
++descriptor could be used by attackers to access files outside the shared
++directory.  This limitation will be addressed in a future release of virti=
+ofsd.
 +
- static void lo_map_init(struct lo_map *map)
- {
- =09map->elems =3D NULL;
-@@ -1447,6 +1557,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t i=
-no,
- =09(void) ino;
- =09ssize_t res;
- =09struct fuse_bufvec out_buf =3D FUSE_BUFVEC_INIT(fuse_buf_size(in_buf));
-+=09bool cap_fsetid_dropped =3D false;
-=20
- =09out_buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
- =09out_buf.buf[0].fd =3D lo_fi_fd(req, fi);
-@@ -1456,11 +1567,27 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t=
- ino,
- =09=09fuse_log(FUSE_LOG_DEBUG, "lo_write(ino=3D%" PRIu64 ", size=3D%zd, of=
-f=3D%lu)\n",
- =09=09=09ino, out_buf.buf[0].size, (unsigned long) off);
-=20
-+=09/*
-+=09 * If kill_priv is set, drop CAP_FSETID which should lead to kernel
-+=09 * clearing setuid/setgid on file.
-+=09 */
-+=09if (fi->kill_priv) {
-+=09=09res =3D drop_effective_cap("cap_fsetid", &cap_fsetid_dropped);
-+=09=09if (res !=3D 0)
-+=09=09=09fuse_reply_err(req, res);
-+=09}
-+
- =09res =3D fuse_buf_copy(&out_buf, in_buf, 0);
- =09if(res < 0)
- =09=09fuse_reply_err(req, -res);
- =09else
- =09=09fuse_reply_write(req, (size_t) res);
-+
-+=09if (cap_fsetid_dropped) {
-+=09=09res =3D gain_effective_cap("cap_fsetid");
-+=09=09if (res)
-+=09=09=09fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
-+=09}
- }
-=20
- static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
++Deployment Best Practices
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
++If the shared directory is also accessible from a host mount namespace, it=
+ is
++recommended to keep a parent directory with rwx------ permissions so that =
+other
++users on the host are unable to access any setuid executables or device no=
+des
++in the shared directory.  The `nosuid` and `nodev` mount options can also =
+be
++used to prevent this issue.
 --=20
 2.23.0
 
