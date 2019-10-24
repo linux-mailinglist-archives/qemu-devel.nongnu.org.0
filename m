@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662D4E2DD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:45:05 +0200 (CEST)
-Received: from localhost ([::1]:36916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038DAE2E01
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:56:38 +0200 (CEST)
+Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZfz-0000ns-Hz
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44341)
+	id 1iNZrA-0006Xr-4k
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZAK-0001cX-BJ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:21 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iNZEX-0005qy-9g
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:16:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZAI-0005ER-KW
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:20 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46860)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZAI-0005Dm-Cp
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:12:18 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94W6h116458;
- Thu, 24 Oct 2019 09:12:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2019-08-05;
- bh=r7WpmqWffIH6HHULKlFk3v2+hFIpg5LOj271aEKzH8Y=;
- b=nLPpK41xWCPsGSbQaSGx5asoFjnLZThq+UCC48IT181zAmE0GgdWFKr9VRbO1sX2dgL1
- w4bodZ7fu4/Z0tBxu7wCBtwS52XIPR1ROQzH8pxFoAb+DoDdmnVH/F6p57cXtfKfgdw7
- g6meytSu0Dj9P9V4mrNfEEdjEsfD9nUZgxq1ZXy+XQr7Ehk+fwGgLTB6uJJ3/M9Z01ys
- GbsV4erAxDknXk6gLJ+gyaS1Z1LDGXtOj3snIcFoxHi+2+lW6A082f15j7uV5miQzTOq
- Y/zSSzAf6Adw7bcFw5lrEuEYB0rqZUkFtef9eICB4ZzsU7k1d/1hB92W0qDPk/e2/TXf GQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 2vqswtte60-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:12:13 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98Mrv047226;
- Thu, 24 Oct 2019 09:12:12 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 2vu0fnu9av-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:12:12 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O9CBuN003120;
- Thu, 24 Oct 2019 09:12:11 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:12:11 -0700
-From: Jagannathan Raman <jag.raman@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 49/49] multi-process: add configure and usage
- information
-Date: Thu, 24 Oct 2019 05:09:30 -0400
-Message-Id: <2736d12f29d2c9051966864b5d865ab0f392b8d1.1571905346.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910240089
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910240089
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+ (envelope-from <pbonzini@redhat.com>) id 1iNZEW-000793-2R
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:16:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36738)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iNZEV-00078q-Pu
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:16:40 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9DD7EC049E10
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 09:16:38 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id c6so12519014wrp.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 02:16:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VivKpTHoxE+emTgbme/pZY4V9GTSG6CaUTYBfHgIylg=;
+ b=DtwD9zyZopvdHoNoGM+gILrIN+mhHpBblMDFiIVILau24dL+jp1pPle68ASkGIR+W8
+ Nt4bBL5myDpfpAytXky+Z+WA0yMM76Epo4HPIb2Zveg21ufoKDxJs90VUWeKwoB+N6f/
+ h5qoAII0omQ1Q8TUe8D078+QaSf8OGOY2EGW8+290HBoKualWf7l3ymTs9yiduw0rgoR
+ x21i3SX/0SEPKu1obYDPB/ukKepS34LUpyvpowTZiu9iYIjAkhewx0kUDYjMqU6gD1ZL
+ iquwjzBS/L/k4hbUwu1/ws2iaBSeaFIJODUcDSCHvCOUcH47vWRH2wFDbmA1EeIZQ7gQ
+ dYxA==
+X-Gm-Message-State: APjAAAUwX6kQ86tvkIniP7KaqL1ksQEGW1f/AODqf2A77zWUFtAwdRQb
+ Kl9XNZb8dVj0vJhJ4oVur49ZXRvQyJVYRXZdYuEULQE6JP9+ckvouimKpDJcnJHava1jhDDHUDJ
+ j/xd08tgPnIwMtDs=
+X-Received: by 2002:a05:600c:490:: with SMTP id
+ d16mr3961865wme.7.1571908597187; 
+ Thu, 24 Oct 2019 02:16:37 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxcI6nzDA+E5CnEDSF+vAoKKdQyEGcVKwYEV8gG3tCTapMCBEOTYq9dVWAukcawOimWXVypkQ==
+X-Received: by 2002:a05:600c:490:: with SMTP id
+ d16mr3961848wme.7.1571908596895; 
+ Thu, 24 Oct 2019 02:16:36 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:6887:47f9:72a7:24e6?
+ ([2001:b07:6468:f312:6887:47f9:72a7:24e6])
+ by smtp.gmail.com with ESMTPSA id v16sm23114590wrt.12.2019.10.24.02.16.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 02:16:36 -0700 (PDT)
+Subject: Re: [PATCH v1 07/19] cirrus.yml: reduce scope of MacOS build
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191022191704.6134-1-alex.bennee@linaro.org>
+ <20191022191704.6134-8-alex.bennee@linaro.org>
+ <CAFEAcA9jeb_KBy9jMrFoY9=fp0+7YqNU8WrhRr7zxAk308MFXQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <a36f9497-2bed-eb2f-d2ec-8df25de508b0@redhat.com>
+Date: Thu, 24 Oct 2019 11:16:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9jeb_KBy9jMrFoY9=fp0+7YqNU8WrhRr7zxAk308MFXQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,119 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
- kraxel@redhat.com, jag.raman@oracle.com, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On 24/10/19 11:02, Peter Maydell wrote:
+>> --- a/.cirrus.yml
+>> +++ b/.cirrus.yml
+>> @@ -1,5 +1,6 @@
+>>  env:
+>>    CIRRUS_CLONE_DEPTH: 1
+>> +  MACOS_ARCHES: i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu
+> I don't know whether Cirrus is our long-term plan for doing
+> CI of OSX (maybe we'll be using Gitlab and some runner on an
+> OSX platform??),
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
----
- docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
- create mode 100644 docs/qemu-multiprocess.txt
+My plan was to deploy Patchew on a Macincloud instance.
 
-diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
-new file mode 100644
-index 0000000..c29f4df
---- /dev/null
-+++ b/docs/qemu-multiprocess.txt
-@@ -0,0 +1,86 @@
-+Multi-process QEMU
-+==================
-+
-+This document describes how to configure and use multi-process qemu.
-+For the design document refer to docs/devel/qemu-multiprocess.
-+
-+1) Configuration
-+----------------
-+
-+To enable support for multi-process add --enable-mpqemu
-+to the list of options for the "configure" script.
-+
-+
-+2) Usage
-+--------
-+
-+To start qemu with devices intended to run in a separate emulation
-+process without libvirtd support, the following should be used on QEMU
-+command line. As of now, we only support the emulation of lsi53c895a
-+in a separate process
-+
-+* Since parts of the RAM are shared between QEMU & remote process, a
-+  memory-backend-file is required to facilitate this, as follows:
-+
-+  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=4096M,share=on
-+
-+* The devices to be emulated in the separate process are defined as
-+  before with addition of "rid" suboption that serves as a remote group
-+  identificator.
-+
-+  -device <device options>,rid="remote process id"
-+
-+  For exmaple, for non multi-process qemu:
-+    -device lsi53c895a,id=scsi0 device
-+    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0
-+    -drive id=drive0,file=data-disk.img
-+
-+  and for multi-process qemu and no libvirt
-+  support (i.e. QEMU forks child processes):
-+    -device lsi53c895a,id=scsi0,rid=0
-+    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0,rid="0"
-+
-+* The command-line options for the remote process is added to the "command"
-+  suboption of the newly added "-remote" option. 
-+
-+   -remote [socket],rid=,command="..."
-+
-+  The drives to be emulated by the remote process are specified as part of
-+  this command sub-option. The device to be used to connect to the monitor
-+  is also specified as part of this suboption.
-+
-+  For example, the following option adds a drive and monitor to the remote
-+  process:
-+  -remote rid=0,command="-drive id=drive0,,file=data-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-+
-+  Note: There's an issue with this "command" subtion which we are in the
-+  process of fixing. To work around this issue, it requires additional
-+  "comma" characters as illustrated above, and in the example below.
-+
-+* Example QEMU command-line to launch lsi53c895a in a remote process
-+
-+  #/bin/sh
-+  qemu-system-x86_64 \
-+  -name "OL7.4" \
-+  -machine q35,accel=kvm \
-+  -smp sockets=1,cores=1,threads=1 \
-+  -cpu host \
-+  -m 2048 \
-+  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=2G,share=on \
-+  -numa node,memdev=mem \
-+  -device virtio-scsi-pci,id=virtio_scsi_pci0 \
-+  -drive id=drive_image1,if=none,format=raw,file=/root/ol7.qcow2 \
-+  -device scsi-hd,id=image1,drive=drive_image1,bus=virtio_scsi_pci0.0 \
-+  -boot d \
-+  -monitor stdio \
-+  -vnc :0 \
-+  -device lsi53c895a,id=lsi0,remote,rid=8,command="qemu-scsi-dev" \
-+  -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0,remote,rid=8,command="qemu-scsi-dev"\
-+  -remote rid=8,command="-drive id=drive_image2,,file=/root/remote-process-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-+
-+  We could connect to the monitor using the following command:
-+  socat /home/qmp-sock stdio
-+
-+  After hotplugging disks to the remote process, please execute the
-+  following command in the guest to refresh the list of storage devices:
-+  rescan_scsi_bus.sh -a
--- 
-1.8.3.1
+Paolo
+
+ but as a general point: since OSX is one of
+> the non-Linux hosts it's therefore worth making sure our
+> compile-coverage is as wide as possible, not narrow. It's
+> safe(r) to have narrow coverage of x86-Linux because people
+> catch issues with that anyway, but it's exactly the less
+> common platforms like OSX, the BSDs, odd architectures that
+> we want to be compile/make-check testing as much of our code
+> as possible.
 
 
