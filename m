@@ -2,107 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B3CE361F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 17:04:18 +0200 (CEST)
-Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6F2E37BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 18:22:02 +0200 (CEST)
+Received: from localhost ([::1]:46586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNeev-000063-B3
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 11:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41657)
+	id 1iNfs8-0002Xv-UL
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 12:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thanos.makatos@nutanix.com>) id 1iNeMt-0005ps-SD
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:45:41 -0400
+ (envelope-from <vgoyal@redhat.com>) id 1iNeu8-0002MY-RN
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:20:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thanos.makatos@nutanix.com>) id 1iNeMr-00030g-OY
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:45:39 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:53212)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thanos.makatos@nutanix.com>)
- id 1iNeMr-0002un-1Y
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 10:45:37 -0400
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x9OEj40W005410; Thu, 24 Oct 2019 07:45:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=proofpoint20171006;
- bh=MIY/YWAWPgD9nHSqRCmpvHenRsEvs/B9c2bUX7BbSdM=;
- b=lHgyX2jMYzeAe47SVLhavIHO3j5bBovqstGz7Pymbm3BOWpVBG+lGs40afqABlAfhBcI
- bp87LrQUtwMtSWUaDYBhXyKz4p28HdfsEHaeOj5l1DolwyC3JLwR2ubacgcJ4xZ9CQFG
- GL8i3ZIx4gN1W+YGfbk9VgGnMsHFuh5m9MWb+lEXk2JruaTOXtX/lhrW3oCrMtNvVNd2
- uKUdlSjbdcbnEq1IU+1RFnjrshZPLZRt2J2516bYeJpjxaDEwhWzbaanWZjYKaGSj146
- LnReVDKTx7dHq9HCA6+G/OilcszWhsiUQkSII3cC4dPPrEAYduU2b50EsNwz05YZgqsQ XA== 
-Received: from nam02-bl2-obe.outbound.protection.outlook.com
- (mail-bl2nam02lp2057.outbound.protection.outlook.com [104.47.38.57])
- by mx0a-002c1b01.pphosted.com with ESMTP id 2vt9u2cg10-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Oct 2019 07:45:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=faJsUb2piPIlvUbR+kub7CH9D69EiVqaEGjHc0pqL+X1NBNoKKfvzrJIREZml/siY0+mgdMHP37+437h+pPF+eiDV7b2U0ACrpcy1D0+LfgjLWQ/yeCM/BoCGLTgv9Y2L8EnIZ6s9phzivTFQsWliIQ3gq1sahhXC+p/LSbW+UTevsKMO1KarTtwD1J4BxHt6+oIxtmBB2UBlQUGmkGK68oFstvNQA8qdLFH8pYxyRWCchRUn39Qws7JKNOwlukK7SH2kVKoQxZlG02ltL2czb4g5Zg1H9JcN3mhueoww/vJifg2S+zhtOZrdSyw6C+lj33A2BUbI7vgslor0ajoCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MIY/YWAWPgD9nHSqRCmpvHenRsEvs/B9c2bUX7BbSdM=;
- b=VOSjKSMqDnFa1S2g0PpR/A4OXXIf/fYjqImGYIdqHQ8MoyHtZEtFyBI96JHiJsQgWY17UWaqsjqaq9HinKWyOVr8FcfvR+pUTIFX2iIXsic+vcspBaEPWXRP5P/R/HgiXZaNxl+uSM1i6e04SdlbMMtsAK0yHG8POiUY9Hb+saEW36FFbcx8+saylgMyUVbyzoGRyacgV9+Kt8P4H2+UyYsUEBe1UoMzMsN3wRu32Ox1J5paZv02feSz3mWNgPf/LPtL10fK/WQsNE7K4F2B9W5RWlL35ydGjFAuedB8SGXTl1qmgcZ/WxVcN/gYDrTS7Tdm7kZ3FwYjvvFaergzWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MN2PR02MB6205.namprd02.prod.outlook.com (52.132.173.215) by
- MN2PR02MB6431.namprd02.prod.outlook.com (52.132.173.159) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.22; Thu, 24 Oct 2019 14:45:28 +0000
-Received: from MN2PR02MB6205.namprd02.prod.outlook.com
- ([fe80::bd68:2037:bfce:606e]) by MN2PR02MB6205.namprd02.prod.outlook.com
- ([fe80::bd68:2037:bfce:606e%5]) with mapi id 15.20.2387.023; Thu, 24 Oct 2019
- 14:45:28 +0000
-From: Thanos Makatos <thanos.makatos@nutanix.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Cannot use more than one MSI interrupts
-Thread-Topic: Cannot use more than one MSI interrupts
-Thread-Index: AdWKeV6DWl0//QYRTJSQlIj1KY7Jaw==
-Date: Thu, 24 Oct 2019 14:45:28 +0000
-Message-ID: <MN2PR02MB62053C534A3F1406267EBC4C8B6A0@MN2PR02MB6205.namprd02.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [37.235.116.68]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 96e983cb-7e0a-4be7-f71f-08d75890cffa
-x-ms-traffictypediagnostic: MN2PR02MB6431:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR02MB643113BA04830AD2DE4A27728B6A0@MN2PR02MB6431.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(396003)(39860400002)(346002)(136003)(376002)(199004)(189003)(478600001)(14454004)(74316002)(81166006)(6116002)(71190400001)(8676002)(71200400001)(3846002)(81156014)(66066001)(6436002)(5640700003)(86362001)(107886003)(2906002)(25786009)(8936002)(52536014)(4326008)(2501003)(76116006)(476003)(102836004)(55016002)(54906003)(316002)(6506007)(6916009)(305945005)(33656002)(7736002)(44832011)(2351001)(7696005)(9686003)(256004)(99286004)(26005)(186003)(5660300002)(486006)(66446008)(66556008)(64756008)(66476007)(66946007)(64030200001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR02MB6431;
- H:MN2PR02MB6205.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: B1krSr0GKtNuyerP7aV0svzZlNOJBvjZshkSnXZmtcLMhQ4yg4m3E3N82WugBUcO5Ex8rmgb1bRdj+pgzn8KnbNtJh0WDyyvVsiK6bRuUYOYoXXE/JRs+4bO2uNwf8fJQTvG2dINsyQM2Y3XUnLKxImjK+tGv3oBGmdfvWq57mxLuZODj8DCVvISHbBzHGDPxPifTfQvZ1Zidho/UpfNpa+r/s+N2y2J7vQxKX5GWNrtyk4v8IKjSnXr3DTkDvLxuWb+y1CqO3L3PWyFA1ehsyQqvRJ+LiTUjLNGDtVkoRACeEKAeNcNzz6gPlNjoKtKs70hPTPWWEl+AsbKaGf5YpD4FgLLv4+2GILvHIMVGCNpDQ2xEPdrcPhaU2sWu1v16jyr5nbzolDTbTduraiQqZeDj62tfbdZHV8aa3r7VkX6Jjzn8pp1zFePJA+uy8bk
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <vgoyal@redhat.com>) id 1iNeu7-00031c-4e
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:20:00 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42759
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iNeu6-00031V-N4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 11:19:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571930315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6X9XFqqew8ivwraa0tClrLPJRNEA3ImkqAtcS+f9/2c=;
+ b=XgdKP4ddY61EfPxD4Q54eDaurRHi8K/8pVspW6uZ88Iiq1bKvv4rsiPte2o2w1GkAnNSmE
+ O21J5jM767xsbvHGhPhuG8qhTl43QAsm27lLFsXmYTvUasRA81JaksTCLGwa3ABRj/nK5P
+ 7PSHqlcKC5CEwPB066t2asV5Gu7nqnY=
+Received: from mimecast-mx01.redhat.com (209.132.183.4 [209.132.183.4])
+ (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-RQaXjuezNxKTa6LIw-meRw-1; Thu, 24 Oct 2019 11:16:00 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EF4A801E77;
+ Thu, 24 Oct 2019 15:02:29 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.18.25.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7739560E1C;
+ Thu, 24 Oct 2019 15:02:26 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 06F662202E8; Thu, 24 Oct 2019 11:02:25 -0400 (EDT)
+Date: Thu, 24 Oct 2019 11:02:25 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Fix data corruption with O_APPEND
+ wirte in writeback mode
+Message-ID: <20191024150225.GB6903@redhat.com>
+References: <20191023122523.1816-1-misono.tomohiro@jp.fujitsu.com>
+ <20191023200752.GB6942@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96e983cb-7e0a-4be7-f71f-08d75890cffa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 14:45:28.2711 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ykVxkM1KEQuFFJrxZ8cQqohJoWfGf2ywBXvfzg11KbKjrbBWiuJjuYcrZTw3YjTnY8CPWEErYoE6TPt4unx6fphs5l117oTALQxn3dSwxaA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6431
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-24_09:2019-10-23,2019-10-24 signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.151.68
+In-Reply-To: <20191023200752.GB6942@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: RQaXjuezNxKTa6LIw-meRw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,143 +76,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have a Ubuntu VM (4.15.0-48-generic) to which I pass through a PCI device=
-,
-specifically a virtual NVMe controller. The problem I have is that only one=
- I/O queue
-is initialized, while there should be more (e.g. four). I'm using upstream =
-QEMU
-v4.1.0 confgiured without any additional options. Most likely there's somet=
-hing
-broken with my virtual device implementation but I can't figure out exactly
-what, I was hoping to get some debugging directions.
+On Wed, Oct 23, 2019 at 04:07:52PM -0400, Vivek Goyal wrote:
+> On Wed, Oct 23, 2019 at 09:25:23PM +0900, Misono Tomohiro wrote:
+> > When writeback mode is enabled (-o writeback), O_APPEND handling is
+> > done in kernel. Therefore virtiofsd clears O_APPEND flag when open.
+> > Otherwise O_APPEND flag takes precedence over pwrite() and write
+> > data may corrupt.
+> >=20
+> > Currently clearing O_APPEND flag is done in lo_open(), but we also
+> > need the same operation in lo_create().
+>=20
+> > So, factor out the flag
+> > update operation in lo_open() to update_open_flags() and call it
+> > in both lo_open() and lo_create().
+> >=20
+> > This fixes the failure of xfstest generic/069 in writeback mode
+> > (which tests O_APPEND write data integrity).
+> >=20
 
-I run QEMU as follows:
+Hi Misono,
 
-~/src/qemu/x86_64-softmmu/qemu-system-x86_64 \
-        -kernel bionic-server-cloudimg-amd64-vmlinuz-generic \
-        -smp cores=3D2,sockets=3D2 \
-        -nographic \
-        -append "console=3DttyS0 root=3D/dev/sda1 single nvme.sgl_threshold=
-=3D0 nokaslr nvme.io_queue_depth=3D4" \
-        -initrd bionic-server-cloudimg-amd64-initrd-generic \
-        -hda bionic-server-cloudimg-amd64.raw \
-        -hdb data.raw \
-        -m 1G \
-        -object memory-backend-file,id=3Dram-node0,prealloc=3Dyes,mem-path=
-=3Dmem,share=3Dyes,size=3D1073741824 -numa node,nodeid=3D0,cpus=3D0-3,memde=
-v=3Dram-node0 \
-        -device vfio-pci,sysfsdev=3D/sys/bus/mdev/devices/00000000-0000-000=
-0-0000-000000000000 \
-        -trace enable=3Dvfio*,file=3Dqemu.trace \
-        -net none \
-        -s
+Have you tried running pjdfstests. Looks like with the patch applied I
+see following tests failing which were passing without the patch. Can
+you please have a look. I ran daemon with options "-o cache=3Dalways -o
+writeback"
 
-This is what QEMU thinks of the devices:
+/root/git/pjdfstest/tests/chmod/00.t          (Wstat: 0 Tests: 119 Failed: =
+1)
+  Failed test:  64
+/root/git/pjdfstest/tests/chown/00.t          (Wstat: 0 Tests: 1323 Failed:=
+ 1)
+  Failed test:  946
+  TODO passed:   1107, 1112, 1116, 1122, 1127, 1131, 1137
+                1142, 1146, 1152, 1157, 1161, 1167, 1172
+                1176, 1182, 1187
+/root/git/pjdfstest/tests/link/00.t           (Wstat: 0 Tests: 202 Failed: =
+1)
+  Failed test:  134
+/root/git/pjdfstest/tests/utimensat/01.t      (Wstat: 0 Tests: 7 Failed: 1)
+  Failed test:  4
+Files=3D232, Tests=3D8789, 375 wallclock secs ( 4.00 usr  2.65 sys + 51.48 =
+cusr 262.19 csys =3D 320.32 CPU)
+Thanks
+Vivek
 
-(qemu) info pci
-  Bus  0, device   0, function 0:
-    Host bridge: PCI device 8086:1237
-      PCI subsystem 1af4:1100
-      id ""
-  Bus  0, device   1, function 0:
-    ISA bridge: PCI device 8086:7000
-      PCI subsystem 1af4:1100
-      id ""
-  Bus  0, device   1, function 1:
-    IDE controller: PCI device 8086:7010
-      PCI subsystem 1af4:1100
-      BAR4: I/O at 0xc000 [0xc00f].
-      id ""
-  Bus  0, device   1, function 3:
-    Bridge: PCI device 8086:7113
-      PCI subsystem 1af4:1100
-      IRQ 9.
-      id ""
-  Bus  0, device   2, function 0:
-    VGA controller: PCI device 1234:1111
-      PCI subsystem 1af4:1100
-      BAR0: 32 bit prefetchable memory at 0xfd000000 [0xfdffffff].
-      BAR2: 32 bit memory at 0xfebf4000 [0xfebf4fff].
-      BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].
-      id ""
-  Bus  0, device   3, function 0:
-    Class 0264: PCI device 4e58:0001
-      PCI subsystem 0000:0000
-      IRQ 11.
-      BAR0: 32 bit memory at 0xfebf0000 [0xfebf3fff].
-      id ""
+>=20
+> Hi,
+>=20
+> Consolidating updation of flags both for lo_create() and lo_open() makes
+> sense to me. I will test it tomorrow.
+>=20
+> Thanks
+> Vivek
+>=20
+> > Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+> > ---
+> >  contrib/virtiofsd/passthrough_ll.c | 56 +++++++++++++++---------------
+> >  1 file changed, 28 insertions(+), 28 deletions(-)
+> >=20
+> > diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/pas=
+sthrough_ll.c
+> > index e8892c3c32..79fb78ecce 100644
+> > --- a/contrib/virtiofsd/passthrough_ll.c
+> > +++ b/contrib/virtiofsd/passthrough_ll.c
+> > @@ -1733,6 +1733,32 @@ static void lo_releasedir(fuse_req_t req, fuse_i=
+no_t ino, struct fuse_file_info
+> >  =09fuse_reply_err(req, 0);
+> >  }
+> > =20
+> > +static void update_open_flags(int writeback, struct fuse_file_info *fi=
+)
+> > +{
+> > +=09/* With writeback cache, kernel may send read requests even
+> > +=09   when userspace opened write-only */
+> > +=09if (writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
+> > +=09=09fi->flags &=3D ~O_ACCMODE;
+> > +=09=09fi->flags |=3D O_RDWR;
+> > +=09}
+> > +
+> > +=09/* With writeback cache, O_APPEND is handled by the kernel.
+> > +=09   This breaks atomicity (since the file may change in the
+> > +=09   underlying filesystem, so that the kernel's idea of the
+> > +=09   end of the file isn't accurate anymore). In this example,
+> > +=09   we just accept that. A more rigorous filesystem may want
+> > +=09   to return an error here */
+> > +=09if (writeback && (fi->flags & O_APPEND))
+> > +=09=09fi->flags &=3D ~O_APPEND;
+> > +
+> > +=09/*
+> > +=09 * O_DIRECT in guest should not necessarily mean bypassing page
+> > +=09 * cache on host as well. If somebody needs that behavior, it
+> > +=09 * probably should be a configuration knob in daemon.
+> > +=09 */
+> > +=09fi->flags &=3D ~O_DIRECT;
+> > +}
+> > +
+> >  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *n=
+ame,
+> >  =09=09      mode_t mode, struct fuse_file_info *fi)
+> >  {
+> > @@ -1760,12 +1786,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t=
+ parent, const char *name,
+> >  =09if (err)
+> >  =09=09goto out;
+> > =20
+> > -=09/*
+> > -=09 * O_DIRECT in guest should not necessarily mean bypassing page
+> > -=09 * cache on host as well. If somebody needs that behavior, it
+> > -=09 * probably should be a configuration knob in daemon.
+> > -=09 */
+> > -=09fi->flags &=3D ~O_DIRECT;
+> > +=09update_open_flags(lo->writeback, fi);
+> > =20
+> >  =09fd =3D openat(parent_inode->fd, name,
+> >  =09=09    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
+> > @@ -1966,28 +1987,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t i=
+no, struct fuse_file_info *fi)
+> > =20
+> >  =09fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n"=
+, ino, fi->flags);
+> > =20
+> > -=09/* With writeback cache, kernel may send read requests even
+> > -=09   when userspace opened write-only */
+> > -=09if (lo->writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
+> > -=09=09fi->flags &=3D ~O_ACCMODE;
+> > -=09=09fi->flags |=3D O_RDWR;
+> > -=09}
+> > -
+> > -=09/* With writeback cache, O_APPEND is handled by the kernel.
+> > -=09   This breaks atomicity (since the file may change in the
+> > -=09   underlying filesystem, so that the kernel's idea of the
+> > -=09   end of the file isn't accurate anymore). In this example,
+> > -=09   we just accept that. A more rigorous filesystem may want
+> > -=09   to return an error here */
+> > -=09if (lo->writeback && (fi->flags & O_APPEND))
+> > -=09=09fi->flags &=3D ~O_APPEND;
+> > -
+> > -=09/*
+> > -=09 * O_DIRECT in guest should not necessarily mean bypassing page
+> > -=09 * cache on host as well. If somebody needs that behavior, it
+> > -=09 * probably should be a configuration knob in daemon.
+> > -=09 */
+> > -=09fi->flags &=3D ~O_DIRECT;
+> > +=09update_open_flags(lo->writeback, fi);
+> > =20
+> >  =09sprintf(buf, "%i", lo_fd(req, ino));
+> >  =09fd =3D openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> > --=20
+> > 2.21.0
+> >=20
+> > _______________________________________________
+> > Virtio-fs mailing list
+> > Virtio-fs@redhat.com
+> > https://www.redhat.com/mailman/listinfo/virtio-fs
+>=20
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://www.redhat.com/mailman/listinfo/virtio-fs
 
-And this is what the guest thinks of the device in question:
-
-root@ubuntu:~# lspci -vvv -s 00:03.0
-00:03.0 Non-Volatile memory controller: Device 4e58:0001 (prog-if 02 [NVM E=
-xpress])
-        Physical Slot: 3
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-=
- Stepping- SERR+ FastB2B- DisINTx+
-        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <T=
-Abort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 0
-        Interrupt: pin A routed to IRQ 24
-        NUMA node: 0
-        Region 0: Memory at febf0000 (32-bit, non-prefetchable) [size=3D16K=
-]
-        Capabilities: [40] Power Management version 0
-                Flags: PMEClk- DSI- D1- D2- AuxCurrent=3D0mA PME(D0-,D1-,D2=
--,D3hot-,D3cold-)
-                Status: D0 NoSoftRst+ PME-Enable- DSel=3D0 DScale=3D0 PME-
-        Capabilities: [48] MSI: Enable+ Count=3D1/4 Maskable- 64bit+
-                Address: 00000000fee01004  Data: 4023
-        Capabilities: [60] Express (v1) Endpoint, MSI 00
-                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s <64n=
-s, L1 <1us
-                        ExtTag- AttnBtn+ AttnInd- PwrInd- RBE- FLReset- Slo=
-tPowerLimit 128.000W
-                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsup=
-ported-
-                        RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
-                        MaxPayload 128 bytes, MaxReadReq 128 bytes
-                DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- Tr=
-ansPend-
-                LnkCap: Port #0, Speed unknown, Width x0, ASPM not supporte=
-d, Exit Latency L0s <64ns, L1 <1us
-                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
-                LnkCtl: ASPM Disabled; RCB 64 bytes Disabled- CommClk-
-                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-                LnkSta: Speed unknown, Width x0, TrErr- Train- SlotClk- DLA=
-ctive- BWMgmt- ABWMgmt-
-        Kernel driver in use: nvme
-        Kernel modules: nvme
-
-I tried debugging the guest kernel and I think the following if is taken in
-pci_msi_domain_check_cap():
-
-if (pci_msi_desc_is_multi_msi(desc) &&
-    !(info->flags & MSI_FLAG_MULTI_PCI_MSI))                    =20
-        return 1;
-
-because flags is 0x3b (MSI_FLAG_MULTI_PCI_MSI is 0x4). And this I think mea=
-ns
-that MSI_FLAG_MULTI_PCI_MSI is not set for that msi_domain_info.
-
-# grep -i msi qemu.trace
-1327@1571926064.595365:vfio_msi_setup 00000000-0000-0000-0000-000000000000 =
-PCI MSI CAP @0x48
-1334@1571926073.489691:vfio_msi_enable  (00000000-0000-0000-0000-0000000000=
-00) Enabled 1 MSI vectors
-1334@1571926073.501741:vfio_msi_disable  (00000000-0000-0000-0000-000000000=
-000)
-1334@1571926073.507127:vfio_msi_enable  (00000000-0000-0000-0000-0000000000=
-00) Enabled 1 MSI vectors
-1327@1571926073.520840:vfio_msi_interrupt  (00000000-0000-0000-0000-0000000=
-00000) vector 0 0xfee01004/0x4023
-... more vfio_msi_interrupt ...
-
-How can I further debug this?
 
