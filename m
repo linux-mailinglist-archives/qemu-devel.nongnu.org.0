@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC8EE28B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 05:13:56 +0200 (CEST)
-Received: from localhost ([::1]:56912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF16E28A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 05:10:21 +0200 (CEST)
+Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNTZT-0005vy-2Y
-	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 23:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53797)
+	id 1iNTVz-0000XO-MK
+	for lists+qemu-devel@lfdr.de; Wed, 23 Oct 2019 23:10:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iNTTK-0006QL-2o
+ (envelope-from <dgibson@ozlabs.org>) id 1iNTTJ-0006Pz-QR
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 23:07:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iNTTI-0002ro-AX
+ (envelope-from <dgibson@ozlabs.org>) id 1iNTTI-0002ry-Be
  for qemu-devel@nongnu.org; Wed, 23 Oct 2019 23:07:33 -0400
-Received: from ozlabs.org ([203.11.71.1]:56529)
+Received: from ozlabs.org ([203.11.71.1]:42729)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iNTTH-0002nA-43; Wed, 23 Oct 2019 23:07:32 -0400
+ id 1iNTTH-0002nF-7k; Wed, 23 Oct 2019 23:07:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46zBxS2Psdz9sPL; Thu, 24 Oct 2019 14:07:24 +1100 (AEDT)
+ id 46zBxS1hS9z9sNw; Thu, 24 Oct 2019 14:07:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571886444;
- bh=8pjwWQUWsQW3llwRkyHkaqkI0sayQjKPH1tiQ+fn4N8=;
+ bh=gSjtQwlQKxTQDrZCVgREHwp9Og1zNXyrSBBxMJ6cltA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hV/7iGdsnoNiyR6l4ktlXCqg4zrnzgtG8o5bSZ4EnWBONVTgTCaohFjUAfn+kFvRd
- y57WlToACYTuQKWCRD5YgHOa3cs1ltSxD+9RdqkK7Y4/ObZaudgcxdb7acoVSbO3/1
- nmtKHooNPTNVuR8wSSjYSFmgVJP+elWYi9/ofCbI=
-Date: Thu, 24 Oct 2019 13:33:22 +1100
+ b=KHSe/QAIfLNjPvirl0woJy9EGiqo5K4zLtYVSqqsQM0D0PuuMZ3dLcCQIj3MFvW3l
+ b7unB+Tu4XKWB+e+LP2PKH3wsgEjF3xN7RU2JhmOGoZ/u66/INwRPjixCXEeUb6mnO
+ b/etgVKadHw2wp+ltPmmbrTzK8uWYSaywM87mDrM=
+Date: Thu, 24 Oct 2019 13:35:02 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 3/7] ppc/pnv: Introduce a PnvCore reset handler
-Message-ID: <20191024023322.GM6439@umbus.fritz.box>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v5 0/7] ppc: reset the interrupt presenter from the CPU
+ reset handler
+Message-ID: <20191024023502.GN6439@umbus.fritz.box>
 References: <20191022163812.330-1-clg@kaod.org>
- <20191022163812.330-4-clg@kaod.org>
- <21ea9a84-0a26-0ff7-c2a3-458c2c9016a1@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kkcDP0v44wDpNmbp"
+ protocol="application/pgp-signature"; boundary="8CNmCRe8Sh4keFKJ"
 Content-Disposition: inline
-In-Reply-To: <21ea9a84-0a26-0ff7-c2a3-458c2c9016a1@redhat.com>
+In-Reply-To: <20191022163812.330-1-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -57,105 +56,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kkcDP0v44wDpNmbp
+--8CNmCRe8Sh4keFKJ
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2019 at 01:18:06PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Hi C=E9dric,
+On Tue, Oct 22, 2019 at 06:38:05PM +0200, C=E9dric Le Goater wrote:
+> Hello,
 >=20
-> On 10/22/19 6:38 PM, C=E9dric Le Goater wrote:
-> > in which individual CPUs are reset. It will ease the introduction of
-> > future change reseting the interrupt presenter from the CPU reset
-> > handler.
-> >=20
-> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >   hw/ppc/pnv_core.c | 19 +++++++++++++++----
-> >   1 file changed, 15 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> > index b1a7489e7abf..9f981a4940e6 100644
-> > --- a/hw/ppc/pnv_core.c
-> > +++ b/hw/ppc/pnv_core.c
-> > @@ -40,9 +40,8 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
-> >       return cpu_type;
-> >   }
-> > -static void pnv_cpu_reset(void *opaque)
-> > +static void pnv_core_cpu_reset(PowerPCCPU *cpu)
-> >   {
-> > -    PowerPCCPU *cpu =3D opaque;
-> >       CPUState *cs =3D CPU(cpu);
-> >       CPUPPCState *env =3D &cpu->env;
-> > @@ -192,8 +191,17 @@ static void pnv_realize_vcpu(PowerPCCPU *cpu, PnvC=
-hip *chip, Error **errp)
-> >       /* Set time-base frequency to 512 MHz */
-> >       cpu_ppc_tb_init(env, PNV_TIMEBASE_FREQ);
-> > +}
-> > +
-> > +static void pnv_core_reset(void *dev)
+> On the sPAPR machine and PowerNV machine, the interrupt presenters are
+> created by a machine handler at the core level and are reseted
+> independently. This is not consistent and it raises issues when it
+> comes to handle hot-plugged CPUs. In that case, the presenters are not
+> reseted. This is less of an issue in XICS, although a zero MFFR could
+> be a concern, but in XIVE, the OS CAM line is not set and this breaks
+> the presenting algorithm. The current code has workarounds which need
+> a global cleanup.
 >=20
-> Here the opaque pointer is a 'PnvCore *pc'.
-> If you don't want to call it 'opaque', maybe 'pc' is better.
+> Extend the sPAPR IRQ backend and the PowerNV Chip class with a new
+> cpu_intc_reset() handler called by the CPU reset handler and remove
+> the XiveTCTX reset handler which is now redundant.
 >=20
-> > +{
-> > +    CPUCore *cc =3D CPU_CORE(dev);
-> > +    PnvCore *pc =3D PNV_CORE(dev);
->=20
-> This type conversion is not necessary.
->=20
-> What about:
->=20
->    static void pnv_core_reset(void *opaque)
->    {
->        PnvCore *pc =3D opaque;
->        CPUCore *cc =3D CPU_CORE(pc);
+> Set the OS CAM line when the interrupt presenter of the sPAPR core is
+> reseted. This will also cover the case of hot-plugged CPUs.
 
-Those suggestions look good to me, but they can be done as a follow up.
+I'm not totally convinced whether every step here is done the best it
+can be.  But it addresses real problems, so I've applied anyway.  I
+will make some comments inline, which could be addressed in follow up
+patches.
 
 >=20
-> > +    int i;
-> > -    qemu_register_reset(pnv_cpu_reset, cpu);
-> > +    for (i =3D 0; i < cc->nr_threads; i++) {
-> > +        pnv_core_cpu_reset(pc->threads[i]);
-> > +    }
-> >   }
-> >   static void pnv_core_realize(DeviceState *dev, Error **errp)
-> > @@ -244,6 +252,8 @@ static void pnv_core_realize(DeviceState *dev, Erro=
-r **errp)
-> >       snprintf(name, sizeof(name), "xscom-core.%d", cc->core_id);
-> >       pnv_xscom_region_init(&pc->xscom_regs, OBJECT(dev), pcc->xscom_op=
-s,
-> >                             pc, name, PNV_XSCOM_EX_SIZE);
-> > +
-> > +    qemu_register_reset(pnv_core_reset, pc);
-> >       return;
-> >   err:
-> > @@ -259,7 +269,6 @@ static void pnv_unrealize_vcpu(PowerPCCPU *cpu)
-> >   {
-> >       PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
-> > -    qemu_unregister_reset(pnv_cpu_reset, cpu);
-> >       object_unparent(OBJECT(pnv_cpu_state(cpu)->intc));
-> >       cpu_remove_sync(CPU(cpu));
-> >       cpu->machine_data =3D NULL;
-> > @@ -273,6 +282,8 @@ static void pnv_core_unrealize(DeviceState *dev, Er=
-ror **errp)
-> >       CPUCore *cc =3D CPU_CORE(dev);
-> >       int i;
-> > +    qemu_unregister_reset(pnv_core_reset, pc);
-> > +
-> >       for (i =3D 0; i < cc->nr_threads; i++) {
-> >           pnv_unrealize_vcpu(pc->threads[i]);
-> >       }
-> >=20
+> Thanks,
+>=20
+> C.
+>=20
+> Changes in v5:
+>=20
+>  - Removed useless PNV_CHIP() cast
+> =20
+> Changes in v4:
+>=20
+>  - Introduce a PnvCore reset handler
+>  - Add PnvChip pointer to PnvCore
+>=20
+> Changes in v3:
+>=20
+>  - Introduced a DeviceClass::reset for the CPU (Greg)
+>  - add support for PowerNV
+> =20
+> Changes in v2:
+>=20
+>  - removed property
+>  - simplified reset handlers
+>=20
+> C=E9dric Le Goater (6):
+>   spapr: move CPU reset after presenter creation
+>   ppc/pnv: Introduce a PnvCore reset handler
+>   ppc/pnv: Add a PnvChip pointer to PnvCore
+>   ppc: Reset the interrupt presenter from the CPU reset handler
+>   ppc/pnv: Fix naming of routines realizing the CPUs
+>   spapr/xive: Set the OS CAM line at reset
+>=20
+> Greg Kurz (1):
+>   spapr_cpu_core: Implement DeviceClass::reset
+>=20
+>  include/hw/ppc/pnv.h        |  1 +
+>  include/hw/ppc/pnv_core.h   |  3 +++
+>  include/hw/ppc/spapr_irq.h  |  2 ++
+>  include/hw/ppc/spapr_xive.h |  1 -
+>  include/hw/ppc/xics.h       |  1 +
+>  include/hw/ppc/xive.h       |  1 +
+>  hw/intc/spapr_xive.c        | 53 +++++++++++++++++--------------------
+>  hw/intc/xics.c              |  8 ++----
+>  hw/intc/xics_spapr.c        |  7 +++++
+>  hw/intc/xive.c              | 12 +--------
+>  hw/ppc/pnv.c                | 18 +++++++++++++
+>  hw/ppc/pnv_core.c           | 31 ++++++++++++++++------
+>  hw/ppc/spapr_cpu_core.c     | 44 +++++++++++++++++++++++-------
+>  hw/ppc/spapr_irq.c          | 14 ++++++++++
+>  14 files changed, 131 insertions(+), 65 deletions(-)
 >=20
 
 --=20
@@ -164,25 +149,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---kkcDP0v44wDpNmbp
+--8CNmCRe8Sh4keFKJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2xDXAACgkQbDjKyiDZ
-s5J4Lw//ZC+EGUia4i9D861gIRQ0lW5QIq885ie/md0dA3t+wrGXJTAJE0Awz/qq
-DfJCktmFlzC0i5oSI+NZhhaolhrVNs4+CPRS3YjDYmEAokfTPY5EaUE+z72sUK/B
-SbOzk36z18XutHot67nETydfA1OjK0ZRivVtrLLGdH5RdAC9WzFt2PE2TJ9v873p
-7rICouthznWJN31tIQCUmfKZJCR3TYPYukHBcdqpVU1cypDhjXdaBjqNMP48vMGS
-Oh2sa1k6AMbqXufTmpNx4kJoP9QjI2oghw26ps4Io0FYNtP6A9TE2AK59NV7Cxg0
-mno8UuuDeWytDcDlgMLscXIstm3xqr06Y90RigkoS+tXFFSRQfJhn5x85S67aLNd
-cJFMYDzcqNm2Gu7Ol3BHNlr3Mzkb5ruTTEnNwLtpOByQaD4W3XQwv1S/QUq4SU+z
-Q0WxXM1Jj6mriGyr2s/FssvUJNgJ0m0xoBkLbbs939yb1rPObBA89PfEMf2snRAC
-X3bXgI/8zazI+s0jQhGGcGa/DY1cyfLt+MiJKl0ubeUIgY0DeQ+9IVLEqFFomKPf
-GjgvgzTKT2/Up+4YK+XeM059K9OhJkYT9S6a2JjxQfFnblzgznVmLC+FmenBsDfJ
-ilvjV3v5rYW9cL19WPmCruwRH9gMalAUtZqbiN/zrwJEOYUBUNs=
-=pefC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2xDdYACgkQbDjKyiDZ
+s5LcDBAAjjPgZUMKAzlR+n564uUSo0pC0ZkN62hgP6mTkrVo/sk1Xs810AuGih/x
+Oxpv9DQIz9UkMOgVgL+QGBcL4ohSjzQLL51aiNfkC5iLhv22ydIVsy1x/TeuvQnB
++XI3hfd2M67RnZY2Ul1Qc2nRG2MCkfRZ9wORoUEdw0mPkZV3+J+1p+3iN6ZPzH55
+6iCTDP+HNHh5J3gAa6uIgtPUjOepVJro5Ri4wvsFoHzfY/EXr7g+PVOBFV9p7q6O
+XF7JrViHKrpbVaLtFlHOkuDA5FOG35TZpSzjcCjnYIxrxWylKt8qmb8ph8vpBauC
+PL2BWuik36FmYUtFYNUZJBqE/0T/yq45Os6mcbPT2ewTejue6aNWrQFzsvNg1KpF
+N1eS6h/fr044TPmvJixCbKuFPTozIVEcGSQFiVeA6hmB4sOMo2gv4yMCIZvEvLQ7
+5HmFtENAY0jFouwkfR7iEhffbgw8lp4bDfg/ty4yV7fAsW7+KCq4MLDhLIiKoCzh
+trdjocdcfOu/nntmXQf/s0RaBGMARY0U5xs8ZlOHnW26ahdazZRVX2vcb18UhMmU
+CpXBkbHxqW7JWjTEm+gkoIBDgXo5mJRhZrzY75SauIqSckPR+086Wx9/jTgqaE2A
+18Yd8q8UQI0o1o7GqlYvo514VtPNxCNew3aNCWGuspAWHD5FL54=
+=0EVm
 -----END PGP SIGNATURE-----
 
---kkcDP0v44wDpNmbp--
+--8CNmCRe8Sh4keFKJ--
 
