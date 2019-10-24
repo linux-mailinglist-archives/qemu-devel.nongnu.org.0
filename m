@@ -2,65 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00561E3073
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:34:37 +0200 (CEST)
-Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39858E3175
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:51:41 +0200 (CEST)
+Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbNz-0003xs-5z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59384)
+	id 1iNbeV-0008EV-Vj
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60337)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iNatM-000126-Aw
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:59 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNaz9-0002md-Gf
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:08:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iNatI-0004uK-JU
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:56 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31206
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNaz5-0007bE-UC
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:08:55 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:37929 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iNatG-0004r0-Kd
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:02:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571914968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iOEcPd3gG1rwZDF+O6gIueB0do2koRN51n2cuRDs3gs=;
- b=KwN6E4taA6gl4uPbdc8M9dyZz8W+jWitzJKETKqw6Kyb4Xq9i3WOLJfSvgj25EdwE8yDp2
- rjbXJG3lIeHGdQjxs2pXN9vqjrTe67ox3uBtzp3034Jk3zXylNo+wWPdbE6ka1PO8MItUw
- WLQDdAEmBgS7TwhLnH8hmgYvptbMNa8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-XXu_ikWpORqD9wob7IWzdg-1; Thu, 24 Oct 2019 07:02:43 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 859735E4;
- Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BD5D60BF3;
- Thu, 24 Oct 2019 11:02:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8E311112FB55; Thu, 24 Oct 2019 13:02:37 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1iNaz5-0007aE-DB
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:08:51 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 54B671A221D;
+ Thu, 24 Oct 2019 13:07:45 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 127101A21E2;
+ Thu, 24 Oct 2019 13:07:45 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/19] qapi: Check feature documentation against the schema
-Date: Thu, 24 Oct 2019 13:02:37 +0200
-Message-Id: <20191024110237.30963-20-armbru@redhat.com>
-In-Reply-To: <20191024110237.30963-1-armbru@redhat.com>
-References: <20191024110237.30963-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: XXu_ikWpORqD9wob7IWzdg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Subject: [PULL 07/11] target/mips: msa: Split helpers for
+ ADD<_A|S_A|S_S|S_U|V>.<B|H|W|D>
+Date: Thu, 24 Oct 2019 13:06:31 +0200
+Message-Id: <1571915195-4381-8-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1571915195-4381-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1571915195-4381-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,177 +51,666 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit f3ed93d545 "qapi: Allow documentation for features" neglected
-to check documentation against the schema.  Fix that: check them the
-same way we check arguments.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Achieves clearer code and slightly better performance.
+
+Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1571826227-10583-8-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- scripts/qapi/parser.py                   | 31 +++++++++++++++++-------
- scripts/qapi/schema.py                   |  2 ++
- tests/qapi-schema/doc-bad-feature.err    |  1 +
- tests/qapi-schema/doc-bad-feature.json   |  1 -
- tests/qapi-schema/doc-bad-feature.out    | 19 ---------------
- tests/qapi-schema/doc-undoc-feature.err  |  2 ++
- tests/qapi-schema/doc-undoc-feature.json |  1 -
- tests/qapi-schema/doc-undoc-feature.out  | 21 ----------------
- 8 files changed, 27 insertions(+), 51 deletions(-)
+ target/mips/helper.h     |  30 +++-
+ target/mips/msa_helper.c | 426 +++++++++++++++++++++++++++++++++++++++++------
+ target/mips/translate.c  |  95 +++++++++--
+ 3 files changed, 482 insertions(+), 69 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 6c45a00cf4..342792e410 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -555,18 +555,31 @@ class QAPIDoc(object):
-             self.args[member.name] =3D QAPIDoc.ArgSection(member.name)
-         self.args[member.name].connect(member)
-=20
-+    def connect_feature(self, feature):
-+        if feature.name not in self.features:
-+            raise QAPISemError(feature.info,
-+                               "feature '%s' lacks documentation"
-+                               % feature.name)
-+            self.features[feature.name] =3D QAPIDoc.ArgSection(feature.nam=
-e)
-+        self.features[feature.name].connect(feature)
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index f3df187..ce01e97 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -822,6 +822,31 @@ DEF_HELPER_4(msa_bset_h, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_bset_w, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_bset_d, void, env, i32, i32, i32)
+ 
++DEF_HELPER_4(msa_add_a_b, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_add_a_h, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_add_a_w, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_add_a_d, void, env, i32, i32, i32)
 +
-     def check_expr(self, expr):
-         if self.has_section('Returns') and 'command' not in expr:
-             raise QAPISemError(self.info,
-                                "'Returns:' is only valid for commands")
-=20
-     def check(self):
--        bogus =3D [name for name, section in self.args.items()
--                 if not section.member]
--        if bogus:
--            raise QAPISemError(
--                self.info,
--                "documented member%s '%s' %s not exist"
--                % ("s" if len(bogus) > 1 else "",
--                   "', '".join(bogus),
--                   "do" if len(bogus) > 1 else "does"))
++DEF_HELPER_4(msa_adds_a_b, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_a_h, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_a_w, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_a_d, void, env, i32, i32, i32)
 +
-+        def check_args_section(args, info, what):
-+            bogus =3D [name for name, section in args.items()
-+                     if not section.member]
-+            if bogus:
-+                raise QAPISemError(
-+                    self.info,
-+                    "documented member%s '%s' %s not exist"
-+                    % ("s" if len(bogus) > 1 else "",
-+                       "', '".join(bogus),
-+                       "do" if len(bogus) > 1 else "does"))
++DEF_HELPER_4(msa_adds_s_b, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_s_h, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_s_w, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_s_d, void, env, i32, i32, i32)
 +
-+        check_args_section(self.args, self.info, 'members')
-+        check_args_section(self.features, self.info, 'features')
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index bdea9482fc..cf0045f34e 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -56,6 +56,8 @@ class QAPISchemaEntity(object):
-         seen =3D {}
-         for f in self.features:
-             f.check_clash(self.info, seen)
-+            if self.doc:
-+                self.doc.connect_feature(f)
-=20
-         self._checked =3D True
-=20
-diff --git a/tests/qapi-schema/doc-bad-feature.err b/tests/qapi-schema/doc-=
-bad-feature.err
-index e69de29bb2..e4c62adfa3 100644
---- a/tests/qapi-schema/doc-bad-feature.err
-+++ b/tests/qapi-schema/doc-bad-feature.err
-@@ -0,0 +1 @@
-+doc-bad-feature.json:3: documented member 'a' does not exist
-diff --git a/tests/qapi-schema/doc-bad-feature.json b/tests/qapi-schema/doc=
--bad-feature.json
-index 2a78e3b1db..3d49b8e607 100644
---- a/tests/qapi-schema/doc-bad-feature.json
-+++ b/tests/qapi-schema/doc-bad-feature.json
-@@ -1,5 +1,4 @@
- # Features listed in the doc comment must exist in the actual schema
--# BUG: nonexistent @a is not rejected
-=20
- ##
- # @foo:
-diff --git a/tests/qapi-schema/doc-bad-feature.out b/tests/qapi-schema/doc-=
-bad-feature.out
-index fef4a3e400..e69de29bb2 100644
---- a/tests/qapi-schema/doc-bad-feature.out
-+++ b/tests/qapi-schema/doc-bad-feature.out
-@@ -1,19 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module doc-bad-feature.json
--command foo None -> None
--    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
--doc symbol=3Dfoo
--    body=3D
++DEF_HELPER_4(msa_adds_u_b, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_u_h, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_u_w, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_adds_u_d, void, env, i32, i32, i32)
++
++DEF_HELPER_4(msa_addv_b, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_addv_h, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_addv_w, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_addv_d, void, env, i32, i32, i32)
++
+ DEF_HELPER_4(msa_ave_s_b, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_ave_s_h, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_ave_s_w, void, env, i32, i32, i32)
+@@ -976,12 +1001,7 @@ DEF_HELPER_5(msa_sra_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_srl_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_binsl_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_binsr_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_5(msa_addv_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_subv_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_5(msa_add_a_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_5(msa_adds_a_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_5(msa_adds_s_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_5(msa_adds_u_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_subs_s_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_subs_u_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_subsus_u_df, void, env, i32, i32, i32, i32)
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index 499fcde..c31f46c 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -805,7 +805,383 @@ void helper_msa_bset_d(CPUMIPSState *env, uint32_t wd, uint32_t ws, uint32_t wt)
+  * +---------------+----------------------------------------------------------+
+  */
+ 
+-/* TODO: insert Int Add group helpers here */
++
++static inline int64_t msa_add_a_df(uint32_t df, int64_t arg1, int64_t arg2)
++{
++    uint64_t abs_arg1 = arg1 >= 0 ? arg1 : -arg1;
++    uint64_t abs_arg2 = arg2 >= 0 ? arg2 : -arg2;
++    return abs_arg1 + abs_arg2;
++}
++
++void helper_msa_add_a_b(CPUMIPSState *env,
++                        uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->b[0]  = msa_add_a_df(DF_BYTE, pws->b[0],  pwt->b[0]);
++    pwd->b[1]  = msa_add_a_df(DF_BYTE, pws->b[1],  pwt->b[1]);
++    pwd->b[2]  = msa_add_a_df(DF_BYTE, pws->b[2],  pwt->b[2]);
++    pwd->b[3]  = msa_add_a_df(DF_BYTE, pws->b[3],  pwt->b[3]);
++    pwd->b[4]  = msa_add_a_df(DF_BYTE, pws->b[4],  pwt->b[4]);
++    pwd->b[5]  = msa_add_a_df(DF_BYTE, pws->b[5],  pwt->b[5]);
++    pwd->b[6]  = msa_add_a_df(DF_BYTE, pws->b[6],  pwt->b[6]);
++    pwd->b[7]  = msa_add_a_df(DF_BYTE, pws->b[7],  pwt->b[7]);
++    pwd->b[8]  = msa_add_a_df(DF_BYTE, pws->b[8],  pwt->b[8]);
++    pwd->b[9]  = msa_add_a_df(DF_BYTE, pws->b[9],  pwt->b[9]);
++    pwd->b[10] = msa_add_a_df(DF_BYTE, pws->b[10], pwt->b[10]);
++    pwd->b[11] = msa_add_a_df(DF_BYTE, pws->b[11], pwt->b[11]);
++    pwd->b[12] = msa_add_a_df(DF_BYTE, pws->b[12], pwt->b[12]);
++    pwd->b[13] = msa_add_a_df(DF_BYTE, pws->b[13], pwt->b[13]);
++    pwd->b[14] = msa_add_a_df(DF_BYTE, pws->b[14], pwt->b[14]);
++    pwd->b[15] = msa_add_a_df(DF_BYTE, pws->b[15], pwt->b[15]);
++}
++
++void helper_msa_add_a_h(CPUMIPSState *env,
++                        uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->h[0]  = msa_add_a_df(DF_HALF, pws->h[0],  pwt->h[0]);
++    pwd->h[1]  = msa_add_a_df(DF_HALF, pws->h[1],  pwt->h[1]);
++    pwd->h[2]  = msa_add_a_df(DF_HALF, pws->h[2],  pwt->h[2]);
++    pwd->h[3]  = msa_add_a_df(DF_HALF, pws->h[3],  pwt->h[3]);
++    pwd->h[4]  = msa_add_a_df(DF_HALF, pws->h[4],  pwt->h[4]);
++    pwd->h[5]  = msa_add_a_df(DF_HALF, pws->h[5],  pwt->h[5]);
++    pwd->h[6]  = msa_add_a_df(DF_HALF, pws->h[6],  pwt->h[6]);
++    pwd->h[7]  = msa_add_a_df(DF_HALF, pws->h[7],  pwt->h[7]);
++}
++
++void helper_msa_add_a_w(CPUMIPSState *env,
++                        uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->w[0]  = msa_add_a_df(DF_WORD, pws->w[0],  pwt->w[0]);
++    pwd->w[1]  = msa_add_a_df(DF_WORD, pws->w[1],  pwt->w[1]);
++    pwd->w[2]  = msa_add_a_df(DF_WORD, pws->w[2],  pwt->w[2]);
++    pwd->w[3]  = msa_add_a_df(DF_WORD, pws->w[3],  pwt->w[3]);
++}
++
++void helper_msa_add_a_d(CPUMIPSState *env,
++                        uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0]  = msa_add_a_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
++    pwd->d[1]  = msa_add_a_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
++}
++
++
++static inline int64_t msa_adds_a_df(uint32_t df, int64_t arg1, int64_t arg2)
++{
++    uint64_t max_int = (uint64_t)DF_MAX_INT(df);
++    uint64_t abs_arg1 = arg1 >= 0 ? arg1 : -arg1;
++    uint64_t abs_arg2 = arg2 >= 0 ? arg2 : -arg2;
++    if (abs_arg1 > max_int || abs_arg2 > max_int) {
++        return (int64_t)max_int;
++    } else {
++        return (abs_arg1 < max_int - abs_arg2) ? abs_arg1 + abs_arg2 : max_int;
++    }
++}
++
++void helper_msa_adds_a_b(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->b[0]  = msa_adds_a_df(DF_BYTE, pws->b[0],  pwt->b[0]);
++    pwd->b[1]  = msa_adds_a_df(DF_BYTE, pws->b[1],  pwt->b[1]);
++    pwd->b[2]  = msa_adds_a_df(DF_BYTE, pws->b[2],  pwt->b[2]);
++    pwd->b[3]  = msa_adds_a_df(DF_BYTE, pws->b[3],  pwt->b[3]);
++    pwd->b[4]  = msa_adds_a_df(DF_BYTE, pws->b[4],  pwt->b[4]);
++    pwd->b[5]  = msa_adds_a_df(DF_BYTE, pws->b[5],  pwt->b[5]);
++    pwd->b[6]  = msa_adds_a_df(DF_BYTE, pws->b[6],  pwt->b[6]);
++    pwd->b[7]  = msa_adds_a_df(DF_BYTE, pws->b[7],  pwt->b[7]);
++    pwd->b[8]  = msa_adds_a_df(DF_BYTE, pws->b[8],  pwt->b[8]);
++    pwd->b[9]  = msa_adds_a_df(DF_BYTE, pws->b[9],  pwt->b[9]);
++    pwd->b[10] = msa_adds_a_df(DF_BYTE, pws->b[10], pwt->b[10]);
++    pwd->b[11] = msa_adds_a_df(DF_BYTE, pws->b[11], pwt->b[11]);
++    pwd->b[12] = msa_adds_a_df(DF_BYTE, pws->b[12], pwt->b[12]);
++    pwd->b[13] = msa_adds_a_df(DF_BYTE, pws->b[13], pwt->b[13]);
++    pwd->b[14] = msa_adds_a_df(DF_BYTE, pws->b[14], pwt->b[14]);
++    pwd->b[15] = msa_adds_a_df(DF_BYTE, pws->b[15], pwt->b[15]);
++}
++
++void helper_msa_adds_a_h(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->h[0]  = msa_adds_a_df(DF_HALF, pws->h[0],  pwt->h[0]);
++    pwd->h[1]  = msa_adds_a_df(DF_HALF, pws->h[1],  pwt->h[1]);
++    pwd->h[2]  = msa_adds_a_df(DF_HALF, pws->h[2],  pwt->h[2]);
++    pwd->h[3]  = msa_adds_a_df(DF_HALF, pws->h[3],  pwt->h[3]);
++    pwd->h[4]  = msa_adds_a_df(DF_HALF, pws->h[4],  pwt->h[4]);
++    pwd->h[5]  = msa_adds_a_df(DF_HALF, pws->h[5],  pwt->h[5]);
++    pwd->h[6]  = msa_adds_a_df(DF_HALF, pws->h[6],  pwt->h[6]);
++    pwd->h[7]  = msa_adds_a_df(DF_HALF, pws->h[7],  pwt->h[7]);
++}
++
++void helper_msa_adds_a_w(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->w[0]  = msa_adds_a_df(DF_WORD, pws->w[0],  pwt->w[0]);
++    pwd->w[1]  = msa_adds_a_df(DF_WORD, pws->w[1],  pwt->w[1]);
++    pwd->w[2]  = msa_adds_a_df(DF_WORD, pws->w[2],  pwt->w[2]);
++    pwd->w[3]  = msa_adds_a_df(DF_WORD, pws->w[3],  pwt->w[3]);
++}
++
++void helper_msa_adds_a_d(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0]  = msa_adds_a_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
++    pwd->d[1]  = msa_adds_a_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
++}
++
++
++static inline int64_t msa_adds_s_df(uint32_t df, int64_t arg1, int64_t arg2)
++{
++    int64_t max_int = DF_MAX_INT(df);
++    int64_t min_int = DF_MIN_INT(df);
++    if (arg1 < 0) {
++        return (min_int - arg1 < arg2) ? arg1 + arg2 : min_int;
++    } else {
++        return (arg2 < max_int - arg1) ? arg1 + arg2 : max_int;
++    }
++}
++
++void helper_msa_adds_s_b(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->b[0]  = msa_adds_s_df(DF_BYTE, pws->b[0],  pwt->b[0]);
++    pwd->b[1]  = msa_adds_s_df(DF_BYTE, pws->b[1],  pwt->b[1]);
++    pwd->b[2]  = msa_adds_s_df(DF_BYTE, pws->b[2],  pwt->b[2]);
++    pwd->b[3]  = msa_adds_s_df(DF_BYTE, pws->b[3],  pwt->b[3]);
++    pwd->b[4]  = msa_adds_s_df(DF_BYTE, pws->b[4],  pwt->b[4]);
++    pwd->b[5]  = msa_adds_s_df(DF_BYTE, pws->b[5],  pwt->b[5]);
++    pwd->b[6]  = msa_adds_s_df(DF_BYTE, pws->b[6],  pwt->b[6]);
++    pwd->b[7]  = msa_adds_s_df(DF_BYTE, pws->b[7],  pwt->b[7]);
++    pwd->b[8]  = msa_adds_s_df(DF_BYTE, pws->b[8],  pwt->b[8]);
++    pwd->b[9]  = msa_adds_s_df(DF_BYTE, pws->b[9],  pwt->b[9]);
++    pwd->b[10] = msa_adds_s_df(DF_BYTE, pws->b[10], pwt->b[10]);
++    pwd->b[11] = msa_adds_s_df(DF_BYTE, pws->b[11], pwt->b[11]);
++    pwd->b[12] = msa_adds_s_df(DF_BYTE, pws->b[12], pwt->b[12]);
++    pwd->b[13] = msa_adds_s_df(DF_BYTE, pws->b[13], pwt->b[13]);
++    pwd->b[14] = msa_adds_s_df(DF_BYTE, pws->b[14], pwt->b[14]);
++    pwd->b[15] = msa_adds_s_df(DF_BYTE, pws->b[15], pwt->b[15]);
++}
++
++void helper_msa_adds_s_h(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->h[0]  = msa_adds_s_df(DF_HALF, pws->h[0],  pwt->h[0]);
++    pwd->h[1]  = msa_adds_s_df(DF_HALF, pws->h[1],  pwt->h[1]);
++    pwd->h[2]  = msa_adds_s_df(DF_HALF, pws->h[2],  pwt->h[2]);
++    pwd->h[3]  = msa_adds_s_df(DF_HALF, pws->h[3],  pwt->h[3]);
++    pwd->h[4]  = msa_adds_s_df(DF_HALF, pws->h[4],  pwt->h[4]);
++    pwd->h[5]  = msa_adds_s_df(DF_HALF, pws->h[5],  pwt->h[5]);
++    pwd->h[6]  = msa_adds_s_df(DF_HALF, pws->h[6],  pwt->h[6]);
++    pwd->h[7]  = msa_adds_s_df(DF_HALF, pws->h[7],  pwt->h[7]);
++}
++
++void helper_msa_adds_s_w(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->w[0]  = msa_adds_s_df(DF_WORD, pws->w[0],  pwt->w[0]);
++    pwd->w[1]  = msa_adds_s_df(DF_WORD, pws->w[1],  pwt->w[1]);
++    pwd->w[2]  = msa_adds_s_df(DF_WORD, pws->w[2],  pwt->w[2]);
++    pwd->w[3]  = msa_adds_s_df(DF_WORD, pws->w[3],  pwt->w[3]);
++}
++
++void helper_msa_adds_s_d(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0]  = msa_adds_s_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
++    pwd->d[1]  = msa_adds_s_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
++}
++
++
++static inline uint64_t msa_adds_u_df(uint32_t df, uint64_t arg1, uint64_t arg2)
++{
++    uint64_t max_uint = DF_MAX_UINT(df);
++    uint64_t u_arg1 = UNSIGNED(arg1, df);
++    uint64_t u_arg2 = UNSIGNED(arg2, df);
++    return (u_arg1 < max_uint - u_arg2) ? u_arg1 + u_arg2 : max_uint;
++}
++
++void helper_msa_adds_u_b(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->b[0]  = msa_adds_u_df(DF_BYTE, pws->b[0],  pwt->b[0]);
++    pwd->b[1]  = msa_adds_u_df(DF_BYTE, pws->b[1],  pwt->b[1]);
++    pwd->b[2]  = msa_adds_u_df(DF_BYTE, pws->b[2],  pwt->b[2]);
++    pwd->b[3]  = msa_adds_u_df(DF_BYTE, pws->b[3],  pwt->b[3]);
++    pwd->b[4]  = msa_adds_u_df(DF_BYTE, pws->b[4],  pwt->b[4]);
++    pwd->b[5]  = msa_adds_u_df(DF_BYTE, pws->b[5],  pwt->b[5]);
++    pwd->b[6]  = msa_adds_u_df(DF_BYTE, pws->b[6],  pwt->b[6]);
++    pwd->b[7]  = msa_adds_u_df(DF_BYTE, pws->b[7],  pwt->b[7]);
++    pwd->b[8]  = msa_adds_u_df(DF_BYTE, pws->b[8],  pwt->b[8]);
++    pwd->b[9]  = msa_adds_u_df(DF_BYTE, pws->b[9],  pwt->b[9]);
++    pwd->b[10] = msa_adds_u_df(DF_BYTE, pws->b[10], pwt->b[10]);
++    pwd->b[11] = msa_adds_u_df(DF_BYTE, pws->b[11], pwt->b[11]);
++    pwd->b[12] = msa_adds_u_df(DF_BYTE, pws->b[12], pwt->b[12]);
++    pwd->b[13] = msa_adds_u_df(DF_BYTE, pws->b[13], pwt->b[13]);
++    pwd->b[14] = msa_adds_u_df(DF_BYTE, pws->b[14], pwt->b[14]);
++    pwd->b[15] = msa_adds_u_df(DF_BYTE, pws->b[15], pwt->b[15]);
++}
++
++void helper_msa_adds_u_h(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->h[0]  = msa_adds_u_df(DF_HALF, pws->h[0],  pwt->h[0]);
++    pwd->h[1]  = msa_adds_u_df(DF_HALF, pws->h[1],  pwt->h[1]);
++    pwd->h[2]  = msa_adds_u_df(DF_HALF, pws->h[2],  pwt->h[2]);
++    pwd->h[3]  = msa_adds_u_df(DF_HALF, pws->h[3],  pwt->h[3]);
++    pwd->h[4]  = msa_adds_u_df(DF_HALF, pws->h[4],  pwt->h[4]);
++    pwd->h[5]  = msa_adds_u_df(DF_HALF, pws->h[5],  pwt->h[5]);
++    pwd->h[6]  = msa_adds_u_df(DF_HALF, pws->h[6],  pwt->h[6]);
++    pwd->h[7]  = msa_adds_u_df(DF_HALF, pws->h[7],  pwt->h[7]);
++}
++
++void helper_msa_adds_u_w(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->w[0]  = msa_adds_u_df(DF_WORD, pws->w[0],  pwt->w[0]);
++    pwd->w[1]  = msa_adds_u_df(DF_WORD, pws->w[1],  pwt->w[1]);
++    pwd->w[2]  = msa_adds_u_df(DF_WORD, pws->w[2],  pwt->w[2]);
++    pwd->w[3]  = msa_adds_u_df(DF_WORD, pws->w[3],  pwt->w[3]);
++}
++
++void helper_msa_adds_u_d(CPUMIPSState *env,
++                         uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0]  = msa_adds_u_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
++    pwd->d[1]  = msa_adds_u_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
++}
++
++
++static inline int64_t msa_addv_df(uint32_t df, int64_t arg1, int64_t arg2)
++{
++    return arg1 + arg2;
++}
++
++void helper_msa_addv_b(CPUMIPSState *env,
++                       uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->b[0]  = msa_addv_df(DF_BYTE, pws->b[0],  pwt->b[0]);
++    pwd->b[1]  = msa_addv_df(DF_BYTE, pws->b[1],  pwt->b[1]);
++    pwd->b[2]  = msa_addv_df(DF_BYTE, pws->b[2],  pwt->b[2]);
++    pwd->b[3]  = msa_addv_df(DF_BYTE, pws->b[3],  pwt->b[3]);
++    pwd->b[4]  = msa_addv_df(DF_BYTE, pws->b[4],  pwt->b[4]);
++    pwd->b[5]  = msa_addv_df(DF_BYTE, pws->b[5],  pwt->b[5]);
++    pwd->b[6]  = msa_addv_df(DF_BYTE, pws->b[6],  pwt->b[6]);
++    pwd->b[7]  = msa_addv_df(DF_BYTE, pws->b[7],  pwt->b[7]);
++    pwd->b[8]  = msa_addv_df(DF_BYTE, pws->b[8],  pwt->b[8]);
++    pwd->b[9]  = msa_addv_df(DF_BYTE, pws->b[9],  pwt->b[9]);
++    pwd->b[10] = msa_addv_df(DF_BYTE, pws->b[10], pwt->b[10]);
++    pwd->b[11] = msa_addv_df(DF_BYTE, pws->b[11], pwt->b[11]);
++    pwd->b[12] = msa_addv_df(DF_BYTE, pws->b[12], pwt->b[12]);
++    pwd->b[13] = msa_addv_df(DF_BYTE, pws->b[13], pwt->b[13]);
++    pwd->b[14] = msa_addv_df(DF_BYTE, pws->b[14], pwt->b[14]);
++    pwd->b[15] = msa_addv_df(DF_BYTE, pws->b[15], pwt->b[15]);
++}
++
++void helper_msa_addv_h(CPUMIPSState *env,
++                       uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->h[0]  = msa_addv_df(DF_HALF, pws->h[0],  pwt->h[0]);
++    pwd->h[1]  = msa_addv_df(DF_HALF, pws->h[1],  pwt->h[1]);
++    pwd->h[2]  = msa_addv_df(DF_HALF, pws->h[2],  pwt->h[2]);
++    pwd->h[3]  = msa_addv_df(DF_HALF, pws->h[3],  pwt->h[3]);
++    pwd->h[4]  = msa_addv_df(DF_HALF, pws->h[4],  pwt->h[4]);
++    pwd->h[5]  = msa_addv_df(DF_HALF, pws->h[5],  pwt->h[5]);
++    pwd->h[6]  = msa_addv_df(DF_HALF, pws->h[6],  pwt->h[6]);
++    pwd->h[7]  = msa_addv_df(DF_HALF, pws->h[7],  pwt->h[7]);
++}
++
++void helper_msa_addv_w(CPUMIPSState *env,
++                       uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->w[0]  = msa_addv_df(DF_WORD, pws->w[0],  pwt->w[0]);
++    pwd->w[1]  = msa_addv_df(DF_WORD, pws->w[1],  pwt->w[1]);
++    pwd->w[2]  = msa_addv_df(DF_WORD, pws->w[2],  pwt->w[2]);
++    pwd->w[3]  = msa_addv_df(DF_WORD, pws->w[3],  pwt->w[3]);
++}
++
++void helper_msa_addv_d(CPUMIPSState *env,
++                       uint32_t wd, uint32_t ws, uint32_t wt)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
++
++    pwd->d[0]  = msa_addv_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
++    pwd->d[1]  = msa_addv_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
++}
+ 
+ 
+ /*
+@@ -3050,11 +3426,6 @@ void helper_msa_shf_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+     msa_move_v(pwd, pwx);
+ }
+ 
+-static inline int64_t msa_addv_df(uint32_t df, int64_t arg1, int64_t arg2)
+-{
+-    return arg1 + arg2;
+-}
 -
--    feature=3Da
--a
-diff --git a/tests/qapi-schema/doc-undoc-feature.err b/tests/qapi-schema/do=
-c-undoc-feature.err
-index e69de29bb2..62fc82d2b9 100644
---- a/tests/qapi-schema/doc-undoc-feature.err
-+++ b/tests/qapi-schema/doc-undoc-feature.err
-@@ -0,0 +1,2 @@
-+doc-undoc-feature.json: In command 'foo':
-+doc-undoc-feature.json:9: feature 'undoc' lacks documentation
-diff --git a/tests/qapi-schema/doc-undoc-feature.json b/tests/qapi-schema/d=
-oc-undoc-feature.json
-index c7650d9974..c52f88e2cd 100644
---- a/tests/qapi-schema/doc-undoc-feature.json
-+++ b/tests/qapi-schema/doc-undoc-feature.json
-@@ -1,5 +1,4 @@
- # Doc comment must cover all features
--# BUG: missing documentation for @undoc not caught
-=20
- ##
- # @foo:
-diff --git a/tests/qapi-schema/doc-undoc-feature.out b/tests/qapi-schema/do=
-c-undoc-feature.out
-index cdb097361f..e69de29bb2 100644
---- a/tests/qapi-schema/doc-undoc-feature.out
-+++ b/tests/qapi-schema/doc-undoc-feature.out
-@@ -1,21 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module doc-undoc-feature.json
--command foo None -> None
--    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
--    feature undoc
--    feature doc
--doc symbol=3Dfoo
--    body=3D
+ static inline int64_t msa_subv_df(uint32_t df, int64_t arg1, int64_t arg2)
+ {
+     return arg1 - arg2;
+@@ -3283,44 +3654,6 @@ MSA_TEROP_IMMU_DF(binsli, binsl)
+ MSA_TEROP_IMMU_DF(binsri, binsr)
+ #undef MSA_TEROP_IMMU_DF
+ 
+-static inline int64_t msa_add_a_df(uint32_t df, int64_t arg1, int64_t arg2)
+-{
+-    uint64_t abs_arg1 = arg1 >= 0 ? arg1 : -arg1;
+-    uint64_t abs_arg2 = arg2 >= 0 ? arg2 : -arg2;
+-    return abs_arg1 + abs_arg2;
+-}
 -
--    feature=3Ddoc
--documented feature
---=20
-2.21.0
+-static inline int64_t msa_adds_a_df(uint32_t df, int64_t arg1, int64_t arg2)
+-{
+-    uint64_t max_int = (uint64_t)DF_MAX_INT(df);
+-    uint64_t abs_arg1 = arg1 >= 0 ? arg1 : -arg1;
+-    uint64_t abs_arg2 = arg2 >= 0 ? arg2 : -arg2;
+-    if (abs_arg1 > max_int || abs_arg2 > max_int) {
+-        return (int64_t)max_int;
+-    } else {
+-        return (abs_arg1 < max_int - abs_arg2) ? abs_arg1 + abs_arg2 : max_int;
+-    }
+-}
+-
+-static inline int64_t msa_adds_s_df(uint32_t df, int64_t arg1, int64_t arg2)
+-{
+-    int64_t max_int = DF_MAX_INT(df);
+-    int64_t min_int = DF_MIN_INT(df);
+-    if (arg1 < 0) {
+-        return (min_int - arg1 < arg2) ? arg1 + arg2 : min_int;
+-    } else {
+-        return (arg2 < max_int - arg1) ? arg1 + arg2 : max_int;
+-    }
+-}
+-
+-static inline uint64_t msa_adds_u_df(uint32_t df, uint64_t arg1, uint64_t arg2)
+-{
+-    uint64_t max_uint = DF_MAX_UINT(df);
+-    uint64_t u_arg1 = UNSIGNED(arg1, df);
+-    uint64_t u_arg2 = UNSIGNED(arg2, df);
+-    return (u_arg1 < max_uint - u_arg2) ? u_arg1 + u_arg2 : max_uint;
+-}
+-
+ static inline int64_t msa_subs_s_df(uint32_t df, int64_t arg1, int64_t arg2)
+ {
+     int64_t max_int = DF_MAX_INT(df);
+@@ -3580,12 +3913,7 @@ void helper_msa_ ## func ## _df(CPUMIPSState *env, uint32_t df,         \
+ MSA_BINOP_DF(sll)
+ MSA_BINOP_DF(sra)
+ MSA_BINOP_DF(srl)
+-MSA_BINOP_DF(addv)
+ MSA_BINOP_DF(subv)
+-MSA_BINOP_DF(add_a)
+-MSA_BINOP_DF(adds_a)
+-MSA_BINOP_DF(adds_s)
+-MSA_BINOP_DF(adds_u)
+ MSA_BINOP_DF(subs_s)
+ MSA_BINOP_DF(subs_u)
+ MSA_BINOP_DF(subsus_u)
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index ea8b8f4..14f9891 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28466,6 +28466,86 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
+             break;
+         }
+         break;
++    case OPC_ADD_A_df:
++        switch (df) {
++        case DF_BYTE:
++            gen_helper_msa_add_a_b(cpu_env, twd, tws, twt);
++            break;
++        case DF_HALF:
++            gen_helper_msa_add_a_h(cpu_env, twd, tws, twt);
++            break;
++        case DF_WORD:
++            gen_helper_msa_add_a_w(cpu_env, twd, tws, twt);
++            break;
++        case DF_DOUBLE:
++            gen_helper_msa_add_a_d(cpu_env, twd, tws, twt);
++            break;
++        }
++        break;
++    case OPC_ADDS_A_df:
++        switch (df) {
++        case DF_BYTE:
++            gen_helper_msa_adds_a_b(cpu_env, twd, tws, twt);
++            break;
++        case DF_HALF:
++            gen_helper_msa_adds_a_h(cpu_env, twd, tws, twt);
++            break;
++        case DF_WORD:
++            gen_helper_msa_adds_a_w(cpu_env, twd, tws, twt);
++            break;
++        case DF_DOUBLE:
++            gen_helper_msa_adds_a_d(cpu_env, twd, tws, twt);
++            break;
++        }
++        break;
++    case OPC_ADDS_S_df:
++        switch (df) {
++        case DF_BYTE:
++            gen_helper_msa_adds_s_b(cpu_env, twd, tws, twt);
++            break;
++        case DF_HALF:
++            gen_helper_msa_adds_s_h(cpu_env, twd, tws, twt);
++            break;
++        case DF_WORD:
++            gen_helper_msa_adds_s_w(cpu_env, twd, tws, twt);
++            break;
++        case DF_DOUBLE:
++            gen_helper_msa_adds_s_d(cpu_env, twd, tws, twt);
++            break;
++        }
++        break;
++    case OPC_ADDS_U_df:
++        switch (df) {
++        case DF_BYTE:
++            gen_helper_msa_adds_u_b(cpu_env, twd, tws, twt);
++            break;
++        case DF_HALF:
++            gen_helper_msa_adds_u_h(cpu_env, twd, tws, twt);
++            break;
++        case DF_WORD:
++            gen_helper_msa_adds_u_w(cpu_env, twd, tws, twt);
++            break;
++        case DF_DOUBLE:
++            gen_helper_msa_adds_u_d(cpu_env, twd, tws, twt);
++            break;
++        }
++        break;
++    case OPC_ADDV_df:
++        switch (df) {
++        case DF_BYTE:
++            gen_helper_msa_addv_b(cpu_env, twd, tws, twt);
++            break;
++        case DF_HALF:
++            gen_helper_msa_addv_h(cpu_env, twd, tws, twt);
++            break;
++        case DF_WORD:
++            gen_helper_msa_addv_w(cpu_env, twd, tws, twt);
++            break;
++        case DF_DOUBLE:
++            gen_helper_msa_addv_d(cpu_env, twd, tws, twt);
++            break;
++        }
++        break;
+     case OPC_AVE_S_df:
+         switch (df) {
+         case DF_BYTE:
+@@ -28837,12 +28917,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_SLL_df:
+         gen_helper_msa_sll_df(cpu_env, tdf, twd, tws, twt);
+         break;
+-    case OPC_ADDV_df:
+-        gen_helper_msa_addv_df(cpu_env, tdf, twd, tws, twt);
+-        break;
+-    case OPC_ADD_A_df:
+-        gen_helper_msa_add_a_df(cpu_env, tdf, twd, tws, twt);
+-        break;
+     case OPC_SUBS_S_df:
+         gen_helper_msa_subs_s_df(cpu_env, tdf, twd, tws, twt);
+         break;
+@@ -28861,9 +28935,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_SUBV_df:
+         gen_helper_msa_subv_df(cpu_env, tdf, twd, tws, twt);
+         break;
+-    case OPC_ADDS_A_df:
+-        gen_helper_msa_adds_a_df(cpu_env, tdf, twd, tws, twt);
+-        break;
+     case OPC_SUBS_U_df:
+         gen_helper_msa_subs_u_df(cpu_env, tdf, twd, tws, twt);
+         break;
+@@ -28879,9 +28950,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_SRL_df:
+         gen_helper_msa_srl_df(cpu_env, tdf, twd, tws, twt);
+         break;
+-    case OPC_ADDS_S_df:
+-        gen_helper_msa_adds_s_df(cpu_env, tdf, twd, tws, twt);
+-        break;
+     case OPC_SUBSUS_U_df:
+         gen_helper_msa_subsus_u_df(cpu_env, tdf, twd, tws, twt);
+         break;
+@@ -28894,9 +28962,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_SRLR_df:
+         gen_helper_msa_srlr_df(cpu_env, tdf, twd, tws, twt);
+         break;
+-    case OPC_ADDS_U_df:
+-        gen_helper_msa_adds_u_df(cpu_env, tdf, twd, tws, twt);
+-        break;
+     case OPC_SUBSUU_S_df:
+         gen_helper_msa_subsuu_s_df(cpu_env, tdf, twd, tws, twt);
+         break;
+-- 
+2.7.4
 
 
