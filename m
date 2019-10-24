@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93210E2CE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:12:35 +0200 (CEST)
-Received: from localhost ([::1]:36176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26B0E2CDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 11:12:11 +0200 (CEST)
+Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNZAX-0007zf-1u
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43506)
+	id 1iNZAA-0007ZR-Fy
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 05:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ83-0004kS-FY
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ83-0004jS-1o
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:10:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iNZ81-0003gY-HH
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:09:59 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:44658)
+ (envelope-from <jag.raman@oracle.com>) id 1iNZ81-0003gR-Gv
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:09:58 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59014)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iNZ81-0003eg-7a
+ id 1iNZ81-0003f7-8T
  for qemu-devel@nongnu.org; Thu, 24 Oct 2019 05:09:57 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94Nwj116354;
- Thu, 24 Oct 2019 09:09:44 GMT
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O94SPd099631;
+ Thu, 24 Oct 2019 09:09:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2019-08-05;
- bh=gfz5AkVe0kXHxioqlFteHzt4z+dmV3WQW/Xu3Icr4XQ=;
- b=Ia2MZiiaESDZew25B6xgcFRx6VLtPgJyrhzEZ431Ss7ULCDJU4lf72cnt6V5qDxjUlGi
- fd6VESgCBD6ZDO5yNvM4hte4S6G+z7iP6NnFb6oW5zqeezOJqXjaGuz/biTw05r7ukvz
- 0hpucbM5NbFGq4pij3t23yhjD9L3pPG9QF1Qv2coyRIH+c/H0vlP9kEG4xSNdSwT9zCj
- TmH/VH1LnLTyscnKO19VKvFL1Ps6Sg6RRA8HYLyTYEzYSikawXWiYkQ/t3/gIdSDj47w
- 95j0yIOxInHhusH7g7Mcmui0NsBHXEDh+PDZ5XOd+y+7IkZ1CQkaUhcmO5uJgeKSvnDP fQ== 
+ subject : date : message-id : in-reply-to : references : in-reply-to :
+ references; s=corp-2019-08-05;
+ bh=dQQbkkMIGKqJhdKyO0Hp9yWGPxltAF46CncL/MUwgNA=;
+ b=fQkRH8gMvp6OFXC7Qo6/Bf9oLCXmvkxmaOQdzpqcZGDIRwR9ceWBv+jHtK0C8tOuP/SV
+ OBRSUO6zaZvrSQIApzABEozMiZHiTaqREImPR8f6SFQGrjcgNGRHA14N6QQJMRKpbIC1
+ TrCqf22dDJkV82KgWPAVQRlb3QGGIYI8wz7YWjXlBHT5PWG1fQUHfVoE/QE1hVGwyt5p
+ IxoTaGez6LFfISnQvJN8jnAOW4Wut9iYyE5SoZKxQhdwFWPl8vMqwUXtltDX5mWmFG0J
+ pV/A4ViXD72DvOL4VcNKAff81hiLpr/N5dDnhgTpFsUTuj4wAoyCoDEZj1v0wexZjKti nQ== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2vqswttdv0-1
+ by aserp2120.oracle.com with ESMTP id 2vqteq2abk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:09:44 +0000
+ Thu, 24 Oct 2019 09:09:47 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98l6n076083;
- Thu, 24 Oct 2019 09:09:43 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2vtjkj2ve6-1
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9O98mqc076119;
+ Thu, 24 Oct 2019 09:09:46 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2vtjkj2vg0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Oct 2019 09:09:43 +0000
+ Thu, 24 Oct 2019 09:09:46 +0000
 Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9O99fZi001589;
- Thu, 24 Oct 2019 09:09:41 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9O99iwO022777;
+ Thu, 24 Oct 2019 09:09:44 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Oct 2019 02:09:40 -0700
+ with ESMTP ; Thu, 24 Oct 2019 02:09:44 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v4 PATCH 00/49] Initial support of multi-process qemu
-Date: Thu, 24 Oct 2019 05:08:41 -0400
-Message-Id: <cover.1571905346.git.jag.raman@oracle.com>
+Subject: [RFC v4 PATCH 01/49] multi-process: memory: alloc RAM from file at
+ offset
+Date: Thu, 24 Oct 2019 05:08:42 -0400
+Message-Id: <3a9508f6dd5a89d731cb105a36fd3624d4b97b48.1571905346.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+In-Reply-To: <cover.1571905346.git.jag.raman@oracle.com>
+References: <cover.1571905346.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
  signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -67,12 +73,12 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9419
  signatures=668684
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
  definitions=main-1910240089
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,237 +100,158 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Started with the presentation in October 2017 made by Marc-Andre (Red Hat)
-and Konrad Wilk (Oracle) [1], and continued by Jag's BoF at KVM Forum 2018,
-the multi-process project is now a prototype and presented in this patchset.
-John & Elena will present the status of this project in KVM Forum 2019.
+Allow RAM MemoryRegion to be created from an offset in a file, instead
+of allocating at offset of 0 by default. This is needed to synchronize
+RAM between QEMU & remote process.
+This will be needed for the following patches.
 
-This first series enables the emulation of lsi53c895a in a separate process.
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+---
+ exec.c                    | 11 +++++++----
+ include/exec/ram_addr.h   |  2 +-
+ include/qemu/mmap-alloc.h |  3 ++-
+ memory.c                  |  2 +-
+ util/mmap-alloc.c         |  7 ++++---
+ util/oslib-posix.c        |  2 +-
+ 6 files changed, 16 insertions(+), 11 deletions(-)
 
-We posted the Proof Of Concept patches [2] before the BoF session in 2018.
-Subsequently, we posted RFC v1 [3], RFC v2 [4] and RFC v3 [5] of this series. 
-
-We want to present version 4 of this series, which incorporates the feedback
-we received for v3 & adds support for live migrating the remote process.
-
-Following people contributed to this patchset:
-
-John G Johnson <john.g.johnson@oracle.com>
-Jagannathan Raman <jag.raman@oracle.com>
-Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Kanth Ghatraju <kanth.ghatraju@oracle.com>
-
-For full concept writeup about QEMU disaggregation refer to
-docs/devel/qemu-multiprocess.rst. Please refer to 
-docs/qemu-multiprocess.txt for usage information.
-
-We are planning on making the following improvements in the future:
- - Performance improvements
- - Libvirt support
- - Enforcement of security policies
- - blockdev support
-
-We welcome all your ideas, concerns, and questions for this patchset.
-
-Thank you!
-
-[1]: http://events17.linuxfoundation.org/sites/events/files/slides/KVM%20FORUM%20multi-process.pdf
-[1]: https://www.youtube.com/watch?v=Kq1-coHh7lg
-[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
-[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
-[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
-[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
-
-Elena Ufimtseva (22):
-  multi-process: add a command line option for debug file
-  multi-process: introduce proxy object
-  mutli-process: build remote command line args
-  multi-process: configure remote side devices
-  multi-process: add qdev_proxy_add to create proxy devices
-  multi-process: remote: add setup_devices and setup_drive msg
-    processing
-  multi-process: remote: use fd for socket from parent process
-  multi-process: remote: add create_done condition
-  multi-process: add processing of remote drive and device command line
-  multi-process: refractor vl.c code to re-use in remote
-  multi-process: add remote option
-  multi-process: add remote options parser
-  multi-process: add parse_cmdline in remote process
-  multi-process: send heartbeat messages to remote
-  multi-process: handle heartbeat messages in remote process
-  multi-process/mon: choose HMP commands based on target
-  multi-process/mig: Load VMSD in the proxy object
-  multi-process/mig: refactor runstate_check into common file
-  multi-process/mig: Synchronize runstate of remote process
-  multi-process/mig: Restore the VMSD in remote process
-  multi-process: Enable support for multiple devices in remote
-  multi-process: add configure and usage information
-
-Jagannathan Raman (26):
-  multi-process: memory: alloc RAM from file at offset
-  multi-process: util: Add qemu_thread_cancel() to cancel running thread
-  multi-process: Add stub functions to facilate build of multi-process
-  multi-process: Add config option for multi-process QEMU
-  multi-process: build system for remote device process
-  multi-process: define mpqemu-link object
-  multi-process: add functions to synchronize proxy and remote endpoints
-  multi-process: setup PCI host bridge for remote device
-  multi-process: setup a machine object for remote device process
-  multi-process: setup memory manager for remote device
-  multi-process: remote process initialization
-  multi-process: PCI BAR read/write handling for proxy & remote
-    endpoints
-  multi-process: Add LSI device proxy object
-  multi-process: Synchronize remote memory
-  multi-process: create IOHUB object to handle irq
-  multi-process: Introduce build flags to separate remote process code
-  multi-process: Use separate MMIO communication channel
-  multi-process: perform device reset in the remote process
-  multi-process/mon: stub functions to enable QMP module for remote
-    process
-  multi-process/mon: enable QMP module support in the remote process
-  multi-process/mon: Refactor monitor/chardev functions out of vl.c
-  multi-process/mon: Initialize QMP module for remote processes
-  multi-process: prevent duplicate memory initialization in remote
-  multi-process/mig: build migration module in the remote process
-  multi-process/mig: Enable VMSD save in the Proxy object
-  multi-process/mig: Send VMSD of remote to the Proxy object
-
-John G Johnson (1):
-  multi-process: add the concept description to
-    docs/devel/qemu-multiprocess
-
- Makefile                            |    2 +
- Makefile.objs                       |   39 ++
- Makefile.target                     |   94 ++-
- accel/stubs/kvm-stub.c              |    5 +
- accel/stubs/tcg-stub.c              |  106 ++++
- backends/Makefile.objs              |    2 +
- block/Makefile.objs                 |    2 +
- chardev/char.c                      |   14 +
- configure                           |   15 +
- docs/devel/index.rst                |    1 +
- docs/devel/qemu-multiprocess.rst    | 1102 +++++++++++++++++++++++++++++++++++
- docs/qemu-multiprocess.txt          |   86 +++
- exec.c                              |   14 +-
- hmp-commands-info.hx                |   10 +
- hmp-commands.hx                     |   25 +-
- hw/Makefile.objs                    |    9 +
- hw/block/Makefile.objs              |    2 +
- hw/core/Makefile.objs               |   17 +
- hw/nvram/Makefile.objs              |    2 +
- hw/pci/Makefile.objs                |    4 +
- hw/proxy/Makefile.objs              |    1 +
- hw/proxy/memory-sync.c              |  226 +++++++
- hw/proxy/proxy-lsi53c895a.c         |   97 +++
- hw/proxy/qemu-proxy.c               |  807 +++++++++++++++++++++++++
- hw/scsi/Makefile.objs               |    2 +
- include/chardev/char.h              |    1 +
- include/exec/address-spaces.h       |    2 +
- include/exec/ram_addr.h             |    2 +-
- include/hw/pci/pci_ids.h            |    3 +
- include/hw/proxy/memory-sync.h      |   51 ++
- include/hw/proxy/proxy-lsi53c895a.h |   42 ++
- include/hw/proxy/qemu-proxy.h       |  125 ++++
- include/hw/qdev-core.h              |    2 +
- include/io/mpqemu-link.h            |  214 +++++++
- include/monitor/monitor.h           |    2 +
- include/monitor/qdev.h              |   25 +
- include/qemu-common.h               |    8 +
- include/qemu/log.h                  |    1 +
- include/qemu/mmap-alloc.h           |    3 +-
- include/qemu/thread.h               |    1 +
- include/remote/iohub.h              |   63 ++
- include/remote/machine.h            |   48 ++
- include/remote/memory.h             |   34 ++
- include/remote/pcihost.h            |   59 ++
- include/sysemu/runstate.h           |    3 +
- io/Makefile.objs                    |    2 +
- io/mpqemu-link.c                    |  351 +++++++++++
- memory.c                            |    2 +-
- migration/Makefile.objs             |   12 +
- migration/savevm.c                  |   63 ++
- migration/savevm.h                  |    3 +
- monitor/Makefile.objs               |    3 +
- monitor/misc.c                      |   84 +--
- monitor/monitor-internal.h          |   38 ++
- monitor/monitor.c                   |   83 ++-
- net/Makefile.objs                   |    2 +
- qapi/Makefile.objs                  |    2 +
- qdev-monitor.c                      |  270 ++++++++-
- qemu-options.hx                     |   21 +
- qom/Makefile.objs                   |    4 +
- remote/Makefile.objs                |    6 +
- remote/iohub.c                      |  159 +++++
- remote/machine.c                    |  133 +++++
- remote/memory.c                     |   99 ++++
- remote/pcihost.c                    |   85 +++
- remote/remote-main.c                |  633 ++++++++++++++++++++
- remote/remote-opts.c                |  131 +++++
- remote/remote-opts.h                |   31 +
- replay/Makefile.objs                |    2 +-
- rules.mak                           |    2 +-
- runstate.c                          |   41 ++
- scripts/hxtool                      |   44 +-
- stubs/audio.c                       |   12 +
- stubs/gdbstub.c                     |   21 +
- stubs/machine-init-done.c           |    4 +
- stubs/migration.c                   |  211 +++++++
- stubs/monitor.c                     |   72 +++
- stubs/net-stub.c                    |  121 ++++
- stubs/qapi-misc.c                   |   43 ++
- stubs/qapi-target.c                 |   49 ++
- stubs/replay.c                      |   26 +
- stubs/runstate-check.c              |    3 +
- stubs/ui-stub.c                     |  130 +++++
- stubs/vl-stub.c                     |  193 ++++++
- stubs/vmstate.c                     |   20 +
- stubs/xen-mapcache.c                |   22 +
- ui/Makefile.objs                    |    2 +
- util/log.c                          |    2 +
- util/mmap-alloc.c                   |    7 +-
- util/oslib-posix.c                  |    2 +-
- util/qemu-thread-posix.c            |   10 +
- vl-parse.c                          |  161 +++++
- vl.c                                |  310 ++++------
- vl.h                                |   54 ++
- 94 files changed, 6908 insertions(+), 246 deletions(-)
- create mode 100644 docs/devel/qemu-multiprocess.rst
- create mode 100644 docs/qemu-multiprocess.txt
- create mode 100644 hw/proxy/Makefile.objs
- create mode 100644 hw/proxy/memory-sync.c
- create mode 100644 hw/proxy/proxy-lsi53c895a.c
- create mode 100644 hw/proxy/qemu-proxy.c
- create mode 100644 include/hw/proxy/memory-sync.h
- create mode 100644 include/hw/proxy/proxy-lsi53c895a.h
- create mode 100644 include/hw/proxy/qemu-proxy.h
- create mode 100644 include/io/mpqemu-link.h
- create mode 100644 include/remote/iohub.h
- create mode 100644 include/remote/machine.h
- create mode 100644 include/remote/memory.h
- create mode 100644 include/remote/pcihost.h
- create mode 100644 io/mpqemu-link.c
- create mode 100644 remote/Makefile.objs
- create mode 100644 remote/iohub.c
- create mode 100644 remote/machine.c
- create mode 100644 remote/memory.c
- create mode 100644 remote/pcihost.c
- create mode 100644 remote/remote-main.c
- create mode 100644 remote/remote-opts.c
- create mode 100644 remote/remote-opts.h
- create mode 100644 runstate.c
- mode change 100644 => 100755 scripts/hxtool
- create mode 100644 stubs/audio.c
- create mode 100644 stubs/migration.c
- create mode 100644 stubs/net-stub.c
- create mode 100644 stubs/qapi-misc.c
- create mode 100644 stubs/qapi-target.c
- create mode 100644 stubs/ui-stub.c
- create mode 100644 stubs/vl-stub.c
- create mode 100644 stubs/xen-mapcache.c
- create mode 100644 vl-parse.c
- create mode 100644 vl.h
-
+diff --git a/exec.c b/exec.c
+index fb0943c..08c4181 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1871,6 +1871,7 @@ static void *file_ram_alloc(RAMBlock *block,
+                             ram_addr_t memory,
+                             int fd,
+                             bool truncate,
++                            off_t offset,
+                             Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+@@ -1922,7 +1923,8 @@ static void *file_ram_alloc(RAMBlock *block,
+     }
+ 
+     area = qemu_ram_mmap(fd, memory, block->mr->align,
+-                         block->flags & RAM_SHARED, block->flags & RAM_PMEM);
++                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
++                         offset);
+     if (area == MAP_FAILED) {
+         error_setg_errno(errp, errno,
+                          "unable to map backing store for guest RAM");
+@@ -2309,7 +2311,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+ #ifdef CONFIG_POSIX
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd,
+-                                 Error **errp)
++                                 off_t offset, Error **errp)
+ {
+     RAMBlock *new_block;
+     Error *local_err = NULL;
+@@ -2354,7 +2356,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+     new_block->used_length = size;
+     new_block->max_length = size;
+     new_block->flags = ram_flags;
+-    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
++    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, offset,
++                                     errp);
+     if (!new_block->host) {
+         g_free(new_block);
+         return NULL;
+@@ -2384,7 +2387,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
+-    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
++    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, errp);
+     if (!block) {
+         if (created) {
+             unlink(mem_path);
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index ad158bb..92134c0 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -159,7 +159,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+                                    Error **errp);
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd,
+-                                 Error **errp);
++                                 off_t offset, Error **errp);
+ 
+ RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
+                                   MemoryRegion *mr, Error **errp);
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index e786266..4f57985 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -25,7 +25,8 @@ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+                     bool shared,
+-                    bool is_pmem);
++                    bool is_pmem,
++                    off_t start);
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size);
+ 
+diff --git a/memory.c b/memory.c
+index c952eab..c25c74f 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1602,7 +1602,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+     mr->destructor = memory_region_destructor_ram;
+     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+                                            share ? RAM_SHARED : 0,
+-                                           fd, &err);
++                                           fd, 0, &err);
+     mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+     if (err) {
+         mr->size = int128_zero();
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index f7f177d..4b727bd 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -86,7 +86,8 @@ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+                     bool shared,
+-                    bool is_pmem)
++                    bool is_pmem,
++                    off_t start)
+ {
+     int flags;
+     int map_sync_flags = 0;
+@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
+     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+ 
+     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+-               flags | map_sync_flags, fd, 0);
++               flags | map_sync_flags, fd, start);
+ 
+     if (ptr == MAP_FAILED && map_sync_flags) {
+         if (errno == ENOTSUP) {
+@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
+          * we will remove these flags to handle compatibility.
+          */
+         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+-                   flags, fd, 0);
++                   flags, fd, start);
+     }
+ 
+     if (ptr == MAP_FAILED) {
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index f869338..bdfcdcf 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -205,7 +205,7 @@ void *qemu_memalign(size_t alignment, size_t size)
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
+ {
+     size_t align = QEMU_VMALLOC_ALIGN;
+-    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
++    void *ptr = qemu_ram_mmap(-1, size, align, shared, false, 0);
+ 
+     if (ptr == MAP_FAILED) {
+         return NULL;
 -- 
 1.8.3.1
 
