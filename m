@@ -2,103 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4908AE340E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:25:31 +0200 (CEST)
-Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3E5E333E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 15:00:54 +0200 (CEST)
+Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNd7J-00074q-Te
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40086)
+	id 1iNcjT-0002yW-Vh
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 09:00:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <den@virtuozzo.com>) id 1iNbO4-00009M-Lo
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:34:42 -0400
+ (envelope-from <drjones@redhat.com>) id 1iNc4e-0000yH-PF
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1iNbO1-0002EO-TZ
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:34:40 -0400
-Received: from mail-eopbgr30117.outbound.protection.outlook.com
- ([40.107.3.117]:3238 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>) id 1iNbO1-0002Dq-1y
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:34:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n7ejgtf1NULK7Hn8JT7RvCKudl4VBZM8v/nqTfvEW1iwyYBsRWn1TtSUUfCO/xZKpPq1howXRiZf/nsbErQEpExV6vMqyWUj7LQE25TXAtyial56rexLVoUmQvnXNYSdvfYA3oqb868NQJgeQhHvYEmhrKHKNnID88YSMEnaH5V6fDHklFHmGoR7yoJS4b8G9xP7eogdW1ZBS12yAMsDMIjn7UZoX+HzJ+Wrw8YU3dlW2/HOwNYk9xJBbmmul78h1EDbYds9rpoJDp+jTrMnBFEcH3W85QdsqHR0J+iNTGoNoN3+8H6alI8wP8qFkc84Re9BUK6X49VgAERdcGKEkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FiG20VSDDFW291h6sX612DrL5ZIWhxXPKfcYnS51lh0=;
- b=jX2VIJaDLNLjZfXeqq+cznL+TTlWOTbp2nfj0keXZ4+sVCh6TIsOo8xvxwri2JcX2cBt223tPuqTaNV/BltChOShTZRnbpLXYU3gv9BVXLG2ZqhHWrV6g8+qI3ECaGnjIXRk8O/J9M4rGjUKNH/8vcQQkWwm1DHB2GVYuWCMksNCY58ndWco/fPoVteJDoVEtr8VTJX4ksG5fTYqcTE4+z6+w21o4XsygLlZUm3MV0E87DsRe+0ym300N45AI9ktJ2j0nQN8+sA/nlHT+R9W8o2u23YzozPjYrY0+O5cktlxxgfp+chfwOMtgkvbPLhY5FXU8UVJ7h9bB3NjsbvI9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FiG20VSDDFW291h6sX612DrL5ZIWhxXPKfcYnS51lh0=;
- b=uKWWrXVuJOh3WCothr5+g/pM2qkJ9MTPSF38reHfB/aJFOBscYS7Kmgyw6jeaxcK/ipuVUbqLKLGMnNFg0fM80NSAouhmAS1nJDmNilSbFiV5PsyB+hRQB27qjyk4BXRXuixkw+gFon57kapkloLY+wav4aYfGrJhulLyVk7T1g=
-Received: from DB6PR0801MB1702.eurprd08.prod.outlook.com (10.169.221.21) by
- DB6PR0801MB2070.eurprd08.prod.outlook.com (10.168.86.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.20; Thu, 24 Oct 2019 11:34:34 +0000
-Received: from DB6PR0801MB1702.eurprd08.prod.outlook.com
- ([fe80::f849:2ba0:2a0b:5b34]) by DB6PR0801MB1702.eurprd08.prod.outlook.com
- ([fe80::f849:2ba0:2a0b:5b34%7]) with mapi id 15.20.2347.030; Thu, 24 Oct 2019
- 11:34:34 +0000
-From: Denis Lunev <den@virtuozzo.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Denis Plotnikov
- <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH] virtio: fix IO request length in virtio SCSI/block
- #PSBM-78839
-Thread-Topic: [PATCH] virtio: fix IO request length in virtio SCSI/block
- #PSBM-78839
-Thread-Index: AQHVhasC5IeHsTPw3kK+gvsF622z76doxjuAgADscAA=
-Date: Thu, 24 Oct 2019 11:34:34 +0000
-Message-ID: <42b80a75-6ab4-5123-bbf5-eee21c2841ac@virtuozzo.com>
-References: <20191018115547.19299-1-dplotnikov@virtuozzo.com>
- <20191023172005-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20191023172005-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0258.eurprd05.prod.outlook.com
- (2603:10a6:3:fb::34) To DB6PR0801MB1702.eurprd08.prod.outlook.com
- (2603:10a6:4:2f::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 28333af3-4525-4bb6-f713-08d7587624bd
-x-ms-traffictypediagnostic: DB6PR0801MB2070:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR0801MB2070485B88D076C767E28080B66A0@DB6PR0801MB2070.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2449;
-x-forefront-prvs: 0200DDA8BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(366004)(39840400004)(346002)(396003)(136003)(199004)(189003)(25786009)(7736002)(478600001)(305945005)(6246003)(99286004)(14444005)(36756003)(186003)(256004)(316002)(54906003)(31696002)(110136005)(14454004)(66476007)(66556008)(66446008)(66946007)(64756008)(2906002)(6512007)(71200400001)(71190400001)(86362001)(6486002)(446003)(6636002)(4326008)(11346002)(8936002)(102836004)(66066001)(76176011)(5660300002)(476003)(2616005)(8676002)(81156014)(81166006)(229853002)(386003)(6116002)(6506007)(53546011)(31686004)(6436002)(52116002)(26005)(3846002)(486006);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR0801MB2070;
- H:DB6PR0801MB1702.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nAxyKzASobQAeY8U9xU/IuMdVKUGelkxLd93o7TDAIChGf2tFr5Vf3sP+uo0mhpLTRmZA5+ospW4AD3uUC8AqyOVL8TAdy/ZQp7DjPpi5Br8CEyEIEkHv7/vgTi3w0h2DFCu2hxU9rLRGdgsLZC615DFLNi0Ygue4eSoq8qksBg9ApZYfBPA093lWaOX7hxcnwovMMlmsMoglp2c3Ilt5dfscaCpMfG/WbivR5alXotQuHDe8fC8zw2J1pRlIe4/vE47RpO/9KH/C9530b5NL5S3JOzOIipaKtnEShRhFfM6ln1YBeRCVjAkXSq5tbG9BELYg4hqt9+E6Mxeooq1V+nR+F8XOXBG7cDalvXLHR/PuZG4QCalL6Ovbwyd//udWPne+6xe1H1Y9PbaF43DNs17gAyKvdbou4CdqofKIxET0QMNHbJetEA8HhilS2EZ
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <66EBBFDB4915264199F44571263939E3@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <drjones@redhat.com>) id 1iNc4c-0003ry-N3
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33630
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iNc4a-0003pu-QF
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 08:18:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571919515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=szmjsfgT8axIG3cB7hwJjR9Yjr+/Rggf/VpHqZNmkwY=;
+ b=GyD+riapHgz3xaP2wDPfKZmIwQMJXNL3ZtpBmHSXdKg80I+uAgSqg/KCg5XZ2MXHgHkC/k
+ 0L1Fdnfae5oL4vESMdQonspN1sHHBuVjRhnSmEONm9Y+eMPcsjVDCfnP4u0Pf/V4x5hwGO
+ DVs+/5OwBdcXphIwv4eA66WjALteBys=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-Bqa19TvzNGCaCsqJaP5kBA-1; Thu, 24 Oct 2019 08:18:32 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 767A61800D6B;
+ Thu, 24 Oct 2019 12:18:30 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79C2260BF3;
+ Thu, 24 Oct 2019 12:18:26 +0000 (UTC)
+From: Andrew Jones <drjones@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PATCH v7 2/9] tests: arm: Introduce cpu feature tests
+Date: Thu, 24 Oct 2019 14:18:01 +0200
+Message-Id: <20191024121808.9612-3-drjones@redhat.com>
+In-Reply-To: <20191024121808.9612-1-drjones@redhat.com>
+References: <20191024121808.9612-1-drjones@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28333af3-4525-4bb6-f713-08d7587624bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2019 11:34:34.4058 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KTVLI3VZK02SbVHFTRbn/QPXal0w8fD9nlP9fl1VC01DLxo6YJbSJ3aPvE34T/IQxb5+PRcRhZbAgBnLsjsiAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB2070
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.3.117
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Bqa19TvzNGCaCsqJaP5kBA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,83 +72,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: m.mizuma@jp.fujitsu.com, beata.michalska@linaro.org,
+ richard.henderson@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTAvMjQvMTkgMTI6MjggQU0sIE1pY2hhZWwgUy4gVHNpcmtpbiB3cm90ZToNCj4gT24gRnJp
-LCBPY3QgMTgsIDIwMTkgYXQgMDI6NTU6NDdQTSArMDMwMCwgRGVuaXMgUGxvdG5pa292IHdyb3Rl
-Og0KPj4gRnJvbTogIkRlbmlzIFYuIEx1bmV2IiA8ZGVuQG9wZW52ei5vcmc+DQo+Pg0KPj4gTGlu
-dXggZ3Vlc3RzIHN1Ym1pdCBJTyByZXF1ZXN0cyBubyBsb25nZXIgdGhhbiBQQUdFX1NJWkUgKiBt
-YXhfc2VnDQo+PiBmaWVsZCByZXBvcnRlZCBieSBTQ1NJIGNvbnRyb2xlci4gVGh1cyB0eXBpY2Fs
-IHNlcXVlbnRpYWwgcmVhZCB3aXRoDQo+PiAxIE1CIHNpemUgcmVzdWx0cyBpbiB0aGUgZm9sbG93
-aW5nIHBhdHRlcm4gb2YgdGhlIElPIGZyb20gdGhlIGd1ZXN0Og0KPj4gICA4LDE2ICAgMSAgICAx
-NTc1NCAgICAgMi43NjYwOTUxMjIgIDIwNzEgIEQgICBSIDIwOTUxMDQgKyAxMDA4IFtkZF0NCj4+
-ICAgOCwxNiAgIDEgICAgMTU3NTUgICAgIDIuNzY2MTA4Nzg1ICAyMDcxICBEICAgUiAyMDk2MTEy
-ICsgMTAwOCBbZGRdDQo+PiAgIDgsMTYgICAxICAgIDE1NzU2ICAgICAyLjc2NjExMzQ4NiAgMjA3
-MSAgRCAgIFIgMjA5NzEyMCArIDMyIFtkZF0NCj4+ICAgOCwxNiAgIDEgICAgMTU3NTcgICAgIDIu
-NzY3NjY4OTYxICAgICAwICBDICAgUiAyMDk1MTA0ICsgMTAwOCBbMF0NCj4+ICAgOCwxNiAgIDEg
-ICAgMTU3NTggICAgIDIuNzY4NTM0MzE1ICAgICAwICBDICAgUiAyMDk2MTEyICsgMTAwOCBbMF0N
-Cj4+ICAgOCwxNiAgIDEgICAgMTU3NTkgICAgIDIuNzY4NTM5NzgyICAgICAwICBDICAgUiAyMDk3
-MTIwICsgMzIgWzBdDQo+PiBUaGUgSU8gd2FzIGdlbmVyYXRlZCBieQ0KPj4gICBkZCBpZj0vZGV2
-L3NkYSBvZj0vZGV2L251bGwgYnM9MTAyNCBpZmxhZz1kaXJlY3QNCj4+DQo+PiBUaGlzIGVmZmVj
-dGl2ZWx5IG1lYW5zIHRoYXQgb24gcm90YXRpb25hbCBkaXNrcyB3ZSB3aWxsIG9ic2VydmUgMyBJ
-T1BTDQo+PiBmb3IgZWFjaCAyIE1CcyBwcm9jZXNzZWQuIFRoaXMgZGVmaW5pdGVseSBuZWdhdGl2
-ZWx5IGFmZmVjdHMgYm90aA0KPj4gZ3Vlc3QgYW5kIGhvc3QgSU8gcGVyZm9ybWFuY2UuDQo+Pg0K
-Pj4gVGhlIGN1cmUgaXMgcmVsYXRpdmVseSBzaW1wbGUgLSB3ZSBzaG91bGQgcmVwb3J0IGxlbmd0
-aHkgc2NhdHRlci1nYXRoZXINCj4+IGFiaWxpdHkgb2YgdGhlIFNDU0kgY29udHJvbGxlci4gRm9y
-dHVuYXRlbHkgdGhlIHNpdHVhdGlvbiBoZXJlIGlzIHZlcnkNCj4+IGdvb2QuIFZpcnRJTyB0cmFu
-c3BvcnQgbGF5ZXIgY2FuIGFjY29tb2RhdGUgMTAyNCBpdGVtcyBpbiBvbmUgcmVxdWVzdA0KPj4g
-d2hpbGUgd2UgYXJlIHVzaW5nIG9ubHkgMTI4LiBUaGlzIHNpdHVhdGlvbiBpcyBwcmVzZW50IHNp
-bmNlIGFsbW9zdA0KPj4gdmVyeSBiZWdpbm5pbmcuIDIgaXRlbXMgYXJlIGRlZGljYXRlZCBmb3Ig
-cmVxdWVzdCBtZXRhZGF0YSB0aHVzIHdlDQo+PiBzaG91bGQgcHVibGlzaCBWSVJUUVVFVUVfTUFY
-X1NJWkUgLSAyIGFzIG1heF9zZWcuDQo+Pg0KPj4gVGhlIGZvbGxvd2luZyBwYXR0ZXJuIGlzIG9i
-c2VydmVkIGFmdGVyIHRoZSBwYXRjaDoNCj4+ICAgOCwxNiAgIDEgICAgIDk5MjEgICAgIDIuNjYy
-NzIxMzQwICAyMDYzICBEICAgUiAyMDk1MTA0ICsgMTAyNCBbZGRdDQo+PiAgIDgsMTYgICAxICAg
-ICA5OTIyICAgICAyLjY2MjczNzU4NSAgMjA2MyAgRCAgIFIgMjA5NjEyOCArIDEwMjQgW2RkXQ0K
-Pj4gICA4LDE2ICAgMSAgICAgOTkyMyAgICAgMi42NjUxODgxNjcgICAgIDAgIEMgICBSIDIwOTUx
-MDQgKyAxMDI0IFswXQ0KPj4gICA4LDE2ICAgMSAgICAgOTkyNCAgICAgMi42NjUxOTg3NzcgICAg
-IDAgIEMgICBSIDIwOTYxMjggKyAxMDI0IFswXQ0KPj4gd2hpY2ggaXMgbXVjaCBiZXR0ZXIuDQo+
-Pg0KPj4gVGhlIGRhcmsgc2lkZSBvZiB0aGlzIHBhdGNoIGlzIHRoYXQgd2UgYXJlIHR3ZWFraW5n
-IGd1ZXN0IHZpc2libGUNCj4+IHBhcmFtZXRlciwgdGhvdWdoIHRoaXMgc2hvdWxkIGJlIHJlbGF0
-aXZlbHkgc2FmZSBhcyBhYm92ZSB0cmFuc3BvcnQNCj4+IGxheWVyIHN1cHBvcnQgaXMgcHJlc2Vu
-dCBpbiBRRU1VL2hvc3QgTGludXggZm9yIGEgdmVyeSBsb25nIHRpbWUuDQo+PiBUaGUgcGF0Y2gg
-YWRkcyBjb25maWd1cmFibGUgcHJvcGVydHkgZm9yIFZpcnRJTyBTQ1NJIHdpdGggYSBuZXcgZGVm
-YXVsdA0KPj4gYW5kIGhhcmRjb2RlIG9wdGlvbiBmb3IgVmlydEJsb2NrIHdoaWNoIGRvZXMgbm90
-IHByb3ZpZGUgZ29vZA0KPj4gY29uZmlndXJhYmxlIGZyYW1ld29yay4NCj4+DQo+PiBVbmZvcnR1
-bmF0ZWx5IHRoZSBjb21taXQgY2FuIG5vdCBiZSBhcHBsaWVkIGFzIGlzLiBGb3IgdGhlIHJlYWwg
-Y3VyZSB3ZQ0KPj4gbmVlZCBndWVzdCB0byBiZSBmaXhlZCB0byBhY2NvbW9kYXRlIHRoYXQgcXVl
-dWUgbGVuZ3RoLCB3aGljaCBpcyBkb25lDQo+PiBvbmx5IGluIHRoZSBsYXRlc3QgNC4xNCBrZXJu
-ZWwuIFRodXMgd2UgYXJlIGdvaW5nIHRvIGV4cG9zZSB0aGUgcHJvcGVydHkNCj4+IGFuZCB0d2Vh
-ayBpdCBvbiBtYWNoaW5lIHR5cGUgbGV2ZWwuDQo+Pg0KPj4gVGhlIHByb2JsZW0gd2l0aCB0aGUg
-b2xkIGtlcm5lbHMgaXMgdGhhdCB0aGV5IGhhdmUNCj4+IG1heF9zZWdtZW50cyA8PSB2aXJ0cXVl
-dWVfc2l6ZSByZXN0cmljdGlvbiB3aGljaCBjYXVzZSB0aGUgZ3Vlc3QNCj4+IGNyYXNoaW5nIGlu
-IHRoZSBjYXNlIG9mIHZpb2xhdGlvbi4NCj4gVGhpcyBpc24ndCBqdXN0IGluIHRoZSBndWVzdHM6
-IHZpcnRpbyBzcGVjIGFsc28gc2VlbXMgdG8gaW1wbHkgdGhpcywNCj4gb3IgYXQgbGVhc3QgYmUg
-dmFndWUgb24gdGhpcyBwb2ludC4NCj4NCj4gU28gSSB0aGluayBpdCdsbCBuZWVkIGEgZmVhdHVy
-ZSBiaXQuDQo+IERvaW5nIHRoYXQgaW4gYSBzYWZlIHdheSB3aWxsIGFsc28gYWxsb3cgYmVpbmcg
-Y29tcGF0aWJsZSB3aXRoIG9sZCBndWVzdHMuDQo+DQo+IFRoZSBvbmx5IGRvd25zaWRlIGlzIGl0
-J3MgYSBiaXQgbW9yZSB3b3JrIGFzIHdlIG5lZWQgdG8NCj4gc3BlYyB0aGlzIG91dCBhbmQgYWRk
-IGd1ZXN0IHN1cHBvcnQuDQo+DQo+PiBUbyBmaXggdGhlIGNhc2UgZGVzY3JpYmVkIGFib3ZlIGlu
-IHRoZSBvbGQga2VybmVscyB3ZSBjYW4gaW5jcmVhc2UNCj4+IHZpcnRxdWV1ZV9zaXplIHRvIDI1
-NiBhbmQgbWF4X3NlZ21lbnRzIHRvIDI1NC4gVGhlIHBpdGZhbGwgaGVyZSBpcw0KPj4gdGhhdCBz
-ZWFiaW9zIGFsbG93cyB0aGUgdmlydHF1ZXVlX3NpemUtcyA8IDEyOCwgaG93ZXZlciwgdGhlIHNl
-YWJpb3MNCj4+IHBhdGNoIGV4dGVuZGluZyB0aGF0IHZhbHVlIHRvIDI1NiBpcyBwZW5kaW5nLg0K
-Pg0KPiBBbmQgdGhlIGZpeCBoZXJlIGlzIGp1c3QgdG8gbGltaXQgbGFyZ2UgdnEgc2l6ZSB0byB2
-aXJ0aW8gMS4wLg0KPiBJbiB0aGF0IG1vZGUgaXQncyBmaW5lIEkgdGhpbms6DQo+DQo+DQo+ICAg
-IC8qIGNoZWNrIGlmIHRoZSBxdWV1ZSBpcyBhdmFpbGFibGUgKi8NCj4gICAgaWYgKHZwLT51c2Vf
-bW9kZXJuKSB7DQo+ICAgICAgICBudW0gPSB2cF9yZWFkKCZ2cC0+Y29tbW9uLCB2aXJ0aW9fcGNp
-X2NvbW1vbl9jZmcsIHF1ZXVlX3NpemUpOw0KPiAgICAgICAgaWYgKG51bSA+IE1BWF9RVUVVRV9O
-VU0pIHsNCj4gICAgICAgICAgICB2cF93cml0ZSgmdnAtPmNvbW1vbiwgdmlydGlvX3BjaV9jb21t
-b25fY2ZnLCBxdWV1ZV9zaXplLA0KPiAgICAgICAgICAgICAgICAgICAgIE1BWF9RVUVVRV9OVU0p
-Ow0KPiAgICAgICAgICAgIG51bSA9IHZwX3JlYWQoJnZwLT5jb21tb24sIHZpcnRpb19wY2lfY29t
-bW9uX2NmZywgcXVldWVfc2l6ZSk7DQo+ICAgICAgICB9DQo+ICAgIH0gZWxzZSB7DQo+ICAgICAg
-ICBudW0gPSB2cF9yZWFkKCZ2cC0+bGVnYWN5LCB2aXJ0aW9fcGNpX2xlZ2FjeSwgcXVldWVfbnVt
-KTsNCj4gICAgfQ0KDQp5b3UgbWVhbiB0byBwdXQgdGhlIGNvZGUgbGlrZSB0aGlzIGludG8gdmly
-dGlvX3BjaV9yZWFsaXplKCkgaW5zaWRlIFFFTVU/DQoNCklmIG5vLCBjYW4geW91IHBscyBjbGFy
-aWZ5IHdoaWNoIGNvbXBvbmVudCBzaG91bGQgYmUgdG91Y2hlZC4NCg0KRGVuDQo=
+Now that Arm CPUs have advertised features lets add tests to ensure
+we maintain their expected availability with and without KVM.
+
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+---
+ tests/Makefile.include   |   5 +-
+ tests/arm-cpu-features.c | 240 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 244 insertions(+), 1 deletion(-)
+ create mode 100644 tests/arm-cpu-features.c
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 3543451ed309..8fd7c90b625e 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -255,6 +255,7 @@ check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) =3D tests/end=
+ianness-test$(EXESUF)
+ check-qtest-sparc64-y +=3D tests/prom-env-test$(EXESUF)
+ check-qtest-sparc64-y +=3D tests/boot-serial-test$(EXESUF)
+=20
++check-qtest-arm-y +=3D tests/arm-cpu-features$(EXESUF)
+ check-qtest-arm-y +=3D tests/microbit-test$(EXESUF)
+ check-qtest-arm-y +=3D tests/m25p80-test$(EXESUF)
+ check-qtest-arm-y +=3D tests/test-arm-mptimer$(EXESUF)
+@@ -262,7 +263,8 @@ check-qtest-arm-y +=3D tests/boot-serial-test$(EXESUF)
+ check-qtest-arm-y +=3D tests/hexloader-test$(EXESUF)
+ check-qtest-arm-$(CONFIG_PFLASH_CFI02) +=3D tests/pflash-cfi02-test$(EXESU=
+F)
+=20
+-check-qtest-aarch64-y =3D tests/numa-test$(EXESUF)
++check-qtest-aarch64-y +=3D tests/arm-cpu-features$(EXESUF)
++check-qtest-aarch64-y +=3D tests/numa-test$(EXESUF)
+ check-qtest-aarch64-y +=3D tests/boot-serial-test$(EXESUF)
+ check-qtest-aarch64-y +=3D tests/migration-test$(EXESUF)
+ # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make test unconditio=
+nal
+@@ -827,6 +829,7 @@ tests/test-qapi-util$(EXESUF): tests/test-qapi-util.o $=
+(test-util-obj-y)
+ tests/numa-test$(EXESUF): tests/numa-test.o
+ tests/vmgenid-test$(EXESUF): tests/vmgenid-test.o tests/boot-sector.o test=
+s/acpi-utils.o
+ tests/cdrom-test$(EXESUF): tests/cdrom-test.o tests/boot-sector.o $(libqos=
+-obj-y)
++tests/arm-cpu-features$(EXESUF): tests/arm-cpu-features.o
+=20
+ tests/migration/stress$(EXESUF): tests/migration/stress.o
+ =09$(call quiet-command, $(LINKPROG) -static -O3 $(PTHREAD_LIB) -o $@ $< ,=
+"LINK","$(TARGET_DIR)$@")
+diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+new file mode 100644
+index 000000000000..c59fcf409c89
+--- /dev/null
++++ b/tests/arm-cpu-features.c
+@@ -0,0 +1,240 @@
++/*
++ * Arm CPU feature test cases
++ *
++ * Copyright (c) 2019 Red Hat Inc.
++ * Authors:
++ *  Andrew Jones <drjones@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ */
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qjson.h"
++
++#define MACHINE    "-machine virt,gic-version=3Dmax "
++#define QUERY_HEAD "{ 'execute': 'query-cpu-model-expansion', " \
++                     "'arguments': { 'type': 'full', "
++#define QUERY_TAIL "}}"
++
++static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
++{
++    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
++                          QUERY_TAIL, cpu_type);
++}
++
++static QDict *do_query(QTestState *qts, const char *cpu_type,
++                       const char *fmt, ...)
++{
++    QDict *resp;
++
++    if (fmt) {
++        QDict *args;
++        va_list ap;
++
++        va_start(ap, fmt);
++        args =3D qdict_from_vjsonf_nofail(fmt, ap);
++        va_end(ap);
++
++        resp =3D qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s, "
++                                                    "'props': %p }"
++                              QUERY_TAIL, cpu_type, args);
++    } else {
++        resp =3D do_query_no_props(qts, cpu_type);
++    }
++
++    return resp;
++}
++
++static const char *resp_get_error(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++
++    qdict =3D qdict_get_qdict(resp, "error");
++    if (qdict) {
++        return qdict_get_str(qdict, "desc");
++    }
++    return NULL;
++}
++
++#define assert_error(qts, cpu_type, expected_error, fmt, ...)          \
++({                                                                     \
++    QDict *_resp;                                                      \
++    const char *_error;                                                \
++                                                                       \
++    _resp =3D do_query(qts, cpu_type, fmt, ##__VA_ARGS__);               \
++    g_assert(_resp);                                                   \
++    _error =3D resp_get_error(_resp);                                    \
++    g_assert(_error);                                                  \
++    g_assert(g_str_equal(_error, expected_error));                     \
++    qobject_unref(_resp);                                              \
++})
++
++static bool resp_has_props(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++
++    if (!qdict_haskey(resp, "return")) {
++        return false;
++    }
++    qdict =3D qdict_get_qdict(resp, "return");
++
++    if (!qdict_haskey(qdict, "model")) {
++        return false;
++    }
++    qdict =3D qdict_get_qdict(qdict, "model");
++
++    return qdict_haskey(qdict, "props");
++}
++
++static QDict *resp_get_props(QDict *resp)
++{
++    QDict *qdict;
++
++    g_assert(resp);
++    g_assert(resp_has_props(resp));
++
++    qdict =3D qdict_get_qdict(resp, "return");
++    qdict =3D qdict_get_qdict(qdict, "model");
++    qdict =3D qdict_get_qdict(qdict, "props");
++    return qdict;
++}
++
++#define assert_has_feature(qts, cpu_type, feature)                     \
++({                                                                     \
++    QDict *_resp =3D do_query_no_props(qts, cpu_type);                   \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    g_assert(qdict_get(resp_get_props(_resp), feature));               \
++    qobject_unref(_resp);                                              \
++})
++
++#define assert_has_not_feature(qts, cpu_type, feature)                 \
++({                                                                     \
++    QDict *_resp =3D do_query_no_props(qts, cpu_type);                   \
++    g_assert(_resp);                                                   \
++    g_assert(!resp_has_props(_resp) ||                                 \
++             !qdict_get(resp_get_props(_resp), feature));              \
++    qobject_unref(_resp);                                              \
++})
++
++static void assert_type_full(QTestState *qts)
++{
++    const char *error;
++    QDict *resp;
++
++    resp =3D qtest_qmp(qts, "{ 'execute': 'query-cpu-model-expansion', "
++                            "'arguments': { 'type': 'static', "
++                                           "'model': { 'name': 'foo' }}}")=
+;
++    g_assert(resp);
++    error =3D resp_get_error(resp);
++    g_assert(error);
++    g_assert(g_str_equal(error,
++                         "The requested expansion type is not supported"))=
+;
++    qobject_unref(resp);
++}
++
++static void assert_bad_props(QTestState *qts, const char *cpu_type)
++{
++    const char *error;
++    QDict *resp;
++
++    resp =3D qtest_qmp(qts, "{ 'execute': 'query-cpu-model-expansion', "
++                            "'arguments': { 'type': 'full', "
++                                           "'model': { 'name': %s, "
++                                                      "'props': false }}}"=
+,
++                     cpu_type);
++    g_assert(resp);
++    error =3D resp_get_error(resp);
++    g_assert(error);
++    g_assert(g_str_equal(error,
++                         "Invalid parameter type for 'props', expected: di=
+ct"));
++    qobject_unref(resp);
++}
++
++static void test_query_cpu_model_expansion(const void *data)
++{
++    QTestState *qts;
++
++    qts =3D qtest_init(MACHINE "-cpu max");
++
++    /* Test common query-cpu-model-expansion input validation */
++    assert_type_full(qts);
++    assert_bad_props(qts, "max");
++    assert_error(qts, "foo", "The CPU type 'foo' is not a recognized "
++                 "ARM CPU type", NULL);
++    assert_error(qts, "max", "Parameter 'not-a-prop' is unexpected",
++                 "{ 'not-a-prop': false }");
++    assert_error(qts, "host", "The CPU type 'host' requires KVM", NULL);
++
++    /* Test expected feature presence/absence for some cpu types */
++    assert_has_feature(qts, "max", "pmu");
++    assert_has_feature(qts, "cortex-a15", "pmu");
++    assert_has_not_feature(qts, "cortex-a15", "aarch64");
++
++    if (g_str_equal(qtest_get_arch(), "aarch64")) {
++        assert_has_feature(qts, "max", "aarch64");
++        assert_has_feature(qts, "cortex-a57", "pmu");
++        assert_has_feature(qts, "cortex-a57", "aarch64");
++
++        /* Test that features that depend on KVM generate errors without. =
+*/
++        assert_error(qts, "max",
++                     "'aarch64' feature cannot be disabled "
++                     "unless KVM is enabled and 32-bit EL1 "
++                     "is supported",
++                     "{ 'aarch64': false }");
++    }
++
++    qtest_quit(qts);
++}
++
++static void test_query_cpu_model_expansion_kvm(const void *data)
++{
++    QTestState *qts;
++
++    qts =3D qtest_init(MACHINE "-accel kvm -cpu host");
++
++    if (g_str_equal(qtest_get_arch(), "aarch64")) {
++        assert_has_feature(qts, "host", "aarch64");
++        assert_has_feature(qts, "host", "pmu");
++
++        assert_error(qts, "cortex-a15",
++            "We cannot guarantee the CPU type 'cortex-a15' works "
++            "with KVM on this host", NULL);
++    } else {
++        assert_has_not_feature(qts, "host", "aarch64");
++        assert_has_not_feature(qts, "host", "pmu");
++    }
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    bool kvm_available =3D false;
++
++    if (!access("/dev/kvm",  R_OK | W_OK)) {
++#if defined(HOST_AARCH64)
++        kvm_available =3D g_str_equal(qtest_get_arch(), "aarch64");
++#elif defined(HOST_ARM)
++        kvm_available =3D g_str_equal(qtest_get_arch(), "arm");
++#endif
++    }
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_data_func("/arm/query-cpu-model-expansion",
++                        NULL, test_query_cpu_model_expansion);
++
++    if (kvm_available) {
++        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
++                            NULL, test_query_cpu_model_expansion_kvm);
++    }
++
++    return g_test_run();
++}
+--=20
+2.21.0
+
 
