@@ -2,44 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB0CE318C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:55:25 +0200 (CEST)
-Received: from localhost ([::1]:40354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3E5E30F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Oct 2019 13:42:58 +0200 (CEST)
+Received: from localhost ([::1]:40164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNbi7-0000KQ-JW
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60346)
+	id 1iNbW4-000795-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 07:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60017)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNaz9-0002nS-N0
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:09:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNaxS-0007gL-Ul
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:07:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iNaz5-0007bT-Vl
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:08:55 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:37944 helo=mail.rt-rk.com)
+ (envelope-from <philmd@redhat.com>) id 1iNaxR-0006pM-D4
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:07:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39926)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iNaz5-0007aK-G7
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:08:51 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 6EBDC1A21FF;
- Thu, 24 Oct 2019 13:07:45 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2A6C11A21E9;
- Thu, 24 Oct 2019 13:07:45 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 09/11] target/mips: msa: Split helpers for
- S<LL|RA|RAR|RL|RLR>.<B|H|W|D>
-Date: Thu, 24 Oct 2019 13:06:33 +0200
-Message-Id: <1571915195-4381-10-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1571915195-4381-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1571915195-4381-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNaxR-0006lv-4d
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 07:07:09 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 616CE5AFF8
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 11:07:07 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id g13so696477wme.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 04:07:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V5M3YfvSzNReEv+iSupyqClTuTbEMUzk08xs7ixzs/c=;
+ b=qL1JOEjU+9mXyLZ9UoKPiZYh+BWHno7NT8D2K7B1xlecFmtuwl725k5qXy/KLJXV0e
+ Phj6pqYEmQV6FY4Pk4kR3pcjv+EUZWDUOJRwPORvuqMO8ZK4u6MZcHKn5x26br3XwuU/
+ qqWEqt8zKC1pWKSwvTO5Lf940yNm+7ccWkx0i7QwxeS5B1Ld97beeS3GSZ4H3drpVGt2
+ HDasedrNsFZJdwzhW4agnTEHgJUeR/XJqy1Mqn1N/IL9SUuS/lY+isUuDdYZdlvMTkK1
+ QNt8cNsyDBX3yen2k84rRh/nSVID7PuOwaWW2ZsrYkP+XxM3a/Kb0+F5aXHm7YrK9LAC
+ KkUw==
+X-Gm-Message-State: APjAAAU//3+rTxyxJHJHjF2JXSxBd/TVuFzLgBKq6Mf+tIR7UNjJal6E
+ GhKoZMkCtD8/RZ0UOXP3kACJjrScVMXys62DiyeUvagTmFsqdQ88H6eJj3SsrircGmXB2+p3W8H
+ wNPIaIxZyI2ZWpUQ=
+X-Received: by 2002:a1c:dc83:: with SMTP id t125mr4608813wmg.50.1571915226075; 
+ Thu, 24 Oct 2019 04:07:06 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx5KTX9zUcHsSboeB+QX83wO4Qy6ALWUKbQ6OgQV3gcouYlp5HPJIifZGMImYCMgSmxO8M3AA==
+X-Received: by 2002:a1c:dc83:: with SMTP id t125mr4608784wmg.50.1571915225804; 
+ Thu, 24 Oct 2019 04:07:05 -0700 (PDT)
+Received: from [192.168.1.41] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id f17sm13334973wrs.66.2019.10.24.04.07.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Oct 2019 04:07:04 -0700 (PDT)
+Subject: Re: Adding a memory alias breaks v-rings
+To: Geoffrey McRae <geoff@hostfission.com>, qemu-devel@nongnu.org,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <19efadd24a38e4e877459404ff12ac20@hostfission.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <45003cbd-2fdd-248d-85e8-302b4b87957d@redhat.com>
+Date: Thu, 24 Oct 2019 13:07:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <19efadd24a38e4e877459404ff12ac20@hostfission.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,665 +83,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+Hi Geoffrey,
 
-Achieves clearer code and slightly better performance.
+On 10/24/19 10:27 AM, geoff@hostfission.com wrote:
+> Hi All,
+>=20
+> I have been working on adding a feature as a proof of concept to improv=
+e=20
+> the performance of applications like Looking Glass by avoiding=20
+> additional memory copies. My goal is to alias part of the IVSHMEM share=
+d=20
+> memory over a pointer provided by the guest OS capture API (DXGI Deskto=
+p=20
+> Duplication or NVIDIA Frame Buffer Capture). I have managed to get this=
+=20
+> working by adding a few additional configuration registers to the=20
+> IVSHMEM device and enhanced the IVSHMEM windows driver with suitable=20
+> IOCTLs to set this all up. While this concept is backwards it needs to=20
+> work this way as we do not have control over the destination buffer=20
+> allocation by the GPU driver.
+>=20
+> This all works, however, it has exposed a bug (or I am doing things=20
+> improperly) with the way that vhost tracks memory. When calling=20
+> memory_region_add_subregion_overlap the memory listener in vhost fires=20
+> triggering vhost_region_add_section. According to the comments this cod=
+e=20
+> depends on being called in memory address order, but because I am addin=
+g=20
+> the alias region late, it's out of order, and also splits the upper=20
+> memory region. This has the effect of corrupting/breaking one or more=20
+> random vrings, as evidenced by the crash/hang of vhost-net or other=20
+> virtio devices.
 
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1571826227-10583-10-git-send-email-aleksandar.markovic@rt-rk.com>
+I'm not sure this is the same issue I had before, but you might
+find Frederic and Alexey suggestions from this thread helpful:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg525833.html
+
+Also note vhost_region_add_section() you mentioned has this comment:
+
+     if (need_add) {
+         ...
+         /* The flatview isn't stable and we don't use it, making it NULL
+          * means we can memcmp the list.
+          */
+         dev->tmp_sections[dev->n_tmp_sections - 1].fv =3D NULL;
+
+Maybe you need this change:
+
+-- >8 --
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -642,6 +642,7 @@ static void vhost_region_add_section(struct=20
+vhost_dev *dev,
+           */
+          dev->tmp_sections[dev->n_tmp_sections - 1].fv =3D NULL;
+          memory_region_ref(section->mr);
++        memory_region_update_container_subregions(section->mr);
+      }
+  }
+
 ---
- target/mips/helper.h     |  30 +++-
- target/mips/msa_helper.c | 424 +++++++++++++++++++++++++++++++++++++++++------
- target/mips/translate.c  |  91 ++++++++--
- 3 files changed, 479 insertions(+), 66 deletions(-)
 
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index f25ba90..f779404 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -967,6 +967,31 @@ DEF_HELPER_4(msa_nor_v, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_or_v, void, env, i32, i32, i32)
- DEF_HELPER_4(msa_xor_v, void, env, i32, i32, i32)
- 
-+DEF_HELPER_4(msa_sll_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_sll_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_sll_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_sll_d, void, env, i32, i32, i32)
-+
-+DEF_HELPER_4(msa_sra_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_sra_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_sra_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_sra_d, void, env, i32, i32, i32)
-+
-+DEF_HELPER_4(msa_srar_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srar_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srar_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srar_d, void, env, i32, i32, i32)
-+
-+DEF_HELPER_4(msa_srl_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srl_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srl_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srl_d, void, env, i32, i32, i32)
-+
-+DEF_HELPER_4(msa_srlr_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srlr_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srlr_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(msa_srlr_d, void, env, i32, i32, i32)
-+
- DEF_HELPER_3(msa_move_v, void, env, i32, i32)
- 
- DEF_HELPER_4(msa_andi_b, void, env, i32, i32, i32)
-@@ -1004,9 +1029,6 @@ DEF_HELPER_5(msa_sat_u_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_srari_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_srlri_df, void, env, i32, i32, i32, i32)
- 
--DEF_HELPER_5(msa_sll_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_sra_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_srl_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_binsl_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_binsr_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_subv_df, void, env, i32, i32, i32, i32)
-@@ -1030,8 +1052,6 @@ DEF_HELPER_5(msa_splat_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_pckev_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_pckod_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_vshf_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_srar_df, void, env, i32, i32, i32, i32)
--DEF_HELPER_5(msa_srlr_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_hsub_s_df, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(msa_hsub_u_df, void, env, i32, i32, i32, i32)
- 
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index f5d3737..38ff1da 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -3461,7 +3461,382 @@ void helper_msa_move_v(CPUMIPSState *env, uint32_t wd, uint32_t ws)
-  * +---------------+----------------------------------------------------------+
-  */
- 
--/* TODO: insert Shift group helpers here */
-+
-+static inline int64_t msa_sll_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    return arg1 << b_arg2;
-+}
-+
-+void helper_msa_sll_b(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_sll_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_sll_df(DF_BYTE, pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_sll_df(DF_BYTE, pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_sll_df(DF_BYTE, pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_sll_df(DF_BYTE, pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_sll_df(DF_BYTE, pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_sll_df(DF_BYTE, pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_sll_df(DF_BYTE, pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_sll_df(DF_BYTE, pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_sll_df(DF_BYTE, pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_sll_df(DF_BYTE, pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_sll_df(DF_BYTE, pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_sll_df(DF_BYTE, pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_sll_df(DF_BYTE, pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_sll_df(DF_BYTE, pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_sll_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+}
-+
-+void helper_msa_sll_h(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_sll_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_sll_df(DF_HALF, pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_sll_df(DF_HALF, pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_sll_df(DF_HALF, pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_sll_df(DF_HALF, pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_sll_df(DF_HALF, pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_sll_df(DF_HALF, pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_sll_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+}
-+
-+void helper_msa_sll_w(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_sll_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_sll_df(DF_WORD, pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_sll_df(DF_WORD, pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_sll_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+}
-+
-+void helper_msa_sll_d(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_sll_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_sll_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+}
-+
-+
-+static inline int64_t msa_sra_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    return arg1 >> b_arg2;
-+}
-+
-+void helper_msa_sra_b(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_sra_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_sra_df(DF_BYTE, pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_sra_df(DF_BYTE, pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_sra_df(DF_BYTE, pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_sra_df(DF_BYTE, pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_sra_df(DF_BYTE, pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_sra_df(DF_BYTE, pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_sra_df(DF_BYTE, pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_sra_df(DF_BYTE, pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_sra_df(DF_BYTE, pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_sra_df(DF_BYTE, pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_sra_df(DF_BYTE, pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_sra_df(DF_BYTE, pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_sra_df(DF_BYTE, pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_sra_df(DF_BYTE, pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_sra_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+}
-+
-+void helper_msa_sra_h(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_sra_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_sra_df(DF_HALF, pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_sra_df(DF_HALF, pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_sra_df(DF_HALF, pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_sra_df(DF_HALF, pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_sra_df(DF_HALF, pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_sra_df(DF_HALF, pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_sra_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+}
-+
-+void helper_msa_sra_w(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_sra_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_sra_df(DF_WORD, pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_sra_df(DF_WORD, pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_sra_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+}
-+
-+void helper_msa_sra_d(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_sra_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_sra_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+}
-+
-+
-+static inline int64_t msa_srar_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    if (b_arg2 == 0) {
-+        return arg1;
-+    } else {
-+        int64_t r_bit = (arg1 >> (b_arg2 - 1)) & 1;
-+        return (arg1 >> b_arg2) + r_bit;
-+    }
-+}
-+
-+void helper_msa_srar_b(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_srar_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_srar_df(DF_BYTE, pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_srar_df(DF_BYTE, pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_srar_df(DF_BYTE, pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_srar_df(DF_BYTE, pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_srar_df(DF_BYTE, pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_srar_df(DF_BYTE, pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_srar_df(DF_BYTE, pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_srar_df(DF_BYTE, pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_srar_df(DF_BYTE, pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_srar_df(DF_BYTE, pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_srar_df(DF_BYTE, pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_srar_df(DF_BYTE, pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_srar_df(DF_BYTE, pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_srar_df(DF_BYTE, pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_srar_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+}
-+
-+void helper_msa_srar_h(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_srar_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_srar_df(DF_HALF, pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_srar_df(DF_HALF, pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_srar_df(DF_HALF, pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_srar_df(DF_HALF, pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_srar_df(DF_HALF, pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_srar_df(DF_HALF, pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_srar_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+}
-+
-+void helper_msa_srar_w(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_srar_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_srar_df(DF_WORD, pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_srar_df(DF_WORD, pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_srar_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+}
-+
-+void helper_msa_srar_d(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_srar_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_srar_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+}
-+
-+
-+static inline int64_t msa_srl_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    uint64_t u_arg1 = UNSIGNED(arg1, df);
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    return u_arg1 >> b_arg2;
-+}
-+
-+void helper_msa_srl_b(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_srl_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_srl_df(DF_BYTE, pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_srl_df(DF_BYTE, pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_srl_df(DF_BYTE, pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_srl_df(DF_BYTE, pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_srl_df(DF_BYTE, pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_srl_df(DF_BYTE, pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_srl_df(DF_BYTE, pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_srl_df(DF_BYTE, pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_srl_df(DF_BYTE, pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_srl_df(DF_BYTE, pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_srl_df(DF_BYTE, pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_srl_df(DF_BYTE, pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_srl_df(DF_BYTE, pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_srl_df(DF_BYTE, pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_srl_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+}
-+
-+void helper_msa_srl_h(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_srl_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_srl_df(DF_HALF, pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_srl_df(DF_HALF, pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_srl_df(DF_HALF, pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_srl_df(DF_HALF, pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_srl_df(DF_HALF, pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_srl_df(DF_HALF, pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_srl_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+}
-+
-+void helper_msa_srl_w(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_srl_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_srl_df(DF_WORD, pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_srl_df(DF_WORD, pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_srl_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+}
-+
-+void helper_msa_srl_d(CPUMIPSState *env,
-+                      uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_srl_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_srl_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+}
-+
-+
-+static inline int64_t msa_srlr_df(uint32_t df, int64_t arg1, int64_t arg2)
-+{
-+    uint64_t u_arg1 = UNSIGNED(arg1, df);
-+    int32_t b_arg2 = BIT_POSITION(arg2, df);
-+    if (b_arg2 == 0) {
-+        return u_arg1;
-+    } else {
-+        uint64_t r_bit = (u_arg1 >> (b_arg2 - 1)) & 1;
-+        return (u_arg1 >> b_arg2) + r_bit;
-+    }
-+}
-+
-+void helper_msa_srlr_b(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->b[0]  = msa_srlr_df(DF_BYTE, pws->b[0],  pwt->b[0]);
-+    pwd->b[1]  = msa_srlr_df(DF_BYTE, pws->b[1],  pwt->b[1]);
-+    pwd->b[2]  = msa_srlr_df(DF_BYTE, pws->b[2],  pwt->b[2]);
-+    pwd->b[3]  = msa_srlr_df(DF_BYTE, pws->b[3],  pwt->b[3]);
-+    pwd->b[4]  = msa_srlr_df(DF_BYTE, pws->b[4],  pwt->b[4]);
-+    pwd->b[5]  = msa_srlr_df(DF_BYTE, pws->b[5],  pwt->b[5]);
-+    pwd->b[6]  = msa_srlr_df(DF_BYTE, pws->b[6],  pwt->b[6]);
-+    pwd->b[7]  = msa_srlr_df(DF_BYTE, pws->b[7],  pwt->b[7]);
-+    pwd->b[8]  = msa_srlr_df(DF_BYTE, pws->b[8],  pwt->b[8]);
-+    pwd->b[9]  = msa_srlr_df(DF_BYTE, pws->b[9],  pwt->b[9]);
-+    pwd->b[10] = msa_srlr_df(DF_BYTE, pws->b[10], pwt->b[10]);
-+    pwd->b[11] = msa_srlr_df(DF_BYTE, pws->b[11], pwt->b[11]);
-+    pwd->b[12] = msa_srlr_df(DF_BYTE, pws->b[12], pwt->b[12]);
-+    pwd->b[13] = msa_srlr_df(DF_BYTE, pws->b[13], pwt->b[13]);
-+    pwd->b[14] = msa_srlr_df(DF_BYTE, pws->b[14], pwt->b[14]);
-+    pwd->b[15] = msa_srlr_df(DF_BYTE, pws->b[15], pwt->b[15]);
-+}
-+
-+void helper_msa_srlr_h(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->h[0]  = msa_srlr_df(DF_HALF, pws->h[0],  pwt->h[0]);
-+    pwd->h[1]  = msa_srlr_df(DF_HALF, pws->h[1],  pwt->h[1]);
-+    pwd->h[2]  = msa_srlr_df(DF_HALF, pws->h[2],  pwt->h[2]);
-+    pwd->h[3]  = msa_srlr_df(DF_HALF, pws->h[3],  pwt->h[3]);
-+    pwd->h[4]  = msa_srlr_df(DF_HALF, pws->h[4],  pwt->h[4]);
-+    pwd->h[5]  = msa_srlr_df(DF_HALF, pws->h[5],  pwt->h[5]);
-+    pwd->h[6]  = msa_srlr_df(DF_HALF, pws->h[6],  pwt->h[6]);
-+    pwd->h[7]  = msa_srlr_df(DF_HALF, pws->h[7],  pwt->h[7]);
-+}
-+
-+void helper_msa_srlr_w(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->w[0]  = msa_srlr_df(DF_WORD, pws->w[0],  pwt->w[0]);
-+    pwd->w[1]  = msa_srlr_df(DF_WORD, pws->w[1],  pwt->w[1]);
-+    pwd->w[2]  = msa_srlr_df(DF_WORD, pws->w[2],  pwt->w[2]);
-+    pwd->w[3]  = msa_srlr_df(DF_WORD, pws->w[3],  pwt->w[3]);
-+}
-+
-+void helper_msa_srlr_d(CPUMIPSState *env,
-+                       uint32_t wd, uint32_t ws, uint32_t wt)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-+    wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
-+
-+    pwd->d[0]  = msa_srlr_df(DF_DOUBLE, pws->d[0],  pwt->d[0]);
-+    pwd->d[1]  = msa_srlr_df(DF_DOUBLE, pws->d[1],  pwt->d[1]);
-+}
- 
- 
- #define MSA_FN_IMM8(FUNC, DEST, OPERATION)                              \
-@@ -3617,25 +3992,6 @@ void helper_msa_ldi_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-     }
- }
- 
--static inline int64_t msa_sll_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    return arg1 << b_arg2;
--}
--
--static inline int64_t msa_sra_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    return arg1 >> b_arg2;
--}
--
--static inline int64_t msa_srl_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    uint64_t u_arg1 = UNSIGNED(arg1, df);
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    return u_arg1 >> b_arg2;
--}
--
- static inline int64_t msa_sat_s_df(uint32_t df, int64_t arg, uint32_t m)
- {
-     return arg < M_MIN_INT(m + 1) ? M_MIN_INT(m + 1) :
-@@ -3650,29 +4006,6 @@ static inline int64_t msa_sat_u_df(uint32_t df, int64_t arg, uint32_t m)
-                                         M_MAX_UINT(m + 1);
- }
- 
--static inline int64_t msa_srar_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    if (b_arg2 == 0) {
--        return arg1;
--    } else {
--        int64_t r_bit = (arg1 >> (b_arg2 - 1)) & 1;
--        return (arg1 >> b_arg2) + r_bit;
--    }
--}
--
--static inline int64_t msa_srlr_df(uint32_t df, int64_t arg1, int64_t arg2)
--{
--    uint64_t u_arg1 = UNSIGNED(arg1, df);
--    int32_t b_arg2 = BIT_POSITION(arg2, df);
--    if (b_arg2 == 0) {
--        return u_arg1;
--    } else {
--        uint64_t r_bit = (u_arg1 >> (b_arg2 - 1)) & 1;
--        return (u_arg1 >> b_arg2) + r_bit;
--    }
--}
--
- #define MSA_BINOP_IMMU_DF(helper, func)                                  \
- void helper_msa_ ## helper ## _df(CPUMIPSState *env, uint32_t df, uint32_t wd, \
-                        uint32_t ws, uint32_t u5)                        \
-@@ -3995,9 +4328,6 @@ void helper_msa_ ## func ## _df(CPUMIPSState *env, uint32_t df,         \
-     }                                                                   \
- }
- 
--MSA_BINOP_DF(sll)
--MSA_BINOP_DF(sra)
--MSA_BINOP_DF(srl)
- MSA_BINOP_DF(subv)
- MSA_BINOP_DF(subs_s)
- MSA_BINOP_DF(subs_u)
-@@ -4008,8 +4338,6 @@ MSA_BINOP_DF(asub_u)
- MSA_BINOP_DF(mulv)
- MSA_BINOP_DF(dotp_s)
- MSA_BINOP_DF(dotp_u)
--MSA_BINOP_DF(srar)
--MSA_BINOP_DF(srlr)
- MSA_BINOP_DF(hsub_s)
- MSA_BINOP_DF(hsub_u)
- 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9e8e973..7cdf68d 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -28915,7 +28915,84 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-         }
-         break;
-     case OPC_SLL_df:
--        gen_helper_msa_sll_df(cpu_env, tdf, twd, tws, twt);
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_sll_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_sll_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_sll_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_sll_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_SRA_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_sra_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_sra_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_sra_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_sra_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_SRAR_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_srar_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_srar_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_srar_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_srar_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_SRL_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_srl_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_srl_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_srl_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_srl_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-+        break;
-+    case OPC_SRLR_df:
-+        switch (df) {
-+        case DF_BYTE:
-+            gen_helper_msa_srlr_b(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_HALF:
-+            gen_helper_msa_srlr_h(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_WORD:
-+            gen_helper_msa_srlr_w(cpu_env, twd, tws, twt);
-+            break;
-+        case DF_DOUBLE:
-+            gen_helper_msa_srlr_d(cpu_env, twd, tws, twt);
-+            break;
-+        }
-         break;
-     case OPC_SUBS_S_df:
-         gen_helper_msa_subs_s_df(cpu_env, tdf, twd, tws, twt);
-@@ -28929,9 +29006,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_VSHF_df:
-         gen_helper_msa_vshf_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_SRA_df:
--        gen_helper_msa_sra_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_SUBV_df:
-         gen_helper_msa_subv_df(cpu_env, tdf, twd, tws, twt);
-         break;
-@@ -28944,12 +29018,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_SPLAT_df:
-         gen_helper_msa_splat_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_SRAR_df:
--        gen_helper_msa_srar_df(cpu_env, tdf, twd, tws, twt);
--        break;
--    case OPC_SRL_df:
--        gen_helper_msa_srl_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_SUBSUS_U_df:
-         gen_helper_msa_subsus_u_df(cpu_env, tdf, twd, tws, twt);
-         break;
-@@ -28959,9 +29027,6 @@ static void gen_msa_3r(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_PCKEV_df:
-         gen_helper_msa_pckev_df(cpu_env, tdf, twd, tws, twt);
-         break;
--    case OPC_SRLR_df:
--        gen_helper_msa_srlr_df(cpu_env, tdf, twd, tws, twt);
--        break;
-     case OPC_SUBSUU_S_df:
-         gen_helper_msa_subsuu_s_df(cpu_env, tdf, twd, tws, twt);
-         break;
--- 
-2.7.4
+Regards,
 
+Phil.
+
+> The following and errors are also logged regarding=20
+> section alignment:
+>=20
+> qemu-system-x86_64: vhost_region_add_section:Section rounded to=20
+> 3c0000000 prior to previous 3fc4f9000
+> qemu-system-x86_64: vhost_region_add_section:Section rounded to=20
+> 3c0000000 prior to previous 3fc4f9000
+>=20
+> Here is the flat view after the alias has been added.
+>=20
+>  =C2=A0 0000000100000000-00000003fc4f8fff (prio 0, ram): mem=20
+> @0000000080000000 kvm
+>  =C2=A0 00000003fc4f9000-00000003fc4f9fff (prio 1, ram): ivshmem kvm
+>  =C2=A0 00000003fc4fa000-000000043fffffff (prio 0, ram): mem=20
+> @000000037c4fa000 kvm
+>=20
+> When the guest doesn't crash out due to the obvious corruption it is=20
+> possible to verify that the alias is in the right place and fully=20
+> functional. Unfortunately, I simply do not have enough of a grasp on=20
+> vhost to understand exactly what is going on and how to correct it.
+>=20
+> Getting this feature working is highly desirable as it should be=20
+> possible to obtain GPU -> GPU memory transfers between guests without=20
+> requiring workstation/professional graphics cards.
+>=20
+> Kind Regards,
+> Geoffrey McRae
+>=20
 
