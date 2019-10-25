@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FB5E447A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:32:42 +0200 (CEST)
-Received: from localhost ([::1]:56818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2A2E449E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:36:41 +0200 (CEST)
+Received: from localhost ([::1]:56920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNu5Q-0005VN-CB
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40599)
+	id 1iNu9H-0005WX-O2
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41367)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iNtrE-0007bP-8d
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:18:01 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1iNtzB-0005G8-Bz
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:26:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iNtrB-0007qT-W2
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:17:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44245
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <sgarzare@redhat.com>) id 1iNtzA-0003q3-2V
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:26:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52254)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iNtrB-0007q1-Re
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:17:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571987876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C7tH+6dpkkfe8dCZ7Qc6pidiGZGafbF1SWrUPV57nRQ=;
- b=NQJTUALx9TkOqj5DWDZTR1PgZdfqneKu3dD+00jM1iWYsnEyuWzgqJ7ONfknzWSU8l/Oyk
- Sw4nhNw6KlNQFfMGGoD1RkxWw9/AmYC4wEpqhhq2ytyh33VSl+c1zqg8sX4JAqf1MQlKPr
- Eleoq7yzY7SrCXKyB4I5jBRX+PoC93E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-QaQH1wFzM8ic0lP4hZANcg-1; Fri, 25 Oct 2019 03:17:53 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iNtz9-0003ow-RL
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:26:11 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65C20107AD31;
- Fri, 25 Oct 2019 07:17:51 +0000 (UTC)
-Received: from [10.36.116.205] (ovpn-116-205.ams2.redhat.com [10.36.116.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E70B5D9CA;
- Fri, 25 Oct 2019 07:17:47 +0000 (UTC)
-Subject: Re: [PATCH 0/7] i386: Add `machine` parameter to query-cpu-definitions
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20191025022553.25298-1-ehabkost@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <dbf9e4c1-0acf-9469-84f9-f80c41e2cae0@redhat.com>
-Date: Fri, 25 Oct 2019 09:17:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mx1.redhat.com (Postfix) with ESMTPS id B262B8553A
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:26:10 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id v26so526866wmh.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:26:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=iOImrrVZ6kl+IW5m/QQYvroBH2CHjohxjcvj5nvJfPk=;
+ b=etG+l5ev1uVsLhXjhykH7GzkhyzVLrnhs2hNxdBua7qKW/M8TJ9eRroKnM9kNSJRRc
+ NdTHxFFfflAmxDXBDtT7VkkMlarQ24DVEhu4fv4gpOSpm8DzU6bU1OdWD7TzqCyELwYE
+ JUYvp5PbKYFYG2ZqeFJ5/5UwbBH4XjAcna61crAtyRCigLfXrOBiFjKDC5L6gVB9YFUD
+ lhl5xGbYGng7HvuBYCj/wLHw1CuwKqHul4Hl9O+t27Puzx4H0mrarr2SRJDK6Hdngoyd
+ gdgWYiXMwtx7pnQn4Goaz8qmpVer5ThxOD5EG/+esu8nYE/v6jd939etDILCw0j3GXwA
+ MtPw==
+X-Gm-Message-State: APjAAAXpLGcN+EN7W+51yivOn1PPo+vtWc209iYNSHK6864TatDAkxCq
+ npXNFcmlUI8yfuGDNChVpGyXRgJZ8afobMxNwi7VF8Ct2XSbDBCRtHnK5tJtr05cQ4rs3zmt0lr
+ UKbg1adKQFVRXhk4=
+X-Received: by 2002:adf:e886:: with SMTP id d6mr1519525wrm.188.1571988369475; 
+ Fri, 25 Oct 2019 00:26:09 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyNaTMqkXvQqfm62xB64lSNVEEgiTCybr2MqS75vxkUJrT1B0ptklhAola/itFZ/8PeWw9oeA==
+X-Received: by 2002:adf:e886:: with SMTP id d6mr1519502wrm.188.1571988369151; 
+ Fri, 25 Oct 2019 00:26:09 -0700 (PDT)
+Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it.
+ [79.52.200.174])
+ by smtp.gmail.com with ESMTPSA id t13sm1368558wra.70.2019.10.25.00.26.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 00:26:08 -0700 (PDT)
+Date: Fri, 25 Oct 2019 09:26:06 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] i386: Use g_autofree in a few places
+Message-ID: <20191025072606.l4gcj5lidpm33xfb@steredhat>
+References: <20191025025632.5928-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191025022553.25298-1-ehabkost@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: QaQH1wFzM8ic0lP4hZANcg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191025025632.5928-1-ehabkost@redhat.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,97 +77,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.10.19 04:25, Eduardo Habkost wrote:
-> We had introduced versioned CPU models in QEMU 4.1, including a
-> method for querying for CPU model versions using
+On Thu, Oct 24, 2019 at 11:56:32PM -0300, Eduardo Habkost wrote:
+> Get rid of 12 explicit g_free() calls.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  target/i386/cpu.c | 41 +++++++++++++----------------------------
+>  1 file changed, 13 insertions(+), 28 deletions(-)
+> 
 
-Interesting, I was not aware of that.
-
-On s390x, we somewhat have versioned CPU models, but we decided against=20
-giving them explicit names (e.g., z13-v1 or z13-4.1.0), because it=20
-didn't really seem to be necessary. (and we often implement/add features=20
-for older CPU models, there is a lot of fluctuation) Actually, you would=20
-have had to add "z13-z/VM-x.x.x" or "z13-LPAR-x.x.x" or "z13-KVM-x.x.x"=20
-to model the features you actually see in all the different virtual=20
-environments ("what a CPU looks like"). Not to talk about QEMU versions=20
-in addition to that. So we decided to always model what you would see=20
-under LPAR and are able to specify for a KVM guest. So you can use "z13"=20
-in an up-to-date LPAR environment, but not in a z/VM environment (you=20
-would have to disable features).
-
-Each (!base) CPU model has a specific feature set per machine. Libvirt=20
-uses query-cpu-model-expansion() to convert this model+machine to a=20
-machine-independent representation. That representation is sufficient=20
-for all use cases we were aware of (esp. "virsh domcapabilities", the=20
-host CPU model, migration).
-
-While s390x has versioned CPU models, we have no explicit way of=20
-specifying them for older machines, besides going over=20
-query-cpu-model-expansion and using expanded "base model + features".
-
-I can see that this might make sense on x86-64, where you only have=20
-maybe 3 versions of a CPU (e.g., the one Intel messed up first -=20
-Haswell, the one Intel messed up next - Haswell-noTSX, and the one that=20
-Intel eventually did right - Haswell-noTSX-IBRS) and you might want to=20
-specify "Haswell" vs. "Haswell-IBRS" vs. "Haswell-noTSX-IBRS". But=20
-actually, you will always want to go for "Haswell-noTSX-IBRS", because=20
-you can expect to run in updated environments if I am not wrong,=20
-everything else are corner cases.
-
-Of course, versioned CPU model are neat to avoid "base model + list of=20
-features", but at least for expanding the host model on s390x, it is not=20
-really helpful. When migrating, the model expansion does the trick.
-
-I haven't looked into details of "how to specify or model versions".=20
-Maybe IBM wants to look into creating versions for all the old models we=20
-had. But again, not sure if that is of any help for s390x. CCing IBM.
-
-> query-cpu-definitions.  This only has one problem: fetching CPU
-> alias information for multiple machine types required restarting
-> QEMU for each machine being queried.
->=20
-> This series adds a new `machine` parameter to
-> query-cpu-definitions, that can be used to query CPU model alias
-> information for multiple machines without restarting QEMU.
->=20
-> Eduardo Habkost (7):
->    i386: Use g_autofree at x86_cpu_list_entry()
->    i386: Add default_version parameter to CPU version functions
->    i386: Don't use default_cpu_version at "-cpu help"
->    machine: machine_find_class() function
->    i386: Remove x86_cpu_set_default_version() function
->    i386: Don't use default_cpu_version() inside query-cpu-definitions
->    cpu: Add `machine` parameter to query-cpu-definitions
->=20
->   qapi/machine-target.json                   | 14 +++-
->   include/hw/boards.h                        |  1 +
->   include/hw/i386/pc.h                       |  5 +-
->   target/i386/cpu.h                          |  6 --
->   hw/core/machine.c                          | 16 ++++
->   hw/i386/pc.c                               |  3 -
->   target/arm/helper.c                        |  4 +-
->   target/i386/cpu.c                          | 93 +++++++++++++++-------
->   target/mips/helper.c                       |  4 +-
->   target/ppc/translate_init.inc.c            |  4 +-
->   target/s390x/cpu_models.c                  |  4 +-
->   vl.c                                       | 17 +---
->   tests/acceptance/x86_cpu_model_versions.py | 42 ++++++++++
->   13 files changed, 154 insertions(+), 59 deletions(-)
->=20
-
-
---=20
+The changes LGTM:
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 Thanks,
-
-David / dhildenb
-
+Stefano
 
