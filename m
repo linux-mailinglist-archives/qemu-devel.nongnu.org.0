@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222BFE4927
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:04:46 +0200 (CEST)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5D3E498C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:13:57 +0200 (CEST)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNxOe-0005EV-RQ
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40288)
+	id 1iNxXY-00022R-7R
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40347)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNxLX-0001p8-5R
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:01:36 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNxLd-000269-LF
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:01:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNxLT-0001HM-8p
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:01:28 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27921
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iNxLb-0001Jb-QD
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:01:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54680
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNxLT-0001H1-4p
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:01:27 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNxLb-0001JB-Ge
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:01:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572001286;
+ s=mimecast20190719; t=1572001294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rvofbdMsFiHSbSYh1z33bgI9FevJ8vBhIJ+juY/w+lM=;
- b=F0McuKOH7n2cWwRyty4Pk8tjn+QB0zlwrorCToZEaw/L/8JNKui/mbyM6jYF4RWLv3RvPs
- fjuVg5vbvEzRoVkjFCHnVXfnw1s1g522ptmgJ4UIDo9zp5pzSDS3T0O2hw6o6ngsK2WMMN
- D6bvvaujHdJKIPPU0925Jwni8Q4cOe8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3P1I3Nco4z27R0NZyTpP2qFN34PGE+3Hhbm/jLCWWOI=;
+ b=ZC8s4c/uVbh+sTwwAg7003sB7DBoLDl696q1RyvNCkw9KVEZ1fEmC2lJxEzebJQd7h2/89
+ rMmjdQg66i3ZC9CZF3moWHBbwV/ZpjTrIvp5pgekDV43p4LsBtK3qtbzs3rV4Xd4BF+UhE
+ ikUFYDqwCmB18Hf+ctuF3eeVmWYmoSI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-O7acdi-6N66U8aNpq7JQ3w-1; Fri, 25 Oct 2019 07:01:22 -0400
+ us-mta-32-DEPRfcQJOAGMc5rJoI8Q7Q-1; Fri, 25 Oct 2019 07:01:24 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F0FD801E70;
- Fri, 25 Oct 2019 11:01:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDDB6800D41;
+ Fri, 25 Oct 2019 11:01:23 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ACE65D9CA;
- Fri, 25 Oct 2019 11:01:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91ED35D9CA;
+ Fri, 25 Oct 2019 11:01:21 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Fabien Chouteau <chouteau@adacore.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>, qemu-devel@nongnu.org,
  KONRAD Frederic <frederic.konrad@adacore.com>
-Subject: [PATCH 0/2] hw/sparc/leon3: Fixes for the AHB/APB bridge
-Date: Fri, 25 Oct 2019 13:01:12 +0200
-Message-Id: <20191025110114.27091-1-philmd@redhat.com>
+Subject: [PATCH 1/2] hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to
+ PnP registers
+Date: Fri, 25 Oct 2019 13:01:13 +0200
+Message-Id: <20191025110114.27091-2-philmd@redhat.com>
+In-Reply-To: <20191025110114.27091-1-philmd@redhat.com>
+References: <20191025110114.27091-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: O7acdi-6N66U8aNpq7JQ3w-1
+X-MC-Unique: DEPRfcQJOAGMc5rJoI8Q7Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,23 +80,75 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two trivial fixes after reading Jiri comment:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg654994.html
+Guests can crash QEMU when writting to PnP registers:
 
-  "The plug&play area must support byte accesses,
-  which is used by the RTEMS grlib scanning functions..."
+  $ echo 'writeb 0x800ff042 69' | qemu-system-sparc -M leon3_generic -S -bi=
+os /etc/magic -qtest stdio
+  [I 1571938309.932255] OPENED
+  [R +0.063474] writeb 0x800ff042 69
+  Segmentation fault (core dumped)
 
-Regards,
+  (gdb) bt
+  #0  0x0000000000000000 in  ()
+  #1  0x0000555f4bcdf0bc in memory_region_write_with_attrs_accessor (mr=3D0=
+x555f4d7be8c0, addr=3D66, value=3D0x7fff07d00f08, size=3D1, shift=3D0, mask=
+=3D255, attrs=3D...) at memory.c:503
+  #2  0x0000555f4bcdf185 in access_with_adjusted_size (addr=3D66, value=3D0=
+x7fff07d00f08, size=3D1, access_size_min=3D1, access_size_max=3D4, access_f=
+n=3D0x555f4bcdeff4 <memory_region_write_with_attrs_accessor>, mr=3D0x555f4d=
+7be8c0, attrs=3D...) at memory.c:539
+  #3  0x0000555f4bce2243 in memory_region_dispatch_write (mr=3D0x555f4d7be8=
+c0, addr=3D66, data=3D69, op=3DMO_8, attrs=3D...) at memory.c:1489
+  #4  0x0000555f4bc80b20 in flatview_write_continue (fv=3D0x555f4d92c400, a=
+ddr=3D2148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1, addr1=3D6=
+6, l=3D1, mr=3D0x555f4d7be8c0) at exec.c:3161
+  #5  0x0000555f4bc80c65 in flatview_write (fv=3D0x555f4d92c400, addr=3D214=
+8528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1) at exec.c:3201
+  #6  0x0000555f4bc80fb0 in address_space_write (as=3D0x555f4d7aa460, addr=
+=3D2148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1) at exec.c:32=
+91
+  #7  0x0000555f4bc8101d in address_space_rw (as=3D0x555f4d7aa460, addr=3D2=
+148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1, is_write=3Dtrue)=
+ at exec.c:3301
+  #8  0x0000555f4bcdb388 in qtest_process_command (chr=3D0x555f4c2ed7e0 <qt=
+est_chr>, words=3D0x555f4db0c5d0) at qtest.c:432
 
-Phil.
+Instead of crashing, log the access as unimplemented.
 
-Philippe Mathieu-Daud=C3=A9 (2):
-  hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to PnP registers
-  hw/misc/grlib_ahb_apb_pnp: Fix 8-bit accesses
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/misc/grlib_ahb_apb_pnp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- hw/misc/grlib_ahb_apb_pnp.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
+diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index 7338461694..f3c015d2c3 100644
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -22,6 +22,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "hw/sysbus.h"
+ #include "hw/misc/grlib_ahb_apb_pnp.h"
+=20
+@@ -231,8 +232,15 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwadd=
+r offset, unsigned size)
+     return apb_pnp->regs[offset >> 2];
+ }
+=20
++static void grlib_apb_pnp_write(void *opaque, hwaddr addr,
++                                uint64_t val, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++}
++
+ static const MemoryRegionOps grlib_apb_pnp_ops =3D {
+     .read       =3D grlib_apb_pnp_read,
++    .write      =3D grlib_apb_pnp_write,
+     .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+=20
 --=20
 2.21.0
 
