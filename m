@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB02E4BE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:18:41 +0200 (CEST)
-Received: from localhost ([::1]:59800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BCDE4BE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:17:51 +0200 (CEST)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzUF-0002rm-FI
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
+	id 1iNzTS-0000qy-CF
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58649)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iNzPI-0005A1-On
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:34 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iNzOr-00040M-Ed
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iNzPH-00018C-4e
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:32 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38989)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iNzPG-00017s-Uw
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:31 -0400
-Received: by mail-wr1-x443.google.com with SMTP id a11so2291767wra.6
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=oFf4ABG1fhsZWJkvvauFteZb4xaIDbQGZHjVyIxjveE=;
- b=c4mZL5T1wL1IgvJOwY0IJvvbNSyQjvH5f/1V4xfUxBPxiMbos2yqMo1EcIKgVU9WPV
- hTzW3zdRpRwY5/e/mUW5b/P7fY4tlX3Vkk5bihRd1YSHudfb7biNZeLoVbuRzIfKZZBe
- vI0ZeFyrdwnRG4oHt0CLcwkJQg9cDYLV2kso15tuFBak32A6JGPDH+cncrX8r+7GZGpr
- UrtbwKrbUOKirQSu7w78JnFPspX5zllo3zseJlkxaTeHyfs+jx63hHbAiIKZj31rZ+ml
- lc7UjSSqPkMpjP499xZCNjNWKc+SG7/rS5l87bz6U5xtsog4OS3jT6Dng9PMOuRADDBK
- P8Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=oFf4ABG1fhsZWJkvvauFteZb4xaIDbQGZHjVyIxjveE=;
- b=Fc9L4y9VDAlQ68jInJ1hhZ0RmU9UMFja+LeaHW8KaEce2GdFMNVP2qHM6sSVeJIh9G
- h790o6ulV/xOjkYrPytB3bO7h0PEqhey//nmBbOLaFYEh+HQo9pC+cfpUK7G95+C1k8t
- mQsuJV69LzDIAKGkGGpoJ7M7Oltja5qt4ABOyBmLFd7JuXmFWy/u3FcW2/EIDx440bfb
- EiCWJBa9fnohQEfXeYOMNEJZ/23+75TfAU5966NTaDPC/rWFOlmqVpzUsGhaEqOltFjd
- eQZmNiCoFMpHfyr/JDbyVLaZfXPEXfc54YA1SZEw8KtQ58C8oyhDVY65yiGjsAmfVKDB
- qMYg==
-X-Gm-Message-State: APjAAAWa1yWySBOVRpvktiBpMO3fXGfo0HLkMiLFXkbOGgyKpdOGyy0w
- uZ4xugeccRfv9lhOJweW8at0sryVBj4raQ==
-X-Google-Smtp-Source: APXvYqyGUCsEMK5jXRvlsfJdiyN5JeYHLEarfZbEzZbMGq8P3ZwTdyzkGKpYbyubAtwya/TgCZcahA==
-X-Received: by 2002:a5d:444b:: with SMTP id x11mr3009399wrr.207.1572009209322; 
- Fri, 25 Oct 2019 06:13:29 -0700 (PDT)
-Received: from 8c859074c0ff.ant.amazon.com.com
- (bzq-79-181-93-41.red.bezeqint.net. [79.181.93.41])
- by smtp.gmail.com with ESMTPSA id x205sm2616139wmb.5.2019.10.25.06.13.27
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 25 Oct 2019 06:13:28 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v34 12/13] target/avr: Register AVR support with the rest of
- QEMU, the build system, and the WMAINTAINERS file
-Date: Fri, 25 Oct 2019 16:12:36 +0300
-Message-Id: <20191025131237.63149-13-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20191025131237.63149-1-mrolnik@gmail.com>
-References: <20191025131237.63149-1-mrolnik@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+ (envelope-from <mreitz@redhat.com>) id 1iNzOq-0000xl-B4
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:05 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46189
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iNzOq-0000xZ-7K
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572009183;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BJLpPRUP3p6ol7UnWXCW+0KnDSYD6Jp3/hbZQJAqpD8=;
+ b=Dn3YJjcnF5W77Tk8yDBjUvCdTIZlsKWSe7lUdHQPwIcYKEgualx61FzFaGp9vWlq3/dHNg
+ saF0DEU5TnEHBBY9WMgw+MaYJCekv5+OkVOxUtfy3BBVd6KvMaEd1jJhvr8HeJ+qVMkbHa
+ N9T8wC3hd1H8NCm2ku5UpLA42U2bcow=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-IlF2IsURNlGg2F_2RsRkpg-1; Fri, 25 Oct 2019 09:12:57 -0400
+X-MC-Unique: IlF2IsURNlGg2F_2RsRkpg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AD780183D;
+ Fri, 25 Oct 2019 13:12:56 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E5C75C1B5;
+ Fri, 25 Oct 2019 13:12:52 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] iotests: add 269 to check maximum of bitmaps in
+ qcow2
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191014115126.15360-1-vsementsov@virtuozzo.com>
+ <20191014115126.15360-3-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7c9e6d62-fc5e-204e-778d-0320833e9b00@redhat.com>
+Date: Fri, 25 Oct 2019 15:12:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191014115126.15360-3-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,195 +99,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
- philmd@redhat.com, aleksandar.m.mail@gmail.com
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
----
- MAINTAINERS                     |  9 +++++++++
- arch_init.c                     |  2 ++
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- include/disas/dis-asm.h         |  6 ++++++
- include/sysemu/arch_init.h      |  1 +
- qapi/machine.json               |  3 ++-
- target/avr/Makefile.objs        | 33 +++++++++++++++++++++++++++++++++
- tests/machine-none-test.c       |  1 +
- 9 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU
+Content-Type: multipart/mixed; boundary="gjI5Gl8jPrO9Vrbv6beNjkwbpE1jcPryk"
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ed41d7d1b6..931bbd17dd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -163,6 +163,15 @@ S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
- 
-+AVR TCG CPUs
-+M: Michael Rolnik <mrolnik@gmail.com>
-+S: Maintained
-+F: target/avr/
-+F: hw/misc/avr_mask.c
-+F: hw/char/avr_usart.c
-+F: hw/timer/avr_timer16.c
-+F: hw/avr/
-+
- CRIS TCG CPUs
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
-diff --git a/arch_init.c b/arch_init.c
-index 0a1531124c..fb308aa802 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -85,6 +85,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
-+#elif defined(TARGET_AVR)
-+#define QEMU_ARCH QEMU_ARCH_AVR
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
-diff --git a/configure b/configure
-index 145fcabbb3..b2a5ad4225 100755
---- a/configure
-+++ b/configure
-@@ -7457,6 +7457,10 @@ case "$target_name" in
-     mttcg="yes"
-     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
-   ;;
-+  avr)
-+    gdb_xml_files="avr-cpu.xml"
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-   ;;
-   hppa)
-@@ -7676,6 +7680,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
-new file mode 100644
-index 0000000000..d1e1c28118
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
-+
-+# Boards:
-+#
-+CONFIG_AVR_SAMPLE=y
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index e9c7dd8eb4..8bedce17ac 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -211,6 +211,12 @@ enum bfd_architecture
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-   bfd_arch_mn10300,    /* Matsushita MN10300 */
-+  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-+#define bfd_mach_avr1          1
-+#define bfd_mach_avr2          2
-+#define bfd_mach_avr3          3
-+#define bfd_mach_avr4          4
-+#define bfd_mach_avr5          5
-   bfd_arch_cris,       /* Axis CRIS */
- #define bfd_mach_cris_v0_v10   255
- #define bfd_mach_cris_v32      32
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 62c6fe4cf1..893df26ce2 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -24,6 +24,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_AVR = (1 << 20),
- };
- 
- extern const uint32_t arch_type;
-diff --git a/qapi/machine.json b/qapi/machine.json
-index ca26779f1a..1fa2917ba9 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -21,11 +21,12 @@
- #        is true even for "qemu-system-x86_64".
- #
- # ppcemb: dropped in 3.1
-+# avr: since 4.2
- #
- # Since: 3.0
- ##
- { 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..2976affd95
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,33 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2019 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
-+
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode-y = $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
-diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
-index 5953d31755..3e5c74e73e 100644
---- a/tests/machine-none-test.c
-+++ b/tests/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
--- 
-2.17.2 (Apple Git-113)
+--gjI5Gl8jPrO9Vrbv6beNjkwbpE1jcPryk
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 14.10.19 13:51, Vladimir Sementsov-Ogievskiy wrote:
+> Check that it's impossible to create more persistent bitmaps than qcow2
+> supports.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  tests/qemu-iotests/269     | 47 ++++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/269.out |  3 +++
+>  tests/qemu-iotests/group   |  1 +
+>  3 files changed, 51 insertions(+)
+>  create mode 100755 tests/qemu-iotests/269
+>  create mode 100644 tests/qemu-iotests/269.out
+
+Is there no way to make this test any faster, e.g. by creating like
+65534 bitmaps with dd and a binary blob?  (Similarly to what I do in
+=E2=80=9Ciotests: Test qcow2's snapshot table handling=E2=80=9D)
+
+This is such an edge case, but running the test took 3:46 min before
+patch 1 (which I already find much too long), and 8:13 min afterwards
+(on my machine).
+
+(To be honest, if we take this test as-is, I=E2=80=99m probably just never =
+going
+to run it.)
+
+Max
+
+
+--gjI5Gl8jPrO9Vrbv6beNjkwbpE1jcPryk--
+
+--nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2y9NMACgkQ9AfbAGHV
+z0B4iQf9HtSL7ntLz01on10tO7WhcyTFaQ7g1RHfJF1fWm3FcrpH9oEsHgXB+DJL
+RZquQMc8xMSx7qaWmeG14TfuJSlKht3NfLYEyd8zqzpN82H8kWLB5FDWTMBTx+ZM
+ElbUZlALZrffzzIviSZfZtDAhIIrSdf+MO1gVrKvF0L4TvNyHxl1TKae9YuDZfJA
+GIbP65dwIAtKMbTZcO5HRSZP3D4BxcWE0HSzQbfGq55U9qM7EicJO9JCWus60vgh
+kXmtuxw0F+2Mm3x6aoKJFsAxWU36+atDW9p6w1+Bpj5QqMzKgXB6+LLxfUyvvKt2
+RpzUqM7nwhF4DRno+AzQRW5Q8FTwxg==
+=wpwT
+-----END PGP SIGNATURE-----
+
+--nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU--
 
 
