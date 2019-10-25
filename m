@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775FE4E8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:08:32 +0200 (CEST)
-Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B043E4EAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:13:37 +0200 (CEST)
+Received: from localhost ([::1]:60626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0GV-00061R-7l
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40619)
+	id 1iO0LP-0006Mz-U8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iO09l-0000uq-LD
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:01:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iO0Ao-000340-K2
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:02:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iO09j-0006nC-OR
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:01:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36328)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iO09i-0006mV-VM
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:01:31 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CF7164628B
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 14:01:29 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id e25so1197361wra.9
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:01:29 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1iO0Am-0007Pc-O9
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:02:38 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39876)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iO0Am-0007PA-Fw
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:02:36 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r141so2125946wme.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=guq5J78UShi1OteZ2oPTiw1h2oDmPFvjT9o2d5zZ77Q=;
+ b=Fgw49us/j/uj+h595ZK4CYk++nqjiZnCU5JTU7k+7AB1vANRWBJbQHSDcWc8Aj3KSo
+ +GPUky6cCjtYfkkG4Zl/hpfnsqczBZnTJR1h1JpCuk8sBApXBkISvWARUuQ1c7c624AB
+ 8xTp7oe7M01KjDkO/GPj0t+ZuSBQfeHS3mjDEKAZQ9xYpEe9Ys2W9mtv3Vh36AG9U+NU
+ ZtJzFzJG5iDcseqIIr+3sdx6UkhCqXsdPee89+uEyx8cUpD9BScx85yMFWyCKDT7touw
+ Bu2uV4n18nAMmRF+Amde0bAOpJzSc/Z9FcC7bxghK85cuj21u91QWHf/5AhtQmA+owOq
+ nalQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XzFepOgs1y7bKGmpXv9Xpk2pWQ0kEHcpdtk2ozhrDbY=;
- b=pt8cz6kvbxmdPSvSclZdRJ7HxTCu56Eg36/5G+scuIZGCwZ+6C52B4bnZ5zPzTMm6W
- OKiL6cuDZDW5Z2n0plf6DOlJLyDXw4iCFfIXh2exg2tHMk/4rCMTJ0EJ4lYgx38RqaYa
- ezH/mCz/n285qTHgpnErniMJKyl/38unCaz6ePtjSIb6nPNQXVbZqw6fX27zkp6mC21Q
- K1a6qsReffEkC4AsBk4BDBnGLt/3sQ9FaZFh1MB8tm792U+fX5fcSIQaSMIYgNAgNRik
- biObrYq/7PVG5Z6NbYlH26mhsd9fOetSWqTFel4MWf1S11teVpkhQ+IX1/8Dw8L+pyj/
- h70Q==
-X-Gm-Message-State: APjAAAU4LMG4sIrHYMiyK7lFQFT0DdTmCXi3ijcblq6Y1+Y8v8T3xjgB
- DNUbAXdE9E4HBzl/86rLKIJ4W9wiHIuMosBD2S46wz13QF6UQ1DWbT1jPozw9k2HE+ewGQ/C2+b
- EEFEByPwx+CsR770=
-X-Received: by 2002:a5d:630b:: with SMTP id i11mr3013004wru.87.1572012088488; 
- Fri, 25 Oct 2019 07:01:28 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxd54nw2Ao5J74UcO28L4aiMvtwLk0FFDWq1roDdKbqq9LOW+6tvmll9aHHGwQtAcv3b4PbKA==
-X-Received: by 2002:a5d:630b:: with SMTP id i11mr3012966wru.87.1572012088140; 
- Fri, 25 Oct 2019 07:01:28 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9c7b:17ec:2a40:d29?
- ([2001:b07:6468:f312:9c7b:17ec:2a40:d29])
- by smtp.gmail.com with ESMTPSA id t185sm1443569wmf.45.2019.10.25.07.01.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Oct 2019 07:01:27 -0700 (PDT)
-Subject: Re: [PATCH v14 1/9] esp: add pseudo-DMA as used by Macintosh
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20191022111738.20803-1-laurent@vivier.eu>
- <20191022111738.20803-2-laurent@vivier.eu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6dd7dbbb-dc48-7705-3865-e8a7bed75394@redhat.com>
-Date: Fri, 25 Oct 2019 16:01:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=guq5J78UShi1OteZ2oPTiw1h2oDmPFvjT9o2d5zZ77Q=;
+ b=lPhls1c7bVEAmAsqof5QxG+LnIdWvGfc2crlfYJj4Moe7E/qqApEeIYLfrX5zpksiW
+ emTPZq8471uXJUTLH1ByjKYAo34isQ9I5AA3DC3MDXn21WCuXn1lOILj2u6IBClA1rrI
+ 9Ei4wexAfh4hYcu6kpcu5If+aLqB2J2cdBMPiApYA77sy68UjP+H/sKgs8SOzZczOprp
+ BbCuuUdVIJPT9LdywD/zxHDmJX5P/+QDINPGWE+S7IQJQqfvsyopRaeAV2xbiRAjiXpc
+ rNfgatKh2jKgPZ3trbJF1IT63Rhy5+s1CoEIE1sVmmGtpvVJUvLVSOb0fgS5VuBXcaGq
+ Qt/w==
+X-Gm-Message-State: APjAAAW63nSLqXC9t8FqRzjCYu2Xs7+vLspRCubo74aUMEwqM+isCBEi
+ TcKByxRGG93SGl+O34DkKKAJ/A==
+X-Google-Smtp-Source: APXvYqwoM08KyrJMKTHp439V5I1d7waH80D8zThz70+vMEtnhHF5sDbBJk/grw9ThcO0SOF4c5BRFQ==
+X-Received: by 2002:a05:600c:2948:: with SMTP id
+ n8mr3576531wmd.128.1572012154843; 
+ Fri, 25 Oct 2019 07:02:34 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t4sm1589860wmi.39.2019.10.25.07.02.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 07:02:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3672F1FF87;
+ Fri, 25 Oct 2019 15:02:33 +0100 (BST)
+References: <20191023154505.30521-1-richard.henderson@linaro.org>
+ <20191023154505.30521-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 2/7] exec: Split out variable page size support to
+ exec-vary.c
+In-reply-to: <20191023154505.30521-3-richard.henderson@linaro.org>
+Date: Fri, 25 Oct 2019 15:02:33 +0100
+Message-ID: <87wocsly86.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191022111738.20803-2-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,44 +84,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/10/19 13:17, Laurent Vivier wrote:
-> +        if (s->dma_memory_read) {
-> +            s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
-> +        } else {
-> +            set_pdma(s, CMD, s->cmdlen, len);
-> +            s->pdma_cb = do_dma_pdma_cb;
-> +            esp_raise_drq(s);
-> +            return;
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> The next patch will play a trick with "const" that will
+> confuse the compiler about the uses of target_page_bits
+> within exec.c.  Moving everything to a new file prevents
+> this confusion.
+>
+> No functional change so far.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  Makefile.target       |  2 +-
+>  include/qemu-common.h |  6 +++++
+>  exec-vary.c           | 57 +++++++++++++++++++++++++++++++++++++++++++
+>  exec.c                | 34 --------------------------
+>  4 files changed, 64 insertions(+), 35 deletions(-)
+>  create mode 100644 exec-vary.c
+>
+> diff --git a/Makefile.target b/Makefile.target
+> index 5e916230c4..ca3d14efe1 100644
+> --- a/Makefile.target
+> +++ b/Makefile.target
+> @@ -107,7 +107,7 @@ obj-y +=3D trace/
+>
+>  #########################################################
+>  # cpu emulator library
+> -obj-y +=3D exec.o
+> +obj-y +=3D exec.o exec-vary.o
+>  obj-y +=3D accel/
+>  obj-$(CONFIG_TCG) +=3D tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-o=
+p-gvec.o
+>  obj-$(CONFIG_TCG) +=3D tcg/tcg-common.o tcg/optimize.o
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index 8d84db90b0..082da59e85 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -74,6 +74,12 @@ void cpu_exec_step_atomic(CPUState *cpu);
+>   */
+>  bool set_preferred_target_page_bits(int bits);
+>
+> +/**
+> + * finalize_target_page_bits:
+> + * Commit the final value set by set_preferred_target_page_bits.
+> + */
+> +void finalize_target_page_bits(void);
+> +
+>  /**
+>   * Sends a (part of) iovec down a socket, yielding when the socket is fu=
+ll, or
+>   * Receives data into a (part of) iovec from a socket,
+> diff --git a/exec-vary.c b/exec-vary.c
+> new file mode 100644
+> index 0000000000..48c0ab306c
+> --- /dev/null
+> +++ b/exec-vary.c
+> @@ -0,0 +1,57 @@
+> +/*
+> + * Variable page size handling
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "exec/exec-all.h"
+> +
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +int target_page_bits;
+> +bool target_page_bits_decided;
+> +#endif
+> +
+> +bool set_preferred_target_page_bits(int bits)
+> +{
+> +    /*
+> +     * The target page size is the lowest common denominator for all
+> +     * the CPUs in the system, so we can only make it smaller, never
+> +     * larger. And we can't make it smaller once we've committed to
+> +     * a particular size.
+> +     */
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +    assert(bits >=3D TARGET_PAGE_BITS_MIN);
+> +    if (target_page_bits =3D=3D 0 || target_page_bits > bits) {
+> +        if (target_page_bits_decided) {
+> +            return false;
 > +        }
-> +        trace_esp_handle_ti_cmd(s->cmdlen);
-> +        s->ti_size = 0;
-> +        s->cmdlen = 0;
-> +        s->do_cmd = 0;
-> +        do_cmd(s, s->cmdbuf);
->          return;
-
-Can you explain these lines after s->dma_memory_read?  I suppose they
-are related to
-
+> +        target_page_bits =3D bits;
+> +    }
+> +#endif
+> +    return true;
+> +}
+> +
+> +void finalize_target_page_bits(void)
+> +{
+> +#ifdef TARGET_PAGE_BITS_VARY
+> +    if (target_page_bits =3D=3D 0) {
+> +        target_page_bits =3D TARGET_PAGE_BITS_MIN;
+> +    }
+> +    target_page_bits_decided =3D true;
+> +#endif
+> +}
+> diff --git a/exec.c b/exec.c
+> index fb0943cfed..5bf181d23e 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -91,11 +91,6 @@ AddressSpace address_space_memory;
+>  static MemoryRegion io_mem_unassigned;
+>  #endif
+>
+> -#ifdef TARGET_PAGE_BITS_VARY
+> -int target_page_bits;
+> -bool target_page_bits_decided;
+> -#endif
+> -
+>  CPUTailQ cpus =3D QTAILQ_HEAD_INITIALIZER(cpus);
+>
+>  /* current CPU in the current thread. It is only valid inside
+> @@ -109,37 +104,8 @@ int use_icount;
+>  uintptr_t qemu_host_page_size;
+>  intptr_t qemu_host_page_mask;
+>
+> -bool set_preferred_target_page_bits(int bits)
+> -{
+> -    /* The target page size is the lowest common denominator for all
+> -     * the CPUs in the system, so we can only make it smaller, never
+> -     * larger. And we can't make it smaller once we've committed to
+> -     * a particular size.
+> -     */
+> -#ifdef TARGET_PAGE_BITS_VARY
+> -    assert(bits >=3D TARGET_PAGE_BITS_MIN);
+> -    if (target_page_bits =3D=3D 0 || target_page_bits > bits) {
+> -        if (target_page_bits_decided) {
+> -            return false;
+> -        }
+> -        target_page_bits =3D bits;
 > -    }
-> -    if (s->do_cmd) {
-> +    } else if (s->do_cmd) {
+> -#endif
+> -    return true;
+> -}
+> -
+>  #if !defined(CONFIG_USER_ONLY)
+>
+> -static void finalize_target_page_bits(void)
+> -{
+> -#ifdef TARGET_PAGE_BITS_VARY
+> -    if (target_page_bits =3D=3D 0) {
+> -        target_page_bits =3D TARGET_PAGE_BITS_MIN;
+> -    }
+> -    target_page_bits_decided =3D true;
+> -#endif
+> -}
+> -
+>  typedef struct PhysPageEntry PhysPageEntry;
+>
+>  struct PhysPageEntry {
 
-If so, it would be nice to make those a separate patch.  Otherwise seems
-okay.
 
-Paolo
+--
+Alex Benn=C3=A9e
 
