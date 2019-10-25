@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCA0E4C2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:30:30 +0200 (CEST)
-Received: from localhost ([::1]:59966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA68CE4C91
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:44:51 +0200 (CEST)
+Received: from localhost ([::1]:60112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzfh-0001hZ-2v
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60021)
+	id 1iNzta-0005ZB-Ex
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frasse.iglesias@gmail.com>) id 1iNzT0-0003jX-Nx
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:17:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNzaU-0005TI-PE
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:25:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frasse.iglesias@gmail.com>) id 1iNzSx-0002Tg-Kg
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:17:22 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:42881)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
- id 1iNzSx-0002Rk-Ak
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:17:19 -0400
-Received: by mail-lj1-x244.google.com with SMTP id a21so2662130ljh.9
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=gwIJMoe1nqIE2c1gEvEPYH9oqyxsexG6v4l+/euLXsg=;
- b=q/93RtM6hFXIGLoi1dtU1zprSeiCGCpTQWKvALNkbawYv/lusFCCc9sE7gJeGyXoA1
- uUgN+fYmvhYJyG2Ko3CpNnwgCrmPfyoUmL+3THh9PoHSeb/3TA8qjlzKlEMygDezrKZa
- aQ744jwXocQxawFML4LkZp0Ne43aP1Sowfb+2iA907vlyvderzZ5S6Fp4hJBPbCTCVeW
- 1GWEh79Kfvi6JcUDPZzczTqnXW+gIs0w8eK11nNaIrzNIkQzntWUy3GBPpBdyulDZ6TV
- wvw8OccZDpJ4TDvGNUWsLGQ19HJoN69uiHYyjz00p21lqANC4ooyLDy05Pq0rJsI1F8p
- G0/g==
+ (envelope-from <philmd@redhat.com>) id 1iNzaQ-0006LL-P5
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:25:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51424)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNzaO-0006Jb-P9
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:25:02 -0400
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9F3B4859FB
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:24:59 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id a6so1150775wru.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:24:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=gwIJMoe1nqIE2c1gEvEPYH9oqyxsexG6v4l+/euLXsg=;
- b=KUJt7Tcha5cA2ETIY5p8zEChfwaKZl04G3AtAB9jc19VvQI2WNHt8Ti7wfsUFFvweP
- iKKcbVDS5XJuHFe12yjFF5B209CMe7KyfnFMFnmTmuZxszT2yBpqsY2e4u/3NdNn2fgB
- W3jjehLIWAr7yoC/hIMpphcuql1lC2BUlF60KiQFqHxKB0naVhh+2veucEI5mpk9e9EY
- LubLm4ioSXGXKo461jBMJl7nxNgVX/5uz0VjvY+W8RDF4Is9q/McELiZel/dLmZvO+fY
- axEOz0AXJbG38uKMLfwLXwZRSAmtTEB1HwLgzoZEF3Ybf3O4Yrw9C0LU2sd1BigZx3NY
- 19Xg==
-X-Gm-Message-State: APjAAAX159Lgeb4DjVPz1mcK95G/5ZOsLinlWUA0CyyjPMdvl4nbv8M9
- m859Z7PNDKe+Vv7Th7ztIYw=
-X-Google-Smtp-Source: APXvYqxK7Yty1QZTsChhXVzK4EX9/0EPcS2zNTyMZdkMPxeYTxMeoYIAsXEcyptLaSPnMtIKPLm6mQ==
-X-Received: by 2002:a2e:908d:: with SMTP id l13mr2328718ljg.165.1572009437413; 
- Fri, 25 Oct 2019 06:17:17 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- i190sm1487662lfi.45.2019.10.25.06.17.16
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 25 Oct 2019 06:17:16 -0700 (PDT)
-Date: Fri, 25 Oct 2019 15:17:15 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v5] ssi: xilinx_spips: Skip spi bus update for a few
- register writes
-Message-ID: <20191025131713.pthu3ihbuhllzszd@fralle-msi>
-References: <1571981531-27498-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PGAaF7fZ+FAGqwyERuEGyI9MrT5cRBdtcQG0ZAjD5NM=;
+ b=DD3EKzBHXGLDNAhHxKIEtcRZu1dJ7/tsHCOY3uLbb7PlQQIYPyRkU2ec58Qs35U2hL
+ 2Jwfzy4dLZAI+NQro/MWq/hvRsMKqE5x+HorRLQZ9xoEahG7EjuDwwdH/5Q0HQAVzemQ
+ AlyJ1fTEhYw1Qjt0KGPtYpdpcrdzbh3DLI95DSWLuQwFOfa+W6M97xHc6hLYVjImJkUT
+ rdF7mI0GMD4bLUTM+vFhDOSt6Yt+ef9A+OcDwQSc7OgfAuPnKA/Z6Zhm3iR0UkJkgtIR
+ aaXzlUJzx0dMEpjpd4PuPpPtOgfY/cybNkVpxrfAzsXJUh9rQHxTcyEogNtK9Mtm1gux
+ PoWA==
+X-Gm-Message-State: APjAAAWbxSZTBCK1FNo+BdDmxjKYL+o53fz9PWlp9A+smN4lXgLLMsxP
+ wW+zlsjMgmyFU4FG13yuOGkHyusKFVes7CSO06E8el0XZ0X5PVEUtOM00GpUzQQg/7T0xNB4Bdm
+ fhozCtECfcDqymG0=
+X-Received: by 2002:a1c:9c0c:: with SMTP id f12mr3536585wme.133.1572009897500; 
+ Fri, 25 Oct 2019 06:24:57 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqznT5Uarlav4LxS1fyDs1JBshUeuczE45VPcliCuPTSxUSH5M3r2r2M7pwbEqI6k0LAynSdJg==
+X-Received: by 2002:a1c:9c0c:: with SMTP id f12mr3536571wme.133.1572009897313; 
+ Fri, 25 Oct 2019 06:24:57 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id s12sm2318212wrp.18.2019.10.25.06.24.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Oct 2019 06:24:56 -0700 (PDT)
+Subject: Re: [PATCH 1/4] tests: allow filtering crypto cipher benchmark tests
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191017145654.11371-1-berrange@redhat.com>
+ <20191017145654.11371-2-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e54bbedb-8f6f-695f-bb38-df7b808d0f37@redhat.com>
+Date: Fri, 25 Oct 2019 15:24:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1571981531-27498-1-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+In-Reply-To: <20191017145654.11371-2-berrange@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,104 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Edgar Iglesias <edgari@xilinx.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sai,
-
-On [2019 Oct 25] Fri 11:02:11, Sai Pavan Boddu wrote:
-> A few configuration register writes need not update the spi bus state, so just
-> return after register write.
-
-s/register write/the register write/
-
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-
-After above change:
-
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-
-Best regards,
-Francisco Iglesias
-
+On 10/17/19 4:56 PM, Daniel P. Berrang=C3=A9 wrote:
+> Add support for specifying a cipher mode and chunk size as argv to
+> filter which combinations are benchmarked. For example to only
+> benchmark XTS mode with 512 byte chunks:
+>=20
+>    ./tests/benchmark-crypto-cipher xts 512
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
-> 
-> Changes for V2:
-> 	Just skip update of spips cs and fifos
-> 	Update commit message accordingly
-> Changes for V4:
-> 	Avoid checking for zynqmp qspi
-> 	Skip spi bus update for few of the registers Changes for V4:
-> 	Move the register list to existing switch case above.
-> Change for V5:
-> 	Fixed Commit message.
-> 
->  hw/ssi/xilinx_spips.c | 22 ++++++++++++++++++----
->  1 file changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-> index a309c71..0d6c2e1 100644
-> --- a/hw/ssi/xilinx_spips.c
-> +++ b/hw/ssi/xilinx_spips.c
-> @@ -109,6 +109,7 @@
->  #define R_GPIO              (0x30 / 4)
->  #define R_LPBK_DLY_ADJ      (0x38 / 4)
->  #define R_LPBK_DLY_ADJ_RESET (0x33)
-> +#define R_IOU_TAPDLY_BYPASS (0x3C / 4)
->  #define R_TXD1              (0x80 / 4)
->  #define R_TXD2              (0x84 / 4)
->  #define R_TXD3              (0x88 / 4)
-> @@ -139,6 +140,8 @@
->  #define R_LQSPI_STS         (0xA4 / 4)
->  #define LQSPI_STS_WR_RECVD      (1 << 1)
->  
-> +#define R_DUMMY_CYCLE_EN    (0xC8 / 4)
-> +#define R_ECO               (0xF8 / 4)
->  #define R_MOD_ID            (0xFC / 4)
->  
->  #define R_GQSPI_SELECT          (0x144 / 4)
-> @@ -970,6 +973,7 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
->  {
->      int mask = ~0;
->      XilinxSPIPS *s = opaque;
-> +    bool try_flush = true;
->  
->      DB_PRINT_L(0, "addr=" TARGET_FMT_plx " = %x\n", addr, (unsigned)value);
->      addr >>= 2;
-> @@ -1019,13 +1023,23 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
->          tx_data_bytes(&s->tx_fifo, (uint32_t)value, 3,
->                        s->regs[R_CONFIG] & R_CONFIG_ENDIAN);
->          goto no_reg_update;
-> +    /* Skip SPI bus update for below registers writes */
-> +    case R_GPIO:
-> +    case R_LPBK_DLY_ADJ:
-> +    case R_IOU_TAPDLY_BYPASS:
-> +    case R_DUMMY_CYCLE_EN:
-> +    case R_ECO:
-> +        try_flush = false;
-> +        break;
->      }
->      s->regs[addr] = (s->regs[addr] & ~mask) | (value & mask);
->  no_reg_update:
-> -    xilinx_spips_update_cs_lines(s);
-> -    xilinx_spips_check_flush(s);
-> -    xilinx_spips_update_cs_lines(s);
-> -    xilinx_spips_update_ixr(s);
-> +    if (try_flush) {
-> +        xilinx_spips_update_cs_lines(s);
-> +        xilinx_spips_check_flush(s);
-> +        xilinx_spips_update_cs_lines(s);
-> +        xilinx_spips_update_ixr(s);
+>   tests/benchmark-crypto-cipher.c | 13 ++++++++++++-
+>   1 file changed, 12 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-c=
+ipher.c
+> index 67fdf8c31d..3ca31a2779 100644
+> --- a/tests/benchmark-crypto-cipher.c
+> +++ b/tests/benchmark-crypto-cipher.c
+> @@ -161,15 +161,26 @@ static void test_cipher_speed_xts_aes_256(const v=
+oid *opaque)
+>  =20
+>   int main(int argc, char **argv)
+>   {
+> +    char *alg =3D NULL;
+> +    char *size =3D NULL;
+>       g_test_init(&argc, &argv, NULL);
+>       g_assert(qcrypto_init(NULL) =3D=3D 0);
+>  =20
+>   #define ADD_TEST(mode, cipher, keysize, chunk)                       =
+   \
+> -    g_test_add_data_func(                                             =
+  \
+> +    if ((!alg || g_str_equal(alg, #mode)) &&                          =
+  \
+> +        (!size || g_str_equal(size, #chunk)))                         =
+  \
+> +        g_test_add_data_func(                                         =
+  \
+>           "/crypto/cipher/" #mode "-" #cipher "-" #keysize "/chunk-" #c=
+hunk, \
+>           (void *)chunk,                                               =
+   \
+>           test_cipher_speed_ ## mode ## _ ## cipher ## _ ## keysize)
+>  =20
+> +    if (argc >=3D 2) {
+> +        alg =3D argv[1];
 > +    }
->  }
->  
->  static const MemoryRegionOps spips_ops = {
-> -- 
-> 2.7.4
-> 
+> +    if (argc >=3D 3) {
+> +        size =3D argv[2];
+> +    }
+> +
+>   #define ADD_TESTS(chunk)                        \
+>       do {                                        \
+>           ADD_TEST(ecb, aes, 128, chunk);         \
+>=20
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
