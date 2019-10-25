@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6476BE4908
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:56:46 +0200 (CEST)
-Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72137E4912
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:59:26 +0200 (CEST)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNxGv-0001im-1Z
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38583)
+	id 1iNxJV-0006Y9-Ad
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iNx6q-0006Te-LX
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:22 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNxDC-0007Q5-BJ
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:52:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iNx6p-0004t2-5z
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:20 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:39192)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iNx6n-0004sB-9x
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:19 -0400
-Received: by mail-ot1-x334.google.com with SMTP id s22so1743018otr.6
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 03:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WGppmCpKS3dwHZsjVwAOeneLFq0wEm5HeaXQ9RYdWww=;
- b=jezXd4MveKc7sm/La/hW7yPTXUPvy+EYlEWcm/GzYF4eEM75vI9uwMaA4zd+nLSRoe
- c35FN2QVWxMA6cKOG6x4EooFWVlrviM2SAooasvVU8uOTwp24v5/5XEfE17u60/5wc0C
- MLTkmFoDqCYZQn7QiaGx+zB9UG/zWUGedaJfmvclhgTk+YuSnyBRFIykbpOZATAwFdi+
- AUYLDKIR8g800J+fM5eUZyFdH9ZMlxYpwbBhle535CHLb/ib1DVwfJ77kw23UltUB7AG
- khZOhT205ggUBQAbAazzGXt2Aqt57RYPREbNvTqV6YAjDFRono0lAGr6dp7dje9h+bBj
- MMZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WGppmCpKS3dwHZsjVwAOeneLFq0wEm5HeaXQ9RYdWww=;
- b=G4QwdIvwbg0BAnNXgHkwSH62AIFiZ+nHOch8i6zs2/NoZqX5Qj61iK4CMKTWVvmmIO
- 2VrIgO0x02HBgPy9Uu+QOdkmqJ7AUlk98VMJw4CKKPTaZ1Q/MhKkKmCmuwIVpp1asTMM
- CdtJqjP0oBniaA6mHiWmxjvjRx0wC9LwfTpohvK5hfsdqxHygb3p7GoIoZnD90yV4yLw
- OVrIAaOjmFtSBnLRCr3hWP7O8gVj22bw64x8dZ24yvWXtNHNGOhlZJ+DFV1KBWz8jEwG
- XHoROCF5mgJO1nahxN82t45ob4Pl/Vy2al1a1nKWb0K/0IHaOM80ja8rw1R8zXQHg8J3
- HxMQ==
-X-Gm-Message-State: APjAAAUfIgWKLMWO2GpBOLEvSWdJyA/UpPU1Iv4lLS03+whi1/McvyxK
- AQ8prZJ3wu8WvWOJIc3oCbVTy2CvOehWcqlXfgpJ6w==
-X-Google-Smtp-Source: APXvYqwRpYBGt8rBDr3xKsmcVJJN6sOWgsA+JEuiMZlVs6unNW3BYDJ3Lsr20URM4T+qV8gS1ulPzJpMoqfo7aLN/gg=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr704068otj.135.1572000376362; 
- Fri, 25 Oct 2019 03:46:16 -0700 (PDT)
+ (envelope-from <jfreimann@redhat.com>) id 1iNxDA-00079P-Dx
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:52:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50468
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iNxD8-00075d-RV
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:52:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572000765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QhpUIt5yIRBRg40E93itayqlpGzKp9Gcak/Qn5btJFI=;
+ b=f+PVQx45TPn2xuwdnQCAL2jWpZZuUUOk1STEuEQQEJHcOV8K3U8MzWdhkxRz9q4RNkMkrf
+ 3+pFBcNXjpVcKGqbIjS8IPvt0hZRDScckBfQVUArOzIkoVxDYAAwp/oJsiNmuXwCeWYxlN
+ jubGq3jNmbmxJJOJRgTPSNLCJQP1qtY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-GblkZdmsPDOoPtore0DPJg-1; Fri, 25 Oct 2019 06:52:42 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BE8F5F2;
+ Fri, 25 Oct 2019 10:52:41 +0000 (UTC)
+Received: from localhost (ovpn-117-235.ams2.redhat.com [10.36.117.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16C1A5D712;
+ Fri, 25 Oct 2019 10:52:33 +0000 (UTC)
+Date: Fri, 25 Oct 2019 12:52:32 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v5 02/11] pci: add option for net failover
+Message-ID: <20191025105232.gp22qlwjgpqsumie@jenstp.localdomain>
+References: <20191023082711.16694-1-jfreimann@redhat.com>
+ <20191023082711.16694-3-jfreimann@redhat.com>
+ <20191023120648.57e50ae1@x1.home>
 MIME-Version: 1.0
-References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Oct 2019 11:46:05 +0100
-Message-ID: <CAFEAcA-1gWa8qRK85i+MP-UixiPq7NPHw+8kn6KPq6VQMtRt4g@mail.gmail.com>
-Subject: Re: [PULL 00/39] Misc (mostly x86) patches for 2019-10-24
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191023120648.57e50ae1@x1.home>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: GblkZdmsPDOoPtore0DPJg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::334
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,70 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ laine@redhat.com, ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Oct 2019 at 15:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
+>On Wed, 23 Oct 2019 10:27:02 +0200
+>Jens Freimann <jfreimann@redhat.com> wrote:
+[...]
+>> @@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev, E=
+rror **errp)
+>>          }
+>>      }
+>>
+>> +    if (pci_dev->net_failover_pair_id) {
+>> +        if (!pci_is_express(pci_dev)) {
+>> +            error_setg(errp, "failover device is not a PCIExpress devic=
+e");
+>> +            error_propagate(errp, local_err);
+>> +            return;
+>> +        }
 >
-> The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0=
-b9:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-r=
-equest' into staging (2019-10-18 14:13:11 +0100)
->
-> are available in the git repository at:
->
->
->   git://github.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to a263f81cb4b302eb392898bdc4ad4381e1961629:
->
->   i386: implement IGNNE (2019-10-24 16:02:04 +0200)
->
-> ----------------------------------------------------------------
-> * Bulgarian translation update (Alexander)
-> * RTC and PC refactorings (Herv=C3=A9, Philippe, Sergio)
-> * RTC fix (Marcelo)
-> * More comprehensive MCE logging (Mario)
-> * x86 IGNNE implementation (Paolo)
-> * Microvm machine type (Sergio)
-> * Support for UMONITOR/UMWAIT/TPAUSE (Tao)
-> * Do not use %m in common code (Thomas)
-> * NoNonArchitecturalCoreSharing Hyper-V enlightenment (Vitaly)
-> * getpagesize cleanups (Wei)
->
+>Did we decide we don't need to test that the device is also in a
+>hotpluggable slot?  Are there also multi-function considerations that
+>should be prevented or documented?  For example, if a user tries to
+>configure both the primary and failover NICs in the same slot, I assume
+>bad things will happen.
 
-I got a link failure building the --disable-tcg config on x86-64:
+I added this check
+
+        if (!(pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
+            && (PCI_FUNC(pci_dev->devfn) =3D=3D 0)) {
+            qdev->allow_unplug_during_migration =3D true;
+        } else {
+            error_setg(errp, "failover: primary device must be in its own "
+                              "PCI slot");
+            error_propagate(errp, local_err);
+            pci_qdev_unrealize(DEVICE(pci_dev), NULL);
+            return;
+        }
+
+When I first add a vfio-pci with net_failover_pair_id=3Dx,multifunction=3Do=
+n
+and addr=3D0.0 I will now get an error.
+
+(qemu) device_add vfio-pci,...,bus=3Droot2,net_failover_pair_id=3Dnet1,mult=
+ifunction=3Don,addr=3D0.0
+Error: failover: primary device must be in its own PCI slot
+
+If I put in a virtio-net device in slot 0 and then try to add a
+vfio-pci device in the same slot I get the following error message:
+
+-device virtio-net-pci,...id=3Dnet1bus=3Droot1,failover=3Don,multifunction=
+=3Don,addr=3D0.0
+(qemu) device_add vfio-pci,id=3Dhostdev1,host=3D0000:5e:00.2,bus=3Droot1,ne=
+t_failover_pair_id=3Dnet1,addr=3D0.1
+Error: PCI: slot 0 function 0 already ocuppied by virtio-net-pci,
+   new func vfio-pci cannot be exposed to guest.
 
 
-  LINK    x86_64-softmmu/qemu-system-x86_64
-hw/i386/pc_piix.o: In function `pc_init1':
-/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_piix.c:216: undefined
-reference to `x86_register_ferr_irq'
-hw/i386/pc_q35.o: In function `pc_q35_init':
-/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_q35.c:264: undefined
-reference to `x86_register_ferr_irq'
-collect2: error: ld returned 1 exit status
-Makefile:206: recipe for target 'qemu-system-x86_64' failed
-make[1]: *** [qemu-system-x86_64] Error 1
-Makefile:482: recipe for target 'x86_64-softmmu/all' failed
-make: *** [x86_64-softmmu/all] Error 2
-make: *** Waiting for unfinished jobs....
-  LINK    i386-softmmu/qemu-system-i386
-hw/i386/pc_piix.o: In function `pc_init1':
-/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_piix.c:216: undefined
-reference to `x86_register_ferr_irq'
-hw/i386/pc_q35.o: In function `pc_q35_init':
-/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_q35.c:264: undefined
-reference to `x86_register_ferr_irq'
-collect2: error: ld returned 1 exit status
+regards,
+Jens
 
-
-x86_register_ferr_irq() is defined in target/i386/fpu_helper.c,
-which is only built if CONFIG_TCG, but the callers don't
-seem to be similarly guarded and there's no stub fallback.
-
-thanks
--- PMM
 
