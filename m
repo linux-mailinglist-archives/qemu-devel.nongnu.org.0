@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91521E510A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:19:20 +0200 (CEST)
-Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8F4E5121
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:23:34 +0200 (CEST)
+Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO2J2-0003je-0r
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34675)
+	id 1iO2NA-0007an-7J
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iO25O-0002fx-8u
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:05:11 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iO25d-0002zU-3p
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:05:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iO25N-0002wL-4v
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:05:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59288
+ (envelope-from <stefanha@redhat.com>) id 1iO25c-00030C-15
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:05:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27171
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iO25N-0002w1-2E
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:05:09 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iO25a-0002zQ-5W
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:05:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572019508;
+ s=mimecast20190719; t=1572019521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EMD2WYXu2zWCfMzZtaw/UlbSuO/pvt+p+GuSLnIDt3E=;
- b=HE2CQURpnqQQa4ujcKBPbHLykK42QAlHUZqoJQUNbRhMGntudGTeAMSVk7HyyCaZ7xPq94
- IHwcvNkctaC8qzjENZZ1gbBRJm8F9HrUp0kBN8XtWSyXmh94n5UI9pULljWVD6f+0XB8BD
- VOuUjuHBbZlm6+LPtVNGNa4/06/c/KU=
+ bh=Ke4FAsg4+Nz5Bvc/+HLh+3BPDDlliRp9/7DcsFz5ZqU=;
+ b=IwMrkDn9j4kPjxOs+WFUZtIuFoCVh+0PxLhPyVlCFggss0eYYrNY00B7Vh48dypti7Z5VH
+ xzmEUPV8Yu/Nr0xtsuz8STI2/8hahMVpyuYu2jIyKb8pd8mqOsKozHYhm72ht8uZoFPbGB
+ tAdKPr9FezxneuCArP8qv9/xF7WqZeM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-P_ocgEj2Pp-6ycRpRdajWw-1; Fri, 25 Oct 2019 12:05:05 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-216-06bTJpOCPyGJJkwuEickzg-1; Fri, 25 Oct 2019 12:05:16 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F31C1107AD31;
- Fri, 25 Oct 2019 16:05:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CDC680183D;
+ Fri, 25 Oct 2019 16:05:15 +0000 (UTC)
 Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 594315C1D4;
- Fri, 25 Oct 2019 16:04:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 406A05DD78;
+ Fri, 25 Oct 2019 16:05:06 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/15] configure: permit use of io_uring
-Date: Fri, 25 Oct 2019 18:04:30 +0200
-Message-Id: <20191025160444.31632-2-stefanha@redhat.com>
+Subject: [PATCH v2 02/15] qapi/block-core: add option for io_uring
+Date: Fri, 25 Oct 2019 18:04:31 +0200
+Message-Id: <20191025160444.31632-3-stefanha@redhat.com>
 In-Reply-To: <20191025160444.31632-1-stefanha@redhat.com>
 References: <20191025160444.31632-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: P_ocgEj2Pp-6ycRpRdajWw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 06bTJpOCPyGJJkwuEickzg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,8 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com,
- Maxim Levitsky <maximlevitsky@gmail.com>, qemu-block@nongnu.org,
+Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com, qemu-block@nongnu.org,
  Julia Suvorova <jusual@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
@@ -81,88 +80,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 
+Only enumerates option for devices that support it. Since QAPI schema
+supports io_uring, which is the actual name of the Linux API, it is
+preferred over io-uring.
+
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- configure | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ qapi/block-core.json | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 145fcabbb3..745429c925 100755
---- a/configure
-+++ b/configure
-@@ -370,6 +370,7 @@ xen=3D""
- xen_ctrl_version=3D""
- xen_pci_passthrough=3D""
- linux_aio=3D""
-+linux_io_uring=3D""
- cap_ng=3D""
- attr=3D""
- libattr=3D""
-@@ -1250,6 +1251,10 @@ for opt do
-   ;;
-   --enable-linux-aio) linux_aio=3D"yes"
-   ;;
-+  --disable-linux-io-uring) linux_io_uring=3D"no"
-+  ;;
-+  --enable-linux-io-uring) linux_io_uring=3D"yes"
-+  ;;
-   --disable-attr) attr=3D"no"
-   ;;
-   --enable-attr) attr=3D"yes"
-@@ -1760,6 +1765,7 @@ disabled with --disable-FEATURE, default is enabled i=
-f available:
-   vde             support for vde network
-   netmap          support for netmap network
-   linux-aio       Linux AIO support
-+  linux-io-uring  Linux io_uring support
-   cap-ng          libcap-ng support
-   attr            attr and xattr support
-   vhost-net       vhost-net kernel acceleration support
-@@ -3950,6 +3956,21 @@ EOF
-     linux_aio=3Dno
-   fi
- fi
-+##########################################
-+# linux-io-uring probe
-+
-+if test "$linux_io_uring" !=3D "no" ; then
-+  if $pkg_config liburing; then
-+    linux_io_uring_cflags=3D$($pkg_config --cflags liburing)
-+    linux_io_uring_libs=3D$($pkg_config --libs liburing)
-+    linux_io_uring=3Dyes
-+  else
-+    if test "$linux_io_uring" =3D "yes" ; then
-+      feature_not_found "linux io_uring" "Install liburing devel"
-+    fi
-+    linux_io_uring=3Dno
-+  fi
-+fi
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b274aef713..3196f40178 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2851,11 +2851,13 @@
+ #
+ # @threads:     Use qemu's thread pool
+ # @native:      Use native AIO backend (only Linux and Windows)
++# @io_uring:    Use linux io_uring (since 4.2)
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevAioOptions',
+-  'data': [ 'threads', 'native' ] }
++  'data': [ 'threads', 'native',
++            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING)' }=
+ ] }
 =20
- ##########################################
- # TPM emulation is only on POSIX
-@@ -6356,6 +6377,7 @@ echo "PIE               $pie"
- echo "vde support       $vde"
- echo "netmap support    $netmap"
- echo "Linux AIO support $linux_aio"
-+echo "Linux io_uring support $linux_io_uring"
- echo "ATTR/XATTR support $attr"
- echo "Install blobs     $blobs"
- echo "KVM support       $kvm"
-@@ -6844,6 +6866,11 @@ fi
- if test "$linux_aio" =3D "yes" ; then
-   echo "CONFIG_LINUX_AIO=3Dy" >> $config_host_mak
- fi
-+if test "$linux_io_uring" =3D "yes" ; then
-+  echo "CONFIG_LINUX_IO_URING=3Dy" >> $config_host_mak
-+  echo "LINUX_IO_URING_CFLAGS=3D$linux_io_uring_cflags" >> $config_host_ma=
-k
-+  echo "LINUX_IO_URING_LIBS=3D$linux_io_uring_libs" >> $config_host_mak
-+fi
- if test "$attr" =3D "yes" ; then
-   echo "CONFIG_ATTR=3Dy" >> $config_host_mak
- fi
+ ##
+ # @BlockdevCacheOptions:
 --=20
 2.21.0
 
