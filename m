@@ -2,90 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09784E48EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:51:43 +0200 (CEST)
-Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6476BE4908
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:56:46 +0200 (CEST)
+Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNxC1-0004DL-Ha
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38383)
+	id 1iNxGv-0001im-1Z
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iNx5h-0003JR-6B
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:45:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNx6q-0006Te-LX
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iNx5f-00049s-4l
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:45:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30575
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iNx5e-00045b-Uo
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:45:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572000296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OX//3DU9fPyNWji4g3JtIxvNOr21IPch+FwWKwMvTRE=;
- b=NKGkg6ffMca6d18aTK5pQ97N2iWYLxyZIYvew054tSbIrkjL968BVFrdZi32MEXifW6hO8
- rvtrbAclqGWtilggeoarJZFeTm2gaOW0u6hirPru5FYE6FRqh0MoK9UKa6zHafpHQd9yb9
- Vhs9toL2TJDeocRMmI78Y7nwl7vXcQw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-u6o2ybtqNr-nASazb14M1Q-1; Fri, 25 Oct 2019 06:44:51 -0400
-X-MC-Unique: u6o2ybtqNr-nASazb14M1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A7685EF;
- Fri, 25 Oct 2019 10:44:50 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-205.ams2.redhat.com
- [10.36.117.205])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE42F5DC1E;
- Fri, 25 Oct 2019 10:44:47 +0000 (UTC)
-Subject: Re: [PATCH v2 0/2] qcow2: Fix image corruption bug in 4.1
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20191024142658.22306-1-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d8796036-2a02-681e-f3c2-996edf4f640e@redhat.com>
-Date: Fri, 25 Oct 2019 12:44:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <peter.maydell@linaro.org>) id 1iNx6p-0004t2-5z
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:20 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:39192)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNx6n-0004sB-9x
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:19 -0400
+Received: by mail-ot1-x334.google.com with SMTP id s22so1743018otr.6
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 03:46:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WGppmCpKS3dwHZsjVwAOeneLFq0wEm5HeaXQ9RYdWww=;
+ b=jezXd4MveKc7sm/La/hW7yPTXUPvy+EYlEWcm/GzYF4eEM75vI9uwMaA4zd+nLSRoe
+ c35FN2QVWxMA6cKOG6x4EooFWVlrviM2SAooasvVU8uOTwp24v5/5XEfE17u60/5wc0C
+ MLTkmFoDqCYZQn7QiaGx+zB9UG/zWUGedaJfmvclhgTk+YuSnyBRFIykbpOZATAwFdi+
+ AUYLDKIR8g800J+fM5eUZyFdH9ZMlxYpwbBhle535CHLb/ib1DVwfJ77kw23UltUB7AG
+ khZOhT205ggUBQAbAazzGXt2Aqt57RYPREbNvTqV6YAjDFRono0lAGr6dp7dje9h+bBj
+ MMZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WGppmCpKS3dwHZsjVwAOeneLFq0wEm5HeaXQ9RYdWww=;
+ b=G4QwdIvwbg0BAnNXgHkwSH62AIFiZ+nHOch8i6zs2/NoZqX5Qj61iK4CMKTWVvmmIO
+ 2VrIgO0x02HBgPy9Uu+QOdkmqJ7AUlk98VMJw4CKKPTaZ1Q/MhKkKmCmuwIVpp1asTMM
+ CdtJqjP0oBniaA6mHiWmxjvjRx0wC9LwfTpohvK5hfsdqxHygb3p7GoIoZnD90yV4yLw
+ OVrIAaOjmFtSBnLRCr3hWP7O8gVj22bw64x8dZ24yvWXtNHNGOhlZJ+DFV1KBWz8jEwG
+ XHoROCF5mgJO1nahxN82t45ob4Pl/Vy2al1a1nKWb0K/0IHaOM80ja8rw1R8zXQHg8J3
+ HxMQ==
+X-Gm-Message-State: APjAAAUfIgWKLMWO2GpBOLEvSWdJyA/UpPU1Iv4lLS03+whi1/McvyxK
+ AQ8prZJ3wu8WvWOJIc3oCbVTy2CvOehWcqlXfgpJ6w==
+X-Google-Smtp-Source: APXvYqwRpYBGt8rBDr3xKsmcVJJN6sOWgsA+JEuiMZlVs6unNW3BYDJ3Lsr20URM4T+qV8gS1ulPzJpMoqfo7aLN/gg=
+X-Received: by 2002:a9d:708e:: with SMTP id l14mr704068otj.135.1572000376362; 
+ Fri, 25 Oct 2019 03:46:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191024142658.22306-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="f5VUIRqjZm2gSQ7RTDLKGMUPzK3IQK1qc"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 11:46:05 +0100
+Message-ID: <CAFEAcA-1gWa8qRK85i+MP-UixiPq7NPHw+8kn6KPq6VQMtRt4g@mail.gmail.com>
+Subject: Re: [PULL 00/39] Misc (mostly x86) patches for 2019-10-24
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,69 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: psyhomb@gmail.com, michael@weiser.dinsnail.net, vsementsov@virtuozzo.com,
- den@virtuozzo.com, qemu-stable@nongnu.org, dgilbert@redhat.com,
- qemu-devel@nongnu.org, lersek@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---f5VUIRqjZm2gSQ7RTDLKGMUPzK3IQK1qc
-Content-Type: multipart/mixed; boundary="8GcfCYtoxGopjT3m4I6raYEdy9ABN813a"
+On Thu, 24 Oct 2019 at 15:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0=
+b9:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-r=
+equest' into staging (2019-10-18 14:13:11 +0100)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to a263f81cb4b302eb392898bdc4ad4381e1961629:
+>
+>   i386: implement IGNNE (2019-10-24 16:02:04 +0200)
+>
+> ----------------------------------------------------------------
+> * Bulgarian translation update (Alexander)
+> * RTC and PC refactorings (Herv=C3=A9, Philippe, Sergio)
+> * RTC fix (Marcelo)
+> * More comprehensive MCE logging (Mario)
+> * x86 IGNNE implementation (Paolo)
+> * Microvm machine type (Sergio)
+> * Support for UMONITOR/UMWAIT/TPAUSE (Tao)
+> * Do not use %m in common code (Thomas)
+> * NoNonArchitecturalCoreSharing Hyper-V enlightenment (Vitaly)
+> * getpagesize cleanups (Wei)
+>
 
---8GcfCYtoxGopjT3m4I6raYEdy9ABN813a
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 24.10.19 16:26, Kevin Wolf wrote:
-> This series fixes an image corruption bug that was introduced in commit
-> 69f47505e ('block: avoid recursive block_status call if possible'),
-> first contained in the QEMU 4.1.0 release.
->=20
-> This bug was reported by Michael Weiser on Launchpad:
-> https://bugs.launchpad.net/qemu/+bug/1846427
->=20
-> v2:
->=20
-> - Dropped the assertion in qcow2_cache_do_get() for now. Making sure
->   that it actually holds true for all callers requires more work and
->   getting the corruption fix in quickly is important.
->=20
-> - Use atomic_read() and add comment to qemu_co_mutex_assert_locked()
->   implementation [Denis]
->=20
-> Kevin Wolf (2):
->   coroutine: Add qemu_co_mutex_assert_locked()
->   qcow2: Fix corruption bug in qcow2_detect_metadata_preallocation()
->=20
->  include/qemu/coroutine.h | 15 +++++++++++++++
->  block/qcow2-refcount.c   |  2 ++
->  block/qcow2.c            |  3 ++-
->  3 files changed, 19 insertions(+), 1 deletion(-)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+I got a link failure building the --disable-tcg config on x86-64:
 
 
---8GcfCYtoxGopjT3m4I6raYEdy9ABN813a--
+  LINK    x86_64-softmmu/qemu-system-x86_64
+hw/i386/pc_piix.o: In function `pc_init1':
+/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_piix.c:216: undefined
+reference to `x86_register_ferr_irq'
+hw/i386/pc_q35.o: In function `pc_q35_init':
+/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_q35.c:264: undefined
+reference to `x86_register_ferr_irq'
+collect2: error: ld returned 1 exit status
+Makefile:206: recipe for target 'qemu-system-x86_64' failed
+make[1]: *** [qemu-system-x86_64] Error 1
+Makefile:482: recipe for target 'x86_64-softmmu/all' failed
+make: *** [x86_64-softmmu/all] Error 2
+make: *** Waiting for unfinished jobs....
+  LINK    i386-softmmu/qemu-system-i386
+hw/i386/pc_piix.o: In function `pc_init1':
+/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_piix.c:216: undefined
+reference to `x86_register_ferr_irq'
+hw/i386/pc_q35.o: In function `pc_q35_init':
+/home/petmay01/linaro/qemu-for-merges/hw/i386/pc_q35.c:264: undefined
+reference to `x86_register_ferr_irq'
+collect2: error: ld returned 1 exit status
 
---f5VUIRqjZm2gSQ7RTDLKGMUPzK3IQK1qc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+x86_register_ferr_irq() is defined in target/i386/fpu_helper.c,
+which is only built if CONFIG_TCG, but the callers don't
+seem to be similarly guarded and there's no stub fallback.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2y0h0ACgkQ9AfbAGHV
-z0AuoAgAnMRBqW1o3NJuffQCbaTbKYcwg72oScZsgrIoaPYY9QaP66+h7mM96Mnb
-9R/Tm5p3UgmjORgNlD5fhdflel5LBH3rvou3DnaCmVXlptObI8d7em2emouwq1YJ
-tltAXFAUY88iuRh7Qj8hPMRDjtqYXtIRTkmkcmW/XPssZzSwYMoS1x9kMflrza/3
-0fq4xqp3bBcCxGg1WKuxhLUShseKBNLAg/yZhiqyHD/8ulXD8ZemXjZWjvB4Epy9
-wjfWveofUK8YF5Jf4Sl1Cicqy6XORdwCXAfctsXJneadqS7BQ+k04jO4ePHemiUP
-20WvH+SGKiioYVNpZV0ApEjK2U2Vhw==
-=YWa/
------END PGP SIGNATURE-----
-
---f5VUIRqjZm2gSQ7RTDLKGMUPzK3IQK1qc--
-
+thanks
+-- PMM
 
