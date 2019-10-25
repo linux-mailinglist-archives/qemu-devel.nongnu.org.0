@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC02E4A25
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:42:22 +0200 (CEST)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB73AE4A37
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:45:49 +0200 (CEST)
+Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNxz3-00023C-1E
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45029)
+	id 1iNy2O-0006LW-2Z
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:45:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNxwK-0006P3-Fl
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:33 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNxwP-0006gO-1c
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNxwI-0006bz-Dl
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:31 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:46897)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNxwI-0006c6-E5
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:36 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:38449)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNxwF-0006aB-4Q
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:28 -0400
-Received: by mail-qt1-x843.google.com with SMTP id u22so2655588qtq.13
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 04:39:25 -0700 (PDT)
+ id 1iNxwG-0006aV-GD
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:29 -0400
+Received: by mail-qk1-x729.google.com with SMTP id p4so1403429qkf.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 04:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RPOooG/qzrYvwV59r2e90DUXAtJHgbXT1XUOCv1dvV0=;
- b=cV1M6LmQloVXfRNGHYBEq9bDKP2ivRdJ6N+l3OuK1HiIU3y4jGzYiDX8DtK90JJx+s
- wbCWHRhjced+ZAQB2xM6CCqv/CUM+DvQYt779ygR68lu78mF54CHRO8CXKzEOmP6WC0l
- oqXzU/nWrIXpWl9TWOUYW52UD+STUeLAdA65TqArbYNZ2rvzo+R60sDEwgJ5EDEPa8n9
- gO+RkeKbx6KzxrrImNfWCP+ywn7PJM8WivhweEUUAHjlWqSAhoM1RyM3qpJkBGAWm4GL
- e4O7AWOqhbPUvn7G0zvAvRmd0mrLJKGEK1jrEMLM+BjHsLmIHJEwLJAb0H96rDUmCBoJ
- c5hg==
+ bh=MfrPU6dfjKdIPv9pRU2qfeqITCMfZWCuzZQmM0QxYQ0=;
+ b=YdvW9nh04/K98nOhMMeTA9x6+a26eY7B3qAAmfBLYDRcVNVtC14+Ff5ulygjtXvQCK
+ ZC3zYiRiOjrqlaf331uOhMPK1Gze4ttLD/iO83dPhyrVoVnNaXG5mx7RY4WWOXf8XFtb
+ 0EhGUNL7ICG88dMdRka7PkA+IVtGA9yH2Dtf6KlPPU8jpexZPlkmS97Y8TGkpZcOdYbd
+ VPqqhtnZ6urHQyx8tmQGUE+8guZOKxVXt0nRA3vj+8K9JVtLBmx6033cmsx34mODd7is
+ MsjuvvIi9R8DcavW64tfC+Ir29ExzPCMABmLGXqpdmEcLBiSW/1vzX7mo6GRnQiPoEcl
+ Lw2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RPOooG/qzrYvwV59r2e90DUXAtJHgbXT1XUOCv1dvV0=;
- b=LMwgb+RtvNGNC1H0cfjF5CGATKi/cuga0p9zRq1YcMUUQByb5300kpvYvsX6mMU2ie
- MsoL5oADZCJRpBpGARkPcDwaJk80s6/VQ26aAjgVgiUZ+UJSCrtR0GF9HJwl8RR8vEH9
- QQE6K7YU3PnQsAOSLfu8VGjqw+U4x8g7r0vt+B2uW6v5gc4JNzn6SVw7EPPzO/e/BjKK
- T6jgHrjE27q2V8aeun+sogm7OCxf27S1fu/0L6vSYPSslV8uQml1DrTlKHexqP7YeBPi
- qlTAx9UxbWEb+YjMuWkc/XtyFEF5hx0xhKIxaihyDS6XozGTY0cY/svyzg8Z5Y8yNt1W
- 3Tpg==
-X-Gm-Message-State: APjAAAWQ6fv/u7+tYQYrD+JkZsgfwZola73nunlWCjL4qiFjB7tlfVTQ
- Hrj5CB1kg0+6eJJBalLF0aYFquUw12I=
-X-Google-Smtp-Source: APXvYqwNbANUFzw6mQhHvQ0EaHU3iJBwfsI8okv1Bkv+36bKkNVZGjyMVfx8jsTDv8Ol/EKFYYnDng==
-X-Received: by 2002:a0c:e60e:: with SMTP id z14mr2787832qvm.124.1572003564979; 
- Fri, 25 Oct 2019 04:39:24 -0700 (PDT)
+ bh=MfrPU6dfjKdIPv9pRU2qfeqITCMfZWCuzZQmM0QxYQ0=;
+ b=scHJBHaU8PIv9gz78g+Fk2HfrNpxeZhvfhhBW65/SIwxNUEJKbPCKdsxy7G//9Ap0J
+ gXhY2TEmBum3a5vq7NBaSJd7FfOtXZEHBcGD7nuFYxS5bANO7MFrdoV4oUAYqfbbo5pP
+ u6N+ZCxc20iPxlKFUOtCGPC3nB8zYijPSD04CRtgyw586aY5ACwpHQP1q6bWoY+FXNwR
+ C9QPDmYRc08+bNpigLq6gSFdU3rXH4wFBsiQOEZLka6MRrgFCNx3K2Iz4CM1jkANgHLI
+ paJo08UZ7TIPCjBE+4/D3SARHvm7jL6MmucIywBgWums1IdzZQ5pxWntsMikxEBuP249
+ aKiw==
+X-Gm-Message-State: APjAAAWitZ5oir0fpgH+RftjgBfbYlnq6JlK8/jOm1CtOvpX7daQCUB6
+ Iq/k26YizfMoD18WmxsiuJIyp+JHBQc=
+X-Google-Smtp-Source: APXvYqxq6Aqt5lb8YL8eOGjV2BycRh1h2F/7dT4ZU0wSlZIFZFIYZIY29a9g7KxGI9pHe+nWzD3nzA==
+X-Received: by 2002:a37:6305:: with SMTP id x5mr2367044qkb.498.1572003566025; 
+ Fri, 25 Oct 2019 04:39:26 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
  [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id x38sm1473335qtc.64.2019.10.25.04.39.24
+ by smtp.gmail.com with ESMTPSA id x38sm1473335qtc.64.2019.10.25.04.39.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 04:39:24 -0700 (PDT)
+ Fri, 25 Oct 2019 04:39:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/12] tests/tcg/multiarch/linux-test: Fix error check for
- shmat
-Date: Fri, 25 Oct 2019 07:39:11 -0400
-Message-Id: <20191025113921.9412-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 03/12] target/sparc: Define an enumeration for accessing
+ env->regwptr
+Date: Fri, 25 Oct 2019 07:39:12 -0400
+Message-Id: <20191025113921.9412-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191025113921.9412-1-richard.henderson@linaro.org>
 References: <20191025113921.9412-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
+X-Received-From: 2607:f8b0:4864:20::729
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,29 +80,55 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error indicator for this syscall is -1, not 0.
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/multiarch/linux-test.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/sparc/cpu.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
-index fa4243fc04..673d7c8a1c 100644
---- a/tests/tcg/multiarch/linux-test.c
-+++ b/tests/tcg/multiarch/linux-test.c
-@@ -503,8 +503,9 @@ static void test_shm(void)
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 778aa8e073..ae97c7d9f7 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -13,6 +13,39 @@
  
-     shmid = chk_error(shmget(IPC_PRIVATE, SHM_SIZE, IPC_CREAT | 0777));
-     ptr = shmat(shmid, NULL, 0);
--    if (!ptr)
-+    if (ptr == (void *)-1) {
-         error("shmat");
-+    }
+ /*#define EXCP_INTERRUPT 0x100*/
  
-     memset(ptr, 0, SHM_SIZE);
- 
++/* Windowed register indexes.  */
++enum {
++    WREG_O0,
++    WREG_O1,
++    WREG_O2,
++    WREG_O3,
++    WREG_O4,
++    WREG_O5,
++    WREG_O6,
++    WREG_O7,
++
++    WREG_L0,
++    WREG_L1,
++    WREG_L2,
++    WREG_L3,
++    WREG_L4,
++    WREG_L5,
++    WREG_L6,
++    WREG_L7,
++
++    WREG_I0,
++    WREG_I1,
++    WREG_I2,
++    WREG_I3,
++    WREG_I4,
++    WREG_I5,
++    WREG_I6,
++    WREG_I7,
++
++    WREG_SP = WREG_O6,
++    WREG_FP = WREG_I6,
++};
++
+ /* trap definitions */
+ #ifndef TARGET_SPARC64
+ #define TT_TFAULT   0x01
 -- 
 2.17.1
 
