@@ -2,102 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE8DE492E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:05:14 +0200 (CEST)
-Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15CDE496B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:10:01 +0200 (CEST)
+Received: from localhost ([::1]:58694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNxP7-0005zC-QW
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:05:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
+	id 1iNxTk-0005ha-PM
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:10:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38618)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <casasfernando@outlook.com>) id 1iNx5t-0003tB-LN
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:45:24 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNx75-0006vu-C8
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <casasfernando@outlook.com>) id 1iNx5r-0004ES-Ch
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:45:20 -0400
-Received: from mail-oln040092070089.outbound.protection.outlook.com
- ([40.92.70.89]:36078 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <casasfernando@outlook.com>)
- id 1iNx5r-0004EH-4q; Fri, 25 Oct 2019 06:45:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KErhM21sAtmrecjCvhgDO6ioXl8plR4SkhLVGeTFS4JVpQ1gz9Jaga4VRTOicJmtFqVBXKC5aqJ4ppfTgrtcwYwq//aHiV1y9BhPKjvCOlaCA3POgxmm2LBUTQ8jKxEugTtepMJKoi9grnj/vAJF9YIpd7Zv1Yrw7ioJaqI8GYXi2+1b3gxmtZGFEEZEKBk2iPyubsi2rklnhb+O9rHrt1L5kkMRF5zWqQvbu8qxT2DBBd/LFvzDJ+MNcG42QYeYXR0FEConT7wU7HynHD3HrfWQvBAoMruJQVS7TO9WuG82PsjW+fonccjDvZCm17UOmAzzPU65j0xOqgzTQk6NhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pEQtAvDP2r+gZVdIw3qYmfr/8zupZyHryRLLq9+rYA=;
- b=WtanshubQHFDU+xkp3QXswBtZOk+zCX1q29orSYpOYN8uWSpwkkXB0WNXiXq1E5ieZSv4uulk0IiiHyNROGmw/oTh2F9k1R8koyp0lJ2VmKM12o8ODqP7xzZA5jUE5IgdlFLUkU+BdPcVpfmvAwwwPW6OOMz7W+ZuwIUWR1O37DMMsEUNqXL9MNX0k+wsCG4kfCEg9iKpzV4gsiCfJQaKrUjMPgdm28zPl4Crh86yZBSdjjwdcyUj2eH894Wj0O8rUJ6qBjMECX8ptnqhgPMPrCspa7fq7BAXFnyv7ocu2OZjHcscnzb6hcE6wPno7h0S/C+f5mPBctVcL3TR2MB/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pEQtAvDP2r+gZVdIw3qYmfr/8zupZyHryRLLq9+rYA=;
- b=bHkQnPT5FNtaXxMJ4wC8tBKXOrIiUHj+u/JTkJfDoXo3ftumZFfhyi7NtkYkBVUfcH/c4MeqLMe2gLjwrXA+puOTTnwMTMKvrImK+o8PcBL4MIEeL2HZfKrJh4gNrLeOBap0POv1MvywhqjPfsOyDNPXzZqEJOnKss1Z/5o57Fz6+qQ6KuKc8+cNvOLiSP0rlfKnp/YcV+EkSvQiLdCOussKI87wIjAit3WQZg1sSnHGzjua3WtAsr82Tcnp2S00QsyLpXneJSr35CWMFXJJcDjPemXLdmbA0OWD8iCIyJH4e/WVVmDUo461+/rr9F9nJXk5uw2cNeK6SCBg4c7TtA==
-Received: from VE1EUR03FT059.eop-EUR03.prod.protection.outlook.com
- (10.152.18.51) by VE1EUR03HT205.eop-EUR03.prod.protection.outlook.com
- (10.152.18.186) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2305.15; Fri, 25 Oct
- 2019 10:45:17 +0000
-Received: from VI1PR03MB4814.eurprd03.prod.outlook.com (10.152.18.59) by
- VE1EUR03FT059.mail.protection.outlook.com (10.152.19.60) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.20 via Frontend Transport; Fri, 25 Oct 2019 10:45:17 +0000
-Received: from VI1PR03MB4814.eurprd03.prod.outlook.com
- ([fe80::a063:1748:6dae:1c75]) by VI1PR03MB4814.eurprd03.prod.outlook.com
- ([fe80::a063:1748:6dae:1c75%6]) with mapi id 15.20.2387.023; Fri, 25 Oct 2019
- 10:45:17 +0000
-From: =?iso-8859-1?Q?Fernando_Casas_Sch=F6ssow?= <casasfernando@outlook.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: qemu crashing when attaching an ISO file to a virtio-scsi CD-ROM
- device through libvirt
-Thread-Topic: qemu crashing when attaching an ISO file to a virtio-scsi CD-ROM
- device through libvirt
-Thread-Index: AQHVhfzB7lc3mC9pr0OyFBE/io6S3g==
-Date: Fri, 25 Oct 2019 10:45:17 +0000
-Message-ID: <VI1PR03MB4814ED579467768D43E5CF94A4650@VI1PR03MB4814.eurprd03.prod.outlook.com>
-References: <VI1PR03MB481484C08A04458ACA64F7A0A46C0@VI1PR03MB4814.eurprd03.prod.outlook.com>
- <dbb363cf-bc3a-6de5-a62a-1467208d0017@redhat.com>
- <VI1PR03MB4814DBEC71814C520D123ADDA46B0@VI1PR03MB4814.eurprd03.prod.outlook.com>
- <20191025100735.GA7275@localhost.localdomain>
- <VI1PR03MB48140DB2BA084EAEBD980302A4650@VI1PR03MB4814.eurprd03.prod.outlook.com>
-In-Reply-To: <VI1PR03MB48140DB2BA084EAEBD980302A4650@VI1PR03MB4814.eurprd03.prod.outlook.c
- om>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: PR0P264CA0015.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::27)
- To VI1PR03MB4814.eurprd03.prod.outlook.com
- (2603:10a6:803:b7::21)
-x-incomingtopheadermarker: OriginalChecksum:AB8C7F67A8B01187E7B8E34680C29F4B04FB0C06099E396CA7134C25AB34B125;
- UpperCasedChecksum:182A492FC5E7DDFC732CDAD74109BC99636409670EB6E45EB26E3025ABE28E80;
- SizeAsReceived:7708; Count:49
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: pantheon-mail/1.0.8
-x-tmn: [sueqf5rotUbJquENBxX7jQP1y4cEu/V0oh5WwWbJztQ=]
-x-microsoft-original-message-id: <1572000314.6067.1@smtp-mail.outlook.com>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 49
-x-eopattributedmessage: 0
-x-ms-traffictypediagnostic: VE1EUR03HT205:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oMItrmCc45lKa+iPuX+CunktDyO4/Ra+xB/PlhkoGl1r/11Xn9zJZgv/daMsRhJsfJ0fgnPbboRFGF9nree/uscgwOdWQw+gLzjjE+odGLqlh9X3yCjjWmh4MalXs9VvGLRXQ6IAO0SXg6pgnzENFRok80KNkfRI4FTgiwYSYj6g+egeoMUTiWG1qWzfaBS0
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_VI1PR03MB4814ED579467768D43E5CF94A4650VI1PR03MB4814eurp_"
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iNx74-0004zU-Bi
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:35 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40494)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iNx74-0004zM-4T
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:46:34 -0400
+Received: by mail-ot1-x343.google.com with SMTP id d8so1741859otc.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 03:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=2sBzSENNy9SmDC2DfhiSXWQJgVbCLsB09LkKsTqTXM4=;
+ b=ggPhqQK4rBEfLfHghMGW9fz0OsMzkqY8dkGHaECiTaNK74aRgM8xaebncyrCWzs3dU
+ aMXRuui71X/pdTKqrYqZZZQt9rrpjBmhwp8n6gcbvjQnuYHHEOlMrr9DQEaHY7oeQYJ/
+ uTm2AxMQCmxY1UQnHW79gh3eQUNho6q/DUp8v3V7l3ofwh7F0BWeP3jAqYSgaWd80kDa
+ mPRUuuBlRoHeoy6AXdJWw606O3I+9o78NDsPfzbdQrLYP11IRrw8OG6CIHrJydoSuLmd
+ LLHEJsdJI+A3pJfRpTFmfsmB0oKnhc2BPmfxX0PeEbGHe98dXg6Q4Ns1vWyFfSLqgKO8
+ k6Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=2sBzSENNy9SmDC2DfhiSXWQJgVbCLsB09LkKsTqTXM4=;
+ b=HdtUax8SH9rK01KQTSVkBE6IeHD19g8i7rIGB5s67iX2N3nh0oDuLEDnCT3WzUkhSM
+ rTJq5zKb8Ixh+AvKbW41RXTn4Bqn2lNN8sNy573VSCzC9F45B3d286gsUkwiSpGLB5KY
+ s0j8xSxMKn0rwZKi8RErH60ptFnHv1+M2Hdyu5ZpPxpRvJdkLEeSKRzqjN6SdFOElIZW
+ puBbpImodkEZfld4H7hgKzHA9GJd9KeETPB4+RQ9WWoMTqdxhP8l+hymPK5rud/kMthC
+ hMeuEPHto+/eE9X4aad+YzePPN4E+hE3BZoTEAfTTin3xD7qiUEaBia9Ogh/T02qtyWC
+ LKDw==
+X-Gm-Message-State: APjAAAWW79/+UCqmKmjTfdznRJyZRWWTN3FqYGmxCYwDScs9H7OA7jAP
+ sjZg+unTanEEanTN0swiwE781WMBCtLIoyN9hoA=
+X-Google-Smtp-Source: APXvYqz2sYmw/ffq8hohI9P4+r2DfgIq5VC8Gjk+EXYCZlcm6Isws0eO0rwLEkRbIl2kGwnRNq8t/PWhxbWSY1IYT8U=
+X-Received: by 2002:a05:6830:1d8f:: with SMTP id
+ y15mr2116624oti.121.1572000393518; 
+ Fri, 25 Oct 2019 03:46:33 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 067ed84a-968a-46a4-b122-08d759386c57
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 10:45:17.2428 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT205
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.92.70.89
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 25 Oct 2019 03:46:33
+ -0700 (PDT)
+In-Reply-To: <1571837825-24438-1-git-send-email-Filip.Bozuta@rt-rk.com>
+References: <1571837825-24438-1-git-send-email-Filip.Bozuta@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 25 Oct 2019 12:46:33 +0200
+Message-ID: <CAL1e-=iT0Mhiya9Rp3=263fnwzXDHsh0CTV9_dDSyzwYrirzNA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] target/mips: Rearrange handling of vector compare
+ instructions
+To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Content-Type: multipart/alternative; boundary="0000000000000ae0580595b9ddaa"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,115 +75,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "arikalo@wavecomp.com" <arikalo@wavecomp.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_VI1PR03MB4814ED579467768D43E5CF94A4650VI1PR03MB4814eurp_
-Content-Type: text/plain; charset="iso-8859-1"
+--0000000000000ae0580595b9ddaa
+Content-Type: text/plain; charset="UTF-8"
+
+On Wednesday, October 23, 2019, Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote:
+
+> Simplify instructions by removing unnecessary argument and creating
+> separate
+> comparing functions for each instruction.
+>
+> Filip Bozuta (2):
+>   target/mips: Rearrange vector compare equal instructions
+>   target/mips: Rearrange vector compare less than (signed) instructions
+>
+>  target/mips/msa_helper.c | 160 +++++++++++++++++++++++++++++-
+> -----------------
+>  1 file changed, 100 insertions(+), 60 deletions(-)
+
+
+
+Welcome to QEMU open source community, Filip!
+
+This series looks good. I may do just some minor corrections in commit
+messages, I'll do it while applying, you don't need to do anything.
+
+Hope you'll do more refactoring like this in future!
+
+Aleksandar
+
+
+
+>
+> --
+> 2.7.4
+>
+>
+>
+
+--0000000000000ae0580595b9ddaa
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I managed to upgrade to qemu 4.1 on a test KVM host and I can confirm I can=
-'t repro the issue in this version.
-Great news that is fixed in 4.1.
-
-Thanks everyone for your inputs and the fast replies.
-
-Kind regards,
-
-Fernando
-
-On vie, oct 25, 2019 at 12:28 PM, Fernando Casas Sch=F6ssow <casasfernando@=
-outlook.com> wrote:
-Thanks for the reply Kevin.
-
-I will do my best to upgrade to 4.1, test again and report back if this is =
-fixed or not in that version.
-Hopefully it is.
-
-Fernando
-
-On vie, oct 25, 2019 at 12:07 PM, Kevin Wolf <kwolf@redhat.com> wrote:
-Am 23.10.2019 um 19:28 hat Fernando Casas Sch=F6ssow geschrieben:
-Hi John, Thanks for looking into this. I can quickly repro the problem with=
- qemu 4.0 binary with debugging symbols enabled as I have it available alre=
-ady. Doing the same with qemu 4.1 or development head may be too much hassl=
-e but if it's really the only way I can give it try.
-We had a lot of iothread related fixes in 4.1, so this would really be the =
-only way to tell if it's a bug that still exists. I suspect that it's alrea=
-dy fixed (and to be more precise, I assume that commit d0ee0204f fixed it).=
- Kevin
-
-
-
-
-
---_000_VI1PR03MB4814ED579467768D43E5CF94A4650VI1PR03MB4814eurp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-ID: <F67DCBCE9CC61E4A948062F7E8DAABD1@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-</head>
-<body>
-I managed to upgrade to qemu 4.1 on a test KVM host and I can confirm I can=
-'t repro the issue in this version.
-<div>Great news that is fixed in 4.1.</div>
-<div><br>
-</div>
-<div>Thanks everyone for your inputs and the fast replies.</div>
-<div><br>
-</div>
-<div>Kind regards,</div>
-<div><br>
-</div>
-<div>Fernando<br>
-<div><br>
-On vie, oct 25, 2019 at 12:28 PM, Fernando Casas Sch=F6ssow &lt;casasfernan=
-do@outlook.com&gt; wrote:<br>
-<blockquote type=3D"cite">Thanks for the reply Kevin.
-<div><br>
-</div>
-<div>I will do my best to upgrade to 4.1, test again and report back if thi=
-s is fixed or not in that version.</div>
-<div>Hopefully it is.</div>
-<div><br>
-</div>
-<div>Fernando</div>
-<div><br>
-</div>
-<div>
-<div>On vie, oct 25, 2019 at 12:07 PM, Kevin Wolf &lt;kwolf@redhat.com&gt; =
-wrote:<br>
-<blockquote type=3D"cite">
-<div class=3D"plaintext" style=3D"white-space: pre-wrap;">Am 23.10.2019 um =
-19:28 hat Fernando Casas Sch=F6ssow geschrieben:
-<blockquote>Hi John, Thanks for looking into this. I can quickly repro the =
-problem with qemu 4.0 binary with debugging symbols enabled as I have it av=
-ailable already. Doing the same with qemu 4.1 or development head may be to=
-o much hassle but if it's really
- the only way I can give it try. </blockquote>
-We had a lot of iothread related fixes in 4.1, so this would really be the =
-only way to tell if it's a bug that still exists. I suspect that it's alrea=
-dy fixed (and to be more precise, I assume that commit d0ee0204f fixed it).=
- Kevin
-</div>
+<br><br>On Wednesday, October 23, 2019, Filip Bozuta &lt;<a href=3D"mailto:=
+Filip.Bozuta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt; wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">Simplify instructions by removing unnecessary argument=
+ and creating separate<br>
+comparing functions for each instruction.<br>
+<br>
+Filip Bozuta (2):<br>
+=C2=A0 target/mips: Rearrange vector compare equal instructions<br>
+=C2=A0 target/mips: Rearrange vector compare less than (signed) instruction=
+s<br>
+<br>
+=C2=A0target/mips/msa_helper.c | 160 +++++++++++++++++++++++++++++-<wbr>---=
+--------------<br>
+=C2=A01 file changed, 100 insertions(+), 60 deletions(-)</blockquote><div><=
+br></div><div><br></div><div>Welcome to QEMU open source community, Filip!<=
+/div><div><br></div><div>This series looks good. I may do just some minor c=
+orrections in commit messages, I&#39;ll do it while applying, you don&#39;t=
+ need to do anything.</div><div><br></div><div>Hope you&#39;ll do more refa=
+ctoring like this in future!</div><div><br></div><div>Aleksandar</div><div>=
+<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+-- <br>
+2.7.4<br>
+<br>
+<br>
 </blockquote>
-<br>
-<br>
-</div>
-</div>
-</blockquote>
-<br>
-<br>
-</div>
-</div>
-</body>
-</html>
 
---_000_VI1PR03MB4814ED579467768D43E5CF94A4650VI1PR03MB4814eurp_--
+--0000000000000ae0580595b9ddaa--
 
