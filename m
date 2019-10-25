@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F14E5585
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:59:06 +0200 (CEST)
-Received: from localhost ([::1]:36158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300EEE559A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 23:05:25 +0200 (CEST)
+Received: from localhost ([::1]:36224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO6fp-0000GR-Md
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
+	id 1iO6lv-0007fq-OL
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 17:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iO6cJ-0007Zy-IS
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:55:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iO6eL-0007YG-BV
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:57:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iO6cI-0002M9-Bd
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:55:27 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:40696)
+ (envelope-from <peter.maydell@linaro.org>) id 1iO6eH-0003AV-Nr
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:57:32 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:46964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iO6cI-0002LR-6Z
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:55:26 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id d12so1455122ybn.7
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:55:25 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iO6eE-00037p-1s
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:57:27 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id c2so2466338oic.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:57:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=F+cqaKV9NxF3xHqGha8zUZqlSPpzkiq6PFuMuKFS9wo=;
- b=fihWnzUIYMX8oJIry8N1uFX0Jxiuye3vhbuiO4gOMGiCB2GexPOetusPpF/amKaEI+
- CMOby8iFLTM/oRErmEuNkag1Niii6WGRF0ayJzsudbwEd5MSDMvTsuedf24AgVNDXRrg
- FAc+e+feghHAlv94StG/v833A/zn44s5JPUe2TZoBlV6R5C/vbgkrM+swYDuEWFmhWkb
- R/aT4qRwf3w2VyNue2CjwnDwGYIVSihfE5nrtHXMVyOddzMHU0QS9dsfE/vteQcB/S/M
- RDFjbGKvXSPWPYc6cogAOTzXVF4ZJMsVvfIhz+tp6A4iqtLV1KPSMJSvkpV1zxTi0zSd
- PVqw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gf/ivBmWo0KcWm5DRXGU2CbPoXQT2DBnasijPNq+w88=;
+ b=gwAEImm7KdSnvxFhLCAUsbH/QvRWM4me6h2hqIBpscTZphQn0FAS/aS7EUwMRo8Qid
+ EEwzEFc5/jSas4oftXpT36iHCOZTU/FL9WjuTGqrMKMsCJZwgGoTBeKl1cgah9C/CgqW
+ 6Oh7JrEG0y51fQrE2VEXhq7lgwoGn0hxOlzgPiZ9/Gdi40uOOKn+TYNDcntBYSzB2YXp
+ 5uVeKGwWGyvIpoyc/Aes7hch4e27HJTy4DXkgiZpLDGYjSXLAv132+CADM3pAHflqCM/
+ FLERRo3gRnWwpPYyxWMqxfRvPoHX/YjZyrfdpAInd8Wv5z6Cv/C64eIx1GpVqgBtvxNC
+ T7tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=F+cqaKV9NxF3xHqGha8zUZqlSPpzkiq6PFuMuKFS9wo=;
- b=kBGc0IFcYpRbPI0vmemK/5mjWMR+9+Fe9UT8xB/+Rw0Dab3A9ABFQytwVfcicd1/T4
- mp3w2YsrXZ7gUq4DAeENW5nZn2t6jMIXXGQybiMCfZmC5hMCnNzuliqklVrH7kso5SP8
- Mc3gJa1SAQGn8vJchsfrvFFXKP2joJovhWCihZv6xSnvCQwgAbU98QhaM2AB8z8vmopL
- p0ZqHjERwduCprMz8ynf98ye+FdfYKgiZmVvelr0WuK96h8EtUAFQkk/v2mUw7yVfLIy
- hldDJ1uW8JazXNm1ZMzYqOLeg474EZ8+3nC3aBimR9//K5tcpKTMudd/ch5I1zjWdtRU
- bFow==
-X-Gm-Message-State: APjAAAUnBlObmQEbPZ1onOJCjEdfnzlUrzNMJqUfVvolGEyJ+JEnAPTw
- 0IkvWEZ8+l1ZEIvgxC8ocQ4kpw==
-X-Google-Smtp-Source: APXvYqy/HLcLvEJdqE31hIG0Nw+2weZazF3AABU+9L1M3h+AQK0Z52RdatoiDHJtaZTIG8EeVj8FAA==
-X-Received: by 2002:a25:df4d:: with SMTP id w74mr5041984ybg.513.1572036924217; 
- Fri, 25 Oct 2019 13:55:24 -0700 (PDT)
-Received: from [172.20.40.202] ([206.121.8.178])
- by smtp.gmail.com with ESMTPSA id q131sm1411218ywg.60.2019.10.25.13.55.20
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 25 Oct 2019 13:55:23 -0700 (PDT)
-Subject: Re: [PATCH v2 0/4] tcg/LICENSE: Remove no-longer-true statement that
- TCG is BSD-licensed
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191025155848.17362-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <10107792-8aef-533e-93ff-39c636eb4691@linaro.org>
-Date: Fri, 25 Oct 2019 16:55:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gf/ivBmWo0KcWm5DRXGU2CbPoXQT2DBnasijPNq+w88=;
+ b=o4dTEnnMEyFCOXBAaDXj7sYvktTrRCbyGhTXdaBkUzJariEkDckFsDCuRDcj+nksv8
+ CnrE5YcMVtqaaXiTiyqmpO2meVjSitC172h8iuPDRlmFF7fprVVH3ghSSwfBsnRW3frV
+ TvDhyhy2RKaF4azktZw6mkYPBN2pNm3ZISR1XHTDuumq3YoqAsKE3nz284wZq8IgzQ52
+ VEBZe0eZ59Tvx71fsq0jUpaYtzT221rkg8/sF9+aLdfM9MQCUPOaBBQ1gDxnykg3l2Ow
+ mCtTqUxhT0tJnNk6sJG3i9hE+rfMKVwSEOpTWggOF+/bEj7EoWOIOFmWuF849YBJt9Qm
+ 2nNg==
+X-Gm-Message-State: APjAAAV0mbdCRp/QJpuTFojKttly206N3nI2IlIJ21O4QTFJQOv6E52W
+ 6PTJclscx3oPnBSqkvpeeUEfNyV12UwxgkxES4BXdA==
+X-Google-Smtp-Source: APXvYqwcG9E+72UEouAH/tcu9+svTxjniND7tO93FMJGEiQB31DcuHvdrU4pFSh6CEQCdqbetI+DEZTwtqNUZ+eGIes=
+X-Received: by 2002:aca:2312:: with SMTP id e18mr3660860oie.98.1572037044942; 
+ Fri, 25 Oct 2019 13:57:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191025155848.17362-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 21:57:13 +0100
+Message-ID: <CAFEAcA_+beScuNNgvuo+y2LnzS3g4LX8P79id+_fYYz9LKXJ=A@mail.gmail.com>
+Subject: Re: [PULL 00/20] MIPS queue for October 24th, 2019 - v2
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
+X-Received-From: 2607:f8b0:4864:20::22a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,64 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Claudio Fontana <claudio.fontana@gmail.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>, Laszlo Ersek <lersek@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/19 11:58 AM, Peter Maydell wrote:
-> Since 2008 the tcg/LICENSE file has not changed: it claims that
-> everything under tcg/ is BSD-licensed.
-> 
-> This is not true and hasn't been true for years: in 2013 we
-> accepted the tcg/aarch64 target code under a GPLv2-or-later
-> license statement. We also have generic vector optimisation
-> code under the LGPL2.1-or-later, and the TCI backend is
-> GPLv2-or-later. Further, many of the files are not BSD
-> licensed but MIT licensed.
-> 
-> We don't really consider the tcg subdirectory to be a distinct
-> part of QEMU anyway.
-> 
-> This patchset adds explicit licensing/copyright comments to
-> the three files which were missing them, removes the
-> inaccurate tcg/LICENSE file, and updates the top-level
-> LICENSE file to be more accurate about the current state
-> of the licenses used in the code in tcg/.
-> 
-> If we want a policy that tcg/ code has a restricted
-> permitted set of licenses, then we really need to have
-> this enforced by checkpatch -- history demonstrates that
-> just writing it in tcg/LICENSE does not prevent code under
-> other licenses getting in. In the v1 email thread nobody
-> seemed to be very strongly arguing for this, though, and
-> at this point we would need to make an active effort to
-> track down contributors and get relicensing statements.
-> If anybody wants to push that effort now would be a good
-> time to volunteer :-)
-> 
-> Note on the licensing for the tcg-target.opc.h files:
->  * I've used the same license as the rest of the relevant
->    backend, which is to say GPL2-or-later for tcg/aarch64
->    and MIT for tcg/i386 and tcg/ppc.
->  * In all 3 cases, the only people who've made contributions
->    to the files are Richard Henderson and (for aarch64) Alex Bennée
-> 
-> Richard, Alex -- an acked-by for the relevant patches would
-> be nice (or if you intended a different license for the
-> contributions than I have assumed please say so!)
-
-No, I had no intention to put things under a different license.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-for the lot.  Since I'm having to re-spin the last tcg pull for a win32
-failure, I'll include this as well.
+On Fri, 25 Oct 2019 at 17:44, Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> The following changes since commit 03bf012e523ecdf047ac56b2057950247256064d:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-10-25 14:59:53 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-oct-24-2019-v2
+>
+> for you to fetch changes up to 220ad858d3baf8b772cfddb8b657f9c799e98ddd:
+>
+>   tests/ssh_linux_malta: Fix 64-bit target tests (2019-10-25 18:37:01 +0200)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for October 24th, 2019 - v2
+>
+>   - update of MIPS-specific acceptance tests
+>   - other mostly cosmetic changes
+>   - in v2, an offending patch (causing clang build error) is removed
+>
 
 
-r~
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
