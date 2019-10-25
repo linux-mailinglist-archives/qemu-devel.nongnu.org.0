@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9048E518D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:50:08 +0200 (CEST)
-Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F83E51C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:58:51 +0200 (CEST)
+Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO2mr-0000zS-Rc
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40481)
+	id 1iO2vI-0000Fv-EQ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2iX-0004jt-5c
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:38 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2iZ-0004rc-LM
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2iV-0002DS-FU
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:36 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60592 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2iV-0002DC-4v
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:39 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:60633 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iO2iV-0001XM-8h
+ id 1iO2iU-0001XX-PR
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:35 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 4F3C91A21E9;
+ by mail.rt-rk.com (Postfix) with ESMTP id 6691D1A2276;
  Fri, 25 Oct 2019 18:44:29 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 3448A1A21CC;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 3BD241A21D5;
  Fri, 25 Oct 2019 18:44:29 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] MIPS queue for October 24th, 2019 - v2
-Date: Fri, 25 Oct 2019 18:44:02 +0200
-Message-Id: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL 01/20] target/mips: Clean up helper.c
+Date: Fri, 25 Oct 2019 18:44:03 +0200
+Message-Id: <1572021862-28273-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,70 +56,329 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-The following changes since commit 03bf012e523ecdf047ac56b205795024725606=
-4d:
+Mostly fix errors and warnings reported by 'checkpatch.pl -f'.
 
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
-ging (2019-10-25 14:59:53 +0100)
+Cc: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1571826227-10583-2-git-send-email-aleksandar.markovic@rt-rk.com>
+---
+ target/mips/helper.c | 123 +++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 74 insertions(+), 49 deletions(-)
 
-are available in the git repository at:
-
-  https://github.com/AMarkovic/qemu tags/mips-queue-oct-24-2019-v2
-
-for you to fetch changes up to 220ad858d3baf8b772cfddb8b657f9c799e98ddd:
-
-  tests/ssh_linux_malta: Fix 64-bit target tests (2019-10-25 18:37:01 +02=
-00)
-
-----------------------------------------------------------------
-
-MIPS queue for October 24th, 2019 - v2
-
-  - update of MIPS-specific acceptance tests
-  - other mostly cosmetic changes
-  - in v2, an offending patch (causing clang build error) is removed
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (13):
-  target/mips: Clean up helper.c
-  target/mips: Clean up op_helper.c
-  MAINTAINERS: Update mail address of Aleksandar Rikalo
-  target/mips: msa: Split helpers for <MAX|MIN>_A.<B|H|W|D>
-  target/mips: msa: Split helpers for <MAX|MIN>_<S|U>.<B|H|W|D>
-  target/mips: msa: Split helpers for ILV<EV|OD|L|R>.<B|H|W|D>
-  target/mips: msa: Split helpers for ADD<_A|S_A|S_S|S_U|V>.<B|H|W|D>
-  target/mips: msa: Split helpers for HADD_<S|U>.<H|W|D>
-  target/mips: msa: Split helpers for S<LL|RA|RAR|RL|RLR>.<B|H|W|D>
-  target/mips: msa: Split helpers for PCK<EV|OD>.<B|H|W|D>
-  target/mips: msa: Split helpers for HSUB_<S|U>.<H|W|D>
-  target/mips: msa: Split helpers for ASUB_<S|U>.<B|H|W|D>
-  target/mips: Demacro LMI decoder
-
-Filip Bozuta (2):
-  target/mips: Refactor handling of vector compare 'equal' instructions
-  target/mips: Refactor handling of vector compare 'less than' (signed)
-    instructions
-
-Philippe Mathieu-Daud=C3=A9 (5):
-  tests/ssh_linux_malta: Run tests using a snapshot image
-  tests/ssh_linux_malta: Remove duplicated test
-  tests/ssh_linux_malta: Match stricter console output
-  tests/ssh_linux_malta: Refactor how to get image/kernel info
-  tests/ssh_linux_malta: Fix 64-bit target tests
-
- .mailmap                                 |    5 +-
- MAINTAINERS                              |   18 +-
- target/mips/helper.c                     |  123 +-
- target/mips/helper.h                     |  155 +-
- target/mips/msa_helper.c                 | 4651 ++++++++++++++++++++----=
-------
- target/mips/op_helper.c                  | 1010 ++++---
- target/mips/translate.c                  |  760 ++++-
- tests/acceptance/linux_ssh_mips_malta.py |  106 +-
- 8 files changed, 4605 insertions(+), 2223 deletions(-)
-
---=20
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index a2b6459..781930a 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -39,8 +39,8 @@ enum {
+ #if !defined(CONFIG_USER_ONLY)
+ 
+ /* no MMU emulation */
+-int no_mmu_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+-                        target_ulong address, int rw, int access_type)
++int no_mmu_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
++                       target_ulong address, int rw, int access_type)
+ {
+     *physical = address;
+     *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+@@ -48,26 +48,28 @@ int no_mmu_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+ }
+ 
+ /* fixed mapping MMU emulation */
+-int fixed_mmu_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+-                           target_ulong address, int rw, int access_type)
++int fixed_mmu_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
++                          target_ulong address, int rw, int access_type)
+ {
+     if (address <= (int32_t)0x7FFFFFFFUL) {
+-        if (!(env->CP0_Status & (1 << CP0St_ERL)))
++        if (!(env->CP0_Status & (1 << CP0St_ERL))) {
+             *physical = address + 0x40000000UL;
+-        else
++        } else {
+             *physical = address;
+-    } else if (address <= (int32_t)0xBFFFFFFFUL)
++        }
++    } else if (address <= (int32_t)0xBFFFFFFFUL) {
+         *physical = address & 0x1FFFFFFF;
+-    else
++    } else {
+         *physical = address;
++    }
+ 
+     *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+     return TLBRET_MATCH;
+ }
+ 
+ /* MIPS32/MIPS64 R4000-style MMU emulation */
+-int r4k_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+-                     target_ulong address, int rw, int access_type)
++int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
++                    target_ulong address, int rw, int access_type)
+ {
+     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
+     int i;
+@@ -99,8 +101,9 @@ int r4k_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+             if (rw != MMU_DATA_STORE || (n ? tlb->D1 : tlb->D0)) {
+                 *physical = tlb->PFN[n] | (address & (mask >> 1));
+                 *prot = PAGE_READ;
+-                if (n ? tlb->D1 : tlb->D0)
++                if (n ? tlb->D1 : tlb->D0) {
+                     *prot |= PAGE_WRITE;
++                }
+                 if (!(n ? tlb->XI1 : tlb->XI0)) {
+                     *prot |= PAGE_EXEC;
+                 }
+@@ -130,7 +133,7 @@ static int is_seg_am_mapped(unsigned int am, bool eu, int mmu_idx)
+     int32_t adetlb_mask;
+ 
+     switch (mmu_idx) {
+-    case 3 /* ERL */:
++    case 3: /* ERL */
+         /* If EU is set, always unmapped */
+         if (eu) {
+             return 0;
+@@ -204,7 +207,7 @@ static int get_segctl_physical_address(CPUMIPSState *env, hwaddr *physical,
+                                     pa & ~(hwaddr)segmask);
+ }
+ 
+-static int get_physical_address (CPUMIPSState *env, hwaddr *physical,
++static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
+                                 int *prot, target_ulong real_address,
+                                 int rw, int access_type, int mmu_idx)
+ {
+@@ -252,14 +255,15 @@ static int get_physical_address (CPUMIPSState *env, hwaddr *physical,
+         } else {
+             segctl = env->CP0_SegCtl2 >> 16;
+         }
+-        ret = get_segctl_physical_address(env, physical, prot, real_address, rw,
+-                                          access_type, mmu_idx, segctl,
+-                                          0x3FFFFFFF);
++        ret = get_segctl_physical_address(env, physical, prot,
++                                          real_address, rw, access_type,
++                                          mmu_idx, segctl, 0x3FFFFFFF);
+ #if defined(TARGET_MIPS64)
+     } else if (address < 0x4000000000000000ULL) {
+         /* xuseg */
+         if (UX && address <= (0x3FFFFFFFFFFFFFFFULL & env->SEGMask)) {
+-            ret = env->tlb->map_address(env, physical, prot, real_address, rw, access_type);
++            ret = env->tlb->map_address(env, physical, prot,
++                                        real_address, rw, access_type);
+         } else {
+             ret = TLBRET_BADADDR;
+         }
+@@ -267,7 +271,8 @@ static int get_physical_address (CPUMIPSState *env, hwaddr *physical,
+         /* xsseg */
+         if ((supervisor_mode || kernel_mode) &&
+             SX && address <= (0x7FFFFFFFFFFFFFFFULL & env->SEGMask)) {
+-            ret = env->tlb->map_address(env, physical, prot, real_address, rw, access_type);
++            ret = env->tlb->map_address(env, physical, prot,
++                                        real_address, rw, access_type);
+         } else {
+             ret = TLBRET_BADADDR;
+         }
+@@ -307,7 +312,8 @@ static int get_physical_address (CPUMIPSState *env, hwaddr *physical,
+         /* xkseg */
+         if (kernel_mode && KX &&
+             address <= (0xFFFFFFFF7FFFFFFFULL & env->SEGMask)) {
+-            ret = env->tlb->map_address(env, physical, prot, real_address, rw, access_type);
++            ret = env->tlb->map_address(env, physical, prot,
++                                        real_address, rw, access_type);
+         } else {
+             ret = TLBRET_BADADDR;
+         }
+@@ -328,8 +334,10 @@ static int get_physical_address (CPUMIPSState *env, hwaddr *physical,
+                                           access_type, mmu_idx,
+                                           env->CP0_SegCtl0 >> 16, 0x1FFFFFFF);
+     } else {
+-        /* kseg3 */
+-        /* XXX: debug segment is not emulated */
++        /*
++         * kseg3
++         * XXX: debug segment is not emulated
++         */
+         ret = get_segctl_physical_address(env, physical, prot, real_address, rw,
+                                           access_type, mmu_idx,
+                                           env->CP0_SegCtl0, 0x1FFFFFFF);
+@@ -515,9 +523,9 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+ #if defined(TARGET_MIPS64)
+     env->CP0_EntryHi &= env->SEGMask;
+     env->CP0_XContext =
+-        /* PTEBase */   (env->CP0_XContext & ((~0ULL) << (env->SEGBITS - 7))) |
+-        /* R */         (extract64(address, 62, 2) << (env->SEGBITS - 9)) |
+-        /* BadVPN2 */   (extract64(address, 13, env->SEGBITS - 13) << 4);
++        (env->CP0_XContext & ((~0ULL) << (env->SEGBITS - 7))) | /* PTEBase */
++        (extract64(address, 62, 2) << (env->SEGBITS - 9)) |     /* R       */
++        (extract64(address, 13, env->SEGBITS - 13) << 4);       /* BadVPN2 */
+ #endif
+     cs->exception_index = exception;
+     env->error_code = error_code;
+@@ -945,7 +953,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+-hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address, int rw)
++hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
++                                  int rw)
+ {
+     hwaddr physical;
+     int prot;
+@@ -1005,7 +1014,7 @@ static const char * const excp_names[EXCP_LAST + 1] = {
+ };
+ #endif
+ 
+-target_ulong exception_resume_pc (CPUMIPSState *env)
++target_ulong exception_resume_pc(CPUMIPSState *env)
+ {
+     target_ulong bad_pc;
+     target_ulong isa_mode;
+@@ -1013,8 +1022,10 @@ target_ulong exception_resume_pc (CPUMIPSState *env)
+     isa_mode = !!(env->hflags & MIPS_HFLAG_M16);
+     bad_pc = env->active_tc.PC | isa_mode;
+     if (env->hflags & MIPS_HFLAG_BMASK) {
+-        /* If the exception was raised from a delay slot, come back to
+-           the jump.  */
++        /*
++         * If the exception was raised from a delay slot, come back to
++         * the jump.
++         */
+         bad_pc -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
+     }
+ 
+@@ -1022,14 +1033,14 @@ target_ulong exception_resume_pc (CPUMIPSState *env)
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-static void set_hflags_for_handler (CPUMIPSState *env)
++static void set_hflags_for_handler(CPUMIPSState *env)
+ {
+     /* Exception handlers are entered in 32-bit mode.  */
+     env->hflags &= ~(MIPS_HFLAG_M16);
+     /* ...except that microMIPS lets you choose.  */
+     if (env->insn_flags & ASE_MICROMIPS) {
+-        env->hflags |= (!!(env->CP0_Config3
+-                           & (1 << CP0C3_ISA_ON_EXC))
++        env->hflags |= (!!(env->CP0_Config3 &
++                           (1 << CP0C3_ISA_ON_EXC))
+                         << MIPS_HFLAG_M16_SHIFT);
+     }
+ }
+@@ -1096,10 +1107,12 @@ void mips_cpu_do_interrupt(CPUState *cs)
+     switch (cs->exception_index) {
+     case EXCP_DSS:
+         env->CP0_Debug |= 1 << CP0DB_DSS;
+-        /* Debug single step cannot be raised inside a delay slot and
+-           resume will always occur on the next instruction
+-           (but we assume the pc has always been updated during
+-           code translation). */
++        /*
++         * Debug single step cannot be raised inside a delay slot and
++         * resume will always occur on the next instruction
++         * (but we assume the pc has always been updated during
++         * code translation).
++         */
+         env->CP0_DEPC = env->active_tc.PC | !!(env->hflags & MIPS_HFLAG_M16);
+         goto enter_debug_mode;
+     case EXCP_DINT:
+@@ -1111,7 +1124,8 @@ void mips_cpu_do_interrupt(CPUState *cs)
+     case EXCP_DBp:
+         env->CP0_Debug |= 1 << CP0DB_DBp;
+         /* Setup DExcCode - SDBBP instruction */
+-        env->CP0_Debug = (env->CP0_Debug & ~(0x1fULL << CP0DB_DEC)) | 9 << CP0DB_DEC;
++        env->CP0_Debug = (env->CP0_Debug & ~(0x1fULL << CP0DB_DEC)) |
++                         (9 << CP0DB_DEC);
+         goto set_DEPC;
+     case EXCP_DDBS:
+         env->CP0_Debug |= 1 << CP0DB_DDBS;
+@@ -1132,8 +1146,9 @@ void mips_cpu_do_interrupt(CPUState *cs)
+         env->hflags |= MIPS_HFLAG_DM | MIPS_HFLAG_CP0;
+         env->hflags &= ~(MIPS_HFLAG_KSU);
+         /* EJTAG probe trap enable is not implemented... */
+-        if (!(env->CP0_Status & (1 << CP0St_EXL)))
++        if (!(env->CP0_Status & (1 << CP0St_EXL))) {
+             env->CP0_Cause &= ~(1U << CP0Ca_BD);
++        }
+         env->active_tc.PC = env->exception_base + 0x480;
+         set_hflags_for_handler(env);
+         break;
+@@ -1159,8 +1174,9 @@ void mips_cpu_do_interrupt(CPUState *cs)
+         }
+         env->hflags |= MIPS_HFLAG_CP0;
+         env->hflags &= ~(MIPS_HFLAG_KSU);
+-        if (!(env->CP0_Status & (1 << CP0St_EXL)))
++        if (!(env->CP0_Status & (1 << CP0St_EXL))) {
+             env->CP0_Cause &= ~(1U << CP0Ca_BD);
++        }
+         env->active_tc.PC = env->exception_base;
+         set_hflags_for_handler(env);
+         break;
+@@ -1176,12 +1192,16 @@ void mips_cpu_do_interrupt(CPUState *cs)
+                 uint32_t pending = (env->CP0_Cause & CP0Ca_IP_mask) >> CP0Ca_IP;
+ 
+                 if (env->CP0_Config3 & (1 << CP0C3_VEIC)) {
+-                    /* For VEIC mode, the external interrupt controller feeds
+-                     * the vector through the CP0Cause IP lines.  */
++                    /*
++                     * For VEIC mode, the external interrupt controller feeds
++                     * the vector through the CP0Cause IP lines.
++                     */
+                     vector = pending;
+                 } else {
+-                    /* Vectored Interrupts
+-                     * Mask with Status.IM7-IM0 to get enabled interrupts. */
++                    /*
++                     * Vectored Interrupts
++                     * Mask with Status.IM7-IM0 to get enabled interrupts.
++                     */
+                     pending &= (env->CP0_Status >> CP0St_IM) & 0xff;
+                     /* Find the highest-priority interrupt. */
+                     while (pending >>= 1) {
+@@ -1354,7 +1374,8 @@ void mips_cpu_do_interrupt(CPUState *cs)
+ 
+         env->active_tc.PC += offset;
+         set_hflags_for_handler(env);
+-        env->CP0_Cause = (env->CP0_Cause & ~(0x1f << CP0Ca_EC)) | (cause << CP0Ca_EC);
++        env->CP0_Cause = (env->CP0_Cause & ~(0x1f << CP0Ca_EC)) |
++                         (cause << CP0Ca_EC);
+         break;
+     default:
+         abort();
+@@ -1390,7 +1411,7 @@ bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-void r4k_invalidate_tlb (CPUMIPSState *env, int idx, int use_extra)
++void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
+ {
+     CPUState *cs = env_cpu(env);
+     r4k_tlb_t *tlb;
+@@ -1400,16 +1421,20 @@ void r4k_invalidate_tlb (CPUMIPSState *env, int idx, int use_extra)
+     target_ulong mask;
+ 
+     tlb = &env->tlb->mmu.r4k.tlb[idx];
+-    /* The qemu TLB is flushed when the ASID changes, so no need to
+-       flush these entries again.  */
++    /*
++     * The qemu TLB is flushed when the ASID changes, so no need to
++     * flush these entries again.
++     */
+     if (tlb->G == 0 && tlb->ASID != ASID) {
+         return;
+     }
+ 
+     if (use_extra && env->tlb->tlb_in_use < MIPS_TLB_MAX) {
+-        /* For tlbwr, we can shadow the discarded entry into
+-           a new (fake) TLB entry, as long as the guest can not
+-           tell that it's there.  */
++        /*
++         * For tlbwr, we can shadow the discarded entry into
++         * a new (fake) TLB entry, as long as the guest can not
++         * tell that it's there.
++         */
+         env->tlb->mmu.r4k.tlb[env->tlb->tlb_in_use] = *tlb;
+         env->tlb->tlb_in_use++;
+         return;
+-- 
 2.7.4
 
 
