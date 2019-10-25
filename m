@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A27E43EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:00:00 +0200 (CEST)
-Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D44E43C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:53:27 +0200 (CEST)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtZn-00086T-3m
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:59:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35569)
+	id 1iNtTS-0000uZ-6q
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtE2-0003KK-Gb
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:33 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtE1-0003Hu-Ji
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtE1-0008RE-7u
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:30 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35326)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtE0-0008Qn-5r
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:29 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46549)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtE1-0008Qa-1X
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:29 -0400
-Received: by mail-wm1-x332.google.com with SMTP id v6so770847wmj.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:28 -0700 (PDT)
+ id 1iNtDz-0008QG-Dl
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:28 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n15so884227wrw.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jANiCoc6xQGO++RZKyflS33Oep2oq+6QqQq5UE1fZNk=;
- b=OkPO8vLQJdj9P8QXqbLcGeCFebaq5e9uSD8NiVe6Ci6tCM/VGrY30xO0wl9dXCK+BD
- XSko3o0U23HfpKa1qb1js0TD/XM+IWWR3KtbQtHs5rrK9YVwUnnlybGCdj9xbLCbwEr+
- /X4JcPqSXbq9fNAOtIFiAAvDYrJqLmIzXBDOLgcEGHIuNV4rfA+ldvRiQwTldr45GwDm
- Q45Gk+jNOVuPFSIaq54Ian3sJk8ckVYYOIpZ3dPp16w7SwLF7s9tzAkZ6jbitXIm56vT
- 57k83ghkS5x5jUobXQzC+7N2bVh+wNJSJSPnXRaxjzujkIgTBCQuN3qO47LMiHOjFQIU
- AnEQ==
+ bh=9UrS1uw6AZDTMRq/tP2Ot5sPWM4GF3Yu6lTDbahkAEo=;
+ b=gCiZ80fP6IaH1GG9J2JrpclaWG4fUpRiyvGpWRjlE6f2tZK2YkikjIjyzDdefpjyo4
+ 1F0Z0lfOYSbWSjuaz7EvwCRcItiERn8OJmDYbYMxPBNL1nFJyEUIBIAgXGQNM4/+gkjw
+ jhvKqFPsQQCf6qtrTLPd4+Eb+ZdMvqT7mdhin3AYzvnPg1/03xkqQZtTkzo84bodtHrn
+ nYkfWabUTWwPP6yr4UYciTIVsqTscRpu6SNM6kZeLpcejXmpU6mtMgP/b1PLih1+DyHi
+ 6QLrM7gNo3rVIdsxoOMfnypTppsW4Bn8bF+cWGbjWLiRuwReRFvHpgyzFB7cRiaYIVyB
+ 6DxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jANiCoc6xQGO++RZKyflS33Oep2oq+6QqQq5UE1fZNk=;
- b=T34qPVdkJPV3t1RzO+Djb9gp0oTI5fGrSm7pPMKm80JLVoZh51D4BSIfr4VMv50D5u
- btCW/JQzz4NtY243MhH7ICjzXo9C2HP9kpybAN+Iw5OBKiKZb2oaqkIhLI/2Gwu5KheB
- gkEz0lsVg/mi0Ip+3u3EDPM4hYXPp6Og6wUVbw749snp/NozBw+GMi3PW0Erdrdw/D2I
- bvzUNllEZ/NhSiI2ZN+tBEHKitDJ+WXQ68IdTn9H7UV8qtRWLcddghOsQTtRUF6F2eEb
- TA3ICl+Xkhpa0EuQVGzAS8bPEapku761b4IaSo3jWpIsalZ3ghvRlz771qJUMh+LqshQ
- /HEQ==
-X-Gm-Message-State: APjAAAWxh6v8/feZKFW9KotrM6S/xLvmKomgpfvl29vBCq2RV8Rs4UuU
- 4qZQ/dBAzEQuJhtlCpDhvi1+Ug==
-X-Google-Smtp-Source: APXvYqz9VlG6I0TQidgm5DK22k/E2lf87CT0wPv5KjV6AdffhTVIKfKtmhKMNCRDJeYFawXGcfbSRQ==
-X-Received: by 2002:a1c:44b:: with SMTP id 72mr1806509wme.72.1571985446981;
+ bh=9UrS1uw6AZDTMRq/tP2Ot5sPWM4GF3Yu6lTDbahkAEo=;
+ b=ao8ILi/I4oGbyfjAUB8ojmH0CrcvEvXZbTrZ7Q4SHjUlY3+3SXF1E3WDweYFDXxXk9
+ igAwrhYnYelZDowvhO+rJ76lsbJxbGJp1OgiwGYDTakD/B/4q3SwggC+mTqkU55TNwjG
+ N5LXnbksutG5vcm85sv3QBSAC5bH/WnXAJOxo5/+G+xGzNJ0JKkTYFeGwDOFIvFmGkfy
+ SPNDIKbpkLNmJSupwkzX0//SEeFsHxvZ/pKj7skm0G3WBJjQKn32yRFcNiKeT8zlIiyl
+ SkV0wgAQ3eZ0bPgk8fVPwVE33BMwD1iHtKeCzxZmC8WB96Obpg+C7NhM8bOqA6NECfjb
+ +C3w==
+X-Gm-Message-State: APjAAAWbDdvfJ6q30EDCWOLhjkYvwVuU+5DfHKVlscfzAby7I/KFLH+8
+ yhIJJme5mzHp1ZoNQGIUF3XbgQ==
+X-Google-Smtp-Source: APXvYqxtIsyLWOzAD3V+9A+DbBcfIuLnEyorR4ma8Esm285Rq7yabSzBSPhnFA77MrNUPSYrVi1PYQ==
+X-Received: by 2002:adf:f40a:: with SMTP id g10mr1262888wro.228.1571985446192; 
  Thu, 24 Oct 2019 23:37:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a13sm1259387wrf.73.2019.10.24.23.37.20
+ by smtp.gmail.com with ESMTPSA id z189sm1918933wmc.25.2019.10.24.23.37.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 23:37:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7B6891FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id A80581FFAB;
  Fri, 25 Oct 2019 07:37:15 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 19/73] cpu: introduce cpu_in_exclusive_context()
-Date: Fri, 25 Oct 2019 07:36:19 +0100
-Message-Id: <20191025063713.23374-20-alex.bennee@linaro.org>
+Subject: [PULL v2 21/73] docs/devel: add plugins.rst design document
+Date: Fri, 25 Oct 2019 07:36:21 +0100
+Message-Id: <20191025063713.23374-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,104 +81,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+This is mostly extracted from Emilio's more verbose commit comments
+with some additional verbiage from me.
 
-Suggested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-[AJB: moved inside start/end_exclusive fns + cleanup]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 48272c781b7..81c33d6475d 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -238,8 +238,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     uint32_t flags;
-     uint32_t cflags = 1;
-     uint32_t cf_mask = cflags & CF_HASH_MASK;
--    /* volatile because we modify it between setjmp and longjmp */
--    volatile bool in_exclusive_region = false;
- 
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-@@ -253,7 +251,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
- 
-         /* Since we got here, we know that parallel_cpus must be true.  */
-         parallel_cpus = false;
--        in_exclusive_region = true;
-         cc->cpu_exec_enter(cpu);
-         /* execute the generated code */
-         trace_exec_tb(tb, pc);
-@@ -273,7 +270,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         assert_no_pages_locked();
-     }
- 
--    if (in_exclusive_region) {
-+    if (cpu_in_exclusive_context(cpu)) {
-         /* We might longjump out of either the codegen or the
-          * execution, so must make sure we only end the exclusive
-          * region if we started it.
-diff --git a/cpus-common.c b/cpus-common.c
-index af3385a2968..eaf590cb387 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -200,11 +200,15 @@ void start_exclusive(void)
-      * section until end_exclusive resets pending_cpus to 0.
-      */
-     qemu_mutex_unlock(&qemu_cpu_list_lock);
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 1ec61fcfed9..2ff058bae38 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -22,3 +22,4 @@ Contents:
+    decodetree
+    secure-coding-practices
+    tcg
++   plugins
+diff --git a/docs/devel/plugins.rst b/docs/devel/plugins.rst
+new file mode 100644
+index 00000000000..b18fb6729e3
+--- /dev/null
++++ b/docs/devel/plugins.rst
+@@ -0,0 +1,112 @@
++..
++   Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
++   Copyright (c) 2019, Linaro Limited
++   Written by Emilio Cota and Alex Bennée
 +
-+    current_cpu->in_exclusive_context = true;
- }
- 
- /* Finish an exclusive operation.  */
- void end_exclusive(void)
- {
-+    current_cpu->in_exclusive_context = false;
++================
++QEMU TCG Plugins
++================
 +
-     qemu_mutex_lock(&qemu_cpu_list_lock);
-     atomic_set(&pending_cpus, 0);
-     qemu_cond_broadcast(&exclusive_resume);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 031f587e512..07f2ab05903 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -372,6 +372,7 @@ struct CPUState {
-     bool unplug;
-     bool crash_occurred;
-     bool exit_request;
-+    bool in_exclusive_context;
-     uint32_t cflags_next_tb;
-     /* updates protected by BQL */
-     uint32_t interrupt_request;
-@@ -783,6 +784,18 @@ void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
-  */
- void async_safe_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data);
- 
-+/**
-+ * cpu_in_exclusive_context()
-+ * @cpu: The vCPU to check
-+ *
-+ * Returns true if @cpu is an exclusive context, for example running
-+ * something which has previously been queued via async_safe_run_on_cpu().
-+ */
-+static inline bool cpu_in_exclusive_context(const CPUState *cpu)
-+{
-+    return cpu->in_exclusive_context;
-+}
++QEMU TCG plugins provide a way for users to run experiments taking
++advantage of the total system control emulation can have over a guest.
++It provides a mechanism for plugins to subscribe to events during
++translation and execution and optionally callback into the plugin
++during these events. TCG plugins are unable to change the system state
++only monitor it passively. However they can do this down to an
++individual instruction granularity including potentially subscribing
++to all load and store operations.
 +
- /**
-  * qemu_get_cpu:
-  * @index: The CPUState@cpu_index value of the CPU to obtain.
++API Stability
++=============
++
++This is a new feature for QEMU and it does allow people to develop
++out-of-tree plugins that can be dynamically linked into a running QEMU
++process. However the project reserves the right to change or break the
++API should it need to do so. The best way to avoid this is to submit
++your plugin upstream so they can be updated if/when the API changes.
++
++
++Exposure of QEMU internals
++--------------------------
++
++The plugin architecture actively avoids leaking implementation details
++about how QEMU's translation works to the plugins. While there are
++conceptions such as translation time and translation blocks the
++details are opaque to plugins. The plugin is able to query select
++details of instructions and system configuration only through the
++exported *qemu_plugin* functions. The types used to describe
++instructions and events are opaque to the plugins themselves.
++
++Usage
++=====
++
++The QEMU binary needs to be compiled for plugin support:
++
++::
++    configure --enable-plugins
++
++Once built a program can be run with multiple plugins loaded each with
++their own arguments:
++
++::
++    $QEMU $OTHER_QEMU_ARGS \
++      -plugin tests/plugin/libhowvec.so,arg=inline,arg=hint \
++      -plugin tests/plugin/libhotblocks.so
++
++Arguments are plugin specific and can be used to modify their
++behaviour. In this case the howvec plugin is being asked to use inline
++ops to count and break down the hint instructions by type.
++
++Plugin Life cycle
++=================
++
++First the plugin is loaded and the public qemu_plugin_install function
++is called. The plugin will then register callbacks for various plugin
++events. Generally plugins will register a handler for the *atexit*
++if they want to dump a summary of collected information once the
++program/system has finished running.
++
++When a registered event occurs the plugin callback is invoked. The
++callbacks may provide additional information. In the case of a
++translation event the plugin has an option to enumerate the
++instructions in a block of instructions and optionally register
++callbacks to some or all instructions when they are executed.
++
++There is also a facility to add an inline event where code to
++increment a counter can be directly inlined with the translation.
++Currently only a simple increment is supported. This is not atomic so
++can miss counts. If you want absolute precision you should use a
++callback which can then ensure atomicity itself.
++
++Finally when QEMU exits all the registered *atexit* callbacks are
++invoked.
++
++Internals
++=========
++
++Locking
++-------
++
++We have to ensure we cannot deadlock, particularly under MTTCG. For
++this we acquire a lock when called from plugin code. We also keep the
++list of callbacks under RCU so that we do not have to hold the lock
++when calling the callbacks. This is also for performance, since some
++callbacks (e.g. memory access callbacks) might be called very
++frequently.
++
++  * A consequence of this is that we keep our own list of CPUs, so that
++    we do not have to worry about locking order wrt cpu_list_lock.
++  * Use a recursive lock, since we can get registration calls from
++    callbacks.
++
++As a result registering/unregistering callbacks is "slow", since it
++takes a lock. But this is very infrequent; we want performance when
++calling (or not calling) callbacks, not when registering them. Using
++RCU is great for this.
++
++We support the uninstallation of a plugin at any time (e.g. from
++plugin callbacks). This allows plugins to remove themselves if they no
++longer want to instrument the code. This operation is asynchronous
++which means callbacks may still occur after the uninstall operation is
++requested. The plugin isn't completely uninstalled until the safe work
++has executed while all vCPUs are quiescent.
 -- 
 2.20.1
 
