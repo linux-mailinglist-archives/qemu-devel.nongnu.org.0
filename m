@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431F0E54FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:17:41 +0200 (CEST)
-Received: from localhost ([::1]:35840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC61AE5522
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:27:10 +0200 (CEST)
+Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO61j-0003zj-Uj
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58815)
+	id 1iO6Av-0001VM-Jc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5Xl-0002FU-Oa
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:46:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iO5Ok-0008Kp-F4
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5Xk-0000nR-Gk
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:46:41 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55338)
+ (envelope-from <alex.bennee@linaro.org>) id 1iO5Oi-0003A7-U6
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:21 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53131)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO5Xk-0000mv-AA
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:46:40 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id g24so3395494wmh.5
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 12:46:40 -0700 (PDT)
+ id 1iO5Oi-00039U-O2
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:20 -0400
+Received: by mail-wm1-x333.google.com with SMTP id p21so3378541wmg.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 12:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KBMNgmBi7/k8LJ63MGoqOawSxFhttAR/bJdyMWQnEAU=;
- b=Xlg4bHZE5mRgiBAbCk2n29eocBKhzSvFB8l2fHZczn+Ext9G254ihnnb1ztcCMxE56
- bSBhtZ09sTYDlqe+0ySi4zuPihMgVMlOyE/4KVDLf819epGk+zN9VUSN0VAEu7cmD0JP
- E4YIXTKtHVb4wxl1xV4gJl/AenAsNZdXkuEw+hc4gAnYJtE3z6EPJDorRLsu60gpFQRZ
- wGG7k+BW6HIZsvh3hooZme7IZKu2/B+0bupYSiCK1rqSrt2dPl1otCJm7zJpPFA1x92T
- qBXE/jYNRhbxSVk5gfqIYRpaj4JhCKwR2Ienidhh2Y6OIa68y2m2FABxxzLyVlmfLr45
- QUeQ==
+ bh=yaLEb0Rvga8cR2LHsL8/9HPdNDQgpcbnXqsduwaSFKE=;
+ b=z8VpqLukQT1F29bptzXJlV/hRc+Bbne/mj4dMpLLKByqB+YF+TL7agF3rtGcw68arZ
+ /vd2yhSQNtzYCsZ/GSLvPSABoYkIkVmw7TSUTXo3WB2J7kbfiYOORX1xk2banOiLKJ3n
+ uaR4NruZkY+jmXjxCETf5H0Sb0VfGYznBn6jPeWT9yQUEEiO3IFkO6idF9vCf0gTCjEX
+ ERg+iG8oPNulaJI2dxG13AhMHcSCdh7BOm5c/iMcXWzUJvTauy1UrPjUiGcYC4LmTWsH
+ VOnQ3vYRl1thvkaGHezqX48Llm6jWmeQa8+KWmdYR7L7dlPMS42CfXVVx/g413AycA80
+ SnbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KBMNgmBi7/k8LJ63MGoqOawSxFhttAR/bJdyMWQnEAU=;
- b=DSxo+pX2hChX6fZuPCNtQvjmt8SIkHMer+y7cph4FBL+DO80aOaUHSCp1Iyjov+w/y
- 0B2MW1tYwPiunCA+espordxRldkzw59pItL0mbhjtIfk3deU1cASQkC4U9tywJyMh3At
- EXjv0sMaJ7H/DIQCBh3hoM1FOZAiTAHjiKxKNfMcxSvcKvMAGKzWNKarULUjGy/xlbnS
- W3/0qH2VaHjRrckcq7EFoS7x+5HPi97U9vRcfiOftcKoJpYczof7fwrQbPgxb3L05ErD
- hGkMukZTAEOQUHkeYe9ToCcoOi3rTQxgPw49F4zoHnv6I7vGvNQkibmRraavNIOvGAQT
- vLzw==
-X-Gm-Message-State: APjAAAXHOUbkFQUnBtfR2smLjPnYUhWngsjeSXLQu77TKMfhbYLTjge0
- QAH3G4QDXkcsTRzF4kcO39pWlg==
-X-Google-Smtp-Source: APXvYqwpmkBhWDuXLeN8EhHUllm+7qQylSqcRAisQ+EA1R3ZlRyeeQE9SK7xAW/lOuiGh52HsO378w==
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr5070254wmc.29.1572032798967; 
- Fri, 25 Oct 2019 12:46:38 -0700 (PDT)
+ bh=yaLEb0Rvga8cR2LHsL8/9HPdNDQgpcbnXqsduwaSFKE=;
+ b=RV8eetTb8KDmX4N7qfm0hQuHqPltLCxvt3S3Bki1oRjjhY3/5vMFJQNGeHn4yZpCL3
+ Rqe9d5PZMW7PSUgIRDnDDsh3s98GffDFp0ii2vnaAAoCWvMl1810cRwxotAp0EuYrn6A
+ qAv3gKjx6SzbODcphY8IkMCdUOW6ez0IKy0EoZ0Fqs90Td/AsF+LHWetpEEAWdNKToQO
+ YPXxRDRNBOngkT68Z2pQtESJDe3WqE82kAm3P9s7JEZvXOAtN6QU25nioTLLRxoJcVDz
+ VTuovoDOuSuUlMHJO5bTS3ltl1U1WNjftLNfeJ0jJZ4KSIDzs7FMkXSY42oxlWBfJ/i1
+ 3DTw==
+X-Gm-Message-State: APjAAAXTt9TrlcJgwooSgcoULcH7lKPgNzFE1nemgyGy0Wj+uDSY+7OY
+ ZbNRHyFTzyP8/XYWTR5xQTY3Lw==
+X-Google-Smtp-Source: APXvYqyGiEAL0QdjNgYd9X1yXSVbFore6maxVvzIU9Z0CDg+3mhgVkau7lsqoJg/gD6gI+LGiI1iPA==
+X-Received: by 2002:a1c:7517:: with SMTP id o23mr5219691wmc.34.1572032239588; 
+ Fri, 25 Oct 2019 12:37:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t185sm2588072wmf.45.2019.10.25.12.46.38
+ by smtp.gmail.com with ESMTPSA id j19sm4479657wre.0.2019.10.25.12.37.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 12:46:38 -0700 (PDT)
+ Fri, 25 Oct 2019 12:37:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 801991FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 960C31FF9D;
  Fri, 25 Oct 2019 20:37:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 12/15] gitlab-ci.yml: Use libvdeplug-dev to compile-test the
- VDE network backend
-Date: Fri, 25 Oct 2019 20:37:06 +0100
-Message-Id: <20191025193709.28783-13-alex.bennee@linaro.org>
+Subject: [PULL v3 13/15] travis.yml: --enable-debug-tcg to check-tcg
+Date: Fri, 25 Oct 2019 20:37:07 +0100
+Message-Id: <20191025193709.28783-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025193709.28783-1-alex.bennee@linaro.org>
 References: <20191025193709.28783-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,32 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+This adds a whole bunch of asserts which will catch bugs you might
+introduce into the TCG code.
 
-The libvdeplug-dev package is required to compile-test net/vde.c.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191016131002.29663-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index ed8067f5cf9..be57c6a454a 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -5,7 +5,7 @@ before_script:
- build-system1:
-  script:
-  - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
--      libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev
-+      libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
-  - ./configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
-       cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
-       mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
+diff --git a/.travis.yml b/.travis.yml
+index c43597f1331..ba3a8d4cfc9 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -334,14 +334,14 @@ matrix:
+ 
+     # Run check-tcg against linux-user
+     - env:
+-        - CONFIG="--disable-system"
++        - CONFIG="--disable-system --enable-debug-tcg"
+         - TEST_CMD="make -j3 check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
+ 
+     # Run check-tcg against softmmu targets
+     - env:
+-        - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
++        - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+         - TEST_CMD="make -j3 check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
 -- 
 2.20.1
 
