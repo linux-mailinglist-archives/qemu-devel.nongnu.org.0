@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3903E5512
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:23:40 +0200 (CEST)
-Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59775E54D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:03:24 +0200 (CEST)
+Received: from localhost ([::1]:35718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO67X-0003FT-LF
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
+	id 1iO5nu-00047b-3B
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5Of-000870-9c
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:18 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iO5Oi-0008Fl-Cf
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5Oe-00036b-43
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:17 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44526)
+ (envelope-from <alex.bennee@linaro.org>) id 1iO5Og-00038f-Lk
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:19 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37644)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO5Od-000360-U4
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:16 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z11so3594000wro.11
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 12:37:15 -0700 (PDT)
+ id 1iO5Og-00037w-Fg
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:18 -0400
+Received: by mail-wm1-x330.google.com with SMTP id q130so3169598wme.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 12:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9U6VJzyn/CEOB4/CyQIKZOWv5ZeIvdrRbrpNWyazKps=;
- b=eu9aN0PXTTLnLaw3sCfLWL3V9fvQWOXb4b+Z+thPF4BrsECB8Uia0bMGjutZHcFw/I
- vUG9thzCj+aeFwvjQnNLSpztlkTx3OXftxS4ELwzu0SSfcp2uF8DzuaNF30cK+HBJQTv
- OXWfZfAEKuK+1KTVIE9vwdktYRztDdOlsa3Qe9yomplRWNGWmwSN+yhdt51C0fPEQFwO
- E+4/niUYsTmA76SmxB5IEZ9h1C0EFDoE7zCbeuQgixnCKvJrua4FPuPXHfi/5+CM66Ec
- TkZOkrMyeYmkB8BOcJ1Po/bomHRFHs9PxdziOlKxHYDoBX7YG6CP/qIFtD7QKKIyMM9f
- oXRg==
+ bh=nM9J2cmbyGFwjMjK+CMae4AlsIxqtsY1sLspbcwHaoY=;
+ b=Db+xTT4yY2eOactcJaKleahmhyHRLxLwyx2+/iW8b4DilZtsgD+DzRcfI4UAoqSjAx
+ eS/6w6XmOWBxPIb6yrNNKGcB6gryMBfx/izfGf5A23ZZBMuythINzNJQBDKo/4hcKJAs
+ NkPOsaIW3r7EhxjI637d1so+7CltUIugwiDycMz6Hdwp+g6ppo0Oc3ZmwSPAbnbSBDFN
+ 7PmOUOsDwXFFk6nTkE6eH18Ondsg6bxODkh74/VHKVCPTX8MASH2CV0Z5GjSVZ9kN/zw
+ j4o8cCbwNtDBEPTCM7FXcG5S2GQJJislRbm5Z5HwEl8kZckIiCy7Vh1mG5hKyde+K597
+ o8TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9U6VJzyn/CEOB4/CyQIKZOWv5ZeIvdrRbrpNWyazKps=;
- b=TWQEATTU8FDUVbDmWum6HveL2yf1yJx1GNNEaouIajP7vGEYWgDvDaB40o4O/stSFO
- nCEDEQbzXdBmM8HHxUjiA8UQvTqphlQN4tIcVH1HFiaSGZrZzcDZHWo8fKYaPzxTdNiV
- 6u0w+T5fdeTn9Y0dieFQkPEpsF9FTexCsqUPie5h5gJdjhOFJx1giGdmGKwQy88rt1rT
- uN+VrQ6+fRp0cMfxMMU1astpplrMxkv87aHWFpWvseo571YGS0XWrE1Q+Wub6bJO3HKx
- Gem3bEvfUzNqGFvHHA6N9YgSOl86Ls+00J/j1LpCQ9VOvX1AvtV7eNankiJZ8P9UAgu8
- mg3Q==
-X-Gm-Message-State: APjAAAWhG4JfI86LKW14NRnVI9QDMfRxE9VKyIbV9/rhZmNjWs7olWD6
- RCoAZQhQ03kDCICs9nEDiR+Tng==
-X-Google-Smtp-Source: APXvYqymQFkYg9PGZQ/f58PyMhMr+NSWihnwoLdBx0qeGEL6OF3K2w36hPf4LY4iDr3YBGy2Szbjhg==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr3603214wrn.213.1572032234733; 
- Fri, 25 Oct 2019 12:37:14 -0700 (PDT)
+ bh=nM9J2cmbyGFwjMjK+CMae4AlsIxqtsY1sLspbcwHaoY=;
+ b=CXbJAxV23pX5Azw5jCRlGYf9cdXjsrJtQPk62mi1CQCWnKJYuPgAr6DXAozOQb0UJC
+ JjoGTIIMNNDpDSvKvO1g4wPmfL/EVFJaA/CTuFtkJZfgLKax8w6rcenEfx3jU2n90bJ7
+ n9vTBCiDbipcBE7QGqGI2EVxWLyAusm2J2v7Y2De54iCNUwYaK1VnKk/9Z+CvvUI2Sga
+ MQWvUZt4uETNy2skvcN2g+PPii+t61F3M0n2cX877HdLWnoZchwZR54O5FNQ96tT67m7
+ iUvdbB4thzwDAmoAYFemehtGpfGnsU+uDtyD9E/uPY0NlEmuXLsgBdCj9fdUrDAcc0FU
+ TFcg==
+X-Gm-Message-State: APjAAAVMSUVaaRKtsxAwZtoG01yOanpTG8qTgAD+kF/jaLRrQbqKFk4p
+ FjCfJmx+4C8k5AeBrpHrWb2bVg==
+X-Google-Smtp-Source: APXvYqxsYvTmcT1A7PI4ZUFFragw6Ptkcg0vVuQc/bhb3bR/OTnN7BLSdomeXAYxbRrtqmS7n+5Neg==
+X-Received: by 2002:a05:600c:1051:: with SMTP id
+ 17mr5119287wmx.149.1572032237304; 
+ Fri, 25 Oct 2019 12:37:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 5sm3726651wrk.86.2019.10.25.12.37.11
+ by smtp.gmail.com with ESMTPSA id a2sm3329837wrv.39.2019.10.25.12.37.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Oct 2019 12:37:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 01FD21FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 3FD741FF99;
  Fri, 25 Oct 2019 20:37:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 06/15] travis.yml: Test the release tarball
-Date: Fri, 25 Oct 2019 20:37:00 +0100
-Message-Id: <20191025193709.28783-7-alex.bennee@linaro.org>
+Subject: [PULL v3 09/15] tests/vm: Let subclasses disable IPv6
+Date: Fri, 25 Oct 2019 20:37:03 +0100
+Message-Id: <20191025193709.28783-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025193709.28783-1-alex.bennee@linaro.org>
 References: <20191025193709.28783-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,59 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+ qemu-devel@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-Add a job to generate the release tarball and build/install few
-QEMU targets from it.
+The mechanism will be used to work around issues related to IPv6
+on the netbsd image builder.
 
-Ideally we should build the 'efi' target from the 'roms' directory,
-but it is too time consuming.
-
-This job is only triggered when a tag starting with 'v' is pushed,
-which is the case with release candidate tags.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191007160450.3619-1-philmd@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191018181705.17957-3-ehabkost@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 7e0d4ad2b31..f2b679fe701 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -343,3 +343,26 @@ matrix:
-         - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-         - TEST_CMD="make -j3 check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+
-+
-+    # Release builds
-+    # The make-release script expect a QEMU version, so our tag must start with a 'v'.
-+    # This is the case when release candidate tags are created.
-+    - if: tag IS present AND tag =~ /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-+      env:
-+        # We want to build from the release tarball
-+        - BUILD_DIR="release/build/dir" SRC_DIR="../../.."
-+        - BASE_CONFIG="--prefix=$PWD/dist"
-+        - CONFIG="--target-list=x86_64-softmmu,aarch64-softmmu,armeb-linux-user,ppc-linux-user"
-+        - TEST_CMD="make install -j3"
-+        - QEMU_VERSION="${TRAVIS_TAG:1}"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+      before_script:
-+        - command -v ccache && ccache --zero-stats
-+        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-+      script:
-+        - make -C ${SRC_DIR} qemu-${QEMU_VERSION}.tar.bz2
-+        - ls -l ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2
-+        - tar -xf ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2 && cd qemu-${QEMU_VERSION}
-+        - ./configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
-+        - make install
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index b5d1479bee9..2929de23aa7 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -57,6 +57,8 @@ class BaseVM(object):
+     arch = "#arch"
+     # command to halt the guest, can be overridden by subclasses
+     poweroff = "poweroff"
++    # enable IPv6 networking
++    ipv6 = True
+     def __init__(self, debug=False, vcpus=None):
+         self._guest = None
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+@@ -81,7 +83,8 @@ class BaseVM(object):
+         self._args = [ \
+             "-nodefaults", "-m", "4G",
+             "-cpu", "max",
+-            "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22",
++            "-netdev", "user,id=vnet,hostfwd=:127.0.0.1:0-:22" +
++                       (",ipv6=no" if not self.ipv6 else ""),
+             "-device", "virtio-net-pci,netdev=vnet",
+             "-vnc", "127.0.0.1:0,to=20"]
+         if vcpus and vcpus > 1:
 -- 
 2.20.1
 
