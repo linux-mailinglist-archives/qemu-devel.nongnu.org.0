@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAD4E4CB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:55:09 +0200 (CEST)
-Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0255E4CB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:53:34 +0200 (CEST)
+Received: from localhost ([::1]:60258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO03Y-0001xd-9O
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36809)
+	id 1iO01z-0006gh-Ue
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iNzvC-0005Tl-Bn
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:32 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNzvW-0006ZB-Jd
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iNzvB-00008g-7Q
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28858
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iNzvV-0000PM-Fd
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53098
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNzvB-00008D-48
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:29 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNzvV-0000Kg-CK
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572011188;
+ s=mimecast20190719; t=1572011204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N2KMQsM9Snog+L7Vjq/rhFIl2mDQsfkLO7SbFop5bb4=;
- b=OI8jZGol7BPwjWE5v7LaeGdI8PuzsfABubSoycw1APmxH/yx2G3pwyPRG9/SHwC1uY5rUn
- zh22zTa8UaHh+1zI3uxog3OU7B91BAmKg7J5/CxSFykHe0iKTZlhLbELH6piRosJFAnD6H
- hlu3Gxx2RD3c2lV7xxsdCN1uhESyB5I=
+ bh=8wE9v+oMYoLM+ZHCSTLatnwuohBVoL4LrjAghHeGwKg=;
+ b=NJxmL8ZuD3Zb2UmJoDoA9dOJ2Rn24P7UKis2ivQOOCQTNUDSa2YXi5tpLtueSO5LL8W9vr
+ nKAHM6pfvgU3AuXwR/AQIBeqwHrSYmZljyHZgPjfi/LBI+tkUoD9s7FZe4f2g/J2myu1rS
+ JqfEIU4VpDLFyHMdWThSBZdZFjMa9x4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-_cln1YskNme_nSLCfGW6Nw-1; Fri, 25 Oct 2019 09:46:22 -0400
+ us-mta-384-5JuSQiLBOWy8FVTxNkupmw-1; Fri, 25 Oct 2019 09:46:34 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B0C107AD31;
- Fri, 25 Oct 2019 13:46:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB10E1005500;
+ Fri, 25 Oct 2019 13:46:23 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-223.ams2.redhat.com
  [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34F7C5D70E;
- Fri, 25 Oct 2019 13:46:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B43B65D70E;
+ Fri, 25 Oct 2019 13:46:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 2/7] iotests: Skip read-only cases in 118 when run as root
-Date: Fri, 25 Oct 2019 15:46:06 +0200
-Message-Id: <20191025134611.25920-3-kwolf@redhat.com>
+Subject: [PULL 3/7] blockdev: Use error_report() in hmp_commit()
+Date: Fri, 25 Oct 2019 15:46:07 +0200
+Message-Id: <20191025134611.25920-4-kwolf@redhat.com>
 In-Reply-To: <20191025134611.25920-1-kwolf@redhat.com>
 References: <20191025134611.25920-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: _cln1YskNme_nSLCfGW6Nw-1
+X-MC-Unique: 5JuSQiLBOWy8FVTxNkupmw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,76 +75,45 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some tests in 118 use chmod to remove write permissions from the file
-and assume that the image can indeed not be opened read-write
-afterwards. This doesn't work when the test is run as root, because root
-can still open the file as writable even when the permission bit isn't
-set.
-
-Introduce a @skip_if_root decorator and use it in 118 to skip the tests
-in question when the script is run as root.
+Instead of using monitor_printf() to report errors, hmp_commit() should
+use error_report() like other places do.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/qemu-iotests/118        |  3 +++
- tests/qemu-iotests/iotests.py | 10 ++++++++++
- 2 files changed, 13 insertions(+)
+ blockdev.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
-index ea0b326ae0..e20080e9a6 100755
---- a/tests/qemu-iotests/118
-+++ b/tests/qemu-iotests/118
-@@ -446,6 +446,7 @@ class TestChangeReadOnly(ChangeBaseClass):
-         self.assert_qmp(result, 'return[0]/inserted/ro', True)
-         self.assert_qmp(result, 'return[0]/inserted/image/filename', new_i=
-mg)
+diff --git a/blockdev.c b/blockdev.c
+index 03c7cd7651..ba491e3ef5 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1088,11 +1088,11 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
 =20
-+    @iotests.skip_if_user_is_root
-     def test_rw_ro_retain(self):
-         os.chmod(new_img, 0o444)
-         self.vm.add_drive(old_img, 'media=3Ddisk', 'none')
-@@ -530,6 +531,7 @@ class TestChangeReadOnly(ChangeBaseClass):
-         self.assert_qmp(result, 'return[0]/inserted/ro', True)
-         self.assert_qmp(result, 'return[0]/inserted/image/filename', new_i=
-mg)
+         blk =3D blk_by_name(device);
+         if (!blk) {
+-            monitor_printf(mon, "Device '%s' not found\n", device);
++            error_report("Device '%s' not found", device);
+             return;
+         }
+         if (!blk_is_available(blk)) {
+-            monitor_printf(mon, "Device '%s' has no medium\n", device);
++            error_report("Device '%s' has no medium", device);
+             return;
+         }
 =20
-+    @iotests.skip_if_user_is_root
-     def test_make_ro_rw(self):
-         os.chmod(new_img, 0o444)
-         self.vm.add_drive(old_img, 'media=3Ddisk', 'none')
-@@ -571,6 +573,7 @@ class TestChangeReadOnly(ChangeBaseClass):
-         self.assert_qmp(result, 'return[0]/inserted/ro', True)
-         self.assert_qmp(result, 'return[0]/inserted/image/filename', new_i=
-mg)
+@@ -1105,8 +1105,7 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+         aio_context_release(aio_context);
+     }
+     if (ret < 0) {
+-        monitor_printf(mon, "'commit' error for '%s': %s\n", device,
+-                       strerror(-ret));
++        error_report("'commit' error for '%s': %s", device, strerror(-ret)=
+);
+     }
+ }
 =20
-+    @iotests.skip_if_user_is_root
-     def test_make_ro_rw_by_retain(self):
-         os.chmod(new_img, 0o444)
-         self.vm.add_drive(old_img, 'media=3Ddisk', 'none')
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 693fde155a..709def4d5d 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -931,6 +931,16 @@ def skip_if_unsupported(required_formats=3D[], read_on=
-ly=3DFalse):
-         return func_wrapper
-     return skip_test_decorator
-=20
-+def skip_if_user_is_root(func):
-+    '''Skip Test Decorator
-+       Runs the test only without root permissions'''
-+    def func_wrapper(*args, **kwargs):
-+        if os.getuid() =3D=3D 0:
-+            case_notrun('{}: cannot be run as root'.format(args[0]))
-+        else:
-+            return func(*args, **kwargs)
-+    return func_wrapper
-+
- def execute_unittest(output, verbosity, debug):
-     runner =3D unittest.TextTestRunner(stream=3Doutput, descriptions=3DTru=
-e,
-                                      verbosity=3Dverbosity)
 --=20
 2.20.1
 
