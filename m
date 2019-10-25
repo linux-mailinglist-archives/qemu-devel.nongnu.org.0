@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD1CE4C8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:43:14 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F808E4C9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:46:27 +0200 (CEST)
+Received: from localhost ([::1]:60132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzs1-0001Ky-D6
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35514)
+	id 1iNzv8-0000zt-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNzly-0006PC-0h
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:36:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNznc-0000ra-3Y
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:38:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNzlw-0004EV-KL
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:36:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50052)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNzlw-0004EC-4a
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:36:56 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C4B06C056808
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:36:54 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id g67so999216wmg.4
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:36:54 -0700 (PDT)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNzna-0004kK-UK
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:38:39 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:39053)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iNzna-0004kB-Nk
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:38:38 -0400
+Received: by mail-qk1-x744.google.com with SMTP id 15so1754643qkh.6
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=te8kw2FaRtUg2DoexVhzrVv+oglatRsNzfFGhHUGaOs=;
+ b=S8cQw0Hz5LbraJHMxuCOq1lUK2x66mni1O3FouN91ZKPbtQdsm6OmatQr7N5RqtohT
+ 2kc2s3HCyOp+BhdOCgVEfZdhX1EVIG0HlMdcmRxF+I7ynCi2psLC5P1CNMiAqz/fozz/
+ JIRJmfgMHALzITuVHrOTqjUZ2O9F96uJfvKA0KFTju01vKvwSnYq0ySZA/XqjR9DVaoN
+ BnaPmwsot3mMW1jPFsw47+jghZH0lD4vhwoZk4hRO5lwh6peDzcGf6C2+3s9mUQmDpDf
+ S8f1MHcfCBpLLoSGF8Ax1l2SVWhs+QqolqSZzOOv+1z1aiGj9P71QOlERbMWpCq2XZKP
+ 5SWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qzemR98VM0iraa5w9nzXUv/tzcdkZPRDfo5s70/oLv4=;
- b=IlBIEjep36nGAqUXzS2AWCwnd3C1KI/X7rBFglBXIUNUGZKTacTK/Hr6whTwTyh/kk
- hI7jcCJqHLpAVTBhE3o7B4HKkXZ7J6qP7RX7qczd5n052VNFVVlWF7JQtHpHMVvowQVH
- wdQ5zfmM8Apye5KgDu40JzASjnW8CABEHfxAQCyNxWG6vvMhwZQUQPnOELLg2VyLYddu
- mQ7/yWWp5tPsjgpBm8i+pgy4TXGmOpF6vP4xtBn9aaWvzUsXa+Z4OT9RI9VQgga/R/Iy
- hcWn/cPgS0DX4ddZko/kmAK/eJYKA+G8q+Tp7DGrb2ujZJsmIXvXRspcJb+a+Dc7bCAm
- QINQ==
-X-Gm-Message-State: APjAAAXGzDMyzWUkXHywaKSd+xrhMfkbKGs6BBZkwu9fJwTU+xF2zSSd
- 5rPG4x9gq5xjfuvKK/KJamSESYNfMxfKPGVB/ibqpYhA3uB9lPUqnXizrxC/5temolr+ELNaiGJ
- ghKcMbpOXJhkncCs=
-X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr3684724wmd.10.1572010612974; 
- Fri, 25 Oct 2019 06:36:52 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwsgV4Tcnc9RcmhGFBrwWBlZjI2ryS+ynvQhpRSffZiCCmykX8KiVF+qU400UUeswcOfxlG+A==
-X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr3684695wmd.10.1572010612691; 
- Fri, 25 Oct 2019 06:36:52 -0700 (PDT)
-Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id k24sm7611709wmi.1.2019.10.25.06.36.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Oct 2019 06:36:52 -0700 (PDT)
-Subject: Re: [PATCH 2/4] tests: benchmark crypto with fixed data size, not
- time period
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191017145654.11371-1-berrange@redhat.com>
- <20191017145654.11371-3-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8c9bef40-7520-2cb5-409f-ea5317783c68@redhat.com>
-Date: Fri, 25 Oct 2019 15:36:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=te8kw2FaRtUg2DoexVhzrVv+oglatRsNzfFGhHUGaOs=;
+ b=ujkYB4niKDcJ/WpC+/y/sM4Jsq4JTCWOKZgnzqs6fHC2iFsakzvmFF9XgZI8/irF+4
+ XJ0UHEaHhWsMP3CgOzsahDQSHqPruwf4L8PzzeFtr+Lgkb4lE/rtU6EOqiT6ID5Uzpwj
+ gOTm+0M9AXLb/+luWbZmoxbQVAdvbVhUXLDFvMFkiGgFL+rNLnSqKo+mXV8RSek3EkxM
+ xlZcA05BNZW0M+eMK7qRTzEdGGtNnvOkN0qw+00VRZSdwiiutlenErw6lZHFYlzRyrZT
+ bvh5uYWthXzt8EVKQGHEOCN0TalK9cOeX04kSHuRI/ykE0MJu4FwX2se6ksYhfmS+lus
+ lVEw==
+X-Gm-Message-State: APjAAAWwQXeWoqGAj2odyiLwVoKEwWLJwP+GltMAKTr2/7SzOhKxi5q4
+ ICe1+ORuJj3pKrweO9K8n0htEw==
+X-Google-Smtp-Source: APXvYqykUuqU71hPOCNPPEsRfg2oLcaLrCaEhEjzhffpEPSejXEOLJusu4S5tZaLbOpAH1ggxgTN4A==
+X-Received: by 2002:a37:6f06:: with SMTP id k6mr2805776qkc.141.1572010717735; 
+ Fri, 25 Oct 2019 06:38:37 -0700 (PDT)
+Received: from [172.20.87.163] (198-4-20-64.static.cosmoweb.net. [64.20.4.198])
+ by smtp.gmail.com with ESMTPSA id z141sm1119650qka.126.2019.10.25.06.38.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 25 Oct 2019 06:38:37 -0700 (PDT)
+Subject: Re: [PATCH v2 08/12] linux-user/sparc64: Fix target_signal_frame
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20191025113921.9412-1-richard.henderson@linaro.org>
+ <20191025113921.9412-9-richard.henderson@linaro.org>
+ <fe46bd7d-d036-3a43-d1b4-d05a25555eb4@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <3b51c99f-e7da-31e2-aa65-d497a0aa8633@linaro.org>
+Date: Fri, 25 Oct 2019 09:38:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017145654.11371-3-berrange@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <fe46bd7d-d036-3a43-d1b4-d05a25555eb4@vivier.eu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::744
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,169 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 4:56 PM, Daniel P. Berrang=C3=A9 wrote:
-> Currently the crypto benchmarks are processing data in varying chunk
-> sizes, over a fixed time period. This turns out to be a terrible idea
-> because with small chunk sizes the overhead of checking the elapsed
-> time on each loop iteration masks the true performance.
->=20
-> Benchmarking over a fixed data size avoids the loop running any system
-> calls which can interfere with the performance measurements.
->=20
-> Before this change
->=20
-> Enc chunk 512 bytes 2283.47 MB/sec Dec chunk 512 bytes 2236.23 MB/sec O=
-K
-> Enc chunk 4096 bytes 2744.97 MB/sec Dec chunk 4096 bytes 2614.71 MB/sec=
- OK
-> Enc chunk 16384 bytes 2777.53 MB/sec Dec chunk 16384 bytes 2678.44 MB/s=
-ec OK
-> Enc chunk 65536 bytes 2809.34 MB/sec Dec chunk 65536 bytes 2699.47 MB/s=
-ec OK
->=20
-> After this change
->=20
-> Enc chunk 512 bytes 2058.22 MB/sec Dec chunk 512 bytes 2030.11 MB/sec O=
-K
-> Enc chunk 4096 bytes 2699.27 MB/sec Dec chunk 4096 bytes 2573.78 MB/sec=
- OK
-> Enc chunk 16384 bytes 2748.52 MB/sec Dec chunk 16384 bytes 2653.76 MB/s=
-ec OK
-> Enc chunk 65536 bytes 2814.08 MB/sec Dec chunk 65536 bytes 2712.74 MB/s=
-ec OK
->=20
-> The actual crypto performance hasn't changed, which shows how
-> significant the mis-measurement has been for small data sizes.
->=20
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->   tests/benchmark-crypto-cipher.c | 26 ++++++++++++++------------
->   tests/benchmark-crypto-hash.c   | 17 +++++++++--------
->   2 files changed, 23 insertions(+), 20 deletions(-)
->=20
-> diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-c=
-ipher.c
-> index 3ca31a2779..d8db5504d4 100644
-> --- a/tests/benchmark-crypto-cipher.c
-> +++ b/tests/benchmark-crypto-cipher.c
-> @@ -21,11 +21,12 @@ static void test_cipher_speed(size_t chunk_size,
->   {
->       QCryptoCipher *cipher;
->       Error *err =3D NULL;
-> -    double total =3D 0.0;
->       uint8_t *key =3D NULL, *iv =3D NULL;
->       uint8_t *plaintext =3D NULL, *ciphertext =3D NULL;
->       size_t nkey;
->       size_t niv;
-> +    size_t total =3D 2 * GiB;
+On 10/25/19 8:47 AM, Laurent Vivier wrote:
+> Le 25/10/2019 à 13:39, Richard Henderson a écrit :
+>> Instructions are always 4 bytes; use uint32_t not abi_ulong.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  linux-user/sparc/signal.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
+>> index efb0df7e2b..ecfdf937e4 100644
+>> --- a/linux-user/sparc/signal.c
+>> +++ b/linux-user/sparc/signal.c
+>> @@ -87,7 +87,7 @@ struct target_signal_frame {
+>>      struct sparc_stackf ss;
+>>      __siginfo_t         info;
+>>      abi_ulong           fpu_save;
+>> -    abi_ulong           insns[2] __attribute__ ((aligned (8)));
+>> +    uint32_t            insns[2] __attribute__ ((aligned (8)));
+>>      abi_ulong           extramask[TARGET_NSIG_WORDS - 1];
+>>      abi_ulong           extra_size; /* Should be 0 */
+>>      qemu_siginfo_fpu_t fpu_state;
+>> @@ -98,7 +98,7 @@ struct target_rt_signal_frame {
+>>      abi_ulong           regs[20];
+>>      sigset_t            mask;
+>>      abi_ulong           fpu_save;
+>> -    unsigned int        insns[2];
+>> +    uint32_t            insns[2];
+>>      stack_t             stack;
+>>      unsigned int        extra_size; /* Should be 0 */
+>>      qemu_siginfo_fpu_t  fpu_state;
+>>
+> 
+> This definition is used by sparc and sparc64 (sparc64/signal.c includes
+> sparc/signal.c), so the definition was valid before your changes for
+> sparc and not good for sparc64. Moreover rt_signal_frame for sparc64
+> doesn't look like this one (and signal_frame doesn't exist).
 
-Can you use 'const size_t total'?.
+You're right that target_rt_signal_frame isn't correct for sparc64.  But we
+also don't implement setup_rt_frame yet, so it's also currently unused.
 
-> +    size_t remain;
->  =20
->       if (!qcrypto_cipher_supports(alg, mode)) {
->           return;
-> @@ -58,33 +59,34 @@ static void test_cipher_speed(size_t chunk_size,
->                                         &err) =3D=3D 0);
->  =20
->       g_test_timer_start();
-> -    do {
-> +    remain =3D total;
-> +    while (remain) {
->           g_assert(qcrypto_cipher_encrypt(cipher,
->                                           plaintext,
->                                           ciphertext,
->                                           chunk_size,
->                                           &err) =3D=3D 0);
-> -        total +=3D chunk_size;
-> -    } while (g_test_timer_elapsed() < 1.0);
-> +        remain -=3D chunk_size;
-> +    }
-> +    g_test_timer_elapsed();
->  =20
-> -    total /=3D MiB;
->       g_print("Enc chunk %zu bytes ", chunk_size);
-> -    g_print("%.2f MB/sec ", total / g_test_timer_last());
-> +    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last())=
-;
->  =20
-> -    total =3D 0.0;
->       g_test_timer_start();
-> -    do {
-> +    remain =3D total;
-> +    while (remain) {
->           g_assert(qcrypto_cipher_decrypt(cipher,
->                                           plaintext,
->                                           ciphertext,
->                                           chunk_size,
->                                           &err) =3D=3D 0);
-> -        total +=3D chunk_size;
-> -    } while (g_test_timer_elapsed() < 1.0);
-> +        remain -=3D chunk_size;
-> +    }
-> +    g_test_timer_elapsed();
->  =20
-> -    total /=3D MiB;
->       g_print("Dec chunk %zu bytes ", chunk_size);
-> -    g_print("%.2f MB/sec ", total / g_test_timer_last());
-> +    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last())=
-;
->  =20
->       qcrypto_cipher_free(cipher);
->       g_free(plaintext);
-> diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-has=
-h.c
-> index 9b6f7a9155..67b7067223 100644
-> --- a/tests/benchmark-crypto-hash.c
-> +++ b/tests/benchmark-crypto-hash.c
-> @@ -20,7 +20,8 @@ static void test_hash_speed(const void *opaque)
->       size_t chunk_size =3D (size_t)opaque;
->       uint8_t *in =3D NULL, *out =3D NULL;
->       size_t out_len =3D 0;
-> -    double total =3D 0.0;
-> +    size_t total =3D 2 * GiB;
+What's here is just good enough to make setup_frame work, and that is correct
+for both sparc and sparc64.
 
-Ditto: 'const size_t total'.
 
-> +    size_t remain;
->       struct iovec iov;
->       int ret;
->  =20
-> @@ -31,20 +32,20 @@ static void test_hash_speed(const void *opaque)
->       iov.iov_len =3D chunk_size;
->  =20
->       g_test_timer_start();
-> -    do {
-> +    remain =3D total;
-> +    while (remain) {
->           ret =3D qcrypto_hash_bytesv(QCRYPTO_HASH_ALG_SHA256,
->                                     &iov, 1, &out, &out_len,
->                                     NULL);
->           g_assert(ret =3D=3D 0);
->  =20
-> -        total +=3D chunk_size;
-> -    } while (g_test_timer_elapsed() < 5.0);
-> +        remain -=3D chunk_size;
-> +    }
-> +    g_test_timer_elapsed();
->  =20
-> -    total /=3D MiB;
->       g_print("sha256: ");
-> -    g_print("Testing chunk_size %zu bytes ", chunk_size);
-> -    g_print("done: %.2f MB in %.2f secs: ", total, g_test_timer_last()=
-);
-> -    g_print("%.2f MB/sec\n", total / g_test_timer_last());
-> +    g_print("Hash %zu GB chunk size %zu bytes ", total / GiB, chunk_si=
-ze);
-> +    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last())=
-;
->  =20
->       g_free(out);
->       g_free(in);
->=20
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+r~
 
