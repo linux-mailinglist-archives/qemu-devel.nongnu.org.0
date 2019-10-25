@@ -2,118 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEA6E5139
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:30:25 +0200 (CEST)
-Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8F5E5176
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:41:13 +0200 (CEST)
+Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO2To-0004fM-2y
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:30:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37744)
+	id 1iO2eF-00021q-Ti
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@quicinc.com>) id 1iO2Q2-0007Ji-JC
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:26:33 -0400
+ (envelope-from <keithp@keithp.com>) id 1iO2a9-0002Qr-QW
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:36:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@quicinc.com>) id 1iO2Q1-0001w1-6Z
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:26:30 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46740)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
- id 1iO2Q0-0001vI-HC
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:26:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1572020788; x=1603556788;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=jfsQKUZET5JSvp6YaP0CbM5ZfqaFZLkVLlBZA7tq5R4=;
- b=Yyz3FEJOZMUhmcDHxCG7KvbGFT/iJVldoiRfLwS/2YmjAWghItqTQjdE
- 9vLvym1Ql1H34iwRRsovr+xVa9/t3GdRty8b6ZDTeqfK6Yx9sP0dCWIAx
- cZ/IGHiIRSa3eVuzZh2JDKwU75lrytjlNTJLMRYaiOXv2ghHW9nHh+vgw U=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Oct 2019 09:26:26 -0700
-IronPort-SDR: WV28dYTCNInwL0RvLeV26KBdHTjtx9sJpm7XZMd1klfDUS9cHqVNVnsnZwBRh+uWKgRY57+nGW
- v8eidedVaAo6UeDGnuUVH7/lRmYeLEQpNa/S5ViMaYeZGAvSS9NpVMVow4SWcr5u/T7oJ3mmjo
- Uy19bjp1belzt9a0MaXpztCqJ/6lNFU18UzQdEVCamWwLU8sLMGn/+ZaTZuesHPpMaK+xCFwcT
- yTv5PLAXrrnjKXLWtkLF0d94T/ZQ7te0bNL2QUtWgDP2Y5cygIrsOlGKV837+sNbQA23HnhNZN
- 1jBsPkDkg12KioCJg5lt1Hjg
-Received: from nasanexm03h.na.qualcomm.com ([10.85.0.50])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 25 Oct 2019 09:26:25 -0700
-Received: from apsanexr02e.ap.qualcomm.com (10.85.0.28) by
- nasanexm03h.na.qualcomm.com (10.85.0.50) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Fri, 25 Oct 2019 09:26:25 -0700
-Received: from nasanexm03f.na.qualcomm.com (10.85.0.47) by
- apsanexr02e.ap.qualcomm.com (10.85.0.28) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Fri, 25 Oct 2019 09:26:23 -0700
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03f.na.qualcomm.com (10.85.0.47) with Microsoft SMTP Server (TLS)
- id 15.0.1473.3 via Frontend Transport; Fri, 25 Oct 2019 09:26:23 -0700
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (52.135.234.160) by
- BYAPR02MB6439.namprd02.prod.outlook.com (20.179.89.33) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.22; Fri, 25 Oct 2019 16:26:22 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::8cc2:1921:4cb1:6cc1]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::8cc2:1921:4cb1:6cc1%7]) with mapi id 15.20.2387.019; Fri, 25 Oct 2019
- 16:26:22 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: QEMU for Qualcomm Hexagon - KVM Forum talk and code available
-Thread-Topic: QEMU for Qualcomm Hexagon - KVM Forum talk and code available
-Thread-Index: AdWLUOkdof4fsTRrRvOiehGwyV6GSg==
-Date: Fri, 25 Oct 2019 16:26:22 +0000
-Message-ID: <BYAPR02MB48863165DEE32E5C563E93F4DE650@BYAPR02MB4886.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=tsimpson@quicinc.com; 
-x-originating-ip: [199.106.103.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 27397635-5bac-44b6-937e-08d7596812cf
-x-ms-traffictypediagnostic: BYAPR02MB6439:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <BYAPR02MB6439FF1CC21AE2A36B817884DE650@BYAPR02MB6439.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 02015246A9
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(39860400002)(396003)(366004)(376002)(346002)(189003)(199004)(102836004)(14454004)(3846002)(66446008)(66946007)(54896002)(66476007)(966005)(66556008)(478600001)(86362001)(71190400001)(71200400001)(64756008)(256004)(6506007)(4744005)(26005)(5660300002)(25786009)(7696005)(476003)(606006)(2906002)(99286004)(236005)(6306002)(9686003)(5640700003)(4326008)(55016002)(486006)(66066001)(52536014)(6916009)(316002)(7736002)(8676002)(33656002)(81156014)(81166006)(76116006)(6436002)(2501003)(8936002)(186003)(790700001)(6116002)(2351001)(74316002)(54906003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB6439;
- H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 84j9Mc9n09lAiRDEQBW6dT89OCneAYNWeq7H7tbOPXbeD+iAvUk9vfnCPCHeFVf8cDPcbi3iFdII4GaC29avc9P4Qi52E+YsDsBjwJixzNUZgO5ie6MqxgVmHXAb78PZzH0eJ01TsjKny0n/YhxWzXWv2frSx5PEFCcoerSFIcmx3yaKdyVtNfkBUjdrxUdrq3e6Z1qs8RS2Nv8FvXlazPiytQ0X+7fJFlDKyiIqrVXQM7oAurBf93cJSIk8Su0pvcL/0S1SNEGa+nzw87Ns+Ryhs9qgHvC+V8lR3xT8EcaHcM3wctnDQc520WjyyvTmsKEWKVlCKapoYAwfNbhrUXXol85/2m3z+bnoPBbSiZuysBLGd1XeBjnu1uXjsOC1HvvVkDSG/ibr2oldUOOKMfX4ImmOHniRfgJyihdl2DEJbyKsqjOkE2+SHsUAK/hPh88WnwgJN3ddJnwtsX5/m6QCjwq2/hsjL/UpmHdnIpU=
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GMqiyGqif78teNnQcLsdU4Eacz0Yc1xoQyCzhitL7ccTOD2KrYcgJhavOMpF8t6HtfwPAbfr1VjwfhPEkozXHhKFaHEGfTg76vUnjsntV++zwh7iDYBX08FbWI+e6dYoXSROEdCs8NX7pWuUx+pCCDPaXPqazMGDBYfMJozK64o/HpgLHUMtNVDm1WLBp6h4BFcZ43nzetfWyOZuD61C8PW5VyOhrMN03QqNRwzuz4sGdL2zqUH3oBi84kP01U47N6NS1tNSHpErzGIJJcgT7GdU+WjBRqyTmNsZoLRIcXmC2itoYaIbzJW1r8kl4R/tqpxx7jgPo5FFmSaCFzQ+yQ==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l2k4xB5eyRaKqypJJfpFjug3rKUX2o836UlJWxWfYrw=;
- b=mEK391XR9KGJoUiOFRhTQ05VotLC+1hkwJ1nfDr8IvULkmAQ8KDq2DXj3DuD+6jdsiy35B0J/0G8Hh9L3MHCEormUwX7kRhrYUO2itphrkEOz0g5TY0jrq3GG9rFc/D59s0xm+bLrLrDTBC2eVf75R1pnlBYvYfw7l7AmxVceAtBEXXAlr+oYvuUTS0YOV559BUv/czts4GYPogw3qC/yWEkkDmY5dhwNzbXoe40dzOcfmlSsAcfZ9eTGKTxkXX16vXGk1WRX0+mXUDdEVGzXnG0niEPSBEvzr3i13qqwz/jHEnx10KLTsexHOMjUGtLSRMYCbdBHnZDstKDZlHD8Q==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector2-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l2k4xB5eyRaKqypJJfpFjug3rKUX2o836UlJWxWfYrw=;
- b=Tf6GP3whfeJ46nz0YZ+3Miba2z42q9WYd7NAIZH8b0YmrDHueYnxmM4DJ1vn6Z+kbK1kMnEm46uIz8KjPjzSnms4nAmsTV6wemOgIBZTd6Huv5h/BLQgFcQPhaBcCq885XZpSo0G9NkC3RENk3D3J643JOd0gOVEmqFIYK8B4mY=
-x-ms-exchange-crosstenant-network-message-id: 27397635-5bac-44b6-937e-08d7596812cf
-x-ms-exchange-crosstenant-originalarrivaltime: 25 Oct 2019 16:26:22.1310 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: jxHt2fYE/MKjj5xyCFy+gXR+MFgOpfSQ75acauNSwa3JgXnr1dCIjygnNsxbtFBTHcVFPfB5ScrCi+bJk+I9GQ==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB6439
-Content-Type: multipart/alternative;
- boundary="_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_"
+ (envelope-from <keithp@keithp.com>) id 1iO2a8-0006Yy-Cv
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:36:57 -0400
+Received: from home.keithp.com ([63.227.221.253]:43884 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <keithp@keithp.com>) id 1iO2a8-0006YX-2L
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:36:56 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id A67BA3F22EA2;
+ Fri, 25 Oct 2019 09:36:53 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id ZXnpgSfUsqMm; Fri, 25 Oct 2019 09:36:53 -0700 (PDT)
+Received: from keithp.com (unknown [204.134.242.194])
+ by elaine.keithp.com (Postfix) with ESMTPSA id F2FDA3F22E9D;
+ Fri, 25 Oct 2019 09:36:52 -0700 (PDT)
+Received: by keithp.com (Postfix, from userid 1000)
+ id 98D8C158212D; Fri, 25 Oct 2019 09:36:52 -0700 (PDT)
+From: "Keith Packard" <keithp@keithp.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] Semihost SYS_READC implementation (v4)
+In-Reply-To: <8736fhm9tw.fsf@linaro.org>
+References: <89ada4b1-ee3d-a512-07c2-9bc1ba5806da@redhat.com>
+ <20191024224622.12371-1-keithp@keithp.com> <8736fhm9tw.fsf@linaro.org>
+Date: Fri, 25 Oct 2019 09:36:52 -0700
+Message-ID: <87pnik4w9n.fsf@keithp.com>
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.38
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 63.227.221.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,105 +58,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alessandro Di Federico <ale@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>,
- =?iso-8859-1?Q?Niccol=F2_Izzo?= <izzoniccolo@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_
-Content-Type: text/plain; charset="iso-8859-1"
+--=-=-=
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-We would like inform the you that we will be doing a talk at the KVM Forum =
-next week on QEMU for Qualcomm Hexagon.  Alessandro Di Federico, Niccolo Iz=
-zo, and I have been working independently on implementations of the Hexagon=
- target.  We plan to merge the implementations, have a community review, an=
-d ultimately have Hexagon be an official target in QEMU.  Our code is avail=
-able at the links below.
-https://github.com/revng/qemu-hexagon
-https://github.com/quic/qemu
-If anyone has any feedback on the code as it stands today or guidance on ho=
-w best to prepare it for review, please let us know.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Thanks,
-Taylor
+> I can see the use for this but I'd like to know what you are testing
+> with. We only have very basic smoketests in check-tcg but I've tested
+> with the latest arm-semihosting tests and they are all fine so no
+> regressions there.
 
---_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+I'm adding semihosting support to picolibc
+(https://keithp.com/picolibc/) and need a way to automate tests for it's
+SYS_READC support, so eventually I'll have automated tests there, but
+that depends on qemu support...
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">We would like inform the you that we will be doing a=
- talk at the KVM Forum next week on QEMU for Qualcomm Hexagon.&nbsp; Alessa=
-ndro Di Federico, Niccolo Izzo, and I have been working independently on im=
-plementations of the Hexagon target.&nbsp; We
- plan to merge the implementations, have a community review, and ultimately=
- have Hexagon be an official target in QEMU.&nbsp; Our code is available at=
- the links below.<o:p></o:p></p>
-<p class=3D"MsoNormal" style=3D"text-indent:.5in"><u><a href=3D"https://git=
-hub.com/revng/qemu-hexagon">https://github.com/revng/qemu-hexagon</a></u><o=
-:p></o:p></p>
-<p class=3D"MsoNormal" style=3D"text-indent:.5in"><u><a href=3D"https://git=
-hub.com/quic/qemu">https://github.com/quic/qemu</a></u><o:p></o:p></p>
-<p class=3D"MsoNormal">If anyone has any feedback on the code as it stands =
-today or guidance on how best to prepare it for review, please let us know.=
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal">Taylor<o:p></o:p></p>
-</div>
-</body>
-</html>
+> Please keep version history bellow --- so they get dropped when the
+> patch is applied.
 
---_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_--
+Sure, I'll edit the mail before sending. In my repo, I'm leaving the
+version history in git so I can keep track of it.
+
+>> v4:
+>> 	Add qemu_semihosting_console_init to stubs/semihost.c for
+>> 	hosts that don't support semihosting
+>
+> This doesn't appear to be in the diff which is why I'm seeing a compile
+> failure for non-CONFIG_SEMIHOST machines. However...
+
+Argh! Just git operation failure -- I'm building another patch on top of
+this (for RISC-V semihosting support) and the stubs/semihost.c change
+got caught in there. My overall check for changes missed this mistake.
+
+>> +
+>> +#include <poll.h>
+>
+> Headers should go at the top.
+
+Thanks; I've fixed this file and hw/semihosting/console.c
+
+>>      case TARGET_SYS_READC:
+>> -        qemu_log_mask(LOG_UNIMP, "%s: SYS_READC not implemented", __fun=
+c__);
+>> -        return 0;
+>> +        return qemu_semihosting_console_inc(env);
+>
+> I'm not sure this would be correct if there was no character available.
+> The docs imply it blocks although don't say so explicitly AFAICT.
+
+Here's what the docs say:
+
+        https://static.docs.arm.com/100863/0200/semihosting.pdf
+
+        Return
+
+        On exit, the RETURN REGISTER contains the byte read from the consol=
+e.
+
+If this call didn't block, they'd have to define a value which indicated
+that no byte was available? Openocd also implements SYS_READC using
+'getchar()', which definitely blocks. So, at least qemu would be the
+same.
+
+I realize it's really weird to block the whole emulation for this call,
+but given the target environment (deeply embedded devices), it's quite
+convenient as the whole qemu process blocks, instead of spinning.
+
+>> +    /* connect semihosting console input if requested */
+>> +    qemu_semihosting_console_init();
+>> +
+>
+> I'd rather rename qemu_semihosting_connect_chardevs to
+> qemu_semihosting_init and keep all our bits of semihosting setup in
+> there rather than having multiple calls out of vl.c
+
+I also thought this would be a nice cleanup. However, the last caller to
+qemu_chr_fe_set_handlers gets the focus for input, and connect_chardevs
+is called before the serial ports and monitor are initialized, so
+semihosting gets pushed aside and stdio input ends up hooked to the monitor
+instead.
+
+Adding this function and placing the call after the other stdio users
+get hooked up means that semihosting starts with the input focus.
+
+=2D-=20
+=2Dkeith
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl2zJKQACgkQ2yIaaQAA
+ABGTIhAAmiGNN2S90GOK+1tMuv/7nSW1Q3/xmTWdUSv/GcGa9fmTeJtMcmue0xCu
+QULzf6bwSlvYPzkWepcDIHfFmuk6CLOYX6AK5n/YWuyUzntAAdaFkP1//LMbf1A1
+pn/5GIXyvhQo5Bj3rugEhPMR1zxWCsStcoBSyHKlCk2qUWj5kCZoO/e50BmNT7N0
+zVsq9ZSnWsmzGtF8fjM/JB/5VAcpYRWY1iZplKZZwp/QTfqS1uXqjT+c0Ik/2wYK
+D2Znbtu+jgi7qZpXenmamYX/iZBA4Vgy5rM1WT20craeUJBN/qIQdOZHgLav0EAe
+NAmwiLD6+lODwOv75BD0TjMDlF+Oh6aW1tksjyEcDorj5u3xNxjwGqk8DbrhqVoy
+VNR07sfPI/+f6mhk7zPacyFuUa88cKUOodmu6F9ROy7PYpK6HC9druvm2BVH5M+D
+BTnK7oKOIa20CLhcLjcpfi3LpYMpJhAjlfN2VI8N8fNzCJUoT02x61vC53ASj5/t
+AnOLnQ+Zxfrglbm2aJqN7w0Nj1AgqAf+2J/7QA5utyqyoSkwutvN9rMiMIyGO6kD
+ImsJM+5srpaCfDuASuedOQx8Kv9hdIqRNg4ITP3MkwhOQxpDFZTjBZW6Bo8K2jAC
+MQRM+Zrtslu+Ko6gxTnV7fK/LZmNX3BZi9FPcjEIKFbbdt7d+w0=
+=Psq6
+-----END PGP SIGNATURE-----
+--=-=-=--
 
