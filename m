@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC50E4CE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:56:25 +0200 (CEST)
-Received: from localhost ([::1]:60286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A05E4D53
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:59:47 +0200 (CEST)
+Received: from localhost ([::1]:60347 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO04m-0005Bj-Hp
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36942)
+	id 1iO082-000330-5O
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36996)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iNzvZ-0006he-Am
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNzvo-0007Uc-FC
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:47:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iNzvX-0000QD-NF
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55856)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iNzvX-0000Pp-DA
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:51 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5C35985543
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:46:50 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id x9so1170011wrq.5
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:46:50 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNzvn-0000W2-1g
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:47:07 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNzvm-0000Va-SH
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:47:06 -0400
+Received: by mail-oi1-x242.google.com with SMTP id o205so1641333oib.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WgnQD5uzuWnKVqKeyejWlUu8vJaeKmq9xJPO3LyNe/c=;
+ b=CLjSUk+r+Zt9D8eBA04kR2Nxqi/92EWg+AorPxeuy7DHuZU/UCNNuYKzTOdvS4hqkE
+ PvEv7Az0EPUJlsyf9+DPwFSluCm7SrrHH1qa4qP+BXbDgIpixeErjAa67p0208hVUQ6h
+ gTp5rFJq5v+Y9C9f6+aYVx43mAoqHGDsS5+P/meHPW0z/Py6J4jHE4LYdbHZbdKFr0Nj
+ EEOMKnNOPLHYAqWHeS4W8YaqjQM9l6VX7szkbi7m2taM0fM5cTi7Fl/LRPRjuRFDAKWr
+ sJOxmiiVb1/H1QMTC10bDrh5Jszlkl1PES+l8OkN2ifhhONGQ2tmGGQtCvxNzNZIfD8P
+ hFjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=qWNR5mr8dRsrMOIhGWml5Gg5BK4sQFEPJ2Rmwcx1KsM=;
- b=pGmZzuB20mqK+vtoJ3/hcz44xfBgcgVOnRUGR7v/hiTkY+gmKxCmv5lQzEa77zhlxi
- W4YS0Qv9XH1s+GOzOamxCMiCMZdIlUZzwa9T6DrKUZlF9xuHahNUXUmqeXzebxzCMd9B
- Ss1AacAsRi8q9k+8TPzbBb7C4/QXh6myoxCV1o0F0QHr/MWT2ArBIgUKAJ4oezTx2qaJ
- 2pOyZNAhofPGP1F2wKJZCywmE06bfQCRmcHSO8Z+jX4JG26EQMNQV84I7jEM9hV0KIqz
- 1X20L5DkpkyDcte+/HAaQsEx+zFc8vrDzRMitCg9vpOWDRUhyZ/v/RlpwXk0cQq2kl6H
- hnzw==
-X-Gm-Message-State: APjAAAUiJds2I11u1IQZK8Z4m8zXHKm3yqa62MMOtzOe4YzCexGhUdoW
- 5qPcQg8xWWvt4FjA/hEtoYdUp3u4h/4uevFQdxKNgLkrgAKbgyk0KkhNZ4BBAT/ygItXeFTfbUR
- bOgMWM1R0KjvAJEQ=
-X-Received: by 2002:a1c:4489:: with SMTP id r131mr3476191wma.132.1572011209074; 
- Fri, 25 Oct 2019 06:46:49 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxCJVDDC++SsF2QTxeRduS2fhlFcH5AVIxzVuCNktHWDMhUrRBtCDNHj1mjK+jFt/M42uhNIg==
-X-Received: by 2002:a1c:4489:: with SMTP id r131mr3476158wma.132.1572011208747; 
- Fri, 25 Oct 2019 06:46:48 -0700 (PDT)
-Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.200.174])
- by smtp.gmail.com with ESMTPSA id v20sm1859388wml.26.2019.10.25.06.46.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 06:46:48 -0700 (PDT)
-Date: Fri, 25 Oct 2019 15:46:46 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/4] tests: benchmark crypto with fixed data size, not
- time period
-Message-ID: <20191025134646.tqtf4qgxdzw3tjov@steredhat>
-References: <20191017145654.11371-1-berrange@redhat.com>
- <20191017145654.11371-3-berrange@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WgnQD5uzuWnKVqKeyejWlUu8vJaeKmq9xJPO3LyNe/c=;
+ b=uC73CfE+uV090AKzNObcQ10+JJXw6zOfVj0RvLECUARgpTau7BnW33ao1I0d7Sc5YE
+ +efCtneAQwxiTziX+9iIgayA9pCxVZCxX1ljehfdkWmdX2YEIgFRyd2+CgYom+ViBBwe
+ lvPFAyVA1Jv5kVsCHkqevoP6+f1MMeTsbI6YdcUwJHk0T4rPJJUBq3wplYDQ53Z57t8E
+ kz9WSUjQlYGFy+YSNSFuN63jw3DtWm7rCGjD8KJGEHHAbuwlgEAerKhMDmarKv2FlGr6
+ z4l64I3K1mZyEvmeMz/OMRHQSB3OJ3JkCOfXINdh0CBJbYSrGWwNorMcEarymLRVVo+g
+ y2pw==
+X-Gm-Message-State: APjAAAWquosRff96VFLq8qtlvR6f186D4Rm2kmEG39dF0u2Srh5BNa6m
+ /hxs8FuNSoPpHSw8thjuS4d0X0ZaTOuK7nG1XoJ/2Q==
+X-Google-Smtp-Source: APXvYqzxk5jTRVZhdk96fm8TYCik6x9ttBFX3mNWkBU0jJBVzqpEB1upQnIUo5eg9rq3gFGKCMVtHY9+tka9AoIdiko=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr3006428oia.48.1572011225636; 
+ Fri, 25 Oct 2019 06:47:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20191017145654.11371-3-berrange@redhat.com>
-User-Agent: NeoMutt/20180716
+References: <20191025095849.25283-1-mreitz@redhat.com>
+In-Reply-To: <20191025095849.25283-1-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 14:46:54 +0100
+Message-ID: <CAFEAcA8Y8fGKC3DkdM+wkU5Oe6ACZMtvWjpry9qFgPJc5KYjdA@mail.gmail.com>
+Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,169 +73,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 17, 2019 at 03:56:52PM +0100, Daniel P. Berrang=E9 wrote:
-> Currently the crypto benchmarks are processing data in varying chunk
-> sizes, over a fixed time period. This turns out to be a terrible idea
-> because with small chunk sizes the overhead of checking the elapsed
-> time on each loop iteration masks the true performance.
->=20
-> Benchmarking over a fixed data size avoids the loop running any system
-> calls which can interfere with the performance measurements.
->=20
-> Before this change
->=20
-> Enc chunk 512 bytes 2283.47 MB/sec Dec chunk 512 bytes 2236.23 MB/sec O=
-K
-> Enc chunk 4096 bytes 2744.97 MB/sec Dec chunk 4096 bytes 2614.71 MB/sec=
- OK
-> Enc chunk 16384 bytes 2777.53 MB/sec Dec chunk 16384 bytes 2678.44 MB/s=
-ec OK
-> Enc chunk 65536 bytes 2809.34 MB/sec Dec chunk 65536 bytes 2699.47 MB/s=
-ec OK
->=20
-> After this change
->=20
-> Enc chunk 512 bytes 2058.22 MB/sec Dec chunk 512 bytes 2030.11 MB/sec O=
-K
-> Enc chunk 4096 bytes 2699.27 MB/sec Dec chunk 4096 bytes 2573.78 MB/sec=
- OK
-> Enc chunk 16384 bytes 2748.52 MB/sec Dec chunk 16384 bytes 2653.76 MB/s=
-ec OK
-> Enc chunk 65536 bytes 2814.08 MB/sec Dec chunk 65536 bytes 2712.74 MB/s=
-ec OK
->=20
-> The actual crypto performance hasn't changed, which shows how
-> significant the mis-measurement has been for small data sizes.
->=20
-> Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
-> ---
->  tests/benchmark-crypto-cipher.c | 26 ++++++++++++++------------
->  tests/benchmark-crypto-hash.c   | 17 +++++++++--------
->  2 files changed, 23 insertions(+), 20 deletions(-)
->=20
-> diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-c=
-ipher.c
-> index 3ca31a2779..d8db5504d4 100644
-> --- a/tests/benchmark-crypto-cipher.c
-> +++ b/tests/benchmark-crypto-cipher.c
-> @@ -21,11 +21,12 @@ static void test_cipher_speed(size_t chunk_size,
->  {
->      QCryptoCipher *cipher;
->      Error *err =3D NULL;
-> -    double total =3D 0.0;
->      uint8_t *key =3D NULL, *iv =3D NULL;
->      uint8_t *plaintext =3D NULL, *ciphertext =3D NULL;
->      size_t nkey;
->      size_t niv;
-> +    size_t total =3D 2 * GiB;
-> +    size_t remain;
-> =20
->      if (!qcrypto_cipher_supports(alg, mode)) {
->          return;
-> @@ -58,33 +59,34 @@ static void test_cipher_speed(size_t chunk_size,
->                                        &err) =3D=3D 0);
-> =20
->      g_test_timer_start();
-> -    do {
-> +    remain =3D total;
-> +    while (remain) {
->          g_assert(qcrypto_cipher_encrypt(cipher,
->                                          plaintext,
->                                          ciphertext,
->                                          chunk_size,
->                                          &err) =3D=3D 0);
-> -        total +=3D chunk_size;
-> -    } while (g_test_timer_elapsed() < 1.0);
-> +        remain -=3D chunk_size;
-> +    }
-> +    g_test_timer_elapsed();
-> =20
-> -    total /=3D MiB;
->      g_print("Enc chunk %zu bytes ", chunk_size);
-> -    g_print("%.2f MB/sec ", total / g_test_timer_last());
-> +    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last())=
-;
-> =20
-> -    total =3D 0.0;
->      g_test_timer_start();
-> -    do {
-> +    remain =3D total;
-> +    while (remain) {
->          g_assert(qcrypto_cipher_decrypt(cipher,
->                                          plaintext,
->                                          ciphertext,
->                                          chunk_size,
->                                          &err) =3D=3D 0);
-> -        total +=3D chunk_size;
-> -    } while (g_test_timer_elapsed() < 1.0);
-> +        remain -=3D chunk_size;
+On Fri, 25 Oct 2019 at 11:09, Max Reitz <mreitz@redhat.com> wrote:
+>
+> Hi,
+>
+> It seems to me that there is a bug in Linux=E2=80=99s XFS kernel driver, =
+as
+> I=E2=80=99ve explained here:
+>
+> https://lists.nongnu.org/archive/html/qemu-block/2019-10/msg01429.html
+>
+> In combination with our commit c8bb23cbdbe32f, this may lead to guest
+> data corruption when using qcow2 images on XFS with aio=3Dnative.
 
-Are we sure that total is a multiple of chunk_size?
-Maybe I would have increased 'done' and checked (done <=3D total),
-but maybe it doesn't matter since I think that chunk_size will always
-be a power of two.
+Have we reported that upstream to the xfs folks?
 
-> +    }
-> +    g_test_timer_elapsed();
-> =20
-> -    total /=3D MiB;
->      g_print("Dec chunk %zu bytes ", chunk_size);
-> -    g_print("%.2f MB/sec ", total / g_test_timer_last());
-> +    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last())=
-;
-> =20
->      qcrypto_cipher_free(cipher);
->      g_free(plaintext);
-> diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-has=
-h.c
-> index 9b6f7a9155..67b7067223 100644
-> --- a/tests/benchmark-crypto-hash.c
-> +++ b/tests/benchmark-crypto-hash.c
-> @@ -20,7 +20,8 @@ static void test_hash_speed(const void *opaque)
->      size_t chunk_size =3D (size_t)opaque;
->      uint8_t *in =3D NULL, *out =3D NULL;
->      size_t out_len =3D 0;
-> -    double total =3D 0.0;
-> +    size_t total =3D 2 * GiB;
-> +    size_t remain;
->      struct iovec iov;
->      int ret;
-> =20
-> @@ -31,20 +32,20 @@ static void test_hash_speed(const void *opaque)
->      iov.iov_len =3D chunk_size;
-> =20
->      g_test_timer_start();
-> -    do {
-> +    remain =3D total;
-> +    while (remain) {
->          ret =3D qcrypto_hash_bytesv(QCRYPTO_HASH_ALG_SHA256,
->                                    &iov, 1, &out, &out_len,
->                                    NULL);
->          g_assert(ret =3D=3D 0);
-> =20
-> -        total +=3D chunk_size;
-> -    } while (g_test_timer_elapsed() < 5.0);
-> +        remain -=3D chunk_size;
-> +    }
-> +    g_test_timer_elapsed();
-> =20
-> -    total /=3D MiB;
->      g_print("sha256: ");
-> -    g_print("Testing chunk_size %zu bytes ", chunk_size);
-> -    g_print("done: %.2f MB in %.2f secs: ", total, g_test_timer_last()=
-);
-> -    g_print("%.2f MB/sec\n", total / g_test_timer_last());
-> +    g_print("Hash %zu GB chunk size %zu bytes ", total / GiB, chunk_si=
-ze);
-> +    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last())=
-;
-> =20
->      g_free(out);
->      g_free(in);
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+thanks
+-- PMM
 
