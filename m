@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67376E48B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:41:50 +0200 (CEST)
-Received: from localhost ([::1]:58414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA37AE48A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:36:56 +0200 (CEST)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNx2R-0007vO-K6
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1iNwxj-00071m-De
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iNwRC-0002DO-5f
+ (envelope-from <stefanha@redhat.com>) id 1iNwRC-0002DN-5v
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006J0-SV
+ (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006J8-Sy
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46796
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48472
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006A2-M8
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006Bv-NA
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571997738;
+ s=mimecast20190719; t=1571997748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LwhXgl2ciXXzy/J77uxFbsgMEqtSSgjQHtAsTomujWc=;
- b=HNCoImOW7ThhzlzYt0NE/S+6M0KU444n1kqcccb0U1gE4OKjiDEBc27eq5WbD3+C2D+BpH
- yuPuYVis/5h01MPhJBr2HgZptJUxerS0nFlHahb+k/7xCN50SpzERYXY8uE4GXlg3kniV6
- m+r2uCFMLSz8BnIlQJwUvtw6D16CtZg=
+ bh=PE1JdYLcfkPlEa4T0j9k7C93O795//rjI/j503JnUjE=;
+ b=fgXyIXPFCm/LhYEtqdGK467LbSdv8O9k3BYezdYD3zkU4jDTNNiunxwjEdbvAMpXZfXHMc
+ dOYktY+thefwUH6AisnLQPAKEv7rnJ1eILR0wiV/YzXruTy6etFFDqTnjzepAUF0Ud4i1j
+ FQ9hlAsfZysP1+Ii7MZBS7oYI0ErebU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-eJvXOwXeMqC3epOlF6APpQ-1; Fri, 25 Oct 2019 06:02:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-215-sA4AcyYlPQ61-uBbvhJUmg-1; Fri, 25 Oct 2019 06:02:26 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F9B147B
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:02:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E95C80183D
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:02:25 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 683E65C1D4;
- Fri, 25 Oct 2019 10:02:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 751FE600D1;
+ Fri, 25 Oct 2019 10:02:16 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 1/3] WIP virtiofsd: import Linux <fuse.h> header file
-Date: Fri, 25 Oct 2019 12:01:50 +0200
-Message-Id: <20191025100152.6638-2-stefanha@redhat.com>
+Subject: [RFC 2/3] qgraph: add an "after" test callback function
+Date: Fri, 25 Oct 2019 12:01:51 +0200
+Message-Id: <20191025100152.6638-3-stefanha@redhat.com>
 In-Reply-To: <20191025100152.6638-1-stefanha@redhat.com>
 References: <20191025100152.6638-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: eJvXOwXeMqC3epOlF6APpQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: sA4AcyYlPQ61-uBbvhJUmg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,100 +78,91 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tests/vhost-user-fs-test.c needs fuse.h.  The private copy that
-virtiofsd has can be replaced with a properly imported file using
-update-linux-headers.sh.
-
-TODO rerun update-linux-headers.sh with upstream kernel tree!
+Add a callback that runs after a test completes.  This will be used for
+cleanup.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- contrib/virtiofsd/fuse_lowlevel.h                              | 2 +-
- .../fuse_kernel.h =3D> include/standard-headers/linux/fuse.h     | 0
- contrib/virtiofsd/fuse_loop_mt.c                               | 2 +-
- contrib/virtiofsd/fuse_lowlevel.c                              | 2 +-
- contrib/virtiofsd/fuse_virtio.c                                | 2 +-
- scripts/update-linux-headers.sh                                | 3 ++-
- 6 files changed, 6 insertions(+), 5 deletions(-)
- rename contrib/virtiofsd/fuse_kernel.h =3D> include/standard-headers/linux=
-/fuse.h (100%)
+ tests/libqos/qgraph.h          | 2 ++
+ tests/libqos/qgraph_internal.h | 1 +
+ tests/libqos/qgraph.c          | 1 +
+ tests/qos-test.c               | 6 ++++++
+ 4 files changed, 10 insertions(+)
 
-diff --git a/contrib/virtiofsd/fuse_lowlevel.h b/contrib/virtiofsd/fuse_low=
-level.h
-index 79fb30a1c2..a8c92ff7e0 100644
---- a/contrib/virtiofsd/fuse_lowlevel.h
-+++ b/contrib/virtiofsd/fuse_lowlevel.h
-@@ -23,7 +23,7 @@
- #endif
+diff --git a/tests/libqos/qgraph.h b/tests/libqos/qgraph.h
+index 3a25dda4b2..5e73a00e4a 100644
+--- a/tests/libqos/qgraph.h
++++ b/tests/libqos/qgraph.h
+@@ -47,6 +47,7 @@ typedef void (*QOSStartFunct) (QOSGraphObject *object);
 =20
- #include "fuse_common.h"
--#include "fuse_kernel.h"
-+#include "standard-headers/linux/fuse.h"
+ /* Test options functions */
+ typedef void *(*QOSBeforeTest) (GString *cmd_line, void *arg);
++typedef void (*QOSAfterTest) (void *arg);
 =20
- #include <utime.h>
- #include <fcntl.h>
-diff --git a/contrib/virtiofsd/fuse_kernel.h b/include/standard-headers/lin=
-ux/fuse.h
-similarity index 100%
-rename from contrib/virtiofsd/fuse_kernel.h
-rename to include/standard-headers/linux/fuse.h
-diff --git a/contrib/virtiofsd/fuse_loop_mt.c b/contrib/virtiofsd/fuse_loop=
-_mt.c
-index 2000a8902a..af7b501fac 100644
---- a/contrib/virtiofsd/fuse_loop_mt.c
-+++ b/contrib/virtiofsd/fuse_loop_mt.c
-@@ -11,7 +11,7 @@
- #include "fuse_i.h"
- #include "fuse_lowlevel.h"
- #include "fuse_misc.h"
--#include "fuse_kernel.h"
-+#include "standard-headers/linux/fuse.h"
- #include "fuse_virtio.h"
+ /**
+  * SECTION: qgraph.h
+@@ -341,6 +342,7 @@ struct QOSGraphTestOptions {
+                                  * additional parameters to the command li=
+ne
+                                  * and modify the argument to the test fun=
+ction.
+                                  */
++    QOSAfterTest after;         /* executed after the test */
+     bool subprocess;            /* run the test in a subprocess */
+ };
 =20
- #include <stdio.h>
-diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_low=
-level.c
-index 78ccfe3a27..c1a901cb4d 100644
---- a/contrib/virtiofsd/fuse_lowlevel.c
-+++ b/contrib/virtiofsd/fuse_lowlevel.c
-@@ -10,7 +10,7 @@
- */
+diff --git a/tests/libqos/qgraph_internal.h b/tests/libqos/qgraph_internal.=
+h
+index f4734c8681..5e1131f06c 100644
+--- a/tests/libqos/qgraph_internal.h
++++ b/tests/libqos/qgraph_internal.h
+@@ -68,6 +68,7 @@ struct QOSGraphNode {
+             QOSTestFunc function;
+             void *arg;
+             QOSBeforeTest before;
++            QOSAfterTest after;
+             bool subprocess;
+         } test;
+     } u;
+diff --git a/tests/libqos/qgraph.c b/tests/libqos/qgraph.c
+index 7a7ae2a19e..f3e792a509 100644
+--- a/tests/libqos/qgraph.c
++++ b/tests/libqos/qgraph.c
+@@ -603,6 +603,7 @@ void qos_add_test(const char *name, const char *interfa=
+ce,
+     assert(!opts->edge.size_arg);
 =20
- #include "fuse_i.h"
--#include "fuse_kernel.h"
-+#include "standard-headers/linux/fuse.h"
- #include "fuse_opt.h"
- #include "fuse_misc.h"
- #include "fuse_virtio.h"
-diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virti=
-o.c
-index 533ef24bb7..7a0d0b2603 100644
---- a/contrib/virtiofsd/fuse_virtio.c
-+++ b/contrib/virtiofsd/fuse_virtio.c
-@@ -15,7 +15,7 @@
- #include "qapi/error.h"
+     node->u.test.before =3D opts->before;
++    node->u.test.after =3D opts->after;
+     node->u.test.subprocess =3D opts->subprocess;
+     node->available =3D true;
+     add_edge(interface, test_name, QEDGE_CONSUMED_BY, &opts->edge);
+diff --git a/tests/qos-test.c b/tests/qos-test.c
+index fd70d73ea5..fa77f661c6 100644
+--- a/tests/qos-test.c
++++ b/tests/qos-test.c
+@@ -273,6 +273,7 @@ void *qos_allocate_objects(QTestState *qts, QGuestAlloc=
+ator **p_alloc)
+  * 3) call all nodes constructor and get_driver/get_device depending on ed=
+ge,
+  *    start the hardware (*_device_enable functions)
+  * 4) start test
++ * 5) @after test function as defined in the given QOSGraphTestOptions
+  */
+ static void run_one_test(const void *arg)
+ {
+@@ -296,6 +297,11 @@ static void run_one_test(const void *arg)
 =20
- #include "fuse_i.h"
--#include "fuse_kernel.h"
-+#include "standard-headers/linux/fuse.h"
- #include "fuse_misc.h"
- #include "fuse_opt.h"
- #include "fuse_virtio.h"
-diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers=
-.sh
-index f76d77363b..1a627ccd73 100755
---- a/scripts/update-linux-headers.sh
-+++ b/scripts/update-linux-headers.sh
-@@ -184,7 +184,8 @@ EOF
+     obj =3D qos_allocate_objects(global_qtest, &alloc);
+     test_node->u.test.function(obj, test_arg, alloc);
++
++    /* After test */
++    if (test_node->u.test.after) {
++        test_node->u.test.after(test_arg);
++    }
+ }
 =20
- rm -rf "$output/include/standard-headers/linux"
- mkdir -p "$output/include/standard-headers/linux"
--for i in "$tmpdir"/include/linux/*virtio*.h \
-+for i in "$tmpdir/include/linux/fuse.h" \
-+         "$tmpdir"/include/linux/*virtio*.h \
-          "$tmpdir/include/linux/qemu_fw_cfg.h" \
-          "$tmpdir/include/linux/input.h" \
-          "$tmpdir/include/linux/input-event-codes.h" \
+ static void subprocess_run_one_test(const void *arg)
 --=20
 2.21.0
 
