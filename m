@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14460E4F36
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:34:42 +0200 (CEST)
-Received: from localhost ([::1]:32912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641ECE4F56
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:39:35 +0200 (CEST)
+Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0fn-0003Ej-VC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44304)
+	id 1iO0kX-0005PY-VU
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:39:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iO0Tf-0004zz-CK
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:08 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iO0Th-00052l-A1
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iO0Te-0001bm-70
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:07 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:42378)
+ (envelope-from <richard.henderson@linaro.org>) id 1iO0Tf-0001ce-Li
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:09 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:46521)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iO0Te-0001bU-3H
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:06 -0400
-Received: by mail-qt1-x836.google.com with SMTP id w14so3450665qto.9
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:22:06 -0700 (PDT)
+ id 1iO0Tf-0001cT-HW
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:07 -0400
+Received: by mail-qk1-x743.google.com with SMTP id e66so1878176qkf.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:22:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VpK7DgB24L4FBN+Cv8MDDt0jG1tSba2F0aG6/IXjc+c=;
- b=NKHdQx3WHGsT1oovR+8zWm0MC0caxY7W2vBEDb8/QV/jg+IEudIICMPSugi1BDWdIk
- bX7J0lpZxdAk1DPNxkqlpmheARYeiHCgo79up1+lYQsDOvHhDwYNFqy8tb6C/xGBh6rx
- D1bLqDumpRBteAVV+NXp+iysNDrYJUrS4lL/LG6FUXer+wzleqZ/2PiNAA70kgx/UxFW
- P5anqgU1K9WEAZ3DfETLkb0gA2zrj+39mR1yOQWdwz4NAJoH31zLi3NiYRIBZu5fm3Y6
- Saa8fRCmJM3vup4adb4rmo7BAdC4ltb/p8SUVL3syLAHxeO+pXxkzF5Ofze27L+XYroa
- W6Vg==
+ bh=MG1IpXQvrz4SptVhLZ2ZL/egepQYBWYRd+NyOkeOFrk=;
+ b=YkSkFbqI6G90+3ssHtTvEWGgisVbAe8EC13ltfFLwItHvlaQKqD64YJNIhBqmcBHaB
+ 9UXYAsM5dWPfoI5gacPDu8h6WIJHwGg5ilE6sVerdKfhRIotb0HN+uKCCV0+nNK7k/gp
+ BtrVLSpgWyO+c7Zt2kv/VVaYEHIe1ddoQAynNujNYT4F4J8ZT+nhOAjzS9spVEGOlty+
+ gi0Kfs3r3M4hrWQVtUtJSwtbxLdgJVQGxoTCHIBzQzFLTGDX6A6OK8laqtJ9QbcKknbX
+ V/K+UlkcnmgHavKSpXW3SaFFe0bw9WHXl6oUr1pZMYpV4josDlaHK8U5w6KFcI5CFygr
+ 6hwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VpK7DgB24L4FBN+Cv8MDDt0jG1tSba2F0aG6/IXjc+c=;
- b=GXHExrxnO2kKX24Rtku7/r09NMWSPCNdCbG+snBuEsVqhnzTmbGcRDeUyOLaAS4i5I
- e3kI2qMxqzPB/Qj4Blu19WtVsC0QTZNb8uKNGWrHOmmjY2uoOuavRH6zCeEq1DkQG/bn
- 8CxnL1MYLxptBOSXPLUxHfI0gm4s0dkB/s7Ag4zseL+uI4sDxhj+de7XbfRnzSI9YE/S
- 3Upyu8UZOYdsXzf1apoWZSqm4sxfCbJVrJ9Bf7dxRByr/V67vjj/9OHZuguuItkoXwJh
- Jvs7icOGn9cKBcTvpdtRpoH7HPHSCtJjVxoBYPd4ng/QNC0L4GS81OuF9skfUkFrC3Hb
- RIwg==
-X-Gm-Message-State: APjAAAUbJIxypvteYzV/+YXwmJ+84ZIlLSfv5BhwlrE1iW7P0cXMzp/M
- +/p67UawBrWn7BH7bs8XvkfjjuIxNQE=
-X-Google-Smtp-Source: APXvYqwIHIBLDOPwWurOLFm3bDOzPKAeGbanb91b+DXJxcXkaiRXZuwTg2eGYosWrQt8IBI84bpf4g==
-X-Received: by 2002:ad4:4583:: with SMTP id x3mr3500514qvu.162.1572013325031; 
- Fri, 25 Oct 2019 07:22:05 -0700 (PDT)
+ bh=MG1IpXQvrz4SptVhLZ2ZL/egepQYBWYRd+NyOkeOFrk=;
+ b=I368fGUS9u941zMKfo1xJ3h+njuJMX+lDZ0JU44D92BeyPb4V6Ba0bSeJ3b5+DM20c
+ 1tBGi0Q6qGIoKIjbbZxoChyYs4D6OCMIAEwh92BCOZ/OJP5qJtxLcIECDn6Yot1uZNWb
+ ouDBvMWgdBK0fhPcK4MSwEZuq2SSmFbBhuvKx4vmczD0rvN7UfDBY4nmGyYRzIsCUfcT
+ 7tFcR1B+PatTgvFHKjDccCgEH6vOM5P4VtxVYsXHTGFwo30VEY9PkG2sDIW67i0+h4ga
+ TIitEgvvRDGHE+z7EQh28XU6GNKeh/iPYt9Kdl2+jOJffo0PCoQlOMejYg2nBpkulPhb
+ Tuqw==
+X-Gm-Message-State: APjAAAVts1t2yTlEp2miI+G6BlqsWXxj69wTlSVJsIV6Q1SoIJl9TuhA
+ nZXWnkPcidwkXnKDB8qO1fOdepToKpE=
+X-Google-Smtp-Source: APXvYqxdzedt9gNzkOE9G0a1OpCA5CTIdyTDwLnuGAElmzZy/huOGqcdBbnPAlEGhUFfpc9X4AcCEQ==
+X-Received: by 2002:a37:9b50:: with SMTP id d77mr3083262qke.349.1572013326468; 
+ Fri, 25 Oct 2019 07:22:06 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
  [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id q17sm1137050qtq.58.2019.10.25.07.22.03
+ by smtp.gmail.com with ESMTPSA id q17sm1137050qtq.58.2019.10.25.07.22.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 07:22:04 -0700 (PDT)
+ Fri, 25 Oct 2019 07:22:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/12] cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
-Date: Fri, 25 Oct 2019 10:21:50 -0400
-Message-Id: <20191025142159.12459-4-richard.henderson@linaro.org>
+Subject: [PULL 04/12] exec: Split out variable page size support to exec-vary.c
+Date: Fri, 25 Oct 2019 10:21:51 -0400
+Message-Id: <20191025142159.12459-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191025142159.12459-1-richard.henderson@linaro.org>
 References: <20191025142159.12459-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::836
+X-Received-From: 2607:f8b0:4864:20::743
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,50 +79,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Wei Yang <richardw.yang@linux.intel.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+The next patch will play a trick with "const" that will
+confuse the compiler about the uses of target_page_bits
+within exec.c.  Moving everything to a new file prevents
+this confusion.
 
-Use ROUND_UP() to define, which is a little bit easy to read.
+No functional change so far.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20191013021145.16011-2-richardw.yang@linux.intel.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ Makefile.target       |  2 +-
+ include/qemu-common.h |  6 +++++
+ exec-vary.c           | 57 +++++++++++++++++++++++++++++++++++++++++++
+ exec.c                | 34 --------------------------
+ 4 files changed, 64 insertions(+), 35 deletions(-)
+ create mode 100644 exec-vary.c
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index ad9ab85eb3..255bb186ac 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -220,7 +220,7 @@ extern int target_page_bits;
+diff --git a/Makefile.target b/Makefile.target
+index 5e916230c4..ca3d14efe1 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -107,7 +107,7 @@ obj-y += trace/
  
- #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
- #define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
--#define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) & TARGET_PAGE_MASK)
-+#define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
+ #########################################################
+ # cpu emulator library
+-obj-y += exec.o
++obj-y += exec.o exec-vary.o
+ obj-y += accel/
+ obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
+ obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 8d84db90b0..082da59e85 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -74,6 +74,12 @@ void cpu_exec_step_atomic(CPUState *cpu);
+  */
+ bool set_preferred_target_page_bits(int bits);
  
- /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
-  * when intptr_t is 32-bit and we are aligning a long long.
-@@ -228,9 +228,8 @@ extern int target_page_bits;
- extern uintptr_t qemu_host_page_size;
- extern intptr_t qemu_host_page_mask;
++/**
++ * finalize_target_page_bits:
++ * Commit the final value set by set_preferred_target_page_bits.
++ */
++void finalize_target_page_bits(void);
++
+ /**
+  * Sends a (part of) iovec down a socket, yielding when the socket is full, or
+  * Receives data into a (part of) iovec from a socket,
+diff --git a/exec-vary.c b/exec-vary.c
+new file mode 100644
+index 0000000000..48c0ab306c
+--- /dev/null
++++ b/exec-vary.c
+@@ -0,0 +1,57 @@
++/*
++ * Variable page size handling
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "exec/exec-all.h"
++
++#ifdef TARGET_PAGE_BITS_VARY
++int target_page_bits;
++bool target_page_bits_decided;
++#endif
++
++bool set_preferred_target_page_bits(int bits)
++{
++    /*
++     * The target page size is the lowest common denominator for all
++     * the CPUs in the system, so we can only make it smaller, never
++     * larger. And we can't make it smaller once we've committed to
++     * a particular size.
++     */
++#ifdef TARGET_PAGE_BITS_VARY
++    assert(bits >= TARGET_PAGE_BITS_MIN);
++    if (target_page_bits == 0 || target_page_bits > bits) {
++        if (target_page_bits_decided) {
++            return false;
++        }
++        target_page_bits = bits;
++    }
++#endif
++    return true;
++}
++
++void finalize_target_page_bits(void)
++{
++#ifdef TARGET_PAGE_BITS_VARY
++    if (target_page_bits == 0) {
++        target_page_bits = TARGET_PAGE_BITS_MIN;
++    }
++    target_page_bits_decided = true;
++#endif
++}
+diff --git a/exec.c b/exec.c
+index fb0943cfed..5bf181d23e 100644
+--- a/exec.c
++++ b/exec.c
+@@ -91,11 +91,6 @@ AddressSpace address_space_memory;
+ static MemoryRegion io_mem_unassigned;
+ #endif
  
--#define HOST_PAGE_ALIGN(addr) (((addr) + qemu_host_page_size - 1) & qemu_host_page_mask)
--#define REAL_HOST_PAGE_ALIGN(addr) (((addr) + qemu_real_host_page_size - 1) & \
--                                    qemu_real_host_page_mask)
-+#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
-+#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
+-#ifdef TARGET_PAGE_BITS_VARY
+-int target_page_bits;
+-bool target_page_bits_decided;
+-#endif
+-
+ CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
  
- /* same as PROT_xxx */
- #define PAGE_READ      0x0001
+ /* current CPU in the current thread. It is only valid inside
+@@ -109,37 +104,8 @@ int use_icount;
+ uintptr_t qemu_host_page_size;
+ intptr_t qemu_host_page_mask;
+ 
+-bool set_preferred_target_page_bits(int bits)
+-{
+-    /* The target page size is the lowest common denominator for all
+-     * the CPUs in the system, so we can only make it smaller, never
+-     * larger. And we can't make it smaller once we've committed to
+-     * a particular size.
+-     */
+-#ifdef TARGET_PAGE_BITS_VARY
+-    assert(bits >= TARGET_PAGE_BITS_MIN);
+-    if (target_page_bits == 0 || target_page_bits > bits) {
+-        if (target_page_bits_decided) {
+-            return false;
+-        }
+-        target_page_bits = bits;
+-    }
+-#endif
+-    return true;
+-}
+-
+ #if !defined(CONFIG_USER_ONLY)
+ 
+-static void finalize_target_page_bits(void)
+-{
+-#ifdef TARGET_PAGE_BITS_VARY
+-    if (target_page_bits == 0) {
+-        target_page_bits = TARGET_PAGE_BITS_MIN;
+-    }
+-    target_page_bits_decided = true;
+-#endif
+-}
+-
+ typedef struct PhysPageEntry PhysPageEntry;
+ 
+ struct PhysPageEntry {
 -- 
 2.17.1
 
