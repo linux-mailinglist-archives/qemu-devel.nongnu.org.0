@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD48E51CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:59:36 +0200 (CEST)
-Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CCAE51CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:59:09 +0200 (CEST)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO2w2-0001uF-Ge
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40686)
+	id 1iO2vb-0000xh-RZ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2ij-0005AS-Fk
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2ij-0005Af-RR
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2ii-0002MO-4k
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iO2ii-0002Ml-Cy
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:49 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:34474 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:34491 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iO2ih-0002F0-Oj
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:47 -0400
+ id 1iO2ii-0002Fg-54
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:45:48 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 3D7881A2289;
+ by mail.rt-rk.com (Postfix) with ESMTP id 471241A21F7;
  Fri, 25 Oct 2019 18:44:30 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 0F6221A21F7;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 206F41A2290;
  Fri, 25 Oct 2019 18:44:30 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/20] tests/ssh_linux_malta: Match stricter console output
-Date: Fri, 25 Oct 2019 18:44:20 +0200
-Message-Id: <1572021862-28273-19-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL 20/20] tests/ssh_linux_malta: Fix 64-bit target tests
+Date: Fri, 25 Oct 2019 18:44:22 +0200
+Message-Id: <1572021862-28273-21-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1572021862-28273-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -59,72 +59,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Match on stricter console output.
+Commit 9090d3332cdcc added tests for specific to the 32-bit
+machines, which inadvertently make the 64-bit tests failing.
+Now than we have this information available in the CPU_INFO
+array, use it to have the 64-bit tests back.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20191019153437.9820-10-f4bug@amsat.org>
+Message-Id: <20191019153437.9820-12-f4bug@amsat.org>
 ---
- tests/acceptance/linux_ssh_mips_malta.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ tests/acceptance/linux_ssh_mips_malta.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
 linux_ssh_mips_malta.py
-index 007bcdb..b19598e 100644
+index 14b8a5b..aa12001 100644
 --- a/tests/acceptance/linux_ssh_mips_malta.py
 +++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -139,19 +139,19 @@ class LinuxSSH(Test):
-             '3.2.0-4-4kc-malta')
+@@ -43,8 +43,8 @@ class LinuxSSH(Test):
+               }
+         }
+     CPU_INFO =3D {
+-        32: {'kernel_release': '3.2.0-4-4kc-malta'},
+-        64: {'kernel_release': '3.2.0-4-5kc-malta'}
++        32: {'cpu': 'MIPS 24Kc', 'kernel_release': '3.2.0-4-4kc-malta'},
++        64: {'cpu': 'MIPS 20Kc', 'kernel_release': '3.2.0-4-5kc-malta'}
+         }
+=20
+     def get_url(self, endianess, path=3D''):
+@@ -155,16 +155,16 @@ class LinuxSSH(Test):
+         else:
+             self.fail('"%s" output does not contain "%s"' % (cmd, exp))
+=20
+-    def run_common_commands(self):
++    def run_common_commands(self, wordsize):
+         self.ssh_command_output_contains(
+             'cat /proc/cpuinfo',
+-            '24Kc')
++            self.CPU_INFO[wordsize]['cpu'])
+         self.ssh_command_output_contains(
+             'uname -m',
+             'mips')
+         self.ssh_command_output_contains(
+             'uname -r',
+-            '3.2.0-4-4kc-malta')
++            self.CPU_INFO[wordsize]['kernel_release'])
          self.ssh_command_output_contains(
              'cat /proc/interrupts',
--            'timer')
-+            'XT-PIC  timer')
-         self.ssh_command_output_contains(
-             'cat /proc/interrupts',
--            'i8042')
-+            'XT-PIC  i8042')
-         self.ssh_command_output_contains(
-             'cat /proc/interrupts',
--            'serial')
-+            'XT-PIC  serial')
-         self.ssh_command_output_contains(
-             'cat /proc/interrupts',
--            'ata_piix')
-+            'XT-PIC  ata_piix')
-         self.ssh_command_output_contains(
-             'cat /proc/interrupts',
--            'eth0')
-+            'XT-PIC  eth0')
-         self.ssh_command_output_contains(
-             'cat /proc/devices',
-             'input')
-@@ -163,13 +163,13 @@ class LinuxSSH(Test):
-             'fb')
-         self.ssh_command_output_contains(
-             'cat /proc/ioports',
--            'serial')
-+            ' : serial')
-         self.ssh_command_output_contains(
-             'cat /proc/ioports',
--            'ata_piix')
-+            ' : ata_piix')
-         self.ssh_command_output_contains(
-             'cat /proc/ioports',
--            'piix4_smbus')
-+            ' : piix4_smbus')
-         self.ssh_command_output_contains(
-             'lspci -d 11ab:4620',
-             'GT-64120')
-@@ -179,7 +179,7 @@ class LinuxSSH(Test):
-         self.ssh_command_output_contains(
-             'cat /proc/mtd',
-             'YAMON')
--        # Empty 'Board Config'
-+        # Empty 'Board Config' (64KB)
-         self.ssh_command_output_contains(
-             'md5sum /dev/mtd2ro',
-             '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
+             'XT-PIC  timer')
+@@ -221,7 +221,7 @@ class LinuxSSH(Test):
+         stdout, _ =3D self.ssh_command('uname -a')
+         self.assertIn(True, [uname_m + " GNU/Linux" in line for line in =
+stdout])
+=20
+-        self.run_common_commands()
++        self.run_common_commands(wordsize)
+         self.shutdown_via_ssh()
+=20
+     def test_mips_malta32eb_kernel3_2_0(self):
 --=20
 2.7.4
 
