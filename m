@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F9BE4687
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:01:27 +0200 (CEST)
-Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D4DE46B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:09:07 +0200 (CEST)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNvTK-0007Ur-9u
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:01:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50631)
+	id 1iNvak-0008TP-AY
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNv5V-0001dq-Kv
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:50 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNv5k-00025T-Cu
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:37:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNv5U-0008I7-DX
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:55787)
+ (envelope-from <laurent@vivier.eu>) id 1iNv5i-0008VO-9Q
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:37:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:59145)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNv5J-00089O-JD; Fri, 25 Oct 2019 04:36:37 -0400
+ id 1iNv5V-0008IY-FV; Fri, 25 Oct 2019 04:36:49 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MNc5b-1id6HK3O8Z-00P4ox; Fri, 25 Oct 2019 10:35:54 +0200
+ id 1N6bPS-1hvlEj3y4k-0180Uc; Fri, 25 Oct 2019 10:35:56 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/19] hw: Move Exynos4210 RTC from hw/timer/ to hw/rtc/
+Subject: [PULL 16/19] hw: Move Aspeed RTC from hw/timer/ to hw/rtc/
  subdirectory
-Date: Fri, 25 Oct 2019 10:35:07 +0200
-Message-Id: <20191025083511.11463-16-laurent@vivier.eu>
+Date: Fri, 25 Oct 2019 10:35:08 +0200
+Message-Id: <20191025083511.11463-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191025083511.11463-1-laurent@vivier.eu>
 References: <20191025083511.11463-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vack1BjZXw7zRhCywDDbJMpaQCtjGChZK3BCFTUq7S15JitEFJr
- 5p9Ubc07Ugls6WUEmqDhlHC4187umJJJmCfpUAinfcUOUCw8LjqzFpnIdAgAeKrb3aOQtI1
- zjzGjIUoRXr1XGEvQUdQ3StRpC/nTG3m8ycOwOKuzUV4rFfPW+cyW+U+WqtFwc5Lgfws/Fv
- AablbPtdvnzy61crt85hA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UxPdNoSktyo=:SOk0/YJjK7m8tevZBbEk6o
- rHaygyShR3IXb182XRgQ6Khb2Gu+pU1PUnCDzLpypQBadyzIS7xnNPxdhQxQKNdxaiYhQitoD
- Me6eZeXAPQd3KuhX/ikOfDbWxJQ8kkeb+lKE3VFU5Fl5M0UsykvUJslYA6XxgldablZZylsZo
- XZvsO91pYmL3foc/ZjtFEMOG9DfJxRiUxT5tKiN3CIpYK04igoxaeGgEAw7aEmtCzx8yN9X8u
- n71wQCsXdw38L0oNPdIom6eOIMIblG73jhFbvRJEkMe1A2dzBBhiniRQJobSszTcq568oxG/D
- WIVaGI5ex0PWdCTBWggLzwcj/KLr6Tyt+eT/Sik3mErO42Ex1rY2YTCN8rv/pvw+RKK/+zm/I
- ZcHAPjG4eYl3F9EJWERwTZt6kZy/bdKcS13f6T56HXYm2fImtm9fUwYnCEa3WfmGuveF/92ne
- en8UhO3iVjyYVS4EgmHg/JR9FAUvsJrgNPeyCkbrpybrS0X3jKRs4Qvn44p2vbUI+WAo1/Ec8
- FjcGJlupBZKDou02cHOs9UHiJGYMmoeN/ustEnk/3wEaDEw7fI+MO7x1bYS+QeGwMbC+2dp7j
- B3swZa7gRdkg0okz5LNb9G2N8istKZYzm0FxW435sVuP/AfEAgtXCnEOKvKARTsUuKchS1Lig
- IH38JuHrln+7sKwm4ugwNCPQXNFb8FtNu39SsuGLcxv1Ama/954vrY+Ryk66PSTnH86tlxQZL
- ABtEjukcMyh433wVRIxwk4GpGgv/aaXgWg8Q/rqehnUlZ0BdoRk5T+UNg7ga7zbWmCz7p03Bi
- ewQKIwIx4Ads2yNnuis323kmm6dDZFzew38WjiYDuo5O1uVNybopWPmm2Q/Ld7cndPPvkNAEg
- PJQUlxo6RkdNy3p8jbN3SEASkr0dbbXbvclipTO5Q=
+X-Provags-ID: V03:K1:FD7oPnPLZhZc1tfLUvguP2u15R++7O+LcoF30+tScyz09W6XQtU
+ qFXwUNfxBQzuHeSNlTNwDz04CTSC1QmpAGQxt+nNnCfmTj7V4TtCKwUEFR9K4OLKIm8s5Oz
+ e1qz9rQ4QLkc9tBOBf+NrGDRzPcEDZbKpNAc8yFCl+ARpQNOSvhtF5+e/7gD2ZmF4A47fEr
+ UvVleoDSGGmElI8yNmgdw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dcIUn0Jg9sA=:meOzGgMDZU67P+Fzp0AqEx
+ L5pE8FE4WEkE9KS6GQ2W3z4Ih6922mEfve/81AR2GPPH9ZrLamFQpUfb7DdFLJMpE92D6xlQE
+ 0qFpOYm/cC/tpUIQyuLlBk01ssggOpabQ8Ywa2Yu18FfxXcPmVIbyqoqbKLOTp32/QL81KRU1
+ CldbtTMGhn3X9id3tKbNUQrsWwQOK7thY4f1ppPWaWVzgT3JRd7x+GeaiUqUuLHXBAHmAcYh6
+ 6v1eIYbe7XJTJRKd3QzTzw6CSfSCBxvOTeZiDBMUy3hYJ3amQk+6aIj6xwDK8mD2TDaVFvuHt
+ qE68odBVr2Jrvx2e2BV7bOdsQgxJyVV9yxP6lBvoCf3C/bEWTgUv4VR2rLgHiPIbDSbcTOy0U
+ fw793pEKYxH7WesujAou9VYFwtuYaoR8w4wdFTL+lGpRcRQrytfL1xWepkzQycNmbBK4vz/NI
+ itPzVi8YbjNoJ0V0RVMLjejz7fz4f0Ip3oObtIAQtO2tcDDEAaOOwN1sBFLqcO7n+AKCtNdXS
+ L0eZlTcdnW6xuD7U9ZzqjqyAlE4oROM55J79TuODL8Vi4iY5m3t4CBqUJrP4JAistbji66BSN
+ 7nE+coHltXd6gQVIKkCk2esMUvq1k23rlNQI85J/DIBqg+V4B10Lec8Bv6zBtf83k7jn+ycBz
+ dw/EEbM7apouDFRMNLCMZKzPjanQibiGvf5D2SVSX6URRnS7aZFyeq1tUqFQQ/lFg9n8C4Qw6
+ uLealnaoJaeQqn9T1oMq8SqE5xN2DAQ4pRJDA9DmvjDVvJO3eoOe12Pv6gxx7xRVXYwTXEhpo
+ XtKCQhslYN38VBXzRvNWQf6qat2Cz8nGYguXh69dbn6xN51wbobc488ZwQD5Xyj+hUH3NzVE4
+ 05IRwrdmHWkfnPjBV+zycRXUhJYfbXS42rjwjBbHE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,45 +92,126 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Move RTC devices under the hw/rtc/ subdirectory.
 
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20191003230404.19384-11-philmd@redhat.com>
+Message-Id: <20191003230404.19384-12-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rtc/Makefile.objs               | 1 +
- hw/{timer => rtc}/exynos4210_rtc.c | 0
- hw/timer/Makefile.objs             | 1 -
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename hw/{timer => rtc}/exynos4210_rtc.c (100%)
+ hw/rtc/Makefile.objs                   | 1 +
+ hw/{timer => rtc}/aspeed_rtc.c         | 2 +-
+ hw/rtc/trace-events                    | 4 ++++
+ hw/timer/Makefile.objs                 | 2 +-
+ hw/timer/trace-events                  | 4 ----
+ include/hw/arm/aspeed_soc.h            | 2 +-
+ include/hw/{timer => rtc}/aspeed_rtc.h | 6 +++---
+ 7 files changed, 11 insertions(+), 10 deletions(-)
+ rename hw/{timer => rtc}/aspeed_rtc.c (99%)
+ rename include/hw/{timer => rtc}/aspeed_rtc.h (84%)
 
 diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-index 543a550a0f11..3d4763fc269e 100644
+index 3d4763fc269e..8dc9fcd3a983 100644
 --- a/hw/rtc/Makefile.objs
 +++ b/hw/rtc/Makefile.objs
-@@ -7,5 +7,6 @@ endif
- common-obj-$(CONFIG_PL031) += pl031.o
- common-obj-$(CONFIG_TWL92230) += twl92230.o
- common-obj-$(CONFIG_XLNX_ZYNQMP) += xlnx-zynqmp-rtc.o
-+common-obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
+@@ -10,3 +10,4 @@ common-obj-$(CONFIG_XLNX_ZYNQMP) += xlnx-zynqmp-rtc.o
+ common-obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
  obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
  common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
-diff --git a/hw/timer/exynos4210_rtc.c b/hw/rtc/exynos4210_rtc.c
-similarity index 100%
-rename from hw/timer/exynos4210_rtc.c
-rename to hw/rtc/exynos4210_rtc.c
++common-obj-$(CONFIG_ASPEED_SOC) += aspeed_rtc.o
+diff --git a/hw/timer/aspeed_rtc.c b/hw/rtc/aspeed_rtc.c
+similarity index 99%
+rename from hw/timer/aspeed_rtc.c
+rename to hw/rtc/aspeed_rtc.c
+index 531301735334..3ca1183558b7 100644
+--- a/hw/timer/aspeed_rtc.c
++++ b/hw/rtc/aspeed_rtc.c
+@@ -8,7 +8,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+-#include "hw/timer/aspeed_rtc.h"
++#include "hw/rtc/aspeed_rtc.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/timer.h"
+diff --git a/hw/rtc/trace-events b/hw/rtc/trace-events
+index 7f1945ad4cc6..d6749f4616a0 100644
+--- a/hw/rtc/trace-events
++++ b/hw/rtc/trace-events
+@@ -13,3 +13,7 @@ pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+ pl031_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+ pl031_alarm_raised(void) "alarm raised"
+ pl031_set_alarm(uint32_t ticks) "alarm set for %u ticks"
++
++# aspeed-rtc.c
++aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
++aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
 diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index 294465ef47ad..33191d74cb98 100644
+index 33191d74cb98..83091770df3a 100644
 --- a/hw/timer/Makefile.objs
 +++ b/hw/timer/Makefile.objs
-@@ -19,7 +19,6 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_timer.o
- common-obj-$(CONFIG_ALTERA_TIMER) += altera_timer.o
- common-obj-$(CONFIG_EXYNOS4) += exynos4210_mct.o
- common-obj-$(CONFIG_EXYNOS4) += exynos4210_pwm.o
--common-obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
- common-obj-$(CONFIG_OMAP) += omap_gptimer.o
- common-obj-$(CONFIG_OMAP) += omap_synctimer.o
- common-obj-$(CONFIG_PXA2XX) += pxa2xx_timer.o
+@@ -29,7 +29,7 @@ common-obj-$(CONFIG_MIPS_CPS) += mips_gictimer.o
+ common-obj-$(CONFIG_ALLWINNER_A10_PIT) += allwinner-a10-pit.o
+ 
+ common-obj-$(CONFIG_STM32F2XX_TIMER) += stm32f2xx_timer.o
+-common-obj-$(CONFIG_ASPEED_SOC) += aspeed_timer.o aspeed_rtc.o
++common-obj-$(CONFIG_ASPEED_SOC) += aspeed_timer.o
+ 
+ common-obj-$(CONFIG_CMSDK_APB_TIMER) += cmsdk-apb-timer.o
+ common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) += cmsdk-apb-dualtimer.o
+diff --git a/hw/timer/trace-events b/hw/timer/trace-events
+index 1459d07237b9..e18b87fc96dd 100644
+--- a/hw/timer/trace-events
++++ b/hw/timer/trace-events
+@@ -66,10 +66,6 @@ cmsdk_apb_dualtimer_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK A
+ cmsdk_apb_dualtimer_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB dualtimer write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: reset"
+ 
+-# hw/timer/aspeed-rtc.c
+-aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
+-aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
+-
+ # nrf51_timer.c
+ nrf51_timer_read(uint64_t addr, uint32_t value, unsigned size) "read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+ nrf51_timer_write(uint64_t addr, uint32_t value, unsigned size) "write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index cccb684a19bb..495c08be1b84 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -18,7 +18,7 @@
+ #include "hw/misc/aspeed_sdmc.h"
+ #include "hw/misc/aspeed_xdma.h"
+ #include "hw/timer/aspeed_timer.h"
+-#include "hw/timer/aspeed_rtc.h"
++#include "hw/rtc/aspeed_rtc.h"
+ #include "hw/i2c/aspeed_i2c.h"
+ #include "hw/ssi/aspeed_smc.h"
+ #include "hw/watchdog/wdt_aspeed.h"
+diff --git a/include/hw/timer/aspeed_rtc.h b/include/hw/rtc/aspeed_rtc.h
+similarity index 84%
+rename from include/hw/timer/aspeed_rtc.h
+rename to include/hw/rtc/aspeed_rtc.h
+index 15ba42912b7f..3fde854ad99c 100644
+--- a/include/hw/timer/aspeed_rtc.h
++++ b/include/hw/rtc/aspeed_rtc.h
+@@ -5,8 +5,8 @@
+  * Copyright 2019 IBM Corp
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+-#ifndef ASPEED_RTC_H
+-#define ASPEED_RTC_H
++#ifndef HW_RTC_ASPEED_RTC_H
++#define HW_RTC_ASPEED_RTC_H
+ 
+ #include <stdint.h>
+ 
+@@ -27,4 +27,4 @@ typedef struct AspeedRtcState {
+ #define TYPE_ASPEED_RTC "aspeed.rtc"
+ #define ASPEED_RTC(obj) OBJECT_CHECK(AspeedRtcState, (obj), TYPE_ASPEED_RTC)
+ 
+-#endif /* ASPEED_RTC_H */
++#endif /* HW_RTC_ASPEED_RTC_H */
 -- 
 2.21.0
 
