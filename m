@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BCEE57A4
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 02:46:05 +0200 (CEST)
-Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09639E57A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 02:49:09 +0200 (CEST)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOADU-0001eM-8J
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 20:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50025)
+	id 1iOAGS-0006sF-1s
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 20:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO91J-0005Pc-1E
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:26 -0400
+ id 1iO91Z-0005vT-6k
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO91H-0004ew-Sk
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:24 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10433)
+ id 1iO91Y-0004lz-30
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:41 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10430)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO91H-0004DA-KW; Fri, 25 Oct 2019 19:29:23 -0400
+ id 1iO91X-0004CY-PS; Fri, 25 Oct 2019 19:29:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1572046163; x=1603582163;
+ t=1572046179; x=1603582179;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=e9FTCNGQSn8ALTPBkAOnbHvxJhruS8S5utjWhbO6qDU=;
- b=blkT/juYA/X8TcY1lKBHAJ4irv6lKecHd3k0AG7r1jsWnL6039VL94Mo
- FMKpzHOlzUlbco1vIpot86c1BlllEtQp7aa0UGZu32ZPVHUA+w7a5sM8F
- LLiD36xeTf+12JdxpZCqB67GnOAAxmsE9G94Wf9ktnW5ZyCNNThhAESSb
- eSDIhLhpigRgyoIMqzUNd5eLTYvZCliKFzq5Q/MNfv3zKj11bD522e9an
- x+6srmaehISCBL8SBFLJtuembdLThfo5h7UJrmTKRjRwTDAkO/65l4fhH
- nJlXqwcOisKT6kIft4fial4zZLPpa3RQICKrvOxyhTNoab843Gx/iUJJo Q==;
-IronPort-SDR: 0Q4jLSwwYfEMXBLi8aECAmEp5eTtwoFE+YKWgN+8pGMUbeCOO1WDJhZf7YgrGdrJklBAkXuDLU
- H2AelZN/89QpaSyYEO1BXsNBQeRicjKYAwVoMwiq5vkT1M/f2oH7gnNh5odGC0wL/wTYG997pq
- iAUVAlxTW2rl76xWjWoO3h/iYKT3fgiP5E2Y1hcLzIyFT5j+KyVJyGZqwTpyiRYRZWWu+9K4dw
- Df0y4q1zqZfBgPKV5TOd4RDJzNyKUOFH8JiOB9jUQ946Z1rrsS10PcU+YgKo0XA/Bqj0e9QvjD
- jaA=
-X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228520411"
+ bh=5xy/BQ5Ff17/zZ+q9QgWqRSx+0OeU4f0Sj1sSKNFPcQ=;
+ b=MpwxmYWz0QgxTJC6NMwOVmWn2Ajsvt7OqJ4uwl0rqEFW3yx1zlQ7dRGT
+ 2L9QgGHOm894xSliHYPRgBsnIz9GTEbeS7m3sTwXLACBqaxJ7N4mGrEoD
+ 4ZkeaT0iCSirN7x+htgDDUh4be8IOkMsTUrPve+jP2JofpJBbp47THYde
+ 35bFGuBlnmChfGUmpHwale7fkCPIdw0qe7/WL/sq/RI5NY9HB9Mf4Snh5
+ hgdxK+AV/VtOHHgc5J7ZZ1XwYszpn7HXTPDlcjeR+SgpxgnxLo3sm9Fym
+ MHMiijYhkcIMOVPhQp42NI8aSTD2RhpS2OBdqTDEz3T+ujnzreAtbgEvT g==;
+IronPort-SDR: zXixdOhZo36mF5ZtcXEykzhagF8ytU1ZmbRHmR5Tf9YeK8kKK1iLJQaY2g1krspIkGxZk9tInU
+ 1wIuAHfKrVYztGvAsn8zugql3le+tSHEoK1FF7P/kpqrsZdhKTc+SDwLu850claGwQM8h2IhvR
+ JJxv8pfx1lZMIjPxOxEik1jR3djg8kRXsytdvuHqhr5NkEFdMfkUFyxDuX0sBlSMUuhIHB3Sw5
+ l0+z7FzG8ow5tkTTnrQ/dDXxHQwbOH+grFP/tFLH672O5NCbGm9NvmMsyT+z/NrOim6j2MLbjM
+ oaI=
+X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228520418"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:28:52 +0800
-IronPort-SDR: Pcs272boPlS0gSwFJGCPnxgLfCFnjb7RyZ0rZwbZvzAxUTgyG7d45u2KvRSEQJFF8j+2urUZCt
- eETcESD7chnDGcoKGrOkVI7lAG0jVE4nZcMeyXa+d5oGWWoXMEKhwaIL4eOv1q4ivgVFzJM/9T
- hA8iwCt7CfIIPhjVYXLLYaZutXVrTbxCz27jLJOGmYTIS53gum8tRB2u+4yTuIW2WsNsWnn5DL
- mqSRZ6nAGpZtDTqGjBfBIgdU7wpXKpnpvEq+KEwCXtFBVVE4ah6l0b5XC0Ea6eXJDrHesoaq6p
- p+E8IyuDfxaEx804JpJn5Pp3
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:28:58 +0800
+IronPort-SDR: Z3zY7b09YvyvAmtvtOCVnoEib+vFoXr1EWCR2REVigTV2CTNV5GIRvQ5qrJz6SySlAStVyU58e
+ REOQ25SQk3owxNMRnmZ1NP5iQA88YiNONru8BPG3T/2EnslPlD4fRg5MbXum/r1L9axLQuDNZy
+ PbyGn3lmBI6mTrDPbN1l18dbTqZQpcKTXwgbm0Y/8zUcmv86pJ+om3ZtE6Lycr0BJH3jxKDz68
+ 1xhSmAVKyKSre1BNxr0TWzKv+PZGCplTGixXbybh8Edj3vHbl9INGfQnE6uA+qA+KZ470wWqNY
+ mCDREEQC95s+NmiJrn7Doh9d
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2019 16:24:18 -0700
-IronPort-SDR: RQsPsSTzEvp3GKqnNarXX8/O6qsYOqM3++Qe/3A5AO3jq5SFNsJ5zOQ883h3LAj/lFm5LjyE0u
- F+24shIJdPmhkC57E6BmqkByiaOlCX/6jcvGh3HfmGWNg+omLgckXZaHaoFoGBR9pger5xC/V+
- jVTI9utenYgUzApwMaA2pAicXi3EziU6rzbHf6eqbilhhcaJHBk6w6Dd7KPDiYM3FMDIFj0iHt
- ZJWZY6Vp4akv+pfVduo8lzTrZbTJc/6vifkeHMSw7wWYmlTkCMjHh1jrUkeMksHDE3R5dKM0t1
- wtk=
+ 25 Oct 2019 16:24:24 -0700
+IronPort-SDR: 8IkYaeWsa1WKFPlrikMUhWMIukbvr5buFfiArifeb7W8OK9r4PXJRq04IBg0viPveRbWQ3xW98
+ 2iCxdDyNN2b/OAphz6kO15giWF1D6qPDx6pVfMr18SgI0qxt09IAGZuEBpdYV9wu0qvUoRrRHG
+ A2F+2fyJKSZ54KN04EjuTUUBQSSBfUk22fxSrqPofi8nrqCWPztnYE4dyRcXMEugHBJ/AFLwY9
+ D9iUpDfObSyh/7mtoYJM7NiNjcx0kjJpFFWhzFTW2adguOhLWE/Kz/khQg8Wr8UPh1RnL55i6v
+ HaA=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2019 16:28:53 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 25 Oct 2019 16:28:59 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 14/27] target/ricsv: Flush the TLB on virtulisation mode
- changes
-Date: Fri, 25 Oct 2019 16:23:57 -0700
-Message-Id: <ad856f89f6f0be30be0eb28560eb85f1970e6756.1572045716.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 16/27] riscv: plic: Always set sip.SEIP bit for HS
+Date: Fri, 25 Oct 2019 16:24:03 -0700
+Message-Id: <ed72f249afccde44453efef12935e7804e24b55f.1572045716.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1572045716.git.alistair.francis@wdc.com>
 References: <cover.1572045716.git.alistair.francis@wdc.com>
@@ -89,32 +88,37 @@ Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To ensure our TLB isn't out-of-date we flush it on all virt mode
-changes. Unlike priv mode this isn't saved in the mmu_idx as all
-guests share V=1. The easiest option is just to flush on all changes.
+When the PLIC generates an interrupt ensure we always set it for the SIP
+CSR that corresponds to the HS (V=0) register.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_helper.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/riscv/sifive_plic.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index bb4557df16..637e05996a 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -200,6 +200,11 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
-         return;
-     }
- 
-+    /* Flush the TLB on all virt mode changes. */
-+    if (get_field(env->virt, VIRT_ONOFF) != enable) {
-+        tlb_flush(env_cpu(env));
-+    }
-+
-     env->virt = set_field(env->virt, VIRT_ONOFF, enable);
- }
- 
+diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
+index 98e4304b66..8309e96f64 100644
+--- a/hw/riscv/sifive_plic.c
++++ b/hw/riscv/sifive_plic.c
+@@ -150,7 +150,17 @@ static void sifive_plic_update(SiFivePLICState *plic)
+             riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
+             break;
+         case PLICMode_S:
+-            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
++            if (riscv_cpu_virt_enabled(env)) {
++                if (level) {
++                    atomic_or(&env->mip_novirt, MIP_SEIP);
++                    g_assert(riscv_cpu_virt_enabled(env));
++                } else {
++                    atomic_and(&env->mip_novirt, ~MIP_SEIP);
++                    g_assert(riscv_cpu_virt_enabled(env));
++                }
++            } else {
++                riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
++            }
+             break;
+         default:
+             break;
 -- 
 2.23.0
 
