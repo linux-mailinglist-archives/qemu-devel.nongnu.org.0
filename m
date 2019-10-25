@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A69E44AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:39:51 +0200 (CEST)
-Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E918CE44DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:48:53 +0200 (CEST)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNuCM-0004M0-7E
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1iNuL6-0003Rg-JJ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtpx-0004dJ-GL
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtWh-0003iM-Bb
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtpw-0007Cq-3L
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:41 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39306)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtWf-0007pc-Uc
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:47 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35240)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtpv-0007C4-Sx
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:40 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id a11so1028015wra.6
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:39 -0700 (PDT)
+ id 1iNtWf-0007pE-O8
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:45 -0400
+Received: by mail-wr1-x431.google.com with SMTP id l10so983894wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=avDcFa6vNjqfkFm9Eh7Mdg86NxTMA5t/4HoZgIMcBpg=;
- b=NbHuFF+ghhkCeBnDkW5o4yXAtJTkfu5Mz1Pi6zikfUp6Pq+XwIRNb7T39SbuUQOHi9
- W/I94CSKVORkaYaf2oJbKpJ3GHG2EwZzEm7TlxT2EElAfE10cvvHEOGFPGJuqyr/SGSJ
- +U/BYJPNrPBBGR2iO4MhfoqXbyoXjBGa215puULkSCchjWr53z74o0NG/IZfY8yEwjmF
- 0hV/RVbRQc+nrDTaXnrk2QlzdDAJWlMaMED2S3qd67GdkdSB8z45bETLCbPduwge0i2W
- WPUVQ5e88jsRQTVWQhqsncOb/9E4w2JJjHr6qAHN/PmY9yA0OEt+wltjaGkNsospMK0x
- lvzQ==
+ bh=IM9AIEWFnWYr+dGlYuXtMUTbYXcPB6llDCtSge/S8fc=;
+ b=VIH2oiEp/wy3YZ5wZoh04MAH5xmvvzMudRNOAUaHimtCDcx0llxOTL/5HpwTAtRRHD
+ idTArzv+gOiRqJ2xR08d+WHnhO7rTKinSPe2jQdsTCyc2zTzqzx5USw5cTxKxpwzXA/C
+ uXyVD1xLDJk0+hmZCGDM1pFVKNPchBhxD4ds7UPXWAZb3f6Wv18BXa9h6lukoZJm5hqy
+ vRruZgf/AuTwpm6vzq1oRfNW+9GwrmKxZrah9WsT1Dw5OB1mc/qCXBHAGbjHs/oVGECD
+ ZXpl+B4Q/0/62YbTPK0mRmdmpywzTE5tKsZ/03+5fcMqUsyxfiPchDCZ4SCbZnnhtBKd
+ mPhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=avDcFa6vNjqfkFm9Eh7Mdg86NxTMA5t/4HoZgIMcBpg=;
- b=AQiplSpzI7giXeQNdUn5e8UD/aYY+Xobw0gjONkc9kWCFQ7DbatS+WpVyE0CpLIull
- 6rwVWF3CradWoIXbcXHA37s3WL31o1Kt1IAxYXRFa1b9/mAO1O6lm+Omm6OTbn0ataYO
- dkgHhOITFmQXDn6TzUh4zALShH1zCuCxTi5O8EnVQxiBkvIK3zVRkZZEt44hzcAFg0dV
- LOFCxODyWtmAZTJ7sqzNOtf4LOyMTvttQyEZptGcLxNXU2qUSBG3sLanEk7jjCuyfqvW
- XnUHCquZlJT4gw/FPRUpVbrwPQV1Q/pVmGPqd1uVggSshd/RT7z4TwcmhnX8hfCQl9P4
- yJCQ==
-X-Gm-Message-State: APjAAAW5xhIQ4mHQMajem0YfZiwi/SoWNTKAr+apvq3/gaxD6Gn9m3c7
- /CHaVO2Lq7RsXz+8eRD3kc9irXagmlQ=
-X-Google-Smtp-Source: APXvYqytigiKXb5j5Uq+JNc0EzODZVycZ0SEUw45hoAXW38NOiSg5uVh4g9COGvgOn+it3gXpmzMzQ==
-X-Received: by 2002:a5d:69c8:: with SMTP id s8mr1414873wrw.167.1571987798667; 
- Fri, 25 Oct 2019 00:16:38 -0700 (PDT)
+ bh=IM9AIEWFnWYr+dGlYuXtMUTbYXcPB6llDCtSge/S8fc=;
+ b=HgMh2oeaRrxv5PgPazM57qp/ZR4frYMuLMfCHjIvlaC0S0fWQZMMxcPOXxidqdZMPk
+ tcUGUQScvRwCuY9lyMKkyMuTfxl10GIIM5Ut16X7nX+y6tl9UzEEc2afWAL6uJFgI0x7
+ xe6qE/vVMaG14sZBq9wTbzJ2VljS98ttgeZkjriII8MVnaawEoNBPfYdHu4heb9SBoZY
+ FmINOGGWetB/jbKLo0szED3YeJJkCHj4poYk1+8kLI7nxJsKMwY1HBh/CzbWdoaHdsUl
+ BFcsXGta651vLBSKNVmnMD393J/gaX9+zDwmtianqLVfe8gpuwUoPqxIwAsG9ML22zTE
+ b0Eg==
+X-Gm-Message-State: APjAAAWC9mEHfyN9a0bDyhYQFIP8dSmpUL2B8dWSTxRs6RYxr2/IAEfw
+ Q7+RxBjfQsWe0M/hlAVo/LqfWw==
+X-Google-Smtp-Source: APXvYqzOXOfUK+KXKICZ0IFhZOVLwkGhpzkJG5Avl6vcgX3s1hAg5J7jNxtI5RbDhLJTkuShPaGrYg==
+X-Received: by 2002:adf:e882:: with SMTP id d2mr1405825wrm.132.1571986604620; 
+ Thu, 24 Oct 2019 23:56:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r15sm1316713wro.20.2019.10.25.00.16.35
+ by smtp.gmail.com with ESMTPSA id d202sm1278016wmd.47.2019.10.24.23.56.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 00:16:36 -0700 (PDT)
+ Thu, 24 Oct 2019 23:56:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7F5401FF90;
- Fri, 25 Oct 2019 07:37:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id A663A1FF93;
+ Fri, 25 Oct 2019 07:37:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 51/73] translator: inject instrumentation from plugins
-Date: Fri, 25 Oct 2019 07:36:51 +0100
-Message-Id: <20191025063713.23374-52-alex.bennee@linaro.org>
+Subject: [PULL v2 63/73] tests/tcg: drop test-i386-fprem from TESTS when not
+ SLOW
+Date: Fri, 25 Oct 2019 07:37:03 +0100
+Message-Id: <20191025063713.23374-64-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,83 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+This is a very slow running test which we only enable explicitly.
+However having it in the TESTS lists would confuse additional tests
+like the plugins test which want to run on all currently enabled
+tests.
 
-Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 70c66c538cf..f977682be79 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -16,6 +16,7 @@
- #include "exec/gen-icount.h"
- #include "exec/log.h"
- #include "exec/translator.h"
-+#include "exec/plugin-gen.h"
+diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+index 08c5736a4d4..43ee2e181e2 100644
+--- a/tests/tcg/i386/Makefile.target
++++ b/tests/tcg/i386/Makefile.target
+@@ -7,10 +7,8 @@ VPATH 		+= $(I386_SRC)
  
- /* Pairs with tcg_clear_temp_count.
-    To be called by #TranslatorOps.{translate_insn,tb_stop} if
-@@ -34,6 +35,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-                      CPUState *cpu, TranslationBlock *tb, int max_insns)
- {
-     int bp_insn = 0;
-+    bool plugin_enabled;
+ I386_SRCS=$(notdir $(wildcard $(I386_SRC)/*.c))
+ ALL_X86_TESTS=$(I386_SRCS:.c=)
+-I386_TESTS:=$(filter-out test-i386-ssse3, $(ALL_X86_TESTS))
++SKIP_I386_TESTS=test-i386-ssse3
+ X86_64_TESTS:=$(filter test-i386-ssse3, $(ALL_X86_TESTS))
+-# Update TESTS
+-TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
  
-     /* Initialize DisasContext */
-     db->tb = tb;
-@@ -55,11 +57,17 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-     ops->tb_start(db, cpu);
-     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+ #
+ # hello-i386 is a barebones app
+@@ -36,9 +34,12 @@ run-test-i386-fprem: test-i386-fprem test-i386-fprem.ref
+ 	$(call run-test,test-i386-fprem, $(QEMU) $<,"$< on $(TARGET_NAME)")
+ 	$(call diff-out,test-i386-fprem, test-i386-fprem.ref)
+ else
+-run-test-i386-fprem: test-i386-fprem
+-	$(call skip-test, $<, "SLOW")
++SKIP_I386_TESTS+=test-i386-fprem
+ endif
  
-+    plugin_enabled = plugin_gen_tb_start(cpu, tb);
++# Update TESTS
++I386_TESTS:=$(filter-out $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
++TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
 +
-     while (true) {
-         db->num_insns++;
-         ops->insn_start(db, cpu);
-         tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
- 
-+        if (plugin_enabled) {
-+            plugin_gen_insn_start(cpu, db);
-+        }
-+
-         /* Pass breakpoint hits to target for further processing */
-         if (!db->singlestep_enabled
-             && unlikely(!QTAILQ_EMPTY(&cpu->breakpoints))) {
-@@ -99,6 +107,14 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-             break;
-         }
- 
-+        /*
-+         * We can't instrument after instructions that change control
-+         * flow although this only really affects post-load operations.
-+         */
-+        if (plugin_enabled) {
-+            plugin_gen_insn_end();
-+        }
-+
-         /* Stop translation if the output buffer is full,
-            or we have executed all of the allowed instructions.  */
-         if (tcg_op_buf_full() || db->num_insns >= db->max_insns) {
-@@ -111,6 +127,10 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-     ops->tb_stop(db, cpu);
-     gen_tb_end(db->tb, db->num_insns - bp_insn);
- 
-+    if (plugin_enabled) {
-+        plugin_gen_tb_end(cpu);
-+    }
-+
-     /* The disas_log hook may use these values rather than recompute.  */
-     db->tb->size = db->pc_next - db->pc_first;
-     db->tb->icount = db->num_insns;
+ # On i386 and x86_64 Linux only supports 4k pages (large pages are a different hack)
+ EXTRA_RUNS+=run-test-mmap-4096
 -- 
 2.20.1
 
