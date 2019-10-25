@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1C2E4D27
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:58:19 +0200 (CEST)
-Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EAD4E4CB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:55:09 +0200 (CEST)
+Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO06b-0000yf-KC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36869)
+	id 1iO03Y-0001xd-9O
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iNzvJ-0005so-DG
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:38 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNzvC-0005Tl-Bn
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iNzvI-0000Gm-79
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35907
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iNzvB-00008g-7Q
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28858
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNzvI-00005s-3S
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:36 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNzvB-00008D-48
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572011185;
+ s=mimecast20190719; t=1572011188;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j8me1QXcEFkB4bLdIZ9pA+yTAk+SPcjKqs5vhVTIibU=;
- b=Eez6JMfYOmmjIGwgAPbhAtazXAYl3ns83F/d3W7qMXDTHE4PT+SC7YI91ZmxtApryFwWaq
- H520ubwdWGINT7CwRLCPaex9tT96Hfo+OJpcrogc+/9id/ERYgfVRojWtaus/QXUu6P7DK
- nINGhiOdCQsNv6cCFBhCKfru+tfGz4M=
+ bh=N2KMQsM9Snog+L7Vjq/rhFIl2mDQsfkLO7SbFop5bb4=;
+ b=OI8jZGol7BPwjWE5v7LaeGdI8PuzsfABubSoycw1APmxH/yx2G3pwyPRG9/SHwC1uY5rUn
+ zh22zTa8UaHh+1zI3uxog3OU7B91BAmKg7J5/CxSFykHe0iKTZlhLbELH6piRosJFAnD6H
+ hlu3Gxx2RD3c2lV7xxsdCN1uhESyB5I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-4vHAmZznO5KnaDXYaKLJTg-1; Fri, 25 Oct 2019 09:46:19 -0400
+ us-mta-322-_cln1YskNme_nSLCfGW6Nw-1; Fri, 25 Oct 2019 09:46:22 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAA6D47B;
- Fri, 25 Oct 2019 13:46:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B0C107AD31;
+ Fri, 25 Oct 2019 13:46:21 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-223.ams2.redhat.com
  [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F08CB5D70E;
- Fri, 25 Oct 2019 13:46:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34F7C5D70E;
+ Fri, 25 Oct 2019 13:46:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 1/7] qapi: add support for blkreplay driver
-Date: Fri, 25 Oct 2019 15:46:05 +0200
-Message-Id: <20191025134611.25920-2-kwolf@redhat.com>
+Subject: [PULL 2/7] iotests: Skip read-only cases in 118 when run as root
+Date: Fri, 25 Oct 2019 15:46:06 +0200
+Message-Id: <20191025134611.25920-3-kwolf@redhat.com>
 In-Reply-To: <20191025134611.25920-1-kwolf@redhat.com>
 References: <20191025134611.25920-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 4vHAmZznO5KnaDXYaKLJTg-1
+X-MC-Unique: _cln1YskNme_nSLCfGW6Nw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,72 +75,76 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+Some tests in 118 use chmod to remove write permissions from the file
+and assume that the image can indeed not be opened read-write
+afterwards. This doesn't work when the test is run as root, because root
+can still open the file as writable even when the permission bit isn't
+set.
 
-This patch adds support for blkreplay driver to the blockdev options.
-Now blkreplay can be used with -blockdev command line option
-in the following format:
--blockdev driver=3Dblkreplay,image=3Dfile-node-name,node-name=3Dreplay-node=
--name
+Introduce a @skip_if_root decorator and use it in 118 to skip the tests
+in question when the script is run as root.
 
-This option makes possible implementation of the better command
-line support for record/replay invocations.
-
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qapi/block-core.json | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/118        |  3 +++
+ tests/qemu-iotests/iotests.py | 10 ++++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index b274aef713..aa97ee2641 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2883,12 +2883,13 @@
- # @nvme: Since 2.12
- # @copy-on-read: Since 3.0
- # @blklogwrites: Since 3.0
-+# @blkreplay: Since 4.2
- #
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDriver',
--  'data': [ 'blkdebug', 'blklogwrites', 'blkverify', 'bochs', 'cloop',
--            'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
-+  'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
-+            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluste=
-r',
-             'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
-             'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qco=
-w',
-             'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-@@ -3501,6 +3502,18 @@
-   'data': { 'test': 'BlockdevRef',
-             'raw': 'BlockdevRef' } }
+diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
+index ea0b326ae0..e20080e9a6 100755
+--- a/tests/qemu-iotests/118
++++ b/tests/qemu-iotests/118
+@@ -446,6 +446,7 @@ class TestChangeReadOnly(ChangeBaseClass):
+         self.assert_qmp(result, 'return[0]/inserted/ro', True)
+         self.assert_qmp(result, 'return[0]/inserted/image/filename', new_i=
+mg)
 =20
-+##
-+# @BlockdevOptionsBlkreplay:
-+#
-+# Driver specific block device options for blkreplay.
-+#
-+# @image:     disk image which should be controlled with blkreplay
-+#
-+# Since: 4.2
-+##
-+{ 'struct': 'BlockdevOptionsBlkreplay',
-+  'data': { 'image': 'BlockdevRef' } }
++    @iotests.skip_if_user_is_root
+     def test_rw_ro_retain(self):
+         os.chmod(new_img, 0o444)
+         self.vm.add_drive(old_img, 'media=3Ddisk', 'none')
+@@ -530,6 +531,7 @@ class TestChangeReadOnly(ChangeBaseClass):
+         self.assert_qmp(result, 'return[0]/inserted/ro', True)
+         self.assert_qmp(result, 'return[0]/inserted/image/filename', new_i=
+mg)
+=20
++    @iotests.skip_if_user_is_root
+     def test_make_ro_rw(self):
+         os.chmod(new_img, 0o444)
+         self.vm.add_drive(old_img, 'media=3Ddisk', 'none')
+@@ -571,6 +573,7 @@ class TestChangeReadOnly(ChangeBaseClass):
+         self.assert_qmp(result, 'return[0]/inserted/ro', True)
+         self.assert_qmp(result, 'return[0]/inserted/image/filename', new_i=
+mg)
+=20
++    @iotests.skip_if_user_is_root
+     def test_make_ro_rw_by_retain(self):
+         os.chmod(new_img, 0o444)
+         self.vm.add_drive(old_img, 'media=3Ddisk', 'none')
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 693fde155a..709def4d5d 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -931,6 +931,16 @@ def skip_if_unsupported(required_formats=3D[], read_on=
+ly=3DFalse):
+         return func_wrapper
+     return skip_test_decorator
+=20
++def skip_if_user_is_root(func):
++    '''Skip Test Decorator
++       Runs the test only without root permissions'''
++    def func_wrapper(*args, **kwargs):
++        if os.getuid() =3D=3D 0:
++            case_notrun('{}: cannot be run as root'.format(args[0]))
++        else:
++            return func(*args, **kwargs)
++    return func_wrapper
 +
- ##
- # @QuorumReadPattern:
- #
-@@ -4028,6 +4041,7 @@
-       'blkdebug':   'BlockdevOptionsBlkdebug',
-       'blklogwrites':'BlockdevOptionsBlklogwrites',
-       'blkverify':  'BlockdevOptionsBlkverify',
-+      'blkreplay':  'BlockdevOptionsBlkreplay',
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-       'copy-on-read':'BlockdevOptionsGenericFormat',
+ def execute_unittest(output, verbosity, debug):
+     runner =3D unittest.TextTestRunner(stream=3Doutput, descriptions=3DTru=
+e,
+                                      verbosity=3Dverbosity)
 --=20
 2.20.1
 
