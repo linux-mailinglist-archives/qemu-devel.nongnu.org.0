@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948A1E4A59
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:49:17 +0200 (CEST)
-Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A63E4A36
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:45:49 +0200 (CEST)
+Received: from localhost ([::1]:58970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNy5k-0001ji-1G
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45077)
+	id 1iNy2N-0006Mw-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iNxwP-0006gF-2K
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:38 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iNxwN-0006XP-0C
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iNxwK-0006dP-FL
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:34 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:43147)
+ (envelope-from <richard.henderson@linaro.org>) id 1iNxwK-0006dS-FR
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:33 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:45247)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iNxwJ-0006bg-Ex
+ id 1iNxwJ-0006cV-9j
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:39:31 -0400
-Received: by mail-qk1-x741.google.com with SMTP id a194so1390358qkg.10
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 04:39:30 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id q70so1373453qke.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 04:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=s0q1vqFGnAcsw/qw8CdtCPCtjm1BmD/+WvFX3Z3uxE4=;
- b=rI/Usq5OenuuvTlRkFeZwBOfcZNf9ytXpIcywXy9m/M8IZ2mPyUS50ReGVbqmJTGcK
- 6SdGdFYeIdaAAnG/RXVWxBx4cI6SA6/8sNcdVlorKPbVgH9k1iA9QMAz3W7sXNNxoVk0
- 48Za501PLhL7T45dHqHyex6UmTH95Nf5KJujwROOeK/iWUTLjVzuIZJ8z7xAwFI+z780
- Bx6S5fiMefqedeKM+B2hr3NewIbGkj24iHwCR5KdkoPAej8hkEQbMloCvQtnDsSSpeU1
- 1tKN8epoJCIODXYFWSNibNSYI/uPIYDrLe+y2Lw+VKtb7dg0OkaCMFc+UmpwRz1TE++s
- eQ/w==
+ bh=DlXXOhTdrM3bVVr6VG88KwpML+EyXMPXZ3h5425yg7c=;
+ b=ZKOCAS0zDwnYBsA1VAnnjCkenRE6kQmZiPNdzlupEPL4+IjEq4rlAJ5nEd3/TW7qsC
+ tWtfA+9n9ojS9NGxZi0f/H0QlmLPKITQSMdm+aNaQKJi81RsprZrMzdhyUdzdSjDGFWW
+ eJFvk8nnxgl6G9SZKN2DvSb5W9G3ne0p/Xzxm/gvi2TVwWvfGd/f1xdYeA63rG02pIWk
+ vHYbenEs/VyTuInmprNfuq7F80XgQOh9bEi+J4cUVj7Ps6FUhUzW2/j5vgy5g+ymu/ZO
+ /59mzCwx7Qd7Uwhwl98nR3+VXph94aiWNg4V5lPKShlKhqw+RbiIdYZphFUlPZfJf5+r
+ ueOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=s0q1vqFGnAcsw/qw8CdtCPCtjm1BmD/+WvFX3Z3uxE4=;
- b=SRlf3p2HixRdQxfEWxaY0+gSFXbY7KdYYbImctVJgaZDKPvTbhpkLsR2aYYoMnoHTH
- FgAex1+LTmy88W6+MS8sIn+jdMqc1PhxB5S2yyFuZlTNKlzteCh7xw0BFk0ZI6g7OaKf
- Z9rwTq1JJ+pY6VW10KWMA93MR1eJayFEnMIhiEyluqXBVrmcEkbIslWx6sFw+e4uHyUa
- NI8GW/8ZrtctldwZxdITy83maVwDER6JdS4dUzQHIS3/zcX6MMM9SLa8AFI6g1k2eSlM
- 6r+BVT0uIm4GDinLmJbiJI8D1uC2ejd/MrTxflFFguTDW6bFQzV8TNh41l/UH7bO1Har
- YIMQ==
-X-Gm-Message-State: APjAAAUHa0HNr3vrXkjn47uWd1DK/3+5KS948pwFUyu1e1GFtuljCmOg
- jUM1wnjYMOpbjBhx/KwOI4VDQ5ghUXQ=
-X-Google-Smtp-Source: APXvYqwng05J8eA2QXskL8IGIoydiKvqPSwJY3peuZwGomX5CnrahBUbtHWG8D33cJUODw75m/tSRw==
-X-Received: by 2002:a37:816:: with SMTP id 22mr2479620qki.454.1572003569270;
- Fri, 25 Oct 2019 04:39:29 -0700 (PDT)
+ bh=DlXXOhTdrM3bVVr6VG88KwpML+EyXMPXZ3h5425yg7c=;
+ b=NfEhwBw+eK9cipl1gz9IxLuxU7dfkmJcN6auOOgzy7R5TjPpVolD9DBn2DHScOFcg6
+ Y45OaOMkpwMtqKctBitQmkY48ThvtOy2PQpijtwT1zBEw0WGGkHsNjmQdpxI381mGw+j
+ vXMUiJ4j9qZNO/ustBbtsobZrz/OaZSnRkoYLpFb0qYa++PKIhNpEVTCwB+vtM4WYl3C
+ nD1m8qx7P4yP7BhHwnCwfX13CW4AyjeRfO1CdWmNCRxfQ99UYqP5zcuhYUDiZxqXuZkN
+ YIWu/vzh/sOzQJaJPhZT922v3Hw4yxFgDocPvMBL3MQpAEc7ne8HiIDeHWclQ7UmqrwO
+ RkAw==
+X-Gm-Message-State: APjAAAUJeuoGECvO+EpjIZGdRvep2YiVwE6Q4T96wEu7usTTCR8FBQOe
+ XUXuV0wSiC+VYlRuNJJJ49gRMyu4K+U=
+X-Google-Smtp-Source: APXvYqwSXT6R/VMFAdSfkmeVTS9NB/EcMQ/xmEBPdmqqBTsNa+rzAq8mJ7f+nejRgl/Tvi7xdVkuqw==
+X-Received: by 2002:a37:e407:: with SMTP id y7mr2242107qkf.77.1572003570488;
+ Fri, 25 Oct 2019 04:39:30 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
  [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id x38sm1473335qtc.64.2019.10.25.04.39.28
+ by smtp.gmail.com with ESMTPSA id x38sm1473335qtc.64.2019.10.25.04.39.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 04:39:28 -0700 (PDT)
+ Fri, 25 Oct 2019 04:39:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/12] linux-user/sparc: Use WREG_SP constant in
- sparc/signal.c
-Date: Fri, 25 Oct 2019 07:39:15 -0400
-Message-Id: <20191025113921.9412-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 07/12] linux-user/sparc: Fix WREG usage in setup_frame
+Date: Fri, 25 Oct 2019 07:39:16 -0400
+Message-Id: <20191025113921.9412-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191025113921.9412-1-richard.henderson@linaro.org>
 References: <20191025113921.9412-1-richard.henderson@linaro.org>
@@ -80,52 +79,27 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s/UREG_FP/WREG_SP/g
-
-This is non-obvious because the UREG_FP constant is fact wrong.
-However, the previous search-and-replace patch made it clear that
-UREG_FP expands to WREG_O6, and we can see from the enumeration in
-target/sparc/cpu.h that WREG_O6 is in fact WREG_SP, the stack pointer.
-
-The UREG_SP define is unused; remove it.
+Use WREG_I0 not WREG_O0 in order to properly save the "ins".
+The "outs" were saved separately in setup___siginfo.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/signal.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ linux-user/sparc/signal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index a967e2db73..0db4c5f84f 100644
+index 0db4c5f84f..efb0df7e2b 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -104,9 +104,6 @@ struct target_rt_signal_frame {
-     qemu_siginfo_fpu_t  fpu_state;
- };
- 
--#define UREG_FP        WREG_O6
--#define UREG_SP        WREG_I6
--
- static inline abi_ulong get_sigframe(struct target_sigaction *sa, 
-                                      CPUSPARCState *env,
-                                      unsigned long framesize)
-@@ -201,7 +198,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+@@ -192,7 +192,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+         __put_user(env->regwptr[i + WREG_L0], &sf->ss.locals[i]);
+     }
+     for (i = 0; i < 8; i++) {
+-        __put_user(env->regwptr[i + WREG_O0], &sf->ss.ins[i]);
++        __put_user(env->regwptr[i + WREG_I0], &sf->ss.ins[i]);
+     }
+     if (err)
          goto sigsegv;
- 
-     /* 3. signal handler back-trampoline and parameters */
--    env->regwptr[UREG_FP] = sf_addr;
-+    env->regwptr[WREG_SP] = sf_addr;
-     env->regwptr[WREG_O0] = sig;
-     env->regwptr[WREG_O1] = sf_addr +
-             offsetof(struct target_signal_frame, info);
-@@ -255,7 +252,7 @@ long do_sigreturn(CPUSPARCState *env)
-     sigset_t host_set;
-     int i;
- 
--    sf_addr = env->regwptr[UREG_FP];
-+    sf_addr = env->regwptr[WREG_SP];
-     trace_user_do_sigreturn(env, sf_addr);
-     if (!lock_user_struct(VERIFY_READ, sf, sf_addr, 1)) {
-         goto segv_and_exit;
 -- 
 2.17.1
 
