@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA37AE48A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:36:56 +0200 (CEST)
-Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56185E48DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:49:45 +0200 (CEST)
+Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNwxj-00071m-De
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1iNxA8-0000SZ-4G
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iNwRC-0002DN-5v
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:27 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNwVa-000814-IR
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:07:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006J8-Sy
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:16 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48472
+ (envelope-from <kwolf@redhat.com>) id 1iNwVY-0007cI-6v
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:07:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27858
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006Bv-NA
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:05 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNwVY-0007bt-1y
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:07:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571997748;
+ s=mimecast20190719; t=1571998067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PE1JdYLcfkPlEa4T0j9k7C93O795//rjI/j503JnUjE=;
- b=fgXyIXPFCm/LhYEtqdGK467LbSdv8O9k3BYezdYD3zkU4jDTNNiunxwjEdbvAMpXZfXHMc
- dOYktY+thefwUH6AisnLQPAKEv7rnJ1eILR0wiV/YzXruTy6etFFDqTnjzepAUF0Ud4i1j
- FQ9hlAsfZysP1+Ii7MZBS7oYI0ErebU=
+ bh=7NY0QQkvgEmagJQV1cgcHincdfGdOv+jNLg3U90IX+Q=;
+ b=PtPTVZ8xKjSExccd2899CrYwQ2U/NSUg4EkHxrtS0a2/Z2pmr7SFKAyHbdrcy80EcDx0EH
+ aUxlPOuGrhWUx6dCma6B82fjjjNGZKJeutCYoTwC89iLhTHcDkCDPPgZ5wf1rWUkE3vIBA
+ VSS0Z5FnRXR50ljpHfb+x2JkO7NBORM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-sA4AcyYlPQ61-uBbvhJUmg-1; Fri, 25 Oct 2019 06:02:26 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-115-Y2Rh6EeLN1GfvIrb_I8Mhg-1; Fri, 25 Oct 2019 06:07:41 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E95C80183D
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:02:25 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 751FE600D1;
- Fri, 25 Oct 2019 10:02:16 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC 2/3] qgraph: add an "after" test callback function
-Date: Fri, 25 Oct 2019 12:01:51 +0200
-Message-Id: <20191025100152.6638-3-stefanha@redhat.com>
-In-Reply-To: <20191025100152.6638-1-stefanha@redhat.com>
-References: <20191025100152.6638-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BC7A47B;
+ Fri, 25 Oct 2019 10:07:40 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-223.ams2.redhat.com
+ [10.36.117.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DEE48100194E;
+ Fri, 25 Oct 2019 10:07:36 +0000 (UTC)
+Date: Fri, 25 Oct 2019 12:07:35 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Fernando Casas =?iso-8859-1?Q?Sch=F6ssow?= <casasfernando@outlook.com>
+Subject: Re: qemu crashing when attaching an ISO file to a virtio-scsi CD-ROM
+ device through libvirt
+Message-ID: <20191025100735.GA7275@localhost.localdomain>
+References: <VI1PR03MB481484C08A04458ACA64F7A0A46C0@VI1PR03MB4814.eurprd03.prod.outlook.com>
+ <dbb363cf-bc3a-6de5-a62a-1467208d0017@redhat.com>
+ <VI1PR03MB4814DBEC71814C520D123ADDA46B0@VI1PR03MB4814.eurprd03.prod.outlook.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: sA4AcyYlPQ61-uBbvhJUmg-1
+In-Reply-To: <VI1PR03MB4814DBEC71814C520D123ADDA46B0@VI1PR03MB4814.eurprd03.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Y2Rh6EeLN1GfvIrb_I8Mhg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -70,100 +76,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- vgoyal@redhat.com
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a callback that runs after a test completes.  This will be used for
-cleanup.
+Am 23.10.2019 um 19:28 hat Fernando Casas Sch=F6ssow geschrieben:
+> Hi John,
+>=20
+> Thanks for looking into this.  I can quickly repro the problem with
+> qemu 4.0 binary with debugging symbols enabled as I have it available
+> already.  Doing the same with qemu 4.1 or development head may be too
+> much hassle but if it's really the only way I can give it try.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- tests/libqos/qgraph.h          | 2 ++
- tests/libqos/qgraph_internal.h | 1 +
- tests/libqos/qgraph.c          | 1 +
- tests/qos-test.c               | 6 ++++++
- 4 files changed, 10 insertions(+)
+We had a lot of iothread related fixes in 4.1, so this would really be
+the only way to tell if it's a bug that still exists. I suspect that
+it's already fixed (and to be more precise, I assume that commit
+d0ee0204f fixed it).
 
-diff --git a/tests/libqos/qgraph.h b/tests/libqos/qgraph.h
-index 3a25dda4b2..5e73a00e4a 100644
---- a/tests/libqos/qgraph.h
-+++ b/tests/libqos/qgraph.h
-@@ -47,6 +47,7 @@ typedef void (*QOSStartFunct) (QOSGraphObject *object);
-=20
- /* Test options functions */
- typedef void *(*QOSBeforeTest) (GString *cmd_line, void *arg);
-+typedef void (*QOSAfterTest) (void *arg);
-=20
- /**
-  * SECTION: qgraph.h
-@@ -341,6 +342,7 @@ struct QOSGraphTestOptions {
-                                  * additional parameters to the command li=
-ne
-                                  * and modify the argument to the test fun=
-ction.
-                                  */
-+    QOSAfterTest after;         /* executed after the test */
-     bool subprocess;            /* run the test in a subprocess */
- };
-=20
-diff --git a/tests/libqos/qgraph_internal.h b/tests/libqos/qgraph_internal.=
-h
-index f4734c8681..5e1131f06c 100644
---- a/tests/libqos/qgraph_internal.h
-+++ b/tests/libqos/qgraph_internal.h
-@@ -68,6 +68,7 @@ struct QOSGraphNode {
-             QOSTestFunc function;
-             void *arg;
-             QOSBeforeTest before;
-+            QOSAfterTest after;
-             bool subprocess;
-         } test;
-     } u;
-diff --git a/tests/libqos/qgraph.c b/tests/libqos/qgraph.c
-index 7a7ae2a19e..f3e792a509 100644
---- a/tests/libqos/qgraph.c
-+++ b/tests/libqos/qgraph.c
-@@ -603,6 +603,7 @@ void qos_add_test(const char *name, const char *interfa=
-ce,
-     assert(!opts->edge.size_arg);
-=20
-     node->u.test.before =3D opts->before;
-+    node->u.test.after =3D opts->after;
-     node->u.test.subprocess =3D opts->subprocess;
-     node->available =3D true;
-     add_edge(interface, test_name, QEDGE_CONSUMED_BY, &opts->edge);
-diff --git a/tests/qos-test.c b/tests/qos-test.c
-index fd70d73ea5..fa77f661c6 100644
---- a/tests/qos-test.c
-+++ b/tests/qos-test.c
-@@ -273,6 +273,7 @@ void *qos_allocate_objects(QTestState *qts, QGuestAlloc=
-ator **p_alloc)
-  * 3) call all nodes constructor and get_driver/get_device depending on ed=
-ge,
-  *    start the hardware (*_device_enable functions)
-  * 4) start test
-+ * 5) @after test function as defined in the given QOSGraphTestOptions
-  */
- static void run_one_test(const void *arg)
- {
-@@ -296,6 +297,11 @@ static void run_one_test(const void *arg)
-=20
-     obj =3D qos_allocate_objects(global_qtest, &alloc);
-     test_node->u.test.function(obj, test_arg, alloc);
-+
-+    /* After test */
-+    if (test_node->u.test.after) {
-+        test_node->u.test.after(test_arg);
-+    }
- }
-=20
- static void subprocess_run_one_test(const void *arg)
---=20
-2.21.0
+Kevin
 
 
