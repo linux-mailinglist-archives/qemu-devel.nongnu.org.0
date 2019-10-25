@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F029E440C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:08:08 +0200 (CEST)
-Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DC4E444E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:21:25 +0200 (CEST)
+Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNthf-0001K0-28
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35663)
+	id 1iNtuW-0004Tt-09
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtE7-0003Sg-U2
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:37 -0400
+ (envelope-from <eperezma@redhat.com>) id 1iNtem-0004tX-ID
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:05:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtE6-0008UN-VS
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:35 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33267)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtE6-0008T0-PU
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:34 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id 6so3526588wmf.0
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yxnUmUrN/VmnORaacGEvXlk29KbZqX8IayMFp0qzT/w=;
- b=rcfxAIOD7fXlD4hqTjItQZG2EDF/kUjb+IH1qqUwW66D+X08EM0+jm1vJBcOXRNxA6
- PGCT0Nx9u+xeWWumHg0nzqL9r+gLMuYZtp1Up8uxFQhM6oigR6ZzMOPVKyZIwZwWYdf5
- fWPbSvu87ge0xfl2uIg+pGYVsYJKGeG8q939hHndRPAwJRn25LGDfP8Kkd5vWcPZLHJo
- c04Z5l+J5NMLHwKn5DZQmNQmm1B5yqDSbgbqG3nLwEveqBVgVDIRMO9G2PurLq6aBYFm
- g/PWJRRzyOgHOxNur2noYzc0+uZkHUVQCGb3oAmX3/Pgod7W3bKH2QZskbvv1lOCyobe
- 6OhQ==
+ (envelope-from <eperezma@redhat.com>) id 1iNtek-0002eV-GP
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:05:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46248)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eperezma@redhat.com>) id 1iNtek-0002e6-7v
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:05:06 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3560A8553A
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:05:05 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id i25so1141522qtm.17
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:05:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yxnUmUrN/VmnORaacGEvXlk29KbZqX8IayMFp0qzT/w=;
- b=uR05BCWgZFelvW1XumywHB53dxadbDB5XV3jPCFsUGoPjuX1zMpfH/3HPlmlM0/CfF
- HXwraX5xjYT2HwoEhrrAEUa6wmC3vUn1wJcQOke73/NYGv2xlUImg7eweAU4LBevSl/c
- vJSSRAuU7IEeJgy/TZL3TE+Zlsscv2WR01fpG0EcSgkiFz5/MQfgLDYXwt96fji1n6yh
- QsfVEq6Qm17ZeBUBwKCOZZXwHiaTY2Xa5bcdXqOr2FkpayNR98jqTbvlms0h74nX73Td
- aqClLFhoGX8m/daT3bDYEdbTPfxLJKWH2vFP7dYEB1rIdL5SQT6TaVEDd9KoILRPwA7w
- 1OFQ==
-X-Gm-Message-State: APjAAAW7Ynx1hSC0X8kjCYIAZL7hfJi/jNBvVsNcGbctdX2xAR1ChTwA
- VGjAuTCXihobdWBKVN/pQbtuTw==
-X-Google-Smtp-Source: APXvYqxsxlr3p06MvJIs2wYCbRbCY+R2auWsESflRXTyuy+SCq58XA3a8LoJ9K9J4IEjgo8Pqq+hrw==
-X-Received: by 2002:a1c:f718:: with SMTP id v24mr1775983wmh.82.1571985452738; 
- Thu, 24 Oct 2019 23:37:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a17sm1408799wrx.84.2019.10.24.23.37.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 23:37:24 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 710871FFE0;
- Fri, 25 Oct 2019 07:37:20 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL v2 72/73] MAINTAINERS: add me for the TCG plugins code
-Date: Fri, 25 Oct 2019 07:37:12 +0100
-Message-Id: <20191025063713.23374-73-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
-References: <20191025063713.23374-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jaU+a1DOZ+2dLUMLmjJ8bYnnb76fIjnC6aZYWl0Rw1E=;
+ b=t6EHK/YmVDdcx+AQMf578d6SylH1mex+axd8CcCIggvh9VMoySXVT/It1fmPCMajQs
+ o5HGFjjowo2d+l663pRcK/mmf/ob/ffKB7XJ8KdwpyKUjUJI4FGRvSvVuEuypqgpcXhp
+ g0aFKnK42KbvPpp0fCiqybQWqcFmBTwr7Dx5G/D3S+YIoybyOue1EYTNTTUT4SdfOChz
+ GXTW3EfbQaLlanhIvEs/uuYMOnMsv3+hqRtw1Bv2zT2Eb+/GfW4TRPau7bVyRnfqRtiy
+ zaJg/Wrma3iD1j7vhVatFvSXVspv/zSTr3tsdFfY6RMBsteWXnJg6SGXV0QMSIa9hMgD
+ swuQ==
+X-Gm-Message-State: APjAAAXeZ9mLF7Hg+vbBzlMmMWSCZEbtnYSF73M+mOOVNCKfvjFxbU73
+ BTBvrDtEeJtpKTNCvtJ/xhDBgBErnOOThmbMttUG224+hu9WZtEF+VMC+tAuf3fdsKQHLkmNiqW
+ i+TzWUapxPnPQBBoqWOA0QCACzkjvmB4=
+X-Received: by 2002:ad4:50a8:: with SMTP id d8mr1858778qvq.8.1571987104446;
+ Fri, 25 Oct 2019 00:05:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzSXwDLSczTCfxlMDfxDxVCO5uH4a6g5+b0UcgRwvXlzQXcPlZQ02uVwTLs95eq9NNx/6PJKk7nUMgx7H5CZBI=
+X-Received: by 2002:ad4:50a8:: with SMTP id d8mr1858757qvq.8.1571987104182;
+ Fri, 25 Oct 2019 00:05:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+References: <20191024171406.12504-1-eperezma@redhat.com>
+ <118b31fe-d1c1-9e96-84ac-c76829dd3ada@redhat.com>
+In-Reply-To: <118b31fe-d1c1-9e96-84ac-c76829dd3ada@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 25 Oct 2019 09:04:27 +0200
+Message-ID: <CAJaqyWe0Cdb38uiGaPHtu_M_LPCve9yoD3Lgj+2yBz6wcu=Vrg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/9] Packed virtqueue for virtio
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,31 +72,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, Amit Shah <amit@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Hi Jason!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ed41d7d1b6c..ade2187eae4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2328,6 +2328,12 @@ M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: tcg/
- 
-+TCG Plugins
-+M: Alex Bennée <alex.bennee@linaro.org>
-+S: Maintained
-+F: plugins/
-+F: tests/plugin
-+
- AArch64 TCG target
- M: Claudio Fontana <claudio.fontana@huawei.com>
- M: Claudio Fontana <claudio.fontana@gmail.com>
--- 
-2.20.1
+I can post a new version. You will have it in a moment.
 
+Thanks!
+
+On Fri, Oct 25, 2019 at 5:20 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2019/10/25 =E4=B8=8A=E5=8D=881:13, Eugenio P=C3=A9rez wrote:
+> > Hi:
+> >
+> > This is an updated version of packed virtqueue support based on Wei and=
+ Jason's
+> > V5, mainly solving the clang leak detector error CI gave.
+> >
+> > Please review.
+> >
+> > Changes from V5:
+> > - Fix qemu's CI asan error.
+> > - Move/copy rcu comments.
+> > - Merge duplicated vdev->broken check between split and packet version.
+> >
+> > Eugenio P=C3=A9rez (3):
+> >    virtio: Free rng and blk virqueues
+> >    virtio: add some rcu comments
+> >    virtio: Move vdev->broken check to dispatch drop_all
+> >
+> > Jason Wang (4):
+> >    virtio: basic packed virtqueue support
+> >    virtio: event suppression support for packed ring
+> >    vhost_net: enable packed ring support
+> >    virtio: add property to enable packed virtqueue
+> >
+> > Wei Xu (2):
+> >    virtio: basic structure for packed ring
+> >    virtio: device/driverr area size calculation refactor for split ring
+>
+>
+> Looks good to me.
+>
+> Just two nits:
+>
+> I tend to squash patch 8 and patch 9 into the patch that introduces
+> those issues and split patch 3 into two parts.
+>
+> Btw, if you wish you can add your s-o-b to the series.
+>
+> Do you want to post a new version or I can tweak them by myself?
+>
+> Thanks
+>
+>
+> >
+> >   hw/block/virtio-blk.c       |    7 +-
+> >   hw/char/virtio-serial-bus.c |    2 +-
+> >   hw/net/vhost_net.c          |    2 +
+> >   hw/scsi/virtio-scsi.c       |    3 +-
+> >   hw/virtio/virtio-rng.c      |    1 +
+> >   hw/virtio/virtio.c          | 1154 ++++++++++++++++++++++++++++++++++=
+++++-----
+> >   include/hw/virtio/virtio.h  |   14 +-
+> >   7 files changed, 1045 insertions(+), 138 deletions(-)
+> >
 
