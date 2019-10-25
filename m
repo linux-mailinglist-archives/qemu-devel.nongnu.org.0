@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83327E4458
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:24:53 +0200 (CEST)
-Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D40E444B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:20:37 +0200 (CEST)
+Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtxs-0006vf-1F
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38205)
+	id 1iNttk-0003N3-FV
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:20:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtWZ-0003OE-Uy
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:42 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtWY-0007gH-PF
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtWY-0003KN-EG
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:39 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56230)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtWW-0007do-T2
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:38 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42629)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtWY-0007ey-J9
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:38 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id g24so796776wmh.5
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:56:38 -0700 (PDT)
+ id 1iNtWW-0007bu-Lq
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:36 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r1so951354wrs.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=InxJufY4GZdXxhorR8TFr2dyO/+lRhEgHf6keWCHq84=;
- b=hnWHV+ELMptqNqlmI81JXyI4tT0hGhEgvyPo6cntZiYZJxFrB/8okHPF2LlpBMknTM
- DL7aM/8P18p6Hi9TNSZMOjT466NMw2RDl85YkwoBMrCONRHWtt0iRNZMtnITlob9MZ2+
- xpyfMoRUmhKiaCSdgJKgg67aD0Jppgd08hWi/vQWuTD5HNLh0/mMjq5JrZKGAgnQQVQK
- JbpsxFdxSV6UwYtzfraMHRaS5k9bx3UpAzUkG//ftKcUE2oA8yUI3W3hAW4Flr+m4t7y
- TgN8tnXGDZicCfhkQ+kwHRjQgNK3KSM1Wy7fIAstxbde1trEHo4edJB6srx0rDUoaBDQ
- H5sA==
+ bh=x47k/VxsI+WVM0DfT2oDeIPT5nZyOR1szQ7TpFo9UBw=;
+ b=T0izpLM0apia/pOyYCgJ7Db/DMNeS7kKrQvA1yEhusGCcxMn3U9Rw1gV5r7Dd4m6Qh
+ oEkzDpXyNyxomqv4o6oBLF3qqpuGV/uaTNE8qVdAn0I3wNtcGt0at6sMSTPqRgAYibhQ
+ yDf2TMX3Lygdt5iUeXbWN8Ije0qEf1+W3OUtFHfngzd01fPMCcNli8wZltJozrhc72tm
+ WMsTpZ6uuoeNA3hMNTVgQuk2kpeygarjm3Fsn/HchJcBuLV8MHTEk4X8H+8RV44azX/x
+ mNMkIE6cPOEI+/15NaBv7GeY+6UtFtcVD+txKkkD4ib8hA/QupE8AWSjTq86/JP8A0Rx
+ McDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=InxJufY4GZdXxhorR8TFr2dyO/+lRhEgHf6keWCHq84=;
- b=mgZXOd81gK5eYSaA6fXjWuvOpUynSavwdgUF35ocRA5TemKOe+/3tEReR1vi7XTn5n
- LXdFFfcbToF/jFUqMNcUhK1EGXldGpxdKpPZd6DBW+Dj1Xxr4ZeKCEW5WkQxcHklEoip
- OfHcdf8m3qLmedaklu01aeThg9J/LX93hQDj6ejx5n58oUdzjEYGR0b2fsZZ/mpVo7kv
- FuuaWtKib06BNzSIUHQgNAgZkCP7C0I2IKo2aH0KCKgE7DXyQ8Ij4AL53ysHotmfVi/E
- TfYqCAMEi3bkK/jFoY9I86AUa3iPudtXwTLnyp6eWWJ6mjW4TVzJaejaBMjqdy3A3P2M
- NXwA==
-X-Gm-Message-State: APjAAAUDh00fA7/9MaHaJJl9x/Bp2ltP3KJ71XnVpZ9W3+KUcZXynfrW
- ms+2mxKnI75ZJunazCkAJ4ftMQ==
-X-Google-Smtp-Source: APXvYqykaf6cCTxGXpxqlGZt9TrzVh3QOx3dW83w08gMPiTjAv56WTKjlEe/VHK8t4jilL/Hijdljg==
-X-Received: by 2002:a7b:c7d9:: with SMTP id z25mr2026014wmk.127.1571986597523; 
- Thu, 24 Oct 2019 23:56:37 -0700 (PDT)
+ bh=x47k/VxsI+WVM0DfT2oDeIPT5nZyOR1szQ7TpFo9UBw=;
+ b=L+wuIQsNj2nNTAWVrUjY0OsCLH6q1hkBBnik1ImDCefJMfYJJaIVrZ4kW3xqsIdJGR
+ WW64syQ9NgQUXcyvWvik7yzFMW9j8QMOuTwXKiO7YkJ4coOXpmtCnyD+PVaCLBWcae2v
+ LRfFd919U3Ewjr0qVmT49ZLRfv1U6u3rdVBB9BXWaYyt4S9pUE0l4u/1OvPZ7OVqpCts
+ PsBtr9kDZ4t2jIebbuGftiwXUZl6dadpXetuyHN3jsWN6FZn6z2PCBzXOIjgTsu8vDAg
+ yR7jepQMtNcDfhsCGAxZxTgRva/8+qdUuq7713Nxs4BMubT4Ekd6gfs8iIWRt2tO/R6Z
+ RVTQ==
+X-Gm-Message-State: APjAAAU4al9P8WEVG0C5zv6zp0aJhvvFPa3I4Z+XG58kzKNee2ddKVBW
+ eC0eE93+ZLZt0f5+8kNAWhkFeg==
+X-Google-Smtp-Source: APXvYqwpbbXkVyYXcxG02JsEWsXSTP6uvGMgoUVBk0JzF0sWtLPiMzsajZYJu95e34TB0yy5Q274Tw==
+X-Received: by 2002:a5d:544d:: with SMTP id w13mr1363580wrv.19.1571986594761; 
+ Thu, 24 Oct 2019 23:56:34 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a186sm1396359wmd.3.2019.10.24.23.56.34
+ by smtp.gmail.com with ESMTPSA id r5sm1724815wrs.57.2019.10.24.23.56.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 23:56:36 -0700 (PDT)
+ Thu, 24 Oct 2019 23:56:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0547C1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 1DAC71FFBC;
  Fri, 25 Oct 2019 07:37:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 34/73] *-user: notify plugin of exit
-Date: Fri, 25 Oct 2019 07:36:34 +0100
-Message-Id: <20191025063713.23374-35-alex.bennee@linaro.org>
+Subject: [PULL v2 35/73] *-user: plugin syscalls
+Date: Fri, 25 Oct 2019 07:36:35 +0100
+Message-Id: <20191025063713.23374-36-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,48 +90,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+To avoid too much duplication add a wrapper that the existing trace
+and the new plugin calls can live in. We could move the -strace code
+here as well but that is left for a future series as the code is
+subtly different between the bsd and linux.
+
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+[AJB: wrap in syscall-trace.h, expand commit msg]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 1ee6195d9ff..84a983a9a12 100644
+index 84a983a9a12..0d45b654bb3 100644
 --- a/bsd-user/syscall.c
 +++ b/bsd-user/syscall.c
-@@ -332,6 +332,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         _mcleanup();
+@@ -26,6 +26,7 @@
+ 
+ #include "qemu.h"
+ #include "qemu-common.h"
++#include "user/syscall-trace.h"
+ 
+ //#define DEBUG
+ 
+@@ -322,7 +323,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #ifdef DEBUG
+     gemu_log("freebsd syscall %d\n", num);
  #endif
-         gdb_exit(cpu_env, arg1);
-+        qemu_plugin_atexit_cb();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-         ret = 0; /* avoid warning */
-@@ -430,6 +431,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
-         _mcleanup();
+-    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
++    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++
+     if(do_strace)
+         print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
+ 
+@@ -403,7 +405,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
  #endif
-         gdb_exit(cpu_env, arg1);
-+        qemu_plugin_atexit_cb();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-         ret = 0; /* avoid warning */
-@@ -505,6 +507,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
-         _mcleanup();
+     if (do_strace)
+         print_freebsd_syscall_ret(num, ret);
+-    trace_guest_user_syscall_ret(cpu, num, ret);
++
++    record_syscall_return(cpu, num, ret);
+     return ret;
+  efault:
+     ret = -TARGET_EFAULT;
+@@ -421,7 +424,9 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #ifdef DEBUG
+     gemu_log("netbsd syscall %d\n", num);
  #endif
-         gdb_exit(cpu_env, arg1);
-+        qemu_plugin_atexit_cb();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-         ret = 0; /* avoid warning */
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index bdda7205532..a362ef67d2c 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -35,4 +35,5 @@ void preexit_cleanup(CPUArchState *env, int code)
-         __gcov_dump();
+-    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++
++    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++
+     if(do_strace)
+         print_netbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
+ 
+@@ -479,7 +484,8 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
  #endif
-         gdb_exit(env, code);
-+        qemu_plugin_atexit_cb();
+     if (do_strace)
+         print_netbsd_syscall_ret(num, ret);
+-    trace_guest_user_syscall_ret(cpu, num, ret);
++
++    record_syscall_return(cpu, num, ret);
+     return ret;
+  efault:
+     ret = -TARGET_EFAULT;
+@@ -497,7 +503,9 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #ifdef DEBUG
+     gemu_log("openbsd syscall %d\n", num);
+ #endif
+-    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++
++    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++
+     if(do_strace)
+         print_openbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
+ 
+@@ -555,7 +563,8 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #endif
+     if (do_strace)
+         print_openbsd_syscall_ret(num, ret);
+-    trace_guest_user_syscall_ret(cpu, num, ret);
++
++    record_syscall_return(cpu, num, ret);
+     return ret;
+  efault:
+     ret = -TARGET_EFAULT;
+diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
+new file mode 100644
+index 00000000000..9e604736433
+--- /dev/null
++++ b/include/user/syscall-trace.h
+@@ -0,0 +1,40 @@
++/*
++ * Common System Call Tracing Wrappers for *-user
++ *
++ * Copyright (c) 2019 Linaro
++ * Written by Alex Bennée <alex.bennee@linaro.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef _SYSCALL_TRACE_H_
++#define _SYSCALL_TRACE_H_
++
++/*
++ * These helpers just provide a common place for the various
++ * subsystems that want to track syscalls to put their hooks in. We
++ * could potentially unify the -strace code here as well.
++ */
++
++static inline void record_syscall_start(void *cpu, int num,
++                                        abi_long arg1, abi_long arg2,
++                                        abi_long arg3, abi_long arg4,
++                                        abi_long arg5, abi_long arg6,
++                                        abi_long arg7, abi_long arg8)
++{
++    trace_guest_user_syscall(cpu, num,
++                             arg1, arg2, arg3, arg4,
++                             arg5, arg6, arg7, arg8);
++    qemu_plugin_vcpu_syscall(cpu, num,
++                             arg1, arg2, arg3, arg4,
++                             arg5, arg6, arg7, arg8);
++}
++
++static inline void record_syscall_return(void *cpu, int num, abi_long ret)
++{
++    trace_guest_user_syscall_ret(cpu, num, ret);
++    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
++}
++
++
++#endif /* _SYSCALL_TRACE_H_ */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f1ab81b9177..be2a3b93b3a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -112,6 +112,7 @@
+ 
+ #include "qemu.h"
+ #include "qemu/guest-random.h"
++#include "user/syscall-trace.h"
+ #include "qapi/error.h"
+ #include "fd-trans.h"
+ 
+@@ -11983,8 +11984,8 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
+     }
+ #endif
+ 
+-    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4,
+-                             arg5, arg6, arg7, arg8);
++    record_syscall_start(cpu, num, arg1,
++                         arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+ 
+     if (unlikely(do_strace)) {
+         print_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
+@@ -11996,6 +11997,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
+                           arg5, arg6, arg7, arg8);
+     }
+ 
+-    trace_guest_user_syscall_ret(cpu, num, ret);
++    record_syscall_return(cpu, num, ret);
+     return ret;
  }
 -- 
 2.20.1
