@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2497E5582
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:54:33 +0200 (CEST)
-Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DCBE5584
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:58:46 +0200 (CEST)
+Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO6bQ-0007cZ-8w
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37334)
+	id 1iO6fU-0005ib-Hm
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iO6Ys-0001YA-0Y
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:51:56 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iO6ao-0000PQ-5W
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:53:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iO6Yo-0000tV-Dx
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:51:52 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20005
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iO6Yn-0000rt-Ck
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:51:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572036707;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0zdJM+j/S0pkEGKaC7KAZkX9S1Is+6y3InNUmPexgOY=;
- b=gRcqjpYd1sS6PPQjJSErl7BLAHe+ZaaFkmJCqx+hnQ8P13kDmwSwMGUAMakERomW4v3riR
- H4l4Zdj/+3hoPD21h6DvPoXt0op3lPCH59x7WrXEtL976+O1RJvtu0EGmS919bAioNrOAE
- VV5BKw2TFMjuzNz9cJG23TmxUdIzk5s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-MK4hVMBuMWy9Vb50zpYWQw-1; Fri, 25 Oct 2019 16:51:44 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E2AC800D41;
- Fri, 25 Oct 2019 20:51:43 +0000 (UTC)
-Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 792795D9C9;
- Fri, 25 Oct 2019 20:51:42 +0000 (UTC)
-Date: Fri, 25 Oct 2019 17:51:41 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v13 06/12] numa: Extend CLI to provide memory latency and
- bandwidth information
-Message-ID: <20191025205141.GF6744@habkost.net>
-References: <20191020111125.27659-1-tao3.xu@intel.com>
- <20191020111125.27659-7-tao3.xu@intel.com>
- <20191023172854.42c495d5@redhat.com>
- <9e30d8fe-7274-4ee8-3c4b-64c370141358@intel.com>
- <20191025152720.4068bfae@redhat.com>
- <87wocsobil.fsf@dusky.pond.sub.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1iO6am-0001XM-JW
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:53:53 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45942)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iO6am-0001Wo-Dh
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:53:52 -0400
+Received: by mail-oi1-x242.google.com with SMTP id o205so2467995oib.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p02z0OsfvVJIqy8Wkqr51LLW+ZWmWxj6T9miCmOTccE=;
+ b=knSS8sfHij5EiTv9pSRRaZCaggntt3op++bR4R+2FoUFVOiPxKTKDQl5jOCUHJGBfb
+ wAlUUCXiM99Cajrp9s/Z+HDZoEvD/px70+rkie+XpmVCv2gN4lVBXNo2mwAqbiKhjWvH
+ ouuEVxfOQesZPnd+7YrEytoqzNmeyidKSrsNNRzWhUEZidUWnHJW2p6ulEfiFcuVivXN
+ UTliGYt5gyymCVZLNMLtmVweO6Rpangm29/ePCSqAgDNv8U3I6w+Q25sBfAzKm4Sg0pr
+ QzlQkj/Xs+25B5AnwDlrU9QkOBlsVdg2aS6XmC04Lh0ZhqEPSJqQ9SCt5aADN61rsp9l
+ 3EoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p02z0OsfvVJIqy8Wkqr51LLW+ZWmWxj6T9miCmOTccE=;
+ b=LjaTXsRppBEwLrKQUaN0B3gbqUJG8ppBtTBflqRVbZBNIpx+0l27W7sCV6tatHXgMZ
+ PoiGmvzGN78TotQkxhvzEwcbU/7U8BfvL00w3UjwAIHW4hwXHWDOfZ3N4lV9Hc46FSrY
+ ZM/wA4pOEqpoon+Q5uWsDfaoFtROYK7897gQlzvDvjZZsgx6IUXQjsbUtzta5GMY16Qz
+ 19RAKGRdMCekdsNw6oAmL5sg3qLXptVtBTaGUQ37DoxvJRf2COsRnserUxhlDOUulAyO
+ Qw/h+PUu8ZgFOWq0rOddARiW077O4lkxGWwbcA8P8fJVI05fROkZyW4F2lWEjy7LBIhh
+ mdSw==
+X-Gm-Message-State: APjAAAWp+fRhZNY0pDYBsrw0rVbuDWdbKo1+sYVTa43xlrCMvaQd2Bov
+ 23wTA0rLhAAw4WJAJMBR2hyfHwXzjq+86/IU2tarWQ==
+X-Google-Smtp-Source: APXvYqxg9vQROYbzhQPdIDOCCLiFre9b0ANcxYngQskm3q+/Q/PlyCsqxLGMEM+LHDMcWG1zBhQ9i8DG2b5E/0+Z8jI=
+X-Received: by 2002:a05:6808:7d1:: with SMTP id
+ f17mr3991280oij.163.1572036830819; 
+ Fri, 25 Oct 2019 13:53:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87wocsobil.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: MK4hVMBuMWy9Vb50zpYWQw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <89ada4b1-ee3d-a512-07c2-9bc1ba5806da@redhat.com>
+ <20191024224622.12371-1-keithp@keithp.com> <8736fhm9tw.fsf@linaro.org>
+ <87pnik4w9n.fsf@keithp.com>
+ <CAFEAcA-g+RkvYjseDE=1Z=gnLum0Cjvn_7bqB3ti+cBq9UZ3Eg@mail.gmail.com>
+ <87mudo4owu.fsf@keithp.com>
+In-Reply-To: <87mudo4owu.fsf@keithp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 21:53:39 +0100
+Message-ID: <CAFEAcA-nnkHuj4y8+vFu5=virUoxwarg=kqQvUWeN73SDs+TzA@mail.gmail.com>
+Subject: Re: [PATCH] Semihost SYS_READC implementation (v4)
+To: Keith Packard <keithp@keithp.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,77 +76,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Jingqi" <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>, "Du,
- Fan" <fan.du@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 25, 2019 at 09:44:50PM +0200, Markus Armbruster wrote:
-> Igor Mammedov <imammedo@redhat.com> writes:
->=20
-> > On Fri, 25 Oct 2019 14:33:53 +0800
-> > Tao Xu <tao3.xu@intel.com> wrote:
-> >
-> >> On 10/23/2019 11:28 PM, Igor Mammedov wrote:
-> >> > On Sun, 20 Oct 2019 19:11:19 +0800
-> >> > Tao Xu <tao3.xu@intel.com> wrote: =20
-> >> [...]
-> >> >> +#
-> >> >> +# @access-bandwidth: access bandwidth (MB/s)
-> >> >> +#
-> >> >> +# @read-bandwidth: read bandwidth (MB/s)
-> >> >> +#
-> >> >> +# @write-bandwidth: write bandwidth (MB/s) =20
-> >> > I think units here are not appropriate, values stored in fields are
-> >> > minimal base units only and nothing else (i.e. ps and B/s)
-> >> >  =20
-> >> Eric suggest me to drop picoseconds. So here I can use ns. For=20
-> >> bandwidth, if we use B/s here, does it let user or developer to=20
-> >> misunderstand that the smallest unit is B/s ?
-> >
-> > It's not nanoseconds or MB/s stored in theses fields, isn't it?
-> > I'd specify units in which value is stored or drop units altogether.
-> >
-> > Maybe Eric and Markus can suggest a better way to describe fields.
->=20
-> This isn't review (yet), just an attempt to advise more quickly on
-> general QAPI/QMP conventions.
->=20
-> Unit prefixes like Mebi- are nice for humans, because 1MiB is clearer
-> than 1048576B.
->=20
-> QMP is for machines.  We eschew unit prefixes and unit symbols there.
-> The unit is implied.  Unit prefixes only complicate things.  Machines
-> can deal with 1048576 easily.  Also dealing 1024Ki and 1Mi is additional
-> work.  We therefore use JSON numbers for byte counts, not strings with
-> units.
->=20
-> The general rule is "always use the plainest implied unit that would
-> do."  There are exceptions, mostly due to review failure.
->=20
-> Byte rates should be in bytes per second.
->=20
-> For time, we've made a godawful mess.  The plainest unit is clearly the
-> second.  We commonly need sub-second granularity, though.
-> Floating-point seconds are unpopular for some reason :)  Instead we use
-> milli-, micro-, and nanoseconds, and even (seconds, microseconds) pairs.
->=20
-> QAPI schema documentation describes both the generated C and the QMP
-> wire protocol.  It must be written with the implied unit.  If you send a
-> byte rate in bytes per second via QMP, that's what you document.  Even
-> if a human interface lets you specify the byte rate in MiB/s.
->=20
-> Does this make sense?
+On Fri, 25 Oct 2019 at 20:15, Keith Packard <keithp@keithp.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > Is there a specification for RISC-V semihosting? This is
+> > likely to be my first question when the support comes
+> > round for review, so you can have it early :-)  We'd
+> > prefer to implement specified interfaces, not random
+> > ad-hoc "this seems to be what newlib wants to see,
+> > which is turn got hacked together by copying some other
+> > architecture's code".
+>
+> There seems to be convergence on a pretty simple interface which uses
+> ebreak surrounded by a couple of specific no-ops:
+>
+>       slli x0, x0, 0x1f
+>       ebreak
+>       srai x0, x0, 0x7
+>
+> There are implementations in rust and openocd, and I've got one for
+> picolibc.
 
-This makes sense for the bandwidth fields.  We still need to
-decide how to represent the latency field, though.
+I'm going to push for somebody actually writing out a
+document and putting it somewhere that we can point to
+and say "that's the authoritative spec", please...
+it doesn't have to be a big formal thing, but I do
+think you want it written down, because the whole point
+is for multiple implementations and users to interoperate.
 
-Seconds would be the obvious choice, if only it didn't risk
-silently losing precision when converting numbers to floats.
 
---=20
-Eduardo
+> > Isn't the answer to this "don't use a command line that tries
+> > to connect stdio to multiple things" ?
+>
+> Uh, we do that all the time? The mux device is designed to handle this
+> so that you can use stdio for both monitor commands and application
+> I/O. It's very convenient, the only issue is that the last device that
+> hooks to the mux ends up getting input first (you use ^Ac to rotate
+> among the selected devices).
 
+Yeah, the mux works fine for this kind of thing. There's
+no inherent reason why semihosting ought to "win" as
+the initially selected thing on the mux, though --
+typically that would be expected to be the UART/serial
+console.
+
+thanks
+-- PMM
 
