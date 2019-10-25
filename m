@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D874DE5237
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:24:35 +0200 (CEST)
-Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECECE521E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:13:45 +0200 (CEST)
+Received: from localhost ([::1]:34794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO3KE-0000tX-TS
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
+	id 1iO39k-000852-AR
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iO2tx-00005C-Fn
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:57:26 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iO2zO-0001IS-6n
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:03:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iO2tu-0000VK-Pv
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:57:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34282
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iO2tu-0000Uv-M2
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:57:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572022641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=h/yG7PNfbSfVzHFrNr8vjWtsCg1UiIUcVyErYHjp8sA=;
- b=Y1ehor7EuHPHhfXqCORVZaIM+MoNQs5+cHom3jx3/x3hNemD3vZsdP8xohjsQMTTgfOsBZ
- U5Mb7vy72ZhKbzP0G3g6BX8ntu/4CQjBfyC4SVe1OujMdvudtjd/ze5PnHIfdckT6SnnCh
- lgDqEpMYMPEd813fZ4RF7Gx0OxBeJIw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-68CI_uWrO4yfRmJpubpy9w-1; Fri, 25 Oct 2019 12:57:16 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E66880183E;
- Fri, 25 Oct 2019 16:57:15 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B066A60C80;
- Fri, 25 Oct 2019 16:57:08 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, philmd@redhat.com, lersek@redhat.com,
- kraxel@redhat.com
-Subject: [PATCH] fw_cfg: Allow reboot-timeout=-1 again
-Date: Fri, 25 Oct 2019 17:57:06 +0100
-Message-Id: <20191025165706.177653-1-dgilbert@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iO2zM-00052B-Qq
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:03:01 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35302)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iO2zM-00050Q-HM
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:03:00 -0400
+Received: by mail-wr1-x443.google.com with SMTP id l10so3164955wrb.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=IKHCNkmDLor/el2ZoF3niIQQV4ChYKgrLQG6D8fRyEc=;
+ b=pJXlBiYpY+XMvh7LlaiqIA6TaCDZOEenSlf+iIWD/5VJExsCFS//BjDzwPnbEa+OOV
+ J38amOeY1DL6vMWZZYyKAFqhBf5GOCp3n4MiqJFBjpdyyKIQ1n07yOcaUHt+ACHw033N
+ +iUb9tug2559YklUxP12gfaeS+J3eNmXfx0zDSPNq7zVKjN82zCB1txZG8w/j79eHLYL
+ Fa/0THSA93cH3yGovOva9cTFSwf2tNkj6iMmaD+rxCcH0wzFn7ZjC/ZCcryTcGh086cZ
+ nFtg8uhC1dz/q1lfacjKm89t/cPn5iQVAYgGp7qGwekq/mh0Dy6wUnZRNsKGYi5yopf4
+ HNEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=IKHCNkmDLor/el2ZoF3niIQQV4ChYKgrLQG6D8fRyEc=;
+ b=C5acCQReESZv4MpVyK+sltRZlL48fEbWXPuaVPHk1G5mE1K5fJdWvRQfs6SeLFkXfj
+ ZRlU5Zo75KWZ38lKa39ivsmlbVvs5EKHni8NOnREN1C45RV4g+AMxAjBlpGCe4+lE3rM
+ O+UMa3OiZNA7ejxFOfKJmh2D5glIFmYrCb0MYTwsp5KQDv2rAnePD5R7oEdYclrxUq1A
+ t16lofhogdVLQDv3lryCL7qTstqGPkkNm/LTOyf7ffqxJYBeYZZREvBFyYbgQL7gtdtl
+ PPKJVDJ/rR4gvUB7+A4r/6IA2O5jDX0YSg4Bk1qn8sEgaA+6UM9aYDHJfIN+8ff7gona
+ PJFQ==
+X-Gm-Message-State: APjAAAUL3kH/8KbWMXzz0fTsNw9I/qfXIHZF3HeqYzmOIFNA/jFWbyKo
+ tevT3IiqKp7lXqX4g2NuJOHorFxhwpw=
+X-Google-Smtp-Source: APXvYqynjAl53iqCp3mT0w2MscjoUI5NbND3SzWIGqcBZBguT2ymrAMFhj+etiQKuOJmGyzAHLeodQ==
+X-Received: by 2002:a5d:4f91:: with SMTP id d17mr4087801wru.184.1572022978968; 
+ Fri, 25 Oct 2019 10:02:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s10sm3770146wrr.5.2019.10.25.10.02.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 10:02:58 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9C0D01FF87;
+ Fri, 25 Oct 2019 18:02:57 +0100 (BST)
+References: <89ada4b1-ee3d-a512-07c2-9bc1ba5806da@redhat.com>
+ <20191024224622.12371-1-keithp@keithp.com> <8736fhm9tw.fsf@linaro.org>
+ <87pnik4w9n.fsf@keithp.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Keith Packard <keithp@keithp.com>
+Subject: Re: [PATCH] Semihost SYS_READC implementation (v4)
+In-reply-to: <87pnik4w9n.fsf@keithp.com>
+Date: Fri, 25 Oct 2019 18:02:57 +0100
+Message-ID: <87ftjglpvi.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 68CI_uWrO4yfRmJpubpy9w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,44 +83,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liq3ea@gmail.com, armbru@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Commit ee5d0f89de3e53cdb0dc added range checking on reboot-timeout
-to only allow the range 0..65535; however both qemu and libvirt document
-the special value -1  to mean don't reboot.
-Allow it again.
+Keith Packard <keithp@keithp.com> writes:
 
-Fixes: ee5d0f89de3e53cdb0dc ("fw_cfg: Fix -boot reboot-timeout error checki=
-ng")
-RH bz: https://bugzilla.redhat.com/show_bug.cgi?id=3D1765443
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/nvram/fw_cfg.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>
+<snip>
+>> Please keep version history bellow --- so they get dropped when the
+>> patch is applied.
+>
+> Sure, I'll edit the mail before sending. In my repo, I'm leaving the
+> version history in git so I can keep track of it.
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 7dc3ac378e..1a9ec44232 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -247,10 +247,11 @@ static void fw_cfg_reboot(FWCfgState *s)
-=20
-     if (reboot_timeout) {
-         rt_val =3D qemu_opt_get_number(opts, "reboot-timeout", -1);
-+
-         /* validate the input */
--        if (rt_val < 0 || rt_val > 0xffff) {
-+        if (rt_val < -1 || rt_val > 0xffff) {
-             error_report("reboot timeout is invalid,"
--                         "it should be a value between 0 and 65535");
-+                         "it should be a value between -1 and 65535");
-             exit(1);
-         }
-     }
---=20
-2.23.0
+It's OK to keep the history in git, I do it all the time. But by using a
+--- divider in your commit message the git-am tool will trim it off when
+it gets applied from a mailing list. There is no need to manually edit
+your patches as that would be error prone.
 
+To pick a random example of what I mean from my tree:
+
+  https://github.com/stsquad/qemu/commit/1b648ac695d45a4e4d72cf64a97346d969=
+5b863b
+
+--
+Alex Benn=C3=A9e
 
