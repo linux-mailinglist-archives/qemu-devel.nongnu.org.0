@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F06E44B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:42:19 +0200 (CEST)
-Received: from localhost ([::1]:57010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A69E44AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:39:51 +0200 (CEST)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNuEk-00049p-1t
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38247)
+	id 1iNuCM-0004M0-7E
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtWc-0003Un-GS
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:43 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtpx-0004dJ-GL
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtWb-0007mM-CT
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:42 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41132)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtpw-0007Cq-3L
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:41 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39306)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtWb-0007lr-6c
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:41 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id p4so953268wrm.8
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:56:41 -0700 (PDT)
+ id 1iNtpv-0007C4-Sx
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:40 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id a11so1028015wra.6
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zsxj+Te98ElygZXLVw1dEmLIe6iHMU9Zd9rL8Doapxo=;
- b=O5G0nWpjZR6s8YZg/7unvZdkCQNFgRBttQc8gGuTZyDWSFEzPI5D2ls0A1zNJLFUUb
- bQpEcnsmyCiUs0E+NHd90vvW/ZvpMncSxX+yfRvpv31WuZw6wCee5zXjQ8taPh62Ufe2
- z2aFu8Vp7j007jy4TA1dRj3DgFr7HcKYUDG85zZriK0LUuhYdyYiSdc2cENH4MiJ0UcZ
- geJS6ZPFi79+ZYB23jkE3/RPZ0HG9Z4g8JYP/SlwPiWKRDToddZeAu5pa208KdAtr+k1
- vYXZNj6Uu4NoyE+GKv2ICTWgnkMPCvazeeE/mYY2aiTRQKqfqxDXd7CmE6Xss2VEGgwU
- Aeow==
+ bh=avDcFa6vNjqfkFm9Eh7Mdg86NxTMA5t/4HoZgIMcBpg=;
+ b=NbHuFF+ghhkCeBnDkW5o4yXAtJTkfu5Mz1Pi6zikfUp6Pq+XwIRNb7T39SbuUQOHi9
+ W/I94CSKVORkaYaf2oJbKpJ3GHG2EwZzEm7TlxT2EElAfE10cvvHEOGFPGJuqyr/SGSJ
+ +U/BYJPNrPBBGR2iO4MhfoqXbyoXjBGa215puULkSCchjWr53z74o0NG/IZfY8yEwjmF
+ 0hV/RVbRQc+nrDTaXnrk2QlzdDAJWlMaMED2S3qd67GdkdSB8z45bETLCbPduwge0i2W
+ WPUVQ5e88jsRQTVWQhqsncOb/9E4w2JJjHr6qAHN/PmY9yA0OEt+wltjaGkNsospMK0x
+ lvzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zsxj+Te98ElygZXLVw1dEmLIe6iHMU9Zd9rL8Doapxo=;
- b=PP1lvrrWUyG/c1qa5PqRgpFWPX+Tyujp98/uVv3XL4xgaVd6qDiqM0sJnapdh8rA1C
- cs06dobIwo5r9P0WiDqyccVNzro50A2lH/uSoOrakG3YmoLlbGl5SSHwGNXsA/Q7Jk2y
- UYyfcFZ/Gb8eiCNvimgTVojiP1PrJkUKpYtTPGmeK9+ki33/NgAgn9TyFI6u1zP6xfq3
- lo1vQkQX4Mwl6P1TnOcj1QDdzGXoSbb7ha+6oRyH35A77uHDhzyU6cFj8tXbyXDluQjR
- AOeriag8HzuHbsQvc3CRcdNGlhpghgS4Bwt/igVq1GqyRBzUXkncpZz8YbhmBmZRBajt
- SiUg==
-X-Gm-Message-State: APjAAAX68QOkkBAwsscQN5PFbhtrPrt9S58tkL/8VDO/K38OtXVtBIQ6
- cAcme76yLEfIlcl2luDkkc4rdA==
-X-Google-Smtp-Source: APXvYqwUSfcaGu8f4pgyiXTLDRtMgPUmzU7KbFQx3NfcnNvBg4v9LVY8zBREv6+wYBAex2bjBOc4lw==
-X-Received: by 2002:adf:ee03:: with SMTP id y3mr1343060wrn.116.1571986600154; 
- Thu, 24 Oct 2019 23:56:40 -0700 (PDT)
+ bh=avDcFa6vNjqfkFm9Eh7Mdg86NxTMA5t/4HoZgIMcBpg=;
+ b=AQiplSpzI7giXeQNdUn5e8UD/aYY+Xobw0gjONkc9kWCFQ7DbatS+WpVyE0CpLIull
+ 6rwVWF3CradWoIXbcXHA37s3WL31o1Kt1IAxYXRFa1b9/mAO1O6lm+Omm6OTbn0ataYO
+ dkgHhOITFmQXDn6TzUh4zALShH1zCuCxTi5O8EnVQxiBkvIK3zVRkZZEt44hzcAFg0dV
+ LOFCxODyWtmAZTJ7sqzNOtf4LOyMTvttQyEZptGcLxNXU2qUSBG3sLanEk7jjCuyfqvW
+ XnUHCquZlJT4gw/FPRUpVbrwPQV1Q/pVmGPqd1uVggSshd/RT7z4TwcmhnX8hfCQl9P4
+ yJCQ==
+X-Gm-Message-State: APjAAAW5xhIQ4mHQMajem0YfZiwi/SoWNTKAr+apvq3/gaxD6Gn9m3c7
+ /CHaVO2Lq7RsXz+8eRD3kc9irXagmlQ=
+X-Google-Smtp-Source: APXvYqytigiKXb5j5Uq+JNc0EzODZVycZ0SEUw45hoAXW38NOiSg5uVh4g9COGvgOn+it3gXpmzMzQ==
+X-Received: by 2002:a5d:69c8:: with SMTP id s8mr1414873wrw.167.1571987798667; 
+ Fri, 25 Oct 2019 00:16:38 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g14sm1238663wro.33.2019.10.24.23.56.35
+ by smtp.gmail.com with ESMTPSA id r15sm1316713wro.20.2019.10.25.00.16.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 23:56:36 -0700 (PDT)
+ Fri, 25 Oct 2019 00:16:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 43C571FFC8;
+ by zen.linaroharston (Postfix) with ESMTP id 7F5401FF90;
  Fri, 25 Oct 2019 07:37:18 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 48/73] target/sparc: fetch code with translator_ld
-Date: Fri, 25 Oct 2019 07:36:48 +0100
-Message-Id: <20191025063713.23374-49-alex.bennee@linaro.org>
+Subject: [PULL v2 51/73] translator: inject instrumentation from plugins
+Date: Fri, 25 Oct 2019 07:36:51 +0100
+Message-Id: <20191025063713.23374-52-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,33 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- "Emilio G. Cota" <cota@braap.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index c68bf4a2e41..edc23a7c403 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -5884,7 +5884,7 @@ static void sparc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     CPUSPARCState *env = cs->env_ptr;
-     unsigned int insn;
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 70c66c538cf..f977682be79 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -16,6 +16,7 @@
+ #include "exec/gen-icount.h"
+ #include "exec/log.h"
+ #include "exec/translator.h"
++#include "exec/plugin-gen.h"
  
--    insn = cpu_ldl_code(env, dc->pc);
-+    insn = translator_ldl(env, dc->pc);
-     dc->base.pc_next += 4;
-     disas_sparc_insn(dc, insn);
+ /* Pairs with tcg_clear_temp_count.
+    To be called by #TranslatorOps.{translate_insn,tb_stop} if
+@@ -34,6 +35,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+                      CPUState *cpu, TranslationBlock *tb, int max_insns)
+ {
+     int bp_insn = 0;
++    bool plugin_enabled;
  
+     /* Initialize DisasContext */
+     db->tb = tb;
+@@ -55,11 +57,17 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     ops->tb_start(db, cpu);
+     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+ 
++    plugin_enabled = plugin_gen_tb_start(cpu, tb);
++
+     while (true) {
+         db->num_insns++;
+         ops->insn_start(db, cpu);
+         tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+ 
++        if (plugin_enabled) {
++            plugin_gen_insn_start(cpu, db);
++        }
++
+         /* Pass breakpoint hits to target for further processing */
+         if (!db->singlestep_enabled
+             && unlikely(!QTAILQ_EMPTY(&cpu->breakpoints))) {
+@@ -99,6 +107,14 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+             break;
+         }
+ 
++        /*
++         * We can't instrument after instructions that change control
++         * flow although this only really affects post-load operations.
++         */
++        if (plugin_enabled) {
++            plugin_gen_insn_end();
++        }
++
+         /* Stop translation if the output buffer is full,
+            or we have executed all of the allowed instructions.  */
+         if (tcg_op_buf_full() || db->num_insns >= db->max_insns) {
+@@ -111,6 +127,10 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     ops->tb_stop(db, cpu);
+     gen_tb_end(db->tb, db->num_insns - bp_insn);
+ 
++    if (plugin_enabled) {
++        plugin_gen_tb_end(cpu);
++    }
++
+     /* The disas_log hook may use these values rather than recompute.  */
+     db->tb->size = db->pc_next - db->pc_first;
+     db->tb->icount = db->num_insns;
 -- 
 2.20.1
 
