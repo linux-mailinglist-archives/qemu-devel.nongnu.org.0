@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4955E4CA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:49:58 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E734E4CCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:55:54 +0200 (CEST)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzyX-0003Gn-1t
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36818)
+	id 1iO04G-0003ap-U3
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:55:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iNzvC-0005WK-UX
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:31 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNzvI-0005oo-4P
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iNzvB-00009x-Qe
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:30 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49758
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iNzvG-0000G9-UO
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45434
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNzvB-00009h-Nv
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:29 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNzvG-0000FY-Ps
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:46:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572011189;
+ s=mimecast20190719; t=1572011194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=geB+6xHxdFggyeS2F0LobGnvUpazIDtEjIYhXgJJVUE=;
- b=P7uaowRfjhMEKPH7tCsYAkawtVVnBJcUO0Rhqe4rBAB85HoDwzITvPGzMyLPai15ZjlyzC
- ZBqwBUmuT10jZul7MCi9JrujySlz/zfsBa4r31bYT4XgdB6sEXk0Q5IkJ7ZjR3ECFepK8B
- WE0r5TwXaTVt7X+yimhedeyiDIqi2x8=
+ bh=LmVcNHa9B5kNKFQQUGalT3WNHrDuoUQ+ime7RscTJRk=;
+ b=gcCavdqitlpCDlXC0v3sw0sJH2ypu8UOedUJ97Mkam/6Bfc9jUSa3XXxYn29SPvqngQTSw
+ eRYw8kDgqrLJbY9wPtbEii6dtcgxCsQ42LddK6eMtGbAVdzl9+YcW9wZMscEkthWKRW6go
+ ZRISqRphmS2zFkWRPa/qZHjMIxXECCo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-u1qOFLUrNOaP8qEht7Rffg-1; Fri, 25 Oct 2019 09:46:26 -0400
+ us-mta-170-3PBTY-ISOPSwpwUBgwh7Zw-1; Fri, 25 Oct 2019 09:46:28 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AB34107AD31;
- Fri, 25 Oct 2019 13:46:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48D93107AD31;
+ Fri, 25 Oct 2019 13:46:27 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-223.ams2.redhat.com
  [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 140EF5D70E;
- Fri, 25 Oct 2019 13:46:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 686355D70E;
+ Fri, 25 Oct 2019 13:46:25 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 4/7] block/backup: drop dead code from backup_job_create
-Date: Fri, 25 Oct 2019 15:46:08 +0200
-Message-Id: <20191025134611.25920-5-kwolf@redhat.com>
+Subject: [PULL 5/7] doc: Describe missing generic -blockdev options
+Date: Fri, 25 Oct 2019 15:46:09 +0200
+Message-Id: <20191025134611.25920-6-kwolf@redhat.com>
 In-Reply-To: <20191025134611.25920-1-kwolf@redhat.com>
 References: <20191025134611.25920-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: u1qOFLUrNOaP8qEht7Rffg-1
+X-MC-Unique: 3PBTY-ISOPSwpwUBgwh7Zw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +75,66 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+We added more generic options after introducing -blockdev and forgot to
+update the documentation (man page and --help output) accordingly. Do
+that now.
 
-After commit 00e30f05de1d195, there is no more "goto error" points
-after job creation, so after "error:" @job is always NULL and we don't
-need roll-back job creation.
-
-Reported-by: Coverity (CID 1406402)
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- block/backup.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ qemu-options.hx | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index dddcf77f53..cf62b1a38c 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -474,10 +474,7 @@ BlockJob *backup_job_create(const char *job_id, BlockD=
-riverState *bs,
-     if (sync_bitmap) {
-         bdrv_reclaim_dirty_bitmap(sync_bitmap, NULL);
-     }
--    if (job) {
--        backup_clean(&job->common.job);
--        job_early_fail(&job->common.job);
--    } else if (backup_top) {
-+    if (backup_top) {
-         bdrv_backup_top_drop(backup_top);
-     }
-=20
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 996b6fba74..19709f973d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -864,7 +864,8 @@ ETEXI
+ DEF("blockdev", HAS_ARG, QEMU_OPTION_blockdev,
+     "-blockdev [driver=3D]driver[,node-name=3DN][,discard=3Dignore|unmap]\=
+n"
+     "          [,cache.direct=3Don|off][,cache.no-flush=3Don|off]\n"
+-    "          [,read-only=3Don|off][,detect-zeroes=3Don|off|unmap]\n"
++    "          [,read-only=3Don|off][,auto-read-only=3Don|off]\n"
++    "          [,force-share=3Don|off][,detect-zeroes=3Don|off|unmap]\n"
+     "          [,driver specific parameters...]\n"
+     "                configure a block backend\n", QEMU_ARCH_ALL)
+ STEXI
+@@ -900,6 +901,25 @@ name is not intended to be predictable and changes bet=
+ween QEMU invocations.
+ For the top level, an explicit node name must be specified.
+ @item read-only
+ Open the node read-only. Guest write attempts will fail.
++
++Note that some block drivers support only read-only access, either general=
+ly or
++in certain configurations. In this case, the default value
++@option{read-only=3Doff} does not work and the option must be specified
++explicitly.
++@item auto-read-only
++If @option{auto-read-only=3Don} is set, QEMU may fall back to read-only us=
+age
++even when @option{read-only=3Doff} is requested, or even switch between mo=
+des as
++needed, e.g. depending on whether the image file is writable or whether a
++writing user is attached to the node.
++@item force-share
++Override the image locking system of QEMU by forcing the node to utilize
++weaker shared access for permissions where it would normally request exclu=
+sive
++access.  When there is the potential for multiple instances to have the sa=
+me
++file open (whether this invocation of QEMU is the first or the second
++instance), both instances must permit shared access for the second instanc=
+e to
++succeed at opening the file.
++
++Enabling @option{force-share=3Don} requires @option{read-only=3Don}.
+ @item cache.direct
+ The host page cache can be avoided with @option{cache.direct=3Don}. This w=
+ill
+ attempt to do disk IO directly to the guest's memory. QEMU may still perfo=
+rm an
 --=20
 2.20.1
 
