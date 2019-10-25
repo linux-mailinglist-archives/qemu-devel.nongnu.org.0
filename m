@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD27E5602
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 23:37:16 +0200 (CEST)
-Received: from localhost ([::1]:36372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287EBE570C
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 01:30:13 +0200 (CEST)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO7Gl-00044z-Ml
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 17:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41730)
+	id 1iO923-0004pv-Br
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 19:30:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iO7FD-0002Pv-6w
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 17:35:40 -0400
+ (envelope-from <lersek@redhat.com>) id 1iO8Td-0002CB-TN
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 18:54:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iO7FC-0008A8-0j
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 17:35:38 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:46033)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iO7FB-00089s-RR
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 17:35:37 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id q143so1494288ybg.12
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 14:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eoQ5RUlazJH/zK/qRHmEBTFSbyhDTg+agGcmfeRFkC8=;
- b=XVxZvOnMBVDqutq2iLD2scMclcgwS+GPPpw9fqxd+F97bJp3xwg447lRt9+VWWEBD8
- x/JcENsNJyqcneT60Dy1iDPTgHvz8INq8qDAy/BvOKDa1LvlMfUkaWCbRJjuwCXsguL1
- r8deLmyonv6jPZzUows8JX9AZwNP1HFCoHyYIwVyY0aSrOlc650ktk0BLjUotxqu4pr4
- fh86q6JyJa9dToUodY2kMG0m4gDMy1M3td10pHYu2x0F+sz2clVVme7bdnpfn8C4BPpA
- 9//LYEnDPTROK8A7NUzkJeO4uLv17WA5a+lxKNsvyj4inJHpPSYM/gfhgw5avu8c0ttW
- rQ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eoQ5RUlazJH/zK/qRHmEBTFSbyhDTg+agGcmfeRFkC8=;
- b=C3xguAUtHnAI71zGWHiM5UuMcqGgYxv0PUtKhcs8IVxtyyq46w64vAiXcs9yR/QhX6
- gs/LxNgVx8supHIp/icZaJs7HKayge5RI6vhwIJKs839QyMJv+ebN53noZf5TQ70SITe
- jxvaCNzGtrGzn1yNs+XfCFrQTvvpDlEMMBN4Cw20hl/KsPNbbPbaSzlojQWDdKP2yXiT
- 1lOERQy1E33e846TJM8Zp1QppMOc4A1lbzNEtAn8dVsbuOoLzrkPXL2s5zAftSjHf40U
- gq9hBei8x0s22Dni9XE5sCkd7FdmPnNY7AiGKFkKUdqBj9XogSZL0RfKHOVUOIhgs9kO
- MrWQ==
-X-Gm-Message-State: APjAAAUFqE277FM5RCsNkdsQIQAHkGPMPI9tFyyH+49GoBz5psFE2yXz
- LELcBbNwuuTkbq+3gY6T9+3CrQ==
-X-Google-Smtp-Source: APXvYqyqlm4TxEt6+VP8vdfYeRi/XMG2DrDBArC6jqcz1erkUJnCiyTxKFvBIUkt1G49S3jD4Xlg5Q==
-X-Received: by 2002:a25:146:: with SMTP id 67mr5318320ybb.471.1572039336681;
- Fri, 25 Oct 2019 14:35:36 -0700 (PDT)
-Received: from [172.20.40.202] ([206.121.8.178])
- by smtp.gmail.com with ESMTPSA id d192sm1289780ywb.3.2019.10.25.14.35.35
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 25 Oct 2019 14:35:36 -0700 (PDT)
-Subject: Re: [PATCH] ptimer: Remove old ptimer_init_with_bh() API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191025142411.17085-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <5806249b-df06-80b7-e5c5-810414be8881@linaro.org>
-Date: Fri, 25 Oct 2019 17:35:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <lersek@redhat.com>) id 1iO8Tc-0006kv-Bo
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 18:54:37 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42794
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iO8Tc-0006km-8w
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 18:54:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572044075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uhJBZS7GjyHFoyCOLiylFHhrUbvoBA3BnjjH89QqH9E=;
+ b=jWZI4uDidkx9hgOytjrYLMttPrJexH7JEIjyzFB5THgm4O2REM2tRgbHjxFdK1+JGsWAVj
+ ArwbpzoC7u/X7gvVkQVnemteoo50UaJWLa2PFHQQ0uCLS1vMnmXMDsz4JNKirhdzTNR7G5
+ NbIvpErjnjuoiqjw3U+Jfy5uAG/Ug/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-vq2WYIvZMX-a6vB-um0t1A-1; Fri, 25 Oct 2019 18:54:32 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BABF4100551E;
+ Fri, 25 Oct 2019 22:54:31 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-26.ams2.redhat.com
+ [10.36.116.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 319D3600CD;
+ Fri, 25 Oct 2019 22:54:27 +0000 (UTC)
+Subject: Re: [PATCH] buildfix: update texinfo menu
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20191023101956.19120-1-kraxel@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <837b9dc6-1292-c182-8a66-408f0ffe6e0c@redhat.com>
+Date: Sat, 26 Oct 2019 00:54:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20191025142411.17085-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191023101956.19120-1-kraxel@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: vq2WYIvZMX-a6vB-um0t1A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,29 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/19 10:24 AM, Peter Maydell wrote:
-> Now all the users of ptimers have converted to the transaction-based
-> API, we can remove ptimer_init_with_bh() and all the code paths
-> that are used only by bottom-half based ptimers, and tidy up the
-> documentation comments to consider the transaction-based API the
-> only possibility.
-> 
-> The code changes result from:
->  * s->bh no longer exists
->  * s->callback is now always non-NULL
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 10/23/19 12:19, Gerd Hoffmann wrote:
+> Build error message:
+> qemu-doc.texi:34: node `Top' lacks menu item for `Recently removed featur=
+es' despite being its Up target
+>=20
+> Fixes: 3264ffced3d0 ("dirty-bitmaps: remove deprecated autoload parameter=
+")
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  include/hw/ptimer.h | 45 +++++++++++-----------
->  hw/core/ptimer.c    | 91 ++++++++-------------------------------------
->  2 files changed, 36 insertions(+), 100 deletions(-)
+>  qemu-doc.texi | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/qemu-doc.texi b/qemu-doc.texi
+> index 3c5022050f0f..3ddf5c0a6865 100644
+> --- a/qemu-doc.texi
+> +++ b/qemu-doc.texi
+> @@ -44,6 +44,7 @@
+>  * Security::
+>  * Implementation notes::
+>  * Deprecated features::
+> +* Recently removed features::
+>  * Supported build platforms::
+>  * License::
+>  * Index::
+>=20
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Laszlo Ersek <lersek@redhat.com>
 
+(Applied it on top of ee70fc26a561, and now the tree builds.)
 
-r~
+Thanks!
+Laszlo
+
 
