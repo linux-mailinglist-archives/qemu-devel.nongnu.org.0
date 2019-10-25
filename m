@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C87E47F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:57:12 +0200 (CEST)
-Received: from localhost ([::1]:58146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785A8E47F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:57:50 +0200 (CEST)
+Received: from localhost ([::1]:58150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNwLG-00006m-TY
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59741)
+	id 1iNwLt-0002b1-BG
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iNwED-0000rG-6O
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:50:01 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNwGH-0005U2-8n
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:52:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iNwEA-00015R-Ia
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:49:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58550
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iNwEA-000150-BG
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:49:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571996988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l5enplt3kss0i+VSuFpeLf1RUqsTPPDkUugAnG5THGI=;
- b=bXMMNTZB27ts301DGmfCLaKbSbB16rz8Z6j5C+gg4APsedX9+Xybuyofb3o7OrejMmwbW+
- 4w84+z36Sm0rNnK/a6kqvYKIJKf+G+uzv7Hi+rq4yd8glQP5jryTPgutgwoI5wNSD21urH
- zmNsGG2NgnOuxkVi+E4xha4V17fvMVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-UbMDExvAOdCwKEwS4Zs1ZA-1; Fri, 25 Oct 2019 05:49:44 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BA941005500;
- Fri, 25 Oct 2019 09:49:43 +0000 (UTC)
-Received: from [10.72.12.249] (ovpn-12-249.pek2.redhat.com [10.72.12.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F003194B6;
- Fri, 25 Oct 2019 09:49:21 +0000 (UTC)
-Subject: Re: [RFC v2 00/22] intel_iommu: expose Shared Virtual Addressing to VM
-To: Liu Yi L <yi.l.liu@intel.com>, qemu-devel@nongnu.org, mst@redhat.com,
- pbonzini@redhat.com, alex.williamson@redhat.com, peterx@redhat.com
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <367adad0-eb05-c950-21d7-755fffacbed6@redhat.com>
-Date: Fri, 25 Oct 2019 17:49:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1iNwGE-0001g0-Sq
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:52:00 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33923)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iNwGE-0001fe-G8
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:51:58 -0400
+Received: by mail-wr1-x441.google.com with SMTP id t16so1583791wrr.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 02:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=h72ssrMfOueJUO1F6L+QsXWBTEA4iYzhcbRVfDJJeo0=;
+ b=dnEorKPnSTekdu4uKZsxsw6+5D82Qcag1kZLSJee0uEEtM1vvGEtWdAEjPg9397p8x
+ YCCrW131TTM+x5z+SZoFkjqldd3I0155wAIr+qDeL4X65WG//DMGvytvdGLHnbUopVFt
+ O10bC/YYtfIixlK3TH75R4mJRKpFPJbzknVlyb4qfL3/L2D1/iR02ZOYxtLB9G+kaN+O
+ 0X3xOfidWH7RQpE9CD4bVP/kPcbDyHhT32rrHVKq+NtnfDrVUk3T1QhALihaNPHWDnUp
+ 8a4kzh9Z9kf8VzApFfN1AKk5obtq9y1+1spMpwwgVyM/LebFO5XruPK3gVO56W7oJPq0
+ jgow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=h72ssrMfOueJUO1F6L+QsXWBTEA4iYzhcbRVfDJJeo0=;
+ b=H0Jih7mVEjAgoD5/vJHzcmzu41sn7o5OT1Th2d5LU1KpJZ4RAw6XW71K/zSaFjurpm
+ 71SttpTvou0tYsNfZV0MMXPOtvyQyU3bvA1I/kg7K71R6suFiuvEZdixFB2JntHp88oI
+ hCe4rIC3djIV1XSbE9iOwOj0sW9jgHnLJF7wFSXuW5KhApIjSeuWWgXDSRbS8n40mQIi
+ gq2lHlb+X9Y7avK9fliQcUs0I6k7+zZ8xAIkVyKI27NUN/A9fPohSclMX9IDYbU8dgvj
+ Kmp3Pzwxr0xkfoXsiMduYOe726rGL0iJkS+84cNX2YZFOa3j5aeIKI9iIk1Lkp1QWVKV
+ VMTA==
+X-Gm-Message-State: APjAAAWVMpTeuE/DcSObIVzeRmSUla0JqHJVcNIupnTaSyibQPZi3FYL
+ OxWP7tvCJ8hwXb+a6UwxKckRyZ3Oo/w=
+X-Google-Smtp-Source: APXvYqyppvYxiC0wDD9Fi0mlAgztdpSEoztVfvN9pPrOVvFhqaGkBI9kjzyS5iPowPhq0ti8QD1H9g==
+X-Received: by 2002:adf:9b9d:: with SMTP id d29mr2132964wrc.293.1571997116707; 
+ Fri, 25 Oct 2019 02:51:56 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u21sm2313999wmu.27.2019.10.25.02.51.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 02:51:56 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4FE121FF87;
+ Fri, 25 Oct 2019 10:51:55 +0100 (BST)
+References: <89ada4b1-ee3d-a512-07c2-9bc1ba5806da@redhat.com>
+ <20191024224622.12371-1-keithp@keithp.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] Semihost SYS_READC implementation (v4)
+In-reply-to: <20191024224622.12371-1-keithp@keithp.com>
+Date: Fri, 25 Oct 2019 10:51:55 +0100
+Message-ID: <8736fhm9tw.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: UbMDExvAOdCwKEwS4Zs1ZA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,162 +82,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com, jacob.jun.pan@linux.intel.com,
- kvm@vger.kernel.org, jun.j.tian@intel.com, eric.auger@redhat.com,
- yi.y.sun@intel.com, david@gibson.dropbear.id.au
+Cc: Keith Packard <keithp@keithp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2019/10/24 =E4=B8=8B=E5=8D=888:34, Liu Yi L wrote:
-> Shared virtual address (SVA), a.k.a, Shared virtual memory (SVM) on Intel
-> platforms allow address space sharing between device DMA and applications=
-.
+Keith Packard <keithp@keithp.com> writes:
+
+> Provides a blocking call to read a character from the console using
+> semihosting.chardev, if specified. This takes some careful command
+> line options to use stdio successfully as the serial ports, monitor
+> and semihost all want to use stdio. Here's a sample set of command
+> line options which share stdio betwen semihost, monitor and serial
+> ports:
+>
+> 	qemu \
+> 	-chardev stdio,mux=3Don,id=3Dstdio0 \
+> 	-serial chardev:stdio0 \
+> 	-semihosting-config enable=3Don,chardev=3Dstdio0 \
+> 	-mon chardev=3Dstdio0,mode=3Dreadline
+
+I can see the use for this but I'd like to know what you are testing
+with. We only have very basic smoketests in check-tcg but I've tested
+with the latest arm-semihosting tests and they are all fine so no
+regressions there.
+
+>
+> This creates a chardev hooked to stdio and then connects all of the
+> subsystems to it. A shorter mechanism would be good to hear about.
+
+Please keep version history bellow --- so they get dropped when the
+patch is applied.
+
+>
+> v2:
+> 	Add implementation in linux-user/arm/semihost.c
+>
+> v3:  (thanks to Paolo Bonzini <pbonzini@redhat.com>)
+> 	Replace hand-rolled fifo with fifo8
+> 	Avoid mixing code and declarations
+> 	Remove spurious (void) cast of function parameters
+> 	Define qemu_semihosting_console_init when CONFIG_USER_ONLY
+>
+> v4:
+> 	Add qemu_semihosting_console_init to stubs/semihost.c for
+> 	hosts that don't support semihosting
+
+This doesn't appear to be in the diff which is why I'm seeing a compile
+failure for non-CONFIG_SEMIHOST machines. However...
+
+>
+> Signed-off-by: Keith Packard <keithp@keithp.com>
+> ---
+>  hw/semihosting/console.c          | 73 +++++++++++++++++++++++++++++++
+>  include/hw/semihosting/console.h  | 12 +++++
+>  include/hw/semihosting/semihost.h |  4 ++
+>  linux-user/arm/semihost.c         | 24 ++++++++++
+>  target/arm/arm-semi.c             |  3 +-
+>  vl.c                              |  3 ++
+>  6 files changed, 117 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
+> index b4b17c8afb..197bff079b 100644
+> --- a/hw/semihosting/console.c
+> +++ b/hw/semihosting/console.c
+> @@ -98,3 +98,76 @@ void qemu_semihosting_console_outc(CPUArchState *env, =
+target_ulong addr)
+>                        __func__, addr);
+>      }
+>  }
+> +
+> +#include <pthread.h>
+> +#include "chardev/char-fe.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/main-loop.h"
+> +#include "qapi/error.h"
+> +#include "qemu/fifo8.h"
+> +
+> +#define FIFO_SIZE   1024
+> +
+> +typedef struct SemihostingConsole {
+> +    CharBackend         backend;
+> +    pthread_mutex_t     mutex;
+> +    pthread_cond_t      cond;
+> +    bool                got;
+> +    Fifo8               fifo;
+> +} SemihostingConsole;
+> +
+> +static SemihostingConsole console =3D {
+> +    .mutex =3D PTHREAD_MUTEX_INITIALIZER,
+> +    .cond =3D PTHREAD_COND_INITIALIZER
+> +};
+> +
+> +static int console_can_read(void *opaque)
+> +{
+> +    SemihostingConsole *c =3D opaque;
+> +    int ret;
+> +    pthread_mutex_lock(&c->mutex);
+> +    ret =3D (int) fifo8_num_free(&c->fifo);
+> +    pthread_mutex_unlock(&c->mutex);
+> +    return ret;
+> +}
+> +
+> +static void console_read(void *opaque, const uint8_t *buf, int size)
+> +{
+> +    SemihostingConsole *c =3D opaque;
+> +    pthread_mutex_lock(&c->mutex);
+> +    while (size-- && !fifo8_is_full(&c->fifo)) {
+> +        fifo8_push(&c->fifo, *buf++);
+> +    }
+> +    pthread_cond_broadcast(&c->cond);
+> +    pthread_mutex_unlock(&c->mutex);
+> +}
+> +
+> +target_ulong qemu_semihosting_console_inc(CPUArchState *env)
+> +{
+> +    uint8_t ch;
+> +    SemihostingConsole *c =3D &console;
+> +    qemu_mutex_unlock_iothread();
+> +    pthread_mutex_lock(&c->mutex);
+> +    while (fifo8_is_empty(&c->fifo)) {
+> +        pthread_cond_wait(&c->cond, &c->mutex);
+> +    }
+> +    ch =3D fifo8_pop(&c->fifo);
+> +    pthread_mutex_unlock(&c->mutex);
+> +    qemu_mutex_lock_iothread();
+> +    return (target_ulong) ch;
+> +}
+> +
+> +void qemu_semihosting_console_init(void)
+> +{
+> +    Chardev *chr =3D semihosting_get_chardev();
+> +
+> +    if  (chr) {
+> +        fifo8_create(&console.fifo, FIFO_SIZE);
+> +        qemu_chr_fe_init(&console.backend, chr, &error_abort);
+> +        qemu_chr_fe_set_handlers(&console.backend,
+> +                                 console_can_read,
+> +                                 console_read,
+> +                                 NULL, NULL, &console,
+> +                                 NULL, true);
+> +    }
+> +}
+> diff --git a/include/hw/semihosting/console.h b/include/hw/semihosting/co=
+nsole.h
+> index 9be9754bcd..f7d5905b41 100644
+> --- a/include/hw/semihosting/console.h
+> +++ b/include/hw/semihosting/console.h
+> @@ -37,6 +37,18 @@ int qemu_semihosting_console_outs(CPUArchState *env, t=
+arget_ulong s);
+>   */
+>  void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+>
+> +/**
+> + * qemu_semihosting_console_inc:
+> + * @env: CPUArchState
+> + *
+> + * Receive single character from debug console. This
+> + * may be the remote gdb session if a softmmu guest is currently being
+> + * debugged.
+> + *
+> + * Returns: character read or -1 on error
+> + */
+> +target_ulong qemu_semihosting_console_inc(CPUArchState *env);
+> +
+>  /**
+>   * qemu_semihosting_log_out:
+>   * @s: pointer to string
+> diff --git a/include/hw/semihosting/semihost.h b/include/hw/semihosting/s=
+emihost.h
+> index 60fc42d851..b8ce5117ae 100644
+> --- a/include/hw/semihosting/semihost.h
+> +++ b/include/hw/semihosting/semihost.h
+> @@ -56,6 +56,9 @@ static inline Chardev *semihosting_get_chardev(void)
+>  {
+>      return NULL;
+>  }
+> +static inline void qemu_semihosting_console_init(void)
+> +{
+> +}
+>  #else /* !CONFIG_USER_ONLY */
+>  bool semihosting_enabled(void);
+>  SemihostingTarget semihosting_get_target(void);
+> @@ -68,6 +71,7 @@ Chardev *semihosting_get_chardev(void);
+>  void qemu_semihosting_enable(void);
+>  int qemu_semihosting_config_options(const char *opt);
+>  void qemu_semihosting_connect_chardevs(void);
+> +void qemu_semihosting_console_init(void);
+>  #endif /* CONFIG_USER_ONLY */
+>
+>  #endif /* SEMIHOST_H */
+> diff --git a/linux-user/arm/semihost.c b/linux-user/arm/semihost.c
+> index a16b525eec..13a097515b 100644
+> --- a/linux-user/arm/semihost.c
+> +++ b/linux-user/arm/semihost.c
+> @@ -47,3 +47,27 @@ void qemu_semihosting_console_outc(CPUArchState *env, =
+target_ulong addr)
+>          }
+>      }
+>  }
+> +
+> +#include <poll.h>
+
+Headers should go at the top...I was about to discuss the usage of
+poll() but I realise we are in linux-user here so non-POSIX portability
+isn't an issue.
+
+> +
+> +target_ulong qemu_semihosting_console_inc(CPUArchState *env)
+> +{
+> +    uint8_t c;
+> +    struct pollfd pollfd =3D {
+> +        .fd =3D STDIN_FILENO,
+> +        .events =3D POLLIN
+> +    };
+> +
+> +    if (poll(&pollfd, 1, -1) !=3D 1) {
+> +        qemu_log_mask(LOG_UNIMP, "%s: unexpected read from stdin failure=
+",
+> +                      __func__);
+> +        return (target_ulong) -1;
+> +    }
+> +
+> +    if (read(STDIN_FILENO, &c, 1) !=3D 1) {
+> +        qemu_log_mask(LOG_UNIMP, "%s: unexpected read from stdin failure=
+",
+> +                      __func__);
+> +        return (target_ulong) -1;
+> +    }
+> +    return (target_ulong) c;
+> +}
+> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+> index 6f7b6d801b..47d61f6fe1 100644
+> --- a/target/arm/arm-semi.c
+> +++ b/target/arm/arm-semi.c
+> @@ -802,8 +802,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>
+>          return guestfd_fns[gf->type].readfn(cpu, gf, arg1, len);
+>      case TARGET_SYS_READC:
+> -        qemu_log_mask(LOG_UNIMP, "%s: SYS_READC not implemented", __func=
+__);
+> -        return 0;
+> +        return qemu_semihosting_console_inc(env);
+
+I'm not sure this would be correct if there was no character available.
+The docs imply it blocks although don't say so explicitly AFAICT.
+
+>      case TARGET_SYS_ISTTY:
+>          GET_ARG(0);
+>
+> diff --git a/vl.c b/vl.c
+> index 4489cfb2bb..ac584d97ea 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -4381,6 +4381,9 @@ int main(int argc, char **argv, char **envp)
+>      ds =3D init_displaystate();
+>      qemu_display_init(ds, &dpy);
+>
+> +    /* connect semihosting console input if requested */
+> +    qemu_semihosting_console_init();
+> +
+
+I'd rather rename qemu_semihosting_connect_chardevs to
+qemu_semihosting_init and keep all our bits of semihosting setup in
+there rather than having multiple calls out of vl.c
+
+>      /* must be after terminal init, SDL library changes signal handlers =
+*/
+>      os_setup_signal_handling();
 
 
-Interesting, so the below figure demonstrates the case of VM. I wonder=20
-how much differences if we compare it with doing SVM between device and=20
-an ordinary process (e.g dpdk)?
-
-Thanks
-
-
-> SVA can reduce programming complexity and enhance security.
-> This series is intended to expose SVA capability to VMs. i.e. shared gues=
-t
-> application address space with passthru devices. The whole SVA virtualiza=
-tion
-> requires QEMU/VFIO/IOMMU changes. This series includes the QEMU changes, =
-for
-> VFIO and IOMMU changes, they are in separate series (listed in the "Relat=
-ed
-> series").
->
-> The high-level architecture for SVA virtualization is as below:
->
->      .-------------.  .---------------------------.
->      |   vIOMMU    |  | Guest process CR3, FL only|
->      |             |  '---------------------------'
->      .----------------/
->      | PASID Entry |--- PASID cache flush -
->      '-------------'                       |
->      |             |                       V
->      |             |                CR3 in GPA
->      '-------------'
-> Guest
-> ------| Shadow |--------------------------|--------
->        v        v                          v
-> Host
->      .-------------.  .----------------------.
->      |   pIOMMU    |  | Bind FL for GVA-GPA  |
->      |             |  '----------------------'
->      .----------------/  |
->      | PASID Entry |     V (Nested xlate)
->      '----------------\.------------------------------.
->      |             |   |SL for GPA-HPA, default domain|
->      |             |   '------------------------------'
->      '-------------'
-> Where:
->   - FL =3D First level/stage one page tables
->   - SL =3D Second level/stage two page tables
->
-> The complete vSVA upstream patches are divided into three phases:
->      1. Common APIs and PCI device direct assignment
->      2. Page Request Services (PRS) support
->      3. Mediated device assignment
->
-> This RFC patchset is aiming for the phase 1. Works together with the VT-d
-> driver[1] changes and VFIO changes[2].
->
-> Related series:
-> [1] [PATCH v6 00/10] Nested Shared Virtual Address (SVA) VT-d support:
-> https://lkml.org/lkml/2019/10/22/953
-> <This series is based on this kernel series from Jacob Pan>
->
-> [2] [RFC v2 0/3] vfio: support Shared Virtual Addressing from Yi Liu
->
-> There are roughly four parts:
->   1. Introduce IOMMUContext as abstract layer between vIOMMU emulator and
->      VFIO to avoid direct calling between the two
->   2. Passdown PASID allocation and free to host
->   3. Passdown guest PASID binding to host
->   4. Passdown guest IOMMU cache invalidation to host
->
-> The full set can be found in below link:
-> https://github.com/luxis1999/qemu.git: sva_vtd_v6_qemu_rfc_v2
->
-> Changelog:
-> =09- RFC v1 -> v2:
-> =09  Introduce IOMMUContext to abstract the connection between VFIO
-> =09  and vIOMMU emulator, which is a replacement of the PCIPASIDOps
-> =09  in RFC v1. Modify x-scalable-mode to be string option instead of
-> =09  adding a new option as RFC v1 did. Refined the pasid cache managemen=
-t
-> =09  and addressed the TODOs mentioned in RFC v1.
-> =09  RFC v1: https://patchwork.kernel.org/cover/11033657/
->
-> Eric Auger (1):
->    update-linux-headers: Import iommu.h
->
-> Liu Yi L (20):
->    header update VFIO/IOMMU vSVA APIs against 5.4.0-rc3+
->    intel_iommu: modify x-scalable-mode to be string option
->    vfio/common: add iommu_ctx_notifier in container
->    hw/pci: modify pci_setup_iommu() to set PCIIOMMUOps
->    hw/pci: introduce pci_device_iommu_context()
->    intel_iommu: provide get_iommu_context() callback
->    vfio/pci: add iommu_context notifier for pasid alloc/free
->    intel_iommu: add virtual command capability support
->    intel_iommu: process pasid cache invalidation
->    intel_iommu: add present bit check for pasid table entries
->    intel_iommu: add PASID cache management infrastructure
->    vfio/pci: add iommu_context notifier for pasid bind/unbind
->    intel_iommu: bind/unbind guest page table to host
->    intel_iommu: replay guest pasid bindings to host
->    intel_iommu: replay pasid binds after context cache invalidation
->    intel_iommu: do not passdown pasid bind for PASID #0
->    vfio/pci: add iommu_context notifier for PASID-based iotlb flush
->    intel_iommu: process PASID-based iotlb invalidation
->    intel_iommu: propagate PASID-based iotlb invalidation to host
->    intel_iommu: process PASID-based Device-TLB invalidation
->
-> Peter Xu (1):
->    hw/iommu: introduce IOMMUContext
->
->   hw/Makefile.objs                |    1 +
->   hw/alpha/typhoon.c              |    6 +-
->   hw/arm/smmu-common.c            |    6 +-
->   hw/hppa/dino.c                  |    6 +-
->   hw/i386/amd_iommu.c             |    6 +-
->   hw/i386/intel_iommu.c           | 1249 ++++++++++++++++++++++++++++++++=
-+++++--
->   hw/i386/intel_iommu_internal.h  |  109 ++++
->   hw/i386/trace-events            |    6 +
->   hw/iommu/Makefile.objs          |    1 +
->   hw/iommu/iommu.c                |   66 +++
->   hw/pci-host/designware.c        |    6 +-
->   hw/pci-host/ppce500.c           |    6 +-
->   hw/pci-host/prep.c              |    6 +-
->   hw/pci-host/sabre.c             |    6 +-
->   hw/pci/pci.c                    |   27 +-
->   hw/ppc/ppc440_pcix.c            |    6 +-
->   hw/ppc/spapr_pci.c              |    6 +-
->   hw/s390x/s390-pci-bus.c         |    8 +-
->   hw/vfio/common.c                |   10 +
->   hw/vfio/pci.c                   |  149 +++++
->   include/hw/i386/intel_iommu.h   |   58 +-
->   include/hw/iommu/iommu.h        |  113 ++++
->   include/hw/pci/pci.h            |   13 +-
->   include/hw/pci/pci_bus.h        |    2 +-
->   include/hw/vfio/vfio-common.h   |    9 +
->   linux-headers/linux/iommu.h     |  324 ++++++++++
->   linux-headers/linux/vfio.h      |   83 +++
->   scripts/update-linux-headers.sh |    2 +-
->   28 files changed, 2232 insertions(+), 58 deletions(-)
->   create mode 100644 hw/iommu/Makefile.objs
->   create mode 100644 hw/iommu/iommu.c
->   create mode 100644 include/hw/iommu/iommu.h
->   create mode 100644 linux-headers/linux/iommu.h
->
-
+--
+Alex Benn=C3=A9e
 
