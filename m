@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E5EE579B
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 02:37:30 +0200 (CEST)
-Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB84E579E
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 02:39:40 +0200 (CEST)
+Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOA5B-00052y-F5
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 20:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49422)
+	id 1iOA7H-00055F-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 20:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO903-00046d-7E
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:28:08 -0400
+ id 1iO90q-00051z-2U
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:28:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO902-0003s7-4P
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:28:07 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10389)
+ id 1iO90n-0004Cy-SH
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:28:55 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10429)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO901-0003r5-T1; Fri, 25 Oct 2019 19:28:06 -0400
+ id 1iO90n-0004C1-F8; Fri, 25 Oct 2019 19:28:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1572046085; x=1603582085;
+ t=1572046133; x=1603582133;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Qq3BN6rY7UmBDtE9mG6vAdLDQL46C93+/Qlv2qhxHJg=;
- b=QAFmJwA9QODJRxgEycv/u0CsMvbonvFR07igO47CTAOa6aIBQoZLDzKj
- n7+YmkZmYUIq96/HqyjClVPj68964torxlMNP4K+GTl736ej9JnXjqDtM
- 1Nqbf1LpWC7zv0GuLeS3j61fFGyqW3q/1yc7R4Eq6IAjOl6A94b23+cSo
- mIB1SKZ97zf+hOsx7UKP1ABWTkqpTsplSJ+yPOi3WpjV55NGp9Q4pWqUL
- iwUlwC19sw+5+KMrPqldSvxlWFggMwKkLxktZuTun2MsUhbbCowFQxkKk
- gFymXE+EMZvdDYOcAiTkh4KOxhGl2nFZynEptSxW/IzBT8ragfUaBCrJA A==;
-IronPort-SDR: sGEVy0jQC/WDyuTxm7D3T9uQiZmWeB7Erb6Rot7BedHq/9lUKK7Kpj0iBiONil4pvgeKhZgeC7
- IuPKOKGc79kMRlg618/3QJsyJ79Coue25EM37FEF+aOFJDWjQlQydtCEgeVt5TpL8Znhs6AX2D
- qRul50Zb7ojHAl6J0q85+P8xHtPac1Ohvw9B2jRZt7K4oG/GUE4GwVsG5vFdEXgM/H4ZTuYBpg
- //DpiZTlw2wLdZ4PXaD+BwruwRYS3qhP417x8mYmaRepUbxf10IZgGsnPHl2FDGsGbTQDuEFcG
- J5A=
-X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228520354"
+ bh=DQhnDwCbo6vEY1b2mnRNEHztbBzy3si6NxsIoxUeN4c=;
+ b=n++I7cVVcQl6vJOjAm2y/dlisgNHu8gdv0UATGljIfRhAMD9OaGt+WVr
+ gyrcPL058aGHSG6nKbCVR2MaRlX9cnj1+ZFk7ENYgopmFtyM1qURU4QcL
+ 1hTeeK+0T9Cz/bflLgqS2ejIlEoYiF96zqoxBVN6ofkJw2YH87Rj/9lZF
+ 0afFd3CvcoUFoqa72vXdCW7AeKklDolDAHAdTOmlv4dUs7LnIfrPJMUEE
+ X3qmjZkVa/1Q926j65+qa+GLRF45Cdj1xaPA1wpnu+6ebhfeVCuWZ6436
+ VOlcB/RJyXvJOwX2jdLUO48+xGTSp7i1usLDfJe36CIf2v8WaN38MhLOt w==;
+IronPort-SDR: DK0vAbxQinLkjjZAVPLfJcp3jv/UCrYt32nm864d0j4QFMfTT9eOkUUgPdPe3ykbxFHVVQDmlE
+ CObysZGQp8NVYFoi8V32qtRbgf9iPoAhYcj4b3JQqwNbWUs0gCZOr4qAKetP6Io+vHvuSKTH5M
+ xZvFmGHt/xuKpwK4khCMPc+XejsS77W2askKxGQYcWDfl+A0GUT9FYhVCzXWon45cFapCCoA/N
+ Lti1r7D7ZiB4X63zxcsOxsqh2LMeuBZeZQNNKgew9IYaBz8orfHOomwDKeaYPX3DJxmnzkeL7N
+ gQc=
+X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228520390"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:28:05 +0800
-IronPort-SDR: kwetnRu9aD3e+ay57fbishlyAfyh3WzQPcIKso8w5KBp4DsK7KE4KqJI8EU1x95C0zkBIneSDt
- 5d2j9157uuNL59g/NK46T4fJPsa3OVPMIfItIOpdvY4UO0pBIJ48nvnSPfhGadunKTBPJrrs0+
- VtFgEZHy/+rYXiCF1GPvaJaOoqEWqOAYUW8tMCcCvbM1ylbBDLWdciJgTlZP0CoYl/cFLzwx37
- 4+9hWJeIgm74MrKNlz4G3J0ZLEM0mAf6a1CDMky9l8mRve5yKlvMnBYn3AQfYlXJgCyLMLkU2z
- 82XJJVDFYwhRizwbQVBWJFnq
+ by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:28:17 +0800
+IronPort-SDR: xraDWs50hkmG/574bz49ro4Vz8gDCvkzB0cgOqoPdPptinTzZLU784SiHiMt1xxTjw4ZuGmLDW
+ VWdCPkKfL+1RQx0YDnX3MaM1+WaHvZv5eqB5rsLUMQedqj8PlI2Eso0fGVS7Rjz73Ld6XstXyr
+ Rq57yqvFjffsehETjy+OnL+C++HNAhgr8rXTJC6cCUDo02ZdO/VycyHCCoOf53LYfz5MGW85hE
+ pSC3T2iAzVFvJo/svEj3x+t7kSFg6TMSRHHuyY8HR+qGQZDs+M+6FKJQiQE/q3vkjYKE4vGK+M
+ uIcXk0SkidnEG0mDSlthHMD3
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2019 16:23:31 -0700
-IronPort-SDR: RyL78MHZk9qyGuMPRju9DLHoPADQJis7Spd8vMTWdsIHFez2A8UVQfsPI9PfufFG7bsyJ8ZWto
- H1JfNAIQnxtzIc8XgapqCSeKb82GIYfKYflEFinQFeA2K2JziD8FPoWvCls1C6xJZ2FUn3hxw1
- 1K14Bba8K8DZvi5GpFjByJ2AaRbLH4J4P/cpRtr7dO6+4IefZlcf46VfVLyNDSeYSURpWsjC9D
- 5bTLGIQ4j2VFmeDUNkfniP/G6RmwKhYfVlUo0BngWF9WmGa6wzpnmpRs27UaPV4PWKtDceGCk1
- 4QQ=
+ 25 Oct 2019 16:23:42 -0700
+IronPort-SDR: +ESVu87LeHna/YsCn3EQVqngXV3zB37lQxa4MMJRcKNSoOrAuNpLnYsjl9CjqMLo8UvtDz/4F0
+ UPwBu9XJBfO3zle4QfAh2+MfHv7I2cv0ysf3Cm9WNXzHRDDi2K1SooJBb3ifImv+9nIUL21ydp
+ WJZlgX+8vJnD2BmBXaXPuR5yLKPKSUgdDF5cpwcBenL674WL1a81wC7JcJr3LdeO9rArxkKXQR
+ Tfe0ebkyeXjZwza2qottm+qv04I4ZNCpxIREFFglVxNmucACf32F+a0rA1aUVxEjVAAsrJY7YZ
+ tzQ=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip02.wdc.com with ESMTP; 25 Oct 2019 16:28:06 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 25 Oct 2019 16:28:17 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 01/27] target/riscv: Don't set write permissions on dirty
- PTEs
-Date: Fri, 25 Oct 2019 16:23:10 -0700
-Message-Id: <092c283c3e57b668490e150e8799de28171d6972.1572045716.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 04/27] target/riscv: Add the force HS exception mode
+Date: Fri, 25 Oct 2019 16:23:21 -0700
+Message-Id: <44f1fe6d0b3ee43c2cd60d574ab8ea5a48ca757b.1572045716.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1572045716.git.alistair.francis@wdc.com>
 References: <cover.1572045716.git.alistair.francis@wdc.com>
@@ -89,34 +88,77 @@ Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting write permission on dirty PTEs results in userspace inside a
-Hypervisor guest (VU) becoming corrupted. This appears to be because it
-ends up with write permission in the second stage translation in cases
-where we aren't doing a store.
+Add a FORCE_HS_EXCEP mode to the RISC-V virtulisation status. This bit
+specifies if an exeption should be taken to HS mode no matter the
+current delegation status. This is used when an exeption must be taken
+to HS mode, such as when a second level page fault occurs.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- target/riscv/cpu_helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/riscv/cpu.h        |  2 ++
+ target/riscv/cpu_bits.h   |  6 ++++++
+ target/riscv/cpu_helper.c | 18 ++++++++++++++++++
+ 3 files changed, 26 insertions(+)
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 469dcbd1c0..bb7a0e27a7 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -252,6 +252,8 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+ bool riscv_cpu_fp_enabled(CPURISCVState *env);
+ bool riscv_cpu_virt_enabled(CPURISCVState *env);
+ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
++bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
++void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index b4119cc002..162d42f211 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -424,6 +424,12 @@
+ 
+ /* Virtulisation Register Fields */
+ #define VIRT_ONOFF          1
++/* This is used to save state for when we take an exception. If this is set
++ * that means that we want to force a HS level exception (no matter what the
++ * delegation is set to). This will occur for things such as a second level
++ * page table fault.
++ */
++#define FORCE_HS_EXCEP      2
+ 
+ /* RV32 satp CSR field masks */
+ #define SATP32_MODE         0x80000000
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 0e1a4d91fc..31f553efb9 100644
+index 0306f3181d..1464f73bee 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -344,10 +344,8 @@ restart:
-             if ((pte & PTE_X)) {
-                 *prot |= PAGE_EXEC;
-             }
--            /* add write permission on stores or if the page is already dirty,
--               so that we TLB miss on later writes to update the dirty bit */
--            if ((pte & PTE_W) &&
--                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-+            /* add write permission on stores */
-+            if ((pte & PTE_W) && (access_type == MMU_DATA_STORE)) {
-                 *prot |= PAGE_WRITE;
-             }
-             return TRANSLATE_SUCCESS;
+@@ -100,6 +100,24 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+     env->virt = set_field(env->virt, VIRT_ONOFF, enable);
+ }
+ 
++bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
++{
++    if (!riscv_has_ext(env, RVH)) {
++        return false;
++    }
++
++    return get_field(env->virt, FORCE_HS_EXCEP);
++}
++
++void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
++{
++    if (!riscv_has_ext(env, RVH)) {
++        return;
++    }
++
++    env->virt = set_field(env->virt, FORCE_HS_EXCEP, enable);
++}
++
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+ {
+     CPURISCVState *env = &cpu->env;
 -- 
 2.23.0
 
