@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9409BE44F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:57:53 +0200 (CEST)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBADE4492
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:34:44 +0200 (CEST)
+Received: from localhost ([::1]:56866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNuTo-0007Wx-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
+	id 1iNu7P-0000yu-57
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNuSb-00062d-6H
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:56:38 -0400
+ (envelope-from <cenjiahui@huawei.com>) id 1iNtVS-0000Wv-5F
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:55:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNuSa-0007ym-0D
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:56:37 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54168)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNuSZ-0007xW-Ax
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:56:35 -0400
-Received: by mail-wm1-x333.google.com with SMTP id n7so991228wmc.3
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8r9gwAqZIg/CQxEo38LJIsJlTEF4FbM9PodERbeO51k=;
- b=eKem9ZhzwZ9ZyGvJROjuVbyUhzv1Yv3eayqG+ldar+nGx6V46PRzqNJATU9bcn1v73
- KLA1vFiWvk4YcTeSxfDlRB91KGyXS3nBYXGqbdhQMudYit2Av2Wrv1O3pizdCBnOgUyY
- WzFeZG97XyzeG/4DZfP+Nz6+wCtU6jLDQxXo9S3OMJU6QmV5XFi2bJA98i5x+wENbAYu
- EKaaaxziZId4EnRRUZAzG2ij6wOwomqARU98qPB53CKlZHEqQ4NBffpc2GDu05tVOgUk
- /HKqemYiUqT5oB7qnL7lMAQ27tjeZeV9mqRgAU5qh7ru9jWoP0JHh5/Q5DT9OTK+AF3w
- b11Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8r9gwAqZIg/CQxEo38LJIsJlTEF4FbM9PodERbeO51k=;
- b=EUg2tfcNq5/Q2Y61BGwLLqg3xLYAIju5mUaUTbvCBa+dfpIWi8dx3ggdIkEAiuAGPd
- /Wdow3sLoz4HWNlznvjMNyRVzQ2D1ZX9ytEPTJsvekjGppwH6Ejmpx3o8OEKo25QF5YL
- AzYgplICbmvusdqwVZvGDTWX3qDjWFb4oo9qgr1TpOPkbpbMfAwih3+jz6g0IJypvpoh
- m4++ALWzX3EZHMReL3EVG8Bk4qnqwQOpz3VDZ2kFRxHFK/Dljq49F9GWznRJUIr83MHR
- nozZGal4CYPEjOIz30m+HTsoylG4uI01UicKUJ6/z9vXTuAmMDTimlzgu+O8iDrdju3N
- LTqg==
-X-Gm-Message-State: APjAAAViDKvvjxcVUYSRhOmuLIPB+3kGcDsKMOo/t7k/zG6ZPbKJNhOQ
- +ZE14ynAFJz86VvdwwBR4CrrpQ==
-X-Google-Smtp-Source: APXvYqxWjTiCOZrAabtnyDur5zIyAep1xjKLrPYz9KQqINa2UwJWsTKsaYUJy01sLLmfQEnFHGG1kw==
-X-Received: by 2002:a7b:c444:: with SMTP id l4mr2173737wmi.49.1571990193536;
- Fri, 25 Oct 2019 00:56:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm1400839wrt.25.2019.10.25.00.56.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 00:56:32 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 846971FFE2;
- Fri, 25 Oct 2019 07:37:20 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL v2 73/73] travis.yml: enable linux-gcc-debug-tcg cache
-Date: Fri, 25 Oct 2019 07:37:13 +0100
-Message-Id: <20191025063713.23374-74-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
-References: <20191025063713.23374-1-alex.bennee@linaro.org>
+ (envelope-from <cenjiahui@huawei.com>) id 1iNtVP-0006rc-Tx
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:55:29 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2182 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cenjiahui@huawei.com>)
+ id 1iNtVP-0006p4-Fb
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:55:27 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D07F5175642E26038DAF;
+ Fri, 25 Oct 2019 14:55:22 +0800 (CST)
+Received: from [127.0.0.1] (10.173.220.89) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Fri, 25 Oct 2019
+ 14:55:15 +0800
+Subject: Re: [PATCH 3/3] migration/multifd: fix potential wrong acception
+ order of IOChannel
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191023033214.31592-1-cenjiahui@huawei.com>
+ <20191023033214.31592-3-cenjiahui@huawei.com>
+ <20191024095227.GC3700@redhat.com>
+ <1356aa1a-346d-29a7-8064-ac1e572b6512@huawei.com>
+ <20191024143450.GF8381@redhat.com>
+From: Jiahui Cen <cenjiahui@huawei.com>
+Message-ID: <99e4b06e-c36b-b8a8-96bf-623a43e032b8@huawei.com>
+Date: Fri, 25 Oct 2019 14:55:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::333
+In-Reply-To: <20191024143450.GF8381@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+X-Originating-IP: [10.173.220.89]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,70 +61,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, zhouyibo3@huawei.com,
+ dgilbert@redhat.com, peterx@redhat.com, fangying1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a new cache for the --enable-debug-tcg builds which is separate
-from the normal debug builds which generate different code. We also
-enable debug-tcg for the new plugins based builds as we want to ensure
-any breakage to TCG is picked up by the sanity checks.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/.travis.yml b/.travis.yml
-index e3f10a93683..34bc8134f5b 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -135,7 +135,7 @@ matrix:
-     # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
-     - env:
-         - CONFIG="--enable-debug-tcg --disable-system"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-     - env:
-@@ -336,29 +336,29 @@ matrix:
-     - env:
-         - CONFIG="--disable-system --enable-debug-tcg"
-         - TEST_CMD="make -j3 check-tcg V=1"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-     # Run check-tcg against linux-user (with plugins)
-     # we skip sparc64-linux-user until it has been fixed somewhat
-     - env:
--        - CONFIG="--disable-system --enable-plugins --target-list-exclude=sparc64-linux-user"
-+        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user"
-         - TEST_CMD="make -j3 check-tcg V=1"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-     # Run check-tcg against softmmu targets
-     - env:
-         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-         - TEST_CMD="make -j3 check-tcg V=1"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-     # Run check-tcg against softmmu targets (with plugins)
-     - env:
--        - CONFIG="--enable-plugins --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-+        - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-         - TEST_CMD="make -j3 check-tcg V=1"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-     # Release builds
--- 
-2.20.1
+On 2019/10/24 22:34, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Oct 24, 2019 at 09:53:24PM +0800, cenjiahui wrote:
+>> On 2019/10/24 17:52, Daniel P. Berrang=C3=A9 wrote:
+>>> On Wed, Oct 23, 2019 at 11:32:14AM +0800, cenjiahui wrote:
+>>>> From: Jiahui Cen <cenjiahui@huawei.com>
+>>>>
+>>>> Multifd assumes the migration thread IOChannel is always established=
+ before
+>>>> the multifd IOChannels, but this assumption will be broken in many s=
+ituations
+>>>> like network packet loss.
+>>>>
+>>>> For example:
+>>>> Step1: Source (migration thread IOChannel)  --SYN-->  Destination
+>>>> Step2: Source (migration thread IOChannel)  <--SYNACK  Destination
+>>>> Step3: Source (migration thread IOChannel, lost) --ACK-->X  Destinat=
+ion
+>>>> Step4: Source (multifd IOChannel) --SYN-->    Destination
+>>>> Step5: Source (multifd IOChannel) <--SYNACK   Destination
+>>>> Step6: Source (multifd IOChannel, ESTABLISHED) --ACK-->  Destination
+>>>> Step7: Destination accepts multifd IOChannel
+>>>> Step8: Source (migration thread IOChannel, ESTABLISHED) -ACK,DATA-> =
+ Destination
+>>>> Step9: Destination accepts migration thread IOChannel
+>>>>
+>>>> The above situation can be reproduced by creating a weak network env=
+ironment,
+>>>> such as "tc qdisc add dev eth0 root netem loss 50%". The wrong accep=
+tion order
+>>>> will cause magic check failure and thus lead to migration failure.
+>>>>
+>>>> This patch fixes this issue by sending a migration IOChannel initial=
+ packet with
+>>>> a unique id when using multifd migration. Since the multifd IOChanne=
+ls will also
+>>>> send initial packets, the destination can judge whether the processi=
+ng IOChannel
+>>>> belongs to multifd by checking the id in the initial packet. This me=
+chanism can
+>>>> ensure that different IOChannels will go to correct branches in our =
+test.
+>>>
+>>> Isn't this going to break back compatibility when new QEMU talks to o=
+ld
+>>> QEMU with multifd enabled ? New QEMU will be sending a packet that ol=
+d
+>>> QEMU isn't expecting IIUC.
+>>
+>> Yes, it actually breaks back compatibility. But since the old QEMU has=
+ bug with
+>> multifd, it may be not suitable to use multifd to migrate from new QEM=
+U to old
+>> QEMU in my opinion.
+>=20
+> We declared multifd supported from v4.0.0 onwards, so changing the wire
+> protocol in non-backwards compatibles ways is not acceptable IMHO.
+>=20
+> Ideally we'd change QEMU so that the src QEMU serializes the connection=
+s,
+> such that the migration thread I/O channel is established before we att=
+empt
+> to establish the multifd channels.
+>=20
+> If changing the wire protocol is unavoidable, then we'd need to invent
+> a new migration capability for the mgmt apps to detect & opt-in to when
+> both sides support it.
+
+I think the src QEMU cannot promise the serialization of the connections.
+Multifd is designed as that the migration thread I/O channel is establish=
+ed
+first which only promises the serialization in the source. Whether the
+destination can establish the connections in order depends on the network=
+.
+
+Without the correct order, the Destination cannot distinguish the connect=
+ions
+unless it reads something from the channels.
+
+I think there is a somewhat ugly solution to fix this issue, since the mi=
+gration
+thread will first send vm state header with a MAGIC different from the mu=
+ltifd
+initial packet's at the beginning of the migration, we may read it in adv=
+ance to
+judge the connection so that we do not need to send an additional packet =
+for
+migration thread I/O channel. But it has to keep the content of the packe=
+t for
+the future use. And in this way, the Source has already been sending data=
+ to
+migrate, but the Destination is just ready to start migration.
+
+Have you got any good idea on this issue ?
+
+Regrads,
+Jiahui Cen
 
 
