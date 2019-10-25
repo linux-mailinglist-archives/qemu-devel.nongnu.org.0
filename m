@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF98E4C49
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:32:24 +0200 (CEST)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCA0E4C2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:30:30 +0200 (CEST)
+Received: from localhost ([::1]:59966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzhW-0003Oi-4Q
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58971)
+	id 1iNzfh-0001hZ-2v
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:30:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iNzPK-0005EP-J4
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:35 -0400
+ (envelope-from <frasse.iglesias@gmail.com>) id 1iNzT0-0003jX-Nx
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:17:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iNzPJ-000199-1O
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:34 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33089)
+ (envelope-from <frasse.iglesias@gmail.com>) id 1iNzSx-0002Tg-Kg
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:17:22 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:42881)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iNzPI-00018c-RQ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:32 -0400
-Received: by mail-wr1-x433.google.com with SMTP id s1so2327631wro.0
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:13:32 -0700 (PDT)
+ (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1iNzSx-0002Rk-Ak
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:17:19 -0400
+Received: by mail-lj1-x244.google.com with SMTP id a21so2662130ljh.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=87Iy/QnNHtLxvX6jVSCCgi733svf73GUIYITANarm74=;
- b=CEOAssEp36eyQn1sd3bGdxLpBlO3fXB5cQuc6Dphl3LW1vTB76/6NxXlidKZ50622a
- OgQtSmEW+xAHLiguYftEVbokud1GZvYOiPMPgmvD4Hdkxr1wNr3IwTc8isTzIzobDo5w
- PIpM1pF6TubN9a/NulYIwib37fHze9Hqb7wbuhyCiwl3xrhNovgJ7jAafSRMeAk2goBg
- +WszyeQXMsQT8eYAJFMsySegpUBV6zlyQCAqEFEJ5Z+EMUV+omJfLM73n1tatYWd63zP
- ks3TSK9C0JnJBxNh+1pN4G9Sh9V3uXF36po0FfE816PqCLBuakLYompFfT9schU0z2Wp
- 91TQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=gwIJMoe1nqIE2c1gEvEPYH9oqyxsexG6v4l+/euLXsg=;
+ b=q/93RtM6hFXIGLoi1dtU1zprSeiCGCpTQWKvALNkbawYv/lusFCCc9sE7gJeGyXoA1
+ uUgN+fYmvhYJyG2Ko3CpNnwgCrmPfyoUmL+3THh9PoHSeb/3TA8qjlzKlEMygDezrKZa
+ aQ744jwXocQxawFML4LkZp0Ne43aP1Sowfb+2iA907vlyvderzZ5S6Fp4hJBPbCTCVeW
+ 1GWEh79Kfvi6JcUDPZzczTqnXW+gIs0w8eK11nNaIrzNIkQzntWUy3GBPpBdyulDZ6TV
+ wvw8OccZDpJ4TDvGNUWsLGQ19HJoN69uiHYyjz00p21lqANC4ooyLDy05Pq0rJsI1F8p
+ G0/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=87Iy/QnNHtLxvX6jVSCCgi733svf73GUIYITANarm74=;
- b=Wr6HXCRZBYwOIUZVbOzsn7QAMHuLvbTmvWi8UbQEUhhC24OhAp3CUmmFlrjDeTxrCf
- RvqCf+iTLTy25Kd1lTWLNrIH+GdO+Sb3m0RMTighQRC9rvUKWTT/s632IP/FpP/yJVzx
- h0VRe9QD7FQvV9dy8P6rrnHxIh3jtc4XvJefIdCcYh0QGHOKi9K1dyBXb3YOp5SLV3XV
- TksIEMC8PKELAkKVguJV8ajQv7V8Wh1iL07QmZA3zTRngdu2c647plc4pHv6Chq1p+mD
- xWNjzPPfiIi4IU47Ji7wdIV+bGQOkZ/8MvivnHTnA2w+r04YTCBPHTtIIqbVKNozUMrc
- bGhA==
-X-Gm-Message-State: APjAAAWlvXBCHJJlXQq3tPqnT3LyBpPGKViCx/9gGF9RVId5Qk4c2T5o
- Ki5d4BRRPJEiZqJy51IQd2aKb+BK3cWOpQ==
-X-Google-Smtp-Source: APXvYqx3V2YKrjX+H1GQ4WWno3CqKgoG86veOiA1gwgsQm7Wq2JkL5E/URqEPx6FsyOzwLgUpm4BlA==
-X-Received: by 2002:a5d:544d:: with SMTP id w13mr3060836wrv.19.1572009211310; 
- Fri, 25 Oct 2019 06:13:31 -0700 (PDT)
-Received: from 8c859074c0ff.ant.amazon.com.com
- (bzq-79-181-93-41.red.bezeqint.net. [79.181.93.41])
- by smtp.gmail.com with ESMTPSA id x205sm2616139wmb.5.2019.10.25.06.13.29
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 25 Oct 2019 06:13:30 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v34 13/13] target/avr: Add tests
-Date: Fri, 25 Oct 2019 16:12:37 +0300
-Message-Id: <20191025131237.63149-14-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20191025131237.63149-1-mrolnik@gmail.com>
-References: <20191025131237.63149-1-mrolnik@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=gwIJMoe1nqIE2c1gEvEPYH9oqyxsexG6v4l+/euLXsg=;
+ b=KUJt7Tcha5cA2ETIY5p8zEChfwaKZl04G3AtAB9jc19VvQI2WNHt8Ti7wfsUFFvweP
+ iKKcbVDS5XJuHFe12yjFF5B209CMe7KyfnFMFnmTmuZxszT2yBpqsY2e4u/3NdNn2fgB
+ W3jjehLIWAr7yoC/hIMpphcuql1lC2BUlF60KiQFqHxKB0naVhh+2veucEI5mpk9e9EY
+ LubLm4ioSXGXKo461jBMJl7nxNgVX/5uz0VjvY+W8RDF4Is9q/McELiZel/dLmZvO+fY
+ axEOz0AXJbG38uKMLfwLXwZRSAmtTEB1HwLgzoZEF3Ybf3O4Yrw9C0LU2sd1BigZx3NY
+ 19Xg==
+X-Gm-Message-State: APjAAAX159Lgeb4DjVPz1mcK95G/5ZOsLinlWUA0CyyjPMdvl4nbv8M9
+ m859Z7PNDKe+Vv7Th7ztIYw=
+X-Google-Smtp-Source: APXvYqxK7Yty1QZTsChhXVzK4EX9/0EPcS2zNTyMZdkMPxeYTxMeoYIAsXEcyptLaSPnMtIKPLm6mQ==
+X-Received: by 2002:a2e:908d:: with SMTP id l13mr2328718ljg.165.1572009437413; 
+ Fri, 25 Oct 2019 06:17:17 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ i190sm1487662lfi.45.2019.10.25.06.17.16
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 25 Oct 2019 06:17:16 -0700 (PDT)
+Date: Fri, 25 Oct 2019 15:17:15 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v5] ssi: xilinx_spips: Skip spi bus update for a few
+ register writes
+Message-ID: <20191025131713.pthu3ihbuhllzszd@fralle-msi>
+References: <1571981531-27498-1-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1571981531-27498-1-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,116 +80,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
- philmd@redhat.com, aleksandar.m.mail@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgari@xilinx.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1. Avocado test
-    The test is based on
-    https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
-    demo which. If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out.
-    it also demostrates that timer and IRQ are working
+Hi Sai,
 
-2. Boot serial test
-    Print out 'T' through serial port
+On [2019 Oct 25] Fri 11:02:11, Sai Pavan Boddu wrote:
+> A few configuration register writes need not update the spi bus state, so just
+> return after register write.
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
- tests/Makefile.include           |  2 ++
- tests/acceptance/machine_avr6.py | 36 ++++++++++++++++++++++++++++++++
- tests/boot-serial-test.c         | 10 +++++++++
- 3 files changed, 48 insertions(+)
- create mode 100644 tests/acceptance/machine_avr6.py
+s/register write/the register write/
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 09e5b410dc..7f3f971191 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -206,6 +206,8 @@ check-qtest-i386-y += tests/test-x86-cpuid-compat$(EXESUF)
- check-qtest-i386-y += tests/numa-test$(EXESUF)
- check-qtest-x86_64-y += $(check-qtest-i386-y)
- 
-+check-qtest-avr-y += tests/boot-serial-test$(EXESUF)
-+
- check-qtest-alpha-y += tests/boot-serial-test$(EXESUF)
- check-qtest-alpha-$(CONFIG_VGA) += tests/display-vga-test$(EXESUF)
- 
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-new file mode 100644
-index 0000000000..0601080b01
---- /dev/null
-+++ b/tests/acceptance/machine_avr6.py
-@@ -0,0 +1,36 @@
-+import logging
-+import time
-+import distutils.spawn
-+
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado.utils import process
-+
-+class AVR6Machine(Test):
-+    timeout = 5
-+
-+    def test_freertos(self):
-+        """
-+        :avocado: tags=arch:avr
-+        :avocado: tags=machine:sample
-+        """
-+        """
-+        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-+        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-+        """
-+        rom_url = 'https://github.com/seharris/qemu-avr-tests'
-+        rom_url += '/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
-+        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-+        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
-+
-+        self.vm.set_machine('sample')
-+        self.vm.add_args('-bios', rom_path)
-+        self.vm.add_args('-nographic')
-+        self.vm.launch()
-+
-+        time.sleep(2)
-+        self.vm.shutdown()
-+
-+        match = 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-+
-+        self.assertIn(match, self.vm.get_log())
-diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
-index d3a54a0ba5..1121ed0db2 100644
---- a/tests/boot-serial-test.c
-+++ b/tests/boot-serial-test.c
-@@ -16,6 +16,15 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
- 
-+static const uint8_t bios_avr[] = {
-+    0x88, 0xe0,             /* ldi r24, 0x08   */
-+    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
-+    0x86, 0xe0,             /* ldi r24, 0x06   */
-+    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
-+    0x84, 0xe5,             /* ldi r24, 0x54   */
-+    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
-+};
-+
- static const uint8_t kernel_mcf5208[] = {
-     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
-     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
-@@ -103,6 +112,7 @@ typedef struct testdef {
- 
- static testdef_t tests[] = {
-     { "alpha", "clipper", "", "PCI:" },
-+    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
-     { "ppc", "ppce500", "", "U-Boot" },
-     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
-     { "ppc", "g3beige", "", "PowerPC,750" },
--- 
-2.17.2 (Apple Git-113)
+> 
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
+After above change:
+
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+
+Best regards,
+Francisco Iglesias
+
+> ---
+> 
+> Changes for V2:
+> 	Just skip update of spips cs and fifos
+> 	Update commit message accordingly
+> Changes for V4:
+> 	Avoid checking for zynqmp qspi
+> 	Skip spi bus update for few of the registers Changes for V4:
+> 	Move the register list to existing switch case above.
+> Change for V5:
+> 	Fixed Commit message.
+> 
+>  hw/ssi/xilinx_spips.c | 22 ++++++++++++++++++----
+>  1 file changed, 18 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+> index a309c71..0d6c2e1 100644
+> --- a/hw/ssi/xilinx_spips.c
+> +++ b/hw/ssi/xilinx_spips.c
+> @@ -109,6 +109,7 @@
+>  #define R_GPIO              (0x30 / 4)
+>  #define R_LPBK_DLY_ADJ      (0x38 / 4)
+>  #define R_LPBK_DLY_ADJ_RESET (0x33)
+> +#define R_IOU_TAPDLY_BYPASS (0x3C / 4)
+>  #define R_TXD1              (0x80 / 4)
+>  #define R_TXD2              (0x84 / 4)
+>  #define R_TXD3              (0x88 / 4)
+> @@ -139,6 +140,8 @@
+>  #define R_LQSPI_STS         (0xA4 / 4)
+>  #define LQSPI_STS_WR_RECVD      (1 << 1)
+>  
+> +#define R_DUMMY_CYCLE_EN    (0xC8 / 4)
+> +#define R_ECO               (0xF8 / 4)
+>  #define R_MOD_ID            (0xFC / 4)
+>  
+>  #define R_GQSPI_SELECT          (0x144 / 4)
+> @@ -970,6 +973,7 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
+>  {
+>      int mask = ~0;
+>      XilinxSPIPS *s = opaque;
+> +    bool try_flush = true;
+>  
+>      DB_PRINT_L(0, "addr=" TARGET_FMT_plx " = %x\n", addr, (unsigned)value);
+>      addr >>= 2;
+> @@ -1019,13 +1023,23 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
+>          tx_data_bytes(&s->tx_fifo, (uint32_t)value, 3,
+>                        s->regs[R_CONFIG] & R_CONFIG_ENDIAN);
+>          goto no_reg_update;
+> +    /* Skip SPI bus update for below registers writes */
+> +    case R_GPIO:
+> +    case R_LPBK_DLY_ADJ:
+> +    case R_IOU_TAPDLY_BYPASS:
+> +    case R_DUMMY_CYCLE_EN:
+> +    case R_ECO:
+> +        try_flush = false;
+> +        break;
+>      }
+>      s->regs[addr] = (s->regs[addr] & ~mask) | (value & mask);
+>  no_reg_update:
+> -    xilinx_spips_update_cs_lines(s);
+> -    xilinx_spips_check_flush(s);
+> -    xilinx_spips_update_cs_lines(s);
+> -    xilinx_spips_update_ixr(s);
+> +    if (try_flush) {
+> +        xilinx_spips_update_cs_lines(s);
+> +        xilinx_spips_check_flush(s);
+> +        xilinx_spips_update_cs_lines(s);
+> +        xilinx_spips_update_ixr(s);
+> +    }
+>  }
+>  
+>  static const MemoryRegionOps spips_ops = {
+> -- 
+> 2.7.4
+> 
 
