@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7B4E417C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 04:30:06 +0200 (CEST)
-Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD41E4179
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 04:28:07 +0200 (CEST)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNpMb-0000oK-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 22:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39503)
+	id 1iNpKg-0004MZ-9M
+	for lists+qemu-devel@lfdr.de; Thu, 24 Oct 2019 22:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iNpIj-00022c-EB
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 22:26:06 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNpIk-00024i-Nd
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 22:26:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iNpIi-0007Z6-9D
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 22:26:05 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23169
+ (envelope-from <ehabkost@redhat.com>) id 1iNpIj-0007ZP-O9
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 22:26:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46229
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNpIi-0007Yu-5M
- for qemu-devel@nongnu.org; Thu, 24 Oct 2019 22:26:04 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNpIj-0007ZG-L6
+ for qemu-devel@nongnu.org; Thu, 24 Oct 2019 22:26:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571970363;
+ s=mimecast20190719; t=1571970365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=skzxznZMQb+hQ2LViMb7cCRGTVd6o+H0baPEAle9Hp0=;
- b=cTwAiM5kiBeINnwU5mnAouJR3YTFcQuLWLZtS78DtHHFaI8alQjqyzjieS4QSMMqTDC0t2
- pUNQlqd0xtJ+z7oWEnrfUtIwIKl5i2fWDkmAuvNSy0FkinjuoE81rDJ3yBZJUSTd82r8y3
- I6Xc/rxWRft6BoCNBdkyvlHOJT0+tXI=
+ bh=oXiQ9VZ+z74ls5xgndM1WghFumLiYi+xPQ8+MWj6qls=;
+ b=IdSuUrdZdBCjiHIXnwOOV4zlbv5UmXa+LM7rERPVVv0/Ql8ZqHYg3c2+utvXslBJcFBrcq
+ kcxuj7F8Qa2iZYub0/ce3Fc2QPHc16RiPwST/Qp/xf1R5jjHkoYgbhagCsF6YDRV6vrS7j
+ 3FMMTTUSGpwzjgTfMC2iloYnO6IIMw0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-2IYdbWHlN9aWnwFL-cGtDg-1; Thu, 24 Oct 2019 22:26:00 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-39-5asOPNm8NGW8_G9muFsRPw-1; Thu, 24 Oct 2019 22:26:02 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 448C647B;
- Fri, 25 Oct 2019 02:25:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 467431800DC7;
+ Fri, 25 Oct 2019 02:26:01 +0000 (UTC)
 Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0C91600C6;
- Fri, 25 Oct 2019 02:25:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C685C5D712;
+ Fri, 25 Oct 2019 02:26:00 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] i386: Add default_version parameter to CPU version
- functions
-Date: Thu, 24 Oct 2019 23:25:48 -0300
-Message-Id: <20191025022553.25298-3-ehabkost@redhat.com>
+Subject: [PATCH 3/7] i386: Don't use default_cpu_version at "-cpu help"
+Date: Thu, 24 Oct 2019 23:25:49 -0300
+Message-Id: <20191025022553.25298-4-ehabkost@redhat.com>
 In-Reply-To: <20191025022553.25298-1-ehabkost@redhat.com>
 References: <20191025022553.25298-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 2IYdbWHlN9aWnwFL-cGtDg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 5asOPNm8NGW8_G9muFsRPw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,94 +76,36 @@ Cc: Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all CPU version lookup code will use default_cpu_version:
-we'll change query-cpu-definitions to optionally get a machine
-type argument.  Make CPU version resolving functions get an
-explicit default_version argument.
-
-All callers are being changed to use default_cpu_version as
-argument, so no behavior is being changed yet.
+The output of "-cpu help" doesn't change depending on the machine
+type, already.  We can remove usage of default_cpu_version and
+keep output exactly the same.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ target/i386/cpu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5b7c5b1177..843f8c4b68 100644
+index 843f8c4b68..8cecc669b3 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -3187,11 +3187,12 @@ static X86CPUVersion x86_cpu_model_last_version(con=
-st X86CPUModel *model)
- }
-=20
- /* Return the actual version being used for a specific CPU model */
--static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *mode=
-l)
-+static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *mode=
-l,
-+                                                   X86CPUVersion default_v=
-ersion)
- {
-     X86CPUVersion v =3D model->version;
-     if (v =3D=3D CPU_VERSION_AUTO) {
--        v =3D default_cpu_version;
-+        v =3D default_version;
-     }
-     if (v =3D=3D CPU_VERSION_LATEST) {
-         return x86_cpu_model_last_version(model);
-@@ -3958,14 +3959,15 @@ static char *x86_cpu_class_get_model_id(X86CPUClass=
- *xc)
-     return r;
- }
-=20
--static char *x86_cpu_class_get_alias_of(X86CPUClass *cc)
-+static char *x86_cpu_class_get_alias_of(X86CPUClass *cc,
-+                                        X86CPUVersion default_version)
- {
-     X86CPUVersion version;
-=20
-     if (!cc->model || !cc->model->is_alias) {
-         return NULL;
-     }
--    version =3D x86_cpu_model_resolve_version(cc->model);
-+    version =3D x86_cpu_model_resolve_version(cc->model, default_version);
-     if (version <=3D 0) {
-         return NULL;
-     }
-@@ -3978,7 +3980,7 @@ static void x86_cpu_list_entry(gpointer data, gpointe=
-r user_data)
+@@ -3980,10 +3980,11 @@ static void x86_cpu_list_entry(gpointer data, gpoin=
+ter user_data)
      X86CPUClass *cc =3D X86_CPU_CLASS(oc);
      g_autofree char *name =3D x86_cpu_class_get_model_name(cc);
      g_autofree char *desc =3D g_strdup(cc->model_description);
--    g_autofree char *alias_of =3D x86_cpu_class_get_alias_of(cc);
-+    g_autofree char *alias_of =3D x86_cpu_class_get_alias_of(cc, default_c=
+-    g_autofree char *alias_of =3D x86_cpu_class_get_alias_of(cc, default_c=
 pu_version);
 =20
-     if (!desc && alias_of) {
-         if (cc->model && cc->model->version =3D=3D CPU_VERSION_AUTO) {
-@@ -4045,7 +4047,7 @@ static void x86_cpu_definition_entry(gpointer data, g=
-pointer user_data)
-      * doesn't break compatibility with previous QEMU versions.
-      */
-     if (default_cpu_version !=3D CPU_VERSION_LEGACY) {
--        info->alias_of =3D x86_cpu_class_get_alias_of(cc);
-+        info->alias_of =3D x86_cpu_class_get_alias_of(cc, default_cpu_vers=
-ion);
-         info->has_alias_of =3D !!info->alias_of;
-     }
-=20
-@@ -4116,7 +4118,7 @@ static void x86_cpu_apply_props(X86CPU *cpu, PropValu=
-e *props)
- static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
- {
-     const X86CPUVersionDefinition *vdef;
--    X86CPUVersion version =3D x86_cpu_model_resolve_version(model);
-+    X86CPUVersion version =3D x86_cpu_model_resolve_version(model, default=
-_cpu_version);
-=20
-     if (version =3D=3D CPU_VERSION_LEGACY) {
-         return;
+-    if (!desc && alias_of) {
+-        if (cc->model && cc->model->version =3D=3D CPU_VERSION_AUTO) {
++    if (!desc && cc->model && cc->model->is_alias) {
++        g_autofree char *alias_of =3D
++            x86_cpu_class_get_alias_of(cc, CPU_VERSION_AUTO);
++        if (!alias_of) {
+             desc =3D g_strdup("(alias configured by machine type)");
+         } else {
+             desc =3D g_strdup_printf("(alias of %s)", alias_of);
 --=20
 2.21.0
 
