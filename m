@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B875E4C62
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:36:33 +0200 (CEST)
-Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DD0E4CA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:48:22 +0200 (CEST)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzlX-0002ae-4o
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34305)
+	id 1iNzwy-0007KO-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iNzcp-0000m6-QA
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:27:33 -0400
+ (envelope-from <hsp.cat7@gmail.com>) id 1iNzeK-00021W-H2
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:29:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iNzcn-0007dl-Mx
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:27:31 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59747
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iNzcn-0007cq-Bf
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:27:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572010046;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+iCb/sdPv8Lz9A0cfrw/hI15X1udWcrq4pYJ5Ij4vU0=;
- b=PXbbHk3sS2HW0CTlcEsm+xZ3uW6tfv8CaIUil78dLJn+DtqRXTiw1l7KXeekEF6VQxDbKV
- cmwluY8vWH7EAPY2helNEFFslml7d9ipjObbm05jE1TY80h5sn0AD/OFD4EObqmD15ZQ2s
- 6IyX9JbpWgGc+shH2yK0Zg67NyEEaHQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-HMEe2cjQMPKtepDcOB5g5g-1; Fri, 25 Oct 2019 09:27:24 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC17A47B;
- Fri, 25 Oct 2019 13:27:23 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4541F60BF4;
- Fri, 25 Oct 2019 13:27:22 +0000 (UTC)
-Date: Fri, 25 Oct 2019 15:27:20 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v13 06/12] numa: Extend CLI to provide memory latency
- and bandwidth information
-Message-ID: <20191025152720.4068bfae@redhat.com>
-In-Reply-To: <9e30d8fe-7274-4ee8-3c4b-64c370141358@intel.com>
-References: <20191020111125.27659-1-tao3.xu@intel.com>
- <20191020111125.27659-7-tao3.xu@intel.com>
- <20191023172854.42c495d5@redhat.com>
- <9e30d8fe-7274-4ee8-3c4b-64c370141358@intel.com>
+ (envelope-from <hsp.cat7@gmail.com>) id 1iNzeI-0008IH-Br
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:29:04 -0400
+Received: from mail-yw1-xc30.google.com ([2607:f8b0:4864:20::c30]:41695)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>) id 1iNzeI-0008Hs-6E
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:29:02 -0400
+Received: by mail-yw1-xc30.google.com with SMTP id o195so747316ywd.8
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=NWvmpWJ9Fm2s0u0rAL/RYHUQquvomNowfXAxzJjjmSY=;
+ b=oVRR3DIwwSXP8vW29hYekBzeMmm13rE4LFbjNc4awZR53MXAAdl5oFLUm93A3xf9Tr
+ AxadBjQjNUxeTsQzkIWhYyvbcZpfTYYO9vwyJG8rfW4WSJX/YX8Ylgxoq1X7+o8B/lC5
+ g0xiTB/Lrw1Aqc02X8I95DQhMAki+fmMtsAce+bSt9F25W9eKisIBjkzz3scZ8mGJPG3
+ KGBe3t2Vx8CKNxXpY0ns5h67jvY6urTfqjvD4pzTaXpllbbss9rF/UFQ+E+FzPkHpeQ8
+ AbIAHvEas1qWJ0WF1nv19fFVyMoJkvThj5VbtQRxcVO3wFJsVqbZ4w8F8Ws+tCndln4r
+ X3Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=NWvmpWJ9Fm2s0u0rAL/RYHUQquvomNowfXAxzJjjmSY=;
+ b=KI+pGalFB8qHSB1WNPwIrPdksOALLQ5CDz9rlUslsRttJY5fnP68+CHiyAKhdwTQSo
+ SGi/l2jwfa9YH/FW9OYLTWptiWTg8fUVsmPPjtAx3wLx5j7B3HrklIDIh7YVoAYjctUq
+ j/ZHbXAs5EH/dyAeldAe08UPAhpnq2H9yXC/H6g+coeMMg2NBr/skD8arsJRluNdneQZ
+ eS+v/TO4ZRQOElumoNpWvtTwKT57UE74vJrIFLM5+KEtL5pfkEMcS25jrVjK8Lby1X2x
+ ELeVe6QdSoTWH2IAc5rkJ5u2jgCHu9IIz9Fa/u3oOQBRjyQ14ixgnj+hGbO2HqubrAqR
+ zdhg==
+X-Gm-Message-State: APjAAAUiH+MzbQZ9FBWxmTN/yGjoj1LGBeqWmSISEWD7O/qFS6GRxBc4
+ FpuiWowxZge2UHCMhvRRqqc8hBuuzio7jd9YPdiZfHDu
+X-Google-Smtp-Source: APXvYqwd/y1xm4gUL93gbSNB4bqQBt1HqhQaBY7U/LWKBeWp5uJfxirleTIa3EM7Wf89TwCTur10xEIFZbcPI/Ix8q4=
+X-Received: by 2002:a81:9b10:: with SMTP id s16mr2259120ywg.342.1572010140119; 
+ Fri, 25 Oct 2019 06:29:00 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: HMEe2cjQMPKtepDcOB5g5g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Fri, 25 Oct 2019 15:28:49 +0200
+Message-ID: <CABLmASG1413=5he48wC0e2hrdoKjs7kasY18WVkyCrRypqZRqw@mail.gmail.com>
+Subject: USB-audio sound issues with qemu-system-ppc in Linux and Windows.
+To: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000fc36a20595bc2185"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,164 +67,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Oct 2019 14:33:53 +0800
-Tao Xu <tao3.xu@intel.com> wrote:
+--000000000000fc36a20595bc2185
+Content-Type: text/plain; charset="UTF-8"
 
-> On 10/23/2019 11:28 PM, Igor Mammedov wrote:
-> > On Sun, 20 Oct 2019 19:11:19 +0800
-> > Tao Xu <tao3.xu@intel.com> wrote: =20
-> [...]
-> >> +#
-> >> +# @access-bandwidth: access bandwidth (MB/s)
-> >> +#
-> >> +# @read-bandwidth: read bandwidth (MB/s)
-> >> +#
-> >> +# @write-bandwidth: write bandwidth (MB/s) =20
-> > I think units here are not appropriate, values stored in fields are
-> > minimal base units only and nothing else (i.e. ps and B/s)
-> >  =20
-> Eric suggest me to drop picoseconds. So here I can use ns. For=20
-> bandwidth, if we use B/s here, does it let user or developer to=20
-> misunderstand that the smallest unit is B/s ?
+ Hi,
 
-It's not nanoseconds or MB/s stored in theses fields, isn't it?
-I'd specify units in which value is stored or drop units altogether.
+I'm  experiencing several issues related to sound using usb-audio when
+running qemu-system-ppc in Linux and Windows. Guests tried are Mac OS 9.2
+and Mac OS X 10.0, 10.1, 10.2 and 10.3.
+(10.4 and 10.5 never have the usb-audio device available for audio
+playback, even though the device is recognised in the OS X system profiler.)
+It is hit and miss whether the audio device is actually available upon boot
+in 9.2 and the other versions of OS X.
 
-Maybe Eric and Markus can suggest a better way to describe fields.
+Qemu version tried is current master (Oct 25th), Windows version is
+cross-compiled from Fedora 30. I do not think there is any regression going
+on here, these are just issues that have been present for a long time.
 
-> >>   @item -numa node[,mem=3D@var{size}][,cpus=3D@var{firstcpu}[-@var{las=
-tcpu}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
-> >>   @itemx -numa node[,memdev=3D@var{id}][,cpus=3D@var{firstcpu}[-@var{l=
-astcpu}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
-> >>   @itemx -numa dist,src=3D@var{source},dst=3D@var{destination},val=3D@=
-var{distance}
-> >>   @itemx -numa cpu,node-id=3D@var{node}[,socket-id=3D@var{x}][,core-id=
-=3D@var{y}][,thread-id=3D@var{z}]
-> >> +@itemx -numa hmat-lb,initiator=3D@var{node},target=3D@var{node},hiera=
-rchy=3D@var{str},data-type=3D@var{str}[,latency=3D@var{lat}][,bandwidth=3D@=
-var{bw}] =20
-> >                                                                        =
-        ^^^                 ^^^
-> > Using the same 'str' for 2 different enums is confusing.
-> > Suggest for 1st use 'level' and for the second just 'type'
-> >  =20
-> Ok
->=20
-> >>   @findex -numa
-> >>   Define a NUMA node and assign RAM and VCPUs to it.
-> >>   Set the NUMA distance from a source node to a destination node.
-> >> +Set the ACPI Heterogeneous Memory Attributes for the given nodes.
-> >>  =20
-> >>   Legacy VCPU assignment uses @samp{cpus} option where
-> >>   @var{firstcpu} and @var{lastcpu} are CPU indexes. Each
-> >> @@ -256,6 +259,50 @@ specified resources, it just assigns existing res=
-ources to NUMA
-> >>   nodes. This means that one still has to use the @option{-m},
-> >>   @option{-smp} options to allocate RAM and VCPUs respectively.
-> >>  =20
-> >> +Use @samp{hmat-lb} to set System Locality Latency and Bandwidth Infor=
-mation
-> >> +between initiator and target NUMA nodes in ACPI Heterogeneous Attribu=
-te Memory Table (HMAT).
-> >> +Initiator NUMA node can create memory requests, usually including one=
- or more processors. =20
-> > s/including/it has/
-> >  =20
-> >> +Target NUMA node contains addressable memory.
-> >> +
-> >> +In @samp{hmat-lb} option, @var{node} are NUMA node IDs. @var{str} of =
-'hierarchy'
-> >> +is the memory hierarchy of the target NUMA node: if @var{str} is 'mem=
-ory', the structure
-> >> +represents the memory performance; if @var{str} is 'first-level|secon=
-d-level|third-level',
-> >> +this structure represents aggregated performance of memory side cache=
-s for each domain.
-> >> +@var{str} of 'data-type' is type of data represented by this structur=
-e instance:
-> >> +if 'hierarchy' is 'memory', 'data-type' is 'access|read|write' latenc=
-y(nanoseconds) =20
-> > is nanoseconds is right here? Looking at previous patches default value=
- of suffix-less
-> > should be picoseconds. I'd just drop '(nanoseconds)'. User will use app=
-ropriate suffix.
-> >  =20
-> OK, I will drop it.
-> >> +or 'access|read|write' bandwidth(MB/s) of the target memory; if 'hier=
-archy' is =20
-> > ditto (MB/s), probably should be Bytes/s for default suffix-less value
-> > (well, I'm not sure how to express it better)
-> >  =20
->=20
-> But last version, we let !QEMU_IS_ALIGNED(node->bandwidth, MiB) as error.
-it's alignment requirement and it doesn't mean that value could not be
-represented in bytes/s.
-And it is bytes/s if suffix isn't used.
+General issue: when audio is played, it almost always sounds crackling.
 
-As for alignment and precision of values you probably need to document
-expectations here as well.
+For reasons of size, I uploaded 3 logs obtained in Linux running Mac OS X
+10.3 with -trace "usb*" to:
+https://surfdrive.surf.nl/files/index.php/s/YfVVxEE3cHXkFPf/download
+1. Log_no_audio_available.txt
+2. Log_audio_available_2_sounds_played.txt
+3. Log_audio_available_multi_sounds_played_untill_hangup.txt
 
-> >> +'first-level|second-level|third-level', 'data-type' is 'access|read|w=
-rite' hit latency
-> >> +or 'access|read|write' hit bandwidth of the target memory side cache.
-> >> +
-> >> +@var{lat} of 'latency' is latency value, the possible value and units=
- are
-> >> +NUM[ps|ns|us] (picosecond|nanosecond|microsecond), the recommended un=
-it is 'ns'. @var{bw}
-> >> +is bandwidth value, the possible value and units are NUM[M|G|T], mean=
- that =20
-> >  =20
-> >> +the bandwidth value are NUM MB/s, GB/s or TB/s. Note that max NUM is =
-65534,
-> >> +if NUM is 0, means the corresponding latency or bandwidth information=
- is not provided.
-> >> +And if input numbers without any unit, the latency unit will be 'ps' =
-and the bandwidth
-> >> +will be MB/s. =20
-> >   1st: above is applicable to both bw and lat values and should be docu=
-mented as such
-> >   2nd: 'max NUM is 65534' when different suffixes is fleeting target,
-> >        spec says that entry with 0xFFFF is unreachable, so how about do=
-cumenting
-> >        unreachable value as 0xFFFFFFFFFFFFFFFF (then CLI parsing code w=
-ill
-> >        exclude it from range detection and acpi table building code tra=
-nslate it
-> >        to internal 0xFFFF it could fit into the tables)
-> >  =20
->=20
-> If we input 0xFFFFFFFFFFFFFFFF, qemu will raise error that parameter=20
-> expect a size value.
+General issue in Linux (fedora 30)(which seems related to bug
+https://bugs.launchpad.net/qemu/+bug/1623998):
+[hsp@fedora30 qemu-master]$ ./startqemu.sh
+pulseaudio: set_sink_input_volume() failed
+pulseaudio: Reason: Invalid argument
+pulseaudio: set_sink_input_mute() failed
+pulseaudio: Reason: Invalid argument
 
-opts_type_size() can't handle values >=3D 0xfffffffffffffc00
+General issue in Windows 10: I always get to a point where this is logged:
+dsound: Could not lock playback buffer
+dsound: Reason: An invalid parameter was passed to the returning function
+dsound: Failed to lock buffer
 
-commit f46bfdbfc8f (util/cutils: Change qemu_strtosz*() from int64_t to uin=
-t64_t)
+Linux specific.
+Qemu invocation for Mac OS 9.2:
+./qemu-system-ppc -L pc-bios -boot c -M mac99 -m 512 \
+-drive file=~/Mac-disks/9.2.img,format=raw,media=disk \
+-serial stdio -sdl -device usb-audio -trace "*aud*"
 
-so behavior would change depending on if the value is parsed by CLI (size) =
-or QMP (unit64) parsers.
+This immediately starts logging:
+7380@1571817102.833929:audio_timer_start interval 10 ms
+7380@1571817125.207880:audio_timer_delayed interval 16 ms
+7380@1571817129.046816:audio_timer_delayed interval 16 ms
 
-we can cannibalize 0x0 as the unreachable value and an absent bandwidth/lat=
- option
-for not specified case.
-It would be conflicting with matrix [1] values in spec, but CLI/QMP deals w=
-ith
-absolute values which are later processed into HMAT substructure.
+Any movement of a window on the Linux desktop results in additional
+audio_timer_delayed logging.
+The audio_timer_delayed never stops.
+In Mac OS 9.2, the desktop icons disappear after some seconds of running,
+so the system cannot be stopped normally.
+Running the GTK GUI, only this is logged (no additional logging when moving
+windows).
+14130@1571988483.402017:audio_timer_start interval 10 ms
+But the icons on the desktop also disappear.
 
-Markus,
-Can we make opts_type_size() handle full range of uint64_t?
+When running Mac OS X 10.X and clicking some system sounds, I see:
+12134@1571818709.446031:audio_timer_start interval 10 ms
+12134@1571818710.195023:audio_timer_stop
+12134@1571818714.951030:audio_timer_start interval 10 ms
+12134@1571818715.432959:audio_timer_stop
+12134@1571818717.171045:audio_timer_start interval 10 ms
+12134@1571818717.714323:audio_timer_stop
+12134@1571818718.072381:audio_timer_start interval 10 ms
+12134@1571818719.114544:audio_timer_stop
 
-1)
-ACPI 6.3 spec:
-5.2.27.4 System Locality Latency and Bandwidth Information Structure
+After randomly clicking some system sounds more, the timer starts delaying
+and no longer stops:
+12134@1571818893.564793:audio_timer_stop
+12134@1571818895.698040:audio_timer_start interval 10 ms
+12134@1571818899.961673:audio_timer_delayed interval 15 ms
+12134@1571818900.472716:audio_timer_delayed interval 15 ms
+12134@1571818902.759007:audio_timer_delayed interval 15 ms
+12134@1571818905.803400:audio_timer_delayed interval 15 ms
+But the systems stays responsive, so can be shut down.
 
+Windows specific.
+Invocation:
+qemu-system-ppc.exe -L pc-bios -boot c -M mac99 -m 512 ^
+-drive file=C:\Mac-disks\9.2.img,format=raw,media=disk ^
+-serial stdio -sdl -device usb-audio -trace "*aud*"
+
+This immediately starts logging the audio_timer_start interval and never
+stops.
+Icons disappear from the desktop after some seconds.
+
+When running Mac OS X 10.X, playing just two system sounds results in:
+2380@1571822566.040790:audio_timer_start interval 10 ms
+2380@1571822566.108279:audio_timer_delayed interval 22 ms
+2380@1571822566.128820:audio_timer_delayed interval 20 ms
+2380@1571822566.150509:audio_timer_delayed interval 22 ms
+2380@1571822566.172112:audio_timer_delayed interval 21 ms
+......
+2380@1571822566.561345:audio_timer_delayed interval 21 ms
+2380@1571822566.583846:audio_timer_delayed interval 22 ms
+2380@1571822566.600482:audio_timer_delayed interval 15 ms
+2380@1571822566.610111:audio_timer_stop
+2380@1571822572.226433:audio_timer_start interval 10 ms
+2380@1571822572.250866:audio_timer_delayed interval 24 ms
+2380@1571822572.269819:audio_timer_delayed interval 18 ms
+......
+2380@1571822572.452403:audio_timer_delayed interval 20 ms
+2380@1571822572.474190:audio_timer_delayed interval 21 ms
+2380@1571822572.509474:audio_timer_delayed interval 35 ms
+dsound: Could not lock playback buffer
+dsound: Reason: An invalid parameter was passed to the returning function
+dsound: Failed to lock buffer
+2380@1571822572.560505:audio_timer_delayed interval 51 ms
+2380@1571822572.581102:audio_timer_delayed interval 19 ms
+2380@1571822572.600912:audio_timer_delayed interval 19 ms
+
+There is no saying when audio_timer_delayed will start displaying
+constantly.
+Only when one set of:
+2260@1571823472.652244:audio_timer_start interval 10 ms
+2260@1571823473.198349:audio_timer_stop
+Is following directly after each other, sound is played somewhat correctly.
+After randomly clicking several system sounds, the audio_timer_delayed
+message never stops.
+
+Thanks for looking into this.
+If there is any additional information needed, or disk images of Mac OS 9.2
+or OS X 10.3 are required, please let me know.
+
+Best,
+Howard
+
+ps: thanks to Zoltan for pointing out I sent the original message into an
+earlier thread ;-)
+
+--000000000000fc36a20595bc2185
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+Hi,<br><br>I&#39;m =C2=A0experiencing several issues related to sound using=
+=20
+usb-audio when running qemu-system-ppc in Linux and Windows. Guests=20
+tried are Mac OS 9.2 and Mac OS X 10.0, 10.1, 10.2 and 10.3. <br>(10.4=20
+and 10.5 never have the usb-audio device available for audio playback,=20
+even though the device is recognised in the OS X system profiler.)<br>It is=
+ hit and miss whether the audio device is actually available upon boot in 9=
+.2 and the other versions of OS X.<br><br>Qemu
+ version tried is current master (Oct 25th), Windows version is=20
+cross-compiled from Fedora 30. I do not think there is any regression=20
+going on here, these are just issues that have been present for a long=20
+time.<br><br>General issue: when audio is played, it almost always sounds c=
+rackling.<br><br>For reasons of size, I uploaded 3 logs obtained in Linux r=
+unning Mac OS X 10.3 with -trace &quot;usb*&quot; to: <a href=3D"https://su=
+rfdrive.surf.nl/files/index.php/s/YfVVxEE3cHXkFPf/download" target=3D"_blan=
+k">https://surfdrive.surf.nl/files/index.php/s/YfVVxEE3cHXkFPf/download</a>=
+<br>1. Log_no_audio_available.txt<br>2. Log_audio_available_2_sounds_played=
+.txt<br>3. Log_audio_available_multi_sounds_played_untill_hangup.txt<br><br=
+>General issue in Linux (fedora 30)(which seems related to bug <a href=3D"h=
+ttps://bugs.launchpad.net/qemu/+bug/1623998" target=3D"_blank">https://bugs=
+.launchpad.net/qemu/+bug/1623998</a>):<br>[hsp@fedora30 qemu-master]$ ./sta=
+rtqemu.sh<br>pulseaudio: set_sink_input_volume() failed<br>pulseaudio: Reas=
+on: Invalid argument<br>pulseaudio: set_sink_input_mute() failed<br>pulseau=
+dio: Reason: Invalid argument<br><br>General issue in Windows 10: I always =
+get to a point where this is logged:<br>dsound: Could not lock playback buf=
+fer<br>dsound: Reason: An invalid parameter was passed to the returning fun=
+ction<br>dsound: Failed to lock buffer<br><br>Linux specific.<br>Qemu invoc=
+ation for Mac OS 9.2:<br>./qemu-system-ppc -L pc-bios -boot c -M mac99 -m 5=
+12 \<br>-drive file=3D~/Mac-disks/9.2.img,format=3Draw,media=3Ddisk \<br>-s=
+erial stdio -sdl -device usb-audio -trace &quot;*aud*&quot;<br><br>This imm=
+ediately starts logging:<br>7380@1571817102.833929:audio_timer_start interv=
+al 10 ms<br>7380@1571817125.207880:audio_timer_delayed interval 16 ms<br>73=
+80@1571817129.046816:audio_timer_delayed interval 16 ms<br><br>Any movement=
+ of a window on the Linux desktop results in additional audio_timer_delayed=
+ logging. <br>The audio_timer_delayed never stops.<br>In Mac OS 9.2, the de=
+sktop icons disappear after some seconds of running, so the system cannot b=
+e stopped normally.<br>Running the GTK GUI, only this is logged (no additio=
+nal logging when moving windows).<br>14130@1571988483.402017:audio_timer_st=
+art interval 10 ms<br>But the icons on the desktop also disappear.<br><br>W=
+hen running Mac OS X 10.X and clicking some system sounds, I see: <br>12134=
+@1571818709.446031:audio_timer_start interval 10 ms<br>12134@1571818710.195=
+023:audio_timer_stop <br>12134@1571818714.951030:audio_timer_start interval=
+ 10 ms<br>12134@1571818715.432959:audio_timer_stop <br>12134@1571818717.171=
+045:audio_timer_start interval 10 ms<br>12134@1571818717.714323:audio_timer=
+_stop <br>12134@1571818718.072381:audio_timer_start interval 10 ms<br>12134=
+@1571818719.114544:audio_timer_stop <br><br>After randomly clicking some sy=
+stem sounds more, the timer starts delaying and no longer stops:<br>12134@1=
+571818893.564793:audio_timer_stop <br>12134@1571818895.698040:audio_timer_s=
+tart interval 10 ms<br>12134@1571818899.961673:audio_timer_delayed interval=
+ 15 ms<br>12134@1571818900.472716:audio_timer_delayed interval 15 ms<br>121=
+34@1571818902.759007:audio_timer_delayed interval 15 ms<br>12134@1571818905=
+.803400:audio_timer_delayed interval 15 ms<br>But the systems stays respons=
+ive, so can be shut down.<br><br>Windows specific.<br>Invocation:<br>qemu-s=
+ystem-ppc.exe -L pc-bios -boot c -M mac99 -m 512 ^<br>-drive file=3DC:\Mac-=
+disks\9.2.img,format=3Draw,media=3Ddisk ^<br>-serial stdio -sdl -device usb=
+-audio -trace &quot;*aud*&quot;<br><br>This immediately starts logging the =
+audio_timer_start interval and never stops.<br>Icons disappear from the des=
+ktop after some seconds.<br><br>When running Mac OS X 10.X, playing just tw=
+o system sounds results in:<br>2380@1571822566.040790:audio_timer_start int=
+erval 10 ms<br>2380@1571822566.108279:audio_timer_delayed interval 22 ms<br=
+>2380@1571822566.128820:audio_timer_delayed interval 20 ms<br>2380@15718225=
+66.150509:audio_timer_delayed interval 22 ms<br>2380@1571822566.172112:audi=
+o_timer_delayed interval 21 ms<br>......<br>2380@1571822566.561345:audio_ti=
+mer_delayed interval 21 ms<br>2380@1571822566.583846:audio_timer_delayed in=
+terval 22 ms<br>2380@1571822566.600482:audio_timer_delayed interval 15 ms<b=
+r>2380@1571822566.610111:audio_timer_stop<br>2380@1571822572.226433:audio_t=
+imer_start interval 10 ms<br>2380@1571822572.250866:audio_timer_delayed int=
+erval 24 ms<br>2380@1571822572.269819:audio_timer_delayed interval 18 ms<br=
+>......<br>2380@1571822572.452403:audio_timer_delayed interval 20 ms<br>238=
+0@1571822572.474190:audio_timer_delayed interval 21 ms<br>2380@1571822572.5=
+09474:audio_timer_delayed interval 35 ms<br>dsound: Could not lock playback=
+ buffer<br>dsound: Reason: An invalid parameter was passed to the returning=
+ function<br>dsound: Failed to lock buffer<br>2380@1571822572.560505:audio_=
+timer_delayed interval 51 ms<br>2380@1571822572.581102:audio_timer_delayed =
+interval 19 ms<br>2380@1571822572.600912:audio_timer_delayed interval 19 ms=
+<br><br>There is no saying when audio_timer_delayed will start displaying c=
+onstantly. <br>Only when one set of: <br>2260@1571823472.652244:audio_timer=
+_start interval 10 ms<br>2260@1571823473.198349:audio_timer_stop<br>Is foll=
+owing directly after each other, sound is played somewhat correctly.<br>Aft=
+er randomly clicking several system sounds, the audio_timer_delayed message=
+ never stops.<br><br>Thanks for looking into this. <br>If there is any addi=
+tional information needed, or disk images of Mac OS 9.2 or OS X 10.3 are re=
+quired, please let me know.<br><br>Best,<br><div>Howard <br></div><div><br>=
+</div><div>ps: thanks to Zoltan for pointing out I sent the original messag=
+e into an earlier thread ;-)<br></div></div>
+
+--000000000000fc36a20595bc2185--
 
