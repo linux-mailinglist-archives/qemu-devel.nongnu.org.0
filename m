@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1F9E4629
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 10:49:23 +0200 (CEST)
-Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE0FE4659
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 10:55:55 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNvHe-0003wv-Ef
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 04:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50207)
+	id 1iNvNy-0002a5-QH
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 04:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNv5H-0001GE-4s
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:36 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNv5N-0001PP-1I
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNv5F-000873-OT
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:41697)
+ (envelope-from <laurent@vivier.eu>) id 1iNv5L-0008B7-P8
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:46229)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNv5F-00086K-F9; Fri, 25 Oct 2019 04:36:33 -0400
+ id 1iNv5H-00087p-Q8; Fri, 25 Oct 2019 04:36:36 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MD9nd-1iFMLi0Lmj-0099T3; Fri, 25 Oct 2019 10:35:47 +0200
+ id 1M6DnM-1iLi9W0W2S-006iku; Fri, 25 Oct 2019 10:35:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/19] hw: Move TWL92230 device from hw/timer/ to hw/rtc/
- subdirectory
-Date: Fri, 25 Oct 2019 10:35:04 +0200
-Message-Id: <20191025083511.11463-13-laurent@vivier.eu>
+Subject: [PULL 17/19] hw/rtc/mc146818: Include mc146818rtc_regs.h a bit less
+Date: Fri, 25 Oct 2019 10:35:09 +0200
+Message-Id: <20191025083511.11463-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191025083511.11463-1-laurent@vivier.eu>
 References: <20191025083511.11463-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3NgaTQHiZJEuDv6c0dQXCgZoa6BvOnPgHLkhbho/31gjj5l8zsW
- WkeHtXVBDvGfypuno4cKy64/p67eBVjB9Djay1sckjewkgN0u++Cg1gp3Q5iLHUZc6hOp6o
- QJBkYofhhF28uO0DUwDanSge14Bs2da9gAQN4rFeY/0TDz51uzi0x26NmDOh7YzGD+Fk+xL
- jnyVJ/tycrlKjcQBclCxg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HCo+icgs6qs=:PQSOcCS/4zlWKgipYVMMbF
- mwvkQB/fYY9tHUUcPGbn1Q/2v0mBjnUFMijT5SrWI1gw5w1kwLl2/+OdrMDSKrS/z1EBKcQYJ
- hir/pPZYJZgxRBz5I6V4e0yHcuUFehnwyZ8IBlruhDqB5PoBiSMzLI+4CE8qG8G+BGnuDMzLw
- jtwINX7jQkCxXCmifh8vVXhGbMoXH+Vlod11HJweJxUuX60yFPvCHSL5LjavneuSOqImn9TYT
- zDLvGj7fHmDuqAts73z3Tm9GcY9TAT0Cv4yxfYfAdxu42Gd+b7tMH3w7XtE7WeldY8o8Jbae/
- dDvBh8SsZYXLt9I9hAcq9GRbumwOyscCrctDVe46RwHdPkoLb4sSzq+jN7t+oIegtFPFkilGN
- JoQ/ShpNd77Q+DGhO87+Ypopnm4fLH+7UUUb7VmQxoaMtanNdDY1oKM75YjfnN2aPOt9ID8N6
- iNOkJlVkiyCzX9BPs9qRAI8LXxXWxdsGEVXX/oIAw7daNHxKT3fwefhdFSOIdUTK2DltqrPRL
- i7GVN3wzxnm4baJzKiYCUKjwDUT5cKh8XTVU/WP7+yZr1I82AWMXt90yMm5DSNPdWnN+5xfeN
- 60ouLhaGSNiafWnPxGHfvKfOy7fweCr/I3/uD9K5/DblLB0U67OXLUMLtAP1J/1goTqO1MN5/
- i2jrydX4HEK7zsjMAP77z6QKC+79kQJWw3WNUA5XGmyigSWgAtPZR/eYFWi4xajkrGQadGoGb
- 19mukk/C+00+gILHvqEZD79paOOQj5H+QsycP3QQ/9lFdEhdNWaziRnBWQW+dV8MWjdENoQFC
- wbx4qpoy1YJK4SKfwD6Y9MjM9iG26fDf16O2PTcc1TYwsDJVFmCpsIH5C+ZUL6oogd4IPmxWd
- oUrTrKK0YKnqyTAzY84E9ribsdW/Rm1B7inZ/Xwkk=
+X-Provags-ID: V03:K1:fo2sC3oBx2jPfCQrBxU70SXruu633246+ExBKU/D1kXsJeNwjU1
+ KGlpKsDt/yD75ZoHmLJa2QkafdPSh1tg4ganhk/ql+nAX4rFsM0ITal+Dpn3xQi5yGSX2m8
+ r42SjKHR50g2K6NplUIHbhIONu9cNLeMLQF/7zobNvxifyD7g9pXOBxZgdxQph2T5uvJfqW
+ FgD4vOsO7cQBgO6ye4C3A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uqFFU+R/qyU=:7NGivjYrUMNBsUkQhEZnTC
+ Bz8XFSK2xIFoUbLGzIQ4tYfkZmkARsWvxG0U5GkhD2jQc7F4RarVAo0PYMsympI+bLIyZoeMY
+ LZkGTEdKcCSZBcbp9wEfiue5IVvuqGU4m8agSxf5zVIk83/gefhDLFvU6YgdKXOxclLRswq+n
+ 1wHyZoLHFxPvqS0vBlFeyH3lQ86gtDQMLCqFSHKNIz0If8FaC6qjL3EPmk71hyTr010qmUNO/
+ lwpNLf6qAUIVHvHlos8BJXXmc/sVlPnJekaV6lbMgGi4rfKp2VmViwCCoQ3Ym0y4dMd0vtrYT
+ lK5gekFz1M0bc61wWMB45rMztnRXs5m4GEN/qWoARZqDhDGAt3y2MPk3N5FWZksZX/huoOB0P
+ yUUjB6LegLBYq5HyNuu4paf0f6jLmgES88n1aD6FSzlI0EMGRODT8QPXiI/P0OQ5k0oW1w4Sh
+ H4nqf8BL2wYy/wyGBC3tG201UPAQ2ChOnzM/cn8hf9SbCevFTxs2zzKuK1zlj91JZf2KreNJG
+ cqq/B7Miftl2i1zUxEluyS2CyKUVszXt48xECr2cBQbG6/5oHhKUEiH0NniqZWwQa2JaQvMfT
+ kusdP9/mh/7e+E/0UM/OKysPzSx+4GrCTxJF4LSZwYN9Jj9rEs9jmx1Kv/Ftrgjxx8uRxx40P
+ cRK9XzvtprSO738VZX9UpIvZlH+cCPGAd20si7mFB8QGBDWyt2TPL9IlYIgoiIQjmgpmb2/ZF
+ OMTFHbJZu4GMDnXkd5MNUt0X55epUJL1wKccrgqkpmd+gzMuvKjHvCePnGizyyqH1EOVMGB3C
+ k0Bub3cyWxFIeVSbJSCFi07onPe4kLMdXfBMFugMe4KRmRTUXEoFgGsViTOKByygFkbxcI4pa
+ 90n4bvXNmhFl4nRTSjgijuc/vdMwqo5iHH/11FzT8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,95 +89,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The TWL92230 is an "energy management device" companion with
-a RTC. Since we mostly model the RTC, move it under the hw/rtc/
-subdirectory.
+Only 2 source files require the "mc146818rtc_regs.h" header.
+Instead of having it processed 12 times, by all objects
+using "mc146818rtc.h", include it directly where used.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20191003230404.19384-8-philmd@redhat.com>
+Message-Id: <20191003230404.19384-13-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- MAINTAINERS                  | 2 +-
- hw/rtc/Kconfig               | 4 ++++
- hw/rtc/Makefile.objs         | 1 +
- hw/{timer => rtc}/twl92230.c | 0
- hw/timer/Kconfig             | 4 ----
- hw/timer/Makefile.objs       | 1 -
- 6 files changed, 6 insertions(+), 6 deletions(-)
- rename hw/{timer => rtc}/twl92230.c (100%)
+ hw/rtc/mc146818rtc.c         | 1 +
+ hw/timer/hpet.c              | 1 +
+ include/hw/rtc/mc146818rtc.h | 1 -
+ 3 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a7de5e2d1253..0dc72d37bdc8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -663,7 +663,7 @@ F: hw/display/blizzard.c
- F: hw/input/lm832x.c
- F: hw/input/tsc2005.c
- F: hw/misc/cbus.c
--F: hw/timer/twl92230.c
-+F: hw/rtc/twl92230.c
- F: include/hw/display/blizzard.h
- F: include/hw/input/tsc2xxx.h
- F: include/hw/misc/cbus.h
-diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-index cc7fead764f4..dff9d60946af 100644
---- a/hw/rtc/Kconfig
-+++ b/hw/rtc/Kconfig
-@@ -8,6 +8,10 @@ config M48T59
- config PL031
-     bool
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index ced15f764fc1..9d4ed54f65e2 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -35,6 +35,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "hw/rtc/mc146818rtc.h"
++#include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-misc-target.h"
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 02bf8a8ce8fc..9f17aaa278e2 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -34,6 +34,7 @@
+ #include "hw/timer/hpet.h"
+ #include "hw/sysbus.h"
+ #include "hw/rtc/mc146818rtc.h"
++#include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/timer/i8254.h"
  
-+config TWL92230
-+    bool
-+    depends on I2C
-+
- config MC146818RTC
-     bool
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 2e9331637a6d..7fa59d4279c5 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -10,7 +10,6 @@
+ #define HW_RTC_MC146818RTC_H
  
-diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-index 4621b37bc2f6..810a38ee7b3d 100644
---- a/hw/rtc/Makefile.objs
-+++ b/hw/rtc/Makefile.objs
-@@ -4,5 +4,6 @@ ifeq ($(CONFIG_ISA_BUS),y)
- common-obj-$(CONFIG_M48T59) += m48t59-isa.o
- endif
- common-obj-$(CONFIG_PL031) += pl031.o
-+common-obj-$(CONFIG_TWL92230) += twl92230.o
- obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
- common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
-diff --git a/hw/timer/twl92230.c b/hw/rtc/twl92230.c
-similarity index 100%
-rename from hw/timer/twl92230.c
-rename to hw/rtc/twl92230.c
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index b04c928136c2..9357875f285d 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -20,10 +20,6 @@ config HPET
- config I8254
-     bool
+ #include "hw/isa/isa.h"
+-#include "hw/rtc/mc146818rtc_regs.h"
  
--config TWL92230
--    bool
--    depends on I2C
--
- config ALTERA_TIMER
-     bool
-     select PTIMER
-diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index 034bd30255c0..23be70b71d32 100644
---- a/hw/timer/Makefile.objs
-+++ b/hw/timer/Makefile.objs
-@@ -7,7 +7,6 @@ common-obj-$(CONFIG_DS1338) += ds1338.o
- common-obj-$(CONFIG_HPET) += hpet.o
- common-obj-$(CONFIG_I8254) += i8254_common.o i8254.o
- common-obj-$(CONFIG_PUV3) += puv3_ost.o
--common-obj-$(CONFIG_TWL92230) += twl92230.o
- common-obj-$(CONFIG_XILINX) += xilinx_timer.o
- common-obj-$(CONFIG_SLAVIO) += slavio_timer.o
- common-obj-$(CONFIG_ETRAXFS) += etraxfs_timer.o
+ #define TYPE_MC146818_RTC "mc146818rtc"
+ 
 -- 
 2.21.0
 
