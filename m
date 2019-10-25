@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC61AE5522
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:27:10 +0200 (CEST)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84870E54E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:10:22 +0200 (CEST)
+Received: from localhost ([::1]:35784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO6Av-0001VM-Jc
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57849)
+	id 1iO5uf-0005uI-3h
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5Ok-0008Kp-F4
+ (envelope-from <alex.bennee@linaro.org>) id 1iO5Oj-0008Jd-Sd
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5Oi-0003A7-U6
+ (envelope-from <alex.bennee@linaro.org>) id 1iO5Oi-00039i-Bt
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:21 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53131)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39434)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO5Oi-00039U-O2
+ id 1iO5Oi-00039C-5s
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:37:20 -0400
-Received: by mail-wm1-x333.google.com with SMTP id p21so3378541wmg.2
+Received: by mail-wr1-x42a.google.com with SMTP id a11so3615835wra.6
  for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 12:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yaLEb0Rvga8cR2LHsL8/9HPdNDQgpcbnXqsduwaSFKE=;
- b=z8VpqLukQT1F29bptzXJlV/hRc+Bbne/mj4dMpLLKByqB+YF+TL7agF3rtGcw68arZ
- /vd2yhSQNtzYCsZ/GSLvPSABoYkIkVmw7TSUTXo3WB2J7kbfiYOORX1xk2banOiLKJ3n
- uaR4NruZkY+jmXjxCETf5H0Sb0VfGYznBn6jPeWT9yQUEEiO3IFkO6idF9vCf0gTCjEX
- ERg+iG8oPNulaJI2dxG13AhMHcSCdh7BOm5c/iMcXWzUJvTauy1UrPjUiGcYC4LmTWsH
- VOnQ3vYRl1thvkaGHezqX48Llm6jWmeQa8+KWmdYR7L7dlPMS42CfXVVx/g413AycA80
- SnbQ==
+ bh=5aMWHoUAPHVKIGtZD9kL4mkNdNLEvsYrFkunGwuaRjU=;
+ b=zs7euPhpqqqyVBRaUXjA4tZtv9vamuMDM+HN4eciZ9hs126H9PJjfh+rUUYqe/UaBn
+ CKQfqaklZ2XnTdAd39SQkki3lEW1VGPMVVFMIhBPBfO4I5wAOWZ9eDlUvrjCuFjsdJ9N
+ yagMd7YaRlfboQuBe8V34yYGGqQ8OMIElzESGY9cCytwmfuyD1nP5MZbEObpijlAUbGZ
+ Z2GGvpiz1506bW3uezPzsBofZY3pNzi6FxDMyHqkygYkwKrpiQKf/kz8+luKVpKhcPSM
+ bmf+Ux8GsOEJiCfuPdLSKJZBBAilW/eWII6o+9ek/wPj8rdsW76yBo0NaSjn/VgK6q9z
+ p2Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yaLEb0Rvga8cR2LHsL8/9HPdNDQgpcbnXqsduwaSFKE=;
- b=RV8eetTb8KDmX4N7qfm0hQuHqPltLCxvt3S3Bki1oRjjhY3/5vMFJQNGeHn4yZpCL3
- Rqe9d5PZMW7PSUgIRDnDDsh3s98GffDFp0ii2vnaAAoCWvMl1810cRwxotAp0EuYrn6A
- qAv3gKjx6SzbODcphY8IkMCdUOW6ez0IKy0EoZ0Fqs90Td/AsF+LHWetpEEAWdNKToQO
- YPXxRDRNBOngkT68Z2pQtESJDe3WqE82kAm3P9s7JEZvXOAtN6QU25nioTLLRxoJcVDz
- VTuovoDOuSuUlMHJO5bTS3ltl1U1WNjftLNfeJ0jJZ4KSIDzs7FMkXSY42oxlWBfJ/i1
- 3DTw==
-X-Gm-Message-State: APjAAAXTt9TrlcJgwooSgcoULcH7lKPgNzFE1nemgyGy0Wj+uDSY+7OY
- ZbNRHyFTzyP8/XYWTR5xQTY3Lw==
-X-Google-Smtp-Source: APXvYqyGiEAL0QdjNgYd9X1yXSVbFore6maxVvzIU9Z0CDg+3mhgVkau7lsqoJg/gD6gI+LGiI1iPA==
-X-Received: by 2002:a1c:7517:: with SMTP id o23mr5219691wmc.34.1572032239588; 
- Fri, 25 Oct 2019 12:37:19 -0700 (PDT)
+ bh=5aMWHoUAPHVKIGtZD9kL4mkNdNLEvsYrFkunGwuaRjU=;
+ b=nLxjNyTbeYl0EgTq9PZZmhrQV4y7m9FhQoTW3iWPy0RP2mNIGyp+SbpWxMKDc4q3rs
+ XhWgSbm+cx4CN5bc2MmIpaMZLrbDRWYfc3LlaUKKdfFEycFa+NmcPZZdVRpDRRT6RMPA
+ vJLqGLfcUluJsOHCd4iVcNlUHhqZYSoAK3qFAVv3Hh89KmOMDbUTa4XLq0gDEaYl9EuE
+ lPNMnYycxCQ+lu4KMhiKJQir+FsyqdsEl009iSJa1jH8ri5B+xwvfgk/0+/4OntcD5Ho
+ ojKbiZFYAXE+pZ6aFKdgoFFDKZK80C7pifYW0OzH3qA/egeK1VEzjXZaey/IwZNlMLZP
+ d7bw==
+X-Gm-Message-State: APjAAAXqsRnrBpAT5M2b+2nM3PoyJ38JbHUnhDzotPY2/RGVsgO9xteg
+ S2QVslDMyJgAk8H3eUa2306wAA0H3vQ=
+X-Google-Smtp-Source: APXvYqxjHXlefSS2FLDOFdc2an5fg55dY42iaMxFV/qJJOCX3x1Mi5f/a+ic1D4f29JGgXWv60iKkA==
+X-Received: by 2002:adf:a4cf:: with SMTP id h15mr4445412wrb.222.1572032238998; 
+ Fri, 25 Oct 2019 12:37:18 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j19sm4479657wre.0.2019.10.25.12.37.13
+ by smtp.gmail.com with ESMTPSA id v128sm4161805wmb.14.2019.10.25.12.37.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Oct 2019 12:37:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 960C31FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id AB1B11FF9E;
  Fri, 25 Oct 2019 20:37:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 13/15] travis.yml: --enable-debug-tcg to check-tcg
-Date: Fri, 25 Oct 2019 20:37:07 +0100
-Message-Id: <20191025193709.28783-14-alex.bennee@linaro.org>
+Subject: [PULL v3 14/15] tests/docker: set HOST_ARCH if we don't have ARCH
+Date: Fri, 25 Oct 2019 20:37:08 +0100
+Message-Id: <20191025193709.28783-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025193709.28783-1-alex.bennee@linaro.org>
 References: <20191025193709.28783-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,33 +87,55 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a whole bunch of asserts which will catch bugs you might
-introduce into the TCG code.
+As the docker rules want to be able to be run on a virgin unconfigured
+checkout add a fallback and use it if we need to.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/.travis.yml b/.travis.yml
-index c43597f1331..ba3a8d4cfc9 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -334,14 +334,14 @@ matrix:
+diff --git a/.shippable.yml b/.shippable.yml
+index bbc6f88510f..f74a3de3ffd 100644
+--- a/.shippable.yml
++++ b/.shippable.yml
+@@ -27,8 +27,6 @@ env:
+       TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
+ build:
+   pre_ci:
+-    # usually host ARCH is set by configure
+-    - echo "ARCH=$(uname -m)" > config-host.mak
+     - make docker-image-${IMAGE} V=1
+   pre_ci_boot:
+     image_name: qemu
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 89c56a3a88c..19dbe261699 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -2,6 +2,8 @@
  
-     # Run check-tcg against linux-user
-     - env:
--        - CONFIG="--disable-system"
-+        - CONFIG="--disable-system --enable-debug-tcg"
-         - TEST_CMD="make -j3 check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ .PHONY: docker docker-test docker-clean docker-image docker-qemu-src
  
++HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
++
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+@@ -88,7 +90,7 @@ endif
  
-     # Run check-tcg against softmmu targets
-     - env:
--        - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-+        - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
-         - TEST_CMD="make -j3 check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ # Enforce dependencies for composite images
+ docker-image-debian9-mxe: docker-image-debian9
+-ifeq ($(ARCH),x86_64)
++ifeq ($(HOST_ARCH),x86_64)
+ docker-image-debian-amd64: docker-image-debian9
+ DOCKER_PARTIAL_IMAGES += debian-amd64-cross
+ else
+@@ -106,7 +108,7 @@ docker-image-debian-win32-cross: docker-image-debian9-mxe
+ docker-image-debian-win64-cross: docker-image-debian9-mxe
  
+ # For non-x86 hosts not all cross-compilers have been packaged
+-ifneq ($(ARCH),x86_64)
++ifneq ($(HOST_ARCH),x86_64)
+ DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
+ DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
+ DOCKER_PARTIAL_IMAGES += debian-s390x-cross
 -- 
 2.20.1
 
