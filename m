@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25CDE44E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:53:29 +0200 (CEST)
-Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC15E449D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:36:37 +0200 (CEST)
+Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNuPY-0006HI-Rb
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40371)
+	id 1iNu9E-0004wD-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtpv-0004ZH-OU
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtWZ-0003ML-8C
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtpt-00079x-QO
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:39 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43954)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtWX-0007eG-HA
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:39 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45945)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtpt-00078s-J6
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:37 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c2so1006745wrr.10
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:37 -0700 (PDT)
+ id 1iNtWX-0007dj-AZ
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:37 -0400
+Received: by mail-wr1-x436.google.com with SMTP id q13so937125wrs.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=izcvnlZHMqS1wnwvRoAGn568i0xGsOfYRGzh3VU8ggs=;
- b=UTy4r7Hb1Xz0ZxD1U6F2Nif6vTifO7lOlI8a/vrzSZ4WESlv3QMLhZ7el3YS9Gjs6U
- NERUe9H0YYGnsZ87p+mhVjjHjETIMlExqhEeFxJtkU3+eD6sNW8VfSSKT/Y95EoZQ+CD
- BhMjZT9gFeGaYIRNlI+5Azz+vQZVDqfsorjtAwlICfXB9sAVu/lix8JI9Z4/3vb3/6yd
- 1ZypXJy4y1UD5X0ql675Lt2egMPhlKSCVCGtmueyzrIFBG7tkNv5EmGyBWhkVc59YUSD
- 1X7YWP9Zm52IAvlIuJeYbMqaHOmUc6iRugBZArWEY0gz23NyWzvckTJ1/ReTyjnP8N8W
- rHwQ==
+ bh=pfQAx5RZvYEJHOBZFdvbNXzxHOiZtn/smcq9fr6c6xw=;
+ b=rQdLN9LL7OSVSBNwRt42fhy6eOOZvLF+fTCCcGBq2hqN3SH8cHRn+AyGf8sQ7tmner
+ femniAfqG6UYFI5hOwU8B/1octAeyrCa11tqMsNB0YOmWxgJnTrnU3DF0whJQxEZsTmd
+ 8DufYLTM/q6cPrLDrGkkVrikdMx1anB5BNdRx31/r0wxro9qaWxvL1sh0LO8AtFj+gct
+ +8SgV5biM7hZRDch7AZljkeM168LLob4LUFMXdTcy0QBzkcLcMxJfxQzAGrUnlR1HeuU
+ LUJdU3NM74JKlPoXnFd8NKX999vlUH+K7MFQmsY+1QGZR/zMPrR59qQ62Puv2h2/kPKG
+ yPKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=izcvnlZHMqS1wnwvRoAGn568i0xGsOfYRGzh3VU8ggs=;
- b=TeWWWNTtzfiRaN1Y6G3keT0ynOll+GLH9Mup/pJHLYgD7S5EJafch7S7cERWNtNxYz
- PnlSS7n/7d+XLDFFposHs5RKujUEuAB0qAV23UaW17uoi+X7pZtbwcs3HauEcd54x86D
- Ptb4Pe+N7amZhhgJuptOG0aT9R3h7K6PztyzqrP0CIETRtB9/wlhPla1aP9Tr+mLYQqy
- j4yUFi7xvhAMXq+YQfO79/L4Wihk8cjxgjpCtFE1qujkEoCovfQKdOW+/KRluqpzJ8OE
- Jiko4Fqz4httPmZAYefJH8jW7m0Dfs9LgQxR1YDOJMGxHTNOB428m5K3ajL6lWCKa5A9
- VZxQ==
-X-Gm-Message-State: APjAAAWAdSlmsM1VAzx0mlT6tmNjT+Y9xmvE2gwiAtevnHzcDo+BdbI2
- MvC1GCip0QcysCwAb9HAi/XY3w==
-X-Google-Smtp-Source: APXvYqzM1LjL7ue6GP6ow9PgFkDjlmlGqcrZYae0h6dYhZN/V/a5AWWl0WmQRo2xGfTwOscNzA6WjA==
-X-Received: by 2002:a5d:5388:: with SMTP id d8mr1455405wrv.92.1571987796251;
- Fri, 25 Oct 2019 00:16:36 -0700 (PDT)
+ bh=pfQAx5RZvYEJHOBZFdvbNXzxHOiZtn/smcq9fr6c6xw=;
+ b=SuOZlfFQ15ks0ujf07U9S5Qx9iUZlIRukbeon1pjN0Av4Q8ICLbXZPzF+0H6HIcDYk
+ ELP6wHwFo0s5sDssX/XTMKVM9ACm1HibBjd3LiRKiftvzop54QgnWBhZhOsoFkUXX94s
+ RHk4uquzYLe2weTWMQgNEO3BcpZ0oI/ERySzgEi8dIGnFFmkaqds9SERp/HbXfX66oie
+ FyMJkVKj9FnXmKjs8VLkKTYPJAib/gWC98m5dzbAwv16vhhoHzznOVbacmOkY6mDkVvv
+ s0EuBPARKHVFeGjLmjG5bX737ZhcPXc3ImKfV5jNHxxfJGqq0yoeDeh9Y4WP06fzyJbg
+ U6EQ==
+X-Gm-Message-State: APjAAAXP7Ot2okIh9+3R4zD4ZkNyYE+sCxJEmSn//CQBEoOUAkxT5hvf
+ VptmIBP/sdgTgBg89vN3ZCDJ4w==
+X-Google-Smtp-Source: APXvYqyf/H8O2WHnlc6exp7bfrHqRpoI73xr/VlMrOVUF5yEXbmyzn6tnl1bx8ZOI5Yq2ur3Tva2og==
+X-Received: by 2002:adf:ea01:: with SMTP id q1mr1300847wrm.240.1571986596106; 
+ Thu, 24 Oct 2019 23:56:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k8sm2557850wrg.15.2019.10.25.00.16.32
+ by smtp.gmail.com with ESMTPSA id g10sm1244118wrr.28.2019.10.24.23.56.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 00:16:32 -0700 (PDT)
+ Thu, 24 Oct 2019 23:56:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ECF491FFD8;
- Fri, 25 Oct 2019 07:37:19 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0E7841FFD9;
+ Fri, 25 Oct 2019 07:37:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 66/73] tests/plugin: add instruction execution breakdown
-Date: Fri, 25 Oct 2019 07:37:06 +0100
-Message-Id: <20191025063713.23374-67-alex.bennee@linaro.org>
+Subject: [PULL v2 67/73] tests/plugin: add hotpages to analyse memory access
+ patterns
+Date: Fri, 25 Oct 2019 07:37:07 +0100
+Message-Id: <20191025063713.23374-68-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -86,41 +87,39 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gives a break down of instruction classes and individual
-instruction types.
+This plugin gives a summary of access patterns grouped by "pages" and
+showing read/write patterns by vCPUS.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
-index e74940eaac5..3656429d46b 100644
+index 3656429d46b..75467b6db85 100644
 --- a/tests/plugin/Makefile
 +++ b/tests/plugin/Makefile
-@@ -11,6 +11,7 @@ NAMES += empty
- NAMES += insn
+@@ -12,6 +12,7 @@ NAMES += insn
  NAMES += mem
  NAMES += hotblocks
-+NAMES += howvec
+ NAMES += howvec
++NAMES += hotpages
  
  SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
  
-diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
+diff --git a/tests/plugin/hotpages.c b/tests/plugin/hotpages.c
 new file mode 100644
-index 00000000000..58fa675e348
+index 00000000000..77df07a3ccf
 --- /dev/null
-+++ b/tests/plugin/howvec.c
-@@ -0,0 +1,352 @@
++++ b/tests/plugin/hotpages.c
+@@ -0,0 +1,191 @@
 +/*
 + * Copyright (C) 2019, Alex Bennée <alex.bennee@linaro.org>
 + *
-+ * How vectorised is this code?
-+ *
-+ * Attempt to measure the amount of vectorisation that has been done
-+ * on some code by counting classes of instruction.
++ * Hot Pages - show which pages saw the most memory accesses.
 + *
 + * License: GNU GPL, version 2 or later.
 + *   See the COPYING file in the top-level directory.
 + */
++
 +#include <inttypes.h>
 +#include <assert.h>
 +#include <stdlib.h>
@@ -134,191 +133,77 @@ index 00000000000..58fa675e348
 +
 +#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 +
-+typedef enum {
-+    COUNT_CLASS,
-+    COUNT_INDIVIDUAL,
-+    COUNT_NONE
-+} CountType;
-+
++static uint64_t page_size = 4096;
++static uint64_t page_mask;
 +static int limit = 50;
-+static bool do_inline;
-+static bool verbose;
++static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
++static bool track_io;
++
++enum sort_type {
++    SORT_RW = 0,
++    SORT_R,
++    SORT_W,
++    SORT_A
++};
++
++static int sort_by = SORT_RW;
++
++typedef struct {
++    uint64_t page_address;
++    int cpu_read;
++    int cpu_write;
++    uint64_t reads;
++    uint64_t writes;
++} PageCounters;
 +
 +static GMutex lock;
-+static GHashTable *insns;
++static GHashTable *pages;
 +
-+typedef struct {
-+    const char *class;
-+    const char *opt;
-+    uint32_t mask;
-+    uint32_t pattern;
-+    CountType what;
-+    uint64_t count;
-+} InsnClassExecCount;
-+
-+typedef struct {
-+    char *insn;
-+    uint32_t opcode;
-+    uint64_t count;
-+    InsnClassExecCount *class;
-+} InsnExecCount;
-+
-+/*
-+ * Matchers for classes of instructions, order is important.
-+ *
-+ * Your most precise match must be before looser matches. If no match
-+ * is found in the table we can create an individual entry.
-+ *
-+ * 31..28 27..24 23..20 19..16 15..12 11..8 7..4 3..0
-+ */
-+static InsnClassExecCount aarch64_insn_classes[] = {
-+    /* "Reserved"" */
-+    { "  UDEF",              "udef",   0xffff0000, 0x00000000, COUNT_NONE},
-+    { "  SVE",               "sve",    0x1e000000, 0x04000000, COUNT_CLASS},
-+    { "Reserved",            "res",    0x1e000000, 0x00000000, COUNT_CLASS},
-+    /* Data Processing Immediate */
-+    { "  PCrel addr",        "pcrel",  0x1f000000, 0x10000000, COUNT_CLASS},
-+    { "  Add/Sub (imm,tags)","asit",   0x1f800000, 0x11800000, COUNT_CLASS},
-+    { "  Add/Sub (imm)",     "asi",    0x1f000000, 0x11000000, COUNT_CLASS},
-+    { "  Logical (imm)",     "logi",   0x1f800000, 0x12000000, COUNT_CLASS},
-+    { "  Move Wide (imm)",   "movwi",  0x1f800000, 0x12800000, COUNT_CLASS},
-+    { "  Bitfield",          "bitf",   0x1f800000, 0x13000000, COUNT_CLASS},
-+    { "  Extract",           "extr",   0x1f800000, 0x13800000, COUNT_CLASS},
-+    { "Data Proc Imm",       "dpri",   0x1c000000, 0x10000000, COUNT_CLASS},
-+    /* Branches */
-+    { "  Cond Branch (imm)", "cndb",   0xfe000000, 0x54000000, COUNT_CLASS},
-+    { "  Exception Gen",     "excp",   0xff000000, 0xd4000000, COUNT_CLASS},
-+    { "    NOP",             "nop",    0xffffffff, 0xd503201f, COUNT_NONE},
-+    { "  Hints",             "hint",   0xfffff000, 0xd5032000, COUNT_CLASS},
-+    { "  Barriers",          "barr",   0xfffff000, 0xd5033000, COUNT_CLASS},
-+    { "  PSTATE",            "psta",   0xfff8f000, 0xd5004000, COUNT_CLASS},
-+    { "  System Insn",       "sins",   0xffd80000, 0xd5080000, COUNT_CLASS},
-+    { "  System Reg",        "sreg",   0xffd00000, 0xd5100000, COUNT_CLASS},
-+    { "  Branch (reg)",      "breg",   0xfe000000, 0xd6000000, COUNT_CLASS},
-+    { "  Branch (imm)",      "bimm",   0x7c000000, 0x14000000, COUNT_CLASS},
-+    { "  Cmp & Branch",      "cmpb",   0x7e000000, 0x34000000, COUNT_CLASS},
-+    { "  Tst & Branch",      "tstb",   0x7e000000, 0x36000000, COUNT_CLASS},
-+    { "Branches",            "branch", 0x1c000000, 0x14000000, COUNT_CLASS},
-+    /* Loads and Stores */
-+    { "  AdvSimd ldstmult",  "advlsm", 0xbfbf0000, 0x0c000000, COUNT_CLASS},
-+    { "  AdvSimd ldstmult++","advlsmp",0xbfb00000, 0x0c800000, COUNT_CLASS},
-+    { "  AdvSimd ldst",      "advlss", 0xbf9f0000, 0x0d000000, COUNT_CLASS},
-+    { "  AdvSimd ldst++",    "advlssp",0xbf800000, 0x0d800000, COUNT_CLASS},
-+    { "  ldst excl",         "ldstx",  0x3f000000, 0x08000000, COUNT_CLASS},
-+    { "    Prefetch",        "prfm",   0xff000000, 0xd8000000, COUNT_CLASS},
-+    { "  Load Reg (lit)",    "ldlit",  0x1b000000, 0x18000000, COUNT_CLASS},
-+    { "  ldst noalloc pair", "ldstnap",0x3b800000, 0x28000000, COUNT_CLASS},
-+    { "  ldst pair",         "ldstp",  0x38000000, 0x28000000, COUNT_CLASS},
-+    { "  ldst reg",          "ldstr",  0x3b200000, 0x38000000, COUNT_CLASS},
-+    { "  Atomic ldst",       "atomic", 0x3b200c00, 0x38200000, COUNT_CLASS},
-+    { "  ldst reg (reg off)","ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
-+    { "  ldst reg (pac)",    "ldstpa", 0x3b200200, 0x38200800, COUNT_CLASS},
-+    { "  ldst reg (imm)",    "ldsti",  0x3b000000, 0x39000000, COUNT_CLASS},
-+    { "Loads & Stores",      "ldst",   0x0a000000, 0x08000000, COUNT_CLASS},
-+    /* Data Processing Register */
-+    { "Data Proc Reg",       "dprr",   0x0e000000, 0x0a000000, COUNT_CLASS},
-+    /* Scalar FP */
-+    { "Scalar FP ",          "fpsimd", 0x0e000000, 0x0e000000, COUNT_CLASS},
-+    /* Unclassified */
-+    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_CLASS},
-+};
-+
-+static InsnClassExecCount sparc32_insn_classes[] = {
-+    { "Call",                "call",   0xc0000000, 0x40000000, COUNT_CLASS},
-+    { "Branch ICond",        "bcc",    0xc1c00000, 0x00800000, COUNT_CLASS},
-+    { "Branch Fcond",        "fbcc",   0xc1c00000, 0x01800000, COUNT_CLASS},
-+    { "SetHi",               "sethi",  0xc1c00000, 0x01000000, COUNT_CLASS},
-+    { "FPU ALU",             "fpu",    0xc1f00000, 0x81a00000, COUNT_CLASS},
-+    { "ALU",                 "alu",    0xc0000000, 0x80000000, COUNT_CLASS},
-+    { "Load/Store",          "ldst",   0xc0000000, 0xc0000000, COUNT_CLASS},
-+    /* Unclassified */
-+    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_INDIVIDUAL},
-+};
-+
-+static InsnClassExecCount sparc64_insn_classes[] = {
-+    { "SetHi & Branches",     "op0",   0xc0000000, 0x00000000, COUNT_CLASS},
-+    { "Call",                 "op1",   0xc0000000, 0x40000000, COUNT_CLASS},
-+    { "Arith/Logical/Move",   "op2",   0xc0000000, 0x80000000, COUNT_CLASS},
-+    { "Arith/Logical/Move",   "op3",   0xc0000000, 0xc0000000, COUNT_CLASS},
-+    /* Unclassified */
-+    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_INDIVIDUAL},
-+};
-+
-+/* Default matcher for currently unclassified architectures */
-+static InsnClassExecCount default_insn_classes[] = {
-+    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_INDIVIDUAL},
-+};
-+
-+typedef struct {
-+    const char *qemu_target;
-+    InsnClassExecCount *table;
-+    int table_sz;
-+} ClassSelector;
-+
-+static ClassSelector class_tables[] =
++static gint cmp_access_count(gconstpointer a, gconstpointer b)
 +{
-+    { "aarch64", aarch64_insn_classes, ARRAY_SIZE(aarch64_insn_classes) },
-+    { "sparc",   sparc32_insn_classes, ARRAY_SIZE(sparc32_insn_classes) },
-+    { "sparc64", sparc64_insn_classes, ARRAY_SIZE(sparc64_insn_classes) },
-+    { NULL, default_insn_classes, ARRAY_SIZE(default_insn_classes) },
-+};
-+
-+static InsnClassExecCount *class_table;
-+static int class_table_sz;
-+
-+static gint cmp_exec_count(gconstpointer a, gconstpointer b)
-+{
-+    InsnExecCount *ea = (InsnExecCount *) a;
-+    InsnExecCount *eb = (InsnExecCount *) b;
-+    return ea->count > eb->count ? -1 : 1;
++    PageCounters *ea = (PageCounters *) a;
++    PageCounters *eb = (PageCounters *) b;
++    int r;
++    switch (sort_by) {
++    case SORT_RW:
++        r = (ea->reads + ea->writes) > (eb->reads + eb->writes) ? -1 : 1;
++        break;
++    case SORT_R:
++        r = ea->reads > eb->reads ? -1 : 1;
++        break;
++    case SORT_W:
++        r = ea->writes > eb->writes ? -1 : 1;
++        break;
++    case SORT_A:
++        r = ea->page_address > eb->page_address ? -1 : 1;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    return r;
 +}
++
 +
 +static void plugin_exit(qemu_plugin_id_t id, void *p)
 +{
-+    g_autoptr(GString) report = g_string_new("Instruction Classes:\n");
++    g_autoptr(GString) report = g_string_new("Addr, RCPUs, Reads, WCPUs, Writes\n");
 +    int i;
 +    GList *counts;
-+    InsnClassExecCount *class = NULL;
 +
-+    for (i = 0; i < class_table_sz; i++) {
-+        class = &class_table[i];
-+        switch (class->what) {
-+        case COUNT_CLASS:
-+            if (class->count || verbose) {
-+                g_string_append_printf(report, "Class: %-24s\t(%ld hits)\n",
-+                                       class->class,
-+                                       class->count);
-+            }
-+            break;
-+        case COUNT_INDIVIDUAL:
-+            g_string_append_printf(report, "Class: %-24s\tcounted individually\n",
-+                                   class->class);
-+            break;
-+        case COUNT_NONE:
-+            g_string_append_printf(report, "Class: %-24s\tnot counted\n",
-+                                   class->class);
-+            break;
-+        default:
-+            break;
-+        }
-+    }
-+
-+    counts = g_hash_table_get_values(insns);
++    counts = g_hash_table_get_values(pages);
 +    if (counts && g_list_next(counts)) {
 +        GList *it;
 +
-+        g_string_append_printf(report,"Individual Instructions:\n");
-+
-+        it = g_list_sort(counts, cmp_exec_count);
++        it = g_list_sort(counts, cmp_access_count);
 +
 +        for (i = 0; i < limit && it->next; i++, it = it->next) {
-+            InsnExecCount *rec = (InsnExecCount *) it->data;
-+            g_string_append_printf(report, "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
-+                                   rec->insn,
-+                                   rec->count,
-+                                   rec->opcode,
-+                                   rec->class ?
-+                                   rec->class->class : "un-categorised");
++            PageCounters *rec = (PageCounters *) it->data;
++            g_string_append_printf(report,
++                                   "%#016"PRIx64", 0x%04x, %"PRId64
++                                   ", 0x%04x, %"PRId64"\n",
++                                   rec->page_address,
++                                   rec->cpu_read, rec->reads,
++                                   rec->cpu_write, rec->writes);
 +        }
 +        g_list_free(it);
 +    }
@@ -328,71 +213,50 @@ index 00000000000..58fa675e348
 +
 +static void plugin_init(void)
 +{
-+    insns = g_hash_table_new(NULL, g_direct_equal);
++    page_mask = (page_size - 1);
++    pages = g_hash_table_new(NULL, g_direct_equal);
 +}
 +
-+static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
++static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
++                       uint64_t vaddr, void *udata)
 +{
-+    uint64_t *count = (uint64_t *) udata;
-+    (*count)++;
-+}
++    struct qemu_plugin_hwaddr *hwaddr = qemu_plugin_get_hwaddr(meminfo, vaddr);
++    uint64_t page;
++    PageCounters *count;
 +
-+static uint64_t * find_counter(struct qemu_plugin_insn *insn)
-+{
-+    int i;
-+    uint64_t *cnt = NULL;
-+    uint32_t opcode;
-+    InsnClassExecCount *class = NULL;
-+
-+    /*
-+     * We only match the first 32 bits of the instruction which is
-+     * fine for most RISCs but a bit limiting for CISC architectures.
-+     * They would probably benefit from a more tailored plugin.
-+     * However we can fall back to individual instruction counting.
-+     */
-+    opcode = *((uint32_t *)qemu_plugin_insn_data(insn));
-+
-+    for (i = 0; !cnt && i < class_table_sz; i++) {
-+        class = &class_table[i];
-+        uint32_t masked_bits = opcode & class->mask;
-+        if (masked_bits == class->pattern) {
-+            break;
++    /* We only get a hwaddr for system emulation */
++    if (track_io) {
++        if (hwaddr && qemu_plugin_hwaddr_is_io(hwaddr)) {
++            page = vaddr;
++        } else {
++            return;
++        }
++    } else {
++        if (hwaddr && !qemu_plugin_hwaddr_is_io(hwaddr)) {
++            page = (uint64_t) qemu_plugin_hwaddr_device_offset(hwaddr);
++        } else {
++            page = vaddr;
 +        }
 +    }
++    page &= ~page_mask;
 +
-+    g_assert(class);
++    g_mutex_lock(&lock);
++    count = (PageCounters *) g_hash_table_lookup(pages, GUINT_TO_POINTER(page));
 +
-+    switch (class->what) {
-+    case COUNT_NONE:
-+        return NULL;
-+    case COUNT_CLASS:
-+        return &class->count;
-+    case COUNT_INDIVIDUAL:
-+    {
-+        InsnExecCount *icount;
-+
-+        g_mutex_lock(&lock);
-+        icount = (InsnExecCount *) g_hash_table_lookup(insns,
-+                                                       GUINT_TO_POINTER(opcode));
-+
-+        if (!icount) {
-+            icount = g_new0(InsnExecCount, 1);
-+            icount->opcode = opcode;
-+            icount->insn = qemu_plugin_insn_disas(insn);
-+            icount->class = class;
-+
-+            g_hash_table_insert(insns, GUINT_TO_POINTER(opcode),
-+                                (gpointer) icount);
-+        }
-+        g_mutex_unlock(&lock);
-+
-+        return &icount->count;
++    if (!count) {
++        count = g_new0(PageCounters, 1);
++        count->page_address = page;
++        g_hash_table_insert(pages, GUINT_TO_POINTER(page), (gpointer) count);
 +    }
-+    default:
-+        g_assert_not_reached();
++    if (qemu_plugin_mem_is_store(meminfo)) {
++        count->writes++;
++        count->cpu_write |= (1 << cpu_index);
++    } else {
++        count->reads++;
++        count->cpu_read |= (1 << cpu_index);
 +    }
 +
-+    return NULL;
++    g_mutex_unlock(&lock);
 +}
 +
 +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
@@ -401,58 +265,34 @@ index 00000000000..58fa675e348
 +    size_t i;
 +
 +    for (i = 0; i < n; i++) {
-+        uint64_t *cnt;
 +        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
-+        cnt = find_counter(insn);
-+
-+        if (cnt) {
-+            if (do_inline) {
-+                qemu_plugin_register_vcpu_insn_exec_inline(
-+                    insn, QEMU_PLUGIN_INLINE_ADD_U64, cnt, 1);
-+            } else {
-+                qemu_plugin_register_vcpu_insn_exec_cb(
-+                    insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, cnt);
-+            }
-+        }
++        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_haddr,
++                                         QEMU_PLUGIN_CB_NO_REGS,
++                                         rw, NULL);
 +    }
 +}
 +
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                                           const qemu_info_t *info,
-+                                           int argc, char **argv)
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
 +{
 +    int i;
 +
-+    /* Select a class table appropriate to the guest architecture */
-+    for (i = 0; i < ARRAY_SIZE(class_tables); i++) {
-+        ClassSelector *entry = &class_tables[i];
-+        if (!entry->qemu_target ||
-+            strcmp(entry->qemu_target, info->target_name) == 0) {
-+            class_table = entry->table;
-+            class_table_sz = entry->table_sz;
-+            break;
-+        }
-+    }
-+
 +    for (i = 0; i < argc; i++) {
-+        char *p = argv[i];
-+        if (strcmp(p, "inline") == 0) {
-+            do_inline = true;
-+        } else if (strcmp(p, "verbose") == 0) {
-+            verbose = true;
++        char *opt = argv[i];
++        if (g_strcmp0(opt, "reads") == 0) {
++            sort_by = SORT_R;
++        } else if (g_strcmp0(opt, "writes") == 0) {
++            sort_by = SORT_W;
++        } else if (g_strcmp0(opt, "address") == 0) {
++            sort_by = SORT_A;
++        } else if (g_strcmp0(opt, "io") == 0) {
++            track_io = true;
++        } else if (g_str_has_prefix(opt, "pagesize=")) {
++            page_size = g_ascii_strtoull(opt + 9, NULL, 10);
 +        } else {
-+            int j;
-+            CountType type = COUNT_INDIVIDUAL;
-+            if (*p == '!') {
-+                type = COUNT_NONE;
-+                p++;
-+            }
-+            for (j = 0; j < class_table_sz; j++) {
-+                if (strcmp(p, class_table[j].opt) == 0) {
-+                    class_table[j].what = type;
-+                    break;
-+                }
-+            }
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
 +        }
 +    }
 +
