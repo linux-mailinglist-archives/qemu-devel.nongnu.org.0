@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DA7E43AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:40:48 +0200 (CEST)
-Received: from localhost ([::1]:55810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3A0E43C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:53:21 +0200 (CEST)
+Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtHD-0008DI-7Z
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
+	id 1iNtTM-0000Yv-1D
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtDv-00033N-1j
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtDu-000312-2Q
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtDt-0008Ni-Vw
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:22 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40998)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtDt-0008NC-0P
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:21 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35097)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtDt-0008NI-Pq
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:21 -0400
-Received: by mail-wr1-x429.google.com with SMTP id p4so902806wrm.8
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:21 -0700 (PDT)
+ id 1iNtDs-0008Mk-PJ
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:20 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id l10so932019wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HDnFETyoSIS8dCFtwOkMGxSV5Cme4iWm+VQG9FYgBJY=;
- b=BVJvA2yqHYZAiaGEyIppJbFRs4G+yCx49/V6avT4Sa/D/zgUQeoKJiakUZdu3stBEy
- QoYV+/8yFVQ71uaUzZEyZZpnGuxBl6aN4/9hHDjeLE4TPoNLi1uRqIxoQrFc6EqBXl/6
- KolpLIlmKhkYiJ2G0VNF+cVjziA6AAmohYAXo27QUiS6Pw0mOVJIoYOpIypWiRwT4Z2D
- sQAE+2gAkPm4epyr5jB1M0Mwula1HFBfRA0EsQzLR8Nz2AqzFbcGAdSUS/6TJxCdw+HN
- 8m9Ht7qHz/O45FWX3DtRvjNb0XV3s0H63EHypDR46CL84DB6DAghqeBgvfWOJ8DYDIHx
- lHdQ==
+ bh=9U6VJzyn/CEOB4/CyQIKZOWv5ZeIvdrRbrpNWyazKps=;
+ b=PfWmAA2tKSj1JXHJduG2Jsmf/itFFTtpUPo3EsUmzgOG6c99pe3YhIXT8WpcUxVwPI
+ EvZN0jGdIKyiyi57XAvBVnu45sRAt3iZKVxY1/BOyOC81e1Geh1RMTaS5DCEzqS60rIp
+ OInFlWo3Z3sZdOafLFKiWAxolDgsxgKGH4DrdZ9EHgJgdoQhdWt8YR7IDy8+OV4xojj7
+ GgA/UV2dtjYg3x55Yy3VvtHsAWNvZnR/5gtBqYLAa6J1ABAHShz3radWhcvUbXTzQg5Z
+ fyGJx1AUjmRkGE+g9+d5U79URcoFLqg8pavtKy7omUcD39PvmrHveYOdklCVXnfZnoC9
+ BBQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HDnFETyoSIS8dCFtwOkMGxSV5Cme4iWm+VQG9FYgBJY=;
- b=p7LQ8ECa8NWWlv0cQ+nPPCqal2c9Itc5fcqvQqa3qu3IRQgI91vU4bfFCpmz5zIAic
- kpj7eczMzUFoPsPVABV7gilJFmoj5BJuFNhoag0PTAxw5E3JAQy62rkWidwdb2CcFuyG
- 90PZKNv51a4jam60B59njqXbNChi8BPjV/DdHkdrltP2xi4DBn69gCDuTqUERoF18Er2
- iO6NFUrer9y4Ue3MtncMiY2JHEFqURcEakSYcaXfjKLMG2/WrycTtl/ezLI2jgbbvjCK
- kQKn2X9gVsJ4ga2CPrgBOiGT18hZe6MSJI4I90+jG0TT1LGkqVkvYLnliaM4PAUGNOuJ
- ViBw==
-X-Gm-Message-State: APjAAAVuw2PChG4Hr7snabMMTwd1rO1h7kyE6ry6m+hmoJlcgJlApVqa
- GjaZMK014JCaj/QM47GqWFLmDg==
-X-Google-Smtp-Source: APXvYqzvnQA7cEtuiXQPHTC06pAqXiIAkUSd+m3DbTr3PyLveYkGD0xDHxT/zj2VAYgnUs5VpIlbvQ==
-X-Received: by 2002:adf:b21a:: with SMTP id u26mr1300646wra.119.1571985440635; 
- Thu, 24 Oct 2019 23:37:20 -0700 (PDT)
+ bh=9U6VJzyn/CEOB4/CyQIKZOWv5ZeIvdrRbrpNWyazKps=;
+ b=dybksaDBU5zfwEnz0UvuWe/J4sOkbjIzJyvXhW9XYQoHhN+f907aWXb21hkCpuo1QB
+ H8+AQPqQRCNCUldWZS7+OTRM+cWIfzmk3A3JPXBmL/i5hCOf/RRnLitb68WcFMSiwBFv
+ ay0Hgg/5fA1GRDXT3zfwkGbYGTz/jgKoM0RvXVbIB20JO19fDarjcoeS8goNfsiLo3Yo
+ gGyc2X/Xu4+uUA9BUP9+4A9jOeBchXgdFCKLGFbv0+fYGIwcRt5tele+3yI1aMXu6MRz
+ C4iEL7G5hfdccd9gYbZh1C6U7Ndt2qOfbksNxN/Gw3gv3T/6SAiHhOK1f1Mbprib+hQM
+ OtNQ==
+X-Gm-Message-State: APjAAAW7vo7VTLLD+/7z4GHKC9+KIK99kWhg6EO/3bYOYRRYKEtM0rEj
+ 8E9s2kPHZDl7NxzWqFFjcfSvJQ==
+X-Google-Smtp-Source: APXvYqxnGCsKkpyhiI2NKmgVjBmGBwYYGPVD/S23ymRH4b4dqI9VYO7GLGEkF6OdoF3C2yhxtVEVQA==
+X-Received: by 2002:adf:9f08:: with SMTP id l8mr1200053wrf.325.1571985439615; 
+ Thu, 24 Oct 2019 23:37:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d11sm1269265wrf.80.2019.10.24.23.37.16
+ by smtp.gmail.com with ESMTPSA id f20sm1069033wmb.6.2019.10.24.23.37.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 23:37:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 312AA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 4515F1FF93;
  Fri, 25 Oct 2019 07:37:14 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 05/73] travis.yml: Fix the ccache lines
-Date: Fri, 25 Oct 2019 07:36:05 +0100
-Message-Id: <20191025063713.23374-6-alex.bennee@linaro.org>
+Subject: [PULL v2 06/73] travis.yml: Test the release tarball
+Date: Fri, 25 Oct 2019 07:36:06 +0100
+Message-Id: <20191025063713.23374-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,45 +83,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The "command -v ccache && ccache ..." likely were supposed to test
-the availability of ccache before running the program. But this
-shell construct causes Travis to abort if ccache is not available.
-Use an if-statement instead to fix this problem.
+Add a job to generate the release tarball and build/install few
+QEMU targets from it.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191009170701.14756-5-thuth@redhat.com>
+Ideally we should build the 'efi' target from the 'roms' directory,
+but it is too time consuming.
+
+This job is only triggered when a tag starting with 'v' is pushed,
+which is the case with release candidate tags.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191007160450.3619-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/.travis.yml b/.travis.yml
-index e65e53f3d7e..7e0d4ad2b31 100644
+index 7e0d4ad2b31..f2b679fe701 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -91,13 +91,13 @@ git:
- 
- before_script:
-   - if [ "$TRAVIS_OS_NAME" == "osx" ] ; then export PATH="/usr/local/opt/ccache/libexec:$PATH" ; fi
--  - command -v ccache && ccache --zero-stats
-+  - if command -v ccache ; then ccache --zero-stats ; fi
-   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-   - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
- script:
-   - make -j3 && travis_retry ${TEST_CMD}
- after_script:
--  - command -v ccache && ccache --show-stats
-+  - if command -v ccache ; then ccache --show-stats ; fi
- 
- 
- matrix:
+@@ -343,3 +343,26 @@ matrix:
+         - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+         - TEST_CMD="make -j3 check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++
++
++    # Release builds
++    # The make-release script expect a QEMU version, so our tag must start with a 'v'.
++    # This is the case when release candidate tags are created.
++    - if: tag IS present AND tag =~ /^v\d+\.\d+(\.\d+)?(-\S*)?$/
++      env:
++        # We want to build from the release tarball
++        - BUILD_DIR="release/build/dir" SRC_DIR="../../.."
++        - BASE_CONFIG="--prefix=$PWD/dist"
++        - CONFIG="--target-list=x86_64-softmmu,aarch64-softmmu,armeb-linux-user,ppc-linux-user"
++        - TEST_CMD="make install -j3"
++        - QEMU_VERSION="${TRAVIS_TAG:1}"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++      before_script:
++        - command -v ccache && ccache --zero-stats
++        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
++      script:
++        - make -C ${SRC_DIR} qemu-${QEMU_VERSION}.tar.bz2
++        - ls -l ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2
++        - tar -xf ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2 && cd qemu-${QEMU_VERSION}
++        - ./configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
++        - make install
 -- 
 2.20.1
 
