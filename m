@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9BDE4411
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:08:39 +0200 (CEST)
-Received: from localhost ([::1]:56400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075C6E43FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:05:06 +0200 (CEST)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNti9-0003OM-LC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38146)
+	id 1iNtei-0000sG-D1
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:05:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtWW-0003EK-HU
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:37 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtN2-000864-UM
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtWV-0007bX-Aj
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:36 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:53062)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtMz-0003Ci-UY
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:47 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51313)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtWV-0007Z1-35
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:56:35 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id p21so809691wmg.2
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:56:34 -0700 (PDT)
+ id 1iNtMu-0003A4-4J
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:40 -0400
+Received: by mail-wm1-x334.google.com with SMTP id q70so790819wme.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ARdcrEhdcWtFfl52Az/c8K3t0fy2I7ICblv42Psekak=;
- b=e+vrO2MIyhFMxPEB1Oau06arYJkfr516sbLEQhJS/M7YK6z1PspKhe4VuSzgjcdERd
- /ub0RUvlAV9S+7ThGXabpaxGHqgXCEO1owMugwt+jGaziRXyDZxnW/jA6z85SHCWjorG
- KeMrHWSLdDU0qF0izLYu4DhRnSOy6E+SwdFAUbUY3NOILIsuZW3xITkaNQgb9ogHmaSc
- 5bIUCXYIW0zrPLJh7nVXQ24JS/AXqYaQQ1PoZwfrilz0hlnRyPq1hI11Jw9F+NBmMGEd
- OHI1iNvNCZMaDidi3e6i4r3OCYRoSCMlun/b4472oP3bcjRIViWCn2w9wpD58Li3uBaO
- /GAg==
+ bh=d77se2AWHQTDPWAjRF6o7tLkcsKtKX6IpL5FuyPE0Bw=;
+ b=pNMhZ45JBOvME59FiyNdglxMN/f9D8Do0wWVkbQIRwk5VNcrXvPBM/jZwGD9SfzL1q
+ mAf4e5Eio+quxIUZYCFNvCsdew4uO0u01TWodA0NQs9vOELS7lgC1887gYmoLZsvI8om
+ GrrRePeBaSy58RazAhCfiWTA2w/D8bRJYy0OtVg/2EQAz16VpbyO69IKwy90VknEH+Gb
+ s0dYMXNYrtlvIzmFyaWeXbg6Sl55ASe2aXXzvh46zWjyNuz0hDgpnlAzDHtvcNAO+0RC
+ uvZR8H5DtRoKZduEeuGPsU3Y7+61GdP2aOh3dyeGMBjvKABDE0F//lozLJ2GOSMlZgBV
+ EyIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ARdcrEhdcWtFfl52Az/c8K3t0fy2I7ICblv42Psekak=;
- b=U7a57fBKbfQ5xoh0C2EPKZ77/Trnt44JH75dNqsKRIYRGZu8pWpmHwLn6zwXqx3AnD
- LctjGLLmdAhP2S9wR+Dkmlo/qtSNccmiRd3W/FDyNyFt1IUbDlQ2AvfB/eNnKODS7i30
- Oq4wOyIY64MpssClP83Dy2KRD6Ue0f2OysxKNSc4l2gXYzMYKQP33rvMJ5m0k/08ubmJ
- C4Ht5WBnww0mou0oYStRY5V0RniRSvix0UqWT0h2w/svyu97O3hkkHb5UewPZnaTuGQT
- jkaRgHGlsedmwOmXZek+f4TOZbLiuaVPj6/s+AxWC9Pq5pKEoaUjSMSJM8Pv7W5G63ja
- g1bQ==
-X-Gm-Message-State: APjAAAWPTjxZnIySyNAgZPmrdZqi3f3JTyqYgZjkVSE8YKJJZGbZgYog
- iH3DMv0YHuMLaXZncUvPfDFl2A==
-X-Google-Smtp-Source: APXvYqxn3FDn46qYAvySqWZoc1uchPcyVESW79MOz9kF2xtfIlNrJ+SF2hZ54PlaJYSi8xaKVP9COQ==
-X-Received: by 2002:a1c:5641:: with SMTP id k62mr1916872wmb.97.1571986593641; 
- Thu, 24 Oct 2019 23:56:33 -0700 (PDT)
+ bh=d77se2AWHQTDPWAjRF6o7tLkcsKtKX6IpL5FuyPE0Bw=;
+ b=NbX2+U0QXFGR0AJYzmhnsvKvGPTNF/8bsVNgkC0Fy6nSOn/EwcuR/sVRO+qjyAocHJ
+ 368yl9Y0mXPJFb3/N6am6uhqAn0uZRoOMa7B7LNICShpb+9NARWr/XwyLTbkNms5CUuj
+ 33+o3LHMhRe/309qEsBej6TzQwgSkoCcaP2HtweSzlrAApXzWFtnrRFUyFyv2lqUxXYa
+ oR5EI+XOJ49ffT2EyBaeW7tEncMwlttcDYsXqyxy3MMa2jfBCwTo4NWmh2VS/tccOSjV
+ 7hyXCzNi3Q17z9itzsGsNFzw3suxKYXn6RrIOtbmXNwUVx1LySpnddQESGKWPXthveu5
+ 0Cjw==
+X-Gm-Message-State: APjAAAVnzO1QvkcnnC4NnMVffSLNrMhD49gRs1GMRMEnli5EbsPiZpoM
+ wVVj7kkGLuPqu+9kbKTGMvuKZA==
+X-Google-Smtp-Source: APXvYqxfzfFW5WBvEvFGQQ+R3mqA4gnaulTkP3CenuRqjVfsc2S2Q9Tvh+SDQh8eSzeS3QvonpsadA==
+X-Received: by 2002:a05:600c:2487:: with SMTP id
+ 7mr1855217wms.164.1571985998432; 
+ Thu, 24 Oct 2019 23:46:38 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a71sm1205364wme.11.2019.10.24.23.56.32
+ by smtp.gmail.com with ESMTPSA id n187sm1570516wmb.47.2019.10.24.23.46.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 23:56:33 -0700 (PDT)
+ Thu, 24 Oct 2019 23:46:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1A89C1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 574441FFB4;
  Fri, 25 Oct 2019 07:37:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 25/73] queue: add QTAILQ_REMOVE_SEVERAL
-Date: Fri, 25 Oct 2019 07:36:25 +0100
-Message-Id: <20191025063713.23374-26-alex.bennee@linaro.org>
+Subject: [PULL v2 28/73] tcg: add tcg_gen_st_ptr
+Date: Fri, 25 Oct 2019 07:36:28 +0100
+Message-Id: <20191025063713.23374-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,43 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-This is faster than removing elements one by one.
-
 Will gain a user soon.
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/include/qemu/queue.h b/include/qemu/queue.h
-index 73bf4a984d8..4764d93ea3f 100644
---- a/include/qemu/queue.h
-+++ b/include/qemu/queue.h
-@@ -420,6 +420,16 @@ union {                                                                 \
-         (elm)->field.tqe_circ.tql_prev = NULL;                          \
- } while (/*CONSTCOND*/0)
+diff --git a/tcg/tcg-op.h b/tcg/tcg-op.h
+index e9cf172762e..7c778f96f3b 100644
+--- a/tcg/tcg-op.h
++++ b/tcg/tcg-op.h
+@@ -1249,6 +1249,11 @@ static inline void tcg_gen_ld_ptr(TCGv_ptr r, TCGv_ptr a, intptr_t o)
+     glue(tcg_gen_ld_,PTR)((NAT)r, a, o);
+ }
  
-+/* remove @left, @right and all elements in between from @head */
-+#define QTAILQ_REMOVE_SEVERAL(head, left, right, field) do {            \
-+        if (((right)->field.tqe_next) != NULL)                          \
-+            (right)->field.tqe_next->field.tqe_circ.tql_prev =          \
-+                (left)->field.tqe_circ.tql_prev;                        \
-+        else                                                            \
-+            (head)->tqh_circ.tql_prev = (left)->field.tqe_circ.tql_prev; \
-+        (left)->field.tqe_circ.tql_prev->tql_next = (right)->field.tqe_next; \
-+    } while (/*CONSTCOND*/0)
++static inline void tcg_gen_st_ptr(TCGv_ptr r, TCGv_ptr a, intptr_t o)
++{
++    glue(tcg_gen_st_, PTR)((NAT)r, a, o);
++}
 +
- #define QTAILQ_FOREACH(var, head, field)                                \
-         for ((var) = ((head)->tqh_first);                               \
-                 (var);                                                  \
+ static inline void tcg_gen_discard_ptr(TCGv_ptr a)
+ {
+     glue(tcg_gen_discard_,PTR)((NAT)a);
 -- 
 2.20.1
 
