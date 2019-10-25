@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16D6E5564
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:46:21 +0200 (CEST)
-Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85E5E5576
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:51:39 +0200 (CEST)
+Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO6TU-0003Zh-FF
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35252)
+	id 1iO6Yc-0002IG-Kc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iO6Fh-0003bD-32
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:32:06 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iO6I8-0002Cc-JD
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:34:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iO6Fd-0006Cc-3P
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:32:02 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:35922)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iO6Fc-00067c-J3
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:32:01 -0400
-Received: by mail-lf1-x144.google.com with SMTP id u16so2846707lfq.3
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=liPsnNhb6zm0Y030WC/f4qnofzc2vYL2mJjUoU6rTgs=;
- b=KcV10b9uch+uI/2gHfYDwXRaHh7oT2NdoVv3BBCkW9joz7rJT8JL990Uq+az3zrMXr
- +Yu3DEEtpSE0vkZcnnM0wAKQJA7a3Z8wt11llNZ14pOk40CYRxo/IBy+70AD3DycX5ja
- AWeHad/dV3qAnlcnkdhghVens5+B68c80J3bxSEs/CN1w0jMxMR3bRcc/Pu3b5upeY7U
- TPBrMQto2l5bSWZtly87VX2TZdoHQRKaFAUjDvM9Pm0YgvijXB6tb4FrDbzRu74cm72O
- 7n06xQ4Chh33uocm9fUjNWWnvVyJJvjYBdOtRMNkXOtsVvqpnXl28TnYpi52zUrt396K
- uuXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=liPsnNhb6zm0Y030WC/f4qnofzc2vYL2mJjUoU6rTgs=;
- b=O0cyOXFYDpdyi9kyjlS43xlC9o3JvQR71GItcWE0gUdLg1T3W4vyzycgIEUYa30Cgk
- CwHOsMA9gnz7GUq4C/fmrutwnDgdPeI+UOcpOPPrEcvdQJU9o0Hb+5sMNCJnMUTUb61e
- COC27H4OL18sCrWJzLPKxkCAIlyrqD5BBgqmeP5R9kd7YFtDXQa/aa1iQw2PHGXf+K7i
- iHjK9IB/q5Ox8+CuEeQLE0oGcuQKvuDhWMDpXBbfaHim8fBilfkCc6/jm0PLP+6lVPAs
- g40Por/0imUbGAP+pmHKSPL24rs6AwtTeoCDvgRwIebywnM/wTlZcts1SGJ3kspWZKSd
- jJZQ==
-X-Gm-Message-State: APjAAAX5BmyO9P7uX3lWQg0OeachxyHiX05v9tjkQtQgA71bouk6QZio
- O0QA+3S8FmA3/MCAB9/fxhhLc8iFVJwK/YM2nkc=
-X-Google-Smtp-Source: APXvYqxGy2ptC/0vJCqxfG1c8HfnYylfvoKzPcmQ1pzIw4hGwZc/qxFpHsDETLF+QUUAhYTRYixVbHB4gh8dbvZpqII=
-X-Received: by 2002:ac2:5dd5:: with SMTP id x21mr3999364lfq.156.1572035519014; 
- Fri, 25 Oct 2019 13:31:59 -0700 (PDT)
+ (envelope-from <ehabkost@redhat.com>) id 1iO6I6-0000JG-PR
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:34:35 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42706
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iO6I6-0000Ig-GU
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:34:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572035673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kFOQG1Url58ubdBmLmcdkmGh9cHT7ydVMBZuPvm0HqI=;
+ b=R5QMYFvtqlXtPIaE8H6gywMmxnfiJvnj5rFl+01flgj1SJGK8KIGN2aaApkRNB5EP83ShV
+ ic3JLLmLR7viSoIb6UpSdBaKd+VDM5Hp7A34yju2aXjzZ+e5hVX1c4Q0v8hNCcitdD/LLX
+ O3Fkqc0d/cGPtSuY+gvzN8GydH3Lnl0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-XzPVY2dRMrSdpSbVgQFx4Q-1; Fri, 25 Oct 2019 16:34:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1554247B;
+ Fri, 25 Oct 2019 20:34:29 +0000 (UTC)
+Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2D921001B33;
+ Fri, 25 Oct 2019 20:34:28 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/1] Require Python >= 3.5 to build QEMU
+Date: Fri, 25 Oct 2019 17:34:26 -0300
+Message-Id: <20191025203427.20181-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <1571981531-27498-1-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1571981531-27498-1-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 25 Oct 2019 13:31:32 -0700
-Message-ID: <CAKmqyKMdO1k1YaYvpbA4hGai6a5mPMG2_Du3u7XdyEGcYz8J=Q@mail.gmail.com>
-Subject: Re: [PATCH v5] ssi: xilinx_spips: Skip spi bus update for a few
- register writes
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::144
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: XzPVY2dRMrSdpSbVgQFx4Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,99 +68,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Iglesias <frasse.iglesias@gmail.com>,
- Edgar Iglesias <edgari@xilinx.com>, Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 24, 2019 at 10:31 PM Sai Pavan Boddu
-<sai.pavan.boddu@xilinx.com> wrote:
->
-> A few configuration register writes need not update the spi bus state, so just
-> return after register write.
->
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+The following changes since commit 03bf012e523ecdf047ac56b2057950247256064d=
+:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
+ng (2019-10-25 14:59:53 +0100)
 
-Alistair
+are available in the Git repository at:
 
-> ---
->
-> Changes for V2:
->         Just skip update of spips cs and fifos
->         Update commit message accordingly
-> Changes for V4:
->         Avoid checking for zynqmp qspi
->         Skip spi bus update for few of the registers Changes for V4:
->         Move the register list to existing switch case above.
-> Change for V5:
->         Fixed Commit message.
->
->  hw/ssi/xilinx_spips.c | 22 ++++++++++++++++++----
->  1 file changed, 18 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-> index a309c71..0d6c2e1 100644
-> --- a/hw/ssi/xilinx_spips.c
-> +++ b/hw/ssi/xilinx_spips.c
-> @@ -109,6 +109,7 @@
->  #define R_GPIO              (0x30 / 4)
->  #define R_LPBK_DLY_ADJ      (0x38 / 4)
->  #define R_LPBK_DLY_ADJ_RESET (0x33)
-> +#define R_IOU_TAPDLY_BYPASS (0x3C / 4)
->  #define R_TXD1              (0x80 / 4)
->  #define R_TXD2              (0x84 / 4)
->  #define R_TXD3              (0x88 / 4)
-> @@ -139,6 +140,8 @@
->  #define R_LQSPI_STS         (0xA4 / 4)
->  #define LQSPI_STS_WR_RECVD      (1 << 1)
->
-> +#define R_DUMMY_CYCLE_EN    (0xC8 / 4)
-> +#define R_ECO               (0xF8 / 4)
->  #define R_MOD_ID            (0xFC / 4)
->
->  #define R_GQSPI_SELECT          (0x144 / 4)
-> @@ -970,6 +973,7 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
->  {
->      int mask = ~0;
->      XilinxSPIPS *s = opaque;
-> +    bool try_flush = true;
->
->      DB_PRINT_L(0, "addr=" TARGET_FMT_plx " = %x\n", addr, (unsigned)value);
->      addr >>= 2;
-> @@ -1019,13 +1023,23 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
->          tx_data_bytes(&s->tx_fifo, (uint32_t)value, 3,
->                        s->regs[R_CONFIG] & R_CONFIG_ENDIAN);
->          goto no_reg_update;
-> +    /* Skip SPI bus update for below registers writes */
-> +    case R_GPIO:
-> +    case R_LPBK_DLY_ADJ:
-> +    case R_IOU_TAPDLY_BYPASS:
-> +    case R_DUMMY_CYCLE_EN:
-> +    case R_ECO:
-> +        try_flush = false;
-> +        break;
->      }
->      s->regs[addr] = (s->regs[addr] & ~mask) | (value & mask);
->  no_reg_update:
-> -    xilinx_spips_update_cs_lines(s);
-> -    xilinx_spips_check_flush(s);
-> -    xilinx_spips_update_cs_lines(s);
-> -    xilinx_spips_update_ixr(s);
-> +    if (try_flush) {
-> +        xilinx_spips_update_cs_lines(s);
-> +        xilinx_spips_check_flush(s);
-> +        xilinx_spips_update_cs_lines(s);
-> +        xilinx_spips_update_ixr(s);
-> +    }
->  }
->
->  static const MemoryRegionOps spips_ops = {
-> --
-> 2.7.4
->
->
+  git://github.com/ehabkost/qemu.git tags/python-next-pull-request
+
+for you to fetch changes up to d24e417866f85229de1b75bc5c0a1d942451a842:
+
+  configure: Require Python >=3D 3.5 (2019-10-25 16:34:57 -0300)
+
+----------------------------------------------------------------
+Require Python >=3D 3.5 to build QEMU
+
+----------------------------------------------------------------
+
+Eduardo Habkost (1):
+  configure: Require Python >=3D 3.5
+
+ configure              | 18 ++++--------------
+ tests/Makefile.include |  5 -----
+ 2 files changed, 4 insertions(+), 19 deletions(-)
+
+--=20
+2.21.0
+
 
