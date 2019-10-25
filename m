@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2747DE4430
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:15:29 +0200 (CEST)
-Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369A1E4464
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:28:30 +0200 (CEST)
+Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtol-0000m5-Gd
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:15:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1iNu1M-0007ZL-LO
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtN8-00088U-EZ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:56 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtpz-0004fv-84
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtN6-0003Hi-TN
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:54 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35164)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtpw-0007DG-Qm
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:43 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38958)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtN4-0003BK-OC
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:52 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l10so956757wrb.2
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:46:42 -0700 (PDT)
+ id 1iNtpw-0007Cg-KU
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:40 -0400
+Received: by mail-wm1-x332.google.com with SMTP id r141so854609wme.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BlVPTXUE+8KwJhfzqDWAcBn9rcfGn0EwpwkN7L2kZ/g=;
- b=uDvByOEMTl6kPqlyoTri2+TmxebnUuDxLWSWe9MnIAD9cB+JwOIrirHuFRLso4i4MX
- 507f9CSE7D8Sueue4ZmRslr+dPgZlQlsxjzM3dKbMxAH3Eq+Bj8g8NbzH8EzqRvS4ckf
- VYN0xLrGDNUsRr/zeXKereJn2c8HIDiAzjIbyMxmEFc0MefxqdXcixSV3Moxa8HjXWHj
- cPJYif3huJpOW4+Sc2989dGzD0tcVkCkSzehnXKp1pUeTyPuEYgnNR0Dn1m2IRKjMs13
- rNPAq992j9qUDp339OVfo74dN0j0yQf/bWwT5+k6X6xddK6l4s9xATBvWZ/e/g+wNnHD
- +lSQ==
+ bh=X9uOunAsx7Jvs5CSUNvC6FsYnZMcFnpqu3r55fNjaWc=;
+ b=EcXAeJIbBofHsAmXdo9HkxWK4GDPA6Inthin6Vro718hYwG0R8S6P+i77th3z4vA/Q
+ nwgL0BCRwlMWT7Y7Xhd6Z1D5wLhFfL69mtRvmwTBKs3DZsJhN/c6ik8KfV7do8owDaZN
+ Uc7qwyVbckPWiW/xC707QV8I1pDXoyr5Og2MRacf7qYrbdHqnxVC82k8Z/xT6fJsF8YB
+ lcPGAXc6YP4Ks7g/pCUsHFPz834I01/JLWDMKm6FTuwUpWKYHPAPJ9J3RhAIQTo7Pfk5
+ x9+fZ79yQSBMmFJQrAfUjYGF/SNU9rPXjmbM8FnokvvnPnYKGam4XNWH4Yc5uvD/1LDn
+ 8/1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BlVPTXUE+8KwJhfzqDWAcBn9rcfGn0EwpwkN7L2kZ/g=;
- b=DCu8v5kqrEpf17No2bjddvystQju/hcr6XvfBsGtXYjAWAXQ1t/lYVTlJQVjrrEtan
- NMkzJgEQctDwe9Mif/+y8a4S1GQVFq/kCJbDr3nFfNJVdvlxjWJ1KS9fVVGkBxl9DnQi
- 0Ha5ffyWjJe7bNTsQR2aFoI/HRRQ63w1fruha4ZIIY/qMhrQop/QXoV1KzPVga9c0O0h
- VkB19A5Aa+gy4dPbxGCXsfnQaSyDzRtDyPZE0MpZEQeQ9jFFAniuBD985P+QQev2MFOk
- nLTc37oRwShXgE4LGH+aPEi/5PqJh8WagTqDkA3rak2xQK3dO4CaFLh9lQ6LN1lvAaHM
- 3G8w==
-X-Gm-Message-State: APjAAAWSNpdvF9vdHpyfbTBBul84/hK6aRVq8AaFO5Sq+6kxqeyvDWNy
- Oz2j41COIn1axjTxur+cjB5TIA==
-X-Google-Smtp-Source: APXvYqyQ6dQfpwWbDXtjGSwpMfKy2FWLqOl0yPNE3bA6lO7yGHCLGJCkAA24JGAi1slOHpQnuAZBCg==
-X-Received: by 2002:a5d:51c3:: with SMTP id n3mr1308685wrv.5.1571986001590;
- Thu, 24 Oct 2019 23:46:41 -0700 (PDT)
+ bh=X9uOunAsx7Jvs5CSUNvC6FsYnZMcFnpqu3r55fNjaWc=;
+ b=Og/fIwtmldWvgSGs7o4od1RUiUa5X6v0snhQj793me5CZQZ+JkzvxaXUWHMsWkAQVz
+ 4061cKIDckqCz5URJOLsupszN4NCA6IIc0r+f+zpvQj86fSancMszO5tH/uSjUJ4Bio/
+ 23VZx5y2o1JePeWzaQfob4ezikOZAbxPZpATTpgBpmguETQ7TMGnHgxourodKE/tExPK
+ LU0bbd6G3qCFTT6ZVWaB9Impkl4ISeO8TY1hUFaFqhoB5KxeyxDxQueeeAL7zk/27rvD
+ wyYoKTHKqIKHmEPQhffgByZpRVXfWVW+kONxN5A/OU6D6Y4dksKHgDLMfuXQ9kukxXkX
+ IpHg==
+X-Gm-Message-State: APjAAAVlRNBoP0sa0EpN6K7nqexu6aG6FI6vON0i2yrm1v4Q8YXmy28w
+ gP76vzgf5cNEMuLhC71hjXSHUQ==
+X-Google-Smtp-Source: APXvYqzUlEi8FnWZJov6QVM70qN5jcx0vGbHdHRM5O4dmiWehvAkoR261XjkP6tQ4DVMdlh24XIiMA==
+X-Received: by 2002:a05:600c:219:: with SMTP id
+ 25mr1910518wmi.174.1571987799347; 
+ Fri, 25 Oct 2019 00:16:39 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c189sm1241767wme.24.2019.10.24.23.46.35
+ by smtp.gmail.com with ESMTPSA id r3sm1519258wre.29.2019.10.25.00.16.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 23:46:36 -0700 (PDT)
+ Fri, 25 Oct 2019 00:16:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 671411FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 7E5561FFBF;
  Fri, 25 Oct 2019 07:37:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 38/73] cputlb: ensure _cmmu helper functions follow the
- naming standard
-Date: Fri, 25 Oct 2019 07:36:38 +0100
-Message-Id: <20191025063713.23374-39-alex.bennee@linaro.org>
+Subject: [PULL v2 39/73] translator: add translator_ld{ub,sw,uw,l,q}
+Date: Fri, 25 Oct 2019 07:36:39 +0100
+Message-Id: <20191025063713.23374-40-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,167 +83,132 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We document this in docs/devel/load-stores.rst so lets follow it. The
-32 bit and 64 bit access functions have historically not included the
-sign so we leave those as is. We also introduce some signed helpers
-which are used for loading immediate values in the translator.
+From: "Emilio G. Cota" <cota@braap.org>
 
-Fixes: 282dffc8
+We don't bother with replicating the fast path (tlb_hit) of the old
+cpu_ldst helpers as it has no measurable effect on performance. This
+probably indicates we should consider flattening the whole set of
+helpers but that is out of scope for this change.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+[AJB: directly plumb into softmmu/user helpers]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191021150910.23216-1-alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 2c06b57272e..c7a986d7cb2 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1920,12 +1920,18 @@ static uint64_t full_ldub_cmmu(CPUArchState *env, target_ulong addr,
-     return load_helper(env, addr, oi, retaddr, MO_8, true, full_ldub_cmmu);
- }
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 9151fdb042c..fd499f7e2ff 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -129,6 +129,11 @@ static inline void clear_helper_retaddr(void)
+ #include "exec/cpu_ldst_useronly_template.h"
+ #undef MEMSUFFIX
  
--uint8_t helper_ret_ldb_cmmu(CPUArchState *env, target_ulong addr,
-+uint8_t helper_ret_ldub_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     return full_ldub_cmmu(env, addr, oi, retaddr);
- }
++/*
++ * Code access is deprecated in favour of translator_ld* functions
++ * (see translator.h). However there are still users that need to
++ * converted so for now these stay.
++ */
+ #define MEMSUFFIX _code
+ #define CODE_ACCESS
+ #define DATA_SIZE 1
+@@ -427,6 +432,12 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+ #undef CPU_MMU_INDEX
+ #undef MEMSUFFIX
  
-+int8_t helper_ret_ldsb_cmmu(CPUArchState *env, target_ulong addr,
-+                            TCGMemOpIdx oi, uintptr_t retaddr)
-+{
-+    return (int8_t) full_ldub_cmmu(env, addr, oi, retaddr);
-+}
++/*
++ * Code access is deprecated in favour of translator_ld* functions
++ * (see translator.h). However there are still users that need to
++ * converted so for now these stay.
++ */
 +
- static uint64_t full_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-@@ -1933,12 +1939,18 @@ static uint64_t full_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                        full_le_lduw_cmmu);
- }
+ #define CPU_MMU_INDEX (cpu_mmu_index(env, true))
+ #define MEMSUFFIX _code
+ #define SOFTMMU_CODE_ACCESS
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 180c51d5092..459dd72aabc 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -19,7 +19,10 @@
+  */
  
--uint16_t helper_le_ldw_cmmu(CPUArchState *env, target_ulong addr,
-+uint16_t helper_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     return full_le_lduw_cmmu(env, addr, oi, retaddr);
- }
  
-+int16_t helper_le_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                            TCGMemOpIdx oi, uintptr_t retaddr)
-+{
-+    return (int16_t) full_le_lduw_cmmu(env, addr, oi, retaddr);
-+}
++#include "qemu/bswap.h"
+ #include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "exec/plugin-gen.h"
+ #include "tcg/tcg.h"
+ 
+ 
+@@ -142,4 +145,61 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+ 
+ void translator_loop_temp_check(DisasContextBase *db);
+ 
+-#endif /* EXEC__TRANSLATOR_H */
++/*
++ * Translator Load Functions
++ *
++ * These are intended to replace the old cpu_ld*_code functions and
++ * are mandatory for front-ends that have been migrated to the common
++ * translator_loop. These functions are only intended to be called
++ * from the translation stage and should not be called from helper
++ * functions. Those functions should be converted to encode the
++ * relevant information at translation time.
++ */
 +
- static uint64_t full_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-@@ -1946,12 +1958,18 @@ static uint64_t full_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                        full_be_lduw_cmmu);
- }
- 
--uint16_t helper_be_ldw_cmmu(CPUArchState *env, target_ulong addr,
-+uint16_t helper_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     return full_be_lduw_cmmu(env, addr, oi, retaddr);
- }
- 
-+int16_t helper_be_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                            TCGMemOpIdx oi, uintptr_t retaddr)
-+{
-+    return (int16_t) full_be_lduw_cmmu(env, addr, oi, retaddr);
-+}
++#ifdef CONFIG_USER_ONLY
 +
- static uint64_t full_le_ldul_cmmu(CPUArchState *env, target_ulong addr,
-                                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
-index 6f0d3407979..54b5e858cee 100644
---- a/include/exec/cpu_ldst_template.h
-+++ b/include/exec/cpu_ldst_template.h
-@@ -66,8 +66,8 @@
- #ifdef SOFTMMU_CODE_ACCESS
- #define ADDR_READ addr_code
- #define MMUSUFFIX _cmmu
--#define URETSUFFIX SUFFIX
--#define SRETSUFFIX SUFFIX
-+#define URETSUFFIX USUFFIX
-+#define SRETSUFFIX glue(s, SUFFIX)
- #else
- #define ADDR_READ addr_read
- #define MMUSUFFIX _mmu
-diff --git a/target/cris/translate_v10.inc.c b/target/cris/translate_v10.inc.c
-index a87b8bb2813..ae34a0d1a3d 100644
---- a/target/cris/translate_v10.inc.c
-+++ b/target/cris/translate_v10.inc.c
-@@ -1202,8 +1202,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-         case CRISV10_IND_BCC_M:
- 
-             cris_cc_mask(dc, 0);
--            imm = cpu_ldsw_code(env, dc->pc + 2);
--            simm = (int16_t)imm;
-+            simm = cpu_ldsw_code(env, dc->pc + 2);
-             simm += 4;
- 
-             LOG_DIS("bcc_m: b%s %x\n", cc_name(dc->cond), dc->pc + simm);
-diff --git a/tcg/tcg.h b/tcg/tcg.h
-index a38659ea5b3..92ca10dffc1 100644
---- a/tcg/tcg.h
-+++ b/tcg/tcg.h
-@@ -1290,16 +1290,22 @@ void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
- void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
-                        TCGMemOpIdx oi, uintptr_t retaddr);
- 
--uint8_t helper_ret_ldb_cmmu(CPUArchState *env, target_ulong addr,
-+uint8_t helper_ret_ldub_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
--uint16_t helper_le_ldw_cmmu(CPUArchState *env, target_ulong addr,
-+int8_t helper_ret_ldsb_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
-+uint16_t helper_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
-+int16_t helper_le_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint32_t helper_le_ldl_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint64_t helper_le_ldq_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
--uint16_t helper_be_ldw_cmmu(CPUArchState *env, target_ulong addr,
--                            TCGMemOpIdx oi, uintptr_t retaddr);
-+uint16_t helper_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
-+int16_t helper_be_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint32_t helper_be_ldl_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
-@@ -1316,7 +1322,8 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
- # define helper_ret_stw_mmu   helper_be_stw_mmu
- # define helper_ret_stl_mmu   helper_be_stl_mmu
- # define helper_ret_stq_mmu   helper_be_stq_mmu
--# define helper_ret_ldw_cmmu  helper_be_ldw_cmmu
-+# define helper_ret_lduw_cmmu  helper_be_lduw_cmmu
-+# define helper_ret_ldsw_cmmu  helper_be_ldsw_cmmu
- # define helper_ret_ldl_cmmu  helper_be_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_be_ldq_cmmu
- #else
-@@ -1329,7 +1336,8 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
- # define helper_ret_stw_mmu   helper_le_stw_mmu
- # define helper_ret_stl_mmu   helper_le_stl_mmu
- # define helper_ret_stq_mmu   helper_le_stq_mmu
--# define helper_ret_ldw_cmmu  helper_le_ldw_cmmu
-+# define helper_ret_lduw_cmmu  helper_le_lduw_cmmu
-+# define helper_ret_ldsw_cmmu  helper_le_ldsw_cmmu
- # define helper_ret_ldl_cmmu  helper_le_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_le_ldq_cmmu
- #endif
++#define DO_LOAD(type, name, shift)               \
++    do {                                         \
++        set_helper_retaddr(1);                   \
++        ret = name ## _p(g2h(pc));               \
++        clear_helper_retaddr();                  \
++    } while (0)
++
++#else
++
++#define DO_LOAD(type, name, shift)                          \
++    do {                                                    \
++        int mmu_idx = cpu_mmu_index(env, true);             \
++        TCGMemOpIdx oi = make_memop_idx(shift, mmu_idx);    \
++        ret = helper_ret_ ## name ## _cmmu(env, pc, oi, 0); \
++    } while (0)
++
++#endif
++
++#define GEN_TRANSLATOR_LD(fullname, name, type, shift, swap_fn)         \
++    static inline type                                                  \
++    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
++    {                                                                   \
++        type ret;                                                       \
++        DO_LOAD(type, name, shift);                                     \
++                                                                        \
++        if (do_swap) {                                                  \
++            ret = swap_fn(ret);                                         \
++        }                                                               \
++        plugin_insn_append(&ret, sizeof(ret));                          \
++        return ret;                                                     \
++    }                                                                   \
++                                                                        \
++    static inline type fullname(CPUArchState *env, abi_ptr pc)          \
++    {                                                                   \
++        return fullname ## _swap(env, pc, false);                       \
++    }
++
++GEN_TRANSLATOR_LD(translator_ldub, ldub, uint8_t, 0, /* no swap */ )
++GEN_TRANSLATOR_LD(translator_ldsw, ldsw, int16_t, 1, bswap16)
++GEN_TRANSLATOR_LD(translator_lduw, lduw, uint16_t, 1, bswap16)
++GEN_TRANSLATOR_LD(translator_ldl, ldl, uint32_t, 2, bswap32)
++GEN_TRANSLATOR_LD(translator_ldq, ldq, uint64_t, 3, bswap64)
++#undef GEN_TRANSLATOR_LD
++
++#endif  /* EXEC__TRANSLATOR_H */
 -- 
 2.20.1
 
