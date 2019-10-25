@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D752E43D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:56:14 +0200 (CEST)
-Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28035E43C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:53:20 +0200 (CEST)
+Received: from localhost ([::1]:56068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtW8-0007TC-T0
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
+	id 1iNtTK-0000VI-TR
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35509)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtDx-0003B0-J3
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:26 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtDz-0003F3-3C
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtDw-0008PN-Kh
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:25 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53572)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtDx-0008Pd-2y
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:27 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35892)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtDw-0008Ou-Ea
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:24 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id n7so761757wmc.3
+ id 1iNtDw-0008P7-TN
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:25 -0400
+Received: by mail-wm1-x333.google.com with SMTP id c22so765604wmd.1
  for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0daDUPmy7VqJtOPnYQKTH35LlZ0A9ZxcamAsZRQwgj4=;
- b=yDqArvksbhSUaibIWxhFzsUnuES/S1gxKsRTrslnosnHokbP/UCnUbfJOD3r/d4jum
- ItHMwqAf0Ml8dMm9mbN5VkOXjljJjhc5npwxL42HdP8lM+cOGSQGkPtcLHA7T//z0WIA
- G7yjJb4hySRKfurFwur0T5gJS1ni59iLXUjdvtb2MtTRYMciqobQPnRov30+XjUuCmZB
- pS+EZFrnH2dNXZCV5XI++K8e39Q0pZPG3p8PUxLNU04Bw6kHwkN8s/XIgUuUIwJmBJ01
- eZUmYg3nrjPu/8g0KO2Pb/NdWiGD+09NsqcJbZdeBK5KjO4BDAIVvR/kVSGRityhQzY9
- 9juQ==
+ bh=KMazBJxRnY0zm7YsZlBAdLDLJgZeGc4MSXDFTtk/xpM=;
+ b=GNIlXtzBhwrtoqWrbFpsN/cIUOXNuxaoT6Wlx7XeTbIUkU50xnhQA3rifiW8ZFXjyE
+ twgwfgFZov1y/s+Eku1PCbTSCp3n8rLw4e0qlTb3O3fCBm1MQDt/GMJ5BuL8PhrwGk4I
+ ZqTMDlq7OlI3kTzqhD1qW72CI6XWs+POtXvI9AXyXWZ5Ib/SbFJD/3LmvwddwmEV5Mkm
+ EgTihJuqaOWnc29OMnPJ0c6OG/HT/OefIE4Ni2HRO3XE/1xOWJSfErPix5cvR9Hro8u8
+ 0HfOWQB30CbBQlhNV+pDiq4RhHR/DvUcVDa2V84MMK4E2M6PEqvETZAVVNAuq4zU3r/2
+ TA0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0daDUPmy7VqJtOPnYQKTH35LlZ0A9ZxcamAsZRQwgj4=;
- b=DQYOun2IzLhceGf5xEU+JRuhQCT8phgY2ssQNLaeWgu4YneuKSn80ioMx9rkBV4LG0
- LBd9Z7exJzTEBm2Bc59YklGwe9xHWWTW4uPIR7YbuUw1slv9oUCnyC9ppSW5hYz1wL26
- Kj5zzXkgUD4C4FP2GEyVGrQt/+02ycusC4442HH51+zRcqMdGWCuNUwh3u72JwLoXcya
- DYgfTqvnlGG4IocmrSlrudBm1xjDRX8GTHoTWa9z/eJGpgbgVQR1LadqxxZ9dRyXw/8s
- ehKSQUxfIh8HeJtXxk7o5TWbrpCLEmHBC9lKPPZRrdD5mOdwV7OQCwa4+UQBqw7SrPCr
- VPmQ==
-X-Gm-Message-State: APjAAAVLcpqSQmyE7Q+E5NVZjN0AMWmHRTB96IaPzY1gyfe/0XPlp5ao
- TRAjUhgqXh4Va9uOZLZmd3MbVQ==
-X-Google-Smtp-Source: APXvYqy5WxoUtCWCTY66BOxGp1A65MLdQWEHFHnZfVeU8hdLcTiNa8dIXszk0OW4KeNH68uq6BikBA==
-X-Received: by 2002:a1c:f602:: with SMTP id w2mr1776340wmc.83.1571985443116;
+ bh=KMazBJxRnY0zm7YsZlBAdLDLJgZeGc4MSXDFTtk/xpM=;
+ b=fulMmq1Yq6JTIBKi71crMD3d6GBTq5zuiviN8PW1K3nRPFJ2bZiy5DGAiBfNONnTtR
+ DIb2fqTR9eYjq1DctEDpsHmPZXdAbw+PkL8uThuRwDbVWBYOaoGd2Ea8slTL88YsIu8Y
+ MlcGyIp6tlWmIN+x8ZIpWFVB64hAob8uG+W6Pd8diWQgMjndWn+e6H2zrWZZGpPvzs20
+ Xayb9XgEkiht+xF1GgcinNXVQD1u4oiv26qBxQ0UH83wuMdIRKb2Ef2qACJkSOAHcVeO
+ hhgACba2I9X8nnFvXGbUbLF0gTycqPv+4tiKd4qubJ2e8QmCtHc8FtilqOlIxfF5RL/e
+ 0TdA==
+X-Gm-Message-State: APjAAAWh/0mLYaJDoKh9Kxex9+3FZYA4UIvUHw83NvDbX24AnQIY17HW
+ Zvq4Va6MvMZJyOTtAZJiS1mCtAYeIh4=
+X-Google-Smtp-Source: APXvYqw3/6yAbw2OxHoXuZsW3q5m7Wkykg47daj5GFg6mSbPl/z8XI3OLsNwGcudp36Ix+OwiWv+rg==
+X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr1876851wmh.76.1571985443807; 
  Thu, 24 Oct 2019 23:37:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r1sm1033311wmh.37.2019.10.24.23.37.18
+ by smtp.gmail.com with ESMTPSA id h3sm1107207wrt.88.2019.10.24.23.37.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 23:37:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B19081FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id C62241FF9C;
  Fri, 25 Oct 2019 07:37:14 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 11/73] tests/vm/netbsd: Disable IPv6
-Date: Fri, 25 Oct 2019 07:36:11 +0100
-Message-Id: <20191025063713.23374-12-alex.bennee@linaro.org>
+Subject: [PULL v2 12/73] travis.yml: cache the clang sanitizer build
+Date: Fri, 25 Oct 2019 07:36:12 +0100
+Message-Id: <20191025063713.23374-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+Hopefully we'll see the same benefits as the other builds.
 
-Workaround for issues when the host has no IPv6 connectivity.
-
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191018181705.17957-4-ehabkost@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 9558a672efa..d4dd1929f2d 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -63,6 +63,13 @@ class NetBSDVM(basevm.BaseVM):
-     """
-     poweroff = "/sbin/poweroff"
+diff --git a/.travis.yml b/.travis.yml
+index da6a2063fca..c43597f1331 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -189,6 +189,7 @@ matrix:
  
-+    # Workaround for NetBSD + IPv6 + slirp issues.
-+    # NetBSD seems to ignore the ICMPv6 Destination Unreachable
-+    # messages generated by slirp.  When the host has no IPv6
-+    # connectivity, this causes every connection to ftp.NetBSD.org
-+    # take more than a minute to be established.
-+    ipv6 = False
-+
-     def build_image(self, img):
-         cimg = self._download_with_cache(self.link, sha512sum=self.csum)
-         img_tmp = img + ".tmp"
+     - env:
+         - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-sanitize"
+       compiler: clang
+       before_script:
+         - ./configure ${CONFIG} --extra-cflags="-fsanitize=undefined -Werror" || { cat config.log && exit 1; }
 -- 
 2.20.1
 
