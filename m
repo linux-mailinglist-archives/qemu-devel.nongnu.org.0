@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6A2E4F88
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:50:01 +0200 (CEST)
-Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0606E4FAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:57:18 +0200 (CEST)
+Received: from localhost ([::1]:33272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0ud-0007fE-PJ
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45693)
+	id 1iO11h-0002XF-6t
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO0ZW-0008Rx-9l
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:13 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iO0Zu-0000wp-PD
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO0ZU-0004tn-Nd
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:10 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35910)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO0ZU-0004tE-Gh
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:08 -0400
-Received: by mail-wr1-x443.google.com with SMTP id w18so2594587wrt.3
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=8mFYXdDx7Xf3uxp1Z1U9W4yhEc7cqg6Q2FpuwkjWvfs=;
- b=YX0a/yzEUH1xvx7j7lfIfDgBLEdtwXYAHVjEXcJcw/uLUbTwiloOOnu4tvVo503w7s
- 1a9vJfOkeyWa8YSSY+uZDW+Xthy4c0JeehZ4eQBM77A1ugUcmDp8It1hcuKmD8HOT8vP
- I4b9jQJ88eoLMPNjJgM6H4r+vW39Gz6bBhyOfQ0UGbJthmrwRspPgHYiiWY8J3OF6fxz
- OBE3K7u+Q4924XHXWqxsOfDvsXQL84781FMFS8eFFcCrmcis/QPTrLARUYGFiO3nnR9g
- LBaWmIE9btztczOV453DsEBSeUZP7fm+u58ytg9o5N/mZMNUc0LzmPftiEgg7k7rpVvO
- DVnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=8mFYXdDx7Xf3uxp1Z1U9W4yhEc7cqg6Q2FpuwkjWvfs=;
- b=jIxnLmrbQqqYs0joX+fJVAL99g4uftZacvfW6L6Ub64a/AJViKcORbtNG3gdosWazQ
- GyQWJnC9ObuIXtDPcFNZsfqxaTRMTXJG2wk+LO6sa/hfOS5duvE0MKjzWFY5SQO6MfwN
- KUSx5IUD1ZNKcyp4OcdGIgcEHjULX2PBXxhlaJ619DtnxDbfXGbr8uAGM/fP9mUhtlFm
- HmNAEz0ymUrtJpkV/3gtO+XyPhFrCLLzA5KEWgo73CxvJNQy4Lgs2gfWZTpx7EJpePBU
- aoeQIJRZWoKb8CZVJFGpwBSImuLf+5iLTj/ujz2/SbV8PsO1HfKZm1GaiC1i1dDHCZRP
- DOyw==
-X-Gm-Message-State: APjAAAXm1iuxoqIq9aQCNy9NCcp2ZvCxOJ6mAPMxlULsmWPcg/eEeyD5
- zPdYQIrZH5T7hMV9Mnpuj9PuAg==
-X-Google-Smtp-Source: APXvYqzfC72FX7lwuTVZeWANxjIGczjyFmayqJSbGg8lDtfvlDxu7Cc/shwGYMmtvUybzi+4w+Ymrw==
-X-Received: by 2002:a5d:614a:: with SMTP id y10mr3251875wrt.164.1572013686809; 
- Fri, 25 Oct 2019 07:28:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i1sm2643608wmb.19.2019.10.25.07.28.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 07:28:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B9C41FF87;
- Fri, 25 Oct 2019 15:28:04 +0100 (BST)
-References: <20191023154505.30521-1-richard.henderson@linaro.org>
- <20191023154505.30521-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 4/7] exec: Use const alias for TARGET_PAGE_BITS_VARY
-In-reply-to: <20191023154505.30521-5-richard.henderson@linaro.org>
-Date: Fri, 25 Oct 2019 15:28:04 +0100
-Message-ID: <87r230lx1n.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iO0Zs-00054G-HY
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45259
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iO0Zs-00053v-Cr
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572013711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SCDwoMZv5JVNbsOXs3g2XT8c9uHNYYmK8D+2SHZfePE=;
+ b=VoNVR9yvkh+EYXr5TbNbZEf5cPq1VTQ2VSKCJwex2zN2Rbkumr3A/05bkGag0pxDhwB0MS
+ CSeGKg/K3VperfX8JegwU4iZ4euveADECbudO88vg66ce5nutLZRjeXu9OF9/2NCbHpxKC
+ cgHJomduJ4Gvini83TGVkd729Ffq+PE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-jnPVNbzqPHSgaImU8TJnJQ-1; Fri, 25 Oct 2019 10:28:26 -0400
+X-MC-Unique: jnPVNbzqPHSgaImU8TJnJQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29236800D41;
+ Fri, 25 Oct 2019 14:28:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-230.ams2.redhat.com
+ [10.36.117.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2104C60BEC;
+ Fri, 25 Oct 2019 14:28:23 +0000 (UTC)
+Subject: Re: [PULL 3/3] iotests: test nbd reconnect
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20191023020126.24991-1-eblake@redhat.com>
+ <20191023020126.24991-4-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <4d5f2858-a0a1-a005-ef2e-056e7b0e8e88@redhat.com>
+Date: Fri, 25 Oct 2019 16:28:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <20191023020126.24991-4-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4pJzrzxj7iOnZqSuMfvlMVBMKEnME2IlG"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,157 +98,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4pJzrzxj7iOnZqSuMfvlMVBMKEnME2IlG
+Content-Type: multipart/mixed; boundary="REmuQyZuECOUcqKh3hPuhbGr5UPeprdyc"
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+--REmuQyZuECOUcqKh3hPuhbGr5UPeprdyc
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Using a variable that is declared "const" for this tells the
-> compiler that it may read the value once and assume that it
-> does not change across function calls.
->
-> For target_page_size, this means we have only one assert per
-> function, and one read of the variable.
->
-> This reduces the size of qemu-system-aarch64 by 8k.
->
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On 23.10.19 04:01, Eric Blake wrote:
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>=20
+> Add test, which starts backup to nbd target and restarts nbd server
+> during backup.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Message-Id: <20191009084158.15614-4-vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
-> v2: Notice CONFIG_ATTRIBUTE_ALIAS, and work around Xcode 9 lossage.
-> ---
->  include/exec/cpu-all.h | 14 +++++++---
->  exec-vary.c            | 60 ++++++++++++++++++++++++++++++++++++------
->  2 files changed, 62 insertions(+), 12 deletions(-)
->
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index 255bb186ac..76515dc8d9 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -210,10 +210,16 @@ static inline void stl_phys_notdirty(AddressSpace *=
-as, hwaddr addr, uint32_t val
->  /* page related stuff */
->
->  #ifdef TARGET_PAGE_BITS_VARY
-> -extern bool target_page_bits_decided;
-> -extern int target_page_bits;
-> -#define TARGET_PAGE_BITS ({ assert(target_page_bits_decided); \
-> -                            target_page_bits; })
-> +typedef struct {
-> +    bool decided;
-> +    int bits;
-> +} TargetPageBits;
-> +# if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
-> +extern const TargetPageBits target_page;
-> +#else
-> +extern TargetPageBits target_page;
-> +# endif
-> +#define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
->  #else
->  #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
->  #endif
-> diff --git a/exec-vary.c b/exec-vary.c
-> index 48c0ab306c..e0befd502a 100644
-> --- a/exec-vary.c
-> +++ b/exec-vary.c
-> @@ -19,11 +19,55 @@
->
->  #include "qemu/osdep.h"
->  #include "qemu-common.h"
-> +
-> +#define IN_EXEC_VARY 1
-> +
->  #include "exec/exec-all.h"
->
->  #ifdef TARGET_PAGE_BITS_VARY
-> -int target_page_bits;
-> -bool target_page_bits_decided;
-> +# ifdef CONFIG_ATTRIBUTE_ALIAS
-> +/*
-> + * We want to declare the "target_page" variable as const, which tells
-> + * the compiler that it can cache any value that it reads across calls.
-> + * This avoids multiple assertions and multiple reads within any one use=
-r.
-> + *
-> + * This works because we initialize the target_page data very early, in a
-> + * location far removed from the functions that require the final result=
-s.
-> + *
-> + * This also requires that we have a non-constant symbol by which we can
-> + * perform the actual initialization, and which forces the data to be
-> + * allocated within writable memory.  Thus "init_target_page", and we use
-> + * that symbol exclusively in the two functions that initialize this val=
-ue.
-> + *
-> + * The "target_page" symbol is created as an alias of "init_target_page".
-> + */
-> +static TargetPageBits init_target_page;
-> +
-> +/*
-> + * Note that this is *not* a redundant decl, this is the definition of
-> + * the "target_page" symbol.  The syntax for this definition requires
-> + * the use of the extern keyword.  This seems to be a GCC bug in
-> + * either the syntax for the alias attribute or in -Wredundant-decls.
-> + *
-> + * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D91765
-> + */
-> +#  pragma GCC diagnostic push
-> +#  pragma GCC diagnostic ignored "-Wredundant-decls"
-> +
-> +extern const TargetPageBits target_page
-> +    __attribute__((alias("init_target_page")));
-> +
-> +#  pragma GCC diagnostic pop
-> +# else
-> +/*
-> + * When aliases are not supported then we force two different declaratio=
-ns,
-> + * by way of suppressing the header declaration with IN_EXEC_VARY.
-> + * We assume that on such an old compiler, LTO cannot be used, and so the
-> + * compiler cannot not detect the mismatched declarations, and all is we=
-ll.
-> + */
-> +TargetPageBits target_page;
-> +#  define init_target_page target_page
-> +# endif
->  #endif
->
->  bool set_preferred_target_page_bits(int bits)
-> @@ -36,11 +80,11 @@ bool set_preferred_target_page_bits(int bits)
->       */
->  #ifdef TARGET_PAGE_BITS_VARY
->      assert(bits >=3D TARGET_PAGE_BITS_MIN);
-> -    if (target_page_bits =3D=3D 0 || target_page_bits > bits) {
-> -        if (target_page_bits_decided) {
-> +    if (init_target_page.bits =3D=3D 0 || init_target_page.bits > bits) {
-> +        if (init_target_page.decided) {
->              return false;
->          }
-> -        target_page_bits =3D bits;
-> +        init_target_page.bits =3D bits;
->      }
->  #endif
->      return true;
-> @@ -49,9 +93,9 @@ bool set_preferred_target_page_bits(int bits)
->  void finalize_target_page_bits(void)
->  {
->  #ifdef TARGET_PAGE_BITS_VARY
-> -    if (target_page_bits =3D=3D 0) {
-> -        target_page_bits =3D TARGET_PAGE_BITS_MIN;
-> +    if (init_target_page.bits =3D=3D 0) {
-> +        init_target_page.bits =3D TARGET_PAGE_BITS_MIN;
->      }
-> -    target_page_bits_decided =3D true;
-> +    init_target_page.decided =3D true;
->  #endif
->  }
+>  tests/qemu-iotests/264        | 95 +++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/264.out    | 13 +++++
+>  tests/qemu-iotests/group      |  1 +
+>  tests/qemu-iotests/iotests.py | 11 ++++
+>  4 files changed, 120 insertions(+)
+>  create mode 100755 tests/qemu-iotests/264
+>  create mode 100644 tests/qemu-iotests/264.out
+
+I suppose this test should limit the supported image formats.  For me,
+it fails for at least LUKS, cloop, and vpc.  (Due to different reasons
+for each format.)
+
+Max
 
 
---
-Alex Benn=C3=A9e
+--REmuQyZuECOUcqKh3hPuhbGr5UPeprdyc--
+
+--4pJzrzxj7iOnZqSuMfvlMVBMKEnME2IlG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2zBoYACgkQ9AfbAGHV
+z0Dyggf/QGgxy/G7Yyv7nsDmgQlvOhsmI6QHqEp/eJhTsQLc7oQJf6QqBh8io3BL
+KodAtxHeCo3x7nDITM8IASj+Lp9/BLpYy+Z5ndYZjuRwRI9ItW0Z6coqF1R7U5fZ
+Il2R7VZlFP3UyBFf+2wLIUxpbqSt6IinahyEjm0MnK39l3YcDOXrp1a/fy2LnO9B
+0edFBKFB2R3wxtN5QBBFXrUqh5pK+/4J5F3eZj9TNFO2q+8dvaC05cKoLcKXaN1r
+e261RxZJ6G6mcOfZzqTukj/G6/VZ594dvVc4Bw6PSRri7qgM81wthlTH70Pzu31U
+64mtcjH0sKOhZXUZylxt4dh6KWILEg==
+=met6
+-----END PGP SIGNATURE-----
+
+--4pJzrzxj7iOnZqSuMfvlMVBMKEnME2IlG--
+
 
