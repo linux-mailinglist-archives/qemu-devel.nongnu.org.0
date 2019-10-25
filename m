@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0592E54B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 21:58:16 +0200 (CEST)
-Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62B0E54FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:17:37 +0200 (CEST)
+Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO5iw-0001gX-RS
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 15:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57995)
+	id 1iO61f-0003eb-TZ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:17:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54947)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5PR-0001a1-AA
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:38:06 -0400
+ (envelope-from <armbru@redhat.com>) id 1iO4y4-0007Mo-JN
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:09:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO5PP-0003Zg-Ov
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:38:05 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37822)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO5PP-0003ZE-Hy
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:38:03 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e11so3633510wrv.4
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 12:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=CLnYlmKhsHXNMFog2TL2EKq9p2R07PJ+8JPulP8UW7E=;
- b=KDIx+9ubPRwv7fUiZ917/TpruJHgoyEWLdGWNzTfB2e/2DmQqgCvNmXikMZIfA+2d4
- VJl2s07Y2PhEByOPt1sARPL9qnlSCXpMGPQOPXmNhqbIesAyaMxoI6Jiea7HwKsrwJs3
- fy/I0sIBplEBf6z3syINRoQTdzRrwp8GhQ8G3EpG0hnf1DqFrpkPI1KOBY9PWB+fpDtW
- B28YU8o7KExwqqYa3XKtCX0Wwzba/ecMKD8nV8f1OJS4j5/OXpt44B9r0JAof0DshiWg
- hLkuQJIkPyFI2RlKXbcSux3l8Tmva4IB9LhJpv3qSXoraSsZp8+5HRnvdQEu6bliM88H
- BKNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=CLnYlmKhsHXNMFog2TL2EKq9p2R07PJ+8JPulP8UW7E=;
- b=dHeBncbVhWgva6uHy89E5A13pd8CztUMbhWvWKwzFk6N9M7LZnhBiwc6sqDGjJj5a3
- xv+am8C74OxhQLOu+yegzZEGO8+4kMR6dpauxEZGskgBgWbNA2aKvQ3TGALSQ+8Pjbid
- YVypCd622iahAI9g8OXdvS1HbL6eBa5EsRRDeQc/rGFc2nxURLnC9Fra/lslF+2B7A3S
- l4jGz44wBNtglQOtSYpTWKeoRCZsj0Dflhq7Z5N1XRimH41ZFMUqbnQGNWkY9ANZzJBH
- aSc093GYUDOdgSLBvkyMOFCT3M+r8AG4QCRhokI9P8yvjtlk7qaUJkm5/ZWnuAmNA9zD
- z9Ow==
-X-Gm-Message-State: APjAAAUOPBFu7JqBN8NbPQYvGlJUtvwUi/HwBSnHdSIiiwt8UxL0NFnH
- LJ1O4Dn7AgoGbcFbpQ4kK97NmZpTd+M=
-X-Google-Smtp-Source: APXvYqyLcgSbe5Z+UzYDXZdmTRe5soiNHecc0oFE0kwlivrZw/Ma/QDVNQmqfuE2UliT71tRrvNJ5g==
-X-Received: by 2002:adf:8289:: with SMTP id 9mr4795631wrc.0.1572032282367;
- Fri, 25 Oct 2019 12:38:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f18sm2745056wmh.43.2019.10.25.12.38.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 12:38:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36DC51FF8F;
- Fri, 25 Oct 2019 20:38:01 +0100 (BST)
-References: <20191025063713.23374-1-alex.bennee@linaro.org>
- <CAFEAcA-Sme=XfPdonOa6=1KAFnJcvqyg+PzNiOVpLHDsy4O+gg@mail.gmail.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 00/73] tcg plugins and testing updates
-In-reply-to: <CAFEAcA-Sme=XfPdonOa6=1KAFnJcvqyg+PzNiOVpLHDsy4O+gg@mail.gmail.com>
-Date: Fri, 25 Oct 2019 20:38:00 +0100
-Message-ID: <87eez0wr8n.fsf@linaro.org>
+ (envelope-from <armbru@redhat.com>) id 1iO4y2-0007hl-AT
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:09:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40638
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iO4y1-0007gr-Tv
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:09:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572030585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=byH6n30ESDquSyudzxZjAe76G1/YwCVzLTKOc1bKQjU=;
+ b=SJV2MfabV1HN1zuEnhd7vxLZXUYd3DnDPNpJScsGXA4ICF7RJCNpABmWVDPkySCHu7UIlr
+ wdqlCAc7HSHOTOCs2XCv1Kibj0HJbshK16nTFixZvIvxleE22XXfUxDdBgMqzz5/Vb2FGr
+ 5XgeYl2Rl+nfbsDupCro8nUq4mzXHM8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-FB0XUHuRPlGWdIWmpxULsQ-1; Fri, 25 Oct 2019 15:09:41 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E14A880183D;
+ Fri, 25 Oct 2019 19:09:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B8DC5D9C9;
+ Fri, 25 Oct 2019 19:09:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CD0921138619; Fri, 25 Oct 2019 21:09:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 02/15] qapi/block-core: add option for io_uring
+References: <20191025160444.31632-1-stefanha@redhat.com>
+ <20191025160444.31632-3-stefanha@redhat.com>
+Date: Fri, 25 Oct 2019 21:09:24 +0200
+In-Reply-To: <20191025160444.31632-3-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Fri, 25 Oct 2019 18:04:31 +0200")
+Message-ID: <874kzwprq3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: FB0XUHuRPlGWdIWmpxULsQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,124 +75,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com, qemu-block@nongnu.org,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+> From: Aarushi Mehta <mehta.aaru20@gmail.com>
+>
+> Only enumerates option for devices that support it.
 
-> On Fri, 25 Oct 2019 at 07:37, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit 81c1f71eeb874c4cbbb9c5c4d1a1dc0ba7391=
-dff:
->>
->>   Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-=
-request' into staging (2019-10-24 10:43:20 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-2410=
-19-2
->>
->> for you to fetch changes up to 18900c2d7901680457b51b3ad3f684ef9cba8b64:
->>
->>   travis.yml: enable linux-gcc-debug-tcg cache (2019-10-24 22:31:29 +010=
-0)
->>
->> ----------------------------------------------------------------
->> Core TCG plugin support and testing updates
->>
->>   - TCG plugin support
->>   - netbsd VM autoinstall
->>   - various Travis dependency updates
->>   - enable tcg debug for check-tcg
->>   - additional Xcode build for Cirrus
->>   - dependency tweak for gitlab
->>
->
-> This makes the vm-build-netbsd target stop working:
-> looking at the log file it seems to try to do an install,
-> but there's a pkg_add command failure and then it
-> times out because it expects a menu with an 'Enable sshd'
-> option and it isn't there:
+I'm not sure I get this sentence.
 
-OK I've dropped this (again) and re-sent a testing only PR. I'll resend
-the remaining plugin stuff on Monday.
+>                                                     Since QAPI schema
+> supports io_uring, which is the actual name of the Linux API, it is
+> preferred over io-uring.
 
->
-> con recv: >a: Host                      ftp.NetBSD.org
-> con recv: b: Base directorypub/pkgsrc/packages/NetBSD
-> con recv:  c: Package directory/amd64/8.1/All
-> con recv:  d: Userftp
-> con recv:  e: Password
-> con recv:  f: Proxy
-> con recv:  g: Additional packages
-> con recv:  h: Configure network
-> con recv:  i: Quit installing binary pkgs
-> con recv:  x: Install pkgin
-> con send: x<enter>
-> con recv:  and update package summary a: Host
-> ftp.NetBSD.org>x: Install pkgin and update package summary
-> con recv: Status: RunningCommand: pkg_add
-> http://ftp.NetBSD.org/pub/pkgsrc/packages/NetBSD/amd64/8.1/All/pkgin
-> con recv: ---------------------------------------------------------------=
------------------pkg_add:
-> Can't process http://ftp.NetBSD.org:80/pub/pkgsrc/packages/NetBSD/amd64/8=
-.1/All/pkgin*:
-> Not Found
-> con recv: pkg_add: no pkg found for
-> 'http://ftp.NetBSD.org/pub/pkgsrc/packages/NetBSD/amd64/8.1/All/pkgin',
-> sorry.
-> con recv: pkg_add: 1 package addition failed
-> con recv: Command failedHit enter to continue
-> con send: <enter>
-> con recv: Enabling binary packages with pkgin requires setting up the
-> repository.  The
-> con recv:  following are the host, directory, user, and password that
-> will be used.  If
-> con recv:  "user" is "ftp", then the password is not needed.
-> con recv:
-> con recv: >a: Host                      ftp.NetBSD.org
-> con recv: b: Base directorypub/pkgsrc/packages/NetBSD
-> con recv:  c: Package directory/amd64/8.1/All
-> con recv:  d: Userftp
-> con recv:  e: Password
-> con recv:  f: Proxy
-> con recv:  g: Additional packages
-> con recv:  h: Configure network
-> con recv:  i: Quit installing binary pkgs
-> console: *** read timeout ***
-> console: waiting for: 'g: Enable sshd'
-> console: line buffer:
->
-> con recv:  x: Install pkgin and update package summary
->
-> Failed to prepare guest environment
-> Traceback (most recent call last):
->   File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 362, in=
- main
->     return vm.build_image(args.image)
->   File "/home/peter.maydell/qemu-netbsd/tests/vm/netbsd", line 173, in
-> build_image
->     self.console_wait_send("g: Enable sshd",           "g\n")
->   File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 262,
-> in console_wait_send
->     self.console_wait(wait)
->   File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 224,
-> in console_wait
->     chars =3D vm.console_socket.recv(1)
-> socket.timeout: timed out
->
->
-> I tried a couple of times and it failed the same way both times.
->
->
-> thanks
-> -- PMM
+I guess this one means something like "Since io_uring is the actual name
+of the Linux API, we use it as enum value even though the QAPI schema
+conventions would prefer io-uring."
 
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  qapi/block-core.json | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index b274aef713..3196f40178 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2851,11 +2851,13 @@
+>  #
+>  # @threads:     Use qemu's thread pool
+>  # @native:      Use native AIO backend (only Linux and Windows)
+> +# @io_uring:    Use linux io_uring (since 4.2)
+>  #
+>  # Since: 2.9
+>  ##
+>  { 'enum': 'BlockdevAioOptions',
+> -  'data': [ 'threads', 'native' ] }
+> +  'data': [ 'threads', 'native',
+> +            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING)'=
+ } ] }
+> =20
+>  ##
+>  # @BlockdevCacheOptions:
 
---
-Alex Benn=C3=A9e
+I encourage you to polish the commit message some.
+
+Acked-by: Markus Armbruster <armbru@redhat.com>
+
 
