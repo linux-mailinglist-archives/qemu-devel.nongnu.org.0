@@ -2,38 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029C4E4FC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 17:03:14 +0200 (CEST)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91E8E4FD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 17:07:12 +0200 (CEST)
+Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO17Q-0004Ir-S9
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 11:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50109)
+	id 1iO1BF-00021j-Ae
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 11:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iO0v9-00023E-Fa
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:50:32 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iO0wO-00045l-7P
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:51:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iO0v8-00070q-Br
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:50:31 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60790)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iO0v5-0006uk-C1; Fri, 25 Oct 2019 10:50:27 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iO0v2-0000F1-6C; Fri, 25 Oct 2019 17:50:24 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] qemu-iotests: restrict 264 to qcow2 only
-Date: Fri, 25 Oct 2019 17:50:22 +0300
-Message-Id: <20191025145023.6182-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iO0wL-0007ek-Vm
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:51:47 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35660)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iO0wL-0007eG-Pf
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:51:45 -0400
+Received: by mail-oi1-x243.google.com with SMTP id x3so1818590oig.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xlxSLc7xTdyHnHjeegrcAjQgP0ehJSSY73g1OQihZXo=;
+ b=nEFpS8KG/Fbe6jjsTWpMC1H4I2+Jg3BgEGfjYQSrgPvgXKDGkNnAeofiD2qcu6Mdpn
+ 1abHieOaOeSe4AlbPEoubsiVFnYsJ+yZTi2u6XNEUDxUr9GoS8YKG7B2xoh4YvTOMHsc
+ /88GP9UVZT7FcsvSLi9H9VNGcT5aNuGShvVAPjTqejV3neSSRSVxWWn+NLNTUR5yJnS7
+ bzXsNThzLtLSrMylBm5RbGUhgloRuHdc6shfuhwj2RHAuf+HEGu16o78XDJKLCBZ6vCu
+ 06EoVYaJ2HsMdOs8XA9hEIXjNfOtME/XiKnjDW2hUG65dhbzmE3WGKrV9mxliQJP9Zr3
+ FlpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xlxSLc7xTdyHnHjeegrcAjQgP0ehJSSY73g1OQihZXo=;
+ b=A7wXWp+hy90HHgSHi8NPiwGjtfgo+Y3NqMaIZMzkYGQWQ2OPoOiFSc6MaEeuhKZ+CA
+ nBk3CPOmGkjmvK/6F37/GU931sk5x04ifz8pB80Y4GX+8PVceC9jechdMDEssKDYukb7
+ 6fR8vk+gprBzIEE3pw/ok0YpbptDnRN1No9zR4uHijGfImkEtprwN6zNKJkd38hRYOWO
+ Hd+XZo+shf6K7hjmViCKK4LCD0GMVnsphTe3Nrt+ULj2pJo2AXuyAQBkh4d0Sfyl6rA9
+ Y6Vyx9AfXKkVm/Y8xLEFa/vSIHBCxAiO58pck7O9XohSflVWznwIcL1jpnCuFETvKMuR
+ 0Teg==
+X-Gm-Message-State: APjAAAW3LzmZcTXLmpCxpNYTBSu+r5Opocm7kndlBGY0ZR5N0pho90iv
+ h1N8P+tlzbY7P7UECYFjECPD7nmNDVzN8XFIhq56ug==
+X-Google-Smtp-Source: APXvYqyJv8/ljG94uM9qWnRUVB04QtU4pPEnC8Ym0T2R6XwZ8s+6kpTDvwNeAvICiVx9BHIvOUnYygJHEEdJCL4/ojk=
+X-Received: by 2002:aca:2312:: with SMTP id e18mr2371247oie.98.1572015104607; 
+ Fri, 25 Oct 2019 07:51:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+References: <20191023154505.30521-1-richard.henderson@linaro.org>
+ <20191023154505.30521-5-richard.henderson@linaro.org>
+In-Reply-To: <20191023154505.30521-5-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 15:51:33 +0100
+Message-ID: <CAFEAcA8unCxb-4E561fnOFd=LCXv1y7YSd9xUb2GAutjcYXeGg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] exec: Use const alias for TARGET_PAGE_BITS_VARY
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,38 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-264 is unprepared to run with different formats, for example luks needs
-handling keys, cloop doesn't support image creation, vpc creates image
-larger than requested (which breaks "Backup completed: 5242880" in test
-output).
+On Wed, 23 Oct 2019 at 18:06, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Using a variable that is declared "const" for this tells the
+> compiler that it may read the value once and assume that it
+> does not change across function calls.
+>
+> For target_page_size, this means we have only one assert per
+> function, and one read of the variable.
+>
+> This reduces the size of qemu-system-aarch64 by 8k.
+>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-The test is here to check nbd-reconnect feature and we actually don't
-need it for all formats. Let's restrict it to qcow2 only.
 
-Reported-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/264 | 2 ++
- 1 file changed, 2 insertions(+)
+> + * We want to declare the "target_page" variable as const, which tells
+> + * the compiler that it can cache any value that it reads across calls.
+> + * This avoids multiple assertions and multiple reads within any one user.
+> + *
+> + * This works because we initialize the target_page data very early, in a
+> + * location far removed from the functions that require the final results.
 
-diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
-index c8cd97ae2b..131366422b 100755
---- a/tests/qemu-iotests/264
-+++ b/tests/qemu-iotests/264
-@@ -24,6 +24,8 @@ import iotests
- from iotests import qemu_img_create, qemu_io_silent_check, file_path, \
-         qemu_nbd_popen, log
- 
-+iotests.verify_image_format(supported_fmts=['qcow2'])
-+
- disk_a, disk_b, nbd_sock = file_path('disk_a', 'disk_b', 'nbd-sock')
- nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
- size = 5 * 1024 * 1024
--- 
-2.21.0
+I have to say that this feels like a worryingly large amount
+of magic. Is this actually guaranteed to work by the compiler?
 
+thanks
+-- PMM
 
