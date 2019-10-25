@@ -2,46 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47DEE5700
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 01:22:59 +0200 (CEST)
-Received: from localhost ([::1]:36668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3434EE5714
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 01:33:02 +0200 (CEST)
+Received: from localhost ([::1]:36950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO8v4-00038G-NA
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 19:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49006)
+	id 1iO94m-0007rd-OX
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 19:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iO8se-0008E3-Mn
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:20:30 -0400
+ (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
+ id 1iO90n-000519-8S
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:28:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iO8sc-0000AF-LD
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:20:28 -0400
-Received: from mga11.intel.com ([192.55.52.93]:32857)
+ (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
+ id 1iO90m-0004CM-AQ
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:28:53 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10429)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iO8sa-00008L-NY
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:20:25 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2019 16:20:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,230,1569308400"; d="scan'208";a="373689603"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga005.jf.intel.com with ESMTP; 25 Oct 2019 16:20:18 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: quintela@redhat.com,
-	dgilbert@redhat.com
-Subject: [PATCH 2/2] migration/multifd: not use multifd during postcopy
-Date: Sat, 26 Oct 2019 07:20:00 +0800
-Message-Id: <20191025232000.25857-3-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191025232000.25857-1-richardw.yang@linux.intel.com>
-References: <20191025232000.25857-1-richardw.yang@linux.intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+ (Exim 4.71) (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
+ id 1iO90m-0004C1-35; Fri, 25 Oct 2019 19:28:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1572046132; x=1603582132;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=FI6cG3zfTPQCvMUxHiSic1vMFtD9mJgMAFMEx1PCwOo=;
+ b=E7EDGRZGj2IP5BmXeAu+KK7j3nWNNtJPLzZVRbSccSNx0YQf0vqlfe5U
+ 6nraZ/7Bq7WjSkGeUm/fqJdroBmhUvkaOwDhljSHbS5GuIuYdt3G4Hmt4
+ U5ymljeAa9sNJYVHSh+S+4zL4RKTiIVHipE3gbjkBmfEx6UV0TteIyOs0
+ brJnpUpcj9CJL6O+mvivkV4MsmL+ek5y8s1G3GnWzq9dQaGCbfWx2j3Nh
+ 8yZlfpGd7CZRXEClTd1l25QzTp3GpktbOMIOItLpOIEG1l8J3kizAq4RR
+ fsIH66xPB9llvjXBEoOZgiLTrIUoSXMoXdGnLYnATv1AVqghUxKaB1vhj Q==;
+IronPort-SDR: 4l0ACIQGLGmOWZ5nOTdIOYKxmg3lzMAmmoIPdvGqVWJ7CsgC3q4Z2Wvj5C/rPdeflac/FVpU0l
+ tsrp9lK82fBaSIbG3wetZKLEM4qjIdJe0Dvbq315P/K9roZJrxEPLVuF9k5qDa2VALJl3WeHWB
+ SwlZafVdqJ/Z4TrS2cWC3+1WCXI9rWx7A6wgQEt2voZkUv18omtPJoVpGo2eprYQqaUrBMEUq2
+ +5V4V/c0uzuJkRB7pa5pJNkzdf96lqypUY7NykA6a9GCMpYLW+e5ylm73YnAufm7g55SueME7s
+ ECA=
+X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228520383"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:28:09 +0800
+IronPort-SDR: ht03ARS33S6GCmcx/70kIIkC54+2jD0C0jj6tDESxmgeJuESssjDf8aUz14zjTzDVNVupc24um
+ fEemQflvL/GpnOS3vM6JALBG/YwYnIaQNj6B2VuQVQceaKctAZwuCBAfhxEEoPQMGimyAfG/s2
+ /9FTu4+eehnzz1rPH245WrCzmfqQe9V3v5xIt6bvKwGE+t3R52cu03kBLhDh9rb05RapA+z8do
+ 0W+7nUNcZCiaYr+2A4FxZbzez1KTvvB0t871Bp83b5dokHpMKoxjbnYt1SO/aVLEPZmn7pKXlO
+ nb8ZFqIU+UPTKZsVRYwv4kn4
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2019 16:23:35 -0700
+IronPort-SDR: /GD4YmzPrJmuht30+ba6LFrckbBdvrB6kI5DEfAygemnC/p4vxjZfZIojKfJrfyg5LU38WGdXH
+ cs0XHRIBF22SX778MjQLt/FfL4GFciZPhteSW2yqTPbeDGKpQO+DYGGcmFZ71Y3UM2DiuMWnHd
+ 66A8lmsL2SnONhijvmLZzQ0FK1McNRwqQvXXnQ6lz1vbe3mP7ScIda1WcTXVVUG/Aut0F2ZFDM
+ fxdtDPGixg/thMCmCJehbS/KyygWYkzjx1WOzsI12eTSs2KVszQszmEACcwAB6LbYRAczr14h9
+ /XY=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+ by uls-op-cesaip02.wdc.com with ESMTP; 25 Oct 2019 16:28:09 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 02/27] target/riscv: Add the Hypervisor extension
+Date: Fri, 25 Oct 2019 16:23:13 -0700
+Message-Id: <3df46da156e3786de08b5b47f08277efcf6f366b.1572045716.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1572045716.git.alistair.francis@wdc.com>
+References: <cover.1572045716.git.alistair.francis@wdc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.141.245
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,42 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't support multifd during postcopy, but user still could enable
-both multifd and postcopy. This leads to migration failure.
-
-Skip multifd during postcopy.
-
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- migration/ram.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/riscv/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 7087bb73ed..5876054195 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2547,10 +2547,13 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
-     }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f889427869..91e1c56fc4 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -67,6 +67,7 @@
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
++#define RVH RV('H')
  
-     /*
--     * do not use multifd for compression as the first page in the new
--     * block should be posted out before sending the compressed page
-+     * Do not use multifd for:
-+     * 1. Compression as the first page in the new block should be posted out
-+     *    before sending the compressed page
-+     * 2. In postcopy as one whole host page should be placed
-      */
--    if (!save_page_use_compression(rs) && migrate_use_multifd()) {
-+    if (!save_page_use_compression(rs) && migrate_use_multifd()
-+        && !migration_in_postcopy()) {
-         return ram_save_multifd_page(rs, block, offset);
-     }
- 
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
 -- 
-2.17.1
+2.23.0
 
 
