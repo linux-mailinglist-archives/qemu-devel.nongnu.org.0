@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D4DE46B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:09:07 +0200 (CEST)
-Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8538E4682
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:00:29 +0200 (CEST)
+Received: from localhost ([::1]:57824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNvak-0008TP-AY
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50978)
+	id 1iNvSO-0004fo-HA
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:00:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNv5k-00025T-Cu
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:37:06 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNv5S-0001Yv-Tv
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNv5i-0008VO-9Q
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:37:04 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:59145)
+ (envelope-from <laurent@vivier.eu>) id 1iNv5R-0008EK-Ja
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:38447)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNv5V-0008IY-FV; Fri, 25 Oct 2019 04:36:49 -0400
+ id 1iNv5R-0008Db-9l; Fri, 25 Oct 2019 04:36:45 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N6bPS-1hvlEj3y4k-0180Uc; Fri, 25 Oct 2019 10:35:56 +0200
+ id 1MsZBb-1i8BJJ30n5-00tzih; Fri, 25 Oct 2019 10:36:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/19] hw: Move Aspeed RTC from hw/timer/ to hw/rtc/
- subdirectory
-Date: Fri, 25 Oct 2019 10:35:08 +0200
-Message-Id: <20191025083511.11463-17-laurent@vivier.eu>
+Subject: [PULL 19/19] hw/rtc/aspeed_rtc: Remove unused includes
+Date: Fri, 25 Oct 2019 10:35:11 +0200
+Message-Id: <20191025083511.11463-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191025083511.11463-1-laurent@vivier.eu>
 References: <20191025083511.11463-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FD7oPnPLZhZc1tfLUvguP2u15R++7O+LcoF30+tScyz09W6XQtU
- qFXwUNfxBQzuHeSNlTNwDz04CTSC1QmpAGQxt+nNnCfmTj7V4TtCKwUEFR9K4OLKIm8s5Oz
- e1qz9rQ4QLkc9tBOBf+NrGDRzPcEDZbKpNAc8yFCl+ARpQNOSvhtF5+e/7gD2ZmF4A47fEr
- UvVleoDSGGmElI8yNmgdw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dcIUn0Jg9sA=:meOzGgMDZU67P+Fzp0AqEx
- L5pE8FE4WEkE9KS6GQ2W3z4Ih6922mEfve/81AR2GPPH9ZrLamFQpUfb7DdFLJMpE92D6xlQE
- 0qFpOYm/cC/tpUIQyuLlBk01ssggOpabQ8Ywa2Yu18FfxXcPmVIbyqoqbKLOTp32/QL81KRU1
- CldbtTMGhn3X9id3tKbNUQrsWwQOK7thY4f1ppPWaWVzgT3JRd7x+GeaiUqUuLHXBAHmAcYh6
- 6v1eIYbe7XJTJRKd3QzTzw6CSfSCBxvOTeZiDBMUy3hYJ3amQk+6aIj6xwDK8mD2TDaVFvuHt
- qE68odBVr2Jrvx2e2BV7bOdsQgxJyVV9yxP6lBvoCf3C/bEWTgUv4VR2rLgHiPIbDSbcTOy0U
- fw793pEKYxH7WesujAou9VYFwtuYaoR8w4wdFTL+lGpRcRQrytfL1xWepkzQycNmbBK4vz/NI
- itPzVi8YbjNoJ0V0RVMLjejz7fz4f0Ip3oObtIAQtO2tcDDEAaOOwN1sBFLqcO7n+AKCtNdXS
- L0eZlTcdnW6xuD7U9ZzqjqyAlE4oROM55J79TuODL8Vi4iY5m3t4CBqUJrP4JAistbji66BSN
- 7nE+coHltXd6gQVIKkCk2esMUvq1k23rlNQI85J/DIBqg+V4B10Lec8Bv6zBtf83k7jn+ycBz
- dw/EEbM7apouDFRMNLCMZKzPjanQibiGvf5D2SVSX6URRnS7aZFyeq1tUqFQQ/lFg9n8C4Qw6
- uLealnaoJaeQqn9T1oMq8SqE5xN2DAQ4pRJDA9DmvjDVvJO3eoOe12Pv6gxx7xRVXYwTXEhpo
- XtKCQhslYN38VBXzRvNWQf6qat2Cz8nGYguXh69dbn6xN51wbobc488ZwQD5Xyj+hUH3NzVE4
- 05IRwrdmHWkfnPjBV+zycRXUhJYfbXS42rjwjBbHE=
+X-Provags-ID: V03:K1:lI4TkJBfUxQ5RUOYwYG6bZuJbjXKspVRe+W4swlSFBSBuyu1HyO
+ oGI5K+mtI61xh7jqUe3m6LSb3lrFZg+MIJ7wO/nMJc+SIeIdCgZJKcEbcmODzjZCSma2lFo
+ tOco3nWHNYjLvbaKhkQEdvylcdcg1UlgmfthPhGT2Teigyfy8Baas7MAOUxTGhA450sJE3P
+ NWwOdmXP1/hHaCyGdh5fQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WkqHmDlHu1I=:h3ysTFZt4csUPLJ1KgbzED
+ 0pHTtKygM0HBCR4yG0JHlk1O/NITsvm0giRboM72MDietvJTfkJXH/Dc1lg0LFT9UouQzaA8x
+ Z/9Y/lnNRvIp9WHpZ+doEmRk/aKSjk0zTDLZU/RXQ03dsa0Xdr/tGdo7OHElwZQRA3eiFxlq6
+ SHTeg2Mo9hBQNh6slq/OS1S6y6y5Guj4h/wKcD5w39+ok5XNYI+ugF7nBPAq/5g/q9eTGv5cN
+ elWCDRdvM4LTaL6A0ke1t5pFeuzolMDuJsXGvLid/+suyDynf4nSX+4P9XFQ1agDFD7ChlcV0
+ Xzx807xY9G1rQ8qH21o5oTMTbZR2ws77x3j8q/T29deCb2TCR3xCbJp2INX+JpA9dLQhlPvTz
+ kiD6q848GzxcJQbFQevCgTOOazm6TAFOJrLpwQ+7joU2HyQp4V0jkEQJ7QdkcNQBgzeI9dJ8M
+ J/AC+ahJpEaZ3G1cFjhV+UHpGnqpqpTUXHSVkjqVf1A0EqqC7GcKVwAZRo6K78mP5fAozb6oW
+ VewGL0zxB54FZr6r4m8vnTyHt7AfoyfuPysU+Pz4mDH5ZQkfvIO1Mkbghm3dEMdB8bqItXQ3q
+ 8BdIz2nGmXXoxThnlMlCeHARJkTRFA+ujljeKiu7UgCRzohVhXYUH+yLePwrhEiwy874YNtpD
+ iMpsalYXpPGu6kckyvKBVznBdZ381nzX/n/FKERWcWjC7PTXx4E4gwfOCGzbCWpYO6xq27cxn
+ d2O1wlv0E2pFqqWWKxXbjtYXSWB8MAfpF1+EwtJ8gUB9BcjmDc3athEhWFYTlprp3+zQHoWnW
+ F7VyTJvbuKH3tpwM8yDxNN+0NXtpiw9hN9EKbFwCvqe6KyNKnc6H+bu6svvtELo+gPNSSW91i
+ aVqLg5isJOUIrrzKB1f1iAPs/28s+eW5UbCiAvfMo=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,128 +89,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Move RTC devices under the hw/rtc/ subdirectory.
+The system <stdint.h> include is already provided by "osdep.h"
+(the scripts/clean-includes file clean such headers).
+
+Commit 64552b6be47 suggests we don't need to include "hw/irq.h":
+
+    Move the qemu_irq and qemu_irq_handler typedefs from hw/irq.h to
+    qemu/typedefs.h, and then include hw/irq.h only where it's still
+    needed.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20191003230404.19384-12-philmd@redhat.com>
+Message-Id: <20191003230404.19384-15-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rtc/Makefile.objs                   | 1 +
- hw/{timer => rtc}/aspeed_rtc.c         | 2 +-
- hw/rtc/trace-events                    | 4 ++++
- hw/timer/Makefile.objs                 | 2 +-
- hw/timer/trace-events                  | 4 ----
- include/hw/arm/aspeed_soc.h            | 2 +-
- include/hw/{timer => rtc}/aspeed_rtc.h | 6 +++---
- 7 files changed, 11 insertions(+), 10 deletions(-)
- rename hw/{timer => rtc}/aspeed_rtc.c (99%)
- rename include/hw/{timer => rtc}/aspeed_rtc.h (84%)
+ include/hw/rtc/aspeed_rtc.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-index 3d4763fc269e..8dc9fcd3a983 100644
---- a/hw/rtc/Makefile.objs
-+++ b/hw/rtc/Makefile.objs
-@@ -10,3 +10,4 @@ common-obj-$(CONFIG_XLNX_ZYNQMP) += xlnx-zynqmp-rtc.o
- common-obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
- obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
- common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
-+common-obj-$(CONFIG_ASPEED_SOC) += aspeed_rtc.o
-diff --git a/hw/timer/aspeed_rtc.c b/hw/rtc/aspeed_rtc.c
-similarity index 99%
-rename from hw/timer/aspeed_rtc.c
-rename to hw/rtc/aspeed_rtc.c
-index 531301735334..3ca1183558b7 100644
---- a/hw/timer/aspeed_rtc.c
-+++ b/hw/rtc/aspeed_rtc.c
-@@ -8,7 +8,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu-common.h"
--#include "hw/timer/aspeed_rtc.h"
-+#include "hw/rtc/aspeed_rtc.h"
- #include "migration/vmstate.h"
- #include "qemu/log.h"
- #include "qemu/timer.h"
-diff --git a/hw/rtc/trace-events b/hw/rtc/trace-events
-index 7f1945ad4cc6..d6749f4616a0 100644
---- a/hw/rtc/trace-events
-+++ b/hw/rtc/trace-events
-@@ -13,3 +13,7 @@ pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl031_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl031_alarm_raised(void) "alarm raised"
- pl031_set_alarm(uint32_t ticks) "alarm set for %u ticks"
-+
-+# aspeed-rtc.c
-+aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
-+aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
-diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index 33191d74cb98..83091770df3a 100644
---- a/hw/timer/Makefile.objs
-+++ b/hw/timer/Makefile.objs
-@@ -29,7 +29,7 @@ common-obj-$(CONFIG_MIPS_CPS) += mips_gictimer.o
- common-obj-$(CONFIG_ALLWINNER_A10_PIT) += allwinner-a10-pit.o
- 
- common-obj-$(CONFIG_STM32F2XX_TIMER) += stm32f2xx_timer.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_timer.o aspeed_rtc.o
-+common-obj-$(CONFIG_ASPEED_SOC) += aspeed_timer.o
- 
- common-obj-$(CONFIG_CMSDK_APB_TIMER) += cmsdk-apb-timer.o
- common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) += cmsdk-apb-dualtimer.o
-diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-index 1459d07237b9..e18b87fc96dd 100644
---- a/hw/timer/trace-events
-+++ b/hw/timer/trace-events
-@@ -66,10 +66,6 @@ cmsdk_apb_dualtimer_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK A
- cmsdk_apb_dualtimer_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB dualtimer write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: reset"
- 
--# hw/timer/aspeed-rtc.c
--aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
--aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
--
- # nrf51_timer.c
- nrf51_timer_read(uint64_t addr, uint32_t value, unsigned size) "read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
- nrf51_timer_write(uint64_t addr, uint32_t value, unsigned size) "write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index cccb684a19bb..495c08be1b84 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -18,7 +18,7 @@
- #include "hw/misc/aspeed_sdmc.h"
- #include "hw/misc/aspeed_xdma.h"
- #include "hw/timer/aspeed_timer.h"
--#include "hw/timer/aspeed_rtc.h"
-+#include "hw/rtc/aspeed_rtc.h"
- #include "hw/i2c/aspeed_i2c.h"
- #include "hw/ssi/aspeed_smc.h"
- #include "hw/watchdog/wdt_aspeed.h"
-diff --git a/include/hw/timer/aspeed_rtc.h b/include/hw/rtc/aspeed_rtc.h
-similarity index 84%
-rename from include/hw/timer/aspeed_rtc.h
-rename to include/hw/rtc/aspeed_rtc.h
-index 15ba42912b7f..3fde854ad99c 100644
---- a/include/hw/timer/aspeed_rtc.h
+diff --git a/include/hw/rtc/aspeed_rtc.h b/include/hw/rtc/aspeed_rtc.h
+index 3fde854ad99c..b94a7102688a 100644
+--- a/include/hw/rtc/aspeed_rtc.h
 +++ b/include/hw/rtc/aspeed_rtc.h
-@@ -5,8 +5,8 @@
-  * Copyright 2019 IBM Corp
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
--#ifndef ASPEED_RTC_H
--#define ASPEED_RTC_H
-+#ifndef HW_RTC_ASPEED_RTC_H
-+#define HW_RTC_ASPEED_RTC_H
+@@ -8,9 +8,6 @@
+ #ifndef HW_RTC_ASPEED_RTC_H
+ #define HW_RTC_ASPEED_RTC_H
  
- #include <stdint.h>
+-#include <stdint.h>
+-
+-#include "hw/irq.h"
+ #include "hw/sysbus.h"
  
-@@ -27,4 +27,4 @@ typedef struct AspeedRtcState {
- #define TYPE_ASPEED_RTC "aspeed.rtc"
- #define ASPEED_RTC(obj) OBJECT_CHECK(AspeedRtcState, (obj), TYPE_ASPEED_RTC)
- 
--#endif /* ASPEED_RTC_H */
-+#endif /* HW_RTC_ASPEED_RTC_H */
+ typedef struct AspeedRtcState {
 -- 
 2.21.0
 
