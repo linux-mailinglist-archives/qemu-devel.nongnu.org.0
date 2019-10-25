@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1AA7E4A7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:53:17 +0200 (CEST)
-Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C3BE4A88
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:55:54 +0200 (CEST)
+Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNy9d-00006x-0A
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
+	id 1iNyC9-00020U-5o
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iNy7L-0005bj-Pa
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:50:56 -0400
+ (envelope-from <frederic.konrad@adacore.com>) id 1iNy9g-0000m4-43
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:53:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iNy7K-00040a-A1
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:50:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40492)
+ (envelope-from <frederic.konrad@adacore.com>) id 1iNy9e-0005Qy-VK
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:53:20 -0400
+Received: from mel.act-europe.fr ([194.98.77.210]:33755
+ helo=smtp.eu.adacore.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iNy7K-000407-4X
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 07:50:54 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
+ (Exim 4.71) (envelope-from <frederic.konrad@adacore.com>)
+ id 1iNy9e-0005Q1-Lb; Fri, 25 Oct 2019 07:53:18 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id DFD5181399;
+ Fri, 25 Oct 2019 13:53:16 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
+Received: from smtp.eu.adacore.com ([127.0.0.1])
+ by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JsRiZxGc1kYg; Fri, 25 Oct 2019 13:53:16 +0200 (CEST)
+Received: from localhost.localdomain (unknown [109.190.253.16])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C2E4EC08EC00
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 11:50:52 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id n34so1768135qta.12
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 04:50:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=z9kJkoKPJIxbH8oaC1j6IRx5xtVo3P4xk5m8p6ybXvI=;
- b=CqdXGdWH+6p7XhgKanWQ3kd6n5cSHYY9QBl3Yc6qmxnS79bpGgNtILcLjX/Udl6T6S
- 0bSjS2MrAlcwi2LCHAngpzd9lW40aUVU7ZEOD9EXrdD/5iSfw1wruy4d0H3Qfl5OAekI
- lHct3xUv2OatUwK8qcG4+T92SOAnSytYUAxwlQmdqTp8NBUVa5MOt6yQMvi2LsMwxnn1
- YnIKn27ocX9zSfymS/ZQ+6s63BgvzktHmcFONgPwOXfdOskDt8Y5rex13cUbJj8yRKm1
- XRpFD3i6LNlxdrnOSqQwuYDzwvvJR5SDMDwv2uJvJcx7vyJolqn+QnFsL2yMsE7+Qf3s
- qvKQ==
-X-Gm-Message-State: APjAAAXBlOhO/1HARYK4F+pPsZ3WTUN6F//juY5AKm2hhRcNnHMV6sT7
- FMyPdgIupfo88sjL2iW7IKK6ag5jOetuGn9Zh0jTRXQqKj0UWNtTGe1qurvV/DW4cWWOOfroiIs
- WGl2MGSs3Fq390vU=
-X-Received: by 2002:ac8:1346:: with SMTP id f6mr795718qtj.46.1572004252108;
- Fri, 25 Oct 2019 04:50:52 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw8iKX6WzPGrpb9Ofp5bFJ0GevwqThQdslGjhes+fPLrNejOu5cJJZpUQgiHzqVjTswWoMXHA==
-X-Received: by 2002:ac8:1346:: with SMTP id f6mr795709qtj.46.1572004251949;
- Fri, 25 Oct 2019 04:50:51 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- t65sm1051854qkh.23.2019.10.25.04.50.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 04:50:51 -0700 (PDT)
-Date: Fri, 25 Oct 2019 07:50:47 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 0/2] more rcu_read_(un)lock conversions
-Message-ID: <20191025075035-mutt-send-email-mst@kernel.org>
-References: <20191025103403.120616-1-dgilbert@redhat.com>
+ by smtp.eu.adacore.com (Postfix) with ESMTPSA id 0E94581392;
+ Fri, 25 Oct 2019 13:53:15 +0200 (CEST)
+Subject: Re: [PATCH 1/2] hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing
+ to PnP registers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, qemu-devel@nongnu.org
+References: <20191025110114.27091-1-philmd@redhat.com>
+ <20191025110114.27091-2-philmd@redhat.com>
+From: KONRAD Frederic <frederic.konrad@adacore.com>
+Message-ID: <bcd4a30e-c71b-af1c-1303-e2b421702401@adacore.com>
+Date: Fri, 25 Oct 2019 13:53:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191025103403.120616-1-dgilbert@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <20191025110114.27091-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 194.98.77.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,31 +64,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Jiri Gaisler <jiri@gaisler.se>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 25, 2019 at 11:34:01AM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Hi,
->   Two more rcu_read_(un)lock conversions around
-> virtio stuff.
-> (to go with, but independent of my previous 'virtio: Use auto rcu_read macros')
-> 
-> I like the way that the virtio-net case simplifies the function
-> a lot.
+Hi Philippe,
 
-Indeed, I'll queue this.
+Le 10/25/19 =C3=A0 1:01 PM, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=A0=
+:
+> Guests can crash QEMU when writting to PnP registers:
+>=20
+>    $ echo 'writeb 0x800ff042 69' | qemu-system-sparc -M leon3_generic -=
+S -bios /etc/magic -qtest stdio
+>    [I 1571938309.932255] OPENED
+>    [R +0.063474] writeb 0x800ff042 69
+>    Segmentation fault (core dumped)
+>=20
+>    (gdb) bt
+>    #0  0x0000000000000000 in  ()
+>    #1  0x0000555f4bcdf0bc in memory_region_write_with_attrs_accessor (m=
+r=3D0x555f4d7be8c0, addr=3D66, value=3D0x7fff07d00f08, size=3D1, shift=3D=
+0, mask=3D255, attrs=3D...) at memory.c:503
+>    #2  0x0000555f4bcdf185 in access_with_adjusted_size (addr=3D66, valu=
+e=3D0x7fff07d00f08, size=3D1, access_size_min=3D1, access_size_max=3D4, a=
+ccess_fn=3D0x555f4bcdeff4 <memory_region_write_with_attrs_accessor>, mr=3D=
+0x555f4d7be8c0, attrs=3D...) at memory.c:539
+>    #3  0x0000555f4bce2243 in memory_region_dispatch_write (mr=3D0x555f4=
+d7be8c0, addr=3D66, data=3D69, op=3DMO_8, attrs=3D...) at memory.c:1489
+>    #4  0x0000555f4bc80b20 in flatview_write_continue (fv=3D0x555f4d92c4=
+00, addr=3D2148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1, ad=
+dr1=3D66, l=3D1, mr=3D0x555f4d7be8c0) at exec.c:3161
+>    #5  0x0000555f4bc80c65 in flatview_write (fv=3D0x555f4d92c400, addr=3D=
+2148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1) at exec.c:320=
+1
+>    #6  0x0000555f4bc80fb0 in address_space_write (as=3D0x555f4d7aa460, =
+addr=3D2148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1) at exe=
+c.c:3291
+>    #7  0x0000555f4bc8101d in address_space_rw (as=3D0x555f4d7aa460, add=
+r=3D2148528194, attrs=3D..., buf=3D0x7fff07d01120 "E", len=3D1, is_write=3D=
+true) at exec.c:3301
+>    #8  0x0000555f4bcdb388 in qtest_process_command (chr=3D0x555f4c2ed7e=
+0 <qtest_chr>, words=3D0x555f4db0c5d0) at qtest.c:432
+>=20
+> Instead of crashing, log the access as unimplemented.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> Dr. David Alan Gilbert (2):
->   virtio/vhost: Use auto_rcu_read macros
->   virtio_net: use RCU_READ_LOCK_GUARD
-> 
->  hw/net/virtio-net.c | 7 ++-----
->  hw/virtio/vhost.c   | 4 +---
->  2 files changed, 3 insertions(+), 8 deletions(-)
-> 
-> -- 
-> 2.23.0
+oops, thanks for that :).
+
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+
+> ---
+>   hw/misc/grlib_ahb_apb_pnp.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>=20
+> diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+> index 7338461694..f3c015d2c3 100644
+> --- a/hw/misc/grlib_ahb_apb_pnp.c
+> +++ b/hw/misc/grlib_ahb_apb_pnp.c
+> @@ -22,6 +22,7 @@
+>    */
+>  =20
+>   #include "qemu/osdep.h"
+> +#include "qemu/log.h"
+>   #include "hw/sysbus.h"
+>   #include "hw/misc/grlib_ahb_apb_pnp.h"
+>  =20
+> @@ -231,8 +232,15 @@ static uint64_t grlib_apb_pnp_read(void *opaque, h=
+waddr offset, unsigned size)
+>       return apb_pnp->regs[offset >> 2];
+>   }
+>  =20
+> +static void grlib_apb_pnp_write(void *opaque, hwaddr addr,
+> +                                uint64_t val, unsigned size)
+> +{
+> +    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
+> +}
+> +
+>   static const MemoryRegionOps grlib_apb_pnp_ops =3D {
+>       .read       =3D grlib_apb_pnp_read,
+> +    .write      =3D grlib_apb_pnp_write,
+>       .endianness =3D DEVICE_BIG_ENDIAN,
+>   };
+>  =20
+>=20
 
