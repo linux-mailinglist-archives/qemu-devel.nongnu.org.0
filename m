@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4E0E4B33
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 14:36:26 +0200 (CEST)
-Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6555FE4B0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 14:30:24 +0200 (CEST)
+Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNypM-0007jF-FV
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 08:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50761)
+	id 1iNyjW-00032m-SP
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 08:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iNyc8-0000gM-NQ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:22:45 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNyaQ-00056Z-OL
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:21:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iNyc7-0007ro-Cc
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:22:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28017
+ (envelope-from <jfreimann@redhat.com>) id 1iNyaO-0007Em-S0
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:58 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55173
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNyc7-0007rZ-8d
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:22:43 -0400
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1iNyaO-0007EW-GC
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572006162;
+ s=mimecast20190719; t=1572006055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UpGmtUyfdlvxlAtoSbViodlS/3ZIaP9VCEx3R5W0HcU=;
- b=Vsll/zTAb8rY/QylfbyGpKM24RZ/uIQD0j2HGGCbXVocS9YM2KeOica/JuRihhAurBF61Q
- bzFImkiCI2gdUhO0OGsAGMFvDvSqPnJeAR7KGLweigGjIr4Kwin/81SldIiL0/YQ0Ju25U
- R0hDFFFxJJ/Q0nTWfR7i/wkcrX/9V8E=
+ bh=P7daDPbciwpWi6wLCmDINunYeIpxefiniQUqDDB9Wiw=;
+ b=GjeHDgpba3XYp3P4izddNNyZGxW11bneYMuJL4HpiDCNhucEGRQ46QRr8lhf9RXrIjtUwl
+ cyn0deN2DsdMyBcMov8CF5A9kQ3DJJwYYlRH6Opcwd/49liFoewAdKLYsx3KVnutsZewLX
+ 4X+mwDEhyUFiz+lz65SsYZHVL+d4gSs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-JlaES2OqMICBY48LEhmXyA-1; Fri, 25 Oct 2019 08:22:40 -0400
-X-MC-Unique: JlaES2OqMICBY48LEhmXyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-213-EBlnbUqrPPm3cJgYLDu8hg-1; Fri, 25 Oct 2019 08:20:54 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7FA61800E00;
- Fri, 25 Oct 2019 12:22:39 +0000 (UTC)
-Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B1E760852;
- Fri, 25 Oct 2019 12:22:37 +0000 (UTC)
-Date: Fri, 25 Oct 2019 13:51:45 +0200
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Zhenyu Ye <yezhenyu2@huawei.com>
-Subject: Re: [RFC PATCH] iothread: add set_iothread_poll_* commands
-Message-ID: <20191025115145.GA13314@stefanha-x1.localdomain>
-References: <5DAEB9D3.3080503@huawei.com>
- <20191023151903.GI9574@stefanha-x1.localdomain>
- <5DB1ACF2.9080500@huawei.com> <20191024135645.GG2877@work-vm>
- <5DB1B65C.3020104@huawei.com> <20191024143859.GJ2877@work-vm>
- <5DB258FC.2050506@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6DD107AD31;
+ Fri, 25 Oct 2019 12:20:53 +0000 (UTC)
+Received: from localhost (ovpn-117-235.ams2.redhat.com [10.36.117.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5755D9CA;
+ Fri, 25 Oct 2019 12:20:45 +0000 (UTC)
+From: Jens Freimann <jfreimann@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 08/11] migration: add new migration state wait-unplug
+Date: Fri, 25 Oct 2019 14:19:27 +0200
+Message-Id: <20191025121930.6855-9-jfreimann@redhat.com>
+In-Reply-To: <20191025121930.6855-1-jfreimann@redhat.com>
+References: <20191025121930.6855-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5DB258FC.2050506@huawei.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: EBlnbUqrPPm3cJgYLDu8hg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
-Content-Disposition: inline
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -75,168 +71,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, xiexiangyou@huawei.com,
- qemu-devel@nongnu.org, jiangyiwen <jiangyiwen@huawei.com>, pbonzini@redhat.com
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
+ armbru@redhat.com, alex.williamson@redhat.com, laine@redhat.com,
+ ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---YiEDa0DAkWCtVeE4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch adds a new migration state called wait-unplug.  It is entered
+after the SETUP state if failover devices are present. It will transition
+into ACTIVE once all devices were succesfully unplugged from the guest.
 
-On Fri, Oct 25, 2019 at 10:07:56AM +0800, Zhenyu Ye wrote:
->=20
->=20
-> On 2019/10/24 22:38, Dr. David Alan Gilbert wrote:
-> > * Zhenyu Ye (yezhenyu2@huawei.com) wrote:
-> >>
-> >>
-> >> On 2019/10/24 21:56, Dr. David Alan Gilbert wrote:
-> >>> * Zhenyu Ye (yezhenyu2@huawei.com) wrote:
-> >>>>
-> >>>>
-> >>>> On 2019/10/23 23:19, Stefan Hajnoczi wrote:
-> >>>>> On Tue, Oct 22, 2019 at 04:12:03PM +0800, yezhenyu (A) wrote:
-> >>>>>> Since qemu2.9, QEMU added three AioContext poll parameters to stru=
-ct
-> >>>>>> IOThread: poll_max_ns, poll_grow and poll_shrink. These properties=
- are
-> >>>>>> used to control iothread polling time.
-> >>>>>>
-> >>>>>> However, there isn't properly hmp commands to adjust them when the=
- VM is
-> >>>>>> alive. It's useful to adjust them online when observing the impact=
- of
-> >>>>>> different property value on performance.
-> >>>>>>
-> >>>>>> This patch add three hmp commands to adjust iothread poll-* proper=
-ties
-> >>>>>> for special iothread:
-> >>>>>>
-> >>>>>> set_iothread_poll_max_ns: set the maximum polling time in ns;
-> >>>>>> set_iothread_poll_grow: set how many ns will be added to polling t=
-ime;
-> >>>>>> set_iothread_poll_shrink: set how many ns will be removed from pol=
-ling
-> >>>>>> time.
-> >>>>>>
-> >>>>>> Signed-off-by: Zhenyu Ye <yezhenyu2@huawei.com>
-> >>>>>> ---
-> >>>>>> hmp-commands.hx | 42 ++++++++++++++++++++
-> >>>>>> hmp.c | 30 +++++++++++++++
-> >>>>>> hmp.h | 3 ++
-> >>>>>> include/sysemu/iothread.h | 6 +++
-> >>>>>> iothread.c | 80 +++++++++++++++++++++++++++++++++++++++
-> >>>>>> qapi/misc.json | 23 +++++++++++
-> >>>>>> 6 files changed, 184 insertions(+)
-> >>>>>
-> >>>>> poll-max-ns, poll-grow, poll-shrink are properties of IOThread obje=
-cts.
-> >>>>> They can already be modified at runtime using:
-> >>>>>
-> >>>>>   $ qemu -object iothread,id=3Diothread1
-> >>>>>   (qemu) qom-set /objects/iothread1 poll-max-ns 100000
-> >>>>>
-> >>>>> I think there is no need for a patch.
-> >>>>>
-> >>>>> Stefan
-> >>>>>
-> >>>>
-> >>>> Thanks for your review. I have considered using the `qom-set` comman=
-d to modify
-> >>>> IOThread object's properties, however, this command is not friendly =
-to primary
-> >>>> users. The help info for this command is only:
-> >>>>
-> >>>>     qom-set path property value -- set QOM property
-> >>>>
-> >>>> It's almost impossible to get the correct `path` parameter for prima=
-ry user.
-> >>>
-> >>> Is this just a matter of documenting how to do it?
-> >>>
-> >>> It sounds like there's no need for a new QMP command though;  if you
-> >>> want an easier HMP command I'd probably still take it (because HMP is=
- ok
-> >>> at having things for convenience) - but not if it turns out that just
-> >>> adding a paragraph of documentation is enough.
-> >>>
-> >>> Dave
-> >>>
-> >>
-> >> I will show the differences in QMP and HMP:
-> >> If I want to set iothread1.poll-max-ns=3D1000 and iothread1.poll-grow=
-=3D2:
-> >>
-> >> Without this patch:
-> >> QMP command:
-> >>
-> >>     qom-set /objects/iothread1 poll-max-ns 1000
-> >>     qom-set /objects/iothread1 poll-grow 2
-> >>
-> >> HMP command:
-> >>
-> >>     { "execute": "qom-set", "arguments": { "path": "/objects/iothread1=
-",
-> >>                                            "property": "poll-max-ns", =
-"value": 1000 } }
-> >>     { "execute": "qom-set", "arguments": { "path": "/objects/iothread1=
-",
-> >>                                            "property": "poll-grow", "v=
-alue": 2} }
-> >>
-> >> with this patch:
-> >> QMP command:
-> >>
-> >>     iothread_set_parameter iothread1 max-ns 1000
-> >>     iothread_set_parameter iothread1 grow 2
-> >>
-> >> HMP command:
-> >>
-> >>     { "execute": "set-iothread-poll-params", "arguments': { "iothread-=
-id": "iothread1",
-> >>                                                             "max-ns": =
-1000, "grow": 2 } }
-> >>
-> >>
-> >> I think the inconvenience of qom-set is how to get the correct `path` =
-parameter.
-> >> Anyway, I will consider your advice.
-> >=20
-> > So it depends how obvious the path is;  if it's just   /objects/
-> > followed by whatever you used with id=3D  when you created the iothread
-> > then I think it's easy - we just need to update the docs.
-> > Is there a case where it's harder to know?
-> >=20
-> > Dave
-> >=20
->=20
-> You are right, it's just /objects/ followed by the id. Maybe we just need
-> to update the docs for qom-set.
+So if a guest doesn't respond or takes long to honor the unplug request
+the user will see the migration state 'wait-unplug'.
 
-The documentation for qom-set will become very large and unwieldy if the
-properties of all objects are documented there.
+In the migration thread we query failover devices if they're are still
+pending the guest unplug. When all are unplugged the migration
+continues. If one device won't unplug migration will stay in wait_unplug
+state.
 
-I will send a patch documenting -object iothread and CC you.
+Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+---
+ include/migration/vmstate.h |  2 ++
+ migration/migration.c       | 21 +++++++++++++++++++++
+ migration/migration.h       |  3 +++
+ migration/savevm.c          | 36 ++++++++++++++++++++++++++++++++++++
+ migration/savevm.h          |  2 ++
+ qapi/migration.json         |  5 ++++-
+ 6 files changed, 68 insertions(+), 1 deletion(-)
 
-Stefan
-
---YiEDa0DAkWCtVeE4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2y4c4ACgkQnKSrs4Gr
-c8g3UQf/fcCQEWSjRtNXN6aRlj/b3m9yJpB14lFiVbbZiLHOaI/eJYCBBrTxmRdT
-DOk8R9diFSzpBXMfgV37XOY3TcNME+Bb61TP0iTDuvDTol4PKDzRq2+fNyZzvyn4
-uujpiVxBh8qGv200JuCaHiz1vfW2jEUF5kqTrkTrIMdlrCnRCYf6maV1uYLO1NVn
-94aN/Vg8/PLgNCyKbWu3g7L7VYbOIBhNVhs4tZKb+1mJdIYJkhklzVqFnTs/ORr8
-ATaBy6m7wEdw5rKOP2zNLi+UiiAmUQoUJ4y1AiRx3/BEiNnD2p/ia+dAaw+HQnUL
-7QhSQqmaA6kyrqTQJQFd463/nDzx3A==
-=atyU
------END PGP SIGNATURE-----
-
---YiEDa0DAkWCtVeE4--
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index b9ee563aa4..ac4f46a67d 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -186,6 +186,8 @@ struct VMStateDescription {
+     int (*pre_save)(void *opaque);
+     int (*post_save)(void *opaque);
+     bool (*needed)(void *opaque);
++    bool (*dev_unplug_pending)(void *opaque);
++
+     const VMStateField *fields;
+     const VMStateDescription **subsections;
+ };
+diff --git a/migration/migration.c b/migration/migration.c
+index 3febd0f8f3..51764f2565 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -52,6 +52,7 @@
+ #include "hw/qdev-properties.h"
+ #include "monitor/monitor.h"
+ #include "net/announce.h"
++#include "qemu/queue.h"
+=20
+ #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttli=
+ng */
+=20
+@@ -819,6 +820,7 @@ bool migration_is_setup_or_active(int state)
+     case MIGRATION_STATUS_SETUP:
+     case MIGRATION_STATUS_PRE_SWITCHOVER:
+     case MIGRATION_STATUS_DEVICE:
++    case MIGRATION_STATUS_WAIT_UNPLUG:
+         return true;
+=20
+     default:
+@@ -954,6 +956,9 @@ static void fill_source_migration_info(MigrationInfo *i=
+nfo)
+     case MIGRATION_STATUS_CANCELLED:
+         info->has_status =3D true;
+         break;
++    case MIGRATION_STATUS_WAIT_UNPLUG:
++        info->has_status =3D true;
++        break;
+     }
+     info->status =3D s->state;
+ }
+@@ -1694,6 +1699,7 @@ bool migration_is_idle(void)
+     case MIGRATION_STATUS_COLO:
+     case MIGRATION_STATUS_PRE_SWITCHOVER:
+     case MIGRATION_STATUS_DEVICE:
++    case MIGRATION_STATUS_WAIT_UNPLUG:
+         return false;
+     case MIGRATION_STATUS__MAX:
+         g_assert_not_reached();
+@@ -3264,6 +3270,19 @@ static void *migration_thread(void *opaque)
+=20
+     qemu_savevm_state_setup(s->to_dst_file);
+=20
++    if (qemu_savevm_nr_failover_devices()) {
++        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
++                          MIGRATION_STATUS_WAIT_UNPLUG);
++
++        while (s->state =3D=3D MIGRATION_STATUS_WAIT_UNPLUG &&
++                !qemu_savevm_state_guest_unplug_pending()) {
++            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
++        }
++
++        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
++                MIGRATION_STATUS_ACTIVE);
++    }
++
+     s->setup_time =3D qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
+     migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+                       MIGRATION_STATUS_ACTIVE);
+@@ -3511,6 +3530,7 @@ static void migration_instance_finalize(Object *obj)
+     qemu_mutex_destroy(&ms->qemu_file_lock);
+     g_free(params->tls_hostname);
+     g_free(params->tls_creds);
++    qemu_sem_destroy(&ms->wait_unplug_sem);
+     qemu_sem_destroy(&ms->rate_limit_sem);
+     qemu_sem_destroy(&ms->pause_sem);
+     qemu_sem_destroy(&ms->postcopy_pause_sem);
+@@ -3556,6 +3576,7 @@ static void migration_instance_init(Object *obj)
+     qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
+     qemu_sem_init(&ms->rp_state.rp_sem, 0);
+     qemu_sem_init(&ms->rate_limit_sem, 0);
++    qemu_sem_init(&ms->wait_unplug_sem, 0);
+     qemu_mutex_init(&ms->qemu_file_lock);
+ }
+=20
+diff --git a/migration/migration.h b/migration/migration.h
+index 4f2fe193dc..79b3dda146 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -206,6 +206,9 @@ struct MigrationState
+     /* Flag set once the migration thread called bdrv_inactivate_all */
+     bool block_inactive;
+=20
++    /* Migration is waiting for guest to unplug device */
++    QemuSemaphore wait_unplug_sem;
++
+     /* Migration is paused due to pause-before-switchover */
+     QemuSemaphore pause_sem;
+=20
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 8d95e261f6..0f18dea49e 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1113,6 +1113,42 @@ void qemu_savevm_state_header(QEMUFile *f)
+     }
+ }
+=20
++int qemu_savevm_nr_failover_devices(void)
++{
++    SaveStateEntry *se;
++    int n =3D 0;
++
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (se->vmsd && se->vmsd->dev_unplug_pending) {
++            n++;
++        }
++    }
++
++    return n;
++}
++
++bool qemu_savevm_state_guest_unplug_pending(void)
++{
++    int nr_failover_devs;
++    SaveStateEntry *se;
++    bool ret =3D false;
++    int n =3D 0;
++
++    nr_failover_devs =3D qemu_savevm_nr_failover_devices();
++
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (!se->vmsd || !se->vmsd->dev_unplug_pending) {
++            continue;
++        }
++        ret =3D se->vmsd->dev_unplug_pending(se->opaque);
++        if (!ret) {
++            n++;
++        }
++    }
++
++    return n =3D=3D nr_failover_devs;
++}
++
+ void qemu_savevm_state_setup(QEMUFile *f)
+ {
+     SaveStateEntry *se;
+diff --git a/migration/savevm.h b/migration/savevm.h
+index 51a4b9caa8..c42b9c80ee 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -31,6 +31,8 @@
+=20
+ bool qemu_savevm_state_blocked(Error **errp);
+ void qemu_savevm_state_setup(QEMUFile *f);
++int qemu_savevm_nr_failover_devices(void);
++bool qemu_savevm_state_guest_unplug_pending(void);
+ int qemu_savevm_state_resume_prepare(MigrationState *s);
+ void qemu_savevm_state_header(QEMUFile *f);
+ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index e9e7a97c03..b7348d0c8b 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -133,6 +133,9 @@
+ # @device: During device serialisation when pause-before-switchover is ena=
+bled
+ #        (since 2.11)
+ #
++# @wait-unplug: wait for device unplug request by guest OS to be completed=
+.
++#               (since 4.2)
++#
+ # Since: 2.3
+ #
+ ##
+@@ -140,7 +143,7 @@
+   'data': [ 'none', 'setup', 'cancelling', 'cancelled',
+             'active', 'postcopy-active', 'postcopy-paused',
+             'postcopy-recover', 'completed', 'failed', 'colo',
+-            'pre-switchover', 'device' ] }
++            'pre-switchover', 'device', 'wait-unplug' ] }
+=20
+ ##
+ # @MigrationInfo:
+--=20
+2.21.0
 
 
