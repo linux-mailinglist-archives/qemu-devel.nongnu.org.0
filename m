@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4727DE4EBA
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:15:50 +0200 (CEST)
-Received: from localhost ([::1]:60662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BB8E4EAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:13:46 +0200 (CEST)
+Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0NZ-0000hl-6O
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:15:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
+	id 1iO0LZ-0006eW-2b
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO0Cb-0007UH-4E
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:04:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iO0EV-0002wJ-1x
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:06:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO0CY-00089E-TH
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:04:28 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38050)
+ (envelope-from <peter.maydell@linaro.org>) id 1iO0ET-0000c9-O3
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:06:26 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45845)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO0CY-00088u-My
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:04:26 -0400
-Received: by mail-wr1-x443.google.com with SMTP id v9so2491880wrq.5
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:04:26 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iO0ET-0000bj-Ap
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:06:25 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 41so2116268oti.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:06:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=hLRiieVh5w5MhBEjJ9FVa9Xns4wCwew3OwuKnWQYjoc=;
- b=cOA9UxDrdaVnBjtBLoHDik9YDN75HihoWKKn8tC3V1RkVw73tS8zNnj/5/gAylGTvW
- hpHv1d32LAyr53L/eCLzmrnbZw7ViDr7IdzSSszXZ/tYnn6Cuv2lkn7xugdJE7rrGpaz
- xYNzHXodWxYQ4xiXmESGnIvJmPWCLfcMTvnNcqOmliivcQnYslWEFnY/1ySbvKFdQH+8
- IxpWXErNLoAwth2ppeS9ayP7BP5oeI5QWNbahyF8PA31+CLNQCgKE8vF1cc4vE+q/pTJ
- dDqa0BnoT1N6WlMqRhV1/0oBuN1ntf2CUN9Sm0zEw+bi/yrEwr4O/Q46u3j6BTM5q+eP
- OYjA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gJ/czhl8wcTGR+TDLiE7xOgw7ak8Anrg/+q15fXKPG4=;
+ b=XhskgYdIzSF8HQ22mXBsBqJhPZCOmKSLuZaUwhwnhev/N9c6bSUHaIBTiTlaSUGQ+T
+ FuxPNwXMgs8MxxBwlQRCjRGXpMPsynoWkJnv6BZkZ5ROxstgip/EXbBDfgJnw3cZFr0c
+ eYq1WTOhcUdiDAwB9vrH6LDxBrJ5OSxqEkJhdqBWgrdSFea73F1HNKsibRmdIqi22y+G
+ oO3n8PFOL1GJdzUBVMQ1VcdrywqQ6IzbaRNYQC4BZk4+wQpRwbV0lpU+MHABHkYGOToK
+ TBgYpSO/p61ZMVZESI1sBwJx4kBoQAg+WxH5xs5ki/mXY76nBw4V2G/hzuiDs8r8Twi3
+ kPVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=hLRiieVh5w5MhBEjJ9FVa9Xns4wCwew3OwuKnWQYjoc=;
- b=PpywhqwS6VNYWxrCPE7gRX4Yh4tksAR7fOu3lXK7qhn+EuGxGXjZPiqH+pmLGXv/4Q
- 4Szt/PneIffH8Q8M4BxYA7326dGsCCPyvte7gq+cVyglEIsiqZXkA8yHM2Yw7Ju6HR0B
- dwjq2Ty8he2Tkrn1jB4thQAmTzeC8lxyO0p6YPlmfqNv9/jMM42B40lDODaemulohu0C
- WiSriKgwlXTyXUuIjfsXNyr1JmGC5m+1bRv4iD3vP7ktIqR6qvPMAVtw4f/v535D1Qbd
- YgOTx8blQOnBTLF+GPcNKrjycA6rqulc54U2qZggQiNUSpIR6EWKnHJs2th22FhF2e7w
- 3INQ==
-X-Gm-Message-State: APjAAAVmYhd4gp3DMy5HERs4EvAjyLBsbVRyPjePP4BN6H/+Lm7QW3SN
- 8lyv8bcvMQfwb1GXfvg6V1J5BQ==
-X-Google-Smtp-Source: APXvYqwOB5GTSUU4WK4LXoBH2eVIWxQ5bNQd1xrYgt1ImYrZmFdKagoRiSR/ahIWvOU+Ge+qfeP8og==
-X-Received: by 2002:a5d:4a81:: with SMTP id o1mr3187726wrq.225.1572012265077; 
- Fri, 25 Oct 2019 07:04:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r5sm3008144wrs.57.2019.10.25.07.04.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 07:04:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A0CA11FF87;
- Fri, 25 Oct 2019 15:04:23 +0100 (BST)
-References: <20191023154505.30521-1-richard.henderson@linaro.org>
- <20191023154505.30521-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 3/7] configure: Detect compiler support for
- __attribute__((alias))
-In-reply-to: <20191023154505.30521-4-richard.henderson@linaro.org>
-Date: Fri, 25 Oct 2019 15:04:23 +0100
-Message-ID: <87tv7wly54.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gJ/czhl8wcTGR+TDLiE7xOgw7ak8Anrg/+q15fXKPG4=;
+ b=YVXlCFaWBggN1KxIDONbZMhfau6tcyjBHFBJ2zL50K8qIXjLEIk5BUjszmFdxSZrgv
+ SZHxur2Vb8DOc/7NjL8JehU8gSGg8j3YWF+i5b7O42FvDQVWZ5eTtD42SwiIhxIwxE9n
+ CdeUD+eKIGOpHEr0OUiS+268+Mv3Rnld93JgiEp73zPb3Jha0t92m7JzwwEhCyVvOpXQ
+ R4rrl3gN3+mrFbJgzox73pFMdbV8H7G8b1OUqMOjTMKZtv4GnluxvguourlD3UZ70Y4u
+ QzqJmxSHOdiFFxN90Y1HJxGJ0eUEWX2jnVZ6K0PT2a6i3IuYBJ/rg67CQRUJnErcu+rd
+ nAsw==
+X-Gm-Message-State: APjAAAUbwvzfonPJd42/T9UWmvOl4ODgy2GITc1KFhMTAhgnT0Z95qqW
+ zE414GJW5e6t91spjluM4cyKo3Wn8Ozdb9HuEy6FwA==
+X-Google-Smtp-Source: APXvYqwarya0gnCIlCeWY5d/v0i9HIHOu8TI5Kaag1GIkYJGEz/ntZEeWtH54Mbaxn+EPmlEzwDYCzumuOaob4yWvQo=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr3070845otg.91.1572012383418;
+ Fri, 25 Oct 2019 07:06:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20191024121808.9612-1-drjones@redhat.com>
+ <CAFEAcA9ehcuktCTGR0xpTvZegUkr99H62F_fiT7RY_L_dqgN4g@mail.gmail.com>
+ <CAFEAcA981jAU6F9RRWBuzg+_5JDrd-ip-L_awtzdZFqKmewMvA@mail.gmail.com>
+ <20191025135159.44siz7g3szpz23og@kamzik.brq.redhat.com>
+In-Reply-To: <20191025135159.44siz7g3szpz23og@kamzik.brq.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 15:06:12 +0100
+Message-ID: <CAFEAcA9ZdrAgMhdfUxz0OJnM-dF9XGwR-+FeqnyJAsrntGgL_A@mail.gmail.com>
+Subject: Re: [PATCH v7 0/9] target/arm/kvm: enable SVE in guests
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,70 +74,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: m.mizuma@jp.fujitsu.com, Beata Michalska <beata.michalska@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Such support is present almost everywhere, except for Xcode 9.
-> It is added in Xcode 10, but travis uses xcode9 by default,
-> so we should support it for a while yet.
-
-We really should get someone who has an AppleID to check what the
-support period is because if Apple don't care about Xcode9 anymore I
-doubt we should.
-
-Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On Fri, 25 Oct 2019 at 14:52, Andrew Jones <drjones@redhat.com> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  configure | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+> On Fri, Oct 25, 2019 at 01:06:26PM +0100, Peter Maydell wrote:
+> > Fails 'make check' on my aarch32-compile-in-chroot-on-aarch64
+> > machine:
 >
-> diff --git a/configure b/configure
-> index 145fcabbb3..3a9862fe5e 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5518,6 +5518,21 @@ if compile_prog "" "" ; then
->    vector16=3Dyes
->  fi
->
-> +########################################
-> +# See if __attribute__((alias)) is supported.
-> +# This false for Xcode 9, but has been remedied for Xcode 10.
-> +# Unfortunately, travis uses Xcode 9 by default.
-> +
-> +attralias=3Dno
-> +cat > $TMPC << EOF
-> +int x =3D 1;
-> +extern const int y __attribute__((alias("x")));
-> +int main(void) { return 0; }
-> +EOF
-> +if compile_prog "" "" ; then
-> +    attralias=3Dyes
-> +fi
-> +
->  ########################################
->  # check if getauxval is available.
->
-> @@ -7083,6 +7098,10 @@ if test "$vector16" =3D "yes" ; then
->    echo "CONFIG_VECTOR16=3Dy" >> $config_host_mak
->  fi
->
-> +if test "$attralias" =3D "yes" ; then
-> +  echo "CONFIG_ATTRIBUTE_ALIAS=3Dy" >> $config_host_mak
-> +fi
-> +
->  if test "$getauxval" =3D "yes" ; then
->    echo "CONFIG_GETAUXVAL=3Dy" >> $config_host_mak
->  fi
+> Are there easy-to-follow instructions for setting this environment up
+> somewhere?
+
+It's an ancient setup, so not really. But it's just an
+Ubuntu 32-bit chroot inside an Ubuntu 64-bit host. I use
+schroot to manage it.
 
 
---
-Alex Benn=C3=A9e
+
+> I guess the problem is how we're determining if KVM is available, which
+> is like this
+>
+> int main(int argc, char **argv)
+> {
+>     bool kvm_available = false;
+>
+>     if (!access("/dev/kvm",  R_OK | W_OK)) {
+> #if defined(HOST_AARCH64)
+>         kvm_available = g_str_equal(qtest_get_arch(), "aarch64");
+> #elif defined(HOST_ARM)
+>         kvm_available = g_str_equal(qtest_get_arch(), "arm");
+> #endif
+>     }
+
+> So we need /dev/kvm and the QEMU binary arch type (qemu-system-arm in
+> this case) needs to match the host arch type. The problem is that
+> HOST_<type> doesn't imply anything about the actual host arch type.
+> <type> comes from the configure $ARCH variable, which for 'arm'
+> comes from the $cpu variable, which for 'arm' comes from whether or
+> not the compiler defines __arm__, and cross compilers certainly do.
+> I guess we'd have the same problem in an aarch32-compile-in-chroot-on-
+> <any-other-type> environment, if a cross compiler is used for the
+> compiling. I should change the KVM available check to something that
+> uses the actual host arch type. I assume the following works, but
+> I don't know if I'm allowed to use uname() in these tests, and, if
+> not, then I don't know what the right way to get the actual host
+> type is.
+
+This all feels like it's trying to do the wrong thing, ie
+replicate the logic within QEMU that decides whether to use
+KVM or not. Some possible other approaches:
+
+ * If you want to know whether you can run the qemu binary
+   with -accel kvm, then just try that and see if it succeeds.
+ * Or use '-accel kvm:tcg' and make the test work so that it
+   will pass for both KVM and TCG
+ * Or use QMP to query what accelerators are available, assuming
+   there's a QMP command for that
+
+thanks
+-- PMM
 
