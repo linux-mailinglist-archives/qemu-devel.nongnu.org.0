@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A21E5221
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:16:02 +0200 (CEST)
-Received: from localhost ([::1]:34814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391D4E522C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:20:48 +0200 (CEST)
+Received: from localhost ([::1]:34862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO3Bw-0006AP-A9
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41059)
+	id 1iO3GY-0000hi-TF
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41086)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iO2mZ-00042H-Rh
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:49:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iO2mn-0004TM-HV
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:50:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iO2mY-0004DD-28
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:49:47 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46706)
+ (envelope-from <alex.bennee@linaro.org>) id 1iO2mm-0004Nd-8s
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:50:01 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iO2mX-0004Ci-KP
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:49:46 -0400
-Received: by mail-oi1-x244.google.com with SMTP id c2so2014848oic.13
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 09:49:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iO2mm-0004N0-2k
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:50:00 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g7so2865457wmk.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 09:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VoZbl5OxKxZPuFiNKqwKOiwQuGJcnCnPWMqR6+Ad2XU=;
- b=MOPRqMjOk+pR7H72nrCVTN9Wh6hU/2M5x4S8o1wzq6qkaNmfjDXaO7JvlQ7zganTlE
- Am1Jr0rGi9j+iUXKcfJlHZGMmG/CAqrCZO80lATFeNFLkWnfnzfzqY8WQ2KFht0+KFM8
- Pxyv8Zt4NuSw8CEwfnWOrq803kroSpcbeXnVIqax+4r5gvfKx32GcMHBmcY1W1ECh94H
- LLFcGQrtjKUgSNv8LuPPevbLA5bg2nPejmr18c7zHqPw/Si0cod6AJ4tWWtCAU8pZRPo
- QhcuCzw2hZM7gZEisHY4bm4F2LfO0anSZyXPLjCqkHh1TMbeN4AXN5VhD33MHEbjQMaB
- F4sQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zx6XwIyFQ0x5ZUJaoOLc643ilC0msPixGlH7xt6GnbM=;
+ b=H467Snk/01MnHUNJdySfk+Cp6/Raq7LhAt9FhuUz8XFBtnOKjHg4TbJ8xMV6xTWMZU
+ pGX2v55pkcXDicHhkyRn4sRyi143QjTdgvRJknquKUCZSB+EetG0ONFSAQkfxtfUInBc
+ 2Ktn6Ov4iShrwzJ4tlj4l2Grd3h8Cu89PS2tOx/4Oy5A6yvz4Qxqj0yupTvru3XqJh9H
+ BxH3DppK9EFrenUuAah/YhtkU8doPk23OoBKpHC7VK1szs4rbX83oxJns9Z0hKxY430T
+ oUBl8ZtTZWT8MncxTFFRfj2LhrrbgmJIOhBptK/yKTBvftOIf7w47lhGxCheCY2/t0q2
+ sJxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VoZbl5OxKxZPuFiNKqwKOiwQuGJcnCnPWMqR6+Ad2XU=;
- b=pQ8AvRSCJebmdq38fLxASwZSeLP97kwl9x3B3fZ3gCxvXjj3i7Bx0CEXkQlQyomslk
- HHHvgHX78rtTobWlO0cuWxqyPXUahOKR1rtLTjsRnd5/5mn1QcNUe/wb1sDfaXpwlM+V
- QXQQtMN5lwMADPKXAqayBwcISZ/iRP2sHwpPdbUIJnRc12SJckkyslM5fAYvPRnw/ApS
- kOGrsME7tjkLtcqESKjdAnS6T8oemTqTE8iUQAJxep0bnMIr28DhygzWD4XfzctM1M4v
- szIQdbF+cxYofh13tMlv9AqA37Gik7DqO9Qsx7EYhB7Of7BcPJYvYAKNq2lWL3IEl77S
- /M6w==
-X-Gm-Message-State: APjAAAUgxxApOKRLcrVX0KFKMS2pX55rP9XQayVf/KnPEVfTuiYTc/m7
- uQ5N5RKaMBoCkH/0zS9RQSsKbiLVfrKSpwkADboOIA==
-X-Google-Smtp-Source: APXvYqydKDV4+7MmdGyNc4Puzjuk7jppiAoFaSfx5WYfLKOUYA8CsC4BLsMdXqqFD+HA7yAjKeOqOPxKH5LRSWZtxB0=
-X-Received: by 2002:a05:6808:7d1:: with SMTP id
- f17mr3201089oij.163.1572022184584; 
- Fri, 25 Oct 2019 09:49:44 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=zx6XwIyFQ0x5ZUJaoOLc643ilC0msPixGlH7xt6GnbM=;
+ b=YrERW3n2y7y26O/ZdxpU6fKFYmCfCT1D5g3TtO5j6JiUPQN8UDDHdbz0QuBzN3VlvA
+ mqq6ANdlFMqeB8rqmdlXhjoU+nyzevU2o0T65lmoGmtZ/6LW48+6wHUhBuLzhks9wtjh
+ xGem1aq8V27RP4pNp2jaWTRZG2JLA5PgLrYtOolYtUlV0o08gZOPh+VrJZPPvh4lcACV
+ V3p0lOR1TIYzolUbJCaO+pfNRUUWhxQr9U1VPTgDNycFNMLyEJYEUhAQ4om8MtFbLCeO
+ CWLS3Mso1eKNNIYE23fj4CFLO7CxbylgnSWgkYT+5xKYUnc+hD8P4/eogRqWHWMXQJzv
+ fRmA==
+X-Gm-Message-State: APjAAAW+pVgAeTQ6x0tvdFX2KbVE2o/32yomFUeh1vVwo6xvO9fpDDAV
+ 40Kd1x9Xsbc6MLJbu3omPLIRjA==
+X-Google-Smtp-Source: APXvYqzRYwZHuZj2No2f6YZx36zgxaLeIh6sjYUnEEg3bbgkddlkv+bA4DnDCNr4klMcvJ4XD6EqRA==
+X-Received: by 2002:a1c:7406:: with SMTP id p6mr4657105wmc.64.1572022198272;
+ Fri, 25 Oct 2019 09:49:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p126sm2696424wme.0.2019.10.25.09.49.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 09:49:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DCD9C1FF87;
+ Fri, 25 Oct 2019 17:49:56 +0100 (BST)
+References: <20191025155848.17362-1-peter.maydell@linaro.org>
+ <20191025155848.17362-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 1/4] tcg/aarch64/tcg-target.opc.h: Add copyright/license
+In-reply-to: <20191025155848.17362-2-peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 17:49:56 +0100
+Message-ID: <87imoclqh7.fsf@linaro.org>
 MIME-Version: 1.0
-References: <89ada4b1-ee3d-a512-07c2-9bc1ba5806da@redhat.com>
- <20191024224622.12371-1-keithp@keithp.com> <8736fhm9tw.fsf@linaro.org>
- <87pnik4w9n.fsf@keithp.com>
-In-Reply-To: <87pnik4w9n.fsf@keithp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Oct 2019 17:49:33 +0100
-Message-ID: <CAFEAcA-g+RkvYjseDE=1Z=gnLum0Cjvn_7bqB3ti+cBq9UZ3Eg@mail.gmail.com>
-Subject: Re: [PATCH] Semihost SYS_READC implementation (v4)
-To: Keith Packard <keithp@keithp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,81 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Oct 2019 at 17:40, Keith Packard <keithp@keithp.com> wrote:
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> Add the copyright/license boilerplate for target/aarch64/tcg-target.opc.h.
+> This file has only had two commits: 14e4c1e2355473ccb29
+> and 79525dfd08262d8, both by Linaro engineers.
+
+Both in fact by the same Linaro engineer - I only reviewed them.
+
+> The license is GPL-2-or-later, since that's what the
+> rest of tcg/aarch64 uses.
 >
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  tcg/aarch64/tcg-target.opc.h | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
 >
-> > I can see the use for this but I'd like to know what you are testing
-> > with. We only have very basic smoketests in check-tcg but I've tested
-> > with the latest arm-semihosting tests and they are all fine so no
-> > regressions there.
+> diff --git a/tcg/aarch64/tcg-target.opc.h b/tcg/aarch64/tcg-target.opc.h
+> index 59e1d3f7f7d..26bfd9c4609 100644
+> --- a/tcg/aarch64/tcg-target.opc.h
+> +++ b/tcg/aarch64/tcg-target.opc.h
+> @@ -1,5 +1,14 @@
+> -/* Target-specific opcodes for host vector expansion.  These will be
+> -   emitted by tcg_expand_vec_op.  For those familiar with GCC internals,
+> -   consider these to be UNSPEC with names.  */
+> +/*
+> + * Copyright (c) 2019 Linaro
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> + * (at your option) any later version.
+> + *
+> + * See the COPYING file in the top-level directory for details.
+> + *
+> + * Target-specific opcodes for host vector expansion.  These will be
+> + * emitted by tcg_expand_vec_op.  For those familiar with GCC internals,
+> + * consider these to be UNSPEC with names.
+> + */
 >
-> I'm adding semihosting support to picolibc
-> (https://keithp.com/picolibc/) and need a way to automate tests for it's
-> SYS_READC support, so eventually I'll have automated tests there, but
-> that depends on qemu support...
+>  DEF(aa64_sshl_vec, 1, 2, 0, IMPLVEC)
 
-I have a cheesy-but-functional set of test code
-https://git.linaro.org/people/peter.maydell/semihosting-tests.git/
-here, fwiw.
 
-> Argh! Just git operation failure -- I'm building another patch on top of
-> this (for RISC-V semihosting support) and the stubs/semihost.c change
-> got caught in there. My overall check for changes missed this mistake.
-
-Is there a specification for RISC-V semihosting? This is
-likely to be my first question when the support comes
-round for review, so you can have it early :-)  We'd
-prefer to implement specified interfaces, not random
-ad-hoc "this seems to be what newlib wants to see,
-which is turn got hacked together by copying some other
-architecture's code".
-
-> Here's what the docs say:
->
->         https://static.docs.arm.com/100863/0200/semihosting.pdf
->
->         Return
->
->         On exit, the RETURN REGISTER contains the byte read from the cons=
-ole.
->
-> If this call didn't block, they'd have to define a value which indicated
-> that no byte was available? Openocd also implements SYS_READC using
-> 'getchar()', which definitely blocks. So, at least qemu would be the
-> same.
->
-> I realize it's really weird to block the whole emulation for this call,
-> but given the target environment (deeply embedded devices), it's quite
-> convenient as the whole qemu process blocks, instead of spinning.
-
-Yeah, the docs could perhaps spell it out more clearly, but
-the intention is that the call blocks.
-
-It's possible if necessary to implement this so it doesn't
-block the entire simulation: you just have the QEMU implementation
-do a block-until-character-or-timeout operation, and if it times
-out then you rewind the guest PC to point at the BRK/HLT insn that
-triggered the semihosting call, and resume simulation. That would
-give an opportunity for things like interrupts to fire before going
-back into waiting for a character. This feels to me like it's a bit
-overcomplicated unless it turns out we actually require it though.
-
-> I also thought this would be a nice cleanup. However, the last caller to
-> qemu_chr_fe_set_handlers gets the focus for input, and connect_chardevs
-> is called before the serial ports and monitor are initialized, so
-> semihosting gets pushed aside and stdio input ends up hooked to the monit=
-or
-> instead.
-
-Isn't the answer to this "don't use a command line that tries
-to connect stdio to multiple things" ?
-
-thanks
--- PMM
+--
+Alex Benn=C3=A9e
 
