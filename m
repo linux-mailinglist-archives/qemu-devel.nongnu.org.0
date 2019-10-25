@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9BBE4FDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 17:12:40 +0200 (CEST)
-Received: from localhost ([::1]:33576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D609E4FDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 17:12:13 +0200 (CEST)
+Received: from localhost ([::1]:33568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO1GZ-0001Qj-K4
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 11:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51476)
+	id 1iO1G8-0000DE-Cq
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 11:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iO11M-0004PH-9c
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:56:57 -0400
+ (envelope-from <berrange@redhat.com>) id 1iO158-0002s1-Mk
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 11:00:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iO11L-0001bc-4a
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:56:56 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33589
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1iO156-0004An-QE
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 11:00:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28918
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iO11L-0001av-0W
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:56:55 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iO156-0004AT-LI
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 11:00:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572015413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1572015648;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MEgFmb1M/DJZsvPe9JHbjdE6mVfQztvJTR5SwOp+Mqs=;
- b=KdVCuWGUnI8MNjhrh0eBSwJy+INGtniiQDY8TcrCK6xjhENSw2oyRrhbAxTI9WpMnrET4W
- wkBt2EpTqNNNubRi1pUOte8gb9Uxtt99pruV6vVJ1r3pOVMdxoUCaoJxkFZxltlGpH87UT
- c4pKeB+84z0mBz4tIpvxQN8jxGgmInE=
+ bh=jflf4mp/rscKKK6BrMZh6LnHqC3coJcf/hLn6c8H8Vo=;
+ b=Kh2ku6KlYq67/db4sH6zKBlvaFBc3A2yhS1f5nXN2k/KkY9WV5GdUljSk1fvqYLKL40sYE
+ gMT3wPxVpvRZk3/njqXmEX9Vp/aC9W4PeAgBiCklrBTQU3CkMOyq8+rGO29mrls0dmILBh
+ t4OcMDY+WE+nEebZ5AQIxpknJ9HwIXQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-_zedvQKWMLCx7BnRnGo_TQ-1; Fri, 25 Oct 2019 10:56:52 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-277-D5-18b-yMZ2xcBFa5ck71Q-1; Fri, 25 Oct 2019 11:00:45 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669395EF;
- Fri, 25 Oct 2019 14:56:51 +0000 (UTC)
-Received: from x1.home (ovpn-116-110.phx2.redhat.com [10.3.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86F085D772;
- Fri, 25 Oct 2019 14:56:49 +0000 (UTC)
-Date: Fri, 25 Oct 2019 08:56:47 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH v5 02/11] pci: add option for net failover
-Message-ID: <20191025085647.5dbc2230@x1.home>
-In-Reply-To: <20191025105232.gp22qlwjgpqsumie@jenstp.localdomain>
-References: <20191023082711.16694-1-jfreimann@redhat.com>
- <20191023082711.16694-3-jfreimann@redhat.com>
- <20191023120648.57e50ae1@x1.home>
- <20191025105232.gp22qlwjgpqsumie@jenstp.localdomain>
-Organization: Red Hat
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6031C5E6;
+ Fri, 25 Oct 2019 15:00:44 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50BA35C1B5;
+ Fri, 25 Oct 2019 15:00:42 +0000 (UTC)
+Date: Fri, 25 Oct 2019 16:00:40 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 0/7] i386: Add `machine` parameter to query-cpu-definitions
+Message-ID: <20191025150040.GC3581@redhat.com>
+References: <20191025022553.25298-1-ehabkost@redhat.com>
+ <dbf9e4c1-0acf-9469-84f9-f80c41e2cae0@redhat.com>
+ <6e7d171e-18c4-6835-f89c-e9e66c093d62@de.ibm.com>
+ <4cd530f9-54f3-80e7-1b66-c91f71160062@redhat.com>
+ <20191025140310.GB3581@redhat.com>
+ <7a29438c-572d-5a26-a14f-717a177af4d1@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: _zedvQKWMLCx7BnRnGo_TQ-1
+In-Reply-To: <7a29438c-572d-5a26-a14f-717a177af4d1@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: D5-18b-yMZ2xcBFa5ck71Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,72 +78,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- laine@redhat.com, ailan@redhat.com, parav@mellanox.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Oct 2019 12:52:32 +0200
-Jens Freimann <jfreimann@redhat.com> wrote:
+On Fri, Oct 25, 2019 at 04:23:59PM +0200, David Hildenbrand wrote:
+> > > > For example
+> > > > -machine s390-virtio-ccw-3.1 -cpu z14 will not have the multiple ep=
+och facility
+> > > > and
+> > > > -machine s390-virtio-ccw-4.0 -cpu z14 will have the multiple epoch =
+facility.
+> > > > As migration does always require the tuple of machine and cpu this =
+is save. I fail
+> > > > to see what the benefit of an explicit z14-3.1 would be.
+> > > >=20
+> > >=20
+> > > AFAIKS the only real benefit of versioned CPU models is that you can =
+add new
+> > > CPU model versions without new QEMU version.
+> >=20
+> > This is very important for backporting CPU security fixes to existing Q=
+EMU
+> > releases.
+>=20
+> I'd say it's not really relevant for backporting per se. It's relevant fo=
+r
+> automatically enabling security fixes when not using the host model. That
+> part I understand. Less likely to make mistakes when explicitly specifyin=
+g
+> CPU models.
+>=20
+> I once was told that if a user actually specified an explicit CPU model i=
+n
+> the libvirt XML ("haswell-whatever"), you should not go ahead and make an=
+y
+> later changes to that model (guest ABI should not change when you
+> update/restart the guest ...). So this only applies when creating new
+> guests? Or will you change existing model definitions implicitly?
 
-> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
-> >On Wed, 23 Oct 2019 10:27:02 +0200
-> >Jens Freimann <jfreimann@redhat.com> wrote: =20
-> [...]
-> >> @@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev,=
- Error **errp)
-> >>          }
-> >>      }
-> >>
-> >> +    if (pci_dev->net_failover_pair_id) {
-> >> +        if (!pci_is_express(pci_dev)) {
-> >> +            error_setg(errp, "failover device is not a PCIExpress dev=
-ice");
-> >> +            error_propagate(errp, local_err);
-> >> +            return;
-> >> +        } =20
-> >
-> >Did we decide we don't need to test that the device is also in a
-> >hotpluggable slot?  Are there also multi-function considerations that
-> >should be prevented or documented?  For example, if a user tries to
-> >configure both the primary and failover NICs in the same slot, I assume
-> >bad things will happen. =20
->=20
-> I added this check
->=20
->         if (!(pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
->             && (PCI_FUNC(pci_dev->devfn) =3D=3D 0)) {
->             qdev->allow_unplug_during_migration =3D true;
->         } else {
->             error_setg(errp, "failover: primary device must be in its own=
- "
->                               "PCI slot");
->             error_propagate(errp, local_err);
->             pci_qdev_unrealize(DEVICE(pci_dev), NULL);
->             return;
->         }
->=20
-> When I first add a vfio-pci with net_failover_pair_id=3Dx,multifunction=
-=3Don
-> and addr=3D0.0 I will now get an error.
->=20
-> (qemu) device_add vfio-pci,...,bus=3Droot2,net_failover_pair_id=3Dnet1,mu=
-ltifunction=3Don,addr=3D0.0
-> Error: failover: primary device must be in its own PCI slot
->=20
-> If I put in a virtio-net device in slot 0 and then try to add a
-> vfio-pci device in the same slot I get the following error message:
->=20
-> -device virtio-net-pci,...id=3Dnet1bus=3Droot1,failover=3Don,multifunctio=
-n=3Don,addr=3D0.0
-> (qemu) device_add vfio-pci,id=3Dhostdev1,host=3D0000:5e:00.2,bus=3Droot1,=
-net_failover_pair_id=3Dnet1,addr=3D0.1
-> Error: PCI: slot 0 function 0 already ocuppied by virtio-net-pci,
->    new func vfio-pci cannot be exposed to guest.
+Libvirt will only ever expand a bare CPU model at time it first parses
+the XML. So if a mgmt app defines a new persistent guest in libvirt, the
+CPU is expanded them and remains unchanged thereafter, in order to preserve
+ABI compat.
 
-Cool, looks good.  Thanks,
+If using transient guests its different as libvirt doesn't store the config
+in disk when the guest isn't running. So mgmt apps using transient guests
+are responsible  for picking a explicit versioned model themselves if they
+need stable ABI.
 
-Alex
+> > > Then you can specify "-cpu z13-vX" or "-cpu z13 -cpuv X" (no idea how
+> > > versioned CPU model were implemented) on any QEMU machine. Which is t=
+he same
+> > > as telling your customer "please use z13,featX=3Don" in case you have=
+ a good
+> > > reason to not use the host model (along with baselining) but use an e=
+xplicit
+> > > model.
+> > >=20
+> > > If you can change the default model of QEMU machines, you can automat=
+e this
+> > > process. I am pretty sure this is a corner case, though (e.g., IBRS).
+> > > Usually you have a new QEMU machine and can simply enable the new fea=
+ture
+> > > from that point on.
+> >=20
+> > There are now 4 Haswell variants, only some of which are runnable
+> > on any given host, depending on what microcode the user has installed
+> > or what particular Haswell silicon SKU the user purchased. Given the
+> > frequency of new CPU flaws arrived since the first Meltdown/Spectre,
+> > this isn't a corner case, at least for the x86 world & Intel in
+> > particular. Other arches/vendors haven't been quite so badly affected
+> > in this way.
+>=20
+> On s390x you can assume that such firmware/microcode updates will be on a=
+ny
+> machine after some time. That is a big difference to x86-64 AFAIK.
+
+I don't know s390x much, but can we really assume that users promptly
+install firmware updates, any better than users do for x86 or other
+arch. IME corporate beaurcracy can drag out time to update arbitrarily
+long.
+
+> > If we tied each new Haswell variant to a machine type, then users would
+> > be blocked from consuming a new machine type depending on runnability o=
+f
+> > the CPU model. This is not at all desirable, as mgmt apps now have comp=
+lex
+> > rules on what machine type they can use.
+>=20
+> So you actually want different CPU variants, which you have already, just=
+ in
+> a different form. (e.g., "haswell" will be mapped to "haswell-whatever",
+> just differently via versions)
+
+Yes, you can think of "Haswell", "Haswell-noTSX", "Haswell-noTSX-IBRS"
+as all being versions of the same thing. There was never any explicit
+association or naming though. So what's changing is that we're defining
+a sane naming scheme for the variants of each model so we don't end
+up with   "Haswell-noTSX-IBRS-SSBD-MDS-WHATEVER-NEXT-INTEL-FLAW-IS",
+and we declaring that a bare "Haswell" will expand to some "best"
+version depending on machine type (but also selectable by mgmt app
+above).
+
+> > Both these called for making CPU versioning independant of machine
+> > type versioning.
+> >=20
+> > Essentially the goal with CPU versioning is that the user can request
+> > a bare "Haswell" and libvirt (or the mgmt app) will automatically
+> > expand this to the best Haswell version that the host is able to
+> > support with its CPUs / microcode / BIOS config combination.
+>=20
+>=20
+> So if I do a "-cpu haswell -M whatever-machine", as far as I understood
+> reading this,  I get the "default CPU model alias for that QEMU machine" =
+and
+> *not* the "best Haswell version that the host is able to support".
+>=20
+> Or does the default actually also depend on the current host?
+
+At the QEMU level "haswell" will expand to a particular CPU version
+per machine type. So yes, at the QEMU level machine types might have
+a dependancy on the host.
+
+Above QEMU though, libvirt/mgmt apps can be more dynamic in how they
+expand a bare "haswell" to take account of what the host supports.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
