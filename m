@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2585E5247
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:28:29 +0200 (CEST)
-Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12335E522F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:22:32 +0200 (CEST)
+Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO3O1-0002ne-2A
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:28:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44708)
+	id 1iO3ID-00053m-G0
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iO3DT-0007K1-2z
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:17:37 -0400
+ (envelope-from <david@redhat.com>) id 1iO3Fv-0001K0-7X
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:20:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iO3DP-0000hN-SG
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:17:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:19083)
+ (envelope-from <david@redhat.com>) id 1iO3Ft-0004yt-FN
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:20:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56140
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iO3DN-0000Yo-Uw
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:17:30 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iO3Ft-0004vY-1z
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:20:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572024003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3v+GSmMQPPkXsBm1xBxl1LmRHcfjOeWRWp+ur6ft3MY=;
+ b=c1Jpf9mdeL4sJbLDcgwCW3DOcjwkpS3S3ZylLsog29PRjKh7f2qSyxwMtVW5BV6y0JbAzb
+ HIqTnGMt9v4bvO1qVlFzMdVUOkUQg13eOa0p2Y9YFj4BhKmkaoZVkiatE3lDR+HpOSDJa6
+ tHyDydZvzBltwwFErLcPHVDkUZ5n5KY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-mPiM2zDVPHmEGMfjNwL0yw-1; Fri, 25 Oct 2019 13:19:59 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3AA7381F01
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 17:17:27 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id x9so1585427wrq.5
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:17:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mykVdOgmocfFRC8diGfS9iMn+BvNzZ/8oBO7MssQwek=;
- b=D5YfDtPKpKNZNd1CLfaWsQcYCLHret44WwcOYHNWRD6ZeTXt9exRUhhvr4uNlN44jx
- +VuehtgFIH6KPrV7jVp/DYU20KvcLQx2YhlOIsaaaHkm824386jyAWj2k/rmFZ9Z+zDG
- JDMKixQ41LAjG9cyUeilqdKzYTIOMZ+AJqMEI5yIwJBtxSp4tcQP97tPgmX1FCFqrqcj
- OlX3gF7s8LyP5oAerY3TpJlauF4mcnwFjxrsJdTiYRhl7gTA6n4Ck6lVewVFSGav+aif
- ltLIa7ZlHCnCZY8gukH5Tf0i7IdbMul7340Ul6rms3emugIomQwZOQb3tF1zF4fdM8gE
- BSWg==
-X-Gm-Message-State: APjAAAWcRiBA5JudtUuWbANm4iljrLJC+hP84ncgtQEnu+S8VYG2xu8R
- LNJmkU79iKHFvhwXgIAJ0D5yLSG28LMdzp2whgVxraVVVUty5f0HM7t4VpEaQDiBybPTjH+7RK+
- p/YJ8cRGeL/7ztjg=
-X-Received: by 2002:a5d:6787:: with SMTP id v7mr4213231wru.392.1572023845933; 
- Fri, 25 Oct 2019 10:17:25 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx+Eo34IgtB7OcgkkAwGx3bhyxQj40aBzYlR8jQa0BxnmqB775qEg9J9e6hVm5Goinezvwosg==
-X-Received: by 2002:a5d:6787:: with SMTP id v7mr4213203wru.392.1572023845676; 
- Fri, 25 Oct 2019 10:17:25 -0700 (PDT)
-Received: from [192.168.43.238] (51.red-95-127-156.staticip.rima-tde.net.
- [95.127.156.51])
- by smtp.gmail.com with ESMTPSA id w17sm3091171wra.34.2019.10.25.10.17.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Oct 2019 10:17:25 -0700 (PDT)
-Subject: Re: [PATCH 00/11] tests/acceptance: Fix 64-bit MIPS target tests
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20191019153437.9820-1-f4bug@amsat.org>
- <CAL1e-=hMJmmRzD8iQdKji__RKPbGrV0fGNciz2bgLjkhmC2v6Q@mail.gmail.com>
- <CAL1e-=g+bayWb81M1r0kxf-RU6H=WxKSvXT5TxyuDpVMbuG-KQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7fa0f06c-5076-3016-ac26-26b31e2b720d@redhat.com>
-Date: Fri, 25 Oct 2019 19:17:22 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5CDD800D41;
+ Fri, 25 Oct 2019 17:19:58 +0000 (UTC)
+Received: from [10.36.116.74] (ovpn-116-74.ams2.redhat.com [10.36.116.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 804E45D70E;
+ Fri, 25 Oct 2019 17:19:56 +0000 (UTC)
+Subject: Re: [PATCH 0/7] i386: Add `machine` parameter to query-cpu-definitions
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191025022553.25298-1-ehabkost@redhat.com>
+ <dbf9e4c1-0acf-9469-84f9-f80c41e2cae0@redhat.com>
+ <6e7d171e-18c4-6835-f89c-e9e66c093d62@de.ibm.com>
+ <4cd530f9-54f3-80e7-1b66-c91f71160062@redhat.com>
+ <20191025140310.GB3581@redhat.com>
+ <7a29438c-572d-5a26-a14f-717a177af4d1@redhat.com>
+ <20191025150040.GC3581@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <92cda748-8cb0-e95d-8fe1-4f9632762f64@redhat.com>
+Date: Fri, 25 Oct 2019 19:19:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=g+bayWb81M1r0kxf-RU6H=WxKSvXT5TxyuDpVMbuG-KQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191025150040.GC3581@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: mPiM2zDVPHmEGMfjNwL0yw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,22 +80,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/19 6:46 PM, Aleksandar Markovic wrote:
-> On Thu, Oct 24, 2019 at 11:23 AM Aleksandar Markovic
-> <aleksandar.m.mail@gmail.com> wrote:
->>
->> ping for Cleber and Eduardo
->>
-> 
-> I applied patches 7, 8, 9, 10, and 11 to MIPS queue.
+>> I once was told that if a user actually specified an explicit CPU model =
+in
+>> the libvirt XML ("haswell-whatever"), you should not go ahead and make a=
+ny
+>> later changes to that model (guest ABI should not change when you
+>> update/restart the guest ...). So this only applies when creating new
+>> guests? Or will you change existing model definitions implicitly?
+>=20
+> Libvirt will only ever expand a bare CPU model at time it first parses
+> the XML. So if a mgmt app defines a new persistent guest in libvirt, the
+> CPU is expanded them and remains unchanged thereafter, in order to preser=
+ve
+> ABI compat.
 
-Thanks Aleksandar!
+Okay, perfect.
+
+>=20
+> If using transient guests its different as libvirt doesn't store the conf=
+ig
+> in disk when the guest isn't running. So mgmt apps using transient guests
+> are responsible  for picking a explicit versioned model themselves if the=
+y
+> need stable ABI.
+
+That makes sense.
+
+>=20
+>>>> Then you can specify "-cpu z13-vX" or "-cpu z13 -cpuv X" (no idea how
+>>>> versioned CPU model were implemented) on any QEMU machine. Which is th=
+e same
+>>>> as telling your customer "please use z13,featX=3Don" in case you have =
+a good
+>>>> reason to not use the host model (along with baselining) but use an ex=
+plicit
+>>>> model.
+>>>>
+>>>> If you can change the default model of QEMU machines, you can automate=
+ this
+>>>> process. I am pretty sure this is a corner case, though (e.g., IBRS).
+>>>> Usually you have a new QEMU machine and can simply enable the new feat=
+ure
+>>>> from that point on.
+>>>
+>>> There are now 4 Haswell variants, only some of which are runnable
+>>> on any given host, depending on what microcode the user has installed
+>>> or what particular Haswell silicon SKU the user purchased. Given the
+>>> frequency of new CPU flaws arrived since the first Meltdown/Spectre,
+>>> this isn't a corner case, at least for the x86 world & Intel in
+>>> particular. Other arches/vendors haven't been quite so badly affected
+>>> in this way.
+>>
+>> On s390x you can assume that such firmware/microcode updates will be on =
+any
+>> machine after some time. That is a big difference to x86-64 AFAIK.
+>=20
+> I don't know s390x much, but can we really assume that users promptly
+> install firmware updates, any better than users do for x86 or other
+> arch. IME corporate beaurcracy can drag out time to update arbitrarily
+> long.
+
+That's what you get when you pay premium prices for premium support :D
+
+The real issue when it comes to CPU models on s390x is the variance of=20
+features of a specific model across environments (especially different=20
+hypervisors).
+
+>>> If we tied each new Haswell variant to a machine type, then users would
+>>> be blocked from consuming a new machine type depending on runnability o=
+f
+>>> the CPU model. This is not at all desirable, as mgmt apps now have comp=
+lex
+>>> rules on what machine type they can use.
+>>
+>> So you actually want different CPU variants, which you have already, jus=
+t in
+>> a different form. (e.g., "haswell" will be mapped to "haswell-whatever",
+>> just differently via versions)
+>=20
+> Yes, you can think of "Haswell", "Haswell-noTSX", "Haswell-noTSX-IBRS"
+> as all being versions of the same thing. There was never any explicit
+> association or naming though. So what's changing is that we're defining
+> a sane naming scheme for the variants of each model so we don't end
+> up with   "Haswell-noTSX-IBRS-SSBD-MDS-WHATEVER-NEXT-INTEL-FLAW-IS",
+> and we declaring that a bare "Haswell" will expand to some "best"
+> version depending on machine type (but also selectable by mgmt app
+> above).
+
+I mean, all you really want is a way to specify "give me the best=20
+haswell you can do with this accelerator", which *could* map to "-cpu=20
+haswell,tsx=3Doff,ibrs=3Don,ssbf=3Don" ... but also something else on the H=
+W.
+
+I really don't see why we need versioned CPU models for that, all you=20
+want to do is apply delta updates to the initial model if possible on=20
+the current accelerator. Just like HW does. See below for a simpler=20
+approach.
+
+>=20
+>>> Both these called for making CPU versioning independant of machine
+>>> type versioning.
+>>>
+>>> Essentially the goal with CPU versioning is that the user can request
+>>> a bare "Haswell" and libvirt (or the mgmt app) will automatically
+>>> expand this to the best Haswell version that the host is able to
+>>> support with its CPUs / microcode / BIOS config combination.
+>>
+>>
+>> So if I do a "-cpu haswell -M whatever-machine", as far as I understood
+>> reading this,  I get the "default CPU model alias for that QEMU machine"=
+ and
+>> *not* the "best Haswell version that the host is able to support".
+>>
+>> Or does the default actually also depend on the current host?
+>=20
+> At the QEMU level "haswell" will expand to a particular CPU version
+> per machine type. So yes, at the QEMU level machine types might have
+> a dependancy on the host.
+>=20
+> Above QEMU though, libvirt/mgmt apps can be more dynamic in how they
+> expand a bare "haswell" to take account of what the host supports.
+
+Let me propose something *much* simpler which would work just fine on=20
+s390x, and I assume on x86-64 as well.
+
+On s390x we e.g. have the two models:
+- "z14-base"
+  -> minimum feature set we expect to have in every environment
+  -> QEMU version/machine independent, will never change
+- "z14"
+  -> "default model", can change between QEMU machines
+  -> migration-safe
+
+Now, internally we have in addition something that matches:
+- "z14-max"
+  -> all possible CPU features valid for this model
+  -> Includes e.g., nested virt features not in the "z14" model
+  -> Can and will change between QEMU versions
+
+Of course we also have:
+- "max"
+  -> "all features supported by the accelerator in the current host"
+
+What we really want is:
+- "z14-best"
+  -> "best features for this model supported by the accelerator in the
+      current host"
+
+The trick is that *usually* :
+=09"z14-best" =3D baseline("z14-max", "max")
+
+Minor exceptions can be easily added (e.g., always disable a certain=20
+feature). So, what I would be proposing for s390x (and also x86-64, but=20
+I know that they have more legacy handling) is simply implementing and=20
+exposing all -best models.
+
+
+Why is this good in general?
+
+1. No semantic changes of existing models. What was migration safe
+    remains migration safe.
+2. No CPU versions, less complexity.
+3. No changes in the tool stack. Implement it in QEMU and it will be
+    supported on every layer. Simply specify/expand "z14-best" and you
+    get something that will run and make use of the best (on s390x
+    usually all) features available that are valid for this model.
+
+Why is this good for s390x?
+
+1. As discussed, versioning all the different flavors we have is
+    not feasible, nor practicable.
+
+2. Features that are typically not around (especially, nested virt
+    features) will be enabled similar to the host model when around.
+
+
+I think I can hack a prototype of that in a couple of hours.
+
+--=20
+
+Thanks,
+
+David / dhildenb
+
 
