@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF626E4F6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:44:54 +0200 (CEST)
-Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6A2E4F88
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:50:01 +0200 (CEST)
+Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0ph-0000gb-DS
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44894)
+	id 1iO0ud-0007fE-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iO0Vy-0000ZC-BD
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:24:32 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iO0ZW-0008Rx-9l
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iO0Vw-0002xT-4j
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:24:30 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43769)
+ (envelope-from <alex.bennee@linaro.org>) id 1iO0ZU-0004tn-Nd
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:10 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35910)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iO0Vq-0002tn-UZ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:24:25 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c2so2543834wrr.10
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:24:20 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iO0ZU-0004tE-Gh
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:28:08 -0400
+Received: by mail-wr1-x443.google.com with SMTP id w18so2594587wrt.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:28:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9sl/oKUdBSqp0HkLCT2JpMh0DCGgC0KpP6zyadiHAE4=;
- b=hw/WhXlUAwlzsyxlxnn9233aKjvZvDoiJkSI34DCyIVXsamxnkp8QFSFVg67pVzxFQ
- glsJeQpVswBTCL6PK8l+3eHnFAoXSA2sNKe7i4kltJ7WR0jwvnR8F2vQcEEWT12BbfkD
- iTIx8jBrmQ6M6Sltrjd8kbSHQQtdkzJTFC9elW3cF8BA6Wuxi+RE2QTfwd0X7pncqK8w
- z0qh0ngalzf48bhHYwtMUbPxx8rpkLSVfgAZCnIFxL24mjf6UavGqbJJpNBaVOrKGKO+
- qEtE6icLwfF4Ey6MOXsZVbrua/GoNcSUlccDpi3YGfdDDguNLA3eLnWmYLUIJGyfoCQo
- eMHg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=8mFYXdDx7Xf3uxp1Z1U9W4yhEc7cqg6Q2FpuwkjWvfs=;
+ b=YX0a/yzEUH1xvx7j7lfIfDgBLEdtwXYAHVjEXcJcw/uLUbTwiloOOnu4tvVo503w7s
+ 1a9vJfOkeyWa8YSSY+uZDW+Xthy4c0JeehZ4eQBM77A1ugUcmDp8It1hcuKmD8HOT8vP
+ I4b9jQJ88eoLMPNjJgM6H4r+vW39Gz6bBhyOfQ0UGbJthmrwRspPgHYiiWY8J3OF6fxz
+ OBE3K7u+Q4924XHXWqxsOfDvsXQL84781FMFS8eFFcCrmcis/QPTrLARUYGFiO3nnR9g
+ LBaWmIE9btztczOV453DsEBSeUZP7fm+u58ytg9o5N/mZMNUc0LzmPftiEgg7k7rpVvO
+ DVnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9sl/oKUdBSqp0HkLCT2JpMh0DCGgC0KpP6zyadiHAE4=;
- b=ic7iFNGOw3WIQzz5imJc1VQ9yPSfgmZhBvnX8lMnhMIQKt4HlXZp/ryJyQgxAlAlGB
- jrCK7vnPK16vw1X65cm+/RRXJtbgpyNP3IA2bwG7ZGcKSBk3O3Mprzb+fjQBgrCOKG94
- Xuu5XFfXABXRqOCp8O0I7Q8bWHAuJ6ChcgAqO56YaIiJ/OyjulDNgAu/YRZBmsebcCdA
- PL0Qp8hzYoJkpaeob19XhAqI27oVeqyATPI7bkYgyVDVc6bca3sZTaW6KUdjYZYS4Tzf
- xahmJKIV3inkExGBww3dHq6TK4dG7EmfkZ5F/PU/QT9EV+okK0AO6d5Sz0fpVzFQZY6G
- M6yg==
-X-Gm-Message-State: APjAAAUnrkgmW1mDxaZ3iyqLQFOVMMMohKS8CeTsiethljbsVgrtzItb
- eLGIN3qK39i0CyOS3hcCbTYTS0I8OyI=
-X-Google-Smtp-Source: APXvYqzLiKfUHjMwHK/uZlNCIRqSDtNSwVOsmMA5O807GxWefMx5QRFuST6nyGn7Lsrh8ZNdq7sRdw==
-X-Received: by 2002:adf:eec9:: with SMTP id a9mr3208138wrp.8.1572013458482;
- Fri, 25 Oct 2019 07:24:18 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o4sm2756244wre.91.2019.10.25.07.24.16
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=8mFYXdDx7Xf3uxp1Z1U9W4yhEc7cqg6Q2FpuwkjWvfs=;
+ b=jIxnLmrbQqqYs0joX+fJVAL99g4uftZacvfW6L6Ub64a/AJViKcORbtNG3gdosWazQ
+ GyQWJnC9ObuIXtDPcFNZsfqxaTRMTXJG2wk+LO6sa/hfOS5duvE0MKjzWFY5SQO6MfwN
+ KUSx5IUD1ZNKcyp4OcdGIgcEHjULX2PBXxhlaJ619DtnxDbfXGbr8uAGM/fP9mUhtlFm
+ HmNAEz0ymUrtJpkV/3gtO+XyPhFrCLLzA5KEWgo73CxvJNQy4Lgs2gfWZTpx7EJpePBU
+ aoeQIJRZWoKb8CZVJFGpwBSImuLf+5iLTj/ujz2/SbV8PsO1HfKZm1GaiC1i1dDHCZRP
+ DOyw==
+X-Gm-Message-State: APjAAAXm1iuxoqIq9aQCNy9NCcp2ZvCxOJ6mAPMxlULsmWPcg/eEeyD5
+ zPdYQIrZH5T7hMV9Mnpuj9PuAg==
+X-Google-Smtp-Source: APXvYqzfC72FX7lwuTVZeWANxjIGczjyFmayqJSbGg8lDtfvlDxu7Cc/shwGYMmtvUybzi+4w+Ymrw==
+X-Received: by 2002:a5d:614a:: with SMTP id y10mr3251875wrt.164.1572013686809; 
+ Fri, 25 Oct 2019 07:28:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i1sm2643608wmb.19.2019.10.25.07.28.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 07:24:17 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ptimer: Remove old ptimer_init_with_bh() API
-Date: Fri, 25 Oct 2019 15:24:11 +0100
-Message-Id: <20191025142411.17085-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Fri, 25 Oct 2019 07:28:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9B9C41FF87;
+ Fri, 25 Oct 2019 15:28:04 +0100 (BST)
+References: <20191023154505.30521-1-richard.henderson@linaro.org>
+ <20191023154505.30521-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 4/7] exec: Use const alias for TARGET_PAGE_BITS_VARY
+In-reply-to: <20191023154505.30521-5-richard.henderson@linaro.org>
+Date: Fri, 25 Oct 2019 15:28:04 +0100
+Message-ID: <87r230lx1n.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,362 +82,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now all the users of ptimers have converted to the transaction-based
-API, we can remove ptimer_init_with_bh() and all the code paths
-that are used only by bottom-half based ptimers, and tidy up the
-documentation comments to consider the transaction-based API the
-only possibility.
 
-The code changes result from:
- * s->bh no longer exists
- * s->callback is now always non-NULL
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/ptimer.h | 45 +++++++++++-----------
- hw/core/ptimer.c    | 91 ++++++++-------------------------------------
- 2 files changed, 36 insertions(+), 100 deletions(-)
+> Using a variable that is declared "const" for this tells the
+> compiler that it may read the value once and assume that it
+> does not change across function calls.
+>
+> For target_page_size, this means we have only one assert per
+> function, and one read of the variable.
+>
+> This reduces the size of qemu-system-aarch64 by 8k.
+>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/include/hw/ptimer.h b/include/hw/ptimer.h
-index 4c321f65dcb..412763fffb2 100644
---- a/include/hw/ptimer.h
-+++ b/include/hw/ptimer.h
-@@ -10,15 +10,24 @@
- 
- #include "qemu/timer.h"
- 
--/* The ptimer API implements a simple periodic countdown timer.
-+/*
-+ * The ptimer API implements a simple periodic countdown timer.
-  * The countdown timer has a value (which can be read and written via
-  * ptimer_get_count() and ptimer_set_count()). When it is enabled
-  * using ptimer_run(), the value will count downwards at the frequency
-  * which has been configured using ptimer_set_period() or ptimer_set_freq().
-- * When it reaches zero it will trigger a QEMU bottom half handler, and
-+ * When it reaches zero it will trigger a callback function, and
-  * can be set to either reload itself from a specified limit value
-  * and keep counting down, or to stop (as a one-shot timer).
-  *
-+ * A transaction-based API is used for modifying ptimer state: all calls
-+ * to functions which modify ptimer state must be between matched calls to
-+ * ptimer_transaction_begin() and ptimer_transaction_commit().
-+ * When ptimer_transaction_commit() is called it will evaluate the state
-+ * of the timer after all the changes in the transaction, and call the
-+ * callback if necessary. (See the ptimer_init() documentation for the full
-+ * list of state-modifying functions and detailed semantics of the callback.)
-+ *
-  * Forgetting to set the period/frequency (or setting it to zero) is a
-  * bug in the QEMU device and will cause warning messages to be printed
-  * to stderr when the guest attempts to enable the timer.
-@@ -72,7 +81,7 @@
-  * ptimer_set_count() or ptimer_set_limit() will not trigger the timer
-  * (though it will cause a reload). Only a counter decrement to "0"
-  * will cause a trigger. Not compatible with NO_IMMEDIATE_TRIGGER;
-- * ptimer_init_with_bh() will assert() that you don't set both.
-+ * ptimer_init() will assert() that you don't set both.
-  */
- #define PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT (1 << 5)
- 
-@@ -80,17 +89,6 @@
- typedef struct ptimer_state ptimer_state;
- typedef void (*ptimer_cb)(void *opaque);
- 
--/**
-- * ptimer_init_with_bh - Allocate and return a new ptimer
-- * @bh: QEMU bottom half which is run on timer expiry
-- * @policy: PTIMER_POLICY_* bits specifying behaviour
-- *
-- * The ptimer returned must be freed using ptimer_free().
-- * The ptimer takes ownership of @bh and will delete it
-- * when the ptimer is eventually freed.
-- */
--ptimer_state *ptimer_init_with_bh(QEMUBH *bh, uint8_t policy_mask);
--
- /**
-  * ptimer_init - Allocate and return a new ptimer
-  * @callback: function to call on ptimer expiry
-@@ -127,8 +125,7 @@ ptimer_state *ptimer_init(ptimer_cb callback,
-  * ptimer_free - Free a ptimer
-  * @s: timer to free
-  *
-- * Free a ptimer created using ptimer_init_with_bh() (including
-- * deleting the bottom half which it is using).
-+ * Free a ptimer created using ptimer_init().
-  */
- void ptimer_free(ptimer_state *s);
- 
-@@ -164,7 +161,7 @@ void ptimer_transaction_commit(ptimer_state *s);
-  * may be more appropriate.
-  *
-  * This function will assert if it is called outside a
-- * ptimer_transaction_begin/commit block, unless this is a bottom-half ptimer.
-+ * ptimer_transaction_begin/commit block.
-  */
- void ptimer_set_period(ptimer_state *s, int64_t period);
- 
-@@ -180,7 +177,7 @@ void ptimer_set_period(ptimer_state *s, int64_t period);
-  * precise to fractions of a nanosecond, avoiding rounding errors.
-  *
-  * This function will assert if it is called outside a
-- * ptimer_transaction_begin/commit block, unless this is a bottom-half ptimer.
-+ * ptimer_transaction_begin/commit block.
-  */
- void ptimer_set_freq(ptimer_state *s, uint32_t freq);
- 
-@@ -210,7 +207,7 @@ uint64_t ptimer_get_limit(ptimer_state *s);
-  * reload the counter when their reload register is written to.
-  *
-  * This function will assert if it is called outside a
-- * ptimer_transaction_begin/commit block, unless this is a bottom-half ptimer.
-+ * ptimer_transaction_begin/commit block.
-  */
- void ptimer_set_limit(ptimer_state *s, uint64_t limit, int reload);
- 
-@@ -234,7 +231,7 @@ uint64_t ptimer_get_count(ptimer_state *s);
-  * point in the future.
-  *
-  * This function will assert if it is called outside a
-- * ptimer_transaction_begin/commit block, unless this is a bottom-half ptimer.
-+ * ptimer_transaction_begin/commit block.
-  */
- void ptimer_set_count(ptimer_state *s, uint64_t count);
- 
-@@ -243,15 +240,15 @@ void ptimer_set_count(ptimer_state *s, uint64_t count);
-  * @s: ptimer
-  * @oneshot: non-zero if this timer should only count down once
-  *
-- * Start a ptimer counting down; when it reaches zero the bottom half
-- * passed to ptimer_init_with_bh() will be invoked.
-+ * Start a ptimer counting down; when it reaches zero the callback function
-+ * passed to ptimer_init() will be invoked.
-  * If the @oneshot argument is zero,
-  * the counter value will then be reloaded from the limit and it will
-  * start counting down again. If @oneshot is non-zero, then the counter
-  * will disable itself when it reaches zero.
-  *
-  * This function will assert if it is called outside a
-- * ptimer_transaction_begin/commit block, unless this is a bottom-half ptimer.
-+ * ptimer_transaction_begin/commit block.
-  */
- void ptimer_run(ptimer_state *s, int oneshot);
- 
-@@ -266,7 +263,7 @@ void ptimer_run(ptimer_state *s, int oneshot);
-  * restarted.
-  *
-  * This function will assert if it is called outside a
-- * ptimer_transaction_begin/commit block, unless this is a bottom-half ptimer.
-+ * ptimer_transaction_begin/commit block.
-  */
- void ptimer_stop(ptimer_state *s);
- 
-diff --git a/hw/core/ptimer.c b/hw/core/ptimer.c
-index 7239b8227cc..b5a54e25369 100644
---- a/hw/core/ptimer.c
-+++ b/hw/core/ptimer.c
-@@ -29,7 +29,6 @@ struct ptimer_state
-     int64_t last_event;
-     int64_t next_event;
-     uint8_t policy_mask;
--    QEMUBH *bh;
-     QEMUTimer *timer;
-     ptimer_cb callback;
-     void *callback_opaque;
-@@ -46,12 +45,7 @@ struct ptimer_state
- /* Use a bottom-half routine to avoid reentrancy issues.  */
- static void ptimer_trigger(ptimer_state *s)
- {
--    if (s->bh) {
--        replay_bh_schedule_event(s->bh);
--    }
--    if (s->callback) {
--        s->callback(s->callback_opaque);
--    }
-+    s->callback(s->callback_opaque);
- }
- 
- static void ptimer_reload(ptimer_state *s, int delta_adjust)
-@@ -296,15 +290,10 @@ uint64_t ptimer_get_count(ptimer_state *s)
- 
- void ptimer_set_count(ptimer_state *s, uint64_t count)
- {
--    assert(s->in_transaction || !s->callback);
-+    assert(s->in_transaction);
-     s->delta = count;
-     if (s->enabled) {
--        if (!s->callback) {
--            s->next_event = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--            ptimer_reload(s, 0);
--        } else {
--            s->need_reload = true;
--        }
-+        s->need_reload = true;
-     }
- }
- 
-@@ -312,7 +301,7 @@ void ptimer_run(ptimer_state *s, int oneshot)
- {
-     bool was_disabled = !s->enabled;
- 
--    assert(s->in_transaction || !s->callback);
-+    assert(s->in_transaction);
- 
-     if (was_disabled && s->period == 0) {
-         if (!qtest_enabled()) {
-@@ -322,12 +311,7 @@ void ptimer_run(ptimer_state *s, int oneshot)
-     }
-     s->enabled = oneshot ? 2 : 1;
-     if (was_disabled) {
--        if (!s->callback) {
--            s->next_event = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--            ptimer_reload(s, 0);
--        } else {
--            s->need_reload = true;
--        }
-+        s->need_reload = true;
-     }
- }
- 
-@@ -335,7 +319,7 @@ void ptimer_run(ptimer_state *s, int oneshot)
-    is immediately restarted.  */
- void ptimer_stop(ptimer_state *s)
- {
--    assert(s->in_transaction || !s->callback);
-+    assert(s->in_transaction);
- 
-     if (!s->enabled)
-         return;
-@@ -343,42 +327,30 @@ void ptimer_stop(ptimer_state *s)
-     s->delta = ptimer_get_count(s);
-     timer_del(s->timer);
-     s->enabled = 0;
--    if (s->callback) {
--        s->need_reload = false;
--    }
-+    s->need_reload = false;
- }
- 
- /* Set counter increment interval in nanoseconds.  */
- void ptimer_set_period(ptimer_state *s, int64_t period)
- {
--    assert(s->in_transaction || !s->callback);
-+    assert(s->in_transaction);
-     s->delta = ptimer_get_count(s);
-     s->period = period;
-     s->period_frac = 0;
-     if (s->enabled) {
--        if (!s->callback) {
--            s->next_event = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--            ptimer_reload(s, 0);
--        } else {
--            s->need_reload = true;
--        }
-+        s->need_reload = true;
-     }
- }
- 
- /* Set counter frequency in Hz.  */
- void ptimer_set_freq(ptimer_state *s, uint32_t freq)
- {
--    assert(s->in_transaction || !s->callback);
-+    assert(s->in_transaction);
-     s->delta = ptimer_get_count(s);
-     s->period = 1000000000ll / freq;
-     s->period_frac = (1000000000ll << 32) / freq;
-     if (s->enabled) {
--        if (!s->callback) {
--            s->next_event = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--            ptimer_reload(s, 0);
--        } else {
--            s->need_reload = true;
--        }
-+        s->need_reload = true;
-     }
- }
- 
-@@ -386,17 +358,12 @@ void ptimer_set_freq(ptimer_state *s, uint32_t freq)
-    count = limit.  */
- void ptimer_set_limit(ptimer_state *s, uint64_t limit, int reload)
- {
--    assert(s->in_transaction || !s->callback);
-+    assert(s->in_transaction);
-     s->limit = limit;
-     if (reload)
-         s->delta = limit;
-     if (s->enabled && reload) {
--        if (!s->callback) {
--            s->next_event = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--            ptimer_reload(s, 0);
--        } else {
--            s->need_reload = true;
--        }
-+        s->need_reload = true;
-     }
- }
- 
-@@ -407,7 +374,7 @@ uint64_t ptimer_get_limit(ptimer_state *s)
- 
- void ptimer_transaction_begin(ptimer_state *s)
- {
--    assert(!s->in_transaction || !s->callback);
-+    assert(!s->in_transaction);
-     s->in_transaction = true;
-     s->need_reload = false;
- }
-@@ -448,37 +415,12 @@ const VMStateDescription vmstate_ptimer = {
-     }
- };
- 
--ptimer_state *ptimer_init_with_bh(QEMUBH *bh, uint8_t policy_mask)
--{
--    ptimer_state *s;
--
--    s = (ptimer_state *)g_malloc0(sizeof(ptimer_state));
--    s->bh = bh;
--    s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, ptimer_tick, s);
--    s->policy_mask = policy_mask;
--
--    /*
--     * These two policies are incompatible -- trigger-on-decrement implies
--     * a timer trigger when the count becomes 0, but no-immediate-trigger
--     * implies a trigger when the count stops being 0.
--     */
--    assert(!((policy_mask & PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT) &&
--             (policy_mask & PTIMER_POLICY_NO_IMMEDIATE_TRIGGER)));
--    return s;
--}
--
- ptimer_state *ptimer_init(ptimer_cb callback, void *callback_opaque,
-                           uint8_t policy_mask)
- {
-     ptimer_state *s;
- 
--    /*
--     * The callback function is mandatory; so we use it to distinguish
--     * old-style QEMUBH ptimers from new transaction API ptimers.
--     * (ptimer_init_with_bh() allows a NULL bh pointer and at least
--     * one device (digic-timer) passes NULL, so it's not the case
--     * that either s->bh != NULL or s->callback != NULL.)
--     */
-+    /* The callback function is mandatory. */
-     assert(callback);
- 
-     s = g_new0(ptimer_state, 1);
-@@ -499,9 +441,6 @@ ptimer_state *ptimer_init(ptimer_cb callback, void *callback_opaque,
- 
- void ptimer_free(ptimer_state *s)
- {
--    if (s->bh) {
--        qemu_bh_delete(s->bh);
--    }
-     timer_free(s->timer);
-     g_free(s);
- }
--- 
-2.20.1
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+> ---
+> v2: Notice CONFIG_ATTRIBUTE_ALIAS, and work around Xcode 9 lossage.
+> ---
+>  include/exec/cpu-all.h | 14 +++++++---
+>  exec-vary.c            | 60 ++++++++++++++++++++++++++++++++++++------
+>  2 files changed, 62 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index 255bb186ac..76515dc8d9 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -210,10 +210,16 @@ static inline void stl_phys_notdirty(AddressSpace *=
+as, hwaddr addr, uint32_t val
+>  /* page related stuff */
+>
+>  #ifdef TARGET_PAGE_BITS_VARY
+> -extern bool target_page_bits_decided;
+> -extern int target_page_bits;
+> -#define TARGET_PAGE_BITS ({ assert(target_page_bits_decided); \
+> -                            target_page_bits; })
+> +typedef struct {
+> +    bool decided;
+> +    int bits;
+> +} TargetPageBits;
+> +# if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
+> +extern const TargetPageBits target_page;
+> +#else
+> +extern TargetPageBits target_page;
+> +# endif
+> +#define TARGET_PAGE_BITS (assert(target_page.decided), target_page.bits)
+>  #else
+>  #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
+>  #endif
+> diff --git a/exec-vary.c b/exec-vary.c
+> index 48c0ab306c..e0befd502a 100644
+> --- a/exec-vary.c
+> +++ b/exec-vary.c
+> @@ -19,11 +19,55 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu-common.h"
+> +
+> +#define IN_EXEC_VARY 1
+> +
+>  #include "exec/exec-all.h"
+>
+>  #ifdef TARGET_PAGE_BITS_VARY
+> -int target_page_bits;
+> -bool target_page_bits_decided;
+> +# ifdef CONFIG_ATTRIBUTE_ALIAS
+> +/*
+> + * We want to declare the "target_page" variable as const, which tells
+> + * the compiler that it can cache any value that it reads across calls.
+> + * This avoids multiple assertions and multiple reads within any one use=
+r.
+> + *
+> + * This works because we initialize the target_page data very early, in a
+> + * location far removed from the functions that require the final result=
+s.
+> + *
+> + * This also requires that we have a non-constant symbol by which we can
+> + * perform the actual initialization, and which forces the data to be
+> + * allocated within writable memory.  Thus "init_target_page", and we use
+> + * that symbol exclusively in the two functions that initialize this val=
+ue.
+> + *
+> + * The "target_page" symbol is created as an alias of "init_target_page".
+> + */
+> +static TargetPageBits init_target_page;
+> +
+> +/*
+> + * Note that this is *not* a redundant decl, this is the definition of
+> + * the "target_page" symbol.  The syntax for this definition requires
+> + * the use of the extern keyword.  This seems to be a GCC bug in
+> + * either the syntax for the alias attribute or in -Wredundant-decls.
+> + *
+> + * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D91765
+> + */
+> +#  pragma GCC diagnostic push
+> +#  pragma GCC diagnostic ignored "-Wredundant-decls"
+> +
+> +extern const TargetPageBits target_page
+> +    __attribute__((alias("init_target_page")));
+> +
+> +#  pragma GCC diagnostic pop
+> +# else
+> +/*
+> + * When aliases are not supported then we force two different declaratio=
+ns,
+> + * by way of suppressing the header declaration with IN_EXEC_VARY.
+> + * We assume that on such an old compiler, LTO cannot be used, and so the
+> + * compiler cannot not detect the mismatched declarations, and all is we=
+ll.
+> + */
+> +TargetPageBits target_page;
+> +#  define init_target_page target_page
+> +# endif
+>  #endif
+>
+>  bool set_preferred_target_page_bits(int bits)
+> @@ -36,11 +80,11 @@ bool set_preferred_target_page_bits(int bits)
+>       */
+>  #ifdef TARGET_PAGE_BITS_VARY
+>      assert(bits >=3D TARGET_PAGE_BITS_MIN);
+> -    if (target_page_bits =3D=3D 0 || target_page_bits > bits) {
+> -        if (target_page_bits_decided) {
+> +    if (init_target_page.bits =3D=3D 0 || init_target_page.bits > bits) {
+> +        if (init_target_page.decided) {
+>              return false;
+>          }
+> -        target_page_bits =3D bits;
+> +        init_target_page.bits =3D bits;
+>      }
+>  #endif
+>      return true;
+> @@ -49,9 +93,9 @@ bool set_preferred_target_page_bits(int bits)
+>  void finalize_target_page_bits(void)
+>  {
+>  #ifdef TARGET_PAGE_BITS_VARY
+> -    if (target_page_bits =3D=3D 0) {
+> -        target_page_bits =3D TARGET_PAGE_BITS_MIN;
+> +    if (init_target_page.bits =3D=3D 0) {
+> +        init_target_page.bits =3D TARGET_PAGE_BITS_MIN;
+>      }
+> -    target_page_bits_decided =3D true;
+> +    init_target_page.decided =3D true;
+>  #endif
+>  }
+
+
+--
+Alex Benn=C3=A9e
 
