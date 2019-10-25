@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20871E43D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:56:29 +0200 (CEST)
-Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF78E43D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 08:56:16 +0200 (CEST)
+Received: from localhost ([::1]:56120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtWN-00086z-G2
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35570)
+	id 1iNtWB-0007XF-30
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 02:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtE2-0003KL-H2
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:31 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtE6-0003R1-SE
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtE1-0008RL-95
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:30 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36915)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtE5-0008TS-M1
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:34 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51252)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtE1-0008Qk-2Q
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:29 -0400
-Received: by mail-wm1-x330.google.com with SMTP id q130so761849wme.2
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:28 -0700 (PDT)
+ id 1iNtE5-0008ST-Bm
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:33 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id q70so769195wme.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tNTEbGMtJZXoQB4/p2TTXTubBbnqE0j7BRIuNAJ75D8=;
- b=jmu3aD/DxDoCZf3tNr7epWj855PZx5LkiKtYiQlSEGuyRMtjV5YHDvKnsf+/O8aKsC
- wiI1LL/eTZ0PlMdaXndXBNK6FkTReJXL+61UJhn1zC28sh4Ejkr2lRoMH5m3rASlcRaX
- pMD7hAcq4KX72tfVDLYl8aariv7+omEc7QzDK0wFbN1sW1tdvHKIG2otUvuayTksEkHV
- gbCOd/9UAFYHalA3s3hILbmcjBy2Wd261UwI+RFDLtHJS/lTHY7FX6DZGF5Xm3wnhJdd
- 0XsE9G1FNSD3W7kH7Dj/ne5LMZrB+NBdCWNPkoHnIQSqN6/DLCKuhDxn2ZWnLJatnPlE
- zSJA==
+ bh=ejSGmzKi8yOJXrP8xmGu9NmM/5lE3B8zIrb30U/0RJ0=;
+ b=Dkaas+RuFbYXkql0xawrGQmJ2idIvjDSXnSbERjVKJeq0aeh+XyAS2RQG3qv6/TLwu
+ gCxcdpPMQ5Ii6t+sao3aSsbghL4q6df8V7xFmzIXKIv/BZ3cIFDpP9J1ZHosYCQFJJac
+ qp3DpgDVXp0D/+GGLBukLGnRfOFZ2RRglnZBffIkFRaTZsUroLh/kD5SRc5t1iIAVeoK
+ cWCWhrGRCCWnliT1U7+iMQL5Qjb+x45CPATEcqcolM0VOh9crJ8PsTet0W12dJvtzKpG
+ 6EXabIWFHiRsV6N+dKvAOe8E64xC+XfGwfwW+WcNSzbnm2u/zGPua+8VPIMREne/TfBo
+ q6TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tNTEbGMtJZXoQB4/p2TTXTubBbnqE0j7BRIuNAJ75D8=;
- b=ulu9bKO6slWP3m6gRspPcZOIxuEGLYN2LsphtPzCmn10DoyU9MJj0oKZsSXJOfO7xL
- k6wb9F2AFd6eIGCGxz8+m1NByl+cFQW+TMk4RK4WnseYSKsRohel4msBOk0tGGSiXMiT
- zdljiIbBihAgVXx5yKYOlN0ILPmE+ftArijscy+b65cJO6fdgFh12QsxZ5kCzx+GfuFZ
- YEMQdAcv/2+8OXzTY/QSdIXYmWuwo2wAt+0zYDi0vVDphrFcxAGXcDmU3dcdSj4ulraG
- GKXsmiyuDQZ4husZL8JHAuvDI9BFPr9xhmvgHli/ZMRESDE97vl0tqWoVZODjcvOuEAh
- MLkw==
-X-Gm-Message-State: APjAAAWVnHiBrZRcSz+d4UcxiM7LeFIfs4QsO+JsGGh+t/P1t5hfa5+r
- Ho+9+IELXc0EVHXKofWxyukgBBZZayg=
-X-Google-Smtp-Source: APXvYqzbgKAZg3PxyPtQDEuk/Lzw6qlUsW4S0bub6K7qzz/Y8AGrP868UjxTwujF008acEixB1x+XQ==
-X-Received: by 2002:a1c:7401:: with SMTP id p1mr1766700wmc.144.1571985447568; 
- Thu, 24 Oct 2019 23:37:27 -0700 (PDT)
+ bh=ejSGmzKi8yOJXrP8xmGu9NmM/5lE3B8zIrb30U/0RJ0=;
+ b=kyIuHh2f6X8wf7Q8FoBddPn2R+5vqevmMphIoVCb1p+kC973JU5FQJIsyvR6l5Yvaj
+ Xvn/y+DFH/eqYih1urkMDdaqqo+9CP7BhXp6ph2hh0PhGu0zkjByrIVddyIDq2dDwYnl
+ 2nBbnSOcLwVF0WVbfVFD28j3OKxP3F/gyjl30Du38/KO/BX0vbJ1Nn3oHC9K0Hyqagf7
+ DeKaFK+CMAo3a6I9bMTDLwmdJiAzHiKyMWpUa69ScLoMhgqUSEZF1sy+0TwnVrHkzNhg
+ 7fuqk3f8nLGne9Fz01eaW3U2YavRI8+pfnbn0xBCbh0jdX/aHQmJjtisuZTwVyNpZ0iL
+ Qcyg==
+X-Gm-Message-State: APjAAAVNCwaxKArh65LY5/uFYDVbxLcGbEBfAgwqyrX4jj27ZxjTdUaS
+ 7V+Ei1yoGksen0ETuB/DmZuYQQ==
+X-Google-Smtp-Source: APXvYqxXpp7YLhQ0qp4POW0Rnv20kYC+XXyzHEm4/CxkQcfb+v5MQylBfEVa1O6G/pMHFlcO/FsJMg==
+X-Received: by 2002:a1c:49d5:: with SMTP id w204mr1922093wma.111.1571985450983; 
+ Thu, 24 Oct 2019 23:37:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v20sm971570wml.26.2019.10.24.23.37.22
+ by smtp.gmail.com with ESMTPSA id l26sm455009wmg.3.2019.10.24.23.37.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 24 Oct 2019 23:37:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C40891FFCD;
- Fri, 25 Oct 2019 07:37:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 045201FFCF;
+ Fri, 25 Oct 2019 07:37:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 54/73] plugin: expand the plugin_init function to include an
- info block
-Date: Fri, 25 Oct 2019 07:36:54 +0100
-Message-Id: <20191025063713.23374-55-alex.bennee@linaro.org>
+Subject: [PULL v2 56/73] plugin: add qemu_plugin_outs helper
+Date: Fri, 25 Oct 2019 07:36:56 +0100
+Message-Id: <20191025063713.23374-57-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,132 +81,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This provides a limited amount of info to plugins about the guest
-system that will allow them to make some additional decisions on
-setup.
+Having the plugins grab stdout and spew stuff there is a bit ugly and
+certainly makes the tests look ugly. Provide a hook back into QEMU
+which can be redirected as needed.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index b097a6cae11..a91105b2adc 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -45,6 +45,7 @@ static inline bool qemu_log_separate(void)
+ /* LOG_TRACE (1 << 15) is defined in log-for-trace.h */
+ #define CPU_LOG_TB_OP_IND  (1 << 16)
+ #define CPU_LOG_TB_FPU     (1 << 17)
++#define CPU_LOG_PLUGIN     (1 << 18)
+ 
+ /* Lock output for a series of related logs.  Since this is not needed
+  * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
 diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index c213d1dd19f..784f1dfc3da 100644
+index ddf267fbfe0..a00a7deb461 100644
 --- a/include/qemu/qemu-plugin.h
 +++ b/include/qemu/qemu-plugin.h
-@@ -38,9 +38,27 @@
+@@ -384,4 +384,10 @@ int qemu_plugin_n_vcpus(void);
+ /* returns -1 in user-mode */
+ int qemu_plugin_n_max_vcpus(void);
  
- typedef uint64_t qemu_plugin_id_t;
- 
-+typedef struct {
-+    /* string describing architecture */
-+    const char *target_name;
-+    /* is this a full system emulation? */
-+    bool system_emulation;
-+    union {
-+        /*
-+         * smp_vcpus may change if vCPUs can be hot-plugged, max_vcpus
-+         * is the system-wide limit.
-+         */
-+        struct {
-+            int smp_vcpus;
-+            int max_vcpus;
-+        } system;
-+    };
-+} qemu_info_t;
++/**
++ * qemu_plugin_outs() - output string via QEMU's logging system
++ * @string: a string
++ */
++void qemu_plugin_outs(const char *string);
 +
- /**
-  * qemu_plugin_install() - Install a plugin
-  * @id: this plugin's opaque ID
-+ * @info: a block describing some details about the guest
-  * @argc: number of arguments
-  * @argv: array of arguments (@argc elements)
-  *
-@@ -49,10 +67,14 @@ typedef uint64_t qemu_plugin_id_t;
-  * Note: Calling qemu_plugin_uninstall() from this function is a bug. To raise
-  * an error during install, return !0.
-  *
-+ * Note: @info is only live during the call. Copy any information we
-+ * want to keep.
-+ *
-  * Note: @argv remains valid throughout the lifetime of the loaded plugin.
-  */
--QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
--                                           char **argv);
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                                           const qemu_info_t *info,
-+                                           int argc, char **argv);
- 
- /*
-  * Prototypes for the various callback styles we will be registering
-diff --git a/plugins/loader.c b/plugins/loader.c
-index eaedff577c3..ce724ed5839 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -28,6 +28,10 @@
- #include "hw/core/cpu.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/boards.h"
+ #endif /* QEMU_PLUGIN_API_H */
+diff --git a/plugins/api.c b/plugins/api.c
+index 5adc4d25a1e..fa1d9f276d3 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -331,3 +331,11 @@ int qemu_plugin_n_max_vcpus(void)
+     return get_ms()->smp.max_cpus;
+ #endif
+ }
++
++/*
++ * Plugin output
++ */
++void qemu_plugin_outs(const char *string)
++{
++    qemu_log_mask(CPU_LOG_PLUGIN, "%s", string);
++}
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 267ec381b4a..4bdb381f48e 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -36,4 +36,5 @@
+   qemu_plugin_vcpu_for_each;
+   qemu_plugin_n_vcpus;
+   qemu_plugin_n_max_vcpus;
++  qemu_plugin_outs;
+ };
+diff --git a/util/log.c b/util/log.c
+index 1d1b33f7d9f..1ca13059eef 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -273,6 +273,9 @@ const QEMULogItem qemu_log_items[] = {
+     { CPU_LOG_TB_NOCHAIN, "nochain",
+       "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
+       "complete traces" },
++#ifdef CONFIG_PLUGIN
++    { CPU_LOG_PLUGIN, "plugin", "output from TCG plugins\n"},
 +#endif
-+
- #include "plugin.h"
- 
- /*
-@@ -58,7 +62,7 @@ QemuOptsList qemu_plugin_opts = {
-     },
+     { 0, NULL, NULL },
  };
  
--typedef int (*qemu_plugin_install_func_t)(qemu_plugin_id_t, int, char **);
-+typedef int (*qemu_plugin_install_func_t)(qemu_plugin_id_t, const qemu_info_t *, int, char **);
- 
- extern struct qemu_plugin_state plugin;
- 
-@@ -145,7 +149,7 @@ static uint64_t xorshift64star(uint64_t x)
-     return x * UINT64_C(2685821657736338717);
- }
- 
--static int plugin_load(struct qemu_plugin_desc *desc)
-+static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
- {
-     qemu_plugin_install_func_t install;
-     struct qemu_plugin_ctx *ctx;
-@@ -193,7 +197,7 @@ static int plugin_load(struct qemu_plugin_desc *desc)
-     }
-     QTAILQ_INSERT_TAIL(&plugin.ctxs, ctx, entry);
-     ctx->installing = true;
--    rc = install(ctx->id, desc->argc, desc->argv);
-+    rc = install(ctx->id, info, desc->argc, desc->argv);
-     ctx->installing = false;
-     if (rc) {
-         error_report("%s: qemu_plugin_install returned error code %d",
-@@ -241,11 +245,22 @@ static void plugin_desc_free(struct qemu_plugin_desc *desc)
- int qemu_plugin_load_list(QemuPluginList *head)
- {
-     struct qemu_plugin_desc *desc, *next;
-+    g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
-+
-+    info->target_name = TARGET_NAME;
-+#ifndef CONFIG_USER_ONLY
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    info->system_emulation = true;
-+    info->system.smp_vcpus = ms->smp.cpus;
-+    info->system.max_vcpus = ms->smp.max_cpus;
-+#else
-+    info->system_emulation = false;
-+#endif
- 
-     QTAILQ_FOREACH_SAFE(desc, head, entry, next) {
-         int err;
- 
--        err = plugin_load(desc);
-+        err = plugin_load(desc, info);
-         if (err) {
-             return err;
-         }
 -- 
 2.20.1
 
