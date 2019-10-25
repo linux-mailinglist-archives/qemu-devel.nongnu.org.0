@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF09E4932
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:06:27 +0200 (CEST)
-Received: from localhost ([::1]:58662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A5BE492C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 13:05:10 +0200 (CEST)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNxQI-0008Mq-9A
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36912)
+	id 1iNxP3-0005mc-HG
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 07:05:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNwvB-0007aB-1z
+ (envelope-from <dgilbert@redhat.com>) id 1iNwvB-0007aE-1s
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:34:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNwv8-0006ws-G0
+ (envelope-from <dgilbert@redhat.com>) id 1iNwv8-0006xk-Qb
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:34:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44805
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25833
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNwv8-0006vF-CP
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNwv8-0006vc-JK
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:34:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571999652;
+ s=mimecast20190719; t=1571999654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TvseWFuyCkVdj28XK4TAICuVZjayhGBCIoU5xjHu05k=;
- b=I+8v8kRpMyNyzcfyZmGPSTFK0Dc5RENzC/yHhjdbt/FM2b2YifWSLGesnwQr1YUYY4kOB2
- fUXfFUES8N3mzUaq235gb9lCUoIX7BekvAuDiMVONRkNb7Pe/UaGlxRFrsSQBYLk4e6Ky3
- DIxeO+fwkzxsKXqLUYg4MnTgSs3PDWA=
+ bh=yBat7hbMzDsO+55H3ZDnoBsHSBTrP3BQwKZSIYyi+PE=;
+ b=McOQ3Xik5x4B9V4VXfZRgffeGrhwKYw7WhU93uiUgan2D097fX/Efra61sXnK/xL05PbAb
+ slncBMIbAijZ/w6gTV8aazMJg5w0MqMWUpRmw7Rvj05Q/sUwrhwif1RmCMHFXeom/sN0kV
+ fxnkNyeXbYrT0Fe9ozLXDnyiZ0xQci8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-3bW2GG32OburN8O2rvuUUg-1; Fri, 25 Oct 2019 06:34:11 -0400
+ us-mta-242-1V_jBu9iODqHf9qZpAwV1w-1; Fri, 25 Oct 2019 06:34:12 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8160E1800E00
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:34:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6877800D41
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:34:11 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A34945D9CA;
- Fri, 25 Oct 2019 10:34:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC93B5D9CA;
+ Fri, 25 Oct 2019 10:34:10 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH 1/2] virtio/vhost: Use auto_rcu_read macros
-Date: Fri, 25 Oct 2019 11:34:02 +0100
-Message-Id: <20191025103403.120616-2-dgilbert@redhat.com>
+Subject: [PATCH 2/2] virtio_net: use RCU_READ_LOCK_GUARD
+Date: Fri, 25 Oct 2019 11:34:03 +0100
+Message-Id: <20191025103403.120616-3-dgilbert@redhat.com>
 In-Reply-To: <20191025103403.120616-1-dgilbert@redhat.com>
 References: <20191025103403.120616-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 3bW2GG32OburN8O2rvuUUg-1
+X-MC-Unique: 1V_jBu9iODqHf9qZpAwV1w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,37 +77,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Use RCU_READ_LOCK_GUARD instead of manual rcu_read_(un)lock
+Use RCU_READ_LOCK_GUARD rather than the manual rcu_read_(un)lock call.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/virtio/vhost.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/net/virtio-net.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 99de5f196f..4da0d5a6c5 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -924,7 +924,7 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint=
-64_t iova, int write)
-     uint64_t uaddr, len;
-     int ret =3D -EFAULT;
-=20
--    rcu_read_lock();
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 9f11422337..80622861a8 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1369,12 +1369,9 @@ static ssize_t virtio_net_receive_rcu(NetClientState=
+ *nc, const uint8_t *buf,
+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *bu=
+f,
+                                   size_t size)
+ {
+-    ssize_t r;
 +    RCU_READ_LOCK_GUARD();
 =20
-     trace_vhost_iotlb_miss(dev, 1);
-=20
-@@ -956,8 +956,6 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint=
-64_t iova, int write)
-     trace_vhost_iotlb_miss(dev, 2);
-=20
- out:
+-    rcu_read_lock();
+-    r =3D virtio_net_receive_rcu(nc, buf, size);
 -    rcu_read_unlock();
--
-     return ret;
+-    return r;
++    return virtio_net_receive_rcu(nc, buf, size);
  }
 =20
+ static void virtio_net_rsc_extract_unit4(VirtioNetRscChain *chain,
 --=20
 2.23.0
 
