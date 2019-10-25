@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C26E4BC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:06:12 +0200 (CEST)
-Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F3EE4BD9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:13:22 +0200 (CEST)
+Received: from localhost ([::1]:59756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzIB-00085A-Uo
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57515)
+	id 1iNzP6-00034T-3D
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iNzGK-0006YA-OS
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:04:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iNzNp-0001ox-5i
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:12:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iNzGJ-0006uR-JG
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:04:16 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52557
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNzGH-0006tC-KW
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:04:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572008650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=laHd1lN/1WJAJmLgLdH9yYZEwWDY+6a3wodOt82g1CU=;
- b=e2hrkJy1eVFeww8xLtaMfTIH4DNMk06yPLViv5U4xpEv3QQwch0ZQcMkWV88u9m25E8GKx
- 8R+Lou+eyDaMXBsJgsK5yGQ1cjDGO16iHYn03vkpKhz/opTVuln8QazqCe0lTR22soKvzn
- CxX3CkEjKwmR4l3rSGYPKzkI4lmdwMw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-mOKIvREFMwGuZ3ctb5GY2A-1; Fri, 25 Oct 2019 09:04:07 -0400
-Received: by mail-wm1-f72.google.com with SMTP id m16so932586wmg.8
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:04:07 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iNzNn-0000nO-U8
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:12:00 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:43360)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iNzNn-0000nE-Nu
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:11:59 -0400
+Received: by mail-oi1-x236.google.com with SMTP id s5so1579160oie.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=4FtF/4RymXGP+GbjRu/xpYgBRjIvKvuDkY51XwhESZE=;
+ b=dKlrsO6zFUlk27nXgSUZZmhIWJGM0lmHYej6iSpAINnCpUVF8WBzxjhCjgidQcSuom
+ sRwuUNg1WNXb8o/h2MeR/06RMjIbkiNoz5cEZekJN+AOD/3Cd3hp+s04qi/JDkZhxJC6
+ fyJsKRQn8IkUJhxCbyZ8VBncyFkXL/YHkLfhcsEu/bo+spMsyWzKMBNzA6m0s8PB+12l
+ QT5yIj/2dSw3hhU5egXb8BP/ZiH+MhuMjz28FGtEb3qRVGANwZf9kphBtvgrUTPDcv2u
+ nZuyRGN77HufgQ/y7kB20qXF3Sox0MTlgjzuZI8ugnvV1BvDgOPgbRWn0QY6J2U+fd7y
+ gfvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OlrWWmKOMPswt7fkZDBMkt62X5bt+20DXgn52UiUur8=;
- b=qEBbGKQyfWwqfTOfz9bK4kryIKlG2in2jzZXCNyoJvnif++6gNA4DS3Gszx1UyKcne
- Q6sb3+iwvoEw/PvcGuOcq0NK981bJV6WMzXZ6e2dr+lV7mOkcgIioflDMEQUVr1c1eCn
- ttFqaegSoeoIKlQO6dLV3W4gmrow3xVu+w48+bEBiQSYzyWuG9RMl+0DsA+NGG19YTo8
- M5dZ+u/Z2fOO1w22XuJJsHiIgpqBIlmoB553yZiREet5B8sASc9l4iXi/qSQAsQIVAJ0
- kmnMrcHpXUIiIVvpcvmVlelFvCmayx8ZxdFSSjERA8pxGF9ZfNogkhRcsT68wUeHa+oO
- iI0w==
-X-Gm-Message-State: APjAAAUZP+lXYrQ1JV+OE8XnMiq6Wb4iU1Q/lLuXlpGe8qCigg3h6HEB
- IKYWRtvik0y+Vwo1nHLoT6/znw7GXZFhP4z5FfpIWHYcnnybct07U5JUOeYqicAWCKYeUXxm3fF
- 5mMv31AeoEnOr7Ss=
-X-Received: by 2002:adf:c105:: with SMTP id r5mr2957575wre.125.1572008646150; 
- Fri, 25 Oct 2019 06:04:06 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwlCieRhSjrhPtGhL1iU/veL9G8WQlqSFJPudEPHAGAacJx8cexRD3+6wb9GPKK4lwuW0G5nQ==
-X-Received: by 2002:adf:c105:: with SMTP id r5mr2957552wre.125.1572008645973; 
- Fri, 25 Oct 2019 06:04:05 -0700 (PDT)
-Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
- [83.57.174.129])
- by smtp.gmail.com with ESMTPSA id o4sm2488568wre.91.2019.10.25.06.04.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Oct 2019 06:04:05 -0700 (PDT)
-Subject: Re: [PATCH v2 10/12] linux-user: Introduce cpu_clone_regs_parent
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20191025113921.9412-1-richard.henderson@linaro.org>
- <20191025113921.9412-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9f586f6c-9cc1-ab18-6335-55aa0bf2abca@redhat.com>
-Date: Fri, 25 Oct 2019 15:04:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=4FtF/4RymXGP+GbjRu/xpYgBRjIvKvuDkY51XwhESZE=;
+ b=S5ZZEzk0+Db+ow0n8PJDnHlYN2UnLbcIhoe1Zjr+/m/oA4DJnGmodelrCSP3qpbpl1
+ o0NvecEciX81Cgzd7pJsB6zK/2eJpRonrL2gRpRw/wGoOoZCcaiD2c30alCL3e02SbAh
+ o6S0U1l1DrImEWiHQI74BJVSY4n80kPTw1KrsgJeAPqwyjaw3VsTxNUxRH7sUv7qrIT+
+ lXHadbVB/l+9CIad0xwxkfpbqMVGf/Aldw79ksxuPb0EDELGN8pPNs4A0dkMMkeSDa08
+ hkFKmYja/7nI5AIRBdk8UMcJi24K++QvbqZezhzV8V6UzspzzvBKHWqtvf9nBkq1u1wq
+ QBwg==
+X-Gm-Message-State: APjAAAW1lcCNOlewJAKnqNhuSNRUiv6BFYmwz5bin1NEO39TNuJlLrdx
+ ZvzL90j4XdEeNq25wBCaHvAoeNfqqkvvgNgzi4nUJjN2p8U=
+X-Google-Smtp-Source: APXvYqznM2UAnKOGdGT4UFHDvQV9P34vpDSIjc7dT1w8sY87Z3wu4jZYF+irxhzHc1iYMsab6tYGiKJzH4DDKG1n79k=
+X-Received: by 2002:aca:451:: with SMTP id 78mr3028647oie.170.1572009118454;
+ Fri, 25 Oct 2019 06:11:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191025113921.9412-11-richard.henderson@linaro.org>
-Content-Language: en-US
-X-MC-Unique: mOKIvREFMwGuZ3ctb5GY2A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20191025121201.18485-1-peter.maydell@linaro.org>
+In-Reply-To: <20191025121201.18485-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 14:11:47 +0100
+Message-ID: <CAFEAcA9kbj_mpevw2gRBX9zxc3gTQhgN4Qp-2YyK3fmVEGn2Wg@mail.gmail.com>
+Subject: Re: [PULL 00/42] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::236
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,39 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/19 1:39 PM, Richard Henderson wrote:
-> We will need a target-specific hook for adjusting registers
-> in the parent during clone.  Add an empty inline function for
-> each target, and invoke it from the proper places.
->=20
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   linux-user/aarch64/target_cpu.h    | 4 ++++
->   linux-user/alpha/target_cpu.h      | 4 ++++
->   linux-user/arm/target_cpu.h        | 4 ++++
->   linux-user/cris/target_cpu.h       | 4 ++++
->   linux-user/hppa/target_cpu.h       | 4 ++++
->   linux-user/i386/target_cpu.h       | 4 ++++
->   linux-user/m68k/target_cpu.h       | 4 ++++
->   linux-user/microblaze/target_cpu.h | 4 ++++
->   linux-user/mips/target_cpu.h       | 4 ++++
->   linux-user/nios2/target_cpu.h      | 4 ++++
->   linux-user/openrisc/target_cpu.h   | 4 ++++
->   linux-user/ppc/target_cpu.h        | 4 ++++
->   linux-user/riscv/target_cpu.h      | 4 ++++
->   linux-user/s390x/target_cpu.h      | 4 ++++
->   linux-user/sh4/target_cpu.h        | 4 ++++
->   linux-user/sparc/target_cpu.h      | 4 ++++
->   linux-user/tilegx/target_cpu.h     | 4 ++++
->   linux-user/xtensa/target_cpu.h     | 4 ++++
->   linux-user/syscall.c               | 2 ++
->   19 files changed, 74 insertions(+)
+On Fri, 25 Oct 2019 at 13:12, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Changes from v1: dropped SVE patchset.
+>
+> The following changes since commit 58560ad254fbda71d4daa6622d71683190070ee2:
+>
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.2-20191024' into staging (2019-10-24 16:22:58 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191025
+>
+> for you to fetch changes up to f9469c1a01c333c08980e083e0ad3417256c8b9c:
+>
+>   hw/arm/highbank: Use AddressSpace when using write_secondary_boot() (2019-10-25 13:09:27 +0100)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * raspi boards: some cleanup
+>  * raspi: implement the bcm2835 system timer device
+>  * raspi: implement a dummy thermal sensor
+>  * misc devices: switch to ptimer transaction API
+>  * cache TB flag state to improve performance of cpu_get_tb_cpu_state
+>  * aspeed: Add an AST2600 eval board
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
