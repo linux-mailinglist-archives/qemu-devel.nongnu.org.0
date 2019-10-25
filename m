@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD504E521F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:14:23 +0200 (CEST)
-Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FE8E524B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:29:29 +0200 (CEST)
+Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO3AM-0002UT-4E
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:14:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
+	id 1iO3Oy-00072Q-MH
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1iO31n-0005Uy-QK
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:05:33 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1iO33A-0000yD-1Q
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:06:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1iO31m-0002j5-Kq
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:05:31 -0400
-Received: from mout.web.de ([212.227.15.14]:56735)
+ (envelope-from <lukasstraub2@web.de>) id 1iO338-0005gh-Si
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:06:55 -0400
+Received: from mout.web.de ([212.227.17.11]:50615)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
- id 1iO31j-0002QO-Jp; Fri, 25 Oct 2019 13:05:27 -0400
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1iO338-0005cC-JH
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 13:06:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1572023097;
+ s=dbaedf251592; t=1572023193;
  bh=swJni6b4V8pRAk84eLDd3KajcXs6Pvhgess3/vHrBUY=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=YZGVTMnNGV4TSI59w9vQ7LTjpInfNIoC/lsCbQzGGxCdHj+xvh66Vf5pVRGLgYD3s
- HKRsofFs8Wy4zVwxTvXvcDYqSJLZLLdIsBeeu43iVBIx9tc19CCoqO6bOnnSASYPnC
- SMKDyPs4aDvOcnB7QgfYPIS3Sdmx/zBiXzG0QfEs=
+ b=H+xgh0u2H/wAFORxkZDCUcm61I2TThjkp0xTq0hQ3ZHil+GPYM5Z7dvfavJygDH7s
+ 9RhJSEmQzibMOLCiZwduZ+sIR/C7/cYgynbazIT6e3dU+SgMh74UutPFOQvTLlUclZ
+ LcVvfefjpvNaspR1wmSqN4fbe4WntdPHMkloBS8o=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.116]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MYZ8c-1iRwlv0uIs-00VPqI; Fri, 25
- Oct 2019 19:04:57 +0200
-Date: Fri, 25 Oct 2019 19:04:54 +0200
+Received: from luklap ([88.130.61.116]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0M9GVO-1iHxRe3huA-00CeS7; Fri, 25
+ Oct 2019 19:06:33 +0200
+Date: Fri, 25 Oct 2019 19:06:31 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Subject: [PATCH v7 0/4] colo: Add support for continuous replication
-Message-ID: <20191025190454.5176685f@luklap>
+Message-ID: <cover.1571925699.git.lukasstraub2@web.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cPuoh/0JSG4Q0hkOUQbxmGAvWhPcLCntUaL3EEmrde2RyUAVZ8Q
- +cFD6DHAlNMSCJmhWO9Cqqa3BgNCllp4oObA2sWJD4MFqNjCKmSkzhljc+w/9jbOSlJOnNH
- 5EohT7/sr7oadg/is7KqAXf4KpTxYqaTuuWmF5E1dRs2noC61pphPKExmGwUfKJiHKdNfZd
- oiR9FnrOGYAZsRH8lKR6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uVBllg0GIig=:b0BBTmCm7+w/R+dBGgXV9J
- 7Mm8IZcyR0T1OmStuIbmEz8tya7zpmvl3AgPgOPYcZIIKBu2RQ31WlOqwYX9NX1fK3UEga5/A
- mpXyISA2YTWqbq9YizILhEUeAFFfSkkRmPiYfFB+irdGW1nSuP3iaufvxP5qtnlFvEbc4H6Bz
- YMCIp8iX+KlA/RcQ6CcBF+xFzFcP2yfwtMzi8Cn7F5VRU95T8+r3ElSU5byexc61mnmKGR7kX
- YwbILjNfK4P0bvzhCmwW68xnrKTjINoR0naegPpr9l7vpYquAxm0Cmcmv/TQLqgLAsphyVGyu
- ydU3enZejg52jh14ZZVjNDtJCJJmX9QnePIU2xJlTKAbiegDMyOQ2fs1yvQIFmrS20UVeKHSl
- D+BGTCBT4BUgKiORMdBQQcskVnn0kVuhkZI7nFyf+cAS3ZZGQ3tBmk96kzn6ak73XYXGBih8l
- bjLvxIM8ZmPBK0Oko7TF8A3ZRnzPulSz0ihvt2aRqRbWP7iwJZUHu8cmsbEsLNgoa/dTS5NRY
- o00bXrlDID7bL42Rj+kII52La1ETpYTSypFZbtgX5pyD04hF+OSSP2cNN60/aJdDZ93zlF+AI
- naAnqQ/zqzVcmIWDCjmuexyRhGqjuR0Aw9/t2+MXGBEZ7BQclCzhDcdbqyZ0WxtZlpXRMb50+
- pYFbbc79NZoiugGTfb5+imEHSIQ3rLAuOEFWSIcRATGaTh2qiU5wQA7sRdiw8euripTIwnLXw
- hSYcEtqrYTa5oo8xJeRQSPhtqTA539QJ1lyINenqVubM9YTuz/DR+41Ap6RoU0ShWIJNrJZe5
- 6qTZhSYpyLMP/5q5EzW6nN3Bn+H6RTl5JekENjS+z0YrbqchVfkcqBtiRx/7k0PyaiGtdcqV1
- MAmRC9VfiiusRjeNlgF8euwsr1ck0L5YCwdCDpUt4bdLrFZakRYK+X9YqEA2czQWR+fk4ikU/
- 8f1IN2Dm+lnCHECBB6/kX3cW1SuDVnGORgOlbyL0I6knAd7hA6bOuPZvK0xsYXozDI0fWsVpe
- OBuYWewuHCjEiliMX2Tk7UujFYkbt4vh/FSJU3T+O4nSRh9e9eFm+dN8e5khqYXOwdZ0Yw10p
- jk45ePrkurEFS9XpXKS/z2EWfEtrUJEOO3ZNFlOlGh8oI2VlJJAJy1OzK9i8ioT74Umc/oQxB
- vNGLe00W+X7WEuUvYPkLhWliIGTwe23/xYRlmWnL+vbht0xSmo1BcLj5SkJydyei45UbDGSRi
- /h0hYFF7BL4rRR8YByjkP/wnUxWyU/oiCn6WBo5SN6bm4Dtm0wupCGI2QxXs=
+X-Provags-ID: V03:K1:ir2Tllt7UTjwaNgP9n3MqVVRxUHpbyiSyEfbljDG87JfEd6Nofh
+ Tjlvx2DLmMPuaPx+7iOLb5a6ofTGPr75PBxfZDu/4aAJ0o/jOnlTy+dOVLthi0tHFh6ulJu
+ 680wDDTdfG9lz9jGJGTv+j+5peI/5VzgE81YnRBZyPWPo/PoB9j0FCXHSijUbbSB2gdMVsy
+ O4G1l+nQx2NzRZ3+SRNSg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3T8tkHj2uDQ=:IRlnrMRIG0gd2nG3yiyPPO
+ mOYUWavR2+EZNr9ltO6Q1bChbX48WqjPnvDec/3LJFEaOH+9H7GnmAnL96MiDEzb+oWLiOnfr
+ 7pbokNo+hbfGsPwf23MudZtUm2sZfRI+O9ciIXxHQxZrB7PIhcNC3LGFO6eEZIHCLScEVI84k
+ pywjJJZiGLRtWuFXgPWxUpN7CcV7UnKc3jXnhcKExyqN8Kypo+PwlKly/Sinf1mdqIEKHz2w4
+ qIBfNMSvzzw0OBLajCc8DcVUYeNImHeH6myEPA5Lo4dxT1foYSUYQhU1je+qnKMGQqqGUXJZl
+ oFvyoeLwrJxyHX4pcYRlPt0A/hiESqRgC4jErW+5EEgZGUmEBaOSMUzMN3HU2B5UW9Wj+/2X0
+ IJcYVPfcr6rfB5jNSyJtiDMaMm79yUqGZi85weFiOLIXTh8vUOJ+qU1r7PaQ/1GwteNVPGDpW
+ +ExbF8PV13qMK2ple1a1y32hKBM122JVe0dICDF3r/lFcFYVMU/agLHiQ8Y+wxHtZokWTneS3
+ a9DcCy4CBKgnJ2kInXD3owjE8mnQy8KCZH6MBAkjw85JF15NeVUOKkmVu74P/JJ9BIFdzGxfb
+ hForrd7intBgtb+LaOAr/5BA4fm2e7QZWsg3RETcIZIbtupOtCYaWbrAbAjver/7z1kBBaNHw
+ OMFWQpSVQWZ4nQIfWIL5xZrnAPaN6hv1d9PY2PqsurkPVfctOVRxw5nX60czbZ0EDdWsl9gPS
+ e8GtO64CZmmZNIdXRhJfbFwfpwWe7tm+wmK5BvN4j1kTisQJQDHeF2joZnzzoGhg3jMyXZ7FH
+ jg+0rRo2044SPDfyGUqYtw7V6vhqyklEgERIcZGq56zQhCZziYEye12h7di4MCK76HkVGVHv7
+ oG7yN99tl1Mkmgyo1P+5xvO8uWwffO0y+I7y9lYQGUhBLXiqJ7hUrdqtgz4rSf8OK1F4tF2Vr
+ r1NcFg1+Sul67BdpX6HTdIKjummFagXrSXjrR7XDr+aclk8heY5nc1IJ7cL/rqUiHO0MC17nX
+ Xl8gJJepP5ApaE3BOqE9XKq9yWU0r1l+nkpvH8/HNiinv7L8XlMUobFnGEk/fWZhLctST3SU9
+ IsGlkZX1r1UN5LDfbWiM+lthVvwrzZpAn8O3A/lzKqjNnY9k+tuvA+FWAkoXnLgIM+2RWXEUn
+ f9RH53wznl7YVWf2lkOProZWfD1zfervhY+8t4XrUIE3TceMbZh29lgh9sdvwAoRNyYOKBUBY
+ OC2bZGFekHIR4a+kWpmM1qT8423llaeDYUm3KIVjCstD7URsW3sn0huCjN9U=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.15.14
+X-Received-From: 212.227.17.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
