@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC2CE44F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:55:48 +0200 (CEST)
-Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9409BE44F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:57:53 +0200 (CEST)
+Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNuRn-0003Ao-V0
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:55:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40487)
+	id 1iNuTo-0007Wx-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtq1-0004kW-NH
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNuSb-00062d-6H
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:56:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtq0-0007Fj-Ki
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:45 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51092)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNuSa-0007ym-0D
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:56:37 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54168)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtq0-0007FJ-Ee
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:44 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id 11so876866wmk.0
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:44 -0700 (PDT)
+ id 1iNuSZ-0007xW-Ax
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:56:35 -0400
+Received: by mail-wm1-x333.google.com with SMTP id n7so991228wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RBkpe4GEuH6saQwGoDoa7cSKDDeby0g+/F7eldRIZd0=;
- b=sVmfgZgEIjmhtj0555OUTriBxgyzaIR5YyC93fJUScvFjHIexkbIJOjXXX7ddc4sLq
- gNk3RN59zunoy1bkyUIox39OuW6goSwKH6X2ZTcHwwwiBHRAFZuImSFw5qD1W1KprYJK
- Jj8m+Mi5VIq8TJYTMXdMyJRobm7J7YzooHGVnIC7npQHZ3oyZ3SMKhqkzzdAHgg73g91
- o48CEz0l97NnPooeVKIo36fcRko3dtiTu/w2ev0hXgabzGcy8HdXvB8LAEZ+Vg98f9x5
- 9B1dz2EFotZFIryAeECZh0tJ7wRzy0LiCFdG7s7ki1XZPSnguVxqfZYDrV5W/R1IKYW5
- 61HQ==
+ bh=8r9gwAqZIg/CQxEo38LJIsJlTEF4FbM9PodERbeO51k=;
+ b=eKem9ZhzwZ9ZyGvJROjuVbyUhzv1Yv3eayqG+ldar+nGx6V46PRzqNJATU9bcn1v73
+ KLA1vFiWvk4YcTeSxfDlRB91KGyXS3nBYXGqbdhQMudYit2Av2Wrv1O3pizdCBnOgUyY
+ WzFeZG97XyzeG/4DZfP+Nz6+wCtU6jLDQxXo9S3OMJU6QmV5XFi2bJA98i5x+wENbAYu
+ EKaaaxziZId4EnRRUZAzG2ij6wOwomqARU98qPB53CKlZHEqQ4NBffpc2GDu05tVOgUk
+ /HKqemYiUqT5oB7qnL7lMAQ27tjeZeV9mqRgAU5qh7ru9jWoP0JHh5/Q5DT9OTK+AF3w
+ b11Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RBkpe4GEuH6saQwGoDoa7cSKDDeby0g+/F7eldRIZd0=;
- b=AOTjafOWWznBTxtQEv0wDkyG3wHAE4JS3Mzgc6ER8tL4RAMUb4S6vxjnL2807mP+Q2
- tqFEj+pLH6RFYri2tOuFpcwax0blley3tG/Wk/CQV+Ljn3RnzwGSMYNsuahkUd5wE4R4
- dNKSAWfcAwg7wvPNP9alZV9C2zKEsu/MPP7fTOTFMSGbqM7hfQUhLgIcs7XIQrOKH+Tx
- TwvJZczeSmU7GxeoPABUuRTfB0bjzah2z7U/khS6L3RousPEZF53oTNDe4qbG15perwP
- E4EChVlB2aZV32nah/4TZRzyoMypBRKUKnwybXP5K50++cPd2z86h+sdPzNeq3SeN0VB
- 9I7w==
-X-Gm-Message-State: APjAAAX8GDFjOsMx6r/9tNQ1A7ILXUzmurBA0++m7iW5J5A3uNRQQQqw
- u81aJRiNTP3qEpFALgsIbtzkbDj0DLA=
-X-Google-Smtp-Source: APXvYqzaBASJHOtvOZ7MW+8Z1gDMTdxkmnPa3pgcqUM3rBKuOKxHTfETwYtYEY74XJQTdAWoA+sRmg==
-X-Received: by 2002:a1c:a6c8:: with SMTP id p191mr1847674wme.99.1571987803408; 
- Fri, 25 Oct 2019 00:16:43 -0700 (PDT)
+ bh=8r9gwAqZIg/CQxEo38LJIsJlTEF4FbM9PodERbeO51k=;
+ b=EUg2tfcNq5/Q2Y61BGwLLqg3xLYAIju5mUaUTbvCBa+dfpIWi8dx3ggdIkEAiuAGPd
+ /Wdow3sLoz4HWNlznvjMNyRVzQ2D1ZX9ytEPTJsvekjGppwH6Ejmpx3o8OEKo25QF5YL
+ AzYgplICbmvusdqwVZvGDTWX3qDjWFb4oo9qgr1TpOPkbpbMfAwih3+jz6g0IJypvpoh
+ m4++ALWzX3EZHMReL3EVG8Bk4qnqwQOpz3VDZ2kFRxHFK/Dljq49F9GWznRJUIr83MHR
+ nozZGal4CYPEjOIz30m+HTsoylG4uI01UicKUJ6/z9vXTuAmMDTimlzgu+O8iDrdju3N
+ LTqg==
+X-Gm-Message-State: APjAAAViDKvvjxcVUYSRhOmuLIPB+3kGcDsKMOo/t7k/zG6ZPbKJNhOQ
+ +ZE14ynAFJz86VvdwwBR4CrrpQ==
+X-Google-Smtp-Source: APXvYqxWjTiCOZrAabtnyDur5zIyAep1xjKLrPYz9KQqINa2UwJWsTKsaYUJy01sLLmfQEnFHGG1kw==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr2173737wmi.49.1571990193536;
+ Fri, 25 Oct 2019 00:56:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d11sm1386866wrf.80.2019.10.25.00.16.36
+ by smtp.gmail.com with ESMTPSA id n17sm1400839wrt.25.2019.10.25.00.56.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 00:16:40 -0700 (PDT)
+ Fri, 25 Oct 2019 00:56:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 21BDA1FFDA;
+ by zen.linaroharston (Postfix) with ESMTP id 846971FFE2;
  Fri, 25 Oct 2019 07:37:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 68/73] accel/stubs: reduce headers from tcg-stub
-Date: Fri, 25 Oct 2019 07:37:08 +0100
-Message-Id: <20191025063713.23374-69-alex.bennee@linaro.org>
+Subject: [PULL v2 73/73] travis.yml: enable linux-gcc-debug-tcg cache
+Date: Fri, 25 Oct 2019 07:37:13 +0100
+Message-Id: <20191025063713.23374-74-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,31 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need much for these. However I do wonder why these aren't
-just null inlines in exec-all.h
+Create a new cache for the --enable-debug-tcg builds which is separate
+from the normal debug builds which generate different code. We also
+enable debug-tcg for the new plugins based builds as we want to ensure
+any breakage to TCG is picked up by the sanity checks.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index e2d23edafe0..677191a69cf 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -11,7 +11,6 @@
-  */
+diff --git a/.travis.yml b/.travis.yml
+index e3f10a93683..34bc8134f5b 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -135,7 +135,7 @@ matrix:
+     # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
+     - env:
+         - CONFIG="--enable-debug-tcg --disable-system"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "tcg/tcg.h"
- #include "exec/exec-all.h"
+ 
+     - env:
+@@ -336,29 +336,29 @@ matrix:
+     - env:
+         - CONFIG="--disable-system --enable-debug-tcg"
+         - TEST_CMD="make -j3 check-tcg V=1"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+     # Run check-tcg against linux-user (with plugins)
+     # we skip sparc64-linux-user until it has been fixed somewhat
+     - env:
+-        - CONFIG="--disable-system --enable-plugins --target-list-exclude=sparc64-linux-user"
++        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user"
+         - TEST_CMD="make -j3 check-tcg V=1"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+     # Run check-tcg against softmmu targets
+     - env:
+         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+         - TEST_CMD="make -j3 check-tcg V=1"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+     # Run check-tcg against softmmu targets (with plugins)
+     - env:
+-        - CONFIG="--enable-plugins --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
++        - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+         - TEST_CMD="make -j3 check-tcg V=1"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+     # Release builds
 -- 
 2.20.1
 
