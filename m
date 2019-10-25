@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52931E4F85
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:49:50 +0200 (CEST)
-Received: from localhost ([::1]:33168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39F0E4F9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:53:48 +0200 (CEST)
+Received: from localhost ([::1]:33240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0uS-0007QZ-9s
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44426)
+	id 1iO0yI-0004wI-69
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iO0Tr-0005Hs-0I
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:19 -0400
+ (envelope-from <david@redhat.com>) id 1iO0W4-0000jw-4D
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:24:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iO0To-0001hr-Sf
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:17 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:36391)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iO0To-0001hd-Ou
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:16 -0400
-Received: by mail-qk1-x742.google.com with SMTP id y189so1914231qkc.3
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Q9PA/XGaFb/7jgxWdyktquMDL4GhIzWDsxOacBvv2es=;
- b=Yx0FCQUmjnlC/9wLCFC/AqUil0d6MtaJ466kwyh+3F6W2HvrXAozjn/R9frjenq6m4
- o0h9eArCsFvGLrlGiikTT19M8drjyNC1edKt+qKufB2qgP5iWAGvVdpzPE6+ZTrzqu8r
- F5tRcYhN1K6Kn0nr1ML8eaVAU+VAev21XFk/2CQRNr8IaRdOojopO5tIi5XEWr1M5Nxp
- BY1TZ/9pcaYFXzrzNCB4rw4DbBrnmIkpcM6co5OkQic7VLPnGCUAFCiSXvsc7taFce2F
- KUmcpnFC6Ud9p2cdOnDIlRXJjZKwifAAM7fHIWpP03AYFpjZJDpDBE5SabcciJtWjgEp
- nKoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Q9PA/XGaFb/7jgxWdyktquMDL4GhIzWDsxOacBvv2es=;
- b=DW2hzuL7Dhttb4dXob3LERicuh2H2vOaVYpazUid+AL/Ma9A9u6Nnpl+HM3fvSYBrd
- 3JGjEDoUBfSxNHWB8W7K1M09Rx5s/oCr95ggd0+9cCLhgiU47iDvQ5Ds8G6TQnPzoiBz
- RHhfRc3u1xfACKZEmmYhgGV7LgfU2H6PZoCseJnxI4yrQ01qTg9uc98urwXv24gWzXvk
- 7LycfhwnX4FTs/apU026WCaoryyjsXjb0u/bzkQLfwubUlQrtBZjAODpivhUI4E+M6pp
- ics0XijGXeGo2fkERzEVlBP3OqfTIv2wxA/lWwTVow9CpFFEvu1vsebGULO/pGnwk+Tm
- qiJA==
-X-Gm-Message-State: APjAAAWqopZCY08E1F57vkpHcfVA/NPdMbzh5lm5h4Gi8XEqQGyZouyo
- kv+lnNGwjUGKmIFoIkNE6IH3J5v0N1c=
-X-Google-Smtp-Source: APXvYqws88YWxyBGLMZte4YCw7NNcZMhe9S478cfJn6qCSNFc1Dzop9UQjJhOR7Lui/gIhEKm9qVyg==
-X-Received: by 2002:a05:620a:1321:: with SMTP id
- p1mr3093122qkj.272.1572013335810; 
- Fri, 25 Oct 2019 07:22:15 -0700 (PDT)
-Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
- [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id q17sm1137050qtq.58.2019.10.25.07.22.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 07:22:14 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] translate-all: Remove tb_alloc
-Date: Fri, 25 Oct 2019 10:21:59 -0400
-Message-Id: <20191025142159.12459-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191025142159.12459-1-richard.henderson@linaro.org>
-References: <20191025142159.12459-1-richard.henderson@linaro.org>
+ (envelope-from <david@redhat.com>) id 1iO0W1-00031C-Lf
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:24:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54251
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iO0W1-0002uP-HN
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:24:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572013461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MFIL97jbsxIfKajN/TNpA8K5qOxgSVTUwVo0AcDbKIQ=;
+ b=eCXPGrTyy+/GUgiVrvsx/4Z//3BualOv/Zy83KolNZvXFBYUoLO3F55NfbBPIwlFgne/jY
+ SAhsnyf3JJb4vjDLfXMp8zqMQ2h4pgIyOQwDcHBbP/weMfVyie2JkmtEN3b4eQiCKj3pHB
+ v3c9wfuR235zGetg58A2w76MkJ+9uXU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-SdugoeULPCmJcyfJudgaXg-1; Fri, 25 Oct 2019 10:24:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 590A81005509;
+ Fri, 25 Oct 2019 14:24:05 +0000 (UTC)
+Received: from [10.36.116.227] (ovpn-116-227.ams2.redhat.com [10.36.116.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B454C194B6;
+ Fri, 25 Oct 2019 14:24:00 +0000 (UTC)
+Subject: Re: [PATCH 0/7] i386: Add `machine` parameter to query-cpu-definitions
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191025022553.25298-1-ehabkost@redhat.com>
+ <dbf9e4c1-0acf-9469-84f9-f80c41e2cae0@redhat.com>
+ <6e7d171e-18c4-6835-f89c-e9e66c093d62@de.ibm.com>
+ <4cd530f9-54f3-80e7-1b66-c91f71160062@redhat.com>
+ <20191025140310.GB3581@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <7a29438c-572d-5a26-a14f-717a177af4d1@redhat.com>
+Date: Fri, 25 Oct 2019 16:23:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+In-Reply-To: <20191025140310.GB3581@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: SdugoeULPCmJcyfJudgaXg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,67 +78,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 2ac01d6dafab, this function does only two things: assert a
-lock is held, and call tcg_tb_alloc.  It is used exactly once,
-and its user has already done the assert.
+>>> For example
+>>> -machine s390-virtio-ccw-3.1 -cpu z14 will not have the multiple epoch =
+facility
+>>> and
+>>> -machine s390-virtio-ccw-4.0 -cpu z14 will have the multiple epoch faci=
+lity.
+>>> As migration does always require the tuple of machine and cpu this is s=
+ave. I fail
+>>> to see what the benefit of an explicit z14-3.1 would be.
+>>>
+>>
+>> AFAIKS the only real benefit of versioned CPU models is that you can add=
+ new
+>> CPU model versions without new QEMU version.
+>=20
+> This is very important for backporting CPU security fixes to existing QEM=
+U
+> releases.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Clement Deschamps <clement.deschamps@greensocs.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/translate-all.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+I'd say it's not really relevant for backporting per se. It's relevant=20
+for automatically enabling security fixes when not using the host model.=20
+That part I understand. Less likely to make mistakes when explicitly=20
+specifying CPU models.
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index f9b7ba159d..ae063b53f9 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1156,23 +1156,6 @@ void tcg_exec_init(unsigned long tb_size)
- #endif
- }
- 
--/*
-- * Allocate a new translation block. Flush the translation buffer if
-- * too many translation blocks or too much generated code.
-- */
--static TranslationBlock *tb_alloc(target_ulong pc)
--{
--    TranslationBlock *tb;
--
--    assert_memory_lock();
--
--    tb = tcg_tb_alloc(tcg_ctx);
--    if (unlikely(tb == NULL)) {
--        return NULL;
--    }
--    return tb;
--}
--
- /* call with @p->lock held */
- static inline void invalidate_page_bitmap(PageDesc *p)
- {
-@@ -1681,6 +1664,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     TCGProfile *prof = &tcg_ctx->prof;
-     int64_t ti;
- #endif
-+
-     assert_memory_lock();
- 
-     phys_pc = get_page_addr_code(env, pc);
-@@ -1706,7 +1690,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     }
- 
-  buffer_overflow:
--    tb = tb_alloc(pc);
-+    tb = tcg_tb_alloc(tcg_ctx);
-     if (unlikely(!tb)) {
-         /* flush must be done */
-         tb_flush(cpu);
--- 
-2.17.1
+I once was told that if a user actually specified an explicit CPU model=20
+in the libvirt XML ("haswell-whatever"), you should not go ahead and=20
+make any later changes to that model (guest ABI should not change when=20
+you update/restart the guest ...). So this only applies when creating=20
+new guests? Or will you change existing model definitions implicitly?
+
+>=20
+>>
+>> Then you can specify "-cpu z13-vX" or "-cpu z13 -cpuv X" (no idea how
+>> versioned CPU model were implemented) on any QEMU machine. Which is the =
+same
+>> as telling your customer "please use z13,featX=3Don" in case you have a =
+good
+>> reason to not use the host model (along with baselining) but use an expl=
+icit
+>> model.
+>>
+>> If you can change the default model of QEMU machines, you can automate t=
+his
+>> process. I am pretty sure this is a corner case, though (e.g., IBRS).
+>> Usually you have a new QEMU machine and can simply enable the new featur=
+e
+>> from that point on.
+>=20
+> There are now 4 Haswell variants, only some of which are runnable
+> on any given host, depending on what microcode the user has installed
+> or what particular Haswell silicon SKU the user purchased. Given the
+> frequency of new CPU flaws arrived since the first Meltdown/Spectre,
+> this isn't a corner case, at least for the x86 world & Intel in
+> particular. Other arches/vendors haven't been quite so badly affected
+> in this way.
+
+On s390x you can assume that such firmware/microcode updates will be on=20
+any machine after some time. That is a big difference to x86-64 AFAIK.
+
+>=20
+> If we tied each new Haswell variant to a machine type, then users would
+> be blocked from consuming a new machine type depending on runnability of
+> the CPU model. This is not at all desirable, as mgmt apps now have comple=
+x
+> rules on what machine type they can use.
+
+So you actually want different CPU variants, which you have already,=20
+just in a different form. (e.g., "haswell" will be mapped to=20
+"haswell-whatever", just differently via versions)
+
+>=20
+> When dealing with backporting patches for new CPU hardware flaws, the
+> new CPU features are backported to many old QEMU versions. The new
+> machine types are not backportable.
+
+That part I understand.
+
+>=20
+> Both these called for making CPU versioning independant of machine
+> type versioning.
+>=20
+> Essentially the goal with CPU versioning is that the user can request
+> a bare "Haswell" and libvirt (or the mgmt app) will automatically
+> expand this to the best Haswell version that the host is able to
+> support with its CPUs / microcode / BIOS config combination.
+
+
+So if I do a "-cpu haswell -M whatever-machine", as far as I understood=20
+reading this,  I get the "default CPU model alias for that QEMU machine"=20
+and *not* the "best Haswell version that the host is able to support".
+
+Or does the default actually also depend on the current host?
+
+--=20
+
+Thanks,
+
+David / dhildenb
 
 
