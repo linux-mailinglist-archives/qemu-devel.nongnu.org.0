@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670DCE48AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:39:49 +0200 (CEST)
-Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC61E48B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:40:45 +0200 (CEST)
+Received: from localhost ([::1]:58412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNx0V-0004KN-P7
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36913)
+	id 1iNx1Q-0007Eh-2k
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iNwvB-0007aC-23
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:34:20 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iNwx0-0001Gr-Ba
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:36:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iNwv8-0006xe-QK
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:34:16 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40024
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iNwwz-0007kn-7G
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:36:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35441
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iNwv8-0006vz-Iv
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:34:14 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iNwwz-0007kH-38
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:36:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571999654;
+ s=mimecast20190719; t=1571999768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=i4Bnwbkl9tFsqB0HzcDR8hsm5i3Hmk+UGK9peS2hjY4=;
- b=fSZNJ5tA2kuiKQbaNuYCp3OEUKVIGFYTv6bAVQ2cUq7DGf99+XQtHGA0AdgIML8j6qMu6t
- J+RUnGWEth6aD2eGEsNx0QMYdyG1h0Oi55PHDWutQ4Eeal/mETD681nPuF5l34Sjp49vz3
- 5a+pbpLaKMnPvQY+QMy6+v9JksoDrkw=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JR3J+kghMA6QQulNvmo1v3aBnEhShqF/Yan1bGW5Geo=;
+ b=gVQqVZZpSXCu/lEnCkM8OHxh2+JlOvugmCFM18ghiqh1A+eEocf08sBgFcBe8eLISqvqWi
+ k6QzS0sg2bl/O9WP5qYbuZ2rmPk5s+SwyKVEcvo8aBknvzuMQnaijyhP9ROXKhWN6z97tY
+ lbBqa4ba0gxTbD7k89PFVAImhHdjdDc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-3xM3UgQdNmO_LS06rVs8ZQ-1; Fri, 25 Oct 2019 06:34:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-20-OPGOQBbaOUeYm6jvZ4GH7A-1; Fri, 25 Oct 2019 06:36:04 -0400
+X-MC-Unique: OPGOQBbaOUeYm6jvZ4GH7A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 580DC107AD31
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:34:09 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 273E85DC1E;
- Fri, 25 Oct 2019 10:34:05 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com,
-	jasowang@redhat.com
-Subject: [PATCH 0/2] more rcu_read_(un)lock conversions
-Date: Fri, 25 Oct 2019 11:34:01 +0100
-Message-Id: <20191025103403.120616-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3039107AD31;
+ Fri, 25 Oct 2019 10:36:02 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-223.ams2.redhat.com
+ [10.36.117.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACD345D70E;
+ Fri, 25 Oct 2019 10:35:55 +0000 (UTC)
+Date: Fri, 25 Oct 2019 12:35:54 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [RFC 2/3] block/file-posix: Detect XFS with CONFIG_FALLOCATE
+Message-ID: <20191025103554.GC7275@localhost.localdomain>
+References: <20191025095849.25283-1-mreitz@redhat.com>
+ <20191025095849.25283-3-mreitz@redhat.com>
+ <20191025101920.GB7275@localhost.localdomain>
+ <f71d7cab-a1cf-c93c-0697-4b5f77105314@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 3xM3UgQdNmO_LS06rVs8ZQ-1
+In-Reply-To: <f71d7cab-a1cf-c93c-0697-4b5f77105314@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,29 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+--9amGYk9869ThD9tj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-  Two more rcu_read_(un)lock conversions around
-virtio stuff.
-(to go with, but independent of my previous 'virtio: Use auto rcu_read macr=
-os')
+Am 25.10.2019 um 12:22 hat Max Reitz geschrieben:
+> On 25.10.19 12:19, Kevin Wolf wrote:
+> > Am 25.10.2019 um 11:58 hat Max Reitz geschrieben:
+> >> We will need this for the next patch.
+> >>
+> >> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> >> ---
+> >>  block/file-posix.c | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/block/file-posix.c b/block/file-posix.c
+> >> index 695fcf740d..5cd54c8bff 100644
+> >> --- a/block/file-posix.c
+> >> +++ b/block/file-posix.c
+> >> @@ -149,7 +149,7 @@ typedef struct BDRVRawState {
+> >>      int perm_change_flags;
+> >>      BDRVReopenState *reopen_state;
+> >> =20
+> >> -#ifdef CONFIG_XFS
+> >> +#if defined(CONFIG_XFS) || defined(CONFIG_FALLOCATE)
+> >>      bool is_xfs:1;
+> >>  #endif
+> >>      bool has_discard:1;
+> >> @@ -667,7 +667,7 @@ static int raw_open_common(BlockDriverState *bs, Q=
+Dict *options,
+> >>      }
+> >>  #endif
+> >> =20
+> >> -#ifdef CONFIG_XFS
+> >> +#if defined(CONFIG_XFS) || defined(CONFIG_FALLOCATE)
+> >>      if (platform_test_xfs_fd(s->fd)) {
+> >=20
+> > platform_test_xfs_fd() is defined in a header file from xfsprogs. I
+> > don't think you can call that without CONFIG_XFS, it would break the
+> > build.
+>=20
+> Aw.
+>=20
+> OK.  Should we then just assume is_xfs to be true (for the next patch)
+> with !defined(CONFIG_XFS) && defined(CONFIG_FALLOCATE)?
 
-I like the way that the virtio-net case simplifies the function
-a lot.
+It's a small inline function that basically just calls statfs() and then
+checks f_type.
 
-Dr. David Alan Gilbert (2):
-  virtio/vhost: Use auto_rcu_read macros
-  virtio_net: use RCU_READ_LOCK_GUARD
+I think we can have a small function to implement this in the file-posix
+code. Don't copy it from the header because of licensing (LGPL, while
+file-posix is MIT); refer to the statfs() manpage instead and write it
+yourself.
 
- hw/net/virtio-net.c | 7 ++-----
- hw/virtio/vhost.c   | 4 +---
- 2 files changed, 3 insertions(+), 8 deletions(-)
+Kevin
 
---=20
-2.23.0
+--9amGYk9869ThD9tj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJdstAKAAoJEH8JsnLIjy/W/hgP/jHOep63MxjQb0xIDmqAfxWd
+QJxCdULCbnPOKo3EhbVnCBH48JEziDotOC/VSLYUchKGbx9i+UAc0EcuA5ZgBEn/
+9hH4VYzmhTK1svo0RwutgtexaVTJjeAGpUCDNF4drNHYjVHY7i1tTL7V1ymsfjcd
+r/6sLsIcjNXEz07/3u7XGFQNJgyNowfzqJmwEWdfc83kAkJxZ6ASNvr/fPmrZ39E
+Jn1oMliXCBkRobfMuV9ID0jL4jMCrTBDl8R+YzYMAsWnRSXgNj4ggsp/KVqnn8fu
+e1AqnJhEtCnHVfliqIGEp8M88vbgGyo1GagzoxMUryY1lF9emFxSMDdNlVt1yH9d
+dVTDbbYhrwhBNdlguAw4PycV3vytqBIpVu26rZa4FqlWK3lfUagWwYH/hYLXAZia
+Hv2tz6pbaFdU5zlzt20LFrh03VEpJlvbmd9HMo+HvHwfm/5p3hKuAeN9c8B7sf7P
+zUZImpgbCdgwERDgG+m4lahSdvssx7BFtNpm72CKH1d31FXwKDv7VeWX+6GlRsF4
+LbmqMhUbGWQQfbcEFWvY7MuKsOlXglw3Pu35qhv7rtkG5zkS7X22uk4Rk13tzAdJ
+YF0M5fmzFR+E9nixPHsFmGmhBc0cKyogJ7Kw+RkcoObzryRXmWsx2MKZTXhamWdg
+cwo8PUbJNipa1THRl4Y+
+=5N2K
+-----END PGP SIGNATURE-----
+
+--9amGYk9869ThD9tj--
 
 
