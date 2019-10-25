@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BCDE4BE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:17:51 +0200 (CEST)
-Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0701AE4C27
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:30:05 +0200 (CEST)
+Received: from localhost ([::1]:59964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzTS-0000qy-CF
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58649)
+	id 1iNzfH-0001Tx-JJ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:30:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iNzOr-00040M-Ed
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:06 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iNzY4-0007U0-6y
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:22:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iNzOq-0000xl-B4
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:05 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46189
+ (envelope-from <ehabkost@redhat.com>) id 1iNzY0-00059p-5H
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:22:33 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42185
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iNzOq-0000xZ-7K
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:13:04 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iNzXy-00058X-BW
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572009183;
+ s=mimecast20190719; t=1572009747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BJLpPRUP3p6ol7UnWXCW+0KnDSYD6Jp3/hbZQJAqpD8=;
- b=Dn3YJjcnF5W77Tk8yDBjUvCdTIZlsKWSe7lUdHQPwIcYKEgualx61FzFaGp9vWlq3/dHNg
- saF0DEU5TnEHBBY9WMgw+MaYJCekv5+OkVOxUtfy3BBVd6KvMaEd1jJhvr8HeJ+qVMkbHa
- N9T8wC3hd1H8NCm2ku5UpLA42U2bcow=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TXoeupEoqztpAAd5CgTj1cBSD9Wcv3BgFKcqST9xO2c=;
+ b=i4TEQpw5C4+lbVzdAOUrkK4Tt3SZS0ceMMogQpK1mNpb6lgi8QEyyWt5kRp/2W5w5Kp+6w
+ Wyn9J5f0S/ttsgRv3ohdN8KJAhfIYtsBXkL6SSstdRJ6KWIKWRyLTkmlF80Um678i7FuvV
+ ZCLF9f35LklqQGBliVrR29Tq3i0665c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-IlF2IsURNlGg2F_2RsRkpg-1; Fri, 25 Oct 2019 09:12:57 -0400
-X-MC-Unique: IlF2IsURNlGg2F_2RsRkpg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-240-GczJZsPlMUmnpCLSWxkQUA-1; Fri, 25 Oct 2019 09:22:24 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AD780183D;
- Fri, 25 Oct 2019 13:12:56 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E5C75C1B5;
- Fri, 25 Oct 2019 13:12:52 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] iotests: add 269 to check maximum of bitmaps in
- qcow2
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191014115126.15360-1-vsementsov@virtuozzo.com>
- <20191014115126.15360-3-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <7c9e6d62-fc5e-204e-778d-0320833e9b00@redhat.com>
-Date: Fri, 25 Oct 2019 15:12:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 567FD1800DCA;
+ Fri, 25 Oct 2019 13:22:22 +0000 (UTC)
+Received: from localhost (ovpn-116-62.gru2.redhat.com [10.97.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D053760BFB;
+ Fri, 25 Oct 2019 13:22:16 +0000 (UTC)
+Date: Fri, 25 Oct 2019 10:22:15 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, Jiri Denemark <jdenemar@redhat.com>
+Subject: Re: [PATCH 7/7] cpu: Add `machine` parameter to query-cpu-definitions
+Message-ID: <20191025132215.GC6744@habkost.net>
+References: <20191025022553.25298-1-ehabkost@redhat.com>
+ <20191025022553.25298-8-ehabkost@redhat.com>
+ <8736fhmius.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20191014115126.15360-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <8736fhmius.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: GczJZsPlMUmnpCLSWxkQUA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU"
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -99,66 +73,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
+ David Hildenbrand <david@redhat.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU
-Content-Type: multipart/mixed; boundary="gjI5Gl8jPrO9Vrbv6beNjkwbpE1jcPryk"
+CCing libvir-list.
 
---gjI5Gl8jPrO9Vrbv6beNjkwbpE1jcPryk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 14.10.19 13:51, Vladimir Sementsov-Ogievskiy wrote:
-> Check that it's impossible to create more persistent bitmaps than qcow2
-> supports.
+On Fri, Oct 25, 2019 at 08:36:59AM +0200, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> > The new parameter can be used by management software to query for
+> > CPU model alias information for multiple machines without
+> > restarting QEMU.
+[...]
+> > @@ -317,9 +321,17 @@
+>    ##
+>    # @query-cpu-definitions:
+> >  #
+> >  # Return a list of supported virtual CPU definitions
+> >  #
+> > +# @machine: Name of machine type.  The command returns some data
+> > +#           that machine-specific.  This overrides the machine type
 >=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/269     | 47 ++++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/269.out |  3 +++
->  tests/qemu-iotests/group   |  1 +
->  3 files changed, 51 insertions(+)
->  create mode 100755 tests/qemu-iotests/269
->  create mode 100644 tests/qemu-iotests/269.out
+> "that is machine-specific"
+>=20
+> > +#           used to look up that information.  This can be used,
+> > +#           for example, to query machine-specific CPU model aliases
+> > +#           without restarting QEMU (since 4.2)
+> > +#
+> >  # Returns: a list of CpuDefInfo
+> >  #
+> >  # Since: 1.2.0
+> >  ##
+> > -{ 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo']=
+,
+> > +{ 'command': 'query-cpu-definitions',
+> > +  'data': { '*machine': 'str' },
+> > +  'returns': ['CpuDefinitionInfo'],
+> >    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_=
+I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+>=20
+> I'm afraid the doc comment is less than clear.  Before I can suggest
+> improvements, I have questions.
+>=20
+> Looks like @alias-of is the only part of the return value that changes
+> when I re-run query-cpu-definitions with another @machine argument.
+> Correct?
 
-Is there no way to make this test any faster, e.g. by creating like
-65534 bitmaps with dd and a binary blob?  (Similarly to what I do in
-=E2=80=9Ciotests: Test qcow2's snapshot table handling=E2=80=9D)
+Yes.
 
-This is such an edge case, but running the test took 3:46 min before
-patch 1 (which I already find much too long), and 8:13 min afterwards
-(on my machine).
+>=20
+> How is this going to be used?  Will management software run
+> query-cpu-definitions for each machine type returned by query-machines?
+> Or just for a few of them?
 
-(To be honest, if we take this test as-is, I=E2=80=99m probably just never =
-going
-to run it.)
+I don't know.  I'll let Jiri and other libvirt developers answer
+that.
 
-Max
-
-
---gjI5Gl8jPrO9Vrbv6beNjkwbpE1jcPryk--
-
---nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2y9NMACgkQ9AfbAGHV
-z0B4iQf9HtSL7ntLz01on10tO7WhcyTFaQ7g1RHfJF1fWm3FcrpH9oEsHgXB+DJL
-RZquQMc8xMSx7qaWmeG14TfuJSlKht3NfLYEyd8zqzpN82H8kWLB5FDWTMBTx+ZM
-ElbUZlALZrffzzIviSZfZtDAhIIrSdf+MO1gVrKvF0L4TvNyHxl1TKae9YuDZfJA
-GIbP65dwIAtKMbTZcO5HRSZP3D4BxcWE0HSzQbfGq55U9qM7EicJO9JCWus60vgh
-kXmtuxw0F+2Mm3x6aoKJFsAxWU36+atDW9p6w1+Bpj5QqMzKgXB6+LLxfUyvvKt2
-RpzUqM7nwhF4DRno+AzQRW5Q8FTwxg==
-=wpwT
------END PGP SIGNATURE-----
-
---nIViJQZrFgFX7fHeKpj4GQFtCPRPVZyRU--
+--=20
+Eduardo
 
 
