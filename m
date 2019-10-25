@@ -2,45 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4000AE477F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:39:28 +0200 (CEST)
-Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F406FE479A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:43:09 +0200 (CEST)
+Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNw47-0007Ce-03
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58357)
+	id 1iNw7g-0004JT-DU
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <baiyaowei@cmss.chinamobile.com>) id 1iNw1D-0004tk-AJ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:36:29 -0400
+ (envelope-from <jasowang@redhat.com>) id 1iNw69-0003NM-VI
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:41:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <baiyaowei@cmss.chinamobile.com>) id 1iNw1B-0006oi-Sc
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:36:27 -0400
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:2084)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <baiyaowei@cmss.chinamobile.com>)
- id 1iNw17-0006m1-Dp; Fri, 25 Oct 2019 05:36:22 -0400
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.11]) by
- rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee35db2c1eec07-5ff1e;
- Fri, 25 Oct 2019 17:35:42 +0800 (CST)
-X-RM-TRANSID: 2ee35db2c1eec07-5ff1e
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.novalocal (unknown[112.25.65.41])
- by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee65db2c1ea9b0-be8ce;
- Fri, 25 Oct 2019 17:35:42 +0800 (CST)
-X-RM-TRANSID: 2ee65db2c1ea9b0-be8ce
-From: Yaowei Bai <baiyaowei@cmss.chinamobile.com>
-To: pbonzini@redhat.com, fam@euphon.net, dillaman@redhat.com, kwolf@redhat.com,
- mreitz@redhat.com
-Subject: [PATCH 4/4] scsi-disk: add FUA support for COMPARE_AND_WRITE
-Date: Fri, 25 Oct 2019 17:36:02 +0800
-Message-Id: <1571996163-27688-5-git-send-email-baiyaowei@cmss.chinamobile.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1571996163-27688-1-git-send-email-baiyaowei@cmss.chinamobile.com>
-References: <1571996163-27688-1-git-send-email-baiyaowei@cmss.chinamobile.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 221.176.66.79
+ (envelope-from <jasowang@redhat.com>) id 1iNw67-0007y2-Kt
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:41:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22171
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iNw67-0007xd-Cv
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:41:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571996489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AR8l0CtDEsL1TcfTMDVhr5kGYCkEqpmvWVMWu1qXp0Q=;
+ b=Pe4FecKHCi9x5s1vNBXpJ227IjVOusk/f5iqZVc8gn3+3zXl/cdr5klgDLEJDKqvU8fSPI
+ vjI7HLjb3OLZYDKCAhs6iCbpZ4cyw6bhCiWtT481yVGiRRBl/0lQ1XcMWVWlffoQddDNuB
+ Kw1lCmMT55UKUj3QXCi2de471EbuTrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-eTng1RRaOE-8b2lwhIg5Mw-1; Fri, 25 Oct 2019 05:41:25 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A73F61005509;
+ Fri, 25 Oct 2019 09:41:24 +0000 (UTC)
+Received: from [10.72.12.249] (ovpn-12-249.pek2.redhat.com [10.72.12.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 887845DAAF;
+ Fri, 25 Oct 2019 09:41:20 +0000 (UTC)
+Subject: Re: [PATCH v3] net: add tulip (dec21143) driver
+To: Sven Schnelle <svens@stackframe.org>
+References: <20191023084244.25244-1-svens@stackframe.org>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <e9cb2359-d5d3-314b-8e4e-eccd88f04ccc@redhat.com>
+Date: Fri, 25 Oct 2019 17:41:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191023084244.25244-1-svens@stackframe.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: eTng1RRaOE-8b2lwhIg5Mw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,68 +73,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baiyaowei@cmss.chinamobile.com, yangjun@cmss.chinamobile.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is implemented in the blk_aio_pwritev's callback function in a way
-similar to its emulation in scsi_write_do_fua function
 
-Signed-off-by: Yaowei Bai <baiyaowei@cmss.chinamobile.com>
----
- hw/scsi/scsi-disk.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On 2019/10/23 =E4=B8=8B=E5=8D=884:42, Sven Schnelle wrote:
+> This adds the basic functionality to emulate a Tulip NIC.
+>
+> Implemented are:
+>
+> - RX and TX functionality
+> - Perfect Frame Filtering
+> - Big/Little Endian descriptor support
+> - 93C46 EEPROM support
+> - LXT970 PHY
+>
+> Not implemented, mostly because i had no OS using these functions:
+>
+> - Imperfect frame filtering
+> - General Purpose Timer
+> - Transmit automatic polling
+> - Boot ROM support
+> - SIA interface
+> - Big/Little Endian data buffer conversion
+>
+> Successfully tested with the following Operating Systems:
+>
+> - MSDOS with Microsoft Network Client 3.0 and DEC ODI drivers
+> - HPPA Linux
+> - Windows XP
+> - HP-UX
+>
+> Signed-off-by: Sven Schnelle<svens@stackframe.org>
+> Message-Id:<20191022155413.4619-1-svens@stackframe.org>
+> Reviewed-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>
+> Changes in v3:
+>   - fix whitespace
+>   - fix format string in read/write functions
+>
+> Changes in v2:
+>   - changed tulip_desc_{read,write} to take a struct descriptor *
+>     and no longer use a single pci DMA write, instead write one
+>     struct member at a time.
+>   - fix _tulip_receive function name
+>   - fix reset function and provide tulip_qdev_reset() for dc->reset.
+>   - no longer write registers in the default case in tulip_write()
+>   - set .impl.min_access_size and .impl.max_access_size
+>
+>   MAINTAINERS              |    6 +
+>   hw/net/Kconfig           |    5 +
+>   hw/net/Makefile.objs     |    1 +
+>   hw/net/trace-events      |   14 +
+>   hw/net/tulip.c           | 1029 ++++++++++++++++++++++++++++++++++++++
+>   hw/net/tulip.h           |  267 ++++++++++
+>   include/hw/pci/pci_ids.h |    1 +
+>   7 files changed, 1323 insertions(+)
+>   create mode 100644 hw/net/tulip.c
+>   create mode 100644 hw/net/tulip.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 4bff862..ef9c257 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -228,6 +228,7 @@ static bool scsi_is_cmd_fua(SCSICommand *cmd)
-     case WRITE_10:
-     case WRITE_12:
-     case WRITE_16:
-+    case COMPARE_AND_WRITE:
-         return (cmd->buf[1] & 8) != 0;
- 
-     case VERIFY_10:
-@@ -1849,10 +1850,17 @@ static void scsi_compare_and_write_complete(void *opaque, int ret)
-     }
- 
-     block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
-+    if (r->need_fua_emulation) {
-+        block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct, 0,
-+                         BLOCK_ACCT_FLUSH);
-+        r->req.aiocb = blk_aio_flush(s->qdev.conf.blk, scsi_aio_complete, r);
-+        goto free;
-+    }
-     scsi_req_complete(&r->req, GOOD);
- 
- done:
-     scsi_req_unref(&r->req);
-+free:
-     qemu_vfree(data->iov.iov_base);
-     g_free(data);
-     aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
-@@ -1953,6 +1961,7 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
- {
-     SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, req->dev);
-+    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
-     uint64_t nb_sectors;
-     uint8_t *outbuf;
-     int buflen;
-@@ -2208,6 +2217,7 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
-         return 0;
-     }
-     assert(!r->req.aiocb);
-+    r->need_fua_emulation = sdc->need_fua_emulation(&r->req.cmd);
-     r->iov.iov_len = MIN(r->buflen, req->cmd.xfer);
-     if (r->iov.iov_len == 0) {
-         scsi_req_complete(&r->req, GOOD);
--- 
-1.8.3.1
 
+Applied.
 
+Thanks
 
 
