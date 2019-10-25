@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A026E522A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:19:07 +0200 (CEST)
-Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036BCE522E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 19:21:37 +0200 (CEST)
+Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO3Ev-0001Uq-Ga
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41518)
+	id 1iO3HL-0002ty-Tj
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 13:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iO2qY-000373-BX
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:53:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iO2rU-0004X0-AW
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:54:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iO2qW-00067U-OE
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:53:53 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:40345)
+ (envelope-from <peter.maydell@linaro.org>) id 1iO2rT-0006iY-8B
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:54:52 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40534)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iO2qW-00067F-Ho
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:53:52 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id b25so2046856oib.7
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 09:53:52 -0700 (PDT)
+ id 1iO2rT-0006iN-40
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:54:51 -0400
+Received: by mail-oi1-x244.google.com with SMTP id b25so2048950oib.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 09:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=ly2KrJYeBOECbZkvxbKt/I3fNWJkcLCULL6MIwrPjVM=;
- b=yf1meyBcQLhlm22v1DrMdCmP5JmP9pciORDachE0jEJZA+y/dMkY5EJL5OZEl9I7wb
- APG9mpn71KAWZyqtXxyFkMzwpl6t+3L8lq8mgNx5NtrThLgZFQc+3bH4Lc1oI7QgTdiL
- XcqVM31cez9Dkf46esyLt4O7uspS+/GgRGva/ODmuUFJVyT8esGTEGkSqswr0Elpd0Y+
- 23CxPqrZniwTxudgXuI/uENtwDLINAMXkXXVvQt4krztSzBYXOSdRWS9ytmAip6gsDus
- PuB2AF34szy4ygux+7EN44cyb8vG+1lB6KFUR6ML+mqI7vumRCurNu044ls/QgshM0Ru
- tX5w==
+ bh=MwMm8mGLLLuejez2hldv+kl+dc2ONZykUPcOiO33cWU=;
+ b=ZoFZlt9pU7e/z4dK+sIvOhZFyHXA/RNfct9r9+sky9Cfop87Z3alnwnWIZMBn36XV8
+ nQfJPA6S07yi8xrf0pzs3uIsYWoVPnf+ybAa0mv7ZSWhPg+YckLwwfmebdjE9vZBpgLP
+ 1ZPxpM9VIyXkjqOfxE9V5Uz1YwBY6NhGgU4exPvyFgGiMYvksVW2YYnP4rZi9Pl1y9lF
+ kgDJ3js32IwY2s1d5Dl5mi8cLNXAidqU0esTIObUBueN0KFhhcCev2UI8R1ppIqqZEXJ
+ x6xPqk8JIAWXLZNBIa4B8VJnx2FfihOCggWyQ+TnPkl49z7zfYz6l9owOovoLtfLtZmr
+ 81yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=ly2KrJYeBOECbZkvxbKt/I3fNWJkcLCULL6MIwrPjVM=;
- b=nvAwYyfAa7zEeyj8oYBC9lF3qj8Ek02bhsxdoc9XXBrT8yRx2jc7jQ8DkAePCq4B1p
- fr/egkGaNnDIK9f7WnxzpjHtKk8ZV2uz9faIquSoM2ZxxdUboitXCQEnrCQf1ajryAz3
- m3AzwfmL7GvteupzthS90meX07Awnu7J7jUPWRrkIrMZgDXG2sshRRaLxA22mL7XULpz
- QRk1QaofUp1KR9gqEd5KxZasBpogIzQ2VDD1lOzpdyVYlzJDatlPPRzlxonYOrClnjbR
- 48D89CUi6Ts4tbFsvCQiWu247luNaVWRzruoQ7oov96WSHTzml3ZEnH99Wac1PR9KCBA
- qNMg==
-X-Gm-Message-State: APjAAAW613AEMI7MNp69O3I30e2ECK/sFmODdL4M7CwyaMr/OCUYwTks
- 6RsjW+3zZpHukXntAFdr7svLAmowTTrNAgxS6AIWVA==
-X-Google-Smtp-Source: APXvYqx0vsoa37zR7EsQJRraQqVRguX1dCyNeET+Iok7RqOWaWfqKUk1TRPVpEnoOTsemlpVdY7hCbZ45Mtp6dBxEUo=
-X-Received: by 2002:aca:3b41:: with SMTP id i62mr3738319oia.48.1572022431446; 
- Fri, 25 Oct 2019 09:53:51 -0700 (PDT)
+ bh=MwMm8mGLLLuejez2hldv+kl+dc2ONZykUPcOiO33cWU=;
+ b=Ne2uRYGTge0VedgfLfRJ1wIwvl0G5sCwzp/JJ83LYuflA1+SdIPGk1oLD05V81QGT1
+ UEOrY5SuhM+3OPXKiuJSDut1wmpWQ0XkEAtSpxB4MUtXczblWyVLCYk8mWfU/xgmSF2s
+ 469VHsrS9ZMVI1+k3nVa0qT/ftsBJkTCN/rn2YSzFFTQnMoHdur71Evgwxo38O43h5Ch
+ cyUcPf/1j1uLSaJJoFAHPypjCjVcxvkKgF3d+uSPdUZGF+uIcqin3OqsmnsZTHCnZClK
+ eL2p06z5uXmBt7ZaraFeLGZlRC2WJuBzyQf40ux5Y1X2P7Tou/n0sJFOScoEOPueRPob
+ 8sUg==
+X-Gm-Message-State: APjAAAX6y9sqarCc+ngDwoKCLaJRczI3IJu/sBHxoqsYDbRzxnUAx6jx
+ q2U1OzO4soOeFOnhqMZefz78qT+IdzimaOOt4QE1RQ==
+X-Google-Smtp-Source: APXvYqzx/ggp+eWjhaOhyoAjHu14hpWAJ9egCTi3i6VN6Bc4SXf2YRM0OEpl0MFI+uws29IxUUMTXDj+3OlF4nxa3/M=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr3741003oia.48.1572022490509; 
+ Fri, 25 Oct 2019 09:54:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191025063713.23374-1-alex.bennee@linaro.org>
-In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
+References: <20191025155848.17362-1-peter.maydell@linaro.org>
+ <20191025155848.17362-2-peter.maydell@linaro.org> <87imoclqh7.fsf@linaro.org>
+In-Reply-To: <87imoclqh7.fsf@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Oct 2019 17:53:40 +0100
-Message-ID: <CAFEAcA-Sme=XfPdonOa6=1KAFnJcvqyg+PzNiOVpLHDsy4O+gg@mail.gmail.com>
-Subject: Re: [PULL v2 00/73] tcg plugins and testing updates
+Date: Fri, 25 Oct 2019 17:54:39 +0100
+Message-ID: <CAFEAcA_pLOh+XGzM7bxDLdTV96v7x=OquRpdOhvsQAJ9X4tynA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] tcg/aarch64/tcg-target.opc.h: Add copyright/license
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22e
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,112 +74,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Oct 2019 at 07:37, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+On Fri, 25 Oct 2019 at 17:49, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
 te:
 >
-> The following changes since commit 81c1f71eeb874c4cbbb9c5c4d1a1dc0ba7391d=
-ff:
 >
->   Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-r=
-equest' into staging (2019-10-24 10:43:20 +0100)
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> are available in the Git repository at:
+> > Add the copyright/license boilerplate for target/aarch64/tcg-target.opc=
+.h.
+> > This file has only had two commits: 14e4c1e2355473ccb29
+> > and 79525dfd08262d8, both by Linaro engineers.
 >
->   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-24101=
-9-2
->
-> for you to fetch changes up to 18900c2d7901680457b51b3ad3f684ef9cba8b64:
->
->   travis.yml: enable linux-gcc-debug-tcg cache (2019-10-24 22:31:29 +0100=
-)
->
-> ----------------------------------------------------------------
-> Core TCG plugin support and testing updates
->
->   - TCG plugin support
->   - netbsd VM autoinstall
->   - various Travis dependency updates
->   - enable tcg debug for check-tcg
->   - additional Xcode build for Cirrus
->   - dependency tweak for gitlab
->
+> Both in fact by the same Linaro engineer - I only reviewed them.
 
-This makes the vm-build-netbsd target stop working:
-looking at the log file it seems to try to do an install,
-but there's a pkg_add command failure and then it
-times out because it expects a menu with an 'Enable sshd'
-option and it isn't there:
-
-con recv: >a: Host                      ftp.NetBSD.org
-con recv: b: Base directorypub/pkgsrc/packages/NetBSD
-con recv:  c: Package directory/amd64/8.1/All
-con recv:  d: Userftp
-con recv:  e: Password
-con recv:  f: Proxy
-con recv:  g: Additional packages
-con recv:  h: Configure network
-con recv:  i: Quit installing binary pkgs
-con recv:  x: Install pkgin
-con send: x<enter>
-con recv:  and update package summary a: Host
-ftp.NetBSD.org>x: Install pkgin and update package summary
-con recv: Status: RunningCommand: pkg_add
-http://ftp.NetBSD.org/pub/pkgsrc/packages/NetBSD/amd64/8.1/All/pkgin
-con recv: -----------------------------------------------------------------=
----------------pkg_add:
-Can't process http://ftp.NetBSD.org:80/pub/pkgsrc/packages/NetBSD/amd64/8.1=
-/All/pkgin*:
-Not Found
-con recv: pkg_add: no pkg found for
-'http://ftp.NetBSD.org/pub/pkgsrc/packages/NetBSD/amd64/8.1/All/pkgin',
-sorry.
-con recv: pkg_add: 1 package addition failed
-con recv: Command failedHit enter to continue
-con send: <enter>
-con recv: Enabling binary packages with pkgin requires setting up the
-repository.  The
-con recv:  following are the host, directory, user, and password that
-will be used.  If
-con recv:  "user" is "ftp", then the password is not needed.
-con recv:
-con recv: >a: Host                      ftp.NetBSD.org
-con recv: b: Base directorypub/pkgsrc/packages/NetBSD
-con recv:  c: Package directory/amd64/8.1/All
-con recv:  d: Userftp
-con recv:  e: Password
-con recv:  f: Proxy
-con recv:  g: Additional packages
-con recv:  h: Configure network
-con recv:  i: Quit installing binary pkgs
-console: *** read timeout ***
-console: waiting for: 'g: Enable sshd'
-console: line buffer:
-
-con recv:  x: Install pkgin and update package summary
-
-Failed to prepare guest environment
-Traceback (most recent call last):
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 362, in m=
-ain
-    return vm.build_image(args.image)
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/netbsd", line 173, in
-build_image
-    self.console_wait_send("g: Enable sshd",           "g\n")
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 262,
-in console_wait_send
-    self.console_wait(wait)
-  File "/home/peter.maydell/qemu-netbsd/tests/vm/basevm.py", line 224,
-in console_wait
-    chars =3D vm.console_socket.recv(1)
-socket.timeout: timed out
-
-
-I tried a couple of times and it failed the same way both times.
-
+Oops, yes, I misread the git commit logs.
 
 thanks
 -- PMM
