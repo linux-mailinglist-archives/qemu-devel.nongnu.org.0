@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DD0E4CA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:48:22 +0200 (CEST)
-Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB889E4C72
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 15:41:22 +0200 (CEST)
+Received: from localhost ([::1]:60072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNzwy-0007KO-Vm
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
+	id 1iNzqD-0003lq-Cb
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 09:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <hsp.cat7@gmail.com>) id 1iNzeK-00021W-H2
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:29:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1iNzh7-0006Uq-KU
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:32:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hsp.cat7@gmail.com>) id 1iNzeI-0008IH-Br
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:29:04 -0400
-Received: from mail-yw1-xc30.google.com ([2607:f8b0:4864:20::c30]:41695)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>) id 1iNzeI-0008Hs-6E
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:29:02 -0400
-Received: by mail-yw1-xc30.google.com with SMTP id o195so747316ywd.8
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:29:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=NWvmpWJ9Fm2s0u0rAL/RYHUQquvomNowfXAxzJjjmSY=;
- b=oVRR3DIwwSXP8vW29hYekBzeMmm13rE4LFbjNc4awZR53MXAAdl5oFLUm93A3xf9Tr
- AxadBjQjNUxeTsQzkIWhYyvbcZpfTYYO9vwyJG8rfW4WSJX/YX8Ylgxoq1X7+o8B/lC5
- g0xiTB/Lrw1Aqc02X8I95DQhMAki+fmMtsAce+bSt9F25W9eKisIBjkzz3scZ8mGJPG3
- KGBe3t2Vx8CKNxXpY0ns5h67jvY6urTfqjvD4pzTaXpllbbss9rF/UFQ+E+FzPkHpeQ8
- AbIAHvEas1qWJ0WF1nv19fFVyMoJkvThj5VbtQRxcVO3wFJsVqbZ4w8F8Ws+tCndln4r
- X3Yw==
+ (envelope-from <philmd@redhat.com>) id 1iNzh5-0001ax-Md
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:31:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52232)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iNzh5-0001ai-Dw
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:31:55 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 062EF85362
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 13:31:54 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id k184so1155084wmk.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:31:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=NWvmpWJ9Fm2s0u0rAL/RYHUQquvomNowfXAxzJjjmSY=;
- b=KI+pGalFB8qHSB1WNPwIrPdksOALLQ5CDz9rlUslsRttJY5fnP68+CHiyAKhdwTQSo
- SGi/l2jwfa9YH/FW9OYLTWptiWTg8fUVsmPPjtAx3wLx5j7B3HrklIDIh7YVoAYjctUq
- j/ZHbXAs5EH/dyAeldAe08UPAhpnq2H9yXC/H6g+coeMMg2NBr/skD8arsJRluNdneQZ
- eS+v/TO4ZRQOElumoNpWvtTwKT57UE74vJrIFLM5+KEtL5pfkEMcS25jrVjK8Lby1X2x
- ELeVe6QdSoTWH2IAc5rkJ5u2jgCHu9IIz9Fa/u3oOQBRjyQ14ixgnj+hGbO2HqubrAqR
- zdhg==
-X-Gm-Message-State: APjAAAUiH+MzbQZ9FBWxmTN/yGjoj1LGBeqWmSISEWD7O/qFS6GRxBc4
- FpuiWowxZge2UHCMhvRRqqc8hBuuzio7jd9YPdiZfHDu
-X-Google-Smtp-Source: APXvYqwd/y1xm4gUL93gbSNB4bqQBt1HqhQaBY7U/LWKBeWp5uJfxirleTIa3EM7Wf89TwCTur10xEIFZbcPI/Ix8q4=
-X-Received: by 2002:a81:9b10:: with SMTP id s16mr2259120ywg.342.1572010140119; 
- Fri, 25 Oct 2019 06:29:00 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MpXXs2Qt8oaq+/H8OajuI1nB8fUBtb9qRc35Kcub6MY=;
+ b=De4O7cBWY+4Nbb+VPv+fm17gMDAZcySJhhTCIo2Ub8OXi80WDzKe5XJWlUhZwv09Jk
+ JEYOtA9eQKWYpOvsW47lNgsFPsiDE/hpEHBOFed5aEi/+rhGXcTi0hJtfstfOqf+oC5t
+ sMljTxW8kndwN0Z97/yfbEUj3nQDoyVLVrU/uAcFyBl3mQBjzYfwDDKoD20biwR3L0l/
+ dV7D/XX5kfpGzOxO88WHDSfUGKgBtQirdFzkoDhZJrXsi0QYEZ3CoFutYN1bBwqGlSj0
+ hfy9d7Imi8jty1MS7rOjW3RBSvQc6nngxVQstWvMwm4MmTvVbpfTbr589yQaybULD38O
+ jAhg==
+X-Gm-Message-State: APjAAAUrWFdRkQO9ZFbMPNeivYB/IEepV+Jpv+7FS6WYutdjLrZtQOAI
+ O5qJP8r84MR4mYUOtZb/GEwVHe9+v8lji8iolJhsTkus8Yvm6Sv0cK4fUtYTE30kRWzD59MV+Ax
+ /bKHhOqs8g5hHB1M=
+X-Received: by 2002:adf:ea8c:: with SMTP id s12mr711390wrm.301.1572010312382; 
+ Fri, 25 Oct 2019 06:31:52 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxtFTV50RFymAHKmrwEFUuHd2Yl7RpGPe22aYOmUplO83v9IfSZNcxEhSYLk226SLr3ar15Lw==
+X-Received: by 2002:adf:ea8c:: with SMTP id s12mr711353wrm.301.1572010312008; 
+ Fri, 25 Oct 2019 06:31:52 -0700 (PDT)
+Received: from [192.168.1.115] (129.red-83-57-174.dynamicip.rima-tde.net.
+ [83.57.174.129])
+ by smtp.gmail.com with ESMTPSA id n17sm2323803wrt.25.2019.10.25.06.31.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Oct 2019 06:31:51 -0700 (PDT)
+Subject: Re: [PATCH 3/4] crypto: add support for gcrypt's native XTS impl
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191017145654.11371-1-berrange@redhat.com>
+ <20191017145654.11371-4-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ad914455-9c33-5181-0380-ea1095a87830@redhat.com>
+Date: Fri, 25 Oct 2019 15:31:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Fri, 25 Oct 2019 15:28:49 +0200
-Message-ID: <CABLmASG1413=5he48wC0e2hrdoKjs7kasY18WVkyCrRypqZRqw@mail.gmail.com>
-Subject: USB-audio sound issues with qemu-system-ppc in Linux and Windows.
-To: qemu-devel qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000fc36a20595bc2185"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c30
+In-Reply-To: <20191017145654.11371-4-berrange@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,230 +85,334 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fc36a20595bc2185
-Content-Type: text/plain; charset="UTF-8"
+On 10/17/19 4:56 PM, Daniel P. Berrang=C3=A9 wrote:
+> Libgcrypt 1.8.0 added support for the XTS mode. Use this because long
+> term we wish to delete QEMU's XTS impl to avoid carrying private crypto
+> algorithm impls.
+>=20
+> As an added benefit, using this improves performance from 531 MB/sec to
+> 670 MB/sec, since we are avoiding several layers of function call
+> indirection.
+>=20
+> This is even more noticable with the gcrypt builds in Fedora or RHEL-8
+> which have a non-upstream patch for FIPS mode which does mutex locking.
+> This is catastrophic for encryption performance with small block sizes,
+> meaning this patch improves encryption from 240 MB/sec to 670 MB/sec.
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>   configure              | 22 ++++++++++++++++++++++
+>   crypto/Makefile.objs   |  2 +-
+>   crypto/cipher-gcrypt.c | 36 +++++++++++++++++++++++++++++++++++-
+>   tests/Makefile.include |  2 +-
+>   4 files changed, 59 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/configure b/configure
+> index 08ca4bcb46..98edb0ff44 100755
+> --- a/configure
+> +++ b/configure
+> @@ -473,6 +473,8 @@ gnutls=3D""
+>   nettle=3D""
+>   gcrypt=3D""
+>   gcrypt_hmac=3D"no"
+> +gcrypt_xts=3D"no"
+> +qemu_private_xts=3D"yes"
+>   auth_pam=3D""
+>   vte=3D""
+>   virglrenderer=3D""
+> @@ -2902,6 +2904,18 @@ EOF
+>           if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
+>               gcrypt_hmac=3Dyes
+>           fi
+> +        cat > $TMPC << EOF
+> +#include <gcrypt.h>
+> +int main(void) {
+> +  gcry_cipher_hd_t handle;
+> +  gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
+> +  return 0;
+> +}
+> +EOF
+> +        if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
+> +            gcrypt_xts=3Dyes
+> +            qemu_private_xts=3Dno
+> +        fi
+>       elif test "$gcrypt" =3D "yes"; then
+>           feature_not_found "gcrypt" "Install gcrypt devel >=3D 1.5.0"
+>       else
+> @@ -6317,6 +6331,11 @@ echo "VTE support       $vte $(echo_version $vte=
+ $vteversion)"
+>   echo "TLS priority      $tls_priority"
+>   echo "GNUTLS support    $gnutls"
+>   echo "libgcrypt         $gcrypt"
+> +if test "$gcrypt" =3D "yes"
+> +then
+> +   echo "  hmac            $gcrypt_hmac"
+> +   echo "  XTS             $gcrypt_xts"
+> +fi
+>   echo "nettle            $nettle $(echo_version $nettle $nettle_versio=
+n)"
+>   echo "libtasn1          $tasn1"
+>   echo "PAM               $auth_pam"
+> @@ -6794,6 +6813,9 @@ if test "$nettle" =3D "yes" ; then
+>     echo "CONFIG_NETTLE=3Dy" >> $config_host_mak
+>     echo "CONFIG_NETTLE_VERSION_MAJOR=3D${nettle_version%%.*}" >> $conf=
+ig_host_mak
+>   fi
+> +if test "$qemu_private_xts" =3D "yes" ; then
 
- Hi,
+Why not check $gcrypt_xts =3D "no", so we can avoid using $qemu_private_x=
+ts?
 
-I'm  experiencing several issues related to sound using usb-audio when
-running qemu-system-ppc in Linux and Windows. Guests tried are Mac OS 9.2
-and Mac OS X 10.0, 10.1, 10.2 and 10.3.
-(10.4 and 10.5 never have the usb-audio device available for audio
-playback, even though the device is recognised in the OS X system profiler.)
-It is hit and miss whether the audio device is actually available upon boot
-in 9.2 and the other versions of OS X.
+> +  echo "CONFIG_QEMU_PRIVATE_XTS=3Dy" >> $config_host_mak
+> +fi
+>   if test "$tasn1" =3D "yes" ; then
+>     echo "CONFIG_TASN1=3Dy" >> $config_host_mak
+>   fi
+> diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+> index 7fe2fa9da2..cdb01f9de9 100644
+> --- a/crypto/Makefile.objs
+> +++ b/crypto/Makefile.objs
+> @@ -31,7 +31,7 @@ crypto-obj-y +=3D ivgen-essiv.o
+>   crypto-obj-y +=3D ivgen-plain.o
+>   crypto-obj-y +=3D ivgen-plain64.o
+>   crypto-obj-y +=3D afsplit.o
+> -crypto-obj-y +=3D xts.o
+> +crypto-obj-$(CONFIG_QEMU_PRIVATE_XTS) +=3D xts.o
+>   crypto-obj-y +=3D block.o
+>   crypto-obj-y +=3D block-qcow.o
+>   crypto-obj-y +=3D block-luks.o
+> diff --git a/crypto/cipher-gcrypt.c b/crypto/cipher-gcrypt.c
+> index 5cece9b244..ace719526a 100644
+> --- a/crypto/cipher-gcrypt.c
+> +++ b/crypto/cipher-gcrypt.c
+> @@ -19,7 +19,9 @@
+>    */
+>  =20
+>   #include "qemu/osdep.h"
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>   #include "crypto/xts.h"
+> +#endif
+>   #include "cipherpriv.h"
+>  =20
+>   #include <gcrypt.h>
+> @@ -59,10 +61,12 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm=
+ alg,
+>   typedef struct QCryptoCipherGcrypt QCryptoCipherGcrypt;
+>   struct QCryptoCipherGcrypt {
+>       gcry_cipher_hd_t handle;
+> -    gcry_cipher_hd_t tweakhandle;
+>       size_t blocksize;
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+> +    gcry_cipher_hd_t tweakhandle;
+>       /* Initialization vector or Counter */
+>       uint8_t *iv;
+> +#endif
+>   };
+>  =20
+>   static void
+> @@ -74,10 +78,12 @@ qcrypto_gcrypt_cipher_free_ctx(QCryptoCipherGcrypt =
+*ctx,
+>       }
+>  =20
+>       gcry_cipher_close(ctx->handle);
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+>           gcry_cipher_close(ctx->tweakhandle);
+>       }
+>       g_free(ctx->iv);
+> +#endif
+>       g_free(ctx);
+>   }
+>  =20
+> @@ -94,8 +100,14 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+>  =20
+>       switch (mode) {
+>       case QCRYPTO_CIPHER_MODE_ECB:
+> +        gcrymode =3D GCRY_CIPHER_MODE_ECB;
+> +        break;
+>       case QCRYPTO_CIPHER_MODE_XTS:
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>           gcrymode =3D GCRY_CIPHER_MODE_ECB;
+> +#else
+> +        gcrymode =3D GCRY_CIPHER_MODE_XTS;
+> +#endif
+>           break;
+>       case QCRYPTO_CIPHER_MODE_CBC:
+>           gcrymode =3D GCRY_CIPHER_MODE_CBC;
+> @@ -172,6 +184,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+>                      gcry_strerror(err));
+>           goto error;
+>       }
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+>           err =3D gcry_cipher_open(&ctx->tweakhandle, gcryalg, gcrymode=
+, 0);
+>           if (err !=3D 0) {
+> @@ -180,6 +193,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+>               goto error;
+>           }
+>       }
+> +#endif
+>  =20
+>       if (alg =3D=3D QCRYPTO_CIPHER_ALG_DES_RFB) {
+>           /* We're using standard DES cipher from gcrypt, so we need
+> @@ -191,6 +205,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+>           g_free(rfbkey);
+>           ctx->blocksize =3D 8;
+>       } else {
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>           if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+>               nkey /=3D 2;
+>               err =3D gcry_cipher_setkey(ctx->handle, key, nkey);
+> @@ -201,8 +216,11 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new=
+(QCryptoCipherAlgorithm alg,
+>               }
+>               err =3D gcry_cipher_setkey(ctx->tweakhandle, key + nkey, =
+nkey);
+>           } else {
+> +#endif
+>               err =3D gcry_cipher_setkey(ctx->handle, key, nkey);
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>           }
+> +#endif
+>           if (err !=3D 0) {
+>               error_setg(errp, "Cannot set key: %s",
+>                          gcry_strerror(err));
+> @@ -228,6 +246,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+>           }
+>       }
+>  =20
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+>           if (ctx->blocksize !=3D XTS_BLOCK_SIZE) {
+>               error_setg(errp,
+> @@ -237,6 +256,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+>           }
+>           ctx->iv =3D g_new0(uint8_t, ctx->blocksize);
+>       }
+> +#endif
+>  =20
+>       return ctx;
+>  =20
+> @@ -253,6 +273,7 @@ qcrypto_gcrypt_cipher_ctx_free(QCryptoCipher *ciphe=
+r)
+>   }
+>  =20
+>  =20
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>   static void qcrypto_gcrypt_xts_encrypt(const void *ctx,
+>                                          size_t length,
+>                                          uint8_t *dst,
+> @@ -272,6 +293,7 @@ static void qcrypto_gcrypt_xts_decrypt(const void *=
+ctx,
+>       err =3D gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, s=
+rc, length);
+>       g_assert(err =3D=3D 0);
+>   }
+> +#endif
+>  =20
+>   static int
+>   qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher,
+> @@ -289,12 +311,14 @@ qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *ciph=
+er,
+>           return -1;
+>       }
+>  =20
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+>           xts_encrypt(ctx->handle, ctx->tweakhandle,
+>                       qcrypto_gcrypt_xts_encrypt,
+>                       qcrypto_gcrypt_xts_decrypt,
+>                       ctx->iv, len, out, in);
+>       } else {
+> +#endif
+>           err =3D gcry_cipher_encrypt(ctx->handle,
+>                                     out, len,
+>                                     in, len);
+> @@ -303,7 +327,9 @@ qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher=
+,
+>                          gcry_strerror(err));
+>               return -1;
+>           }
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       }
+> +#endif
+>  =20
+>       return 0;
+>   }
+> @@ -325,12 +351,14 @@ qcrypto_gcrypt_cipher_decrypt(QCryptoCipher *ciph=
+er,
+>           return -1;
+>       }
+>  =20
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+>           xts_decrypt(ctx->handle, ctx->tweakhandle,
+>                       qcrypto_gcrypt_xts_encrypt,
+>                       qcrypto_gcrypt_xts_decrypt,
+>                       ctx->iv, len, out, in);
+>       } else {
+> +#endif
+>           err =3D gcry_cipher_decrypt(ctx->handle,
+>                                     out, len,
+>                                     in, len);
+> @@ -339,7 +367,9 @@ qcrypto_gcrypt_cipher_decrypt(QCryptoCipher *cipher=
+,
+>                          gcry_strerror(err));
+>               return -1;
+>           }
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       }
+> +#endif
+>  =20
+>       return 0;
+>   }
+> @@ -358,9 +388,11 @@ qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
+>           return -1;
+>       }
+>  =20
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       if (ctx->iv) {
+>           memcpy(ctx->iv, iv, niv);
+>       } else {
+> +#endif
+>           if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_CTR) {
+>               err =3D gcry_cipher_setctr(ctx->handle, iv, niv);
+>               if (err !=3D 0) {
+> @@ -377,7 +409,9 @@ qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
+>                   return -1;
+>               }
+>           }
+> +#ifdef CONFIG_QEMU_PRIVATE_XTS
+>       }
+> +#endif
 
-Qemu version tried is current master (Oct 25th), Windows version is
-cross-compiled from Fedora 30. I do not think there is any regression going
-on here, these are just issues that have been present for a long time.
+This is a lot of ifdef'ry...
 
-General issue: when audio is played, it almost always sounds crackling.
-
-For reasons of size, I uploaded 3 logs obtained in Linux running Mac OS X
-10.3 with -trace "usb*" to:
-https://surfdrive.surf.nl/files/index.php/s/YfVVxEE3cHXkFPf/download
-1. Log_no_audio_available.txt
-2. Log_audio_available_2_sounds_played.txt
-3. Log_audio_available_multi_sounds_played_untill_hangup.txt
-
-General issue in Linux (fedora 30)(which seems related to bug
-https://bugs.launchpad.net/qemu/+bug/1623998):
-[hsp@fedora30 qemu-master]$ ./startqemu.sh
-pulseaudio: set_sink_input_volume() failed
-pulseaudio: Reason: Invalid argument
-pulseaudio: set_sink_input_mute() failed
-pulseaudio: Reason: Invalid argument
-
-General issue in Windows 10: I always get to a point where this is logged:
-dsound: Could not lock playback buffer
-dsound: Reason: An invalid parameter was passed to the returning function
-dsound: Failed to lock buffer
-
-Linux specific.
-Qemu invocation for Mac OS 9.2:
-./qemu-system-ppc -L pc-bios -boot c -M mac99 -m 512 \
--drive file=~/Mac-disks/9.2.img,format=raw,media=disk \
--serial stdio -sdl -device usb-audio -trace "*aud*"
-
-This immediately starts logging:
-7380@1571817102.833929:audio_timer_start interval 10 ms
-7380@1571817125.207880:audio_timer_delayed interval 16 ms
-7380@1571817129.046816:audio_timer_delayed interval 16 ms
-
-Any movement of a window on the Linux desktop results in additional
-audio_timer_delayed logging.
-The audio_timer_delayed never stops.
-In Mac OS 9.2, the desktop icons disappear after some seconds of running,
-so the system cannot be stopped normally.
-Running the GTK GUI, only this is logged (no additional logging when moving
-windows).
-14130@1571988483.402017:audio_timer_start interval 10 ms
-But the icons on the desktop also disappear.
-
-When running Mac OS X 10.X and clicking some system sounds, I see:
-12134@1571818709.446031:audio_timer_start interval 10 ms
-12134@1571818710.195023:audio_timer_stop
-12134@1571818714.951030:audio_timer_start interval 10 ms
-12134@1571818715.432959:audio_timer_stop
-12134@1571818717.171045:audio_timer_start interval 10 ms
-12134@1571818717.714323:audio_timer_stop
-12134@1571818718.072381:audio_timer_start interval 10 ms
-12134@1571818719.114544:audio_timer_stop
-
-After randomly clicking some system sounds more, the timer starts delaying
-and no longer stops:
-12134@1571818893.564793:audio_timer_stop
-12134@1571818895.698040:audio_timer_start interval 10 ms
-12134@1571818899.961673:audio_timer_delayed interval 15 ms
-12134@1571818900.472716:audio_timer_delayed interval 15 ms
-12134@1571818902.759007:audio_timer_delayed interval 15 ms
-12134@1571818905.803400:audio_timer_delayed interval 15 ms
-But the systems stays responsive, so can be shut down.
-
-Windows specific.
-Invocation:
-qemu-system-ppc.exe -L pc-bios -boot c -M mac99 -m 512 ^
--drive file=C:\Mac-disks\9.2.img,format=raw,media=disk ^
--serial stdio -sdl -device usb-audio -trace "*aud*"
-
-This immediately starts logging the audio_timer_start interval and never
-stops.
-Icons disappear from the desktop after some seconds.
-
-When running Mac OS X 10.X, playing just two system sounds results in:
-2380@1571822566.040790:audio_timer_start interval 10 ms
-2380@1571822566.108279:audio_timer_delayed interval 22 ms
-2380@1571822566.128820:audio_timer_delayed interval 20 ms
-2380@1571822566.150509:audio_timer_delayed interval 22 ms
-2380@1571822566.172112:audio_timer_delayed interval 21 ms
-......
-2380@1571822566.561345:audio_timer_delayed interval 21 ms
-2380@1571822566.583846:audio_timer_delayed interval 22 ms
-2380@1571822566.600482:audio_timer_delayed interval 15 ms
-2380@1571822566.610111:audio_timer_stop
-2380@1571822572.226433:audio_timer_start interval 10 ms
-2380@1571822572.250866:audio_timer_delayed interval 24 ms
-2380@1571822572.269819:audio_timer_delayed interval 18 ms
-......
-2380@1571822572.452403:audio_timer_delayed interval 20 ms
-2380@1571822572.474190:audio_timer_delayed interval 21 ms
-2380@1571822572.509474:audio_timer_delayed interval 35 ms
-dsound: Could not lock playback buffer
-dsound: Reason: An invalid parameter was passed to the returning function
-dsound: Failed to lock buffer
-2380@1571822572.560505:audio_timer_delayed interval 51 ms
-2380@1571822572.581102:audio_timer_delayed interval 19 ms
-2380@1571822572.600912:audio_timer_delayed interval 19 ms
-
-There is no saying when audio_timer_delayed will start displaying
-constantly.
-Only when one set of:
-2260@1571823472.652244:audio_timer_start interval 10 ms
-2260@1571823473.198349:audio_timer_stop
-Is following directly after each other, sound is played somewhat correctly.
-After randomly clicking several system sounds, the audio_timer_delayed
-message never stops.
-
-Thanks for looking into this.
-If there is any additional information needed, or disk images of Mac OS 9.2
-or OS X 10.3 are required, please let me know.
-
-Best,
-Howard
-
-ps: thanks to Zoltan for pointing out I sent the original message into an
-earlier thread ;-)
-
---000000000000fc36a20595bc2185
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">
-Hi,<br><br>I&#39;m =C2=A0experiencing several issues related to sound using=
-=20
-usb-audio when running qemu-system-ppc in Linux and Windows. Guests=20
-tried are Mac OS 9.2 and Mac OS X 10.0, 10.1, 10.2 and 10.3. <br>(10.4=20
-and 10.5 never have the usb-audio device available for audio playback,=20
-even though the device is recognised in the OS X system profiler.)<br>It is=
- hit and miss whether the audio device is actually available upon boot in 9=
-.2 and the other versions of OS X.<br><br>Qemu
- version tried is current master (Oct 25th), Windows version is=20
-cross-compiled from Fedora 30. I do not think there is any regression=20
-going on here, these are just issues that have been present for a long=20
-time.<br><br>General issue: when audio is played, it almost always sounds c=
-rackling.<br><br>For reasons of size, I uploaded 3 logs obtained in Linux r=
-unning Mac OS X 10.3 with -trace &quot;usb*&quot; to: <a href=3D"https://su=
-rfdrive.surf.nl/files/index.php/s/YfVVxEE3cHXkFPf/download" target=3D"_blan=
-k">https://surfdrive.surf.nl/files/index.php/s/YfVVxEE3cHXkFPf/download</a>=
-<br>1. Log_no_audio_available.txt<br>2. Log_audio_available_2_sounds_played=
-.txt<br>3. Log_audio_available_multi_sounds_played_untill_hangup.txt<br><br=
->General issue in Linux (fedora 30)(which seems related to bug <a href=3D"h=
-ttps://bugs.launchpad.net/qemu/+bug/1623998" target=3D"_blank">https://bugs=
-.launchpad.net/qemu/+bug/1623998</a>):<br>[hsp@fedora30 qemu-master]$ ./sta=
-rtqemu.sh<br>pulseaudio: set_sink_input_volume() failed<br>pulseaudio: Reas=
-on: Invalid argument<br>pulseaudio: set_sink_input_mute() failed<br>pulseau=
-dio: Reason: Invalid argument<br><br>General issue in Windows 10: I always =
-get to a point where this is logged:<br>dsound: Could not lock playback buf=
-fer<br>dsound: Reason: An invalid parameter was passed to the returning fun=
-ction<br>dsound: Failed to lock buffer<br><br>Linux specific.<br>Qemu invoc=
-ation for Mac OS 9.2:<br>./qemu-system-ppc -L pc-bios -boot c -M mac99 -m 5=
-12 \<br>-drive file=3D~/Mac-disks/9.2.img,format=3Draw,media=3Ddisk \<br>-s=
-erial stdio -sdl -device usb-audio -trace &quot;*aud*&quot;<br><br>This imm=
-ediately starts logging:<br>7380@1571817102.833929:audio_timer_start interv=
-al 10 ms<br>7380@1571817125.207880:audio_timer_delayed interval 16 ms<br>73=
-80@1571817129.046816:audio_timer_delayed interval 16 ms<br><br>Any movement=
- of a window on the Linux desktop results in additional audio_timer_delayed=
- logging. <br>The audio_timer_delayed never stops.<br>In Mac OS 9.2, the de=
-sktop icons disappear after some seconds of running, so the system cannot b=
-e stopped normally.<br>Running the GTK GUI, only this is logged (no additio=
-nal logging when moving windows).<br>14130@1571988483.402017:audio_timer_st=
-art interval 10 ms<br>But the icons on the desktop also disappear.<br><br>W=
-hen running Mac OS X 10.X and clicking some system sounds, I see: <br>12134=
-@1571818709.446031:audio_timer_start interval 10 ms<br>12134@1571818710.195=
-023:audio_timer_stop <br>12134@1571818714.951030:audio_timer_start interval=
- 10 ms<br>12134@1571818715.432959:audio_timer_stop <br>12134@1571818717.171=
-045:audio_timer_start interval 10 ms<br>12134@1571818717.714323:audio_timer=
-_stop <br>12134@1571818718.072381:audio_timer_start interval 10 ms<br>12134=
-@1571818719.114544:audio_timer_stop <br><br>After randomly clicking some sy=
-stem sounds more, the timer starts delaying and no longer stops:<br>12134@1=
-571818893.564793:audio_timer_stop <br>12134@1571818895.698040:audio_timer_s=
-tart interval 10 ms<br>12134@1571818899.961673:audio_timer_delayed interval=
- 15 ms<br>12134@1571818900.472716:audio_timer_delayed interval 15 ms<br>121=
-34@1571818902.759007:audio_timer_delayed interval 15 ms<br>12134@1571818905=
-.803400:audio_timer_delayed interval 15 ms<br>But the systems stays respons=
-ive, so can be shut down.<br><br>Windows specific.<br>Invocation:<br>qemu-s=
-ystem-ppc.exe -L pc-bios -boot c -M mac99 -m 512 ^<br>-drive file=3DC:\Mac-=
-disks\9.2.img,format=3Draw,media=3Ddisk ^<br>-serial stdio -sdl -device usb=
--audio -trace &quot;*aud*&quot;<br><br>This immediately starts logging the =
-audio_timer_start interval and never stops.<br>Icons disappear from the des=
-ktop after some seconds.<br><br>When running Mac OS X 10.X, playing just tw=
-o system sounds results in:<br>2380@1571822566.040790:audio_timer_start int=
-erval 10 ms<br>2380@1571822566.108279:audio_timer_delayed interval 22 ms<br=
->2380@1571822566.128820:audio_timer_delayed interval 20 ms<br>2380@15718225=
-66.150509:audio_timer_delayed interval 22 ms<br>2380@1571822566.172112:audi=
-o_timer_delayed interval 21 ms<br>......<br>2380@1571822566.561345:audio_ti=
-mer_delayed interval 21 ms<br>2380@1571822566.583846:audio_timer_delayed in=
-terval 22 ms<br>2380@1571822566.600482:audio_timer_delayed interval 15 ms<b=
-r>2380@1571822566.610111:audio_timer_stop<br>2380@1571822572.226433:audio_t=
-imer_start interval 10 ms<br>2380@1571822572.250866:audio_timer_delayed int=
-erval 24 ms<br>2380@1571822572.269819:audio_timer_delayed interval 18 ms<br=
->......<br>2380@1571822572.452403:audio_timer_delayed interval 20 ms<br>238=
-0@1571822572.474190:audio_timer_delayed interval 21 ms<br>2380@1571822572.5=
-09474:audio_timer_delayed interval 35 ms<br>dsound: Could not lock playback=
- buffer<br>dsound: Reason: An invalid parameter was passed to the returning=
- function<br>dsound: Failed to lock buffer<br>2380@1571822572.560505:audio_=
-timer_delayed interval 51 ms<br>2380@1571822572.581102:audio_timer_delayed =
-interval 19 ms<br>2380@1571822572.600912:audio_timer_delayed interval 19 ms=
-<br><br>There is no saying when audio_timer_delayed will start displaying c=
-onstantly. <br>Only when one set of: <br>2260@1571823472.652244:audio_timer=
-_start interval 10 ms<br>2260@1571823473.198349:audio_timer_stop<br>Is foll=
-owing directly after each other, sound is played somewhat correctly.<br>Aft=
-er randomly clicking several system sounds, the audio_timer_delayed message=
- never stops.<br><br>Thanks for looking into this. <br>If there is any addi=
-tional information needed, or disk images of Mac OS 9.2 or OS X 10.3 are re=
-quired, please let me know.<br><br>Best,<br><div>Howard <br></div><div><br>=
-</div><div>ps: thanks to Zoltan for pointing out I sent the original messag=
-e into an earlier thread ;-)<br></div></div>
-
---000000000000fc36a20595bc2185--
+>  =20
+>       return 0;
+>   }
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 3543451ed3..2e5b0d3604 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -133,7 +133,7 @@ check-unit-y +=3D tests/test-base64$(EXESUF)
+>   check-unit-$(call land,$(CONFIG_BLOCK),$(if $(CONFIG_NETTLE),y,$(CONF=
+IG_GCRYPT))) +=3D tests/test-crypto-pbkdf$(EXESUF)
+>   check-unit-$(CONFIG_BLOCK) +=3D tests/test-crypto-ivgen$(EXESUF)
+>   check-unit-$(CONFIG_BLOCK)  +=3D tests/test-crypto-afsplit$(EXESUF)
+> -check-unit-$(CONFIG_BLOCK)  +=3D tests/test-crypto-xts$(EXESUF)
+> +check-unit-$(if $(CONFIG_BLOCK),$(CONFIG_QEMU_PRIVATE_XTS)) +=3D tests=
+/test-crypto-xts$(EXESUF)
+>   check-unit-$(CONFIG_BLOCK)  +=3D tests/test-crypto-block$(EXESUF)
+>   check-unit-y +=3D tests/test-logging$(EXESUF)
+>   check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_REPLICATION)) +=3D te=
+sts/test-replication$(EXESUF)
+>=20
 
