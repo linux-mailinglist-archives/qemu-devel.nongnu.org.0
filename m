@@ -2,64 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CE8E5158
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:36:11 +0200 (CEST)
-Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEA6E5139
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 18:30:25 +0200 (CEST)
+Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO2ZO-0007e0-AH
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
+	id 1iO2To-0004fM-2y
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 12:30:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iO2CL-0003qH-9R
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:12:22 -0400
+ (envelope-from <tsimpson@quicinc.com>) id 1iO2Q2-0007Ji-JC
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:26:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iO2CJ-0005Ua-LJ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:12:20 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:45580)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iO2CJ-0005UD-Gp
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:12:19 -0400
-Received: by mail-oi1-x230.google.com with SMTP id o205so1945414oib.12
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 09:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gXHKxg+CR5koGVWP1EQKxRo+QB+NP4/sHkue85G+Fog=;
- b=FGTfkeZG8oBvFyh5WKVsWOR72yTiNleMnxvFQf5LJO9gdCC3HnjnBsii7IHN7fm5yH
- C/2opX9PaSgbrI2lJsqi7APTZ9Zlgmkn+atho8oDgq2t6x36zBbypVNfbiOy8oTh4Z+8
- zyuwiuoq63ZxfgyBeVLcMMbNyxOY03ncg/mLITreXXkTp8+gqWJJbxKrukY5gfYJiLiE
- N/jZm4XzBtnEVlYu10nUEbR/pmmwjW2XZ1wqoCIaEjPNwxZYKIWsEZgn19A5g1clSgV5
- GzB54OszBFhDwB/PKFEALnw6coG71FowkD7Czu/C5xI7y9NAdyn7R9bWqQz6HCbKK+HJ
- IfFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gXHKxg+CR5koGVWP1EQKxRo+QB+NP4/sHkue85G+Fog=;
- b=HeI5ehH+PGcdbGGcUxvogDWFhq16/OcK/ylESNw0AqKFTCy8lGphkiUMfgKFWl9BXI
- 85e/MGNRwcCFZN4++p3On7Y6G8ZVRyZ7qoXN34CoPs5IXOZn8tbHeOsVLLyzF9L0TzOS
- Q5ktI7E2zUOi6/+q7CMs7qCkleFgVWg8cN34dEGTrNNkst3LsFCQA9zg2hnTu1U2nAsb
- 45N0ZiEWhsPMrpqblLr+q+Zy3m9ax3UU9tcg3G3O3m5dSLlDfwu1AY3qU9d50Nm9bi2d
- i1nJbp4+jk4W/hj/iUQ+RWl1YN2dFZYqh6f9egjflIGaXnBfDNDrYVxugkyBQMBejUKB
- Buuw==
-X-Gm-Message-State: APjAAAUNyPr1R4C59mx0DqHt8zKEfguUzKqsfdz8HsIdYAW19tsu7oFa
- uL07PL+tcR/yCH7khUQTCbTHm/WBi/87qI23o4SDYA==
-X-Google-Smtp-Source: APXvYqzmHdg0h3J2ukg06oGV0fSQ7HLAUcYVM61FUKP0xdKE6KXfeGU7vwEqHHl/4oXCjryKZIdr3HcIgX4yDLTZF+I=
-X-Received: by 2002:aca:2312:: with SMTP id e18mr2721371oie.98.1572019938621; 
- Fri, 25 Oct 2019 09:12:18 -0700 (PDT)
+ (envelope-from <tsimpson@quicinc.com>) id 1iO2Q1-0001w1-6Z
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:26:30 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46740)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
+ id 1iO2Q0-0001vI-HC
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 12:26:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1572020788; x=1603556788;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=jfsQKUZET5JSvp6YaP0CbM5ZfqaFZLkVLlBZA7tq5R4=;
+ b=Yyz3FEJOZMUhmcDHxCG7KvbGFT/iJVldoiRfLwS/2YmjAWghItqTQjdE
+ 9vLvym1Ql1H34iwRRsovr+xVa9/t3GdRty8b6ZDTeqfK6Yx9sP0dCWIAx
+ cZ/IGHiIRSa3eVuzZh2JDKwU75lrytjlNTJLMRYaiOXv2ghHW9nHh+vgw U=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Oct 2019 09:26:26 -0700
+IronPort-SDR: WV28dYTCNInwL0RvLeV26KBdHTjtx9sJpm7XZMd1klfDUS9cHqVNVnsnZwBRh+uWKgRY57+nGW
+ v8eidedVaAo6UeDGnuUVH7/lRmYeLEQpNa/S5ViMaYeZGAvSS9NpVMVow4SWcr5u/T7oJ3mmjo
+ Uy19bjp1belzt9a0MaXpztCqJ/6lNFU18UzQdEVCamWwLU8sLMGn/+ZaTZuesHPpMaK+xCFwcT
+ yTv5PLAXrrnjKXLWtkLF0d94T/ZQ7te0bNL2QUtWgDP2Y5cygIrsOlGKV837+sNbQA23HnhNZN
+ 1jBsPkDkg12KioCJg5lt1Hjg
+Received: from nasanexm03h.na.qualcomm.com ([10.85.0.50])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 25 Oct 2019 09:26:25 -0700
+Received: from apsanexr02e.ap.qualcomm.com (10.85.0.28) by
+ nasanexm03h.na.qualcomm.com (10.85.0.50) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Fri, 25 Oct 2019 09:26:25 -0700
+Received: from nasanexm03f.na.qualcomm.com (10.85.0.47) by
+ apsanexr02e.ap.qualcomm.com (10.85.0.28) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Fri, 25 Oct 2019 09:26:23 -0700
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03f.na.qualcomm.com (10.85.0.47) with Microsoft SMTP Server (TLS)
+ id 15.0.1473.3 via Frontend Transport; Fri, 25 Oct 2019 09:26:23 -0700
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (52.135.234.160) by
+ BYAPR02MB6439.namprd02.prod.outlook.com (20.179.89.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.22; Fri, 25 Oct 2019 16:26:22 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::8cc2:1921:4cb1:6cc1]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::8cc2:1921:4cb1:6cc1%7]) with mapi id 15.20.2387.019; Fri, 25 Oct 2019
+ 16:26:22 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: QEMU for Qualcomm Hexagon - KVM Forum talk and code available
+Thread-Topic: QEMU for Qualcomm Hexagon - KVM Forum talk and code available
+Thread-Index: AdWLUOkdof4fsTRrRvOiehGwyV6GSg==
+Date: Fri, 25 Oct 2019 16:26:22 +0000
+Message-ID: <BYAPR02MB48863165DEE32E5C563E93F4DE650@BYAPR02MB4886.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=tsimpson@quicinc.com; 
+x-originating-ip: [199.106.103.59]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 27397635-5bac-44b6-937e-08d7596812cf
+x-ms-traffictypediagnostic: BYAPR02MB6439:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <BYAPR02MB6439FF1CC21AE2A36B817884DE650@BYAPR02MB6439.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 02015246A9
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(39860400002)(396003)(366004)(376002)(346002)(189003)(199004)(102836004)(14454004)(3846002)(66446008)(66946007)(54896002)(66476007)(966005)(66556008)(478600001)(86362001)(71190400001)(71200400001)(64756008)(256004)(6506007)(4744005)(26005)(5660300002)(25786009)(7696005)(476003)(606006)(2906002)(99286004)(236005)(6306002)(9686003)(5640700003)(4326008)(55016002)(486006)(66066001)(52536014)(6916009)(316002)(7736002)(8676002)(33656002)(81156014)(81166006)(76116006)(6436002)(2501003)(8936002)(186003)(790700001)(6116002)(2351001)(74316002)(54906003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB6439;
+ H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 84j9Mc9n09lAiRDEQBW6dT89OCneAYNWeq7H7tbOPXbeD+iAvUk9vfnCPCHeFVf8cDPcbi3iFdII4GaC29avc9P4Qi52E+YsDsBjwJixzNUZgO5ie6MqxgVmHXAb78PZzH0eJ01TsjKny0n/YhxWzXWv2frSx5PEFCcoerSFIcmx3yaKdyVtNfkBUjdrxUdrq3e6Z1qs8RS2Nv8FvXlazPiytQ0X+7fJFlDKyiIqrVXQM7oAurBf93cJSIk8Su0pvcL/0S1SNEGa+nzw87Ns+Ryhs9qgHvC+V8lR3xT8EcaHcM3wctnDQc520WjyyvTmsKEWKVlCKapoYAwfNbhrUXXol85/2m3z+bnoPBbSiZuysBLGd1XeBjnu1uXjsOC1HvvVkDSG/ibr2oldUOOKMfX4ImmOHniRfgJyihdl2DEJbyKsqjOkE2+SHsUAK/hPh88WnwgJN3ddJnwtsX5/m6QCjwq2/hsjL/UpmHdnIpU=
+x-ms-exchange-transport-forked: True
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GMqiyGqif78teNnQcLsdU4Eacz0Yc1xoQyCzhitL7ccTOD2KrYcgJhavOMpF8t6HtfwPAbfr1VjwfhPEkozXHhKFaHEGfTg76vUnjsntV++zwh7iDYBX08FbWI+e6dYoXSROEdCs8NX7pWuUx+pCCDPaXPqazMGDBYfMJozK64o/HpgLHUMtNVDm1WLBp6h4BFcZ43nzetfWyOZuD61C8PW5VyOhrMN03QqNRwzuz4sGdL2zqUH3oBi84kP01U47N6NS1tNSHpErzGIJJcgT7GdU+WjBRqyTmNsZoLRIcXmC2itoYaIbzJW1r8kl4R/tqpxx7jgPo5FFmSaCFzQ+yQ==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l2k4xB5eyRaKqypJJfpFjug3rKUX2o836UlJWxWfYrw=;
+ b=mEK391XR9KGJoUiOFRhTQ05VotLC+1hkwJ1nfDr8IvULkmAQ8KDq2DXj3DuD+6jdsiy35B0J/0G8Hh9L3MHCEormUwX7kRhrYUO2itphrkEOz0g5TY0jrq3GG9rFc/D59s0xm+bLrLrDTBC2eVf75R1pnlBYvYfw7l7AmxVceAtBEXXAlr+oYvuUTS0YOV559BUv/czts4GYPogw3qC/yWEkkDmY5dhwNzbXoe40dzOcfmlSsAcfZ9eTGKTxkXX16vXGk1WRX0+mXUDdEVGzXnG0niEPSBEvzr3i13qqwz/jHEnx10KLTsexHOMjUGtLSRMYCbdBHnZDstKDZlHD8Q==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector2-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l2k4xB5eyRaKqypJJfpFjug3rKUX2o836UlJWxWfYrw=;
+ b=Tf6GP3whfeJ46nz0YZ+3Miba2z42q9WYd7NAIZH8b0YmrDHueYnxmM4DJ1vn6Z+kbK1kMnEm46uIz8KjPjzSnms4nAmsTV6wemOgIBZTd6Huv5h/BLQgFcQPhaBcCq885XZpSo0G9NkC3RENk3D3J643JOd0gOVEmqFIYK8B4mY=
+x-ms-exchange-crosstenant-network-message-id: 27397635-5bac-44b6-937e-08d7596812cf
+x-ms-exchange-crosstenant-originalarrivaltime: 25 Oct 2019 16:26:22.1310 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: jxHt2fYE/MKjj5xyCFy+gXR+MFgOpfSQ75acauNSwa3JgXnr1dCIjygnNsxbtFBTHcVFPfB5ScrCi+bJk+I9GQ==
+x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB6439
+Content-Type: multipart/alternative;
+ boundary="_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_"
 MIME-Version: 1.0
-References: <20191025142159.12459-1-richard.henderson@linaro.org>
-In-Reply-To: <20191025142159.12459-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Oct 2019 17:12:07 +0100
-Message-ID: <CAFEAcA_Wpn7uOs_GB5=ym+poSq=vVStp4EVPzaYoGGyEX90x2w@mail.gmail.com>
-Subject: Re: [PULL 00/12] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::230
+X-OriginatorOrg: quicinc.com
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 199.106.114.38
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,104 +125,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alessandro Di Federico <ale@rev.ng>, "nizzo@rev.ng" <nizzo@rev.ng>,
+ =?iso-8859-1?Q?Niccol=F2_Izzo?= <izzoniccolo@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Oct 2019 at 15:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit bad76ac319556dab2497429d473b49a237672e1c:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-10-25 14:17:08 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-tcg-20191025
->
-> for you to fetch changes up to 0ed1bfb046b740b70eed2cf3581e01768703b185:
->
->   translate-all: Remove tb_alloc (2019-10-25 10:15:25 -0400)
->
-> ----------------------------------------------------------------
-> Improvements for TARGET_PAGE_BITS_VARY
-> Fix for TCI ld16u_i64.
-> Fix for segv on icount execute from i/o memory.
-> Two misc cleanups.
->
-> ----------------------------------------------------------------
+--_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Compile failure, win32:
+We would like inform the you that we will be doing a talk at the KVM Forum =
+next week on QEMU for Qualcomm Hexagon.  Alessandro Di Federico, Niccolo Iz=
+zo, and I have been working independently on implementations of the Hexagon=
+ target.  We plan to merge the implementations, have a community review, an=
+d ultimately have Hexagon be an official target in QEMU.  Our code is avail=
+able at the links below.
+https://github.com/revng/qemu-hexagon
+https://github.com/quic/qemu
+If anyone has any feedback on the code as it stands today or guidance on ho=
+w best to prepare it for review, please let us know.
 
-In file included from
-/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/lib/glib-2.0/include/glibconfig.h:9:0,
-                 from
-/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/glib-2.0/glib/gtypes.h:32,
-                 from
-/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/glib-2.0/glib/galloca.h:32,
-                 from
-/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/glib-2.0/glib.h:30,
-                 from /home/petmay01/qemu-for-merges/include/glib-compat.h:32,
-                 from /home/petmay01/qemu-for-merges/include/qemu/osdep.h:140,
-                 from /home/petmay01/qemu-for-merges/exec.c:20:
-/home/petmay01/qemu-for-merges/include/exec/cpu-all.h: In function
-'tlb_hit_page':
-/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/glib-2.0/glib/gmacros.h:337:23:
-error: expected expression befor
-e 'do'
- #define G_STMT_START  do
-                       ^
-/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/glib-2.0/glib/gtestutils.h:115:41:
-note: in expansion of macro 'G_STMT_START'
- #define g_assert(expr)                  G_STMT_START { \
-                                         ^
-/home/petmay01/qemu-for-merges/include/qemu/osdep.h:152:20: note: in
-expansion of macro 'g_assert'
- #define assert(x)  g_assert(x)
-                    ^
-/home/petmay01/qemu-for-merges/include/exec/cpu-all.h:225:29: note: in
-expansion of macro 'assert'
- #  define TARGET_PAGE_MASK (assert(target_page.decided), target_page.mask)
-                             ^
-/home/petmay01/qemu-for-merges/include/exec/cpu-all.h:372:33: note: in
-expansion of macro 'TARGET_PAGE_MASK'
-     return addr == (tlb_addr & (TARGET_PAGE_MASK | TLB_INVALID_MASK));
-                                 ^
+Thanks,
+Taylor
 
-(repeated in all the other places TARGET_PAGE_MASK is used;
-similar for TARGET_PAGE_BITS.)
+--_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Also
-/home/petmay01/qemu-for-merges/exec.c: In function 'iotlb_to_section':
-/home/petmay01/qemu-for-merges/exec.c:2871:1: error: control reaches
-end of non-void function [-Werror=return-type]
- }
- ^
-/home/petmay01/qemu-for-merges/exec.c: In function 'qemu_target_page_size':
-/home/petmay01/qemu-for-merges/exec.c:3791:1: error: control reaches
-end of non-void function [-Werror=return-type]
- }
- ^
-/home/petmay01/qemu-for-merges/exec.c: In function 'qemu_target_page_bits':
-/home/petmay01/qemu-for-merges/exec.c:3796:1: error: control reaches
-end of non-void function [-Werror=return-type]
- }
- ^
-cc1: all warnings being treated as errors
-/home/petmay01/qemu-for-merges/exec.c: In function 'last_ram_page':
-/home/petmay01/qemu-for-merges/exec.c:1977:1: error: control reaches
-end of non-void function [-Werror=return-type]
- }
- ^
-/home/petmay01/qemu-for-merges/exec.c: In function 'iotlb_to_section':
-/home/petmay01/qemu-for-merges/exec.c:2871:1: error: control reaches
-end of non-void function [-Werror=return-type]
- }
- ^
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">We would like inform the you that we will be doing a=
+ talk at the KVM Forum next week on QEMU for Qualcomm Hexagon.&nbsp; Alessa=
+ndro Di Federico, Niccolo Izzo, and I have been working independently on im=
+plementations of the Hexagon target.&nbsp; We
+ plan to merge the implementations, have a community review, and ultimately=
+ have Hexagon be an official target in QEMU.&nbsp; Our code is available at=
+ the links below.<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"text-indent:.5in"><u><a href=3D"https://git=
+hub.com/revng/qemu-hexagon">https://github.com/revng/qemu-hexagon</a></u><o=
+:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"text-indent:.5in"><u><a href=3D"https://git=
+hub.com/quic/qemu">https://github.com/quic/qemu</a></u><o:p></o:p></p>
+<p class=3D"MsoNormal">If anyone has any feedback on the code as it stands =
+today or guidance on how best to prepare it for review, please let us know.=
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">Taylor<o:p></o:p></p>
+</div>
+</body>
+</html>
 
-Not sure if that's just follow-on errors from the earlier
-ones, though.
-
-thanks
--- PMM
+--_000_BYAPR02MB48863165DEE32E5C563E93F4DE650BYAPR02MB4886namp_--
 
