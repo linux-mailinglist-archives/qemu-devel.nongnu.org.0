@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8538E4682
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:00:29 +0200 (CEST)
-Received: from localhost ([::1]:57824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19924E469B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 11:05:17 +0200 (CEST)
+Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNvSO-0004fo-HA
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:00:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
+	id 1iNvX0-0003N3-VB
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 05:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNv5S-0001Yv-Tv
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:47 -0400
+ (envelope-from <eperezma@redhat.com>) id 1iNv5Y-0001hW-BP
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNv5R-0008EK-Ja
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:38447)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNv5R-0008Db-9l; Fri, 25 Oct 2019 04:36:45 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MsZBb-1i8BJJ30n5-00tzih; Fri, 25 Oct 2019 10:36:03 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <eperezma@redhat.com>) id 1iNv5W-0008Kg-Vw
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56877
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eperezma@redhat.com>) id 1iNv5W-0008KF-Sa
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571992610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0PHivj3YKIowirE68kWBUerWJGcOHcyOu8LetWC1SL0=;
+ b=WNCo4xs2focgF+1YtdozHu26D8HV+XWNsQLy0uvuLHZ3vuF96roCX8ommIJrXUX4p8Qcoz
+ fO4D2aq4X65BwcY0HLouCk7XYNcen/9v8rDTsdkU5eopCM9aKryaf6SwcbzpNLIU5Lj3sf
+ b2UjzoYHZAGlcdD8bc6CNFMeqeGrO04=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-_1LOIfJUN-abyez-tvzq3A-1; Fri, 25 Oct 2019 04:36:43 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0784C801E5C;
+ Fri, 25 Oct 2019 08:36:43 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.36.118.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 601A460BE0;
+ Fri, 25 Oct 2019 08:36:30 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/19] hw/rtc/aspeed_rtc: Remove unused includes
-Date: Fri, 25 Oct 2019 10:35:11 +0200
-Message-Id: <20191025083511.11463-20-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191025083511.11463-1-laurent@vivier.eu>
-References: <20191025083511.11463-1-laurent@vivier.eu>
+Subject: [PATCH v7 7/8] vhost_net: enable packed ring support
+Date: Fri, 25 Oct 2019 10:35:26 +0200
+Message-Id: <20191025083527.30803-8-eperezma@redhat.com>
+In-Reply-To: <20191025083527.30803-1-eperezma@redhat.com>
+References: <20191025083527.30803-1-eperezma@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: _1LOIfJUN-abyez-tvzq3A-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lI4TkJBfUxQ5RUOYwYG6bZuJbjXKspVRe+W4swlSFBSBuyu1HyO
- oGI5K+mtI61xh7jqUe3m6LSb3lrFZg+MIJ7wO/nMJc+SIeIdCgZJKcEbcmODzjZCSma2lFo
- tOco3nWHNYjLvbaKhkQEdvylcdcg1UlgmfthPhGT2Teigyfy8Baas7MAOUxTGhA450sJE3P
- NWwOdmXP1/hHaCyGdh5fQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WkqHmDlHu1I=:h3ysTFZt4csUPLJ1KgbzED
- 0pHTtKygM0HBCR4yG0JHlk1O/NITsvm0giRboM72MDietvJTfkJXH/Dc1lg0LFT9UouQzaA8x
- Z/9Y/lnNRvIp9WHpZ+doEmRk/aKSjk0zTDLZU/RXQ03dsa0Xdr/tGdo7OHElwZQRA3eiFxlq6
- SHTeg2Mo9hBQNh6slq/OS1S6y6y5Guj4h/wKcD5w39+ok5XNYI+ugF7nBPAq/5g/q9eTGv5cN
- elWCDRdvM4LTaL6A0ke1t5pFeuzolMDuJsXGvLid/+suyDynf4nSX+4P9XFQ1agDFD7ChlcV0
- Xzx807xY9G1rQ8qH21o5oTMTbZR2ws77x3j8q/T29deCb2TCR3xCbJp2INX+JpA9dLQhlPvTz
- kiD6q848GzxcJQbFQevCgTOOazm6TAFOJrLpwQ+7joU2HyQp4V0jkEQJ7QdkcNQBgzeI9dJ8M
- J/AC+ahJpEaZ3G1cFjhV+UHpGnqpqpTUXHSVkjqVf1A0EqqC7GcKVwAZRo6K78mP5fAozb6oW
- VewGL0zxB54FZr6r4m8vnTyHt7AfoyfuPysU+Pz4mDH5ZQkfvIO1Mkbghm3dEMdB8bqItXQ3q
- 8BdIz2nGmXXoxThnlMlCeHARJkTRFA+ujljeKiu7UgCRzohVhXYUH+yLePwrhEiwy874YNtpD
- iMpsalYXpPGu6kckyvKBVznBdZ381nzX/n/FKERWcWjC7PTXx4E4gwfOCGzbCWpYO6xq27cxn
- d2O1wlv0E2pFqqWWKxXbjtYXSWB8MAfpF1+EwtJ8gUB9BcjmDc3athEhWFYTlprp3+zQHoWnW
- F7VyTJvbuKH3tpwM8yDxNN+0NXtpiw9hN9EKbFwCvqe6KyNKnc6H+bu6svvtELo+gPNSSW91i
- aVqLg5isJOUIrrzKB1f1iAPs/28s+eW5UbCiAvfMo=
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.131
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,63 +70,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Andrew Jeffery <andrew@aj.id.au>,
- Laurent Vivier <laurent@vivier.eu>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, Amit Shah <amit@kernel.org>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
 
-The system <stdint.h> include is already provided by "osdep.h"
-(the scripts/clean-includes file clean such headers).
-
-Commit 64552b6be47 suggests we don't need to include "hw/irq.h":
-
-    Move the qemu_irq and qemu_irq_handler typedefs from hw/irq.h to
-    qemu/typedefs.h, and then include hw/irq.h only where it's still
-    needed.
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20191003230404.19384-15-philmd@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+Reviewed-by: Jens Freimann <jfreimann@redhat.com>
 ---
- include/hw/rtc/aspeed_rtc.h | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/net/vhost_net.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/rtc/aspeed_rtc.h b/include/hw/rtc/aspeed_rtc.h
-index 3fde854ad99c..b94a7102688a 100644
---- a/include/hw/rtc/aspeed_rtc.h
-+++ b/include/hw/rtc/aspeed_rtc.h
-@@ -8,9 +8,6 @@
- #ifndef HW_RTC_ASPEED_RTC_H
- #define HW_RTC_ASPEED_RTC_H
- 
--#include <stdint.h>
--
--#include "hw/irq.h"
- #include "hw/sysbus.h"
- 
- typedef struct AspeedRtcState {
--- 
-2.21.0
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index e975700f95..6b82803fa7 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -49,6 +49,7 @@ static const int kernel_feature_bits[] =3D {
+     VIRTIO_F_VERSION_1,
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
++    VIRTIO_F_RING_PACKED,
+     VHOST_INVALID_FEATURE_BIT
+ };
+=20
+@@ -74,6 +75,7 @@ static const int user_feature_bits[] =3D {
+     VIRTIO_NET_F_MRG_RXBUF,
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
++    VIRTIO_F_RING_PACKED,
+=20
+     /* This bit implies RARP isn't sent by QEMU out of band */
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+--=20
+2.16.5
 
 
