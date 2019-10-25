@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09639E57A7
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 02:49:09 +0200 (CEST)
-Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35716E57A3
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 02:44:14 +0200 (CEST)
+Received: from localhost ([::1]:37568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOAGS-0006sF-1s
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 20:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50205)
+	id 1iOABh-0005XJ-A8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 20:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO91Z-0005vT-6k
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:42 -0400
+ id 1iO91B-00059A-1E
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO91Y-0004lz-30
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:41 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:10430)
+ id 1iO917-0004U7-GD
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 19:29:15 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:36801)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=194c68654=alistair.francis@wdc.com>)
- id 1iO91X-0004CY-PS; Fri, 25 Oct 2019 19:29:40 -0400
+ id 1iO914-0004Sy-1d; Fri, 25 Oct 2019 19:29:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1572046179; x=1603582179;
+ t=1572046150; x=1603582150;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5xy/BQ5Ff17/zZ+q9QgWqRSx+0OeU4f0Sj1sSKNFPcQ=;
- b=MpwxmYWz0QgxTJC6NMwOVmWn2Ajsvt7OqJ4uwl0rqEFW3yx1zlQ7dRGT
- 2L9QgGHOm894xSliHYPRgBsnIz9GTEbeS7m3sTwXLACBqaxJ7N4mGrEoD
- 4ZkeaT0iCSirN7x+htgDDUh4be8IOkMsTUrPve+jP2JofpJBbp47THYde
- 35bFGuBlnmChfGUmpHwale7fkCPIdw0qe7/WL/sq/RI5NY9HB9Mf4Snh5
- hgdxK+AV/VtOHHgc5J7ZZ1XwYszpn7HXTPDlcjeR+SgpxgnxLo3sm9Fym
- MHMiijYhkcIMOVPhQp42NI8aSTD2RhpS2OBdqTDEz3T+ujnzreAtbgEvT g==;
-IronPort-SDR: zXixdOhZo36mF5ZtcXEykzhagF8ytU1ZmbRHmR5Tf9YeK8kKK1iLJQaY2g1krspIkGxZk9tInU
- 1wIuAHfKrVYztGvAsn8zugql3le+tSHEoK1FF7P/kpqrsZdhKTc+SDwLu850claGwQM8h2IhvR
- JJxv8pfx1lZMIjPxOxEik1jR3djg8kRXsytdvuHqhr5NkEFdMfkUFyxDuX0sBlSMUuhIHB3Sw5
- l0+z7FzG8ow5tkTTnrQ/dDXxHQwbOH+grFP/tFLH672O5NCbGm9NvmMsyT+z/NrOim6j2MLbjM
- oaI=
-X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228520418"
+ bh=dMKqeONfKcctIWBRru6Nk23YmXDldC/KGUfehKsR0KY=;
+ b=PDXOLoG5QfCvC7wUCyGyMQdjBgyqbsHta7LY4SeACaJ8IO7rKxN+xntc
+ 5Bcx2Zd3KdVwohja9siaPVD6KDonQsIRtGBEZkSl9dtrxUw4JVU+iugxr
+ mlfjlPlE7JWF/kyIax30wJor+i09t10NCS4kcX7XY0xPR9enCa6OZGu7e
+ NmohxI/Tud5fOPwzbj+Pc1cC7NGhDK9ux18Xj9HCRU/nQqfJuoICPCe9e
+ IWL5mLfH92+9U0e9+LITNgUNguub7cQW+eQM7QVPzMVtb7IYfUiq/WMo7
+ /OUyEuyp+PDYrIyrb2ow+B70FEYPH+DwsaM6RRnLFF0Y6+VmE4gSgVlPE g==;
+IronPort-SDR: 0rbuNeuXF6rdV+bQM853tcoqfOKyYByGC3tBCENodf8lN6dly495qN7WbuIeYBS6bgtQjytdAh
+ IZhRxxSJx1ENMw041MXrJpnosbvufugUboMa10R3vD1ikOQl5hJLT9UP6kqlKh2T5etKBrO5Pp
+ 089VT6oMlzKo/wNWTRasu+l10raDoop9dQRUu9HUXq7j30vutd7QD/cO7XeBLB8y8At9GdfUEu
+ pQtBg4Quu07+nx2YSGl3x8G2F2XDzWNNt8al74jdKZoIJ3f1guckr7Aty3m3+WXQpIU9UK6LtE
+ HFk=
+X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="122956680"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:28:58 +0800
-IronPort-SDR: Z3zY7b09YvyvAmtvtOCVnoEib+vFoXr1EWCR2REVigTV2CTNV5GIRvQ5qrJz6SySlAStVyU58e
- REOQ25SQk3owxNMRnmZ1NP5iQA88YiNONru8BPG3T/2EnslPlD4fRg5MbXum/r1L9axLQuDNZy
- PbyGn3lmBI6mTrDPbN1l18dbTqZQpcKTXwgbm0Y/8zUcmv86pJ+om3ZtE6Lycr0BJH3jxKDz68
- 1xhSmAVKyKSre1BNxr0TWzKv+PZGCplTGixXbybh8Edj3vHbl9INGfQnE6uA+qA+KZ470wWqNY
- mCDREEQC95s+NmiJrn7Doh9d
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 07:29:09 +0800
+IronPort-SDR: w4RoC75gdiYQXCzXk/7nwb67McwtBOSlPp+2Tfg2p6+2O8XROP1E2AjYQK2y0iO4ThgCB1VsDK
+ K/UYBss53qJWCnvVyI1jl2EIfAO8XkFaCbh1GiCeX5TWkD7+qbWIv40m017uO4sWb+JrIR6bfb
+ YmUuW8J1bg+srOljHsQJ4NnON3moEcPpku3VO9bRfZPCZRPJehvPYXNfe7MisJ9uJpWbFkzUsH
+ Ya+p5qeP3UEnPs/n0uuIAWzD7bJYDt41FoTdv3DzRCMJVicRC+qmr8zjOSnKGY+wqgZeAlwBnN
+ 4UKpSAwvkytKtezZGpK4QhMw
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2019 16:24:24 -0700
-IronPort-SDR: 8IkYaeWsa1WKFPlrikMUhWMIukbvr5buFfiArifeb7W8OK9r4PXJRq04IBg0viPveRbWQ3xW98
- 2iCxdDyNN2b/OAphz6kO15giWF1D6qPDx6pVfMr18SgI0qxt09IAGZuEBpdYV9wu0qvUoRrRHG
- A2F+2fyJKSZ54KN04EjuTUUBQSSBfUk22fxSrqPofi8nrqCWPztnYE4dyRcXMEugHBJ/AFLwY9
- D9iUpDfObSyh/7mtoYJM7NiNjcx0kjJpFFWhzFTW2adguOhLWE/Kz/khQg8Wr8UPh1RnL55i6v
- HaA=
+ 25 Oct 2019 16:24:35 -0700
+IronPort-SDR: UQISS66IE+rA+uCpRMrcdMKu7CEvkJkSJiM/5ebQfNi0RHnB8sXiMUyFNAASbq74YzuYqKi89o
+ 6kdUiTsYLyKDYokRUK/uZLoARiY0e5Z6ekOlFl1uCtDA6dhJ62mDnwMjzYNVw5YM1w3yG+EoWf
+ mwZCNY1F5JlFjQmSow5sF0ci7A9RO2vMm1EJLIC7rGPpBFACKUrRH/YWAAbmFSHRGvlI192TJQ
+ q3tfsoamngr2CQVp5o7+LmTAoN0TRMbSXA/X7AKldHgC6/YhGjPz5HERqXa2gxDoYAZwUtDQ/b
+ g9Y=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip02.wdc.com with ESMTP; 25 Oct 2019 16:28:59 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2019 16:29:09 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 16/27] riscv: plic: Always set sip.SEIP bit for HS
-Date: Fri, 25 Oct 2019 16:24:03 -0700
-Message-Id: <ed72f249afccde44453efef12935e7804e24b55f.1572045716.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 19/27] target/riscv: Add hfence instructions
+Date: Fri, 25 Oct 2019 16:24:13 -0700
+Message-Id: <13c3cf8969b1c4c2a8c593501d4148041881a5f5.1572045716.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1572045716.git.alistair.francis@wdc.com>
 References: <cover.1572045716.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.141.245
+X-Received-From: 216.71.154.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,37 +88,100 @@ Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the PLIC generates an interrupt ensure we always set it for the SIP
-CSR that corresponds to the HS (V=0) register.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_plic.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ target/riscv/insn32.decode                    | 23 ++++++-----
+ .../riscv/insn_trans/trans_privileged.inc.c   | 40 +++++++++++++++++++
+ 2 files changed, 54 insertions(+), 9 deletions(-)
 
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index 98e4304b66..8309e96f64 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -150,7 +150,17 @@ static void sifive_plic_update(SiFivePLICState *plic)
-             riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
-             break;
-         case PLICMode_S:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-+            if (riscv_cpu_virt_enabled(env)) {
-+                if (level) {
-+                    atomic_or(&env->mip_novirt, MIP_SEIP);
-+                    g_assert(riscv_cpu_virt_enabled(env));
-+                } else {
-+                    atomic_and(&env->mip_novirt, ~MIP_SEIP);
-+                    g_assert(riscv_cpu_virt_enabled(env));
-+                }
-+            } else {
-+                riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-+            }
-             break;
-         default:
-             break;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 77f794ed70..cfd9ca6d2b 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -63,20 +63,25 @@
+ @r2_rm   .......   ..... ..... ... ..... ....... %rs1 %rm %rd
+ @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
+ 
++@hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
++@hfence_bvma ....... ..... .....   ... ..... ....... %rs2 %rs1
++
+ @sfence_vma ....... ..... .....   ... ..... ....... %rs2 %rs1
+ @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
+ 
+ 
+ # *** Privileged Instructions ***
+-ecall      000000000000     00000 000 00000 1110011
+-ebreak     000000000001     00000 000 00000 1110011
+-uret       0000000    00010 00000 000 00000 1110011
+-sret       0001000    00010 00000 000 00000 1110011
+-hret       0010000    00010 00000 000 00000 1110011
+-mret       0011000    00010 00000 000 00000 1110011
+-wfi        0001000    00101 00000 000 00000 1110011
+-sfence_vma 0001001    ..... ..... 000 00000 1110011 @sfence_vma
+-sfence_vm  0001000    00100 ..... 000 00000 1110011 @sfence_vm
++ecall       000000000000     00000 000 00000 1110011
++ebreak      000000000001     00000 000 00000 1110011
++uret        0000000    00010 00000 000 00000 1110011
++sret        0001000    00010 00000 000 00000 1110011
++hret        0010000    00010 00000 000 00000 1110011
++mret        0011000    00010 00000 000 00000 1110011
++wfi         0001000    00101 00000 000 00000 1110011
++hfence_gvma 0110001    ..... ..... 000 00000 1110011 @hfence_gvma
++hfence_bvma 0010001    ..... ..... 000 00000 1110011 @hfence_bvma
++sfence_vma  0001001    ..... ..... 000 00000 1110011 @sfence_vma
++sfence_vm   0001000    00100 ..... 000 00000 1110011 @sfence_vm
+ 
+ # *** RV32I Base Instruction Set ***
+ lui      ....................       ..... 0110111 @u
+diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/riscv/insn_trans/trans_privileged.inc.c
+index c5e4b3e49a..b9b5a89b52 100644
+--- a/target/riscv/insn_trans/trans_privileged.inc.c
++++ b/target/riscv/insn_trans/trans_privileged.inc.c
+@@ -108,3 +108,43 @@ static bool trans_sfence_vm(DisasContext *ctx, arg_sfence_vm *a)
+ #endif
+     return false;
+ }
++
++static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
++{
++#ifndef CONFIG_USER_ONLY
++    if (ctx->priv_ver >= PRIV_VERSION_1_10_0 &&
++        has_ext(ctx, RVH)) {
++        /* Hpervisor extensions exist */
++        /*
++         * if (env->priv == PRV_M ||
++         *   (env->priv == PRV_S &&
++         *    !riscv_cpu_virt_enabled(env) &&
++         *    get_field(ctx->mstatus_fs, MSTATUS_TVM))) {
++         */
++            gen_helper_tlb_flush(cpu_env);
++            return true;
++        /* } */
++    }
++#endif
++    return false;
++}
++
++static bool trans_hfence_bvma(DisasContext *ctx, arg_sfence_vma *a)
++{
++#ifndef CONFIG_USER_ONLY
++    if (ctx->priv_ver >= PRIV_VERSION_1_10_0 &&
++        has_ext(ctx, RVH)) {
++        /* Hpervisor extensions exist */
++        /*
++         * if (env->priv == PRV_M ||
++         *   (env->priv == PRV_S &&
++         *    !riscv_cpu_virt_enabled(env) &&
++         *    get_field(ctx->mstatus_fs, MSTATUS_TVM))) {
++         */
++            gen_helper_tlb_flush(cpu_env);
++            return true;
++        /* } */
++    }
++#endif
++    return false;
++}
 -- 
 2.23.0
 
