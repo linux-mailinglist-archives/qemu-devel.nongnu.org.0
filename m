@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAF5E4F6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:44:29 +0200 (CEST)
-Received: from localhost ([::1]:33072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52931E4F85
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:49:50 +0200 (CEST)
+Received: from localhost ([::1]:33168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0pI-0008N2-Es
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:44:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44410)
+	id 1iO0uS-0007QZ-9s
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iO0To-0005FL-RV
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iO0Tr-0005Hs-0I
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iO0Tn-0001h1-ND
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:16 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:40736)
+ (envelope-from <richard.henderson@linaro.org>) id 1iO0To-0001hr-Sf
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:17 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:36391)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iO0Tn-0001gr-JN
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:15 -0400
-Received: by mail-qt1-x829.google.com with SMTP id o49so3460174qta.7
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:22:15 -0700 (PDT)
+ id 1iO0To-0001hd-Ou
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:22:16 -0400
+Received: by mail-qk1-x742.google.com with SMTP id y189so1914231qkc.3
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=jWCHT8imM+uT8t8z8pCnUo/8+221GMTt3GzK0VnZBfQ=;
- b=iHyjGqVBlWhRCyvOuTKND1TnfPp7qdekqymZ8omiqy0rOsD6qMW3tYMAt6QScTvhgw
- wVNZxFa2fM+X5Qc26r6qIBKAq5KUfPPNZKZIvlmka/ufr2Z0LNfLpVE+DsKh80tsOn37
- viq+35QicC57PHBPGNEoNldEOkm9PTqXONY+nJdd59cxXsCtQxWfbYRvT/4pAlGNMaHr
- A0bdkqDMMeEP6EKv4tBGzWIHLvC4jje46gUXEJZmmlp4x8G/hV2wxDzLkhC8reRBYePv
- LorXMl3iLMBYr01DSym+7R4EW3uKZMZYIOZnR+uDpO3yRv7w+WCv4l9JKQaFfUJHP6kI
- Vn9w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Q9PA/XGaFb/7jgxWdyktquMDL4GhIzWDsxOacBvv2es=;
+ b=Yx0FCQUmjnlC/9wLCFC/AqUil0d6MtaJ466kwyh+3F6W2HvrXAozjn/R9frjenq6m4
+ o0h9eArCsFvGLrlGiikTT19M8drjyNC1edKt+qKufB2qgP5iWAGvVdpzPE6+ZTrzqu8r
+ F5tRcYhN1K6Kn0nr1ML8eaVAU+VAev21XFk/2CQRNr8IaRdOojopO5tIi5XEWr1M5Nxp
+ BY1TZ/9pcaYFXzrzNCB4rw4DbBrnmIkpcM6co5OkQic7VLPnGCUAFCiSXvsc7taFce2F
+ KUmcpnFC6Ud9p2cdOnDIlRXJjZKwifAAM7fHIWpP03AYFpjZJDpDBE5SabcciJtWjgEp
+ nKoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=jWCHT8imM+uT8t8z8pCnUo/8+221GMTt3GzK0VnZBfQ=;
- b=CtfVSmisbaczH/9Ps4xOR0vjhVs94PNnNg/Bc69G+9GdGA6gCjDNDqOocJZk7CkD/C
- fiD0217hnkzNVgn5R8lYITL0rz6/B2r5j/L3yK9dU9F8WK4E8q8gZxGU4M/a+dWIwqld
- TTEkmqbFyJ7yh97H2ZxbxEN5Umnl08ehC/mKk/ulAQ6suRwjWHLSKvPW/P2+NTqZ1Vhj
- 9BtaJYWqadgbr7UfH7UMWfUToSl5ew6uTDQZkX6Ez1NaNY4V1mFSAuA1J2CusE0i4yUo
- NgXVRAKqufLQeiF7GrT5d8P6XpH0kKz6AVOn9KnhWEWnHvQ33o9NKckvRnfBxXaqRYOA
- UvQA==
-X-Gm-Message-State: APjAAAWIvAkaeBd9Mfw241XVAc6RcZbG5dYjFUusS2jmmSFKXYUlrYYc
- gsVlcDz50XlO3j6rMDhTG0CaIYz9L24=
-X-Google-Smtp-Source: APXvYqzWXeIiz3luk5leJS5HD0i/rN+5B9IUti4a3DlT7pAg628VG/RnXEWUZqnCANZYagFv/qLXaA==
-X-Received: by 2002:a0c:85e4:: with SMTP id o91mr3472073qva.16.1572013334490; 
- Fri, 25 Oct 2019 07:22:14 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=Q9PA/XGaFb/7jgxWdyktquMDL4GhIzWDsxOacBvv2es=;
+ b=DW2hzuL7Dhttb4dXob3LERicuh2H2vOaVYpazUid+AL/Ma9A9u6Nnpl+HM3fvSYBrd
+ 3JGjEDoUBfSxNHWB8W7K1M09Rx5s/oCr95ggd0+9cCLhgiU47iDvQ5Ds8G6TQnPzoiBz
+ RHhfRc3u1xfACKZEmmYhgGV7LgfU2H6PZoCseJnxI4yrQ01qTg9uc98urwXv24gWzXvk
+ 7LycfhwnX4FTs/apU026WCaoryyjsXjb0u/bzkQLfwubUlQrtBZjAODpivhUI4E+M6pp
+ ics0XijGXeGo2fkERzEVlBP3OqfTIv2wxA/lWwTVow9CpFFEvu1vsebGULO/pGnwk+Tm
+ qiJA==
+X-Gm-Message-State: APjAAAWqopZCY08E1F57vkpHcfVA/NPdMbzh5lm5h4Gi8XEqQGyZouyo
+ kv+lnNGwjUGKmIFoIkNE6IH3J5v0N1c=
+X-Google-Smtp-Source: APXvYqws88YWxyBGLMZte4YCw7NNcZMhe9S478cfJn6qCSNFc1Dzop9UQjJhOR7Lui/gIhEKm9qVyg==
+X-Received: by 2002:a05:620a:1321:: with SMTP id
+ p1mr3093122qkj.272.1572013335810; 
+ Fri, 25 Oct 2019 07:22:15 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-50.nyc.biz.rr.com.
  [172.254.253.50])
- by smtp.gmail.com with ESMTPSA id q17sm1137050qtq.58.2019.10.25.07.22.13
+ by smtp.gmail.com with ESMTPSA id q17sm1137050qtq.58.2019.10.25.07.22.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 07:22:13 -0700 (PDT)
+ Fri, 25 Oct 2019 07:22:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/12] translate-all: fix uninitialized tb->orig_tb
-Date: Fri, 25 Oct 2019 10:21:58 -0400
-Message-Id: <20191025142159.12459-12-richard.henderson@linaro.org>
+Subject: [PULL 12/12] translate-all: Remove tb_alloc
+Date: Fri, 25 Oct 2019 10:21:59 -0400
+Message-Id: <20191025142159.12459-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191025142159.12459-1-richard.henderson@linaro.org>
 References: <20191025142159.12459-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::829
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,41 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- Clement Deschamps <clement.deschamps@greensocs.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Clement Deschamps <clement.deschamps@greensocs.com>
+Since 2ac01d6dafab, this function does only two things: assert a
+lock is held, and call tcg_tb_alloc.  It is used exactly once,
+and its user has already done the assert.
 
-This fixes a segmentation fault in icount mode when executing
-from an IO region.
-
-TB is marked as CF_NOCACHE but tb->orig_tb is not initialized
-(equals previous value in code_gen_buffer).
-
-The issue happens in cpu_io_recompile() when it tries to invalidate orig_tb.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Clement Deschamps <clement.deschamps@greensocs.com>
-Message-Id: <20191022140016.918371-1-clement.deschamps@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Clement Deschamps <clement.deschamps@greensocs.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 1 +
- 1 file changed, 1 insertion(+)
+ accel/tcg/translate-all.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 66d4bc4341..f9b7ba159d 100644
+index f9b7ba159d..ae063b53f9 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -1722,6 +1722,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     tb->cs_base = cs_base;
-     tb->flags = flags;
-     tb->cflags = cflags;
-+    tb->orig_tb = NULL;
-     tb->trace_vcpu_dstate = *cpu->trace_dstate;
-     tcg_ctx->tb_cflags = cflags;
-  tb_overflow:
+@@ -1156,23 +1156,6 @@ void tcg_exec_init(unsigned long tb_size)
+ #endif
+ }
+ 
+-/*
+- * Allocate a new translation block. Flush the translation buffer if
+- * too many translation blocks or too much generated code.
+- */
+-static TranslationBlock *tb_alloc(target_ulong pc)
+-{
+-    TranslationBlock *tb;
+-
+-    assert_memory_lock();
+-
+-    tb = tcg_tb_alloc(tcg_ctx);
+-    if (unlikely(tb == NULL)) {
+-        return NULL;
+-    }
+-    return tb;
+-}
+-
+ /* call with @p->lock held */
+ static inline void invalidate_page_bitmap(PageDesc *p)
+ {
+@@ -1681,6 +1664,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     TCGProfile *prof = &tcg_ctx->prof;
+     int64_t ti;
+ #endif
++
+     assert_memory_lock();
+ 
+     phys_pc = get_page_addr_code(env, pc);
+@@ -1706,7 +1690,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     }
+ 
+  buffer_overflow:
+-    tb = tb_alloc(pc);
++    tb = tcg_tb_alloc(tcg_ctx);
+     if (unlikely(!tb)) {
+         /* flush must be done */
+         tb_flush(cpu);
 -- 
 2.17.1
 
