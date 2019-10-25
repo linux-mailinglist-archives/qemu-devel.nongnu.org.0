@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A05E44A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:37:21 +0200 (CEST)
-Received: from localhost ([::1]:56922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5F3E44B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:42:01 +0200 (CEST)
+Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNu9w-0006nQ-DM
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
+	id 1iNuES-0002p1-NC
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtps-0004S8-Gu
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtps-0004SI-G7
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtpr-00077d-7X
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtpr-00077j-9p
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:36 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39309)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:34075)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtpr-000772-0R
+ id 1iNtpr-00077C-4E
  for qemu-devel@nongnu.org; Fri, 25 Oct 2019 03:16:35 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id a11so1027781wra.6
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:34 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id v3so3584262wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 00:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xEhoj1zEJpx/eHbcjzF4pAJZUeLviMrjuMQMfk2ktQM=;
- b=hJdUnxpfVzARh68uiyeBFQXhq+SfZO6AlM4JXKZchVWq+pfDS/LHnsILQoERXChkX9
- GzBbzaa3+AmSHWqSTL66K+WTmtgCGS01EgpPmbwwv5rmOlV61sPVJqrRoUIm+dudlg97
- OrTeuRFAf2bYVKtUCBy3O3QrD1Rpm4mLMXh/P7mlhLqRwxmcE8wlX2qJHBQc95+rb/2M
- NPkSlC5HAx/xAy3KqAGT0ainFgBVWtFPzrqjBDfy6CpJmgPy5NPwqx4+TjlbdklpZ5wC
- 75KIopEIN5+z2Jusjol+afxJ1XEmL90Fzi3XTjgrNDcT4szOm2LnS9SYEtFPtsOnCdsu
- 2UoQ==
+ bh=RJkX+FSx41NmsCqdZkvH4L5KYPcUzyeYKNjS8EG2fRk=;
+ b=F/8ICshcU4B0Z9LUtYMGqT3Oy3VVkbT+rM6vb0dNjwovvaiCp5brG6mdJimrGi6crz
+ MhIfwHK1+aHfZy8mMM076a3mnhNSF6IBRZxJzhOy7/e7vTFfW3kTHjsNM7X64iGFFpU+
+ SwDLt34T8VfKhoeTF/SPsZ6J9vNKDlSY2xl18ZQbTukOWau9p6+R24XFRLN22HZjD0Vm
+ CrbxATYU2Gw0LGlTsjhxvWh9a8aTaEnVEL0CG3xkHy+7WP1tUbo4B5d3LC9/zskU++N0
+ dSXAMvXWAxU9v1p9HLQJfi0on2haCKAXEB2MnpuqIVAgS4bYgY2+7l0/RUt3SxqhgJdb
+ phJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xEhoj1zEJpx/eHbcjzF4pAJZUeLviMrjuMQMfk2ktQM=;
- b=YBQzX4ARso4o5GC+hNg1chPlTfYpkmNUazoo+jgyT22NLUWEgxlDc0hSYUGiqd514P
- F4g59tUKg41acT1pwGK4No9yZV7ap2Sb4ACd/NU2o4N8cJ9dc+4bgzCq/FZpkeVXeYxT
- 8lhG7E/OvCVnew9FBcoVzd9aCnqqt9F7JVtpS7y3reId08Xxt8oywHf6v9U6clr4XUVH
- VEHttAl+MAQFvrnrAijxo17bX4SAu8eZqKShc66rH6HX9FbXczVHTGrrEW7Cswsly1dg
- jhI39cIaGp+d3IPQm1HPx6Qr2siDP/qUZJsP8iwzb8vlVmLlIhVfEMkU80Ny/JYjdGKT
- 3lVQ==
-X-Gm-Message-State: APjAAAVtj62ueo8h3KLd25Ti6nI7JHi/qh75Pn+GCFuleLpv40ReG//D
- rIRHCX80iDOkjPONXh6hj3veLg==
-X-Google-Smtp-Source: APXvYqz7+81wCg91mfnIhidSyoMjMK/ak2KiHmy5M/aavL1jmOw9DVvIe3y4RFK918MSmJepU63S4A==
-X-Received: by 2002:adf:e28f:: with SMTP id v15mr1387314wri.130.1571987793415; 
+ bh=RJkX+FSx41NmsCqdZkvH4L5KYPcUzyeYKNjS8EG2fRk=;
+ b=DfUEC3wkvyZCIWOduQbcrkeSkz7qgyLiw/BWJtd4e5cvoishpcpf62lrsTaYKiEgzA
+ Dx/hRvCTe5LQQ6sIaW7wJ3oapT9RD20D0Fl8qJzZESLSaQ04ieea772DZ4cOtVOpGgU0
+ x7ihtiViQtquubtXkyv28da5Q6HZXiW+f/F4ZnbFZ/FckibPUVFji58QrGMVk1nbzyY/
+ UHtOnLgSE4aThH4kcfbX4FQfIVtRBne9UY/RLJb2/N6joCRCy30JBLpZSdAvkTKYAUBz
+ gunOm0z8JOe7+sdZz36nGkWQ4mn7TGo/bjAh80iEjGIXQHt631EyCfPD2iqMbtuFlO84
+ TPbA==
+X-Gm-Message-State: APjAAAWdXtuKtnvSGlw3VNx4IkOToaQNtzz9mih70Tde9Wt7Jj3DEuzz
+ ZwH2iZvLupX66PDLkCGLUZRRUA==
+X-Google-Smtp-Source: APXvYqw3tPOqbNUnvtCRtK3B4VifBNg48rBsTbbnj2e/hsaHg38Stki52M9kjbNMhxWfN6QBX/80Sg==
+X-Received: by 2002:a1c:8189:: with SMTP id c131mr1959751wmd.151.1571987793906; 
  Fri, 25 Oct 2019 00:16:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k1sm315914wru.10.2019.10.25.00.16.32
+ by smtp.gmail.com with ESMTPSA id b5sm1145818wmj.18.2019.10.25.00.16.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Oct 2019 00:16:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB3BA1FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id CEB9D1FFC3;
  Fri, 25 Oct 2019 07:37:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 42/73] target/sh4: fetch code with translator_ld
-Date: Fri, 25 Oct 2019 07:36:42 +0100
-Message-Id: <20191025063713.23374-43-alex.bennee@linaro.org>
+Subject: [PULL v2 43/73] target/i386: fetch code with translator_ld
+Date: Fri, 25 Oct 2019 07:36:43 +0100
+Message-Id: <20191025063713.23374-44-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,49 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Emilio G. Cota" <cota@braap.org>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+ "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-There is a small wrinkle with the gUSA instruction. The translator
-effectively treats a (known) gUSA sequence as a single instruction.
-For the purposes of the plugin we end up with a long multi-instruction
-qemu_plugin_insn.
-
-If the known sequence isn't detected we shall never run this
-translation anyway.
-
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 5a7d8c45355..922785e225e 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -1917,7 +1917,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index 868b0acafe8..77e932d8276 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -1925,28 +1925,28 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
  
-     /* Read all of the insns for the region.  */
-     for (i = 0; i < max_insns; ++i) {
--        insns[i] = cpu_lduw_code(env, pc + i * 2);
-+        insns[i] = translator_lduw(env, pc + i * 2);
-     }
+ static inline uint8_t x86_ldub_code(CPUX86State *env, DisasContext *s)
+ {
+-    return cpu_ldub_code(env, advance_pc(env, s, 1));
++    return translator_ldub(env, advance_pc(env, s, 1));
+ }
  
-     ld_adr = ld_dst = ld_mop = -1;
-@@ -2332,7 +2332,7 @@ static void sh4_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     }
+ static inline int16_t x86_ldsw_code(CPUX86State *env, DisasContext *s)
+ {
+-    return cpu_ldsw_code(env, advance_pc(env, s, 2));
++    return translator_ldsw(env, advance_pc(env, s, 2));
+ }
+ 
+ static inline uint16_t x86_lduw_code(CPUX86State *env, DisasContext *s)
+ {
+-    return cpu_lduw_code(env, advance_pc(env, s, 2));
++    return translator_lduw(env, advance_pc(env, s, 2));
+ }
+ 
+ static inline uint32_t x86_ldl_code(CPUX86State *env, DisasContext *s)
+ {
+-    return cpu_ldl_code(env, advance_pc(env, s, 4));
++    return translator_ldl(env, advance_pc(env, s, 4));
+ }
+ 
+ #ifdef TARGET_X86_64
+ static inline uint64_t x86_ldq_code(CPUX86State *env, DisasContext *s)
+ {
+-    return cpu_ldq_code(env, advance_pc(env, s, 8));
++    return translator_ldq(env, advance_pc(env, s, 8));
+ }
  #endif
  
--    ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
-+    ctx->opcode = translator_lduw(env, ctx->base.pc_next);
-     decode_opc(ctx);
-     ctx->base.pc_next += 2;
- }
 -- 
 2.20.1
 
