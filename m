@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE004E442C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:12:10 +0200 (CEST)
-Received: from localhost ([::1]:56444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F029E440C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 09:08:08 +0200 (CEST)
+Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNtlZ-0002GE-HF
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37023)
+	id 1iNthf-0001K0-28
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 03:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35663)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtN6-00087a-OZ
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:54 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtE7-0003Sg-U2
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iNtN4-0003Fq-E3
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:52 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43713)
+ (envelope-from <alex.bennee@linaro.org>) id 1iNtE6-0008UN-VS
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:35 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33267)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iNtN1-0003AN-Kc
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:46:48 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c2so918749wrr.10
- for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:46:40 -0700 (PDT)
+ id 1iNtE6-0008T0-PU
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 02:37:34 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id 6so3526588wmf.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Oct 2019 23:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4Fxm3k4cHBOBik3KvWndMPIE/3gLAlHObkdSa6YWSiE=;
- b=y//VJHjPi8oXoP6/pCX4mtHAdC2aDme2FqibBFdXwCDak2KW5iuftmUI68lfFNlU5P
- Y0UUxtv0RS+rzCzWbIFkUO17YM4Hspb54IqLYqz4xSKesSBMsAfIT2qddWEW1QphbWQZ
- hxjUfBUfAGonDKrDhwVis6x4sgqLITPKAUEQuwqPro6rA4zdlF/1zeV8rJuwMXdA/uUM
- 9kefSIsLm3rFtu51qHmOsGQPr9V+kn3S7NLi3LMeK1UEXM122Uw8ukZYMu7Fce5UiAE/
- vjkQsBVPtzaZxEGoBIJg2yxocb3Wg3/4GwJpPP3F6i0gSExt2T75BDcO6fLcmZO5BJjn
- c3Og==
+ bh=yxnUmUrN/VmnORaacGEvXlk29KbZqX8IayMFp0qzT/w=;
+ b=rcfxAIOD7fXlD4hqTjItQZG2EDF/kUjb+IH1qqUwW66D+X08EM0+jm1vJBcOXRNxA6
+ PGCT0Nx9u+xeWWumHg0nzqL9r+gLMuYZtp1Up8uxFQhM6oigR6ZzMOPVKyZIwZwWYdf5
+ fWPbSvu87ge0xfl2uIg+pGYVsYJKGeG8q939hHndRPAwJRn25LGDfP8Kkd5vWcPZLHJo
+ c04Z5l+J5NMLHwKn5DZQmNQmm1B5yqDSbgbqG3nLwEveqBVgVDIRMO9G2PurLq6aBYFm
+ g/PWJRRzyOgHOxNur2noYzc0+uZkHUVQCGb3oAmX3/Pgod7W3bKH2QZskbvv1lOCyobe
+ 6OhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4Fxm3k4cHBOBik3KvWndMPIE/3gLAlHObkdSa6YWSiE=;
- b=i8e0ccQTmAr+iP/gxtsVsv42mg5Sv5JDScHH1lseQGQVckDgCyrKrheh2E5TEjIHQA
- LAJYAZoAhCBsqW1P4HIvyYuZNU7BOBW1AgqlwEfbWvLlmOsMHVMw0EZJt92Ur9EQG6jf
- ZUhRJ4KxB/sm6FcOZNUnCiQmklZT0yUBCDmpCcoCyrohqetZPqI5mSI9BTo3593nyR25
- OpyJxuh469xBlpYg9LYjuKKkg1ZAeJk0dvFFetFZQS8YBgYn3mQMAqWwb6tM/LnXLFrN
- /dme6y/3wCvdmgNjJlvzrIZriT95RpNblAI+cDvqyZDqpBGhyj++NgDirSctfMTkO8J1
- 5Wlg==
-X-Gm-Message-State: APjAAAXsrzNrnVHe3CBjlgz09d8znYbF2yC7veoUFBTGRbHjnq18vzlw
- eoKOWdcf+6nhSt9GwjWwlghU6Q==
-X-Google-Smtp-Source: APXvYqypB003AuR+zRqO8bRVPwIaCRvPx2qPTR4OpozGNKVKp3ERVzeumH2MIt1CMi1j1TvmXS5z4g==
-X-Received: by 2002:a5d:6651:: with SMTP id f17mr1353853wrw.175.1571985999073; 
- Thu, 24 Oct 2019 23:46:39 -0700 (PDT)
+ bh=yxnUmUrN/VmnORaacGEvXlk29KbZqX8IayMFp0qzT/w=;
+ b=uR05BCWgZFelvW1XumywHB53dxadbDB5XV3jPCFsUGoPjuX1zMpfH/3HPlmlM0/CfF
+ HXwraX5xjYT2HwoEhrrAEUa6wmC3vUn1wJcQOke73/NYGv2xlUImg7eweAU4LBevSl/c
+ vJSSRAuU7IEeJgy/TZL3TE+Zlsscv2WR01fpG0EcSgkiFz5/MQfgLDYXwt96fji1n6yh
+ QsfVEq6Qm17ZeBUBwKCOZZXwHiaTY2Xa5bcdXqOr2FkpayNR98jqTbvlms0h74nX73Td
+ aqClLFhoGX8m/daT3bDYEdbTPfxLJKWH2vFP7dYEB1rIdL5SQT6TaVEDd9KoILRPwA7w
+ 1OFQ==
+X-Gm-Message-State: APjAAAW7Ynx1hSC0X8kjCYIAZL7hfJi/jNBvVsNcGbctdX2xAR1ChTwA
+ VGjAuTCXihobdWBKVN/pQbtuTw==
+X-Google-Smtp-Source: APXvYqxsxlr3p06MvJIs2wYCbRbCY+R2auWsESflRXTyuy+SCq58XA3a8LoJ9K9J4IEjgo8Pqq+hrw==
+X-Received: by 2002:a1c:f718:: with SMTP id v24mr1775983wmh.82.1571985452738; 
+ Thu, 24 Oct 2019 23:37:32 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f17sm1136353wrs.66.2019.10.24.23.46.34
+ by smtp.gmail.com with ESMTPSA id a17sm1408799wrx.84.2019.10.24.23.37.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Oct 2019 23:46:36 -0700 (PDT)
+ Thu, 24 Oct 2019 23:37:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C35C1FFDD;
+ by zen.linaroharston (Postfix) with ESMTP id 710871FFE0;
  Fri, 25 Oct 2019 07:37:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 71/73] scripts/checkpatch.pl: don't complain about (foo,
- /* empty */)
-Date: Fri, 25 Oct 2019 07:37:11 +0100
-Message-Id: <20191025063713.23374-72-alex.bennee@linaro.org>
+Subject: [PULL v2 72/73] MAINTAINERS: add me for the TCG plugins code
+Date: Fri, 25 Oct 2019 07:37:12 +0100
+Message-Id: <20191025063713.23374-73-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191025063713.23374-1-alex.bennee@linaro.org>
 References: <20191025063713.23374-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,31 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aaron Lindsay <aaron@os.amperecomputing.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's quite common to have a mini comment inside braces to acknowledge
-we know it's empty. Expand the inline detection to allow closing
-braces before the end of line.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index aa9a354a0e7..db67b4da872 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1639,7 +1639,7 @@ sub process {
- # Block comment styles
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ed41d7d1b6c..ade2187eae4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2328,6 +2328,12 @@ M: Richard Henderson <rth@twiddle.net>
+ S: Maintained
+ F: tcg/
  
- 		# Block comments use /* on a line of its own
--		if ($rawline !~ m@^\+.*/\*.*\*/[ \t]*$@ &&	#inline /*...*/
-+		if ($rawline !~ m@^\+.*/\*.*\*/[ \t)}]*$@ &&	#inline /*...*/
- 		    $rawline =~ m@^\+.*/\*\*?+[ \t]*[^ \t]@) { # /* or /** non-blank
- 			WARN("Block comments use a leading /* on a separate line\n" . $herecurr);
- 		}
++TCG Plugins
++M: Alex Bennée <alex.bennee@linaro.org>
++S: Maintained
++F: plugins/
++F: tests/plugin
++
+ AArch64 TCG target
+ M: Claudio Fontana <claudio.fontana@huawei.com>
+ M: Claudio Fontana <claudio.fontana@gmail.com>
 -- 
 2.20.1
 
