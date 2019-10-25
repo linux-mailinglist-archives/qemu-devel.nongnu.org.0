@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FA8E4610
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 10:45:40 +0200 (CEST)
-Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F1FE45E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 10:40:40 +0200 (CEST)
+Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNvE2-0005Ze-O5
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 04:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49732)
+	id 1iNv9D-0005am-25
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 04:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iNv4u-0000bP-M6
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:13 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iNv4x-0000gR-JE
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iNv4p-0007ij-L5
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:58789)
+ (envelope-from <laurent@vivier.eu>) id 1iNv4w-0007pl-Ee
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:15 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:35073)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iNv4h-0007bq-Rl; Fri, 25 Oct 2019 04:36:01 -0400
+ id 1iNv4t-0007mQ-Ss; Fri, 25 Oct 2019 04:36:12 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M42zo-1iNv450zGi-00072i; Fri, 25 Oct 2019 10:35:21 +0200
+ id 1M3lsh-1iNdol0HiN-000wFz; Fri, 25 Oct 2019 10:35:24 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/19] qemu-options.hx: Update for reboot-timeout parameter
-Date: Fri, 25 Oct 2019 10:34:53 +0200
-Message-Id: <20191025083511.11463-2-laurent@vivier.eu>
+Subject: [PULL 02/19] pci_bridge: fix a typo in comment
+Date: Fri, 25 Oct 2019 10:34:54 +0200
+Message-Id: <20191025083511.11463-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191025083511.11463-1-laurent@vivier.eu>
 References: <20191025083511.11463-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:c/zMktz+3JjDH+N71EHAEvM5mmPJFDBf9jhIDyxk7TxzV9fd6VF
- REjLhdpVtuT+qJJnkSVRY8ew+4aN3YxXoxXTeY8UycOnzgJS8DHvTvEseeCpOQFDy6OSCR8
- aOiLgpYlSLipBEF0WEqUxXkw8hfoJSbOxR8uKNmO7BMxTAyJ+SDfj7eiV7ERp40lT+h2UbQ
- nf6VK2l31V84+k9iosYqA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9u9gYdmRFEM=:IHDA2tZj9/PN/GSiW8JqI9
- 3ui4rUZFYZTm+TAtJxWQ+8XTasyD/3lGBWFFqzkVoBXKAJhk93dh8FpDaTE2GGLK5PbbRSEBm
- /xLbvcGjUBldmt5vtvZhNZNTqat711fn/8QhfwHpYdCsYK8nuxmuDNirNRaMTSCRX0ixofiip
- /OpNz7oVvqcWcnj1J0PlRWspCPoupOznVS6bFaZtyp+6u+mtxmB7Np15ecx2nHe1ia3O0ohX+
- 2xALIeofdbNe6dv5/z8gPEjul/cv5/6Mq4D4eg0WUz4Sf1C0X8+Br9NZpQFjGwfXjDd5AD084
- eoMF1uG8aNL6ptNoHXPb6zHf6KKK7JLgv4nUzCiDLO/ULYHdNU+mYykxch67BabWWv9fjBMlg
- hCZAnZCwFm3qgsvstOlr1QZp+278O0WkiNwXvbgO3I9VnFOTFh6kY1HKbh4dcHBinQT8w/A4I
- 573cTrMiUc2vfSvTH+W0M1GhqnRnEBb2azODXUZtFtu+K/PuHWReTa6EC9bS0ey5pk8aIf7gV
- u5wHEUBSCpPtCOYfM1PwXYc5XeFW+flTHHRQYsejTit+9YhWK7F0d530FrzXIOv5O70hvCB2J
- ZqUUP2PWnlVlwf6uwRq3bq8Pvk98sQ1FvxQlV4QAXurdqUFuPZecAZ0MMJ/BUpW/K3QAa5LUj
- iEkqZiwPLexcdpfEg+M2sjkEuLxQiyTOPrFvlIib/59myXyPHE8d0236VrNgGmM1qrTROuy2U
- klz1OyeMnz8wlbjPibWqWQOX3q4FnldOZF5xboT09ly4anmWhKSbp5Yim4cuWCxzyQ02jK4vd
- ta8ms9UC4T4SwDq8fcr0aF6+dQQJsEqR8nuY4sGbWXMzZIZmB2AlVaIVOClG0nsE5aFx9pU3M
- NIzwbvNDxl9ZWFn0OcbjfHgalfCFN2rBmrbw4Q55s=
+X-Provags-ID: V03:K1:nvVQQgc5MFVS936/b96mGlWnp6Tpfu49XvmztenX0c3jI2d+viI
+ jaDAhG24rGsfi/n7HEguVI50ChoJciRs6/9rgx5QO4wTx1ikdqINT0kzbVOmxfh1ljbqQIg
+ YfGqmgWBTL5GvV0g9zvqr0QVQyt92YrOJwCj9ZBIgRkpGCUvJN+IOsgGFOW4pLTrECnB0uP
+ iVIuFXn8KDmXzIKTb6gLw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VMpSxzoT4u8=:Mf6ZWvjCI4hgY0rTAoQnZ+
+ qL7W7q5AbP4MDJgdEFFboOEEA8UpT+iNTSwYS/T+IRvM+aRHV4NHmMjp7pG9wrjJr1IxjL6aK
+ s+klWT2CBXpRO3Z4Gkcj4lE4zFvcc7XQb3Hugr/5OJhtf5uE7XjNCvQ9rPQUCHPDPvhKEHQlL
+ kb1nq5rhH8eE7iu53KNGDggjCx6vUilur0UOivYM9a/XJBcUCDVc6khSbA4kZjh4bF7uyr9rv
+ /jMSsD1z61dMLSBWU12BL5HfIvnnOyXWxBUvYyhp4gM8UE+QjNsDZrAOCG4MsIjZhnNV7dMpY
+ bzeJiuYbktzz1Rv/K0kP+YG7xE2SKoDbLQZBQ1aeqQwCBuHBwJLyQ2qRRkBGv5fnp2Lisn5JI
+ agCazTLNNmvSCfQAlLMGu+j0O9VyO8kOD8v6hSZSrOHIckSAf0YPfvS93KT1p9kdHRZDZhR1w
+ MfaO7AWU9+znUIwZ5oaUR9GLG+txur6aoC9sVgi0BvJ8jDMv0/wz4/4lbUrSxyB0EeocjDSxX
+ E9qm92Rdae3ojjsdK1lHbxnQ+NCqz0zw6RJSRL/xvh4A7bUDSGvtJUeR8rivlXsLGchmO510M
+ oFQ4p5kTcgqEmU9MsOkNYYoc7wOLx1nqYlIr+IdrtaSqNVDQBJvhGbpKil+HLSviuRFby2J0r
+ q6G0wP0jCaRWXL3oVYsa4YJpxqDAG0ZMG5Nei5wSImJOTMPJ3oMnlGcUU+/qHPKKhzWRVhnBd
+ bNkOuXQH/3R90YN7SBQsQpVjMjbSD6k0QnyLBiw3wm5ymkg8p2wI/UgZF+9P0JeDR1J3r5MZs
+ PGcBxraDQCzBhEFZPUCMmQ4ZeWNo0Xe9ZY+RvP1iRWtMjiDJRAk9RcVtkdHzIaytguIbyy1Gz
+ O1OYTrD870cRe/7lGTbN8fTOmVWdQnN1aOtNuT+eE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.187
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,14 +68,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Han Han <hhan@redhat.com>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
- Markus Armbruster <armbru@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Mao Zhongyi <maozhongyi@cmss.chinamobile.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
@@ -87,35 +87,29 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Han Han <hhan@redhat.com>
+From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-Since ee5d0f89d, -1 is not valid for the value of reboot-timeout. Update
-that in qemu-options doc.
-
-Signed-off-by: Han Han <hhan@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191015151451.727323-1-hhan@redhat.com>
+Message-Id: <20190909031446.1331810-1-maozhongyi@cmss.chinamobile.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qemu-options.hx | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/pci/pci_bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 996b6fba7461..88b05599b1cd 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -327,8 +327,8 @@ format(true color). The resolution should be supported by the SVGA mode, so
- the recommended is 320x240, 640x480, 800x640.
+diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+index 715b9a4fe616..97967d12eb45 100644
+--- a/hw/pci/pci_bridge.c
++++ b/hw/pci/pci_bridge.c
+@@ -311,7 +311,7 @@ void pci_bridge_reset(DeviceState *qdev)
  
- A timeout could be passed to bios, guest will pause for @var{rb_timeout} ms
--when boot failed, then reboot. If @var{rb_timeout} is '-1', guest will not
--reboot, qemu passes '-1' to bios by default. Currently Seabios for X86
-+when boot failed, then reboot. If @option{reboot-timeout} is not set,
-+guest will not reboot by default. Currently Seabios for X86
- system support it.
- 
- Do strict boot via @option{strict=on} as far as firmware/BIOS
+     /*
+      * the default values for base/limit registers aren't specified
+-     * in the PCI-to-PCI-bridge spec. So we don't thouch them here.
++     * in the PCI-to-PCI-bridge spec. So we don't touch them here.
+      * Each implementation can override it.
+      * typical implementation does
+      * zero base/limit registers or
 -- 
 2.21.0
 
