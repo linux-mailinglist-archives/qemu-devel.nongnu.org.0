@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F803E4FD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 17:09:27 +0200 (CEST)
-Received: from localhost ([::1]:33502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9BBE4FDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 17:12:40 +0200 (CEST)
+Received: from localhost ([::1]:33576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO1DS-00054D-45
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 11:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51132)
+	id 1iO1GZ-0001Qj-K4
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 11:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iO0zv-0001EH-Ai
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:55:28 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1iO11M-0004PH-9c
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:56:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iO0zt-0000zY-3z
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:55:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45638)
+ (envelope-from <alex.williamson@redhat.com>) id 1iO11L-0001bc-4a
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:56:56 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33589
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iO0zs-0000yx-S2
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:55:25 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iO11L-0001av-0W
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 10:56:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572015413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MEgFmb1M/DJZsvPe9JHbjdE6mVfQztvJTR5SwOp+Mqs=;
+ b=KdVCuWGUnI8MNjhrh0eBSwJy+INGtniiQDY8TcrCK6xjhENSw2oyRrhbAxTI9WpMnrET4W
+ wkBt2EpTqNNNubRi1pUOte8gb9Uxtt99pruV6vVJ1r3pOVMdxoUCaoJxkFZxltlGpH87UT
+ c4pKeB+84z0mBz4tIpvxQN8jxGgmInE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-_zedvQKWMLCx7BnRnGo_TQ-1; Fri, 25 Oct 2019 10:56:52 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B226C5945B
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 14:55:23 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id a6so1325131wru.1
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 07:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=75+26rWKZ1KlI2ccIXe4P/R79RU0HhjUf9r3r3iLciQ=;
- b=SdjxAmzcLPeitwxV4jr4vM05dr0vWpUUaA1xtY1u7RwPYZ7xxrj68loAl1Osh/xHTC
- 6DUxGEBFrEwqxz7mpRZwUVZVfffyAqxpIIw2ntUpTTWyz3ZIZvly/qtiHkZx50aPFbuz
- 6lBGavsgml5KjoVsq3eaUOeSJsK6UfMPeuHLFZq8JcekKbIEsn+/Jszog9H7fIapxwqu
- sLsJkk7q7Mnn0p0ZazEiAPZ1kDQIj5VkUajExtQGL+LxlXX+KtueeYmJC49szKMz1rtY
- EWwAdxphrgh8On7XTDcWiO0jaFvNnKUn9xociDOeX//kmfe+z60+LuB5ObO1bw4AjMb4
- cj9w==
-X-Gm-Message-State: APjAAAU6EctNS6oZs6spDcqgPQr5eYbI5I0/cqBSlZUXRFyZ8zFfzjQL
- D+5z2uG/ezkr2ri2SMVFsZrntIQZgyM8PFlDPvdfhgeObB6WogqOEFl7UsGEq6S44+e8yV45BVB
- M+7hNyTfDXZRyrcs=
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr3590305wrn.334.1572015322365; 
- Fri, 25 Oct 2019 07:55:22 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxGihPA5ErIPGjj+S601lLMWEbVT1fuCxylnQiCTodK79yWH09jIXxqCVTGMQ4xPfsCJA9HCw==
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr3590282wrn.334.1572015322203; 
- Fri, 25 Oct 2019 07:55:22 -0700 (PDT)
-Received: from [192.168.43.238] (51.red-95-127-156.staticip.rima-tde.net.
- [95.127.156.51])
- by smtp.gmail.com with ESMTPSA id p126sm2406646wme.0.2019.10.25.07.55.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Oct 2019 07:55:21 -0700 (PDT)
-Subject: Re: [PATCH v14 1/9] esp: add pseudo-DMA as used by Macintosh
-To: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-References: <20191022111738.20803-1-laurent@vivier.eu>
- <20191022111738.20803-2-laurent@vivier.eu>
- <6dd7dbbb-dc48-7705-3865-e8a7bed75394@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0f308a0d-f73b-29a1-0177-49a6e0a1eda9@redhat.com>
-Date: Fri, 25 Oct 2019 16:54:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669395EF;
+ Fri, 25 Oct 2019 14:56:51 +0000 (UTC)
+Received: from x1.home (ovpn-116-110.phx2.redhat.com [10.3.116.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86F085D772;
+ Fri, 25 Oct 2019 14:56:49 +0000 (UTC)
+Date: Fri, 25 Oct 2019 08:56:47 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Subject: Re: [PATCH v5 02/11] pci: add option for net failover
+Message-ID: <20191025085647.5dbc2230@x1.home>
+In-Reply-To: <20191025105232.gp22qlwjgpqsumie@jenstp.localdomain>
+References: <20191023082711.16694-1-jfreimann@redhat.com>
+ <20191023082711.16694-3-jfreimann@redhat.com>
+ <20191023120648.57e50ae1@x1.home>
+ <20191025105232.gp22qlwjgpqsumie@jenstp.localdomain>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <6dd7dbbb-dc48-7705-3865-e8a7bed75394@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: _zedvQKWMLCx7BnRnGo_TQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,44 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ laine@redhat.com, ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/19 4:01 PM, Paolo Bonzini wrote:
-> On 22/10/19 13:17, Laurent Vivier wrote:
->> +        if (s->dma_memory_read) {
->> +            s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
->> +        } else {
->> +            set_pdma(s, CMD, s->cmdlen, len);
->> +            s->pdma_cb = do_dma_pdma_cb;
->> +            esp_raise_drq(s);
->> +            return;
->> +        }
->> +        trace_esp_handle_ti_cmd(s->cmdlen);
->> +        s->ti_size = 0;
->> +        s->cmdlen = 0;
->> +        s->do_cmd = 0;
->> +        do_cmd(s, s->cmdbuf);
->>           return;
-> 
-> Can you explain these lines after s->dma_memory_read?  I suppose they
-> are related to
-> 
->> -    }
->> -    if (s->do_cmd) {
->> +    } else if (s->do_cmd) {
-> 
-> If so, it would be nice to make those a separate patch.  Otherwise seems
-> okay.
+On Fri, 25 Oct 2019 12:52:32 +0200
+Jens Freimann <jfreimann@redhat.com> wrote:
 
-Third reviewer asking, so it seems worthwhile.
+> On Wed, Oct 23, 2019 at 12:06:48PM -0600, Alex Williamson wrote:
+> >On Wed, 23 Oct 2019 10:27:02 +0200
+> >Jens Freimann <jfreimann@redhat.com> wrote: =20
+> [...]
+> >> @@ -2101,6 +2104,20 @@ static void pci_qdev_realize(DeviceState *qdev,=
+ Error **errp)
+> >>          }
+> >>      }
+> >>
+> >> +    if (pci_dev->net_failover_pair_id) {
+> >> +        if (!pci_is_express(pci_dev)) {
+> >> +            error_setg(errp, "failover device is not a PCIExpress dev=
+ice");
+> >> +            error_propagate(errp, local_err);
+> >> +            return;
+> >> +        } =20
+> >
+> >Did we decide we don't need to test that the device is also in a
+> >hotpluggable slot?  Are there also multi-function considerations that
+> >should be prevented or documented?  For example, if a user tries to
+> >configure both the primary and failover NICs in the same slot, I assume
+> >bad things will happen. =20
+>=20
+> I added this check
+>=20
+>         if (!(pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
+>             && (PCI_FUNC(pci_dev->devfn) =3D=3D 0)) {
+>             qdev->allow_unplug_during_migration =3D true;
+>         } else {
+>             error_setg(errp, "failover: primary device must be in its own=
+ "
+>                               "PCI slot");
+>             error_propagate(errp, local_err);
+>             pci_qdev_unrealize(DEVICE(pci_dev), NULL);
+>             return;
+>         }
+>=20
+> When I first add a vfio-pci with net_failover_pair_id=3Dx,multifunction=
+=3Don
+> and addr=3D0.0 I will now get an error.
+>=20
+> (qemu) device_add vfio-pci,...,bus=3Droot2,net_failover_pair_id=3Dnet1,mu=
+ltifunction=3Don,addr=3D0.0
+> Error: failover: primary device must be in its own PCI slot
+>=20
+> If I put in a virtio-net device in slot 0 and then try to add a
+> vfio-pci device in the same slot I get the following error message:
+>=20
+> -device virtio-net-pci,...id=3Dnet1bus=3Droot1,failover=3Don,multifunctio=
+n=3Don,addr=3D0.0
+> (qemu) device_add vfio-pci,id=3Dhostdev1,host=3D0000:5e:00.2,bus=3Droot1,=
+net_failover_pair_id=3Dnet1,addr=3D0.1
+> Error: PCI: slot 0 function 0 already ocuppied by virtio-net-pci,
+>    new func vfio-pci cannot be exposed to guest.
+
+Cool, looks good.  Thanks,
+
+Alex
+
 
