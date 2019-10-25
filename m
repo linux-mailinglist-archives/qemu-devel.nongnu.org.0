@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FE7E54D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:03:28 +0200 (CEST)
-Received: from localhost ([::1]:35716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75900E552A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 22:28:36 +0200 (CEST)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO5ny-00044T-As
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58557)
+	id 1iO6CI-0005QL-16
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 16:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iO5WH-0007tk-4j
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:45:10 -0400
+ (envelope-from <armbru@redhat.com>) id 1iO680-00079Q-MU
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:24:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iO5WD-0007zj-KL
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:45:07 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27464
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iO67x-00032e-EL
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:24:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50114
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iO5WD-0007yV-FW
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 15:45:05 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iO67x-00032R-AW
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 16:24:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572032704;
+ s=mimecast20190719; t=1572035044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EBV6TDrwNZpQJjS3MeYsysX3f3Xdq1uPW8dVeYUqUbY=;
- b=f+wow/BK99Dkn1JU7qo7ZzCmupjrvyWO5X+ElJjNS5G7Y1d+Ejmf4hm8A/GL8qnqCaNR3b
- lZIup+HAPSIozF/KvZTjCt5/fsW2SsbqXhafATnxnDze3L+JjA09pIfWDAcK4C7iJbElTy
- HBmj9ft4GBS07+Ul8fzpi32TyBX0QGY=
+ bh=qFYjZNlZwALz1VsWfTNZ6uFLHasaACgRCkLY6ulXWm8=;
+ b=cUma9zvF8CD6HoWMLHiUd4rOwvHs8ofnRcyCfyrReHyXOM8dlYlafF5bRUggl6RnORT4b5
+ vqlZjePF+NHxsEhahLmqDq0vWATK0Xs/SgcXw7ud6QzXW/23nvK7Kq9LkQnEIITjOfB1aM
+ NI57qG4nhwfkVhISmXhNMvXt0ORDOiI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-oR62r2z3Oha-H1lZhBdYDg-1; Fri, 25 Oct 2019 15:45:01 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-332-BMs1tK2pNnCCiZqVkfE_zA-1; Fri, 25 Oct 2019 16:24:00 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBF84800D41;
- Fri, 25 Oct 2019 19:44:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFF74107AD31;
+ Fri, 25 Oct 2019 20:23:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 333155D9CA;
- Fri, 25 Oct 2019 19:44:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A9E1B60C80;
+ Fri, 25 Oct 2019 20:23:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A758F1138619; Fri, 25 Oct 2019 21:44:50 +0200 (CEST)
+ id 2B3E01138619; Fri, 25 Oct 2019 22:23:54 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v13 06/12] numa: Extend CLI to provide memory latency and
- bandwidth information
-References: <20191020111125.27659-1-tao3.xu@intel.com>
- <20191020111125.27659-7-tao3.xu@intel.com>
- <20191023172854.42c495d5@redhat.com>
- <9e30d8fe-7274-4ee8-3c4b-64c370141358@intel.com>
- <20191025152720.4068bfae@redhat.com>
-Date: Fri, 25 Oct 2019 21:44:50 +0200
-In-Reply-To: <20191025152720.4068bfae@redhat.com> (Igor Mammedov's message of
- "Fri, 25 Oct 2019 15:27:20 +0200")
-Message-ID: <87wocsobil.fsf@dusky.pond.sub.org>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PULL v2 00/73] tcg plugins and testing updates
+References: <20191025063713.23374-1-alex.bennee@linaro.org>
+ <87lft9rnfs.fsf@dusky.pond.sub.org> <87lft8lvdh.fsf@linaro.org>
+Date: Fri, 25 Oct 2019 22:23:54 +0200
+In-Reply-To: <87lft8lvdh.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Fri, 25 Oct 2019 16:04:10 +0100")
+Message-ID: <874kzw60bp.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: oR62r2z3Oha-H1lZhBdYDg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: BMs1tK2pNnCCiZqVkfE_zA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,201 +75,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>, "Du,
- Fan" <fan.du@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> On Fri, 25 Oct 2019 14:33:53 +0800
-> Tao Xu <tao3.xu@intel.com> wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
 >
->> On 10/23/2019 11:28 PM, Igor Mammedov wrote:
->> > On Sun, 20 Oct 2019 19:11:19 +0800
->> > Tao Xu <tao3.xu@intel.com> wrote: =20
->> [...]
->> >> +#
->> >> +# @access-bandwidth: access bandwidth (MB/s)
->> >> +#
->> >> +# @read-bandwidth: read bandwidth (MB/s)
->> >> +#
->> >> +# @write-bandwidth: write bandwidth (MB/s) =20
->> > I think units here are not appropriate, values stored in fields are
->> > minimal base units only and nothing else (i.e. ps and B/s)
->> >  =20
->> Eric suggest me to drop picoseconds. So here I can use ns. For=20
->> bandwidth, if we use B/s here, does it let user or developer to=20
->> misunderstand that the smallest unit is B/s ?
+>> I hate to interfere with the merging of working code for non-technical
+>> reasons....
+>>
+>> This is a plugin interface.  As I wrote in reply to v4, I'd like to see
+>> a pragmatic argument why abuse of the plugin interface to circumvent the
+>> GPL is not practical.  This might include "not a stable interface", "you
+>> have to link with a truckload of gpl code", "the set of things you can
+>> do is deliberately extremely limited".
 >
-> It's not nanoseconds or MB/s stored in theses fields, isn't it?
-> I'd specify units in which value is stored or drop units altogether.
+> I included a link to the description in lead patch of the following two
+> revisions posted after v4 for this purpose. To repeat myself:
+
+If you had cc'ed me, I might have even read it :)
+
+>   QEMU TCG plugins provide a way for users to run experiments taking
+>   advantage of the total system control emulation can have over a guest.
+>   It provides a mechanism for plugins to subscribe to events during
+>   translation and execution and optionally callback into the plugin
+>   during these events. TCG plugins are unable to change the system state
+>   only monitor it passively. However they can do this down to an
+>   individual instruction granularity including potentially subscribing
+>   to all load and store operations.
 >
-> Maybe Eric and Markus can suggest a better way to describe fields.
-
-This isn't review (yet), just an attempt to advise more quickly on
-general QAPI/QMP conventions.
-
-Unit prefixes like Mebi- are nice for humans, because 1MiB is clearer
-than 1048576B.
-
-QMP is for machines.  We eschew unit prefixes and unit symbols there.
-The unit is implied.  Unit prefixes only complicate things.  Machines
-can deal with 1048576 easily.  Also dealing 1024Ki and 1Mi is additional
-work.  We therefore use JSON numbers for byte counts, not strings with
-units.
-
-The general rule is "always use the plainest implied unit that would
-do."  There are exceptions, mostly due to review failure.
-
-Byte rates should be in bytes per second.
-
-For time, we've made a godawful mess.  The plainest unit is clearly the
-second.  We commonly need sub-second granularity, though.
-Floating-point seconds are unpopular for some reason :)  Instead we use
-milli-, micro-, and nanoseconds, and even (seconds, microseconds) pairs.
-
-QAPI schema documentation describes both the generated C and the QMP
-wire protocol.  It must be written with the implied unit.  If you send a
-byte rate in bytes per second via QMP, that's what you document.  Even
-if a human interface lets you specify the byte rate in MiB/s.
-
-Does this make sense?
-
->> >>   @item -numa node[,mem=3D@var{size}][,cpus=3D@var{firstcpu}[-@var{la=
-stcpu}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
->> >>   @itemx -numa node[,memdev=3D@var{id}][,cpus=3D@var{firstcpu}[-@var{=
-lastcpu}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
->> >>   @itemx -numa dist,src=3D@var{source},dst=3D@var{destination},val=3D=
-@var{distance}
->> >>   @itemx -numa cpu,node-id=3D@var{node}[,socket-id=3D@var{x}][,core-i=
-d=3D@var{y}][,thread-id=3D@var{z}]
->> >> +@itemx -numa hmat-lb,initiator=3D@var{node},target=3D@var{node},hier=
-archy=3D@var{str},data-type=3D@var{str}[,latency=3D@var{lat}][,bandwidth=3D=
-@var{bw}] =20
->> >                                                                       =
-         ^^^                 ^^^
->> > Using the same 'str' for 2 different enums is confusing.
->> > Suggest for 1st use 'level' and for the second just 'type'
->> >  =20
->> Ok
->>=20
->> >>   @findex -numa
->> >>   Define a NUMA node and assign RAM and VCPUs to it.
->> >>   Set the NUMA distance from a source node to a destination node.
->> >> +Set the ACPI Heterogeneous Memory Attributes for the given nodes.
->> >>  =20
->> >>   Legacy VCPU assignment uses @samp{cpus} option where
->> >>   @var{firstcpu} and @var{lastcpu} are CPU indexes. Each
->> >> @@ -256,6 +259,50 @@ specified resources, it just assigns existing re=
-sources to NUMA
->> >>   nodes. This means that one still has to use the @option{-m},
->> >>   @option{-smp} options to allocate RAM and VCPUs respectively.
->> >>  =20
->> >> +Use @samp{hmat-lb} to set System Locality Latency and Bandwidth Info=
-rmation
->> >> +between initiator and target NUMA nodes in ACPI Heterogeneous Attrib=
-ute Memory Table (HMAT).
->> >> +Initiator NUMA node can create memory requests, usually including on=
-e or more processors. =20
->> > s/including/it has/
->> >  =20
->> >> +Target NUMA node contains addressable memory.
->> >> +
->> >> +In @samp{hmat-lb} option, @var{node} are NUMA node IDs. @var{str} of=
- 'hierarchy'
->> >> +is the memory hierarchy of the target NUMA node: if @var{str} is 'me=
-mory', the structure
->> >> +represents the memory performance; if @var{str} is 'first-level|seco=
-nd-level|third-level',
->> >> +this structure represents aggregated performance of memory side cach=
-es for each domain.
->> >> +@var{str} of 'data-type' is type of data represented by this structu=
-re instance:
->> >> +if 'hierarchy' is 'memory', 'data-type' is 'access|read|write' laten=
-cy(nanoseconds) =20
->> > is nanoseconds is right here? Looking at previous patches default valu=
-e of suffix-less
->> > should be picoseconds. I'd just drop '(nanoseconds)'. User will use ap=
-propriate suffix.
->> >  =20
->> OK, I will drop it.
->> >> +or 'access|read|write' bandwidth(MB/s) of the target memory; if 'hie=
-rarchy' is =20
->> > ditto (MB/s), probably should be Bytes/s for default suffix-less value
->> > (well, I'm not sure how to express it better)
->> >  =20
->>=20
->> But last version, we let !QEMU_IS_ALIGNED(node->bandwidth, MiB) as error=
-.
-> it's alignment requirement and it doesn't mean that value could not be
-> represented in bytes/s.
-> And it is bytes/s if suffix isn't used.
+> So to summarise it is a deliberately limited set of passive observations
+> that can be made by the plugins. You cannot implement a new device using
+> this interface.
 >
-> As for alignment and precision of values you probably need to document
-> expectations here as well.
+>> Perhaps such an argument is made somewhere in these 73 patches already.
+>> I admit to not having read them all :)  In the TCG plugin design documen=
+t
+>> perhaps?  Assuming it exists...
 >
->> >> +'first-level|second-level|third-level', 'data-type' is 'access|read|=
-write' hit latency
->> >> +or 'access|read|write' hit bandwidth of the target memory side cache=
-.
->> >> +
->> >> +@var{lat} of 'latency' is latency value, the possible value and unit=
-s are
->> >> +NUM[ps|ns|us] (picosecond|nanosecond|microsecond), the recommended u=
-nit is 'ns'. @var{bw}
->> >> +is bandwidth value, the possible value and units are NUM[M|G|T], mea=
-n that =20
->> >  =20
->> >> +the bandwidth value are NUM MB/s, GB/s or TB/s. Note that max NUM is=
- 65534,
->> >> +if NUM is 0, means the corresponding latency or bandwidth informatio=
-n is not provided.
->> >> +And if input numbers without any unit, the latency unit will be 'ps'=
- and the bandwidth
->> >> +will be MB/s. =20
->> >   1st: above is applicable to both bw and lat values and should be doc=
-umented as such
->> >   2nd: 'max NUM is 65534' when different suffixes is fleeting target,
->> >        spec says that entry with 0xFFFF is unreachable, so how about d=
-ocumenting
->> >        unreachable value as 0xFFFFFFFFFFFFFFFF (then CLI parsing code =
-will
->> >        exclude it from range detection and acpi table building code tr=
-anslate it
->> >        to internal 0xFFFF it could fit into the tables)
->> >  =20
->>=20
->> If we input 0xFFFFFFFFFFFFFFFF, qemu will raise error that parameter=20
->> expect a size value.
->
-> opts_type_size() can't handle values >=3D 0xfffffffffffffc00
->
-> commit f46bfdbfc8f (util/cutils: Change qemu_strtosz*() from int64_t to u=
-int64_t)
->
-> so behavior would change depending on if the value is parsed by CLI (size=
-) or QMP (unit64) parsers.
+> Indeed there is - docs/devel/plugins.rst
 
-Do these values matter?  Is there a use case for passing
-18446744073709550593 via CLI?
+In 21/73.  I'll read it as soon as I can.
 
-> we can cannibalize 0x0 as the unreachable value and an absent bandwidth/l=
-at option
-> for not specified case.
-> It would be conflicting with matrix [1] values in spec, but CLI/QMP deals=
- with
-> absolute values which are later processed into HMAT substructure.
+File contents is about *TCG* plugins, file name advertises plugins
+without a qualifier.  We can rename when it bothers us.
+
+> A high level tour of the design decisions and approaches is the subject
+> of my talk on Friday morning.
+
+Good move.
+
+>> I proposed discussing the project's requirements for external interfaces
+>> on GPL circumvention deterrence at the QEMU Summit next week.
 >
-> Markus,
-> Can we make opts_type_size() handle full range of uint64_t?
+> That should certainly be an agenda item for the summit. I don't think
+> this provides a mechanism for GPL circumnavigation though.
+>
+>> If merging this could be delayed until the licensing ramifications have
+>> become a bit more clear, I'd be obliged.
+>
+> I'd rather not unless we can make an exception for late merging of the
+> PR. I've worked quite hard to make sure everything is ready for the 4.2
+> window and I'd rather not miss a whole release cycle on a
+> misunderstanding of what these plugins allow.
 
-Maybe.
+I think there are multiple ways to avoid the nuclear outcome.
 
-> 1)
-> ACPI 6.3 spec:
-> 5.2.27.4 System Locality Latency and Bandwidth Information Structure
+Coming to a conclusion before the soft freeze is the nicest one.
+
+Making an exception for late merging is another one, but Peter may
+prefer not to.
+
+Yet another one is merging the pull request before the soft freeze with
+the understanding that it'll be reverted unless we come to a positive
+conclusion before say -rc0 (Nov 5).  I'm confident we can work it out in
+Lyon.
 
 
