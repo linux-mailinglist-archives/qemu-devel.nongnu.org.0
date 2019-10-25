@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1A6E48A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:35:38 +0200 (CEST)
-Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C30BE48B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 12:40:07 +0200 (CEST)
+Received: from localhost ([::1]:58409 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNwwS-0003sz-6B
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60889)
+	id 1iNx0o-0005L2-51
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 06:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33065)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iNwNN-0006lU-PT
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:59:25 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iNwRC-0002DM-66
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iNwNM-0004nZ-Lu
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:59:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32049
+ (envelope-from <stefanha@redhat.com>) id 1iNwQz-0006JH-Sz
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53062
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iNwNM-0004mr-Ac
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 05:59:20 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iNwQz-00068o-Ly
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 06:03:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571997558;
+ s=mimecast20190719; t=1571997730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XpsKnDhhSg9Wa3tqe3NS161Z+XJaiocRkSfdBx9/23U=;
- b=LpB+bMJ3a9LGKruUL84bm3sNPazEdvuv9TAo5hfCReDPyRjDxiKF+6jrUa2MCnx/zvSX4q
- QHG4i1ZG8QEIvEUm3tBGX20Lb4vNgGiqCWqeluEOkUFzi2i/vPiRkMcfoEiliXy8Ot/qYq
- GIZpOnqBMAT/Z6pQ81+Ol4XvwmrLPLI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VU/TiAbwprKFq8DrsJsoTSgkCUOZilKj8/Eu8DZCH58=;
+ b=H1S0fi5dF/2lk7AaV2memhm27/uDT1syoAgR1bjMuffQBTeJUnsFr84DEb2q/VijNFWO36
+ GI/K656HvItbkKirrvCt4L9Yfptk74v8irf/ygdtPW3VORxHJ4N+lWiIBcL9HUg9pMmNwP
+ 981eJ0H9TY3QmD4IsLlUZxsbqWvSdRk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-P_a8lt4PO8-w_kZgh-nW7w-1; Fri, 25 Oct 2019 05:59:15 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-321-CUHbw7vOOrCnsUSRPZk59g-1; Fri, 25 Oct 2019 06:02:03 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0AD680183D;
- Fri, 25 Oct 2019 09:59:13 +0000 (UTC)
-Received: from localhost (ovpn-117-205.ams2.redhat.com [10.36.117.205])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 099065C1B5;
- Fri, 25 Oct 2019 09:59:10 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [RFC 3/3] block/file-posix: Let post-EOF fallocate serialize
-Date: Fri, 25 Oct 2019 11:58:49 +0200
-Message-Id: <20191025095849.25283-4-mreitz@redhat.com>
-In-Reply-To: <20191025095849.25283-1-mreitz@redhat.com>
-References: <20191025095849.25283-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3324D107AD31
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 10:02:02 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26F805DAAF;
+ Fri, 25 Oct 2019 10:01:53 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/3] tests/vhost-user-fs-test: add vhost-user-fs test case
+Date: Fri, 25 Oct 2019 12:01:49 +0200
+Message-Id: <20191025100152.6638-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: P_a8lt4PO8-w_kZgh-nW7w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: CUHbw7vOOrCnsUSRPZk59g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,78 +67,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XFS kernel driver has a bug that may cause data corruption for qcow2
-images as of qemu commit c8bb23cbdbe32f.  We can work around it by
-treating post-EOF fallocates as serializing up until infinity (INT64_MAX
-in practice).
+This patch series adds an automated test for the vhost-user-fs device using
+virtiofsd.  This makes low-level testing of FUSE messages and even VIRTIO
+possible.  These things can be hard to do inside a normal guest environment
+where such tests require building kernel modules and can result in kernel
+panics.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/file-posix.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+To get a feel for how vhost-user-fs-test.c test cases work, here is an exam=
+ple:
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 5cd54c8bff..1f5a01df70 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2713,6 +2713,48 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t o=
-ffset, int bytes,
-     RawPosixAIOData acb;
-     ThreadPoolFunc *handler;
-=20
-+#ifdef CONFIG_FALLOCATE
-+    if (s->is_xfs && s->use_linux_aio &&
-+        offset + bytes > bs->total_sectors * BDRV_SECTOR_SIZE)
-+    {
-+        BdrvTrackedRequest *req;
-+        uint64_t end;
-+
-+        /*
-+         * The Linux XFS driver has a bug where it will discard writes
-+         * submitted through the AIO interface if they happen beyond a
-+         * concurrently running fallocate() that increases the file
-+         * length (i.e., both the write and the fallocate() happen
-+         * beyond the EOF).
-+         *
-+         * To work around it, we look for the tracked request for this
-+         * zero write, extend it until INT64_MAX (effectively
-+         * infinity), and mark it as serializing.
-+         *
-+         * TODO: Detect whether this has been fixed in the XFS driver.
-+         */
-+
-+        QLIST_FOREACH(req, &bs->tracked_requests, list) {
-+            if (req->co =3D=3D qemu_coroutine_self() &&
-+                req->type =3D=3D BDRV_TRACKED_WRITE)
-+            {
-+                break;
-+            }
-+        }
-+
-+        assert(req);
-+        assert(req->offset <=3D offset);
-+        assert(req->offset + req->bytes >=3D offset + bytes);
-+
-+        end =3D INT64_MAX & -(uint64_t)bs->bl.request_alignment;
-+        req->bytes =3D end - req->offset;
-+        req->overlap_bytes =3D req->bytes;
-+
-+        bdrv_mark_request_serialising(req, bs->bl.request_alignment);
-+        bdrv_wait_serialising_requests(req);
-+    }
-+#endif
-+
-     acb =3D (RawPosixAIOData) {
-         .bs             =3D bs,
-         .aio_fildes     =3D s->fd,
+  /* Create file on host and check its contents and metadata in guest */
+  static void test_file_from_host(void *parent, void *arg, QGuestAllocator =
+*alloc)
+  {
+      g_autofree gchar *filename =3D g_strdup_printf("%s/%s", shared_dir, "=
+foo");
+      const char *str =3D "This is a test\n";
+      char buf[strlen(str)];
+      QVirtioFS *vfs =3D parent;
+      struct fuse_entry_out entry;
+      int32_t error;
+      uint64_t nodeid;
+      uint64_t fh;
+      ssize_t nread;
+      gboolean ok;
+
+      SKIP_TEST_IF_CROSS_ENDIAN();
+
+      /* Create the test file in the shared directory */
+      ok =3D g_file_set_contents(filename, str, strlen(str), NULL);
+      g_assert(ok);
+
+      fuse_init(vfs);
+
+      error =3D fuse_lookup(vfs, FUSE_ROOT_ID, "foo", &entry);
+      g_assert_cmpint(error, =3D=3D, 0);
+      g_assert_cmpint(guest64(entry.attr.size), =3D=3D, strlen(str));
+      nodeid =3D guest64(entry.nodeid);
+
+      error =3D fuse_open(vfs, nodeid, O_RDONLY, &fh);
+      g_assert_cmpint(error, =3D=3D, 0);
+
+      nread =3D fuse_read(vfs, fh, 0, buf, sizeof(buf));
+      g_assert_cmpint(nread, =3D=3D, sizeof(buf));
+      g_assert_cmpint(memcmp(buf, str, sizeof(buf)), =3D=3D, 0);
+
+      fuse_release(vfs, fh);
+      fuse_forget(vfs, nodeid);
+  }
+
+This patch series is based on "[PATCH v4 00/16] libqos: add VIRTIO PCI 1.0
+support" and the https://gitlab.com/virtio-fs/qemu virtio-fs-dev branch.  I
+expect conflicts and will resend again once these dependencies have landed =
+in
+qemu.git/master.
+
+Stefan Hajnoczi (3):
+  WIP virtiofsd: import Linux <fuse.h> header file
+  qgraph: add an "after" test callback function
+  tests/vhost-user-fs-test: add vhost-user-fs test case
+
+ tests/Makefile.include                        |   8 +-
+ contrib/virtiofsd/fuse_lowlevel.h             |   2 +-
+ .../standard-headers/linux/fuse.h             |   0
+ tests/libqos/qgraph.h                         |   2 +
+ tests/libqos/qgraph_internal.h                |   1 +
+ tests/libqos/virtio-fs.h                      |  46 ++
+ contrib/virtiofsd/fuse_loop_mt.c              |   2 +-
+ contrib/virtiofsd/fuse_lowlevel.c             |   2 +-
+ contrib/virtiofsd/fuse_virtio.c               |   2 +-
+ tests/libqos/qgraph.c                         |   1 +
+ tests/libqos/virtio-fs.c                      | 104 +++
+ tests/qos-test.c                              |   6 +
+ tests/vhost-user-fs-test.c                    | 660 ++++++++++++++++++
+ scripts/update-linux-headers.sh               |   3 +-
+ 14 files changed, 832 insertions(+), 7 deletions(-)
+ rename contrib/virtiofsd/fuse_kernel.h =3D> include/standard-headers/linux=
+/fuse.h (100%)
+ create mode 100644 tests/libqos/virtio-fs.h
+ create mode 100644 tests/libqos/virtio-fs.c
+ create mode 100644 tests/vhost-user-fs-test.c
+
 --=20
 2.21.0
 
