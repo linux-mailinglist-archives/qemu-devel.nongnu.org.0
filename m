@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C5AE4AFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 14:26:05 +0200 (CEST)
-Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F63E4B04
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 14:29:02 +0200 (CEST)
+Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNyfM-00061E-2o
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 08:26:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
+	id 1iNyiD-00076s-3d
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 08:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iNya9-0004qT-Ri
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:42 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iNyaK-0004wf-Ol
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iNya6-0007AC-Oq
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:40 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38924
+ (envelope-from <jfreimann@redhat.com>) id 1iNyaI-0007DV-OI
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:52 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47493
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iNya6-00079s-Iz
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:38 -0400
+ id 1iNyaE-0007BZ-TX
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 08:20:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572006035;
+ s=mimecast20190719; t=1572006046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AaC0jMuyirmczYCJBZo1TFCk5tsVVEKJ29Er2LtZWR4=;
- b=cTxxOL37qnb5nh81WBZJF9bfXBMJ/1O4w+eD5722FZQCg1KdnRh7mRhYueu1/bQZT0vtEo
- 9ADXZV1+IpsqjoNmcmtKlngtOunRUfCd2CeEaF8P0AfSUwuudEAE3EG04xohM8Cx9SZ4xc
- gUMWV2pJ0UMjWvN9Y23dg13kvn254xM=
+ bh=6EMVhICFpOCOpytbZ126I034BRLFkaCnCXMg82NWcow=;
+ b=JdyHreWfPhnPG9cmcoDqifAXRk8SOcujmSiK1bqxnMn3f0q6y2icPQ++9hpAf6l/i2YUbJ
+ cIyFHNHyRUd1elImHszOMNfBuHCbg9RUqYhtQX7k8g4SegkVBAGhVJSDZigSPhBIdST7R3
+ 52NlldL9iWtptngVUfORGHV21rWCfSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-2O33mFgROwi26p7h6rMtjA-1; Fri, 25 Oct 2019 08:20:34 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-158-QSV2p3ZMN1m3VUc2JsthXQ-1; Fri, 25 Oct 2019 08:20:45 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C3981005509;
- Fri, 25 Oct 2019 12:20:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D3C1800E00;
+ Fri, 25 Oct 2019 12:20:44 +0000 (UTC)
 Received: from localhost (ovpn-117-235.ams2.redhat.com [10.36.117.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82B52100EBA4;
- Fri, 25 Oct 2019 12:20:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8456B600CD;
+ Fri, 25 Oct 2019 12:20:35 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 06/11] qapi: add failover negotiated event
-Date: Fri, 25 Oct 2019 14:19:25 +0200
-Message-Id: <20191025121930.6855-7-jfreimann@redhat.com>
+Subject: [PATCH v6 07/11] migration: allow unplug during migration for
+ failover devices
+Date: Fri, 25 Oct 2019 14:19:26 +0200
+Message-Id: <20191025121930.6855-8-jfreimann@redhat.com>
 In-Reply-To: <20191025121930.6855-1-jfreimann@redhat.com>
 References: <20191025121930.6855-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 2O33mFgROwi26p7h6rMtjA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: QSV2p3ZMN1m3VUc2JsthXQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -78,45 +79,75 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This event is sent to let libvirt know that VIRTIO_NET_F_STANDBY feature
-was enabled. The primary device this virtio-net device is associated
-with, will now be hotplugged via qdev_device_add().
+In "b06424de62 migration: Disable hotplug/unplug during migration" we
+added a check to disable unplug for all devices until we have figured
+out what works. For failover primary devices qdev_unplug() is called
+from the migration handler, i.e. during migration.
+
+This patch adds a flag to DeviceState which is set to false for all
+devices and makes an exception for PCI devices that are also
+primary devices in a failover pair.
 
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
 Acked-by: Cornelia Huck <cohuck@redhat.com>
 ---
- qapi/net.json | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/core/qdev.c         | 1 +
+ hw/pci/pci.c           | 1 +
+ include/hw/qdev-core.h | 1 +
+ qdev-monitor.c         | 2 +-
+ 4 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 728990f4fb..ea6eeee4f7 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -737,3 +737,22 @@
- ##
- { 'command': 'announce-self', 'boxed': true,
-   'data' : 'AnnounceParameters'}
-+
-+##
-+# @FAILOVER_NEGOTIATED:
-+#
-+# Emitted when VIRTIO_NET_F_STANDBY was enabled during feature negotiation=
-.
-+# Failover primary devices which were hidden (not hotplugged when requeste=
-d)
-+# before will now be hotplugged by the virtio-net standby device.
-+#
-+# device-id: QEMU device id of the unplugged device
-+# Since: 4.2
-+#
-+# Example:
-+#
-+# <- { "event": "FAILOVER_NEGOTIATED",
-+#      "data": "net1" }
-+#
-+##
-+{ 'event': 'FAILOVER_NEGOTIATED',
-+  'data': {'device-id': 'str'} }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 3b8d43d0fd..cf1ba28fe3 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -996,6 +996,7 @@ static void device_initfn(Object *obj)
+=20
+     dev->instance_id_alias =3D -1;
+     dev->realized =3D false;
++    dev->allow_unplug_during_migration =3D false;
+=20
+     object_property_add_bool(obj, "realized",
+                              device_get_realized, device_set_realized, NUL=
+L);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 824ab4ed7b..c68498c0de 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2130,6 +2130,7 @@ static void pci_qdev_realize(DeviceState *qdev, Error=
+ **errp)
+             pci_qdev_unrealize(DEVICE(pci_dev), NULL);
+             return;
+         }
++        qdev->allow_unplug_during_migration =3D true;
+     }
+=20
+     /* rom loading */
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 710981af36..1518495b1e 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -156,6 +156,7 @@ struct DeviceState {
+     bool pending_deleted_event;
+     QemuOpts *opts;
+     int hotplugged;
++    bool allow_unplug_during_migration;
+     BusState *parent_bus;
+     QLIST_HEAD(, NamedGPIOList) gpios;
+     QLIST_HEAD(, BusState) child_bus;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index ffa08c670f..e6b112eb0a 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -851,7 +851,7 @@ void qdev_unplug(DeviceState *dev, Error **errp)
+         return;
+     }
+=20
+-    if (!migration_is_idle()) {
++    if (!migration_is_idle() && !dev->allow_unplug_during_migration) {
+         error_setg(errp, "device_del not allowed while migrating");
+         return;
+     }
 --=20
 2.21.0
 
