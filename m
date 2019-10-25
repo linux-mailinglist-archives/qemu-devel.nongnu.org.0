@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD91E4E63
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:07:08 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D68E4E99
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 16:10:35 +0200 (CEST)
+Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iO0F8-0001p4-Nt
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39805)
+	id 1iO0IU-0000qX-Ck
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 10:10:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iO05p-0001Xb-Ec
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:57:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iO08C-0006ll-Aa
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:59:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iO05o-00051b-7p
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:57:29 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44555)
+ (envelope-from <peter.maydell@linaro.org>) id 1iO08A-00061G-A5
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:59:56 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41682)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iO05o-00050s-0s
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:57:28 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z11so2431423wro.11
- for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:57:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iO08A-00060G-3M
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 09:59:54 -0400
+Received: by mail-ot1-x336.google.com with SMTP id 94so2121839oty.8
+ for <qemu-devel@nongnu.org>; Fri, 25 Oct 2019 06:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=KsWG17FeiMUkH9h/+2HrRqD7NubKOg67f5Kra7pm6AQ=;
- b=urfZz+WeiiB5KAFaJDFglpSvfAydEaS2VQuSrn28cUESSEs5DSwdM7atnqdSE/xiXr
- 9xt2xWuz0H8bwuGDMRBUgkU/wHBxOnialTXHq+gylEwcTU5ffu0+c6r5t8OkS1jdkBV2
- jg4sd2RTAeHl1CuQDv4tIibiBWR+NLu0zMJwbFPNMnwQB7H7Iz2qgsF2iTZEh0Krl+mt
- tSF/l+/F2JvHXICRQoL6aQO9TaHrq1rHM/070+Qtq00k8Gj8g47okBy8njd0JfnwvChH
- R6+Ew0zaf9e0JBpkdOO3J1GamhR71HQAKd0y5KSMgtor+iTEavp04Pinq0UGWrnn4fEh
- PH9w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r09A2sIU1Rg57fAoyBzrREbrJ7KGvvru3Z8K3pZMeHs=;
+ b=l6TtjN2Z9lI/qRj25Wn+gZEW7Wy0qKnVIgJscQv3eLrk8wRRL1UNBg+WT/ucjMRJkE
+ bBkPg0fuN0l5hYhj7tOAwnh4DL0EYJyHDNduzTmzHEBDdR8eqSboLw9oyCb3SUPAcjrr
+ jeYYXWGq+3aTKxJzGtiaZFOZ/lSlTNBQaqWDa/FiHMLRu9vCGdB3gRb1P/U61BKB83KS
+ GkzrZdw1igGNVPVmRQbyqmsXBdao0lPK+fiCoCFqK55BC2zpOqoU40tBxMk+rKVUjYwQ
+ QeNUFV4oHGRu3nwbNtGa9qb2UqFVyCKki/JOcbyR4ppuo//wEMp3z+NHAYd9zFiFPD05
+ SYoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=KsWG17FeiMUkH9h/+2HrRqD7NubKOg67f5Kra7pm6AQ=;
- b=ADW8fFq9bUeLIp9Y1wGBIBnF/f0yQ8HQhOqgHQuSezjzhuKWB0DXIsf5qPoDjWP8JU
- CwBnaJZoUq5wTgwabYNVjqIzBPflvCbGvuI/D/BQ1rFMobHjrpjsmdUEQaq9j3jVuP77
- 9n6Vv7cUL3i1gk94ywoBPf1wl90zugEMngcdnDP+1fi1Mx2NxEaCA53DbVLksELvUgPk
- Z+POUn87P5nkB13N2W4T7xqNQTviPXspbE/Ylo7iGn4R4QOMzoFYwsyFuz1obmAI4XwI
- cJ3VJTCTHJrODDpHEHP6A/JkR+pfWXFL1grlIG2RcGLv4K9n3BiFkxC2Xl6ARJpJTk3B
- BKdQ==
-X-Gm-Message-State: APjAAAWqqkDRlSnxc8tjayJ9QcDjSb+jIxWc+izuvlMMQzLG7BfuWI74
- A7FCrObfnNYJZj9PXDZOdaWRqw==
-X-Google-Smtp-Source: APXvYqy1MLqW7fgYCorB5mGTmkIyG0van5AK3oAh2x5RtzK0O+bxeBrgcgGUCAJx/6VdyiCgXp7wnA==
-X-Received: by 2002:a5d:610d:: with SMTP id v13mr3095542wrt.21.1572011846604; 
- Fri, 25 Oct 2019 06:57:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x7sm3199447wrg.63.2019.10.25.06.57.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Oct 2019 06:57:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3AEDF1FF87;
- Fri, 25 Oct 2019 14:57:25 +0100 (BST)
-References: <20191023154505.30521-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 0/7] exec: Improve code for TARGET_PAGE_BITS_VARY
-In-reply-to: <20191023154505.30521-1-richard.henderson@linaro.org>
-Date: Fri, 25 Oct 2019 14:57:25 +0100
-Message-ID: <87zhhpkjwa.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r09A2sIU1Rg57fAoyBzrREbrJ7KGvvru3Z8K3pZMeHs=;
+ b=m/9MSu+LKFifVjrZ1xyue10DLFfge+50Ez9gyRJXTAChqxWTVHjwzI0SFpJJZo0WUV
+ R8qcD73tusv6KEzUfMDOdMvI3EwmHHlXEZVmwsgEJ5zo0IC0uHOTqcfjSj/y5uQEqlUU
+ xtH0tDh8Yxv9j6d69hWgSR9gPOypbXNaKNKmeOabN6teuOT0LnD1MJmQ2ohzPFvm77mL
+ lmWhAM39OTBE2LCzysFihy/nReSENboUWrKtjUkLi46gkgelxMCBMuWFkpfs/yle/Du8
+ lL6Zd3lTC68d7fUOAJzSF9YShLFAp+H4T3+U2utyhJJrPynhgumU/K9leq9LpbAO7J25
+ ViHg==
+X-Gm-Message-State: APjAAAVRYsnSvCj9nCIglZUgsj87cbIo59Wvulo/3fDPAflMNCgxOUsC
+ o8yilZCiQv9AZlCabV9mJ4NtUd4cqPKH8Lo3P6eYLg==
+X-Google-Smtp-Source: APXvYqzAqlCj5ZEcUORcpI+aZmM5vrPyQZf36OnVN7OCi4W9Cjsf2oPCCrBY2yVjfInalgJW8PF4z67MBkoo4tW6PzA=
+X-Received: by 2002:a05:6830:4c1:: with SMTP id s1mr77890otd.232.1572011991639; 
+ Fri, 25 Oct 2019 06:59:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20191025083511.11463-1-laurent@vivier.eu>
+In-Reply-To: <20191025083511.11463-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Oct 2019 14:59:40 +0100
+Message-ID: <CAFEAcA9XFKc01mOKMFEwHKfWupLq+yc9KeR1g76v6bbggKgkkw@mail.gmail.com>
+Subject: Re: [PULL 00/19] Trivial branch patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,51 +71,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Helge Deller <deller@gmx.de>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Changes since v1:
->   * Replace my patch for TARGET_PAGE_ALIGN with Wei Yang's.
->   * Detect __attribute__((alias)) support in configure.
->     If unsupported, as for Apple Xcode9, use preprocessor trickery.
->     Passes travis build tests for xcode9.
+On Fri, 25 Oct 2019 at 09:35, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Link for v1:
->   https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04519.html
+> The following changes since commit 58560ad254fbda71d4daa6622d71683190070ee2:
 >
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-FWIW POW2_ROUND_UP is a better name than it currently has.
-
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.2-20191024' into staging (2019-10-24 16:22:58 +0100)
 >
-> r~
+> are available in the Git repository at:
 >
+>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
 >
-> Richard Henderson (6):
->   exec: Split out variable page size support to exec-vary.c
->   configure: Detect compiler support for __attribute__((alias))
->   exec: Use const alias for TARGET_PAGE_BITS_VARY
->   exec: Restrict TARGET_PAGE_BITS_VARY assert to CONFIG_DEBUG_TCG
->   exec: Promote TARGET_PAGE_MASK to target_long
->   exec: Cache TARGET_PAGE_MASK for TARGET_PAGE_BITS_VARY
+> for you to fetch changes up to fabb862f76f093cdd1610571de9ba714d3333c1c:
 >
-> Wei Yang (1):
->   cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
+>   hw/rtc/aspeed_rtc: Remove unused includes (2019-10-24 20:35:28 +0200)
 >
->  Makefile.target        |   2 +-
->  include/exec/cpu-all.h |  33 +++++++++----
->  include/qemu-common.h  |   6 +++
->  exec-vary.c            | 102 +++++++++++++++++++++++++++++++++++++++++
->  exec.c                 |  34 --------------
->  configure              |  19 ++++++++
->  6 files changed, 151 insertions(+), 45 deletions(-)
->  create mode 100644 exec-vary.c
+> ----------------------------------------------------------------
+> Fix typos and docs, trivial changes and RTC devices split
+>
+> ----------------------------------------------------------------
+>
 
 
---
-Alex Benn=C3=A9e
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
