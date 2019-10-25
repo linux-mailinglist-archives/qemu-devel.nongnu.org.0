@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4BACE45F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 10:41:56 +0200 (CEST)
-Received: from localhost ([::1]:57578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ED4E4628
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Oct 2019 10:49:16 +0200 (CEST)
+Received: from localhost ([::1]:57668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iNvAQ-0007ie-A7
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 04:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49676)
+	id 1iNvHX-0003es-2a
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 04:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eperezma@redhat.com>) id 1iNv4s-0000Xq-Cq
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:11 -0400
+ (envelope-from <eperezma@redhat.com>) id 1iNv4x-0000fv-6I
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eperezma@redhat.com>) id 1iNv4r-0007kQ-4g
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43664
+ (envelope-from <eperezma@redhat.com>) id 1iNv4w-0007pH-2Q
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48430
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eperezma@redhat.com>) id 1iNv4q-0007ji-U3
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:09 -0400
+ (Exim 4.71) (envelope-from <eperezma@redhat.com>) id 1iNv4v-0007oz-Ve
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 04:36:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571992568;
+ s=mimecast20190719; t=1571992573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z0ebNnkq6iiot7kutW1X18ylqU5boAje4Cr3GmTbNaM=;
- b=L9xSyuvXJ+iNP/0Spr+Ddom9SQ1NOD8fLzuW4JCsiBrAX6XmZNXuJPoEwtaDhO9h+y/j3o
- TesfuQeNAWTRBofyh2cYgpob2rks6M/rVrX6vcR9PPMyDcXdT8+r8t+bLdTS3vr94Sr8JX
- PCiq/WjmGIpl2YTNggsKM3G7iT+2lGI=
+ bh=1nToKHqsMCu4OyhzL7YYpCfadP99ckudpWHSMzrZraI=;
+ b=Q1rTppa/eoHwzXGW7OkW7LpjgY80klUz8lJtY/SGh4YAeGEnYF33lODEmnVvoiN8HsnjmS
+ Bi8oj45+x4gIoD5SaeeSZt5y92n5gq5WBAixzPifywAFXW3megwNz1Y8OqHcN+QdePz40b
+ eWPySsVaQP7bHfGaKsUI6ASLStG1MMo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-ScPkywyJMzaRJXP0WnHpKQ-1; Fri, 25 Oct 2019 04:36:04 -0400
+ us-mta-369-ZNhLcD1SOB2bBuJcKN3NLw-1; Fri, 25 Oct 2019 04:36:10 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDEF21005500;
- Fri, 25 Oct 2019 08:36:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54BD15E9;
+ Fri, 25 Oct 2019 08:36:09 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.36.118.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 273F160BE0;
- Fri, 25 Oct 2019 08:35:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FF1A60BE0;
+ Fri, 25 Oct 2019 08:36:03 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 2/8] virtio: device/driver area size calculation refactor
- for split ring
-Date: Fri, 25 Oct 2019 10:35:21 +0200
-Message-Id: <20191025083527.30803-3-eperezma@redhat.com>
+Subject: [PATCH v7 3/8] virtio: Free blk virqueues at unrealize()
+Date: Fri, 25 Oct 2019 10:35:22 +0200
+Message-Id: <20191025083527.30803-4-eperezma@redhat.com>
 In-Reply-To: <20191025083527.30803-1-eperezma@redhat.com>
 References: <20191025083527.30803-1-eperezma@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ScPkywyJMzaRJXP0WnHpKQ-1
+X-MC-Unique: ZNhLcD1SOB2bBuJcKN3NLw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,82 +80,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Xu <wexu@redhat.com>
+The function virtio_del_queue was not called at unrealize() callback.
 
-There is slight size difference between split/packed rings.
+This was detected due to add an allocated element on the vq introduce
+in future commits (used_elems) and running address sanitizer memory
+leak detector.
 
-This is the refactor of split ring as well as a helper to expanding
-device and driver area size calculation for packed ring.
-
-Signed-off-by: Wei Xu <wexu@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-Reviewed-by: Jens Freimann <jfreimann@redhat.com>
 ---
- hw/virtio/virtio.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ hw/block/virtio-blk.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index fdac203cdf..74cc10fad9 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -159,10 +159,8 @@ static void virtio_init_region_cache(VirtIODevice *vde=
-v, int n)
-     VRingMemoryRegionCaches *old =3D vq->vring.caches;
-     VRingMemoryRegionCaches *new =3D NULL;
-     hwaddr addr, size;
--    int event_size;
-     int64_t len;
-=20
--    event_size =3D virtio_vdev_has_feature(vq->vdev, VIRTIO_RING_F_EVENT_I=
-DX) ? 2 : 0;
-=20
-     addr =3D vq->vring.desc;
-     if (!addr) {
-@@ -177,7 +175,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev=
-, int n)
-         goto err_desc;
-     }
-=20
--    size =3D virtio_queue_get_used_size(vdev, n) + event_size;
-+    size =3D virtio_queue_get_used_size(vdev, n);
-     len =3D address_space_cache_init(&new->used, vdev->dma_as,
-                                    vq->vring.used, size, true);
-     if (len < size) {
-@@ -185,7 +183,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev=
-, int n)
-         goto err_used;
-     }
-=20
--    size =3D virtio_queue_get_avail_size(vdev, n) + event_size;
-+    size =3D virtio_queue_get_avail_size(vdev, n);
-     len =3D address_space_cache_init(&new->avail, vdev->dma_as,
-                                    vq->vring.avail, size, false);
-     if (len < size) {
-@@ -2414,14 +2412,20 @@ hwaddr virtio_queue_get_desc_size(VirtIODevice *vde=
-v, int n)
-=20
- hwaddr virtio_queue_get_avail_size(VirtIODevice *vdev, int n)
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index ed2ddebd2b..ba846fe9dc 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1206,9 +1206,14 @@ static void virtio_blk_device_unrealize(DeviceState =
+*dev, Error **errp)
  {
-+    int s;
-+
-+    s =3D virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0;
-     return offsetof(VRingAvail, ring) +
--        sizeof(uint16_t) * vdev->vq[n].vring.num;
-+        sizeof(uint16_t) * vdev->vq[n].vring.num + s;
- }
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+     VirtIOBlock *s =3D VIRTIO_BLK(dev);
++    VirtIOBlkConf *conf =3D &s->conf;
++    unsigned i;
 =20
- hwaddr virtio_queue_get_used_size(VirtIODevice *vdev, int n)
- {
-+    int s;
-+
-+    s =3D virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0;
-     return offsetof(VRingUsed, ring) +
--        sizeof(VRingUsedElem) * vdev->vq[n].vring.num;
-+        sizeof(VRingUsedElem) * vdev->vq[n].vring.num + s;
- }
-=20
- uint16_t virtio_queue_get_last_avail_idx(VirtIODevice *vdev, int n)
+     virtio_blk_data_plane_destroy(s->dataplane);
+     s->dataplane =3D NULL;
++    for (i =3D 0; i < conf->num_queues; i++) {
++        virtio_del_queue(vdev, i);
++    }
+     qemu_del_vm_change_state_handler(s->change);
+     blockdev_mark_auto_del(s->blk);
+     virtio_cleanup(vdev);
 --=20
 2.16.5
 
