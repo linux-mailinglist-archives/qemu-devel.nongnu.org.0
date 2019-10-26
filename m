@@ -2,59 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB992E5E19
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 18:53:06 +0200 (CEST)
-Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A172E5E1F
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 18:59:14 +0200 (CEST)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOPJJ-0008VL-9J
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 12:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33029)
+	id 1iOPPE-0004fS-Pn
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 12:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iOPD6-0003Wd-0J
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:46:42 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iOPE3-0005UG-2e
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:47:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iOPD3-0001HG-Ht
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:46:39 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:46941)
+ (envelope-from <laurent@vivier.eu>) id 1iOPE2-0001wS-4H
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:47:39 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:50593)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iOPD2-0001GL-RI; Sat, 26 Oct 2019 12:46:37 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Ml6i4-1hhbjn2OI0-00lSmQ; Sat, 26 Oct 2019 18:46:07 +0200
+ id 1iOPDz-0001uw-Rx; Sat, 26 Oct 2019 12:47:36 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mz9IT-1i3HpS0LhL-00wDlu; Sat, 26 Oct 2019 18:47:13 +0200
+Subject: Re: [PATCH v14 1/9] esp: add pseudo-DMA as used by Macintosh
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20191022111738.20803-1-laurent@vivier.eu>
+ <20191022111738.20803-2-laurent@vivier.eu>
+ <6dd7dbbb-dc48-7705-3865-e8a7bed75394@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v15 11/11] BootLinuxConsoleTest: Test the Quadra 800
-Date: Sat, 26 Oct 2019 18:45:46 +0200
-Message-Id: <20191026164546.30020-12-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191026164546.30020-1-laurent@vivier.eu>
-References: <20191026164546.30020-1-laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <489fbfef-ffb5-dc3e-949e-52e041285bee@vivier.eu>
+Date: Sat, 26 Oct 2019 18:47:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <6dd7dbbb-dc48-7705-3865-e8a7bed75394@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:15ikVgiqi7JMlM2zpjA0DPHKtcdogSRUtPCzHX52zNcpilY430W
- eKemQIC0cWpX3teH2dnwZzwVyQ0SOQ0FhJHnONObWCXfBUCYmJGkqPGs48LTjhEuR4OD53S
- 1JsbizlxssQtPW8anWdm21ARnBemS9bvH3O5JGgTPiGqR1dX9sByqjpZ1LDxG5+1dTppI1A
- MmOonpyP7HSNmMN/vbDxw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OvjKr1mCavQ=:eteunsFHisPQwO/7IKs98W
- 99/DeOAHp8LZlGEZ3AD3JQGk0HH/nwQ1wft2JZ5LCn0F3GhiZ0PBK9GUk1mSF7NQOwSG4IHBd
- YF1wFK1mHlTNdNBaBWe5ccVw7tY7EdNioEtDCQOGMb5uWaG1c8tYsH1v3MaP4F0EpE5IA685d
- G+VfgGsrBG38Pcd9dTnrVtOEq4QgmgrbsFgA4JKRtOiyqFWhL0In6vCAUHTYZ9xPbiArtDft+
- m+HWUUY4r1DL3M16V2KHQZwdPdhniVdYhN9l30gcDtNfiEUHtt4m+ekevx3xKPp3l67TT+3pY
- kHJnX/kEtJXlk9rUCbEiu1tQZ2qmR1cGF3FOLFvcUyAG4T3Tgj8ynpK5+fedgUARAx9FEauNG
- bcSyYUchSsxED5bo46qApJFDpVfi24q+ajaC8eSoyATfOG/TIGvNE1X8rQr7oKgGknVbhMkF+
- pEoKVmfElLnOfo1p11PVJplGgcB7MT0nJUkSeIHf008r3KuvcAzHXkYJNUkpLWc9fsWoCP/Ya
- X2xWvCgWtpK6NQPaNh7un7v0F3EU5ixTvzBYEQguDpdwNK1z+BVmRhPjItQUh0CJuZFI2Z+k7
- Lxi15B9Hcch0lcwVdJC22z4xRBK0L1OV9x/4kxUrdfQ++25bTuooEmvSnrhOIxEypYdfIVH9G
- au5GisDcHd+fwTV7EZcO31UnkrM1M8ffpOyZdLKjU35GlrY9gh7Z3n0ygIdYVwAKFOBervxH+
- 4mqhGz6d3cZcrvhSrptcpfhIAsaM9Rk0brhi/QbBUiXUw8gKr9CSojLY3qZEtPnllxzGU+bxL
- UbE9QjLL8ZFp7dvAbQrbRjaYIVdBptLRlPmbqEDCl2AOG7PlvRDmHllfe1IqXHBUJrlTtoey2
- CD+3HoSqR7fJUJ6qPsyVmmudhRl4mdNQ85fiBNqRM=
+X-Provags-ID: V03:K1:isz2a0ecG6nDNUHq/LavaESulQNMXbOlMNXDUqZn13sRvio7CBA
+ r5dcDIiGCSVGAIHcOPLRmnbemACXvK7quQrIbTSeOFfcDCiTyyhwQW5oPjDwEXP00OhfQFy
+ ZGWHRuDlTxQRAML5wzvvSKyOXFPNKqM4mcSe0CkpouoieK4VBMg3P8tQRFhs0aHoH2hPgEs
+ wTRiN1GBekgFPQM3VSoKw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+wKGhPL0zis=:E37zBcWVwxSFl557caUiK8
+ jrE/bMuihrNDChGvso5NLfdGVC26mN2ox7n6rgcvad73Et+Rc23SdEpuiMs40nfMIG5COyKUT
+ 2OpYt6WWM7hhRDiBNyRUUL3ARRDXt8m26w+gJNWhajogyWYxuRZHa5egGedoKt7sz4uvhwOaj
+ ijZR3S97xXYLhcHxB7I3OajKp3qW0QLDKSHQk2rSzXOCjEf5nGpOB968Id6NJIoXq3FD7c3pD
+ eL/ptVKADPgVlQ5RFABHelI6M9mtywsDG8ARvlfSLbsPPQgvdosr6OwT0jctOhRw9vCHNSoNL
+ IftwBxaHbF6AReOJF3ByXNyxRw84qgtGd1znM/ngBwIw70C3FRV1OP6ZGVD/LHRR7My0wbp1a
+ 4iJ5DrnQ2Vb76Z3vluy+aNCEKQpZ89BCT+eBBCZ0oDy3Dicx/9uv700IJcz3qVRy6L4Dxc8S0
+ nKMR2KK5++JljPxkYQq7vNJB1J04pHVftFTaeu8gh6Wm8TEGRTr2MA8jrUlcx7n4KKy/J7qLk
+ hZNSVB7/fVSbVmHiJkkTpesWENWydyhuSe03HGjk8gThvmXOatROUJlFLxFM3ARjI2jSuaqmt
+ gslXaeB/HuxoAV5p2YlEEhBmhLwWazvTtHzF14FZOJ+VPOfh/sL8rcr5VDmfnBkLlsGK9gBH+
+ f2JaVqx7g7kicIipzKNXmwsk92pE4MMi6LJ3QCv2bErTNusXc32/HFVjfchVS3ZEEHiw0Miwg
+ lwNvlpiklvbiwqaB6E2LgvFGUNfLTR5VOFTl2QceIvI2xx3iCDDClK6PZmpFTzOdCzqVZhSVg
+ wCohpG3Bi1Bqj7rsBbsFvKN4yoBMO6AyWknTaMphavpZF8zYjOmjlq5cdh5giYAfEyWJ35Smu
+ DPOyYoVdxNq1rve7ft799uhfCv2B3X1v5nfoXxFXc=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.133
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,107 +114,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Le 25/10/2019 à 16:01, Paolo Bonzini a écrit :
+> On 22/10/19 13:17, Laurent Vivier wrote:
+>> +        if (s->dma_memory_read) {
+>> +            s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
+>> +        } else {
+>> +            set_pdma(s, CMD, s->cmdlen, len);
+>> +            s->pdma_cb = do_dma_pdma_cb;
+>> +            esp_raise_drq(s);
+>> +            return;
+>> +        }
+>> +        trace_esp_handle_ti_cmd(s->cmdlen);
+>> +        s->ti_size = 0;
+>> +        s->cmdlen = 0;
+>> +        s->do_cmd = 0;
+>> +        do_cmd(s, s->cmdbuf);
+>>          return;
+> 
+> Can you explain these lines after s->dma_memory_read?  I suppose they
+> are related to
+> 
+>> -    }
+>> -    if (s->do_cmd) {
+>> +    } else if (s->do_cmd) {
+> 
+> If so, it would be nice to make those a separate patch.  Otherwise seems
+> okay.
 
-This test boots a Linux kernel on a Quadra 800 board
-and verify the serial is working.
+Sent a new series with separate patches for ESP.
 
-Example:
+Could you have a look?
 
-  $ avocado --show=app,console run -t machine:q800 tests/acceptance/boot_linux_console.py
-  console: ABCFGHIJK
-  console: Linux version 5.2.0-2-m68k (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-21)) #1 Debian 5.2.9-2 (2019-08-21)
-  console: Detected Macintosh model: 35
-  console: Apple Macintosh Quadra 800
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 32448
-  console: Kernel command line: printk.time=0 console=ttyS0 vga=off
-  [...]
-  console: Calibrating delay loop... 1236.99 BogoMIPS (lpj=6184960)
-  [...]
-  console: NuBus: Scanning NuBus slots.
-  console: Slot 9: Board resource not found!
-  console: SCSI subsystem initialized
-  console: clocksource: Switched to clocksource via1
-  [...]
-  console: macfb: framebuffer at 0xf9001000, mapped to 0x(ptrval), size 468k
-  console: macfb: mode is 800x600x8, linelength=800
-  console: Console: switching to colour frame buffer device 100x37
-  console: fb0: DAFB frame buffer device
-  console: pmac_zilog: 0.6 (Benjamin Herrenschmidt <benh@kernel.crashing.org>)
-  console: scc.0: ttyS0 at MMIO 0x50f0c022 (irq = 4, base_baud = 230400) is a Z85c30 ESCC - Serial port
-  console: scc.1: ttyS1 at MMIO 0x50f0c020 (irq = 4, base_baud = 230400) is a Z85c30 ESCC - Serial port
-  console: Non-volatile memory driver v1.3
-  console: adb: Mac II ADB Driver v1.0 for Unified ADB
-  console: mousedev: PS/2 mouse device common for all mice
-  console: random: fast init done
-  console: Detected ADB keyboard, type <unknown>.
-  console: input: ADB keyboard as /devices/virtual/input/input0
-  console: input: ADB mouse as /devices/virtual/input/input1
-  console: rtc-generic rtc-generic: registered as rtc0
-  console: ledtrig-cpu: registered to indicate activity on CPUs
-  [...]
-  console: rtc-generic rtc-generic: setting system clock to 2019-09-10T16:20:25 UTC (1568132425)
-  console: List of all partitions:
-  console: No filesystem could mount root, tried:
-  JOB TIME   : 2.91 s
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20190910163430.11326-1-f4bug@amsat.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- tests/acceptance/boot_linux_console.py | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8a9a314ab4..df27813c78 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -378,3 +378,27 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_m68k_q800(self):
-+        """
-+        :avocado: tags=arch:m68k
-+        :avocado: tags=machine:q800
-+        """
-+        deb_url = ('http://ftp.ports.debian.org/debian-ports/pool-m68k/main'
-+                   '/l/linux/kernel-image-5.2.0-2-m68k-di_5.2.9-2_m68k.udeb')
-+        deb_hash = '0797e05129595f22f3c0142db5e199769a723bf9'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinux-5.2.0-2-m68k')
-+
-+        self.vm.set_machine('q800')
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 vga=off')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+        self.wait_for_console_pattern(console_pattern)
-+        console_pattern = 'No filesystem could mount root'
-+        self.wait_for_console_pattern(console_pattern)
--- 
-2.21.0
+Thanks,
+Laurent
 
 
