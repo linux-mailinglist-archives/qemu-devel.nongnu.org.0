@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF3DE5E13
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 18:49:20 +0200 (CEST)
-Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51073E5E16
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 18:49:54 +0200 (CEST)
+Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOPFe-0006qj-D3
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 12:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32824)
+	id 1iOPGC-0007NJ-Rq
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 12:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iOPCm-0002Vm-8j
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:46:21 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iOPCr-0002mr-Je
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:46:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iOPCl-00011g-9X
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:46:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:42253)
+ (envelope-from <laurent@vivier.eu>) id 1iOPCp-00015Q-K3
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 12:46:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:52207)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iOPCl-00010s-03; Sat, 26 Oct 2019 12:46:19 -0400
+ id 1iOPCk-00010W-Mg; Sat, 26 Oct 2019 12:46:18 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N95mR-1htMEY0ng7-0167vV; Sat, 26 Oct 2019 18:45:53 +0200
+ id 1M2fDr-1iQKTd1UyN-004BSz; Sat, 26 Oct 2019 18:45:54 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v15 01/11] esp: move handle_ti_cmd() cleanup code to
- esp_do_dma().
-Date: Sat, 26 Oct 2019 18:45:36 +0200
-Message-Id: <20191026164546.30020-2-laurent@vivier.eu>
+Subject: [PATCH v15 02/11] esp: move get_cmd() post-DMA code to get_cmd_cb()
+Date: Sat, 26 Oct 2019 18:45:37 +0200
+Message-Id: <20191026164546.30020-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191026164546.30020-1-laurent@vivier.eu>
 References: <20191026164546.30020-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JL7/f9MYlM3Ni5d31Jhi5pzDIukczD49yhLrr2OrxXJ94USFtj/
- Ol2/M3csHzbDC2poCE0yL3k8YQNTywU1H6kddRiNnNr5Z1FBUP7EkTCKfbcpHpxlyPflNxC
- 6wizxX3OO3C/qIOXrE8WXaVF1B4kC97tciCJ5HJZBSI0xFoqv+qsC4Xmo06cTkqBZ1ncOia
- kHKoBtteFCus1/HxKrQHA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x8dXg1xNW6g=:SagtE7GgKFBXmz5bPI/u/H
- GpqpoKvkE+5QC7yV/cEcgbUrDsJlSnnybwoL5ttzBbs4KITHLH6E7C/RCewRQHe+U3fFW7LPj
- eU4Ci4bEbLUpAoQ9Dd9ht52sRT+C/pvNcpUrXK2K14fYffoIKh7B6mVqnsP/NqMzErFOeR5YS
- zbjoBBiP84h/AHhthdCqWAJvXo5zjvgdqrfejCkpDTkAiMD+ZIpF6qSqGLu9A6aAJy6rTjDWP
- j9mtSJx6YypGi3DmNDllUgsAlOxYOfzvp0XMwVnbpZ0SaGtB++Wezpz8yYaq+hJC/vUuTqoHn
- Pkc2JYCUYqq357zNo9ye76a6syn9hXm/fdyOUsk+nNfEo0Idgdz3nhPYhl+/q6ITjTPjwj0WP
- j3nG/Xt0h4frEsQ10ZEYbOxe10YbRjY92IngtRSwbgJHY12En6cLttmB//qoIiRJMN2RFZgIX
- DGRz5eYUkTyQCzyO0bEdKvh00OGaA0swA2XncfBQuPhVCyWUVF0HiSHi1v1MfrIPq4oSM4o/f
- ZuWhwEGkjBDOH7EH/IVQiuxlhq4v9q2XEAZyY47Yff7sT4Z52gD7FsRzEtmH7aWYF00CE3spq
- y+CbUI5d0+ek/BJBTl9LpehuG3GBdohpp4c2PDtSibFvcvpJ1RxvzPRsB8oEaCH/HkuAjdqFj
- Dhjmdq34YFXtTzCjTMUXJrnyc/WOk15Z7ZjrcovsGv34RYb4nfJoQsBvPxKTilFR5oN0aFzYQ
- TCaWHkT4Jb053p8ND+TneuKDyoXR/ATLzAT3E6dkRyAzRguzr/WXE+iCpmQ3yXn8MaX6G4fz+
- 9lEJziNnxf85AtuIfBAUHo3CT/UU9gcgDzJTKynjPGrXMsujH8rKOCdVnCiaUNtH7MUh3gcwv
- XrEtxCZTZFCf9RJwZkJg==
+X-Provags-ID: V03:K1:qEwX5isbFNGa0zQho3Hseq3pj3GSiGKiFqKHJbbFyY2mh/Bf0j1
+ 70PMse50bIjIxXLfq4YIb0LWOHaOhZ3nRMVVX0YtKGxuaEjg3zFNsTRvmWTGuYPxMVIusmv
+ m70lIMbjzumH++uMrEYekDRStGvrVCbiz67KT5GCJ/RP84yDWsu3ZKRuvZ8p8Z4OGTKpvXA
+ tL6sTHGQpC7v/Fa3UQJQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eEAII27mZ5U=:wVNMsteehC0GcWfyeYN4Ki
+ kfBtajpZTdZbOQK5sB3Onu1K1YZfKoULudzEfe177VOGvsT7zZlkoO/wh6jT23VMx6zbBF8Cr
+ QEOb0WV3T0HWv+Ce78fS3eE/RO8RBeH34lV/4xKhVUueDSnb1mZayccO9hRDbvrxrY0GU/56A
+ mcepC+zHF1oeFCv493RMkHqqgVWF5RstjqAgzpZ6ORex5+6XshZVq+bJ5mSVVZqW9uuD4PLok
+ 3dWLy72NtU7i/oE5nyoYrOh/3F4mwRv9yqQMFlwz7NKJ+meQh8xboXDXoMOLNKJueZ7P6IPA8
+ 9Q6j1QJ3X3bR2JpF+UwS05pbEpatV3sU+Q8lAp3LRGHv5AvnfEhimbFjvGUrd9Gg/tT0LY6/4
+ h0aPVC/23IfoOF6Z+eYoanNXxbWLBOjDIG4TGxnE3o/MA5FD6Cn40MWC85ruT9xeGXIrGSJLA
+ fyGv5UxDpnQI+peP7Ws5f/bizNfoqaJBIZKcwFtZ8oI/dCmg4wZzKOr8BGpztZ1uCX9qQLdhv
+ Uq5bnAylyqI1TLMothR9WmTz5ngAlydGG1YQLlsaGTfhIJMgzJIGn7mS7ymBIyWKKif2B7Mg6
+ gq5P8Z0StdQU65Vb/EFTXMYdZkYojUbTAKYkDYPpG/rOsVNiClNM0SZwdVePYkcVor73Ldn5/
+ vnjcYgYjqHN6y9fUs3WCq7skrGr3n66k7v5pKOfMlnddwoZj7FuTxQLcz6whcsv7edDKhK9SD
+ YpN/e41kccqENWWOU6yybWinkyEuuq8FKQ0gwAaWy0fGPIDo5UlyivUu/oHmyFsoF9cUqrZiD
+ CWGeam0e+T0RPYtJ2QTJc4SDHn0bQRpDcYlnOKuK17jxF+vtZ0RDDfqOe0ZAhLTUKd8XcKbmi
+ Bu2sQgZQb99BXiDxmyEA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,53 +80,77 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To prepare following patches move do_cmd and DMA special case
-from handle_ti() to esp_do_dma().
-
-This part of the code must be only executed with real DMA, not with
-pseudo-DMA. And PDMA is detected in esp_do_dma(), so move this part
-of the code in esp_do_dma(). We keep the code in handle_ti_cmd()
-in the case no DMA is done.
+This will be needed to implement pseudo-DMA
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ hw/scsi/esp.c | 46 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 841d79b60e..09b28cba17 100644
+index 09b28cba17..0230ede21d 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -249,10 +249,19 @@ static void esp_do_dma(ESPState *s)
- 
-     len = s->dma_left;
-     if (s->do_cmd) {
-+        /*
-+         * handle_ti_cmd() case: esp_do_dma() is called only from
-+         * handle_ti_cmd() with do_cmd != NULL (see the assert())
-+         */
-         trace_esp_do_dma(s->cmdlen, len);
-         assert (s->cmdlen <= sizeof(s->cmdbuf) &&
-                 len <= sizeof(s->cmdbuf) - s->cmdlen);
-         s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
-+        trace_esp_handle_ti_cmd(s->cmdlen);
-+        s->ti_size = 0;
-+        s->cmdlen = 0;
-+        s->do_cmd = 0;
-+        do_cmd(s, s->cmdbuf);
-         return;
+@@ -84,6 +84,34 @@ void esp_request_cancelled(SCSIRequest *req)
      }
-     if (s->async_len == 0) {
-@@ -373,8 +382,7 @@ static void handle_ti(ESPState *s)
-         s->dma_left = minlen;
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
-         esp_do_dma(s);
+ }
+ 
++static int get_cmd_cb(ESPState *s)
++{
++    int target;
++
++    target = s->wregs[ESP_WBUSID] & BUSID_DID;
++
++    s->ti_size = 0;
++    s->ti_rptr = 0;
++    s->ti_wptr = 0;
++
++    if (s->current_req) {
++        /* Started a new command before the old one finished.  Cancel it.  */
++        scsi_req_cancel(s->current_req);
++        s->async_len = 0;
++    }
++
++    s->current_dev = scsi_device_find(&s->bus, 0, target, 0);
++    if (!s->current_dev) {
++        /* No such drive */
++        s->rregs[ESP_RSTAT] = 0;
++        s->rregs[ESP_RINTR] = INTR_DC;
++        s->rregs[ESP_RSEQ] = SEQ_0;
++        esp_raise_irq(s);
++        return -1;
++    }
++    return 0;
++}
++
+ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
+ {
+     uint32_t dmalen;
+@@ -108,23 +136,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
+     }
+     trace_esp_get_cmd(dmalen, target);
+ 
+-    s->ti_size = 0;
+-    s->ti_rptr = 0;
+-    s->ti_wptr = 0;
+-
+-    if (s->current_req) {
+-        /* Started a new command before the old one finished.  Cancel it.  */
+-        scsi_req_cancel(s->current_req);
+-        s->async_len = 0;
 -    }
--    if (s->do_cmd) {
-+    } else if (s->do_cmd) {
-         trace_esp_handle_ti_cmd(s->cmdlen);
-         s->ti_size = 0;
-         s->cmdlen = 0;
+-
+-    s->current_dev = scsi_device_find(&s->bus, 0, target, 0);
+-    if (!s->current_dev) {
+-        // No such drive
+-        s->rregs[ESP_RSTAT] = 0;
+-        s->rregs[ESP_RINTR] = INTR_DC;
+-        s->rregs[ESP_RSEQ] = SEQ_0;
+-        esp_raise_irq(s);
++    if (get_cmd_cb(s) < 0) {
+         return 0;
+     }
+     return dmalen;
 -- 
 2.21.0
 
