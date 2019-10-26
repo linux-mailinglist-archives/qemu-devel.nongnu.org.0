@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71799E5FE2
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:26:23 +0200 (CEST)
-Received: from localhost ([::1]:43152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022ADE5FE4
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:27:58 +0200 (CEST)
+Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUVq-0002FC-BH
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34223)
+	id 1iOUXM-0006hW-PY
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iOTzM-00064S-Ju
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:50 -0400
+ (envelope-from <mst@redhat.com>) id 1iOTzP-0006H1-JO
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iOTzK-0003aj-FA
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53910)
+ (envelope-from <mst@redhat.com>) id 1iOTzO-0003bL-6V
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49346)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTzK-0003aH-6L
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:46 -0400
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTzN-0003bD-UK
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:50 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 47598A705
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:52:44 +0000 (UTC)
-Received: by mail-qt1-f199.google.com with SMTP id y10so6684355qti.1
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:52:44 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E11FC049E12
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:52:49 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id g65so6336265qkf.19
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=uEPlpaYxuYfVWP9srt2fxLna8qoXdy1ftu/MeQw6BLE=;
- b=dLdjp/MkvsuIGgpo6uc9zcncmIjQTDLwKJo5SEEmgRkyvnw19H6tuYOC6oGiejWcb/
- CF+3Pxq1PVjUBvVyhecQcrPO/2qcfEake4FyMADwPfpzBWDIUDFafH18cDwenulGTne+
- XwrjhIv1hWsfZmofyVBhwbc1B0eFuvVHNKZV99s9p/FUxFpx94d8ps6kYhJiho7ObiHV
- istCsw/hY74l5Sf72JfSSPcR/EILuHEkg6R/qZujTg1phkjutcZBejXhI9BwlPzJKY8I
- dtZ3bh2J4lXANR5l1G4JP5u8phJGAJog/jKP/HS5KI2hMuPXtR0A0NA2syVOIbguhQmU
- LuQA==
-X-Gm-Message-State: APjAAAWzZ3InoOR27mSxKHTFQXN7Cm2/ZTeKF7u0V0jZauT15EsyWRws
- +QMtZkOeURL4+J8+MJQe6dDjxdEVCTz8YaoywbOifpym6twnP+bOXeDTCqVXlTqybpBJaSllED4
- 2TIIAF+CcNvegRQo=
-X-Received: by 2002:a37:b647:: with SMTP id g68mr9653963qkf.215.1572126763073; 
- Sat, 26 Oct 2019 14:52:43 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwDeYFHYCl5s8xgPHALWT+nlLdxwG1D9+O6vEhecLJap1oIQmIcklGOsLh98Czb8HNe8G/RUQ==
-X-Received: by 2002:a37:b647:: with SMTP id g68mr9653940qkf.215.1572126762629; 
- Sat, 26 Oct 2019 14:52:42 -0700 (PDT)
+ bh=KFQvXXlh3AUO8PkJPwkcMnBMnk/jbSrzCNkhQl517ZU=;
+ b=mE7LjRH4vBWgFqiqDPEHhkLWiyhh6ZGKXpn5O6cwryvB0gsUCw4N6SPwoKoxZQ4mZq
+ K76BWfhl9gBaFIP6Fnw8DU7tuoNxKJX/uqpWlQTjujwdTFiP/XJNFUybOEaC8Yhyz53k
+ VgFCkODI9pI43FtQKO41jm+IQWgTA1qc2JRn+Rs0Tt2tq4CvtBXtJj9nt1JVhzCe0a7o
+ 3svsJNgtjYHteUYJWRQG1+BqYmZDkH8eVlFAMq3tmPmFWNO8seQFfMHDyjuIv9Gu56cb
+ YrxWd7Ib/PiYpXxyYXcQmaOsPyI10Jc3rjqN2WnN34jpoTy3PkgcfjK24ODwhIXP64e9
+ q32Q==
+X-Gm-Message-State: APjAAAVVPyGp2V0eYTTcjSj3zbv8HoR9+3w7uWZ2mcTSzNYup4qfghiN
+ wYZ2oMZ4DxvfiI6LaaCQCAOsYjEbgvPLErfWUGK7sX5OuUFybLsmLItKLtsvZDWuBw9zBEiBsUa
+ pugNLfDRb7ZuD8do=
+X-Received: by 2002:aed:3c67:: with SMTP id u36mr10296162qte.142.1572126768036; 
+ Sat, 26 Oct 2019 14:52:48 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxbYJmyL89+EriRcJtmaK7c0yit0OyMYeO+9vkjvtrWpYZTsVxfCRKk1HZnGhkK9TIxmawGFQ==
+X-Received: by 2002:aed:3c67:: with SMTP id u36mr10296153qte.142.1572126767842; 
+ Sat, 26 Oct 2019 14:52:47 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- a2sm3536316qkb.82.2019.10.26.14.52.39
+ x8sm3484675qkx.77.2019.10.26.14.52.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 14:52:41 -0700 (PDT)
-Date: Sat, 26 Oct 2019 17:52:37 -0400
+ Sat, 26 Oct 2019 14:52:47 -0700 (PDT)
+Date: Sat, 26 Oct 2019 17:52:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/25] libqos: access VIRTIO 1.0 vring in little-endian
-Message-ID: <20191026193824.11926-18-mst@redhat.com>
+Subject: [PULL 18/25] libqos: add iteration support to qpci_find_capability()
+Message-ID: <20191026193824.11926-19-mst@redhat.com>
 References: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -80,354 +80,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-VIRTIO 1.0 uses little-endian for the vring.  Legacy VIRTIO uses guest
-endianness.  Adjust the code to handle both.
-
-Note that qvirtio_readq() is not defined because it has no users.  All
-the other accessors are really needed.
+VIRTIO 1.0 PCI devices have multiple PCI_CAP_ID_VNDR capabilities so we
+need a way to iterate over them.  Extend qpci_find_capability() to take
+the last address.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191023100425.12168-10-stefanha@redhat.com>
+--
+v3:
+ * Document qpci_find_capability()
+Message-Id: <20191023100425.12168-11-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/libqos/virtio-mmio.c |   1 +
- tests/libqos/virtio-pci.c  |   1 +
- tests/libqos/virtio.c      | 131 +++++++++++++++++++++++++++----------
- tests/libqos/virtio.h      |   4 +-
- tests/virtio-blk-test.c    |   8 +--
- 5 files changed, 106 insertions(+), 39 deletions(-)
+ tests/libqos/pci.c | 30 ++++++++++++++++++++++++------
+ tests/libqos/pci.h |  2 +-
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/tests/libqos/virtio-mmio.c b/tests/libqos/virtio-mmio.c
-index 78066e6e05..4db1f1b8bc 100644
---- a/tests/libqos/virtio-mmio.c
-+++ b/tests/libqos/virtio-mmio.c
-@@ -157,6 +157,7 @@ static QVirtQueue *qvirtio_mmio_virtqueue_setup(QVirtioDevice *d,
-     uint64_t addr;
+diff --git a/tests/libqos/pci.c b/tests/libqos/pci.c
+index 662ee7a517..2309a724e4 100644
+--- a/tests/libqos/pci.c
++++ b/tests/libqos/pci.c
+@@ -115,10 +115,28 @@ void qpci_device_enable(QPCIDevice *dev)
+     g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
+ }
  
-     vq = g_malloc0(sizeof(*vq));
-+    vq->vdev = d;
-     qvirtio_mmio_queue_select(d, index);
-     qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_QUEUE_ALIGN, dev->page_size);
- 
-diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index 1b6b760fc6..7ecf5d0a52 100644
---- a/tests/libqos/virtio-pci.c
-+++ b/tests/libqos/virtio-pci.c
-@@ -217,6 +217,7 @@ static QVirtQueue *qvirtio_pci_virtqueue_setup(QVirtioDevice *d,
-     feat = qvirtio_pci_get_guest_features(d);
- 
-     qvirtio_pci_queue_select(d, index);
-+    vqpci->vq.vdev = d;
-     vqpci->vq.index = index;
-     vqpci->vq.size = qvirtio_pci_get_queue_size(d);
-     vqpci->vq.free_head = 0;
-diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
-index fa597c2481..9aa360620c 100644
---- a/tests/libqos/virtio.c
-+++ b/tests/libqos/virtio.c
-@@ -8,11 +8,68 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/bswap.h"
- #include "libqtest.h"
- #include "libqos/virtio.h"
- #include "standard-headers/linux/virtio_config.h"
- #include "standard-headers/linux/virtio_ring.h"
- 
-+/*
-+ * qtest_readX/writeX() functions transfer host endian from/to guest endian.
-+ * This works great for Legacy VIRTIO devices where we need guest endian
-+ * accesses.  For VIRTIO 1.0 the vring is little-endian so the automatic guest
-+ * endianness conversion is not wanted.
+-uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id)
++/**
++ * qpci_find_capability:
++ * @dev: the PCI device
++ * @id: the PCI Capability ID (PCI_CAP_ID_*)
++ * @start_addr: 0 to begin iteration or the last return value to continue
++ *              iteration
 + *
-+ * The following qvirtio_readX/writeX() functions handle Legacy and VIRTIO 1.0
-+ * accesses seamlessly.
++ * Iterate over the PCI Capabilities List.
++ *
++ * Returns: PCI Configuration Space offset of the capabililty structure or
++ *          0 if no further matching capability is found
 + */
-+static uint16_t qvirtio_readw(QVirtioDevice *d, QTestState *qts, uint64_t addr)
-+{
-+    uint16_t val = qtest_readw(qts, addr);
-+
-+    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(qts)) {
-+        val = bswap16(val);
-+    }
-+    return val;
-+}
-+
-+static uint32_t qvirtio_readl(QVirtioDevice *d, QTestState *qts, uint64_t addr)
-+{
-+    uint32_t val = qtest_readl(qts, addr);
-+
-+    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(qts)) {
-+        val = bswap32(val);
-+    }
-+    return val;
-+}
-+
-+static void qvirtio_writew(QVirtioDevice *d, QTestState *qts,
-+                           uint64_t addr, uint16_t val)
-+{
-+    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(qts)) {
-+        val = bswap16(val);
-+    }
-+    qtest_writew(qts, addr, val);
-+}
-+
-+static void qvirtio_writel(QVirtioDevice *d, QTestState *qts,
-+                           uint64_t addr, uint32_t val)
-+{
-+    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(qts)) {
-+        val = bswap32(val);
-+    }
-+    qtest_writel(qts, addr, val);
-+}
-+
-+static void qvirtio_writeq(QVirtioDevice *d, QTestState *qts,
-+                           uint64_t addr, uint64_t val)
-+{
-+    if (d->features & (1ull << VIRTIO_F_VERSION_1) && qtest_big_endian(qts)) {
-+        val = bswap64(val);
-+    }
-+    qtest_writeq(qts, addr, val);
-+}
-+
- uint8_t qvirtio_config_readb(QVirtioDevice *d, uint64_t addr)
++uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id, uint8_t start_addr)
  {
-     g_assert_true(d->features_negotiated);
-@@ -189,23 +246,23 @@ void qvring_init(QTestState *qts, const QGuestAllocator *alloc, QVirtQueue *vq,
+     uint8_t cap;
+-    uint8_t addr = qpci_config_readb(dev, PCI_CAPABILITY_LIST);
++    uint8_t addr;
++
++    if (start_addr) {
++        addr = qpci_config_readb(dev, start_addr + PCI_CAP_LIST_NEXT);
++    } else {
++        addr = qpci_config_readb(dev, PCI_CAPABILITY_LIST);
++    }
  
-     for (i = 0; i < vq->size - 1; i++) {
-         /* vq->desc[i].addr */
--        qtest_writeq(qts, vq->desc + (16 * i), 0);
-+        qvirtio_writeq(vq->vdev, qts, vq->desc + (16 * i), 0);
-         /* vq->desc[i].next */
--        qtest_writew(qts, vq->desc + (16 * i) + 14, i + 1);
-+        qvirtio_writew(vq->vdev, qts, vq->desc + (16 * i) + 14, i + 1);
-     }
+     do {
+         cap = qpci_config_readb(dev, addr);
+@@ -138,7 +156,7 @@ void qpci_msix_enable(QPCIDevice *dev)
+     uint8_t bir_table;
+     uint8_t bir_pba;
  
-     /* vq->avail->flags */
--    qtest_writew(qts, vq->avail, 0);
-+    qvirtio_writew(vq->vdev, qts, vq->avail, 0);
-     /* vq->avail->idx */
--    qtest_writew(qts, vq->avail + 2, 0);
-+    qvirtio_writew(vq->vdev, qts, vq->avail + 2, 0);
-     /* vq->avail->used_event */
--    qtest_writew(qts, vq->avail + 4 + (2 * vq->size), 0);
-+    qvirtio_writew(vq->vdev, qts, vq->avail + 4 + (2 * vq->size), 0);
+-    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
++    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
+     g_assert_cmphex(addr, !=, 0);
  
-     /* vq->used->flags */
--    qtest_writew(qts, vq->used, 0);
-+    qvirtio_writew(vq->vdev, qts, vq->used, 0);
-     /* vq->used->avail_event */
--    qtest_writew(qts, vq->used + 2 + sizeof(struct vring_used_elem) * vq->size,
--                 0);
-+    qvirtio_writew(vq->vdev, qts, vq->used + 2 +
-+                   sizeof(struct vring_used_elem) * vq->size, 0);
- }
+     val = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
+@@ -167,7 +185,7 @@ void qpci_msix_disable(QPCIDevice *dev)
+     uint16_t val;
  
- QVRingIndirectDesc *qvring_indirect_desc_setup(QTestState *qs, QVirtioDevice *d,
-@@ -221,35 +278,39 @@ QVRingIndirectDesc *qvring_indirect_desc_setup(QTestState *qs, QVirtioDevice *d,
+     g_assert(dev->msix_enabled);
+-    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
++    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
+     g_assert_cmphex(addr, !=, 0);
+     val = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
+     qpci_config_writew(dev, addr + PCI_MSIX_FLAGS,
+@@ -203,7 +221,7 @@ bool qpci_msix_masked(QPCIDevice *dev, uint16_t entry)
+     uint64_t vector_off = dev->msix_table_off + entry * PCI_MSIX_ENTRY_SIZE;
  
-     for (i = 0; i < elem - 1; ++i) {
-         /* indirect->desc[i].addr */
--        qtest_writeq(qs, indirect->desc + (16 * i), 0);
-+        qvirtio_writeq(d, qs, indirect->desc + (16 * i), 0);
-         /* indirect->desc[i].flags */
--        qtest_writew(qs, indirect->desc + (16 * i) + 12, VRING_DESC_F_NEXT);
-+        qvirtio_writew(d, qs, indirect->desc + (16 * i) + 12,
-+                       VRING_DESC_F_NEXT);
-         /* indirect->desc[i].next */
--        qtest_writew(qs, indirect->desc + (16 * i) + 14, i + 1);
-+        qvirtio_writew(d, qs, indirect->desc + (16 * i) + 14, i + 1);
-     }
+     g_assert(dev->msix_enabled);
+-    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
++    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
+     g_assert_cmphex(addr, !=, 0);
+     val = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
  
-     return indirect;
- }
+@@ -221,7 +239,7 @@ uint16_t qpci_msix_table_size(QPCIDevice *dev)
+     uint8_t addr;
+     uint16_t control;
  
--void qvring_indirect_desc_add(QTestState *qts, QVRingIndirectDesc *indirect,
-+void qvring_indirect_desc_add(QVirtioDevice *d, QTestState *qts,
-+                              QVRingIndirectDesc *indirect,
-                               uint64_t data, uint32_t len, bool write)
- {
-     uint16_t flags;
+-    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
++    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
+     g_assert_cmphex(addr, !=, 0);
  
-     g_assert_cmpint(indirect->index, <, indirect->elem);
+     control = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
+diff --git a/tests/libqos/pci.h b/tests/libqos/pci.h
+index a5389a5845..590c175190 100644
+--- a/tests/libqos/pci.h
++++ b/tests/libqos/pci.h
+@@ -86,7 +86,7 @@ bool qpci_has_buggy_msi(QPCIDevice *dev);
+ bool qpci_check_buggy_msi(QPCIDevice *dev);
  
--    flags = qtest_readw(qts, indirect->desc + (16 * indirect->index) + 12);
-+    flags = qvirtio_readw(d, qts, indirect->desc +
-+                                  (16 * indirect->index) + 12);
- 
-     if (write) {
-         flags |= VRING_DESC_F_WRITE;
-     }
- 
-     /* indirect->desc[indirect->index].addr */
--    qtest_writeq(qts, indirect->desc + (16 * indirect->index), data);
-+    qvirtio_writeq(d, qts, indirect->desc + (16 * indirect->index), data);
-     /* indirect->desc[indirect->index].len */
--    qtest_writel(qts, indirect->desc + (16 * indirect->index) + 8, len);
-+    qvirtio_writel(d, qts, indirect->desc + (16 * indirect->index) + 8, len);
-     /* indirect->desc[indirect->index].flags */
--    qtest_writew(qts, indirect->desc + (16 * indirect->index) + 12, flags);
-+    qvirtio_writew(d, qts, indirect->desc + (16 * indirect->index) + 12,
-+                   flags);
- 
-     indirect->index++;
- }
-@@ -269,11 +330,11 @@ uint32_t qvirtqueue_add(QTestState *qts, QVirtQueue *vq, uint64_t data,
-     }
- 
-     /* vq->desc[vq->free_head].addr */
--    qtest_writeq(qts, vq->desc + (16 * vq->free_head), data);
-+    qvirtio_writeq(vq->vdev, qts, vq->desc + (16 * vq->free_head), data);
-     /* vq->desc[vq->free_head].len */
--    qtest_writel(qts, vq->desc + (16 * vq->free_head) + 8, len);
-+    qvirtio_writel(vq->vdev, qts, vq->desc + (16 * vq->free_head) + 8, len);
-     /* vq->desc[vq->free_head].flags */
--    qtest_writew(qts, vq->desc + (16 * vq->free_head) + 12, flags);
-+    qvirtio_writew(vq->vdev, qts, vq->desc + (16 * vq->free_head) + 12, flags);
- 
-     return vq->free_head++; /* Return and increase, in this order */
- }
-@@ -288,13 +349,14 @@ uint32_t qvirtqueue_add_indirect(QTestState *qts, QVirtQueue *vq,
-     vq->num_free--;
- 
-     /* vq->desc[vq->free_head].addr */
--    qtest_writeq(qts, vq->desc + (16 * vq->free_head), indirect->desc);
-+    qvirtio_writeq(vq->vdev, qts, vq->desc + (16 * vq->free_head),
-+                   indirect->desc);
-     /* vq->desc[vq->free_head].len */
--    qtest_writel(qts, vq->desc + (16 * vq->free_head) + 8,
--           sizeof(struct vring_desc) * indirect->elem);
-+    qvirtio_writel(vq->vdev, qts, vq->desc + (16 * vq->free_head) + 8,
-+                   sizeof(struct vring_desc) * indirect->elem);
-     /* vq->desc[vq->free_head].flags */
--    qtest_writew(qts, vq->desc + (16 * vq->free_head) + 12,
--                 VRING_DESC_F_INDIRECT);
-+    qvirtio_writew(vq->vdev, qts, vq->desc + (16 * vq->free_head) + 12,
-+                   VRING_DESC_F_INDIRECT);
- 
-     return vq->free_head++; /* Return and increase, in this order */
- }
-@@ -303,21 +365,21 @@ void qvirtqueue_kick(QTestState *qts, QVirtioDevice *d, QVirtQueue *vq,
-                      uint32_t free_head)
- {
-     /* vq->avail->idx */
--    uint16_t idx = qtest_readw(qts, vq->avail + 2);
-+    uint16_t idx = qvirtio_readw(d, qts, vq->avail + 2);
-     /* vq->used->flags */
-     uint16_t flags;
-     /* vq->used->avail_event */
-     uint16_t avail_event;
- 
-     /* vq->avail->ring[idx % vq->size] */
--    qtest_writew(qts, vq->avail + 4 + (2 * (idx % vq->size)), free_head);
-+    qvirtio_writew(d, qts, vq->avail + 4 + (2 * (idx % vq->size)), free_head);
-     /* vq->avail->idx */
--    qtest_writew(qts, vq->avail + 2, idx + 1);
-+    qvirtio_writew(d, qts, vq->avail + 2, idx + 1);
- 
-     /* Must read after idx is updated */
--    flags = qtest_readw(qts, vq->avail);
--    avail_event = qtest_readw(qts, vq->used + 4 +
--                                   sizeof(struct vring_used_elem) * vq->size);
-+    flags = qvirtio_readw(d, qts, vq->avail);
-+    avail_event = qvirtio_readw(d, qts, vq->used + 4 +
-+                                sizeof(struct vring_used_elem) * vq->size);
- 
-     /* < 1 because we add elements to avail queue one by one */
-     if ((flags & VRING_USED_F_NO_NOTIFY) == 0 &&
-@@ -342,7 +404,8 @@ bool qvirtqueue_get_buf(QTestState *qts, QVirtQueue *vq, uint32_t *desc_idx,
-     uint16_t idx;
-     uint64_t elem_addr, addr;
- 
--    idx = qtest_readw(qts, vq->used + offsetof(struct vring_used, idx));
-+    idx = qvirtio_readw(vq->vdev, qts,
-+                        vq->used + offsetof(struct vring_used, idx));
-     if (idx == vq->last_used_idx) {
-         return false;
-     }
-@@ -354,12 +417,12 @@ bool qvirtqueue_get_buf(QTestState *qts, QVirtQueue *vq, uint32_t *desc_idx,
- 
-     if (desc_idx) {
-         addr = elem_addr + offsetof(struct vring_used_elem, id);
--        *desc_idx = qtest_readl(qts, addr);
-+        *desc_idx = qvirtio_readl(vq->vdev, qts, addr);
-     }
- 
-     if (len) {
-         addr = elem_addr + offsetof(struct vring_used_elem, len);
--        *len = qtest_readw(qts, addr);
-+        *len = qvirtio_readw(vq->vdev, qts, addr);
-     }
- 
-     vq->last_used_idx++;
-@@ -371,7 +434,7 @@ void qvirtqueue_set_used_event(QTestState *qts, QVirtQueue *vq, uint16_t idx)
-     g_assert(vq->event);
- 
-     /* vq->avail->used_event */
--    qtest_writew(qts, vq->avail + 4 + (2 * vq->size), idx);
-+    qvirtio_writew(vq->vdev, qts, vq->avail + 4 + (2 * vq->size), idx);
- }
- 
- void qvirtio_start_device(QVirtioDevice *vdev)
-diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
-index 0e8f823c7b..ebbff5193b 100644
---- a/tests/libqos/virtio.h
-+++ b/tests/libqos/virtio.h
-@@ -27,6 +27,7 @@ typedef struct QVirtioDevice {
- } QVirtioDevice;
- 
- typedef struct QVirtQueue {
-+    QVirtioDevice *vdev;
-     uint64_t desc; /* This points to an array of struct vring_desc */
-     uint64_t avail; /* This points to a struct vring_avail */
-     uint64_t used; /* This points to a struct vring_used */
-@@ -135,7 +136,8 @@ void qvring_init(QTestState *qts, const QGuestAllocator *alloc, QVirtQueue *vq,
- QVRingIndirectDesc *qvring_indirect_desc_setup(QTestState *qs, QVirtioDevice *d,
-                                                QGuestAllocator *alloc,
-                                                uint16_t elem);
--void qvring_indirect_desc_add(QTestState *qts, QVRingIndirectDesc *indirect,
-+void qvring_indirect_desc_add(QVirtioDevice *d, QTestState *qts,
-+                              QVRingIndirectDesc *indirect,
-                               uint64_t data, uint32_t len, bool write);
- uint32_t qvirtqueue_add(QTestState *qts, QVirtQueue *vq, uint64_t data,
-                         uint32_t len, bool write, bool next);
-diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
-index fe0dc4a896..2a23698211 100644
---- a/tests/virtio-blk-test.c
-+++ b/tests/virtio-blk-test.c
-@@ -388,8 +388,8 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
-     g_free(req.data);
- 
-     indirect = qvring_indirect_desc_setup(qts, dev, t_alloc, 2);
--    qvring_indirect_desc_add(qts, indirect, req_addr, 528, false);
--    qvring_indirect_desc_add(qts, indirect, req_addr + 528, 1, true);
-+    qvring_indirect_desc_add(dev, qts, indirect, req_addr, 528, false);
-+    qvring_indirect_desc_add(dev, qts, indirect, req_addr + 528, 1, true);
-     free_head = qvirtqueue_add_indirect(qts, vq, indirect);
-     qvirtqueue_kick(qts, dev, vq, free_head);
- 
-@@ -413,8 +413,8 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
-     g_free(req.data);
- 
-     indirect = qvring_indirect_desc_setup(qts, dev, t_alloc, 2);
--    qvring_indirect_desc_add(qts, indirect, req_addr, 16, false);
--    qvring_indirect_desc_add(qts, indirect, req_addr + 16, 513, true);
-+    qvring_indirect_desc_add(dev, qts, indirect, req_addr, 16, false);
-+    qvring_indirect_desc_add(dev, qts, indirect, req_addr + 16, 513, true);
-     free_head = qvirtqueue_add_indirect(qts, vq, indirect);
-     qvirtqueue_kick(qts, dev, vq, free_head);
- 
+ void qpci_device_enable(QPCIDevice *dev);
+-uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id);
++uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id, uint8_t start_addr);
+ void qpci_msix_enable(QPCIDevice *dev);
+ void qpci_msix_disable(QPCIDevice *dev);
+ bool qpci_msix_pending(QPCIDevice *dev, uint16_t entry);
 -- 
 MST
 
