@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85DFE5FDA
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:20:37 +0200 (CEST)
-Received: from localhost ([::1]:43084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84DFE5FD6
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:15:03 +0200 (CEST)
+Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUQG-0000Pl-VV
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60473)
+	id 1iOUKs-0005Fr-NA
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iOTa3-0000cw-Iq
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:41 -0400
+ (envelope-from <berto@igalia.com>) id 1iOTZw-0000Vf-AF
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iOTZz-0005W4-Qz
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:37 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42548)
+ (envelope-from <berto@igalia.com>) id 1iOTZv-0005Qz-8m
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:32 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42504)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iOTZy-0005Hf-TD; Sat, 26 Oct 2019 17:26:35 -0400
+ id 1iOTZu-0005Ew-UY; Sat, 26 Oct 2019 17:26:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=fDwvVM+XJotAqzLmOm7fdOCG+L3RWfPh9lZjBn8RghE=; 
- b=lZhkplkoZlLxr3A1WCRmnAUIPlXQSkO4RwMOnwGjdOKx2NM0gsV2JEtZsQlPhx5zo2RiZ6DC60nvcLffqxKu2ex8dDoJ8E9OytcBQzh5dsNq3x75HHDPKFMvI8bX4zB15bSWh+jWpzKAnk/zYHwjq5UYnhdb+kjL+Z5MNstjzGbSif7JKh1ZngAloCXTeimRIH2EDZ2D8XU1qSo8aPE+3Kqr8ndGUFcFwrjYI4Do3s/fcD9vUTNlaxCdZ0Tmo+g2QzIlMVZNRduML630WWwVxGfWb5lpXIJR+DQcv8EmiiKCOBXg1qB98iW0IqRm18jN8KSx5KiPEctMriNBAnSzyQ==;
+ bh=q//BQvH+ej6Gl1Fi6fEopfSlEKcCs1jmZCmU1j0FoFk=; 
+ b=Ynv/NO/bpoqX+emSleICMrUJ9dVQ0lJweyvh4RmBkJXgW+v4j/4s5L4tt47wfNJWb8CXmxi0N6AjSjAQEdIHaUeaLugCT8W3gYW+7I/YROPxjbLJvNZVChCeizdbZzdVAR5z3tgecv0k6urcvIznWYGVH4xICEDQkeB1BRM/15pHFOg89rXsAAj5bb00Rs7b/d0v7HtIpcNjrNjwvy9UxpjKYfpHhzZps+6+nqZaRcHdNkgfwtRNe+iEdXjBXOzN/PBB/w1lFPYfKI+30oDBcOryPDDJsOaU8ocZx+rMkWjgrhgSmZ5/RcdIgsDhnR1WtNARXyDhDJF7OSbTsEUKRg==;
 Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iOTZJ-000465-05; Sat, 26 Oct 2019 23:25:53 +0200
+ id 1iOTZI-000464-W7; Sat, 26 Oct 2019 23:25:53 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iOTZ0-0001PZ-Q3; Sun, 27 Oct 2019 00:25:34 +0300
+ id 1iOTZ0-0001Pb-RW; Sun, 27 Oct 2019 00:25:34 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 17/26] qcow2: Add subcluster support to
- check_refcounts_l2()
-Date: Sun, 27 Oct 2019 00:25:19 +0300
-Message-Id: <08a812e1bc1a05c1c102029480bf7bc65ebf0beb.1572125022.git.berto@igalia.com>
+Subject: [RFC PATCH v2 18/26] qcow2: Add subcluster support to
+ expand_zero_clusters_in_l1()
+Date: Sun, 27 Oct 2019 00:25:20 +0300
+Message-Id: <f99f051139f84a4d34bc52696aa2c2b125d5c3fd.1572125022.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1572125022.git.berto@igalia.com>
 References: <cover.1572125022.git.berto@igalia.com>
@@ -65,35 +65,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting the QCOW_OFLAG_ZERO bit of the L2 entry is forbidden if an
-image has subclusters. Instead, the individual 'all zeroes' bits must
-be used.
+Two changes are needed in order to add subcluster support to this
+function: deallocated clusters must have their bitmaps cleared, and
+expanded clusters must have all the "subcluster allocated" bits set.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2-refcount.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ block/qcow2-cluster.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index 621318447d..bc73125f70 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1685,8 +1685,13 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
-                         int ign = active ? QCOW2_OL_ACTIVE_L2 :
-                                            QCOW2_OL_INACTIVE_L2;
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index aa3eb727a5..62f2a9fcc0 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -2036,6 +2036,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+                         /* not backed; therefore we can simply deallocate the
+                          * cluster */
+                         set_l2_entry(s, l2_slice, j, 0);
++                        set_l2_bitmap(s, l2_slice, j, 0);
+                         l2_dirty = true;
+                         continue;
+                     }
+@@ -2102,6 +2103,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+                 } else {
+                     set_l2_entry(s, l2_slice, j, offset);
+                 }
++                set_l2_bitmap(s, l2_slice, j, QCOW_L2_BITMAP_ALL_ALLOC);
+                 l2_dirty = true;
+             }
  
--                        l2_entry = QCOW_OFLAG_ZERO;
--                        set_l2_entry(s, l2_table, i, l2_entry);
-+                        if (has_subclusters(s)) {
-+                            set_l2_entry(s, l2_table, i, 0);
-+                            set_l2_bitmap(s, l2_table, i,
-+                                          QCOW_L2_BITMAP_ALL_ZEROES);
-+                        } else {
-+                            set_l2_entry(s, l2_table, i, QCOW_OFLAG_ZERO);
-+                        }
-                         ret = qcow2_pre_write_overlap_check(bs, ign,
-                                 l2e_offset, l2_entry_size(s), false);
-                         if (ret < 0) {
 -- 
 2.20.1
 
