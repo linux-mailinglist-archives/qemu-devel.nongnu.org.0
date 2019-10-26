@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517F5E5FE7
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:29:47 +0200 (CEST)
-Received: from localhost ([::1]:43181 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838C0E5FEE
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:35:33 +0200 (CEST)
+Received: from localhost ([::1]:43254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUZ8-0003FK-9r
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:29:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37001)
+	id 1iOUei-0005wr-HV
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60324)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iOUQK-0002i9-B5
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 18:20:41 -0400
+ (envelope-from <berto@igalia.com>) id 1iOTZx-0000Xz-4m
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iOUQI-00055I-Nn
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 18:20:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53660)
+ (envelope-from <berto@igalia.com>) id 1iOTZv-0005RQ-F3
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:33 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42510)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iOUQI-000555-I1
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 18:20:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iOUQH-0000Hc-I0
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 22:20:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8738D2E80C0
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 22:20:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 26 Oct 2019 22:14:15 -0000
-From: Toolybird <1850000@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iOTZu-0005F5-Ub; Sat, 26 Oct 2019 17:26:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=M1JnWBLeI/U2q/+ye9GuOt2ejRpDtekbRhZrMSseTQY=; 
+ b=Z8HRbTTG3ClGlo/+TnRK3GY04AhSL7TsQtITFAM0T94lFiUXibAFdqXM7EhOaAGBi7gNMVBZFnunrYjEEKyq3dvLnxPylz7KHSyMOCSW2+3tAaVqjXxwN4pdb6xBYcVyh/slyfWKDjs40edBIjcekFArDarWymrepWOamA3ZwPky1/kaa5P3t/r4KOIrbPc2mAv9HODBxsh2/JFWTVs1r4jEXLWDCqMkEJf8fZbttLyNNG2uGHJNf5LKlG/JS9tFWCXsl8rBIZbQ7eoAUHdUXNJUZuhI5OWcNVR90yQXLOzbQWW8DofvIeyQMhyz93OGubHizOOOkkD4f3EJybowRA==;
+Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1iOTZI-00045l-Kn; Sat, 26 Oct 2019 23:25:52 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1iOTYz-0001P0-Vm; Sun, 27 Oct 2019 00:25:33 +0300
+From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gschafer
-X-Launchpad-Bug-Reporter: Toolybird (gschafer)
-X-Launchpad-Bug-Modifier: Toolybird (gschafer)
-Message-Id: <157212805514.19102.17568097209992499457.malonedeb@wampee.canonical.com>
-Subject: [Bug 1850000] [NEW] 4.1.0 bogus QCOW2 corruption reported after
- compress
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: acb7771dbb84fc0ec807609293c771b5e7551de4
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Subject: [RFC PATCH v2 00/26] Add subcluster allocation to qcow2
+Date: Sun, 27 Oct 2019 00:25:02 +0300
+Message-Id: <cover.1572125022.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,203 +54,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1850000 <1850000@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi,
 
-Creating a compressed image then running `qemu-img check <..>.qcow2' on
-said image seems to report bogus corruption in some (but not all) cases:
+here's the new version of the patches to add subcluster allocation
+support to qcow2.
 
-Step 1.
+Please refer to the cover letter of the first version for a full
+description of the patches:
 
-# qemu-img info win7-base.qcow2
-image: win7-base.qcow2
-file format: qcow2
-virtual size: 20 GiB (21474836480 bytes)
-disk size: 12.2 GiB
-cluster_size: 65536
-Format specific information:
-    compat: 1.1
-    lazy refcounts: true
-    refcount bits: 16
-    corrupt: false
+   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-# qemu-img check win7-base.qcow2
-No errors were found on the image.
-327680/327680 =3D 100.00% allocated, 0.00% fragmented, 0.00% compressed clu=
-sters
-Image end offset: 21478375424
+This version includes a few tests, but I'm planning to add more for
+the next revision.
 
-Step 2.
+Berto
 
-# qemu-img convert -f qcow2 -O qcow2 -c win7-base.qcow2 test1-z.qcow2
+v2:
+- Patch 12: Update after the changes in 88f468e546.
+- Patch 21 (new): Clear the L2 bitmap when allocating a compressed
+  cluster. Compressed clusters should have the bitmap all set to 0.
+- Patch 24: Document the new fields in the QAPI documentation [Eric].
+- Patch 25: Allow qcow2 preallocation with backing files.
+- Patch 26: Add some tests for qcow2 images with extended L2 entries.
 
-Step 3.
+v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-# qemu-img info test1-z.qcow2
-image: test1-z.qcow2
-file format: qcow2
-virtual size: 20 GiB (21474836480 bytes)
-disk size: 5.78 GiB
-cluster_size: 65536
-Format specific information:
-    compat: 1.1
-    lazy refcounts: false
-    refcount bits: 16
-    corrupt: false
+Output of git backport-diff against v1:
 
-# qemu-img check test1-z.qcow2
-ERROR cluster 1191 refcount=3D1 reference=3D2
-ERROR cluster 1194 refcount=3D1 reference=3D4
-ERROR cluster 1195 refcount=3D1 reference=3D7
-ERROR cluster 1196 refcount=3D1 reference=3D7
-ERROR cluster 1197 refcount=3D1 reference=3D6
-ERROR cluster 1198 refcount=3D1 reference=3D4
-ERROR cluster 1199 refcount=3D1 reference=3D4
-ERROR cluster 1200 refcount=3D1 reference=3D5
-ERROR cluster 1201 refcount=3D1 reference=3D3
-<...> snip many errors
-Leaked cluster 94847 refcount=3D3 reference=3D0
-Leaked cluster 94848 refcount=3D3 reference=3D0
-Leaked cluster 94849 refcount=3D11 reference=3D0
-Leaked cluster 94850 refcount=3D14 reference=3D0
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
 
-20503 errors were found on the image.
-Data may be corrupted, or further writes to the image may corrupt it.
+001/26:[----] [-C] 'qcow2: Add calculate_l2_meta()'
+002/26:[----] [--] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
+003/26:[----] [--] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
+004/26:[----] [--] 'qcow2: Add get_l2_entry() and set_l2_entry()'
+005/26:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
+006/26:[----] [--] 'qcow2: Add dummy has_subclusters() function'
+007/26:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
+008/26:[----] [--] 'qcow2: Add offset_to_sc_index()'
+009/26:[----] [--] 'qcow2: Add l2_entry_size()'
+010/26:[----] [--] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
+011/26:[----] [--] 'qcow2: Add qcow2_get_subcluster_type()'
+012/26:[0005] [FC] 'qcow2: Handle QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER'
+013/26:[----] [--] 'qcow2: Add subcluster support to calculate_l2_meta()'
+014/26:[----] [--] 'qcow2: Add subcluster support to qcow2_get_cluster_offset()'
+015/26:[----] [--] 'qcow2: Add subcluster support to zero_in_l2_slice()'
+016/26:[----] [--] 'qcow2: Add subcluster support to discard_in_l2_slice()'
+017/26:[----] [--] 'qcow2: Add subcluster support to check_refcounts_l2()'
+018/26:[----] [--] 'qcow2: Add subcluster support to expand_zero_clusters_in_l1()'
+019/26:[----] [--] 'qcow2: Fix offset calculation in handle_dependencies()'
+020/26:[----] [--] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
+021/26:[down] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
+022/26:[----] [--] 'qcow2: Add subcluster support to handle_alloc_space()'
+023/26:[----] [--] 'qcow2: Restrict qcow2_co_pwrite_zeroes() to full clusters only'
+024/26:[0007] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
+025/26:[down] 'qcow2: Allow preallocation and backing files if extended_l2 is set'
+026/26:[down] 'iotests: Add tests for qcow2 images with extended L2 entries'
 
-20503 leaked clusters were found on the image.
-This means waste of disk space, but no harm to data.
-197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed cl=
-usters
-Image end offset: 6216220672
+Alberto Garcia (26):
+  qcow2: Add calculate_l2_meta()
+  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
+  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
+  qcow2: Add get_l2_entry() and set_l2_entry()
+  qcow2: Document the Extended L2 Entries feature
+  qcow2: Add dummy has_subclusters() function
+  qcow2: Add subcluster-related fields to BDRVQcow2State
+  qcow2: Add offset_to_sc_index()
+  qcow2: Add l2_entry_size()
+  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
+  qcow2: Add qcow2_get_subcluster_type()
+  qcow2: Handle QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER
+  qcow2: Add subcluster support to calculate_l2_meta()
+  qcow2: Add subcluster support to qcow2_get_cluster_offset()
+  qcow2: Add subcluster support to zero_in_l2_slice()
+  qcow2: Add subcluster support to discard_in_l2_slice()
+  qcow2: Add subcluster support to check_refcounts_l2()
+  qcow2: Add subcluster support to expand_zero_clusters_in_l1()
+  qcow2: Fix offset calculation in handle_dependencies()
+  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
+  qcow2: Clear the L2 bitmap when allocating a compressed cluster
+  qcow2: Add subcluster support to handle_alloc_space()
+  qcow2: Restrict qcow2_co_pwrite_zeroes() to full clusters only
+  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
+  qcow2: Allow preallocation and backing files if extended_l2 is set
+  iotests: Add tests for qcow2 images with extended L2 entries
 
+ block/qcow2-cluster.c            | 548 ++++++++++++++++++++-----------
+ block/qcow2-refcount.c           |  38 ++-
+ block/qcow2.c                    |  92 +++++-
+ block/qcow2.h                    | 121 ++++++-
+ docs/interop/qcow2.txt           |  68 +++-
+ docs/qcow2-cache.txt             |  19 +-
+ include/block/block_int.h        |   1 +
+ qapi/block-core.json             |   6 +
+ tests/qemu-iotests/031.out       |   8 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 +++---
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  20 +-
+ tests/qemu-iotests/065           |  18 +-
+ tests/qemu-iotests/082.out       |  48 ++-
+ tests/qemu-iotests/085.out       |  38 +--
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/198.out       |   2 +
+ tests/qemu-iotests/206.out       |   6 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/271           | 235 +++++++++++++
+ tests/qemu-iotests/271.out       | 183 +++++++++++
+ tests/qemu-iotests/common.filter |   1 +
+ tests/qemu-iotests/group         |   1 +
+ 27 files changed, 1247 insertions(+), 340 deletions(-)
+ create mode 100755 tests/qemu-iotests/271
+ create mode 100644 tests/qemu-iotests/271.out
 
-The resultant image seems to work fine in a VM when used as a backing file.
+-- 
+2.20.1
 
-Interestingly, if I substitute a qemu-img binary from qemu-4.0 then no
-errors are reported.
-
-# /tmp/qemu-img check test1-z.qcow2
-No errors were found on the image.
-197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed cl=
-usters
-Image end offset: 6216220672
-
-Is the image corrupted or not? I'm guessing not.
-
-Just in case it matters, this is ext4 fs on rotational disk. Latest Arch
-Linux but self compiled 4.1.0 with recent QCOW2 corruption fixes added.
-
-I haven't tried latest trunk but might do so if time permits.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1850000
-
-Title:
-  4.1.0 bogus QCOW2 corruption reported after compress
-
-Status in QEMU:
-  New
-
-Bug description:
-  Creating a compressed image then running `qemu-img check <..>.qcow2'
-  on said image seems to report bogus corruption in some (but not all)
-  cases:
-
-  Step 1.
-
-  # qemu-img info win7-base.qcow2
-  image: win7-base.qcow2
-  file format: qcow2
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 12.2 GiB
-  cluster_size: 65536
-  Format specific information:
-      compat: 1.1
-      lazy refcounts: true
-      refcount bits: 16
-      corrupt: false
-
-  # qemu-img check win7-base.qcow2
-  No errors were found on the image.
-  327680/327680 =3D 100.00% allocated, 0.00% fragmented, 0.00% compressed c=
-lusters
-  Image end offset: 21478375424
-
-  Step 2.
-
-  # qemu-img convert -f qcow2 -O qcow2 -c win7-base.qcow2 test1-z.qcow2
-
-  Step 3.
-
-  # qemu-img info test1-z.qcow2
-  image: test1-z.qcow2
-  file format: qcow2
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 5.78 GiB
-  cluster_size: 65536
-  Format specific information:
-      compat: 1.1
-      lazy refcounts: false
-      refcount bits: 16
-      corrupt: false
-
-  # qemu-img check test1-z.qcow2
-  ERROR cluster 1191 refcount=3D1 reference=3D2
-  ERROR cluster 1194 refcount=3D1 reference=3D4
-  ERROR cluster 1195 refcount=3D1 reference=3D7
-  ERROR cluster 1196 refcount=3D1 reference=3D7
-  ERROR cluster 1197 refcount=3D1 reference=3D6
-  ERROR cluster 1198 refcount=3D1 reference=3D4
-  ERROR cluster 1199 refcount=3D1 reference=3D4
-  ERROR cluster 1200 refcount=3D1 reference=3D5
-  ERROR cluster 1201 refcount=3D1 reference=3D3
-  <...> snip many errors
-  Leaked cluster 94847 refcount=3D3 reference=3D0
-  Leaked cluster 94848 refcount=3D3 reference=3D0
-  Leaked cluster 94849 refcount=3D11 reference=3D0
-  Leaked cluster 94850 refcount=3D14 reference=3D0
-
-  20503 errors were found on the image.
-  Data may be corrupted, or further writes to the image may corrupt it.
-
-  20503 leaked clusters were found on the image.
-  This means waste of disk space, but no harm to data.
-  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
-clusters
-  Image end offset: 6216220672
-
-  =
-
-  The resultant image seems to work fine in a VM when used as a backing fil=
-e.
-
-  Interestingly, if I substitute a qemu-img binary from qemu-4.0 then no
-  errors are reported.
-
-  # /tmp/qemu-img check test1-z.qcow2
-  No errors were found on the image.
-  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
-clusters
-  Image end offset: 6216220672
-
-  Is the image corrupted or not? I'm guessing not.
-
-  Just in case it matters, this is ext4 fs on rotational disk. Latest
-  Arch Linux but self compiled 4.1.0 with recent QCOW2 corruption fixes
-  added.
-
-  I haven't tried latest trunk but might do so if time permits.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1850000/+subscriptions
 
