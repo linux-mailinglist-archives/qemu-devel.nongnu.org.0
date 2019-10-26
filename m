@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA335E5FCB
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 23:58:23 +0200 (CEST)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA3AE5FE5
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:28:45 +0200 (CEST)
+Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOU4k-0001Jb-SU
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 17:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34281)
+	id 1iOUY8-00019h-8T
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iOTzd-0007Pl-9Q
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:53:06 -0400
+ (envelope-from <berto@igalia.com>) id 1iOTZj-00005k-PI
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iOTzb-0003f0-A9
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:53:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49360)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTzZ-0003eR-AG
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:53:03 -0400
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 15535C049E10
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:53:00 +0000 (UTC)
-Received: by mail-qk1-f199.google.com with SMTP id k67so6388468qkc.3
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:53:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/MkpAHK2Hskh7ImAHNPKaD4E2/muC8lHemAshCkwGhQ=;
- b=RUdTDxpiX6jvUM/70M9Cb0Ut0IP1F08IUQhc293m5YcLSuaLj+wXPbPE2KvSuDCHmJ
- 5CIFXMHiO38mhvicP9puZ62Kya7oflO6fjnkSsRWurPsn68cu/vPvQa7JaTw2qmmWFX0
- O2gvu0ybrQPHnXGLwgWDai5YyngIMJ/UxwlgEHl0gX6l7PEylcqJUSR0VJlgCIWMr48H
- yZKQvWjCTgLbP93EW5FkXzcdPk63PfU50KoDaCOSG8yvRVCfcY9qzBO2Uu1eO+18wr27
- XDKl58FGZKjhBxhAFqOtsJd7gdPhKIW6P63nq+yqWM+KBuG2NrAfltq0oup7HyNe444I
- o0aw==
-X-Gm-Message-State: APjAAAVQ9a5VOd49Zmo3UYNBj9gMh3Eq5F/1LTwfr8qUVatWIYeJtRCj
- oZC5AZsMKxJUyJVUA0oXyP84buygH83ogdL6pmhLOhmn9tcxpN2eh6PKEdhAQcn18DkMhonmnav
- bjO5bMUizqyyRtRw=
-X-Received: by 2002:a37:7904:: with SMTP id u4mr9306702qkc.267.1572126778798; 
- Sat, 26 Oct 2019 14:52:58 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwAzx1qIgCzYr9e4d27a90G5Z+OB39mlgo9BglGyG1wWfhsHVigqqNuYwhaJcZlhSYS7khCgA==
-X-Received: by 2002:a37:7904:: with SMTP id u4mr9306683qkc.267.1572126778473; 
- Sat, 26 Oct 2019 14:52:58 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- t1sm3553913qkt.87.2019.10.26.14.52.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 14:52:57 -0700 (PDT)
-Date: Sat, 26 Oct 2019 17:52:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ (envelope-from <berto@igalia.com>) id 1iOTZi-0005MT-Fo
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:19 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42506)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iOTZg-0005Ez-9F; Sat, 26 Oct 2019 17:26:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=XEHEvrfcsTX6rTQlJxWyEBBrm+2ho4FOc5MlDoGNc74=; 
+ b=qWUk+kvBkREm/977gysMGaD02BlQBPUaPBN3JT1v2rQP2o1y+7H6Ud5GwgIsX56Rr7f+B/sqxyQ/HQBC6/8N/AKm8RwY0MIU4lNefM5cwdA4Yu4bJ4M0LIoilB9NHBduac2FMzmc89SbHIyqHz0okNxAkuAzTCMYC4HEJwGgw0ZBxw7lstM04l00TLADGT6op3NkEaohpYqVxkvSMW0eHw+CrMOuA6Rbfy6j1UXlwbUJN5czqRlScyhC86rwpmTOXZTn8Hx9qdMWSPdINEvvNerTSsj/F3iosJtz+HNTgb8m/JrHLFE0rcSYh3y0IR+a16s+BbX9PmOPWUqIrYwRTQ==;
+Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1iOTZI-00045j-Jv; Sat, 26 Oct 2019 23:25:52 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1iOTZ0-0001P2-12; Sun, 27 Oct 2019 00:25:34 +0300
+From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/25] libqos: add MSI-X callbacks to QVirtioPCIDevice
-Message-ID: <20191026193824.11926-21-mst@redhat.com>
-References: <20191026193824.11926-1-mst@redhat.com>
+Subject: [RFC PATCH v2 01/26] qcow2: Add calculate_l2_meta()
+Date: Sun, 27 Oct 2019 00:25:03 +0300
+Message-Id: <22820af5867124e4fdf3d0cb74b99f31edc1b37f.1572125022.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1572125022.git.berto@igalia.com>
+References: <cover.1572125022.git.berto@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191026193824.11926-1-mst@redhat.com>
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,145 +56,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Sergio Lopez <slp@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+handle_alloc() creates a QCowL2Meta structure in order to update the
+image metadata and perform the necessary copy-on-write operations.
 
-The MSI-X vectors are programmed differently in the VIRTIO 1.0 and
-Legacy interfaces.  Introduce callbacks so different implementations can
-be used depending on the interface version.
+This patch moves that code to a separate function so it can be used
+from other places.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191023100425.12168-13-stefanha@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- tests/libqos/virtio-pci.c | 37 ++++++++++++++++++++++++++++---------
- tests/libqos/virtio-pci.h | 12 ++++++++++++
- 2 files changed, 40 insertions(+), 9 deletions(-)
+ block/qcow2-cluster.c | 76 +++++++++++++++++++++++++++++--------------
+ 1 file changed, 52 insertions(+), 24 deletions(-)
 
-diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index e4fa318dcc..0725777a8d 100644
---- a/tests/libqos/virtio-pci.c
-+++ b/tests/libqos/virtio-pci.c
-@@ -281,6 +281,31 @@ const QVirtioBus qvirtio_pci = {
-     .virtqueue_kick = qvirtio_pci_virtqueue_kick,
- };
- 
-+static void qvirtio_pci_set_config_vector(QVirtioPCIDevice *d, uint16_t entry)
-+{
-+    uint16_t vector;
-+
-+    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR, entry);
-+    vector = qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR);
-+    g_assert_cmphex(vector, !=, VIRTIO_MSI_NO_VECTOR);
-+}
-+
-+static void qvirtio_pci_set_queue_vector(QVirtioPCIDevice *d, uint16_t vq_idx,
-+                                         uint16_t entry)
-+{
-+    uint16_t vector;
-+
-+    qvirtio_pci_queue_select(&d->vdev, vq_idx);
-+    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR, entry);
-+    vector = qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR);
-+    g_assert_cmphex(vector, !=, VIRTIO_MSI_NO_VECTOR);
-+}
-+
-+static const QVirtioPCIMSIXOps qvirtio_pci_msix_ops_legacy = {
-+    .set_config_vector = qvirtio_pci_set_config_vector,
-+    .set_queue_vector = qvirtio_pci_set_queue_vector,
-+};
-+
- void qvirtio_pci_device_enable(QVirtioPCIDevice *d)
- {
-     qpci_device_enable(d->pdev);
-@@ -295,7 +320,6 @@ void qvirtio_pci_device_disable(QVirtioPCIDevice *d)
- void qvirtqueue_pci_msix_setup(QVirtioPCIDevice *d, QVirtQueuePCI *vqpci,
-                                         QGuestAllocator *alloc, uint16_t entry)
- {
--    uint16_t vector;
-     uint32_t control;
-     uint64_t off;
- 
-@@ -321,16 +345,12 @@ void qvirtqueue_pci_msix_setup(QVirtioPCIDevice *d, QVirtQueuePCI *vqpci,
-                    off + PCI_MSIX_ENTRY_VECTOR_CTRL,
-                    control & ~PCI_MSIX_ENTRY_CTRL_MASKBIT);
- 
--    qvirtio_pci_queue_select(&d->vdev, vqpci->vq.index);
--    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR, entry);
--    vector = qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_QUEUE_VECTOR);
--    g_assert_cmphex(vector, !=, VIRTIO_MSI_NO_VECTOR);
-+    d->msix_ops->set_queue_vector(d, vqpci->vq.index, entry);
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 8982b7b762..6c1dcdc781 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1019,6 +1019,55 @@ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
+                         QCOW2_DISCARD_NEVER);
  }
  
- void qvirtio_pci_set_msix_configuration_vector(QVirtioPCIDevice *d,
-                                         QGuestAllocator *alloc, uint16_t entry)
- {
--    uint16_t vector;
-     uint32_t control;
-     uint64_t off;
- 
-@@ -358,9 +378,7 @@ void qvirtio_pci_set_msix_configuration_vector(QVirtioPCIDevice *d,
-                    off + PCI_MSIX_ENTRY_VECTOR_CTRL,
-                    control & ~PCI_MSIX_ENTRY_CTRL_MASKBIT);
- 
--    qpci_io_writew(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR, entry);
--    vector = qpci_io_readw(d->pdev, d->bar, VIRTIO_MSI_CONFIG_VECTOR);
--    g_assert_cmphex(vector, !=, VIRTIO_MSI_NO_VECTOR);
-+    d->msix_ops->set_config_vector(d, entry);
- }
- 
- void qvirtio_pci_destructor(QOSGraphObject *obj)
-@@ -383,6 +401,7 @@ static void qvirtio_pci_init_from_pcidev(QVirtioPCIDevice *dev, QPCIDevice *pci_
-     dev->vdev.device_type = qpci_config_readw(pci_dev, PCI_SUBSYSTEM_ID);
- 
-     dev->config_msix_entry = -1;
-+    dev->msix_ops = &qvirtio_pci_msix_ops_legacy;
- 
-     dev->vdev.bus = &qvirtio_pci;
-     dev->vdev.big_endian = qvirtio_pci_is_big_endian(dev);
-diff --git a/tests/libqos/virtio-pci.h b/tests/libqos/virtio-pci.h
-index 728b4715f1..4299efc023 100644
---- a/tests/libqos/virtio-pci.h
-+++ b/tests/libqos/virtio-pci.h
-@@ -14,16 +14,28 @@
- #include "libqos/pci.h"
- #include "libqos/qgraph.h"
- 
-+typedef struct QVirtioPCIMSIXOps QVirtioPCIMSIXOps;
++/*
++ * For a given write request, create a new QCowL2Meta structure and
++ * add it to @m.
++ *
++ * @host_offset points to the beginning of the first cluster.
++ *
++ * @guest_offset and @bytes indicate the offset and length of the
++ * request.
++ *
++ * If @keep_old is true it means that the clusters were already
++ * allocated and will be overwritten. If false then the clusters are
++ * new and we have to decrease the reference count of the old ones.
++ */
++static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset,
++                              uint64_t guest_offset, uint64_t bytes,
++                              QCowL2Meta **m, bool keep_old)
++{
++    BDRVQcow2State *s = bs->opaque;
++    unsigned cow_start_from = 0;
++    unsigned cow_start_to = offset_into_cluster(s, guest_offset);
++    unsigned cow_end_from = cow_start_to + bytes;
++    unsigned cow_end_to = ROUND_UP(cow_end_from, s->cluster_size);
++    unsigned nb_clusters = size_to_clusters(s, cow_end_from);
++    QCowL2Meta *old_m = *m;
 +
- typedef struct QVirtioPCIDevice {
-     QOSGraphObject obj;
-     QVirtioDevice vdev;
-     QPCIDevice *pdev;
-     QPCIBar bar;
-+    const QVirtioPCIMSIXOps *msix_ops;
-     uint16_t config_msix_entry;
-     uint64_t config_msix_addr;
-     uint32_t config_msix_data;
- } QVirtioPCIDevice;
++    *m = g_malloc0(sizeof(**m));
++    **m = (QCowL2Meta) {
++        .next           = old_m,
++
++        .alloc_offset   = host_offset,
++        .offset         = start_of_cluster(s, guest_offset),
++        .nb_clusters    = nb_clusters,
++
++        .keep_old_clusters = keep_old,
++
++        .cow_start = {
++            .offset     = cow_start_from,
++            .nb_bytes   = cow_start_to - cow_start_from,
++        },
++        .cow_end = {
++            .offset     = cow_end_from,
++            .nb_bytes   = cow_end_to - cow_end_from,
++        },
++    };
++
++    qemu_co_queue_init(&(*m)->dependent_requests);
++    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
++}
++
+ /*
+  * Returns the number of contiguous clusters that can be used for an allocating
+  * write, but require COW to be performed (this includes yet unallocated space,
+@@ -1417,35 +1466,14 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
+     uint64_t requested_bytes = *bytes + offset_into_cluster(s, guest_offset);
+     int avail_bytes = nb_clusters << s->cluster_bits;
+     int nb_bytes = MIN(requested_bytes, avail_bytes);
+-    QCowL2Meta *old_m = *m;
+-
+-    *m = g_malloc0(sizeof(**m));
+-
+-    **m = (QCowL2Meta) {
+-        .next           = old_m,
+-
+-        .alloc_offset   = alloc_cluster_offset,
+-        .offset         = start_of_cluster(s, guest_offset),
+-        .nb_clusters    = nb_clusters,
+-
+-        .keep_old_clusters  = keep_old_clusters,
+-
+-        .cow_start = {
+-            .offset     = 0,
+-            .nb_bytes   = offset_into_cluster(s, guest_offset),
+-        },
+-        .cow_end = {
+-            .offset     = nb_bytes,
+-            .nb_bytes   = avail_bytes - nb_bytes,
+-        },
+-    };
+-    qemu_co_queue_init(&(*m)->dependent_requests);
+-    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
  
-+struct QVirtioPCIMSIXOps {
-+    /* Set the Configuration Vector for MSI-X */
-+    void (*set_config_vector)(QVirtioPCIDevice *d, uint16_t entry);
+     *host_offset = alloc_cluster_offset + offset_into_cluster(s, guest_offset);
+     *bytes = MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offset));
+     assert(*bytes != 0);
+ 
++    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes,
++                      m, keep_old_clusters);
 +
-+    /* Set the Queue Vector for MSI-X */
-+    void (*set_queue_vector)(QVirtioPCIDevice *d, uint16_t vq_idx,
-+                             uint16_t entry);
-+};
-+
- typedef struct QVirtQueuePCI {
-     QVirtQueue vq;
-     uint16_t msix_entry;
+     return 1;
+ 
+ fail:
 -- 
-MST
+2.20.1
 
 
