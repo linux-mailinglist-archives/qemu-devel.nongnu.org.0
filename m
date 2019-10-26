@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1973EE5F51
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:48:22 +0200 (CEST)
-Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036D2E5F53
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:50:17 +0200 (CEST)
+Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOS2u-00070Y-Fe
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
+	id 1iOS4m-0002hG-1Z
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iORup-0001IB-0r
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:59 -0400
+ (envelope-from <mst@redhat.com>) id 1iORuu-0001Rq-Sd
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:40:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iORuo-0000Tx-0A
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32802)
+ (envelope-from <mst@redhat.com>) id 1iORut-0000WM-Bs
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:40:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32808)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORun-0000Ti-Qf
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:57 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORut-0000VZ-3u
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:40:03 -0400
 Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
  [209.85.160.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 078C785360
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:39:57 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id g1so6178855qtp.19
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:39:56 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3D3E485360
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:40:02 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id l32so3849739qtk.9
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:40:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=lQqyJlxFagbKqrc9JA5YsXn4LxS54pcPLkSb2ZI445I=;
- b=T6odJlLbIH1F/5rD/0olqrWbbxWPYqsLtaE9EjppazznL21QIyYi6glL5PA0NjV5u8
- yULmZmI1xcEsJwsVk13fiEOjrdERTsHt9eMnZhyL1nZZJgQue7GzjKAXoy4dp2vVFwfI
- ai/iwAoqgQgI8TEP3gp6S5Mf8R6A7YnpSzF+WHpkb4glT+x0T4U6hvQcAbcHNUnLisft
- 5JtEex37wl+wMeNXmJHka/S6mgOfpSdw37j5GadL2VlGbLln3oAmGQIAb0S9GxTuUl9a
- v5SQ3XKRiNbX7cJF/fPgHhozDO595SIXvAu0XrhWB3PMgnpM4fjmh9gmAopUfXfdkeWe
- W0Rw==
-X-Gm-Message-State: APjAAAVd8nKoYPCIw4JKN614iAC18cc7W2BvrNMFy/T+8HGw7yLVw+1J
- yDe7AWf117sC1Pb+UMgnpRa5PI2UiHkcH7kX9n2lJDOU9QqsLiqmlkWqj4FYd9xDbXEWY5glvXP
- rOqZtuU1Yu4ADmpg=
-X-Received: by 2002:a0c:d4ba:: with SMTP id u55mr9939456qvh.40.1572118796027; 
- Sat, 26 Oct 2019 12:39:56 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyIvRO2F2Wq2Ezv+DBVVbpp0E5tZQwq5hv8+VpEaBamYalHDBdOgIteIEVjnEWFPEct5zKOyg==
-X-Received: by 2002:a0c:d4ba:: with SMTP id u55mr9939439qvh.40.1572118795783; 
- Sat, 26 Oct 2019 12:39:55 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=VSAgiCx/ZDiMkWQzhksyT4dczHf36GYChIvUpTB4N5c=;
+ b=BKp4ZEGqqQumafQoe4nTWttafdG1gaVGCtSr3fMFNQcfs/lZSvMgDNXMsJIxheVRys
+ OsejJ847N1+nBsG12yQevLMIdjraSA0qs66ZvAaaC/iHzRj/aOJ3tBcs99LhGnnbU18E
+ 6g3Y6SO6mDpZVyDJ6Olcvpun4jWTav5YCEGY1B3EedJTGwo7C4710rTmj+XS7crub1bQ
+ REbBinPmz4AknepLQH/PqcM1E1U5ktKzozhZIiX6vMgmHdXZyKG+tSDZNv7x3ks5fWM1
+ ciRHtz5jmk3JefsleaYuaq2aBYQ/fro/beRJtcQsZDSlhDcRlNXGHvGQU1tlS954Y1s6
+ OpKw==
+X-Gm-Message-State: APjAAAVg+B2yQi5OyzKtgJXm5TKbBlwSyX+ok3B939ogNW0aCgHeqYSf
+ JYz1bk3nRSu8uepbHPz9AcLQiQ6ao+Hfw5OwJpnO/GdIO5hUMKFaDqyeKShY3FsmtVlyA1uRhr8
+ /l6UwjWIH2LJM5KQ=
+X-Received: by 2002:aed:24e4:: with SMTP id u33mr9838779qtc.259.1572118801052; 
+ Sat, 26 Oct 2019 12:40:01 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxm+TQ1CPDxypbcoseGqhWzkC2a4BRJxvDs4OECAbHbFoZRvxeR1t8DhUq1fwTOP1/2wH+zVw==
+X-Received: by 2002:aed:24e4:: with SMTP id u33mr9838762qtc.259.1572118800807; 
+ Sat, 26 Oct 2019 12:40:00 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- o1sm3830831qtb.82.2019.10.26.12.39.52
+ 11sm1665748qtx.45.2019.10.26.12.39.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 12:39:55 -0700 (PDT)
-Date: Sat, 26 Oct 2019 15:39:50 -0400
+ Sat, 26 Oct 2019 12:40:00 -0700 (PDT)
+Date: Sat, 26 Oct 2019 15:39:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/25] virtio: add property to enable packed virtqueue
-Message-ID: <20191026193824.11926-9-mst@redhat.com>
+Subject: [PULL 09/25] tests/virtio-blk-test: read config space after feature
+ negotiation
+Message-ID: <20191026193824.11926-10-mst@redhat.com>
 References: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20191026193824.11926-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -80,40 +79,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-Reviewed-by: Jens Freimann <jfreimann@redhat.com>
-Message-Id: <20191025083527.30803-9-eperezma@redhat.com>
+The VIRTIO Configuration Space cannot be accessed before device feature
+bits have been read because a driver doesn't know the endianness until
+it has checked VIRTIO_F_VERSION_1.
+
+Fix this problem in preparation for VIRTIO 1.0 support.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191023100425.12168-2-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/virtio-blk-test.c | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index d123d5b181..40ddeafadb 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -285,7 +285,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
-     DEFINE_PROP_BIT64("any_layout", _state, _field, \
-                       VIRTIO_F_ANY_LAYOUT, true), \
-     DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
--                      VIRTIO_F_IOMMU_PLATFORM, false)
-+                      VIRTIO_F_IOMMU_PLATFORM, false), \
-+    DEFINE_PROP_BIT64("packed", _state, _field, \
-+                      VIRTIO_F_RING_PACKED, false)
-=20
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
- bool virtio_queue_enabled(VirtIODevice *vdev, int n);
---=20
+diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
+index ed13167392..f6674fb233 100644
+--- a/tests/virtio-blk-test.c
++++ b/tests/virtio-blk-test.c
+@@ -125,10 +125,6 @@ static void test_basic(QVirtioDevice *dev, QGuestAllocator *alloc,
+     char *data;
+     QTestState *qts = global_qtest;
+ 
+-    capacity = qvirtio_config_readq(dev, 0);
+-
+-    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+-
+     features = qvirtio_get_features(dev);
+     features = features & ~(QVIRTIO_F_BAD_FEATURE |
+                     (1u << VIRTIO_RING_F_INDIRECT_DESC) |
+@@ -136,6 +132,9 @@ static void test_basic(QVirtioDevice *dev, QGuestAllocator *alloc,
+                     (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+ 
++    capacity = qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
++
+     qvirtio_set_driver_ok(dev);
+ 
+     /* Write and read with 3 descriptor layout */
+@@ -359,9 +358,6 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
+     char *data;
+     QTestState *qts = global_qtest;
+ 
+-    capacity = qvirtio_config_readq(dev, 0);
+-    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+-
+     features = qvirtio_get_features(dev);
+     g_assert_cmphex(features & (1u << VIRTIO_RING_F_INDIRECT_DESC), !=, 0);
+     features = features & ~(QVIRTIO_F_BAD_FEATURE |
+@@ -369,6 +365,9 @@ static void indirect(void *obj, void *u_data, QGuestAllocator *t_alloc)
+                             (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+ 
++    capacity = qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
++
+     vq = qvirtqueue_setup(dev, t_alloc, 0);
+     qvirtio_set_driver_ok(dev);
+ 
+@@ -434,8 +433,16 @@ static void config(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtioBlk *blk_if = obj;
+     QVirtioDevice *dev = blk_if->vdev;
+     int n_size = TEST_IMAGE_SIZE / 2;
++    uint64_t features;
+     uint64_t capacity;
+ 
++    features = qvirtio_get_features(dev);
++    features = features & ~(QVIRTIO_F_BAD_FEATURE |
++                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
++                            (1u << VIRTIO_RING_F_EVENT_IDX) |
++                            (1u << VIRTIO_BLK_F_SCSI));
++    qvirtio_set_features(dev, features);
++
+     capacity = qvirtio_config_readq(dev, 0);
+     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+ 
+@@ -475,9 +482,6 @@ static void msix(void *obj, void *u_data, QGuestAllocator *t_alloc)
+     qpci_msix_enable(pdev->pdev);
+     qvirtio_pci_set_msix_configuration_vector(pdev, t_alloc, 0);
+ 
+-    capacity = qvirtio_config_readq(dev, 0);
+-    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+-
+     features = qvirtio_get_features(dev);
+     features = features & ~(QVIRTIO_F_BAD_FEATURE |
+                             (1u << VIRTIO_RING_F_INDIRECT_DESC) |
+@@ -485,6 +489,9 @@ static void msix(void *obj, void *u_data, QGuestAllocator *t_alloc)
+                             (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+ 
++    capacity = qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
++
+     vq = qvirtqueue_setup(dev, t_alloc, 0);
+     qvirtqueue_pci_msix_setup(pdev, (QVirtQueuePCI *)vq, t_alloc, 1);
+ 
+@@ -584,9 +591,6 @@ static void idx(void *obj, void *u_data, QGuestAllocator *t_alloc)
+     qpci_msix_enable(pdev->pdev);
+     qvirtio_pci_set_msix_configuration_vector(pdev, t_alloc, 0);
+ 
+-    capacity = qvirtio_config_readq(dev, 0);
+-    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+-
+     features = qvirtio_get_features(dev);
+     features = features & ~(QVIRTIO_F_BAD_FEATURE |
+                             (1u << VIRTIO_RING_F_INDIRECT_DESC) |
+@@ -594,6 +598,9 @@ static void idx(void *obj, void *u_data, QGuestAllocator *t_alloc)
+                             (1u << VIRTIO_BLK_F_SCSI));
+     qvirtio_set_features(dev, features);
+ 
++    capacity = qvirtio_config_readq(dev, 0);
++    g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
++
+     vq = qvirtqueue_setup(dev, t_alloc, 0);
+     qvirtqueue_pci_msix_setup(pdev, (QVirtQueuePCI *)vq, t_alloc, 1);
+ 
+-- 
 MST
 
 
