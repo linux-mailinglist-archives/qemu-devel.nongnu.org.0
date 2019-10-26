@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B454E5FED
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:34:10 +0200 (CEST)
-Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223A9E5FEF
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:38:47 +0200 (CEST)
+Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUdN-00018P-3I
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60299)
+	id 1iOUhp-0007e8-VR
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iOTZw-0000Wj-JO
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:33 -0400
+ (envelope-from <mst@redhat.com>) id 1iOTzF-0005VT-GG
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iOTZv-0005RL-Ew
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:32 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42518)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iOTZu-0005F9-UX; Sat, 26 Oct 2019 17:26:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=gM1HDHFjmOmPSS37VcAha72pwhGVFgdram6nRVFEymM=; 
- b=M3Xp2CXF+zmM75f7HHVsdPR+O0040gh5v4EjBeNvy3xz3qcpZF4YqHkHj3qn0hB2olR4sp2YwvOtRFAz4v02sOMpXFkYgppjqIQr7PXiEtOa9visE4UVKV83bIniR1GgC10miTOXpGZlQlbVvE7yeGFEf1wxTaqpbzhepZE2b96ZCdsOtnphvtNgMkxLFl1Ih7kT2+Jg1VAGPIFR+hQiZ3Cp6dKDSRT6rRrgUG0sTy/5/GAPVjZ+m6isuny4yeI1KEGY3DcSe9Id+03sNGCrsSp8Iqd/BHfEvFX8xJN1lvRD6WSDFST3ejGM7GBRYfCaN0Gkng6R1Wb2MzqYUqXdQg==;
-Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
- helo=perseus.local) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iOTZJ-00046B-9J; Sat, 26 Oct 2019 23:25:53 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1iOTZ1-0001Pl-2h; Sun, 27 Oct 2019 00:25:35 +0300
-From: Alberto Garcia <berto@igalia.com>
+ (envelope-from <mst@redhat.com>) id 1iOTzE-0003Za-37
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54122)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTzD-0003ZK-RB
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:40 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5A27A5945B
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:52:38 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id v23so2739650qth.20
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:52:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3gU25GDgMsUx4G9fo45xqWhGpCO+qZL7RzGmc1DlyOI=;
+ b=V9J9rQaSdtUFOnWHWswgGHFOk6D4kMyMS1zxLPCp1kMsAX0NkBQslgpTtnCl975Dk+
+ Hlw6CcsBg/d1bU11pFCkk5SUzw66u8XhDrXT3V1B8EnKu9OU1bQstKbKVIKABIoy2PyD
+ XrMA6ER4vtSqn+zYSJxE+rKCF0VMrwVQJvJhkkvhiBg0PyMP92r00GuWgdeS0ZgM3vsF
+ yxbvPlnT8XHffgtoQYoi1SAWilhbHFu48kL3TTaKsM+o1TVsIebbWrusOMxX8Lh4YEIW
+ gnV1za0T0FgB9oTWu50x+NY6hmGfvy1ki8UpCpzMaveiVdRAKRFk7c6j4VOXWWxGTMLb
+ Tzzg==
+X-Gm-Message-State: APjAAAX37cegOg60Qc7zrrBD7MovV4y4WRAYaQtGsUVHu6/mOcyrK63w
+ qG6qXDK0/K+44d/M0NNCQvf8ppOBU6uM8sZXZ8/9OYn7NwfRCXct5MSMQvh7YYjusf3KRwmJCZQ
+ mjxhKnMZXq1Z7Mw0=
+X-Received: by 2002:ac8:548f:: with SMTP id h15mr10530362qtq.176.1572126757144; 
+ Sat, 26 Oct 2019 14:52:37 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyFcWr2TR3/a8sv/hVoVHaVJY/En9bM9BtgSmbS+5gaAfTxQx0GwYqmNyf4RS/hqamjA4hx+Q==
+X-Received: by 2002:ac8:548f:: with SMTP id h15mr10530345qtq.176.1572126756944; 
+ Sat, 26 Oct 2019 14:52:36 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ x19sm3271213qkf.26.2019.10.26.14.52.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Oct 2019 14:52:36 -0700 (PDT)
+Date: Sat, 26 Oct 2019 17:52:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 23/26] qcow2: Restrict qcow2_co_pwrite_zeroes() to full
- clusters only
-Date: Sun, 27 Oct 2019 00:25:25 +0300
-Message-Id: <755edeae312aee4b1f06563484db1365272b430d.1572125022.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1572125022.git.berto@igalia.com>
-References: <cover.1572125022.git.berto@igalia.com>
+Subject: [PULL 16/25] libqos: implement VIRTIO 1.0 FEATURES_OK step
+Message-ID: <20191026193824.11926-17-mst@redhat.com>
+References: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191026193824.11926-1-mst@redhat.com>
+X-Mailer: git-send-email 2.22.0.678.g13338e74b8
+X-Mutt-Fcc: =sent
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,40 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally it should be possible to zero individual subclusters using
-this function, but this is currently not implemented.
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
+Device initialization has an extra step in VIRTIO 1.0.  The FEATURES_OK
+status bit is set to indicate that feature negotiation has completed.
+The driver then reads the status register again to check that the device
+agrees with the final features.
+
+Implement this step as part of qvirtio_set_features() instead of
+introducing a separate function.  This way all existing code works
+without modifications.
+
+The check in qvirtio_set_driver_ok() needs to be updated because
+FEATURES_OK will be set for VIRTIO 1.0 devices.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20191023100425.12168-9-stefanha@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Thomas Huth" <thuth@redhat.com>
 ---
- block/qcow2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/libqos/virtio.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 01322ca449..537569ce88 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3704,6 +3704,12 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
-         bytes = s->cluster_size;
-         nr = s->cluster_size;
-         ret = qcow2_get_cluster_offset(bs, offset, &nr, &off);
-+        /* TODO: allow zeroing separate subclusters, we only allow
-+         * zeroing full clusters at the moment. */
-+        if (nr != bytes) {
-+            qemu_co_mutex_unlock(&s->lock);
-+            return -ENOTSUP;
-+        }
-         if (ret != QCOW2_CLUSTER_UNALLOCATED &&
-             ret != QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER &&
-             ret != QCOW2_CLUSTER_ZERO_PLAIN &&
+diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
+index 6049ff3b3e..fa597c2481 100644
+--- a/tests/libqos/virtio.c
++++ b/tests/libqos/virtio.c
+@@ -46,6 +46,20 @@ void qvirtio_set_features(QVirtioDevice *d, uint64_t features)
+ {
+     d->features = features;
+     d->bus->set_features(d, features);
++
++    /*
++     * This could be a separate function for drivers that want to access
++     * configuration space before setting FEATURES_OK, but no existing users
++     * need that and it's less code for callers if this is done implicitly.
++    */
++    if (features & (1ull << VIRTIO_F_VERSION_1)) {
++        uint8_t status = d->bus->get_status(d) |
++                         VIRTIO_CONFIG_S_FEATURES_OK;
++
++        d->bus->set_status(d, status);
++        g_assert_cmphex(d->bus->get_status(d), ==, status);
++    }
++
+     d->features_negotiated = true;
+ }
+ 
+@@ -86,7 +100,9 @@ void qvirtio_set_driver_ok(QVirtioDevice *d)
+ {
+     d->bus->set_status(d, d->bus->get_status(d) | VIRTIO_CONFIG_S_DRIVER_OK);
+     g_assert_cmphex(d->bus->get_status(d), ==, VIRTIO_CONFIG_S_DRIVER_OK |
+-                    VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_ACKNOWLEDGE);
++                    VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_ACKNOWLEDGE |
++                    (d->features & (1ull << VIRTIO_F_VERSION_1) ?
++                     VIRTIO_CONFIG_S_FEATURES_OK : 0));
+ }
+ 
+ void qvirtio_wait_queue_isr(QTestState *qts, QVirtioDevice *d,
 -- 
-2.20.1
+MST
 
 
