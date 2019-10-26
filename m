@@ -2,76 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE191E5B67
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 15:22:52 +0200 (CEST)
-Received: from localhost ([::1]:40094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888FFE5D6D
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 15:37:31 +0200 (CEST)
+Received: from localhost ([::1]:40174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOM1r-0004tm-AY
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 09:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43146)
+	id 1iOMG2-00045k-AW
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 09:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOLzf-0003Dl-8I
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 09:20:36 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iOMCk-0007r0-Bk
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 09:34:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOLzb-0005EJ-PI
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 09:20:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38846)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOLzb-00059i-Em
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 09:20:31 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B929F59449
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 13:20:26 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id a15so2959770wrr.0
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 06:20:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3l9obMCJnffoqaUMu8c1foElODV0vWG4czi5gqPWIzI=;
- b=qD9EfHlwKraixf9r/CRIVi9Y3X3UsinrCqaoBkearUTTn5XESLJMbjs46vPAKv82oC
- Ak8MDE9A8FvLc+i6CEN7xHlkDLNEIwi6MHV4Ge+IJWgyQV0xlPP879Qw83hevgpG44Vk
- pafLvUwAz6zpffsfRqvl+KzuDwRT9GjXBc0HsPMgRiqI9R8/FCxJYNLDwNvcS50LbbM6
- YmNdxza5QNJhkT2ZiYKKt4Ic5yYzaG19nBns0TvmBpum9e8ikZjoJGlEe8A+nyPXAI7s
- dpqPzp8G4mDGqPUOD7vERsZUfKrdQmtDgHQX3f7sADl2B0XNv5qAsm6NcWmjCf70U275
- +Muw==
-X-Gm-Message-State: APjAAAUFq4FqGEOJRDR01/ZM6rZ0R5x21DZqG5a6pxVQ2jMZ9eTamb/b
- MOqWHYSMgKVfdXl8WA+m0OleaaQ6Hm4wQXYTwhZT4qpRrmu3htRb1NAg7JM9rBJO+dVNR+y5H20
- fFAtZG0AwwZ44loE=
-X-Received: by 2002:a1c:7401:: with SMTP id p1mr7510817wmc.144.1572096025019; 
- Sat, 26 Oct 2019 06:20:25 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyuN0rcFe4OAUy9sEJxx5aOne8IEInZm+NGwlUEbzhPn2nbrQY263F1guxBWxZMCV/6AEp+vw==
-X-Received: by 2002:a1c:7401:: with SMTP id p1mr7510806wmc.144.1572096024825; 
- Sat, 26 Oct 2019 06:20:24 -0700 (PDT)
-Received: from [192.168.1.33] (62.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.62])
- by smtp.gmail.com with ESMTPSA id s5sm1140300wmj.37.2019.10.26.06.20.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Oct 2019 06:20:24 -0700 (PDT)
-Subject: Re: [PULL 00/39] Misc (mostly x86) patches for 2019-10-24
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <1571925835-31930-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA-1gWa8qRK85i+MP-UixiPq7NPHw+8kn6KPq6VQMtRt4g@mail.gmail.com>
- <d599e5c5-0963-bf02-df88-0e01ee739c93@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d7fbed89-29f9-7b4f-b894-9fd78dc9ce73@redhat.com>
-Date: Sat, 26 Oct 2019 15:20:22 +0200
+ (envelope-from <laurent@vivier.eu>) id 1iOMCj-0002bA-0l
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 09:34:06 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:56349)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iOMCZ-0002RX-Fd; Sat, 26 Oct 2019 09:33:55 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MKKd7-1ihnwh12sx-00LjPm; Sat, 26 Oct 2019 15:33:00 +0200
+Subject: Re: [PATCH 00/20] hw: Clean up hw/i386 headers (and few alpha/hppa)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20191014142246.4538-1-philmd@redhat.com>
+ <dacba192-0a1e-9801-3e6f-02583bd8b994@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <fe8ef9e8-d8d2-e92c-cde3-13a11fa1a5bf@vivier.eu>
+Date: Sat, 26 Oct 2019 15:32:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <d599e5c5-0963-bf02-df88-0e01ee739c93@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <dacba192-0a1e-9801-3e6f-02583bd8b994@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:AfH0JSrsQ7+6IREPNux+I86yleQstGdiOfFgdWcmW2iM6kTzKqX
+ yN7J5lA/ATJjarOqxxXxi5jhpSy/ZYVjR2d/86Q+vY2ucFsLNVIzm3nygeLzru3JcOLmCSu
+ TxqJgkXFuCSDjZ6HcaxdbTnf7n9yPzF9KCt3taj5KO6OI0FjZCXLnebanyi56/0K7LVE5VX
+ cYSjjTQfVEevHZPjrtcxA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JB65cC2/0K4=:zubs51sgA7OgkzO1EQAX7T
+ nwKJdGsUQE8/ZQJssjE84YDLY2EdPT8+y9bflYl/9fENMmt5wFFk3OEAPzDQDxfI9HZzK0cIe
+ 50WgreLUlatCyr0g27LwipmFSN5b+8D6sWt7DrTk3/KL7rkCGXDWb0sTeKbQccBQLucylT+3A
+ zntPsfQS+RM8GErVuLUN/35mvag1Hcgk6C2rORlgdSL3LZXMaiPNlAkYo4lfnutYgAF3dB1xZ
+ jEZt0UJqD595c9Ib08ZiKLnRqeOlikBQ7aZAr8O698nomuak811qEe/XlaAX+I5yN/oESkh9S
+ BpcCztTKdBn524aoiRvwC5y2tZScdA9ya2zWR05wjBg6kv9GLQxR/FAfm+paNhBYTZ+tCWMom
+ TzxDCgAbzrrwljLDhfTMfi9dbdPkRqFRbHYLHjHBp/lIWHZPIjAAUHS6O8vWbQFw+o9XgtV7x
+ ILg/9rZ0IGEoc8PzdHYit50O2vFnD8LVRjcdAviB22G+2JyvlXjY9EgDwH+P7EmJuq01bUYC1
+ B2bP1gq0wLThi/PK84NdPGpWG60i1NmGLIArxPpTMU7mx7LuYvci5BBGLP29vxbMZL3Vq7MQ5
+ 06RVgkyEvB0/xtiWeA5eOJRL/ssUiVv7NLdN5vwjLzRlgkWg2ac6136IURxQby/6BIFTekg3P
+ ADrPZFD9JMmn/xvzHvIrPeU47ffrW50wzFT1TqFAltQ9P6o8At5GHrb976U1UcRZtdS+Z1vqN
+ rSI9NNhLuFWBqbYZy/3yTkio9YSFIk19v6oXAJtURYPxPJnio5Ttr9wiydhrdM4fdubNneBd9
+ 1ClwCgTcxrz6HACpHqrySPSgC225f8iJysJSGNNXydoImJ8+EvhZQBrZ2TjOjAm87O+cOl8kb
+ cuH21ROTQq4/0qUSrhJiqHJdjtHuEGIfvQEvDynNk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,42 +113,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Helge Deller <deller@gmx.de>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/19 1:17 PM, Paolo Bonzini wrote:
-> On 25/10/19 12:46, Peter Maydell wrote:
->>
->> x86_register_ferr_irq() is defined in target/i386/fpu_helper.c,
->> which is only built if CONFIG_TCG, but the callers don't
->> seem to be similarly guarded and there's no stub fallback.
+Le 26/10/2019 à 14:20, Philippe Mathieu-Daudé a écrit :
+> Hi,
 > 
-> Indeed, thanks.  I'll add an "if (tcg_enabled())" since this feature is
-> not supported by accelerators other than TCG.
+> On 10/14/19 4:22 PM, Philippe Mathieu-Daudé wrote:
+>> This is a follow-up of Markus's cleanup series:
+>> Tame a few "touch this, recompile the world"
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg635748.html
+>>
+>> This part is mostly restricted to X86, but since some file from the
+>> Alpha/PA-RISC machines include "hw/i386/pc.h" I had to fix them
+>> too.
+>>
+>> Eventually I'll succeed at removing hw/i386/ dependency on non-X86
+>> platforms (Quest I started 2 years ago...).
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>> Philippe Mathieu-Daudé (20):
+>>    vl: Add missing "hw/boards.h" include
+>>    hw/southbridge/ich9: Removed unused headers
+>>    hw/input/pckbd: Remove unused "hw/i386/pc.h" header
+>>    hw/i386/ioapic_internal: Remove unused "hw/i386/ioapic.h" header
+>>    hw/timer: Remove unused "ui/console.h" header
+>>    hw/usb/dev-storage: Remove unused "ui/console.h" header
+>>    hw/i386/intel_iommu: Remove unused includes
+>>    hw/xen/xen_pt_load_rom: Remove unused includes
+>>    hw/alpha/alpha_sys: Remove unused "hw/ide.h" header
+>>    hw/alpha/dp264: Include "net/net.h"
+>>    hw/hppa/machine: Include "net/net.h"
+>>    hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
+>>    hw/timer/hpet: Include "exec/address-spaces.h"
+>>    hw/pci-host/q35: Include "qemu/range.h"
+>>    hw/i2c/smbus_ich9: Include "qemu/range.h"
+>>    hw/pci-host/piix: Include "qemu/range.h"
+>>    hw/acpi: Include "hw/mem/nvdimm.h"
+>>    hw/i386: Include "hw/mem/nvdimm.h"
+>>    hw/pci-host/q35: Remove unused includes
+>>    hw/i386/pc: Clean up includes
+> Laurent, since this series is fully reviewed, can it go via
+> your qemu-trivial tree?
 
-Paolo, since the "Split timer <-> rtc" series got merged via
-the trivial tree, you need to squash this fix to patch #33
-("mc146818rtc: Include mc146818rtc_regs.h directly in
-  mc146818rtc.c") to avoid build failure:
+I'll try but I'm not sure to have the time to do that before the softfreeze.
 
--- >8 --
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index bbe6783898..9f5dd47fb6 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -42,7 +42,7 @@
-  #include "qapi/qapi-events-misc-target.h"
-  #include "qapi/visitor.h"
-  #include "exec/address-spaces.h"
--#include "hw/timer/mc146818rtc_regs.h"
-+#include "hw/rtc/mc146818rtc_regs.h"
-
-  #ifdef TARGET_I386
-  #include "hw/i386/apic.h"
----
-
-Regards,
-
-Phil.
+Thanks,
+Laurent
 
