@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853B8E5E99
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 20:21:16 +0200 (CEST)
-Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE3BE5F44
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:42:09 +0200 (CEST)
+Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOQgd-0007Mt-Jk
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 14:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41125)
+	id 1iORwu-00031K-AF
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOQRX-0004Rf-Vv
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 14:05:41 -0400
+ (envelope-from <mst@redhat.com>) id 1iORu9-0000Fr-JW
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOQRW-00007n-Pf
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 14:05:39 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52358
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iORu6-00006e-R7
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26391
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOQRW-00007O-5j
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 14:05:38 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORu6-00006U-Ks
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572113137;
+ s=mimecast20190719; t=1572118754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WQsFUyLAwDljpdipMYVdl0GqrBsJ3XrvhlsEYkdcey4=;
- b=gjvbuaCvY68k0tG73B0o8YxEku85CRaX2rxLRRszoqJFdMA/p64FAhoML6qsVHXDOGJTy4
- n0W+IbwOyY3BHc8Keh/4+zZImBbDnCkjrOHJK5w6sUqHO9xuh67meCOsGCH3cIVcfGyFfF
- s+Q39GGO9MzBHyKREKN3jx5OOol4GFg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-DrSHE9VQP-SzjnH1n34PiQ-1; Sat, 26 Oct 2019 14:05:34 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C37B71800E00;
- Sat, 26 Oct 2019 18:05:32 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-39.brq.redhat.com [10.40.204.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A27A60C83;
- Sat, 26 Oct 2019 18:05:18 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7zBJcQYcm4R1xBnCaPtvBJ9RdLY5gddiv+Gw4vdQZY0=;
+ b=H61C+5B+wypM5RMcKAbHgaHJclMQV3NbRUytXhVHnPID2mKItIvimLsXXPHw0rLtfhCZjd
+ Irl7bEfGZR/G4Zjxl0oH5D8b3OfwaaZgG/b8yHzX2K2xxyuVsN2IqjWTImHxkoxBTG3/Cr
+ XORTmGqkkYAtv5cd2L9tuXXc6HB89qI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-LJiQRB4JN8a0aHiYU9lcmA-1; Sat, 26 Oct 2019 15:39:10 -0400
+Received: by mail-qk1-f200.google.com with SMTP id d127so6067583qkc.1
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:39:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=Zg+rkMHpASJm9gv0NQkdpGR05/GpW54dzxRERmCiBeE=;
+ b=dXVqodKuFhS+LDEZ4IiaEMFmjvzaowJ+K4adBQQ7IGnJ5gTsX/ydG5jEASbb1RADkB
+ Cl8qPxNhg2VrxUTYEayeAO8ubk2/CoEt+wVyPI/RqRMTn25WgvJ/eVLILuTumg0AsNSF
+ VLrFN2K2mHgBHAi14YXwW1mFT0W6KUtVD4NCn0VJmsYEtPAj2TuYGv2FlIyzvr9WUeC7
+ Z//nVNtnMSx0pbNMgdXbCIee21Gc3DP4Xoi/LGY12/j/JDmTCAKQt7WCK20kOXRHtCFw
+ 6T0h5m7n41f6h7ASBPNHpTNJGaqbRR3SiXmEvQJJ+nrmfzkWbZCJtyXdvxtv2KgCBuHw
+ kr/g==
+X-Gm-Message-State: APjAAAV2M1UQEdaaOCyDGiuOJZq+yrf+vS5yQ+WXCeYTHTSElXOLyVOA
+ IkTX727q0i59vwgq3tpfzxLPNsEp/fM53ChuDZHIoehp7bJiD2cbOKEsKR05COu9N5d5EPZUnUA
+ pFChpOUzA0x+Ez5k=
+X-Received: by 2002:ac8:38a9:: with SMTP id f38mr10000283qtc.108.1572118749952; 
+ Sat, 26 Oct 2019 12:39:09 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxsNVZWLLFrS0F20sQBgZZWyERCAL6+sqBMstiGAwP9HofHup1ExNto5QFPR4/9A209BeI5XA==
+X-Received: by 2002:ac8:38a9:: with SMTP id f38mr10000262qtc.108.1572118749625; 
+ Sat, 26 Oct 2019 12:39:09 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ b185sm4017995qkg.45.2019.10.26.12.39.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Oct 2019 12:39:08 -0700 (PDT)
+Date: Sat, 26 Oct 2019 15:39:04 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/20] hw/pci-host/i440fx: Remove the last PIIX3 traces
-Date: Sat, 26 Oct 2019 20:01:43 +0200
-Message-Id: <20191026180143.7369-21-philmd@redhat.com>
-In-Reply-To: <20191026180143.7369-1-philmd@redhat.com>
-References: <20191026180143.7369-1-philmd@redhat.com>
+Subject: [PULL 00/25] virtio: features, tests
+Message-ID: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: DrSHE9VQP-SzjnH1n34PiQ-1
+X-Mailer: git-send-email 2.22.0.678.g13338e74b8
+X-Mutt-Fcc: =sent
+X-MC-Unique: LJiQRB4JN8a0aHiYU9lcmA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,118 +86,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PIIX3 is not tied to the i440FX and can even be used without it.
-Move its creation to the machine code (pc_piix.c).
-We have now removed the last trace of southbridge code in the i440FX
-northbridge.
+The following changes since commit 58560ad254fbda71d4daa6622d71683190070ee2=
+:
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/i386/pc_piix.c            | 8 +++++++-
- hw/pci-host/i440fx.c         | 8 --------
- include/hw/pci-host/i440fx.h | 3 +--
- 3 files changed, 8 insertions(+), 11 deletions(-)
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.2-20191024' =
+into staging (2019-10-24 16:22:58 +0100)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index ba35d5685e..2aefa3b8df 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -192,14 +192,20 @@ static void pc_init1(MachineState *machine,
-     gsi_state =3D pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
-=20
-     if (pcmc->pci_enabled) {
-+        PIIX3State *piix3;
-+
-         pci_bus =3D i440fx_init(host_type,
-                               pci_type,
--                              &i440fx_state, &piix3_devfn, &isa_bus, x86ms=
-->gsi,
-+                              &i440fx_state,
-                               system_memory, system_io, machine->ram_size,
-                               x86ms->below_4g_mem_size,
-                               x86ms->above_4g_mem_size,
-                               pci_memory, ram_memory);
-         pcms->bus =3D pci_bus;
-+
-+        piix3 =3D piix3_create(pci_bus, &isa_bus);
-+        piix3->pic =3D x86ms->gsi;
-+        piix3_devfn =3D piix3->dev.devfn;
-     } else {
-         pci_bus =3D NULL;
-         i440fx_state =3D NULL;
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 79ecd58a2b..f27131102d 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -27,7 +27,6 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "hw/pci-host/i440fx.h"
--#include "hw/southbridge/piix.h"
- #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "qapi/error.h"
-@@ -272,8 +271,6 @@ static void i440fx_realize(PCIDevice *dev, Error **errp=
-)
-=20
- PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-                     PCII440FXState **pi440fx_state,
--                    int *piix3_devfn,
--                    ISABus **isa_bus, qemu_irq *pic,
-                     MemoryRegion *address_space_mem,
-                     MemoryRegion *address_space_io,
-                     ram_addr_t ram_size,
-@@ -286,7 +283,6 @@ PCIBus *i440fx_init(const char *host_type, const char *=
-pci_type,
-     PCIBus *b;
-     PCIDevice *d;
-     PCIHostState *s;
--    PIIX3State *piix3;
-     PCII440FXState *f;
-     unsigned i;
-     I440FXState *i440fx;
-@@ -339,10 +335,6 @@ PCIBus *i440fx_init(const char *host_type, const char =
-*pci_type,
-                  PAM_EXPAN_SIZE);
-     }
-=20
--    piix3 =3D piix3_create(b, isa_bus);
--    piix3->pic =3D pic;
--    *piix3_devfn =3D piix3->dev.devfn;
--
-     ram_size =3D ram_size / 8 / 1024 / 1024;
-     if (ram_size > 255) {
-         ram_size =3D 255;
-diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-index e327f9bf87..f54e6466e4 100644
---- a/include/hw/pci-host/i440fx.h
-+++ b/include/hw/pci-host/i440fx.h
-@@ -22,8 +22,7 @@ typedef struct PCII440FXState PCII440FXState;
- #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
-=20
- PCIBus *i440fx_init(const char *host_type, const char *pci_type,
--                    PCII440FXState **pi440fx_state, int *piix_devfn,
--                    ISABus **isa_bus, qemu_irq *pic,
-+                    PCII440FXState **pi440fx_state,
-                     MemoryRegion *address_space_mem,
-                     MemoryRegion *address_space_io,
-                     ram_addr_t ram_size,
---=20
-2.21.0
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 909c548c539b4136e3abf2377980dad6274c4c2e:
+
+  virtio: drop unused virtio_device_stop_ioeventfd() function (2019-10-25 0=
+7:46:22 -0400)
+
+----------------------------------------------------------------
+virtio: features, tests
+
+libqos update with support for virtio 1.
+Packed ring support for virtio.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Eugenio P=C3=A9rez (2):
+      virtio: Free blk virqueues at unrealize()
+      virtio: Free rnd virqueue at unrealize()
+
+Jason Wang (4):
+      virtio: basic packed virtqueue support
+      virtio: event suppression support for packed ring
+      vhost_net: enable packed ring support
+      virtio: add property to enable packed virtqueue
+
+Stefan Hajnoczi (17):
+      tests/virtio-blk-test: read config space after feature negotiation
+      libqos: read QVIRTIO_MMIO_VERSION register
+      libqos: extend feature bits to 64-bit
+      virtio-scsi-test: add missing feature negotiation
+      tests/virtio-blk-test: set up virtqueue after feature negotiation
+      libqos: add missing virtio-9p feature negotiation
+      libqos: enforce Device Initialization order
+      libqos: implement VIRTIO 1.0 FEATURES_OK step
+      libqos: access VIRTIO 1.0 vring in little-endian
+      libqos: add iteration support to qpci_find_capability()
+      libqos: pass full QVirtQueue to set_queue_address()
+      libqos: add MSI-X callbacks to QVirtioPCIDevice
+      libqos: expose common virtqueue setup/cleanup functions
+      libqos: make the virtio-pci BAR index configurable
+      libqos: extract Legacy virtio-pci.c code
+      libqos: add VIRTIO PCI 1.0 support
+      virtio: drop unused virtio_device_stop_ioeventfd() function
+
+Wei Xu (2):
+      virtio: basic structure for packed ring
+      virtio: device/driver area size calculation refactor for split ring
+
+ include/hw/virtio/virtio.h       |   15 +-
+ tests/libqos/pci.h               |    2 +-
+ tests/libqos/virtio-mmio.h       |    1 +
+ tests/libqos/virtio-pci-modern.h |   17 +
+ tests/libqos/virtio-pci.h        |   34 +-
+ tests/libqos/virtio.h            |   19 +-
+ hw/block/virtio-blk.c            |    7 +-
+ hw/char/virtio-serial-bus.c      |    2 +-
+ hw/net/vhost_net.c               |    2 +
+ hw/scsi/virtio-scsi.c            |    3 +-
+ hw/virtio/virtio-rng.c           |    1 +
+ hw/virtio/virtio.c               | 1074 ++++++++++++++++++++++++++++++++++=
+----
+ tests/libqos/pci.c               |   30 +-
+ tests/libqos/virtio-9p.c         |    6 +
+ tests/libqos/virtio-mmio.c       |   38 +-
+ tests/libqos/virtio-net.c        |    6 +-
+ tests/libqos/virtio-pci-modern.c |  443 ++++++++++++++++
+ tests/libqos/virtio-pci.c        |  105 ++--
+ tests/libqos/virtio.c            |  160 ++++--
+ tests/virtio-blk-test.c          |   66 ++-
+ tests/virtio-scsi-test.c         |    8 +
+ tests/Makefile.include           |    1 +
+ 22 files changed, 1803 insertions(+), 237 deletions(-)
+ create mode 100644 tests/libqos/virtio-pci-modern.h
+ create mode 100644 tests/libqos/virtio-pci-modern.c
 
 
