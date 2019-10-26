@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022ADE5FE4
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:27:58 +0200 (CEST)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450E1E5FCF
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:00:45 +0200 (CEST)
+Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUXM-0006hW-PY
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
+	id 1iOU71-0001rI-JO
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iOTzP-0006H1-JO
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:52 -0400
+ (envelope-from <mst@redhat.com>) id 1iOU02-0001PR-A9
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:53:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iOTzO-0003bL-6V
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49346)
+ (envelope-from <mst@redhat.com>) id 1iOU00-0003k9-4Q
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:53:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56916)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTzN-0003bD-UK
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:52:50 -0400
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTzz-0003jz-Sc
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:53:28 -0400
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1E11FC049E12
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:52:49 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id g65so6336265qkf.19
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:52:49 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 19F214E832
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:53:27 +0000 (UTC)
+Received: by mail-qt1-f200.google.com with SMTP id c32so6674842qtb.14
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:53:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=KFQvXXlh3AUO8PkJPwkcMnBMnk/jbSrzCNkhQl517ZU=;
- b=mE7LjRH4vBWgFqiqDPEHhkLWiyhh6ZGKXpn5O6cwryvB0gsUCw4N6SPwoKoxZQ4mZq
- K76BWfhl9gBaFIP6Fnw8DU7tuoNxKJX/uqpWlQTjujwdTFiP/XJNFUybOEaC8Yhyz53k
- VgFCkODI9pI43FtQKO41jm+IQWgTA1qc2JRn+Rs0Tt2tq4CvtBXtJj9nt1JVhzCe0a7o
- 3svsJNgtjYHteUYJWRQG1+BqYmZDkH8eVlFAMq3tmPmFWNO8seQFfMHDyjuIv9Gu56cb
- YrxWd7Ib/PiYpXxyYXcQmaOsPyI10Jc3rjqN2WnN34jpoTy3PkgcfjK24ODwhIXP64e9
- q32Q==
-X-Gm-Message-State: APjAAAVVPyGp2V0eYTTcjSj3zbv8HoR9+3w7uWZ2mcTSzNYup4qfghiN
- wYZ2oMZ4DxvfiI6LaaCQCAOsYjEbgvPLErfWUGK7sX5OuUFybLsmLItKLtsvZDWuBw9zBEiBsUa
- pugNLfDRb7ZuD8do=
-X-Received: by 2002:aed:3c67:: with SMTP id u36mr10296162qte.142.1572126768036; 
- Sat, 26 Oct 2019 14:52:48 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxbYJmyL89+EriRcJtmaK7c0yit0OyMYeO+9vkjvtrWpYZTsVxfCRKk1HZnGhkK9TIxmawGFQ==
-X-Received: by 2002:aed:3c67:: with SMTP id u36mr10296153qte.142.1572126767842; 
- Sat, 26 Oct 2019 14:52:47 -0700 (PDT)
+ bh=9ubs1Dwo+2yEGEjjIZIZR5bnXBBhA5aFPitQR8k8KII=;
+ b=L8VjzqNwxU+/vd2euwm38j5tzSwTfPJk0ctZpz00M4PBE4fHK6GPddzAI71KSQRc8K
+ tLATa3KwVWPVKxu6GlQHt7QptX9ATM546I9zeUhbeY8JZuIJJP/m/4MaRMRPQ1Q/t+Bv
+ 5Ti1eU2jdIgE6kAZluCTGCL+R9R4efgpZcUNWuxWP4fJecgJnn0LVuiqrEHetj/q6SWr
+ Lyu+lGtV+A+ntRP4BaMqE1bQ54KmdxHGn/ayyup3r+t4+BhnenQaz4WaU0Sq68i2izEW
+ Tv8wuPmZHc0L3GXf+xbrBcO8KyFCYBBI7r4GrOnjWiEvtg/kM7lJgT9avHPIrItMFPIH
+ 7S6g==
+X-Gm-Message-State: APjAAAVM4xCQQWTSlwzdiTCUq9O4iE0By1ZunhKMsSqBojmC/+GzNwRv
+ Fwuton8Dd2s3Za/MQO/iFqtxbdDerv/aqdFmSIHYdifBjkTgM278OUIqD9eSfq07V+JEPTlzgpI
+ Ryw/nPQ1CSKOAmmI=
+X-Received: by 2002:ac8:c86:: with SMTP id n6mr10206195qti.80.1572126806097;
+ Sat, 26 Oct 2019 14:53:26 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwYhipWVhl2oS0exc5PDf58aSZrVlBnoDVh+fQb/MduRnvVBHTEQwIkPRqkB8dQq1S1pSXd6A==
+X-Received: by 2002:ac8:c86:: with SMTP id n6mr10206189qti.80.1572126805943;
+ Sat, 26 Oct 2019 14:53:25 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- x8sm3484675qkx.77.2019.10.26.14.52.45
+ w20sm3148180qkj.58.2019.10.26.14.53.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 14:52:47 -0700 (PDT)
-Date: Sat, 26 Oct 2019 17:52:43 -0400
+ Sat, 26 Oct 2019 14:53:25 -0700 (PDT)
+Date: Sat, 26 Oct 2019 17:53:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/25] libqos: add iteration support to qpci_find_capability()
-Message-ID: <20191026193824.11926-19-mst@redhat.com>
+Subject: [PULL 25/25] virtio: drop unused virtio_device_stop_ioeventfd()
+ function
+Message-ID: <20191026193824.11926-26-mst@redhat.com>
 References: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -78,115 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-VIRTIO 1.0 PCI devices have multiple PCI_CAP_ID_VNDR capabilities so we
-need a way to iterate over them.  Extend qpci_find_capability() to take
-the last address.
+virtio_device_stop_ioeventfd() has not been used since commit
+310837de6c1e0badfd736b1b316b1698c53120a7 ("virtio: introduce
+grab/release_ioeventfd to fix vhost") in 2016.
 
+Nowadays ioeventfd is stopped implicitly by the virtio transport when
+lifecycle events such as the VM pausing or device unplug occur.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
---
-v3:
- * Document qpci_find_capability()
-Message-Id: <20191023100425.12168-11-stefanha@redhat.com>
+Message-Id: <20191021150343.30742-1-stefanha@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/libqos/pci.c | 30 ++++++++++++++++++++++++------
- tests/libqos/pci.h |  2 +-
- 2 files changed, 25 insertions(+), 7 deletions(-)
+ hw/virtio/virtio.c         | 8 --------
+ include/hw/virtio/virtio.h | 1 -
+ 2 files changed, 9 deletions(-)
 
-diff --git a/tests/libqos/pci.c b/tests/libqos/pci.c
-index 662ee7a517..2309a724e4 100644
---- a/tests/libqos/pci.c
-+++ b/tests/libqos/pci.c
-@@ -115,10 +115,28 @@ void qpci_device_enable(QPCIDevice *dev)
-     g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 828c27de1f..2e91dec567 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3665,14 +3665,6 @@ static void virtio_device_stop_ioeventfd_impl(VirtIODevice *vdev)
+     }
  }
  
--uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id)
-+/**
-+ * qpci_find_capability:
-+ * @dev: the PCI device
-+ * @id: the PCI Capability ID (PCI_CAP_ID_*)
-+ * @start_addr: 0 to begin iteration or the last return value to continue
-+ *              iteration
-+ *
-+ * Iterate over the PCI Capabilities List.
-+ *
-+ * Returns: PCI Configuration Space offset of the capabililty structure or
-+ *          0 if no further matching capability is found
-+ */
-+uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id, uint8_t start_addr)
+-void virtio_device_stop_ioeventfd(VirtIODevice *vdev)
+-{
+-    BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
+-    VirtioBusState *vbus = VIRTIO_BUS(qbus);
+-
+-    virtio_bus_stop_ioeventfd(vbus);
+-}
+-
+ int virtio_device_grab_ioeventfd(VirtIODevice *vdev)
  {
-     uint8_t cap;
--    uint8_t addr = qpci_config_readb(dev, PCI_CAPABILITY_LIST);
-+    uint8_t addr;
-+
-+    if (start_addr) {
-+        addr = qpci_config_readb(dev, start_addr + PCI_CAP_LIST_NEXT);
-+    } else {
-+        addr = qpci_config_readb(dev, PCI_CAPABILITY_LIST);
-+    }
- 
-     do {
-         cap = qpci_config_readb(dev, addr);
-@@ -138,7 +156,7 @@ void qpci_msix_enable(QPCIDevice *dev)
-     uint8_t bir_table;
-     uint8_t bir_pba;
- 
--    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
-+    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
-     g_assert_cmphex(addr, !=, 0);
- 
-     val = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
-@@ -167,7 +185,7 @@ void qpci_msix_disable(QPCIDevice *dev)
-     uint16_t val;
- 
-     g_assert(dev->msix_enabled);
--    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
-+    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
-     g_assert_cmphex(addr, !=, 0);
-     val = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
-     qpci_config_writew(dev, addr + PCI_MSIX_FLAGS,
-@@ -203,7 +221,7 @@ bool qpci_msix_masked(QPCIDevice *dev, uint16_t entry)
-     uint64_t vector_off = dev->msix_table_off + entry * PCI_MSIX_ENTRY_SIZE;
- 
-     g_assert(dev->msix_enabled);
--    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
-+    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
-     g_assert_cmphex(addr, !=, 0);
-     val = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
- 
-@@ -221,7 +239,7 @@ uint16_t qpci_msix_table_size(QPCIDevice *dev)
-     uint8_t addr;
-     uint16_t control;
- 
--    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX);
-+    addr = qpci_find_capability(dev, PCI_CAP_ID_MSIX, 0);
-     g_assert_cmphex(addr, !=, 0);
- 
-     control = qpci_config_readw(dev, addr + PCI_MSIX_FLAGS);
-diff --git a/tests/libqos/pci.h b/tests/libqos/pci.h
-index a5389a5845..590c175190 100644
---- a/tests/libqos/pci.h
-+++ b/tests/libqos/pci.h
-@@ -86,7 +86,7 @@ bool qpci_has_buggy_msi(QPCIDevice *dev);
- bool qpci_check_buggy_msi(QPCIDevice *dev);
- 
- void qpci_device_enable(QPCIDevice *dev);
--uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id);
-+uint8_t qpci_find_capability(QPCIDevice *dev, uint8_t id, uint8_t start_addr);
- void qpci_msix_enable(QPCIDevice *dev);
- void qpci_msix_disable(QPCIDevice *dev);
- bool qpci_msix_pending(QPCIDevice *dev, uint16_t entry);
+     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 40ddeafadb..5560f4a5ea 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -308,7 +308,6 @@ EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
+ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+                                                 bool with_irqfd);
+ int virtio_device_start_ioeventfd(VirtIODevice *vdev);
+-void virtio_device_stop_ioeventfd(VirtIODevice *vdev);
+ int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
+ void virtio_device_release_ioeventfd(VirtIODevice *vdev);
+ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
 -- 
 MST
 
