@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9EBE5F4A
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:45:56 +0200 (CEST)
-Received: from localhost ([::1]:41708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1973EE5F51
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:48:22 +0200 (CEST)
+Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOS0Y-0002FZ-VF
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51087)
+	id 1iOS2u-00070Y-Fe
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iORuj-0001Df-Hj
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:54 -0400
+ (envelope-from <mst@redhat.com>) id 1iORup-0001IB-0r
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iORui-0000Qq-Ik
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44202)
+ (envelope-from <mst@redhat.com>) id 1iORuo-0000Tx-0A
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32802)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORui-0000Qf-Ca
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:52 -0400
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORun-0000Ti-Qf
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:57 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 96A743B717
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:39:51 +0000 (UTC)
-Received: by mail-qt1-f199.google.com with SMTP id c32so6333239qtb.14
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:39:51 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 078C785360
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:39:57 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id g1so6178855qtp.19
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:39:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=wi/B0uJWKCzFdvKSB58+PR0TfpdPviZvmd/QuFLab6g=;
- b=LqRrA/OFoh/BDioINKWqV0iw/mnXvqLu6RR9CxvAd3fwctaNb/CVkHPFDviqQlYqtO
- 1x+lJvlS2FEQm2Btc1eIssyczGDSbQaVLm2Vt9kVAqBOFzgadXi+OQmv79WzyXul1KZN
- ZDdP2BnHNgEJKG4xzd9stZszV/E97fQePzJTrIrBifVMO/PurnWEGD5+AkI1ti1KaoKF
- EiO4H+dggqexO3V9ce71xHaU/vYZDKId9SOaIdHueYwaksqNuj1VIc1hJMZa+DODU1Ru
- kblE84A96x5mhCRKVZRNJ4VUs/OXhrq4QaahB7RzW7Lge0YLXMgZyFNyAdHAIo46a6YT
- KxDQ==
-X-Gm-Message-State: APjAAAVnk2jrRJ8comDOHzhd9w2XCZr6ePUA21UNkm/A6g2im0zGq+S5
- HmV6hAKe2MR/Hp0E+LDV4PNwfc24Q9iGbMNaS7kL5mk3hHfkycaYOiwcTK3cMgFgP6yhd2WzyvO
- WPosGzAEwu0P9wdQ=
-X-Received: by 2002:a37:6591:: with SMTP id z139mr8925864qkb.133.1572118790382; 
- Sat, 26 Oct 2019 12:39:50 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwGJ4w7Uc6Y/xQEb842WnJdi8NhhUjOw8eQpaPEmtn/RLCR9PbOv8jHOCLVYnLKrFh3nHNA0Q==
-X-Received: by 2002:a37:6591:: with SMTP id z139mr8925848qkb.133.1572118790155; 
- Sat, 26 Oct 2019 12:39:50 -0700 (PDT)
+ bh=lQqyJlxFagbKqrc9JA5YsXn4LxS54pcPLkSb2ZI445I=;
+ b=T6odJlLbIH1F/5rD/0olqrWbbxWPYqsLtaE9EjppazznL21QIyYi6glL5PA0NjV5u8
+ yULmZmI1xcEsJwsVk13fiEOjrdERTsHt9eMnZhyL1nZZJgQue7GzjKAXoy4dp2vVFwfI
+ ai/iwAoqgQgI8TEP3gp6S5Mf8R6A7YnpSzF+WHpkb4glT+x0T4U6hvQcAbcHNUnLisft
+ 5JtEex37wl+wMeNXmJHka/S6mgOfpSdw37j5GadL2VlGbLln3oAmGQIAb0S9GxTuUl9a
+ v5SQ3XKRiNbX7cJF/fPgHhozDO595SIXvAu0XrhWB3PMgnpM4fjmh9gmAopUfXfdkeWe
+ W0Rw==
+X-Gm-Message-State: APjAAAVd8nKoYPCIw4JKN614iAC18cc7W2BvrNMFy/T+8HGw7yLVw+1J
+ yDe7AWf117sC1Pb+UMgnpRa5PI2UiHkcH7kX9n2lJDOU9QqsLiqmlkWqj4FYd9xDbXEWY5glvXP
+ rOqZtuU1Yu4ADmpg=
+X-Received: by 2002:a0c:d4ba:: with SMTP id u55mr9939456qvh.40.1572118796027; 
+ Sat, 26 Oct 2019 12:39:56 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyIvRO2F2Wq2Ezv+DBVVbpp0E5tZQwq5hv8+VpEaBamYalHDBdOgIteIEVjnEWFPEct5zKOyg==
+X-Received: by 2002:a0c:d4ba:: with SMTP id u55mr9939439qvh.40.1572118795783; 
+ Sat, 26 Oct 2019 12:39:55 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- h27sm2674855qtk.37.2019.10.26.12.39.47
+ o1sm3830831qtb.82.2019.10.26.12.39.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 12:39:49 -0700 (PDT)
-Date: Sat, 26 Oct 2019 15:39:45 -0400
+ Sat, 26 Oct 2019 12:39:55 -0700 (PDT)
+Date: Sat, 26 Oct 2019 15:39:50 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/25] vhost_net: enable packed ring support
-Message-ID: <20191026193824.11926-8-mst@redhat.com>
+Subject: [PULL 08/25] virtio: add property to enable packed virtqueue
+Message-ID: <20191026193824.11926-9-mst@redhat.com>
 References: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -91,33 +91,28 @@ From: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 Reviewed-by: Jens Freimann <jfreimann@redhat.com>
-Message-Id: <20191025083527.30803-8-eperezma@redhat.com>
+Message-Id: <20191025083527.30803-9-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/vhost_net.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/virtio/virtio.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index e975700f95..6b82803fa7 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -49,6 +49,7 @@ static const int kernel_feature_bits[] =3D {
-     VIRTIO_F_VERSION_1,
-     VIRTIO_NET_F_MTU,
-     VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_F_RING_PACKED,
-     VHOST_INVALID_FEATURE_BIT
- };
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index d123d5b181..40ddeafadb 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -285,7 +285,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+     DEFINE_PROP_BIT64("any_layout", _state, _field, \
+                       VIRTIO_F_ANY_LAYOUT, true), \
+     DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
+-                      VIRTIO_F_IOMMU_PLATFORM, false)
++                      VIRTIO_F_IOMMU_PLATFORM, false), \
++    DEFINE_PROP_BIT64("packed", _state, _field, \
++                      VIRTIO_F_RING_PACKED, false)
 =20
-@@ -74,6 +75,7 @@ static const int user_feature_bits[] =3D {
-     VIRTIO_NET_F_MRG_RXBUF,
-     VIRTIO_NET_F_MTU,
-     VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_F_RING_PACKED,
-=20
-     /* This bit implies RARP isn't sent by QEMU out of band */
-     VIRTIO_NET_F_GUEST_ANNOUNCE,
+ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
+ bool virtio_queue_enabled(VirtIODevice *vdev, int n);
 --=20
 MST
 
