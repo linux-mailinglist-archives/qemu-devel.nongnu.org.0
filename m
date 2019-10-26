@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74397E57C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 03:25:39 +0200 (CEST)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC8AE57C5
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 03:27:23 +0200 (CEST)
+Received: from localhost ([::1]:37828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOApm-0006TV-HX
-	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 21:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54956)
+	id 1iOArS-0002eD-OH
+	for lists+qemu-devel@lfdr.de; Fri, 25 Oct 2019 21:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iOADB-0002Yn-17
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 20:45:45 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iOADB-0002Zz-F7
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 20:45:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iOAD9-0004kM-Sh
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 20:45:44 -0400
-Received: from mga06.intel.com ([134.134.136.31]:9324)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iOADA-0004kg-DV
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 20:45:45 -0400
+Received: from mga01.intel.com ([192.55.52.88]:5552)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iOAD9-0004ju-LH
- for qemu-devel@nongnu.org; Fri, 25 Oct 2019 20:45:43 -0400
+ id 1iOADA-0004k9-66
+ for qemu-devel@nongnu.org; Fri, 25 Oct 2019 20:45:44 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2019 17:45:41 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Oct 2019 17:45:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,230,1569308400"; d="scan'208";a="210476032"
+X-IronPort-AV: E=Sophos;i="5.68,230,1569308400"; d="scan'208";a="204705106"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga001.fm.intel.com with ESMTP; 25 Oct 2019 17:45:40 -0700
+ by FMSMGA003.fm.intel.com with ESMTP; 25 Oct 2019 17:45:42 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: quintela@redhat.com,
 	dgilbert@redhat.com
-Subject: [PATCH v2 0/6] migration/multifd: a new mechanism for send thread sync
-Date: Sat, 26 Oct 2019 08:45:14 +0800
-Message-Id: <20191026004520.5515-1-richardw.yang@linux.intel.com>
+Subject: [PATCH v2 1/6] migration/multifd: move Params update and pages
+ cleanup into multifd_send_fill_packet()
+Date: Sat, 26 Oct 2019 08:45:15 +0800
+Message-Id: <20191026004520.5515-2-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191026004520.5515-1-richardw.yang@linux.intel.com>
+References: <20191026004520.5515-1-richardw.yang@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.31
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,37 +58,66 @@ Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current send thread could work while the sync mechanism has some problem:
+Fill data and update/cleanup related field in one place. Also make the
+code a little clean.
 
-  * has spuriously wakeup
-  * number of channels_ready will *overflow* the number of real channels
-
-The reason is:
-
-  * if MULTIFD_FLAG_SYNC is set in the middle of send thread running, there
-    is one more spurious wakeup
-  * if MULTIFD_FLAG_SYNC is set when send thread is not running, there is one
-    more channels_ready be triggered
-
-To solve this situation, one new mechanism is introduced to synchronize send
-threads. The idea is simple, a new field *sync* is introduced to indicate a
-synchronization is required.
-
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 ---
-v2: rebase on latest code
+ migration/ram.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-Wei Yang (6):
-  migration/multifd: move Params update and pages cleanup into
-    multifd_send_fill_packet()
-  migration/multifd: notify channels_ready when send thread starts
-  migration/multifd: use sync field to synchronize send threads
-  migration/multifd: used must not be 0 for a pending job
-  migration/multifd: use boolean for pending_job is enough
-  migration/multifd: there is no spurious wakeup now
-
- migration/ram.c | 74 +++++++++++++++++++++++++++++++------------------
- 1 file changed, 47 insertions(+), 27 deletions(-)
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 5876054195..35f147388b 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -789,15 +789,16 @@ static void multifd_pages_clear(MultiFDPages_t *pages)
+     g_free(pages);
+ }
+ 
+-static void multifd_send_fill_packet(MultiFDSendParams *p)
++static void multifd_send_fill_packet(MultiFDSendParams *p, uint32_t used)
+ {
+     MultiFDPacket_t *packet = p->packet;
++    uint32_t next_packet_size = used * qemu_target_page_size();
+     int i;
+ 
+     packet->flags = cpu_to_be32(p->flags);
+     packet->pages_alloc = cpu_to_be32(p->pages->allocated);
+     packet->pages_used = cpu_to_be32(p->pages->used);
+-    packet->next_packet_size = cpu_to_be32(p->next_packet_size);
++    packet->next_packet_size = cpu_to_be32(next_packet_size);
+     packet->packet_num = cpu_to_be64(p->packet_num);
+ 
+     if (p->pages->block) {
+@@ -807,6 +808,13 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+     for (i = 0; i < p->pages->used; i++) {
+         packet->offset[i] = cpu_to_be64(p->pages->offset[i]);
+     }
++
++    p->next_packet_size = next_packet_size;
++    p->flags = 0;
++    p->num_packets++;
++    p->num_pages += used;
++    p->pages->used = 0;
++    p->pages->block = NULL;
+ }
+ 
+ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+@@ -1109,13 +1117,7 @@ static void *multifd_send_thread(void *opaque)
+             uint64_t packet_num = p->packet_num;
+             flags = p->flags;
+ 
+-            p->next_packet_size = used * qemu_target_page_size();
+-            multifd_send_fill_packet(p);
+-            p->flags = 0;
+-            p->num_packets++;
+-            p->num_pages += used;
+-            p->pages->used = 0;
+-            p->pages->block = NULL;
++            multifd_send_fill_packet(p, used);
+             qemu_mutex_unlock(&p->mutex);
+ 
+             trace_multifd_send(p->id, packet_num, used, flags,
 -- 
 2.17.1
 
