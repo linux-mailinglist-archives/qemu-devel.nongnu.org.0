@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC17E5FEA
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:31:01 +0200 (CEST)
-Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B454E5FED
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:34:10 +0200 (CEST)
+Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUaK-00008Y-6s
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60303)
+	id 1iOUdN-00018P-3I
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iOTZw-0000XU-NX
+ (envelope-from <berto@igalia.com>) id 1iOTZw-0000Wj-JO
  for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iOTZv-0005RY-Fh
+ (envelope-from <berto@igalia.com>) id 1iOTZv-0005RL-Ew
  for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:32 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42500)
+Received: from fanzine.igalia.com ([178.60.130.6]:42518)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iOTZu-0005F0-V9; Sat, 26 Oct 2019 17:26:31 -0400
+ id 1iOTZu-0005F9-UX; Sat, 26 Oct 2019 17:26:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=+xwWu6J6i01LK6MbAXCYF+RWfBl8802Gr2qymDso1KI=; 
- b=sImEZbbkG53YVA24MupgydUL/6GJXz+Ca4xJ6MscYNtSKHSXAL3pxMmJn8//EKvgNAxKOaoskeSu4xzKrGgfc6IOZHtqHBEIYW7UXlkrPudASGMZPeVeoW13Di7inx8i2pKEDiWm8XkjS++AALBdxN0ft4oiIoY+2+WhYq8IA9E8N4DJAFeyRYJ9+FPUcZDDNHcwngsNL5UBjKpv8a2pXR4zLqUwCzlcDQgwy9eaErpe5zcwyi+qFy0NL8AjAsegqdMts32MYo8nq+BTI6jdYWNYPvOU5TGOEqZUdRn5XZuJ2ZTGvRq33qSDtzmPVkqmOjqlPq50z5smdIR6TfXp+g==;
+ bh=gM1HDHFjmOmPSS37VcAha72pwhGVFgdram6nRVFEymM=; 
+ b=M3Xp2CXF+zmM75f7HHVsdPR+O0040gh5v4EjBeNvy3xz3qcpZF4YqHkHj3qn0hB2olR4sp2YwvOtRFAz4v02sOMpXFkYgppjqIQr7PXiEtOa9visE4UVKV83bIniR1GgC10miTOXpGZlQlbVvE7yeGFEf1wxTaqpbzhepZE2b96ZCdsOtnphvtNgMkxLFl1Ih7kT2+Jg1VAGPIFR+hQiZ3Cp6dKDSRT6rRrgUG0sTy/5/GAPVjZ+m6isuny4yeI1KEGY3DcSe9Id+03sNGCrsSp8Iqd/BHfEvFX8xJN1lvRD6WSDFST3ejGM7GBRYfCaN0Gkng6R1Wb2MzqYUqXdQg==;
 Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iOTZI-00045y-OF; Sat, 26 Oct 2019 23:25:52 +0200
+ id 1iOTZJ-00046B-9J; Sat, 26 Oct 2019 23:25:53 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iOTZ0-0001PP-IW; Sun, 27 Oct 2019 00:25:34 +0300
+ id 1iOTZ1-0001Pl-2h; Sun, 27 Oct 2019 00:25:35 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 12/26] qcow2: Handle
- QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER
-Date: Sun, 27 Oct 2019 00:25:14 +0300
-Message-Id: <2a6b34635cac78e76150a72c69669b3d9ec0fb8c.1572125022.git.berto@igalia.com>
+Subject: [RFC PATCH v2 23/26] qcow2: Restrict qcow2_co_pwrite_zeroes() to full
+ clusters only
+Date: Sun, 27 Oct 2019 00:25:25 +0300
+Message-Id: <755edeae312aee4b1f06563484db1365272b430d.1572125022.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1572125022.git.berto@igalia.com>
 References: <cover.1572125022.git.berto@igalia.com>
@@ -65,75 +65,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the previous patch we added a new QCow2ClusterType named
-QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER. There is a couple of places
-where this new value needs to be handled, and that is what this patch
-does.
+Ideally it should be possible to zero individual subclusters using
+this function, but this is currently not implemented.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ block/qcow2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/block/qcow2.c b/block/qcow2.c
-index ab40ae36ea..0261e87709 100644
+index 01322ca449..537569ce88 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -1938,8 +1938,8 @@ static int coroutine_fn qcow2_co_block_status(BlockDriverState *bs,
- 
-     *pnum = bytes;
- 
--    if ((ret == QCOW2_CLUSTER_NORMAL || ret == QCOW2_CLUSTER_ZERO_ALLOC) &&
--        !s->crypto) {
-+    if ((ret == QCOW2_CLUSTER_NORMAL || ret == QCOW2_CLUSTER_ZERO_ALLOC ||
-+         ret == QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER) && !s->crypto) {
-         index_in_cluster = offset & (s->cluster_size - 1);
-         *map = cluster_offset | index_in_cluster;
-         *file = s->data_file->bs;
-@@ -1947,7 +1947,8 @@ static int coroutine_fn qcow2_co_block_status(BlockDriverState *bs,
-     }
-     if (ret == QCOW2_CLUSTER_ZERO_PLAIN || ret == QCOW2_CLUSTER_ZERO_ALLOC) {
-         status |= BDRV_BLOCK_ZERO;
--    } else if (ret != QCOW2_CLUSTER_UNALLOCATED) {
-+    } else if (ret != QCOW2_CLUSTER_UNALLOCATED &&
-+               ret != QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER) {
-         status |= BDRV_BLOCK_DATA;
-     }
-     if (s->metadata_preallocation && (status & BDRV_BLOCK_DATA) &&
-@@ -2117,6 +2118,7 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
-         g_assert_not_reached();
- 
-     case QCOW2_CLUSTER_UNALLOCATED:
-+    case QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER:
-         assert(bs->backing); /* otherwise handled in qcow2_co_preadv_part */
- 
-         BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
-@@ -2187,7 +2189,8 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
- 
-         if (ret == QCOW2_CLUSTER_ZERO_PLAIN ||
-             ret == QCOW2_CLUSTER_ZERO_ALLOC ||
--            (ret == QCOW2_CLUSTER_UNALLOCATED && !bs->backing))
-+            (ret == QCOW2_CLUSTER_UNALLOCATED && !bs->backing) ||
-+            (ret == QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER && !bs->backing))
-         {
-             qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
-         } else {
-@@ -3701,6 +3704,7 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
+@@ -3704,6 +3704,12 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
+         bytes = s->cluster_size;
          nr = s->cluster_size;
          ret = qcow2_get_cluster_offset(bs, offset, &nr, &off);
++        /* TODO: allow zeroing separate subclusters, we only allow
++         * zeroing full clusters at the moment. */
++        if (nr != bytes) {
++            qemu_co_mutex_unlock(&s->lock);
++            return -ENOTSUP;
++        }
          if (ret != QCOW2_CLUSTER_UNALLOCATED &&
-+            ret != QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER &&
+             ret != QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER &&
              ret != QCOW2_CLUSTER_ZERO_PLAIN &&
-             ret != QCOW2_CLUSTER_ZERO_ALLOC) {
-             qemu_co_mutex_unlock(&s->lock);
-@@ -3771,6 +3775,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
- 
-         switch (ret) {
-         case QCOW2_CLUSTER_UNALLOCATED:
-+        case QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER:
-             if (bs->backing && bs->backing->bs) {
-                 int64_t backing_length = bdrv_getlength(bs->backing->bs);
-                 if (src_offset >= backing_length) {
 -- 
 2.20.1
 
