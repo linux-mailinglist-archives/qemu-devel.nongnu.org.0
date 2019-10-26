@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C32E5FD1
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:08:22 +0200 (CEST)
-Received: from localhost ([::1]:42948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A424BE5FDC
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 00:24:13 +0200 (CEST)
+Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOUEP-00066H-Cg
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60036)
+	id 1iOUTk-0004qe-Is
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 18:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iOTZj-00005D-GH
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:20 -0400
+ (envelope-from <mst@redhat.com>) id 1iOTw3-0001fn-Ma
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:49:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iOTZi-0005Lv-Ca
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:19 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42511)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iOTZg-0005F7-90; Sat, 26 Oct 2019 17:26:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=MR11jBKImXplnlOGrFOr9e3JUvDW+emKlEW8jxCPt6I=; 
- b=rbSCc3grtCbGevTpTIu7A6owan3L9mAngSaluiCYiepqZvXp+5wiZf61O4IbX4PFcJUguips2CBINNPOkEq+c6/mWMpnXr2NAj+xsGXMQGqJNTeijWvjwdlklEjgikGK3pwXfo5tubCjqXu85gmT84zowzPp1yJ9MHRu9BgrUWdKS6m32vnRjzzBJIUuFTJxIzdCBMreRqnH/mJ8zZa6jfOjElXEntZn0TQhFn2BcMFOnM/twwqx0g3QEIHROjjuprWqQr2j+r5p/hQUhqGAIJF3JYw6Pu3qiTWhyK6TnOdNF52PkiX1OG92oWI3X11GmWxRzp6G0VUvnYk/sU6sQg==;
-Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
- helo=perseus.local) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iOTZJ-00046A-9m; Sat, 26 Oct 2019 23:25:53 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1iOTZ1-0001Pj-1E; Sun, 27 Oct 2019 00:25:35 +0300
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 22/26] qcow2: Add subcluster support to
- handle_alloc_space()
-Date: Sun, 27 Oct 2019 00:25:24 +0300
-Message-Id: <fbda07b0459d62445ec3e32c80e1baa7708a1cd7.1572125022.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1572125022.git.berto@igalia.com>
-References: <cover.1572125022.git.berto@igalia.com>
+ (envelope-from <mst@redhat.com>) id 1iOTw1-0002sa-3Y
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:49:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45720)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iOTw0-0002sP-R3
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:49:21 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3C7D886662
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 21:49:19 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id s3so6347277qkd.6
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 14:49:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lI8lGWQG/oBJpwdI1brm/xDfrvf82St3eNiV4FdDYZI=;
+ b=eqOg1sXdlocKhgFu9JQf1QYsryLuyYUyX2uQIVEXekUZ2Cr+z14JNEdx4ZDMUFm1qg
+ ThyF5HzlFS5oOn9Q3/ofwcWEYTi4BL3jFK00InsvsJHEGbJokvU6mnxk5UFG8VZSvoA2
+ gSEj45w+SAiwtW1K+sFo/EeVvE2LiKVfKv1pfu6LVGgSM/Inv3VuUZ5FhYPsE10fdrdq
+ WqBzD4Zh1VsJIi31pgm84bhEfXTUoJGDa3t7zNQWQX76e5QsA8TwewZtxeit76xybEiV
+ 4cQ2tcTY3NU2dp/uUgLYLQmXFbkbWUwLGrG7WrO1exH+aw1tzRUGEuqyoKTlx89kBZRs
+ m2aQ==
+X-Gm-Message-State: APjAAAWQF4XxFX+PD2fBJqrYiWJIEVB3SYRps5fzfXW2Ktj/POGYManx
+ aRBvmSBqsyH1R6hMEV2+anw6TCnL/a1LnJvWx4631xm6RI//LDfVzXEddBW6AFNp2qHqbxl+k7t
+ t9sIlsp8I0EvLQc4=
+X-Received: by 2002:a37:6442:: with SMTP id y63mr9311559qkb.31.1572126558398; 
+ Sat, 26 Oct 2019 14:49:18 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz+5frrcScCQG5/uzGSr7A3EYiOqr98XxqMVgPftx8ZADaXQazk+vfzH7lk8wd27jFsyromfw==
+X-Received: by 2002:a37:6442:: with SMTP id y63mr9311531qkb.31.1572126558053; 
+ Sat, 26 Oct 2019 14:49:18 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ x38sm4548645qtc.64.2019.10.26.14.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Oct 2019 14:49:16 -0700 (PDT)
+Date: Sat, 26 Oct 2019 17:49:11 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC 1/3] WIP virtiofsd: import Linux <fuse.h> header file
+Message-ID: <20191026174745-mutt-send-email-mst@kernel.org>
+References: <20191025100152.6638-1-stefanha@redhat.com>
+ <20191025100152.6638-2-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191025100152.6638-2-stefanha@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,63 +77,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bdrv_co_pwrite_zeroes() call here fills complete clusters with
-zeroes, but it can happen that some subclusters are not part of the
-write request or the copy-on-write. This patch makes sure that only
-the affected subclusters are overwritten.
+On Fri, Oct 25, 2019 at 12:01:50PM +0200, Stefan Hajnoczi wrote:
+> tests/vhost-user-fs-test.c needs fuse.h.  The private copy that
+> virtiofsd has can be replaced with a properly imported file using
+> update-linux-headers.sh.
+> 
+> TODO rerun update-linux-headers.sh with upstream kernel tree!
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-A potential improvement would be to also fill with zeroes the other
-subclusters if we can guarantee that we are not overwriting existing
-data. However this would waste more disk space, so we should first
-evaluate if it's really worth doing.
+OK I would just add this with the virtiofsd patchset.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 0261e87709..01322ca449 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2304,6 +2304,9 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
- 
-     for (m = l2meta; m != NULL; m = m->next) {
-         int ret;
-+        uint64_t start_offset = m->alloc_offset + m->cow_start.offset;
-+        uint64_t nb_bytes = m->cow_end.offset + m->cow_end.nb_bytes -
-+            m->cow_start.offset;
- 
-         if (!m->cow_start.nb_bytes && !m->cow_end.nb_bytes) {
-             continue;
-@@ -2318,16 +2321,14 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
-          * efficiently zero out the whole clusters
-          */
- 
--        ret = qcow2_pre_write_overlap_check(bs, 0, m->alloc_offset,
--                                            m->nb_clusters * s->cluster_size,
-+        ret = qcow2_pre_write_overlap_check(bs, 0, start_offset, nb_bytes,
-                                             true);
-         if (ret < 0) {
-             return ret;
-         }
- 
-         BLKDBG_EVENT(bs->file, BLKDBG_CLUSTER_ALLOC_SPACE);
--        ret = bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
--                                    m->nb_clusters * s->cluster_size,
-+        ret = bdrv_co_pwrite_zeroes(s->data_file, start_offset, nb_bytes,
-                                     BDRV_REQ_NO_FALLBACK);
-         if (ret < 0) {
-             if (ret != -ENOTSUP && ret != -EAGAIN) {
--- 
-2.20.1
-
+> ---
+>  contrib/virtiofsd/fuse_lowlevel.h                              | 2 +-
+>  .../fuse_kernel.h => include/standard-headers/linux/fuse.h     | 0
+>  contrib/virtiofsd/fuse_loop_mt.c                               | 2 +-
+>  contrib/virtiofsd/fuse_lowlevel.c                              | 2 +-
+>  contrib/virtiofsd/fuse_virtio.c                                | 2 +-
+>  scripts/update-linux-headers.sh                                | 3 ++-
+>  6 files changed, 6 insertions(+), 5 deletions(-)
+>  rename contrib/virtiofsd/fuse_kernel.h => include/standard-headers/linux/fuse.h (100%)
+> 
+> diff --git a/contrib/virtiofsd/fuse_lowlevel.h b/contrib/virtiofsd/fuse_lowlevel.h
+> index 79fb30a1c2..a8c92ff7e0 100644
+> --- a/contrib/virtiofsd/fuse_lowlevel.h
+> +++ b/contrib/virtiofsd/fuse_lowlevel.h
+> @@ -23,7 +23,7 @@
+>  #endif
+>  
+>  #include "fuse_common.h"
+> -#include "fuse_kernel.h"
+> +#include "standard-headers/linux/fuse.h"
+>  
+>  #include <utime.h>
+>  #include <fcntl.h>
+> diff --git a/contrib/virtiofsd/fuse_kernel.h b/include/standard-headers/linux/fuse.h
+> similarity index 100%
+> rename from contrib/virtiofsd/fuse_kernel.h
+> rename to include/standard-headers/linux/fuse.h
+> diff --git a/contrib/virtiofsd/fuse_loop_mt.c b/contrib/virtiofsd/fuse_loop_mt.c
+> index 2000a8902a..af7b501fac 100644
+> --- a/contrib/virtiofsd/fuse_loop_mt.c
+> +++ b/contrib/virtiofsd/fuse_loop_mt.c
+> @@ -11,7 +11,7 @@
+>  #include "fuse_i.h"
+>  #include "fuse_lowlevel.h"
+>  #include "fuse_misc.h"
+> -#include "fuse_kernel.h"
+> +#include "standard-headers/linux/fuse.h"
+>  #include "fuse_virtio.h"
+>  
+>  #include <stdio.h>
+> diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_lowlevel.c
+> index 78ccfe3a27..c1a901cb4d 100644
+> --- a/contrib/virtiofsd/fuse_lowlevel.c
+> +++ b/contrib/virtiofsd/fuse_lowlevel.c
+> @@ -10,7 +10,7 @@
+>  */
+>  
+>  #include "fuse_i.h"
+> -#include "fuse_kernel.h"
+> +#include "standard-headers/linux/fuse.h"
+>  #include "fuse_opt.h"
+>  #include "fuse_misc.h"
+>  #include "fuse_virtio.h"
+> diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virtio.c
+> index 533ef24bb7..7a0d0b2603 100644
+> --- a/contrib/virtiofsd/fuse_virtio.c
+> +++ b/contrib/virtiofsd/fuse_virtio.c
+> @@ -15,7 +15,7 @@
+>  #include "qapi/error.h"
+>  
+>  #include "fuse_i.h"
+> -#include "fuse_kernel.h"
+> +#include "standard-headers/linux/fuse.h"
+>  #include "fuse_misc.h"
+>  #include "fuse_opt.h"
+>  #include "fuse_virtio.h"
+> diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+> index f76d77363b..1a627ccd73 100755
+> --- a/scripts/update-linux-headers.sh
+> +++ b/scripts/update-linux-headers.sh
+> @@ -184,7 +184,8 @@ EOF
+>  
+>  rm -rf "$output/include/standard-headers/linux"
+>  mkdir -p "$output/include/standard-headers/linux"
+> -for i in "$tmpdir"/include/linux/*virtio*.h \
+> +for i in "$tmpdir/include/linux/fuse.h" \
+> +         "$tmpdir"/include/linux/*virtio*.h \
+>           "$tmpdir/include/linux/qemu_fw_cfg.h" \
+>           "$tmpdir/include/linux/input.h" \
+>           "$tmpdir/include/linux/input-event-codes.h" \
+> -- 
+> 2.21.0
 
