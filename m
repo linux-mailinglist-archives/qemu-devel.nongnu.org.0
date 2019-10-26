@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6299E5F43
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:41:55 +0200 (CEST)
-Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFE9E5F48
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:45:02 +0200 (CEST)
+Received: from localhost ([::1]:41706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iORwg-0002f1-17
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50934)
+	id 1iORzg-0001a2-Qe
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50951)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iORuD-0000IW-H9
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:22 -0400
+ (envelope-from <mst@redhat.com>) id 1iORuG-0000P2-Jm
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iORuC-00007m-Ht
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:11370)
+ (envelope-from <mst@redhat.com>) id 1iORuF-00008o-Fs
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40514)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORuA-00007G-Ik
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:18 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORuF-00008W-7f
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:39:23 -0400
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
  [209.85.160.199])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 800924E4E6
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:39:16 +0000 (UTC)
-Received: by mail-qt1-f199.google.com with SMTP id y10so6351331qti.1
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:39:16 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4BCA6C01D36C
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:39:22 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id t16so6322277qtp.11
+ for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:39:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=YCXv9pgk58V4PShzTuonhz/UO31YcgkrsArln+nUUE0=;
- b=gKeXKml0oY97yovaP+acnWvgSJDOGuv9fIMnm8wPpyTZ/dfmDqvFAt3HL1Ey6w8l9b
- hskv156CEhIL3o5elYE7CCJX261OQXVAWRixKHUgO73S83wPqrS3LJasNJaS5+gKuDNe
- 1LHuh8gST+2Uu6ZXI7DN92ZFwafsGQoVYqqt6EjvGu8MO9D+Uaa6/UIzCJWuIJ0v7keT
- Tslbkk0ly6RerYeWfWrpqCp907dOH7ASyOMnH47+QXNuOre9oBjxd2rSbs32Cqq/+US4
- AcFY7NiJRl2Olr1WJd1JaHQAtzp21pbLzOStLr4W4fO4W39qYzCpHym2UtDrTy2TXjEg
- s/WA==
-X-Gm-Message-State: APjAAAWiLoxNeLj1YZS4WyelLnnfci56Wfhyj/JQywyvnIVYiHeUTsrw
- PjjxlOVsdx1zSFuQK1/BU+pr0j43U3oZouNkxNs7FdJbx5rNcdUHfgTKJ75I+PJdprhkAPAClrd
- pCb0bamjg6OeHkS8=
-X-Received: by 2002:ac8:2a83:: with SMTP id b3mr10116306qta.244.1572118755518; 
- Sat, 26 Oct 2019 12:39:15 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyjtDcojhYaxrdJh0jL789L5SunEhJ5xt5uB6qkIutetoy31Wk1jDYwb0PiRBj5QJS8VXak+Q==
-X-Received: by 2002:ac8:2a83:: with SMTP id b3mr10116289qta.244.1572118755373; 
- Sat, 26 Oct 2019 12:39:15 -0700 (PDT)
+ bh=42QY6USANjxLIh2wuts0pVaXl5XWhZ8Sl7+dDJBp7pk=;
+ b=jk+rFymt/Av21sBXPeawJJSSJvT0+T7OEK8VG2Lf/FnHq4RtS9910grtuEJQV7dtan
+ AhZWVpCZgWuVs1PANESp0o1XkhHOE+K1mmYPefZGzcNDDk/Daawz5YU+3ACIeIsKkC1n
+ xbPexFNU1xKT+tQRQ022M0n0ZM9Pd01cX1Yn94fx/nQSs9DCZFUKaG/Xx7DVcyb94rVf
+ jJPvj1ZCnVrAjVvC4UPVC4qKYOC0linP6KI+fbAupIkovap8GCtTonwxSplDjD+UyyoO
+ ZnFNzrTJbOEIIRI7Aipl3/md4j4CI1lqQipa94ipe8tsCSl/vxBi9hfJeFUGSYsP1MYI
+ r28Q==
+X-Gm-Message-State: APjAAAWa7smCaxBJTxHcW3Slx40yC/k0w+D8VaHFcxL6t1BScv4NSOEf
+ bRiqayA7v2RK5PVzA3Gq7w65QSliGLOxDwZ82To0N4T6iGzXMc5MGyyBZJkhOyjtiYA0EXPrUzh
+ MS96Gh48GMmmPhmM=
+X-Received: by 2002:a37:383:: with SMTP id 125mr9218186qkd.482.1572118761181; 
+ Sat, 26 Oct 2019 12:39:21 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy0xa33mrY3EfAWFFaoci3fH5N4xX4WisAKxdnr53QiZNbOUkHgEPYT5d/HKnSuHzdXibjf3g==
+X-Received: by 2002:a37:383:: with SMTP id 125mr9218162qkd.482.1572118760807; 
+ Sat, 26 Oct 2019 12:39:20 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- n17sm1560141qke.53.2019.10.26.12.39.12
+ 14sm2991819qtb.54.2019.10.26.12.39.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 12:39:14 -0700 (PDT)
-Date: Sat, 26 Oct 2019 15:39:10 -0400
+ Sat, 26 Oct 2019 12:39:20 -0700 (PDT)
+Date: Sat, 26 Oct 2019 15:39:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/25] virtio: basic structure for packed ring
-Message-ID: <20191026193824.11926-2-mst@redhat.com>
+Subject: [PULL 02/25] virtio: device/driver area size calculation refactor
+ for split ring
+Message-ID: <20191026193824.11926-3-mst@redhat.com>
 References: <20191026193824.11926-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -88,64 +89,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Xu <wexu@redhat.com>
 
-Define packed ring structure according to Qemu nomenclature,
-field data(wrap counter, etc) are also included.
+There is slight size difference between split/packed rings.
+
+This is the refactor of split ring as well as a helper to expanding
+device and driver area size calculation for packed ring.
 
 Signed-off-by: Wei Xu <wexu@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 Reviewed-by: Jens Freimann <jfreimann@redhat.com>
-Message-Id: <20191025083527.30803-2-eperezma@redhat.com>
+Message-Id: <20191025083527.30803-3-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/virtio/virtio.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 527df03bfd..fdac203cdf 100644
+index fdac203cdf..74cc10fad9 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -43,6 +43,13 @@ typedef struct VRingDesc
-     uint16_t next;
- } VRingDesc;
+@@ -159,10 +159,8 @@ static void virtio_init_region_cache(VirtIODevice *v=
+dev, int n)
+     VRingMemoryRegionCaches *old =3D vq->vring.caches;
+     VRingMemoryRegionCaches *new =3D NULL;
+     hwaddr addr, size;
+-    int event_size;
+     int64_t len;
 =20
-+typedef struct VRingPackedDesc {
-+    uint64_t addr;
-+    uint32_t len;
-+    uint16_t id;
-+    uint16_t flags;
-+} VRingPackedDesc;
-+
- typedef struct VRingAvail
+-    event_size =3D virtio_vdev_has_feature(vq->vdev, VIRTIO_RING_F_EVENT=
+_IDX) ? 2 : 0;
+=20
+     addr =3D vq->vring.desc;
+     if (!addr) {
+@@ -177,7 +175,7 @@ static void virtio_init_region_cache(VirtIODevice *vd=
+ev, int n)
+         goto err_desc;
+     }
+=20
+-    size =3D virtio_queue_get_used_size(vdev, n) + event_size;
++    size =3D virtio_queue_get_used_size(vdev, n);
+     len =3D address_space_cache_init(&new->used, vdev->dma_as,
+                                    vq->vring.used, size, true);
+     if (len < size) {
+@@ -185,7 +183,7 @@ static void virtio_init_region_cache(VirtIODevice *vd=
+ev, int n)
+         goto err_used;
+     }
+=20
+-    size =3D virtio_queue_get_avail_size(vdev, n) + event_size;
++    size =3D virtio_queue_get_avail_size(vdev, n);
+     len =3D address_space_cache_init(&new->avail, vdev->dma_as,
+                                    vq->vring.avail, size, false);
+     if (len < size) {
+@@ -2414,14 +2412,20 @@ hwaddr virtio_queue_get_desc_size(VirtIODevice *v=
+dev, int n)
+=20
+ hwaddr virtio_queue_get_avail_size(VirtIODevice *vdev, int n)
  {
-     uint16_t flags;
-@@ -81,17 +88,25 @@ typedef struct VRing
-     VRingMemoryRegionCaches *caches;
- } VRing;
-=20
-+typedef struct VRingPackedDescEvent {
-+    uint16_t off_wrap;
-+    uint16_t flags;
-+} VRingPackedDescEvent ;
++    int s;
 +
- struct VirtQueue
++    s =3D virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0=
+;
+     return offsetof(VRingAvail, ring) +
+-        sizeof(uint16_t) * vdev->vq[n].vring.num;
++        sizeof(uint16_t) * vdev->vq[n].vring.num + s;
+ }
+=20
+ hwaddr virtio_queue_get_used_size(VirtIODevice *vdev, int n)
  {
-     VRing vring;
++    int s;
++
++    s =3D virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0=
+;
+     return offsetof(VRingUsed, ring) +
+-        sizeof(VRingUsedElem) * vdev->vq[n].vring.num;
++        sizeof(VRingUsedElem) * vdev->vq[n].vring.num + s;
+ }
 =20
-     /* Next head to pop */
-     uint16_t last_avail_idx;
-+    bool last_avail_wrap_counter;
-=20
-     /* Last avail_idx read from VQ. */
-     uint16_t shadow_avail_idx;
-+    bool shadow_avail_wrap_counter;
-=20
-     uint16_t used_idx;
-+    bool used_wrap_counter;
-=20
-     /* Last used index value we have signalled on */
-     uint16_t signalled_used;
+ uint16_t virtio_queue_get_last_avail_idx(VirtIODevice *vdev, int n)
 --=20
 MST
 
