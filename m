@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD27E5F56
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 21:52:36 +0200 (CEST)
-Received: from localhost ([::1]:41796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D548E5FC1
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 23:45:51 +0200 (CEST)
+Received: from localhost ([::1]:42658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOS71-0006Kz-52
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 15:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
+	id 1iOTsb-0005c6-Ed
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 17:45:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60475)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iORv6-0001mQ-2I
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:40:17 -0400
+ (envelope-from <berto@igalia.com>) id 1iOTa3-0000d2-L9
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iORv4-0000lH-8s
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:40:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38384)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iORv4-0000l0-0Z
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 15:40:14 -0400
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 24C0283F40
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 19:40:13 +0000 (UTC)
-Received: by mail-qk1-f200.google.com with SMTP id h9so6014754qkk.16
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:40:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bg6kcb6fwS3IqXA+pOQcgET9mHY2vz8LtBX9S9VBHXs=;
- b=K1+wNWiL82SkQZ8urxlnlsYouvY0nCdUVQV/HovSy2M+iQCG7YbnBv3hFpKZ9IRtS3
- WnTMBvrLv7auqdhyRuFU+bk9qeCOOORcuUhOHTvkKcGkbfbZHuku7B60roPAR5N3zV3/
- 9jJamFd2JdoTq7K8WliskZtBcTDUzG9Da88qqn/rrvGPL0SwpTw1pAAXcAYVkz2oSAUc
- UlX73Pp32lsJSzm2S6Rm284IHbvOxiZ93UBGGjnq1q/nTTMRL0KlKKLE3aaVQCrnAVcU
- Zo34fhFOunAhQ6EnF2abo7IEFQYG3u35h5r8L/GLclyRYx671fqci7mvI5cSaU6EILsi
- A5gw==
-X-Gm-Message-State: APjAAAVqpMT0+UseNaHE44VkwHrDpH7HYqKh9Q8jiwqKSSSfo4ERI+MP
- UgiSt8WeOc4TU1b4woIvCUQN4ea5hv/XsQZw2wR+Gq6SBZMwfFX87eR/OiUefrCKhRRn7xdIPXv
- V3lruUgl+v04w1Q8=
-X-Received: by 2002:a0c:9083:: with SMTP id p3mr8592833qvp.210.1572118811850; 
- Sat, 26 Oct 2019 12:40:11 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzCz8Ia0v4RsWUTc6wKPZy3+QtlJqlwtF9dZa9upN/Uh49odPgIZBRXQjw+bnJppwut+qV+Tw==
-X-Received: by 2002:a0c:9083:: with SMTP id p3mr8592804qvp.210.1572118811484; 
- Sat, 26 Oct 2019 12:40:11 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- b18sm561556qkh.95.2019.10.26.12.40.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Oct 2019 12:40:10 -0700 (PDT)
-Date: Sat, 26 Oct 2019 15:40:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ (envelope-from <berto@igalia.com>) id 1iOTZz-0005Vy-Rl
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 17:26:39 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42556)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iOTZy-0005Hk-Sz; Sat, 26 Oct 2019 17:26:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=lai4II5riXAG+qlx1gVox8WzNlTJA6AvF/a0K8JY1/8=; 
+ b=nrxDPTqlRE4iwTJYcC5E+us9viYt6S52X/N6Ly0DPPoA6VyG+RtP8Nix4Fge8sbRzq7r/msGzKLnEJCOZ8i5nMrkggLAFxfuCxw4GaxECqa+jQq+MuUcJHr7aqEuZcBOuDez826hfWfj6lHq/OpEUBhskFFANFbA74uJti31psTN6/jBMmANoVhFCHS22gK3O84S8cb81KUaAECNCMlSz1igKlJ/2gqa9blMZPH6y9geYHjdR7wbrZ8vOQL+w+/86MbGalXiOkDqVHIuv8+S4WCewxfl21rtN616fuWkDRnXBoHEsRPux0YGgMqUUJm/xDk1R8ctGYsU1llU7gyJMA==;
+Received: from 87-100-137-117.bb.dnainternet.fi ([87.100.137.117]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1iOTZI-00045k-MG; Sat, 26 Oct 2019 23:25:52 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1iOTZ0-0001P4-2m; Sun, 27 Oct 2019 00:25:34 +0300
+From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/25] libqos: extend feature bits to 64-bit
-Message-ID: <20191026193824.11926-12-mst@redhat.com>
-References: <20191026193824.11926-1-mst@redhat.com>
+Subject: [RFC PATCH v2 02/26] qcow2: Split cluster_needs_cow() out of
+ count_cow_clusters()
+Date: Sun, 27 Oct 2019 00:25:04 +0300
+Message-Id: <574b670e016379e8b4230b52d9b46c1d97d9486b.1572125022.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1572125022.git.berto@igalia.com>
+References: <cover.1572125022.git.berto@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191026193824.11926-1-mst@redhat.com>
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,296 +57,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+We are going to need it in other places.
 
-In VIRTIO 1.0 feature bits changed from 32-bit to 64-bit.  (In fact, the
-transports allow even more feature bits but nothing uses more than 64
-bits today.)
-
-Add 64-bit feature bit support to virtio-mmio and virtio-pci.  This will
-be necessary for VIRTIO 1.0 support.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191023100425.12168-4-stefanha@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- tests/libqos/virtio-mmio.c | 28 ++++++++++++++++++++++------
- tests/libqos/virtio-net.c  |  6 +++---
- tests/libqos/virtio-pci.c  | 12 ++++++------
- tests/libqos/virtio.c      |  4 ++--
- tests/libqos/virtio.h      | 12 ++++++------
- tests/virtio-blk-test.c    |  8 ++++----
- 6 files changed, 43 insertions(+), 27 deletions(-)
+ block/qcow2-cluster.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/tests/libqos/virtio-mmio.c b/tests/libqos/virtio-mmio.c
-index 7154b03c1d..78066e6e05 100644
---- a/tests/libqos/virtio-mmio.c
-+++ b/tests/libqos/virtio-mmio.c
-@@ -40,22 +40,38 @@ static uint64_t qvirtio_mmio_config_readq(QVirtioDevi=
-ce *d, uint64_t off)
-     return qtest_readq(dev->qts, dev->addr + QVIRTIO_MMIO_DEVICE_SPECIFI=
-C + off);
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 6c1dcdc781..aa1010a515 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1068,6 +1068,24 @@ static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset,
+     QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
  }
-=20
--static uint32_t qvirtio_mmio_get_features(QVirtioDevice *d)
-+static uint64_t qvirtio_mmio_get_features(QVirtioDevice *d)
- {
-     QVirtioMMIODevice *dev =3D container_of(d, QVirtioMMIODevice, vdev);
-+    uint64_t lo;
-+    uint64_t hi =3D 0;
-+
-     qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_HOST_FEATURES_SEL, 0=
-);
--    return qtest_readl(dev->qts, dev->addr + QVIRTIO_MMIO_HOST_FEATURES)=
-;
-+    lo =3D qtest_readl(dev->qts, dev->addr + QVIRTIO_MMIO_HOST_FEATURES)=
-;
-+
-+    if (dev->version >=3D 2) {
-+        qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_HOST_FEATURES_SE=
-L, 1);
-+        hi =3D qtest_readl(dev->qts, dev->addr + QVIRTIO_MMIO_HOST_FEATU=
-RES);
+ 
++/* Returns true if writing to a cluster requires COW */
++static bool cluster_needs_cow(BlockDriverState *bs, uint64_t l2_entry)
++{
++    switch (qcow2_get_cluster_type(bs, l2_entry)) {
++    case QCOW2_CLUSTER_NORMAL:
++        if (l2_entry & QCOW_OFLAG_COPIED) {
++            return false;
++        }
++    case QCOW2_CLUSTER_UNALLOCATED:
++    case QCOW2_CLUSTER_COMPRESSED:
++    case QCOW2_CLUSTER_ZERO_PLAIN:
++    case QCOW2_CLUSTER_ZERO_ALLOC:
++        return true;
++    default:
++        abort();
 +    }
++}
 +
-+    return (hi << 32) | lo;
+ /*
+  * Returns the number of contiguous clusters that can be used for an allocating
+  * write, but require COW to be performed (this includes yet unallocated space,
+@@ -1080,25 +1098,11 @@ static int count_cow_clusters(BlockDriverState *bs, int nb_clusters,
+ 
+     for (i = 0; i < nb_clusters; i++) {
+         uint64_t l2_entry = be64_to_cpu(l2_slice[l2_index + i]);
+-        QCow2ClusterType cluster_type = qcow2_get_cluster_type(bs, l2_entry);
+-
+-        switch(cluster_type) {
+-        case QCOW2_CLUSTER_NORMAL:
+-            if (l2_entry & QCOW_OFLAG_COPIED) {
+-                goto out;
+-            }
++        if (!cluster_needs_cow(bs, l2_entry)) {
+             break;
+-        case QCOW2_CLUSTER_UNALLOCATED:
+-        case QCOW2_CLUSTER_COMPRESSED:
+-        case QCOW2_CLUSTER_ZERO_PLAIN:
+-        case QCOW2_CLUSTER_ZERO_ALLOC:
+-            break;
+-        default:
+-            abort();
+         }
+     }
+ 
+-out:
+     assert(i <= nb_clusters);
+     return i;
  }
-=20
--static void qvirtio_mmio_set_features(QVirtioDevice *d, uint32_t feature=
-s)
-+static void qvirtio_mmio_set_features(QVirtioDevice *d, uint64_t feature=
-s)
- {
-     QVirtioMMIODevice *dev =3D container_of(d, QVirtioMMIODevice, vdev);
-     dev->features =3D features;
-     qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_GUEST_FEATURES_SEL, =
-0);
-     qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_GUEST_FEATURES, feat=
-ures);
-+
-+    if (dev->version >=3D 2) {
-+        qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_GUEST_FEATURES_S=
-EL, 1);
-+        qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_GUEST_FEATURES,
-+                     features >> 32);
-+    }
- }
-=20
--static uint32_t qvirtio_mmio_get_guest_features(QVirtioDevice *d)
-+static uint64_t qvirtio_mmio_get_guest_features(QVirtioDevice *d)
- {
-     QVirtioMMIODevice *dev =3D container_of(d, QVirtioMMIODevice, vdev);
-     return dev->features;
-@@ -149,8 +165,8 @@ static QVirtQueue *qvirtio_mmio_virtqueue_setup(QVirt=
-ioDevice *d,
-     vq->free_head =3D 0;
-     vq->num_free =3D vq->size;
-     vq->align =3D dev->page_size;
--    vq->indirect =3D (dev->features & (1u << VIRTIO_RING_F_INDIRECT_DESC=
-)) !=3D 0;
--    vq->event =3D (dev->features & (1u << VIRTIO_RING_F_EVENT_IDX)) !=3D=
- 0;
-+    vq->indirect =3D dev->features & (1ull << VIRTIO_RING_F_INDIRECT_DES=
-C);
-+    vq->event =3D dev->features & (1ull << VIRTIO_RING_F_EVENT_IDX);
-=20
-     qtest_writel(dev->qts, dev->addr + QVIRTIO_MMIO_QUEUE_NUM, vq->size)=
-;
-=20
-diff --git a/tests/libqos/virtio-net.c b/tests/libqos/virtio-net.c
-index 6567beb553..710d440c3d 100644
---- a/tests/libqos/virtio-net.c
-+++ b/tests/libqos/virtio-net.c
-@@ -44,11 +44,11 @@ static void virtio_net_setup(QVirtioNet *interface)
-=20
-     features =3D qvirtio_get_features(vdev);
-     features &=3D ~(QVIRTIO_F_BAD_FEATURE |
--                  (1u << VIRTIO_RING_F_INDIRECT_DESC) |
--                  (1u << VIRTIO_RING_F_EVENT_IDX));
-+                  (1ull << VIRTIO_RING_F_INDIRECT_DESC) |
-+                  (1ull << VIRTIO_RING_F_EVENT_IDX));
-     qvirtio_set_features(vdev, features);
-=20
--    if (features & (1u << VIRTIO_NET_F_MQ)) {
-+    if (features & (1ull << VIRTIO_NET_F_MQ)) {
-         interface->n_queues =3D qvirtio_config_readw(vdev, 8) * 2;
-     } else {
-         interface->n_queues =3D 2;
-diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index 50499e75ef..1b6b760fc6 100644
---- a/tests/libqos/virtio-pci.c
-+++ b/tests/libqos/virtio-pci.c
-@@ -96,19 +96,19 @@ static uint64_t qvirtio_pci_config_readq(QVirtioDevic=
-e *d, uint64_t off)
-     return val;
- }
-=20
--static uint32_t qvirtio_pci_get_features(QVirtioDevice *d)
-+static uint64_t qvirtio_pci_get_features(QVirtioDevice *d)
- {
-     QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-     return qpci_io_readl(dev->pdev, dev->bar, VIRTIO_PCI_HOST_FEATURES);
- }
-=20
--static void qvirtio_pci_set_features(QVirtioDevice *d, uint32_t features=
-)
-+static void qvirtio_pci_set_features(QVirtioDevice *d, uint64_t features=
-)
- {
-     QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-     qpci_io_writel(dev->pdev, dev->bar, VIRTIO_PCI_GUEST_FEATURES, featu=
-res);
- }
-=20
--static uint32_t qvirtio_pci_get_guest_features(QVirtioDevice *d)
-+static uint64_t qvirtio_pci_get_guest_features(QVirtioDevice *d)
- {
-     QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-     return qpci_io_readl(dev->pdev, dev->bar, VIRTIO_PCI_GUEST_FEATURES)=
-;
-@@ -208,7 +208,7 @@ static void qvirtio_pci_set_queue_address(QVirtioDevi=
-ce *d, uint32_t pfn)
- static QVirtQueue *qvirtio_pci_virtqueue_setup(QVirtioDevice *d,
-                                         QGuestAllocator *alloc, uint16_t=
- index)
- {
--    uint32_t feat;
-+    uint64_t feat;
-     uint64_t addr;
-     QVirtQueuePCI *vqpci;
-     QVirtioPCIDevice *qvpcidev =3D container_of(d, QVirtioPCIDevice, vde=
-v);
-@@ -222,8 +222,8 @@ static QVirtQueue *qvirtio_pci_virtqueue_setup(QVirti=
-oDevice *d,
-     vqpci->vq.free_head =3D 0;
-     vqpci->vq.num_free =3D vqpci->vq.size;
-     vqpci->vq.align =3D VIRTIO_PCI_VRING_ALIGN;
--    vqpci->vq.indirect =3D (feat & (1u << VIRTIO_RING_F_INDIRECT_DESC)) =
-!=3D 0;
--    vqpci->vq.event =3D (feat & (1u << VIRTIO_RING_F_EVENT_IDX)) !=3D 0;
-+    vqpci->vq.indirect =3D feat & (1ull << VIRTIO_RING_F_INDIRECT_DESC);
-+    vqpci->vq.event =3D feat & (1ull << VIRTIO_RING_F_EVENT_IDX);
-=20
-     vqpci->msix_entry =3D -1;
-     vqpci->msix_addr =3D 0;
-diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
-index 0ae9956fc8..4f7e6bb8a1 100644
---- a/tests/libqos/virtio.c
-+++ b/tests/libqos/virtio.c
-@@ -33,12 +33,12 @@ uint64_t qvirtio_config_readq(QVirtioDevice *d, uint6=
-4_t addr)
-     return d->bus->config_readq(d, addr);
- }
-=20
--uint32_t qvirtio_get_features(QVirtioDevice *d)
-+uint64_t qvirtio_get_features(QVirtioDevice *d)
- {
-     return d->bus->get_features(d);
- }
-=20
--void qvirtio_set_features(QVirtioDevice *d, uint32_t features)
-+void qvirtio_set_features(QVirtioDevice *d, uint64_t features)
- {
-     d->features =3D features;
-     d->bus->set_features(d, features);
-diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
-index 2cb2448f46..a5c99fb3c9 100644
---- a/tests/libqos/virtio.h
-+++ b/tests/libqos/virtio.h
-@@ -13,7 +13,7 @@
- #include "libqos/malloc.h"
- #include "standard-headers/linux/virtio_ring.h"
-=20
--#define QVIRTIO_F_BAD_FEATURE           0x40000000
-+#define QVIRTIO_F_BAD_FEATURE           0x40000000ull
-=20
- typedef struct QVirtioBus QVirtioBus;
-=20
-@@ -52,13 +52,13 @@ struct QVirtioBus {
-     uint64_t (*config_readq)(QVirtioDevice *d, uint64_t addr);
-=20
-     /* Get features of the device */
--    uint32_t (*get_features)(QVirtioDevice *d);
-+    uint64_t (*get_features)(QVirtioDevice *d);
-=20
-     /* Set features of the device */
--    void (*set_features)(QVirtioDevice *d, uint32_t features);
-+    void (*set_features)(QVirtioDevice *d, uint64_t features);
-=20
-     /* Get features of the guest */
--    uint32_t (*get_guest_features)(QVirtioDevice *d);
-+    uint64_t (*get_guest_features)(QVirtioDevice *d);
-=20
-     /* Get status of the device */
-     uint8_t (*get_status)(QVirtioDevice *d);
-@@ -103,8 +103,8 @@ uint8_t qvirtio_config_readb(QVirtioDevice *d, uint64=
-_t addr);
- uint16_t qvirtio_config_readw(QVirtioDevice *d, uint64_t addr);
- uint32_t qvirtio_config_readl(QVirtioDevice *d, uint64_t addr);
- uint64_t qvirtio_config_readq(QVirtioDevice *d, uint64_t addr);
--uint32_t qvirtio_get_features(QVirtioDevice *d);
--void qvirtio_set_features(QVirtioDevice *d, uint32_t features);
-+uint64_t qvirtio_get_features(QVirtioDevice *d);
-+void qvirtio_set_features(QVirtioDevice *d, uint64_t features);
- bool qvirtio_is_big_endian(QVirtioDevice *d);
-=20
- void qvirtio_reset(QVirtioDevice *d);
-diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
-index f6674fb233..31680cc159 100644
---- a/tests/virtio-blk-test.c
-+++ b/tests/virtio-blk-test.c
-@@ -119,7 +119,7 @@ static void test_basic(QVirtioDevice *dev, QGuestAllo=
-cator *alloc,
-     QVirtioBlkReq req;
-     uint64_t req_addr;
-     uint64_t capacity;
--    uint32_t features;
-+    uint64_t features;
-     uint32_t free_head;
-     uint8_t status;
-     char *data;
-@@ -352,7 +352,7 @@ static void indirect(void *obj, void *u_data, QGuestA=
-llocator *t_alloc)
-     QVRingIndirectDesc *indirect;
-     uint64_t req_addr;
-     uint64_t capacity;
--    uint32_t features;
-+    uint64_t features;
-     uint32_t free_head;
-     uint8_t status;
-     char *data;
-@@ -467,7 +467,7 @@ static void msix(void *obj, void *u_data, QGuestAlloc=
-ator *t_alloc)
-     int n_size =3D TEST_IMAGE_SIZE / 2;
-     uint64_t req_addr;
-     uint64_t capacity;
--    uint32_t features;
-+    uint64_t features;
-     uint32_t free_head;
-     uint8_t status;
-     char *data;
-@@ -574,7 +574,7 @@ static void idx(void *obj, void *u_data, QGuestAlloca=
-tor *t_alloc)
-     QVirtioBlkReq req;
-     uint64_t req_addr;
-     uint64_t capacity;
--    uint32_t features;
-+    uint64_t features;
-     uint32_t free_head;
-     uint32_t write_head;
-     uint32_t desc_idx;
---=20
-MST
+-- 
+2.20.1
 
 
