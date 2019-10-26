@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D96E5A71
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 14:21:37 +0200 (CEST)
-Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9235DE5B9B
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Oct 2019 15:24:33 +0200 (CEST)
+Received: from localhost ([::1]:40104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOL4a-0006LT-Am
-	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 08:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38749)
+	id 1iOM3U-0008R5-9L
+	for lists+qemu-devel@lfdr.de; Sat, 26 Oct 2019 09:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOL3L-0003gg-Gp
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 08:20:20 -0400
+ (envelope-from <tu.guoyi@h3c.com>) id 1iOIF1-0007Tb-Pt
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 05:20:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOL3J-0000N4-9P
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 08:20:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33182)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOL3J-0000MA-0l
- for qemu-devel@nongnu.org; Sat, 26 Oct 2019 08:20:17 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9E50181F0D
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 12:20:15 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id i10so2816745wrp.7
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 05:20:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P79WRKrO53iDbT1Yf/VUXLVKWsDQGmKDqtRB4o0iXfg=;
- b=oiHos26UoTv7TqJVN3g/SkQLhgkEVvQQj9KhQ+9FB6wbzVez08dhQa7xzaNxRkSZl0
- MJ8f2PK2cUzXOQUr/sDi58QStaAFUJBlDEqTd8u0ryQ5wF0qvvdd5T0bCqFyKqnjYdJ9
- LeIRTLNk53MN8Ky6jgZBk9EiukCdRys+4DjZdoko8HrHPAXfS/Ncq++InPM9NB3ShU8w
- xSL7zv9+KzGfflqK5Z+unvoL+bxdOBGBoSGw+6C9nzVBJIWCI8k83Fb1bkzs6baepTOO
- nFvsnDGqR1eG6mc+dnj8WqQtMTOVcOo3Oa/QVaEXTZJozzgewC0sRwvDe3bFU10HMFsK
- Ga2A==
-X-Gm-Message-State: APjAAAVEH8nY5H5UBWt6VzE6aNhmebtSCMDe2hcZrLFtkYPf/SzGLZ54
- DJnQ3bNZOKmOzavgtdzTJk9tb02vnkKWVG0mQDElho97Ng1OQ4IpJMph0qUuKZExyx0+sXxbh3w
- ZNTkNrv2dy1xTNag=
-X-Received: by 2002:a7b:c5c9:: with SMTP id n9mr7153950wmk.123.1572092414375; 
- Sat, 26 Oct 2019 05:20:14 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwuJ/f9ONX2qfY/u1dx6O5YUqz+m/l5HRG42LCVUfxYjQ1FsJbSYGQWLf+EehBmJG/YM2Ds4Q==
-X-Received: by 2002:a7b:c5c9:: with SMTP id n9mr7153907wmk.123.1572092414091; 
- Sat, 26 Oct 2019 05:20:14 -0700 (PDT)
-Received: from [192.168.1.33] (62.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.62])
- by smtp.gmail.com with ESMTPSA id y3sm9322335wro.36.2019.10.26.05.20.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Oct 2019 05:20:13 -0700 (PDT)
-Subject: Re: [PATCH 00/20] hw: Clean up hw/i386 headers (and few alpha/hppa)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20191014142246.4538-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <dacba192-0a1e-9801-3e6f-02583bd8b994@redhat.com>
-Date: Sat, 26 Oct 2019 14:20:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <tu.guoyi@h3c.com>) id 1iOIF0-0006En-9J
+ for qemu-devel@nongnu.org; Sat, 26 Oct 2019 05:20:11 -0400
+Received: from smtp.h3c.com ([60.191.123.50]:11929 helo=h3cspam02-ex.h3c.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tu.guoyi@h3c.com>)
+ id 1iOIEz-00064n-Fc; Sat, 26 Oct 2019 05:20:10 -0400
+Received: from DAG2EX10-IDC.srv.huawei-3com.com ([10.8.0.73])
+ by h3cspam02-ex.h3c.com with ESMTPS id x9Q9JkP6084473
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sat, 26 Oct 2019 17:19:46 +0800 (GMT-8)
+ (envelope-from tu.guoyi@h3c.com)
+Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
+ DAG2EX10-IDC.srv.huawei-3com.com (10.8.0.73) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sat, 26 Oct 2019 17:19:49 +0800
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
+ by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%6])
+ with mapi id 15.01.1713.004; Sat, 26 Oct 2019 17:19:49 +0800
+From: Tuguoyi <tu.guoyi@h3c.com>
+To: "kwolf@redhat.com" <kwolf@redhat.com>, "mreitz@redhat.com"
+ <mreitz@redhat.com>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: [PATCH] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Topic: [PATCH] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Index: AdWL3hfRDHnwa5Z/SpmfNSa9xKBzHA==
+Date: Sat, 26 Oct 2019 09:19:48 +0000
+Message-ID: <9845459389d245fcaca2c017c27be8bc@h3c.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.125.108.112]
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-DNSRBL: 
+X-MAIL: h3cspam02-ex.h3c.com x9Q9JkP6084473
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 60.191.123.50
+X-Mailman-Approved-At: Sat, 26 Oct 2019 09:21:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,67 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Helge Deller <deller@gmx.de>,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Chengchiwen <chengchiwen@h3c.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Wangyongqing <w_yongqing@h3c.com>, Changlimin <changlimin@h3c.com>,
+ Gaoliang <liang_gao@h3c.com>, Wangyong <wang.yongD@h3c.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 10/14/19 4:22 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> This is a follow-up of Markus's cleanup series:
-> Tame a few "touch this, recompile the world"
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg635748.html
->=20
-> This part is mostly restricted to X86, but since some file from the
-> Alpha/PA-RISC machines include "hw/i386/pc.h" I had to fix them
-> too.
->=20
-> Eventually I'll succeed at removing hw/i386/ dependency on non-X86
-> platforms (Quest I started 2 years ago...).
->=20
-> Regards,
->=20
-> Phil.
->=20
-> Philippe Mathieu-Daud=C3=A9 (20):
->    vl: Add missing "hw/boards.h" include
->    hw/southbridge/ich9: Removed unused headers
->    hw/input/pckbd: Remove unused "hw/i386/pc.h" header
->    hw/i386/ioapic_internal: Remove unused "hw/i386/ioapic.h" header
->    hw/timer: Remove unused "ui/console.h" header
->    hw/usb/dev-storage: Remove unused "ui/console.h" header
->    hw/i386/intel_iommu: Remove unused includes
->    hw/xen/xen_pt_load_rom: Remove unused includes
->    hw/alpha/alpha_sys: Remove unused "hw/ide.h" header
->    hw/alpha/dp264: Include "net/net.h"
->    hw/hppa/machine: Include "net/net.h"
->    hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
->    hw/timer/hpet: Include "exec/address-spaces.h"
->    hw/pci-host/q35: Include "qemu/range.h"
->    hw/i2c/smbus_ich9: Include "qemu/range.h"
->    hw/pci-host/piix: Include "qemu/range.h"
->    hw/acpi: Include "hw/mem/nvdimm.h"
->    hw/i386: Include "hw/mem/nvdimm.h"
->    hw/pci-host/q35: Remove unused includes
->    hw/i386/pc: Clean up includes
-Laurent, since this series is fully reviewed, can it go via
-your qemu-trivial tree?
-
-Thanks,
-
-Phil.
+SW4gY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKCksIHRoZSBzYW5pdHkgY2hlY2sgb24gdGhl
+DQpncmFudWxhcml0eSB3aWxsIGNhdXNlIHVpbnQ2NF90IGludGVnZXIgbGVmdC1zaGlmdCBvdmVy
+Zmxvdw0Kd2hlbiBjbHVzdGVyX3NpemUgaXMgMk0gYW5kIHRoZSBncmFudWxhcml0eSBpcyBiaWdn
+ZXIgdGhhbg0KMzJLIHdoaWNoIGlzIGV2ZW4gc21hbGxlciB0aGFuIHRoZSBkZWZhdWx0IHZhbHVl
+IGZvciBhIHFjb3cyDQpkaXNrIHdpdGggY2x1c3Rlcl9zaXplIHNldCB0byA2NGsgb3IgYmlnZ2Vy
+LiBUaGlzIHBhdGNoIGZpeA0KdGhlIGlzc3VlIGJ5IHJpZ2h0LXNoaWZ0IEBsZW4gaW5zdGVhZC4N
+Cg0KU2lnbmVkLW9mZi1ieTogR3VveWkgVHUgPHR1Lmd1b3lpQGgzYy5jb20+DQotLS0NCiBibG9j
+ay9xY293Mi1iaXRtYXAuYyB8IDQgKystLQ0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KyksIDIgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9ibG9jay9xY293Mi1iaXRtYXAuYyBi
+L2Jsb2NrL3Fjb3cyLWJpdG1hcC5jDQppbmRleCA5ODI5NGE3Li4yYTFkNzg5IDEwMDY0NA0KLS0t
+IGEvYmxvY2svcWNvdzItYml0bWFwLmMNCisrKyBiL2Jsb2NrL3Fjb3cyLWJpdG1hcC5jDQpAQCAt
+MTcyLDggKzE3Miw4IEBAIHN0YXRpYyBpbnQgY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKEJs
+b2NrRHJpdmVyU3RhdGUgKmJzLA0KICAgICB9DQoNCiAgICAgaWYgKChsZW4gPiAodWludDY0X3Qp
+Qk1FX01BWF9QSFlTX1NJWkUgPDwgZ3JhbnVsYXJpdHlfYml0cykgfHwNCi0gICAgICAgIChsZW4g
+PiAodWludDY0X3QpQk1FX01BWF9UQUJMRV9TSVpFICogcy0+Y2x1c3Rlcl9zaXplIDw8DQotICAg
+ICAgICAgICAgICAgZ3JhbnVsYXJpdHlfYml0cykpDQorICAgICAgICAoKGxlbiA+PiBncmFudWxh
+cml0eV9iaXRzKSA+ICh1aW50NjRfdClCTUVfTUFYX1RBQkxFX1NJWkUgKg0KKyAgICAgICAgICAg
+ICAgICBzLT5jbHVzdGVyX3NpemUpKQ0KICAgICB7DQogICAgICAgICBlcnJvcl9zZXRnKGVycnAs
+ICJUb28gbXVjaCBzcGFjZSB3aWxsIGJlIG9jY3VwaWVkIGJ5IHRoZSBiaXRtYXAuICINCiAgICAg
+ICAgICAgICAgICAgICAgIlVzZSBsYXJnZXIgZ3JhbnVsYXJpdHkiKTsNCi0tDQoyLjcuNA0KLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQ0K5pys6YKu5Lu25Y+K5YW26ZmE5Lu25ZCr5pyJ5paw5Y2O5LiJ6ZuG
+5Zui55qE5L+d5a+G5L+h5oGv77yM5LuF6ZmQ5LqO5Y+R6YCB57uZ5LiK6Z2i5Zyw5Z2A5Lit5YiX
+5Ye6DQrnmoTkuKrkurrmiJbnvqTnu4TjgILnpoHmraLku7vkvZXlhbbku5bkurrku6Xku7vkvZXl
+vaLlvI/kvb/nlKjvvIjljIXmi6zkvYbkuI3pmZDkuo7lhajpg6jmiJbpg6jliIblnLDms4TpnLLj
+gIHlpI3liLbjgIENCuaIluaVo+WPke+8ieacrOmCruS7tuS4reeahOS/oeaBr+OAguWmguaenOaC
+qOmUmeaUtuS6huacrOmCruS7tu+8jOivt+aCqOeri+WNs+eUteivneaIlumCruS7tumAmuefpeWP
+keS7tuS6uuW5tuWIoOmZpOacrA0K6YKu5Lu277yBDQpUaGlzIGUtbWFpbCBhbmQgaXRzIGF0dGFj
+aG1lbnRzIGNvbnRhaW4gY29uZmlkZW50aWFsIGluZm9ybWF0aW9uIGZyb20gTmV3IEgzQywgd2hp
+Y2ggaXMNCmludGVuZGVkIG9ubHkgZm9yIHRoZSBwZXJzb24gb3IgZW50aXR5IHdob3NlIGFkZHJl
+c3MgaXMgbGlzdGVkIGFib3ZlLiBBbnkgdXNlIG9mIHRoZQ0KaW5mb3JtYXRpb24gY29udGFpbmVk
+IGhlcmVpbiBpbiBhbnkgd2F5IChpbmNsdWRpbmcsIGJ1dCBub3QgbGltaXRlZCB0bywgdG90YWwg
+b3IgcGFydGlhbA0KZGlzY2xvc3VyZSwgcmVwcm9kdWN0aW9uLCBvciBkaXNzZW1pbmF0aW9uKSBi
+eSBwZXJzb25zIG90aGVyIHRoYW4gdGhlIGludGVuZGVkDQpyZWNpcGllbnQocykgaXMgcHJvaGli
+aXRlZC4gSWYgeW91IHJlY2VpdmUgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkg
+dGhlIHNlbmRlcg0KYnkgcGhvbmUgb3IgZW1haWwgaW1tZWRpYXRlbHkgYW5kIGRlbGV0ZSBpdCEN
+Cg==
 
