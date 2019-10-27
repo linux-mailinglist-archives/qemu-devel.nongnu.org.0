@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B4EE6485
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:31:29 +0100 (CET)
-Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D420BE648F
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:38:20 +0100 (CET)
+Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOmO0-0003S0-2Q
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:31:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57404)
+	id 1iOmUd-00044y-TZ
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJq-0004Gk-1P
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:11 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmJt-0004Nl-U4
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJo-0006hW-1D
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:09 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:41259 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmJs-0006mf-CZ
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:13 -0400
+Received: from ozlabs.org ([203.11.71.1]:48973)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iOmJn-0006ad-Bi; Sun, 27 Oct 2019 13:27:07 -0400
+ id 1iOmJr-0006iO-Uk; Sun, 27 Oct 2019 13:27:12 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 471Psw2fgJz9sPZ; Mon, 28 Oct 2019 04:26:59 +1100 (AEDT)
+ id 471Psw4XL2z9sPk; Mon, 28 Oct 2019 04:26:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1572197220;
- bh=K2jkG/fRtukLjm2pMdgYnX+MoPCbjWnPhgbGInUz9q0=;
+ bh=G+AiNmC/Q6bUTpqHaRfmdj0D0YKshC8kv1JCL8mzxww=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d+9dflgrwmzNsRuSX1UMiyz2/dtCFEofUZ/MpajnWZOPeEx0Gc3bT0k58ITl6K03n
- fbuqRuAkHb/hdTlCnxn2SgYsUiJWNRi/gQAsz9rWhVO+T5VTAx2TASBdTt0TTEo0Vb
- jgp9WenGM2ImhsXNB7h1Ji5r9UFeaL/cc7nrdP+U=
-Date: Sun, 27 Oct 2019 17:57:16 +0100
+ b=Pfc7xYAoTLBNzo0NyCZtr2RawuzYAe2WWHr7OlLHVgOYBLWHw22GP1BYse3LB2zHk
+ qSwUX1V+RX+mKisBA4NAr5sskcQbrDQQ2atDGpn4yms9JLtj5PuKHpqdxb8HGsAeJk
+ Gxse+egpDq9pj4UFc3EY2kB5Jd5FGVIOYPy41XMI=
+Date: Sun, 27 Oct 2019 18:01:49 +0100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/6] ppc: Reparent presenter objects to the interrupt
- controller object
-Message-ID: <20191027165716.GE3552@umbus.metropole.lan>
+Subject: Re: [PATCH 5/6] spapr: Don't use CPU_FOREACH() in 'info pic'
+Message-ID: <20191027170149.GF3552@umbus.metropole.lan>
 References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
- <157184233056.3053790.13073641279894392321.stgit@bahia.lan>
- <20191024025841.GT6439@umbus.fritz.box>
- <20191024110453.0b81b1b2@bahia.lan>
+ <157184234176.3053790.8577967462603127139.stgit@bahia.lan>
+ <20191024030231.GV6439@umbus.fritz.box>
+ <20191024112845.43005bae@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SNIs70sCzqvszXB4"
+ protocol="application/pgp-signature"; boundary="2FkSFaIQeDFoAt0B"
 Content-Disposition: inline
-In-Reply-To: <20191024110453.0b81b1b2@bahia.lan>
+In-Reply-To: <20191024112845.43005bae@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,100 +64,179 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---SNIs70sCzqvszXB4
+--2FkSFaIQeDFoAt0B
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 11:04:53AM +0200, Greg Kurz wrote:
-> On Thu, 24 Oct 2019 13:58:41 +1100
+On Thu, Oct 24, 2019 at 11:28:45AM +0200, Greg Kurz wrote:
+> On Thu, 24 Oct 2019 14:02:31 +1100
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > On Wed, Oct 23, 2019 at 04:52:10PM +0200, Greg Kurz wrote:
-> > > Each VCPU is associated to a presenter object within the interrupt
-> > > controller, ie. TCTX for XIVE and ICP for XICS, but our current
-> > > models put these objects below the VCPU, and we rely on CPU_FOREACH()
-> > > to do anything that involves presenters.
-> > >=20
-> > > This recently bit us with the CAM line matching logic in XIVE because
-> > > CPU_FOREACH() can race with CPU hotplug and we ended up considering a
-> > > VCPU that wasn't associated to a TCTX object yet. Other users of
-> > > CPU_FOREACH() are 'info pic' for both XICS and XIVE. It is again very
-> > > easy to crash QEMU with concurrent VCPU hotplug/unplug and 'info pic'.
-> > >=20
-> > > Reparent the presenter objects to the corresponding interrupt control=
-ler
-> > > object, ie. XIVE router or ICS, to make it clear they are not some ex=
-tra
-> > > data hanging from the CPU but internal XIVE or XICS entities. The CPU
-> > > object now needs to explicitely take a reference on the presenter to
-> > > ensure its pointer remains valid until unrealize time.
-> > >=20
-> > > This will allow to get rid of CPU_FOREACH() and ease further improvem=
-ents
-> > > to the XIVE model.
-> > >=20
-> > > This change doesn't impact section ids and is thus transparent to
-> > > migration.
+> > On Wed, Oct 23, 2019 at 04:52:21PM +0200, Greg Kurz wrote:
+> > > Now that presenter objects are parented to the interrupt controller, =
+stop
+> > > relying on CPU_FOREACH() which can race with CPU hotplug and crash QE=
+MU.
 > > >=20
 > > > Signed-off-by: Greg Kurz <groug@kaod.org>
 > >=20
+> > So.. we might be able to go further than this.  Having the
+> > TYPE_INTERRUPT_STATS_PROVIDER interrupt on the machine is actually an
+> > spapr and pnv oddity.  In most cases that interface is on the various
+> > components of the interrupt controller directly.  hmp_info_irq() scans
+> > the whole QOM tree looking for everything with the interface to
+> > produce the info pic output.
 > >=20
-> > Urgh.  I see why we want something like this, but reparenting the
-> > presenters to the source modules (particularly for XICS) makes me
-> > uncomfortable.
-> >=20
-> > AFAICT the association here is *purely* about managing lifetimes, not
-> > because those ICPs inherently have something to do with those ICSes.
-> > Same with XIVE, although since they'll be on the same chip there's a
-> > bit more logic to it.
+> > It would be nice if we can do the same for xics and xive.  The tricky
+> > bit is that we do have the possibility of both, in which case the
+> > individual components would need to know if they're currently "active"
+> > and minimize their output if so.
 > >=20
 >=20
-> I did it this way for XIVE because they are indeed on the same chip,
-> but I agree it is questionable for XICS.
->=20
-> > For spapr we kinda-sorta treat the (single) ICS or XiveRouter object
-> > as the "master" of the interrupt controller.  But that's not really
->=20
-> Agreed for XICS. On the other side, the XIVE controller chip really has
-> a routing sub-engine (IVRE) and a presenter sub-engine (IVPE), and the
-> TCTXs do reside in an SRAM within the IVPE. The XiveRouter type might
-> be better named XiveController, and each instance to expose a XiveRouter
-> and a XivePresenter interface. We have one per chip for PNV and only a
-> single one for sPAPR.
+> Yes but this looks like 4.3 material. If we want to fix this for 4.2,
+> I'm now thinking it might be safer to keep CPU_FOREACH() and check the
+> state.
 
-Yes, that sounds like a reasonable approach for XIVE.
+Yeah, for 4.2 that sounds like a good idea.
 
 >=20
-> > accurate to the hardware, so I don't really want to push that way of
-> > looking at it any further than it already is.
-> >=20
-> > If we could make the presenters children of the machine (spapr) or
-> > chip (pnv) that might make more sense?
+> > > ---
+> > >  hw/intc/spapr_xive.c  |    8 +-------
+> > >  hw/intc/xics.c        |   12 ++++++++++++
+> > >  hw/intc/xics_spapr.c  |    8 +-------
+> > >  hw/intc/xive.c        |   12 ++++++++++++
+> > >  include/hw/ppc/xics.h |    1 +
+> > >  include/hw/ppc/xive.h |    2 ++
+> > >  6 files changed, 29 insertions(+), 14 deletions(-)
+> > >=20
+> > > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > > index d74ee71e76b4..05763a58cf5d 100644
+> > > --- a/hw/intc/spapr_xive.c
+> > > +++ b/hw/intc/spapr_xive.c
+> > > @@ -579,14 +579,8 @@ static void spapr_xive_set_irq(SpaprInterruptCon=
+troller *intc, int irq, int val)
+> > >  static void spapr_xive_print_info(SpaprInterruptController *intc, Mo=
+nitor *mon)
+> > >  {
+> > >      SpaprXive *xive =3D SPAPR_XIVE(intc);
+> > > -    CPUState *cs;
+> > > -
+> > > -    CPU_FOREACH(cs) {
+> > > -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> > > -
+> > > -        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
+> > > -    }
+> > > =20
+> > > +    xive_presenter_print_info(XIVE_ROUTER(intc), mon);
+> > >      spapr_xive_pic_print_info(xive, mon);
+> > >  }
+> > > =20
+> > > diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> > > index d5e4db668a4b..6e820c4851f3 100644
+> > > --- a/hw/intc/xics.c
+> > > +++ b/hw/intc/xics.c
+> > > @@ -88,6 +88,18 @@ void ics_pic_print_info(ICSState *ics, Monitor *mo=
+n)
+> > >      }
+> > >  }
+> > > =20
+> > > +static int do_ics_pic_print_icp_infos(Object *child, void *opaque)
+> > > +{
+> > > +    icp_pic_print_info(ICP(child), opaque);
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +void ics_pic_print_icp_infos(ICSState *ics, const char *type, Monito=
+r *mon)
+> > > +{
+> > > +    object_child_foreach_type(OBJECT(ics), type, do_ics_pic_print_ic=
+p_infos,
+> > > +                              mon);
+> > > +}
+> > > +
+> > >  /*
+> > >   * ICP: Presentation layer
+> > >   */
+> > > diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> > > index 080ed73aad64..7624d693c8da 100644
+> > > --- a/hw/intc/xics_spapr.c
+> > > +++ b/hw/intc/xics_spapr.c
+> > > @@ -400,14 +400,8 @@ static void xics_spapr_set_irq(SpaprInterruptCon=
+troller *intc, int irq, int val)
+> > >  static void xics_spapr_print_info(SpaprInterruptController *intc, Mo=
+nitor *mon)
+> > >  {
+> > >      ICSState *ics =3D ICS_SPAPR(intc);
+> > > -    CPUState *cs;
+> > > -
+> > > -    CPU_FOREACH(cs) {
+> > > -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> > > -
+> > > -        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
+> > > -    }
+> > > =20
+> > > +    ics_pic_print_icp_infos(ics, TYPE_ICP, mon);
+> > >      ics_pic_print_info(ics, mon);
+> > >  }
+> > > =20
+> > > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> > > index 8d2da4a11163..40ce43152456 100644
+> > > --- a/hw/intc/xive.c
+> > > +++ b/hw/intc/xive.c
+> > > @@ -547,6 +547,18 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Mo=
+nitor *mon)
+> > >      }
+> > >  }
+> > > =20
+> > > +static int do_xive_presenter_print_info(Object *child, void *opaque)
+> > > +{
+> > > +    xive_tctx_pic_print_info(XIVE_TCTX(child), opaque);
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +void xive_presenter_print_info(XiveRouter *xrtr, Monitor *mon)
+> > > +{
+> > > +    object_child_foreach_type(OBJECT(xrtr), TYPE_XIVE_TCTX,
+> > > +                              do_xive_presenter_print_info, mon);
+> > > +}
+> > > +
+> > >  void xive_tctx_reset(XiveTCTX *tctx)
+> > >  {
+> > >      memset(tctx->regs, 0, sizeof(tctx->regs));
+> > > diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+> > > index f4827e748fd8..4de1f421c997 100644
+> > > --- a/include/hw/ppc/xics.h
+> > > +++ b/include/hw/ppc/xics.h
+> > > @@ -175,6 +175,7 @@ static inline bool ics_irq_free(ICSState *ics, ui=
+nt32_t srcno)
+> > >  void ics_set_irq_type(ICSState *ics, int srcno, bool lsi);
+> > >  void icp_pic_print_info(ICPState *icp, Monitor *mon);
+> > >  void ics_pic_print_info(ICSState *ics, Monitor *mon);
+> > > +void ics_pic_print_icp_infos(ICSState *ics, const char *type, Monito=
+r *mon);
+> > > =20
+> > >  void ics_resend(ICSState *ics);
+> > >  void icp_resend(ICPState *ss);
+> > > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> > > index 8fd439ec9bba..14690428a0aa 100644
+> > > --- a/include/hw/ppc/xive.h
+> > > +++ b/include/hw/ppc/xive.h
+> > > @@ -367,6 +367,8 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8=
+_t nvt_blk, uint32_t nvt_idx,
+> > >  XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
+> > >  void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
+> > > =20
+> > > +void xive_presenter_print_info(XiveRouter *xrtr, Monitor *mon);
+> > > +
+> > >  /*
+> > >   * XIVE END ESBs
+> > >   */
+> > >=20
 > >=20
 >=20
-> It probably makes sense for XICS, not sure this makes things clearer
-> for XIVE.
->=20
-> > I'm also not totally convinced that having the presenter as a child of
-> > the cpu is inherently bad.  Yes we have bugs now, but maybe the right
-> > fix *is* actually to do the NULL check on every CPU_FOREACH().
-> >=20
-> > For comparison, the lapic on x86 machines is a child of the cpu, and I
-> > believe they do have NULL checks on cpu->apic_state in various places
-> > they use CPU_FOREACH().
-> >=20
->=20
-> I didn't want to go that way because I was finding CPU_FOREACH() to
-> be fragile since all users are broken,
 
-Hm, ok.  There aren't that many existing users though, right?
 
-> but I can revisit that. Maybe
-> worth consolidating the logic in a PRESENTER_FOREACH() macro in order
-> to avoid future breakage with CPU_FOREACH() ?
-
-That sounds worth considering at least, yes.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -166,25 +244,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---SNIs70sCzqvszXB4
+--2FkSFaIQeDFoAt0B
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21zGwACgkQbDjKyiDZ
-s5JiexAAg5+jswTGdD2/Fm7IyIrWcztzQGh6h4TOyV6couz0YI2kOCgJ/cEtgtdr
-L10UrJPEdMpnHmjzWukT3X6tbWm+ihG6L8v+aHrGhhziY5P+JClZwPRHDjsJ7s8U
-ISuSf4bYVkNg6evvKIQBBTtl/jJPkq61LYcTooa/8GpHnOCeS0sXFYzT8WJmoc6K
-B+gF3rELSklhPIvZC5SHHNhtoy8P5TTnV7KM+wzf8+luPtLLvJy5692SUYQvDEhx
-JqUMC6btUX20BxnCLa7ArCPshyWWvZ4gwp9wEydKcZerGyvXv1FiauCc5sU6aih4
-DstGv7MHH0MYc05hxsBLnfJapLMWdw1RfuP0Zg4JUJCIdU8QbC2DFTxDyro2nSz9
-O2YYvx9ddJTiBXMjESZZDWtUbH6JBbfWjHU/b5En/1iZwTaM5xnv/VdHL+0x4w4a
-Na+j8pWSbh+OWvdqa4OjIqsYqFfJhbI9VpvM4bfC0OvtHd0yxchlJmpifmWs/SD9
-4a+Fb4R00fWlpg/7qpgPS6CTsYDWz+6EwyADp67dzb8qdXUZcQHvxOLE/MBluDn5
-NTNjJf5m59LaIhLDcNl7dDEEjyWiX0aMGyLDn8mUip7DoCbE9cWSEgSjCde2nHkf
-zIYfq3oiNemIi7A3hWqsRK7ZHco/Qq4G/rRZUyTQ0U4ZwyXjoRc=
-=h1tE
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21zX0ACgkQbDjKyiDZ
+s5L3dg//SfamaBPCU1y2PnLSmHkWyH+U2ligqMMD2vv0Aq1rFWmfb0krwIIy4Skq
+nhhgVpraaT3/qAKMdvPJhiAlFlaCq0tQex8GadNxX4HPspBBkCoZTF9UnIxCn3qq
+TITxl1na3r6oanCMX3qeGcBSYJgRxsTb3OASjTKscACWgN6QNARTif5jI8D7gtp/
+vqsc9KrsYE7KxTSZlvpu9TN9o9rIHXHMc8iid3EJRDE6VcOP+3Rnk3Pkk5OW4WSi
+uTRLVP4clgxtYwIEICh6T9dRj7fCjjpl1rnu9sjQcBdOgf0nXx9ScEK6QdXEqpUs
+uTGKteTellHvnyHJmcfoEl7q3QaShOiby1j1t6Bhle3NTCPnBRXyqYJLCVyfo633
+HyQoORGbEySzY6GxcdMEk3Jq+L8qFmlEa5g8owlGXLErgElZLgKHEc6oUyw7atZX
+vWlz6qdasmWTI3Z9QcVQGN9bHTKzt54KXtg4doUwpu/rOV9mjAvu8Lm5/y4PqvWG
+fKJe+Rf6Puhjo2qokK60p2F3bS7GIssjyEKcSG3JTH3Oc64W55/BqFPx69gcL7mx
+/ZfWeh/pDcZO6t3G0w+l0tEqGQkEaFXkMMA/LGrdafGAvGmfPOJIOdYUH3D3eO5R
+SzPRNgShl3bmz4bwzS36OYtqM6gadj7wZMp+3TG9IzCzpNarWMU=
+=aT1w
 -----END PGP SIGNATURE-----
 
---SNIs70sCzqvszXB4--
+--2FkSFaIQeDFoAt0B--
 
