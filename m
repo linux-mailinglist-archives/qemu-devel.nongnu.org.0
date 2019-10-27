@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3C9E648B
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:35:27 +0100 (CET)
-Received: from localhost ([::1]:46208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B4EE6485
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:31:29 +0100 (CET)
+Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOmRq-00073Q-6G
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57456)
+	id 1iOmO0-0003S0-2Q
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJt-0004NE-1D
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:14 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmJq-0004Gk-1P
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJo-0006hw-76
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:12 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:36807 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmJo-0006hW-1D
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:09 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41259 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iOmJn-0006aU-Bd; Sun, 27 Oct 2019 13:27:08 -0400
+ id 1iOmJn-0006ad-Bi; Sun, 27 Oct 2019 13:27:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 471Psw0pbjz9sPV; Mon, 28 Oct 2019 04:26:59 +1100 (AEDT)
+ id 471Psw2fgJz9sPZ; Mon, 28 Oct 2019 04:26:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1572197220;
- bh=aE0vFQ/p6WYTNj5cDAiWHO1SMNg8rFZGYc+EVMdE/PY=;
+ bh=K2jkG/fRtukLjm2pMdgYnX+MoPCbjWnPhgbGInUz9q0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aZRLBAZ9/5b4538MqndmbdNv5ug9nb2+BzSFJxTNSpPHPofZXCnb08DBAMiCulzTH
- D5CDc6TK8hvO3A6Mlbw2qfVjeO1WQW8PqryivLYY4YHG2Z3Br2ECHZ+y28Vw6DO+ks
- tUoATcBWcHUbivoAfeyN/IQXw9XhTsDz0t8tWd2c=
-Date: Sun, 27 Oct 2019 17:54:36 +0100
+ b=d+9dflgrwmzNsRuSX1UMiyz2/dtCFEofUZ/MpajnWZOPeEx0Gc3bT0k58ITl6K03n
+ fbuqRuAkHb/hdTlCnxn2SgYsUiJWNRi/gQAsz9rWhVO+T5VTAx2TASBdTt0TTEo0Vb
+ jgp9WenGM2ImhsXNB7h1Ji5r9UFeaL/cc7nrdP+U=
+Date: Sun, 27 Oct 2019 17:57:16 +0100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
-Message-ID: <20191027165436.GD3552@umbus.metropole.lan>
-References: <20191022163812.330-1-clg@kaod.org>
- <20191022163812.330-5-clg@kaod.org>
- <20191024023812.GO6439@umbus.fritz.box>
- <20191024193030.40ee674e@bahia.lan>
+Subject: Re: [PATCH 3/6] ppc: Reparent presenter objects to the interrupt
+ controller object
+Message-ID: <20191027165716.GE3552@umbus.metropole.lan>
+References: <157184231371.3053790.17713393349394736594.stgit@bahia.lan>
+ <157184233056.3053790.13073641279894392321.stgit@bahia.lan>
+ <20191024025841.GT6439@umbus.fritz.box>
+ <20191024110453.0b81b1b2@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DiL7RhKs8rK9YGuF"
+ protocol="application/pgp-signature"; boundary="SNIs70sCzqvszXB4"
 Content-Disposition: inline
-In-Reply-To: <20191024193030.40ee674e@bahia.lan>
+In-Reply-To: <20191024110453.0b81b1b2@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,72 +59,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DiL7RhKs8rK9YGuF
-Content-Type: text/plain; charset=iso-8859-1
+--SNIs70sCzqvszXB4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 07:30:30PM +0200, Greg Kurz wrote:
-> On Thu, 24 Oct 2019 13:38:12 +1100
+On Thu, Oct 24, 2019 at 11:04:53AM +0200, Greg Kurz wrote:
+> On Thu, 24 Oct 2019 13:58:41 +1100
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > On Tue, Oct 22, 2019 at 06:38:09PM +0200, C=E9dric Le Goater wrote:
-> > > We will use it to reset the interrupt presenter from the CPU reset
-> > > handler.
+> > On Wed, Oct 23, 2019 at 04:52:10PM +0200, Greg Kurz wrote:
+> > > Each VCPU is associated to a presenter object within the interrupt
+> > > controller, ie. TCTX for XIVE and ICP for XICS, but our current
+> > > models put these objects below the VCPU, and we rely on CPU_FOREACH()
+> > > to do anything that involves presenters.
 > > >=20
-> > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >  include/hw/ppc/pnv_core.h | 3 +++
-> > >  hw/ppc/pnv_core.c         | 3 ++-
-> > >  2 files changed, 5 insertions(+), 1 deletion(-)
+> > > This recently bit us with the CAM line matching logic in XIVE because
+> > > CPU_FOREACH() can race with CPU hotplug and we ended up considering a
+> > > VCPU that wasn't associated to a TCTX object yet. Other users of
+> > > CPU_FOREACH() are 'info pic' for both XICS and XIVE. It is again very
+> > > easy to crash QEMU with concurrent VCPU hotplug/unplug and 'info pic'.
 > > >=20
-> > > diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-> > > index bfbd2ec42aa6..55eee95104da 100644
-> > > --- a/include/hw/ppc/pnv_core.h
-> > > +++ b/include/hw/ppc/pnv_core.h
-> > > @@ -31,6 +31,8 @@
-> > >  #define PNV_CORE_GET_CLASS(obj) \
-> > >       OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
-> > > =20
-> > > +typedef struct PnvChip PnvChip;
-> > > +
-> > >  typedef struct PnvCore {
-> > >      /*< private >*/
-> > >      CPUCore parent_obj;
-> > > @@ -38,6 +40,7 @@ typedef struct PnvCore {
-> > >      /*< public >*/
-> > >      PowerPCCPU **threads;
-> > >      uint32_t pir;
-> > > +    PnvChip *chip;
+> > > Reparent the presenter objects to the corresponding interrupt control=
+ler
+> > > object, ie. XIVE router or ICS, to make it clear they are not some ex=
+tra
+> > > data hanging from the CPU but internal XIVE or XICS entities. The CPU
+> > > object now needs to explicitely take a reference on the presenter to
+> > > ensure its pointer remains valid until unrealize time.
+> > >=20
+> > > This will allow to get rid of CPU_FOREACH() and ease further improvem=
+ents
+> > > to the XIVE model.
+> > >=20
+> > > This change doesn't impact section ids and is thus transparent to
+> > > migration.
+> > >=20
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
 > >=20
-> > I don't love having this as a redundant encoding of the information
-> > already in the property, since it raises the possibility of confusing
-> > bugs if they ever got out of sync.
 > >=20
->=20
-> Ouch, we also have this pattern in xive_tctx_realize(). The XiveTCXT
-> object has both a "cpu" property and a pointer to the vCPU.
->=20
-> > It's not a huge deal, but it would be nice to at least to at least
-> > consider either a) grabbing the property everywhere you need it (if
-> > there aren't too many places) or b) customizing the property
-> > definition so it's written directly into that field.
+> > Urgh.  I see why we want something like this, but reparenting the
+> > presenters to the source modules (particularly for XICS) makes me
+> > uncomfortable.
+> >=20
+> > AFAICT the association here is *purely* about managing lifetimes, not
+> > because those ICPs inherently have something to do with those ICSes.
+> > Same with XIVE, although since they'll be on the same chip there's a
+> > bit more logic to it.
 > >=20
 >=20
-> The pointer to the vCPU is used among other things to get the
-> value of the PIR, which is needed by the presenting logic to
-> match physical CAM lines. This is a _hot_ path so it's probably
-> better to go for b).
+> I did it this way for XIVE because they are indeed on the same chip,
+> but I agree it is questionable for XICS.
+>=20
+> > For spapr we kinda-sorta treat the (single) ICS or XiveRouter object
+> > as the "master" of the interrupt controller.  But that's not really
+>=20
+> Agreed for XICS. On the other side, the XIVE controller chip really has
+> a routing sub-engine (IVRE) and a presenter sub-engine (IVPE), and the
+> TCTXs do reside in an SRAM within the IVPE. The XiveRouter type might
+> be better named XiveController, and each instance to expose a XiveRouter
+> and a XivePresenter interface. We have one per chip for PNV and only a
+> single one for sPAPR.
 
-Agreed.
+Yes, that sounds like a reasonable approach for XIVE.
+
+>=20
+> > accurate to the hardware, so I don't really want to push that way of
+> > looking at it any further than it already is.
+> >=20
+> > If we could make the presenters children of the machine (spapr) or
+> > chip (pnv) that might make more sense?
+> >=20
+>=20
+> It probably makes sense for XICS, not sure this makes things clearer
+> for XIVE.
+>=20
+> > I'm also not totally convinced that having the presenter as a child of
+> > the cpu is inherently bad.  Yes we have bugs now, but maybe the right
+> > fix *is* actually to do the NULL check on every CPU_FOREACH().
+> >=20
+> > For comparison, the lapic on x86 machines is a child of the cpu, and I
+> > believe they do have NULL checks on cpu->apic_state in various places
+> > they use CPU_FOREACH().
+> >=20
+>=20
+> I didn't want to go that way because I was finding CPU_FOREACH() to
+> be fragile since all users are broken,
+
+Hm, ok.  There aren't that many existing users though, right?
+
+> but I can revisit that. Maybe
+> worth consolidating the logic in a PRESENTER_FOREACH() macro in order
+> to avoid future breakage with CPU_FOREACH() ?
+
+That sounds worth considering at least, yes.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -131,25 +166,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DiL7RhKs8rK9YGuF
+--SNIs70sCzqvszXB4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21y8wACgkQbDjKyiDZ
-s5J3RQ/9HoGXIWU8VZ2CSKmllMdSZY6B45jDu7UFuJ0LeE3mLeLve3VgrMYIl4uk
-2e/G6fhqa9xXOHI578k7pe3SGX/9mw6h53SVQb7a5Yl+5eXlFGuNxycLiVXWtjdb
-RNLaHYp22ZIf4f4Iz+E2BtYzdqg7WAT/EENZHx+Ypw0LrrBJnT00cWu+iHhJp6/C
-dGLdUep/BTckpdCtPZQgWjRyh09TTQPhuvplEcLBSF3QzkR1EOkuHrPOELCftNTt
-AnVx/3BH0k5vopAEChoOFbkzATKI9QtJXl9/vTki50IVuYxWx+dVbCRn524Pw2qe
-hhHdFHChJqQB/+EYTttU8tUMf9+6JxZyTpNcafxV0xkM81CH1j9np/onzBB3CROJ
-L1j2qteEsB0OA+oIXYOmnLVYXbCOtIyIFRSzDPug8x1cbfVkj/B9n/UkzAeq8krT
-LyujMwKfnv8HvIda9NhDIZvbWJf3qnqyxyMnMSOUOvCEC4IdkwvR36ZeXvy8MAH0
-e9+3uH/DM33Q76/Xo79CjleT26dic/wLhOY5VCbCs1FEncpWNqU24s3nEB2P6ehM
-z+JeOLsgxIJWRX/OMuf8WOQAalvQaNqWbmF8+TbTOfvEwXP3Hmc0RuR/lQ/PtLu6
-roLn8oBqBbOftqN4BaqtfZfUNMcnHswGzkDK/nBX33+d2j2Lwu0=
-=nInS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21zGwACgkQbDjKyiDZ
+s5JiexAAg5+jswTGdD2/Fm7IyIrWcztzQGh6h4TOyV6couz0YI2kOCgJ/cEtgtdr
+L10UrJPEdMpnHmjzWukT3X6tbWm+ihG6L8v+aHrGhhziY5P+JClZwPRHDjsJ7s8U
+ISuSf4bYVkNg6evvKIQBBTtl/jJPkq61LYcTooa/8GpHnOCeS0sXFYzT8WJmoc6K
+B+gF3rELSklhPIvZC5SHHNhtoy8P5TTnV7KM+wzf8+luPtLLvJy5692SUYQvDEhx
+JqUMC6btUX20BxnCLa7ArCPshyWWvZ4gwp9wEydKcZerGyvXv1FiauCc5sU6aih4
+DstGv7MHH0MYc05hxsBLnfJapLMWdw1RfuP0Zg4JUJCIdU8QbC2DFTxDyro2nSz9
+O2YYvx9ddJTiBXMjESZZDWtUbH6JBbfWjHU/b5En/1iZwTaM5xnv/VdHL+0x4w4a
+Na+j8pWSbh+OWvdqa4OjIqsYqFfJhbI9VpvM4bfC0OvtHd0yxchlJmpifmWs/SD9
+4a+Fb4R00fWlpg/7qpgPS6CTsYDWz+6EwyADp67dzb8qdXUZcQHvxOLE/MBluDn5
+NTNjJf5m59LaIhLDcNl7dDEEjyWiX0aMGyLDn8mUip7DoCbE9cWSEgSjCde2nHkf
+zIYfq3oiNemIi7A3hWqsRK7ZHco/Qq4G/rRZUyTQ0U4ZwyXjoRc=
+=h1tE
 -----END PGP SIGNATURE-----
 
---DiL7RhKs8rK9YGuF--
+--SNIs70sCzqvszXB4--
 
