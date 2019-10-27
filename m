@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D6CE64B5
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:51:17 +0100 (CET)
-Received: from localhost ([::1]:46306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346BBE64BA
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:54:56 +0100 (CET)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOmhA-0006QR-L2
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60288)
+	id 1iOmkh-0001gA-75
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iOme9-000724-19
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmeE-0007ZP-OZ
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iOme7-0002rD-6s
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:08 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33981 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iOme7-0002rm-U2
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:14 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53467 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iOme5-0002pn-QP; Sun, 27 Oct 2019 13:48:07 -0400
+ id 1iOme5-0002po-Q4; Sun, 27 Oct 2019 13:48:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 471QL975pdz9sPT; Mon, 28 Oct 2019 04:48:01 +1100 (AEDT)
+ id 471QLB24sQz9sPV; Mon, 28 Oct 2019 04:48:01 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1572198482;
- bh=48qx/FX595PM6dv7miLCXvevRkJLXG5lUhoMdqolVYU=;
+ bh=dNXf3fBoSU8nkXmyDhsnjB6etF5a8EvEZCwbmWNPIMw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FYOa76lGoAqYfLcfq+da0i+eA9MojTTOoiTyf50FwPAzXsqFpuJuVyCifsecmf7p6
- SaE6YoU7QpjO4aj8PC8Z+bizHfWFoZhQ/F42khk3pPE6WfOk7pEG+AIxshuL0NEzXm
- y+cEZ5FX9UZEyqehZ4yRsjvzMvFkh0OgboFAweLE=
-Date: Sun, 27 Oct 2019 18:46:31 +0100
+ b=f6Yc/0V5bx8vYV74TGvdsSX9RTGyyMoZDeZQ9/TLVEzLBbYsKDtfH1r0FQCt86vfU
+ Ln4i2I66T4cF8/+/i+4kgy0rPRRCSVcx7laHNRsIqCkRexVxtwxdbNNqLRI4IBLEBP
+ IyCKihQUEcivFs/WV6Syph+yog8ihv5GNGv6VhLM=
+Date: Sun, 27 Oct 2019 18:47:39 +0100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/5] ppc/pnv: Add a PNOR model
-Message-ID: <20191027174631.GM3552@umbus.metropole.lan>
+To: Corey Minyard <cminyard@mvista.com>
+Subject: Re: [PATCH 2/5] ipmi: Add support to customize OEM functions
+Message-ID: <20191027174739.GN3552@umbus.metropole.lan>
 References: <20191021131215.3693-1-clg@kaod.org>
- <20191021131215.3693-2-clg@kaod.org>
+ <20191021131215.3693-3-clg@kaod.org> <20191021143017.GH25427@t560>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oiL9LJXJsdjS5rzq"
+ protocol="application/pgp-signature"; boundary="ggdAeHltlv4tpqCr"
 Content-Disposition: inline
-In-Reply-To: <20191021131215.3693-2-clg@kaod.org>
+In-Reply-To: <20191021143017.GH25427@t560>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,289 +56,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
- Joel Stanley <joel@jms.id.au>, "Marty E . Plummer" <hanetzer@startmail.com>
+Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, "Marty E . Plummer" <hanetzer@startmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---oiL9LJXJsdjS5rzq
+--ggdAeHltlv4tpqCr
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2019 at 03:12:11PM +0200, C=E9dric Le Goater wrote:
-> From: C=E9dric Le Goater <clg@fr.ibm.com>
+On Mon, Oct 21, 2019 at 09:30:17AM -0500, Corey Minyard wrote:
+> On Mon, Oct 21, 2019 at 03:12:12PM +0200, C=E9dric Le Goater wrote:
+> > The routine ipmi_register_oem_netfn() lets external modules register
+> > command handlers for OEM functions. Required for the PowerNV machine.
 >=20
-> On a POWERPC PowerNV system, the host firmware is stored in a PNOR
-> flash chip which contents is mapped on the LPC bus. This model adds a
-> simple dummy device to map the contents of a block device in the host
-> address space.
+> Comments inline.
 >=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> >=20
+> > Cc: Corey Minyard <cminyard@mvista.com>
+> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > ---
+> >  include/hw/ipmi/ipmi.h | 36 ++++++++++++++++++++++++++++++++++++
+> >  hw/ipmi/ipmi_bmc_sim.c | 41 ++++++-----------------------------------
+> >  2 files changed, 42 insertions(+), 35 deletions(-)
+> >=20
+> > diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+> > index 6f2413b39b4a..cb7203b06767 100644
+> > --- a/include/hw/ipmi/ipmi.h
+> > +++ b/include/hw/ipmi/ipmi.h
+> > @@ -265,4 +265,40 @@ int ipmi_bmc_sdr_find(IPMIBmc *b, uint16_t recid,
+> >                        const struct ipmi_sdr_compact **sdr, uint16_t *n=
+extrec);
+> >  void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log);
+> > =20
+> > +typedef struct IPMIBmcSim IPMIBmcSim;
+>=20
+> This type isn't very useful outside of the simulator, but changes for
+> that can come as they are needed.  I don't see an easy way to avoid
+> putting it here.
+>=20
+> > +
+> > +typedef struct RspBuffer {
+> > +    uint8_t buffer[MAX_IPMI_MSG_SIZE];
+> > +    unsigned int len;
+> > +} RspBuffer;
+> > +
+> > +static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t byte)
+> > +{
+> > +    rsp->buffer[2] =3D byte;
+> > +}
+> > +
+> > +/* Add a byte to the response. */
+> > +static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
+> > +{
+> > +    if (rsp->len >=3D sizeof(rsp->buffer)) {
+> > +        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
+> > +        return;
+> > +    }
+> > +    rsp->buffer[rsp->len++] =3D byte;
+> > +}
+> > +
+> > +typedef struct IPMICmdHandler {
+> > +    void (*cmd_handler)(IPMIBmcSim *s,
+> > +                        uint8_t *cmd, unsigned int cmd_len,
+> > +                        RspBuffer *rsp);
+> > +    unsigned int cmd_len_min;
+> > +} IPMICmdHandler;
+> > +
+> > +typedef struct IPMINetfn {
+> > +    unsigned int cmd_nums;
+> > +    const IPMICmdHandler *cmd_handlers;
+> > +} IPMINetfn;
+> > +
+> > +int ipmi_register_oem_netfn(IPMIBmc *b, const IPMINetfn *netfnd);
+> > +
+> >  #endif
+> > diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
+> > index 71e56f3b13d1..770aace55b08 100644
+> > --- a/hw/ipmi/ipmi_bmc_sim.c
+> > +++ b/hw/ipmi/ipmi_bmc_sim.c
+> > @@ -98,6 +98,7 @@
+> >  #define IPMI_CMD_GET_SEL_TIME             0x48
+> >  #define IPMI_CMD_SET_SEL_TIME             0x49
+> > =20
+> > +#define IPMI_NETFN_OEM                    0x3a
+> > =20
+> >  /* Same as a timespec struct. */
+> >  struct ipmi_time {
+> > @@ -167,23 +168,8 @@ typedef struct IPMISensor {
+> >  #define MAX_SENSORS 20
+> >  #define IPMI_WATCHDOG_SENSOR 0
+> > =20
+> > -typedef struct IPMIBmcSim IPMIBmcSim;
+> > -typedef struct RspBuffer RspBuffer;
+> > -
+> >  #define MAX_NETFNS 64
+> > =20
+> > -typedef struct IPMICmdHandler {
+> > -    void (*cmd_handler)(IPMIBmcSim *s,
+> > -                        uint8_t *cmd, unsigned int cmd_len,
+> > -                        RspBuffer *rsp);
+> > -    unsigned int cmd_len_min;
+> > -} IPMICmdHandler;
+> > -
+> > -typedef struct IPMINetfn {
+> > -    unsigned int cmd_nums;
+> > -    const IPMICmdHandler *cmd_handlers;
+> > -} IPMINetfn;
+> > -
+> >  typedef struct IPMIRcvBufEntry {
+> >      QTAILQ_ENTRY(IPMIRcvBufEntry) entry;
+> >      uint8_t len;
+> > @@ -279,28 +265,8 @@ struct IPMIBmcSim {
+> >  #define IPMI_BMC_WATCHDOG_ACTION_POWER_DOWN      2
+> >  #define IPMI_BMC_WATCHDOG_ACTION_POWER_CYCLE     3
+> > =20
+> > -struct RspBuffer {
+> > -    uint8_t buffer[MAX_IPMI_MSG_SIZE];
+> > -    unsigned int len;
+> > -};
+> > -
+> >  #define RSP_BUFFER_INITIALIZER { }
+> > =20
+> > -static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t byte)
+> > -{
+> > -    rsp->buffer[2] =3D byte;
+> > -}
+> > -
+> > -/* Add a byte to the response. */
+> > -static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
+> > -{
+> > -    if (rsp->len >=3D sizeof(rsp->buffer)) {
+> > -        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
+> > -        return;
+> > -    }
+> > -    rsp->buffer[rsp->len++] =3D byte;
+> > -}
+> > -
+> >  static inline void rsp_buffer_pushmore(RspBuffer *rsp, uint8_t *bytes,
+> >                                         unsigned int n)
+> >  {
+> > @@ -640,6 +606,11 @@ static int ipmi_register_netfn(IPMIBmcSim *s, unsi=
+gned int netfn,
+> >      return 0;
+> >  }
+> > =20
+> > +int ipmi_register_oem_netfn(IPMIBmc *b, const IPMINetfn *netfnd)
+> > +{
+> > +    return ipmi_register_netfn(IPMI_BMC_SIMULATOR(b), IPMI_NETFN_OEM, =
+netfnd);
+> > +}
+>=20
+> I think I would prefer just exposing ipmi_register_netfn() and maybe
+> rename it ipmi_sim_register_netfn() or something like that.  There may
+> be other netfns needed in the future.
+>=20
+> But with that change, this looks good to me:
+>=20
+> Reviewed-by: Corey Minyard <cminyard@mvista.com>
 
-Applied to ppc-for-4.2.  The rest of the series will need acks for the
-generic IPMI changes, of course.
+What's the plan for merging this, once it's ready?  Is there an IPMI
+tree for it to be staged in?  If not I could take it through the ppc
+tree, but I'd need some Acked-bys in that case.
 
-> ---
->  include/hw/ppc/pnv.h      |   3 +
->  include/hw/ppc/pnv_pnor.h |  25 +++++++
->  hw/ppc/pnv.c              |  14 ++++
->  hw/ppc/pnv_pnor.c         | 135 ++++++++++++++++++++++++++++++++++++++
->  hw/ppc/Makefile.objs      |   4 +-
->  5 files changed, 180 insertions(+), 1 deletion(-)
->  create mode 100644 include/hw/ppc/pnv_pnor.h
->  create mode 100644 hw/ppc/pnv_pnor.c
 >=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 5e01a9f3df95..e2f20f2b0bc4 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -24,6 +24,7 @@
->  #include "hw/sysbus.h"
->  #include "hw/ipmi/ipmi.h"
->  #include "hw/ppc/pnv_lpc.h"
-> +#include "hw/ppc/pnv_pnor.h"
->  #include "hw/ppc/pnv_psi.h"
->  #include "hw/ppc/pnv_occ.h"
->  #include "hw/ppc/pnv_homer.h"
-> @@ -173,6 +174,8 @@ typedef struct PnvMachineState {
-> =20
->      IPMIBmc      *bmc;
->      Notifier     powerdown_notifier;
-> +
-> +    PnvPnor      *pnor;
->  } PnvMachineState;
-> =20
->  static inline bool pnv_chip_is_power9(const PnvChip *chip)
-> diff --git a/include/hw/ppc/pnv_pnor.h b/include/hw/ppc/pnv_pnor.h
-> new file mode 100644
-> index 000000000000..dec811695c8d
-> --- /dev/null
-> +++ b/include/hw/ppc/pnv_pnor.h
-> @@ -0,0 +1,25 @@
-> +/*
-> + * QEMU PowerNV PNOR simple model
-> + *
-> + * Copyright (c) 2019, IBM Corporation.
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +#ifndef _PPC_PNV_PNOR_H
-> +#define _PPC_PNV_PNOR_H
-> +
-> +#define TYPE_PNV_PNOR  "pnv-pnor"
-> +#define PNV_PNOR(obj)  OBJECT_CHECK(PnvPnor, (obj), TYPE_PNV_PNOR)
-> +
-> +typedef struct PnvPnor {
-> +    SysBusDevice   parent_obj;
-> +
-> +    BlockBackend   *blk;
-> +
-> +    uint8_t        *storage;
-> +    uint32_t       size;
-> +    MemoryRegion   mmio;
-> +} PnvPnor;
-> +
-> +#endif /* _PPC_PNV_PNOR_H */
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 1a22dfd46031..b74528eba42a 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -44,6 +44,7 @@
->  #include "hw/ppc/xics.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/ppc/pnv_xscom.h"
-> +#include "hw/ppc/pnv_pnor.h"
-> =20
->  #include "hw/isa/isa.h"
->  #include "hw/boards.h"
-> @@ -633,6 +634,8 @@ static void pnv_init(MachineState *machine)
->      long fw_size;
->      int i;
->      char *chip_typename;
-> +    DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
-> +    DeviceState *dev;
-> =20
->      /* allocate RAM */
->      if (machine->ram_size < (1 * GiB)) {
-> @@ -644,6 +647,17 @@ static void pnv_init(MachineState *machine)
->                                           machine->ram_size);
->      memory_region_add_subregion(get_system_memory(), 0, ram);
-> =20
-> +    /*
-> +     * Create our simple PNOR device
-> +     */
-> +    dev =3D qdev_create(NULL, TYPE_PNV_PNOR);
-> +    if (pnor) {
-> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(pnor),
-> +                            &error_abort);
-> +    }
-> +    qdev_init_nofail(dev);
-> +    pnv->pnor =3D PNV_PNOR(dev);
-> +
->      /* load skiboot firmware  */
->      if (bios_name =3D=3D NULL) {
->          bios_name =3D FW_FILE_NAME;
-> diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
-> new file mode 100644
-> index 000000000000..bfb1e92b0392
-> --- /dev/null
-> +++ b/hw/ppc/pnv_pnor.c
-> @@ -0,0 +1,135 @@
-> +/*
-> + * QEMU PowerNV PNOR simple model
-> + *
-> + * Copyright (c) 2015-2019, IBM Corporation.
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/log.h"
-> +#include "sysemu/block-backend.h"
-> +#include "sysemu/blockdev.h"
-> +#include "hw/loader.h"
-> +#include "hw/ppc/pnv_pnor.h"
-> +#include "hw/qdev-properties.h"
-> +
-> +static uint64_t pnv_pnor_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    PnvPnor *s =3D PNV_PNOR(opaque);
-> +    uint64_t ret =3D 0;
-> +    int i;
-> +
-> +    for (i =3D 0; i < size; i++) {
-> +        ret |=3D (uint64_t) s->storage[addr + i] << (8 * (size - i - 1));
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +static void pnv_pnor_update(PnvPnor *s, int offset, int size)
-> +{
-> +    int offset_end;
-> +
-> +    if (s->blk) {
-> +        return;
-> +    }
-> +
-> +    offset_end =3D offset + size;
-> +    offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
-> +    offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
-> +
-> +    blk_pwrite(s->blk, offset, s->storage + offset,
-> +               offset_end - offset, 0);
-> +}
-> +
-> +static void pnv_pnor_write(void *opaque, hwaddr addr, uint64_t data,
-> +                           unsigned size)
-> +{
-> +    PnvPnor *s =3D PNV_PNOR(opaque);
-> +    int i;
-> +
-> +    for (i =3D 0; i < size; i++) {
-> +        s->storage[addr + i] =3D (data >> (8 * (size - i - 1))) & 0xFF;
-> +    }
-> +    pnv_pnor_update(s, addr, size);
-> +}
-> +
-> +/*
-> + * TODO: Check endianness: skiboot is BIG, Aspeed AHB is LITTLE, flash
-> + * is BIG.
-> + */
-> +static const MemoryRegionOps pnv_pnor_ops =3D {
-> +    .read =3D pnv_pnor_read,
-> +    .write =3D pnv_pnor_write,
-> +    .endianness =3D DEVICE_BIG_ENDIAN,
-> +    .valid =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 4,
-> +    },
-> +};
-> +
-> +static void pnv_pnor_realize(DeviceState *dev, Error **errp)
-> +{
-> +    PnvPnor *s =3D PNV_PNOR(dev);
-> +    int ret;
-> +
-> +    if (s->blk) {
-> +        uint64_t perm =3D BLK_PERM_CONSISTENT_READ |
-> +                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
-> +        ret =3D blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
-> +        if (ret < 0) {
-> +            return;
-> +        }
-> +
-> +        s->size =3D blk_getlength(s->blk);
-> +        if (s->size <=3D 0) {
-> +            error_setg(errp, "failed to get flash size");
-> +            return;
-> +        }
-> +
-> +        s->storage =3D blk_blockalign(s->blk, s->size);
-> +
-> +        if (blk_pread(s->blk, 0, s->storage, s->size) !=3D s->size) {
-> +            error_setg(errp, "failed to read the initial flash content");
-> +            return;
-> +        }
-> +    } else {
-> +        s->storage =3D blk_blockalign(NULL, s->size);
-> +        memset(s->storage, 0xFF, s->size);
-> +    }
-> +
-> +    memory_region_init_io(&s->mmio, OBJECT(s), &pnv_pnor_ops, s,
-> +                          TYPE_PNV_PNOR, s->size);
-> +}
-> +
-> +static Property pnv_pnor_properties[] =3D {
-> +    DEFINE_PROP_UINT32("size", PnvPnor, size, 128 << 20),
-> +    DEFINE_PROP_DRIVE("drive", PnvPnor, blk),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void pnv_pnor_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +
-> +    dc->realize =3D pnv_pnor_realize;
-> +    dc->props =3D pnv_pnor_properties;
-> +}
-> +
-> +static const TypeInfo pnv_pnor_info =3D {
-> +    .name          =3D TYPE_PNV_PNOR,
-> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
-> +    .instance_size =3D sizeof(PnvPnor),
-> +    .class_init    =3D pnv_pnor_class_init,
-> +};
-> +
-> +static void pnv_pnor_register_types(void)
-> +{
-> +    type_register_static(&pnv_pnor_info);
-> +}
-> +
-> +type_init(pnv_pnor_register_types)
-> diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-> index 580bb4f0dd4c..101e9fc59185 100644
-> --- a/hw/ppc/Makefile.objs
-> +++ b/hw/ppc/Makefile.objs
-> @@ -9,7 +9,9 @@ obj-$(CONFIG_PSERIES) +=3D spapr_tpm_proxy.o
->  obj-$(CONFIG_SPAPR_RNG) +=3D  spapr_rng.o
->  # IBM PowerNV
->  obj-$(CONFIG_POWERNV) +=3D pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_ps=
-i.o pnv_occ.o pnv_bmc.o
-> -obj-$(CONFIG_POWERNV) +=3D pnv_homer.o
-> +obj-$(CONFIG_POWERNV) +=3D pnv_homer.o pnv_pnor.o
-> +
-> +
->  ifeq ($(CONFIG_PCI)$(CONFIG_PSERIES)$(CONFIG_LINUX), yyy)
->  obj-y +=3D spapr_pci_vfio.o spapr_pci_nvlink2.o
->  endif
+> > +
+> >  static const IPMICmdHandler *ipmi_get_handler(IPMIBmcSim *ibs,
+> >                                                unsigned int netfn,
+> >                                                unsigned int cmd)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -346,25 +235,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---oiL9LJXJsdjS5rzq
+--ggdAeHltlv4tpqCr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl211/cACgkQbDjKyiDZ
-s5KRHg/+Pc+S3Xe1dABtxCRmzMhBycjVl67iNjTa3N1WL/ecEK/5U2zczFfhkl77
-LOYaGE6X6vfyC/R2aAeMifCVXWOal9FcW4CAW4jGlvZLWGXP4+Y16rNyDcLtl5ZI
-gYxE4CpPSdWmHjkCy0Hj4FP8SNjghKjjo5uvmEf2fB/fyw6W+8ad7pjkrVidP/4q
-D9tVRBtwe5NT7YqIFEy1ZRpcbUdwWOGT94EL95dwHxgnVMj7wpYI6kv5+iZ3dJ+9
-iVbvDgfuiUCQIkz7BlX6C9Ve/p6VPr5AQeEjXABH6UVPT+yjzdTIENoKjpcOwneO
-7iTcwAv/q+Og+FAyQvhDl9AzHktKBDhSp7ZH3yV7yd7C3JFSz/cibUsIjQBWuasf
-+rHjSu8fffDEH/6HVy33Krg4Mw3MjA3vhKS3meoG2Wz/5oCVhKAjYZKQQihMctYz
-khEJOtHjfrSRigYAK+Nu6PorM87MC0BRxwJCwtnHACoF33cmZh3CVaB8gYLm35HT
-tmdtUKI9520dHKjqXzF874wtjqRDcX+53XTzpGWiH7R6DOPRcu3dcBWbOtrr1R8b
-D4UDgSQjvbp62OE8aV22rwBicVLYIFOazcVzRj91QOUB9IVYn2/UpMMqg2nMSq54
-TQ3H/rrSj2E5VafXpnNRgA9sPKF8eKI4JzxCwYeaU6K8TFWErWo=
-=VybM
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl212DsACgkQbDjKyiDZ
+s5JSFw/9HK9hbURLyQ9OkHQtvdiQWfRTvSFTFJCjFLIOphuO9JSwZMiNGR6gjS5o
+csnwCtSJUFJAc9oCw75B4iiNvTpQSBsSuyK+ndIVj5DxxotEZ/14x8vRbeuLg/Y9
+XN/L7Uc5hHrdA1XG9KBRNIdQVKnSNdnQRAtqYUYG71RQ1aSroNpP2IDK4PYxAlAK
+GqSiArnbquub4iNMpavG0zTFU54KIJ/qGHQ9+qPIXb0eJdfSprz87soOTXLeg3nd
+iQFw7ySrIkkDt7qeB6pRZFbJgUR1u4k1LbHLazQ001QtXAUNBYui9ZJbq9RP0qOh
+Cfwqg7e+qdMZMPRwnb7XwyJ1sxgGB9hYXvebj4cyxJBcivvZNRZ5j+rfpgIocBeE
+TdL9eF4W5d92+kdejT/Ij78yPrttF9Qm/3CeEdM4SGcnuJJELVSX1ETxveESUQhz
+/KJpZ3xtJjcNcjav+//j3E+0xtKL0BVYtYIIE4+UkyHMoTahI90xqfGKwkR8MP1H
+TgSo4/2pn4bXegchimRtbGCpjNA8Ah5jlGS4zXHDLB1N0YqpnbwHDP1EzNIfTk+f
+wg+rEsh1qND+9PKjnmHZsIBNGD4CQ6YPhD9Gy2ow/4fRrODwfjLrpXtQhHlOfSFd
+0b66KV7TI6uj/av1BorfUJIcPnghzwUMIf0q0XU4qZWxy69Y+os=
+=5h1y
 -----END PGP SIGNATURE-----
 
---oiL9LJXJsdjS5rzq--
+--ggdAeHltlv4tpqCr--
 
