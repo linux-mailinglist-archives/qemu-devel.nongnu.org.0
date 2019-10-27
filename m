@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCAFE6115
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 07:22:31 +0100 (CET)
-Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90382E617C
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 08:45:26 +0100 (CET)
+Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iObwb-0005xG-OU
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 02:22:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33047)
+	id 1iOdEr-00034b-4j
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 03:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <voltagex@voltagex.org>) id 1iObvZ-0004Kz-Qp
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 02:21:27 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iOdDo-0001xZ-8h
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 03:44:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <voltagex@voltagex.org>) id 1iObvY-0004au-IP
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 02:21:25 -0400
-Received: from mail-vk1-xa32.google.com ([2607:f8b0:4864:20::a32]:41250)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iOdDk-0003db-Qf
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 03:44:20 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:38019)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <voltagex@voltagex.org>)
- id 1iObvY-0004Zg-60
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 02:21:24 -0400
-Received: by mail-vk1-xa32.google.com with SMTP id 70so1359053vkz.8
- for <qemu-devel@nongnu.org>; Sat, 26 Oct 2019 23:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=voltagex-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=UI9MyIklaNmDns7ObHuI4EPHEYGjo6fcb/9KkPxzUeM=;
- b=fOMTwYmi5Fm4+0BYlgEgzHr4eXuza60b7/a/kYWn8dMpcASPy6A3XsMMt4q4J5C+PB
- 7jVoOw082wKpLk4wGD3TKcQz/gGs5L6NONX4dsCBCHR5K/GkyUfVIYv+cAd7v3wJMkzX
- 0Pgeaiv72P0Zf4gByNF/LzcFQupYhLNWGJ09u/Z1USBMwe4ObCsrOOsinCMyfmLXdBy6
- PseICcoyiIga/bXUtbQUuTSHmTZmvqlIetZgvyOy0sHPloCVECt1kAHfxb06Fix5z06q
- gOCxTSmsP4OC0UmVmthoMAs7lh5cdjStdqqXQbTVfcLkiKUW/kmgvZK3HpjyhtjtbvVn
- qkyw==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iOdDk-0003dO-He
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 03:44:16 -0400
+Received: by mail-ot1-x329.google.com with SMTP id r14so43059otn.5
+ for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 00:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=YOKuiXdfPO3KK/txzpZ/LHVNC8on230B40nga34VpW4=;
+ b=OHeMeX2KMoJ+RqLr2nryXUV4lna1v/SISAEWu6MUvZtfkbzl5krRthanDSklG9Vljj
+ IuMpptEpINoSYQTuTyfnQY6BfbpdvMVfC3joMWZStNfXmyKHmecK5wnHwd2utdRH71aV
+ JGsLuAhO1VcQnZ2OinxSrOWbriEiXCpe3NGaTDrBqAqRF3TuA16KZaIsrdlZ3Dqncqe+
+ m012t2GB0uRagm/J+Ml3LMZmLWq9PSPaJbGJbT/CN7t35r7W4lL2E51qUgVsO3LnnU4A
+ hAewwhJ/JVhfSMBo7v1iAvQExUxa5u69TUwZ7ojqo4G0wmrdn4UnYwin08dHM8YSEgbj
+ VARg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=UI9MyIklaNmDns7ObHuI4EPHEYGjo6fcb/9KkPxzUeM=;
- b=MuEt9RZ1KrNeJDorAkzXeAEWNSLFv8HSW9mUB4Y3iJZXokYG0rTS4krjF3WEsMUQQv
- 1GWDrW6Z/pZHCMwoy80dz+O70Y8OrCDgy2rkE6Jt64KVRKbwIUB0jQ5W3azGLRnoQmW0
- HeOymjsmkwupUwmQiZb0T1/GGJ/oOnV/KI7bYenvA3hBL4CCQR71GeOtYRNkbJKh1oOV
- gStTudtW34Ur1L2smLfb4vNEeBGBBF6+JHUYDP2dHJWtFf72hZNiYoUDNgxbbxXm9UcU
- B2kO3mdpzCq3XwkG21sY1jVZNi9bwiSj1Yc5bWIay8+0bl7TRZd4YvRTrm5wIkV8/6Ue
- riYA==
-X-Gm-Message-State: APjAAAW2Piq4RB4iCfLFWYD/YNY2alEKN80kK/fLLWk6SlBSIbcYhLQb
- TfxHpiFpCGcOFph8//LrV2mk38AjC2y6oDNBm42bYd/Pl5Y=
-X-Google-Smtp-Source: APXvYqwiX7h4Nt6q2ImQc4jT98d1xT6UcIWp/OTp9E7Nh+d6kVn2kS0NMgls6xyYLIPoovpQHF1vMF8gSlW8+VhvbLU=
-X-Received: by 2002:ac5:cb62:: with SMTP id l2mr5978972vkn.32.1572157282678;
- Sat, 26 Oct 2019 23:21:22 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=YOKuiXdfPO3KK/txzpZ/LHVNC8on230B40nga34VpW4=;
+ b=hktgYpP3TXUw4Py/bWjwlnvtJ9FJMiIGSVoonv4kj8zOh9I5GBqOPXceD0QpjjJphY
+ d/j6u+J6w6CV27jzMSX5ACuNAxEII+rRJyfagsxWoGRZ44AeROyBdbQD9fBULOkemyiR
+ INy9JRMLzKmJ/+puC48o7vdWPtybegH+sgb5iTDC05RbOmlT0gNHYAbuLL0piqaJ7fmp
+ gEqHTfF4fc9XJi/pYNYJBqZIWGrt+wogbdQ/cuPVw2ZltWPZb5hrzf5kdSLo+KuOFlRD
+ n04tp7K7hDTkK/fbX1O3YiskEqeT/gmglQ7eSQLgV5E08XzliNuEA4u5aiOZsqHw4DpX
+ OxvQ==
+X-Gm-Message-State: APjAAAW9pJTZTYoAeEbfNNGl/+5o7cHKbcIwqshc3UVdqn7uYArMrcjn
+ 5SyI1cQmTcPntDDWetTpZyAfzen18xUFElmWczM=
+X-Google-Smtp-Source: APXvYqzXS3djOEZPvpKIoo/YFqcqo1HnoMHVgN1zwBZLu3UwCLet/xiamRKgH+nQEN9RcIqrdAL3jF7oFoEcnpF18rQ=
+X-Received: by 2002:a9d:4f0f:: with SMTP id d15mr3435887otl.64.1572162255112; 
+ Sun, 27 Oct 2019 00:44:15 -0700 (PDT)
 MIME-Version: 1.0
-From: Adam Baxter <voltagex@voltagex.org>
-Date: Sun, 27 Oct 2019 17:21:11 +1100
-Message-ID: <CAChFQ9ThQ72G=7yQsB1eWdJW-4spSTD2oV7qdO-KYrThem=rVQ@mail.gmail.com>
-Subject: qemu-img still misbehaving on Windows
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000005d8fb20595de6497"
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sun, 27 Oct 2019 00:44:14
+ -0700 (PDT)
+In-Reply-To: <20191026180143.7369-1-philmd@redhat.com>
+References: <20191026180143.7369-1-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Sun, 27 Oct 2019 08:44:14 +0100
+Message-ID: <CAL1e-=jW0Jmk=Y9o_UpdeOo6vfTm-qXyPVtk4O+RLOUN_5Y_cw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/20] hw/i386/pc: Split PIIX3 southbridge from i440FX
+ northbridge
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000becf960595df8c56"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a32
+X-Received-From: 2607:f8b0:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,28 +74,461 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005d8fb20595de6497
+--000000000000becf960595df8c56
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-I've attached some example files to
-https://bugs.launchpad.net/qemu/+bug/1759522 - the bug still exists in qemu
-4.1.0.
+On Saturday, October 26, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
+
+> Changes since v2 [0]:
+> - Use a #define
+> - Reword one description
+> - Added review tags (thanks all for reviewing!)
+>
+> Changes since v1 [1]:
+> - Removed patch reintroducing DO_UPCAST() use (thuth)
+> - Took various patches out to reduce series (thuth)
+> - Added review tags (thanks all for reviewing!)
+>
+> $ git backport-diff -u pc_split_i440fx_piix-v2
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream pat=
+ch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences,
+> respectively
+>
+> 001/20:[----] [--] 'MAINTAINERS: Keep PIIX4 South Bridge separate from PC
+> Chipsets'
+> 002/20:[0004] [FC] 'piix4: Add the Reset Control Register'
+> 003/20:[0002] [FC] 'piix4: Add an i8259 Interrupt Controller as specified
+> in datasheet'
+> 004/20:[----] [--] 'Revert "irq: introduce qemu_irq_proxy()"'
+> 005/20:[----] [--] 'piix4: Rename PIIX4 object to piix4-isa'
+> 006/20:[----] [--] 'piix4: Add an i8257 DMA Controller as specified in
+> datasheet'
+> 007/20:[----] [-C] 'piix4: Add an i8254 PIT Controller as specified in
+> datasheet'
+> 008/20:[0004] [FC] 'piix4: Add a MC146818 RTC Controller as specified in
+> datasheet'
+> 009/20:[----] [--] 'hw/mips/mips_malta: Create IDE hard drive array
+> dynamically'
+> 010/20:[----] [--] 'hw/mips/mips_malta: Extract the PIIX4 creation code a=
+s
+> piix4_create()'
+> 011/20:[----] [-C] 'hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c'
+> 012/20:[----] [--] 'hw/i386: Remove obsolete LoadStateHandler::load_state=
+_old
+> handlers'
+> 013/20:[----] [--] 'hw/pci-host/piix: Extract piix3_create()'
+> 014/20:[0002] [FC] 'hw/pci-host/piix: Move RCR_IOPORT register definition=
+'
+> 015/20:[----] [--] 'hw/pci-host/piix: Define and use the PIIX IRQ Route
+> Control Registers'
+> 016/20:[----] [-C] 'hw/pci-host/piix: Move i440FX declarations to
+> hw/pci-host/i440fx.h'
+> 017/20:[----] [--] 'hw/pci-host/piix: Fix code style issues'
+> 018/20:[----] [--] 'hw/pci-host/piix: Extract PIIX3 functions to
+> hw/isa/piix3.c'
+> 019/20:[----] [--] 'hw/pci-host: Rename incorrectly named 'piix' as
+> 'i440fx''
+> 020/20:[0004] [FC] 'hw/pci-host/i440fx: Remove the last PIIX3 traces'
+>
+> Previous cover:
+>
+> This series is a rework of "piix4: cleanup and improvements" [2]
+> from Herv=C3=A9, and my "remove i386/pc dependency: PIIX cleanup" [3].
+>
+> Still trying to remove the strong X86/PC dependency 2 years later,
+> one step at a time.
+> Here we split the PIIX3 southbridge from i440FX northbridge.
+> The i440FX northbridge is only used by the PC machine, while the
+> PIIX southbridge is also used by the Malta MIPS machine.
+>
+> This is also a step forward using KConfig with the Malta board.
+> Without this split, it was impossible to compile the Malta without
+> pulling various X86 pieces of code.
+>
+> The overall design cleanup is not yet perfect, but enough to post
+> as a series.
+>
+> Now that the PIIX3 code is extracted, the code duplication with the
+> PIIX4 chipset is obvious. Not worth improving for now because it
+> isn't broken.
+>
+> Based-on: <1572097538-18898-1-git-send-email-pbonzini@redhat.com>
+> to include:
+> mc146818rtc: Allow call object_initialize(MC146818_RTC) instead of
+> rtc_init()
+> https://mid.mail-archive.com/20191018133547.10936-1-philmd@redhat.com
+>
+> Since Aleksandar offered me to send the pull request [4] I plan to do
+> it once Paolo's pull [5] is merged.
+>
+>
+Philippe,
+
+I attempted the other day the integration of v2 of this series into MIPS
+pull request, but couldn't do it - since another series of yours was
+already merged, acting on the same code, making rebasing difficult. Now
+this, v3, series can't be applied since certain patches in some, on
+surface, unrelated series aren't megred, and v3 assumes they are merged.
+
+If you send a series, it should preferably be based on the latest (current)
+code base, not on some imagined future state.
+
+Why did you create this such mess with interdependencies of your own
+multiple series, and just right before softfreeze? :( You should have
+distributed submitting those series over longer time interval, and
+absolutely avoid, if possible, this hectic around-softfreeze period. You
+did the opposite: waited for softfreeze to become close, and sent several
+interdependant series in matter of days - creating stress without any real
+technical reason.
+
+In case you, for any reason, can't complete this by softfreeze, I advice
+you not to rush, and postpone the integration to 5.0.
 
 Thanks,
-Adam
+Aleksandar
 
---0000000000005d8fb20595de6497
+
+
+> Thanks,
+>
+> Phil.
+>
+> CI results:
+> https://travis-ci.org/philmd/qemu/builds/603253987
+> https://app.shippable.com/github/philmd/qemu/runs/550/summary/console
+>
+> [0] https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg04662.html
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg03685.html
+> [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg500737.html
+> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg504081.html
+> [4] https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg04959.html
+> [5] https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg07339.html
+>
+> Herv=C3=A9 Poussineau (5):
+>   piix4: Add the Reset Control Register
+>   piix4: Add an i8259 Interrupt Controller as specified in datasheet
+>   piix4: Rename PIIX4 object to piix4-isa
+>   piix4: Add an i8257 DMA Controller as specified in datasheet
+>   piix4: Add an i8254 PIT Controller as specified in datasheet
+>
+> Philippe Mathieu-Daud=C3=A9 (15):
+>   MAINTAINERS: Keep PIIX4 South Bridge separate from PC Chipsets
+>   Revert "irq: introduce qemu_irq_proxy()"
+>   piix4: Add a MC146818 RTC Controller as specified in datasheet
+>   hw/mips/mips_malta: Create IDE hard drive array dynamically
+>   hw/mips/mips_malta: Extract the PIIX4 creation code as piix4_create()
+>   hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c
+>   hw/i386: Remove obsolete LoadStateHandler::load_state_old handlers
+>   hw/pci-host/piix: Extract piix3_create()
+>   hw/pci-host/piix: Move RCR_IOPORT register definition
+>   hw/pci-host/piix: Define and use the PIIX IRQ Route Control Registers
+>   hw/pci-host/piix: Move i440FX declarations to hw/pci-host/i440fx.h
+>   hw/pci-host/piix: Fix code style issues
+>   hw/pci-host/piix: Extract PIIX3 functions to hw/isa/piix3.c
+>   hw/pci-host: Rename incorrectly named 'piix' as 'i440fx'
+>   hw/pci-host/i440fx: Remove the last PIIX3 traces
+>
+>  MAINTAINERS                      |  14 +-
+>  hw/acpi/pcihp.c                  |   2 +-
+>  hw/acpi/piix4.c                  |  42 +--
+>  hw/core/irq.c                    |  14 -
+>  hw/i386/Kconfig                  |   3 +-
+>  hw/i386/acpi-build.c             |   5 +-
+>  hw/i386/pc_piix.c                |  10 +-
+>  hw/i386/xen/xen-hvm.c            |   5 +-
+>  hw/intc/apic_common.c            |  49 ----
+>  hw/isa/Kconfig                   |   4 +
+>  hw/isa/Makefile.objs             |   1 +
+>  hw/isa/piix3.c                   | 399 +++++++++++++++++++++++++++++
+>  hw/isa/piix4.c                   | 151 ++++++++++-
+>  hw/mips/gt64xxx_pci.c            |   5 +-
+>  hw/mips/mips_malta.c             |  46 +---
+>  hw/pci-host/Kconfig              |   3 +-
+>  hw/pci-host/Makefile.objs        |   2 +-
+>  hw/pci-host/{piix.c =3D> i440fx.c} | 424 +------------------------------
+>  hw/timer/i8254_common.c          |  40 ---
+>  include/hw/acpi/piix4.h          |   6 -
+>  include/hw/i386/pc.h             |  37 ---
+>  include/hw/irq.h                 |   5 -
+>  include/hw/isa/isa.h             |   2 +
+>  include/hw/pci-host/i440fx.h     |  36 +++
+>  include/hw/southbridge/piix.h    |  74 ++++++
+>  stubs/pci-host-piix.c            |   3 +-
+>  26 files changed, 699 insertions(+), 683 deletions(-)
+>  create mode 100644 hw/isa/piix3.c
+>  rename hw/pci-host/{piix.c =3D> i440fx.c} (58%)
+>  delete mode 100644 include/hw/acpi/piix4.h
+>  create mode 100644 include/hw/pci-host/i440fx.h
+>  create mode 100644 include/hw/southbridge/piix.h
+>
+> --
+> 2.21.0
+>
+>
+>
+
+--000000000000becf960595df8c56
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi,</div><div>I&#39;ve attached some example files to=
- <a href=3D"https://bugs.launchpad.net/qemu/+bug/1759522">https://bugs.laun=
-chpad.net/qemu/+bug/1759522</a> - the bug still exists in qemu 4.1.0.</div>=
-<div><br></div><div>Thanks,</div><div>Adam<br></div></div>
+<br><br>On Saturday, October 26, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a h=
+ref=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">Changes since v2 [0]:<br>
+- Use a #define<br>
+- Reword one description<br>
+- Added review tags (thanks all for reviewing!)<br>
+<br>
+Changes since v1 [1]:<br>
+- Removed patch reintroducing DO_UPCAST() use (thuth)<br>
+- Took various patches out to reduce series (thuth)<br>
+- Added review tags (thanks all for reviewing!)<br>
+<br>
+$ git backport-diff -u pc_split_i440fx_piix-v2<br>
+Key:<br>
+[----] : patches are identical<br>
+[####] : number of functional differences between upstream/downstream patch=
+<br>
+[down] : patch is downstream-only<br>
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+vely<br>
+<br>
+001/20:[----] [--] &#39;MAINTAINERS: Keep PIIX4 South Bridge separate from =
+PC Chipsets&#39;<br>
+002/20:[0004] [FC] &#39;piix4: Add the Reset Control Register&#39;<br>
+003/20:[0002] [FC] &#39;piix4: Add an i8259 Interrupt Controller as specifi=
+ed in datasheet&#39;<br>
+004/20:[----] [--] &#39;Revert &quot;irq: introduce qemu_irq_proxy()&quot;&=
+#39;<br>
+005/20:[----] [--] &#39;piix4: Rename PIIX4 object to piix4-isa&#39;<br>
+006/20:[----] [--] &#39;piix4: Add an i8257 DMA Controller as specified in =
+datasheet&#39;<br>
+007/20:[----] [-C] &#39;piix4: Add an i8254 PIT Controller as specified in =
+datasheet&#39;<br>
+008/20:[0004] [FC] &#39;piix4: Add a MC146818 RTC Controller as specified i=
+n datasheet&#39;<br>
+009/20:[----] [--] &#39;hw/mips/mips_malta: Create IDE hard drive array dyn=
+amically&#39;<br>
+010/20:[----] [--] &#39;hw/mips/mips_malta: Extract the PIIX4 creation code=
+ as piix4_create()&#39;<br>
+011/20:[----] [-C] &#39;hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c=
+&#39;<br>
+012/20:[----] [--] &#39;hw/i386: Remove obsolete LoadStateHandler::load_sta=
+te_<wbr>old handlers&#39;<br>
+013/20:[----] [--] &#39;hw/pci-host/piix: Extract piix3_create()&#39;<br>
+014/20:[0002] [FC] &#39;hw/pci-host/piix: Move RCR_IOPORT register definiti=
+on&#39;<br>
+015/20:[----] [--] &#39;hw/pci-host/piix: Define and use the PIIX IRQ Route=
+ Control Registers&#39;<br>
+016/20:[----] [-C] &#39;hw/pci-host/piix: Move i440FX declarations to hw/pc=
+i-host/i440fx.h&#39;<br>
+017/20:[----] [--] &#39;hw/pci-host/piix: Fix code style issues&#39;<br>
+018/20:[----] [--] &#39;hw/pci-host/piix: Extract PIIX3 functions to hw/isa=
+/piix3.c&#39;<br>
+019/20:[----] [--] &#39;hw/pci-host: Rename incorrectly named &#39;piix&#39=
+; as &#39;i440fx&#39;&#39;<br>
+020/20:[0004] [FC] &#39;hw/pci-host/i440fx: Remove the last PIIX3 traces&#3=
+9;<br>
+<br>
+Previous cover:<br>
+<br>
+This series is a rework of &quot;piix4: cleanup and improvements&quot; [2]<=
+br>
+from Herv=C3=A9, and my &quot;remove i386/pc dependency: PIIX cleanup&quot;=
+ [3].<br>
+<br>
+Still trying to remove the strong X86/PC dependency 2 years later,<br>
+one step at a time.<br>
+Here we split the PIIX3 southbridge from i440FX northbridge.<br>
+The i440FX northbridge is only used by the PC machine, while the<br>
+PIIX southbridge is also used by the Malta MIPS machine.<br>
+<br>
+This is also a step forward using KConfig with the Malta board.<br>
+Without this split, it was impossible to compile the Malta without<br>
+pulling various X86 pieces of code.<br>
+<br>
+The overall design cleanup is not yet perfect, but enough to post<br>
+as a series.<br>
+<br>
+Now that the PIIX3 code is extracted, the code duplication with the<br>
+PIIX4 chipset is obvious. Not worth improving for now because it<br>
+isn&#39;t broken.<br>
+<br>
+Based-on: &lt;<a href=3D"mailto:1572097538-18898-1-git-send-email-pbonzini@=
+redhat.com">1572097538-18898-1-git-send-email-pbonzini@redhat.com</a>&gt;<b=
+r>
+to include:<br>
+mc146818rtc: Allow call object_initialize(MC146818_<wbr>RTC) instead of rtc=
+_init()<br>
+<a href=3D"https://mid.mail-archive.com/20191018133547.10936-1-philmd@redha=
+t.com" target=3D"_blank">https://mid.mail-archive.com/<wbr>20191018133547.1=
+0936-1-philmd@<wbr>redhat.com</a><br>
+<br>
+Since Aleksandar offered me to send the pull request [4] I plan to do<br>
+it once Paolo&#39;s pull [5] is merged.<br>
+<br></blockquote><div><br></div><div>Philippe,</div><div><br></div><div>I a=
+ttempted the other day the integration of v2 of this series into MIPS pull =
+request, but couldn&#39;t do it - since another series of yours was already=
+ merged, acting on the same code, making rebasing difficult. Now this, v3, =
+series can&#39;t be applied since certain patches in some, on surface, unre=
+lated series aren&#39;t megred, and v3 assumes they are merged.</div><div><=
+br></div><div>If you send a series, it should preferably be based on the la=
+test (current) code base, not on some imagined future state.</div><div><br>=
+</div><div>Why did you create this such mess with interdependencies of your=
+ own multiple series, and just right before softfreeze? :( You should have =
+distributed submitting those series over longer time interval, and absolute=
+ly avoid, if possible, this hectic around-softfreeze period. You did the op=
+posite: waited for softfreeze to become close, and sent several interdepend=
+ant series in matter of days - creating stress without any real technical r=
+eason.</div><div><br></div><div>In case you, for any reason, can&#39;t comp=
+lete this by softfreeze, I advice you not to rush, and postpone the integra=
+tion to 5.0.</div><div><br></div><div>Thanks,</div><div>Aleksandar</div><di=
+v><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Thanks,<br>
+<br>
+Phil.<br>
+<br>
+CI results:<br>
+<a href=3D"https://travis-ci.org/philmd/qemu/builds/603253987" target=3D"_b=
+lank">https://travis-ci.org/philmd/<wbr>qemu/builds/603253987</a><br>
+<a href=3D"https://app.shippable.com/github/philmd/qemu/runs/550/summary/co=
+nsole" target=3D"_blank">https://app.shippable.com/<wbr>github/philmd/qemu/=
+runs/550/<wbr>summary/console</a><br>
+<br>
+[0] <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg046=
+62.html" target=3D"_blank">https://lists.gnu.org/archive/<wbr>html/qemu-dev=
+el/2019-10/<wbr>msg04662.html</a><br>
+[1] <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg036=
+85.html" target=3D"_blank">https://lists.gnu.org/archive/<wbr>html/qemu-dev=
+el/2019-10/<wbr>msg03685.html</a><br>
+[2] <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg500737=
+.html" target=3D"_blank">https://www.mail-archive.com/<wbr>qemu-devel@nongn=
+u.org/<wbr>msg500737.html</a><br>
+[3] <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg504081=
+.html" target=3D"_blank">https://www.mail-archive.com/<wbr>qemu-devel@nongn=
+u.org/<wbr>msg504081.html</a><br>
+[4] <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg049=
+59.html" target=3D"_blank">https://lists.gnu.org/archive/<wbr>html/qemu-dev=
+el/2019-10/<wbr>msg04959.html</a><br>
+[5] <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg073=
+39.html" target=3D"_blank">https://lists.gnu.org/archive/<wbr>html/qemu-dev=
+el/2019-10/<wbr>msg07339.html</a><br>
+<br>
+Herv=C3=A9 Poussineau (5):<br>
+=C2=A0 piix4: Add the Reset Control Register<br>
+=C2=A0 piix4: Add an i8259 Interrupt Controller as specified in datasheet<b=
+r>
+=C2=A0 piix4: Rename PIIX4 object to piix4-isa<br>
+=C2=A0 piix4: Add an i8257 DMA Controller as specified in datasheet<br>
+=C2=A0 piix4: Add an i8254 PIT Controller as specified in datasheet<br>
+<br>
+Philippe Mathieu-Daud=C3=A9 (15):<br>
+=C2=A0 MAINTAINERS: Keep PIIX4 South Bridge separate from PC Chipsets<br>
+=C2=A0 Revert &quot;irq: introduce qemu_irq_proxy()&quot;<br>
+=C2=A0 piix4: Add a MC146818 RTC Controller as specified in datasheet<br>
+=C2=A0 hw/mips/mips_malta: Create IDE hard drive array dynamically<br>
+=C2=A0 hw/mips/mips_malta: Extract the PIIX4 creation code as piix4_create(=
+)<br>
+=C2=A0 hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c<br>
+=C2=A0 hw/i386: Remove obsolete LoadStateHandler::load_state_<wbr>old handl=
+ers<br>
+=C2=A0 hw/pci-host/piix: Extract piix3_create()<br>
+=C2=A0 hw/pci-host/piix: Move RCR_IOPORT register definition<br>
+=C2=A0 hw/pci-host/piix: Define and use the PIIX IRQ Route Control Register=
+s<br>
+=C2=A0 hw/pci-host/piix: Move i440FX declarations to hw/pci-host/i440fx.h<b=
+r>
+=C2=A0 hw/pci-host/piix: Fix code style issues<br>
+=C2=A0 hw/pci-host/piix: Extract PIIX3 functions to hw/isa/piix3.c<br>
+=C2=A0 hw/pci-host: Rename incorrectly named &#39;piix&#39; as &#39;i440fx&=
+#39;<br>
+=C2=A0 hw/pci-host/i440fx: Remove the last PIIX3 traces<br>
+<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 14 +-<br>
+=C2=A0hw/acpi/pcihp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+=C2=A0hw/acpi/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 42 +--<br>
+=C2=A0hw/core/irq.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 14 -<br>
+=C2=A0hw/i386/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
+=C2=A0hw/i386/acpi-build.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A05 +-<br>
+=C2=A0hw/i386/pc_piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 10 +-<br>
+=C2=A0hw/i386/xen/xen-hvm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A05 +-<br>
+=C2=A0hw/intc/apic_common.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 49 ----<br>
+=C2=A0hw/isa/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 =C2=A04 +<br>
+=C2=A0hw/isa/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A01 +<br>
+=C2=A0hw/isa/piix3.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| 399 +++++++++++++++++++++++++++++<br>
+=C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| 151 ++++++++++-<br>
+=C2=A0hw/mips/gt64xxx_pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A05 +-<br>
+=C2=A0hw/mips/mips_malta.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 46 +---<br>
+=C2=A0hw/pci-host/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A03 +-<br>
+=C2=A0hw/pci-host/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 =
++-<br>
+=C2=A0hw/pci-host/{piix.c =3D&gt; i440fx.c} | 424 +------------------------=
+-----<wbr>-<br>
+=C2=A0hw/timer/i8254_common.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 40 =
+---<br>
+=C2=A0include/hw/acpi/piix4.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A06 -<br>
+=C2=A0include/hw/i386/pc.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 37 ---<br>
+=C2=A0include/hw/irq.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A05 -<br>
+=C2=A0include/hw/isa/isa.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +<br>
+=C2=A0include/hw/pci-host/i440fx.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 36 +++<br>
+=C2=A0include/hw/southbridge/piix.h=C2=A0 =C2=A0 |=C2=A0 74 ++++++<br>
+=C2=A0stubs/pci-host-piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A03 +-<br>
+=C2=A026 files changed, 699 insertions(+), 683 deletions(-)<br>
+=C2=A0create mode 100644 hw/isa/piix3.c<br>
+=C2=A0rename hw/pci-host/{piix.c =3D&gt; i440fx.c} (58%)<br>
+=C2=A0delete mode 100644 include/hw/acpi/piix4.h<br>
+=C2=A0create mode 100644 include/hw/pci-host/i440fx.h<br>
+=C2=A0create mode 100644 include/hw/southbridge/piix.h<br>
+<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote>
 
---0000000000005d8fb20595de6497--
+--000000000000becf960595df8c56--
 
