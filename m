@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C6DE648C
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:36:43 +0100 (CET)
-Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD17EE64B4
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:51:17 +0100 (CET)
+Received: from localhost ([::1]:46308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOmT3-0005FC-3l
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
+	id 1iOmhA-0006Vw-FP
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:51:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJt-0004Mj-BY
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:14 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iOme9-00071d-MK
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJq-0006kl-Pc
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:12 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:44333)
+ (envelope-from <dgibson@ozlabs.org>) id 1iOme6-0002qv-Ry
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:08 -0400
+Received: from ozlabs.org ([203.11.71.1]:39355)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iOmJq-0006iS-DU; Sun, 27 Oct 2019 13:27:10 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iOme5-0002pM-Pu
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:48:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 471Psw5Yyxz9sPh; Mon, 28 Oct 2019 04:27:00 +1100 (AEDT)
+ id 471QL95K96z9sPL; Mon, 28 Oct 2019 04:48:01 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1572197220;
- bh=0dsz3R0RRWo/ci+oWuYi/xKJ3pFL8rvRme7zLAeXa+s=;
+ d=gibson.dropbear.id.au; s=201602; t=1572198481;
+ bh=TDXLHWLNnqSo7qgAsvJM05PMm7+dNRlhU5WtQdoLRbU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lTiqi/Ue4Lny3dJ5nywgOhoaHLAmVSoH6qZ13WV07UHmJHLJ1XZkxpsg1dKQTczxa
- V6Hu8GoIEb6eEuP3Kb82Ogg+d3JbkAbpwUbIxX88lNjMDJWoDWFVJMLjzue/+Y23J8
- wsqKULoS3bFjb3nePRHKsEgp5lN6gO66DVr6kJmI=
-Date: Sun, 27 Oct 2019 18:10:42 +0100
+ b=FgUdiZgzsWlw02NZ9d5SrpKVv9wjpLqTatHxIJMoq3xtNcJuggw7jd3HAL94DvVCs
+ YdW7dwloaqXk3QdDPR1lP2T52H3WkZ2rU5ccoyBOmrL2XC8kohwuG0qNfxXboaQM5R
+ qA1cNBQYXTGK9aP4zNystvzCKhwDCmvVxms3zMG4=
+Date: Sun, 27 Oct 2019 18:39:29 +0100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/3] ppc: Fix 'info pic' crash
-Message-ID: <20191027171042.GI3552@umbus.metropole.lan>
-References: <157192723646.3146912.1271674896169655201.stgit@bahia.lan>
+To: Liu Yi L <yi.l.liu@intel.com>
+Subject: Re: [RFC v2 04/22] hw/iommu: introduce IOMMUContext
+Message-ID: <20191027173929.GK3552@umbus.metropole.lan>
+References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
+ <1571920483-3382-5-git-send-email-yi.l.liu@intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CD/aTaZybdUisKIc"
+ protocol="application/pgp-signature"; boundary="M0YLxmUXciMpOLPE"
 Content-Disposition: inline
-In-Reply-To: <157192723646.3146912.1271674896169655201.stgit@bahia.lan>
+In-Reply-To: <1571920483-3382-5-git-send-email-yi.l.liu@intel.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,79 +56,260 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: tianyu.lan@intel.com, kevin.tian@intel.com, jacob.jun.pan@linux.intel.com,
+ Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eric.auger@redhat.com, alex.williamson@redhat.com, pbonzini@redhat.com,
+ yi.y.sun@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---CD/aTaZybdUisKIc
+--M0YLxmUXciMpOLPE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 04:27:16PM +0200, Greg Kurz wrote:
-> The interrupt presenters are currently parented to their associated
-> VCPU, and we rely on CPU_FOREACH() when we need to perform a specific
-> task with them. Like exposing their state with 'info pic', or finding
-> the target VCPU for an interrupt when using the XIVE controller.
+On Thu, Oct 24, 2019 at 08:34:25AM -0400, Liu Yi L wrote:
+> From: Peter Xu <peterx@redhat.com>
 >=20
-> We recently realized that the latter could crash QEMU because CPU_FOREACH=
-()
-> can race with CPU hotplug. This got fixed by checking the presenter point=
-er
-> under the CPU was set (commit 627fa61746f7), but I'm not that sure that
-> this is enough since the presenter pointers also get stale at some point
-> during CPU unplug. And we still have other users of CPU_FOREACH(), namely
-> 'info pic' with both XICS and XIVE, that have the very same problem:
+> This patch adds IOMMUContext as an abstract layer of IOMMU related
+> operations. The current usage of this abstract layer is setup dual-
+> stage IOMMU translation (vSVA) for vIOMMU.
 >=20
-> With XIVE:
+> To setup dual-stage IOMMU translation, vIOMMU needs to propagate
+> guest changes to host via passthru channels (e.g. VFIO). To have
+> a better abstraction, it is better to avoid direct calling between
+> vIOMMU and VFIO. So we have this new structure to act as abstract
+> layer between VFIO and vIOMMU. So far, it is proposed to provide a
+> notifier mechanism, which registered by VFIO and fired by vIOMMU.
 >=20
-> Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-> 0x00000001003d2848 in xive_tctx_pic_print_info (tctx=3D0x101ae5280,=20
->     mon=3D0x7fffffffe180) at /home/greg/Work/qemu/qemu-spapr/hw/intc/xive=
-=2Ec:526
-> 526         int cpu_index =3D tctx->cs ? tctx->cs->cpu_index : -1;
-> (gdb) p tctx
-> $1 =3D (XiveTCTX *) 0x101ae5280
-> (gdb) p tctx->cs
-> $2 =3D (CPUState *) 0x2057512020203a5d <-- tctx is stale
-> (gdb) p tctx->cs->cpu_index
-> Cannot access memory at address 0x205751202020bead
+> For more background, may refer to the discussion below:
 >=20
-> With XICS:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg05022.html
 >=20
-> Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-> 0x00000001003cc39c in icp_pic_print_info (icp=3D0x10244ccf0, mon=3D0x7fff=
-ffffe940)
->     at /home/greg/Work/qemu/qemu-spapr/hw/intc/xics.c:47
-> 47          int cpu_index =3D icp->cs ? icp->cs->cpu_index : -1;
-> (gdb) p icp
-> $1 =3D (ICPState *) 0x10244ccf0
-> (gdb) p icp->cs
-> $2 =3D (CPUState *) 0x524958203220 <-- icp is stale
-> (gdb) p icp->cs->cpu_index
-> Cannot access memory at address 0x52495820b670
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> ---
+>  hw/Makefile.objs         |  1 +
+>  hw/iommu/Makefile.objs   |  1 +
+>  hw/iommu/iommu.c         | 66 ++++++++++++++++++++++++++++++++++++++++
+>  include/hw/iommu/iommu.h | 79 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  4 files changed, 147 insertions(+)
+>  create mode 100644 hw/iommu/Makefile.objs
+>  create mode 100644 hw/iommu/iommu.c
+>  create mode 100644 include/hw/iommu/iommu.h
 >=20
-> It may be worth finding a way to address this globally instead of
-> open-coding the check of the presenter pointer everywhere because
-> this is fragile. I gave a try with this series:
->=20
-> 	[0/6] ppc: Reparent the interrupt presenter
->=20
-> 	https://patchwork.ozlabs.org/cover/1182224/
->=20
-> but it requires some more reflexion. Also, we're about to enter
-> softfreeze, and it seems better to come up with a simpler fix.
->=20
-> Let's forget the reparenting and check the presenter pointers
-> where needed instead. Patch 1 from the previous series was changed
-> to also NULLify presenter pointers, so that they can be used to
-> filter out unwanted vCPUs in patch 3. I've kept patch 2 because
-> it's a fix in the same area, but it isn't related to the QEMU
-> crashes.
+> diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+> index ece6cc3..ac19f9c 100644
+> --- a/hw/Makefile.objs
+> +++ b/hw/Makefile.objs
+> @@ -39,6 +39,7 @@ devices-dirs-y +=3D xen/
+>  devices-dirs-$(CONFIG_MEM_DEVICE) +=3D mem/
+>  devices-dirs-y +=3D semihosting/
+>  devices-dirs-y +=3D smbios/
+> +devices-dirs-y +=3D iommu/
+>  endif
+> =20
+>  common-obj-y +=3D $(devices-dirs-y)
+> diff --git a/hw/iommu/Makefile.objs b/hw/iommu/Makefile.objs
+> new file mode 100644
+> index 0000000..0484b79
+> --- /dev/null
+> +++ b/hw/iommu/Makefile.objs
+> @@ -0,0 +1 @@
+> +obj-y +=3D iommu.o
+> diff --git a/hw/iommu/iommu.c b/hw/iommu/iommu.c
+> new file mode 100644
+> index 0000000..2391b0d
+> --- /dev/null
+> +++ b/hw/iommu/iommu.c
+> @@ -0,0 +1,66 @@
+> +/*
+> + * QEMU abstract of IOMMU context
+> + *
+> + * Copyright (C) 2019 Red Hat Inc.
+> + *
+> + * Authors: Peter Xu <peterx@redhat.com>,
+> + *          Liu Yi L <yi.l.liu@intel.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> +
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> +
+> + * You should have received a copy of the GNU General Public License alo=
+ng
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/iommu/iommu.h"
+> +
+> +void iommu_ctx_notifier_register(IOMMUContext *iommu_ctx,
+> +                                 IOMMUCTXNotifier *n,
+> +                                 IOMMUCTXNotifyFn fn,
+> +                                 IOMMUCTXEvent event)
+> +{
+> +    n->event =3D event;
+> +    n->iommu_ctx_event_notify =3D fn;
+> +    QLIST_INSERT_HEAD(&iommu_ctx->iommu_ctx_notifiers, n, node);
 
-Applied to ppc-for-4.2, thanks.
+Having this both modify the IOMMUCTXNotifier structure and insert it
+in the list seems confusing to me - and gratuitously different from
+the interface for both IOMMUNotifier and Notifier.
+
+Separating out a iommu_ctx_notifier_init() as a helper and having
+register take a fully initialized structure seems better to me.
+
+> +    return;
+
+Using an explicit return at the end of a function returning void is an
+odd style.
+
+> +}
+> +
+> +void iommu_ctx_notifier_unregister(IOMMUContext *iommu_ctx,
+> +                                   IOMMUCTXNotifier *notifier)
+> +{
+> +    IOMMUCTXNotifier *cur, *next;
+> +
+> +    QLIST_FOREACH_SAFE(cur, &iommu_ctx->iommu_ctx_notifiers, node, next)=
+ {
+> +        if (cur =3D=3D notifier) {
+> +            QLIST_REMOVE(cur, node);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+> +void iommu_ctx_event_notify(IOMMUContext *iommu_ctx,
+> +                            IOMMUCTXEventData *event_data)
+> +{
+> +    IOMMUCTXNotifier *cur;
+> +
+> +    QLIST_FOREACH(cur, &iommu_ctx->iommu_ctx_notifiers, node) {
+> +        if ((cur->event =3D=3D event_data->event) &&
+> +                                 cur->iommu_ctx_event_notify) {
+
+Do you actually need the test on iommu_ctx_event_notify?  I can't see
+any reason to register a notifier with a NULL function pointer.
+
+> +            cur->iommu_ctx_event_notify(cur, event_data);
+> +        }
+> +    }
+> +}
+> +
+> +void iommu_context_init(IOMMUContext *iommu_ctx)
+> +{
+> +    QLIST_INIT(&iommu_ctx->iommu_ctx_notifiers);
+> +}
+> diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
+> new file mode 100644
+> index 0000000..c22c442
+> --- /dev/null
+> +++ b/include/hw/iommu/iommu.h
+> @@ -0,0 +1,79 @@
+> +/*
+> + * QEMU abstraction of IOMMU Context
+> + *
+> + * Copyright (C) 2019 Red Hat Inc.
+> + *
+> + * Authors: Peter Xu <peterx@redhat.com>,
+> + *          Liu, Yi L <yi.l.liu@intel.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> +
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> +
+> + * You should have received a copy of the GNU General Public License alo=
+ng
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef HW_PCI_PASID_H
+> +#define HW_PCI_PASID_H
+
+These guards need to be updated for the new header name.
+
+> +
+> +#include "qemu/queue.h"
+> +#ifndef CONFIG_USER_ONLY
+> +#include "exec/hwaddr.h"
+> +#endif
+> +
+> +typedef struct IOMMUContext IOMMUContext;
+> +
+> +enum IOMMUCTXEvent {
+> +    IOMMU_CTX_EVENT_NUM,
+> +};
+> +typedef enum IOMMUCTXEvent IOMMUCTXEvent;
+> +
+> +struct IOMMUCTXEventData {
+> +    IOMMUCTXEvent event;
+> +    uint64_t length;
+> +    void *data;
+> +};
+> +typedef struct IOMMUCTXEventData IOMMUCTXEventData;
+> +
+> +typedef struct IOMMUCTXNotifier IOMMUCTXNotifier;
+> +
+> +typedef void (*IOMMUCTXNotifyFn)(IOMMUCTXNotifier *notifier,
+> +                                 IOMMUCTXEventData *event_data);
+> +
+> +struct IOMMUCTXNotifier {
+> +    IOMMUCTXNotifyFn iommu_ctx_event_notify;
+> +    /*
+> +     * What events we are listening to. Let's allow multiple event
+> +     * registrations from beginning.
+> +     */
+> +    IOMMUCTXEvent event;
+> +    QLIST_ENTRY(IOMMUCTXNotifier) node;
+> +};
+> +
+> +/*
+> + * This is an abstraction of IOMMU context.
+> + */
+> +struct IOMMUContext {
+> +    uint32_t pasid;
+
+This confuses me a bit.  I thought the idea was that IOMMUContext with
+SVM would represent all the PASIDs in use, but here we have a specific
+pasid stored in the structure.
+
+> +    QLIST_HEAD(, IOMMUCTXNotifier) iommu_ctx_notifiers;
+> +};
+> +
+> +void iommu_ctx_notifier_register(IOMMUContext *iommu_ctx,
+> +                                 IOMMUCTXNotifier *n,
+> +                                 IOMMUCTXNotifyFn fn,
+> +                                 IOMMUCTXEvent event);
+> +void iommu_ctx_notifier_unregister(IOMMUContext *iommu_ctx,
+> +                                   IOMMUCTXNotifier *notifier);
+> +void iommu_ctx_event_notify(IOMMUContext *iommu_ctx,
+> +                            IOMMUCTXEventData *event_data);
+> +
+> +void iommu_context_init(IOMMUContext *iommu_ctx);
+> +
+> +#endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -135,25 +317,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---CD/aTaZybdUisKIc
+--M0YLxmUXciMpOLPE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21z5IACgkQbDjKyiDZ
-s5LhvA/+PpIuDYuISAW4DZLWwTRcQWPNUCSP/b8DupGAZB+RsGrTmClXlFTNhpQf
-m+Fu5Eg8irqEZi2gK8/KV349hZAsQPXWUmQ/DKco2Vp0WxE7JRZrLwYZrFI4ywow
-eTnBWbIZnQgbNxAL40lUcw9gjZAu3NvSLWlmftkLMQrtI08fU6fNK8E33thnTJAR
-oyNqrtbeKhPigNUb/sNW7I/WEW4EwYsR9b8r4Kbl6F2HIEsrhdCYt2QyGgf3J78/
-+9spiX41kv3OJWXe9o83xcP2NuG0q1JKKpdVy57H5m23RlqQhjtGTKl+xWcd8cny
-ZMCvoi6fDEd2LLka0nhS2Mcb4s/1ohjK0dOlrsrZjpnqGW8V4x5kKA8ty+DTTwtF
-4ZPK3isIMd/y/Wx4Hha0J3ZUx8PPNoKgNbK/mnXakshjHKBWxHSn30/UARAOvOod
-WUgTtGUFYL73aKOAuuTVSryPjJkpLOJvhyPKT7o05q2nGEQnS/1HiAtvz4xWcmLb
-V2zZ+Tu7H0DVRVtjpL8yS7mnAxOGwN8vHmaRpVeeu9IrEieDOHWizE+blCbkGfkk
-LIbGBenc8/JDZWX9u2LZaD414PKnFxAsw5YF2P1nqcNKA8D9wTonCnJzKWMPMs+v
-l+ZfjgClCO9maba98DnLLMCOR/lzC3A5p3U0iIxJWdl04m+qETk=
-=b+TY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl211k4ACgkQbDjKyiDZ
+s5K0Uw//RVP0RainFrEUfLXMu+stD/JRcjmXKoRPGKhAgCYr3NssXyHM6VuNHgaY
+fOSksAMV0TEasmgC0ZQtt1mkutEaF+6u70C67sZS28ymLbA9i6HWcfXpEVBV/jOW
+UDm7v49562cejhf5qUKSrO1E37AaNrcGcbKua91JZqYqHVMdRmKOscPiOTmA4x5e
+0NeHKvk5zj2WVWfrPwYvMe0HmyM/IkElVeG/5xxipc86/SoCf2nzziMY3tDcjIXa
+iWaiPI3B+ucSY9DYwfaWLUzurCTA3giUgO4k1bGFiZiatn+IOX+2U+Zv6WWpKj+D
+u33s9FfAS0lb3SvhN/vuROrlgOj0b51mm3EiITcu8NWk7+zUOzz4BOw+stp/eak7
+/u2/K+06saNVorNbfD6QGEM3NGBS4mMndRIe6N+AxWwX3x6hjVfK+y77oUx8joCM
+jPxWs3693rR+p+kkwOIzAGPgYTQ1GdXevPEWJMcjUlShmZ9AeWMKnH5AU+opiGDu
+TpyT9FPPD2HS7xW1Uedk9QrF2BxBqAT1o5XzKGRyLo176oiACxFqi90rD4ZTSPxU
+h3jLCzIRiK0bmM1Ufa4hOCNZnZO5y8wp8mOXMvo/+zFjvlguzac1y7NiSwY4iFX+
+Kv2J3ErOJDrfZG8eASEqoGB1nQHA+CDOM0PuK64/9hQJ9QJ97VY=
+=SouO
 -----END PGP SIGNATURE-----
 
---CD/aTaZybdUisKIc--
+--M0YLxmUXciMpOLPE--
 
