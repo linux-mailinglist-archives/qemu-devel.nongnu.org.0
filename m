@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F38CE606C
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 06:06:41 +0100 (CET)
-Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE67E611B
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 07:26:56 +0100 (CET)
+Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOalC-0006f7-DD
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 01:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
+	id 1iOc0t-0002fU-BQ
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 02:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iOakE-0005Pi-2U
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 01:05:39 -0400
+ (envelope-from <bounces@canonical.com>) id 1iObzh-00016j-2w
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 02:25:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iOakC-0003bE-CB
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 01:05:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44696)
+ (envelope-from <bounces@canonical.com>) id 1iObzf-0006dx-RB
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 02:25:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49466)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iOakC-0003ap-6j
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 01:05:36 -0400
+ id 1iObzf-0006dl-L1
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 02:25:39 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iOakA-0004gA-MG
- for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 05:05:34 +0000
+ id 1iObze-0001UM-Jo
+ for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 06:25:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 92D292E80C9
- for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 05:05:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 86F082E8010
+ for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 06:25:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Oct 2019 04:58:31 -0000
-From: Toolybird <1850000@bugs.launchpad.net>
+Date: Sun, 27 Oct 2019 06:17:41 -0000
+From: Adam Baxter <voltagex@voltagex.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: qemu-img
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gschafer
-X-Launchpad-Bug-Reporter: Toolybird (gschafer)
-X-Launchpad-Bug-Modifier: Toolybird (gschafer)
-References: <157212805514.19102.17568097209992499457.malonedeb@wampee.canonical.com>
-Message-Id: <157215231134.18979.16782302206432118351.malone@wampee.canonical.com>
-Subject: [Bug 1850000] Re: 4.1.0 bogus QCOW2 corruption reported after compress
+X-Launchpad-Bug-Commenters: the.netadmin voltagex
+X-Launchpad-Bug-Reporter: Zixuan Wang (the.netadmin)
+X-Launchpad-Bug-Modifier: Adam Baxter (voltagex)
+References: <152222836105.21062.2375148895134658603.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157215706185.2702.3460525326125677929.malone@gac.canonical.com>
+Subject: [Bug 1759522] Re: windows qemu-img create vpc/vhdx error
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d96126121df6e7f093a6ee29a98c340527f942b1
+X-Launchpad-Hash: 2e1a848a5b712c2767f75115b036c96d876dbab5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -65,142 +66,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1850000 <1850000@bugs.launchpad.net>
+Reply-To: Bug 1759522 <1759522@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current trunk still displays the problem.
+Can confirm this is still an issue with 4.1.0.
 
-A git bisection between 4.0.0 and 4.1.0 revealed:
+?field.comment=3DCan confirm this is still an issue with 4.1.0.
 
-b6c246942b14d3e0dec46a6c5868ed84e7dbea19 is the first bad commit
-commit b6c246942b14d3e0dec46a6c5868ed84e7dbea19
-Author: Alberto Garcia <berto@igalia.com>
-Date:   Fri May 10 19:22:54 2019 +0300
 
-    qcow2: Define and use QCOW2_COMPRESSED_SECTOR_SIZE
-    =
-
-    When an L2 table entry points to a compressed cluster the space used
-    by the data is specified in 512-byte sectors. This size is independent
-    from BDRV_SECTOR_SIZE and is specific to the qcow2 file format.
-    =
-
-    The QCOW2_COMPRESSED_SECTOR_SIZE constant defined in this patch makes
-    this explicit.
-    =
-
-    Signed-off-by: Alberto Garcia <berto@igalia.com>
-    Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-
- block/qcow2-cluster.c  |  5 +++--
- block/qcow2-refcount.c | 25 ++++++++++++++-----------
- block/qcow2.c          |  3 ++-
- block/qcow2.h          |  4 ++++
- 4 files changed, 23 insertions(+), 14 deletions(-)
+** Attachment added: "Files created on Windows and Debian"
+   https://bugs.launchpad.net/qemu/+bug/1759522/+attachment/5300530/+files/=
+vhdx_comparison.7z
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1850000
+https://bugs.launchpad.net/bugs/1759522
 
 Title:
-  4.1.0 bogus QCOW2 corruption reported after compress
+  windows qemu-img create vpc/vhdx error
 
 Status in QEMU:
   New
 
 Bug description:
-  Creating a compressed image then running `qemu-img check <..>.qcow2'
-  on said image seems to report bogus corruption in some (but not all)
-  cases:
+  On windows, using qemu-img (version 2.11.90) to create vpc/vhdx
+  virtual disk tends to fail. Here's the way to reproduce:
 
-  Step 1.
+  1. Install qemu-w64-setup-20180321.exe
 
-  # qemu-img info win7-base.qcow2
-  image: win7-base.qcow2
-  file format: qcow2
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 12.2 GiB
-  cluster_size: 65536
-  Format specific information:
-      compat: 1.1
-      lazy refcounts: true
-      refcount bits: 16
-      corrupt: false
+  2. Use `qemu-img create -f vhdx -o subformat=3Dfixed disk.vhdx 512M` to c=
+reate a vhdx:
+     Formatting 'disk.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576=
+ block_size=3D0 subformat=3Dfixed
 
-  # qemu-img check win7-base.qcow2
-  No errors were found on the image.
-  327680/327680 =3D 100.00% allocated, 0.00% fragmented, 0.00% compressed c=
-lusters
-  Image end offset: 21478375424
+  3. Execute `qemu-img info disk.vhdx` gives the result, (note the `disk si=
+ze` is incorrect):
+     image: disk.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 1.4M
+     cluster_size: 8388608
 
-  Step 2.
+  4. On Windows 10 (V1709), double click disk.vhdx gives an error:
+     Make sure the file is in an NTFS volume and isn't in a compressed fold=
+er or volume.
 
-  # qemu-img convert -f qcow2 -O qcow2 -c win7-base.qcow2 test1-z.qcow2
+     Using Disk Management -> Action -> Attach VHD gives an error:
+     The requested operation could not be completed due to a virtual disk s=
+ystem limitation. Virtual hard disk files must be uncompressed and uneccryp=
+ted and must not be sparse.
 
-  Step 3.
+  Comparison with Windows 10 created VHDX:
 
-  # qemu-img info test1-z.qcow2
-  image: test1-z.qcow2
-  file format: qcow2
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 5.78 GiB
-  cluster_size: 65536
-  Format specific information:
-      compat: 1.1
-      lazy refcounts: false
-      refcount bits: 16
-      corrupt: false
+  1. Using Disk Management -> Action -> Create VHD:
+     File name: win.vhdx
+     Virtual hard disk size: 512MB
+     Virtual hard disk format: VHDX
+     Virtual hard disk type: Fixed size
 
-  # qemu-img check test1-z.qcow2
-  ERROR cluster 1191 refcount=3D1 reference=3D2
-  ERROR cluster 1194 refcount=3D1 reference=3D4
-  ERROR cluster 1195 refcount=3D1 reference=3D7
-  ERROR cluster 1196 refcount=3D1 reference=3D7
-  ERROR cluster 1197 refcount=3D1 reference=3D6
-  ERROR cluster 1198 refcount=3D1 reference=3D4
-  ERROR cluster 1199 refcount=3D1 reference=3D4
-  ERROR cluster 1200 refcount=3D1 reference=3D5
-  ERROR cluster 1201 refcount=3D1 reference=3D3
-  <...> snip many errors
-  Leaked cluster 94847 refcount=3D3 reference=3D0
-  Leaked cluster 94848 refcount=3D3 reference=3D0
-  Leaked cluster 94849 refcount=3D11 reference=3D0
-  Leaked cluster 94850 refcount=3D14 reference=3D0
+  2. Detach VHDX
 
-  20503 errors were found on the image.
-  Data may be corrupted, or further writes to the image may corrupt it.
+  3. Execute `qemu-img info win.vhdx` gives the result:
+     image: win.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 516M
+     cluster_size: 33554432
 
-  20503 leaked clusters were found on the image.
-  This means waste of disk space, but no harm to data.
-  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
-clusters
-  Image end offset: 6216220672
+  Comparison with qemu-img under Ubuntu:
 
-  =
+  1. Version: qemu-img version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.16),
+  Copyright (c) 2004-2008 Fabrice Bellard
 
-  The resultant image seems to work fine in a VM when used as a backing fil=
-e.
+  2. qemu-img create -f vhdx -o subformat=3Dfixed lin.vhdx 512M
+     Formatting 'lin.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576 =
+block_size=3D0 subformat=3Dfixed
 
-  Interestingly, if I substitute a qemu-img binary from qemu-4.0 then no
-  errors are reported.
+  3. qemu-img info lin.vhdx
+     image: lin.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 520M
+     cluster_size: 8388608
 
-  # /tmp/qemu-img check test1-z.qcow2
-  No errors were found on the image.
-  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
-clusters
-  Image end offset: 6216220672
+  4. Load lin.vhdx under Windows 10 is ok
 
-  Is the image corrupted or not? I'm guessing not.
-
-  Just in case it matters, this is ext4 fs on rotational disk. Latest
-  Arch Linux but self compiled 4.1.0 with recent QCOW2 corruption fixes
-  added.
-
-  I haven't tried latest trunk but might do so if time permits.
+  The same thing happens on `vpc` format with or without
+  `oformat=3Dfixed`, it seems that windows version of qemu-img has some
+  incorrect operation? My guess is that windows version of qemu-img
+  doesn't handle the description field of vpc/vhdx, which leads to an
+  incorrect `disk size` field.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1850000/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1759522/+subscriptions
 
