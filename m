@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36942E6514
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 20:25:23 +0100 (CET)
-Received: from localhost ([::1]:46766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A5FE6516
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 20:25:42 +0100 (CET)
+Received: from localhost ([::1]:46774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOoAD-0007ql-3W
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 15:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39989)
+	id 1iOoAW-00083Z-Sw
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 15:25:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iOo7U-000520-Q8
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 15:22:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iOo7X-00056r-Rq
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 15:22:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iOo7T-00074X-AR
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 15:22:32 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46932)
+ (envelope-from <alex.bennee@linaro.org>) id 1iOo7T-00074g-Ii
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 15:22:34 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37777)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iOo7S-00074A-5e
+ id 1iOo7S-00074K-5T
  for qemu-devel@nongnu.org; Sun, 27 Oct 2019 15:22:30 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id n15so7623692wrw.13
- for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 12:22:26 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id e11so7664892wrv.4
+ for <qemu-devel@nongnu.org>; Sun, 27 Oct 2019 12:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o1wHkGpALGvZ5p63/MiA9xsAZrJ4m0uNdKCoG3szFwk=;
- b=uAbyknVUXU3ctObcttpT3iVlAy/+80G6AkgJzlsCMwl0lLEtO2JscJ6o2JjjrZb9NC
- lq2eUcXfNVgBs1TdsdA9oiMzPs38mGc6zaLZcfbgQ/UqGOfw8gUggYL05c5VpACTAqjT
- ux8U52pC6eZArjix+T5Xv41MmhO/8m03zAjyox+YOO1qscYmdke7iY4BGTRPMHIkmW/Y
- DCvNtg21f2pGQFSK6SCnsx8NOJVoLpjLULWC4fed9lX5+BgIv+gObHrhhnmAiaE4mItO
- uIJzHTAfRufXPbeBvt8mgpl/qPFDuBCA/MlfqQMC2j+7hkV4xoYWvUOvk8kd/aDKU9Ho
- KIDA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EDYONk5c0EBAOOyd1cg6ayjAHSM/nf0MYDEf+17uSlk=;
+ b=B3mfhEcIaQDUdV8HKFOEj4u8+34fzFBfR6Os77lnNV3ZKgJGTegKyftVkVP3Yrwhs0
+ 8Eq005Nn/SWgA25u2WVXXqEhLO0A1Ie5a8PuiLhqpdciPD67C+NwM//eBN/t36Ho1Bx5
+ AVj0q4wolWKBRyozhLQ7wXV+nyyhiTyzD46CIQaYVQlqkflM3IlcCJJeOSbsQsyq+qNz
+ 6Py2lCZ1EqanExpyZi0MmabpF83Nb25REbN15j4Egxmnm/2GxB0iZwqi3zMfpIju68wv
+ 8UN25l2AR/rE6ojmTCVlziVZmzcTLn2sw9d5al28lLzNRowSiYcqq9GvnfgMCjkOP9pg
+ FZrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o1wHkGpALGvZ5p63/MiA9xsAZrJ4m0uNdKCoG3szFwk=;
- b=RrVWieFNtEYwkDBp2dBH1nW/vv6hoLVl2pxDD7l5mJU+x2xQ/ERfC5LIqsSfC067vc
- 7ZIyjVJR/QsiEr5K8naPSxTjTTOORsrSzKJDyWGj1T5FY1YTr/x4451L++tZCY3Q5ipM
- lsJULXqaa2MycQK0PFVg5uEtTyxzMlAGCYkMU37XoIP1kyGkCB4O3XodO9GQCu0EcGDl
- wJfXRLhdJYsu1HuO20NF6MAyNfu++v7VxDIJkyk5a/7eKiktv5qXRS5zJrbBkxQNyufN
- cdKhYyivporU4bGdSiC5+e4jZlv8ac43STdDUn4/hFzPFzEMwsdqGkcFQMrYy8/3cGUp
- zf4Q==
-X-Gm-Message-State: APjAAAWkUpPGL+bFr0Sqf2BGPxwqxVpZmPWoAVnmfDfRinNlJkftj1kn
- YFjnVIMqGUxP/WB8OeApXF4VDg==
-X-Google-Smtp-Source: APXvYqzacz9ahWyK+Witf0Htzx3vyL1k2z1IJb6ZAJcnwBknjFyARViCzsT6rPkELtQ7J54yKoN6eg==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr11601943wrn.213.1572204144907; 
- Sun, 27 Oct 2019 12:22:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EDYONk5c0EBAOOyd1cg6ayjAHSM/nf0MYDEf+17uSlk=;
+ b=Rlf9sWtlpYUsqR15uIIJISUURCz9qc/PIVb63X/sl6W3LSn6Vm4urNmRB7IWEiExhK
+ tIgpSLnUudXu/QbhRqTFDLtOoYRya7IOzkqzDh+uGwlBsnIv1WEcEop4yC0hnoSSb3Qz
+ hs99YDt7I2d74m739DNRzmD6iBcM23Gdw6XHiomReJ14jNhghQQawNwiLNiolL2e2sf/
+ b/dKg0QApJ3P0y8HYg1Yd3KUpFexKdjSs2p44E3hifkWcBuUV2LyMpsbXzPdFcEp6L6p
+ vk94Wa3GhiA8Mpu57WzAQRjoERUjMFJ103OmqyWHMhtyB6VDloURWb6HLsywKCy2euMW
+ nfgA==
+X-Gm-Message-State: APjAAAX3D8E3S0tOQnda6eiTuAu/h0VxqL1uKu5dqXyDKucYa6DJxFty
+ 2EmD+XWOYLMTXfUC6skHRY/5ow==
+X-Google-Smtp-Source: APXvYqxXG3vVHkB0BnoQLe3CWGCdmSJts/SvR4ubqJi9SXPCp7+noopDSPJ2HIkVwYhkv45tKPR7UQ==
+X-Received: by 2002:adf:a157:: with SMTP id r23mr11576194wrr.51.1572204146382; 
+ Sun, 27 Oct 2019 12:22:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 5sm10888083wrk.86.2019.10.27.12.22.24
+ by smtp.gmail.com with ESMTPSA id q11sm8130724wmq.21.2019.10.27.12.22.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 27 Oct 2019 12:22:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8E3DC1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id A19D61FF8C;
  Sun, 27 Oct 2019 19:22:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/3] a few gitdm updates
-Date: Sun, 27 Oct 2019 19:22:20 +0000
-Message-Id: <20191027192223.10855-1-alex.bennee@linaro.org>
+Subject: [PULL 1/3] contrib/gitdm: add Emanuele as an individual
+Date: Sun, 27 Oct 2019 19:22:21 +0000
+Message-Id: <20191027192223.10855-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191027192223.10855-1-alex.bennee@linaro.org>
+References: <20191027192223.10855-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,39 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 856bd2c28e108ad0eb909bbbf3774f6f8bd7c2d4:
+Again this is guess work based on public websites. Please confirm.
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-25 21:57:41 +0100)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-gitdm-next-271019-1
-
-for you to fetch changes up to 82448ecd110ec1c4af1504a394b5ea5097dcca3c:
-
-  contrib/gitdm: add China Mobile to the domain map (2019-10-27 19:16:30 +0000)
-
-----------------------------------------------------------------
-gitdm updates
-
-  - Add a few individuals
-  - Add China Mobile
-
-----------------------------------------------------------------
-Alex Bennée (3):
-      contrib/gitdm: add Emanuele as an individual
-      contrib/gitdm: add Andrey to the individual group
-      contrib/gitdm: add China Mobile to the domain map
-
- contrib/gitdm/domain-map            | 1 +
- contrib/gitdm/group-map-individuals | 2 ++
- 2 files changed, 3 insertions(+)
-
+diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+index 1c847174380..bcb50e325cc 100644
+--- a/contrib/gitdm/group-map-individuals
++++ b/contrib/gitdm/group-map-individuals
+@@ -14,3 +14,4 @@ noring@nocrew.org
+ samuel.thibault@ens-lyon.org
+ aurelien@aurel32.net
+ balaton@eik.bme.hu
++e.emanuelegiuseppe@gmail.com
 -- 
 2.20.1
 
