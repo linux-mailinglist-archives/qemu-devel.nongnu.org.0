@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A54E6486
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:31:32 +0100 (CET)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3C9E648B
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Oct 2019 18:35:27 +0100 (CET)
+Received: from localhost ([::1]:46208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOmO2-0004cQ-So
-	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:31:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57407)
+	id 1iOmRq-00073Q-6G
+	for lists+qemu-devel@lfdr.de; Sun, 27 Oct 2019 13:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJp-0004HD-SA
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmJt-0004NE-1D
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iOmJo-0006hl-2s
- for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:09 -0400
-Received: from ozlabs.org ([203.11.71.1]:35523)
+ (envelope-from <dgibson@ozlabs.org>) id 1iOmJo-0006hw-76
+ for qemu-devel@nongnu.org; Sun, 27 Oct 2019 13:27:12 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36807 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iOmJn-0006aD-Be; Sun, 27 Oct 2019 13:27:08 -0400
+ id 1iOmJn-0006aU-Bd; Sun, 27 Oct 2019 13:27:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 471Psv6Xjwz9sPT; Mon, 28 Oct 2019 04:26:59 +1100 (AEDT)
+ id 471Psw0pbjz9sPV; Mon, 28 Oct 2019 04:26:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1572197219;
- bh=Y4ThW7mhYzrYrrXOHtRawlyQSbfSTm1latgNYVAg7VQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1572197220;
+ bh=aE0vFQ/p6WYTNj5cDAiWHO1SMNg8rFZGYc+EVMdE/PY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X3D9dDUT6qoMobdIz8iJJxod0W3fy2TNWCjMnWdyTLDzmOnlq2HCDYKIkZJgWuXN0
- uY+hNJu9EmymfpOlliR9/r3tFoy8oHnGvas1+3E2ZghrBiivJhBgaRkSW2qSQlCt0q
- GydnVcboyFDP6+hk5+uArWeka423l6qZACHXlP1Y=
-Date: Sun, 27 Oct 2019 17:54:03 +0100
+ b=aZRLBAZ9/5b4538MqndmbdNv5ug9nb2+BzSFJxTNSpPHPofZXCnb08DBAMiCulzTH
+ D5CDc6TK8hvO3A6Mlbw2qfVjeO1WQW8PqryivLYY4YHG2Z3Br2ECHZ+y28Vw6DO+ks
+ tUoATcBWcHUbivoAfeyN/IQXw9XhTsDz0t8tWd2c=
+Date: Sun, 27 Oct 2019 17:54:36 +0100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
 Subject: Re: [PATCH v5 4/7] ppc/pnv: Add a PnvChip pointer to PnvCore
-Message-ID: <20191027165403.GC3552@umbus.metropole.lan>
+Message-ID: <20191027165436.GD3552@umbus.metropole.lan>
 References: <20191022163812.330-1-clg@kaod.org>
  <20191022163812.330-5-clg@kaod.org>
  <20191024023812.GO6439@umbus.fritz.box>
- <ed3b2931-7836-058d-6b93-d35eed3ff859@kaod.org>
- <20191024184823.522c02e6@bahia.lan>
+ <20191024193030.40ee674e@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="E/DnYTRukya0zdZ1"
+ protocol="application/pgp-signature"; boundary="DiL7RhKs8rK9YGuF"
 Content-Disposition: inline
-In-Reply-To: <20191024184823.522c02e6@bahia.lan>
+In-Reply-To: <20191024193030.40ee674e@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -66,193 +65,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---E/DnYTRukya0zdZ1
+--DiL7RhKs8rK9YGuF
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 06:48:23PM +0200, Greg Kurz wrote:
-> On Thu, 24 Oct 2019 11:57:05 +0200
-> C=E9dric Le Goater <clg@kaod.org> wrote:
+On Thu, Oct 24, 2019 at 07:30:30PM +0200, Greg Kurz wrote:
+> On Thu, 24 Oct 2019 13:38:12 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > On 24/10/2019 04:38, David Gibson wrote:
-> > > On Tue, Oct 22, 2019 at 06:38:09PM +0200, C=E9dric Le Goater wrote:
-> > >> We will use it to reset the interrupt presenter from the CPU reset
-> > >> handler.
-> > >>
-> > >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > >> Reviewed-by: Greg Kurz <groug@kaod.org>
-> > >> ---
-> > >>  include/hw/ppc/pnv_core.h | 3 +++
-> > >>  hw/ppc/pnv_core.c         | 3 ++-
-> > >>  2 files changed, 5 insertions(+), 1 deletion(-)
-> > >>
-> > >> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-> > >> index bfbd2ec42aa6..55eee95104da 100644
-> > >> --- a/include/hw/ppc/pnv_core.h
-> > >> +++ b/include/hw/ppc/pnv_core.h
-> > >> @@ -31,6 +31,8 @@
-> > >>  #define PNV_CORE_GET_CLASS(obj) \
-> > >>       OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
-> > >> =20
-> > >> +typedef struct PnvChip PnvChip;
-> > >> +
-> > >>  typedef struct PnvCore {
-> > >>      /*< private >*/
-> > >>      CPUCore parent_obj;
-> > >> @@ -38,6 +40,7 @@ typedef struct PnvCore {
-> > >>      /*< public >*/
-> > >>      PowerPCCPU **threads;
-> > >>      uint32_t pir;
-> > >> +    PnvChip *chip;
+> > On Tue, Oct 22, 2019 at 06:38:09PM +0200, C=E9dric Le Goater wrote:
+> > > We will use it to reset the interrupt presenter from the CPU reset
+> > > handler.
 > > >=20
-> > > I don't love having this as a redundant encoding of the information
-> > > already in the property, since it raises the possibility of confusing
-> > > bugs if they ever got out of sync.
+> > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > > ---
+> > >  include/hw/ppc/pnv_core.h | 3 +++
+> > >  hw/ppc/pnv_core.c         | 3 ++-
+> > >  2 files changed, 5 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+> > > index bfbd2ec42aa6..55eee95104da 100644
+> > > --- a/include/hw/ppc/pnv_core.h
+> > > +++ b/include/hw/ppc/pnv_core.h
+> > > @@ -31,6 +31,8 @@
+> > >  #define PNV_CORE_GET_CLASS(obj) \
+> > >       OBJECT_GET_CLASS(PnvCoreClass, (obj), TYPE_PNV_CORE)
+> > > =20
+> > > +typedef struct PnvChip PnvChip;
+> > > +
+> > >  typedef struct PnvCore {
+> > >      /*< private >*/
+> > >      CPUCore parent_obj;
+> > > @@ -38,6 +40,7 @@ typedef struct PnvCore {
+> > >      /*< public >*/
+> > >      PowerPCCPU **threads;
+> > >      uint32_t pir;
+> > > +    PnvChip *chip;
 > >=20
-> > Indeed.
-> >=20
-> > > It's not a huge deal, but it would be nice to at least to at least
-> > > consider either a) grabbing the property everywhere you need it (if
-> > > there aren't too many places)=20
-> >=20
-> > We need the chip at core creation and core reset to call the=20
-> > interrupt chip handlers. These are not hot path but the pointer
-> > seemed practical.
+> > I don't love having this as a redundant encoding of the information
+> > already in the property, since it raises the possibility of confusing
+> > bugs if they ever got out of sync.
 > >=20
 >=20
-> FWIW this is also used at core destruction in this patch:
+> Ouch, we also have this pattern in xive_tctx_realize(). The XiveTCXT
+> object has both a "cpu" property and a pointer to the vCPU.
 >=20
-> [1/3] ppc: Add intc_destroy() handlers to SpaprInterruptController/PnvChip
-> https://patchwork.ozlabs.org/patch/1183158/
->=20
-> > > or b) customizing the property
-> > > definition so it's written directly into that field.
-> >=20
-> > OK. That is better than just a link.
+> > It's not a huge deal, but it would be nice to at least to at least
+> > consider either a) grabbing the property everywhere you need it (if
+> > there aren't too many places) or b) customizing the property
+> > definition so it's written directly into that field.
 > >=20
 >=20
-> I think David is suggesting to use object_property_add_link()
-> instead of object_property_add_const_link() actually. Something
-> like that:
+> The pointer to the vCPU is used among other things to get the
+> value of the PIR, which is needed by the presenting logic to
+> match physical CAM lines. This is a _hot_ path so it's probably
+> better to go for b).
 
-TBH, I hadn't looked into the mechanics of how to do this that
-closely.  Change below looks pretty reasonable, though.
-
->=20
-> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-> index 55eee95104da..fce6d8d9b31b 100644
-> --- a/include/hw/ppc/pnv_core.h
-> +++ b/include/hw/ppc/pnv_core.h
-> @@ -36,11 +36,11 @@ typedef struct PnvChip PnvChip;
->  typedef struct PnvCore {
->      /*< private >*/
->      CPUCore parent_obj;
-> +    PnvChip *chip;
-> =20
->      /*< public >*/
->      PowerPCCPU **threads;
->      uint32_t pir;
-> -    PnvChip *chip;
-> =20
->      MemoryRegion xscom_regs;
->  } PnvCore;
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 68cc3c81aa75..90449d33e422 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1312,8 +1312,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Er=
-ror **errp)
->          object_property_set_int(OBJECT(pnv_core),
->                                  pcc->core_pir(chip, core_hwid),
->                                  "pir", &error_fatal);
-> -        object_property_add_const_link(OBJECT(pnv_core), "chip",
-> -                                       OBJECT(chip), &error_fatal);
-> +        object_property_set_link(OBJECT(pnv_core), OBJECT(chip), "chip",
-> +                                 &error_abort);
->          object_property_set_bool(OBJECT(pnv_core), true, "realized",
->                                   &error_fatal);
-> =20
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index 61b3d3ce2250..8562a9961845 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -217,15 +217,6 @@ static void pnv_core_realize(DeviceState *dev, Error=
- **errp)
->      void *obj;
->      int i, j;
->      char name[32];
-> -    Object *chip;
-> -
-> -    chip =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
-> -    if (!chip) {
-> -        error_propagate_prepend(errp, local_err,
-> -                                "required link 'chip' not found: ");
-> -        return;
-> -    }
-> -    pc->chip =3D PNV_CHIP(chip);
-> =20
->      pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
->      for (i =3D 0; i < cc->nr_threads; i++) {
-> @@ -323,6 +314,14 @@ static void pnv_core_class_init(ObjectClass *oc, voi=
-d *data)
->      dc->props =3D pnv_core_properties;
->  }
-> =20
-> +static void pnv_core_instance_init(Object *obj)
-> +{
-> +    object_property_add_link(obj, "chip", TYPE_PNV_CHIP,
-> +                             (Object **) &PNV_CORE(obj)->chip,
-> +                             qdev_prop_allow_set_link_before_realize,
-> +                             0, &error_abort);
-> +}
-> +
->  #define DEFINE_PNV_CORE_TYPE(family, cpu_model) \
->      {                                           \
->          .parent =3D TYPE_PNV_CORE,                \
-> @@ -335,6 +334,7 @@ static const TypeInfo pnv_core_infos[] =3D {
->          .name           =3D TYPE_PNV_CORE,
->          .parent         =3D TYPE_CPU_CORE,
->          .instance_size  =3D sizeof(PnvCore),
-> +        .instance_init  =3D pnv_core_instance_init,
->          .class_size     =3D sizeof(PnvCoreClass),
->          .class_init =3D pnv_core_class_init,
->          .abstract       =3D true,
-> ----
->=20
-> > C.=20
-> >=20
-> > >=20
-> > >> =20
-> > >>      MemoryRegion xscom_regs;
-> > >>  } PnvCore;
-> > >> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> > >> index 9f981a4940e6..cc17bbfed829 100644
-> > >> --- a/hw/ppc/pnv_core.c
-> > >> +++ b/hw/ppc/pnv_core.c
-> > >> @@ -222,6 +222,7 @@ static void pnv_core_realize(DeviceState *dev, E=
-rror **errp)
-> > >>                                  "required link 'chip' not found: ");
-> > >>          return;
-> > >>      }
-> > >> +    pc->chip =3D PNV_CHIP(chip);
-> > >> =20
-> > >>      pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
-> > >>      for (i =3D 0; i < cc->nr_threads; i++) {
-> > >> @@ -243,7 +244,7 @@ static void pnv_core_realize(DeviceState *dev, E=
-rror **errp)
-> > >>      }
-> > >> =20
-> > >>      for (j =3D 0; j < cc->nr_threads; j++) {
-> > >> -        pnv_realize_vcpu(pc->threads[j], PNV_CHIP(chip), &local_err=
-);
-> > >> +        pnv_realize_vcpu(pc->threads[j], pc->chip, &local_err);
-> > >>          if (local_err) {
-> > >>              goto err;
-> > >>          }
-> > >=20
-> >=20
->=20
+Agreed.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -260,25 +131,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---E/DnYTRukya0zdZ1
+--DiL7RhKs8rK9YGuF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21y6sACgkQbDjKyiDZ
-s5J+FRAAjqrOxZsJYdhlpiPI0poPcqkotlzSPR9JYgoTSDt2XdJ9qrgBq7m9Ur3O
-ac6LHnwfAxbr+O3QHeKyNdYheyc8qW7/WJ3uYjUyEsxjWK5Oi0fTOpJz+WHwDS9S
-nr4m4ZyUBixiXPs5smKmf7uWoaDg6lz5toX3aA/PxUBF+cJpT73U+fquwhKKFLlJ
-l5DcofsKb4oGFwJhOKp9VFMvBfFghDk4RqwcaSD91ae+zG1mXgF74k4SnRGdth7P
-4GPA9ntEzYuHTf28Osy3TRW7F8mArlldjmsP8nYRh0Ce7xYwoCuRJqdBWD7GthXk
-rCf4XB4suqmmhocQJ7a3xkmS4fZMkD0BmdDeZq4Yl5/QD4CJsC/ulcJUmFKQAuqf
-s1omU9jmO5SP5tv0aOhvdMrj2JCnO9Qm32ooUajnHZUYu1Ik9gwo+7y448fGKs1x
-lnl0SvnwkWS5IJO9C3M3Bk/6q10Y1vWKk4LxN4YfuXvNYzt69IRzyISs3kpvpOA1
-V6Osed9gzbQ1SGNql5Wjf88KNWRIhiLqn3BugAnwRLXNqFvP1FREtdjRlLvjs2le
-9dRsH+djoWgXxbdf+LDuypIV8NZdar11jqs4LFOfhCmHZ/92sapmJjYF5Fsk1Q42
-/tc8mOEVoW7S0KlNZ7WqOl7DGRRu0srP16Y4KB+1xdtxMOuBXRo=
-=aAV0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl21y8wACgkQbDjKyiDZ
+s5J3RQ/9HoGXIWU8VZ2CSKmllMdSZY6B45jDu7UFuJ0LeE3mLeLve3VgrMYIl4uk
+2e/G6fhqa9xXOHI578k7pe3SGX/9mw6h53SVQb7a5Yl+5eXlFGuNxycLiVXWtjdb
+RNLaHYp22ZIf4f4Iz+E2BtYzdqg7WAT/EENZHx+Ypw0LrrBJnT00cWu+iHhJp6/C
+dGLdUep/BTckpdCtPZQgWjRyh09TTQPhuvplEcLBSF3QzkR1EOkuHrPOELCftNTt
+AnVx/3BH0k5vopAEChoOFbkzATKI9QtJXl9/vTki50IVuYxWx+dVbCRn524Pw2qe
+hhHdFHChJqQB/+EYTttU8tUMf9+6JxZyTpNcafxV0xkM81CH1j9np/onzBB3CROJ
+L1j2qteEsB0OA+oIXYOmnLVYXbCOtIyIFRSzDPug8x1cbfVkj/B9n/UkzAeq8krT
+LyujMwKfnv8HvIda9NhDIZvbWJf3qnqyxyMnMSOUOvCEC4IdkwvR36ZeXvy8MAH0
+e9+3uH/DM33Q76/Xo79CjleT26dic/wLhOY5VCbCs1FEncpWNqU24s3nEB2P6ehM
+z+JeOLsgxIJWRX/OMuf8WOQAalvQaNqWbmF8+TbTOfvEwXP3Hmc0RuR/lQ/PtLu6
+roLn8oBqBbOftqN4BaqtfZfUNMcnHswGzkDK/nBX33+d2j2Lwu0=
+=nInS
 -----END PGP SIGNATURE-----
 
---E/DnYTRukya0zdZ1--
+--DiL7RhKs8rK9YGuF--
 
