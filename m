@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38B3E6D71
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:44:00 +0100 (CET)
-Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACC3E6D9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:57:17 +0100 (CET)
+Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOzh0-00071e-1l
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46785)
+	id 1iOztr-00080U-Os
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46818)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzaI-0004zN-0R
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzaR-0005KI-Uh
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzaG-00035F-N3
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22195
+ (envelope-from <philmd@redhat.com>) id 1iOzaQ-00039k-KM
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27333
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzaG-00034w-Ih
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:00 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzaQ-00039U-Gc
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248220;
+ s=mimecast20190719; t=1572248229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wt6QUAJAWF4zcHVQr9XC4SMX1u8xXeFPU2ITpHr4KlI=;
- b=Azf7Tt/elusGs/8Myc+voEdIMam6PZgQ02LvPUYbgXk0iBpPbSRLMxV+0Zc8UMkyGtYDAD
- aoDRWIeUw+tp1Cj2IjFl/+r5tN0gqtobvpk/m8g1IWpdbilz8jMwoCICS3gbBrec6vGtTz
- NnillVd00A2Weo9kH7dDPur1ucIqgnY=
+ bh=HfQk6pDLINYeV09MhT4IYsNx0bdSx+vzEUEGtmX7XFc=;
+ b=URFKdq2dZ2M3lkLl6lHpJs6nq0jJJP7iqmBkJKNxwJRrekiFfjTwAhMOKQeBen5uhxDN34
+ /ZDpfN2yksdfP3P7Iap/pkGveAqjCGR6cUG7QdII+V6Y41QErTol7j5hRDYGhQpbbaC8Oi
+ qS8c4cyuHZC2W1G8uDS1AQDwFUx8SzY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-ElkhrOdrNc61VppdGp8Msg-1; Mon, 28 Oct 2019 03:36:52 -0400
+ us-mta-164-RH7VjJL9Nx6-KWV3dVDz5A-1; Mon, 28 Oct 2019 03:37:03 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6606E1005510;
- Mon, 28 Oct 2019 07:36:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 066141800DD0;
+ Mon, 28 Oct 2019 07:37:02 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41A3E19C69;
- Mon, 28 Oct 2019 07:36:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD3B319C69;
+ Mon, 28 Oct 2019 07:36:50 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/26] tests/acceptance: Test Open Firmware on the PReP/40p
-Date: Mon, 28 Oct 2019 08:34:29 +0100
-Message-Id: <20191028073441.6448-15-philmd@redhat.com>
+Subject: [PATCH 15/26] tests/acceptance: Test OpenBIOS on the PReP/40p
+Date: Mon, 28 Oct 2019 08:34:30 +0100
+Message-Id: <20191028073441.6448-16-philmd@redhat.com>
 In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
 References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: ElkhrOdrNc61VppdGp8Msg-1
+X-MC-Unique: RH7VjJL9Nx6-KWV3dVDz5A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -77,7 +77,7 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Kamil Rytarowski <kamil@netbsd.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>,
@@ -88,50 +88,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 User case from:
-https://tyom.blogspot.com/2019/04/aixprep-under-qemu-how-to.html
+https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
-v3: use avocado_qemu.wait_for_console_pattern (Cleber)
+v3:
+- use avocado_qemu.wait_for_console_pattern (Cleber)
+- use MD5 hash
 ---
- tests/acceptance/ppc_prep_40p.py | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ tests/acceptance/ppc_prep_40p.py | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
 diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_4=
 0p.py
-index 7dd90bb2bb..ebde5b7dc4 100644
+index ebde5b7dc4..b4109a7af3 100644
 --- a/tests/acceptance/ppc_prep_40p.py
 +++ b/tests/acceptance/ppc_prep_40p.py
-@@ -48,3 +48,24 @@ class IbmPrep40pMachine(MachineTest):
-         os_banner =3D 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST 20=
-07'
-         wait_for_console_pattern(self, os_banner)
-         wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
+@@ -69,3 +69,35 @@ class IbmPrep40pMachine(MachineTest):
+         wait_for_console_pattern(self, fw_banner)
+         prompt_msg =3D 'Type any key to interrupt automatic startup'
+         wait_for_console_pattern(self, prompt_msg)
 +
-+    def test_openfirmware(self):
++    def test_openbios_192m(self):
 +        """
 +        :avocado: tags=3Darch:ppc
 +        :avocado: tags=3Dmachine:40p
 +        """
-+        bios_url =3D ('https://github.com/artyom-tarasenko/openfirmware/'
-+                    'releases/download/40p-20190413/q40pofw-serial.rom')
-+        bios_hash =3D '880c80172ea5b2247c0ac2a8bf36bbe385192c72'
-+        bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash)
-+
 +        self.vm.set_machine('40p')
 +        self.vm.set_console()
-+        self.vm.add_args('-bios', bios_path)
++        self.vm.add_args('-m', '192') # test fw_cfg
 +
 +        self.vm.launch()
-+        wait_for_console_pattern(self, 'QEMU PReP/40p')
-+        fw_banner =3D 'Open Firmware, built  April 13, 2019 09:29:23'
-+        wait_for_console_pattern(self, fw_banner)
-+        prompt_msg =3D 'Type any key to interrupt automatic startup'
-+        wait_for_console_pattern(self, prompt_msg)
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> Memory: 192M')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,604')
++
++    def test_openbios_and_netbsd(self):
++        """
++        :avocado: tags=3Darch:ppc
++        :avocado: tags=3Dmachine:40p
++        """
++        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/iso/7.1.2/'
++                     'NetBSD-7.1.2-prep.iso')
++        drive_hash =3D 'ac6fa2707d888b36d6fa64de6e7fe48e'
++        drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_hash=
+,
++                                      algorithm=3D'md5')
++        self.vm.set_machine('40p')
++        self.vm.set_console()
++        self.vm.add_args('-cdrom', drive_path,
++                         '-boot', 'd')
++
++        self.vm.launch()
++        wait_for_console_pattern(self, 'NetBSD/prep BOOT, Revision 1.9')
 --=20
 2.21.0
 
