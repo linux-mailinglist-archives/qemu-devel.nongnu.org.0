@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73589E75C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:06:57 +0100 (CET)
-Received: from localhost ([::1]:56538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DB1E75CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:10:36 +0100 (CET)
+Received: from localhost ([::1]:57066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7Xj-00081B-96
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34581)
+	id 1iP7bG-0007sl-VX
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@sifive.com>) id 1iP7PW-00059D-B2
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:27 -0400
+ (envelope-from <palmer@sifive.com>) id 1iP7PX-0005BQ-OT
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@sifive.com>) id 1iP7PU-0003o9-Qf
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:26 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34681)
+ (envelope-from <palmer@sifive.com>) id 1iP7PW-0003pA-D3
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:27 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43367)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7PU-0003nL-Jj
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:24 -0400
-Received: by mail-pl1-x644.google.com with SMTP id k7so5796981pll.1
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7PW-0003om-6R
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:26 -0400
+Received: by mail-pg1-x541.google.com with SMTP id l24so7144946pgh.10
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=KVgeN0kV4rTOGuMaTvCma73OJgV+QlUJdKVdYosiemI=;
- b=Dxmdq4nJbMj1u9pgGfALUNhV5z+bWW0CVWMMiFggrhjk3Eh2ig8pYD5fY80MQivOAj
- 3AQl0RTkGUSbb3/rAEVD//PBeOBmJhsRvziXZDLitUxDrY1Nz/pPc85RAHAXFFPb5NCr
- 39dYjhkN7XdGRTNtXtTr9bIJLIpH4GU5+Pwgl0YcZKusvm5OKg2WAl5Ba3StyhTR3nv/
- aue/c/BD7jCmTpya6bu8cwvn95SaLBQmh/6Hoe+d7I/a5PQWHJw3P2dgVaTbZx4gEF1n
- sz9kNKK9954sejNjRHLdawUsFLUH+2mdOBXEsaLL3RucOczQiUMNYlXBQXSTakj4LEU4
- v9Pw==
+ bh=Wcazrf1d/6yq7xUtsUWqMfgOcS0Og4vhQQt08gFl/0k=;
+ b=E7Bv8nszzqYRNDu0wJ0GehmOgmGOZ507uv3L5jUofx2a4PCFKaGL3TujuL514uP+Hm
+ Y6gzyVya/vUMm6W0Ch8YvQ/vQN9j1ohUh7PWzWNtXiJL+9pMTe6L/ivadbZtAT7ArOkB
+ RPoPhI5QBudqISQNA7euZOlodKygmOZEdSS8ckPKW4lkaQPn7K/c3ygP1tU700ZUQdYK
+ 0C90H+hghYx/5YxFY2J2fBxW47B6pnTjCKa+/tmwvES5sQN5NgrVZvzq0ErHQlqvm8Ei
+ dtZiTbgNGPAFzS9YTMg9PJtbehEy+l29v+9Y0xnE797RaI1lHnIFMcwbj4e5mJ1KiSzP
+ 9uUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=KVgeN0kV4rTOGuMaTvCma73OJgV+QlUJdKVdYosiemI=;
- b=BSFLwikUkH9zuxWEB/RVnAUXzMNgR/lqK5cRO8Ug4fTibPkfZyLQIlHb6osE+DWViQ
- vZt8NivIImzOYStXkbO5PkieeywxoVg8SZaDTEG/0WlQ86+6asJoaymnMQd6BrNjDQSn
- /Ibm34vbjRzUVJ9bs5DkbKVxx1mOXuiSp5OrR0ETd6h3NBKytZIKPMug4ygbPmCE2xTF
- uO2rRiIO8griwDLM3cDkJgN/BjjnIcQK5RmA1LM2ialKVM/SBx6QRXtnW1rHtFoXiDHq
- OSV37+eoQg9HFj/TEaALLKs9a2ZLOCTPqtkRW/oEZzzIaxxknBrFsdZs5YLD1XRRgqdv
- 7yEQ==
-X-Gm-Message-State: APjAAAUjqe6f3AA/f9HZ2OyxtwTe8VlaujPNGwBr8Wmkfouf7wAD75gI
- N0ayoJhkPMBei0wb2tyc8zsCh64GAyHU5A==
-X-Google-Smtp-Source: APXvYqycMFTOUlc633473BiPzYqZqNZdApPOPWCL/q9JLmQErJ0ETr1pqXWwWgt8DXSbsfAi7WRYfw==
-X-Received: by 2002:a17:902:44c:: with SMTP id 70mr182075ple.176.1572278303088; 
- Mon, 28 Oct 2019 08:58:23 -0700 (PDT)
+ bh=Wcazrf1d/6yq7xUtsUWqMfgOcS0Og4vhQQt08gFl/0k=;
+ b=Q+ekQOV9/6q9nHwa820HWK9ap1RrH4dkCg8U0fpYbOEDyoW1x5c1wtmyaX1kKxd3i8
+ w+2gGf1aXfyC7Jg7Ia8q1zcP7/YAzIbEMNy/aWptbWP+9qornKOPi4FsAF0rVPG5CZpB
+ BIe4PB+E1Od62/kOYcRrna1AoqS99c/qr5II2aR6GJe8SvGsJk7h+3ciyMgEcl0NoBWF
+ 5h3maS+qdYfPsWnwfX9GrM6W46uEQcfUsBy9RBPbRYxwULG9N1Cs9bRGetb93zwxODwr
+ uwSnU3RCzHUbJjrNXzlYi/uzqJsjURn0cEL010DGhJ9NyaTAj0zOv3iIDgSMAGt1VinV
+ P8BQ==
+X-Gm-Message-State: APjAAAXo5/frVQ5svf6wgN7b3O+FAn8cvhcycD5vRCvbu8HPMJ8BQIUj
+ p9ESq2s2okwmuOGAwzBNwKfsv8caD2ESsA==
+X-Google-Smtp-Source: APXvYqzmrhPmJxA2AbMG1Lt+nDArHSJ0TD1DWwygocl6qh3nZ3wzPD1OQN2Rae9luzF5CgsarQ650A==
+X-Received: by 2002:aa7:80c6:: with SMTP id a6mr20617068pfn.89.1572278304867; 
+ Mon, 28 Oct 2019 08:58:24 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id i63sm5234094pgc.31.2019.10.28.08.58.22
+ by smtp.gmail.com with ESMTPSA id i123sm13313009pfe.145.2019.10.28.08.58.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 08:58:22 -0700 (PDT)
-Subject: [PULL 04/18] riscv: hw: Drop "clock-frequency" property of cpu nodes
-Date: Mon, 28 Oct 2019 08:48:48 -0700
-Message-Id: <20191028154902.32491-5-palmer@sifive.com>
+ Mon, 28 Oct 2019 08:58:24 -0700 (PDT)
+Subject: [PULL 05/18] riscv: sifive_u: Add ethernet0 to the aliases node
+Date: Mon, 28 Oct 2019 08:48:49 -0700
+Message-Id: <20191028154902.32491-6-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191028154902.32491-1-palmer@sifive.com>
 References: <20191028154902.32491-1-palmer@sifive.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,112 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>
+Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ ilippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-The "clock-frequency" property of cpu nodes isn't required. Drop it.
+U-Boot expects this alias to be in place in order to fix up the mac
+address of the ethernet node.
 
 This is to keep in sync with Linux kernel commit below:
-https://patchwork.kernel.org/patch/11133031/
+https://patchwork.kernel.org/patch/11133033/
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_u.c         | 2 --
- hw/riscv/spike.c            | 2 --
- hw/riscv/virt.c             | 2 --
- include/hw/riscv/sifive_u.h | 1 -
- include/hw/riscv/spike.h    | 4 ----
- include/hw/riscv/virt.h     | 4 ----
- 6 files changed, 15 deletions(-)
+ hw/riscv/sifive_u.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 9f8e84bf2e..02dd76176e 100644
+index 02dd76176e..1ac51e3632 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -151,8 +151,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         char *isa;
-         qemu_fdt_add_subnode(fdt, nodename);
--        qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
--                              SIFIVE_U_CLOCK_FREQ);
-         /* cpu 0 is the management hart that does not have mmu */
-         if (cpu != 0) {
-             qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index d60415d190..8bbffbcd0f 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -102,8 +102,6 @@ static void create_fdt(SpikeState *s, const struct MemmapEntry *memmap,
-         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         char *isa = riscv_isa_string(&s->soc.harts[cpu]);
-         qemu_fdt_add_subnode(fdt, nodename);
--        qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
--                              SPIKE_CLOCK_FREQ);
-         qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
-         qemu_fdt_setprop_string(fdt, nodename, "riscv,isa", isa);
-         qemu_fdt_setprop_string(fdt, nodename, "compatible", "riscv");
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index d36f5625ec..13030619d4 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -161,8 +161,6 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
-         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         char *isa = riscv_isa_string(&s->soc.harts[cpu]);
-         qemu_fdt_add_subnode(fdt, nodename);
--        qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
--                              VIRT_CLOCK_FREQ);
-         qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
-         qemu_fdt_setprop_string(fdt, nodename, "riscv,isa", isa);
-         qemu_fdt_setprop_string(fdt, nodename, "compatible", "riscv");
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index e4df298c23..4850805ee7 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -75,7 +75,6 @@ enum {
- };
+@@ -270,6 +270,10 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         s->soc.gem.conf.macaddr.a, ETH_ALEN);
+     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
+     qemu_fdt_setprop_cell(fdt, nodename, "#size-cells", 0);
++
++    qemu_fdt_add_subnode(fdt, "/aliases");
++    qemu_fdt_setprop_string(fdt, "/aliases", "ethernet0", nodename);
++
+     g_free(nodename);
  
- enum {
--    SIFIVE_U_CLOCK_FREQ = 1000000000,
-     SIFIVE_U_HFCLK_FREQ = 33333333,
-     SIFIVE_U_RTCCLK_FREQ = 1000000
- };
-diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-index 03d870363c..dc770421bc 100644
---- a/include/hw/riscv/spike.h
-+++ b/include/hw/riscv/spike.h
-@@ -38,10 +38,6 @@ enum {
-     SPIKE_DRAM
- };
+     nodename = g_strdup_printf("/soc/ethernet@%lx/ethernet-phy@0",
+@@ -297,7 +301,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     }
  
--enum {
--    SPIKE_CLOCK_FREQ = 1000000000
--};
--
- #if defined(TARGET_RISCV32)
- #define SPIKE_V1_09_1_CPU TYPE_RISCV_CPU_RV32GCSU_V1_09_1
- #define SPIKE_V1_10_0_CPU TYPE_RISCV_CPU_RV32GCSU_V1_10_0
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 6e5fbe5d3b..68978a13e8 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -55,10 +55,6 @@ enum {
-     VIRTIO_NDEV = 0x35 /* Arbitrary maximum number of interrupts */
- };
+-    qemu_fdt_add_subnode(fdt, "/aliases");
+     qemu_fdt_setprop_string(fdt, "/aliases", "serial0", nodename);
  
--enum {
--    VIRT_CLOCK_FREQ = 1000000000
--};
--
- #define VIRT_PLIC_HART_CONFIG "MS"
- #define VIRT_PLIC_NUM_SOURCES 127
- #define VIRT_PLIC_NUM_PRIORITIES 7
+     g_free(nodename);
 -- 
 2.21.0
 
