@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAE4E718D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:38:05 +0100 (CET)
-Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84132E7165
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:33:29 +0100 (CET)
+Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4Hb-0002p8-KX
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50148)
+	id 1iP4D9-0006su-O6
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3w4-0001oK-IY
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:49 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3w2-0001T5-Px
+ (envelope-from <mreitz@redhat.com>) id 1iP3w3-0001me-BS
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42786
- helo=us-smtp-1.mimecast.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mreitz@redhat.com>) id 1iP3w2-0001Se-22
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46583
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3w2-0001Ss-LL
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:46 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3w1-0001SO-UC
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264946;
+ s=mimecast20190719; t=1572264945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X+T5sUsAMqhzKjQpHaXLv+CzeSkI65I6IV4Nh3mOMPA=;
- b=b6ceNBthCxyl3DSvmUldGXgdsMjUMPDEkex8Nmr/80vcR/N9QMebF065dK39nb1gj1iCA8
- PXd5wWZSrsdkyQwkBUuG6r6rGgAApJZgdphScSWQuo0sKyLMIetAqPVSLLP2dXx/NGP3MY
- j1sjoBOcG3JOIYQbt6ofoh1sPzEjYjs=
+ bh=wZTsLCacB11zcXpx9AAjf3yjkwEckl/Z+NRGF86/q3s=;
+ b=SoXutIhNxuKHyJaYlFTe9ZfJ4kzF7lx33D2gvo7F5st8L2/Mqn2vUhTl2Qpqhkm0HpL0f+
+ JE6YHJYUPySEkYqct1VvjE7ddY9TSskqxOPsE6hcK47VaKmiHZcF/i6WL/mrUkew4+SdpA
+ x2CV34ppQzzVEZqsaa+FIJ0R+eAwq4g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-7Pwjz-gIMKGGzMA2AFvzoQ-1; Mon, 28 Oct 2019 08:15:41 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-247-QVBKgQGSPtyuSkhkegl_kQ-1; Mon, 28 Oct 2019 08:15:44 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB47310052E0;
- Mon, 28 Oct 2019 12:15:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25B6C476;
+ Mon, 28 Oct 2019 12:15:43 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91EBF60BF7;
- Mon, 28 Oct 2019 12:15:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B40D35D6BB;
+ Mon, 28 Oct 2019 12:15:42 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/69] iotests/083: Create socket in $SOCK_DIR
-Date: Mon, 28 Oct 2019 13:14:10 +0100
-Message-Id: <20191028121501.15279-19-mreitz@redhat.com>
+Subject: [PULL 19/69] iotests/140: Create socket in $SOCK_DIR
+Date: Mon, 28 Oct 2019 13:14:11 +0100
+Message-Id: <20191028121501.15279-20-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 7Pwjz-gIMKGGzMA2AFvzoQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: QVBKgQGSPtyuSkhkegl_kQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,141 +78,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20191017133155.5327-7-mreitz@redhat.com
+Message-id: 20191017133155.5327-8-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/083     |  6 +++---
- tests/qemu-iotests/083.out | 34 +++++++++++++++++-----------------
- 2 files changed, 20 insertions(+), 20 deletions(-)
+ tests/qemu-iotests/140     | 8 ++++----
+ tests/qemu-iotests/140.out | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/083 b/tests/qemu-iotests/083
-index b270550d3e..10fdfc8ebb 100755
---- a/tests/qemu-iotests/083
-+++ b/tests/qemu-iotests/083
-@@ -28,7 +28,7 @@ status=3D1=09# failure is the default!
-=20
- _cleanup()
+diff --git a/tests/qemu-iotests/140 b/tests/qemu-iotests/140
+index b965b1dd5d..8d2ce5d9e3 100755
+--- a/tests/qemu-iotests/140
++++ b/tests/qemu-iotests/140
+@@ -34,7 +34,7 @@ _cleanup()
  {
--=09rm -f nbd.sock
-+=09rm -f "$SOCK_DIR/nbd.sock"
- =09rm -f nbd-fault-injector.out
- =09rm -f nbd-fault-injector.conf
+     _cleanup_qemu
+     _cleanup_test_img
+-    rm -f "$TEST_DIR/nbd"
++    rm -f "$SOCK_DIR/nbd"
  }
-@@ -80,10 +80,10 @@ EOF
- =09if [ "$proto" =3D "tcp" ]; then
- =09=09nbd_addr=3D"127.0.0.1:0"
- =09else
--=09=09nbd_addr=3D"$TEST_DIR/nbd.sock"
-+=09=09nbd_addr=3D"$SOCK_DIR/nbd.sock"
- =09fi
+ trap "_cleanup; exit \$status" 0 1 2 3 15
 =20
--=09rm -f "$TEST_DIR/nbd.sock"
-+=09rm -f "$SOCK_DIR/nbd.sock"
+@@ -69,7 +69,7 @@ _send_qemu_cmd $QEMU_HANDLE \
+ _send_qemu_cmd $QEMU_HANDLE \
+     "{ 'execute': 'nbd-server-start',
+        'arguments': { 'addr': { 'type': 'unix',
+-                                'data': { 'path': '$TEST_DIR/nbd' }}}}" \
++                                'data': { 'path': '$SOCK_DIR/nbd' }}}}" \
+     'return'
 =20
-         echo > "$TEST_DIR/nbd-fault-injector.out"
- =09$PYTHON nbd-fault-injector.py $extra_args "$nbd_addr" "$TEST_DIR/nbd-fa=
-ult-injector.conf" >"$TEST_DIR/nbd-fault-injector.out" 2>&1 &
-diff --git a/tests/qemu-iotests/083.out b/tests/qemu-iotests/083.out
-index eee6dd1379..2090ee693c 100644
---- a/tests/qemu-iotests/083.out
-+++ b/tests/qemu-iotests/083.out
-@@ -110,43 +110,43 @@ read failed: Input/output error
+ _send_qemu_cmd $QEMU_HANDLE \
+@@ -78,7 +78,7 @@ _send_qemu_cmd $QEMU_HANDLE \
+     'return'
 =20
- =3D=3D=3D Check disconnect before neg1 =3D=3D=3D
+ $QEMU_IO_PROG -f raw -r -c 'read -P 42 0 64k' \
+-    "nbd+unix:///drv?socket=3D$TEST_DIR/nbd" 2>&1 \
++    "nbd+unix:///drv?socket=3D$SOCK_DIR/nbd" 2>&1 \
+     | _filter_qemu_io | _filter_nbd
 =20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+ _send_qemu_cmd $QEMU_HANDLE \
+@@ -87,7 +87,7 @@ _send_qemu_cmd $QEMU_HANDLE \
+     'return'
 =20
- =3D=3D=3D Check disconnect after neg1 =3D=3D=3D
+ $QEMU_IO_PROG -f raw -r -c close \
+-    "nbd+unix:///drv?socket=3D$TEST_DIR/nbd" 2>&1 \
++    "nbd+unix:///drv?socket=3D$SOCK_DIR/nbd" 2>&1 \
+     | _filter_qemu_io | _filter_nbd
 =20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 8 neg1 =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 16 neg1 =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect before export =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect after export =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 4 export =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 12 export =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 16 export =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect before neg2 =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect after neg2 =3D=3D=3D
-=20
-@@ -154,11 +154,11 @@ read failed: Input/output error
-=20
- =3D=3D=3D Check disconnect 8 neg2 =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 10 neg2 =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect before request =3D=3D=3D
-=20
-@@ -195,23 +195,23 @@ read 512/512 bytes at offset 0
-=20
- =3D=3D=3D Check disconnect before neg-classic =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 8 neg-classic =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 16 neg-classic =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 24 neg-classic =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect 28 neg-classic =3D=3D=3D
-=20
--qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
-=20
- =3D=3D=3D Check disconnect after neg-classic =3D=3D=3D
-=20
+ _send_qemu_cmd $QEMU_HANDLE \
+diff --git a/tests/qemu-iotests/140.out b/tests/qemu-iotests/140.out
+index 67fe44a3e3..2511eb7369 100644
+--- a/tests/qemu-iotests/140.out
++++ b/tests/qemu-iotests/140.out
+@@ -8,7 +8,7 @@ wrote 65536/65536 bytes at offset 0
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": {}}
+-qemu-io: can't open device nbd+unix:///drv?socket=3DTEST_DIR/nbd: Requeste=
+d export not available
++qemu-io: can't open device nbd+unix:///drv?socket=3DSOCK_DIR/nbd: Requeste=
+d export not available
+ server reported: export 'drv' not present
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
 --=20
 2.21.0
 
