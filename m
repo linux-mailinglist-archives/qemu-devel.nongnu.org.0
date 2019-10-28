@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BE9E6DD3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:09:06 +0100 (CET)
-Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D2BE6DD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:12:05 +0100 (CET)
+Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP05J-0000lQ-F0
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
+	id 1iP08C-0000xj-ME
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48696)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzcA-00082c-2P
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:39:00 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iOzpK-0000Sz-NF
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:52:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzc8-0003sh-GM
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50646
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1iOzpI-0002pS-4s
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:52:33 -0400
+Received: from mga04.intel.com ([192.55.52.120]:47960)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzc8-0003s8-7X
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TV/dzQWg9sTmKE1T0I+o1dz563MfWvQQek1xQ2H4w3s=;
- b=VvEQDASuyn7A541rQ44Edoi/xmfFyWy/7TudwXG0cvgRAoqihSHVEUk3/cmZauV6vvn8Wx
- x657yjWEI4lxIFbKn0hMzpDeQ+rS07U9kvDaJQirJq4UDwcdrCNmiBrGMRgLkEEmwqymG9
- IKL/1pbfdfuHuTZPumiQH6UjHmyTRbI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-W049WbT0OgKYa7yiMp9PNA-1; Mon, 28 Oct 2019 03:38:51 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86CE680183E;
- Mon, 28 Oct 2019 07:38:50 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30FD919C69;
- Mon, 28 Oct 2019 07:38:44 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 25/26] tests/boot_linux_console: Add sdcard test for the
- Exynos4210
-Date: Mon, 28 Oct 2019 08:34:40 +0100
-Message-Id: <20191028073441.6448-26-philmd@redhat.com>
-In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
-References: <20191028073441.6448-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iOzpH-0002p5-Tc
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:52:32 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2019 00:52:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,239,1569308400"; d="scan'208";a="224558723"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
+ by fmsmga004.fm.intel.com with ESMTP; 28 Oct 2019 00:52:28 -0700
+From: Tao Xu <tao3.xu@intel.com>
+To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
+ mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com
+Subject: [PATCH v14 02/11] qapi: Add builtin type time
+Date: Mon, 28 Oct 2019 15:52:11 +0800
+Message-Id: <20191028075220.25673-3-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191028075220.25673-1-tao3.xu@intel.com>
+References: <20191028075220.25673-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: W049WbT0OgKYa7yiMp9PNA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,114 +55,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Fabien Chouteau <chouteau@adacore.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Add optional builtin type time, fallback is uint64. This type use
+qemu_strtotime_ns() for pre-converting time suffix to numbers.
 
-This test boots a Linux kernel on a smdkc210 board and verify
-the serial output is working.
-
-The cpio image used comes from the linux-build-test project:
-https://github.com/groeck/linux-build-test
-
-Since this test is not reliable due to clock timing issues,
-it is disabled with the 'skip' property.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
-v2:
-- use archive.gzip_uncompress (Cleber)
-- check getenv(AVOCADO_ALLOW_UNTRUSTED_CODE) (pm215)
----
- tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
-_linux_console.py
-index cbb8cddf47..489df4862c 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -13,6 +13,7 @@ import lzma
- import gzip
- import shutil
-=20
-+from avocado import skip
- from avocado import skipUnless
- from avocado_qemu import MachineTest
- from avocado_qemu import exec_command_and_wait_for_pattern
-@@ -474,6 +475,52 @@ class BootLinuxConsole(MachineTest):
-         self.wait_for_console_pattern('Boot successful.')
-         # TODO user command, for now the uart is stuck
-=20
-+    @skip("unstable clock timings")
-+    def test_arm_exynos4210_sdcard(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:smdkc210
-+        """
-+        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
-+                   '20190928T224601Z/pool/main/l/linux/'
-+                   'linux-image-4.19.0-6-armmp_4.19.67-2+deb10u1_armhf.deb=
-')
-+        deb_hash =3D 'fa9df4a0d38936cb50084838f2cb933f570d7d82'
-+        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-+        kernel_path =3D self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinuz-4.19.0-6-armmp'=
-)
-+        dtb_path =3D '/usr/lib/linux-image-4.19.0-6-armmp/exynos4210-smdkv=
-310.dtb'
-+        dtb_path =3D self.extract_from_deb(deb_path, dtb_path)
+Changes in v14:
+    - Drop time unit picosecond (Eric)
+---
+ include/qapi/visitor-impl.h  |  4 ++++
+ include/qapi/visitor.h       |  8 ++++++++
+ qapi/opts-visitor.c          | 22 ++++++++++++++++++++++
+ qapi/qapi-visit-core.c       | 12 ++++++++++++
+ qapi/qobject-input-visitor.c | 18 ++++++++++++++++++
+ qapi/trace-events            |  1 +
+ scripts/qapi/schema.py       |  1 +
+ 7 files changed, 66 insertions(+)
+
+diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
+index 8ccb3b6c20..e0979563c7 100644
+--- a/include/qapi/visitor-impl.h
++++ b/include/qapi/visitor-impl.h
+@@ -88,6 +88,10 @@ struct Visitor
+     void (*type_size)(Visitor *v, const char *name, uint64_t *obj,
+                       Error **errp);
+ 
++    /* Optional; fallback is type_uint64() */
++    void (*type_time)(Visitor *v, const char *name, uint64_t *obj,
++                      Error **errp);
 +
-+        rootfs_url =3D ('https://github.com/groeck/linux-build-test/raw/'
-+                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-+                      'arm/rootfs-armv5.ext2.gz')
-+        rootfs_hash =3D '093e89d2b4d982234bf528bc9fb2f2f17a9d1f93'
-+        rootfs_path_gz =3D self.fetch_asset(rootfs_url, asset_hash=3Drootf=
-s_hash)
-+        rootfs_path =3D os.path.join(self.workdir, 'rootfs.ext2')
-+        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
+     /* Must be set */
+     void (*type_bool)(Visitor *v, const char *name, bool *obj, Error **errp);
+ 
+diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+index c5b23851a1..22242e706f 100644
+--- a/include/qapi/visitor.h
++++ b/include/qapi/visitor.h
+@@ -554,6 +554,14 @@ void visit_type_int64(Visitor *v, const char *name, int64_t *obj,
+ void visit_type_size(Visitor *v, const char *name, uint64_t *obj,
+                      Error **errp);
+ 
++/*
++ * Visit a uint64_t value.
++ * Like visit_type_uint64(), except that some visitors may choose to
++ * recognize numbers with timeunit suffix, such as "ns", "us" "ms" and "s".
++ */
++void visit_type_time(Visitor *v, const char *name, uint64_t *obj,
++                     Error **errp);
 +
-+        self.vm.set_machine('smdkc210')
-+        self.vm.set_console(console_index=3D1)
-+        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'earlycon=3Dexynos4210,0x13810000 earlyprin=
-tk ' +
-+                               'console=3DttySAC1,115200n8 ' +
-+                               'random.trust_cpu=3Doff cryptomgr.notests '=
- +
-+                               'root=3D/dev/mmcblk0 rootwait rw ' +
-+                               'cpuidle.off=3D1 panic=3D-1 noreboot')
+ /*
+  * Visit a boolean value.
+  *
+diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
+index 5fe0276c1c..59b575f0fc 100644
+--- a/qapi/opts-visitor.c
++++ b/qapi/opts-visitor.c
+@@ -526,6 +526,27 @@ opts_type_size(Visitor *v, const char *name, uint64_t *obj, Error **errp)
+     processed(ov, name);
+ }
+ 
++static void
++opts_type_time(Visitor *v, const char *name, uint64_t *obj, Error **errp)
++{
++    OptsVisitor *ov = to_ov(v);
++    const QemuOpt *opt;
++    int err;
 +
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-dtb', dtb_path,
-+                         '-append', kernel_command_line,
-+                         # The external MMC is on the 3rd slot
-+                         '-drive', 'if=3Dsd,driver=3Dnull-co',
-+                         '-drive', 'if=3Dsd,driver=3Dnull-co',
-+                         '-drive', 'if=3Dsd,file=3D' + rootfs_path + ',for=
-mat=3Draw',
-+                         '-no-reboot')
-+        self.vm.launch()
++    opt = lookup_scalar(ov, name, errp);
++    if (!opt) {
++        return;
++    }
 +
-+        self.wait_for_console_pattern('Boot successful.')
-+        # TODO user command, for now the uart is stuck
++    err = qemu_strtotime_ns(opt->str ? opt->str : "", NULL, obj);
++    if (err < 0) {
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, opt->name,
++                   "a time value");
++        return;
++    }
 +
-     def test_s390x_s390_ccw_virtio(self):
-         """
-         :avocado: tags=3Darch:s390x
---=20
-2.21.0
++    processed(ov, name);
++}
+ 
+ static void
+ opts_optional(Visitor *v, const char *name, bool *present)
+@@ -573,6 +594,7 @@ opts_visitor_new(const QemuOpts *opts)
+     ov->visitor.type_int64  = &opts_type_int64;
+     ov->visitor.type_uint64 = &opts_type_uint64;
+     ov->visitor.type_size   = &opts_type_size;
++    ov->visitor.type_time   = &opts_type_time;
+     ov->visitor.type_bool   = &opts_type_bool;
+     ov->visitor.type_str    = &opts_type_str;
+ 
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index 5365561b07..ac8896455c 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -277,6 +277,18 @@ void visit_type_size(Visitor *v, const char *name, uint64_t *obj,
+     }
+ }
+ 
++void visit_type_time(Visitor *v, const char *name, uint64_t *obj,
++                     Error **errp)
++{
++    assert(obj);
++    trace_visit_type_time(v, name, obj);
++    if (v->type_time) {
++        v->type_time(v, name, obj, errp);
++    } else {
++        v->type_uint64(v, name, obj, errp);
++    }
++}
++
+ void visit_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
+ {
+     assert(obj);
+diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
+index 32236cbcb1..e476fe0d16 100644
+--- a/qapi/qobject-input-visitor.c
++++ b/qapi/qobject-input-visitor.c
+@@ -627,6 +627,23 @@ static void qobject_input_type_size_keyval(Visitor *v, const char *name,
+     }
+ }
+ 
++static void qobject_input_type_time_keyval(Visitor *v, const char *name,
++                                           uint64_t *obj, Error **errp)
++{
++    QObjectInputVisitor *qiv = to_qiv(v);
++    const char *str = qobject_input_get_keyval(qiv, name, errp);
++
++    if (!str) {
++        return;
++    }
++
++    if (qemu_strtotime_ns(str, NULL, obj) < 0) {
++        /* TODO report -ERANGE more nicely */
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
++                   full_name(qiv, name), "time");
++    }
++}
++
+ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
+ {
+     QObjectInputVisitor *qiv = to_qiv(v);
+@@ -708,6 +725,7 @@ Visitor *qobject_input_visitor_new_keyval(QObject *obj)
+     v->visitor.type_any = qobject_input_type_any;
+     v->visitor.type_null = qobject_input_type_null;
+     v->visitor.type_size = qobject_input_type_size_keyval;
++    v->visitor.type_time = qobject_input_type_time_keyval;
+     v->keyval = true;
+ 
+     return &v->visitor;
+diff --git a/qapi/trace-events b/qapi/trace-events
+index 5eb4afa110..c4605a7ccc 100644
+--- a/qapi/trace-events
++++ b/qapi/trace-events
+@@ -29,6 +29,7 @@ visit_type_int16(void *v, const char *name, int16_t *obj) "v=%p name=%s obj=%p"
+ visit_type_int32(void *v, const char *name, int32_t *obj) "v=%p name=%s obj=%p"
+ visit_type_int64(void *v, const char *name, int64_t *obj) "v=%p name=%s obj=%p"
+ visit_type_size(void *v, const char *name, uint64_t *obj) "v=%p name=%s obj=%p"
++visit_type_time(void *v, const char *name, uint64_t *obj) "v=%p name=%s obj=%p"
+ visit_type_bool(void *v, const char *name, bool *obj) "v=%p name=%s obj=%p"
+ visit_type_str(void *v, const char *name, char **obj) "v=%p name=%s obj=%p"
+ visit_type_number(void *v, const char *name, void *obj) "v=%p name=%s obj=%p"
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index f7d68a35f4..25c1037e75 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -835,6 +835,7 @@ class QAPISchema(object):
+                   ('uint32', 'int',     'uint32_t'),
+                   ('uint64', 'int',     'uint64_t'),
+                   ('size',   'int',     'uint64_t'),
++                  ('time',   'int',     'uint64_t'),
+                   ('bool',   'boolean', 'bool'),
+                   ('any',    'value',   'QObject' + pointer_suffix),
+                   ('null',   'null',    'QNull' + pointer_suffix)]:
+-- 
+2.20.1
 
 
