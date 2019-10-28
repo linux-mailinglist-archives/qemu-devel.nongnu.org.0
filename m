@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CACDE7727
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:00:45 +0100 (CET)
-Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84783E7796
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:30:09 +0100 (CET)
+Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP8Nn-0001WT-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35095)
+	id 1iP8qF-0003yn-Kj
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:30:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iP7QB-0006QP-LD
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:59:09 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iP7c4-0002eE-JS
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iP7Q8-0004EB-A5
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:59:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:28580)
+ (envelope-from <dgilbert@redhat.com>) id 1iP7c2-00006r-1C
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:11:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25593
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iP7Q6-0004BQ-2F
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:59:04 -0400
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iP7c1-00006g-Na
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:11:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572279081;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Hnj0hIqd9X1h5X9SAoMPg6K5+65BLNbNQsJXZQt1qNU=;
+ b=EaUtPq/gAxldzqdP/KzvwFb2nMfqkvSh9W3a0A01zu+GdtulbWIqMjJ+9QQYGPykDx+6pn
+ BLAeuTlSrALvAhT6qq0wjNixIx6M8iYanRGAElAqbAcFFsFK8pi9DMdzBzWzKVB/3Xs5ve
+ OEicpDNzpghmGE0oy5WxF5IP9kBQMGk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-iZfK7TG9M4uO7pOAvCApZw-1; Mon, 28 Oct 2019 12:11:19 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1250D8553D
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:59:00 +0000 (UTC)
-Received: by mail-qk1-f197.google.com with SMTP id a13so8283410qkc.17
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:59:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nMWAnY6McylHcGTvc+B7VrN+HbqR4plgo+YW/WXOm7U=;
- b=rMIe3RXUlfUKB5gWBC6s80CMv7OhFzIM4Xj7uPFOqS6GZLf9rNtuOV6fZQs+YECS11
- nN36oFR1pMBnlY4eCLDZY8C3kH5ZXyb3Nqq7TNg1lDiuhSQuiIx4tWJmbvVlskRBjvjV
- DE2ZHVPfCP82Wov2Cyud+iUZfmu9fySOHzWkUzv/bZe+lchFjKyDhG0O469UGlROqsLR
- Rht51I0NSGgyXvjbExxg86AjuciWOzectyVVDH3UvrgfcwYQ0BnWdDG3+gKKhHmblUAx
- zrJz04qD5V+5y8Ovf5aEHnQPgV3HCB9lBwQvmdgAHsJwz3vdsxPaf+vO3wNZMGOF2c1B
- OZrw==
-X-Gm-Message-State: APjAAAVaQyw05X3ttBmWLj+hycxnh9vGFcR2Uvqr97iWTr+/hF22T84d
- gujkJ7JVen3RZVh2yjCjLpO3V/YWoQSIx8W7MMP7H6To2lAG0e0268G+ynOuCoCX3g5DTQa7a5z
- 0iiNrUDMuBfEXeTY=
-X-Received: by 2002:ad4:4d0f:: with SMTP id l15mr10957615qvl.78.1572278339206; 
- Mon, 28 Oct 2019 08:58:59 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyAA1G0s1q3mJXZBoSh/sGMoKtLIOdn/XR+t4enawzGwyaheI0aXNVp2rMIuY7bYzWyYYAKzQ==
-X-Received: by 2002:ad4:4d0f:: with SMTP id l15mr10957589qvl.78.1572278338811; 
- Mon, 28 Oct 2019 08:58:58 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- r2sm7522266qtc.28.2019.10.28.08.58.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 08:58:58 -0700 (PDT)
-Date: Mon, 28 Oct 2019 11:58:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH v6 0/11] add failover feature for assigned network devices
-Message-ID: <20191028115750-mutt-send-email-mst@kernel.org>
-References: <20191025121930.6855-1-jfreimann@redhat.com>
- <20191028102723.jwfzxp6mav6ce62g@jenstp.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11E7A180496F
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 16:11:19 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-116-216.ams2.redhat.com
+ [10.36.116.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD66A600C9;
+ Mon, 28 Oct 2019 16:11:12 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com
+Subject: [PATCH v2] virtio: Use auto rcu_read macros
+Date: Mon, 28 Oct 2019 16:11:09 +0000
+Message-Id: <20191028161109.60205-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191028102723.jwfzxp6mav6ce62g@jenstp.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: iZfK7TG9M4uO7pOAvCApZw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,187 +69,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aadam@redhat.com, ailan@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I see at least comments from Markus.
-You answered but don't you need to also tweak the patch?
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
+Use RCU_READ_LOCK_GUARD and WITH_RCU_READ_LOCK_GUARD
+to replace the manual rcu_read_(un)lock calls.
 
-On Mon, Oct 28, 2019 at 11:27:23AM +0100, Jens Freimann wrote:
-> Hi Michael,
-> 
-> I addressed all comments and feedback and think this can be merged but
-> I'm unclear about which tree it should go to. Will you merge it into
-> the virtio-tree?
-> 
-> regards,
-> Jens
-> 
-> On Fri, Oct 25, 2019 at 02:19:19PM +0200, Jens Freimann wrote:
-> > This is implementing the host side of the net_failover concept
-> > (https://www.kernel.org/doc/html/latest/networking/net_failover.html)
-> > 
-> > Changes since v5:
-> > * rename net_failover_pair_id parameter/property to failover_pair_id
-> > * in PCI code use pci_bus_is_express(). This won't fail on functions > 0
-> > * make sure primary and standby can't be added to same PCI slot
-> > * add documentation file in docs/ to virtio-net patch, add file to
-> >   MAINTAINERS (added to networking devices section)
-> > * add comment to QAPI event for failover negotiation, try to improve
-> >   commit message
-> > 
-> > The general idea is that we have a pair of devices, a vfio-pci and a
-> > virtio-net device. Before migration the vfio device is unplugged and data
-> > flows to the virtio-net device, on the target side another vfio-pci device
-> > is plugged in to take over the data-path. In the guest the net_failover
-> > module will pair net devices with the same MAC address.
-> > 
-> > * Patch 1 adds the infrastructure to hide the device for the qbus and qdev APIs
-> > 
-> > * Patch 2 adds checks to PCIDevice for only allowing ethernet devices as
-> >  failover primary and only PCIExpress capable devices
-> > 
-> > * Patch 3 sets a new flag for PCIDevice 'partially_hotplugged' which we
-> >  use to skip the unrealize code path when doing a unplug of the primary
-> >  device
-> > 
-> > * Patch 4 sets the pending_deleted_event before triggering the guest
-> >  unplug request
-> > 
-> > * Patch 5 and 6 add new qmp events, one sends the device id of a device
-> >  that was just requested to be unplugged from the guest and another one
-> >  to let libvirt know if VIRTIO_NET_F_STANDBY was negotiated
-> > 
-> > * Patch 7 make sure that we can unplug the vfio-device before
-> >  migration starts
-> > 
-> > * Patch 8 adds a new migration state that is entered while we wait for
-> >  devices to be unplugged by guest OS
-> > 
-> > * Patch 9 just adds the new migration state to a check in libqos code
-> > 
-> > * Patch 10 In the second patch the virtio-net uses the API to defer adding the vfio
-> >  device until the VIRTIO_NET_F_STANDBY feature is acked. It also
-> >  implements the migration handler to unplug the device from the guest and
-> >  re-plug in case of migration failure
-> > 
-> > * Patch 11 allows migration for failover vfio-pci devices
-> > 
-> > Previous discussion:
-> >  RFC v1 https://patchwork.ozlabs.org/cover/989098/
-> >  RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
-> >  v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03968.html
-> >  v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg635214.html
-> >  v3: https://patchew.org/QEMU/20191011112015.11785-1-jfreimann@redhat.com/
-> >  v4: https://patchew.org/QEMU/20191018202040.30349-1-jfreimann@redhat.com/
-> >  v5: https://patchew.org/QEMU/20191023082711.16694-1-jfreimann@redhat.com/
-> > 
-> > To summarize concerns/feedback from previous discussion:
-> > 1.- guest OS can reject or worse _delay_ unplug by any amount of time.
-> >  Migration might get stuck for unpredictable time with unclear reason.
-> >  This approach combines two tricky things, hot/unplug and migration.
-> >  -> We need to let libvirt know what's happening. Add new qmp events
-> >     and a new migration state. When a primary device is (partially)
-> >     unplugged (only from guest) we send a qmp event with the device id. When
-> >     it is unplugged from the guest the DEVICE_DELETED event is sent.
-> >     Migration will enter the wait-unplug state while waiting for the guest
-> >     os to unplug all primary devices and then move on with migration.
-> > 2. PCI devices are a precious ressource. The primary device should never
-> >  be added to QEMU if it won't be used by guest instead of hiding it in
-> >  QEMU.
-> >  -> We only hotplug the device when the standby feature bit was
-> >     negotiated. We save the device cmdline options until we need it for
-> >     qdev_device_add()
-> >     Hiding a device can be a useful concept to model. For example a
-> >     pci device in a powered-off slot could be marked as hidden until the slot is
-> >     powered on (mst).
-> > 3. Management layer software should handle this. Open Stack already has
-> >  components/code to handle unplug/replug VFIO devices and metadata to
-> >  provide to the guest for detecting which devices should be paired.
-> >  -> An approach that includes all software from firmware to
-> >     higher-level management software wasn't tried in the last years. This is
-> >     an attempt to keep it simple and contained in QEMU as much as possible.
-> >     One of the problems that stopped management software and libvirt from
-> >     implementing this idea is that it can't be sure that it's possible to
-> >     re-plug the primary device. By not freeing the devices resources in QEMU
-> >     and only asking the guest OS to unplug it is possible to re-plug the
-> >     device in case of a migration failure.
-> > 4. Hotplugging a device and then making it part of a failover setup is
-> >   not possible
-> >  -> addressed by extending qdev hotplug functions to check for hidden
-> >     attribute, so e.g. device_add can be used to plug a device.
-> > 
-> > 
-> > I have tested this with a mlx5 and igb NIC and was able to migrate the VM.
-> > 
-> > Command line example:
-> > 
-> > qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
-> >        -machine q35,kernel-irqchip=split -cpu host   \
-> >        -serial stdio   \
-> >        -net none \
-> >        -qmp unix:/tmp/qmp.socket,server,nowait \
-> >        -monitor telnet:127.0.0.1:5555,server,nowait \
-> >        -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
-> >        -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
-> >        -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
-> >        -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
-> >        -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \
-> > 	-device vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,failover_pair_id =net1 \
-> >        /root/rhel-guest-image-8.0-1781.x86_64.qcow2
-> > 
-> > I'm grateful for any remarks or ideas!
-> > 
-> > Thanks!
-> > 
-> > regards,
-> > Jens
-> > 
-> > 
-> > Jens Freimann (11):
-> >  qdev/qbus: add hidden device support
-> >  pci: add option for net failover
-> >  pci: mark devices partially unplugged
-> >  pci: mark device having guest unplug request pending
-> >  qapi: add unplug primary event
-> >  qapi: add failover negotiated event
-> >  migration: allow unplug during migration for failover devices
-> >  migration: add new migration state wait-unplug
-> >  libqos: tolerate wait-unplug migration state
-> >  net/virtio: add failover support
-> >  vfio: unplug failover primary device before migration
-> > 
-> > MAINTAINERS                    |   1 +
-> > docs/virtio-net-failover.rst   |  68 ++++++++
-> > hw/core/qdev.c                 |  25 +++
-> > hw/net/virtio-net.c            | 302 +++++++++++++++++++++++++++++++++
-> > hw/pci/pci.c                   |  32 ++++
-> > hw/pci/pcie.c                  |   6 +
-> > hw/vfio/pci.c                  |  26 ++-
-> > hw/vfio/pci.h                  |   1 +
-> > include/hw/pci/pci.h           |   4 +
-> > include/hw/qdev-core.h         |  30 ++++
-> > include/hw/virtio/virtio-net.h |  12 ++
-> > include/hw/virtio/virtio.h     |   1 +
-> > include/migration/vmstate.h    |   2 +
-> > migration/migration.c          |  21 +++
-> > migration/migration.h          |   3 +
-> > migration/savevm.c             |  36 ++++
-> > migration/savevm.h             |   2 +
-> > qapi/migration.json            |  24 ++-
-> > qapi/net.json                  |  19 +++
-> > qdev-monitor.c                 |  43 ++++-
-> > tests/libqos/libqos.c          |   3 +-
-> > vl.c                           |   6 +-
-> > 22 files changed, 652 insertions(+), 15 deletions(-)
-> > create mode 100644 docs/virtio-net-failover.rst
-> > 
-> > -- 
-> > 2.21.0
-> > 
-> > 
-> 
-> 
+I think the only change is virtio_load which was missing unlocks
+in error paths; those end up being fatal errors so it's not
+that important anyway.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ hw/virtio/virtio.c | 65 ++++++++++++++++------------------------------
+ 1 file changed, 23 insertions(+), 42 deletions(-)
+
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 2e91dec567..7cb67702d0 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -387,7 +387,8 @@ static inline void vring_set_avail_event(VirtQueue *vq,=
+ uint16_t val)
+=20
+ static void virtio_queue_split_set_notification(VirtQueue *vq, int enable)
+ {
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
++
+     if (virtio_vdev_has_feature(vq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
+         vring_set_avail_event(vq, vring_avail_idx(vq));
+     } else if (enable) {
+@@ -399,7 +400,6 @@ static void virtio_queue_split_set_notification(VirtQue=
+ue *vq, int enable)
+         /* Expose avail event/used flags before caller checks the avail id=
+x. */
+         smp_mb();
+     }
+-    rcu_read_unlock();
+ }
+=20
+ static void virtio_queue_packed_set_notification(VirtQueue *vq, int enable=
+)
+@@ -408,7 +408,7 @@ static void virtio_queue_packed_set_notification(VirtQu=
+eue *vq, int enable)
+     VRingPackedDescEvent e;
+     VRingMemoryRegionCaches *caches;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     caches  =3D vring_get_region_caches(vq);
+     vring_packed_event_read(vq->vdev, &caches->used, &e);
+=20
+@@ -429,7 +429,6 @@ static void virtio_queue_packed_set_notification(VirtQu=
+eue *vq, int enable)
+         /* Expose avail event/used flags before caller checks the avail id=
+x. */
+         smp_mb();
+     }
+-    rcu_read_unlock();
+ }
+=20
+ void virtio_queue_set_notification(VirtQueue *vq, int enable)
+@@ -577,9 +576,8 @@ static int virtio_queue_split_empty(VirtQueue *vq)
+         return 0;
+     }
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     empty =3D vring_avail_idx(vq) =3D=3D vq->last_avail_idx;
+-    rcu_read_unlock();
+     return empty;
+ }
+=20
+@@ -601,12 +599,8 @@ static int virtio_queue_packed_empty_rcu(VirtQueue *vq=
+)
+=20
+ static int virtio_queue_packed_empty(VirtQueue *vq)
+ {
+-    bool empty;
+-
+-    rcu_read_lock();
+-    empty =3D virtio_queue_packed_empty_rcu(vq);
+-    rcu_read_unlock();
+-    return empty;
++    RCU_READ_LOCK_GUARD();
++    return virtio_queue_packed_empty_rcu(vq);
+ }
+=20
+ int virtio_queue_empty(VirtQueue *vq)
+@@ -859,10 +853,9 @@ void virtqueue_flush(VirtQueue *vq, unsigned int count=
+)
+ void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len)
+ {
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     virtqueue_fill(vq, elem, len, 0);
+     virtqueue_flush(vq, 1);
+-    rcu_read_unlock();
+ }
+=20
+ /* Called within rcu_read_lock().  */
+@@ -943,7 +936,8 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *=
+vq,
+     int64_t len =3D 0;
+     int rc;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
++
+     idx =3D vq->last_avail_idx;
+     total_bufs =3D in_total =3D out_total =3D 0;
+=20
+@@ -1033,7 +1027,6 @@ done:
+     if (out_bytes) {
+         *out_bytes =3D out_total;
+     }
+-    rcu_read_unlock();
+     return;
+=20
+ err:
+@@ -1083,7 +1076,7 @@ static void virtqueue_packed_get_avail_bytes(VirtQueu=
+e *vq,
+     VRingPackedDesc desc;
+     bool wrap_counter;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     idx =3D vq->last_avail_idx;
+     wrap_counter =3D vq->last_avail_wrap_counter;
+     total_bufs =3D in_total =3D out_total =3D 0;
+@@ -1176,7 +1169,6 @@ done:
+     if (out_bytes) {
+         *out_bytes =3D out_total;
+     }
+-    rcu_read_unlock();
+     return;
+=20
+ err:
+@@ -1360,7 +1352,7 @@ static void *virtqueue_split_pop(VirtQueue *vq, size_=
+t sz)
+     VRingDesc desc;
+     int rc;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     if (virtio_queue_empty_rcu(vq)) {
+         goto done;
+     }
+@@ -1469,7 +1461,6 @@ static void *virtqueue_split_pop(VirtQueue *vq, size_=
+t sz)
+     trace_virtqueue_pop(vq, elem, elem->in_num, elem->out_num);
+ done:
+     address_space_cache_destroy(&indirect_desc_cache);
+-    rcu_read_unlock();
+=20
+     return elem;
+=20
+@@ -1494,7 +1485,7 @@ static void *virtqueue_packed_pop(VirtQueue *vq, size=
+_t sz)
+     uint16_t id;
+     int rc;
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     if (virtio_queue_packed_empty_rcu(vq)) {
+         goto done;
+     }
+@@ -1600,7 +1591,6 @@ static void *virtqueue_packed_pop(VirtQueue *vq, size=
+_t sz)
+     trace_virtqueue_pop(vq, elem, elem->in_num, elem->out_num);
+ done:
+     address_space_cache_destroy(&indirect_desc_cache);
+-    rcu_read_unlock();
+=20
+     return elem;
+=20
+@@ -2437,13 +2427,10 @@ static bool virtio_should_notify(VirtIODevice *vdev=
+, VirtQueue *vq)
+=20
+ void virtio_notify_irqfd(VirtIODevice *vdev, VirtQueue *vq)
+ {
+-    bool should_notify;
+-    rcu_read_lock();
+-    should_notify =3D virtio_should_notify(vdev, vq);
+-    rcu_read_unlock();
+-
+-    if (!should_notify) {
+-        return;
++    WITH_RCU_READ_LOCK_GUARD() {
++        if (!virtio_should_notify(vdev, vq)) {
++            return;
++        }
+     }
+=20
+     trace_virtio_notify_irqfd(vdev, vq);
+@@ -2475,13 +2462,10 @@ static void virtio_irq(VirtQueue *vq)
+=20
+ void virtio_notify(VirtIODevice *vdev, VirtQueue *vq)
+ {
+-    bool should_notify;
+-    rcu_read_lock();
+-    should_notify =3D virtio_should_notify(vdev, vq);
+-    rcu_read_unlock();
+-
+-    if (!should_notify) {
+-        return;
++    WITH_RCU_READ_LOCK_GUARD() {
++        if (!virtio_should_notify(vdev, vq)) {
++            return;
++        }
+     }
+=20
+     trace_virtio_notify(vdev, vq);
+@@ -3032,7 +3016,7 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int =
+version_id)
+         vdev->start_on_kick =3D true;
+     }
+=20
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     for (i =3D 0; i < num; i++) {
+         if (vdev->vq[i].vring.desc) {
+             uint16_t nheads;
+@@ -3087,7 +3071,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int =
+version_id)
+             }
+         }
+     }
+-    rcu_read_unlock();
+=20
+     return 0;
+ }
+@@ -3290,12 +3273,11 @@ static void virtio_queue_packed_restore_last_avail_=
+idx(VirtIODevice *vdev,
+ static void virtio_queue_split_restore_last_avail_idx(VirtIODevice *vdev,
+                                                       int n)
+ {
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     if (vdev->vq[n].vring.desc) {
+         vdev->vq[n].last_avail_idx =3D vring_used_idx(&vdev->vq[n]);
+         vdev->vq[n].shadow_avail_idx =3D vdev->vq[n].last_avail_idx;
+     }
+-    rcu_read_unlock();
+ }
+=20
+ void virtio_queue_restore_last_avail_idx(VirtIODevice *vdev, int n)
+@@ -3315,11 +3297,10 @@ static void virtio_queue_packed_update_used_idx(Vir=
+tIODevice *vdev, int n)
+=20
+ static void virtio_split_packed_update_used_idx(VirtIODevice *vdev, int n)
+ {
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     if (vdev->vq[n].vring.desc) {
+         vdev->vq[n].used_idx =3D vring_used_idx(&vdev->vq[n]);
+     }
+-    rcu_read_unlock();
+ }
+=20
+ void virtio_queue_update_used_idx(VirtIODevice *vdev, int n)
+--=20
+2.23.0
+
 
