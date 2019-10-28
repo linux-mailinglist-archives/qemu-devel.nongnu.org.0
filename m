@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DBFE724C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:03:35 +0100 (CET)
-Received: from localhost ([::1]:53504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2197E728B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:21:40 +0100 (CET)
+Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4gG-0000cT-7o
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51195)
+	id 1iP4xn-0004Qs-5n
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3xY-0003kf-Rf
+ (envelope-from <mreitz@redhat.com>) id 1iP3xY-0003kU-Py
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3xX-0002NO-BW
+ (envelope-from <mreitz@redhat.com>) id 1iP3xX-0002NV-DV
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:20 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43016
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52095
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3xX-0002Lh-4i
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3xX-0002MZ-5K
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572265036;
+ s=mimecast20190719; t=1572265038;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lP2YHcXJHDezvwbghFtZ159Ceu5JspkLq15PL35uTvM=;
- b=ejmWN1eI9hSxY9GomhLvtyvl/hnnfOysvmmLIjKSdjUK1SbLjIzDSbZY5+k4vWoT+Aaxm/
- kJJYBnz4bbf24cfMklDnlQiYJtAsjsUTExh7HL8FMIp4aaWvD0/EtsWm2/QZLfrV8cbDLV
- UjNF4z75VYsd8x9ZsTHCrPhYXaGSbeE=
+ bh=cQcWinhkCWGpNGRCGIX778zf+/fAN8/KiI2OgoQdaJc=;
+ b=hrgeKGLMoUhr1DUp2klZNjdsM+G2giu1NhjbC0iBsmfW+R45jhuADSvs2AX1UDfpwZhsYt
+ U8SY7TfpjzbR1U+gKPhJID9wVWPjWX5v2D5a7SwFXHsoSDQ35c6GR9KK1KeJdT6jIBB0z7
+ vazRE+bIUpiPMJrvKm8rnnJyXf4OTog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-ou7QfFRhO4mMUFxGnrnZ4Q-1; Mon, 28 Oct 2019 08:17:12 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-245-ym_DuMvsM3-H66AlGGUwFg-1; Mon, 28 Oct 2019 08:17:14 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 027CF8017DD;
- Mon, 28 Oct 2019 12:17:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F2FA180496E;
+ Mon, 28 Oct 2019 12:17:14 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DDB95C1D6;
- Mon, 28 Oct 2019 12:17:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A952D6084E;
+ Mon, 28 Oct 2019 12:17:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 61/69] block: Handle filter truncation like native impl.
-Date: Mon, 28 Oct 2019 13:14:53 +0100
-Message-Id: <20191028121501.15279-62-mreitz@redhat.com>
+Subject: [PULL 62/69] block/cor: Drop cor_co_truncate()
+Date: Mon, 28 Oct 2019 13:14:54 +0100
+Message-Id: <20191028121501.15279-63-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: ou7QfFRhO4mMUFxGnrnZ4Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: ym_DuMvsM3-H66AlGGUwFg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,56 +75,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the filter truncation (passing it through to bs->file) a
-first-class citizen and handle it exactly as if it was the filter
-driver's native implementation of .bdrv_co_truncate().
-
-I do not see a reason not to, it makes the code a bit shorter, and may
-be even more correct because this gets us to finish the write_req that
-we prepared before (may be important to e.g. bring dirty bitmaps to the
-correct size).
+No other filter driver has a .bdrv_co_truncate() implementation, and
+there is no need to because the general block layer code can handle it
+just as well.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190918095144.955-2-mreitz@redhat.com
+Message-id: 20190918095144.955-3-mreitz@redhat.com
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/io.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ block/copy-on-read.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index f0b86c1d19..8ff3b47fb4 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3347,20 +3347,19 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child,=
- int64_t offset,
-         goto out;
-     }
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 6631f30205..e95223d3cb 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -73,13 +73,6 @@ static int64_t cor_getlength(BlockDriverState *bs)
+ }
 =20
--    if (!drv->bdrv_co_truncate) {
--        if (bs->file && drv->is_filter) {
--            ret =3D bdrv_co_truncate(bs->file, offset, prealloc, errp);
--            goto out;
--        }
-+    if (drv->bdrv_co_truncate) {
-+        ret =3D drv->bdrv_co_truncate(bs, offset, prealloc, errp);
-+    } else if (bs->file && drv->is_filter) {
-+        ret =3D bdrv_co_truncate(bs->file, offset, prealloc, errp);
-+    } else {
-         error_setg(errp, "Image format driver does not support resize");
-         ret =3D -ENOTSUP;
-         goto out;
-     }
+=20
+-static int coroutine_fn cor_co_truncate(BlockDriverState *bs, int64_t offs=
+et,
+-                                        PreallocMode prealloc, Error **err=
+p)
+-{
+-    return bdrv_co_truncate(bs->file, offset, prealloc, errp);
+-}
 -
--    ret =3D drv->bdrv_co_truncate(bs, offset, prealloc, errp);
-     if (ret < 0) {
-         goto out;
-     }
-+
-     ret =3D refresh_total_sectors(bs, offset >> BDRV_SECTOR_BITS);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Could not refresh total sector count=
-");
+-
+ static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
+                                       uint64_t offset, uint64_t bytes,
+                                       QEMUIOVector *qiov, int flags)
+@@ -139,7 +132,6 @@ static BlockDriver bdrv_copy_on_read =3D {
+     .bdrv_child_perm                    =3D cor_child_perm,
+=20
+     .bdrv_getlength                     =3D cor_getlength,
+-    .bdrv_co_truncate                   =3D cor_co_truncate,
+=20
+     .bdrv_co_preadv                     =3D cor_co_preadv,
+     .bdrv_co_pwritev                    =3D cor_co_pwritev,
 --=20
 2.21.0
 
