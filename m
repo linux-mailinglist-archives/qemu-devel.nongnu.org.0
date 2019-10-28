@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78B3E6DC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:06:58 +0100 (CET)
-Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BE9E6DD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:09:06 +0100 (CET)
+Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP03F-0002nN-FK
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46975)
+	id 1iP05J-0000lQ-F0
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzba-0007Rr-1I
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzcA-00082c-2P
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:39:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzbY-0003a6-Pl
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39674
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iOzc8-0003sh-GM
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:57 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50646
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzbY-0003Zo-MK
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:20 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzc8-0003s8-7X
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248300;
+ s=mimecast20190719; t=1572248335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wtyVhPrMDClfaWp/tnoq600EcuRYbAk2G8WCARC2TA0=;
- b=V+jR5qSKCyCabaVB6Nv+6vjByuRT/JWTQ/0z2FHIIPU8A2HD3UfCk2wUuDR7Gn/z+ew4Q8
- U34zsVhSI7kJJnW2zRTkRzqfw+cQ3FyeFkG90Q5r3XQsUemuEnCGctQltpowU5DVmLHg0B
- /IUHxPmmlzzRPJTzithtnLuyLLIwNh8=
+ bh=TV/dzQWg9sTmKE1T0I+o1dz563MfWvQQek1xQ2H4w3s=;
+ b=VvEQDASuyn7A541rQ44Edoi/xmfFyWy/7TudwXG0cvgRAoqihSHVEUk3/cmZauV6vvn8Wx
+ x657yjWEI4lxIFbKn0hMzpDeQ+rS07U9kvDaJQirJq4UDwcdrCNmiBrGMRgLkEEmwqymG9
+ IKL/1pbfdfuHuTZPumiQH6UjHmyTRbI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-epZOA5yEPHu0YBpzAuv5NA-1; Mon, 28 Oct 2019 03:38:11 -0400
+ us-mta-83-W049WbT0OgKYa7yiMp9PNA-1; Mon, 28 Oct 2019 03:38:51 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A46F1800D7E;
- Mon, 28 Oct 2019 07:38:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86CE680183E;
+ Mon, 28 Oct 2019 07:38:50 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1731F19C69;
- Mon, 28 Oct 2019 07:38:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30FD919C69;
+ Mon, 28 Oct 2019 07:38:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/26] tests/boot_linux_console: Test the raspi2 UART1 (16550
- based)
-Date: Mon, 28 Oct 2019 08:34:36 +0100
-Message-Id: <20191028073441.6448-22-philmd@redhat.com>
+Subject: [PATCH 25/26] tests/boot_linux_console: Add sdcard test for the
+ Exynos4210
+Date: Mon, 28 Oct 2019 08:34:40 +0100
+Message-Id: <20191028073441.6448-26-philmd@redhat.com>
 In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
 References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: epZOA5yEPHu0YBpzAuv5NA-1
+X-MC-Unique: W049WbT0OgKYa7yiMp9PNA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,57 +87,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The current do_test_arm_raspi2() case tests the PL011 UART0.
-Our model also supports the AUX UART (16550 based).
-We can very simply test the UART1 with Linux, modifying the
-kernel command line.
+This test boots a Linux kernel on a smdkc210 board and verify
+the serial output is working.
 
-Add few lines to expand our previous test and cover the AUX
-UART.
+The cpio image used comes from the linux-build-test project:
+https://github.com/groeck/linux-build-test
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+Since this test is not reliable due to clock timing issues,
+it is disabled with the 'skip' property.
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+v2:
+- use archive.gzip_uncompress (Cleber)
+- check getenv(AVOCADO_ALLOW_UNTRUSTED_CODE) (pm215)
+---
+ tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
 _linux_console.py
-index cc0c73b9c1..1c9ff2bda3 100644
+index cbb8cddf47..489df4862c 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -301,6 +301,7 @@ class BootLinuxConsole(MachineTest):
-         """
-         serial_kernel_cmdline =3D {
-             0: 'earlycon=3Dpl011,0x3f201000 console=3DttyAMA0',
-+            1: 'earlycon=3Duart8250,mmio32,0x3f215040 console=3DttyS1,1152=
-00'
-         }
-         deb_url =3D ('http://archive.raspberrypi.org/debian/'
-                    'pool/main/r/raspberrypi-firmware/'
-@@ -311,7 +312,7 @@ class BootLinuxConsole(MachineTest):
-         dtb_path =3D self.extract_from_deb(deb_path, '/boot/bcm2709-rpi-2-=
-b.dtb')
+@@ -13,6 +13,7 @@ import lzma
+ import gzip
+ import shutil
 =20
-         self.vm.set_machine('raspi2')
--        self.vm.set_console()
-+        self.vm.set_console(console_index=3Duart_id)
-         kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-                                serial_kernel_cmdline[uart_id])
-         self.vm.add_args('-kernel', kernel_path,
-@@ -329,6 +330,14 @@ class BootLinuxConsole(MachineTest):
-         """
-         self.do_test_arm_raspi2(0)
++from avocado import skip
+ from avocado import skipUnless
+ from avocado_qemu import MachineTest
+ from avocado_qemu import exec_command_and_wait_for_pattern
+@@ -474,6 +475,52 @@ class BootLinuxConsole(MachineTest):
+         self.wait_for_console_pattern('Boot successful.')
+         # TODO user command, for now the uart is stuck
 =20
-+    def test_arm_raspi2_uart1(self):
++    @skip("unstable clock timings")
++    def test_arm_exynos4210_sdcard(self):
 +        """
 +        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:raspi2
-+        :avocado: tags=3Ddevice:bcm2835_aux
++        :avocado: tags=3Dmachine:smdkc210
 +        """
-+        self.do_test_arm_raspi2(1)
++        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
++                   '20190928T224601Z/pool/main/l/linux/'
++                   'linux-image-4.19.0-6-armmp_4.19.67-2+deb10u1_armhf.deb=
+')
++        deb_hash =3D 'fa9df4a0d38936cb50084838f2cb933f570d7d82'
++        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
++        kernel_path =3D self.extract_from_deb(deb_path,
++                                            '/boot/vmlinuz-4.19.0-6-armmp'=
+)
++        dtb_path =3D '/usr/lib/linux-image-4.19.0-6-armmp/exynos4210-smdkv=
+310.dtb'
++        dtb_path =3D self.extract_from_deb(deb_path, dtb_path)
++
++        rootfs_url =3D ('https://github.com/groeck/linux-build-test/raw/'
++                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
++                      'arm/rootfs-armv5.ext2.gz')
++        rootfs_hash =3D '093e89d2b4d982234bf528bc9fb2f2f17a9d1f93'
++        rootfs_path_gz =3D self.fetch_asset(rootfs_url, asset_hash=3Drootf=
+s_hash)
++        rootfs_path =3D os.path.join(self.workdir, 'rootfs.ext2')
++        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
++
++        self.vm.set_machine('smdkc210')
++        self.vm.set_console(console_index=3D1)
++        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
++                               'earlycon=3Dexynos4210,0x13810000 earlyprin=
+tk ' +
++                               'console=3DttySAC1,115200n8 ' +
++                               'random.trust_cpu=3Doff cryptomgr.notests '=
+ +
++                               'root=3D/dev/mmcblk0 rootwait rw ' +
++                               'cpuidle.off=3D1 panic=3D-1 noreboot')
++
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-append', kernel_command_line,
++                         # The external MMC is on the 3rd slot
++                         '-drive', 'if=3Dsd,driver=3Dnull-co',
++                         '-drive', 'if=3Dsd,driver=3Dnull-co',
++                         '-drive', 'if=3Dsd,file=3D' + rootfs_path + ',for=
+mat=3Draw',
++                         '-no-reboot')
++        self.vm.launch()
++
++        self.wait_for_console_pattern('Boot successful.')
++        # TODO user command, for now the uart is stuck
 +
      def test_s390x_s390_ccw_virtio(self):
          """
