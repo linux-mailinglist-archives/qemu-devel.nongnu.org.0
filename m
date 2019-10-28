@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1F9E6D79
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:47:26 +0100 (CET)
-Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B549E6D94
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:54:18 +0100 (CET)
+Received: from localhost ([::1]:51574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOzkL-0005CW-1m
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46993)
+	id 1iOzqy-000273-W4
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzbj-0007hJ-Po
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzbs-0007wX-K8
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzbi-0003d8-Bh
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:31 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31132
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iOzbq-0003j7-UW
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54348
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzbi-0003cy-69
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:30 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzbq-0003ii-Pm
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248309;
+ s=mimecast20190719; t=1572248318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WF6GzzEko3ocdc0AF5QO7i31FtZyqi6zpgFu5B7Cp+k=;
- b=aNklq7HQBT7+w7evNTGinrhxXKS2sOx68mrf6btwWMM78cWGosZ4a8IADX8Ah+3F8/6hAw
- nTRAU6Rmc8SRdz55lneTUZWVF1u7M+DGuh2jTyUplbxKzlfkvWaIjWWznjyGdjJvqaWK54
- ZU7aNG8D108B1TWgUVCvdX6T5Oi9i5k=
+ bh=wtUZK07zgF143OudfE3/tQ5adZlIP+D9GXmgqk/9gR4=;
+ b=ONt2lHONdBx7jovZrsVP3uTWBWbCF3bgjGkXOvsOfij7M1Z7BPtL1sxOuoUIFCtGONo/Mz
+ 9u/9qvutRUG2z3752QQgW7nqPu2wK8MVBN633TH5hFgc92gsGVEp9AXZ32O4t+66Tu6FNy
+ 1ZY7UpbIuMvhAnVO39reykjsct3CTdA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-o9fa5DacMEK-P3QSeIR7vA-1; Mon, 28 Oct 2019 03:38:25 -0400
+ us-mta-322-Rnrybw3IOzKAQwTbSGK1dg-1; Mon, 28 Oct 2019 03:38:34 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3226A107AD28;
- Mon, 28 Oct 2019 07:38:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BF6A800D41;
+ Mon, 28 Oct 2019 07:38:33 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C173519C69;
- Mon, 28 Oct 2019 07:38:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2352319C69;
+ Mon, 28 Oct 2019 07:38:24 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/26] tests/boot_linux_console: Boot Linux and run few
- commands on raspi3
-Date: Mon, 28 Oct 2019 08:34:37 +0100
-Message-Id: <20191028073441.6448-23-philmd@redhat.com>
+Subject: [PATCH 23/26] tests/boot_linux_console: Test SDHCI and termal sensor
+ on raspi3
+Date: Mon, 28 Oct 2019 08:34:38 +0100
+Message-Id: <20191028073441.6448-24-philmd@redhat.com>
 In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
 References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: o9fa5DacMEK-P3QSeIR7vA-1
+X-MC-Unique: Rnrybw3IOzKAQwTbSGK1dg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,120 +87,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Add a test which boots Linux and run basic commands using the serial
-port console.
+Add a test which loads the root filesystem on a SD card.
+Use a kernel recent enough to also test the thermal sensor.
 
-The kernel image is built by the Debian project:
-https://wiki.debian.org/RaspberryPi
-
-The DeviceTree blob comes from the official Raspberry Pi project:
-https://www.raspberrypi.org/
+The kernel image comes from:
+https://github.com/sakaki-/bcmrpi3-kernel#description
 
 The cpio image used comes from the linux-build-test project:
 https://github.com/groeck/linux-build-test
-
-This test can be run using:
-
-  $ avocado run --show=3Dconsole,app run -t machine:raspi3 tests/acceptance
-  console: [    0.000000] Linux version 4.14.0-3-arm64 (debian-kernel@lists=
-.debian.org) (gcc version 7.2.0 (Debian 7.2.0-18)) #1 SMP Debian 4.14.12-2 =
-(2018-01-06)
-  console: [    0.000000] Boot CPU: AArch64 Processor [410fd034]
-  console: [    0.000000] Machine model: Raspberry Pi 3 Model B
-  console: [    0.000000] earlycon: pl11 at MMIO 0x000000003f201000 (option=
-s '')
-  console: [    0.000000] bootconsole [pl11] enabled
-  [...]
-  console: Starting network: OK
-  console: Found console ttyAMA0
-  console: Boot successful.
-  console: / # cat /proc/cpuinfo
-  console: processor      : 0
-  console: BogoMIPS       : 125.00
-  console: r      : 0x41
-  console: CPU architecture: 8
-  console: CPU variant
-  console: : 0x0
-  console: CPU part       : 0xd03
-  console: CPU revision   : 4
-  console: / # uname -a
-  console: Linux buildroot 4.14.0-3-arm64 #1 SMP Debian 4.14.12-2 (2018-01-=
-06) aarch64 GNU/Linux
-  console: reboot
-  console: / # reboot
-  console: / # Found console ttyAMA0
-  console: Stopping network: OK
-  console: Saving random seed... done.
-  console: Stopping logging: OK
-  console: umount: devtmpfs busy - remounted read-only
-  console: umount: can't unmount /: Invalid argument
-  console: The system is going down NOW!
-  console: Sent SIGTERM to all processes
-  console: Sent SIGKILL to all processes
-  console: Requesting system reboot
-  console: kvm: exiting hardware virtualization
-  console: reboot: Restarting system
-  PASS (11.08 s)
 
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
 v2: Use archive.gzip_uncompress (Cleber)
-
-some chars are scrambled on the console?
-Cleber ran this 100 times and doesn't have issue.
 ---
- tests/acceptance/boot_linux_console.py | 48 ++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
 _linux_console.py
-index 1c9ff2bda3..dc27d79199 100644
+index dc27d79199..44a046bd64 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -338,6 +338,54 @@ class BootLinuxConsole(MachineTest):
-         """
-         self.do_test_arm_raspi2(1)
+@@ -386,6 +386,52 @@ class BootLinuxConsole(MachineTest):
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system=
+')
 =20
-+    def test_arm_raspi3_initrd_uart0(self):
++    def test_arm_raspi3_initrd_sd_temp(self):
 +        """
 +        :avocado: tags=3Darch:aarch64
 +        :avocado: tags=3Dmachine:raspi3
 +        """
-+        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
-+                   '20180106T174014Z/pool/main/l/linux/'
-+                   'linux-image-4.14.0-3-arm64_4.14.12-2_arm64.deb')
-+        deb_hash =3D 'e71c995de57921921895c1162baea5df527d1c6b'
-+        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-+        kernel_path =3D self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinuz-4.14.0-3-arm64'=
-)
++        tarball_url =3D ('https://github.com/sakaki-/bcmrpi3-kernel/releas=
+es/'
++                       'download/4.19.71.20190910/'
++                       'bcmrpi3-kernel-4.19.71.20190910.tar.xz')
++        tarball_hash =3D '844f117a1a6de0532ba92d2a7bceb5b2acfbb298'
++        tarball_path =3D self.fetch_asset(tarball_url, asset_hash=3Dtarbal=
+l_hash)
++        archive.extract(tarball_path, self.workdir)
++        dtb_path    =3D self.workdir + "/boot/bcm2837-rpi-3-b.dtb"
++        kernel_path =3D self.workdir + "/boot/kernel8.img"
 +
-+        dtb_url =3D ('https://github.com/raspberrypi/firmware/raw/'
-+                   '1.20180313/boot/bcm2710-rpi-3-b.dtb')
-+        dtb_hash =3D 'eb14d67133401ef2f93523be7341456d38bfc077'
-+        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-+
-+        initrd_url =3D ('https://github.com/groeck/linux-build-test/raw/'
++        rootfs_url =3D ('https://github.com/groeck/linux-build-test/raw/'
 +                      '9b6b392ea7bc15f0d6632328d429d31c9c6273da/rootfs/'
-+                      'arm64/rootfs.cpio.gz')
-+        initrd_hash =3D '6fd05324f17bb950196b5ad9d3a0fa996339f4cd'
-+        initrd_path_gz =3D self.fetch_asset(initrd_url, asset_hash=3Dinitr=
-d_hash)
-+        initrd_path =3D self.workdir + "rootfs.cpio"
-+        archive.gzip_uncompress(initrd_path_gz, initrd_path)
++                      'arm64/rootfs.ext2.gz')
++        rootfs_hash =3D 'dbe4136f0b4a0d2180b93fd2a3b9a784f9951d10'
++        rootfs_path_gz =3D self.fetch_asset(rootfs_url, asset_hash=3Drootf=
+s_hash)
++        rootfs_path =3D self.workdir + "rootfs.ext2"
++        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
 +
 +        self.vm.set_machine('raspi3')
 +        self.vm.set_console()
 +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
 +                               'earlycon=3Dpl011,0x3f201000 console=3DttyA=
 MA0 ' +
++                               'root=3D/dev/mmcblk0 rootwait rw ' +
 +                               'panic=3D-1 noreboot')
 +        self.vm.add_args('-kernel', kernel_path,
 +                         '-dtb', dtb_path,
-+                         '-initrd', initrd_path,
 +                         '-append', kernel_command_line,
++                         '-drive', 'file=3D' + rootfs_path + ',if=3Dsd,for=
+mat=3Draw',
 +                         '-no-reboot')
 +        self.vm.launch()
 +
@@ -209,9 +160,12 @@ MA0 ' +
 -----')
 +
 +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-+                                                'BogoMIPS')
-+        exec_command_and_wait_for_pattern(self, 'uname -a',
-+                                                'Debian')
++                                                'Raspberry Pi 3 Model B')
++        exec_command_and_wait_for_pattern(self, ('cat /sys/devices/virtual=
+/'
++                                                 'thermal/thermal_zone0/te=
+mp'),
++                                                '25178')
 +        exec_command_and_wait_for_pattern(self, 'reboot',
 +                                                'reboot: Restarting system=
 ')
