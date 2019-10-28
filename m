@@ -2,45 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A13E6C52
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 07:10:57 +0100 (CET)
-Received: from localhost ([::1]:51026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1698E6C82
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 07:43:06 +0100 (CET)
+Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOyEy-0003uR-18
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 02:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
+	id 1iOyk5-00023p-P7
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 02:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iOyDy-0003I7-Ay
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:09:55 -0400
+ (envelope-from <bounces@canonical.com>) id 1iOyiQ-0000ch-1C
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:41:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iOyDw-0002Sw-CD
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:09:54 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:53082)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iOyDr-0002OC-BD; Mon, 28 Oct 2019 02:09:48 -0400
-Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id DEC0DBF426;
- Mon, 28 Oct 2019 06:09:43 +0000 (UTC)
-Date: Mon, 28 Oct 2019 07:09:40 +0100
-From: Klaus Birkelund <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: Re: [PATCH v2 00/20] nvme: support NVMe v1.3d, SGLs and multiple
- namespaces
-Message-ID: <20191028060940.GA561856@apples.localdomain>
-References: <20191015103900.313928-1-its@irrelevant.dk>
+ (envelope-from <bounces@canonical.com>) id 1iOyiO-0001mS-RA
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:41:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53594)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iOyiO-0001lD-Ls
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:41:20 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iOyiM-0006AL-M7
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:41:18 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A646C2E80C0
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:41:18 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191015103900.313928-1-its@irrelevant.dk>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 28 Oct 2019 06:32:14 -0000
+From: Launchpad Bug Tracker <1848556@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=Medium; assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer rodsmith xanclic
+X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
+Message-Id: <157224433528.32065.6779566140163751697.launchpad@ackee.canonical.com>
+Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7ab63a832318c7735fa635186bf82cc1537982b4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 128.199.63.193
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -49,102 +74,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Javier Gonzalez <javier@javigon.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paul Durrant <Paul.Durrant@citrix.com>,
- Keith Busch <kbusch@kernel.org>, Stephen Bates <sbates@raithlin.com>
+Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 15, 2019 at 12:38:40PM +0200, Klaus Jensen wrote:
-> Hi,
-> 
-> (Quick note to Fam): most of this series is irrelevant to you as the
-> maintainer of the nvme block driver, but patch "nvme: add support for
-> scatter gather lists" touches block/nvme.c due to changes in the shared
-> NvmeCmd struct.
-> 
-> Anyway, v2 comes with a good bunch of changes. Compared to v1[1], I have
-> squashed some commits in the beginning of the series and heavily
-> refactored "nvme: support multiple block requests per request" into the
-> new commit "nvme: allow multiple aios per command".
-> 
-> I have also removed the original implementation of the Abort command
-> (commit "nvme: add support for the abort command") as it is currently
-> too tricky to test reliably. It has been replaced by a stub that,
-> besides a trivial sanity check, just fails to abort the given command.
-> *Some* implementation of the Abort command is mandatory, but given the
-> "best effort" nature of the command this is acceptable for now. When the
-> device gains support for arbitration it should be less tricky to test.
-> 
-> The support for multiple namespaces is now backwards compatible. The
-> nvme device still accepts a 'drive' parameter, but for multiple
-> namespaces the use of 'nvme-ns' devices are required. I also integrated
-> some feedback from Paul so the device supports non-consecutive namespace
-> ids.
-> 
-> I have also added some new commits at the end:
-> 
->   - "nvme: bump controller pci device id" makes sure the Linux kernel
->     doesn't apply any quirks to the controller that it no longer has.
->   - "nvme: handle dma errors" won't actually do anything before this[2]
->     fix to include/hw/pci/pci.h is merged. With these two patches added,
->     the device reliably passes some additional nasty tests from blktests
->     (block/011 "disable PCI device while doing I/O" and block/019 "break
->     PCI link device while doing I/O"). Before this patch, block/011
->     would pass from time to time if you were lucky, but would at least
->     mess up the controller pretty badly, causing a reset in the best
->     case.
-> 
-> 
->   [1]: https://patchwork.kernel.org/project/qemu-devel/list/?series=142383
->   [2]: https://patchwork.kernel.org/patch/11184911/
-> 
-> 
-> Klaus Jensen (20):
->   nvme: remove superfluous breaks
->   nvme: move device parameters to separate struct
->   nvme: add missing fields in the identify controller data structure
->   nvme: populate the mandatory subnqn and ver fields
->   nvme: allow completion queues in the cmb
->   nvme: add support for the abort command
->   nvme: refactor device realization
->   nvme: add support for the get log page command
->   nvme: add support for the asynchronous event request command
->   nvme: add logging to error information log page
->   nvme: add missing mandatory features
->   nvme: bump supported specification version to 1.3
->   nvme: refactor prp mapping
->   nvme: allow multiple aios per command
->   nvme: add support for scatter gather lists
->   nvme: support multiple namespaces
->   nvme: bump controller pci device id
->   nvme: remove redundant NvmeCmd pointer parameter
->   nvme: make lba data size configurable
->   nvme: handle dma errors
-> 
->  block/nvme.c           |   18 +-
->  hw/block/Makefile.objs |    2 +-
->  hw/block/nvme-ns.c     |  139 +++
->  hw/block/nvme-ns.h     |   60 ++
->  hw/block/nvme.c        | 1863 +++++++++++++++++++++++++++++++++-------
->  hw/block/nvme.h        |  219 ++++-
->  hw/block/trace-events  |   37 +-
->  include/block/nvme.h   |  132 ++-
->  8 files changed, 2094 insertions(+), 376 deletions(-)
->  create mode 100644 hw/block/nvme-ns.c
->  create mode 100644 hw/block/nvme-ns.h
-> 
-> -- 
-> 2.23.0
-> 
+** Merge proposal linked:
+   https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+merge=
+/374770
 
-Gentle ping on this.
+-- =
 
-I'm aware that this is a lot to go through, but I would like to know if
-anyone has had a chance to look at it?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1848556
 
+Title:
+  qemu-img check failing on remote image in Eoan
 
-https://patchwork.kernel.org/project/qemu-devel/list/?series=187637
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Triaged
+Status in qemu source package in Eoan:
+  Triaged
+Status in qemu source package in Focal:
+  Triaged
 
+Bug description:
+  Ubuntu SRU Template:
+
+  [Impact]
+
+   * There is fallout due to changes in libcurl that affect qemu and might =
+
+     lead to a hang.
+
+   * Fix by backporting the upstream fix
+
+  [Test Case]
+
+   * If you have network just run
+     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
+.img
+
+   * Without network, install apache2, and get a complex qemu file (like a =
+
+     cloud image) onto the system. Then access the file via apache http but =
+
+     not localhost (that would work)
+
+  [Regression Potential]
+
+   * The change is local to the libcurl usage of qemu, so that could be =
+
+     affected. But then this is what has been found to not work here, so I'=
+d =
+
+     expect not too much trouble. But if so then in the curl usage (which =
+
+     means disks on http)
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  The "qemu-img check" function is failing on remote (HTTP-hosted)
+  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
+  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
+  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
+
+  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
+g-amd64.img
+  No errors were found on the image.
+  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
+usters
+  Image end offset: 514064384
+
+  The 10.193.37.117 server holds an Apache server that hosts the cloud
+  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
+  0ubuntu9, the same command never returns. (I've left it for up to an
+  hour with no change.) I'm able to wget the image from the same server
+  and installation on which qemu-img check fails. I've tried several
+  .img files on the server, ranging from Bionic to Eoan, with the same
+  results with all of them.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
 
