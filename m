@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B05AE7A25
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:34:36 +0100 (CET)
-Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3E4E7A6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:46:30 +0100 (CET)
+Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPBik-0003TS-R1
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:34:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50923)
+	id 1iPBuH-0001zp-6q
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:46:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iPBOy-0001UW-4h
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:14:09 -0400
+ (envelope-from <crosa@redhat.com>) id 1iPBZA-0007Z3-DL
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:24:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iPBOv-0001Y1-G7
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:14:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55781
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1iPBZ7-0005EH-Lk
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:24:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35449
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPBOv-0001Xr-CR
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:14:05 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPBZ7-0005Da-CD
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:24:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572293644;
+ s=mimecast20190719; t=1572294276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nXHvEngMNJI+QeeqJ8+YRfhWm8IR8h/LdowPCe4z3hI=;
- b=Eav95fCjF0LmiEdphL0zJ+YVT60Fc5pf1DFAjuKUkADky4Yy9T7Siw3HbFzYBzTvfQWT5v
- 3jELH6+A5lvVf31ZXTSLuhZJsBhTGi4DpdFoSsnraYEiWV1gbIslv3i4wSgNc3xSA7h2If
- HHpkrah5BtjyHFh3bSgdilhum05AZ8I=
+ bh=duBC+SJe29dnpBnosA1wQmFiVDFzvoo21SnaKFHVTnI=;
+ b=df3Jsff62oeGviVP9icUCDS/zBWunz3zpHMQaXX5J4j5m0EUroKjL3bpbfjelhnVdG3rCf
+ LgCntrEkpJku7AuovSdXZXb6lOdnh9IWZ/O87xlbPMmNMu+rX9CpG3wWqrwxlonNAdBuVA
+ lvxYXuzhuDtFCKas+ur3h+nbo72R2f4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-wsnWLXD8PBKYlyZmTWMYOw-1; Mon, 28 Oct 2019 16:14:01 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-336-F26kaY1NPlScNB2o7fPmDg-1; Mon, 28 Oct 2019 16:24:31 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A201E107AD28;
- Mon, 28 Oct 2019 20:13:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31BE5801E64;
+ Mon, 28 Oct 2019 20:24:30 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
  [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 854146085E;
- Mon, 28 Oct 2019 20:13:52 +0000 (UTC)
-Date: Mon, 28 Oct 2019 16:13:50 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DEBD5C1D8;
+ Mon, 28 Oct 2019 20:24:19 +0000 (UTC)
+Date: Mon, 28 Oct 2019 16:24:17 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 19/26] tests/boot_linux_console: Use Avocado
- archive::gzip_uncompress()
-Message-ID: <20191028201350.GC26898@localhost.localdomain>
+Subject: Re: [PATCH 20/26] tests/boot_linux_console: Add a test for the
+ Raspberry Pi 2
+Message-ID: <20191028202417.GA18794@localhost.localdomain>
 References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-20-philmd@redhat.com>
+ <20191028073441.6448-21-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-20-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-21-philmd@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: wsnWLXD8PBKYlyZmTWMYOw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: F26kaY1NPlScNB2o7fPmDg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,20 +87,30 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:34AM +0100, Philippe Mathieu-Daud=E9 wrote:
+On Mon, Oct 28, 2019 at 08:34:35AM +0100, Philippe Mathieu-Daud=E9 wrote:
 > From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 >=20
-> Avocado 67.0 [*] introduced the avocado.utils.archive module which
-> provides handling of gzip files. Use the gzip_uncompress() method.
+> Similar to the x86_64/pc test, it boots a Linux kernel on a raspi2
+> board and verify the serial is working.
 >=20
-> [*] https://avocado-framework.readthedocs.io/en/67.0/api/utils/avocado.ut=
-ils.html#avocado.utils.archive.gzip_uncompress
+> The kernel image and DeviceTree blob are built by the Raspbian
+> project (based on Debian):
+> https://www.raspbian.org/RaspbianImages
+> as recommended by the Raspberry Pi project:
+> https://www.raspberrypi.org/downloads/raspbian/
 >=20
-> Suggested-by: Cleber Rosa <crosa@redhat.com>
+> If ARM is a target being built, "make check-acceptance" will
+> automatically include this test by the use of the "arch:arm" tags.
+>=20
+> Alternatively, this test can be run using:
+>=20
+>     $ avocado run -t arch:arm tests/acceptance
+>     $ avocado run -t machine:raspi2 tests/acceptance
+>=20
+> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> Tested-by: Cleber Rosa <crosa@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 
 Queuing on my python-next branch (and sending shortly in a PR).
 
