@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63193E71D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:44:01 +0100 (CET)
-Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0580E71A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:40:56 +0100 (CET)
+Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4NM-0002Lc-7R
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50199)
+	id 1iP4KN-0006w2-6O
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3w8-0001sX-4m
+ (envelope-from <mreitz@redhat.com>) id 1iP3w9-0001u6-7V
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3w6-0001VC-Ty
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42269
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iP3w8-0001Vx-4G
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3w6-0001Uf-A6
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:50 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3w8-0001Vd-1H
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264949;
+ s=mimecast20190719; t=1572264951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XTWUKIMC+SzwJJX09S5GxuyIqJgaDZS198wieJIhHR0=;
- b=cgcnBVf5CTZhGHpPzgeYMpJm7z6cy+rk+mxugYZcRZBihjrkcpGvWiyJNPG3960JdKr4y6
- gnhbvATQ1NAq7GYPluKYPYZ7CyHrsdnJx31pEcXDVfbmjkXMjB8/EjuEYZOO9+fGyOadFf
- gqRYczuyZec+X4vpJHLduF71TWVh1UQ=
+ bh=aX7tdlNCSqFCzCFd76kLOahQsl2L1xEKXDIb76FldjM=;
+ b=LeFewGNar+0go3ZpqxobpujkSFSBlj3aL3QH1woBkW7T86GE+YQssSaSlISSR3A7TI+NFg
+ A0zUNuJltmz6r08CMwMLgWAsytD7pY+oHMbzGuiC1IpmmPe+PETbjCgphoGrlwCpN3JbwT
+ 6ddC4sqCJ/7vwpAhs5AyHvTH24CDdE8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-xm5T5vFdMI-RDaS6OFMJLA-1; Mon, 28 Oct 2019 08:15:46 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-1-t9d1UdFLPQqKMKDigspd7g-1; Mon, 28 Oct 2019 08:15:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3170D5E4;
- Mon, 28 Oct 2019 12:15:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DDBD10052E1;
+ Mon, 28 Oct 2019 12:15:47 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB338100194E;
- Mon, 28 Oct 2019 12:15:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D72A226186;
+ Mon, 28 Oct 2019 12:15:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 20/69] iotests/143: Create socket in $SOCK_DIR
-Date: Mon, 28 Oct 2019 13:14:12 +0100
-Message-Id: <20191028121501.15279-21-mreitz@redhat.com>
+Subject: [PULL 21/69] iotests/147: Create socket in $SOCK_DIR
+Date: Mon, 28 Oct 2019 13:14:13 +0100
+Message-Id: <20191028121501.15279-22-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: xm5T5vFdMI-RDaS6OFMJLA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: t9d1UdFLPQqKMKDigspd7g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,57 +77,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20191017133155.5327-9-mreitz@redhat.com
+Message-id: 20191017133155.5327-10-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/143     | 6 +++---
- tests/qemu-iotests/143.out | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/147 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
-index 92249ac8da..f649b36195 100755
---- a/tests/qemu-iotests/143
-+++ b/tests/qemu-iotests/143
-@@ -29,7 +29,7 @@ status=3D1=09# failure is the default!
- _cleanup()
- {
-     _cleanup_qemu
--    rm -f "$TEST_DIR/nbd"
-+    rm -f "$SOCK_DIR/nbd"
- }
- trap "_cleanup; exit \$status" 0 1 2 3 15
+diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
+index ab8480b9a4..03fc2fabcf 100755
+--- a/tests/qemu-iotests/147
++++ b/tests/qemu-iotests/147
+@@ -32,7 +32,7 @@ NBD_IPV6_PORT_START =3D NBD_PORT_END
+ NBD_IPV6_PORT_END   =3D NBD_IPV6_PORT_START + 1024
 =20
-@@ -51,12 +51,12 @@ _send_qemu_cmd $QEMU_HANDLE \
- _send_qemu_cmd $QEMU_HANDLE \
-     "{ 'execute': 'nbd-server-start',
-        'arguments': { 'addr': { 'type': 'unix',
--                                'data': { 'path': '$TEST_DIR/nbd' }}}}" \
-+                                'data': { 'path': '$SOCK_DIR/nbd' }}}}" \
-     'return'
+ test_img =3D os.path.join(iotests.test_dir, 'test.img')
+-unix_socket =3D os.path.join(iotests.test_dir, 'nbd.socket')
++unix_socket =3D os.path.join(iotests.sock_dir, 'nbd.socket')
 =20
- # This should just result in a client error, not in the server crashing
- $QEMU_IO_PROG -f raw -c quit \
--    "nbd+unix:///no_such_export?socket=3D$TEST_DIR/nbd" 2>&1 \
-+    "nbd+unix:///no_such_export?socket=3D$SOCK_DIR/nbd" 2>&1 \
-     | _filter_qemu_io | _filter_nbd
 =20
- _send_qemu_cmd $QEMU_HANDLE \
-diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
-index ee71b5aa42..037d34a409 100644
---- a/tests/qemu-iotests/143.out
-+++ b/tests/qemu-iotests/143.out
-@@ -1,7 +1,7 @@
- QA output created by 143
- {"return": {}}
- {"return": {}}
--qemu-io: can't open device nbd+unix:///no_such_export?socket=3DTEST_DIR/nb=
-d: Requested export not available
-+qemu-io: can't open device nbd+unix:///no_such_export?socket=3DSOCK_DIR/nb=
-d: Requested export not available
- server reported: export 'no_such_export' not present
- {"return": {}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+ def flatten_sock_addr(crumpled_address):
 --=20
 2.21.0
 
