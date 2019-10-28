@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C7FE7135
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:19:53 +0100 (CET)
-Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC71E7150
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:27:04 +0100 (CET)
+Received: from localhost ([::1]:53176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP3zz-0004ti-Ty
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49724)
+	id 1iP46w-0007Nr-TN
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3vU-00016K-TK
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3vZ-0001D8-9W
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3vT-00019L-JB
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50716
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iP3vY-0001Ch-5S
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:17 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45943
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vT-00018c-F9
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:11 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vY-0001CQ-1O
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264910;
+ s=mimecast20190719; t=1572264915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0BJR7+7aH2YQU3yk/3SlY1tFahOTGnVjCwU3veQoNec=;
- b=MundnMn23qQ4cSmoeJSL/y28wCG5MPGGGVlAIPKF2a//BQYCar950nz/GD5DFkk9wU8eQX
- 0PtxeXMPlU2RfF6yvXrYv+fS9JxEkRkN6A91BJeIvflSRPY93bZ7fQ/VXxRCyJV67qdwQF
- XLsdExZwv+Rph5ETjB00nkyvc3jQWWU=
+ bh=+sFl7vp6h1iBNHEgQncQy6nm9F7BxXtnEy0wC1s13J0=;
+ b=aqZX4s5NE7EWFZY/3QWUbhLS3GzWnKP+ebuJa66uMMONXD4A4U4sQfQRFS8nT6nskDRo2U
+ joRBxS7UG3l01/HfULkkoS7tak+n5mDX2eFRHB4lXBy/w2NZAQwVJYNpo5aeIRAHXAsha1
+ V7tdYpWQcsSTgJwcycCvU1BS18smnXU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-YR7kYPSGNJiHZbe_2KEh0Q-1; Mon, 28 Oct 2019 08:15:08 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-48-yb6o2CfcPuqUOdIp_EUw8A-1; Mon, 28 Oct 2019 08:15:11 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC2248017DD;
- Mon, 28 Oct 2019 12:15:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17D6A180496E;
+ Mon, 28 Oct 2019 12:15:10 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CEB05C219;
- Mon, 28 Oct 2019 12:15:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A92FA100164D;
+ Mon, 28 Oct 2019 12:15:09 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/69] iotests: Allow skipping test cases
-Date: Mon, 28 Oct 2019 13:13:54 +0100
-Message-Id: <20191028121501.15279-3-mreitz@redhat.com>
+Subject: [PULL 03/69] iotests: Use case_skip() in skip_if_unsupported()
+Date: Mon, 28 Oct 2019 13:13:55 +0100
+Message-Id: <20191028121501.15279-4-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: YR7kYPSGNJiHZbe_2KEh0Q-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: yb6o2CfcPuqUOdIp_EUw8A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,74 +75,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-case_notrun() does not actually skip the current test case.  It just
-adds a "notrun" note and then returns to the caller, who manually has to
-skip the test.  Generally, skipping a test case is as simple as
-returning from the current function, but not always: For example, this
-model does not allow skipping tests already in the setUp() function.
+skip_if_unsupported() should use the stronger variant case_skip(),
+because this allows it to be used even with setUp() (in a meaningful
+way).
 
-Thus, add a QMPTestCase.case_skip() function that invokes case_notrun()
-and then self.skipTest().  To make this work, we need to filter the
-information on how many test cases were skipped from the unittest
-output.
+In the process, make it explicit what we expect the first argument of
+the func_wrapper to be (namely something derived of QMPTestCase).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20190917092004.999-4-mreitz@redhat.com
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-id: 20190917092004.999-3-mreitz@redhat.com
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/iotests.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 709def4d5d..6d5de6e504 100644
+index 6d5de6e504..bd867d7e02 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -838,6 +838,11 @@ class QMPTestCase(unittest.TestCase):
-             return self.pause_wait(job_id)
-         return result
+@@ -929,14 +929,14 @@ def skip_if_unsupported(required_formats=3D[], read_o=
+nly=3DFalse):
+     '''Skip Test Decorator
+        Runs the test if all the required formats are whitelisted'''
+     def skip_test_decorator(func):
+-        def func_wrapper(*args, **kwargs):
++        def func_wrapper(test_case: QMPTestCase, *args, **kwargs):
+             usf_list =3D list(set(required_formats) -
+                             set(supported_formats(read_only)))
+             if usf_list:
+-                case_notrun('{}: formats {} are not whitelisted'.format(
+-                    args[0], usf_list))
++                test_case.case_skip('{}: formats {} are not whitelisted'.f=
+ormat(
++                    test_case, usf_list))
+             else:
+-                return func(*args, **kwargs)
++                return func(test_case, *args, **kwargs)
+         return func_wrapper
+     return skip_test_decorator
 =20
-+    def case_skip(self, reason):
-+        '''Skip this test case'''
-+        case_notrun(reason)
-+        self.skipTest(reason)
-+
-=20
- def notrun(reason):
-     '''Skip this test suite'''
-@@ -849,7 +854,11 @@ def notrun(reason):
-     sys.exit(0)
-=20
- def case_notrun(reason):
--    '''Skip this test case'''
-+    '''Mark this test case as not having been run (without actually
-+    skipping it, that is left to the caller).  See
-+    QMPTestCase.case_skip() for a variant that actually skips the
-+    current test case.'''
-+
-     # Each test in qemu-iotests has a number ("seq")
-     seq =3D os.path.basename(sys.argv[0])
-=20
-@@ -950,8 +959,15 @@ def execute_unittest(output, verbosity, debug):
-         unittest.main(testRunner=3Drunner)
-     finally:
-         if not debug:
--            sys.stderr.write(re.sub(r'Ran (\d+) tests? in [\d.]+s',
--                                    r'Ran \1 tests', output.getvalue()))
-+            out =3D output.getvalue()
-+            out =3D re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ran \1 tests'=
-, out)
-+
-+            # Hide skipped tests from the reference output
-+            out =3D re.sub(r'OK \(skipped=3D\d+\)', 'OK', out)
-+            out_first_line, out_rest =3D out.split('\n', 1)
-+            out =3D out_first_line.replace('s', '.') + '\n' + out_rest
-+
-+            sys.stderr.write(out)
-=20
- def execute_test(test_function=3DNone,
-                  supported_fmts=3D[], supported_oses=3D['linux'],
 --=20
 2.21.0
 
