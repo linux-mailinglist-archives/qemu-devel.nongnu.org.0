@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6454E776F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:14:07 +0100 (CET)
-Received: from localhost ([::1]:33228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CACDE7727
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:00:45 +0100 (CET)
+Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP8aj-0005tz-Vr
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35005)
+	id 1iP8Nn-0001WT-Ku
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@sifive.com>) id 1iP7Pu-0005sv-9H
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:51 -0400
+ (envelope-from <mst@redhat.com>) id 1iP7QB-0006QP-LD
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:59:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@sifive.com>) id 1iP7Pt-00047l-6j
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:50 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34135)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7Pt-000477-1d
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:49 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b128so7174819pfa.1
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=o43RPnYxBJ6zG1efVp6eoAI+8V+9lXTJj+YBPx9n47c=;
- b=YURNv/wF0HooB/D3oxv2eoYK+Ml+CuSzNM2RBfdsnX0rrsGRkRn0Vz32SDxZeEllXv
- Z2HSCqCkPjkQv6aJY4CaT5LUhhWmXdp0y9vO9AFSxWvWBHfu5ovrHiLK/Uh8DGdme5UM
- i3zej0czQ7Z381cjq6XEGj3zGeV1iwYQCZJn2kMA+TkCKxWUR4meynzV+1N7kLVFwaV0
- FWZ9LPO9ZjaHHD7gj8rIvQrDZcOyHQNJHSVnIxidFJ731HGyVgiBnOL7XwkkxWpPJIKS
- XRED1kR3rsfM+7vDHkuI9ToLK589NLBGiP+5yJQq8Wr5cQx3ht/K8cxTVdZzhKQHoiFJ
- uyNQ==
+ (envelope-from <mst@redhat.com>) id 1iP7Q8-0004EB-A5
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:59:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:28580)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iP7Q6-0004BQ-2F
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:59:04 -0400
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1250D8553D
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:59:00 +0000 (UTC)
+Received: by mail-qk1-f197.google.com with SMTP id a13so8283410qkc.17
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:59:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:cc:from:to;
- bh=o43RPnYxBJ6zG1efVp6eoAI+8V+9lXTJj+YBPx9n47c=;
- b=Db+FqIRFNebxQJ3aUV1ftvm3WyPdOa+MPOt2nwJzimskZyi4keR9ikyz51MHZFiZmF
- bAHz96+0HIBuEuRWv8z5L1b3L00wrU6REMDB7AtIqRgPngbV4eBQlGeZqqubXB/bHImt
- IZMqExg+SZEtCO5mDyZFwurQCFbsto2PE9+ceui7gq92J0BcHKh2+ejsNE1DgV+TdXwA
- 0pAcM7kjeSH32oVRABFLt6CfPPyxJiGH0IN9YFfgpbh8o95DXi9BFcCRLEk8KuZl6DcX
- ECMin/X8/6vF+L2UuiDVxk/XXFpmHsljoPD2IuZVwGUFMsUQ8U/cFfyUXFlvDmaAqQC0
- U60A==
-X-Gm-Message-State: APjAAAWaYEr898Wz8PdIk2aZP5H4RP4X5YduzpCVRMaiKidJtxaZkoj2
- onVN6Z4BmcX9Ti1hhRSFM0MX09Q2kwqfwg==
-X-Google-Smtp-Source: APXvYqxDmMHQz8muQRofK2H2gzvTBJSerDtfjffa7I72LYufKlKkxhHCgeB+0zSpFJvgagDLdOau7A==
-X-Received: by 2002:a63:5d06:: with SMTP id r6mr21640753pgb.216.1572278327779; 
- Mon, 28 Oct 2019 08:58:47 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id g17sm10503611pgn.37.2019.10.28.08.58.46
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nMWAnY6McylHcGTvc+B7VrN+HbqR4plgo+YW/WXOm7U=;
+ b=rMIe3RXUlfUKB5gWBC6s80CMv7OhFzIM4Xj7uPFOqS6GZLf9rNtuOV6fZQs+YECS11
+ nN36oFR1pMBnlY4eCLDZY8C3kH5ZXyb3Nqq7TNg1lDiuhSQuiIx4tWJmbvVlskRBjvjV
+ DE2ZHVPfCP82Wov2Cyud+iUZfmu9fySOHzWkUzv/bZe+lchFjKyDhG0O469UGlROqsLR
+ Rht51I0NSGgyXvjbExxg86AjuciWOzectyVVDH3UvrgfcwYQ0BnWdDG3+gKKhHmblUAx
+ zrJz04qD5V+5y8Ovf5aEHnQPgV3HCB9lBwQvmdgAHsJwz3vdsxPaf+vO3wNZMGOF2c1B
+ OZrw==
+X-Gm-Message-State: APjAAAVaQyw05X3ttBmWLj+hycxnh9vGFcR2Uvqr97iWTr+/hF22T84d
+ gujkJ7JVen3RZVh2yjCjLpO3V/YWoQSIx8W7MMP7H6To2lAG0e0268G+ynOuCoCX3g5DTQa7a5z
+ 0iiNrUDMuBfEXeTY=
+X-Received: by 2002:ad4:4d0f:: with SMTP id l15mr10957615qvl.78.1572278339206; 
+ Mon, 28 Oct 2019 08:58:59 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyAA1G0s1q3mJXZBoSh/sGMoKtLIOdn/XR+t4enawzGwyaheI0aXNVp2rMIuY7bYzWyYYAKzQ==
+X-Received: by 2002:ad4:4d0f:: with SMTP id l15mr10957589qvl.78.1572278338811; 
+ Mon, 28 Oct 2019 08:58:58 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ r2sm7522266qtc.28.2019.10.28.08.58.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 08:58:47 -0700 (PDT)
-Subject: [PULL 18/18] target/riscv: PMP violation due to wrong size parameter
-Date: Mon, 28 Oct 2019 08:49:02 -0700
-Message-Id: <20191028154902.32491-19-palmer@sifive.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191028154902.32491-1-palmer@sifive.com>
-References: <20191028154902.32491-1-palmer@sifive.com>
+ Mon, 28 Oct 2019 08:58:58 -0700 (PDT)
+Date: Mon, 28 Oct 2019 11:58:53 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Subject: Re: [PATCH v6 0/11] add failover feature for assigned network devices
+Message-ID: <20191028115750-mutt-send-email-mst@kernel.org>
+References: <20191025121930.6855-1-jfreimann@redhat.com>
+ <20191028102723.jwfzxp6mav6ce62g@jenstp.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191028102723.jwfzxp6mav6ce62g@jenstp.localdomain>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,68 +77,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dayeol Lee <dayeol@berkeley.edu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+Cc: aadam@redhat.com, ailan@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dayeol Lee <dayeol@berkeley.edu>
+I see at least comments from Markus.
+You answered but don't you need to also tweak the patch?
 
-riscv_cpu_tlb_fill() uses the `size` parameter to check PMP violation
-using pmp_hart_has_privs().
-However, if the size is unknown (=0), the ending address will be
-`addr - 1` as it is `addr + size - 1` in `pmp_hart_has_privs()`.
-This always causes a false PMP violation on the starting address of the
-range, as `addr - 1` is not in the range.
 
-In order to fix, we just assume that all bytes from addr to the end of
-the page will be accessed if the size is unknown.
-
-Signed-off-by: Dayeol Lee <dayeol@berkeley.edu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- target/riscv/pmp.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index d4f1007109..0e6b640fbd 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -223,6 +223,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
- {
-     int i = 0;
-     int ret = -1;
-+    int pmp_size = 0;
-     target_ulong s = 0;
-     target_ulong e = 0;
-     pmp_priv_t allowed_privs = 0;
-@@ -232,11 +233,21 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         return true;
-     }
- 
-+    /*
-+     * if size is unknown (0), assume that all bytes
-+     * from addr to the end of the page will be accessed.
-+     */
-+    if (size == 0) {
-+        pmp_size = -(addr | TARGET_PAGE_MASK);
-+    } else {
-+        pmp_size = size;
-+    }
-+
-     /* 1.10 draft priv spec states there is an implicit order
-          from low to high */
-     for (i = 0; i < MAX_RISCV_PMPS; i++) {
-         s = pmp_is_in_range(env, i, addr);
--        e = pmp_is_in_range(env, i, addr + size - 1);
-+        e = pmp_is_in_range(env, i, addr + pmp_size - 1);
- 
-         /* partially inside */
-         if ((s + e) == 1) {
--- 
-2.21.0
-
+On Mon, Oct 28, 2019 at 11:27:23AM +0100, Jens Freimann wrote:
+> Hi Michael,
+> 
+> I addressed all comments and feedback and think this can be merged but
+> I'm unclear about which tree it should go to. Will you merge it into
+> the virtio-tree?
+> 
+> regards,
+> Jens
+> 
+> On Fri, Oct 25, 2019 at 02:19:19PM +0200, Jens Freimann wrote:
+> > This is implementing the host side of the net_failover concept
+> > (https://www.kernel.org/doc/html/latest/networking/net_failover.html)
+> > 
+> > Changes since v5:
+> > * rename net_failover_pair_id parameter/property to failover_pair_id
+> > * in PCI code use pci_bus_is_express(). This won't fail on functions > 0
+> > * make sure primary and standby can't be added to same PCI slot
+> > * add documentation file in docs/ to virtio-net patch, add file to
+> >   MAINTAINERS (added to networking devices section)
+> > * add comment to QAPI event for failover negotiation, try to improve
+> >   commit message
+> > 
+> > The general idea is that we have a pair of devices, a vfio-pci and a
+> > virtio-net device. Before migration the vfio device is unplugged and data
+> > flows to the virtio-net device, on the target side another vfio-pci device
+> > is plugged in to take over the data-path. In the guest the net_failover
+> > module will pair net devices with the same MAC address.
+> > 
+> > * Patch 1 adds the infrastructure to hide the device for the qbus and qdev APIs
+> > 
+> > * Patch 2 adds checks to PCIDevice for only allowing ethernet devices as
+> >  failover primary and only PCIExpress capable devices
+> > 
+> > * Patch 3 sets a new flag for PCIDevice 'partially_hotplugged' which we
+> >  use to skip the unrealize code path when doing a unplug of the primary
+> >  device
+> > 
+> > * Patch 4 sets the pending_deleted_event before triggering the guest
+> >  unplug request
+> > 
+> > * Patch 5 and 6 add new qmp events, one sends the device id of a device
+> >  that was just requested to be unplugged from the guest and another one
+> >  to let libvirt know if VIRTIO_NET_F_STANDBY was negotiated
+> > 
+> > * Patch 7 make sure that we can unplug the vfio-device before
+> >  migration starts
+> > 
+> > * Patch 8 adds a new migration state that is entered while we wait for
+> >  devices to be unplugged by guest OS
+> > 
+> > * Patch 9 just adds the new migration state to a check in libqos code
+> > 
+> > * Patch 10 In the second patch the virtio-net uses the API to defer adding the vfio
+> >  device until the VIRTIO_NET_F_STANDBY feature is acked. It also
+> >  implements the migration handler to unplug the device from the guest and
+> >  re-plug in case of migration failure
+> > 
+> > * Patch 11 allows migration for failover vfio-pci devices
+> > 
+> > Previous discussion:
+> >  RFC v1 https://patchwork.ozlabs.org/cover/989098/
+> >  RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
+> >  v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03968.html
+> >  v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg635214.html
+> >  v3: https://patchew.org/QEMU/20191011112015.11785-1-jfreimann@redhat.com/
+> >  v4: https://patchew.org/QEMU/20191018202040.30349-1-jfreimann@redhat.com/
+> >  v5: https://patchew.org/QEMU/20191023082711.16694-1-jfreimann@redhat.com/
+> > 
+> > To summarize concerns/feedback from previous discussion:
+> > 1.- guest OS can reject or worse _delay_ unplug by any amount of time.
+> >  Migration might get stuck for unpredictable time with unclear reason.
+> >  This approach combines two tricky things, hot/unplug and migration.
+> >  -> We need to let libvirt know what's happening. Add new qmp events
+> >     and a new migration state. When a primary device is (partially)
+> >     unplugged (only from guest) we send a qmp event with the device id. When
+> >     it is unplugged from the guest the DEVICE_DELETED event is sent.
+> >     Migration will enter the wait-unplug state while waiting for the guest
+> >     os to unplug all primary devices and then move on with migration.
+> > 2. PCI devices are a precious ressource. The primary device should never
+> >  be added to QEMU if it won't be used by guest instead of hiding it in
+> >  QEMU.
+> >  -> We only hotplug the device when the standby feature bit was
+> >     negotiated. We save the device cmdline options until we need it for
+> >     qdev_device_add()
+> >     Hiding a device can be a useful concept to model. For example a
+> >     pci device in a powered-off slot could be marked as hidden until the slot is
+> >     powered on (mst).
+> > 3. Management layer software should handle this. Open Stack already has
+> >  components/code to handle unplug/replug VFIO devices and metadata to
+> >  provide to the guest for detecting which devices should be paired.
+> >  -> An approach that includes all software from firmware to
+> >     higher-level management software wasn't tried in the last years. This is
+> >     an attempt to keep it simple and contained in QEMU as much as possible.
+> >     One of the problems that stopped management software and libvirt from
+> >     implementing this idea is that it can't be sure that it's possible to
+> >     re-plug the primary device. By not freeing the devices resources in QEMU
+> >     and only asking the guest OS to unplug it is possible to re-plug the
+> >     device in case of a migration failure.
+> > 4. Hotplugging a device and then making it part of a failover setup is
+> >   not possible
+> >  -> addressed by extending qdev hotplug functions to check for hidden
+> >     attribute, so e.g. device_add can be used to plug a device.
+> > 
+> > 
+> > I have tested this with a mlx5 and igb NIC and was able to migrate the VM.
+> > 
+> > Command line example:
+> > 
+> > qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
+> >        -machine q35,kernel-irqchip=split -cpu host   \
+> >        -serial stdio   \
+> >        -net none \
+> >        -qmp unix:/tmp/qmp.socket,server,nowait \
+> >        -monitor telnet:127.0.0.1:5555,server,nowait \
+> >        -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
+> >        -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
+> >        -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
+> >        -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
+> >        -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \
+> > 	-device vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,failover_pair_id =net1 \
+> >        /root/rhel-guest-image-8.0-1781.x86_64.qcow2
+> > 
+> > I'm grateful for any remarks or ideas!
+> > 
+> > Thanks!
+> > 
+> > regards,
+> > Jens
+> > 
+> > 
+> > Jens Freimann (11):
+> >  qdev/qbus: add hidden device support
+> >  pci: add option for net failover
+> >  pci: mark devices partially unplugged
+> >  pci: mark device having guest unplug request pending
+> >  qapi: add unplug primary event
+> >  qapi: add failover negotiated event
+> >  migration: allow unplug during migration for failover devices
+> >  migration: add new migration state wait-unplug
+> >  libqos: tolerate wait-unplug migration state
+> >  net/virtio: add failover support
+> >  vfio: unplug failover primary device before migration
+> > 
+> > MAINTAINERS                    |   1 +
+> > docs/virtio-net-failover.rst   |  68 ++++++++
+> > hw/core/qdev.c                 |  25 +++
+> > hw/net/virtio-net.c            | 302 +++++++++++++++++++++++++++++++++
+> > hw/pci/pci.c                   |  32 ++++
+> > hw/pci/pcie.c                  |   6 +
+> > hw/vfio/pci.c                  |  26 ++-
+> > hw/vfio/pci.h                  |   1 +
+> > include/hw/pci/pci.h           |   4 +
+> > include/hw/qdev-core.h         |  30 ++++
+> > include/hw/virtio/virtio-net.h |  12 ++
+> > include/hw/virtio/virtio.h     |   1 +
+> > include/migration/vmstate.h    |   2 +
+> > migration/migration.c          |  21 +++
+> > migration/migration.h          |   3 +
+> > migration/savevm.c             |  36 ++++
+> > migration/savevm.h             |   2 +
+> > qapi/migration.json            |  24 ++-
+> > qapi/net.json                  |  19 +++
+> > qdev-monitor.c                 |  43 ++++-
+> > tests/libqos/libqos.c          |   3 +-
+> > vl.c                           |   6 +-
+> > 22 files changed, 652 insertions(+), 15 deletions(-)
+> > create mode 100644 docs/virtio-net-failover.rst
+> > 
+> > -- 
+> > 2.21.0
+> > 
+> > 
+> 
+> 
 
