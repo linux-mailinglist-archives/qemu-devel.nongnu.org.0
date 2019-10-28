@@ -2,50 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A30E6DA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:58:31 +0100 (CET)
-Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015E7E6DB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:00:47 +0100 (CET)
+Received: from localhost ([::1]:51618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOzv3-0002VJ-QJ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48809)
+	id 1iOzxF-0006eV-E4
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:00:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iOzpf-0001Ei-2L
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:52:56 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzaX-0005Vz-AZ
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iOzpc-00030M-PX
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:52:53 -0400
-Received: from mga04.intel.com ([192.55.52.120]:47960)
+ (envelope-from <philmd@redhat.com>) id 1iOzaW-0003Ba-0O
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21540
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iOzpc-0002p5-Eo
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:52:52 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2019 00:52:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,239,1569308400"; d="scan'208";a="224558805"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga004.fm.intel.com with ESMTP; 28 Oct 2019 00:52:49 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
- mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com
-Subject: [PATCH v14 10/11] hmat acpi: Build Memory Side Cache Information
- Structure(s)
-Date: Mon, 28 Oct 2019 15:52:19 +0800
-Message-Id: <20191028075220.25673-11-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191028075220.25673-1-tao3.xu@intel.com>
-References: <20191028075220.25673-1-tao3.xu@intel.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzaV-0003BQ-Sw
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572248235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qUG75H2spVNxXKyZ7ESRf9W2wg4FjIjlM9ygXXLckWM=;
+ b=X/vIgrpB/uyEz/EGiOtdSO0MIuCieip8jWHTpXAUR8KwNOhhbI3QClm08ub/5T8S4+etU0
+ 0Pa0fT7g0KgYmCQ1mCM3G8raIMEf0AshM+aqHbKRyC3Bwg2gML12rHugS83KAY6oFblFcw
+ RnHeriaeYNxVRMUWpPvJQuZJuMHvDaE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-Vm82sYMkMT2VoywxBwY2OA-1; Mon, 28 Oct 2019 03:37:11 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46245800D41;
+ Mon, 28 Oct 2019 07:37:10 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC9C819C69;
+ Mon, 28 Oct 2019 07:37:02 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 16/26] tests/acceptance: Test Sandalfoot initrd on the PReP/40p
+Date: Mon, 28 Oct 2019 08:34:31 +0100
+Message-Id: <20191028073441.6448-17-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
+References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Vm82sYMkMT2VoywxBwY2OA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.120
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,133 +70,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-This structure describes memory side cache information for memory
-proximity domains if the memory side cache is present and the
-physical device forms the memory side cache.
-The software could use this information to effectively place
-the data in memory to maximize the performance of the system
-memory that use the memory side cache.
+User case from:
+https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
 
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Sandalfoot info:
+http://www.juneau-lug.org/sandalfoot.php
+
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
-
-No changes in v14.
-
-Changes in v13:
-    - rename level as cache_level
+v3:
+- use avocado_qemu.wait_for_console_pattern (Cleber)
+- use exec_command_and_wait_for_pattern
+- check getenv(AVOCADO_ALLOW_UNTRUSTED_CODE) (pm215)
 ---
- hw/acpi/hmat.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ tests/acceptance/ppc_prep_40p.py | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 6ec1310e62..931aa60678 100644
---- a/hw/acpi/hmat.c
-+++ b/hw/acpi/hmat.c
-@@ -135,14 +135,63 @@ static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
-     }
- }
- 
-+/* ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure: Table 5-147 */
-+static void build_hmat_cache(GArray *table_data, HMAT_Cache_Info *hmat_cache)
-+{
-+    /*
-+     * Cache Attributes: Bits [3:0] – Total Cache Levels
-+     * for this Memory Proximity Domain
-+     */
-+    uint32_t cache_attr = hmat_cache->total_levels & 0xF;
+diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_4=
+0p.py
+index b4109a7af3..c5ecabf52f 100644
+--- a/tests/acceptance/ppc_prep_40p.py
++++ b/tests/acceptance/ppc_prep_40p.py
+@@ -11,6 +11,7 @@ import logging
+ from avocado import skipIf
+ from avocado import skipUnless
+ from avocado_qemu import MachineTest
++from avocado_qemu import exec_command_and_wait_for_pattern
+ from avocado_qemu import wait_for_console_pattern
+=20
+=20
+@@ -101,3 +102,33 @@ class IbmPrep40pMachine(MachineTest):
+=20
+         self.vm.launch()
+         wait_for_console_pattern(self, 'NetBSD/prep BOOT, Revision 1.9')
 +
-+    /* Bits [7:4] : Cache Level described in this structure */
-+    cache_attr |= (hmat_cache->level & 0xF) << 4;
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code=
+')
++    def test_sandalfoot_busybox(self):
++        """
++        :avocado: tags=3Darch:ppc
++        :avocado: tags=3Dmachine:40p
++        """
++        drive_url =3D ('http://www.juneau-lug.org/zImage.initrd.sandalfoot=
+')
++        drive_hash =3D 'dacacfc4085ea51d34d99ef70e972b849e2c6949'
++        drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_hash=
+)
 +
-+    /* Bits [11:8] - Cache Associativity */
-+    cache_attr |= (hmat_cache->associativity & 0x7) << 8;
++        self.vm.set_machine('40p')
++        self.vm.set_console()
++        self.vm.add_args('-cdrom', drive_path,
++                         '-boot', 'd')
 +
-+    /* Bits [15:12] - Write Policy */
-+    cache_attr |= (hmat_cache->write_policy & 0x7) << 12;
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Now booting the kernel')
 +
-+    /* Bits [31:16] - Cache Line size in bytes */
-+    cache_attr |= (hmat_cache->line_size & 0xFFFF) << 16;
++        msg =3D 'Please press Enter to activate this console.'
++        wait_for_console_pattern(self, msg)
 +
-+    cache_attr = cpu_to_le32(cache_attr);
++        version =3D 'BusyBox v0.60.0 (2001.08.19-09:26+0000) Built-in shel=
+l (ash)'
++        exec_command_and_wait_for_pattern(self, '', version)
 +
-+    /* Type */
-+    build_append_int_noprefix(table_data, 2, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Length */
-+    build_append_int_noprefix(table_data, 32, 4);
-+    /* Proximity Domain for the Memory */
-+    build_append_int_noprefix(table_data, hmat_cache->proximity, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 4);
-+    /* Memory Side Cache Size */
-+    build_append_int_noprefix(table_data, hmat_cache->size, 8);
-+    /* Cache Attributes */
-+    build_append_int_noprefix(table_data, cache_attr, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /*
-+     * Number of SMBIOS handles (n)
-+     * Linux kernel uses Memory Side Cache Information Structure
-+     * without SMBIOS entries for now, so set Number of SMBIOS handles
-+     * as 0.
-+     */
-+    build_append_int_noprefix(table_data, 0, 2);
-+}
++        uname =3D 'Linux ppc 2.4.18 #5 Wed May 21 23:50:43 AKDT 2003 ppc u=
+nknown'
++        exec_command_and_wait_for_pattern(self, 'uname -a', uname)
 +
- /* Build HMAT sub table structures */
- static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
- {
-     uint16_t flags;
-     uint32_t num_initiator = 0;
-     uint32_t initiator_list[MAX_NODES];
--    int i, hierarchy, type;
-+    int i, hierarchy, type, cache_level, total_levels;
-     HMAT_LB_Info *hmat_lb;
-+    HMAT_Cache_Info *hmat_cache;
- 
-     for (i = 0; i < numa_state->num_nodes; i++) {
-         flags = 0;
-@@ -176,6 +225,27 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
-             }
-         }
-     }
-+
-+    /*
-+     * ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure:
-+     * Table 5-147
-+     */
-+    for (i = 0; i < numa_state->num_nodes; i++) {
-+        total_levels = 0;
-+        for (cache_level = 1; cache_level <= MAX_HMAT_CACHE_LEVEL;
-+             cache_level++) {
-+            if (numa_state->hmat_cache[i][cache_level]) {
-+                total_levels++;
-+            }
-+        }
-+        for (cache_level = 0; cache_level <= total_levels; cache_level++) {
-+            hmat_cache = numa_state->hmat_cache[i][cache_level];
-+            if (hmat_cache) {
-+                hmat_cache->total_levels = total_levels;
-+                build_hmat_cache(table_data, hmat_cache);
-+            }
-+        }
-+    }
- }
- 
- void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state)
--- 
-2.20.1
++        cpu =3D 'PReP IBM 6015/7020 (Sandalfoot/Sandalbow)'
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo', cpu)
+--=20
+2.21.0
 
 
