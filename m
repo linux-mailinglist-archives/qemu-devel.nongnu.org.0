@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51048E7715
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:56:43 +0100 (CET)
-Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8ECE7633
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:32:48 +0100 (CET)
+Received: from localhost ([::1]:58324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP8Jt-0006zK-40
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34443)
+	id 1iP7wl-0006QJ-0V
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@sifive.com>) id 1iP7PP-0004wb-Jp
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:21 -0400
+ (envelope-from <palmer@sifive.com>) id 1iP7PS-00051u-6s
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@sifive.com>) id 1iP7PN-0003hf-S8
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:19 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:42534)
+ (envelope-from <palmer@sifive.com>) id 1iP7PR-0003jJ-2h
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:22 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36294)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7PN-0003gn-M5
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:17 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id f14so7151993pgi.9
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:17 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7PQ-0003j0-Tl
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:21 -0400
+Received: by mail-pl1-x641.google.com with SMTP id g9so5183624plp.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=subject:date:message-id:mime-version:content-transfer-encoding:cc
- :from:to; bh=FWutZqaKlOMCwD9mfXUehfygMNwllC1f40Q7KkfNmq0=;
- b=UrNpSqopBHkLgITH7t+pnmokMPAlpNAlkmk4xCi/wUjN5DLCdTpTLDXMLbEEXBDzCe
- DtiVf7vV8eKpaFl1J7wKBY5Si9SuH3FiJeqlKv/8fdLODyKVBo+O5aCJzgMti+4g63gO
- klVVAigz5IRV+ue0DZpz0ckf7djx8nAfmggWICKKICyPFK6iYC1lK6GKSIKsQsZgaV7W
- LKMT4fxWKDDXi00TNN53k3jL0y5XncqUTENpThFNzwOSq00qJYRVeV1Y1Xl8tlGhRAFP
- tlutiVBSq3FTM5fH9SeSmVsxgXtFMctcDT7xKA9e05YqNaMkA66UtEH7Eu+T7PRAvdhm
- UZiQ==
+ h=subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=D5lUa8xwyAhQuJBABUbBfsge6X0s1+ub7iA6TO4kaOc=;
+ b=hd8eDErr/6e475gD3H5orDwGbZdvxBBHYUa3YRamsq5Tc0viHoPNow12xJJh8unBJl
+ plKFgjXV9PIu4L1dn0FMQQQWYYHgHTkQHeZX7Ebg4rSQU9d+MbfD/4an0czA++PZ27gq
+ +ecEmqz6/EaZqc2B+uNeb+ykS2Ky0CXw1CRaI5smQ4AmRi8pjmpFYZqAU6RPL023YUG4
+ W0tQU8NkuNRBOB3FeIIpsUvb8P6MN5UawV6TYt7lYRvsCEGfxUFDGrngjwXn+nZbS65Y
+ y9RKm7zAhgIO8Z9reQbV1nIR5A4CUBMJ7tiVHRDQCeI94RTV7Wae37WEWAe7NlMSIOaQ
+ +6hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=FWutZqaKlOMCwD9mfXUehfygMNwllC1f40Q7KkfNmq0=;
- b=f3AQ9/jviPbmCxk80iXrbxnSY6ck42z9m7GozKoub7ix+CxqbuUdB1DNQB0vZgQt2p
- zuomsFp0/Z37gIy6HrizlliZ8Rs4AI1sWzct4Y3vwJwL5w8LavcOeyw306xhta5nc4/h
- Qbnn4q+mogEEDwlhDaZPVlbjN5Txi6CHh1/erLsK7lGvEdrK3ZekKWfTKK8psRgpvor7
- MGSWSk3GHtn5WglE6smbLaYj9KZ7l8q6vPxIrDOO7MWuIUHma73Pelwim02e6884G0IN
- YKe4tHNYLcWBUKNEaoA3LsXumGq3vMBIEDDMHsnH77WC+18Czde8Hs1lsEQPbsaXNkCJ
- NdAg==
-X-Gm-Message-State: APjAAAUTONoSi3WSGmnwi/HWlCYSlAm+siDgNuiSJY4M0tBNZFdVmqi6
- zAcHpNuuK8whonSFrtt1+hmzhdtRRWU6wg==
-X-Google-Smtp-Source: APXvYqyVhzbKqXK5nqoDzpGDhFer1L4nvkB5E4Pc/LPVWNW33P6mfeztpoMsA9vzof8VB/f3wfWuxw==
-X-Received: by 2002:a63:1c4:: with SMTP id 187mr21794646pgb.57.1572278295579; 
- Mon, 28 Oct 2019 08:58:15 -0700 (PDT)
+ h=x-gm-message-state:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding:cc:from:to;
+ bh=D5lUa8xwyAhQuJBABUbBfsge6X0s1+ub7iA6TO4kaOc=;
+ b=YMvpXMe2wXBii4ycRtXpVHQ6dvs3AS62dxSzg4bvm3QM27Mz558ck8OEblleRh8xZ+
+ VEor+fidI1Z/zVM7EXawje3oswiEED8uq2o+OrGfP/OV5jQCl9hsSWgKeqOgMQvCrqru
+ 9Bp7MCxZqo7BGceAuG+vHUvu4Y6UCeAmwdzgKl4SphNWVfhX0Y6M6miQ3/qRnC/QHoHY
+ g8VKgs6hEFz9V4O7dQkvjMr1PiXyBvZJTw4OWKjcES8ZhdExufUs2jF5PRM0zqzgWnpV
+ YPCk1MYAYvORM4o6v1RS87oT7Pe7zvUPxrH044ACpYkFOYb8oqIfvy4T2LmZFUOfzoKQ
+ Dx1A==
+X-Gm-Message-State: APjAAAUJJH1wGq3ydiPj3Mm+5PSY1z4ucjPFl8SxcKVZdEvcoU2o/trU
+ 9+yIj0KNQdM1UuDsgYoFij1xKZPzxFE7Vg==
+X-Google-Smtp-Source: APXvYqyq3M+syw8xc6lucIqG7RBmg6RqYTXD2wiHLFaNKi4f+rK2gBJb05CmXV70xHeTohNZ5o5PKQ==
+X-Received: by 2002:a17:902:7c07:: with SMTP id
+ x7mr1754209pll.210.1572278299477; 
+ Mon, 28 Oct 2019 08:58:19 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id p7sm11262841pjp.4.2019.10.28.08.58.14
+ by smtp.gmail.com with ESMTPSA id d14sm13225525pfh.36.2019.10.28.08.58.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 08:58:14 -0700 (PDT)
-Subject: [PULL] RISC-V Patches for the 4.2 Soft Freeze, Part 2
-Date: Mon, 28 Oct 2019 08:48:44 -0700
-Message-Id: <20191028154902.32491-1-palmer@sifive.com>
+ Mon, 28 Oct 2019 08:58:18 -0700 (PDT)
+Subject: [PULL 02/18] RISC-V: Handle bus errors in the page table walker
+Date: Mon, 28 Oct 2019 08:48:46 -0700
+Message-Id: <20191028154902.32491-3-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191028154902.32491-1-palmer@sifive.com>
+References: <20191028154902.32491-1-palmer@sifive.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52f
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,94 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ ilippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-merged tag 'for_upstream'
-Primary key fingerprint: 0270 606B 6F3C DF3D 0B17  0970 C350 3912 AFBE 8E67
-     Subkey fingerprint: 5D09 FD08 71C8 F85B 94CA  8A0D 281F 0DB8 D28D 5469
-The following changes since commit 9bb73502321d46f4d320fa17aa38201445783fc4:
+We directly access physical memory while walking the page tables on
+RISC-V, but while doing so we were using cpu_ld*() which does not report
+bus errors.  This patch converts the page table walker over to use
+address_space_ld*(), which allows bus errors to be detected.
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-10-28 13:32:40 +0000)
+Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+---
+ target/riscv/cpu_helper.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
-
-  git://github.com/palmer-dabbelt/qemu.git tags/riscv-for-master-4.2-sf2
-
-for you to fetch changes up to 9667e53573f907d4fcd6accff1c8fe525544b749:
-
-  target/riscv: PMP violation due to wrong size parameter (2019-10-28 08:46:33 -0700)
-
-----------------------------------------------------------------
-RISC-V Patches for the 4.2 Soft Freeze, Part 2
-
-This patch set contains a handful of small fixes for RISC-V targets that
-I'd like to target for the 4.2 soft freeze.  They include:
-
-* A fix to allow the debugger to access the state of all privilege
-  modes, as opposed to just the currently executing one.
-* A pair of cleanups to implement cpu_do_transaction_failed.
-* Fixes to the device tree.
-* The addition of various memory regions to make the sifive_u machine
-  more closely match the HiFive Unleashed board.
-* Fixes to our GDB interface to allow CSRs to be accessed.
-* A fix to a memory leak pointed out by coverity.
-* A fix that prevents PMP checks from firing incorrectly.
-
-This passes "make chcek" and boots Open Embedded for me.
-
-----------------------------------------------------------------
-Alistair Francis (8):
-      riscv/sifive_u: Add L2-LIM cache memory
-      riscv/sifive_u: Add QSPI memory region
-      riscv/sifive_u: Manually define the machine
-      riscv/sifive_u: Add the start-in-flash property
-      riscv/virt: Manually define the machine
-      riscv/virt: Add the PFlash CFI01 device
-      riscv/virt: Jump to pflash if specified
-      riscv/boot: Fix possible memory leak
-
-Bin Meng (3):
-      riscv: Skip checking CSR privilege level in debugger mode
-      riscv: hw: Drop "clock-frequency" property of cpu nodes
-      riscv: sifive_u: Add ethernet0 to the aliases node
-
-Dayeol Lee (1):
-      target/riscv: PMP violation due to wrong size parameter
-
-Giuseppe Musacchio (1):
-      linux-user/riscv: Propagate fault address
-
-Jonathan Behrens (3):
-      target/riscv: Tell gdbstub the correct number of CSRs
-      target/riscv: Expose "priv" register for GDB for reads
-      target/riscv: Make the priv register writable by GDB
-
-Palmer Dabbelt (2):
-      RISC-V: Handle bus errors in the page table walker
-      RISC-V: Implement cpu_do_transaction_failed
-
- configure                       |   4 +-
- gdb-xml/riscv-32bit-virtual.xml |  11 ++++
- gdb-xml/riscv-64bit-virtual.xml |  11 ++++
- hw/riscv/Kconfig                |   1 +
- hw/riscv/boot.c                 |  11 ++--
- hw/riscv/sifive_u.c             | 105 ++++++++++++++++++++++++++------
- hw/riscv/spike.c                |   2 -
- hw/riscv/virt.c                 | 129 +++++++++++++++++++++++++++++++++++++---
- include/hw/riscv/sifive_u.h     |  12 +++-
- include/hw/riscv/spike.h        |   4 --
- include/hw/riscv/virt.h         |  14 +++--
- linux-user/riscv/cpu_loop.c     |   3 +-
- target/riscv/cpu.c              |   2 +-
- target/riscv/cpu.h              |   7 ++-
- target/riscv/cpu_helper.c       |  28 ++++++---
- target/riscv/csr.c              |   5 +-
- target/riscv/gdbstub.c          |  36 ++++++++++-
- target/riscv/pmp.c              |  13 +++-
- 18 files changed, 334 insertions(+), 64 deletions(-)
- create mode 100644 gdb-xml/riscv-32bit-virtual.xml
- create mode 100644 gdb-xml/riscv-64bit-virtual.xml
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 87dd6a6ece..c82e7ed52b 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -169,7 +169,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+     /* NOTE: the env->pc value visible here will not be
+      * correct, but the value visible to the exception handler
+      * (riscv_cpu_do_interrupt) is correct */
+-
++    MemTxResult res;
++    MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+     int mode = mmu_idx;
+ 
+     if (mode == PRV_M && access_type != MMU_INST_FETCH) {
+@@ -256,11 +257,16 @@ restart:
+             1 << MMU_DATA_LOAD, PRV_S)) {
+             return TRANSLATE_PMP_FAIL;
+         }
++
+ #if defined(TARGET_RISCV32)
+-        target_ulong pte = ldl_phys(cs->as, pte_addr);
++        target_ulong pte = address_space_ldl(cs->as, pte_addr, attrs, &res);
+ #elif defined(TARGET_RISCV64)
+-        target_ulong pte = ldq_phys(cs->as, pte_addr);
++        target_ulong pte = address_space_ldq(cs->as, pte_addr, attrs, &res);
+ #endif
++        if (res != MEMTX_OK) {
++            return TRANSLATE_FAIL;
++        }
++
+         hwaddr ppn = pte >> PTE_PPN_SHIFT;
+ 
+         if (!(pte & PTE_V)) {
+-- 
+2.21.0
 
 
