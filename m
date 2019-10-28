@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05503E7524
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:30:42 +0100 (CET)
-Received: from localhost ([::1]:50452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDD1E7575
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:49:03 +0100 (CET)
+Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP6ye-00081J-22
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:30:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
+	id 1iP7GP-0002gL-Je
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iP6qj-0008O4-69
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:22:30 -0400
+ (envelope-from <bounces@canonical.com>) id 1iP6yr-0001gr-67
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iP6lP-0006Rm-Is
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:17:00 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41413)
+ (envelope-from <bounces@canonical.com>) id 1iP6yp-0006O1-KT
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41066)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iP6lP-0006P1-DL
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:16:59 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 94so6918558oty.8
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b3W8+Qp16hmsb7/JhtK8PXuOeb3m3ErHdyA5OPSEtIk=;
- b=uAibY66Cn5eqjLRfWcMvqp6bm84T/njNNWYsekP/MKFcRDuKTn6JlJTDmvhB+ZuMVC
- JqY1mF24mP+Q01BlOdZpS47rfjlTzUC54gSN589nwK50xAPrMwmbVnFVa5GbudhTXsO8
- 3Jjq72jE17k85mdGDAVVued3ug04Jg8/PwdJOsw8e7RcgD5BmZQjh5uDcOrr4qKXoDSI
- I2HivvV1/6Kl26NEnNvzsASBXDkN+tqOMtYG2Moeg+VFEaJOiB1YAZR/jRA4s4CG6dVO
- df7akOVvV5rMiJzF0FHqEtzyf3kyutnWGOg3GFzLLN/8dCgxz6RBJTOvBKNNgO3YI+e7
- tAdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b3W8+Qp16hmsb7/JhtK8PXuOeb3m3ErHdyA5OPSEtIk=;
- b=K3aY7pUrpbF/weSXw9Am93EDEJI7oyXk6gnsG+lgM3BLZwaLvWBX/eEtV0+Ki5ceCI
- xxnPMx1y0XufMBxMvQ6tlmL7Q+7XtlKsNrVXPVeKfHrjoX4qN4H6vC4f1tzYTjaTpMPg
- 7NHqNtnZqExyaY35z4dGHpuyRp0MZx9kUKHaFjhui56xjWCOeCFLO1r1Cx/Oc/b0Wj8k
- Wyfqla19ayhXTssUwtkLOKqiUSCreSbdKd36skvhcf5EBX/hrkCipF/x0Z9vgGd24X79
- Um5fWmFfXmLp+gW9hqWObT9Ip0o1+1dysvQYNZFJ5HhRjlC39ZoI/Zkk+ojAsnV84Grc
- 6tLw==
-X-Gm-Message-State: APjAAAVImPS64WIc2EyUjQ40p9JSsP3TTEOfuBksHc2SH5DcEeyEvson
- M8WJNWgG1ITU8a0Gau5Ttg0hZtwAEe7HRFyH7qLzXA==
-X-Google-Smtp-Source: APXvYqwqqKJhg7rD9h45FcQj/MOCW1kI8o9v8PwLEaiJloqU8FA8MBujZefHAT4c+ZPqFdOMOqMj8n8/SIENvz5VnJ0=
-X-Received: by 2002:a9d:7385:: with SMTP id j5mr4039306otk.135.1572275817240; 
- Mon, 28 Oct 2019 08:16:57 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iP6yp-0006ND-Dw
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iP6ym-0006Se-Px
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:30:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C17DF2E80CB
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:30:48 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191026032447.20088-1-zhengxiang9@huawei.com>
- <20191027061450-mutt-send-email-mst@kernel.org>
- <6c44268a-2676-3fa1-226d-29877b21dbea@huawei.com>
- <20191028042645-mutt-send-email-mst@kernel.org>
- <1edda59a-8b3d-1eec-659a-05356d55ed22@huawei.com>
- <20191028104834-mutt-send-email-mst@kernel.org>
- <a16f00df-98cd-3469-1c64-d9d7a6ccaccf@huawei.com>
-In-Reply-To: <a16f00df-98cd-3469-1c64-d9d7a6ccaccf@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Oct 2019 15:16:56 +0000
-Message-ID: <CAFEAcA9fTOoOpeHfnhgy1p-tXk3b8p-e8T02jWkhhBmjv3OnDA@mail.gmail.com>
-Subject: Re: [PATCH v20 0/5] Add ARMv8 RAS virtualization support in QEMU
-To: gengdongjiu <gengdongjiu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 28 Oct 2019 15:18:23 -0000
+From: Max Reitz <1850000@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gschafer xanclic
+X-Launchpad-Bug-Reporter: Toolybird (gschafer)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157212805514.19102.17568097209992499457.malonedeb@wampee.canonical.com>
+Message-Id: <157227590374.3410.13315745384683642887.malone@gac.canonical.com>
+Subject: [Bug 1850000] Re: 4.1.0 bogus QCOW2 corruption reported after compress
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7618d102ce753d5838701102675de3c3114ef502
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,61 +65,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>, "xuwei \(O\)" <xuwei5@huawei.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, wanghaibin.wang@huawei.com,
- Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1850000 <1850000@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Oct 2019 at 15:11, gengdongjiu <gengdongjiu@huawei.com> wrote:
->
-> On 2019/10/28 22:56, Michael S. Tsirkin wrote:
-> > On Mon, Oct 28, 2019 at 09:50:21PM +0800, gengdongjiu wrote:
-> >> Hi Michael,
-> >>
-> >> On 2019/10/28 16:28, Michael S. Tsirkin wrote:
-> >>>>> gets some testing.  I'll leave this decision to the ARM maintainer.  For
-> >>>>> ACPI parts:
-> >>>>>
-> >>>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >>>> Got it, Thanks for the Reviewed-by from Michael.
-> >>>>
-> >>>> Hi Michael,
-> >>>>   According to discussion with QEMU community, I finished and developed the whole ARM RAS virtualization solution, and introduce the ARM APEI table in the first time.
-> >>>> For the newly created files, which are mainly about ARM APEI/GHES part,I would like to maintain them. If you agree it, whether I can add new maintainers[1]? thanks a lot.
-> >>>>
-> >>>>
-> >>>> [1]:
-> >>>> +ARM APEI Subsystem
-> >>>> +M: Dongjiu Geng <gengdongjiu@huawei.com>
-> >>>> +M: Xiang zheng <zhengxiang9@huawei.com>
-> >>>> +L: qemu-arm@nongnu.org
-> >>>> +S: Maintained
-> >>>> +F: hw/acpi/acpi_ghes.c
-> >>>>
-> >>> I think for now you want to be a designated reviewer.  So I'd use an R:
-> >>> tag.
-> >>
-> >>  Thanks for the reply.
-> >>  I want to be a maintainer for my newly created files, so whether I can use M: tag. I would like to contribute some time to maintain that, thanks a lot.
-> >
-> > This will fundamentally be up to Peter.
->
-> Thanks.
->
-> Hi Peter,
->     what do you think about it?
+There is definitely a bug in that patch, and that is that
+QCOW2_COMPRESSED_SECTOR_MASK is an unsigned int instead of a uint64_t
+(so the mask is too small).
 
-I suggest you just use R: for the moment. The code will all end up going
-through my tree or perhaps Michael's anyway, so it doesn't make much
-practical difference.
+It looks like the bug has existed in some places before that patch
+(because they use ~511 as a mask), but not in others.
 
-thanks
--- PMM
+This would explain why the bug is visible only for some images, namely
+for those with a compressed size of more than 4 GB, I presume.
+
+
+And indeed, fixing QCOW2_COMPRESSED_SECTOR_MASK to be an unsigned long long=
+ fixes the bug.  I=E2=80=99ll send a patch (but I=E2=80=99ll have to write =
+a more simple and quicker test case first).
+
+Max
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1850000
+
+Title:
+  4.1.0 bogus QCOW2 corruption reported after compress
+
+Status in QEMU:
+  New
+
+Bug description:
+  Creating a compressed image then running `qemu-img check <..>.qcow2'
+  on said image seems to report bogus corruption in some (but not all)
+  cases:
+
+  Step 1.
+
+  # qemu-img info win7-base.qcow2
+  image: win7-base.qcow2
+  file format: qcow2
+  virtual size: 20 GiB (21474836480 bytes)
+  disk size: 12.2 GiB
+  cluster_size: 65536
+  Format specific information:
+      compat: 1.1
+      lazy refcounts: true
+      refcount bits: 16
+      corrupt: false
+
+  # qemu-img check win7-base.qcow2
+  No errors were found on the image.
+  327680/327680 =3D 100.00% allocated, 0.00% fragmented, 0.00% compressed c=
+lusters
+  Image end offset: 21478375424
+
+  Step 2.
+
+  # qemu-img convert -f qcow2 -O qcow2 -c win7-base.qcow2 test1-z.qcow2
+
+  Step 3.
+
+  # qemu-img info test1-z.qcow2
+  image: test1-z.qcow2
+  file format: qcow2
+  virtual size: 20 GiB (21474836480 bytes)
+  disk size: 5.78 GiB
+  cluster_size: 65536
+  Format specific information:
+      compat: 1.1
+      lazy refcounts: false
+      refcount bits: 16
+      corrupt: false
+
+  # qemu-img check test1-z.qcow2
+  ERROR cluster 1191 refcount=3D1 reference=3D2
+  ERROR cluster 1194 refcount=3D1 reference=3D4
+  ERROR cluster 1195 refcount=3D1 reference=3D7
+  ERROR cluster 1196 refcount=3D1 reference=3D7
+  ERROR cluster 1197 refcount=3D1 reference=3D6
+  ERROR cluster 1198 refcount=3D1 reference=3D4
+  ERROR cluster 1199 refcount=3D1 reference=3D4
+  ERROR cluster 1200 refcount=3D1 reference=3D5
+  ERROR cluster 1201 refcount=3D1 reference=3D3
+  <...> snip many errors
+  Leaked cluster 94847 refcount=3D3 reference=3D0
+  Leaked cluster 94848 refcount=3D3 reference=3D0
+  Leaked cluster 94849 refcount=3D11 reference=3D0
+  Leaked cluster 94850 refcount=3D14 reference=3D0
+
+  20503 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  20503 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
+clusters
+  Image end offset: 6216220672
+
+  =
+
+  The resultant image seems to work fine in a VM when used as a backing fil=
+e.
+
+  Interestingly, if I substitute a qemu-img binary from qemu-4.0 then no
+  errors are reported.
+
+  # /tmp/qemu-img check test1-z.qcow2
+  No errors were found on the image.
+  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
+clusters
+  Image end offset: 6216220672
+
+  Is the image corrupted or not? I'm guessing not.
+
+  Just in case it matters, this is ext4 fs on rotational disk. Latest
+  Arch Linux but self compiled 4.1.0 with recent QCOW2 corruption fixes
+  added.
+
+  I haven't tried latest trunk but might do so if time permits.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1850000/+subscriptions
 
