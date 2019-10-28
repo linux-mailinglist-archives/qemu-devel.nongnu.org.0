@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E64BE7A7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:50:18 +0100 (CET)
-Received: from localhost ([::1]:39688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AA2E7A9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:57:18 +0100 (CET)
+Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPBxw-00077j-TM
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33762)
+	id 1iPC4i-000838-PN
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iPBwX-0005bZ-0d
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:48:50 -0400
+ (envelope-from <crosa@redhat.com>) id 1iPC2Z-0005qL-Oc
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:55:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iPBwU-0003nZ-P8
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:48:48 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39314
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1iPC2X-0005o8-CI
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:55:02 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38409)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPBwS-0003ly-Ni
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:48:44 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPC2W-0005nc-Se
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:55:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572295723;
+ s=mimecast20190719; t=1572296099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CVvsJw7P082vyOaC543TQCPovVzSTgCaxzjMNTZPxmg=;
- b=MayGkjrZpd1XzOBrsm9dG6JDBiNowXFu6eMwtVX4oZggOFQsf5JwdDaSRVH1oJ00xittuF
- EJ/2K/p4cXXCRMGLQVhl6WIhPLCfmlqo0UmDkLhywRuoeklV0vR8ZxRq0Yc4TNGWW4l1Jl
- sfKOb+B4zCifW1m5hoAni5bDWFAFAMI=
+ bh=zzLpVCpdBGLrejxVBKJ3SW3r4XSFrbynxArLjwlQGao=;
+ b=h0z/eRQdt1+P7/car8s+pQb4HSvb2ZTfMcKzJrdWStsCIJFaUTWZZXHXc03O+WPUat0tE2
+ dTY/WdVSjKQXNypwQymsFYtrIv60XKHfw2ehgXX7REfw46mIqCaIzoa/9bp281t+CW2bse
+ uNTttaTCh222xQv9pAVotwwgIw22onc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-4FHSRmVIMKWh3dZa1mRu3A-1; Mon, 28 Oct 2019 16:48:39 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-5-CkDU23vbOg6QL9akm4eAHQ-1; Mon, 28 Oct 2019 16:54:56 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0C0A85B6EE;
- Mon, 28 Oct 2019 20:48:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09E09801E64;
+ Mon, 28 Oct 2019 20:54:55 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
  [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D11D55D9C8;
- Mon, 28 Oct 2019 20:48:31 +0000 (UTC)
-Date: Mon, 28 Oct 2019 16:48:29 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B18B460856;
+ Mon, 28 Oct 2019 20:54:48 +0000 (UTC)
+Date: Mon, 28 Oct 2019 16:54:46 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 22/26] tests/boot_linux_console: Boot Linux and run few
- commands on raspi3
-Message-ID: <20191028204829.GD18794@localhost.localdomain>
+Subject: Re: [PATCH 23/26] tests/boot_linux_console: Test SDHCI and termal
+ sensor on raspi3
+Message-ID: <20191028205446.GE18794@localhost.localdomain>
 References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-23-philmd@redhat.com>
+ <20191028073441.6448-24-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-23-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-24-philmd@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 4FHSRmVIMKWh3dZa1mRu3A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: CkDU23vbOg6QL9akm4eAHQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,125 +86,75 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:37AM +0100, Philippe Mathieu-Daud=E9 wrote:
+On Mon, Oct 28, 2019 at 08:34:38AM +0100, Philippe Mathieu-Daud=E9 wrote:
 > From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 >=20
-> Add a test which boots Linux and run basic commands using the serial
-> port console.
+> Add a test which loads the root filesystem on a SD card.
+> Use a kernel recent enough to also test the thermal sensor.
 >=20
-> The kernel image is built by the Debian project:
-> https://wiki.debian.org/RaspberryPi
->=20
-> The DeviceTree blob comes from the official Raspberry Pi project:
-> https://www.raspberrypi.org/
+> The kernel image comes from:
+> https://github.com/sakaki-/bcmrpi3-kernel#description
 >=20
 > The cpio image used comes from the linux-build-test project:
 > https://github.com/groeck/linux-build-test
->=20
-> This test can be run using:
->=20
->   $ avocado run --show=3Dconsole,app run -t machine:raspi3 tests/acceptan=
-ce
->   console: [    0.000000] Linux version 4.14.0-3-arm64 (debian-kernel@lis=
-ts.debian.org) (gcc version 7.2.0 (Debian 7.2.0-18)) #1 SMP Debian 4.14.12-=
-2 (2018-01-06)
->   console: [    0.000000] Boot CPU: AArch64 Processor [410fd034]
->   console: [    0.000000] Machine model: Raspberry Pi 3 Model B
->   console: [    0.000000] earlycon: pl11 at MMIO 0x000000003f201000 (opti=
-ons '')
->   console: [    0.000000] bootconsole [pl11] enabled
->   [...]
->   console: Starting network: OK
->   console: Found console ttyAMA0
->   console: Boot successful.
->   console: / # cat /proc/cpuinfo
->   console: processor      : 0
->   console: BogoMIPS       : 125.00
->   console: r      : 0x41
->   console: CPU architecture: 8
->   console: CPU variant
->   console: : 0x0
->   console: CPU part       : 0xd03
->   console: CPU revision   : 4
->   console: / # uname -a
->   console: Linux buildroot 4.14.0-3-arm64 #1 SMP Debian 4.14.12-2 (2018-0=
-1-06) aarch64 GNU/Linux
->   console: reboot
->   console: / # reboot
->   console: / # Found console ttyAMA0
->   console: Stopping network: OK
->   console: Saving random seed... done.
->   console: Stopping logging: OK
->   console: umount: devtmpfs busy - remounted read-only
->   console: umount: can't unmount /: Invalid argument
->   console: The system is going down NOW!
->   console: Sent SIGTERM to all processes
->   console: Sent SIGKILL to all processes
->   console: Requesting system reboot
->   console: kvm: exiting hardware virtualization
->   console: reboot: Restarting system
->   PASS (11.08 s)
 >=20
 > Reviewed-by: Cleber Rosa <crosa@redhat.com>
 > Tested-by: Cleber Rosa <crosa@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 > ---
 > v2: Use archive.gzip_uncompress (Cleber)
->=20
-> some chars are scrambled on the console?
-> Cleber ran this 100 times and doesn't have issue.
 > ---
->  tests/acceptance/boot_linux_console.py | 48 ++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
+>  tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
 >=20
 > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
 ot_linux_console.py
-> index 1c9ff2bda3..dc27d79199 100644
+> index dc27d79199..44a046bd64 100644
 > --- a/tests/acceptance/boot_linux_console.py
 > +++ b/tests/acceptance/boot_linux_console.py
-> @@ -338,6 +338,54 @@ class BootLinuxConsole(MachineTest):
->          """
->          self.do_test_arm_raspi2(1)
+> @@ -386,6 +386,52 @@ class BootLinuxConsole(MachineTest):
+>          exec_command_and_wait_for_pattern(self, 'reboot',
+>                                                  'reboot: Restarting syst=
+em')
 > =20
-> +    def test_arm_raspi3_initrd_uart0(self):
+> +    def test_arm_raspi3_initrd_sd_temp(self):
 > +        """
 > +        :avocado: tags=3Darch:aarch64
 > +        :avocado: tags=3Dmachine:raspi3
 > +        """
-> +        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
-> +                   '20180106T174014Z/pool/main/l/linux/'
-> +                   'linux-image-4.14.0-3-arm64_4.14.12-2_arm64.deb')
-> +        deb_hash =3D 'e71c995de57921921895c1162baea5df527d1c6b'
-> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-> +        kernel_path =3D self.extract_from_deb(deb_path,
-> +                                            '/boot/vmlinuz-4.14.0-3-arm6=
-4')
+> +        tarball_url =3D ('https://github.com/sakaki-/bcmrpi3-kernel/rele=
+ases/'
+> +                       'download/4.19.71.20190910/'
+> +                       'bcmrpi3-kernel-4.19.71.20190910.tar.xz')
+> +        tarball_hash =3D '844f117a1a6de0532ba92d2a7bceb5b2acfbb298'
+> +        tarball_path =3D self.fetch_asset(tarball_url, asset_hash=3Dtarb=
+all_hash)
+> +        archive.extract(tarball_path, self.workdir)
+> +        dtb_path    =3D self.workdir + "/boot/bcm2837-rpi-3-b.dtb"
+> +        kernel_path =3D self.workdir + "/boot/kernel8.img"
 > +
-> +        dtb_url =3D ('https://github.com/raspberrypi/firmware/raw/'
-> +                   '1.20180313/boot/bcm2710-rpi-3-b.dtb')
-> +        dtb_hash =3D 'eb14d67133401ef2f93523be7341456d38bfc077'
-> +        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-> +
-> +        initrd_url =3D ('https://github.com/groeck/linux-build-test/raw/=
+> +        rootfs_url =3D ('https://github.com/groeck/linux-build-test/raw/=
 '
 > +                      '9b6b392ea7bc15f0d6632328d429d31c9c6273da/rootfs/'
-> +                      'arm64/rootfs.cpio.gz')
-> +        initrd_hash =3D '6fd05324f17bb950196b5ad9d3a0fa996339f4cd'
-> +        initrd_path_gz =3D self.fetch_asset(initrd_url, asset_hash=3Dini=
-trd_hash)
-> +        initrd_path =3D self.workdir + "rootfs.cpio"
-> +        archive.gzip_uncompress(initrd_path_gz, initrd_path)
+> +                      'arm64/rootfs.ext2.gz')
+> +        rootfs_hash =3D 'dbe4136f0b4a0d2180b93fd2a3b9a784f9951d10'
+> +        rootfs_path_gz =3D self.fetch_asset(rootfs_url, asset_hash=3Droo=
+tfs_hash)
+> +        rootfs_path =3D self.workdir + "rootfs.ext2"
+> +        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
 > +
 > +        self.vm.set_machine('raspi3')
 > +        self.vm.set_console()
 > +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
 > +                               'earlycon=3Dpl011,0x3f201000 console=3Dtt=
 yAMA0 ' +
+> +                               'root=3D/dev/mmcblk0 rootwait rw ' +
 > +                               'panic=3D-1 noreboot')
 > +        self.vm.add_args('-kernel', kernel_path,
 > +                         '-dtb', dtb_path,
-> +                         '-initrd', initrd_path,
 > +                         '-append', kernel_command_line,
+> +                         '-drive', 'file=3D' + rootfs_path + ',if=3Dsd,f=
+ormat=3Draw',
 > +                         '-no-reboot')
 > +        self.vm.launch()
 > +
@@ -214,13 +163,32 @@ yAMA0 ' +
  ]-----')
 > +
 
-With the previous refactors to wait_for_console_pattern(), this should beco=
-me:
+Same here as in previous patch, that is:
 
         wait_for_console_pattern(self,
                                  'Boot successful.',
                                  failure_message=3D'-----[ cut here ]-----'=
 )
+
+Also, I'm getting the same experience, that is it gets stuck...
+
+VM launch command: 'aarch64-softmmu/qemu-system-aarch64 -chardev socket,id=
+=3Dmon,path=3D/var/tmp/tmpi8x47vvd/qemu-25605-monitor.sock -mon chardev=3Dm=
+on,mode=3Dcontrol -display none -vga none -machine raspi3 -chardev socket,i=
+d=3Dconsole,path=3D/var/tmp/tmpi8x47vvd/qemu-25605-console.sock,server,nowa=
+it -serial chardev:console -kernel /var/tmp/avocado_lfnakl9r/avocado_job_t5=
+whwper/1-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_arm_r=
+aspi3_initrd_sd_temp/boot/kernel8.img -dtb /var/tmp/avocado_lfnakl9r/avocad=
+o_job_t5whwper/1-tests_acceptance_boot_linux_console.py_BootLinuxConsole.te=
+st_arm_raspi3_initrd_sd_temp/boot/bcm2837-rpi-3-b.dtb -append printk.time=
+=3D0 earlycon=3Dpl011,0x3f201000 console=3DttyAMA0 root=3D/dev/mmcblk0 root=
+wait rw panic=3D-1 noreboot -drive file=3D/var/tmp/avocado_lfnakl9r/avocado=
+_job_t5whwper/1-tests_acceptance_boot_linux_console.py_BootLinuxConsole.tes=
+t_arm_raspi3_initrd_sd_temprootfs.ext2,if=3Dsd,format=3Draw -no-reboot'
+ >>> {'execute': 'qmp_capabilities'}
+ <<< {'return': {}}
+
+... right here.
 
 - Cleber.
 
