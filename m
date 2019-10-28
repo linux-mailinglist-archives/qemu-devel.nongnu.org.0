@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E49AE72D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:46:49 +0100 (CET)
-Received: from localhost ([::1]:53926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA18E72B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:36:16 +0100 (CET)
+Received: from localhost ([::1]:53810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP5M7-0005Kk-TW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59091)
+	id 1iP5Bu-0001P9-Ip
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iP51g-0004o9-KW
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 09:25:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iP587-0006nw-Qq
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 09:32:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iP51e-0005tO-Ae
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 09:25:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28270
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iP51e-0005nh-6U
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 09:25:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572269133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jGTExe9HJDAOZ8M1MhceSTlYxngBe6RqqAEIHsZHR7A=;
- b=IwBHfNZ07gETF6E2TJZD9ixHA4OgdpVYCDiDKZRkJfdErpubN/2OJZWQuXHj6mYSOJf69k
- RlIojzUJqAIuE1F0xdNdkUIT4Zp2YFBruJyqPP3ldTpuU5xo24fG3MTtfNWZV/yoz4a5JK
- ZxEfsuYdj1QMziM1YV147DxEx3coNzQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-RndUgKpaNwmHj-bY5TNQMg-1; Mon, 28 Oct 2019 09:25:29 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6053801E56;
- Mon, 28 Oct 2019 13:25:28 +0000 (UTC)
-Received: from work-vm (ovpn-116-216.ams2.redhat.com [10.36.116.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22D082634E;
- Mon, 28 Oct 2019 13:24:59 +0000 (UTC)
-Date: Mon, 28 Oct 2019 13:24:56 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 00/30] virtiofs daemon (base)
-Message-ID: <20191028132456.GA2961@work-vm>
-References: <20191021105832.36574-1-dgilbert@redhat.com>
- <20191027091007-mutt-send-email-mst@kernel.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1iP586-0005Jg-8v
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 09:32:19 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:45867)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iP586-0005Ic-2r
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 09:32:18 -0400
+Received: by mail-oi1-x232.google.com with SMTP id k2so739782oij.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iXoDgzcs+7NR0yYllfi3a4ktjcsvxp8pYcO0MdUoBkI=;
+ b=rftSiUPGNfTIMv7X304eGZMX0Ttsw2dBWkhD6rBQGSbiE98NUnoZqx40jSGCKi9d7v
+ abrH1+Aj3/ib4pmHDE6ii8rvKpoUAqgxMNUreODK/pMCccAqlgNmzRsxRK8NVWolxQ8w
+ +qZzAV8Gq8rqJKuF1xYvySh3iBnz1k0DAWWfi4NM9DExJHgrWBmNMHokQ4uSkact16ef
+ FgGU1wAwYarsQHoc9Ve/DapuLFjiWGduHergh2pleYG5C0bJcgC+Wq7vBEfGeycrA/M1
+ n2mt9i3OmWzntnOY+C+pbmbOGpz3D3Lmqbg00Wls2zn9TG1e9YuWLwt4ebf506tt2FDd
+ 4sWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iXoDgzcs+7NR0yYllfi3a4ktjcsvxp8pYcO0MdUoBkI=;
+ b=lHiOC04O3S7PY5DcKLjJH0IhF9xViVo9OTkXE8InZ0v/uQsboKlnyDcrL56jx2uu/4
+ Mp/+QglKKYypxlQyrbUAfgIQswqSS53THm7dtpsiC73tz2XGSv3AwE3E849EjaUFZxAL
+ mzucCJvbaPebs21Wu/xxgXH0+PT5usPE7gyA4KoKAkdPcdgriFmbjbKVYHQcInMZFquZ
+ vH4tTXtZcteeHZirXszNYkKTmFCzvfHBH5k5LmqxNrO00rJbv9G6/b+9Rm2Nui4vLrOO
+ ZKfZ2BvHz8APfCFjohN+PeNuX5M1yDB2b9Dwf2FFoOahPeJEXP3Tp1pGwvtspqvYNDRr
+ skAg==
+X-Gm-Message-State: APjAAAWuKsznCBXSEPqmsYYlue4z9TFcUSJkV+dMpnZeB9uD1bgDpoRc
+ DLjbPpi58MFlfIk4wf3N5MdlyfV7sImDY6dsEbGEDA==
+X-Google-Smtp-Source: APXvYqw/qYdP/h4Q8Y4t2LRppMIKBDXaBhIAqXUIYDKBCz6TUYKqF8f3PuWmdmwQYBBfMqZICqaikB8rp9J6zwCTE9U=
+X-Received: by 2002:aca:2312:: with SMTP id e18mr17746oie.98.1572269537134;
+ Mon, 28 Oct 2019 06:32:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191027091007-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: RndUgKpaNwmHj-bY5TNQMg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <1572097538-18898-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1572097538-18898-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 28 Oct 2019 13:32:18 +0000
+Message-ID: <CAFEAcA-RypiVv5Wc92FMw2pAxtNjLLrOTWQzAYb4Ps_mRKsm-g@mail.gmail.com>
+Subject: Re: [PULL v2 00/39] Misc (mostly x86) patches for 2019-10-24
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,41 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, piaojun@huawei.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com, eguan@linux.alibaba.com, vgoyal@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Mon, Oct 21, 2019 at 11:58:02AM +0100, Dr. David Alan Gilbert (git) wr=
-ote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >=20
-> > Hi,
-> >   This is the 1st set for the virtiofsd - a daemon
-> > that implements the user space side of virtiofs.
-> >=20
-> >   The kernel and qemu device parts recently went in,
-> > so the daemon is the only thing missing to have a working
-> > set.
-> >=20
-> >   This set is the absolute minimal base set of patches;
-> > it's not yet safe to use (from security or correctness);
->=20
-> So based on this I'm guessing we don't want to rush this in
-> before the soft freeze.
-> If you have a different opinion, let me know pls.
+On Sat, 26 Oct 2019 at 14:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit e9d42461920f6f40f4d847a5ba18e90d095ed0=
+b9:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191018-pull-r=
+equest' into staging (2019-10-18 14:13:11 +0100)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to bf13bfab0840d34a74938ddf567d52e9010dbdc6:
+>
+>   i386: implement IGNNE (2019-10-25 13:18:21 +0200)
+>
+> ----------------------------------------------------------------
+> * Bulgarian translation update (Alexander)
+> * RTC and PC refactorings (Herv=C3=A9, Philippe, Sergio)
+> * RTC fix (Marcelo)
+> * More comprehensive MCE logging (Mario)
+> * x86 IGNNE implementation (Paolo)
+> * Microvm machine type (Sergio)
+> * Support for UMONITOR/UMWAIT/TPAUSE (Tao)
+> * Do not use %m in common code (Thomas)
+> * NoNonArchitecturalCoreSharing Hyper-V enlightenment (Vitaly)
+> * getpagesize cleanups (Wei)
 
-With the 2nd set that I posted on thursday, the '(security)' set
-it becomes safe - with full sandboxing and path verification.
-Now, we do have a pile of separate small fixes, and threading code
-stuff; but we cna leave those off.
 
-Dave
 
-> --=20
-> MST
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
