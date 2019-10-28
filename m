@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D74FE791D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 20:18:19 +0100 (CET)
-Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD0DE793D
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 20:32:22 +0100 (CET)
+Received: from localhost ([::1]:55848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPAWt-000439-7c
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 15:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32989)
+	id 1iPAkW-0007kB-5Y
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 15:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56607)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iP9xp-0002TT-3n
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:42:02 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zp-0002hB-CW
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iP9xl-0007iW-VJ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:41:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52575
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iP9xl-0007iS-RL
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:41:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572288117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8Aqk+LH2miJRjF4H6iXkhCaTQuGG5o2fU7wnWb3qksM=;
- b=hmv+rXwd+/G/e/h3ASkxKpeKQPvCArRR+HLpn5OKGawHHspDbZr47/M2xcLd8Rwb1wcGds
- OaOOtkC3UrKFZ3/a470GZ6pNo+qaqVHEdqlrDuRTLZJtYe+Fjhs53ghwzD9TrlW3DbWzoo
- Uci9OGG+d8b/5hq6N5yn9SveV3xgyCE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-EQzoBfFcMjCxU2D56LV6Dg-1; Mon, 28 Oct 2019 14:41:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B79C1801E64;
- Mon, 28 Oct 2019 18:41:51 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
- [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54DBA5C1B2;
- Mon, 28 Oct 2019 18:41:41 +0000 (UTC)
-Date: Mon, 28 Oct 2019 14:41:39 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 15/26] tests/acceptance: Test OpenBIOS on the PReP/40p
-Message-ID: <20191028184139.GJ3978@localhost.localdomain>
-References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-16-philmd@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zn-00042y-HE
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:13 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:52963)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iP9Zi-0003yC-QK; Mon, 28 Oct 2019 14:17:07 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MGhi0-1iBM4D0CSw-00Dn53; Mon, 28 Oct 2019 19:16:55 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 04/11] dp8393x: manage big endian bus
+Date: Mon, 28 Oct 2019 19:16:36 +0100
+Message-Id: <20191028181643.5143-5-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191028181643.5143-1-laurent@vivier.eu>
+References: <20191028181643.5143-1-laurent@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-16-philmd@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: EQzoBfFcMjCxU2D56LV6Dg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:SRHVVvKWAENMmfZJjHF9g6iEGZFLNXNExMJ6J0oLXGspb30Sf2z
+ xWsXAA/wCPV25G4ys0los6x28oHCJvvMHU5e0VGnk+VC+v8cPGcz476lU2L1YoISOMXMKik
+ jmkwBY4mwfstGj2vpY65z9wwK3dzD3CCxcINkXABEB77c1zfpellsbchghCKTItBmc3RZYq
+ PKSZngDfho8CpApdheezQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u0FRLH4e08s=:WtYCkYYTFmFyuSAyGZ4t07
+ BbdOnSgZm/S4y/bJv0Aqz80wTui0xVUVMaGgakAucgXh2d7/N3tQbK87YHUpUxlKciXPCpAoZ
+ OSpTl9Rqbh4xq/aA/hIuoyfJTJ0+gRo7AXGo5K1rWrW6mwx2M4jLnuZJ4T0gMxUUkAgCBvyw+
+ qdyjHIVQi4dwV8FR3Ei8kJ+Z+RaYRZJxhxQbo+lGEuaNq0u2kKTLnLbAmxhvtXs1ndZ/G/dme
+ SOgEkMBq4J7vsLWoTBIBRKcsg306TmoKfJmZBpFN+29SE/mFWPoLVqaDH0ZORj6Bd7Du5uRRG
+ FOupdX6UhlWA4mgfGUlGgmpbPFaeU4EyxEXYXnUcSilI5+Fd1wcQ6/Fpa20josq58byGhGgK7
+ qxkDwMEkfekY0xeZkJwXxwJPnorjF6Jyi2JpdCXEqQjYuseYNfSZgKM2BgKSmgZCEOoBpHLBe
+ GjaCoyELOxPwrvDrLcRpoB/lD/tUCCbOEA/UKvTGP1X6iHgp9AAVwLvzwaZTN5SW5HKNO6A1j
+ I4NtKiZYeM1LzfT48bt7SDSk9nrI3qJY5aQybkMTIOlOV7slKHXRwUEub0NoqQAiho/7ourek
+ nSl4LvnQGw/Z15B7aZv3KnNidGYLOykow5bF5XsPywdGo6Utz5wvSXNfUehEpXxsJZ9Bv41sd
+ T2jnNwzvzdeGn7W4P6poS2eid5YpVyGgPQASqmPpUFBFdwhmNdcFT22LMrmaJXBWAUYpJ5cjW
+ E9Y5YMwEErSNvvuwPSKuLWD0ZdrECRd6tGpCuLV/istAUyl7nk7BsacS/HAe3grT/JObuuxjo
+ T6XFDkqkDKG5l3h/rwxcCilx63JvCjp7/jlKdlds3+Ng7YBGySf+W4jDrHlmPzoXyIUkyVs0U
+ bi1qx9Sfxt/LePShsNRHXUjjHR23hT834NTbYVjD4=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,39 +66,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
- Fabien Chouteau <chouteau@adacore.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:30AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
->=20
-> User case from:
-> https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
->=20
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> ---
-> v3:
-> - use avocado_qemu.wait_for_console_pattern (Cleber)
-> - use MD5 hash
-> ---
+This is needed by Quadra 800, this card can run on little-endian
+or big-endian bus.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Tested-by: Hervé Poussineau <hpoussin@reactos.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+Message-Id: <20191026164546.30020-5-laurent@vivier.eu>
+---
+ hw/net/dp8393x.c | 88 +++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 57 insertions(+), 31 deletions(-)
 
-Queuing on my python-next branch (and sending shortly in a PR).
-
-Thanks,
-- Cleber.
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index a5678e11fa..693e244ce6 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -153,6 +153,7 @@ typedef struct dp8393xState {
+ 
+     /* Hardware */
+     uint8_t it_shift;
++    bool big_endian;
+     qemu_irq irq;
+ #ifdef DEBUG_SONIC
+     int irq_level;
+@@ -223,6 +224,29 @@ static uint32_t dp8393x_wt(dp8393xState *s)
+     return s->regs[SONIC_WT1] << 16 | s->regs[SONIC_WT0];
+ }
+ 
++static uint16_t dp8393x_get(dp8393xState *s, int width, uint16_t *base,
++                            int offset)
++{
++    uint16_t val;
++
++    if (s->big_endian) {
++        val = be16_to_cpu(base[offset * width + width - 1]);
++    } else {
++        val = le16_to_cpu(base[offset * width]);
++    }
++    return val;
++}
++
++static void dp8393x_put(dp8393xState *s, int width, uint16_t *base, int offset,
++                        uint16_t val)
++{
++    if (s->big_endian) {
++        base[offset * width + width - 1] = cpu_to_be16(val);
++    } else {
++        base[offset * width] = cpu_to_le16(val);
++    }
++}
++
+ static void dp8393x_update_irq(dp8393xState *s)
+ {
+     int level = (s->regs[SONIC_IMR] & s->regs[SONIC_ISR]) ? 1 : 0;
+@@ -254,12 +278,12 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+         /* Fill current entry */
+         address_space_rw(&s->as, dp8393x_cdp(s),
+             MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-        s->cam[index][0] = data[1 * width] & 0xff;
+-        s->cam[index][1] = data[1 * width] >> 8;
+-        s->cam[index][2] = data[2 * width] & 0xff;
+-        s->cam[index][3] = data[2 * width] >> 8;
+-        s->cam[index][4] = data[3 * width] & 0xff;
+-        s->cam[index][5] = data[3 * width] >> 8;
++        s->cam[index][0] = dp8393x_get(s, width, data, 1) & 0xff;
++        s->cam[index][1] = dp8393x_get(s, width, data, 1) >> 8;
++        s->cam[index][2] = dp8393x_get(s, width, data, 2) & 0xff;
++        s->cam[index][3] = dp8393x_get(s, width, data, 2) >> 8;
++        s->cam[index][4] = dp8393x_get(s, width, data, 3) & 0xff;
++        s->cam[index][5] = dp8393x_get(s, width, data, 3) >> 8;
+         DPRINTF("load cam[%d] with %02x%02x%02x%02x%02x%02x\n", index,
+             s->cam[index][0], s->cam[index][1], s->cam[index][2],
+             s->cam[index][3], s->cam[index][4], s->cam[index][5]);
+@@ -272,7 +296,7 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+     /* Read CAM enable */
+     address_space_rw(&s->as, dp8393x_cdp(s),
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-    s->regs[SONIC_CE] = data[0 * width];
++    s->regs[SONIC_CE] = dp8393x_get(s, width, data, 0);
+     DPRINTF("load cam done. cam enable mask 0x%04x\n", s->regs[SONIC_CE]);
+ 
+     /* Done */
+@@ -293,10 +317,10 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+ 
+     /* Update SONIC registers */
+-    s->regs[SONIC_CRBA0] = data[0 * width];
+-    s->regs[SONIC_CRBA1] = data[1 * width];
+-    s->regs[SONIC_RBWC0] = data[2 * width];
+-    s->regs[SONIC_RBWC1] = data[3 * width];
++    s->regs[SONIC_CRBA0] = dp8393x_get(s, width, data, 0);
++    s->regs[SONIC_CRBA1] = dp8393x_get(s, width, data, 1);
++    s->regs[SONIC_RBWC0] = dp8393x_get(s, width, data, 2);
++    s->regs[SONIC_RBWC1] = dp8393x_get(s, width, data, 3);
+     DPRINTF("CRBA0/1: 0x%04x/0x%04x, RBWC0/1: 0x%04x/0x%04x\n",
+         s->regs[SONIC_CRBA0], s->regs[SONIC_CRBA1],
+         s->regs[SONIC_RBWC0], s->regs[SONIC_RBWC1]);
+@@ -411,12 +435,12 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+         tx_len = 0;
+ 
+         /* Update registers */
+-        s->regs[SONIC_TCR] = data[0 * width] & 0xf000;
+-        s->regs[SONIC_TPS] = data[1 * width];
+-        s->regs[SONIC_TFC] = data[2 * width];
+-        s->regs[SONIC_TSA0] = data[3 * width];
+-        s->regs[SONIC_TSA1] = data[4 * width];
+-        s->regs[SONIC_TFS] = data[5 * width];
++        s->regs[SONIC_TCR] = dp8393x_get(s, width, data, 0) & 0xf000;
++        s->regs[SONIC_TPS] = dp8393x_get(s, width, data, 1);
++        s->regs[SONIC_TFC] = dp8393x_get(s, width, data, 2);
++        s->regs[SONIC_TSA0] = dp8393x_get(s, width, data, 3);
++        s->regs[SONIC_TSA1] = dp8393x_get(s, width, data, 4);
++        s->regs[SONIC_TFS] = dp8393x_get(s, width, data, 5);
+ 
+         /* Handle programmable interrupt */
+         if (s->regs[SONIC_TCR] & SONIC_TCR_PINT) {
+@@ -442,9 +466,9 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+                 address_space_rw(&s->as,
+                     dp8393x_ttda(s) + sizeof(uint16_t) * (4 + 3 * i) * width,
+                     MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-                s->regs[SONIC_TSA0] = data[0 * width];
+-                s->regs[SONIC_TSA1] = data[1 * width];
+-                s->regs[SONIC_TFS] = data[2 * width];
++                s->regs[SONIC_TSA0] = dp8393x_get(s, width, data, 0);
++                s->regs[SONIC_TSA1] = dp8393x_get(s, width, data, 1);
++                s->regs[SONIC_TFS] = dp8393x_get(s, width, data, 2);
+             }
+         }
+ 
+@@ -471,7 +495,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+         s->regs[SONIC_TCR] |= SONIC_TCR_PTX;
+ 
+         /* Write status */
+-        data[0 * width] = s->regs[SONIC_TCR] & 0x0fff; /* status */
++        dp8393x_put(s, width, data, 0,
++                    s->regs[SONIC_TCR] & 0x0fff); /* status */
+         size = sizeof(uint16_t) * width;
+         address_space_rw(&s->as,
+             dp8393x_ttda(s),
+@@ -485,8 +510,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+                              sizeof(uint16_t) *
+                              (4 + 3 * s->regs[SONIC_TFC]) * width,
+                 MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-            s->regs[SONIC_CTDA] = data[0 * width] & ~0x1;
+-            if (data[0 * width] & 0x1) {
++            s->regs[SONIC_CTDA] = dp8393x_get(s, width, data, 0) & ~0x1;
++            if (dp8393x_get(s, width, data, 0) & 0x1) {
+                 /* EOL detected */
+                 break;
+             }
+@@ -749,7 +774,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
+         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+                          (uint8_t *)data, size, 0);
+-        if (data[0 * width] & 0x1) {
++        if (dp8393x_get(s, width, data, 0) & 0x1) {
+             /* Still EOL ; stop reception */
+             return -1;
+         } else {
+@@ -793,11 +818,11 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+ 
+     /* Write status to memory */
+     DPRINTF("Write status at %08x\n", dp8393x_crda(s));
+-    data[0 * width] = s->regs[SONIC_RCR]; /* status */
+-    data[1 * width] = rx_len; /* byte count */
+-    data[2 * width] = s->regs[SONIC_TRBA0]; /* pkt_ptr0 */
+-    data[3 * width] = s->regs[SONIC_TRBA1]; /* pkt_ptr1 */
+-    data[4 * width] = s->regs[SONIC_RSC]; /* seq_no */
++    dp8393x_put(s, width, data, 0, s->regs[SONIC_RCR]); /* status */
++    dp8393x_put(s, width, data, 1, rx_len); /* byte count */
++    dp8393x_put(s, width, data, 2, s->regs[SONIC_TRBA0]); /* pkt_ptr0 */
++    dp8393x_put(s, width, data, 3, s->regs[SONIC_TRBA1]); /* pkt_ptr1 */
++    dp8393x_put(s, width, data, 4, s->regs[SONIC_RSC]); /* seq_no */
+     size = sizeof(uint16_t) * 5 * width;
+     address_space_rw(&s->as, dp8393x_crda(s),
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 1);
+@@ -806,12 +831,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     size = sizeof(uint16_t) * width;
+     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, size, 0);
+-    s->regs[SONIC_LLFA] = data[0 * width];
++    s->regs[SONIC_LLFA] = dp8393x_get(s, width, data, 0);
+     if (s->regs[SONIC_LLFA] & 0x1) {
+         /* EOL detected */
+         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
+     } else {
+-        data[0 * width] = 0; /* in_use */
++        dp8393x_put(s, width, data, 0, 0); /* in_use */
+         address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 6 * width,
+             MEMTXATTRS_UNSPECIFIED, (uint8_t *)data, sizeof(uint16_t), 1);
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+@@ -924,6 +949,7 @@ static Property dp8393x_properties[] = {
+     DEFINE_NIC_PROPERTIES(dp8393xState, conf),
+     DEFINE_PROP_PTR("dma_mr", dp8393xState, dma_mr),
+     DEFINE_PROP_UINT8("it_shift", dp8393xState, it_shift, 0),
++    DEFINE_PROP_BOOL("big_endian", dp8393xState, big_endian, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
+2.21.0
 
 
