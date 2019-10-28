@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0487E7214
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:49:29 +0100 (CET)
-Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A173FE7220
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:52:14 +0100 (CET)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4Se-000504-H7
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:49:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50797)
+	id 1iP4VJ-000281-3r
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3x4-0002uO-HQ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3x9-00039k-Tl
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3wy-00020D-1n
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38235
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iP3x4-00024E-N5
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:53 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53885
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wx-0001xa-Hc
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:43 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3x4-000223-Gv
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264999;
+ s=mimecast20190719; t=1572265007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+KCmWSdKj/kmBW5vvX21H2fiPUW+Ik3EEjUw39XtQIM=;
- b=DHfJZgVOwGFHZt1fcDbBs0KA5kmKjIjEfoVAasyCni7gyBeWsnVLinNKNkzzwa2CqtZw4+
- 9agRFzcWb05ljmvcLubyqbES60zWoxUtzAfoJNOiQ7+FfHyCZ5JjRVcIPJ7ITfn4wMErBY
- xRU/1Jfw3lyQd0ZN/vkCV+3FrJNKuoQ=
+ bh=bTj7X5bks0tq/xCmZbPfLh5BopxSxIN2X7uEbFLpJCw=;
+ b=hT/R9ugSjBPwL1badnLkJCgGStM/4hZc9wyhyOEwNJQ0W0yanQmnzebdgnPGTWzB40gJMy
+ aFwaStLU/2QRth403PdlNLJ1cw/4UXZgpOnNXUIQg0YjMSWqfDrnfEaRnnMt+kSLMU+15/
+ TXkHkGnknvPQrNCC4QdK8BNInfX2TCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-OoZQ5jusMN-3m-eNQdhqUQ-1; Mon, 28 Oct 2019 08:16:37 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-278-pPtka8DyP9OTQdJSnhdTiA-1; Mon, 28 Oct 2019 08:16:45 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D6C2107AD28;
- Mon, 28 Oct 2019 12:16:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D075681A334;
+ Mon, 28 Oct 2019 12:16:44 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2184E1001902;
- Mon, 28 Oct 2019 12:16:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 774825DA60;
+ Mon, 28 Oct 2019 12:16:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 45/69] include: Move endof() up from hw/virtio/virtio.h
-Date: Mon, 28 Oct 2019 13:14:37 +0100
-Message-Id: <20191028121501.15279-46-mreitz@redhat.com>
+Subject: [PULL 49/69] qcow2: Make qcow2_write_snapshots() public
+Date: Mon, 28 Oct 2019 13:14:41 +0100
+Message-Id: <20191028121501.15279-50-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: OoZQ5jusMN-3m-eNQdhqUQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: pPtka8DyP9OTQdJSnhdTiA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,101 +75,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-endof() is a useful macro, we can make use of it outside of virtio.
+Updating the snapshot list will be useful when upgrading a v2 image to
+v3, so we will need to call this function in qcow2.c.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20191011152814.14791-2-mreitz@redhat.com
+Message-id: 20191011152814.14791-6-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/hw/virtio/virtio.h |  7 -------
- include/qemu/compiler.h    |  7 +++++++
- hw/block/virtio-blk.c      |  4 ++--
- hw/net/virtio-net.c        | 10 +++++-----
- 4 files changed, 14 insertions(+), 14 deletions(-)
+ block/qcow2.h          | 1 +
+ block/qcow2-snapshot.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 48e8d04ff6..ef083af550 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -37,13 +37,6 @@ static inline hwaddr vring_align(hwaddr addr,
-     return QEMU_ALIGN_UP(addr, align);
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 363681cfdc..6c7a23fdf6 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -716,6 +716,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
+=20
+ void qcow2_free_snapshots(BlockDriverState *bs);
+ int qcow2_read_snapshots(BlockDriverState *bs, Error **errp);
++int qcow2_write_snapshots(BlockDriverState *bs);
+=20
+ /* qcow2-cache.c functions */
+ Qcow2Cache *qcow2_cache_create(BlockDriverState *bs, int num_tables,
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 120cb7fa09..e3bf4c9776 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -164,7 +164,7 @@ fail:
  }
 =20
--/*
-- * Calculate the number of bytes up to and including the given 'field' of
-- * 'container'.
-- */
--#define virtio_endof(container, field) \
--    (offsetof(container, field) + sizeof_field(container, field))
--
- typedef struct VirtIOFeature {
-     uint64_t flags;
-     size_t end;
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 7b93c73340..85c02c16d3 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -60,6 +60,13 @@
-=20
- #define sizeof_field(type, field) sizeof(((type *)0)->field)
-=20
-+/*
-+ * Calculate the number of bytes up to and including the given 'field' of
-+ * 'container'.
-+ */
-+#define endof(container, field) \
-+    (offsetof(container, field) + sizeof_field(container, field))
-+
- /* Convert from a base type to a parent type, with compile time checking. =
- */
- #ifdef __GNUC__
- #define DO_UPCAST(type, field, dev) ( __extension__ ( { \
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 14e9f85b8b..156416dfd5 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -42,9 +42,9 @@
-  */
- static VirtIOFeature feature_sizes[] =3D {
-     {.flags =3D 1ULL << VIRTIO_BLK_F_DISCARD,
--     .end =3D virtio_endof(struct virtio_blk_config, discard_sector_alignm=
-ent)},
-+     .end =3D endof(struct virtio_blk_config, discard_sector_alignment)},
-     {.flags =3D 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
--     .end =3D virtio_endof(struct virtio_blk_config, write_zeroes_may_unma=
-p)},
-+     .end =3D endof(struct virtio_blk_config, write_zeroes_may_unmap)},
-     {}
- };
-=20
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 9f11422337..2c4909c5f9 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -90,15 +90,15 @@ static inline __virtio16 *virtio_net_rsc_ext_num_dupack=
-s(
-=20
- static VirtIOFeature feature_sizes[] =3D {
-     {.flags =3D 1ULL << VIRTIO_NET_F_MAC,
--     .end =3D virtio_endof(struct virtio_net_config, mac)},
-+     .end =3D endof(struct virtio_net_config, mac)},
-     {.flags =3D 1ULL << VIRTIO_NET_F_STATUS,
--     .end =3D virtio_endof(struct virtio_net_config, status)},
-+     .end =3D endof(struct virtio_net_config, status)},
-     {.flags =3D 1ULL << VIRTIO_NET_F_MQ,
--     .end =3D virtio_endof(struct virtio_net_config, max_virtqueue_pairs)}=
-,
-+     .end =3D endof(struct virtio_net_config, max_virtqueue_pairs)},
-     {.flags =3D 1ULL << VIRTIO_NET_F_MTU,
--     .end =3D virtio_endof(struct virtio_net_config, mtu)},
-+     .end =3D endof(struct virtio_net_config, mtu)},
-     {.flags =3D 1ULL << VIRTIO_NET_F_SPEED_DUPLEX,
--     .end =3D virtio_endof(struct virtio_net_config, duplex)},
-+     .end =3D endof(struct virtio_net_config, duplex)},
-     {}
- };
-=20
+ /* add at the end of the file a new list of snapshots */
+-static int qcow2_write_snapshots(BlockDriverState *bs)
++int qcow2_write_snapshots(BlockDriverState *bs)
+ {
+     BDRVQcow2State *s =3D bs->opaque;
+     QCowSnapshot *sn;
 --=20
 2.21.0
 
