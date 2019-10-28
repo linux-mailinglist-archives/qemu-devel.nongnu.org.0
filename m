@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77822E7242
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:01:58 +0100 (CET)
-Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D4EE725E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:07:02 +0100 (CET)
+Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4ej-00078c-72
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:01:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50471)
+	id 1iP4jd-0007Iy-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:07:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3wW-0002JN-4u
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:17 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3wc-0002Rn-Eo
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3wU-0001hy-2R
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:16 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51976
+ (envelope-from <mreitz@redhat.com>) id 1iP3wb-0001o8-5m
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41699
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wS-0001gP-9C
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:13 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wa-0001nl-Vm
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264970;
+ s=mimecast20190719; t=1572264980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ok0saJFqnZVLEoIQ9B9ZFAcmtjJaXJ+UXcAM646dHUQ=;
- b=UWpbfxrv5ywIRmmnic/ClIfshIZbka6Zhh0CEmWYK+WYTBE8qS+GUdQA9dbGKFrew3fYAe
- 3yBI3EjzGqHqvcio7JrD8lgJoUiRspGhasZolb7u8xeGG+qzIJXeWD6cl0gNA9QOIau6yo
- gaAY55lnDNqduuaIcG8spdpRCkAXvzE=
+ bh=FQH891K9cRbxEVZvL7E4z3vBB3xxoYPbvBEZln4pkVQ=;
+ b=R0iG9ZPstwVyO2iiS6PtuPShr0XfTn/+xgJfCrz55ipggzUE9QjsINFnLHbIm0iSBCU/kp
+ XaoOeVLOPAJvAaxON8VHLqPyJP4pswa8r2lAacCQR1VnalBzjnFu7TmXDQErtqgyR+shRM
+ 8fNMZ3IIFipTRxbZM2RhoQLmqrklS8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-OSRhla0nM525ZfbL8VxOkA-1; Mon, 28 Oct 2019 08:16:08 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-391-UUWKxpB8MbG7Yg3hWyY8VQ-1; Mon, 28 Oct 2019 08:16:18 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 904F1800FF1;
- Mon, 28 Oct 2019 12:16:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0D26800FF1;
+ Mon, 28 Oct 2019 12:16:17 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 362C7261A7;
- Mon, 28 Oct 2019 12:16:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6298F6084E;
+ Mon, 28 Oct 2019 12:16:17 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 31/69] iotests/222: Create socket in $SOCK_DIR
-Date: Mon, 28 Oct 2019 13:14:23 +0100
-Message-Id: <20191028121501.15279-32-mreitz@redhat.com>
+Subject: [PULL 36/69] block/block-copy: allocate buffer in
+ block_copy_with_bounce_buffer
+Date: Mon, 28 Oct 2019 13:14:28 +0100
+Message-Id: <20191028121501.15279-37-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: OSRhla0nM525ZfbL8VxOkA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: UUWKxpB8MbG7Yg3hWyY8VQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,28 +76,109 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20191017133155.5327-20-mreitz@redhat.com
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Move bounce_buffer allocation block_copy_with_bounce_buffer. This
+commit simplifies further work on implementing copying by larger chunks
+(of different size) and further asynchronous handling of block_copy
+iterations (with help of block/aio_task API).
+
+Allocation works fast, a lot faster than disk io, so it's not a problem
+that we now allocate/free bounce_buffer more times. And we anyway will
+have to allocate several bounce_buffers for parallel execution of loop
+iterations in future.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20191022111805.3432-2-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/222 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/block-copy.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
-index 0ead56d574..3f9f934ad8 100644
---- a/tests/qemu-iotests/222
-+++ b/tests/qemu-iotests/222
-@@ -48,7 +48,7 @@ remainder =3D [("0xd5", "0x108000",  "32k"), # Right-end =
-of partial-left [1]
+diff --git a/block/block-copy.c b/block/block-copy.c
+index 066e3a7274..ecd086010e 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -126,20 +126,17 @@ void block_copy_set_callbacks(
+ static int coroutine_fn block_copy_with_bounce_buffer(BlockCopyState *s,
+                                                       int64_t start,
+                                                       int64_t end,
+-                                                      bool *error_is_read,
+-                                                      void **bounce_buffer=
+)
++                                                      bool *error_is_read)
+ {
+     int ret;
+     int nbytes;
++    void *bounce_buffer =3D qemu_blockalign(s->source->bs, s->cluster_size=
+);
 =20
- with iotests.FilePath('base.img') as base_img_path, \
-      iotests.FilePath('fleece.img') as fleece_img_path, \
--     iotests.FilePath('nbd.sock') as nbd_sock_path, \
-+     iotests.FilePath('nbd.sock', iotests.sock_dir) as nbd_sock_path, \
-      iotests.VM() as vm:
+     assert(QEMU_IS_ALIGNED(start, s->cluster_size));
+     bdrv_reset_dirty_bitmap(s->copy_bitmap, start, s->cluster_size);
+     nbytes =3D MIN(s->cluster_size, s->len - start);
+-    if (!*bounce_buffer) {
+-        *bounce_buffer =3D qemu_blockalign(s->source->bs, s->cluster_size)=
+;
+-    }
 =20
-     log('--- Setting up images ---')
+-    ret =3D bdrv_co_pread(s->source, start, nbytes, *bounce_buffer, 0);
++    ret =3D bdrv_co_pread(s->source, start, nbytes, bounce_buffer, 0);
+     if (ret < 0) {
+         trace_block_copy_with_bounce_buffer_read_fail(s, start, ret);
+         if (error_is_read) {
+@@ -148,7 +145,7 @@ static int coroutine_fn block_copy_with_bounce_buffer(B=
+lockCopyState *s,
+         goto fail;
+     }
+=20
+-    ret =3D bdrv_co_pwrite(s->target, start, nbytes, *bounce_buffer,
++    ret =3D bdrv_co_pwrite(s->target, start, nbytes, bounce_buffer,
+                          s->write_flags);
+     if (ret < 0) {
+         trace_block_copy_with_bounce_buffer_write_fail(s, start, ret);
+@@ -158,8 +155,11 @@ static int coroutine_fn block_copy_with_bounce_buffer(=
+BlockCopyState *s,
+         goto fail;
+     }
+=20
++    qemu_vfree(bounce_buffer);
++
+     return nbytes;
+ fail:
++    qemu_vfree(bounce_buffer);
+     bdrv_set_dirty_bitmap(s->copy_bitmap, start, s->cluster_size);
+     return ret;
+=20
+@@ -271,7 +271,6 @@ int coroutine_fn block_copy(BlockCopyState *s,
+ {
+     int ret =3D 0;
+     int64_t end =3D bytes + start; /* bytes */
+-    void *bounce_buffer =3D NULL;
+     int64_t status_bytes;
+     BlockCopyInFlightReq req;
+=20
+@@ -324,7 +323,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
+         }
+         if (!s->use_copy_range) {
+             ret =3D block_copy_with_bounce_buffer(s, start, dirty_end,
+-                                                error_is_read, &bounce_buf=
+fer);
++                                                error_is_read);
+         }
+         if (ret < 0) {
+             break;
+@@ -335,10 +334,6 @@ int coroutine_fn block_copy(BlockCopyState *s,
+         ret =3D 0;
+     }
+=20
+-    if (bounce_buffer) {
+-        qemu_vfree(bounce_buffer);
+-    }
+-
+     block_copy_inflight_req_end(&req);
+=20
+     return ret;
 --=20
 2.21.0
 
