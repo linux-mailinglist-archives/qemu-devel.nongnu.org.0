@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41F7E77F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:59:07 +0100 (CET)
-Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E63E77F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:57:09 +0100 (CET)
+Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP9II-0006fj-GZ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41181)
+	id 1iP9GN-0004nm-PF
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iP7zn-0002KF-E4
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1iP7zs-0002Py-Kn
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:36:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iP7zb-0007Z8-By
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:46 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21341
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iP7zr-0007hp-Ip
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:36:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52164
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iP7zZ-0007WK-Fy
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:42 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iP7zr-0007d9-EF
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572280537;
+ s=mimecast20190719; t=1572280551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S1mnDPhJBEXVD5ywhdmqBZq3BJFN2BPl11JdMUU6s1g=;
- b=StMie+PdK6XF0+PARBp2YMjWEkiba0MffttoVHv6jWG/V5hqkH+7npoMd8FXQvPhMkNXAR
- d+cwr0wjjHc5gVyiCd+X9iQZHhWiQhtZyjbu3C64n1pS0j33wxZsAwEZ9m5bkZoYmSrUAf
- AxovctCoay16nyJve9d4l9zUgGcwlAg=
+ bh=Lt5h0tf7aQi9H+UHQOfKlnMmiCztk0u8qFBuajQLpTc=;
+ b=d+AWP4ZO2NpFqqwZg/Fpjv4Q1xSBa6hOZ8sH/2J4wIFpXKdqUJJ1V4e+z6DvoPeTuDU2Ie
+ rDYKImsGPCtAG+efQNG2q1lqYN5xOLM27UrfUfajFa6CCInCOJ6528XX6nRIogmB70M6Si
+ RSgKPv9VAaXBwZOZJpTLFXhETMliC7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-b9hocVO-P5qNwLHRKkn5uw-1; Mon, 28 Oct 2019 12:35:33 -0400
+ us-mta-327-vOg2mMAnMH6fZ-GR5T56tA-1; Mon, 28 Oct 2019 12:35:47 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8159107AD28;
- Mon, 28 Oct 2019 16:35:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31556107AD28;
+ Mon, 28 Oct 2019 16:35:46 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-87.brq.redhat.com [10.40.204.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9F3E26199;
- Mon, 28 Oct 2019 16:35:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DC541C941;
+ Mon, 28 Oct 2019 16:35:40 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/20] piix4: Add an i8254 PIT Controller as specified in
- datasheet
-Date: Mon, 28 Oct 2019 17:34:34 +0100
-Message-Id: <20191028163447.18541-8-philmd@redhat.com>
+Subject: [PULL 09/20] hw/mips/mips_malta: Create IDE hard drive array
+ dynamically
+Date: Mon, 28 Oct 2019 17:34:36 +0100
+Message-Id: <20191028163447.18541-10-philmd@redhat.com>
 In-Reply-To: <20191028163447.18541-1-philmd@redhat.com>
 References: <20191028163447.18541-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: b9hocVO-P5qNwLHRKkn5uw-1
+X-MC-Unique: vOg2mMAnMH6fZ-GR5T56tA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+Cc: Li Qiang <liq3ea@gmail.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -81,72 +81,49 @@ Cc: "Michael S . Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+In the next commit we'll refactor the PIIX4 code out of
+mips_malta_init(). As a preliminary step, add the 'ide_drives'
+variable and create the drive array dynamically.
 
-Remove i8254 instanciated in malta board, to not have it twice.
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-Message-Id: <20171216090228.28505-10-hpoussin@reactos.org>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/isa/piix4.c       | 4 ++++
- hw/mips/mips_malta.c | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/mips/mips_malta.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 9ebe98bdc3..c07a1e14a8 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -30,6 +30,7 @@
- #include "hw/isa/isa.h"
- #include "hw/sysbus.h"
- #include "hw/dma/i8257.h"
-+#include "hw/timer/i8254.h"
- #include "migration/vmstate.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-@@ -168,6 +169,9 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     /* initialize ISA irqs */
-     isa_bus_irqs(isa_bus, s->isa);
-=20
-+    /* initialize pit */
-+    i8254_pit_init(isa_bus, 0x40, 0, NULL);
-+
-     /* DMA */
-     i8257_dma_init(isa_bus, 0);
-=20
 diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 44e5f8b26b..9af486c77c 100644
+index 645c223edb..239ea98ef8 100644
 --- a/hw/mips/mips_malta.c
 +++ b/hw/mips/mips_malta.c
-@@ -45,7 +45,6 @@
- #include "hw/loader.h"
- #include "elf.h"
- #include "hw/rtc/mc146818rtc.h"
--#include "hw/timer/i8254.h"
- #include "exec/address-spaces.h"
- #include "hw/sysbus.h"             /* SysBusDevice */
- #include "qemu/host-utils.h"
-@@ -99,8 +98,6 @@ typedef struct {
-     qemu_irq i8259[ISA_NUM_IRQS];
- } MaltaState;
+@@ -1235,7 +1235,8 @@ void mips_malta_init(MachineState *machine)
+     int piix4_devfn;
+     I2CBus *smbus;
+     DriveInfo *dinfo;
+-    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
++    const size_t ide_drives =3D MAX_IDE_BUS * MAX_IDE_DEVS;
++    DriveInfo **hd;
+     int fl_idx =3D 0;
+     int be;
 =20
--static ISADevice *pit;
--
- static struct _loaderparams {
-     int ram_size, ram_low_size;
-     const char *kernel_filename;
-@@ -1428,7 +1425,6 @@ void mips_malta_init(MachineState *machine)
+@@ -1406,7 +1407,8 @@ void mips_malta_init(MachineState *machine)
+     pci_bus =3D gt64120_register(s->i8259);
+=20
+     /* Southbridge */
+-    ide_drive_get(hd, ARRAY_SIZE(hd));
++    hd =3D g_new(DriveInfo *, ide_drives);
++    ide_drive_get(hd, ide_drives);
+=20
+     pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+                                           true, TYPE_PIIX4_PCI_DEVICE);
+@@ -1421,6 +1423,7 @@ void mips_malta_init(MachineState *machine)
+     }
+=20
+     pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);
++    g_free(hd);
      pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
      smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
                            isa_get_irq(NULL, 9), NULL, 0, NULL);
--    pit =3D i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     mc146818_rtc_init(isa_bus, 2000, NULL);
-=20
-     /* generate SPD EEPROM data */
 --=20
 2.21.0
 
