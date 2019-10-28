@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76A9E75FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:24:12 +0100 (CET)
-Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F02FE75B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:01:03 +0100 (CET)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7oQ-00020X-DG
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34894)
+	id 1iP7S2-0007Gj-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@sifive.com>) id 1iP7Po-0005f9-6t
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:45 -0400
+ (envelope-from <berrange@redhat.com>) id 1iP7H5-0003ha-Lt
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@sifive.com>) id 1iP7Pn-00040q-3u
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:44 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45104)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7Pm-000404-V2
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:43 -0400
-Received: by mail-pf1-x436.google.com with SMTP id c7so5976658pfo.12
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=EXsNj6jZsB30XB6MiD6tWhEVGfazwqhX650sA5CbspM=;
- b=kTSzec3deeQ+znpySCdUaFjHmsOHPTciHd1teZLlHzVc0RozDMsU1KvyDLogXAhVul
- nes7HT6YBwbhI2lt4a35dy4ETyW4uIjW9CdXAvFKQjEABXJxJr3s7DPgF9vzO9C+s/Ps
- /3gFFGxi4KED3+/K85slC3BJOWjU38A+qCTyUoNyWDQVZJNsdZNnij1IK9AiRK7TO3FD
- FuePB4DBrce9I8cG5EzG0PXEogjL4rbTWIJOm4NedNDHLX0mjiNtGh19Q6l31A5ZRrqr
- qqkhV7cAPYVl4vDZI3HWDtBMY/mLszVWbRbTdYHX0VVjiaRtuGWE5zXjI7hC6BbH6fX/
- /WeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:cc:from:to;
- bh=EXsNj6jZsB30XB6MiD6tWhEVGfazwqhX650sA5CbspM=;
- b=sYAOk6bTEIPN4nb0Dt9TDfAhjlvpBZHaEUonX6wJ2XwN4LC+k73VowIbkq/ja4SROv
- 49lrJepKZhJIxMuvRtw+gndKpF6b2FS/UMapxHho3LlFVfJh8NUa2chVJsPgS2cCYnpP
- hRygoFiwiQcuKJl1MmmmT9bYVu0XGzotlf3L5/2cGYxl7n5g+b9LCTfArOdxBZPInjhN
- VlBQrlG7vjL7hw2VdeLnK6i+Xav3SH5/BTa8cMx2CH7PSdMUwZTzFXVL+JnoNJo5KJph
- rRRnopzLQWYe3J+sPVHjxqVIzek/1UwpoSOjRSlnl3xHEQOCSWM9gQq6T4B5dFqpj8ZX
- XGfQ==
-X-Gm-Message-State: APjAAAW3y1SZrNGls3Ub3UmQAjHdJJhDjuD0zpJWKiW1EbAymHzB7XZ8
- kET/oSsmSHX1XuisKJILSEjbSs+I8J0LqQ==
-X-Google-Smtp-Source: APXvYqxu1f0nOZ+sv2iQGasuO3QyMFl7q1T1dUZSah6XNLCC+tIOTc18nNq/Z7oNB9nfta3k5P2yJA==
-X-Received: by 2002:a17:90a:854c:: with SMTP id a12mr17883pjw.2.1572278321633; 
- Mon, 28 Oct 2019 08:58:41 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id r81sm12836029pgr.17.2019.10.28.08.58.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 08:58:40 -0700 (PDT)
-Subject: [PULL 14/18] target/riscv: Tell gdbstub the correct number of CSRs
-Date: Mon, 28 Oct 2019 08:48:58 -0700
-Message-Id: <20191028154902.32491-15-palmer@sifive.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191028154902.32491-1-palmer@sifive.com>
-References: <20191028154902.32491-1-palmer@sifive.com>
+ (envelope-from <berrange@redhat.com>) id 1iP7H4-00013n-IG
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39596
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iP7H4-00013b-FB
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572277782;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xwDekJskiz1kDqJoWdljY/MNvrSkK6g6oZezH+6KCeA=;
+ b=aHPsl0wDJDNA/eiy2QzFnoq3yTed1VCoBAtkjuuP+Y+LVo+Nv1cB6PLMi85C60RoY2Nfwq
+ UKV/Bxkvb8b/WqcrH+nDT841I2wjWbFXIPASvLmt0imlRsZNTQWRpcI36Axvw0sn68lwtj
+ C/3EoPeVlIc5NUp/y8PRTZdNsAUMl8A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-UpT8IQhSPWiHG5Zxk300gA-1; Mon, 28 Oct 2019 11:49:40 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98709801E64
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:49:39 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-24.ams2.redhat.com
+ [10.36.112.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A91AE5D9C5;
+ Mon, 28 Oct 2019 15:49:23 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/4] tests: allow filtering crypto cipher benchmark tests
+Date: Mon, 28 Oct 2019 16:49:11 +0100
+Message-Id: <20191028154914.84821-2-berrange@redhat.com>
+In-Reply-To: <20191028154914.84821-1-berrange@redhat.com>
+References: <20191028154914.84821-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::436
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: UpT8IQhSPWiHG5Zxk300gA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,48 +71,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Jonathan Behrens <jonathan@fintelia.io>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Behrens <jonathan@fintelia.io>
+Add support for specifying a cipher mode and chunk size as argv to
+filter which combinations are benchmarked. For example to only
+benchmark XTS mode with 512 byte chunks:
 
-If the number of registers reported to the gdbstub code does not match the
-number in the associated XML file, then the register numbers used by the stub
-may get out of sync with a remote GDB instance.
+  ./tests/benchmark-crypto-cipher xts 512
 
-Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- target/riscv/gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/benchmark-crypto-cipher.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index ded140e8d8..cb5bfd3d50 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -384,7 +384,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-     }
- 
-     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
--                             4096, "riscv-32bit-csr.xml", 0);
-+                             240, "riscv-32bit-csr.xml", 0);
- #elif defined(TARGET_RISCV64)
-     if (env->misa & RVF) {
-         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-@@ -392,6 +392,6 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-     }
- 
-     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
--                             4096, "riscv-64bit-csr.xml", 0);
-+                             240, "riscv-64bit-csr.xml", 0);
- #endif
- }
--- 
-2.21.0
+diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-ciphe=
+r.c
+index 67fdf8c31d..3ca31a2779 100644
+--- a/tests/benchmark-crypto-cipher.c
++++ b/tests/benchmark-crypto-cipher.c
+@@ -161,15 +161,26 @@ static void test_cipher_speed_xts_aes_256(const void =
+*opaque)
+=20
+ int main(int argc, char **argv)
+ {
++    char *alg =3D NULL;
++    char *size =3D NULL;
+     g_test_init(&argc, &argv, NULL);
+     g_assert(qcrypto_init(NULL) =3D=3D 0);
+=20
+ #define ADD_TEST(mode, cipher, keysize, chunk)                          \
+-    g_test_add_data_func(                                               \
++    if ((!alg || g_str_equal(alg, #mode)) &&                            \
++        (!size || g_str_equal(size, #chunk)))                           \
++        g_test_add_data_func(                                           \
+         "/crypto/cipher/" #mode "-" #cipher "-" #keysize "/chunk-" #chunk,=
+ \
+         (void *)chunk,                                                  \
+         test_cipher_speed_ ## mode ## _ ## cipher ## _ ## keysize)
+=20
++    if (argc >=3D 2) {
++        alg =3D argv[1];
++    }
++    if (argc >=3D 3) {
++        size =3D argv[2];
++    }
++
+ #define ADD_TESTS(chunk)                        \
+     do {                                        \
+         ADD_TEST(ecb, aes, 128, chunk);         \
+--=20
+2.23.0
 
 
