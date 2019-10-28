@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC2FE7241
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:01:39 +0100 (CET)
-Received: from localhost ([::1]:53492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FBBE726A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:11:22 +0100 (CET)
+Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4eP-0005rK-0Y
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50698)
+	id 1iP4np-0005rV-P1
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:11:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3wo-0002iM-Jc
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:36 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3ww-0002mk-Iy
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3wn-0001uW-4A
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22129
+ (envelope-from <mreitz@redhat.com>) id 1iP3wt-0001xR-0k
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56555
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wm-0001uG-U6
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:33 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wr-0001wj-Lf
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264992;
+ s=mimecast20190719; t=1572264997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c6OTm5ZJcB6kowqx+WMPInET1NNXiqV4DJc8qPb1V0s=;
- b=TDzRW9K6a7KV62vyR3tUTlktlsL1o9MTGxR7MkNI0YnKODH9mQDZePvMZx6cUc57M/mn/3
- y8cFtDyTa5nNcIAZSQocbD1emIPM6sAPiDi7FvxhYrYiUf5M6vddc7/MzhqtmYWNvhGbhW
- 5e5ds3w3vzy7tg5k6COXimIXoTqR8tM=
+ bh=vEa8sQ3p2Gih5MTY0vLHkOBrDz/zYHejSw4/57eoWCA=;
+ b=Jj/IV3iGtNNCr3kX4BjuXXwU7D3U2VqAzx7Om18RUzLsod4U0z3ho3fauhc05n2+6NA1ng
+ SgNGCr9oQPWxWymqQsqVuwoi81QG7W5j7i1DK2YrB2zCXuZ/9lDvL4zTs0piT/8D++D4qm
+ RRvRba/eWTomLcHiUzlwSPLzor5McW4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-V5pyRu0cP1mBu2iZCSaz9A-1; Mon, 28 Oct 2019 08:16:29 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-329-VFcexWwiPoaZDROsngkKUg-1; Mon, 28 Oct 2019 08:16:33 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 332C380183E;
- Mon, 28 Oct 2019 12:16:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EF46107AD28;
+ Mon, 28 Oct 2019 12:16:32 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEAB726199;
- Mon, 28 Oct 2019 12:16:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05B2560BF7;
+ Mon, 28 Oct 2019 12:16:31 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 41/69] block/block-copy: increase buffered copy request
-Date: Mon, 28 Oct 2019 13:14:33 +0100
-Message-Id: <20191028121501.15279-42-mreitz@redhat.com>
+Subject: [PULL 43/69] block/nvme: add support for discard
+Date: Mon, 28 Oct 2019 13:14:35 +0100
+Message-Id: <20191028121501.15279-44-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: V5pyRu0cP1mBu2iZCSaz9A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: VFcexWwiPoaZDROsngkKUg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,141 +75,154 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-No reason to limit buffered copy to one cluster. Let's allow up to 1
-MiB.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20191022111805.3432-7-vsementsov@virtuozzo.com
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-id: 20190913133627.28450-3-mlevitsk@redhat.com
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block-copy.h |  2 +-
- block/block-copy.c         | 48 +++++++++++++++++++++++++-------------
- 2 files changed, 33 insertions(+), 17 deletions(-)
+ block/nvme.c       | 83 ++++++++++++++++++++++++++++++++++++++++++++++
+ block/trace-events |  2 ++
+ 2 files changed, 85 insertions(+)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index edcdf0072d..0a161724d7 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -38,7 +38,7 @@ typedef struct BlockCopyState {
-     BdrvDirtyBitmap *copy_bitmap;
-     int64_t cluster_size;
-     bool use_copy_range;
--    int64_t copy_range_size;
-+    int64_t copy_size;
-     uint64_t len;
-     QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
+diff --git a/block/nvme.c b/block/nvme.c
+index 0ac38c24e6..d41c4bda6e 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -113,6 +113,7 @@ typedef struct {
+     bool plugged;
 =20
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 7f0ebb58f8..c39cc9cffe 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -21,6 +21,7 @@
- #include "qemu/units.h"
+     bool supports_write_zeroes;
++    bool supports_discard;
 =20
- #define BLOCK_COPY_MAX_COPY_RANGE (16 * MiB)
-+#define BLOCK_COPY_MAX_BUFFER (1 * MiB)
- #define BLOCK_COPY_MAX_MEM (128 * MiB)
+     CoMutex dma_map_lock;
+     CoQueue dma_flush_queue;
+@@ -465,6 +466,7 @@ static void nvme_identify(BlockDriverState *bs, int nam=
+espace, Error **errp)
 =20
- static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
-@@ -75,10 +76,8 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, =
-BdrvChild *target,
- {
-     BlockCopyState *s;
-     BdrvDirtyBitmap *copy_bitmap;
--
--    /* Ignore BLOCK_COPY_MAX_COPY_RANGE if requested cluster_size is large=
-r */
-     uint32_t max_transfer =3D
--            MIN_NON_ZERO(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
-+            MIN_NON_ZERO(INT_MAX,
-                          MIN_NON_ZERO(source->bs->bl.max_transfer,
-                                       target->bs->bl.max_transfer));
+     oncs =3D le16_to_cpu(idctrl->oncs);
+     s->supports_write_zeroes =3D !!(oncs & NVME_ONCS_WRITE_ZEROS);
++    s->supports_discard =3D !!(oncs & NVME_ONCS_DSM);
 =20
-@@ -100,17 +99,28 @@ BlockCopyState *block_copy_state_new(BdrvChild *source=
-, BdrvChild *target,
-         .mem =3D shres_create(BLOCK_COPY_MAX_MEM),
-     };
+     memset(resp, 0, 4096);
 =20
--    s->copy_range_size =3D QEMU_ALIGN_DOWN(max_transfer, cluster_size),
--    /*
--     * Set use_copy_range, consider the following:
--     * 1. Compression is not supported for copy_range.
--     * 2. copy_range does not respect max_transfer (it's a TODO), so we fa=
-ctor
--     *    that in here. If max_transfer is smaller than the job->cluster_s=
-ize,
--     *    we do not use copy_range (in that case it's zero after aligning =
-down
--     *    above).
--     */
--    s->use_copy_range =3D
--        !(write_flags & BDRV_REQ_WRITE_COMPRESSED) && s->copy_range_size >=
- 0;
-+    if (max_transfer < cluster_size) {
-+        /*
-+         * copy_range does not respect max_transfer. We don't want to both=
-er
-+         * with requests smaller than block-copy cluster size, so fallback=
- to
-+         * buffered copying (read and write respect max_transfer on their
-+         * behalf).
-+         */
-+        s->use_copy_range =3D false;
-+        s->copy_size =3D cluster_size;
-+    } else if (write_flags & BDRV_REQ_WRITE_COMPRESSED) {
-+        /* Compression is not supported for copy_range */
-+        s->use_copy_range =3D false;
-+        s->copy_size =3D MAX(cluster_size, BLOCK_COPY_MAX_BUFFER);
-+    } else {
-+        /*
-+         * copy_range does not respect max_transfer (it's a TODO), so we f=
-actor
-+         * that in here.
-+         */
-+        s->use_copy_range =3D true;
-+        s->copy_size =3D MIN(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
-+                           QEMU_ALIGN_DOWN(max_transfer, cluster_size));
-+    }
+@@ -1155,6 +1157,86 @@ static coroutine_fn int nvme_co_pwrite_zeroes(BlockD=
+riverState *bs,
+ }
 =20
-     QLIST_INIT(&s->inflight_reqs);
 =20
-@@ -156,12 +166,19 @@ static int coroutine_fn block_copy_do_copy(BlockCopyS=
-tate *s,
-         if (ret < 0) {
-             trace_block_copy_copy_range_fail(s, start, ret);
-             s->use_copy_range =3D false;
-+            s->copy_size =3D MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
-             /* Fallback to read+write with allocated buffer */
-         } else {
-             goto out;
-         }
-     }
-=20
-+    /*
-+     * In case of failed copy_range request above, we may proceed with buf=
-fered
-+     * request larger than BLOCK_COPY_MAX_BUFFER. Still, further requests =
-will
-+     * be properly limited, so don't care too much.
-+     */
++static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
++                                         int64_t offset,
++                                         int bytes)
++{
++    BDRVNVMeState *s =3D bs->opaque;
++    NVMeQueuePair *ioq =3D s->queues[1];
++    NVMeRequest *req;
++    NvmeDsmRange *buf;
++    QEMUIOVector local_qiov;
++    int ret;
 +
-     bounce_buffer =3D qemu_blockalign(s->source->bs, nbytes);
++    NvmeCmd cmd =3D {
++        .opcode =3D NVME_CMD_DSM,
++        .nsid =3D cpu_to_le32(s->nsid),
++        .cdw10 =3D cpu_to_le32(0), /*number of ranges - 0 based*/
++        .cdw11 =3D cpu_to_le32(1 << 2), /*deallocate bit*/
++    };
++
++    NVMeCoData data =3D {
++        .ctx =3D bdrv_get_aio_context(bs),
++        .ret =3D -EINPROGRESS,
++    };
++
++    if (!s->supports_discard) {
++        return -ENOTSUP;
++    }
++
++    assert(s->nr_queues > 1);
++
++    buf =3D qemu_try_blockalign0(bs, s->page_size);
++    if (!buf) {
++        return -ENOMEM;
++    }
++
++    buf->nlb =3D cpu_to_le32(bytes >> s->blkshift);
++    buf->slba =3D cpu_to_le64(offset >> s->blkshift);
++    buf->cattr =3D 0;
++
++    qemu_iovec_init(&local_qiov, 1);
++    qemu_iovec_add(&local_qiov, buf, 4096);
++
++    req =3D nvme_get_free_req(ioq);
++    assert(req);
++
++    qemu_co_mutex_lock(&s->dma_map_lock);
++    ret =3D nvme_cmd_map_qiov(bs, &cmd, req, &local_qiov);
++    qemu_co_mutex_unlock(&s->dma_map_lock);
++
++    if (ret) {
++        req->busy =3D false;
++        goto out;
++    }
++
++    trace_nvme_dsm(s, offset, bytes);
++
++    nvme_submit_command(s, ioq, req, &cmd, nvme_rw_cb, &data);
++
++    data.co =3D qemu_coroutine_self();
++    while (data.ret =3D=3D -EINPROGRESS) {
++        qemu_coroutine_yield();
++    }
++
++    qemu_co_mutex_lock(&s->dma_map_lock);
++    ret =3D nvme_cmd_unmap_qiov(bs, &local_qiov);
++    qemu_co_mutex_unlock(&s->dma_map_lock);
++
++    if (ret) {
++        goto out;
++    }
++
++    ret =3D data.ret;
++    trace_nvme_dsm_done(s, offset, bytes, ret);
++out:
++    qemu_iovec_destroy(&local_qiov);
++    qemu_vfree(buf);
++    return ret;
++
++}
++
++
+ static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
+                                BlockReopenQueue *queue, Error **errp)
+ {
+@@ -1261,6 +1343,7 @@ static BlockDriver bdrv_nvme =3D {
+     .bdrv_co_pwritev          =3D nvme_co_pwritev,
 =20
-     ret =3D bdrv_co_pread(s->source, start, nbytes, bounce_buffer, 0);
-@@ -290,8 +307,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
-             continue; /* already copied */
-         }
+     .bdrv_co_pwrite_zeroes    =3D nvme_co_pwrite_zeroes,
++    .bdrv_co_pdiscard         =3D nvme_co_pdiscard,
 =20
--        chunk_end =3D MIN(end, start + (s->use_copy_range ?
--                                      s->copy_range_size : s->cluster_size=
-));
-+        chunk_end =3D MIN(end, start + s->copy_size);
-=20
-         next_zero =3D bdrv_dirty_bitmap_next_zero(s->copy_bitmap, start,
-                                                 chunk_end - start);
+     .bdrv_co_flush_to_disk    =3D nvme_co_flush,
+     .bdrv_reopen_prepare      =3D nvme_reopen_prepare,
+diff --git a/block/trace-events b/block/trace-events
+index 8706eab170..6ba86decca 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -156,6 +156,8 @@ nvme_write_zeroes(void *s, uint64_t offset, uint64_t by=
+tes, int flags) "s %p off
+ nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int =
+align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+ nvme_prw_buffered(void *s, uint64_t offset, uint64_t bytes, int niov, int =
+is_write) "s %p offset %"PRId64" bytes %"PRId64" niov %d is_write %d"
+ nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int r=
+et) "s %p is_write %d offset %"PRId64" bytes %"PRId64" ret %d"
++nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset %"PRId64" =
+bytes %"PRId64""
++nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p off=
+set %"PRId64" bytes %"PRId64" ret %d"
+ nvme_dma_map_flush(void *s) "s %p"
+ nvme_free_req_queue_wait(void *q) "q %p"
+ nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) =
+"s %p cmd %p req %p qiov %p entries %d"
 --=20
 2.21.0
 
