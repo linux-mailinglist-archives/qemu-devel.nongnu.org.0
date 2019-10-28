@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0580E71A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:40:56 +0100 (CET)
-Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7893CE7212
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:48:48 +0100 (CET)
+Received: from localhost ([::1]:53372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4KN-0006w2-6O
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
+	id 1iP4Rx-00049b-FK
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3w9-0001u6-7V
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3wB-0001x0-9s
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3w8-0001Vx-4G
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44056)
+ (envelope-from <mreitz@redhat.com>) id 1iP3wA-0001X7-8I
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25332
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3w8-0001Vd-1H
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:52 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wA-0001Wx-4i
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264951;
+ s=mimecast20190719; t=1572264953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aX7tdlNCSqFCzCFd76kLOahQsl2L1xEKXDIb76FldjM=;
- b=LeFewGNar+0go3ZpqxobpujkSFSBlj3aL3QH1woBkW7T86GE+YQssSaSlISSR3A7TI+NFg
- A0zUNuJltmz6r08CMwMLgWAsytD7pY+oHMbzGuiC1IpmmPe+PETbjCgphoGrlwCpN3JbwT
- 6ddC4sqCJ/7vwpAhs5AyHvTH24CDdE8=
+ bh=lPGrGamxeSG5kU8cyjtAGmTiygdK/rXU1SwofdY8sCw=;
+ b=Hknui58xzrzknTHIsCiezad114eBvUgwOpE6fPg4IdNiBeVmMbiK7S5G8BIb2JydGA7i3K
+ +PHppVwb/sJfV9AH6JUu2pjEymluRlanFCMxAYeqzsFzSuf64Pn9zHOUkdE77WtmVmWLBJ
+ eHRvXtJMSF66OVM6dBBpjSNnqcS15VM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-t9d1UdFLPQqKMKDigspd7g-1; Mon, 28 Oct 2019 08:15:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-173-ds5LUK8kMWW6_PXjQcyzvg-1; Mon, 28 Oct 2019 08:15:50 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DDBD10052E1;
- Mon, 28 Oct 2019 12:15:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43D6C476;
+ Mon, 28 Oct 2019 12:15:49 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D72A226186;
- Mon, 28 Oct 2019 12:15:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DED385C1D6;
+ Mon, 28 Oct 2019 12:15:48 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/69] iotests/147: Create socket in $SOCK_DIR
-Date: Mon, 28 Oct 2019 13:14:13 +0100
-Message-Id: <20191028121501.15279-22-mreitz@redhat.com>
+Subject: [PULL 22/69] iotests/181: Create socket in $SOCK_DIR
+Date: Mon, 28 Oct 2019 13:14:14 +0100
+Message-Id: <20191028121501.15279-23-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: t9d1UdFLPQqKMKDigspd7g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: ds5LUK8kMWW6_PXjQcyzvg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -77,25 +78,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20191017133155.5327-10-mreitz@redhat.com
+Message-id: 20191017133155.5327-11-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/147 | 2 +-
+ tests/qemu-iotests/181 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
-index ab8480b9a4..03fc2fabcf 100755
---- a/tests/qemu-iotests/147
-+++ b/tests/qemu-iotests/147
-@@ -32,7 +32,7 @@ NBD_IPV6_PORT_START =3D NBD_PORT_END
- NBD_IPV6_PORT_END   =3D NBD_IPV6_PORT_START + 1024
+diff --git a/tests/qemu-iotests/181 b/tests/qemu-iotests/181
+index e317e63422..378c2899d1 100755
+--- a/tests/qemu-iotests/181
++++ b/tests/qemu-iotests/181
+@@ -26,7 +26,7 @@ echo "QA output created by $seq"
 =20
- test_img =3D os.path.join(iotests.test_dir, 'test.img')
--unix_socket =3D os.path.join(iotests.test_dir, 'nbd.socket')
-+unix_socket =3D os.path.join(iotests.sock_dir, 'nbd.socket')
+ status=3D1=09# failure is the default!
 =20
+-MIG_SOCKET=3D"${TEST_DIR}/migrate"
++MIG_SOCKET=3D"${SOCK_DIR}/migrate"
 =20
- def flatten_sock_addr(crumpled_address):
+ _cleanup()
+ {
 --=20
 2.21.0
 
