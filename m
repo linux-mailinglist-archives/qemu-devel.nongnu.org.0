@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC528E7464
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:05:02 +0100 (CET)
-Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B18E747A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:09:01 +0100 (CET)
+Received: from localhost ([::1]:44686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP6Zp-0002iF-7t
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:05:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44541)
+	id 1iP6dg-0000fr-3I
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iP6Uh-0007T0-JJ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iP6Ui-0007Tk-7f
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iP6Ug-000429-23
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:43 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36165)
+ (envelope-from <richard.henderson@linaro.org>) id 1iP6Ug-00042Z-UW
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:44 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56237)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iP6Uf-00041k-R9
+ id 1iP6Ug-00042D-Or
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:42 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id c22so9489272wmd.1
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:59:41 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id g24so9816023wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5E3h/dy52NEcLnrR3FCotEmib1HNDwVjiquxqJLNR8c=;
- b=V0j6vHdz1BfMFf6G4oHt2pwyscFekHHXpIV699pRmBWlm82pbJK5oqaempcqH5DDIS
- Exb/Hgr3aRJm6UOHIJ+gwgdMJdS86bHeZdjDiac3n3sN+TUu+7gQ2hhl7iwiAc/q8+0D
- SXdyavjpxJ5UBEBsIbFM7OLJg567qpzb20iqHNfVLwllNp18fu3qOJfkDJ8pTfsAL/Mh
- ves/mQ7KqD/XVEIhO6HicyIYEU/FEEHnDGiauaSO8gJBc32Yx6vVbypA0nFx++KiCSuv
- gSw/PSETmIv1QkW0WKihMj/Um+VoW8Xblgxb+ctc16P+edVAy2E+neXCRN2LX1zUSWeq
- gVaA==
+ bh=VpK7DgB24L4FBN+Cv8MDDt0jG1tSba2F0aG6/IXjc+c=;
+ b=LbCnU1ZRv9oIe+RislOCKhs5ufeTZyJcaziK9nPnrBR3KthTPqIpcX34vjdHDozppm
+ UJR4LrtaTZ7W2ejIUQKAUyDuHhzVJFihFeU7nVbjwIoNNIfr/DkNvP5OgtXWuG/6Obbk
+ RcvrAwKorky/8M4HHW0nBMzljKbd9y5+R3SiU+FkNSyWU99tqH210N0ft1IYxDf8v2Er
+ j9ittXMRFiHsQplJK+VCXCM82/KNH7Jd/mTakwpNVOCt8U0pWKs+hvmP7g0leY2OlmWX
+ VJ7VvvS2k5r4bCEsVknCq2JoUs1XuqMKTNSdDq5bxua5WBhECORUpE9U0P43yl4Y7v29
+ VX7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5E3h/dy52NEcLnrR3FCotEmib1HNDwVjiquxqJLNR8c=;
- b=DjCb9VgUgGFJo+7QXRDxNUgyylWHbrwe81UMbrhuDW6nAMwrBDqwMq9yUmBeL1a8Xw
- SOhENYS+xpZ91mtO8qHpkjvgJ6QrtvJgiwbK2w9mWxW3nFjaUpEpmfVojU5GHGav5wLH
- jHapUgHQw8eq4MncOpebtgBmMQhZdFlznKSU8wh2uVqrEwV0Y/dZHq70yDZhwE0WuLeg
- SZ4UBga3l/ph1OLpAwSPq76EAuCeqKqLQikUfzW9dBGWN8Yn4UOqkoDgIwH37/VYc3Sr
- RMs4C2+YxnCKCBjj4oPMbiexsF2AZI718YXY5ufAgkBmaRSBVAhDsD4c81h8lj9LuzU0
- MwBg==
-X-Gm-Message-State: APjAAAU8SvtJQmtIS5cx1+US8Y2dvEFcUOw4sB9qJaYMLccZkE8kS8qP
- UEsei0XRydaa99vlf6EqVPIvkuwvcX9OKA==
-X-Google-Smtp-Source: APXvYqypq0KNKg9NSDXnCCD1AzygQdUwKY3d9Fpb9NWT6cxGkcbqfuTQTbJq/rOq6x5dDyZ73njRqQ==
-X-Received: by 2002:a1c:d8:: with SMTP id 207mr347369wma.65.1572274780463;
- Mon, 28 Oct 2019 07:59:40 -0700 (PDT)
+ bh=VpK7DgB24L4FBN+Cv8MDDt0jG1tSba2F0aG6/IXjc+c=;
+ b=TzV95ClcDDH4NFwX2a0steakIZ7d9yDtf2cMGI+spv+YZ0YjV+1xmZfsKrCe3RhVWv
+ 77dpvRZI0YN3TExtNehhV7SNmgiX6MrvdwytMl2QSUQNq0qzosvd/WmB9bwqfEtkVLwA
+ mZ/7/EpbTW6C9T1z2p/aWstQ/jC8YMeGZ7E5AgkLzYVvDrItk7rkGbaBbst4JnFfrM6P
+ UVF0xtCl5KR79POUNZc2LQdoIm/qKWmlyKmm6hNoHimC+oUyq7srLMS4vo4UV+3AfAh/
+ Za1PNnmzBzxx2IFAKFbGlPI+3AgJU3+L+kSYu+LDZIDMkAMmiE4/p3mZ+EG7GLUxUmF0
+ yIUw==
+X-Gm-Message-State: APjAAAWG3qWSK0wEfCcTrlXOjKcuGZm1Xr+bLV0Jp3eT3X6RedIDzPFY
+ QrJx4Y+JlY93jFvHrBb6UROpHgH0BXajuA==
+X-Google-Smtp-Source: APXvYqzeXgUU5i2m9F5Mev+hmjKSeN+qkQLndg8zEWhT7xq46ApJd0E5yrslia1ohpV3zSfh1ezTrA==
+X-Received: by 2002:a1c:234c:: with SMTP id j73mr386073wmj.51.1572274781548;
+ Mon, 28 Oct 2019 07:59:41 -0700 (PDT)
 Received: from localhost.localdomain (230.106.138.88.rev.sfr.net.
  [88.138.106.230])
- by smtp.gmail.com with ESMTPSA id 143sm14842876wmb.33.2019.10.28.07.59.39
+ by smtp.gmail.com with ESMTPSA id 143sm14842876wmb.33.2019.10.28.07.59.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 07:59:39 -0700 (PDT)
+ Mon, 28 Oct 2019 07:59:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 02/12] cputlb: ensure _cmmu helper functions follow the
- naming standard
-Date: Mon, 28 Oct 2019 15:59:27 +0100
-Message-Id: <20191028145937.10914-3-richard.henderson@linaro.org>
+Subject: [PULL v2 03/12] cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
+Date: Mon, 28 Oct 2019 15:59:28 +0100
+Message-Id: <20191028145937.10914-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191028145937.10914-1-richard.henderson@linaro.org>
 References: <20191028145937.10914-1-richard.henderson@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,174 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-We document this in docs/devel/load-stores.rst so lets follow it. The
-32 bit and 64 bit access functions have historically not included the
-sign so we leave those as is. We also introduce some signed helpers
-which are used for loading immediate values in the translator.
+Use ROUND_UP() to define, which is a little bit easy to read.
 
-Fixes: 282dffc8
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191021150910.23216-1-alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20191013021145.16011-2-richardw.yang@linux.intel.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst_template.h |  4 ++--
- tcg/tcg.h                        | 20 ++++++++++++++------
- accel/tcg/cputlb.c               | 24 +++++++++++++++++++++---
- target/cris/translate_v10.inc.c  |  3 +--
- 4 files changed, 38 insertions(+), 13 deletions(-)
+ include/exec/cpu-all.h | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
-index af7e0b49f2..3d24ed9bd0 100644
---- a/include/exec/cpu_ldst_template.h
-+++ b/include/exec/cpu_ldst_template.h
-@@ -65,8 +65,8 @@
- #ifdef SOFTMMU_CODE_ACCESS
- #define ADDR_READ addr_code
- #define MMUSUFFIX _cmmu
--#define URETSUFFIX SUFFIX
--#define SRETSUFFIX SUFFIX
-+#define URETSUFFIX USUFFIX
-+#define SRETSUFFIX glue(s, SUFFIX)
- #else
- #define ADDR_READ addr_read
- #define MMUSUFFIX _mmu
-diff --git a/tcg/tcg.h b/tcg/tcg.h
-index a37181c899..2792f65d04 100644
---- a/tcg/tcg.h
-+++ b/tcg/tcg.h
-@@ -1269,16 +1269,22 @@ void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
- void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
-                        TCGMemOpIdx oi, uintptr_t retaddr);
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index ad9ab85eb3..255bb186ac 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -220,7 +220,7 @@ extern int target_page_bits;
  
--uint8_t helper_ret_ldb_cmmu(CPUArchState *env, target_ulong addr,
-+uint8_t helper_ret_ldub_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
--uint16_t helper_le_ldw_cmmu(CPUArchState *env, target_ulong addr,
-+int8_t helper_ret_ldsb_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
-+uint16_t helper_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
-+int16_t helper_le_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint32_t helper_le_ldl_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint64_t helper_le_ldq_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
--uint16_t helper_be_ldw_cmmu(CPUArchState *env, target_ulong addr,
--                            TCGMemOpIdx oi, uintptr_t retaddr);
-+uint16_t helper_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
-+int16_t helper_be_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint32_t helper_be_ldl_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr);
- uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
-@@ -1295,7 +1301,8 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
- # define helper_ret_stw_mmu   helper_be_stw_mmu
- # define helper_ret_stl_mmu   helper_be_stl_mmu
- # define helper_ret_stq_mmu   helper_be_stq_mmu
--# define helper_ret_ldw_cmmu  helper_be_ldw_cmmu
-+# define helper_ret_lduw_cmmu  helper_be_lduw_cmmu
-+# define helper_ret_ldsw_cmmu  helper_be_ldsw_cmmu
- # define helper_ret_ldl_cmmu  helper_be_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_be_ldq_cmmu
- #else
-@@ -1308,7 +1315,8 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
- # define helper_ret_stw_mmu   helper_le_stw_mmu
- # define helper_ret_stl_mmu   helper_le_stl_mmu
- # define helper_ret_stq_mmu   helper_le_stq_mmu
--# define helper_ret_ldw_cmmu  helper_le_ldw_cmmu
-+# define helper_ret_lduw_cmmu  helper_le_lduw_cmmu
-+# define helper_ret_ldsw_cmmu  helper_le_ldsw_cmmu
- # define helper_ret_ldl_cmmu  helper_le_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_le_ldq_cmmu
- #endif
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index defc8d5929..6f4194df96 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1862,12 +1862,18 @@ static uint64_t full_ldub_cmmu(CPUArchState *env, target_ulong addr,
-     return load_helper(env, addr, oi, retaddr, MO_8, true, full_ldub_cmmu);
- }
+ #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+ #define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
+-#define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) & TARGET_PAGE_MASK)
++#define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
  
--uint8_t helper_ret_ldb_cmmu(CPUArchState *env, target_ulong addr,
-+uint8_t helper_ret_ldub_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     return full_ldub_cmmu(env, addr, oi, retaddr);
- }
+ /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+  * when intptr_t is 32-bit and we are aligning a long long.
+@@ -228,9 +228,8 @@ extern int target_page_bits;
+ extern uintptr_t qemu_host_page_size;
+ extern intptr_t qemu_host_page_mask;
  
-+int8_t helper_ret_ldsb_cmmu(CPUArchState *env, target_ulong addr,
-+                            TCGMemOpIdx oi, uintptr_t retaddr)
-+{
-+    return (int8_t) full_ldub_cmmu(env, addr, oi, retaddr);
-+}
-+
- static uint64_t full_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-@@ -1875,12 +1881,18 @@ static uint64_t full_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                        full_le_lduw_cmmu);
- }
+-#define HOST_PAGE_ALIGN(addr) (((addr) + qemu_host_page_size - 1) & qemu_host_page_mask)
+-#define REAL_HOST_PAGE_ALIGN(addr) (((addr) + qemu_real_host_page_size - 1) & \
+-                                    qemu_real_host_page_mask)
++#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
++#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
  
--uint16_t helper_le_ldw_cmmu(CPUArchState *env, target_ulong addr,
-+uint16_t helper_le_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     return full_le_lduw_cmmu(env, addr, oi, retaddr);
- }
- 
-+int16_t helper_le_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                            TCGMemOpIdx oi, uintptr_t retaddr)
-+{
-+    return (int16_t) full_le_lduw_cmmu(env, addr, oi, retaddr);
-+}
-+
- static uint64_t full_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-@@ -1888,12 +1900,18 @@ static uint64_t full_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                        full_be_lduw_cmmu);
- }
- 
--uint16_t helper_be_ldw_cmmu(CPUArchState *env, target_ulong addr,
-+uint16_t helper_be_lduw_cmmu(CPUArchState *env, target_ulong addr,
-                             TCGMemOpIdx oi, uintptr_t retaddr)
- {
-     return full_be_lduw_cmmu(env, addr, oi, retaddr);
- }
- 
-+int16_t helper_be_ldsw_cmmu(CPUArchState *env, target_ulong addr,
-+                            TCGMemOpIdx oi, uintptr_t retaddr)
-+{
-+    return (int16_t) full_be_lduw_cmmu(env, addr, oi, retaddr);
-+}
-+
- static uint64_t full_le_ldul_cmmu(CPUArchState *env, target_ulong addr,
-                                   TCGMemOpIdx oi, uintptr_t retaddr)
- {
-diff --git a/target/cris/translate_v10.inc.c b/target/cris/translate_v10.inc.c
-index a87b8bb281..ae34a0d1a3 100644
---- a/target/cris/translate_v10.inc.c
-+++ b/target/cris/translate_v10.inc.c
-@@ -1202,8 +1202,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
-         case CRISV10_IND_BCC_M:
- 
-             cris_cc_mask(dc, 0);
--            imm = cpu_ldsw_code(env, dc->pc + 2);
--            simm = (int16_t)imm;
-+            simm = cpu_ldsw_code(env, dc->pc + 2);
-             simm += 4;
- 
-             LOG_DIS("bcc_m: b%s %x\n", cc_name(dc->cond), dc->pc + simm);
+ /* same as PROT_xxx */
+ #define PAGE_READ      0x0001
 -- 
 2.17.1
 
