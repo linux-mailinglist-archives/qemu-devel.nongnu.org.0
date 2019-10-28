@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC0EE77D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:49:58 +0100 (CET)
-Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710BDE77C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:44:17 +0100 (CET)
+Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP99Q-0005ty-DI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40395)
+	id 1iP93v-0000Hv-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP7yN-0000rx-7o
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:34:28 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP7yL-00017b-LW
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:34:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP7jG-0003hh-Uc
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:18:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30927
+ (envelope-from <mreitz@redhat.com>) id 1iP7jI-0003jG-Oo
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:18:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40386
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP7jG-0003h1-PW
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:18:50 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP7jI-0003ip-LM
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:18:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572279530;
+ s=mimecast20190719; t=1572279532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7gKbmnFpKl+1jbTdbbPkMmYZ5hw+7LhIFOifFREUiyc=;
- b=KwGyscUKCraw2aGB2ziEcrhrYeUgnXIAmSvV7N9Db6MMzgxK1TBwOddKMZKziV9FohKk11
- 5wRthIa7N3dy5UAUFTvi6LZggv1UXvqm+kTEchCFY+qcwci9mkC9HVDZbXer11HQwHeelS
- 8epxU+QWOJjxdzD6Rgscvs868HSRhsM=
+ bh=/LCmj09Ej7HGJyfbYSNXEmkqll1pmoDVyS1dtuCg0Og=;
+ b=EZQBDPo8D+V5dKtBQv6BmFZX+hJjRD+ab7/7ivhKGlh/i3vKESrw53VjxPpeYiTww6QCjY
+ BVS9FYgsQq8GozWBXwf9aYmya/jMvGyP/uoOlXpJ76wQiYN/xQso2zSjX5d8uCtxYVGcHP
+ jBrVY1KFpkVyV8OtmEmwIncWQ7J0GbE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-LG22HMZBN_mUFmUjeza6zg-1; Mon, 28 Oct 2019 12:18:46 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-236-ZeyYvCkjOfGXPR-6G6DiCQ-1; Mon, 28 Oct 2019 12:18:49 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B818C180496F;
- Mon, 28 Oct 2019 16:18:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD04E81A334;
+ Mon, 28 Oct 2019 16:18:47 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 606D85C1B2;
- Mon, 28 Oct 2019 16:18:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A6A1600C9;
+ Mon, 28 Oct 2019 16:18:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-4.2 1/2] qcow2: Fix QCOW2_COMPRESSED_SECTOR_MASK
-Date: Mon, 28 Oct 2019 17:18:40 +0100
-Message-Id: <20191028161841.1198-2-mreitz@redhat.com>
+Subject: [PATCH for-4.2 2/2] iotests: Add test for 4G+ compressed qcow2 write
+Date: Mon, 28 Oct 2019 17:18:41 +0100
+Message-Id: <20191028161841.1198-3-mreitz@redhat.com>
 In-Reply-To: <20191028161841.1198-1-mreitz@redhat.com>
 References: <20191028161841.1198-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: LG22HMZBN_mUFmUjeza6zg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: ZeyYvCkjOfGXPR-6G6DiCQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,30 +75,128 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Masks for L2 table entries should have 64 bit.
+Test what qemu-img check says about an image after one has written
+compressed data to an offset above 4 GB.
 
-Fixes: b6c246942b14d3e0dec46a6c5868ed84e7dbea19
-Buglink: https://bugs.launchpad.net/qemu/+bug/1850000
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/272     | 79 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/272.out | 10 +++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 90 insertions(+)
+ create mode 100755 tests/qemu-iotests/272
+ create mode 100644 tests/qemu-iotests/272.out
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 601c2e4c82..0942126232 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -83,7 +83,7 @@
-=20
- /* Defined in the qcow2 spec (compressed cluster descriptor) */
- #define QCOW2_COMPRESSED_SECTOR_SIZE 512U
--#define QCOW2_COMPRESSED_SECTOR_MASK (~(QCOW2_COMPRESSED_SECTOR_SIZE - 1))
-+#define QCOW2_COMPRESSED_SECTOR_MASK (~(QCOW2_COMPRESSED_SECTOR_SIZE - 1UL=
-L))
-=20
- /* Must be at least 2 to cover COW */
- #define MIN_L2_CACHE_SIZE 2 /* cache entries */
+diff --git a/tests/qemu-iotests/272 b/tests/qemu-iotests/272
+new file mode 100755
+index 0000000000..c2f782d47b
+--- /dev/null
++++ b/tests/qemu-iotests/272
+@@ -0,0 +1,79 @@
++#!/usr/bin/env bash
++#
++# Test compressed write to a qcow2 image at an offset above 4 GB
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq=3D$(basename "$0")
++echo "QA output created by $seq"
++
++status=3D1=09# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++# This is a qcow2 regression test
++_supported_fmt qcow2
++_supported_proto file
++
++# External data files do not support compression;
++# We need an exact cluster size (2M) and refcount width (2) so we can
++# get this test quickly over with; and this in turn require
++# compat=3D1.1
++_unsupported_imgopts data_file cluster_size refcount_bits 'compat=3D0.10'
++
++# The idea is: Create an empty file, mark the first 4 GB as used, then
++# do a compressed write that thus must be put beyond 4 GB.
++# (This used to fail because the compressed sector mask was just a
++# 32 bit mask, so qemu-img check will count a cluster before 4 GB as
++# referenced twice.)
++
++# We would like to use refcount_bits=3D1 here, but then qemu-img check
++# will throw an error when trying to count a cluster as referenced
++# twice.
++_make_test_img -o cluster_size=3D2M,refcount_bits=3D2 64M
++
++reft_offs=3D$(peek_file_be "$TEST_IMG" 48 8)
++refb_offs=3D$(peek_file_be "$TEST_IMG" $reft_offs 8)
++
++# We want to cover 4 GB, those are 2048 clusters, equivalent to
++# 4096 bit =3D 512 B.
++truncate -s 4G "$TEST_IMG"
++for ((in_refb_offs =3D 0; in_refb_offs < 512; in_refb_offs +=3D 8)); do
++    poke_file "$TEST_IMG" $((refb_offs + in_refb_offs)) \
++        '\x55\x55\x55\x55\x55\x55\x55\x55'
++done
++
++$QEMU_IO -c 'write -c -P 42 0 2M' "$TEST_IMG" | _filter_qemu_io
++
++echo
++echo '--- Check ---'
++
++# This should only print the leaked clusters in the first 4 GB
++_check_test_img | grep -v '^Leaked cluster '
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/272.out b/tests/qemu-iotests/272.out
+new file mode 100644
+index 0000000000..35698b0e73
+--- /dev/null
++++ b/tests/qemu-iotests/272.out
+@@ -0,0 +1,10 @@
++QA output created by 272
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++--- Check ---
++
++2044 leaked clusters were found on the image.
++This means waste of disk space, but no harm to data.
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 28871604cd..8ead114f7c 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -283,3 +283,4 @@
+ 267 rw auto quick snapshot
+ 268 rw auto quick
+ 270 rw backing quick
++272 rw
 --=20
 2.21.0
 
