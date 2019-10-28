@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C85E7D5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 00:59:56 +0100 (CET)
-Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165D5E7D46
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 00:54:04 +0100 (CET)
+Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPEvT-0004Sq-HA
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 19:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
+	id 1iPEpm-0005Sm-9k
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 19:54:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59055)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iPEn1-00030D-24
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:51:12 -0400
+ (envelope-from <crosa@redhat.com>) id 1iPEn0-000308-6T
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:51:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iPEmp-00046t-Hc
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:51:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39610
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1iPEmu-0004A2-9V
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:51:05 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39705
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPEmp-00046d-Cv
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:50:59 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPEmu-00049U-5F
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:51:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572306658;
+ s=mimecast20190719; t=1572306663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jBeA289qT+sjtgs24ntjHLcpADDOYxYMpDL3O+R7zjU=;
- b=UH84qZt1OWKqN4ONbXuE4D0bHVrGDqLu6ycZzzg8NBo4CwEyWgP+9Ja6q0dGG9eMD3ohFJ
- owlAAH+qCNcacW2gfvtk/B34UuJIA/94SRMNn0VydoYQXeGNWRygWfh30g8Z7qRFqF6lS5
- JRF930cvbyi9ib+w1K7zNN+jjGdM3P8=
+ bh=5L9YnuQ9YC4Azi5dIADYIT89dhC9ga7ffgmQ0bJZCwo=;
+ b=fLdFirldytklqVZJI7poOW5WnNAzP5T/qZVetJc44RxXNcJFbbNessQjeF8V0YS7nr0uMZ
+ jKIJV5ZBmh1z72QrqGs6h+4sWg3AC0Xm1auPw0kVF++c1ZdM5AHNlltp/0KR8SJWk2j1Ou
+ BzHEUs42vJ16O/fLvwQIKjlLwZWVoxc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-Qk6WEPk2PAyIO6o0jWdbHg-1; Mon, 28 Oct 2019 19:50:56 -0400
+ us-mta-301-Lo9QtLJzNXiDUze4iH7Ynw-1; Mon, 28 Oct 2019 19:50:59 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E76107AD29;
- Mon, 28 Oct 2019 23:50:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C016476;
+ Mon, 28 Oct 2019 23:50:57 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-123-183.rdu2.redhat.com
  [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A9D645C1B2;
- Mon, 28 Oct 2019 23:50:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 427E75C1B2;
+ Mon, 28 Oct 2019 23:50:55 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PULL 11/16] tests/acceptance: Test OpenBIOS on the PReP/40p
-Date: Mon, 28 Oct 2019 19:49:57 -0400
-Message-Id: <20191028235002.17691-12-crosa@redhat.com>
+Subject: [PULL 12/16] .travis.yml: Let the avocado job run the 40p tests
+Date: Mon, 28 Oct 2019 19:49:58 -0400
+Message-Id: <20191028235002.17691-13-crosa@redhat.com>
 In-Reply-To: <20191028235002.17691-1-crosa@redhat.com>
 References: <20191028235002.17691-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Qk6WEPk2PAyIO6o0jWdbHg-1
+X-MC-Unique: Lo9QtLJzNXiDUze4iH7Ynw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,71 +82,39 @@ Cc: Fam Zheng <fam@euphon.net>, Aleksandar Rikalo <arikalo@wavecomp.com>,
  Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  qemu-ppc@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-User case from:
-https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20191028073441.6448-16-philmd@redhat.com>
+Message-Id: <20191028073441.6448-18-philmd@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
-[Cleber: added skip conditional for Travis]
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/ppc_prep_40p.py | 33 ++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_4=
-0p.py
-index 9d95e18fcb..6f507fb0a6 100644
---- a/tests/acceptance/ppc_prep_40p.py
-+++ b/tests/acceptance/ppc_prep_40p.py
-@@ -47,3 +47,36 @@ class IbmPrep40pMachine(Test):
-         os_banner =3D 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST 20=
-07'
-         wait_for_console_pattern(self, os_banner)
-         wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
-+
-+    def test_openbios_192m(self):
-+        """
-+        :avocado: tags=3Darch:ppc
-+        :avocado: tags=3Dmachine:40p
-+        """
-+        self.vm.set_machine('40p')
-+        self.vm.set_console()
-+        self.vm.add_args('-m', '192') # test fw_cfg
-+
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> Memory: 192M')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,604')
-+
-+    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-+    def test_openbios_and_netbsd(self):
-+        """
-+        :avocado: tags=3Darch:ppc
-+        :avocado: tags=3Dmachine:40p
-+        """
-+        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/iso/7.1.2/'
-+                     'NetBSD-7.1.2-prep.iso')
-+        drive_hash =3D 'ac6fa2707d888b36d6fa64de6e7fe48e'
-+        drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_hash=
-,
-+                                      algorithm=3D'md5')
-+        self.vm.set_machine('40p')
-+        self.vm.set_console()
-+        self.vm.add_args('-cdrom', drive_path,
-+                         '-boot', 'd')
-+
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'NetBSD/prep BOOT, Revision 1.9')
+diff --git a/.travis.yml b/.travis.yml
+index 6ebd1af0d9..ef63fc16b3 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -271,7 +271,7 @@ matrix:
+=20
+     # Acceptance (Functional) tests
+     - env:
+-        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-sof=
+tmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmm=
+u,alpha-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
++        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-sof=
+tmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmm=
+u,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
+         - TEST_CMD=3D"make check-acceptance"
+       after_failure:
+         - cat tests/results/latest/job.log
 --=20
 2.21.0
 
