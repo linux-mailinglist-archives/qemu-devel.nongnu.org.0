@@ -2,66 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647A6E701A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 12:05:44 +0100 (CET)
-Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0DDE7057
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 12:27:53 +0100 (CET)
+Received: from localhost ([::1]:52678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP2qF-00046L-6R
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 07:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43303)
+	id 1iP3Bg-0007wJ-2f
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 07:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iP2p5-0003AY-CJ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:04:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP353-0007Vt-SW
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:21:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iP2p3-0006n9-EY
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:04:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25615
+ (envelope-from <mreitz@redhat.com>) id 1iP2q2-0007hU-EV
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:05:32 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22364
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iP2p3-0006mg-Ay
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:04:29 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP2q2-0007hI-9V
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:05:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572260668;
+ s=mimecast20190719; t=1572260729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=56Igtf7Ahg/b8huWVlfQIdxWzwcqcIa4JDjoRG8FQLc=;
- b=VVg3xnqv7Uc+t06WmeCT/EEmmUkw+F0Z5J0VpfsKMuBtIjEbjMoghuhUlwBZvrfhFoaXs/
- l1qGzQQAcVmG5o3IeFiJhXQny4qsBiMeI/B9jWpFgm5v3IZ4YYtDT3cuVFZ2EUuFXR++7p
- gqkdw87sKJ46F460IeA91TVCPLA9rqE=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VVID0cJaQ5OgycO7g0CujkwXEmISNzWR4qOfjbGZLTA=;
+ b=Dud3yMk5iKIoNha8oJ4Z2awZ173EzUmZ9upHp7bKWpeDFdtA6D1Fi5q8u29ccOR94U0u/Y
+ ziI1eur5rknxoeqIwOsB5LT+edQR+DONmDanOhC9btHE4cnJmEcTa10HnKwQUI3DJAzAPJ
+ YsyW9siTeX5y0DwuJ1q8upN55r/VI+E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-oQEu4ffzMmal5oYMs_z-lw-1; Mon, 28 Oct 2019 07:04:22 -0400
-X-MC-Unique: oQEu4ffzMmal5oYMs_z-lw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-187-YPydsI13NhmF8GO82X8J4g-1; Mon, 28 Oct 2019 07:05:21 -0400
+X-MC-Unique: YPydsI13NhmF8GO82X8J4g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F04E47B;
- Mon, 28 Oct 2019 11:04:21 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-42.ams2.redhat.com
- [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1302860C4E;
- Mon, 28 Oct 2019 11:04:12 +0000 (UTC)
-Date: Mon, 28 Oct 2019 12:04:08 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
-Message-ID: <20191028110408.GB3579@localhost.localdomain>
-References: <20191025095849.25283-1-mreitz@redhat.com>
- <20191027123555.GN4472@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7CA91005529;
+ Mon, 28 Oct 2019 11:05:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-83.ams2.redhat.com
+ [10.36.117.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44160261A7;
+ Mon, 28 Oct 2019 11:05:16 +0000 (UTC)
+Subject: Re: [PATCH 4/8] block: Add @exact parameter to bdrv_co_truncate()
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
+References: <20190918095144.955-1-mreitz@redhat.com>
+ <20190918095144.955-5-mreitz@redhat.com>
+ <24b871b4722d4ccecfc3ce1293adc937fede38f1.camel@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <66ef3a2c-4014-fe15-eca0-594fcc6186b8@redhat.com>
+Date: Mon, 28 Oct 2019 12:05:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191027123555.GN4472@stefanha-x1.localdomain>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <24b871b4722d4ccecfc3ce1293adc937fede38f1.camel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
-Content-Disposition: inline
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="sZHiQ69ieX6g662gCcjTT4rZCNgjbgVuX"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,129 +99,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---HcAYCG3uE/tztfnV
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--sZHiQ69ieX6g662gCcjTT4rZCNgjbgVuX
+Content-Type: multipart/mixed; boundary="lmXp7piqCgUhNKXnxWWeYiPRV2kIK1JdQ"
+
+--lmXp7piqCgUhNKXnxWWeYiPRV2kIK1JdQ
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Am 27.10.2019 um 13:35 hat Stefan Hajnoczi geschrieben:
-> On Fri, Oct 25, 2019 at 11:58:46AM +0200, Max Reitz wrote:
-> > As for how we can address the issue, I see three ways:
-> > (1) The one presented in this series: On XFS with aio=3Dnative, we exte=
-nd
-> >     tracked requests for post-EOF fallocate() calls (i.e., write-zero
-> >     operations) to reach until infinity (INT64_MAX in practice), mark
-> >     them serializing and wait for other conflicting requests.
-> >=20
-> >     Advantages:
-> >     + Limits the impact to very specific cases
-> >       (And that means it wouldn=E2=80=99t hurt too much to keep this wo=
-rkaround
-> >       even when the XFS driver has been fixed)
-> >     + Works around the bug where it happens, namely in file-posix
-> >=20
-> >     Disadvantages:
-> >     - A bit complex
-> >     - A bit of a layering violation (should file-posix have access to
-> >       tracked requests?)
+On 18.09.19 22:50, Maxim Levitsky wrote:
+> On Wed, 2019-09-18 at 11:51 +0200, Max Reitz wrote:
+>> We have two drivers (iscsi and file-posix) that (in some cases) return
+>> success from their .bdrv_co_truncate() implementation if the block
+>> device is larger than the requested offset, but cannot be shrunk.  Some
+>> callers do not want that behavior, so this patch adds a new parameter
+>> that they can use to turn off that behavior.
+>>
+>> This patch just adds the parameter and lets the block/io.c and
+>> block/block-backend.c functions pass it around.  All other callers
+>> always pass false and none of the implementations evaluate it, so that
+>> this patch does not change existing behavior.  Future patches take care
+>> of that.
+>>
+>> Suggested-by: Maxim Levitsky <mlevitsk@redhat.com>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  include/block/block.h          |  6 +++---
+>>  include/block/block_int.h      | 17 ++++++++++++++++-
+>>  include/sysemu/block-backend.h |  4 ++--
+>>  block/block-backend.c          |  6 +++---
+>>  block/commit.c                 |  5 +++--
+>>  block/crypto.c                 |  8 ++++----
+>>  block/file-posix.c             |  3 ++-
+>>  block/file-win32.c             |  3 ++-
+>>  block/gluster.c                |  1 +
+>>  block/io.c                     | 20 +++++++++++++-------
+>>  block/iscsi.c                  |  3 ++-
+>>  block/mirror.c                 |  4 ++--
+>>  block/nfs.c                    |  2 +-
+>>  block/parallels.c              |  6 +++---
+>>  block/qcow.c                   |  4 ++--
+>>  block/qcow2-refcount.c         |  2 +-
+>>  block/qcow2.c                  | 22 ++++++++++++----------
+>>  block/qed.c                    |  3 ++-
+>>  block/raw-format.c             |  5 +++--
+>>  block/rbd.c                    |  1 +
+>>  block/sheepdog.c               |  5 +++--
+>>  block/ssh.c                    |  3 ++-
+>>  block/vdi.c                    |  2 +-
+>>  block/vhdx-log.c               |  4 ++--
+>>  block/vhdx.c                   |  7 ++++---
+>>  block/vmdk.c                   |  8 ++++----
+>>  block/vpc.c                    |  2 +-
+>>  blockdev.c                     |  2 +-
+>>  qemu-img.c                     |  2 +-
+>>  qemu-io-cmds.c                 |  2 +-
+>>  tests/test-block-iothread.c    |  8 ++++----
+>>  31 files changed, 102 insertions(+), 68 deletions(-)
+>>
+>> diff --git a/include/block/block.h b/include/block/block.h
+>> index 37c9de7446..2f905ae4b7 100644
+>> --- a/include/block/block.h
+>> +++ b/include/block/block.h
+>> @@ -346,10 +346,10 @@ BlockDriverState *bdrv_find_backing_image(BlockDri=
+verState *bs,
+>>      const char *backing_file);
+>>  void bdrv_refresh_filename(BlockDriverState *bs);
+>> =20
+>> -int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset,
+>> +int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, boo=
+l exact,
+>>                                    PreallocMode prealloc, Error **errp);
+>> -int bdrv_truncate(BdrvChild *child, int64_t offset, PreallocMode preall=
+oc,
+>> -                  Error **errp);
+>> +int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+>> +                  PreallocMode prealloc, Error **errp);
+>> =20
+>>  int64_t bdrv_nb_sectors(BlockDriverState *bs);
+>>  int64_t bdrv_getlength(BlockDriverState *bs);
+>> diff --git a/include/block/block_int.h b/include/block/block_int.h
+>> index 0422acdf1c..197cc6e7c3 100644
+>> --- a/include/block/block_int.h
+>> +++ b/include/block/block_int.h
+>> @@ -334,8 +334,23 @@ struct BlockDriver {
+>>       * bdrv_parse_filename.
+>>       */
+>>      const char *protocol_name;
+>> +
+>> +    /*
+>> +     * Truncate @bs to @offset bytes using the given @prealloc mode
+>> +     * when growing.  Modes other than PREALLOC_MODE_OFF should be
+>> +     * rejected when shrinking @bs.
+>> +     *
+>> +     * If @exact is true, @bs must be resized to exactly @offset.
+>> +     * Otherwise, it is sufficient for @bs (if it is a host block
+>> +     * device and thus there is no way to resize it) to be at least
+>> +     * @offset bytes in length.
+>> +     *
+>> +     * If @exact is true and this function fails but would succeed
+>> +     * with @exact =3D false, it should return -ENOTSUP.
+>> +     */
+> Thanks for adding a documentation here!
+> One minor nitpick:
+> I would write
 >=20
-> Your patch series is reasonable.  I don't think it's too bad.
->=20
-> The main question is how to detect the XFS fix once it ships.  XFS
-> already has a ton of ioctls, so maybe they don't mind adding a
-> feature/quirk bit map ioctl for publishing information about bug fixes
-> to userspace.  I didn't see another obvious way of doing it, maybe a
-> mount option that the kernel automatically sets and that gets reported
-> to userspace?
+> Otherwise, it is sufficient for @bs (for example if it is a host block
+> device and thus there is no way to resize it) to be at least @offset byte=
+s in length.
 
-I think the CC list is too short for this question. We should involve
-the XFS people here.
+Hm, so just add the =E2=80=9Cfor example=E2=80=9D?  I=E2=80=99d rather not =
+add it.  This would
+then read as if it were OK for files that aren=E2=80=99t block devices to a=
+lso
+return success when they cannot be shrunk just because we don=E2=80=99t sup=
+port
+it.  But it isn=E2=80=99t.  If the protocol theoretically allows it and it =
+makes
+sense, drivers shouldn=E2=80=99t return success with exact=3Dfalse simply b=
+ecause
+we haven=E2=80=99t implemented it.
 
-> If we imagine that XFS will not provide a mechanism to detect the
-> presence of the fix, then could we ask QEMU package maintainers to
-> ./configure --disable-xfs-fallocate-beyond-eof-workaround at some point
-> in the future when their distro has been shipping a fixed kernel for a
-> while?  It's ugly because it doesn't work if the user installs an older
-> custom-built kernel on the host.  But at least it will cover 98% of
-> users...
->=20
-> > (3) Drop handle_alloc_space(), i.e. revert c8bb23cbdbe32f.
-> >     To my knowledge I=E2=80=99m the only one who has provided any bench=
-marks for
-> >     this commit, and even then I was a bit skeptical because it perform=
-s
-> >     well in some cases and bad in others.  I concluded that it=E2=80=99=
-s
-> >     probably worth it because the =E2=80=9Csome cases=E2=80=9D are more=
- likely to occur.
-> >=20
-> >     Now we have this problem of corruption here (granted due to a bug i=
-n
-> >     the XFS driver), and another report of massively degraded
-> >     performance on ppc64
-> >     (https://bugzilla.redhat.com/show_bug.cgi?id=3D1745823 =E2=80=93 so=
-rry, a
-> >     private BZ; I hate that :-/  The report is about 40 % worse
-> >     performance for an in-guest fio write benchmark.)
-> >=20
-> >     So I have to ask the question about what the justification for
-> >     keeping c8bb23cbdbe32f is.  How much does performance increase with
-> >     it actually?  (On non-(ppc64+XFS) machines, obviously)
-> >=20
-> >     Advantages:
-> >     + Trivial
-> >     + No layering violations
-> >     + We wouldn=E2=80=99t need to keep track of whether the kernel bug =
-has been
-> >       fixed or not
-> >     + Fixes the ppc64+XFS performance problem
-> >=20
-> >     Disadvantages:
-> >     - Reverts cluster allocation performance to pre-c8bb23cbdbe32f
-> >       levels, whatever that means
->=20
-> My favorite because it is clean and simple, but Vladimir has a valid
-> use-case for requiring this performance optimization so reverting isn't
-> an option.
+For example, you can shrink files over ssh, I=E2=80=99m sure.  But our driv=
+er
+doesn=E2=80=99t allow it.  It should thus return ENOTSUP even with exact=3D=
+false.
 
-Vladimir also said that qcow2 subclusters would probably also solve his
-problem, so maybe reverting and applying the subcluster patches instead
-is a possible solution, too?
+The =E2=80=9CReturn success for shrinking even when the file cannot be shru=
+nk=E2=80=9D
+really is only for block devices, because then the user will have no
+expectation that the shrinking will actually work.  (For ssh, they will
+expect it to work, so we must not pretend it succeeded when it didn=E2=80=
+=99t.)
 
-We already have some cases where the existing handle_alloc_space()
-causes performance to actually become worse, and serialising requests as
-a workaround isn't going to make performance any better. So even on
-these grounds, keeping commit c8bb23cbdbe32f is questionable.
+Max
 
-Kevin
 
---HcAYCG3uE/tztfnV
+--lmXp7piqCgUhNKXnxWWeYiPRV2kIK1JdQ--
+
+--sZHiQ69ieX6g662gCcjTT4rZCNgjbgVuX
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIcBAEBAgAGBQJdtssoAAoJEH8JsnLIjy/WrYYP/1IpGjjFZuApNuNIrrYlYskd
-xc0H+02O8tbp1oqSwjDRLArh4VydQ5Xcui+KJVxlrPJJLrCQArxA8rX9GEYzLwLF
-Qm4iDMqQXkv9Zqko07A/h6t4+/o/ok/PASbrahAmZEhrQun0efZUalWFgboiVjPd
-DszPLiYA8+SnHlZAg9tQwq0jabQZiS/Lhmgo1/6sMtA6Z2BQ5mhjI7f3T9q7Fsl+
-1k6cvHo+XwEtfzl7dtWtPEZRh+yXWIJIQku5n+w1TXsJ2k3hDyCEvATQqWIYKcg+
-1bwk8y1yUODwpct+71OoQg6N+XhnhTO2sf+DrfHF6zDR7Poo9q7IUH6Oh/ZraX+7
-rOIvD9bL/GhgqSJ8QQxzhgEVNSh4lYgfi+r5kj3AsAZipLA+t2YUCczNtxIIjVuL
-Ad6Jex3BKUa9YV3D1eY/8FV5coElEb68yEOw89GCtnKkhUVsmO/uc4KZaJ25g7Pn
-y4duxWgc7iqKiCs+DYNkkmVb7Rkb3TsqfH4LZsVRvG6S2Z/zNy+Wwa6Qq1r7fXAk
-zoPU4E40m/zmsD2M21+PoemxtjTgy0+wM5RnA9XYpGdNGeg1O5DdOZ+V39TX02Uy
-vlNdW9QWPgF4oYpZj8tr6RMrvCITzhqtPWQoByMSnggFDbrctcuHL8PKMJhJvKQD
-a3rzbqmxSRsYV0mVKD0s
-=vGz2
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl22y2oACgkQ9AfbAGHV
+z0CuhQf+NGC8GSZkHKeIBRJUkgPQzq5Kq5xj3fwU0p3MszFAqh8Z1utMZwfoSWwj
+k/P9vKgI30UUq0hM5ILY4DwYYbK5RccOXxMooLaIhOuky9GdtW9pnT33mubIcVWl
+d6dta4fbri7aJqGE5RWBqRPujc5eXTryrozJXs3pPrEuDHewSG1AZv+E1CdctnvH
+r5Y3LdUscD3p2QYlRhf5JbAm3iMu5T0y0ao+YE91sh3pfsjv3w4jmdjq6hyqhNx8
+acYX4a/y17YF4zmdqnNBL4Atk37cXvX4UYBMklDayB8dZ/t2oHGAxeww0xOCvuD1
+NXEAk2/v+z0T/wKM8wcOZhA0u1qoJA==
+=seST
 -----END PGP SIGNATURE-----
 
---HcAYCG3uE/tztfnV--
+--sZHiQ69ieX6g662gCcjTT4rZCNgjbgVuX--
 
 
