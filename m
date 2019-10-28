@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3E4E7A6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:46:30 +0100 (CET)
-Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54F1E7A7F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:50:24 +0100 (CET)
+Received: from localhost ([::1]:39690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPBuH-0001zp-6q
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53223)
+	id 1iPBy3-0007IJ-Aq
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iPBZA-0007Z3-DL
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:24:41 -0400
+ (envelope-from <crosa@redhat.com>) id 1iPBvV-0004Su-Cr
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iPBZ7-0005EH-Lk
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:24:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35449
+ (envelope-from <crosa@redhat.com>) id 1iPBvS-0003If-Hk
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:47:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53698
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPBZ7-0005Da-CD
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:24:37 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPBvS-0003IP-Dz
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 16:47:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572294276;
+ s=mimecast20190719; t=1572295661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=duBC+SJe29dnpBnosA1wQmFiVDFzvoo21SnaKFHVTnI=;
- b=df3Jsff62oeGviVP9icUCDS/zBWunz3zpHMQaXX5J4j5m0EUroKjL3bpbfjelhnVdG3rCf
- LgCntrEkpJku7AuovSdXZXb6lOdnh9IWZ/O87xlbPMmNMu+rX9CpG3wWqrwxlonNAdBuVA
- lvxYXuzhuDtFCKas+ur3h+nbo72R2f4=
+ bh=1AsJxILrDeD6+4CAfvbNa2DO8amy+t8Dh73G8/+RSh0=;
+ b=JuQqH2QDtq99yR8vhk9RHj5eHzT4tuxflDP9qySKlaIyB4hU+dPiGb99ibVyLI3JSZGeER
+ 70ntwIQ6D5pUfmpNSCZ3ACWoaDKdEPLjnsenAZDjLf5xdhVBMf7q5GiaGXYjpNzkOIkfGn
+ 5LOtKig6MiHSgBx9nEEw//5xSJzw20I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-F26kaY1NPlScNB2o7fPmDg-1; Mon, 28 Oct 2019 16:24:31 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-229-vCEDlXiyOzitlvYtHs5e7Q-1; Mon, 28 Oct 2019 16:47:38 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31BE5801E64;
- Mon, 28 Oct 2019 20:24:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09E71005509;
+ Mon, 28 Oct 2019 20:47:36 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
  [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DEBD5C1D8;
- Mon, 28 Oct 2019 20:24:19 +0000 (UTC)
-Date: Mon, 28 Oct 2019 16:24:17 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0CD46085E;
+ Mon, 28 Oct 2019 20:47:27 +0000 (UTC)
+Date: Mon, 28 Oct 2019 16:47:25 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 20/26] tests/boot_linux_console: Add a test for the
- Raspberry Pi 2
-Message-ID: <20191028202417.GA18794@localhost.localdomain>
+Subject: Re: [PATCH 22/26] tests/boot_linux_console: Boot Linux and run few
+ commands on raspi3
+Message-ID: <20191028204725.GC18794@localhost.localdomain>
 References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-21-philmd@redhat.com>
+ <20191028073441.6448-23-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-21-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-23-philmd@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: F26kaY1NPlScNB2o7fPmDg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: vCEDlXiyOzitlvYtHs5e7Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,34 +87,97 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:35AM +0100, Philippe Mathieu-Daud=E9 wrote:
+On Mon, Oct 28, 2019 at 08:34:37AM +0100, Philippe Mathieu-Daud=E9 wrote:
 > From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 >=20
-> Similar to the x86_64/pc test, it boots a Linux kernel on a raspi2
-> board and verify the serial is working.
+> Add a test which boots Linux and run basic commands using the serial
+> port console.
 >=20
-> The kernel image and DeviceTree blob are built by the Raspbian
-> project (based on Debian):
-> https://www.raspbian.org/RaspbianImages
-> as recommended by the Raspberry Pi project:
-> https://www.raspberrypi.org/downloads/raspbian/
+> The kernel image is built by the Debian project:
+> https://wiki.debian.org/RaspberryPi
 >=20
-> If ARM is a target being built, "make check-acceptance" will
-> automatically include this test by the use of the "arch:arm" tags.
+> The DeviceTree blob comes from the official Raspberry Pi project:
+> https://www.raspberrypi.org/
 >=20
-> Alternatively, this test can be run using:
+> The cpio image used comes from the linux-build-test project:
+> https://github.com/groeck/linux-build-test
 >=20
->     $ avocado run -t arch:arm tests/acceptance
->     $ avocado run -t machine:raspi2 tests/acceptance
+> This test can be run using:
 >=20
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+>   $ avocado run --show=3Dconsole,app run -t machine:raspi3 tests/acceptan=
+ce
+>   console: [    0.000000] Linux version 4.14.0-3-arm64 (debian-kernel@lis=
+ts.debian.org) (gcc version 7.2.0 (Debian 7.2.0-18)) #1 SMP Debian 4.14.12-=
+2 (2018-01-06)
+>   console: [    0.000000] Boot CPU: AArch64 Processor [410fd034]
+>   console: [    0.000000] Machine model: Raspberry Pi 3 Model B
+>   console: [    0.000000] earlycon: pl11 at MMIO 0x000000003f201000 (opti=
+ons '')
+>   console: [    0.000000] bootconsole [pl11] enabled
+>   [...]
+>   console: Starting network: OK
+>   console: Found console ttyAMA0
+>   console: Boot successful.
+>   console: / # cat /proc/cpuinfo
+>   console: processor      : 0
+>   console: BogoMIPS       : 125.00
+>   console: r      : 0x41
+>   console: CPU architecture: 8
+>   console: CPU variant
+>   console: : 0x0
+>   console: CPU part       : 0xd03
+>   console: CPU revision   : 4
+>   console: / # uname -a
+>   console: Linux buildroot 4.14.0-3-arm64 #1 SMP Debian 4.14.12-2 (2018-0=
+1-06) aarch64 GNU/Linux
+>   console: reboot
+>   console: / # reboot
+>   console: / # Found console ttyAMA0
+>   console: Stopping network: OK
+>   console: Saving random seed... done.
+>   console: Stopping logging: OK
+>   console: umount: devtmpfs busy - remounted read-only
+>   console: umount: can't unmount /: Invalid argument
+>   console: The system is going down NOW!
+>   console: Sent SIGTERM to all processes
+>   console: Sent SIGKILL to all processes
+>   console: Requesting system reboot
+>   console: kvm: exiting hardware virtualization
+>   console: reboot: Restarting system
+>   PASS (11.08 s)
+>=20
 > Reviewed-by: Cleber Rosa <crosa@redhat.com>
 > Tested-by: Cleber Rosa <crosa@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> ---
+> v2: Use archive.gzip_uncompress (Cleber)
+>=20
+> some chars are scrambled on the console?
+> Cleber ran this 100 times and doesn't have issue.
+> ---
 
-Queuing on my python-next branch (and sending shortly in a PR).
+Now, I'm not getting good vibes from this test.  It spawns QEMU and
+then gets stuck on every single execution.
 
-Thanks,
+VM launch command: 'aarch64-softmmu/qemu-system-aarch64 -chardev socket,id=
+=3Dmon,path=3D/var/tmp/tmpgpee0g1h/qemu-23397-monitor.sock -mon chardev=3Dm=
+on,mode=3Dcontrol -display none -vga none -machine raspi3 -chardev socket,i=
+d=3Dconsole,path=3D/var/tmp/tmpgpee0g1h/qemu-23397-console.sock,server,nowa=
+it -serial chardev:console -kernel /var/tmp/avocado_7ks9sppd/avocado_job_ws=
+p2727i/1-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_arm_r=
+aspi3_initrd_uart0/boot/vmlinuz-4.14.0-3-arm64 -dtb /home/cleber/avocado/da=
+ta/cache/by_location/cd5c65e442f2375a87c174b91963be739bcdae77/bcm2710-rpi-3=
+-b.dtb -initrd /var/tmp/avocado_7ks9sppd/avocado_job_wsp2727i/1-tests_accep=
+tance_boot_linux_console.py_BootLinuxConsole.test_arm_raspi3_initrd_uart0ro=
+otfs.cpio -append printk.time=3D0 earlycon=3Dpl011,0x3f201000 console=3Dtty=
+AMA0 panic=3D-1 noreboot -no-reboot'
+>>> {'execute': 'qmp_capabilities'}
+<<< {'return': {}}
+
+Given that I've tested this before, and I see some changes to raspi3
+since then, I'll try to bisect the possible culprit.  If you have any
+clues, they would be much appreciated.
+
 - Cleber.
 
 
