@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B9DE6C8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 07:52:39 +0100 (CET)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAC5E6CA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:03:37 +0100 (CET)
+Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOytK-0006GO-21
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 02:52:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42554)
+	id 1iOz3w-0000jc-0b
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43695)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iOyra-0005Dj-Ge
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:50:51 -0400
+ (envelope-from <bounces@canonical.com>) id 1iOz1O-0006zI-2R
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:00:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iOyrZ-0007nS-8k
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:50:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54942)
+ (envelope-from <bounces@canonical.com>) id 1iOz1M-0006qM-P4
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56098)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iOyrZ-0007mr-3A
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:50:49 -0400
+ id 1iOz1M-0006ng-J0
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:00:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iOyrX-0006x2-P7
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:50:47 +0000
+ id 1iOz1K-0007zl-L3
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:00:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BAF3F2E80C9
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:50:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9CA3F2E80C3
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:00:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 28 Oct 2019 06:40:24 -0000
+Date: Mon, 28 Oct 2019 06:52:22 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1848556@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -53,7 +53,7 @@ X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
-Message-Id: <157224482615.19742.14417033799248954415.launchpad@wampee.canonical.com>
+Message-Id: <157224554289.28519.4929491490425157426.malone@chaenomeles.canonical.com>
 Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -61,7 +61,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 86aae278f79788eff2e07c424788b9ae467ae732
+X-Launchpad-Hash: 8d47c527b0393f99d2bac0e8e69e3df7ada811c1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -79,11 +79,12 @@ Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu (Ubuntu Eoan)
-     Assignee: (unassigned) =3D> Christian Ehrhardt =EE=83=BF (paelzer)
-
-** Changed in: qemu (Ubuntu Focal)
-     Assignee: (unassigned) =3D> Christian Ehrhardt =EE=83=BF (paelzer)
+Now that Focal is open I have opened proper Focal MP replacing the old one =
+and also an Eoan SRU MP right away.
+=3D> https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+mer=
+ge/374770
+=3D> https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+mer=
+ge/374771
 
 -- =
 
