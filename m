@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DB1E75CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:10:36 +0100 (CET)
-Received: from localhost ([::1]:57066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3378E75F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:18:49 +0100 (CET)
+Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7bG-0007sl-VX
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34609)
+	id 1iP7jC-0006FD-RR
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@sifive.com>) id 1iP7PX-0005BQ-OT
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:28 -0400
+ (envelope-from <palmer@sifive.com>) id 1iP7Pf-0005OQ-Bp
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@sifive.com>) id 1iP7PW-0003pA-D3
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:27 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43367)
+ (envelope-from <palmer@sifive.com>) id 1iP7Pd-0003tn-WC
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:35 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39534)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7PW-0003om-6R
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:26 -0400
-Received: by mail-pg1-x541.google.com with SMTP id l24so7144946pgh.10
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:26 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7Pd-0003tR-Qu
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:33 -0400
+Received: by mail-pf1-x441.google.com with SMTP id v4so7155303pff.6
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=Wcazrf1d/6yq7xUtsUWqMfgOcS0Og4vhQQt08gFl/0k=;
- b=E7Bv8nszzqYRNDu0wJ0GehmOgmGOZ507uv3L5jUofx2a4PCFKaGL3TujuL514uP+Hm
- Y6gzyVya/vUMm6W0Ch8YvQ/vQN9j1ohUh7PWzWNtXiJL+9pMTe6L/ivadbZtAT7ArOkB
- RPoPhI5QBudqISQNA7euZOlodKygmOZEdSS8ckPKW4lkaQPn7K/c3ygP1tU700ZUQdYK
- 0C90H+hghYx/5YxFY2J2fBxW47B6pnTjCKa+/tmwvES5sQN5NgrVZvzq0ErHQlqvm8Ei
- dtZiTbgNGPAFzS9YTMg9PJtbehEy+l29v+9Y0xnE797RaI1lHnIFMcwbj4e5mJ1KiSzP
- 9uUg==
+ bh=WP8Cy2LjfUyKbvj4Exi5IKEff9PRhXsowYLykTeYI5E=;
+ b=kORLJ6z6gEe/Ceo8UQOBHOKCOnfw6s2wmPE7QEw9n/qWGkJQup48aRtedF8UQBrMtY
+ 9aElaVJLm517nJ0cFsA7r71GYN+GINEu30pEo8MRm/DhLnsTqDx8dEIWnqBNF7KdpH7g
+ 6M3IG7p4wtHA87Ae0EA+Uk1mdwM2qDUBOzZ8BseTEburU1bGLuefQVsm66kjUTCe7C/A
+ 4hu8ct1bfdn+evh6oszyDmUG6bNXZ4A+IikKeCZ90ofN7esFAaGMxfspCE+jZ3mWVPQ/
+ SuFqLuW8Yh9Ou3yAg7f7hsDqUxPj7Z0J2GADsr5i21TSSiQmmNagYV7ehhiewxRmE/La
+ x87Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=Wcazrf1d/6yq7xUtsUWqMfgOcS0Og4vhQQt08gFl/0k=;
- b=Q+ekQOV9/6q9nHwa820HWK9ap1RrH4dkCg8U0fpYbOEDyoW1x5c1wtmyaX1kKxd3i8
- w+2gGf1aXfyC7Jg7Ia8q1zcP7/YAzIbEMNy/aWptbWP+9qornKOPi4FsAF0rVPG5CZpB
- BIe4PB+E1Od62/kOYcRrna1AoqS99c/qr5II2aR6GJe8SvGsJk7h+3ciyMgEcl0NoBWF
- 5h3maS+qdYfPsWnwfX9GrM6W46uEQcfUsBy9RBPbRYxwULG9N1Cs9bRGetb93zwxODwr
- uwSnU3RCzHUbJjrNXzlYi/uzqJsjURn0cEL010DGhJ9NyaTAj0zOv3iIDgSMAGt1VinV
- P8BQ==
-X-Gm-Message-State: APjAAAXo5/frVQ5svf6wgN7b3O+FAn8cvhcycD5vRCvbu8HPMJ8BQIUj
- p9ESq2s2okwmuOGAwzBNwKfsv8caD2ESsA==
-X-Google-Smtp-Source: APXvYqzmrhPmJxA2AbMG1Lt+nDArHSJ0TD1DWwygocl6qh3nZ3wzPD1OQN2Rae9luzF5CgsarQ650A==
-X-Received: by 2002:aa7:80c6:: with SMTP id a6mr20617068pfn.89.1572278304867; 
- Mon, 28 Oct 2019 08:58:24 -0700 (PDT)
+ bh=WP8Cy2LjfUyKbvj4Exi5IKEff9PRhXsowYLykTeYI5E=;
+ b=dyaCNk1ghjIpT5v3p9SvU7TAKWLiDNp5SNYOl4zYtvNi3B/es1AXvv1OViQZ3qksoY
+ mNsElS1W/IK5/IpHTaV0H2cSnzLlzvVeEqLSJg7HXZdUnY4kyRIut6odKcy1yDaqSmeB
+ ZOuY0zXnAGNdlx7kESxg3oQZGhHVEostZQA5AKVO4UBYRWIEw3PWeUP9GoXf914F98TP
+ 21R0aUIlyi9/5mxazyongFFCfF6TDn7UuWk91Y1H8kZobf9zh9P+nk1WJv6emADZQYUt
+ E6qlSutJvse3TvbpXp20SZaO0t4cDecfGB/urVxLDilo2Wa/XdxMDgJ6K0pSX+vnOIg1
+ V3Pg==
+X-Gm-Message-State: APjAAAUAdx2pEpPVaC6YD9glREtFTJ/NEEo+3ITNBZBLA6QIIx0CNqbY
+ DkkLfR/MTOpygfhR3LsGa/sLGYbeJPZk0A==
+X-Google-Smtp-Source: APXvYqzNElE53svNMF4biWhIynm8Rhq2pOSIu6Ieo3h91imlrRepPCKHzaYLSz5dKK5z+AheHfQpZg==
+X-Received: by 2002:a17:90b:914:: with SMTP id bo20mr17886pjb.6.1572278312458; 
+ Mon, 28 Oct 2019 08:58:32 -0700 (PDT)
 Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id i123sm13313009pfe.145.2019.10.28.08.58.23
+ by smtp.gmail.com with ESMTPSA id y20sm12374138pge.48.2019.10.28.08.58.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 08:58:24 -0700 (PDT)
-Subject: [PULL 05/18] riscv: sifive_u: Add ethernet0 to the aliases node
-Date: Mon, 28 Oct 2019 08:48:49 -0700
-Message-Id: <20191028154902.32491-6-palmer@sifive.com>
+ Mon, 28 Oct 2019 08:58:31 -0700 (PDT)
+Subject: [PULL 09/18] riscv/sifive_u: Manually define the machine
+Date: Mon, 28 Oct 2019 08:48:53 -0700
+Message-Id: <20191028154902.32491-10-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191028154902.32491-1-palmer@sifive.com>
 References: <20191028154902.32491-1-palmer@sifive.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,52 +76,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>,
- ilippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-U-Boot expects this alias to be in place in order to fix up the mac
-address of the ethernet node.
+Instead of using the DEFINE_MACHINE() macro to define the machine let's
+do it manually. This allows us to specify machine properties.
 
-This is to keep in sync with Linux kernel commit below:
-https://patchwork.kernel.org/patch/11133033/
+This patch is no functional change.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_u.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c         | 44 ++++++++++++++++++++++++++-----------
+ include/hw/riscv/sifive_u.h |  7 +++++-
+ 2 files changed, 37 insertions(+), 14 deletions(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 02dd76176e..1ac51e3632 100644
+index a32d6773a8..eb4124f5b4 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -270,6 +270,10 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
-     qemu_fdt_setprop_cell(fdt, nodename, "#size-cells", 0);
+@@ -311,8 +311,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+ static void riscv_sifive_u_init(MachineState *machine)
+ {
+     const struct MemmapEntry *memmap = sifive_u_memmap;
+-
+-    SiFiveUState *s = g_new0(SiFiveUState, 1);
++    SiFiveUState *s = RISCV_U_MACHINE(machine);
+     MemoryRegion *system_memory = get_system_memory();
+     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+     MemoryRegion *flash0 = g_new(MemoryRegion, 1);
+@@ -434,6 +433,10 @@ static void riscv_sifive_u_soc_init(Object *obj)
+                           TYPE_CADENCE_GEM);
+ }
+ 
++static void riscv_sifive_u_machine_instance_init(Object *obj)
++{
++}
 +
-+    qemu_fdt_add_subnode(fdt, "/aliases");
-+    qemu_fdt_setprop_string(fdt, "/aliases", "ethernet0", nodename);
+ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+@@ -547,17 +550,6 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
+ }
+ 
+-static void riscv_sifive_u_machine_init(MachineClass *mc)
+-{
+-    mc->desc = "RISC-V Board compatible with SiFive U SDK";
+-    mc->init = riscv_sifive_u_init;
+-    mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
+-    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
+-    mc->default_cpus = mc->min_cpus;
+-}
+-
+-DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
+-
+ static void riscv_sifive_u_soc_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -581,3 +573,29 @@ static void riscv_sifive_u_soc_register_types(void)
+ }
+ 
+ type_init(riscv_sifive_u_soc_register_types)
 +
-     g_free(nodename);
++static void riscv_sifive_u_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    mc->desc = "RISC-V Board compatible with SiFive U SDK";
++    mc->init = riscv_sifive_u_init;
++    mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
++    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
++    mc->default_cpus = mc->min_cpus;
++}
++
++static const TypeInfo riscv_sifive_u_machine_typeinfo = {
++    .name       = MACHINE_TYPE_NAME("sifive_u"),
++    .parent     = TYPE_MACHINE,
++    .class_init = riscv_sifive_u_machine_class_init,
++    .instance_init = riscv_sifive_u_machine_instance_init,
++    .instance_size = sizeof(SiFiveUState),
++};
++
++static void riscv_sifive_u_machine_init_register_types(void)
++{
++    type_register_static(&riscv_sifive_u_machine_typeinfo);
++}
++
++type_init(riscv_sifive_u_machine_init_register_types)
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 0062276190..794b958dcc 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -44,12 +44,17 @@ typedef struct SiFiveUSoCState {
+     CadenceGEMState gem;
+ } SiFiveUSoCState;
  
-     nodename = g_strdup_printf("/soc/ethernet@%lx/ethernet-phy@0",
-@@ -297,7 +301,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-     }
++#define TYPE_RISCV_U_MACHINE MACHINE_TYPE_NAME("sifive_u")
++#define RISCV_U_MACHINE(obj) \
++    OBJECT_CHECK(SiFiveUState, (obj), TYPE_RISCV_U_MACHINE)
++
+ typedef struct SiFiveUState {
+     /*< private >*/
+-    SysBusDevice parent_obj;
++    MachineState parent_obj;
  
--    qemu_fdt_add_subnode(fdt, "/aliases");
-     qemu_fdt_setprop_string(fdt, "/aliases", "serial0", nodename);
- 
-     g_free(nodename);
+     /*< public >*/
+     SiFiveUSoCState soc;
++
+     void *fdt;
+     int fdt_size;
+ } SiFiveUState;
 -- 
 2.21.0
 
