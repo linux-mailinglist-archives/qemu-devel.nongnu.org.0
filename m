@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A3BE7055
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 12:25:30 +0100 (CET)
-Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CCDE7051
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 12:23:18 +0100 (CET)
+Received: from localhost ([::1]:52616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP39N-0004gO-Ja
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 07:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44620)
+	id 1iP37E-0001jv-QX
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 07:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP34y-00089M-Ss
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:20:57 -0400
+ (envelope-from <drjones@redhat.com>) id 1iP34u-0007Dp-VR
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:20:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP2t5-0000gf-MQ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:08:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48885
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1iP2uv-0001GN-VC
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:10:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53871
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP2t5-0000gT-Hz
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:08:39 -0400
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iP2uv-0001Fr-Qz
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:10:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572260918;
+ s=mimecast20190719; t=1572261032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xknq4rBmDHducxBsNrT1udUV+ODOwE7PYt+4y7weaWo=;
- b=g8z6GaRBrPI9jyNErbU6u04kFepbV8oQ1mJlw5F2YVPXGXyhKOJQXSD0vzv9rs3MqlP0u8
- jsy8Iv3n1rYv/uXZPKkvhnYG7ijBeCc0/PoZAQ4ka1z1GvoVZJoshkngdzrbDiC3fvfB0T
- 0ITsETkv6w8V+keWw4jsi6xv3uoEPno=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zohqijfxF5D9YM71qCzB9euIglsluQox3t0/XjbXgTE=;
+ b=ZE9YMublszE0G0GIcowr5Vd4Fl4A5ymWPyv2OMv+kq1AhtZUBrbFQ5Cv9wUtY8NEpU9663
+ XUcRszZhuyCVv2bu0Fw7WVJl1yewLRlxx00o/ioeaKM17RM/UGFSzyMMDvgccaEnY2kuBg
+ BcM7PpXm8OgJDSfL8IRk022gZwpt/8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-0r0LwqIBOxmMm-JKVIpxRw-1; Mon, 28 Oct 2019 07:08:37 -0400
-X-MC-Unique: 0r0LwqIBOxmMm-JKVIpxRw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-24-L_tPP8M3NpqZxkRUTSAoGg-1; Mon, 28 Oct 2019 07:10:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ED9C800D5E;
- Mon, 28 Oct 2019 11:08:36 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-83.ams2.redhat.com
- [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 100785D6A9;
- Mon, 28 Oct 2019 11:08:31 +0000 (UTC)
-Subject: Re: [PATCH 7/8] block: Pass truncate exact=true where reasonable
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-References: <20190918095144.955-1-mreitz@redhat.com>
- <20190918095144.955-8-mreitz@redhat.com>
- <0cda25dcff5e74358c304111fd31e3c9859d1a52.camel@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <46620e6b-a227-8f9c-51fd-67109281d323@redhat.com>
-Date: Mon, 28 Oct 2019 12:08:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC76A107AD28;
+ Mon, 28 Oct 2019 11:10:27 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFF4C5DA5B;
+ Mon, 28 Oct 2019 11:10:27 +0000 (UTC)
+Received: from zmail22.collab.prod.int.phx2.redhat.com
+ (zmail22.collab.prod.int.phx2.redhat.com [10.5.83.26])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5C8DE18089DC;
+ Mon, 28 Oct 2019 11:10:27 +0000 (UTC)
+Date: Mon, 28 Oct 2019 07:10:27 -0400 (EDT)
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <557725864.14167224.1572261027082.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAFEAcA9ZdrAgMhdfUxz0OJnM-dF9XGwR-+FeqnyJAsrntGgL_A@mail.gmail.com>
+References: <20191024121808.9612-1-drjones@redhat.com>
+ <CAFEAcA9ehcuktCTGR0xpTvZegUkr99H62F_fiT7RY_L_dqgN4g@mail.gmail.com>
+ <CAFEAcA981jAU6F9RRWBuzg+_5JDrd-ip-L_awtzdZFqKmewMvA@mail.gmail.com>
+ <20191025135159.44siz7g3szpz23og@kamzik.brq.redhat.com>
+ <CAFEAcA9ZdrAgMhdfUxz0OJnM-dF9XGwR-+FeqnyJAsrntGgL_A@mail.gmail.com>
+Subject: Re: [PATCH v7 0/9] target/arm/kvm: enable SVE in guests
 MIME-Version: 1.0
-In-Reply-To: <0cda25dcff5e74358c304111fd31e3c9859d1a52.camel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Originating-IP: [10.33.36.124, 10.4.196.23, 10.5.101.130, 10.4.195.29]
+Thread-Topic: target/arm/kvm: enable SVE in guests
+Thread-Index: 6FyxgKxkmPsj++mnzc7OD2PU83owkg==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: L_tPP8M3NpqZxkRUTSAoGg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="YuFn4DkmQBuIUtveQKcDjosaH4Bex10Pl"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,86 +82,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: m mizuma <m.mizuma@jp.fujitsu.com>,
+ Beata Michalska <beata.michalska@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---YuFn4DkmQBuIUtveQKcDjosaH4Bex10Pl
-Content-Type: multipart/mixed; boundary="OQ4RVpxlE1DqCVWztvQmyaXf7VSNXgxXX"
 
---OQ4RVpxlE1DqCVWztvQmyaXf7VSNXgxXX
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Apologies if this mail is messed up. I'm having trouble with a hotel's netw=
+ork and am forced to use a webui.
 
-On 18.09.19 22:52, Maxim Levitsky wrote:
-> On Wed, 2019-09-18 at 11:51 +0200, Max Reitz wrote:
->> This is a change in behavior, so all instances need a good
->> justification.  The comments added here should explain my reasoning.
->>
->> qed already had a comment that suggests it always expected
->> bdrv_truncate()/blk_truncate() to behave as if exact=3Dtrue were passed
->> (c743849bee7 came eight months before 55b949c8476), so it was simply
->> broken until now.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  block/parallels.c | 11 +++++++++--
->>  block/qcow2.c     |  6 +++++-
->>  block/qed.c       |  2 +-
->>  qemu-img.c        |  7 ++++++-
->>  qemu-io-cmds.c    |  7 ++++++-
->>  5 files changed, 27 insertions(+), 6 deletions(-)
-
-[...]
-
->> diff --git a/block/qed.c b/block/qed.c
->> index 7c2a65af40..8005cfc305 100644
->> --- a/block/qed.c
->> +++ b/block/qed.c
->> @@ -674,7 +674,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevC=
-reateOptions *opts,
->>      l1_size =3D header.cluster_size * header.table_size;
->> =20
->>      /* File must start empty and grow, check truncate is supported */
-> I would update the above comment, with something like
+----- Original Message -----
+> On Fri, 25 Oct 2019 at 14:52, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > On Fri, Oct 25, 2019 at 01:06:26PM +0100, Peter Maydell wrote:
+> > > Fails 'make check' on my aarch32-compile-in-chroot-on-aarch64
+> > > machine:
+> >
+> > Are there easy-to-follow instructions for setting this environment up
+> > somewhere?
 >=20
-> "QED format requires the underlying file to have the exact expected lengt=
-h,
-> which is 0 on creation"
-> Or something similar.
+> It's an ancient setup, so not really. But it's just an
+> Ubuntu 32-bit chroot inside an Ubuntu 64-bit host. I use
+> schroot to manage it.
+>=20
+>=20
+>=20
+> > I guess the problem is how we're determining if KVM is available, which
+> > is like this
+> >
+> > int main(int argc, char **argv)
+> > {
+> >     bool kvm_available =3D false;
+> >
+> >     if (!access("/dev/kvm",  R_OK | W_OK)) {
+> > #if defined(HOST_AARCH64)
+> >         kvm_available =3D g_str_equal(qtest_get_arch(), "aarch64");
+> > #elif defined(HOST_ARM)
+> >         kvm_available =3D g_str_equal(qtest_get_arch(), "arm");
+> > #endif
+> >     }
+>=20
+> > So we need /dev/kvm and the QEMU binary arch type (qemu-system-arm in
+> > this case) needs to match the host arch type. The problem is that
+> > HOST_<type> doesn't imply anything about the actual host arch type.
+> > <type> comes from the configure $ARCH variable, which for 'arm'
+> > comes from the $cpu variable, which for 'arm' comes from whether or
+> > not the compiler defines __arm__, and cross compilers certainly do.
+> > I guess we'd have the same problem in an aarch32-compile-in-chroot-on-
+> > <any-other-type> environment, if a cross compiler is used for the
+> > compiling. I should change the KVM available check to something that
+> > uses the actual host arch type. I assume the following works, but
+> > I don't know if I'm allowed to use uname() in these tests, and, if
+> > not, then I don't know what the right way to get the actual host
+> > type is.
+>=20
+> This all feels like it's trying to do the wrong thing, ie
+> replicate the logic within QEMU that decides whether to use
+> KVM or not. Some possible other approaches:
+>=20
+>  * If you want to know whether you can run the qemu binary
+>    with -accel kvm, then just try that and see if it succeeds.
 
-I=E2=80=99ll change it to:
+That's what's happening here, but the failure happens in qtest_init(), so
+there's no way to avoid the assert.
 
-The QED format associates file length with allocation status,
-so a new file (which is empty) must have a length of 0.
+>  * Or use '-accel kvm:tcg' and make the test work so that it
+>    will pass for both KVM and TCG
 
-Hope that=E2=80=99s OK. :-)
+For the KVM tests, I'd prefer we specifically test the 'host' cpu type,
+which requires we specifically test with KVM. That said, we can use
+the fallback along with an additional query to make sure 'host' is
+ok to use.
 
-Max
+>  * Or use QMP to query what accelerators are available, assuming
+>    there's a QMP command for that
 
+Looks like we can check for kvm with query-kvm.=20
 
---OQ4RVpxlE1DqCVWztvQmyaXf7VSNXgxXX--
+I'll rework patch 2/9 using the fallback and kvm query to ensure
+kvm can be used. I can even add a test or two that ensure 'host'
+is ok to use.
 
---YuFn4DkmQBuIUtveQKcDjosaH4Bex10Pl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl22zC4ACgkQ9AfbAGHV
-z0BTNgf9FXX0FSHEDN4TW5aVVzO1glYNyJ1l1ecel5OkgYFKQwwNqj2WO1wTmA9h
-jdLXL/kZpMhJGeGKcWRPk1hktRMCYBVdpzbwGnMPvxRtDe2+eSdB+AsoSkLuJKwx
-CFJLrWFSZvRFkHQ2wdkLAQim8H/CHwVcPhUYv3m8jiZ5ZIpXi3xONB6Y9mZTf6uc
-blMHIJYSRJTAafnxGu2JnJXtgFLmy7cTpYYphGLr4qCxaLeQDiOwnoiz0t9bg4NC
-bdnlWMjFYAfomcZ/06uuBlcd5zu+A6XHs/0rjn9ZjQDqN1SGmUxztjMfy4WZGDro
-WAsRVxuym0ipayzrjfRFR5/o/GKXBw==
-=c9GZ
------END PGP SIGNATURE-----
-
---YuFn4DkmQBuIUtveQKcDjosaH4Bex10Pl--
+Thanks,
+drew
 
 
