@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5966E6D93
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:53:56 +0100 (CET)
-Received: from localhost ([::1]:51568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EE8E6D5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:38:42 +0100 (CET)
+Received: from localhost ([::1]:51394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOzqd-0001AG-D9
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
+	id 1iOzbs-0006j6-Dj
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:38:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzZe-0003yq-EJ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:36:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzZf-00042B-VA
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:36:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzZd-0002pH-2w
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:36:22 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55806
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iOzZe-0002qQ-In
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:36:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27725
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzZc-0002ov-VB
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:36:21 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzZe-0002q5-EX
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:36:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248180;
+ s=mimecast20190719; t=1572248181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qJuawz+NCOMe0LpCmZ6NSvQfN5uTWt1OpFuHjU+y0GY=;
- b=ZfCs7iz2/LSGLpU+jEjaZF6P91qdgKOdsFxXlIMnhip0bL7AxL2dujRUfjBeKqIXR9maS/
- Q4o3Yc8kBdDytVyUA6PaRp7TRPnzbMV+X7cgJhuIqdR7vpU+DSkhiOaEiPlijm5dAkTS7S
- ZJFSh2S1AJauCYbhyyjkSeRZC5bsd70=
+ bh=SVLHaBXaewDE1UDpHAgCzCVsYc9pZRiy5F+75Z2ZeoA=;
+ b=hlzrouWngNyV5L+UgRzXqRNTLjUsfL2RoJgdPnh2TqBcJrBUO+hEIcxJV98Ruq4V67V0/x
+ KkC7I8m3u+KR33R06+3q4dYIh4lLxVA9pycsHz+qgwnzRsdPXvkyAcIKF9RdT2DtCxsDQG
+ ligW/n0tt3lLtapVl8Ns7RT7c7fYTDU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-SAIQzfQyOe-f-5uaO-xGrQ-1; Mon, 28 Oct 2019 03:36:09 -0400
+ us-mta-8-ynCwNO7xPly6I7NO7QOkMQ-1; Mon, 28 Oct 2019 03:36:15 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A6A41800D7E;
- Mon, 28 Oct 2019 07:36:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F42A107AD28;
+ Mon, 28 Oct 2019 07:36:13 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E08C919C69;
- Mon, 28 Oct 2019 07:36:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BC06165DB;
+ Mon, 28 Oct 2019 07:36:07 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/26] tests/acceptance: Add bFLT loader linux-user test
-Date: Mon, 28 Oct 2019 08:34:24 +0100
-Message-Id: <20191028073441.6448-10-philmd@redhat.com>
+Subject: [PATCH 10/26] tests/acceptance: Add test that boots the HelenOS
+ microkernel on Leon3
+Date: Mon, 28 Oct 2019 08:34:25 +0100
+Message-Id: <20191028073441.6448-11-philmd@redhat.com>
 In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
 References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: SAIQzfQyOe-f-5uaO-xGrQ-1
+X-MC-Unique: ynCwNO7xPly6I7NO7QOkMQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -86,85 +87,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Add a very quick test that runs a busybox binary in bFLT format:
-
-  $ avocado --show=3Dapp run tests/acceptance/load_bflt.py
-  JOB ID     : db94d5960ce564c50904d666a7e259148c27e88f
-  JOB LOG    : ~/avocado/job-results/job-2019-06-25T10.52-db94d59/job.log
-   (1/1) tests/acceptance/load_bflt.py:LoadBFLT.test_stm32: PASS (0.15 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | =
-CANCEL 0
-  JOB TIME   : 0.54 s
+Release notes:
+http://www.helenos.org/wiki/Download#HelenOS0.6.0
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
-This test currently fails on Aarch64 host, see LP#1833668
-https://bugs.launchpad.net/qemu/+bug/1833668
----
- tests/acceptance/load_bflt.py | 52 +++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 tests/acceptance/load_bflt.py
+ MAINTAINERS                             |  1 +
+ tests/acceptance/machine_sparc_leon3.py | 37 +++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 tests/acceptance/machine_sparc_leon3.py
 
-diff --git a/tests/acceptance/load_bflt.py b/tests/acceptance/load_bflt.py
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 556ce0bfe3..17ff741c63 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1173,6 +1173,7 @@ S: Maintained
+ F: hw/sparc/leon3.c
+ F: hw/*/grlib*
+ F: include/hw/*/grlib*
++F: tests/acceptance/machine_sparc_leon3.py
+=20
+ S390 Machines
+ -------------
+diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance/mac=
+hine_sparc_leon3.py
 new file mode 100644
-index 0000000000..fdcaf8ad88
+index 0000000000..a1394ba8ad
 --- /dev/null
-+++ b/tests/acceptance/load_bflt.py
-@@ -0,0 +1,52 @@
-+# Test the bFLT format
++++ b/tests/acceptance/machine_sparc_leon3.py
+@@ -0,0 +1,37 @@
++# Functional test that boots a Leon3 machine and checks its serial console=
+.
 +#
-+# Copyright (C) 2019 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
++# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 +#
-+# SPDX-License-Identifier: GPL-2.0-or-later
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later. See the COPYING file in the top-level directory.
 +
 +import os
-+import bz2
-+import subprocess
++import logging
 +
-+from avocado_qemu import LinuxUserTest
++from avocado import skipIf
++from avocado_qemu import MachineTest
 +
 +
-+class LoadBFLT(LinuxUserTest):
++class Leon3Machine(MachineTest):
 +
-+    def extract_cpio(self, cpio_path):
++    timeout =3D 60
++
++    def test_leon3_helenos_uimage(self):
 +        """
-+        Extracts a cpio archive into the test workdir
-+
-+        :param cpio_path: path to the cpio archive
++        :avocado: tags=3Darch:sparc
++        :avocado: tags=3Dmachine:leon3
++        :avocado: tags=3Dbinfmt:uimage
 +        """
-+        cwd =3D os.getcwd()
-+        os.chdir(self.workdir)
-+        with bz2.open(cpio_path, 'rb') as archive_cpio:
-+            subprocess.run(['cpio', '-i'], input=3Darchive_cpio.read(),
-+                           stderr=3Dsubprocess.DEVNULL)
-+        os.chdir(cwd)
++        kernel_url =3D ('http://www.helenos.org/releases/'
++                      'HelenOS-0.6.0-sparc32-leon3.bin')
++        kernel_hash =3D 'a88c9cfdb8430c66650e5290a08765f9bf049a30'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel_h=
+ash)
 +
-+    def test_stm32(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dlinux_user
-+        :avocado: tags=3Dquick
-+        """
-+        # See https://elinux.org/STM32#User_Space
-+        rootfs_url =3D ('https://elinux.org/images/5/51/'
-+                      'Stm32_mini_rootfs.cpio.bz2')
-+        rootfs_hash =3D '9f065e6ba40cce7411ba757f924f30fcc57951e6'
-+        rootfs_path_bz2 =3D self.fetch_asset(rootfs_url, asset_hash=3Droot=
-fs_hash)
-+        busybox_path =3D self.workdir + "/bin/busybox"
++        self.vm.set_machine('leon3_generic')
++        self.vm.set_console()
++        self.vm.add_args('-kernel', kernel_path)
 +
-+        self.extract_cpio(rootfs_path_bz2)
++        self.vm.launch()
 +
-+        cmd =3D ''
-+        res =3D self.run("%s %s" % (busybox_path, cmd))
-+        ver =3D 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) multi-call =
-binary.'
-+        self.assertIn(ver, res.stdout_text)
-+
-+        cmd =3D 'uname -a'
-+        res =3D self.run("%s %s" % (busybox_path, cmd))
-+        unm =3D 'armv7l GNU/Linux'
-+        self.assertIn(unm, res.stdout_text)
++        wait_for_console_pattern(self,'Copyright (c) 2001-2014 HelenOS pro=
+ject')
++        wait_for_console_pattern(self,'Booting the kernel ...')
 --=20
 2.21.0
 
