@@ -2,90 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE7FE7052
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 12:23:30 +0100 (CET)
-Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DA1E7050
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 12:22:54 +0100 (CET)
+Received: from localhost ([::1]:52614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP37Q-00027v-Uo
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 07:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
+	id 1iP36q-0001JB-EC
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 07:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP34n-0007Vt-OL
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:20:48 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iP34Q-0007Dp-KA
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:20:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP2vS-0001SH-8C
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:11:07 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52431
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP2vS-0001S6-3O
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:11:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572261065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EA4nX+LBSUW3Lb9wcm5Kmt7VZ+aZCtsp8pm8VNRzm/E=;
- b=IF/ZU75znIB1ZeBUR5HsS5gICrL60Mdjab0c++XwFYSDhi3ZSyW6jQOCuvJchNoqUGVIsI
- LYIsFDGewoIu4KGsX60iKoWjM9oIsRATsxLW9jU3lKehOom/YUhFp4tyMyXBrYk5vHg2ii
- Wz8x3W6hm6E5BIGm+Kyma9cJg2sQo84=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-K7Ju_c0VMIOZehv6dJWADw-1; Mon, 28 Oct 2019 07:11:01 -0400
-X-MC-Unique: K7Ju_c0VMIOZehv6dJWADw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECDF9800D5F;
- Mon, 28 Oct 2019 11:10:59 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-83.ams2.redhat.com
- [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC26667600;
- Mon, 28 Oct 2019 11:10:55 +0000 (UTC)
-Subject: Re: [PATCH 0/8] block: Add @exact parameter to bdrv_co_truncate()
-To: qemu-block@nongnu.org
-References: <20190918095144.955-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0dbdc19b-c740-92e1-4ee7-294d3d7581e1@redhat.com>
-Date: Mon, 28 Oct 2019 12:10:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iP33D-00044U-Ce
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 07:19:08 -0400
+Received: from mail-eopbgr80091.outbound.protection.outlook.com
+ ([40.107.8.91]:38890 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iP33C-00043a-LE; Mon, 28 Oct 2019 07:19:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QnOOj8Kdkpnbr2YRZrlCarZYZBpaGUIzWL/iyAWvBqYy6YBlEcIcm/ET5viHMWIVq7yjslcteT9lb8C0UjhL9vhkLwmmo/V1BDE4yXJxV0rsYyQ/pk6Vmy8UQQdhoNjeNXSoIYHfv29fbxCWRu2It8XgRN0MgAzUON+9i+nwzvMrXDXOXLITDJgKnDuR2z9nbJzNhxpHUrXbpaFyNwxW+oeWlhklV4IlQuApTGvqasnXsOCOwmk//VDVSj/awZuMB3bBJ0WwQJF/3nwz16i+1t2t4TTaIuSIZtzf8rFD2Z9Ywpcbi/oJSNEsm3Ekz+JdJuib+ifNbBzIDtLAbdj6Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hsrn4M2JvNf8TzeEFVJ+Yt09JOOGnPYLvCCIu4gSR7c=;
+ b=gSB8yYqx6A0JmWcxKCWyw4WasvVL97hZggGGDzjj20vmaZRsV+rJeI6X7DMUwtqpSGIZGEnY5yrI+nNQD5A8hn/5BoimEQ9ijZQ12CfwdwixgJL3yDmkA1mOwI+XEMpLAt0891FiedCC8C9XY+5eVV2lgGpL2Q5pNhFDAmynxk0YkuIsJTW6YCT4NyruiQp90c0P57omGfFKkOZE1p/I4N+om2r5S9xsz9m0MZA+sNCW+86fxJC1oGWzn0EAjItk3kqoDxYlEjFKF8pubM5ROukzpVJr/EILU5xdFaBMl+p1D/4TLkYCUURzx5+0wY7qplYJWenR9EjDvWvFQ7BI4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hsrn4M2JvNf8TzeEFVJ+Yt09JOOGnPYLvCCIu4gSR7c=;
+ b=pOnonSOTVAzt5GjDUpN8k7gN9TarWo6Hi0j+wry10D8dOiiOf7OiDKktSk94dmru9lZhj8AOunpAbiNu1RtYr9903Z/W4LCQBVLsVodxmmacu3lOcxqcU6cZv0kdo+4Fjd8fR4NKy5C+fDnEC9UV6YXgmVIm+3Pjt29VDWokIIU=
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
+ AM0PR08MB4001.eurprd08.prod.outlook.com (20.178.118.161) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.24; Mon, 28 Oct 2019 11:19:03 +0000
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::6844:bb8c:7d2c:b119]) by AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::6844:bb8c:7d2c:b119%6]) with mapi id 15.20.2387.025; Mon, 28 Oct 2019
+ 11:19:03 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
+Thread-Topic: [RFC 0/3] block/file-posix: Work around XFS bug
+Thread-Index: AQHVixrVzIJNY5LqnE6V3J8eZcL1nqdub/GAgAFcuACAAAHogIAAB0wAgAA1JYD//86agIAAEywA
+Date: Mon, 28 Oct 2019 11:19:02 +0000
+Message-ID: <d06f5ce1-02af-960b-1e91-fc337bdb7a67@virtuozzo.com>
+References: <20191025095849.25283-1-mreitz@redhat.com>
+ <20191027123555.GN4472@stefanha-x1.localdomain>
+ <81bb0f91-2671-c9e5-f791-c7470dfd75ce@redhat.com>
+ <c38e000b-a120-2726-65a2-61c63fcc101f@redhat.com>
+ <0f81f678-7d0d-56d3-d236-c077e4251f1a@redhat.com>
+ <f89d91d0-c835-d09a-6fcb-d1b030a05ef5@virtuozzo.com>
+ <be14f922-449b-01fb-27d3-4860c3336ea6@redhat.com>
+In-Reply-To: <be14f922-449b-01fb-27d3-4860c3336ea6@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0301CA0002.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::12) To AM0PR08MB4097.eurprd08.prod.outlook.com
+ (2603:10a6:208:132::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191028141900299
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 11d12841-2797-4dde-715d-08d75b98a33e
+x-ms-traffictypediagnostic: AM0PR08MB4001:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR08MB400122677875EAB4DEC05B99C1660@AM0PR08MB4001.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 0204F0BDE2
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(136003)(346002)(39840400004)(396003)(376002)(199004)(189003)(186003)(31696002)(256004)(71200400001)(102836004)(71190400001)(14444005)(11346002)(446003)(99286004)(2616005)(66066001)(4326008)(2906002)(6506007)(6246003)(53546011)(110136005)(54906003)(6116002)(386003)(3846002)(316002)(478600001)(486006)(25786009)(86362001)(6436002)(52116002)(76176011)(66476007)(64756008)(66556008)(66446008)(476003)(36756003)(7736002)(66946007)(6486002)(81156014)(14454004)(229853002)(5660300002)(6512007)(8936002)(305945005)(26005)(31686004)(81166006)(8676002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4001;
+ H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NYljThHo06dU9MhkxG4b3dBzKGSQK8YeP5+aKeAzTuoBX+OvjQAx+1iQlOEWABcwelLquZQ9ndux3KVkGdJC2d7At6ixyMATOTJT5cRI/a2HPlvCczoQFp8iqs/LOxUzmQpYpJYI6lZo6jm76Hc8AxGMVSzcvNc7wOUnMubJGp9kzuZ6HdFie4dQILJqFwD16tBw2phgAolinjq7K6MQgXnYQKcrTBVtah08DmZIl/nIdOF0MOMvZq20LeRnqSRPKyvmbHA29Tn0yGAx/fyzd6IrDwZQeAaldiniPywJ4/kjdNUhDTCV5BfE+q5uqoZ6x8V0WBK6snO8LnqIxqCrhNC9KW085A7JyFHsLjqjsEBkA1IOn4ua3H0fJMZTJt+4d4LFOK/WC/EvpZjt4H5e23Zh5xgMlssvtNnH7fdjJr46nLhS0tWsXoZENGZZTpIL
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <22AB6F0624C63042B06F98CE740BFE72@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20190918095144.955-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="yBBtTOcrqWgaU6ApJEKiI8nbLj6PMeLkJ"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11d12841-2797-4dde-715d-08d75b98a33e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2019 11:19:03.0038 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2+yJWnUI4SgXgMjd53v5loL/AWGtnu08tYrJqLGc50QiMATEKInLIn+x5m//pXDywh6pf6VjN2he3Uuy88HJfkz0Xi6N+YA5QsGuC3PsJI8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4001
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.8.91
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,85 +113,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yBBtTOcrqWgaU6ApJEKiI8nbLj6PMeLkJ
-Content-Type: multipart/mixed; boundary="DfuUGou6JQGaPermJIjMsnzC1fxRzDwT5"
-
---DfuUGou6JQGaPermJIjMsnzC1fxRzDwT5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 18.09.19 11:51, Max Reitz wrote:
-> Hi,
->=20
-> This series is supposed to pull out some of the problems from my
-> =E2=80=9CGeneric file creation fallback=E2=80=9D series.
->=20
-> The blk_truncate_for_formatting() function added there was buggy, as
-> Maxim noted, in that it did not check whether blk_truncate() actually
-> resized the block node to the target offset.  One way to fix this is to
-> add a parameter to it that forces the block driver to do so, and that is
-> done by this series.
->=20
-> I think this is generally useful (you can see the diff stat saldo is
-> only +23 lines), because it allows us to drop a special check in
-> qemu-img resize, and it fixes a bug in qed (which has relied on this
-> behavior for over 8 years, but unfortunately bdrv_truncate()=E2=80=99s be=
-havior
-> changed quite exactly 8 years ago).
->=20
-> However, in the process I noticed we actually don=E2=80=99t need
-> blk_truncate_for_formatting(): The underlying problem is that some
-> format drivers truncate their underlying file node to 0 before
-> formatting it to drop all data.  So they should pass exact=3Dtrue, but
-> they cannot, because this would break creation on block devices.  Hence
-> blk_truncate_for_formatting().
->=20
-> It turns out, though, that three of the four drivers in question don=E2=
-=80=99t
-> need to truncate their file node at all.  The remaining one is qed which
-> simply really should pass exact=3Dtrue (it=E2=80=99s a bug fix).
->=20
-> (I do drop those blk_truncate() invocations in this series, because
-> otherwise I feel like it is impossible to decide whether they should get
-> exact=3Dfalse or exact=3Dtrue.  Either way is wrong.)
-
-Thanks for the review, I=E2=80=99ve applied the series to my block branch a=
-nd
-changed the comment in qed.c as requested and suggested by Maxim on patch 7=
-:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-Max
-
-
---DfuUGou6JQGaPermJIjMsnzC1fxRzDwT5--
-
---yBBtTOcrqWgaU6ApJEKiI8nbLj6PMeLkJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl22zL4ACgkQ9AfbAGHV
-z0BFvAgAoRgG5m6J/MnfL+xDj0uBA6vDUlwZ3srH0V/6O1/2hgnv47nr0HD/NvQp
-bQc8AmR68r0NWhFq57Y6hi3Vjgoz1tFRJRFEAM1y9mzJX2848eh2QFnKtecGNOTe
-J5eiv2B3DzeyykCZ/PNsMizhRwkSLJ+pH9H9IMDElaaxw/JVRRBOEhNfyhPZ9OVD
-RLYnirHhES73TjNo9Xyni2nQ5JhP3hj/Jf1lFFKqCp8oS2GOR2wX5xzrFY0dLAOm
-GkFU6uKWq27UPk2uW5iEM19dGIYC8aD7+2+6Moe1CGrClf4Gt5WxUPSnTPcNQU9z
-sqa+BNmiMvSjL8JYQOqkbyUtJkIDJg==
-=2dKI
------END PGP SIGNATURE-----
-
---yBBtTOcrqWgaU6ApJEKiI8nbLj6PMeLkJ--
-
+MjguMTAuMjAxOSAxMzoxMCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAyOC4xMC4xOSAxMTowNywg
+VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IDI4LjEwLjIwMTkgMTI6NTYs
+IE1heCBSZWl0eiB3cm90ZToNCj4+PiBPbiAyOC4xMC4xOSAxMDozMCwgTWF4IFJlaXR6IHdyb3Rl
+Og0KPj4+PiBPbiAyOC4xMC4xOSAxMDoyNCwgTWF4IFJlaXR6IHdyb3RlOg0KPj4+Pj4gT24gMjcu
+MTAuMTkgMTM6MzUsIFN0ZWZhbiBIYWpub2N6aSB3cm90ZToNCj4+Pj4+PiBPbiBGcmksIE9jdCAy
+NSwgMjAxOSBhdCAxMTo1ODo0NkFNICswMjAwLCBNYXggUmVpdHogd3JvdGU6DQo+Pj4+Pj4+IEFz
+IGZvciBob3cgd2UgY2FuIGFkZHJlc3MgdGhlIGlzc3VlLCBJIHNlZSB0aHJlZSB3YXlzOg0KPj4+
+Pj4+PiAoMSkgVGhlIG9uZSBwcmVzZW50ZWQgaW4gdGhpcyBzZXJpZXM6IE9uIFhGUyB3aXRoIGFp
+bz1uYXRpdmUsIHdlIGV4dGVuZA0KPj4+Pj4+PiAgICAgICB0cmFja2VkIHJlcXVlc3RzIGZvciBw
+b3N0LUVPRiBmYWxsb2NhdGUoKSBjYWxscyAoaS5lLiwgd3JpdGUtemVybw0KPj4+Pj4+PiAgICAg
+ICBvcGVyYXRpb25zKSB0byByZWFjaCB1bnRpbCBpbmZpbml0eSAoSU5UNjRfTUFYIGluIHByYWN0
+aWNlKSwgbWFyaw0KPj4+Pj4+PiAgICAgICB0aGVtIHNlcmlhbGl6aW5nIGFuZCB3YWl0IGZvciBv
+dGhlciBjb25mbGljdGluZyByZXF1ZXN0cy4NCj4+Pj4+Pj4NCj4+Pj4+Pj4gICAgICAgQWR2YW50
+YWdlczoNCj4+Pj4+Pj4gICAgICAgKyBMaW1pdHMgdGhlIGltcGFjdCB0byB2ZXJ5IHNwZWNpZmlj
+IGNhc2VzDQo+Pj4+Pj4+ICAgICAgICAgKEFuZCB0aGF0IG1lYW5zIGl0IHdvdWxkbuKAmXQgaHVy
+dCB0b28gbXVjaCB0byBrZWVwIHRoaXMgd29ya2Fyb3VuZA0KPj4+Pj4+PiAgICAgICAgIGV2ZW4g
+d2hlbiB0aGUgWEZTIGRyaXZlciBoYXMgYmVlbiBmaXhlZCkNCj4+Pj4+Pj4gICAgICAgKyBXb3Jr
+cyBhcm91bmQgdGhlIGJ1ZyB3aGVyZSBpdCBoYXBwZW5zLCBuYW1lbHkgaW4gZmlsZS1wb3NpeA0K
+Pj4+Pj4+Pg0KPj4+Pj4+PiAgICAgICBEaXNhZHZhbnRhZ2VzOg0KPj4+Pj4+PiAgICAgICAtIEEg
+Yml0IGNvbXBsZXgNCj4+Pj4+Pj4gICAgICAgLSBBIGJpdCBvZiBhIGxheWVyaW5nIHZpb2xhdGlv
+biAoc2hvdWxkIGZpbGUtcG9zaXggaGF2ZSBhY2Nlc3MgdG8NCj4+Pj4+Pj4gICAgICAgICB0cmFj
+a2VkIHJlcXVlc3RzPykNCj4+Pj4+Pg0KPj4+Pj4+IFlvdXIgcGF0Y2ggc2VyaWVzIGlzIHJlYXNv
+bmFibGUuICBJIGRvbid0IHRoaW5rIGl0J3MgdG9vIGJhZC4NCj4+Pj4+Pg0KPj4+Pj4+IFRoZSBt
+YWluIHF1ZXN0aW9uIGlzIGhvdyB0byBkZXRlY3QgdGhlIFhGUyBmaXggb25jZSBpdCBzaGlwcy4g
+IFhGUw0KPj4+Pj4+IGFscmVhZHkgaGFzIGEgdG9uIG9mIGlvY3Rscywgc28gbWF5YmUgdGhleSBk
+b24ndCBtaW5kIGFkZGluZyBhDQo+Pj4+Pj4gZmVhdHVyZS9xdWlyayBiaXQgbWFwIGlvY3RsIGZv
+ciBwdWJsaXNoaW5nIGluZm9ybWF0aW9uIGFib3V0IGJ1ZyBmaXhlcw0KPj4+Pj4+IHRvIHVzZXJz
+cGFjZS4gIEkgZGlkbid0IHNlZSBhbm90aGVyIG9idmlvdXMgd2F5IG9mIGRvaW5nIGl0LCBtYXli
+ZSBhDQo+Pj4+Pj4gbW91bnQgb3B0aW9uIHRoYXQgdGhlIGtlcm5lbCBhdXRvbWF0aWNhbGx5IHNl
+dHMgYW5kIHRoYXQgZ2V0cyByZXBvcnRlZA0KPj4+Pj4+IHRvIHVzZXJzcGFjZT8NCj4+Pj4+DQo+
+Pj4+PiBJ4oCZbGwgYWRkIGEgbm90ZSB0byB0aGUgUkggQlouDQo+Pj4+Pg0KPj4+Pj4+IElmIHdl
+IGltYWdpbmUgdGhhdCBYRlMgd2lsbCBub3QgcHJvdmlkZSBhIG1lY2hhbmlzbSB0byBkZXRlY3Qg
+dGhlDQo+Pj4+Pj4gcHJlc2VuY2Ugb2YgdGhlIGZpeCwgdGhlbiBjb3VsZCB3ZSBhc2sgUUVNVSBw
+YWNrYWdlIG1haW50YWluZXJzIHRvDQo+Pj4+Pj4gLi9jb25maWd1cmUgLS1kaXNhYmxlLXhmcy1m
+YWxsb2NhdGUtYmV5b25kLWVvZi13b3JrYXJvdW5kIGF0IHNvbWUgcG9pbnQNCj4+Pj4+PiBpbiB0
+aGUgZnV0dXJlIHdoZW4gdGhlaXIgZGlzdHJvIGhhcyBiZWVuIHNoaXBwaW5nIGEgZml4ZWQga2Vy
+bmVsIGZvciBhDQo+Pj4+Pj4gd2hpbGU/ICBJdCdzIHVnbHkgYmVjYXVzZSBpdCBkb2Vzbid0IHdv
+cmsgaWYgdGhlIHVzZXIgaW5zdGFsbHMgYW4gb2xkZXINCj4+Pj4+PiBjdXN0b20tYnVpbHQga2Vy
+bmVsIG9uIHRoZSBob3N0LiAgQnV0IGF0IGxlYXN0IGl0IHdpbGwgY292ZXIgOTglIG9mDQo+Pj4+
+Pj4gdXNlcnMuLi4NCj4+Pj4+DQo+Pj4+PiA6LS8NCj4+Pj4+DQo+Pj4+PiBJIGRvbuKAmXQgbGlr
+ZSBpdCwgYnV0IEkgc3VwcG9zZSBpdCB3b3VsZCB3b3JrLiAgV2UgY291bGQgYWxzbw0KPj4+Pj4g
+YXV0b21hdGljYWxseSBlbmFibGUgdGhpcyBkaXNhYmxpbmcgb3B0aW9uIGluIGNvbmZpZ3VyZSB3
+aGVuIHdlIGRldGVjdA0KPj4+Pj4gdW5hbWUgdG8gcmVwb3J0IGEga2VybmVsIHZlcnNpb24gdGhh
+dCBtdXN0IGluY2x1ZGUgdGhlIGZpeC4gIChUaGlzDQo+Pj4+PiB3b3VsZG7igJl0IHdvcmsgZm9y
+IGtlcm5lbCB3aXRoIGJhY2twb3J0ZWQgZml4ZXMsIGJ1dCB0aG9zZSBkaXNhcHBlYXIgb3Zlcg0K
+Pj4+Pj4gdGltZS4uLikNCj4+Pj4gSSBqdXN0IHJlYWxpemVkIHRoYXQgbm9uZSBvZiB0aGlzIGlz
+IGdvaW5nIHRvIHdvcmsgZm9yIHRoZSBnbHVzdGVyIGNhc2UNCj4+Pj4gYnJvdWdodCB1cCBieSBO
+aXIuICBUaGUgYWZmZWN0ZWQga2VybmVsIGlzIHRoZSByZW1vdGUgb25lIGFuZCB3ZSBoYXZlIG5v
+DQo+Pj4+IGluc2lnaHQgaW50byB0aGF0LiAgSSBkb27igJl0IHRoaW5rIHdlIGNhbiBkbyBpb2N0
+bHMgdG8gWEZTIG92ZXIgZ2x1c3RlciwNCj4+Pj4gY2FuIHdlPw0KPj4+DQo+Pj4gT24gdGhpcmQg
+dGhvdWdodCwgd2UgY291bGQgdHJ5IHRvIGRldGVjdCB3aGV0aGVyIHRoZSBmaWxlIGlzIG9uIGEg
+cmVtb3RlDQo+Pj4gZmlsZXN5c3RlbSwgYW5kIGlmIHNvIGVuYWJsZSB0aGUgd29ya2Fyb3VuZCB1
+bmNvbmRpdGlvbmFsbHkuICBJIHN1cHBvc2UNCj4+PiBpdCB3b3VsZG7igJl0IGh1cnQgcGVyZm9y
+bWFuY2Utd2lzZSwgZ2l2ZW4gdGhhdCBpdOKAmXMgYSByZW1vdGUgZmlsZXN5c3RlbQ0KPj4+IGFu
+eXdheS4NCj4+Pg0KPj4NCj4+IEkgdGhpbmssIGZvciByZW1vdGUsIHRoZSBkaWZmZXJlbmNlIG1h
+eSBiZSBldmVuIGhpZ2hlciB0aGFuIGZvciBsb2NhbCwgYXMgY29zdA0KPj4gb2Ygd3JpdGluZyBy
+ZWFsIHplcm9lcyB0aHJvdWdoIHRoZSB3aXJlIHZzIGZhc3QgemVybyBjb21tYW5kIGlzIGhpZ2gu
+DQo+IA0KPiBJIHdhcyBzcGVha2luZyBvZiBhIHdvcmthcm91bmQgaW4gZ2VuZXJhbCwgYW5kIHRo
+YXQgaW5jbHVkZXMgdGhlDQo+IHdvcmthcm91bmQgcHJlc2VudGVkIGluIHRoaXMgc2VyaWVzLg0K
+DQpBaCwgeWVzLCBzb3JyeS4gVGhlbiBpdCBzaG91bGQgYmUgT0suDQoNCj4gDQo+PiBSZWFsbHks
+IGNhbiB3ZSBsaXZlIHdpdGggc2ltcGxlIGNvbmZpZyBvcHRpb24sIGlzIGl0IHNvIGJhZD8NCj4g
+DQo+IFRoZSBjb25maWcgb3B0aW9uIHdvbuKAmXQgd29yayBmb3IgcmVtb3RlIGhvc3RzLCB0aG91
+Z2guICBUaGF04oCZcyBleGFjdGx5DQo+IHRoZSBwcm9ibGVtLg0KPiANCg0KU3RpbGwgY29uZmln
+IG9wdGlvbiB3aWxsIGhlbHAgcGVvcGxlIHdobyBoYXZlIHhmcyBzZXR1cHMgYW5kIHdhbnQgdG8g
+YmUgYWJzb2x1dGVseSBzYWZlLg0KKE9yLCB3aXRoIGFub3RoZXIgZGVmYXVsdCwgaGVscCBwZW9w
+bGUgd2hvIGRvZXNuJ3QgaGF2ZSB4ZnMgc2V0dXBzIChWaXJ0dW96em8pIGFuZCB3YW50IHRvIGJl
+IGZhc3QpDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
