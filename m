@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E02DE724E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:04:17 +0100 (CET)
-Received: from localhost ([::1]:53512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F134E727D
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:16:24 +0100 (CET)
+Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4gx-0003N0-OB
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50790)
+	id 1iP4sg-0004JQ-H2
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3x2-0002tI-EB
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:50 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3x9-00039i-Tn
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3wx-0001zi-Hn
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21801
+ (envelope-from <mreitz@redhat.com>) id 1iP3x4-00023N-Ea
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44039
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wu-0001xV-6Y
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:40 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3wz-0001zx-BQ
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:16:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264999;
+ s=mimecast20190719; t=1572265003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rDRhJaImYLPxs5FqXhGCslMsXlMubC4w5oQ2JKHYQkw=;
- b=A8TRoQTfhgMttdZRwJFY4/9r1mpD4Ed4BHa8ZUo3Kxr+9TSAY8SCbQtID+RdZl2qy3SClD
- Ae0eFNUyAaw1YRufi3yChjDFj1PMDJzYtU3bGerNdQUzerGmUmF3T6YEXHJLNx8HM6b13e
- nT9Agzb1Fa8GgeaNXoxupkAv4myZM0w=
+ bh=cfzDy2KOnVpKUUBJ6sbP5TwiIljc61cRVIU05TJ6Nzo=;
+ b=Kwg1/ZzequqmGweGqhEvyqFezooPf24qToLsysaF3MU2e3XqDHn+2t82qyRTRb07cJNSbK
+ 9YVeS3nSEWdY0MUAkKz1Uq25VcXwgq5yHWwYUXf20WeatjTDTvaQNYbLireAbbfg6CYPX+
+ FBlDf+j6ugSel8HxaEq/aLyTZzh+Yvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-G6eGbPJqNc6_PWx_pvxb0A-1; Mon, 28 Oct 2019 08:16:35 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-197-gzAlgX6tPyiLnt8sFGTySw-1; Mon, 28 Oct 2019 08:16:39 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69D98180496E;
- Mon, 28 Oct 2019 12:16:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86BD3107AD29;
+ Mon, 28 Oct 2019 12:16:38 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F0EB5D6BB;
- Mon, 28 Oct 2019 12:16:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2983360850;
+ Mon, 28 Oct 2019 12:16:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 44/69] mirror: Do not dereference invalid pointers
-Date: Mon, 28 Oct 2019 13:14:36 +0100
-Message-Id: <20191028121501.15279-45-mreitz@redhat.com>
+Subject: [PULL 46/69] qcow2: Use endof()
+Date: Mon, 28 Oct 2019 13:14:38 +0100
+Message-Id: <20191028121501.15279-47-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: G6eGbPJqNc6_PWx_pvxb0A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: gzAlgX6tPyiLnt8sFGTySw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,57 +75,44 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mirror_exit_common() may be called twice (if it is called from
-mirror_prepare() and fails, it will be called from mirror_abort()
-again).
-
-In such a case, many of the pointers in the MirrorBlockJob object will
-already be freed.  This can be seen most reliably for s->target, which
-is set to NULL (and then dereferenced by blk_bs()).
-
-Cc: qemu-stable@nongnu.org
-Fixes: 737efc1eda23b904fbe0e66b37715fb0e5c3e58b
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191014153931.20699-2-mreitz@redhat.com
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-id: 20191011152814.14791-3-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/mirror.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ block/qcow2-snapshot.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 454365ce00..bb17cfce31 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -620,11 +620,11 @@ static int mirror_exit_common(Job *job)
- {
-     MirrorBlockJob *s =3D container_of(job, MirrorBlockJob, common.job);
-     BlockJob *bjob =3D &s->common;
--    MirrorBDSOpaque *bs_opaque =3D s->mirror_top_bs->opaque;
-+    MirrorBDSOpaque *bs_opaque;
-     AioContext *replace_aio_context =3D NULL;
--    BlockDriverState *src =3D s->mirror_top_bs->backing->bs;
--    BlockDriverState *target_bs =3D blk_bs(s->target);
--    BlockDriverState *mirror_top_bs =3D s->mirror_top_bs;
-+    BlockDriverState *src;
-+    BlockDriverState *target_bs;
-+    BlockDriverState *mirror_top_bs;
-     Error *local_err =3D NULL;
-     bool abort =3D job->ret < 0;
-     int ret =3D 0;
-@@ -634,6 +634,11 @@ static int mirror_exit_common(Job *job)
-     }
-     s->prepared =3D true;
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index d0e7fa9311..752883e5c3 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -92,11 +92,12 @@ int qcow2_read_snapshots(BlockDriverState *bs)
+         }
+         offset +=3D extra_data_size;
 =20
-+    mirror_top_bs =3D s->mirror_top_bs;
-+    bs_opaque =3D mirror_top_bs->opaque;
-+    src =3D mirror_top_bs->backing->bs;
-+    target_bs =3D blk_bs(s->target);
-+
-     if (bdrv_chain_contains(src, target_bs)) {
-         bdrv_unfreeze_backing_chain(mirror_top_bs, target_bs);
+-        if (extra_data_size >=3D 8) {
++        if (extra_data_size >=3D endof(QCowSnapshotExtraData,
++                                     vm_state_size_large)) {
+             sn->vm_state_size =3D be64_to_cpu(extra.vm_state_size_large);
+         }
+=20
+-        if (extra_data_size >=3D 16) {
++        if (extra_data_size >=3D endof(QCowSnapshotExtraData, disk_size)) =
+{
+             sn->disk_size =3D be64_to_cpu(extra.disk_size);
+         } else {
+             sn->disk_size =3D bs->total_sectors * BDRV_SECTOR_SIZE;
+@@ -251,7 +252,7 @@ static int qcow2_write_snapshots(BlockDriverState *bs)
      }
+=20
+     QEMU_BUILD_BUG_ON(offsetof(QCowHeader, snapshots_offset) !=3D
+-        offsetof(QCowHeader, nb_snapshots) + sizeof(header_data.nb_snapsho=
+ts));
++                      endof(QCowHeader, nb_snapshots));
+=20
+     header_data.nb_snapshots        =3D cpu_to_be32(s->nb_snapshots);
+     header_data.snapshots_offset    =3D cpu_to_be64(snapshots_offset);
 --=20
 2.21.0
 
