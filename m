@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4AFE79AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:09:01 +0100 (CET)
-Received: from localhost ([::1]:33552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E721EE7A16
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 21:28:35 +0100 (CET)
+Received: from localhost ([::1]:36930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPBJy-0001Pg-Ka
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36407)
+	id 1iPBcu-0004OG-J6
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 16:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iPANb-0000DL-0A
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 15:08:40 -0400
+ (envelope-from <crosa@redhat.com>) id 1iPAeM-0001mH-6v
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 15:25:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iPANY-00058Z-8n
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 15:08:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45354
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1iPAeJ-0004Ha-RG
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 15:25:56 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38332
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPANY-000589-51
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 15:08:36 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPAeJ-0004HH-Nf
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 15:25:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572289715;
+ s=mimecast20190719; t=1572290754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sdi7rcKOUDu7R4ymwDCOVDUN5zuNQrTIZL/mBMAkAkQ=;
- b=BbTM1+05Xga+IboGTRA1f3c6oDPSf22VpSCGu71IaIL2VVKad6CfC3s6JDZejo/1cBfuR7
- AmovdcWEMRqTTW+ECFWitKMuujdzYpIncONqiJu+woju5Hkcgz1V3TVfZ3SLjFTSQ+R+pM
- 6rWhkF1cv2tbbPihgJU6QEnlQNxNL8w=
+ bh=/sRBUKKbK5jAR3BsoNS9VWFk0Vz6sOLzX8OJU0mRmMw=;
+ b=Eyc1LwZ4xJCjFYQkYrkq1YhCm42T7324RDYYjajSciJQ55/6BQ4SMdbe2eFdaH7nCXZW9Y
+ 28VIkjZDAkfYp17KZX93jsYiPrFcRCLDQmLA5aaaXv2gf7cZct6TQMsQ6iZn0eQENye2jy
+ vWZAr9QL7NPW0TVZ/FJqQjiEGE1Lwic=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-nZACtUfDML6zCPjrKSYXkQ-1; Mon, 28 Oct 2019 15:08:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-402-U1N0QiiIMpKmifcEI8kH2A-1; Mon, 28 Oct 2019 15:25:49 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B47051005509;
- Mon, 28 Oct 2019 19:08:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC3DA107AD28;
+ Mon, 28 Oct 2019 19:25:47 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
  [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AAF5A5D6C8;
- Mon, 28 Oct 2019 19:08:22 +0000 (UTC)
-Date: Mon, 28 Oct 2019 15:08:20 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAA3B600C9;
+ Mon, 28 Oct 2019 19:25:41 +0000 (UTC)
+Date: Mon, 28 Oct 2019 15:25:39 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 16/26] tests/acceptance: Test Sandalfoot initrd on the
- PReP/40p
-Message-ID: <20191028190820.GK3978@localhost.localdomain>
+Subject: Re: [PATCH 17/26] .travis.yml: Let the avocado job run the 40p tests
+Message-ID: <20191028192539.GA26898@localhost.localdomain>
 References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-17-philmd@redhat.com>
+ <20191028073441.6448-18-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-17-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-18-philmd@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: nZACtUfDML6zCPjrKSYXkQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: U1N0QiiIMpKmifcEI8kH2A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,91 +82,17 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:31AM +0100, Philippe Mathieu-Daud=E9 wrote:
+On Mon, Oct 28, 2019 at 08:34:32AM +0100, Philippe Mathieu-Daud=E9 wrote:
 > From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 >=20
-> User case from:
-> https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
->=20
-> Sandalfoot info:
-> http://www.juneau-lug.org/sandalfoot.php
->=20
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Alex Benn=E9e <alex.bennee@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> ---
-> v3:
-> - use avocado_qemu.wait_for_console_pattern (Cleber)
-> - use exec_command_and_wait_for_pattern
-> - check getenv(AVOCADO_ALLOW_UNTRUSTED_CODE) (pm215)
-> ---
->  tests/acceptance/ppc_prep_40p.py | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->=20
-> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep=
-_40p.py
-> index b4109a7af3..c5ecabf52f 100644
-> --- a/tests/acceptance/ppc_prep_40p.py
-> +++ b/tests/acceptance/ppc_prep_40p.py
-> @@ -11,6 +11,7 @@ import logging
->  from avocado import skipIf
->  from avocado import skipUnless
->  from avocado_qemu import MachineTest
-> +from avocado_qemu import exec_command_and_wait_for_pattern
->  from avocado_qemu import wait_for_console_pattern
-> =20
-> =20
-> @@ -101,3 +102,33 @@ class IbmPrep40pMachine(MachineTest):
-> =20
->          self.vm.launch()
->          wait_for_console_pattern(self, 'NetBSD/prep BOOT, Revision 1.9')
-> +
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
-de')
-> +    def test_sandalfoot_busybox(self):
-> +        """
-> +        :avocado: tags=3Darch:ppc
-> +        :avocado: tags=3Dmachine:40p
-> +        """
-> +        drive_url =3D ('http://www.juneau-lug.org/zImage.initrd.sandalfo=
-ot')
-> +        drive_hash =3D 'dacacfc4085ea51d34d99ef70e972b849e2c6949'
-> +        drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_ha=
-sh)
-> +
-> +        self.vm.set_machine('40p')
-> +        self.vm.set_console()
-> +        self.vm.add_args('-cdrom', drive_path,
-> +                         '-boot', 'd')
-> +
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'Now booting the kernel')
 
-I could never get past this point.  Any ideas?
-
-- Cleber.
-
-> +
-> +        msg =3D 'Please press Enter to activate this console.'
-> +        wait_for_console_pattern(self, msg)
-> +
-> +        version =3D 'BusyBox v0.60.0 (2001.08.19-09:26+0000) Built-in sh=
-ell (ash)'
-> +        exec_command_and_wait_for_pattern(self, '', version)
-> +
-> +        uname =3D 'Linux ppc 2.4.18 #5 Wed May 21 23:50:43 AKDT 2003 ppc=
- unknown'
-> +        exec_command_and_wait_for_pattern(self, 'uname -a', uname)
-> +
-> +        cpu =3D 'PReP IBM 6015/7020 (Sandalfoot/Sandalbow)'
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo', cpu=
-)
-> --=20
-> 2.21.0
->=20
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 
 
