@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E417E7155
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:28:05 +0100 (CET)
-Received: from localhost ([::1]:53180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4AFE714B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:24:27 +0100 (CET)
+Received: from localhost ([::1]:53150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP47v-0008IQ-Op
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49957)
+	id 1iP44Q-000462-5H
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3vp-0001S2-Tj
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:35 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3vx-0001dl-Eg
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3vo-0001L2-BS
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30363
+ (envelope-from <mreitz@redhat.com>) id 1iP3vw-0001Ow-6Z
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38790
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vo-0001Kc-7X
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:32 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vw-0001Ol-3F
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264931;
+ s=mimecast20190719; t=1572264939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TE96eOaW6aiFCYl3gxB+X0JZqjsnCz0s2Kz/h/5Cz9A=;
- b=V1KFU3pH9pHt2tnThGgVgNmhj6FpfBzoZ1uEtw9Bxg9FUfPW9vb96PDARoE1WFA1DYsHNv
- mvozz8evXfGH0FEWLYIOr4Z+ztj5f3mHtI3IRPPDQrD3yfRRPm3FeRGDZ6LmarQuDS1P7C
- ZnCKoI9DDpBK4BpxGrQ06lNwOVx5vDM=
+ bh=qxpTgjhe4LBYsfVnIw1qeVBA6HbE1S152Eb+XejyuR8=;
+ b=QnThgWjaCY0b2a5SNv/ke5ueza8CLpaIC7hz8OTaADTFgv9Ksil2oKS7IVHrCTvgldjDBg
+ DBDdGwja5fBHgJCFzCxVk9h5z+ft8WJmcRURksA+oOG0vsowftFLzu2c00eF7P0zdfhf3W
+ 5Oe1hitaALNEgrX34OvwzvrULPyP+Pc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-rQJv7L6eNgiDWFeqWjFTTQ-1; Mon, 28 Oct 2019 08:15:29 -0400
+ us-mta-1-dCOJTIVOO7We15riUcbxEg-1; Mon, 28 Oct 2019 08:15:35 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB8A6107AD29;
- Mon, 28 Oct 2019 12:15:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D23ED180496E;
+ Mon, 28 Oct 2019 12:15:34 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 523C11001B03;
- Mon, 28 Oct 2019 12:15:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7433F100194E;
+ Mon, 28 Oct 2019 12:15:34 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 12/69] Revert "mirror: Only mirror granularity-aligned chunks"
-Date: Mon, 28 Oct 2019 13:14:04 +0100
-Message-Id: <20191028121501.15279-13-mreitz@redhat.com>
+Subject: [PULL 15/69] iotests.py: Add @base_dir to FilePaths etc.
+Date: Mon, 28 Oct 2019 13:14:07 +0100
+Message-Id: <20191028121501.15279-16-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: rQJv7L6eNgiDWFeqWjFTTQ-1
+X-MC-Unique: dCOJTIVOO7We15riUcbxEg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,82 +75,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Specifying this optional parameter allows creating temporary files in
+other directories than the test_dir; for example in sock_dir.
 
-This reverts commit 9adc1cb49af8d4e54f57980b1eed5c0a4b2dafa6.
-    "mirror: Only mirror granularity-aligned chunks"
-
-Since previous commit unaligned chunks are supported by
-do_sync_target_write.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20191011090711.19940-6-vsementsov@virtuozzo.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-id: 20191017133155.5327-4-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/mirror.c | 29 -----------------------------
- 1 file changed, 29 deletions(-)
+ tests/qemu-iotests/iotests.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 11d4d66f43..454365ce00 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1488,15 +1488,6 @@ static void bdrv_mirror_top_child_perm(BlockDriverSt=
-ate *bs, BdrvChild *c,
-     *nshared =3D BLK_PERM_ALL;
- }
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 9bfcef1f14..075f4739da 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -386,10 +386,10 @@ class FilePaths(object):
+             qemu_img('create', img_path, '1G')
+         # migration_sock_path is automatically deleted
+     """
+-    def __init__(self, names):
++    def __init__(self, names, base_dir=3Dtest_dir):
+         self.paths =3D []
+         for name in names:
+-            self.paths.append(os.path.join(test_dir, file_pattern(name)))
++            self.paths.append(os.path.join(base_dir, file_pattern(name)))
 =20
--static void bdrv_mirror_top_refresh_limits(BlockDriverState *bs, Error **e=
-rrp)
--{
--    MirrorBDSOpaque *s =3D bs->opaque;
--
--    if (s && s->job && s->job->copy_mode =3D=3D MIRROR_COPY_MODE_WRITE_BLO=
-CKING) {
--        bs->bl.request_alignment =3D s->job->granularity;
--    }
--}
--
- /* Dummy node that provides consistent read to its users without requiring=
- it
-  * from its backing file and that allows writes on the backing file chain.=
- */
- static BlockDriver bdrv_mirror_top =3D {
-@@ -1509,7 +1500,6 @@ static BlockDriver bdrv_mirror_top =3D {
-     .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,
-     .bdrv_refresh_filename      =3D bdrv_mirror_top_refresh_filename,
-     .bdrv_child_perm            =3D bdrv_mirror_top_child_perm,
--    .bdrv_refresh_limits        =3D bdrv_mirror_top_refresh_limits,
- };
+     def __enter__(self):
+         return self.paths
+@@ -406,8 +406,8 @@ class FilePath(FilePaths):
+     """
+     FilePath is a specialization of FilePaths that takes a single filename=
+.
+     """
+-    def __init__(self, name):
+-        super(FilePath, self).__init__([name])
++    def __init__(self, name, base_dir=3Dtest_dir):
++        super(FilePath, self).__init__([name], base_dir)
 =20
- static BlockJob *mirror_start_job(
-@@ -1657,25 +1647,6 @@ static BlockJob *mirror_start_job(
-         s->should_complete =3D true;
-     }
+     def __enter__(self):
+         return self.paths[0]
+@@ -420,7 +420,7 @@ def file_path_remover():
+             pass
 =20
--    /*
--     * Must be called before we start tracking writes, but after
--     *
--     *     ((MirrorBlockJob *)
--     *         ((MirrorBDSOpaque *)
--     *             mirror_top_bs->opaque
--     *         )->job
--     *     )->copy_mode
--     *
--     * has the correct value.
--     * (We start tracking writes as of the following
--     * bdrv_create_dirty_bitmap() call.)
--     */
--    bdrv_refresh_limits(mirror_top_bs, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        goto fail;
--    }
--
-     s->dirty_bitmap =3D bdrv_create_dirty_bitmap(bs, granularity, NULL, er=
-rp);
-     if (!s->dirty_bitmap) {
-         goto fail;
+=20
+-def file_path(*names):
++def file_path(*names, base_dir=3Dtest_dir):
+     ''' Another way to get auto-generated filename that cleans itself up.
+=20
+     Use is as simple as:
+@@ -436,7 +436,7 @@ def file_path(*names):
+     paths =3D []
+     for name in names:
+         filename =3D file_pattern(name)
+-        path =3D os.path.join(test_dir, filename)
++        path =3D os.path.join(base_dir, filename)
+         file_path_remover.paths.append(path)
+         paths.append(path)
+=20
 --=20
 2.21.0
 
