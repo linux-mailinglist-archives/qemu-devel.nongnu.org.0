@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8578E74CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:16:53 +0100 (CET)
-Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03369E74A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:13:31 +0100 (CET)
+Received: from localhost ([::1]:45596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP6lI-0001bu-N8
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:16:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44653)
+	id 1iP6i1-0006Xc-Lz
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iP6Us-0007Zb-4k
+ (envelope-from <richard.henderson@linaro.org>) id 1iP6Us-0007Zc-4l
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iP6Uq-00046F-OV
+ (envelope-from <richard.henderson@linaro.org>) id 1iP6Uq-00046R-SQ
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:54 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41737)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39761)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iP6Uq-00045Q-5K
+ id 1iP6Uq-00045p-MU
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:52 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id p4so10232656wrm.8
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:59:50 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id a11so10230997wra.6
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=YCOFi2fDpbUezaVnqe2fyjA9hZ1F82Ek3+HEANsqQro=;
- b=j5DjlpNdbceAhWM3wA+cq5w2SimbXwmz2a4Sz50xmpRAd69drjUKuzN8RKlJ/WvyOC
- AQeaDLHij8e63cBnpiqO2cMOYXlJI2Goe3yP2jsr/GugX3SPH4OauXtg3PaWLbw/PwbR
- 3Xl56VmqGII+IXl6B3oT4hTpLSr2PLR1RC3byS/4RXuOnSXqkbZTQwxIWytLY2ygdPBV
- t+p0kMsN+o9RQbZu6PhmSVq4sld9QVYXGGtOH82CGq1D0LPZ+5kSq1oCZbiAQSX3/ivJ
- WwO1lFpGnll/OjXI+511EkkzIq273BDNagE2ZdIiaIH5K5mGImMw0WNGPmGsA0dngGMz
- xQQg==
+ bh=jWCHT8imM+uT8t8z8pCnUo/8+221GMTt3GzK0VnZBfQ=;
+ b=d26sLpzvhO1E0TrFTuZ2mirSgGGVKv7FsN+fUq7Nuv0yhm3H66dT9psyNGbt6GMWuK
+ V4fNkiNB1af8og4AcJ6kK57qpfXE95EFQRVRd0iHdeqSpmBUsmFnoQ4pYs5vard1I/AX
+ 2mYk0yQapIsCZv7UPguJS3RoNq8rs5YjgCEEm2EY1pQ6SEEMwPiww+bcoG65R/CJCBSM
+ NDDNP+Qo95IqEVE33peYRyeinKgs+kFdAq+wN5E+26uk5CFMWRFd1tla5kchCbAMHewg
+ sIgHKKEwV0mNOnOvlxDf4VvNgQnDrQEWx8RzgmOe8LuF7uydkX6tXZ9XZaLHsF8u1ENd
+ KVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=YCOFi2fDpbUezaVnqe2fyjA9hZ1F82Ek3+HEANsqQro=;
- b=T25vi5QatwNRI9Qm2VNAdsK8Awo/5S7fWE9Ah97y1wrkYEFyiugSCU3RkVd1uUvxOU
- j1XmzXC55p31jc8nnGct0iP6tWdAfCGhIWcSIoJUPolnh/i1D8auFxGy7swSNZrf0hyt
- dtf/FyNK4aMG1YvbDfODOCySOa+ITppE74/3B82SlAFP6ssKga7v9kL3mC6p9Xllnlip
- LkxH9NSLJTSvNVD5P9C0z9OW0bxStd04VFf6Afkhk0FnSc44Xo2sm8dQp0fdsmUu2XjM
- aKPYy6pTN7P/69uURqY6QeXuyTtPZPuqbc0VqClyh3eLytSTdEAGk37oWgSxM2akYGxU
- tnrQ==
-X-Gm-Message-State: APjAAAWNnPnqFnoP9QnGFNOUtK3H0AnVdsWrX5nuAcuqXFBox/jtHG8c
- kXs7vpHX+1EL2XB6ko2s8Hh7+ykE9p2OGg==
-X-Google-Smtp-Source: APXvYqysveOw659LnZ6DyKQaD1lci4xO3Sd3m6LYXSkiCiOlQzGbXHck56W+ynCVZCWY1NlfiHR87g==
-X-Received: by 2002:adf:ee03:: with SMTP id y3mr15178137wrn.116.1572274789526; 
- Mon, 28 Oct 2019 07:59:49 -0700 (PDT)
+ bh=jWCHT8imM+uT8t8z8pCnUo/8+221GMTt3GzK0VnZBfQ=;
+ b=N3hMSe0EU+ZkTZEHtzlEWgR5TxC9vrOo2XMD2dwtiVvr1Q8TRMgiXVDD5P3jQl/UMc
+ Ov3OEA1ZdIiSactNlfBqyJR7sWrXjvfH/abVRAR+KVPTIPh17B7R2w8TPzEC6ohKLdbj
+ XLw+xhsLaKKHhyoaG4IwGrrw58sosbbQG7j9bs+DllGszZhkbckPCXJbM5NtrSU6+vWj
+ F2M9LK/Q36b3hOjYNiaHgWHdU0EtLLN9ba8OkTNBRB5T97yJhXZKicdpS+2fewA2Co5o
+ wbqqRALkq5iT1Z/YXgtusl8iZna3tKbUj6Gf69RMf0KwJNU9vJBo26rYjpc602Ep2TOj
+ KZ/g==
+X-Gm-Message-State: APjAAAXTx0HlLoGI+ohHok5d6eN7aCEfMGW0FOOVI2pip6cP9bKDbVA/
+ q+fajXMwbWsM1se7O92xPayfp3wYg8kWug==
+X-Google-Smtp-Source: APXvYqwSA4TcElajz+0RgleTlAcwVr0JGBhIdgpBC/Tyf9sV2rZVBA6Xr6XttqSCSHDPE8XeBilOog==
+X-Received: by 2002:a5d:6747:: with SMTP id l7mr14797530wrw.328.1572274790726; 
+ Mon, 28 Oct 2019 07:59:50 -0700 (PDT)
 Received: from localhost.localdomain (230.106.138.88.rev.sfr.net.
  [88.138.106.230])
- by smtp.gmail.com with ESMTPSA id 143sm14842876wmb.33.2019.10.28.07.59.48
+ by smtp.gmail.com with ESMTPSA id 143sm14842876wmb.33.2019.10.28.07.59.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 07:59:48 -0700 (PDT)
+ Mon, 28 Oct 2019 07:59:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/12] cputlb: Fix tlb_vaddr_to_host
-Date: Mon, 28 Oct 2019 15:59:35 +0100
-Message-Id: <20191028145937.10914-11-richard.henderson@linaro.org>
+Subject: [PULL v2 11/12] translate-all: fix uninitialized tb->orig_tb
+Date: Mon, 28 Oct 2019 15:59:36 +0100
+Message-Id: <20191028145937.10914-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191028145937.10914-1-richard.henderson@linaro.org>
 References: <20191028145937.10914-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,34 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ Clement Deschamps <clement.deschamps@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using uintptr_t instead of target_ulong meant that, for 64-bit guest
-and 32-bit host, we truncated the guest address comparator and so may
-not hit the tlb when we should.
+From: Clement Deschamps <clement.deschamps@greensocs.com>
 
-Fixes: 4811e9095c0
-Reviewed-by: David Hildenbrand <david@redhat.com>
+This fixes a segmentation fault in icount mode when executing
+from an IO region.
+
+TB is marked as CF_NOCACHE but tb->orig_tb is not initialized
+(equals previous value in code_gen_buffer).
+
+The issue happens in cpu_io_recompile() when it tries to invalidate orig_tb.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Clement Deschamps <clement.deschamps@greensocs.com>
+Message-Id: <20191022140016.918371-1-clement.deschamps@greensocs.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/translate-all.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 6f4194df96..5eebddcca8 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1189,7 +1189,7 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-                         MMUAccessType access_type, int mmu_idx)
- {
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
--    uintptr_t tlb_addr, page;
-+    target_ulong tlb_addr, page;
-     size_t elt_ofs;
- 
-     switch (access_type) {
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 66d4bc4341..f9b7ba159d 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1722,6 +1722,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tb->cs_base = cs_base;
+     tb->flags = flags;
+     tb->cflags = cflags;
++    tb->orig_tb = NULL;
+     tb->trace_vcpu_dstate = *cpu->trace_dstate;
+     tcg_ctx->tb_cflags = cflags;
+  tb_overflow:
 -- 
 2.17.1
 
