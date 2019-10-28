@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5A9E7156
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:28:09 +0100 (CET)
-Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B22E7160
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:32:30 +0100 (CET)
+Received: from localhost ([::1]:53212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP480-0008On-42
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50062)
+	id 1iP4CD-0005hT-CH
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3vx-0001eZ-V1
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:42 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3vl-0001LM-Te
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3vw-0001PL-PC
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33383
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iP3vj-0001In-Sx
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:29 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60480
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vw-0001PD-Li
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:40 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vj-0001IR-P5
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264940;
+ s=mimecast20190719; t=1572264927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7AegR6O/GB/NSUyImdF/YuOZTD70N9BVgHZLYSLHW7s=;
- b=hC/03T75ZtwXp3WNQ+UZgWf9Mxgb7fEXB+yCjJFA5wliIePn5O5e1DutB7j2QtL38/sSpa
- CGbl37EkfpUXf5PThiPgwagfekQWbaetlxBZqzQo82at4/Nc870Tp+FQnmYXRvU7/pa7xO
- ojF4tAMLa8AeFXxRyhxkXF0xLwRvlO4=
+ bh=f5OQWPv79KD3SNwPjN2Ee0ud2g7tdqc31S9r0UcfX68=;
+ b=KQKtHJ1eDWmG7YMsXZDlssPsRDJsAJqgtbQWFvbcfEp3XVoJT8D/nLMoCEqDANgMzqozUG
+ qgQD5Jkzl0gbnP4RRoL4h0v6hIDZ0WP5p67HT3k97QZgbW+UaleBBwmIwXjg/Zj2Sv7YHw
+ G/ZeX7od6gd0LEvROidKMLsDi20LKks=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-zWWSmfdTO-SirtPf3j-0YQ-1; Mon, 28 Oct 2019 08:15:37 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-261-QEBbO9jgPAysu4tq7Yks2g-1; Mon, 28 Oct 2019 08:15:23 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD79B1804970;
- Mon, 28 Oct 2019 12:15:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9344581A334;
+ Mon, 28 Oct 2019 12:15:22 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 826426084E;
- Mon, 28 Oct 2019 12:15:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3892F60BF7;
+ Mon, 28 Oct 2019 12:15:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/69] iotests: Filter $SOCK_DIR
-Date: Mon, 28 Oct 2019 13:14:08 +0100
-Message-Id: <20191028121501.15279-17-mreitz@redhat.com>
+Subject: [PULL 09/69] block/mirror: simplify do_sync_target_write
+Date: Mon, 28 Oct 2019 13:14:01 +0100
+Message-Id: <20191028121501.15279-10-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: zWWSmfdTO-SirtPf3j-0YQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: QEBbO9jgPAysu4tq7Yks2g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,52 +75,141 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20191017133155.5327-5-mreitz@redhat.com
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+do_sync_target_write is called from bdrv_mirror_top_do_write after
+write/discard operation, all inside active_write/active_write_settle
+protecting us from mirror iteration. So the whole area is dirty for
+sure, no reason to examine dirty bitmap.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20191011090711.19940-3-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.filter | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block/mirror.c | 95 +++++++++++++++-----------------------------------
+ 1 file changed, 28 insertions(+), 67 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.f=
-ilter
-index 9f418b4881..0ee6042524 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -43,7 +43,8 @@ _filter_qom_path()
- # replace occurrences of the actual TEST_DIR value with TEST_DIR
- _filter_testdir()
+diff --git a/block/mirror.c b/block/mirror.c
+index a6c50caea4..351faf9367 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1181,84 +1181,45 @@ do_sync_target_write(MirrorBlockJob *job, MirrorMet=
+hod method,
+                      uint64_t offset, uint64_t bytes,
+                      QEMUIOVector *qiov, int flags)
  {
--    $SED -e "s#$TEST_DIR/#TEST_DIR/#g"
-+    $SED -e "s#$TEST_DIR/#TEST_DIR/#g" \
-+         -e "s#$SOCK_DIR/#SOCK_DIR/#g"
- }
+-    QEMUIOVector target_qiov;
+-    uint64_t dirty_offset =3D offset;
+-    uint64_t dirty_bytes;
+-
+-    if (qiov) {
+-        qemu_iovec_init(&target_qiov, qiov->niov);
+-    }
+-
+-    while (true) {
+-        bool valid_area;
+-        int ret;
+-
+-        bdrv_dirty_bitmap_lock(job->dirty_bitmap);
+-        dirty_bytes =3D MIN(offset + bytes - dirty_offset, INT_MAX);
+-        valid_area =3D bdrv_dirty_bitmap_next_dirty_area(job->dirty_bitmap=
+,
+-                                                       &dirty_offset,
+-                                                       &dirty_bytes);
+-        if (!valid_area) {
+-            bdrv_dirty_bitmap_unlock(job->dirty_bitmap);
+-            break;
+-        }
++    int ret;
 =20
- # replace occurrences of the actual IMGFMT value with IMGFMT
-@@ -124,6 +125,7 @@ _filter_img_create()
-     $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-         -e "s#$TEST_DIR#TEST_DIR#g" \
-+        -e "s#$SOCK_DIR#SOCK_DIR#g" \
-         -e "s#$IMGFMT#IMGFMT#g" \
-         -e 's#nbd:127.0.0.1:10810#TEST_DIR/t.IMGFMT#g' \
-         -e "s# encryption=3Doff##g" \
-@@ -160,6 +162,7 @@ _filter_img_info()
-     $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-         -e "s#$TEST_DIR#TEST_DIR#g" \
-+        -e "s#$SOCK_DIR#SOCK_DIR#g" \
-         -e "s#$IMGFMT#IMGFMT#g" \
-         -e 's#nbd://127.0.0.1:10810$#TEST_DIR/t.IMGFMT#g' \
-         -e 's#json.*vdisk-id.*vxhs"}}#TEST_DIR/t.IMGFMT#' \
-@@ -219,6 +222,7 @@ _filter_nbd()
-     $SED -e '/nbd\/.*\.c:/d' \
-         -e 's#127\.0\.0\.1:[0-9]*#127.0.0.1:PORT#g' \
-         -e "s#?socket=3D$TEST_DIR#?socket=3DTEST_DIR#g" \
-+        -e "s#?socket=3D$SOCK_DIR#?socket=3DSOCK_DIR#g" \
-         -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
+-        bdrv_reset_dirty_bitmap_locked(job->dirty_bitmap,
+-                                       dirty_offset, dirty_bytes);
+-        bdrv_dirty_bitmap_unlock(job->dirty_bitmap);
++    bdrv_reset_dirty_bitmap(job->dirty_bitmap, offset, bytes);
+=20
+-        job_progress_increase_remaining(&job->common.job, dirty_bytes);
++    job_progress_increase_remaining(&job->common.job, bytes);
+=20
+-        assert(dirty_offset - offset <=3D SIZE_MAX);
+-        if (qiov) {
+-            qemu_iovec_reset(&target_qiov);
+-            qemu_iovec_concat(&target_qiov, qiov,
+-                              dirty_offset - offset, dirty_bytes);
+-        }
+-
+-        switch (method) {
+-        case MIRROR_METHOD_COPY:
+-            ret =3D blk_co_pwritev(job->target, dirty_offset, dirty_bytes,
+-                                 qiov ? &target_qiov : NULL, flags);
+-            break;
++    switch (method) {
++    case MIRROR_METHOD_COPY:
++        ret =3D blk_co_pwritev(job->target, offset, bytes, qiov, flags);
++        break;
+=20
+-        case MIRROR_METHOD_ZERO:
+-            assert(!qiov);
+-            ret =3D blk_co_pwrite_zeroes(job->target, dirty_offset, dirty_=
+bytes,
+-                                       flags);
+-            break;
++    case MIRROR_METHOD_ZERO:
++        assert(!qiov);
++        ret =3D blk_co_pwrite_zeroes(job->target, offset, bytes, flags);
++        break;
+=20
+-        case MIRROR_METHOD_DISCARD:
+-            assert(!qiov);
+-            ret =3D blk_co_pdiscard(job->target, dirty_offset, dirty_bytes=
+);
+-            break;
++    case MIRROR_METHOD_DISCARD:
++        assert(!qiov);
++        ret =3D blk_co_pdiscard(job->target, offset, bytes);
++        break;
+=20
+-        default:
+-            abort();
+-        }
++    default:
++        abort();
++    }
+=20
+-        if (ret >=3D 0) {
+-            job_progress_update(&job->common.job, dirty_bytes);
+-        } else {
+-            BlockErrorAction action;
++    if (ret >=3D 0) {
++        job_progress_update(&job->common.job, bytes);
++    } else {
++        BlockErrorAction action;
+=20
+-            bdrv_set_dirty_bitmap(job->dirty_bitmap, dirty_offset, dirty_b=
+ytes);
+-            job->actively_synced =3D false;
++        bdrv_set_dirty_bitmap(job->dirty_bitmap, offset, bytes);
++        job->actively_synced =3D false;
+=20
+-            action =3D mirror_error_action(job, false, -ret);
+-            if (action =3D=3D BLOCK_ERROR_ACTION_REPORT) {
+-                if (!job->ret) {
+-                    job->ret =3D ret;
+-                }
+-                break;
++        action =3D mirror_error_action(job, false, -ret);
++        if (action =3D=3D BLOCK_ERROR_ACTION_REPORT) {
++            if (!job->ret) {
++                job->ret =3D ret;
+             }
+         }
+-
+-        dirty_offset +=3D dirty_bytes;
+-    }
+-
+-    if (qiov) {
+-        qemu_iovec_destroy(&target_qiov);
+     }
  }
 =20
 --=20
