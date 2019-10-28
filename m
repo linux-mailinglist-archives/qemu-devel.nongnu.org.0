@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D9AE78B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:44:02 +0100 (CET)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC17EE78C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:52:28 +0100 (CET)
+Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP9zk-0003aB-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56455)
+	id 1iPA7u-0001xM-SZ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iP9Zh-0002YO-Vh
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:07 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zp-0002hT-Pz
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iP9Zg-0003xD-LO
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:05 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:37703)
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zn-00043B-Rd
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:13 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:51391)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iP9Zg-0003w4-Bq; Mon, 28 Oct 2019 14:17:04 -0400
+ id 1iP9Zj-0003yY-Fa; Mon, 28 Oct 2019 14:17:07 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MpUpW-1hdxG41tG8-00psSJ; Mon, 28 Oct 2019 19:16:52 +0100
+ id 1McHQA-1hrCnW2N5A-00cf2x; Mon, 28 Oct 2019 19:16:59 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/11] esp: move get_cmd() post-DMA code to get_cmd_cb()
-Date: Mon, 28 Oct 2019 19:16:34 +0100
-Message-Id: <20191028181643.5143-3-laurent@vivier.eu>
+Subject: [PULL 06/11] hw/m68k: implement ADB bus support for via
+Date: Mon, 28 Oct 2019 19:16:38 +0100
+Message-Id: <20191028181643.5143-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191028181643.5143-1-laurent@vivier.eu>
 References: <20191028181643.5143-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KoHlabvA03FPSJtuk/zidWr5y9K83Kjw8M/6QBYO9SOrVlvEj0q
- Y+Fx2srY+x9yshKO/JHF0k3ROtiME7Vy+nBvUC0FFcLIxPABVCuf54y1pKWQHp9vdTOBx1T
- KnWPh9qksyK61U687NLS6gPWAyG3GO6kApNJ2vT7ZjiEWt+tNL/tniilDPB5aBS72OPP4Ux
- FZY20yGhpgaS2S6JALd/A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/AS9RZQHuQ0=:gn5w/ToHbGeW7B0irQRTDi
- AsUS4MNxHANf041FJEQqpqD+MUJCr3rVlFha10fEkyJv4cKLbHxh4OHGIKKzwUoZ09hJmz/bU
- UeG5LY/Edonh7c8wN7Ja0bTmZdgbxPVHaQhNalhIh7GF+vkW+sRn3j61iHR+SfA5Ue94VpEWS
- dqzaH3xPLxRuDhlKSUf/oYje0HkfAE8TzZYOdUTi0Jjkb/CEQOqFeYwT5QgN4gRnZQTZv59zW
- bPG51kYUj6+umEaI4e1PiC8w7nJD4/fvJFPNCZ65w6Xyw2HGKt3uqH2sMKA7VYqXUTS1LZkeg
- KerEsMKZY16Hzaxt/0xZcWKRiHgtqZZfJhcoxtfCve3D+ADXRK4La2w9vB8N1m4XzZ9ri/cy2
- GLMa4EmssZMVQd04z80wb299IsoG109WCe6ORU9YnbfAjXwotCqOTLHcVXQmFxbewo1+jEaIQ
- koakGuYK1+IJeNhy0ZXIzfV8jaZog+pXKhemcirURI+E14UWIPhqBEFfh3jqK/vl/zGKJtda9
- z0rFyIt2eqtt6/sZKnYoNxzV8xTOh0DJr2As/6w7uuJwWyRDoDEyE1zrXTZUpjWoVszGLrcMO
- hfyEPHBoeVAV2zgPrB0W+oe/mY6/BNx8dwXFlT+zB+lkyRvBenxj4bG5Z0fdVySCtx+j0eXyH
- iInbs2HgaVok5SzpxLo5s2IszbRKPbkOX5lQpfaxOOp6mA/dyiTSBjrBxeBmBrl3AGBISEhuh
- Qro+3vymdKwQNKpHRhKiSEKda2FIoOcw5SStyrCXEse+62H4kRzJSSMwGjteRAq+SLy4llMvb
- 3SnaXTJ9MvbW4qBxkLczAhjxKRvmepHkk8ucvP9ebY393hL3r3wl/i2GBtJI4HmkOPn4T36xO
- /PNJMkTo8CvR6IlVpskl0kK9mYS6T0rht8128yTSY=
+X-Provags-ID: V03:K1:ML494i2SGiUImlmvTOOclLBZ3Ydc1KcCBKhfLOr8gsyq0LmBZW/
+ /KKnIVdtjsGHJkYcUNHGpgbvw3Tf26lFg1dkSxDtlxx4TV+ndKJ/d6IxBNZF/Vt5nb8xzVY
+ PFM5NjKDdtH/0BIoSHfOtxXNjDFHGYbwq1TlwyF+ngJ4ZdHSAWftEU3u6brWctMWSVWzsWk
+ A7tRtSKAVKwnm0DkCQRPw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3JKCi0FPCFo=:hUD9ByI7XqpuySEFY8XECp
+ kqsdWTraQqV5HsbzS2tWyclsXbHauWvF48O59wt8AYHKlHlWO79/Y6SlUSPcUyBtByEmxFO0t
+ FqqkFyBlA5BN3mZqKIX4uUM5H8po6oyDRE739Hg6Z0p+Z2rJ7sXMoIOYIYPqFE1GbQbyBxF4u
+ w3rQJ9YY/XC+IvjoIdc2EMTHxTbV+hXTWID0GCZS6Et3DkPQaZqg223agLqGMXYkO3EkYpa6F
+ 9s+1OH18pZBzvBbuxu5wZZlJgjO0o1cdLaFNziocto5Wa1g3UHmouWIWWCELoDHEFNihk4TFz
+ 0xYfTcpPUEpIM0QZAJarcmEODRa10fUmUvSBD9evAuAKoDOwJAQ/PvYwGkfFfVtKSw1TsjiAq
+ gf7JSdImiXB2ayWpAfkaYi8NrJ7uYPlVVB+RQRU0bSs1cM3TsUI59xNSCjlt3Dl461K+0j/gd
+ WtV0eQspDQAD3dqGhwIg2A8POsPPtQ5IYWXUJTxIqh/8CbeqyLFemi0JCiGQAk6cW23AzN0SS
+ 2KZ1HbWB+b+7BBsNKqDX0I4lEubROesjYBPF7/VR1tUBuaN8vPtsrTNxXqkyW2mobTJ8Hp28M
+ hJdb2Mkq1ZtZOnxXDno2kmdgBrD0Bzyq0oCby91Zk4xO/35vzYIxVXoOHFcCVQ+bf5GRmRvSn
+ IMttXvzg3EefmLxCStLsVqUsS8bUIpJyenkd8+u5Y2+bWY9jeqSi2dQaQhUBMu7mBqDx36HbC
+ 7vjt46pfqOl6DsN6509a9SdUIOHjrRK+6039qZkW9SUGU7jMZP+0jQHD8X0PTLu0mc4feHaDS
+ 1Ln4hg/9hqtoZypuB4oqEkdTLiw2gl0bisFGfKUuY57+vkVHMzCHwuntj7WAUolFH/ra5WI57
+ eRDJeyKYwYLtFSoI64CgEWKIA686PcoolB6qZDFJA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,87 +67,308 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be needed to implement pseudo-DMA
+VIA needs to be able to poll the ADB interface and to read/write data
+from/to the bus.
 
+This patch adds functions allowing that.
+
+Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20191026164546.30020-3-laurent@vivier.eu>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+Message-Id: <20191026164546.30020-7-laurent@vivier.eu>
 ---
- hw/scsi/esp.c | 46 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+ include/hw/misc/mac_via.h |   7 ++
+ hw/misc/mac_via.c         | 197 ++++++++++++++++++++++++++++++++++++++
+ hw/misc/Kconfig           |   1 +
+ 3 files changed, 205 insertions(+)
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 09b28cba17..0230ede21d 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -84,6 +84,34 @@ void esp_request_cancelled(SCSIRequest *req)
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index efc8ef3ce3..3f86fcb7e1 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -103,6 +103,13 @@ typedef struct MacVIAState {
+ 
+     /* ADB */
+     ADBBusState adb_bus;
++    QEMUTimer *adb_poll_timer;
++    qemu_irq adb_data_ready;
++    int adb_data_in_size;
++    int adb_data_in_index;
++    int adb_data_out_index;
++    uint8_t adb_data_in[128];
++    uint8_t adb_data_out[16];
+ } MacVIAState;
+ 
+ #endif
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index d2da8b8e60..f3f130ad96 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -264,10 +264,16 @@
+  * Table 19-10 ADB transaction states
+  */
+ 
++#define ADB_STATE_NEW       0
++#define ADB_STATE_EVEN      1
++#define ADB_STATE_ODD       2
++#define ADB_STATE_IDLE      3
++
+ #define VIA1B_vADB_StateMask    (VIA1B_vADBS1 | VIA1B_vADBS2)
+ #define VIA1B_vADB_StateShift   4
+ 
+ #define VIA_TIMER_FREQ (783360)
++#define VIA_ADB_POLL_FREQ 50 /* XXX: not real */
+ 
+ /* VIA returns time offset from Jan 1, 1904, not 1970 */
+ #define RTC_OFFSET 2082844800
+@@ -472,6 +478,181 @@ static void via1_rtc_update(MacVIAState *m)
      }
  }
  
-+static int get_cmd_cb(ESPState *s)
++static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
 +{
-+    int target;
-+
-+    target = s->wregs[ESP_WBUSID] & BUSID_DID;
-+
-+    s->ti_size = 0;
-+    s->ti_rptr = 0;
-+    s->ti_wptr = 0;
-+
-+    if (s->current_req) {
-+        /* Started a new command before the old one finished.  Cancel it.  */
-+        scsi_req_cancel(s->current_req);
-+        s->async_len = 0;
++    if (state != ADB_STATE_IDLE) {
++        return 0;
 +    }
 +
-+    s->current_dev = scsi_device_find(&s->bus, 0, target, 0);
-+    if (!s->current_dev) {
-+        /* No such drive */
-+        s->rregs[ESP_RSTAT] = 0;
-+        s->rregs[ESP_RINTR] = INTR_DC;
-+        s->rregs[ESP_RSEQ] = SEQ_0;
-+        esp_raise_irq(s);
-+        return -1;
++    if (s->adb_data_in_size < s->adb_data_in_index) {
++        return 0;
 +    }
-+    return 0;
++
++    if (s->adb_data_out_index != 0) {
++        return 0;
++    }
++
++    s->adb_data_in_index = 0;
++    s->adb_data_out_index = 0;
++    s->adb_data_in_size = adb_poll(&s->adb_bus, s->adb_data_in, 0xffff);
++
++    if (s->adb_data_in_size) {
++        *data = s->adb_data_in[s->adb_data_in_index++];
++        qemu_irq_raise(s->adb_data_ready);
++    }
++
++    return s->adb_data_in_size;
 +}
 +
- static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
++static int adb_via_send(MacVIAState *s, int state, uint8_t data)
++{
++    switch (state) {
++    case ADB_STATE_NEW:
++        s->adb_data_out_index = 0;
++        break;
++    case ADB_STATE_EVEN:
++        if ((s->adb_data_out_index & 1) == 0) {
++            return 0;
++        }
++        break;
++    case ADB_STATE_ODD:
++        if (s->adb_data_out_index & 1) {
++            return 0;
++        }
++        break;
++    case ADB_STATE_IDLE:
++        return 0;
++    }
++
++    assert(s->adb_data_out_index < sizeof(s->adb_data_out) - 1);
++
++    s->adb_data_out[s->adb_data_out_index++] = data;
++    qemu_irq_raise(s->adb_data_ready);
++    return 1;
++}
++
++static int adb_via_receive(MacVIAState *s, int state, uint8_t *data)
++{
++    switch (state) {
++    case ADB_STATE_NEW:
++        return 0;
++
++    case ADB_STATE_EVEN:
++        if (s->adb_data_in_size <= 0) {
++            qemu_irq_raise(s->adb_data_ready);
++            return 0;
++        }
++
++        if (s->adb_data_in_index >= s->adb_data_in_size) {
++            *data = 0;
++            qemu_irq_raise(s->adb_data_ready);
++            return 1;
++        }
++
++        if ((s->adb_data_in_index & 1) == 0) {
++            return 0;
++        }
++
++        break;
++
++    case ADB_STATE_ODD:
++        if (s->adb_data_in_size <= 0) {
++            qemu_irq_raise(s->adb_data_ready);
++            return 0;
++        }
++
++        if (s->adb_data_in_index >= s->adb_data_in_size) {
++            *data = 0;
++            qemu_irq_raise(s->adb_data_ready);
++            return 1;
++        }
++
++        if (s->adb_data_in_index & 1) {
++            return 0;
++        }
++
++        break;
++
++    case ADB_STATE_IDLE:
++        if (s->adb_data_out_index == 0) {
++            return 0;
++        }
++
++        s->adb_data_in_size = adb_request(&s->adb_bus, s->adb_data_in,
++                                          s->adb_data_out,
++                                          s->adb_data_out_index);
++        s->adb_data_out_index = 0;
++        s->adb_data_in_index = 0;
++        if (s->adb_data_in_size < 0) {
++            *data = 0xff;
++            qemu_irq_raise(s->adb_data_ready);
++            return -1;
++        }
++
++        if (s->adb_data_in_size == 0) {
++            return 0;
++        }
++
++        break;
++    }
++
++    assert(s->adb_data_in_index < sizeof(s->adb_data_in) - 1);
++
++    *data = s->adb_data_in[s->adb_data_in_index++];
++    qemu_irq_raise(s->adb_data_ready);
++    if (*data == 0xff || *data == 0) {
++        return 0;
++    }
++    return 1;
++}
++
++static void via1_adb_update(MacVIAState *m)
++{
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++    int state;
++    int ret;
++
++    state = (s->b & VIA1B_vADB_StateMask) >> VIA1B_vADB_StateShift;
++
++    if (s->acr & VIA1ACR_vShiftOut) {
++        /* output mode */
++        ret = adb_via_send(m, state, s->sr);
++        if (ret > 0) {
++            s->b &= ~VIA1B_vADBInt;
++        } else {
++            s->b |= VIA1B_vADBInt;
++        }
++    } else {
++        /* input mode */
++        ret = adb_via_receive(m, state, &s->sr);
++        if (ret > 0 && s->sr != 0xff) {
++            s->b &= ~VIA1B_vADBInt;
++        } else {
++            s->b |= VIA1B_vADBInt;
++        }
++    }
++}
++
++static void via_adb_poll(void *opaque)
++{
++    MacVIAState *m = opaque;
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(&m->mos6522_via1);
++    MOS6522State *s = MOS6522(v1s);
++    int state;
++
++    if (s->b & VIA1B_vADBInt) {
++        state = (s->b & VIA1B_vADB_StateMask) >> VIA1B_vADB_StateShift;
++        if (adb_via_poll(m, state, &s->sr)) {
++            s->b &= ~VIA1B_vADBInt;
++        }
++    }
++
++    timer_mod(m->adb_poll_timer,
++              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
++}
++
+ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
  {
-     uint32_t dmalen;
-@@ -108,23 +136,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-     }
-     trace_esp_get_cmd(dmalen, target);
+     MOS6522Q800VIA1State *s = MOS6522_Q800_VIA1(opaque);
+@@ -553,6 +734,10 @@ static void mac_via_reset(DeviceState *dev)
+     MacVIAState *m = MAC_VIA(dev);
+     MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
  
--    s->ti_size = 0;
--    s->ti_rptr = 0;
--    s->ti_wptr = 0;
--
--    if (s->current_req) {
--        /* Started a new command before the old one finished.  Cancel it.  */
--        scsi_req_cancel(s->current_req);
--        s->async_len = 0;
--    }
--
--    s->current_dev = scsi_device_find(&s->bus, 0, target, 0);
--    if (!s->current_dev) {
--        // No such drive
--        s->rregs[ESP_RSTAT] = 0;
--        s->rregs[ESP_RINTR] = INTR_DC;
--        s->rregs[ESP_RSEQ] = SEQ_0;
--        esp_raise_irq(s);
-+    if (get_cmd_cb(s) < 0) {
-         return 0;
++    timer_mod(m->adb_poll_timer,
++              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
++
+     timer_del(v1s->VBL_timer);
+     v1s->next_VBL = 0;
+     timer_del(v1s->one_second_timer);
+@@ -593,6 +778,10 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+ 
+     qemu_get_timedate(&tm, 0);
+     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
++
++    m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
++    m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
++                                               VIA1_IRQ_ADB_READY_BIT);
+ }
+ 
+ static void mac_via_init(Object *obj)
+@@ -642,6 +831,13 @@ static const VMStateDescription vmstate_mac_via = {
+         VMSTATE_UINT8(cmd, MacVIAState),
+         VMSTATE_INT32(wprotect, MacVIAState),
+         VMSTATE_INT32(alt, MacVIAState),
++        /* ADB */
++        VMSTATE_TIMER_PTR(adb_poll_timer, MacVIAState),
++        VMSTATE_INT32(adb_data_in_size, MacVIAState),
++        VMSTATE_INT32(adb_data_in_index, MacVIAState),
++        VMSTATE_INT32(adb_data_out_index, MacVIAState),
++        VMSTATE_BUFFER(adb_data_in, MacVIAState),
++        VMSTATE_BUFFER(adb_data_out, MacVIAState),
+         VMSTATE_END_OF_LIST()
      }
-     return dmalen;
+ };
+@@ -671,6 +867,7 @@ static void mos6522_q800_via1_portB_write(MOS6522State *s)
+     MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
+ 
+     via1_rtc_update(m);
++    via1_adb_update(m);
+ 
+     v1s->last_b = s->b;
+ }
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 18a5dc9c09..2164646553 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -123,5 +123,6 @@ config UNIMP
+ config MAC_VIA
+     bool
+     select MOS6522
++    select ADB
+ 
+ source macio/Kconfig
 -- 
 2.21.0
 
