@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710BDE77C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:44:17 +0100 (CET)
-Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1740E77D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 18:49:11 +0100 (CET)
+Received: from localhost ([::1]:39708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP93v-0000Hv-Sy
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
+	id 1iP98f-00050L-N2
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 13:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP7yL-00017b-LW
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:34:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1iP7yy-0001ub-Pk
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP7jI-0003jG-Oo
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:18:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40386
+ (envelope-from <philmd@redhat.com>) id 1iP7yw-00078x-58
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42747
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP7jI-0003ip-LM
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:18:52 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iP7yv-00077c-GC
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:35:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572279532;
+ s=mimecast20190719; t=1572280500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/LCmj09Ej7HGJyfbYSNXEmkqll1pmoDVyS1dtuCg0Og=;
- b=EZQBDPo8D+V5dKtBQv6BmFZX+hJjRD+ab7/7ivhKGlh/i3vKESrw53VjxPpeYiTww6QCjY
- BVS9FYgsQq8GozWBXwf9aYmya/jMvGyP/uoOlXpJ76wQiYN/xQso2zSjX5d8uCtxYVGcHP
- jBrVY1KFpkVyV8OtmEmwIncWQ7J0GbE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NYGM2NbhADHumbNnWcUtGGZR/qGWxvEWF4HGJ3p2NN4=;
+ b=gmuN1wU6BgcYqhFjjSOKzL41JUpbIK3Ti/3GYtv6Bp7Biwih7sRlDvDLIOLR7dnrx9nyQQ
+ +/uNQLx/ZKW/3NnCap2ByVe9JPEbxHIAT5SBgVC0ENEa0mUC9/XRTsngdA61B1c0LGYTtv
+ whU9gjh0Kmp0afRrj9No0pGnikg1E+Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-ZeyYvCkjOfGXPR-6G6DiCQ-1; Mon, 28 Oct 2019 12:18:49 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-35-whsInTdbOsi_qNEq5h7HTA-1; Mon, 28 Oct 2019 12:34:56 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD04E81A334;
- Mon, 28 Oct 2019 16:18:47 +0000 (UTC)
-Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A6A1600C9;
- Mon, 28 Oct 2019 16:18:47 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-4.2 2/2] iotests: Add test for 4G+ compressed qcow2 write
-Date: Mon, 28 Oct 2019 17:18:41 +0100
-Message-Id: <20191028161841.1198-3-mreitz@redhat.com>
-In-Reply-To: <20191028161841.1198-1-mreitz@redhat.com>
-References: <20191028161841.1198-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091651800E07;
+ Mon, 28 Oct 2019 16:34:55 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-87.brq.redhat.com [10.40.204.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D17E91C95A;
+ Mon, 28 Oct 2019 16:34:49 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] hw/i386/pc: Split PIIX3 southbridge from i440FX
+ northbridge
+Date: Mon, 28 Oct 2019 17:34:27 +0100
+Message-Id: <20191028163447.18541-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ZeyYvCkjOfGXPR-6G6DiCQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: whsInTdbOsi_qNEq5h7HTA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,133 +68,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test what qemu-img check says about an image after one has written
-compressed data to an offset above 4 GB.
+Hi Peter,
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/272     | 79 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/272.out | 10 +++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 90 insertions(+)
- create mode 100755 tests/qemu-iotests/272
- create mode 100644 tests/qemu-iotests/272.out
+This is a X86/MIPS pull, Paolo and Aleksandar are OK I send it:
 
-diff --git a/tests/qemu-iotests/272 b/tests/qemu-iotests/272
-new file mode 100755
-index 0000000000..c2f782d47b
---- /dev/null
-+++ b/tests/qemu-iotests/272
-@@ -0,0 +1,79 @@
-+#!/usr/bin/env bash
-+#
-+# Test compressed write to a qcow2 image at an offset above 4 GB
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D$(basename "$0")
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+# This is a qcow2 regression test
-+_supported_fmt qcow2
-+_supported_proto file
-+
-+# External data files do not support compression;
-+# We need an exact cluster size (2M) and refcount width (2) so we can
-+# get this test quickly over with; and this in turn require
-+# compat=3D1.1
-+_unsupported_imgopts data_file cluster_size refcount_bits 'compat=3D0.10'
-+
-+# The idea is: Create an empty file, mark the first 4 GB as used, then
-+# do a compressed write that thus must be put beyond 4 GB.
-+# (This used to fail because the compressed sector mask was just a
-+# 32 bit mask, so qemu-img check will count a cluster before 4 GB as
-+# referenced twice.)
-+
-+# We would like to use refcount_bits=3D1 here, but then qemu-img check
-+# will throw an error when trying to count a cluster as referenced
-+# twice.
-+_make_test_img -o cluster_size=3D2M,refcount_bits=3D2 64M
-+
-+reft_offs=3D$(peek_file_be "$TEST_IMG" 48 8)
-+refb_offs=3D$(peek_file_be "$TEST_IMG" $reft_offs 8)
-+
-+# We want to cover 4 GB, those are 2048 clusters, equivalent to
-+# 4096 bit =3D 512 B.
-+truncate -s 4G "$TEST_IMG"
-+for ((in_refb_offs =3D 0; in_refb_offs < 512; in_refb_offs +=3D 8)); do
-+    poke_file "$TEST_IMG" $((refb_offs + in_refb_offs)) \
-+        '\x55\x55\x55\x55\x55\x55\x55\x55'
-+done
-+
-+$QEMU_IO -c 'write -c -P 42 0 2M' "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo '--- Check ---'
-+
-+# This should only print the leaked clusters in the first 4 GB
-+_check_test_img | grep -v '^Leaked cluster '
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/272.out b/tests/qemu-iotests/272.out
-new file mode 100644
-index 0000000000..35698b0e73
---- /dev/null
-+++ b/tests/qemu-iotests/272.out
-@@ -0,0 +1,10 @@
-+QA output created by 272
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+--- Check ---
-+
-+2044 leaked clusters were found on the image.
-+This means waste of disk space, but no harm to data.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 28871604cd..8ead114f7c 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -283,3 +283,4 @@
- 267 rw auto quick snapshot
- 268 rw auto quick
- 270 rw backing quick
-+272 rw
+  https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg04959.html
+
+Regards,
+
+Phil.
+
+The following changes since commit 9bb73502321d46f4d320fa17aa38201445783fc4=
+:
+
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging=
+ (2019-10-28 13:32:40 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/philmd/qemu.git tags/pc_split_i440fx_piix-pull-request
+
+for you to fetch changes up to d1389352cde824ce8dab7c1a2ded150df6add124:
+
+  hw/pci-host/i440fx: Remove the last PIIX3 traces (2019-10-28 16:12:29 +01=
+00)
+
+----------------------------------------------------------------
+The i440FX northbridge is only used by the PC machine, while the
+PIIX southbridge is also used by the Malta MIPS machine.
+
+Split the PIIX3 southbridge from i440FX northbridge.
+
+----------------------------------------------------------------
+
+Herv=C3=A9 Poussineau (5):
+  piix4: Add the Reset Control Register
+  piix4: Add an i8259 Interrupt Controller as specified in datasheet
+  piix4: Rename PIIX4 object to piix4-isa
+  piix4: Add an i8257 DMA Controller as specified in datasheet
+  piix4: Add an i8254 PIT Controller as specified in datasheet
+
+Philippe Mathieu-Daud=C3=A9 (15):
+  MAINTAINERS: Keep PIIX4 South Bridge separate from PC Chipsets
+  Revert "irq: introduce qemu_irq_proxy()"
+  piix4: Add a MC146818 RTC Controller as specified in datasheet
+  hw/mips/mips_malta: Create IDE hard drive array dynamically
+  hw/mips/mips_malta: Extract the PIIX4 creation code as piix4_create()
+  hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c
+  hw/i386: Remove obsolete LoadStateHandler::load_state_old handlers
+  hw/pci-host/piix: Extract piix3_create()
+  hw/pci-host/piix: Move RCR_IOPORT register definition
+  hw/pci-host/piix: Define and use the PIIX IRQ Route Control Registers
+  hw/pci-host/piix: Move i440FX declarations to hw/pci-host/i440fx.h
+  hw/pci-host/piix: Fix code style issues
+  hw/pci-host/piix: Extract PIIX3 functions to hw/isa/piix3.c
+  hw/pci-host: Rename incorrectly named 'piix' as 'i440fx'
+  hw/pci-host/i440fx: Remove the last PIIX3 traces
+
+ MAINTAINERS                      |  14 +-
+ hw/acpi/pcihp.c                  |   2 +-
+ hw/acpi/piix4.c                  |  42 +--
+ hw/core/irq.c                    |  14 -
+ hw/i386/Kconfig                  |   3 +-
+ hw/i386/acpi-build.c             |   5 +-
+ hw/i386/pc_piix.c                |  10 +-
+ hw/i386/xen/xen-hvm.c            |   5 +-
+ hw/intc/apic_common.c            |  49 ----
+ hw/isa/Kconfig                   |   4 +
+ hw/isa/Makefile.objs             |   1 +
+ hw/isa/piix3.c                   | 399 +++++++++++++++++++++++++++++
+ hw/isa/piix4.c                   | 151 ++++++++++-
+ hw/mips/gt64xxx_pci.c            |   5 +-
+ hw/mips/mips_malta.c             |  46 +---
+ hw/pci-host/Kconfig              |   3 +-
+ hw/pci-host/Makefile.objs        |   2 +-
+ hw/pci-host/{piix.c =3D> i440fx.c} | 424 +------------------------------
+ hw/timer/i8254_common.c          |  40 ---
+ include/hw/acpi/piix4.h          |   6 -
+ include/hw/i386/pc.h             |  37 ---
+ include/hw/irq.h                 |   5 -
+ include/hw/isa/isa.h             |   2 +
+ include/hw/pci-host/i440fx.h     |  36 +++
+ include/hw/southbridge/piix.h    |  74 ++++++
+ stubs/pci-host-piix.c            |   3 +-
+ 26 files changed, 699 insertions(+), 683 deletions(-)
+ create mode 100644 hw/isa/piix3.c
+ rename hw/pci-host/{piix.c =3D> i440fx.c} (58%)
+ delete mode 100644 include/hw/acpi/piix4.h
+ create mode 100644 include/hw/pci-host/i440fx.h
+ create mode 100644 include/hw/southbridge/piix.h
+
 --=20
 2.21.0
 
