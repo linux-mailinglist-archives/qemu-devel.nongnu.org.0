@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F02FE75B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:01:03 +0100 (CET)
-Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6CBE75CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:10:00 +0100 (CET)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7S2-0007Gj-Bb
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:01:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32945)
+	id 1iP7ag-0006s8-Kw
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iP7H5-0003ha-Lt
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:44 -0400
+ (envelope-from <berrange@redhat.com>) id 1iP7HB-0003xl-1d
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iP7H4-00013n-IG
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39596
+ (envelope-from <berrange@redhat.com>) id 1iP7H9-00015g-Jt
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36807
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iP7H4-00013b-FB
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:42 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iP7H9-00015V-GB
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572277782;
+ s=mimecast20190719; t=1572277787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xwDekJskiz1kDqJoWdljY/MNvrSkK6g6oZezH+6KCeA=;
- b=aHPsl0wDJDNA/eiy2QzFnoq3yTed1VCoBAtkjuuP+Y+LVo+Nv1cB6PLMi85C60RoY2Nfwq
- UKV/Bxkvb8b/WqcrH+nDT841I2wjWbFXIPASvLmt0imlRsZNTQWRpcI36Axvw0sn68lwtj
- C/3EoPeVlIc5NUp/y8PRTZdNsAUMl8A=
+ bh=c+h/i9leFm5UIiefBkZRC/Y4pHCEuRBjNrZH7giOCj0=;
+ b=CQQQhiwbyQPFDtXv8q0PQV/vHHn2472+hjHu4NrndQVNtJ9EgAztIAQRljaqQc9ePnBoMg
+ EeC/wx6cTZE7Aa1qmUWEfY0/wE16Ik4RncHu4IfjiQWJp82KtCj6l8P7Lk2EdAbAwFS8we
+ DMvte1L6/uzrDQZkiZOSvdMOsMNJMKA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-UpT8IQhSPWiHG5Zxk300gA-1; Mon, 28 Oct 2019 11:49:40 -0400
+ us-mta-348-VWhYsZjpPJGruDk7Gxsyqg-1; Mon, 28 Oct 2019 11:49:45 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98709801E64
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:49:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF17B107AD28
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:49:44 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-24.ams2.redhat.com
  [10.36.112.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A91AE5D9C5;
- Mon, 28 Oct 2019 15:49:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 267CF5D9C8;
+ Mon, 28 Oct 2019 15:49:39 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] tests: allow filtering crypto cipher benchmark tests
-Date: Mon, 28 Oct 2019 16:49:11 +0100
-Message-Id: <20191028154914.84821-2-berrange@redhat.com>
+Subject: [PULL 2/4] tests: benchmark crypto with fixed data size,
+ not time period
+Date: Mon, 28 Oct 2019 16:49:12 +0100
+Message-Id: <20191028154914.84821-3-berrange@redhat.com>
 In-Reply-To: <20191028154914.84821-1-berrange@redhat.com>
 References: <20191028154914.84821-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: UpT8IQhSPWiHG5Zxk300gA-1
+X-MC-Unique: VWhYsZjpPJGruDk7Gxsyqg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,54 +78,150 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for specifying a cipher mode and chunk size as argv to
-filter which combinations are benchmarked. For example to only
-benchmark XTS mode with 512 byte chunks:
+Currently the crypto benchmarks are processing data in varying chunk
+sizes, over a fixed time period. This turns out to be a terrible idea
+because with small chunk sizes the overhead of checking the elapsed
+time on each loop iteration masks the true performance.
 
-  ./tests/benchmark-crypto-cipher xts 512
+Benchmarking over a fixed data size avoids the loop running any system
+calls which can interfere with the performance measurements.
+
+Before this change
+
+Enc chunk 512 bytes 2283.47 MB/sec Dec chunk 512 bytes 2236.23 MB/sec OK
+Enc chunk 4096 bytes 2744.97 MB/sec Dec chunk 4096 bytes 2614.71 MB/sec OK
+Enc chunk 16384 bytes 2777.53 MB/sec Dec chunk 16384 bytes 2678.44 MB/sec O=
+K
+Enc chunk 65536 bytes 2809.34 MB/sec Dec chunk 65536 bytes 2699.47 MB/sec O=
+K
+
+After this change
+
+Enc chunk 512 bytes 2058.22 MB/sec Dec chunk 512 bytes 2030.11 MB/sec OK
+Enc chunk 4096 bytes 2699.27 MB/sec Dec chunk 4096 bytes 2573.78 MB/sec OK
+Enc chunk 16384 bytes 2748.52 MB/sec Dec chunk 16384 bytes 2653.76 MB/sec O=
+K
+Enc chunk 65536 bytes 2814.08 MB/sec Dec chunk 65536 bytes 2712.74 MB/sec O=
+K
+
+The actual crypto performance hasn't changed, which shows how
+significant the mis-measurement has been for small data sizes.
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tests/benchmark-crypto-cipher.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ tests/benchmark-crypto-cipher.c | 26 ++++++++++++++------------
+ tests/benchmark-crypto-hash.c   | 17 +++++++++--------
+ 2 files changed, 23 insertions(+), 20 deletions(-)
 
 diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-ciphe=
 r.c
-index 67fdf8c31d..3ca31a2779 100644
+index 3ca31a2779..53032334ec 100644
 --- a/tests/benchmark-crypto-cipher.c
 +++ b/tests/benchmark-crypto-cipher.c
-@@ -161,15 +161,26 @@ static void test_cipher_speed_xts_aes_256(const void =
-*opaque)
-=20
- int main(int argc, char **argv)
+@@ -21,11 +21,12 @@ static void test_cipher_speed(size_t chunk_size,
  {
-+    char *alg =3D NULL;
-+    char *size =3D NULL;
-     g_test_init(&argc, &argv, NULL);
-     g_assert(qcrypto_init(NULL) =3D=3D 0);
+     QCryptoCipher *cipher;
+     Error *err =3D NULL;
+-    double total =3D 0.0;
+     uint8_t *key =3D NULL, *iv =3D NULL;
+     uint8_t *plaintext =3D NULL, *ciphertext =3D NULL;
+     size_t nkey;
+     size_t niv;
++    const size_t total =3D 2 * GiB;
++    size_t remain;
 =20
- #define ADD_TEST(mode, cipher, keysize, chunk)                          \
--    g_test_add_data_func(                                               \
-+    if ((!alg || g_str_equal(alg, #mode)) &&                            \
-+        (!size || g_str_equal(size, #chunk)))                           \
-+        g_test_add_data_func(                                           \
-         "/crypto/cipher/" #mode "-" #cipher "-" #keysize "/chunk-" #chunk,=
- \
-         (void *)chunk,                                                  \
-         test_cipher_speed_ ## mode ## _ ## cipher ## _ ## keysize)
+     if (!qcrypto_cipher_supports(alg, mode)) {
+         return;
+@@ -58,33 +59,34 @@ static void test_cipher_speed(size_t chunk_size,
+                                       &err) =3D=3D 0);
 =20
-+    if (argc >=3D 2) {
-+        alg =3D argv[1];
+     g_test_timer_start();
+-    do {
++    remain =3D total;
++    while (remain) {
+         g_assert(qcrypto_cipher_encrypt(cipher,
+                                         plaintext,
+                                         ciphertext,
+                                         chunk_size,
+                                         &err) =3D=3D 0);
+-        total +=3D chunk_size;
+-    } while (g_test_timer_elapsed() < 1.0);
++        remain -=3D chunk_size;
 +    }
-+    if (argc >=3D 3) {
-+        size =3D argv[2];
++    g_test_timer_elapsed();
+=20
+-    total /=3D MiB;
+     g_print("Enc chunk %zu bytes ", chunk_size);
+-    g_print("%.2f MB/sec ", total / g_test_timer_last());
++    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+=20
+-    total =3D 0.0;
+     g_test_timer_start();
+-    do {
++    remain =3D total;
++    while (remain) {
+         g_assert(qcrypto_cipher_decrypt(cipher,
+                                         plaintext,
+                                         ciphertext,
+                                         chunk_size,
+                                         &err) =3D=3D 0);
+-        total +=3D chunk_size;
+-    } while (g_test_timer_elapsed() < 1.0);
++        remain -=3D chunk_size;
 +    }
-+
- #define ADD_TESTS(chunk)                        \
-     do {                                        \
-         ADD_TEST(ecb, aes, 128, chunk);         \
++    g_test_timer_elapsed();
+=20
+-    total /=3D MiB;
+     g_print("Dec chunk %zu bytes ", chunk_size);
+-    g_print("%.2f MB/sec ", total / g_test_timer_last());
++    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+=20
+     qcrypto_cipher_free(cipher);
+     g_free(plaintext);
+diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c
+index 9b6f7a9155..7f659f7323 100644
+--- a/tests/benchmark-crypto-hash.c
++++ b/tests/benchmark-crypto-hash.c
+@@ -20,7 +20,8 @@ static void test_hash_speed(const void *opaque)
+     size_t chunk_size =3D (size_t)opaque;
+     uint8_t *in =3D NULL, *out =3D NULL;
+     size_t out_len =3D 0;
+-    double total =3D 0.0;
++    const size_t total =3D 2 * GiB;
++    size_t remain;
+     struct iovec iov;
+     int ret;
+=20
+@@ -31,20 +32,20 @@ static void test_hash_speed(const void *opaque)
+     iov.iov_len =3D chunk_size;
+=20
+     g_test_timer_start();
+-    do {
++    remain =3D total;
++    while (remain) {
+         ret =3D qcrypto_hash_bytesv(QCRYPTO_HASH_ALG_SHA256,
+                                   &iov, 1, &out, &out_len,
+                                   NULL);
+         g_assert(ret =3D=3D 0);
+=20
+-        total +=3D chunk_size;
+-    } while (g_test_timer_elapsed() < 5.0);
++        remain -=3D chunk_size;
++    }
++    g_test_timer_elapsed();
+=20
+-    total /=3D MiB;
+     g_print("sha256: ");
+-    g_print("Testing chunk_size %zu bytes ", chunk_size);
+-    g_print("done: %.2f MB in %.2f secs: ", total, g_test_timer_last());
+-    g_print("%.2f MB/sec\n", total / g_test_timer_last());
++    g_print("Hash %zu GB chunk size %zu bytes ", total / GiB, chunk_size);
++    g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
+=20
+     g_free(out);
+     g_free(in);
 --=20
 2.23.0
 
