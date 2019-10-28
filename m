@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425ACE7874
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:36:49 +0100 (CET)
-Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB17E7871
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:32:44 +0100 (CET)
+Received: from localhost ([::1]:42196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP9sl-0004Q6-VO
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44573)
+	id 1iP9oo-0006XU-Ec
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:32:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iP8K8-00009j-KV
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:56:58 -0400
+ (envelope-from <crosa@redhat.com>) id 1iP97h-0005nN-45
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 13:48:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iP8K7-00057f-4G
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:56:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41479
+ (envelope-from <crosa@redhat.com>) id 1iP97e-0003sQ-KO
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 13:48:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43369
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iP8K6-00057C-UQ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 12:56:55 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iP97e-0003sE-GY
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 13:48:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572281814;
+ s=mimecast20190719; t=1572284885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+miw5Ha0sPs+u9Vssa8V1jZce/5D3Zi7uHB0dbugfhQ=;
- b=ZmSlFiEIU6vG+LbCnNHvz6W3h54OpbETWnv6nbGeWvIJ9cex2DFAxsLFCslSYOJHyQnRCp
- lHt3QkhBx8ijPQF+T24YWKDmgH4sTukGk6P/MPswdMSBXGJy+rPdy3tZ2eRlKhFmqe7Pss
- pIhRg56L+ztlYkn9OAJkmLQ4spC3yFc=
+ bh=X40D0sUGfbz+CpcuKsYbiQS6eByO+AV7AyritEyes0s=;
+ b=Zb+Y25r8qr8gd05gO1VLREnvM9DxQsUIvouK0osO+P9lw7KM6Fj04F8RXnvGNTO4KcAp+8
+ 16EF/59homaCoL5WQv7zxRdAJyGONCGhh5z+qw62BwztSHFh4v7q5lr/kEmUIbIhJoAWgB
+ DhKF12CvswmF415/h4R4I3p+5NJFAig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-R814HT63N5e-uCbHmExNQg-1; Mon, 28 Oct 2019 12:56:50 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-306-Z0VMWLWzNw-hQ-eOtghidA-1; Mon, 28 Oct 2019 13:48:02 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC8E45E4;
- Mon, 28 Oct 2019 16:56:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 035A01005509;
+ Mon, 28 Oct 2019 17:48:01 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
  [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38E3C3CCA;
- Mon, 28 Oct 2019 16:56:41 +0000 (UTC)
-Date: Mon, 28 Oct 2019 12:56:39 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 522585C559;
+ Mon, 28 Oct 2019 17:47:45 +0000 (UTC)
+Date: Mon, 28 Oct 2019 13:47:43 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 13/26] tests/acceptance: Add test that runs NetBSD 4.0
- installer on PRep/40p
-Message-ID: <20191028165639.GH3978@localhost.localdomain>
+Subject: Re: [PATCH 14/26] tests/acceptance: Test Open Firmware on the PReP/40p
+Message-ID: <20191028174743.GI3978@localhost.localdomain>
 References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-14-philmd@redhat.com>
+ <20191028073441.6448-15-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-14-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-15-philmd@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: R814HT63N5e-uCbHmExNQg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: Z0VMWLWzNw-hQ-eOtghidA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -80,7 +79,6 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  Fabien Chouteau <chouteau@adacore.com>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
  Kamil Rytarowski <kamil@netbsd.org>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
@@ -90,122 +88,23 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:28AM +0100, Philippe Mathieu-Daud=E9 wrote:
+On Mon, Oct 28, 2019 at 08:34:29AM +0100, Philippe Mathieu-Daud=E9 wrote:
 > From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 >=20
-> As of this commit, NetBSD 4.0 is very old. However it is enough to
-> test the PRep/40p machine.
->=20
 > User case from:
-> http://mail-index.netbsd.org/port-prep/2017/04/11/msg000112.html
+> https://tyom.blogspot.com/2019/04/aixprep-under-qemu-how-to.html
 >=20
-> Reviewed-by: Herv=E9 Poussineau <hpoussin@reactos.org>
 > Acked-by: David Gibson <david@gibson.dropbear.id.au>
 > Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
+> Tested-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 > ---
-> Installers after 4.0 doesn't work anymore, not sure if this is a
-> problem from the QEMU model or from NetBSD.
->=20
-> v3:
-> - use avocado_qemu.wait_for_console_pattern (Cleber)
-> - check getenv(AVOCADO_ALLOW_UNTRUSTED_CODE) (pm215)
+> v3: use avocado_qemu.wait_for_console_pattern (Cleber)
 > ---
->  MAINTAINERS                      |  1 +
->  tests/acceptance/ppc_prep_40p.py | 50 ++++++++++++++++++++++++++++++++
->  2 files changed, 51 insertions(+)
->  create mode 100644 tests/acceptance/ppc_prep_40p.py
+>  tests/acceptance/ppc_prep_40p.py | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 17ff741c63..91746b87f5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1068,6 +1068,7 @@ F: hw/rtc/m48t59-isa.c
->  F: include/hw/isa/pc87312.h
->  F: include/hw/rtc/m48t59.h
->  F: pc-bios/ppc_rom.bin
-> +F: tests/acceptance/machine_ppc_prep_40p.py
-
-File name in patch is ppc_prep_40p.py.
-
-> =20
->  sPAPR
->  M: David Gibson <david@gibson.dropbear.id.au>
-> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep=
-_40p.py
-> new file mode 100644
-> index 0000000000..7dd90bb2bb
-> --- /dev/null
-> +++ b/tests/acceptance/ppc_prep_40p.py
-> @@ -0,0 +1,50 @@
-> +# Functional test that boots a PReP/40p machine and checks its serial co=
-nsole.
-> +#
-> +# Copyright (c) Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later. See the COPYING file in the top-level directory.
-> +
-> +import os
-> +import logging
-> +
-
-logging module is not used here.
-
-> +from avocado import skipIf
-> +from avocado import skipUnless
-> +from avocado_qemu import MachineTest
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +
-> +class IbmPrep40pMachine(MachineTest):
-> +
-> +    timeout =3D 60
-> +
-> +    # 12H0455 PPS Firmware Licensed Materials
-> +    # Property of IBM (C) Copyright IBM Corp. 1994.
-> +    # All rights reserved.
-> +    # U.S. Government Users Restricted Rights - Use, duplication or disc=
-losure
-> +    # restricted by GSA ADP Schedule Contract with IBM Corp.
-> +    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
-de')
-> +    def test_factory_firmware_and_netbsd(self):
-> +        """
-> +        :avocado: tags=3Darch:ppc
-> +        :avocado: tags=3Dmachine:40p
-> +        :avocado: tags=3Dslowness:high
-> +        """
-> +        bios_url =3D ('ftp://ftp.boulder.ibm.com/rs6000/firmware/'
-> +                    '7020-40p/P12H0456.IMG')
-> +        bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
-> +        bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash)
-> +        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/NetBSD-archive=
-/'
-> +                     'NetBSD-4.0/prep/installation/floppy/generic_com0.f=
-s')
-> +        drive_hash =3D 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
-> +        drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_ha=
-sh)
-> +
-> +        self.vm.set_machine('40p')
-> +        self.vm.set_console()
-> +        self.vm.add_args('-bios', bios_path,
-> +                         '-fda', drive_path)
-> +        self.vm.launch()
-> +        os_banner =3D 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST =
-2007'
-> +        wait_for_console_pattern(self, os_banner)
-> +        wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
-> --=20
-> 2.21.0
->
-
-With the import and name changes above:
-
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 
 Queuing on my python-next branch (and sending shortly in a PR).
 
