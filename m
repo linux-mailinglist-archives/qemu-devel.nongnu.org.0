@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D6DE6D4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:36:07 +0100 (CET)
-Received: from localhost ([::1]:51344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14EFE6D5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 08:38:38 +0100 (CET)
+Received: from localhost ([::1]:51390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOzZN-0002L5-RZ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46431)
+	id 1iOzbp-0006dC-D8
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 03:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzYQ-0000xg-O1
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:35:08 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzYT-00010X-8W
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:35:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzYN-0001xB-Rt
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:35:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45185
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iOzYS-0001ya-4o
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:35:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49262
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzYN-0001uy-IX
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:35:03 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzYS-0001yD-16
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:35:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248100;
+ s=mimecast20190719; t=1572248107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jcov7sAse9PZAwUrhYmpKYGSx5+7+XKzJCTKhDLtVkM=;
- b=G77liLAT9KZ4sVcKov91ky2+7n+0gwZ/we1ctDtyIVmvenmQMozLvy1T/ZN21BvvhpnVV0
- 3wa/Uzx5MxZoh5sksJlgYWYwnB9R9o7bM5t2QuqXXgvcy872d9C1OmuI3JQHyHA8JNKFcR
- bgCSYr09E6h8UNmCKSr9WeiVrh1v+0Q=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yvw2J3ollyMphZf82vDph7Fzyi7IG8VsyilfeuEc+RI=;
+ b=REvqimc7HS0JSk/hZ7SoTGmrHK4aAPkoKm6H+d6lMCbt5Zifj8vOQKVdbkV8ZblrXnP9BL
+ EJmIhLTbpU99rq1NLI7NzrmxgEskORUJ1Y1h+A1vAV8gy4vbHdloTOTM75VqCCtNmSCc4f
+ WUFfWwb1l4F5QqIZf3nXHeT6oL9lbGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-u5ojY5MAOpSBjbJu6T6zmg-1; Mon, 28 Oct 2019 03:34:57 -0400
+ us-mta-39-BRlYsK8HOcqhInEkyZH1nA-1; Mon, 28 Oct 2019 03:35:02 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3122F1800DCA;
- Mon, 28 Oct 2019 07:34:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49D0480183E;
+ Mon, 28 Oct 2019 07:35:01 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A572619C69;
- Mon, 28 Oct 2019 07:34:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8AAD19C69;
+ Mon, 28 Oct 2019 07:34:55 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/26] tests/acceptance: Queue for 4.2
-Date: Mon, 28 Oct 2019 08:34:15 +0100
-Message-Id: <20191028073441.6448-1-philmd@redhat.com>
+Subject: [PATCH 01/26] python/qemu/machine: Allow to use other serial consoles
+ than default
+Date: Mon, 28 Oct 2019 08:34:16 +0100
+Message-Id: <20191028073441.6448-2-philmd@redhat.com>
+In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
+References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: u5ojY5MAOpSBjbJu6T6zmg-1
+X-MC-Unique: BRlYsK8HOcqhInEkyZH1nA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,7 +74,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>,
- Fabien Chouteau <chouteau@adacore.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
@@ -79,67 +85,68 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-These Avocado-related patches were posted some weeks/months ago
-but got lost in the mailing list traffic.
+Currently the QEMU Python module limits the QEMUMachine class to
+use the first serial console.
 
-Please review,
+Some machines/guest might use another console than the first one as
+the 'boot console'. For example the Raspberry Pi uses the second
+(AUX) console.
 
-Phil.
+To be able to use the Nth console as default, we simply need to
+connect all the N - 1 consoles to the null chardev.
 
-Cleber Rosa (1):
-  Acceptance tests: refactor wait_for_console_pattern
+Add an index argument, so we can use a specific serial console as
+default.
 
-Philippe Mathieu-Daud=C3=A9 (25):
-  python/qemu/machine: Allow to use other serial consoles than default
-  tests/acceptance: Fixe wait_for_console_pattern() hangs
-  tests/acceptance: Send <carriage return> on serial lines
-  tests/acceptance: Refactor exec_command_and_wait_for_pattern()
-  tests/acceptance: Rename avocado_qemu.Test as MachineTest
-  tests/acceptance: Make pick_default_qemu_bin() more generic
-  tests/acceptance: Introduce LinuxUserTest base class
-  tests/acceptance: Add bFLT loader linux-user test
-  tests/acceptance: Add test that boots the HelenOS microkernel on Leon3
-  tests/acceptance: Add test that boots Linux up to BusyBox on Leon3
-  .travis.yml: Let the avocado job run the Leon3 test
-  tests/acceptance: Add test that runs NetBSD 4.0 installer on PRep/40p
-  tests/acceptance: Test Open Firmware on the PReP/40p
-  tests/acceptance: Test OpenBIOS on the PReP/40p
-  tests/acceptance: Test Sandalfoot initrd on the PReP/40p
-  .travis.yml: Let the avocado job run the 40p tests
-  tests/boot_console: Test booting HP-UX firmware upgrade
-  tests/boot_linux_console: Use Avocado archive::gzip_uncompress()
-  tests/boot_linux_console: Add a test for the Raspberry Pi 2
-  tests/boot_linux_console: Test the raspi2 UART1 (16550 based)
-  tests/boot_linux_console: Boot Linux and run few commands on raspi3
-  tests/boot_linux_console: Test SDHCI and termal sensor on raspi3
-  tests/boot_linux_console: Add initrd test for the Exynos4210
-  tests/boot_linux_console: Add sdcard test for the Exynos4210
-  tests/boot_linux_console: Run BusyBox on 5KEc 64-bit cpu
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+v2:
+- renamed 'console_index', added docstring (Cleber)
+- reworded description (pm215)
+---
+ python/qemu/machine.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- .travis.yml                               |   2 +-
- MAINTAINERS                               |   2 +
- docs/devel/testing.rst                    |   8 +-
- python/qemu/machine.py                    |   9 +-
- tests/acceptance/avocado_qemu/__init__.py |  71 ++++-
- tests/acceptance/boot_linux_console.py    | 348 +++++++++++++++++++---
- tests/acceptance/cpu_queries.py           |   4 +-
- tests/acceptance/empty_cpu_model.py       |   4 +-
- tests/acceptance/linux_initrd.py          |   4 +-
- tests/acceptance/linux_ssh_mips_malta.py  |  22 +-
- tests/acceptance/load_bflt.py             |  52 ++++
- tests/acceptance/machine_sparc_leon3.py   |  65 ++++
- tests/acceptance/migration.py             |   4 +-
- tests/acceptance/ppc_prep_40p.py          | 134 +++++++++
- tests/acceptance/version.py               |   4 +-
- tests/acceptance/virtio_version.py        |   4 +-
- tests/acceptance/vnc.py                   |   4 +-
- 17 files changed, 660 insertions(+), 81 deletions(-)
- create mode 100644 tests/acceptance/load_bflt.py
- create mode 100644 tests/acceptance/machine_sparc_leon3.py
- create mode 100644 tests/acceptance/ppc_prep_40p.py
-
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 128a3d1dc2..6fa68fa35a 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -235,6 +235,8 @@ class QEMUMachine(object):
+                 '-display', 'none', '-vga', 'none']
+         if self._machine is not None:
+             args.extend(['-machine', self._machine])
++        for i in range(self._console_index):
++            args.extend(['-serial', 'null'])
+         if self._console_set:
+             self._console_address =3D os.path.join(self._temp_dir,
+                                                  self._name + "-console.so=
+ck")
+@@ -495,7 +497,7 @@ class QEMUMachine(object):
+         """
+         self._machine =3D machine_type
+=20
+-    def set_console(self, device_type=3DNone):
++    def set_console(self, device_type=3DNone, console_index=3D0):
+         """
+         Sets the device type for a console device
+=20
+@@ -516,9 +518,14 @@ class QEMUMachine(object):
+                             chardev:console" command line argument will
+                             be used instead, resorting to the machine's
+                             default device type.
++        @param console_index: the index of the console device to use.
++                              If not zero, the command line will create
++                              'index - 1' consoles and connect them to
++                              the 'null' backing character device.
+         """
+         self._console_set =3D True
+         self._console_device_type =3D device_type
++        self._console_index =3D console_index
+=20
+     @property
+     def console_socket(self):
 --=20
 2.21.0
 
