@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C371E75CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:09:58 +0100 (CET)
-Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44455E75F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:17:20 +0100 (CET)
+Received: from localhost ([::1]:57304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7ae-0006qy-JV
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:09:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33034)
+	id 1iP7hm-0005IE-4s
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iP7HN-0004ec-IZ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:50:08 -0400
+ (envelope-from <berrange@redhat.com>) id 1iP7HQ-0004oO-DH
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:50:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iP7HL-00019W-KX
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:50:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39704
+ (envelope-from <berrange@redhat.com>) id 1iP7HP-0001Bg-0O
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:50:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35570
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iP7HL-00019B-GX
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:49:59 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iP7HO-0001Ba-T8
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:50:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572277799;
+ s=mimecast20190719; t=1572277802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Njq2xoulQgk96sQoBAc/2Clpi/XrfAdJezkanbUlKGo=;
- b=MKtmZadthcM5ytkVMWUNHUl4qeIFyBIbpE/KS8AWKa7qnSXgrFpoHb/Dl8iDYWZwaPNJpv
- Rpa9g/BYtW0LTqQigZwOrHQbaxllaHDEL5A+UhDzBVhXMrm6WQJwRtyK4YwH4diGaUofH4
- JyAJoNuE/vuu2+m3Cz4mkLuvNsB8Bdo=
+ bh=PMpx55o9HRI0i/lw2C8PNJmOgi+0oHqG163NNHXC3ck=;
+ b=LufOLrG9ZOAtmFHuZVtP6b4NBVrx/UjsXt67IcJihi1OLCczrUAhZ0LaQmHpRquu3GW+wV
+ 2iFrOYFkBzC66SX0XbxcZcdra/WVGpayU/YmMPnRd5GMX/MUUDgCTBvSIN3PmlROQeSzsq
+ JxzU8DqrY89/gywlRppof869Q/TB58Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-vmfVhUNqMlmqPjdSQabQsg-1; Mon, 28 Oct 2019 11:49:57 -0400
+ us-mta-396-96oP1lpjPr6vKE8V-KzR8Q-1; Mon, 28 Oct 2019 11:50:01 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99928476
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:49:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55734801E64
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:50:00 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-24.ams2.redhat.com
  [10.36.112.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25AAB5D9C5;
- Mon, 28 Oct 2019 15:49:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B41855D9C5;
+ Mon, 28 Oct 2019 15:49:56 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] crypto: add support for gcrypt's native XTS impl
-Date: Mon, 28 Oct 2019 16:49:13 +0100
-Message-Id: <20191028154914.84821-4-berrange@redhat.com>
+Subject: [PULL 4/4] crypto: add support for nettle's native XTS impl
+Date: Mon, 28 Oct 2019 16:49:14 +0100
+Message-Id: <20191028154914.84821-5-berrange@redhat.com>
 In-Reply-To: <20191028154914.84821-1-berrange@redhat.com>
 References: <20191028154914.84821-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: vmfVhUNqMlmqPjdSQabQsg-1
+X-MC-Unique: 96oP1lpjPr6vKE8V-KzR8Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,102 +77,68 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Libgcrypt 1.8.0 added support for the XTS mode. Use this because long
+Nettle 3.5.0 will add support for the XTS mode. Use this because long
 term we wish to delete QEMU's XTS impl to avoid carrying private crypto
 algorithm impls.
 
-As an added benefit, using this improves performance from 531 MB/sec to
-670 MB/sec, since we are avoiding several layers of function call
-indirection.
-
-This is even more noticable with the gcrypt builds in Fedora or RHEL-8
-which have a non-upstream patch for FIPS mode which does mutex locking.
-This is catastrophic for encryption performance with small block sizes,
-meaning this patch improves encryption from 240 MB/sec to 670 MB/sec.
+Unfortunately this degrades nettle performance from 612 MB/s to 568 MB/s
+as nettle's XTS impl isn't so well optimized yet.
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- configure              | 22 ++++++++++
- crypto/Makefile.objs   |  2 +-
- crypto/cipher-gcrypt.c | 97 ++++++++++++++++++++++++++++--------------
- tests/Makefile.include |  2 +-
- 4 files changed, 88 insertions(+), 35 deletions(-)
+ configure              | 18 ++++++++++++++++++
+ crypto/cipher-nettle.c | 18 ++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
 diff --git a/configure b/configure
-index 145fcabbb3..d1e9e457ce 100755
+index d1e9e457ce..452c2dfe4e 100755
 --- a/configure
 +++ b/configure
-@@ -474,6 +474,8 @@ gnutls=3D""
+@@ -472,6 +472,7 @@ gtk_gl=3D"no"
+ tls_priority=3D"NORMAL"
+ gnutls=3D""
  nettle=3D""
++nettle_xts=3D"no"
  gcrypt=3D""
  gcrypt_hmac=3D"no"
-+gcrypt_xts=3D"no"
-+qemu_private_xts=3D"yes"
- auth_pam=3D""
- vte=3D""
- virglrenderer=3D""
-@@ -2911,6 +2913,18 @@ EOF
-         if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
-             gcrypt_hmac=3Dyes
+ gcrypt_xts=3D"no"
+@@ -2871,6 +2872,19 @@ if test "$nettle" !=3D "no"; then
+             pass=3D"yes"
          fi
+     fi
++    if test "$pass" =3D "yes"
++    then
 +        cat > $TMPC << EOF
-+#include <gcrypt.h>
++#include <nettle/xts.h>
 +int main(void) {
-+  gcry_cipher_hd_t handle;
-+  gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
 +  return 0;
 +}
 +EOF
-+        if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
-+            gcrypt_xts=3Dyes
++        if compile_prog "$nettle_cflags" "$nettle_libs" ; then
++            nettle_xts=3Dyes
 +            qemu_private_xts=3Dno
 +        fi
-     elif test "$gcrypt" =3D "yes"; then
-         feature_not_found "gcrypt" "Install gcrypt devel >=3D 1.5.0"
++    fi
+     if test "$pass" =3D "no" && test "$nettle" =3D "yes"; then
+         feature_not_found "nettle" "Install nettle devel >=3D 2.7.1"
      else
-@@ -6326,6 +6340,11 @@ echo "VTE support       $vte $(echo_version $vte $vt=
-eversion)"
- echo "TLS priority      $tls_priority"
- echo "GNUTLS support    $gnutls"
- echo "libgcrypt         $gcrypt"
-+if test "$gcrypt" =3D "yes"
-+then
-+   echo "  hmac            $gcrypt_hmac"
-+   echo "  XTS             $gcrypt_xts"
-+fi
+@@ -6346,6 +6360,10 @@ then
+    echo "  XTS             $gcrypt_xts"
+ fi
  echo "nettle            $nettle $(echo_version $nettle $nettle_version)"
++if test "$nettle" =3D "yes"
++then
++   echo "  XTS             $nettle_xts"
++fi
  echo "libtasn1          $tasn1"
  echo "PAM               $auth_pam"
-@@ -6804,6 +6823,9 @@ if test "$nettle" =3D "yes" ; then
-   echo "CONFIG_NETTLE=3Dy" >> $config_host_mak
-   echo "CONFIG_NETTLE_VERSION_MAJOR=3D${nettle_version%%.*}" >> $config_ho=
-st_mak
- fi
-+if test "$qemu_private_xts" =3D "yes" ; then
-+  echo "CONFIG_QEMU_PRIVATE_XTS=3Dy" >> $config_host_mak
-+fi
- if test "$tasn1" =3D "yes" ; then
-   echo "CONFIG_TASN1=3Dy" >> $config_host_mak
- fi
-diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
-index 7fe2fa9da2..cdb01f9de9 100644
---- a/crypto/Makefile.objs
-+++ b/crypto/Makefile.objs
-@@ -31,7 +31,7 @@ crypto-obj-y +=3D ivgen-essiv.o
- crypto-obj-y +=3D ivgen-plain.o
- crypto-obj-y +=3D ivgen-plain64.o
- crypto-obj-y +=3D afsplit.o
--crypto-obj-y +=3D xts.o
-+crypto-obj-$(CONFIG_QEMU_PRIVATE_XTS) +=3D xts.o
- crypto-obj-y +=3D block.o
- crypto-obj-y +=3D block-qcow.o
- crypto-obj-y +=3D block-luks.o
-diff --git a/crypto/cipher-gcrypt.c b/crypto/cipher-gcrypt.c
-index 5cece9b244..2864099527 100644
---- a/crypto/cipher-gcrypt.c
-+++ b/crypto/cipher-gcrypt.c
+ echo "iconv support     $iconv"
+diff --git a/crypto/cipher-nettle.c b/crypto/cipher-nettle.c
+index d7411bb8ff..7e9a4cc199 100644
+--- a/crypto/cipher-nettle.c
++++ b/crypto/cipher-nettle.c
 @@ -19,7 +19,9 @@
   */
 =20
@@ -182,252 +148,50 @@ index 5cece9b244..2864099527 100644
 +#endif
  #include "cipherpriv.h"
 =20
- #include <gcrypt.h>
-@@ -59,10 +61,12 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg=
-,
- typedef struct QCryptoCipherGcrypt QCryptoCipherGcrypt;
- struct QCryptoCipherGcrypt {
-     gcry_cipher_hd_t handle;
--    gcry_cipher_hd_t tweakhandle;
-     size_t blocksize;
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-+    gcry_cipher_hd_t tweakhandle;
-     /* Initialization vector or Counter */
-     uint8_t *iv;
+ #include <nettle/nettle-types.h>
+@@ -30,6 +32,9 @@
+ #include <nettle/serpent.h>
+ #include <nettle/twofish.h>
+ #include <nettle/ctr.h>
++#ifndef CONFIG_QEMU_PRIVATE_XTS
++#include <nettle/xts.h>
 +#endif
- };
 =20
- static void
-@@ -74,10 +78,12 @@ qcrypto_gcrypt_cipher_free_ctx(QCryptoCipherGcrypt *ctx=
-,
-     }
+ typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
+                                                size_t length,
+@@ -626,9 +631,15 @@ qcrypto_nettle_cipher_encrypt(QCryptoCipher *cipher,
+         break;
 =20
-     gcry_cipher_close(ctx->handle);
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
-         gcry_cipher_close(ctx->tweakhandle);
-     }
-     g_free(ctx->iv);
-+#endif
-     g_free(ctx);
- }
-=20
-@@ -94,8 +100,14 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCry=
-ptoCipherAlgorithm alg,
-=20
-     switch (mode) {
-     case QCRYPTO_CIPHER_MODE_ECB:
-+        gcrymode =3D GCRY_CIPHER_MODE_ECB;
-+        break;
      case QCRYPTO_CIPHER_MODE_XTS:
 +#ifdef CONFIG_QEMU_PRIVATE_XTS
-         gcrymode =3D GCRY_CIPHER_MODE_ECB;
+         xts_encrypt(ctx->ctx, ctx->ctx_tweak,
+                     ctx->alg_encrypt_wrapper, ctx->alg_encrypt_wrapper,
+                     ctx->iv, len, out, in);
 +#else
-+        gcrymode =3D GCRY_CIPHER_MODE_XTS;
++        xts_encrypt_message(ctx->ctx, ctx->ctx_tweak,
++                            ctx->alg_encrypt_native,
++                            ctx->iv, len, out, in);
 +#endif
          break;
-     case QCRYPTO_CIPHER_MODE_CBC:
-         gcrymode =3D GCRY_CIPHER_MODE_CBC;
-@@ -172,6 +184,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCry=
-ptoCipherAlgorithm alg,
-                    gcry_strerror(err));
-         goto error;
-     }
+=20
+     case QCRYPTO_CIPHER_MODE_CTR:
+@@ -673,9 +684,16 @@ qcrypto_nettle_cipher_decrypt(QCryptoCipher *cipher,
+         break;
+=20
+     case QCRYPTO_CIPHER_MODE_XTS:
 +#ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
-         err =3D gcry_cipher_open(&ctx->tweakhandle, gcryalg, gcrymode, 0);
-         if (err !=3D 0) {
-@@ -180,6 +193,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCry=
-ptoCipherAlgorithm alg,
-             goto error;
-         }
-     }
-+#endif
-=20
-     if (alg =3D=3D QCRYPTO_CIPHER_ALG_DES_RFB) {
-         /* We're using standard DES cipher from gcrypt, so we need
-@@ -191,6 +205,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCry=
-ptoCipherAlgorithm alg,
-         g_free(rfbkey);
-         ctx->blocksize =3D 8;
-     } else {
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-         if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
-             nkey /=3D 2;
-             err =3D gcry_cipher_setkey(ctx->handle, key, nkey);
-@@ -201,8 +216,11 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCr=
-yptoCipherAlgorithm alg,
-             }
-             err =3D gcry_cipher_setkey(ctx->tweakhandle, key + nkey, nkey)=
-;
-         } else {
-+#endif
-             err =3D gcry_cipher_setkey(ctx->handle, key, nkey);
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-         }
-+#endif
-         if (err !=3D 0) {
-             error_setg(errp, "Cannot set key: %s",
-                        gcry_strerror(err));
-@@ -228,6 +246,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCry=
-ptoCipherAlgorithm alg,
-         }
-     }
-=20
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
-         if (ctx->blocksize !=3D XTS_BLOCK_SIZE) {
-             error_setg(errp,
-@@ -237,6 +256,7 @@ static QCryptoCipherGcrypt *qcrypto_cipher_ctx_new(QCry=
-ptoCipherAlgorithm alg,
-         }
-         ctx->iv =3D g_new0(uint8_t, ctx->blocksize);
-     }
-+#endif
-=20
-     return ctx;
-=20
-@@ -253,6 +273,7 @@ qcrypto_gcrypt_cipher_ctx_free(QCryptoCipher *cipher)
- }
-=20
-=20
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
- static void qcrypto_gcrypt_xts_encrypt(const void *ctx,
-                                        size_t length,
-                                        uint8_t *dst,
-@@ -272,6 +293,7 @@ static void qcrypto_gcrypt_xts_decrypt(const void *ctx,
-     err =3D gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, src, l=
-ength);
-     g_assert(err =3D=3D 0);
- }
-+#endif
-=20
- static int
- qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher,
-@@ -289,20 +311,23 @@ qcrypto_gcrypt_cipher_encrypt(QCryptoCipher *cipher,
-         return -1;
-     }
-=20
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
-         xts_encrypt(ctx->handle, ctx->tweakhandle,
-                     qcrypto_gcrypt_xts_encrypt,
-                     qcrypto_gcrypt_xts_decrypt,
+         xts_decrypt(ctx->ctx, ctx->ctx_tweak,
+                     ctx->alg_encrypt_wrapper, ctx->alg_decrypt_wrapper,
                      ctx->iv, len, out, in);
--    } else {
--        err =3D gcry_cipher_encrypt(ctx->handle,
--                                  out, len,
--                                  in, len);
--        if (err !=3D 0) {
--            error_setg(errp, "Cannot encrypt data: %s",
--                       gcry_strerror(err));
--            return -1;
--        }
-+        return 0;
-+    }
++#else
++        xts_decrypt_message(ctx->ctx, ctx->ctx_tweak,
++                            ctx->alg_decrypt_native,
++                            ctx->alg_encrypt_native,
++                            ctx->iv, len, out, in);
 +#endif
-+
-+    err =3D gcry_cipher_encrypt(ctx->handle,
-+                              out, len,
-+                              in, len);
-+    if (err !=3D 0) {
-+        error_setg(errp, "Cannot encrypt data: %s",
-+                   gcry_strerror(err));
-+        return -1;
-     }
-=20
-     return 0;
-@@ -325,20 +350,23 @@ qcrypto_gcrypt_cipher_decrypt(QCryptoCipher *cipher,
-         return -1;
-     }
-=20
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
-         xts_decrypt(ctx->handle, ctx->tweakhandle,
-                     qcrypto_gcrypt_xts_encrypt,
-                     qcrypto_gcrypt_xts_decrypt,
-                     ctx->iv, len, out, in);
--    } else {
--        err =3D gcry_cipher_decrypt(ctx->handle,
--                                  out, len,
--                                  in, len);
--        if (err !=3D 0) {
--            error_setg(errp, "Cannot decrypt data: %s",
--                       gcry_strerror(err));
--            return -1;
--        }
-+        return 0;
-+    }
-+#endif
-+
-+    err =3D gcry_cipher_decrypt(ctx->handle,
-+                              out, len,
-+                              in, len);
-+    if (err !=3D 0) {
-+        error_setg(errp, "Cannot decrypt data: %s",
-+                   gcry_strerror(err));
-+        return -1;
-     }
-=20
-     return 0;
-@@ -358,24 +386,27 @@ qcrypto_gcrypt_cipher_setiv(QCryptoCipher *cipher,
-         return -1;
-     }
-=20
-+#ifdef CONFIG_QEMU_PRIVATE_XTS
-     if (ctx->iv) {
-         memcpy(ctx->iv, iv, niv);
--    } else {
--        if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_CTR) {
--            err =3D gcry_cipher_setctr(ctx->handle, iv, niv);
--            if (err !=3D 0) {
--                error_setg(errp, "Cannot set Counter: %s",
-+        return 0;
-+    }
-+#endif
-+
-+    if (cipher->mode =3D=3D QCRYPTO_CIPHER_MODE_CTR) {
-+        err =3D gcry_cipher_setctr(ctx->handle, iv, niv);
-+        if (err !=3D 0) {
-+            error_setg(errp, "Cannot set Counter: %s",
-                        gcry_strerror(err));
--                return -1;
--            }
--        } else {
--            gcry_cipher_reset(ctx->handle);
--            err =3D gcry_cipher_setiv(ctx->handle, iv, niv);
--            if (err !=3D 0) {
--                error_setg(errp, "Cannot set IV: %s",
-+            return -1;
-+        }
-+    } else {
-+        gcry_cipher_reset(ctx->handle);
-+        err =3D gcry_cipher_setiv(ctx->handle, iv, niv);
-+        if (err !=3D 0) {
-+            error_setg(errp, "Cannot set IV: %s",
-                        gcry_strerror(err));
--                return -1;
--            }
-+            return -1;
-         }
-     }
-=20
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 09e5b410dc..4efdd0cd6e 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -140,7 +140,7 @@ check-unit-y +=3D tests/test-base64$(EXESUF)
- check-unit-$(call land,$(CONFIG_BLOCK),$(if $(CONFIG_NETTLE),y,$(CONFIG_GC=
-RYPT))) +=3D tests/test-crypto-pbkdf$(EXESUF)
- check-unit-$(CONFIG_BLOCK) +=3D tests/test-crypto-ivgen$(EXESUF)
- check-unit-$(CONFIG_BLOCK)  +=3D tests/test-crypto-afsplit$(EXESUF)
--check-unit-$(CONFIG_BLOCK)  +=3D tests/test-crypto-xts$(EXESUF)
-+check-unit-$(if $(CONFIG_BLOCK),$(CONFIG_QEMU_PRIVATE_XTS)) +=3D tests/tes=
-t-crypto-xts$(EXESUF)
- check-unit-$(CONFIG_BLOCK)  +=3D tests/test-crypto-block$(EXESUF)
- check-unit-y +=3D tests/test-logging$(EXESUF)
- check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_REPLICATION)) +=3D tests/t=
-est-replication$(EXESUF)
+         break;
+     case QCRYPTO_CIPHER_MODE_CTR:
+         ctr_crypt(ctx->ctx, ctx->alg_encrypt_native,
 --=20
 2.23.0
 
