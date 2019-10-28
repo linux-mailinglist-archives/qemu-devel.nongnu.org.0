@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F2BE75D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:12:25 +0100 (CET)
-Received: from localhost ([::1]:57070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51048E7715
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 17:56:43 +0100 (CET)
+Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7d2-0001bE-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33323)
+	id 1iP8Jt-0006zK-40
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 12:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iP7IR-0008Hr-JA
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:51:08 -0400
+ (envelope-from <palmer@sifive.com>) id 1iP7PP-0004wb-Jp
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iP7IP-0001aC-7Y
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:51:06 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50146
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iP7IP-0001a0-3q
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:51:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572277864;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nUjErUB6VYTRpoCKD3YtEUeb45jYgzFoarIvEkowYI4=;
- b=QCyAYrjnWs9UcpXOMZv5uQUW1u0wAUX31qQyj9tJtxILDo1+WQsgDCCOcpcPI4xmigNmU/
- I8Y3QgU0isbB6zVQAqUz04oF/4YakaOV4ctXJXrVGCtvvh+3KNYg2+ZKmMHlFzmsMMnyIG
- 6RCs1SqJC/ZR311rSIGW/LrINDfg5jU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-xPqRm--ANniQUeaD4qucWg-1; Mon, 28 Oct 2019 11:51:01 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D05F2476;
- Mon, 28 Oct 2019 15:50:59 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
- [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3DC360BF7;
- Mon, 28 Oct 2019 15:50:53 +0000 (UTC)
-Date: Mon, 28 Oct 2019 11:50:51 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 05/26] tests/acceptance: Refactor
- exec_command_and_wait_for_pattern()
-Message-ID: <20191028155051.GD3978@localhost.localdomain>
-References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-6-philmd@redhat.com>
+ (envelope-from <palmer@sifive.com>) id 1iP7PN-0003hf-S8
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:19 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:42534)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iP7PN-0003gn-M5
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:58:17 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id f14so7151993pgi.9
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 08:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=FWutZqaKlOMCwD9mfXUehfygMNwllC1f40Q7KkfNmq0=;
+ b=UrNpSqopBHkLgITH7t+pnmokMPAlpNAlkmk4xCi/wUjN5DLCdTpTLDXMLbEEXBDzCe
+ DtiVf7vV8eKpaFl1J7wKBY5Si9SuH3FiJeqlKv/8fdLODyKVBo+O5aCJzgMti+4g63gO
+ klVVAigz5IRV+ue0DZpz0ckf7djx8nAfmggWICKKICyPFK6iYC1lK6GKSIKsQsZgaV7W
+ LKMT4fxWKDDXi00TNN53k3jL0y5XncqUTENpThFNzwOSq00qJYRVeV1Y1Xl8tlGhRAFP
+ tlutiVBSq3FTM5fH9SeSmVsxgXtFMctcDT7xKA9e05YqNaMkA66UtEH7Eu+T7PRAvdhm
+ UZiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=FWutZqaKlOMCwD9mfXUehfygMNwllC1f40Q7KkfNmq0=;
+ b=f3AQ9/jviPbmCxk80iXrbxnSY6ck42z9m7GozKoub7ix+CxqbuUdB1DNQB0vZgQt2p
+ zuomsFp0/Z37gIy6HrizlliZ8Rs4AI1sWzct4Y3vwJwL5w8LavcOeyw306xhta5nc4/h
+ Qbnn4q+mogEEDwlhDaZPVlbjN5Txi6CHh1/erLsK7lGvEdrK3ZekKWfTKK8psRgpvor7
+ MGSWSk3GHtn5WglE6smbLaYj9KZ7l8q6vPxIrDOO7MWuIUHma73Pelwim02e6884G0IN
+ YKe4tHNYLcWBUKNEaoA3LsXumGq3vMBIEDDMHsnH77WC+18Czde8Hs1lsEQPbsaXNkCJ
+ NdAg==
+X-Gm-Message-State: APjAAAUTONoSi3WSGmnwi/HWlCYSlAm+siDgNuiSJY4M0tBNZFdVmqi6
+ zAcHpNuuK8whonSFrtt1+hmzhdtRRWU6wg==
+X-Google-Smtp-Source: APXvYqyVhzbKqXK5nqoDzpGDhFer1L4nvkB5E4Pc/LPVWNW33P6mfeztpoMsA9vzof8VB/f3wfWuxw==
+X-Received: by 2002:a63:1c4:: with SMTP id 187mr21794646pgb.57.1572278295579; 
+ Mon, 28 Oct 2019 08:58:15 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id p7sm11262841pjp.4.2019.10.28.08.58.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Oct 2019 08:58:14 -0700 (PDT)
+Subject: [PULL] RISC-V Patches for the 4.2 Soft Freeze, Part 2
+Date: Mon, 28 Oct 2019 08:48:44 -0700
+Message-Id: <20191028154902.32491-1-palmer@sifive.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-6-philmd@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: xPqRm--ANniQUeaD4qucWg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::52f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,35 +73,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
- Fabien Chouteau <chouteau@adacore.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:20AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Refactor the exec_command_and_wait_for_pattern() utility method
-> so we can reuse it in other files.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
-> v2: fix self -> test, failure_message is optional, added doc
-> v3: reword because after rebasing only 1 file has to be modified
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 19 +++++++++++++++++++
->  tests/acceptance/boot_linux_console.py    | 18 +++++++-----------
->  2 files changed, 26 insertions(+), 11 deletions(-)
+merged tag 'for_upstream'
+Primary key fingerprint: 0270 606B 6F3C DF3D 0B17  0970 C350 3912 AFBE 8E67
+     Subkey fingerprint: 5D09 FD08 71C8 F85B 94CA  8A0D 281F 0DB8 D28D 5469
+The following changes since commit 9bb73502321d46f4d320fa17aa38201445783fc4:
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-10-28 13:32:40 +0000)
 
-Queuing on my python-next branch (and sending shortly in a PR).
+are available in the Git repository at:
 
-Thanks,
-- Cleber.
+  git://github.com/palmer-dabbelt/qemu.git tags/riscv-for-master-4.2-sf2
+
+for you to fetch changes up to 9667e53573f907d4fcd6accff1c8fe525544b749:
+
+  target/riscv: PMP violation due to wrong size parameter (2019-10-28 08:46:33 -0700)
+
+----------------------------------------------------------------
+RISC-V Patches for the 4.2 Soft Freeze, Part 2
+
+This patch set contains a handful of small fixes for RISC-V targets that
+I'd like to target for the 4.2 soft freeze.  They include:
+
+* A fix to allow the debugger to access the state of all privilege
+  modes, as opposed to just the currently executing one.
+* A pair of cleanups to implement cpu_do_transaction_failed.
+* Fixes to the device tree.
+* The addition of various memory regions to make the sifive_u machine
+  more closely match the HiFive Unleashed board.
+* Fixes to our GDB interface to allow CSRs to be accessed.
+* A fix to a memory leak pointed out by coverity.
+* A fix that prevents PMP checks from firing incorrectly.
+
+This passes "make chcek" and boots Open Embedded for me.
+
+----------------------------------------------------------------
+Alistair Francis (8):
+      riscv/sifive_u: Add L2-LIM cache memory
+      riscv/sifive_u: Add QSPI memory region
+      riscv/sifive_u: Manually define the machine
+      riscv/sifive_u: Add the start-in-flash property
+      riscv/virt: Manually define the machine
+      riscv/virt: Add the PFlash CFI01 device
+      riscv/virt: Jump to pflash if specified
+      riscv/boot: Fix possible memory leak
+
+Bin Meng (3):
+      riscv: Skip checking CSR privilege level in debugger mode
+      riscv: hw: Drop "clock-frequency" property of cpu nodes
+      riscv: sifive_u: Add ethernet0 to the aliases node
+
+Dayeol Lee (1):
+      target/riscv: PMP violation due to wrong size parameter
+
+Giuseppe Musacchio (1):
+      linux-user/riscv: Propagate fault address
+
+Jonathan Behrens (3):
+      target/riscv: Tell gdbstub the correct number of CSRs
+      target/riscv: Expose "priv" register for GDB for reads
+      target/riscv: Make the priv register writable by GDB
+
+Palmer Dabbelt (2):
+      RISC-V: Handle bus errors in the page table walker
+      RISC-V: Implement cpu_do_transaction_failed
+
+ configure                       |   4 +-
+ gdb-xml/riscv-32bit-virtual.xml |  11 ++++
+ gdb-xml/riscv-64bit-virtual.xml |  11 ++++
+ hw/riscv/Kconfig                |   1 +
+ hw/riscv/boot.c                 |  11 ++--
+ hw/riscv/sifive_u.c             | 105 ++++++++++++++++++++++++++------
+ hw/riscv/spike.c                |   2 -
+ hw/riscv/virt.c                 | 129 +++++++++++++++++++++++++++++++++++++---
+ include/hw/riscv/sifive_u.h     |  12 +++-
+ include/hw/riscv/spike.h        |   4 --
+ include/hw/riscv/virt.h         |  14 +++--
+ linux-user/riscv/cpu_loop.c     |   3 +-
+ target/riscv/cpu.c              |   2 +-
+ target/riscv/cpu.h              |   7 ++-
+ target/riscv/cpu_helper.c       |  28 ++++++---
+ target/riscv/csr.c              |   5 +-
+ target/riscv/gdbstub.c          |  36 ++++++++++-
+ target/riscv/pmp.c              |  13 +++-
+ 18 files changed, 334 insertions(+), 64 deletions(-)
+ create mode 100644 gdb-xml/riscv-32bit-virtual.xml
+ create mode 100644 gdb-xml/riscv-64bit-virtual.xml
 
 
