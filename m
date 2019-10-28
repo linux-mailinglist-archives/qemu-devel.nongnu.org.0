@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386CAE7274
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:15:13 +0100 (CET)
-Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9421EE7289
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 14:20:33 +0100 (CET)
+Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP4rY-0002Rp-28
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
+	id 1iP4wh-0003nD-VI
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 09:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3xO-0003YZ-8g
+ (envelope-from <mreitz@redhat.com>) id 1iP3xO-0003Zw-Us
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3xI-0002EC-VN
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:07 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27767
+ (envelope-from <mreitz@redhat.com>) id 1iP3xJ-0002FI-Fd
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53979
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3xE-00029S-CK
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:02 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3xJ-0002A1-7n
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:17:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572265018;
+ s=mimecast20190719; t=1572265019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d8nQl2CsqL3dQqVIsVKROXIrGrVJwou6Y9YYBNm5fVY=;
- b=BzvKwnQBfJYgsffVox5LrX20g7Zlwq+o8HOw7k9UC+Z1GRTD3mSv46G84ZEnKsjERwY5I6
- F7ZWaHBsrympoiktDk/qcTsUYA4fnANUcjimt1TMN9VqPc8xGgr0iukAmAsMtNXNFzN6Nd
- Y4CM0GBignFOnWOGUO9ivLh5Ef4auMk=
+ bh=0kPed5/fsHktSEaX2QTOmKq2J20PAl/gvdH8RRD3K/M=;
+ b=gjVP2ugHunTxvmLbem0uNLDq3S+h8SSa8DJYv70oXHAUWjsZ9EhvexFPEsVdRjnjq0nA4p
+ KXU7+TVqgXPK2QwqsnzYI54G7xXCMlphjpBfQp0XdnGypwwSkVyJzj6SkNkIyWvEjG3tDy
+ vSS6H5zEZ5Xti6WxcHRj/ZeKcYxFlnI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-79GTOUHrM0CrHt9hsaSspg-1; Mon, 28 Oct 2019 08:16:54 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-302-UFj1NjvBOJerjysGg9R4hw-1; Mon, 28 Oct 2019 08:16:58 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 203CF476;
- Mon, 28 Oct 2019 12:16:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36B8280183E;
+ Mon, 28 Oct 2019 12:16:57 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B92BE60BF7;
- Mon, 28 Oct 2019 12:16:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD43E100164D;
+ Mon, 28 Oct 2019 12:16:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 53/69] qcow2: Add qcow2_check_fix_snapshot_table()
-Date: Mon, 28 Oct 2019 13:14:45 +0100
-Message-Id: <20191028121501.15279-54-mreitz@redhat.com>
+Subject: [PULL 55/69] qcow2: Keep track of the snapshot table length
+Date: Mon, 28 Oct 2019 13:14:47 +0100
+Message-Id: <20191028121501.15279-56-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 79GTOUHrM0CrHt9hsaSspg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: UFj1NjvBOJerjysGg9R4hw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,106 +75,60 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow2_check_read_snapshot_table() can perform consistency checks, but it
-cannot fix everything.  Specifically, it cannot allocate new clusters,
-because that should wait until the refcount structures are known to be
-consistent (i.e., after qcow2_check_refcounts()).  Thus, it cannot call
-qcow2_write_snapshots().
-
-Do that in qcow2_check_fix_snapshot_table(), which is called after
-qcow2_check_refcounts().
-
-Currently, there is nothing that would set result->corruptions, so this
-is a no-op.  A follow-up patch will change that.
+When repairing the snapshot table, we truncate entries that have too
+much extra data.  This frees up space that we do not have to count
+towards the snapshot table size.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20191011152814.14791-10-mreitz@redhat.com
+Message-id: 20191011152814.14791-12-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.h          |  3 +++
- block/qcow2-snapshot.c | 25 +++++++++++++++++++++++++
- block/qcow2.c          |  9 ++++++++-
- 3 files changed, 36 insertions(+), 1 deletion(-)
+ block/qcow2-snapshot.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index adb5c3bc28..601c2e4c82 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -721,6 +721,9 @@ int qcow2_write_snapshots(BlockDriverState *bs);
- int coroutine_fn qcow2_check_read_snapshot_table(BlockDriverState *bs,
-                                                  BdrvCheckResult *result,
-                                                  BdrvCheckMode fix);
-+int coroutine_fn qcow2_check_fix_snapshot_table(BlockDriverState *bs,
-+                                                BdrvCheckResult *result,
-+                                                BdrvCheckMode fix);
-=20
- /* qcow2-cache.c functions */
- Qcow2Cache *qcow2_cache_create(BlockDriverState *bs, int num_tables,
 diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index d667bfd935..b526a8f819 100644
+index 53dc1635ec..582eb3386a 100644
 --- a/block/qcow2-snapshot.c
 +++ b/block/qcow2-snapshot.c
-@@ -380,6 +380,31 @@ int coroutine_fn qcow2_check_read_snapshot_table(Block=
-DriverState *bs,
-     return 0;
- }
+@@ -68,6 +68,7 @@ static int qcow2_do_read_snapshots(BlockDriverState *bs, =
+bool repair,
+     QCowSnapshot *sn;
+     int i, id_str_size, name_size;
+     int64_t offset;
++    uint64_t table_length =3D 0;
+     int ret;
 =20
-+int coroutine_fn qcow2_check_fix_snapshot_table(BlockDriverState *bs,
-+                                                BdrvCheckResult *result,
-+                                                BdrvCheckMode fix)
-+{
-+    BDRVQcow2State *s =3D bs->opaque;
-+    int ret;
+     if (!s->nb_snapshots) {
+@@ -82,6 +83,8 @@ static int qcow2_do_read_snapshots(BlockDriverState *bs, =
+bool repair,
+     for(i =3D 0; i < s->nb_snapshots; i++) {
+         bool truncate_unknown_extra_data =3D false;
+=20
++        table_length =3D ROUND_UP(table_length, 8);
 +
-+    if (result->corruptions && (fix & BDRV_FIX_ERRORS)) {
-+        qemu_co_mutex_unlock(&s->lock);
-+        ret =3D qcow2_write_snapshots(bs);
-+        qemu_co_mutex_lock(&s->lock);
-+        if (ret < 0) {
-+            result->check_errors++;
-+            fprintf(stderr, "ERROR failed to update snapshot table: %s\n",
-+                    strerror(-ret));
-+            return ret;
+         /* Read statically sized part of the snapshot header */
+         offset =3D ROUND_UP(offset, 8);
+         ret =3D bdrv_pread(bs->file, offset, &h, sizeof(h));
+@@ -184,7 +187,16 @@ static int qcow2_do_read_snapshots(BlockDriverState *b=
+s, bool repair,
+         offset +=3D name_size;
+         sn->name[name_size] =3D '\0';
+=20
+-        if (offset - s->snapshots_offset > QCOW_MAX_SNAPSHOTS_SIZE) {
++        /* Note that the extra data may have been truncated */
++        table_length +=3D sizeof(h) + sn->extra_data_size + id_str_size +
++                        name_size;
++        if (!repair) {
++            assert(table_length =3D=3D offset - s->snapshots_offset);
 +        }
 +
-+        result->corruptions_fixed +=3D result->corruptions;
-+        result->corruptions =3D 0;
-+    }
-+
-+    return 0;
-+}
-+
- static void find_new_snapshot_id(BlockDriverState *bs,
-                                  char *id_str, int id_str_size)
- {
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b0026e8a9a..8d4f38ae74 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -597,13 +597,20 @@ static int coroutine_fn qcow2_co_check_locked(BlockDr=
-iverState *bs,
-     memset(result, 0, sizeof(*result));
-=20
-     ret =3D qcow2_check_read_snapshot_table(bs, &snapshot_res, fix);
--    qcow2_add_check_result(result, &snapshot_res, false);
-     if (ret < 0) {
-+        qcow2_add_check_result(result, &snapshot_res, false);
-         return ret;
-     }
-=20
-     ret =3D qcow2_check_refcounts(bs, &refcount_res, fix);
-     qcow2_add_check_result(result, &refcount_res, true);
-+    if (ret < 0) {
-+        qcow2_add_check_result(result, &snapshot_res, false);
-+        return ret;
-+    }
-+
-+    ret =3D qcow2_check_fix_snapshot_table(bs, &snapshot_res, fix);
-+    qcow2_add_check_result(result, &snapshot_res, false);
-     if (ret < 0) {
-         return ret;
-     }
++        if (table_length > QCOW_MAX_SNAPSHOTS_SIZE ||
++            offset - s->snapshots_offset > INT_MAX)
++        {
+             ret =3D -EFBIG;
+             error_setg(errp, "Snapshot table is too big");
+             goto fail;
 --=20
 2.21.0
 
