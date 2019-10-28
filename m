@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB17E7871
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:32:44 +0100 (CET)
-Received: from localhost ([::1]:42196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65513E78BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:48:52 +0100 (CET)
+Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP9oo-0006XU-Ec
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52273)
+	id 1iPA4P-0006yH-W9
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iP97h-0005nN-45
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 13:48:10 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zl-0002dP-Tk
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iP97e-0003sQ-KO
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 13:48:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43369
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iP97e-0003sE-GY
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 13:48:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572284885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X40D0sUGfbz+CpcuKsYbiQS6eByO+AV7AyritEyes0s=;
- b=Zb+Y25r8qr8gd05gO1VLREnvM9DxQsUIvouK0osO+P9lw7KM6Fj04F8RXnvGNTO4KcAp+8
- 16EF/59homaCoL5WQv7zxRdAJyGONCGhh5z+qw62BwztSHFh4v7q5lr/kEmUIbIhJoAWgB
- DhKF12CvswmF415/h4R4I3p+5NJFAig=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-Z0VMWLWzNw-hQ-eOtghidA-1; Mon, 28 Oct 2019 13:48:02 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 035A01005509;
- Mon, 28 Oct 2019 17:48:01 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-183.rdu2.redhat.com
- [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 522585C559;
- Mon, 28 Oct 2019 17:47:45 +0000 (UTC)
-Date: Mon, 28 Oct 2019 13:47:43 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 14/26] tests/acceptance: Test Open Firmware on the PReP/40p
-Message-ID: <20191028174743.GI3978@localhost.localdomain>
-References: <20191028073441.6448-1-philmd@redhat.com>
- <20191028073441.6448-15-philmd@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zk-0003zx-AL
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:09 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:60413)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iP9Zh-0003w1-A1; Mon, 28 Oct 2019 14:17:05 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MbBUc-1hsIjC3cKm-00bZ7P; Mon, 28 Oct 2019 19:16:51 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/11] Q800 branch patches
+Date: Mon, 28 Oct 2019 19:16:32 +0100
+Message-Id: <20191028181643.5143-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191028073441.6448-15-philmd@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Z0VMWLWzNw-hQ-eOtghidA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:mMMU4cXoEHN5TnzjANB+/dSImJ6IEK3aAIawCdrqNq1s8KFjJJD
+ OIS8tIC+I9fD8NmeRhA4d+DNXtOagaF4DSLjAAR2hXX9hqLSAeQSODadhINnwoHiTNHGCPb
+ 6VE1dAecBv4Vet5PK22pM8mdXjjmK0Qs8NOuEwOH+sc9fIZPnZircVMB4XfAiCAI1VHo7/M
+ sy+WzZeR7pOeT1oGen9LQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nDwjzI0WGB8=:lAzhoercHctGbMSz2w86GP
+ dMQoYX0XU2uPvLX96E7j7xyHL8xu+gGb8VRZmTzR5M0w843+hDXirDFkCrHCkXA75+0YWrhZf
+ Rqwtb3m+LB82GiX3jFpkkhLFqaZNekz78zBrXuMZaqhJV0oonVSx5mzbtd7CsbD7Qk7NibTW+
+ pcvtjJ+SdiZCNe0ZRslszjDko2DByPtLOGP1nxJhGdQMOQwKPnJz7Vy1aoBYT5xIFECtc6eZR
+ Jrt15Dq5nbloI/X5qiIVXOKhGMM6O9N9Sazhc+1qeC6zvsgetkB4LU6N8waBDXbxAr4A5W3EX
+ GbUbAw/C84Pmz3F330ZPF5tInPUi07qMAaAQteXl8/4A0j7tZQUDiML9Ew+68OihyBPULGsM9
+ NbLdgJ9Ff6YYJ0vZUqk0HE5gqgz0wsWCm2+Wawb2TYPdhioA26n7b+5suMEMjKJc0MfoxYMmA
+ y+oeGNILKy696QtlD0DmzF7q8OitVX0hX01XUvMa8l3tPbXLtt3R/9/+8W3F+J4bMDpOpFWqP
+ A+QhXzImj5lmEV2ccXjvK1rmO/TEgTPCsPIfEBUFzlwx531CI3hOSlWNiUltIBc8X/lwAyRxE
+ b5xFKMVGgx6UMzRCtFRPa/XZDM4CyTwq/U1t/kfs1g585d0KQYyhEZhN3h7cgcp5Nhf+vS996
+ NjeqD59tv5OD6FIpKqYi4oBWDlPgjarfCmNGvDR9vx5Em0ksd1PttLxPBIB41feEJe4lkIhMQ
+ H4r+CPicOhlnJZz9zGXGJeJCXDHgnjoT0D4DrJ1xPLfCtzbjRzXdWpTz7cKJIUTJMuodzQmRA
+ tG/AZuiGfO+0M0da4p+L+rvhtk7+RClBUpxUEvrUf06+p+7u5iR2QUjxL4io1zKYPfdQuEEOG
+ s/45nk35x7KsOlD/EQlJc5o8JNmRK7WRc1libwzGo=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,41 +64,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
- Fabien Chouteau <chouteau@adacore.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 28, 2019 at 08:34:29AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> From: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
->=20
-> User case from:
-> https://tyom.blogspot.com/2019/04/aixprep-under-qemu-how-to.html
->=20
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
-> Tested-by: Cleber Rosa <crosa@redhat.com>
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> ---
-> v3: use avocado_qemu.wait_for_console_pattern (Cleber)
-> ---
->  tests/acceptance/ppc_prep_40p.py | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->=20
+The following changes since commit 7bc8f9734213b76e76631a483be13d6737c2adbc:
 
-Queuing on my python-next branch (and sending shortly in a PR).
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20191025' into staging (2019-10-25 13:12:16 +0100)
 
-Thanks,
-- Cleber.
+are available in the Git repository at:
+
+  git://github.com/vivier/qemu-m68k.git tags/q800-branch-pull-request
+
+for you to fetch changes up to f7d85525f14b99aaa7bf561c9f3cf11c85a080c9:
+
+  BootLinuxConsoleTest: Test the Quadra 800 (2019-10-28 19:07:22 +0100)
+
+----------------------------------------------------------------
+Add Macintosh Quadra 800 machine in hw/m68k
+
+----------------------------------------------------------------
+
+Laurent Vivier (10):
+  esp: move handle_ti_cmd() cleanup code to esp_do_dma().
+  esp: move get_cmd() post-DMA code to get_cmd_cb()
+  esp: add pseudo-DMA as used by Macintosh
+  dp8393x: manage big endian bus
+  hw/m68k: add VIA support
+  hw/m68k: implement ADB bus support for via
+  hw/m68k: add Nubus support
+  hw/m68k: add Nubus macfb video card
+  hw/m68k: add a dummy SWIM floppy controller
+  hw/m68k: define Macintosh Quadra 800
+
+Philippe Mathieu-Daudé (1):
+  BootLinuxConsoleTest: Test the Quadra 800
+
+ default-configs/m68k-softmmu.mak       |   1 +
+ hw/m68k/bootinfo.h                     | 114 +++
+ include/hw/block/swim.h                |  76 ++
+ include/hw/display/macfb.h             |  64 ++
+ include/hw/misc/mac_via.h              | 115 +++
+ include/hw/nubus/mac-nubus-bridge.h    |  24 +
+ include/hw/nubus/nubus.h               |  69 ++
+ include/hw/scsi/esp.h                  |  15 +
+ arch_init.c                            |   4 +
+ hw/block/swim.c                        | 489 +++++++++++++
+ hw/display/macfb.c                     | 477 ++++++++++++
+ hw/m68k/q800.c                         | 401 ++++++++++
+ hw/misc/mac_via.c                      | 964 +++++++++++++++++++++++++
+ hw/net/dp8393x.c                       |  88 ++-
+ hw/nubus/mac-nubus-bridge.c            |  45 ++
+ hw/nubus/nubus-bridge.c                |  34 +
+ hw/nubus/nubus-bus.c                   | 111 +++
+ hw/nubus/nubus-device.c                | 215 ++++++
+ hw/scsi/esp.c                          | 336 ++++++++-
+ vl.c                                   |   3 +-
+ MAINTAINERS                            |  14 +
+ hw/Kconfig                             |   1 +
+ hw/Makefile.objs                       |   1 +
+ hw/block/Kconfig                       |   3 +
+ hw/block/Makefile.objs                 |   1 +
+ hw/display/Kconfig                     |   5 +
+ hw/display/Makefile.objs               |   1 +
+ hw/m68k/Kconfig                        |  10 +
+ hw/m68k/Makefile.objs                  |   1 +
+ hw/misc/Kconfig                        |   5 +
+ hw/misc/Makefile.objs                  |   1 +
+ hw/nubus/Kconfig                       |   2 +
+ hw/nubus/Makefile.objs                 |   4 +
+ qemu-options.hx                        |   2 +-
+ tests/acceptance/boot_linux_console.py |  24 +
+ 35 files changed, 3659 insertions(+), 61 deletions(-)
+ create mode 100644 hw/m68k/bootinfo.h
+ create mode 100644 include/hw/block/swim.h
+ create mode 100644 include/hw/display/macfb.h
+ create mode 100644 include/hw/misc/mac_via.h
+ create mode 100644 include/hw/nubus/mac-nubus-bridge.h
+ create mode 100644 include/hw/nubus/nubus.h
+ create mode 100644 hw/block/swim.c
+ create mode 100644 hw/display/macfb.c
+ create mode 100644 hw/m68k/q800.c
+ create mode 100644 hw/misc/mac_via.c
+ create mode 100644 hw/nubus/mac-nubus-bridge.c
+ create mode 100644 hw/nubus/nubus-bridge.c
+ create mode 100644 hw/nubus/nubus-bus.c
+ create mode 100644 hw/nubus/nubus-device.c
+ create mode 100644 hw/nubus/Kconfig
+ create mode 100644 hw/nubus/Makefile.objs
+
+-- 
+2.21.0
 
 
