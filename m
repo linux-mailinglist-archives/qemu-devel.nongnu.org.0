@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4809EE7138
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:20:03 +0100 (CET)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD9AE7149
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:24:09 +0100 (CET)
+Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP408-0005NA-VU
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:20:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
+	id 1iP447-0003uW-W6
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3vf-0001JL-VK
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:25 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3vh-0001K1-Ta
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3vd-0001FQ-RQ
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36878
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iP3vg-0001GX-6V
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:25 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22466
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vd-0001F0-ON
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:21 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vf-0001Fx-Tf
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572264920;
+ s=mimecast20190719; t=1572264923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6pjfgNJz2k72QEAD4z+ODEgWsNy3o8hO+FNn9sL+rQI=;
- b=WeJK+LgqW4XofimM5WRZTZ9DE5zKyboEGMUS0fjNr9/Yubhe0J382sPOCc02AFcnWEvv8W
- X7kagaqHYA6NR5wEJ7O64qMK5org4gkFVFQOb3JjWkHdwfnViDpGQyrpyfY7/+kCMkicBo
- c7Ppu4yn/6G29vaVY1bVCB6muJDg8Yg=
+ bh=Kl79FN+OL3HPkPGAYUaT5f+1b0u1rlEs1rN9DSJ5JBg=;
+ b=M/oR6vD0VTBQ9sgnk41nV5I/Oygn24s+5iVKqV9xopMaRXpd+dlre5ofcOavj74BFexy9n
+ IKZb/NGhmgkqlY4BWXsBJ/Vf1EQujesDwBFxthNMOd+M17PZFA4zqftHLIk7txayvdL2A4
+ 4Bmj3iFaqthennIQIz0lpUGDyCi2Egg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-77lUsRrcMeuFOCK66w99Ig-1; Mon, 28 Oct 2019 08:15:17 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-124-ldqXuYncNYG1xdc0aV4nPQ-1; Mon, 28 Oct 2019 08:15:19 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 659CA10052E0;
- Mon, 28 Oct 2019 12:15:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 728AD10052E1;
+ Mon, 28 Oct 2019 12:15:18 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0987C5DA8C;
- Mon, 28 Oct 2019 12:15:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13CB4100164D;
+ Mon, 28 Oct 2019 12:15:17 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/69] iotests: Test driver whitelisting in 136
-Date: Mon, 28 Oct 2019 13:13:58 +0100
-Message-Id: <20191028121501.15279-7-mreitz@redhat.com>
+Subject: [PULL 07/69] iotests: Cache supported_formats()
+Date: Mon, 28 Oct 2019 13:13:59 +0100
+Message-Id: <20191028121501.15279-8-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 77lUsRrcMeuFOCK66w99Ig-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: ldqXuYncNYG1xdc0aV4nPQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,65 +75,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-null-aio may not be whitelisted.  Skip all test cases that require it.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190917092004.999-7-mreitz@redhat.com
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20190917092004.999-8-mreitz@redhat.com
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/136 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/iotests.py | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/136 b/tests/qemu-iotests/136
-index a46a7b7630..012ea111ac 100755
---- a/tests/qemu-iotests/136
-+++ b/tests/qemu-iotests/136
-@@ -30,7 +30,7 @@ bad_offset =3D bad_sector * 512
- blkdebug_file =3D os.path.join(iotests.test_dir, 'blkdebug.conf')
-=20
- class BlockDeviceStatsTestCase(iotests.QMPTestCase):
--    test_img =3D "null-aio://"
-+    test_driver =3D "null-aio"
-     total_rd_bytes =3D 0
-     total_rd_ops =3D 0
-     total_wr_bytes =3D 0
-@@ -67,6 +67,10 @@ sector =3D "%d"
- ''' % (bad_sector, bad_sector))
-         file.close()
-=20
-+    def required_drivers(self):
-+        return [self.test_driver]
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 936d33df61..a4a2238b42 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -921,9 +921,17 @@ def qemu_pipe(*args):
+ def supported_formats(read_only=3DFalse):
+     '''Set 'read_only' to True to check ro-whitelist
+        Otherwise, rw-whitelist is checked'''
+-    format_message =3D qemu_pipe("-drive", "format=3Dhelp")
+-    line =3D 1 if read_only else 0
+-    return format_message.splitlines()[line].split(":")[1].split()
 +
-+    @iotests.skip_if_unsupported(required_drivers)
-     def setUp(self):
-         drive_args =3D []
-         drive_args.append("stats-intervals.0=3D%d" % interval_length)
-@@ -76,8 +80,8 @@ sector =3D "%d"
-                           (self.account_failed and "on" or "off"))
-         drive_args.append("file.image.read-zeroes=3Don")
-         self.create_blkdebug_file()
--        self.vm =3D iotests.VM().add_drive('blkdebug:%s:%s' %
--                                         (blkdebug_file, self.test_img),
-+        self.vm =3D iotests.VM().add_drive('blkdebug:%s:%s://' %
-+                                         (blkdebug_file, self.test_driver)=
-,
-                                          ','.join(drive_args))
-         self.vm.launch()
-         # Set an initial value for the clock
-@@ -337,7 +341,9 @@ class BlockDeviceStatsTestAccountBoth(BlockDeviceStatsT=
-estCase):
-     account_failed =3D True
++    if not hasattr(supported_formats, "formats"):
++        supported_formats.formats =3D {}
++
++    if read_only not in supported_formats.formats:
++        format_message =3D qemu_pipe("-drive", "format=3Dhelp")
++        line =3D 1 if read_only else 0
++        supported_formats.formats[read_only] =3D \
++            format_message.splitlines()[line].split(":")[1].split()
++
++    return supported_formats.formats[read_only]
 =20
- class BlockDeviceStatsTestCoroutine(BlockDeviceStatsTestCase):
--    test_img =3D "null-co://"
-+    test_driver =3D "null-co"
-=20
- if __name__ =3D=3D '__main__':
-+    if 'null-co' not in iotests.supported_formats():
-+        iotests.notrun('null-co driver support missing')
-     iotests.main(supported_fmts=3D["raw"])
+ def skip_if_unsupported(required_formats=3D[], read_only=3DFalse):
+     '''Skip Test Decorator
 --=20
 2.21.0
 
