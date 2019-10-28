@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5ECBE78D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 19:56:34 +0100 (CET)
-Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9244BE792C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 20:24:20 +0100 (CET)
+Received: from localhost ([::1]:54424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPABt-0008AJ-Dx
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 14:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
+	id 1iPAck-00067B-NX
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 15:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56483)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iP9Zr-0002jb-F0
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:16 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zj-0002ah-L5
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iP9Zp-00044P-S9
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:46913)
+ (envelope-from <laurent@vivier.eu>) id 1iP9Zi-0003yM-GA
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 14:17:07 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:43407)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iP9Zp-00043q-ID; Mon, 28 Oct 2019 14:17:13 -0400
+ id 1iP9Zi-0003vl-6y; Mon, 28 Oct 2019 14:17:06 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MAgMY-1iIWnR0RRo-00B43T; Mon, 28 Oct 2019 19:17:05 +0100
+ id 1MzQTm-1i3LMJ2Sxc-00vPK3; Mon, 28 Oct 2019 19:16:51 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/11] BootLinuxConsoleTest: Test the Quadra 800
-Date: Mon, 28 Oct 2019 19:16:43 +0100
-Message-Id: <20191028181643.5143-12-laurent@vivier.eu>
+Subject: [PULL 01/11] esp: move handle_ti_cmd() cleanup code to esp_do_dma().
+Date: Mon, 28 Oct 2019 19:16:33 +0100
+Message-Id: <20191028181643.5143-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191028181643.5143-1-laurent@vivier.eu>
 References: <20191028181643.5143-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:o08aWP6ZOacsS3hGUm/am5Sa4PAey+DdtlQJJRvy4Vn18I4VFtY
- Ipl3V611sQoz8acaAtH6SIXCjDjsdrxxyEJYIQliIazhj5xdhciKZ8uZupDPfnaqd7aNhR5
- Qk4ODrYz/NSG0cr11p8jOssn3UCwEaGYknUMKxOyMRnNVf+ojsX1goquhOrskI8CUT6bIAA
- 6v5w8KU12/6GH0xNWEYKA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5obZ+yN4IaQ=:ZGFjsGjOQZQn2/Tn9+WTie
- C3XVsqL0rQUdJwPXZUm445UOQC9UmvHfYUBB7oLFlNV5Phua35gjvarVWeyjvZCN4Uf8hBtAN
- o0iH8FrjiWG54OMy5xWxFzYQ9d8+m3jqmth8OSPfPmwACqIxXZ8aDeKUwUO9455pk69mOj+nj
- lwJrvsganKUKfO+Os61auwDGcPp6UTWrBc2yR28nJswuSntXkzIYkviPX34aNwu/Fp6GyG9UQ
- j8SnwbVW7DGbuYg1+DnfGoEs4HNAYiSGYVhrXWekDBNaFgW77REzCYoHE6skCA1Sr1ysXgo7Z
- Ap/6HwByHOXMxGvti3Mkz1mw5nFGdns9qvbBVv38DXvXpG3Z8ECwGR6+Y3mGvPfuT5VKoOOIy
- HQ9J6HIwHgVguz953YjqMXyN2mwzvWvqTV1dRhKDgCrdhJFnAEZuJpzrdf6+40QZpcasgiQ10
- d864pqXXBM6eLodCcPEJfJ8YkeT0Kdx+pCIES6kLLbEylAkkEWn7KPAeqZgc2dQHueII1wdZ5
- yTdeM1pOIHhVVSidOokLwOEZg4Oln/cfqsgouYSOlUfuVeIAODFHzfhgl099xShcupjX3F0aF
- mnzhK9eoeKQphqO6MJMkU0/Q2itOEHTi0PKEGs26veBvVFH83PoKetbQ3a/VwNEW4CGR3L8Ml
- QaKtVyjY4XGDOlMhJILzO51zV9u/19ZldqFviTgE3rZPdjnwDOovm6wHfRsymYJkG8F0Ggctx
- tuKqKondo1dIrcXBHriwg3B//Bl/53QAe6jc8vBWm2M1olPstqaWj3lxVCQRWU22EcOa/KZBS
- ev9hmx+3b2qHn9+aEbwg7F46eBIO9u/TBSJhyqgGtSoqV7wR3rqQNaT60zceXq6aXhytUyLfv
- DBVWHSsPbwegnDwCXKTZcR27gVnf/bDERlgCpHyUs=
+X-Provags-ID: V03:K1:f0f3VsU7pIFM9a0tTGFuUNiJCy/m45d8E/qz8yT6lnKpRSFjbRG
+ 90MtUWzuSSGx0K+fzbLNikmDGZMvhLyIeHOanKpj10uBM6a4KWfbcqhNce/+zXD8yinoSOd
+ K+m7Bse0uBhoYxj0BtO6JvcbTzEUN6RyWBORMqB0yRsZbZwsYZJ4aQtTaGL579KBGQrUlux
+ hrhHXvSwmsc2U2nxzHqzw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TdhUQeu37QY=:0vykORaRaQJSnqCl/48wEg
+ j5RVfxPZKnbPIVyUYI7sJOlgsW5iDbHHJ1bfrv6FUZOwEyjN76RL2DCuKCFSTcch7P7mw/Ngw
+ iTnVFMcv5gG+2mB0W62l6SX/k7WAoUIzjd1fYpWs538XxvvY7v8GlfwgubpQhYpxne5a5Z76W
+ XckECgTiirf26FnyNtKBsuc8cicyY1JKmnJutrRMarACo4ti638fBxmsU9Ue6HGx8mgLHsU5r
+ g2otDC3RgIgZ1Qv2NB5c9rfKs80vdnyRza8KZJDGe+vPyaDob8/8n2Ht5C/5wqbzBmZ+pjdmt
+ lGSweUB+8NhL3wc3WBIJWuI1EtvEGu12ualAziCYAl1bdE/78efwKrlfrGfe14y0OIib4iIwZ
+ qDiBU8ICuJgKPcUoGfIyBfDwsD/VV+Ka8j/CdJ8vj0OI1ABLuEAzq4JJVUeeFS1LCIAu7OVqq
+ cwrj1Hrj57ovsi2yWQS1lEiH7GM12o1gLafwN9xBnFVhDtJBQjWi96511+40LXQH+Hk5Ibu2Q
+ /uYVCzATOnbc2A4vrWZ6z8fErf6GBiCZ/PUHUJL0re/WkQr9ADzXOtddmKJ0I+4RAqmMMn+Z7
+ rndsKYHnMeLgKgZu8SkYB7T2DX+yWRyHCiv1uXTv/jXWCg1HWF92FCQPC2baQOvITVLC0rBgg
+ gJbcDy1R7l+3vsZH+Oe+RMo3LTArYA4O9lALxAQwReQql8ff5rC0V0lDsKX8OpOORAtTAF+SE
+ KnvFHwi474oWh4bvkmorkSRqhSFbtdGGCgqk05Hc23X6eGepc+RrytH8CvYPY5p/rCGlC+DFz
+ dHJf+PgOeHPVo17eZP52RUFbPpPw/ZIzIyD+OOQBWTuuNhx8ejtew8hXrp3YTC6aQ8wS4NqT8
+ 5YWZLQaz8QYaDedeNZZg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 217.72.192.73
@@ -69,99 +68,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+To prepare following patches move do_cmd and DMA special case
+from handle_ti() to esp_do_dma().
 
-This test boots a Linux kernel on a Quadra 800 board
-and verify the serial is working.
+This part of the code must be only executed with real DMA, not with
+pseudo-DMA. And PDMA is detected in esp_do_dma(), so move this part
+of the code in esp_do_dma(). We keep the code in handle_ti_cmd()
+in the case no DMA is done.
 
-Example:
-
-  $ avocado --show=app,console run -t machine:q800 tests/acceptance/boot_linux_console.py
-  console: ABCFGHIJK
-  console: Linux version 5.2.0-2-m68k (debian-kernel@lists.debian.org) (gcc version 8.3.0 (Debian 8.3.0-21)) #1 Debian 5.2.9-2 (2019-08-21)
-  console: Detected Macintosh model: 35
-  console: Apple Macintosh Quadra 800
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 32448
-  console: Kernel command line: printk.time=0 console=ttyS0 vga=off
-  [...]
-  console: Calibrating delay loop... 1236.99 BogoMIPS (lpj=6184960)
-  [...]
-  console: NuBus: Scanning NuBus slots.
-  console: Slot 9: Board resource not found!
-  console: SCSI subsystem initialized
-  console: clocksource: Switched to clocksource via1
-  [...]
-  console: macfb: framebuffer at 0xf9001000, mapped to 0x(ptrval), size 468k
-  console: macfb: mode is 800x600x8, linelength=800
-  console: Console: switching to colour frame buffer device 100x37
-  console: fb0: DAFB frame buffer device
-  console: pmac_zilog: 0.6 (Benjamin Herrenschmidt <benh@kernel.crashing.org>)
-  console: scc.0: ttyS0 at MMIO 0x50f0c022 (irq = 4, base_baud = 230400) is a Z85c30 ESCC - Serial port
-  console: scc.1: ttyS1 at MMIO 0x50f0c020 (irq = 4, base_baud = 230400) is a Z85c30 ESCC - Serial port
-  console: Non-volatile memory driver v1.3
-  console: adb: Mac II ADB Driver v1.0 for Unified ADB
-  console: mousedev: PS/2 mouse device common for all mice
-  console: random: fast init done
-  console: Detected ADB keyboard, type <unknown>.
-  console: input: ADB keyboard as /devices/virtual/input/input0
-  console: input: ADB mouse as /devices/virtual/input/input1
-  console: rtc-generic rtc-generic: registered as rtc0
-  console: ledtrig-cpu: registered to indicate activity on CPUs
-  [...]
-  console: rtc-generic rtc-generic: setting system clock to 2019-09-10T16:20:25 UTC (1568132425)
-  console: List of all partitions:
-  console: No filesystem could mount root, tried:
-  JOB TIME   : 2.91 s
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20190910163430.11326-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191026164546.30020-12-laurent@vivier.eu>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20191026164546.30020-2-laurent@vivier.eu>
 ---
- tests/acceptance/boot_linux_console.py | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ hw/scsi/esp.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8a9a314ab4..df27813c78 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -378,3 +378,27 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_m68k_q800(self):
-+        """
-+        :avocado: tags=arch:m68k
-+        :avocado: tags=machine:q800
-+        """
-+        deb_url = ('http://ftp.ports.debian.org/debian-ports/pool-m68k/main'
-+                   '/l/linux/kernel-image-5.2.0-2-m68k-di_5.2.9-2_m68k.udeb')
-+        deb_hash = '0797e05129595f22f3c0142db5e199769a723bf9'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinux-5.2.0-2-m68k')
-+
-+        self.vm.set_machine('q800')
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 vga=off')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+        self.wait_for_console_pattern(console_pattern)
-+        console_pattern = 'No filesystem could mount root'
-+        self.wait_for_console_pattern(console_pattern)
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 841d79b60e..09b28cba17 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -249,10 +249,19 @@ static void esp_do_dma(ESPState *s)
+ 
+     len = s->dma_left;
+     if (s->do_cmd) {
++        /*
++         * handle_ti_cmd() case: esp_do_dma() is called only from
++         * handle_ti_cmd() with do_cmd != NULL (see the assert())
++         */
+         trace_esp_do_dma(s->cmdlen, len);
+         assert (s->cmdlen <= sizeof(s->cmdbuf) &&
+                 len <= sizeof(s->cmdbuf) - s->cmdlen);
+         s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
++        trace_esp_handle_ti_cmd(s->cmdlen);
++        s->ti_size = 0;
++        s->cmdlen = 0;
++        s->do_cmd = 0;
++        do_cmd(s, s->cmdbuf);
+         return;
+     }
+     if (s->async_len == 0) {
+@@ -373,8 +382,7 @@ static void handle_ti(ESPState *s)
+         s->dma_left = minlen;
+         s->rregs[ESP_RSTAT] &= ~STAT_TC;
+         esp_do_dma(s);
+-    }
+-    if (s->do_cmd) {
++    } else if (s->do_cmd) {
+         trace_esp_handle_ti_cmd(s->cmdlen);
+         s->ti_size = 0;
+         s->cmdlen = 0;
 -- 
 2.21.0
 
