@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDD1E7575
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:49:03 +0100 (CET)
-Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E8DE7587
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:52:27 +0100 (CET)
+Received: from localhost ([::1]:53758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP7GP-0002gL-Je
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
+	id 1iP7Jh-0000P7-NB
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:52:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iP6yr-0001gr-67
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1iP6yz-0001of-Gn
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:31:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iP6yp-0006O1-KT
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41066)
+ (envelope-from <bounces@canonical.com>) id 1iP6yx-0006RM-Rm
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:31:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41646)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iP6yp-0006ND-Dw
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:51 -0400
+ id 1iP6yx-0006Qz-K7
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 11:30:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iP6ym-0006Se-Px
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:30:48 +0000
+ id 1iP6yv-0006ev-Sy
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:30:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C17DF2E80CB
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:30:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B927C2E80CC
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 15:30:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 28 Oct 2019 15:18:23 -0000
-From: Max Reitz <1850000@bugs.launchpad.net>
+Date: Mon, 28 Oct 2019 15:23:24 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1848556@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Triaged; importance=Medium; assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Triaged; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gschafer xanclic
-X-Launchpad-Bug-Reporter: Toolybird (gschafer)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <157212805514.19102.17568097209992499457.malonedeb@wampee.canonical.com>
-Message-Id: <157227590374.3410.13315745384683642887.malone@gac.canonical.com>
-Subject: [Bug 1850000] Re: 4.1.0 bogus QCOW2 corruption reported after compress
+X-Launchpad-Bug-Commenters: paelzer rodsmith xanclic
+X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
+Message-Id: <157227620481.28442.9340123097528106243.malone@chaenomeles.canonical.com>
+Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7618d102ce753d5838701102675de3c3114ef502
+X-Launchpad-Hash: 92881c102f989d39eb9e6653b642d8985816a274
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -65,129 +75,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1850000 <1850000@bugs.launchpad.net>
+Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is definitely a bug in that patch, and that is that
-QCOW2_COMPRESSED_SECTOR_MASK is an unsigned int instead of a uint64_t
-(so the mask is too small).
-
-It looks like the bug has existed in some places before that patch
-(because they use ~511 as a mask), but not in others.
-
-This would explain why the bug is visible only for some images, namely
-for those with a compressed size of more than 4 GB, I presume.
-
-
-And indeed, fixing QCOW2_COMPRESSED_SECTOR_MASK to be an unsigned long long=
- fixes the bug.  I=E2=80=99ll send a patch (but I=E2=80=99ll have to write =
-a more simple and quicker test case first).
-
-Max
+FYI: uploaded to 20.04 Focal, considering SRUs (Eoan) after this
+completes
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1850000
+https://bugs.launchpad.net/bugs/1848556
 
 Title:
-  4.1.0 bogus QCOW2 corruption reported after compress
+  qemu-img check failing on remote image in Eoan
 
 Status in QEMU:
-  New
+  Fix Released
+Status in qemu package in Ubuntu:
+  Triaged
+Status in qemu source package in Eoan:
+  Triaged
+Status in qemu source package in Focal:
+  Triaged
 
 Bug description:
-  Creating a compressed image then running `qemu-img check <..>.qcow2'
-  on said image seems to report bogus corruption in some (but not all)
-  cases:
+  Ubuntu SRU Template:
 
-  Step 1.
+  [Impact]
 
-  # qemu-img info win7-base.qcow2
-  image: win7-base.qcow2
-  file format: qcow2
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 12.2 GiB
-  cluster_size: 65536
-  Format specific information:
-      compat: 1.1
-      lazy refcounts: true
-      refcount bits: 16
-      corrupt: false
+   * There is fallout due to changes in libcurl that affect qemu and might =
 
-  # qemu-img check win7-base.qcow2
+     lead to a hang.
+
+   * Fix by backporting the upstream fix
+
+  [Test Case]
+
+   * If you have network just run
+     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
+.img
+
+   * Without network, install apache2, and get a complex qemu file (like a =
+
+     cloud image) onto the system. Then access the file via apache http but =
+
+     not localhost (that would work)
+
+  [Regression Potential]
+
+   * The change is local to the libcurl usage of qemu, so that could be =
+
+     affected. But then this is what has been found to not work here, so I'=
+d =
+
+     expect not too much trouble. But if so then in the curl usage (which =
+
+     means disks on http)
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  The "qemu-img check" function is failing on remote (HTTP-hosted)
+  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
+  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
+  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
+
+  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
+g-amd64.img
   No errors were found on the image.
-  327680/327680 =3D 100.00% allocated, 0.00% fragmented, 0.00% compressed c=
-lusters
-  Image end offset: 21478375424
+  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
+usters
+  Image end offset: 514064384
 
-  Step 2.
-
-  # qemu-img convert -f qcow2 -O qcow2 -c win7-base.qcow2 test1-z.qcow2
-
-  Step 3.
-
-  # qemu-img info test1-z.qcow2
-  image: test1-z.qcow2
-  file format: qcow2
-  virtual size: 20 GiB (21474836480 bytes)
-  disk size: 5.78 GiB
-  cluster_size: 65536
-  Format specific information:
-      compat: 1.1
-      lazy refcounts: false
-      refcount bits: 16
-      corrupt: false
-
-  # qemu-img check test1-z.qcow2
-  ERROR cluster 1191 refcount=3D1 reference=3D2
-  ERROR cluster 1194 refcount=3D1 reference=3D4
-  ERROR cluster 1195 refcount=3D1 reference=3D7
-  ERROR cluster 1196 refcount=3D1 reference=3D7
-  ERROR cluster 1197 refcount=3D1 reference=3D6
-  ERROR cluster 1198 refcount=3D1 reference=3D4
-  ERROR cluster 1199 refcount=3D1 reference=3D4
-  ERROR cluster 1200 refcount=3D1 reference=3D5
-  ERROR cluster 1201 refcount=3D1 reference=3D3
-  <...> snip many errors
-  Leaked cluster 94847 refcount=3D3 reference=3D0
-  Leaked cluster 94848 refcount=3D3 reference=3D0
-  Leaked cluster 94849 refcount=3D11 reference=3D0
-  Leaked cluster 94850 refcount=3D14 reference=3D0
-
-  20503 errors were found on the image.
-  Data may be corrupted, or further writes to the image may corrupt it.
-
-  20503 leaked clusters were found on the image.
-  This means waste of disk space, but no harm to data.
-  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
-clusters
-  Image end offset: 6216220672
-
-  =
-
-  The resultant image seems to work fine in a VM when used as a backing fil=
-e.
-
-  Interestingly, if I substitute a qemu-img binary from qemu-4.0 then no
-  errors are reported.
-
-  # /tmp/qemu-img check test1-z.qcow2
-  No errors were found on the image.
-  197000/327680 =3D 60.12% allocated, 89.32% fragmented, 88.50% compressed =
-clusters
-  Image end offset: 6216220672
-
-  Is the image corrupted or not? I'm guessing not.
-
-  Just in case it matters, this is ext4 fs on rotational disk. Latest
-  Arch Linux but self compiled 4.1.0 with recent QCOW2 corruption fixes
-  added.
-
-  I haven't tried latest trunk but might do so if time permits.
+  The 10.193.37.117 server holds an Apache server that hosts the cloud
+  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
+  0ubuntu9, the same command never returns. (I've left it for up to an
+  hour with no change.) I'm able to wget the image from the same server
+  and installation on which qemu-img check fails. I've tried several
+  .img files on the server, ranging from Bionic to Eoan, with the same
+  results with all of them.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1850000/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
 
