@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1698E6C82
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 07:43:06 +0100 (CET)
-Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F701E6C7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 07:34:52 +0100 (CET)
+Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iOyk5-00023p-P7
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 02:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41626)
+	id 1iOyc6-00066I-Nv
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 02:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iOyiQ-0000ch-1C
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:41:24 -0400
+ (envelope-from <tu.guoyi@h3c.com>) id 1iOyaw-0004dq-BP
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:33:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iOyiO-0001mS-RA
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:41:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53594)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iOyiO-0001lD-Ls
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:41:20 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iOyiM-0006AL-M7
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:41:18 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A646C2E80C0
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 06:41:18 +0000 (UTC)
-MIME-Version: 1.0
+ (envelope-from <tu.guoyi@h3c.com>) id 1iOyau-0006Gj-D8
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 02:33:37 -0400
+Received: from smtp.h3c.com ([60.191.123.50]:32062 helo=h3cspam02-ex.h3c.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tu.guoyi@h3c.com>)
+ id 1iOyat-00060B-3c; Mon, 28 Oct 2019 02:33:36 -0400
+Received: from DAG2EX02-BASE.srv.huawei-3com.com ([10.8.0.65])
+ by h3cspam02-ex.h3c.com with ESMTPS id x9S6X6cd028044
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 28 Oct 2019 14:33:06 +0800 (GMT-8)
+ (envelope-from tu.guoyi@h3c.com)
+Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
+ DAG2EX02-BASE.srv.huawei-3com.com (10.8.0.65) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 28 Oct 2019 14:33:08 +0800
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
+ by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%6])
+ with mapi id 15.01.1713.004; Mon, 28 Oct 2019 14:33:08 +0800
+From: Tuguoyi <tu.guoyi@h3c.com>
+To: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>, "kwolf@redhat.com"
+ <kwolf@redhat.com>, "mreitz@redhat.com" <mreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: [PATCH v2] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Topic: [PATCH v2] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Index: AdWNWOAJ7czUdZfnT3+PEnECPxQetw==
+Date: Mon, 28 Oct 2019 06:33:08 +0000
+Message-ID: <494aedb644bf434f8eee0263aa17aa23@h3c.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.125.108.112]
+x-sender-location: DAG2
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 28 Oct 2019 06:32:14 -0000
-From: Launchpad Bug Tracker <1848556@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Triaged; importance=Medium; assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=Triaged; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=Triaged; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer rodsmith xanclic
-X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
-Message-Id: <157224433528.32065.6779566140163751697.launchpad@ackee.canonical.com>
-Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7ab63a832318c7735fa635186bf82cc1537982b4
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-DNSRBL: 
+X-MAIL: h3cspam02-ex.h3c.com x9S6X6cd028044
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 60.191.123.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,93 +65,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
+Cc: Chengchiwen <chengchiwen@h3c.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Wangyongqing <w_yongqing@h3c.com>, Changlimin <changlimin@h3c.com>,
+ Gaoliang <liang_gao@h3c.com>, Wangyong <wang.yongD@h3c.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Merge proposal linked:
-   https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+merge=
-/374770
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848556
-
-Title:
-  qemu-img check failing on remote image in Eoan
-
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Triaged
-Status in qemu source package in Eoan:
-  Triaged
-Status in qemu source package in Focal:
-  Triaged
-
-Bug description:
-  Ubuntu SRU Template:
-
-  [Impact]
-
-   * There is fallout due to changes in libcurl that affect qemu and might =
-
-     lead to a hang.
-
-   * Fix by backporting the upstream fix
-
-  [Test Case]
-
-   * If you have network just run
-     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
-.img
-
-   * Without network, install apache2, and get a complex qemu file (like a =
-
-     cloud image) onto the system. Then access the file via apache http but =
-
-     not localhost (that would work)
-
-  [Regression Potential]
-
-   * The change is local to the libcurl usage of qemu, so that could be =
-
-     affected. But then this is what has been found to not work here, so I'=
-d =
-
-     expect not too much trouble. But if so then in the curl usage (which =
-
-     means disks on http)
-
-  [Other Info]
-   =
-
-   * n/a
-
-  ---
-
-  The "qemu-img check" function is failing on remote (HTTP-hosted)
-  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
-  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
-  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
-
-  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
-g-amd64.img
-  No errors were found on the image.
-  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
-usters
-  Image end offset: 514064384
-
-  The 10.193.37.117 server holds an Apache server that hosts the cloud
-  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
-  0ubuntu9, the same command never returns. (I've left it for up to an
-  hour with no change.) I'm able to wget the image from the same server
-  and installation on which qemu-img check fails. I've tried several
-  .img files on the server, ranging from Bionic to Eoan, with the same
-  results with all of them.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
+SW4gY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKCksIHRoZSBzYW5pdHkgY2hlY2sgb24gdGhl
+DQpncmFudWxhcml0eSB3aWxsIGNhdXNlIHVpbnQ2NF90IGludGVnZXIgbGVmdC1zaGlmdCBvdmVy
+Zmxvdw0Kd2hlbiBjbHVzdGVyX3NpemUgaXMgMk0gYW5kIHRoZSBncmFudWxhcml0eSBpcyBCSUdH
+RVIgdGhhbg0KMzJLLiBBcyBhIHJlc3VsdCwgZm9yIGEgcWNvdzIgZGlzayB3aXRoIGNsdXN0ZXJf
+c2l6ZSBzZXQgdG8NCjJNLCB3ZSBjb3VsZCBub3QgZXZlbiBjcmVhdGUgYSBkaXJ0eSBiaXRtYXAg
+d2l0aCBkZWZhdWx0DQpncmFudWxhcml0eS4gVGhpcyBwYXRjaCBmaXggdGhlIGlzc3VlIGJ5IGRp
+dmlkaW5nIEBsZW4gYnkNCmdyYW51bGFyaXR5IGluc3RlYWQuDQoNClNpZ25lZC1vZmYtYnk6IEd1
+b3lpIFR1IDx0dS5ndW95aUBoM2MuY29tPg0KLS0tDQogYmxvY2svcWNvdzItYml0bWFwLmMgfCA0
+ICsrLS0NCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0K
+DQpkaWZmIC0tZ2l0IGEvYmxvY2svcWNvdzItYml0bWFwLmMgYi9ibG9jay9xY293Mi1iaXRtYXAu
+Yw0KaW5kZXggOTgyOTRhNy4uNzFhYzgyMiAxMDA2NDQNCi0tLSBhL2Jsb2NrL3Fjb3cyLWJpdG1h
+cC5jDQorKysgYi9ibG9jay9xY293Mi1iaXRtYXAuYw0KQEAgLTE3Miw4ICsxNzIsOCBAQCBzdGF0
+aWMgaW50IGNoZWNrX2NvbnN0cmFpbnRzX29uX2JpdG1hcChCbG9ja0RyaXZlclN0YXRlICpicywN
+CiAgICAgfQ0KIA0KICAgICBpZiAoKGxlbiA+ICh1aW50NjRfdClCTUVfTUFYX1BIWVNfU0laRSA8
+PCBncmFudWxhcml0eV9iaXRzKSB8fA0KLSAgICAgICAgKGxlbiA+ICh1aW50NjRfdClCTUVfTUFY
+X1RBQkxFX1NJWkUgKiBzLT5jbHVzdGVyX3NpemUgPDwNCi0gICAgICAgICAgICAgICBncmFudWxh
+cml0eV9iaXRzKSkNCisgICAgICAgIChESVZfUk9VTkRfVVAobGVuLCBncmFudWxhcml0eSkgPiAo
+dWludDY0X3QpQk1FX01BWF9UQUJMRV9TSVpFICoNCisgICAgICAgICAgICAgICAgcy0+Y2x1c3Rl
+cl9zaXplKSkNCiAgICAgew0KICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVG9vIG11Y2ggc3Bh
+Y2Ugd2lsbCBiZSBvY2N1cGllZCBieSB0aGUgYml0bWFwLiAiDQogICAgICAgICAgICAgICAgICAg
+ICJVc2UgbGFyZ2VyIGdyYW51bGFyaXR5Iik7DQotLSANCjIuNy40DQo=
 
