@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE78E74A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:13:32 +0100 (CET)
-Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2C1E7488
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 16:10:28 +0100 (CET)
+Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP6i3-0006ZT-K0
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44601)
+	id 1iP6f4-0002am-KB
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 11:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iP6Uo-0007XA-QB
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:52 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iP6Uq-0007YS-Pp
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iP6Um-00044l-Td
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:50 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46253)
+ (envelope-from <richard.henderson@linaro.org>) id 1iP6Uo-000450-09
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:51 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40232)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iP6Uj-00043h-T9
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:47 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id n15so10199980wrw.13
- for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:59:45 -0700 (PDT)
+ id 1iP6Ul-000440-3C
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 10:59:48 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id o28so10234317wro.7
+ for <qemu-devel@nongnu.org>; Mon, 28 Oct 2019 07:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xrU7w4s7KSKnwqBpSI+WZTUaBsgqmQLo3umhoYb3GT8=;
- b=WJCCJ2oTpp+tWKf6mXQ/dvcaQaxrUpqCWL4VFs3Jb22hfO9D9a5isRA4YPGMDZNLN9
- fAL8fDy9gFonH/bW+UAvXJCeHfLOsO1va9R6wVno/Hh2dJqKj6/WpdKCXKG0D+13h+3S
- kJbc7o/l1E42XwNEIIrhTigTjjTBkA/g9irNBgU8R2S+cPjzOhFpGdsBOnmw6sNGDovK
- Wj0c/ZdPoRDwo1LnFxHLEGCQwU1QYxSO2zJb2f+pb8MZVwkrwDBpPL9A6D8aWyfc34p1
- v1ONbRJCD3VAsXmlwLdXW79cPCm0NdTEr8p3ctxddNxCJGaxngpvL1uXZ1yVJLx5TZFz
- JRcg==
+ bh=f6wua0jwz8W5xKyTZRCAqxHy+Li/vZosjNJ04IUp3Ds=;
+ b=x32Z0OapRr7CzGlJrB1N4NVivMQD2LWZSsu2K5ZKBjnxBH8M6+1n9JJNOiAwLnZ947
+ NbisNdJb8cCIN1acp2U1f9JG4FgsqkipSnbp5+xpfDKSRjCR16NU8XKaqLQRY9MPOPTJ
+ 1ARNKiZTOqqP3fHyCyyUeKvoh65sIaAJ+0C5wt+alcZHsew+maxkEd+NBSVXYCtVps1O
+ +K6yFo/IH6r0Iwbpz3bNAf/qt/msWlCqCrUjrbBuYrAbqHkOVvb0lWTEaNRql65bUK4u
+ rWABMU1Yc1oqJ+KreLmOZ6yyIwbVMO/7LyB+3k6ogXyvENcTHHsHY+Lk3g5grslAWiIz
+ sNGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xrU7w4s7KSKnwqBpSI+WZTUaBsgqmQLo3umhoYb3GT8=;
- b=AZYFCDOMI9tKBlQOUfcbnF3lZWhIPwDY0IGVngnYC6d7d0wePJ62b3VJr2odku2/vF
- FuwGZJJtyRuwpz2l//wIP6eRjVghUjpFq7Z3KZlbQfxXqIwJJSBe2j4ecjaHFRVwqWMo
- 24P/vXPwIEIMsZUmjHj5UI5ycysOwPLi/hU2s7zYjYWmtfwn5mkGjRafO1CWWzdiVEVR
- Usd74WANziOxEZNqNSVUzAPOGkMk2MxkXP0dwWdQNe9F0homZBqMmMT79YLve6iSvPoF
- uFwLo+z9LtXIoY7y6gkAwFaPAypx9a/ip17QqBs4bxq+zImwD+D4bRknkCTm2028v921
- jIjA==
-X-Gm-Message-State: APjAAAXUVp3mPxSap6sACs90oIwdMgWkvzuxYudEbl/JSfkJRy+VXUJO
- j3NbK9ZhO25LW/r5OIiFkHRmw0WS1vn0aA==
-X-Google-Smtp-Source: APXvYqyuLysnOgizh4jiAve6pX33fbanxvixoYNJUhWzr/RJgyIKLSaUYvPkCcQRkPzVvwiAVIN6Uw==
-X-Received: by 2002:a5d:4f91:: with SMTP id d17mr15714161wru.184.1572274784547; 
- Mon, 28 Oct 2019 07:59:44 -0700 (PDT)
+ bh=f6wua0jwz8W5xKyTZRCAqxHy+Li/vZosjNJ04IUp3Ds=;
+ b=kshAT8+zd3mO9pCIDDL8/CWTMYM3CzOk9eiwC2gbNEbObed+Pb56jbiWCjtoOAWbD3
+ +5kM9ySn+qWsrUgvEyr0kHwGkSWxwVi6LtqAOrREFtwRsUApF+aIQO7VaNBKdS5yVI8b
+ No1Iv+lOo29RO7iNMdZARp5OwM/YaCTWIu0R/S5wIHrJTTAfPVLnlrfEVsqoWxGJZeF1
+ gO/o7SSMvp0XmaUpSigZYtJCnbR6dZ8hvysadmy4OMR861n9KNXLtJtA+7JYHiBevqex
+ za+B9krLMlZfHBTTOaGosm8IYMPMzW8JNvDf1c1lUTY5H/VCKVHOyEyUw2KzV9sJaqE/
+ jinQ==
+X-Gm-Message-State: APjAAAUBrSkG7sXqOX7HVgJy4FOSkkhXVgPa+l8GnpQLE+xtyYc5A6hl
+ pXlAwi55jCw1G9viQDf4l2k+FZWfoQSEGQ==
+X-Google-Smtp-Source: APXvYqz7D7SFaOToNgLi8IZmC+SWNNqlMmPcseK2+NFUpPp/OHQMordLLYmBG4C2DIdhPUBdWrSSZA==
+X-Received: by 2002:a5d:4142:: with SMTP id c2mr14702098wrq.208.1572274785663; 
+ Mon, 28 Oct 2019 07:59:45 -0700 (PDT)
 Received: from localhost.localdomain (230.106.138.88.rev.sfr.net.
  [88.138.106.230])
- by smtp.gmail.com with ESMTPSA id 143sm14842876wmb.33.2019.10.28.07.59.43
+ by smtp.gmail.com with ESMTPSA id 143sm14842876wmb.33.2019.10.28.07.59.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Oct 2019 07:59:43 -0700 (PDT)
+ Mon, 28 Oct 2019 07:59:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 06/12] exec: Use const alias for TARGET_PAGE_BITS_VARY
-Date: Mon, 28 Oct 2019 15:59:31 +0100
-Message-Id: <20191028145937.10914-7-richard.henderson@linaro.org>
+Subject: [PULL v2 07/12] exec: Restrict TARGET_PAGE_BITS_VARY assert to
+ CONFIG_DEBUG_TCG
+Date: Mon, 28 Oct 2019 15:59:32 +0100
+Message-Id: <20191028145937.10914-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191028145937.10914-1-richard.henderson@linaro.org>
 References: <20191028145937.10914-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,144 +84,34 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using a variable that is declared "const" for this tells the
-compiler that it may read the value once and assume that it
-does not change across function calls.
-
-For target_page_size, this means we have only one assert per
-function, and one read of the variable.
-
-This reduces the size of qemu-system-aarch64 by 8k.
+This reduces the size of a release build by about 10k.
+Noticably, within the tlb miss helpers.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 14 ++++++---
- exec-vary.c            | 66 +++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 68 insertions(+), 12 deletions(-)
+ include/exec/cpu-all.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 255bb186ac..0b449b98ba 100644
+index 0b449b98ba..525059970c 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -210,10 +210,16 @@ static inline void stl_phys_notdirty(AddressSpace *as, hwaddr addr, uint32_t val
- /* page related stuff */
- 
- #ifdef TARGET_PAGE_BITS_VARY
--extern bool target_page_bits_decided;
--extern int target_page_bits;
--#define TARGET_PAGE_BITS ({ assert(target_page_bits_decided); \
--                            target_page_bits; })
-+typedef struct {
-+    bool decided;
-+    int bits;
-+} TargetPageBits;
-+#if defined(CONFIG_ATTRIBUTE_ALIAS) || !defined(IN_EXEC_VARY)
-+extern const TargetPageBits target_page;
-+#else
-+extern TargetPageBits target_page;
-+#endif
-+#define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
+@@ -219,8 +219,12 @@ extern const TargetPageBits target_page;
  #else
+ extern TargetPageBits target_page;
+ #endif
++#ifdef CONFIG_DEBUG_TCG
+ #define TARGET_PAGE_BITS   ({ assert(target_page.decided); target_page.bits; })
+ #else
++#define TARGET_PAGE_BITS   target_page.bits
++#endif
++#else
  #define TARGET_PAGE_BITS_MIN TARGET_PAGE_BITS
  #endif
-diff --git a/exec-vary.c b/exec-vary.c
-index 48c0ab306c..8725fd0285 100644
---- a/exec-vary.c
-+++ b/exec-vary.c
-@@ -19,11 +19,55 @@
  
- #include "qemu/osdep.h"
- #include "qemu-common.h"
-+
-+#define IN_EXEC_VARY 1
-+
- #include "exec/exec-all.h"
- 
- #ifdef TARGET_PAGE_BITS_VARY
--int target_page_bits;
--bool target_page_bits_decided;
-+# ifdef CONFIG_ATTRIBUTE_ALIAS
-+/*
-+ * We want to declare the "target_page" variable as const, which tells
-+ * the compiler that it can cache any value that it reads across calls.
-+ * This avoids multiple assertions and multiple reads within any one user.
-+ *
-+ * This works because we finish initializing the data before we ever read
-+ * from the "target_page" symbol.
-+ *
-+ * This also requires that we have a non-constant symbol by which we can
-+ * perform the actual initialization, and which forces the data to be
-+ * allocated within writable memory.  Thus "init_target_page", and we use
-+ * that symbol exclusively in the two functions that initialize this value.
-+ *
-+ * The "target_page" symbol is created as an alias of "init_target_page".
-+ */
-+static TargetPageBits init_target_page;
-+
-+/*
-+ * Note that this is *not* a redundant decl, this is the definition of
-+ * the "target_page" symbol.  The syntax for this definition requires
-+ * the use of the extern keyword.  This seems to be a GCC bug in
-+ * either the syntax for the alias attribute or in -Wredundant-decls.
-+ *
-+ * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91765
-+ */
-+#  pragma GCC diagnostic push
-+#  pragma GCC diagnostic ignored "-Wredundant-decls"
-+
-+extern const TargetPageBits target_page
-+    __attribute__((alias("init_target_page")));
-+
-+#  pragma GCC diagnostic pop
-+# else
-+/*
-+ * When aliases are not supported then we force two different declarations,
-+ * by way of suppressing the header declaration with IN_EXEC_VARY.
-+ * We assume that on such an old compiler, LTO cannot be used, and so the
-+ * compiler cannot not detect the mismatched declarations, and all is well.
-+ */
-+TargetPageBits target_page;
-+#  define init_target_page target_page
-+# endif
- #endif
- 
- bool set_preferred_target_page_bits(int bits)
-@@ -36,11 +80,11 @@ bool set_preferred_target_page_bits(int bits)
-      */
- #ifdef TARGET_PAGE_BITS_VARY
-     assert(bits >= TARGET_PAGE_BITS_MIN);
--    if (target_page_bits == 0 || target_page_bits > bits) {
--        if (target_page_bits_decided) {
-+    if (init_target_page.bits == 0 || init_target_page.bits > bits) {
-+        if (init_target_page.decided) {
-             return false;
-         }
--        target_page_bits = bits;
-+        init_target_page.bits = bits;
-     }
- #endif
-     return true;
-@@ -49,9 +93,15 @@ bool set_preferred_target_page_bits(int bits)
- void finalize_target_page_bits(void)
- {
- #ifdef TARGET_PAGE_BITS_VARY
--    if (target_page_bits == 0) {
--        target_page_bits = TARGET_PAGE_BITS_MIN;
-+    if (init_target_page.bits == 0) {
-+        init_target_page.bits = TARGET_PAGE_BITS_MIN;
-     }
--    target_page_bits_decided = true;
-+    init_target_page.decided = true;
-+
-+    /*
-+     * For the benefit of an -flto build, prevent the compiler from
-+     * hoisting a read from target_page before we finish initializing.
-+     */
-+    barrier();
- #endif
- }
 -- 
 2.17.1
 
