@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7A8E6DC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:04:14 +0100 (CET)
-Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78B3E6DC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 09:06:58 +0100 (CET)
+Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP00b-0004xW-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46894)
+	id 1iP03F-0002nN-FK
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 04:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iOzb4-0006dc-Hg
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1iOzba-0007Rr-1I
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iOzb3-0003Mk-80
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:50 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48657
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iOzbY-0003a6-Pl
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39674
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzb3-0003Me-4O
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:37:49 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iOzbY-0003Zo-MK
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 03:38:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572248268;
+ s=mimecast20190719; t=1572248300;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IDUvrjK68pf787swjbRFwfhRHhyBW2iMlo9TSJvmLf0=;
- b=hO+O1Nufcx++UQeCgGdTSQ6GMjuiEvwf08i7nCVMlW18Ws9MxJG6YjQG7wtl6jAvzqZAh6
- rVEv2q5L/RdVZdh+CDt1QeNJUCMlQGvGRbkbxdnDKXxTxjiOZ2jDKdhN6CfnfD/gMVygI8
- T9CA3N0l0hAvRyDuAIimoFiwP5eG2Ws=
+ bh=wtyVhPrMDClfaWp/tnoq600EcuRYbAk2G8WCARC2TA0=;
+ b=V+jR5qSKCyCabaVB6Nv+6vjByuRT/JWTQ/0z2FHIIPU8A2HD3UfCk2wUuDR7Gn/z+ew4Q8
+ U34zsVhSI7kJJnW2zRTkRzqfw+cQ3FyeFkG90Q5r3XQsUemuEnCGctQltpowU5DVmLHg0B
+ /IUHxPmmlzzRPJTzithtnLuyLLIwNh8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-XJZ44S2INma5kNiI6YXVJQ-1; Mon, 28 Oct 2019 03:37:46 -0400
+ us-mta-341-epZOA5yEPHu0YBpzAuv5NA-1; Mon, 28 Oct 2019 03:38:11 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5D1480183E;
- Mon, 28 Oct 2019 07:37:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A46F1800D7E;
+ Mon, 28 Oct 2019 07:38:10 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-86.brq.redhat.com [10.40.204.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB15F19C69;
- Mon, 28 Oct 2019 07:37:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1731F19C69;
+ Mon, 28 Oct 2019 07:38:04 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/26] tests/boot_linux_console: Use Avocado
- archive::gzip_uncompress()
-Date: Mon, 28 Oct 2019 08:34:34 +0100
-Message-Id: <20191028073441.6448-20-philmd@redhat.com>
+Subject: [PATCH 21/26] tests/boot_linux_console: Test the raspi2 UART1 (16550
+ based)
+Date: Mon, 28 Oct 2019 08:34:36 +0100
+Message-Id: <20191028073441.6448-22-philmd@redhat.com>
 In-Reply-To: <20191028073441.6448-1-philmd@redhat.com>
 References: <20191028073441.6448-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: XJZ44S2INma5kNiI6YXVJQ-1
+X-MC-Unique: epZOA5yEPHu0YBpzAuv5NA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,38 +87,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Avocado 67.0 [*] introduced the avocado.utils.archive module which
-provides handling of gzip files. Use the gzip_uncompress() method.
+The current do_test_arm_raspi2() case tests the PL011 UART0.
+Our model also supports the AUX UART (16550 based).
+We can very simply test the UART1 with Linux, modifying the
+kernel command line.
 
-[*] https://avocado-framework.readthedocs.io/en/67.0/api/utils/avocado.util=
-s.html#avocado.utils.archive.gzip_uncompress
+Add few lines to expand our previous test and cover the AUX
+UART.
 
-Suggested-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
-v2: New patch replacing the gunzip() refactor
----
- tests/acceptance/boot_linux_console.py | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ tests/acceptance/boot_linux_console.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
 _linux_console.py
-index 67b396169b..a689c09cfe 100644
+index cc0c73b9c1..1c9ff2bda3 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -146,10 +146,7 @@ class BootLinuxConsole(MachineTest):
-         initrd_hash =3D 'bf806e17009360a866bf537f6de66590de349a99'
-         initrd_path_gz =3D self.fetch_asset(initrd_url, asset_hash=3Dinitr=
-d_hash)
-         initrd_path =3D self.workdir + "rootfs.cpio"
--
--        with gzip.open(initrd_path_gz, 'rb') as f_in:
--            with open(initrd_path, 'wb') as f_out:
--                shutil.copyfileobj(f_in, f_out)
-+        archive.gzip_uncompress(initrd_path_gz, initrd_path)
+@@ -301,6 +301,7 @@ class BootLinuxConsole(MachineTest):
+         """
+         serial_kernel_cmdline =3D {
+             0: 'earlycon=3Dpl011,0x3f201000 console=3DttyAMA0',
++            1: 'earlycon=3Duart8250,mmio32,0x3f215040 console=3DttyS1,1152=
+00'
+         }
+         deb_url =3D ('http://archive.raspberrypi.org/debian/'
+                    'pool/main/r/raspberrypi-firmware/'
+@@ -311,7 +312,7 @@ class BootLinuxConsole(MachineTest):
+         dtb_path =3D self.extract_from_deb(deb_path, '/boot/bcm2709-rpi-2-=
+b.dtb')
 =20
-         self.vm.set_machine('malta')
-         self.vm.set_console()
+         self.vm.set_machine('raspi2')
+-        self.vm.set_console()
++        self.vm.set_console(console_index=3Duart_id)
+         kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+                                serial_kernel_cmdline[uart_id])
+         self.vm.add_args('-kernel', kernel_path,
+@@ -329,6 +330,14 @@ class BootLinuxConsole(MachineTest):
+         """
+         self.do_test_arm_raspi2(0)
+=20
++    def test_arm_raspi2_uart1(self):
++        """
++        :avocado: tags=3Darch:arm
++        :avocado: tags=3Dmachine:raspi2
++        :avocado: tags=3Ddevice:bcm2835_aux
++        """
++        self.do_test_arm_raspi2(1)
++
+     def test_s390x_s390_ccw_virtio(self):
+         """
+         :avocado: tags=3Darch:s390x
 --=20
 2.21.0
 
