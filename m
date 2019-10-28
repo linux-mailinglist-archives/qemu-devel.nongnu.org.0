@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09D5E7139
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:20:05 +0100 (CET)
-Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C7FE7135
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Oct 2019 13:19:53 +0100 (CET)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iP40C-0005RC-DW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49707)
+	id 1iP3zz-0004ti-Ty
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 08:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iP3vU-000169-7D
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:13 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iP3vU-00016K-TK
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iP3vS-00018X-VY
+ (envelope-from <mreitz@redhat.com>) id 1iP3vT-00019L-JB
  for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47099
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50716
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vS-00017t-RW
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:10 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iP3vT-00018c-F9
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 08:15:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1572264910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WZKGwwrQNIsZCQmXWzekNWbQo7lQgOe1Uzx83/bgdcA=;
- b=XQc2qqvYSUaxq0UB4r8+0hLVjnF4hN8LviXHwzwKoUA/WSzmno1tTDpRah2Gpn4CI3k3Kp
- HHTRyhkGOS1NJyUdT/Z1zhD9VdQfzjMJaybWDKXd86YZJhqG43JInfhjrfpqaGfOSH7AI9
- 0v0yYyMN1B8kOGdjWiEjOcoHt4In1B0=
+ bh=0BJR7+7aH2YQU3yk/3SlY1tFahOTGnVjCwU3veQoNec=;
+ b=MundnMn23qQ4cSmoeJSL/y28wCG5MPGGGVlAIPKF2a//BQYCar950nz/GD5DFkk9wU8eQX
+ 0PtxeXMPlU2RfF6yvXrYv+fS9JxEkRkN6A91BJeIvflSRPY93bZ7fQ/VXxRCyJV67qdwQF
+ XLsdExZwv+Rph5ETjB00nkyvc3jQWWU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-cAv2Zm1INu-ZXoyXqgbtYQ-1; Mon, 28 Oct 2019 08:15:06 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-213-YR7kYPSGNJiHZbe_2KEh0Q-1; Mon, 28 Oct 2019 08:15:08 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D25F7800FF1;
- Mon, 28 Oct 2019 12:15:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC2248017DD;
+ Mon, 28 Oct 2019 12:15:07 +0000 (UTC)
 Received: from localhost (ovpn-117-83.ams2.redhat.com [10.36.117.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78793261A7;
- Mon, 28 Oct 2019 12:15:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CEB05C219;
+ Mon, 28 Oct 2019 12:15:07 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/69] iotests: Prefer null-co over null-aio
-Date: Mon, 28 Oct 2019 13:13:53 +0100
-Message-Id: <20191028121501.15279-2-mreitz@redhat.com>
+Subject: [PULL 02/69] iotests: Allow skipping test cases
+Date: Mon, 28 Oct 2019 13:13:54 +0100
+Message-Id: <20191028121501.15279-3-mreitz@redhat.com>
 In-Reply-To: <20191028121501.15279-1-mreitz@redhat.com>
 References: <20191028121501.15279-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: cAv2Zm1INu-ZXoyXqgbtYQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: YR7kYPSGNJiHZbe_2KEh0Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,68 +75,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use null-co basically everywhere in the iotests.  Unless we want to
-test null-aio specifically, we should use it instead (for consistency).
+case_notrun() does not actually skip the current test case.  It just
+adds a "notrun" note and then returns to the caller, who manually has to
+skip the test.  Generally, skipping a test case is as simple as
+returning from the current function, but not always: For example, this
+model does not allow skipping tests already in the setUp() function.
+
+Thus, add a QMPTestCase.case_skip() function that invokes case_notrun()
+and then self.skipTest().  To make this work, we need to filter the
+information on how many test cases were skipped from the unittest
+output.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20190917092004.999-2-mreitz@redhat.com
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-id: 20190917092004.999-3-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/093 | 7 +++----
- tests/qemu-iotests/245 | 2 +-
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/iotests.py | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
-index 3c4f5173ce..50c1e7f2ec 100755
---- a/tests/qemu-iotests/093
-+++ b/tests/qemu-iotests/093
-@@ -267,13 +267,12 @@ class ThrottleTestCoroutine(ThrottleTestCase):
-     test_img =3D "null-co://"
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 709def4d5d..6d5de6e504 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -838,6 +838,11 @@ class QMPTestCase(unittest.TestCase):
+             return self.pause_wait(job_id)
+         return result
 =20
- class ThrottleTestGroupNames(iotests.QMPTestCase):
--    test_img =3D "null-aio://"
-     max_drives =3D 3
++    def case_skip(self, reason):
++        '''Skip this test case'''
++        case_notrun(reason)
++        self.skipTest(reason)
++
 =20
-     def setUp(self):
-         self.vm =3D iotests.VM()
-         for i in range(0, self.max_drives):
--            self.vm.add_drive(self.test_img,
-+            self.vm.add_drive("null-co://",
-                               "throttling.iops-total=3D100,file.read-zeroe=
-s=3Don")
-         self.vm.launch()
+ def notrun(reason):
+     '''Skip this test suite'''
+@@ -849,7 +854,11 @@ def notrun(reason):
+     sys.exit(0)
 =20
-@@ -376,10 +375,10 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase)=
-:
+ def case_notrun(reason):
+-    '''Skip this test case'''
++    '''Mark this test case as not having been run (without actually
++    skipping it, that is left to the caller).  See
++    QMPTestCase.case_skip() for a variant that actually skips the
++    current test case.'''
++
+     # Each test in qemu-iotests has a number ("seq")
+     seq =3D os.path.basename(sys.argv[0])
 =20
-     def test_removable_media(self):
-         # Add a couple of dummy nodes named cd0 and cd1
--        result =3D self.vm.qmp("blockdev-add", driver=3D"null-aio",
-+        result =3D self.vm.qmp("blockdev-add", driver=3D"null-co",
-                              read_zeroes=3DTrue, node_name=3D"cd0")
-         self.assert_qmp(result, 'return', {})
--        result =3D self.vm.qmp("blockdev-add", driver=3D"null-aio",
-+        result =3D self.vm.qmp("blockdev-add", driver=3D"null-co",
-                              read_zeroes=3DTrue, node_name=3D"cd1")
-         self.assert_qmp(result, 'return', {})
+@@ -950,8 +959,15 @@ def execute_unittest(output, verbosity, debug):
+         unittest.main(testRunner=3Drunner)
+     finally:
+         if not debug:
+-            sys.stderr.write(re.sub(r'Ran (\d+) tests? in [\d.]+s',
+-                                    r'Ran \1 tests', output.getvalue()))
++            out =3D output.getvalue()
++            out =3D re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ran \1 tests'=
+, out)
++
++            # Hide skipped tests from the reference output
++            out =3D re.sub(r'OK \(skipped=3D\d+\)', 'OK', out)
++            out_first_line, out_rest =3D out.split('\n', 1)
++            out =3D out_first_line.replace('s', '.') + '\n' + out_rest
++
++            sys.stderr.write(out)
 =20
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 41218d5f1d..e66a23c5f0 100644
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -598,7 +598,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         ##################
-         ###### null ######
-         ##################
--        opts =3D {'driver': 'null-aio', 'node-name': 'root', 'size': 1024}
-+        opts =3D {'driver': 'null-co', 'node-name': 'root', 'size': 1024}
-=20
-         result =3D self.vm.qmp('blockdev-add', conv_keys =3D False, **opts=
-)
-         self.assert_qmp(result, 'return', {})
+ def execute_test(test_function=3DNone,
+                  supported_fmts=3D[], supported_oses=3D['linux'],
 --=20
 2.21.0
 
