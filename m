@@ -2,53 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E85E9337
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 23:55:23 +0100 (CET)
-Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF40E9351
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:08:43 +0100 (CET)
+Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPaOX-0004Pw-RE
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 18:55:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37833)
+	id 1iPabS-0005Wl-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1iPaN4-0003Mv-F4
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 18:53:52 -0400
+ (envelope-from <mst@redhat.com>) id 1iPaTF-0007vN-Kt
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iPaN3-0003xD-4p
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 18:53:50 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:35132)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iPaN2-0003v6-Ff
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 18:53:49 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id 4C3E64BA08
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:53:46 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1572389626;
- bh=0+U2r/elV5WDGiokxyhq45aA7qy6JvbBnLXwU6igEiE=;
- h=To:Subject:Date:From:In-Reply-To:References:From;
- b=SmVcbjNnxIt2dUrI7Gm/ZjKROtdoIhdhd81g8DlktWENuxDFdJcfejttjppvI7SZt
- gNy+c7i+wAObqJz6RPO+V75DjdqS6G9xBmjTPPur5P6CdBWciSU7K12MWdqfr+fWpO
- I9ec6g+V5gx8NWouNSIhzcruryaAPCeUyCKV2a5U=
-Received: by www1.hostfission.com (Postfix, from userid 1000)
- id 3DC3281EB8; Wed, 30 Oct 2019 09:53:46 +1100 (AEDT)
+ (envelope-from <mst@redhat.com>) id 1iPaTA-00030O-9j
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21903
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaT7-0002uM-MY
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572390003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gY9I1epMo4kk1tMj2jDo4Mey/k+u1Lfe2h++HKnqCzI=;
+ b=d1SXTxE3CX/eqWzs/xJfNCINPnzqDsUW8BgS3mYVfKuArF1KxU1oiA1nuSIoO9J2NG9GTT
+ zRc55zQBeWAYZ7huG17IZtyQ5zLJSmvQm2A36JLYA18FyLjnLNULICCywIvSdN8dGYS0TD
+ MyOhU/W6fhN/Zd4p27Ms8WqrA/ve/OU=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-140-6Hx4YrDnMXGTD7lJdk9Tmg-1; Tue, 29 Oct 2019 19:00:01 -0400
+Received: by mail-qt1-f198.google.com with SMTP id l5so519339qtj.8
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:00:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=sF4aBi2azp2aQT4mPLlMSrWH9hotqWxhTMSDn1DPy9M=;
+ b=XQNsXeAL1nnvhIHteR1ZtdZtCtCPwLwtCZTB43m5SaxplXnQECEFIvftOxOxWpUrW7
+ +/JmnNMMgK4lJOwF/hKzl2HCns+ebtFr5EfLeK2mhUKlcAbea8J+etgAxVFqxeTOPD7Z
+ GMuwrqr6T4sepu7xVDMGzphnhgAb2KdMLT4r6rjoAMIpw1+cbJH7stc3BeipQ4wRhaBO
+ jacJjQCIA2mv5djlEBSb5nK6wN5UuoMr3BJY+nQR7I5ykmN1VMaOBI8uqInRMetbEhUO
+ wV8G2T50pjiYGwFQ8sxTTXGJAeLo9sVfK+I1JboNnBuPQdwqgiTCb1WP/10Jzw4fZOIq
+ rYXw==
+X-Gm-Message-State: APjAAAW9rsaBOpzAcPs+Ic+Vx+ygg0SZd7RsoJP42Xh2UpYnZo6h+9xw
+ ZBmFAzbXmzYJ5rY/QqSxtQr4P+aAkZPVTyShE9tNqc8tqwNK5xziBXev61eMGyEtgmTQa1vAv+N
+ rdu5WQjAYa6V1ssk=
+X-Received: by 2002:a0c:fde8:: with SMTP id m8mr26375821qvu.4.1572390000743;
+ Tue, 29 Oct 2019 16:00:00 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwR1FmT02cV64HHUWjjU7wm2kQ1nHotFXfW5Vz/nlP9QpFRRzJLuDV4yJEcTLfzrR5nh7GmAg==
+X-Received: by 2002:a0c:fde8:: with SMTP id m8mr26375796qvu.4.1572390000313;
+ Tue, 29 Oct 2019 16:00:00 -0700 (PDT)
+Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
+ by smtp.gmail.com with ESMTPSA id u7sm251332qkm.127.2019.10.29.15.59.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Oct 2019 15:59:59 -0700 (PDT)
+Date: Tue, 29 Oct 2019 18:59:57 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: RFC: New device for zero-copy VM memory access
-X-PHP-Originating-Script: 0:rcube.php
+Subject: [PULL 00/14] virtio: features, cleanups
+Message-ID: <20191029225932.14585-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 30 Oct 2019 09:53:46 +1100
-From: geoff@hostfission.com
-In-Reply-To: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
-References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
-Message-ID: <028c23b219913d1f734d95a05d2b5809@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.2.3
+X-Mailer: git-send-email 2.22.0.678.g13338e74b8
+X-Mutt-Fcc: =sent
+X-MC-Unique: 6Hx4YrDnMXGTD7lJdk9Tmg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 139.99.139.48
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,91 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just to follow this up, here is a sample client application for this 
-device
+The following changes since commit 16884391c750d0c5e863f55ad7aaaa146fc5181e=
+:
 
-https://gist.github.com/gnif/77e7fb54604b42a1a98ecb8bf3d2cf46
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2019-10-29' i=
+nto staging (2019-10-29 20:06:08 +0000)
 
--Geoff
+are available in the Git repository at:
 
-On 2019-10-30 01:31, geoff@hostfission.com wrote:
-> Hi All,
-> 
-> Over the past week, I have been working to come up with a solution to 
-> the
-> memory transfer performance issues that hinder the Looking Glass 
-> Project.
-> 
-> Currently Looking Glass works by using the IVSHMEM shared memory device 
-> which
-> is fed by an application that captures the guest's video output. While 
-> this
-> works it is sub-optimal because we first have to perform a CPU copy of 
-> the
-> captured frame into shared RAM, and then back out again for display. 
-> Because
-> the destination buffers are allocated by closed proprietary code 
-> (DirectX, or
-> NVidia NvFBC) there is no way to have the frame placed directly into 
-> the
-> IVSHMEM shared ram.
-> 
-> This new device, currently named `introspection` (which needs a more 
-> suitable
-> name, porthole perhaps?), provides a means of translating guest 
-> physical
-> addresses to host virtual addresses, and finally to the host offsets in 
-> RAM for
-> file-backed memory guests. It does this by means of a simple protocol 
-> over a
-> unix socket (chardev) which is supplied the appropriate fd for the VM's 
-> system
-> RAM. The guest (in this case, Windows), when presented with the address 
-> of a
-> userspace buffer and size, will mlock the appropriate pages into RAM 
-> and pass
-> guest physical addresses to the virtual device.
-> 
-> This device and the windows driver have been designed in such a way 
-> that it's a
-> utility device for any project and/or application that could make use 
-> of it.
-> The PCI subsystem vendor and device ID are used to provide a means of 
-> device
-> identification in cases where multiple devices may be in use for 
-> differing
-> applications. This also allows one common driver to be used for any 
-> other
-> projects wishing to build on this device.
-> 
-> My ultimate goal is to get this to a state where it could be accepted 
-> upstream
-> into Qemu at which point Looking Glass would be modified to use it 
-> instead of
-> the IVSHMEM device.
-> 
-> My git repository with the new device can be found at:
-> https://github.com/gnif/qemu
-> 
-> The new device is:
-> https://github.com/gnif/qemu/blob/master/hw/misc/introspection.c
-> 
-> Looking Glass:
-> https://looking-glass.hostfission.com/
-> 
-> The windows driver, while working, needs some cleanup before the source 
-> is
-> published. I intend to maintain both this device and the windows driver
-> including producing a signed Windows 10 driver if Redhat are unwilling 
-> or
-> unable.
-> 
-> Kind Regards,
-> Geoffrey McRae
-> 
-> HostFission
-> https://hostfission.com
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to b5f53d04a5a567ac70d33ec95628d35583eba600:
+
+  virtio: Use auto rcu_read macros (2019-10-29 18:56:45 -0400)
+
+----------------------------------------------------------------
+virtio: features, cleanups
+
+virtio net failover
+rcu cleanup
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (3):
+      virtio/vhost: Use auto_rcu_read macros
+      virtio_net: use RCU_READ_LOCK_GUARD
+      virtio: Use auto rcu_read macros
+
+Jens Freimann (11):
+      qdev/qbus: add hidden device support
+      pci: add option for net failover
+      pci: mark devices partially unplugged
+      pci: mark device having guest unplug request pending
+      qapi: add unplug primary event
+      qapi: add failover negotiated event
+      migration: allow unplug during migration for failover devices
+      migration: add new migration state wait-unplug
+      libqos: tolerate wait-unplug migration state
+      net/virtio: add failover support
+      vfio: unplug failover primary device before migration
+
+ qapi/migration.json            |  24 +++-
+ qapi/net.json                  |  19 +++
+ hw/vfio/pci.h                  |   1 +
+ include/hw/pci/pci.h           |   4 +
+ include/hw/qdev-core.h         |  30 ++++
+ include/hw/virtio/virtio-net.h |  12 ++
+ include/hw/virtio/virtio.h     |   1 +
+ include/migration/vmstate.h    |   2 +
+ migration/migration.h          |   3 +
+ migration/savevm.h             |   2 +
+ hw/core/qdev.c                 |  25 ++++
+ hw/net/virtio-net.c            | 309 +++++++++++++++++++++++++++++++++++++=
++++-
+ hw/pci/pci.c                   |  32 +++++
+ hw/pci/pcie.c                  |   6 +
+ hw/vfio/pci.c                  |  26 +++-
+ hw/virtio/vhost.c              |   4 +-
+ hw/virtio/virtio.c             |  65 +++------
+ migration/migration.c          |  21 +++
+ migration/savevm.c             |  31 +++++
+ qdev-monitor.c                 |  43 +++++-
+ tests/libqos/libqos.c          |   3 +-
+ vl.c                           |   6 +-
+ MAINTAINERS                    |   1 +
+ docs/virtio-net-failover.rst   |  68 +++++++++
+ 24 files changed, 673 insertions(+), 65 deletions(-)
+ create mode 100644 docs/virtio-net-failover.rst
+
 
