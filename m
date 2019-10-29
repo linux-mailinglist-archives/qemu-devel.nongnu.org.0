@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B416E9362
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:15:42 +0100 (CET)
-Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1C8E938D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:26:18 +0100 (CET)
+Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPaiC-0005Y6-IV
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43877)
+	id 1iPasT-0007Gp-GC
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60071)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iPaUU-0000p3-H5
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:33 -0400
+ (envelope-from <crosa@redhat.com>) id 1iPaq1-0005av-Og
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:23:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iPaUT-0004tG-F4
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50072)
+ (envelope-from <crosa@redhat.com>) id 1iPapw-0000as-KM
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:23:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53301
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaUS-0004qH-K0
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:29 -0400
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iPapr-0000Q1-0D
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:23:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572391413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UcUSWi/ozLHXErxM7WBqzFz1fI/nZC8xpiQVI2IZe7k=;
+ b=dweuGei3GLCDg/d06DNtWi8CFbAKhORE49nLfQyE+BW35kCpPEQNe9/zy7bd6VsCmNOe9E
+ Y/ZWNfEphXSxH7NhOt8NJbJ7A0jSFD2g3XK8zBPAZ7K25oiEgLZfUmq06c9H2PMtOyFxbx
+ rqa/almqvuivJyf6W6csZyQl2mUBuOg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-IbqPeqxuNIa88dJrl0lBJg-1; Tue, 29 Oct 2019 19:23:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 150725AFE9
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:01:26 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id x186so261163qke.13
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:01:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NIZIUZQMHD8MQB75aibzuLlMw0b/3b/p/eZpRql+nWE=;
- b=ijRtHMUrTxZaF3yJYcr3lPG8YXay/0DNcP0k1+vfjr0PUnDSIVQOMW+NkqsoaSZSEM
- 6pX4FBVGzhxmmLfkfrP7X+ExQoYtt/NKcRNWkC+/FE+udsSq0nUFSjFlDPdh5ojGzzh+
- Wmuxi4PjMBD4Qmz6WfhG8G/wY8qBDNbPvAfSINrGrwQLyD8m7eDSExYD3sYduLiLpJnZ
- otb4KaicTDJmTtbCRRhpssw36bndGpB/S5X+5a5o+XQnuKIPRw7YkunPhjMVlZAWxsFb
- au+dVQpqjY0EiZ4WJA71gdF/RkvP+U+uk5E7Zc39bdTFdSv9WfwszLezcu5257a0h+nn
- lLYQ==
-X-Gm-Message-State: APjAAAVsXYa2GJd8If9th1WWxrOkq9TwVUvkoyHro4+SKfTo+xtnZ3ro
- EX+PgvyRIi0Yj5ZAX976db9iY2+TrFuZCFKHuMfgnY+m6XA5SnmaVjTjEsTUqq7yHx9wzhZkCTN
- GwN3rkZmnwUJd6nU=
-X-Received: by 2002:a0c:fb06:: with SMTP id c6mr20324531qvp.249.1572390084808; 
- Tue, 29 Oct 2019 16:01:24 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxC6H2Qf4NmNRdcd8gqruKRp5YmZ2ttJ49a9YfOjoFugY3dZMfZ635m5NGqJxx7hqHjdZSqzQ==
-X-Received: by 2002:a0c:fb06:: with SMTP id c6mr20324510qvp.249.1572390084599; 
- Tue, 29 Oct 2019 16:01:24 -0700 (PDT)
-Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id w131sm487444qka.85.2019.10.29.16.01.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 16:01:23 -0700 (PDT)
-Date: Tue, 29 Oct 2019 19:01:21 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59E401005500;
+ Tue, 29 Oct 2019 23:23:28 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-123-183.rdu2.redhat.com
+ [10.10.123.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F0235D9C3;
+ Tue, 29 Oct 2019 23:23:22 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/14] virtio_net: use RCU_READ_LOCK_GUARD
-Message-ID: <20191029225932.14585-14-mst@redhat.com>
-References: <20191029225932.14585-1-mst@redhat.com>
+Subject: [PATCH 0/2] Acceptance test: update kernel used on m68k/q800 test
+Date: Tue, 29 Oct 2019 19:23:18 -0400
+Message-Id: <20191029232320.12419-1-crosa@redhat.com>
+In-Reply-To: <20191028181643.5143-12-laurent@vivier.eu>
+References: <20191028181643.5143-12-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191029225932.14585-1-mst@redhat.com>
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: IbqPeqxuNIa88dJrl0lBJg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,43 +71,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+The boot_linux_console.py:BootLinuxConsole.test_m68k_q800 was very
+recently merged, but between its last review and now, the Kernel
+package used went missing.
 
-Use RCU_READ_LOCK_GUARD rather than the manual rcu_read_(un)lock call.
+This updates the Kernel package, and protects the test from failing
+if it gets updated again.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20191025103403.120616-3-dgilbert@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/net/virtio-net.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Cleber Rosa (2):
+  Acceptance test: cancel test if m68k kernel packages goes missing
+  Acceptance test: update kernel for m68k/q800 test
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 314f365e7c..97a5113f7e 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1490,12 +1490,9 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
- static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
-                                   size_t size)
- {
--    ssize_t r;
-+    RCU_READ_LOCK_GUARD();
- 
--    rcu_read_lock();
--    r = virtio_net_receive_rcu(nc, buf, size);
--    rcu_read_unlock();
--    return r;
-+    return virtio_net_receive_rcu(nc, buf, size);
- }
- 
- static void virtio_net_rsc_extract_unit4(VirtioNetRscChain *chain,
--- 
-MST
+ tests/acceptance/boot_linux_console.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+--=20
+2.21.0
 
 
