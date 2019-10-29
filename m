@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBF3E85ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:42:22 +0100 (CET)
-Received: from localhost ([::1]:54584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9C1E8592
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:30:32 +0100 (CET)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPOxB-00015Z-A0
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56923)
+	id 1iPOlj-0005eL-3n
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:30:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iPOeJ-0005eJ-Jx
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:53 -0400
+ (envelope-from <armbru@redhat.com>) id 1iPOeA-0005Te-LQ
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iPOeH-0001JU-TH
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:51 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53174
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iPOe9-000194-4v
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57616
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOeH-0001Iw-PR
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:49 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOe9-00018b-0Y
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572344569;
+ s=mimecast20190719; t=1572344560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+JMn6pPjR9wgY+pG0VV/+OUc79f2GZ/WW4gJ5aof4Ig=;
- b=hlrKh2whyBueBAMa4U1a21g1UtlQuUGXYO4pae2DfKfzobR3cy/xz2ysVqrNVoTpYzpDtE
- K54RZfjskX0nh6rBt3EhSJSmb8o3d2SBuEVQPjdrgp2S7E5QsLR/fWOFFwaNnlNLoeiQow
- Ydi9BHAsqR+KehslHqJMY53RgFy7+fc=
+ bh=Y9Ey/EUrymiudN60r02MqqCrJg8LPl6HqqAmQ4TOoVM=;
+ b=OgidRPSaS4Ok11OmlmwHAlYjA80m1UCJEqHqE1f7I1cViAVqJRkXGappbhsm2whFaAlgNh
+ 5FB8COG2H2/QhtdvbxSqOz5TlrgM8bk56yjamzi2Ot7Ii1R+XinpOh5DWgWvE4BQvY64tK
+ jFf2inj9c68O1obK2NOggCidmAA2Fkg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-ni2g7APMOn6cx0npGh-41Q-1; Tue, 29 Oct 2019 06:22:46 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-43-bN8FrCo6NfqZkv_7GeYhWg-1; Tue, 29 Oct 2019 06:22:39 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4D875E4
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B33F5107AD28
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AB725C1B2
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80B1860BF1
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E6B211329D0; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
+ id A15941132941; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/19] qapi: Fix doc comment checking for commands and events
-Date: Tue, 29 Oct 2019 11:22:20 +0100
-Message-Id: <20191029102228.20740-12-armbru@redhat.com>
+Subject: [PULL 12/19] qapi: Simplify ._make_implicit_object_type()
+Date: Tue, 29 Oct 2019 11:22:21 +0100
+Message-Id: <20191029102228.20740-13-armbru@redhat.com>
 In-Reply-To: <20191029102228.20740-1-armbru@redhat.com>
 References: <20191029102228.20740-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: ni2g7APMOn6cx0npGh-41Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: bN8FrCo6NfqZkv_7GeYhWg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,235 +75,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a command's 'data' is an object, its doc comment describes the
-arguments defined there.  When 'data' names a type, the doc comment
-does not describe arguments.  Instead, the doc generator inserts a
-pointer to the named type.
-
-An event's doc comment works the same.
-
-We don't actually check doc comments for commands and events.
-Instead, QAPISchema._def_command() forwards the doc comment to the
-implicit argument type, where it gets checked.  Works because the
-check only cares for the implicit argument type's members.
-
-Not only is this needlessly hard to understand, it actually falls
-apart in two cases:
-
-* When 'data' is empty, there is nothing to forward to, and the doc
-  comment remains unchecked.  Demonstrated by test doc-bad-event-arg.
-
-* When 'data' names a type, we can't forward, as the type has its own
-  doc comment.  The command or event's doc comment remains unchecked.
-  Demonstrated by test doc-bad-boxed-command-arg.
-
-The forwarding goes back to commit 069fb5b250 "qapi: Prepare for
-requiring more complete documentation", put to use in commit
-816a57cd6e "qapi: Fix detection of bogus member documentation".  That
-fix was incomplete.
-
-To fix this, make QAPISchemaCommand and QAPISchemaEvent check doc
-comments, and drop the forwarding of doc comments to implicit argument
-types.
+All callers now pass doc=3DNone.  Drop the argument.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191024110237.30963-12-armbru@redhat.com>
+Message-Id: <20191024110237.30963-13-armbru@redhat.com>
 ---
- qapi/net.json                                 |  2 --
- scripts/qapi/doc.py                           |  1 +
- scripts/qapi/schema.py                        | 24 +++++++++++++++--
- .../qapi-schema/doc-bad-boxed-command-arg.err |  1 +
- .../doc-bad-boxed-command-arg.json            |  1 -
- .../qapi-schema/doc-bad-boxed-command-arg.out | 26 -------------------
- tests/qapi-schema/doc-bad-event-arg.err       |  1 +
- tests/qapi-schema/doc-bad-event-arg.json      |  1 -
- tests/qapi-schema/doc-bad-event-arg.out       | 19 --------------
- 9 files changed, 25 insertions(+), 51 deletions(-)
+ scripts/qapi/schema.py | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 728990f4fb..4c96137811 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -723,8 +723,6 @@
- # Trigger generation of broadcast RARP frames to update network switches.
- # This can be useful when network bonds fail-over the active slave.
- #
--# @params: AnnounceParameters giving timing and repetition count of announ=
-ce
--#
- # Example:
- #
- # -> { "execute": "announce-self",
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index c8c4bda153..6f1c17f71f 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -185,6 +185,7 @@ def texi_members(doc, what, base=3DNone, variants=3DNon=
-e,
-=20
- def texi_arguments(doc, boxed_arg_type):
-     if boxed_arg_type:
-+        assert not doc.args
-         return ('\n@b{Arguments:} the members of @code{%s}\n'
-                 % boxed_arg_type.name)
-     return texi_members(doc, 'Arguments')
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index c16dce1fe0..06e37c9c49 100644
+index 06e37c9c49..27da4e0f7d 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -739,6 +739,16 @@ class QAPISchemaCommand(QAPISchemaEntity):
-         for f in self.features:
-             f.check_clash(self.info, seen)
+@@ -920,8 +920,7 @@ class QAPISchema(object):
+             self._def_entity(QAPISchemaArrayType(name, info, element_type)=
+)
+         return name
 =20
-+    def connect_doc(self, doc=3DNone):
-+        doc =3D doc or self.doc
-+        if doc:
-+            if self.arg_type and self.arg_type.is_implicit():
-+                self.arg_type.connect_doc(doc)
-+
-+    def check_doc(self):
-+        if self.doc:
-+            self.doc.check()
-+
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_command(self.name, self.info, self.ifcond,
-@@ -775,6 +785,16 @@ class QAPISchemaEvent(QAPISchemaEntity):
-                     "event's 'data' can take %s only with 'boxed': true"
-                     % self.arg_type.describe())
+-    def _make_implicit_object_type(self, name, info, doc, ifcond,
+-                                   role, members):
++    def _make_implicit_object_type(self, name, info, ifcond, role, members=
+):
+         if not members:
+             return None
+         # See also QAPISchemaObjectTypeMember.describe()
+@@ -939,7 +938,7 @@ class QAPISchema(object):
+             # TODO kill simple unions or implement the disjunction
+             assert (ifcond or []) =3D=3D typ._ifcond # pylint: disable=3Dp=
+rotected-access
+         else:
+-            self._def_entity(QAPISchemaObjectType(name, info, doc, ifcond,
++            self._def_entity(QAPISchemaObjectType(name, info, None, ifcond=
+,
+                                                   None, members, None, [])=
+)
+         return name
 =20
-+    def connect_doc(self, doc=3DNone):
-+        doc =3D doc or self.doc
-+        if doc:
-+            if self.arg_type and self.arg_type.is_implicit():
-+                self.arg_type.connect_doc(doc)
-+
-+    def check_doc(self):
-+        if self.doc:
-+            self.doc.check()
-+
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
-         visitor.visit_event(self.name, self.info, self.ifcond,
-@@ -1026,7 +1046,7 @@ class QAPISchema(object):
+@@ -986,7 +985,7 @@ class QAPISchema(object):
+             assert len(typ) =3D=3D 1
+             typ =3D self._make_array_type(typ[0], info)
+         typ =3D self._make_implicit_object_type(
+-            typ, info, None, self.lookup_type(typ),
++            typ, info, self.lookup_type(typ),
+             'wrapper', [self._make_member('data', typ, None, info)])
+         return QAPISchemaObjectTypeVariant(case, info, typ, ifcond)
+=20
+@@ -999,7 +998,7 @@ class QAPISchema(object):
+         tag_member =3D None
+         if isinstance(base, dict):
+             base =3D self._make_implicit_object_type(
+-                name, info, None, ifcond,
++                name, info, ifcond,
+                 'base', self._make_members(base, info))
+         if tag_name:
+             variants =3D [self._make_variant(key, value['type'],
+@@ -1046,7 +1045,7 @@ class QAPISchema(object):
          features =3D expr.get('features', [])
          if isinstance(data, OrderedDict):
              data =3D self._make_implicit_object_type(
--                name, info, doc, ifcond, 'arg', self._make_members(data, i=
-nfo))
-+                name, info, None, ifcond, 'arg', self._make_members(data, =
+-                name, info, None, ifcond, 'arg', self._make_members(data, =
 info))
++                name, info, ifcond, 'arg', self._make_members(data, info))
          if isinstance(rets, list):
              assert len(rets) =3D=3D 1
              rets =3D self._make_array_type(rets[0], info)
-@@ -1042,7 +1062,7 @@ class QAPISchema(object):
+@@ -1062,7 +1061,7 @@ class QAPISchema(object):
          ifcond =3D expr.get('if')
          if isinstance(data, OrderedDict):
              data =3D self._make_implicit_object_type(
--                name, info, doc, ifcond, 'arg', self._make_members(data, i=
-nfo))
-+                name, info, None, ifcond, 'arg', self._make_members(data, =
+-                name, info, None, ifcond, 'arg', self._make_members(data, =
 info))
++                name, info, ifcond, 'arg', self._make_members(data, info))
          self._def_entity(QAPISchemaEvent(name, info, doc, ifcond, data, bo=
 xed))
 =20
      def _def_exprs(self, exprs):
-diff --git a/tests/qapi-schema/doc-bad-boxed-command-arg.err b/tests/qapi-s=
-chema/doc-bad-boxed-command-arg.err
-index e69de29bb2..e1101b1667 100644
---- a/tests/qapi-schema/doc-bad-boxed-command-arg.err
-+++ b/tests/qapi-schema/doc-bad-boxed-command-arg.err
-@@ -0,0 +1 @@
-+doc-bad-boxed-command-arg.json:9: the following documented members are not=
- in the declaration: a
-diff --git a/tests/qapi-schema/doc-bad-boxed-command-arg.json b/tests/qapi-=
-schema/doc-bad-boxed-command-arg.json
-index 2c265d2ca3..bd143241ec 100644
---- a/tests/qapi-schema/doc-bad-boxed-command-arg.json
-+++ b/tests/qapi-schema/doc-bad-boxed-command-arg.json
-@@ -1,5 +1,4 @@
- # Boxed arguments are not to be documented with the command
--# BUG: not rejected
-=20
- ##
- # @Args:
-diff --git a/tests/qapi-schema/doc-bad-boxed-command-arg.out b/tests/qapi-s=
-chema/doc-bad-boxed-command-arg.out
-index 4ccd788253..e69de29bb2 100644
---- a/tests/qapi-schema/doc-bad-boxed-command-arg.out
-+++ b/tests/qapi-schema/doc-bad-boxed-command-arg.out
-@@ -1,26 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module doc-bad-boxed-command-arg.json
--object Args
--    member a: int optional=3DFalse
--command cmd-boxed Args -> None
--    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
-=3DFalse
--doc symbol=3DArgs
--    body=3D
--
--    arg=3Da
--an argument
--doc symbol=3Dcmd-boxed
--    body=3D
--
--    arg=3Da
--bogus
-diff --git a/tests/qapi-schema/doc-bad-event-arg.err b/tests/qapi-schema/do=
-c-bad-event-arg.err
-index e69de29bb2..114ff4a3c7 100644
---- a/tests/qapi-schema/doc-bad-event-arg.err
-+++ b/tests/qapi-schema/doc-bad-event-arg.err
-@@ -0,0 +1 @@
-+doc-bad-event-arg.json:3: the following documented members are not in the =
-declaration: a
-diff --git a/tests/qapi-schema/doc-bad-event-arg.json b/tests/qapi-schema/d=
-oc-bad-event-arg.json
-index 80d4e1240b..23c83cc81f 100644
---- a/tests/qapi-schema/doc-bad-event-arg.json
-+++ b/tests/qapi-schema/doc-bad-event-arg.json
-@@ -1,5 +1,4 @@
- # Arguments listed in the doc comment must exist in the actual schema
--# BUG: nonexistent @a is not rejected
-=20
- ##
- # @FOO:
-diff --git a/tests/qapi-schema/doc-bad-event-arg.out b/tests/qapi-schema/do=
-c-bad-event-arg.out
-index ad0367cd45..e69de29bb2 100644
---- a/tests/qapi-schema/doc-bad-event-arg.out
-+++ b/tests/qapi-schema/doc-bad-event-arg.out
-@@ -1,19 +0,0 @@
--module None
--object q_empty
--enum QType
--    prefix QTYPE
--    member none
--    member qnull
--    member qnum
--    member qstring
--    member qdict
--    member qlist
--    member qbool
--module doc-bad-event-arg.json
--event FOO None
--    boxed=3DFalse
--doc symbol=3DFOO
--    body=3D
--
--    arg=3Da
--a
 --=20
 2.21.0
 
