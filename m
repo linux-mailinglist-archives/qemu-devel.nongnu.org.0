@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58950E9352
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:09:05 +0100 (CET)
-Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A53CE9341
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:04:05 +0100 (CET)
+Received: from localhost ([::1]:34876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPabn-0006Hs-PN
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42849)
+	id 1iPaWx-0001ex-4E
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iPaTW-0008CU-Rn
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:32 -0400
+ (envelope-from <mst@redhat.com>) id 1iPaTa-0008Ek-0C
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iPaTU-0003Ko-Dh
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:21623)
+ (envelope-from <mst@redhat.com>) id 1iPaTY-0003P6-TD
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaTU-0003I3-5r
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:28 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaTW-0003MG-Pa
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:30 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D988944BD1
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:00:24 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id l32so519445qtk.9
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:00:24 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5EE2A6AAEA
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:00:29 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id 125so257816qkj.12
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:00:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0p1pl/3jTXjCPVE2PUOwJIYTROLsHIckcBMVac6VDIo=;
- b=ZRKthAmy9XBYzPdHajb6yhhu+2t0qLPMZG9a+jRaHP550h/fC+xvh0KuCH2BpyPb/i
- iuQ9D1ihsUENO4QqD08MJhMiBgYnVHhqgpIJ9cwwt2d1sa2YSCKr8qaB55/3DJXM6hGl
- l1OWUOLTl2oMZlYMwcrfR3apzcwrQh6+NnqQpix0iJjCR9hm+nrt7lUD+cnh9HOubf+q
- ecOiTKLhxCQM0IverQW1umTm9iMvd5TwzV754R2qUr8T4BQTXZDVBSlVk9AtbQngjg3D
- 83NfQzZFFMDb++IQGjm5Qjh8PUyelVpqqllb2gGSRjAU99zamDo/oC3DWdFzzFyWcLsz
- 07FQ==
-X-Gm-Message-State: APjAAAXKYlMUd6t/S2+SeIUAYhOOyQTjyTbc2+xl/uhrTYqldeCiCW9s
- aFklLNAn8sEv98q5g8bhGakcTwJ9yAByAVmUSZWgb7YR/agPv3z5NyF7VJg+q94OP9avBwxIa6Y
- KF8NLJU8d3OFfxBU=
-X-Received: by 2002:a37:a792:: with SMTP id
- q140mr24791444qke.216.1572390023607; 
- Tue, 29 Oct 2019 16:00:23 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwSKjBf1Pu28wDhkZXfcFxq0Ps0fP+Cp4SlmvJS+GomReNdLQdzqqRVT6RqpkwloT+CwVDaAg==
-X-Received: by 2002:a37:a792:: with SMTP id
- q140mr24791419qke.216.1572390023343; 
- Tue, 29 Oct 2019 16:00:23 -0700 (PDT)
+ bh=FA5/lZk6lCS/6yerSfbbf7h1FFYnvdpxuf5qIw8oeJs=;
+ b=S0ntEtBuZQr34OrEIpJj213WQNyTTbKMm1NQQvwCtLwJ0U2vCgktIT7uA1vsBTvKoo
+ OzhQ0suoWiKlumPerTVjWfB/4YekUPIFSy2V3pR92NpnG5eNBmLeHuJQlCmbWfZdulp7
+ a144kzwWZ7h/ec4bUJ2vBAhtuHY1SUyFN2131EhA3rPjn5Ci+FWCCP3MiE3/wb31CBCw
+ YhQnZ9jrYsCOLQofKG3wcvISNuWF+9DIToFYEGq0JhHy/w5ZzdfLGVgcdUUOegkq3R/s
+ GN/Io9qi47IgdOVbzNbLsZjJ6QsrQxSa456YJy0vaCQWpIZPsy6pFXQ0tasfdgfnvGJy
+ zNZw==
+X-Gm-Message-State: APjAAAWZs5c+NfI/aY3LAb6u4RnE78m+R5me4nlqmJT5VuLehun5OQjM
+ HbkG56udQoEHcFR/siGgo0u9+0FsdcY6nW0WEWESJ64rPbm3L1rPJa33LkQAa5vilwZj+bfBRND
+ f079iYufZ5xj+/Wg=
+X-Received: by 2002:a0c:f4d2:: with SMTP id o18mr26307281qvm.100.1572390028168; 
+ Tue, 29 Oct 2019 16:00:28 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxP5SguC9C8aiSQ1AqL2MM2XRiuj5MEnCf2QVm5/phGVMmBoCNsBVbiZ1b1OI3urtaGqH/DMQ==
+X-Received: by 2002:a0c:f4d2:: with SMTP id o18mr26307249qvm.100.1572390027902; 
+ Tue, 29 Oct 2019 16:00:27 -0700 (PDT)
 Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id p54sm200944qta.39.2019.10.29.16.00.21
+ by smtp.gmail.com with ESMTPSA id t58sm98238qta.78.2019.10.29.16.00.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 16:00:22 -0700 (PDT)
-Date: Tue, 29 Oct 2019 19:00:19 -0400
+ Tue, 29 Oct 2019 16:00:27 -0700 (PDT)
+Date: Tue, 29 Oct 2019 19:00:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/14] pci: mark devices partially unplugged
-Message-ID: <20191029225932.14585-4-mst@redhat.com>
+Subject: [PULL 04/14] pci: mark device having guest unplug request pending
+Message-ID: <20191029225932.14585-5-mst@redhat.com>
 References: <20191029225932.14585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -86,45 +84,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jens Freimann <jfreimann@redhat.com>
 
-Only the guest unplug request was triggered. This is needed for
-the failover feature. In case of a failed migration we need to
-plug the device back to the guest.
+Set pending_deleted_event in DeviceState for failover
+primary devices that were successfully unplugged by the Guest OS.
 
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-Message-Id: <20191029114905.6856-4-jfreimann@redhat.com>
+Message-Id: <20191029114905.6856-5-jfreimann@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/pcie.c        | 3 +++
- include/hw/pci/pci.h | 1 +
- 2 files changed, 4 insertions(+)
+ hw/pci/pcie.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index a6beb567bd..19363ff8ce 100644
+index 19363ff8ce..08718188bb 100644
 --- a/hw/pci/pcie.c
 +++ b/hw/pci/pcie.c
-@@ -456,6 +456,9 @@ static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
- {
+@@ -457,6 +457,7 @@ static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
      HotplugHandler *hotplug_ctrl = qdev_get_hotplug_handler(DEVICE(dev));
  
-+    if (dev->partially_hotplugged) {
-+        return;
-+    }
+     if (dev->partially_hotplugged) {
++        dev->qdev.pending_deleted_event = false;
+         return;
+     }
      hotplug_handler_unplug(hotplug_ctrl, DEVICE(dev), &error_abort);
-     object_unparent(OBJECT(dev));
- }
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 69d1f0228b..db75c6dfd0 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -265,6 +265,7 @@ typedef struct PCIReqIDCache PCIReqIDCache;
+@@ -476,6 +477,8 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+         return;
+     }
  
- struct PCIDevice {
-     DeviceState qdev;
-+    bool partially_hotplugged;
- 
-     /* PCI config space */
-     uint8_t *config;
++    dev->pending_deleted_event = true;
++
+     /* In case user cancel the operation of multi-function hot-add,
+      * remove the function that is unexposed to guest individually,
+      * without interaction with guest.
 -- 
 MST
 
