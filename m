@@ -2,64 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD583E8792
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 12:55:56 +0100 (CET)
-Received: from localhost ([::1]:55342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA9BE879D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 12:58:27 +0100 (CET)
+Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPQ6N-0002E3-M8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 07:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40767)
+	id 1iPQ8o-0005Yb-KT
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 07:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41766)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iPQ25-0006de-Bp
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 07:51:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iPQ65-0002tP-1T
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 07:55:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iPQ21-0002rh-Pr
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 07:51:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29699
+ (envelope-from <mreitz@redhat.com>) id 1iPQ63-0005P3-GI
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 07:55:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iPQ21-0002r4-KD
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 07:51:25 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iPQ63-0005O3-Ae
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 07:55:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572349885;
+ s=mimecast20190719; t=1572350133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WRBq6SavWREX7wNIJF2XreGaJaHiSOPQd/UJjwcCeqs=;
- b=BZOY7IQ8giuR7plmGBYXYADqWiEqTkiB8LtNrPwe4Q7uTf6/WI0QQBN6BEac5H1BHvK8Ri
- ouHBosHHInP94RZ2VnvdXa4KVq4YAwKc4ooln7EdbkKWrADeYHPw9S4d3PGB+obG1FNCH2
- RAf28FngiyQODJ382UZWzij016prUVk=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=41sSEJon7ldTdapk1bRd0+AlYNZQU2B0XwfKM9luTwE=;
+ b=PcMg+I7iGoyVM9buxctMs4bShffdIu6VHBVtbaawkxTEjGbAPQkI7U14Lj8oBlmmdLb/lk
+ lBnZe0jp06LXnaTN7A5U5vxDHxQltolLz8i29XLV+e++S5FmFSKf3FVqACiy2iqhtHAvjY
+ GgsAU0COdFFxGSwRXRSJxV1vjTHc4Ts=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-ZCNge-2EP6yZ60KzepXE6g-1; Tue, 29 Oct 2019 07:51:21 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-175-RbJD8j1-NQ2eNre5guPJMg-1; Tue, 29 Oct 2019 07:55:31 -0400
+X-MC-Unique: RbJD8j1-NQ2eNre5guPJMg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EA9B1005500;
- Tue, 29 Oct 2019 11:51:20 +0000 (UTC)
-Received: from localhost (ovpn-116-231.ams2.redhat.com [10.36.116.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 188FE1001B08;
- Tue, 29 Oct 2019 11:51:10 +0000 (UTC)
-From: Jens Freimann <jfreimann@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 10/11] net/virtio: add failover support
-Date: Tue, 29 Oct 2019 12:49:04 +0100
-Message-Id: <20191029114905.6856-11-jfreimann@redhat.com>
-In-Reply-To: <20191029114905.6856-1-jfreimann@redhat.com>
-References: <20191029114905.6856-1-jfreimann@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64A9E1800D55;
+ Tue, 29 Oct 2019 11:55:30 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-116-124.ams2.redhat.com
+ [10.36.116.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4810560BF1;
+ Tue, 29 Oct 2019 11:55:24 +0000 (UTC)
+Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20191025095849.25283-1-mreitz@redhat.com>
+ <20191027123555.GN4472@stefanha-x1.localdomain>
+ <20191028110408.GB3579@localhost.localdomain>
+ <44565375-b051-e782-4988-c3e0b1745e37@virtuozzo.com>
+ <9780d020-e573-866f-dce4-d99d73f1f5e8@redhat.com>
+ <98a5da91-d018-13e1-cf5c-168d7348117b@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <b93e2b5c-b245-e8eb-bd9e-cbde46290544@redhat.com>
+Date: Tue, 29 Oct 2019 12:55:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: ZCNge-2EP6yZ60KzepXE6g-1
+In-Reply-To: <98a5da91-d018-13e1-cf5c-168d7348117b@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wm9jSvAwppve42Vap73ioP099imDNtR1q"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,630 +103,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com, aadam@redhat.com,
- jasowang@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
- armbru@redhat.com, alex.williamson@redhat.com, laine@redhat.com,
- pbonzini@redhat.com, ailan@redhat.com, parav@mellanox.com
+Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds support to handle failover device pairs of a virtio-net
-device and a (vfio-)pci device, where the virtio-net acts as the standby
-device and the (vfio-)pci device as the primary.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wm9jSvAwppve42Vap73ioP099imDNtR1q
+Content-Type: multipart/mixed; boundary="hmIPzFrhguELz5dAB5IrxFA5LNJKEKzlz"
 
-The general idea is that we have a pair of devices, a (vfio-)pci and a
-emulated (virtio-net) device. Before migration the vfio device is
-unplugged and data flows to the emulated device, on the target side
-another (vfio-)pci device is plugged in to take over the data-path. In the
-guest the net_failover module will pair net devices with the same MAC
-address.
+--hmIPzFrhguELz5dAB5IrxFA5LNJKEKzlz
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-To achieve this we need:
-
-1. Provide a callback function for the should_be_hidden DeviceListener.
-   It is called when the primary device is plugged in. Evaluate the QOpt
-   passed in to check if it is the matching primary device. It returns
-   if the device should be hidden or not.
-   When it should be hidden it stores the device options in the VirtioNet
-   struct and the device is added once the VIRTIO_NET_F_STANDBY feature is
-   negotiated during virtio feature negotiation.
-
-   If the virtio-net devices are not realized at the time the (vfio-)pci
-   devices are realized, we need to connect the devices later. This way
-   we make sure primary and standby devices can be specified in any
-   order.
-
-2. Register a callback for migration status notifier. When called it
-   will unplug its primary device before the migration happens.
-
-3. Register a callback for the migration code that checks if a device
-   needs to be unplugged from the guest.
-
-Signed-off-by: Jens Freimann <jfreimann@redhat.com>
----
- MAINTAINERS                    |   1 +
- docs/virtio-net-failover.rst   |  68 ++++++++
- hw/net/virtio-net.c            | 302 +++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio-net.h |  12 ++
- include/hw/virtio/virtio.h     |   1 +
- 5 files changed, 384 insertions(+)
- create mode 100644 docs/virtio-net-failover.rst
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 42e702f346..9d94cbacf8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1421,6 +1421,7 @@ S: Odd Fixes
- F: hw/net/
- F: include/hw/net/
- F: tests/virtio-net-test.c
-+F: docs/virtio-net-failover.rst
- T: git https://github.com/jasowang/qemu.git net
-=20
- Parallel NOR Flash devices
-diff --git a/docs/virtio-net-failover.rst b/docs/virtio-net-failover.rst
-new file mode 100644
-index 0000000000..22f64c7bc8
---- /dev/null
-+++ b/docs/virtio-net-failover.rst
-@@ -0,0 +1,68 @@
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+QEMU virtio-net standby (net_failover)
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+This document explains the setup and usage of virtio-net standby feature w=
-hich
-+is used to create a net_failover pair of devices.
-+
-+The general idea is that we have a pair of devices, a (vfio-)pci and a
-+virtio-net device. Before migration the vfio device is unplugged and data =
-flows
-+through the virtio-net device, on the target side another vfio-pci device =
-is
-+plugged in to take over the data-path. In the guest the net_failover kerne=
-l
-+module will pair net devices with the same MAC address.
-+
-+The two devices are called primary and standby device. The fast hardware b=
-ased
-+networking device is called the primary device and the virtio-net device i=
-s the
-+standby device.
-+
-+Restrictions
-+------------
-+
-+Currently only PCIe devices are allowed as primary devices, this restricti=
-on
-+can be lifted in the future with enhanced QEMU support. Also, only network=
-ing
-+devices are allowed as primary device. The user needs to ensure that prima=
-ry
-+and standby devices are not plugged into the same PCIe slot.
-+
-+Usecase
-+-------
-+
-+  Virtio-net standby allows easy migration while using a passed-through fa=
-st
-+  networking device by falling back to a virtio-net device for the duratio=
-n of
-+  the migration. It is like a simple version of a bond, the difference is =
-that it
-+  requires no configuration in the guest. When a guest is live-migrated to
-+  another host QEMU will unplug the primary device via the PCIe based hotp=
-lug
-+  handler and traffic will go through the virtio-net device.  On the targe=
-t
-+  system the primary device will be automatically plugged back and the
-+  net_failover module registers it again as the primary device.
-+
-+Usage
-+-----
-+
-+  The primary device can be hotplugged or be part of the startup configura=
-tion
-+
-+  -device virtio-net-pci,netdev=3Dhostnet1,id=3Dnet1,mac=3D52:54:00:6f:55:=
-cc, \
-+    bus=3Droot2,failover=3Don
-+
-+  With the parameter failover=3Don the VIRTIO_NET_F_STANDBY feature will b=
-e enabled.
-+
-+  -device vfio-pci,host=3D5e:00.2,id=3Dhostdev0,bus=3Droot1,failover_pair_=
-id=3Dnet1
-+
-+  failover_pair_id references the id of the virtio-net standby device. Thi=
+On 29.10.19 12:48, Vladimir Sementsov-Ogievskiy wrote:
+> 29.10.2019 11:50, Max Reitz wrote:
+>> On 28.10.19 12:25, Vladimir Sementsov-Ogievskiy wrote:
+>>> 28.10.2019 14:04, Kevin Wolf wrote:
+>>>> Am 27.10.2019 um 13:35 hat Stefan Hajnoczi geschrieben:
+>>>>> On Fri, Oct 25, 2019 at 11:58:46AM +0200, Max Reitz wrote:
+>>
+>> [...]
+>>
+>>>>>> (3) Drop handle_alloc_space(), i.e. revert c8bb23cbdbe32f.
+>>>>>>       To my knowledge I=E2=80=99m the only one who has provided any =
+benchmarks for
+>>>>>>       this commit, and even then I was a bit skeptical because it pe=
+rforms
+>>>>>>       well in some cases and bad in others.  I concluded that it=E2=
+=80=99s
+>>>>>>       probably worth it because the =E2=80=9Csome cases=E2=80=9D are=
+ more likely to occur.
+>>>>>>
+>>>>>>       Now we have this problem of corruption here (granted due to a =
+bug in
+>>>>>>       the XFS driver), and another report of massively degraded
+>>>>>>       performance on ppc64
+>>>>>>       (https://bugzilla.redhat.com/show_bug.cgi?id=3D1745823 =E2=80=
+=93 sorry, a
+>>>>>>       private BZ; I hate that :-/  The report is about 40 % worse
+>>>>>>       performance for an in-guest fio write benchmark.)
+>>>>>>
+>>>>>>       So I have to ask the question about what the justification for
+>>>>>>       keeping c8bb23cbdbe32f is.  How much does performance increase=
+ with
+>>>>>>       it actually?  (On non-(ppc64+XFS) machines, obviously)
+>>>>>>
+>>>>>>       Advantages:
+>>>>>>       + Trivial
+>>>>>>       + No layering violations
+>>>>>>       + We wouldn=E2=80=99t need to keep track of whether the kernel=
+ bug has been
+>>>>>>         fixed or not
+>>>>>>       + Fixes the ppc64+XFS performance problem
+>>>>>>
+>>>>>>       Disadvantages:
+>>>>>>       - Reverts cluster allocation performance to pre-c8bb23cbdbe32f
+>>>>>>         levels, whatever that means
+>>>>>
+>>>>> My favorite because it is clean and simple, but Vladimir has a valid
+>>>>> use-case for requiring this performance optimization so reverting isn=
+'t
+>>>>> an option.
+>>>>
+>>>> Vladimir also said that qcow2 subclusters would probably also solve hi=
 s
-+  is only for pairing the devices within QEMU. The guest kernel module
-+  net_failover will match devices with identical MAC addresses.
-+
-+Hotplug
-+-------
-+
-+  Both primary and standby device can be hotplugged via the QEMU monitor. =
- Note
-+  that if the virtio-net device is plugged first a warning will be issued =
-that it
-+  couldn't find the primary device.
-+
-+Migration
-+---------
-+
-+  A new migration state wait-unplug was added for this feature. If failove=
-r primary
-+  devices are present in the configuration, migration will go into this st=
-ate.
-+  It will wait until the device unplug is completed in the guest and then =
-move into
-+  active state. On the target system the primary devices will be automatic=
-ally hotplugged
-+  when the feature bit was negotiated for the virtio-net standby device.
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 2c4909c5f9..a992098dd9 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -12,6 +12,7 @@
-  */
-=20
- #include "qemu/osdep.h"
-+#include "qemu/atomic.h"
- #include "qemu/iov.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-@@ -21,6 +22,10 @@
- #include "net/tap.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
-+#include "qemu/option.h"
-+#include "qemu/option_int.h"
-+#include "qemu/config-file.h"
-+#include "qapi/qmp/qdict.h"
- #include "hw/virtio/virtio-net.h"
- #include "net/vhost_net.h"
- #include "net/announce.h"
-@@ -28,11 +33,15 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-net.h"
- #include "hw/qdev-properties.h"
-+#include "qapi/qapi-types-migration.h"
-+#include "qapi/qapi-events-migration.h"
- #include "hw/virtio/virtio-access.h"
- #include "migration/misc.h"
- #include "standard-headers/linux/ethtool.h"
- #include "sysemu/sysemu.h"
- #include "trace.h"
-+#include "monitor/qdev.h"
-+#include "hw/pci/pci.h"
-=20
- #define VIRTIO_NET_VM_VERSION    11
-=20
-@@ -746,9 +755,99 @@ static inline uint64_t virtio_net_supported_guest_offl=
-oads(VirtIONet *n)
-     return virtio_net_guest_offloads_by_features(vdev->guest_features);
- }
-=20
-+static void failover_add_primary(VirtIONet *n, Error **errp)
-+{
-+    Error *err =3D NULL;
-+
-+    n->primary_device_opts =3D qemu_opts_find(qemu_find_opts("device"),
-+            n->primary_device_id);
-+    if (n->primary_device_opts) {
-+        n->primary_dev =3D qdev_device_add(n->primary_device_opts, &err);
-+        if (err) {
-+            qemu_opts_del(n->primary_device_opts);
-+        }
-+        if (n->primary_dev) {
-+            n->primary_bus =3D n->primary_dev->parent_bus;
-+            if (err) {
-+                qdev_unplug(n->primary_dev, &err);
-+                qdev_set_id(n->primary_dev, "");
-+
-+            }
-+        }
-+    } else {
-+        error_setg(errp, "Primary device not found");
-+        error_append_hint(errp, "Virtio-net failover will not work. Make "
-+            "sure primary device has parameter"
-+            " failover_pair_id=3D<virtio-net-id>\n");
-+}
-+    if (err) {
-+        error_propagate(errp, err);
-+    }
-+}
-+
-+static int is_my_primary(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    VirtIONet *n =3D opaque;
-+    int ret =3D 0;
-+
-+    const char *standby_id =3D qemu_opt_get(opts, "failover_pair_id");
-+
-+    if (standby_id !=3D NULL && (g_strcmp0(standby_id, n->netclient_name) =
-=3D=3D 0)) {
-+        n->primary_device_id =3D g_strdup(opts->id);
-+        ret =3D 1;
-+    }
-+
-+    return ret;
-+}
-+
-+static DeviceState *virtio_net_find_primary(VirtIONet *n, Error **errp)
-+{
-+    DeviceState *dev =3D NULL;
-+    Error *err =3D NULL;
-+
-+    if (qemu_opts_foreach(qemu_find_opts("device"),
-+                         is_my_primary, n, &err)) {
-+        if (err) {
-+            error_propagate(errp, err);
-+            return NULL;
-+        }
-+        if (n->primary_device_id) {
-+            dev =3D qdev_find_recursive(sysbus_get_default(),
-+                    n->primary_device_id);
-+        } else {
-+            error_setg(errp, "Primary device id not found");
-+            return NULL;
-+        }
-+    }
-+    return dev;
-+}
-+
-+
-+
-+static DeviceState *virtio_connect_failover_devices(VirtIONet *n,
-+                                                    DeviceState *dev,
-+                                                    Error **errp)
-+{
-+    DeviceState *prim_dev =3D NULL;
-+    Error *err =3D NULL;
-+
-+    prim_dev =3D virtio_net_find_primary(n, &err);
-+    if (prim_dev) {
-+        n->primary_device_id =3D g_strdup(prim_dev->id);
-+        n->primary_device_opts =3D prim_dev->opts;
-+    } else {
-+        if (err) {
-+            error_propagate(errp, err);
-+        }
-+    }
-+
-+    return prim_dev;
-+}
-+
- static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
- {
-     VirtIONet *n =3D VIRTIO_NET(vdev);
-+    Error *err =3D NULL;
-     int i;
-=20
-     if (n->mtu_bypass_backend &&
-@@ -790,6 +889,28 @@ static void virtio_net_set_features(VirtIODevice *vdev=
-, uint64_t features)
-     } else {
-         memset(n->vlans, 0xff, MAX_VLAN >> 3);
-     }
-+
-+    if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
-+        qapi_event_send_failover_negotiated(n->netclient_name);
-+        atomic_set(&n->primary_should_be_hidden, false);
-+        failover_add_primary(n, &err);
-+        if (err) {
-+            n->primary_dev =3D virtio_connect_failover_devices(n, n->qdev,=
- &err);
-+            if (err) {
-+                goto out_err;
-+            }
-+            failover_add_primary(n, &err);
-+            if (err) {
-+                goto out_err;
-+            }
-+        }
-+    }
-+    return;
-+
-+out_err:
-+    if (err) {
-+        warn_report_err(err);
-+    }
- }
-=20
- static int virtio_net_handle_rx_mode(VirtIONet *n, uint8_t cmd,
-@@ -2630,6 +2751,150 @@ void virtio_net_set_netclient_name(VirtIONet *n, co=
-nst char *name,
-     n->netclient_type =3D g_strdup(type);
- }
-=20
-+static bool failover_unplug_primary(VirtIONet *n)
-+{
-+    HotplugHandler *hotplug_ctrl;
-+    PCIDevice *pci_dev;
-+    Error *err =3D NULL;
-+
-+    hotplug_ctrl =3D qdev_get_hotplug_handler(n->primary_dev);
-+    if (hotplug_ctrl) {
-+        pci_dev =3D PCI_DEVICE(n->primary_dev);
-+        pci_dev->partially_hotplugged =3D true;
-+        hotplug_handler_unplug_request(hotplug_ctrl, n->primary_dev, &err)=
-;
-+        if (err) {
-+            error_report_err(err);
-+            return false;
-+        }
-+    } else {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static bool failover_replug_primary(VirtIONet *n, Error **errp)
-+{
-+    HotplugHandler *hotplug_ctrl;
-+    PCIDevice *pdev =3D PCI_DEVICE(n->primary_dev);
-+
-+    if (!pdev->partially_hotplugged) {
-+        return true;
-+    }
-+    if (!n->primary_device_opts) {
-+        n->primary_device_opts =3D qemu_opts_from_qdict(
-+                qemu_find_opts("device"),
-+                n->primary_device_dict, errp);
-+    }
-+    if (n->primary_device_opts) {
-+        if (n->primary_dev) {
-+            n->primary_bus =3D n->primary_dev->parent_bus;
-+        }
-+        qdev_set_parent_bus(n->primary_dev, n->primary_bus);
-+        n->primary_should_be_hidden =3D false;
-+        qemu_opt_set_bool(n->primary_device_opts,
-+                "partially_hotplugged", true, errp);
-+        hotplug_ctrl =3D qdev_get_hotplug_handler(n->primary_dev);
-+        if (hotplug_ctrl) {
-+            hotplug_handler_pre_plug(hotplug_ctrl, n->primary_dev, errp);
-+            hotplug_handler_plug(hotplug_ctrl, n->primary_dev, errp);
-+        }
-+        if (!n->primary_dev) {
-+            error_setg(errp, "virtio_net: couldn't find primary device");
-+        }
-+    }
-+    return *errp !=3D NULL;
-+}
-+
-+static void virtio_net_handle_migration_primary(VirtIONet *n,
-+                                                MigrationState *s)
-+{
-+    bool should_be_hidden;
-+    Error *err =3D NULL;
-+
-+    should_be_hidden =3D atomic_read(&n->primary_should_be_hidden);
-+
-+    if (!n->primary_dev) {
-+        n->primary_dev =3D virtio_connect_failover_devices(n, n->qdev, &er=
-r);
-+        if (!n->primary_dev) {
-+            return;
-+        }
-+    }
-+
-+    if (migration_in_setup(s) && !should_be_hidden &&
-+        n->primary_dev) {
-+        if (failover_unplug_primary(n)) {
-+            vmstate_unregister(n->primary_dev, qdev_get_vmsd(n->primary_de=
-v),
-+                    n->primary_dev);
-+            qapi_event_send_unplug_primary(n->primary_device_id);
-+            atomic_set(&n->primary_should_be_hidden, true);
-+        } else {
-+            warn_report("couldn't unplug primary device");
-+        }
-+    } else if (migration_has_failed(s)) {
-+        /* We already unplugged the device let's plugged it back */
-+        if (!failover_replug_primary(n, &err)) {
-+            if (err) {
-+                error_report_err(err);
-+            }
-+        }
-+    }
-+}
-+
-+static void virtio_net_migration_state_notifier(Notifier *notifier, void *=
-data)
-+{
-+    MigrationState *s =3D data;
-+    VirtIONet *n =3D container_of(notifier, VirtIONet, migration_state);
-+    virtio_net_handle_migration_primary(n, s);
-+}
-+
-+static int virtio_net_primary_should_be_hidden(DeviceListener *listener,
-+            QemuOpts *device_opts)
-+{
-+    VirtIONet *n =3D container_of(listener, VirtIONet, primary_listener);
-+    bool match_found;
-+    bool hide;
-+
-+    n->primary_device_dict =3D qemu_opts_to_qdict(device_opts,
-+            n->primary_device_dict);
-+    if (n->primary_device_dict) {
-+        g_free(n->standby_id);
-+        n->standby_id =3D g_strdup(qdict_get_try_str(n->primary_device_dic=
-t,
-+                    "failover_pair_id"));
-+    }
-+    if (device_opts && g_strcmp0(n->standby_id, n->netclient_name) =3D=3D =
-0) {
-+        match_found =3D true;
-+    } else {
-+        match_found =3D false;
-+        hide =3D false;
-+        g_free(n->standby_id);
-+        n->primary_device_dict =3D NULL;
-+        goto out;
-+    }
-+
-+    n->primary_device_opts =3D device_opts;
-+
-+    /* primary_should_be_hidden is set during feature negotiation */
-+    hide =3D atomic_read(&n->primary_should_be_hidden);
-+
-+    if (n->primary_device_dict) {
-+        g_free(n->primary_device_id);
-+        n->primary_device_id =3D g_strdup(qdict_get_try_str(
-+                    n->primary_device_dict, "id"));
-+        if (!n->primary_device_id) {
-+            warn_report("primary_device_id not set");
-+        }
-+    }
-+
-+out:
-+    if (match_found && hide) {
-+        return 1;
-+    } else if (match_found && !hide) {
-+        return 0;
-+    } else {
-+        return -1;
-+    }
-+}
-+
- static void virtio_net_device_realize(DeviceState *dev, Error **errp)
- {
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-@@ -2660,6 +2925,16 @@ static void virtio_net_device_realize(DeviceState *d=
-ev, Error **errp)
-         n->host_features |=3D (1ULL << VIRTIO_NET_F_SPEED_DUPLEX);
-     }
-=20
-+    if (n->failover) {
-+        n->primary_listener.should_be_hidden =3D
-+            virtio_net_primary_should_be_hidden;
-+        atomic_set(&n->primary_should_be_hidden, true);
-+        device_listener_register(&n->primary_listener);
-+        n->migration_state.notify =3D virtio_net_migration_state_notifier;
-+        add_migration_state_change_notifier(&n->migration_state);
-+        n->host_features |=3D (1ULL << VIRTIO_NET_F_STANDBY);
-+    }
-+
-     virtio_net_set_config_size(n, n->host_features);
-     virtio_init(vdev, "virtio-net", VIRTIO_ID_NET, n->config_size);
-=20
-@@ -2782,6 +3057,13 @@ static void virtio_net_device_unrealize(DeviceState =
-*dev, Error **errp)
-     g_free(n->mac_table.macs);
-     g_free(n->vlans);
-=20
-+    if (n->failover) {
-+        g_free(n->primary_device_id);
-+        g_free(n->standby_id);
-+        qobject_unref(n->primary_device_dict);
-+        n->primary_device_dict =3D NULL;
-+    }
-+
-     max_queues =3D n->multiqueue ? n->max_queues : 1;
-     for (i =3D 0; i < max_queues; i++) {
-         virtio_net_del_queue(n, i);
-@@ -2819,6 +3101,23 @@ static int virtio_net_pre_save(void *opaque)
-     return 0;
- }
-=20
-+static bool primary_unplug_pending(void *opaque)
-+{
-+    DeviceState *dev =3D opaque;
-+    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-+    VirtIONet *n =3D VIRTIO_NET(vdev);
-+
-+    return n->primary_dev ? n->primary_dev->pending_deleted_event : false;
-+}
-+
-+static bool dev_unplug_pending(void *opaque)
-+{
-+    DeviceState *dev =3D opaque;
-+    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(dev);
-+
-+    return vdc->primary_unplug_pending(dev);
-+}
-+
- static const VMStateDescription vmstate_virtio_net =3D {
-     .name =3D "virtio-net",
-     .minimum_version_id =3D VIRTIO_NET_VM_VERSION,
-@@ -2828,6 +3127,7 @@ static const VMStateDescription vmstate_virtio_net =
-=3D {
-         VMSTATE_END_OF_LIST()
-     },
-     .pre_save =3D virtio_net_pre_save,
-+    .dev_unplug_pending =3D dev_unplug_pending,
- };
-=20
- static Property virtio_net_properties[] =3D {
-@@ -2889,6 +3189,7 @@ static Property virtio_net_properties[] =3D {
-                      true),
-     DEFINE_PROP_INT32("speed", VirtIONet, net_conf.speed, SPEED_UNKNOWN),
-     DEFINE_PROP_STRING("duplex", VirtIONet, net_conf.duplex_str),
-+    DEFINE_PROP_BOOL("failover", VirtIONet, failover, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
-@@ -2913,6 +3214,7 @@ static void virtio_net_class_init(ObjectClass *klass,=
- void *data)
-     vdc->guest_notifier_pending =3D virtio_net_guest_notifier_pending;
-     vdc->legacy_features |=3D (0x1 << VIRTIO_NET_F_GSO);
-     vdc->vmsd =3D &vmstate_virtio_net_device;
-+    vdc->primary_unplug_pending =3D primary_unplug_pending;
- }
-=20
- static const TypeInfo virtio_net_info =3D {
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.=
-h
-index b96f0c643f..3da4ca382a 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -18,6 +18,7 @@
- #include "standard-headers/linux/virtio_net.h"
- #include "hw/virtio/virtio.h"
- #include "net/announce.h"
-+#include "qemu/option_int.h"
-=20
- #define TYPE_VIRTIO_NET "virtio-net-device"
- #define VIRTIO_NET(obj) \
-@@ -43,6 +44,7 @@ typedef struct virtio_net_conf
-     int32_t speed;
-     char *duplex_str;
-     uint8_t duplex;
-+    char *primary_id_str;
- } virtio_net_conf;
-=20
- /* Coalesced packets type & status */
-@@ -185,6 +187,16 @@ struct VirtIONet {
-     AnnounceTimer announce_timer;
-     bool needs_vnet_hdr_swap;
-     bool mtu_bypass_backend;
-+    QemuOpts *primary_device_opts;
-+    QDict *primary_device_dict;
-+    DeviceState *primary_dev;
-+    BusState *primary_bus;
-+    char *primary_device_id;
-+    char *standby_id;
-+    bool primary_should_be_hidden;
-+    bool failover;
-+    DeviceListener primary_listener;
-+    Notifier migration_state;
- };
-=20
- void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index bea3f14d41..71c33d9626 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -154,6 +154,7 @@ typedef struct VirtioDeviceClass {
-     void (*save)(VirtIODevice *vdev, QEMUFile *f);
-     int (*load)(VirtIODevice *vdev, QEMUFile *f, int version_id);
-     const VMStateDescription *vmsd;
-+    bool (*primary_unplug_pending)(void *opaque);
- } VirtioDeviceClass;
-=20
- void virtio_instance_init_common(Object *proxy_obj, void *data,
---=20
-2.21.0
+>>>> problem, so maybe reverting and applying the subcluster patches instea=
+d
+>>>> is a possible solution, too?
+>>>
+>>> I'm not sure about ssd case, it may need write-zero optimization anyway=
+.
+>>
+>> What exactly do you need?  Do you actually need to write zeroes (e.g.
+>> because you=E2=80=99re storing images on block devices) or would it be
+>> sufficient to just drop the COW areas when bdrv_has_zero_init() and
+>> bdrv_has_zero_init_truncate() are true?
+>=20
+> Hmm, what do you mean? We need to zero COW areas. So, original way is to
+> write real zeroes, optimized way is fallocate.. What do you mean by drop?
+> Mark sublusters as zeroes by metadata?
+
+Why do you need to zero COW areas?  For normal files, any data will read
+as zero if you didn=E2=80=99t write anything there.
+
+> But still we'll have COW areas in subcluster, and we'll need to directly =
+zero
+> them.. And fallocate will most probably be faster on ssd ext4 case..
+>=20
+>>
+>> I=E2=80=99m asking because Dave Chinner said
+>> (https://bugzilla.redhat.com/show_bug.cgi?id=3D1765547#c7) that
+>> fallocate() is always slow at least with aio=3Dnative because it needs t=
+o
+>> wait for all concurrent AIO writes to finish, and so it causes the AIO
+>> pipeline to stall.
+>>
+>> (He suggested using XFS extent size hints to get the same effect as
+>> write-zeroes for free, basically, but I don=E2=80=99t know whether that=
+=E2=80=99s really
+>> useful to us; as unallocated areas on XFS read back as zero anyway.)
+>>
+>>>> We already have some cases where the existing handle_alloc_space()
+>>>> causes performance to actually become worse, and serialising requests =
+as
+>>>> a workaround isn't going to make performance any better. So even on
+>>>> these grounds, keeping commit c8bb23cbdbe32f is questionable.
+>>>>
+>>>
+>>> Can keeping handle_alloc_space under some config option be an option?
+>>
+>> Hm.  A config option is weird if you=E2=80=99re the only one who=E2=80=
+=99s going to
+>> enable it.  But other than that I don=E2=80=99t have anything against it=
+.
+>>
+>=20
+> It's just a bit easier for us to maintain config option, than out-of-tree=
+ patch.
+> On the other hand, it's not a real problem to maintain this one patch in =
+separate.
+> It may return again to the tree, when XFS bug fixed.
+
+We=E2=80=99ll still have the problem that fallocate() must stall aio=3Dnati=
+ve
+requests.
+
+Max
+
+
+--hmIPzFrhguELz5dAB5IrxFA5LNJKEKzlz--
+
+--wm9jSvAwppve42Vap73ioP099imDNtR1q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl24KKoACgkQ9AfbAGHV
+z0AjVAgAtgCz1izMjIe+aXu0LYvESyNsQn3Gmm/U32tqsT+IwbFrjzUxaqBrx2RZ
+7BxHZAWPxWK+ppLc0eXrOLk3XSkmX6URXUGXsaXBrZEocDtbuRwq0HdPk6LVyJXy
+ardi3vK+gR52GRg5Vd7A8HzENkt1VxPqby5EInHJuk+GXxM19L18jmdNTYf0qhQf
+chY1xIuF6TMadkhSm/6wZrajNzblzXh4raEZXHyol3cvNw6E79LEfLjgQpJYcxBH
+dqazEI/D7lhuQ5AUCPGRmlhX1XihiGorXBazz4NYMk/KururMg0nq6EzRTYnhYOV
+6hwrGx33THXzlXJs7GuIBFRJnVJ6oQ==
+=aawm
+-----END PGP SIGNATURE-----
+
+--wm9jSvAwppve42Vap73ioP099imDNtR1q--
 
 
