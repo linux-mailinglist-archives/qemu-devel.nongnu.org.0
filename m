@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9371CE9388
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:23:10 +0100 (CET)
-Received: from localhost ([::1]:35079 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB42E9356
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:12:12 +0100 (CET)
+Received: from localhost ([::1]:34940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPapQ-0004D6-GY
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43726)
+	id 1iPaeo-0001bW-IV
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43854)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iPaUG-0000jK-Mq
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:18 -0400
+ (envelope-from <mst@redhat.com>) id 1iPaUS-0000ol-Jn
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iPaUF-0004bs-3i
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48086)
+ (envelope-from <mst@redhat.com>) id 1iPaUN-0004oN-LN
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59888)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaUE-0004Zv-PU
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:15 -0400
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaUN-0004nL-F5
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:23 -0400
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DDD12C057EC0
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:01:13 +0000 (UTC)
-Received: by mail-qk1-f199.google.com with SMTP id b29so233020qka.23
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:01:13 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 457B485537
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:01:22 +0000 (UTC)
+Received: by mail-qt1-f199.google.com with SMTP id j18so485428qtp.23
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:01:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=kU+fvYbSi4SNNm416qjlZtMeiPC4Sd5LtfZkMAZWj34=;
- b=ANcObxgWAE6pNuQ7Hd0nFl+fYMXSYryonkOgsCK5khGc1CnHTj1g75T/euM4Qzhipn
- y9xFg+1aWLxZRQROKoZWdLeRTLLVMzEoDJkWD4i+hSqd28AnlUxzi9pPmo8FTjrxOPOB
- mn6FxjWYxUkTLiP/3JRFqSPlNEGeMB01gDsWuMaN9w4L8wKAsV65eJMcNlM+AVNWlcxs
- I9gEe6+fcnhcBtnaTNFgmoP2D7ZromDoRgKva3evvyFKu1NC9fld683ExxHjEmO8hLeY
- 3NDq1CWvK0fdd4DN33W2zWYZy6SAoTa1zFs81DWCQ8987c7ktrdgCGR7g6C3WihCa24g
- H3uw==
-X-Gm-Message-State: APjAAAWJv78E8Fmh4aDFQoISyZpVzyWMUMBzHmr4AdpmFkz6pBPHOk90
- 3QirCJmblSsMmKoeeAtWafi9zin+uR3KC240fMiQgYAu+xDttqTwhGvqWi1efjwJ+qWPsRFkLyn
- DY3p7Pto8H7aLdfI=
-X-Received: by 2002:ac8:18af:: with SMTP id s44mr1809706qtj.1.1572390072738;
- Tue, 29 Oct 2019 16:01:12 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzNs3BzoTqDNRPtGt0MT2e51Volguka6sh4JsxJetSEEDq4KlU8hsi6M2vYLmer97XgqdIAqw==
-X-Received: by 2002:ac8:18af:: with SMTP id s44mr1809672qtj.1.1572390072346;
- Tue, 29 Oct 2019 16:01:12 -0700 (PDT)
+ bh=SAGSm3HdYmq5vXqb4Jwep3dozuZUGtFJaG0w35dhzss=;
+ b=l1Ql5wOc7oRYahHRTtQI282rVArN5BcegUt6l+Q1or5NF5aN1HpzDQQ1pHWzIXfF6d
+ 3Jp6nuEuWix04m33HAU+A1tw0mTxbA8WRulpoP7z3LrFnAWBv4/T1XKVR0cafLLSvUQ2
+ V2vzDl0dvKu5NV/skor7wmHTAv/ekWkFjK3Jmcx+hSs5L8rSkYG9KyL1q/K5fAQoHFZJ
+ yiTJxiYpOpxyfJkE6bbFJASV8hE5WidHLji8Fb8V2sVDorGx+dag+3q++pqzQZUobB1w
+ lji7WI/HnljV17V6fmK1kqD5CClu6B2K/O0OLgvNwTLAE1MEsdv6HNnrWL2Wuth3i8vc
+ IJUA==
+X-Gm-Message-State: APjAAAV5Xz3ZowATk96YxXm3oOqPuLXgXc3xEmSVbH2ptK/v4VgAOZUQ
+ G+DOPG1KNJEBgh61VaKd4hqRyPqYak/Nkb2PbBBC3u+nT5NffiSgQA8RrHNlJ4A2X1fuCv0XLHk
+ DaDR0gXYfAWbhQLo=
+X-Received: by 2002:a0c:cdc5:: with SMTP id a5mr18908557qvn.121.1572390081056; 
+ Tue, 29 Oct 2019 16:01:21 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxLu0oJglOMw5JqfzkyT8jshUMYtiHl6vUa2MaQmuEE6uNgGEHSorDDaTlVfudHkazMx5+NeQ==
+X-Received: by 2002:a0c:cdc5:: with SMTP id a5mr18908520qvn.121.1572390080780; 
+ Tue, 29 Oct 2019 16:01:20 -0700 (PDT)
 Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id d76sm365154qkb.57.2019.10.29.16.01.10
+ by smtp.gmail.com with ESMTPSA id 189sm394719qki.10.2019.10.29.16.01.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 16:01:11 -0700 (PDT)
-Date: Tue, 29 Oct 2019 19:01:09 -0400
+ Tue, 29 Oct 2019 16:01:20 -0700 (PDT)
+Date: Tue, 29 Oct 2019 19:01:12 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/14] vfio: unplug failover primary device before migration
-Message-ID: <20191029225932.14585-12-mst@redhat.com>
+Subject: [PULL 12/14] virtio/vhost: Use auto_rcu_read macros
+Message-ID: <20191029225932.14585-13-mst@redhat.com>
 References: <20191029225932.14585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -78,114 +78,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jens Freimann <jfreimann@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-As usual block all vfio-pci devices from being migrated, but make an
-exception for failover primary devices. This is achieved by setting
-unmigratable to 0 but also add a migration blocker for all vfio-pci
-devices except failover primary devices. These will be unplugged before
-migration happens by the migration handler of the corresponding
-virtio-net standby device.
+Use RCU_READ_LOCK_GUARD instead of manual rcu_read_(un)lock
 
-Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Message-Id: <20191029114905.6856-12-jfreimann@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20191025103403.120616-2-dgilbert@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/vfio/pci.c | 26 ++++++++++++++++++++------
- hw/vfio/pci.h |  1 +
- 2 files changed, 21 insertions(+), 6 deletions(-)
+ hw/virtio/vhost.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 12fac39804..e6569a7968 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -40,6 +40,7 @@
- #include "pci.h"
- #include "trace.h"
- #include "qapi/error.h"
-+#include "migration/blocker.h"
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 99de5f196f..4da0d5a6c5 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -924,7 +924,7 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
+     uint64_t uaddr, len;
+     int ret = -EFAULT;
  
- #define TYPE_VFIO_PCI "vfio-pci"
- #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
-@@ -2732,6 +2733,17 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         return;
-     }
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
  
-+    if (!pdev->failover_pair_id) {
-+        error_setg(&vdev->migration_blocker,
-+                "VFIO device doesn't support migration");
-+        ret = migrate_add_blocker(vdev->migration_blocker, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            error_free(vdev->migration_blocker);
-+            return;
-+        }
-+    }
-+
-     vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
-     vdev->vbasedev.ops = &vfio_pci_ops;
-     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
-@@ -3008,6 +3020,10 @@ out_teardown:
-     vfio_bars_exit(vdev);
- error:
-     error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-+    if (vdev->migration_blocker) {
-+        migrate_del_blocker(vdev->migration_blocker);
-+        error_free(vdev->migration_blocker);
-+    }
+     trace_vhost_iotlb_miss(dev, 1);
+ 
+@@ -956,8 +956,6 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
+     trace_vhost_iotlb_miss(dev, 2);
+ 
+ out:
+-    rcu_read_unlock();
+-
+     return ret;
  }
  
- static void vfio_instance_finalize(Object *obj)
-@@ -3019,6 +3035,10 @@ static void vfio_instance_finalize(Object *obj)
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-     g_free(vdev->rom);
-+    if (vdev->migration_blocker) {
-+        migrate_del_blocker(vdev->migration_blocker);
-+        error_free(vdev->migration_blocker);
-+    }
-     /*
-      * XXX Leaking igd_opregion is not an oversight, we can't remove the
-      * fw_cfg entry therefore leaking this allocation seems like the safest
-@@ -3151,11 +3171,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static const VMStateDescription vfio_pci_vmstate = {
--    .name = "vfio-pci",
--    .unmigratable = 1,
--};
--
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -3163,7 +3178,6 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset = vfio_pci_reset;
-     dc->props = vfio_pci_dev_properties;
--    dc->vmsd = &vfio_pci_vmstate;
-     dc->desc = "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize = vfio_realize;
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 834a90d646..b329d50338 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -168,6 +168,7 @@ typedef struct VFIOPCIDevice {
-     bool no_vfio_ioeventfd;
-     bool enable_ramfb;
-     VFIODisplay *dpy;
-+    Error *migration_blocker;
- } VFIOPCIDevice;
- 
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len);
 -- 
 MST
 
