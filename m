@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47B3E7D77
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 01:14:26 +0100 (CET)
-Received: from localhost ([::1]:45980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A93BE7D71
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 01:11:20 +0100 (CET)
+Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPF9V-0006v5-U7
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 20:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59912)
+	id 1iPF6V-0000sk-J9
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 20:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iPEr0-00084e-NY
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:55:20 -0400
+ (envelope-from <kevans@FreeBSD.org>) id 1iPF3M-00078y-Jy
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 20:08:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iPEqz-0005ov-41
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 19:55:18 -0400
-Resent-Date: Mon, 28 Oct 2019 19:55:18 -0400
-Resent-Message-Id: <E1iPEqz-0005ov-41@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21476)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iPEqy-0005oU-HG; Mon, 28 Oct 2019 19:55:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1572306902; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=fqXHmAgTjg13h3qe/jIFdv0BBxIZ8/2SqZsbRm5jVw47HkNd1NDF02dTv89uXVEP/J1dmSkiDkjFvQhkVq44vcK7t3sNLab1Ch9455FdesRGA3TNLiSgm9z6CS67rrR1lIWB+lmH3yG3RNSVwqvJvNurF7OejZVBZ1/CPpEcyrY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572306902;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=FUSDOFiOqCkrJ1Ihfh+3Y1jD8laLsGs/EabPMKUD9zI=; 
- b=EQtSp/SXc92/284TiqxC0FpCtqnySeBjXGcqilqdfvI9isjlDNRgxkJ2dg/jrHW+r2PejoKKCEviTMXyQ31Ci6VZgwWr3AKm0Y2OYVSlYCPQ4T8UrgCqzx3B/4r/H30N4h3eVhZxZZHXfObNlxV0WlwYLtuOfWkw/i2IwLqRX3A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1572306901694358.99177190661055;
- Mon, 28 Oct 2019 16:55:01 -0700 (PDT)
-In-Reply-To: <20191028181643.5143-1-laurent@vivier.eu>
-Subject: Re: [PULL 00/11] Q800 branch patches
-Message-ID: <157230690007.12254.13906808936182823844@37313f22b938>
+ (envelope-from <kevans@FreeBSD.org>) id 1iPF3K-0001NC-LN
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 20:08:04 -0400
+Received: from mx2.freebsd.org ([96.47.72.81]:61982)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kevans@FreeBSD.org>) id 1iPF3K-0001MX-HP
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 20:08:02 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mx1.freebsd.org",
+ Issuer "Let's Encrypt Authority X3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id E963689CA0
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 00:08:00 +0000 (UTC)
+ (envelope-from kevans@FreeBSD.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org",
+ Issuer "Let's Encrypt Authority X3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 472Bk84dslz4g0l;
+ Tue, 29 Oct 2019 00:08:00 +0000 (UTC)
+ (envelope-from kevans@FreeBSD.org)
+Received: from shiva.audeuro.com (unknown [209.182.120.228])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ (Authenticated sender: kevans/mail)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 151C517EF6;
+ Tue, 29 Oct 2019 00:07:59 +0000 (UTC)
+ (envelope-from kevans@FreeBSD.org)
+Date: Mon, 28 Oct 2019 19:07:57 -0500
+From: Kyle Evans <kevans@FreeBSD.org>
+To: qemu-devel@nongnu.org
+Subject: safe_syscall design guidance
+Message-ID: <20191029000757.r2ma5qt3zoic5ynd@shiva.audeuro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Mon, 28 Oct 2019 16:55:01 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 96.47.72.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,82 +66,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- jasowang@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu,
- pbonzini@redhat.com, mreitz@redhat.com
+Cc: kevans@FreeBSD.org, imp@FreeBSD.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyODE4MTY0My41MTQz
-LTEtbGF1cmVudEB2aXZpZXIuZXUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClN1YmplY3Q6IFtQVUxMIDAwLzExXSBRODAwIGJyYW5jaCBwYXRjaGVzClR5cGU6
-IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5MTAyODE4MTY0My41MTQzLTEtbGF1cmVudEB2aXZpZXIu
-ZXUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjBhYWZlMzMgQm9vdExpbnV4Q29uc29sZVRlc3Q6IFRlc3QgdGhlIFF1
-YWRyYSA4MDAKNjU3OGQwNSBody9tNjhrOiBkZWZpbmUgTWFjaW50b3NoIFF1YWRyYSA4MDAKOGQ5
-MjQxMSBody9tNjhrOiBhZGQgYSBkdW1teSBTV0lNIGZsb3BweSBjb250cm9sbGVyCjMzZTEyN2Ug
-aHcvbTY4azogYWRkIE51YnVzIG1hY2ZiIHZpZGVvIGNhcmQKOWU1NDEzZiBody9tNjhrOiBhZGQg
-TnVidXMgc3VwcG9ydAo3NzdiODVhIGh3L202OGs6IGltcGxlbWVudCBBREIgYnVzIHN1cHBvcnQg
-Zm9yIHZpYQpkMjNjYjk4IGh3L202OGs6IGFkZCBWSUEgc3VwcG9ydAo0NzczOTFhIGRwODM5M3g6
-IG1hbmFnZSBiaWcgZW5kaWFuIGJ1cwphNTkxNWE1IGVzcDogYWRkIHBzZXVkby1ETUEgYXMgdXNl
-ZCBieSBNYWNpbnRvc2gKMzI0ZGQxMSBlc3A6IG1vdmUgZ2V0X2NtZCgpIHBvc3QtRE1BIGNvZGUg
-dG8gZ2V0X2NtZF9jYigpCjQ0N2UwYjkgZXNwOiBtb3ZlIGhhbmRsZV90aV9jbWQoKSBjbGVhbnVw
-IGNvZGUgdG8gZXNwX2RvX2RtYSgpLgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMSBDaGVja2lu
-ZyBjb21taXQgNDQ3ZTBiOWU3ZTgyIChlc3A6IG1vdmUgaGFuZGxlX3RpX2NtZCgpIGNsZWFudXAg
-Y29kZSB0byBlc3BfZG9fZG1hKCkuKQoyLzExIENoZWNraW5nIGNvbW1pdCAzMjRkZDExYmQ4NDMg
-KGVzcDogbW92ZSBnZXRfY21kKCkgcG9zdC1ETUEgY29kZSB0byBnZXRfY21kX2NiKCkpCjMvMTEg
-Q2hlY2tpbmcgY29tbWl0IGE1OTE1YTU4Nzg0MSAoZXNwOiBhZGQgcHNldWRvLURNQSBhcyB1c2Vk
-IGJ5IE1hY2ludG9zaCkKNC8xMSBDaGVja2luZyBjb21taXQgNDc3MzkxYTMyOTlhIChkcDgzOTN4
-OiBtYW5hZ2UgYmlnIGVuZGlhbiBidXMpCjUvMTEgQ2hlY2tpbmcgY29tbWl0IGQyM2NiOThjYTE3
-NSAoaHcvbTY4azogYWRkIFZJQSBzdXBwb3J0KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM4NDogCm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0ICcmJicg
-KGN0eDpXeFcpCiM0NTY6IEZJTEU6IGh3L21pc2MvbWFjX3ZpYS5jOjM2ODoKKyAgICAgICAgaWYg
-KCEodjFzLT5sYXN0X2IgJiBWSUExQl92UlRDQ2xrKSAmJiAocy0+YiAmIFZJQTFCX3ZSVENDbGsp
-KSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6
-IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA5MTIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xMSBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi8xMSBDaGVja2luZyBjb21taXQgNzc3Yjg1YTQ0MDNk
-IChody9tNjhrOiBpbXBsZW1lbnQgQURCIGJ1cyBzdXBwb3J0IGZvciB2aWEpCjcvMTEgQ2hlY2tp
-bmcgY29tbWl0IDllNTQxM2ZlNjUyYyAoaHcvbTY4azogYWRkIE51YnVzIHN1cHBvcnQpCldBUk5J
-Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
-ZCB1cGRhdGluZz8KIzY1OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
-MSB3YXJuaW5ncywgNTMxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMTEgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KOC8xMSBDaGVja2luZyBjb21taXQgMzNlMTI3ZWE4YzkwIChody9tNjhrOiBh
-ZGQgTnVidXMgbWFjZmIgdmlkZW8gY2FyZCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
-ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNzY6IApuZXcgZmls
-ZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OTcgbGluZXMgY2hl
-Y2tlZAoKUGF0Y2ggOC8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzExIENoZWNraW5n
-IGNvbW1pdCA4ZDkyNDExMjBmOGYgKGh3L202OGs6IGFkZCBhIGR1bW15IFNXSU0gZmxvcHB5IGNv
-bnRyb2xsZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMg
-TUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzYzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRv
-dGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTkzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDkvMTEg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTAvMTEgQ2hlY2tpbmcgY29tbWl0IDY1NzhkMDVi
-MmRlYiAoaHcvbTY4azogZGVmaW5lIE1hY2ludG9zaCBRdWFkcmEgODAwKQpXQVJOSU5HOiBhZGRl
-ZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRp
-bmc/CiM3MjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDUzNyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoxMS8xMSBDaGVja2luZyBjb21taXQgMGFhZmUzMzI4ZjBiIChCb290TGludXhDb25zb2xl
-VGVzdDogVGVzdCB0aGUgUXVhZHJhIDgwMCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
-bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
-cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEwMjgxODE2NDMuNTE0My0xLWxhdXJlbnRAdml2aWVy
-LmV1L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Hi,
 
+We're working on improving bsd-user in a local tree and rebasing forward
+to get our work suitable for upstreaming. I'm porting the safe_syscall stuff
+over to bsd-user, and would like to get some design guidance as it may best
+be implemented with some refactoring of linux-user.
+
+Below is an example of the refactoring my initial approach takes. I'm
+omitting !x86_64 in this e-mail because it's all along the same lines and
+only including the part relevant to linux-user. Effectively, linux-user/host
+is moved to qemu-user/host along with ^/linux-user/safe-syscall.S.
+
+Some bits specific to FreeBSD, also likely other *BSD but I've not yet
+verified, are sprinkled throughout host/*/* parts; this is the main point I
+suspect may be objectionable. FreeBSD indicates syscall error differently
+than Linux, and *context bits are also different. Other OS-specific bits
+for other arch are similar to the diff below.
+
+A full version of this can be found in my tree, currently only available on
+GitHub: https://github.com/kevans91/qemu-bsd-user/tree/safe_syscall -- this
+is applied to our version, currently based on qemu 3.1.
+
+Thoughts?
+
+Thanks,
+
+Kyle Evans
+diff --git a/Makefile.target b/Makefile.target
+index 61f28d3722..13b3b13706 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -113,7 +113,7 @@ obj-$(call notempty,$(TARGET_XML_FILES)) += gdbstub-xml.o
+ ifdef CONFIG_LINUX_USER
+ 
+ QEMU_CFLAGS+=-I$(SRC_PATH)/linux-user/$(TARGET_ABI_DIR) \
+-             -I$(SRC_PATH)/linux-user/host/$(ARCH) \
++             -I$(SRC_PATH)/qemu-user/host/$(ARCH) \
+              -I$(SRC_PATH)/linux-user
+ 
+ obj-y += linux-user/
+@@ -128,6 +128,7 @@ ifdef CONFIG_BSD_USER
+ 
+ QEMU_CFLAGS+=-I$(SRC_PATH)/bsd-user/$(TARGET_ABI_DIR) \
+              -I$(SRC_PATH)/bsd-user/$(HOST_VARIANT_DIR) \
++             -I$(SRC_PATH)/qemu-user/host/$(ARCH) \
+              -I$(SRC_PATH)/bsd-user \
+              -D_WANT_SEMUN
+ obj-y += bsd-user/
+diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
+index 769b8d8336..6089fc3a06 100644
+--- a/linux-user/Makefile.objs
++++ b/linux-user/Makefile.objs
+@@ -1,6 +1,6 @@
+ obj-y = main.o syscall.o strace.o mmap.o signal.o \
+ 	elfload.o linuxload.o uaccess.o uname.o \
+-	safe-syscall.o $(TARGET_ABI_DIR)/signal.o \
++	../qemu-user/safe-syscall.o $(TARGET_ABI_DIR)/signal.o \
+         $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o
+ 
+ obj-$(TARGET_HAS_BFLT) += flatload.o
+diff --git a/linux-user/host/x86_64/hostdep.h b/qemu-user/host/x86_64/hostdep.h
+similarity index 78%
+rename from linux-user/host/x86_64/hostdep.h
+rename to qemu-user/host/x86_64/hostdep.h
+index a4fefb5114..7aa233a116 100644
+--- a/linux-user/host/x86_64/hostdep.h
++++ b/qemu-user/host/x86_64/hostdep.h
+@@ -21,11 +21,17 @@
+ extern char safe_syscall_start[];
+ extern char safe_syscall_end[];
+ 
++#ifndef __FreeBSD__
++#define DEFINE_PCREG(puc)	&((ucontext_t *)(puc))->uc_mcontext.gregs[REG_RIP]
++#else
++typedef __register_t greg_t;
++#define DEFINE_PCREG(puc)   &((ucontext_t *)(puc))->uc_mcontext.mc_rip
++#endif
++
+ /* Adjust the signal context to rewind out of safe-syscall if we're in it */
+ static inline void rewind_if_in_safe_syscall(void *puc)
+ {
+-    ucontext_t *uc = puc;
+-    greg_t *pcreg = &uc->uc_mcontext.gregs[REG_RIP];
++    greg_t *pcreg = DEFINE_PCREG(puc);
+ 
+     if (*pcreg > (uintptr_t)safe_syscall_start
+         && *pcreg < (uintptr_t)safe_syscall_end) {
+diff --git a/linux-user/host/x86_64/safe-syscall.inc.S b/qemu-user/host/x86_64/safe-syscall.inc.S
+similarity index 98%
+rename from linux-user/host/x86_64/safe-syscall.inc.S
+rename to qemu-user/host/x86_64/safe-syscall.inc.S
+index f36992daa3..2b52e122d4 100644
+--- a/linux-user/host/x86_64/safe-syscall.inc.S
++++ b/qemu-user/host/x86_64/safe-syscall.inc.S
+@@ -72,6 +72,11 @@ safe_syscall_start:
+         syscall
+ safe_syscall_end:
+         /* code path for having successfully executed the syscall */
++#ifdef __FreeBSD__
++        jnb 2f
++        neg	%rax
++2:
++#endif
+         pop     %rbp
+         .cfi_remember_state
+         .cfi_def_cfa_offset 8
+diff --git a/linux-user/safe-syscall.S b/qemu-user/safe-syscall.S
+similarity index 100%
+rename from linux-user/safe-syscall.S
+rename to qemu-user/safe-syscall.S
 
