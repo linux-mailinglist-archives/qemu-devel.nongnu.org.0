@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB42E9356
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:12:12 +0100 (CET)
-Received: from localhost ([::1]:34940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B416E9362
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:15:42 +0100 (CET)
+Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPaeo-0001bW-IV
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43854)
+	id 1iPaiC-0005Y6-IV
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iPaUS-0000ol-Jn
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:30 -0400
+ (envelope-from <mst@redhat.com>) id 1iPaUU-0000p3-H5
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iPaUN-0004oN-LN
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59888)
+ (envelope-from <mst@redhat.com>) id 1iPaUT-0004tG-F4
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50072)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaUN-0004nL-F5
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:23 -0400
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaUS-0004qH-K0
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:01:29 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 457B485537
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:01:22 +0000 (UTC)
-Received: by mail-qt1-f199.google.com with SMTP id j18so485428qtp.23
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:01:22 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 150725AFE9
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:01:26 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id x186so261163qke.13
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:01:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=SAGSm3HdYmq5vXqb4Jwep3dozuZUGtFJaG0w35dhzss=;
- b=l1Ql5wOc7oRYahHRTtQI282rVArN5BcegUt6l+Q1or5NF5aN1HpzDQQ1pHWzIXfF6d
- 3Jp6nuEuWix04m33HAU+A1tw0mTxbA8WRulpoP7z3LrFnAWBv4/T1XKVR0cafLLSvUQ2
- V2vzDl0dvKu5NV/skor7wmHTAv/ekWkFjK3Jmcx+hSs5L8rSkYG9KyL1q/K5fAQoHFZJ
- yiTJxiYpOpxyfJkE6bbFJASV8hE5WidHLji8Fb8V2sVDorGx+dag+3q++pqzQZUobB1w
- lji7WI/HnljV17V6fmK1kqD5CClu6B2K/O0OLgvNwTLAE1MEsdv6HNnrWL2Wuth3i8vc
- IJUA==
-X-Gm-Message-State: APjAAAV5Xz3ZowATk96YxXm3oOqPuLXgXc3xEmSVbH2ptK/v4VgAOZUQ
- G+DOPG1KNJEBgh61VaKd4hqRyPqYak/Nkb2PbBBC3u+nT5NffiSgQA8RrHNlJ4A2X1fuCv0XLHk
- DaDR0gXYfAWbhQLo=
-X-Received: by 2002:a0c:cdc5:: with SMTP id a5mr18908557qvn.121.1572390081056; 
- Tue, 29 Oct 2019 16:01:21 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxLu0oJglOMw5JqfzkyT8jshUMYtiHl6vUa2MaQmuEE6uNgGEHSorDDaTlVfudHkazMx5+NeQ==
-X-Received: by 2002:a0c:cdc5:: with SMTP id a5mr18908520qvn.121.1572390080780; 
- Tue, 29 Oct 2019 16:01:20 -0700 (PDT)
+ bh=NIZIUZQMHD8MQB75aibzuLlMw0b/3b/p/eZpRql+nWE=;
+ b=ijRtHMUrTxZaF3yJYcr3lPG8YXay/0DNcP0k1+vfjr0PUnDSIVQOMW+NkqsoaSZSEM
+ 6pX4FBVGzhxmmLfkfrP7X+ExQoYtt/NKcRNWkC+/FE+udsSq0nUFSjFlDPdh5ojGzzh+
+ Wmuxi4PjMBD4Qmz6WfhG8G/wY8qBDNbPvAfSINrGrwQLyD8m7eDSExYD3sYduLiLpJnZ
+ otb4KaicTDJmTtbCRRhpssw36bndGpB/S5X+5a5o+XQnuKIPRw7YkunPhjMVlZAWxsFb
+ au+dVQpqjY0EiZ4WJA71gdF/RkvP+U+uk5E7Zc39bdTFdSv9WfwszLezcu5257a0h+nn
+ lLYQ==
+X-Gm-Message-State: APjAAAVsXYa2GJd8If9th1WWxrOkq9TwVUvkoyHro4+SKfTo+xtnZ3ro
+ EX+PgvyRIi0Yj5ZAX976db9iY2+TrFuZCFKHuMfgnY+m6XA5SnmaVjTjEsTUqq7yHx9wzhZkCTN
+ GwN3rkZmnwUJd6nU=
+X-Received: by 2002:a0c:fb06:: with SMTP id c6mr20324531qvp.249.1572390084808; 
+ Tue, 29 Oct 2019 16:01:24 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxC6H2Qf4NmNRdcd8gqruKRp5YmZ2ttJ49a9YfOjoFugY3dZMfZ635m5NGqJxx7hqHjdZSqzQ==
+X-Received: by 2002:a0c:fb06:: with SMTP id c6mr20324510qvp.249.1572390084599; 
+ Tue, 29 Oct 2019 16:01:24 -0700 (PDT)
 Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id 189sm394719qki.10.2019.10.29.16.01.19
+ by smtp.gmail.com with ESMTPSA id w131sm487444qka.85.2019.10.29.16.01.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 16:01:20 -0700 (PDT)
-Date: Tue, 29 Oct 2019 19:01:12 -0400
+ Tue, 29 Oct 2019 16:01:23 -0700 (PDT)
+Date: Tue, 29 Oct 2019 19:01:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/14] virtio/vhost: Use auto_rcu_read macros
-Message-ID: <20191029225932.14585-13-mst@redhat.com>
+Subject: [PULL 13/14] virtio_net: use RCU_READ_LOCK_GUARD
+Message-ID: <20191029225932.14585-14-mst@redhat.com>
 References: <20191029225932.14585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,45 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Use RCU_READ_LOCK_GUARD instead of manual rcu_read_(un)lock
+Use RCU_READ_LOCK_GUARD rather than the manual rcu_read_(un)lock call.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20191025103403.120616-2-dgilbert@redhat.com>
+Message-Id: <20191025103403.120616-3-dgilbert@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/net/virtio-net.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 99de5f196f..4da0d5a6c5 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -924,7 +924,7 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
-     uint64_t uaddr, len;
-     int ret = -EFAULT;
- 
--    rcu_read_lock();
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 314f365e7c..97a5113f7e 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1490,12 +1490,9 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
+                                   size_t size)
+ {
+-    ssize_t r;
 +    RCU_READ_LOCK_GUARD();
  
-     trace_vhost_iotlb_miss(dev, 1);
- 
-@@ -956,8 +956,6 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
-     trace_vhost_iotlb_miss(dev, 2);
- 
- out:
+-    rcu_read_lock();
+-    r = virtio_net_receive_rcu(nc, buf, size);
 -    rcu_read_unlock();
--
-     return ret;
+-    return r;
++    return virtio_net_receive_rcu(nc, buf, size);
  }
  
+ static void virtio_net_rsc_extract_unit4(VirtioNetRscChain *chain,
 -- 
 MST
 
