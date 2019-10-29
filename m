@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F769E8C96
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 17:25:55 +0100 (CET)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B54E8CA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 17:28:25 +0100 (CET)
+Received: from localhost ([::1]:59664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPUJd-0005N7-S5
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 12:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
+	id 1iPUM3-00084I-V7
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 12:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGm-00022s-4H
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGm-00023G-Bk
  for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGk-0004s7-VY
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGl-0004tP-8i
  for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:56 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40179)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35818)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iPUGj-0004qh-PQ
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:54 -0400
-Received: by mail-wr1-x432.google.com with SMTP id o28so14335085wro.7
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 09:22:53 -0700 (PDT)
+ id 1iPUGl-0004qz-2L
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:55 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x5so3086377wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 09:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sLnJuV1CfPJkVM9GKln4msacMdvBWBdZJ+5D0UICXmE=;
- b=XrC2TNJmex2/AA6vwp4mdzWB6sJ3gEPkJEmmdwxZfGlDt/hZzjaaVScz94MeAoRzZ7
- PZiqeTSk14Lb0uYQkVgu4holHBVPD1aqhzhlkz40wwLNMBREE/Nmqz01JZCCFBqiD73d
- hfsmtFHdWQ8h87Ywtx1ul6F211EFWTYzrQ7oAX4KJDQE8JuCnn+2rGf4PKuwTKtYu/wt
- /74lJPWlQ8XuXrawbVqRRnZ2VXmxRCtKt7hQLPbMMKJyhEo2TMQ3v4T/5oL0ZJnpdYjH
- 3T8yWayJ9ydZaSPLObW+dgekcWzst1EuT5enOPqs/nKDUai3xlTu7WJXZBM/x1Eb5DDw
- 9CYQ==
+ bh=CKVENrRxKr+yy55UKAYjTBDTqL1/JJ86swpmf0+y21k=;
+ b=kiUdGpbH6NIroU7ZuajNuTodiCcmbzoX5gUPPTF47CgCtM6wqFmcI6SgBBC+kmlqfc
+ efD32n+GdDo5zI/TGaKn3ih9o/4SGSgrAYkNqC4txbnxIp4rYEOFQxWYBD8Lvtk3gZWc
+ tXZIwLQ/x2gTFKcLt+ki7MXHTvJlLX4ww8Y35T1T1B+YO5qvgaPcDbJXz03woidYQhR+
+ SikxhFFIUAqyGt+GAJP7mG4kd8ekco5nes6vnZIZ5d9/RNKeTYgeUvT765RyDrZvXXiM
+ BX8V6PhJl/CqzVuPeZyKVj+NhQ44+umKUHh1VoLa3hBuwdpCNWUrQ7NTe/MxWEDsrHl5
+ tTVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sLnJuV1CfPJkVM9GKln4msacMdvBWBdZJ+5D0UICXmE=;
- b=bNHdQf0aMdyqqP/QXUGC9bowYWvoRdIX1a3lRvVU0yuJupfphQHrOM5yvaYOnrmzSX
- zj1vXBGmmNO99zacuS0o9PaPlLn2OtR7BUKvrn3ucNjmlbKwGGGQqyP0gMerN8+mZbVP
- aqGqFLPAfz+igvQzb5DNYfrisGkFFsG0trKEaBrqSBc09wIxEgQaEfir1U1lLOxUcIqx
- bigciNIBKICF7SmP/dWBDj7EJ/3XxF2hOAIZjPTHtPTqOdxa7g2xp+WynjwL+oe+Or33
- XYjIA8Rvzvo1DZsYv98LOfn0xEipJ/1KYYPcKPo666wa5G4M80p06gxqh56fRQgeyWcJ
- zUHA==
-X-Gm-Message-State: APjAAAVGdPS2k6Sck7Ns1RpdxRHupG/rI+E3Vdi94a5wmR6XYfMn7mYx
- N5hUKllJxNUiUhaYQpP36rmJmwRYL10=
-X-Google-Smtp-Source: APXvYqxpfAT+5trWYX/sB6rzO/wo9mCBtpCp1wFXSyvI8Fq9ioc560eSsWxRpL4hiT4Cs3IoC/FHRQ==
-X-Received: by 2002:adf:fd08:: with SMTP id e8mr19761878wrr.42.1572366172513; 
- Tue, 29 Oct 2019 09:22:52 -0700 (PDT)
+ bh=CKVENrRxKr+yy55UKAYjTBDTqL1/JJ86swpmf0+y21k=;
+ b=bWZ90PkoIxkIP+bjTMngCPKuYAFxsqRV5cCLAXYVm+w6lYGh116iOsKoHq2Bl7vUZk
+ 5Mt1GygjDyuI8hmtQKmE2BcdoOLyr4AylgTHqaslTMT2mY+tuByo5Xs6g5H4jh9ARCb1
+ UlTfVl2kHYsCdb/MrOdY8OPr5PRDslNYlB74Fixil1oEVoOhBo5BApvq4c/aHRVfUu6R
+ oK2rfwZkUW1T4v7Mf89q7dEzCl1dwjfp0UCk+bqFY6JwTLoB9+aFrNs/ARWx350nXnGv
+ tzcBnjZW7+sjyyA+tneGggJoPDC32gXZ6e5Z00x39VFQnkV9sXdzPA08Q67nP8SfKXtV
+ yoEQ==
+X-Gm-Message-State: APjAAAU+gg5l5wre4InEHuJWeoI2VB1JRAIFaZni77TuPLiBiDGPDDTn
+ UkbW7Y6bR+IckU3UOamecAifFHkkrJw=
+X-Google-Smtp-Source: APXvYqzQFpN5cGz5sytcAt3c1aTii/pnU0NgsWJ2Rfo7Cznb8YtKkDU8tvC877rZuoMq0HAfiOCTHA==
+X-Received: by 2002:a1c:a791:: with SMTP id q139mr4750556wme.155.1572366173776; 
+ Tue, 29 Oct 2019 09:22:53 -0700 (PDT)
 Received: from donizetti.metropole.lan (94.222.26.109.rev.sfr.net.
  [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id q12sm9285661wrw.91.2019.10.29.09.22.51
+ by smtp.gmail.com with ESMTPSA id q12sm9285661wrw.91.2019.10.29.09.22.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 09:22:51 -0700 (PDT)
+ Tue, 29 Oct 2019 09:22:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] docs: disable sphinx warning about missing cross
- references
-Date: Tue, 29 Oct 2019 17:22:45 +0100
-Message-Id: <20191029162248.13383-4-pbonzini@redhat.com>
+Subject: [PATCH 4/6] memory: adjust API documentation to (modified) kerneldoc
+ format
+Date: Tue, 29 Oct 2019 17:22:46 +0100
+Message-Id: <20191029162248.13383-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191029162248.13383-1-pbonzini@redhat.com>
 References: <20191029162248.13383-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,30 +83,65 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sphinx is a bit *too* strict about missing cross references to
-C types, where it complains about missing references to uint8_t.
-Even if that were fixed in kernel-doc, we would still have lots
-of missing references to types that are not yet documented.  So
-unfortunately let's disable for now the nitpicking mode.
+Fix a few instances where kernel-doc complains about doc comments
+in memory.h.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com> # still not a good idea, probably
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/memory.h | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index d20e7ffce3..8aa915ff26 100644
---- a/Makefile
-+++ b/Makefile
-@@ -986,7 +986,7 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index
- # Note the use of different doctree for each (manual, builder) tuple;
- # this works around Sphinx not handling parallel invocation on
- # a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
--build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
-+build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
- # We assume all RST files in the manual's directory are used in it
- manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e499dc215b..1e875996ec 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -360,10 +360,14 @@ typedef struct IOMMUMemoryRegionClass {
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+ typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
  
++/** MemoryRegion:
++ *
++ * A struct representing a memory region.
++ */
+ struct MemoryRegion {
+     Object parent_obj;
+ 
+-    /* All fields are private - violators will be prosecuted */
++    /* private: */
+ 
+     /* The following fields should fit in a cache line */
+     bool romd_mode;
+@@ -452,7 +456,7 @@ struct MemoryListener {
+  * AddressSpace: describes a mapping of addresses to #MemoryRegion objects
+  */
+ struct AddressSpace {
+-    /* All fields are private. */
++    /* private: */
+     struct rcu_head rcu;
+     char *name;
+     MemoryRegion *root;
+@@ -1673,8 +1677,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
+  *
+  * Returns a #MemoryRegionSection that describes a contiguous overlap.
+  * It will have the following characteristics:
+- *    .@size = 0 iff no overlap was found
+- *    .@mr is non-%NULL iff an overlap was found
++ * - @size = 0 iff no overlap was found
++ * - @mr is non-%NULL iff an overlap was found
+  *
+  * Remember that in the return value the @offset_within_region is
+  * relative to the returned region (in the .@mr field), not to the
+@@ -1685,8 +1689,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
+  * returned one.  However, in the special case where the @mr argument
+  * has no container (and thus is the root of the address space), the
+  * following will hold:
+- *    .@offset_within_address_space >= @addr
+- *    .@offset_within_address_space + .@size <= @addr + @size
++ * - @offset_within_address_space >= @addr
++ * - @offset_within_address_space + .@size <= @addr + @size
+  *
+  * @mr: a MemoryRegion within which @addr is a relative address
+  * @addr: start of the area within @as to be searched
 -- 
 2.21.0
 
