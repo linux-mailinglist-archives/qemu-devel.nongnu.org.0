@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BBAE8A67
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 15:15:21 +0100 (CET)
-Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491E2E8A5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 15:13:05 +0100 (CET)
+Received: from localhost ([::1]:57216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPSHI-0005i7-CX
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 10:15:20 -0400
+	id 1iPSF5-0001uS-E2
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 10:13:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:58835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iPSCk-00006w-Bf
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:10:43 -0400
+ (envelope-from <armbru@redhat.com>) id 1iPSCX-00006w-BS
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:10:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iPS7j-0003pE-Fr
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:05:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24900
+ (envelope-from <armbru@redhat.com>) id 1iPS8r-00047j-Rt
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:06:42 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52511
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iPS7h-0003om-EJ
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:05:26 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPS8r-00047b-O6
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:06:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572357924;
+ s=mimecast20190719; t=1572357997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7REaLbpbPhByaOZEfc2+1e1bkqGBMJKmAfycsWJdy0w=;
- b=gGaSHNwOXl5R2n+qU3Ov1n+0Gcm8JCcTXPMuCthk9bzHrxpHZLA/EK1qIYUUYN6BIL79ZX
- Wrha1LAcBlgnbXQBrMslDtpJi26SMTsLGoeuBqM4Jd8maRlqkzTR50x+/bDg9pRhDVhly6
- 5My2qj4T0SEBZ/tW58ISX+WTRpsW4Xs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sEBGXjTaxukdq83mRizQInab2bBgIDPPas2PkYHDYSM=;
+ b=YUoMczlLT6cjfsd2+usYMAq3ULBQ/HvwQ4xHH3N+PXb9m66rEFsuPDaNihdLNMloHR5vd2
+ sSxGP+MSkqV/PCcYiNLvO6wr1c/AL2O7shQQ1rGJiwhqHyn6E4km1XPWAv0xWoSOnCZElr
+ 1cWSoHIcwCLkQFc+dDFsZlpySp41498=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-WdcrCH9nPCqqhuJ9BRvSAw-1; Tue, 29 Oct 2019 10:05:20 -0400
-X-MC-Unique: WdcrCH9nPCqqhuJ9BRvSAw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-150-AhGBrXzJOl6rOJ-B_nHvSA-1; Tue, 29 Oct 2019 10:06:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1430801E64;
- Tue, 29 Oct 2019 14:05:19 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-124.ams2.redhat.com
- [10.36.116.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEFC35FCA2;
- Tue, 29 Oct 2019 14:05:15 +0000 (UTC)
-Subject: Re: [PATCH] iotests: Remove 130 from the "auto" group
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
-References: <20191018161008.17140-1-thuth@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <751b0f88-2004-bca9-09d4-f43284ca8784@redhat.com>
-Date: Tue, 29 Oct 2019 15:05:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADCB85EC;
+ Tue, 29 Oct 2019 14:06:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F15D210027B5;
+ Tue, 29 Oct 2019 14:05:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6284D11385C9; Tue, 29 Oct 2019 15:05:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Subject: Re: [PATCH v7 05/11] qapi: add unplug primary event
+References: <20191029114905.6856-1-jfreimann@redhat.com>
+ <20191029114905.6856-6-jfreimann@redhat.com>
+ <87mudjpvgl.fsf@dusky.pond.sub.org>
+ <20191029134637.nvdbj3dn7rna2olq@jenstp.localdomain>
+Date: Tue, 29 Oct 2019 15:05:35 +0100
+In-Reply-To: <20191029134637.nvdbj3dn7rna2olq@jenstp.localdomain> (Jens
+ Freimann's message of "Tue, 29 Oct 2019 14:46:37 +0100")
+Message-ID: <87eeyvode8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191018161008.17140-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: AhGBrXzJOl6rOJ-B_nHvSA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m"
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,59 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, quintela@redhat.com,
+ aadam@redhat.com, jasowang@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, alex.williamson@redhat.com, laine@redhat.com,
+ pbonzini@redhat.com, ailan@redhat.com, parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m
-Content-Type: multipart/mixed; boundary="ms8VyaUqomRBftXtd56I3yY4Gr1AQBoa6"
+Jens Freimann <jfreimann@redhat.com> writes:
 
---ms8VyaUqomRBftXtd56I3yY4Gr1AQBoa6
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> On Tue, Oct 29, 2019 at 01:50:02PM +0100, Markus Armbruster wrote:
+>>Jens Freimann <jfreimann@redhat.com> writes:
+>>
+>>> This event is emitted when we sent a request to unplug a
+>>
+>>Uh, "we sent a requestion [...] from the Guest OS"...  do you mean "we
+>>received"?
+>
+> No, we sent a pci hotplug event to the guest by "pushing" the pcie attent=
+ion
+> button. So, it's QEMU requesting the unplug.
 
-On 18.10.19 18:10, Thomas Huth wrote:
-> Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
-> 'write' lock - Is another process using the image [TEST_DIR/t.IMGFMT]?"
-> error with 130 already twice. Looks like this test is a little bit
-> shaky, and currently nobody has a real clue what could be causing this
-> issue, so for the time being, let's disable it from the "auto" group so
-> that it does not gate the pull requests.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qemu-iotests/group | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+So if it's QEMU who does the sending, then saying "we sent [...] from
+the Guest OS does not compute for me.  Do you mean "sent to"?
 
-Thanks, applied to my block branch:
-
-https://github.com/XanClic/qemu/commits/block
-
-Max
-
-
---ms8VyaUqomRBftXtd56I3yY4Gr1AQBoa6--
-
---YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl24RxkACgkQ9AfbAGHV
-z0CHvgf/c1HiXjISh1yB7IuqL8x2X3Sl45U/+xxw8sa81IJUGVZ63Bg6fbFM6mRT
-mH3/neAw1n9AMkCDzDzsDs+DcR6o3qiIqPcSycJ9hBT3s72zZdXV8+4AKds0dhFk
-NA9+yr9vxaDdloX5wBu4sBILMlh6kRS+lhQLjWfDm7cpyi4RBXsneIg1Bk2KtAFS
-vTjSJYzq2UKdUXm0qDNChem9ZVmyU1bZbBsjoMlIdbyLOSIwnRFB1F9ZjoI1O8Eb
-WrM53gfV8kVBEL1qnQOSe6FCoPV27VNE5ylmcwD1hlTyjw7VgWvb7iwnTNGt9jxd
-JU/Fsy2rGHQ70XFaLP/pZsls81jvsg==
-=o3IM
------END PGP SIGNATURE-----
-
---YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m--
+[...]
 
 
