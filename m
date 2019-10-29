@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD30BE7E53
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 03:00:15 +0100 (CET)
-Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60621E7EA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 03:45:48 +0100 (CET)
+Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPGnu-0001u4-ED
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 22:00:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1iPHVz-00043q-6b
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 22:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iPGn6-0001LS-2i
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 21:59:25 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iPHPy-0005RC-E8
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:39:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iPGn4-0004E3-6d
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 21:59:23 -0400
-Resent-Date: Mon, 28 Oct 2019 21:59:23 -0400
-Resent-Message-Id: <E1iPGn4-0004E3-6d@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21453)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iPGn3-0004Dp-VT
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 21:59:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1572314338; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aALoKZaQn4nFqs4b7bu2MDy6wdyb81U/Y0cKJJwO/01t3mlRgQ/2IRIbXOMGw4J2CbBPJWmgBnM21jat7T5sg/m/pIe4I0li11s+V1FqDhu+wyeo2XrgdEac0FwSmmVUTyQBgOh84C7ueVsKBJHSqZltW0Y5oR5ObCOA1hPCXtc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572314338;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=La20kyd/pawRSJOGyRPTCuDBr6TNz1zby+BP6qadMoM=; 
- b=JbxWoJ7Seig1VkPjqIvjW57j+RFTTqMcKUy3YNM2zZP5/9slK1QDQGC4BYdhnkWPDiWEcvArci2OsKU49Xar33ljhMXzlSvwCjRk9H9w7hU/hX+9oyGB3k6qj85GPpVQCK1wxi77JixaD3ClTJmxfUtZzxJOfb1O88wj38miKcs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1572314336499244.93313887708666;
- Mon, 28 Oct 2019 18:58:56 -0700 (PDT)
-In-Reply-To: <20191028163447.18541-1-philmd@redhat.com>
-Subject: Re: [PULL 00/20] hw/i386/pc: Split PIIX3 southbridge from i440FX
- northbridge
-Message-ID: <157231433519.12254.8903227661805058824@37313f22b938>
+ (envelope-from <dgilbert@redhat.com>) id 1iPHE4-0002nH-67
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:27:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31330
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iPHE4-0002mr-1j
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:27:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572316035;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4+pNno2PCh6rUihtsvipclfEDrjWGAhizo+zRW/b3Ig=;
+ b=ihUwVMWwzEFD8TAlYHnHJjyTPgrJellTK7s/8deVHvQw6r9J3KJgTOGSj2ey9pPdFf+Qel
+ 84vvaFH3GV50yPdGxWWeM5MwYuTjSI6FVSMpFXJwrdoOifkXx24WPaOaIXULt5KmACrSpY
+ 4JlQOoh7GJyao7C/kJI5jAxwwJbxLIY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-ow0BY0V2OPGrqiNrzjmU9w-1; Mon, 28 Oct 2019 22:27:13 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8932B1005509;
+ Tue, 29 Oct 2019 02:27:12 +0000 (UTC)
+Received: from work-vm (ovpn-116-127.ams2.redhat.com [10.36.116.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 545D01001B28;
+ Tue, 29 Oct 2019 02:27:02 +0000 (UTC)
+Date: Tue, 29 Oct 2019 02:26:59 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [PATCH] fw_cfg: Allow reboot-timeout=-1 again
+Message-ID: <20191029022659.GD2508@work-vm>
+References: <20191025165706.177653-1-dgilbert@redhat.com>
+ <37ac197c-f20e-dd05-ff6a-13a2171c7148@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Mon, 28 Oct 2019 18:58:56 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <37ac197c-f20e-dd05-ff6a-13a2171c7148@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: ow0BY0V2OPGrqiNrzjmU9w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,108 +73,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, hpoussin@reactos.org, amarkovic@wavecomp.com,
- pbonzini@redhat.com, philmd@redhat.com, aurelien@aurel32.net
+Cc: liq3ea@gmail.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyODE2MzQ0Ny4xODU0
-MS0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwMC8yMF0gaHcvaTM4Ni9wYzogU3BsaXQgUElJWDMg
-c291dGhicmlkZ2UgZnJvbSBpNDQwRlggbm9ydGhicmlkZ2UKVHlwZTogc2VyaWVzCk1lc3NhZ2Ut
-aWQ6IDIwMTkxMDI4MTYzNDQ3LjE4NTQxLTEtcGhpbG1kQHJlZGhhdC5jb20KCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3Qn
-CjE5N2YzYzIgaHcvcGNpLWhvc3QvaTQ0MGZ4OiBSZW1vdmUgdGhlIGxhc3QgUElJWDMgdHJhY2Vz
-CjE1NzhjNTIgaHcvcGNpLWhvc3Q6IFJlbmFtZSBpbmNvcnJlY3RseSBuYW1lZCAncGlpeCcgYXMg
-J2k0NDBmeCcKMGNmOTU3YSBody9wY2ktaG9zdC9waWl4OiBFeHRyYWN0IFBJSVgzIGZ1bmN0aW9u
-cyB0byBody9pc2EvcGlpeDMuYwoyYmJmOWMyIGh3L3BjaS1ob3N0L3BpaXg6IEZpeCBjb2RlIHN0
-eWxlIGlzc3VlcwozMDRhNDAyIGh3L3BjaS1ob3N0L3BpaXg6IE1vdmUgaTQ0MEZYIGRlY2xhcmF0
-aW9ucyB0byBody9wY2ktaG9zdC9pNDQwZnguaAo4OTNlNzlmIGh3L3BjaS1ob3N0L3BpaXg6IERl
-ZmluZSBhbmQgdXNlIHRoZSBQSUlYIElSUSBSb3V0ZSBDb250cm9sIFJlZ2lzdGVycwo4ZjNjOTA1
-IGh3L3BjaS1ob3N0L3BpaXg6IE1vdmUgUkNSX0lPUE9SVCByZWdpc3RlciBkZWZpbml0aW9uCjc5
-OTQ0MWIgaHcvcGNpLWhvc3QvcGlpeDogRXh0cmFjdCBwaWl4M19jcmVhdGUoKQo3NDEyMjliIGh3
-L2kzODY6IFJlbW92ZSBvYnNvbGV0ZSBMb2FkU3RhdGVIYW5kbGVyOjpsb2FkX3N0YXRlX29sZCBo
-YW5kbGVycwo1MmRmYzMwIGh3L2lzYS9waWl4NDogTW92ZSBwaWl4NF9jcmVhdGUoKSB0byBody9p
-c2EvcGlpeDQuYwo2NDc4YjIxIGh3L21pcHMvbWlwc19tYWx0YTogRXh0cmFjdCB0aGUgUElJWDQg
-Y3JlYXRpb24gY29kZSBhcyBwaWl4NF9jcmVhdGUoKQo3Y2UwNzhlIGh3L21pcHMvbWlwc19tYWx0
-YTogQ3JlYXRlIElERSBoYXJkIGRyaXZlIGFycmF5IGR5bmFtaWNhbGx5CmEyMGZmYjEgcGlpeDQ6
-IEFkZCBhIE1DMTQ2ODE4IFJUQyBDb250cm9sbGVyIGFzIHNwZWNpZmllZCBpbiBkYXRhc2hlZXQK
-MWZhZjc0ZCBwaWl4NDogQWRkIGFuIGk4MjU0IFBJVCBDb250cm9sbGVyIGFzIHNwZWNpZmllZCBp
-biBkYXRhc2hlZXQKNWZhOTFhOCBwaWl4NDogQWRkIGFuIGk4MjU3IERNQSBDb250cm9sbGVyIGFz
-IHNwZWNpZmllZCBpbiBkYXRhc2hlZXQKOWY3Mjg0MSBwaWl4NDogUmVuYW1lIFBJSVg0IG9iamVj
-dCB0byBwaWl4NC1pc2EKYjM1YzU2ZCBSZXZlcnQgImlycTogaW50cm9kdWNlIHFlbXVfaXJxX3By
-b3h5KCkiCmU2YTA3NTYgcGlpeDQ6IEFkZCBhbiBpODI1OSBJbnRlcnJ1cHQgQ29udHJvbGxlciBh
-cyBzcGVjaWZpZWQgaW4gZGF0YXNoZWV0CjFiMzgzMTEgcGlpeDQ6IEFkZCB0aGUgUmVzZXQgQ29u
-dHJvbCBSZWdpc3RlcgpiNGJjNjZmIE1BSU5UQUlORVJTOiBLZWVwIFBJSVg0IFNvdXRoIEJyaWRn
-ZSBzZXBhcmF0ZSBmcm9tIFBDIENoaXBzZXRzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzIwIENo
-ZWNraW5nIGNvbW1pdCBiNGJjNjZmNGRhODcgKE1BSU5UQUlORVJTOiBLZWVwIFBJSVg0IFNvdXRo
-IEJyaWRnZSBzZXBhcmF0ZSBmcm9tIFBDIENoaXBzZXRzKQoyLzIwIENoZWNraW5nIGNvbW1pdCAx
-YjM4MzExZTNjNzkgKHBpaXg0OiBBZGQgdGhlIFJlc2V0IENvbnRyb2wgUmVnaXN0ZXIpCjMvMjAg
-Q2hlY2tpbmcgY29tbWl0IGU2YTA3NTZjOTYxMiAocGlpeDQ6IEFkZCBhbiBpODI1OSBJbnRlcnJ1
-cHQgQ29udHJvbGxlciBhcyBzcGVjaWZpZWQgaW4gZGF0YXNoZWV0KQo0LzIwIENoZWNraW5nIGNv
-bW1pdCBiMzVjNTZkMmFmYjUgKFJldmVydCAiaXJxOiBpbnRyb2R1Y2UgcWVtdV9pcnFfcHJveHko
-KSIpCjUvMjAgQ2hlY2tpbmcgY29tbWl0IDlmNzI4NDFiZjZiYSAocGlpeDQ6IFJlbmFtZSBQSUlY
-NCBvYmplY3QgdG8gcGlpeDQtaXNhKQo2LzIwIENoZWNraW5nIGNvbW1pdCA1ZmE5MWE4ZDJhMjgg
-KHBpaXg0OiBBZGQgYW4gaTgyNTcgRE1BIENvbnRyb2xsZXIgYXMgc3BlY2lmaWVkIGluIGRhdGFz
-aGVldCkKNy8yMCBDaGVja2luZyBjb21taXQgMWZhZjc0ZGJkNGZkIChwaWl4NDogQWRkIGFuIGk4
-MjU0IFBJVCBDb250cm9sbGVyIGFzIHNwZWNpZmllZCBpbiBkYXRhc2hlZXQpCjgvMjAgQ2hlY2tp
-bmcgY29tbWl0IGEyMGZmYjExOWQwOSAocGlpeDQ6IEFkZCBhIE1DMTQ2ODE4IFJUQyBDb250cm9s
-bGVyIGFzIHNwZWNpZmllZCBpbiBkYXRhc2hlZXQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE5MzogCmRl
-bGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNjYg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8yMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzIw
-IENoZWNraW5nIGNvbW1pdCA3Y2UwNzhlMzg4MjQgKGh3L21pcHMvbWlwc19tYWx0YTogQ3JlYXRl
-IElERSBoYXJkIGRyaXZlIGFycmF5IGR5bmFtaWNhbGx5KQoxMC8yMCBDaGVja2luZyBjb21taXQg
-NjQ3OGIyMTNmZjI3IChody9taXBzL21pcHNfbWFsdGE6IEV4dHJhY3QgdGhlIFBJSVg0IGNyZWF0
-aW9uIGNvZGUgYXMgcGlpeDRfY3JlYXRlKCkpCjExLzIwIENoZWNraW5nIGNvbW1pdCA1MmRmYzMw
-ZmNkYWEgKGh3L2lzYS9waWl4NDogTW92ZSBwaWl4NF9jcmVhdGUoKSB0byBody9pc2EvcGlpeDQu
-YykKMTIvMjAgQ2hlY2tpbmcgY29tbWl0IDc0MTIyOWIyOWZjYiAoaHcvaTM4NjogUmVtb3ZlIG9i
-c29sZXRlIExvYWRTdGF0ZUhhbmRsZXI6OmxvYWRfc3RhdGVfb2xkIGhhbmRsZXJzKQoxMy8yMCBD
-aGVja2luZyBjb21taXQgNzk5NDQxYmVkYTlmIChody9wY2ktaG9zdC9waWl4OiBFeHRyYWN0IHBp
-aXgzX2NyZWF0ZSgpKQoxNC8yMCBDaGVja2luZyBjb21taXQgOGYzYzkwNWVmZjQ1IChody9wY2kt
-aG9zdC9waWl4OiBNb3ZlIFJDUl9JT1BPUlQgcmVnaXN0ZXIgZGVmaW5pdGlvbikKMTUvMjAgQ2hl
-Y2tpbmcgY29tbWl0IDg5M2U3OWYyZWE2NyAoaHcvcGNpLWhvc3QvcGlpeDogRGVmaW5lIGFuZCB1
-c2UgdGhlIFBJSVggSVJRIFJvdXRlIENvbnRyb2wgUmVnaXN0ZXJzKQoxNi8yMCBDaGVja2luZyBj
-b21taXQgMzA0YTQwMmIzZDkyIChody9wY2ktaG9zdC9waWl4OiBNb3ZlIGk0NDBGWCBkZWNsYXJh
-dGlvbnMgdG8gaHcvcGNpLWhvc3QvaTQ0MGZ4LmgpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzk4OiAKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTAxIGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDE2LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzIwIENo
-ZWNraW5nIGNvbW1pdCAyYmJmOWMyYmRlNGIgKGh3L3BjaS1ob3N0L3BpaXg6IEZpeCBjb2RlIHN0
-eWxlIGlzc3VlcykKMTgvMjAgQ2hlY2tpbmcgY29tbWl0IDBjZjk1N2E5YTU1YiAoaHcvcGNpLWhv
-c3QvcGlpeDogRXh0cmFjdCBQSUlYMyBmdW5jdGlvbnMgdG8gaHcvaXNhL3BpaXgzLmMpCldBUk5J
-Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
-ZCB1cGRhdGluZz8KIzY1OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBzcGFjZXMgcmVx
-dWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6VnhWKQojMzE0OiBGSUxFOiBody9pc2EvcGlpeDMu
-YzoyNDU6CisgICAgLnN1YnNlY3Rpb25zID0gKGNvbnN0IFZNU3RhdGVEZXNjcmlwdGlvbipbXSkg
-ewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDog
-MSBlcnJvcnMsIDEgd2FybmluZ3MsIDkzNyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxOC8yMCBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTkvMjAgQ2hlY2tpbmcgY29tbWl0IDE1NzhjNTIxNmEy
-OSAoaHcvcGNpLWhvc3Q6IFJlbmFtZSBpbmNvcnJlY3RseSBuYW1lZCAncGlpeCcgYXMgJ2k0NDBm
-eCcpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
-SU5FUlMgbmVlZCB1cGRhdGluZz8KIzY5OiAKcmVuYW1lIGZyb20gaHcvcGNpLWhvc3QvcGlpeC5j
-Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE5
-LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIwLzIwIENoZWNraW5nIGNvbW1pdCAxOTdm
-M2MyNjJhM2EgKGh3L3BjaS1ob3N0L2k0NDBmeDogUmVtb3ZlIHRoZSBsYXN0IFBJSVgzIHRyYWNl
-cykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
-OTEwMjgxNjM0NDcuMTg1NDEtMS1waGlsbWRAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+* Laszlo Ersek (lersek@redhat.com) wrote:
+> On 10/25/19 18:57, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > Commit ee5d0f89de3e53cdb0dc added range checking on reboot-timeout
+> > to only allow the range 0..65535; however both qemu and libvirt documen=
+t
+> > the special value -1  to mean don't reboot.
+> > Allow it again.
+> >
+> > Fixes: ee5d0f89de3e53cdb0dc ("fw_cfg: Fix -boot reboot-timeout error ch=
+ecking")
+> > RH bz: https://bugzilla.redhat.com/show_bug.cgi?id=3D1765443
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  hw/nvram/fw_cfg.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> > index 7dc3ac378e..1a9ec44232 100644
+> > --- a/hw/nvram/fw_cfg.c
+> > +++ b/hw/nvram/fw_cfg.c
+> > @@ -247,10 +247,11 @@ static void fw_cfg_reboot(FWCfgState *s)
+> >
+> >      if (reboot_timeout) {
+> >          rt_val =3D qemu_opt_get_number(opts, "reboot-timeout", -1);
+> > +
+> >          /* validate the input */
+> > -        if (rt_val < 0 || rt_val > 0xffff) {
+> > +        if (rt_val < -1 || rt_val > 0xffff) {
+> >              error_report("reboot timeout is invalid,"
+> > -                         "it should be a value between 0 and 65535");
+> > +                         "it should be a value between -1 and 65535");
+> >              exit(1);
+> >          }
+> >      }
+> >
+>=20
+> Ouch.
+>=20
+> Here's the prototype of qemu_opt_get_number():
+>=20
+> > uint64_t qemu_opt_get_number(QemuOpts *opts, const char *name, uint64_t=
+ defval);
+>=20
+> So, when we call it, here's what we actually do:
+>=20
+>         rt_val =3D (int64_t)qemu_opt_get_number(opts, "reboot-timeout", (=
+uint64_t)-1);
+>                  ^^^^^^^^^                                            ^^^=
+^^^^^^^
+>=20
+> The conversion to uint64_t is fine.
+>=20
+> The conversion to int64_t is not great:
+>=20
+> > Otherwise, the new type is signed and the value cannot be represented
+> > in it; either the result is implementation-defined or an
+> > implementation-defined signal is raised.
+>=20
+> I guess we're exploiting two's complement, as the implementation-defined
+> result. Not great. :)
+>=20
+> Here's what I'd prefer:
+>=20
+> > diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> > index 7dc3ac378ee0..16413550a1da 100644
+> > --- a/hw/nvram/fw_cfg.c
+> > +++ b/hw/nvram/fw_cfg.c
+> > @@ -237,7 +237,7 @@ static void fw_cfg_bootsplash(FWCfgState *s)
+> >  static void fw_cfg_reboot(FWCfgState *s)
+> >  {
+> >      const char *reboot_timeout =3D NULL;
+> > -    int64_t rt_val =3D -1;
+> > +    uint64_t rt_val =3D -1;
+> >      uint32_t rt_le32;
+> >
+> >      /* get user configuration */
+> > @@ -248,9 +248,9 @@ static void fw_cfg_reboot(FWCfgState *s)
+> >      if (reboot_timeout) {
+> >          rt_val =3D qemu_opt_get_number(opts, "reboot-timeout", -1);
+> >          /* validate the input */
+> > -        if (rt_val < 0 || rt_val > 0xffff) {
+> > +        if (rt_val > 0xffff && rt_val !=3D (uint64_t)-1) {
+> >              error_report("reboot timeout is invalid,"
+> > -                         "it should be a value between 0 and 65535");
+> > +                         "it should be a value between -1 and 65535");
+> >              exit(1);
+> >          }
+> >      }
+
+I think I'm fine with that as well; want to add a signed off and post?
+
+> (
+>=20
+> The trick is that strtoull(), in
+>=20
+>   qemu_opt_get_number()
+>     qemu_opt_get_number_helper()
+>       parse_option_number()
+>         qemu_strtou64()
+>           strtoull()
+>=20
+> turns "-1" into (uint64_t)-1, which counts as a valid conversion, per
+> spec:
+
+It's rather scary how much we rely on the grubby depths of the
+implementations of our conversion routines.
+
+> > If the subject sequence has the expected form and the value of /base/
+> > is zero, the sequence of characters starting with the first digit is
+> > interpreted as an integer constant according to the rules of 6.4.4.1.
+> > If the subject sequence has the expected form and the value of /base/
+> > is between 2 and 36, it is used as the base for conversion, ascribing
+> > to each letter its value as given above. If the subject sequence
+> > begins with a minus sign, the value resulting from the conversion is
+> > negated (in the return type). A pointer to the final string is stored
+> > in the object pointed to by /endptr/, provided that /endptr/ is not a
+> > null pointer.
+>=20
+> )
+>=20
+> I don't insist though; if Phil is OK with the posted patch, I won't try
+> to block it.
+
+I'm happy either way.
+
+Dave
+
+> Thanks
+> Laszlo
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
