@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A776E8970
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 14:27:33 +0100 (CET)
-Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F62DE8995
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 14:32:59 +0100 (CET)
+Received: from localhost ([::1]:56940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPRX1-0004Pr-V4
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 09:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53968)
+	id 1iPRcI-0007Ao-EZ
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 09:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iPRUy-0002Wg-7l
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 09:25:25 -0400
+ (envelope-from <bounces@canonical.com>) id 1iPRaO-0006UP-6g
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 09:31:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iPRUw-00071o-0G
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 09:25:23 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33345)
+ (envelope-from <bounces@canonical.com>) id 1iPRaK-00008S-8A
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 09:30:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58562)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iPRUt-00070E-9d; Tue, 29 Oct 2019 09:25:19 -0400
-Received: by mail-lj1-x242.google.com with SMTP id t5so7434048ljk.0;
- Tue, 29 Oct 2019 06:25:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tg/r3g2zVMvHDV0jcIg3a709gbA5NPrFDTOpzHBbLLc=;
- b=crqaGqY/68L3RiLj2L3R6MQA4PUvaO0Q10JGL7gxmEzAFZM04B1RojYvAI8rMV0Dac
- UDmFe35RO8mf2ZKqfdhLTpc8QALIKMt4Eyp9WsK3y9StEqw9EYlC4T4PC6+1A+cDCIXC
- G450Xup+taJJWLP9/CxlqElNmz7CJPaFEX2JhfcjeM4L6ow4jefu8Gdm/WVk8q2pan6Z
- TmL1f+/sNyTzfNuFxnWJJSUahzZ4GGCYe/FYn59ZwgRgOyPdihizPyXn400JttWDQDct
- YbTP392diY4lSk4eH4QDMxn7q+aIsQdg/4CJF4WuoYGhi7i2DtAlf6CcJS9r+f8w1kfs
- P59Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tg/r3g2zVMvHDV0jcIg3a709gbA5NPrFDTOpzHBbLLc=;
- b=k/oMld/T/8hOrQ1vu9v9jJnEJDxBAsAYFRE7VON2FzNMxxqBYurLnF/sivDyixgRDS
- tFUuR2PsX6aXKMjE9S4yaxqDPsOl1xlsjrWqnTbwx6fCijuOXWvCKZYfbckO1Vh+epIB
- bt8m6sSQsevDOUsWWVClB10o3+jGrQQB2nrUKvPWIL65WBa9DSxWCA4W8bLxJx2YfgGF
- 7ynkuO1gWvJd9jD+X+pdH5K6xf83RNDiwfIO5Ti6E0ggxe6am4LrPy7er7B0FhihtqwJ
- Qa+bsrnoWqkSMv7R0So4chEp2ZmKWeWV60PWaeKdCDnjke5an+fC/t42YIPXHCXSQfsm
- Eucw==
-X-Gm-Message-State: APjAAAWNdNoQ7Npd9VOR901UgR1aUfM06jSeHcucqPok3wePXteaBoiI
- yENeI1JoLJMeqjR8ndRIHFKCG6nkld/7Y9+AzAc=
-X-Google-Smtp-Source: APXvYqwMjbdhdJwlGca6cDVqUZcc0MC7e6HXDMjnRSi57azLi03G2Z6XdhMrO936lJhdjZMKfa4y53VgkaYlSfTPlDs=
-X-Received: by 2002:a2e:b54d:: with SMTP id a13mr2815554ljn.4.1572355517867;
- Tue, 29 Oct 2019 06:25:17 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iPRaJ-000078-Ug
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 09:30:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iPRaH-0007dd-UX
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 13:30:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E60CF2E80C0
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 13:30:53 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191025042734.69244-1-anup.patel@wdc.com>
-In-Reply-To: <20191025042734.69244-1-anup.patel@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 29 Oct 2019 14:24:50 +0100
-Message-ID: <CAKmqyKMQz-OMFQRTdmpBpGMLiZ_ZM+UL5T5aAWZ5F1fC6vddOQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] RTC support for QEMU RISC-V virt machine
-To: Anup Patel <Anup.Patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 29 Oct 2019 13:19:43 -0000
+From: tm <1850378@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: riscv
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: tm42
+X-Launchpad-Bug-Reporter: tm (tm42)
+X-Launchpad-Bug-Modifier: tm (tm42)
+Message-Id: <157235518365.28116.9958641157871998206.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1850378] [NEW] RISC-V unreliable IPIs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: cbf62b2b27640ca955b066f3c0e5758a5a14ae5c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,66 +65,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Anup Patel <anup@brainfault.org>
+Reply-To: Bug 1850378 <1850378@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 25, 2019 at 6:28 AM Anup Patel <Anup.Patel@wdc.com> wrote:
->
-> This series adds RTC device to QEMU RISC-V virt machine. We have
-> selected Goldfish RTC device model for this. It's a pretty simple
-> synthetic device with few MMIO registers and no dependency external
-> clock. The driver for Goldfish RTC is already available in Linux so
-> we just need to enable it in Kconfig for RISCV and also update Linux
-> defconfigs.
->
-> We have tested this series with Linux-5.4-rc4 plus defconfig changes
-> available in 'goldfish_rtc_v2' branch of:
-> https://github.com/avpatel/linux.git
+Public bug reported:
 
-@Peter Maydell this has been reviewed, do you mind taking this in you
-next PR? I don't see a maintainer for hw/rtc.
+I am working on a project with custom inter processor interrupts (IPIs) on =
+the RISC-V virt machine.
+After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (ht=
+tps://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU hotp=
+lug feature.
 
-Alistair
+However, if I try to use IPIs for communication between two cores, the
+wfi instruction behaves strangely. Either it does not return, or it
+returns on timer interrupts, even though they are disabled. The code, I
+use on one core to wait for an interrupt is the following.
 
->
-> Changes since v4:
->  - Fixed typo in trace event usage
->  - Moved goldfish_rtc.h to correct location
->
-> Changes since v3:
->  - Address all nit comments from Alistair
->
-> Changes since v2:
->  - Rebased on RTC code refactoring
->
-> Changes since v1:
->  - Implemented VMState save/restore callbacks
->
-> Anup Patel (2):
->   hw: rtc: Add Goldfish RTC device
->   riscv: virt: Use Goldfish RTC device
->
->  hw/riscv/Kconfig              |   1 +
->  hw/riscv/virt.c               |  15 ++
->  hw/rtc/Kconfig                |   3 +
->  hw/rtc/Makefile.objs          |   1 +
->  hw/rtc/goldfish_rtc.c         | 288 ++++++++++++++++++++++++++++++++++
->  hw/rtc/trace-events           |   4 +
->  include/hw/riscv/virt.h       |   2 +
->  include/hw/rtc/goldfish_rtc.h |  46 ++++++
->  8 files changed, 360 insertions(+)
->  create mode 100644 hw/rtc/goldfish_rtc.c
->  create mode 100644 include/hw/rtc/goldfish_rtc.h
->
-> --
-> 2.17.1
->
+	csr_clear(sie, SIE_SEIE | SIE_STIE);
+	do {
+		wait_for_interrupt();
+		sipval =3D csr_read(sip);
+		sieval =3D csr_read(sie);
+		scauseval =3D csr_read(scause) & 0xFF;
+	/* only break if wfi returns for an software interrupt */
+	} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
+	csr_set(sie, SIE_SEIE | SIE_STIE);
+
+Since the resulting sequence does not seem to be deterministic, my guess
+is, that it has something to do with the communication of qemu's threads
+for the different cores.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: riscv
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1850378
+
+Title:
+  RISC-V unreliable IPIs
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am working on a project with custom inter processor interrupts (IPIs) o=
+n the RISC-V virt machine.
+  After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (=
+https://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU ho=
+tplug feature.
+
+  However, if I try to use IPIs for communication between two cores, the
+  wfi instruction behaves strangely. Either it does not return, or it
+  returns on timer interrupts, even though they are disabled. The code,
+  I use on one core to wait for an interrupt is the following.
+
+  	csr_clear(sie, SIE_SEIE | SIE_STIE);
+  	do {
+  		wait_for_interrupt();
+  		sipval =3D csr_read(sip);
+  		sieval =3D csr_read(sie);
+  		scauseval =3D csr_read(scause) & 0xFF;
+  	/* only break if wfi returns for an software interrupt */
+  	} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
+  	csr_set(sie, SIE_SEIE | SIE_STIE);
+
+  Since the resulting sequence does not seem to be deterministic, my
+  guess is, that it has something to do with the communication of qemu's
+  threads for the different cores.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1850378/+subscriptions
 
