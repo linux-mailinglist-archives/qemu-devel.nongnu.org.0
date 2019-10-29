@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FECE8A60
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 15:13:19 +0100 (CET)
-Received: from localhost ([::1]:57226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BBAE8A67
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 15:15:21 +0100 (CET)
+Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPSFK-0002aC-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 10:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58959)
+	id 1iPSHI-0005i7-CX
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 10:15:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iPSCs-0000X8-Fn
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:10:51 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iPSCk-00006w-Bf
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:10:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iPS67-0003Sw-38
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:03:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47176)
+ (envelope-from <mreitz@redhat.com>) id 1iPS7j-0003pE-Fr
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:05:28 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24900
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iPS66-0003Sf-Qm
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:03:47 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iPS7h-0003om-EJ
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 10:05:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572357924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7REaLbpbPhByaOZEfc2+1e1bkqGBMJKmAfycsWJdy0w=;
+ b=gGaSHNwOXl5R2n+qU3Ov1n+0Gcm8JCcTXPMuCthk9bzHrxpHZLA/EK1qIYUUYN6BIL79ZX
+ Wrha1LAcBlgnbXQBrMslDtpJi26SMTsLGoeuBqM4Jd8maRlqkzTR50x+/bDg9pRhDVhly6
+ 5My2qj4T0SEBZ/tW58ISX+WTRpsW4Xs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-WdcrCH9nPCqqhuJ9BRvSAw-1; Tue, 29 Oct 2019 10:05:20 -0400
+X-MC-Unique: WdcrCH9nPCqqhuJ9BRvSAw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C976C81F07
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 14:03:44 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id c6so8460090wrp.3
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 07:03:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QSM/dbhh8lk2vp4ml2iX8Pi2fwNbOpaTofH3xqoN3mM=;
- b=ucMqmMk1enAKccCb1FAo3rMV2U7T85QnzgYKPMUD0ET1pWTpOFqr5G+Qw5nePMuYHt
- 7a0n9L6eHdbchmkAjI1burrs3cDxoMhxbssEkR3xlOxyKo/TzAOjf7Ly2nR5BsmqnVy6
- OqsimuP5q87KKEmMnrtNfpUY6li9RB0Hj+OoEHoNN6E184UAKNoHKsvOQATm8EwZfShy
- 9FN+2IZ+23M8mJVwEcZDmfR7/Ax70RCRlTUhazHLtDmdyaFmL6QuTJE3MCJVZKHkrR0d
- jjSQhrlPxdn8sME2Q7bmMqxklU8Oe+gUr6/S4jGseLO+zytRvDxAloFqX8YwXsdEB5W6
- 2QuA==
-X-Gm-Message-State: APjAAAWf30iDagDJIR4QlFqp2f9uuTOnAdXw6PF9DqY/8KbZ4LP7ESyD
- cTK4S3gIhCwz3/JFud+tXr+HSnvhPPPHWpZpM3eggrsSrr7ey3/2ZkSmqxnqk9txOv9ChCiqoj2
- 0ZIxITZJDjyWyseQ=
-X-Received: by 2002:a5d:55ce:: with SMTP id i14mr19553891wrw.169.1572357822716; 
- Tue, 29 Oct 2019 07:03:42 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxlp+bao/JL53v3uCQ/x77rEVS5/oQl4+vxFv3ZokQyD1QRUcePeWu+eZzCjYl3U3Hdw2whGg==
-X-Received: by 2002:a5d:55ce:: with SMTP id i14mr19553856wrw.169.1572357822368; 
- Tue, 29 Oct 2019 07:03:42 -0700 (PDT)
-Received: from [192.168.20.70] (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id l4sm2184644wml.33.2019.10.29.07.03.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Oct 2019 07:03:41 -0700 (PDT)
-Subject: Re: [PATCH] fw_cfg: Allow reboot-timeout=-1 again
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
-References: <20191025165706.177653-1-dgilbert@redhat.com>
- <37ac197c-f20e-dd05-ff6a-13a2171c7148@redhat.com>
- <20191029022659.GD2508@work-vm>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b35779ce-5ecf-4e22-16a4-5a7dff27dfb0@redhat.com>
-Date: Tue, 29 Oct 2019 15:03:40 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1430801E64;
+ Tue, 29 Oct 2019 14:05:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-116-124.ams2.redhat.com
+ [10.36.116.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BEFC35FCA2;
+ Tue, 29 Oct 2019 14:05:15 +0000 (UTC)
+Subject: Re: [PATCH] iotests: Remove 130 from the "auto" group
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+References: <20191018161008.17140-1-thuth@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <751b0f88-2004-bca9-09d4-f43284ca8784@redhat.com>
+Date: Tue, 29 Oct 2019 15:05:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191029022659.GD2508@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20191018161008.17140-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,137 +97,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, liq3ea@gmail.com, qemu-devel@nongnu.org,
- kraxel@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/19 3:26 AM, Dr. David Alan Gilbert wrote:
-> * Laszlo Ersek (lersek@redhat.com) wrote:
->> On 10/25/19 18:57, Dr. David Alan Gilbert (git) wrote:
->>> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>>
->>> Commit ee5d0f89de3e53cdb0dc added range checking on reboot-timeout
->>> to only allow the range 0..65535; however both qemu and libvirt document
->>> the special value -1  to mean don't reboot.
->>> Allow it again.
->>>
->>> Fixes: ee5d0f89de3e53cdb0dc ("fw_cfg: Fix -boot reboot-timeout error checking")
->>> RH bz: https://bugzilla.redhat.com/show_bug.cgi?id=1765443
->>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>> ---
->>>   hw/nvram/fw_cfg.c | 5 +++--
->>>   1 file changed, 3 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
->>> index 7dc3ac378e..1a9ec44232 100644
->>> --- a/hw/nvram/fw_cfg.c
->>> +++ b/hw/nvram/fw_cfg.c
->>> @@ -247,10 +247,11 @@ static void fw_cfg_reboot(FWCfgState *s)
->>>
->>>       if (reboot_timeout) {
->>>           rt_val = qemu_opt_get_number(opts, "reboot-timeout", -1);
->>> +
->>>           /* validate the input */
->>> -        if (rt_val < 0 || rt_val > 0xffff) {
->>> +        if (rt_val < -1 || rt_val > 0xffff) {
->>>               error_report("reboot timeout is invalid,"
->>> -                         "it should be a value between 0 and 65535");
->>> +                         "it should be a value between -1 and 65535");
->>>               exit(1);
->>>           }
->>>       }
->>>
->>
->> Ouch.
->>
->> Here's the prototype of qemu_opt_get_number():
->>
->>> uint64_t qemu_opt_get_number(QemuOpts *opts, const char *name, uint64_t defval);
->>
->> So, when we call it, here's what we actually do:
->>
->>          rt_val = (int64_t)qemu_opt_get_number(opts, "reboot-timeout", (uint64_t)-1);
->>                   ^^^^^^^^^                                            ^^^^^^^^^^
->>
->> The conversion to uint64_t is fine.
->>
->> The conversion to int64_t is not great:
->>
->>> Otherwise, the new type is signed and the value cannot be represented
->>> in it; either the result is implementation-defined or an
->>> implementation-defined signal is raised.
->>
->> I guess we're exploiting two's complement, as the implementation-defined
->> result. Not great. :)
->>
->> Here's what I'd prefer:
->>
->>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
->>> index 7dc3ac378ee0..16413550a1da 100644
->>> --- a/hw/nvram/fw_cfg.c
->>> +++ b/hw/nvram/fw_cfg.c
->>> @@ -237,7 +237,7 @@ static void fw_cfg_bootsplash(FWCfgState *s)
->>>   static void fw_cfg_reboot(FWCfgState *s)
->>>   {
->>>       const char *reboot_timeout = NULL;
->>> -    int64_t rt_val = -1;
->>> +    uint64_t rt_val = -1;
->>>       uint32_t rt_le32;
->>>
->>>       /* get user configuration */
->>> @@ -248,9 +248,9 @@ static void fw_cfg_reboot(FWCfgState *s)
->>>       if (reboot_timeout) {
->>>           rt_val = qemu_opt_get_number(opts, "reboot-timeout", -1);
->>>           /* validate the input */
->>> -        if (rt_val < 0 || rt_val > 0xffff) {
->>> +        if (rt_val > 0xffff && rt_val != (uint64_t)-1) {
->>>               error_report("reboot timeout is invalid,"
->>> -                         "it should be a value between 0 and 65535");
->>> +                         "it should be a value between -1 and 65535");
->>>               exit(1);
->>>           }
->>>       }
-> 
-> I think I'm fine with that as well; want to add a signed off and post?
-> 
->> (
->>
->> The trick is that strtoull(), in
->>
->>    qemu_opt_get_number()
->>      qemu_opt_get_number_helper()
->>        parse_option_number()
->>          qemu_strtou64()
->>            strtoull()
->>
->> turns "-1" into (uint64_t)-1, which counts as a valid conversion, per
->> spec:
-> 
-> It's rather scary how much we rely on the grubby depths of the
-> implementations of our conversion routines.
-> 
->>> If the subject sequence has the expected form and the value of /base/
->>> is zero, the sequence of characters starting with the first digit is
->>> interpreted as an integer constant according to the rules of 6.4.4.1.
->>> If the subject sequence has the expected form and the value of /base/
->>> is between 2 and 36, it is used as the base for conversion, ascribing
->>> to each letter its value as given above. If the subject sequence
->>> begins with a minus sign, the value resulting from the conversion is
->>> negated (in the return type). A pointer to the final string is stored
->>> in the object pointed to by /endptr/, provided that /endptr/ is not a
->>> null pointer.
->>
->> )
->>
->> I don't insist though; if Phil is OK with the posted patch, I won't try
->> to block it.
-> 
-> I'm happy either way.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m
+Content-Type: multipart/mixed; boundary="ms8VyaUqomRBftXtd56I3yY4Gr1AQBoa6"
 
-Thanks, queued with Laszlo's changes.
+--ms8VyaUqomRBftXtd56I3yY4Gr1AQBoa6
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
+On 18.10.19 18:10, Thomas Huth wrote:
+> Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
+> 'write' lock - Is another process using the image [TEST_DIR/t.IMGFMT]?"
+> error with 130 already twice. Looks like this test is a little bit
+> shaky, and currently nobody has a real clue what could be causing this
+> issue, so for the time being, let's disable it from the "auto" group so
+> that it does not gate the pull requests.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/qemu-iotests/group | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Phil.
+Thanks, applied to my block branch:
+
+https://github.com/XanClic/qemu/commits/block
+
+Max
+
+
+--ms8VyaUqomRBftXtd56I3yY4Gr1AQBoa6--
+
+--YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl24RxkACgkQ9AfbAGHV
+z0CHvgf/c1HiXjISh1yB7IuqL8x2X3Sl45U/+xxw8sa81IJUGVZ63Bg6fbFM6mRT
+mH3/neAw1n9AMkCDzDzsDs+DcR6o3qiIqPcSycJ9hBT3s72zZdXV8+4AKds0dhFk
+NA9+yr9vxaDdloX5wBu4sBILMlh6kRS+lhQLjWfDm7cpyi4RBXsneIg1Bk2KtAFS
+vTjSJYzq2UKdUXm0qDNChem9ZVmyU1bZbBsjoMlIdbyLOSIwnRFB1F9ZjoI1O8Eb
+WrM53gfV8kVBEL1qnQOSe6FCoPV27VNE5ylmcwD1hlTyjw7VgWvb7iwnTNGt9jxd
+JU/Fsy2rGHQ70XFaLP/pZsls81jvsg==
+=o3IM
+-----END PGP SIGNATURE-----
+
+--YIqo1AuUuJt5CcIxd2lXNLTBfp1QWjq3m--
+
 
