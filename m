@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330A9E7EA2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 03:46:11 +0100 (CET)
-Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BE9E7E9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 03:42:44 +0100 (CET)
+Received: from localhost ([::1]:48766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPHWM-0004bw-2d
-	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 22:46:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54571)
+	id 1iPHT1-0007ai-7p
+	for lists+qemu-devel@lfdr.de; Mon, 28 Oct 2019 22:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iPHPu-0005K2-Sg
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:39:33 -0400
+ (envelope-from <jasowang@redhat.com>) id 1iPHPb-0004jN-UT
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:39:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iPHJq-0006WX-6I
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:33:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53119
+ (envelope-from <jasowang@redhat.com>) id 1iPHOH-0002Uo-LK
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:37:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59304
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iPHJq-0006WK-2i
- for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:33:14 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iPHOH-0002UT-HV
+ for qemu-devel@nongnu.org; Mon, 28 Oct 2019 22:37:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572316393;
+ s=mimecast20190719; t=1572316668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uMQh/z/4zNi4pb3O1lvaEVdD7Tj24v15+tFCaEuXjoA=;
- b=ZkISNiTAE9Fgl2pPOvi+rp5HH27zAOm9XQqIoTdLC8pnMlVltv+Eqq3NPOYdTir+Pc8Czb
- SRKrK0MwHX4n+ikiqphila0SQFGtfKE5BO3Uxhcck4brWhT+quMnx+R6Baodn0vBWEZk7/
- 0nonkF8jITdcahzq7VBD6bIbjA9bOic=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1jd1f2O8sxtOFtcALRFCkZLP7AimjnDt3MIB598W/yg=;
+ b=h6e3maeWCDBxj0yO2VjrhJ+epTXPkrqOLz2PxGd4Y4jsxXyHsWq/5rirYbKRL+FkhiF+e2
+ i8J6rUt9Hm5g4m9oloyTFkmQfEERKeHxR76B+S30ym9t49eivcGhKXCNs814cYEbkEwZSF
+ 2qvn+QhZP8WSjb+NdNHRPaffd3PoC1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-dQ5PBxd8NkOKmSGRbLzAQw-1; Mon, 28 Oct 2019 22:33:10 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-161-gqJ-9mzOOzi23K9cTR7l7Q-1; Mon, 28 Oct 2019 22:37:46 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2284A801E64;
- Tue, 29 Oct 2019 02:33:09 +0000 (UTC)
-Received: from [10.72.12.223] (ovpn-12-223.pek2.redhat.com [10.72.12.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A416960856;
- Tue, 29 Oct 2019 02:33:07 +0000 (UTC)
-Subject: Re: [PULL 0/4] Net patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1572244520-14737-1-git-send-email-jasowang@redhat.com>
- <CAFEAcA8c2zCDgP=zbzXs7s=4xT_oB8c7ndgn-qacXzepATuo0A@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60A1381A334;
+ Tue, 29 Oct 2019 02:37:45 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-230.pek2.redhat.com
+ [10.72.12.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09AA619C77;
+ Tue, 29 Oct 2019 02:37:43 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <2fea0983-c5ed-1713-1958-649f5a80745c@redhat.com>
-Date: Tue, 29 Oct 2019 10:33:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL V2 0/4] Net patches
+Date: Tue, 29 Oct 2019 10:37:37 +0800
+Message-Id: <1572316661-20043-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8c2zCDgP=zbzXs7s=4xT_oB8c7ndgn-qacXzepATuo0A@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: dQ5PBxd8NkOKmSGRbLzAQw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: gqJ-9mzOOzi23K9cTR7l7Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,56 +69,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sven Schnelle <svens@stackframe.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 187f35512106501fe9a11057f4d8705431e0026d=
+:
 
-On 2019/10/29 =E4=B8=8A=E5=8D=885:42, Peter Maydell wrote:
-> On Mon, 28 Oct 2019 at 06:35, Jason Wang <jasowang@redhat.com> wrote:
->> The following changes since commit 187f35512106501fe9a11057f4d8705431e00=
-26d:
->>
->>    Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-=
-251019-3' into staging (2019-10-26 10:13:48 +0100)
->>
->> are available in the git repository at:
->>
->>    https://github.com/jasowang/qemu.git tags/net-pull-request
->>
->> for you to fetch changes up to 5af982a47cf6b6cd9beb872e5a9b940e43df5bf9:
->>
->>    COLO-compare: Fix incorrect `if` logic (2019-10-28 14:28:31 +0800)
->>
->> ----------------------------------------------------------------
->>
->> ----------------------------------------------------------------
-> Hi -- I get this compile failure on some hosts (s390, aarch64,
-> aarch32, ppc):
->
-> /home/pm215/qemu/hw/net/tulip.c: In function =E2=80=98tulip_idblock_crc=
-=E2=80=99:
-> /home/pm215/qemu/hw/net/tulip.c:859:9: error: comparison is always
-> true due to limited range of data type [-Werror=3Dtype-limits]
->           for (bit =3D 15; bit >=3D 0; bit--) {
->           ^
->
-> 'bit' here is of type char, which can be either signed
-> or unsigned depending on the host. If it's unsigned
-> (as is the case on the above architectures), then the
-> loop will never terminate because "bit >=3D 0" is always true.
-> Plain old 'int' is probably a better choice anyway.
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-next-2510=
+19-3' into staging (2019-10-26 10:13:48 +0100)
 
+are available in the git repository at:
 
-Yes, will fix and post V2.
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
-Thanks
+for you to fetch changes up to 1e907a32b77e5d418538453df5945242e43224fa:
 
+  COLO-compare: Fix incorrect `if` logic (2019-10-29 10:28:07 +0800)
 
->
-> thanks
-> -- PMM
->
+----------------------------------------------------------------
+
+Changes from V1:
+
+- Fix compling issue
+
+----------------------------------------------------------------
+Fan Yang (1):
+      COLO-compare: Fix incorrect `if` logic
+
+Michael S. Tsirkin (1):
+      virtio: new post_load hook
+
+Mikhail Sennikovsky (1):
+      virtio-net: prevent offloads reset on migration
+
+Sven Schnelle (1):
+      net: add tulip (dec21143) driver
+
+ MAINTAINERS                    |    6 +
+ hw/net/Kconfig                 |    5 +
+ hw/net/Makefile.objs           |    1 +
+ hw/net/trace-events            |   14 +
+ hw/net/tulip.c                 | 1029 ++++++++++++++++++++++++++++++++++++=
+++++
+ hw/net/tulip.h                 |  267 +++++++++++
+ hw/net/virtio-net.c            |   27 +-
+ hw/virtio/virtio.c             |    7 +
+ include/hw/pci/pci_ids.h       |    1 +
+ include/hw/virtio/virtio-net.h |    2 +
+ include/hw/virtio/virtio.h     |    6 +
+ net/colo-compare.c             |    6 +-
+ 12 files changed, 1365 insertions(+), 6 deletions(-)
+ create mode 100644 hw/net/tulip.c
+ create mode 100644 hw/net/tulip.h
+
 
 
