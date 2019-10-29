@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089C5E934F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:08:42 +0100 (CET)
-Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C13FE9358
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 00:12:43 +0100 (CET)
+Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPabQ-0005Yh-Av
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43086)
+	id 1iPafJ-0002NQ-TY
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 19:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iPaTg-0008QG-GC
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:41 -0400
+ (envelope-from <mst@redhat.com>) id 1iPaTl-00004w-F9
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iPaTf-0003bG-Co
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47169)
+ (envelope-from <mst@redhat.com>) id 1iPaTk-0003jv-70
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49267)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaTf-0003a2-6T
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:39 -0400
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iPaTj-0003iA-Tn
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 19:00:44 -0400
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 58316C0127FB
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:00:38 +0000 (UTC)
-Received: by mail-qk1-f199.google.com with SMTP id d127so291799qkc.1
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:00:38 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 11E95368CF
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 23:00:43 +0000 (UTC)
+Received: by mail-qt1-f198.google.com with SMTP id t16so515504qtp.11
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 16:00:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=jMtSsx03QX/IIDbH0Kx4Noyi/+UwhkaQ02RrknqXoEc=;
- b=t8O8l5Xm7iDMyl7So2MeYyMrGi9vXWPDy0OAnZjxt1HqUiPx+wulHsa7UU9/ysTMCi
- KblFgHyaz0Wldq3brwJ5FolaYMDm9SfJXPdwjk5aUtq8g1B/ahXWIXbEUKodS06/g8y6
- m36Am66aeddTADdPK4mDXswh393j/kaFpm9OZeWmCU5kbZtZ/pLFKPSKC3BU6+yfgXdW
- RKySpuQqO9YARGqsKcBldCV5IsHYjmoDdvbuq1JaeWaJx6ysJV8hnZBol1xbGTrPOeJ+
- CN/wFfcS93fCnLXAMymAQrzHh2G0IG+4vHHqufT6PGhvpfdC1UP3t2A2M/OmoY/k1VXh
- pHCw==
-X-Gm-Message-State: APjAAAUDqC56NPcdvXfWFzJQ6F+USoc1dBmUqssk9s06KqenGCVS4dQP
- XtAT8yKqCSWGrmMTG15eM2/Uv1y9Fm6aQN4UaCtDHH1OHCzj3N3SWFlRLj6wQJvvDhhj+DofOuo
- NaW5Q69GDJXapUPs=
-X-Received: by 2002:ac8:8f3:: with SMTP id y48mr1875825qth.269.1572390037060; 
- Tue, 29 Oct 2019 16:00:37 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyCB8AfTvh9fzezZpg0MNlunKDv83RjMIo9N0JTBANHgwSnnm0aAuGikG43wAalCoqhwaQjdw==
-X-Received: by 2002:ac8:8f3:: with SMTP id y48mr1875800qth.269.1572390036813; 
- Tue, 29 Oct 2019 16:00:36 -0700 (PDT)
+ bh=P3u+b5+KX9c+8Ms/zyjrjs/OLh7mLvjvMFExc3PU094=;
+ b=uksm2K8pWLCj++pz8DdoON0w0ShLS0NlYoX0BUwsy85cPrSb4BBtmGIKTK40ZP1yKN
+ rJVXdTR0cZ3Yj2SvoZDgOtOLXbVWMZ7l2a5VoaNUoxK+dfN00lRflgqvJhEpeSe4Hjf6
+ rblRezdUoBREANeHSMsU/5UoN0d408zE691HxRdEqCBhpB4qIOEzowWCcobIBFI1x12B
+ mOXDWy5H4jDjy0F+w3H3xR/3YsGLvT8UePSvuAlqbIiKL+yU+CsA6I+JhK8NEvVTBkkE
+ nnEqrW0sawzJd+T9xnkTksiX7CubINl5Zal0O7xQBiyjiFux40mjW9iPgKBTMc4sb0i6
+ MUmw==
+X-Gm-Message-State: APjAAAXr5ENZp6DmBWQ/mUQ+f+3YP+zck3eRw7SFdfb3/LyKVJKQA9bz
+ yGXprnYlU6puUfLfqZ5p8UPp2EFxBACS/05bqBcrcHMGLuLjbYVR9XVz9bwngmT4vKKwu63dQ3g
+ 6SJKjfLsefiGfo8U=
+X-Received: by 2002:ac8:377d:: with SMTP id p58mr1886485qtb.198.1572390041831; 
+ Tue, 29 Oct 2019 16:00:41 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwcbmEI8nR7pjy43qbmiHSMwu96vGSuhWXER46KICaG8SUuZZjrI0ZXP2jRf3AGNXBZjGFy5Q==
+X-Received: by 2002:ac8:377d:: with SMTP id p58mr1886446qtb.198.1572390041415; 
+ Tue, 29 Oct 2019 16:00:41 -0700 (PDT)
 Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id r2sm248653qtc.28.2019.10.29.16.00.34
+ by smtp.gmail.com with ESMTPSA id u27sm280302qtj.5.2019.10.29.16.00.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 16:00:36 -0700 (PDT)
-Date: Tue, 29 Oct 2019 19:00:33 -0400
+ Tue, 29 Oct 2019 16:00:40 -0700 (PDT)
+Date: Tue, 29 Oct 2019 19:00:37 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/14] qapi: add failover negotiated event
-Message-ID: <20191029225932.14585-7-mst@redhat.com>
+Subject: [PULL 07/14] migration: allow unplug during migration for failover
+ devices
+Message-ID: <20191029225932.14585-8-mst@redhat.com>
 References: <20191029225932.14585-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,53 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jens Freimann <jfreimann@redhat.com>
 
-This event is sent to let libvirt know that VIRTIO_NET_F_STANDBY feature
-is enabled. The primary device this virtio-net (standby) device is
-associated with, is now hotplugged by the virtio-net device.
+In "b06424de62 migration: Disable hotplug/unplug during migration" we
+added a check to disable unplug for all devices until we have figured
+out what works. For failover primary devices qdev_unplug() is called
+from the migration handler, i.e. during migration.
+
+This patch adds a flag to DeviceState which is set to false for all
+devices and makes an exception for PCI devices that are also
+primary devices in a failover pair.
 
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-Message-Id: <20191029114905.6856-7-jfreimann@redhat.com>
+Message-Id: <20191029114905.6856-8-jfreimann@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/net.json | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/core/qdev.c         | 1 +
+ hw/pci/pci.c           | 1 +
+ include/hw/qdev-core.h | 1 +
+ qdev-monitor.c         | 2 +-
+ 4 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 4c96137811..335295be50 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -735,3 +735,22 @@
- ##
- { 'command': 'announce-self', 'boxed': true,
-   'data' : 'AnnounceParameters'}
-+
-+##
-+# @FAILOVER_NEGOTIATED:
-+#
-+# Emitted when VIRTIO_NET_F_STANDBY was enabled during feature negotiation.
-+# Failover primary devices which were hidden (not hotplugged when requested)
-+# before will now be hotplugged by the virtio-net standby device.
-+#
-+# device-id: QEMU device id of the unplugged device
-+# Since: 4.2
-+#
-+# Example:
-+#
-+# <- { "event": "FAILOVER_NEGOTIATED",
-+#      "data": "net1" }
-+#
-+##
-+{ 'event': 'FAILOVER_NEGOTIATED',
-+  'data': {'device-id': 'str'} }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 3b8d43d0fd..cf1ba28fe3 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -996,6 +996,7 @@ static void device_initfn(Object *obj)
+ 
+     dev->instance_id_alias = -1;
+     dev->realized = false;
++    dev->allow_unplug_during_migration = false;
+ 
+     object_property_add_bool(obj, "realized",
+                              device_get_realized, device_set_realized, NULL);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 824ab4ed7b..c68498c0de 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2130,6 +2130,7 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+             pci_qdev_unrealize(DEVICE(pci_dev), NULL);
+             return;
+         }
++        qdev->allow_unplug_during_migration = true;
+     }
+ 
+     /* rom loading */
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 710981af36..1518495b1e 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -156,6 +156,7 @@ struct DeviceState {
+     bool pending_deleted_event;
+     QemuOpts *opts;
+     int hotplugged;
++    bool allow_unplug_during_migration;
+     BusState *parent_bus;
+     QLIST_HEAD(, NamedGPIOList) gpios;
+     QLIST_HEAD(, BusState) child_bus;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index ffa08c670f..e6b112eb0a 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -851,7 +851,7 @@ void qdev_unplug(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (!migration_is_idle()) {
++    if (!migration_is_idle() && !dev->allow_unplug_during_migration) {
+         error_setg(errp, "device_del not allowed while migrating");
+         return;
+     }
 -- 
 MST
 
