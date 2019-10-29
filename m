@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC152E8D97
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 18:04:56 +0100 (CET)
-Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500CFE8D9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 18:05:08 +0100 (CET)
+Received: from localhost ([::1]:60054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPUvP-0005kg-4p
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 13:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56810)
+	id 1iPUva-00063t-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 13:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iPUsb-0003mm-NB
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 13:02:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1iPUsb-0003mn-RT
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 13:02:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iPUsZ-0003EF-2H
+ (envelope-from <philmd@redhat.com>) id 1iPUsY-0003DY-6s
  for qemu-devel@nongnu.org; Tue, 29 Oct 2019 13:02:00 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22587
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54105
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iPUsU-0003Bz-3X
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iPUsU-0003C1-3J
  for qemu-devel@nongnu.org; Tue, 29 Oct 2019 13:01:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1572368512;
@@ -27,34 +27,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G7+BeeofiSo+flMQHWBPGzG1/SQWCPfqrK1CuHprhMU=;
- b=QjmurQON9q4UJMgPZC+hM+FDF065PERCG+e7knvuE89TS/eJoEIKsrhWHwkZB3wiVw7uPV
- kODl8LJXdjOBJ3RgWsFrUfDrU/rH9U/YaWyNlnMRiOoolueZYzEoFk967m27sjU5aSZ0b2
- L13sGUuVLVoko3JLnD+JRZOaAZ4MXsU=
+ bh=H4TmlfB4pAD+qZ4V+NEMRHad3TLGTMEN+/rejMsbIqs=;
+ b=Wfws58lWIJ7KbSrURCKdY1neeyxL18b7hooPi5smi0DXEd5xyuQLxvtnWFZUiC82TKjVph
+ O0QQJEPDujmEMNADnII8UfrOBCdTrkB/1eOsZE2hUd0MB931KVBqUpOCd2m3lRULDeOR+7
+ 5zcrFmXnRidkaGpM7PmbcvM4Xkpw3Zk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-DfYoYy0YO1mom5RW2GHDQg-1; Tue, 29 Oct 2019 13:01:47 -0400
+ us-mta-179-uYM5KIXXMaSloJwgenmb5A-1; Tue, 29 Oct 2019 13:01:50 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9F98801E6F
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 17:01:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D97B4180496F
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 17:01:49 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-125.brq.redhat.com [10.40.204.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 774DC600F6;
- Tue, 29 Oct 2019 17:01:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66BE760132;
+ Tue, 29 Oct 2019 17:01:47 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH 1/2] fw_cfg: Allow reboot-timeout=-1 again
-Date: Tue, 29 Oct 2019 18:01:23 +0100
-Message-Id: <20191029170124.27981-2-philmd@redhat.com>
+Subject: [PATCH 2/2] tests/fw_cfg: Test 'reboot-timeout=-1' special value
+Date: Tue, 29 Oct 2019 18:01:24 +0100
+Message-Id: <20191029170124.27981-3-philmd@redhat.com>
 In-Reply-To: <20191029170124.27981-1-philmd@redhat.com>
 References: <20191029170124.27981-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: DfYoYy0YO1mom5RW2GHDQg-1
+X-MC-Unique: uYM5KIXXMaSloJwgenmb5A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,53 +79,54 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+The special value -1 means "don't reboot" for QEMU/libvirt.
+Add a trivial test.
 
-Commit ee5d0f89de3e53cdb0dc added range checking on reboot-timeout
-to only allow the range 0..65535; however both qemu and libvirt document
-the special value -1  to mean don't reboot.
-Allow it again.
-
-Fixes: ee5d0f89de3e53cdb0dc ("fw_cfg: Fix -boot reboot-timeout error checki=
-ng")
-RH bz: https://bugzilla.redhat.com/show_bug.cgi?id=3D1765443
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20191025165706.177653-1-dgilbert@redhat.com>
-Suggested-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <37ac197c-f20e-dd05-ff6a-13a2171c7148@redhat.com>
-[PMD: Applied Laszlo's suggestions]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/nvram/fw_cfg.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tests/fw_cfg-test.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index aef1727250..14f8437983 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -237,7 +237,7 @@ static void fw_cfg_bootsplash(FWCfgState *s)
- static void fw_cfg_reboot(FWCfgState *s)
- {
-     const char *reboot_timeout =3D NULL;
--    int64_t rt_val =3D -1;
-+    uint64_t rt_val =3D -1;
-     uint32_t rt_le32;
+diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
+index 1d3147f821..5dc807ba23 100644
+--- a/tests/fw_cfg-test.c
++++ b/tests/fw_cfg-test.c
+@@ -194,6 +194,26 @@ static void test_fw_cfg_reboot_timeout(void)
+     qtest_quit(s);
+ }
 =20
-     /* get user configuration */
-@@ -247,10 +247,11 @@ static void fw_cfg_reboot(FWCfgState *s)
-=20
-     if (reboot_timeout) {
-         rt_val =3D qemu_opt_get_number(opts, "reboot-timeout", -1);
++static void test_fw_cfg_no_reboot_timeout(void)
++{
++    QFWCFG *fw_cfg;
++    QTestState *s;
++    uint32_t reboot_timeout =3D 0;
++    size_t filesize;
 +
-         /* validate the input */
--        if (rt_val < 0 || rt_val > 0xffff) {
-+        if (rt_val > 0xffff && rt_val !=3D (uint64_t)-1) {
-             error_report("reboot timeout is invalid,"
--                         "it should be a value between 0 and 65535");
-+                         "it should be a value between -1 and 65535");
-             exit(1);
-         }
-     }
++    /* Special value -1 means "don't reboot" */
++    s =3D qtest_init("-boot reboot-timeout=3D-1");
++    fw_cfg =3D pc_fw_cfg_init(s);
++
++    filesize =3D qfw_cfg_get_file(fw_cfg, "etc/boot-fail-wait",
++                                &reboot_timeout, sizeof(reboot_timeout));
++    g_assert_cmpint(filesize, =3D=3D, sizeof(reboot_timeout));
++    reboot_timeout =3D le32_to_cpu(reboot_timeout);
++    g_assert_cmpint(reboot_timeout, =3D=3D, UINT32_MAX);
++    pc_fw_cfg_uninit(fw_cfg);
++    qtest_quit(s);
++}
++
+ static void test_fw_cfg_splash_time(void)
+ {
+     QFWCFG *fw_cfg;
+@@ -233,6 +253,7 @@ int main(int argc, char **argv)
+     qtest_add_func("fw_cfg/numa", test_fw_cfg_numa);
+     qtest_add_func("fw_cfg/boot_menu", test_fw_cfg_boot_menu);
+     qtest_add_func("fw_cfg/reboot_timeout", test_fw_cfg_reboot_timeout);
++    qtest_add_func("fw_cfg/no_reboot_timeout", test_fw_cfg_no_reboot_timeo=
+ut);
+     qtest_add_func("fw_cfg/splash_time", test_fw_cfg_splash_time);
+=20
+     return g_test_run();
 --=20
 2.21.0
 
