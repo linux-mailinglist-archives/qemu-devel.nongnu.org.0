@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6F8E85C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:33:23 +0100 (CET)
-Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520E9E85CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:36:21 +0100 (CET)
+Received: from localhost ([::1]:54482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPOoU-0008Kh-Bn
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56783)
+	id 1iPOrM-0002jX-5n
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56840)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iPOeA-0005TY-Bw
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:44 -0400
+ (envelope-from <armbru@redhat.com>) id 1iPOeC-0005U2-8w
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iPOe7-00017a-Lz
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28662
+ (envelope-from <armbru@redhat.com>) id 1iPOeB-0001Ag-4W
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31825
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOe7-00016c-CW
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:39 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOeB-0001AH-0A
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572344558;
+ s=mimecast20190719; t=1572344562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6clcLZCh8AgNCQzhxRb7905oBBUjO8EbBiZIFBOzXr0=;
- b=KJYd4kspHmM/8jpULRxw6XrPWGSg+EEXfo+R3ZhPQr1baEJEsGIPZdi7ylH0GkXkyiZUiv
- 4bTxrV2Bi9hqUkW3Y7Oov9J4ApYsLHOk6aYwqp2YeGC/UXbaDxhOE15/WXtCoYo1Bejllg
- KFJW1p5fgCKYDx+NKzORof6VjagYtoc=
+ bh=a+fRf+3erE8+48yu1hfN6R/KqPIH/A3PzMRXUb2aQnk=;
+ b=PbK81xChpiP8t/cy4iD//lq97Zppi3/mdgl+KHDDVud7QkPr1K6MnzW+5txsIbWlyBStO7
+ jxkNR5NRqKT2xyaYT+CB/wxy58bZq59tEJ3TjvaV98eTIELqbr8DbhDP8z4Fd+ZFfou6Bh
+ fjDAnpyFA+Kd8iOJdq/FI45FVlTeT8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-ZRVT2bkVO0-t5bRJk_iP4A-1; Tue, 29 Oct 2019 06:22:36 -0400
+ us-mta-231-of8pGXh8PamXd7pm3CUQBA-1; Tue, 29 Oct 2019 06:22:41 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D1E4801E64
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C43E801E64
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13E0360863
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA9B60863
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:40 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 805DF1136447; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
+ id 86B541132E8F; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/19] tests/qapi-schema: Demonstrate feature and enum doc
- comment bugs
-Date: Tue, 29 Oct 2019 11:22:10 +0100
-Message-Id: <20191029102228.20740-2-armbru@redhat.com>
+Subject: [PULL 03/19] tests/qapi-schema: Cover alternate documentation comments
+Date: Tue, 29 Oct 2019 11:22:12 +0100
+Message-Id: <20191029102228.20740-4-armbru@redhat.com>
 In-Reply-To: <20191029102228.20740-1-armbru@redhat.com>
 References: <20191029102228.20740-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ZRVT2bkVO0-t5bRJk_iP4A-1
+X-MC-Unique: of8pGXh8PamXd7pm3CUQBA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,198 +75,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add negative tests doc-bad-enum-member and doc-bad-feature to cover
-documentation for nonexistent enum members and features, and test
-doc-undoc-feature to cover features lacking documentation.  None of
-them works.  To be fixed later in this series.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191024110237.30963-2-armbru@redhat.com>
+Message-Id: <20191024110237.30963-4-armbru@redhat.com>
 ---
- tests/Makefile.include                     |  3 +++
- tests/qapi-schema/doc-bad-enum-member.err  |  0
- tests/qapi-schema/doc-bad-enum-member.json |  9 +++++++++
- tests/qapi-schema/doc-bad-enum-member.out  | 21 +++++++++++++++++++++
- tests/qapi-schema/doc-bad-feature.err      |  0
- tests/qapi-schema/doc-bad-feature.json     | 10 ++++++++++
- tests/qapi-schema/doc-bad-feature.out      | 17 +++++++++++++++++
- tests/qapi-schema/doc-undoc-feature.err    |  0
- tests/qapi-schema/doc-undoc-feature.json   | 10 ++++++++++
- tests/qapi-schema/doc-undoc-feature.out    | 19 +++++++++++++++++++
- 10 files changed, 89 insertions(+)
- create mode 100644 tests/qapi-schema/doc-bad-enum-member.err
- create mode 100644 tests/qapi-schema/doc-bad-enum-member.json
- create mode 100644 tests/qapi-schema/doc-bad-enum-member.out
- create mode 100644 tests/qapi-schema/doc-bad-feature.err
- create mode 100644 tests/qapi-schema/doc-bad-feature.json
- create mode 100644 tests/qapi-schema/doc-bad-feature.out
- create mode 100644 tests/qapi-schema/doc-undoc-feature.err
- create mode 100644 tests/qapi-schema/doc-undoc-feature.json
- create mode 100644 tests/qapi-schema/doc-undoc-feature.out
+ tests/qapi-schema/doc-good.texi | 17 +++++++++++++++++
+ tests/qapi-schema/doc-good.json |  8 ++++++++
+ tests/qapi-schema/doc-good.out  | 12 ++++++++++++
+ 3 files changed, 37 insertions(+)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index fde8a0c5ef..ca2a0cb84f 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -342,6 +342,8 @@ qapi-schema +=3D command-int.json
- qapi-schema +=3D comments.json
- qapi-schema +=3D doc-bad-alternate-member.json
- qapi-schema +=3D doc-bad-command-arg.json
-+qapi-schema +=3D doc-bad-enum-member.json
-+qapi-schema +=3D doc-bad-feature.json
- qapi-schema +=3D doc-bad-section.json
- qapi-schema +=3D doc-bad-symbol.json
- qapi-schema +=3D doc-bad-union-member.json
-@@ -365,6 +367,7 @@ qapi-schema +=3D doc-missing-expr.json
- qapi-schema +=3D doc-missing-space.json
- qapi-schema +=3D doc-missing.json
- qapi-schema +=3D doc-no-symbol.json
-+qapi-schema +=3D doc-undoc-feature.json
- qapi-schema +=3D double-type.json
- qapi-schema +=3D duplicate-key.json
- qapi-schema +=3D empty.json
-diff --git a/tests/qapi-schema/doc-bad-enum-member.err b/tests/qapi-schema/=
-doc-bad-enum-member.err
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/doc-bad-enum-member.json b/tests/qapi-schema=
-/doc-bad-enum-member.json
-new file mode 100644
-index 0000000000..9f32fe64b4
---- /dev/null
-+++ b/tests/qapi-schema/doc-bad-enum-member.json
-@@ -0,0 +1,9 @@
-+# Members listed in the doc comment must exist in the actual schema
-+# BUG: nonexistent @a is not rejected
+diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.t=
+exi
+index d6ecdac94f..98aa78e1fb 100644
+--- a/tests/qapi-schema/doc-good.texi
++++ b/tests/qapi-schema/doc-good.texi
+@@ -170,6 +170,23 @@ One of @t{"one"}, @t{"two"}
+ @end deftp
+=20
+=20
 +
++@deftp {Alternate} Alternate
++
++
++
++@b{Members:}
++@table @asis
++@item @code{i: int}
++an integer
++@code{b} is undocumented
++@item @code{b: boolean}
++Not documented
++@end table
++
++@end deftp
++
++
+ @subsection Another subsection
+=20
+=20
+diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.j=
+son
+index 1ae6c3a9da..df50a877e3 100644
+--- a/tests/qapi-schema/doc-good.json
++++ b/tests/qapi-schema/doc-good.json
+@@ -98,6 +98,14 @@
+ { 'union': 'SugaredUnion',
+   'data': { 'one': 'Variant1', 'two': { 'type': 'Variant2', 'if': 'IFTWO' =
+} } }
+=20
 +##
-+# @Foo:
-+# @a: a
-+# @b: b
++# @Alternate:
++# @i: an integer
++# @b is undocumented
 +##
-+{ 'enum': 'Foo', 'data': [ 'b' ] }
-diff --git a/tests/qapi-schema/doc-bad-enum-member.out b/tests/qapi-schema/=
-doc-bad-enum-member.out
-new file mode 100644
-index 0000000000..6ca31c1e9b
---- /dev/null
-+++ b/tests/qapi-schema/doc-bad-enum-member.out
-@@ -0,0 +1,21 @@
-+module None
-+object q_empty
-+enum QType
-+    prefix QTYPE
-+    member none
-+    member qnull
-+    member qnum
-+    member qstring
-+    member qdict
-+    member qlist
-+    member qbool
-+module doc-bad-enum-member.json
-+enum Foo
-+    member b
-+doc symbol=3DFoo
++{ 'alternate': 'Alternate',
++  'data': { 'i': 'int', 'b': 'bool' } }
++
+ ##
+ # =3D=3D Another subsection
+ ##
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.ou=
+t
+index a8fc39d288..b0e99f2110 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -42,6 +42,10 @@ object SugaredUnion
+     case one: q_obj_Variant1-wrapper
+     case two: q_obj_Variant2-wrapper
+         if ['IFTWO']
++alternate Alternate
++    tag type
++    case i: int
++    case b: bool
+ object q_obj_cmd-arg
+     member arg1: int optional=3DFalse
+     member arg2: str optional=3DTrue
+@@ -133,6 +137,14 @@ doc symbol=3DSugaredUnion
+=20
+     arg=3Dtype
+=20
++doc symbol=3DAlternate
 +    body=3D
 +
-+    arg=3Da
-+a
++    arg=3Di
++an integer
++@b is undocumented
 +    arg=3Db
-+b
-diff --git a/tests/qapi-schema/doc-bad-feature.err b/tests/qapi-schema/doc-=
-bad-feature.err
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/doc-bad-feature.json b/tests/qapi-schema/doc=
--bad-feature.json
-new file mode 100644
-index 0000000000..2a78e3b1db
---- /dev/null
-+++ b/tests/qapi-schema/doc-bad-feature.json
-@@ -0,0 +1,10 @@
-+# Features listed in the doc comment must exist in the actual schema
-+# BUG: nonexistent @a is not rejected
 +
-+##
-+# @foo:
-+#
-+# Features:
-+# @a: a
-+##
-+{ 'command': 'foo' }
-diff --git a/tests/qapi-schema/doc-bad-feature.out b/tests/qapi-schema/doc-=
-bad-feature.out
-new file mode 100644
-index 0000000000..4670be3a72
---- /dev/null
-+++ b/tests/qapi-schema/doc-bad-feature.out
-@@ -0,0 +1,17 @@
-+module None
-+object q_empty
-+enum QType
-+    prefix QTYPE
-+    member none
-+    member qnull
-+    member qnum
-+    member qstring
-+    member qdict
-+    member qlist
-+    member qbool
-+module doc-bad-feature.json
-+command foo None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
-+doc symbol=3Dfoo
-+    body=3D
-+
-diff --git a/tests/qapi-schema/doc-undoc-feature.err b/tests/qapi-schema/do=
-c-undoc-feature.err
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/doc-undoc-feature.json b/tests/qapi-schema/d=
-oc-undoc-feature.json
-new file mode 100644
-index 0000000000..c7650d9974
---- /dev/null
-+++ b/tests/qapi-schema/doc-undoc-feature.json
-@@ -0,0 +1,10 @@
-+# Doc comment must cover all features
-+# BUG: missing documentation for @undoc not caught
-+
-+##
-+# @foo:
-+#
-+# Features:
-+# @doc: documented feature
-+##
-+{ 'command': 'foo', 'features': ['undoc', 'doc'] }
-diff --git a/tests/qapi-schema/doc-undoc-feature.out b/tests/qapi-schema/do=
-c-undoc-feature.out
-new file mode 100644
-index 0000000000..faae777f0d
---- /dev/null
-+++ b/tests/qapi-schema/doc-undoc-feature.out
-@@ -0,0 +1,19 @@
-+module None
-+object q_empty
-+enum QType
-+    prefix QTYPE
-+    member none
-+    member qnull
-+    member qnum
-+    member qstring
-+    member qdict
-+    member qlist
-+    member qbool
-+module doc-undoc-feature.json
-+command foo None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
-+    feature undoc
-+    feature doc
-+doc symbol=3Dfoo
-+    body=3D
-+
+ doc freeform
+     body=3D
+ =3D=3D Another subsection
 --=20
 2.21.0
 
