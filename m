@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D8E8C95
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 17:25:19 +0100 (CET)
-Received: from localhost ([::1]:59630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F769E8C96
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 17:25:55 +0100 (CET)
+Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPUJ3-0004Pr-QN
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 12:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50659)
+	id 1iPUJd-0005N7-S5
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 12:25:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGl-00021M-95
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:56 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGm-00022s-4H
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGi-0004qb-W4
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:55 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38838)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iPUGk-0004s7-VY
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:56 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40179)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iPUGi-0004ps-PF
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:52 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 22so3079289wms.3
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 09:22:52 -0700 (PDT)
+ id 1iPUGj-0004qh-PQ
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 12:22:54 -0400
+Received: by mail-wr1-x432.google.com with SMTP id o28so14335085wro.7
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 09:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GITb2fVxR4h7bhXASG9JI0LI0GYSIzOlpGLPA3IIb7s=;
- b=jXsY0HhufsYULXbU62RmeyPN/p7asApD9MExBHme1qh6fpYeqW6e6SNf+pJqMt3EgW
- NL1s0Zhf6Gzi1cD/SfyFtAwSb14IrrZnbHpSA437Hdj3lnbCfzun0lgFSy2jWo7bAsYP
- e0QJqbD5h1US5hf32Tf0/we7eRoZyKwMD0Yfyns1oQqIV2A7NsodgTMRCUKoQZsUDH0U
- 7Gn6ZvZayHU/xcrPgXJUsjcWeSqGfcy8pWLOAOh1jMH6nDGZumQc6xgw9lkfMgZzJWlw
- Yt2kh5ESOP7ZXoX1tIpB5BWEpGL69Mi5mOZlZejFc+iDiAQCxP6x5u84//m/Cws5+da0
- xZsw==
+ bh=sLnJuV1CfPJkVM9GKln4msacMdvBWBdZJ+5D0UICXmE=;
+ b=XrC2TNJmex2/AA6vwp4mdzWB6sJ3gEPkJEmmdwxZfGlDt/hZzjaaVScz94MeAoRzZ7
+ PZiqeTSk14Lb0uYQkVgu4holHBVPD1aqhzhlkz40wwLNMBREE/Nmqz01JZCCFBqiD73d
+ hfsmtFHdWQ8h87Ywtx1ul6F211EFWTYzrQ7oAX4KJDQE8JuCnn+2rGf4PKuwTKtYu/wt
+ /74lJPWlQ8XuXrawbVqRRnZ2VXmxRCtKt7hQLPbMMKJyhEo2TMQ3v4T/5oL0ZJnpdYjH
+ 3T8yWayJ9ydZaSPLObW+dgekcWzst1EuT5enOPqs/nKDUai3xlTu7WJXZBM/x1Eb5DDw
+ 9CYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GITb2fVxR4h7bhXASG9JI0LI0GYSIzOlpGLPA3IIb7s=;
- b=XCkfUcTATtqC0pqiog4NyFKCDua8ppyhkic1NzIiOkVIbQDL/4cyzmBQ+pUNAMiYSz
- tWYzJCtG/yBq0mKNb172Q8PdFaYKdW8RcVmLZJT4WJWus57ijg0ZBsXJNFbWIrqtrGnc
- Ft2KTJ5Vg4FAz2HoTzCxH3aHt4XDzy1cUZHkZOZzSi93SNMCRj5r69JgZQXKIqMK1yCP
- YyZvc9K0KXP4xcbZ/8LMupUyUzjGIAVA2tYRNIJVDByDncJhpeV+UZajDA72stAuYVZV
- 9FxngTWc6vegyOB6Nbl1xKbEPLquuh36nMeqXI3LkBQwLrj3PvJfmvXha2/lTqWbpOnO
- Pf+g==
-X-Gm-Message-State: APjAAAVHAeG3pPWnQZlLjg6lc1tXUktk7cSFVhAvoDoGEpfGo9FUOgem
- sY74K2GIs+/V9I3RDvbARNFL/Z4cp7c=
-X-Google-Smtp-Source: APXvYqyhpATNDrQxDDPQfyYAURZeM/pYbJmJo8xOR1VRrWDY5RyQf1dUFkP4yfILCgWosHnGULcIIA==
-X-Received: by 2002:a1c:7f54:: with SMTP id a81mr4984392wmd.48.1572366171324; 
- Tue, 29 Oct 2019 09:22:51 -0700 (PDT)
+ bh=sLnJuV1CfPJkVM9GKln4msacMdvBWBdZJ+5D0UICXmE=;
+ b=bNHdQf0aMdyqqP/QXUGC9bowYWvoRdIX1a3lRvVU0yuJupfphQHrOM5yvaYOnrmzSX
+ zj1vXBGmmNO99zacuS0o9PaPlLn2OtR7BUKvrn3ucNjmlbKwGGGQqyP0gMerN8+mZbVP
+ aqGqFLPAfz+igvQzb5DNYfrisGkFFsG0trKEaBrqSBc09wIxEgQaEfir1U1lLOxUcIqx
+ bigciNIBKICF7SmP/dWBDj7EJ/3XxF2hOAIZjPTHtPTqOdxa7g2xp+WynjwL+oe+Or33
+ XYjIA8Rvzvo1DZsYv98LOfn0xEipJ/1KYYPcKPo666wa5G4M80p06gxqh56fRQgeyWcJ
+ zUHA==
+X-Gm-Message-State: APjAAAVGdPS2k6Sck7Ns1RpdxRHupG/rI+E3Vdi94a5wmR6XYfMn7mYx
+ N5hUKllJxNUiUhaYQpP36rmJmwRYL10=
+X-Google-Smtp-Source: APXvYqxpfAT+5trWYX/sB6rzO/wo9mCBtpCp1wFXSyvI8Fq9ioc560eSsWxRpL4hiT4Cs3IoC/FHRQ==
+X-Received: by 2002:adf:fd08:: with SMTP id e8mr19761878wrr.42.1572366172513; 
+ Tue, 29 Oct 2019 09:22:52 -0700 (PDT)
 Received: from donizetti.metropole.lan (94.222.26.109.rev.sfr.net.
  [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id q12sm9285661wrw.91.2019.10.29.09.22.50
+ by smtp.gmail.com with ESMTPSA id q12sm9285661wrw.91.2019.10.29.09.22.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Oct 2019 09:22:50 -0700 (PDT)
+ Tue, 29 Oct 2019 09:22:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] docs: tweak kernel-doc for QEMU coding standards
-Date: Tue, 29 Oct 2019 17:22:44 +0100
-Message-Id: <20191029162248.13383-3-pbonzini@redhat.com>
+Subject: [PATCH 3/6] docs: disable sphinx warning about missing cross
+ references
+Date: Tue, 29 Oct 2019 17:22:45 +0100
+Message-Id: <20191029162248.13383-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191029162248.13383-1-pbonzini@redhat.com>
 References: <20191029162248.13383-1-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,91 +83,30 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Surprisingly, QEMU does have a pretty consistent doc comment style and
-it is not very different from the Linux kernel's.  Of the documentation
-"sigils", only "#" separates the QEMU doc comment style from Linux's,
-and it has 200+ instances vs. 6 for the kernel's '&struct foo' (all in
-accel/tcg/translate-all.c), so it's clear that the two standards are
-different in this respect.  In addition, our structs are typedefed and
-recognized by CamelCase names.
+Sphinx is a bit *too* strict about missing cross references to
+C types, where it complains about missing references to uint8_t.
+Even if that were fixed in kernel-doc, we would still have lots
+of missing references to types that are not yet documented.  So
+unfortunately let's disable for now the nitpicking mode.
 
-Adjust kernel-doc's parser for these two aspects of the QEMU coding
-standards.  The patch has been valid, with hardly any change, for over
-two years, so it should not be an issue to keep kernel-doc in sync with
-the Linux copy.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com> # still not a good idea, probably
 ---
- scripts/kernel-doc | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 81dc91760b..af470eb321 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -215,12 +215,12 @@ my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
- my $type_env = '(\$\w+)';
--my $type_enum = '\&(enum\s*([_\w]+))';
--my $type_struct = '\&(struct\s*([_\w]+))';
--my $type_typedef = '\&(typedef\s*([_\w]+))';
--my $type_union = '\&(union\s*([_\w]+))';
--my $type_member = '\&([_\w]+)(\.|->)([_\w]+)';
--my $type_fallback = '\&([_\w]+)';
-+my $type_enum = '#(enum\s*([_\w]+))';
-+my $type_struct = '#(struct\s*([_\w]+))';
-+my $type_typedef = '#(([A-Z][_\w]*))';
-+my $type_union = '#(union\s*([_\w]+))';
-+my $type_member = '#([_\w]+)(\.|->)([_\w]+)';
-+my $type_fallback = '(?!)';    # this never matches
- my $type_member_func = $type_member . '\(\)';
+diff --git a/Makefile b/Makefile
+index d20e7ffce3..8aa915ff26 100644
+--- a/Makefile
++++ b/Makefile
+@@ -986,7 +986,7 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index
+ # Note the use of different doctree for each (manual, builder) tuple;
+ # this works around Sphinx not handling parallel invocation on
+ # a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
+-build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
++build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+ # We assume all RST files in the manual's directory are used in it
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
  
- # Output conversion substitutions.
-@@ -1050,6 +1050,14 @@ sub output_blockhead {
- sub dump_declaration($$) {
-     no strict 'refs';
-     my ($prototype, $file) = @_;
-+    if ($decl_type eq 'type name') {
-+       if ($prototype =~ /^(enum|struct|union)\s+/) {
-+	   $decl_type = $1;
-+	} else {
-+	   return;
-+       }
-+    }
-+
-     my $func = "dump_" . $decl_type;
-     &$func(@_);
- }
-@@ -1878,7 +1886,7 @@ sub process_name($$) {
-     }
-     elsif (/$doc_decl/o) {
- 	$identifier = $1;
--	if (/\s*([\w\s]+?)(\(\))?\s*-/) {
-+	if (/\s*([\w\s]+?)(\s*-|:)/) {
- 	    $identifier = $1;
- 	}
- 
-@@ -1888,7 +1896,7 @@ sub process_name($$) {
- 	$contents = "";
- 	$section = $section_default;
- 	$new_start_line = $. + 1;
--	if (/-(.*)/) {
-+	if (/[-:](.*)/) {
- 	    # strip leading/trailing/multiple spaces
- 	    $descr= $1;
- 	    $descr =~ s/^\s*//;
-@@ -1906,7 +1914,9 @@ sub process_name($$) {
- 	    ++$warnings;
- 	}
- 
--	if ($identifier =~ m/^struct\b/) {
-+	if ($identifier =~ m/^[A-Z]/) {
-+	    $decl_type = 'type name';
-+	} elsif ($identifier =~ m/^struct\b/) {
- 	    $decl_type = 'struct';
- 	} elsif ($identifier =~ m/^union\b/) {
- 	    $decl_type = 'union';
 -- 
 2.21.0
 
