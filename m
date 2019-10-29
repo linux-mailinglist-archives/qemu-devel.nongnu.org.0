@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03112E85D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:37:02 +0100 (CET)
-Received: from localhost ([::1]:54494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F16E860B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:47:19 +0100 (CET)
+Received: from localhost ([::1]:54650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPOrw-00042u-4K
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:36:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56953)
+	id 1iPP1y-0004RK-5l
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iPOeM-0005k4-Vf
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:56 -0400
+ (envelope-from <armbru@redhat.com>) id 1iPOeP-0005oP-OG
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:23:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iPOeL-0001NL-G5
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54926
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iPOeM-0001Nn-3b
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:57 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39448
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOeL-0001Mm-CP
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:53 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOeM-0001NX-07
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572344572;
+ s=mimecast20190719; t=1572344573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f4K2pw9yJ4rE0TJ0CRG2LsovM4oBhSjTvDmaaCufiYw=;
- b=OYsEcdJn32uwi8hchvxQWOtkTeu+yvAS/QQtYuJJTsPl0g5r56113imdNp6KhFmybqtxXR
- NcStxho6lgfKP0bXqUlepQEp90gDc7HApEJs/44WkRPTEJ5gJ75gl3RjzaBjZ1Y6wAf/42
- wPSLTW1Hw80KIalCUvLWBBqQgGZaVfM=
+ bh=JKwVICVyptStW+1H5B2+rYomcxxf79KECgmCJBaCaSc=;
+ b=XIsOUWT6XJvMA9pPxs0g+ZoByngunReeyPKW8ZJkyqkUG/NWAp3usQoR/Rbxqaj/lCBPmx
+ jtOzyMTCQUSrF0VPgRyrASDuZIGimhgjKKn6SV0663R1bF9OH97QyBrNDXRrU8pFx4FyN9
+ Iq/xUio3/hMxEdc2drStGsRfHUjLuWg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-tSPyS3JtOgmfRhnQjziNng-1; Tue, 29 Oct 2019 06:22:50 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-77-4WQltdnqOGut6TUF6gkNDg-1; Tue, 29 Oct 2019 06:22:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D258F801E64
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8BB61005500
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2C32600F0
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F76D1001B08
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B37F111326F0; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
+ id B6C5911326F2; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/19] qapi: Polish reporting of bogus member documentation
-Date: Tue, 29 Oct 2019 11:22:27 +0100
-Message-Id: <20191029102228.20740-19-armbru@redhat.com>
+Subject: [PULL 19/19] qapi: Check feature documentation against the schema
+Date: Tue, 29 Oct 2019 11:22:28 +0100
+Message-Id: <20191029102228.20740-20-armbru@redhat.com>
 In-Reply-To: <20191029102228.20740-1-armbru@redhat.com>
 References: <20191029102228.20740-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: tSPyS3JtOgmfRhnQjziNng-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 4WQltdnqOGut6TUF6gkNDg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,97 +75,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve error messages from
-
-    the following documented members are not in the declaration: a
-    the following documented members are not in the declaration: aa, bb
-
-to the more concise
-
-    documented member 'a' does not exist
-    documented members 'aa', 'bb' do not exist
+Commit f3ed93d545 "qapi: Allow documentation for features" neglected
+to check documentation against the schema.  Fix that: check them the
+same way we check arguments.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191024110237.30963-19-armbru@redhat.com>
+Message-Id: <20191024110237.30963-20-armbru@redhat.com>
 ---
- scripts/qapi/parser.py                          | 6 ++++--
- tests/qapi-schema/doc-bad-alternate-member.err  | 2 +-
- tests/qapi-schema/doc-bad-boxed-command-arg.err | 2 +-
- tests/qapi-schema/doc-bad-command-arg.err       | 2 +-
- tests/qapi-schema/doc-bad-enum-member.err       | 2 +-
- tests/qapi-schema/doc-bad-event-arg.err         | 2 +-
- tests/qapi-schema/doc-bad-union-member.err      | 2 +-
- 7 files changed, 10 insertions(+), 8 deletions(-)
+ scripts/qapi/parser.py                   | 31 +++++++++++++++++-------
+ scripts/qapi/schema.py                   |  2 ++
+ tests/qapi-schema/doc-bad-feature.err    |  1 +
+ tests/qapi-schema/doc-bad-feature.json   |  1 -
+ tests/qapi-schema/doc-bad-feature.out    | 19 ---------------
+ tests/qapi-schema/doc-undoc-feature.err  |  2 ++
+ tests/qapi-schema/doc-undoc-feature.json |  1 -
+ tests/qapi-schema/doc-undoc-feature.out  | 21 ----------------
+ 8 files changed, 27 insertions(+), 51 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index e800876ad1..6c45a00cf4 100644
+index 6c45a00cf4..342792e410 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -566,5 +566,7 @@ class QAPIDoc(object):
-         if bogus:
-             raise QAPISemError(
-                 self.info,
--                "the following documented members are not in "
--                "the declaration: %s" % ", ".join(bogus))
-+                "documented member%s '%s' %s not exist"
-+                % ("s" if len(bogus) > 1 else "",
-+                   "', '".join(bogus),
-+                   "do" if len(bogus) > 1 else "does"))
-diff --git a/tests/qapi-schema/doc-bad-alternate-member.err b/tests/qapi-sc=
-hema/doc-bad-alternate-member.err
-index a1c282f935..d7286bb57c 100644
---- a/tests/qapi-schema/doc-bad-alternate-member.err
-+++ b/tests/qapi-schema/doc-bad-alternate-member.err
-@@ -1 +1 @@
--doc-bad-alternate-member.json:3: the following documented members are not =
-in the declaration: aa, bb
-+doc-bad-alternate-member.json:3: documented members 'aa', 'bb' do not exis=
-t
-diff --git a/tests/qapi-schema/doc-bad-boxed-command-arg.err b/tests/qapi-s=
-chema/doc-bad-boxed-command-arg.err
-index e1101b1667..7137af3ec9 100644
---- a/tests/qapi-schema/doc-bad-boxed-command-arg.err
-+++ b/tests/qapi-schema/doc-bad-boxed-command-arg.err
-@@ -1 +1 @@
--doc-bad-boxed-command-arg.json:9: the following documented members are not=
- in the declaration: a
-+doc-bad-boxed-command-arg.json:9: documented member 'a' does not exist
-diff --git a/tests/qapi-schema/doc-bad-command-arg.err b/tests/qapi-schema/=
-doc-bad-command-arg.err
-index 153ea0330a..18ed076cef 100644
---- a/tests/qapi-schema/doc-bad-command-arg.err
-+++ b/tests/qapi-schema/doc-bad-command-arg.err
-@@ -1 +1 @@
--doc-bad-command-arg.json:3: the following documented members are not in th=
-e declaration: b
-+doc-bad-command-arg.json:3: documented member 'b' does not exist
-diff --git a/tests/qapi-schema/doc-bad-enum-member.err b/tests/qapi-schema/=
-doc-bad-enum-member.err
-index dfa1e786d7..7efeb47363 100644
---- a/tests/qapi-schema/doc-bad-enum-member.err
-+++ b/tests/qapi-schema/doc-bad-enum-member.err
-@@ -1 +1 @@
--doc-bad-enum-member.json:3: the following documented members are not in th=
-e declaration: a
-+doc-bad-enum-member.json:3: documented member 'a' does not exist
-diff --git a/tests/qapi-schema/doc-bad-event-arg.err b/tests/qapi-schema/do=
-c-bad-event-arg.err
-index 114ff4a3c7..d13cacf21f 100644
---- a/tests/qapi-schema/doc-bad-event-arg.err
-+++ b/tests/qapi-schema/doc-bad-event-arg.err
-@@ -1 +1 @@
--doc-bad-event-arg.json:3: the following documented members are not in the =
-declaration: a
-+doc-bad-event-arg.json:3: documented member 'a' does not exist
-diff --git a/tests/qapi-schema/doc-bad-union-member.err b/tests/qapi-schema=
-/doc-bad-union-member.err
-index 8b9d36eab1..6dd2726a65 100644
---- a/tests/qapi-schema/doc-bad-union-member.err
-+++ b/tests/qapi-schema/doc-bad-union-member.err
-@@ -1 +1 @@
--doc-bad-union-member.json:3: the following documented members are not in t=
-he declaration: a, b
-+doc-bad-union-member.json:3: documented members 'a', 'b' do not exist
+@@ -555,18 +555,31 @@ class QAPIDoc(object):
+             self.args[member.name] =3D QAPIDoc.ArgSection(member.name)
+         self.args[member.name].connect(member)
+=20
++    def connect_feature(self, feature):
++        if feature.name not in self.features:
++            raise QAPISemError(feature.info,
++                               "feature '%s' lacks documentation"
++                               % feature.name)
++            self.features[feature.name] =3D QAPIDoc.ArgSection(feature.nam=
+e)
++        self.features[feature.name].connect(feature)
++
+     def check_expr(self, expr):
+         if self.has_section('Returns') and 'command' not in expr:
+             raise QAPISemError(self.info,
+                                "'Returns:' is only valid for commands")
+=20
+     def check(self):
+-        bogus =3D [name for name, section in self.args.items()
+-                 if not section.member]
+-        if bogus:
+-            raise QAPISemError(
+-                self.info,
+-                "documented member%s '%s' %s not exist"
+-                % ("s" if len(bogus) > 1 else "",
+-                   "', '".join(bogus),
+-                   "do" if len(bogus) > 1 else "does"))
++
++        def check_args_section(args, info, what):
++            bogus =3D [name for name, section in args.items()
++                     if not section.member]
++            if bogus:
++                raise QAPISemError(
++                    self.info,
++                    "documented member%s '%s' %s not exist"
++                    % ("s" if len(bogus) > 1 else "",
++                       "', '".join(bogus),
++                       "do" if len(bogus) > 1 else "does"))
++
++        check_args_section(self.args, self.info, 'members')
++        check_args_section(self.features, self.info, 'features')
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index bdea9482fc..cf0045f34e 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -56,6 +56,8 @@ class QAPISchemaEntity(object):
+         seen =3D {}
+         for f in self.features:
+             f.check_clash(self.info, seen)
++            if self.doc:
++                self.doc.connect_feature(f)
+=20
+         self._checked =3D True
+=20
+diff --git a/tests/qapi-schema/doc-bad-feature.err b/tests/qapi-schema/doc-=
+bad-feature.err
+index e69de29bb2..e4c62adfa3 100644
+--- a/tests/qapi-schema/doc-bad-feature.err
++++ b/tests/qapi-schema/doc-bad-feature.err
+@@ -0,0 +1 @@
++doc-bad-feature.json:3: documented member 'a' does not exist
+diff --git a/tests/qapi-schema/doc-bad-feature.json b/tests/qapi-schema/doc=
+-bad-feature.json
+index 2a78e3b1db..3d49b8e607 100644
+--- a/tests/qapi-schema/doc-bad-feature.json
++++ b/tests/qapi-schema/doc-bad-feature.json
+@@ -1,5 +1,4 @@
+ # Features listed in the doc comment must exist in the actual schema
+-# BUG: nonexistent @a is not rejected
+=20
+ ##
+ # @foo:
+diff --git a/tests/qapi-schema/doc-bad-feature.out b/tests/qapi-schema/doc-=
+bad-feature.out
+index fef4a3e400..e69de29bb2 100644
+--- a/tests/qapi-schema/doc-bad-feature.out
++++ b/tests/qapi-schema/doc-bad-feature.out
+@@ -1,19 +0,0 @@
+-module None
+-object q_empty
+-enum QType
+-    prefix QTYPE
+-    member none
+-    member qnull
+-    member qnum
+-    member qstring
+-    member qdict
+-    member qlist
+-    member qbool
+-module doc-bad-feature.json
+-command foo None -> None
+-    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
+=3DFalse
+-doc symbol=3Dfoo
+-    body=3D
+-
+-    feature=3Da
+-a
+diff --git a/tests/qapi-schema/doc-undoc-feature.err b/tests/qapi-schema/do=
+c-undoc-feature.err
+index e69de29bb2..62fc82d2b9 100644
+--- a/tests/qapi-schema/doc-undoc-feature.err
++++ b/tests/qapi-schema/doc-undoc-feature.err
+@@ -0,0 +1,2 @@
++doc-undoc-feature.json: In command 'foo':
++doc-undoc-feature.json:9: feature 'undoc' lacks documentation
+diff --git a/tests/qapi-schema/doc-undoc-feature.json b/tests/qapi-schema/d=
+oc-undoc-feature.json
+index c7650d9974..c52f88e2cd 100644
+--- a/tests/qapi-schema/doc-undoc-feature.json
++++ b/tests/qapi-schema/doc-undoc-feature.json
+@@ -1,5 +1,4 @@
+ # Doc comment must cover all features
+-# BUG: missing documentation for @undoc not caught
+=20
+ ##
+ # @foo:
+diff --git a/tests/qapi-schema/doc-undoc-feature.out b/tests/qapi-schema/do=
+c-undoc-feature.out
+index cdb097361f..e69de29bb2 100644
+--- a/tests/qapi-schema/doc-undoc-feature.out
++++ b/tests/qapi-schema/doc-undoc-feature.out
+@@ -1,21 +0,0 @@
+-module None
+-object q_empty
+-enum QType
+-    prefix QTYPE
+-    member none
+-    member qnull
+-    member qnum
+-    member qstring
+-    member qdict
+-    member qlist
+-    member qbool
+-module doc-undoc-feature.json
+-command foo None -> None
+-    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
+=3DFalse
+-    feature undoc
+-    feature doc
+-doc symbol=3Dfoo
+-    body=3D
+-
+-    feature=3Ddoc
+-documented feature
 --=20
 2.21.0
 
