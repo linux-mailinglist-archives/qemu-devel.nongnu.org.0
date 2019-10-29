@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8702E85B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:31:58 +0100 (CET)
-Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5B2E85DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Oct 2019 11:39:14 +0100 (CET)
+Received: from localhost ([::1]:54562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPOn7-0006Ye-KF
-	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56872)
+	id 1iPOu9-00077N-3S
+	for lists+qemu-devel@lfdr.de; Tue, 29 Oct 2019 06:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iPOeF-0005Y3-Tw
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:48 -0400
+ (envelope-from <armbru@redhat.com>) id 1iPOeI-0005cy-Jq
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iPOeE-0001EH-Pi
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54419
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iPOeH-0001IZ-D5
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:50 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27733
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOeE-0001E0-Kq
- for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:46 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iPOeH-0001IJ-98
+ for qemu-devel@nongnu.org; Tue, 29 Oct 2019 06:22:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572344566;
+ s=mimecast20190719; t=1572344569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S36T8nwF13z1jgj6foVTl0MPyPUCcTK8njdEkhrBvQs=;
- b=YxCAwCljQNjS1S+LCfcGj5HsMYXhzLmCl2XkZteDW9wj2NDegQ1CIY/Tjohb2jrM0SgWLQ
- J7HY5ZoJrAIITeQponSXerHdpNrBDKF0erCbBdZg0k5xLjb/ZlI8U3YpSjJnfJkkdn5pEo
- higucxdM0k52t3G2QU/E1kDcqJclp3Q=
+ bh=tc3I4EWEVU2b+QWt9klfeULkPE0QaiDiPfz84BGDzhs=;
+ b=VmMdHaJzHH5H5P1FUCAVCnsJkeXpHbFgMTkVezoKGzBayP1n4CbYNmnjp/m6WVljl85jwa
+ Aj7vfMwzhPaunzJXGqApgiKQjrF8sd305StM/p6acSuqQNJLUvBqJFZEYpq8PIT9+hzqRG
+ oU4kCecMi5LEyr6n7JhqWufrcOTCkI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-0nB2cZo_PemgV8Wc5V2z9A-1; Tue, 29 Oct 2019 06:22:44 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-239-VsRzaGOqM1yE4vtLih2C9g-1; Tue, 29 Oct 2019 06:22:47 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F208185B6F0
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A8F1005509
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:47 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFC4810027AF
- for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3BC260C4B
+ for <qemu-devel@nongnu.org>; Tue, 29 Oct 2019 10:22:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8CAA81132C0F; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
+ id 8F9891132C11; Tue, 29 Oct 2019 11:22:28 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/19] qemu-doc: Belatedly document QMP command deprecation
-Date: Tue, 29 Oct 2019 11:22:14 +0100
-Message-Id: <20191029102228.20740-6-armbru@redhat.com>
+Subject: [PULL 06/19] qapi: Implement boxed event argument documentation
+Date: Tue, 29 Oct 2019 11:22:15 +0100
+Message-Id: <20191029102228.20740-7-armbru@redhat.com>
 In-Reply-To: <20191029102228.20740-1-armbru@redhat.com>
 References: <20191029102228.20740-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 0nB2cZo_PemgV8Wc5V2z9A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: VsRzaGOqM1yE4vtLih2C9g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,53 +75,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 24fb413300 "qmp: Introduce blockdev-change-medium" (v2.5.0)
-deprecated change.
+Generate a reference "Arguments: the members of ...", just like we do
+for commands since commit c2dd311cb7 "qapi2texi: Implement boxed
+argument documentation".
 
-Commit 2ff3025797 "migrate: move max-bandwidth and downtime-limit to
-migrate_set_parameter" (v2.8.0) deprecated migrate_set_downtime and
-migrate_set_speed.
-
-These wre missed in commit eb22aeca65 "docs: document deprecation
-policy & deprecated features in appendix" (v2.10.0).
-
-Commit 73af8dd8d7 "migration: Make xbzrle_cache_size a migration
-parameter" (v2.11.0) deprecated migrate-set-cache-size and
-query-migrate-cache-size, but neglected to update qemu-doc.
-
-Make up for that.
+No change to generated QMP documentation; we don't yet use boxed
+events outside tests/.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191024110237.30963-6-armbru@redhat.com>
+Message-Id: <20191024110237.30963-7-armbru@redhat.com>
 ---
- qemu-deprecated.texi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ tests/qapi-schema/doc-good.texi |  4 +++-
+ scripts/qapi/doc.py             | 10 +++++++++-
+ tests/qapi-schema/doc-good.json |  1 -
+ tests/qapi-schema/doc-good.out  |  2 +-
+ 4 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 7239e0959d..f727bd3932 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -149,6 +149,18 @@ QEMU 4.1 has three options, please migrate to one of t=
-hese three:
+diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.t=
+exi
+index 98aa78e1fb..d4b15dabf0 100644
+--- a/tests/qapi-schema/doc-good.texi
++++ b/tests/qapi-schema/doc-good.texi
+@@ -279,7 +279,9 @@ another feature
 =20
- @section QEMU Machine Protocol (QMP) commands
+ @deftypefn Event {} EVT-BOXED
 =20
-+@subsection change (since 2.5.0)
+-BUG: generated doc misses arguments
 +
-+Use ``blockdev-change-medium'' or ``change-vnc-password'' instead.
 +
-+@subsection migrate_set_downtime and migrate_set_speed (since 2.8.0)
-+
-+Use ``migrate-set-parameters'' instead.
-+
-+@subsection migrate-set-cache-size and query-migrate-cache-size (since 2.1=
-1.0)
-+
-+Use ``migrate-set-parameters'' and ``query-migrate-parameters'' instead.
-+
- @subsection query-block result field dirty-bitmaps[i].status (since 4.0)
++@b{Arguments:} the members of @code{Object}
 =20
- The ``status'' field of the ``BlockDirtyInfo'' structure, returned by
+ @end deftypefn
+=20
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 6d5726cf6e..f2462c9877 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -266,9 +266,17 @@ class QAPISchemaGenDocVisitor(QAPISchemaVisitor):
+=20
+     def visit_event(self, name, info, ifcond, arg_type, boxed):
+         doc =3D self.cur_doc
++        if boxed:
++            body =3D texi_body(doc)
++            body +=3D ('\n@b{Arguments:} the members of @code{%s}\n'
++                     % arg_type.name)
++            body +=3D texi_features(doc)
++            body +=3D texi_sections(doc, ifcond)
++        else:
++            body =3D texi_entity(doc, 'Arguments', ifcond)
+         self._gen.add(MSG_FMT(type=3D'Event',
+                               name=3Ddoc.symbol,
+-                              body=3Dtexi_entity(doc, 'Arguments', ifcond)=
+))
++                              body=3Dbody))
+=20
+     def symbol(self, doc, entity):
+         if self._gen._body:
+diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.j=
+son
+index df50a877e3..d992e713d9 100644
+--- a/tests/qapi-schema/doc-good.json
++++ b/tests/qapi-schema/doc-good.json
+@@ -160,7 +160,6 @@
+=20
+ ##
+ # @EVT-BOXED:
+-# BUG: generated doc misses arguments
+ ##
+ { 'event': 'EVT-BOXED',  'boxed': true,
+   'data': 'Object' }
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.ou=
+t
+index 8cc29fce50..4c9406a464 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -196,4 +196,4 @@ another feature
+ <- out
+ doc symbol=3DEVT-BOXED
+     body=3D
+-BUG: generated doc misses arguments
++
 --=20
 2.21.0
 
