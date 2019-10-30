@@ -2,91 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E784FE9B4B
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 13:05:37 +0100 (CET)
-Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47181E9BB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 13:43:38 +0100 (CET)
+Received: from localhost ([::1]:40104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPmjI-0000EP-CP
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 08:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59442)
+	id 1iPnK4-0007iX-TS
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 08:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38217)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iPmi0-0007rO-Jv
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:04:18 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iPnIy-0006qs-2X
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:42:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iPmhw-0000iD-04
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:04:14 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31399
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iPmhv-0000hC-RE
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:04:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572437051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=GmU2smz0stxozhfUlOlFnroE/8XyetW2RWDOuA0QmX4=;
- b=WIf9XcMWdDl8CDjx6wS4rY1HeAGdFjQ9Aywlt0gGbYvS/oN1hDYxsxLkpf9yklWb0qaGZF
- ZBN+0ulmo+SEK6LP6NH+lmySAkacS9V7nEWSKZPtGr0DYfQLKcOfQiAxG8lzM5hUTldh3s
- nGbOEAr8D6MjQZUD0p4zkBCgjPYgnmU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-t0huNYUGNKOigW9NV4kg4Q-1; Wed, 30 Oct 2019 08:04:08 -0400
-X-MC-Unique: t0huNYUGNKOigW9NV4kg4Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D760801E7E;
- Wed, 30 Oct 2019 12:04:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-147.ams2.redhat.com
- [10.36.117.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7F1F60876;
- Wed, 30 Oct 2019 12:04:03 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 01/26] qcow2: Add calculate_l2_meta()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1572125022.git.berto@igalia.com>
- <22820af5867124e4fdf3d0cb74b99f31edc1b37f.1572125022.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <49444fb1-d0b2-4325-20ed-91159182ed37@redhat.com>
-Date: Wed, 30 Oct 2019 13:04:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <no-reply@patchew.org>) id 1iPnIw-0000nt-59
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:42:27 -0400
+Resent-Date: Wed, 30 Oct 2019 08:42:27 -0400
+Resent-Message-Id: <E1iPnIw-0000nt-59@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21438)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iPnIv-0000mx-Mb
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:42:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1572439277; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Qvq8I8oG8am2dQbXr3XvqQWoVHdIhBW9AYUzK4MDVJFKvLGWM/fH+I01gdrZmjxFT9EY4xXb/B3edqpsRHluj1t4hSTyFOM0OIFMiQEULTM6X6NplLnaxO+68lXHmsOmsJfD+SeI3bDb322UI7gWZDTG9FyqCo5qH1DNmD6+1lI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1572439277;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=wdqfLGecx5IYk3uIDwTuQyJyx3JSiKfZsHXzXYTf8ZA=; 
+ b=Uq48SVpcWzvbW4oCW+sjBT3zVKXihwJumH+DzND1aQvVVuPqj9ZwfaN7dbiyX67vhkJ3U+EZMoVYj4+twuRX43+6HhkjivRqXUKhr/5J85nbkYm6kUa5vsQd3xOIclrMVZXJ2JaD09o4dGwfZ6qA1oXqGbF5Pcfhy1cGBIsGIoY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1572439275162825.7524344416239;
+ Wed, 30 Oct 2019 05:41:15 -0700 (PDT)
+In-Reply-To: <20191026180143.7369-1-philmd@redhat.com>
+Subject: Re: [Xen-devel] [PATCH v3 00/20] hw/i386/pc: Split PIIX3 southbridge
+ from i440FX northbridge
+Message-ID: <157243927314.32191.16877694454505392132@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <22820af5867124e4fdf3d0cb74b99f31edc1b37f.1572125022.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ntep0cE7TBUSHQ7ry37e5LWN8ftuGTcyT"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: philmd@redhat.com
+Date: Wed, 30 Oct 2019 05:41:15 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,186 +65,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: sstabellini@kernel.org, ehabkost@redhat.com, paul@xen.org, mst@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, hpoussin@reactos.org,
+ amarkovic@wavecomp.com, imammedo@redhat.com, anthony.perard@citrix.com,
+ xen-devel@lists.xenproject.org, aleksandar.rikalo@rt-rk.com, philmd@redhat.com,
+ aurelien@aurel32.net, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ntep0cE7TBUSHQ7ry37e5LWN8ftuGTcyT
-Content-Type: multipart/mixed; boundary="l9a7BIHlk32BEL0I4sjzP6sGuVEhy6Y8G"
-
---l9a7BIHlk32BEL0I4sjzP6sGuVEhy6Y8G
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 26.10.19 23:25, Alberto Garcia wrote:
-> handle_alloc() creates a QCowL2Meta structure in order to update the
-> image metadata and perform the necessary copy-on-write operations.
->=20
-> This patch moves that code to a separate function so it can be used
-> from other places.
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block/qcow2-cluster.c | 76 +++++++++++++++++++++++++++++--------------
->  1 file changed, 52 insertions(+), 24 deletions(-)
->=20
-> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-> index 8982b7b762..6c1dcdc781 100644
-> --- a/block/qcow2-cluster.c
-> +++ b/block/qcow2-cluster.c
-> @@ -1019,6 +1019,55 @@ void qcow2_alloc_cluster_abort(BlockDriverState *b=
-s, QCowL2Meta *m)
->                          QCOW2_DISCARD_NEVER);
->  }
-> =20
-> +/*
-> + * For a given write request, create a new QCowL2Meta structure and
-> + * add it to @m.
-> + *
-> + * @host_offset points to the beginning of the first cluster.
-
-(I intended not to comment on such things on an RFC, but here I am...)
-
-I=E2=80=99d call it host_cluster_offset to make clear that it points to a
-cluster and isn=E2=80=99t the host offset for @guest_offset.
-
-And now that I=E2=80=99ve gone this far already, I might as well say that I=
-=E2=80=99d
-like if it the comment noted that this function not only creates the
-L2Meta structure but also adds it to the cluster_allocs list.
-
-> + * @guest_offset and @bytes indicate the offset and length of the
-> + * request.
-> + *
-> + * If @keep_old is true it means that the clusters were already
-> + * allocated and will be overwritten. If false then the clusters are
-> + * new and we have to decrease the reference count of the old ones.
-> + */
-> +static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset=
-,
-> +                              uint64_t guest_offset, uint64_t bytes,
-
-And now I=E2=80=99m so deep into non-RFC-level review territory, I might as=
- well
-say I=E2=80=99d prefer @bytes to be an unsigned (or maybe even a plain int)=
-,
-because anything more wouldn=E2=80=99t work.  (Not least because cow_end_to=
- is
-an unsigned).
-
-Sorry...
-
-Max
-
-> +                              QCowL2Meta **m, bool keep_old)
-> +{
-> +    BDRVQcow2State *s =3D bs->opaque;
-> +    unsigned cow_start_from =3D 0;
-> +    unsigned cow_start_to =3D offset_into_cluster(s, guest_offset);
-> +    unsigned cow_end_from =3D cow_start_to + bytes;
-> +    unsigned cow_end_to =3D ROUND_UP(cow_end_from, s->cluster_size);
-> +    unsigned nb_clusters =3D size_to_clusters(s, cow_end_from);
-> +    QCowL2Meta *old_m =3D *m;
-> +
-> +    *m =3D g_malloc0(sizeof(**m));
-> +    **m =3D (QCowL2Meta) {
-> +        .next           =3D old_m,
-> +
-> +        .alloc_offset   =3D host_offset,
-> +        .offset         =3D start_of_cluster(s, guest_offset),
-> +        .nb_clusters    =3D nb_clusters,
-> +
-> +        .keep_old_clusters =3D keep_old,
-> +
-> +        .cow_start =3D {
-> +            .offset     =3D cow_start_from,
-> +            .nb_bytes   =3D cow_start_to - cow_start_from,
-> +        },
-> +        .cow_end =3D {
-> +            .offset     =3D cow_end_from,
-> +            .nb_bytes   =3D cow_end_to - cow_end_from,
-> +        },
-> +    };
-> +
-> +    qemu_co_queue_init(&(*m)->dependent_requests);
-> +    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
-> +}
-> +
->  /*
->   * Returns the number of contiguous clusters that can be used for an all=
-ocating
->   * write, but require COW to be performed (this includes yet unallocated=
- space,
-> @@ -1417,35 +1466,14 @@ static int handle_alloc(BlockDriverState *bs, uin=
-t64_t guest_offset,
->      uint64_t requested_bytes =3D *bytes + offset_into_cluster(s, guest_o=
-ffset);
->      int avail_bytes =3D nb_clusters << s->cluster_bits;
->      int nb_bytes =3D MIN(requested_bytes, avail_bytes);
-> -    QCowL2Meta *old_m =3D *m;
-> -
-> -    *m =3D g_malloc0(sizeof(**m));
-> -
-> -    **m =3D (QCowL2Meta) {
-> -        .next           =3D old_m,
-> -
-> -        .alloc_offset   =3D alloc_cluster_offset,
-> -        .offset         =3D start_of_cluster(s, guest_offset),
-> -        .nb_clusters    =3D nb_clusters,
-> -
-> -        .keep_old_clusters  =3D keep_old_clusters,
-> -
-> -        .cow_start =3D {
-> -            .offset     =3D 0,
-> -            .nb_bytes   =3D offset_into_cluster(s, guest_offset),
-> -        },
-> -        .cow_end =3D {
-> -            .offset     =3D nb_bytes,
-> -            .nb_bytes   =3D avail_bytes - nb_bytes,
-> -        },
-> -    };
-> -    qemu_co_queue_init(&(*m)->dependent_requests);
-> -    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
-> =20
->      *host_offset =3D alloc_cluster_offset + offset_into_cluster(s, guest=
-_offset);
->      *bytes =3D MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offse=
-t));
->      assert(*bytes !=3D 0);
-> =20
-> +    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes,
-> +                      m, keep_old_clusters);
-> +
->      return 1;
-> =20
->  fail:
->=20
-
-
-
---l9a7BIHlk32BEL0I4sjzP6sGuVEhy6Y8G--
-
---ntep0cE7TBUSHQ7ry37e5LWN8ftuGTcyT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl25fDIACgkQ9AfbAGHV
-z0DLwwf/fg7y8+YnJRX13HMzCh6Ie/HP/3Ti9gxPFilWYL8QcEhhNmCu/j4jO2ls
-fchTiJrGW9YGSrKiz1QF78AAeFxuyXYbpdZJx2sijezMcEqBU58N7NdyAa2yMgTV
-8sSPlMUTkTj5HWzlHg8RpXUmUi1EeV96/4LT2jhPJqZz9P7HHKCAYXL5V5AoXot1
-Fczlmy56ITqtgPC9/Th7roQ2fv+OWE54CmjlhGhNtny1poOVypKD03dDReyemw4y
-TZE4nex+O7UI0JcRuo2mYSk8zR5Q8QKDJYPkPEhpmjwste0oH0EaO5FpadXNNkvj
-6OApmaMMrO0CNkL9AGd0JeaFMewCPA==
-=eO1k
------END PGP SIGNATURE-----
-
---ntep0cE7TBUSHQ7ry37e5LWN8ftuGTcyT--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAyNjE4MDE0My43MzY5
+LTEtcGhpbG1kQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClN1YmplY3Q6IFtYZW4tZGV2ZWxdIFtQQVRDSCB2MyAwMC8yMF0gaHcvaTM4Ni9w
+YzogU3BsaXQgUElJWDMgc291dGhicmlkZ2UgZnJvbSBpNDQwRlggbm9ydGhicmlkZ2UKVHlwZTog
+c2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkxMDI2MTgwMTQzLjczNjktMS1waGlsbWRAcmVkaGF0LmNv
+bQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJh
+c2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxp
+bWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1t
+YWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5
+YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20v
+cGF0Y2hldy1wcm9qZWN0L3FlbXUKICAgMTY4ODQzOS4uODQ0MTc4ZSAgbWFzdGVyICAgICAtPiBt
+YXN0ZXIKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpkZmY3ZDAyIGh3L3BjaS1ob3N0
+L2k0NDBmeDogUmVtb3ZlIHRoZSBsYXN0IFBJSVgzIHRyYWNlcwoxODY3YTg1IGh3L3BjaS1ob3N0
+OiBSZW5hbWUgaW5jb3JyZWN0bHkgbmFtZWQgJ3BpaXgnIGFzICdpNDQwZngnCjQ3NGIxMjEgaHcv
+cGNpLWhvc3QvcGlpeDogRXh0cmFjdCBQSUlYMyBmdW5jdGlvbnMgdG8gaHcvaXNhL3BpaXgzLmMK
+MmJlODVlMyBody9wY2ktaG9zdC9waWl4OiBGaXggY29kZSBzdHlsZSBpc3N1ZXMKOGQ0NzgzNiBo
+dy9wY2ktaG9zdC9waWl4OiBNb3ZlIGk0NDBGWCBkZWNsYXJhdGlvbnMgdG8gaHcvcGNpLWhvc3Qv
+aTQ0MGZ4LmgKNDg2YjhjOCBody9wY2ktaG9zdC9waWl4OiBEZWZpbmUgYW5kIHVzZSB0aGUgUElJ
+WCBJUlEgUm91dGUgQ29udHJvbCBSZWdpc3RlcnMKM2I4ZDlhOCBody9wY2ktaG9zdC9waWl4OiBN
+b3ZlIFJDUl9JT1BPUlQgcmVnaXN0ZXIgZGVmaW5pdGlvbgo4MWY5YTI5IGh3L3BjaS1ob3N0L3Bp
+aXg6IEV4dHJhY3QgcGlpeDNfY3JlYXRlKCkKYzUyZjllOCBody9pMzg2OiBSZW1vdmUgb2Jzb2xl
+dGUgTG9hZFN0YXRlSGFuZGxlcjo6bG9hZF9zdGF0ZV9vbGQgaGFuZGxlcnMKZjFmOGNjMSBody9p
+c2EvcGlpeDQ6IE1vdmUgcGlpeDRfY3JlYXRlKCkgdG8gaHcvaXNhL3BpaXg0LmMKYjNlNjdhMiBo
+dy9taXBzL21pcHNfbWFsdGE6IEV4dHJhY3QgdGhlIFBJSVg0IGNyZWF0aW9uIGNvZGUgYXMgcGlp
+eDRfY3JlYXRlKCkKMDEwZmVhOSBody9taXBzL21pcHNfbWFsdGE6IENyZWF0ZSBJREUgaGFyZCBk
+cml2ZSBhcnJheSBkeW5hbWljYWxseQo3ZWI0ZWY0IHBpaXg0OiBBZGQgYSBNQzE0NjgxOCBSVEMg
+Q29udHJvbGxlciBhcyBzcGVjaWZpZWQgaW4gZGF0YXNoZWV0CjA4MTY4MWEgcGlpeDQ6IEFkZCBh
+biBpODI1NCBQSVQgQ29udHJvbGxlciBhcyBzcGVjaWZpZWQgaW4gZGF0YXNoZWV0CjEzMjRlM2Mg
+cGlpeDQ6IEFkZCBhbiBpODI1NyBETUEgQ29udHJvbGxlciBhcyBzcGVjaWZpZWQgaW4gZGF0YXNo
+ZWV0CjE1NzVjMTYgcGlpeDQ6IFJlbmFtZSBQSUlYNCBvYmplY3QgdG8gcGlpeDQtaXNhCjk0ZTFm
+YzYgUmV2ZXJ0ICJpcnE6IGludHJvZHVjZSBxZW11X2lycV9wcm94eSgpIgo5NzM2M2Q1IHBpaXg0
+OiBBZGQgYW4gaTgyNTkgSW50ZXJydXB0IENvbnRyb2xsZXIgYXMgc3BlY2lmaWVkIGluIGRhdGFz
+aGVldAphNGZhZTA3IHBpaXg0OiBBZGQgdGhlIFJlc2V0IENvbnRyb2wgUmVnaXN0ZXIKY2RmMDdj
+YyBNQUlOVEFJTkVSUzogS2VlcCBQSUlYNCBTb3V0aCBCcmlkZ2Ugc2VwYXJhdGUgZnJvbSBQQyBD
+aGlwc2V0cwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yMCBDaGVja2luZyBjb21taXQgY2RmMDdj
+YzA2NDQzIChNQUlOVEFJTkVSUzogS2VlcCBQSUlYNCBTb3V0aCBCcmlkZ2Ugc2VwYXJhdGUgZnJv
+bSBQQyBDaGlwc2V0cykKMi8yMCBDaGVja2luZyBjb21taXQgYTRmYWUwNzgxNTkwIChwaWl4NDog
+QWRkIHRoZSBSZXNldCBDb250cm9sIFJlZ2lzdGVyKQozLzIwIENoZWNraW5nIGNvbW1pdCA5NzM2
+M2Q1OGI2OTEgKHBpaXg0OiBBZGQgYW4gaTgyNTkgSW50ZXJydXB0IENvbnRyb2xsZXIgYXMgc3Bl
+Y2lmaWVkIGluIGRhdGFzaGVldCkKNC8yMCBDaGVja2luZyBjb21taXQgOTRlMWZjNjkzOTE4IChS
+ZXZlcnQgImlycTogaW50cm9kdWNlIHFlbXVfaXJxX3Byb3h5KCkiKQo1LzIwIENoZWNraW5nIGNv
+bW1pdCAxNTc1YzE2YTVlMGEgKHBpaXg0OiBSZW5hbWUgUElJWDQgb2JqZWN0IHRvIHBpaXg0LWlz
+YSkKNi8yMCBDaGVja2luZyBjb21taXQgMTMyNGUzYzUyNDVkIChwaWl4NDogQWRkIGFuIGk4MjU3
+IERNQSBDb250cm9sbGVyIGFzIHNwZWNpZmllZCBpbiBkYXRhc2hlZXQpCjcvMjAgQ2hlY2tpbmcg
+Y29tbWl0IDA4MTY4MWE0MmI2OCAocGlpeDQ6IEFkZCBhbiBpODI1NCBQSVQgQ29udHJvbGxlciBh
+cyBzcGVjaWZpZWQgaW4gZGF0YXNoZWV0KQo4LzIwIENoZWNraW5nIGNvbW1pdCA3ZWI0ZWY0ZTAw
+OGMgKHBpaXg0OiBBZGQgYSBNQzE0NjgxOCBSVEMgQ29udHJvbGxlciBhcyBzcGVjaWZpZWQgaW4g
+ZGF0YXNoZWV0KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxOTU6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2
+NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTY2IGxpbmVzIGNoZWNrZWQKClBhdGNo
+IDgvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOS8yMCBDaGVja2luZyBjb21taXQgMDEw
+ZmVhOTFhOWMwIChody9taXBzL21pcHNfbWFsdGE6IENyZWF0ZSBJREUgaGFyZCBkcml2ZSBhcnJh
+eSBkeW5hbWljYWxseSkKMTAvMjAgQ2hlY2tpbmcgY29tbWl0IGIzZTY3YTJhZWU5MiAoaHcvbWlw
+cy9taXBzX21hbHRhOiBFeHRyYWN0IHRoZSBQSUlYNCBjcmVhdGlvbiBjb2RlIGFzIHBpaXg0X2Ny
+ZWF0ZSgpKQoxMS8yMCBDaGVja2luZyBjb21taXQgZjFmOGNjMTI1YTA4IChody9pc2EvcGlpeDQ6
+IE1vdmUgcGlpeDRfY3JlYXRlKCkgdG8gaHcvaXNhL3BpaXg0LmMpCjEyLzIwIENoZWNraW5nIGNv
+bW1pdCBjNTJmOWU4MmFjZDUgKGh3L2kzODY6IFJlbW92ZSBvYnNvbGV0ZSBMb2FkU3RhdGVIYW5k
+bGVyOjpsb2FkX3N0YXRlX29sZCBoYW5kbGVycykKMTMvMjAgQ2hlY2tpbmcgY29tbWl0IDgxZjlh
+MjlmY2VhZCAoaHcvcGNpLWhvc3QvcGlpeDogRXh0cmFjdCBwaWl4M19jcmVhdGUoKSkKMTQvMjAg
+Q2hlY2tpbmcgY29tbWl0IDNiOGQ5YThkY2FlMCAoaHcvcGNpLWhvc3QvcGlpeDogTW92ZSBSQ1Jf
+SU9QT1JUIHJlZ2lzdGVyIGRlZmluaXRpb24pCjE1LzIwIENoZWNraW5nIGNvbW1pdCA0ODZiOGM4
+YjgwOWUgKGh3L3BjaS1ob3N0L3BpaXg6IERlZmluZSBhbmQgdXNlIHRoZSBQSUlYIElSUSBSb3V0
+ZSBDb250cm9sIFJlZ2lzdGVycykKMTYvMjAgQ2hlY2tpbmcgY29tbWl0IDhkNDc4MzZmNWE3ZSAo
+aHcvcGNpLWhvc3QvcGlpeDogTW92ZSBpNDQwRlggZGVjbGFyYXRpb25zIHRvIGh3L3BjaS1ob3N0
+L2k0NDBmeC5oKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxMDA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoK
+dG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMDEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYv
+MjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTcvMjAgQ2hlY2tpbmcgY29tbWl0IDJiZTg1
+ZTM5N2QxNCAoaHcvcGNpLWhvc3QvcGlpeDogRml4IGNvZGUgc3R5bGUgaXNzdWVzKQoxOC8yMCBD
+aGVja2luZyBjb21taXQgNDc0YjEyMTY2MmU4IChody9wY2ktaG9zdC9waWl4OiBFeHRyYWN0IFBJ
+SVgzIGZ1bmN0aW9ucyB0byBody9pc2EvcGlpeDMuYykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9y
+IGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjc6IApu
+ZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAn
+KicgKGN0eDpWeFYpCiMzMTY6IEZJTEU6IGh3L2lzYS9waWl4My5jOjI0NToKKyAgICAuc3Vic2Vj
+dGlvbnMgPSAoY29uc3QgVk1TdGF0ZURlc2NyaXB0aW9uKltdKSB7CiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5n
+cywgOTM3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE4LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgoxOS8yMCBDaGVja2luZyBjb21taXQgMTg2N2E4NTU4ZDZlIChody9wY2ktaG9zdDogUmVu
+YW1lIGluY29ycmVjdGx5IG5hbWVkICdwaWl4JyBhcyAnaTQ0MGZ4JykKV0FSTklORzogYWRkZWQs
+IG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5n
+PwojNzE6IApyZW5hbWUgZnJvbSBody9wY2ktaG9zdC9waWl4LmMKCnRvdGFsOiAwIGVycm9ycywg
+MSB3YXJuaW5ncywgMzIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTkvMjAgaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KMjAvMjAgQ2hlY2tpbmcgY29tbWl0IGRmZjdkMDJmY2M0MiAoaHcvcGNpLWhv
+c3QvaTQ0MGZ4OiBSZW1vdmUgdGhlIGxhc3QgUElJWDMgdHJhY2VzKQo9PT0gT1VUUFVUIEVORCA9
+PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MTAyNjE4MDE0My43MzY5LTEt
+cGhpbG1kQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpF
+bWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcu
+b3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQu
+Y29t
 
 
