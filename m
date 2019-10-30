@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A11E97AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 09:11:20 +0100 (CET)
-Received: from localhost ([::1]:37696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C75E9835
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 09:35:14 +0100 (CET)
+Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPj4Y-0001W7-RO
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 04:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36391)
+	id 1iPjRg-0001Z4-V5
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 04:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1iPj3Z-0000xr-PW
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:10:18 -0400
+ (envelope-from <svens@stackframe.org>) id 1iPjLW-0008Ms-Lh
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:28:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iPj3Y-0004ae-H1
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:10:17 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:40226)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iPj3X-0004ZC-VJ
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:10:16 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id AA96B4BA4C
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 19:10:13 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1572423013;
- bh=R6arvBKnPbqKU5ZcOWa2cn9Kki7DOeNMPrQuxC1gUVA=;
- h=To:Subject:Date:From:In-Reply-To:References:From;
- b=XGUT4VFZM5dDKcL5/tdqgFPJP1uJ0pC5Lv8MPgoso4+f43UljPa01NhSHO/u6ziQi
- xyVgp/qv0pRlWKEMQwMu0r3L3KL2zuGXFMdjOgHU9yoKtJ9uh4L6u9BJ1nLN5SvrJ0
- ofiEkCRRAe+hL/JaEoKsEaGPPaWgftTQ8a26X5XE=
-Received: by www1.hostfission.com (Postfix, from userid 1000)
- id A85CD83F86; Wed, 30 Oct 2019 19:10:13 +1100 (AEDT)
-To: qemu-devel@nongnu.org
-Subject: Re: RFC: New device for zero-copy VM memory access
-X-PHP-Originating-Script: 0:rcube.php
+ (envelope-from <svens@stackframe.org>) id 1iPjLV-00060O-8T
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:28:50 -0400
+Received: from shroom.duncanthrax.net ([2a01:4f8:121:41fa::169]:44709
+ helo=smtp.duncanthrax.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iPjLQ-0005Iv-BE; Wed, 30 Oct 2019 04:28:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=FxnTvCZXRt6WU+6lr2Mu90EkaEkuQ7cWIneN7R0x4Ys=; b=rA+B+ndU1z/IpF7nlULHluCrV1
+ Y18mv0UoxXPEV0FeVKy8X+gwkwEY6H3aodciumBAatqHeR7AdFe+smYYWomxDyPRxG42c10d3It4X
+ bceuQ5CM3vsYXkF8qQ7x2TgPd1d4pVoJ4thztaY8Tb68vluz6lpKb+q8Ozt8FOlf6suA=;
+Received: from [91.217.168.176] (helo=x280.stackframe.org)
+ by smtp.duncanthrax.net with esmtpa (Exim 4.90_1)
+ (envelope-from <svens@stackframe.org>)
+ id 1iPjLE-00041V-Uz; Wed, 30 Oct 2019 09:28:33 +0100
+From: Sven Schnelle <svens@stackframe.org>
+To: John Snow <jsnow@redhat.com>
+Subject: [PATCH v2] fdc/i8257: implement verify transfer mode
+Date: Wed, 30 Oct 2019 09:28:27 +0100
+Message-Id: <20191030082827.10010-1-svens@stackframe.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 30 Oct 2019 19:10:13 +1100
-From: geoff@hostfission.com
-In-Reply-To: <028c23b219913d1f734d95a05d2b5809@hostfission.com>
-References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
- <028c23b219913d1f734d95a05d2b5809@hostfission.com>
-Message-ID: <7d2b69593ebeff8238e5f642ca58661f@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.2.3
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 139.99.139.48
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:121:41fa::169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,101 +57,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:Floppy" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The windows driver source is now available also.
+While working on the Tulip driver i tried to write some Teledisk images to
+a floppy image which didn't work. Turned out that Teledisk checks the written
+data by issuing a READ command to the FDC but running the DMA controller
+in VERIFY mode. As we ignored the DMA request in that case, the DMA transfer
+never finished, and Teledisk reported an error.
 
-https://github.com/gnif/Porthole-Guest-Driver
+The i8257 spec says about verify transfers:
 
-I have also opted to rename the device to 'porthole', hopefully this 
-name is
-acceptable.
+3) DMA verify, which does not actually involve the transfer of data. When an
+8257 channel is in the DMA verify mode, it will respond the same as described
+for transfer operations, except that no memory or I/O read/write control signals
+will be generated.
 
-On 2019-10-30 09:53, geoff@hostfission.com wrote:
-> Just to follow this up, here is a sample client application for this 
-> device
-> 
-> https://gist.github.com/gnif/77e7fb54604b42a1a98ecb8bf3d2cf46
-> 
-> -Geoff
-> 
-> On 2019-10-30 01:31, geoff@hostfission.com wrote:
->> Hi All,
->> 
->> Over the past week, I have been working to come up with a solution to 
->> the
->> memory transfer performance issues that hinder the Looking Glass 
->> Project.
->> 
->> Currently Looking Glass works by using the IVSHMEM shared memory 
->> device which
->> is fed by an application that captures the guest's video output. While 
->> this
->> works it is sub-optimal because we first have to perform a CPU copy of 
->> the
->> captured frame into shared RAM, and then back out again for display. 
->> Because
->> the destination buffers are allocated by closed proprietary code 
->> (DirectX, or
->> NVidia NvFBC) there is no way to have the frame placed directly into 
->> the
->> IVSHMEM shared ram.
->> 
->> This new device, currently named `introspection` (which needs a more 
->> suitable
->> name, porthole perhaps?), provides a means of translating guest 
->> physical
->> addresses to host virtual addresses, and finally to the host offsets 
->> in RAM for
->> file-backed memory guests. It does this by means of a simple protocol 
->> over a
->> unix socket (chardev) which is supplied the appropriate fd for the 
->> VM's system
->> RAM. The guest (in this case, Windows), when presented with the 
->> address of a
->> userspace buffer and size, will mlock the appropriate pages into RAM 
->> and pass
->> guest physical addresses to the virtual device.
->> 
->> This device and the windows driver have been designed in such a way 
->> that it's a
->> utility device for any project and/or application that could make use 
->> of it.
->> The PCI subsystem vendor and device ID are used to provide a means of 
->> device
->> identification in cases where multiple devices may be in use for 
->> differing
->> applications. This also allows one common driver to be used for any 
->> other
->> projects wishing to build on this device.
->> 
->> My ultimate goal is to get this to a state where it could be accepted 
->> upstream
->> into Qemu at which point Looking Glass would be modified to use it 
->> instead of
->> the IVSHMEM device.
->> 
->> My git repository with the new device can be found at:
->> https://github.com/gnif/qemu
->> 
->> The new device is:
->> https://github.com/gnif/qemu/blob/master/hw/misc/introspection.c
->> 
->> Looking Glass:
->> https://looking-glass.hostfission.com/
->> 
->> The windows driver, while working, needs some cleanup before the 
->> source is
->> published. I intend to maintain both this device and the windows 
->> driver
->> including producing a signed Windows 10 driver if Redhat are unwilling 
->> or
->> unable.
->> 
->> Kind Regards,
->> Geoffrey McRae
->> 
->> HostFission
->> https://hostfission.com
+Hervé proposed to remove all the dma_mode_ok stuff from fdc to have a more
+clear boundary between DMA and FDC, so this patch also does that.
+
+Suggested-by: Hervé Poussineau <hpoussin@reactos.org>
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
+---
+ hw/block/fdc.c       | 39 +++++++++++++++------------------------
+ hw/dma/i8257.c       | 20 +++++++++++++-------
+ include/hw/isa/isa.h |  1 -
+ 3 files changed, 28 insertions(+), 32 deletions(-)
+
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index ac5d31e8c1..18fd22bfb7 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1716,9 +1716,8 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
+     if (fdctrl->dor & FD_DOR_DMAEN) {
+         IsaDmaTransferMode dma_mode;
+         IsaDmaClass *k = ISADMA_GET_CLASS(fdctrl->dma);
+-        bool dma_mode_ok;
++
+         /* DMA transfer are enabled. Check if DMA channel is well programmed */
+-        dma_mode = k->get_transfer_mode(fdctrl->dma, fdctrl->dma_chann);
+         FLOPPY_DPRINTF("dma_mode=%d direction=%d (%d - %d)\n",
+                        dma_mode, direction,
+                        (128 << fdctrl->fifo[5]) *
+@@ -1727,40 +1726,32 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
+         case FD_DIR_SCANE:
+         case FD_DIR_SCANL:
+         case FD_DIR_SCANH:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_VERIFY);
+             break;
+         case FD_DIR_WRITE:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_WRITE);
+             break;
+         case FD_DIR_READ:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_READ);
+             break;
+         case FD_DIR_VERIFY:
+-            dma_mode_ok = true;
+             break;
+         default:
+-            dma_mode_ok = false;
+             break;
+         }
+-        if (dma_mode_ok) {
+-            /* No access is allowed until DMA transfer has completed */
+-            fdctrl->msr &= ~FD_MSR_RQM;
+-            if (direction != FD_DIR_VERIFY) {
+-                /* Now, we just have to wait for the DMA controller to
+-                 * recall us...
+-                 */
+-                k->hold_DREQ(fdctrl->dma, fdctrl->dma_chann);
+-                k->schedule(fdctrl->dma);
+-            } else {
+-                /* Start transfer */
+-                fdctrl_transfer_handler(fdctrl, fdctrl->dma_chann, 0,
+-                                        fdctrl->data_len);
+-            }
+-            return;
++
++        /* No access is allowed until DMA transfer has completed */
++        fdctrl->msr &= ~FD_MSR_RQM;
++        if (direction != FD_DIR_VERIFY) {
++            /*
++             * Now, we just have to wait for the DMA controller to
++             * recall us...
++             */
++            k->hold_DREQ(fdctrl->dma, fdctrl->dma_chann);
++            k->schedule(fdctrl->dma);
+         } else {
+-            FLOPPY_DPRINTF("bad dma_mode=%d direction=%d\n", dma_mode,
+-                           direction);
++            /* Start transfer */
++            fdctrl_transfer_handler(fdctrl, fdctrl->dma_chann, 0,
++                    fdctrl->data_len);
+         }
++        return;
+     }
+     FLOPPY_DPRINTF("start non-DMA transfer\n");
+     fdctrl->msr |= FD_MSR_NONDMA | FD_MSR_RQM;
+diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
+index 792f617eb4..85dad3d391 100644
+--- a/hw/dma/i8257.c
++++ b/hw/dma/i8257.c
+@@ -292,12 +292,6 @@ static uint64_t i8257_read_cont(void *opaque, hwaddr nport, unsigned size)
+     return val;
+ }
+ 
+-static IsaDmaTransferMode i8257_dma_get_transfer_mode(IsaDma *obj, int nchan)
+-{
+-    I8257State *d = I8257(obj);
+-    return (d->regs[nchan & 3].mode >> 2) & 3;
+-}
+-
+ static bool i8257_dma_has_autoinitialization(IsaDma *obj, int nchan)
+ {
+     I8257State *d = I8257(obj);
+@@ -400,6 +394,11 @@ static void i8257_dma_register_channel(IsaDma *obj, int nchan,
+     r->opaque = opaque;
+ }
+ 
++static bool i8257_is_verify_transfer(I8257Regs *r)
++{
++    return (r->mode & 0x0c) == 0;
++}
++
+ static int i8257_dma_read_memory(IsaDma *obj, int nchan, void *buf, int pos,
+                                  int len)
+ {
+@@ -407,6 +406,10 @@ static int i8257_dma_read_memory(IsaDma *obj, int nchan, void *buf, int pos,
+     I8257Regs *r = &d->regs[nchan & 3];
+     hwaddr addr = ((r->pageh & 0x7f) << 24) | (r->page << 16) | r->now[ADDR];
+ 
++    if (i8257_is_verify_transfer(r)) {
++        return len;
++    }
++
+     if (r->mode & 0x20) {
+         int i;
+         uint8_t *p = buf;
+@@ -431,6 +434,10 @@ static int i8257_dma_write_memory(IsaDma *obj, int nchan, void *buf, int pos,
+     I8257Regs *r = &s->regs[nchan & 3];
+     hwaddr addr = ((r->pageh & 0x7f) << 24) | (r->page << 16) | r->now[ADDR];
+ 
++    if (i8257_is_verify_transfer(r)) {
++        return len;
++    }
++
+     if (r->mode & 0x20) {
+         int i;
+         uint8_t *p = buf;
+@@ -597,7 +604,6 @@ static void i8257_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_i8257;
+     dc->props = i8257_properties;
+ 
+-    idc->get_transfer_mode = i8257_dma_get_transfer_mode;
+     idc->has_autoinitialization = i8257_dma_has_autoinitialization;
+     idc->read_memory = i8257_dma_read_memory;
+     idc->write_memory = i8257_dma_write_memory;
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 018ada4f6f..f516e253c5 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -56,7 +56,6 @@ typedef int (*IsaDmaTransferHandler)(void *opaque, int nchan, int pos,
+ typedef struct IsaDmaClass {
+     InterfaceClass parent;
+ 
+-    IsaDmaTransferMode (*get_transfer_mode)(IsaDma *obj, int nchan);
+     bool (*has_autoinitialization)(IsaDma *obj, int nchan);
+     int (*read_memory)(IsaDma *obj, int nchan, void *buf, int pos, int len);
+     int (*write_memory)(IsaDma *obj, int nchan, void *buf, int pos, int len);
+-- 
+2.23.0
+
 
