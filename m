@@ -2,65 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055E8EA3AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 19:56:04 +0100 (CET)
-Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93ED7EA458
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 20:43:20 +0100 (CET)
+Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPt8U-00026t-BJ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 14:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57789)
+	id 1iPtsE-00077j-O9
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 15:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iPt5Y-0000KC-JR
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:53:02 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iPtno-0003eT-T7
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 15:38:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iPt5W-0007X4-3y
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:52:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53156
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iPt5V-0007U4-Op
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:52:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572461576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W02ieKYuaIf4u8q8JgNUMADgfea+mHEzFAtbd6swuMI=;
- b=W1ABqc85rbXQXV8To5RN/V5BMkq3qVi1zPu1/gYVdVgGH3PL5aafntY2A+g9hljB6EJBxK
- JfRK2aorupel05hggCtskYl0/n9FzYtYpFfpNEA2MJVx3M2NxIzcrfWPTxqq5GNY9MtUr9
- o0Web6sL83Y4n+22lFlet0qSNKBEX+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-P99ofJ2IN-2JnpOQXXYRSg-1; Wed, 30 Oct 2019 14:52:52 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E756C1800D6B;
- Wed, 30 Oct 2019 18:52:51 +0000 (UTC)
-Received: from work-vm (ovpn-116-18.ams2.redhat.com [10.36.116.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22C0160BE0;
- Wed, 30 Oct 2019 18:52:50 +0000 (UTC)
-Date: Wed, 30 Oct 2019 18:52:48 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: geoff@hostfission.com
-Subject: Re: RFC: New device for zero-copy VM memory access
-Message-ID: <20191030185248.GC3114@work-vm>
-References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
+ (envelope-from <no-reply@patchew.org>) id 1iPtnm-0001rw-GE
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 15:38:43 -0400
+Resent-Date: Wed, 30 Oct 2019 15:38:43 -0400
+Resent-Message-Id: <E1iPtnm-0001rw-GE@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21437)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iPtnm-0001hV-72; Wed, 30 Oct 2019 15:38:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1572464302; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=EcwmKOv8PdnW7TId1m/wWiNsa42C/GjvZTZNW0ViNjUF6+tEJcVNqZL6befxqw/Lep70325Qau4se21gZDRJw8jWCCMst8kDa6pD1ChK3GFCFqfuKg/pEr1EcqhmS6SdHfa1GG2we7wjYSzuyNuomb2rd5uI3fwfJRuhlGMe2F4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1572464302;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Hx99WKGkpJbBfvde4ZLJqSg5oB4vlIZz9wNIN6nRpRc=; 
+ b=EK+qcLyrR+DiMY3howGbx0jtzeOCBI7X7x6KLqp80hkjk8OusdIZLQa76uVV3AA878lHUlVJPBJqf2GRv7M1hs1Ho1dF4IwCUH3OKrxMbe/zDLRV+ffPyfCBZ35n+cQBb8UB2fAyNX4QQYUyzblVsZPr1xzNLZGnyPvmCgJACU8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1572464301052377.1088871142439;
+ Wed, 30 Oct 2019 12:38:21 -0700 (PDT)
+In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+Message-ID: <157246429967.32191.8943981260424940794@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: P99ofJ2IN-2JnpOQXXYRSg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: david@gibson.dropbear.id.au
+Date: Wed, 30 Oct 2019 12:38:21 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,105 +63,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: david@redhat.com, groug@kaod.org, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, imammedo@redhat.com, jdenemar@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* geoff@hostfission.com (geoff@hostfission.com) wrote:
-> Hi All,
->=20
-> Over the past week, I have been working to come up with a solution to the
-> memory transfer performance issues that hinder the Looking Glass Project.
->=20
-> Currently Looking Glass works by using the IVSHMEM shared memory device
-> which
-> is fed by an application that captures the guest's video output. While th=
-is
-> works it is sub-optimal because we first have to perform a CPU copy of th=
-e
-> captured frame into shared RAM, and then back out again for display. Beca=
-use
-> the destination buffers are allocated by closed proprietary code (DirectX=
-,
-> or
-> NVidia NvFBC) there is no way to have the frame placed directly into the
-> IVSHMEM shared ram.
->=20
-> This new device, currently named `introspection` (which needs a more
-> suitable
-> name, porthole perhaps?), provides a means of translating guest physical
-> addresses to host virtual addresses, and finally to the host offsets in R=
-AM
-> for
-> file-backed memory guests. It does this by means of a simple protocol ove=
-r a
-> unix socket (chardev) which is supplied the appropriate fd for the VM's
-> system
-> RAM. The guest (in this case, Windows), when presented with the address o=
-f a
-> userspace buffer and size, will mlock the appropriate pages into RAM and
-> pass
-> guest physical addresses to the virtual device.
-
-Hi Geroggrey,
-  I wonder if the same thing can be done by using the existing vhost-user
-mechanism.
-
-  vhost-user is intended for implementing a virtio device outside of the
-qemu process; so it has a character device that qemu passes commands down
-to the other process, where qemu mostly passes commands via the virtio
-queues.   To be able to read the virtio queues, the external process
-mmap's the same memory as the guest - it gets passed a 'set mem table'
-command by qemu that includes fd's for the RAM, and includes base/offset
-pairs saying that a particular chunk of RAM is mapped at a particular
-guest physical address.
-
-  Whether or not you make use of virtio queues, I think the mechanism
-for the device to tell the external process the mappings might be what
-you're after.
-
-Dave
-
-> This device and the windows driver have been designed in such a way that
-> it's a
-> utility device for any project and/or application that could make use of =
-it.
-> The PCI subsystem vendor and device ID are used to provide a means of dev=
-ice
-> identification in cases where multiple devices may be in use for differin=
-g
-> applications. This also allows one common driver to be used for any other
-> projects wishing to build on this device.
->=20
-> My ultimate goal is to get this to a state where it could be accepted
-> upstream
-> into Qemu at which point Looking Glass would be modified to use it instea=
-d
-> of
-> the IVSHMEM device.
->=20
-> My git repository with the new device can be found at:
-> https://github.com/gnif/qemu
->=20
-> The new device is:
-> https://github.com/gnif/qemu/blob/master/hw/misc/introspection.c
->=20
-> Looking Glass:
-> https://looking-glass.hostfission.com/
->=20
-> The windows driver, while working, needs some cleanup before the source i=
-s
-> published. I intend to maintain both this device and the windows driver
-> including producing a signed Windows 10 driver if Redhat are unwilling or
-> unable.
->=20
-> Kind Regards,
-> Geoffrey McRae
->=20
-> HostFission
-> https://hostfission.com
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAzMDE2MzI0My4xMDY0
+NC0xLWRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIXSBzcGFwci9rdm06IFNldCBkZWZh
+dWx0IGNwdSBtb2RlbCBmb3IgYWxsIG1hY2hpbmUgY2xhc3NlcwpUeXBlOiBzZXJpZXMKTWVzc2Fn
+ZS1pZDogMjAxOTEwMzAxNjMyNDMuMTA2NDQtMS1kYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXUK
+Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
+ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
+bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMy
+MWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
+dGVzdCcKNDU4MWEyYSBzcGFwci9rdm06IFNldCBkZWZhdWx0IGNwdSBtb2RlbCBmb3IgYWxsIG1h
+Y2hpbmUgY2xhc3NlcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IE1pc3NpbmcgU2lnbmVk
+LW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA1MCBsaW5lcyBj
+aGVja2VkCgpDb21taXQgNDU4MWEyYTY3NGY0IChzcGFwci9rdm06IFNldCBkZWZhdWx0IGNwdSBt
+b2RlbCBmb3IgYWxsIG1hY2hpbmUgY2xhc3NlcykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+PT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRo
+ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEw
+MzAxNjMyNDMuMTA2NDQtMS1kYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXUvdGVzdGluZy5jaGVj
+a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
+eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
+Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
