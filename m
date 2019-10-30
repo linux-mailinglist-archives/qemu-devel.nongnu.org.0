@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93ED7EA458
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 20:43:20 +0100 (CET)
-Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3938AEA4F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 21:45:25 +0100 (CET)
+Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPtsE-00077j-O9
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 15:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42422)
+	id 1iPuqJ-0002Ih-PT
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 16:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iPtno-0003eT-T7
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 15:38:46 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iPsPv-0003v5-IJ
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:10:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iPtnm-0001rw-GE
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 15:38:43 -0400
-Resent-Date: Wed, 30 Oct 2019 15:38:43 -0400
-Resent-Message-Id: <E1iPtnm-0001rw-GE@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21437)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iPtnm-0001hV-72; Wed, 30 Oct 2019 15:38:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1572464302; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=EcwmKOv8PdnW7TId1m/wWiNsa42C/GjvZTZNW0ViNjUF6+tEJcVNqZL6befxqw/Lep70325Qau4se21gZDRJw8jWCCMst8kDa6pD1ChK3GFCFqfuKg/pEr1EcqhmS6SdHfa1GG2we7wjYSzuyNuomb2rd5uI3fwfJRuhlGMe2F4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572464302;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Hx99WKGkpJbBfvde4ZLJqSg5oB4vlIZz9wNIN6nRpRc=; 
- b=EK+qcLyrR+DiMY3howGbx0jtzeOCBI7X7x6KLqp80hkjk8OusdIZLQa76uVV3AA878lHUlVJPBJqf2GRv7M1hs1Ho1dF4IwCUH3OKrxMbe/zDLRV+ffPyfCBZ35n+cQBb8UB2fAyNX4QQYUyzblVsZPr1xzNLZGnyPvmCgJACU8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1572464301052377.1088871142439;
- Wed, 30 Oct 2019 12:38:21 -0700 (PDT)
-In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
-Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
-Message-ID: <157246429967.32191.8943981260424940794@37313f22b938>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: david@gibson.dropbear.id.au
-Date: Wed, 30 Oct 2019 12:38:21 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+ (envelope-from <richard.henderson@linaro.org>) id 1iPsPt-0006V7-Ee
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:09:58 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45820)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iPsPt-0006OR-8K
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:09:57 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id q13so3368729wrs.12
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 11:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=N+2MOMMrGRhCDwJoIgrO3zCdzJUAa8aWvETBuL462sQ=;
+ b=khxwz8d6Ip1bf7AifdUTjl8rXfYnpBe5a5KCbdimwM5qRY/Uf6hxy6Ik3T/a7EshYx
+ AEWD1saglH8gbrUT13Xby7H4VRVhIGUjeT3TAyHgr165vw/XLoa0Qw26PloSMPATLI4b
+ vGYm879Dxce6VE1b4FPwMU1GkE6+ezxX6u+uiIUCGWwBrAdBxtcKa3XYJWVZm5ykQ3sy
+ OrvrNV3iub2RJ+EmXAuPrEKc/a/kfYFIwWm4GiF/BXCEvzZ15GHQ6w27J6/bpdZaPCZC
+ uZnDLUfvO4sL09UDXuP9TxaCLKwDwj6IAJPvaZZrGEk2oxSRD3W6LurhC4Jmb/0wPKZl
+ ZlSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=N+2MOMMrGRhCDwJoIgrO3zCdzJUAa8aWvETBuL462sQ=;
+ b=eAkSeEm4y7vk2tjAEVMvRy6ZReo+GMp5WB29mIdHqHfYroCwTdyPg6ZyXJ5VvuWuvy
+ elOmFQN8AfU7GrGs7kjqIpBhP7qNlDCL0WCFkI2AwmIZ0rhIDJzlExdvkGcV2E7ohXSo
+ JpLFjQ1Ij3tB2kxGC8mE7lUgLE3R2S/rn2hhib7lzKfyyD2TqTcB/xbGvWQHcFmqWXbF
+ mVK+tjg16iqMlmL71QlSMQONtKk7201C1TsPlsBbyNmiFvHRSKPud76OBieQpauaBV5M
+ Cl6phcl7n97t/gnrGkpfpUGE1niHJn0DNWfs3k3792rsJBRk8Qfr+pVqMGvpApT24xGr
+ GYZQ==
+X-Gm-Message-State: APjAAAUsI+toNM8cY9DSk5l5DRVXvEo860h/WHitpYcUoqMO90Za5MFZ
+ BdJ6ZWL6A7j3xDSt+bFz2OUI+KR1D44kRg==
+X-Google-Smtp-Source: APXvYqw7uNqOjstd+Um9VDOvMUgasel0tAhP+mQq17vhvDr3xC/hiiAE7fxQrNWWyzTd+L9kkXgEsw==
+X-Received: by 2002:adf:c402:: with SMTP id v2mr1158280wrf.323.1572458994346; 
+ Wed, 30 Oct 2019 11:09:54 -0700 (PDT)
+Received: from localhost.localdomain (248.42.142.88.rev.sfr.net.
+ [88.142.42.248])
+ by smtp.gmail.com with ESMTPSA id t133sm6931299wmb.1.2019.10.30.11.09.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Oct 2019 11:09:53 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL for-4.2 0/1] softfp patch queue
+Date: Wed, 30 Oct 2019 19:09:52 +0100
+Message-Id: <20191030180953.24180-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,37 +72,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: david@redhat.com, groug@kaod.org, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, clg@kaod.org, imammedo@redhat.com, jdenemar@redhat.com,
- david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAzMDE2MzI0My4xMDY0
-NC0xLWRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIXSBzcGFwci9rdm06IFNldCBkZWZh
-dWx0IGNwdSBtb2RlbCBmb3IgYWxsIG1hY2hpbmUgY2xhc3NlcwpUeXBlOiBzZXJpZXMKTWVzc2Fn
-ZS1pZDogMjAxOTEwMzAxNjMyNDMuMTA2NDQtMS1kYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXUK
-Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
-ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
-bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMy
-MWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
-dGVzdCcKNDU4MWEyYSBzcGFwci9rdm06IFNldCBkZWZhdWx0IGNwdSBtb2RlbCBmb3IgYWxsIG1h
-Y2hpbmUgY2xhc3NlcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IE1pc3NpbmcgU2lnbmVk
-LW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA1MCBsaW5lcyBj
-aGVja2VkCgpDb21taXQgNDU4MWEyYTY3NGY0IChzcGFwci9rdm06IFNldCBkZWZhdWx0IGNwdSBt
-b2RlbCBmb3IgYWxsIG1hY2hpbmUgY2xhc3NlcykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-PT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRo
-ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEw
-MzAxNjMyNDMuMTA2NDQtMS1kYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXUvdGVzdGluZy5jaGVj
-a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
-eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
-Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Just one easy patch that made the cutoff.
 
+
+r~
+
+
+The following changes since commit 16884391c750d0c5e863f55ad7aaaa146fc5181e:
+
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2019-10-29' into staging (2019-10-29 20:06:08 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-sfp-20191030
+
+for you to fetch changes up to 21381dcf0ca8fc822328e30570c8465ec4e52be9:
+
+  softfp: Added hardfloat conversion from float32 to float64 (2019-10-30 19:03:37 +0100)
+
+----------------------------------------------------------------
+Use hardfloat for float32_to_float64
+
+----------------------------------------------------------------
+Matus Kysel (1):
+      softfp: Added hardfloat conversion from float32 to float64
+
+ fpu/softfloat.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
