@@ -2,46 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAAAE975A
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 08:45:22 +0100 (CET)
-Received: from localhost ([::1]:37584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1987E97DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 09:15:00 +0100 (CET)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPifQ-0002XW-F9
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 03:45:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59377)
+	id 1iPj87-0003GP-HR
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 04:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37117)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luwei.kang@intel.com>) id 1iPid9-0001rU-GB
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 03:43:09 -0400
+ (envelope-from <wang.yi59@zte.com.cn>) id 1iPj7J-0002b0-KR
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:14:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luwei.kang@intel.com>) id 1iPid6-0003uV-BK
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 03:42:57 -0400
-Received: from mga01.intel.com ([192.55.52.88]:61161)
+ (envelope-from <wang.yi59@zte.com.cn>) id 1iPj7H-00013c-Q3
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:14:09 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:41000 helo=mxct.zte.com.cn)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <luwei.kang@intel.com>)
- id 1iPid6-0003Iz-2G
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 03:42:56 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Oct 2019 00:42:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,246,1569308400"; d="scan'208";a="400056866"
-Received: from icl-2s.bj.intel.com ([10.240.193.48])
- by fmsmga005.fm.intel.com with ESMTP; 30 Oct 2019 00:42:48 -0700
-From: Luwei Kang <luwei.kang@intel.com>
-To: pbonzini@redhat.com,
-	rth@twiddle.net,
-	ehabkost@redhat.com
-Subject: [PATCH v1 Resend] target/i386: set the CPUID level to 0x14 on old
- machine-type
-Date: Wed, 30 Oct 2019 14:28:02 +0800
-Message-Id: <1572416882-41378-1-git-send-email-luwei.kang@intel.com>
+ (Exim 4.71) (envelope-from <wang.yi59@zte.com.cn>)
+ id 1iPj7H-0000gm-EJ
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:14:07 -0400
+Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
+ by Forcepoint Email with ESMTPS id AC843CB086ADFCEB0E4D;
+ Wed, 30 Oct 2019 16:07:04 +0800 (CST)
+Received: from notes_smtp.zte.com.cn (notessmtp.zte.com.cn [10.30.1.239])
+ by mse-fl2.zte.com.cn with ESMTP id x9U86pDr077982;
+ Wed, 30 Oct 2019 16:06:51 +0800 (GMT-8)
+ (envelope-from wang.yi59@zte.com.cn)
+Received: from fox-host8.localdomain ([10.74.120.8])
+ by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+ with ESMTP id 2019103016071191-197903 ;
+ Wed, 30 Oct 2019 16:07:11 +0800 
+From: Yi Wang <wang.yi59@zte.com.cn>
+To: mst@redhat.com
+Subject: [PATCH] virtio: add check for inconsistent VQ in virtio_save()
+Date: Wed, 30 Oct 2019 16:09:47 +0800
+Message-Id: <1572422987-19683-1-git-send-email-wang.yi59@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.88
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release
+ 8.5.3FP6|November 21, 2013) at 2019-10-30 16:07:11,
+ Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2019-10-30 16:06:54, Serialize complete at 2019-10-30 16:06:54
+X-MAIL: mse-fl2.zte.com.cn x9U86pDr077982
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 202.103.147.172
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,46 +57,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luwei Kang <luwei.kang@intel.com>, qemu-devel@nongnu.org
+Cc: wang.yi59@zte.com.cn, wang.liang82@zte.com.cn,
+ Cheng Lin <cheng.lin130@zte.com.cn>, qemu-devel@nongnu.org,
+ xue.zhihong@zte.com.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPUID level need to be set to 0x14 manually on old
-machine-type if Intel PT is enabled in guest. e.g. in Qemu 3.1
--machine pc-i440fx-3.1 -cpu qemu64,+intel-pt
-will be CPUID[0].EAX(level)=7 and CPUID[7].EBX[25](intel-pt)=1.
+From: Cheng Lin <cheng.lin130@zte.com.cn>
 
-Some Intel PT capabilities are exposed by leaf 0x14 and the
-missing capabilities will cause some MSRs access failed.
-This patch add a warning message to inform the user to extend
-the CPUID level.
+In a case, we have an not enabled VQ (virtio-net) which desc is NULL
+and get a last_avail_idx is not 0 from dpdk.
 
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Luwei Kang <luwei.kang@intel.com>
+As a result, it is successed to create a snapshot, but failed to revert it.
+Because in virtio_load(), there is an inconsistent check for VQ.
+(call virtio_load() in revert, and virtio_save() in create.)
+
+Correspondly, in virtio_save() should also do this check to find the error
+as early as possible.
+
+Signed-off-by: Cheng Lin <cheng.lin130@zte.com.cn>
 ---
- target/i386/cpu.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ hw/virtio/virtio.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index a624163..f67c479 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5440,8 +5440,12 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
- 
-         /* Intel Processor Trace requires CPUID[0x14] */
-         if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
--             kvm_enabled() && cpu->intel_pt_auto_level) {
--            x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14);
-+             kvm_enabled()) {
-+            if (cpu->intel_pt_auto_level)
-+                x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14);
-+            else
-+                warn_report("Intel PT need CPUID leaf 0x14, please set "
-+                            "by \"-cpu ...,+intel-pt,level=0x14\"");
-         }
- 
-         /* CPU topology with multi-dies support requires CPUID[0x1F] */
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 2e91dec..eadbf64 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2792,6 +2792,12 @@ int virtio_save(VirtIODevice *vdev, QEMUFile *f)
+          * Save desc now, the rest of the ring addresses are saved in
+          * subsections for VIRTIO-1 devices.
+          */
++        if (!vdev->vq[i].vring.desc && vdev->vq[i].last_avail_idx) {
++            error_report("VQ %d address 0x0 "
++                         "inconsistent with Host index 0x%x",
++                         i, vdev->vq[i].last_avail_idx);
++            return -1;
++        }
+         qemu_put_be64(f, vdev->vq[i].vring.desc);
+         qemu_put_be16s(f, &vdev->vq[i].last_avail_idx);
+         if (k->save_queue) {
 -- 
-1.8.3.1
+2.7.2.windows.1
 
 
