@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848B8E9B13
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 12:47:56 +0100 (CET)
-Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598ADE9B57
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 13:12:38 +0100 (CET)
+Received: from localhost ([::1]:39842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPmSB-0000vm-1a
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 07:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56055)
+	id 1iPmq4-0003Rt-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 08:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32840)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tu.guoyi@h3c.com>) id 1iPmQn-0000Nj-6y
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 07:46:30 -0400
+ (envelope-from <bounces@canonical.com>) id 1iPmox-0002sh-BH
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:11:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tu.guoyi@h3c.com>) id 1iPmQl-00086J-59
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 07:46:28 -0400
-Received: from smtp.h3c.com ([60.191.123.50]:12476 helo=h3cspam02-ex.h3c.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tu.guoyi@h3c.com>)
- id 1iPmQk-0007tx-JU; Wed, 30 Oct 2019 07:46:27 -0400
-Received: from DAG2EX05-BASE.srv.huawei-3com.com ([10.8.0.68])
- by h3cspam02-ex.h3c.com with ESMTPS id x9UBk5fP055025
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 30 Oct 2019 19:46:05 +0800 (GMT-8)
- (envelope-from tu.guoyi@h3c.com)
-Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
- DAG2EX05-BASE.srv.huawei-3com.com (10.8.0.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 30 Oct 2019 19:46:09 +0800
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
- by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%6])
- with mapi id 15.01.1713.004; Wed, 30 Oct 2019 19:46:09 +0800
-From: Tuguoyi <tu.guoyi@h3c.com>
-To: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>, "kwolf@redhat.com"
- <kwolf@redhat.com>, "mreitz@redhat.com" <mreitz@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: [PATCH v3] qcow2-bitmap: Fix uint64_t left-shift overflow
-Thread-Topic: [PATCH v3] qcow2-bitmap: Fix uint64_t left-shift overflow
-Thread-Index: AdWPFo/e/4bra9yKTuSMM3n9Yap7Hg==
-Date: Wed, 30 Oct 2019 11:46:08 +0000
-Message-ID: <f26933e80e434b5f875e7db24ef9d02f@h3c.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.125.108.112]
-x-sender-location: DAG2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1iPmov-0004SV-Rh
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:11:27 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53052)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iPmov-0004R5-I1
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 08:11:25 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iPmos-0005c3-OW
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 12:11:22 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AD57C2E80CE
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 12:11:22 +0000 (UTC)
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: h3cspam02-ex.h3c.com x9UBk5fP055025
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 60.191.123.50
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 30 Oct 2019 11:56:36 -0000
+From: Matti Hameister <1847793@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: c-paetow dgilbert-h lersek mattihami psyhomb
+ sej7278 xanclic
+X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
+X-Launchpad-Bug-Modifier: Matti Hameister (mattihami)
+References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157243659639.29370.12703072921528821189.malone@soybean.canonical.com>
+Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
+ install
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0f1b936031251a4626e8f76b890b5922704f5eeb
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,53 +67,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chengchiwen <chengchiwen@h3c.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Wangyongqing <w_yongqing@h3c.com>, Changlimin <changlimin@h3c.com>,
- Gaoliang <liang_gao@h3c.com>, Wangyong <wang.yongD@h3c.com>
+Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlcmUgYXJlIHR3byBpc3N1ZXMgaW4gSW4gY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKCks
-DQoxKSBUaGUgc2FuaXR5IGNoZWNrIG9uIHRoZSBncmFudWxhcml0eSB3aWxsIGNhdXNlIHVpbnQ2
-NF90DQppbnRlZ2VyIGxlZnQtc2hpZnQgb3ZlcmZsb3cgd2hlbiBjbHVzdGVyX3NpemUgaXMgMk0g
-YW5kIHRoZQ0KZ3JhbnVsYXJpdHkgaXMgQklHR0VSIHRoYW4gMzJLLg0KMikgVGhlIHdheSB0byBj
-YWxjdWxhdGUgaW1hZ2Ugc2l6ZSB0aGF0IHRoZSBtYXhpbXVtIGJpdG1hcA0Kc3VwcG9ydGVkIGNh
-biBtYXAgdG8gaXMgYSBiaXQgaW5jb3JyZWN0Lg0KVGhpcyBwYXRjaCBmaXggaXQgYnkgYWRkIGEg
-aGVscGVyIGZ1bmN0aW9uIHRvIGNhbGN1bGF0ZSB0aGUNCm51bWJlciBvZiBieXRlcyBuZWVkZWQg
-YnkgYSBub3JtYWwgYml0bWFwIGluIGltYWdlIGFuZCBjb21wYXJlDQppdCB0byB0aGUgbWF4aW11
-bSBiaXRtYXAgYnl0ZXMgc3VwcG9ydGVkIGJ5IHFlbXUuDQoNClNpZ25lZC1vZmYtYnk6IEd1b3lp
-IFR1IDx0dS5ndW95aUBoM2MuY29tPg0KLS0tDQogYmxvY2svcWNvdzItYml0bWFwLmMgfCAxNSAr
-KysrKysrKysrKystLS0NCiAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMyBkZWxl
-dGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2Jsb2NrL3Fjb3cyLWJpdG1hcC5jIGIvYmxvY2svcWNv
-dzItYml0bWFwLmMNCmluZGV4IDk4Mjk0YTcuLjM0OTM1YmIgMTAwNjQ0DQotLS0gYS9ibG9jay9x
-Y293Mi1iaXRtYXAuYw0KKysrIGIvYmxvY2svcWNvdzItYml0bWFwLmMNCkBAIC0xNDIsNiArMTQy
-LDE0IEBAIHN0YXRpYyBpbnQgY2hlY2tfdGFibGVfZW50cnkodWludDY0X3QgZW50cnksIGludCBj
-bHVzdGVyX3NpemUpDQogICAgIHJldHVybiAwOw0KIH0NCiANCitzdGF0aWMgaW5saW5lIGludDY0
-X3QgZ2V0X2JpdG1hcF9ieXRlc19uZWVkZWQoaW50NjRfdCBsZW4sDQorICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQzMl90IGdyYW51bGFyaXR5KQ0KK3sN
-CisgICAgaW50NjRfdCBudW1fYml0cyA9IERJVl9ST1VORF9VUChsZW4sIGdyYW51bGFyaXR5KTsN
-CisNCisgICAgcmV0dXJuIERJVl9ST1VORF9VUChudW1fYml0cywgOCk7DQorfQ0KKw0KIHN0YXRp
-YyBpbnQgY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKEJsb2NrRHJpdmVyU3RhdGUgKmJzLA0K
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGNoYXIgKm5hbWUs
-DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDMyX3QgZ3JhbnVs
-YXJpdHksDQpAQCAtMTUwLDYgKzE1OCw3IEBAIHN0YXRpYyBpbnQgY2hlY2tfY29uc3RyYWludHNf
-b25fYml0bWFwKEJsb2NrRHJpdmVyU3RhdGUgKmJzLA0KICAgICBCRFJWUWNvdzJTdGF0ZSAqcyA9
-IGJzLT5vcGFxdWU7DQogICAgIGludCBncmFudWxhcml0eV9iaXRzID0gY3R6MzIoZ3JhbnVsYXJp
-dHkpOw0KICAgICBpbnQ2NF90IGxlbiA9IGJkcnZfZ2V0bGVuZ3RoKGJzKTsNCisgICAgaW50NjRf
-dCBiaXRtYXBfYnl0ZXM7DQogDQogICAgIGFzc2VydChncmFudWxhcml0eSA+IDApOw0KICAgICBh
-c3NlcnQoKGdyYW51bGFyaXR5ICYgKGdyYW51bGFyaXR5IC0gMSkpID09IDApOw0KQEAgLTE3MSw5
-ICsxODAsOSBAQCBzdGF0aWMgaW50IGNoZWNrX2NvbnN0cmFpbnRzX29uX2JpdG1hcChCbG9ja0Ry
-aXZlclN0YXRlICpicywNCiAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KICAgICB9DQogDQotICAg
-IGlmICgobGVuID4gKHVpbnQ2NF90KUJNRV9NQVhfUEhZU19TSVpFIDw8IGdyYW51bGFyaXR5X2Jp
-dHMpIHx8DQotICAgICAgICAobGVuID4gKHVpbnQ2NF90KUJNRV9NQVhfVEFCTEVfU0laRSAqIHMt
-PmNsdXN0ZXJfc2l6ZSA8PA0KLSAgICAgICAgICAgICAgIGdyYW51bGFyaXR5X2JpdHMpKQ0KKyAg
-ICBiaXRtYXBfYnl0ZXMgPSBnZXRfYml0bWFwX2J5dGVzX25lZWRlZChsZW4sIGdyYW51bGFyaXR5
-KTsNCisgICAgaWYgKChiaXRtYXBfYnl0ZXMgPiAodWludDY0X3QpQk1FX01BWF9QSFlTX1NJWkUp
-IHx8DQorICAgICAgICAoYml0bWFwX2J5dGVzID4gKHVpbnQ2NF90KUJNRV9NQVhfVEFCTEVfU0la
-RSAqIHMtPmNsdXN0ZXJfc2l6ZSkpDQogICAgIHsNCiAgICAgICAgIGVycm9yX3NldGcoZXJycCwg
-IlRvbyBtdWNoIHNwYWNlIHdpbGwgYmUgb2NjdXBpZWQgYnkgdGhlIGJpdG1hcC4gIg0KICAgICAg
-ICAgICAgICAgICAgICAiVXNlIGxhcmdlciBncmFudWxhcml0eSIpOw0KLS0gDQoyLjcuNA0KDQpb
-UGF0Y2ggdjJdOiBodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwv
-MjAxOS0xMC9tc2cwNzQ5MC5odG1sDQo=
+I have the same (related?) issue and wanted to add my experience with it. I=
+ had 3 qemu qcow2 VM running on ArchLinux. I never used snapshots or someth=
+ing like it. Just normal start&shutdown. 2 of these VMs were also ArchLinux=
+ running on ext4. Both of these VMs had a data corruption inside the quest.=
+ The data being corrupted were files I had not touched in month (large tar =
+archives). One guest was running on a SSD with discard, the other VM was ru=
+nning on a normal hard drive without any discard.
+The last VM was a Windows 10 VM. While the VM was running fine, after "fixi=
+ng" the image issues with qemu-img -r all hdd.qcow2 the Windows 10 installa=
+tion was unbootable and beyond repair with normal Windows tools.
+
+While the VMs are running I saw these lines printed by qemu (for all VMs
+in question):
+
+qcow2_free_clusters failed: Invalid argument
+qcow2_free_clusters failed: Invalid argument
+qcow2_free_clusters failed: Invalid argument
+
+I recreated my VMs and I now chose btrfs as a filesystem. No issues yet
+on the image. I also recreated the Windows 10 VM. It worked fine a
+couple of days. Today I checked the image, after I saw the free_clusters
+lines above again:
+
+Many many lines like this:
+Leaked cluster 260703 refcount=3D1 reference=3D0                           =
+                        =
+
+ERROR cluster 260739 refcount=3D0 reference=3D1 =
+
+ERROR OFLAG_COPIED data cluster: l2_entry=3D800000038ec10000 refcount=3D0
+
+638 errors were found on the image.
+Data may be corrupted, or further writes to the image may corrupt it.
+
+339 leaked clusters were found on the image.
+This means waste of disk space, but no harm to data.
+314734/4096000 =3D 7.68% allocated, 26.70% fragmented, 0.00% compressed clu=
+sters
+Image end offset: 21138374656
+
+The installation itself still works but I don't know if there are any
+silently corrupted files in there.
+
+QEMU 4.1.0 from ArchLinux
+Host-Filesystem is ext4
+Start-Parameter (the same on all VMs):
+
+qemu-system-x86_64 -cpu Haswell-noTSX -M q35 -enable-kvm -smp
+4,cores=3D4,threads=3D1,sockets=3D1 -net nic,model=3Dvirtio -net
+user,hostname=3DWindowsKVM.local -drive
+if=3Dnone,id=3Dhd,file=3Dhdd.qcow2,discard=3Dunmap -device virtio-scsi-
+pci,id=3Dscsi --enable-kvm -device scsi-hd,drive=3Dhd -m 4096 -drive
+if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/ovmf/x64/OVMF_CODE.fd
+-drive if=3Dpflash,format=3Draw,file=3D./OVMF_VARS.fd -vga std -drive
+file=3DWindows10ISO/Windows.iso,index=3D0,media=3Dcdrom -drive file=3Dvirti=
+o-
+win-0.1.173.iso,index=3D1,media=3Dcdrom -no-quit
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847793
+
+Title:
+  qemu 4.1.0 - Corrupt guest filesystem after new vm install
+
+Status in QEMU:
+  New
+
+Bug description:
+  When I install a new vm with qemu 4.1.0 all the guest filesystems are
+  corrupt. The first boot from the install dvd iso is ok and the
+  installer work fine. But the guest system hangs after the installer
+  finishes and I reboot the guest. I can see the grub boot menue but the
+  system cannot load the initramfs.
+
+  Testet with:
+  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
+ and / partition)
+  Guided install with the graphical installer, no lvm selected.
+  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
+  Guidet install with the graphical installer and default options.
+
+  Used commandline to create the vm disk image:
+  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
+
+  Used qemu commandline for vm installation:
+  #!/bin/sh
+  # vmtest10 Installation
+  #
+  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
+      -soundhw hda \
+      -M q35 \
+      -k de \
+      -vga qxl \
+      -machine accel=3Dkvm \
+      -m 4096 \
+      -display gtk \
+      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
+so,if=3Dide,media=3Dcdrom \
+      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
+o,media=3Ddisk,cache=3Dwriteback \
+      -boot once=3Dd,menu=3Doff \
+      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
+      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
+      -rtc base=3Dlocaltime \
+      -name "vmtest10" \
+      -usb -device usb-tablet \
+      -spice disable-ticketing \
+      -device virtio-serial-pci \
+      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
+e.0 \
+      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
+
+  Host OS:
+  Archlinux (last updated at 10.10.2019)
+  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
+19 x86_64 GNU/Linux
+  No libvirt in use.
+
+  =
+
+  With qemu 4.0.0 it works fine without any errors.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
 
