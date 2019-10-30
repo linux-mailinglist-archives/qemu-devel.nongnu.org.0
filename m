@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEAFE998E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 10:54:39 +0100 (CET)
-Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CD1E995D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 10:45:46 +0100 (CET)
+Received: from localhost ([::1]:38212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPkgY-00051U-92
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 05:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60910)
+	id 1iPkXw-0001xB-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 05:45:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59381)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iPket-0003tS-Qn
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:52:57 -0400
+ (envelope-from <philmd@redhat.com>) id 1iPkWh-0001Qr-Vn
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:44:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iPkeq-0005g1-9x
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:52:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52974)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iPkcx-0005TS-Ja
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:52:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iPkcu-0004MZ-LQ
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:50:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 821B22E80D0
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:50:52 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iPkWf-0006nB-Ge
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:44:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39648)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iPkWf-0006jK-8F
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:44:25 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 69A6858569
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:44:23 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id t2so1008932wri.18
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 02:44:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wtWXBihqzB5Mua+27IeBvx9yVkqh/ZF8AUYctXiNK8g=;
+ b=XD03Zz4s0/dN1LCL22FSKo/OFrfesZ+wzYwASZh+bp4r/sgi19YZFXe46FCNVfjl/h
+ PbM55qFrGYSKSfUH2efCP2U86yVAX0MCQPOYe6n7n4/9PUvGqY1Kc2ACOmPu4pNYMmzM
+ 2ooa2cIJzSkmli4QF7ruZ0nuwFHP4cDFd2UylOzoYOw4vmWq3jUlwyqWda9WY4Q/vrFy
+ 1yUmkuGkcW+Q0X0/N/aoEnpjiZW7vFz5BwH68w8qJ1j1OEl6ouIniuEZ0gpntePNvjB/
+ 78L2fxXaOuT0mWDbaSLboKY+v497rerkbK5To4nOSIEPYFxkwBURfDag6tOQTEtVVRZ8
+ pdYA==
+X-Gm-Message-State: APjAAAXaqXYqCtFEwZRStxhJ2acE/TQANqXy5f/ExcNU/u6lf2C6Jqwz
+ Utv/OyjbqDivgR6TI8cF6Q6FKbH7GnQsC/7GY/ysp0It66n1cmX3HkFEiKNjgTHZKttqhvnda+g
+ vxNPq1K/6FJmGAHI=
+X-Received: by 2002:a05:600c:23cd:: with SMTP id
+ p13mr8272304wmb.169.1572428662104; 
+ Wed, 30 Oct 2019 02:44:22 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx9qWJqzrlbAVs2lDrUhPh3gBK11/JgeHtoRLwZR0ZOHAA0guEKBbvnxZ02I8QASjw3zSwZVA==
+X-Received: by 2002:a05:600c:23cd:: with SMTP id
+ p13mr8272276wmb.169.1572428661790; 
+ Wed, 30 Oct 2019 02:44:21 -0700 (PDT)
+Received: from [172.20.51.145] ([91.217.168.176])
+ by smtp.gmail.com with ESMTPSA id t12sm399546wrx.93.2019.10.30.02.44.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Oct 2019 02:44:21 -0700 (PDT)
+Subject: Re: [PULL 00/20] hw/i386/pc: Split PIIX3 southbridge from i440FX
+ northbridge
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20191028163447.18541-1-philmd@redhat.com>
+ <CAFEAcA-9wQMzJN+ZeWDE8k1E9uwUw3NHNJuR2H_hHRNeX1Lf8Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ff388170-7ee8-39f2-359b-246571e720a5@redhat.com>
+Date: Wed, 30 Oct 2019 10:44:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAFEAcA-9wQMzJN+ZeWDE8k1E9uwUw3NHNJuR2H_hHRNeX1Lf8Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Oct 2019 09:44:14 -0000
-From: tm <1850378@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: riscv
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: palmerdabbelt tm42
-X-Launchpad-Bug-Reporter: tm (tm42)
-X-Launchpad-Bug-Modifier: tm (tm42)
-References: <157235518365.28116.9958641157871998206.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157242865526.28116.241229341660228915.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1850378] Re: RISC-V unreliable IPIs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b9be65af5d5cb36d385f0e05d3078c86e017fd23
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,98 +84,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1850378 <1850378@bugs.launchpad.net>
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+Hi Peter, Paolo,
 
-  I am working on a project with custom inter processor interrupts (IPIs) o=
-n the RISC-V virt machine.
-  After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (=
-https://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU ho=
-tplug feature.
-  =
+On 10/30/19 7:15 AM, Peter Maydell wrote:
+> On Mon, 28 Oct 2019 at 17:48, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com> wrote:
+>>
+>> ----------------------------------------------------------------
+>> The i440FX northbridge is only used by the PC machine, while the
+>> PIIX southbridge is also used by the Malta MIPS machine.
+>>
+>> Split the PIIX3 southbridge from i440FX northbridge.
+>>
+>> ----------------------------------------------------------------
+>=20
+> I get a link failure on my 'do a make clean and then make' build :
+>    LINK    i386-softmmu/qemu-system-i386
+> hw/i386/pc_piix.o: In function `pc_init1':
+> /home/petmay01/linaro/qemu-for-merges/hw/i386/pc_piix.c:197: undefined
+> reference to `i440fx_init'
+> /home/petmay01/linaro/qemu-for-merges/hw/i386/pc_piix.c:206: undefined
+> reference to `piix3_create'
+> collect2: error: ld returned 1 exit status
 
-  However, if I try to use IPIs for communication between two cores, the
-  wfi instruction behaves strangely. Either it does not return, or it
-  returns on timer interrupts, even though they are disabled. The code, I
-  use on one core to wait for an interrupt is the following.
-  =
+This is odd, default-configs/i386-softmmu.mak selects CONFIG_I440FX,=20
+I440FX selects PCI_I440FX, and the Makefile.objs has:
+common-obj-$(CONFIG_PCI_I440FX) +=3D i440fx.o
 
-- 	csr_clear(sie, SIE_SEIE | SIE_STIE);
-- 	do {
-- 		wait_for_interrupt();
-- 		sipval =3D csr_read(sip);
-- 		sieval =3D csr_read(sie);
-- 		scauseval =3D csr_read(scause) & 0xFF;
-- 	/* only break if wfi returns for an software interrupt */
-- 	} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
-- 	csr_set(sie, SIE_SEIE | SIE_STIE);
-+ =C2=A0csr_clear(sie, SIE_SEIE | SIE_STIE);
-+ =C2=A0do {
-+ =C2=A0=C2=A0wait_for_interrupt();
-+ =C2=A0=C2=A0sipval =3D csr_read(sip);
-+ =C2=A0=C2=A0sieval =3D csr_read(sie);
-+ =C2=A0=C2=A0scauseval =3D csr_read(scause) & 0xFF;
-+ =C2=A0/* only break if wfi returns for an software interrupt */
-+ =C2=A0} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
-+ =C2=A0csr_set(sie, SIE_SEIE | SIE_STIE);
-  =
+The change is in patch "hw/pci-host: Rename incorrectly named 'piix' as=20
+'i440fx'" which is a simple rename:
 
-  Since the resulting sequence does not seem to be deterministic, my guess
-  is, that it has something to do with the communication of qemu's threads
-  for the different cores.
-+ =
+-- >8 --
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index d420b35548..5a494342ea 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -60,7 +60,7 @@ config I440FX
+      select PC_PCI
+      select PC_ACPI
+      select ACPI_SMBUS
+-    select PCI_PIIX
++    select PCI_I440FX
+      select PIIX3
+      select IDE_PIIX
+      select DIMM
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 397043b289..b0aa8351c4 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -28,7 +28,7 @@ config PCI_SABRE
+      select PCI
+      bool
 
-+ Update:
-+ The exact same setup works fine in spike (the actual sim, not the qemu bo=
-ard), which might give a hint, that it is related to the interrupt controll=
-er implementation.
+-config PCI_PIIX
++config PCI_I440FX
+      bool
+      select PCI
+      select PAM
+diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
+index a9cd3e022d..efd752b766 100644
+--- a/hw/pci-host/Makefile.objs
++++ b/hw/pci-host/Makefile.objs
+@@ -13,7 +13,7 @@ common-obj-$(CONFIG_VERSATILE_PCI) +=3D versatile.o
 
--- =
+  common-obj-$(CONFIG_PCI_SABRE) +=3D sabre.o
+  common-obj-$(CONFIG_FULONG) +=3D bonito.o
+-common-obj-$(CONFIG_PCI_PIIX) +=3D piix.o
++common-obj-$(CONFIG_PCI_I440FX) +=3D i440fx.o
+  common-obj-$(CONFIG_PCI_EXPRESS_Q35) +=3D q35.o
+  common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) +=3D gpex.o
+  common-obj-$(CONFIG_PCI_EXPRESS_XILINX) +=3D xilinx-pcie.o
+diff --git a/hw/pci-host/piix.c b/hw/pci-host/i440fx.c
+similarity index 100%
+rename from hw/pci-host/piix.c
+rename to hw/pci-host/i440fx.c
+---
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1850378
+I could reproduce and hw/pci-host/ doesn't contains neither piix.o nor=20
+i440fx.o.
 
-Title:
-  RISC-V unreliable IPIs
+$ fgrep -ri i440fx i386-softmmu/
+i386-softmmu/config-devices.h-timestamp:#define CONFIG_I440FX 1
+i386-softmmu/config-devices.mak.old:CONFIG_I440FX=3Dy
+Binary file i386-softmmu/hw/i386/pc_piix.o matches
+i386-softmmu/hw/i386/pc_piix.d:=20
+/home/phil/source/qemu/include/hw/pci-host/i440fx.h \
+i386-softmmu/hw/i386/pc_piix.d:/home/phil/source/qemu/include/hw/pci-host=
+/i440fx.h:
+Binary file i386-softmmu/hw/i386/acpi-build.o matches
+Binary file i386-softmmu/hw/i386/pc.o matches
+i386-softmmu/config-devices.mak:CONFIG_I440FX=3Dy
+i386-softmmu/config-devices.h:#define CONFIG_I440FX 1
 
-Status in QEMU:
-  New
+So CONFIG_I440FX is here, but no CONFIG_PCI_I440FX...
 
-Bug description:
-  I am working on a project with custom inter processor interrupts (IPIs) o=
-n the RISC-V virt machine.
-  After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (=
-https://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU ho=
-tplug feature.
+$ fgrep -r PIIX i386-softmmu/
+i386-softmmu/config-devices.h-timestamp:#define CONFIG_IDE_PIIX 1
+i386-softmmu/config-devices.h-timestamp:#define CONFIG_PCI_PIIX 1
+i386-softmmu/config-devices.mak.old:CONFIG_IDE_PIIX=3Dy
+i386-softmmu/config-devices.mak.old:CONFIG_PCI_PIIX=3Dy
+Binary file i386-softmmu/hw/i386/pc_piix.o matches
+Binary file i386-softmmu/hw/i386/acpi-build.o matches
+Binary file i386-softmmu/hw/i386/pc.o matches
+i386-softmmu/config-devices.mak:CONFIG_IDE_PIIX=3Dy
+i386-softmmu/config-devices.mak:CONFIG_PCI_PIIX=3Dy
+i386-softmmu/config-devices.h:#define CONFIG_IDE_PIIX 1
+i386-softmmu/config-devices.h:#define CONFIG_PCI_PIIX 1
 
-  However, if I try to use IPIs for communication between two cores, the
-  wfi instruction behaves strangely. Either it does not return, or it
-  returns on timer interrupts, even though they are disabled. The code,
-  I use on one core to wait for an interrupt is the following.
+And the old CONFIG_PCI_PIIX is still there :(
 
-  =C2=A0csr_clear(sie, SIE_SEIE | SIE_STIE);
-  =C2=A0do {
-  =C2=A0=C2=A0wait_for_interrupt();
-  =C2=A0=C2=A0sipval =3D csr_read(sip);
-  =C2=A0=C2=A0sieval =3D csr_read(sie);
-  =C2=A0=C2=A0scauseval =3D csr_read(scause) & 0xFF;
-  =C2=A0/* only break if wfi returns for an software interrupt */
-  =C2=A0} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
-  =C2=A0csr_set(sie, SIE_SEIE | SIE_STIE);
+Paolo, is some kconfig dependency missing?
 
-  Since the resulting sequence does not seem to be deterministic, my
-  guess is, that it has something to do with the communication of qemu's
-  threads for the different cores.
+Regards,
 
-  Update:
-  The exact same setup works fine in spike (the actual sim, not the qemu bo=
-ard), which might give a hint, that it is related to the interrupt controll=
-er implementation.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1850378/+subscriptions
+Phil.
 
