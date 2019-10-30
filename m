@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B9BEA253
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 18:12:27 +0100 (CET)
-Received: from localhost ([::1]:42862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FAEEA3AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 19:57:59 +0100 (CET)
+Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPrWE-0003va-Ct
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 13:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37165)
+	id 1iPtAM-0004w4-2B
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 14:57:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iPrV1-00030Y-LK
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:11:12 -0400
+ (envelope-from <david@redhat.com>) id 1iPrpr-000529-1s
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:32:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iPrV0-0008ET-BP
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:11:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59284)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iPrV0-0008An-5L
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:11:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iPrUx-0007Nw-CS
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 17:11:07 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5C02E2E80CD
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 17:11:07 +0000 (UTC)
+ (envelope-from <david@redhat.com>) id 1iPrpo-0003Js-77
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:32:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26637
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iPrpo-0003If-0H
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:32:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572456758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vFPWQ4hku5UrfMDQUlywWJpzED7nJAf6sv+yEZ7SyGA=;
+ b=coGLl8hmRoUodPEspUTltXx9PcqI+lY8U7v0plZgVicQrXU5KEXWq4hvwJYlI1UzsHzAuj
+ Ows6+0LLi5JtlgX6fkwb4jfrdE4Q03bvxIbOCics6ORNrQLwCt7PvbwoSeOmzj9Q/0qnp3
+ vCjbShHBkzSETFxD/iGd0Yof28ATdMI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-Td67mw9xMeye5mdSBmF3Sw-1; Wed, 30 Oct 2019 13:32:34 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 673351800D56;
+ Wed, 30 Oct 2019 17:32:33 +0000 (UTC)
+Received: from [10.36.116.178] (ovpn-116-178.ams2.redhat.com [10.36.116.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACCFA1A7E5;
+ Wed, 30 Oct 2019 17:32:29 +0000 (UTC)
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+To: David Gibson <david@gibson.dropbear.id.au>, jdenemar@redhat.com
+References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <7899d767-8a17-0d50-1893-bc8437978437@redhat.com>
+Date: Wed, 30 Oct 2019 18:32:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Td67mw9xMeye5mdSBmF3Sw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Oct 2019 16:59:29 -0000
-From: Max Reitz <1847793@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: c-paetow dgilbert-h lersek mattihami psyhomb
- sej7278 xanclic
-X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157245477009.19346.5944445835404133345.malone@wampee.canonical.com>
-Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
- install
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 400955cfedcefcbfccd38e65c14ad7ba4915f29c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,86 +74,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a patch for the XFS kernel driver to fix the bug:
-https://www.spinics.net/lists/linux-xfs/msg33429.html
+On 30.10.19 17:32, David Gibson wrote:
+> We have to set the default model of all machine classes, not just for the
+> active one. Otherwise, "query-machines" will indicate the wrong CPU model
+> ("qemu-s390x-cpu" instead of "host-s390x-cpu") as "default-cpu-type".
 
-On the qemu side, we=E2=80=99re still discussing on how to work around the =
-bug
-in the 4.2 release.
+Maybe use ppc CPU models here instead of s390x ones :)
 
-Max
+>=20
+> s390x already fixed this in de60a92e "s390x/kvm: Set default cpu model fo=
+r
+> all machine classes".  This patch applies a similar fix for the pseries-*
+> machine types on ppc64.
+>=20
+> Doing a
+>      {"execute":"query-machines"}
+> under KVM now results in
+>      {
+>        "hotpluggable-cpus": true,
+>        "name": "pseries-4.2",
+>        "numa-mem-supported": true,
+>        "default-cpu-type": "host-powerpc64-cpu",
+>        "is-default": true,
+>        "cpu-max": 1024,
+>        "deprecated": false,
+>        "alias": "pseries"
+>      },
+>      {
+>        "hotpluggable-cpus": true,
+>        "name": "pseries-4.1",
+>        "numa-mem-supported": true,
+>        "default-cpu-type": "host-powerpc64-cpu",
+>        "cpu-max": 1024,
+>        "deprecated": false
+>      },
+>      ...
+>=20
+> Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
+> currently see the wrong CPU model under KVM.
+>=20
+> Reported-by: Ji=C5=99i Denemark <jdenemar@redhat.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> ---
+>   target/ppc/kvm.c | 21 +++++++++++++--------
+>   1 file changed, 13 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 7d2e8969ac..c77f9848ec 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -100,7 +100,7 @@ static bool kvmppc_is_pr(KVMState *ks)
+>       return kvm_vm_check_extension(ks, KVM_CAP_PPC_GET_PVINFO) !=3D 0;
+>   }
+>  =20
+> -static int kvm_ppc_register_host_cpu_type(MachineState *ms);
+> +static int kvm_ppc_register_host_cpu_type(void);
+>   static void kvmppc_get_cpu_characteristics(KVMState *s);
+>   static int kvmppc_get_dec_bits(void);
+>  =20
+> @@ -147,7 +147,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>           exit(1);
+>       }
+>  =20
+> -    kvm_ppc_register_host_cpu_type(ms);
+> +    kvm_ppc_register_host_cpu_type();
+>  =20
+>       return 0;
+>   }
+> @@ -2534,13 +2534,19 @@ PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
+>       return pvr_pcc;
+>   }
+>  =20
+> -static int kvm_ppc_register_host_cpu_type(MachineState *ms)
+> +static void pseries_machine_class_fixup(ObjectClass *oc, void *opaque)
+> +{
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> +
+> +    mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
+> +}
+> +
+> +static int kvm_ppc_register_host_cpu_type(void)
+>   {
+>       TypeInfo type_info =3D {
+>           .name =3D TYPE_HOST_POWERPC_CPU,
+>           .class_init =3D kvmppc_host_cpu_class_init,
+>       };
+> -    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+>       PowerPCCPUClass *pvr_pcc;
+>       ObjectClass *oc;
+>       DeviceClass *dc;
+> @@ -2552,10 +2558,9 @@ static int kvm_ppc_register_host_cpu_type(MachineS=
+tate *ms)
+>       }
+>       type_info.parent =3D object_class_get_name(OBJECT_CLASS(pvr_pcc));
+>       type_register(&type_info);
+> -    if (object_dynamic_cast(OBJECT(ms), TYPE_SPAPR_MACHINE)) {
+> -        /* override TCG default cpu type with 'host' cpu model */
+> -        mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
+> -    }
+> +    /* override TCG default cpu type with 'host' cpu model */
+> +    object_class_foreach(pseries_machine_class_fixup, TYPE_SPAPR_MACHINE=
+,
+> +                         false, NULL);
+>  =20
+>       oc =3D object_class_by_name(type_info.name);
+>       g_assert(oc);
+>=20
 
--- =
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847793
+--=20
 
-Title:
-  qemu 4.1.0 - Corrupt guest filesystem after new vm install
+Thanks,
 
-Status in QEMU:
-  New
+David / dhildenb
 
-Bug description:
-  When I install a new vm with qemu 4.1.0 all the guest filesystems are
-  corrupt. The first boot from the install dvd iso is ok and the
-  installer work fine. But the guest system hangs after the installer
-  finishes and I reboot the guest. I can see the grub boot menue but the
-  system cannot load the initramfs.
-
-  Testet with:
-  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
- and / partition)
-  Guided install with the graphical installer, no lvm selected.
-  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
-  Guidet install with the graphical installer and default options.
-
-  Used commandline to create the vm disk image:
-  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
-
-  Used qemu commandline for vm installation:
-  #!/bin/sh
-  # vmtest10 Installation
-  #
-  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
-      -soundhw hda \
-      -M q35 \
-      -k de \
-      -vga qxl \
-      -machine accel=3Dkvm \
-      -m 4096 \
-      -display gtk \
-      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
-so,if=3Dide,media=3Dcdrom \
-      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
-o,media=3Ddisk,cache=3Dwriteback \
-      -boot once=3Dd,menu=3Doff \
-      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
-      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
-      -rtc base=3Dlocaltime \
-      -name "vmtest10" \
-      -usb -device usb-tablet \
-      -spice disable-ticketing \
-      -device virtio-serial-pci \
-      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
-e.0 \
-      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
-
-  Host OS:
-  Archlinux (last updated at 10.10.2019)
-  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
-19 x86_64 GNU/Linux
-  No libvirt in use.
-
-  =
-
-  With qemu 4.0.0 it works fine without any errors.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
 
