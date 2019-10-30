@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDCCE9920
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 10:27:01 +0100 (CET)
-Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEAFE998E
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 10:54:39 +0100 (CET)
+Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPkFo-0004pB-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 05:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54752)
+	id 1iPkgY-00051U-92
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 05:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iPkEp-0003mX-Ni
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:26:00 -0400
+ (envelope-from <bounces@canonical.com>) id 1iPket-0003tS-Qn
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:52:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iPkEo-0002zM-GX
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:25:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36014)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iPkEo-0002yQ-81
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:25:58 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EAA1537F75
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:25:56 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id g21so351047wmh.8
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 02:25:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X7PMHKifCCjhRv7JinbskbxBcYqirz5tqJQ7vdwlN6w=;
- b=kT8uY1B5Yh5FcTWL4h/9BoYI/77a9vbLuNBiF+i2HtNaWRXo0IsnShtPlgrIabBhLF
- D3sBEpUEAXKpHdrbDZPzpU0nF7bE7HYmLZiU5/cukOwPSa8tmxJCp/zqp4hdOlKRy+aJ
- A4lwmNcxkqqeJCM80B/dZJICyT0KKBtgELxDlKrYbYlJA8uF3rUjaImf0qfHqiJuGznD
- NqkpEGPX0Ll1ojSJJqHoGWJQFy5uWhfp542orROQM5IOxpNwIpuN32uxHhL9St3EI7MK
- VdL9OHxcWKyWGAaZTpmdjxxbeaCxWIi+/W10o38NAMRIgPRNS5CVOx3EA4s7fKGwKXLJ
- BFQA==
-X-Gm-Message-State: APjAAAW8qWe2zCIDeuc23i63LpuonpRwZnrO9gmse/Y11USlOX+UKa9A
- 3VHzS6DzFxpFFMCA1NpYBCqn/u6zPY+CqIGRgmoP91On9hKY5eWkyltPBs7HQj/jLoN/Wz1kl5s
- TqcDH6xfFZYjxw1k=
-X-Received: by 2002:a1c:64d6:: with SMTP id y205mr7499445wmb.136.1572427555691; 
- Wed, 30 Oct 2019 02:25:55 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyp54bv2GbBkD2SAITpng+JkUJFZ5WgbCcNW0BR9g9aPky7HMGR9VM2T2VKNuF/lwM/28y+Eg==
-X-Received: by 2002:a1c:64d6:: with SMTP id y205mr7499416wmb.136.1572427555442; 
- Wed, 30 Oct 2019 02:25:55 -0700 (PDT)
-Received: from [172.20.51.145] ([91.217.168.176])
- by smtp.gmail.com with ESMTPSA id n3sm1790926wrr.50.2019.10.30.02.25.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Oct 2019 02:25:54 -0700 (PDT)
-Subject: Re: [PATCH v11 14/15] hw/i386: Introduce the microvm machine type
-To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
-References: <20191018105315.27511-1-slp@redhat.com>
- <20191018105315.27511-15-slp@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <58f50ece-5fc2-dcad-f367-455d5f58e184@redhat.com>
-Date: Wed, 30 Oct 2019 10:25:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iPkeq-0005g1-9x
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:52:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52974)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iPkcx-0005TS-Ja
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 05:52:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iPkcu-0004MZ-LQ
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:50:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 821B22E80D0
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 09:50:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191018105315.27511-15-slp@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 30 Oct 2019 09:44:14 -0000
+From: tm <1850378@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: riscv
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: palmerdabbelt tm42
+X-Launchpad-Bug-Reporter: tm (tm42)
+X-Launchpad-Bug-Modifier: tm (tm42)
+References: <157235518365.28116.9958641157871998206.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157242865526.28116.241229341660228915.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1850378] Re: RISC-V unreliable IPIs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b9be65af5d5cb36d385f0e05d3078c86e017fd23
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,75 +66,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com, groug@kaod.org,
- marcandre.lureau@gmail.com, kraxel@redhat.com, pbonzini@redhat.com,
- imammedo@redhat.com, sgarzare@redhat.com, lersek@redhat.com, rth@twiddle.net
+Reply-To: Bug 1850378 <1850378@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sergio, Paolo,
+** Description changed:
 
-On 10/18/19 12:53 PM, Sergio Lopez wrote:
-> microvm is a machine type inspired by Firecracker and constructed
-> after its machine model.
-> 
-> It's a minimalist machine type without PCI nor ACPI support, designed
-> for short-lived guests. microvm also establishes a baseline for
-> benchmarking and optimizing both QEMU and guest operating systems,
-> since it is optimized for both boot time and footprint.
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->   default-configs/i386-softmmu.mak |   1 +
->   include/hw/i386/microvm.h        |  71 ++++
->   hw/i386/microvm.c                | 572 +++++++++++++++++++++++++++++++
->   hw/i386/Kconfig                  |  10 +
->   hw/i386/Makefile.objs            |   1 +
->   5 files changed, 655 insertions(+)
->   create mode 100644 include/hw/i386/microvm.h
->   create mode 100644 hw/i386/microvm.c
-> 
-> diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
-> index 4229900f57..4cc64dafa2 100644
-> --- a/default-configs/i386-softmmu.mak
-> +++ b/default-configs/i386-softmmu.mak
-> @@ -28,3 +28,4 @@
->   CONFIG_ISAPC=y
->   CONFIG_I440FX=y
->   CONFIG_Q35=y
-> +CONFIG_MICROVM=y
+  I am working on a project with custom inter processor interrupts (IPIs) o=
+n the RISC-V virt machine.
+  After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (=
+https://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU ho=
+tplug feature.
+  =
 
-Do we want to maintain a 32-bit microvm?
+  However, if I try to use IPIs for communication between two cores, the
+  wfi instruction behaves strangely. Either it does not return, or it
+  returns on timer interrupts, even though they are disabled. The code, I
+  use on one core to wait for an interrupt is the following.
+  =
 
-IIUC the main interest in 64-bit.
+- 	csr_clear(sie, SIE_SEIE | SIE_STIE);
+- 	do {
+- 		wait_for_interrupt();
+- 		sipval =3D csr_read(sip);
+- 		sieval =3D csr_read(sie);
+- 		scauseval =3D csr_read(scause) & 0xFF;
+- 	/* only break if wfi returns for an software interrupt */
+- 	} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
+- 	csr_set(sie, SIE_SEIE | SIE_STIE);
++ =C2=A0csr_clear(sie, SIE_SEIE | SIE_STIE);
++ =C2=A0do {
++ =C2=A0=C2=A0wait_for_interrupt();
++ =C2=A0=C2=A0sipval =3D csr_read(sip);
++ =C2=A0=C2=A0sieval =3D csr_read(sie);
++ =C2=A0=C2=A0scauseval =3D csr_read(scause) & 0xFF;
++ =C2=A0/* only break if wfi returns for an software interrupt */
++ =C2=A0} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
++ =C2=A0csr_set(sie, SIE_SEIE | SIE_STIE);
+  =
 
-Can we restrict it with this change?
+  Since the resulting sequence does not seem to be deterministic, my guess
+  is, that it has something to do with the communication of qemu's threads
+  for the different cores.
++ =
 
--- >8 --
-diff --git a/default-configs/i386-softmmu.mak 
-b/default-configs/i386-softmmu.mak
-index 4cc64dafa2..4229900f57 100644
---- a/default-configs/i386-softmmu.mak
-+++ b/default-configs/i386-softmmu.mak
-@@ -28,4 +28,3 @@
-  CONFIG_ISAPC=y
-  CONFIG_I440FX=y
-  CONFIG_Q35=y
--CONFIG_MICROVM=y
-diff --git a/default-configs/x86_64-softmmu.mak 
-b/default-configs/x86_64-softmmu.mak
-index 64b2ee2960..ef2affe664 100644
---- a/default-configs/x86_64-softmmu.mak
-+++ b/default-configs/x86_64-softmmu.mak
-@@ -1,3 +1,4 @@
-  # Default configuration for x86_64-softmmu
++ Update:
++ The exact same setup works fine in spike (the actual sim, not the qemu bo=
+ard), which might give a hint, that it is related to the interrupt controll=
+er implementation.
 
-  include i386-softmmu.mak
-+CONFIG_MICROVM=y
----
+-- =
 
-Thanks,
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1850378
 
-Phil.
+Title:
+  RISC-V unreliable IPIs
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am working on a project with custom inter processor interrupts (IPIs) o=
+n the RISC-V virt machine.
+  After upgrading from version 3.1.0 to 4.1.0 which fixes a related issue (=
+https://github.com/riscv/riscv-qemu/issues/132) I am able to use the CPU ho=
+tplug feature.
+
+  However, if I try to use IPIs for communication between two cores, the
+  wfi instruction behaves strangely. Either it does not return, or it
+  returns on timer interrupts, even though they are disabled. The code,
+  I use on one core to wait for an interrupt is the following.
+
+  =C2=A0csr_clear(sie, SIE_SEIE | SIE_STIE);
+  =C2=A0do {
+  =C2=A0=C2=A0wait_for_interrupt();
+  =C2=A0=C2=A0sipval =3D csr_read(sip);
+  =C2=A0=C2=A0sieval =3D csr_read(sie);
+  =C2=A0=C2=A0scauseval =3D csr_read(scause) & 0xFF;
+  =C2=A0/* only break if wfi returns for an software interrupt */
+  =C2=A0} while ((sipval & sieval) =3D=3D 0 && scauseval !=3D 1);
+  =C2=A0csr_set(sie, SIE_SEIE | SIE_STIE);
+
+  Since the resulting sequence does not seem to be deterministic, my
+  guess is, that it has something to do with the communication of qemu's
+  threads for the different cores.
+
+  Update:
+  The exact same setup works fine in spike (the actual sim, not the qemu bo=
+ard), which might give a hint, that it is related to the interrupt controll=
+er implementation.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1850378/+subscriptions
 
