@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1987E97DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 09:15:00 +0100 (CET)
-Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A11E97AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 09:11:20 +0100 (CET)
+Received: from localhost ([::1]:37696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPj87-0003GP-HR
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 04:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37117)
+	id 1iPj4Y-0001W7-RO
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 04:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wang.yi59@zte.com.cn>) id 1iPj7J-0002b0-KR
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:14:10 -0400
+ (envelope-from <geoff@hostfission.com>) id 1iPj3Z-0000xr-PW
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:10:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wang.yi59@zte.com.cn>) id 1iPj7H-00013c-Q3
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:14:09 -0400
-Received: from out1.zte.com.cn ([202.103.147.172]:41000 helo=mxct.zte.com.cn)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wang.yi59@zte.com.cn>)
- id 1iPj7H-0000gm-EJ
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:14:07 -0400
-Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
- by Forcepoint Email with ESMTPS id AC843CB086ADFCEB0E4D;
- Wed, 30 Oct 2019 16:07:04 +0800 (CST)
-Received: from notes_smtp.zte.com.cn (notessmtp.zte.com.cn [10.30.1.239])
- by mse-fl2.zte.com.cn with ESMTP id x9U86pDr077982;
- Wed, 30 Oct 2019 16:06:51 +0800 (GMT-8)
- (envelope-from wang.yi59@zte.com.cn)
-Received: from fox-host8.localdomain ([10.74.120.8])
- by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
- with ESMTP id 2019103016071191-197903 ;
- Wed, 30 Oct 2019 16:07:11 +0800 
-From: Yi Wang <wang.yi59@zte.com.cn>
-To: mst@redhat.com
-Subject: [PATCH] virtio: add check for inconsistent VQ in virtio_save()
-Date: Wed, 30 Oct 2019 16:09:47 +0800
-Message-Id: <1572422987-19683-1-git-send-email-wang.yi59@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release
- 8.5.3FP6|November 21, 2013) at 2019-10-30 16:07:11,
- Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2019-10-30 16:06:54, Serialize complete at 2019-10-30 16:06:54
-X-MAIL: mse-fl2.zte.com.cn x9U86pDr077982
+ (envelope-from <geoff@hostfission.com>) id 1iPj3Y-0004ae-H1
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:10:17 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:40226)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <geoff@hostfission.com>) id 1iPj3X-0004ZC-VJ
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 04:10:16 -0400
+Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
+ by mail1.hostfission.com (Postfix) with ESMTP id AA96B4BA4C
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 19:10:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
+ s=mail; t=1572423013;
+ bh=R6arvBKnPbqKU5ZcOWa2cn9Kki7DOeNMPrQuxC1gUVA=;
+ h=To:Subject:Date:From:In-Reply-To:References:From;
+ b=XGUT4VFZM5dDKcL5/tdqgFPJP1uJ0pC5Lv8MPgoso4+f43UljPa01NhSHO/u6ziQi
+ xyVgp/qv0pRlWKEMQwMu0r3L3KL2zuGXFMdjOgHU9yoKtJ9uh4L6u9BJ1nLN5SvrJ0
+ ofiEkCRRAe+hL/JaEoKsEaGPPaWgftTQ8a26X5XE=
+Received: by www1.hostfission.com (Postfix, from userid 1000)
+ id A85CD83F86; Wed, 30 Oct 2019 19:10:13 +1100 (AEDT)
+To: qemu-devel@nongnu.org
+Subject: Re: RFC: New device for zero-copy VM memory access
+X-PHP-Originating-Script: 0:rcube.php
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 30 Oct 2019 19:10:13 +1100
+From: geoff@hostfission.com
+In-Reply-To: <028c23b219913d1f734d95a05d2b5809@hostfission.com>
+References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
+ <028c23b219913d1f734d95a05d2b5809@hostfission.com>
+Message-ID: <7d2b69593ebeff8238e5f642ca58661f@hostfission.com>
+X-Sender: geoff@hostfission.com
+User-Agent: Roundcube Webmail/1.2.3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 202.103.147.172
+X-Received-From: 139.99.139.48
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,47 +61,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wang.yi59@zte.com.cn, wang.liang82@zte.com.cn,
- Cheng Lin <cheng.lin130@zte.com.cn>, qemu-devel@nongnu.org,
- xue.zhihong@zte.com.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cheng Lin <cheng.lin130@zte.com.cn>
+The windows driver source is now available also.
 
-In a case, we have an not enabled VQ (virtio-net) which desc is NULL
-and get a last_avail_idx is not 0 from dpdk.
+https://github.com/gnif/Porthole-Guest-Driver
 
-As a result, it is successed to create a snapshot, but failed to revert it.
-Because in virtio_load(), there is an inconsistent check for VQ.
-(call virtio_load() in revert, and virtio_save() in create.)
+I have also opted to rename the device to 'porthole', hopefully this 
+name is
+acceptable.
 
-Correspondly, in virtio_save() should also do this check to find the error
-as early as possible.
-
-Signed-off-by: Cheng Lin <cheng.lin130@zte.com.cn>
----
- hw/virtio/virtio.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 2e91dec..eadbf64 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2792,6 +2792,12 @@ int virtio_save(VirtIODevice *vdev, QEMUFile *f)
-          * Save desc now, the rest of the ring addresses are saved in
-          * subsections for VIRTIO-1 devices.
-          */
-+        if (!vdev->vq[i].vring.desc && vdev->vq[i].last_avail_idx) {
-+            error_report("VQ %d address 0x0 "
-+                         "inconsistent with Host index 0x%x",
-+                         i, vdev->vq[i].last_avail_idx);
-+            return -1;
-+        }
-         qemu_put_be64(f, vdev->vq[i].vring.desc);
-         qemu_put_be16s(f, &vdev->vq[i].last_avail_idx);
-         if (k->save_queue) {
--- 
-2.7.2.windows.1
-
+On 2019-10-30 09:53, geoff@hostfission.com wrote:
+> Just to follow this up, here is a sample client application for this 
+> device
+> 
+> https://gist.github.com/gnif/77e7fb54604b42a1a98ecb8bf3d2cf46
+> 
+> -Geoff
+> 
+> On 2019-10-30 01:31, geoff@hostfission.com wrote:
+>> Hi All,
+>> 
+>> Over the past week, I have been working to come up with a solution to 
+>> the
+>> memory transfer performance issues that hinder the Looking Glass 
+>> Project.
+>> 
+>> Currently Looking Glass works by using the IVSHMEM shared memory 
+>> device which
+>> is fed by an application that captures the guest's video output. While 
+>> this
+>> works it is sub-optimal because we first have to perform a CPU copy of 
+>> the
+>> captured frame into shared RAM, and then back out again for display. 
+>> Because
+>> the destination buffers are allocated by closed proprietary code 
+>> (DirectX, or
+>> NVidia NvFBC) there is no way to have the frame placed directly into 
+>> the
+>> IVSHMEM shared ram.
+>> 
+>> This new device, currently named `introspection` (which needs a more 
+>> suitable
+>> name, porthole perhaps?), provides a means of translating guest 
+>> physical
+>> addresses to host virtual addresses, and finally to the host offsets 
+>> in RAM for
+>> file-backed memory guests. It does this by means of a simple protocol 
+>> over a
+>> unix socket (chardev) which is supplied the appropriate fd for the 
+>> VM's system
+>> RAM. The guest (in this case, Windows), when presented with the 
+>> address of a
+>> userspace buffer and size, will mlock the appropriate pages into RAM 
+>> and pass
+>> guest physical addresses to the virtual device.
+>> 
+>> This device and the windows driver have been designed in such a way 
+>> that it's a
+>> utility device for any project and/or application that could make use 
+>> of it.
+>> The PCI subsystem vendor and device ID are used to provide a means of 
+>> device
+>> identification in cases where multiple devices may be in use for 
+>> differing
+>> applications. This also allows one common driver to be used for any 
+>> other
+>> projects wishing to build on this device.
+>> 
+>> My ultimate goal is to get this to a state where it could be accepted 
+>> upstream
+>> into Qemu at which point Looking Glass would be modified to use it 
+>> instead of
+>> the IVSHMEM device.
+>> 
+>> My git repository with the new device can be found at:
+>> https://github.com/gnif/qemu
+>> 
+>> The new device is:
+>> https://github.com/gnif/qemu/blob/master/hw/misc/introspection.c
+>> 
+>> Looking Glass:
+>> https://looking-glass.hostfission.com/
+>> 
+>> The windows driver, while working, needs some cleanup before the 
+>> source is
+>> published. I intend to maintain both this device and the windows 
+>> driver
+>> including producing a signed Windows 10 driver if Redhat are unwilling 
+>> or
+>> unable.
+>> 
+>> Kind Regards,
+>> Geoffrey McRae
+>> 
+>> HostFission
+>> https://hostfission.com
 
