@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056B3EA4E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 21:42:52 +0100 (CET)
-Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85F2EA4F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 21:47:51 +0100 (CET)
+Received: from localhost ([::1]:44198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPunq-0007ZD-Au
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 16:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47541)
+	id 1iPusg-0004hg-4f
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 16:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iPsPv-0003ux-91
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:10:00 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iPsWK-0000g4-A1
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:16:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iPsPs-0006SY-TW
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:09:58 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42804)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iPsPs-0006Pq-MP
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:09:56 -0400
-Received: by mail-wr1-x431.google.com with SMTP id a15so3378359wrf.9
- for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 11:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xSeZDkLwEVTssoJX+QVCXaZ98b8wT4AcO2nXdLSZxaw=;
- b=TWHVRa35v4AixZFOiLu4/cO6GeQAwV/NZ2/ajz4MlIjP2dkxbT+dRhOQ68mdvbpwJx
- Iup+FQc5bw3Lh7BoWtzthHXZm8KrNw9dBxskYgzu3Q42+k2FWY7+m3vsPLLJBy4aFr0L
- UTgAFUPkMZFy0PZltQ377wrLe13KgW6rjYVSBo8kLp4ORUhH27ttKSJiaj7j9wA/nodU
- P/bncRi3EouuYhAbjjinHRHQbwwMNpPh44FTOscM0qNwOYVmUiZ0fJA4d7yoazWkx+Ti
- WjU6a8SzUC/kdfQG9s+qDXQMhpqmi0MgLi7lwG2MXaNTTNwrmZcrndQS4mgqtNJD9C5I
- KuRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=xSeZDkLwEVTssoJX+QVCXaZ98b8wT4AcO2nXdLSZxaw=;
- b=K88cb7BEXxhKvHyUJh53qQBet14UVCs7yCveBfxfrZpSW8E1M2ZkbdamUZ6WT5+ojx
- 9abEnpNHuL1yiS38H4L4bJo2zrrVRFStGHUPpWKomB21taGY8vbD/ZnmPGtACGDk/SKb
- SmAkMB0mTFdxvOCXnuiorthcFRTjAir/iTOACzysMKbIxX5ec2nke+ays0F5VjX4OD3B
- XOzM9JlAsXrHb7mrxbk+c05WGH/ib6U64+mXD9p1PiDG7jadDWVMg7zN3BJnA2xTqfsu
- iGnQHfEoo9JgjAY31ilQ8VYXDCT9SYAFnW6Rwst+GIu9IT0iOfYc9hjyPdHoXr1LvY4h
- JH7Q==
-X-Gm-Message-State: APjAAAVnSzXTcBdOiMQgRbk3HX/fwVpX/UHXlwAXa2yqyI9NsfgzevvY
- 9I5Cjv85wo9rJKcFCzN440lDfenB60xYAQ==
-X-Google-Smtp-Source: APXvYqwJ+B6TDXpppKhnSEfb4Nla57J/ixTtejirq+ZfBrJ9DxpficQlTSplA7/RTtiV9KdixK7Ebg==
-X-Received: by 2002:a05:6000:350:: with SMTP id
- e16mr1201569wre.276.1572458995071; 
- Wed, 30 Oct 2019 11:09:55 -0700 (PDT)
-Received: from localhost.localdomain (248.42.142.88.rev.sfr.net.
- [88.142.42.248])
- by smtp.gmail.com with ESMTPSA id t133sm6931299wmb.1.2019.10.30.11.09.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Oct 2019 11:09:54 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL for-4.2 1/1] softfp: Added hardfloat conversion from float32 to
- float64
-Date: Wed, 30 Oct 2019 19:09:53 +0100
-Message-Id: <20191030180953.24180-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191030180953.24180-1-richard.henderson@linaro.org>
-References: <20191030180953.24180-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::431
+ (envelope-from <no-reply@patchew.org>) id 1iPsWI-0005OA-Qa
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:16:36 -0400
+Resent-Date: Wed, 30 Oct 2019 14:16:35 -0400
+Resent-Message-Id: <E1iPsWI-0005OA-Qa@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21498)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iPsWI-0005AL-Gf; Wed, 30 Oct 2019 14:16:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1572459362; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mOui3O2qENNfCiq1EKD0gjPVsjlM7kLnmKx76v8Fa779lKWz/ark9F380xljVzDMvrt0hRAr9S+qnr+AuPkNgDZcWnZj59aL5ygbjJiG4LxXUMVH51w26YugTYiUequzDJgxDjltiyW6zhYdRRFeVQ7p/W5x8blTdevIWbiqao0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1572459362;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=DGpW49Y3Z6FSmGuBbUXrJJ2aX3IcvtXzxxJlx8CSsUk=; 
+ b=l3Fff+ftyLij503qtRhOZr+6JDwHN9+n0WkzVU274xaHUV/NL38wp1QeOBiHvsFdyL4BoSBfScC4zGGsZwCk9Zvo9Euk1NaTyCZe5DPbvDPerYvWP1y25Ty1Ul6itdU7ye2xG7vwz8KhisCgj9DxTj8bjXXZzwvMRI/nx61v/dU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1572459360231820.7963289863864;
+ Wed, 30 Oct 2019 11:16:00 -0700 (PDT)
+In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+Message-ID: <157245935866.32191.1330059175509539647@37313f22b938>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: david@gibson.dropbear.id.au
+Date: Wed, 30 Oct 2019 11:16:00 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,65 +63,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Matus Kysel <mkysel@tachyum.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: david@redhat.com, groug@kaod.org, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, imammedo@redhat.com, jdenemar@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matus Kysel <mkysel@tachyum.com>
-
-Reintroduce float32_to_float64 that was removed here:
-https://lists.gnu.org/archive/html/qemu-devel/2018-04/msg00455.html
-
- - nbench test it not actually calling this function at all
- - SPECS 2006 significat number of tests impoved their runtime, just
-   few of them showed small slowdown
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Matus Kysel <mkysel@tachyum.com>
-Message-Id: <20191017142133.59439-1-mkysel@tachyum.com>
-[rth: Add comment about impossible inexact exceptions.]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- fpu/softfloat.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 0638c9f4e0..301ce3b537 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -1920,13 +1920,30 @@ float16 float32_to_float16(float32 a, bool ieee, float_status *s)
-     return float16a_round_pack_canonical(pr, s, fmt16);
- }
- 
--float64 float32_to_float64(float32 a, float_status *s)
-+static float64 QEMU_SOFTFLOAT_ATTR
-+soft_float32_to_float64(float32 a, float_status *s)
- {
-     FloatParts p = float32_unpack_canonical(a, s);
-     FloatParts pr = float_to_float(p, &float64_params, s);
-     return float64_round_pack_canonical(pr, s);
- }
- 
-+float64 float32_to_float64(float32 a, float_status *s)
-+{
-+    if (likely(float32_is_normal(a))) {
-+        /* Widening conversion can never produce inexact results.  */
-+        union_float32 uf;
-+        union_float64 ud;
-+        uf.s = a;
-+        ud.h = uf.h;
-+        return ud.s;
-+    } else if (float32_is_zero(a)) {
-+        return float64_set_sign(float64_zero, float32_is_neg(a));
-+    } else {
-+        return soft_float32_to_float64(a, s);
-+    }
-+}
-+
- float16 float64_to_float16(float64 a, bool ieee, float_status *s)
- {
-     const FloatFmt *fmt16 = ieee ? &float16_params : &float16_params_ahp;
--- 
-2.17.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAzMDE2MzI0My4xMDY0
+NC0xLWRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
+ZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0
+ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tl
+ciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRv
+czcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9X
+X0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAg
+Y2hlY2stdW5pdDogdGVzdHMvdGVzdC10aHJvdHRsZQogIFRFU1QgICAgY2hlY2stdW5pdDogdGVz
+dHMvdGVzdC10aHJlYWQtcG9vbAoqKgpFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvbWln
+cmF0aW9uLXRlc3QuYzo5MDM6d2FpdF9mb3JfbWlncmF0aW9uX2ZhaWw6IGFzc2VydGlvbiBmYWls
+ZWQ6ICghc3RyY21wKHN0YXR1cywgInNldHVwIikgfHwgIXN0cmNtcChzdGF0dXMsICJmYWlsZWQi
+KSB8fCAoYWxsb3dfYWN0aXZlICYmICFzdHJjbXAoc3RhdHVzLCAiYWN0aXZlIikpKQpFUlJPUiAt
+IEJhaWwgb3V0ISBFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvbWlncmF0aW9uLXRlc3Qu
+Yzo5MDM6d2FpdF9mb3JfbWlncmF0aW9uX2ZhaWw6IGFzc2VydGlvbiBmYWlsZWQ6ICghc3RyY21w
+KHN0YXR1cywgInNldHVwIikgfHwgIXN0cmNtcChzdGF0dXMsICJmYWlsZWQiKSB8fCAoYWxsb3df
+YWN0aXZlICYmICFzdHJjbXAoc3RhdHVzLCAiYWN0aXZlIikpKQptYWtlOiAqKiogW2NoZWNrLXF0
+ZXN0LWFhcmNoNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9i
+cy4uLi4KICBURVNUICAgIGNoZWNrLXVuaXQ6IHRlc3RzL3Rlc3QtaGJpdG1hcAogIFRFU1QgICAg
+Y2hlY2stdW5pdDogdGVzdHMvdGVzdC1iZHJ2LWRyYWluCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJv
+Y2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENv
+bW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFl
+bXUuaW5zdGFuY2UudXVpZD1mMzRlZTg2OWY5OGY0ZDhmYjg5ZjRjY2U0Y2RhY2EwNScsICctdScs
+ICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywg
+Jy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUn
+LCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScs
+ICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3
+Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92
+YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC14aXFvOW5kbS9zcmMvZG9ja2VyLXNyYy4yMDE5LTEw
+LTMwLTE0LjA2LjUwLjI1NjEzOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAn
+L3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0
+IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1m
+MzRlZTg2OWY5OGY0ZDhmYjg5ZjRjY2U0Y2RhY2EwNQptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5d
+IEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVz
+dGVyLXRtcC14aXFvOW5kbS9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNl
+bnRvczddIEVycm9yIDIKCnJlYWwgICAgOW05LjI2OHMKdXNlciAgICAwbTguNjQ2cwoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEwMzAx
+NjMyNDMuMTA2NDQtMS1kYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXUvdGVzdGluZy5kb2NrZXIt
+cXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
+Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
+IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
