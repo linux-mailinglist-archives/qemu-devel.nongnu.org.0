@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FAEEA3AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 19:57:59 +0100 (CET)
-Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46FFEA391
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Oct 2019 19:44:44 +0100 (CET)
+Received: from localhost ([::1]:43364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iPtAM-0004w4-2B
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 14:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40775)
+	id 1iPsxW-00052m-NA
+	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 14:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54642)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iPrpr-000529-1s
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:32:44 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iPsv9-0002ol-Dr
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:42:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iPrpo-0003Js-77
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:32:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26637
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iPsv6-00070Z-Im
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:42:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39490
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iPrpo-0003If-0H
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 13:32:40 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iPsv5-0006ya-VB
+ for qemu-devel@nongnu.org; Wed, 30 Oct 2019 14:42:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572456758;
+ s=mimecast20190719; t=1572460929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vFPWQ4hku5UrfMDQUlywWJpzED7nJAf6sv+yEZ7SyGA=;
- b=coGLl8hmRoUodPEspUTltXx9PcqI+lY8U7v0plZgVicQrXU5KEXWq4hvwJYlI1UzsHzAuj
- Ows6+0LLi5JtlgX6fkwb4jfrdE4Q03bvxIbOCics6ORNrQLwCt7PvbwoSeOmzj9Q/0qnp3
- vCjbShHBkzSETFxD/iGd0Yof28ATdMI=
+ bh=9eOsO/UJAPB6WENOx1Bv6tDiipjFT6VXWNeQ9oqLKsI=;
+ b=Ur2hkmJcHFTnDyLvA3Lk1koh+0tnORbcsTH1U7v4hs6hvuhzrv7GnGmeXF526+SsDH6zqb
+ l6fdIw/4vmXf9rO5hqw4bYbEwSzmAqbadZAOcIvfc5xnSQ2BeZ8VVOy+DvWg/Nw/aYvUMA
+ qtiEKjSuTmhBm0+AY8P+TJuxWs6/Njk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-Td67mw9xMeye5mdSBmF3Sw-1; Wed, 30 Oct 2019 13:32:34 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-191-QzByF1NFPMeH_3O5zV5Gnw-1; Wed, 30 Oct 2019 14:42:04 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 673351800D56;
- Wed, 30 Oct 2019 17:32:33 +0000 (UTC)
-Received: from [10.36.116.178] (ovpn-116-178.ams2.redhat.com [10.36.116.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACCFA1A7E5;
- Wed, 30 Oct 2019 17:32:29 +0000 (UTC)
-Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
-To: David Gibson <david@gibson.dropbear.id.au>, jdenemar@redhat.com
-References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <7899d767-8a17-0d50-1893-bc8437978437@redhat.com>
-Date: Wed, 30 Oct 2019 18:32:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B037107ACC0
+ for <qemu-devel@nongnu.org>; Wed, 30 Oct 2019 18:42:03 +0000 (UTC)
+Received: from work-vm (ovpn-116-18.ams2.redhat.com [10.36.116.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E200510016DA;
+ Wed, 30 Oct 2019 18:41:56 +0000 (UTC)
+Date: Wed, 30 Oct 2019 18:41:53 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/2] tests/fw_cfg: Test 'reboot-timeout=-1' special value
+Message-ID: <20191030184153.GB3114@work-vm>
+References: <20191029170124.27981-1-philmd@redhat.com>
+ <20191029170124.27981-3-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Td67mw9xMeye5mdSBmF3Sw-1
+In-Reply-To: <20191029170124.27981-3-philmd@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: QzByF1NFPMeH_3O5zV5Gnw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,125 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- qemu-ppc@nongnu.org, groug@kaod.org, clg@kaod.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.10.19 17:32, David Gibson wrote:
-> We have to set the default model of all machine classes, not just for the
-> active one. Otherwise, "query-machines" will indicate the wrong CPU model
-> ("qemu-s390x-cpu" instead of "host-s390x-cpu") as "default-cpu-type".
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> The special value -1 means "don't reboot" for QEMU/libvirt.
+> Add a trivial test.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Maybe use ppc CPU models here instead of s390x ones :)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
->=20
-> s390x already fixed this in de60a92e "s390x/kvm: Set default cpu model fo=
-r
-> all machine classes".  This patch applies a similar fix for the pseries-*
-> machine types on ppc64.
->=20
-> Doing a
->      {"execute":"query-machines"}
-> under KVM now results in
->      {
->        "hotpluggable-cpus": true,
->        "name": "pseries-4.2",
->        "numa-mem-supported": true,
->        "default-cpu-type": "host-powerpc64-cpu",
->        "is-default": true,
->        "cpu-max": 1024,
->        "deprecated": false,
->        "alias": "pseries"
->      },
->      {
->        "hotpluggable-cpus": true,
->        "name": "pseries-4.1",
->        "numa-mem-supported": true,
->        "default-cpu-type": "host-powerpc64-cpu",
->        "cpu-max": 1024,
->        "deprecated": false
->      },
->      ...
->=20
-> Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
-> currently see the wrong CPU model under KVM.
->=20
-> Reported-by: Ji=C5=99i Denemark <jdenemar@redhat.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
 > ---
->   target/ppc/kvm.c | 21 +++++++++++++--------
->   1 file changed, 13 insertions(+), 8 deletions(-)
+>  tests/fw_cfg-test.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >=20
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 7d2e8969ac..c77f9848ec 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -100,7 +100,7 @@ static bool kvmppc_is_pr(KVMState *ks)
->       return kvm_vm_check_extension(ks, KVM_CAP_PPC_GET_PVINFO) !=3D 0;
->   }
->  =20
-> -static int kvm_ppc_register_host_cpu_type(MachineState *ms);
-> +static int kvm_ppc_register_host_cpu_type(void);
->   static void kvmppc_get_cpu_characteristics(KVMState *s);
->   static int kvmppc_get_dec_bits(void);
->  =20
-> @@ -147,7 +147,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->           exit(1);
->       }
->  =20
-> -    kvm_ppc_register_host_cpu_type(ms);
-> +    kvm_ppc_register_host_cpu_type();
->  =20
->       return 0;
->   }
-> @@ -2534,13 +2534,19 @@ PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
->       return pvr_pcc;
->   }
->  =20
-> -static int kvm_ppc_register_host_cpu_type(MachineState *ms)
-> +static void pseries_machine_class_fixup(ObjectClass *oc, void *opaque)
+> diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
+> index 1d3147f821..5dc807ba23 100644
+> --- a/tests/fw_cfg-test.c
+> +++ b/tests/fw_cfg-test.c
+> @@ -194,6 +194,26 @@ static void test_fw_cfg_reboot_timeout(void)
+>      qtest_quit(s);
+>  }
+> =20
+> +static void test_fw_cfg_no_reboot_timeout(void)
 > +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> +    QFWCFG *fw_cfg;
+> +    QTestState *s;
+> +    uint32_t reboot_timeout =3D 0;
+> +    size_t filesize;
 > +
-> +    mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
+> +    /* Special value -1 means "don't reboot" */
+> +    s =3D qtest_init("-boot reboot-timeout=3D-1");
+> +    fw_cfg =3D pc_fw_cfg_init(s);
+> +
+> +    filesize =3D qfw_cfg_get_file(fw_cfg, "etc/boot-fail-wait",
+> +                                &reboot_timeout, sizeof(reboot_timeout))=
+;
+> +    g_assert_cmpint(filesize, =3D=3D, sizeof(reboot_timeout));
+> +    reboot_timeout =3D le32_to_cpu(reboot_timeout);
+> +    g_assert_cmpint(reboot_timeout, =3D=3D, UINT32_MAX);
+> +    pc_fw_cfg_uninit(fw_cfg);
+> +    qtest_quit(s);
 > +}
 > +
-> +static int kvm_ppc_register_host_cpu_type(void)
->   {
->       TypeInfo type_info =3D {
->           .name =3D TYPE_HOST_POWERPC_CPU,
->           .class_init =3D kvmppc_host_cpu_class_init,
->       };
-> -    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
->       PowerPCCPUClass *pvr_pcc;
->       ObjectClass *oc;
->       DeviceClass *dc;
-> @@ -2552,10 +2558,9 @@ static int kvm_ppc_register_host_cpu_type(MachineS=
-tate *ms)
->       }
->       type_info.parent =3D object_class_get_name(OBJECT_CLASS(pvr_pcc));
->       type_register(&type_info);
-> -    if (object_dynamic_cast(OBJECT(ms), TYPE_SPAPR_MACHINE)) {
-> -        /* override TCG default cpu type with 'host' cpu model */
-> -        mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
-> -    }
-> +    /* override TCG default cpu type with 'host' cpu model */
-> +    object_class_foreach(pseries_machine_class_fixup, TYPE_SPAPR_MACHINE=
-,
-> +                         false, NULL);
->  =20
->       oc =3D object_class_by_name(type_info.name);
->       g_assert(oc);
+>  static void test_fw_cfg_splash_time(void)
+>  {
+>      QFWCFG *fw_cfg;
+> @@ -233,6 +253,7 @@ int main(int argc, char **argv)
+>      qtest_add_func("fw_cfg/numa", test_fw_cfg_numa);
+>      qtest_add_func("fw_cfg/boot_menu", test_fw_cfg_boot_menu);
+>      qtest_add_func("fw_cfg/reboot_timeout", test_fw_cfg_reboot_timeout);
+> +    qtest_add_func("fw_cfg/no_reboot_timeout", test_fw_cfg_no_reboot_tim=
+eout);
+>      qtest_add_func("fw_cfg/splash_time", test_fw_cfg_splash_time);
+> =20
+>      return g_test_run();
+> --=20
+> 2.21.0
 >=20
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
---=20
-
-Thanks,
-
-David / dhildenb
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
