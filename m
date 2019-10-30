@@ -2,66 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96F9F0FF3
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 08:09:39 +0100 (CET)
-Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9DCF1043
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 08:30:29 +0100 (CET)
+Received: from localhost ([::1]:53368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSFRi-0007gA-TW
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 02:09:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53739)
+	id 1iSFls-0005bH-U5
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 02:30:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iSFPV-00063O-Qj
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 02:07:22 -0500
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1iSFkp-0004hY-87
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 02:29:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iSFPT-0006Gd-TL
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 02:07:21 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52219
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iSFPT-0006GT-Pv
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 02:07:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573024039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ePN88b0QkOKd74gcPuLwNtjXKxdkX8YmnSFh4CTvwJg=;
- b=PPm5DLjVTIGcPIPuavFUYcR4DqVH/ZTm54dCculTSfri5RlNlyIY8xVOOG6OjUF/EaDrJE
- dAmwDE71nIkBySpK8S53i1EwyLX/LVZNFsaHZNtjdae6dioq+a71aa8JMPiDBjUOTX/063
- eBkVv52gam6BTWPcxQCrmolNodBJOo4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-8o_EZZSKOnm-qFjmdpNg2w-1; Wed, 06 Nov 2019 02:07:18 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 054211005500;
- Wed,  6 Nov 2019 07:07:17 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
- [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D49905D713;
- Wed,  6 Nov 2019 07:07:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7D2EE9D23; Wed,  6 Nov 2019 08:07:12 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1iSFkn-0001Dr-NV
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 02:29:23 -0500
+Received: from [192.146.154.1] (port=26291 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1iSFkn-0001Dh-Fl
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 02:29:21 -0500
+Received: from localhost.corp.nutanix.com (unknown [10.40.36.164])
+ by mcp01.nutanix.com (Postfix) with ESMTP id 049B81007D25;
+ Wed,  6 Nov 2019 07:29:20 +0000 (UTC)
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] qemu-options: Rework the help text of the '-display' option
-Date: Wed,  6 Nov 2019 08:07:12 +0100
-Message-Id: <20191106070712.2679-2-kraxel@redhat.com>
-In-Reply-To: <20191106070712.2679-1-kraxel@redhat.com>
-References: <20191106070712.2679-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 8o_EZZSKOnm-qFjmdpNg2w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH] vhost-user: Refractor vhost_user_set_mem_table Functions
+Date: Wed, 30 Oct 2019 19:12:05 -0400
+Message-Id: <1572477125-25344-2-git-send-email-raphael.norwitz@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1572477125-25344-1-git-send-email-raphael.norwitz@nutanix.com>
+References: <1572477125-25344-1-git-send-email-raphael.norwitz@nutanix.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 192.146.154.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,88 +45,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <huth@tuxfamily.org>
+vhost_user_set_mem_table() and vhost_user_set_mem_table_postcopy()
+have gotten convoluted, and have some identical code.
 
-Improve the help text of the "-display" option:
+This change moves the logic populating the VhostUserMemory struct
+and fds array from vhost_user_set_mem_table() and
+vhost_user_set_mem_table_postcopy() to a new function,
+vhost_user_fill_set_mem_table_msg().
 
-- Only print the options that we have enabled in the binary
-  (similar to what we do for other options like -netdev already)
+No functionality is impacted.
 
-- The "frame=3Don|off" from "-display sdl" has been removed in commit
-  09bd7ba9f5f7 ("Remove deprecated -no-frame option"), so we should
-  not show this in the help text anymore
-
-- The "-display egl-headless" line was missing a "\n" at the end
-
-- Indent the default display text in a nicer way
-
-Signed-off-by: Thomas Huth <huth@tuxfamily.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20191023120129.13721-1-huth@tuxfamily.org
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- qemu-options.hx | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+ hw/virtio/vhost-user.c | 140 +++++++++++++++++++++++--------------------------
+ 1 file changed, 65 insertions(+), 75 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 1fc2470e2fd4..637597d0d95e 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1546,26 +1546,38 @@ STEXI
- ETEXI
-=20
- DEF("display", HAS_ARG, QEMU_OPTION_display,
-+#if defined(CONFIG_SPICE)
-     "-display spice-app[,gl=3Don|off]\n"
--    "-display sdl[,frame=3Don|off][,alt_grab=3Don|off][,ctrl_grab=3Don|off=
-]\n"
-+#endif
-+#if defined(CONFIG_SDL)
-+    "-display sdl[,alt_grab=3Don|off][,ctrl_grab=3Don|off]\n"
-     "            [,window_close=3Don|off][,gl=3Don|core|es|off]\n"
-+#endif
-+#if defined(CONFIG_GTK)
-     "-display gtk[,grab_on_hover=3Don|off][,gl=3Don|off]|\n"
-+#endif
-+#if defined(CONFIG_VNC)
-     "-display vnc=3D<display>[,<optargs>]\n"
-+#endif
-+#if defined(CONFIG_CURSES)
-     "-display curses[,charset=3D<encoding>]\n"
-+#endif
-+#if defined(CONFIG_OPENGL)
-+    "-display egl-headless[,rendernode=3D<file>]\n"
-+#endif
-     "-display none\n"
--    "-display egl-headless[,rendernode=3D<file>]"
--    "                select display type\n"
--    "The default display is equivalent to\n"
-+    "                select display backend type\n"
-+    "                The default display is equivalent to\n               =
- "
- #if defined(CONFIG_GTK)
--            "\t\"-display gtk\"\n"
-+            "\"-display gtk\"\n"
- #elif defined(CONFIG_SDL)
--            "\t\"-display sdl\"\n"
-+            "\"-display sdl\"\n"
- #elif defined(CONFIG_COCOA)
--            "\t\"-display cocoa\"\n"
-+            "\"-display cocoa\"\n"
- #elif defined(CONFIG_VNC)
--            "\t\"-vnc localhost:0,to=3D99,id=3Ddefault\"\n"
-+            "\"-vnc localhost:0,to=3D99,id=3Ddefault\"\n"
- #else
--            "\t\"-display none\"\n"
-+            "\"-display none\"\n"
- #endif
-     , QEMU_ARCH_ALL)
- STEXI
---=20
-2.18.1
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 02a9b25..183587e 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -405,31 +405,16 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+     return 0;
+ }
+ 
+-static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
+-                                             struct vhost_memory *mem)
++static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
++                                             struct vhost_dev *dev,
++                                             struct VhostUserMsg *msg,
++                                             int *fds,
++                                             size_t *fd_num,
++                                             bool postcopy)
+ {
+-    struct vhost_user *u = dev->opaque;
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
+     int i, fd;
+-    size_t fd_num = 0;
+-    VhostUserMsg msg_reply;
+-    int region_i, msg_i;
+ 
+-    VhostUserMsg msg = {
+-        .hdr.request = VHOST_USER_SET_MEM_TABLE,
+-        .hdr.flags = VHOST_USER_VERSION,
+-    };
+-
+-    if (u->region_rb_len < dev->mem->nregions) {
+-        u->region_rb = g_renew(RAMBlock*, u->region_rb, dev->mem->nregions);
+-        u->region_rb_offset = g_renew(ram_addr_t, u->region_rb_offset,
+-                                      dev->mem->nregions);
+-        memset(&(u->region_rb[u->region_rb_len]), '\0',
+-               sizeof(RAMBlock *) * (dev->mem->nregions - u->region_rb_len));
+-        memset(&(u->region_rb_offset[u->region_rb_len]), '\0',
+-               sizeof(ram_addr_t) * (dev->mem->nregions - u->region_rb_len));
+-        u->region_rb_len = dev->mem->nregions;
+-    }
++    msg->hdr.request = VHOST_USER_SET_MEM_TABLE;
+ 
+     for (i = 0; i < dev->mem->nregions; ++i) {
+         struct vhost_memory_region *reg = dev->mem->regions + i;
+@@ -441,37 +426,75 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
+                                      &offset);
+         fd = memory_region_get_fd(mr);
+         if (fd > 0) {
+-            trace_vhost_user_set_mem_table_withfd(fd_num, mr->name,
+-                                                  reg->memory_size,
+-                                                  reg->guest_phys_addr,
+-                                                  reg->userspace_addr, offset);
+-            u->region_rb_offset[i] = offset;
+-            u->region_rb[i] = mr->ram_block;
+-            msg.payload.memory.regions[fd_num].userspace_addr =
++            if (postcopy) {
++                trace_vhost_user_set_mem_table_withfd(*fd_num, mr->name,
++                                                      reg->memory_size,
++                                                      reg->guest_phys_addr,
++                                                      reg->userspace_addr, offset);
++                u->region_rb_offset[i] = offset;
++                u->region_rb[i] = mr->ram_block;
++            } else if (*fd_num == VHOST_MEMORY_MAX_NREGIONS) {
++                error_report("Failed preparing vhost-user memory table msg");
++                return -1;
++            }
++            msg->payload.memory.regions[*fd_num].userspace_addr =
+                 reg->userspace_addr;
+-            msg.payload.memory.regions[fd_num].memory_size  = reg->memory_size;
+-            msg.payload.memory.regions[fd_num].guest_phys_addr =
++            msg->payload.memory.regions[*fd_num].memory_size  = reg->memory_size;
++            msg->payload.memory.regions[*fd_num].guest_phys_addr =
+                 reg->guest_phys_addr;
+-            msg.payload.memory.regions[fd_num].mmap_offset = offset;
+-            assert(fd_num < VHOST_MEMORY_MAX_NREGIONS);
+-            fds[fd_num++] = fd;
+-        } else {
++            msg->payload.memory.regions[*fd_num].mmap_offset = offset;
++            assert(*fd_num < VHOST_MEMORY_MAX_NREGIONS);
++            fds[(*fd_num)++] = fd;
++        } else if (postcopy) {
+             u->region_rb_offset[i] = 0;
+             u->region_rb[i] = NULL;
+         }
+     }
+ 
+-    msg.payload.memory.nregions = fd_num;
++    msg->payload.memory.nregions = *fd_num;
+ 
+-    if (!fd_num) {
++    if (!*fd_num && postcopy) {
+         error_report("Failed initializing vhost-user memory map, "
+                      "consider using -object memory-backend-file share=on");
+         return -1;
+     }
+ 
+-    msg.hdr.size = sizeof(msg.payload.memory.nregions);
+-    msg.hdr.size += sizeof(msg.payload.memory.padding);
+-    msg.hdr.size += fd_num * sizeof(VhostUserMemoryRegion);
++    msg->hdr.size = sizeof(msg->payload.memory.nregions);
++    msg->hdr.size += sizeof(msg->payload.memory.padding);
++    msg->hdr.size += *fd_num * sizeof(VhostUserMemoryRegion);
++
++    return 1;
++}
++
++
++static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
++                                             struct vhost_memory *mem)
++{
++    struct vhost_user *u = dev->opaque;
++    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    size_t fd_num = 0;
++    VhostUserMsg msg_reply;
++    int region_i, msg_i;
++
++    VhostUserMsg msg = {
++        .hdr.flags = VHOST_USER_VERSION,
++    };
++
++    if (u->region_rb_len < dev->mem->nregions) {
++        u->region_rb = g_renew(RAMBlock*, u->region_rb, dev->mem->nregions);
++        u->region_rb_offset = g_renew(ram_addr_t, u->region_rb_offset,
++                                      dev->mem->nregions);
++        memset(&(u->region_rb[u->region_rb_len]), '\0',
++               sizeof(RAMBlock *) * (dev->mem->nregions - u->region_rb_len));
++        memset(&(u->region_rb_offset[u->region_rb_len]), '\0',
++               sizeof(ram_addr_t) * (dev->mem->nregions - u->region_rb_len));
++        u->region_rb_len = dev->mem->nregions;
++    }
++ 
++    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
++                                          true) < 0) {
++        return -1;
++    }
+ 
+     if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
+         return -1;
+@@ -543,7 +566,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+ {
+     struct vhost_user *u = dev->opaque;
+     int fds[VHOST_MEMORY_MAX_NREGIONS];
+-    int i, fd;
+     size_t fd_num = 0;
+     bool do_postcopy = u->postcopy_listen && u->postcopy_fd.handler;
+     bool reply_supported = virtio_has_feature(dev->protocol_features,
+@@ -557,7 +579,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+     }
+ 
+     VhostUserMsg msg = {
+-        .hdr.request = VHOST_USER_SET_MEM_TABLE,
+         .hdr.flags = VHOST_USER_VERSION,
+     };
+ 
+@@ -565,42 +586,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+         msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+     }
+ 
+-    for (i = 0; i < dev->mem->nregions; ++i) {
+-        struct vhost_memory_region *reg = dev->mem->regions + i;
+-        ram_addr_t offset;
+-        MemoryRegion *mr;
+-
+-        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
+-        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
+-                                     &offset);
+-        fd = memory_region_get_fd(mr);
+-        if (fd > 0) {
+-            if (fd_num == VHOST_MEMORY_MAX_NREGIONS) {
+-                error_report("Failed preparing vhost-user memory table msg");
+-                return -1;
+-            }
+-            msg.payload.memory.regions[fd_num].userspace_addr =
+-                reg->userspace_addr;
+-            msg.payload.memory.regions[fd_num].memory_size  = reg->memory_size;
+-            msg.payload.memory.regions[fd_num].guest_phys_addr =
+-                reg->guest_phys_addr;
+-            msg.payload.memory.regions[fd_num].mmap_offset = offset;
+-            fds[fd_num++] = fd;
+-        }
+-    }
+-
+-    msg.payload.memory.nregions = fd_num;
+-
+-    if (!fd_num) {
+-        error_report("Failed initializing vhost-user memory map, "
+-                     "consider using -object memory-backend-file share=on");
++    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
++                                          false) < 0) {
+         return -1;
+     }
+ 
+-    msg.hdr.size = sizeof(msg.payload.memory.nregions);
+-    msg.hdr.size += sizeof(msg.payload.memory.padding);
+-    msg.hdr.size += fd_num * sizeof(VhostUserMemoryRegion);
+-
+     if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
+         return -1;
+     }
+-- 
+1.8.3.1
 
 
