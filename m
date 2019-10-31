@@ -2,64 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A84EAD38
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 11:12:02 +0100 (CET)
-Received: from localhost ([::1]:48102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747D7EAD9D
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 11:37:58 +0100 (CET)
+Received: from localhost ([::1]:48250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ7Qu-0008TN-IG
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 06:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38734)
+	id 1iQ7pz-0001d5-JD
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 06:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iQ7Mf-000873-79
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:07:38 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iQ7YF-0007LT-1v
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:19:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iQ7Mc-0005z4-Qw
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:07:35 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:37736)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iQ7Mc-0005xU-LS
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:07:34 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id y194so4668403oie.4
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 03:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JRnFEKNufL62fXTNoBKl1G/F3Ae0unmaHxu1Pmz74a8=;
- b=Owybeb0ueVaQHqnRvdmoqUZFPrK1dbmbSuR0ON2qPUNB0a+tYWnrUC2vk5w/et2WJo
- 17G4MPSC9hCzQZycUmmN7tEbXY3ZIs1EZfFSgqNv2uR8KLPLLEaDHePDEborugMML6u3
- qXIRaQ5pn5d9FHnE+NUWVS9Xn3Fl/Y4dCOJoNnVHiMt3YvIcqdqdHCEnoPGNRtIDSz+A
- lotDb63welZ1RNwyUvrJ2Ch+RPwMW+AQSpfzbJFiYr9bOkVntRmYCZyVMLOt47D7HcHa
- uIMwhW32f7x35ReotZ6vnDHBVunGfI8d189wgnIPa7FQdCrkVJBJwx5cFICEVYaOH25b
- /+Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JRnFEKNufL62fXTNoBKl1G/F3Ae0unmaHxu1Pmz74a8=;
- b=ZVgW64ucV+XkWhMRuzzzmMeiSTBJwupp4gumK8O7cO074c5JmN/EkWENpZ7LuhxZoM
- eTnTfQh2r2ZK/1QmiEDknA0Gx34qqIopkygdX5SPWdorYeIjWzRBK1xY3pAtoQTM5QHe
- G8hmq8H0KpuxArylqQDt/YmXLhC4I3x7A0Fsfz8f31utlyrPC9/cfoSeWIvcMT00QTWo
- JNVyAG3tQzFhOjcnBjqWDJKLjc2TInmCiWyaaKMi8Z5YdIQbS4fYps9D9qzZO/JUnmXg
- j610qA1OfHQ62jQpRfz74qQiW/sH4Y+KXIdpvH+6fdhCso2yenViwMFv4awh4/L5cfIh
- NM0g==
-X-Gm-Message-State: APjAAAUcuWfjmbyPr6Lh+QhDrNuykFvuKqlHxbjM72asjun10E6Xsszq
- uE+UFtsVkCOiHpXtu+s12ksowp+29XYigma51AWrqA==
-X-Google-Smtp-Source: APXvYqzL8uJG8o+6UU3wUGsqCU822041+tD4wvva3HndO/FROdUZhY3ujg+vujpbfUA/LYnTzL87N/PsxQ5fmYJMBuM=
-X-Received: by 2002:aca:451:: with SMTP id 78mr61968oie.170.1572516453478;
- Thu, 31 Oct 2019 03:07:33 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1iQ7YD-0001Dc-DH
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:19:34 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33943 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iQ7YC-00011j-2O; Thu, 31 Oct 2019 06:19:33 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 473hBl2cvMz9sPK; Thu, 31 Oct 2019 21:19:27 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1572517167;
+ bh=xEctnMe3PfsuXaZ9oXkr+9u9KD8dPJ4J2MRQj8wiTxk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=naTVCUBGRDiysggJASoZLFSu/pLWZKc0j62OMRwpRMBZKvibVfv79wreda/F280tG
+ xkXZMN8HP4d1xc4U8Kd+vJDpECAedfyZ1+kGBCYsP+G/YKJ6f3tUBe3F/hvJ+9IU1V
+ x/UkqhTqRYbqMEZlddDBEgKB92U5wGgXRNdtl42g=
+Date: Thu, 31 Oct 2019 11:07:53 +0100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+Message-ID: <20191031100753.GW3552@umbus.metropole.lan>
+References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+ <20191031091556.1c25fbe1@bahia.lan>
 MIME-Version: 1.0
-References: <20191030180953.24180-1-richard.henderson@linaro.org>
-In-Reply-To: <20191030180953.24180-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 31 Oct 2019 10:07:20 +0000
-Message-ID: <CAFEAcA-qodQY=dHkwQtuVj0oKv1A6PzwMK_qBaMLyJdBtvCFVA@mail.gmail.com>
-Subject: Re: [PULL for-4.2 0/1] softfp patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NYEXl3WhqsXurSTm"
+Content-Disposition: inline
+In-Reply-To: <20191031091556.1c25fbe1@bahia.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22e
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,45 +56,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: david@redhat.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Igor Mammedov <imammedo@redhat.com>, jdenemar@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Oct 2019 at 18:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Just one easy patch that made the cutoff.
->
->
-> r~
->
->
-> The following changes since commit 16884391c750d0c5e863f55ad7aaaa146fc5181e:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2019-10-29' into staging (2019-10-29 20:06:08 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-sfp-20191030
->
-> for you to fetch changes up to 21381dcf0ca8fc822328e30570c8465ec4e52be9:
->
->   softfp: Added hardfloat conversion from float32 to float64 (2019-10-30 19:03:37 +0100)
->
-> ----------------------------------------------------------------
-> Use hardfloat for float32_to_float64
->
-> ----------------------------------------------------------------
-> Matus Kysel (1):
->       softfp: Added hardfloat conversion from float32 to float64
->
->  fpu/softfloat.c | 19 ++++++++++++++++++-
 
+--NYEXl3WhqsXurSTm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+On Thu, Oct 31, 2019 at 09:15:56AM +0100, Greg Kurz wrote:
+> On Wed, 30 Oct 2019 17:32:43 +0100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > We have to set the default model of all machine classes, not just for t=
+he
+> > active one. Otherwise, "query-machines" will indicate the wrong CPU mod=
+el
+> > ("qemu-s390x-cpu" instead of "host-s390x-cpu") as "default-cpu-type".
+> >=20
+>=20
+> A PPC cpu model might be better.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+Indeed.
 
--- PMM
+>=20
+> > s390x already fixed this in de60a92e "s390x/kvm: Set default cpu model =
+for
+> > all machine classes".  This patch applies a similar fix for the pseries=
+-*
+> > machine types on ppc64.
+> >=20
+> > Doing a
+> >     {"execute":"query-machines"}
+> > under KVM now results in
+> >     {
+> >       "hotpluggable-cpus": true,
+> >       "name": "pseries-4.2",
+> >       "numa-mem-supported": true,
+> >       "default-cpu-type": "host-powerpc64-cpu",
+> >       "is-default": true,
+> >       "cpu-max": 1024,
+> >       "deprecated": false,
+> >       "alias": "pseries"
+> >     },
+> >     {
+> >       "hotpluggable-cpus": true,
+> >       "name": "pseries-4.1",
+> >       "numa-mem-supported": true,
+> >       "default-cpu-type": "host-powerpc64-cpu",
+> >       "cpu-max": 1024,
+> >       "deprecated": false
+> >     },
+> >     ...
+> >=20
+> > Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
+> > currently see the wrong CPU model under KVM.
+> >=20
+> > Reported-by: Ji=C5=99i Denemark <jdenemar@redhat.com>
+> > Cc: David Hildenbrand <david@redhat.com>
+> > Cc: Igor Mammedov <imammedo@redhat.com>
+>=20
+> Missing S-o-b.
+
+Oops, fixed.
+
+> With these fixed.
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> > ---
+> >  target/ppc/kvm.c | 21 +++++++++++++--------
+> >  1 file changed, 13 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> > index 7d2e8969ac..c77f9848ec 100644
+> > --- a/target/ppc/kvm.c
+> > +++ b/target/ppc/kvm.c
+> > @@ -100,7 +100,7 @@ static bool kvmppc_is_pr(KVMState *ks)
+> >      return kvm_vm_check_extension(ks, KVM_CAP_PPC_GET_PVINFO) !=3D 0;
+> >  }
+> > =20
+> > -static int kvm_ppc_register_host_cpu_type(MachineState *ms);
+> > +static int kvm_ppc_register_host_cpu_type(void);
+> >  static void kvmppc_get_cpu_characteristics(KVMState *s);
+> >  static int kvmppc_get_dec_bits(void);
+> > =20
+> > @@ -147,7 +147,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+> >          exit(1);
+> >      }
+> > =20
+> > -    kvm_ppc_register_host_cpu_type(ms);
+> > +    kvm_ppc_register_host_cpu_type();
+> > =20
+> >      return 0;
+> >  }
+> > @@ -2534,13 +2534,19 @@ PowerPCCPUClass *kvm_ppc_get_host_cpu_class(voi=
+d)
+> >      return pvr_pcc;
+> >  }
+> > =20
+> > -static int kvm_ppc_register_host_cpu_type(MachineState *ms)
+> > +static void pseries_machine_class_fixup(ObjectClass *oc, void *opaque)
+> > +{
+> > +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> > +
+> > +    mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
+> > +}
+> > +
+> > +static int kvm_ppc_register_host_cpu_type(void)
+> >  {
+> >      TypeInfo type_info =3D {
+> >          .name =3D TYPE_HOST_POWERPC_CPU,
+> >          .class_init =3D kvmppc_host_cpu_class_init,
+> >      };
+> > -    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+> >      PowerPCCPUClass *pvr_pcc;
+> >      ObjectClass *oc;
+> >      DeviceClass *dc;
+> > @@ -2552,10 +2558,9 @@ static int kvm_ppc_register_host_cpu_type(Machin=
+eState *ms)
+> >      }
+> >      type_info.parent =3D object_class_get_name(OBJECT_CLASS(pvr_pcc));
+> >      type_register(&type_info);
+> > -    if (object_dynamic_cast(OBJECT(ms), TYPE_SPAPR_MACHINE)) {
+> > -        /* override TCG default cpu type with 'host' cpu model */
+> > -        mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
+> > -    }
+> > +    /* override TCG default cpu type with 'host' cpu model */
+> > +    object_class_foreach(pseries_machine_class_fixup, TYPE_SPAPR_MACHI=
+NE,
+> > +                         false, NULL);
+> > =20
+> >      oc =3D object_class_by_name(type_info.name);
+> >      g_assert(oc);
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--NYEXl3WhqsXurSTm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl26snkACgkQbDjKyiDZ
+s5IdUxAAq6oKGzSH8Df+NKvcLQfYrff79Z23EZN4dLEHpw5YvyGTvZkCmNdEaVgK
+BA8XrNYg8dxP/Rb2FGFqboedaFyUsQ4w4NkfRNqqfd6dVh6VASGz1f/vLcx46j74
+2eJU9yw0hSQOu0q96tf3aeTBSuXrKaHkvS5HsTCZTrd1vMF0A6tfnN8gYKLBBNxG
+k106RycoNKJVVkmjz4I91StabbP0S9t2PdRKhZCRFjBxLEL/ihw4o7lKIC5JjwNA
+9f1lagKqeZe75qQCnNuaUMvDSn2f9stMuPylfDJi2ClzPSGNOCnOvmvsjQFAxez6
+VzmiLntHdNNJ1wWqfqpdER4kzhqXXXQaoLUf1cR43MIQHdWP5eS+rDlUVd1EZaJa
+9k6+hxErmoVTvMLNLT3s3yYOpdeuzC71zCbyBt0RDt01S5vK3NYwGkE6Huz0929z
+NeAs75IZlJBWUfVFBF9qm4vTxdj/3HEn3k8KUhmxdfRIsHJJYcwyGhjxJwaLThoh
+CTfPJK3Zr9k610V7GokK7NOLyGXuoIXOBAipPvwFDElLHSpcD6B3Bqf/14yzJfRy
+11sofZB1cq269495O3Z3Oxj33SDYJlNSx0XCF63Iap2a71zXTFXbO/kGFCEe1xQ5
+iTOFgmWmA79cGA9w1z/42DKo63qnJyiTDPbyBDJNY9zEutyQRck=
+=xtzg
+-----END PGP SIGNATURE-----
+
+--NYEXl3WhqsXurSTm--
 
