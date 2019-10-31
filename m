@@ -2,62 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6074EB097
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 13:51:01 +0100 (CET)
-Received: from localhost ([::1]:49524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD80EB0D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 14:06:42 +0100 (CET)
+Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ9um-0004QA-1W
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 08:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59118)
+	id 1iQA9w-0004BD-F1
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 09:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33317)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iQ9rK-0000zm-Dv
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 08:47:27 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iQA7z-0002kj-7S
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 09:04:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iQ9rJ-0003nd-82
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 08:47:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:41387)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iQ9rI-0003lh-Ux; Thu, 31 Oct 2019 08:47:25 -0400
-Received: from [172.20.52.177] ([91.217.168.176]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.168]) with ESMTPSA (Nemesis) id
- 1M91Tq-1iMHhc1Bzi-0069lP; Thu, 31 Oct 2019 13:47:14 +0100
-Subject: Re: smb daemon get additional command line parameters from env
- variable
-To: Jordi Pujol <jordipujolp@gmail.com>, qemu-trivial@nongnu.org
-References: <CACTE=gpFbUSxXeTwu6_tzSeoh_9Yp905aMdzCPCUz3h7kcgeyw@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <144c1b0a-5cd4-b657-025b-f44d5e812e06@vivier.eu>
-Date: Thu, 31 Oct 2019 13:47:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <CACTE=gpFbUSxXeTwu6_tzSeoh_9Yp905aMdzCPCUz3h7kcgeyw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iQA7x-0003j0-MO
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 09:04:38 -0400
+Received: from mail-eopbgr130093.outbound.protection.outlook.com
+ ([40.107.13.93]:9015 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iQA7w-0003fs-VW; Thu, 31 Oct 2019 09:04:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UdwX6Kj8mLvEaZbqtiBY3ncpuyOZyTk1lV6sLzxq1wXXjhEcjIcjUcsYMnuKtU8GbuhyU8VK+vBKLdQRViiRjInhCzldpukKVraxlYx/W4sWEpfFGOZsvj3uU/ebmtnTBvGk6cadlkTRIlg/Jk1ePoTIm1bgQAsqTOUap4POxMeg8W5gSurWCk09Nm+Iv8GgQLg5HQdPDETG+3Ek+qsn7N7yLmok9GbU3Cba0zuDwyc/+d5ZKJR0TmfZPf0h9QGANFhCoXU7GYAc3csh6zbSR3vf0SqoGDggFc6S0orIkDBzdH9ea6JbretZni898VXU0d+q6I/pMVtieXO1Ip50Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XSPXs+xUtiHrxSB83R35XO0SCEAXteztZfnsjwD5f0o=;
+ b=aJroIP80O/qy6QhqL6XyltJI/bwo6sxQm6ayS5hXT8WPfVzPo181s7bOyZ+fVssPcTQxGzp/NA1vlrjp8ZDYbaNStWW11oU+1rSCQBkzHuB8JVa4AJF40wuBiw5LK6yQSryWnOkn8oq96k+CkcLcTo7LOSSfEY7kicxOefD+rc4MSo13o1LL6A/dn3Yu5JOD6CuyHkJj/fn3fGJ6cKypKXWVUDMPIjuWoCUjZWgYkGdOOyAlB0BQZ9uu1awiVQKwfCyDDPHEDhkO+TOUXeLlIaf+8Ed5fKwUrO2b2akpUz+7LELwygq1allrgh1+r0fpUvj/vlUePVgXsHP7z9q2aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XSPXs+xUtiHrxSB83R35XO0SCEAXteztZfnsjwD5f0o=;
+ b=J9F5RjbDc2a6GQ+jOYZmdo0q4e/XwJ1v9Ud+/BqtQxlk85RN9YvOXZcIQQS/ZeR+DHQQsw7qqs/MTtbNxXKC2jAszC1l3ctNBS4JnQ9dWJOdNBzImD+4/VFKK68/8MzHAw36m/Icr4ZuZBkqOhrmIul26HI41XWFmlqYIXq57pI=
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
+ AM0PR08MB3250.eurprd08.prod.outlook.com (52.134.94.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.25; Thu, 31 Oct 2019 13:04:30 +0000
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::6844:bb8c:7d2c:b119]) by AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::6844:bb8c:7d2c:b119%6]) with mapi id 15.20.2408.019; Thu, 31 Oct 2019
+ 13:04:30 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Tuguoyi <tu.guoyi@h3c.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Topic: [PATCH v3] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Index: AdWPFo/e/4bra9yKTuSMM3n9Yap7HgA1SmqA
+Date: Thu, 31 Oct 2019 13:04:29 +0000
+Message-ID: <e50ae813-944a-4b78-d8df-fb98594c988d@virtuozzo.com>
+References: <f26933e80e434b5f875e7db24ef9d02f@h3c.com>
+In-Reply-To: <f26933e80e434b5f875e7db24ef9d02f@h3c.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:hUjrROPXhsRqX4jqNGggYsukH6D/0IYDkt8vrq2hOt4oZ0FLBo2
- 2752RmaEl1FY+ZWrKXvSLAZWizybd8sarWrs11//ke3y6wDEeDGkdaLQM9VVTngtb9SrCqg
- 7Ik/qYL0i7i0vm0XA0lLMiRxJOMe64IT7I8WdlNzXE9B3gcbM9hD7KJzsTEYcsjfioJOQNc
- Rv77/PjfFHuFSzv8DYJSw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0FiI78k2MYg=:1n1sddFwXFFiyJB8xPpGrr
- n1tbKLra/sJp/NTT7mYlrPYLhKa8+LWdLk60H7G54PQlcmdks1uzO5DyWAnuGqvO9cXDkCKLp
- KQM2ZUBjRucN9FQ8bPVlbsbMKXrYzm4Ro07zcQy61/baEgjQVRxwZfoq3rTQ5+6OCIo1eGlrw
- LYsQ6g/YOyF3kAa/eCNWCgiSPyaqK1IkE9+rakRk676XlO5WmpJI5LaOyTlNi2Rj8DoHSpx8T
- InuIrPaGn7/YAHDlR0DbPPv04e+QaHBT0OaTOi+kDrtke0i0fcpGlFsHrXlSyqpolVScKlC3x
- a1K3vMwYgYYJ8Jmmc5fCd2CEqAF5/wret+/U6tlH25HEutl3Cm5CZId2KracfENtJAZRfs4a+
- 8wgnxNSt112QfXTsILfURo/Ogla4gbjMFpgksuzkX82llBSz4Bir8k6lI1Th1R31SU/jtMaZs
- sSRciu/Wtj8WcVfxe5wQxZA75LCjLmBRwExZ4LEA0LkdQUjoaIBO3WjYTt/niaWhlDzncUmOB
- /aZ4P5vBTArzgYs6XAerzQDUY9zELJivB1XkWcWEwAxo33+CQH+wkcCQqhDYeHidFgQwuh3eF
- z5GBev3OKlyFXa3+B3Mg2peDEi7b18MlJK9SuGKuDbUeuVuahYIPttacPJI4wpI82fT1GF4Zq
- 4POIrKckj+tvwGDTkA1yJAarWnoQOflxRhCCWTe6JdHSaw+NBJdwqDuUsQSdVYF49yE+CrcyN
- MvUC1o/FTE0FC1+tPDTg/7ZDIsL8UHEGplqHZKPa1xK2ir9Gk8x0vM/NuVWMVZuYo7og26GDY
- 8iXULTzgNYviWC/n4ph9ruLJWrSyjNACkmyjh2zw2O1De/I4IeRKKFECkiM5rTS43uNIymWpN
- h0GdkR8wGjWsQjR/Xw5vSQOFO4bWdejySHn5kMh0w=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.187
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0902CA0038.eurprd09.prod.outlook.com
+ (2603:10a6:7:15::27) To AM0PR08MB4097.eurprd08.prod.outlook.com
+ (2603:10a6:208:132::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191031160427464
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: dadb65ba-49e0-40d9-e876-08d75e02dda0
+x-ms-traffictypediagnostic: AM0PR08MB3250:
+x-microsoft-antispam-prvs: <AM0PR08MB3250B79587022DFBB323941CC1630@AM0PR08MB3250.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:117;
+x-forefront-prvs: 02070414A1
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(39850400004)(366004)(396003)(136003)(376002)(189003)(199004)(52314003)(71200400001)(256004)(6116002)(11346002)(54906003)(6486002)(6436002)(7736002)(229853002)(2501003)(7416002)(2616005)(476003)(2906002)(486006)(3846002)(478600001)(14454004)(71190400001)(110136005)(25786009)(316002)(81166006)(66066001)(2201001)(8936002)(86362001)(305945005)(446003)(31696002)(66946007)(8676002)(4326008)(6512007)(6246003)(81156014)(186003)(31686004)(52116002)(386003)(76176011)(26005)(5660300002)(99286004)(66556008)(66446008)(36756003)(64756008)(66476007)(6506007)(102836004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3250;
+ H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ugk0Aw008ikJ1LN9igePuRfjHRrprAaL5O1l7tjVC0ajseKe5nuLGV6CInySb0Kwx+TLWKXBlaL/lvCOS+XnERnq62N6d4wleKXERSkitUobARG/8d1C4Dg2koetYeecBDnCGVvsYn5cNA6N7oCe9jjRPWoqLieRuXKZjakXPtFFD9SSYRduRUDY+RRiQyUfwLg8qoMyFG3XXEgAZHpKUCRBNfUiY0FTwWwIHJQGIGoo+sFxcqmVNfTNuhuKVCxMt3P09KsZAlluhB6qBs5beUu7u8H8twjfhzTjUbLqVoR3/k1N0GrdHhhuuBCFCW0gqXWvi6BNUUlLsOEywq6Dcrs0vGdoiOd3ZJE0J4Wq8ZdHUbiRfwtnShuLVyzmM46nl3UWPZ8EUCq7X+f8B8YYvPnE3YIrU0kR3WLQfSz0esgTK3P+A+xohte25jfTQFbC
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B3BAC3372DDC184EA1D3E7671CE8BC2B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dadb65ba-49e0-40d9-e876-08d75e02dda0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Oct 2019 13:04:29.9438 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DZYA0iqTafBwjDsDA0w292qwZjdqiG/oK+HRI97cw+bf1+8jj0IkbXxHG+ClOIl/h/fJ5JSXtpngSq6bEHZMJ4oxEdZF2caOmWklUrJ4+dM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3250
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,37 +109,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Jan Kiszka <jan.kiszka@siemens.com>
+Cc: Chengchiwen <chengchiwen@h3c.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Wangyongqing <w_yongqing@h3c.com>, Changlimin <changlimin@h3c.com>,
+ Gaoliang <liang_gao@h3c.com>, Wangyong <wang.yongD@h3c.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 30/10/2019 08:55, Jordi Pujol wrote:
-> Hello,
-> 
-> The new version 4 of Samba disables version 1 SMB protocols, now to
-> run old Win clients we must modify the temporary configuration of the
-> samba daemon to enable protocols before starting the samba client.
-> This patch gets the value of the environment variable SMBDOPTIONS and
-> appends it to the smbd command line; it allows the user to specify
-> additional samba daemon parameters before starting qemu.
-> It also patches the fork_exec function in misc.c, to parse correctly
-> command lines that contain spaces.
-> 
-> Thanks,
-> 
-> Jordi Pujol
-> 
-
-cc'ed: qemu-devel and maintainers
-
-To contribute, please follow the guideline
-https://wiki.qemu.org/Contribute/SubmitAPatch
-
-Thanks,
-Laurent
+MzAuMTAuMjAxOSAxNDo0NiwgVHVndW95aSB3cm90ZToNCj4gVGhlcmUgYXJlIHR3byBpc3N1ZXMg
+aW4gSW4gY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKCksDQo+IDEpIFRoZSBzYW5pdHkgY2hl
+Y2sgb24gdGhlIGdyYW51bGFyaXR5IHdpbGwgY2F1c2UgdWludDY0X3QNCj4gaW50ZWdlciBsZWZ0
+LXNoaWZ0IG92ZXJmbG93IHdoZW4gY2x1c3Rlcl9zaXplIGlzIDJNIGFuZCB0aGUNCj4gZ3JhbnVs
+YXJpdHkgaXMgQklHR0VSIHRoYW4gMzJLLg0KPiAyKSBUaGUgd2F5IHRvIGNhbGN1bGF0ZSBpbWFn
+ZSBzaXplIHRoYXQgdGhlIG1heGltdW0gYml0bWFwDQo+IHN1cHBvcnRlZCBjYW4gbWFwIHRvIGlz
+IGEgYml0IGluY29ycmVjdC4NCj4gVGhpcyBwYXRjaCBmaXggaXQgYnkgYWRkIGEgaGVscGVyIGZ1
+bmN0aW9uIHRvIGNhbGN1bGF0ZSB0aGUNCj4gbnVtYmVyIG9mIGJ5dGVzIG5lZWRlZCBieSBhIG5v
+cm1hbCBiaXRtYXAgaW4gaW1hZ2UgYW5kIGNvbXBhcmUNCj4gaXQgdG8gdGhlIG1heGltdW0gYml0
+bWFwIGJ5dGVzIHN1cHBvcnRlZCBieSBxZW11Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogR3VveWkg
+VHUgPHR1Lmd1b3lpQGgzYy5jb20+DQoNClBsZWFzZSwgd2hlcmUgcG9zc2libGUsIG1lbnRpb24g
+Y29tbWl0IHdoZXJlIGJ1ZyB3YXMgaW50cm9kdWNlZCBpbg0KY29tbWl0IG1lc3NhZ2UuIEFsc28s
+IGFkZCBxZW11LXN0YWJsZUBub25nbnUub3JnIHRvIENDIHdoZW4gZml4aW5nDQpyZWxlYXNlZCBi
+dWdzLg0KDQoNCkZpeGVzOiA1ZjcyODI2ZTdmYzYyMTY3Y2YzYQ0KUmV2aWV3ZWQtYnk6IFZsYWRp
+bWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KVGhh
+bmtzIGZvciBmaXhpbmchDQoNCj4gLS0tDQo+ICAgYmxvY2svcWNvdzItYml0bWFwLmMgfCAxNSAr
+KysrKysrKysrKystLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMyBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9ibG9jay9xY293Mi1iaXRtYXAuYyBiL2Js
+b2NrL3Fjb3cyLWJpdG1hcC5jDQo+IGluZGV4IDk4Mjk0YTcuLjM0OTM1YmIgMTAwNjQ0DQo+IC0t
+LSBhL2Jsb2NrL3Fjb3cyLWJpdG1hcC5jDQo+ICsrKyBiL2Jsb2NrL3Fjb3cyLWJpdG1hcC5jDQo+
+IEBAIC0xNDIsNiArMTQyLDE0IEBAIHN0YXRpYyBpbnQgY2hlY2tfdGFibGVfZW50cnkodWludDY0
+X3QgZW50cnksIGludCBjbHVzdGVyX3NpemUpDQo+ICAgICAgIHJldHVybiAwOw0KPiAgIH0NCj4g
+ICANCj4gK3N0YXRpYyBpbmxpbmUgaW50NjRfdCBnZXRfYml0bWFwX2J5dGVzX25lZWRlZChpbnQ2
+NF90IGxlbiwNCg0KQUZBSUsgImlubGluZSIgaXMgbm8tb3AgaW4gdGhpcyBjb250ZXh0LCBjb21w
+aWxlciB3aWxsIG1vc3QgcHJvYmFibHkgaW5saW5lIGl0IGFueXdheSwNCmFuZCAiaW5saW5lIiB3
+b3JkIGRvbid0IGluZmx1ZW5jZSBvbiB0aGlzIHByb2JhYmlsaXR5LiBTbywgYmV0dGVyIGRyb3Ag
+aXQuDQoNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1
+aW50MzJfdCBncmFudWxhcml0eSkNCj4gK3sNCj4gKyAgICBpbnQ2NF90IG51bV9iaXRzID0gRElW
+X1JPVU5EX1VQKGxlbiwgZ3JhbnVsYXJpdHkpOw0KPiArDQo+ICsgICAgcmV0dXJuIERJVl9ST1VO
+RF9VUChudW1fYml0cywgOCk7DQo+ICt9DQo+ICsNCj4gICBzdGF0aWMgaW50IGNoZWNrX2NvbnN0
+cmFpbnRzX29uX2JpdG1hcChCbG9ja0RyaXZlclN0YXRlICpicywNCj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBjaGFyICpuYW1lLA0KPiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQzMl90IGdyYW51bGFyaXR5LA0KPiBA
+QCAtMTUwLDYgKzE1OCw3IEBAIHN0YXRpYyBpbnQgY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFw
+KEJsb2NrRHJpdmVyU3RhdGUgKmJzLA0KPiAgICAgICBCRFJWUWNvdzJTdGF0ZSAqcyA9IGJzLT5v
+cGFxdWU7DQo+ICAgICAgIGludCBncmFudWxhcml0eV9iaXRzID0gY3R6MzIoZ3JhbnVsYXJpdHkp
+Ow0KPiAgICAgICBpbnQ2NF90IGxlbiA9IGJkcnZfZ2V0bGVuZ3RoKGJzKTsNCj4gKyAgICBpbnQ2
+NF90IGJpdG1hcF9ieXRlczsNCj4gICANCj4gICAgICAgYXNzZXJ0KGdyYW51bGFyaXR5ID4gMCk7
+DQo+ICAgICAgIGFzc2VydCgoZ3JhbnVsYXJpdHkgJiAoZ3JhbnVsYXJpdHkgLSAxKSkgPT0gMCk7
+DQo+IEBAIC0xNzEsOSArMTgwLDkgQEAgc3RhdGljIGludCBjaGVja19jb25zdHJhaW50c19vbl9i
+aXRtYXAoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsDQo+ICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsN
+Cj4gICAgICAgfQ0KPiAgIA0KPiAtICAgIGlmICgobGVuID4gKHVpbnQ2NF90KUJNRV9NQVhfUEhZ
+U19TSVpFIDw8IGdyYW51bGFyaXR5X2JpdHMpIHx8DQo+IC0gICAgICAgIChsZW4gPiAodWludDY0
+X3QpQk1FX01BWF9UQUJMRV9TSVpFICogcy0+Y2x1c3Rlcl9zaXplIDw8DQo+IC0gICAgICAgICAg
+ICAgICBncmFudWxhcml0eV9iaXRzKSkNCj4gKyAgICBiaXRtYXBfYnl0ZXMgPSBnZXRfYml0bWFw
+X2J5dGVzX25lZWRlZChsZW4sIGdyYW51bGFyaXR5KTsNCj4gKyAgICBpZiAoKGJpdG1hcF9ieXRl
+cyA+ICh1aW50NjRfdClCTUVfTUFYX1BIWVNfU0laRSkgfHwNCj4gKyAgICAgICAgKGJpdG1hcF9i
+eXRlcyA+ICh1aW50NjRfdClCTUVfTUFYX1RBQkxFX1NJWkUgKiBzLT5jbHVzdGVyX3NpemUpKQ0K
+PiAgICAgICB7DQo+ICAgICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJUb28gbXVjaCBzcGFjZSB3
+aWxsIGJlIG9jY3VwaWVkIGJ5IHRoZSBiaXRtYXAuICINCj4gICAgICAgICAgICAgICAgICAgICAg
+IlVzZSBsYXJnZXIgZ3JhbnVsYXJpdHkiKTsNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpW
+bGFkaW1pcg0K
 
