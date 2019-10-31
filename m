@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0086EAD3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 11:13:17 +0100 (CET)
-Received: from localhost ([::1]:48110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FA9EAD46
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 11:18:35 +0100 (CET)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ7S8-0005BK-47
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 06:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38061)
+	id 1iQ7XE-0000Md-T0
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 06:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iQ7I1-0002IO-FU
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:50 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iQ7JM-0005j1-8p
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:04:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iQ7Hw-0008R7-CX
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:49 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44520)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iQ7Hu-00089S-7B
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:44 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id i22so319869wrb.11
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 03:02:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gyEdBi21Z9gFQff72+o08golqnSn3favPI+vd9Jc3RE=;
- b=y7fk49IxPgHNjw1E1bojcT1GwiK/MPCpPulKC/h7PjKSIVjsprdlZ+TsRTE4ZuwGtT
- cva95SzcA2inGowXMbueJ+h5UNqwRTyR09Q36PmjQemIUl0MTCVdqC5C8iTYrhzy7lvP
- pUOo3BSjciyFE11U4s5/OXzClzeF8ml4us+BEyIIZJyrvmeL2Diu/MQ95Yq9OgspoL79
- TXV2YJEk1hHAY4cEHhhrizGU8Eu3HlQTzvV4cKL7HmFeWiDcs8HX8jKbnhnHxyEsuuR0
- Hm8MTYZcrImbdMdv6LjVjTed69UiOoTc42pgjrmDSkw73CDEOUipHcmcIXtF7bxRZfy8
- 13WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gyEdBi21Z9gFQff72+o08golqnSn3favPI+vd9Jc3RE=;
- b=TCSSRqNE+0OiSxN7+ebc3XXRzr+IPjIrOAWu3YqZbPfHxTRYMIcAaHQDljVOnOXAmA
- RveNNs+jsUa9WenjS8h+8GBFg/2jdXZhkIe8ZxIsd21me+MMVxAcL2dhqJKWxswuw2NU
- NTXAvWNr62C4EB47NzxFyaLyn/YjrDwxNYIEHfU3VOep52zhiK72D92hZMFjX+8/kq7m
- 1a+a9IGI5RWFhUIduK78kHOcivx1IaTZK8kyIY0o+94OLV0cJbHpoEh9jGidomhfjk42
- tEciIUg57mLRUtL1q8FAxz++Fxp5d4os5BuHTIJdfZrOkg1mu2lAUnHZrJYXRswqq+4g
- L7mQ==
-X-Gm-Message-State: APjAAAWzO0jPkar4RJyP0sL1sdWqkceSE73+zCiUU72oWwDxKFQC15lU
- 2UoSY/hJ+8KnqO49YEL5JD+5KQ==
-X-Google-Smtp-Source: APXvYqyqEtNWX0ziThAEX45rjavfL5kX0nHqAbtefavzAnjPzpqpeXMPgioLR66JD3PrhKm2EIqacQ==
-X-Received: by 2002:a5d:55c7:: with SMTP id i7mr4824245wrw.371.1572516157198; 
- Thu, 31 Oct 2019 03:02:37 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b186sm3015971wmb.21.2019.10.31.03.02.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2019 03:02:36 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 203A21FF90;
- Thu, 31 Oct 2019 10:02:33 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 3/3] Acceptance test: update kernel for m68k/q800 test
-Date: Thu, 31 Oct 2019 10:02:32 +0000
-Message-Id: <20191031100232.21992-4-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191031100232.21992-1-alex.bennee@linaro.org>
-References: <20191031100232.21992-1-alex.bennee@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1iQ7JB-00027H-Jn
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:04:06 -0400
+Received: from [212.227.126.130] (port=48979 helo=mout.kundenserver.de)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iQ7JA-0001vJ-UB
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:04:01 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M42fA-1iQ7Iu3YVE-0003nD; Thu, 31 Oct 2019 11:03:45 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [RFC] q800: fix I/O memory map
+Date: Thu, 31 Oct 2019 11:03:41 +0100
+Message-Id: <20191031100341.3827-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Provags-ID: V03:K1:LCvh/wl4E8R8NRQrmruAcYXFftVdFML1Y2h+lO/aGdTuVkazI6P
+ a3qX8sJNnKbac5kOWB7xXjbQP4NtrK86gqjppI4OraOc8nwyjUosNhBufegjr5m48wROBxD
+ e4QIQRfYVa5X9Ul5zFYwMe01gU2g12HnS3w3ISL2moRoQbicqVDY+pJ/038kHYgCzwJFPCx
+ /htwKOsUn1hfb7HydPMSw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Gn6K3d3YBpc=:bnAZyVeKxW0XwTtgVNq4vJ
+ RI/hOqSvsvnFzO+1NJFtpjL4pj6qKzs7++J6w+52hxaBB9u1MdUJ7zZlZ7tj2OG29+dutSVDF
+ zidDcz0tX1+7Lh71i0eKWp+IXeBmCcMUeKLJ4TBOS2eg0CALw0QqS/cvCLgg4xt0Az66rFEEg
+ FobIyJxqBs2Zf206BFZV/dsHQchok2IIogJ31e5thhJf5MNHr4VvvF41QhiBjjRFS4NxaUcSW
+ CPwFLCP8Ini7mvcU9xc1/1uZNKYhIpM1WSsriEi87As8F8PXD7godEu7oElPDn2WCOZp47YyY
+ zQIdIbyWu7iP85e/ZcO9T8tivXfGnfBwfxzpu5SufINMyPru/f8SwbqfQpKJ/1SZ7GxEcaJNX
+ T6DakFeBYXxXhg6nDPI+uh6oeLeaRw8ykBFD33Gc50MdnwkegkEMiROWNAy0cURg/fJ2FpKOC
+ FFV1OfFtQkZTRM+0JHVGMRAenQ3RYMxWH6TngWY8lOFJttH8pKWPGHTNndhLJ5xdGz4YnJ+zV
+ sfubN0QU2wvZxNJGEqhNmiwa+7xE99PdKeSM0h9bGvNmzOK6Z9LDURyNjaIgRtYq9S6Ok4Jaz
+ b6qvnotP0mfqBixeI/nKPZHnENGdFHAxDQNMwiKeEUat7m7BwKGNOxRSxZhS9gAHyoPLZ7F3J
+ FqwQyRY5kJCgXwAM2uDvcRpYcP4dDqaGqfnX2GZT3v871CJZ1Ladj7Ro/CFY7NCSuJW2UTWdA
+ GbHp+UXeuACTCXYdEj5kfcx/Fr7ebxtTSv2eCkZGHd4kervxHIPDXRWJNoC02gsMcb/KjycGM
+ KHQ6+Yr6GcDDh8r49zpn1ribeiPJQBwn79GCXsnx3zHrED7vyFsaBcqrv+naIBte8oGJ8wIBh
+ iYSvQpDqU0Ql0Hhj38Uw==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,48 +63,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cleber Rosa <crosa@redhat.com>
+Linux kernel 5.4 will introduce a new memory map for SWIM device.
+(aee6bff1c325 ("m68k: mac: Revisit floppy disc controller base addresses"))
 
-There's an updated version of the Debian package containing the m68k
-Kernel.
+Until this release all MMIO are mapped between 0x50f00000 and 0x50f40000,
+but it appears that for real hardware 0x50f00000 is not the base address:
+the MMIO region spans 0x50000000 through 0x60000000, and 0x50040000 through
+0x54000000 is repeated images of 0x50000000 to 0x50040000.
 
-Now, if the package gets updated again, the test won't fail, but will
-be canceled.  A more permanent solution is certainly needed.
+Fixed: 04e7ca8d0f ("hw/m68k: define Macintosh Quadra 800")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/m68k/q800.c | 33 +++++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191029232320.12419-3-crosa@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 880a4b31ee1..7e41cebd47d 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -480,14 +480,14 @@ class BootLinuxConsole(Test):
-         :avocado: tags=machine:q800
-         """
-         deb_url = ('http://ftp.ports.debian.org/debian-ports/pool-m68k/main'
--                   '/l/linux/kernel-image-5.2.0-2-m68k-di_5.2.9-2_m68k.udeb')
--        deb_hash = '0797e05129595f22f3c0142db5e199769a723bf9'
-+                   '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k.udeb')
-+        deb_hash = '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
-         try:
-             deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-         except OSError as exp:
-             self.cancel(exp)
-         kernel_path = self.extract_from_deb(deb_path,
--                                            '/boot/vmlinux-5.2.0-2-m68k')
-+                                            '/boot/vmlinux-5.3.0-1-m68k')
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 2b4842f8c6..8122e7c612 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -60,14 +60,14 @@
+ #define MACH_MAC        3
+ #define Q800_MAC_CPU_ID 2
  
-         self.vm.set_machine('q800')
-         self.vm.set_console()
+-#define VIA_BASE              0x50f00000
+-#define SONIC_PROM_BASE       0x50f08000
+-#define SONIC_BASE            0x50f0a000
+-#define SCC_BASE              0x50f0c020
+-#define ESP_BASE              0x50f10000
+-#define ESP_PDMA              0x50f10100
+-#define ASC_BASE              0x50F14000
+-#define SWIM_BASE             0x50F1E000
++#define VIA_BASE              0x50000000
++#define SONIC_PROM_BASE       0x50008000
++#define SONIC_BASE            0x5000a000
++#define SCC_BASE              0x5000c020
++#define ESP_BASE              0x50010000
++#define ESP_PDMA              0x50010100
++#define ASC_BASE              0x50014000
++#define SWIM_BASE             0x5001E000
+ #define NUBUS_SUPER_SLOT_BASE 0x60000000
+ #define NUBUS_SLOT_BASE       0xf0000000
+ 
+@@ -135,6 +135,7 @@ static void q800_init(MachineState *machine)
+     int32_t initrd_size;
+     MemoryRegion *rom;
+     MemoryRegion *ram;
++    int i;
+     ram_addr_t ram_size = machine->ram_size;
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+@@ -163,10 +164,26 @@ static void q800_init(MachineState *machine)
+     cpu = M68K_CPU(cpu_create(machine->cpu_type));
+     qemu_register_reset(main_cpu_reset, cpu);
+ 
++    /* RAM */
+     ram = g_malloc(sizeof(*ram));
+     memory_region_init_ram(ram, NULL, "m68k_mac.ram", ram_size, &error_abort);
+     memory_region_add_subregion(get_system_memory(), 0, ram);
+ 
++    /*
++     * Memory from VIA_BASE to VIA_BASE + 0x40000 is repeated
++     * from VIA_BASE + 0x40000 to VIA_BASE + 0x4000000
++     */
++    for (i = 1; i < 256; i++) {
++        MemoryRegion *io = g_malloc(sizeof(*io));
++        char *name = g_strdup_printf("mac_m68k.io[%d]", i);
++
++        memory_region_init_alias(io, NULL, name, get_system_memory(),
++                                 VIA_BASE, 0x40000);
++        memory_region_add_subregion(get_system_memory(),
++                                    VIA_BASE + i * 0x40000, io);
++        g_free(name);
++    }
++
+     /* IRQ Glue */
+ 
+     irq = g_new0(GLUEState, 1);
 -- 
-2.20.1
+2.21.0
 
 
