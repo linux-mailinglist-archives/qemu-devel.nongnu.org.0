@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8379DEAF53
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 12:56:44 +0100 (CET)
-Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BCDEB0A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 13:57:55 +0100 (CET)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ94E-0002gg-Jq
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 07:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52394)
+	id 1iQA1R-0004Aq-S8
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 08:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1iQ90d-0000nE-W3
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:53:02 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iQ9Zo-0007QS-UW
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 08:29:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iQ90c-0005ti-B8
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:52:59 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:56666)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iQ90b-0005t9-Pf
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:52:58 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id 9E8394BAB7;
- Thu, 31 Oct 2019 22:52:53 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1572522773;
- bh=qk3InkIUOTyHmAoQmlwfR+Kcrlik4XoUmQdA9H80HUo=;
- h=To:Subject:Date:From:Cc:In-Reply-To:References:From;
- b=AvN7GYx9WGbaNzwoyUR+JXi6tUUKOSWf4J7nagc1r5TfooCUvLmCOdcscphxpBS8B
- 8xB2yf1YdhSr8Zc5xlA7EZSFCrTKZyXXI/6vFxX8sCc//xWUgJD4pzuPruJ8heS2a/
- CWIuZ40U6HvMeU4KIxA1ZHu4VH0M9UUyoVjnD9Zg=
-Received: by www1.hostfission.com (Postfix, from userid 1000)
- id 8814A804ED; Thu, 31 Oct 2019 22:52:53 +1100 (AEDT)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: RFC: New device for zero-copy VM memory access
-X-PHP-Originating-Script: 0:rcube.php
+ (envelope-from <peter.maydell@linaro.org>) id 1iQ9Zn-0001Eu-FW
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 08:29:20 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45250)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iQ9Zn-0001EK-8Y
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 08:29:19 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 77so761792oti.12
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 05:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0PB7bjJNTZA9Tv9NxwyA99UpWZGWWRf+ge5lUD8IH/Y=;
+ b=tpN/96uHdZBEv/mTVkFY26L1NDo2thj/nVd6cYoy/fj/t6TM72Yy3hp8phyhVJ44Z/
+ STHCMcUTeBjUNoEy2L7xvenVqDA457gyx71m6C83QyUBOPXhyX+jxrnBamiuzDf/pk/p
+ /A/2c48VlBiO6R4RHTeFNtIv4DjAKBvcRJ4MyEcktCkfdR5VyhR98el0Nyg196wChZMw
+ p6MnvnXZl4ma71SwwE5pRbtmnx8BXFIsSZcVSeDceqtc3Lk/r/G6rUoSzbL9BULD2/wv
+ MZEsdLJekNPzgj/fL7H0melwuFbJM8TKJDl9E5dehoRE951+ERLkuF4bfWtDabqTuSY7
+ qGwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0PB7bjJNTZA9Tv9NxwyA99UpWZGWWRf+ge5lUD8IH/Y=;
+ b=ufLq57K0zo0ec+hIJNzM9xXtQ3y/P8IfK5QYFbEUvmI47jpy9h3G2/Ep0YZ1tmvQZC
+ H8qhwilJpmA3gAuo2s69h7sbvuJgbGuteQI/xzIigb2OgCRIzgaZF1iqDiHPHkoPmiPH
+ fJNPuAr5Qu2sfE6J4bc9bBfEKbchQqG4qVdoiNwwTSeGMCk8sM70+3fjwjx79D1BOSAe
+ uWG+S9JW1Q8zHoTDQqG6Ka+/gV+RG1s0AdFZtT2MFDGE7idVPsPXBLMFfpZZpl0O+mAm
+ tu0G3nE/Z7txy4+wNqyLtrkqeQoGlptlXO3bTBzyseYgsx2RF/qKIfRAZvQuwnr1qIEB
+ cfAg==
+X-Gm-Message-State: APjAAAU1ZzxwN2pLRazDQuR5I9AXfWF6fBB6Hz5/Xtg4JJzhEwie3b6A
+ ujd2bjFTX+LSutwCXoXxFLEv1zQoqLXSEZxP/hh5nA==
+X-Google-Smtp-Source: APXvYqzc+f0346OKdcavP5/uKFRNPLCLTlHn3Hm9zpHHXY0LmgjRMFocm9RsrmeQrct4+tgjZtyXD4hWfi+XDnBB7YY=
+X-Received: by 2002:a9d:7385:: with SMTP id j5mr4361071otk.135.1572524957876; 
+ Thu, 31 Oct 2019 05:29:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 31 Oct 2019 22:52:53 +1100
-From: geoff@hostfission.com
-Cc: qemu-devel@nongnu.org
-In-Reply-To: <88f1c3701740665b0ebe2f24c8ce7ade@hostfission.com>
-References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
- <20191030185248.GC3114@work-vm>
- <88f1c3701740665b0ebe2f24c8ce7ade@hostfission.com>
-Message-ID: <6b6f4e3222fda0945f68e02ae3560ca5@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.2.3
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 139.99.139.48
+References: <20191018161008.17140-1-thuth@redhat.com>
+ <751b0f88-2004-bca9-09d4-f43284ca8784@redhat.com>
+In-Reply-To: <751b0f88-2004-bca9-09d4-f43284ca8784@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 31 Oct 2019 12:29:05 +0000
+Message-ID: <CAFEAcA8R4pqNaxi-y5DgDvjYLQdUc1jDuwopLFKDp9VtFVqn5A@mail.gmail.com>
+Subject: Re: [PATCH] iotests: Remove 130 from the "auto" group
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,155 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another update to this that adds support for unmap notification. The 
-device
-has also been renamed to `porthole` and now resides here:
+On Tue, 29 Oct 2019 at 14:05, Max Reitz <mreitz@redhat.com> wrote:
+>
+> On 18.10.19 18:10, Thomas Huth wrote:
+> > Peter hit a "Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared
+> > 'write' lock - Is another process using the image [TEST_DIR/t.IMGFMT]?"
+> > error with 130 already twice. Looks like this test is a little bit
+> > shaky, and currently nobody has a real clue what could be causing this
+> > issue, so for the time being, let's disable it from the "auto" group so
+> > that it does not gate the pull requests.
+> >
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  tests/qemu-iotests/group | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Thanks, applied to my block branch:
+>
+> https://github.com/XanClic/qemu/commits/block
 
-https://github.com/gnif/qemu/blob/master/hw/misc/porthole.c
+I ran into this intermittent-on-s390 again this morning, so
+I've applied it to master in an attempt to improve the
+reliabliity of my merge testing. (The other current culprit
+for intermittent failures seems to be the various BSD
+builds for non-iotest reasons.)
 
-And here is the updated Linux test client.
-
-https://gist.github.com/gnif/77e7fb54604b42a1a98ecb8bf3d2cf46
-
--Geoff
-
-On 2019-10-31 13:55, geoff@hostfission.com wrote:
-> Hi Dave,
-> 
-> On 2019-10-31 05:52, Dr. David Alan Gilbert wrote:
->> * geoff@hostfission.com (geoff@hostfission.com) wrote:
->>> Hi All,
->>> 
->>> Over the past week, I have been working to come up with a solution to 
->>> the
->>> memory transfer performance issues that hinder the Looking Glass 
->>> Project.
->>> 
->>> Currently Looking Glass works by using the IVSHMEM shared memory 
->>> device
->>> which
->>> is fed by an application that captures the guest's video output. 
->>> While this
->>> works it is sub-optimal because we first have to perform a CPU copy 
->>> of the
->>> captured frame into shared RAM, and then back out again for display. 
->>> Because
->>> the destination buffers are allocated by closed proprietary code 
->>> (DirectX,
->>> or
->>> NVidia NvFBC) there is no way to have the frame placed directly into 
->>> the
->>> IVSHMEM shared ram.
->>> 
->>> This new device, currently named `introspection` (which needs a more
->>> suitable
->>> name, porthole perhaps?), provides a means of translating guest 
->>> physical
->>> addresses to host virtual addresses, and finally to the host offsets 
->>> in RAM
->>> for
->>> file-backed memory guests. It does this by means of a simple protocol 
->>> over a
->>> unix socket (chardev) which is supplied the appropriate fd for the 
->>> VM's
->>> system
->>> RAM. The guest (in this case, Windows), when presented with the 
->>> address of a
->>> userspace buffer and size, will mlock the appropriate pages into RAM 
->>> and
->>> pass
->>> guest physical addresses to the virtual device.
->> 
->> Hi Geroggrey,
->>   I wonder if the same thing can be done by using the existing 
->> vhost-user
->> mechanism.
->> 
->>   vhost-user is intended for implementing a virtio device outside of 
->> the
->> qemu process; so it has a character device that qemu passes commands 
->> down
->> to the other process, where qemu mostly passes commands via the virtio
->> queues.   To be able to read the virtio queues, the external process
->> mmap's the same memory as the guest - it gets passed a 'set mem table'
->> command by qemu that includes fd's for the RAM, and includes 
->> base/offset
->> pairs saying that a particular chunk of RAM is mapped at a particular
->> guest physical address.
->> 
->>   Whether or not you make use of virtio queues, I think the mechanism
->> for the device to tell the external process the mappings might be what
->> you're after.
->> 
->> Dave
->> 
-> 
-> While normally I would be all for re-using such code, the vhost-user 
-> while
-> being very feature-complete from what I understand is overkill for our
-> requirements. It will still allocate a communication ring and an events 
-> system
-> that we will not be using. The goal of this device is to provide a dumb 
-> &
-> simple method of sharing system ram, both for this project and for 
-> others that
-> work on a simple polling mechanism, it is not intended to be an 
-> end-to-end
-> solution like vhost-user is.
-> 
-> If you still believe that vhost-user should be used, I will do what I 
-> can to
-> implement it, but for such a simple device I honestly believe it is 
-> overkill.
-> 
-> -Geoff
-> 
->>> This device and the windows driver have been designed in such a way 
->>> that
->>> it's a
->>> utility device for any project and/or application that could make use 
->>> of it.
->>> The PCI subsystem vendor and device ID are used to provide a means of 
->>> device
->>> identification in cases where multiple devices may be in use for 
->>> differing
->>> applications. This also allows one common driver to be used for any 
->>> other
->>> projects wishing to build on this device.
->>> 
->>> My ultimate goal is to get this to a state where it could be accepted
->>> upstream
->>> into Qemu at which point Looking Glass would be modified to use it 
->>> instead
->>> of
->>> the IVSHMEM device.
->>> 
->>> My git repository with the new device can be found at:
->>> https://github.com/gnif/qemu
->>> 
->>> The new device is:
->>> https://github.com/gnif/qemu/blob/master/hw/misc/introspection.c
->>> 
->>> Looking Glass:
->>> https://looking-glass.hostfission.com/
->>> 
->>> The windows driver, while working, needs some cleanup before the 
->>> source is
->>> published. I intend to maintain both this device and the windows 
->>> driver
->>> including producing a signed Windows 10 driver if Redhat are 
->>> unwilling or
->>> unable.
->>> 
->>> Kind Regards,
->>> Geoffrey McRae
->>> 
->>> HostFission
->>> https://hostfission.com
->>> 
->> --
->> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+thanks
+-- PMM
 
