@@ -2,119 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2526EA9D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 05:11:13 +0100 (CET)
-Received: from localhost ([::1]:46370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5ABEA9EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 05:35:07 +0100 (CET)
+Received: from localhost ([::1]:46452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ1nk-0001nL-BU
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 00:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58841)
+	id 1iQ2Aq-0006m7-KJ
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 00:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar@xilinx.com>) id 1iQ1lY-0000iO-Nj
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:08:57 -0400
+ (envelope-from <jasowang@redhat.com>) id 1iQ29u-0006L0-P5
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:34:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar@xilinx.com>) id 1iQ1lX-0001pM-PW
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:08:56 -0400
-Received: from mail-eopbgr800040.outbound.protection.outlook.com
- ([40.107.80.40]:34256 helo=NAM03-DM3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <edgar@xilinx.com>)
- id 1iQ1lV-0001ec-NJ; Thu, 31 Oct 2019 00:08:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DLU/y7y/mMl2VDv4S4RnybIgtQhrWdfVWxFAgS5gJTrYTF3E+44c7V6M2bSSp69GPJCLqM2+2DZBMX3g07kj+Py8/Zv8OUmOjyOUrJunx5QauaIgRC+C/UjaBAl3NoFFKBv/49GXmp6Ov1omNVGON9dSiNBpNItKEeRNcgizf4C2jSdjRGVxqT9kzPycA0ZfsH5eObSBZHLv4tsuYvV0hSoseqIgwHBtsCiYBEH/ZqHVdYguxoHT8d6/Z0n3LTZhVXEl9M6x6AZl3gIftuAHT0iN7tQ/JeYFzStWJA143kJmB9MACeAkmvUf1XzPEwwAeonEqFYuMTOLetH+x3vDNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4p/6ZYQQWD852qSusOhdrvDuptbYfzVTqSpfuWY7xo4=;
- b=EeziwvJJEFd+r8yClAw9z52ribFlhSyZDkwzuaY7zh1yQCRBXekt0PKCMMi1k7djzlX6gfUXIOOGHwuU2B/e5Kz6OvYztHP66VbHKYAB1FGdjqMkEXSDH03uZY6IanM80QARoJmvSPK4knpzMpW/g1AeY2x1Sntehhe8V7g3Nnl86rYQnP6CJHtrCeGN/c7RNR4p8ZOH00zpDK4gOjqjQ8jhOe8+pZOCO0jDDLBOZFDL+FiMIsTROqUqIGjFjiaEVVdW+nv/RDH2/PmvRZt1tfZbGp+kStpVasjXS4lE5jqeVTdqwLm7xlM2Ph4pVptIE6lS441D43HSwmGFa8Z7mA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4p/6ZYQQWD852qSusOhdrvDuptbYfzVTqSpfuWY7xo4=;
- b=DJ9S0SIk2wUB7T49oBX8/yBaqJnjU+/hcdzTlYGHZg89oGhJZ9dX4nSCLkVJmj4jiaQm+3jhBztzmnDBfXemtxMbJAWkno+XEhhy0bhl9IOCgrMe1tKK1+lbrS7Eb+Bqhmh3+qMMk178fy+ZwQG4Xo4P71s0yS2Ex/bQDNVw7+M=
-Received: from BL0PR02CA0144.namprd02.prod.outlook.com (2603:10b6:208:35::49)
- by DM5PR02MB2297.namprd02.prod.outlook.com (2603:10b6:3:59::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.20; Thu, 31 Oct
- 2019 04:08:51 +0000
-Received: from CY1NAM02FT036.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::206) by BL0PR02CA0144.outlook.office365.com
- (2603:10b6:208:35::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2408.20 via Frontend
- Transport; Thu, 31 Oct 2019 04:08:51 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT036.mail.protection.outlook.com (10.152.75.124) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2387.20
- via Frontend Transport; Thu, 31 Oct 2019 04:08:49 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1iQ1lR-0003br-08; Wed, 30 Oct 2019 21:08:49 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1iQ1lL-0007WP-TJ; Wed, 30 Oct 2019 21:08:43 -0700
-Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x9V48XAe029365; 
- Wed, 30 Oct 2019 21:08:33 -0700
-Received: from [10.71.116.27] (helo=localhost)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1iQ1lA-0007Va-PQ; Wed, 30 Oct 2019 21:08:32 -0700
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: [PATCH v1 1/1] hw/arm/boot: Rebuild hflags when modifying CPUState at
- boot
-Date: Thu, 31 Oct 2019 05:08:30 +0100
-Message-ID: <20191031040830.18800-2-edgar.iglesias@xilinx.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20191031040830.18800-1-edgar.iglesias@xilinx.com>
-References: <20191031040830.18800-1-edgar.iglesias@xilinx.com>
+ (envelope-from <jasowang@redhat.com>) id 1iQ29s-0007WE-CF
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:34:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34573
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iQ29r-0007Rj-Te
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:34:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572496441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j5qcyVpwDqk90mJ8Py1Gxg6f818uFbFkJ4UO0Lw3UAI=;
+ b=E0k70NUcfUYOAQJlJxUhLGopP5L/VVCfIe1wsnO/d4qhBcb2T99JXOIqc1JI+3VcVOPEQL
+ UlVZKMGk0us160ez2vpd0tkO57fV/FCbJGQDJViSrOu5Zqs+nUJccuFULdQSiMHo8XQ8/y
+ u1nY3ZcvA7UwQNiUNb/uUQ55C0lU38g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-pwcln2pkOUya02HzONlt1Q-1; Thu, 31 Oct 2019 00:33:57 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22B688017E0;
+ Thu, 31 Oct 2019 04:33:56 +0000 (UTC)
+Received: from [10.72.12.100] (ovpn-12-100.pek2.redhat.com [10.72.12.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8616600CD;
+ Thu, 31 Oct 2019 04:33:23 +0000 (UTC)
+Subject: Re: [RFC v2 00/22] intel_iommu: expose Shared Virtual Addressing to VM
+To: "Tian, Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
+ <367adad0-eb05-c950-21d7-755fffacbed6@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D5D0619@SHSMSX104.ccr.corp.intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <fa994379-a847-0ffe-5043-40a2aefecf43@redhat.com>
+Date: Thu, 31 Oct 2019 12:33:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D5D0619@SHSMSX104.ccr.corp.intel.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: pwcln2pkOUya02HzONlt1Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(136003)(39860400002)(396003)(376002)(189003)(199004)(36386004)(186003)(2906002)(2616005)(36756003)(426003)(9786002)(4326008)(76176011)(478600001)(1076003)(2870700001)(7416002)(70206006)(70586007)(48376002)(336012)(356004)(486006)(126002)(476003)(11346002)(446003)(316002)(57986006)(51416003)(26005)(50466002)(76506006)(50226002)(8936002)(107886003)(81156014)(47776003)(5660300002)(305945005)(8676002)(81166006)(4744005)(106002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR02MB2297; H:xsj-pvapsmtpgw01; FPR:;
- SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1; 
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 762d2dab-a1a9-488b-e59d-08d75db8089f
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2297:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB22975FBD749CB0EDB15E5D07C2630@DM5PR02MB2297.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:454;
-X-Forefront-PRVS: 02070414A1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ESFOXOPBqQE7v9Ss43O0UMFjRJUA3Jw7SNOOJGwRjBxjyA5G3x3B19aNSMO/XROvtyzVXSDOs2dSZ4iB2LOsbA5KILz3I1FFUYl/72rMqh/hmR1ilnRH9EYDvo0Pj8U8MBMBczcwJCjsTXG72FheYyv5PjBpLX2n94ivfjw00+tcG2z94A1RCPvuC3A/sprk+N1TIqUa0R/4T9HdW1a8cct+hywCwFPQe8B2Lsp5rgUs8G5WvrO6Wy2ey2mFZ+OREY1FKyGc38InHDIk4+Dbv3uJf/5sgUIxkuqSm5gsrKcZz1ipCIqmsxKAuL5vga7D8IdK98g0t8yZK9CIaXNKHCF28gu/F6Tj1DGG9kaYugoK7wkMokvIXD+kQf5rVKSSLYui2zXvwfLzX8VvPzX5rX1kEBNeuy7ksL3kgfeUwGt3zenyakcA7737RU3iWXEp
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2019 04:08:49.4835 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 762d2dab-a1a9-488b-e59d-08d75db8089f
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2297
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.80.40
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -126,35 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, philmd@redhat.com,
- luc.michel@greensocs.com
+Cc: "tianyu.lan@intel.com" <tianyu.lan@intel.com>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Tian,
+ Jun J" <jun.j.tian@intel.com>, "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rebuild hflags when modifying CPUState at boot.
 
-Fixes: e979972a6a
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- hw/arm/boot.c | 1 +
- 1 file changed, 1 insertion(+)
+On 2019/10/25 =E4=B8=8B=E5=8D=886:12, Tian, Kevin wrote:
+>> From: Jason Wang [mailto:jasowang@redhat.com]
+>> Sent: Friday, October 25, 2019 5:49 PM
+>>
+>>
+>> On 2019/10/24 =E4=B8=8B=E5=8D=888:34, Liu Yi L wrote:
+>>> Shared virtual address (SVA), a.k.a, Shared virtual memory (SVM) on Int=
+el
+>>> platforms allow address space sharing between device DMA and
+>> applications.
+>>
+>>
+>> Interesting, so the below figure demonstrates the case of VM. I wonder
+>> how much differences if we compare it with doing SVM between device
+>> and
+>> an ordinary process (e.g dpdk)?
+>>
+>> Thanks
+> One difference is that ordinary process requires only stage-1 translation=
+,
+> while VM requires nested translation.
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index c264864c11..ef6724960c 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -786,6 +786,7 @@ static void do_cpu_reset(void *opaque)
-                 info->secondary_cpu_reset_hook(cpu, info);
-             }
-         }
-+        arm_rebuild_hflags(env);
-     }
- }
-=20
---=20
-2.19.1
+
+A silly question, then I believe there's no need for VFIO DMA API in=20
+this case consider the page table is shared between MMU and IOMMU?
+
+Thanks
+
+>
 
 
