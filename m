@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF4BEB2DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:37:17 +0100 (CET)
-Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8E4EB2F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:42:14 +0100 (CET)
+Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQBZR-0002Yl-AT
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38726)
+	id 1iQBeO-0000M1-NT
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jordipujolp@gmail.com>) id 1iQAZf-0000Qk-46
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 09:33:17 -0400
+ (envelope-from <drjones@redhat.com>) id 1iQBRc-0001xc-5U
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:29:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jordipujolp@gmail.com>) id 1iQAZd-0003P3-EM
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 09:33:14 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39702)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jordipujolp@gmail.com>)
- id 1iQAZd-0003NY-7q
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 09:33:13 -0400
-Received: by mail-ot1-x344.google.com with SMTP id t8so5374819otl.6
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 06:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b8WfBtkBYtvhtzdH/YlQo1f41oCGaEAOJrce5DObJnE=;
- b=Ymyx8HngulfzMbl1rJSGHP6J9Z/eFR98WP0bc7PRhElUI4jwl1knWKiGLpDXQVcpVv
- lNN7C4urxvPNbJPd8wQUhbmVlhZJ4W6x27q+Saw10BQQMOFKAvRdzwN4oWje70RYoxQY
- 54ShoWDOFDGXpwb5SVSRNFnVmHEerlAuQmV4nRbBmFL9aBtFXxoQY0ZMW6fREiSYFfg7
- cYvGOvLEPjzewTLfrhS+cZopbR74zQ5qUIU8xV7+aXDl6+c8jQakRyNK9ihl+6R8BF+p
- xUhyFYCcmrlkcdJUAW0COldlZRk0TRS52hZaNdeX2Q+SF3doAQ4OwAlYV20+o9UwL2RF
- nveA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b8WfBtkBYtvhtzdH/YlQo1f41oCGaEAOJrce5DObJnE=;
- b=HEu89/XrHY0PFZM9uT/HmYjrg6KDNoDUcK+QbpZ7F/PI472QSlkXZQ5dneZDj6j79w
- RtiOYjkjtflgcN5VaZ4o35cq6ZRL93vfXRfbPGlAJl7QtVJKnMHHJNnX/xZjZBBLuCSq
- 2yEZCOnspkpoQGvaeNo60r3BtQ+t8XDrNwp5WQVSM8yvWaQtL+Hg7Wc/FgevajpgcYX3
- YPpE1VrHvt4CwspWt8tTLwVxXMNFi5Y9J6uFiNWR4X7fyayZ3HBnYzHngLnCPKQWBqEE
- aFYzE/I+N2qYkkVskVxbL1L/Dnfb6MKTZkSf4lVTyCfkLxapxzixugU1X1t7CN6+LgET
- Ff6A==
-X-Gm-Message-State: APjAAAX8zxiDbj3BpEyaJzV9cGR7E9Ls5wAKW7s3FwWttGZlZr5bt7xs
- mOCIe/25GkfbwhjAPz0LoITTts4vp9L+zo/lcQw=
-X-Google-Smtp-Source: APXvYqylmvb8E1R4P8eRGlkJjAPvSas9NPaqPsPD2g/kze3rpGCVG353yAdPzqzkmAU38t4GRI28au16npT2v7lovk0=
-X-Received: by 2002:a9d:600b:: with SMTP id h11mr4737614otj.334.1572528791917; 
- Thu, 31 Oct 2019 06:33:11 -0700 (PDT)
+ (envelope-from <drjones@redhat.com>) id 1iQBRZ-00013G-7k
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:28:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41784
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iQBRY-0000yo-Tv
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:28:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572532134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bhBm+YQq+Yju7H6yz3/y1F3DqeL4dc0Mh7ykeHBEMEQ=;
+ b=L/X26y2k/ibBEQF8THf5TrfHQiQp20BlbTnrGYN8FgV8XaaC+7in430FBVEMyDGXeBUY/s
+ aaUIlo3H/5/J1LDGDDj8jLXOqodo/nQVakto/hoxqufqFQebRFRgxLpvmeMKY9mZUm6tzj
+ kCh4sUO3pZqS+A2YVaoTZqmF49ub74Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-b4__aDwqOf6u3IyASCycXw-1; Thu, 31 Oct 2019 10:28:52 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AF0B8017E0;
+ Thu, 31 Oct 2019 14:28:51 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (ovpn-117-53.ams2.redhat.com
+ [10.36.117.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0DEA60852;
+ Thu, 31 Oct 2019 14:27:49 +0000 (UTC)
+From: Andrew Jones <drjones@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PATCH v8 0/9] target/arm/kvm: enable SVE in guests
+Date: Thu, 31 Oct 2019 15:27:25 +0100
+Message-Id: <20191031142734.8590-1-drjones@redhat.com>
 MIME-Version: 1.0
-References: <CACTE=gpFbUSxXeTwu6_tzSeoh_9Yp905aMdzCPCUz3h7kcgeyw@mail.gmail.com>
- <144c1b0a-5cd4-b657-025b-f44d5e812e06@vivier.eu>
-In-Reply-To: <144c1b0a-5cd4-b657-025b-f44d5e812e06@vivier.eu>
-From: Jordi Pujol <jordipujolp@gmail.com>
-Date: Thu, 31 Oct 2019 14:33:00 +0100
-Message-ID: <CACTE=goN=Nw8b5RN8sWhX9mRNWEU0fhuc=HnD3MJW59BET=hkA@mail.gmail.com>
-Subject: Re: [PATCH v2] smb daemon get additional command line parameters from
- env variable
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-X-Mailman-Approved-At: Thu, 31 Oct 2019 10:28:18 -0400
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: b4__aDwqOf6u3IyASCycXw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,82 +70,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Jan Kiszka <jan.kiszka@siemens.com>
+Cc: m.mizuma@jp.fujitsu.com, beata.michalska@linaro.org,
+ richard.henderson@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Since Linux kernel v5.2-rc1 KVM has support for enabling SVE in guests.
+This series provides the QEMU bits for that enablement. First, we
+select existing CPU properties representing features we want to
+advertise in addition to the SVE vector lengths and prepare
+them for a qmp query. Then we introduce the qmp query, applying
+it immediately to those selected features. We also document ARM CPU
+features at this time. We next add a qtest for the selected CPU
+features that uses the qmp query for its tests - and we continue to
+add tests as we add CPU features with the following patches. So then,
+once we have the support we need for CPU feature querying and testing,
+we add our first SVE CPU feature property, 'sve', which just allows
+SVE to be completely enabled/disabled. Following that feature property,
+we add all 16 vector length properties along with the input validation
+they need and tests to prove the validation works. At this point the
+SVE features are still only for TCG, so we provide some patches to
+prepare for KVM and then a patch that allows the 'max' CPU type to
+enable SVE with KVM, but at first without vector length properties.
+After a bit more preparation we add the SVE vector length properties
+to the KVM-enabled 'max' CPU type along with the additional input
+validation and tests that that needs.  Finally we allow the 'host'
+CPU type to also enjoy these properties by simply sharing them with it.
 
-Many thanks Laurent,
+v8:
+  - Fixed another issue with the new make check tests. We weren't
+    detecting kvm in a way that worked when running a cross-compiled
+    aarch32 qemu on an aarch64 machine that had kvm. So now we detect
+    kvm in a new, more robust way using the query-kvm qmp command.
+    Besides some context changes after rebase, all the changes for
+    this version are in 2/9, so I left all tags as they were.
 
-This is the version 2 of this patch, has been modified according to
-the qemu guidelines.
+v7:
+  - Fixed kvm32 tests and added a couple
+  - Picked up r-b's from Beata and t-b's from Masa
 
-**************************************************
-From: Jordi Pujol Palomer <jordipujolp@gmail.com>
-Date: Thu, 31 Oct 2019 14:31:14 +0200
-Subject: [PATCH v2] QEMU samba daemon: additional command line options
+v6:
+  - Adding missing visit_free() to an error path in
+    qmp_query_cpu_model_expansion() in patch 1/9.
+  - Rebased on latest master (applied cleanly)
+  - Picked up r-b's from Richard and Eric
 
-The smbd daemon takes additional command line options
-from environment variable SMBDOPTIONS.
-Set the environment variable SMBDOPTIONS before executing qemu.
+v5:
+  - Now generate an error if vector lengths have been explicitly
+    enabled, but SVE is disabled
+  - Fixed a bug in sve_zcr_len_for_el()
+  - Fixed a bug in kvm_arch_put/get_sve() and brought back the
+    put/get of FPSR/FPCR
+  - A few document clarifications and added some new sentences
+  - Added a couple more tests
+  - Added BIT_ULL and use it in the test
+  - Removed an unnecessary bitmap search
+  - Moved a cpu_max_get_sve_max_vq() hunk from 4/9 to 3/9 and
+    added a fix for it in 8/9
+  - Picked up some more tags from Eric
 
-Example:
+v4:
+  - Integrated Richard Henderson's rework for the sve property
+    validation, in order to do all validating at finalize time
+    and save several lines of code.
+  - Fixed 'host' cpu SVE default. It was still off by default.
+  - Cleaned up #ifdef's for sve_bswap64()
+  - Removed redundant KVM_CAP_ARM_SVE extension check in
+    kvm_arm_sve_get_vls()
+  - Improved the KVM SVE qtest
+  - Renamed sve<vl-bits> to sve<N> everywhere
+  - Renamed power-of-2 to power-of-two everywhere
+  - Picked up some more tags from Richard
 
-export SMBDOPTIONS="--option='server min protocol=CORE' -d 4"
+Thanks!
+drew
 
-Signed-off-by: Jordi Pujol Palomer <jordipujolp@gmail.com>
----
---- qemu-4.1-a/net/slirp.c
-+++ qemu_4.1-b/net/slirp.c
-@@ -909,6 +909,12 @@ static int slirp_smb(SlirpState* s, cons
-              CONFIG_SMBD_COMMAND, s->smb_dir, smb_conf);
-     g_free(smb_conf);
 
-+    char *options = g_strdup(g_getenv("SMBDOPTIONS"));
-+    if (options) {
-+        smb_cmdline = g_strdup_printf("%s %s", smb_cmdline, options);
-+    }
-+    g_free(options);
-+
-     if (slirp_add_exec(s->slirp, smb_cmdline, &vserver_addr, 139) < 0 ||
-         slirp_add_exec(s->slirp, smb_cmdline, &vserver_addr, 445) < 0) {
-         slirp_smb_cleanup(s);
+Andrew Jones (9):
+  target/arm/monitor: Introduce qmp_query_cpu_model_expansion
+  tests: arm: Introduce cpu feature tests
+  target/arm: Allow SVE to be disabled via a CPU property
+  target/arm/cpu64: max cpu: Introduce sve<N> properties
+  target/arm/kvm64: Add kvm_arch_get/put_sve
+  target/arm/kvm64: max cpu: Enable SVE when available
+  target/arm/kvm: scratch vcpu: Preserve input kvm_vcpu_init features
+  target/arm/cpu64: max cpu: Support sve properties with KVM
+  target/arm/kvm: host cpu: Add support for sve<N> properties
 
---- qemu-4.1-a/slirp/src/misc.c 2019-10-29 14:40:15.043120941 +0100
-+++ qemu-4.1-b/slirp/src/misc.c 2019-10-29 14:41:04.440235684 +0100
-@@ -168,7 +168,9 @@ g_spawn_async_with_fds_slirp(const gchar
- int fork_exec(struct socket *so, const char *ex)
- {
-     GError *err = NULL;
--    char **argv;
-+    gint argc = 0;
-+    gchar **argv = NULL;
-+    gboolean ret;
-     int opt, sp[2];
+ docs/arm-cpu-features.rst | 317 ++++++++++++++++++++++
+ include/qemu/bitops.h     |   1 +
+ qapi/machine-target.json  |   6 +-
+ target/arm/cpu.c          |  25 +-
+ target/arm/cpu.h          |  21 ++
+ target/arm/cpu64.c        | 356 ++++++++++++++++++++++++-
+ target/arm/helper.c       |  10 +-
+ target/arm/kvm.c          |  25 +-
+ target/arm/kvm32.c        |   6 +-
+ target/arm/kvm64.c        | 323 ++++++++++++++++++++---
+ target/arm/kvm_arm.h      |  39 +++
+ target/arm/monitor.c      | 158 +++++++++++
+ tests/Makefile.include    |   5 +-
+ tests/arm-cpu-features.c  | 540 ++++++++++++++++++++++++++++++++++++++
+ 14 files changed, 1775 insertions(+), 57 deletions(-)
+ create mode 100644 docs/arm-cpu-features.rst
+ create mode 100644 tests/arm-cpu-features.c
 
-     DEBUG_CALL("fork_exec");
-@@ -179,7 +181,13 @@ int fork_exec(struct socket *so, const c
-         return 0;
-     }
+--=20
+2.21.0
 
--    argv = g_strsplit(ex, " ", -1);
-+    ret = g_shell_parse_argv(ex, &argc, &argv, &err);
-+    if (err) {
-+        g_critical("fork_exec invalid command: %s", err->message);
-+        g_error_free(err);
-+        return 0;
-+    }
-+
-     g_spawn_async_with_fds(NULL /* cwd */, argv, NULL /* env */,
-                            G_SPAWN_SEARCH_PATH, fork_exec_child_setup,
-                            NULL /* data */, NULL /* child_pid */, sp[1], sp[1],
-**************************************************
 
-Thanks,
 
-Jordi Pujol
+*** BLURB HERE ***
+
+Andrew Jones (9):
+  target/arm/monitor: Introduce qmp_query_cpu_model_expansion
+  tests: arm: Introduce cpu feature tests
+  target/arm: Allow SVE to be disabled via a CPU property
+  target/arm/cpu64: max cpu: Introduce sve<N> properties
+  target/arm/kvm64: Add kvm_arch_get/put_sve
+  target/arm/kvm64: max cpu: Enable SVE when available
+  target/arm/kvm: scratch vcpu: Preserve input kvm_vcpu_init features
+  target/arm/cpu64: max cpu: Support sve properties with KVM
+  target/arm/kvm: host cpu: Add support for sve<N> properties
+
+ docs/arm-cpu-features.rst | 317 ++++++++++++++++++++++
+ include/qemu/bitops.h     |   1 +
+ qapi/machine-target.json  |   6 +-
+ target/arm/cpu.c          |  25 +-
+ target/arm/cpu.h          |  21 ++
+ target/arm/cpu64.c        | 356 +++++++++++++++++++++++-
+ target/arm/helper.c       |  10 +-
+ target/arm/kvm.c          |  25 +-
+ target/arm/kvm32.c        |   6 +-
+ target/arm/kvm64.c        | 323 +++++++++++++++++++---
+ target/arm/kvm_arm.h      |  39 +++
+ target/arm/monitor.c      | 158 +++++++++++
+ tests/Makefile.include    |   5 +-
+ tests/arm-cpu-features.c  | 551 ++++++++++++++++++++++++++++++++++++++
+ 14 files changed, 1786 insertions(+), 57 deletions(-)
+ create mode 100644 docs/arm-cpu-features.rst
+ create mode 100644 tests/arm-cpu-features.c
+
+--=20
+2.21.0
+
 
