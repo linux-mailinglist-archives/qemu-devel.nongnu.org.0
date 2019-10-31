@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46EC2EAD3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 11:13:18 +0100 (CET)
-Received: from localhost ([::1]:48114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AC3EAD14
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 11:07:55 +0100 (CET)
+Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ7S8-0005Nz-F0
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 06:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38013)
+	id 1iQ7Mv-0003YQ-2s
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 06:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iQ7Hw-0002BE-JH
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iQ7Hy-0002Bh-9g
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iQ7Hu-0008JT-8I
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:44 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38069)
+ (envelope-from <alex.bennee@linaro.org>) id 1iQ7Hw-0008R1-CA
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:46 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52412)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iQ7Ht-00087m-Kv
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:42 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v9so5520948wrq.5
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 03:02:37 -0700 (PDT)
+ id 1iQ7Hu-00086z-6B
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 06:02:44 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id p21so5242567wmg.2
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 03:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CO7li4ggAqrNpqkhJDIu80PgBe3r0FMAXs4/XO9uCqk=;
- b=ysV1oR8itJGNgHtTJ0rikvkKwhuY6HXT5l9jDkZY1rRU37tG8U9VveEVVhi8HDXWbb
- wPg6iz5bGyX4k3AvZtnbTxg6dRP08mZpMXahCxvO5FlOjXGiarP846prbDxJWRXFPVmT
- T0nFWhBM4MLYrcPeLiDmg+rC1pOFhurWGpvpttMr0M5mPzBIArN0efybOwyp8F20LCv9
- l1LwDerhp9nH3UMvjSzGZXa0to/1VdC+JvOikekPMaJUrek1qcE3ggNH94ueJ8E73k/8
- uVAC5MDLIfKkz92wxuq//XFBuZbb8MpUyc7c+GyevBalJgmGYW5PGgOh6aba2Q7iESgi
- vzRA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=syiFzeWYPDMTIFQ14fZT5sQxSwiqagDLfCjgYeIT/h8=;
+ b=uXZYEkmhn3p7bNWlCwdXphYFAgVdkk6vRYr/kVrX19VbW7lPQoQ07u659yYoAAkpUu
+ d7h+oTaeMJQtYMQntSV5s/phug2uA7Y7yRC5Vv6bGIJoPu7fJlZv+vWiBE0QlcbLXRat
+ el1Oq66beYKU/4ukFSVlduRuxP5MPPajWwfASHI8DQhsAkoQ21squdCU3StoajM0nqEk
+ fZz3CuE41cxV/D9oIR0gGGjHTN+oVaJa0Oxal/1vRwlBdw/kudEHYd27Yl4jPEpNx/so
+ wtHaaJ91WOVVU5cG7aACRn6N96DUXAth2wbSAEXeMApJvpfULiuwXw93r6M4pgqLNeiP
+ 9GiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CO7li4ggAqrNpqkhJDIu80PgBe3r0FMAXs4/XO9uCqk=;
- b=BKcos1v7n2fphnTnM/xx9FxctgI7RMQbZPaKvXolalyTjkZIrw62xGFtkhfGL34o0t
- UiKUuC+wH4z5QbGK9Z2ao5mVyvmOitu480F9fUgN20FBNmsQk1I/xhvap23YVEs4WZ2G
- snVx3dYu1Jt34ugdEGbsskmgw2IzNUtIdNwDiU0ve2NHeoI8xwfcQJbAuUeMSGfegRCL
- MeIuCC8pwf5KggZDfI1f/t2HbTocDTyZ0gAS4CKRJVG1LEgG6BHX5kz/uBZTe8xYwAuN
- i7MH3qdfBkAFiG0PBf6N8N7dBEkM38bz6QM2wpTFn3tYgRwv6eNSihbK/u27ZcIP4Frv
- okKw==
-X-Gm-Message-State: APjAAAWbe6gYSyK8vkUtMIfnIwR//OLUIvMLfklVR0JkwwNcMsyI1nKa
- Tp4xoynYeec6AjBm20RqN+lQFg==
-X-Google-Smtp-Source: APXvYqzYUDauY8ghiSUJYvytP13egXcgxpqZJO6yPcNTxo8hH/e6QPD09v03liyRwFJMvbpqmt/Jhg==
-X-Received: by 2002:a5d:424a:: with SMTP id s10mr4520137wrr.108.1572516155989; 
- Thu, 31 Oct 2019 03:02:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=syiFzeWYPDMTIFQ14fZT5sQxSwiqagDLfCjgYeIT/h8=;
+ b=mOfCy9m9wWQftuWmF/OnWNbZKcPFRWj8i41iqIPgEQlWsKxcG6vUkcHGLSaEG2JEGJ
+ CmTVPrKKzMs6f1/Zpq7AB8AEykkQ9E6BBxK0SJLgv7HKhuwqjTGUDab2QgcnW7/FUioR
+ HXE93DiS9GUkk6pcteUOLBu6HhAPr9q5BP7qZWRLyINxzz2D8D7hTTHAvWZ1g++wMm5I
+ 4oUSnDmSk1d1Gtus3Z43U6JV8WKiHhpX2xxKTcCsYJeeB3Mda4JV9pgAoalj6dUUA6JJ
+ QW59YdSV7TlIiFz/1c+MZGgGrnIl5q1HUfIYBVkzjrZLAba+LaeNYvS4cmJ2fCup6PYk
+ uU9A==
+X-Gm-Message-State: APjAAAWtmcEoZqMF6NDFSSNvc6jHVjKtNEz6Ad8RmiqL+jxfI8nTU7tO
+ EicCJ2mmnIRG9De0P5Y0x2R9uw==
+X-Google-Smtp-Source: APXvYqxP1JWVwkbBayNNIdY6iAQ1hBOQsyA2w3tRb30qGR+xvJr/4q44j7kaETW+/hezWw0aV73r6A==
+X-Received: by 2002:a7b:cc88:: with SMTP id p8mr4251018wma.80.1572516154802;
+ Thu, 31 Oct 2019 03:02:34 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g5sm3669077wmg.12.2019.10.31.03.02.33
+ by smtp.gmail.com with ESMTPSA id a15sm3495392wrw.10.2019.10.31.03.02.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 31 Oct 2019 03:02:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DAB0A1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id EE60F1FF8C;
  Thu, 31 Oct 2019 10:02:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/3] a couple of CI fixes
-Date: Thu, 31 Oct 2019 10:02:29 +0000
-Message-Id: <20191031100232.21992-1-alex.bennee@linaro.org>
+Subject: [PULL 1/3] tests: fix conditional for disabling XTS test
+Date: Thu, 31 Oct 2019 10:02:30 +0000
+Message-Id: <20191031100232.21992-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191031100232.21992-1-alex.bennee@linaro.org>
+References: <20191031100232.21992-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,41 +82,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 68d8ef4ec540682c3538d4963e836e43a211dd17:
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-tcg-plugins-281019-4' into staging (2019-10-30 14:10:32 +0000)
+The intent is to only enable the XTS test if both CONFIG_BLOCK
+and CONFIG_QEMU_PRIVATE_XTS are set to 'y'.
 
-are available in the Git repository at:
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20191030151740.14326-1-berrange@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-next-311019-1
-
-for you to fetch changes up to 2ecde8b2fb046516a0f2f53fb56b86db92d6fc13:
-
-  Acceptance test: update kernel for m68k/q800 test (2019-10-31 09:58:20 +0000)
-
-----------------------------------------------------------------
-Fixes to get CI green again
-
-  - fix m68k acceptance tests (Cleber)
-  - stop build breakage (Daniel)
-
-----------------------------------------------------------------
-Cleber Rosa (2):
-      Acceptance test: cancel test if m68k kernel packages goes missing
-      Acceptance test: update kernel for m68k/q800 test
-
-Daniel P. Berrangé (1):
-      tests: fix conditional for disabling XTS test
-
- tests/Makefile.include                 |  2 +-
- tests/acceptance/boot_linux_console.py | 11 +++++++----
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
-
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c79402ab758..7715d8cd63a 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -140,7 +140,7 @@ check-unit-y += tests/test-base64$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(if $(CONFIG_NETTLE),y,$(CONFIG_GCRYPT))) += tests/test-crypto-pbkdf$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) += tests/test-crypto-ivgen$(EXESUF)
+ check-unit-$(CONFIG_BLOCK)  += tests/test-crypto-afsplit$(EXESUF)
+-check-unit-$(if $(CONFIG_BLOCK),$(CONFIG_QEMU_PRIVATE_XTS)) += tests/test-crypto-xts$(EXESUF)
++check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_QEMU_PRIVATE_XTS)) += tests/test-crypto-xts$(EXESUF)
+ check-unit-$(CONFIG_BLOCK)  += tests/test-crypto-block$(EXESUF)
+ check-unit-y += tests/test-logging$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_REPLICATION)) += tests/test-replication$(EXESUF)
 -- 
 2.20.1
 
