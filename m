@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E42EEB22D
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:10:35 +0100 (CET)
-Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9183BEB24A
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:16:03 +0100 (CET)
+Received: from localhost ([::1]:50484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQB9l-0006JQ-Md
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43851)
+	id 1iQBF0-0006q7-HP
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:15:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iQB4m-0001wg-4l
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:05:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1iQB5x-0003AW-NK
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:06:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iQB4i-0004kz-RK
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:05:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39974)
+ (envelope-from <philmd@redhat.com>) id 1iQB5w-0000x6-4z
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:06:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41458)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iQB4i-0004Zz-HD
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:05:20 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iQB5v-0000wC-VJ
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:06:36 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 21E5A5945C
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 14:05:19 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id t2so3353415wri.18
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 07:05:19 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 08358369AC
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 14:06:35 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id a15so3417359wrr.0
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 07:06:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L+WvcYkBwACKV4+sITUmfgR424M57XEtVLW3iW4rt6o=;
- b=H2hcIX6q2so33GD5NXiCHglGAMAK9xuB9+cw617AN5XuKADcPanZLkJkxhT0rxUiwy
- UZ0piDPMe2xcVVZPlF+wv3ehCyNX8pnLW7RQP/dnjN+PSjE4Wc12iSQwpjdFUnC+Az6P
- kdxlAuRb2pE9GhT7RLpDVNoNQ1v8Lv85egisRX/qODEQSSxcz3EGi/AGOZ164VeqbFXQ
- o+AXjcxgJDBrrwqZXa6SJj6lqVdaoXbvNoST4wb12irK33QchDYE8YXYmYQUgqulT96W
- APRM8MLHSA1muVTcmkr779kVcBHqJ2HobZ1KvK0K1t1KttslsoUytnjmvrsnAE5qfp34
- sIZA==
-X-Gm-Message-State: APjAAAWOmv3Y1jayjFH3WwUEXgCy2DAlS/fRDZ+ASwECTyytVKpHOxNm
- NPbakCAiHvK+OCgts9tNksFKvGHIJH/eQ3pbdpwCRm0laPdrXgGtL6gg4oeCc3EwWkeDpsninby
- PXF5uVkHf/ErOHvk=
-X-Received: by 2002:a7b:c208:: with SMTP id x8mr4839599wmi.87.1572530717746;
- Thu, 31 Oct 2019 07:05:17 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwnF6Zjr0Kl01rJWsRmhVUD58wFD7Is29jZyVLjX2umoNtEleF0Y+fOnwPNcogeoJ0nrGUE/w==
-X-Received: by 2002:a7b:c208:: with SMTP id x8mr4839574wmi.87.1572530717535;
- Thu, 31 Oct 2019 07:05:17 -0700 (PDT)
+ bh=TD45plrnyPHInxzEtPt0P6CQkxemeVIjXZSlu6W1jR8=;
+ b=K6D6coVBvv2E5wa2HUDnjMOZDf0ZMdp3Fhw+97V6LmTKE519QxC3d1z/JEqJX7Y9at
+ g2O8M0MtRt01pvbSN79FkE2aUYaT56kQnvJkrwJFGIeAJoglA6/us75iLdL7WVyoiMku
+ sDfRByRte9bT46wJv5gingzzGP9ywW4auzsQvl7Z26Ei3/p1wKx1vA2/uU3K6JzwnWNp
+ OHuz0XOHAB1XtoPe7rXuJ7/M1INyRNXNpYDA2fbLcOJD1Vy2It8OtbPMWG0dU1Fs/BU+
+ adgJqDlhaSwLXcOFPUbHX/9bbKgEUs/gmiQku7iWx3dC0RHQIz9MmT50JpXiE40NR65w
+ UPtw==
+X-Gm-Message-State: APjAAAW98Kw0XswO0gBvyqrKRQcedDg7OsQHxZsmsGnw/+s0guk02xw9
+ 9+GO8pABi3xs1dYaKpWyqouqlpR2zBt3xFkft87Csl0qeKa5E+58xxUyDq6tcNDxO0Pp0ZlEg+e
+ dg2NNJ4VIXDRLORY=
+X-Received: by 2002:a5d:4982:: with SMTP id r2mr61393wrq.254.1572530793565;
+ Thu, 31 Oct 2019 07:06:33 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwRwOstzO9U7bPFJjay183fX6yBS2QsyF2IXzm5ByAKNrV5CFhTYWTCaKvRztw1enpzf+PiSg==
+X-Received: by 2002:a5d:4982:: with SMTP id r2mr61370wrq.254.1572530793368;
+ Thu, 31 Oct 2019 07:06:33 -0700 (PDT)
 Received: from [172.20.51.145] ([91.217.168.176])
- by smtp.gmail.com with ESMTPSA id s12sm4321056wme.20.2019.10.31.07.05.16
+ by smtp.gmail.com with ESMTPSA id a7sm4411168wrr.89.2019.10.31.07.06.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Oct 2019 07:05:16 -0700 (PDT)
-Subject: Re: [PATCH v6 2/4] tests/vm: add console_consume helper
+ Thu, 31 Oct 2019 07:06:32 -0700 (PDT)
+Subject: Re: [PATCH v6 3/4] tests/vm: use console_consume for netbsd
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20191031085306.28888-1-kraxel@redhat.com>
- <20191031085306.28888-3-kraxel@redhat.com>
+ <20191031085306.28888-4-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <467684e8-9e69-e0e3-2e1e-a8db55e8f653@redhat.com>
-Date: Thu, 31 Oct 2019 15:05:16 +0100
+Message-ID: <9ac99c55-9cca-69e7-8890-16bf033385ee@redhat.com>
+Date: Thu, 31 Oct 2019 15:06:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191031085306.28888-3-kraxel@redhat.com>
+In-Reply-To: <20191031085306.28888-4-kraxel@redhat.com>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -84,48 +84,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/31/19 9:53 AM, Gerd Hoffmann wrote:
-> Helper function to read all console output.
+> Use new helper to read all pending console output,
+> not just a single char.  Unblocks installer boot.
 >=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->   tests/vm/basevm.py | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
+>   tests/vm/netbsd | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 2929de23aa..086bfb2c66 100755
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -242,6 +242,25 @@ class BaseVM(object):
->               return False
->           return True
->  =20
-> +    def console_consume(self):
-> +        vm =3D self._guest
-> +        output =3D ""
-> +        vm.console_socket.setblocking(0)
-> +        while True:
-> +            try:
-> +                chars =3D vm.console_socket.recv(1)
-> +            except:
-> +                break
-> +            output +=3D chars.decode("latin1")
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index 5e04dcd9b1..d1bccccfd0 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -93,7 +93,7 @@ class NetBSDVM(basevm.BaseVM):
 
-I don't know enough decode(), but I'm very happy with the rest of
-the patch, thanks a lot for fixing this long standing issue Gerd!
+Why not use this by default for everything?
 
+Anyway,
 Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-> +            if "\r" in output or "\n" in output:
-> +                lines =3D re.split("[\r\n]", output)
-> +                output =3D lines.pop()
-> +                if self.debug:
-> +                    self.console_log("\n".join(lines))
-> +        if self.debug:
-> +            self.console_log(output)
-> +        vm.console_socket.setblocking(1)
-> +
->       def console_send(self, command):
->           vm =3D self._guest
->           if self.debug:
+>           for char in list("5consdev com0\n"):
+>               time.sleep(0.2)
+>               self.console_send(char)
+> -            self.console_wait("")
+> +            self.console_consume()
+>           self.console_wait_send("> ", "boot\n")
+>  =20
+>           self.console_wait_send("Terminal type",            "xterm\n")
 >=20
 
