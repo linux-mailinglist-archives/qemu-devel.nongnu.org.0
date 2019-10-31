@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171EDEAE80
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 12:12:50 +0100 (CET)
-Received: from localhost ([::1]:48564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C184EAEA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 12:18:39 +0100 (CET)
+Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ8Nk-0007Gf-5R
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 07:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45863)
+	id 1iQ8TM-0006Dr-Qa
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 07:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iQ8DK-0006hC-Es
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:02:04 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iQ8EC-00011j-CW
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:02:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iQ8DI-0005GJ-2y
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:02:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20145
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jsnow@redhat.com>) id 1iQ8EA-0006xP-KJ
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:02:55 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56080
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iQ8DH-0005Ex-VO
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:02:00 -0400
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iQ8EA-0006wm-Gv
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 07:02:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572519719;
+ s=mimecast20190719; t=1572519773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mNLLd2HIRByWcXLj/ZuynJr2+WKUeU0HeIJX7BIfftY=;
- b=YSyQ9OfcYkhAKhsiceDoHYOncnBQP/5LsN4ikEtVpUeIPZReYlHGR98jFyBwzc7qAVAise
- iSc+/wM7tF7BvebKAr82ScOweJaAt0U4Uj/leIWNExC/wznCIOS/xOAMNsFuSnzfNYtWTx
- 0ZEqHwqkzuvlcHX5pAaLkuSam/S0qDQ=
+ bh=YFaYgYqoRE/mPMgv2QBpnHLrD9yiGIOjEkSql3P4gPc=;
+ b=gL6OPgAQipXqA+GpQkVbYbEjU8Xn2SuqMd2FV+jcRLhPiGY4TY3ILxQmBL1fW0FQJHMUUZ
+ A5T0ExjELvaYEKDcucxiCjhv5UtBqkUqLKpgNHQVpCoKZ5PFm+kH0Y6o71pyzjZkjFx6YT
+ diJy+9TuR7a1/Vi0YotlI2jRU+jt7hc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-wF7lnmueMDqgTJRmJPABnA-1; Thu, 31 Oct 2019 07:01:55 -0400
+ us-mta-388-DhqK7Ng8P7mXh19MQ2B9Yw-1; Thu, 31 Oct 2019 07:02:50 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FB0D800686;
- Thu, 31 Oct 2019 11:01:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99A1A800EB4;
+ Thu, 31 Oct 2019 11:02:48 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-121-17.rdu2.redhat.com [10.10.121.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B74A6106A;
- Thu, 31 Oct 2019 11:00:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52F2160C05;
+ Thu, 31 Oct 2019 11:01:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 4/9] bootdevice: Add interface to gather LCHS
-Date: Thu, 31 Oct 2019 06:58:59 -0400
-Message-Id: <20191031105904.12194-5-jsnow@redhat.com>
+Subject: [PULL 5/9] scsi: Propagate unrealize() callback to scsi-hd
+Date: Thu, 31 Oct 2019 06:59:00 -0400
+Message-Id: <20191031105904.12194-6-jsnow@redhat.com>
 In-Reply-To: <20191031105904.12194-1-jsnow@redhat.com>
 References: <20191031105904.12194-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: wF7lnmueMDqgTJRmJPABnA-1
+X-MC-Unique: DhqK7Ng8P7mXh19MQ2B9Yw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,102 +87,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Add an interface to provide direct logical CHS values for boot devices.
-We will use this interface in the next commits.
+We will need to add LCHS removal logic to scsi-hd's unrealize() in the
+next commit.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 Signed-off-by: Sam Eiderman <sameid@google.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/sysemu/sysemu.h |  3 +++
- bootdevice.c            | 55 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
+ include/hw/scsi/scsi.h |  1 +
+ hw/scsi/scsi-bus.c     | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 44f18eb739..5bc5c79cbc 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -103,6 +103,9 @@ void device_add_bootindex_property(Object *obj, int32_t=
- *bootindex,
-                                    DeviceState *dev, Error **errp);
- void restore_boot_order(void *opaque);
- void validate_bootdevices(const char *devices, Error **errp);
-+void add_boot_device_lchs(DeviceState *dev, const char *suffix,
-+                          uint32_t lcyls, uint32_t lheads, uint32_t lsecs)=
-;
-+void del_boot_device_lchs(DeviceState *dev, const char *suffix);
-=20
- /* handler to set the boot_device order for a specific type of MachineClas=
-s */
- typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
-diff --git a/bootdevice.c b/bootdevice.c
-index 1d225202f9..bc5e1c2de4 100644
---- a/bootdevice.c
-+++ b/bootdevice.c
-@@ -343,3 +343,58 @@ void device_add_bootindex_property(Object *obj, int32_=
-t *bootindex,
-     /* initialize devices' bootindex property to -1 */
-     object_property_set_int(obj, -1, name, NULL);
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index d77a92361b..332ef602f4 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -59,6 +59,7 @@ struct SCSIRequest {
+ typedef struct SCSIDeviceClass {
+     DeviceClass parent_class;
+     void (*realize)(SCSIDevice *dev, Error **errp);
++    void (*unrealize)(SCSIDevice *dev, Error **errp);
+     int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                      void *hba_private);
+     SCSIRequest *(*alloc_req)(SCSIDevice *s, uint32_t tag, uint32_t lun,
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index bccb7cc4c6..359d50d6d0 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -59,6 +59,14 @@ static void scsi_device_realize(SCSIDevice *s, Error **e=
+rrp)
+     }
  }
-+
-+typedef struct FWLCHSEntry FWLCHSEntry;
-+
-+struct FWLCHSEntry {
-+    QTAILQ_ENTRY(FWLCHSEntry) link;
-+    DeviceState *dev;
-+    char *suffix;
-+    uint32_t lcyls;
-+    uint32_t lheads;
-+    uint32_t lsecs;
-+};
-+
-+static QTAILQ_HEAD(, FWLCHSEntry) fw_lchs =3D
-+    QTAILQ_HEAD_INITIALIZER(fw_lchs);
-+
-+void add_boot_device_lchs(DeviceState *dev, const char *suffix,
-+                          uint32_t lcyls, uint32_t lheads, uint32_t lsecs)
+=20
++static void scsi_device_unrealize(SCSIDevice *s, Error **errp)
 +{
-+    FWLCHSEntry *node;
++    SCSIDeviceClass *sc =3D SCSI_DEVICE_GET_CLASS(s);
++    if (sc->unrealize) {
++        sc->unrealize(s, errp);
++    }
++}
 +
-+    if (!lcyls && !lheads && !lsecs) {
+ int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                        void *hba_private)
+ {
+@@ -217,12 +225,20 @@ static void scsi_qdev_realize(DeviceState *qdev, Erro=
+r **errp)
+ static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
+ {
+     SCSIDevice *dev =3D SCSI_DEVICE(qdev);
++    Error *local_err =3D NULL;
+=20
+     if (dev->vmsentry) {
+         qemu_del_vm_change_state_handler(dev->vmsentry);
+     }
+=20
+     scsi_device_purge_requests(dev, SENSE_CODE(NO_SENSE));
++
++    scsi_device_unrealize(dev, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
 +        return;
 +    }
 +
-+    assert(dev !=3D NULL || suffix !=3D NULL);
-+
-+    node =3D g_malloc0(sizeof(FWLCHSEntry));
-+    node->suffix =3D g_strdup(suffix);
-+    node->dev =3D dev;
-+    node->lcyls =3D lcyls;
-+    node->lheads =3D lheads;
-+    node->lsecs =3D lsecs;
-+
-+    QTAILQ_INSERT_TAIL(&fw_lchs, node, link);
-+}
-+
-+void del_boot_device_lchs(DeviceState *dev, const char *suffix)
-+{
-+    FWLCHSEntry *i;
-+
-+    if (dev =3D=3D NULL) {
-+        return;
-+    }
-+
-+    QTAILQ_FOREACH(i, &fw_lchs, link) {
-+        if ((!suffix || !g_strcmp0(i->suffix, suffix)) &&
-+             i->dev =3D=3D dev) {
-+            QTAILQ_REMOVE(&fw_lchs, i, link);
-+            g_free(i->suffix);
-+            g_free(i);
-+
-+            break;
-+        }
-+    }
-+}
+     blockdev_mark_auto_del(dev->conf.blk);
+ }
+=20
 --=20
 2.21.0
 
