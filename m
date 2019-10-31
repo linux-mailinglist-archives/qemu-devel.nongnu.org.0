@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF264EB210
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:05:07 +0100 (CET)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05912EB233
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:11:30 +0100 (CET)
+Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQB4T-0008Hb-27
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:05:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43235)
+	id 1iQBAc-0007MB-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43381)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iQB0m-0002xQ-7g
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:01:21 -0400
+ (envelope-from <philmd@redhat.com>) id 1iQB1d-0004BM-27
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:02:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iQB0f-0001s9-QR
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:01:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50174)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iQB0f-0001nG-Kd
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:01:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iQB0e-00011u-87
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 14:01:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 375212E8073
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 14:01:08 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 31 Oct 2019 13:55:36 -0000
-From: Claus Paetow <1847793@bugs.launchpad.net>
+ (envelope-from <philmd@redhat.com>) id 1iQB1Z-0005uW-Ae
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:02:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21011
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iQB1Z-0005eQ-56
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:02:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572530522;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yxiWjJX/FT49R2PgLCm+TwV/NcfLhOEMmC4etKlIxIk=;
+ b=Nl7ZXV6AqmoUQ8F8aZCYuBAK5OIpekFvODQUwXu+Fh+00SyxtUA2dJVRlYWSX+R5PiJmPN
+ Y1gjeytHdYxwlpeDpIWNW3JSIv/ZLjqcY315454QTZsH1RGKFAkOaeWPeGxV/gg7COxWfC
+ 1mxbe6AKb3BG8MOg1SkaXuT6t/pDmXc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-Bj2zUOjvPfGI28BiGTf7ag-1; Thu, 31 Oct 2019 10:01:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 484BC800D49;
+ Thu, 31 Oct 2019 14:01:57 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-214.brq.redhat.com [10.40.204.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D1B1600CE;
+ Thu, 31 Oct 2019 14:01:54 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: c-paetow dgilbert-h lersek mattihami psyhomb
- sej7278 xanclic
-X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
-X-Launchpad-Bug-Modifier: Claus Paetow (c-paetow)
-References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157253013651.28864.4959519544049215926.malone@soybean.canonical.com>
-Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
- install
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8251ceb7adb2f777ddc91124c17f3580561de45a
+Subject: [PATCH] tests/boot_linux_console: Fetch assets from Debian snapshot
+ archives
+Date: Thu, 31 Oct 2019 15:01:52 +0100
+Message-Id: <20191031140152.19769-1-philmd@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Bj2zUOjvPfGI28BiGTf7ag-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,104 +68,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry for the delay,I was busy doing my job the last two weeks.
+The kernel packaged was fetched from an unstable repository.
+Use the stable snapshot archive instead.
 
-I use XFS V5 on both main host (5.3.7-arch1-2-ARCH) and backup host
-(5.3.5-arch1-1-ARCH).
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/acceptance/boot_linux_console.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-It seems I ran in the first bug that has been fixed upstream.
-With git master (git clone at 18.10.) I could not reproduce the failure on =
-my backup host.
-I installed an RedHat 7.6 VM as always and the VM works without any errors.=
- The only thing I noticed was, the first boot after installation lasts long=
-er as with qemu 4.0.0.
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
+_linux_console.py
+index 4e9ac0ecc3..f5aa87317c 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -479,7 +479,8 @@ class BootLinuxConsole(Test):
+         :avocado: tags=3Darch:m68k
+         :avocado: tags=3Dmachine:q800
+         """
+-        deb_url =3D ('http://ftp.ports.debian.org/debian-ports/pool-m68k/m=
+ain'
++        deb_url =3D ('https://snapshot.debian.org/archive/debian-ports'
++                   '/20190922T090906Z/pool-m68k/main'
+                    '/l/linux/kernel-image-5.2.0-2-m68k-di_5.2.9-2_m68k.ude=
+b')
+         deb_hash =3D '0797e05129595f22f3c0142db5e199769a723bf9'
+         deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
+--=20
+2.21.0
 
-After this I checked the archlinux repositories an found in AUR the qemu-gi=
-t package. I removed the official qemu packages from my main host and insta=
-lled this (qemu-git 8:v4.1.0.r1699.gf9bec78137-1).
-The behavior is the same as on the backup host, the VM installation works w=
-ithout any errors as well as additional tasks (i. e. complete the basic ins=
-tallation to an full desktop installation).
-The last days I used the main hosts with this package for my daily work. At=
- the end of the day I checked the filesystems from the used existing, or ne=
-w created VMs and didn't found any errors.
-
-May be for archlinux user who needs the 4.1.0 qemu version the qemu-git
-package from AUR is a possible workaround.
-
-Claus
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847793
-
-Title:
-  qemu 4.1.0 - Corrupt guest filesystem after new vm install
-
-Status in QEMU:
-  New
-
-Bug description:
-  When I install a new vm with qemu 4.1.0 all the guest filesystems are
-  corrupt. The first boot from the install dvd iso is ok and the
-  installer work fine. But the guest system hangs after the installer
-  finishes and I reboot the guest. I can see the grub boot menue but the
-  system cannot load the initramfs.
-
-  Testet with:
-  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
- and / partition)
-  Guided install with the graphical installer, no lvm selected.
-  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
-  Guidet install with the graphical installer and default options.
-
-  Used commandline to create the vm disk image:
-  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
-
-  Used qemu commandline for vm installation:
-  #!/bin/sh
-  # vmtest10 Installation
-  #
-  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
-      -soundhw hda \
-      -M q35 \
-      -k de \
-      -vga qxl \
-      -machine accel=3Dkvm \
-      -m 4096 \
-      -display gtk \
-      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
-so,if=3Dide,media=3Dcdrom \
-      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
-o,media=3Ddisk,cache=3Dwriteback \
-      -boot once=3Dd,menu=3Doff \
-      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
-      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
-      -rtc base=3Dlocaltime \
-      -name "vmtest10" \
-      -usb -device usb-tablet \
-      -spice disable-ticketing \
-      -device virtio-serial-pci \
-      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
-e.0 \
-      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
-
-  Host OS:
-  Archlinux (last updated at 10.10.2019)
-  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
-19 x86_64 GNU/Linux
-  No libvirt in use.
-
-  =
-
-  With qemu 4.0.0 it works fine without any errors.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
 
