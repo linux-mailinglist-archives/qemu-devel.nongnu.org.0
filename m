@@ -2,55 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF27EA961
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 03:57:02 +0100 (CET)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA7DEA9D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 05:11:25 +0100 (CET)
+Received: from localhost ([::1]:46372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ0dx-00089O-8z
-	for lists+qemu-devel@lfdr.de; Wed, 30 Oct 2019 22:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52095)
+	id 1iQ1nw-0001wB-K3
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 00:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58779)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1iQ0cv-0007bF-TE
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 22:55:59 -0400
+ (envelope-from <edgar@xilinx.com>) id 1iQ1lP-0000f8-Vk
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:08:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iQ0cu-0005Nh-FO
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 22:55:57 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:51196)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iQ0ct-0005KX-Sw
- for qemu-devel@nongnu.org; Wed, 30 Oct 2019 22:55:56 -0400
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id 701A64B9E5;
- Thu, 31 Oct 2019 13:55:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1572490551;
- bh=o/M6q1P+FMBSfVh5MpJUaryKUo50sWRIq5gfdVXnQc8=;
- h=To:Subject:Date:From:Cc:In-Reply-To:References:From;
- b=qw2urAcu7q6fnI7sN1As56EDuzXCQqnCmAO2ARM8WOmn/AR8IJ1yTypBEC9gd57Nu
- CVF+MMa0p2vbXOKdLEE17g2NNOJAKvbe636TgJgBaFWVbDNGuHyS7vFZ1BI+acutZ4
- FRvlMyJZrOt6MFfg0H0bD4b/f/S0tzxBcOSPCqmM=
-Received: by www1.hostfission.com (Postfix, from userid 1000)
- id 6856281EB8; Thu, 31 Oct 2019 13:55:51 +1100 (AEDT)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: RFC: New device for zero-copy VM memory access
-X-PHP-Originating-Script: 0:rcube.php
+ (envelope-from <edgar@xilinx.com>) id 1iQ1lP-0001IH-1h
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 00:08:47 -0400
+Received: from mail-eopbgr800043.outbound.protection.outlook.com
+ ([40.107.80.43]:14016 helo=NAM03-DM3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <edgar@xilinx.com>)
+ id 1iQ1lM-000124-Hn; Thu, 31 Oct 2019 00:08:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Brg1DOljVuTJviUTY/03RFHYFTPo602NSiTqecPImzAo05FbW3RJCgPnY/+nZVXHxRYDYcdmjVr0DDaPzwlOfW2a7hLI6tyookgFNmPT7ywSmep7Nyt2almb8ZJRh+QmX6FoNXPBFXsuJkH6IXRNKFrydzIQVGSB4PwW9a3/TGeKkbWg7rlKRq6yXGq+MEgwqd4b7pEKTw9DCnzYFhC7Lap/0L19ao9rZxRFdRGgSMH7rXWht4E+KU8kW6WHXp284P0VlB+iC1AOkvUBLOqK2N0CNrguJpTk3n55LxrOx5VdSpcw3KFKl7aoezmrvnHzphAIJAd0AOUWe500HWLINQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KOmClXhtyMiHcrnLMQUjKdU62BxVnSIwyNgO1KaHqy8=;
+ b=CmjORyW2m/JvL5pinJvSg8vfbP3GS9JziLJqbUkddqUJcwNQgzc2MLKxRE9pxXeqUSTeAo7rAWQykaAeN59+OwB64Wvnhf1kYW8sG4f6ySTIcDZMumGgXgwSr47CXi+k9PCmwD5Fo97AZd5+qOAPHH9wNflzwknaMRakj2BSsN7vuqgKi8/mblkZtfoO17KbVKd3UIuwnoOjh9IPZprezArbNxioxchp9QC2DxkdgPiX6ZmBZUDqGQBf/nom2TFYfsaWv35PkazLnyyQdcE2sbN/mxUytNis3aP+H0/xQ4wbOdv2fSwrBrlstisjXX9pDKaWW3SzFLIr18lCg8X+AQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KOmClXhtyMiHcrnLMQUjKdU62BxVnSIwyNgO1KaHqy8=;
+ b=DjsWHixnhpPfUZVfoK099/UPCIPyjl1sxA1Feq4VbmXbl4yC5uUR/w6Mi08SOpFhIj+2uLT3BR33I4hJXs6wBrmcHQPHakYZCBIbDnqjnQ/L0SrhmRXonjM6nCI6Jm1icB4xakm19om6SmVunCxe3nZ/W1y16+xDpgdNLU/C+Uw=
+Received: from BL0PR02CA0096.namprd02.prod.outlook.com (2603:10b6:208:51::37)
+ by BYAPR02MB5317.namprd02.prod.outlook.com (2603:10b6:a03:68::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.28; Thu, 31 Oct
+ 2019 04:08:39 +0000
+Received: from SN1NAM02FT063.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::209) by BL0PR02CA0096.outlook.office365.com
+ (2603:10b6:208:51::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2408.20 via Frontend
+ Transport; Thu, 31 Oct 2019 04:08:39 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT063.mail.protection.outlook.com (10.152.72.213) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2367.14
+ via Frontend Transport; Thu, 31 Oct 2019 04:08:39 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1iQ1lG-0003bl-Qv; Wed, 30 Oct 2019 21:08:38 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1iQ1lB-0007Vn-NV; Wed, 30 Oct 2019 21:08:33 -0700
+Received: from xsj-pvapsmtp01 (smtp3.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x9V48Vwm029359; 
+ Wed, 30 Oct 2019 21:08:31 -0700
+Received: from [10.71.116.27] (helo=localhost)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1iQ1l9-0007VU-CZ; Wed, 30 Oct 2019 21:08:31 -0700
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: [PATCH v1 0/1] hw/arm/boot: Rebuild hflags when modifying CPUState at
+ boot
+Date: Thu, 31 Oct 2019 05:08:29 +0100
+Message-ID: <20191031040830.18800-1-edgar.iglesias@xilinx.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 31 Oct 2019 13:55:51 +1100
-From: geoff@hostfission.com
-Cc: qemu-devel@nongnu.org
-In-Reply-To: <20191030185248.GC3114@work-vm>
-References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
- <20191030185248.GC3114@work-vm>
-Message-ID: <88f1c3701740665b0ebe2f24c8ce7ade@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.2.3
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 139.99.139.48
+Content-Transfer-Encoding: quoted-printable
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(136003)(396003)(376002)(39860400002)(199004)(189003)(426003)(1076003)(47776003)(336012)(476003)(126002)(486006)(106002)(316002)(7416002)(305945005)(107886003)(4326008)(51416003)(48376002)(50466002)(2616005)(478600001)(26005)(57986006)(186003)(50226002)(8936002)(5660300002)(36756003)(9786002)(8676002)(81156014)(81166006)(4744005)(2906002)(70586007)(2870700001)(36386004)(70206006)(356004)(76506006);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB5317; H:xsj-pvapsmtpgw01; FPR:;
+ SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 825427a5-8f7a-4306-a14b-08d75db80287
+X-MS-TrafficTypeDiagnostic: BYAPR02MB5317:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB531795353F0411650BC4B2D5C2630@BYAPR02MB5317.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Forefront-PRVS: 02070414A1
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pO0cK7j0VRQXEcgHnjXfnCLdYHW8LPoRhXA2d0I0pERB6J8ojmW0M6rckAyZoAeOFLozxvvXAGXPxkC6D3OZfproI/GMwqcWqMLPRltxQZkSKCgMinvEoB+GUGKG9vBwLVC+vT96Krr8D4MwK80GY7NVFhyAVVkD5iQiv709wzyr4o1NOCxup1zjLWm01++nrVq1YoKtJLSWphw1HktDt5yNwhMhoD6kAAqlMHWVV1GXcvMw0nujjMkG0KKOESCXSwKfcYymBRoiGyzevfbo6ocApi8DU5d9aANEVkPeFUlMawrfVp6xx+kQBgTxAi+1MJr9Iv26ewdE7hag88vWxJTBAcghTBA6VlZ08NqZOvvTnBQ3rsL21FoLJJaB5JmCuLKmIbBp+eEUpoWODgnZkHq+Nxs8Am6qPvMxMut9LBkni2XT+sUXwhtarXHcsQsK
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2019 04:08:39.2892 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 825427a5-8f7a-4306-a14b-08d75db80287
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5317
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.80.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,142 +124,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, philmd@redhat.com,
+ luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dave,
+I'm seeing asserts with missmatching hflags when doing direct boots
+on versal. This patch fixes the problem for me, rebuilding hflags
+after boot code modifes the state.
 
-On 2019-10-31 05:52, Dr. David Alan Gilbert wrote:
-> * geoff@hostfission.com (geoff@hostfission.com) wrote:
->> Hi All,
->> 
->> Over the past week, I have been working to come up with a solution to 
->> the
->> memory transfer performance issues that hinder the Looking Glass 
->> Project.
->> 
->> Currently Looking Glass works by using the IVSHMEM shared memory 
->> device
->> which
->> is fed by an application that captures the guest's video output. While 
->> this
->> works it is sub-optimal because we first have to perform a CPU copy of 
->> the
->> captured frame into shared RAM, and then back out again for display. 
->> Because
->> the destination buffers are allocated by closed proprietary code 
->> (DirectX,
->> or
->> NVidia NvFBC) there is no way to have the frame placed directly into 
->> the
->> IVSHMEM shared ram.
->> 
->> This new device, currently named `introspection` (which needs a more
->> suitable
->> name, porthole perhaps?), provides a means of translating guest 
->> physical
->> addresses to host virtual addresses, and finally to the host offsets 
->> in RAM
->> for
->> file-backed memory guests. It does this by means of a simple protocol 
->> over a
->> unix socket (chardev) which is supplied the appropriate fd for the 
->> VM's
->> system
->> RAM. The guest (in this case, Windows), when presented with the 
->> address of a
->> userspace buffer and size, will mlock the appropriate pages into RAM 
->> and
->> pass
->> guest physical addresses to the virtual device.
-> 
-> Hi Geroggrey,
->   I wonder if the same thing can be done by using the existing 
-> vhost-user
-> mechanism.
-> 
->   vhost-user is intended for implementing a virtio device outside of 
-> the
-> qemu process; so it has a character device that qemu passes commands 
-> down
-> to the other process, where qemu mostly passes commands via the virtio
-> queues.   To be able to read the virtio queues, the external process
-> mmap's the same memory as the guest - it gets passed a 'set mem table'
-> command by qemu that includes fd's for the RAM, and includes 
-> base/offset
-> pairs saying that a particular chunk of RAM is mapped at a particular
-> guest physical address.
-> 
->   Whether or not you make use of virtio queues, I think the mechanism
-> for the device to tell the external process the mappings might be what
-> you're after.
-> 
-> Dave
-> 
+Cheers,
+Edgar
 
-While normally I would be all for re-using such code, the vhost-user 
-while
-being very feature-complete from what I understand is overkill for our
-requirements. It will still allocate a communication ring and an events 
-system
-that we will not be using. The goal of this device is to provide a dumb 
-&
-simple method of sharing system ram, both for this project and for 
-others that
-work on a simple polling mechanism, it is not intended to be an 
-end-to-end
-solution like vhost-user is.
+Edgar E. Iglesias (1):
+  hw/arm/boot: Rebuild hflags when modifying CPUState at boot
 
-If you still believe that vhost-user should be used, I will do what I 
-can to
-implement it, but for such a simple device I honestly believe it is 
-overkill.
+ hw/arm/boot.c | 1 +
+ 1 file changed, 1 insertion(+)
 
--Geoff
+--=20
+2.19.1
 
->> This device and the windows driver have been designed in such a way 
->> that
->> it's a
->> utility device for any project and/or application that could make use 
->> of it.
->> The PCI subsystem vendor and device ID are used to provide a means of 
->> device
->> identification in cases where multiple devices may be in use for 
->> differing
->> applications. This also allows one common driver to be used for any 
->> other
->> projects wishing to build on this device.
->> 
->> My ultimate goal is to get this to a state where it could be accepted
->> upstream
->> into Qemu at which point Looking Glass would be modified to use it 
->> instead
->> of
->> the IVSHMEM device.
->> 
->> My git repository with the new device can be found at:
->> https://github.com/gnif/qemu
->> 
->> The new device is:
->> https://github.com/gnif/qemu/blob/master/hw/misc/introspection.c
->> 
->> Looking Glass:
->> https://looking-glass.hostfission.com/
->> 
->> The windows driver, while working, needs some cleanup before the 
->> source is
->> published. I intend to maintain both this device and the windows 
->> driver
->> including producing a signed Windows 10 driver if Redhat are unwilling 
->> or
->> unable.
->> 
->> Kind Regards,
->> Geoffrey McRae
->> 
->> HostFission
->> https://hostfission.com
->> 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
