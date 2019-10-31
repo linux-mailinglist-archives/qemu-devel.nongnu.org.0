@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29495EB258
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:19:01 +0100 (CET)
-Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A96EB267
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 15:23:41 +0100 (CET)
+Received: from localhost ([::1]:50584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQBHu-0002m4-Gd
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44187)
+	id 1iQBMR-0005Ej-NG
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 10:23:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iQB6a-0004Mc-5S
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:07:17 -0400
+ (envelope-from <yi.l.liu@intel.com>) id 1iQB7Y-0005ts-5Q
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:08:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iQB6Y-0002ep-W7
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:07:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36852)
+ (envelope-from <yi.l.liu@intel.com>) id 1iQB7W-0006yI-39
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:08:15 -0400
+Received: from mga09.intel.com ([134.134.136.24]:59559)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iQB6Y-0002bh-Q1
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:07:14 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E1A995C5
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 14:07:13 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id f8so571718wrq.6
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 07:07:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tgXzP2hh55ZnXngXoY2LDwrNgo5s8cHfbgK5/wSrCus=;
- b=PUFhU/DO9rDmWgNlbo92yMdbrTCC3jCFEDwdn31sKJhRcr+ZTp0jylrUDE34b2umHk
- 4jaeOpCa4I+smgk+NJtOAwniYg/Xyg6emvTguUEuxw+Ce9etda/0/DlEdPXXfcpxSYWS
- 7rXt3eisvSsShAukh1Q1pborkhOP/BxFmZqNqQa8umrgWy1JzTlgFIUfcVGKPQU8Be7j
- AX+du1M79zZ/iOBZrwk/CAviNARiKsVFiGXH5e+Q3wDKgXhtg0r2m4CPxVuribMgUD0w
- 01cp/YnY80h3USZ8+5ytieaGk24qYUrNfSHdQTPgeVXawSQz967L6Vx9sinp5vpnCraa
- /e4A==
-X-Gm-Message-State: APjAAAXQJz3Fnc8jYyJrYiQEaOFphRXA3E9iTga8cKSPSYNDCb7yI41t
- B16WGhOrTvZZmy6+RfVOBb46oSz3H57jQivulVKAvFo6UWlvn2aJGTWoIa7wCKDOBn4o4HwarCG
- gUd4hHaFsVZcOeWI=
-X-Received: by 2002:a5d:6a08:: with SMTP id m8mr1173833wru.52.1572530832240;
- Thu, 31 Oct 2019 07:07:12 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwDTgWlDj66qEqDDB9s4jeHsGyB4NEPbeWyMdGT/8vppEJSEgqNB1NVUUK2yEr7risMxQHqGg==
-X-Received: by 2002:a5d:6a08:: with SMTP id m8mr1173817wru.52.1572530832074;
- Thu, 31 Oct 2019 07:07:12 -0700 (PDT)
-Received: from [172.20.51.145] ([91.217.168.176])
- by smtp.gmail.com with ESMTPSA id t134sm4073073wmt.24.2019.10.31.07.07.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Oct 2019 07:07:11 -0700 (PDT)
-Subject: Re: [PATCH v6 4/4] tests/vm: update netbsd to version 8.1
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20191031085306.28888-1-kraxel@redhat.com>
- <20191031085306.28888-5-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8e4ef5c2-f80f-35da-f843-a26649d0ceb9@redhat.com>
-Date: Thu, 31 Oct 2019 15:07:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191031085306.28888-5-kraxel@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iQB7V-0005x5-Cj
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 10:08:13 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2019 07:08:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,250,1569308400"; d="scan'208";a="199023177"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+ by fmsmga008.fm.intel.com with ESMTP; 31 Oct 2019 07:08:02 -0700
+Received: from fmsmsx116.amr.corp.intel.com (10.18.116.20) by
+ fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 31 Oct 2019 07:08:02 -0700
+Received: from shsmsx154.ccr.corp.intel.com (10.239.6.54) by
+ fmsmsx116.amr.corp.intel.com (10.18.116.20) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 31 Oct 2019 07:08:02 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.127]) by
+ SHSMSX154.ccr.corp.intel.com ([169.254.7.200]) with mapi id 14.03.0439.000;
+ Thu, 31 Oct 2019 22:08:00 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Jason Wang <jasowang@redhat.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "mst@redhat.com"
+ <mst@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+Subject: RE: [RFC v2 00/22] intel_iommu: expose Shared Virtual Addressing to VM
+Thread-Topic: [RFC v2 00/22] intel_iommu: expose Shared Virtual Addressing
+ to VM
+Thread-Index: AQHVimsks8KvEm+7BkaEbflXH8cdg6dql/6AgAAGfwCACQ8uAIABJaCQ
+Date: Thu, 31 Oct 2019 14:07:59 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A0EACA6@SHSMSX104.ccr.corp.intel.com>
+References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
+ <367adad0-eb05-c950-21d7-755fffacbed6@redhat.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D5D0619@SHSMSX104.ccr.corp.intel.com>
+ <fa994379-a847-0ffe-5043-40a2aefecf43@redhat.com>
+In-Reply-To: <fa994379-a847-0ffe-5043-40a2aefecf43@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjk5ZjI4YTMtY2JkZS00NGFkLWI2M2ItYjdiZmNkMjE3NGE1IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiVDNTak9ZT1RwSlwvXC9NTFZZbm9RdHdhKzMwQkxOVFZyZnQrNlk5SnpLa3lZc3RMeTJ5XC9aVUJ2VUNQc1ZJQWxadCJ9
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,31 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "tianyu.lan@intel.com" <tianyu.lan@intel.com>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Tian,
+ Jun J" <jun.j.tian@intel.com>, "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/31/19 9:53 AM, Gerd Hoffmann wrote:
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->   tests/vm/netbsd | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index d1bccccfd0..33779402dd 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -22,7 +22,7 @@ class NetBSDVM(basevm.BaseVM):
->       name =3D "netbsd"
->       arch =3D "x86_64"
->  =20
-> -    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetB=
-SD-8.0-amd64.iso"
-> +    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetB=
-SD-8.1-amd64.iso"
->       size =3D "20G"
->       pkgs =3D [
->           # tools
->=20
-
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+PiBGcm9tOiBKYXNvbiBXYW5nIFttYWlsdG86amFzb3dhbmdAcmVkaGF0LmNvbV0NCj4gU2VudDog
+VGh1cnNkYXksIE9jdG9iZXIgMzEsIDIwMTkgNTozMyBBTQ0KPiBTdWJqZWN0OiBSZTogW1JGQyB2
+MiAwMC8yMl0gaW50ZWxfaW9tbXU6IGV4cG9zZSBTaGFyZWQgVmlydHVhbCBBZGRyZXNzaW5nIHRv
+IFZNDQo+IA0KPiANCj4gT24gMjAxOS8xMC8yNSDkuIvljYg2OjEyLCBUaWFuLCBLZXZpbiB3cm90
+ZToNCj4gPj4gRnJvbTogSmFzb24gV2FuZyBbbWFpbHRvOmphc293YW5nQHJlZGhhdC5jb21dDQo+
+ID4+IFNlbnQ6IEZyaWRheSwgT2N0b2JlciAyNSwgMjAxOSA1OjQ5IFBNDQo+ID4+DQo+ID4+DQo+
+ID4+IE9uIDIwMTkvMTAvMjQg5LiL5Y2IODozNCwgTGl1IFlpIEwgd3JvdGU6DQo+ID4+PiBTaGFy
+ZWQgdmlydHVhbCBhZGRyZXNzIChTVkEpLCBhLmsuYSwgU2hhcmVkIHZpcnR1YWwgbWVtb3J5IChT
+Vk0pIG9uDQo+ID4+PiBJbnRlbCBwbGF0Zm9ybXMgYWxsb3cgYWRkcmVzcyBzcGFjZSBzaGFyaW5n
+IGJldHdlZW4gZGV2aWNlIERNQSBhbmQNCj4gPj4gYXBwbGljYXRpb25zLg0KPiA+Pg0KPiA+Pg0K
+PiA+PiBJbnRlcmVzdGluZywgc28gdGhlIGJlbG93IGZpZ3VyZSBkZW1vbnN0cmF0ZXMgdGhlIGNh
+c2Ugb2YgVk0uIEkNCj4gPj4gd29uZGVyIGhvdyBtdWNoIGRpZmZlcmVuY2VzIGlmIHdlIGNvbXBh
+cmUgaXQgd2l0aCBkb2luZyBTVk0gYmV0d2Vlbg0KPiA+PiBkZXZpY2UgYW5kIGFuIG9yZGluYXJ5
+IHByb2Nlc3MgKGUuZyBkcGRrKT8NCj4gPj4NCj4gPj4gVGhhbmtzDQo+ID4gT25lIGRpZmZlcmVu
+Y2UgaXMgdGhhdCBvcmRpbmFyeSBwcm9jZXNzIHJlcXVpcmVzIG9ubHkgc3RhZ2UtMQ0KPiA+IHRy
+YW5zbGF0aW9uLCB3aGlsZSBWTSByZXF1aXJlcyBuZXN0ZWQgdHJhbnNsYXRpb24uDQo+IA0KPiAN
+Cj4gQSBzaWxseSBxdWVzdGlvbiwgdGhlbiBJIGJlbGlldmUgdGhlcmUncyBubyBuZWVkIGZvciBW
+RklPIERNQSBBUEkgaW4gdGhpcyBjYXNlIGNvbnNpZGVyDQo+IHRoZSBwYWdlIHRhYmxlIGlzIHNo
+YXJlZCBiZXR3ZWVuIE1NVSBhbmQgSU9NTVU/DQoNCkVjaG8gS2V2aW4ncyByZXBseS4gV2UgdXNl
+IG5lc3RlZCB0cmFuc2xhdGlvbiBoZXJlLiBGb3Igc3RhZ2UtMSwgeWVzLCBubyBuZWVkIHRvIHVz
+ZQ0KVkZJTyBETUEgQVBJLiBGb3Igc3RhZ2UtMiwgd2Ugc3RpbGwgdXNlIFZGSU8gRE1BIEFQSSB0
+byBwcm9ncmFtIHRoZSBHUEEtPkhQQQ0KbWFwcGluZyB0byBob3N0LiA6LSkNCg0KUmVnYXJkcywN
+CllpIExpdQ0KPiANCj4gVGhhbmtzDQo+IA0KPiA+DQoNCg==
 
