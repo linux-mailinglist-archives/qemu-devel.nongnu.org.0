@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E64AEAC07
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 10:00:13 +0100 (CET)
-Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C437EAC19
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Oct 2019 10:03:28 +0100 (CET)
+Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQ6JP-0007Ld-Hb
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 05:00:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59319)
+	id 1iQ6MY-0001lh-L1
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 05:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iQ6DD-00015h-Jt
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 04:53:48 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iQ6DE-00016N-Cx
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 04:53:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iQ6DB-0001xm-Pg
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 04:53:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60978
+ (envelope-from <kraxel@redhat.com>) id 1iQ6DD-000214-Dj
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 04:53:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51182
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iQ6DB-0001v9-GM
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 04:53:45 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iQ6DD-000202-A2
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 04:53:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572512024;
+ s=mimecast20190719; t=1572512027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WuZgXvlwMzLuDvpGw9CQ8n6GULhWbjwRy5OX5k+F+6I=;
- b=T7ClRLVp8fP+vHS9lnHbsMrxcPrEub2OsNob1GxUNzK/imEc/eolKyzym1XXLYK9wgvYcL
- Ye0OHRfYfmOJHG0317/fII+WNQXYLg7V3NxMN2Z45ulECev++0mdHpF7Rl30Ys2SZoHGTm
- IVEDKid+yWeyOInQBD3u1za5zoLL/T0=
+ bh=iyY/kiyOZkundYGSXspGQ1k9WbRnSKakswJmBR/D4tY=;
+ b=GhqG9k7Eb3uaWMSnaAI8IH8vgCnNxLpMhSYo14PYR9GgOu7L/MrcYXVLRdAG/XeoLqhmnU
+ NsnDCwMmTXHkiJSOYWD5gqlkj3ZzLgwRVJ83ISNk6vhP7oy59p+NyCXh7eP2gp0yOGMenB
+ idSYTKfp3ieveX/LICurB7tmpETLvUc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-7Avr_16tMLim60-DPURpcg-1; Thu, 31 Oct 2019 04:53:42 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-355-Gs_r0z_9NYq1VwqYoysc2Q-1; Thu, 31 Oct 2019 04:53:45 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A36781A334
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 08:53:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8593107ACC0
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 08:53:44 +0000 (UTC)
 Received: from lupin.home.kraxel.org (ovpn-116-222.ams2.redhat.com
  [10.36.116.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E37841001B23;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E36295DA2C;
  Thu, 31 Oct 2019 08:53:38 +0000 (UTC)
 Received: by lupin.home.kraxel.org (Postfix, from userid 1000)
- id 80E226114A3F; Thu, 31 Oct 2019 09:53:36 +0100 (CET)
+ id 7829C6114A3D; Thu, 31 Oct 2019 09:53:36 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/4] tests/vm: update netbsd to version 8.1
-Date: Thu, 31 Oct 2019 09:53:06 +0100
-Message-Id: <20191031085306.28888-5-kraxel@redhat.com>
+Subject: [PATCH v6 2/4] tests/vm: add console_consume helper
+Date: Thu, 31 Oct 2019 09:53:04 +0100
+Message-Id: <20191031085306.28888-3-kraxel@redhat.com>
 In-Reply-To: <20191031085306.28888-1-kraxel@redhat.com>
 References: <20191031085306.28888-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 7Avr_16tMLim60-DPURpcg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: Gs_r0z_9NYq1VwqYoysc2Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,26 +76,43 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Helper function to read all console output.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/vm/netbsd | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/vm/basevm.py | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index d1bccccfd0..33779402dd 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -22,7 +22,7 @@ class NetBSDVM(basevm.BaseVM):
-     name =3D "netbsd"
-     arch =3D "x86_64"
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 2929de23aa..086bfb2c66 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -242,6 +242,25 @@ class BaseVM(object):
+             return False
+         return True
 =20
--    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetBSD-8=
-.0-amd64.iso"
-+    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetBSD-8=
-.1-amd64.iso"
-     size =3D "20G"
-     pkgs =3D [
-         # tools
++    def console_consume(self):
++        vm =3D self._guest
++        output =3D ""
++        vm.console_socket.setblocking(0)
++        while True:
++            try:
++                chars =3D vm.console_socket.recv(1)
++            except:
++                break
++            output +=3D chars.decode("latin1")
++            if "\r" in output or "\n" in output:
++                lines =3D re.split("[\r\n]", output)
++                output =3D lines.pop()
++                if self.debug:
++                    self.console_log("\n".join(lines))
++        if self.debug:
++            self.console_log(output)
++        vm.console_socket.setblocking(1)
++
+     def console_send(self, command):
+         vm =3D self._guest
+         if self.debug:
 --=20
 2.18.1
 
