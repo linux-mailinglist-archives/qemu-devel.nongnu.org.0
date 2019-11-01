@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9047BEC150
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 11:42:14 +0100 (CET)
-Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38422EC155
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 11:44:30 +0100 (CET)
+Received: from localhost ([::1]:37544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQUNh-0007Ki-BE
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 06:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
+	id 1iQUPt-0001Hw-0E
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 06:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47225)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iQUMb-0006nA-Rv
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:41:07 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iQUOX-0000KQ-Vy
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:43:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iQUMa-0005f1-4f
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:41:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48930)
+ (envelope-from <peter.maydell@linaro.org>) id 1iQUOW-0000aZ-MA
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:43:05 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44410)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iQUMZ-0005bD-Tk
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:41:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iQUMX-0005s8-Cx
- for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 10:41:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 98A4F2E80D4
- for <qemu-devel@nongnu.org>; Fri,  1 Nov 2019 10:41:00 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iQUOW-0000Yf-FB
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:43:04 -0400
+Received: by mail-oi1-x244.google.com with SMTP id s71so7763864oih.11
+ for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 03:43:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RRCPdvuPxal8vX64DWImMo/sKxIAjv2N6JAaqUg4zcQ=;
+ b=x66evxSpB8HAJvTXNEz6dvUVWvbHxwkG+B7iAyQyK7pRPr1OL/pyKEO94v3impUI+J
+ tZBSwhWhtg/F3yZ6qJxykiiaLkxihfLxUPsHkyU6sMP2f7W3a3LL3QuvV0SsQVVyKt5C
+ fpNuVqwMqUX5KsXfNUI6EOtQC27Qxoj6NXU73RO+osO7mtwAhwPwJIuQwG2u4xacmtgm
+ IfE/+fV0tiBxxIWVIYVlp8yvn8ooYUxYJmLvTqhcLRl+orOGKpRK4bUyCQTFt8YkeuXR
+ xwp0sccJjT3FKXEyUx11Z7TtNMpB+2jWVSSx1tLhdVZ6uiwIkT27lt/4GV+8+5DyDb3/
+ 3ZCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RRCPdvuPxal8vX64DWImMo/sKxIAjv2N6JAaqUg4zcQ=;
+ b=TqKdSUN1eA/L7LJP5IcLuUlAFn9kh2lvMl1kHaebWObsRZeJoKON66qO3DYvPgZ0V7
+ ANOFz3GzEETPqESncopmHmgY37tJvZ8lhD/ugU2SABvDA5504hV3f+mDIV99BZoHusLq
+ C1iWhiqOyNNnhc/oaBJzK9jOf8ZuV3cgzmzBhIJffOxNt2GH3vYv5ZjT4spKwSKaGp1o
+ Cz+k0SuTts3Kyy609eORnqydk8Gk6yuZDq3uOfx4dTXoGnVByPCyud3a1H9veRNOpcuT
+ j+Ua0ZvzaPG4SdZJvBFJrV+fBy/iNYDQ3LSm66nsE+cOSSsx/TR+W0qaFBd5M1rRreOL
+ pEuA==
+X-Gm-Message-State: APjAAAV2dSZEH9ET7DJu3l58gTW8Aj4hYmLIljLLMt0/6EU9M75gyJfM
+ gEQ6eU577nnjEvpVqAdGauI4r6/dNXpzeIP5Dn5RaA==
+X-Google-Smtp-Source: APXvYqwMQp1n7qktTOaTojmmcEGUO6vER9yISMKqzV01LQOBi0VLcdjPKwyvkRDrQux5usRmW+dBUIBfJ5LTC4c4zXA=
+X-Received: by 2002:aca:3e8a:: with SMTP id l132mr2211696oia.146.1572604983188; 
+ Fri, 01 Nov 2019 03:43:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 01 Nov 2019 10:34:53 -0000
-From: John Arbuckle <programmingkidx@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: johncanada programmingkidx
-X-Launchpad-Bug-Reporter: John Canada (johncanada)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-References: <157240001496.28481.10507378472210680134.malonedeb@chaenomeles.canonical.com>
-Message-Id: <47A92732-E94E-4DD9-8D47-E8DCF4E364B1@gmail.com>
-Subject: Re: [Bug 1850570] Re: Cannot use usb-host on Mac OS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 82db82efd476216fd7ce636c961d8de3148907f6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+References: <20191101103232.3692818-1-luc.michel@greensocs.com>
+In-Reply-To: <20191101103232.3692818-1-luc.michel@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Nov 2019 10:42:52 +0000
+Message-ID: <CAFEAcA96tfJNVrnQzKyzooy7sJ__WKWWHXdAy_TNy=hSB_DOQQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/pxa2xx: rebuild hflags cache when modifying CPU
+ state
+To: Luc Michel <luc.michel@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,160 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1850570 <1850570@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On Oct 31, 2019, at 7:35 PM, qemu-devel-request@nongnu.org wrote:
-> =
+On Fri, 1 Nov 2019 at 10:32, Luc Michel <luc.michel@greensocs.com> wrote:
+>
+> This machine modifies the CPU state when simulating suspend mode. This
+> commit adds a missing call to arm_rebuild_hflags after those
+> modifications.
+>
+> Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+> ---
+> I came over this missing hflags rebuild while reviewing Edgar's similar
+> fix in hw/arm/boot.c. I could not find any other place where it would be
+> missing but I may be wrong.
 
-> Message: 10
-> Date: Thu, 31 Oct 2019 18:39:11 -0000
-> From: John Canada <1850570@bugs.launchpad.net>
-> To: qemu-devel@nongnu.org
-> Subject: [Bug 1850570] Re: Cannot use usb-host on Mac OS
-> Message-ID:
-> 	<157254715118.3076.2379100780378521691.malone@gac.canonical.com>
-> Content-Type: text/plain; charset=3D"utf-8"
-> =
-
-> Yes, I tried running as root.  I also tried it on a different computer
-> that is running Mac OS 10.13, and it gave the same errors.
-> =
-
-> -- =
-
-> You received this bug notification because you are a member of qemu-
-> devel-ml, which is subscribed to QEMU.
-> https://bugs.launchpad.net/bugs/1850570
-> =
-
-> Title:
->  Cannot use usb-host on Mac OS
-> =
-
-> Status in QEMU:
->  New
-> =
-
-> Bug description:
->  Usb-host will not work on Mac OS 10.15.  Qemu runs, though it gives
->  these errors and the drive does not show up.  Also, when Qemu is
->  starting the drive ejects and remounts twice. Qemu built with
->  ./configure --target-list=3Di386-softmmu,x86_64-softmmu --enable-sdl
->  --disable-cocoa --enable-sdl-image.
-> =
-
->  qemu-system-i386 image.qcow -usb -device usb-kbd  -device usb-host,vendo=
-rid=3D0x0781,productid=3D0x5571
->  libusb: error [darwin_claim_interface] USBInterfaceOpen: another process=
- has device opened for exclusive access
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] USBInterfaceOpen: another process=
- has device opened for exclusive access
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
->  libusb: error [darwin_claim_interface] interface not found
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1850570/+subscriptions
+pxa2xx_pwrmode_write() is a cp14 coprocessor register write
+function, so I think that the hflags rebuild that is done by
+translate.c:disas_coproc_insn() after a cp register write
+should already handle this case ?
 
 
-Try this. Unplug the USB device. Plug it back in, and as fast as you can st=
-art QEMU. =
+The other place that might need checking is the PSCI/etc
+code for doing CPU power on/off (and other callers to the
+power up/down functions like the imx6 power control regs).
+Richard, did you look at that code to see if it needed hflags updates?
 
-
-My theory is another program might be using the device. This could be
-Spotlight trying to index the drive.
-
-Another possibility is libusb is not compatible with Mac OS 10.13 yet.
-
-Do you have another computer that runs Mac OS 10.12 or under that you
-can test on?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1850570
-
-Title:
-  Cannot use usb-host on Mac OS
-
-Status in QEMU:
-  New
-
-Bug description:
-  Usb-host will not work on Mac OS 10.15.  Qemu runs, though it gives
-  these errors and the drive does not show up.  Also, when Qemu is
-  starting the drive ejects and remounts twice. Qemu built with
-  ./configure --target-list=3Di386-softmmu,x86_64-softmmu --enable-sdl
-  --disable-cocoa --enable-sdl-image.
-
-  qemu-system-i386 image.qcow -usb -device usb-kbd  -device usb-host,vendor=
-id=3D0x0781,productid=3D0x5571
-  libusb: error [darwin_claim_interface] USBInterfaceOpen: another process =
-has device opened for exclusive access
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] USBInterfaceOpen: another process =
-has device opened for exclusive access
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-  libusb: error [darwin_claim_interface] interface not found
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1850570/+subscriptions
+thanks
+-- PMM
 
