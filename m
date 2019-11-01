@@ -2,67 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352CEEC5C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 16:44:24 +0100 (CET)
-Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AD4EC5DC
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 16:49:11 +0100 (CET)
+Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQZ66-0003ih-RB
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 11:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52866)
+	id 1iQZAk-0006mW-EF
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 11:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anup@brainfault.org>) id 1iQZ2X-00038M-74
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 11:40:43 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iQZ4a-0003n1-2A
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 11:42:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anup@brainfault.org>) id 1iQZ2W-0002uX-06
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 11:40:41 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52313)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <anup@brainfault.org>) id 1iQZ2V-0002Ys-QW
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 11:40:39 -0400
-Received: by mail-wm1-x344.google.com with SMTP id c17so2369076wmk.2
- for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 08:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PnyrLnNYEiZ0VCSsEhmvl+u74qow2KUegd4JUtRWIWk=;
- b=tVtACwLHj+qxRWiAqXGB2HJXrke2qTLCH3m1EuzS/+AskV3tcFxONlCCziwD9tEh29
- DlYABa8Lxp95Gb6jHa/jC/qajNjykgzOSg54vMpCiN5vbzuBZkUh2n2fYEQrcQEeFE+K
- 7j9sWnSU37ixDQ1f0yE3PbhW54tTyo+ay6bz0P1rPdtBcsR+obWWn9VQ+SxzQvhAt8QL
- d8ncWRjpHleJW8YHoksOOD5jEPbNfHirhslGzmkOcMF2aLItgjiyRS/+fPejt/eEdnD1
- b8WlnUrY0Fl7x650alv7JEqAZvST2rhons4+wx8BRc80RSOCLx296guNcxARHBxlWX7z
- Rn+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PnyrLnNYEiZ0VCSsEhmvl+u74qow2KUegd4JUtRWIWk=;
- b=R6rlzKSwxzuKKVoskfd/XFAHOVb7yU8TsGXZNOPXWXM/hCbMvVDa8p7OqxiCxOVEBu
- vqeYKEc4Xf/4+p45jITTzgZ4iNX0mIpU7hamZZHaC4Bn2yvqtiq236+WXGDjDd640phR
- HD4YEaeQBMmJH0rEwcnMgqdnSamEnfhk9p7pznv2WzaUXCyU2m/t62R4EnaTPTy/VHTU
- CLmoNEyFmvaCH9zUyZYk6ea/x8kOl818U/doMIbxFzmQo6OGwKkTvefD5KV55sJUgeUg
- sNEl/vqogYbQ6r9LDYYSI+rx7NRUoNn3YuD6yWCOKNeXRNigZF2SZI/QA8OSWAiqd7X5
- 33Ew==
-X-Gm-Message-State: APjAAAWYChQ4gQvI+QaT8WbBGD1TKffYuzp6rhSXRTYKvEm9pgkBU3Rg
- f4ZOHltib8FZewiHjGAx22HdxYX6zVuKoaaaWZWoSg==
-X-Google-Smtp-Source: APXvYqzEpqJU31nE+PcSBF0U/yI/nLRGdJQrnuHDJpPYoq1kBlHWsYFmYMJzGS96gMY68kHNghTRZwwr1rbmbGeH+mA=
-X-Received: by 2002:a05:600c:2112:: with SMTP id
- u18mr10444612wml.177.1572622834966; 
- Fri, 01 Nov 2019 08:40:34 -0700 (PDT)
+ (envelope-from <jsnow@redhat.com>) id 1iQZ4X-0003Fx-Ns
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 11:42:46 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32480
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iQZ4X-00039F-0Y
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 11:42:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572622964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
+ bh=59YsyYa33n8ME6FpNLU//yn8AEesrMUg43u8bNeCUeA=;
+ b=egdP15J/FvR5dJweinHfrpL5Hyl+ioQSE/oWCsp1h/LXCJeIO5AF1RcOO1rMX5hkH8Ut73
+ 5wEEQVjma9V9Wlk1CvPgGYWNIX5KC/1pfv/jP/icS24zIzWzMJMBf2BVQl3kHgw4uH3KkW
+ wCpwjZxE2TkZSJZF1visc7bjEo4ASm8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-MYrKMytlNzGSVBCmsfYdew-1; Fri, 01 Nov 2019 11:42:40 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B709800A1A;
+ Fri,  1 Nov 2019 15:42:39 +0000 (UTC)
+Received: from [10.10.122.249] (ovpn-122-249.rdu2.redhat.com [10.10.122.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FFB260C18;
+ Fri,  1 Nov 2019 15:42:37 +0000 (UTC)
+To: Qemu-block <qemu-block@nongnu.org>
+From: John Snow <jsnow@redhat.com>
+Subject: bitmaps -- copying allocation status into dirty bitmaps
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <b9b55376-3d6d-5dc2-2db3-bdced9e2d46a@redhat.com>
+Date: Fri, 1 Nov 2019 11:42:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191025042734.69244-1-anup.patel@wdc.com>
- <CAKmqyKMQz-OMFQRTdmpBpGMLiZ_ZM+UL5T5aAWZ5F1fC6vddOQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKMQz-OMFQRTdmpBpGMLiZ_ZM+UL5T5aAWZ5F1fC6vddOQ@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 1 Nov 2019 21:10:24 +0530
-Message-ID: <CAAhSdy3sUb_r77NBvEQEAQ0EQB99=4jgAbH3ADOqvJ_iX+o8pg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] RTC support for QEMU RISC-V virt machine
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: MYrKMytlNzGSVBCmsfYdew-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,73 +144,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <Anup.Patel@wdc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 29, 2019 at 6:55 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Oct 25, 2019 at 6:28 AM Anup Patel <Anup.Patel@wdc.com> wrote:
-> >
-> > This series adds RTC device to QEMU RISC-V virt machine. We have
-> > selected Goldfish RTC device model for this. It's a pretty simple
-> > synthetic device with few MMIO registers and no dependency external
-> > clock. The driver for Goldfish RTC is already available in Linux so
-> > we just need to enable it in Kconfig for RISCV and also update Linux
-> > defconfigs.
-> >
-> > We have tested this series with Linux-5.4-rc4 plus defconfig changes
-> > available in 'goldfish_rtc_v2' branch of:
-> > https://github.com/avpatel/linux.git
->
-> @Peter Maydell this has been reviewed, do you mind taking this in you
-> next PR? I don't see a maintainer for hw/rtc.
+Hi, in one of my infamously unreadable and long status emails, I
+mentioned possibly wanting to copy allocation data into bitmaps as a way
+to enable users to create (external) snapshots from outside of the
+libvirt/qemu context.
 
-It would be great if this series can be taken for QEMU-4.2
+(That is: to repair checkpoints in libvirt after a user extended the
+backing chain themselves, you want to restore bitmap information for
+that node. Conveniently, this information IS the allocation map, so we
+can do this.)
 
-Regards,
-Anup
+It came up at KVM Forum that we probably do want this, because oVirt
+likes the idea of being able to manipulate these chains from outside of
+libvirt/qemu.
 
->
-> Alistair
->
-> >
-> > Changes since v4:
-> >  - Fixed typo in trace event usage
-> >  - Moved goldfish_rtc.h to correct location
-> >
-> > Changes since v3:
-> >  - Address all nit comments from Alistair
-> >
-> > Changes since v2:
-> >  - Rebased on RTC code refactoring
-> >
-> > Changes since v1:
-> >  - Implemented VMState save/restore callbacks
-> >
-> > Anup Patel (2):
-> >   hw: rtc: Add Goldfish RTC device
-> >   riscv: virt: Use Goldfish RTC device
-> >
-> >  hw/riscv/Kconfig              |   1 +
-> >  hw/riscv/virt.c               |  15 ++
-> >  hw/rtc/Kconfig                |   3 +
-> >  hw/rtc/Makefile.objs          |   1 +
-> >  hw/rtc/goldfish_rtc.c         | 288 ++++++++++++++++++++++++++++++++++
-> >  hw/rtc/trace-events           |   4 +
-> >  include/hw/riscv/virt.h       |   2 +
-> >  include/hw/rtc/goldfish_rtc.h |  46 ++++++
-> >  8 files changed, 360 insertions(+)
-> >  create mode 100644 hw/rtc/goldfish_rtc.c
-> >  create mode 100644 include/hw/rtc/goldfish_rtc.h
-> >
-> > --
-> > 2.17.1
-> >
+Denis suggested that instead of a new command, we can create a special
+name -- maybe "#ALLOCATED" or something similar that can never be
+allocated as a user-defined bitmap name -- as a special source for the
+merge command.
+
+You'd issue a merge from "#ALLOCATED" to "myBitmap0" to copy the current
+allocation data into "myBitmap0", for instance.
+
+Some thoughts:
+
+- The only commands where this pseudo-bitmap makes sense is merge.
+enable/disable/remove/clear/add don't make sense here.
+
+- This pseudo bitmap might make sense for backup, but it's not needed;
+you can just merge into an empty/enabled bitmap and then use that.
+
+- Creating an allocation bitmap on-the-fly is probably not possible
+directly in the merge command, because the disk status calls might take
+too long...
+
+Hm, actually, I'm not sure how to solve that one. Merge would need to
+become a job (or an async QMP command?) or we'd need to keep an
+allocation bitmap object around and in-sync. I don't really want to do
+either, so maybe I'm missing an obvious/better solution.
+
+Also, with regards to introspection, if we do create a special reserved
+name like #ALLOCATED, we need to make sure that this is available and
+obvious via the QAPI schema.
+
+--js
+
 
