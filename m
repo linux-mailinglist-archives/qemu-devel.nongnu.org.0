@@ -2,63 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD22EC103
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 11:07:46 +0100 (CET)
-Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8EDEC11E
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 11:10:55 +0100 (CET)
+Received: from localhost ([::1]:37272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQTqL-0003OP-KB
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 06:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40483)
+	id 1iQTtO-0006ph-EX
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 06:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41861)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iQTk4-0007Li-GS
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:01:18 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iQTs7-0005uU-E7
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:09:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iQTk1-0006oq-8v
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:01:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37162
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iQTjw-00068C-Sm
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:01:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572602456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CSfDgngGZU4Dl9sNhabdfyOvZuYyfclSjEtzmRhnADY=;
- b=GttoklKSG2Fu5ECDKsIXM4CkpUN/NvCNS65BXuL4JhRu+3l6iXyTS5uZKxHs+765u4U0dA
- v4CPnRbSl9n4yfYYZRtfhgTUEvzPhhNODPLXP4DhzS5aJ43Sy8KpVMiqm4/oVpbpfhjAHH
- tS+a2OnkHSoK0GzhVKr70Rz3L/j/zWU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-2rhOLzh1P56fZs8QHJF0lw-1; Fri, 01 Nov 2019 06:00:52 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54FFE2A3;
- Fri,  1 Nov 2019 10:00:51 +0000 (UTC)
-Received: from localhost (ovpn-117-28.ams2.redhat.com [10.36.117.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3332860C18;
- Fri,  1 Nov 2019 10:00:43 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-4.2 4/4] block/file-posix: Let post-EOF fallocate serialize
-Date: Fri,  1 Nov 2019 11:00:19 +0100
-Message-Id: <20191101100019.9512-5-mreitz@redhat.com>
-In-Reply-To: <20191101100019.9512-1-mreitz@redhat.com>
-References: <20191101100019.9512-1-mreitz@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iQTs6-0004lJ-5r
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:09:35 -0400
+Received: from mail-eopbgr60111.outbound.protection.outlook.com
+ ([40.107.6.111]:45999 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iQTs1-0004MZ-W6; Fri, 01 Nov 2019 06:09:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R8XRTqU9MkxtkZpHlsIGj6hoBIT81vPII2Y4Gm9XgVV4EcJ1Yd2mnKqQ29NziYCOL2KjsulX3c3N+R64HQOmYJ75yv91QKw1pdVJ5L4QHtQcJy/HaqvFqhaP+BZia1GlL4y5KjOvIa/EfUh8C71EFlTlbrBWJJMS37WsXEkMIWRzYQrwRZ++5Lnu4mC1LX9WStLoOukwW7qdFZFw7kK0iTQltgBUcFnpPdYOaAQFwK3OrZJCOgIEAu/Hv3npkPZfEHK8tddbNfrIf0aQAFAP7g/j+Hj9L+YrYS+aVNzYq1gFwUr5PhWentJnyBSCZtrn1Jvk55oKB8ldiE2qi0eVgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=keYtYHblYt7FCMwmDQlDansx4DfD46tqoJzUwBEEQBs=;
+ b=Z62c+ETuwc0CNidMiwKuC/yZiHyY91A1kH43pSb+wrtdbE/z5qQoiw2KcQs7NklN8y5WRhyOirdYycqRw0//SxQ4HHFJgTrQklSCG7ofRfsPm5+QB2ErJPxS+ayvD9spPAs4re1WMIrN+TY5yAXiiZ0veJ9lxuTJNnYnYGnaijfOuCT4t7rprYSngSMF+wJPJanoFAVlbpOav06t4G57eXZTFeVRlCEJcvk+n5JsNJHg3oU7mJLmzS8236vAX+I5xUtv5YjRPCufqJbtj8ECuWpR3RMJBkEY5wjc2RZQSeIDjMpgXf3hQmdJfOFIH6NwKOZIQWAyzv3ctI+t+xcxbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=keYtYHblYt7FCMwmDQlDansx4DfD46tqoJzUwBEEQBs=;
+ b=WNlETwjjpnmJKDc08aYYkFBdeJZz4Q7M6OIDtam/mycoN1GeHiNZRvkM48kIxjQxjCixb/G/nodLn00+0G1LBJbDjOcKav9u9xA+qOtOOOS6uHp55pdWW1qTbLIy3xDFRM4alA8DwoYTtdZRNYa8c4uX3jNYUf64Pm6co+1FFX8=
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
+ AM0PR08MB3122.eurprd08.prod.outlook.com (52.134.93.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.24; Fri, 1 Nov 2019 10:09:27 +0000
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::6844:bb8c:7d2c:b119]) by AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::6844:bb8c:7d2c:b119%6]) with mapi id 15.20.2408.019; Fri, 1 Nov 2019
+ 10:09:27 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Tuguoyi <tu.guoyi@h3c.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v4] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Topic: [PATCH v4] qcow2-bitmap: Fix uint64_t left-shift overflow
+Thread-Index: AdWQhrb0bffMwMc6ShSREntjykPuIgAKDhOA///RRICAAAm8AA==
+Date: Fri, 1 Nov 2019 10:09:27 +0000
+Message-ID: <dcdf7075-45f4-8ba1-69fc-17cd673125ca@virtuozzo.com>
+References: <4ba40cd1e7ee4a708b40899952e49f22@h3c.com>
+ <8b7d3d50-4a29-a8b3-5b6c-cde4af1b1d7a@virtuozzo.com>
+ <7650a7b706d24774b4ea3af23a2b371f@h3c.com>
+In-Reply-To: <7650a7b706d24774b4ea3af23a2b371f@h3c.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0301CA0001.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::11) To AM0PR08MB4097.eurprd08.prod.outlook.com
+ (2603:10a6:208:132::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191101130924700
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3fb15ac5-df5d-4223-4f24-08d75eb39400
+x-ms-traffictypediagnostic: AM0PR08MB3122:
+x-microsoft-antispam-prvs: <AM0PR08MB3122F5DC5FB7C0A3902B14A6C1620@AM0PR08MB3122.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:161;
+x-forefront-prvs: 020877E0CB
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(136003)(366004)(39840400004)(396003)(346002)(199004)(189003)(66066001)(256004)(3846002)(478600001)(2501003)(25786009)(2906002)(99286004)(5660300002)(66446008)(6436002)(64756008)(66946007)(66556008)(66476007)(7416002)(6486002)(14454004)(6116002)(229853002)(2201001)(476003)(8936002)(2616005)(31686004)(6512007)(52116002)(36756003)(86362001)(71200400001)(71190400001)(486006)(6506007)(386003)(76176011)(53546011)(81166006)(4326008)(54906003)(8676002)(186003)(26005)(81156014)(316002)(31696002)(110136005)(102836004)(6246003)(305945005)(446003)(11346002)(7736002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3122;
+ H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lU8nLtoG+goBzriS+rWCEgvq1vs+KqI9Mv3pli1WZRawcBW7q8GRwwbMIQ5AT4jHcdH1GQk+H8xWZlLJgvROw0QCFUsMHhzpV6uDS08MQjah9VmXhCUc8JX6CZdO4tPUgW+FqSLV5YslZPYhHV3EIxTRHtXNV47KY0tc/0UP9GPabxce/1m7Ultu196A2eviD9XD5b2WCViWwxJPn2XLNzWrO6ujHxX4HS/4OcJXEyszwkkOo4I4F0TNGaWuIsDWbRAI/mI+eEJmTubhAKWkcgSPbVeOEyVOIL0dP0Q4dP4CV/kkkPaRVhPz9r/oWgL9zxcfCFWio+vPQMQFrhZrw2OiL8e6KJq4NsaSg8Nl4kP2NdNgXZzUt6UAyRsxvN3l9FKACnrKKFTla0VaUGhBBq8KA7Nt0Tr2inpIBESMxMFhIZFXFbudNWh+64G3zfHp
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1B28F0ECD7EB4249AD5DD841ADA61879@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 2rhOLzh1P56fZs8QHJF0lw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fb15ac5-df5d-4223-4f24-08d75eb39400
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2019 10:09:27.2878 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 823uCxNaBSl8ZzGLgDMbPIeTT/Wzp2ob22D/eMfSpa4ql4H0Fi1LZqMmmlwNpZWnI6QWOEuG5aBbCz8R81UKuV+Q91Fi3zgzFWmv8WJSU3g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3122
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.6.111
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,74 +111,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Chengchiwen <chengchiwen@h3c.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ Wangyongqing <w_yongqing@h3c.com>, Changlimin <changlimin@h3c.com>,
+ Gaoliang <liang_gao@h3c.com>, Wangyong <wang.yongD@h3c.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XFS kernel driver has a bug that may cause data loss when using
-fallocate() in an I/O path, i.e. writing zeroes.  We can work around it
-by treating post-EOF fallocates as serializing up until infinity
-(INT64_MAX in practice).
-
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/file-posix.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 0b7e904d48..d5460f3e45 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2721,6 +2721,44 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t o=
-ffset, int bytes,
-     RawPosixAIOData acb;
-     ThreadPoolFunc *handler;
-=20
-+#ifdef CONFIG_FALLOCATE
-+    if (offset + bytes > bs->total_sectors * BDRV_SECTOR_SIZE) {
-+        BdrvTrackedRequest *req;
-+        uint64_t end;
-+
-+        /*
-+         * This is a workaround for a bug in the Linux XFS driver,
-+         * where writes submitted through the AIO interface will be
-+         * discarded if they happen beyond a concurrently running
-+         * fallocate() that increases the file length (i.e., both the
-+         * write and the fallocate() happen beyond the EOF).
-+         *
-+         * To work around it, we extend the tracked request for this
-+         * zero write until INT64_MAX (effectively infinity), and mark
-+         * it as serializing.
-+         *
-+         * We have to enable this workaround for all filesystems and
-+         * AIO modes (not just XFS with aio=3Dnative), because for
-+         * remote filesystems we do not know the host configuration.
-+         * However, this should have no effect as long as no block
-+         * driver submits zero writes beyond the EOF.
-+         */
-+
-+        req =3D bdrv_co_get_self_request(bs);
-+        assert(req);
-+        assert(req->type =3D=3D BDRV_TRACKED_WRITE);
-+        assert(req->offset <=3D offset);
-+        assert(req->offset + req->bytes >=3D offset + bytes);
-+
-+        end =3D INT64_MAX & -(uint64_t)bs->bl.request_alignment;
-+        req->bytes =3D end - req->offset;
-+        req->overlap_bytes =3D req->bytes;
-+
-+        bdrv_mark_request_serialising(req, bs->bl.request_alignment);
-+        bdrv_wait_serialising_requests(req);
-+    }
-+#endif
-+
-     acb =3D (RawPosixAIOData) {
-         .bs             =3D bs,
-         .aio_fildes     =3D s->fd,
---=20
-2.21.0
-
+MDEuMTEuMjAxOSAxMjozNCwgVHVndW95aSB3cm90ZToNCj4gT24gMDEuMTEuMjAxOSAxNzoyNSBW
+bGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4gMDEuMTEuMjAxOSAxMDozNywg
+VHVndW95aSB3cm90ZToNCj4+PiBUaGVyZSBhcmUgdHdvIGlzc3VlcyBpbiBJbiBjaGVja19jb25z
+dHJhaW50c19vbl9iaXRtYXAoKSwNCj4+PiAxKSBUaGUgc2FuaXR5IGNoZWNrIG9uIHRoZSBncmFu
+dWxhcml0eSB3aWxsIGNhdXNlIHVpbnQ2NF90IGludGVnZXINCj4+PiBsZWZ0LXNoaWZ0IG92ZXJm
+bG93IHdoZW4gY2x1c3Rlcl9zaXplIGlzIDJNIGFuZCB0aGUgZ3JhbnVsYXJpdHkgaXMNCj4+PiBC
+SUdHRVIgdGhhbiAzMksuDQo+Pj4gMikgVGhlIHdheSB0byBjYWxjdWxhdGUgaW1hZ2Ugc2l6ZSB0
+aGF0IHRoZSBtYXhpbXVtIGJpdG1hcCBzdXBwb3J0ZWQNCj4+PiBjYW4gbWFwIHRvIGlzIGEgYml0
+IGluY29ycmVjdC4NCj4+PiBUaGlzIHBhdGNoIGZpeCBpdCBieSBhZGQgYSBoZWxwZXIgZnVuY3Rp
+b24gdG8gY2FsY3VsYXRlIHRoZSBudW1iZXIgb2YNCj4+PiBieXRlcyBuZWVkZWQgYnkgYSBub3Jt
+YWwgYml0bWFwIGluIGltYWdlIGFuZCBjb21wYXJlIGl0IHRvIHRoZSBtYXhpbXVtDQo+Pj4gYml0
+bWFwIGJ5dGVzIHN1cHBvcnRlZCBieSBxZW11Lg0KPj4+DQo+Pj4gRml4ZXM6IDVmNzI4MjZlN2Zj
+NjIxNjdjZjNhDQo+Pj4gU2lnbmVkLW9mZi1ieTogR3VveWkgVHUgPHR1Lmd1b3lpQGgzYy5jb20+
+DQo+Pg0KPj4gWW91IGZvcmdldCBteQ0KPj4gUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNv
+di1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCj4gDQo+IFNvcnJ5IGZvciB0
+aGF0LCBpdCdzIG15IGZpcnN0IHRpbWUgdG8gc3VibWl0IHBhdGNoIHRvIHFlbXUsIGFuZCBzaG91
+bGQgSSBzZW5kIGFub3RoZXIgcGF0Y2ggb3Igbm90ID8NCg0KR29vZCBzdGFydCENCg0KTm8sIHlv
+dSBzaG91bGRuJ3QuIE1haW50YWluZXIgd2lsbCB0YWtlIHN1Y2ggbWFya3MgKGFuZCBtYXkgYmUg
+b3RoZXIgcHJvcG9zZWQNCmltcHJvdmVtZW50cyBmb3IgY29tbWl0IG1lc3NhZ2UgbGlrZSB0aGlz
+ICJGaXhlczogIiwgd2hlbiBhcHBseWluZywgc28gbm8gcmVhc29uIHRvIHJlc2VuZC4NCg0KQWxz
+bywgd2hlbiBzZW5kaW5nIGEgbmV3IHZlcnNpb24gb2YgcGF0Y2gsIHN1bW1hcml6ZSB3aGF0IHdh
+cyBjaGFuZ2VkIHNpbmNlIHByZXZpb3VzIHZlcnNpb24NCih5b3UgbWF5IGRvIGl0IHVuZGVyICIt
+LS0iIHdoaWNoIGZvbGxvd3MgY29tbWl0IG1lc3NhZ2UsIG9yIGluIGNvdmVyIGxldHRlciBpZiBp
+dCdzDQphIHBhdGNoIHNldCB3aXRoIHNldmVyYWwgcGF0Y2hlcy4NCg0KPiANCj4+IChJIGRvbid0
+IHNlZSBjaGFuZ2VzIGV4Y2VwdCBhZGQgIkZpeGVzOiAiIHRvIGNvbW1pdCBtc2cgYW5kIHB1dA0K
+Pj4gZ2V0X2JpdG1hcF9ieXRlc19uZWVkZWQgZGVmaW5pdGlvbiBoZWFkZXIgaW50byBvbmUgbGlu
+ZS4pDQo+IA0KPiBZZXMsIE9ubHkgbWlub3IgY2hhbmdlcyBhcmUgbWFkZSwgaW5jbHVkaW5nIHJl
+bW92aW5nICdpbmxpbmUnIGtleXdvcmQuDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0aWVuY2Ug
+aW4gcmV2aWV3aW5nID4NCj4+PiAtLS0NCj4+PiAgICBibG9jay9xY293Mi1iaXRtYXAuYyB8IDE0
+ICsrKysrKysrKysrLS0tDQo+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyks
+IDMgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvYmxvY2svcWNvdzItYml0bWFw
+LmMgYi9ibG9jay9xY293Mi1iaXRtYXAuYyBpbmRleA0KPj4+IDk4Mjk0YTcuLmVmOWVmNjIgMTAw
+NjQ0DQo+Pj4gLS0tIGEvYmxvY2svcWNvdzItYml0bWFwLmMNCj4+PiArKysgYi9ibG9jay9xY293
+Mi1iaXRtYXAuYw0KPj4+IEBAIC0xNDIsNiArMTQyLDEzIEBAIHN0YXRpYyBpbnQgY2hlY2tfdGFi
+bGVfZW50cnkodWludDY0X3QgZW50cnksIGludA0KPj4gY2x1c3Rlcl9zaXplKQ0KPj4+ICAgICAg
+ICByZXR1cm4gMDsNCj4+PiAgICB9DQo+Pj4NCj4+PiArc3RhdGljIGludDY0X3QgZ2V0X2JpdG1h
+cF9ieXRlc19uZWVkZWQoaW50NjRfdCBsZW4sIHVpbnQzMl90DQo+Pj4gK2dyYW51bGFyaXR5KSB7
+DQo+Pj4gKyAgICBpbnQ2NF90IG51bV9iaXRzID0gRElWX1JPVU5EX1VQKGxlbiwgZ3JhbnVsYXJp
+dHkpOw0KPj4+ICsNCj4+PiArICAgIHJldHVybiBESVZfUk9VTkRfVVAobnVtX2JpdHMsIDgpOyB9
+DQo+Pj4gKw0KPj4+ICAgIHN0YXRpYyBpbnQgY2hlY2tfY29uc3RyYWludHNfb25fYml0bWFwKEJs
+b2NrRHJpdmVyU3RhdGUgKmJzLA0KPj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGNvbnN0IGNoYXIgKm5hbWUsDQo+Pj4gICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgdWludDMyX3QgZ3JhbnVsYXJpdHksIEBADQo+Pj4gLTE1MCw2ICsx
+NTcsNyBAQCBzdGF0aWMgaW50IGNoZWNrX2NvbnN0cmFpbnRzX29uX2JpdG1hcChCbG9ja0RyaXZl
+clN0YXRlDQo+PiAqYnMsDQo+Pj4gICAgICAgIEJEUlZRY293MlN0YXRlICpzID0gYnMtPm9wYXF1
+ZTsNCj4+PiAgICAgICAgaW50IGdyYW51bGFyaXR5X2JpdHMgPSBjdHozMihncmFudWxhcml0eSk7
+DQo+Pj4gICAgICAgIGludDY0X3QgbGVuID0gYmRydl9nZXRsZW5ndGgoYnMpOw0KPj4+ICsgICAg
+aW50NjRfdCBiaXRtYXBfYnl0ZXM7DQo+Pj4NCj4+PiAgICAgICAgYXNzZXJ0KGdyYW51bGFyaXR5
+ID4gMCk7DQo+Pj4gICAgICAgIGFzc2VydCgoZ3JhbnVsYXJpdHkgJiAoZ3JhbnVsYXJpdHkgLSAx
+KSkgPT0gMCk7IEBAIC0xNzEsOSArMTc5LDkNCj4+PiBAQCBzdGF0aWMgaW50IGNoZWNrX2NvbnN0
+cmFpbnRzX29uX2JpdG1hcChCbG9ja0RyaXZlclN0YXRlICpicywNCj4+PiAgICAgICAgICAgIHJl
+dHVybiAtRUlOVkFMOw0KPj4+ICAgICAgICB9DQo+Pj4NCj4+PiAtICAgIGlmICgobGVuID4gKHVp
+bnQ2NF90KUJNRV9NQVhfUEhZU19TSVpFIDw8IGdyYW51bGFyaXR5X2JpdHMpIHx8DQo+Pj4gLSAg
+ICAgICAgKGxlbiA+ICh1aW50NjRfdClCTUVfTUFYX1RBQkxFX1NJWkUgKiBzLT5jbHVzdGVyX3Np
+emUgPDwNCj4+PiAtICAgICAgICAgICAgICAgZ3JhbnVsYXJpdHlfYml0cykpDQo+Pj4gKyAgICBi
+aXRtYXBfYnl0ZXMgPSBnZXRfYml0bWFwX2J5dGVzX25lZWRlZChsZW4sIGdyYW51bGFyaXR5KTsN
+Cj4+PiArICAgIGlmICgoYml0bWFwX2J5dGVzID4gKHVpbnQ2NF90KUJNRV9NQVhfUEhZU19TSVpF
+KSB8fA0KPj4+ICsgICAgICAgIChiaXRtYXBfYnl0ZXMgPiAodWludDY0X3QpQk1FX01BWF9UQUJM
+RV9TSVpFICoNCj4+PiArIHMtPmNsdXN0ZXJfc2l6ZSkpDQo+Pj4gICAgICAgIHsNCj4+PiAgICAg
+ICAgICAgIGVycm9yX3NldGcoZXJycCwgIlRvbyBtdWNoIHNwYWNlIHdpbGwgYmUgb2NjdXBpZWQg
+YnkgdGhlDQo+PiBiaXRtYXAuICINCj4+PiAgICAgICAgICAgICAgICAgICAgICAgIlVzZSBsYXJn
+ZXIgZ3JhbnVsYXJpdHkiKTsNCj4+Pg0KPj4NCj4+DQo+PiAtLQ0KPj4gQmVzdCByZWdhcmRzLA0K
+Pj4gVmxhZGltaXINCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
