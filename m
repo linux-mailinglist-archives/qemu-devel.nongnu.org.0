@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB197EC03E
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 10:03:55 +0100 (CET)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30EBEC031
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 10:01:04 +0100 (CET)
+Received: from localhost ([::1]:57626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQSqY-00050s-8v
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 05:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56555)
+	id 1iQSnn-0001j3-LS
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 05:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iQSez-0001BZ-AU
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:58 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iQSf3-0001EE-42
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:52:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iQSey-0000cW-7Z
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:57 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34564)
+ (envelope-from <peter.maydell@linaro.org>) id 1iQSf1-0000qx-3H
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:52:00 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37136)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iQSey-0000YI-1U
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:56 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id e6so7115071wrw.1
- for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 01:51:55 -0700 (PDT)
+ id 1iQSf0-0000d0-TO
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:59 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q130so8376472wme.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 01:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rrO+qwPM4Kmir6VZyxAXUgGXFxnOGGraCt67S9SJoFU=;
- b=j0tRb9cYn0tON9ckOzHCr5Ts/qCfHuQDrbSQ+54FfC2KjXdrQAfyjZJPdXoWPDBVOC
- uSRshks7jQNS9WqrhPbWGfxOaTSwCx7KRrrlKOMHb41WLfh0e31Y1hGmcJ6g6DLOtM5B
- /bqnZyyj6kvY/UPqt4JHwl8GfDR01RlmKRAeT8xbR1qTsbwrMdhqvkVhSJZGNx3s3y2q
- twEyPw7+yBv90QJl7JMnSfpJ2wlIIzDQbvL76og+s0rVTEjKcJGgjQmQOMnmNDmf5dxi
- Qgi3PCqk5FVt7pz3xFxi9BpnlS4EfvcLpVXaWcxVtl2lqUZXsvnVU867iVlFZyj8Eiy3
- LngQ==
+ bh=Wh/QH/3UtP8gd1jgQHJ/Qv7q+ZrFPgvBOyLNaqirHw4=;
+ b=PcWRJD+2t9c1RwGAyxjqMq/hHwGAencq1Rz+H1oWSHpe2aBI2Vv49/EhUt7sNMkTBu
+ qrYeScn/sm7js4jf2JgWznQgI6ryoC8oULJeyH/keLkFYXO9g5S6mqOy6mBAFlzTr2J9
+ w2P7Q/JhgVhBUAXovmGrTAgpCIcpFpUPFCY0XpaL91xzXZjSsC2zcGPe4VedocwrczGj
+ rc7hVBddwVuTHiFpI0paq/weOCjLPfRh8U5ALb4UzF12OOUKJFWqDvP+2IayzVQAj8y4
+ RdO47tGe+BTakUoK0Twh1PGV38pOEI05+Zu92knMLm6uzyqRZ+bpTUtL923A06kySGLf
+ xg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rrO+qwPM4Kmir6VZyxAXUgGXFxnOGGraCt67S9SJoFU=;
- b=RIJdYeJB5/HbTWT+xF/xC67V4GoSk+1ITVUdyqwGajSseYZId6+RHfQOIm3rXSnm13
- iAeA5tP21MsWp7FsEERwGUeRB325en4GcT2f/s+1ACMlCu7mdoCmhgbODd97GwEe8pE+
- sVEyx7IZzEvvUwV4W6Qtz23WmDSNcqTYXUPdAMGMLVhtm3ilRu747c69cg+eATKICu81
- q6sauiIZQS17P7FwhTRkwDFLKn/rvvfCi66cZw+C1z/gMK5GGKgMJDy29R4mDdlDHi4a
- i5lJ2gS7GTMXSx4kGA7ivW6Frc4SWvnxoEltKzDBOTz6Vb5FsvBMgSPE19+UJCWYTqGr
- CtwQ==
-X-Gm-Message-State: APjAAAXMDAw6iV32LqooNDUZ+MpJ6D7/Q67bGIAh54PRRGyimrQEyeJS
- z0TlkDMVKxOAMTiqe6OPugb8fnPvRj02hSLD
-X-Google-Smtp-Source: APXvYqyqsqAOnRR4X+DdEQqZjgbkMzsM31C8nQvGGSwkwDv3x2CozhGP9xrbYwVIkbkXT3VUj44JuQ==
-X-Received: by 2002:adf:ff81:: with SMTP id j1mr607945wrr.98.1572598314758;
- Fri, 01 Nov 2019 01:51:54 -0700 (PDT)
+ bh=Wh/QH/3UtP8gd1jgQHJ/Qv7q+ZrFPgvBOyLNaqirHw4=;
+ b=OtQQ8iU/Mk0G5NZ9M5ahFw7T4WxilEdCpIHffsuWDgQ+MlpeMXGIjBEqJHXlHZQ7CG
+ AmpG03hSBEm056QODIGT1gRDbeJyFsNJJisu/MdERaSfk4LW28J9yqBu5uiJ6z3n1QBY
+ xOw1A7gq824Vf+p9SfkYVv57N02RXIcr06qtAERVd/YHbwQKgS48IiC4TkD+R3plf78q
+ PdUQPBwBeFawt93Zc6fe6J+OUa97WE/cj0GmPHjBlG6y4J1nznbHcA6lxFzhx2doSi3B
+ oTjzTghcZ1BT2+NlpCT9jbNztb5yZKY1r2RgjeHdYu5FUlgt1t1hbNFVzhs+uftHOVCc
+ FUrg==
+X-Gm-Message-State: APjAAAUi9IAp4/pCzMakRQtkn8xAcYqfgSMP2xqD3VMY/88aaLOGmpnA
+ /f1BGJuIZHXsG4Kozg85oA9pj2DD1NCUEc8Z
+X-Google-Smtp-Source: APXvYqzIRzau0TZnveTb+rU2IukXzB95XIe4M6w5yQzD89o0iqjdtt+U7CpRjhcMF7ctIWB6MMlPLA==
+X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr9325256wmc.38.1572598315697; 
+ Fri, 01 Nov 2019 01:51:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d20sm8818922wra.4.2019.11.01.01.51.53
+ by smtp.gmail.com with ESMTPSA id d20sm8818922wra.4.2019.11.01.01.51.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2019 01:51:54 -0700 (PDT)
+ Fri, 01 Nov 2019 01:51:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/11] hw/arm/boot: Rebuild hflags when modifying CPUState at
- boot
-Date: Fri,  1 Nov 2019 08:51:39 +0000
-Message-Id: <20191101085140.5205-11-peter.maydell@linaro.org>
+Subject: [PULL 11/11] target/arm: Allow reading flags from FPSCR for M-profile
+Date: Fri,  1 Nov 2019 08:51:40 +0000
+Message-Id: <20191101085140.5205-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191101085140.5205-1-peter.maydell@linaro.org>
 References: <20191101085140.5205-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,33 +81,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+From: Christophe Lyon <christophe.lyon@linaro.org>
 
-Rebuild hflags when modifying CPUState at boot.
+rt==15 is a special case when reading the flags: it means the
+destination is APSR. This patch avoids rejecting
+vmrs apsr_nzcv, fpscr
+as illegal instruction.
 
-Fixes: e979972a6a
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20191031040830.18800-2-edgar.iglesias@xilinx.com
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Christophe Lyon <christophe.lyon@linaro.org>
+Message-id: 20191025095711.10853-1-christophe.lyon@linaro.org
+[PMM: updated the comment]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/boot.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/translate-vfp.inc.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index c264864c11d..ef6724960c0 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -786,6 +786,7 @@ static void do_cpu_reset(void *opaque)
-                 info->secondary_cpu_reset_hook(cpu, info);
-             }
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index 9ae980bef63..85c5ef897be 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -703,9 +703,10 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
+     if (arm_dc_feature(s, ARM_FEATURE_M)) {
+         /*
+          * The only M-profile VFP vmrs/vmsr sysreg is FPSCR.
+-         * Writes to R15 are UNPREDICTABLE; we choose to undef.
++         * Accesses to R15 are UNPREDICTABLE; we choose to undef.
++         * (FPSCR -> r15 is a special case which writes to the PSR flags.)
+          */
+-        if (a->rt == 15 || a->reg != ARM_VFP_FPSCR) {
++        if (a->rt == 15 && (!a->l || a->reg != ARM_VFP_FPSCR)) {
+             return false;
          }
-+        arm_rebuild_hflags(env);
      }
- }
- 
 -- 
 2.20.1
 
