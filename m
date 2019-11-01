@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E12EEC728
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 17:59:48 +0100 (CET)
-Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757CAEC72A
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 18:00:23 +0100 (CET)
+Received: from localhost ([::1]:41502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQaH5-0007MZ-0h
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 12:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38963)
+	id 1iQaHe-0006dP-97
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 13:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iQaFj-0006gc-Fe
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:58:24 -0400
+ (envelope-from <svens@stackframe.org>) id 1iQaDA-0005cI-Jb
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:55:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iQaFi-0006Fo-Cp
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:58:23 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38366)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iQaFh-00069G-Sm
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:58:22 -0400
-Received: by mail-pl1-x644.google.com with SMTP id w8so4629924plq.5
- for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 09:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=cgfp8EbdhnJcgO/OyEQ0g/ucBASe54QWB7VlCyACCvA=;
- b=s2sKxliXQzQhZV+a98pY55g3nTGHkiaUM34399+dxoZR7sUEamRTkMHstKQq38qlKi
- JSPbQY5xNdDzUcXtxZQaVw4wchEHnSUsuvfnQU1vxe5/Zm5kMfSvaSlCbQhbOWAVLLMu
- gVJZ3oj8Eiri+DkapftHXO6XxsCtnLJmKVXCxIlc+Y0q5cPcpTBCRlWjyDVS1jIFX+o7
- 3Zi1TkJZjY1U9hAXdussWAVernOFYRQVP99NkVLldCrYLuoUCYnQQYSzdVFvd9uFUFSE
- RwvLs1ppUxSduCxJxzIncjknDwuovE5Wy+c0TlPVswOGD35l5Q/LzfirzUfXmaSXRLAq
- Eb5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=cgfp8EbdhnJcgO/OyEQ0g/ucBASe54QWB7VlCyACCvA=;
- b=WD7xL/ZIxLbIvUEvqDj/59pF86yg7tsE2eiktAeKhKEjze2I8bm1eax3HC1rGGtZvK
- WXdyXB+xFiEqVMgWtBFz/87FEre+iCOHdgoWeBcPQ/n6+Z7ztPqMKthASAE/cJUqU/9p
- KRv5dBLKQFl4KKYKw3SYoSwW/Ql8EJLrjlF6b9TmvblqbXNfeBJ5/UYl9QB2wOVA96ru
- EbbUHX9nXbByzSedgJGkC1gRTWvTr0csagkZokMUnmPuEtPKKX1nJ6eRxw+Z6ndtchGA
- lZ613kCt0WlqcD/qhZD2u6evJvSzgX3zRbkyVI9C+X/LVg5kAAyuhSoPlay4yXlugME9
- T4dg==
-X-Gm-Message-State: APjAAAUXnJdcw+L0izYBwqGu41cXLH2fRcMtj4Gy7OmgNcQ1lzHo+DEC
- jpGWTm0UGRf8yG9XWRfm3qetDyrArFg=
-X-Google-Smtp-Source: APXvYqytIMmUCMsduQIJb0QRAIRM99uiG83GFAeY3oWFZ2TiyrgHXkX9D5cjpokmOWnHZegjJJeU8Q==
-X-Received: by 2002:a17:902:bb8b:: with SMTP id
- m11mr13718438pls.235.1572627499876; 
- Fri, 01 Nov 2019 09:58:19 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id q15sm6844907pff.155.2019.11.01.09.58.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2019 09:58:19 -0700 (PDT)
-Date: Fri, 01 Nov 2019 09:58:19 -0700 (PDT)
-X-Google-Original-Date: Fri, 01 Nov 2019 09:39:00 PDT (-0700)
-Subject: Re: [PATCH] remove unnecessary ifdef TARGET_RISCV64
-In-Reply-To: <20191030002318.399-1-hiroyuki.obinata@gmail.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: hiroyuki.obinata@gmail.com
-Message-ID: <mhng-7b7098a1-1195-4532-80ab-2d7c51ebd2ed@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (envelope-from <svens@stackframe.org>) id 1iQaD9-00038X-0k
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:55:44 -0400
+Received: from shroom.duncanthrax.net ([2a01:4f8:121:41fa::169]:38399
+ helo=smtp.duncanthrax.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iQaD5-0002p8-4D; Fri, 01 Nov 2019 12:55:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Z11+JlJLiMPMZITDK4+JSy7JMRvg3HXx+xrM/qAInK4=; b=HLkyojo04pEKiA7mWfdeUjnshh
+ QRX3uunI5vLu1xAT03mdGBl0JrUvhYAA8yVspZncaouFXydDf2imD6jTAtGOMxH9EWbWxU5lEGmXY
+ TW+8Ydz9sWFR7AzN83k1BRy8SrNHXla6L3Nz0gJVzbnT2RfMhGujCBzA89BdKmNoCVTk=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=x280.stackframe.org)
+ by smtp.duncanthrax.net with esmtpa (Exim 4.90_1)
+ (envelope-from <svens@stackframe.org>)
+ id 1iQaCu-0000ZA-7w; Fri, 01 Nov 2019 17:55:28 +0100
+From: Sven Schnelle <svens@stackframe.org>
+To: John Snow <jsnow@redhat.com>
+Subject: [PATCH v3] fdc/i8257: implement verify transfer mode
+Date: Fri,  1 Nov 2019 17:55:13 +0100
+Message-Id: <20191101165513.14229-1-svens@stackframe.org>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2a01:4f8:121:41fa::169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +58,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu, hiroyuki.obinata@gmail.com,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:Floppy" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Oct 2019 17:23:18 PDT (-0700), hiroyuki.obinata@gmail.com wrote:
-> From: "hiroyuki.obinata" <hiroyuki.obinata@gmail.com>
->
-> Signed-off-by: Hiroyuki Obinata <hiroyuki.obinata@gmail.com>
-> ---
->  target/riscv/translate.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index adeddb85f6..5c4dd21a98 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -64,12 +64,10 @@ static const int tcg_memop_lookup[8] = {
->      [0] = MO_SB,
->      [1] = MO_TESW,
->      [2] = MO_TESL,
-> +    [3] = MO_TEQ,
->      [4] = MO_UB,
->      [5] = MO_TEUW,
-> -#ifdef TARGET_RISCV64
-> -    [3] = MO_TEQ,
->      [6] = MO_TEUL,
-> -#endif
->  };
->  #endif
+While working on the Tulip driver i tried to write some Teledisk images to
+a floppy image which didn't work. Turned out that Teledisk checks the written
+data by issuing a READ command to the FDC but running the DMA controller
+in VERIFY mode. As we ignored the DMA request in that case, the DMA transfer
+never finished, and Teledisk reported an error.
 
-Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
+The i8257 spec says about verify transfers:
 
-This is a non-functional change (the code in question was already wrapped in an 
-"#ifdef TARGET_RISCV64", so this internal one was redundant), so I'm happy to 
-include it during the soft freeze.
+3) DMA verify, which does not actually involve the transfer of data. When an
+8257 channel is in the DMA verify mode, it will respond the same as described
+for transfer operations, except that no memory or I/O read/write control signals
+will be generated.
 
-I've added this to the queue for my next PR.
+Hervé proposed to remove all the dma_mode_ok stuff from fdc to have a more
+clear boundary between DMA and FDC, so this patch also does that.
+
+Suggested-by: Hervé Poussineau <hpoussin@reactos.org>
+Signed-off-by: Sven Schnelle <svens@stackframe.org>
+---
+ hw/block/fdc.c       | 61 +++++++++++++-------------------------------
+ hw/dma/i8257.c       | 20 ++++++++++-----
+ include/hw/isa/isa.h |  1 -
+ 3 files changed, 31 insertions(+), 51 deletions(-)
+
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index ac5d31e8c1..01812c7553 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1714,53 +1714,28 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
+     }
+     fdctrl->eot = fdctrl->fifo[6];
+     if (fdctrl->dor & FD_DOR_DMAEN) {
+-        IsaDmaTransferMode dma_mode;
++        /* DMA transfer is enabled. */
+         IsaDmaClass *k = ISADMA_GET_CLASS(fdctrl->dma);
+-        bool dma_mode_ok;
+-        /* DMA transfer are enabled. Check if DMA channel is well programmed */
+-        dma_mode = k->get_transfer_mode(fdctrl->dma, fdctrl->dma_chann);
+-        FLOPPY_DPRINTF("dma_mode=%d direction=%d (%d - %d)\n",
+-                       dma_mode, direction,
+-                       (128 << fdctrl->fifo[5]) *
++
++        FLOPPY_DPRINTF("direction=%d (%d - %d)\n",
++                       direction, (128 << fdctrl->fifo[5]) *
+                        (cur_drv->last_sect - ks + 1), fdctrl->data_len);
+-        switch (direction) {
+-        case FD_DIR_SCANE:
+-        case FD_DIR_SCANL:
+-        case FD_DIR_SCANH:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_VERIFY);
+-            break;
+-        case FD_DIR_WRITE:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_WRITE);
+-            break;
+-        case FD_DIR_READ:
+-            dma_mode_ok = (dma_mode == ISADMA_TRANSFER_READ);
+-            break;
+-        case FD_DIR_VERIFY:
+-            dma_mode_ok = true;
+-            break;
+-        default:
+-            dma_mode_ok = false;
+-            break;
+-        }
+-        if (dma_mode_ok) {
+-            /* No access is allowed until DMA transfer has completed */
+-            fdctrl->msr &= ~FD_MSR_RQM;
+-            if (direction != FD_DIR_VERIFY) {
+-                /* Now, we just have to wait for the DMA controller to
+-                 * recall us...
+-                 */
+-                k->hold_DREQ(fdctrl->dma, fdctrl->dma_chann);
+-                k->schedule(fdctrl->dma);
+-            } else {
+-                /* Start transfer */
+-                fdctrl_transfer_handler(fdctrl, fdctrl->dma_chann, 0,
+-                                        fdctrl->data_len);
+-            }
+-            return;
++
++        /* No access is allowed until DMA transfer has completed */
++        fdctrl->msr &= ~FD_MSR_RQM;
++        if (direction != FD_DIR_VERIFY) {
++            /*
++             * Now, we just have to wait for the DMA controller to
++             * recall us...
++             */
++            k->hold_DREQ(fdctrl->dma, fdctrl->dma_chann);
++            k->schedule(fdctrl->dma);
+         } else {
+-            FLOPPY_DPRINTF("bad dma_mode=%d direction=%d\n", dma_mode,
+-                           direction);
++            /* Start transfer */
++            fdctrl_transfer_handler(fdctrl, fdctrl->dma_chann, 0,
++                    fdctrl->data_len);
+         }
++        return;
+     }
+     FLOPPY_DPRINTF("start non-DMA transfer\n");
+     fdctrl->msr |= FD_MSR_NONDMA | FD_MSR_RQM;
+diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
+index 792f617eb4..85dad3d391 100644
+--- a/hw/dma/i8257.c
++++ b/hw/dma/i8257.c
+@@ -292,12 +292,6 @@ static uint64_t i8257_read_cont(void *opaque, hwaddr nport, unsigned size)
+     return val;
+ }
+ 
+-static IsaDmaTransferMode i8257_dma_get_transfer_mode(IsaDma *obj, int nchan)
+-{
+-    I8257State *d = I8257(obj);
+-    return (d->regs[nchan & 3].mode >> 2) & 3;
+-}
+-
+ static bool i8257_dma_has_autoinitialization(IsaDma *obj, int nchan)
+ {
+     I8257State *d = I8257(obj);
+@@ -400,6 +394,11 @@ static void i8257_dma_register_channel(IsaDma *obj, int nchan,
+     r->opaque = opaque;
+ }
+ 
++static bool i8257_is_verify_transfer(I8257Regs *r)
++{
++    return (r->mode & 0x0c) == 0;
++}
++
+ static int i8257_dma_read_memory(IsaDma *obj, int nchan, void *buf, int pos,
+                                  int len)
+ {
+@@ -407,6 +406,10 @@ static int i8257_dma_read_memory(IsaDma *obj, int nchan, void *buf, int pos,
+     I8257Regs *r = &d->regs[nchan & 3];
+     hwaddr addr = ((r->pageh & 0x7f) << 24) | (r->page << 16) | r->now[ADDR];
+ 
++    if (i8257_is_verify_transfer(r)) {
++        return len;
++    }
++
+     if (r->mode & 0x20) {
+         int i;
+         uint8_t *p = buf;
+@@ -431,6 +434,10 @@ static int i8257_dma_write_memory(IsaDma *obj, int nchan, void *buf, int pos,
+     I8257Regs *r = &s->regs[nchan & 3];
+     hwaddr addr = ((r->pageh & 0x7f) << 24) | (r->page << 16) | r->now[ADDR];
+ 
++    if (i8257_is_verify_transfer(r)) {
++        return len;
++    }
++
+     if (r->mode & 0x20) {
+         int i;
+         uint8_t *p = buf;
+@@ -597,7 +604,6 @@ static void i8257_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_i8257;
+     dc->props = i8257_properties;
+ 
+-    idc->get_transfer_mode = i8257_dma_get_transfer_mode;
+     idc->has_autoinitialization = i8257_dma_has_autoinitialization;
+     idc->read_memory = i8257_dma_read_memory;
+     idc->write_memory = i8257_dma_write_memory;
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 018ada4f6f..f516e253c5 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -56,7 +56,6 @@ typedef int (*IsaDmaTransferHandler)(void *opaque, int nchan, int pos,
+ typedef struct IsaDmaClass {
+     InterfaceClass parent;
+ 
+-    IsaDmaTransferMode (*get_transfer_mode)(IsaDma *obj, int nchan);
+     bool (*has_autoinitialization)(IsaDma *obj, int nchan);
+     int (*read_memory)(IsaDma *obj, int nchan, void *buf, int pos, int len);
+     int (*write_memory)(IsaDma *obj, int nchan, void *buf, int pos, int len);
+-- 
+2.23.0
+
 
