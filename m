@@ -2,37 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B96EC71C
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 17:55:56 +0100 (CET)
-Received: from localhost ([::1]:41484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E12EEC728
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 17:59:48 +0100 (CET)
+Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQaDL-0005KG-6p
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 12:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38298)
+	id 1iQaH5-0007MZ-0h
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 12:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iQaCF-0004Xa-H5
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:54:49 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iQaFj-0006gc-Fe
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:58:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iQaCD-0001SZ-Ub
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:54:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45004)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iQaCD-0001Qh-ND; Fri, 01 Nov 2019 12:54:45 -0400
-Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iQaC9-000771-FX; Fri, 01 Nov 2019 19:54:41 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v3] iotests: Test NBD client reconnection
-Date: Fri,  1 Nov 2019 19:54:32 +0300
-Message-Id: <1572627272-23359-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <palmer@dabbelt.com>) id 1iQaFi-0006Fo-Cp
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:58:23 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38366)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iQaFh-00069G-Sm
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 12:58:22 -0400
+Received: by mail-pl1-x644.google.com with SMTP id w8so4629924plq.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 09:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cgfp8EbdhnJcgO/OyEQ0g/ucBASe54QWB7VlCyACCvA=;
+ b=s2sKxliXQzQhZV+a98pY55g3nTGHkiaUM34399+dxoZR7sUEamRTkMHstKQq38qlKi
+ JSPbQY5xNdDzUcXtxZQaVw4wchEHnSUsuvfnQU1vxe5/Zm5kMfSvaSlCbQhbOWAVLLMu
+ gVJZ3oj8Eiri+DkapftHXO6XxsCtnLJmKVXCxIlc+Y0q5cPcpTBCRlWjyDVS1jIFX+o7
+ 3Zi1TkJZjY1U9hAXdussWAVernOFYRQVP99NkVLldCrYLuoUCYnQQYSzdVFvd9uFUFSE
+ RwvLs1ppUxSduCxJxzIncjknDwuovE5Wy+c0TlPVswOGD35l5Q/LzfirzUfXmaSXRLAq
+ Eb5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=cgfp8EbdhnJcgO/OyEQ0g/ucBASe54QWB7VlCyACCvA=;
+ b=WD7xL/ZIxLbIvUEvqDj/59pF86yg7tsE2eiktAeKhKEjze2I8bm1eax3HC1rGGtZvK
+ WXdyXB+xFiEqVMgWtBFz/87FEre+iCOHdgoWeBcPQ/n6+Z7ztPqMKthASAE/cJUqU/9p
+ KRv5dBLKQFl4KKYKw3SYoSwW/Ql8EJLrjlF6b9TmvblqbXNfeBJ5/UYl9QB2wOVA96ru
+ EbbUHX9nXbByzSedgJGkC1gRTWvTr0csagkZokMUnmPuEtPKKX1nJ6eRxw+Z6ndtchGA
+ lZ613kCt0WlqcD/qhZD2u6evJvSzgX3zRbkyVI9C+X/LVg5kAAyuhSoPlay4yXlugME9
+ T4dg==
+X-Gm-Message-State: APjAAAUXnJdcw+L0izYBwqGu41cXLH2fRcMtj4Gy7OmgNcQ1lzHo+DEC
+ jpGWTm0UGRf8yG9XWRfm3qetDyrArFg=
+X-Google-Smtp-Source: APXvYqytIMmUCMsduQIJb0QRAIRM99uiG83GFAeY3oWFZ2TiyrgHXkX9D5cjpokmOWnHZegjJJeU8Q==
+X-Received: by 2002:a17:902:bb8b:: with SMTP id
+ m11mr13718438pls.235.1572627499876; 
+ Fri, 01 Nov 2019 09:58:19 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id q15sm6844907pff.155.2019.11.01.09.58.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Nov 2019 09:58:19 -0700 (PDT)
+Date: Fri, 01 Nov 2019 09:58:19 -0700 (PDT)
+X-Google-Original-Date: Fri, 01 Nov 2019 09:39:00 PDT (-0700)
+Subject: Re: [PATCH] remove unnecessary ifdef TARGET_RISCV64
+In-Reply-To: <20191030002318.399-1-hiroyuki.obinata@gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: hiroyuki.obinata@gmail.com
+Message-ID: <mhng-7b7098a1-1195-4532-80ab-2d7c51ebd2ed@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,188 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu, hiroyuki.obinata@gmail.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test for an NBD client. The NBD server is disconnected after the
-client write request. The NBD client should reconnect and complete
-the write operation.
+On Tue, 29 Oct 2019 17:23:18 PDT (-0700), hiroyuki.obinata@gmail.com wrote:
+> From: "hiroyuki.obinata" <hiroyuki.obinata@gmail.com>
+>
+> Signed-off-by: Hiroyuki Obinata <hiroyuki.obinata@gmail.com>
+> ---
+>  target/riscv/translate.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index adeddb85f6..5c4dd21a98 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -64,12 +64,10 @@ static const int tcg_memop_lookup[8] = {
+>      [0] = MO_SB,
+>      [1] = MO_TESW,
+>      [2] = MO_TESL,
+> +    [3] = MO_TEQ,
+>      [4] = MO_UB,
+>      [5] = MO_TEUW,
+> -#ifdef TARGET_RISCV64
+> -    [3] = MO_TEQ,
+>      [6] = MO_TEUL,
+> -#endif
+>  };
+>  #endif
 
-Suggested-by: Denis V. Lunev <den@openvz.org>
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/277                   | 102 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/277.out               |   6 ++
- tests/qemu-iotests/group                 |   1 +
- tests/qemu-iotests/iotests.py            |   5 ++
- tests/qemu-iotests/nbd-fault-injector.py |   3 +-
- 5 files changed, 116 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/277
- create mode 100644 tests/qemu-iotests/277.out
+Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
 
-diff --git a/tests/qemu-iotests/277 b/tests/qemu-iotests/277
-new file mode 100755
-index 0000000..e4e6730
---- /dev/null
-+++ b/tests/qemu-iotests/277
-@@ -0,0 +1,102 @@
-+#!/usr/bin/env python
-+#
-+# Test NBD client reconnection
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import subprocess
-+import iotests
-+from iotests import file_path, log
-+
-+
-+def make_conf_file(event):
-+    """
-+    Create configuration file for the nbd-fault-injector.py
-+
-+    :param event: which event the server should close a connection on
-+    """
-+    if os.path.exists(conf_file):
-+        os.remove(conf_file)
-+
-+    with open(conf_file, "w+") as conff:
-+        conff.write("[inject-error]\nevent={}\nwhen=after".format(event))
-+
-+
-+def start_server_NBD(event):
-+    make_conf_file(event)
-+
-+    srv = subprocess.Popen(["nbd-fault-injector.py", "--classic-negotiation",
-+                           nbd_sock, conf_file], stdout=subprocess.PIPE,
-+                           stderr=subprocess.STDOUT, universal_newlines=True)
-+    line = srv.stdout.readline()
-+    if "Listening on " in line:
-+        log('NBD server: started')
-+    else:
-+        log('NBD server: ' + line.rstrip())
-+
-+    return srv
-+
-+
-+def start_client_NBD():
-+    log('NBD client: QEMU-IO write')
-+    args = iotests.qemu_io_args_no_fmt + \
-+        ['-c', 'write -P 0x7 0 3M', '--image-opts',
-+         'driver=nbd,server.type=unix,server.path={},'
-+         'reconnect-delay=7'.format(nbd_sock)]
-+    clt = subprocess.Popen(args, stdout=subprocess.PIPE,
-+                           stderr=subprocess.STDOUT,
-+                           universal_newlines=True)
-+    return clt
-+
-+
-+def check_proc_NBD(proc, connector):
-+    try:
-+        exitcode = proc.wait(timeout=10)
-+
-+        if exitcode < 0:
-+            log('NBD {}: EXIT SIGNAL {}\n'.format(connector, -exitcode))
-+            log(proc.communicate()[0])
-+        else:
-+            line = proc.stdout.readline()
-+            log('NBD {}: {}'.format(connector, line.rstrip()))
-+
-+    except subprocess.TimeoutExpired:
-+        proc.kill()
-+        log('NBD {}: ERROR timeout expired'.format(connector))
-+    finally:
-+        if connector == 'server':
-+            os.remove(nbd_sock)
-+            os.remove(conf_file)
-+
-+
-+conf_file = os.path.join(iotests.test_dir, "nbd-fault-injector.conf")
-+nbd_sock = file_path('nbd-sock')
-+nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
-+if os.path.exists(nbd_sock):
-+    os.remove(nbd_sock)
-+
-+srv = start_server_NBD('data')
-+clt = start_client_NBD()
-+# The server should close the connection after a client write request
-+check_proc_NBD(srv, 'server')
-+# Start the NBD server again
-+srv = start_server_NBD('reply')
-+# The client should reconnect and complete the write operation
-+check_proc_NBD(clt, 'client')
-+# Make it sure that server terminated
-+check_proc_NBD(srv, 'server')
-diff --git a/tests/qemu-iotests/277.out b/tests/qemu-iotests/277.out
-new file mode 100644
-index 0000000..45404b3
---- /dev/null
-+++ b/tests/qemu-iotests/277.out
-@@ -0,0 +1,6 @@
-+NBD server: started
-+NBD client: QEMU-IO write
-+NBD server: Closing connection on rule match inject-error
-+NBD server: started
-+NBD client: wrote 3145728/3145728 bytes at offset 0
-+NBD server: Closing connection on rule match inject-error
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index af322af..22ef1b8 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -282,3 +282,4 @@
- 267 rw auto quick snapshot
- 268 rw auto quick
- 270 rw backing quick
-+277 rw
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 709def4..0d16303 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -47,6 +47,11 @@ qemu_io_args = [os.environ.get('QEMU_IO_PROG', 'qemu-io')]
- if os.environ.get('QEMU_IO_OPTIONS'):
-     qemu_io_args += os.environ['QEMU_IO_OPTIONS'].strip().split(' ')
- 
-+qemu_io_args_no_fmt = [os.environ.get('QEMU_IO_PROG', 'qemu-io')]
-+if os.environ.get('QEMU_IO_OPTIONS_NO_FMT'):
-+    qemu_io_args_no_fmt += \
-+        os.environ['QEMU_IO_OPTIONS_NO_FMT'].strip().split(' ')
-+
- qemu_nbd_args = [os.environ.get('QEMU_NBD_PROG', 'qemu-nbd')]
- if os.environ.get('QEMU_NBD_OPTIONS'):
-     qemu_nbd_args += os.environ['QEMU_NBD_OPTIONS'].strip().split(' ')
-diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
-index 6b2d659..7e2dab6 100755
---- a/tests/qemu-iotests/nbd-fault-injector.py
-+++ b/tests/qemu-iotests/nbd-fault-injector.py
-@@ -115,7 +115,8 @@ class FaultInjectionSocket(object):
-             if rule.match(event, io):
-                 if rule.when == 0 or bufsize is None:
-                     print('Closing connection on rule match %s' % rule.name)
--                    self.sock.flush()
-+                    self.sock.close()
-+                    sys.stdout.flush()
-                     sys.exit(0)
-                 if rule.when != -1:
-                     return rule.when
--- 
-1.8.3.1
+This is a non-functional change (the code in question was already wrapped in an 
+"#ifdef TARGET_RISCV64", so this internal one was redundant), so I'm happy to 
+include it during the soft freeze.
 
+I've added this to the queue for my next PR.
 
