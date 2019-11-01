@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E167EEBCC0
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 05:08:32 +0100 (CET)
-Received: from localhost ([::1]:56342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E63EBCE1
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 05:44:38 +0100 (CET)
+Received: from localhost ([::1]:56474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQOEh-00056p-FS
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 00:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45208)
+	id 1iQOnd-0004QV-08
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 00:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iQODM-0004Rg-Sc
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 00:07:09 -0400
+ (envelope-from <zar1969@gmail.com>) id 1iQNwa-0002sc-FX
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 23:49:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iQODK-00074U-JD
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 00:07:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22333
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iQODK-00070q-8E
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 00:07:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572581224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=t2daL2lc+mNiG+yNduCCQfg4NqVO8/KVSabnd9S96eQ=;
- b=BUBgIvJvn50gE/DEH9wgDDdrHyhMj0MQjFEAPJgbOJaRtYOGjE+yRaSkLw98sIzNsUBrRm
- NGC9zQ11ONBrWISpNSTIuuycBFppcGDeAm3MlhGyoVMpirN+2l9Z6n1wtelOvwG8KHTD8m
- NLmriRXW2bPlg4sAwzqLPHEYU3Dy0a4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-wb7xTze-OJunsXE2ygvBAQ-1; Fri, 01 Nov 2019 00:07:02 -0400
-Received: by mail-qt1-f199.google.com with SMTP id u26so8667367qtq.1
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 21:07:02 -0700 (PDT)
+ (envelope-from <zar1969@gmail.com>) id 1iQNwY-0003FO-85
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 23:49:47 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:35540)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <zar1969@gmail.com>) id 1iQNwY-00034w-0a
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 23:49:46 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id z6so7352796otb.2
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 20:49:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=BR6RjgWpanteidCvVykeoO64mYbiSr+rPrQxoxnMDBo=;
+ b=dqcJCMQJpXt6uYgUbMBTPgcw1WNIy4xK+CtKWQAzGOxAhPEVP+7n4M3c7Bgq6CtMjB
+ OdpDdIX6BoUu4SDHWAZxp9jsuuHF9rua+HCYjxi82jnYUM8hONlvNoYxEy/MYROje5F/
+ is747L4NNTUXG+4l2zv2xstu6qcakBFi8/UYJPcZ+RYrgG9hmbI7YKaRjymL5knQgbpK
+ NOy7IvI1JH+k++zjIuFhtlub0umlm8XVp5RZVid45/8O2VhLk451TanJAkrSrJEc/vH9
+ EianlKMCMdMXPYGe5UgcRnGYWHRqjXfH3KmCvaLXvI1fTct0y2wT3JDVk/AlR+laVYnI
+ cunw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition;
- bh=nLOJHIiZAsXpj22dreqdeOji5yeBZe3vA+QI7NJTGo0=;
- b=KlBlpCWmWmXjkXQP1cpjyJiRRr+Xnn6jSGlB8KZLdYUUtkqDCdXJGLvNWS/Gh0mXQ5
- 3lSQI2kK4th9ikIEdzeYt3FwurBUG/qWda1GLv2Pd/PLDhmWn3AOK8fUeyvi09olVTkB
- KBesJ/DTxFq+Gs9i9gK112nf6DqikrG1gixCw1uHRtoyn+bTywPGuufNTN/DOZV5DzCv
- PA1+b0PZSv8DWuQf6i5MwbIdA0idVXXDnA5V1AJ7HXLyQL+vOBCPg6WPvHt+UvXVSMma
- oA8taQwZOXn2KaB/350PZ7unZO+QUSwpUtIc+psNqPhc6qic+pfygePgO6kWJTNkpkkv
- RuYg==
-X-Gm-Message-State: APjAAAUpWr9hpPHsEa6z/mB1VIqYsBjQDd6VRwL+CuVPHdDnbTdA1pYa
- dmJ+fLh2MsHJETNeNdB9KIi8ykIJnM8RMvfmAbO+CHeZyMp29ea4yTRrKpnKSqU5EtcsQwz1A1F
- v/f6FcozPRqxO8DU=
-X-Received: by 2002:a37:4350:: with SMTP id q77mr3913285qka.266.1572581221295; 
- Thu, 31 Oct 2019 21:07:01 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw1BeMvLF0sK2BlgbFLBvSd4pkntwJxqQyejDLAl6jlWjl5fLfUZ/mCvGVhGUDp+E4au0gs9Q==
-X-Received: by 2002:a37:4350:: with SMTP id q77mr3913266qka.266.1572581220997; 
- Thu, 31 Oct 2019 21:07:00 -0700 (PDT)
-Received: from redhat.com (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id k40sm3600997qta.76.2019.10.31.21.06.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Oct 2019 21:06:59 -0700 (PDT)
-Date: Fri, 1 Nov 2019 00:06:56 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
-Subject: Re: presentation at kvm forum and pagefaults
-Message-ID: <20191031234601-mutt-send-email-mst@kernel.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=BR6RjgWpanteidCvVykeoO64mYbiSr+rPrQxoxnMDBo=;
+ b=nZcpUz5E/K4vsEvhK9L+ommxpbL7ga0GVLUIpTeD+Cq3u6W+8Hj8aU22wPwwhoH0IY
+ bb5QglL2smOXWnrD7tkzcUhO+uXgjKKULQQtqsbmfdAuwhTUEk0uRN6awK1pUDfTDtl2
+ TPYtpTTef4rW2lQ65GACrO24WMzbYbDQCPswzOuLoQH+sRfskq75NfbmkvSSUnoaw1sY
+ qgIJRwr4ejGA2SPm83xlrv9mADv5ZC/Cq9h0j+J4jMB+XvhzvwSDnC9tEwteYGw793ak
+ 4Qf0hLta5oGdcSki0fe9m79O9t5nDbNzC81y3RRZGe7/Jn0E5sbVB2izQXeZuTDQ3QJI
+ i3YA==
+X-Gm-Message-State: APjAAAWGy/B+j/wOXXqjH2EK0B8l9OtjgFl2K63N4KdOZJmtUW0o33in
+ s+ScSdYxwM1HHe8Pu8GwyocOaFjD3Qt3kF07xbdgM0ub
+X-Google-Smtp-Source: APXvYqwGA3XsPhGtgDFIZaxdLfp1A46pojlTl81BBY18hB+JXkoXCoGPYH/mijKxkkbUU0L2SQUAZxEjtMFrdKJH7gg=
+X-Received: by 2002:a9d:77d8:: with SMTP id w24mr113844otl.156.1572580183760; 
+ Thu, 31 Oct 2019 20:49:43 -0700 (PDT)
 MIME-Version: 1.0
-X-MC-Unique: wb7xTze-OJunsXE2ygvBAQ-1
-X-Mimecast-Spam-Score: 1
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+From: Zainuddin AR <zar1969@gmail.com>
+Date: Fri, 1 Nov 2019 11:49:33 +0800
+Message-ID: <CA+gXNfhCRT1kPq4KVumXwRiJvVaXYZZBRhs-QsVNKv+WzeMM+A@mail.gmail.com>
+Subject: Sparc Solaris 10
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000003be4fb059640db47"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
+X-Mailman-Approved-At: Fri, 01 Nov 2019 00:43:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,54 +71,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Regarding the presentation I gave at the kvm forum
-on pagefaults.
+--0000000000003be4fb059640db47
+Content-Type: text/plain; charset="UTF-8"
 
-Two points:
+Hi,
 
+I like to find to find out if you have a working qemu on solaris 10 or 11.
+I have tried the qemu-sun4vniagara but without networking. Is the
+networking support for niagara version available?
 
-1. pagefaults are important not just for migration.
-They are important for performance features such as
-autonuma and huge pages, since this relies on moving
-pages around.
-Migration can maybe be solved by switch to software but
-this is not a good solution for numa and thp  since
-at a given time some page is likely being moved.
+Regards
 
+Zai
 
+--0000000000003be4fb059640db47
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi,<div><br></div><div>I like to find to find out if you h=
+ave a working qemu on solaris 10 or 11. I have tried the=C2=A0qemu-sun4vnia=
+gara but without networking. Is the networking support for niagara version =
+available?</div><div><br></div><div>Regards</div><div><br></div><div>Zai</d=
+iv></div>
 
-2.  For devices such as networking RX order in which buffers are
-used *does not matter*.
-Thus if a device gets a fault in response to attempt to store a buffer
-into memory, it can just re-try, using the next buffer in queue instead.
-
-This works because normally buffers can be used out of order by device.
-
-The faulted buffer will be reused by another buffer when driver notifies
-device page has been faulted in.
-
-Note buffers are processed by buffer in the order in which they have
-been used, *not* the order in which they have been put in the queue.  So
-this will *not* cause any packet reordering for the driver.
-
-Packets will only get dropped if all buffers are swapped
-out, which should be rare with a large RX queue.
-
-
-As I said at the forum, a side buffer for X packets
-to be stored temporarily is also additionally possible. But with the above
-it is no longer strictly required.
-
-
-This conflicts with the IN_ORDER feature flag, I guess we will have to
-re-think this flag then. If we do feel we need to salvage IN_ORDER as is,
-maybe device can use the buffer with length 0 and driver will re-post it
-later, but I am not I am not sure about this since involving the VF
-driver seems inelegant.
-
-
---=20
-MST
-
+--0000000000003be4fb059640db47--
 
