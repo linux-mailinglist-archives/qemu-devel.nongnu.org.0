@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01F8EBB39
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 00:49:57 +0100 (CET)
-Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7C0EBB55
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 01:02:01 +0100 (CET)
+Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQKCS-0002nn-F4
-	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 19:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60999)
+	id 1iQKO8-0001gl-4R
+	for lists+qemu-devel@lfdr.de; Thu, 31 Oct 2019 20:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42112)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iQKBL-0002OV-7r
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 19:48:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1iQKMh-0001AY-6A
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 20:00:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iQKBI-0007cm-LD
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 19:48:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54880
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iQKMZ-0002US-SA
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 20:00:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57748)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iQKBI-0007bt-9t
- for qemu-devel@nongnu.org; Thu, 31 Oct 2019 19:48:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572565722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=lEG3f/8chXumNyO/JN8Fm/ikhnF0lFTzbeQAUb+YOYQ=;
- b=YSQjYeYUtlPffDQOZCPyOYW0YHH93moAXVdQBNVPaJM5dR7OQZZc+jqjrpXiyYVTbGNGLZ
- UbvcmoEExdWQ4hcnqnomobmjwy/I1+CA09dKbL1wQejxf9mOiKTFygQWSuV3TrK6qk+aaR
- 8TfIYo0bv3+w6ruTHPoVT4GU0px4GLA=
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iQKMZ-0002PJ-5G
+ for qemu-devel@nongnu.org; Thu, 31 Oct 2019 20:00:23 -0400
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-EIv-oF5kPi-04xL722fxLw-1; Thu, 31 Oct 2019 19:48:38 -0400
-Received: by mail-wr1-f71.google.com with SMTP id i10so4466853wrp.7
- for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 16:48:37 -0700 (PDT)
+ [209.85.221.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1D14385A07
+ for <qemu-devel@nongnu.org>; Fri,  1 Nov 2019 00:00:21 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id m17so4462223wrb.20
+ for <qemu-devel@nongnu.org>; Thu, 31 Oct 2019 17:00:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5wsDN8B4BCGG9DtljzjtWJTgItzvJ5s3zDhg4UimEXc=;
- b=Z88cus/hi6R5mi5mp4mWXQfOWb8vpZyaWNwd9INZN1wDkQaeEaZhk9j1sZhCRun+hx
- 7+ZopRttItTMfMpyUb5wN0Ti0CUqmG9N0gPnfDHCeob+NTeQfDNtn3yQXhK8DCKrzX8j
- WouFcQkKsHNXyNuYJ2ju7NRBhFFvCvAUx68KqYx52s1d/Ep4Nho2nFLd53cgm1XujYVR
- Vvj5BYOL8mUplkWN5bi0crv6IqYmGTYtcwBIkwzKMvvYmOPyiBGZmOYhSYMMgrB5P9UC
- JXbbldScGpaeMBe7A2D4+x3BGWEORC4wigvbVEc4P9YUex4CuoIKKu9UmWVPPxqeT0TE
- fRPQ==
-X-Gm-Message-State: APjAAAUqGIUoD99/GLz5k9ekRZzcjgFnb7FssnImOr34u0lafeaBM3/t
- 7/uLPebKuuXsnIIq954jhRZ+DSS+GNCWABd74+Dn+10l6aqWO7XsOI7aSox9fXWGT5LrM7i1Bgp
- 5OOlJzNbkb14gsgo=
-X-Received: by 2002:a1c:48c4:: with SMTP id v187mr7768375wma.27.1572565716578; 
- Thu, 31 Oct 2019 16:48:36 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyYw64ORqmQ7x7/xsjJ2f2OcTdmb73eA5ULAKjnD7MqknrqMunYnSCo5YZILzAfqQGrN0YtOw==
-X-Received: by 2002:a1c:48c4:: with SMTP id v187mr7768367wma.27.1572565716304; 
- Thu, 31 Oct 2019 16:48:36 -0700 (PDT)
-Received: from [192.168.20.72] (94.222.26.109.rev.sfr.net. [109.26.222.94])
- by smtp.gmail.com with ESMTPSA id v6sm6444427wru.72.2019.10.31.16.48.35
+ bh=yTQrLhRRDKlEcNLTfUQI0lgXMQ6dDnDgFG10jSP8D2E=;
+ b=q1V7D4wNbJIc9mstrrPApZOmLv9unlYGgej/RLcMMN/r4C+n0o9Lx6un5dqB1SN28J
+ ZhxnkKu0FOa/QKq4xhiJiKYcL2KYRn5h/VQdu6CYMIWZCp+3gYDLk+fuJG0NIYUwn/CK
+ 9lkvufo7gikiJ25xYGTVJWeTk6z0Cg4iyFiNCJApJSwveb0T+97I1yTFjX1PauF+gMFu
+ WqiDg6IKHVvLsvamtBy8sNtoJx4zo1Vavdsmy2hKzUTXqeCqyS3dMKEfSOD7YqRYfqJQ
+ zd0gmelhvfeCpbOtm0JbFMjwSIiyQ03n11ZUHdj7pdHAwb6C5dAo7kdEAchRaDWPyWrH
+ wbkg==
+X-Gm-Message-State: APjAAAWI83Cr1M54A3scyHP7mjazcGS0UCGBJuYbGLxwMr0Oymbhm+ZS
+ 0JdHRw7w+uhEupRjlGsiLDmX9mIy/2T7bMQ7A9LOeb+2XLOTK7QOmRFMd14wQyE6Rgt0g2mzZma
+ 7ffkMfn4ogRpMso8=
+X-Received: by 2002:a1c:544b:: with SMTP id p11mr7829996wmi.46.1572566419843; 
+ Thu, 31 Oct 2019 17:00:19 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwCicbxlS/iKaciaCn09ABRL8p68A80MV5Qv1ETrkSyiUItREWxS5jJGDnU6Sql36SAl19nWA==
+X-Received: by 2002:a1c:544b:: with SMTP id p11mr7829986wmi.46.1572566419628; 
+ Thu, 31 Oct 2019 17:00:19 -0700 (PDT)
+Received: from [192.168.20.58] (94.222.26.109.rev.sfr.net. [109.26.222.94])
+ by smtp.gmail.com with ESMTPSA id b4sm5221869wrh.87.2019.10.31.17.00.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Oct 2019 16:48:35 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/6] docs: integrate doc comments with Sphinx build
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191029162248.13383-1-pbonzini@redhat.com>
- <CAFEAcA9nT0AfDPmQ2_SDec7_z3+wGS=XQJnSiQwrWCydLgv83Q@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <3369940d-5c3c-c72f-7c64-2bff7daf55f2@redhat.com>
-Date: Fri, 1 Nov 2019 00:48:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thu, 31 Oct 2019 17:00:19 -0700 (PDT)
+Subject: Re: [RFC] q800: fix I/O memory map
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20191031100341.3827-1-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bf1a2cbf-f462-e6df-c7c1-1e2ad26003ad@redhat.com>
+Date: Fri, 1 Nov 2019 01:00:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9nT0AfDPmQ2_SDec7_z3+wGS=XQJnSiQwrWCydLgv83Q@mail.gmail.com>
+In-Reply-To: <20191031100341.3827-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MC-Unique: EIv-oF5kPi-04xL722fxLw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,65 +79,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/10/19 19:21, Peter Maydell wrote:
-> On Tue, 29 Oct 2019 at 16:22, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> Hello,
->>
->> this is an attempt at including kernel-doc, with small tweaks (see patch
->> 2) to support QEMU's doc comment format, in the Sphinx documentation pip=
-eline.
->>
->> The ugly part is patch 3, which disables Sphinx's "nitpicking" (warn on
->> invalid cross-reference) mode.  It would probably be possible to use
->> the nitpick_ignore configuration entry instead.
->>
->> Paolo
->>
->> Paolo Bonzini (6):
->>   docs: import Linux kernel-doc script and extension
->>   docs: tweak kernel-doc for QEMU coding standards
->>   docs: disable sphinx warning about missing cross references
->>   memory: adjust API documentation to (modified) kerneldoc format
->>   docs: add memory API reference
->>   memory: include MemoryListener documentation and some missing function
->>     parameters
+On 10/31/19 11:03 AM, Laurent Vivier wrote:
+> Linux kernel 5.4 will introduce a new memory map for SWIM device.
+> (aee6bff1c325 ("m68k: mac: Revisit floppy disc controller base addresse=
+s"))
 >=20
-> Could you briefly describe the differences between this patchset
-> and the RFC I sent a while back:
-> https://patchew.org/QEMU/20190521122519.12573-1-peter.maydell@linaro.org/
-> please?
+> Until this release all MMIO are mapped between 0x50f00000 and 0x50f4000=
+0,
+> but it appears that for real hardware 0x50f00000 is not the base addres=
+s:
+> the MMIO region spans 0x50000000 through 0x60000000, and 0x50040000 thr=
+ough
+> 0x54000000 is repeated images of 0x50000000 to 0x50040000.
+>=20
+> Fixed: 04e7ca8d0f ("hw/m68k: define Macintosh Quadra 800")
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   hw/m68k/q800.c | 33 +++++++++++++++++++++++++--------
+>   1 file changed, 25 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index 2b4842f8c6..8122e7c612 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -60,14 +60,14 @@
+>   #define MACH_MAC        3
+>   #define Q800_MAC_CPU_ID 2
+>  =20
+> -#define VIA_BASE              0x50f00000
+> -#define SONIC_PROM_BASE       0x50f08000
+> -#define SONIC_BASE            0x50f0a000
+> -#define SCC_BASE              0x50f0c020
+> -#define ESP_BASE              0x50f10000
+> -#define ESP_PDMA              0x50f10100
+> -#define ASC_BASE              0x50F14000
+> -#define SWIM_BASE             0x50F1E000
+> +#define VIA_BASE              0x50000000
+> +#define SONIC_PROM_BASE       0x50008000
+> +#define SONIC_BASE            0x5000a000
+> +#define SCC_BASE              0x5000c020
+> +#define ESP_BASE              0x50010000
+> +#define ESP_PDMA              0x50010100
+> +#define ASC_BASE              0x50014000
+> +#define SWIM_BASE             0x5001E000
+>   #define NUBUS_SUPER_SLOT_BASE 0x60000000
+>   #define NUBUS_SLOT_BASE       0xf0000000
+>  =20
+> @@ -135,6 +135,7 @@ static void q800_init(MachineState *machine)
+>       int32_t initrd_size;
+>       MemoryRegion *rom;
+>       MemoryRegion *ram;
+> +    int i;
+>       ram_addr_t ram_size =3D machine->ram_size;
+>       const char *kernel_filename =3D machine->kernel_filename;
+>       const char *initrd_filename =3D machine->initrd_filename;
+> @@ -163,10 +164,26 @@ static void q800_init(MachineState *machine)
+>       cpu =3D M68K_CPU(cpu_create(machine->cpu_type));
+>       qemu_register_reset(main_cpu_reset, cpu);
+>  =20
+> +    /* RAM */
+>       ram =3D g_malloc(sizeof(*ram));
+>       memory_region_init_ram(ram, NULL, "m68k_mac.ram", ram_size, &erro=
+r_abort);
+>       memory_region_add_subregion(get_system_memory(), 0, ram);
+>  =20
+> +    /*
+> +     * Memory from VIA_BASE to VIA_BASE + 0x40000 is repeated
+> +     * from VIA_BASE + 0x40000 to VIA_BASE + 0x4000000
+> +     */
 
-Thanks for the pointer, I didn't remember it; my series is not based on
-your work.  The main difference is in patch 2 ("docs: tweak kernel-doc
-for QEMU coding standards"), which tweaks kernel-doc to recognize camel
-case types and QEMU's usage of "#" to indicate types (inspired by GTKDoc
-and different from the "&" sigil used in the kernel sources).
+Maybe:
 
-As a result of this, the adjustments to be made to header files are much
-smaller.  In particular there are no hunks such as
+        const size_t via_aliases_count =3D (0x4000000 / 0x40000) - 1;
+        MemoryRegion *via_alias =3D g_new(MemoryRegion, via_aliases_count=
+);
+        for (size_t i =3D 0; i < via_aliases_count; i++) {
 
+            ...
 
- /**
-- * MemoryListener: callbacks structure for updates to the physical
-memory map
-+ * struct MemoryListener: callbacks structure for updates to the
-physical memory map
-  *
+            memory_region_add_subregion(get_system_memory(),
+                                        VIA_BASE + (i + 1) * 0x40000,
+                                        via_alias[i]);
+            ...
+        }
 
-The other difference is that this is based on newer kernel sources,
-therefore I had to import the additional file docs/sphinx/kernellog.py.
- On the other hand, I forgot to commit docs/sphinx/kerneldoc.py...
+> +    for (i =3D 1; i < 256; i++) {
+> +        MemoryRegion *io =3D g_malloc(sizeof(*io));
+> +        char *name =3D g_strdup_printf("mac_m68k.io[%d]", i);
+> +
+> +        memory_region_init_alias(io, NULL, name, get_system_memory(),
+> +                                 VIA_BASE, 0x40000);
+> +        memory_region_add_subregion(get_system_memory(),
+> +                                    VIA_BASE + i * 0x40000, io);
+> +        g_free(name);
+> +    }
 
-If we agree that nitpicking mode is unmaintainable, I can merge your
-work with mine and repost.
+I'm trying to get ride of this pattern, so I plan to refactor this later=20
+(and will use 256*KiB). Anyway not this patch problem.
 
-Thanks,
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Paolo
-
+> +
+>       /* IRQ Glue */
+>  =20
+>       irq =3D g_new0(GLUEState, 1);
+>=20
 
