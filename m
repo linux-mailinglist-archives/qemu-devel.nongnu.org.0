@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B028EEC00F
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 09:54:21 +0100 (CET)
-Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CF0EC021
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 09:57:26 +0100 (CET)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQShI-0001zn-3m
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 04:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
+	id 1iQSkH-0005yD-CJ
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 04:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iQSeO-0000Zo-PV
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:21 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iQSeo-0000xS-RC
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iQSeM-0006IO-Jw
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58816
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iQSeL-0006CZ-Tq
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572598277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5ktp9lhDtVKvIHfR99rgDCIdSp2yeuZotk6sUT/R7FA=;
- b=PeYkxj9V5PYlUQRjYQN9D4AuCnZoWtgZ+HQLpkKIkNbKawxPFn6tOvjMl6txLYV1/pkE77
- oeDSSNiXGQnx8xexeo+U/CrlCzi5xriJ7wNVAe75r6Jijkmd8Q5pcllPuklSp6xl5gaETo
- Sjr+uNoQCUpb0MqWysGKhLcIR7Rewr0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-mJON-rfYOCu-G-eV4x0ugA-1; Fri, 01 Nov 2019 04:51:15 -0400
-Received: by mail-qt1-f199.google.com with SMTP id v23so9188877qth.20
- for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 01:51:15 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iQSen-00087e-6o
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:46 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33722)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iQSem-0007zn-Vd
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 04:51:45 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s1so8974508wro.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 01:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gjSuK4BXouO/T+B7He1WodMOLKKfPRfP+oEPOS2e0Nc=;
+ b=CqX7X5nWuLlde+7tJ3+h4YVhSNP4zU6yWnO/eHCa8+vroE+UCbcCVFczLY3ib5kCwV
+ yOuxzcHtVMm9lHgnnvc/EiyBS0qr8SjXNaYwO3IQgzbcrPm++SaVWIvEtU5ihfv7LY5l
+ FrPRxm6hT/mxT2sE6BRaeyrpuzyAeMRSQJEvSctY9Yrr235uL8cO6JCe3fZu4rGA3COn
+ HsW0zizoJmbwa92Rh2tgF6fbrUnAeg5/DjiuvRzjixflG9w9gWSUgOD5tcPIJF/jbeBj
+ K+eVPvxpMaryoes+H4grA6V2HI+6KGwJ8CsC+yBUwpsZ9k877gzPdnfk11g5sDZs33nH
+ BXPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=P5XOZGyw2oG7H0SnvrpnKTJA5LnJvwTZ0jVxtaaPC4g=;
- b=ucuYVUY+yzPU6z7/I1ZgbcTpoqfavvTeuWiXBGw75kW0oSguqlj7rDAQtNqK0tCwsK
- 2fSxJ+7OiFQYyTw060ub6VeOm4uOt1uU4OFa+py9DJgyamxG39xavRhqrW4h9QCnwfVL
- Vox/tElKSNWZy+sXWdxXVDa9+CcPnT2sXdKLfknmvrgvCphlSpKOhFRpyg5qfxb1HL7+
- oXOrpvZxMVzp2rKh9DioHZV3tnzSe95Cc5el03s1JEFpQ3C2/NbdSms8lKmLIrt62rSt
- BwCEccNlmOedRtgB32M293ecVqzHdS/e7/sE55U+B0ktTltiU/CarWLlo5nAIQ77aiff
- eU8w==
-X-Gm-Message-State: APjAAAVogkwfqNEqoJKIpqg9NOfcnEhmUarIBP1Nt82lQVN5tZDY5dZP
- EKWkN/evAkLF3h+2WdDCICdJzCIjbWnmIszzrBjdL2yuoTbwm7CkF7IGgeuWrw2aYPb6SSzvhhs
- d6OANEN/On9HFhzs=
-X-Received: by 2002:a37:4ccb:: with SMTP id z194mr1660268qka.128.1572598275218; 
- Fri, 01 Nov 2019 01:51:15 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqznVLmhcvqDP9+wbCuzkX2TVWL1sCyMMrKm8HTrClFL3Is3yNefPoiinVdvNFThvIqtAV7wqA==
-X-Received: by 2002:a37:4ccb:: with SMTP id z194mr1660256qka.128.1572598274910; 
- Fri, 01 Nov 2019 01:51:14 -0700 (PDT)
-Received: from redhat.com ([91.217.168.176])
- by smtp.gmail.com with ESMTPSA id h23sm3910913qkk.56.2019.11.01.01.51.12
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gjSuK4BXouO/T+B7He1WodMOLKKfPRfP+oEPOS2e0Nc=;
+ b=bT8CSoiUNp2yf7uBatSHfSZnHm6C5Hu/JP+J0M4Ice+qUsL19zCWONa/BNxlTIn4S/
+ oy5UggTbsnGKepasxAgssDS0PwhACgHWUWPAg8sflAS6NfStKweSEuvKtissryG3hIKP
+ IHtTx3+rEbx2v/ZM2FHOnG1JyhRO/lXk2gnrKelIdWwRYs38OLGadEDO+G6sg9jd+iVh
+ E3SbUPD5ou127z/lD9NCdD0lIBBeauey+ffUjojsAJADd+pseP9rp8tExVUvOsi+EQpu
+ mgm2b/uQv3j2mgmW91Miv18jeDDt/VMoxoc7UV2iTa8fE7+tBZ/1FzxNTchZGIJe9rgs
+ flMA==
+X-Gm-Message-State: APjAAAUdzet1HL99E8W1KmrgAkWcC+rjOP9FZ13VHdlPT5kd26+gWOFE
+ pgcuhp5FDclce/M8k8G/46H16a9Wc5Dq6g1c
+X-Google-Smtp-Source: APXvYqzuSGlWjUaGcZPm1V6mBrSUv9ql7Ux6ye/NIgOmc+MLc5Ke9wEdKESyDvyQKUt+9xC1+nFQwg==
+X-Received: by 2002:adf:e682:: with SMTP id r2mr9176189wrm.365.1572598303189; 
+ Fri, 01 Nov 2019 01:51:43 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d20sm8818922wra.4.2019.11.01.01.51.42
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Nov 2019 01:51:13 -0700 (PDT)
-Date: Fri, 1 Nov 2019 04:51:10 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org
-Subject: Re: presentation at kvm forum and pagefaults
-Message-ID: <20191101044700-mutt-send-email-mst@kernel.org>
-References: <20191031234601-mutt-send-email-mst@kernel.org>
+ Fri, 01 Nov 2019 01:51:42 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/11] target-arm queue
+Date: Fri,  1 Nov 2019 08:51:29 +0000
+Message-Id: <20191101085140.5205-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191031234601-mutt-send-email-mst@kernel.org>
-X-MC-Unique: mJON-rfYOCu-G-eV4x0ugA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,62 +80,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 01, 2019 at 12:07:01AM -0400, Michael S. Tsirkin wrote:
-> Regarding the presentation I gave at the kvm forum
-> on pagefaults.
->=20
-> Two points:
->=20
->=20
-> 1. pagefaults are important not just for migration.
-> They are important for performance features such as
-> autonuma and huge pages, since this relies on moving
-> pages around.
-> Migration can maybe be solved by switch to software but
-> this is not a good solution for numa and thp  since
-> at a given time some page is likely being moved.
->=20
+target-arm queue: two bug fixes, plus the KVM/SVE patchset,
+which is a new feature but one which was in my pre-softfreeze
+pullreq (it just had to be dropped due to an unexpected test failure.)
 
-Also, pagefaults might allow iommu page table shadowing to scale better
-to huge guests. As in, the host IOMMU page tables can be populated
-lazily on fault. I'm not sure what the performance of such an approach
-would be though, but this space might be worth exploring.
+thanks
+-- PMM
 
+The following changes since commit b7c9a7f353c0e260519bf735ff0d4aa01e72784b:
 
->=20
->=20
->=20
-> 2.  For devices such as networking RX order in which buffers are
-> used *does not matter*.
-> Thus if a device gets a fault in response to attempt to store a buffer
-> into memory, it can just re-try, using the next buffer in queue instead.
->=20
-> This works because normally buffers can be used out of order by device.
->=20
-> The faulted buffer will be reused by another buffer when driver notifies
-> device page has been faulted in.
->=20
-> Note buffers are processed by buffer in the order in which they have
-> been used, *not* the order in which they have been put in the queue.  So
-> this will *not* cause any packet reordering for the driver.
->=20
-> Packets will only get dropped if all buffers are swapped
-> out, which should be rare with a large RX queue.
->=20
->=20
-> As I said at the forum, a side buffer for X packets
-> to be stored temporarily is also additionally possible. But with the abov=
-e
-> it is no longer strictly required.
->=20
->=20
-> This conflicts with the IN_ORDER feature flag, I guess we will have to
-> re-think this flag then. If we do feel we need to salvage IN_ORDER as is,
-> maybe device can use the buffer with length 0 and driver will re-post it
-> later, but I am not I am not sure about this since involving the VF
-> driver seems inelegant.
->=20
-> --=20
-> MST
+  Merge remote-tracking branch 'remotes/jnsnow/tags/ide-pull-request' into staging (2019-10-31 15:57:30 +0000)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191101-1
+
+for you to fetch changes up to d9ae7624b659362cb2bb2b04fee53bf50829ca56:
+
+  target/arm: Allow reading flags from FPSCR for M-profile (2019-11-01 08:49:10 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Support SVE in KVM guests
+ * Don't UNDEF on M-profile 'vmrs apsr_nzcv, fpscr'
+ * Update hflags after boot.c modifies CPU state
+
+----------------------------------------------------------------
+Andrew Jones (9):
+      target/arm/monitor: Introduce qmp_query_cpu_model_expansion
+      tests: arm: Introduce cpu feature tests
+      target/arm: Allow SVE to be disabled via a CPU property
+      target/arm/cpu64: max cpu: Introduce sve<N> properties
+      target/arm/kvm64: Add kvm_arch_get/put_sve
+      target/arm/kvm64: max cpu: Enable SVE when available
+      target/arm/kvm: scratch vcpu: Preserve input kvm_vcpu_init features
+      target/arm/cpu64: max cpu: Support sve properties with KVM
+      target/arm/kvm: host cpu: Add support for sve<N> properties
+
+Christophe Lyon (1):
+      target/arm: Allow reading flags from FPSCR for M-profile
+
+Edgar E. Iglesias (1):
+      hw/arm/boot: Rebuild hflags when modifying CPUState at boot
+
+ tests/Makefile.include         |   5 +-
+ qapi/machine-target.json       |   6 +-
+ include/qemu/bitops.h          |   1 +
+ target/arm/cpu.h               |  21 ++
+ target/arm/kvm_arm.h           |  39 +++
+ hw/arm/boot.c                  |   1 +
+ target/arm/cpu.c               |  25 +-
+ target/arm/cpu64.c             | 364 +++++++++++++++++++++++++--
+ target/arm/helper.c            |  10 +-
+ target/arm/kvm.c               |  25 +-
+ target/arm/kvm32.c             |   6 +-
+ target/arm/kvm64.c             | 325 +++++++++++++++++++++---
+ target/arm/monitor.c           | 158 ++++++++++++
+ target/arm/translate-vfp.inc.c |   5 +-
+ tests/arm-cpu-features.c       | 551 +++++++++++++++++++++++++++++++++++++++++
+ docs/arm-cpu-features.rst      | 317 ++++++++++++++++++++++++
+ 16 files changed, 1795 insertions(+), 64 deletions(-)
+ create mode 100644 tests/arm-cpu-features.c
+ create mode 100644 docs/arm-cpu-features.rst
 
