@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BED9EC14C
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 11:35:30 +0100 (CET)
-Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4678DEC14E
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Nov 2019 11:37:14 +0100 (CET)
+Received: from localhost ([::1]:37470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQUHA-0002V0-ST
-	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 06:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45702)
+	id 1iQUIr-0004bD-BP
+	for lists+qemu-devel@lfdr.de; Fri, 01 Nov 2019 06:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iQUG0-0001vU-WC
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:34:17 -0400
+ (envelope-from <programmingkidx@gmail.com>) id 1iQUGf-0002b8-SS
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:34:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iQUFz-0002Hp-Nu
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:34:16 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:43138)
+ (envelope-from <programmingkidx@gmail.com>) id 1iQUGe-0003u8-7Y
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:34:57 -0400
+Received: from mail-yw1-xc32.google.com ([2607:f8b0:4864:20::c32]:37399)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iQUFz-0002Ey-HI
- for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:34:15 -0400
-Received: by mail-oi1-x232.google.com with SMTP id s5so7749024oie.10
- for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 03:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x33eqc7XdlGR2riuYWE+uF92EPAry1rp7FXaqUJ6N1Q=;
- b=WCePeokNP2RvS1haVOItECA0hSM97QFTZDBPxM/tgdpBGQTE0gmLe5GwbpcKjlkdhI
- HwBwJIVgjvmNHadInqJstVgbw6d1A/l6nM5CufhW9Qe7aiWB29j2xmktH9tzU/d8jmRk
- pQutXHk/owbkzJHQG0zC3GHXMOPgcam2ZmiLssakCjKqTEqXhgddI9u7QbccI+/pmt+L
- Kdql/BoGdjOElZAN0qekdr30QTZpIXUsS5w7XbAQYwSU09lHlkbJfeWypQpJDaUBw6EE
- I2KKEbSVbQw5trD7sndIwpkT/0eosCOrqr2n/yKOcWKtOmFPbispUSmPDFAMEvUT1g3L
- mX0Q==
+ (Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
+ id 1iQUGd-0003tV-VW
+ for qemu-devel@nongnu.org; Fri, 01 Nov 2019 06:34:56 -0400
+Received: by mail-yw1-xc32.google.com with SMTP id v84so3312920ywc.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Nov 2019 03:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:content-transfer-encoding:mime-version:subject:date:references
+ :to:in-reply-to:message-id;
+ bh=mWJBb30/VHnm4uKxtWGtYNB+CyZGyOXRfZ9dnNq4V8w=;
+ b=ldmw9TVpfENLOitB2J52JxSTQxIqKPmnlaRfMAs0CDKgd/N9FA+p7ZZrNxzfTS7jpF
+ 5IjbKsZXh06E1gyIqhr6EdVyPmFUVjBXiVUi2HwneEZPOa18LFIcP/mKn/Vb9eWBGhtg
+ muo5Qrj9QPuWBI55ZI96IukxCh2QLM26HoOvdagYWs146NmkA5oqVG80pEnSrZrBKpJq
+ yvAd8oPmwMfsARC5fLPX54Y2lMBRfPZ32/ysVCGM03kQK5ovUWKCYmq9G8coVR2EcqSd
+ Xzfc6Ys/ckZUEZEF4iZgvl9Rp+ME6abWtiyCeDS1roWdQZPyqj1+zerfa3BED2bQe4g/
+ 60Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x33eqc7XdlGR2riuYWE+uF92EPAry1rp7FXaqUJ6N1Q=;
- b=XxEIubF8ntKQWxlev/MFmzpSB1l86D5vfJB4roawHT++BQ6XDjwnx+HwN73zHPVx7Z
- eA+P3bMcme/lRyw6JO/8f4AR0RcAj6g4HE8+L7wvt2UfEChuunzB5c4cidYO2TN0q9q0
- 4nZ5ihSk8IVNT2Q532MHndEYprtHtSSUyTIRW4bUo7iDV+SBRjHVNoWjoINeVunGOx00
- 7l+V/rfX/3AXDGar0herFlwzYzq85PxfBz8mgfenHk9tbM4tQ7moim7brwaLqlhFV0BD
- iA9JoLqUd6hBQfRoCk6G3nB/HIEF8TW0MRXwgXpysMfqoex90cVmxJTAYJxKt0J5WnwU
- R5gQ==
-X-Gm-Message-State: APjAAAXERVHYizCc8kYGqBaiRqeCPy/R5WAfGTuopV/ZceMLJs1TicUQ
- a9LOPbBydO5GWyKMf9MIlTrhAUft5B/Y6giKQNUvpQDgi1o+d3qG
-X-Google-Smtp-Source: APXvYqzmYZgN20KmFmTctToMhBHasXj6eSrbx+Y7ts1Y+iIDsCJbeCzKKLHZMzSnbapNWj2pQiW0q4WNBzqz1KfpbsY=
-X-Received: by 2002:a05:6808:7d1:: with SMTP id
- f17mr4362889oij.163.1572604454242; 
- Fri, 01 Nov 2019 03:34:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191101085140.5205-1-peter.maydell@linaro.org>
- <CAFEAcA-N-Fh7+NCHGPXuK-H6DUTOwjfCU6rmZGz4k8n+tkKdxw@mail.gmail.com>
- <20191101095438.a6wd2mal4w75irvg@kamzik.brq.redhat.com>
-In-Reply-To: <20191101095438.a6wd2mal4w75irvg@kamzik.brq.redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Nov 2019 10:34:02 +0000
-Message-ID: <CAFEAcA9_PMjhEgMn3qnr1xsiGU5YkNr1KeCvez6pFm=93EzTpA@mail.gmail.com>
-Subject: Re: [PULL 00/11] target-arm queue
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:content-transfer-encoding:mime-version
+ :subject:date:references:to:in-reply-to:message-id;
+ bh=mWJBb30/VHnm4uKxtWGtYNB+CyZGyOXRfZ9dnNq4V8w=;
+ b=N+8QaLtQy6Lgi3HE25NT56ZU+FxWN98hBuLFn3wn9sH5W9nDOnfzYrK6/dqLn7myQR
+ Zm9mX0dnNcrOr0+GwXV+x0gIcby3yJbRTrii9TP/IwpI3L3/JFKMeLCgUNyoBL6lpu0H
+ CJAfgeiXllTlLZQt88t8nn33m2nNOvqnIxHnh6Mf1e1MtlMZk1UJ08ElENS7QarUepTx
+ gu+XKXZXHG+pGuCu1UYvR3czC4Dt8Glc1ZaR1ByB/3GUmiYpCjz29fCqNLmccUgAGEL+
+ HbulDcdAVwFxpoGKoUc611RqNFHJDz/OiCTNvrcsR9cFeLnphmLf2ketmcAhmv1upa97
+ 3QFw==
+X-Gm-Message-State: APjAAAVwP+BlmB74Y6Ko5+0wa27t+BRHjGOBFK/DgSirWOhhV9II9hII
+ Ob/VukYGUR3Cjc06gCLa1ou22RhO
+X-Google-Smtp-Source: APXvYqxWIrq+iZzmbeXK4TuRdjUN0ns5i+ZAUt71nsRcGWWblwLWtTbXBf8wKo/wGWShquPZKamDWw==
+X-Received: by 2002:a0d:cc91:: with SMTP id o139mr7895296ywd.373.1572604495050; 
+ Fri, 01 Nov 2019 03:34:55 -0700 (PDT)
+Received: from [192.168.0.7] (d14-69-20-184.try.wideopenwest.com.
+ [69.14.184.20])
+ by smtp.gmail.com with ESMTPSA id k188sm2939775ywe.41.2019.11.01.03.34.53
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 01 Nov 2019 03:34:54 -0700 (PDT)
+From: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [Bug 1850570] Re: Cannot use usb-host on Mac OS
+Date: Fri, 1 Nov 2019 06:34:53 -0400
+References: <mailman.214.1572564951.13345.qemu-devel@nongnu.org>
+To: qemu Developers <qemu-devel@nongnu.org>,
+ 1850570@bugs.launchpad.net
+In-Reply-To: <mailman.214.1572564951.13345.qemu-devel@nongnu.org>
+Message-Id: <47A92732-E94E-4DD9-8D47-E8DCF4E364B1@gmail.com>
+X-Mailer: Apple Mail (2.3273)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+X-Received-From: 2607:f8b0:4864:20::c32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,26 +80,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 Nov 2019 at 09:54, Andrew Jones <drjones@redhat.com> wrote:
-> Darn it. Sorry about that, but if it's still failing then I think QEMU
-> must believe KVM is enabled, i.e. kvm_enabled() in QEMU must be true.
-> I can try to confirm that and fix it, but I'll need to set up this
-> environment first.
 
-Yeah, it looks like trying to run with KVM in an aarch32 chroot
-doesn't work but we don't notice it -- in qemu kvm_init() succeeds
-but then we fail when we try to actually create CPUs, so:
-$ ./arm-softmmu/qemu-system-arm -M virt -M accel=kvm:tcg
-qemu-system-arm: kvm_init_vcpu failed: Invalid argument
+> On Oct 31, 2019, at 7:35 PM, qemu-devel-request@nongnu.org wrote:
+>=20
+> Message: 10
+> Date: Thu, 31 Oct 2019 18:39:11 -0000
+> From: John Canada <1850570@bugs.launchpad.net>
+> To: qemu-devel@nongnu.org
+> Subject: [Bug 1850570] Re: Cannot use usb-host on Mac OS
+> Message-ID:
+> 	<157254715118.3076.2379100780378521691.malone@gac.canonical.com>
+> Content-Type: text/plain; charset=3D"utf-8"
+>=20
+> Yes, I tried running as root.  I also tried it on a different computer
+> that is running Mac OS 10.13, and it gave the same errors.
+>=20
+> --=20
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1850570
+>=20
+> Title:
+>  Cannot use usb-host on Mac OS
+>=20
+> Status in QEMU:
+>  New
+>=20
+> Bug description:
+>  Usb-host will not work on Mac OS 10.15.  Qemu runs, though it gives
+>  these errors and the drive does not show up.  Also, when Qemu is
+>  starting the drive ejects and remounts twice. Qemu built with
+>  ./configure --target-list=3Di386-softmmu,x86_64-softmmu --enable-sdl
+>  --disable-cocoa --enable-sdl-image.
+>=20
+>  qemu-system-i386 image.qcow -usb -device usb-kbd  -device =
+usb-host,vendorid=3D0x0781,productid=3D0x5571
+>  libusb: error [darwin_claim_interface] USBInterfaceOpen: another =
+process has device opened for exclusive access
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] USBInterfaceOpen: another =
+process has device opened for exclusive access
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>  libusb: error [darwin_claim_interface] interface not found
+>=20
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1850570/+subscriptions
 
-we barf rather than falling back to tcg the way we ought to.
 
-Does i386-on-x86_64 KVM handle this case?
+Try this. Unplug the USB device. Plug it back in, and as fast as you can =
+start QEMU.=20
 
-thanks
--- PMM
+My theory is another program might be using the device. This could be =
+Spotlight trying to index the drive.
+
+Another possibility is libusb is not compatible with Mac OS 10.13 yet.
+
+Do you have another computer that runs Mac OS 10.12 or under that you =
+can test on?
+
+
 
