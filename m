@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5379ECFEB
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Nov 2019 18:20:09 +0100 (CET)
-Received: from localhost ([::1]:49424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F77ED02A
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Nov 2019 18:59:25 +0100 (CET)
+Received: from localhost ([::1]:49644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iQx4K-000284-M0
-	for lists+qemu-devel@lfdr.de; Sat, 02 Nov 2019 13:20:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45833)
+	id 1iQxgK-0005CK-7H
+	for lists+qemu-devel@lfdr.de; Sat, 02 Nov 2019 13:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iQwzm-0000E5-81
- for qemu-devel@nongnu.org; Sat, 02 Nov 2019 13:15:27 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iQxf2-0004k1-OS
+ for qemu-devel@nongnu.org; Sat, 02 Nov 2019 13:58:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iQwzk-0006cB-39
- for qemu-devel@nongnu.org; Sat, 02 Nov 2019 13:15:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:43171)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iQwzj-0006QD-Pz
- for qemu-devel@nongnu.org; Sat, 02 Nov 2019 13:15:24 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MmUYD-1hiVM53MtF-00iQSI; Sat, 02 Nov 2019 18:15:17 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] dp8393x: fix receiving buffer exhaustion
-Date: Sat,  2 Nov 2019 18:15:11 +0100
-Message-Id: <20191102171511.31881-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191102171511.31881-1-laurent@vivier.eu>
-References: <20191102171511.31881-1-laurent@vivier.eu>
+ (envelope-from <peter.maydell@linaro.org>) id 1iQxf1-0001fY-CI
+ for qemu-devel@nongnu.org; Sat, 02 Nov 2019 13:58:04 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38743)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iQxez-0001QZ-J9
+ for qemu-devel@nongnu.org; Sat, 02 Nov 2019 13:58:03 -0400
+Received: by mail-oi1-x242.google.com with SMTP id v186so10814658oie.5
+ for <qemu-devel@nongnu.org>; Sat, 02 Nov 2019 10:58:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iJr9Os6DuncpmRSq0a0XA+/ZFoa9N0kH2lP/a5knD6U=;
+ b=I/iVsvAvVl95f8LFRNfZMjKSvG9DfiQXCgNd2Pi5rzEuTwlxRvkkmbdwNKhZBm8c9Y
+ 0t9UTsq+B1LLVX1y/ZjX+3XAdYWbK1AnRdJ8Erq3oaE1VV2tPvZqU1xRsO5JLqh5LS1o
+ byU7exlyEv6K9hBvNvyrwIXMvamvhEwcVb1SELv80FFLipZ4IWHokjP9cM8npRSlLnC4
+ bOhUjfDfmKsBBul+aao8uglGzZULjBmQ0ZMcmM7nCJMFPNF9vQBKWm24t3dQHY3b5CTj
+ s/j5ot88dLNd8CFQOrJkPqqwagcT91dhn0gp+aoCkixw/QHNK+zYLqD3b2YxhBvau7hc
+ bZOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iJr9Os6DuncpmRSq0a0XA+/ZFoa9N0kH2lP/a5knD6U=;
+ b=NVmADfPKWj3wPuyUpG7o1S5l6HMyh5QuHdBh5Y/D4QsTV/PmB12UQwzDdRPw7uCd6f
+ da2Rt8n2gRzkLZ2dNGxEXT0BrkryrbifxLGxzt91g1LqhGEM/SyoJQ4hTMGQ/von41wO
+ QWY5LnTPxu2CbCJ5XpqIOWoqavhiWFjb5BjfTmg8RkU+AN0CXLun5h9AJiItmMaWPhqX
+ Zff+rGPQI2JEKFBzsSwx0Gfxw2tA7idI7qRs+YmPD+jSu6/koRW8GkwnVfb36AEc43Ox
+ nef9sq4WTfYcZ5WMDu3JTcpXC01Ce0dzyUaF3m0KX06Rdtt0wv62rwxbZRWNmRX2d+40
+ 5fNA==
+X-Gm-Message-State: APjAAAUSFB30eqF3MP1mY+2R5lihaZChGZ1QF6VoX/K9ToyDonp6Vdi1
+ L/Rr5rbL5drAmaHwGR5nWpJGj0vHmwNqVNdFu4wr3g==
+X-Google-Smtp-Source: APXvYqwkyKwRBB5UE8n+weGijBO1dDSFG7uCB4zRE3Wdo9YfUGD5sUT1ANytEw3IY7lpYcglkst5Wr+Pw3J8VM/Sp6M=
+X-Received: by 2002:aca:451:: with SMTP id 78mr10580223oie.170.1572717478982; 
+ Sat, 02 Nov 2019 10:57:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2+Q/LLiZQMsFCgNF8FNud9WOQXe5kt/AosFCbbUgXKQMrIlkoWT
- zzOaCKpnb/imqapBn9I4WCVFRCWczze/PHg/beJHA/YtR44wykZ1OEzx56Vqd+bSF5ca8l0
- DxgdpY+FVPhWKQ7eNbh1xAMiSEsGM3c/ByyIgghrbH8SNo6BadpGOzAidcds2qQRFP2CO2d
- Zh+H4IELQenIcjA8RMYFw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Js1mI23s/IM=:f3KLetL4cbJY8ac24WBoos
- BRo5op4UwYn0Q2t73tzro6dxNjEbyQNaW+bL1lVB+D5tIwjJXzChd9z9Rf0g6uwYUwRANcGis
- p89bwQoaRIgSvF3AwRqKSK/JZrIj2rnzkxdJdFbfigau16mRN/JDZUSY38OEHYnLi+VRSfvXs
- 99U2TsBLqnoWIB8N7Sjv+RXCoUGNU5Ww9VqpllDaTa+UT4Yk/jYVSp3fO3rArpdrxJKkaOmY9
- 9Qo9T6gbk9Mo0wIUq5YpUmY0oCL5NHbEnSw8x+la1k2yqNboGJXQG/4eM7wAFUtJTXOw+NM7I
- /q6jdWrrM1+yywXjhuAFErljVALn1He7MzAI1hBy+z5yz1orv2i/WJh+SVVLrttWDqMdPUZaC
- Ui2+NCQcDC0Tod0zX5+V1tZbMA4BSwXEVi0Wg72cc0pQ4neUOniHm7m0FdjKMBjo7FwE3yQlp
- JBh6Yb6tKV4y52P8sNcDKeOb+pWNXGX+VqahjC6T78eR+UrTTwAJBvCCbubiCqSb1+eLNEwIp
- 7pMZhlklirF39YUFPI6tmSJDm53ThxoXjsf/CauF6uY7TO2YzVJEPwBTEMIJucmLhlmnyUaTK
- m0YEUVr2osRiKkZXYTu/32Vky2SC0VIpZlJCn1jXEqdkt0xf2rdRdQgv5j9QtAdELvpApQw0l
- R2TEmNmzx6xURpj652Mb6Vg4jddK8KkQBIAo7+Ptgfuc9sMk8+6XUIuTIquzzJqv1LsbopVfm
- 865tM87Q9Xg1HxJnlSezdz/k2dnJygC1rAebBstRMyijR0pxcWj3WsZ03cLy+fH+KA+TWsYwc
- aHcbd6d7cYnhTyHMYeKgCk1o9dranDe4NYzJ/s2yVpD1bL8eObIhLYcVHXbz6klObVqWavWrf
- +NzhOZAH7jUS/uEFkn5A==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.135
+References: <20191101085140.5205-1-peter.maydell@linaro.org>
+ <CAFEAcA-N-Fh7+NCHGPXuK-H6DUTOwjfCU6rmZGz4k8n+tkKdxw@mail.gmail.com>
+ <20191101095438.a6wd2mal4w75irvg@kamzik.brq.redhat.com>
+ <CAFEAcA9_PMjhEgMn3qnr1xsiGU5YkNr1KeCvez6pFm=93EzTpA@mail.gmail.com>
+ <CAFEAcA9iTS8SXTFyGPwk+Wn_Aw-2rd9Wb_N3cH8iAxSOzzYyVg@mail.gmail.com>
+ <20191101142540.dzu72u4fll6wcovk@kamzik.brq.redhat.com>
+In-Reply-To: <20191101142540.dzu72u4fll6wcovk@kamzik.brq.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 2 Nov 2019 17:57:47 +0000
+Message-ID: <CAFEAcA91r-_q+ZV3Jzuv3ri-RdH3J6wY0A5t95OR8vCUE16wHg@mail.gmail.com>
+Subject: Re: [PULL 00/11] target-arm queue
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,100 +76,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The card is not able to exit from exhaustion state, because
-while the drive consumes the buffers, the RRP is incremented
-(when the driver clears the ISR RBE bit), so it stays equal
-to RWP, and while RRP == RWP, the card thinks it is always
-in exhaustion state. So the driver consumes all the buffers,
-but the card cannot receive new ones.
+On Fri, 1 Nov 2019 at 14:25, Andrew Jones <drjones@redhat.com> wrote:
+>
+> On Fri, Nov 01, 2019 at 12:53:42PM +0000, Peter Maydell wrote:
+> > On Fri, 1 Nov 2019 at 10:34, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Fri, 1 Nov 2019 at 09:54, Andrew Jones <drjones@redhat.com> wrote:
+> > > > Darn it. Sorry about that, but if it's still failing then I think QEMU
+> > > > must believe KVM is enabled, i.e. kvm_enabled() in QEMU must be true.
+> > > > I can try to confirm that and fix it, but I'll need to set up this
+> > > > environment first.
+> > >
+> > > Yeah, it looks like trying to run with KVM in an aarch32 chroot
+> > > doesn't work but we don't notice it -- in qemu kvm_init() succeeds
+> > > but then we fail when we try to actually create CPUs, so:
+> > > $ ./arm-softmmu/qemu-system-arm -M virt -M accel=kvm:tcg
+> > > qemu-system-arm: kvm_init_vcpu failed: Invalid argument
+> > >
+> > > we barf rather than falling back to tcg the way we ought to.
+> >
+> > I spoke to Christoffer and Marc about this, and they reckoned
+> > this was basically a kernel bug (and ideally a 64-bit kernel
+> > should just refuse to open /dev/kvm for an aarch32-compat
+> > userspace process, because it doesn't provide the aarch32 KVM
+> > interface, only the aarch64 one).
+> >
+> > In the meantime, we should just bodge whatever we need to
+> > in this test to cause us not to bother to try to run the test,
+> > in whatever is the most expedient way.
+>
+> How about just doing this (which can be cleanly applied to 2/9
+> without conflicts on rebase)
 
-This patch fixes the problem by not incrementing RRP when
-the driver clears the ISR RBE bit.
+Yep, that works. I squashed it in and have applied the
+updated pullreq.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/net/dp8393x.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index b8c4473f99..21deb32456 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -304,7 +304,7 @@ static void dp8393x_do_load_cam(dp8393xState *s)
-     dp8393x_update_irq(s);
- }
- 
--static void dp8393x_do_read_rra(dp8393xState *s)
-+static void dp8393x_do_read_rra(dp8393xState *s, int next)
- {
-     int width, size;
- 
-@@ -323,19 +323,20 @@ static void dp8393x_do_read_rra(dp8393xState *s)
-         s->regs[SONIC_CRBA0], s->regs[SONIC_CRBA1],
-         s->regs[SONIC_RBWC0], s->regs[SONIC_RBWC1]);
- 
--    /* Go to next entry */
--    s->regs[SONIC_RRP] += size;
-+    if (next) {
-+        /* Go to next entry */
-+        s->regs[SONIC_RRP] += size;
- 
--    /* Handle wrap */
--    if (s->regs[SONIC_RRP] == s->regs[SONIC_REA]) {
--        s->regs[SONIC_RRP] = s->regs[SONIC_RSA];
--    }
-+        /* Handle wrap */
-+        if (s->regs[SONIC_RRP] == s->regs[SONIC_REA]) {
-+            s->regs[SONIC_RRP] = s->regs[SONIC_RSA];
-+        }
- 
--    /* Check resource exhaustion */
--    if (s->regs[SONIC_RRP] == s->regs[SONIC_RWP])
--    {
--        s->regs[SONIC_ISR] |= SONIC_ISR_RBE;
--        dp8393x_update_irq(s);
-+        /* Check resource exhaustion */
-+        if (s->regs[SONIC_RRP] == s->regs[SONIC_RWP]) {
-+            s->regs[SONIC_ISR] |= SONIC_ISR_RBE;
-+            dp8393x_update_irq(s);
-+        }
-     }
- 
-     /* Done */
-@@ -549,7 +550,7 @@ static void dp8393x_do_command(dp8393xState *s, uint16_t command)
-     if (command & SONIC_CR_RST)
-         dp8393x_do_software_reset(s);
-     if (command & SONIC_CR_RRRA)
--        dp8393x_do_read_rra(s);
-+        dp8393x_do_read_rra(s, 1);
-     if (command & SONIC_CR_LCAM)
-         dp8393x_do_load_cam(s);
- }
-@@ -640,7 +641,7 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-             data &= s->regs[reg];
-             s->regs[reg] &= ~data;
-             if (data & SONIC_ISR_RBE) {
--                dp8393x_do_read_rra(s);
-+                dp8393x_do_read_rra(s, 0);
-             }
-             dp8393x_update_irq(s);
-             if (dp8393x_can_receive(s->nic->ncs)) {
-@@ -840,7 +841,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
- 
-         if (s->regs[SONIC_RCR] & SONIC_RCR_LPKT) {
-             /* Read next RRA */
--            dp8393x_do_read_rra(s);
-+            dp8393x_do_read_rra(s, 1);
-         }
-     }
- 
--- 
-2.21.0
-
+thanks
+-- PMM
 
