@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A193ED505
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Nov 2019 22:06:20 +0100 (CET)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14E8ED509
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Nov 2019 22:09:38 +0100 (CET)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRN4k-0006n3-Pb
-	for lists+qemu-devel@lfdr.de; Sun, 03 Nov 2019 16:06:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
+	id 1iRN7x-0000Ms-Fn
+	for lists+qemu-devel@lfdr.de; Sun, 03 Nov 2019 16:09:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iRMxt-0002Df-PC
- for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:59:14 -0500
+ (envelope-from <svens@stackframe.org>) id 1iRN2F-00056n-Cc
+ for qemu-devel@nongnu.org; Sun, 03 Nov 2019 16:03:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iRMxr-0003M1-TS
- for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:59:13 -0500
-Received: from mail.ilande.co.uk ([46.43.2.167]:43502
- helo=mail.default.ilande.uk0.bigv.io)
+ (envelope-from <svens@stackframe.org>) id 1iRN2E-0004lo-0c
+ for qemu-devel@nongnu.org; Sun, 03 Nov 2019 16:03:43 -0500
+Received: from shroom.duncanthrax.net ([2a01:4f8:121:41fa::169]:53093
+ helo=smtp.duncanthrax.net)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iRMxr-0003LH-Mw
- for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:59:11 -0500
-Received: from host86-185-106-131.range86-185.btcentralplus.com
- ([86.185.106.131] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iRMyP-0000m1-Tl; Sun, 03 Nov 2019 20:59:46 +0000
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Zainuddin AR <zar1969@gmail.com>, Artyom Tarasenko <atar4qemu@gmail.com>
-References: <CA+gXNfhCRT1kPq4KVumXwRiJvVaXYZZBRhs-QsVNKv+WzeMM+A@mail.gmail.com>
- <54af7410-569e-2b4b-70ed-f09039014bda@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <56403a22-d48e-5bb3-15c5-904e2e7c667d@ilande.co.uk>
-Date: Sun, 3 Nov 2019 20:59:09 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iRN2D-0004l7-Q1
+ for qemu-devel@nongnu.org; Sun, 03 Nov 2019 16:03:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=In-Reply-To:Content-Type:MIME-Version:References
+ :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+ :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4n4kODalh5xAZmesm+ptfcKHNEoTbfNUl5mXiZ9kXcI=; b=h+Wpuy+30KbXsK76SzRxylKxqN
+ P0CgRobSWD/XD2ypv9e5y3DtIm9IrzU6czztCdvNzcMI8bsXMC3XP4DPW3boZMc23mTYe8CLP6yZJ
+ VafIoVCVw3dnAM1CFNFS0OueDLsXoTXxplCOMacT1NgY9YZqZvLwuqXe47phy+vJ0vdE=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=t470p.stackframe.org)
+ by smtp.duncanthrax.net with esmtpa (Exim 4.90_1)
+ (envelope-from <svens@stackframe.org>)
+ id 1iRN2A-0005DB-Dr; Sun, 03 Nov 2019 22:03:38 +0100
+Date: Sun, 3 Nov 2019 22:03:37 +0100
+From: Sven Schnelle <svens@stackframe.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v3 5/6] hppa: Add emulation of Artist graphics
+Message-ID: <20191103210337.GA6640@t470p.stackframe.org>
+References: <20191022205941.23152-1-svens@stackframe.org>
+ <20191022205941.23152-6-svens@stackframe.org>
+ <b91ee508-2ae4-0307-561a-f930a7709404@ilande.co.uk>
+ <20191025093159.GA4261@stackframe.org>
+ <1a414492-1623-5620-9e5b-097b45fc746a@ilande.co.uk>
+ <20191026175439.GA10792@stackframe.org>
+ <20191101215943.GB9053@t470p.stackframe.org>
+ <02ba4a0c-97f8-766d-08dd-caff9f448e5f@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <54af7410-569e-2b4b-70ed-f09039014bda@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.185.106.131
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: Sparc Solaris 10
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.43.2.167
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <02ba4a0c-97f8-766d-08dd-caff9f448e5f@ilande.co.uk>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:121:41fa::169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,26 +68,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/11/2019 19:56, Philippe Mathieu-Daudé wrote:
+Hi Mark,
 
-> Cc'ing the SPARC maintainers.
+On Sun, Nov 03, 2019 at 08:56:43PM +0000, Mark Cave-Ayland wrote:
+> On 01/11/2019 21:59, Sven Schnelle wrote:
 > 
-> On 11/1/19 4:49 AM, Zainuddin AR wrote:
->> Hi,
->>
->> I like to find to find out if you have a working qemu on solaris 10 or 11. I have
->> tried the qemu-sun4vniagara but without networking. Is the networking support for
->> niagara version available?
+> > On Sat, Oct 26, 2019 at 07:54:40PM +0200, Sven Schnelle wrote:
+> >> Hi Mark,
+> >>
+> >> On Sat, Oct 26, 2019 at 10:35:20AM +0100, Mark Cave-Ayland wrote:
+> >>
+> >>>> However, the VRAM in Artist is not really exposed to the Host. Instead,
+> >>>> there's the Chipset inbetween that can do byte swapping (Colormap is LE,
+> >>>> VRAM is BE) and Bit-to-Byte/Word/Dword conversion. For example you could
+> >>>> write 0x55 into that VRAM region, and the chipset would expand that to
+> >>>> VRAM Bytes: 00 01 00 01 00 01 00 01. And to make it even worse emulation
+> >>>> wise it can also do different encodings for Read or Write accesses, and
+> >>>> mask out certain bits of the data. So after trying to convert it to the
+> >>>> "dirty bitmap" API i decided to just leave it as it is. The CPU load
+> >>>> used by the display update code is usually < 1%, so it's ok for me.
+> >>>
+> >>> Wow that sounds that some interesting hardware(!). Does it make sense to model the
+> >>> behaviour of the chipset separately using a proxy MemoryRegion similar to virtio i.e.
+> >>> introduce an intermediate IO MemoryRegion that does the swapping and then forward it
+> >>> onto the VRAM MemoryRegion?
+> >>
+> >> Thanks for the pointer, i'll check whether that would work. For now i
+> >> think i'll remove the Artist patch from the series, so we can apply the
+> >> other patches, and i'll re-submit Artist when it's done. I guess the
+> >> rewrite to use a MemRegion is a bit bigger. But i would to get the other
+> >> patches in especially the LASI Stuff as both Helge and i have a lot of
+> >> stuff depending on that.
+> > 
+> > I've looked into it again and changed my mind. There are at least the following
+> > functions that the Artist chip does before a Read/Write is passed to/from VRAM:
+> > 
+> > - endianess conversion (actually configurable via some register, but i don't
+> >   know how and hardwired it depending on CMAP / FB access)
+> > 
+> > - The Address passed on the System bus are the X/Y coordinates added to the FB
+> >   base address in the selected buffer instead of the VRAM offset for pixel data.
+> >   I think that's configurable via the some registers, but i don't know how.
+> >   Unfortunately there's absolutely no documentation about Artist available and
+> >   everything was developed by reverse engineering.
+> > 
+> > - bitmap to Byte/Word conversion (not implemented yet for the VRAM window, only
+> >   for the I/O register window)
+> > 
+> > So in my opinion it's way to much effort to squeeze all of that into the memory
+> > space, and it is not really a Memory range that's just behind a bus bridge.
+> 
+> Hi Sven,
+> 
+> Certainly in some cases it isn't possible to model devices in QEMU exactly as real
+> hardware, although I think that some of the ideas above could be used to improve the
+> implementation without too much extra effort.
+> 
+> Then again from my work on QEMU I completely understand that sometimes this can be
+> difficult with older, more esoteric devices. Ultimately after review that decision
+> has to come from the maintainer(s) for the relevant devices/machines, so I guess that
+> would be Richard and/or Gerd in this case?
 
-I'm not particularly familiar with sun4v, however I'm not aware of any current work
-in this area. Do you know which network driver is typically used with sun4v?
+I think that would be Richard. I rewrote the code to at least use the generic
+framebuffer functions now, and added dirty memory tracking. I'm still not happy
+with all the endianess conversion that are going on, but without any
+Documentation about chip it's impossible to say how the chip really works.
 
-
-ATB,
-
-Mark.
+Regards
+Sven
 
