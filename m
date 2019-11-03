@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E13ED4F6
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Nov 2019 21:47:34 +0100 (CET)
-Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D35ED4FE
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Nov 2019 22:00:34 +0100 (CET)
+Received: from localhost ([::1]:56212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRMmb-0004IS-8x
-	for lists+qemu-devel@lfdr.de; Sun, 03 Nov 2019 15:47:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
+	id 1iRMzA-0001gy-TT
+	for lists+qemu-devel@lfdr.de; Sun, 03 Nov 2019 16:00:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51359)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iRMke-0003Aa-6B
- for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:45:33 -0500
+ (envelope-from <svens@stackframe.org>) id 1iRMv3-0008JH-DG
+ for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:56:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iRMkc-0004f8-KM
- for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:45:32 -0500
-Received: from mail.ilande.co.uk ([46.43.2.167]:43458
- helo=mail.default.ilande.uk0.bigv.io)
+ (envelope-from <svens@stackframe.org>) id 1iRMv2-0002JU-3S
+ for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:56:17 -0500
+Received: from shroom.duncanthrax.net ([2a01:4f8:121:41fa::169]:35105
+ helo=smtp.duncanthrax.net)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iRMkZ-0004G2-4L; Sun, 03 Nov 2019 15:45:27 -0500
-Received: from host86-185-106-131.range86-185.btcentralplus.com
- ([86.185.106.131] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iRMi1-0000hk-3K; Sun, 03 Nov 2019 20:42:49 +0000
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20191102154919.17775-1-laurent@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <b50a6eec-ee0e-5ec3-c4a3-cc5423e05cf5@ilande.co.uk>
-Date: Sun, 3 Nov 2019 20:42:12 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1iRMv1-0002I1-IO
+ for qemu-devel@nongnu.org; Sun, 03 Nov 2019 15:56:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CqRKv3uM9FROhN85zVgUv4Joy2oKXjlzMfmtnodH/ps=; b=ufdLtRtaukHESXkvRtqbEaILGx
+ 7EHstj7UNEBQ3SC72HFZWsxcn2OeOYrsKRkQVMdPsLylhYvFA2FgrhPnIQvSN72JH8vvh/b5qrdWK
+ 4iwL4w4d34GLsNJka7mMuLlAGGCaqKBVl4FNg1stDN2oTeidGZZjC+pHpuD2Bmkn4G0E=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=x280.stackframe.org)
+ by smtp.duncanthrax.net with esmtpa (Exim 4.90_1)
+ (envelope-from <svens@stackframe.org>)
+ id 1iRMux-00059W-4z; Sun, 03 Nov 2019 21:56:11 +0100
+From: Sven Schnelle <svens@stackframe.org>
+To: Richard Henderson <rth@twiddle.net>
+Subject: [PATCH v4 0/6] HPPA: i82596, PS/2 and graphics emulation
+Date: Sun,  3 Nov 2019 21:56:01 +0100
+Message-Id: <20191103205607.6590-1-svens@stackframe.org>
+X-Mailer: git-send-email 2.24.0.rc2
 MIME-Version: 1.0
-In-Reply-To: <20191102154919.17775-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.185.106.131
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] mos6522: fix T1 and T2 timers
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.43.2.167
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:121:41fa::169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,208 +59,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/11/2019 15:49, Laurent Vivier wrote:
+Hi,
 
-> With the Quadra 800 emulation, mos6522 timers processing can consume
-> until 70% of the host CPU time with an idle guest (I guess the problem
-> should also happen with PowerMac emulation).
-> 
-> On a recent system, it can be painless (except if you look at top), but
-> on an old host like a PowerMac G5 the guest kernel can be terribly slow
-> during the boot sequence (for instance, unpacking initramfs can take 15
-> seconds rather than only 3 seconds).
-> 
-> We can avoid this CPU overload by enabling QEMU internal timers only if
-> the mos6522 counter interrupts are enabled. Sometime the guest kernel
-> wants to read the counters values, but we don't need the timers to
-> update the counters.
-> 
-> With this patch applied, an idle Q800 consumes only 3% of host CPU time
-> (and the guest can boot in a decent time).
-> 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  hw/misc/mos6522.c | 67 ++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 52 insertions(+), 15 deletions(-)
-> 
-> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> index 57f13db266..aa3bfe1afd 100644
-> --- a/hw/misc/mos6522.c
-> +++ b/hw/misc/mos6522.c
-> @@ -38,8 +38,10 @@
->  
->  /* XXX: implement all timer modes */
->  
-> -static void mos6522_timer_update(MOS6522State *s, MOS6522Timer *ti,
-> -                                 int64_t current_time);
-> +static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
-> +                                  int64_t current_time);
-> +static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
-> +                                  int64_t current_time);
->  
->  static void mos6522_update_irq(MOS6522State *s)
->  {
-> @@ -98,7 +100,11 @@ static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
->      trace_mos6522_set_counter(1 + ti->index, val);
->      ti->load_time = get_load_time(s, ti);
->      ti->counter_value = val;
-> -    mos6522_timer_update(s, ti, ti->load_time);
-> +    if (ti->index == 0) {
-> +        mos6522_timer1_update(s, ti, ti->load_time);
-> +    } else {
-> +        mos6522_timer2_update(s, ti, ti->load_time);
-> +    }
->  }
->  
->  static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
-> @@ -130,19 +136,34 @@ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
->      trace_mos6522_get_next_irq_time(ti->latch, d, next_time - d);
->      next_time = muldiv64(next_time, NANOSECONDS_PER_SECOND, ti->frequency) +
->                           ti->load_time;
-> +
->      if (next_time <= current_time) {
->          next_time = current_time + 1;
->      }
->      return next_time;
->  }
->  
-> -static void mos6522_timer_update(MOS6522State *s, MOS6522Timer *ti,
-> +static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
-> +                                 int64_t current_time)
-> +{
-> +    if (!ti->timer) {
-> +        return;
-> +    }
-> +    if ((s->ier & T1_INT) == 0 || (s->acr & T1MODE) != T1MODE_CONT) {
-> +        timer_del(ti->timer);
-> +    } else {
-> +        ti->next_irq_time = get_next_irq_time(s, ti, current_time);
-> +        timer_mod(ti->timer, ti->next_irq_time);
-> +    }
-> +}
-> +
-> +static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
->                                   int64_t current_time)
->  {
->      if (!ti->timer) {
->          return;
->      }
-> -    if (ti->index == 0 && (s->acr & T1MODE) != T1MODE_CONT) {
-> +    if ((s->ier & T2_INT) == 0) {
->          timer_del(ti->timer);
->      } else {
->          ti->next_irq_time = get_next_irq_time(s, ti, current_time);
-> @@ -155,7 +176,7 @@ static void mos6522_timer1(void *opaque)
->      MOS6522State *s = opaque;
->      MOS6522Timer *ti = &s->timers[0];
->  
-> -    mos6522_timer_update(s, ti, ti->next_irq_time);
-> +    mos6522_timer1_update(s, ti, ti->next_irq_time);
->      s->ifr |= T1_INT;
->      mos6522_update_irq(s);
->  }
-> @@ -165,7 +186,7 @@ static void mos6522_timer2(void *opaque)
->      MOS6522State *s = opaque;
->      MOS6522Timer *ti = &s->timers[1];
->  
-> -    mos6522_timer_update(s, ti, ti->next_irq_time);
-> +    mos6522_timer2_update(s, ti, ti->next_irq_time);
->      s->ifr |= T2_INT;
->      mos6522_update_irq(s);
->  }
-> @@ -204,7 +225,16 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
->  {
->      MOS6522State *s = opaque;
->      uint32_t val;
-> +    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->  
-> +    if (now >= s->timers[0].next_irq_time) {
-> +        mos6522_timer1_update(s, &s->timers[0], now);
-> +        s->ifr |= T1_INT;
-> +    }
-> +    if (now >= s->timers[1].next_irq_time) {
-> +        mos6522_timer2_update(s, &s->timers[1], now);
-> +        s->ifr |= T2_INT;
-> +    }
->      switch (addr) {
->      case VIA_REG_B:
->          val = s->b;
-> @@ -299,8 +329,8 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->          break;
->      case VIA_REG_T1CL:
->          s->timers[0].latch = (s->timers[0].latch & 0xff00) | val;
-> -        mos6522_timer_update(s, &s->timers[0],
-> -                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-> +        mos6522_timer1_update(s, &s->timers[0],
-> +                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
->          break;
->      case VIA_REG_T1CH:
->          s->timers[0].latch = (s->timers[0].latch & 0xff) | (val << 8);
-> @@ -309,14 +339,14 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->          break;
->      case VIA_REG_T1LL:
->          s->timers[0].latch = (s->timers[0].latch & 0xff00) | val;
-> -        mos6522_timer_update(s, &s->timers[0],
-> -                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-> +        mos6522_timer1_update(s, &s->timers[0],
-> +                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
->          break;
->      case VIA_REG_T1LH:
->          s->timers[0].latch = (s->timers[0].latch & 0xff) | (val << 8);
->          s->ifr &= ~T1_INT;
-> -        mos6522_timer_update(s, &s->timers[0],
-> -                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-> +        mos6522_timer1_update(s, &s->timers[0],
-> +                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
->          break;
->      case VIA_REG_T2CL:
->          s->timers[1].latch = (s->timers[1].latch & 0xff00) | val;
-> @@ -334,8 +364,8 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->          break;
->      case VIA_REG_ACR:
->          s->acr = val;
-> -        mos6522_timer_update(s, &s->timers[0],
-> -                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-> +        mos6522_timer1_update(s, &s->timers[0],
-> +                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
->          break;
->      case VIA_REG_PCR:
->          s->pcr = val;
-> @@ -354,6 +384,11 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->              s->ier &= ~val;
->          }
->          mos6522_update_irq(s);
-> +        /* if IER is modified starts needed timers */
-> +        mos6522_timer1_update(s, &s->timers[0],
-> +                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-> +        mos6522_timer2_update(s, &s->timers[1],
-> +                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
->          break;
->      default:
->      case VIA_REG_ANH:
-> @@ -426,9 +461,11 @@ static void mos6522_reset(DeviceState *dev)
->      s->timers[0].frequency = s->frequency;
->      s->timers[0].latch = 0xffff;
->      set_counter(s, &s->timers[0], 0xffff);
-> +    timer_del(s->timers[0].timer);
->  
->      s->timers[1].frequency = s->frequency;
->      s->timers[1].latch = 0xffff;
-> +    timer_del(s->timers[1].timer);
->  }
->  
->  static void mos6522_init(Object *obj)
+these series adds quite a lot to the HPPA emulation in QEMU:
+i82596 emulation from Helge, PS/2 and Artist graphics emulation.
 
-Nice! I've given this a quick test and seems to boot MacOS without any issues, so:
+See https://parisc.wiki.kernel.org/index.php/Qemu for a few screenshots
+of QEMU running a X11/CDE session in HP-UX.
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+changes in v4:
+ - introduce Artist-internal address space
+ - rewrite screen update functions to use the generic framebuffer routines
+ - use dirty bitmap code to not always redraw the whole screen
 
+Changes in v3:
+ - use BIT() macro in gsc_to_pci_forwarding()
+ - fix version id in vm state
+ - fix an error in the PS/2 KBD_CMD_SET_MAKE_BREAK implementation
 
-ATB,
+Changes in v2:
+ - dropped 'hppa: remove ISA region' as that patch requires some more work
+ - added shortlog to seabios update
+ - use const and MAKE_64BIT_MASK in dino.c
 
-Mark.
+Regards,
+Sven
+
+Helge Deller (2):
+  hw/hppa/dino.c: Improve emulation of Dino PCI chip
+  hppa: Add support for LASI chip with i82596 NIC
+
+Sven Schnelle (4):
+  ps2: accept 'Set Key Make and Break' commands
+  hppa: add emulation of LASI PS2 controllers
+  hppa: Add emulation of Artist graphics
+  seabios-hppa: update to latest version
+
+ MAINTAINERS                 |    4 +-
+ hw/display/Kconfig          |    4 +
+ hw/display/Makefile.objs    |    1 +
+ hw/display/artist.c         | 1449 +++++++++++++++++++++++++++++++++++
+ hw/display/trace-events     |    9 +
+ hw/hppa/Kconfig             |    3 +
+ hw/hppa/Makefile.objs       |    2 +-
+ hw/hppa/dino.c              |   97 ++-
+ hw/hppa/hppa_hardware.h     |    1 +
+ hw/hppa/hppa_sys.h          |    2 +
+ hw/hppa/lasi.c              |  368 +++++++++
+ hw/hppa/machine.c           |   17 +-
+ hw/hppa/trace-events        |   10 +
+ hw/input/Kconfig            |    3 +
+ hw/input/Makefile.objs      |    1 +
+ hw/input/lasips2.c          |  289 +++++++
+ hw/input/ps2.c              |   15 +
+ hw/input/trace-events       |    5 +
+ hw/net/Kconfig              |    7 +
+ hw/net/Makefile.objs        |    2 +
+ hw/net/i82596.c             |  734 ++++++++++++++++++
+ hw/net/i82596.h             |   55 ++
+ hw/net/lasi_i82596.c        |  188 +++++
+ hw/net/trace-events         |   14 +
+ include/hw/input/lasips2.h  |   16 +
+ include/hw/input/ps2.h      |    1 +
+ include/hw/net/lasi_82596.h |   29 +
+ pc-bios/hppa-firmware.img   |  Bin 783724 -> 772876 bytes
+ roms/seabios-hppa           |    2 +-
+ 29 files changed, 3310 insertions(+), 18 deletions(-)
+ create mode 100644 hw/display/artist.c
+ create mode 100644 hw/hppa/lasi.c
+ create mode 100644 hw/input/lasips2.c
+ create mode 100644 hw/net/i82596.c
+ create mode 100644 hw/net/i82596.h
+ create mode 100644 hw/net/lasi_i82596.c
+ create mode 100644 include/hw/input/lasips2.h
+ create mode 100644 include/hw/net/lasi_82596.h
+
+-- 
+2.24.0.rc2
+
 
