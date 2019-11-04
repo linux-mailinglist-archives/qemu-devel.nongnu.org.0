@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF340EE8E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 20:45:21 +0100 (CET)
-Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F8CEE905
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 20:56:30 +0100 (CET)
+Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRiHw-0007gV-LU
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 14:45:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1iRiSj-0003aA-BZ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 14:56:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iRiFp-0006Oa-S3
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:11 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iRiRg-0002pO-6N
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:55:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iRiFo-0006Xb-9s
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:09 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34841)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iRiFn-0006WX-K3
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:08 -0500
-Received: by mail-wm1-x342.google.com with SMTP id 8so10366976wmo.0
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 11:43:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=zdG/zNVQnri2GPs5FUuHX7+ccKsYsuKNZkYucsDAP5w=;
- b=hsc9nYUWG+TGJF8E+wc3FfQc08U6LyQWOkzjFo9MNJrXxAbH5BokpOpDFAi0KDkGkQ
- ZmEdnk5M6SQmu+Tp3OQuDjVUBoyZJtMyPAiGB/nAduUe/uuZuPmOEIwG2YVKJPfzscH2
- CphvgVDLriMDQkDA389OY+4BxZgg7OHGHg3gs35h76gBRz9e89pmOBA+D5jMF7TcpT1i
- 7xXpSEkvzA3hpMf9JhLEdlrjX2YQeNVl0FKcKlqcQY1KLAjcbcAhy7B+0XczGpC9GvYN
- mE979+1Xlg7HTHdOpNz+kP+uQz6NZrKdJquhU5fdLiHItrFmaVJ7j48DHHrDgPyspNQa
- QDcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=zdG/zNVQnri2GPs5FUuHX7+ccKsYsuKNZkYucsDAP5w=;
- b=Dnkl9jurUW+63sWucpXF1l/mDvn8XYFN1PU+j4CnA/2xjuQZDJDE8c5n8JrXTcDjut
- V7pYMaIDDE7l+6stV2voMe6lMjacY5BQIcavcrljI/keBLoJsoLUC3uAyF3cMGW6beh5
- 1a/Sa7z4yCivCTogsW1MI05DvelXjB0Od3T8UDNTSAuknv/lXLqP8qnJjYjARkNeG6T/
- R3644LhhSHD6F2HBDE3zGWA7HPVmu2HBAC29Z0KUEVpcmp3Y9OCQq3DfdvHREzMwoeT7
- IwcnQWg0RQ3FtSJLYmI0RA1jRZryDb4EFBK2DMZS3cEmU2cyPtjYBkZ21wpZpT4Y4/dh
- SqqA==
-X-Gm-Message-State: APjAAAVQS8GIkHPDFetzfWKZwiwO9+/1EqK5UQo8rdILyHr0asSv5HfO
- 9faMhlCuDSdpfIbn6GnSrOZJjg==
-X-Google-Smtp-Source: APXvYqznWANVS3F3sft/zDWRi9UzIyd40iKdypbh7eoCRrLdop1B3RcZpVDJ3p22FTWWfwp9UOSqKA==
-X-Received: by 2002:a05:600c:24c9:: with SMTP id
- 9mr631159wmu.137.1572896585667; 
- Mon, 04 Nov 2019 11:43:05 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u203sm12312836wme.34.2019.11.04.11.43.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Nov 2019 11:43:04 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 366D71FF87;
- Mon,  4 Nov 2019 19:43:04 +0000 (GMT)
-References: <20191104173654.30125-1-alex.bennee@linaro.org>
- <20191104173654.30125-4-alex.bennee@linaro.org>
- <36d0d305-01f8-3604-79df-24ec7cd1843c@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v1 3/6] tests/vm: use console_consume for netbsd
-In-reply-to: <36d0d305-01f8-3604-79df-24ec7cd1843c@redhat.com>
-Date: Mon, 04 Nov 2019 19:43:04 +0000
-Message-ID: <87lfsvjulz.fsf@linaro.org>
+ (envelope-from <no-reply@patchew.org>) id 1iRiRe-0002UF-8C
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:55:23 -0500
+Resent-Date: Mon, 04 Nov 2019 14:55:23 -0500
+Resent-Message-Id: <E1iRiRe-0002UF-8C@eggs.gnu.org>
+Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21835)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iRiRd-0002Sv-Vg; Mon, 04 Nov 2019 14:55:22 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1572897283; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LbzrRVxdy4TN+gIQegZjslE5UH6QFLvGTNxaMfVV11PvVBH87g1uuPW6sqbsUh6zLyBv+h98QB2GC2PvA/NK2NpwgTjODPODgAyNmj+BVh3ZMgMMF8gzOJGdjp10bBsEn6QwfZNNUrEKwev5rAt6YfFbwXFCjF4SOkFnZA5djSM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1572897283;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=R+MEwemdVQi9knKXFB/TpxnnG0U8ZLljsoZhFa/DPr0=; 
+ b=ZQN/ycS54nOpdgS1ng29u5XRHAVxrLAs3lmmOQHP8wx3TWdm+8/A9sjW81iMAUe1A71xihtr/gk3l8XhatDtYvQTlvjhL1Two6W8JinPWxozCFk4T5t+ZKqmL5bA8x16ia1HS2R+9maH9BMUfV6j7xy7Isdw6KxlSnumU+aQ+jI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1572897283202408.50376939358125;
+ Mon, 4 Nov 2019 11:54:43 -0800 (PST)
+In-Reply-To: <20191104151323.9883-1-crosa@redhat.com>
+Subject: Re: [PATCH v7 0/8] Acceptance test: Add "boot_linux" acceptance test
+Message-ID: <157289728133.27285.4637712147228681884@37313f22b938>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: crosa@redhat.com
+Date: Mon, 4 Nov 2019 11:54:43 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.58
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,56 +63,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- Kamil Rytarowski <kamil@netbsd.org>, cota@braap.org,
- Gerd Hoffmann <kraxel@redhat.com>, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Reply-To: qemu-devel@nongnu.org
+Cc: bleal@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
+ frederic.konrad@adacore.com, hpoussin@reactos.org, chouteau@adacore.com,
+ wrampazz@redhat.com, crosa@redhat.com, qemu-ppc@nongnu.org,
+ aleksandar.rikalo@rt-rk.com, philmd@redhat.com, aurelien@aurel32.net,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwNDE1MTMyMy45ODgz
+LTEtY3Jvc2FAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHY3IDAvOF0gQWNjZXB0YW5jZSB0ZXN0OiBBZGQgImJv
+b3RfbGludXgiIGFjY2VwdGFuY2UgdGVzdApUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTEx
+MDQxNTEzMjMuOTg4My0xLWNyb3NhQHJlZGhhdC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
+PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9n
+cmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFND
+UklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4
+NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKODY3NWFmYSBBY2NlcHRhbmNl
+IHRlc3Q6IGFkZCAiYm9vdF9saW51eCIgdGVzdHMKNDA5YWZmYyBBY2NlcHRhbmNlIHRlc3RzOiBk
+ZXBlbmQgb24gcWVtdS1pbWcKNThjMGY0NyBBY2NlcHRhbmNlIHRlc3RzOiBhZGQgdGhlIGJ1aWxk
+IGRpcmVjdG9yeSB0byB0aGUgc3lzdGVtIFBBVEgKMjM2ZWNmYSBBY2NlcHRhbmNlIHRlc3RzOiBr
+ZWVwIGEgc3RhYmxlIHJlZmVyZW5jZSB0byB0aGUgUUVNVSBidWlsZCBkaXIKNmExNDdiNCBBY2Nl
+cHRhbmNlIHRlc3RzOiB1c2UgcmVsYXRpdmUgbG9jYXRpb24gZm9yIHRlc3RzCmJjZDkyYTMgQWNj
+ZXB0YW5jZSB0ZXN0czogdXNlIGF2b2NhZG8gdGFncyBmb3IgbWFjaGluZSB0eXBlCjBmNTIxMzUg
+QWNjZXB0YW5jZSB0ZXN0czogaW50cm9kdWNlIHV0aWxpdHkgbWV0aG9kIGZvciB0YWdzIHVuaXF1
+ZSB2YWxzCjA1MGYxZDEgQWNjZXB0YW5jZSB0ZXN0IHg4Nl9jcHVfbW9kZWxfdmVyc2lvbnM6IHVz
+ZSBkZWZhdWx0IHZtCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzggQ2hlY2tpbmcgY29tbWl0IDA1
+MGYxZDFlYTY2MCAoQWNjZXB0YW5jZSB0ZXN0IHg4Nl9jcHVfbW9kZWxfdmVyc2lvbnM6IHVzZSBk
+ZWZhdWx0IHZtKQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQ3OiBGSUxFOiB0ZXN0
+cy9hY2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6MjQ4OgorICAgICAgICBzZWxm
+LnZtLmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZlcix4LWZvcmNlLWZlYXR1cmVz
+PW9uLGNoZWNrPW9mZixlbmZvcmNlPW9mZicpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3Rl
+cnMKIzYxOiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6
+MjU2OgorICAgICAgICBzZWxmLnZtLmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZl
+cix4LWZvcmNlLWZlYXR1cmVzPW9uLGNoZWNrPW9mZixlbmZvcmNlPW9mZicpCgpFUlJPUjogbGlu
+ZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzc2OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9jcHVf
+bW9kZWxfdmVyc2lvbnMucHk6MjY1OgorICAgICAgICBzZWxmLnZtLmFkZF9hcmdzKCctY3B1Jywg
+J0Nhc2NhZGVsYWtlLVNlcnZlcix4LWZvcmNlLWZlYXR1cmVzPW9uLGNoZWNrPW9mZixlbmZvcmNl
+PW9mZiwrYXJjaC1jYXBhYmlsaXRpZXMnKQoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJz
+CiM5MDogRklMRTogdGVzdHMvYWNjZXB0YW5jZS94ODZfY3B1X21vZGVsX3ZlcnNpb25zLnB5OjI3
+MzoKKyAgICAgICAgc2VsZi52bS5hZGRfYXJncygnLWNwdScsICdDYXNjYWRlbGFrZS1TZXJ2ZXIs
+eC1mb3JjZS1mZWF0dXJlcz1vbixjaGVjaz1vZmYsZW5mb3JjZT1vZmYsLWFyY2gtY2FwYWJpbGl0
+aWVzJykKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTA1OiBGSUxFOiB0ZXN0cy9h
+Y2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6MjgyOgorICAgICAgICBzZWxmLnZt
+LmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNlcnZlci12MSx4LWZvcmNlLWZlYXR1cmVz
+PW9uLGNoZWNrPW9mZixlbmZvcmNlPW9mZicpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3Rl
+cnMKIzEyMDogRklMRTogdGVzdHMvYWNjZXB0YW5jZS94ODZfY3B1X21vZGVsX3ZlcnNpb25zLnB5
+OjI5MDoKKyAgICAgICAgc2VsZi52bS5hZGRfYXJncygnLWNwdScsICdDYXNjYWRlbGFrZS1TZXJ2
+ZXItdjIseC1mb3JjZS1mZWF0dXJlcz1vbixjaGVjaz1vZmYsZW5mb3JjZT1vZmYnKQoKRVJST1I6
+IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMjM6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UveDg2
+X2NwdV9tb2RlbF92ZXJzaW9ucy5weToyOTM6CisgICAgICAgICAgICAgICAgICAgICAgICAncGMt
+aTQ0MGZ4LTQuMCArIENhc2NhZGVsYWtlLVNlcnZlci12MiBzaG91bGQgaGF2ZSBhcmNoLWNhcGFi
+aWxpdGllcycpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzEzNjogRklMRTogdGVz
+dHMvYWNjZXB0YW5jZS94ODZfY3B1X21vZGVsX3ZlcnNpb25zLnB5OjI5OToKKyAgICAgICAgc2Vs
+Zi52bS5hZGRfYXJncygnLWNwdScsICdDYXNjYWRlbGFrZS1TZXJ2ZXItdjEseC1mb3JjZS1mZWF0
+dXJlcz1vbixjaGVjaz1vZmYsZW5mb3JjZT1vZmYsK2FyY2gtY2FwYWJpbGl0aWVzJykKCkVSUk9S
+OiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTM5OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4
+Nl9jcHVfbW9kZWxfdmVyc2lvbnMucHk6MzAyOgorICAgICAgICAgICAgICAgICAgICAgICAgJ3Bj
+LWk0NDBmeC00LjAgKyBDYXNjYWRlbGFrZS1TZXJ2ZXItdjEsK2FyY2gtY2FwYWJpbGl0aWVzIHNo
+b3VsZCBoYXZlIGFyY2gtY2FwYWJpbGl0aWVzJykKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
+dGVycwojMTUwOiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL3g4Nl9jcHVfbW9kZWxfdmVyc2lvbnMu
+cHk6MzA3OgorICAgICAgICBzZWxmLnZtLmFkZF9hcmdzKCctY3B1JywgJ0Nhc2NhZGVsYWtlLVNl
+cnZlci12Mix4LWZvcmNlLWZlYXR1cmVzPW9uLGNoZWNrPW9mZixlbmZvcmNlPW9mZiwtYXJjaC1j
+YXBhYmlsaXRpZXMnKQoKdG90YWw6IDEwIGVycm9ycywgMCB3YXJuaW5ncywgMTM0IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDEvOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
+bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
+IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMi84IENoZWNraW5n
+IGNvbW1pdCAwZjUyMTM1ODNjNzggKEFjY2VwdGFuY2UgdGVzdHM6IGludHJvZHVjZSB1dGlsaXR5
+IG1ldGhvZCBmb3IgdGFncyB1bmlxdWUgdmFscykKMy84IENoZWNraW5nIGNvbW1pdCBiY2Q5MmEz
+MzQ2OTIgKEFjY2VwdGFuY2UgdGVzdHM6IHVzZSBhdm9jYWRvIHRhZ3MgZm9yIG1hY2hpbmUgdHlw
+ZSkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzU5OiBGSUxFOiB0ZXN0cy9hY2Nl
+cHRhbmNlL2F2b2NhZG9fcWVtdS9fX2luaXRfXy5weToxMTk6CisgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBkZWZhdWx0PXNlbGYuX2dldF91bmlxdWVfdGFnX3ZhbCgnbWFj
+aGluZScpKQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NTAgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMy84IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQvOCBDaGVja2luZyBjb21taXQg
+NmExNDdiNGIyZWIxIChBY2NlcHRhbmNlIHRlc3RzOiB1c2UgcmVsYXRpdmUgbG9jYXRpb24gZm9y
+IHRlc3RzKQo1LzggQ2hlY2tpbmcgY29tbWl0IDIzNmVjZmE2OGVlMCAoQWNjZXB0YW5jZSB0ZXN0
+czoga2VlcCBhIHN0YWJsZSByZWZlcmVuY2UgdG8gdGhlIFFFTVUgYnVpbGQgZGlyKQpFUlJPUjog
+bGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQ4OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL2F2b2Nh
+ZG9fcWVtdS9fX2luaXRfXy5weToxOToKK1NSQ19ST09UX0RJUiA9IG9zLnBhdGguZGlybmFtZShv
+cy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguZGlybmFtZShfX2ZpbGVfXykp
+KSkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgOCBsaW5lcyBjaGVja2VkCgpQYXRjaCA1
+LzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjYvOCBDaGVja2luZyBjb21taXQgNThjMGY0
+NzVkNWVjIChBY2NlcHRhbmNlIHRlc3RzOiBhZGQgdGhlIGJ1aWxkIGRpcmVjdG9yeSB0byB0aGUg
+c3lzdGVtIFBBVEgpCjcvOCBDaGVja2luZyBjb21taXQgNDA5YWZmYzAzNGNlIChBY2NlcHRhbmNl
+IHRlc3RzOiBkZXBlbmQgb24gcWVtdS1pbWcpCjgvOCBDaGVja2luZyBjb21taXQgODY3NWFmYTBk
+ZWFkIChBY2NlcHRhbmNlIHRlc3Q6IGFkZCAiYm9vdF9saW51eCIgdGVzdHMpCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzQyOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
+aGFyYWN0ZXJzCiMxMjI6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UvYm9vdF9saW51eC5weTo3NjoK
+KyAgICAgICAgY29uc29sZV9kcmFpbmVyID0gZGF0YWRyYWluZXIuTGluZUxvZ2dlcihzZWxmLnZt
+LmNvbnNvbGVfc29ja2V0LmZpbGVubygpLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
+cnMKIzEyMzogRklMRTogdGVzdHMvYWNjZXB0YW5jZS9ib290X2xpbnV4LnB5Ojc3OgorICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvZ2dlcj1zZWxmLmxv
+Zy5nZXRDaGlsZCgnY29uc29sZScpKQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMK
+IzEyNjogRklMRTogdGVzdHMvYWNjZXB0YW5jZS9ib290X2xpbnV4LnB5OjgwOgorICAgICAgICBj
+bG91ZGluaXQud2FpdF9mb3JfcGhvbmVfaG9tZSgoJzAuMC4wLjAnLCBzZWxmLnBob25lX2hvbWVf
+cG9ydCksIHNlbGYubmFtZSkKCnRvdGFsOiAwIGVycm9ycywgNCB3YXJuaW5ncywgMTc5IGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDgvOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVU
+IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MTEwNDE1MTMyMy45
+ODgzLTEtY3Jvc2FAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
+LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
+Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
+ZGhhdC5jb20=
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> Hi Alex,
->
-> On 11/4/19 6:36 PM, Alex Benn=C3=A9e wrote:
->> From: Gerd Hoffmann <kraxel@redhat.com>
->> Use new helper to read all pending console output,
->> not just a single char.  Unblocks installer boot.
->
-> Again, why not use this by default for everything?
-
-I thought that has already got merged via other updates. Will double
-check.
-
->
-> Anyway,
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->> Message-Id: <20191031085306.28888-4-kraxel@redhat.com>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   tests/vm/netbsd | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
->> index 5e04dcd9b16..d1bccccfd01 100755
->> --- a/tests/vm/netbsd
->> +++ b/tests/vm/netbsd
->> @@ -93,7 +93,7 @@ class NetBSDVM(basevm.BaseVM):
->>           for char in list("5consdev com0\n"):
->>               time.sleep(0.2)
->>               self.console_send(char)
->> -            self.console_wait("")
->> +            self.console_consume()
->>           self.console_wait_send("> ", "boot\n")
->>             self.console_wait_send("Terminal type",
->> "xterm\n")
->>
-
-
---
-Alex Benn=C3=A9e
 
