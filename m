@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE10EF0B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 23:45:24 +0100 (CET)
-Received: from localhost ([::1]:39286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B80CEF0D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 23:52:29 +0100 (CET)
+Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRl6B-0006cL-Vn
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 17:45:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43331)
+	id 1iRlD2-00024z-6W
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 17:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iRl4s-00069R-Bl
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 17:44:03 -0500
+ (envelope-from <bounces@canonical.com>) id 1iRlBO-0001C1-3W
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 17:50:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iRl4r-0007fI-66
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 17:44:02 -0500
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:37318)
+ (envelope-from <bounces@canonical.com>) id 1iRlBL-0006H5-Ha
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 17:50:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37490)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iRl4o-0007cV-H0; Mon, 04 Nov 2019 17:43:58 -0500
-Received: by mail-lf1-x141.google.com with SMTP id b20so13529746lfp.4;
- Mon, 04 Nov 2019 14:43:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J0pWweTQhy6WIFbw5Gf0DhUrRGgO4RQYzVx9awR7bkw=;
- b=DCl+uc6fmgr3HIHloW10okZZFjTSmohOwGtLHFrzGGDNlujGUHmRSyAeR/kT1VLH+u
- mS/SBZCEKjREnGW7xFN6CjNPwIaKVHi/plRHuXfpjBF+KDg/+cm/Ue+9l7C7PxtF5bYt
- mgMkK1b6DCyz2yUNn0ELHONuFBjwPOv6PX+x8pVR2D3mS9CcoLWTDhMOX9C+M2CT8p4g
- IeFG6KzTEyD1DIXfpAxaD+qFVXma8522BgssAd0KQ5PaW9ZXz7j3vWtcmiwTrCyoOxZY
- 9NSPp4HqT7GwPmbsbJjxOwK0syDDOWmx7iLncKQuwiKz7b3p9niJ5SUinmBsXsSAlUA8
- 9FHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J0pWweTQhy6WIFbw5Gf0DhUrRGgO4RQYzVx9awR7bkw=;
- b=LEmXCLOS9p6Wy3w62wBh6LW8vCDer3y0YFYotWSTdDZAkYjZA9iMzOhvNbL5ujJAI5
- Zf1j9RM54BAIQ+QIHeQPvWuB4yCPx5kpjIoL3I03gxPuV1SnGOQ0pIgjXzauCKjeWwPX
- 7rn91bzapS6KHaNzG9b6xbP+2HFNu7qHgL5mR3+Vgl2C4+R0SHLOGCswOcapz2I+aRLC
- gaEVRh2Rxp7k2bKTBDaTdXstCdODRrIIfpms6/lobSokh8kEFFJXdciPZ53570jykuzV
- dkPz8M64WtXCZrMbaZnmcaIDhxj6fXdI3bfBkfDSxnBCaO8TfnMWP4gH832sADkZ7nuB
- kAag==
-X-Gm-Message-State: APjAAAUOm6Fdb3N7grrJCYk4QMoiyuhiRoNDab3JLUuCQBPb8QiD0m7d
- BvQtbzu/MLNbl15xo4GPRhRKaTou5jtcE+wA1+0=
-X-Google-Smtp-Source: APXvYqyvBUSKPiiTVb/vxNSLj3JfUdRXAWIjQlCs7roKI9A8qkEFEcOoO6J4Duwg0nJLVdUgwrcKtJP0epJXDPynsCs=
-X-Received: by 2002:ac2:5210:: with SMTP id a16mr18636360lfl.156.1572907437086; 
- Mon, 04 Nov 2019 14:43:57 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iRlBL-0006Fr-Au
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 17:50:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iRlBJ-0008RS-A5
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 22:50:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 389AA2E80C8
+ for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 22:50:41 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191025042734.69244-1-anup.patel@wdc.com>
- <CAKmqyKMQz-OMFQRTdmpBpGMLiZ_ZM+UL5T5aAWZ5F1fC6vddOQ@mail.gmail.com>
- <CAFEAcA9bV=-t0+ro6rxu7Atodj6J78aT1aMnz9bjaqyfLDV3_w@mail.gmail.com>
-In-Reply-To: <CAFEAcA9bV=-t0+ro6rxu7Atodj6J78aT1aMnz9bjaqyfLDV3_w@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 4 Nov 2019 14:38:20 -0800
-Message-ID: <CAKmqyKNUsZBt=Pa3TAkGUP_DFThWSs2nwjXMJSbQ5r927jtnkQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] RTC support for QEMU RISC-V virt machine
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 04 Nov 2019 22:44:13 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee ldesnogu pmaydell scientes
+X-Launchpad-Bug-Reporter: Shawn Landden (scientes)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <157275520880.19702.5640428141206739403.malonedeb@wampee.canonical.com>
+Message-Id: <157290745311.19625.16185149928630222746.malone@wampee.canonical.com>
+Subject: [Bug 1851095] Re: [feature request] awareness of instructions that
+ are well emulated
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 58548b6711e7cb59c556b6aa24d5310afa15adc4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,51 +67,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@sifive.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <Anup.Patel@wdc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Anup Patel <anup@brainfault.org>
+Reply-To: Bug 1851095 <1851095@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 2, 2019 at 3:37 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 29 Oct 2019 at 13:25, Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Fri, Oct 25, 2019 at 6:28 AM Anup Patel <Anup.Patel@wdc.com> wrote:
-> > >
-> > > This series adds RTC device to QEMU RISC-V virt machine. We have
-> > > selected Goldfish RTC device model for this. It's a pretty simple
-> > > synthetic device with few MMIO registers and no dependency external
-> > > clock. The driver for Goldfish RTC is already available in Linux so
-> > > we just need to enable it in Kconfig for RISCV and also update Linux
-> > > defconfigs.
-> > >
-> > > We have tested this series with Linux-5.4-rc4 plus defconfig changes
-> > > available in 'goldfish_rtc_v2' branch of:
-> > > https://github.com/avpatel/linux.git
-> >
-> > @Peter Maydell this has been reviewed, do you mind taking this in you
-> > next PR? I don't see a maintainer for hw/rtc.
->
-> Generally devices used by a single architecture should
-> go via the tree of the maintainer who handles that
-> architecture -- in this case that's riscv. (The reason
-> is that it's only riscv folks who can test whether the
-> device works in the machine model, and only riscv
-> folks who can reasonably review whether the device
-> is the right way of implementing the functionality for
-> them.)
+I can confirm bench_simple gives the same result on both qemu-arm and my
+aarch32 hardware.
 
-Makes sense
+-- =
 
-Alistair
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1851095
 
->
-> thanks
-> -- PMM
+Title:
+  [feature request] awareness of instructions that are well emulated
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  While qemu's scalar emulation tends to be excellent, qemu's SIMD
+  emulation tends to be incorrect (except for arm64 from x86_64)--i have
+  found this both for mipsel and arm32. Until these code paths are
+  audited, which is probably a large job, it would be nice if qemu knew
+  its emulation of this class of instructions was not very good, and
+  thus it would give up on finding these instructions if a "careful"
+  operation is passed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1851095/+subscriptions
 
