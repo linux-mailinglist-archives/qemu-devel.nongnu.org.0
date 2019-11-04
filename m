@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C0CEE8F1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 20:48:02 +0100 (CET)
-Received: from localhost ([::1]:37718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96140EE8E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 20:44:32 +0100 (CET)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRiKX-00010K-85
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 14:48:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36543)
+	id 1iRiH7-0006Qo-GR
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 14:44:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rosen644835@gmail.com>) id 1iRiGI-0006aA-Rv
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:40 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iRiF6-0005wy-Ab
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:42:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rosen644835@gmail.com>) id 1iRiGH-0006jc-HF
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:38 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37985)
+ (envelope-from <alex.bennee@linaro.org>) id 1iRiF0-00069W-Jg
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:42:24 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37865)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rosen644835@gmail.com>)
- id 1iRiGH-0006iq-AT
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:37 -0500
-Received: by mail-wr1-x443.google.com with SMTP id v9so18536816wrq.5
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 11:43:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FCWOfgHjogs+ZHLfec3iiRsV4fR75+riOa9yclc5WgY=;
- b=fX1kT+RMbsmFV3mDrKTdsKAwLbaT+CHNxOshoKmW0WERHK6eZFKBMOkMNgHM5Bqrin
- ANre1obHzRBx38UFoa32SYyfMD/KWGqxnyWo58XOAONUp3emmyPhcfbYwPr9b5HbMKFI
- pwwguHW50nQWWtcfWbw6naEbzK9BAs0rVHOt8uTABElpbUooJE+iQSyaBmjVEeZsY+df
- R0kNhvc63LBYEMwVO7NFDYWMFAEAJj8WqbS20FHsBheypq1+xQD/TYVsQX9DpvUBkckJ
- dBLd8dXhsVNyd3T/1Nt1nWpuR5lWY/D0ibXivy2ZnWnPq2uMeQk1jhY1pHRpIbmGCh6e
- Sh8g==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iRiF0-000697-CK
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:42:18 -0500
+Received: by mail-wm1-x341.google.com with SMTP id q130so17355543wme.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 11:42:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3pdwtpEMuYpNmcJew2XR2Uq4e5PrIRzFboXtLYMH6Fo=;
+ b=dlhPiLkcsEgm+Tu77L3dLxvUlYGn3z44dWIby+DFMACVCGD2T0o5e/+EgjamCaiPK1
+ A3K8etZB678q3dES2EZg6tJlqmHAskVEUhHUFeMkuifQS3zY8oTla0t3lhRux2RDj5pP
+ Tin97hf8CuhUxeTfCM2/GacAVG5ROUqVxCHCE/NrTLcdMWKZ82Ldlho0dvv0JjoKj1QZ
+ aVzfP6GG2zxcDxJOIqyjmPRc5RosbU+sGUX/wQSvc+BOF3qvHi8+efzk0rxHgdwJizkd
+ WAbtdE0zCLn1wEwq+icuqR0OtvEZeIvumHsAAPB8NfZPjlXnExv/DDhnx92vuadwi4Dl
+ NxrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FCWOfgHjogs+ZHLfec3iiRsV4fR75+riOa9yclc5WgY=;
- b=suaPe3sJ7f52Od9AEqdBqxzJjanco7WWNRAbO43IYuY1Rq5MwF+fiqxiEEmgHAZ++q
- OxrGDjlhkx0xKmD7AltycZ6RxiXwJM8OWsuWaHoghZNYebKPfDxgJ7xVw0Vltb42qzj4
- Wmzmh1st8mE9YhuadlxmR90zwRCZu7Hsv5DNBhM190jS9my9d4uBp3QTZrqKOx0VIK/g
- nD/4Av6xXCCUV02gRYO6r8HAAvQ/qPeISWlz37rnz53Gp1uzV1kICbQsAyZQZDDMXX2f
- xHWSLxylHdvz1PHVXrUQzM0ReJimhYrKlHk5g3C9ApwTvWs16ZUBtzbk7OOPjua+qCni
- 5EaQ==
-X-Gm-Message-State: APjAAAUIuOqf/qTaXTlapC1/yfXSv52AYhpXC6FdXhMYJuaDkGs5GtSC
- qn9NGFXnduHI8UvFGzBSXxo=
-X-Google-Smtp-Source: APXvYqztGLfkX9qXHYDrW93+KsQGOC1vARBk9E9HH+1VrmT82NfpzeBEN8gFkf9JGeOYY8yXouJ5qA==
-X-Received: by 2002:adf:fd08:: with SMTP id e8mr4032690wrr.42.1572896614937;
- Mon, 04 Nov 2019 11:43:34 -0800 (PST)
-Received: from localhost (207.pool85-48-187.static.orange.es. [85.48.187.207])
- by smtp.gmail.com with ESMTPSA id
- f14sm19444367wrv.17.2019.11.04.11.43.33
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3pdwtpEMuYpNmcJew2XR2Uq4e5PrIRzFboXtLYMH6Fo=;
+ b=KDDqEwjqBSY7w3SqgFBv7m/NqJxcFVcftwL/H5I9rJeQvqrX49LbaIufrsrjfjJum4
+ aaCLnPeK9ORM/Ef0FWsSQEbIpoauM8w4C7C/5wJM5FqrIvECp5EnLk2F8hGtPfnB28+Q
+ mb4wGo/jYWjJ2dH/qm6BqiXCDZTWO5uybMTVzPLHePT2zJ4B+GCqJ9Yc8RzvAXX/kT43
+ 3Lerzux9SSE+ceRSDGnM31D6PbP6KwOUXd9FtRN7WcW0ujzaqtvnN0JMZjiAUMiixQOE
+ TdNecLuUNHdBcGLf8fMZlKXoDD+7bjZMIbfRoYcoQGaug/dk2RxMnh14Hq2OW4TboJHt
+ 2Tyw==
+X-Gm-Message-State: APjAAAVJNuV2cVpvcd9YAephNs08IG92jo6bcJGIZqSUCZav94Qm8GnS
+ phbA8gcwOj84AsqGqfVVF2IVqg==
+X-Google-Smtp-Source: APXvYqwKviqUsy7fpcgZ+7GjBqDEMsCNvP0EnGT8I7D6s+CW4LdCk4DZeriy+dl1fI5P/YaAMjhvgA==
+X-Received: by 2002:a7b:c94f:: with SMTP id i15mr722981wml.8.1572896536892;
+ Mon, 04 Nov 2019 11:42:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i13sm10520856wrp.12.2019.11.04.11.42.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Nov 2019 11:43:34 -0800 (PST)
-Date: Mon, 4 Nov 2019 20:35:23 +0100
-From: Miguel Arruga Vivas <rosen644835@gmail.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [Qemu-devel] [Fail] tests/test-util-filemonitor fails
-Message-ID: <20191104171624.6e62c112@gmail.com>
-In-Reply-To: <20190809091214.GD13660@redhat.com>
-References: <20190808020723.GB26938@richard> <20190808080229.GA2534@redhat.com>
- <20190808084653.GB32524@richard> <20190808092213.GB2534@redhat.com>
- <20190809000609.GA4201@richard> <20190809091214.GD13660@redhat.com>
+ Mon, 04 Nov 2019 11:42:15 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 38DAD1FF87;
+ Mon,  4 Nov 2019 19:42:15 +0000 (GMT)
+References: <20191104173654.30125-1-alex.bennee@linaro.org>
+ <20191104173654.30125-6-alex.bennee@linaro.org>
+ <20191104183632.GO3093@minyard.net>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: cminyard@mvista.com
+Subject: Re: [PATCH  v1 5/6] tests: only run ipmi-bt-test if CONFIG_LINUX
+In-reply-to: <20191104183632.GO3093@minyard.net>
+Date: Mon, 04 Nov 2019 19:42:15 +0000
+Message-ID: <87o8xrjunc.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,78 +83,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
+ Kamil Rytarowski <kamil@netbsd.org>, cota@braap.org, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
 
-I've been trying to open a bug in launchpad about exactly this, but it
-always raises an error when trying to log in.  Then I found this
-thread diving into the archives, so I'll try to kindly ask here about
-it.
+Corey Minyard <cminyard@mvista.com> writes:
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Fri, Aug 09, 2019 at 08:06:09AM +0800, Wei Yang wrote:
-> > On Thu, Aug 08, 2019 at 10:22:13AM +0100, Daniel P. Berrang=C3=A9
-> > wrote: =20
-> > >On Thu, Aug 08, 2019 at 04:46:53PM +0800, Wei Yang wrote: =20
-> > >> On Thu, Aug 08, 2019 at 09:02:29AM +0100, Daniel P. Berrang=C3=A9
-> > >> wrote: =20
-> > >> >On Thu, Aug 08, 2019 at 10:07:23AM +0800, Wei Yang wrote: =20
-> > >> >> Current qemu fails tests/test-util-filemonitor. =20
-> > >> >
-> > >> >You'll need to provide more info. The test works for me and
-> > >> >passes in all the QEMU CI environments.
-> > >> > =20
-> > >>=20
-> > >> The error message from my side is:
-> > >>=20
-> > >> /util/filemonitor: Expected watch id 200000000 but got 100000000
-> > >> **
-> > >> ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events:
-> > >> assertion failed: (err =3D=3D 0)
-> > >>=20
-> > >> What else you'd prefer to have? =20
-> > >
-> > >Can you set the  "FILEMONITOR_DEBUG=3D1" env variable before running
-> > >the test - it will print out lots more info
-> > > =20
-> >=20
-> > Here is the output with more info.
-> >=20
-> >     $ FILEMONITOR_DEBUG=3D1
-> > QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64
-> > tests/test-util-filemonitor =20
->=20
-> >     Rmdir /tmp/test-util-filemonitor-151B6Z/fish
-> >     Event id=3D200000000 event=3D4 file=3D
-> >     Expected watch id 200000000 but got 100000000
-> >     ** =20
->=20
-> Ok, so the kernel is sending the events in an unexpected order
+> On Mon, Nov 04, 2019 at 05:36:53PM +0000, Alex Benn=C3=A9e wrote:
+>> This test has been unstable on NetBSD for awhile. It seems the
+>> mechanism used to listen to a random port is a Linux-ism (although a
+>> received wisdom Linux-ism rather than a well documented one). As
+>
+> Hmm.  I got reports of this issue and tried to reproduce, but I was
+> never able to.  I thought I had fixed it via other means, but I had no
+> idea this was the cause of the issue.
+>
+> It's not a Linux-ism, I don't think, Richard Steven's "Unix Network
+> Programming" mentions that is how this works (at least on UDP), and that
+> is pre-Linux.  That's probably where I got this technique.  I've saw
+> some web pages mention that Solaris and Windows do it this way.
+>
+> However, it's not specified, so it's probably a bad idea.  The only way
+> I can think to do it another way is to remove the bind() call, then it
+> should randomly assign the port (per the spec, I think).  The trouble
+> with that is the address will be INADDR_ANY, so it will be bound on
+> other interfaces besides the loopback, which make me slightly worried
+> from a security point of view.
 
-I've been reading about the issue and as far as I understand the inotify
-man-page[http://man7.org/linux/man-pages/man7/inotify.7.html], section
-"Dealing with rename() events", points out that the order nor the
-atomicity of the concurrent events is something that should be relied
-on.
-=20
-> >     ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events:
-> > assertion failed: (err =3D=3D 0) Aborted (core dumped)
-> >=20
-> >  =20
-> > >Also what operating system are you using, and what kernel version
+The other option is to keep the bind but seed it ourselves with a random
+port. However then you need to loop until you succeed and avoid locking
+up if something fatal has gone wrong.
 
-We have hit this error on GNU Guix master
-[http://issues.guix.gnu.org/issue/37860]. I'm using linux-libre 5.3.4
-on x86_64.  It does not seem to be something deterministic, but I just
-commented out the test the fifth time I've hit the same error.
+> I'm ok with this being linux-only, but I'd like to fix it so it works
+> everywhere.
 
-Is there any way to change the test to not rely on the ordering of the
-events from different views of the same fs action?
+One option could be to use the glib networking stuff to set this up.
+That has options for creating dynamic ports for incoming connections
+although the docs are a bit light on details.
+g_socket_listener_add_any_inet_port certainly seems to do the retry
+approach (for a weirdly arbitrary 37 times). It leaves the fancy stuff
+to a hopefully well tested library although I note QEMU's own use of
+g_io APIs seems to be pretty sporadic.
 
-Best regards,
-Miguel
+
+>
+> -corey
+>
+>> working around would add more hard to test complexity to the test I've
+>> gone for the easier option of making it CONFIG_LINUX only.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: Corey Minyard <cminyard@mvista.com>
+>> Cc: Kamil Rytarowski <kamil@netbsd.org>
+>> ---
+>>  tests/Makefile.include | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/tests/Makefile.include b/tests/Makefile.include
+>> index 534ee487436..8566f5f119d 100644
+>> --- a/tests/Makefile.include
+>> +++ b/tests/Makefile.include
+>> @@ -177,7 +177,9 @@ check-qtest-i386-$(CONFIG_SGA) +=3D tests/boot-seria=
+l-test$(EXESUF)
+>>  check-qtest-i386-$(CONFIG_SLIRP) +=3D tests/pxe-test$(EXESUF)
+>>  check-qtest-i386-y +=3D tests/rtc-test$(EXESUF)
+>>  check-qtest-i386-$(CONFIG_ISA_IPMI_KCS) +=3D tests/ipmi-kcs-test$(EXESU=
+F)
+>> +ifdef CONFIG_LINUX
+>>  check-qtest-i386-$(CONFIG_ISA_IPMI_BT) +=3D tests/ipmi-bt-test$(EXESUF)
+>> +endif
+>>  check-qtest-i386-y +=3D tests/i440fx-test$(EXESUF)
+>>  check-qtest-i386-y +=3D tests/fw_cfg-test$(EXESUF)
+>>  check-qtest-i386-y +=3D tests/device-plug-test$(EXESUF)
+>> --
+>> 2.20.1
+>>
+
+
+--
+Alex Benn=C3=A9e
 
