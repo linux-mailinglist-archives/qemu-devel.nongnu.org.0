@@ -2,56 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD6DEE058
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 13:45:30 +0100 (CET)
-Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D12EEE08B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 13:58:57 +0100 (CET)
+Received: from localhost ([::1]:60370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRbjc-0005Ri-UU
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 07:45:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44455)
+	id 1iRbwe-0001gF-1v
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 07:58:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iRbif-0004tx-Gm
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:44:30 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRbvg-00018S-KU
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:57:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iRbie-0006G4-1G
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:44:29 -0500
-Resent-Date: Mon, 04 Nov 2019 07:44:29 -0500
-Resent-Message-Id: <E1iRbie-0006G4-1G@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21882)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iRbid-0006C3-Gy; Mon, 04 Nov 2019 07:44:27 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1572871412; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZGGX4IiQmFpfjgydc5Xn3ayaHUnZg5ayc1LgN+2EPAEWadlQ72zdOWTHjWwWf463miX0+AQduBQOwrZZGDWGqGQg9RXjYQU/UgNLOTWKMHHGwVhJAg9XdayW3ORX/ipIds8MeKjQhM9LJCYoJCwmZ0pT2Q7XjsREIdqT1UkQTYs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572871412;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6Ln4BdVwFHO2I5x/J3dmCMdBNcZGsmz/4+6/IHcamSs=; 
- b=OXHSlHABKLoE/hqE1f3/eQLMEHQH+AidsnP2yoeYe4Qz5s3+azo1sI0zcMwQEpMxEKYXYqKdTAGrp1j35ct3daqdXcwBags9mh6M4a5BqzIHRxGHBO4zaAlBTofir9euc9yn3DpsM7i+6pE+Qegqzwhyq/2ev0FbQnnXK9GOLWA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1572871409656174.88674502333663;
- Mon, 4 Nov 2019 04:43:29 -0800 (PST)
-In-Reply-To: <20191104121458.29208-1-zhengxiang9@huawei.com>
-Subject: Re: [PATCH v21 0/6] Add ARMv8 RAS virtualization support in QEMU
-Message-ID: <157287140443.27285.11755911437215821061@37313f22b938>
+ (envelope-from <mreitz@redhat.com>) id 1iRbvd-00039n-Mw
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:57:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34445
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRbvd-00039Z-Dd
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:57:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572872273;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ljw9TmoLooLFp7Gn3uc2bcGHtQ85/XmqP4bLHEZJukI=;
+ b=PwcuMuQ37u/StoLsY4FE1muQhHOJLkXDCnsF0UXjEPGCTVYn20WmLnWMFSpsc95G7bEVP1
+ TnxxJdNf4p1LHBD+xp3RoDl0EcWg/YwD+Rx4f5bqGS1qk7//T4cl15C36Q+3Qh1+kXEoGj
+ KrHP/m34GNhIfTNSWc+GIM2vVoR2+EY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-jHqrdDNyM4-wZ2hZHLzJeQ-1; Mon, 04 Nov 2019 07:57:48 -0500
+X-MC-Unique: jHqrdDNyM4-wZ2hZHLzJeQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3504107ACC2;
+ Mon,  4 Nov 2019 12:57:45 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE42F60F8A;
+ Mon,  4 Nov 2019 12:57:43 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 12/26] qcow2: Handle
+ QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1572125022.git.berto@igalia.com>
+ <2a6b34635cac78e76150a72c69669b3d9ec0fb8c.1572125022.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <78cc16f3-f8aa-9dcb-2389-4f6ed86080fd@redhat.com>
+Date: Mon, 4 Nov 2019 13:57:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: zhengxiang9@huawei.com
-Date: Mon, 4 Nov 2019 04:43:29 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <2a6b34635cac78e76150a72c69669b3d9ec0fb8c.1572125022.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Zv9q3uo0GclW18wp4FQk5RSEMRFjHP1uJ"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.58
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,56 +98,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, wanghaibin.wang@huawei.com, mtosatti@redhat.com,
- linuxarm@huawei.com, qemu-devel@nongnu.org, gengdongjiu@huawei.com,
- shannon.zhaosl@gmail.com, zhengxiang9@huawei.com, qemu-arm@nongnu.org,
- james.morse@arm.com, jonathan.cameron@huawei.com, imammedo@redhat.com,
- pbonzini@redhat.com, xuwei5@huawei.com, lersek@redhat.com, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwNDEyMTQ1OC4yOTIw
-OC0xLXpoZW5neGlhbmc5QGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRo
-ZSBkb2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGlu
-ZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5z
-dGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1Qg
-U0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9
-MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9
-MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBURVNUICAgIGNoZWNr
-LXVuaXQ6IHRlc3RzL3Rlc3QtdGhyb3R0bGUKICBURVNUICAgIGNoZWNrLXVuaXQ6IHRlc3RzL3Rl
-c3QtdGhyZWFkLXBvb2wKKioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlv
-bi10ZXN0LmM6OTAzOndhaXRfZm9yX21pZ3JhdGlvbl9mYWlsOiBhc3NlcnRpb24gZmFpbGVkOiAo
-IXN0cmNtcChzdGF0dXMsICJzZXR1cCIpIHx8ICFzdHJjbXAoc3RhdHVzLCAiZmFpbGVkIikgfHwg
-KGFsbG93X2FjdGl2ZSAmJiAhc3RyY21wKHN0YXR1cywgImFjdGl2ZSIpKSkKRVJST1IgLSBCYWls
-IG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlvbi10ZXN0LmM6OTAz
-OndhaXRfZm9yX21pZ3JhdGlvbl9mYWlsOiBhc3NlcnRpb24gZmFpbGVkOiAoIXN0cmNtcChzdGF0
-dXMsICJzZXR1cCIpIHx8ICFzdHJjbXAoc3RhdHVzLCAiZmFpbGVkIikgfHwgKGFsbG93X2FjdGl2
-ZSAmJiAhc3RyY21wKHN0YXR1cywgImFjdGl2ZSIpKSkKbWFrZTogKioqIFtjaGVjay1xdGVzdC1h
-YXJjaDY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4u
-CiAgVEVTVCAgICBjaGVjay11bml0OiB0ZXN0cy90ZXN0LWhiaXRtYXAKICBURVNUICAgIGlvdGVz
-dC1xY293MjogMDEzCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNt
-ZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbics
-ICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD0yNjA3
-YWIzYWExOGY0ZTY1OGUyMWVjMjQ4ZGQ4MGMwYycsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHkt
-b3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScs
-ICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcs
-ICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92
-YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1j
-Y2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXIt
-dG1wLWd6MnQ4eTZtL3NyYy9kb2NrZXItc3JjLjIwMTktMTEtMDQtMDcuMzIuMjAuOTU3NTovdmFy
-L3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rl
-c3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmls
-dGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MjYwN2FiM2FhMThmNGU2NThlMjFlYzI0
-OGRkODBjMGMKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZp
-bmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZ3oydDh5Nm0vc3JjJwpt
-YWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAg
-IDExbTQuNjkzcwp1c2VyICAgIDBtOC45MTRzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
-dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MTEwNDEyMTQ1OC4yOTIwOC0xLXpoZW5neGlh
-bmc5QGh1YXdlaS5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdl
-LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
-YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
-cmVkaGF0LmNvbQ==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Zv9q3uo0GclW18wp4FQk5RSEMRFjHP1uJ
+Content-Type: multipart/mixed; boundary="UYFvPwCpwdoPOQQd8BQkmw946cjMAwdJ5"
+
+--UYFvPwCpwdoPOQQd8BQkmw946cjMAwdJ5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 26.10.19 23:25, Alberto Garcia wrote:
+> In the previous patch we added a new QCow2ClusterType named
+> QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER. There is a couple of places
+> where this new value needs to be handled, and that is what this patch
+> does.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+This patch deals with everything in qcow2.c.  There are more places that
+reference QCOW2_CLUSTER_* constants elsewhere, and I suppose most of
+them are handled by the following patches.
+
+But I wonder what the criterion is on where it needs to be handled and
+where it=E2=80=99s OK not to.  Right now it looks to me like it=E2=80=99s a=
+ bit
+arbitrary maybe?  But I suppose I=E2=80=99ll just have to wait until after =
+the
+next patches.
+
+Max
+
+
+--UYFvPwCpwdoPOQQd8BQkmw946cjMAwdJ5--
+
+--Zv9q3uo0GclW18wp4FQk5RSEMRFjHP1uJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3AIEYACgkQ9AfbAGHV
+z0DjDQf7BTtKrArJ7NLrcE5Rwe5eOBOb+i1ohWuxdD1bYLe7QvU0YVdvDYywnxkp
+9zR2mZ/34szVkFFi6Vf78PrW9eFN97VPF/DxiwaK0dgygmQYn2W5g+vOvqwIBXCz
+p68uZJGnbrEMFSieORfF7tgPOPRggBm1c6964ZQ77CwrWLJDJ0q7I7puttX2z8VY
+aKOUDj4VoqBR6F2LW8jdlRP6VlbvxmNCil4vsXWZgNrQifOG4LFD5v1RCPBfyVS/
+PokbM9sqlwmQcQwwZkEvzoVYd9FLacfyYGYgmx8gFsvTnqGRccXMI3xEu7oRS0sW
+F+FBV0cjNqF0ikq2ay/3HNX3pB9B4w==
+=qRk0
+-----END PGP SIGNATURE-----
+
+--Zv9q3uo0GclW18wp4FQk5RSEMRFjHP1uJ--
 
 
