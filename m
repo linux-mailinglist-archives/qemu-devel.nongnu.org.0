@@ -2,63 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8E3EDB44
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 10:08:33 +0100 (CET)
-Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD845EDB46
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 10:08:46 +0100 (CET)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRYLg-00040x-IQ
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 04:08:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34825)
+	id 1iRYLt-0004T1-Ou
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 04:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iRYHa-0007Og-4a
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:04:23 -0500
+ (envelope-from <its@irrelevant.dk>) id 1iRYIK-00005O-JW
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:05:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iRYHY-0003JR-17
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:04:17 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60095
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <its@irrelevant.dk>) id 1iRYIJ-00048d-E1
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:05:04 -0500
+Received: from charlie.dont.surf ([128.199.63.193]:37726)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRYHX-00034l-SZ
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:04:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572858243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hT5Z3TYNMcaiyYP/Nvw6MDMmwNVAlQDViWN92O18NNo=;
- b=H9GwoVuDLaZjEOsuIFqwG7gfld3oluJsuJRtD4nRf6liz0niMSta1L/LHzH+yquDaLv0qm
- 4SbNcvIP6R0ZhPyz13M+QaSJcRPiKZG8ATDLnsNLBDjpZnFwTA1RfBZeZuHWAVWOEGgblC
- pOLd335R8qdZaJcAXS1gst5wsMa6tzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-ULR8YgewMUWnsluifsrzjQ-1; Mon, 04 Nov 2019 04:04:00 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7692E107ACC2;
- Mon,  4 Nov 2019 09:03:59 +0000 (UTC)
-Received: from localhost (ovpn-117-85.ams2.redhat.com [10.36.117.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16B4D5D9CD;
- Mon,  4 Nov 2019 09:03:58 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 5/5] block/file-posix: Let post-EOF fallocate serialize
-Date: Mon,  4 Nov 2019 10:03:47 +0100
-Message-Id: <20191104090347.27278-6-mreitz@redhat.com>
-In-Reply-To: <20191104090347.27278-1-mreitz@redhat.com>
-References: <20191104090347.27278-1-mreitz@redhat.com>
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1iRYIB-0003zQ-ME; Mon, 04 Nov 2019 04:04:56 -0500
+Received: from apples.localdomain (unknown [194.62.217.57])
+ by charlie.dont.surf (Postfix) with ESMTPSA id AD5B3BF616;
+ Mon,  4 Nov 2019 09:04:52 +0000 (UTC)
+Date: Mon, 4 Nov 2019 10:04:49 +0100
+From: Klaus Birkelund <its@irrelevant.dk>
+To: Ross Lagerwall <ross.lagerwall@citrix.com>
+Subject: Re: [Qemu-devel] [PATCH 16/16] nvme: support multiple namespaces
+Message-ID: <20191104090449.GA128558@apples.localdomain>
+References: <20190705072333.17171-1-klaus@birkelund.eu>
+ <20190705072333.17171-17-klaus@birkelund.eu>
+ <79fb195f-91dc-869d-f290-40fdcb96eea3@citrix.com>
+ <20190823081022.GA30440@apples.localdomain>
+ <675ecf34-4874-7a10-998a-f85c4aeb9526@citrix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: ULR8YgewMUWnsluifsrzjQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <675ecf34-4874-7a10-998a-f85c4aeb9526@citrix.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,73 +52,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, keith.busch@intel.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XFS kernel driver has a bug that may cause data corruption for qcow2
-images as of qemu commit c8bb23cbdbe32f.  We can work around it by
-treating post-EOF fallocates as serializing up until infinity (INT64_MAX
-in practice).
+On Mon, Nov 04, 2019 at 08:46:29AM +0000, Ross Lagerwall wrote:
+> On 8/23/19 9:10 AM, Klaus Birkelund wrote:
+> > On Thu, Aug 22, 2019 at 02:18:05PM +0100, Ross Lagerwall wrote:
+> >> On 7/5/19 8:23 AM, Klaus Birkelund Jensen wrote:
+> >>
+> >> I tried this patch series by installing Windows with a single NVME
+> >> controller having two namespaces. QEMU crashed in get_feature /
+> >> NVME_VOLATILE_WRITE_CACHE because req->ns was NULL.
+> >>
+> > 
+> > Hi Ross,
+> > 
+> > Good catch!
+> > 
+> >> nvme_get_feature / nvme_set_feature look wrong to me since I can't see how
+> >> req->ns would have been set. Should they have similar code to nvme_io_cmd to
+> >> set req->ns from cmd->nsid?
+> > 
+> > Definitely. I will fix that for v2.
+> > 
+> >>
+> >> After working around this issue everything else seemed to be working well.
+> >> Thanks for your work on this patch series.
+> >>
+> > 
+> > And thank you for trying out my patches!
+> > 
+> 
+> One more thing... it doesn't handle inactive namespaces properly so if you
+> have two namespaces with e.g. nsid=1 and nsid=3 QEMU ends up crashing in
+> certain situations. The patch below adds support for inactive namespaces.
+> 
+> Still hoping to see a v2 some day :-)
+> 
+ 
+Hi Ross,
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20191101152510.11719-4-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/file-posix.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+v2[1] is actually out, but only CC'ed Paul. Sorry about that! It fixes
+the support for discontiguous nsid's, but does not handle inactive
+namespaces correctly in identify.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 0b7e904d48..1f0f61a02b 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2721,6 +2721,42 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t o=
-ffset, int bytes,
-     RawPosixAIOData acb;
-     ThreadPoolFunc *handler;
-=20
-+#ifdef CONFIG_FALLOCATE
-+    if (offset + bytes > bs->total_sectors * BDRV_SECTOR_SIZE) {
-+        BdrvTrackedRequest *req;
-+        uint64_t end;
-+
-+        /*
-+         * This is a workaround for a bug in the Linux XFS driver,
-+         * where writes submitted through the AIO interface will be
-+         * discarded if they happen beyond a concurrently running
-+         * fallocate() that increases the file length (i.e., both the
-+         * write and the fallocate() happen beyond the EOF).
-+         *
-+         * To work around it, we extend the tracked request for this
-+         * zero write until INT64_MAX (effectively infinity), and mark
-+         * it as serializing.
-+         *
-+         * We have to enable this workaround for all filesystems and
-+         * AIO modes (not just XFS with aio=3Dnative), because for
-+         * remote filesystems we do not know the host configuration.
-+         */
-+
-+        req =3D bdrv_co_get_self_request(bs);
-+        assert(req);
-+        assert(req->type =3D=3D BDRV_TRACKED_WRITE);
-+        assert(req->offset <=3D offset);
-+        assert(req->offset + req->bytes >=3D offset + bytes);
-+
-+        end =3D INT64_MAX & -(uint64_t)bs->bl.request_alignment;
-+        req->bytes =3D end - req->offset;
-+        req->overlap_bytes =3D req->bytes;
-+
-+        bdrv_mark_request_serialising(req, bs->bl.request_alignment);
-+        bdrv_wait_serialising_requests(req);
-+    }
-+#endif
-+
-     acb =3D (RawPosixAIOData) {
-         .bs             =3D bs,
-         .aio_fildes     =3D s->fd,
---=20
-2.21.0
+I'll incorporate that in a v3 along with a couple of other fixes I did.
 
+Thanks!
+
+
+  [1]: https://patchwork.kernel.org/cover/11190045/
 
