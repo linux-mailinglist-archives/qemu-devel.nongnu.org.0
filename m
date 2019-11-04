@@ -2,56 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777D7EE094
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 14:04:35 +0100 (CET)
-Received: from localhost ([::1]:60720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CC5EE0D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 14:17:59 +0100 (CET)
+Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRc26-0004VW-29
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 08:04:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
+	id 1iRcF4-0001lc-Qm
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 08:17:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iRc0w-0003xb-9U
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:03:23 -0500
+ (envelope-from <bounces@canonical.com>) id 1iRcDH-00019Y-LT
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:16:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iRc0u-00063V-Tj
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:03:21 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:37092)
+ (envelope-from <bounces@canonical.com>) id 1iRcDG-00063D-I9
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:16:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46342)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iRc0u-0005rQ-A6; Mon, 04 Nov 2019 08:03:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=lFexXn/y398mKXRCst+o4ikT6b8QhvWk+I6kcLnVEc4=; 
- b=bmORbyLsRTSGorwdI+N2SSsQT203v7NZyhix5j3FwXmhKOpvXDUk23OnjSzdg9a5T8WFKtZrXjmEWU7gyLr6oLWXYyIrBdDQDK96p12hD1KW+5+Ew1ro1GjwfwW4mPo0lL8UFhOJ7O0gFbfeVhzKGu0KFHkhEm8q1CeenrK8EZjdI1pmshVC3i7tAiAeuur0R36UnFpqtcoeQp3tmA7W1haqSWDSn7JCT3P7oAwMEhLHN8+bmv+aLrdkb+9CKwRyDuZ6ydVIdfyYfbHN8jPg9TPc5S6XmPLsq9WcRS9C3aaYnJYlkTCucDVns67nd0JchZ3EwFYkG2l9OI03gIDq2w==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1iRc0a-0002OL-K9; Mon, 04 Nov 2019 14:03:00 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1iRc0a-0000d2-Hc; Mon, 04 Nov 2019 14:03:00 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 12/26] qcow2: Handle
- QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER
-In-Reply-To: <78cc16f3-f8aa-9dcb-2389-4f6ed86080fd@redhat.com>
-References: <cover.1572125022.git.berto@igalia.com>
- <2a6b34635cac78e76150a72c69669b3d9ec0fb8c.1572125022.git.berto@igalia.com>
- <78cc16f3-f8aa-9dcb-2389-4f6ed86080fd@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 04 Nov 2019 14:03:00 +0100
-Message-ID: <w51tv7jssjf.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iRcDG-000630-Cu
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:16:06 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iRcDD-0002yR-SX
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 13:16:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E70632E80F2
+ for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 13:16:00 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Date: Mon, 04 Nov 2019 13:06:25 -0000
+From: Laurent Desnogues <1851095@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ldesnogu pmaydell scientes
+X-Launchpad-Bug-Reporter: Shawn Landden (scientes)
+X-Launchpad-Bug-Modifier: Laurent Desnogues (ldesnogu)
+References: <157275520880.19702.5640428141206739403.malonedeb@wampee.canonical.com>
+Message-Id: <157287278533.28557.7073578885711835396.malone@chaenomeles.canonical.com>
+Subject: [Bug 1851095] Re: [feature request] awareness of instructions that
+ are well emulated
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: babaa0f329951c8b240475858cb432b66cb8d564
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,39 +66,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Reply-To: Bug 1851095 <1851095@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 04 Nov 2019 01:57:42 PM CET, Max Reitz wrote:
-> On 26.10.19 23:25, Alberto Garcia wrote:
->> In the previous patch we added a new QCow2ClusterType named
->> QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER. There is a couple of places
->> where this new value needs to be handled, and that is what this patch
->> does.
->>=20
->> Signed-off-by: Alberto Garcia <berto@igalia.com>
->> ---
->>  block/qcow2.c | 13 +++++++++----
->>  1 file changed, 9 insertions(+), 4 deletions(-)
-> This patch deals with everything in qcow2.c.  There are more places that
-> reference QCOW2_CLUSTER_* constants elsewhere, and I suppose most of
-> them are handled by the following patches.
->
-> But I wonder what the criterion is on where it needs to be handled and
-> where it=E2=80=99s OK not to.  Right now it looks to me like it=E2=80=99s=
- a bit
-> arbitrary maybe?  But I suppose I=E2=80=99ll just have to wait until afte=
-r the
-> next patches.
+Can you please provide a binary (preferably statically built or with
+required shared libraries attached)?
 
-This is the part of the series that I'm the least happy about, because
-the existing qcow2_get_cluster_type() can never return this new value, I
-only updated the cases where this can actually happen.
+Thanks,
 
-I'm still considering a different approach for this.
+Laurent
 
-Berto
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1851095
+
+Title:
+  [feature request] awareness of instructions that are well emulated
+
+Status in QEMU:
+  New
+
+Bug description:
+  While qemu's scalar emulation tends to be excellent, qemu's SIMD
+  emulation tends to be incorrect (except for arm64 from x86_64)--i have
+  found this both for mipsel and arm32. Until these code paths are
+  audited, which is probably a large job, it would be nice if qemu knew
+  its emulation of this class of instructions was not very good, and
+  thus it would give up on finding these instructions if a "careful"
+  operation is passed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1851095/+subscriptions
 
