@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E2BEE79C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 19:47:10 +0100 (CET)
-Received: from localhost ([::1]:36406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EDEEE7A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 19:48:32 +0100 (CET)
+Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRhNZ-00058M-Pl
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 13:47:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46695)
+	id 1iRhOx-000623-MT
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 13:48:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46805)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iRhLC-0003YG-5l
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:44:39 -0500
+ (envelope-from <philmd@redhat.com>) id 1iRhLi-0004FL-FZ
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:45:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iRhLA-0005ea-0Z
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:44:37 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:39048)
+ (envelope-from <philmd@redhat.com>) id 1iRhLh-00068u-6T
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:45:10 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:57840)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iRhL9-0005eH-GX
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:44:35 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iRhLg-00065Y-Vy
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:45:09 -0500
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 08B03C057EC6
- for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 18:44:32 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id j17so10625734wru.13
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:44:31 -0800 (PST)
+ by mx1.redhat.com (Postfix) with ESMTPS id 02CFDC04FF80
+ for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 18:45:08 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id k10so10795011wrl.22
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:45:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j5kgJQpQtGyLUNL4icI34/hxH/c6LwMPQapgT9J3q9o=;
- b=X/8T98TSWD06m/iLjXyk8fEM4b67mqaGTGCDSC+AOA4EeOnNKCVf1WcQl4ST8o8Ve1
- qJeEYZQzX17S7uxznRoPtWJlfv97wDXTpZUEDeZQb141qsUe18Yd6HVaD3EmTCHYfg6i
- SzZ8wKWmVM7l/dVxcM74jhVhGdgbV+kVC+9IbWHfTCOs8AWq38YnjQ9s660qWmfOIqx8
- WUzfyWoUuMqCVqMvsH09rzpIul2dnZMBNgnz7wrwO33VVN6kifmTVR4qp5lVtn8Ua0t/
- eX9/0OQkbpjJNXX+cMqgnKhJloitTYn5/p2uhsqRuCTf7JPo9dtNK6Y1OTe33Gc2MuLU
- 7Uew==
-X-Gm-Message-State: APjAAAVOtG/ziJrHio/wRzVt+ipq1Uvxp2rgcAYg9I06fVKxEqX/3roB
- hq3JOvAgsycmaSZLnrCP46zJkcAH4F2HEyOme78FZO2XCvQIsPV09KaSO+3pm/wIViwl3Fj9MW4
- 9R8hbP3ioB0jPF70=
-X-Received: by 2002:adf:e2cc:: with SMTP id d12mr3410956wrj.168.1572893070823; 
- Mon, 04 Nov 2019 10:44:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwKYHtvi14uU/z+tNRCBHt+mTZGsN5DRL5NwGryziyiT+vE/LTue128OgR3nPU990PNR/b0Ng==
-X-Received: by 2002:adf:e2cc:: with SMTP id d12mr3410944wrj.168.1572893070571; 
- Mon, 04 Nov 2019 10:44:30 -0800 (PST)
+ bh=DD01XaN1ab7JExxD2E3NBo6wP4sfSZej9WUh5hJeDMg=;
+ b=DjaTTJFNo9H43XrbEeEIzUeeFkXn34C+IsIcO3THX6GuncI7Wj7PEVbnt5YM6zT9DO
+ fvBBeTXlEs/axRNEtXyW2ngyq2ggpFBU/3vNDAORieUYe/GjL09xMka+kvs12y+zkn5N
+ hynVugxU+CiEeitM96/ThOl+ddyBHquqv0EBTosSJOMIC/pQsFYAGbAGJkKreY+7Nq1H
+ zB88NFrHkVT0/RMpzN+Nn7QM9xsv/BaBy/rSg8M2KUckLFwIGThqr+ubbcndd6a3LYZ2
+ Cna4E+6qH1Ggpa5rcbd9sLS2+QjvLTUp6l3I0SE0jDXBaZekDhJLQW9SKYP5rBK2Tinj
+ aN7Q==
+X-Gm-Message-State: APjAAAUXBKrNBrjEej2kE3AEK/FQCt6L0Cb1CYy2p8Xxcjy5E6b3U5f6
+ YwCLfgA0PWXcnycT4z2+00Wb7M6NkN1DITZ11d5fdPUwT3pKfPpra/6/1iqN9biYlB5to6Zyrls
+ DtbVw885auy7jCF4=
+X-Received: by 2002:a1c:6146:: with SMTP id v67mr503075wmb.102.1572893105974; 
+ Mon, 04 Nov 2019 10:45:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyw+z0VZ9eMSWjCZo+kb3ePVCFzabhlkENSFLCJJXtTi7vbbRvZCpeL/ItK0K36Eqp5uaYHcw==
+X-Received: by 2002:a1c:6146:: with SMTP id v67mr503062wmb.102.1572893105824; 
+ Mon, 04 Nov 2019 10:45:05 -0800 (PST)
 Received: from [192.168.1.24] (lfbn-1-7864-228.w92-167.abo.wanadoo.fr.
  [92.167.33.228])
- by smtp.gmail.com with ESMTPSA id 189sm23059369wmc.7.2019.11.04.10.44.29
+ by smtp.gmail.com with ESMTPSA id j66sm12799312wma.19.2019.11.04.10.45.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Nov 2019 10:44:30 -0800 (PST)
-Subject: Re: [PATCH v1 2/6] tests/vm: add console_consume helper
+ Mon, 04 Nov 2019 10:45:05 -0800 (PST)
+Subject: Re: [PATCH v1 4/6] tests/vm: update netbsd to version 8.1
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20191104173654.30125-1-alex.bennee@linaro.org>
- <20191104173654.30125-3-alex.bennee@linaro.org>
+ <20191104173654.30125-5-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <23f2543d-f329-cc64-1bd5-78bfa9ee11c1@redhat.com>
-Date: Mon, 4 Nov 2019 19:44:29 +0100
+Message-ID: <1001ac5f-509b-99d1-ccf0-3a3a3adb43a1@redhat.com>
+Date: Mon, 4 Nov 2019 19:45:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191104173654.30125-3-alex.bennee@linaro.org>
+In-Reply-To: <20191104173654.30125-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -83,7 +83,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Kamil Rytarowski <kamil@netbsd.org>, cota@braap.org,
  Gerd Hoffmann <kraxel@redhat.com>, stefanha@redhat.com,
  marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -92,48 +93,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 11/4/19 6:36 PM, Alex Benn=C3=A9e wrote:
 > From: Gerd Hoffmann <kraxel@redhat.com>
 >=20
-> Helper function to read all console output.
->=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> Message-Id: <20191031085306.28888-3-kraxel@redhat.com>
+> Message-Id: <20191031085306.28888-5-kraxel@redhat.com>
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->   tests/vm/basevm.py | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
+>   tests/vm/netbsd | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 2929de23aa7..086bfb2c66d 100755
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -242,6 +242,25 @@ class BaseVM(object):
->               return False
->           return True
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index d1bccccfd01..33779402dd1 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -22,7 +22,7 @@ class NetBSDVM(basevm.BaseVM):
+>       name =3D "netbsd"
+>       arch =3D "x86_64"
 >  =20
-> +    def console_consume(self):
-> +        vm =3D self._guest
-> +        output =3D ""
-> +        vm.console_socket.setblocking(0)
-> +        while True:
-> +            try:
-> +                chars =3D vm.console_socket.recv(1)
-> +            except:
-> +                break
-> +            output +=3D chars.decode("latin1")
-> +            if "\r" in output or "\n" in output:
-> +                lines =3D re.split("[\r\n]", output)
-> +                output =3D lines.pop()
-> +                if self.debug:
-> +                    self.console_log("\n".join(lines))
-> +        if self.debug:
-> +            self.console_log(output)
-> +        vm.console_socket.setblocking(1)
-> +
->       def console_send(self, command):
->           vm =3D self._guest
->           if self.debug:
+> -    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetB=
+SD-8.0-amd64.iso"
+> +    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetB=
+SD-8.1-amd64.iso"
+>       size =3D "20G"
+>       pkgs =3D [
+>           # tools
 >=20
 
