@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012BBEE6BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 18:57:13 +0100 (CET)
-Received: from localhost ([::1]:36072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A657EE754
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 19:24:47 +0100 (CET)
+Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRgbI-0003GG-0r
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 12:57:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
+	id 1iRh1y-0002H8-CW
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 13:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iRgZA-0001Hq-OU
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:55:01 -0500
+ (envelope-from <liq3ea@163.com>) id 1iRh0b-0001E9-Pw
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:23:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iRgZ8-00051v-PM
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:55:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35572
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <liq3ea@163.com>) id 1iRh0W-0000NF-2y
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:23:17 -0500
+Received: from m12-12.163.com ([220.181.12.12]:50312)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iRgZ7-00051R-I7
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:54:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572890097;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Cqlt20Il8WW6eeXgRwt499k4JduQVeSXESVFwzxNW40=;
- b=jWhP79DiDjX0y+zXr14wPPUqQ1CFiSyU4z2wl1CWArSm6EDavMDV52IRJ2vJZqqfMRpP3J
- wq7pQSQkKGZTQqcxlO+55lsQpVQruTxP1Pd2rzt6y/jJzE3/qdm6iXR4tlKlPMVtj5mzw+
- tfkTObocXbGdB6TvXNUBEUhGPfOaSa0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-2DgAGRniNP2G58qR5v6U6A-1; Mon, 04 Nov 2019 12:54:53 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A0161005500;
- Mon,  4 Nov 2019 17:54:52 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9840D60136;
- Mon,  4 Nov 2019 17:54:41 +0000 (UTC)
-Message-ID: <91caef5769cc3c60a79592ddb3695c883edd9bc0.camel@redhat.com>
-Subject: Re: [PATCH v2 0/2] block/nvme: add support for write zeros and discard
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: John Snow <jsnow@redhat.com>, Max Reitz <mreitz@redhat.com>, 
- qemu-devel@nongnu.org
-Date: Mon, 04 Nov 2019 19:54:41 +0200
-In-Reply-To: <c3c30afc-9e28-fa10-9159-8843e5375d84@redhat.com>
-References: <20190913133627.28450-1-mlevitsk@redhat.com>
- <24390891-6aef-f457-7648-71846360a09c@redhat.com>
- <c3c30afc-9e28-fa10-9159-8843e5375d84@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 2DgAGRniNP2G58qR5v6U6A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <liq3ea@163.com>) id 1iRh0U-0000Gj-To
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:23:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=MIME-Version:From:Subject:Date:Message-Id; bh=M9BWe
+ r0vcLDAdeZ22XkCMo2MP1isMdn5SBnBrgyhGiM=; b=nxHbQbjXBuUjQ+D98b1Dj
+ tOXGrHTgzAqLQ6D7Vli/1PY2t/Xl3u/xkVaa/fM+N+jE6LfFulPZa05DXroJxaYJ
+ 39QF+y+it3oIbONLFrzR82SYVo250ruTW4WDRmIgMIWTJnE12M1SNIsyxnTIFsFx
+ eGSoWlTmeKmfV3E391kAZA=
+Received: from [IPv6:::ffff:192.168.0.7] (unknown [115.204.244.11])
+ by smtp8 (Coremail) with SMTP id DMCowABXHvNqVMBdVkvORw--.48551S3;
+ Tue, 05 Nov 2019 00:40:11 +0800 (CST)
+MIME-Version: 1.0
+To: Alex Williamson <alex.l.williamson@gmail.com>, 
+ "eric.auger@redhat.com" <eric.auger@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "liq3ea@gmail.com" <liq3ea@gmail.com>
+From: Li Qiang <liq3ea@163.com>
+Subject: Questions about the VFIO BAR region
+Date: Tue, 5 Nov 2019 00:40:39 +0800
+Importance: normal
+X-Priority: 3
+Content-Type: multipart/alternative;
+ boundary="_0B207E59-83CD-4C1A-836C-BB915ECC71F1_"
+X-CM-TRANSID: DMCowABXHvNqVMBdVkvORw--.48551S3
+Message-Id: <5DC05485.008EAA.00665@m12-12.163.com>
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKryfuFW5AFWfKry8CF48WFg_yoWxZwcEg3
+ 47Crykt3y8Wr4fZ3W3XF45Jws2va17WFZ7Gr1UXFs7tFWFg3ZY9r4vkr1qkF1jqay3Ar45
+ tr4rGa18Kr1UWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8iSdDUUUUU==
+X-Originating-IP: [115.204.244.11]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiTwVjbVsGSA9Y2gAAsc
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 220.181.12.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +62,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2019-10-29 at 09:33 -0400, John Snow wrote:
->=20
-> On 10/28/19 6:35 AM, Max Reitz wrote:
-> > On 13.09.19 15:36, Maxim Levitsky wrote:
-> > > This is the second part of the patches I prepared
-> > > for this driver back when I worked on mdev-nvme.
-> > >=20
-> > > V2: addressed review feedback, no major changes
-> > >=20
-> > > Best regards,
-> > > =09Maxim Levitsky
-> > >=20
-> > > Maxim Levitsky (2):
-> > >   block/nvme: add support for write zeros
-> > >   block/nvme: add support for discard
-> > >=20
-> > >  block/nvme.c         | 155 +++++++++++++++++++++++++++++++++++++++++=
-+-
-> > >  block/trace-events   |   3 +
-> > >  include/block/nvme.h |  19 +++++-
-> > >  3 files changed, 175 insertions(+), 2 deletions(-)
-> >=20
-> > Thanks, fixed the indentation in nvme.h in patch 1, and applied to my
-> > block branch:
-> >=20
-> > https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-> >=20
-> > For the record, I don=E2=80=99t think !!x has benefits over x !=3D 0 an=
-d I
-> > personally prefer bool y =3D x over any of it. O:-)
-> >=20
->=20
-> Well, that's even better :) For me, it's about making booleans obvious
-> as booleans and that's all.
->=20
-> --js
-Thanks to all of you!!
-Best regards,
-=09Maxim Levitsky
+--_0B207E59-83CD-4C1A-836C-BB915ECC71F1_
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+Hello Alex, Auger and all,
+
+I have a question about the VFIO virtual device BAR.
+
+In vfio_region_setup, it initialize a =E2=80=98region->mem=E2=80=99 MR and =
+set its ops to =E2=80=98vfio_regions_ops=E2=80=99.=20
+In =E2=80=98vfio_region_mmap=E2=80=99, it maps the physical device=E2=80=99=
+s MMIO to QEMU=E2=80=99s virtual address space=20
+as a raw MR =E2=80=98region->mmaps[i].mem=E2=80=99.=20
+And also it set the latter MR as a subregion of the first one.
+
+So when the guest accesses the BAR, it will direct go to the physical devic=
+e=E2=80=99s BAR.
+My question is here:
+When the qemu will use the =E2=80=98vfio_regions_ops=E2=80=99 to read/write=
+ the BAR?
+Also whey in the last of =E2=80=98vfio_region_write/read=E2=80=99 we need t=
+o call =E2=80=98vbasedev->ops->vfio_eoi(vbasedev);=E2=80=99?
+
+
+Thanks,
+Li Qiang
+
+
+--_0B207E59-83CD-4C1A-836C-BB915ECC71F1_
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="utf-8"
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
+tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
+=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:DengXian;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style></head><body lang=3DZH-CN link=3Dblue vlink=3D"#954F72"><div cla=
+ss=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-US>Hello Alex, Auger=
+ and all,</span></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:=
+p></span></p><p class=3DMsoNormal><span lang=3DEN-US>I have a question abou=
+t the VFIO virtual device BAR.</span></p><p class=3DMsoNormal><span lang=3D=
+EN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US>I=
+n vfio_region_setup, it initialize a =E2=80=98region-&gt;mem=E2=80=99 MR an=
+d set its ops to =E2=80=98vfio_regions_ops=E2=80=99. </span></p><p class=3D=
+MsoNormal><span lang=3DEN-US>In =E2=80=98vfio_region_mmap=E2=80=99, it maps=
+ the physical device=E2=80=99s MMIO to QEMU=E2=80=99s virtual address space=
+ </span></p><p class=3DMsoNormal><span lang=3DEN-US>as a raw MR =E2=80=98re=
+gion-&gt;mmaps[i].mem=E2=80=99. </span></p><p class=3DMsoNormal><span lang=
+=3DEN-US>And also it set the latter MR as a subregion of the first one.</sp=
+an></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p>=
+<p class=3DMsoNormal><span lang=3DEN-US>So when the guest accesses the BAR,=
+ it will direct go to the physical device=E2=80=99s BAR.</span></p><p class=
+=3DMsoNormal><span lang=3DEN-US>My question is here:</span></p><p class=3DM=
+soNormal><span lang=3DEN-US>When the qemu will use the =E2=80=98vfio_region=
+s_ops=E2=80=99 to read/write the BAR?</span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>Also whey in the last of =E2=80=98vfio_region_write/read=E2=80=
+=99 we need to call =E2=80=98vbasedev-&gt;ops-&gt;vfio_eoi(vbasedev);=E2=80=
+=99?</span></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></s=
+pan></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p=
+><p class=3DMsoNormal><span lang=3DEN-US>Thanks,</span></p><p class=3DMsoNo=
+rmal><span lang=3DEN-US>Li Qiang</span></p><p class=3DMsoNormal><span lang=
+=3DEN-US style=3D'font-size:12.0pt;font-family:SimSun'><o:p>&nbsp;</o:p></s=
+pan></p></div></body></html>=
+
+--_0B207E59-83CD-4C1A-836C-BB915ECC71F1_--
+
 
 
