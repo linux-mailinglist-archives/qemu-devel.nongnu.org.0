@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C268EEE751
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 19:23:56 +0100 (CET)
-Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4079EE75F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 19:27:45 +0100 (CET)
+Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRh19-0001S4-6f
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 13:23:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42341)
+	id 1iRh4q-00043D-RW
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 13:27:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iRh0D-0000tK-OC
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:22:59 -0500
+ (envelope-from <philmd@redhat.com>) id 1iRh3d-0003D2-3j
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:26:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iRh0B-0000Di-6y
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:22:56 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:57876)
+ (envelope-from <philmd@redhat.com>) id 1iRh3b-0001sS-Sn
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:26:29 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:35110)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iRh0A-0000DD-Up
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:22:55 -0500
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iRh3b-0001sE-K1
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:26:27 -0500
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 791555BEC9
- for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 18:22:53 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id l184so6399113wmf.6
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:22:53 -0800 (PST)
+ by mx1.redhat.com (Postfix) with ESMTPS id B807F59455
+ for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 18:26:26 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id b4so10737542wrn.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:26:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Xoe9hYl1PIGhGPpWOoY3kRoJcFgY9N6NOPUmhhebeZI=;
- b=S9sanoxXrdjQ3KUcsbzdlZrRtsvOHcQucBGnfkPrDlC9LbuMCCGAMAvoPsumiJZ6wv
- p3snjRD1TIPPYnHIskAFBuxIwsHLscEr0KUsDBpRb+f5dWYWUsd31XJxnQF8u3f4g8K3
- sEG5BkQXB2iWO+dYnRCf/1jHfSucZKB1bOt4c5ztamWwzfK7jEa0KiJCxRR2hT++cKkq
- oBjqK5lkfXghKUZHTIG26Jmfi9afAmM/DW9ovw9DgutNWV7S4Z36j+UyQADOF43pOQCz
- 162nEYYi/6k6ENHuXeImonro5nsPTv6BYEjJAVqgVJvvZSnAnTXAEc4of3NxZICUtLVt
- HEdg==
-X-Gm-Message-State: APjAAAX2WEBIrOgFNIm/RxQvuIjWvgzzyipNuobCpmIzkJwvl1vLi6ge
- queLMb5qQviOy5fDbQD8O//KGo4+3uNNueTbCWM/X82v3NS1NEVDGh9+LDASNYHdVGnJH4dgbzK
- RCOhCDYe7gI9iL/k=
-X-Received: by 2002:adf:e387:: with SMTP id e7mr8416095wrm.180.1572891772095; 
- Mon, 04 Nov 2019 10:22:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwfuSiqUAfDJdjgmn5GGxW3A+o12hT52XDahLWG2Y0g2YVsAkK90dQTApjKlGEJdN8KR8gtbA==
-X-Received: by 2002:adf:e387:: with SMTP id e7mr8416076wrm.180.1572891771853; 
- Mon, 04 Nov 2019 10:22:51 -0800 (PST)
+ bh=jEwZitOhASGI6jfO+IEKmX4rfZ1KHdUOxXglec9ylnQ=;
+ b=DrQEM1HwSw69ummGaDAybfXZeLnvYOZNQBaJ7EmwIFObAxSLrz16D29R8encB8ac7M
+ dL7lPsk1h7HNsVCZ78Jx+PQk24PJ2Z090GpUoTohDrFv2xJsgeTcs1nHtPHBmLylai59
+ Io5qLqqbIsYLMG+jJTmW6uArclA9KE8wV6RVNupezdkHfBzM9YTnFbSXDOo96S9/6TA2
+ KC9pRCcdU/+7MOGLhSTwcbCJdsqGCpG4a4kIV6Ij4a3pXRxPKFnY3wgSDwPAELnvIdim
+ wIVBGwoG5e2qpX53MT+0sFsP7mKq56lXk6x7SnBLh2fKltJZd1Ts8S4GJ3sC0bv9B6UP
+ IU1w==
+X-Gm-Message-State: APjAAAVe+bXylCqBcVY+AYD0Mjwv7VStnhLRPbxxs+ng+y/cH5uSbxIh
+ aEkrnCHprl1IiZBwb3Hw7qAek2v2iSlgw4QYu7xYiIdG6090hikcpGYHcxiJEcndYeGph+siyh7
+ YoesvI+jsN01lIyk=
+X-Received: by 2002:a1c:2344:: with SMTP id j65mr461217wmj.38.1572891985504;
+ Mon, 04 Nov 2019 10:26:25 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzS16ffa7flNjeHiaFWlh35xbhQf7axhpcmmgEBIKFlgDjQaDVMGBG1BVsOOOpLg2mx+0JB9g==
+X-Received: by 2002:a1c:2344:: with SMTP id j65mr461195wmj.38.1572891985288;
+ Mon, 04 Nov 2019 10:26:25 -0800 (PST)
 Received: from [192.168.1.24] (lfbn-1-7864-228.w92-167.abo.wanadoo.fr.
  [92.167.33.228])
- by smtp.gmail.com with ESMTPSA id t13sm11278399wrr.88.2019.11.04.10.22.50
+ by smtp.gmail.com with ESMTPSA id a8sm20603117wme.11.2019.11.04.10.26.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Nov 2019 10:22:51 -0800 (PST)
-Subject: Re: [PATCH v7 1/8] Acceptance test x86_cpu_model_versions: use
- default vm
+ Mon, 04 Nov 2019 10:26:24 -0800 (PST)
+Subject: Re: [PATCH v7 4/8] Acceptance tests: use relative location for tests
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20191104151323.9883-1-crosa@redhat.com>
- <20191104151323.9883-2-crosa@redhat.com>
+ <20191104151323.9883-5-crosa@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <17a6c15f-9846-e443-e1a7-5fb4e8728a29@redhat.com>
-Date: Mon, 4 Nov 2019 19:22:49 +0100
+Message-ID: <adf94475-b241-e8d9-afd6-2b5992d0b9f9@redhat.com>
+Date: Mon, 4 Nov 2019 19:26:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191104151323.9883-2-crosa@redhat.com>
+In-Reply-To: <20191104151323.9883-5-crosa@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -93,189 +92,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/4/19 4:13 PM, Cleber Rosa wrote:
-> The default vm provided by the test, available as self.vm, serves the
-> same purpose of the one obtained by self.get_vm(), but saves a line
-> and matches the style of other tests.
+> An Avocado Test ID[1] is composed by a number of components, but it
+> starts with the Test Name, usually a file system location that was
+> given to the loader.
+>=20
+> Because the source directory is being given as a prefix to the
+> "tests/acceptance" directory containing the acceptance tests, the test
+> names will needlessly include the directory the user is using to host
+> the QEMU sources (and/or build tree).
+>=20
+> Let's remove the source dir (or a build dir) from the path given to
+> the test loader.  This should give more constant names, and when using
+> result servers and databases, it should give the same test names
+> across executions from different people or from different directories.
+
+Can we strip the full path to directory and only keep the filename in=20
+the database? (Thinking about out-of-tree tests).
+
+>=20
+> [1] - https://avocado-framework.readthedocs.io/en/69.0/ReferenceGuide.h=
+tml#test-id
 >=20
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->   tests/acceptance/x86_cpu_model_versions.py | 100 ++++++++++----------=
--
->   1 file changed, 46 insertions(+), 54 deletions(-)
+>   tests/Makefile.include | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/accepta=
-nce/x86_cpu_model_versions.py
-> index 5fc9ca4bc6..6eb977954d 100644
-> --- a/tests/acceptance/x86_cpu_model_versions.py
-> +++ b/tests/acceptance/x86_cpu_model_versions.py
-> @@ -25,10 +25,6 @@
->   import avocado_qemu
->   import re
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 56f73b46e2..65e85f5275 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -1180,7 +1180,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+>               --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_=
+RESULTS_DIR) \
+>               --filter-by-tags-include-empty --filter-by-tags-include-e=
+mpty-key \
+>               $(AVOCADO_TAGS) \
+> -            --failfast=3Don $(SRC_PATH)/tests/acceptance, \
+> +            --failfast=3Don tests/acceptance, \
+>               "AVOCADO", "tests/acceptance")
 >  =20
-> -def get_cpu_prop(vm, prop):
-> -    cpu_path =3D vm.command('query-cpus')[0].get('qom_path')
-> -    return vm.command('qom-get', path=3Dcpu_path, property=3Dprop)
-> -
->   class X86CPUModelAliases(avocado_qemu.Test):
->       """
->       Validation of PC CPU model versions and CPU model aliases
-> @@ -241,78 +237,74 @@ class CascadelakeArchCapabilities(avocado_qemu.Te=
-st):
->  =20
->       :avocado: tags=3Darch:x86_64
->       """
-> +    def get_cpu_prop(self, prop):
-> +        cpu_path =3D self.vm.command('query-cpus')[0].get('qom_path')
-> +        return self.vm.command('qom-get', path=3Dcpu_path, property=3D=
-prop)
-> +
->       def test_4_1(self):
->           # machine-type only:
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.1')
-> -        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,=
-check=3Doff,enforce=3Doff')
-> -        vm.launch()
-> -        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.1')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff')
-> +        self.vm.launch()
-> +        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
->                            'pc-i440fx-4.1 + Cascadelake-Server should n=
-ot have arch-capabilities')
->  =20
->       def test_4_0(self):
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.0')
-> -        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,=
-check=3Doff,enforce=3Doff')
-> -        vm.launch()
-> -        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.0')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff')
-> +        self.vm.launch()
-> +        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
->                            'pc-i440fx-4.0 + Cascadelake-Server should n=
-ot have arch-capabilities')
->  =20
->       def test_set_4_0(self):
->           # command line must override machine-type if CPU model is not=
- versioned:
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.0')
-> -        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,=
-check=3Doff,enforce=3Doff,+arch-capabilities')
-> -        vm.launch()
-> -        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.0')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff,+arch-capabilities')
-> +        self.vm.launch()
-> +        self.assertTrue(self.get_cpu_prop('arch-capabilities'),
->                           'pc-i440fx-4.0 + Cascadelake-Server,+arch-cap=
-abilities should have arch-capabilities')
->  =20
->       def test_unset_4_1(self):
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.1')
-> -        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,=
-check=3Doff,enforce=3Doff,-arch-capabilities')
-> -        vm.launch()
-> -        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.1')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3D=
-on,check=3Doff,enforce=3Doff,-arch-capabilities')
-> +        self.vm.launch()
-> +        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
->                            'pc-i440fx-4.1 + Cascadelake-Server,-arch-ca=
-pabilities should not have arch-capabilities')
->  =20
->       def test_v1_4_0(self):
->           # versioned CPU model overrides machine-type:
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.0')
-> -        vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=3D=
-on,check=3Doff,enforce=3Doff')
-> -        vm.launch()
-> -        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.0')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-featur=
-es=3Don,check=3Doff,enforce=3Doff')
-> +        self.vm.launch()
-> +        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
->                            'pc-i440fx-4.0 + Cascadelake-Server-v1 shoul=
-d not have arch-capabilities')
->  =20
->       def test_v2_4_0(self):
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.0')
-> -        vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=3D=
-on,check=3Doff,enforce=3Doff')
-> -        vm.launch()
-> -        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-> -                         'pc-i440fx-4.0 + Cascadelake-Server-v2 should=
- have arch-capabilities')
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.0')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-featur=
-es=3Don,check=3Doff,enforce=3Doff')
-> +        self.vm.launch()
-> +        self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-> +                        'pc-i440fx-4.0 + Cascadelake-Server-v2 should =
-have arch-capabilities')
->  =20
->       def test_v1_set_4_0(self):
->           # command line must override machine-type and versioned CPU m=
-odel:
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.0')
-> -        vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=3D=
-on,check=3Doff,enforce=3Doff,+arch-capabilities')
-> -        vm.launch()
-> -        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-> -                         'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-=
-capabilities should have arch-capabilities')
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.0')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-featur=
-es=3Don,check=3Doff,enforce=3Doff,+arch-capabilities')
-> +        self.vm.launch()
-> +        self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-> +                        'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-c=
-apabilities should have arch-capabilities')
->  =20
->       def test_v2_unset_4_1(self):
-> -        vm =3D self.get_vm()
-> -        vm.add_args('-S')
-> -        vm.set_machine('pc-i440fx-4.1')
-> -        vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=3D=
-on,check=3Doff,enforce=3Doff,-arch-capabilities')
-> -        vm.launch()
-> -        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-> +        self.vm.add_args('-S')
-> +        self.vm.set_machine('pc-i440fx-4.1')
-> +        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-featur=
-es=3Don,check=3Doff,enforce=3Doff,-arch-capabilities')
-> +        self.vm.launch()
-> +        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
->                            'pc-i440fx-4.1 + Cascadelake-Server-v2,-arch=
--capabilities should not have arch-capabilities')
+>   # Consolidated targets
 >=20
 
