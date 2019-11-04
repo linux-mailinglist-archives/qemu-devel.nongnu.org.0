@@ -2,50 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BACEE4FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 17:44:25 +0100 (CET)
-Received: from localhost ([::1]:35260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463BBEE466
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 17:09:30 +0100 (CET)
+Received: from localhost ([::1]:34856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRfSq-0003je-6T
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 11:44:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
+	id 1iRev1-0003lt-86
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 11:09:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49485)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iRfPi-0000zQ-FX
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:13 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRetH-0002uz-IU
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:07:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iRfPg-000712-EH
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:09 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37967 helo=ozlabs.org)
+ (envelope-from <mreitz@redhat.com>) id 1iRetF-000801-83
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:07:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60606
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iRfPc-0006z4-PV
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:07 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 476JT73XkQz9sP6; Tue,  5 Nov 2019 03:40:58 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1572885659;
- bh=vIKMWest0STGnzzRZ9KejAXGHa/cjp9qNzwMlqZWirM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jge5uPgNcHFezpGI0gRgOENOd8HFtHMkY4rhuRmqgx21fJvMlGhhMcluWhzKRTdOW
- R6Ws/KzI/PmK2mSQps7ZlBOGOAMp0OX+o9AW5H1vRslVVl75yo6hVK/5iY+ZI8kmBB
- FH6O6x4AlmE7aWrmT4gLppg0jHxH/YPmHwUXJPpQ=
-Date: Mon, 4 Nov 2019 17:02:28 +0100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Liu Yi L <yi.l.liu@intel.com>
-Subject: Re: [RFC v2 14/22] vfio/pci: add iommu_context notifier for pasid
- bind/unbind
-Message-ID: <20191104160228.GG3552@umbus.metropole.lan>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
- <1571920483-3382-15-git-send-email-yi.l.liu@intel.com>
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRetF-0007yv-4X
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:07:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572883656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NPJR68hHe4r6AMvwTHR3gJ/D+6q9Dpd3AOXqunrCS5s=;
+ b=NhDLZ03/E9JSoDG2KND/QSJ2R9EQYEbI/sJ7fVqEEUIG78RNk7Zx4CMMaYO5WjZsPPJie2
+ Lbjb3sv8wlGmdPTV7w4fxZeBmHgzABgEAN2tcd7ogAomi71KmN4kEzP2quPn3bJxJ5JukV
+ opzcE1+zfGGh5lyup9EIQfYdxXOECwc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-OAVMgQWoOmehehRgKlJ_cQ-1; Mon, 04 Nov 2019 11:07:32 -0500
+X-MC-Unique: OAVMgQWoOmehehRgKlJ_cQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC02B1005500;
+ Mon,  4 Nov 2019 16:07:31 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C76660136;
+ Mon,  4 Nov 2019 16:07:25 +0000 (UTC)
+Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
+To: Alberto Garcia <berto@igalia.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191025095849.25283-1-mreitz@redhat.com>
+ <02291bca-67d2-ed30-ac34-17641afbe397@virtuozzo.com>
+ <d1b43c24-a443-dd19-6814-11eec43e943a@virtuozzo.com>
+ <0f75cbcf-e6c7-c74c-972b-22e7760a8b5c@redhat.com>
+ <w51r22nspqp.fsf@maestria.local.igalia.com>
+ <7ed9b8f0-2d8c-7bac-185e-9a1dd68fcce8@redhat.com>
+ <w51mudbsmk7.fsf@maestria.local.igalia.com>
+ <5b67cf39-0ea1-d205-0e96-7b1148c7df19@redhat.com>
+ <w51k18fskul.fsf@maestria.local.igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d85f6e4f-c1b4-43a4-18a5-918de81b5ac6@redhat.com>
+Date: Mon, 4 Nov 2019 17:07:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <w51k18fskul.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="X0vpKvTpCy87tk9a"
-Content-Disposition: inline
-In-Reply-To: <1571920483-3382-15-git-send-email-yi.l.liu@intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+ protocol="application/pgp-signature";
+ boundary="4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,162 +106,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com, jacob.jun.pan@linux.intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
- jun.j.tian@intel.com, qemu-devel@nongnu.org, peterx@redhat.com,
- eric.auger@redhat.com, alex.williamson@redhat.com, pbonzini@redhat.com,
- yi.y.sun@intel.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y
+Content-Type: multipart/mixed; boundary="at2vdsbXzrfERnlCrUQFCXl0SEhWOJOZ3"
 
---X0vpKvTpCy87tk9a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--at2vdsbXzrfERnlCrUQFCXl0SEhWOJOZ3
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 08:34:35AM -0400, Liu Yi L wrote:
-> This patch adds notifier for pasid bind/unbind. VFIO registers this
-> notifier to listen to the dual-stage translation (a.k.a. nested
-> translation) configuration changes and propagate to host. Thus vIOMMU
-> is able to set its translation structures to host.
+On 04.11.19 16:49, Alberto Garcia wrote:
+> On Mon 04 Nov 2019 04:14:56 PM CET, Max Reitz wrote:
 >=20
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Yi Sun <yi.y.sun@linux.intel.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> ---
->  hw/vfio/pci.c            | 39 +++++++++++++++++++++++++++++++++++++++
->  include/hw/iommu/iommu.h | 11 +++++++++++
->  2 files changed, 50 insertions(+)
+>>>> No, what I meant was that the original problem that led to
+>>>> c8bb23cbdbe would go away.
+>>>
+>>> Ah, right. Not quite, according to my numbers:
+>>>
+>>> |--------------+----------------+-----------------+-------------|
+>>> | Cluster size | subclusters=3Don | subclusters=3Doff | fallocate() |
+>>> |--------------+----------------+-----------------+-------------|
+>>> |       256 KB |     10182 IOPS |        966 IOPS |  14007 IOPS |
+>>> |       512 KB |      7919 IOPS |        563 IOPS |  13442 IOPS |
+>>> |      1024 KB |      5050 IOPS |        465 IOPS |  13887 IOPS |
+>>> |      2048 KB |      2465 IOPS |        271 IOPS |  13885 IOPS |
+>>> |--------------+----------------+-----------------+-------------|
+>>>
+>>> There's obviously no backing image, and only the last column uses
+>>> handle_alloc_space() / fallocate().
+>>
+>> Thanks for providing some numbers!
+>>
+>> It was my impression, too, that subclusters wouldn=E2=80=99t solve it.  =
+But it
+>> didn=E2=80=99t seem like that big of a difference to me.  Did you run th=
+is
+>> with aio=3Dnative?  (Because that=E2=80=99s where we have the XFS proble=
+m)
 >=20
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 8721ff6..012b8ed 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2767,6 +2767,41 @@ static void vfio_iommu_pasid_free_notify(IOMMUCTXN=
-otifier *n,
->      pasid_req->free_result =3D ret;
->  }
-> =20
-> +static void vfio_iommu_pasid_bind_notify(IOMMUCTXNotifier *n,
-> +                                         IOMMUCTXEventData *event_data)
-> +{
-> +#ifdef __linux__
+> Here's with aio=3Dnative
+>=20
+> |--------------+----------------+-----------------+-------------|
+> | Cluster size | subclusters=3Don | subclusters=3Doff | fallocate() |
+> |--------------+----------------+-----------------+-------------|
+> |       256 KB |     19897 IOPS |        891 IOPS |  32194 IOPS |
+> |       512 KB |     17881 IOPS |        436 IOPS |  33092 IOPS |
+> |      1024 KB |     17050 IOPS |        341 IOPS |  32768 IOPS |
+> |      2048 KB |      7854 IOPS |        207 IOPS |  30944 IOPS |
+> |--------------+----------------+-----------------+-------------|
 
-Is hw/vfio/pci.c even built on non-linux hosts?
+OK, thanks again. :-)
 
-> +    VFIOIOMMUContext *giommu_ctx =3D container_of(n, VFIOIOMMUContext, n=
-);
-> +    VFIOContainer *container =3D giommu_ctx->container;
-> +    IOMMUCTXPASIDBindData *pasid_bind =3D
-> +                              (IOMMUCTXPASIDBindData *) event_data->data;
-> +    struct vfio_iommu_type1_bind *bind;
-> +    struct iommu_gpasid_bind_data *bind_data;
-> +    unsigned long argsz;
-> +
-> +    argsz =3D sizeof(*bind) + sizeof(*bind_data);
-> +    bind =3D g_malloc0(argsz);
-> +    bind->argsz =3D argsz;
-> +    bind->bind_type =3D VFIO_IOMMU_BIND_GUEST_PASID;
-> +    bind_data =3D (struct iommu_gpasid_bind_data *) &bind->data;
-> +    *bind_data =3D *pasid_bind->data;
-> +
-> +    if (pasid_bind->flag & IOMMU_CTX_BIND_PASID) {
-> +        if (ioctl(container->fd, VFIO_IOMMU_BIND, bind) !=3D 0) {
-> +            error_report("%s: pasid (%llu:%llu) bind failed: %d", __func=
-__,
-> +                         bind_data->gpasid, bind_data->hpasid, -errno);
-> +        }
-> +    } else if (pasid_bind->flag & IOMMU_CTX_UNBIND_PASID) {
-> +        if (ioctl(container->fd, VFIO_IOMMU_UNBIND, bind) !=3D 0) {
-> +            error_report("%s: pasid (%llu:%llu) unbind failed: %d", __fu=
-nc__,
-> +                         bind_data->gpasid, bind_data->hpasid, -errno);
-> +        }
-> +    }
-> +
-> +    g_free(bind);
-> +#endif
-> +}
-> +
->  static void vfio_realize(PCIDevice *pdev, Error **errp)
->  {
->      VFIOPCIDevice *vdev =3D PCI_VFIO(pdev);
-> @@ -3079,6 +3114,10 @@ static void vfio_realize(PCIDevice *pdev, Error **=
-errp)
->                                           iommu_context,
->                                           vfio_iommu_pasid_free_notify,
->                                           IOMMU_CTX_EVENT_PASID_FREE);
-> +        vfio_register_iommu_ctx_notifier(vdev,
-> +                                         iommu_context,
-> +                                         vfio_iommu_pasid_bind_notify,
-> +                                         IOMMU_CTX_EVENT_PASID_BIND);
->      }
-> =20
->      return;
-> diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
-> index 4352afd..4f21aa1 100644
-> --- a/include/hw/iommu/iommu.h
-> +++ b/include/hw/iommu/iommu.h
-> @@ -33,6 +33,7 @@ typedef struct IOMMUContext IOMMUContext;
->  enum IOMMUCTXEvent {
->      IOMMU_CTX_EVENT_PASID_ALLOC,
->      IOMMU_CTX_EVENT_PASID_FREE,
-> +    IOMMU_CTX_EVENT_PASID_BIND,
->      IOMMU_CTX_EVENT_NUM,
->  };
->  typedef enum IOMMUCTXEvent IOMMUCTXEvent;
-> @@ -50,6 +51,16 @@ union IOMMUCTXPASIDReqDesc {
->  };
->  typedef union IOMMUCTXPASIDReqDesc IOMMUCTXPASIDReqDesc;
-> =20
-> +struct IOMMUCTXPASIDBindData {
-> +#define IOMMU_CTX_BIND_PASID   (1 << 0)
-> +#define IOMMU_CTX_UNBIND_PASID (1 << 1)
-> +    uint32_t flag;
-> +#ifdef __linux__
-> +    struct iommu_gpasid_bind_data *data;
+So it seems right not to revert the commit and just work around the XFS
+bug in file-posix.
 
-Embedding a linux specific structure in the notification message seems
-dubious to me.
+Max
 
-> +#endif
-> +};
-> +typedef struct IOMMUCTXPASIDBindData IOMMUCTXPASIDBindData;
-> +
->  struct IOMMUCTXEventData {
->      IOMMUCTXEvent event;
->      uint64_t length;
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+--at2vdsbXzrfERnlCrUQFCXl0SEhWOJOZ3--
 
---X0vpKvTpCy87tk9a
+--4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3AS5EACgkQbDjKyiDZ
-s5Kjjg//SUCBaBa2SSgTf/kKJo38JdT5/wTHBsadIfvCkelJq+phiHV0lY2PVy+T
-Uz3CYiuzui10CwhwKy35mKttLUZ9hBiIJkt7edNMPmCvvMnNuD0bp7stgdYXMfh0
-D/WyD0yh7eBNppMqwe7eXUVWLMtD53593Ki1FevulZf9/cvimx6Pyg9/FHBGZy/R
-kexEMOIZzgtAO2LMDb2M80zqb0UYmG52S/7nU/ijP7zUSS3kvLlp6RlBWGZLotxu
-PK7Qn0/RKecENGKkedK35QFpfGkPDCf8llC6XoNUA/QyfNxqZfuaG+3keUfGNE+Y
-bH5ycYAI0mE7g10sDye90BAptmGPdiJg7bs4qzikbFGDDkf4GuHHDiKLKHBBHWaf
-5UVj3erqaILxztjxUWvwVNTaQA29WQ9MCLGIEtDoKyTOBIk1lrl9Y+GJ6tMA7fFk
-gZR+kh6XvUNr6rYLcFLyAPkGVARuyt5fVT7C0+Xxhg/XAA3jyTIRivolynkPBVmY
-9frrH5+MesRJd69ZJL76MS8VCYVENoqGOYM54yum8aY59stZtk4cpStrYNkFnBkV
-9+iAvQcTWifi+Pjy1K0tu2HJJLUBYRSDS8s1oI++985iP0X9r4LQs1j32dDPRDTq
-JJsx/0gjXg6P9O9dwZrd22WSUvhL4Wg58K82j3koJGL5tSrr4Ho=
-=Bqsb
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3ATLsACgkQ9AfbAGHV
+z0CjdAgAoq373MT6LTDhtJJsA8Q71GTjOzWvj5uAb1EvcpE1kOJiG5yhdLZuD0C5
+Zm3ggzd4PPQ2Ev0Wj+q4A2RsF3opFB6/Txnxay3lAD+npFUHdgb6OkOU/0De2UCI
+nsYCOSSkeQgTVi6s8RQ2kUhz/cX2YSwUz2EeH1TiRm97UTLxFgCusYYnuzhIKEUy
+hF6Snsv3YuYHHFiMg2aA4285PuFFDJNfBzwKrGTdtroBFOVCZSZgfz3vedi/BB7U
+sSWp5rUvayC8wSbP1fDOdpLsdrytqRzwcjc3OAZSneIExrBTIwn6LAmL3k+eqwhR
+CWCnQSdmai8mdw1ohJpuqRQGTUnz0g==
+=V/Yo
 -----END PGP SIGNATURE-----
 
---X0vpKvTpCy87tk9a--
+--4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y--
+
 
