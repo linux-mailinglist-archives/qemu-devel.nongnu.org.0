@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB05EE4BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 17:37:28 +0100 (CET)
-Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4790AEE4F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 17:43:25 +0100 (CET)
+Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRfM6-0007PW-IO
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 11:37:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54679)
+	id 1iRfRs-0002Nf-8V
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 11:43:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iRfKv-0006yB-SM
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:36:15 -0500
+ (envelope-from <christophe.lyon@linaro.org>) id 1iRfQ7-0001On-L9
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iRfKt-0004iO-NN
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:36:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34745
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iRfKt-0004iC-J3
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:36:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572885370;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=57JDcIVaHGwNxgl+VxFNaIB66V1m6c5dml0/RyqUMYw=;
- b=HhEQ1XhsW4min1FiaBGMy8bKhKMGWlySvNYfekrH+Mz5MfBpJuV3Zi5HJB/HjdiA8sAMFH
- +QdndU45arEGXgd0uejMA+Pj7cprs0fKVI/B0Y4r2tL49Ng245fzQJgzb0nA4P7Zv5ySFM
- HqXSBx9UGBF6NsfUo/IQw5oh+qmftZo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-o_UwBjCWMgqYUbQh_Ma1EQ-1; Mon, 04 Nov 2019 11:36:07 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6874107ACC3;
- Mon,  4 Nov 2019 16:36:06 +0000 (UTC)
-Received: from work-vm (ovpn-117-99.ams2.redhat.com [10.36.117.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D7E560C88;
- Mon,  4 Nov 2019 16:35:59 +0000 (UTC)
-Date: Mon, 4 Nov 2019 16:35:56 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: geoff@hostfission.com
-Subject: Re: RFC: New device for zero-copy VM memory access
-Message-ID: <20191104163556.GD3420@work-vm>
-References: <88f1c3701740665b0ebe2f24c8ce7ade@hostfission.com>
- <20191031132443.GB3128@work-vm>
- <b36330ecd38ce872982df4d41d3d4695@hostfission.com>
- <CAFEAcA8uWCQY8GwtH4oHU8ybXsvmYaB4Qa5hnxyd+344WFjJ_Q@mail.gmail.com>
- <b87d5b2fb84ac0a3c98a62dcc0c19077@hostfission.com>
- <20191031155204.GD3128@work-vm>
- <cd00c2ba412361d707ab02575d74aacd@hostfission.com>
- <e23eb129dddc5d18bb9f9b15d116f957@hostfission.com>
- <20191104115546.GB3420@work-vm>
- <9b49de1379825ac1445766f4a8d198dc@hostfission.com>
+ (envelope-from <christophe.lyon@linaro.org>) id 1iRfQ5-0007Nf-W0
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:35 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:38806)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <christophe.lyon@linaro.org>)
+ id 1iRfQ5-0007M6-Na
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:33 -0500
+Received: by mail-lj1-x242.google.com with SMTP id v8so2732653ljh.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 08:41:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xF3cI8UG4B/CG7eveBfsOnF9gKQtSTS81LbJuWT86OA=;
+ b=kiljoHm4esglX3aaDxIvRwsdJ4x5abu4KuJzgjw5yWTuRZ6rguh2jEmGXRVw3XYL37
+ SeVwVz4TBMg41dKrgf6Cm4UPtlSo+uJzk4is0/p3Cp90MhVrQGjBrht1onGof8Z7yGm8
+ ZssfRqR61tTpFWtSr1NS0wh2lqRFJgZCCKWaoWxVTAn4qo5gUK7Ir13KS73C3d6sUeGu
+ tbpwqhKx80EMytoetzeqaidJRfaetIv5veZOL1mZWptdjHhsoMSVUDw+M1m6ay+ZzmGC
+ GuAfwPMwcF0OyVZ4t5stRUOJzLICp34mf/iKiENMjZAhtotGiG3NGyUD/aaMRNJcRe4c
+ RLWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xF3cI8UG4B/CG7eveBfsOnF9gKQtSTS81LbJuWT86OA=;
+ b=RpHWas4rww+0xB41BC9i1AIh2QpEE68sv3xJPpvCQ5RRm3GIGmzsy8MYsAis1ll1Pc
+ xt6uGvR3viqdFMm8po0asO/yw5CD3DQZeSQ49ep4UPc6OhujcNmQ4QdxfY0r47Ej03Rs
+ 9qZsY9vcDTPx7aH63qgJ3GYph4E0oQuSK/YbWbCRwya3FySqTaO6QjyLfpwVjhC/cVND
+ u0BVKYznPcylMVW7a0SE9cGo8GiI2reXu7Cgn4kQmV/gXregdVC3kXd+qVmdXoQyHduB
+ su7wTnOVFcyK2GA2ScYtaIXD56jfa4LT+JFGBvd3NFDUf9mBW8VSBLePHKQ6WHxVAZpn
+ nt9Q==
+X-Gm-Message-State: APjAAAUwdY2QBDjPvV2K2C6a7xvF0yKCecBE3h+Hhr3mslmNDQ0pr+Xb
+ 5LlljePr8Xw3MCqanRbI0qg2FWRSx3skyq7w9NimqSo8
+X-Google-Smtp-Source: APXvYqzrg0HeID6zxYhMe/i366ehlFX6D9VN7hjAB8ynQ7E8QnyuhIJ2trGpKNCKzeMp9010MhJTzZ6bzSl1D/Fecfg=
+X-Received: by 2002:a2e:91ca:: with SMTP id u10mr17946771ljg.208.1572885691207; 
+ Mon, 04 Nov 2019 08:41:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <9b49de1379825ac1445766f4a8d198dc@hostfission.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: o_UwBjCWMgqYUbQh_Ma1EQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191025090841.10299-1-christophe.lyon@linaro.org>
+In-Reply-To: <20191025090841.10299-1-christophe.lyon@linaro.org>
+From: Christophe Lyon <christophe.lyon@linaro.org>
+Date: Mon, 4 Nov 2019 17:41:20 +0100
+Message-ID: <CAKdteOZ9dYWhL7GDofCTFuYqN+Z60Z_daUAzDTPdhXODTYP9xw@mail.gmail.com>
+Subject: Re: [PING] [PATCH 1/1] target/arm: Add support for cortex-m7 CPU
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,151 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, maxime.coquelin@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* geoff@hostfission.com (geoff@hostfission.com) wrote:
->=20
->=20
-> On 2019-11-04 22:55, Dr. David Alan Gilbert wrote:
-> > * geoff@hostfission.com (geoff@hostfission.com) wrote:
-> > >=20
-> > >=20
-> > > On 2019-11-03 21:10, geoff@hostfission.com wrote:
-> > > > On 2019-11-01 02:52, Dr. David Alan Gilbert wrote:
-> > > > > * geoff@hostfission.com (geoff@hostfission.com) wrote:
-> > > > > >
-> > > > > >
-> > > > > > On 2019-11-01 01:52, Peter Maydell wrote:
-> > > > > > > On Thu, 31 Oct 2019 at 14:26, <geoff@hostfission.com> wrote:
-> > > > > > > > As the author of Looking Glass, I also have to consider the
-> > > > > > > > maintenance
-> > > > > > > > and the complexity of implementing the vhost protocol into =
-the
-> > > > > > > > project.
-> > > > > > > > At this time a complete Porthole client can be implemented =
-in 150
-> > > > > > > > lines
-> > > > > > > > of C without external dependencies, and most of that is boi=
-lerplate
-> > > > > > > > socket code. This IMO is a major factor in deciding to avoi=
-d
-> > > > > > > > vhost-user.
-> > > > > > >
-> > > > > > > This is essentially a proposal that we should make our projec=
-t and
-> > > > > > > code more complicated so that your project and code can be si=
-mpler.
-> > > > > > > I hope you can see why this isn't necessarily an argument tha=
-t will hold
-> > > > > > > very much weight for us :-)
-> > > > > >
-> > > > > > Certainly, I do which is why I am still going to see about usin=
-g
-> > > > > > vhost,
-> > > > > > however, a device that uses vhost is likely more complex then
-> > > > > > the device
-> > > > > > as it stands right now and as such more maintenance would be
-> > > > > > involved on
-> > > > > > your end also. Or have I missed something in that vhost-user ca=
-n
-> > > > > > be used
-> > > > > > directly as a device?
-> > > > >
-> > > > > The basic vhost-user stuff isn't actually that hard;  if you aren=
-'t
-> > > > > actually shuffling commands over the queues you should find it pr=
-etty
-> > > > > simple - so I think your assumption about it being simpler if you
-> > > > > avoid
-> > > > > it might be wrong.  It might be easier if you use it!
-> > > >
-> > > > I have been looking into this and I am yet to find some decent
-> > > > documentation or a simple device example I can use to understand ho=
-w to
-> > > > create such a device. Do you know of any reading or examples I can
-> > > > obtain
-> > > > on how to get an initial do nothing device up and running?
-> > > >
-> > > > -Geoff
-> > >=20
-> > > Scratch that, the design just solidified for me and I am now making
-> > > progress, however it seems that vhost-user can't do what we need here=
-:
-> > >=20
-> > > 1) I dont see any way to recieve notification of socket
-> > > disconnection, in
-> > > our use case the client app needs to be able to be (re)connected
-> > > dynamically. It might be possible to get this event by registering
-> > > it on
-> > > the chardev manually but this seems like it would be a kludge.
-> >=20
-> > My understanding was that someone added support for reconnection of
-> > vhost-user;  I'm not sure of the detail - cc'ing in Maxime and
-> > Marc-Andre.
-> >=20
-> > > 2) I don't see any method of notifying the vhost-user client of the
-> > > removal of a shared memory mapping. Again, these may not be
-> > > persistently
-> > > mapped in the guest as we have no control over the buffer
-> > > allocation, and
-> > > as such, we need a method to notify the client that the mapping has
-> > > become
-> > > invalid.
-> > >=20
-> > > 3) VHOST_USER_SET_MEM_TABLE is a one time request, again this breaks
-> > > our
-> > > usage as we need to change this dynamically at runtime.
-> >=20
-> > I've seen (3) being sent multiple times (It's messy but it happens); so
-> > I think that fixes (2) as well for you.
->=20
-> Yes, but it's ignored.
->=20
->     /*
->      * For non-vring specific requests, like VHOST_USER_SET_MEM_TABLE,
->      * we just need send it once in the first time. For later such
->      * request, we just ignore it.
->      */
->     if (vhost_user_one_time_request(msg->hdr.request) && dev->vq_index !=
-=3D 0)
-> {
->          msg->hdr.flags &=3D ~VHOST_USER_NEED_REPLY_MASK;
->          return 0;
->     }
+ping?
 
-Curious.  I could swear I'd already dealt with multiple copies of this
-message coming over vhost-user and having to deal with it when it did.
-But now I'm confused, isn't vq_index a unique number per queue, so is
-this really stopping it happening multiple times, or just making sure it
-only happens for the first queue?
+http://patchwork.ozlabs.org/patch/1183934/
 
-Dave
-
-> >=20
-> > Dave
-> >=20
-> > > Unless there are viable solutions to these problems there is no way
-> > > that
-> > > vhost-user can be used for this kind of a device.
-> > >=20
-> > > -Geoff
-> > >=20
-> > > >
-> > > > >
-> > > > > Dave
-> > > > >
-> > > > > > >
-> > > > > > > thanks
-> > > > > > > -- PMM
-> > > > > --
-> > > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+On Fri, 25 Oct 2019 at 11:08, Christophe Lyon
+<christophe.lyon@linaro.org> wrote:
+>
+> This is derived from cortex-m4 description, adding DP support and FPv5
+> instructions with the corresponding flags in isar and mvfr2.
+>
+> Checked that it could successfully execute
+> vrinta.f32 s15, s15
+> while cortex-m4 emulation rejects it with "illegal instruction".
+>
+> Signed-off-by: Christophe Lyon <christophe.lyon@linaro.org>
+> ---
+>  target/arm/cpu.c | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 13813fb..ccae849 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1954,6 +1954,37 @@ static void cortex_m4_initfn(Object *obj)
+>      cpu->isar.id_isar6 = 0x00000000;
+>  }
+>
+> +static void cortex_m7_initfn(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +
+> +    set_feature(&cpu->env, ARM_FEATURE_V7);
+> +    set_feature(&cpu->env, ARM_FEATURE_M);
+> +    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
+> +    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
+> +    set_feature(&cpu->env, ARM_FEATURE_VFP4);
+> +    cpu->midr = 0x411fc272; /* r1p2 */
+> +    cpu->pmsav7_dregion = 8;
+> +    cpu->isar.mvfr0 = 0x10110221;
+> +    cpu->isar.mvfr1 = 0x12000011;
+> +    cpu->isar.mvfr2 = 0x00000040;
+> +    cpu->id_pfr0 = 0x00000030;
+> +    cpu->id_pfr1 = 0x00000200;
+> +    cpu->id_dfr0 = 0x00100000;
+> +    cpu->id_afr0 = 0x00000000;
+> +    cpu->id_mmfr0 = 0x00100030;
+> +    cpu->id_mmfr1 = 0x00000000;
+> +    cpu->id_mmfr2 = 0x01000000;
+> +    cpu->id_mmfr3 = 0x00000000;
+> +    cpu->isar.id_isar0 = 0x01101110;
+> +    cpu->isar.id_isar1 = 0x02112000;
+> +    cpu->isar.id_isar2 = 0x20232231;
+> +    cpu->isar.id_isar3 = 0x01111131;
+> +    cpu->isar.id_isar4 = 0x01310132;
+> +    cpu->isar.id_isar5 = 0x00000000;
+> +    cpu->isar.id_isar6 = 0x00000000;
+> +}
+> +
+>  static void cortex_m33_initfn(Object *obj)
+>  {
+>      ARMCPU *cpu = ARM_CPU(obj);
+> @@ -2538,6 +2569,8 @@ static const ARMCPUInfo arm_cpus[] = {
+>                               .class_init = arm_v7m_class_init },
+>      { .name = "cortex-m4",   .initfn = cortex_m4_initfn,
+>                               .class_init = arm_v7m_class_init },
+> +    { .name = "cortex-m7",   .initfn = cortex_m7_initfn,
+> +                             .class_init = arm_v7m_class_init },
+>      { .name = "cortex-m33",  .initfn = cortex_m33_initfn,
+>                               .class_init = arm_v7m_class_init },
+>      { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
+> --
+> 2.7.4
+>
 
