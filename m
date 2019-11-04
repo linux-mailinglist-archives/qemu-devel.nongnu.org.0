@@ -2,99 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463BBEE466
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 17:09:30 +0100 (CET)
-Received: from localhost ([::1]:34856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE52EE4EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 17:42:43 +0100 (CET)
+Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRev1-0003lt-86
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 11:09:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49485)
+	id 1iRfRC-00024G-30
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 11:42:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iRetH-0002uz-IU
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:07:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iRfPi-0000zS-LO
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iRetF-000801-83
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:07:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60606
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iRfPg-00071N-FT
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:41:10 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:38705)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRetF-0007yv-4X
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 11:07:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572883656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NPJR68hHe4r6AMvwTHR3gJ/D+6q9Dpd3AOXqunrCS5s=;
- b=NhDLZ03/E9JSoDG2KND/QSJ2R9EQYEbI/sJ7fVqEEUIG78RNk7Zx4CMMaYO5WjZsPPJie2
- Lbjb3sv8wlGmdPTV7w4fxZeBmHgzABgEAN2tcd7ogAomi71KmN4kEzP2quPn3bJxJ5JukV
- opzcE1+zfGGh5lyup9EIQfYdxXOECwc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-OAVMgQWoOmehehRgKlJ_cQ-1; Mon, 04 Nov 2019 11:07:32 -0500
-X-MC-Unique: OAVMgQWoOmehehRgKlJ_cQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC02B1005500;
- Mon,  4 Nov 2019 16:07:31 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C76660136;
- Mon,  4 Nov 2019 16:07:25 +0000 (UTC)
-Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
-To: Alberto Garcia <berto@igalia.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191025095849.25283-1-mreitz@redhat.com>
- <02291bca-67d2-ed30-ac34-17641afbe397@virtuozzo.com>
- <d1b43c24-a443-dd19-6814-11eec43e943a@virtuozzo.com>
- <0f75cbcf-e6c7-c74c-972b-22e7760a8b5c@redhat.com>
- <w51r22nspqp.fsf@maestria.local.igalia.com>
- <7ed9b8f0-2d8c-7bac-185e-9a1dd68fcce8@redhat.com>
- <w51mudbsmk7.fsf@maestria.local.igalia.com>
- <5b67cf39-0ea1-d205-0e96-7b1148c7df19@redhat.com>
- <w51k18fskul.fsf@maestria.local.igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d85f6e4f-c1b4-43a4-18a5-918de81b5ac6@redhat.com>
-Date: Mon, 4 Nov 2019 17:07:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iRfPe-0006zB-GG; Mon, 04 Nov 2019 11:41:07 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 476JT80VYCz9sCJ; Tue,  5 Nov 2019 03:40:59 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1572885660;
+ bh=RlCYfuAoih8yfcVtkwcNtSpTQh33ZQqXkKFkL++pFVQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ca36G50w6iAPSgz0U3Vcf4VUSEbqofF9zOw7BIZm9RA0GhUJnYAN4JORzrRlU5yxA
+ V0fi+s+cLeBTr1/injGRizIj0PQY0CLTo9dv+k+P0Y8gJOo5NW2R6fpuRRMj0mKpkm
+ 9xj7yw5JU1A79s8W+gqQlsOTO1EPnzqxzvYthOoE=
+Date: Mon, 4 Nov 2019 17:10:54 +0100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Ganesh Goudar <ganeshgr@linux.ibm.com>
+Subject: Re: [PATCH v17 4/7] target/ppc: Build rtas error log upon an MCE
+Message-ID: <20191104161054.GH3552@umbus.metropole.lan>
+References: <20191024074307.22821-1-ganeshgr@linux.ibm.com>
+ <20191024074307.22821-5-ganeshgr@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <w51k18fskul.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ protocol="application/pgp-signature"; boundary="etg/Ry6vb8quy2uR"
+Content-Disposition: inline
+In-Reply-To: <20191024074307.22821-5-ganeshgr@linux.ibm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,88 +56,421 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: arawinda.p@gmail.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y
-Content-Type: multipart/mixed; boundary="at2vdsbXzrfERnlCrUQFCXl0SEhWOJOZ3"
 
---at2vdsbXzrfERnlCrUQFCXl0SEhWOJOZ3
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--etg/Ry6vb8quy2uR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 04.11.19 16:49, Alberto Garcia wrote:
-> On Mon 04 Nov 2019 04:14:56 PM CET, Max Reitz wrote:
+On Thu, Oct 24, 2019 at 01:13:04PM +0530, Ganesh Goudar wrote:
+> From: Aravinda Prasad <arawinda.p@gmail.com>
 >=20
->>>> No, what I meant was that the original problem that led to
->>>> c8bb23cbdbe would go away.
->>>
->>> Ah, right. Not quite, according to my numbers:
->>>
->>> |--------------+----------------+-----------------+-------------|
->>> | Cluster size | subclusters=3Don | subclusters=3Doff | fallocate() |
->>> |--------------+----------------+-----------------+-------------|
->>> |       256 KB |     10182 IOPS |        966 IOPS |  14007 IOPS |
->>> |       512 KB |      7919 IOPS |        563 IOPS |  13442 IOPS |
->>> |      1024 KB |      5050 IOPS |        465 IOPS |  13887 IOPS |
->>> |      2048 KB |      2465 IOPS |        271 IOPS |  13885 IOPS |
->>> |--------------+----------------+-----------------+-------------|
->>>
->>> There's obviously no backing image, and only the last column uses
->>> handle_alloc_space() / fallocate().
->>
->> Thanks for providing some numbers!
->>
->> It was my impression, too, that subclusters wouldn=E2=80=99t solve it.  =
-But it
->> didn=E2=80=99t seem like that big of a difference to me.  Did you run th=
-is
->> with aio=3Dnative?  (Because that=E2=80=99s where we have the XFS proble=
-m)
+> Upon a machine check exception (MCE) in a guest address space,
+> KVM causes a guest exit to enable QEMU to build and pass the
+> error to the guest in the PAPR defined rtas error log format.
 >=20
-> Here's with aio=3Dnative
+> This patch builds the rtas error log, copies it to the rtas_addr
+> and then invokes the guest registered machine check handler. The
+> handler in the guest takes suitable action(s) depending on the type
+> and criticality of the error. For example, if an error is
+> unrecoverable memory corruption in an application inside the
+> guest, then the guest kernel sends a SIGBUS to the application.
+> For recoverable errors, the guest performs recovery actions and
+> logs the error.
 >=20
-> |--------------+----------------+-----------------+-------------|
-> | Cluster size | subclusters=3Don | subclusters=3Doff | fallocate() |
-> |--------------+----------------+-----------------+-------------|
-> |       256 KB |     19897 IOPS |        891 IOPS |  32194 IOPS |
-> |       512 KB |     17881 IOPS |        436 IOPS |  33092 IOPS |
-> |      1024 KB |     17050 IOPS |        341 IOPS |  32768 IOPS |
-> |      2048 KB |      7854 IOPS |        207 IOPS |  30944 IOPS |
-> |--------------+----------------+-----------------+-------------|
+> [Assume SLOF has allocated enough room for rtas error log]
 
-OK, thanks again. :-)
+Is that correct with the SLOF image currently included in qemu?
 
-So it seems right not to revert the commit and just work around the XFS
-bug in file-posix.
+Apart from that detail,
 
-Max
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
 
 
---at2vdsbXzrfERnlCrUQFCXl0SEhWOJOZ3--
 
---4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y
+> ---
+>  hw/ppc/spapr_events.c  | 220 ++++++++++++++++++++++++++++++++++++++++-
+>  hw/ppc/spapr_rtas.c    |  26 +++++
+>  include/hw/ppc/spapr.h |   6 +-
+>  target/ppc/kvm.c       |   4 +-
+>  4 files changed, 253 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 0ce96b86be..db44e09154 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -214,6 +214,104 @@ struct hp_extended_log {
+>      struct rtas_event_log_v6_hp hp;
+>  } QEMU_PACKED;
+> =20
+> +struct rtas_event_log_v6_mc {
+> +#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
+> +    struct rtas_event_log_v6_section_header hdr;
+> +    uint32_t fru_id;
+> +    uint32_t proc_id;
+> +    uint8_t error_type;
+> +#define RTAS_LOG_V6_MC_TYPE_UE                           0
+> +#define RTAS_LOG_V6_MC_TYPE_SLB                          1
+> +#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
+> +#define RTAS_LOG_V6_MC_TYPE_TLB                          4
+> +#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
+> +#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
+> +    uint8_t sub_err_type;
+> +#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
+> +#define RTAS_LOG_V6_MC_UE_IFETCH                         1
+> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
+> +#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
+> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
+> +#define RTAS_LOG_V6_MC_SLB_PARITY                        0
+> +#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
+> +#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
+> +#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
+> +#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
+> +#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
+> +#define RTAS_LOG_V6_MC_TLB_PARITY                        1
+> +#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
+> +#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
+> +    uint8_t reserved_1[6];
+> +    uint64_t effective_address;
+> +    uint64_t logical_address;
+> +} QEMU_PACKED;
+> +
+> +struct mc_extended_log {
+> +    struct rtas_event_log_v6 v6hdr;
+> +    struct rtas_event_log_v6_mc mc;
+> +} QEMU_PACKED;
+> +
+> +struct MC_ierror_table {
+> +    unsigned long srr1_mask;
+> +    unsigned long srr1_value;
+> +    bool nip_valid; /* nip is a valid indicator of faulting address */
+> +    uint8_t error_type;
+> +    uint8_t error_subtype;
+> +    unsigned int initiator;
+> +    unsigned int severity;
+> +};
+> +
+> +static const struct MC_ierror_table mc_ierror_table[] =3D {
+> +{ 0x00000000081c0000, 0x0000000000040000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000080000, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x00000000000c0000, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000100000, true,
+> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000140000, true,
+> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000000081c0000, 0x0000000000180000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, } };
+> +
+> +struct MC_derror_table {
+> +    unsigned long dsisr_value;
+> +    bool dar_valid; /* dar is a valid indicator of faulting address */
+> +    uint8_t error_type;
+> +    uint8_t error_subtype;
+> +    unsigned int initiator;
+> +    unsigned int severity;
+> +};
+> +
+> +static const struct MC_derror_table mc_derror_table[] =3D {
+> +{ 0x00008000, false,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00004000, true,
+> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000800, true,
+> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000400, true,
+> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000080, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PARIT=
+Y */
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+> +{ 0x00000100, true,
+> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, } };
+> +
+> +#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
+> +
+>  typedef enum EventClass {
+>      EVENT_CLASS_INTERNAL_ERRORS     =3D 0,
+>      EVENT_CLASS_EPOW                =3D 1,
+> @@ -622,7 +720,125 @@ void spapr_hotplug_req_remove_by_count_indexed(Spap=
+rDrcType drc_type,
+>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc=
+_id);
+>  }
+> =20
+> -void spapr_mce_req_event(PowerPCCPU *cpu)
+> +static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+> +                                        struct mc_extended_log *ext_elog)
+> +{
+> +    int i;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    uint32_t summary;
+> +    uint64_t dsisr =3D env->spr[SPR_DSISR];
+> +
+> +    summary =3D RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
+> +    if (recovered) {
+> +        summary |=3D RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
+> +    } else {
+> +        summary |=3D RTAS_LOG_DISPOSITION_NOT_RECOVERED;
+> +    }
+> +
+> +    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
+> +        for (i =3D 0; i < ARRAY_SIZE(mc_derror_table); i++) {
+> +            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
+> +                continue;
+> +            }
+> +
+> +            ext_elog->mc.error_type =3D mc_derror_table[i].error_type;
+> +            ext_elog->mc.sub_err_type =3D mc_derror_table[i].error_subty=
+pe;
+> +            if (mc_derror_table[i].dar_valid) {
+> +                ext_elog->mc.effective_address =3D cpu_to_be64(env->spr[=
+SPR_DAR]);
+> +            }
+> +
+> +            summary |=3D mc_derror_table[i].initiator
+> +                        | mc_derror_table[i].severity;
+> +
+> +            return summary;
+> +        }
+> +    } else {
+> +        for (i =3D 0; i < ARRAY_SIZE(mc_ierror_table); i++) {
+> +            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=3D
+> +                    mc_ierror_table[i].srr1_value) {
+> +                continue;
+> +            }
+> +
+> +            ext_elog->mc.error_type =3D mc_ierror_table[i].error_type;
+> +            ext_elog->mc.sub_err_type =3D mc_ierror_table[i].error_subty=
+pe;
+> +            if (mc_ierror_table[i].nip_valid) {
+> +                ext_elog->mc.effective_address =3D cpu_to_be64(env->nip);
+> +            }
+> +
+> +            summary |=3D mc_ierror_table[i].initiator
+> +                        | mc_ierror_table[i].severity;
+> +
+> +            return summary;
+> +        }
+> +    }
+> +
+> +    summary |=3D RTAS_LOG_INITIATOR_CPU;
+> +    return summary;
+> +}
+> +
+> +static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+> +{
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    CPUState *cs =3D CPU(cpu);
+> +    uint64_t rtas_addr;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> +    target_ulong msr =3D 0;
+> +    struct rtas_error_log log;
+> +    struct mc_extended_log *ext_elog;
+> +    uint32_t summary;
+> +
+> +    /*
+> +     * Properly set bits in MSR before we invoke the handler.
+> +     * SRR0/1, DAR and DSISR are properly set by KVM
+> +     */
+> +    if (!(*pcc->interrupts_big_endian)(cpu)) {
+> +        msr |=3D (1ULL << MSR_LE);
+> +    }
+> +
+> +    if (env->msr & (1ULL << MSR_SF)) {
+> +        msr |=3D (1ULL << MSR_SF);
+> +    }
+> +
+> +    msr |=3D (1ULL << MSR_ME);
+> +
+> +    ext_elog =3D g_malloc0(sizeof(*ext_elog));
+> +    summary =3D spapr_mce_get_elog_type(cpu, recovered, ext_elog);
+> +
+> +    log.summary =3D cpu_to_be32(summary);
+> +    log.extended_length =3D cpu_to_be32(sizeof(*ext_elog));
+> +
+> +    spapr_init_v6hdr(&ext_elog->v6hdr);
+> +    ext_elog->mc.hdr.section_id =3D cpu_to_be16(RTAS_LOG_V6_SECTION_ID_M=
+C);
+> +    ext_elog->mc.hdr.section_length =3D
+> +                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
+> +    ext_elog->mc.hdr.section_version =3D 1;
+> +
+> +    /* get rtas addr from fdt */
+> +    rtas_addr =3D spapr_get_rtas_addr();
+> +    if (!rtas_addr) {
+> +        /* Unable to fetch rtas_addr. Hence reset the guest */
+> +        ppc_cpu_do_system_reset(cs);
+> +        g_free(ext_elog);
+> +        return;
+> +    }
+> +
+> +    stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET,
+> +                env->gpr[3]);
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+> +                              sizeof(env->gpr[3]), &log, sizeof(log));
+> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+> +                              sizeof(env->gpr[3]) + sizeof(log), ext_elo=
+g,
+> +                              sizeof(*ext_elog));
+> +
+> +    env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
+> +    env->msr =3D msr;
+> +    env->nip =3D spapr->guest_machine_check_addr;
+> +
+> +    g_free(ext_elog);
+> +}
+> +
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+>      CPUState *cs =3D CPU(cpu);
+> @@ -656,6 +872,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu)
+>          }
+>      }
+>      spapr->mc_status =3D cpu->vcpu_id;
+> +
+> +    spapr_mce_dispatch_elog(cpu, recovered);
+>  }
+> =20
+>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 8d8d8cdfcb..2c066a372d 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -477,6 +477,32 @@ void spapr_dt_rtas_tokens(void *fdt, int rtas)
+>      }
+>  }
+> =20
+> +hwaddr spapr_get_rtas_addr(void)
+> +{
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    int rtas_node;
+> +    const fdt32_t *rtas_data;
+> +    void *fdt =3D spapr->fdt_blob;
+> +
+> +    /* fetch rtas addr from fdt */
+> +    rtas_node =3D fdt_path_offset(fdt, "/rtas");
+> +    if (rtas_node < 0) {
+> +        return 0;
+> +    }
+> +
+> +    rtas_data =3D fdt_getprop(fdt, rtas_node, "linux,rtas-base", NULL);
+> +    if (!rtas_data) {
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * We assume that the OS called RTAS instantiate-rtas, but some other
+> +     * OS might call RTAS instantiate-rtas-64 instead. This fine as of n=
+ow
+> +     * as SLOF only supports 32-bit variant.
+> +     */
+> +    return (hwaddr)fdt32_to_cpu(*rtas_data);
+> +}
+> +
+>  static void core_rtas_register_types(void)
+>  {
+>      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 1f5eb8c856..4afa8d4d09 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -724,6 +724,9 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *=
+fdt, hwaddr addr);
+> =20
+>  #define RTAS_ERROR_LOG_MAX      2048
+> =20
+> +/* Offset from rtas-base where error log is placed */
+> +#define RTAS_ERROR_LOG_OFFSET       0x30
+> +
+>  #define RTAS_EVENT_SCAN_RATE    1
+> =20
+>  /* This helper should be used to encode interrupt specifiers when the re=
+lated
+> @@ -812,7 +815,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
+apr);
+>  int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+> -void spapr_mce_req_event(PowerPCCPU *cpu);
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+> =20
+>  /* DRC callbacks. */
+>  void spapr_core_release(DeviceState *dev);
+> @@ -903,4 +906,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, h=
+waddr pagesize,
+>  #define SPAPR_OV5_XIVE_BOTH     0x80 /* Only to advertise on the platfor=
+m */
+> =20
+>  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+> +hwaddr spapr_get_rtas_addr(void);
+>  #endif /* HW_SPAPR_H */
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 2d8db6d832..9a902c1064 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2805,9 +2805,11 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+> =20
+>  int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
+>  {
+> +    bool recovered =3D run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
+> +
+>      cpu_synchronize_state(CPU(cpu));
+> =20
+> -    spapr_mce_req_event(cpu);
+> +    spapr_mce_req_event(cpu, recovered);
+> =20
+>      return 0;
+>  }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--etg/Ry6vb8quy2uR
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3ATLsACgkQ9AfbAGHV
-z0CjdAgAoq373MT6LTDhtJJsA8Q71GTjOzWvj5uAb1EvcpE1kOJiG5yhdLZuD0C5
-Zm3ggzd4PPQ2Ev0Wj+q4A2RsF3opFB6/Txnxay3lAD+npFUHdgb6OkOU/0De2UCI
-nsYCOSSkeQgTVi6s8RQ2kUhz/cX2YSwUz2EeH1TiRm97UTLxFgCusYYnuzhIKEUy
-hF6Snsv3YuYHHFiMg2aA4285PuFFDJNfBzwKrGTdtroBFOVCZSZgfz3vedi/BB7U
-sSWp5rUvayC8wSbP1fDOdpLsdrytqRzwcjc3OAZSneIExrBTIwn6LAmL3k+eqwhR
-CWCnQSdmai8mdw1ohJpuqRQGTUnz0g==
-=V/Yo
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3ATY4ACgkQbDjKyiDZ
+s5K0RQ/9GNZORXXbGdPemyydAF4AlC+69xx64gFrV/HS+MNoM0nIQm0ky40NbrUf
+9IRwALFgzJrxxIa24sIk8SvID+Ggmsx08zQF1HHyagCE0/redsoPcVJoHn2V5fMh
+5RUiilV4onMhj2uiRAr9BoebcNM0v5o7CwKWxUL+zW4VvQRfYdoqKO+DXIF6Q12s
+xO0pNo7DHbrfwVH4dZsTrokzkKPdrT/3Nxoe+EoW8FP3Tpi5rNyI+V/iN9TcMqDe
+NPf4GOoodaku66jVkqWrK+SzfBs6TQEmnahszWfoHzCSHs/lrWteRzCqxRELpGpg
+WQq/CuhKv1gHFe+w8Ol46dCwPyyayT5vsRodp6huv2C0xFzuWrGp9MIVw1FWRbjc
+jrUFQ5bRMkLRYUKEXKwkWkccwOr8NJp7qT5Led1gPMQOSuPeY9+zgIc7rE26O0EC
+wJiKzvSzaM3R1GxSyLx7OEI5DbwjqTP7RHJG2rmNOLg6rTDdKO4bjjMXSefSSLXT
+X5pim28LqiujbCnNj+9RIw8ZrmrnP+c63nKShHVb8H3HJHf+yvSQkj/pCMCaqUkI
+81FZZqm1wlsqH5NR1MK7LTfXRppHm92vulrqQMPFmzZWLC+YdowXxtfwvIh/RrKR
+ekh+tT7G7zwHNYX09QWhSUWGAGMUlcMbLTgbxSUE348ogN8ivfI=
+=Je28
 -----END PGP SIGNATURE-----
 
---4z5yR5VhFYZOwEkgZ3B7nyMxtwzanH96Y--
-
+--etg/Ry6vb8quy2uR--
 
