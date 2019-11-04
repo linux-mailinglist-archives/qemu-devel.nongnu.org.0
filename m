@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136E4EDFE9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 13:22:12 +0100 (CET)
-Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EE7EE005
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 13:36:45 +0100 (CET)
+Received: from localhost ([::1]:60254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRbN4-0002bg-VQ
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 07:22:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40051)
+	id 1iRbb9-0001eM-RI
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 07:36:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iRbHf-00074R-Me
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:16:36 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRbaI-000166-Ue
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:35:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iRbHe-0004rr-AO
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:16:35 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:41754)
+ (envelope-from <mreitz@redhat.com>) id 1iRbaC-0002lw-Kx
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:35:49 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55411
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iRbHV-0004kD-8P; Mon, 04 Nov 2019 07:16:27 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 86FDB96EF0;
- Mon,  4 Nov 2019 12:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1572869778;
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRbaC-0002lC-GY
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 07:35:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572870943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i6Tpk6AXyDe7PMgxB49odyYmY16dx+pgUnO7RjeK2Fw=;
- b=OqeHt0uEhxkrN7JWB9L6kXvkzTrXnjPyMzBvXANpURMPcHSWjRTet0W5QGrECVhUPhP2JG
- A92fGhkG5KSAoljbfkklBjLmFoWcd9UQIU53ZtmIE/atFeXNEFeECXktMVGoDFfH+ynfDL
- +oxZ04G2c3oJBpfXjpa4+MXviYWrEec=
-Subject: Re: [PATCH v5 02/13] hw/core/qdev: add trace events to help with
- resettable transition
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191018150630.31099-1-damien.hedde@greensocs.com>
- <20191018150630.31099-3-damien.hedde@greensocs.com>
- <f5d78215-ee4d-ae1a-74dc-52b3c179d88c@redhat.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <984a87d7-0430-d777-0fe9-ce5cfea712a1@greensocs.com>
-Date: Mon, 4 Nov 2019 13:16:17 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=W2SzK7rW/ruNuqFxqj78bePW2XG1XC0a3JpeCMjqC+A=;
+ b=dqLZHuMoKn4lKYOL/T964l0Q9sCKnsDjrIY6khxTaPnaZJ1cWwAraAtcxPiHcqwKA0TpRY
+ HO7iEukC2bKXuxg+rtmOS1sicO0QGtw3+Lp6dJCJiVOB2VBkj8qp9S1j5LzIqLfLoMax2l
+ C+T85esz7leswBhEroUKS87vQQHfzMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-2Aa8by7jM1OhA2g45en4lA-1; Mon, 04 Nov 2019 07:35:38 -0500
+X-MC-Unique: 2Aa8by7jM1OhA2g45en4lA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C21B81800D53;
+ Mon,  4 Nov 2019 12:35:36 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 044481001B35;
+ Mon,  4 Nov 2019 12:35:31 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 11/26] qcow2: Add qcow2_get_subcluster_type()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1572125022.git.berto@igalia.com>
+ <b497a6d5d5876f68a7320f58dad56806bab95cde.1572125022.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7d2238bf-1c8d-5d5d-a0d3-c700725dc44d@redhat.com>
+Date: Mon, 4 Nov 2019 13:35:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.0
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <f5d78215-ee4d-ae1a-74dc-52b3c179d88c@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1572869778;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i6Tpk6AXyDe7PMgxB49odyYmY16dx+pgUnO7RjeK2Fw=;
- b=XiScZxKkrdroCmK5yR7oO1Ut6xkVx0qLNlSNsCwtOc0t5cm7ls+eUUOCO0KesG6b4lY45r
- UziEglRyeWz2Mia6BWw8QSrNlvOzfcN9Xc/kezmm1MB5yWtEgx6hMZdc1hgKnMr7oEWa64
- Lhs2Ji6yuylOOYJRLNl1zpQt7ndg7jg=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1572869778; a=rsa-sha256; cv=none;
- b=2zp18q1d3Hwped1Y2ZE0nOIR4AtHSHTlcbkctL7BySCzpqHwfrb8SSLcpb3fIx39Vmkhth
- BN1ZmUHvRj1l4BuLMMa59+Tc+ZXBOYqK/oXvV1kDkH3/7PQJKSVQgyzMcJdrZNt85zL4YD
- TogY1+SIrs2F/jWv6PL0prAf4HZB+KA=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b497a6d5d5876f68a7320f58dad56806bab95cde.1572125022.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="zasKvd7pUXFbb9ch1lQUjpnigIUXLTUYk"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.135.226.135
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,158 +97,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
- cohuck@redhat.com, mark.burton@greensocs.com, qemu-s390x@nongnu.org,
- edgari@xilinx.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--zasKvd7pUXFbb9ch1lQUjpnigIUXLTUYk
+Content-Type: multipart/mixed; boundary="C13o4S0q9opo54FiwqyVoCRjuVhTETGpt"
 
-On 11/1/19 12:23 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 10/18/19 5:06 PM, Damien Hedde wrote:
->> Adds trace events to reset procedure and when updating the parent
->> bus of a device.
->>
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->> =C2=A0 hw/core/qdev.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 27 +++++++=
-+++++++++++++++++---
->> =C2=A0 hw/core/trace-events |=C2=A0 9 +++++++++
->> =C2=A0 2 files changed, 33 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
->> index 60be2f2fef..f230063189 100644
->> --- a/hw/core/qdev.c
->> +++ b/hw/core/qdev.c
->> @@ -38,6 +38,7 @@
->> =C2=A0 #include "hw/boards.h"
->> =C2=A0 #include "hw/sysbus.h"
->> =C2=A0 #include "migration/vmstate.h"
->> +#include "trace.h"
->> =C2=A0 =C2=A0 bool qdev_hotplug =3D false;
->> =C2=A0 static bool qdev_hot_added =3D false;
->> @@ -98,7 +99,9 @@ void qdev_set_parent_bus(DeviceState *dev, BusState
->> *bus)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool replugging =3D dev->parent_bus !=3D=
- NULL;
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (replugging) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Keep a reference to the=
- device while it's not plugged into
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_qdev_update_parent_b=
-us(dev, dev->parent_bus, bus);
->=20
-> Nitpicking, if you respin, can you add object_get_typename(OBJECT(dev))=
-)
-> and object_get_typename(OBJECT(bus)))?
+--C13o4S0q9opo54FiwqyVoCRjuVhTETGpt
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-sure. I was wondering if having some kind of qom object support to trace
-would be feasible. Because it's a bit tedious to add this each time. And
-IMO it would be more useful to have the path, but we can't reasonably
-compute it as a trace_..() arguments.
+On 26.10.19 23:25, Alberto Garcia wrote:
+> This function returns the type of an individual subcluster. If an
+> image does not have subclusters then this returns the exact same value
+> as qcow2_get_cluster_type().
+>=20
+> The information in standard and extended L2 entries is encoded in a
+> slightly different way, but all existing QCow2ClusterType values are
+> also valid for subclusters and have the same meanings (although they
+> typically only apply to the requested subcluster).
+>=20
+> There are two important exceptions to this:
+>=20
+>   a) QCOW2_CLUSTER_COMPRESSED means that the whole cluster is
+>      compressed. We do not support compression at the subcluster
+>      level.
+>=20
+>   b) QCOW2_CLUSTER_UNALLOCATED means that the cluster is unallocated,
+>      that is, the offset field of the L2 entry does not point to a
+>      host cluster. All subclusters are obviously unallocated too but
+>      any of them could be of type QCOW2_CLUSTER_ZERO_PLAIN.
+>=20
+> In addition to that, extended L2 entries allow one new scenario where
+> the cluster is normally allocated but an individual subcluster is not.
+> This is very different from (b) and because of that this patch adds a
+> new value called QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER.
+>=20
+> As a last thing, this patch adds QCOW2_CLUSTER_INVALID to detect the
+> cases where an L2 entry has a value that violates the spec. The caller
+> is responsible for handling these situations.
+>=20
+> To prevent compatibility problems with images that have invalid values
+> but are currently being read by QEMU without causing side effects,
+> QCOW2_CLUSTER_INVALID is only returned for images with extended L2
+> entries.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2.h | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
 
->=20
-> With/without it:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Keep a reference t=
-o the device while it's not plugged into
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * any bus=
-, to avoid it potentially evaporating when it is
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * dereffe=
-d in bus_remove_child().
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> @@ -272,6 +275,18 @@ HotplugHandler
->> *qdev_get_hotplug_handler(DeviceState *dev)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return hotplug_ctrl;
->> =C2=A0 }
->> =C2=A0 +static int qdev_prereset(DeviceState *dev, void *opaque)
->> +{
->> +=C2=A0=C2=A0=C2=A0 trace_qdev_reset_tree(dev, object_get_typename(OBJ=
-ECT(dev)));
->> +=C2=A0=C2=A0=C2=A0 return 0;
->> +}
->> +
->> +static int qbus_prereset(BusState *bus, void *opaque)
->> +{
->> +=C2=A0=C2=A0=C2=A0 trace_qbus_reset_tree(bus, object_get_typename(OBJ=
-ECT(bus)));
->> +=C2=A0=C2=A0=C2=A0 return 0;
->> +}
->> +
->> =C2=A0 static int qdev_reset_one(DeviceState *dev, void *opaque)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device_legacy_reset(dev);
->> @@ -282,6 +297,7 @@ static int qdev_reset_one(DeviceState *dev, void
->> *opaque)
->> =C2=A0 static int qbus_reset_one(BusState *bus, void *opaque)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BusClass *bc =3D BUS_GET_CLASS(bus);
->> +=C2=A0=C2=A0=C2=A0 trace_qbus_reset(bus, object_get_typename(OBJECT(b=
-us)));
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bc->reset) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bc->reset(bus);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> @@ -290,7 +306,9 @@ static int qbus_reset_one(BusState *bus, void
->> *opaque)
->> =C2=A0 =C2=A0 void qdev_reset_all(DeviceState *dev)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 qdev_walk_children(dev, NULL, NULL, qdev_reset_one=
-,
->> qbus_reset_one, NULL);
->> +=C2=A0=C2=A0=C2=A0 trace_qdev_reset_all(dev, object_get_typename(OBJE=
-CT(dev)));
->> +=C2=A0=C2=A0=C2=A0 qdev_walk_children(dev, qdev_prereset, qbus_preres=
-et,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_rese=
-t_one, qbus_reset_one, NULL);
->> =C2=A0 }
->> =C2=A0 =C2=A0 void qdev_reset_all_fn(void *opaque)
->> @@ -300,7 +318,9 @@ void qdev_reset_all_fn(void *opaque)
->> =C2=A0 =C2=A0 void qbus_reset_all(BusState *bus)
->> =C2=A0 {
->> -=C2=A0=C2=A0=C2=A0 qbus_walk_children(bus, NULL, NULL, qdev_reset_one=
-,
->> qbus_reset_one, NULL);
->> +=C2=A0=C2=A0=C2=A0 trace_qbus_reset_all(bus, object_get_typename(OBJE=
-CT(bus)));
->> +=C2=A0=C2=A0=C2=A0 qbus_walk_children(bus, qdev_prereset, qbus_preres=
-et,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_rese=
-t_one, qbus_reset_one, NULL);
->> =C2=A0 }
->> =C2=A0 =C2=A0 void qbus_reset_all_fn(void *opaque)
->> @@ -1108,6 +1128,7 @@ void device_legacy_reset(DeviceState *dev)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceClass *klass =3D DEVICE_GET_CLASS=
-(dev);
->> =C2=A0 +=C2=A0=C2=A0=C2=A0 trace_qdev_reset(dev, object_get_typename(O=
-BJECT(dev)));
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (klass->reset) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 klass->reset(de=
-v);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> diff --git a/hw/core/trace-events b/hw/core/trace-events
->> index fe47a9c8cb..1a669be0ea 100644
->> --- a/hw/core/trace-events
->> +++ b/hw/core/trace-events
->> @@ -1,2 +1,11 @@
->> =C2=A0 # loader.c
->> =C2=A0 loader_write_rom(const char *name, uint64_t gpa, uint64_t size,=
- bool
->> isrom) "%s: @0x%"PRIx64" size=3D0x%"PRIx64" ROM=3D%d"
->> +
->> +# qdev.c
->> +qdev_reset(void *obj, const char *objtype) "obj=3D%p(%s)"
->> +qdev_reset_all(void *obj, const char *objtype) "obj=3D%p(%s)"
->> +qdev_reset_tree(void *obj, const char *objtype) "obj=3D%p(%s)"
->> +qbus_reset(void *obj, const char *objtype) "obj=3D%p(%s)"
->> +qbus_reset_all(void *obj, const char *objtype) "obj=3D%p(%s)"
->> +qbus_reset_tree(void *obj, const char *objtype) "obj=3D%p(%s)"
->> +qdev_update_parent_bus(void *obj, void *oldp, void *newp) "obj=3D%p
->> old_parent=3D%p new_parent=3D%p"
->>
+[...]
+
+> +        case QCOW2_CLUSTER_ZERO_PLAIN:
+> +        case QCOW2_CLUSTER_ZERO_ALLOC:
+> +            return QCOW2_CLUSTER_INVALID;
+
+The spec doesn=E2=80=99t say anything about this, though.
+
+(I would have assumed it=E2=80=99s valid and the subcluster zero status is
+simply ignored.  It makes sense to forbit this case, but the spec should
+make a note of it.)
+
+Nax
+
+
+--C13o4S0q9opo54FiwqyVoCRjuVhTETGpt--
+
+--zasKvd7pUXFbb9ch1lQUjpnigIUXLTUYk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3AGxIACgkQ9AfbAGHV
+z0Ba4gf/Yl7TYUuxfqFX97utwwh1AOzxhzXjuE8kow+nROT+R65Y1pNw0T7QM+MD
+8SI6SdjKX0BtBssrbQxb3dxtSkUlE8yNyzzsjJB5XoJsw829Bpa6BlKupJJgatuv
+OQKU6/gjLYR15n79cOfcmUcxUXJuGO8uoJKqG0Ifgpe/OCFvj+t31vwRFY2LRZv4
+xb0grb1GToteJ0t8InyRNHHntycDnPOZkUYnSQuJVqccfjvfe2ppaR2s22HdXdce
+ZsMXNdG+5Q0U37B+q6SRXI4eN1Nc66XBldWrBnA0u/OvYqFpYKwYknkTjVIPRGev
+1MOAskBBssvDJSLaFrgQGX0wFVDGYw==
+=0Z82
+-----END PGP SIGNATURE-----
+
+--zasKvd7pUXFbb9ch1lQUjpnigIUXLTUYk--
+
 
