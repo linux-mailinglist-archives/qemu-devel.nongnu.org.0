@@ -2,64 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F64EEE39E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 16:22:31 +0100 (CET)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF2EEE3AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 16:24:38 +0100 (CET)
+Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iReBZ-00045Q-W5
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 10:22:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40539)
+	id 1iReDd-0006bH-9A
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 10:24:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40825)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iRe3O-0002uy-SW
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:14:04 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRe4U-0004E1-Gn
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:15:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iRe3N-0002lP-6T
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:14:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57636
+ (envelope-from <mreitz@redhat.com>) id 1iRe4T-0003Cn-8Q
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:15:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56252
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iRe3N-0002kp-2M
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:14:01 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRe4T-0003Bi-3H
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:15:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572880440;
+ s=mimecast20190719; t=1572880508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iDcY2gjeR4cwh0kANU2g+fVLtfXZhRrphcqFTasUYVY=;
- b=hZ8NaB/tm4Xs2xJlnRQxSx6w0cIZsTc+VV/11ItBRAHXHsD2kjyDz+Wu8VOZ709E+O/ZZM
- l22Q8INcW5YfhdKKv3WpajTtcXJ+AyDpvmpnm2xkNg/NtqD67c0Qu3s4Qh9PrevQcYf1i3
- /RmY4v9uh1OF7w/18zcLhhJr3DFhhZ0=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=v+10K9yWizD1cBCDj7zY0h0lknO4j3D3hMD0yz9MHiw=;
+ b=fiVjuXohm2lXqqLB3T1PlJzNN271V8BvbbSJbCzKKe56MyqYRJm0sNDiZj9NQogkKuB1pC
+ JS1tfwSej0kx0+khh0jm2Qjm3FPqOMcb8hVSt4Vmg6BueCH6trFjjs62SUZVscTZeI5hSC
+ mxE0EEqswFxZEaL2OctIweK0EZEN1UY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-IkFC0qEBML2v1k4hcynd4w-1; Mon, 04 Nov 2019 10:13:59 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-83-_Ia7_41lOtmXS3eiW1mBTw-1; Mon, 04 Nov 2019 10:15:04 -0500
+X-MC-Unique: _Ia7_41lOtmXS3eiW1mBTw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90AC71800D53;
- Mon,  4 Nov 2019 15:13:57 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-123-183.rdu2.redhat.com
- [10.10.123.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA8ED5D6C5;
- Mon,  4 Nov 2019 15:13:55 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 8/8] Acceptance test: add "boot_linux" tests
-Date: Mon,  4 Nov 2019 10:13:23 -0500
-Message-Id: <20191104151323.9883-9-crosa@redhat.com>
-In-Reply-To: <20191104151323.9883-1-crosa@redhat.com>
-References: <20191104151323.9883-1-crosa@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8C5F800C73;
+ Mon,  4 Nov 2019 15:15:02 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A03C6600C4;
+ Mon,  4 Nov 2019 15:14:58 +0000 (UTC)
+Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
+To: Alberto Garcia <berto@igalia.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191025095849.25283-1-mreitz@redhat.com>
+ <02291bca-67d2-ed30-ac34-17641afbe397@virtuozzo.com>
+ <d1b43c24-a443-dd19-6814-11eec43e943a@virtuozzo.com>
+ <0f75cbcf-e6c7-c74c-972b-22e7760a8b5c@redhat.com>
+ <w51r22nspqp.fsf@maestria.local.igalia.com>
+ <7ed9b8f0-2d8c-7bac-185e-9a1dd68fcce8@redhat.com>
+ <w51mudbsmk7.fsf@maestria.local.igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5b67cf39-0ea1-d205-0e96-7b1148c7df19@redhat.com>
+Date: Mon, 4 Nov 2019 16:14:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: IkFC0qEBML2v1k4hcynd4w-1
+In-Reply-To: <w51mudbsmk7.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="98JCLW6VxP32iBmnGhZGOeUqxBdaySizV"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,257 +104,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-ppc@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This acceptance test, validates that a full blown Linux guest can
-successfully boot in QEMU.  In this specific case, the guest chosen is
-Fedora version 31.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--98JCLW6VxP32iBmnGhZGOeUqxBdaySizV
+Content-Type: multipart/mixed; boundary="UqOCLkW9V5lKCSQGfk8J0oJ9fn7xRCogH"
 
- * x86_64, pc and q35 machine types, with and without kvm as an
-   accellerator
+--UqOCLkW9V5lKCSQGfk8J0oJ9fn7xRCogH
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
- * aarch64 and virt machine type, with and without kvm as an
-   accellerator
+On 04.11.19 16:12, Alberto Garcia wrote:
+> On Mon 04 Nov 2019 03:25:12 PM CET, Max Reitz wrote:
+>>>>>> So, it's obvious that c8bb23cbdbe32f5c326 is significant for 1M
+>>>>>> cluster-size, even on rotational disk, which means that previous
+>>>>>> assumption about calling handle_alloc_space() only for ssd is wrong,
+>>>>>> we need smarter heuristics..
+>>>>>>
+>>>>>> So, I'd prefer (1) or (2).
+>>>>
+>>>> OK.  I wonder whether that problem would go away with Berto=E2=80=99s =
+subcluster
+>>>> series, though.
+>>>
+>>> Catching up with this now. I was told about this last week at the KVM
+>>> Forum, but if the problems comes with the use of fallocate() and XFS,
+>>> the I don't think subclusters will solve it.
+>>>
+>>> handle_alloc_space() is used to fill a cluster with zeroes when there's
+>>> COW, and that happens the same with subclusters, just at the subcluster
+>>> level instead of course.
+>>>
+>>> What can happen, if the subcluster size matches the filesystem block
+>>> size, is that there's no need for any COW and therefore the bug is neve=
+r
+>>> triggered. But that's not quite the same as a fix :-)
+>>
+>> No, what I meant was that the original problem that led to c8bb23cbdbe
+>> would go away.
+>=20
+> Ah, right. Not quite, according to my numbers:
+>=20
+> |--------------+----------------+-----------------+-------------|
+> | Cluster size | subclusters=3Don | subclusters=3Doff | fallocate() |
+> |--------------+----------------+-----------------+-------------|
+> |       256 KB |     10182 IOPS |        966 IOPS |  14007 IOPS |
+> |       512 KB |      7919 IOPS |        563 IOPS |  13442 IOPS |
+> |      1024 KB |      5050 IOPS |        465 IOPS |  13887 IOPS |
+> |      2048 KB |      2465 IOPS |        271 IOPS |  13885 IOPS |
+> |--------------+----------------+-----------------+-------------|
+>=20
+> There's obviously no backing image, and only the last column uses
+> handle_alloc_space() / fallocate().
 
- * ppc64 and pseries machine type
+Thanks for providing some numbers!
 
- * s390x and s390-ccw-virtio machine type
+It was my impression, too, that subclusters wouldn=E2=80=99t solve it.  But=
+ it
+didn=E2=80=99t seem like that big of a difference to me.  Did you run this =
+with
+aio=3Dnative?  (Because that=E2=80=99s where we have the XFS problem)
 
-The method for checking the successful boot is based on "cloudinit"
-and its "phone home" feature.  The guest is given an ISO image
-with the location of the phone home server, and the information to
-post (the instance ID).  Upon receiving the correct information,
-from the guest, the test is considered to have PASSed.
+Max
 
-This test is currently limited to user mode networking only, and
-instructs the guest to connect to the "router" address that is hard
-coded in QEMU.
 
-To create the cloudinit ISO image that will be used to configure the
-guest, the pycdlib library is also required and has been added as
-requirement to the virtual environment created by "check-venv".
+--UqOCLkW9V5lKCSQGfk8J0oJ9fn7xRCogH--
 
-The console output is read by a separate thread, by means of the
-Avocado datadrainer utility module.
+--98JCLW6VxP32iBmnGhZGOeUqxBdaySizV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/acceptance/boot_linux.py | 175 +++++++++++++++++++++++++++++++++
- tests/requirements.txt         |   1 +
- 2 files changed, 176 insertions(+)
- create mode 100644 tests/acceptance/boot_linux.py
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.p=
-y
-new file mode 100644
-index 0000000000..882f7dc5df
---- /dev/null
-+++ b/tests/acceptance/boot_linux.py
-@@ -0,0 +1,175 @@
-+# Functional test that boots a complete Linux system via a cloud image
-+#
-+# Copyright (c) 2018-2019 Red Hat, Inc.
-+#
-+# Author:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado_qemu import Test, SRC_ROOT_DIR
-+
-+from qemu import kvm_available
-+
-+from avocado.utils import cloudinit
-+from avocado.utils import network
-+from avocado.utils import vmimage
-+from avocado.utils import datadrainer
-+
-+
-+KVM_NOT_AVAILABLE =3D "KVM accelerator does not seem to be available"
-+
-+
-+class BootLinux(Test):
-+    """
-+    Boots a Linux system, checking for a successful initialization
-+    """
-+
-+    timeout =3D 600
-+    chksum =3D None
-+
-+    def setUp(self):
-+        super(BootLinux, self).setUp()
-+        self.prepare_boot()
-+        self.vm.add_args('-smp', '2')
-+        self.vm.add_args('-m', '2048')
-+        self.vm.add_args('-drive', 'file=3D%s' % self.boot.path)
-+        self.prepare_cloudinit()
-+
-+    def prepare_boot(self):
-+        self.log.info('Downloading/preparing boot image')
-+        # Fedora 31 only provides ppc64le images
-+        image_arch =3D self.arch
-+        if image_arch =3D=3D 'ppc64':
-+            image_arch =3D 'ppc64le'
-+        try:
-+            self.boot =3D vmimage.get(
-+                'fedora', arch=3Dimage_arch, version=3D'31',
-+                checksum=3Dself.chksum,
-+                algorithm=3D'sha256',
-+                cache_dir=3Dself.cache_dirs[0],
-+                snapshot_dir=3Dself.workdir)
-+        except:
-+            self.cancel('Failed to download/prepare boot image')
-+
-+    def prepare_cloudinit(self):
-+        self.log.info('Preparing cloudinit image')
-+        try:
-+            cloudinit_iso =3D os.path.join(self.workdir, 'cloudinit.iso')
-+            self.phone_home_port =3D network.find_free_port()
-+            cloudinit.iso(cloudinit_iso, self.name,
-+                          username=3D'root',
-+                          password=3D'password',
-+                          # QEMU's hard coded usermode router address
-+                          phone_home_host=3D'10.0.2.2',
-+                          phone_home_port=3Dself.phone_home_port)
-+            self.vm.add_args('-drive', 'file=3D%s,format=3Draw' % cloudini=
-t_iso)
-+        except Exception:
-+            self.cancel('Failed to prepared cloudinit image')
-+
-+    def launch_and_wait(self):
-+        self.vm.set_console()
-+        self.vm.launch()
-+        console_drainer =3D datadrainer.LineLogger(self.vm.console_socket.=
-fileno(),
-+                                                 logger=3Dself.log.getChil=
-d('console'))
-+        console_drainer.start()
-+        self.log.info('VM launched, waiting for boot confirmation from gue=
-st')
-+        cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), s=
-elf.name)
-+
-+
-+class BootLinuxX8664(BootLinux):
-+    """
-+    :avocado: tags=3Darch:x86_64
-+    """
-+
-+    chksum =3D 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c=
-5c27a0'
-+
-+    def test_pc(self):
-+        """
-+        :avocado: tags=3Dmachine:pc
-+        """
-+        self.launch_and_wait()
-+
-+    def test_kvm_pc(self):
-+        """
-+        :avocado: tags=3Dmachine:pc
-+        :avocado: tags=3Daccel:kvm
-+        """
-+        if not kvm_available(self.arch):
-+            self.cancel(KVM_NOT_AVAILABLE)
-+        self.vm.add_args("-accel", "kvm")
-+        self.launch_and_wait()
-+
-+    def test_q35(self):
-+        """
-+        :avocado: tags=3Dmachine:q35
-+        """
-+        self.launch_and_wait()
-+
-+    def test_kvm_q35(self):
-+        """
-+        :avocado: tags=3Dmachine:q35
-+        :avocado: tags=3Daccel:kvm
-+        """
-+        if not kvm_available(self.arch):
-+            self.cancel(KVM_NOT_AVAILABLE)
-+        self.vm.add_args("-accel", "kvm")
-+        self.launch_and_wait()
-+
-+
-+class BootLinuxAarch64(BootLinux):
-+    """
-+    :avocado: tags=3Darch:aarch64
-+    :avocado: tags=3Dmachine:virt
-+    """
-+
-+    chksum =3D '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf=
-16fe49'
-+
-+    def test_virt(self):
-+        self.vm.add_args('-cpu', 'cortex-a53')
-+        self.vm.add_args('-bios',
-+                         os.path.join(SRC_ROOT_DIR, 'pc-bios',
-+                                      'edk2-aarch64-code.fd'))
-+        self.vm.add_args('-device', 'virtio-rng-pci,rng=3Drng0')
-+        self.vm.add_args('-object', 'rng-random,id=3Drng0,filename=3D/dev/=
-urandom')
-+        self.launch_and_wait()
-+
-+    def test_kvm_virt(self):
-+        """
-+        :avocado: tags=3Daccel:kvm
-+        """
-+        if not kvm_available(self.arch):
-+            self.cancel(KVM_NOT_AVAILABLE)
-+        self.vm.add_args("-accel", "kvm")
-+        self.test_virt()
-+
-+
-+class BootLinuxPPC64(BootLinux):
-+    """
-+    :avocado: tags=3Darch:ppc64
-+    """
-+
-+    chksum =3D '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026=
-ad2f58'
-+
-+    def test_pseries(self):
-+        """
-+        :avocado: tags=3Dmachine:pseries
-+        """
-+        self.launch_and_wait()
-+
-+
-+class BootLinuxS390X(BootLinux):
-+    """
-+    :avocado: tags=3Darch:s390x
-+    """
-+
-+    chksum =3D '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf=
-5a122d'
-+
-+    def test_s390_ccw_virtio(self):
-+        """
-+        :avocado: tags=3Dmachine:s390-ccw-virtio
-+        """
-+        self.launch_and_wait()
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index a2a587223a..3893361e0c 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -2,3 +2,4 @@
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
- avocado-framework=3D=3D72.0
-+pycdlib=3D=3D1.8.0
---=20
-2.21.0
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3AQHEACgkQ9AfbAGHV
+z0CB7Qf/d7/3vCb4tTxpAOyEktDN7DeObB+Psu1Fonw1AW+/M1ASeQ+VARibFXXF
+fDgBTu8qlO6j+No1tD/CPtk+8DNPnENYu5+SRKem4PcI+kC7nKuYNZVOvxVRkfyI
+DO+DpoaZd6goYrFm3dYrOC+gQdTNSGMOue0seMX2agXr0lwlwn0cGqnFBS1HrV5G
+wcmIDMiNbQw1qhisdr47vg3HSzygCNbj7OqkVPXz2AXIFSdZmIitm3OD2E6JikYm
+rYIkcjE6TsAC3hzQU4g/oJ5evmWJopGF00MgQWFkwxQVK/jeoqt/FtKmf3Hvrrqq
+TL5hSCFAgKKWJkz+JSj7t+5UpFbe8A==
+=ITTi
+-----END PGP SIGNATURE-----
+
+--98JCLW6VxP32iBmnGhZGOeUqxBdaySizV--
 
 
