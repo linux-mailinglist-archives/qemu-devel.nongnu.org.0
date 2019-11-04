@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DB3EE0BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 14:11:45 +0100 (CET)
-Received: from localhost ([::1]:60982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CDBEE0DD
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 14:20:16 +0100 (CET)
+Received: from localhost ([::1]:32806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRc91-0008QE-CZ
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 08:11:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48927)
+	id 1iRcHH-0002l8-FX
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 08:20:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iRc8A-0007jS-K1
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:10:52 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iRcFv-0002JT-G2
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:18:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iRc88-000115-VX
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:10:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51285
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRc88-00010o-R2
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:10:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572873048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zW2AmwPBEWpelVJwH+pS5LGu2VoVx5RRprJoNrYTqJM=;
- b=Q0Tm3ajmjYlT+ttHVG/+1AfDxe0IjmuhqkKIotstr9O162hXuEKPfg2oagnIExA58qGbH6
- YaamMLNQvk+L4+a4/4CK/FgRJRkarXwTQWpFQyLyVt+Hg87aI5Gw05qK2vMv1xye7Bu2iU
- ZQtaTEKt4xueBw4559AK7IbII47l4Fk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-MMUtVvoMPEq3yqlJZbG8hg-1; Mon, 04 Nov 2019 08:10:44 -0500
-X-MC-Unique: MMUtVvoMPEq3yqlJZbG8hg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D140477;
- Mon,  4 Nov 2019 13:10:43 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7838066845;
- Mon,  4 Nov 2019 13:10:39 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 12/26] qcow2: Handle
- QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1572125022.git.berto@igalia.com>
- <2a6b34635cac78e76150a72c69669b3d9ec0fb8c.1572125022.git.berto@igalia.com>
- <78cc16f3-f8aa-9dcb-2389-4f6ed86080fd@redhat.com>
- <w51tv7jssjf.fsf@maestria.local.igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <016246de-df5c-b2a3-2d2d-b99ff7277fc5@redhat.com>
-Date: Mon, 4 Nov 2019 14:10:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <alex.bennee@linaro.org>) id 1iRcFt-0006lS-Kp
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:18:51 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36240)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iRcFt-0006kx-An
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 08:18:49 -0500
+Received: by mail-wr1-x442.google.com with SMTP id w18so17054751wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 05:18:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rOZ0gez1NEpkqAe8mafcBoPYA+rdrF3WN5OlhkpDJ6M=;
+ b=nFReO8QRwosmOA6397Jjnk/o5BKTmAjCsO1KOZFmecmmHOu7R5sUQGlZg4fzOsh5JF
+ dwEw1mksYyxMnf528y2F5Qya9Jw3VqF8mzjDd0iEVKU7jkXB6qwje00WdnTZP8BIvpd1
+ 2mbzmpV7t2/H65xVAMF5Dx1DoJAZEu5Z+hURAMGBPHz9eZSBbuLA2UbGMgXkoUnNLKXQ
+ NSmL3jM3q0CV1J1h23giU/g5oo4JcaUfQ/a3Db7UcBln/aiLFjXGzugQIS20Um4z7756
+ gN3dEMHcsq9RbdEEy6HHVaCJoVSGGVJP8LCqn+zO6WPb7AF4nUXPriFlHQq/VgcK6VYS
+ HzyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rOZ0gez1NEpkqAe8mafcBoPYA+rdrF3WN5OlhkpDJ6M=;
+ b=fpScUXL7f1eYJ7+ygERh7TaqctSnyOJOvdPHWJwcoO7PXTtU2Zp/+0Inux6Xpiddur
+ +P2QF68gT0gWCCBXZqnzX4BQUf5NE7NWNZqn9iGeuJyzRs7ieYG68JOUroRrBKrbvz3H
+ VtU2pDnGq+MGo1rBJZ4s/68rA4ALrLgRgPll7mtmyPH43NM5+nk5SQAO7eHk20/lMeJK
+ nGYvJLbsSScFfBy/ClOU9Zf6uXba7j2Qo8SIOtAqDxbKN2oyW2M/0Necg5aYHrjarM2W
+ Gj3dM0twAVDQGbsjS6gH4F3YyDx3SxhoQ1QiXaSm1BHNgMuuW82etMthAi4a6eRI2D7D
+ vP9Q==
+X-Gm-Message-State: APjAAAUZmMOsZShUG0YP+gOFBjHIiP9AK8o4hxQg6OGx981awWZo4Se8
+ Eil5rSLec6PzITWTlABOfGRY9A==
+X-Google-Smtp-Source: APXvYqzWbnFgXORA7L3V6vXExw5Bd9zce6nFzN76KrTk7PJD1fcfz7SqyRwGoWaB+kMfptcNphRotg==
+X-Received: by 2002:adf:e28f:: with SMTP id v15mr22358438wri.130.1572873526318; 
+ Mon, 04 Nov 2019 05:18:46 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v128sm22625194wmb.14.2019.11.04.05.18.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Nov 2019 05:18:45 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 691611FF87;
+ Mon,  4 Nov 2019 13:18:44 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg plugins: expose an API version concept
+Date: Mon,  4 Nov 2019 13:18:36 +0000
+Message-Id: <20191104131836.12566-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <w51tv7jssjf.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="66TAlbECwqCH7Es4WmBW88kmGcFhi7kh3"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,86 +79,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: peter.maydell@linaro.org, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---66TAlbECwqCH7Es4WmBW88kmGcFhi7kh3
-Content-Type: multipart/mixed; boundary="uY1LWWMP3NuCOLjKX4wpgd2gpaezDq2Qr"
+This is a very simple versioning API which allows the plugin
+infrastructure to check the API a plugin was built against. We also
+expose a min/cur API version to the plugin via the info block in case
+it wants to avoid using old deprecated APIs in the future.
 
---uY1LWWMP3NuCOLjKX4wpgd2gpaezDq2Qr
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/qemu/qemu-plugin.h | 19 +++++++++++++++++++
+ plugins/loader.c           | 15 +++++++++++++++
+ plugins/plugin.h           |  2 ++
+ tests/plugin/bb.c          |  2 ++
+ tests/plugin/empty.c       |  2 ++
+ tests/plugin/hotpages.c    |  2 ++
+ tests/plugin/howvec.c      |  2 ++
+ tests/plugin/insn.c        |  2 ++
+ tests/plugin/mem.c         |  2 ++
+ 9 files changed, 48 insertions(+)
 
-On 04.11.19 14:03, Alberto Garcia wrote:
-> On Mon 04 Nov 2019 01:57:42 PM CET, Max Reitz wrote:
->> On 26.10.19 23:25, Alberto Garcia wrote:
->>> In the previous patch we added a new QCow2ClusterType named
->>> QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER. There is a couple of places
->>> where this new value needs to be handled, and that is what this patch
->>> does.
->>>
->>> Signed-off-by: Alberto Garcia <berto@igalia.com>
->>> ---
->>>  block/qcow2.c | 13 +++++++++----
->>>  1 file changed, 9 insertions(+), 4 deletions(-)
->> This patch deals with everything in qcow2.c.  There are more places that
->> reference QCOW2_CLUSTER_* constants elsewhere, and I suppose most of
->> them are handled by the following patches.
->>
->> But I wonder what the criterion is on where it needs to be handled and
->> where it=E2=80=99s OK not to.  Right now it looks to me like it=E2=80=99=
-s a bit
->> arbitrary maybe?  But I suppose I=E2=80=99ll just have to wait until aft=
-er the
->> next patches.
->=20
-> This is the part of the series that I'm the least happy about, because
-> the existing qcow2_get_cluster_type() can never return this new value, I
-> only updated the cases where this can actually happen.
->=20
-> I'm still considering a different approach for this.
-I still don=E2=80=99t know what you=E2=80=99re doing in the later patches, =
-but to me it
-looks a bit like you don=E2=80=99t dare breaking up the existing structure =
-that
-just deals with clusters.
-
-If that is so, I think it will help to make a clear cut between what
-concerns subclusters and what concerns clusters at a whole.
-QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER shouldn=E2=80=99t be in QCow2ClusterTy=
-pe;
-there should be a separate QCow2SubclusterType.
-
-OTOH, that would require more modifications, but (na=C3=AFvely) I believe
-that would make for the cleaner interface in the end.
-
-Max
-
-
---uY1LWWMP3NuCOLjKX4wpgd2gpaezDq2Qr--
-
---66TAlbECwqCH7Es4WmBW88kmGcFhi7kh3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3AI00ACgkQ9AfbAGHV
-z0A9cAf+O7jCdCk/6bu5q+Ar5fttESiMmaRJIj7BSL7L3kUQL4V5Yxy79+3iU8OD
-KHBKzzi166QLQXseYaDjPYV0RK6L2xa3QlgyNyjucFTvxZ4R5lMtZYSDvhvvwJxz
-dNXcGJWziDRc7lJfPJXcKJlk6AlNn/y7nn7gC/cFNaI+t3MvXnYaW3bOpeKVEbOO
-+3XGIXjCLhBOjFFSrE2agCZ0FxMymAEqjwyirQPe815nRW3E4S3jqLTQJkEmMW8x
-i16kO2BO9wyp06A73GYAw5kGSpsMCod4ffFXXPi1fz13iUwHPw4By1CZna8cSZNd
-rzBnsMkyX/j6h39olONDxqLZUktM8g==
-=PuK2
------END PGP SIGNATURE-----
-
---66TAlbECwqCH7Es4WmBW88kmGcFhi7kh3--
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index a00a7deb461..5502e112c81 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -38,9 +38,28 @@
+ 
+ typedef uint64_t qemu_plugin_id_t;
+ 
++/*
++ * Versioning plugins:
++ *
++ * The plugin API will pass a minimum and current API version that
++ * QEMU currently supports. The minimum API will be incremented if an
++ * API needs to be deprecated.
++ *
++ * The plugins export the API they were built against by exposing the
++ * symbol qemu_plugin_version which can be checked.
++ */
++
++extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
++
++#define QEMU_PLUGIN_VERSION 0
++
+ typedef struct {
+     /* string describing architecture */
+     const char *target_name;
++    struct {
++        int min;
++        int cur;
++    } version;
+     /* is this a full system emulation? */
+     bool system_emulation;
+     union {
+diff --git a/plugins/loader.c b/plugins/loader.c
+index ce724ed5839..1bcca909691 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -178,6 +178,19 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+         goto err_symbol;
+     }
+ 
++    if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
++        warn_report("%s: missing version %s", __func__, g_module_error());
++    } else {
++        int version = *(int *)sym;
++        if (version < QEMU_PLUGIN_MIN_VERSION ||
++            version > QEMU_PLUGIN_VERSION) {
++            error_report("%s: bad plugin version %d vs %d/%d",
++                         __func__, version, QEMU_PLUGIN_MIN_VERSION,
++                         QEMU_PLUGIN_VERSION);
++            goto err_symbol;
++        }
++    }
++
+     qemu_rec_mutex_lock(&plugin.lock);
+ 
+     /* find an unused random id with &ctx as the seed */
+@@ -248,6 +261,8 @@ int qemu_plugin_load_list(QemuPluginList *head)
+     g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
+ 
+     info->target_name = TARGET_NAME;
++    info->version.min = QEMU_PLUGIN_MIN_VERSION;
++    info->version.cur = QEMU_PLUGIN_VERSION;
+ #ifndef CONFIG_USER_ONLY
+     MachineState *ms = MACHINE(qdev_get_machine());
+     info->system_emulation = true;
+diff --git a/plugins/plugin.h b/plugins/plugin.h
+index 5482168d797..1aa29dcaddf 100644
+--- a/plugins/plugin.h
++++ b/plugins/plugin.h
+@@ -14,6 +14,8 @@
+ 
+ #include <gmodule.h>
+ 
++#define QEMU_PLUGIN_MIN_VERSION 0
++
+ /* global state */
+ struct qemu_plugin_state {
+     QTAILQ_HEAD(, qemu_plugin_ctx) ctxs;
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index 45e1de5bd68..f30bea08dcc 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -14,6 +14,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static uint64_t bb_count;
+ static uint64_t insn_count;
+ static bool do_inline;
+diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
+index 3f60f690278..8fa6bacd93d 100644
+--- a/tests/plugin/empty.c
++++ b/tests/plugin/empty.c
+@@ -13,6 +13,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ /*
+  * Empty TB translation callback.
+  * This allows us to measure the overhead of injecting and then
+diff --git a/tests/plugin/hotpages.c b/tests/plugin/hotpages.c
+index 77df07a3ccf..ecd6c187327 100644
+--- a/tests/plugin/hotpages.c
++++ b/tests/plugin/hotpages.c
+@@ -18,6 +18,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
+ static uint64_t page_size = 4096;
+diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
+index 58fa675e348..4ca555e1239 100644
+--- a/tests/plugin/howvec.c
++++ b/tests/plugin/howvec.c
+@@ -20,6 +20,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
+ typedef enum {
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index e5fd07fb64b..0a8f5a0000e 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -14,6 +14,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static uint64_t insn_count;
+ static bool do_inline;
+ 
+diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+index d9673889896..878abf09d19 100644
+--- a/tests/plugin/mem.c
++++ b/tests/plugin/mem.c
+@@ -14,6 +14,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static uint64_t mem_count;
+ static uint64_t io_count;
+ static bool do_inline;
+-- 
+2.20.1
 
 
