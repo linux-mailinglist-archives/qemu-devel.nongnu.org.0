@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B792EDB38
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 10:06:12 +0100 (CET)
-Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0339DEDB45
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 10:08:40 +0100 (CET)
+Received: from localhost ([::1]:58644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRYJO-0000g4-RD
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 04:06:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
+	id 1iRYLm-0004Ei-QB
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 04:08:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iRYHF-0007MH-0V
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:03:58 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRYHJ-0007MT-Px
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:04:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iRYHB-0002u8-0Z
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:03:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40599
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iRYHF-0002y6-AE
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:04:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25338
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRYHA-0002sh-GZ
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:03:52 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRYHD-0002uu-Dc
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 04:03:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572858231;
+ s=mimecast20190719; t=1572858233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mRKQObjyort/Qz21aDupTRV1GxdYmP9Vmhjsk2YkJjk=;
- b=VITXjGcmglDXSltvLBstRZ6UqUW1mVL13UtokpXNW7SNlby4M8rXxXe6rXdEBynqlAY8Xb
- AM784wg3WrucXEWQOgQcNcvq8IRquOvG/i2sll6HqCYNj5aPZognbhc/4Yver30qkvLWwQ
- s8410/bnNZEIZj+c1evnRvNKqs9S+fo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hsInyKxAekr/73cu9ypbm4mQK5co9xxqt+ZM3Emg74g=;
+ b=Qj+9rnRjuZhZeSTHJ1KTvmEn3anWjE0vMvR51uyVGg2oi3Kwr/Wx1/qBnlUYU6jBtTK7XG
+ UCCcDHCcsz88jJUqsKVzNFh3/wrBeeJsmKi+3hArgz5csFXXTXiL1oZzRN1bomDwbxjQgL
+ Gp+G/TMT12OqKaQs3pxJNNh8/lZ1qik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-AWSYpCLyMyaoFBwvjBn6Mw-1; Mon, 04 Nov 2019 04:03:50 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-176-wC-yCm-TMY-w6f8cdh27DA-1; Mon, 04 Nov 2019 04:03:52 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53E21107ACC2;
- Mon,  4 Nov 2019 09:03:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A9278017E0;
+ Mon,  4 Nov 2019 09:03:51 +0000 (UTC)
 Received: from localhost (ovpn-117-85.ams2.redhat.com [10.36.117.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE78126FB0;
- Mon,  4 Nov 2019 09:03:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F160A60BF1;
+ Mon,  4 Nov 2019 09:03:50 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 0/5] Block patches for 4.2-rc0
-Date: Mon,  4 Nov 2019 10:03:42 +0100
-Message-Id: <20191104090347.27278-1-mreitz@redhat.com>
+Subject: [PULL 1/5] nvme: fix NSSRS offset in CAP register
+Date: Mon,  4 Nov 2019 10:03:43 +0100
+Message-Id: <20191104090347.27278-2-mreitz@redhat.com>
+In-Reply-To: <20191104090347.27278-1-mreitz@redhat.com>
+References: <20191104090347.27278-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: AWSYpCLyMyaoFBwvjBn6Mw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: wC-yCm-TMY-w6f8cdh27DA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,46 +75,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408=
-:
+From: Klaus Jensen <its@irrelevant.dk>
 
-  Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-s=
-f1' into staging (2019-11-02 17:59:03 +0000)
+Fix the offset of the NSSRS field the CAP register.
 
-are available in the Git repository at:
+From NVME 1.4, section 3 ("Controller Registers"), subsection 3.1.1
+("Offset 0h: CAP =E2=80=93 Controller Capabilities") CAP_NSSRS_SHIFT is bit=
+ 36,
+not 33.
 
-  https://github.com/XanClic/qemu.git tags/pull-block-2019-11-04
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reported-by: Javier Gonzalez <javier.gonz@samsung.com>
+Message-id: 20191023073315.446534-1-its@irrelevant.dk
+Reviewed-by: John Snow <jsnow@redhat.com>
+[mreitz: Added John's note on the location in the specification where
+         this information can be found]
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ include/block/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 292d06b925b2787ee6f2430996b95651cae42fce:
-
-  block/file-posix: Let post-EOF fallocate serialize (2019-11-04 09:33:51 +=
-0100)
-
-----------------------------------------------------------------
-Block patches for 4.2-rc0:
-- Work around XFS write-zeroes bug in file-posix block driver
-- Fix backup job with compression
-- Fix to the NVMe block driver header
-
-----------------------------------------------------------------
-Klaus Jensen (1):
-  nvme: fix NSSRS offset in CAP register
-
-Max Reitz (3):
-  block: Make wait/mark serialising requests public
-  block: Add bdrv_co_get_self_request()
-  block/file-posix: Let post-EOF fallocate serialize
-
-Vladimir Sementsov-Ogievskiy (1):
-  block/block-copy: fix s->copy_size for compressed cluster
-
- include/block/block_int.h |  4 ++++
- include/block/nvme.h      |  2 +-
- block/block-copy.c        |  4 ++--
- block/file-posix.c        | 36 +++++++++++++++++++++++++++++++++
- block/io.c                | 42 ++++++++++++++++++++++++++++-----------
- 5 files changed, 73 insertions(+), 15 deletions(-)
-
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index ab5943b90a..8fb941c653 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -23,7 +23,7 @@ enum NvmeCapShift {
+     CAP_AMS_SHIFT      =3D 17,
+     CAP_TO_SHIFT       =3D 24,
+     CAP_DSTRD_SHIFT    =3D 32,
+-    CAP_NSSRS_SHIFT    =3D 33,
++    CAP_NSSRS_SHIFT    =3D 36,
+     CAP_CSS_SHIFT      =3D 37,
+     CAP_MPSMIN_SHIFT   =3D 48,
+     CAP_MPSMAX_SHIFT   =3D 52,
 --=20
 2.21.0
 
