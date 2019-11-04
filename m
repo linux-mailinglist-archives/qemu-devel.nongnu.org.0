@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B73EE36F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 16:17:43 +0100 (CET)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9A4EE345
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 16:13:27 +0100 (CET)
+Received: from localhost ([::1]:34308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRe6w-0003yZ-50
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 10:17:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40240)
+	id 1iRe2o-0001rH-CV
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 10:13:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clement.deschamps@greensocs.com>) id 1iRe1V-00017t-R2
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:12:06 -0500
+ (envelope-from <berto@igalia.com>) id 1iRe1h-0001Iq-RA
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:12:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clement.deschamps@greensocs.com>) id 1iRe1U-0002DO-Rv
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:12:05 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:47152)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clement.deschamps@greensocs.com>)
- id 1iRe1R-0002Av-TG; Mon, 04 Nov 2019 10:12:02 -0500
-Received: from chartreuse.bar.greensocs.com (chartreuse.bar.greensocs.com
- [172.16.11.101])
- by beetle.greensocs.com (Postfix) with ESMTPS id 217B096F52;
- Mon,  4 Nov 2019 15:11:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1572880319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=9POxuJGJwaGIEQPa0Ye5ozjHsuXtnHg87pzNAASKC88=;
- b=xRY5qNhqlocAm5FR10uUXp1djzLTb/CITHx1a55E84OKbDWlQCatzytwVeOH2eUBpQikjX
- avZPCUQheNQB/g4hzcEZFMNi/6bqFvVB0ClU/qCyynZCqABCTAYb5ideTdt7sw4H0X3vjo
- RQlkuOvP4jQwQsgAorCvmysI50jKAGk=
-From: Clement Deschamps <clement.deschamps@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/boot: Set NSACR.{CP11, CP10} in dummy SMC setup routine
-Date: Mon,  4 Nov 2019 16:11:37 +0100
-Message-Id: <20191104151137.81931-1-clement.deschamps@greensocs.com>
-X-Mailer: git-send-email 2.23.0
+ (envelope-from <berto@igalia.com>) id 1iRe1g-0002JS-OJ
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 10:12:17 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:45875)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iRe1d-0002II-Fg; Mon, 04 Nov 2019 10:12:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=UEclHnHy1qw4fVSKCIRNjbtjqRpxu0mDGF6eFAGnqDk=; 
+ b=JPsW3/BOI83wKeMFD+lhQ6qXR119sdCMGHQFqkE3trRuTawv32ITPjH22YlKCaByFUXEH9ETRqITHoNtTondpTfsdpatkeeYed0Zt/OkmrqJ4Uz5VI89i752A2GRmAOcVEz0Zqh/qpDefNnokXRP1yjKFMwYI2Axz2CKpe88OCoy7iQy5u0nuXWKRPP9MNdMga8+AI/lgGwuo5N88MfWebRZhoRAmzAdU7gSQI8l/sUz7xnhHF8HFQw4E4hx4T6gckzPV70DckHb/K/bdPf2kLsET4gtI15E0qt/OKmdmuIcV3zIOsTNM7eoFG+gbfYDHVWLRObvIARtjEzVVO+dLQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1iRe1Z-0004iy-0L; Mon, 04 Nov 2019 16:12:09 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1iRe1Y-0000F8-TT; Mon, 04 Nov 2019 16:12:08 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block\@nongnu.org" <qemu-block@nongnu.org>
+Subject: Re: [RFC 0/3] block/file-posix: Work around XFS bug
+In-Reply-To: <7ed9b8f0-2d8c-7bac-185e-9a1dd68fcce8@redhat.com>
+References: <20191025095849.25283-1-mreitz@redhat.com>
+ <02291bca-67d2-ed30-ac34-17641afbe397@virtuozzo.com>
+ <d1b43c24-a443-dd19-6814-11eec43e943a@virtuozzo.com>
+ <0f75cbcf-e6c7-c74c-972b-22e7760a8b5c@redhat.com>
+ <w51r22nspqp.fsf@maestria.local.igalia.com>
+ <7ed9b8f0-2d8c-7bac-185e-9a1dd68fcce8@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Mon, 04 Nov 2019 16:12:08 +0100
+Message-ID: <w51mudbsmk7.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1572880319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=9POxuJGJwaGIEQPa0Ye5ozjHsuXtnHg87pzNAASKC88=;
- b=v9WBhfGPtmNdF3fhSFLoyBEzUuwKw4JvMu3oFQMQB6EnfOR4egfRgDF0g6TslF3LN7xALY
- Q8U31NHIdunDxK5y3PZeN938howl2iABb446IsVz7QLOCaAsF4QDus8vpFvctjpYDTSQq2
- 9lhSb19ULvjdhwp8gubQcMUuvjcXdk0=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1572880319; a=rsa-sha256; cv=none;
- b=uPHf5codb4Livp3i42ROSbz+Dqc3I9CsRt/j76+uqt3nr0TcaqX94Lnv/8I/12IsX/3mgp
- Y+EDpUuQe55SpK8ExvFpsYsKFUNygpLweoHvR8b92DObtmyQYg7EWtlkj4SCKRwn0YAi24
- ejhvAk2lkfbtSxORW9MqEAn2c2tntVc=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.135.226.135
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,49 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Clement Deschamps <clement.deschamps@greensocs.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the NSACR CP11 and CP10 bits, to allow FPU access in Non-Secure state
-when using dummy SMC setup routine. Otherwise an AArch32 kernel will UNDE=
-F as
-soon as it tries to use the FPU.
+On Mon 04 Nov 2019 03:25:12 PM CET, Max Reitz wrote:
+>>>>> So, it's obvious that c8bb23cbdbe32f5c326 is significant for 1M
+>>>>> cluster-size, even on rotational disk, which means that previous
+>>>>> assumption about calling handle_alloc_space() only for ssd is wrong,
+>>>>> we need smarter heuristics..
+>>>>>
+>>>>> So, I'd prefer (1) or (2).
+>>>
+>>> OK.  I wonder whether that problem would go away with Berto=E2=80=99s s=
+ubcluster
+>>> series, though.
+>>=20
+>> Catching up with this now. I was told about this last week at the KVM
+>> Forum, but if the problems comes with the use of fallocate() and XFS,
+>> the I don't think subclusters will solve it.
+>>=20
+>> handle_alloc_space() is used to fill a cluster with zeroes when there's
+>> COW, and that happens the same with subclusters, just at the subcluster
+>> level instead of course.
+>>=20
+>> What can happen, if the subcluster size matches the filesystem block
+>> size, is that there's no need for any COW and therefore the bug is never
+>> triggered. But that's not quite the same as a fix :-)
+>
+> No, what I meant was that the original problem that led to c8bb23cbdbe
+> would go away.
 
-This fixes kernel panic when booting raspbian on raspi2.
+Ah, right. Not quite, according to my numbers:
 
-Successfully tested with:
-  2017-01-11-raspbian-jessie-lite.img
-  2018-11-13-raspbian-stretch-lite.img
-  2019-07-10-raspbian-buster-lite.img
+|--------------+----------------+-----------------+-------------|
+| Cluster size | subclusters=3Don | subclusters=3Doff | fallocate() |
+|--------------+----------------+-----------------+-------------|
+|       256 KB |     10182 IOPS |        966 IOPS |  14007 IOPS |
+|       512 KB |      7919 IOPS |        563 IOPS |  13442 IOPS |
+|      1024 KB |      5050 IOPS |        465 IOPS |  13887 IOPS |
+|      2048 KB |      2465 IOPS |        271 IOPS |  13885 IOPS |
+|--------------+----------------+-----------------+-------------|
 
-See also commit ece628fcf6 that fixes the issue when *not* using the
-dummy SMC setup routine.
+There's obviously no backing image, and only the last column uses
+handle_alloc_space() / fallocate().
 
-Fixes: fc1120a7f5
-Signed-off-by: Clement Deschamps <clement.deschamps@greensocs.com>
----
- hw/arm/boot.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index ef6724960c..8fb4a63606 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -240,6 +240,9 @@ void arm_write_secure_board_setup_dummy_smc(ARMCPU *c=
-pu,
-     };
-     uint32_t board_setup_blob[] =3D {
-         /* board setup addr */
-+        0xee110f51, /* mrc     p15, 0, r0, c1, c1, 2  ;read NSACR */
-+        0xe3800b03, /* orr     r0, #0xc00             ;set CP11, CP10 */
-+        0xee010f51, /* mcr     p15, 0, r0, c1, c1, 2  ;write NSACR */
-         0xe3a00e00 + (mvbar_addr >> 4), /* mov r0, #mvbar_addr */
-         0xee0c0f30, /* mcr     p15, 0, r0, c12, c0, 1 ;set MVBAR */
-         0xee110f11, /* mrc     p15, 0, r0, c1 , c1, 0 ;read SCR */
---=20
-2.23.0
-
+Berto
 
