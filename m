@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93DFEED24
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 23:05:16 +0100 (CET)
-Received: from localhost ([::1]:38910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D29EED25
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 23:05:20 +0100 (CET)
+Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRkTJ-0005K9-8h
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 17:05:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41150)
+	id 1iRkTP-0005N7-0C
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 17:05:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <linus.ziegert@holoplot.com>) id 1iRgu4-0008MP-VC
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:16:38 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1iRh8k-00064s-7a
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:31:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <linus.ziegert@holoplot.com>) id 1iRgu3-0006Zg-Oh
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:16:36 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52452)
+ (envelope-from <jean-philippe@linaro.org>) id 1iRh8h-000492-SV
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:31:45 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35093)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <linus.ziegert@holoplot.com>)
- id 1iRgu3-0006Yv-8l
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:16:35 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c17so10418285wmk.2
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:16:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=holoplot-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vZlHRNrWzOSLywQj2MWXmHR9NXbEechkL9y1Q+q5kes=;
- b=CpVDj8d5jarBg9AgbBvLnr6G6Ny10ptuL3kZjzoDBd/JJ1TxIz4daZ3n0jHlAm3BAd
- Kk/0GLs+FBfikPVkJh6lQuPDV5btsM1aNBVdizVGG5jVU0R1PeLpgfRDBN5heeYQu5mh
- RGLCtOREljfsAiN3PGj6zcG2IMx0vwpyqlgEQRJNg1sZanVZWopFW71euSuI0UMxbEV7
- CJfQgjfq2rNCJJgaPzGLEC0vGXCLhlMFxbkGaux7TX5iko/wxEh/rOsMCGRd6cmWqN/l
- eUIZlRGh2p0ZLSgKQFlildIzK3Tti0xNoHQMXzr4oXy/YzSAW6/wgCHix/KQlMVuJ+aO
- DxdA==
+ (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
+ id 1iRh8b-00047u-FZ
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:31:39 -0500
+Received: by mail-wm1-x342.google.com with SMTP id 8so10154641wmo.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:31:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=P8PibeiupuNi15dHm5+jUR5CChJ9w0TTLJd6WN7BGpg=;
+ b=zKPvNnFTHPGsmJ+HlfIRPewnCGM9caXmxt4I3/bpQ+JkqrtLbBlQmkfB75j94yvcbD
+ i9whR6nKmUCxfQv7QRCdMPTfeB5XQdYtN1TWDeXCjSp6ZB7zKLEEcwU0TUvx/bRNywMP
+ EgwogmRw+ESqVLaFS+1Yap2YQeRc1u8Jd0tBOdmpvx/POKm++nh4LsWyQKxGS8Wxp5Zf
+ FsBN4T+PI382Zwy9wdyISDUz7ptKMpmQp0HI9/PvY2r10d/iTYopOjKKnX/HeFIci703
+ N8/5jCoRUPEUSd1cBtF7i53WUYZFOPyZwehnDHliWdut+Vq6j2Kx7j9iE26Dd7Uowl82
+ Xu1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vZlHRNrWzOSLywQj2MWXmHR9NXbEechkL9y1Q+q5kes=;
- b=icrCh2ETmCGVYTjJTqUetq68LPl9kN8d0rpIVm1ronEk5ZknM8cKvnZvHgqONVLmRv
- nEOwIzOx43bRQstu1fnW5dvmjW1oAP1/2GawzfM0+ISg+uiDAHzMTNVydFknDVByD8At
- KLyUeHuipYEC83nXO7GQ/+3TuCxNq7C16Cum38xKlwQvn7BGBxjxm96sUdfoXHuhaJjV
- RvnOrVaLmf0YNxCvIukiveBpcshlTVskGMICvgUQfko8EZkIsJfbbbhzHBzbSJnFEptf
- 7oWZ3Awju6B48geF88eCz8gr0cEC/HC7dXUYGOghShbeRDJuTa/YmCb8IxE8+4ueE3LP
- xpgg==
-X-Gm-Message-State: APjAAAU6Vl3bvDQGH8imrG7aESW4SI7GvlH/XELYk0JQj6HLtWCuklW0
- pozbPkyBUW24GaUdFLLreV4lYp/Yo3Dhg3Vu
-X-Google-Smtp-Source: APXvYqwBEg4tldsJiHmHURGcHn6YbY28cQeit2IjyAhc+ybQdMfmv/7xH2K7N29EQBRFNPNaGm84qw==
-X-Received: by 2002:a7b:ce12:: with SMTP id m18mr408194wmc.130.1572891393265; 
- Mon, 04 Nov 2019 10:16:33 -0800 (PST)
-Received: from localhost.localdomain ([194.162.236.226])
- by smtp.gmail.com with ESMTPSA id q15sm17165703wrr.82.2019.11.04.10.16.32
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=P8PibeiupuNi15dHm5+jUR5CChJ9w0TTLJd6WN7BGpg=;
+ b=Ux43yN9u5QWlUp9hMEVtexd3y+pspGSMTguTzdugfYtlMGj0lbg4U62f8/bdIV7lPp
+ F8+tiebDgj9lCv41AVT9Obbxi0XDsQIELiAcEn6RJYATaoOi9fAEpv6LaYpcChGznism
+ qkqiDof6ero+/406SlmGy64gREQ1acbPwx9ION7G+VKLfRSPiDvcOi5nSkt0cwsxktW2
+ jlc2GLldKkHZArxHJsgxsAWdDgmRf+L/o7Lp2X9elwMxvYXO89EG0iE9FX1R+z46VGmZ
+ Z2mAekhnM1vLS6VMViMfv8cKFS9s8elciJHgNTz2hS2k4eSDBuaoIbk4xh26MWuvFfcx
+ bf6w==
+X-Gm-Message-State: APjAAAV94igH94U425nnHv0+hRMwOESF3u9qKHkzICs3V4H4LNQTa2BK
+ kheD9uTtu8kjrHkSVd/avcO0oQ==
+X-Google-Smtp-Source: APXvYqxqp5pHCK/mjeMQmeeI+htVrSsTS5BrhAqowMaMuEqOXgXp6VTTnNHoL8DJyJUxOSbbKBIk7A==
+X-Received: by 2002:a05:600c:1002:: with SMTP id
+ c2mr417364wmc.79.1572892294020; 
+ Mon, 04 Nov 2019 10:31:34 -0800 (PST)
+Received: from lophozonia ([85.195.192.192])
+ by smtp.gmail.com with ESMTPSA id g14sm18776667wro.33.2019.11.04.10.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Nov 2019 10:16:32 -0800 (PST)
-From: linus.ziegert@holoplot.com
-X-Google-Original-From: linus.ziegert+qemu@holoplot.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] net/cadence_gem: Set PHY autonegotiation restart status
-Date: Mon,  4 Nov 2019 19:16:04 +0100
-Message-Id: <20191104181604.21943-1-linus.ziegert+qemu@holoplot.com>
-X-Mailer: git-send-email 2.21.0
+ Mon, 04 Nov 2019 10:31:33 -0800 (PST)
+Date: Mon, 4 Nov 2019 19:31:31 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH for-4.2 v10 06/15] virtio-iommu: Endpoint and domains
+ structs and helpers
+Message-ID: <20191104183131.GA3540585@lophozonia>
+References: <20190730172137.23114-1-eric.auger@redhat.com>
+ <20190730172137.23114-7-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190730172137.23114-7-eric.auger@redhat.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::342
@@ -78,60 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
- Linus Ziegert <linus.ziegert+qemu@holoplot.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: peter.maydell@linaro.org, kevin.tian@intel.com, mst@redhat.com,
+ tn@semihalf.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ alex.williamson@redhat.com, qemu-arm@nongnu.org, bharat.bhushan@nxp.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Linus Ziegert <linus.ziegert+qemu@holoplot.com>
+Hi Eric,
 
-The Linux kernel PHY driver sets AN_RESTART in the BMCR of the
-PHY when autonegotiation is started.
-Recently the kernel started to read back the PHY's AN_RESTART
-bit and now checks whether the autonegotiation is complete and
-the bit was cleared [1]. Otherwise the link status is down.
+On Tue, Jul 30, 2019 at 07:21:28PM +0200, Eric Auger wrote:
+>  static void virtio_iommu_device_unrealize(DeviceState *dev, Error **errp)
+>  {
+>      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> +    VirtIOIOMMU *s = VIRTIO_IOMMU(dev);
+> +
+> +    g_tree_destroy(s->domains);
+> +    g_tree_destroy(s->endpoints);
 
-The emulated PHY needs to clear AN_RESTART immediately to inform
-the kernel driver about the completion of autonegotiation phase.
+virtio_iommu_device_reset() must completely clear the internal state as
+well (noticed while testing modprobe/rmmod).
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c36757eb9dee
-
-Signed-off-by: Linus Ziegert <linus.ziegert+qemu@holoplot.com>
----
- hw/net/cadence_gem.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 7f9cb5ab95..b8be73dc55 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -271,9 +271,10 @@
- #define PHY_REG_EXT_PHYSPCFC_ST   27
- #define PHY_REG_CABLE_DIAG   28
- 
--#define PHY_REG_CONTROL_RST  0x8000
--#define PHY_REG_CONTROL_LOOP 0x4000
--#define PHY_REG_CONTROL_ANEG 0x1000
-+#define PHY_REG_CONTROL_RST       0x8000
-+#define PHY_REG_CONTROL_LOOP      0x4000
-+#define PHY_REG_CONTROL_ANEG      0x1000
-+#define PHY_REG_CONTROL_ANRESTART 0x0200
- 
- #define PHY_REG_STATUS_LINK     0x0004
- #define PHY_REG_STATUS_ANEGCMPL 0x0020
-@@ -1345,7 +1346,7 @@ static void gem_phy_write(CadenceGEMState *s, unsigned reg_num, uint16_t val)
-         }
-         if (val & PHY_REG_CONTROL_ANEG) {
-             /* Complete autonegotiation immediately */
--            val &= ~PHY_REG_CONTROL_ANEG;
-+            val &= ~(PHY_REG_CONTROL_ANEG | PHY_REG_CONTROL_ANRESTART);
-             s->phy_regs[PHY_REG_STATUS] |= PHY_REG_STATUS_ANEGCMPL;
-         }
-         if (val & PHY_REG_CONTROL_LOOP) {
--- 
-2.21.0
-
+Thanks,
+Jean
 
