@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A909EE7CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 19:58:44 +0100 (CET)
-Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C0CEE8F1
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 20:48:02 +0100 (CET)
+Received: from localhost ([::1]:37718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRhYp-0004wv-7d
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 13:58:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48341)
+	id 1iRiKX-00010K-85
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 14:48:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iRhY0-0004UM-Po
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:57:54 -0500
+ (envelope-from <rosen644835@gmail.com>) id 1iRiGI-0006aA-Rv
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iRhXy-0003Xe-SI
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:57:52 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:56012)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iRhXy-0003WM-4A
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 13:57:50 -0500
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 04D2887638
- for <qemu-devel@nongnu.org>; Mon,  4 Nov 2019 18:57:48 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id y3so3933314wrm.12
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 10:57:47 -0800 (PST)
+ (envelope-from <rosen644835@gmail.com>) id 1iRiGH-0006jc-HF
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:38 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37985)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rosen644835@gmail.com>)
+ id 1iRiGH-0006iq-AT
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 14:43:37 -0500
+Received: by mail-wr1-x443.google.com with SMTP id v9so18536816wrq.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 11:43:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FCWOfgHjogs+ZHLfec3iiRsV4fR75+riOa9yclc5WgY=;
+ b=fX1kT+RMbsmFV3mDrKTdsKAwLbaT+CHNxOshoKmW0WERHK6eZFKBMOkMNgHM5Bqrin
+ ANre1obHzRBx38UFoa32SYyfMD/KWGqxnyWo58XOAONUp3emmyPhcfbYwPr9b5HbMKFI
+ pwwguHW50nQWWtcfWbw6naEbzK9BAs0rVHOt8uTABElpbUooJE+iQSyaBmjVEeZsY+df
+ R0kNhvc63LBYEMwVO7NFDYWMFAEAJj8WqbS20FHsBheypq1+xQD/TYVsQX9DpvUBkckJ
+ dBLd8dXhsVNyd3T/1Nt1nWpuR5lWY/D0ibXivy2ZnWnPq2uMeQk1jhY1pHRpIbmGCh6e
+ Sh8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9f/J3as5YH8+eaHzctuyCRdELM9Hy1KZc7qoW69FGAU=;
- b=o1U3WI1tWr8i3RAwVANuVnC2xHllFfPKRPF7o0NTgYsJ1kSLaElOOC1tfOkQeLT4x4
- ksxD7W5lTF9+OVIcjOF/W8sMn00IKVKRhk2NG8P7vVW9Lj7alQdkBJvVSEoxwAO8b4EH
- JD/P3j8rz+dQsZH4E1q0GdnS6Fe9ENH8l/a6A2t6kXAImst1TUq2g1fYgpWzkH9XN51d
- I+OrAKsca+z6DbTVPtjkeCaHXoWFBqkwqKDLweSzgXDbB2TNmlo99B3zlQHufFfJjXBe
- 6xuOA6Odk0POYtXcplljOlaSzdCFTBJuKjGFOrobTrgm3S44P6TNth5F0hQxL+dAYifw
- iERA==
-X-Gm-Message-State: APjAAAVsRfa0JpgZLlQ9zyYU1H9pdtys18G014SkskjyRi2UF7DdwYxM
- 75t4ZVP0YOSDpYhzKh50l/hakBL0gXqMkzjYQT7+jK8DKmPicCGPQ+7zPIV8XCpQpB/IvnyLxAb
- /VPT//crUjB5O0PQ=
-X-Received: by 2002:a05:600c:22cb:: with SMTP id
- 11mr502104wmg.117.1572893866757; 
- Mon, 04 Nov 2019 10:57:46 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxGxwBER/GpVouGRHgeFaEvnhJ63M2A8iLyfE8Bu0qN5TJpH+cMY2x22dZtxgQxWjWDJ1FrsQ==
-X-Received: by 2002:a05:600c:22cb:: with SMTP id
- 11mr502070wmg.117.1572893866534; 
- Mon, 04 Nov 2019 10:57:46 -0800 (PST)
-Received: from [192.168.1.24] (lfbn-1-7864-228.w92-167.abo.wanadoo.fr.
- [92.167.33.228])
- by smtp.gmail.com with ESMTPSA id i71sm23941132wri.68.2019.11.04.10.57.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Nov 2019 10:57:45 -0800 (PST)
-Subject: Re: [PATCH v1 1/6] tests/vm: netbsd autoinstall, using serial console
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191104173654.30125-1-alex.bennee@linaro.org>
- <20191104173654.30125-2-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bdfdd76b-464a-eae9-b2de-0f939adf8b24@redhat.com>
-Date: Mon, 4 Nov 2019 19:57:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FCWOfgHjogs+ZHLfec3iiRsV4fR75+riOa9yclc5WgY=;
+ b=suaPe3sJ7f52Od9AEqdBqxzJjanco7WWNRAbO43IYuY1Rq5MwF+fiqxiEEmgHAZ++q
+ OxrGDjlhkx0xKmD7AltycZ6RxiXwJM8OWsuWaHoghZNYebKPfDxgJ7xVw0Vltb42qzj4
+ Wmzmh1st8mE9YhuadlxmR90zwRCZu7Hsv5DNBhM190jS9my9d4uBp3QTZrqKOx0VIK/g
+ nD/4Av6xXCCUV02gRYO6r8HAAvQ/qPeISWlz37rnz53Gp1uzV1kICbQsAyZQZDDMXX2f
+ xHWSLxylHdvz1PHVXrUQzM0ReJimhYrKlHk5g3C9ApwTvWs16ZUBtzbk7OOPjua+qCni
+ 5EaQ==
+X-Gm-Message-State: APjAAAUIuOqf/qTaXTlapC1/yfXSv52AYhpXC6FdXhMYJuaDkGs5GtSC
+ qn9NGFXnduHI8UvFGzBSXxo=
+X-Google-Smtp-Source: APXvYqztGLfkX9qXHYDrW93+KsQGOC1vARBk9E9HH+1VrmT82NfpzeBEN8gFkf9JGeOYY8yXouJ5qA==
+X-Received: by 2002:adf:fd08:: with SMTP id e8mr4032690wrr.42.1572896614937;
+ Mon, 04 Nov 2019 11:43:34 -0800 (PST)
+Received: from localhost (207.pool85-48-187.static.orange.es. [85.48.187.207])
+ by smtp.gmail.com with ESMTPSA id
+ f14sm19444367wrv.17.2019.11.04.11.43.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Nov 2019 11:43:34 -0800 (PST)
+Date: Mon, 4 Nov 2019 20:35:23 +0100
+From: Miguel Arruga Vivas <rosen644835@gmail.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [Qemu-devel] [Fail] tests/test-util-filemonitor fails
+Message-ID: <20191104171624.6e62c112@gmail.com>
+In-Reply-To: <20190809091214.GD13660@redhat.com>
+References: <20190808020723.GB26938@richard> <20190808080229.GA2534@redhat.com>
+ <20190808084653.GB32524@richard> <20190808092213.GB2534@redhat.com>
+ <20190809000609.GA4201@richard> <20190809091214.GD13660@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191104173654.30125-2-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,96 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Kamil Rytarowski <kamil@netbsd.org>, cota@braap.org,
- Gerd Hoffmann <kraxel@redhat.com>, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com,
- Kamil Rytarowski <n54@gmx.com>, aurelien@aurel32.net
+Cc: marcandre.lureau@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+ dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/4/19 6:36 PM, Alex Benn=C3=A9e wrote:
-> From: Gerd Hoffmann <kraxel@redhat.com>
->=20
-> Instead of fetching the prebuilt image from patchew download the instal=
-l
-> iso and prepare the image locally.  Install to disk, using the serial
-> console.  Create qemu user, configure ssh login.  Install packages
-> needed for qemu builds.
+Hi Daniel,
 
-It would be nice to be able to mount some host directory as target=20
-ccachedir and use ccache within the VM.
+I've been trying to open a bug in launchpad about exactly this, but it
+always raises an error when trying to log in.  Then I found this
+thread diving into the archives, so I'll try to kindly ask here about
+it.
 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Kamil Rytarowski <n54@gmx.com>
-> Tested-by: Thomas Huth <thuth@redhat.com>
-> [ehabkost: rebased to latest qemu.git master]
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> Message-Id: <20191031085306.28888-2-kraxel@redhat.com>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   tests/vm/netbsd | 189 +++++++++++++++++++++++++++++++++++++++++++++--=
--
->   1 file changed, 179 insertions(+), 10 deletions(-)
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> On Fri, Aug 09, 2019 at 08:06:09AM +0800, Wei Yang wrote:
+> > On Thu, Aug 08, 2019 at 10:22:13AM +0100, Daniel P. Berrang=C3=A9
+> > wrote: =20
+> > >On Thu, Aug 08, 2019 at 04:46:53PM +0800, Wei Yang wrote: =20
+> > >> On Thu, Aug 08, 2019 at 09:02:29AM +0100, Daniel P. Berrang=C3=A9
+> > >> wrote: =20
+> > >> >On Thu, Aug 08, 2019 at 10:07:23AM +0800, Wei Yang wrote: =20
+> > >> >> Current qemu fails tests/test-util-filemonitor. =20
+> > >> >
+> > >> >You'll need to provide more info. The test works for me and
+> > >> >passes in all the QEMU CI environments.
+> > >> > =20
+> > >>=20
+> > >> The error message from my side is:
+> > >>=20
+> > >> /util/filemonitor: Expected watch id 200000000 but got 100000000
+> > >> **
+> > >> ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events:
+> > >> assertion failed: (err =3D=3D 0)
+> > >>=20
+> > >> What else you'd prefer to have? =20
+> > >
+> > >Can you set the  "FILEMONITOR_DEBUG=3D1" env variable before running
+> > >the test - it will print out lots more info
+> > > =20
+> >=20
+> > Here is the output with more info.
+> >=20
+> >     $ FILEMONITOR_DEBUG=3D1
+> > QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64
+> > tests/test-util-filemonitor =20
 >=20
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index 18aa56ae826..5e04dcd9b16 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -2,10 +2,11 @@
->   #
->   # NetBSD VM image
->   #
-> -# Copyright 2017 Red Hat Inc.
-> +# Copyright 2017-2019 Red Hat Inc.
->   #
->   # Authors:
->   #  Fam Zheng <famz@redhat.com>
-> +#  Gerd Hoffmann <kraxel@redhat.com>
->   #
->   # This code is licensed under the GPL version 2 or later.  See
->   # the COPYING file in the top-level directory.
-> @@ -13,20 +14,53 @@
->  =20
->   import os
->   import sys
-> +import time
->   import subprocess
->   import basevm
->  =20
->   class NetBSDVM(basevm.BaseVM):
->       name =3D "netbsd"
->       arch =3D "x86_64"
-> +
-> +    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetB=
-SD-8.0-amd64.iso"
-> +    size =3D "20G"
-> +    pkgs =3D [
-> +        # tools
-> +        "git-base",
-> +        "pkgconf",
-> +        "xz",
-> +        "python37",
-> +
-> +        # gnu tools
-> +        "bash",
-> +        "gmake",
-> +        "gsed",
-> +        "flex", "bison",
-> +
-> +        # libs: crypto
-> +        "gnutls",
-> +
-> +        # libs: images
-> +        "jpeg",
-> +        "png",
-> +
-> +	# libs: ui
-> +        "SDL2",
-> +        "gtk3+",
-> +        "libxkbcommon",
-> +    ]
-[...]
+> >     Rmdir /tmp/test-util-filemonitor-151B6Z/fish
+> >     Event id=3D200000000 event=3D4 file=3D
+> >     Expected watch id 200000000 but got 100000000
+> >     ** =20
+>=20
+> Ok, so the kernel is sending the events in an unexpected order
+
+I've been reading about the issue and as far as I understand the inotify
+man-page[http://man7.org/linux/man-pages/man7/inotify.7.html], section
+"Dealing with rename() events", points out that the order nor the
+atomicity of the concurrent events is something that should be relied
+on.
+=20
+> >     ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events:
+> > assertion failed: (err =3D=3D 0) Aborted (core dumped)
+> >=20
+> >  =20
+> > >Also what operating system are you using, and what kernel version
+
+We have hit this error on GNU Guix master
+[http://issues.guix.gnu.org/issue/37860]. I'm using linux-libre 5.3.4
+on x86_64.  It does not seem to be something deterministic, but I just
+commented out the test the fifth time I've hit the same error.
+
+Is there any way to change the test to not rely on the ordering of the
+events from different views of the same fs action?
+
+Best regards,
+Miguel
 
