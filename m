@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5239FEE63D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 18:39:37 +0100 (CET)
-Received: from localhost ([::1]:35856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDF7EE648
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 18:40:56 +0100 (CET)
+Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRgKF-00081A-Tc
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 12:39:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34539)
+	id 1iRgLX-0001wN-Sn
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 12:40:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iRgHn-0006Fl-RF
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:37:04 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iRgHm-000110-Pk
+ (envelope-from <alex.bennee@linaro.org>) id 1iRgHm-0006Cy-6x
  for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:37:03 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37551)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iRgHk-0000zu-2t
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:37:02 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:47007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iRgHm-00010R-Jk
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:37:02 -0500
-Received: by mail-wm1-x342.google.com with SMTP id q130so16968423wme.2
- for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 09:37:02 -0800 (PST)
+ id 1iRgHj-0000zb-T5
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:37:00 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id b3so12334054wrs.13
+ for <qemu-devel@nongnu.org>; Mon, 04 Nov 2019 09:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0T0SS4x7TjpY+2zkzV95ywVD8nqA26iLH449n9iQx28=;
- b=cIClDeFR75PK/+AB2MCb1zOJVLm/SGAtlZFOUuWLI5U3R1HneSBK2IvMLVpCQM7fg+
- bquwLJifdkGmYkCDyRjy8X2eHGUuHf1ZPvi+Tihc4ANxXFQHxfSrd8+e1U3KK853j7Kj
- vRSL+dU3Vbi4bpRZE8ysE7whwjLSUSgJ1QfkiiJIT7+2o3UUVrhm5kW1MXE/NL9c4utM
- fxHaTfswV+gzurTD7JzNfpMxTCk2vwBcC4cPVk0AUIOJhFk79Kq+AbGezgLkoWFJ4Rda
- N8BN8STKuMmZ7JoigruWl5MoTy8O9lc/rDDNstQ0pLxhpyS7XwNbNvw0/YzPn6RgB1Yl
- ckDQ==
+ bh=FjjmRzG7VpaTW0V21y7CdXVm7zUUzOnKit95Yf46DtY=;
+ b=FDFRqqxasCjbmaqIwl/IhJhKJWFYBlJm/+7Yl83Cj6E77D7BVIl/wzr1NPoLVpnndt
+ 8c6luyAi3l+Jb+XV6pCbfyIkIF+C8R2EP8T+CdGFThTlR/mc48e5Qy9oqsPZY2YopZ3A
+ qhqN4ILhqMbHz5t7s9pFxrQChM2FrvzrszROWLFQhD8NqQQiZNMAS0/4sn1k5mK2o2ip
+ PU8XJRH7+hS53AyhsaBXb8H7xb9Rrzsn0QJK/Neag5aj6URY3yUSeDYDSba6vu/jDkvM
+ FYj3eUVfVW1Mh6w8Q8/8DCwdXHkAILgB/bYPiGTYaCtMGSxcvT+Tz8bxdS4HlnM3P8+O
+ KyPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0T0SS4x7TjpY+2zkzV95ywVD8nqA26iLH449n9iQx28=;
- b=QsH/ZnMOmsXx5N6QJ7nB6DNAAa9NmZup1+LYmv3845o7zzHcBPAgXPh0ZTVxpi6aM9
- PA45sWj9Ra3tzvYiR64Yy8yuWwkNbsWRctJR0DkVdMoBsz9jylkYFCDUkSuK95pbsn8K
- kHX9KqhiJF6M5OZME+BLs7yIRK6E97/6bRhL3qN9nnABNuChMpmTxAb0aaRmp76cQjbN
- o+DosvwMYKDUStJ+JsVzHoG7dcpXPKUMP71wwtlyyITLctY+kXko9tsGFwJYsoPGAZZ5
- IgpYhZdRz1nTdZihK/ElF0LjZYG/NOdxeyksOMi0h9wniR8XqIpDhUwQQMylfTqJajzQ
- UNaw==
-X-Gm-Message-State: APjAAAXp7BCYZvafcfkgLyR3GD/iT7cIcTU3H8TIbzbIkn2i3qAw5tuR
- pIcSCJwx7UJFLHxirgU6OrgWZQ==
-X-Google-Smtp-Source: APXvYqyIJtzxzoXZGi2oae3QBDAXm+Pa3NOMHaz94hp6c5grdv92vsSOCbGbz54kdVQ6ltKLUsou3w==
-X-Received: by 2002:a1c:750e:: with SMTP id o14mr209902wmc.35.1572889021299;
- Mon, 04 Nov 2019 09:37:01 -0800 (PST)
+ bh=FjjmRzG7VpaTW0V21y7CdXVm7zUUzOnKit95Yf46DtY=;
+ b=Ijxdnu+MXk0MXPY6vmImCtBaFQoeKF0kYa9pGQ7BdZavMTSM/42aaUJ950xzjEE6mR
+ oZDSnEhJYchK/JQ8QmlSFPQcDMLWiG2o/laINhFvOBUzK0v2or/+OUPidD6/yen45/KH
+ UwH+MDXs/Eoiye3RP6C+gMdG9E0/M0SI/V2WuPqLanD8FYyyYs8vdODOVywe+l1GyXGc
+ gEq1/CHwybtmVCqYWOmXJdkQB+lWaYoNg3i/BfwVgRihSnd9NzqJZnyt5qYpkUfYJuQx
+ bstFyXFf7yw1AHzOF4n0BLU3AL0KW72r45ubEQ4/pXFWtXSW1eXra4N03QjgrOpTzMwV
+ KiJg==
+X-Gm-Message-State: APjAAAVzDuJf0puSLcievWzXIkaNzB5XI/VU07UIwgsWtHgoghNCYr5H
+ Ka4/wum6nb5ZNHaUw/Wvx2C1Lw==
+X-Google-Smtp-Source: APXvYqzJGT0WkVRCl/ITdxWAhQ7MZ+84D2rWS/MgiFzveLGDVTsWzofRgiESwOPYlqR5d5jd2cFqSw==
+X-Received: by 2002:a5d:4748:: with SMTP id o8mr25239734wrs.239.1572889018722; 
+ Mon, 04 Nov 2019 09:36:58 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c15sm15499745wmb.45.2019.11.04.09.36.55
+ by smtp.gmail.com with ESMTPSA id v8sm19851770wra.79.2019.11.04.09.36.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 04 Nov 2019 09:36:56 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E3C081FF90;
- Mon,  4 Nov 2019 17:36:54 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 13FAA1FF91;
+ Mon,  4 Nov 2019 17:36:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 3/6] tests/vm: use console_consume for netbsd
-Date: Mon,  4 Nov 2019 17:36:51 +0000
-Message-Id: <20191104173654.30125-4-alex.bennee@linaro.org>
+Subject: [PATCH  v1 4/6] tests/vm: update netbsd to version 8.1
+Date: Mon,  4 Nov 2019 17:36:52 +0000
+Message-Id: <20191104173654.30125-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191104173654.30125-1-alex.bennee@linaro.org>
 References: <20191104173654.30125-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,29 +93,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Use new helper to read all pending console output,
-not just a single char.  Unblocks installer boot.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20191031085306.28888-4-kraxel@redhat.com>
+Message-Id: <20191031085306.28888-5-kraxel@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
  tests/vm/netbsd | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 5e04dcd9b16..d1bccccfd01 100755
+index d1bccccfd01..33779402dd1 100755
 --- a/tests/vm/netbsd
 +++ b/tests/vm/netbsd
-@@ -93,7 +93,7 @@ class NetBSDVM(basevm.BaseVM):
-         for char in list("5consdev com0\n"):
-             time.sleep(0.2)
-             self.console_send(char)
--            self.console_wait("")
-+            self.console_consume()
-         self.console_wait_send("> ", "boot\n")
+@@ -22,7 +22,7 @@ class NetBSDVM(basevm.BaseVM):
+     name = "netbsd"
+     arch = "x86_64"
  
-         self.console_wait_send("Terminal type",            "xterm\n")
+-    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetBSD-8.0-amd64.iso"
++    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetBSD-8.1-amd64.iso"
+     size = "20G"
+     pkgs = [
+         # tools
 -- 
 2.20.1
 
