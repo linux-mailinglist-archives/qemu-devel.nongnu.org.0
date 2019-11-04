@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF78EE662
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 18:42:31 +0100 (CET)
-Received: from localhost ([::1]:35926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FBAEE6B6
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Nov 2019 18:56:06 +0100 (CET)
+Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRgN4-0003Tp-Cp
-	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 12:42:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35473)
+	id 1iRgaC-00029P-LS
+	for lists+qemu-devel@lfdr.de; Mon, 04 Nov 2019 12:56:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iRgLr-0002W4-Na
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:41:17 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iRgY7-0008U7-NN
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:53:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iRgLp-0004u1-1v
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:41:14 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34604
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iRgY5-0004ks-4T
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:53:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39192
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iRgLo-0004to-Ql
- for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:41:13 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iRgY3-0004jh-1d
+ for qemu-devel@nongnu.org; Mon, 04 Nov 2019 12:53:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572889271;
+ s=mimecast20190719; t=1572890029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iFWLeQ87s6lX6o+HnOAE0ThJig2W85EWe9Iaa3SOoxM=;
- b=TZO4vk7IUG821ew97lztXK6NVG40cL78MjbxghZIS/AZS88ONz32ZybUgv1bEUjSnivCvg
- rxirSulHvBDxP5bD4RBnJDG857HsmCyEvLTUS925dG7tHZPqJyzRu9teiIJTHGFu8FXR8A
- P2kVwBXf7rsYL+PQ8S1HLlqgb+4f080=
+ bh=bbV0ACUjwpEFkar9tiExq+Jt76hpcobjW8fekGqNoBY=;
+ b=Z34T5pWYXi1Zu3pBEbKe8ngq6iQakTPFsmU0MOGssGX8c4fXKkrczUP1+B3U3Uy/gmPZnS
+ tjBZs00evM1OV5BQs9IxRRMf8lKWg8rpcvAKNcz38ZnW324zbca37OSS1gaY3P42BA19BL
+ GuC/a4B2CPGoV6KQ1djiP7/DccARoCo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-GBnH1mGyNM2q0dUlu5v8rg-1; Mon, 04 Nov 2019 12:41:10 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-88-RdCKxKvFO9OiKGhcDvP-UA-1; Mon, 04 Nov 2019 12:53:48 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20D54477;
- Mon,  4 Nov 2019 17:41:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72A66107ACC2;
+ Mon,  4 Nov 2019 17:53:47 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A1DA60BF3;
- Mon,  4 Nov 2019 17:41:07 +0000 (UTC)
-Message-ID: <acd59579bf8750646fa918beaf5208d8b206ba45.camel@redhat.com>
-Subject: Re: [PATCH v2 1/2] nbd: Don't send oversize strings
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 268A060874;
+ Mon,  4 Nov 2019 17:53:44 +0000 (UTC)
+Message-ID: <30a30dc76e52722cca274f7bbc5a16386644f7df.camel@redhat.com>
+Subject: Re: [PATCH v2 2/2] nbd: Allow description when creating NBD blockdev
 From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, Eric Blake
- <eblake@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Date: Mon, 04 Nov 2019 19:41:06 +0200
-In-Reply-To: <dcdeae8f-6cb7-4f93-5fa8-aa02eb03bed7@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Date: Mon, 04 Nov 2019 19:53:44 +0200
+In-Reply-To: <20191010210018.22000-3-eblake@redhat.com>
 References: <20191010210018.22000-1-eblake@redhat.com>
- <20191010210018.22000-2-eblake@redhat.com>
- <e777bd6b-525d-99e1-2584-a31f3609d5cd@virtuozzo.com>
- <c7ed4149-8cef-7897-ae95-9b24a3d4f378@redhat.com>
- <dcdeae8f-6cb7-4f93-5fa8-aa02eb03bed7@virtuozzo.com>
+ <20191010210018.22000-3-eblake@redhat.com>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: GBnH1mGyNM2q0dUlu5v8rg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: RdCKxKvFO9OiKGhcDvP-UA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,193 +71,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2019-10-15 at 16:16 +0000, Vladimir Sementsov-Ogievskiy wrote:
-> 15.10.2019 18:07, Eric Blake wrote:
-> > On 10/11/19 2:32 AM, Vladimir Sementsov-Ogievskiy wrote:
-> > > 11.10.2019 0:00, Eric Blake wrote:
-> > > > Qemu as server currently won't accept export names larger than 256
-> > > > bytes, nor create dirty bitmap names longer than 1023 bytes, so mos=
-t
-> > > > uses of qemu as client or server have no reason to get anywhere nea=
-r
-> > > > the NBD spec maximum of a 4k limit per string.
-> > > >=20
-> > > > However, we weren't actually enforcing things, ignoring when the
-> > > > remote side violates the protocol on input, and also having several
-> > > > code paths where we send oversize strings on output (for example,
-> > > > qemu-nbd --description could easily send more than 4k).  Tighten
-> > > > things up as follows:
-> > > >=20
-> > > > client:
-> > > > - Perform bounds check on export name and dirty bitmap request prio=
-r
-> > > >     to handing it to server
-> > > > - Validate that copied server replies are not too long (ignoring
-> > > >     NBD_INFO_* replies that are not copied is not too bad)
-> > > > server:
-> > > > - Perform bounds check on export name and description prior to
-> > > >     advertising it to client
-> > > > - Reject client name or metadata query that is too long
-> > > >=20
-> > > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > > > ---
-> > > > +++ b/include/block/nbd.h
-> > > > @@ -232,6 +232,7 @@ enum {
-> > > >     * going larger would require an audit of more code to make sure=
- we
-> > > >     * aren't overflowing some other buffer. */
-> > >=20
-> > > This comment says, that we restrict export name to 256...
-> >=20
-> > Yes, because we still stack-allocate the name in places, but 4k is too =
-large for stack allocation.  But we're inconsistent on where we use the sma=
-ller 256-limit; the server won't serve an image
-> > that large, but doesn't prevent a client from requesting a 4k name expo=
-rt (even though that export will not be present).
-> >=20
-> >=20
-> > > > +++ b/blockdev-nbd.c
-> > > > @@ -162,6 +162,11 @@ void qmp_nbd_server_add(const char *device, bo=
-ol has_name, const char *name,
-> > > >            name =3D device;
-> > > >        }
-> > > >=20
-> > > > +    if (strlen(name) > NBD_MAX_STRING_SIZE) {
-> > > > +        error_setg(errp, "export name '%s' too long", name);
-> > > > +        return;
-> > > > +    }
-> > >=20
-> > > Hmmm, no, so here we restrict to 4096, but, we will not allow client =
-to request more than
-> > > 256. Seems, to correctly update server-part, we should drop NBD_MAX_N=
-AME_SIZE and do the
-> > > audit mentioned in the comment above its definition.
-> >=20
-> > Yeah, I guess it's time to just get rid of NBD_MAX_NAME_SIZE, and move =
-away from stack allocations.  Should I do that as a followup to this patch,=
- or spin a v3?
+On Thu, 2019-10-10 at 16:00 -0500, Eric Blake wrote:
+> Allow blockdevs to match the feature already present in qemu-nbd -D.
+> Enhance iotest 223 to cover it.
 >=20
-> Hmm. It's OK too.
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  qapi/block.json            | 8 +++++---
+>  blockdev-nbd.c             | 9 ++++++++-
+>  monitor/hmp-cmds.c         | 4 ++--
+>  tests/qemu-iotests/223     | 2 +-
+>  tests/qemu-iotests/223.out | 1 +
+>  5 files changed, 17 insertions(+), 7 deletions(-)
 >=20
-> With
->   - fixed mem-leak in nbd_process_options
->   - s/x_dirty_bitmap/x-dirty-bitmap in nbd_process_options in error messa=
-ge
->   - following yours new wordings
+> diff --git a/qapi/block.json b/qapi/block.json
+> index 145c268bb646..a6617b5bd03a 100644
+> --- a/qapi/block.json
+> +++ b/qapi/block.json
+> @@ -250,9 +250,11 @@
+>  # @name: Export name. If unspecified, the @device parameter is used as t=
+he
+>  #        export name. (Since 2.12)
+>  #
+> +# @description: Free-form description of the export. (Since 4.2)
+> +#
+>  # @writable: Whether clients should be able to write to the device via t=
+he
+>  #     NBD connection (default false).
+> -
+> +#
+>  # @bitmap: Also export the dirty bitmap reachable from @device, so the
+>  #          NBD client can use NBD_OPT_SET_META_CONTEXT with
+>  #          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+> @@ -263,8 +265,8 @@
+>  # Since: 1.3.0
+>  ##
+>  { 'command': 'nbd-server-add',
+> -  'data': {'device': 'str', '*name': 'str', '*writable': 'bool',
+> -           '*bitmap': 'str' } }
+> +  'data': {'device': 'str', '*name': 'str', '*description': 'str',
+> +           '*writable': 'bool', '*bitmap': 'str' } }
 >=20
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>  ##
+>  # @NbdServerRemoveMode:
+> diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+> index 8c20baa4a4b9..de2f2ff71320 100644
+> --- a/blockdev-nbd.c
+> +++ b/blockdev-nbd.c
+> @@ -144,6 +144,7 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+>  }
 >=20
-> However, this patch introduces possible crash point, asserting on bitmap =
-name below, so it would better
-> be fixed before this patch or immediately after it.. Still, it's unlikely=
- to have a bitmap with name
-> longer than 4k..
+>  void qmp_nbd_server_add(const char *device, bool has_name, const char *n=
+ame,
+> +                        bool has_description, const char *description,
+>                          bool has_writable, bool writable,
+>                          bool has_bitmap, const char *bitmap, Error **err=
+p)
+>  {
+> @@ -167,6 +168,11 @@ void qmp_nbd_server_add(const char *device, bool has=
+_name, const char *name,
+>          return;
+>      }
 >=20
-> >=20
-> > > > +++ b/nbd/client.c
-> > > > @@ -289,8 +289,8 @@ static int nbd_receive_list(QIOChannel *ioc, ch=
-ar **name, char **description,
-> > > >            return -1;
-> > > >        }
-> > > >        len -=3D sizeof(namelen);
-> > > > -    if (len < namelen) {
-> > > > -        error_setg(errp, "incorrect option name length");
-> > > > +    if (len < namelen || namelen > NBD_MAX_STRING_SIZE) {
-> > > > +        error_setg(errp, "incorrect list name length");
-> > >=20
-> > > New wording made me go above and read the comment, what functions doe=
-s. Comment is good, but without
-> > > it, it sounds like name of the list for me...
-> >=20
-> > Maybe:
-> >=20
-> > incorrect name length in server's list response
+> +    if (has_description && strlen(description) > NBD_MAX_STRING_SIZE) {
+> +        error_setg(errp, "description '%s' too long", description);
+> +        return;
+> +    }
+> +
+>      if (nbd_export_find(name)) {
+>          error_setg(errp, "NBD server already has export named '%s'", nam=
+e);
+>          return;
+> @@ -195,7 +201,8 @@ void qmp_nbd_server_add(const char *device, bool has_=
+name, const char *name,
+>          writable =3D false;
+>      }
 >=20
-> Yes, this is better, thanks
+> -    exp =3D nbd_export_new(bs, 0, len, name, NULL, bitmap, !writable, !w=
+ritable,
+> +    exp =3D nbd_export_new(bs, 0, len, name, description, bitmap,
+> +                         !writable, !writable,
+>                           NULL, false, on_eject_blk, errp);
+>      if (!exp) {
+>          goto out;
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index b2551c16d129..574c6321c9d0 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -2352,7 +2352,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict=
+ *qdict)
+>              continue;
+>          }
 >=20
-> >=20
-> > >=20
-> > > >            nbd_send_opt_abort(ioc);
-> > > >            return -1;
-> > > >        }
-> > > > @@ -303,6 +303,11 @@ static int nbd_receive_list(QIOChannel *ioc, c=
-har **name, char **description,
-> > > >        local_name[namelen] =3D '\0';
-> > > >        len -=3D namelen;
-> > > >        if (len) {
-> > > > +        if (len > NBD_MAX_STRING_SIZE) {
-> > > > +            error_setg(errp, "incorrect list description length");
-> >=20
-> > and
-> >=20
-> > incorrect description length in server's list response
-> >=20
-> >=20
-> > > > @@ -648,6 +657,7 @@ static int nbd_send_meta_query(QIOChannel *ioc,=
- uint32_t opt,
-> > > >        if (query) {
-> > > >            query_len =3D strlen(query);
-> > > >            data_len +=3D sizeof(query_len) + query_len;
-> > > > +        assert(query_len <=3D NBD_MAX_STRING_SIZE);
-> > > >        } else {
-> > > >            assert(opt =3D=3D NBD_OPT_LIST_META_CONTEXT);
-> > > >        }
-> > >=20
-> > > you may assert export_len as well..
-> >=20
-> > It was asserted earlier, but doing it again might not hurt, especially =
-if I do the followup patch getting rid of NBD_MAX_NAME_SIZE
-> >=20
-> >=20
-> > > > @@ -1561,6 +1569,8 @@ NBDExport *nbd_export_new(BlockDriverState *b=
-s, uint64_t dev_offset,
-> > > >            exp->export_bitmap =3D bm;
-> > > >            exp->export_bitmap_context =3D g_strdup_printf("qemu:dir=
-ty-bitmap:%s",
-> > > >                                                         bitmap);
-> > > > +        /* See BME_MAX_NAME_SIZE in block/qcow2-bitmap.c */
-> > >=20
-> > > Hmm. BME_MAX_NAME_SIZE is checked only when creating persistent bitma=
-ps. But for non-persistent
-> > > name length is actually unlimited. So, we should either limit all bit=
-map names to 1023 (hope,
-> > > this will not break existing scenarios) or error out here (or earlier=
-) instead of assertion.
-> >=20
-> > I'm leaning towards limiting ALL bitmaps to the same length (as we've a=
-lready debated the idea of being able to convert an existing bitmap from tr=
-ansient to persistent).
+> -        qmp_nbd_server_add(info->value->device, false, NULL,
+> +        qmp_nbd_server_add(info->value->device, false, NULL, false, NULL=
+,
+>                             true, writable, false, NULL, &local_err);
 >=20
-> Agreed, but ..
+>          if (local_err !=3D NULL) {
+> @@ -2374,7 +2374,7 @@ void hmp_nbd_server_add(Monitor *mon, const QDict *=
+qdict)
+>      bool writable =3D qdict_get_try_bool(qdict, "writable", false);
+>      Error *local_err =3D NULL;
 >=20
-> >=20
-> > >=20
-> > > We also may want QEMU_BUILD_BUG_ON(NBD_MAX_STRING_SIZE < BME_MAX_NAME=
-_SIZE + sizeof("qemu:dirty-bitmap:") - 1)
-> >=20
-> > Except that BME_MAX_NAME_SIZE is not (currently) in a public .h file.
-> >=20
+> -    qmp_nbd_server_add(device, !!name, name, true, writable,
+> +    qmp_nbd_server_add(device, !!name, name, false, NULL, true, writable=
+,
+>                         false, NULL, &local_err);
+>      hmp_handle_error(mon, &local_err);
+>  }
+> diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+> index 2ba3d8124b4f..06bdc96be48f 100755
+> --- a/tests/qemu-iotests/223
+> +++ b/tests/qemu-iotests/223
+> @@ -144,7 +144,7 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-a=
+dd",
+>    "bitmap":"b3"}}' "error" # Missing bitmap
+>  _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
+>    "arguments":{"device":"n", "name":"n2", "writable":true,
+> -  "bitmap":"b2"}}' "return"
+> +  "description":"some text", "bitmap":"b2"}}' "return"
+>  $QEMU_NBD_PROG -L -k "$TEST_DIR/nbd"
 >=20
-> .. I think, than it should be new BLOCK_DIRTY_BITMAP_MAX_NAME_SIZE.. And =
-we'll have to note it in qapi doc..
-> Should this change go through deprecation? Or we consider non-persistent =
-bitmaps as something not really useful?
->=20
-> --=20
-> Best regards,
-> Vladimir
+>  echo
+> diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+> index 23b34fcd202e..16d597585b4f 100644
+> --- a/tests/qemu-iotests/223.out
+> +++ b/tests/qemu-iotests/223.out
+> @@ -49,6 +49,7 @@ exports available: 2
+>     base:allocation
+>     qemu:dirty-bitmap:b
+>   export: 'n2'
+> +  description: some text
+>    size:  4194304
+>    flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+>    min block: 1
 
-I followed upon the new patch and the comments, and it seems ok now to me, =
-(including the comments that were already made) but I haven't
-checked if there are more cases of missing length checks.
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 =09Maxim Levitsky
-
 
 
