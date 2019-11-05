@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AF2F0008
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 15:39:23 +0100 (CET)
-Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EE0F003D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 15:46:50 +0100 (CET)
+Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRzzO-0006Ve-6P
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 09:39:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53061)
+	id 1iS05w-00026U-52
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 09:46:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iRzy6-00064m-3w
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 09:38:03 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iS03K-0008Ng-5y
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 09:43:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iRzy4-0000QT-Qe
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 09:38:02 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36126)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iRzy4-0000QB-M1
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 09:38:00 -0500
-Received: by mail-ot1-x344.google.com with SMTP id s3so10198111otk.3
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 06:38:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QAoOhB3KV4Sec+eLe7JvBaFHkM0Yy6BuduPLpvzs8+M=;
- b=ru0dZVQeqyFJafnMAM0yw7Pf0W4yUR78z4QYPAEsaM1mHTkoTreYyS+n/33dC0FmlN
- ZEvjNHT9YITBF6WGyez28aDxOoGsagtek6b7CXJL7iAPCI/PIouQpE5lBe6iGohva0Zj
- AM4+MH3vdH4IRp8nKWRwg+MFoV/gJERHq0E3Nd1ZXS+S1Vu8jtkxCaQ7Gz1gMx1gwqD4
- c92hJHINi/eaHM4UnER5bzlnuWJoUiWxAoC9vollVKc9WAwKlDbMuB/Q+O7gMvpKUwDA
- rZaYVMe3OFXrsF0fwRJzMMg/jxOHMWjRmjLJd5nX6lF0etSQNkmf3nG2GkBVLgQUunby
- T8RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QAoOhB3KV4Sec+eLe7JvBaFHkM0Yy6BuduPLpvzs8+M=;
- b=tPW/zOe4j5Utz+ryZlJlVifIr59DGwTQs+V6kMQ4Fn2u41MePTKSfEH9RPWZFi+xAF
- BXSl6viKjyb6YtfrzdAIrt/KvWRChgYz4E6YUX5f+6X80dU5UMUAXXTGNy6I6wev2h+h
- 5BTCCJrgv9UxfVs7CGeytSlA1M4LVcKbT1Qwb9hvEn6ziKAwlK9ee/rDfW1VLjJz6RR0
- UKOeicaBJQPyZ8tDmpPmJ7F6SCd3L6bdSkRYHzMlWbO+0ekuPPn9QgmDYe217c3H7rDW
- OWrVJisxIxvAxg3p1UAeJdXvnczC2Hwin1AanKhNL20BuaYHaXrYKL3FOCW+OPCtIJoi
- Mgog==
-X-Gm-Message-State: APjAAAV5In1xz+YCgm3nPIkUXt9hYRsK66nwJlhIRZe890CGwCcoUTZ6
- kDgQwLnf4xz8+kR65IGYA5uCLbqledW3Std/DKQ=
-X-Google-Smtp-Source: APXvYqyZ0EcJYNs9sXwf4dZJ1XBkuFp76h2VFKRd9uXeVGXT9mnhcSL8/sU0S8B4MgsgpXAFqqWjXpExhQqYpinxbo8=
-X-Received: by 2002:a9d:68da:: with SMTP id i26mr7553931oto.295.1572964679707; 
- Tue, 05 Nov 2019 06:37:59 -0800 (PST)
+ (envelope-from <laurent@vivier.eu>) id 1iS03J-0002iA-55
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 09:43:26 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:34973)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iS03E-0002fS-LH; Tue, 05 Nov 2019 09:43:20 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M7v18-1iWxrR1i5q-0053TC; Tue, 05 Nov 2019 15:42:55 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] Trivial branch patches
+Date: Tue,  5 Nov 2019 15:42:43 +0100
+Message-Id: <20191105144247.10301-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191029212430.20617-1-mrolnik@gmail.com>
- <20191029212430.20617-6-mrolnik@gmail.com>
- <CAL1e-=gKGJC4X9aNtj1SL7+s5UryNtEF81YcG4kvhjPNP247Kw@mail.gmail.com>
- <CAL1e-=gXr5KJ7W3_bnuBaupuz6jYr0LnAX7FXJ8+F8rJ=ARKxw@mail.gmail.com>
- <14d51697-9415-14b9-8f92-3ae3de2fca58@linaro.org>
-In-Reply-To: <14d51697-9415-14b9-8f92-3ae3de2fca58@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 5 Nov 2019 15:37:48 +0100
-Message-ID: <CAL1e-=g6ctnzUSgq3eRn98nOMPJ88ucUNX7xc5MxCr6J=k4YMg@mail.gmail.com>
-Subject: Re: [PATCH v35 05/13] target/avr: Add instruction translation -
- Arithmetic and Logic Instructions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ts98NfmfLnlsGeB7aeJ8lq36UwPs48GJqE0eLgOW0C9sAWmiD0o
+ A+bEsOAg3Py4/VEjzLFyHEeW7gV4jDIo9Qxq+PKmuFAtCyaNV0Xu+iyYd2cmQRurTGwwZyD
+ eAbdmiUQv/wMO1FDdYmuB7ZWXrh6SeWel3GrRu37pSYrriexBpdho5bC3O5k0ZEUpqCwCuM
+ PHbrzpTPBN7148ETqrsPg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HiWFcm3zl4c=:9Havqf+6M3eDHoN+3p5uq/
+ S/DOD4piNU4EaSkrAYOo2HCCpmKaEdPxO69KJV9sSJvIl0qTxqse6tdHd2A/v9Egq2LDYzKZ+
+ CMado3YPPoSGwAibKayV2kfqUbfwcCZW71G2M4cp2UNB2BbBdv6hDARJmUUJObXLQw6xb948J
+ ifhlkmHnw70f+Yne2CuyoZjyotn60Jb1sttZiM24BtRiuR+HzRO4d+PqsR576oix8q/QxH5TB
+ /2O1s/M1M5aCyhYgl+jYx/wW63Qgs6oXsA95KY+np4rAgIXDmB/FwTtUFvdGu3/qDm0n4Zms5
+ L4WCcocizQ+Gbw/Xt4/xhjL/v0iJ1TUSe/DVGpOopUMKCH+BqCIPH70FGx01DB7R1ziDZCQxG
+ MQqJBwWhUujr0d+jLvGSGOvQffG9uLdTzAIpknwYGjiB3HHBtRwCwGxJlkFeo5vXgsLvVoJYE
+ BA7TIU8QDXaockqseH2kdE9h3zVOi02jjzadX1NbrJEOyfzdermQnt9jykdDbGWAMOCsXTg9N
+ lLBPTpFAUDf9XYuKr7RtkVgvAwzQBPUt/86dWR/TKE5J0AtmK5YS9DQmxzq3ySO7pPdDIjNeJ
+ SyTHkq4JPv157lZdN2+Z/7PiaHBmWdMs+MR2X0D5RkLPZDUX69xJTMoyvwHz2nbt8del5xw0x
+ 9O/U5EgBA5Jptz+hxkU8T2y+jWwdAiDk58VKgjA8kRQbXkI/wNhMs2r8jl0+1yUC1CtfG3XGk
+ 3C0oa/3Fi5zUUKHkOedbJMPy01xbbo0Mj2QB+0QO8ZB5G4puCEOdsmUtZbh/O4E/eE5OtZ4M3
+ CJ4NNEtgjAoOREhJWhx8QClAVZnUgbzsQFEOykmIANRJKdEsTZYk4l9xJgT7P1uDEwOdGbuzk
+ SssoIYkyNKfVWjPRnpUkIa7kSycgYAeae6eer+wk8=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,105 +64,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, qemu-trivial@nongnu.org,
+ Claudio Fontana <claudio.fontana@huawei.com>, Cleber Rosa <crosa@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 5, 2019 at 2:23 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 11/5/19 10:46 AM, Aleksandar Markovic wrote:
-> >
-> >
-> > On Tuesday, November 5, 2019, Aleksandar Markovic <aleksandar.m.mail@gmail.com
-> > <mailto:aleksandar.m.mail@gmail.com>> wrote:
-> >
-> >
-> >         +
-> >         +/*
-> >         + *  This instruction performs 8-bit x 8-bit -> 16-bit signed
-> >         multiplication
-> >         + *  and shifts the result one bit left.
-> >         + */
-> >         +static bool trans_FMULSU(DisasContext *ctx, arg_FMULSU *a)
-> >         +{
-> >         +    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-> >         +        return true;
-> >         +    }
-> >         +
-> >         +    TCGv R0 = cpu_r[0];
-> >         +    TCGv R1 = cpu_r[1];
-> >         +    TCGv Rd = cpu_r[a->rd];
-> >         +    TCGv Rr = cpu_r[a->rr];
-> >         +    TCGv R = tcg_temp_new_i32();
-> >         +    TCGv t0 = tcg_temp_new_i32();
-> >         +
-> >         +    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-> >         +    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
-> >         +    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-> >         +
-> >         +    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-> >         +    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-> >         +
-> >         +    tcg_gen_shli_tl(R, R, 1);
-> >         +
-> >         +    tcg_gen_andi_tl(R0, R, 0xff);
-> >         +    tcg_gen_shri_tl(R1, R, 8);
-> >         +    tcg_gen_andi_tl(R1, R1, 0xff);
-> >         +
-> >         +    tcg_temp_free_i32(t0);
-> >         +    tcg_temp_free_i32(R);
-> >         +
-> >         +    return true;
-> >         +}
-> >         +
-> >
-> >
-> >     Hi, Michael.
-> >
-> >     The way I understand the spec is that a->rd and a->rd must be between 16
-> >     and 23:
-> >
-> >     https://www.microchip.com/webdoc/avrassembler/avrassembler.wb_FMULSU.html
-> >     <https://www.microchip.com/webdoc/avrassembler/avrassembler.wb_FMULSU.html>
-> >
-> >     Is my interpretation right? If yes, where is the corresponding part in the
-> >     implementation?
-> >
-> >
-> > Or, perhaps,
-> >
-> > TCGv Rd = cpu_r[a->rd];
-> >
-> > should be
-> >
-> > TCGv Rd = cpu_r[a->rd + 16];
-> >
-> > (and the same for rs)
->
-> This happens during decode:
->
-> +%rd_b           4:3                         !function=to_B
-> +%rr_b           0:3                         !function=to_B
-> +@fmul           .... .... . ... . ...       &rd_rr      rd=%rd_b rr=%rr_b
-> +FMUL            0000 0011 0 ... 1 ...       @fmul
-> +FMULS           0000 0011 1 ... 0 ...       @fmul
-> +FMULSU          0000 0011 1 ... 1 ...       @fmul
->
-> This means that a->rd = to_B(extract32(insn, 4, 3)), and
->
-> > +static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }
->
-> et voila.
->
+The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408:
 
-OK. Thanks for clarification.
+  Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-sf1' into staging (2019-11-02 17:59:03 +0000)
 
->
-> r~
+are available in the Git repository at:
+
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+
+for you to fetch changes up to a37a36a11b584e083b1c578f1d60e6e0f7878d5f:
+
+  global: Squash 'the the' (2019-11-05 15:06:09 +0100)
+
+----------------------------------------------------------------
+Trivial fixes (20191105)
+
+----------------------------------------------------------------
+
+Dr. David Alan Gilbert (1):
+  global: Squash 'the the'
+
+Greg Kurz (1):
+  qom: Fix error message in object_class_property_add()
+
+Philippe Mathieu-Daudé (2):
+  hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to PnP registers
+  hw/misc/grlib_ahb_apb_pnp: Fix 8-bit accesses
+
+ disas/libvixl/vixl/invalset.h       |  2 +-
+ docs/interop/pr-helper.rst          |  2 +-
+ docs/specs/ppc-spapr-hotplug.txt    |  2 +-
+ docs/specs/ppc-xive.rst             |  2 +-
+ docs/specs/tpm.txt                  |  2 +-
+ hw/misc/grlib_ahb_apb_pnp.c         | 12 ++++++++++++
+ include/hw/xen/interface/io/blkif.h |  2 +-
+ qom/object.c                        | 10 ++++------
+ scripts/dump-guest-memory.py        |  2 +-
+ 9 files changed, 23 insertions(+), 13 deletions(-)
+
+-- 
+2.21.0
+
 
