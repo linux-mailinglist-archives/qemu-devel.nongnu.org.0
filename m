@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E193F0884
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:39:25 +0100 (CET)
-Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC88F0881
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:38:28 +0100 (CET)
+Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6Xr-0000Pn-NN
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:39:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
+	id 1iS6Wx-0007hd-4V
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:38:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pe-0001OR-26
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:43 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qb-0002ke-06
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pc-0002Th-CT
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3812
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qZ-0003Ak-Jh
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:40 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1454)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pb-00026w-0j; Tue, 05 Nov 2019 15:53:40 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpVYU093055; Tue, 5 Nov 2019 15:53:18 -0500
+ id 1iS5qZ-0003AI-Bl; Tue, 05 Nov 2019 15:54:39 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KsVFX043595; Tue, 5 Nov 2019 15:54:37 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3gbm8aaf-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8mp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:18 -0500
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpb63093423;
- Tue, 5 Nov 2019 15:53:17 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3gbm8aa8-1
+ Tue, 05 Nov 2019 15:54:37 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KsaDh044098;
+ Tue, 5 Nov 2019 15:54:36 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8k2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:17 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnuW5017656;
- Tue, 5 Nov 2019 20:53:17 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03wdc.us.ibm.com with ESMTP id 2w11e7h8uk-1
+ Tue, 05 Nov 2019 15:54:36 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knxfc018313;
+ Tue, 5 Nov 2019 20:53:22 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma01wdc.us.ibm.com with ESMTP id 2w11e7177y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:17 +0000
+ Tue, 05 Nov 2019 20:53:22 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KrGmQ42074404
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5KrIHl53871066
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:16 GMT
+ Tue, 5 Nov 2019 20:53:18 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9C24C124060;
- Tue,  5 Nov 2019 20:53:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 70D46124052;
+ Tue,  5 Nov 2019 20:53:18 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 88C28124058;
- Tue,  5 Nov 2019 20:53:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5D6AE12405B;
+ Tue,  5 Nov 2019 20:53:18 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:16 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:18 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 51/55] hbitmap: handle set/reset with zero length
-Date: Tue,  5 Nov 2019 14:52:39 -0600
-Message-Id: <20191105205243.3766-52-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 54/55] scsi: lsi: exit infinite loop while executing script
+ (CVE-2019-12068)
+Date: Tue,  5 Nov 2019 14:52:42 -0600
+Message-Id: <20191105205243.3766-55-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -76,7 +76,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,56 +88,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Passing zero length to these functions leads to unpredicted results.
-Zero-length set/reset may occur in active-mirror, on zero-length write
-(which is unlikely, but not guaranteed to never happen).
+When executing script in lsi_execute_script(), the LSI scsi adapter
+emulator advances 's->dsp' index to read next opcode. This can lead
+to an infinite loop if the next opcode is empty. Move the existing
+loop exit after 10k iterations so that it covers no-op opcodes as
+well.
 
-Let's just do nothing on zero-length request.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191011090711.19940-2-vsementsov@virtuozzo.com
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit fed33bd175f663cc8c13f8a490a4f35a19756cfe)
+Reported-by: Bugs SysSec <bugs-syssec@rub.de>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit de594e47659029316bbf9391efb79da0a1a08e08)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- util/hbitmap.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/scsi/lsi53c895a.c | 41 +++++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 71c6ba2c52..c059313b9e 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -387,6 +387,10 @@ void hbitmap_set(HBitmap *hb, uint64_t start, uint64_t count)
-     uint64_t first, n;
-     uint64_t last = start + count - 1;
+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+index 10468c1ec1..72f7b59ab5 100644
+--- a/hw/scsi/lsi53c895a.c
++++ b/hw/scsi/lsi53c895a.c
+@@ -185,6 +185,9 @@ static const char *names[] = {
+ /* Flag set if this is a tagged command.  */
+ #define LSI_TAG_VALID     (1 << 16)
  
-+    if (count == 0) {
++/* Maximum instructions to process. */
++#define LSI_MAX_INSN    10000
++
+ typedef struct lsi_request {
+     SCSIRequest *req;
+     uint32_t tag;
+@@ -1132,7 +1135,21 @@ static void lsi_execute_script(LSIState *s)
+ 
+     s->istat1 |= LSI_ISTAT1_SRUN;
+ again:
+-    insn_processed++;
++    if (++insn_processed > LSI_MAX_INSN) {
++        /* Some windows drivers make the device spin waiting for a memory
++           location to change.  If we have been executed a lot of code then
++           assume this is the case and force an unexpected device disconnect.
++           This is apparently sufficient to beat the drivers into submission.
++         */
++        if (!(s->sien0 & LSI_SIST0_UDC)) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "lsi_scsi: inf. loop with UDC masked");
++        }
++        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
++        lsi_disconnect(s);
++        trace_lsi_execute_script_stop();
 +        return;
 +    }
-+
-     trace_hbitmap_set(hb, start, count,
-                       start >> hb->granularity, last >> hb->granularity);
- 
-@@ -478,6 +482,10 @@ void hbitmap_reset(HBitmap *hb, uint64_t start, uint64_t count)
-     uint64_t last = start + count - 1;
-     uint64_t gran = 1ULL << hb->granularity;
- 
-+    if (count == 0) {
-+        return;
-+    }
-+
-     assert(QEMU_IS_ALIGNED(start, gran));
-     assert(QEMU_IS_ALIGNED(count, gran) || (start + count == hb->orig_size));
- 
+     insn = read_dword(s, s->dsp);
+     if (!insn) {
+         /* If we receive an empty opcode increment the DSP by 4 bytes
+@@ -1569,19 +1586,7 @@ again:
+             }
+         }
+     }
+-    if (insn_processed > 10000 && s->waiting == LSI_NOWAIT) {
+-        /* Some windows drivers make the device spin waiting for a memory
+-           location to change.  If we have been executed a lot of code then
+-           assume this is the case and force an unexpected device disconnect.
+-           This is apparently sufficient to beat the drivers into submission.
+-         */
+-        if (!(s->sien0 & LSI_SIST0_UDC)) {
+-            qemu_log_mask(LOG_GUEST_ERROR,
+-                          "lsi_scsi: inf. loop with UDC masked");
+-        }
+-        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
+-        lsi_disconnect(s);
+-    } else if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
++    if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
+         if (s->dcntl & LSI_DCNTL_SSM) {
+             lsi_script_dma_interrupt(s, LSI_DSTAT_SSI);
+         } else {
+@@ -1969,6 +1974,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
+     case 0x2f: /* DSP[24:31] */
+         s->dsp &= 0x00ffffff;
+         s->dsp |= val << 24;
++        /*
++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
++         * instruction.  Is this correct?
++         */
+         if ((s->dmode & LSI_DMODE_MAN) == 0
+             && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
+             lsi_execute_script(s);
+@@ -1987,6 +1996,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
+         break;
+     case 0x3b: /* DCNTL */
+         s->dcntl = val & ~(LSI_DCNTL_PFF | LSI_DCNTL_STD);
++        /*
++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
++         * instruction.  Is this correct?
++         */
+         if ((val & LSI_DCNTL_STD) && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
+             lsi_execute_script(s);
+         break;
 -- 
 2.17.1
 
