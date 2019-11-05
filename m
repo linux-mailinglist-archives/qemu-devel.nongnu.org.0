@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF0F0837
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:23:27 +0100 (CET)
-Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0E9F07E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:12:49 +0100 (CET)
+Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6IP-0004Tz-V1
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:23:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58759)
+	id 1iS688-0007or-Fl
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:12:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pY-0001EH-6L
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:37 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pZ-0001G2-39
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pW-0002QC-SS
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:35 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37072)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pX-0002QU-De
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:36 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29332)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pW-00026F-JG; Tue, 05 Nov 2019 15:53:34 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1iS5pX-00026Q-5Z; Tue, 05 Nov 2019 15:53:35 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpUW0056539; Tue, 5 Nov 2019 15:53:13 -0500
+ xA5KpbYF028331; Tue, 5 Nov 2019 15:53:14 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3b2ettqb-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3dd0xv4g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:13 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpbrr056764;
+ Tue, 05 Nov 2019 15:53:14 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KrDUD031958;
  Tue, 5 Nov 2019 15:53:13 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3b2ettq2-1
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3dd0xv43-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:13 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnurA012744;
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knua3000943;
  Tue, 5 Nov 2019 20:53:12 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 2w11e81jfa-1
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2w11e79fht-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 20:53:12 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KrBZr10093034
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5KrCxM36569516
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:11 GMT
+ Tue, 5 Nov 2019 20:53:12 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 649D912405C;
+ by IMSVA (Postfix) with ESMTP id E195712405B;
  Tue,  5 Nov 2019 20:53:11 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 52D3C12405B;
+ by IMSVA (Postfix) with ESMTP id CE634124058;
  Tue,  5 Nov 2019 20:53:11 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  5 Nov 2019 20:53:11 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 42/55] hw/core/loader: Fix possible crash in rom_copy()
-Date: Tue,  5 Nov 2019 14:52:30 -0600
-Message-Id: <20191105205243.3766-43-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 43/55] qcow2: Limit total allocation range to INT_MAX
+Date: Tue,  5 Nov 2019 14:52:31 -0600
+Message-Id: <20191105205243.3766-44-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id xA5KpbYF028331
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,51 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-Both, "rom->addr" and "addr" are derived from the binary image
-that can be loaded with the "-kernel" paramer. The code in
-rom_copy() then calculates:
+When the COW areas are included, the size of an allocation can exceed
+INT_MAX.  This is kind of limited by handle_alloc() in that it already
+caps avail_bytes at INT_MAX, but the number of clusters still reflects
+the original length.
 
-    d = dest + (rom->addr - addr);
+This can have all sorts of effects, ranging from the storage layer write
+call failing to image corruption.  (If there were no image corruption,
+then I suppose there would be data loss because the .cow_end area is
+forced to be empty, even though there might be something we need to
+COW.)
 
-and uses "d" as destination in a memcpy() some lines later. Now with
-bad kernel images, it is possible that rom->addr is smaller than addr,
-thus "rom->addr - addr" gets negative and the memcpy() then tries to
-copy contents from the image to a bad memory location. This could
-maybe be used to inject code from a kernel image into the QEMU binary,
-so we better fix it with an additional sanity check here.
+Fix all of it by limiting nb_clusters so the equivalent number of bytes
+will not exceed INT_MAX.
 
 Cc: qemu-stable@nongnu.org
-Reported-by: Guangming Liu
-Buglink: https://bugs.launchpad.net/qemu/+bug/1844635
-Message-Id: <20190925130331.27825-1-thuth@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-(cherry picked from commit e423455c4f23a1a828901c78fe6d03b7dde79319)
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit d1b9d19f99586b33795e20a79f645186ccbc070f)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/core/loader.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/qcow2-cluster.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 425bf69a99..838a34174a 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1242,7 +1242,7 @@ int rom_copy(uint8_t *dest, hwaddr addr, size_t size)
-         if (rom->addr + rom->romsize < addr) {
-             continue;
-         }
--        if (rom->addr > end) {
-+        if (rom->addr > end || rom->addr < addr) {
-             break;
-         }
- 
--- 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 760564c8fb..f8576031b6 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1341,6 +1341,9 @@ static int handle_alloc(BlockDriverState *bs, uint6=
+4_t guest_offset,
+     nb_clusters =3D MIN(nb_clusters, s->l2_slice_size - l2_index);
+     assert(nb_clusters <=3D INT_MAX);
+=20
++    /* Limit total allocation byte count to INT_MAX */
++    nb_clusters =3D MIN(nb_clusters, INT_MAX >> s->cluster_bits);
++
+     /* Find L2 entry for the first involved cluster */
+     ret =3D get_cluster_table(bs, guest_offset, &l2_slice, &l2_index);
+     if (ret < 0) {
+@@ -1429,7 +1432,7 @@ static int handle_alloc(BlockDriverState *bs, uint6=
+4_t guest_offset,
+      * request actually writes to (excluding COW at the end)
+      */
+     uint64_t requested_bytes =3D *bytes + offset_into_cluster(s, guest_o=
+ffset);
+-    int avail_bytes =3D MIN(INT_MAX, nb_clusters << s->cluster_bits);
++    int avail_bytes =3D nb_clusters << s->cluster_bits;
+     int nb_bytes =3D MIN(requested_bytes, avail_bytes);
+     QCowL2Meta *old_m =3D *m;
+=20
+--=20
 2.17.1
 
 
