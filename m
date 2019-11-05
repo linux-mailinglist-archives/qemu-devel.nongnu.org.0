@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307FBEF887
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:21:50 +0100 (CET)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD36EF89D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:24:20 +0100 (CET)
+Received: from localhost ([::1]:41970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRv24-0007PN-QF
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:21:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43663)
+	id 1iRv4V-0002lv-MU
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1iRuup-0007vO-6V
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:14:20 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1iRuwN-0001p2-AG
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:16:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1iRuun-0000i9-G8
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:14:18 -0500
-Received: from mga03.intel.com ([134.134.136.65]:19335)
+ (envelope-from <guoheyi@huawei.com>) id 1iRuwL-0002Pv-BR
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:15:55 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:56026 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1iRuun-0000dX-8f
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:14:17 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2019 01:14:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,270,1569308400"; d="scan'208";a="376625625"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by orsmga005.jf.intel.com with ESMTP; 05 Nov 2019 01:14:12 -0800
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 5 Nov 2019 01:14:12 -0800
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 5 Nov 2019 01:14:10 -0800
-Received: from shsmsx108.ccr.corp.intel.com (10.239.4.97) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 5 Nov 2019 01:14:09 -0800
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.127]) by
- SHSMSX108.ccr.corp.intel.com ([169.254.8.41]) with mapi id 14.03.0439.000;
- Tue, 5 Nov 2019 17:14:08 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: RE: [RFC v2 03/22] intel_iommu: modify x-scalable-mode to be string
- option
-Thread-Topic: [RFC v2 03/22] intel_iommu: modify x-scalable-mode to be
- string option
-Thread-Index: AQHVimsn7SVAI/DYekGpKA287OuKO6d17oaAgAZs2aA=
-Date: Tue, 5 Nov 2019 09:14:08 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A0EE30A@SHSMSX104.ccr.corp.intel.com>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
- <1571920483-3382-4-git-send-email-yi.l.liu@intel.com>
- <20191101145753.GC8888@xz-x1.metropole.lan>
-In-Reply-To: <20191101145753.GC8888@xz-x1.metropole.lan>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNmU4OWIyNGItMDVlNS00YTMwLWIwNWYtOTRjYzZhMjkxMmE0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZVBqaDhlNzhLVVd0UXBkdDJLSkZJb1lYdGptTjNtbDhLbUVIcW5hU1JVTU43XC9FRzdjczRoV3B0VHl1SEIxelwvIn0=
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1iRuwH-0002LV-E6; Tue, 05 Nov 2019 04:15:49 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 140828AB8BB749B6CA1E;
+ Tue,  5 Nov 2019 17:15:47 +0800 (CST)
+Received: from [127.0.0.1] (10.133.216.73) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 5 Nov 2019
+ 17:15:39 +0800
+Subject: Re: [RFC v2 00/14] Add SDEI support for arm64
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20191105091056.9541-1-guoheyi@huawei.com>
+From: Guoheyi <guoheyi@huawei.com>
+Message-ID: <5bea63bb-9898-146e-f664-283459c86b84@huawei.com>
+Date: Tue, 5 Nov 2019 17:15:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.65
+In-Reply-To: <20191105091056.9541-1-guoheyi@huawei.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.133.216.73]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,76 +54,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, James Morse <james.morse@arm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, wanghaibin.wang@huawei.com,
+ Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBQZXRlciBYdSBbbWFpbHRvOnBldGVyeEByZWRoYXQuY29tXQ0KPiBTZW50OiBGcmlk
-YXksIE5vdmVtYmVyIDEsIDIwMTkgMTA6NTggUE0NCj4gVG86IExpdSwgWWkgTCA8eWkubC5saXVA
-aW50ZWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1JGQyB2MiAwMy8yMl0gaW50ZWxfaW9tbXU6IG1v
-ZGlmeSB4LXNjYWxhYmxlLW1vZGUgdG8gYmUgc3RyaW5nIG9wdGlvbg0KPiANCj4gT24gVGh1LCBP
-Y3QgMjQsIDIwMTkgYXQgMDg6MzQ6MjRBTSAtMDQwMCwgTGl1IFlpIEwgd3JvdGU6DQo+ID4gSW50
-ZWwgVlQtZCAzLjAgaW50cm9kdWNlcyBzY2FsYWJsZSBtb2RlLCBhbmQgaXQgaGFzIGEgYnVuY2gg
-b2YNCj4gPiBjYXBhYmlsaXRpZXMgcmVsYXRlZCB0byBzY2FsYWJsZSBtb2RlIHRyYW5zbGF0aW9u
-LCB0aHVzIHRoZXJlIGFyZSBtdWx0aXBsZQ0KPiBjb21iaW5hdGlvbnMuDQo+ID4gV2hpbGUgdGhp
-cyB2SU9NTVUgaW1wbGVtZW50YXRpb24gd2FudHMgc2ltcGxpZnkgaXQgZm9yIHVzZXIgYnkNCj4g
-PiBwcm92aWRpbmcgdHlwaWNhbCBjb21iaW5hdGlvbnMuIFVzZXIgY291bGQgY29uZmlnIGl0IGJ5
-DQo+ID4gIngtc2NhbGFibGUtbW9kZSIgb3B0aW9uLiBUaGUgdXNhZ2UgaXMgYXMgYmVsb3c6DQo+
-ID4NCj4gPiAiLWRldmljZSBpbnRlbC1pb21tdSx4LXNjYWxhYmxlLW1vZGU9WyJsZWdhY3kifCJt
-b2Rlcm4iXSINCj4gPg0KPiA+ICAtICJsZWdhY3kiOiBnaXZlcyBzdXBwb3J0IGZvciBTTCBwYWdl
-IHRhYmxlDQo+ID4gIC0gIm1vZGVybiI6IGdpdmVzIHN1cHBvcnQgZm9yIEZMIHBhZ2UgdGFibGUs
-IHBhc2lkLCB2aXJ0dWFsIGNvbW1hbmQNCj4gPiAgLSAgaWYgbm90IGNvbmZpZ3VyZWQsIG1lYW5z
-IG5vIHNjYWxhYmxlIG1vZGUgc3VwcG9ydCwgaWYgbm90IHByb3Blcg0KPiA+ICAgICBjb25maWd1
-cmVkLCB3aWxsIHRocm93IGVycm9yDQo+ID4NCj4gPiBDYzogS2V2aW4gVGlhbiA8a2V2aW4udGlh
-bkBpbnRlbC5jb20+DQo+ID4gQ2M6IEphY29iIFBhbiA8amFjb2IuanVuLnBhbkBsaW51eC5pbnRl
-bC5jb20+DQo+ID4gQ2M6IFBldGVyIFh1IDxwZXRlcnhAcmVkaGF0LmNvbT4NCj4gPiBDYzogWWkg
-U3VuIDx5aS55LnN1bkBsaW51eC5pbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTGl1IFlp
-IEwgPHlpLmwubGl1QGludGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZaSBTdW4gPHlpLnku
-c3VuQGxpbnV4LmludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgaHcvaTM4Ni9pbnRlbF9pb21tdS5j
-ICAgICAgICAgIHwgMTUgKysrKysrKysrKysrKy0tDQo+ID4gIGh3L2kzODYvaW50ZWxfaW9tbXVf
-aW50ZXJuYWwuaCB8ICAzICsrKw0KPiA+IGluY2x1ZGUvaHcvaTM4Ni9pbnRlbF9pb21tdS5oICB8
-ICAyICstDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
-bnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9ody9pMzg2L2ludGVsX2lvbW11LmMgYi9ody9p
-Mzg2L2ludGVsX2lvbW11LmMgaW5kZXgNCj4gPiA3NzFiZWQyLi40YTFhMDdhIDEwMDY0NA0KPiA+
-IC0tLSBhL2h3L2kzODYvaW50ZWxfaW9tbXUuYw0KPiA+ICsrKyBiL2h3L2kzODYvaW50ZWxfaW9t
-bXUuYw0KPiA+IEBAIC0zMDE5LDcgKzMwMTksNyBAQCBzdGF0aWMgUHJvcGVydHkgdnRkX3Byb3Bl
-cnRpZXNbXSA9IHsNCj4gPiAgICAgIERFRklORV9QUk9QX1VJTlQ4KCJhdy1iaXRzIiwgSW50ZWxJ
-T01NVVN0YXRlLCBhd19iaXRzLA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgVlREX0hPU1Rf
-QUREUkVTU19XSURUSCksDQo+ID4gICAgICBERUZJTkVfUFJPUF9CT09MKCJjYWNoaW5nLW1vZGUi
-LCBJbnRlbElPTU1VU3RhdGUsIGNhY2hpbmdfbW9kZSwNCj4gRkFMU0UpLA0KPiA+IC0gICAgREVG
-SU5FX1BST1BfQk9PTCgieC1zY2FsYWJsZS1tb2RlIiwgSW50ZWxJT01NVVN0YXRlLCBzY2FsYWJs
-ZV9tb2RlLA0KPiBGQUxTRSksDQo+ID4gKyAgICBERUZJTkVfUFJPUF9TVFJJTkcoIngtc2NhbGFi
-bGUtbW9kZSIsIEludGVsSU9NTVVTdGF0ZSwNCj4gPiArIHNjYWxhYmxlX21vZGUpLA0KPiA+ICAg
-ICAgREVGSU5FX1BST1BfQk9PTCgiZG1hLWRyYWluIiwgSW50ZWxJT01NVVN0YXRlLCBkbWFfZHJh
-aW4sIHRydWUpLA0KPiA+ICAgICAgREVGSU5FX1BST1BfRU5EX09GX0xJU1QoKSwNCj4gPiAgfTsN
-Cj4gPiBAQCAtMzU4MSw3ICszNTgxLDEyIEBAIHN0YXRpYyB2b2lkIHZ0ZF9pbml0KEludGVsSU9N
-TVVTdGF0ZSAqcykNCj4gPg0KPiA+ICAgICAgLyogVE9ETzogcmVhZCBjYXAvZWNhcCBmcm9tIGhv
-c3QgdG8gZGVjaWRlIHdoaWNoIGNhcCB0byBiZSBleHBvc2VkLiAqLw0KPiA+ICAgICAgaWYgKHMt
-PnNjYWxhYmxlX21vZGUpIHsNCj4gPiAtICAgICAgICBzLT5lY2FwIHw9IFZURF9FQ0FQX1NNVFMg
-fCBWVERfRUNBUF9TUlMgfCBWVERfRUNBUF9TTFRTOw0KPiA+ICsgICAgICAgIGlmICghc3RyY21w
-KHMtPnNjYWxhYmxlX21vZGUsICJsZWdhY3kiKSkgew0KPiA+ICsgICAgICAgICAgICBzLT5lY2Fw
-IHw9IFZURF9FQ0FQX1NNVFMgfCBWVERfRUNBUF9TUlMgfCBWVERfRUNBUF9TTFRTOw0KPiA+ICsg
-ICAgICAgIH0gZWxzZSBpZiAoIXN0cmNtcChzLT5zY2FsYWJsZV9tb2RlLCAibW9kZXJuIikpIHsN
-Cj4gPiArICAgICAgICAgICAgcy0+ZWNhcCB8PSBWVERfRUNBUF9TTVRTIHwgVlREX0VDQVBfU1JT
-IHwgVlREX0VDQVBfUEFTSUQNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICB8IFZURF9FQ0FQ
-X0ZMVFMgfCBWVERfRUNBUF9QU1M7DQo+ID4gKyAgICAgICAgfQ0KPiANCj4gU2hhbGwgd2UgZG8g
-dGhpcyBzdHJpbmcgb3Agb25seSBvbmNlIGluIHZ0ZF9kZWNpZGVfY29uZmlnKCkgdGhlbiBrZWVw
-IGl0IHNvbWV3aGVyZT8NCg0KQWdyZWVkLiBJJ2xsIG1vdmUgaXQgdG8gdnRkX2RlY2lkZV9jb25m
-aWcoKS4NCg0KPiBTb21ldGhpbmcgbGlrZToNCj4gDQo+ICAgLSBzLT5zY2FsYWJsZV9tb2RlX3N0
-ciB0byBrZWVwIHRoZSBzdHJpbmcNCj4gICAtIHMtPnNjYWxhYmxlX21vZGUgc3RpbGwgYXMgYSBi
-b29sIHRvIGNhY2hlIHRoZSBnbG9iYWwgZW5hYmxlbWVudA0KPiAgIC0gcy0+c2NhbGFibGVfbW9k
-ZXJuIGFzIGEgYm9vbCB0byBrZWVwIHRoZSBtb2RlDQo+IA0KPiA/DQoNClNvIHgtc2NhbGFibGUt
-bW9kZSBpcyBzdGlsbCBhIHN0cmluZyBvcHRpb24sIGp1c3QgdG8gaGF2ZSBhIG5ldyBmaWVsZCB0
-byBzdG9yZSBpdD8NCg0KPiANCj4gVGhlc2UgY291bGQgYmUgdXNlZCBpbiBzb21lIE1NSU8gcGF0
-aCAoSSB0aGluaykgYW5kIHBhcnNpbmcgc3RyaW5ncyBhbHdheXMgY291bGQgYmUNCj4gYSBiaXQg
-b3ZlcmtpbGwuDQoNCkkgdGhpbmsgc28uIExldCdzIGp1c3QgYWxpZ24gb24gdGhlIGRpcmVjdGlv
-biBhYm92ZS4NCg0KUmVnYXJkcywNCllpIExpdQ0KDQo=
+
+
+On 2019/11/5 17:10, Heyi Guo wrote:
+> SDEI is for ARM "Software Delegated Exception Interface". AS ARM64 doesn't have
+> native non-maskable interrupt (NMI), we rely on higher privileged (larger
+> exception level) software to change the execution flow of lower privileged
+> (smaller exception level) software when certain events occur, to emulate NMI
+> mechanism, and SDEI is the standard interfaces between the two levels of
+> privileged software. It is based on SMC/HVC calls.
+Sorry I forgot to attach the link of SDEI specification v1.0:
+
+http://infocenter.arm.com/help/topic/com.arm.doc.den0054a/ARM_DEN0054A_Software_Delegated_Exception_Interface.pdf
+
+>
+> The higher privileged software implements an SDEI dispatcher to handle SDEI
+> related SMC/HVC calls and trigger SDEI events; the lower privileged software
+> implements an SDEI client to request SDEI services and handle SDEI events.
+>
+> Core interfaces provided by SDEI include:
+>
+> 1. interrupt bind: client can request to bind an interrupt to an SDEI event, so
+> the interrupt will be a non-maskable event and the event number will be returned
+> to the caller. Only PPI and SPI can be bound to SDEI events.
+>
+> 2. register: client can request to register a handler to an SDEI event, so
+> dispatcher will change PC of lower privileged software to this handler when
+> certain event occurs.
+>
+> 3. complete: client notifies dispatcher that it has completed the event
+> handling, so dispatcher will restore the context of guest when it is
+> interrupted.
+>
+> In virtualization situation, guest OS is the lower privileged software and
+> hypervisor is the higher one.
+>
+> KVM is supposed to pass SMC/HVC calls to qemu, and qemu will emulate an SDEI
+> dispatcher to serve the SDEI requests and trigger the events. If an interrupt is
+> requested to be bound to an event, qemu should not inject the interrupt to guest
+> any more; instead, it should save the context of VCPU and change the PC to event
+> handler which is registered by guest, and then return to guest.
+>
+> To make the conversion of interrupt to SDEI event transparent to other modules
+> in qemu, we used qemu_irq and qemu_irq_intercept_in() to override the default
+> irq handler with SDEI event trigger. I saw qemu_irq_intercept_in() should be
+> only used in qemu MST, but it seemed fit to override interrupt injection with
+> event trigger after guest requests to bind interrupt to SDEI event.
+>
+> This patchset is trying to implement the whole SDEI framework in qemu with KVM
+> enabled, including all SDEI v1.0 interfaces, as well as event trigger conduit
+> from other qemu devices after interrupt binding.
+>
+> Key points:
+> - We propose to only support kvm enabled arm64 virtual machines, for
+>    non-kvm VMs can emulate EL3 and have Trusted Firmware run on it,
+>    which has a builtin SDEI dispatcher.
+> - New kvm capability KVM_CAP_FORWARD_HYPERCALL is added to probe if
+>    kvm supports forwarding hypercalls, and the capability should be
+>    enabled explicitly.
+> - We make the dispatcher as a logical device, to save the states
+>    during migration or save/restore operation; only one instance is
+>    allowed in one VM.
+> - We use qemu_irq as the bridge for other qemu modules to switch from
+>    irq injection to SDEI event trigger after VM binds the interrupt to
+>    SDEI event. We use qemu_irq_intercept_in() to override qemu_irq
+>    handler with SDEI event trigger, and a new interface
+>    qemu_irq_remove_intercept() is added to restore the handler to
+>    default one (i.e. ARM GIC).
+>
+> More details are in the commit message of each patch.
+>
+> Basic tests are done by emulating a watchdog timer and triggering SDEI
+> event in every 10s.
+>
+> Please focus on the interfaces and framework first. We can refine the code for
+> several rounds after the big things have been determined.
+>
+> Any comment or suggestion is welcome.
+>
+> Thanks,
+>
+> HG
+>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Cc: Marc Zyngier <marc.zyngier@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+>
+> v2:
+> - Import import linux/arm_sdei.h to standard-headers
+> - Drop SDEI table definition and add comments
+> - Some bugfix and code refinement
+>
+> Heyi Guo (14):
+>    update-linux-headers.sh: import linux/arm_sdei.h to standard-headers
+>    standard-headers: import arm_sdei.h
+>    arm/sdei: add virtual device framework
+>    arm: add CONFIG_SDEI build flag
+>    arm/sdei: add support to handle SDEI requests from guest
+>    arm/sdei: add system reset callback
+>    arm/sdei: add support to trigger event by GIC interrupt ID
+>    core/irq: add qemu_irq_remove_intercept interface
+>    arm/sdei: override qemu_irq handler when binding interrupt
+>    arm/sdei: add support to register interrupt bind notifier
+>    linux-headers/kvm.h: add capability to forward hypercall
+>    arm/sdei: add stub to fix build failure when SDEI is not enabled
+>    arm/kvm: handle guest exit of hypercall
+>    virt/acpi: add SDEI table if SDEI is enabled
+>
+>   default-configs/arm-softmmu.mak           |    1 +
+>   hw/arm/Kconfig                            |    4 +
+>   hw/arm/virt-acpi-build.c                  |   26 +
+>   hw/core/irq.c                             |   11 +
+>   include/hw/irq.h                          |    8 +-
+>   include/standard-headers/linux/arm_sdei.h |   73 +
+>   linux-headers/linux/kvm.h                 |    1 +
+>   scripts/update-linux-headers.sh           |    1 +
+>   target/arm/Makefile.objs                  |    4 +
+>   target/arm/kvm.c                          |   17 +
+>   target/arm/sdei-stub.c                    |   49 +
+>   target/arm/sdei.c                         | 1576 +++++++++++++++++++++
+>   target/arm/sdei.h                         |   60 +
+>   target/arm/sdei_int.h                     |  121 ++
+>   14 files changed, 1950 insertions(+), 2 deletions(-)
+>   create mode 100644 include/standard-headers/linux/arm_sdei.h
+>   create mode 100644 target/arm/sdei-stub.c
+>   create mode 100644 target/arm/sdei.c
+>   create mode 100644 target/arm/sdei.h
+>   create mode 100644 target/arm/sdei_int.h
+>
+
+
 
