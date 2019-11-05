@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EE9F08AF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:49:54 +0100 (CET)
-Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56DCF0909
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 23:06:36 +0100 (CET)
+Received: from localhost ([::1]:50860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6i1-0002wA-05
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:49:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44582)
+	id 1iS6yB-0002Wf-5j
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 17:06:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36705)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iS6Ye-0002jt-NU
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:40:13 -0500
+ (envelope-from <palmer@dabbelt.com>) id 1iS6B5-0004UM-1L
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:15:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iS6Yd-00078W-9x
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:40:12 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37929)
+ (envelope-from <palmer@dabbelt.com>) id 1iS6B3-0005sR-L3
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:15:50 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35812)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iS6Yd-00077V-2u
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:40:11 -0500
-Received: by mail-ot1-x344.google.com with SMTP id v24so13710794otp.5
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 13:40:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LN5H1uVtTYWOit6cP6PnkWxomHLp/dNM+iMBN9+wB1k=;
- b=WP45tOURcQvZXhlpBvA5Zn/PX3z9qaIvykUvMIk0CoFdWWg8ANBPLaKWEseerWhVg3
- as7wvXTFK+a1jzZEsqQ20kzbBmTD09IEzPa4Z5fq5gNndeDv0VqUpNf/IT0iPRaSHYwD
- YMeHRKt95PaFCmUgo0jnSiW//hvQ53oRrZErXPdHQhdqsBIvRK4qv+dpm4wfdRhTFybi
- aRbDsti5sfLqTn3aASehNa5z+HjvzKKp001mgr65yd6M22bMZp7YQh/npV4db/eCkdZy
- CnAHQd3ZBwBj37gl98HU6ongQ4Ls+d8qLZqRwdaV+ANcXvUs7IB4MDIumrjtOlZcW8vX
- ddqg==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iS6B3-0005sC-8H
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:15:49 -0500
+Received: by mail-pg1-x541.google.com with SMTP id q22so7767728pgk.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 13:15:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vX+PxPYjlpWPJsGckaHiwLQHpKcAySoc7QzwjClXI2o=;
+ b=RzLZXAWfbduhN2CU7CS61Qk5TnDUVDqQQdmzpkZ1dPin1xLT6PFbCGoaF4dDHbPfe1
+ gVskqKqG6jpRdZovG6aCXGYi0xLIgWoiVVkjY8xd65P6mk0XHyHKxf+bD1lfPF7C68GB
+ OepJ/RTnKz8SwOjc2GR+6ylKH9OG8eqe446tp1qiZlohFUCrniGYnUzRaLvLPmgstvek
+ Dz8ZLvqjoUhbbQa67XjJ2wLB7+ZMfG1mCV5dyQ7kl9Fwv9Spoi5LdP03IRK8yKD0anPb
+ WkShemB4oW8a4nHy0iAfJV3QeEfd1jXHGVJvciyJCUiMRnuQwnuzedwjPvoOrYdzWyvz
+ TZhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LN5H1uVtTYWOit6cP6PnkWxomHLp/dNM+iMBN9+wB1k=;
- b=Kt0otP6L4k9m/gZ14kOjSHQDT1hV6k8h9migqZ5PmYIxNEdpbbYBempT/7Fb5swVha
- DmrQ92WhG2XN44tF1jdnX6KhkJlw4zvNx1zBd70jAqm8aHenih5dWg182qWoShgIiPMT
- j1wDB3WyL4P1uUaHhLfjXXujGxqft5p4qOCouQoB5hM6sTNZCa05gLYhEOR0b6xseHPp
- UG92B4CPzmcAIJ9JGag8c2tdfk3/5np4M2pLLBfPtFdYyEqgph+TrmO4WqiXiWNMrOb0
- a/NcqhKoJVxVnesz4iMxx6eoQAzjhusiTDlI399Msfj4EYMWfzVVs3mXDzMtrfzEGvnK
- /QEA==
-X-Gm-Message-State: APjAAAUSti3cJz811xCH1ugH8sF1zAUyUUu7wGsb3UryE0tHBBnqsRLL
- 2oXL9phTiZXKniReeR+oRdRIssT5BMZYZCN+CDxHFg==
-X-Google-Smtp-Source: APXvYqzy+PFYCwYOCxWdaOsFEp/CH962W/CN+2S0SgieO5PkCxXredcV292YEYO7EBrUUe+OEOGPi9dh2ZaXd8lOIQc=
-X-Received: by 2002:a05:6830:c3:: with SMTP id x3mr6455757oto.91.1572990010218; 
- Tue, 05 Nov 2019 13:40:10 -0800 (PST)
-MIME-Version: 1.0
-References: <1572911399018.17766@sandia.gov>
- <20191105164253.GJ166646@stefanha-x1.localdomain>
- <CAFEAcA_5ZS=4gHW8yph_o7Z4XrO5r2YMbGTB0oNtQKriv-qS=A@mail.gmail.com>
- <1572988990478.74192@sandia.gov>
-In-Reply-To: <1572988990478.74192@sandia.gov>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Nov 2019 21:39:58 +0000
-Message-ID: <CAFEAcA-EvgXF+fch2ss-NpFt8qLXA844Fay-=be1uQH91Sa05g@mail.gmail.com>
-Subject: Re: [EXTERNAL] Re: Adding New, Unsupported ISA to Qemu
-To: "Hanson, Seth" <shanson@sandia.gov>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=vX+PxPYjlpWPJsGckaHiwLQHpKcAySoc7QzwjClXI2o=;
+ b=GApHOqWGCM95p/dBCSjq8WTpZbOtlcyi2buYQ7ViIo6LH+qU9qh/NXPf++dBOrCZPK
+ wrVh2oav5EkmJ7aDJoVjIgbrWtnJue/KStza83WQyuhQI5JOs8woiN3XA5zNKJGOu6OR
+ 4SQFvmLEJW7SjDOBccAjDGGOHrRZvr+O4bJ8FWam4eK2qxl/aUaVfgxdm+OBOLueNGSW
+ S+pM/UYAJot52UF5odzuR4G2ShRgKMFr3QzsIAPCH7SLOq+gDXoc0MhcPM9nMsFnSpTt
+ 6QkC+tMiXGah6JaU7a7fIu4kcr9tq0FkULDvWXu+WegUmDNbz5ag922O9CpxfPLssUgk
+ NGWQ==
+X-Gm-Message-State: APjAAAUdMpIcA8c1tpUwSHIXsMXgMzHcmdR0mTvOISlAFpOwf++ONTq/
+ ZWKfuMINsRZd70SsMLl+95g1Gg==
+X-Google-Smtp-Source: APXvYqzdZu4YrMBEIzJ20lha8D/jtiAJfJ7S6Qe2ZN9qm2LqAcp89JqcPkpHmitBHGtX5gHsxUnBww==
+X-Received: by 2002:a17:90a:de4:: with SMTP id
+ 91mr1406497pjv.113.1572988547259; 
+ Tue, 05 Nov 2019 13:15:47 -0800 (PST)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id m65sm791237pje.3.2019.11.05.13.15.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 13:15:46 -0800 (PST)
+Date: Tue, 05 Nov 2019 13:15:46 -0800 (PST)
+X-Google-Original-Date: Tue, 05 Nov 2019 13:04:01 PST (-0800)
+Subject: Re: Adding New, Unsupported ISA to Qemu
+In-Reply-To: <20191105164253.GJ166646@stefanha-x1.localdomain>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: stefanha@gmail.com
+Message-ID: <mhng-fd2d5adf-ada4-41ab-94cc-f56e0481bcdc@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,67 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: shanson@sandia.gov, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Nov 2019 at 21:23, Hanson, Seth <shanson@sandia.gov> wrote:
-> I completely understand your concern. Rest assured, this project is entir=
-ely internal and requires no code contribution, unit testing, etc. from QEM=
-U devs. We simply want to garner as much documentation as possible to ensur=
-e optimal conversion/compatibility. My team and I have already completed a =
-majority of our instruction set
-mapping into TCG. Lately however, we've encountered issues with
-floating point operations.
+On Tue, 05 Nov 2019 08:42:53 PST (-0800), stefanha@gmail.com wrote:
+> On Mon, Nov 04, 2019 at 11:50:11PM +0000, Hanson, Seth via wrote:
+>> I'm looking for in-depth documentation pertaining to how an unsupported 16 bit RISC ISA can be emulated in Qemu.
+>> 
+>> I've referenced this:
+>> 
+>> https://wiki.qemu.org/Documentation/TCG
+>> 
+>> and have been hoping there's additional, related documentation that I've overlooked.
+>
+> The general advice I've seen is:
+>
+> 1. Look at existing TCG targets to learn how to implement aspects of
+>    your ISA.
 
-Yeah, for internal forks you have none of the upstreaming
-issues (you're merely more on-your-own for figuring out
-bugs :-))
+Michael wrote a pair of blogs describing our port.  They're part of the "All 
+Aboard" series, which details the RISC-V ports of the various core software 
+components (binutils, GCC, glibc, Linux, and QEMU):
 
-> I noticed in the TCG Readme that floating point operations are no longer =
-officially supported but were previously (per the last paragraph in 4.1).
+     https://www.sifive.com/blog/risc-v-qemu-part-1-privileged-isa-hifive1-virtio
+     https://www.sifive.com/blog/risc-v-qemu-part-2-the-risc-v-qemu-port-is-upstream
 
-Git blame will tell you that that claim about floating point
-has been in there since the readme was first added to
-the project in 2008. It would be more accurate to say
-simply that TCG does not natively implement fp operations.
+It's a whole different thing than the documentation and is two years out of 
+date, but it at least provides some perspective on why certain things in our 
+port were done the way they were in caesy ou end up looking at the code.>
 
-TCG's approach to fp is to just (at the TCG opcode level)
-treat fp registers the same way as integer ones -- they're
-32 bit or 64 bit binary values. Mostly fp operations are
-implemented by having the TCG code call out to a helper
-function, the same way you'd implement any moderately
-complex operation that's not easy to do with inline TCG ops.
-From the helper function, you can call the various emulation
-functions provided by our generic fpu emulation layer
-('softfloat') whose headers are in include/fpu. The FPU
-emulation provides IEEE-compliant implementations of
-various basic operations; you have to tell it how your target
-handles things that IEEE 754 doesn't nail down (eg whether
-you detect tininess before or after rounding, what your NaN
-format is, that kind of thing), through
-a mix of calling the functions that initialize the 'float_status'
-and also adding to the target-specific ifdeffery in
-fpu/softfloat-specialize.inc.c. When your target needs things
-that aren't IEEE-specified you just have to implement
-emulation of those in your per-target code (arm does this
-for the 'recpe' reciprocal-estimate instruction, for instance).
-
-IEEE cumulative exception flags (inexact, denormal, etc)
-are tracked in the float_status and need to be made visible
-to the guest in whatever fp status register it uses to show
-those. The default assumption is that IEEE exceptions
-don't generate guest CPU exceptions, but you can implement
-the latter if you need it -- see ppc for an example of that.
-
-> Can you please provide documentation for implementing the latter?
-
-As usual for QEMU internals there are no documentation.
-You can look at the headers in include/fpu which have some
-comments describing the APIs, and at the existing CPUs
-which use them to implement their FPU support.
-
-thanks
--- PMM
+> 2. If you are unfamiliar with emulation, CPU ISA, or just-in-time
+>    compiler concepts, try to read up on them and then look back at the
+>    QEMU code.  Things will be clearer.
+>
+> You're welcome to join #qemu IRC on irc.oftc.net to ask questions.
+>
+> Good luck!
+>
+> Stefan
 
