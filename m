@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D4EF01EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 16:52:12 +0100 (CET)
-Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13E8F01D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 16:47:42 +0100 (CET)
+Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS17r-0003x5-TP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 10:52:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42331)
+	id 1iS13V-0006qS-6u
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 10:47:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iS106-0004QE-Tp
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:44:11 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iS10I-0004iO-Kt
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:44:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iS105-0002ZM-Qk
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:44:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22972
+ (envelope-from <stefanha@redhat.com>) id 1iS10H-0002m5-K8
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:44:22 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60563
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iS105-0002Yv-Mj
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:44:09 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iS10H-0002lq-BC
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:44:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572968649;
+ s=mimecast20190719; t=1572968661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xqVtcEw030cWBKi4G/oHb1MwhDbny8Z9CDgObjufLLo=;
- b=Xd61tXURkuXPiEbbf9FXTjB/mkNIMBB5IF3XM+reVfAF4QQ+90FyLo878djr3vYa7V3t5l
- y9JvwBhn2IQVFEyqlOPOS/tv9PBdebwsesvhO38Wkz0i+3mcFjZszrrsYdtQDs3sa9TAgB
- fE8uUGP0U1RrC/+yVATZ+qj5TWH9jw4=
+ bh=bEt00lAv8Ep2d6X5VSzu2CCmcWEUpHQPvLXXBfTH6WI=;
+ b=JZ7DE9mKqVKlkVin2Qr9RvQzoe8jpsNXUWnxzPsEnX+dPbsFJjAOQYK6cflJ5ViHQMwBVK
+ IbgFtjw8BDpjOI5E1A+JohG/3HR0eJFRrrBOLbl5sDexkVcRlGU1hjbMRAITWRYcbooW6t
+ rc78AllcyNTTIRXIYuKY2v7uZA4AypQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338--CFLquhaO-6qMugWq-lGQA-1; Tue, 05 Nov 2019 10:44:07 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-328-NwlKOxqCP6qpIx7djAC_3Q-1; Tue, 05 Nov 2019 10:44:17 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06A048017DE;
- Tue,  5 Nov 2019 15:44:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A43061800D4A;
+ Tue,  5 Nov 2019 15:44:16 +0000 (UTC)
 Received: from localhost (ovpn-116-232.ams2.redhat.com [10.36.116.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D82C53C1D;
- Tue,  5 Nov 2019 15:43:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51DE260CC0;
+ Tue,  5 Nov 2019 15:44:07 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/11] image-fuzzer: Use io.StringIO
-Date: Tue,  5 Nov 2019 16:43:25 +0100
-Message-Id: <20191105154332.181417-5-stefanha@redhat.com>
+Subject: [PULL 05/11] image-fuzzer: Use %r for all fiels at Field.__repr__()
+Date: Tue,  5 Nov 2019 16:43:26 +0100
+Message-Id: <20191105154332.181417-6-stefanha@redhat.com>
 In-Reply-To: <20191105154332.181417-1-stefanha@redhat.com>
 References: <20191105154332.181417-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: -CFLquhaO-6qMugWq-lGQA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: NwlKOxqCP6qpIx7djAC_3Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,70 +79,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-StringIO.StringIO is not available on Python 3, but io.StringIO
-is available on both Python 2 and 3.  io.StringIO is slightly
-different from the Python 2 StringIO module, though, so we need
-bytes coming from subprocess.Popen() to be explicitly decoded.
+This makes the formatting code simpler, and safer if we change
+the type of self.value from str to bytes.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20191016192430.25098-5-ehabkost@redhat.com
-Message-Id: <20191016192430.25098-5-ehabkost@redhat.com>
+Message-id: 20191016192430.25098-6-ehabkost@redhat.com
+Message-Id: <20191016192430.25098-6-ehabkost@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/image-fuzzer/runner.py | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ tests/image-fuzzer/qcow2/layout.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/image-fuzzer/runner.py b/tests/image-fuzzer/runner.py
-index 95d84f38f3..94cab5bd93 100755
---- a/tests/image-fuzzer/runner.py
-+++ b/tests/image-fuzzer/runner.py
-@@ -28,7 +28,7 @@ import shutil
- from itertools import count
- import time
- import getopt
--import StringIO
-+import io
- import resource
+diff --git a/tests/image-fuzzer/qcow2/layout.py b/tests/image-fuzzer/qcow2/=
+layout.py
+index 6501c9fd4b..0adcbd448d 100644
+--- a/tests/image-fuzzer/qcow2/layout.py
++++ b/tests/image-fuzzer/qcow2/layout.py
+@@ -53,8 +53,8 @@ class Field(object):
+         return iter([self.fmt, self.offset, self.value, self.name])
 =20
- try:
-@@ -84,8 +84,12 @@ def run_app(fd, q_args):
-     try:
-         out, err =3D process.communicate()
-         signal.alarm(0)
--        fd.write(out)
--        fd.write(err)
-+        # fd is a text file, so we need to decode the process output befor=
-e
-+        # writing to it.
-+        # We could be simply using the `errors` parameter of subprocess.Po=
-pen(),
-+        # but this will be possible only after migrating to Python 3
-+        fd.write(out.decode(errors=3D'replace'))
-+        fd.write(err.decode(errors=3D'replace'))
-         fd.flush()
-         return process.returncode
+     def __repr__(self):
+-        return "Field(fmt=3D'%s', offset=3D%d, value=3D%s, name=3D%s)" % \
+-            (self.fmt, self.offset, str(self.value), self.name)
++        return "Field(fmt=3D%r, offset=3D%r, value=3D%r, name=3D%r)" % \
++            (self.fmt, self.offset, self.value, self.name)
 =20
-@@ -183,7 +187,7 @@ class TestEnv(object):
-                                            MAX_BACKING_FILE_SIZE) * (1 << =
-20)
-         cmd =3D self.qemu_img + ['create', '-f', backing_file_fmt,
-                                backing_file_name, str(backing_file_size)]
--        temp_log =3D StringIO.StringIO()
-+        temp_log =3D io.StringIO()
-         retcode =3D run_app(temp_log, cmd)
-         if retcode =3D=3D 0:
-             temp_log.close()
-@@ -240,7 +244,7 @@ class TestEnv(object):
-                            "Backing file: %s\n" \
-                            % (self.seed, " ".join(current_cmd),
-                               self.current_dir, backing_file_name)
--            temp_log =3D StringIO.StringIO()
-+            temp_log =3D io.StringIO()
-             try:
-                 retcode =3D run_app(temp_log, current_cmd)
-             except OSError as e:
+=20
+ class FieldsList(object):
 --=20
 2.23.0
 
