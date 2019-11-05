@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCFFF0757
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 21:55:24 +0100 (CET)
-Received: from localhost ([::1]:49862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06279F076B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 21:58:32 +0100 (CET)
+Received: from localhost ([::1]:49904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS5rF-0002KD-MC
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 15:55:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58001)
+	id 1iS5uI-00068D-KN
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 15:58:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ov-0000DW-Pu
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ov-0000DV-Ve
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:52:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ou-0001re-BM
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ou-0001sY-H5
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:52:57 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1100
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24702
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5ou-0001ql-6Z; Tue, 05 Nov 2019 15:52:56 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ id 1iS5ou-0001qp-CO; Tue, 05 Nov 2019 15:52:56 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpXDZ133229; Tue, 5 Nov 2019 15:52:54 -0500
+ xA5KpXvX020357; Tue, 5 Nov 2019 15:52:55 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3h8-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3ftes64t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:52:53 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpafs133476;
- Tue, 5 Nov 2019 15:52:53 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3gy-1
+ Tue, 05 Nov 2019 15:52:55 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KpbnC020609;
+ Tue, 5 Nov 2019 15:52:55 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3ftes64c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:52:52 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnuYR025651;
- Tue, 5 Nov 2019 20:52:52 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797w2-1
+ Tue, 05 Nov 2019 15:52:55 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvbE031295;
+ Tue, 5 Nov 2019 20:52:54 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 2w11e7hh87-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:52:52 +0000
+ Tue, 05 Nov 2019 20:52:54 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kqppt10945384
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5KqrpW29360612
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:52:51 GMT
+ Tue, 5 Nov 2019 20:52:53 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C5C63124052;
- Tue,  5 Nov 2019 20:52:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 61D2E124055;
+ Tue,  5 Nov 2019 20:52:53 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A877A124058;
- Tue,  5 Nov 2019 20:52:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4F75C124054;
+ Tue,  5 Nov 2019 20:52:53 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:52:51 +0000 (GMT)
+ Tue,  5 Nov 2019 20:52:53 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/55] iotests: Test reverse sub-cluster qcow2 writes
-Date: Tue,  5 Nov 2019 14:51:57 -0600
-Message-Id: <20191105205243.3766-10-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 11/55] x86: do not advertise die-id in query-hotpluggbale-cpus
+ if '-smp dies' is not set
+Date: Tue,  5 Nov 2019 14:51:59 -0600
+Message-Id: <20191105205243.3766-12-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -88,131 +89,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-This exercises the regression introduced in commit
-50ba5b2d994853b38fed10e0841b119da0f8b8e5.  On my machine, it has close
-to a 50 % false-negative rate, but that should still be sufficient to
-test the fix.
+Commit 176d2cda0 (i386/cpu: Consolidate die-id validity in smp context) added
+new 'die-id' topology property to CPUs and exposed it via QMP command
+query-hotpluggable-cpus, which broke -device/device_add cpu-foo for existing
+users that do not support die-id/dies yet. That's would be fine if it happened
+to new machine type only but it also happened to old machine types,
+which breaks migration from old QEMU to the new one, for example following CLI:
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Tested-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit ae6ef0190981a21f2d4bc8dcee7253688f14fae7)
- Conflicts:
-	tests/qemu-iotests/group
-*fix context deps on tests not in 4.1.0
+  OLD-QEMU -M pc-i440fx-4.0 -smp 1,max_cpus=2 \
+           -device qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id
+is not able to start with new QEMU, complaining about invalid die-id.
+
+After discovering regression, the patch
+   "pc: Don't make die-id mandatory unless necessary"
+makes die-id optional so old CLI would work.
+
+However it's not enough as new QEMU still exposes die-id via query-hotpluggbale-cpus
+QMP command, so the users that started old machine type on new QEMU, using all
+properties (including die-id) received from QMP command (as required), won't be
+able to start old QEMU using the same properties since it doesn't support die-id.
+
+Fix it by hiding die-id in query-hotpluggbale-cpus for all machine types in case
+'-smp dies' is not provided on CLI or -smp dies = 1', in which case smp_dies == 1
+and APIC ID is calculated in default way (as it was before DIE support) so we won't
+need compat code as in both cases the topology provided to guest via CPUID is the same.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20190902120222.6179-1-imammedo@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+(cherry picked from commit c6c1bb89fb46f3b88f832e654cf5a6f7941aac51)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/265     | 67 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/265.out |  6 ++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 74 insertions(+)
- create mode 100755 tests/qemu-iotests/265
- create mode 100644 tests/qemu-iotests/265.out
+ hw/i386/pc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/265 b/tests/qemu-iotests/265
-new file mode 100755
-index 0000000000..dce6f77be3
---- /dev/null
-+++ b/tests/qemu-iotests/265
-@@ -0,0 +1,67 @@
-+#!/usr/bin/env bash
-+#
-+# Test reverse-ordered qcow2 writes on a sub-cluster level
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+# qcow2-specific test
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+echo '--- Writing to the image ---'
-+
-+# Reduce cluster size so we get more and quicker I/O
-+IMGOPTS='cluster_size=4096' _make_test_img 1M
-+(for ((kb = 1024 - 4; kb >= 0; kb -= 4)); do \
-+     echo "aio_write -P 42 $((kb + 1))k 2k"; \
-+ done) \
-+ | $QEMU_IO "$TEST_IMG" > /dev/null
-+
-+echo '--- Verifying its content ---'
-+
-+(for ((kb = 0; kb < 1024; kb += 4)); do \
-+    echo "read -P 0 ${kb}k 1k"; \
-+    echo "read -P 42 $((kb + 1))k 2k"; \
-+    echo "read -P 0 $((kb + 3))k 1k"; \
-+ done) \
-+ | $QEMU_IO "$TEST_IMG" | _filter_qemu_io | grep 'verification'
-+
-+# Status of qemu-io
-+if [ ${PIPESTATUS[1]} = 0 ]; then
-+    echo 'Content verified.'
-+fi
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/265.out b/tests/qemu-iotests/265.out
-new file mode 100644
-index 0000000000..6eac620f25
---- /dev/null
-+++ b/tests/qemu-iotests/265.out
-@@ -0,0 +1,6 @@
-+QA output created by 265
-+--- Writing to the image ---
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+--- Verifying its content ---
-+Content verified.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index f13e5f2e23..468458efb1 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -271,3 +271,4 @@
- 254 rw backing quick
- 255 rw quick
- 256 rw quick
-+265 rw auto quick
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 947f81070f..d011733ff7 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2887,8 +2887,10 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
+                                  ms->smp.threads, &topo);
+         ms->possible_cpus->cpus[i].props.has_socket_id = true;
+         ms->possible_cpus->cpus[i].props.socket_id = topo.pkg_id;
+-        ms->possible_cpus->cpus[i].props.has_die_id = true;
+-        ms->possible_cpus->cpus[i].props.die_id = topo.die_id;
++        if (pcms->smp_dies > 1) {
++            ms->possible_cpus->cpus[i].props.has_die_id = true;
++            ms->possible_cpus->cpus[i].props.die_id = topo.die_id;
++        }
+         ms->possible_cpus->cpus[i].props.has_core_id = true;
+         ms->possible_cpus->cpus[i].props.core_id = topo.core_id;
+         ms->possible_cpus->cpus[i].props.has_thread_id = true;
 -- 
 2.17.1
 
