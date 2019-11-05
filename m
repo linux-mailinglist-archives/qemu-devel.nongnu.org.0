@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD724F07AF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:06:31 +0100 (CET)
-Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8932F079C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:03:52 +0100 (CET)
+Received: from localhost ([::1]:49996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS621-00077I-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:06:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
+	id 1iS5zT-0003PD-Cp
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:03:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p6-0000SU-NN
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:10 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p6-0000SH-IW
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p4-00020P-VH
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p5-00020Z-2j
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24870)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26492)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5p4-0001zd-M5; Tue, 05 Nov 2019 15:53:06 -0500
+ id 1iS5p4-0001zw-Q1; Tue, 05 Nov 2019 15:53:06 -0500
 Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpZMD027593; Tue, 5 Nov 2019 15:53:05 -0500
+ xA5KpXQB027479; Tue, 5 Nov 2019 15:53:06 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3g6dgk8e-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3g6dgk8q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:05 -0500
 Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KpqEP028586;
- Tue, 5 Nov 2019 15:53:04 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3g6dgk7n-1
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KpcRZ027758;
+ Tue, 5 Nov 2019 15:53:05 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3g6dgk7x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:04 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnwPe017465;
+ Tue, 05 Nov 2019 15:53:05 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvDO025654;
  Tue, 5 Nov 2019 20:53:03 GMT
 Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma05wdc.us.ibm.com with ESMTP id 2w11e7185s-1
+ [9.57.198.25]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797x7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 20:53:03 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kr3WN48562638
+ xA5Kr3Kx15466832
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 5 Nov 2019 20:53:03 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DF15012405C;
- Tue,  5 Nov 2019 20:53:02 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 69F36124054;
+ Tue,  5 Nov 2019 20:53:03 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CBC1112405B;
- Tue,  5 Nov 2019 20:53:02 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5483012405C;
+ Tue,  5 Nov 2019 20:53:03 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:02 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:03 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/55] curl: Handle success in multi_check_completion
-Date: Tue,  5 Nov 2019 14:52:16 -0600
-Message-Id: <20191105205243.3766-29-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 29/55] blockjob: update nodes head while removing all bdrv
+Date: Tue,  5 Nov 2019 14:52:17 -0600
+Message-Id: <20191105205243.3766-30-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -87,153 +87,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-stable@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Sergio Lopez <slp@redhat.com>
 
-Background: As of cURL 7.59.0, it verifies that several functions are
-not called from within a callback.  Among these functions is
-curl_multi_add_handle().
+block_job_remove_all_bdrv() iterates through job->nodes, calling
+bdrv_root_unref_child() for each entry. The call to the latter may
+reach child_job_[can_]set_aio_ctx(), which will also attempt to
+traverse job->nodes, potentially finding entries that where freed
+on previous iterations.
 
-curl_read_cb() is a callback from cURL and not a coroutine.  Waking up
-acb->co will lead to entering it then and there, which means the current
-request will settle and the caller (if it runs in the same coroutine)
-may then issue the next request.  In such a case, we will enter
-curl_setup_preadv() effectively from within curl_read_cb().
+To avoid this situation, update job->nodes head on each iteration to
+ensure that already freed entries are no longer linked to the list.
 
-Calling curl_multi_add_handle() will then fail and the new request will
-not be processed.
-
-Fix this by not letting curl_read_cb() wake up acb->co.  Instead, leave
-the whole business of settling the AIOCB objects to
-curl_multi_check_completion() (which is called from our timer callback
-and our FD handler, so not from any cURL callbacks).
-
-Reported-by: Natalie Gavrielov <ngavrilo@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1740193
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1746631
+Signed-off-by: Sergio Lopez <slp@redhat.com>
 Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190910124136.10565-7-mreitz@redhat.com
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-id: 20190911100316.32282-1-mreitz@redhat.com
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit bfb23b480a49114315877aacf700b49453e0f9d9)
+(cherry picked from commit d876bf676f5e7c6aa9ac64555e48cba8734ecb2f)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/curl.c | 69 ++++++++++++++++++++++------------------------------
- 1 file changed, 29 insertions(+), 40 deletions(-)
+ blockjob.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index fd70f1ebc4..c343c7ed3d 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -229,7 +229,6 @@ static size_t curl_read_cb(void *ptr, size_t size, size_t nmemb, void *opaque)
+diff --git a/blockjob.c b/blockjob.c
+index 20b7f557da..74abb97bfd 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -186,14 +186,23 @@ static const BdrvChildRole child_job = {
+ 
+ void block_job_remove_all_bdrv(BlockJob *job)
  {
-     CURLState *s = ((CURLState*)opaque);
-     size_t realsize = size * nmemb;
--    int i;
- 
-     trace_curl_read_cb(realsize);
- 
-@@ -245,32 +244,6 @@ static size_t curl_read_cb(void *ptr, size_t size, size_t nmemb, void *opaque)
-     memcpy(s->orig_buf + s->buf_off, ptr, realsize);
-     s->buf_off += realsize;
- 
--    for(i=0; i<CURL_NUM_ACB; i++) {
--        CURLAIOCB *acb = s->acb[i];
--
--        if (!acb)
--            continue;
--
--        if ((s->buf_off >= acb->end)) {
--            size_t request_length = acb->bytes;
--
--            qemu_iovec_from_buf(acb->qiov, 0, s->orig_buf + acb->start,
--                                acb->end - acb->start);
--
--            if (acb->end - acb->start < request_length) {
--                size_t offset = acb->end - acb->start;
--                qemu_iovec_memset(acb->qiov, offset, 0,
--                                  request_length - offset);
--            }
--
--            acb->ret = 0;
--            s->acb[i] = NULL;
--            qemu_mutex_unlock(&s->s->mutex);
--            aio_co_wake(acb->co);
--            qemu_mutex_lock(&s->s->mutex);
--        }
--    }
--
- read_end:
-     /* curl will error out if we do not return this value */
-     return size * nmemb;
-@@ -351,13 +324,14 @@ static void curl_multi_check_completion(BDRVCURLState *s)
-             break;
- 
-         if (msg->msg == CURLMSG_DONE) {
-+            int i;
-             CURLState *state = NULL;
-+            bool error = msg->data.result != CURLE_OK;
+-    GSList *l;
+-    for (l = job->nodes; l; l = l->next) {
++    /*
++     * bdrv_root_unref_child() may reach child_job_[can_]set_aio_ctx(),
++     * which will also traverse job->nodes, so consume the list one by
++     * one to make sure that such a concurrent access does not attempt
++     * to process an already freed BdrvChild.
++     */
++    while (job->nodes) {
++        GSList *l = job->nodes;
+         BdrvChild *c = l->data;
 +
-             curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE,
-                               (char **)&state);
- 
--            /* ACBs for successful messages get completed in curl_read_cb */
--            if (msg->data.result != CURLE_OK) {
--                int i;
-+            if (error) {
-                 static int errcount = 100;
- 
-                 /* Don't lose the original error message from curl, since
-@@ -369,20 +343,35 @@ static void curl_multi_check_completion(BDRVCURLState *s)
-                         error_report("curl: further errors suppressed");
-                     }
-                 }
-+            }
- 
--                for (i = 0; i < CURL_NUM_ACB; i++) {
--                    CURLAIOCB *acb = state->acb[i];
-+            for (i = 0; i < CURL_NUM_ACB; i++) {
-+                CURLAIOCB *acb = state->acb[i];
- 
--                    if (acb == NULL) {
--                        continue;
--                    }
-+                if (acb == NULL) {
-+                    continue;
-+                }
++        job->nodes = l->next;
 +
-+                if (!error) {
-+                    /* Assert that we have read all data */
-+                    assert(state->buf_off >= acb->end);
+         bdrv_op_unblock_all(c->bs, job->blocker);
+         bdrv_root_unref_child(c);
 +
-+                    qemu_iovec_from_buf(acb->qiov, 0,
-+                                        state->orig_buf + acb->start,
-+                                        acb->end - acb->start);
++        g_slist_free_1(l);
+     }
+-    g_slist_free(job->nodes);
+-    job->nodes = NULL;
+ }
  
--                    acb->ret = -EIO;
--                    state->acb[i] = NULL;
--                    qemu_mutex_unlock(&s->mutex);
--                    aio_co_wake(acb->co);
--                    qemu_mutex_lock(&s->mutex);
-+                    if (acb->end - acb->start < acb->bytes) {
-+                        size_t offset = acb->end - acb->start;
-+                        qemu_iovec_memset(acb->qiov, offset, 0,
-+                                          acb->bytes - offset);
-+                    }
-                 }
-+
-+                acb->ret = error ? -EIO : 0;
-+                state->acb[i] = NULL;
-+                qemu_mutex_unlock(&s->mutex);
-+                aio_co_wake(acb->co);
-+                qemu_mutex_lock(&s->mutex);
-             }
- 
-             curl_clean_state(state);
+ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs)
 -- 
 2.17.1
 
