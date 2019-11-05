@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C09DF0778
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 21:58:56 +0100 (CET)
-Received: from localhost ([::1]:49910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCFFF0757
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 21:55:24 +0100 (CET)
+Received: from localhost ([::1]:49862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS5ug-0006k2-OI
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 15:58:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58160)
+	id 1iS5rF-0002KD-MC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 15:55:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p1-0000Iw-CP
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:04 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ov-0000DW-Pu
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:52:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p0-0001w5-2l
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:03 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62248)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ou-0001re-BM
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:52:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1100
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5oz-0001vQ-QZ; Tue, 05 Nov 2019 15:53:02 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpWjc144523; Tue, 5 Nov 2019 15:53:00 -0500
+ id 1iS5ou-0001ql-6Z; Tue, 05 Nov 2019 15:52:56 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KpXDZ133229; Tue, 5 Nov 2019 15:52:54 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3fuuha5g-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3h8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:00 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpvb6145777;
- Tue, 5 Nov 2019 15:53:00 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3fuuha51-1
+ Tue, 05 Nov 2019 15:52:53 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpafs133476;
+ Tue, 5 Nov 2019 15:52:53 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3gy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:00 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knuo0000940;
- Tue, 5 Nov 2019 20:52:59 GMT
+ Tue, 05 Nov 2019 15:52:52 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnuYR025651;
+ Tue, 5 Nov 2019 20:52:52 GMT
 Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2w11e79fg4-1
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797w2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:52:59 +0000
+ Tue, 05 Nov 2019 20:52:52 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KqwgV13763472
+ xA5Kqppt10945384
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:52:58 GMT
+ Tue, 5 Nov 2019 20:52:51 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AE426124058;
- Tue,  5 Nov 2019 20:52:58 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C5C63124052;
+ Tue,  5 Nov 2019 20:52:51 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9B1D1124052;
- Tue,  5 Nov 2019 20:52:58 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A877A124058;
+ Tue,  5 Nov 2019 20:52:51 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:52:58 +0000 (GMT)
+ Tue,  5 Nov 2019 20:52:51 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/55] dma-helpers: ensure AIO callback is invoked after
- cancellation
-Date: Tue,  5 Nov 2019 14:51:49 -0600
-Message-Id: <20191105205243.3766-2-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 09/55] iotests: Test reverse sub-cluster qcow2 writes
+Date: Tue,  5 Nov 2019 14:51:57 -0600
+Message-Id: <20191105205243.3766-10-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -76,7 +76,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,84 +88,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-dma_aio_cancel unschedules the BH if there is one, which corresponds
-to the reschedule_dma case of dma_blk_cb.  This can stall the DMA
-permanently, because dma_complete will never get invoked and therefore
-nobody will ever invoke the original AIO callback in dbs->common.cb.
+This exercises the regression introduced in commit
+50ba5b2d994853b38fed10e0841b119da0f8b8e5.  On my machine, it has close
+to a 50 % false-negative rate, but that should still be sufficient to
+test the fix.
 
-Fix this by invoking the callback (which is ensured to happen after
-a bdrv_aio_cancel_async, or done manually in the dbs->bh case), and
-add assertions to check that the DMA state machine is indeed waiting
-for dma_complete or reschedule_dma, but never both.
-
-Reported-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20190729213416.1972-1-pbonzini@redhat.com
-Signed-off-by: John Snow <jsnow@redhat.com>
-(cherry picked from commit 539343c0a47e19d5dd64d846d64d084d9793681f)
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Tested-by: Stefano Garzarella <sgarzare@redhat.com>
+Tested-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit ae6ef0190981a21f2d4bc8dcee7253688f14fae7)
+ Conflicts:
+	tests/qemu-iotests/group
+*fix context deps on tests not in 4.1.0
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- dma-helpers.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/265     | 67 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/265.out |  6 ++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 74 insertions(+)
+ create mode 100755 tests/qemu-iotests/265
+ create mode 100644 tests/qemu-iotests/265.out
 
-diff --git a/dma-helpers.c b/dma-helpers.c
-index 2d7e02d35e..d3871dc61e 100644
---- a/dma-helpers.c
-+++ b/dma-helpers.c
-@@ -90,6 +90,7 @@ static void reschedule_dma(void *opaque)
- {
-     DMAAIOCB *dbs = (DMAAIOCB *)opaque;
- 
-+    assert(!dbs->acb && dbs->bh);
-     qemu_bh_delete(dbs->bh);
-     dbs->bh = NULL;
-     dma_blk_cb(dbs, 0);
-@@ -111,15 +112,12 @@ static void dma_complete(DMAAIOCB *dbs, int ret)
- {
-     trace_dma_complete(dbs, ret, dbs->common.cb);
- 
-+    assert(!dbs->acb && !dbs->bh);
-     dma_blk_unmap(dbs);
-     if (dbs->common.cb) {
-         dbs->common.cb(dbs->common.opaque, ret);
-     }
-     qemu_iovec_destroy(&dbs->iov);
--    if (dbs->bh) {
--        qemu_bh_delete(dbs->bh);
--        dbs->bh = NULL;
--    }
-     qemu_aio_unref(dbs);
- }
- 
-@@ -179,14 +177,21 @@ static void dma_aio_cancel(BlockAIOCB *acb)
- 
-     trace_dma_aio_cancel(dbs);
- 
-+    assert(!(dbs->acb && dbs->bh));
-     if (dbs->acb) {
-+        /* This will invoke dma_blk_cb.  */
-         blk_aio_cancel_async(dbs->acb);
-+        return;
-     }
+diff --git a/tests/qemu-iotests/265 b/tests/qemu-iotests/265
+new file mode 100755
+index 0000000000..dce6f77be3
+--- /dev/null
++++ b/tests/qemu-iotests/265
+@@ -0,0 +1,67 @@
++#!/usr/bin/env bash
++#
++# Test reverse-ordered qcow2 writes on a sub-cluster level
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-     if (dbs->bh) {
-         cpu_unregister_map_client(dbs->bh);
-         qemu_bh_delete(dbs->bh);
-         dbs->bh = NULL;
-     }
-+    if (dbs->common.cb) {
-+        dbs->common.cb(dbs->common.opaque, -ECANCELED);
-+    }
- }
- 
- static AioContext *dma_get_aio_context(BlockAIOCB *acb)
++seq=$(basename $0)
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++# qcow2-specific test
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++echo '--- Writing to the image ---'
++
++# Reduce cluster size so we get more and quicker I/O
++IMGOPTS='cluster_size=4096' _make_test_img 1M
++(for ((kb = 1024 - 4; kb >= 0; kb -= 4)); do \
++     echo "aio_write -P 42 $((kb + 1))k 2k"; \
++ done) \
++ | $QEMU_IO "$TEST_IMG" > /dev/null
++
++echo '--- Verifying its content ---'
++
++(for ((kb = 0; kb < 1024; kb += 4)); do \
++    echo "read -P 0 ${kb}k 1k"; \
++    echo "read -P 42 $((kb + 1))k 2k"; \
++    echo "read -P 0 $((kb + 3))k 1k"; \
++ done) \
++ | $QEMU_IO "$TEST_IMG" | _filter_qemu_io | grep 'verification'
++
++# Status of qemu-io
++if [ ${PIPESTATUS[1]} = 0 ]; then
++    echo 'Content verified.'
++fi
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/265.out b/tests/qemu-iotests/265.out
+new file mode 100644
+index 0000000000..6eac620f25
+--- /dev/null
++++ b/tests/qemu-iotests/265.out
+@@ -0,0 +1,6 @@
++QA output created by 265
++--- Writing to the image ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
++--- Verifying its content ---
++Content verified.
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index f13e5f2e23..468458efb1 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -271,3 +271,4 @@
+ 254 rw backing quick
+ 255 rw quick
+ 256 rw quick
++265 rw auto quick
 -- 
 2.17.1
 
