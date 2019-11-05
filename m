@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42ED3EF87B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:21:28 +0100 (CET)
-Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3130AEF85F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:14:51 +0100 (CET)
+Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRv1i-0006mn-OO
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43179)
+	id 1iRuvJ-0007bj-OG
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:14:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iRut0-000568-5p
+ (envelope-from <guoheyi@huawei.com>) id 1iRut0-00056M-BU
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iRusz-0007pP-0s
+ (envelope-from <guoheyi@huawei.com>) id 1iRusy-0007pB-Ni
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:26 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:52116 helo=huawei.com)
+Received: from szxga07-in.huawei.com ([45.249.212.35]:52204 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iRusv-0007j8-79; Tue, 05 Nov 2019 04:12:21 -0500
+ id 1iRusv-0007j9-6e; Tue, 05 Nov 2019 04:12:21 -0500
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 3294EB169FFE9A49559A;
+ by Forcepoint Email with ESMTP id 3F328DAA120616D688B8;
  Tue,  5 Nov 2019 17:12:18 +0800 (CST)
 Received: from linux-OtBuvb.huawei.com (10.175.104.212) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 5 Nov 2019 17:12:10 +0800
+ 14.3.439.0; Tue, 5 Nov 2019 17:12:11 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC v2 13/14] arm/kvm: handle guest exit of hypercall
-Date: Tue, 5 Nov 2019 17:10:55 +0800
-Message-ID: <20191105091056.9541-14-guoheyi@huawei.com>
+Subject: [RFC v2 14/14] virt/acpi: add SDEI table if SDEI is enabled
+Date: Tue, 5 Nov 2019 17:10:56 +0800
+Message-ID: <20191105091056.9541-15-guoheyi@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20191105091056.9541-1-guoheyi@huawei.com>
 References: <20191105091056.9541-1-guoheyi@huawei.com>
@@ -54,14 +54,16 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
- James Morse <james.morse@arm.com>, Heyi Guo <guoheyi@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, James Morse <james.morse@arm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
  wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support to handle guest exit of hypercall, and forward to SDEI
-dispatcher if SDEI is enabled and it is an SDEI request.
+Add SDEI table if SDEI is enabled, so that guest OS can get aware and
+utilize the interfaces.
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
@@ -69,54 +71,76 @@ Cc: Dave Martin <Dave.Martin@arm.com>
 Cc: Marc Zyngier <marc.zyngier@arm.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: James Morse <james.morse@arm.com>
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 ---
- target/arm/kvm.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index b473c63edb..035a39e49f 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -30,6 +30,7 @@
- #include "hw/boards.h"
- #include "hw/irq.h"
- #include "qemu/log.h"
-+#include "sdei.h"
-=20
- const KVMCapabilityInfo kvm_arch_required_capabilities[] =3D {
-     KVM_CAP_LAST_INFO
-@@ -676,6 +677,19 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kv=
-m_run *run)
+Notes:
+    v2:
+    - Drop SDEI table definition and add comments
+
+ hw/arm/virt-acpi-build.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 4cd50175e0..73d3f8cd15 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -32,6 +32,7 @@
+ #include "trace.h"
+ #include "hw/core/cpu.h"
+ #include "target/arm/cpu.h"
++#include "target/arm/sdei.h"
+ #include "hw/acpi/acpi-defs.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/nvram/fw_cfg.h"
+@@ -475,6 +476,26 @@ build_iort(GArray *table_data, BIOSLinker *linker, V=
+irtMachineState *vms)
+                  "IORT", table_data->len - iort_start, 0, NULL, NULL);
  }
 =20
-=20
-+static void kvm_arm_handle_hypercall(CPUState *cs, struct kvm_run *run)
++/*
++ * ACPI spec 6.2 Software Delegated Exception Interface (SDEI).
++ * (Revision 1.0)
++ * "SDEI" was reserved in ACPI 6.2. See "Links to ACPI-Related Documents=
+"
++ * (http://uefi.org/acpi) under the heading "Software
++ * Delegated Exceptions Interface." The definition is under
++ * "10 Appendix C: ACPI table definitions for SDEI" in the linked docume=
+nt.
++ *
++ * This is a dummy table to expose platform SDEI capbility to OS.
++ */
++static void
++build_sdei(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms=
+)
 +{
-+    uint32_t func_id =3D run->hypercall.args[0];
++    int sdei_start =3D table_data->len;
 +
-+    if (sdei_enabled &&
-+        func_id >=3D SDEI_1_0_FN_BASE && func_id <=3D SDEI_MAX_REQ) {
-+        sdei_handle_request(cs, run);
-+        return;
-+    }
-+
-+    run->hypercall.args[0] =3D -1;
++    (void)acpi_data_push(table_data, sizeof(AcpiTableHeader));
++    build_header(linker, table_data, (void *)(table_data->data + sdei_st=
+art),
++                 "SDEI", table_data->len - sdei_start, 1, NULL, NULL);
 +}
 +
- int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+ static void
+ build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms=
+)
  {
-     int ret =3D 0;
-@@ -686,6 +700,9 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run=
- *run)
-             ret =3D EXCP_DEBUG;
-         } /* otherwise return to guest */
-         break;
-+    case KVM_EXIT_HYPERCALL:
-+        kvm_arm_handle_hypercall(cs, run);
-+        break;
-     default:
-         qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
-                       __func__, run->exit_reason);
+@@ -825,6 +846,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuil=
+dTables *tables)
+     acpi_add_table(table_offsets, tables_blob);
+     build_spcr(tables_blob, tables->linker, vms);
+=20
++    if (sdei_enabled) {
++        acpi_add_table(table_offsets, tables_blob);
++        build_sdei(tables_blob, tables->linker, vms);
++    }
++
+     if (ms->numa_state->num_nodes > 0) {
+         acpi_add_table(table_offsets, tables_blob);
+         build_srat(tables_blob, tables->linker, vms);
 --=20
 2.19.1
 
