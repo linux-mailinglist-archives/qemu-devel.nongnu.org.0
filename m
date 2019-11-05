@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B7EEF85B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:14:26 +0100 (CET)
-Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A916DEF86D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:17:50 +0100 (CET)
+Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRuuv-0006w0-FC
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:14:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43039)
+	id 1iRuyC-0002B6-Qh
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:17:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iRusx-00051t-AF
+ (envelope-from <guoheyi@huawei.com>) id 1iRusx-00051x-Bx
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iRusw-0007mn-35
+ (envelope-from <guoheyi@huawei.com>) id 1iRusv-0007mM-Sk
  for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:23 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2192 helo=huawei.com)
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2191 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iRuss-0007hm-V6; Tue, 05 Nov 2019 04:12:19 -0500
+ id 1iRuss-0007hi-V5; Tue, 05 Nov 2019 04:12:19 -0500
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 2B7146A7B79F7F75ACDF;
+ by Forcepoint Email with ESMTP id 25CF166D1E71EF4D29B8;
  Tue,  5 Nov 2019 17:12:13 +0800 (CST)
 Received: from linux-OtBuvb.huawei.com (10.175.104.212) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 5 Nov 2019 17:12:06 +0800
+ 14.3.439.0; Tue, 5 Nov 2019 17:12:07 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC v2 07/14] arm/sdei: add support to trigger event by GIC
- interrupt ID
-Date: Tue, 5 Nov 2019 17:10:49 +0800
-Message-ID: <20191105091056.9541-8-guoheyi@huawei.com>
+Subject: [RFC v2 08/14] core/irq: add qemu_irq_remove_intercept interface
+Date: Tue, 5 Nov 2019 17:10:50 +0800
+Message-ID: <20191105091056.9541-9-guoheyi@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20191105091056.9541-1-guoheyi@huawei.com>
 References: <20191105091056.9541-1-guoheyi@huawei.com>
@@ -61,8 +60,14 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an external interface to trigger an SDEI event bound to an
-interrupt by providing GIC interrupt ID.
+We use qemu_irq as the bridge for other qemu modules to switch from
+irq injection to SDEI event trigger after VM binds the interrupt to
+SDEI event. We use qemu_irq_intercept_in() to override qemu_irq
+handler with SDEI event trigger, so we also need a corresponding
+interface to restore the handler to default one (i.e. ARM GIC).
+
+qemu_irq_remove_intercept() is the new interface to do the above
+job.
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
@@ -71,82 +76,52 @@ Cc: Marc Zyngier <marc.zyngier@arm.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: James Morse <james.morse@arm.com>
 ---
- target/arm/sdei.c | 37 +++++++++++++++++++++++++++++++++++++
- target/arm/sdei.h |  7 +++++++
- 2 files changed, 44 insertions(+)
+ hw/core/irq.c    | 11 +++++++++++
+ include/hw/irq.h |  8 ++++++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/sdei.c b/target/arm/sdei.c
-index 6af4a9044b..713ac97775 100644
---- a/target/arm/sdei.c
-+++ b/target/arm/sdei.c
-@@ -476,6 +476,28 @@ static int64_t sdei_version(QemuSDEState *s, CPUStat=
-e *cs, struct kvm_run *run)
-            (0ULL << SDEI_VERSION_MINOR_SHIFT);
- }
-=20
-+static bool inject_event(QemuSDEState *s, CPUState *cs, int32_t event, i=
-nt irq)
-+{
-+    QemuSDE *sde;
-+
-+    if (event < 0) {
-+        return false;
-+    }
-+    sde =3D get_sde_no_check(s, event, cs);
-+    if (sde->event_id =3D=3D SDEI_INVALID_EVENT_ID) {
-+        put_sde(sde, cs);
-+        return false;
-+    }
-+    if (irq > 0 && sde->prop->interrupt !=3D irq) {
-+        /* Someone unbinds the interrupt! */
-+        put_sde(sde, cs);
-+        return false;
-+    }
-+    sde->pending =3D true;
-+    dispatch_single(s, sde, cs);
-+    return true;
-+}
-+
- static int64_t unregister_single_sde(QemuSDEState *s, int32_t event,
-                                      CPUState *cs, bool force)
- {
-@@ -1104,6 +1126,21 @@ void sdei_handle_request(CPUState *cs, struct kvm_=
-run *run)
+diff --git a/hw/core/irq.c b/hw/core/irq.c
+index 7cc0295d0e..114bce6c21 100644
+--- a/hw/core/irq.c
++++ b/hw/core/irq.c
+@@ -145,6 +145,17 @@ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_i=
+rq_handler handler, int n)
      }
  }
 =20
-+bool trigger_sdei_by_irq(int cpu, int irq)
++void qemu_irq_remove_intercept(qemu_irq *gpio_in, int n)
 +{
-+    QemuSDEState *s =3D sde_state;
-+
-+    if (!s || irq >=3D ARRAY_SIZE(s->irq_map)) {
-+        return false;
++    int i;
++    qemu_irq *old_irqs =3D gpio_in[0]->opaque;
++    for (i =3D 0; i < n; i++) {
++        gpio_in[i]->handler =3D old_irqs[i]->handler;
++        gpio_in[i]->opaque =3D old_irqs[i]->opaque;
 +    }
-+
-+    if (s->irq_map[irq] =3D=3D SDEI_INVALID_EVENT_ID) {
-+        return false;
-+    }
-+
-+    return inject_event(s, qemu_get_cpu(cpu), s->irq_map[irq], irq);
++    qemu_free_irqs(old_irqs, n);
 +}
 +
- static void sde_array_init(QemuSDE **array, int count)
- {
-     int i;
-diff --git a/target/arm/sdei.h b/target/arm/sdei.h
-index 828f70bbf1..5ecc32d667 100644
---- a/target/arm/sdei.h
-+++ b/target/arm/sdei.h
-@@ -31,4 +31,11 @@
+ static const TypeInfo irq_type_info =3D {
+    .name =3D TYPE_IRQ,
+    .parent =3D TYPE_OBJECT,
+diff --git a/include/hw/irq.h b/include/hw/irq.h
+index fe527f6f51..1af1db93bb 100644
+--- a/include/hw/irq.h
++++ b/include/hw/irq.h
+@@ -56,8 +56,12 @@ qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
+  */
+ qemu_irq *qemu_irq_proxy(qemu_irq **target, int n);
 =20
- void sdei_handle_request(CPUState *cs, struct kvm_run *run);
-=20
+-/* For internal use in qtest.  Similar to qemu_irq_split, but operating
+-   on an existing vector of qemu_irq.  */
 +/*
-+ * Trigger an SDEI event bound to an interrupt.
-+ * Return true if event has been triggered successfully.
-+ * Return false if event has not been triggered for some reason.
++ * Similar to qemu_irq_split, but operating on an existing vector of qem=
+u_irq.
 + */
-+bool trigger_sdei_by_irq(int cpu, int irq);
+ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, =
+int n);
+=20
++/* Restore the irq handler intercepted by qemu_irq_intercept_in() */
++void qemu_irq_remove_intercept(qemu_irq *gpio_in, int n);
 +
  #endif
 --=20
