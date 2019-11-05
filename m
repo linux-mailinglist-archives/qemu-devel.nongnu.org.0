@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0486AF0879
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:37:08 +0100 (CET)
-Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EDFF0875
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:36:03 +0100 (CET)
+Received: from localhost ([::1]:50429 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6Ve-0005Rh-GZ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:37:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
+	id 1iS6Uc-0003mL-3M
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:36:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60109)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iS5rW-0003ym-V4
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:55:40 -0500
+ (envelope-from <mst@redhat.com>) id 1iS5sj-0005fB-PM
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:56:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iS5rT-00044m-B9
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:55:36 -0500
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:43520)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iS5rT-00043t-5h
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:55:35 -0500
-Received: by mail-oi1-x22e.google.com with SMTP id l20so6800721oie.10
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 12:55:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5XvPHb0liGDSyzqWfyodYaHwqMy3DUUzWQ17uAiVI3I=;
- b=U3qpgrDvNWy873Do62C7Q+R8ejze+6Ip06g/TJ9RrK0CXyVhDdiPwmIXdTX6vDUQcg
- nShxYKSOJVM+1TC+MNdQYe2IPlZxwY3xhL2PT+KES145KgN7wZv22DBdEMkP54viHCGI
- bBNTA8uE2OHJvljzkO36A8qaByrMqw4hoCaJfznffqdVWMtxJ3YJDH+5+evH5ggDfazi
- C/zlDGXNTjYgoz//fEHKv/lJepMu64neRKw2fci+UAF9Jl1xHSlBBnsZkveI0xYSft/4
- 1lcaBsE1DQg1LDnCFXhXsNNRzwdlqi5SYwL4qw20R04dXrapWEc8RSBktxnpCIyxG8Dm
- 5EKg==
+ (envelope-from <mst@redhat.com>) id 1iS5si-0004av-Lc
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:56:53 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:39700)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iS5si-0004af-CN
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:56:52 -0500
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 85F5A4E919
+ for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 20:56:50 +0000 (UTC)
+Received: by mail-qt1-f200.google.com with SMTP id l5so23747486qtj.8
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 12:56:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5XvPHb0liGDSyzqWfyodYaHwqMy3DUUzWQ17uAiVI3I=;
- b=qbs64iBVlSr9xo4g9wigASVCGreNxCj0O9gh14+NMSpmDJ6TFkhtcHSsI+kJJXgrBa
- hQ1yhaHibr1uFblE2FQQE9mVs11h0MF6BGYAyUjFi1LiNQPuTTUz8R4iS+H+bi5+W8wO
- m0l7MA2oH5XlTN6wPHtfe1bZpChdjE9V5zCrgRVLljtnO41Blcg5yj91lnwHb7VYZUzP
- asVrZbfuWDCpvjOTlLw/xfrVueRO+x/qp+kE9Q7y2vPyJQ/SODpnVltp8F/6/h7H8nDq
- 7oqIvdUgS79gAx+Vu9nJ5KbVxjvg3nAfMywAMum/lOdEAmP2UXVJJxNFvrVAyB3CiuJO
- CZiQ==
-X-Gm-Message-State: APjAAAV/OTW6eTQ4GVgWnbIdhav+a4WRpNR5gMaJLBmT8mmmngEHeyC3
- 8nTY8lKRdIfQkhcCxgTGZl80fBub91RGmt1PJQcDAg==
-X-Google-Smtp-Source: APXvYqwxE6BXvUoNdnKW8wviK6OLmSqbfck8rAFPw0Ngp6PDCdFX3lYAjcZ2EqaKaCMW0xMqrYmxMPXlhj1SYDUctYs=
-X-Received: by 2002:aca:451:: with SMTP id 78mr889263oie.170.1572987334000;
- Tue, 05 Nov 2019 12:55:34 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2FfkMyQD9KmRpQsiqaHQJo42cIRE8N5ktTT/ajnzwyw=;
+ b=KmtEbt3LfmZrT5chFhEXzg35/g+jwcMCtJAkGf752IGBfhppS+O5ynMtmhTYUv9zH7
+ 4smJ6O2yC3NHslkfSm0pVM+KbZ4kU4LPlTp8M89MYSAoNUJHZUaZTE0GAFUAjd6xef2k
+ AJPLzyABk0oGWaHjuJAdCHPi58lYqHZMS2oIm9pX091Kc2Lb0Qjtg1bMhL4QHnha1LIz
+ oSL+guElTSHevDI4QKyTgMNt3Hf3jdNvpmeXV0oaYJMPEcgRqOszP2/jZEdAVJrLRXd3
+ TCAAnM2CSDSTqIb9SeS02iAgPOi4Qdf7L+CEKVHabNYyoSh2DJN6tlrizAi/ubnloaRP
+ K+1A==
+X-Gm-Message-State: APjAAAX2rtWRuyEdJzh8yxlo01VQsHQ/rBlDOYT8w3a3ISyEEmbP1AjW
+ QINGqS8Y1AztDU8jGX2LUr0RbUlpEp/L07vf5lllpHWUVgBLP3csa7s2DrVlqNwvDX36e9VL0TR
+ AZO/b3TBOxSfQPrM=
+X-Received: by 2002:ac8:27a2:: with SMTP id w31mr9005506qtw.227.1572987409781; 
+ Tue, 05 Nov 2019 12:56:49 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxQKaUAuYL/2pBZbsBbqylTSyqxiwa3oidTVSO8C5rtV7kHhQ3xLye9lRQBtPaoNTzmnHcvHw==
+X-Received: by 2002:ac8:27a2:: with SMTP id w31mr9005482qtw.227.1572987409539; 
+ Tue, 05 Nov 2019 12:56:49 -0800 (PST)
+Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
+ by smtp.gmail.com with ESMTPSA id r2sm13426436qtc.28.2019.11.05.12.56.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 12:56:48 -0800 (PST)
+Date: Tue, 5 Nov 2019 15:56:43 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v1 1/4] virtio: protect non-modern devices from too big
+ virtqueue size setting
+Message-ID: <20191105155357-mutt-send-email-mst@kernel.org>
+References: <20191105161105.19016-1-dplotnikov@virtuozzo.com>
+ <20191105161105.19016-2-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-References: <1572911399018.17766@sandia.gov>
- <20191105164253.GJ166646@stefanha-x1.localdomain>
-In-Reply-To: <20191105164253.GJ166646@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Nov 2019 20:55:21 +0000
-Message-ID: <CAFEAcA_5ZS=4gHW8yph_o7Z4XrO5r2YMbGTB0oNtQKriv-qS=A@mail.gmail.com>
-Subject: Re: Adding New, Unsupported ISA to Qemu
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::22e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191105161105.19016-2-dplotnikov@virtuozzo.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,76 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Hanson, Seth" <shanson@sandia.gov>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, den@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Nov 2019 at 16:44, Stefan Hajnoczi <stefanha@gmail.com> wrote
-> The general advice I've seen is:
->
-> 1. Look at existing TCG targets to learn how to implement aspects of
->    your ISA.
+On Tue, Nov 05, 2019 at 07:11:02PM +0300, Denis Plotnikov wrote:
+> The patch protects from creating illegal virtio device configuration
+> via direct virtqueue size property setting.
+> 
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> ---
+>  hw/virtio/virtio-blk-pci.c  |  9 +++++++++
+>  hw/virtio/virtio-scsi-pci.c | 10 ++++++++++
+>  2 files changed, 19 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
+> index 60c9185c39..6177ff1df8 100644
+> --- a/hw/virtio/virtio-blk-pci.c
+> +++ b/hw/virtio/virtio-blk-pci.c
+> @@ -48,6 +48,15 @@ static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>  {
+>      VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(vpci_dev);
+>      DeviceState *vdev = DEVICE(&dev->vdev);
+> +    bool modern = virtio_pci_modern(vpci_dev);
+> +    uint32_t queue_size = dev->vdev.conf.queue_size;
+> +
+> +    if (!modern && queue_size > 128) {
+> +        error_setg(errp,
+> +                   "too big queue size (%u, max: 128) "
+> +                   "for non-modern virtio device", queue_size);
+> +        return;
+> +    }
 
-...and *don't* look at older/less maintained targets (including
-x86), as they have a lot of bad habits you don't want to copy.
-Using 'decodetree' is probably a good idea.
 
-> 2. If you are unfamiliar with emulation, CPU ISA, or just-in-time
->    compiler concepts, try to read up on them and then look back at the
->    QEMU code.  Things will be clearer.
+this enables for transitional so still visible to legacy
+interface. I am guessing you want to check whether
+device is accessed through the modern interface instead.
 
-I would also add
-3.  Don't expect getting this implemented and upstream to be easy.
+>      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+>          vpci_dev->nvectors = dev->vdev.conf.num_queues + 1;
 
-(Apologies if the following sounds pessimistic and off-putting;
-but I would prefer people to have a clear understanding of
-what they're getting into and not assume the chances of
-success are higher than they might actually be.)
+> diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
+> index 2830849729..6e6790fda5 100644
+> --- a/hw/virtio/virtio-scsi-pci.c
+> +++ b/hw/virtio/virtio-scsi-pci.c
+> @@ -17,6 +17,7 @@
+>  
+>  #include "hw/virtio/virtio-scsi.h"
+>  #include "virtio-pci.h"
+> +#include "qapi/error.h"
+>  
+>  typedef struct VirtIOSCSIPCI VirtIOSCSIPCI;
+>  
+> @@ -47,6 +48,15 @@ static void virtio_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>      VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
+>      DeviceState *proxy = DEVICE(vpci_dev);
+>      char *bus_name;
+> +    bool modern = virtio_pci_modern(vpci_dev);
+> +    uint32_t virtqueue_size = vs->conf.virtqueue_size;
+> +
+> +    if (!modern && virtqueue_size > 128) {
+> +        error_setg(errp,
+> +                   "too big virtqueue size (%u, max: 128) "
+> +                   "for non-modern virtio device", virtqueue_size);
+> +        return;
+> +    }
 
-"New TCG target" is an unlucky combination of:
- (1) it's quite a lot of work in pure amount-of-code terms
- (2) because it is a big feature it is not a good choice as a "first
-   contribution to the project", but new targets often are proposed
-   and written by people who don't have any previous history of
-   writing QEMU code
- (3) we already have targets for the common CPU ISAs, so
-   anything new is likely to be obscure and not have many people
-   who care about it either in our userbase or in our dev community.
-   (riscv is the obvious recent exception here, as it is clearly relevant
-   as a new architecture and has attracted multiple people to work
-   on it and contribute both code and reviews)
+why? what is illegal about 256 for legacy?
 
-1 and 2 mean that code review of a new TCG target is a lot
-of work, and 3 means it's not clear how much return the project
-gets for that investment :-(
-
-There is not a large community of upstream developers who are
-interested in maintaining a lot of obscure guest architectures:
-we essentially rely on the goodwill and not-entirely-work-time
-of just a few people when it comes to reviewing new TCG targets.
-That means that patchsets often hang around on list for a long
-time without getting attention.
-
-Our past historical experience has often been that when people
-contribute TCG targets, we do a lot of work on our end with
-code review and helping to get the code into upstream QEMU, and
-then these people more or less disappear, leaving us with the
-burden of something we have to support and no help doing it.
-If in general people submitting new TCG targets were all
-*helping each other*, passing on what they learned to the
-next person along, contributing code review, updating older
-code as QEMU APIs improve/churn, etc, then I think I'd feel
-differently about this. But to be honest mostly I find myself
-thinking "oh dear, not another one".
-
-We already have two new TCG ports with patches on list
-which are kind of stalled due to not having enough existing
-upstream QEMU devs who can/will code review them (and
-another which hasn't had patches posted but might do soon).
-The odds for your new port having a happier future don't seem
-too great to me :-(
-
-thanks
--- PMM
+>  
+>      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+>          vpci_dev->nvectors = vs->conf.num_queues + 3;
+> -- 
+> 2.17.0
 
