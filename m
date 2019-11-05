@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE5EF0883
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:38:35 +0100 (CET)
-Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4D0F0896
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:43:12 +0100 (CET)
+Received: from localhost ([::1]:50534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6X4-0007rP-7T
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:38:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60827)
+	id 1iS6bW-0004RS-Ss
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:43:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iS5vM-0000Nv-Db
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:59:37 -0500
+ (envelope-from <hpoussin@reactos.org>) id 1iS62U-0000jP-Ct
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:06:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iS5vL-0006ac-5T
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:59:36 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45130)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iS5vK-0006aG-GD
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:59:35 -0500
-Received: by mail-oi1-x241.google.com with SMTP id k2so18866410oij.12
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 12:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uYAcSA/WjIczAnI+8WCrdQT6qS+iw0ZmLhpdXJxOK4Y=;
- b=FG/LQDcqSe0QvdiUUnKMsFM9jOzEcJTEt5EiFH5tDuCzlY4w2/Qx3UOLIDaOAkI40s
- WIJW2+dVvhixg3wzGmzIaUtOtzMH67izlgriVKFBtV092Xdl5tdbxSXi9yvzBwI3tomC
- 9ihj+X1qeCiedrsG3regAQSQkR6yBWaKP6zSQLj+CWskwxvVF+QYpamg0/shHIFrb7Xo
- bZGzx0iLgvtZj2t84yBV48MW/HoKlOhwcqYwGFYsXKohH5msLlkRsYjYQPu4mazDNyDR
- JpBPqOyJu81rwvE/QPJHYxrE1MzBbUvXGUhp93JaEBLlaqz7atpsDSFSQc7s10/u32E9
- c9oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uYAcSA/WjIczAnI+8WCrdQT6qS+iw0ZmLhpdXJxOK4Y=;
- b=R1+OfIsHEkLEg/W7gi1e9MQspcOBRDcFqKgf9/SAtfOYEMyOc9D27tP3LlLyjo6lLF
- hBYaEq3cpQL0kzcMjaeln6FZdaqXVSGSJ7S3nGeDNGx+GNZbOZxDIzW4W4xVnUaIrBPK
- 8mvbvwgrHZAjw/VuNZ3ypr4c3seU1xTLVUBaNNDQwEGGL+HK1WEByZpye7p8vbLagm+L
- 3irdqbq0VT3loHUJjpyRRv6A0zAmUwbv+79slrIkcW8+C0aj5cGS4zSUt505lLIcCKAY
- ajyawysWaVMsyurcwNbkWt6dvyGxFhL6Wu6iJc0AhUlkaHGG77DGIGr0paLAFppeEAuQ
- IkxQ==
-X-Gm-Message-State: APjAAAV5yJtHmZeEsAcLydOo9JwIRGOSXqBLT0CF1ty3+Y9QfVYTaWOf
- XOkKmgV4FOEQK5go9bnOj/4+iST6oGPVHjgefQmpEg==
-X-Google-Smtp-Source: APXvYqy6YItJ+aNTNBhr2AM147PXJnkmdWdMXq9s2oh1knG+6NnidXTW/+mPGV8Ta+kGUDEXYrsAjaqdf/bVoGfMAEs=
-X-Received: by 2002:aca:4945:: with SMTP id w66mr920440oia.98.1572987573432;
- Tue, 05 Nov 2019 12:59:33 -0800 (PST)
+ (envelope-from <hpoussin@reactos.org>) id 1iS62T-0001XV-28
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:06:58 -0500
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:33874)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <hpoussin@reactos.org>)
+ id 1iS62S-0001Ww-HH
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:06:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
+ ; s=25047;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+ Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=l5kQ8wFjTc8u/RT83N469UKvxsxuuW7khsU+cs3pgXw=; b=Y6witOGRbNrDWIjrZ2f9qckdA/
+ TASQbI05UQZXhQq53CLssUCtIhMnc6U48vmUz4lqKNomQx40W2m736yrlhobSgQcxYWNqjhx9CB4m
+ t2Ol3GGQhtR4iQ09WxqDlEjOnlClR4NepM8zdazTHPSCkUbz+vw0JzbHLCRoR2j6Y23Y=;
+Received: from [2a01:e35:2e3e:3c40:810c:5dc0:a5b7:d589]
+ by iserv.reactos.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <hpoussin@reactos.org>)
+ id 1iS62O-0004ah-NM; Tue, 05 Nov 2019 21:06:54 +0000
+Subject: Re: [PATCH 2/3] dp8393x: fix dp8393x_receive()
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20191102171511.31881-1-laurent@vivier.eu>
+ <20191102171511.31881-3-laurent@vivier.eu>
+From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Message-ID: <b357fb5d-bae2-5ab0-7c63-4f7106fb8c4e@reactos.org>
+Date: Tue, 5 Nov 2019 22:06:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191103222511.17478-1-philmd@redhat.com>
-In-Reply-To: <20191103222511.17478-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Nov 2019 20:59:21 +0000
-Message-ID: <CAFEAcA_PC80+E1Sb7CTrE0OdBZfn9VHUzXBh9NH3xGUhnfMF0A@mail.gmail.com>
-Subject: Re: [PULL 0/2] fw_cfg for-4.2-soft-freeze patches
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191102171511.31881-3-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2a01:4f8:1c17:5ae1::1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,51 +63,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 3 Nov 2019 at 22:26, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> Hi Peter,
->
-> One fw_cfg fix from David Gilbert.
->
-> The following changes since commit f3cad9c6dbd4b9877232c44bf2dd877353a732=
-09:
->
->   iotests: Remove 130 from the "auto" group (2019-10-31 11:04:10 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/fw_cfg-next-pull-request
->
-> for you to fetch changes up to eda4e62cc2f5d12fcedcf799a5a3f9eba855ad77:
->
->   tests/fw_cfg: Test 'reboot-timeout=3D-1' special value (2019-11-01 19:1=
-9:24 +0100)
->
-> ----------------------------------------------------------------
-> Fix the fw_cfg reboot-timeout=3D-1 special value, add a test for it.
->
-> ----------------------------------------------------------------
->
-> Dr. David Alan Gilbert (1):
->   fw_cfg: Allow reboot-timeout=3D-1 again
->
-> Philippe Mathieu-Daud=C3=A9 (1):
->   tests/fw_cfg: Test 'reboot-timeout=3D-1' special value
->
->  hw/nvram/fw_cfg.c   |  7 ++++---
->  tests/fw_cfg-test.c | 21 +++++++++++++++++++++
->  2 files changed, 25 insertions(+), 3 deletions(-)
+Le 02/11/2019 à 18:15, Laurent Vivier a écrit :
+> address_space_rw() access size must be multiplied by the width.
+> 
+> This fixes DHCP for Q800 guest.
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   hw/net/dp8393x.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 85d3f3788e..b8c4473f99 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -833,7 +833,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+>       } else {
+>           dp8393x_put(s, width, 0, 0); /* in_use */
+>           address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 6 * width,
+> -            MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, sizeof(uint16_t), 1);
+> +            MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 1);
+>           s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+>           s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
+>           s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
+> 
 
-Applied, thanks.
+This patch is problematic.
+The code was initially created with "size".
+It was changed in 409b52bfe199d8106dadf7c5ff3d88d2228e89b5 to fix networking in NetBSD 5.1.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+To test with NetBSD 5.1
+- boot the installer (arccd-5.1.iso)
+- choose (S)hell option
+- "ifconfig sn0 10.0.2.15 netmask 255.255.255.0"
+- "route add default 10.0.2.2"
+- networking should work (I test with "ftp 212.27.63.3")
 
--- PMM
+Without this patch, I get the FTP banner.
+With this patch, connection can't be established.
+
+In datasheet page 17, you can see the "Receive Descriptor Format", which contains the in_use field.
+It is clearly said that RXpkt.in_use is 16 bit wide, and that the bits 16-31 are not used in 32-bit mode.
+
+So, I don't see why you need to clear 32 bits in 32-bit mode. Maybe you need to clear only the other
+16 bits ? Maybe it depends of endianness ?
+
+Regards,
+
+Hervé
 
