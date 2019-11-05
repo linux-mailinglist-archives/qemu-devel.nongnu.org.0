@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232D2F04D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:15:55 +0100 (CET)
-Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58BCF04F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:20:21 +0100 (CET)
+Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS3Mw-0002Kh-7d
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:15:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
+	id 1iS3RE-000730-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:20:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iS3Is-0005yB-D0
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:43 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iS3Iv-00063j-Ca
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iS3Iq-0004hb-VL
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:42 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:40125)
+ (envelope-from <laurent@vivier.eu>) id 1iS3Iu-0004kZ-80
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:45 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:46583)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3Iq-0004gQ-Kz
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:40 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3It-0004jr-Ui
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:44 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N3bGP-1hkDxE3pLP-010ZAo; Tue, 05 Nov 2019 19:11:28 +0100
+ id 1MKbwg-1iDojs3Nng-00KwLt; Tue, 05 Nov 2019 19:11:29 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] scripts/qemu-binfmt-conf: Update for sparc64
-Date: Tue,  5 Nov 2019 19:11:08 +0100
-Message-Id: <20191105181119.26779-3-laurent@vivier.eu>
+Subject: [PULL 03/13] tests/tcg/multiarch/linux-test: Fix error check for shmat
+Date: Tue,  5 Nov 2019 19:11:09 +0100
+Message-Id: <20191105181119.26779-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191105181119.26779-1-laurent@vivier.eu>
 References: <20191105181119.26779-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1hQ3nX100RX96hZx8enwA+ZvhdtzI9F57RrS11tUsa3lt4Yz66W
- VKv3/VM8xE/uqzid/UvN9KQVrLGkKqo3KUhkEtiP99gkU59U6rwUIdZLWEFLJ1RIEdLnt3O
- U4rTbxitotTfMijSd9uHZGdpRgDML6jzPiREE3fXEIC9pFVLE8kl0LBCadQA3PmKKCU1/an
- VFVVIMEfZdPwR/J5Bvv/Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Bbflqga9EnM=:DG1o574tI/gXTnV795wlIf
- WP5SB6rU0ZfVkfFN8v07csNcyEHGjfrU+m52dI5L61zlJZNA+5jJh7icBw/Oj18qANR9F0ZXJ
- aTucdjbiPDfzYXEC6o32YXLCt7C4v7GSeqD3mI6KQj9hfvtS0JWO+cYuH9n47ttXGxmAd/LHr
- MgnXi6tuqseoZSmumRFTLrCMoyjio6EKbxvuiy1UyvU5hzkUxAVr/a3Wh1l0abRtsnicma9Zr
- 9WHoxc/GYuJbAhtFvnXlkkeICp6srNNPYkKQIIvmVuErW/zWw2/upCqk4J5TSkJ/eKY2dk7IF
- HOvDYeglBLKEqDOs7gCAYwsENuWEalHZjWlW4s1VW0Q88Pe1yAK5Zl8BV4gw3MkEYAKIHdx27
- VVmxh4dxnmFCHKWdw5MUx9ePvqu0S76qs2Z+/T3XJOZOHUlP0llEwEQRbX6JyHzD5oBh/N8FW
- Yem7KcNCgCgfXWM0O0oSzodFOaXvgLAaMAuJw6piCpDQI3fRJXx3YTP3I6ZaPlFAMJbbo8Vaa
- pfE3iHAM7VZ0+svT399rhL2U212cswF3Zg+NTSKDLLsrxDNxXeKxy/NcJLSa9BwtImR3fTFPz
- L/mXL/AuaBi7FZeG9qU9Fs4bMa9lzo/eoogPv6MP6+vtjtVf33GDwpQ69ekGyLH6Y0ro0V0hS
- I9VM/C95R/BwwazgIAJr0TvTOiH6S4ClKERkXJ7eNJc+HIzNhPf7topW01pYCBD/pmKK5hFot
- 7G99pVCig6cgrn3j1MQqfRKrPWHxSAteed1q0s3pi4FIt2RU5vIZO0zEsIDEPcPWl+93zoyca
- Q1i72N4XT7BoK2qnErYpgEpdQLjxWzjM9VpAlm+RafZTZZix7/0ECC2Pr1SxTGSmpBAelnqUi
- Ua92zgbyI+kAV+Msadng==
+X-Provags-ID: V03:K1:guFf6kPoCev83970K61xUpTlYtpwIv48BL2vM28Yn6KhRBNECBn
+ YR70Je6cEpMeOXp025Yoodu8WGSKnNgxNhWcqQ6u4lvUl2wmhQK1ujxhrWi5Gk1NGt/wHSK
+ Su8wAy+e+HdOGB8FG8iEGnTnsmltEIJeWfAGf9LBdfLvoIA5pfDA+7N840HAVoCa6YRrKzO
+ Nt4HZCIh1szLx6iCycfOg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RbszguFOBm4=:4mHeeaEiSRAWMqaQWXEwMk
+ KhHhTMd0v0mQ8cgw9SUQayU6jyt+ViAox4TDsTjZoV+bmztIS9oXYOccO/OPLzGtS635hQBjp
+ NCipTPK7qbkXgSawtyiRSsdgn3Pb/ech+wQG4KkaTiUkBEfMADxads9jRYwULUMoePFO++OL+
+ HvTedJ3iRCDGYJ28hg1zV4r/IGASWgG1F12RZTOCGRH29qtByNJxO78CpLpI+UDuXq5wXHzbY
+ U5IGRM0dJzeSRaBfPW9u3cZge8pIGYu34enH/iB0dpDsRKFMoPi8XAB0e6RFw/u2kkHl/k6PM
+ ukTNSFmC5IoDiA7MVLxB97USkUPrOOLEJY+bJiLxP8f8WDG+PR3xHQ+POl9v/7ez5vPoi8B1k
+ 0+x3IWPKxddHG1biN1HUdXmpRKC0EYwuEqRcCWibUyZ2fyMslDmsvX/uu/T7CSYojPW3yVWwh
+ bf+nlMpZvRi1RvOeqbwkKfAo3hAfnmMqZ2JKCAFHUP+2rzFMNXGWW3yRPou3W2tap/rIcNaZJ
+ 4E5ljQoy0qptqNubL4hAIsHVZr39zuBNCLXAxM2gUSu7o9aUqqNrcHxUqsHRw8n3WaOxJ0ADC
+ CJ4BSX1+xploak7/JzPAr7jF1GnZ7ZQ10YzKjp7TJt1qlf3B+AzBM0+R0BRSM55e4fJzeltEV
+ RCdKfyyXzYVcMSeLn659Ag5Vsn6ilEHXvCXIIGu6RFjk/VBcsM3H7H3dWrggQzp3YfU7ht6V8
+ +2i3h3sbm9Lk+/+QSlw3q9xVoP8OTy1h2jsV6w8doT2/b+sNn/ujjWZZJDcAU8Mw7nA4qqJmS
+ EFx1i8X6sYmJHsEZqo0BI0s+hnjA99k4L/FhDx0rk+BfbfmaWbgHMDDdWI3l6/YJTx/RWujm0
+ XZ/L5qDSmxz20yD0MA03KX7JTQ+FYj+Z3jaznOEfk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.10
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,6 +70,7 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Riku Voipio <riku.voipio@iki.fi>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -76,44 +78,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Also note that we were missing the qemu_target_list entry
-for plain sparc; fix that at the same time.
+The error indicator for this syscall is -1, not 0.
 
+Fixes: e374bfa35bfb ("shm tests - disabled clone test")
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191025113921.9412-2-richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191025113921.9412-3-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/qemu-binfmt-conf.sh | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/tcg/multiarch/linux-test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index b5a16742a149..9f1580a91c7d 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -1,8 +1,8 @@
- #!/bin/sh
- # Enable automatic program execution by the kernel.
+diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
+index fa4243fc0426..673d7c8a1c25 100644
+--- a/tests/tcg/multiarch/linux-test.c
++++ b/tests/tcg/multiarch/linux-test.c
+@@ -503,8 +503,9 @@ static void test_shm(void)
  
--qemu_target_list="i386 i486 alpha arm armeb sparc32plus ppc ppc64 ppc64le m68k \
--mips mipsel mipsn32 mipsn32el mips64 mips64el \
-+qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
-+ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
- sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
- microblaze microblazeel or1k x86_64"
+     shmid = chk_error(shmget(IPC_PRIVATE, SHM_SIZE, IPC_CREAT | 0777));
+     ptr = shmat(shmid, NULL, 0);
+-    if (!ptr)
++    if (ptr == (void *)-1) {
+         error("shmat");
++    }
  
-@@ -38,6 +38,10 @@ sparc32plus_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x
- sparc32plus_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
- sparc32plus_family=sparc
+     memset(ptr, 0, SHM_SIZE);
  
-+sparc64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2b'
-+sparc64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-+sparc64_family=sparc
-+
- ppc_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14'
- ppc_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
- ppc_family=ppc
 -- 
 2.21.0
 
