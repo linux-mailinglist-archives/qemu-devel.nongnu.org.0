@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB47F05DC
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 20:23:03 +0100 (CET)
-Received: from localhost ([::1]:48786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AEFF05FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 20:29:39 +0100 (CET)
+Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS4Pu-0001aT-Dg
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 14:23:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42110)
+	id 1iS4WH-0004QQ-NG
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 14:29:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iS4OF-0000af-9Q
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:21:20 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iS4VB-0003xw-OD
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:28:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iS4OD-0002sG-2s
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:21:18 -0500
-Resent-Date: Tue, 05 Nov 2019 14:21:18 -0500
-Resent-Message-Id: <E1iS4OD-0002sG-2s@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21886)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iS4OC-0002og-RA; Tue, 05 Nov 2019 14:21:17 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1572981612; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UgAYfejr3fDVbo8L7rVv3ShvbjcrSeXpwTR6dXZm7OHpa4WAG4T6j7lavuPgVqSBMpARBeosIAMK/OEW4+rjJJmMyhj2e1xaXUGW9xeFkkHO2LLQd4hbiOfBP8948IxsrVdppq1/RXMpqX7hwgHFPBBkoJb92JGt5J6vI5k/W4s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572981612;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=TKqHNauIz3QKxpJho757GRjU1wyQS+vDXhCWV2Kk3eE=; 
- b=GyG4nz3vWbbjEgOBZ6+ArmRAp+534/5aQolivw7aHofmnurtRusRbRiT8Sg+LrUoOI190q2jmQ9yDc1XFhfxqLycBOar1u5II3zbQFoAtxIzCFHDDoKYSeoRurP/glDzL5J7wuTgYK0v8PHAcu1QnIEzLNbMqP5w3JlzSg6hl2I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 157298161033387.53528998268598;
- Tue, 5 Nov 2019 11:20:10 -0800 (PST)
-In-Reply-To: <20191105175010.2591-1-laurent@vivier.eu>
-Subject: Re: [Xen-devel] [PULL v2 0/3] Trivial branch patches
-Message-ID: <157298160814.27285.16893877491189017648@37313f22b938>
+ (envelope-from <dgilbert@redhat.com>) id 1iS4V9-0007rZ-Im
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:28:28 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46271
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iS4V9-0007rT-CL
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:28:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572982106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M9X81mEu1MDzl1AOfjuuKAxwHmrR6QwjQ1ogxXP4QFg=;
+ b=Aj4qpSYZr9XB4TO0jA5WQ0XPFFwDEeCmAx7lFeRKULmeZwv07mSHUy1DyhjSDIbA0253TN
+ 8WnmPX+9DvK01E7QEL8ppEncL+Ucyt5aw2rf6wRdP85NTAdma2USIwonwQalEr1uv5fAsA
+ b+bthPOWQuLRLp5RWllW7yJIU9kLKi8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-MAbwzZisOgaX26uAXfLxGQ-1; Tue, 05 Nov 2019 14:28:23 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90405477;
+ Tue,  5 Nov 2019 19:28:22 +0000 (UTC)
+Received: from work-vm (ovpn-117-86.ams2.redhat.com [10.36.117.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C76ED5D9C9;
+ Tue,  5 Nov 2019 19:28:21 +0000 (UTC)
+Date: Tue, 5 Nov 2019 19:28:19 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chang Howard <f26227279@gmail.com>
+Subject: Re: Live migration primary vncviewer blocked.
+Message-ID: <20191105192819.GA2827@work-vm>
+References: <CAHr38=GUGpC1s8fo_E4w4qbB6qjf===5WjsS=wSSPKSZ6SQkeA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Tue, 5 Nov 2019 11:20:10 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <CAHr38=GUGpC1s8fo_E4w4qbB6qjf===5WjsS=wSSPKSZ6SQkeA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: MAbwzZisOgaX26uAXfLxGQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.58
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,46 +72,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, sstabellini@kernel.org, ehabkost@redhat.com,
- paul@xen.org, qemu-trivial@nongnu.org, mjt@tls.msk.ru,
- claudio.fontana@huawei.com, qemu-devel@nongnu.org, chouteau@adacore.com,
- laurent@vivier.eu, xen-devel@lists.xenproject.org, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com,
- anthony.perard@citrix.com, marcandre.lureau@redhat.com,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwNTE3NTAxMC4yNTkx
-LTEtbGF1cmVudEB2aXZpZXIuZXUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClN1YmplY3Q6IFtYZW4tZGV2ZWxdIFtQVUxMIHYyIDAvM10gVHJpdmlhbCBicmFu
-Y2ggcGF0Y2hlcwpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTExMDUxNzUwMTAuMjU5MS0x
-LWxhdXJlbnRAdml2aWVyLmV1Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
-CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
-dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
-Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0OWE1NWY3IGdsb2JhbDogU3F1YXNoICd0
-aGUgdGhlJwpjMGI1NTEzIGh3L21pc2MvZ3JsaWJfYWhiX2FwYl9wbnA6IEZpeCA4LWJpdCBhY2Nl
-c3NlcwplYjQzMzk1IGh3L21pc2MvZ3JsaWJfYWhiX2FwYl9wbnA6IEF2b2lkIGNyYXNoIHdoZW4g
-d3JpdGluZyB0byBQblAgcmVnaXN0ZXJzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzMgQ2hlY2tp
-bmcgY29tbWl0IGViNDMzOTViZjhmMSAoaHcvbWlzYy9ncmxpYl9haGJfYXBiX3BucDogQXZvaWQg
-Y3Jhc2ggd2hlbiB3cml0aW5nIHRvIFBuUCByZWdpc3RlcnMpCjIvMyBDaGVja2luZyBjb21taXQg
-YzBiNTUxM2Y5NzFhIChody9taXNjL2dybGliX2FoYl9hcGJfcG5wOiBGaXggOC1iaXQgYWNjZXNz
-ZXMpCjMvMyBDaGVja2luZyBjb21taXQgNDlhNTVmN2ZlYjE5IChnbG9iYWw6IFNxdWFzaCAndGhl
-IHRoZScpCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMjY6IEZJTEU6IGRpc2Fz
-L2xpYnZpeGwvdml4bC9pbnZhbHNldC5oOjEwNToKKyAgLy8gTm90ZSB0aGF0IHRoaXMgZG9lcyBu
-b3QgbWVhbiB0aGUgYmFja2luZyBzdG9yYWdlIGlzIGVtcHR5OiBpdCBjYW4gc3RpbGwKCnRvdGFs
-OiAxIGVycm9ycywgMCB3YXJuaW5ncywgNTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8zIGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
-eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
-cGF0Y2hldy5vcmcvbG9ncy8yMDE5MTEwNTE3NTAxMC4yNTkxLTEtbGF1cmVudEB2aXZpZXIuZXUv
-dGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
-b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
-IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+* Chang Howard (f26227279@gmail.com) wrote:
+> Hi, I know after live migration, primary would be blocked and vnc is also
+> blocked.
+> Could I let primary vnc still work after live migration?
+> I do vm start after live migration and in text mode primary's vnc can sti=
+ll
+> work, but graphic mode it would blocked.
+> How can I do to make in graphic mode vnc can still work too?
+
+Hi,
+  Can you give some more context to your problem.  With normal qemu
+migration VNC should work fine after migration.
+
+Dave
+
+>=20
+>=20
+>=20
+>=20
+> thanks a lot!
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
