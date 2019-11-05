@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8932F079C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:03:52 +0100 (CET)
-Received: from localhost ([::1]:49996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AD5F07CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:10:42 +0100 (CET)
+Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS5zT-0003PD-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:03:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58379)
+	id 1iS664-0004to-Sr
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:10:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58589)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p6-0000SH-IW
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:09 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pR-00013I-Gr
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p5-00020Z-2j
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26492)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pQ-0002N0-Bd
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:29 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36692)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5p4-0001zw-Q1; Tue, 05 Nov 2019 15:53:06 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1iS5pQ-00020q-3Q; Tue, 05 Nov 2019 15:53:28 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpXQB027479; Tue, 5 Nov 2019 15:53:06 -0500
+ xA5KpZVj138546; Tue, 5 Nov 2019 15:53:07 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3g6dgk8q-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3dqspbdh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:05 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KpcRZ027758;
- Tue, 5 Nov 2019 15:53:05 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3g6dgk7x-1
+ Tue, 05 Nov 2019 15:53:07 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kqs3b141794;
+ Tue, 5 Nov 2019 15:53:06 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3dqspbd4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:05 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvDO025654;
- Tue, 5 Nov 2019 20:53:03 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797x7-1
+ Tue, 05 Nov 2019 15:53:06 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnwU6000955;
+ Tue, 5 Nov 2019 20:53:05 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2w11e79fgt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:03 +0000
+ Tue, 05 Nov 2019 20:53:05 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kr3Kx15466832
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5Kr58Z12846000
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:03 GMT
+ Tue, 5 Nov 2019 20:53:05 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 69F36124054;
- Tue,  5 Nov 2019 20:53:03 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 05B6E12405B;
+ Tue,  5 Nov 2019 20:53:05 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5483012405C;
- Tue,  5 Nov 2019 20:53:03 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E7180124058;
+ Tue,  5 Nov 2019 20:53:04 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:03 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:04 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/55] blockjob: update nodes head while removing all bdrv
-Date: Tue,  5 Nov 2019 14:52:17 -0600
-Message-Id: <20191105205243.3766-30-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 31/55] coroutine: Add qemu_co_mutex_assert_locked()
+Date: Tue,  5 Nov 2019 14:52:19 -0600
+Message-Id: <20191105205243.3766-32-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -70,7 +70,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
@@ -87,67 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Sergio Lopez <slp@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergio Lopez <slp@redhat.com>
+From: Kevin Wolf <kwolf@redhat.com>
 
-block_job_remove_all_bdrv() iterates through job->nodes, calling
-bdrv_root_unref_child() for each entry. The call to the latter may
-reach child_job_[can_]set_aio_ctx(), which will also attempt to
-traverse job->nodes, potentially finding entries that where freed
-on previous iterations.
+Some functions require that the caller holds a certain CoMutex for them
+to operate correctly. Add a function so that they can assert the lock is
+really held.
 
-To avoid this situation, update job->nodes head on each iteration to
-ensure that already freed entries are no longer linked to the list.
-
-RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1746631
-Signed-off-by: Sergio Lopez <slp@redhat.com>
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190911100316.32282-1-mreitz@redhat.com
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit d876bf676f5e7c6aa9ac64555e48cba8734ecb2f)
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Tested-by: Michael Weiser <michael.weiser@gmx.de>
+Reviewed-by: Michael Weiser <michael.weiser@gmx.de>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Denis V. Lunev <den@openvz.org>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit 944f3d5dd216fcd8cb007eddd4f82dced0a15b3d)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- blockjob.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ include/qemu/coroutine.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/blockjob.c b/blockjob.c
-index 20b7f557da..74abb97bfd 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -186,14 +186,23 @@ static const BdrvChildRole child_job = {
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 9801e7f5a4..f4843b5f59 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -167,6 +167,21 @@ void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex);
+  */
+ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex);
  
- void block_job_remove_all_bdrv(BlockJob *job)
- {
--    GSList *l;
--    for (l = job->nodes; l; l = l->next) {
++/**
++ * Assert that the current coroutine holds @mutex.
++ */
++static inline coroutine_fn void qemu_co_mutex_assert_locked(CoMutex *mutex)
++{
 +    /*
-+     * bdrv_root_unref_child() may reach child_job_[can_]set_aio_ctx(),
-+     * which will also traverse job->nodes, so consume the list one by
-+     * one to make sure that such a concurrent access does not attempt
-+     * to process an already freed BdrvChild.
++     * mutex->holder doesn't need any synchronisation if the assertion holds
++     * true because the mutex protects it. If it doesn't hold true, we still
++     * don't mind if another thread takes or releases mutex behind our back,
++     * because the condition will be false no matter whether we read NULL or
++     * the pointer for any other coroutine.
 +     */
-+    while (job->nodes) {
-+        GSList *l = job->nodes;
-         BdrvChild *c = l->data;
-+
-+        job->nodes = l->next;
-+
-         bdrv_op_unblock_all(c->bs, job->blocker);
-         bdrv_root_unref_child(c);
-+
-+        g_slist_free_1(l);
-     }
--    g_slist_free(job->nodes);
--    job->nodes = NULL;
- }
++    assert(atomic_read(&mutex->locked) &&
++           mutex->holder == qemu_coroutine_self());
++}
  
- bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs)
+ /**
+  * CoQueues are a mechanism to queue coroutines in order to continue executing
 -- 
 2.17.1
 
