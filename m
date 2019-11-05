@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EB9EFDA6
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 13:51:35 +0100 (CET)
-Received: from localhost ([::1]:43584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD8DEFDEC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 14:06:54 +0100 (CET)
+Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRyJ4-000526-4h
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 07:51:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33046)
+	id 1iRyXt-0001sr-JB
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 08:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35563)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iRyHe-00046h-1U
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 07:50:06 -0500
+ (envelope-from <bounces@canonical.com>) id 1iRyWp-0001S6-2Z
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:05:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iRyHd-0001o8-3J
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 07:50:05 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:50460)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iRyHc-0001ni-Tn
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 07:50:05 -0500
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BFBCD59465
- for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 12:50:03 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id 125so21072270qkj.12
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 04:50:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EdlBg8P4PzJeKJFbp0I86fI5VuI9JKDso5/u4JeQ6D4=;
- b=GttFxQBZlxFTXxWBkMqVyrE6rAh7V3RFElvli6L8AeuDdPq/YbOdNk3w4QhWV3s3Xg
- IIX+eg4U36oPVx27PLuuE/QKMPP6wJ4CpS1K+oZbA9t8Os11ftCb9rYy6HncBVGFPKgI
- S0iNmhxxxHv61Fbe74al2tjyqQbguqZ9ap0KbyVTATV24Kj6cj2Amo5PMMtx2hryliZq
- YOT19z+3cXirMZVpPXiZ6JP4v3QkRzrcAX24q7fP/bdVydz3SrQlYQ/G38zu/ccH4AQe
- ZoK9rjnhuXMgCVjezdA/DgFxWIj6MvOmDpy56KT8bOCcFcaAMiLmy0981FViJZptK8vI
- cEGA==
-X-Gm-Message-State: APjAAAVbrbHEMenKY64z7fXW68hNX+hfzm2W9nZRZyX96ywxlbijz/lO
- k/qvXYsbbs9gszejpDXKimyrzq2jE//mdhxKHK9wpFYxYZedoOQvqL6TOgZT23sBwD2hafD0WiA
- 49J1W4r9rh+L3wCc=
-X-Received: by 2002:a37:5645:: with SMTP id k66mr22949996qkb.368.1572958203023; 
- Tue, 05 Nov 2019 04:50:03 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxNgDCdQhbyW5Bg3iAlgavvicLqR0KlhK13lkvdyXE46MczwtzIs7/LQPhvcX0Ad3wZNod/ag==
-X-Received: by 2002:a37:5645:: with SMTP id k66mr22949975qkb.368.1572958202779; 
- Tue, 05 Nov 2019 04:50:02 -0800 (PST)
-Received: from xz-x1 ([104.156.64.74])
- by smtp.gmail.com with ESMTPSA id o201sm9375290qka.17.2019.11.05.04.50.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Nov 2019 04:50:02 -0800 (PST)
-Date: Tue, 5 Nov 2019 07:50:00 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [RFC v2 03/22] intel_iommu: modify x-scalable-mode to be string
- option
-Message-ID: <20191105125000.GE12619@xz-x1>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
- <1571920483-3382-4-git-send-email-yi.l.liu@intel.com>
- <20191101145753.GC8888@xz-x1.metropole.lan>
- <A2975661238FB949B60364EF0F2C25743A0EE30A@SHSMSX104.ccr.corp.intel.com>
+ (envelope-from <bounces@canonical.com>) id 1iRyWm-0004ly-07
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:05:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42178)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iRyWk-0004jM-6L
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:05:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iRyWh-0002hI-NL
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 13:05:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A6D5D2E8005
+ for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 13:05:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <A2975661238FB949B60364EF0F2C25743A0EE30A@SHSMSX104.ccr.corp.intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 05 Nov 2019 12:52:04 -0000
+From: Thomas Huth <1596579@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson eduardok th-huth
+X-Launchpad-Bug-Reporter: Eduardo (eduardok)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20160627153749.31174.93791.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157295832449.28943.17909425754765148358.malone@soybean.canonical.com>
+Subject: [Bug 1596579] Re: segfault upon reboot
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c463b0d24fd9e93ff29d8892005546290ef3758b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,32 +66,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Reply-To: Bug 1596579 <1596579@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 05, 2019 at 09:14:08AM +0000, Liu, Yi L wrote:
-> > Something like:
-> > 
-> >   - s->scalable_mode_str to keep the string
-> >   - s->scalable_mode still as a bool to cache the global enablement
-> >   - s->scalable_modern as a bool to keep the mode
-> > 
-> > ?
-> 
-> So x-scalable-mode is still a string option, just to have a new field to store it?
+Ok, thanks for the update
 
-Yep.  I'd say maybe we should start to allow to define some union-ish
-properties, but for now I think string is ok.
+** Changed in: qemu
+       Status: Incomplete =3D> Won't Fix
 
--- 
-Peter Xu
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1596579
+
+Title:
+  segfault upon reboot
+
+Status in QEMU:
+  Won't Fix
+
+Bug description:
+  [   31.167946] VFIO - User Level meta-driver version: 0.3
+  [   34.969182] kvm: zapping shadow pages for mmio generation wraparound
+  [   43.095077] vfio-pci 0000:1a:00.0: irq 50 for MSI/MSI-X
+  [166493.891331] perf interrupt took too long (2506 > 2500), lowering kern=
+el.perf_event_max_sample_rate to 50000
+  [315765.858431] qemu-kvm[1385]: segfault at 0 ip           (null) sp 0000=
+7ffe5430db18 error 14
+  [315782.002077] vfio-pci 0000:1a:00.0: transaction is not cleared; procee=
+ding with reset anyway
+  [315782.910854] mptsas 0000:1a:00.0: Refused to change power state, curre=
+ntly in D3
+  [315782.911236] mptbase: ioc1: Initiating bringup
+  [315782.911238] mptbase: ioc1: WARNING - Unexpected doorbell active!
+  [315842.957613] mptbase: ioc1: ERROR - Failed to come READY after reset! =
+IocState=3Df0000000
+  [315842.957670] mptbase: ioc1: WARNING - ResetHistory bit failed to clear!
+  [315842.957675] mptbase: ioc1: ERROR - Diagnostic reset FAILED! (ffffffff=
+h)
+  [315842.957717] mptbase: ioc1: WARNING - NOT READY WARNING!
+  [315842.957720] mptbase: ioc1: ERROR - didn't initialize properly! (-1)
+  [315842.957890] mptsas: probe of 0000:1a:00.0 failed with error -1
+
+  The qemu-kvm segfault happens when I issue a reboot on the Windows VM. Th=
+e card I have is:
+  1a:00.0 SCSI storage controller: LSI Logic / Symbios Logic SAS1068E PCI-E=
+xpress Fusion-MPT SAS (rev ff)
+
+  I have two of these cards (bought with many years difference), exact same=
+ model, and they fail the same way. I'm using PCI passthrough on this card =
+for access to the tape drive.
+  This is very easy to reproduce, so feel free to let me know what to try.
+  Kernel 3.10.0-327.18.2.el7.x86_64 (Centos 7.2.1511).
+  qemu-kvm-1.5.3-105.el7_2.4.x86_64
+  Reporting it here because of the segfault, but I guess I might have to op=
+en a bug report with mptbase as well?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1596579/+subscriptions
 
