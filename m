@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E2BF084B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:27:10 +0100 (CET)
-Received: from localhost ([::1]:50308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3904DF07E3
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:12:53 +0100 (CET)
+Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6M1-0001GG-7v
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:27:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
+	id 1iS68B-000810-N3
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:12:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pj-0001Ub-GP
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:49 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p8-0000WC-LF
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5ph-0002Wd-S5
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53014)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p7-00022B-Dd
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:10 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17826
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pg-0002CY-CQ; Tue, 05 Nov 2019 15:53:45 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpYDM078234; Tue, 5 Nov 2019 15:53:01 -0500
+ id 1iS5p7-00021t-8q; Tue, 05 Nov 2019 15:53:09 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KpYpV133354; Tue, 5 Nov 2019 15:53:01 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3eh7bw23-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3n6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:01 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kr12G091359;
- Tue, 5 Nov 2019 15:53:01 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3eh7bw1k-1
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpc2N133605;
+ Tue, 5 Nov 2019 15:53:00 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3ms-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:00 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knv31006016;
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvDL025654;
  Tue, 5 Nov 2019 20:53:00 GMT
 Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02dal.us.ibm.com with ESMTP id 2w11e7hgbv-1
+ [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797wn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 20:53:00 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KqxDu43254254
+ xA5Kqxml46268710
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 5 Nov 2019 20:52:59 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 37F08124060;
+ by IMSVA (Postfix) with ESMTP id B6FFF124054;
  Tue,  5 Nov 2019 20:52:59 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 25B06124058;
+ by IMSVA (Postfix) with ESMTP id A4E8012405C;
  Tue,  5 Nov 2019 20:52:59 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  5 Nov 2019 20:52:59 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/55] qcow2: Fix the calculation of the maximum L2 cache size
-Date: Tue,  5 Nov 2019 14:52:09 -0600
-Message-Id: <20191105205243.3766-22-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 22/55] block/nfs: tear down aio before nfs_close
+Date: Tue,  5 Nov 2019 14:52:10 -0600
+Message-Id: <20191105205243.3766-23-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -72,10 +73,10 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=886 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,64 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
  qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Peter Lieven <pl@kamp.de>
 
-The size of the qcow2 L2 cache defaults to 32 MB, which can be easily
-larger than the maximum amount of L2 metadata that the image can have.
-For example: with 64 KB clusters the user would need a qcow2 image
-with a virtual size of 256 GB in order to have 32 MB of L2 metadata.
+nfs_close is a sync call from libnfs and has its own event
+handler polling on the nfs FD. Avoid that both QEMU and libnfs
+are intefering here.
 
-Because of that, since commit b749562d9822d14ef69c9eaa5f85903010b86c30
-we forbid the L2 cache to become larger than the maximum amount of L2
-metadata for the image, calculated using this formula:
-
-    uint64_t max_l2_cache = virtual_disk_size / (s->cluster_size / 8);
-
-The problem with this formula is that the result should be rounded up
-to the cluster size because an L2 table on disk always takes one full
-cluster.
-
-For example, a 1280 MB qcow2 image with 64 KB clusters needs exactly
-160 KB of L2 metadata, but we need 192 KB on disk (3 clusters) even if
-the last 32 KB of those are not going to be used.
-
-However QEMU rounds the numbers down and only creates 2 cache tables
-(128 KB), which is not enough for the image.
-
-A quick test doing 4KB random writes on a 1280 MB image gives me
-around 500 IOPS, while with the correct cache size I get 16K IOPS.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Alberto Garcia <berto@igalia.com>
+CC: qemu-stable@nongnu.org
+Signed-off-by: Peter Lieven <pl@kamp.de>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit b70d08205b2e4044c529eefc21df2c8ab61b473b)
+(cherry picked from commit 601dc6559725f7a614b6f893611e17ff0908e914)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/qcow2.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block/nfs.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 039bdc2f7e..865839682c 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -826,7 +826,11 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
-     bool l2_cache_entry_size_set;
-     int min_refcount_cache = MIN_REFCOUNT_CACHE_SIZE * s->cluster_size;
-     uint64_t virtual_disk_size = bs->total_sectors * BDRV_SECTOR_SIZE;
--    uint64_t max_l2_cache = virtual_disk_size / (s->cluster_size / 8);
-+    uint64_t max_l2_entries = DIV_ROUND_UP(virtual_disk_size, s->cluster_size);
-+    /* An L2 table is always one cluster in size so the max cache size
-+     * should be a multiple of the cluster size. */
-+    uint64_t max_l2_cache = ROUND_UP(max_l2_entries * sizeof(uint64_t),
-+                                     s->cluster_size);
- 
-     combined_cache_size_set = qemu_opt_get(opts, QCOW2_OPT_CACHE_SIZE);
-     l2_cache_size_set = qemu_opt_get(opts, QCOW2_OPT_L2_CACHE_SIZE);
+diff --git a/block/nfs.c b/block/nfs.c
+index d93241b3bb..2b7a078241 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -390,12 +390,14 @@ static void nfs_attach_aio_context(BlockDriverState *bs,
+ static void nfs_client_close(NFSClient *client)
+ {
+     if (client->context) {
++        qemu_mutex_lock(&client->mutex);
++        aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
++                           false, NULL, NULL, NULL, NULL);
++        qemu_mutex_unlock(&client->mutex);
+         if (client->fh) {
+             nfs_close(client->context, client->fh);
+             client->fh = NULL;
+         }
+-        aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
+-                           false, NULL, NULL, NULL, NULL);
+         nfs_destroy_context(client->context);
+         client->context = NULL;
+     }
 -- 
 2.17.1
 
