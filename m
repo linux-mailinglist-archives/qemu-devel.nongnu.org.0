@@ -2,57 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF69F0926
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 23:13:27 +0100 (CET)
-Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063ABF0941
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 23:24:14 +0100 (CET)
+Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS74o-0001UB-83
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 17:13:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33447)
+	id 1iS7FE-00030F-Q7
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 17:24:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iS6yt-0004m7-A2
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:07:20 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iS76C-0003ze-Sx
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:14:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iS6yq-00060r-Ve
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:07:18 -0500
-Resent-Date: Tue, 05 Nov 2019 17:07:18 -0500
-Resent-Message-Id: <E1iS6yq-00060r-Ve@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21427)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iS6yp-0005yB-1r
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:07:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1572991604; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VIK5cykr0fr5vvraWIYKJHlflGtPj7omNtrnKhP3nT7piJBwVs97VLB/6eO34HWzciLP8c5cExqmuxEjUfdsM32rAPqAo535AI+qDtbxpDAgn/kVAIR9fy0ec45pnJZSrfw5vQ6t+m89eTt6u/lEWcJRSBDe6/gmyHY+4OrtJTk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572991604;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=ww9Pn+TDWQ8dEVQ9UGglpG+oKi9pWelA9D66ZIxSGgE=; 
- b=fo9DuMp4rcaYmCsb85FieQJiGbLPKEgdp3gX6M7pQCoLZD32qiKaeqaUgJ7P9ArcnMfC1fjB2TSDUfBE3uj8AiURe5QOBaeWRsMvApPTrrIuPjeGX5x1lf9To1dAJui8iRSi+tjw/iwIMTaEhErigN8eFSrC9txKtGkT2DGcox4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1572991601732808.8740265250677;
- Tue, 5 Nov 2019 14:06:41 -0800 (PST)
-In-Reply-To: <20191105181119.26779-1-laurent@vivier.eu>
+ (envelope-from <laurent@vivier.eu>) id 1iS76A-0003T0-Gz
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:14:52 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:45061)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS769-0003RT-Sc
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:14:50 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MryCb-1i6kSB36Rh-00nuiX; Tue, 05 Nov 2019 23:14:38 +0100
 Subject: Re: [PULL 00/13] Linux user for 4.2 patches
-Message-ID: <157299160056.27285.4050632174467978305@37313f22b938>
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <157299160056.27285.4050632174467978305@37313f22b938>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <bb76453c-684f-eb7f-f774-f8a8029a58a1@vivier.eu>
+Date: Tue, 5 Nov 2019 23:14:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Tue, 5 Nov 2019 14:06:41 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <157299160056.27285.4050632174467978305@37313f22b938>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:jg19SZGzGwBMwAfuDFZAi90+ypGbr94H5HRKXQ76iunaGxrNwvZ
+ Zg9mahbHkpQF/t73Pp7/OwOftOjT3WCok1Vq6P0XK8//Cb6Uf8mHXIucwUp1x3CDspCV5bt
+ aye8YjilKMyYEA/eJDn5NFj0iYQgDupYal33yRs+WRruv72bVTQFiuRRvCNi/LfBLWA+/Lg
+ VIEhmn2FMBtk/h/VBlX2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cEAB3XX5ois=:D/E6l0GrMoJI9xhNwj2MBc
+ OiDVi3nyv+B1QefwLHC5EuZ90uSI/VRaXLvA2dzTXOjY0JoDcaqYdTbAOVaCbkoMm8777xMLk
+ eIcbrMXrvdwHTzqB1xt/1RZGEXsmx/rOR+VBk0MJTjnjQtEZJJ7qr/Gt62J8vDlJEXR+SMIzR
+ 1J8xy+1b6aP6dAyhSzXrHsAY+RmJhQ8NJ3AOvMPmgLGFf3UW7WUWygPJjlYOcP/WEXg3+6RfN
+ PPOXCzIogbJ3H3GpQMjzV4OlRemn94RxTam1dXRxMGH4sqJpDAR6htM5usZryMinA3RPSq056
+ u5gCp6FOn/SmmDUMowKzRih9KhlYNq+r+z8ybh1eTerwjFF8McyXPCWOOSAuuWEFcqoZuylRb
+ uo/XYzho1iyFHPEndMKlaA7sTzi4aAw81xgRQ7QROzcr88kASVjPza39C9hC/snv3ghKgN01k
+ Go+8r8WgZbPxf7lrKgPkroDebIKnPae3ju58IZVBDivkrcHSiHcSwbo1r5KqXVh5jIYtEFE6X
+ dPDYBOrhhU4vtsOnGkS+/uSu8e2WibZDgf+fb+oD8KJ1UFmL/SlQZCnw+zMtqsBs2dXc6LfUp
+ PmJNqHYxKgF9yqszhySL8ZE0oSV1AwVEWxKJws7AHn/zc7yXfvHN0ViSczO5Bx34rfyic0nxi
+ 6T+a6/MJnkwY5enrfpWcmzRnXbcTYMU4fdQosY8pgTvRxc8XCddnRLbSYwIxfVUKsn1WiSZIj
+ ylBC+Hfd+zCq/al31urBZYhwmeJkeb1nDcJotySasauC0sMsgCvSnfjximyJSVpQfOnv1fw+Q
+ TgKrmSHP+Kj2kuPvLa7I4rGqEEjLvdU9TsAh5tGvjVpefajY4kCI2Sou2wIaSZWK7fragLVHh
+ RdS6fbgG0uPDBsUbmb0A==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,98 +110,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: riku.voipio@iki.fi, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- laurent@vivier.eu, alex.bennee@linaro.org, atar4qemu@gmail.com
+Cc: mark.cave-ayland@ilande.co.uk, riku.voipio@iki.fi, alex.bennee@linaro.org,
+ atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwNTE4MTExOS4yNjc3
-OS0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwMC8xM10gTGludXggdXNlciBmb3IgNC4yIHBhdGNo
-ZXMKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkxMTA1MTgxMTE5LjI2Nzc5LTEtbGF1cmVu
-dEB2aXZpZXIuZXUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJl
-di1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3Bh
-dGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGlu
-ZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9n
-aXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAgIDM2NjA5YjQuLjQxMmZiZWYgIG1hc3Rl
-ciAgICAgLT4gbWFzdGVyClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTY1Zjg0MiBs
-aW51eC11c2VyL2FscGhhOiBTZXQgcjIwIHNlY29uZGFyeSByZXR1cm4gdmFsdWUKYTU5Y2EzYiBs
-aW51eC11c2VyL3NwYXJjOiBGaXggY3B1X2Nsb25lX3JlZ3NfKgowNDZiYTBkIGxpbnV4LXVzZXI6
-IEludHJvZHVjZSBjcHVfY2xvbmVfcmVnc19wYXJlbnQKMWFmZTFiYyBsaW51eC11c2VyOiBSZW5h
-bWUgY3B1X2Nsb25lX3JlZ3MgdG8gY3B1X2Nsb25lX3JlZ3NfY2hpbGQKNzQ4ZGIxZSBsaW51eC11
-c2VyL3NwYXJjNjQ6IEZpeCB0YXJnZXRfc2lnbmFsX2ZyYW1lCjJlOTBjYzggbGludXgtdXNlci9z
-cGFyYzogRml4IFdSRUcgdXNhZ2UgaW4gc2V0dXBfZnJhbWUKNjA4Zjk5NyBsaW51eC11c2VyL3Nw
-YXJjOiBVc2UgV1JFR19TUCBjb25zdGFudCBpbiBzcGFyYy9zaWduYWwuYwoyNzk1MzBiIGxpbnV4
-LXVzZXIvc3BhcmM6IEJlZ2luIHVzaW5nIFdSRUcgY29uc3RhbnRzIGluIHNwYXJjL3NpZ25hbC5j
-CjNkMjc4MzcgbGludXgtdXNlci9zcGFyYzogVXNlIFdSRUcgY29uc3RhbnRzIGluIHNwYXJjL3Rh
-cmdldF9jcHUuaApiMzA0MzdjIHRhcmdldC9zcGFyYzogRGVmaW5lIGFuIGVudW1lcmF0aW9uIGZv
-ciBhY2Nlc3NpbmcgZW52LT5yZWd3cHRyCjEyOGI1MmQgdGVzdHMvdGNnL211bHRpYXJjaC9saW51
-eC10ZXN0OiBGaXggZXJyb3IgY2hlY2sgZm9yIHNobWF0CmU3OGI1ZWMgc2NyaXB0cy9xZW11LWJp
-bmZtdC1jb25mOiBVcGRhdGUgZm9yIHNwYXJjNjQKNWE2YjBmNCBsaW51eC11c2VyOiBTdXBwb3J0
-IGZvciBORVRMSU5LIHNvY2tldCBvcHRpb25zCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzEzIENo
-ZWNraW5nIGNvbW1pdCA1YTZiMGY0NmM2NzAgKGxpbnV4LXVzZXI6IFN1cHBvcnQgZm9yIE5FVExJ
-Tksgc29ja2V0IG9wdGlvbnMpCjIvMTMgQ2hlY2tpbmcgY29tbWl0IGU3OGI1ZWMyODY3ZSAoc2Ny
-aXB0cy9xZW11LWJpbmZtdC1jb25mOiBVcGRhdGUgZm9yIHNwYXJjNjQpCldBUk5JTkc6IGxpbmUg
-b3ZlciA4MCBjaGFyYWN0ZXJzCiMzNjogRklMRTogc2NyaXB0cy9xZW11LWJpbmZtdC1jb25mLnNo
-OjQxOgorc3BhcmM2NF9tYWdpYz0nXHg3ZkVMRlx4MDJceDAyXHgwMVx4MDBceDAwXHgwMFx4MDBc
-eDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAyXHgwMFx4MmInCgpFUlJPUjogbGluZSBvdmVyIDkw
-IGNoYXJhY3RlcnMKIzM3OiBGSUxFOiBzY3JpcHRzL3FlbXUtYmluZm10LWNvbmYuc2g6NDI6Citz
-cGFyYzY0X21hc2s9J1x4ZmZceGZmXHhmZlx4ZmZceGZmXHhmZlx4ZmZceDAwXHhmZlx4ZmZceGZm
-XHhmZlx4ZmZceGZmXHhmZlx4ZmZceGZmXHhmZVx4ZmZceGZmJwoKdG90YWw6IDEgZXJyb3JzLCAx
-IHdhcm5pbmdzLCAyMCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzEzIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgozLzEzIENoZWNraW5nIGNvbW1pdCAxMjhiNTJkODE2NDUgKHRlc3RzL3RjZy9t
-dWx0aWFyY2gvbGludXgtdGVzdDogRml4IGVycm9yIGNoZWNrIGZvciBzaG1hdCkKNC8xMyBDaGVj
-a2luZyBjb21taXQgYjMwNDM3YzFiNTFmICh0YXJnZXQvc3BhcmM6IERlZmluZSBhbiBlbnVtZXJh
-dGlvbiBmb3IgYWNjZXNzaW5nIGVudi0+cmVnd3B0cikKNS8xMyBDaGVja2luZyBjb21taXQgM2Qy
-NzgzNzEzOWYwIChsaW51eC11c2VyL3NwYXJjOiBVc2UgV1JFRyBjb25zdGFudHMgaW4gc3BhcmMv
-dGFyZ2V0X2NwdS5oKQo2LzEzIENoZWNraW5nIGNvbW1pdCAyNzk1MzBiOWNhZWIgKGxpbnV4LXVz
-ZXIvc3BhcmM6IEJlZ2luIHVzaW5nIFdSRUcgY29uc3RhbnRzIGluIHNwYXJjL3NpZ25hbC5jKQpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzUyOiBGSUxF
-OiBsaW51eC11c2VyL3NwYXJjL3NpZ25hbC5jOjE1MToKKyAgICAgICAgX19wdXRfdXNlcihlbnYt
-PnJlZ3dwdHJbV1JFR19PMCArIGldLCAmc2ktPnNpX3JlZ3MudV9yZWdzW2krOF0pOwogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQoj
-MTI0OiBGSUxFOiBsaW51eC11c2VyL3NwYXJjL3NpZ25hbC5jOjI5MDoKKyAgICAgICAgX19nZXRf
-dXNlcihlbnYtPnJlZ3dwdHJbaSArIFdSRUdfTzBdLCAmc2YtPmluZm8uc2lfcmVncy51X3JlZ3Nb
-aSs4XSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
-aGF0ICcrJyAoY3R4OlZ4VikKIzE3MTogRklMRTogbGludXgtdXNlci9zcGFyYy9zaWduYWwuYzo0
-NjA6CisgICAgd19hZGRyID0gVEFSR0VUX1NUQUNLX0JJQVMrZW52LT5yZWd3cHRyW1dSRUdfTzZd
-OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJl
-ZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMyMDY6IEZJTEU6IGxpbnV4LXVzZXIvc3BhcmMv
-c2lnbmFsLmM6NTYzOgorICAgIHdfYWRkciA9IFRBUkdFVF9TVEFDS19CSUFTK2Vudi0+cmVnd3B0
-cltXUkVHX082XTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiA0IGVy
-cm9ycywgMCB3YXJuaW5ncywgMTc1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMTMgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KCjcvMTMgQ2hlY2tpbmcgY29tbWl0IDYwOGY5OTcyNWVhNiAobGlu
-dXgtdXNlci9zcGFyYzogVXNlIFdSRUdfU1AgY29uc3RhbnQgaW4gc3BhcmMvc2lnbmFsLmMpCjgv
-MTMgQ2hlY2tpbmcgY29tbWl0IDJlOTBjYzg4OWY1YSAobGludXgtdXNlci9zcGFyYzogRml4IFdS
-RUcgdXNhZ2UgaW4gc2V0dXBfZnJhbWUpCjkvMTMgQ2hlY2tpbmcgY29tbWl0IDc0OGRiMWU4ODU2
-YiAobGludXgtdXNlci9zcGFyYzY0OiBGaXggdGFyZ2V0X3NpZ25hbF9mcmFtZSkKRVJST1I6IHNw
-YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
-ICcoJwojMjQ6IEZJTEU6IGxpbnV4LXVzZXIvc3BhcmMvc2lnbmFsLmM6OTA6CisgICAgdWludDMy
-X3QgICAgICAgICAgICBpbnNuc1syXSBfX2F0dHJpYnV0ZV9fICgoYWxpZ25lZCAoOCkpKTsKCnRv
-dGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOS8xMyBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTAvMTMgQ2hlY2tpbmcgY29tbWl0IDFhZmUxYmNl
-MDkxOSAobGludXgtdXNlcjogUmVuYW1lIGNwdV9jbG9uZV9yZWdzIHRvIGNwdV9jbG9uZV9yZWdz
-X2NoaWxkKQoxMS8xMyBDaGVja2luZyBjb21taXQgMDQ2YmEwZDYyODY2IChsaW51eC11c2VyOiBJ
-bnRyb2R1Y2UgY3B1X2Nsb25lX3JlZ3NfcGFyZW50KQoxMi8xMyBDaGVja2luZyBjb21taXQgYTU5
-Y2EzYjg1MzgxIChsaW51eC11c2VyL3NwYXJjOiBGaXggY3B1X2Nsb25lX3JlZ3NfKikKMTMvMTMg
-Q2hlY2tpbmcgY29tbWl0IDk2NWY4NDJmNTdmNiAobGludXgtdXNlci9hbHBoYTogU2V0IHIyMCBz
-ZWNvbmRhcnkgcmV0dXJuIHZhbHVlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
-eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
-cGF0Y2hldy5vcmcvbG9ncy8yMDE5MTEwNTE4MTExOS4yNjc3OS0xLWxhdXJlbnRAdml2aWVyLmV1
-L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
-dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
-ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Richard,
+
+could you update your series?
+
+If you prefer to wait next release I can drop your series from the pull
+request.
+
+Thanks,
+Laurent
+
+Le 05/11/2019 à 23:06, no-reply@patchew.org a écrit :
+> Patchew URL: https://patchew.org/QEMU/20191105181119.26779-1-laurent@vivier.eu/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Subject: [PULL 00/13] Linux user for 4.2 patches
+> Type: series
+> Message-id: 20191105181119.26779-1-laurent@vivier.eu
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> From https://github.com/patchew-project/qemu
+>    36609b4..412fbef  master     -> master
+> Switched to a new branch 'test'
+> 965f842 linux-user/alpha: Set r20 secondary return value
+> a59ca3b linux-user/sparc: Fix cpu_clone_regs_*
+> 046ba0d linux-user: Introduce cpu_clone_regs_parent
+> 1afe1bc linux-user: Rename cpu_clone_regs to cpu_clone_regs_child
+> 748db1e linux-user/sparc64: Fix target_signal_frame
+> 2e90cc8 linux-user/sparc: Fix WREG usage in setup_frame
+> 608f997 linux-user/sparc: Use WREG_SP constant in sparc/signal.c
+> 279530b linux-user/sparc: Begin using WREG constants in sparc/signal.c
+> 3d27837 linux-user/sparc: Use WREG constants in sparc/target_cpu.h
+> b30437c target/sparc: Define an enumeration for accessing env->regwptr
+> 128b52d tests/tcg/multiarch/linux-test: Fix error check for shmat
+> e78b5ec scripts/qemu-binfmt-conf: Update for sparc64
+> 5a6b0f4 linux-user: Support for NETLINK socket options
+> 
+> === OUTPUT BEGIN ===
+> 1/13 Checking commit 5a6b0f46c670 (linux-user: Support for NETLINK socket options)
+> 2/13 Checking commit e78b5ec2867e (scripts/qemu-binfmt-conf: Update for sparc64)
+> WARNING: line over 80 characters
+> #36: FILE: scripts/qemu-binfmt-conf.sh:41:
+> +sparc64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2b'
+> 
+> ERROR: line over 90 characters
+> #37: FILE: scripts/qemu-binfmt-conf.sh:42:
+> +sparc64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+> 
+> total: 1 errors, 1 warnings, 20 lines checked
+> 
+> Patch 2/13 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> 3/13 Checking commit 128b52d81645 (tests/tcg/multiarch/linux-test: Fix error check for shmat)
+> 4/13 Checking commit b30437c1b51f (target/sparc: Define an enumeration for accessing env->regwptr)
+> 5/13 Checking commit 3d27837139f0 (linux-user/sparc: Use WREG constants in sparc/target_cpu.h)
+> 6/13 Checking commit 279530b9caeb (linux-user/sparc: Begin using WREG constants in sparc/signal.c)
+> ERROR: spaces required around that '+' (ctx:VxV)
+> #52: FILE: linux-user/sparc/signal.c:151:
+> +        __put_user(env->regwptr[WREG_O0 + i], &si->si_regs.u_regs[i+8]);
+>                                                                     ^
+> 
+> ERROR: spaces required around that '+' (ctx:VxV)
+> #124: FILE: linux-user/sparc/signal.c:290:
+> +        __get_user(env->regwptr[i + WREG_O0], &sf->info.si_regs.u_regs[i+8]);
+>                                                                          ^
+> 
+> ERROR: spaces required around that '+' (ctx:VxV)
+> #171: FILE: linux-user/sparc/signal.c:460:
+> +    w_addr = TARGET_STACK_BIAS+env->regwptr[WREG_O6];
+>                                ^
+> 
+> ERROR: spaces required around that '+' (ctx:VxV)
+> #206: FILE: linux-user/sparc/signal.c:563:
+> +    w_addr = TARGET_STACK_BIAS+env->regwptr[WREG_O6];
+>                                ^
+> 
+> total: 4 errors, 0 warnings, 175 lines checked
+> 
+> Patch 6/13 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> 7/13 Checking commit 608f99725ea6 (linux-user/sparc: Use WREG_SP constant in sparc/signal.c)
+> 8/13 Checking commit 2e90cc889f5a (linux-user/sparc: Fix WREG usage in setup_frame)
+> 9/13 Checking commit 748db1e8856b (linux-user/sparc64: Fix target_signal_frame)
+> ERROR: space prohibited between function name and open parenthesis '('
+> #24: FILE: linux-user/sparc/signal.c:90:
+> +    uint32_t            insns[2] __attribute__ ((aligned (8)));
+> 
+> total: 1 errors, 0 warnings, 16 lines checked
+> 
+> Patch 9/13 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> 10/13 Checking commit 1afe1bce0919 (linux-user: Rename cpu_clone_regs to cpu_clone_regs_child)
+> 11/13 Checking commit 046ba0d62866 (linux-user: Introduce cpu_clone_regs_parent)
+> 12/13 Checking commit a59ca3b85381 (linux-user/sparc: Fix cpu_clone_regs_*)
+> 13/13 Checking commit 965f842f57f6 (linux-user/alpha: Set r20 secondary return value)
+> === OUTPUT END ===
+> 
+> Test command exited with code: 1
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20191105181119.26779-1-laurent@vivier.eu/testing.checkpatch/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
+> 
 
 
