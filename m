@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B0AEFC87
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 12:37:27 +0100 (CET)
-Received: from localhost ([::1]:43164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E112FEFCB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 12:52:02 +0100 (CET)
+Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRx9H-0007ZY-U2
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 06:37:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46031)
+	id 1iRxNR-0003NR-I9
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 06:52:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1iRx7t-0006i2-C7
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:35:58 -0500
+ (envelope-from <bounces@canonical.com>) id 1iRxMO-0002vC-Cn
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:50:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iRx7r-0004t0-Ur
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:35:57 -0500
-Received: from mail1.hostfission.com ([139.99.139.48]:40740)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <geoff@hostfission.com>) id 1iRx7r-0004rj-Cw
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:35:55 -0500
-Received: from www1.hostfission.com (www1.hostfission.com [139.99.139.52])
- by mail1.hostfission.com (Postfix) with ESMTP id 69CC54BB2F;
- Tue,  5 Nov 2019 22:35:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1572953751;
- bh=Zw56D+Lu/znhm5oRa5VDkM2uIIC+CjFGlW6S6Nwj2xU=;
- h=To:Subject:Date:From:Cc:In-Reply-To:References:From;
- b=aobnrcRsS6jkl3xwZG4yR7bumrBzyFPRJoL665omQGm7cmFj+DA3fvkDb6bnNfWLl
- jvdoo3jvXEQpOAh4l0GrjFFmX2uLzYbbClHQdjrHE1ceIXrQq5Atj1Y7RlPkEa/5jJ
- pBd6whBh3TdfkSDYRHauteDATsAGzQW7Rhxj1/PU=
-Received: by www1.hostfission.com (Postfix, from userid 1000)
- id 60AC9804E7; Tue,  5 Nov 2019 22:35:51 +1100 (AEDT)
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: guest / host buffer sharing ...
-X-PHP-Originating-Script: 0:rcube.php
+ (envelope-from <bounces@canonical.com>) id 1iRxMJ-0007qK-4U
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:50:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57482)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iRxMI-0007pj-UT
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:50:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iRxMH-0002ey-JV
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 11:50:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 881AB2E80CD
+ for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 11:50:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 05 Nov 2019 22:35:51 +1100
-From: Geoffrey McRae <geoff@hostfission.com>
-Cc: Keiichi Watanabe <keiichiw@chromium.org>, David Stevens
- <stevensd@chromium.org>, Tomasz Figa <tfiga@chromium.org>, Dmitry Morozov
- <dmitry.morozov@opensynergy.com>, Alexandre Courbot <acourbot@chromium.org>,
- Alex Lau <alexlau@chromium.org>, Dylan Reid <dgreid@chromium.org>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>, Pawel Osciak
- <posciak@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, Daniel Vetter
- <daniel@ffwll.ch>, Gurchetan Singh <gurchetansingh@chromium.org>, Linux
- Media Mailing List <linux-media@vger.kernel.org>,
- virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org
-In-Reply-To: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
-Message-ID: <7255d3ca5f10bbf14b1a3fcb6ac34a19@hostfission.com>
-X-Sender: geoff@hostfission.com
-User-Agent: Roundcube Webmail/1.2.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 05 Nov 2019 11:41:57 -0000
+From: Max Reitz <1847793@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: c-paetow dgilbert-h lersek mattihami psyhomb
+ sej7278 ufwisalmostok xanclic
+X-Launchpad-Bug-Reporter: Claus Paetow (c-paetow)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157080798335.681.12255731732435282400.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157295411770.2617.10734424455272477933.malone@gac.canonical.com>
+Subject: [Bug 1847793] Re: qemu 4.1.0 - Corrupt guest filesystem after new vm
+ install
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ed7bf48d18d3cf07be6d3f0419a10cbc11b76340
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 139.99.139.48
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,108 +67,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1847793 <1847793@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd.
+Hi Claus,
 
-On 2019-11-05 21:54, Gerd Hoffmann wrote:
-> Hi folks,
-> 
-> The issue of sharing buffers between guests and hosts keeps poping
-> up again and again in different contexts.  Most recently here:
-> 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg656685.html
-> 
-> So, I'm grabbing the recipient list of the virtio-vdec thread and some
-> more people I know might be interested in this, hoping to have everyone
-> included.
-> 
-> Reason is:  Meanwhile I'm wondering whenever "just use virtio-gpu
-> resources" is really a good answer for all the different use cases
-> we have collected over time.  Maybe it is better to have a dedicated
-> buffer sharing virtio device?  Here is the rough idea:
-> 
+Thanks for the info!  By now we know that the XFS bug can only be
+triggered with aio=3Dnative (for -drive), and since you aren=E2=80=99t usin=
+g that,
+you won=E2=80=99t hit that.
 
-This would be the ultimate solution to this, it would also make it the 
-defacto device, possibly even leading to the deprecation of the IVSHMEM 
-device.
+I suppose using git master works in the meantime, but in general of
+course it isn=E2=80=99t advisable for stability.  (Yes, yes, I know, right =
+now
+the released version is the broken one... :()
 
-> 
-> (1) The virtio device
-> =====================
-> 
-> Has a single virtio queue, so the guest can send commands to register
-> and unregister buffers.  Buffers are allocated in guest ram.  Each 
-> buffer
-> has a list of memory ranges for the data.  Each buffer also has some
-> properties to carry metadata, some fixed (id, size, application), but
-> also allow free form (name = value, framebuffers would have
-> width/height/stride/format for example).
-> 
+4.1.1 and 4.2.0 will be released soon, which fix the qemu bug.
 
-Perfect, however since it's to be a generic device there also needs to 
-be a
-method in the guest to identify which device is the one the application 
-is
-interested in without opening the device. Since windows makes the
-subsystem vendor ID and device ID available to the userspace 
-application,
-I suggest these be used for this purpose.
 
-To avoid clashes a simple text file to track reservations of subsystem 
-IDs
-for applications/protocols would be recommended.
+Hi Wayne,
 
-The device should also support a reset feature allowing the guest to
-notify the host application that all buffers have become invalid such as
-on abnormal termination of the guest application that is using the 
-device.
+It applies only to XFS.  There are two bugs, one in qemu 4.1.0 (will be
+fixed in 4.1.1 and 4.2.0), and one in XFS (we will have a workaround in
+4.2.0, and I hope in 4.1.1, too).
 
-Conversely, qemu on unix socket disconnect should notify the guest of 
-this
-event also, allowing each end to properly syncronize.
 
-> 
-> (2) The linux guest implementation
-> ==================================
-> 
-> I guess I'd try to make it a drm driver, so we can re-use drm
-> infrastructure (shmem helpers for example).  Buffers are dumb drm
-> buffers.  dma-buf import and export is supported (shmem helpers
-> get us that for free).  Some device-specific ioctls to get/set
-> properties and to register/unregister the buffers on the host.
-> 
+Max
 
-I would be happy to do what I can to implement the windows driver for 
-this
-if nobody else is interested in doing so, however, my abilities in this
-field is rather limited and the results may not be that great :)
+-- =
 
-> 
-> (3) The qemu host implementation
-> ================================
-> 
-> qemu (likewise other vmms) can use the udmabuf driver to create
-> host-side dma-bufs for the buffers.  The dma-bufs can be passed to
-> anyone interested, inside and outside qemu.  We'll need some protocol
-> for communication between qemu and external users interested in those
-> buffers, to receive dma-bufs (via unix file descriptor passing) and
-> update notifications.  Dispatching updates could be done based on the
-> application property, which could be "virtio-vdec" or "wayland-proxy"
-> for example.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847793
 
-I don't know enough about udmabuf to really comment on this except to 
-ask
-a question. Would this make guest to guest transfers without an
-intermediate buffer possible?
+Title:
+  qemu 4.1.0 - Corrupt guest filesystem after new vm install
 
--Geoff
+Status in QEMU:
+  New
 
-> 
-> 
-> commments?
-> 
-> cheers,
->   Gerd
+Bug description:
+  When I install a new vm with qemu 4.1.0 all the guest filesystems are
+  corrupt. The first boot from the install dvd iso is ok and the
+  installer work fine. But the guest system hangs after the installer
+  finishes and I reboot the guest. I can see the grub boot menue but the
+  system cannot load the initramfs.
+
+  Testet with:
+  - RedHat Enterprise Linux 7.5, 7.6 and 7.7 (RedHat uses xfs for the /boot=
+ and / partition)
+  Guided install with the graphical installer, no lvm selected.
+  - Debian Stable/Buster (Debian uses ext4 for / and /home partition)
+  Guidet install with the graphical installer and default options.
+
+  Used commandline to create the vm disk image:
+  qemu-img create -f qcow2 /volumes/disk2-part2/vmdisks/vmtest10-1.qcow2 20G
+
+  Used qemu commandline for vm installation:
+  #!/bin/sh
+  # vmtest10 Installation
+  #
+  /usr/bin/qemu-system-x86_64  -cpu SandyBridge-IBRS \
+      -soundhw hda \
+      -M q35 \
+      -k de \
+      -vga qxl \
+      -machine accel=3Dkvm \
+      -m 4096 \
+      -display gtk \
+      -drive file=3D/volumes/disk2-part2/images/debian-10.0.0-amd64-DVD-1.i=
+so,if=3Dide,media=3Dcdrom \
+      -drive file=3D/volumes/disk2-part2/images/vmtest10-1.qcow2,if=3Dvirti=
+o,media=3Ddisk,cache=3Dwriteback \
+      -boot once=3Dd,menu=3Doff \
+      -device virtio-net-pci,mac=3D52:54:00:2c:02:6c,netdev=3Dvlan0 \
+      -netdev bridge,br=3Dbr0,id=3Dvlan0 \
+      -rtc base=3Dlocaltime \
+      -name "vmtest10" \
+      -usb -device usb-tablet \
+      -spice disable-ticketing \
+      -device virtio-serial-pci \
+      -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spic=
+e.0 \
+      -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent $*
+
+  Host OS:
+  Archlinux (last updated at 10.10.2019)
+  Linux testing 5.3.5-arch1-1-ARCH #1 SMP PREEMPT Mon Oct 7 19:03:08 UTC 20=
+19 x86_64 GNU/Linux
+  No libvirt in use.
+
+  =
+
+  With qemu 4.0.0 it works fine without any errors.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847793/+subscriptions
 
