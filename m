@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D28EF8A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:26:43 +0100 (CET)
-Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42ED3EF87B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:21:28 +0100 (CET)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRv6o-0006QM-5k
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:26:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43243)
+	id 1iRv1i-0006mn-OO
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43179)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iRut4-0005Di-4c
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:31 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1iRut0-000568-5p
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iRut3-0007vS-07
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:30 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:46998 helo=huawei.com)
+ (envelope-from <guoheyi@huawei.com>) id 1iRusz-0007pP-0s
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:12:26 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:52116 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iRusv-0007jH-EP; Tue, 05 Nov 2019 04:12:21 -0500
+ id 1iRusv-0007j8-79; Tue, 05 Nov 2019 04:12:21 -0500
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 5C10D599D2752F64CED6;
+ by Forcepoint Email with ESMTP id 3294EB169FFE9A49559A;
  Tue,  5 Nov 2019 17:12:18 +0800 (CST)
 Received: from linux-OtBuvb.huawei.com (10.175.104.212) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
  14.3.439.0; Tue, 5 Nov 2019 17:12:10 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC v2 12/14] arm/sdei: add stub to fix build failure when SDEI is
- not enabled
-Date: Tue, 5 Nov 2019 17:10:54 +0800
-Message-ID: <20191105091056.9541-13-guoheyi@huawei.com>
+Subject: [RFC v2 13/14] arm/kvm: handle guest exit of hypercall
+Date: Tue, 5 Nov 2019 17:10:55 +0800
+Message-ID: <20191105091056.9541-14-guoheyi@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20191105091056.9541-1-guoheyi@huawei.com>
 References: <20191105091056.9541-1-guoheyi@huawei.com>
@@ -42,7 +41,7 @@ X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,6 +60,9 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add support to handle guest exit of hypercall, and forward to SDEI
+dispatcher if SDEI is enabled and it is an SDEI request.
+
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Dave Martin <Dave.Martin@arm.com>
@@ -68,83 +70,53 @@ Cc: Marc Zyngier <marc.zyngier@arm.com>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: James Morse <james.morse@arm.com>
 ---
- target/arm/Makefile.objs |  2 ++
- target/arm/sdei-stub.c   | 49 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
- create mode 100644 target/arm/sdei-stub.c
+ target/arm/kvm.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 72e01d08dc..90235af8ec 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -12,6 +12,8 @@ obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) +=3D k=
-vm64.o
- obj-$(call lnot,$(CONFIG_KVM)) +=3D kvm-stub.o
-=20
- obj-$(CONFIG_SDEI) +=3D sdei.o
-+obj-$(call lnot,$(CONFIG_SDEI)) +=3D sdei-stub.o
-+
-=20
- DECODETREE =3D $(SRC_PATH)/scripts/decodetree.py
-=20
-diff --git a/target/arm/sdei-stub.c b/target/arm/sdei-stub.c
-new file mode 100644
-index 0000000000..4eaf365de7
---- /dev/null
-+++ b/target/arm/sdei-stub.c
-@@ -0,0 +1,49 @@
-+/*
-+ * QEMU ARM SDEI specific function stubs
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2019. All rights reserved=
-.
-+ *
-+ * Author: Heyi Guo <guoheyi@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index b473c63edb..035a39e49f 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -30,6 +30,7 @@
+ #include "hw/boards.h"
+ #include "hw/irq.h"
+ #include "qemu/log.h"
 +#include "sdei.h"
-+
-+bool sdei_enabled;
-+
-+void sdei_handle_request(CPUState *cs, struct kvm_run *run)
+=20
+ const KVMCapabilityInfo kvm_arch_required_capabilities[] =3D {
+     KVM_CAP_LAST_INFO
+@@ -676,6 +677,19 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kv=
+m_run *run)
+ }
+=20
+=20
++static void kvm_arm_handle_hypercall(CPUState *cs, struct kvm_run *run)
 +{
-+    run->hypercall.args[0] =3D SDEI_NOT_SUPPORTED;
-+    return;
++    uint32_t func_id =3D run->hypercall.args[0];
++
++    if (sdei_enabled &&
++        func_id >=3D SDEI_1_0_FN_BASE && func_id <=3D SDEI_MAX_REQ) {
++        sdei_handle_request(cs, run);
++        return;
++    }
++
++    run->hypercall.args[0] =3D -1;
 +}
 +
-+/*
-+ * Trigger an SDEI event bound to an interrupt.
-+ * Return true if event has been triggered successfully.
-+ * Return false if event has not been triggered for some reason.
-+ */
-+bool trigger_sdei_by_irq(int cpu, int irq)
-+{
-+    return false;
-+}
-+
-+/*
-+ * Register a notify callback for a specific interrupt bind operation; t=
-he
-+ * client will be both notified by bind and unbind operation.
-+ */
-+void qemu_register_sdei_bind_notifier(QemuSDEIBindNotify *func,
-+                                      void *opaque, int irq)
-+{
-+}
-+
-+/*
-+ * Unregister a notify callback for a specific interrupt bind operation.
-+ */
-+void qemu_unregister_sdei_bind_notifier(QemuSDEIBindNotify *func,
-+                                        void *opaque, int irq)
-+{
-+}
+ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+ {
+     int ret =3D 0;
+@@ -686,6 +700,9 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run=
+ *run)
+             ret =3D EXCP_DEBUG;
+         } /* otherwise return to guest */
+         break;
++    case KVM_EXIT_HYPERCALL:
++        kvm_arm_handle_hypercall(cs, run);
++        break;
+     default:
+         qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
+                       __func__, run->exit_reason);
 --=20
 2.19.1
 
