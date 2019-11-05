@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5E0F07F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:14:24 +0100 (CET)
-Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE037F081C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:18:25 +0100 (CET)
+Received: from localhost ([::1]:50176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS69e-0001h5-LN
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:14:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58398)
+	id 1iS6DY-0005Z2-N5
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:18:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p7-0000TT-7L
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:10 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pW-0001CL-Td
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p5-000219-R3
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:09 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31948)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pV-0002PT-OD
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:34 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51402
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5p5-00020H-ID; Tue, 05 Nov 2019 15:53:07 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpWJB144499; Tue, 5 Nov 2019 15:53:06 -0500
+ id 1iS5pV-000265-JK; Tue, 05 Nov 2019 15:53:33 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KpVR5093074; Tue, 5 Nov 2019 15:53:12 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3fuuha8m-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3gbm8a7r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:06 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KqOdN146630;
- Tue, 5 Nov 2019 15:53:06 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3fuuha82-1
+ Tue, 05 Nov 2019 15:53:11 -0500
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KqH8u095476;
+ Tue, 5 Nov 2019 15:53:11 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3gbm8a7e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:06 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnwpQ017684;
- Tue, 5 Nov 2019 20:53:05 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03wdc.us.ibm.com with ESMTP id 2w11e7h8tn-1
+ Tue, 05 Nov 2019 15:53:11 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnwPk017465;
+ Tue, 5 Nov 2019 20:53:10 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma05wdc.us.ibm.com with ESMTP id 2w11e7186h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:04 +0000
+ Tue, 05 Nov 2019 20:53:10 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kr4R453871016
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5KrADa43713020
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:04 GMT
+ Tue, 5 Nov 2019 20:53:10 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 78BFE124058;
- Tue,  5 Nov 2019 20:53:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 623C8124058;
+ Tue,  5 Nov 2019 20:53:10 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 65FC2124052;
- Tue,  5 Nov 2019 20:53:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4FCAC124052;
+ Tue,  5 Nov 2019 20:53:10 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:04 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:10 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/55] Revert "ide/ahci: Check for -ECANCELED in aio callbacks"
-Date: Tue,  5 Nov 2019 14:51:50 -0600
-Message-Id: <20191105205243.3766-3-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 03/55] s390x/tcg: Fix VERIM with 32/64 bit elements
+Date: Tue,  5 Nov 2019 14:51:51 -0600
+Message-Id: <20191105205243.3766-4-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -75,7 +76,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,93 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 
-This reverts commit 0d910cfeaf2076b116b4517166d5deb0fea76394.
+Wrong order of operands. The constant always comes last. Makes QEMU crash
+reliably on specific git fetch invocations.
 
-It's not correct to just ignore an error code in a callback; we need to
-handle that error and possible report failure to the guest so that they
-don't wait indefinitely for an operation that will now never finish.
-
-This ought to help cases reported by Nutanix where iSCSI returns a
-legitimate -ECANCELED for certain operations which should be propagated
-normally.
-
-Reported-by: Shaju Abraham <shaju.abraham@nutanix.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190729223605.7163-1-jsnow@redhat.com
-Signed-off-by: John Snow <jsnow@redhat.com>
-(cherry picked from commit 8ec41c4265714255d5a138f8b538faf3583dcff6)
+Reported-by: Stefano Brivio <sbrivio@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20190814151242.27199-1-david@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Fixes: 5c4b0ab460ef ("s390x/tcg: Implement VECTOR ELEMENT ROTATE AND INSERT UNDER MASK")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+(cherry picked from commit 25bcb45d1b81d22634daa2b1a2d8bee746ac129b)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/ide/ahci.c |  3 ---
- hw/ide/core.c | 14 --------------
- 2 files changed, 17 deletions(-)
+ target/s390x/translate_vx.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 00ba422a48..6aaf66534a 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1023,9 +1023,6 @@ static void ncq_cb(void *opaque, int ret)
-     IDEState *ide_state = &ncq_tfs->drive->port.ifs[0];
- 
-     ncq_tfs->aiocb = NULL;
--    if (ret == -ECANCELED) {
--        return;
--    }
- 
-     if (ret < 0) {
-         bool is_read = ncq_tfs->cmd == READ_FPDMA_QUEUED;
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 6afadf894f..8e1624f7ce 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -722,9 +722,6 @@ static void ide_sector_read_cb(void *opaque, int ret)
-     s->pio_aiocb = NULL;
-     s->status &= ~BUSY_STAT;
- 
--    if (ret == -ECANCELED) {
--        return;
--    }
-     if (ret != 0) {
-         if (ide_handle_rw_error(s, -ret, IDE_RETRY_PIO |
-                                 IDE_RETRY_READ)) {
-@@ -840,10 +837,6 @@ static void ide_dma_cb(void *opaque, int ret)
-     uint64_t offset;
-     bool stay_active = false;
- 
--    if (ret == -ECANCELED) {
--        return;
--    }
--
-     if (ret == -EINVAL) {
-         ide_dma_error(s);
-         return;
-@@ -975,10 +968,6 @@ static void ide_sector_write_cb(void *opaque, int ret)
-     IDEState *s = opaque;
-     int n;
- 
--    if (ret == -ECANCELED) {
--        return;
--    }
--
-     s->pio_aiocb = NULL;
-     s->status &= ~BUSY_STAT;
- 
-@@ -1058,9 +1047,6 @@ static void ide_flush_cb(void *opaque, int ret)
- 
-     s->pio_aiocb = NULL;
- 
--    if (ret == -ECANCELED) {
--        return;
--    }
-     if (ret < 0) {
-         /* XXX: What sector number to set here? */
-         if (ide_handle_rw_error(s, -ret, IDE_RETRY_FLUSH)) {
+diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
+index 41d5cf869f..0caddb3958 100644
+--- a/target/s390x/translate_vx.inc.c
++++ b/target/s390x/translate_vx.inc.c
+@@ -213,7 +213,7 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uint8_t reg, TCGv_i64 enr,
+                        vec_full_reg_offset(v3), ptr, 16, 16, data, fn)
+ #define gen_gvec_3i(v1, v2, v3, c, gen) \
+     tcg_gen_gvec_3i(vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
+-                    vec_full_reg_offset(v3), c, 16, 16, gen)
++                    vec_full_reg_offset(v3), 16, 16, c, gen)
+ #define gen_gvec_4(v1, v2, v3, v4, gen) \
+     tcg_gen_gvec_4(vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
+                    vec_full_reg_offset(v3), vec_full_reg_offset(v4), \
 -- 
 2.17.1
 
