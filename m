@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD30CF00CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 16:08:45 +0100 (CET)
-Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9724F00E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 16:13:19 +0100 (CET)
+Received: from localhost ([::1]:45050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS0Ro-0006U2-Df
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 10:08:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33249)
+	id 1iS0WE-0008QN-HD
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 10:13:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iS0Qx-00062C-IS
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:07:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1iS0VO-0007wm-Nc
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:12:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iS0Qv-0005x8-4f
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:07:50 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:11411)
+ (envelope-from <philmd@redhat.com>) id 1iS0VN-00018f-8Y
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:12:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56393
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iS0Qu-0005m4-Ob
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:07:49 -0500
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iS0VN-00018C-3E
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572966744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zcEBcSXmMs1+5LwOnm9xIuUQMVo51mCmvxKs2BdFsqE=;
+ b=JYUy5g8hpkVrO0tsvGLsVuuq4FZ02K+PdJo2rRvPah7csou4yy9ymOERqN2lU+Jl16q1ve
+ gzblyZb/Rh2h/kJLJK/AU1/NWPXeSGhUkIemOO1zQTtwxiSriKie7OwjLBno5HL7IUahcO
+ WbenXFCcv0updlaiJkP0yd5CV++FvIw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-4wfj1RMGMDyl9U-07bbh4A-1; Tue, 05 Nov 2019 10:12:20 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B7A71BDF9
- for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 15:07:45 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id f11so2739917wmc.8
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 07:07:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lwqGrgSoizz3cx6aCtWZDdt7YOk5RSQMK0PNqyncHZI=;
- b=KdPo7PutAEcAuPXor7OQXjP7iEurRceTdJVt2F/Aczyeb7tbwbYGNfx1Tzf7T/hg+l
- +CEyLkwwmIjeI/Otkn8dQeeeY4epy6GSAlEKnQwD1qzP5GiL/IbI1RUPpHJ5tY+9u5/a
- gNknw3Tcfq2mziiQjx8//2ck1kMY1LKMDCY1TQ77Xa1ZzeY19uuu601CUsB4yYT421SR
- NS+D6Nr8KmUCRdplWCLEPchv8dKqY9zgujo74fWfD/mUfghX4B3c7nbZxR/hiEmui0DM
- rVNRI61TNmvcDyokarKTddnHPi6urxNqvROE/I2hGhZvMLtsPIr1JtDddL/PUwgHBO/P
- 80bQ==
-X-Gm-Message-State: APjAAAXNZcsJ2Pej8vJetph2+sIx1wlPc1b9kmlVAQH5uErZrFuFViLt
- kKsys4+GQJ3NmnhL1QlK7qKWt9CpyqbJhsTkLA2tp+GDr4QJEvp6yS3fd7gEcqXalVULWRQ5N9J
- h6b+FmThpnY/ewN8=
-X-Received: by 2002:adf:a48c:: with SMTP id g12mr27002928wrb.212.1572966464303; 
- Tue, 05 Nov 2019 07:07:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwI0zHyLPBkPIcHAFlQyY3/ubmJc4dww+FITgBy/XhSXjwbXUSdzaXh8UTr19LwOMGflRq4Ig==
-X-Received: by 2002:adf:a48c:: with SMTP id g12mr27002880wrb.212.1572966463826; 
- Tue, 05 Nov 2019 07:07:43 -0800 (PST)
-Received: from [192.168.43.238] (241.red-95-127-150.staticip.rima-tde.net.
- [95.127.150.241])
- by smtp.gmail.com with ESMTPSA id a16sm28861935wmd.11.2019.11.05.07.07.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Nov 2019 07:07:43 -0800 (PST)
-Subject: Re: [PATCH] Makefile: Fix config-devices.mak not regenerated when
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 952908017DD;
+ Tue,  5 Nov 2019 15:12:19 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-148.brq.redhat.com [10.40.204.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 618425C3F8;
+ Tue,  5 Nov 2019 15:12:13 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2] Makefile: Fix config-devices.mak not regenerated when
  Kconfig updated
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20191104095530.22091-1-philmd@redhat.com>
- <20191105145503.GE42501@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9a980d79-7add-407a-705c-efc05b517ddc@redhat.com>
-Date: Tue, 5 Nov 2019 16:07:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+Date: Tue,  5 Nov 2019 16:12:09 +0100
+Message-Id: <20191105151209.1814-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191105145503.GE42501@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 4wfj1RMGMDyl9U-07bbh4A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,55 +70,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/5/19 3:55 PM, Daniel P. Berrang=C3=A9 wrote:
-> On Mon, Nov 04, 2019 at 10:55:30AM +0100, Philippe Mathieu-Daud=C3=A9 w=
-rote:
->> When hw/$DIR/Kconfig is changed, the corresponding generated
->> hw/$DIR/config-devices.mak is not being updated.
->> Fix this by including all the hw/*/Kconfig files to the prerequisite
->> names of the rule generating the config-devices.mak files.
->>
->> Fixes: e0e312f3525a (build: switch to Kconfig)
->> Reported-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> If OK, I plan to include this fix in the "hw/i386/pc: Split PIIX3
->> southbridge from i440FX northbridge" pull request.
->> ---
->>   Makefile | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/Makefile b/Makefile
->> index 0e994a275d..c1461b21e8 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -384,7 +384,10 @@ MINIKCONF_ARGS =3D \
->>       CONFIG_LINUX=3D$(CONFIG_LINUX) \
->>       CONFIG_PVRDMA=3D$(CONFIG_PVRDMA)
->>  =20
->> -MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
->> +MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig =
-\
->> +                   $(patsubst %,$(SRC_PATH)/hw/%,$(shell sed -ne \
->> +                                                    's/source \(.*\)/=
-\1/p' \
->> +                                                    < $(SRC_PATH)/hw/=
-Kconfig))
->=20
-> Why can't we use the simpler wildcard statement:
->=20
->     $(wildcard $(SRC_PATH)/hw/*/Kconfig)
->=20
-> instead of reading the file names from the hw/Kconfig file ?
+When hw/$DIR/Kconfig is changed, the corresponding generated
+hw/$DIR/config-devices.mak is not being updated.
+Fix this by including all the hw/*/Kconfig files to the prerequisite
+names of the rule generating the config-devices.mak files.
 
-You might have uncommited Kconfig files, but this shouldn't be a=20
-problem, make is only interested in checking the modification time of=20
-these files.
+Fixes: e0e312f3525a (build: switch to Kconfig)
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v2:
+Simplify using the wildcard() function instead of calling `sed` (danpb)
 
-Thanks for reviewing, I'll respin.
+You can see this tread where Peter reported the failure:
+https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg00125.html
+
+How to reproduce:
+
+  $ git checkout branch_modifying_kconfig
+  $ make i386-softmmu/all
+  $ make clean
+  $ git checkout prev_branch
+  $ make clean
+  $ make i386-softmmu/all
+    # error
+
+If OK, I plan to include this fix in the "hw/i386/pc: Split PIIX3
+southbridge from i440FX northbridge" pull request.
+---
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 0e994a275d..f4fca08cd7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -384,7 +384,8 @@ MINIKCONF_ARGS =3D \
+     CONFIG_LINUX=3D$(CONFIG_LINUX) \
+     CONFIG_PVRDMA=3D$(CONFIG_PVRDMA)
+=20
+-MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
++MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig \
++                   $(wildcard $(SRC_PATH)/hw/*/Kconfig)
+ MINIKCONF =3D $(PYTHON) $(SRC_PATH)/scripts/minikconf.py \
+=20
+ $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIK=
+CONF_INPUTS) $(BUILD_DIR)/config-host.mak
+--=20
+2.21.0
+
 
