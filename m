@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436A4EFA6D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 11:06:50 +0100 (CET)
-Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9CFEFA9C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 11:14:37 +0100 (CET)
+Received: from localhost ([::1]:42704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRvjd-0007IK-1N
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 05:06:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
+	id 1iRvrA-0001om-5S
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 05:14:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1iRvip-0006lE-3I
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 05:06:00 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iRvq4-0001Ne-Hx
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 05:13:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1iRvin-0004AS-40
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 05:05:58 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:51332)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iRvim-00049u-Q5
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 05:05:57 -0500
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E21B2626
- for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 10:05:54 +0000 (UTC)
-Received: by mail-ot1-f72.google.com with SMTP id n5so11818076otq.12
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 02:05:54 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1iRvq3-0000j6-2h
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 05:13:28 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44660)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iRvq2-0000iJ-Qp
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 05:13:27 -0500
+Received: by mail-wr1-x433.google.com with SMTP id f2so11715258wrs.11
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 02:13:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:subject:in-reply-to:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=UN3cTxYYVIMthdLLioztz7f9T8rb4jIIkM8BgeFLyhk=;
+ b=GV64dKqjEpfOtv/fELJksy4gzhZm5nRzyIMSswbcI+AEYh9y65d0DnL+OCgF4L0UcN
+ 9aXt6z/hRoq3VMe+JgeXZBYe+ALW1AG9HfslBwE8LU5jnNUINBTjRmlaylBJe9d6qZI8
+ HiLuSHmru5+a55NhkxYxg3ejYZYDyNdvQeFCaEHfd6uOFr0+Fkmh2dmyYBSlVR7Bftc4
+ J0GxH8fSs+p/TI5umvLqz4BkBgG511ooY5clFcPIe23/jfz2+z/rtHfFHSSS0HDlwEa8
+ e0k+vy9AhcdqshL6nMgTu7KucD9sigo9kTCWZfauoAT54pffFFpSM5KkZGTk1j5J9EBF
+ nocQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0F/pA1Hg1YWmzBkDVQqi6SdbeosJrZ+JKxpVvH/qZu4=;
- b=ooL/a5ECZ0HeVR8RfKniFLjv002sUolXWENYY0aea/w3Zww6w/+HNuVBHXblD/1/5M
- Aahfkz2lCbfYe+eiXvW/V8d1bOIpYY/YwYEI3fgG2XEFwBbMjiCjv7HjjfQYvy6tm/XV
- DHs8WKkNHUVXTgeZaa+2+9JZBhVLXEQlffoxrEagG2InOzZAl8OjkQZXKc1ULvpKIhWK
- a9GJ26DIcUBDpBHPZajR/tI7JY204WNV85+EIGlweWvrgmuaEYRw+YjaHfpy81HD/vT2
- BpFZMM3PfcSa/nYuvoHfxVdXkBNlthoxxzmefLTF/f2UIe3+qn13621ZfZlYEhQ7y0fJ
- wzVg==
-X-Gm-Message-State: APjAAAUA1VOmunPcJ0dWBm1s8AIekDRsdIhdYVcfMZfVUtzVgr0ZnKz7
- qK5owNa7oMI6zMkg/uXEYNxHemM7ytWXNowjlpzJXrKpgIPzBrMuMJSTcbVxl0AzYkeRIkaAx1D
- 5rP7t5ZrdV0/ZBRyGI5jqASqJLw47t3c=
-X-Received: by 2002:a9d:5382:: with SMTP id w2mr21028896otg.368.1572948354165; 
- Tue, 05 Nov 2019 02:05:54 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxUXcIpPawhZs6T5lCBfkS6oa7nD4K4lwnuWZ6zZL5gFZ9AskR5Lefbr+4kXZ/V2PwN/uYSSPWupdxkmyMMqt4=
-X-Received: by 2002:a9d:5382:: with SMTP id w2mr21028868otg.368.1572948353746; 
- Tue, 05 Nov 2019 02:05:53 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=UN3cTxYYVIMthdLLioztz7f9T8rb4jIIkM8BgeFLyhk=;
+ b=MXo9GuyUOCzibH1dytuwSU/dkagBDX991U1H05qTKPrqmBs44Oy0AZFj0BQaf8OKIZ
+ KmhSBUQarVRUC+93o2vQI8Nn98ZFI+fm2IBXBKL3O3fGksQ6qfrXnysDzvK/KVi6BQID
+ ztUYq1qUEAK5EctFto2JIUlFjVFqQtRO4Tp83gk1fbmoSnRbz7dCSpyZ8IhQbAjyT/np
+ Lb+kNop+WL5VyAkZgGvSo1gZrGPK9ug/pixYwLgOCGWHSX3TOfN21+xPwXYcE4R4Vaiv
+ s1krVq/+cmzWVD9hOJ27hOPR0OKFwYfsKEceDO45MwssiO3KW1Nh9mbSfvWx85GU5BCJ
+ aeag==
+X-Gm-Message-State: APjAAAV+tM465+7LQNexnpCbAltCfvmm4hAair2K8/eKJxvMHrLvY/8b
+ NgVHjIKiIYx2HoSqEOlUQmV4XkK0WMw=
+X-Google-Smtp-Source: APXvYqzxLIuMu0JvoH6PHL/Y3zq7uMgE4zq+qhsZgCtVhaT08USckO+DwYBG40a/4/9zgJhidEDqnw==
+X-Received: by 2002:adf:f004:: with SMTP id j4mr29491699wro.68.1572948804724; 
+ Tue, 05 Nov 2019 02:13:24 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j19sm25781410wre.0.2019.11.05.02.13.23
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 02:13:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F10581FF87
+ for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 10:13:22 +0000 (GMT)
+References: <BYAPR02MB4886C25E683DEAFB1B8121FCDE7F0@BYAPR02MB4886.namprd02.prod.outlook.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: SIGSEGV question (Hexagon)
+In-reply-to: <BYAPR02MB4886C25E683DEAFB1B8121FCDE7F0@BYAPR02MB4886.namprd02.prod.outlook.com>
+Date: Tue, 05 Nov 2019 10:13:22 +0000
+Message-ID: <87a79ak4vx.fsf@linaro.org>
 MIME-Version: 1.0
-References: <c83fe0e7157562c3c17598917977eb4d@hostfission.com>
- <20191030185248.GC3114@work-vm>
- <88f1c3701740665b0ebe2f24c8ce7ade@hostfission.com>
- <20191031132443.GB3128@work-vm>
- <b36330ecd38ce872982df4d41d3d4695@hostfission.com>
- <CAFEAcA8uWCQY8GwtH4oHU8ybXsvmYaB4Qa5hnxyd+344WFjJ_Q@mail.gmail.com>
- <b87d5b2fb84ac0a3c98a62dcc0c19077@hostfission.com>
- <20191031155204.GD3128@work-vm>
- <cd00c2ba412361d707ab02575d74aacd@hostfission.com>
- <e23eb129dddc5d18bb9f9b15d116f957@hostfission.com>
- <20191104115546.GB3420@work-vm>
- <9b49de1379825ac1445766f4a8d198dc@hostfission.com>
-In-Reply-To: <9b49de1379825ac1445766f4a8d198dc@hostfission.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 5 Nov 2019 14:05:40 +0400
-Message-ID: <CAMxuvaxa820krw5gdRbbY-bbqf9zaE01GkC6mRVbrEaN9Fp56w@mail.gmail.com>
-Subject: Re: RFC: New device for zero-copy VM memory access
-To: geoff@hostfission.com
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,141 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Coquelin,
- Maxime" <maxime.coquelin@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
 
-On Mon, Nov 4, 2019 at 4:05 PM <geoff@hostfission.com> wrote:
+Taylor Simpson <tsimpson@quicinc.com> writes:
+
+> Philippe suggested that I run the TCG tests for Hexagon.  Thanks Philippe=
+!!
 >
 >
 >
-> On 2019-11-04 22:55, Dr. David Alan Gilbert wrote:
-> > * geoff@hostfission.com (geoff@hostfission.com) wrote:
-> >>
-> >>
-> >> On 2019-11-03 21:10, geoff@hostfission.com wrote:
-> >> > On 2019-11-01 02:52, Dr. David Alan Gilbert wrote:
-> >> > > * geoff@hostfission.com (geoff@hostfission.com) wrote:
-> >> > > >
-> >> > > >
-> >> > > > On 2019-11-01 01:52, Peter Maydell wrote:
-> >> > > > > On Thu, 31 Oct 2019 at 14:26, <geoff@hostfission.com> wrote:
-> >> > > > > > As the author of Looking Glass, I also have to consider the
-> >> > > > > > maintenance
-> >> > > > > > and the complexity of implementing the vhost protocol into the
-> >> > > > > > project.
-> >> > > > > > At this time a complete Porthole client can be implemented in 150
-> >> > > > > > lines
-> >> > > > > > of C without external dependencies, and most of that is boilerplate
-> >> > > > > > socket code. This IMO is a major factor in deciding to avoid
-> >> > > > > > vhost-user.
-> >> > > > >
-> >> > > > > This is essentially a proposal that we should make our project and
-> >> > > > > code more complicated so that your project and code can be simpler.
-> >> > > > > I hope you can see why this isn't necessarily an argument that will hold
-> >> > > > > very much weight for us :-)
-> >> > > >
-> >> > > > Certainly, I do which is why I am still going to see about using
-> >> > > > vhost,
-> >> > > > however, a device that uses vhost is likely more complex then
-> >> > > > the device
-> >> > > > as it stands right now and as such more maintenance would be
-> >> > > > involved on
-> >> > > > your end also. Or have I missed something in that vhost-user can
-> >> > > > be used
-> >> > > > directly as a device?
-> >> > >
-> >> > > The basic vhost-user stuff isn't actually that hard;  if you aren't
-> >> > > actually shuffling commands over the queues you should find it pretty
-> >> > > simple - so I think your assumption about it being simpler if you
-> >> > > avoid
-> >> > > it might be wrong.  It might be easier if you use it!
-> >> >
-> >> > I have been looking into this and I am yet to find some decent
-> >> > documentation or a simple device example I can use to understand how to
-> >> > create such a device. Do you know of any reading or examples I can
-> >> > obtain
-> >> > on how to get an initial do nothing device up and running?
-> >> >
-> >> > -Geoff
-> >>
-> >> Scratch that, the design just solidified for me and I am now making
-> >> progress, however it seems that vhost-user can't do what we need here:
-> >>
-> >> 1) I dont see any way to recieve notification of socket disconnection,
-> >> in
-> >> our use case the client app needs to be able to be (re)connected
-> >> dynamically. It might be possible to get this event by registering it
-> >> on
-> >> the chardev manually but this seems like it would be a kludge.
-> >
-> > My understanding was that someone added support for reconnection of
-> > vhost-user;  I'm not sure of the detail - cc'ing in Maxime and
-> > Marc-Andre.
-> >
-> >> 2) I don't see any method of notifying the vhost-user client of the
-> >> removal of a shared memory mapping. Again, these may not be
-> >> persistently
-> >> mapped in the guest as we have no control over the buffer allocation,
-> >> and
-> >> as such, we need a method to notify the client that the mapping has
-> >> become
-> >> invalid.
-> >>
-> >> 3) VHOST_USER_SET_MEM_TABLE is a one time request, again this breaks
-> >> our
-> >> usage as we need to change this dynamically at runtime.
-> >
-> > I've seen (3) being sent multiple times (It's messy but it happens); so
-> > I think that fixes (2) as well for you.
->
-> Yes, but it's ignored.
->
->      /*
->       * For non-vring specific requests, like VHOST_USER_SET_MEM_TABLE,
->       * we just need send it once in the first time. For later such
->       * request, we just ignore it.
->       */
->      if (vhost_user_one_time_request(msg->hdr.request) && dev->vq_index
-> != 0) {
->           msg->hdr.flags &= ~VHOST_USER_NEED_REPLY_MASK;
->           return 0;
->      }
+> I discovered that I=E2=80=99m not handling SIGSEGV properly.  We pass oth=
+er signal tests, but not this one.  I=E2=80=99m hoping someone can help.
+>  The first thing that I realized is that I hadn=E2=80=99t provided a tlb_=
+fill function for CPUClass.  What is this function supposed to
+> do?
 
-This code was added to avoid sending the same mapping for each queue:
-https://github.com/qemu/qemu/commit/b931bfbf042983f311b3b09894d8030b2755a638
-(arguably, the filtering could have been done earlier)
+It's does two subtly different things depending on system emulation vs
+user-mode:
 
-But if you reconnect, it should still send it again at least once (for vq #0).
+ * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+ *       address fault.  For system mode, if the access is valid, call
+ *       tlb_set_page and return true; if the access is invalid, and
+ *       probe is true, return false; otherwise raise an exception and
+ *       do not return.  For user-only mode, always raise an exception
+ *       and do not return.
 
-vhost-user-bridge reconnect used to work quite reliably, I haven't
-tested recently.
+>I looked at other targets and found they are setting
+>cs->exception_index to something and then call cpu_loop_exit_restore.
 
+cpu_loop_exit_* brings you back to the sigsetjmp of cpu_exec short
+circuiting any more TCG code. For linux-user the exception code should
+get kicked back to cpu_loop. As we are jumping out of the TCG all your
+CPUState should be coherent by this point. For pure TCG code this should
+be the case. If you have faulted in a helper this could be problematic.
+
+> I tried various values for exception_index, but the best I seem to get
+> is re-executing the offending instruction forever.
+
+For linux-user you need to then catch that exception in your cpu_loop
+code and do the requisite setting up (probably a queue_signal in this
+case). This should get picked up by the process_pending_signal at the
+end of your cpu_loop which will then set the PC as appropriate to your
+signal handler.
+
+This is where we find out if your CPUState is now consistent ;-)
 
 >
-> >
-> > Dave
-> >
-> >> Unless there are viable solutions to these problems there is no way
-> >> that
-> >> vhost-user can be used for this kind of a device.
-> >>
-> >> -Geoff
-> >>
-> >> >
-> >> > >
-> >> > > Dave
-> >> > >
-> >> > > > >
-> >> > > > > thanks
-> >> > > > > -- PMM
-> >> > > --
-> >> > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+>
+> Any insight would be greatly appreciated.
+>
+>
+>
+> Thanks,
+>
+> Taylor
+>
+>
+>
+>
+>
+> PS  The only other bug that these tests uncovered was that truncate isn=
+=E2=80=99t implemented properly.  This was straightforward to fix.
+
+
+--
+Alex Benn=C3=A9e
 
