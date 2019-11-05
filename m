@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A191F08C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:54:47 +0100 (CET)
-Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC567F0874
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:33:51 +0100 (CET)
+Received: from localhost ([::1]:50386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6mj-0008PE-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:54:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59445)
+	id 1iS6SU-0000tL-8D
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qb-0002ml-K5
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:42 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qa-0002kF-PB
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qa-0003B3-6a
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56974
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qY-00039t-6N
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:40 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44010)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5qa-0003Ao-1c; Tue, 05 Nov 2019 15:54:40 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KsbZ3009146; Tue, 5 Nov 2019 15:54:39 -0500
+ id 1iS5qX-00039K-Ty; Tue, 05 Nov 2019 15:54:38 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KsTiK043519; Tue, 5 Nov 2019 15:54:37 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dex64r2-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8mm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:54:39 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KsceN009241;
- Tue, 5 Nov 2019 15:54:38 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dex64ns-1
+ Tue, 05 Nov 2019 15:54:36 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Ksapo044042;
+ Tue, 5 Nov 2019 15:54:36 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8h9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:54:38 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvSs031300;
- Tue, 5 Nov 2019 20:53:09 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 2w11e7hh9x-1
+ Tue, 05 Nov 2019 15:54:36 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnwpW017684;
+ Tue, 5 Nov 2019 20:53:10 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma03wdc.us.ibm.com with ESMTP id 2w11e7h8u7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:09 +0000
+ Tue, 05 Nov 2019 20:53:10 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kr8nl52953412
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5KrAUJ52953492
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:08 GMT
+ Tue, 5 Nov 2019 20:53:10 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3923B12405E;
- Tue,  5 Nov 2019 20:53:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DBB6D124052;
+ Tue,  5 Nov 2019 20:53:09 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 175EC124052;
- Tue,  5 Nov 2019 20:53:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B2E9C12405B;
+ Tue,  5 Nov 2019 20:53:09 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:08 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:09 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 37/55] roms/Makefile.edk2: don't pull in submodules when
- building from tarball
-Date: Tue,  5 Nov 2019 14:52:25 -0600
-Message-Id: <20191105205243.3766-38-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 40/55] iotests: Test internal snapshots with -blockdev
+Date: Tue,  5 Nov 2019 14:52:28 -0600
+Message-Id: <20191105205243.3766-41-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
@@ -78,11 +74,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id xA5KsbZ3009146
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,58 +87,422 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, qemu-stable@nongnu.org,
- Bruce Rogers <brogers@suse.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the `make efi` target pulls submodules nested under the
-roms/edk2 submodule as dependencies. However, when we attempt to build
-from a tarball this fails since we are no longer in a git tree.
+From: Kevin Wolf <kwolf@redhat.com>
 
-A preceding patch will pre-populate these submodules in the tarball,
-so assume this build dependency is only needed when building from a
-git tree.
-
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Bruce Rogers <brogers@suse.com>
-Cc: qemu-stable@nongnu.org # v4.1.0
-Reported-by: Bruce Rogers <brogers@suse.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-Message-Id: <20190912231202.12327-3-mdroth@linux.vnet.ibm.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-(cherry picked from commit f3e330e3c319160ac04954399b5a10afc965098c)
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+Tested-by: Peter Krempa <pkrempa@redhat.com>
+(cherry picked from commit 92b22e7b1789b0e5f20d245706e72eae70dbddce)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- roms/Makefile.edk2 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/267           | 168 ++++++++++++++++++++++++++++
+ tests/qemu-iotests/267.out       | 182 +++++++++++++++++++++++++++++++
+ tests/qemu-iotests/common.filter |  11 +-
+ tests/qemu-iotests/group         |   1 +
+ 4 files changed, 358 insertions(+), 4 deletions(-)
+ create mode 100755 tests/qemu-iotests/267
+ create mode 100644 tests/qemu-iotests/267.out
 
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-index c2f2ff59d5..33a074d3a4 100644
---- a/roms/Makefile.edk2
-+++ b/roms/Makefile.edk2
-@@ -46,8 +46,13 @@ all: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$=
-(flashdev).fd.bz2) \
- # files.
- .INTERMEDIATE: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$(flashde=
-v).fd)
-=20
-+# Fetch edk2 submodule's submodules. If it is not in a git tree, assume
-+# we're building from a tarball and that they've already been fetched by
-+# make-release/tarball scripts.
- submodules:
--	cd edk2 && git submodule update --init --force
-+	if test -d edk2/.git; then \
-+		cd edk2 && git submodule update --init --force; \
-+	fi
-=20
- # See notes on the ".NOTPARALLEL" target and the "+" indicator in
- # "tests/uefi-test-tools/Makefile".
---=20
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+new file mode 100755
+index 0000000000..d37a67c012
+--- /dev/null
++++ b/tests/qemu-iotests/267
+@@ -0,0 +1,168 @@
++#!/usr/bin/env bash
++#
++# Test which nodes are involved in internal snapshots
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=kwolf@redhat.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++    rm -f "$TEST_DIR/nbd"
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++# Internal snapshots are (currently) impossible with refcount_bits=1
++_unsupported_imgopts 'refcount_bits=1[^0-9]'
++
++do_run_qemu()
++{
++    echo Testing: "$@"
++    (
++        if ! test -t 0; then
++            while read cmd; do
++                echo $cmd
++            done
++        fi
++        echo quit
++    ) | $QEMU -nographic -monitor stdio -nodefaults "$@"
++    echo
++}
++
++run_qemu()
++{
++    do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_hmp |
++        _filter_generated_node_ids | _filter_imgfmt | _filter_vmstate_size
++}
++
++size=128M
++
++run_test()
++{
++    _make_test_img $size
++    printf "savevm snap0\ninfo snapshots\nloadvm snap0\n" | run_qemu "$@" | _filter_date
++}
++
++
++echo
++echo "=== No block devices at all ==="
++echo
++
++run_test
++
++echo
++echo "=== -drive if=none ==="
++echo
++
++run_test -drive driver=file,file="$TEST_IMG",if=none
++run_test -drive driver=$IMGFMT,file="$TEST_IMG",if=none
++run_test -drive driver=$IMGFMT,file="$TEST_IMG",if=none -device virtio-blk,drive=none0
++
++echo
++echo "=== -drive if=virtio ==="
++echo
++
++run_test -drive driver=file,file="$TEST_IMG",if=virtio
++run_test -drive driver=$IMGFMT,file="$TEST_IMG",if=virtio
++
++echo
++echo "=== Simple -blockdev ==="
++echo
++
++run_test -blockdev driver=file,filename="$TEST_IMG",node-name=file
++run_test -blockdev driver=file,filename="$TEST_IMG",node-name=file \
++         -blockdev driver=$IMGFMT,file=file,node-name=fmt
++run_test -blockdev driver=file,filename="$TEST_IMG",node-name=file \
++         -blockdev driver=raw,file=file,node-name=raw \
++         -blockdev driver=$IMGFMT,file=raw,node-name=fmt
++
++echo
++echo "=== -blockdev with a filter on top ==="
++echo
++
++run_test -blockdev driver=file,filename="$TEST_IMG",node-name=file \
++         -blockdev driver=$IMGFMT,file=file,node-name=fmt \
++         -blockdev driver=copy-on-read,file=fmt,node-name=filter
++
++echo
++echo "=== -blockdev with a backing file ==="
++echo
++
++TEST_IMG="$TEST_IMG.base" _make_test_img $size
++
++IMGOPTS="backing_file=$TEST_IMG.base" \
++run_test -blockdev driver=file,filename="$TEST_IMG.base",node-name=backing-file \
++         -blockdev driver=file,filename="$TEST_IMG",node-name=file \
++         -blockdev driver=$IMGFMT,file=file,backing=backing-file,node-name=fmt
++
++IMGOPTS="backing_file=$TEST_IMG.base" \
++run_test -blockdev driver=file,filename="$TEST_IMG.base",node-name=backing-file \
++         -blockdev driver=$IMGFMT,file=backing-file,node-name=backing-fmt \
++         -blockdev driver=file,filename="$TEST_IMG",node-name=file \
++         -blockdev driver=$IMGFMT,file=file,backing=backing-fmt,node-name=fmt
++
++# A snapshot should be present on the overlay, but not the backing file
++echo Internal snapshots on overlay:
++$QEMU_IMG snapshot -l "$TEST_IMG" | _filter_date | _filter_vmstate_size
++
++echo Internal snapshots on backing file:
++$QEMU_IMG snapshot -l "$TEST_IMG.base" | _filter_date | _filter_vmstate_size
++
++echo
++echo "=== -blockdev with NBD server on the backing file ==="
++echo
++
++IMGOPTS="backing_file=$TEST_IMG.base" _make_test_img $size
++cat <<EOF |
++nbd_server_start unix:$TEST_DIR/nbd
++nbd_server_add -w backing-fmt
++savevm snap0
++info snapshots
++loadvm snap0
++EOF
++run_qemu -blockdev driver=file,filename="$TEST_IMG.base",node-name=backing-file \
++         -blockdev driver=$IMGFMT,file=backing-file,node-name=backing-fmt \
++         -blockdev driver=file,filename="$TEST_IMG",node-name=file \
++         -blockdev driver=$IMGFMT,file=file,backing=backing-fmt,node-name=fmt |
++         _filter_date
++
++# This time, a snapshot should be created on both files
++echo Internal snapshots on overlay:
++$QEMU_IMG snapshot -l "$TEST_IMG" | _filter_date | _filter_vmstate_size
++
++echo Internal snapshots on backing file:
++$QEMU_IMG snapshot -l "$TEST_IMG.base" | _filter_date | _filter_vmstate_size
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
+new file mode 100644
+index 0000000000..9d812e3c72
+--- /dev/null
++++ b/tests/qemu-iotests/267.out
+@@ -0,0 +1,182 @@
++QA output created by 267
++
++=== No block devices at all ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing:
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++Error: No block device can accept snapshots
++(qemu) info snapshots
++No available block device supports snapshots
++(qemu) loadvm snap0
++Error: No block device supports snapshots
++(qemu) quit
++
++
++=== -drive if=none ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=none
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++Error: Device 'none0' is writable but does not support snapshots
++(qemu) info snapshots
++No available block device supports snapshots
++(qemu) loadvm snap0
++Error: Device 'none0' is writable but does not support snapshots
++(qemu) quit
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none -device virtio-blk,drive=none0
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++
++=== -drive if=virtio ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -drive driver=file,file=TEST_DIR/t.IMGFMT,if=virtio
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++Error: Device 'virtio0' is writable but does not support snapshots
++(qemu) info snapshots
++No available block device supports snapshots
++(qemu) loadvm snap0
++Error: Device 'virtio0' is writable but does not support snapshots
++(qemu) quit
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=virtio
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++
++=== Simple -blockdev ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++Error: Device '' is writable but does not support snapshots
++(qemu) info snapshots
++No available block device supports snapshots
++(qemu) loadvm snap0
++Error: Device '' is writable but does not support snapshots
++(qemu) quit
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,node-name=fmt
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=raw,file=file,node-name=raw -blockdev driver=IMGFMT,file=raw,node-name=fmt
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++
++=== -blockdev with a filter on top ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,node-name=fmt -blockdev driver=copy-on-read,file=fmt,node-name=filter
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++
++=== -blockdev with a backing file ===
++
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,backing=backing-file,node-name=fmt
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file -blockdev driver=IMGFMT,file=backing-file,node-name=backing-fmt -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,backing=backing-fmt,node-name=fmt
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++Internal snapshots on overlay:
++Snapshot list:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++Internal snapshots on backing file:
++
++=== -blockdev with NBD server on the backing file ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
++Testing: -blockdev driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file -blockdev driver=IMGFMT,file=backing-file,node-name=backing-fmt -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev driver=IMGFMT,file=file,backing=backing-fmt,node-name=fmt
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) nbd_server_start unix:TEST_DIR/nbd
++(qemu) nbd_server_add -w backing-fmt
++(qemu) savevm snap0
++(qemu) info snapshots
++List of snapshots present on all disks:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++--        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++(qemu) loadvm snap0
++(qemu) quit
++
++Internal snapshots on overlay:
++Snapshot list:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++Internal snapshots on backing file:
++Snapshot list:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++*** done
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 35fddc746f..67fd5f4e41 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -19,12 +19,15 @@
+ # standard filters
+ #
+ 
+-# ctime(3) dates
+-#
+ _filter_date()
+ {
+-    $SED \
+-        -e 's/[A-Z][a-z][a-z] [A-z][a-z][a-z]  *[0-9][0-9]* [0-9][0-9]:[0-9][0-9]:[0-9][0-9] [0-9][0-9][0-9][0-9]$/DATE/'
++    $SED -re 's/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/yyyy-mm-dd hh:mm:ss/'
++}
++
++_filter_vmstate_size()
++{
++    $SED -r -e 's/[0-9. ]{5} [KMGT]iB/     SIZE/' \
++            -e 's/[0-9. ]{5} B/   SIZE/'
+ }
+ 
+ _filter_generated_node_ids()
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 3660a741f2..8bc2f3857d 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -273,3 +273,4 @@
+ 256 rw quick
+ 265 rw auto quick
+ 266 rw quick
++267 rw auto quick snapshot
+-- 
 2.17.1
 
 
