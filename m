@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F20F0895
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:42:58 +0100 (CET)
-Received: from localhost ([::1]:50532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0486AF0879
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:37:08 +0100 (CET)
+Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6bJ-0004Am-7G
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:42:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58987)
+	id 1iS6Ve-0005Rh-GZ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pg-0001S3-Cd
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:46 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iS5rW-0003ym-V4
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:55:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pe-0002UO-1z
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:43 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50498
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pd-0002BL-22; Tue, 05 Nov 2019 15:53:41 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpYr5040633; Tue, 5 Nov 2019 15:53:20 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3eegm8vm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:20 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kq5X9041997;
- Tue, 5 Nov 2019 15:53:20 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3eegm8va-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:20 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnuYp025651;
- Tue, 5 Nov 2019 20:53:19 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e79805-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:19 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KrJTs15860552
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:19 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F3508124058;
- Tue,  5 Nov 2019 20:53:18 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0013124052;
- Tue,  5 Nov 2019 20:53:18 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.218])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:18 +0000 (GMT)
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 55/55] virtio-blk: Cancel the pending BH when the dataplane is
- reset
-Date: Tue,  5 Nov 2019 14:52:43 -0600
-Message-Id: <20191105205243.3766-56-mdroth@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
-References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iS5rT-00044m-B9
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:55:36 -0500
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:43520)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iS5rT-00043t-5h
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:55:35 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id l20so6800721oie.10
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 12:55:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5XvPHb0liGDSyzqWfyodYaHwqMy3DUUzWQ17uAiVI3I=;
+ b=U3qpgrDvNWy873Do62C7Q+R8ejze+6Ip06g/TJ9RrK0CXyVhDdiPwmIXdTX6vDUQcg
+ nShxYKSOJVM+1TC+MNdQYe2IPlZxwY3xhL2PT+KES145KgN7wZv22DBdEMkP54viHCGI
+ bBNTA8uE2OHJvljzkO36A8qaByrMqw4hoCaJfznffqdVWMtxJ3YJDH+5+evH5ggDfazi
+ C/zlDGXNTjYgoz//fEHKv/lJepMu64neRKw2fci+UAF9Jl1xHSlBBnsZkveI0xYSft/4
+ 1lcaBsE1DQg1LDnCFXhXsNNRzwdlqi5SYwL4qw20R04dXrapWEc8RSBktxnpCIyxG8Dm
+ 5EKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5XvPHb0liGDSyzqWfyodYaHwqMy3DUUzWQ17uAiVI3I=;
+ b=qbs64iBVlSr9xo4g9wigASVCGreNxCj0O9gh14+NMSpmDJ6TFkhtcHSsI+kJJXgrBa
+ hQ1yhaHibr1uFblE2FQQE9mVs11h0MF6BGYAyUjFi1LiNQPuTTUz8R4iS+H+bi5+W8wO
+ m0l7MA2oH5XlTN6wPHtfe1bZpChdjE9V5zCrgRVLljtnO41Blcg5yj91lnwHb7VYZUzP
+ asVrZbfuWDCpvjOTlLw/xfrVueRO+x/qp+kE9Q7y2vPyJQ/SODpnVltp8F/6/h7H8nDq
+ 7oqIvdUgS79gAx+Vu9nJ5KbVxjvg3nAfMywAMum/lOdEAmP2UXVJJxNFvrVAyB3CiuJO
+ CZiQ==
+X-Gm-Message-State: APjAAAV/OTW6eTQ4GVgWnbIdhav+a4WRpNR5gMaJLBmT8mmmngEHeyC3
+ 8nTY8lKRdIfQkhcCxgTGZl80fBub91RGmt1PJQcDAg==
+X-Google-Smtp-Source: APXvYqwxE6BXvUoNdnKW8wviK6OLmSqbfck8rAFPw0Ngp6PDCdFX3lYAjcZ2EqaKaCMW0xMqrYmxMPXlhj1SYDUctYs=
+X-Received: by 2002:aca:451:: with SMTP id 78mr889263oie.170.1572987334000;
+ Tue, 05 Nov 2019 12:55:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-11-05_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xA5KpYr5040633
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+References: <1572911399018.17766@sandia.gov>
+ <20191105164253.GJ166646@stefanha-x1.localdomain>
+In-Reply-To: <20191105164253.GJ166646@stefanha-x1.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 5 Nov 2019 20:55:21 +0000
+Message-ID: <CAFEAcA_5ZS=4gHW8yph_o7Z4XrO5r2YMbGTB0oNtQKriv-qS=A@mail.gmail.com>
+Subject: Re: Adding New, Unsupported ISA to Qemu
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,103 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Hanson, Seth" <shanson@sandia.gov>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Tue, 5 Nov 2019 at 16:44, Stefan Hajnoczi <stefanha@gmail.com> wrote
+> The general advice I've seen is:
+>
+> 1. Look at existing TCG targets to learn how to implement aspects of
+>    your ISA.
 
-When 'system_reset' is called, the main loop clear the memory
-region cache before the BH has a chance to execute. Later when
-the deferred function is called, some assumptions that were
-made when scheduling them are no longer true when they actually
-execute.
+...and *don't* look at older/less maintained targets (including
+x86), as they have a lot of bad habits you don't want to copy.
+Using 'decodetree' is probably a good idea.
 
-This is what happens using a virtio-blk device (fresh RHEL7.8 install):
+> 2. If you are unfamiliar with emulation, CPU ISA, or just-in-time
+>    compiler concepts, try to read up on them and then look back at the
+>    QEMU code.  Things will be clearer.
 
- $ (sleep 12.3; echo system_reset; sleep 12.3; echo system_reset; sleep 1=
-; echo q) \
-   | qemu-system-x86_64 -m 4G -smp 8 -boot menu=3Don \
-     -device virtio-blk-pci,id=3Dimage1,drive=3Ddrive_image1 \
-     -drive file=3D/var/lib/libvirt/images/rhel78.qcow2,if=3Dnone,id=3Ddr=
-ive_image1,format=3Dqcow2,cache=3Dnone \
-     -device virtio-net-pci,netdev=3Dnet0,id=3Dnic0,mac=3D52:54:00:c4:e7:=
-84 \
-     -netdev tap,id=3Dnet0,script=3D/bin/true,downscript=3D/bin/true,vhos=
-t=3Don \
-     -monitor stdio -serial null -nographic
-  (qemu) system_reset
-  (qemu) system_reset
-  (qemu) qemu-system-x86_64: hw/virtio/virtio.c:225: vring_get_region_cac=
-hes: Assertion `caches !=3D NULL' failed.
-  Aborted
+I would also add
+3.  Don't expect getting this implemented and upstream to be easy.
 
-  (gdb) bt
-  Thread 1 (Thread 0x7f109c17b680 (LWP 10939)):
-  #0  0x00005604083296d1 in vring_get_region_caches (vq=3D0x56040a24bdd0)=
- at hw/virtio/virtio.c:227
-  #1  0x000056040832972b in vring_avail_flags (vq=3D0x56040a24bdd0) at hw=
-/virtio/virtio.c:235
-  #2  0x000056040832d13d in virtio_should_notify (vdev=3D0x56040a240630, =
-vq=3D0x56040a24bdd0) at hw/virtio/virtio.c:1648
-  #3  0x000056040832d1f8 in virtio_notify_irqfd (vdev=3D0x56040a240630, v=
-q=3D0x56040a24bdd0) at hw/virtio/virtio.c:1662
-  #4  0x00005604082d213d in notify_guest_bh (opaque=3D0x56040a243ec0) at =
-hw/block/dataplane/virtio-blk.c:75
-  #5  0x000056040883dc35 in aio_bh_call (bh=3D0x56040a243f10) at util/asy=
-nc.c:90
-  #6  0x000056040883dccd in aio_bh_poll (ctx=3D0x560409161980) at util/as=
-ync.c:118
-  #7  0x0000560408842af7 in aio_dispatch (ctx=3D0x560409161980) at util/a=
-io-posix.c:460
-  #8  0x000056040883e068 in aio_ctx_dispatch (source=3D0x560409161980, ca=
-llback=3D0x0, user_data=3D0x0) at util/async.c:261
-  #9  0x00007f10a8fca06d in g_main_context_dispatch () at /lib64/libglib-=
-2.0.so.0
-  #10 0x0000560408841445 in glib_pollfds_poll () at util/main-loop.c:215
-  #11 0x00005604088414bf in os_host_main_loop_wait (timeout=3D0) at util/=
-main-loop.c:238
-  #12 0x00005604088415c4 in main_loop_wait (nonblocking=3D0) at util/main=
--loop.c:514
-  #13 0x0000560408416b1e in main_loop () at vl.c:1923
-  #14 0x000056040841e0e8 in main (argc=3D20, argv=3D0x7ffc2c3f9c58, envp=3D=
-0x7ffc2c3f9d00) at vl.c:4578
+(Apologies if the following sounds pessimistic and off-putting;
+but I would prefer people to have a clear understanding of
+what they're getting into and not assume the chances of
+success are higher than they might actually be.)
 
-Fix this by cancelling the BH when the virtio dataplane is stopped.
+"New TCG target" is an unlucky combination of:
+ (1) it's quite a lot of work in pure amount-of-code terms
+ (2) because it is a big feature it is not a good choice as a "first
+   contribution to the project", but new targets often are proposed
+   and written by people who don't have any previous history of
+   writing QEMU code
+ (3) we already have targets for the common CPU ISAs, so
+   anything new is likely to be obscure and not have many people
+   who care about it either in our userbase or in our dev community.
+   (riscv is the obvious recent exception here, as it is clearly relevant
+   as a new architecture and has attracted multiple people to work
+   on it and contribute both code and reviews)
 
-[This is version of the patch was modified as discussed with Philippe on
-the mailing list thread.
---Stefan]
+1 and 2 mean that code review of a new TCG target is a lot
+of work, and 3 means it's not clear how much return the project
+gets for that investment :-(
 
-Reported-by: Yihuang Yu <yihyu@redhat.com>
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Fixes: https://bugs.launchpad.net/qemu/+bug/1839428
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190816171503.24761-1-philmd@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-(cherry picked from commit ebb6ff25cd888a52a64a9adc3692541c6d1d9a42)
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
----
- hw/block/dataplane/virtio-blk.c | 3 +++
- 1 file changed, 3 insertions(+)
+There is not a large community of upstream developers who are
+interested in maintaining a lot of obscure guest architectures:
+we essentially rely on the goodwill and not-entirely-work-time
+of just a few people when it comes to reviewing new TCG targets.
+That means that patchsets often hang around on list for a long
+time without getting attention.
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-=
-blk.c
-index 158c78f852..5fea76df85 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -297,6 +297,9 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
-         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-     }
-=20
-+    qemu_bh_cancel(s->bh);
-+    notify_guest_bh(s); /* final chance to notify guest */
-+
-     /* Clean up guest notifier (irq) */
-     k->set_guest_notifiers(qbus->parent, nvqs, false);
-=20
---=20
-2.17.1
+Our past historical experience has often been that when people
+contribute TCG targets, we do a lot of work on our end with
+code review and helping to get the code into upstream QEMU, and
+then these people more or less disappear, leaving us with the
+burden of something we have to support and no help doing it.
+If in general people submitting new TCG targets were all
+*helping each other*, passing on what they learned to the
+next person along, contributing code review, updating older
+code as QEMU APIs improve/churn, etc, then I think I'd feel
+differently about this. But to be honest mostly I find myself
+thinking "oh dear, not another one".
 
+We already have two new TCG ports with patches on list
+which are kind of stalled due to not having enough existing
+upstream QEMU devs who can/will code review them (and
+another which hasn't had patches posted but might do soon).
+The odds for your new port having a happier future don't seem
+too great to me :-(
+
+thanks
+-- PMM
 
