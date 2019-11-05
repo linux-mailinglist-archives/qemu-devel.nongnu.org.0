@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FEEF0821
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:21:04 +0100 (CET)
-Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB30F084A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:26:56 +0100 (CET)
+Received: from localhost ([::1]:50306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6G6-0000pa-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58766)
+	id 1iS6Ln-0001F2-Nw
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:26:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pY-0001Ew-BJ
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:37 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pa-0001IQ-Kh
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pX-0002QM-5e
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:36 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51494
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pY-0002RW-TP
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63206
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pX-00026W-17; Tue, 05 Nov 2019 15:53:35 -0500
+ id 1iS5pY-00026g-CN; Tue, 05 Nov 2019 15:53:36 -0500
 Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpXrZ079079; Tue, 5 Nov 2019 15:53:14 -0500
+ xA5KpYSW079132; Tue, 5 Nov 2019 15:53:15 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dfhxkx5-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dfhxkxj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:14 -0500
+ Tue, 05 Nov 2019 15:53:15 -0500
 Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KrECp083196;
- Tue, 5 Nov 2019 15:53:14 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dfhxkwr-1
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KqEGD081011;
+ Tue, 5 Nov 2019 15:53:15 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dfhxkxa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:14 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Ko2EB005728;
- Tue, 5 Nov 2019 20:53:13 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 2w11e7984p-1
+ Tue, 05 Nov 2019 15:53:15 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knvh5017664;
+ Tue, 5 Nov 2019 20:53:14 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma03wdc.us.ibm.com with ESMTP id 2w11e7h8ud-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:13 +0000
+ Tue, 05 Nov 2019 20:53:14 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KrDZ949938788
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5KrE8h50921804
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:13 GMT
+ Tue, 5 Nov 2019 20:53:14 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAFE112405B;
- Tue,  5 Nov 2019 20:53:12 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id F250512405B;
+ Tue,  5 Nov 2019 20:53:13 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D895112405C;
- Tue,  5 Nov 2019 20:53:12 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DE4C5124058;
+ Tue,  5 Nov 2019 20:53:13 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:12 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:13 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 45/55] mirror: Do not dereference invalid pointers
-Date: Tue,  5 Nov 2019 14:52:33 -0600
-Message-Id: <20191105205243.3766-46-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 47/55] virtio: new post_load hook
+Date: Tue,  5 Nov 2019 14:52:35 -0600
+Message-Id: <20191105205243.3766-48-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -72,8 +72,8 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=782 adultscore=0 classifier=spam adjust=0 reason=mlx
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -88,65 +88,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>,
+ qemu-stable@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-mirror_exit_common() may be called twice (if it is called from
-mirror_prepare() and fails, it will be called from mirror_abort()
-again).
+Post load hook in virtio vmsd is called early while device is processed,
+and when VirtIODevice core isn't fully initialized.  Most device
+specific code isn't ready to deal with a device in such state, and
+behaves weirdly.
 
-In such a case, many of the pointers in the MirrorBlockJob object will
-already be freed.  This can be seen most reliably for s->target, which
-is set to NULL (and then dereferenced by blk_bs()).
+Add a new post_load hook in a device class instead.  Devices should use
+this unless they specifically want to verify the migration stream as
+it's processed, e.g. for bounds checking.
 
 Cc: qemu-stable@nongnu.org
-Fixes: 737efc1eda23b904fbe0e66b37715fb0e5c3e58b
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191014153931.20699-2-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit f93c3add3a773e0e3f6277e5517583c4ad3a43c2)
+Suggested-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+(cherry picked from commit 1dd713837cac8ec5a97d3b8492d72ce5ac94803c)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/mirror.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/virtio/virtio.c         | 7 +++++++
+ include/hw/virtio/virtio.h | 6 ++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 9f5c59ece1..0e3f7923cf 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -618,11 +618,11 @@ static int mirror_exit_common(Job *job)
- {
-     MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
-     BlockJob *bjob = &s->common;
--    MirrorBDSOpaque *bs_opaque = s->mirror_top_bs->opaque;
-+    MirrorBDSOpaque *bs_opaque;
-     AioContext *replace_aio_context = NULL;
--    BlockDriverState *src = s->mirror_top_bs->backing->bs;
--    BlockDriverState *target_bs = blk_bs(s->target);
--    BlockDriverState *mirror_top_bs = s->mirror_top_bs;
-+    BlockDriverState *src;
-+    BlockDriverState *target_bs;
-+    BlockDriverState *mirror_top_bs;
-     Error *local_err = NULL;
-     bool abort = job->ret < 0;
-     int ret = 0;
-@@ -632,6 +632,11 @@ static int mirror_exit_common(Job *job)
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index a94ea18a9c..7c3822c3a0 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2287,6 +2287,13 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
      }
-     s->prepared = true;
+     rcu_read_unlock();
  
-+    mirror_top_bs = s->mirror_top_bs;
-+    bs_opaque = mirror_top_bs->opaque;
-+    src = mirror_top_bs->backing->bs;
-+    target_bs = blk_bs(s->target);
++    if (vdc->post_load) {
++        ret = vdc->post_load(vdev);
++        if (ret) {
++            return ret;
++        }
++    }
 +
-     if (bdrv_chain_contains(src, target_bs)) {
-         bdrv_unfreeze_backing_chain(mirror_top_bs, target_bs);
-     }
+     return 0;
+ }
+ 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b189788cb2..f9f62370e9 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -158,6 +158,12 @@ typedef struct VirtioDeviceClass {
+      */
+     void (*save)(VirtIODevice *vdev, QEMUFile *f);
+     int (*load)(VirtIODevice *vdev, QEMUFile *f, int version_id);
++    /* Post load hook in vmsd is called early while device is processed, and
++     * when VirtIODevice isn't fully initialized.  Devices should use this instead,
++     * unless they specifically want to verify the migration stream as it's
++     * processed, e.g. for bounds checking.
++     */
++    int (*post_load)(VirtIODevice *vdev);
+     const VMStateDescription *vmsd;
+ } VirtioDeviceClass;
+ 
 -- 
 2.17.1
 
