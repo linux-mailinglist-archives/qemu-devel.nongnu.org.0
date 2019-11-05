@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF16F01ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 16:53:56 +0100 (CET)
-Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0CCF01F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 16:55:02 +0100 (CET)
+Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS19W-00066g-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 10:53:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43658)
+	id 1iS1Ab-0007Ab-LI
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 10:55:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iS14n-0001AF-KU
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:49:02 -0500
+ (envelope-from <stefanha@gmail.com>) id 1iS18b-0005jc-Fs
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:52:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iS14l-0005bH-TE
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:49:01 -0500
-Resent-Date: Tue, 05 Nov 2019 10:49:01 -0500
-Resent-Message-Id: <E1iS14l-0005bH-TE@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21881)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iS14l-0005XF-Kw; Tue, 05 Nov 2019 10:48:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1572968881; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=eJ9z/nzx+qocDS1/hVg1RjdT5pPQayO8jfNG0wmC0ThRJYZ7P72l3JmRBJ1ZdZEHRmriiF84ijsvhPyPjJqnu3FDI416GgEuFIKs0IDYz24GDw8aTtxTuKshFaDquFNU1EY4xtdvFzHfJdbXIyrXMnwDaXm8gdlau9C+bf8tGgk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1572968881;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Q4x+f/wmgD9+wgoUiUJ4DR7Cp7vYJwT7GTGmcDOH6zY=; 
- b=cQ0WAsCaFuOLBq8PNph0CEhyWq4TQi/q8CyUycWlbtuyZ3ie/cUDPvvSsVAto/LHkZ2kc5yN3MswAqA/Luu6uvrSvyC93CFjwGCyfC2jPPfOxJ7zfcY6dkIsIzMCOe2qGWFdkbjOlgc/RQJcf+IGU5XjcLKY2QEmblWT9Cae0PU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1572968880683579.3517686475908;
- Tue, 5 Nov 2019 07:48:00 -0800 (PST)
-In-Reply-To: <20191105144247.10301-1-laurent@vivier.eu>
-Subject: Re: [PULL 0/4] Trivial branch patches
-Message-ID: <157296887817.27285.13935693519835086344@37313f22b938>
+ (envelope-from <stefanha@gmail.com>) id 1iS18a-0007tj-Cg
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 10:52:57 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35843)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1iS18Y-0007sB-1S; Tue, 05 Nov 2019 10:52:54 -0500
+Received: by mail-wm1-x344.google.com with SMTP id c22so20718233wmd.1;
+ Tue, 05 Nov 2019 07:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0fSfe/VKBKgwyIC+LveqryTN02qwOVl38OfU5ASdO8U=;
+ b=tgHv11s88M1HlijE/HRFqQGXNJyf3FpXuvNKgZ5F4OE/9qZBxRK1HFQVbCzDozKMXz
+ Gx7jB9zq9HDZmTXZlZ9CrrO7xu5W1SynQzBpwqdVpt9A7WejZHNvguZmWSy6oL+yx95X
+ E+tJd3qjlHU+3HhKpIddjg5Du7l/Uje5aiN3aXf1RH4XLqkWtjBePbvdVFi10I7vCDow
+ bDuFJenef7iBr6tdMsOijgymUkwsvcJtbcMQEwBddWyoIpWA0lO1Ah0ECsYQUnZz9h6J
+ T4QnIY4fSNY/GgglPa9gj4djaYejxNdA2C4tAt06zyb+R8Ib5PX6/J4VUdF4pxl40+8r
+ qPEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0fSfe/VKBKgwyIC+LveqryTN02qwOVl38OfU5ASdO8U=;
+ b=Gmaq6neCEbrbAXaO6/2rACTcgv3d3kmHBo+g1+Gb7W4o/vjbApQxNeyKPbaDPaUUoh
+ E9j3GPK9UV6P3uFVtaIlsw4U4l9hfOJ3c1PtkIlEwXYqjrr8vDdp+V5KdrcAt6cc8Omf
+ 85jP+Y3DUJF2OIW2j/orLEiFRcfDkIjbzg+bAOBV3/MX2vZnO9nc6tNa6KdW8IZ5WuL2
+ 0KlfZceFg1PoT/8OZNQwEYRg4tIKva21qTLt2XtHBk77eJ9S5muU/VjNBTbh2zPvSHrX
+ IiGMvTXi5B/qs/jVJEmoIPsCNWxg76cppSmbe9m9OSZ/ah7pNfaRdnU8gvu5maQzeIJ8
+ uzew==
+X-Gm-Message-State: APjAAAXXkAZUpSZUl7WInwDaIULo7bMYozi7Uctom4pU5d03XRdg6QAr
+ 8VUIGyCN0Bx56sD1mhREUwI=
+X-Google-Smtp-Source: APXvYqzaA2y3bX4TcifMg2NUH6nvoXz0ui9Dx2sZDEjAaaaXB636n3NCzPQLvnjfrgfQdFVxFIT+7A==
+X-Received: by 2002:a1c:9d07:: with SMTP id g7mr4870658wme.53.1572969172601;
+ Tue, 05 Nov 2019 07:52:52 -0800 (PST)
+Received: from localhost (91.141.1.3.wireless.dyn.drei.com. [91.141.1.3])
+ by smtp.gmail.com with ESMTPSA id x205sm27591252wmb.5.2019.11.05.07.52.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 07:52:51 -0800 (PST)
+Date: Tue, 5 Nov 2019 16:52:50 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [RFC PATCH 00/18] Add qemu-storage-daemon
+Message-ID: <20191105155250.GE166646@stefanha-x1.localdomain>
+References: <20191017130204.16131-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: laurent@vivier.eu
-Date: Tue, 5 Nov 2019 07:48:00 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.58
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+JUInw4efm7IfTNU"
+Content-Disposition: inline
+In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,58 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, sstabellini@kernel.org, berrange@redhat.com,
- ehabkost@redhat.com, paul@xen.org, qemu-trivial@nongnu.org, mjt@tls.msk.ru,
- claudio.fontana@huawei.com, qemu-devel@nongnu.org, chouteau@adacore.com,
- laurent@vivier.eu, marcandre.lureau@redhat.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com,
- anthony.perard@citrix.com, pbonzini@redhat.com, david@gibson.dropbear.id.au,
- xen-devel@lists.xenproject.org
+Cc: mreitz@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwNTE0NDI0Ny4xMDMw
-MS0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwLzRdIFRyaXZpYWwgYnJhbmNoIHBhdGNoZXMKVHlw
-ZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkxMTA1MTQ0MjQ3LjEwMzAxLTEtbGF1cmVudEB2aXZp
-ZXIuZXUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
-ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
-IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBh
-IG5ldyBicmFuY2ggJ3Rlc3QnCjg1YWM0NTMgZ2xvYmFsOiBTcXVhc2ggJ3RoZSB0aGUnCjlkZDdk
-YTQgcW9tOiBGaXggZXJyb3IgbWVzc2FnZSBpbiBvYmplY3RfY2xhc3NfcHJvcGVydHlfYWRkKCkK
-MmI3NmI0NSBody9taXNjL2dybGliX2FoYl9hcGJfcG5wOiBGaXggOC1iaXQgYWNjZXNzZXMKYmRk
-Y2ZkOSBody9taXNjL2dybGliX2FoYl9hcGJfcG5wOiBBdm9pZCBjcmFzaCB3aGVuIHdyaXRpbmcg
-dG8gUG5QIHJlZ2lzdGVycwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS80IENoZWNraW5nIGNvbW1p
-dCBiZGRjZmQ5YjZiMjQgKGh3L21pc2MvZ3JsaWJfYWhiX2FwYl9wbnA6IEF2b2lkIGNyYXNoIHdo
-ZW4gd3JpdGluZyB0byBQblAgcmVnaXN0ZXJzKQoyLzQgQ2hlY2tpbmcgY29tbWl0IDJiNzZiNDUx
-ZjliNyAoaHcvbWlzYy9ncmxpYl9haGJfYXBiX3BucDogRml4IDgtYml0IGFjY2Vzc2VzKQozLzQg
-Q2hlY2tpbmcgY29tbWl0IDlkZDdkYTQyMWJmYiAocW9tOiBGaXggZXJyb3IgbWVzc2FnZSBpbiBv
-YmplY3RfY2xhc3NfcHJvcGVydHlfYWRkKCkpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
-ZXJzCiMzMTogRklMRTogcW9tL29iamVjdC5jOjExMDk6CisgICAgICAgIGVycm9yX3NldGcoZXJy
-cCwgImF0dGVtcHQgdG8gYWRkIGR1cGxpY2F0ZSBwcm9wZXJ0eSAnJXMnIHRvIG9iamVjdCAodHlw
-ZSAnJXMnKSIsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNDM6IEZJTEU6IHFv
-bS9vYmplY3QuYzoxMTQxOgorICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJhdHRlbXB0IHRvIGFk
-ZCBkdXBsaWNhdGUgcHJvcGVydHkgJyVzJyB0byBjbGFzcyAodHlwZSAnJXMnKSIsCgp0b3RhbDog
-MCBlcnJvcnMsIDIgd2FybmluZ3MsIDIyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNCBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgo0LzQgQ2hlY2tpbmcgY29tbWl0IDg1YWM0NTNkMTUyMCAoZ2xv
-YmFsOiBTcXVhc2ggJ3RoZSB0aGUnKQpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMK
-IzI2OiBGSUxFOiBkaXNhcy9saWJ2aXhsL3ZpeGwvaW52YWxzZXQuaDoxMDU6CisgIC8vIE5vdGUg
-dGhhdCB0aGlzIGRvZXMgbm90IG1lYW4gdGhlIGJhY2tpbmcgc3RvcmFnZSBpcyBlbXB0eTogaXQg
-Y2FuIHN0aWxsCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDU2IGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDQvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09
-CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
-bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTExMDUxNDQyNDcuMTAzMDEtMS1s
-YXVyZW50QHZpdmllci5ldS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
-YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
-cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
-b20=
 
+--+JUInw4efm7IfTNU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 17, 2019 at 03:01:46PM +0200, Kevin Wolf wrote:
+> This series adds a new tool 'qemu-storage-daemon', which can be used to
+> export and perform operations on block devices. There is some overlap
+> between qemu-img/qemu-nbd and the new qemu-storage-daemon, but there are
+> a few important differences:
+>=20
+> * The qemu-storage-daemon has QMP support. The command set is obviously
+>   restricted compared to the system emulator because there is no guest,
+>   but all of the block operations are present.
+>=20
+>   This means that it can access advanced options or operations that the
+>   qemu-img command line doesn't expose. For example, blockdev-create is
+>   a lot more powerful than 'qemu-img create', and qemu-storage-daemon
+>   allows to execute it without starting a guest.
+>=20
+>   Compared to qemu-nbd it means that, for example, block jobs can now be
+>   executed on the server side, and backing chains shared by multiple VMs
+>   can be modified this way.
+>=20
+> * The existing tools all have a separately invented one-off syntax for
+>   the job at hand, which usually comes with restrictions compared to the
+>   system emulator. qemu-storage-daemon shares the same syntax with the
+>   system emulator for most options and prefers QAPI based interfaces
+>   where possible (such as --blockdev), so it should be easy to make use
+>   of in libvirt.
+>=20
+> * While this series implements only NBD exports, the storage daemon is
+>   intended to serve multiple protocols and its syntax reflects this. In
+>   the past, we had proposals to add new one-off tools for exporting over
+>   new protocols like FUSE or TCMU.
+>=20
+>   With a generic storage daemon, additional export methods have a home
+>   without adding a new tool for each of them.
+
+No comments on the command-line, QAPI, or monitor aspects, but the
+general idea of having a qemu-storage-daemon is likely to be useful.
+
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--+JUInw4efm7IfTNU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3BmtIACgkQnKSrs4Gr
+c8jLEgf/Rhm43KqEJY3V6Up5RYKGY2Y5cWaLa/msBrt2sf8aVXWV1LcbLBqtk/us
+BNmnMlVXARKq2A4XRsvOm14/UzudSG60BewCR201WyPy164B5dGSkqpDyj4jOi1K
+s1zp3vAm1PCFLiBidmpTOxd/iBirmSBoz7Ilbsz5OFHDSxbri5mtwsO01yFwAUOC
+ShYUK1YfJF7aMX0Hirt40qtCDU6UCfSe+Sht9MRRZdlkOzH7kcZOqh78ndngHHMy
+Y5ITCWRK+Mwj5mgIqpPwWxPmTlBFgFdhy8qxJWLUGwYDZ4UpqIk8t/5+8y0pyKzO
+fXjzVQD+6e/miLo9IpVTtVLYVpv3hQ==
+=NDiH
+-----END PGP SIGNATURE-----
+
+--+JUInw4efm7IfTNU--
 
