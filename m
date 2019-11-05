@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD3DF07A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:05:33 +0100 (CET)
-Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3C6F0850
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:29:20 +0100 (CET)
+Received: from localhost ([::1]:50332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS615-0005cQ-MV
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:05:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58209)
+	id 1iS6O6-0003qk-Qv
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:29:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p2-0000Kh-C8
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:05 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qW-0002bc-VJ
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p1-0001x4-1s
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:04 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61116
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qV-00038i-SN
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:36 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44200)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5p0-0001wg-Su; Tue, 05 Nov 2019 15:53:02 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1iS5qV-00038Z-JW; Tue, 05 Nov 2019 15:54:35 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpYvk040582; Tue, 5 Nov 2019 15:53:02 -0500
+ xA5KsTjN043541; Tue, 5 Nov 2019 15:54:34 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3eegm8kq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8ma-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:02 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kr1KW043918;
- Tue, 5 Nov 2019 15:53:02 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3eegm8kf-1
+ Tue, 05 Nov 2019 15:54:34 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KsX6m043761;
+ Tue, 5 Nov 2019 15:54:33 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8fc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:01 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knuj6017448;
- Tue, 5 Nov 2019 20:53:01 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 2w11e7185h-1
+ Tue, 05 Nov 2019 15:54:33 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Ko1uC006047;
+ Tue, 5 Nov 2019 20:53:02 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 2w11e7hgc4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:01 +0000
+ Tue, 05 Nov 2019 20:53:02 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kr0GO37880314
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5Kr1tM39518652
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:00 GMT
+ Tue, 5 Nov 2019 20:53:01 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C321F124054;
- Tue,  5 Nov 2019 20:53:00 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4F9F4124054;
+ Tue,  5 Nov 2019 20:53:01 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1566124052;
- Tue,  5 Nov 2019 20:53:00 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3D769124052;
+ Tue,  5 Nov 2019 20:53:01 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:00 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:01 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/55] curl: Keep *socket until the end of curl_sock_cb()
-Date: Tue,  5 Nov 2019 14:52:12 -0600
-Message-Id: <20191105205243.3766-25-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 25/55] curl: Check completion in curl_multi_do()
+Date: Tue,  5 Nov 2019 14:52:13 -0600
+Message-Id: <20191105205243.3766-26-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -71,12 +70,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,57 +93,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-This does not really change anything, but it makes the code a bit easier
-to follow once we use @socket as the opaque pointer for
-aio_set_fd_handler().
+While it is more likely that transfers complete after some file
+descriptor has data ready to read, we probably should not rely on it.
+Better be safe than sorry and call curl_multi_check_completion() in
+curl_multi_do(), too, just like it is done in curl_multi_read().
 
-Cc: qemu-stable@nongnu.org
+With this change, curl_multi_do() and curl_multi_read() are actually the
+same, so drop curl_multi_read() and use curl_multi_do() as the sole FD
+handler.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190910124136.10565-3-mreitz@redhat.com
+Message-id: 20190910124136.10565-4-mreitz@redhat.com
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 007f339b1099af46a008dac438ca0943e31dba72)
+(cherry picked from commit 948403bcb1c7e71dcbe8ab8479cf3934a0efcbb5)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/curl.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ block/curl.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/block/curl.c b/block/curl.c
-index 92dc2f630e..95d7b77dc0 100644
+index 95d7b77dc0..5838afef99 100644
 --- a/block/curl.c
 +++ b/block/curl.c
-@@ -172,10 +172,6 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
+@@ -139,7 +139,6 @@ typedef struct BDRVCURLState {
  
-     QLIST_FOREACH(socket, &state->sockets, next) {
-         if (socket->fd == fd) {
--            if (action == CURL_POLL_REMOVE) {
--                QLIST_REMOVE(socket, next);
--                g_free(socket);
--            }
-             break;
-         }
-     }
-@@ -185,7 +181,6 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
-         socket->state = state;
-         QLIST_INSERT_HEAD(&state->sockets, socket, next);
-     }
--    socket = NULL;
+ static void curl_clean_state(CURLState *s);
+ static void curl_multi_do(void *arg);
+-static void curl_multi_read(void *arg);
  
-     trace_curl_sock_cb(action, (int)fd);
+ #ifdef NEED_CURL_TIMER_CALLBACK
+ /* Called from curl_multi_do_locked, with s->mutex held.  */
+@@ -186,7 +185,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
      switch (action) {
-@@ -207,6 +202,11 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
+         case CURL_POLL_IN:
+             aio_set_fd_handler(s->aio_context, fd, false,
+-                               curl_multi_read, NULL, NULL, state);
++                               curl_multi_do, NULL, NULL, state);
              break;
-     }
+         case CURL_POLL_OUT:
+             aio_set_fd_handler(s->aio_context, fd, false,
+@@ -194,7 +193,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
+             break;
+         case CURL_POLL_INOUT:
+             aio_set_fd_handler(s->aio_context, fd, false,
+-                               curl_multi_read, curl_multi_do, NULL, state);
++                               curl_multi_do, curl_multi_do, NULL, state);
+             break;
+         case CURL_POLL_REMOVE:
+             aio_set_fd_handler(s->aio_context, fd, false,
+@@ -416,15 +415,6 @@ static void curl_multi_do(void *arg)
+ {
+     CURLState *s = (CURLState *)arg;
  
-+    if (action == CURL_POLL_REMOVE) {
-+        QLIST_REMOVE(socket, next);
-+        g_free(socket);
-+    }
-+
-     return 0;
- }
- 
+-    qemu_mutex_lock(&s->s->mutex);
+-    curl_multi_do_locked(s);
+-    qemu_mutex_unlock(&s->s->mutex);
+-}
+-
+-static void curl_multi_read(void *arg)
+-{
+-    CURLState *s = (CURLState *)arg;
+-
+     qemu_mutex_lock(&s->s->mutex);
+     curl_multi_do_locked(s);
+     curl_multi_check_completion(s->s);
 -- 
 2.17.1
 
