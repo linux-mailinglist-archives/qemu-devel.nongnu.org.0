@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE57EFC9B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 12:44:21 +0100 (CET)
-Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DE1EFCEF
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 13:06:22 +0100 (CET)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRxG0-00018s-TS
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 06:44:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47931)
+	id 1iRxbI-0007Ug-VX
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 07:06:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iRxFC-0000VD-39
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:43:31 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRxaS-0006tr-73
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 07:05:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iRxF9-0000l8-Cg
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:43:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52508
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iRxaP-0008LI-HO
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 07:05:26 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21926
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRxF9-0000kB-7K
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 06:43:27 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRxaP-0008Kr-Cf
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 07:05:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572954206;
+ s=mimecast20190719; t=1572955524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PgRJQiqV3FNADDHldejTg9zJ7QE7pMaqAEQLU5kUZB4=;
- b=fDPxi5jOcBdI7U4qcTScLQx0c4gijkfo+d8xyZU2/5PUAQ2Sfa3oCRMADrdSglyWKFEJRD
- qXbV9gQUzidvEG3leNHrQU9/a5lCE/B/HvqpOomx4WH+Ap9FiV+upghCT1+6BoExZNeECY
- TrZDEhiA1gweY0i8ugxSwsQAb8i43y0=
+ bh=OSq4wVaWgbKSQqmXCpzJTxWsHZE0tPV4Uom0iHXpKDw=;
+ b=LIQg9ho/fNpD39sYBKguLN6FZD4W16IWlQmtFstZrEdmU45vrB9UfeT0p+dGKFatrbNa2O
+ jzyptTRPY4FBspKUA1xMrDbEsaZtZnhC1y7SNjacyUImzB8DXx0KImldx4nJtrWRhv8SM6
+ dBmc+inhjhHy40Ur1YrVFu6gqzdyGOw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-W9H2TWfkPBWGe5Bcts7Lrg-1; Tue, 05 Nov 2019 06:43:22 -0500
-X-MC-Unique: W9H2TWfkPBWGe5Bcts7Lrg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-427-aZKdPTkkPQqEaByg56s92A-1; Tue, 05 Nov 2019 07:05:22 -0500
+X-MC-Unique: aZKdPTkkPQqEaByg56s92A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65DE91800D78;
- Tue,  5 Nov 2019 11:43:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AA44801E54;
+ Tue,  5 Nov 2019 12:05:20 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-117-89.ams2.redhat.com
  [10.36.117.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 471AE19C4F;
- Tue,  5 Nov 2019 11:43:18 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 20/26] qcow2: Update L2 bitmap in
- qcow2_alloc_cluster_link_l2()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DFEF5D72B;
+ Tue,  5 Nov 2019 12:05:14 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 22/26] qcow2: Add subcluster support to
+ handle_alloc_space()
 To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
 References: <cover.1572125022.git.berto@igalia.com>
- <289ea5edc3f1530787c8fe905b1a524cc48945a9.1572125022.git.berto@igalia.com>
+ <fbda07b0459d62445ec3e32c80e1baa7708a1cd7.1572125022.git.berto@igalia.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -74,20 +74,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <389b5cbb-2278-86c1-034a-05621a7b4c71@redhat.com>
-Date: Tue, 5 Nov 2019 12:43:16 +0100
+Message-ID: <205ff5db-cbaf-03a4-8df4-f505bc63ecaa@redhat.com>
+Date: Tue, 5 Nov 2019 13:05:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <289ea5edc3f1530787c8fe905b1a524cc48945a9.1572125022.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <fbda07b0459d62445ec3e32c80e1baa7708a1cd7.1572125022.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Hk6FhbEyFUgJ4rijzWp4GBGU5Yw2g9Y1Y"
+ boundary="Hz8yIfvBPjkkR1rZwe9vlyLJg8F7tgvtR"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,102 +106,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Hk6FhbEyFUgJ4rijzWp4GBGU5Yw2g9Y1Y
-Content-Type: multipart/mixed; boundary="bBNTny1zOnvN4WsByXzS5GhGH7SnWPuxt"
+--Hz8yIfvBPjkkR1rZwe9vlyLJg8F7tgvtR
+Content-Type: multipart/mixed; boundary="H0EtTGy2Et5lhXmLNgyuFxiHRR8yODb6J"
 
---bBNTny1zOnvN4WsByXzS5GhGH7SnWPuxt
+--H0EtTGy2Et5lhXmLNgyuFxiHRR8yODb6J
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 26.10.19 23:25, Alberto Garcia wrote:
-> The L2 bitmap needs to be updated after each write to indicate what
-> new subclusters are now allocated.
+> The bdrv_co_pwrite_zeroes() call here fills complete clusters with
+> zeroes, but it can happen that some subclusters are not part of the
+> write request or the copy-on-write. This patch makes sure that only
+> the affected subclusters are overwritten.
 >=20
-> This needs to happen even if the cluster was already allocated and the
-> L2 entry was otherwise valid.
+> A potential improvement would be to also fill with zeroes the other
+> subclusters if we can guarantee that we are not overwriting existing
+> data. However this would waste more disk space, so we should first
+> evaluate if it's really worth doing.
 >=20
 > Signed-off-by: Alberto Garcia <berto@igalia.com>
 > ---
->  block/qcow2-cluster.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  block/qcow2.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-> index fb6cf8df17..acb7226e03 100644
-> --- a/block/qcow2-cluster.c
-> +++ b/block/qcow2-cluster.c
-> @@ -980,6 +980,22 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs=
-, QCowL2Meta *m)
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 0261e87709..01322ca449 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -2304,6 +2304,9 @@ static int handle_alloc_space(BlockDriverState *bs,=
+ QCowL2Meta *l2meta)
 > =20
->          set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_COPIED |
->                       (cluster_offset + (i << s->cluster_bits)));
-> +
-> +        /* Update bitmap with the subclusters that were just written */
-> +        if (has_subclusters(s)) {
-> +            uint64_t written_from =3D m->cow_start.offset;
-> +            uint64_t written_to =3D m->cow_end.offset + m->cow_end.nb_by=
-tes;
+>      for (m =3D l2meta; m !=3D NULL; m =3D m->next) {
+>          int ret;
+> +        uint64_t start_offset =3D m->alloc_offset + m->cow_start.offset;
+> +        uint64_t nb_bytes =3D m->cow_end.offset + m->cow_end.nb_bytes -
+> +            m->cow_start.offset;
 
-It=E2=80=99s a bit strange to make these uint64_t when all the fields queri=
-ed
-are of type unsigned, but more on that below.
-
-> +            uint64_t l2_bitmap =3D get_l2_bitmap(s, l2_slice, l2_index +=
- i);
-> +            int sc;
-> +            for (sc =3D 0; sc < s->subclusters_per_cluster; sc++) {
-> +                uint64_t sc_off =3D i * s->cluster_size + sc * s->subclu=
-ster_size;
-
-It=E2=80=99s weird to give this a uint64_t type when all the variables in t=
-he
-term are of type int.
-
-I=E2=80=99m not sure whether it can overflow.  handle_alloc() limits everyt=
-hing
-to INT_MAX, but I=E2=80=99m not sure about handle_copied().
-
-Speaking of handle_copied(); both elements of Qcow2COWRegion are of type
-unsigned.  handle_copied() doesn=E2=80=99t look like it takes any precautio=
-ns to
-limit the range to even UINT_MAX (and it should probably limit it to
-INT_MAX).
+It might be more honest to make nb_bytes an unsigned.  (There shouldn=E2=80=
+=99t
+be any overflows here, because the total size is limited to INT64_MAX by
+handle_alloc().)
 
 Max
 
-> +                if (sc_off >=3D written_from && sc_off < written_to) {
-> +                    l2_bitmap |=3D QCOW_OFLAG_SUB_ALLOC(sc);
-> +                    l2_bitmap &=3D ~QCOW_OFLAG_SUB_ZERO(sc);
-> +                }
-> +            }
-> +            set_l2_bitmap(s, l2_slice, l2_index + i, l2_bitmap);
-> +        }
->       }
-> =20
-> =20
->=20
+>          if (!m->cow_start.nb_bytes && !m->cow_end.nb_bytes) {
+>              continue;
 
 
+--H0EtTGy2Et5lhXmLNgyuFxiHRR8yODb6J--
 
---bBNTny1zOnvN4WsByXzS5GhGH7SnWPuxt--
-
---Hk6FhbEyFUgJ4rijzWp4GBGU5Yw2g9Y1Y
+--Hz8yIfvBPjkkR1rZwe9vlyLJg8F7tgvtR
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3BYFQACgkQ9AfbAGHV
-z0A6BQgArt5BGXfPJ/A2ZunPyIrwv1RA+y07M1nqllUFcMoAqQV+r4YSk9G4eO29
-PSjvzEfmD3xWAmnw8ILT4cutjwZ6zOKOkgh0IjGyf4V9RzmRtlDdGGhkKYIk5Gxa
-yWU8YBDG12H2CZi/215S5MwpoKonOAGep8JALf19AmhJlR7CaydZ5dnozflZOnhs
-pgDxtWSUNWOXHYUyDS3Rj2hWEWauJBSiH9LmzfkD+wgGknUV7HOfTbdXGW9z47WP
-6qz/Y3AA6FbMm+mDRT3LpB3GdOtf1IwEUDga6OJY0J5Wij1x36ALwB6szridA0Jy
-jEtL4MxQgew9WalFdRZhr9TGkbhu3g==
-=YmOt
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3BZXgACgkQ9AfbAGHV
+z0ArvQgAqO4r+OiEITYVz0hXv50UmB4OqSVScs8xaMjavUQeiKof+5xCQ21PdpSH
+8oaJTUZtk25Tjg7G9m/XXwa4YKmm4KKQHK0kXXUiXuYSZoe+DYHOxuiWFzAjp+pt
+cm4AdzyDkFwNlMl3YMpmgOIOrqPBXdXK1kkSckm6AhYF8kxdo31ri4xGY3dzYydg
+XxZJIWiF6PyZCmRvkt86GlJFINBoH2k+lq24j2sgGPnQaDDLcmobMuVK3FYTxmcc
+V4AiKcfpkYo/ymAGTgXpikLO69g6EFv5NL9BNPFf5JGt+Sq+chCAkWlGMVTmr13w
+2q05L8Zwjaev9PuXnahGR7EfNvubjQ==
+=uxpq
 -----END PGP SIGNATURE-----
 
---Hk6FhbEyFUgJ4rijzWp4GBGU5Yw2g9Y1Y--
+--Hz8yIfvBPjkkR1rZwe9vlyLJg8F7tgvtR--
 
 
