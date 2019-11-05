@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3904DF07E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:12:53 +0100 (CET)
-Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A0BF0794
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:02:44 +0100 (CET)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS68B-000810-N3
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:12:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1iS5yM-0002N2-74
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:02:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p8-0000WC-LF
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:11 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p1-0000Jq-SQ
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p7-00022B-Dd
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:10 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17826
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p0-0001wb-Jf
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:03 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50824
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5p7-00021t-8q; Tue, 05 Nov 2019 15:53:09 -0500
+ id 1iS5p0-0001wG-FE; Tue, 05 Nov 2019 15:53:02 -0500
 Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpYpV133354; Tue, 5 Nov 2019 15:53:01 -0500
+ xA5KpX77133258; Tue, 5 Nov 2019 15:53:02 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3n6-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3nh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:01 -0500
 Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kpc2N133605;
- Tue, 5 Nov 2019 15:53:00 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3ms-1
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kr1AN136631;
+ Tue, 5 Nov 2019 15:53:01 -0500
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w3engv3n5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:00 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvDL025654;
+ Tue, 05 Nov 2019 15:53:01 -0500
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnuO5005612;
  Tue, 5 Nov 2019 20:53:00 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797wn-1
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2w11e7983r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 20:53:00 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kqxml46268710
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5Kr0dp49414578
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:52:59 GMT
+ Tue, 5 Nov 2019 20:53:00 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6FFF124054;
- Tue,  5 Nov 2019 20:52:59 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 43D7C124054;
+ Tue,  5 Nov 2019 20:53:00 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A4E8012405C;
- Tue,  5 Nov 2019 20:52:59 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 30DE5124052;
+ Tue,  5 Nov 2019 20:53:00 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:52:59 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:00 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/55] block/nfs: tear down aio before nfs_close
-Date: Tue,  5 Nov 2019 14:52:10 -0600
-Message-Id: <20191105205243.3766-23-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 23/55] curl: Keep pointer to the CURLState in CURLSocket
+Date: Tue,  5 Nov 2019 14:52:11 -0600
+Message-Id: <20191105205243.3766-24-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
@@ -73,7 +73,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=886 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -88,47 +88,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Lieven <pl@kamp.de>
+From: Max Reitz <mreitz@redhat.com>
 
-nfs_close is a sync call from libnfs and has its own event
-handler polling on the nfs FD. Avoid that both QEMU and libnfs
-are intefering here.
+A follow-up patch will make curl_multi_do() and curl_multi_read() take a
+CURLSocket instead of the CURLState.  They still need the latter,
+though, so add a pointer to it to the former.
 
-CC: qemu-stable@nongnu.org
-Signed-off-by: Peter Lieven <pl@kamp.de>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 601dc6559725f7a614b6f893611e17ff0908e914)
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20190910124136.10565-2-mreitz@redhat.com
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit 0487861685294660b23bc146e1ebd5304aa8bbe0)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/nfs.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ block/curl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index d93241b3bb..2b7a078241 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -390,12 +390,14 @@ static void nfs_attach_aio_context(BlockDriverState *bs,
- static void nfs_client_close(NFSClient *client)
- {
-     if (client->context) {
-+        qemu_mutex_lock(&client->mutex);
-+        aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
-+                           false, NULL, NULL, NULL, NULL);
-+        qemu_mutex_unlock(&client->mutex);
-         if (client->fh) {
-             nfs_close(client->context, client->fh);
-             client->fh = NULL;
-         }
--        aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
--                           false, NULL, NULL, NULL, NULL);
-         nfs_destroy_context(client->context);
-         client->context = NULL;
+diff --git a/block/curl.c b/block/curl.c
+index d4c8e94f3e..92dc2f630e 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -80,6 +80,7 @@ static CURLMcode __curl_multi_socket_action(CURLM *multi_handle,
+ #define CURL_BLOCK_OPT_TIMEOUT_DEFAULT 5
+ 
+ struct BDRVCURLState;
++struct CURLState;
+ 
+ static bool libcurl_initialized;
+ 
+@@ -97,6 +98,7 @@ typedef struct CURLAIOCB {
+ 
+ typedef struct CURLSocket {
+     int fd;
++    struct CURLState *state;
+     QLIST_ENTRY(CURLSocket) next;
+ } CURLSocket;
+ 
+@@ -180,6 +182,7 @@ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
+     if (!socket) {
+         socket = g_new0(CURLSocket, 1);
+         socket->fd = fd;
++        socket->state = state;
+         QLIST_INSERT_HEAD(&state->sockets, socket, next);
      }
+     socket = NULL;
 -- 
 2.17.1
 
