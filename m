@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3ECF0475
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 18:54:15 +0100 (CET)
-Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6280F0466
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 18:52:28 +0100 (CET)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS31x-0006Ri-M1
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 12:54:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47156)
+	id 1iS30F-0004Ai-FK
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 12:52:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iS2yb-0002M8-JU
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 12:50:46 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iS2yd-0002O7-HA
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 12:50:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iS2ya-0004XO-IB
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 12:50:45 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:46591)
+ (envelope-from <laurent@vivier.eu>) id 1iS2yc-0004Y7-8g
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 12:50:47 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:35453)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iS2ya-0004Wq-8i; Tue, 05 Nov 2019 12:50:44 -0500
+ id 1iS2yc-0004Xc-0T; Tue, 05 Nov 2019 12:50:46 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MdeOl-1hsREj3xdx-00Zj7B; Tue, 05 Nov 2019 18:50:21 +0100
+ id 1MS4ab-1iLlQr1IPT-00TQkF; Tue, 05 Nov 2019 18:50:22 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/3] Trivial branch patches
-Date: Tue,  5 Nov 2019 18:50:07 +0100
-Message-Id: <20191105175010.2591-1-laurent@vivier.eu>
+Subject: [PULL v2 1/3] hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to
+ PnP registers
+Date: Tue,  5 Nov 2019 18:50:08 +0100
+Message-Id: <20191105175010.2591-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191105175010.2591-1-laurent@vivier.eu>
+References: <20191105175010.2591-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bVlXh+qfacMYAJz0JYhOyV/CyLXAoaePIt05Vn/XxD8LtGnM1tr
- GXXn06EiHaloQjwhDdOWzFLEfaOUmFNry8lZMGSIvXXQY/AvH/MOpXkIPZTpoD8ZWKbZoPT
- AlrpUTkZ2yTxn/w8RnJof5KISGUZwN8ctqeco5tBWFnYqxWmaut/OixibWFpfqCzugpOgUN
- AYjerAX25MByQ9tiRIp9w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FDAFY9f0SXI=:JhUvsvMKENvKfD/dRw9zBJ
- ttvXeWgWtQ0G3bGac4B0To/qcFALz5sKpcxEWnHS29A6okPGDzapmAd/IShQY40J0eMEICMdY
- Hhzf9Hv/Ar5WdBr4nPDRIaV4oXFzDj11D1kGeinxlLF8ATqRqqqj74PKDOkRlbxpWtHB/ZkT9
- h0l6BM+7TbeMhlPykRA9n7cBN85XmNhUbItIeBUQ1dBxKHb3PXojjC/5Nd52kLo3cuiDG+qwW
- i0yUuL0LyLSmCVL1Phv2oJWmDkJmYpOd30QrCrLfBegwku/pYcPkGVmvOlQoDqtCBTPuH2Vdc
- avbzYzExQuGDPlqelThcukrRhp1Lf7nRAJ5I397SctfYy90gJ/+JtN/O6rICOOJFxv4Mw0t/w
- /IYZBfO+J9luFhU349T/KwemXsHRilcrTAi4HuXIZSPY9DRifvYs5MC3XQ3HPhYW+mBNYHSz7
- b12PjhLdPJNuVEX1fvuYCi4H4YTsGEJGrMEfqrcuceKOfKtcORLa2YXltU2buGnPX1TSj2ucy
- JByAjDcbOJWiOpjuMwC4M7q6e6pOvehyJnKnkwno1Kg7d4layedaxjcKRBM7WnF12bGxHRVmW
- 1dCHl+goyPjFvWKp85s5wItlIJgeQkPL54xcsKV8kS8cH9i2eZoaoFqzXiy5xgYvi7/4Mir35
- Cd0FJuQPGz6Q0Ec0lmnPkQPoR1+oJr+MMbGx9QNhuDXOzk1W1sXb8XaZrGceyWRfIktYY0mTx
- IKPhbskzE9rR0Rh/mSIF+t6LfpMcmBLSxazfbvNWxQk7F65vUHflTE5Za7e5hoaUV+g2YTSwD
- nyT5Pf5CoiVM0EwhDU/DfgpcBn2lUtSjaRXZyY/LGv71R2E2jhgL/AnOkDtII8BQd5A6X1oS2
- Nm4tEFD373kW4k8ERvB9jzTREmeslEmIZmwsqqXr0=
+X-Provags-ID: V03:K1:xIRSM2QcNuucJtLEhlYRpyW0YjRZeJsUZwbZz0pkdgW0UYo3LqF
+ H3VqTkrZ07U49UA806XDzr3Eju+3GmLsm40n7fx4b0SzVs56y4F+xbyQCPixXFPc5Q3kgIw
+ EY0j5y8UkYd5jzWOpVGbpISd6LfX6AOdxr175i30dnhQaF4Tim81ZAQcG9k2DA5PhoxKHze
+ nBr5mcduF/rlk8MasQWLg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+7GRlHCA3/U=:3wOwnQgqgieEE2UdVEQkBf
+ AxFgA2QCER1KmhRTkqiCowOTDjBEHT4p2OJhihJVW4HDKwO9JRZu3zMNaMu+K8l925y4sU/oq
+ tq6brI+MKJ0OWG1UjN5u5U4KphyWdBBVPZVomvckUNPB6O4hfs8nTkQAM4yuDyoqfPLUITO1F
+ lFgUEMy1Sjo7mXi+QoWkF+rruNbYZTOtL2nzQw3W5l3Jvs5NxauTbs6A3iihSn7luS3wptloE
+ BfAwrpiXClbcca518oryCGE944yV+vrYd0HJVNt9AWpFl0bKLvGuP4jtWo1v/qy/XDxQvUpFr
+ j1sz9qF5aTU/u42lDa+YxPfxAqltPozm1ooO0yXHOu7ET1q7pDoFy/fhwhOFknTkYKUogzmzR
+ rmD3j/IPjFsZHxCvnDbpzabNoxAvTiLpI3niJeLjojzjSqKgsphJrMl3FFykSTfwiavWzxahn
+ yh8uIH+1n6COxaqx60fSXDu6zz/2M17c+G1zFRfkEarEt20g1BhWWKX4+8wSyqXIF3FHz6kZ0
+ LSKjML7WmHEs8oNCzK6hdBTPUGl+LKH5UjwXoen1QojU7dhhEertzAQQJC6d6h2Ve5AcVM0GC
+ qsR77WK7kwyudeZW2+qxomkznEFN6mAcqlNO045GqQ+eTc52iP9Ch8lu5m04350pl1WsiAEGe
+ 4XvlTTPWL8x9eqzkq4/NaRm7k+o34TkBhu+a7UoBySqTv4KGZZA2sMUlMbtjcvL/kIQ8JZwzc
+ NbBoebBQrF0lC/hmPxWPOH0uOShbJZJFX9xgxvpUHm+4zkyI1okfvWFQBNK2O4jy+zCIPWViL
+ bpwnT7JgeXZ1VHg8iQwGja8Lxq52IGp4X8Mnit8BxNRFnWCB7Wk7iPti+7zZHos3EKRHOvaYS
+ N1CjbUT9twQNk3pBFKqsHEwjeLP4r/zwfcikmNwjY=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +77,70 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-sf1' into staging (2019-11-02 17:59:03 +0000)
+Guests can crash QEMU when writting to PnP registers:
 
-are available in the Git repository at:
+  $ echo 'writeb 0x800ff042 69' | qemu-system-sparc -M leon3_generic -S -bios /etc/magic -qtest stdio
+  [I 1571938309.932255] OPENED
+  [R +0.063474] writeb 0x800ff042 69
+  Segmentation fault (core dumped)
 
-  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+  (gdb) bt
+  #0  0x0000000000000000 in  ()
+  #1  0x0000555f4bcdf0bc in memory_region_write_with_attrs_accessor (mr=0x555f4d7be8c0, addr=66, value=0x7fff07d00f08, size=1, shift=0, mask=255, attrs=...) at memory.c:503
+  #2  0x0000555f4bcdf185 in access_with_adjusted_size (addr=66, value=0x7fff07d00f08, size=1, access_size_min=1, access_size_max=4, access_fn=0x555f4bcdeff4 <memory_region_write_with_attrs_accessor>, mr=0x555f4d7be8c0, attrs=...) at memory.c:539
+  #3  0x0000555f4bce2243 in memory_region_dispatch_write (mr=0x555f4d7be8c0, addr=66, data=69, op=MO_8, attrs=...) at memory.c:1489
+  #4  0x0000555f4bc80b20 in flatview_write_continue (fv=0x555f4d92c400, addr=2148528194, attrs=..., buf=0x7fff07d01120 "E", len=1, addr1=66, l=1, mr=0x555f4d7be8c0) at exec.c:3161
+  #5  0x0000555f4bc80c65 in flatview_write (fv=0x555f4d92c400, addr=2148528194, attrs=..., buf=0x7fff07d01120 "E", len=1) at exec.c:3201
+  #6  0x0000555f4bc80fb0 in address_space_write (as=0x555f4d7aa460, addr=2148528194, attrs=..., buf=0x7fff07d01120 "E", len=1) at exec.c:3291
+  #7  0x0000555f4bc8101d in address_space_rw (as=0x555f4d7aa460, addr=2148528194, attrs=..., buf=0x7fff07d01120 "E", len=1, is_write=true) at exec.c:3301
+  #8  0x0000555f4bcdb388 in qtest_process_command (chr=0x555f4c2ed7e0 <qtest_chr>, words=0x555f4db0c5d0) at qtest.c:432
 
-for you to fetch changes up to e187e55ec65039ed6bd982debee632450ace3bae:
+Instead of crashing, log the access as unimplemented.
 
-  global: Squash 'the the' (2019-11-05 18:39:14 +0100)
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Message-Id: <20191025110114.27091-2-philmd@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/misc/grlib_ahb_apb_pnp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-----------------------------------------------------------------
-Trivial fixes (20191105-v2)
-
-----------------------------------------------------------------
-
-Dr. David Alan Gilbert (1):
-  global: Squash 'the the'
-
-Philippe Mathieu-Daudé (2):
-  hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to PnP registers
-  hw/misc/grlib_ahb_apb_pnp: Fix 8-bit accesses
-
- disas/libvixl/vixl/invalset.h       |  2 +-
- docs/interop/pr-helper.rst          |  2 +-
- docs/specs/ppc-spapr-hotplug.txt    |  2 +-
- docs/specs/ppc-xive.rst             |  2 +-
- docs/specs/tpm.txt                  |  2 +-
- hw/misc/grlib_ahb_apb_pnp.c         | 12 ++++++++++++
- include/hw/xen/interface/io/blkif.h |  2 +-
- scripts/dump-guest-memory.py        |  2 +-
- 8 files changed, 19 insertions(+), 7 deletions(-)
-
+diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index 7338461694c9..f3c015d2c35f 100644
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -22,6 +22,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "hw/sysbus.h"
+ #include "hw/misc/grlib_ahb_apb_pnp.h"
+ 
+@@ -231,8 +232,15 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     return apb_pnp->regs[offset >> 2];
+ }
+ 
++static void grlib_apb_pnp_write(void *opaque, hwaddr addr,
++                                uint64_t val, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++}
++
+ static const MemoryRegionOps grlib_apb_pnp_ops = {
+     .read       = grlib_apb_pnp_read,
++    .write      = grlib_apb_pnp_write,
+     .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
 -- 
-v2: remove patch from Greg that has lines with more than 80 columns
 2.21.0
 
 
