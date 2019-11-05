@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92005F04CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:15:42 +0100 (CET)
-Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2D6F04F7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:21:48 +0100 (CET)
+Received: from localhost ([::1]:47229 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS3Mj-0002Ht-9V
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:15:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52034)
+	id 1iS3Sd-0000S1-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:21:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iS3Ir-0005xC-Sl
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:42 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iS3Iw-00065N-9S
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iS3Iq-0004hM-NH
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:41 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:37767)
+ (envelope-from <laurent@vivier.eu>) id 1iS3Iv-0004l1-4D
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:46 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:52091)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3Iq-0004gG-47
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:40 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3Iu-0004kT-Qs
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:45 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N6bwO-1hsB6j20XG-0180M3; Tue, 05 Nov 2019 19:11:31 +0100
+ id 1MoOpq-1i83Z60YPY-00op4j; Tue, 05 Nov 2019 19:11:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/13] linux-user/sparc: Use WREG_SP constant in sparc/signal.c
-Date: Tue,  5 Nov 2019 19:11:13 +0100
-Message-Id: <20191105181119.26779-8-laurent@vivier.eu>
+Subject: [PULL 08/13] linux-user/sparc: Fix WREG usage in setup_frame
+Date: Tue,  5 Nov 2019 19:11:14 +0100
+Message-Id: <20191105181119.26779-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191105181119.26779-1-laurent@vivier.eu>
 References: <20191105181119.26779-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G1qwgjrVD/d014NPw/Znbc3n9rLZQAeSIeoYcryBJz/i/v6DCpm
- xLG01cL3zJmQtVtIfqtfuAhcQtPWTtU3TrhZDW0Ql/y71wIAg0Eq472DnCnbGvj2KmPF0pV
- NJaw8iJEHiphyG4bD//XL0IvZZVHVkmvvjlija9ngwsM92t5M8k4ekQ//nuugEk1o7djQuc
- VThywpqWFpzvhPgiop/Cg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HJ60+S/KvfU=:RDwwPbS3NLI6V8kSI77lL+
- z+JgxAN+DgTOCYhhPyBulpLAFPut2XzIOETeXJw+86xBosLSXvoXF51l0rfCGRAqkTBENy6Gr
- u+SeLxfUwGIyOEK0pMbdDjEUdx3obQsZsrw9G3duQ48iBSPa94ia9dJv6QIWjOUlgfJSGya9I
- qb0yhw5sUUh5L4SxljXCyKwVQbwQ+wsUj/nEZHwVSiEMUbfB2zfA24pCRYon0NZVAI8mmFefI
- UoVHtzpsw/GPRh7v9ISniCPTR2aU9TyreWND9OgRkPcmvpPrfUjwBXDuzg8Pr75bYYoLFLIGj
- EeYgCllFgum2G1KEvX25rYnZLn3LpJ/GVYQpqM5AuveFFcQV0LbSig/Fdjn2fZJQUi+suUPzP
- 27qaoUZH3AXlq8HPVHjrngrq+9JARkPt56EkCseed0jzLbGqnHAi/AEsSCHSwnfByxYcrmEWn
- LdFb7LJpZQ9u+j5bVj6F/5fyEKNdKTWhnGFpQWsr8prkoXkV6Vr2lg/6LBjTwRklqJ7vrzcI5
- wkF2C9Fw1VkZM6U/I91Xi5vdCpn0lAHEZAyZqNOHWJ9t64mpWAjc0PVtq/tO4QSM9lIBMbi9l
- vJJ8VXdGbpiHtyh/5Jli6zeY8euyUvAOGscwcNJ5Sfz8FSj+XAZS3zXkkvUGH2SyuSDIeOxbe
- aSj/i5FwR1UUcBCd0I6JF5uGdLIP58Hq+KrkH+pJqVLUo4wusowJ0TUxcqYMgNNq8qkZu2nOQ
- GH6QcYjSKHS0NgCiMbQ79vAxQhj4dNf8pgbUPYS31N15vEecCIbLzVpGZUrSqsTzs/CGMWM3S
- tuHJecfPaEI9R03B5SYi/Y5l0+FnXBrNypcLUOMqaDzcUUOIjiHs2VI22STVfb0fRSb23U/dm
- P+ds1RD7eXSBGa1uFxrA==
+X-Provags-ID: V03:K1:0DoNR5fwugDlgAqxhCD9lhbRLQ2oXfce50dKpyFaWJT51JDiFSK
+ COW20gXNKjeZgykCDzKnyYd4/hjTlVPGDGtQ+mzQSrk7A8SlBOtCV1NtrEbfalEg9zolqgw
+ yOhbEaPyViy50J4E9OXiWvKjmjX8/KCdCuoymVsO904AFnC92o0XYhZ4ycpFS+B3qT9LtgI
+ ONj99oGcaw8X+80lrayAQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gQhxm5rs/Uc=:JNxFxc8YM0iO8rzluI1/q+
+ xvRohACWaykUGoPPgizrKttTlX7NkDW1FS/TKKJSDVPantb8t+ZS+pGB5cnDFlVjtyDeNDKNP
+ 6t94UxT77Xl2zl+wj+/8msC558/XhT3IeuvkLHukw0xglEf08J/uPF5pRcqgUAiyd/OK2n2Qz
+ vjbvIOKO8nwwepPknnpeNj0NpdsbNptXiJ/fNlw598QaQbIfJCtsJDtP+71PHfxmo2e4+RPBy
+ mCn/FTH4bX3cm0B6Xf0p193840OxcmVHKCaReJL3NDNvPLMUe4oAXX+02pb5sM7Ex82y5ZFXz
+ EBfeHYOUUL6CRjSyIUCplRB49phpNc5gDI0bAUxS1M7beGmUbjwWr6JF/d/FFNTn7C4d5TCxW
+ QaPn3gGjaaoQnB7+AnhCU/4kmhxm8OMpA/RON8OC5PPf8YUWSkBXtEBvmv+ak4v1/AKA/3SSO
+ 8wbkqluQWl4W7pXwwBvpPyavxP52MV1s4iQ3WmLiq2ZxJiktU3EDW0e9BW/Hig9znMyys6WBX
+ hQ6tpzrAh8nRpZRP7BJx0X2/3HANwTetD7w1x/BVDWvYjQ1hUEUeeXj/snXMtjTKUzVI8ErNH
+ vK0SYL9nW6ySL1svmfmp6JBEodFdUzl6zmTyinoPpuHKyF2xLaOxG/AKvddaHHibCsc+wsdn3
+ 332udlbUNVRxgqgymNpkFi6rCzZNZv8HTfWykNBQE2S9FmeXnvbSH+3kWxd2ArWX9ZuiJQAXh
+ pA3MmoaloZMktuCssXTxZJHzYrNzgQ3+3RZ5FyAqLONymBuQudam/R1TtfYBGJPtYtLaZevWb
+ euSPD84rC5h0IV4Us2N4cewjQkyDy8hDX1m/O5jIvhPeBYXjyghM+DyfzI+fmtwReXyfrrMHL
+ lT9pYP+/x3oHgdJQbQdg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,55 +76,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-s/UREG_FP/WREG_SP/g
-
-This is non-obvious because the UREG_FP constant is fact wrong.
-However, the previous search-and-replace patch made it clear that
-UREG_FP expands to WREG_O6, and we can see from the enumeration in
-target/sparc/cpu.h that WREG_O6 is in fact WREG_SP, the stack pointer.
-
-The UREG_SP define is unused; remove it.
+Use WREG_I0 not WREG_O0 in order to properly save the "ins".
+The "outs" were saved separately in setup___siginfo.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191025113921.9412-7-richard.henderson@linaro.org>
+Message-Id: <20191025113921.9412-8-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ linux-user/sparc/signal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index a967e2db7307..0db4c5f84fe4 100644
+index 0db4c5f84fe4..efb0df7e2b2d 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -104,9 +104,6 @@ struct target_rt_signal_frame {
-     qemu_siginfo_fpu_t  fpu_state;
- };
- 
--#define UREG_FP        WREG_O6
--#define UREG_SP        WREG_I6
--
- static inline abi_ulong get_sigframe(struct target_sigaction *sa, 
-                                      CPUSPARCState *env,
-                                      unsigned long framesize)
-@@ -201,7 +198,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+@@ -192,7 +192,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+         __put_user(env->regwptr[i + WREG_L0], &sf->ss.locals[i]);
+     }
+     for (i = 0; i < 8; i++) {
+-        __put_user(env->regwptr[i + WREG_O0], &sf->ss.ins[i]);
++        __put_user(env->regwptr[i + WREG_I0], &sf->ss.ins[i]);
+     }
+     if (err)
          goto sigsegv;
- 
-     /* 3. signal handler back-trampoline and parameters */
--    env->regwptr[UREG_FP] = sf_addr;
-+    env->regwptr[WREG_SP] = sf_addr;
-     env->regwptr[WREG_O0] = sig;
-     env->regwptr[WREG_O1] = sf_addr +
-             offsetof(struct target_signal_frame, info);
-@@ -255,7 +252,7 @@ long do_sigreturn(CPUSPARCState *env)
-     sigset_t host_set;
-     int i;
- 
--    sf_addr = env->regwptr[UREG_FP];
-+    sf_addr = env->regwptr[WREG_SP];
-     trace_user_do_sigreturn(env, sf_addr);
-     if (!lock_user_struct(VERIFY_READ, sf, sf_addr, 1)) {
-         goto segv_and_exit;
 -- 
 2.21.0
 
