@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDE8F08B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:51:35 +0100 (CET)
-Received: from localhost ([::1]:50662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7532DF088B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:41:21 +0100 (CET)
+Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6je-0004os-4v
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:51:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59074)
+	id 1iS6Zk-0002n4-5n
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:41:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pj-0001Ud-Gb
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:49 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qi-0002ye-6C
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pi-0002X1-92
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:47 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28960
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5qh-0003Gg-1C
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:54:48 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pe-0002Bl-NJ; Tue, 05 Nov 2019 15:53:42 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpYSZ079132; Tue, 5 Nov 2019 15:53:21 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3dfhxm18-1
+ id 1iS5qg-0003Ex-PN; Tue, 05 Nov 2019 15:54:46 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KsTSY043529; Tue, 5 Nov 2019 15:54:46 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8ny-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:21 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnuOM005612;
- Tue, 5 Nov 2019 20:53:20 GMT
+ Tue, 05 Nov 2019 15:54:45 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Ksjrl044854;
+ Tue, 5 Nov 2019 15:54:45 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3e19w8d8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Nov 2019 15:54:44 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvMP025657;
+ Tue, 5 Nov 2019 20:52:52 GMT
 Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 2w11e7985c-1
+ [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797w4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:20 +0000
+ Tue, 05 Nov 2019 20:52:52 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KrKQx52166964
+ xA5KqqUr43647308
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:20 GMT
+ Tue, 5 Nov 2019 20:52:52 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0C19512405E;
- Tue,  5 Nov 2019 20:53:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4BC5212405E;
+ Tue,  5 Nov 2019 20:52:52 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EDFA2124058;
- Tue,  5 Nov 2019 20:53:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 38C3A124052;
+ Tue,  5 Nov 2019 20:52:52 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:19 +0000 (GMT)
+ Tue,  5 Nov 2019 20:52:52 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/55] xen-bus: Fix backend state transition on device reset
-Date: Tue,  5 Nov 2019 14:51:54 -0600
-Message-Id: <20191105205243.3766-7-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 10/55] pr-manager: Fix invalid g_free() crash bug
+Date: Tue,  5 Nov 2019 14:51:58 -0600
+Message-Id: <20191105205243.3766-11-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id xA5KsTSY043529
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,80 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anthony PERARD <anthony.perard@citrix.com>
+From: Markus Armbruster <armbru@redhat.com>
 
-When a frontend wants to reset its state and the backend one, it
-starts with setting "Closing", then waits for the backend (QEMU) to do
-the same.
+pr_manager_worker() passes its @opaque argument to g_free().  Wrong;
+it points to pr_manager_worker()'s automatic @data.  Broken when
+commit 2f3a7ab39be converted @data from heap- to stack-allocated.  Fix
+by deleting the g_free().
 
-But when QEMU is setting "Closing" to its state, it triggers an event
-(xenstore watch) that re-execute xen_device_backend_changed() and set
-the backend state to "Closed". QEMU should wait for the frontend to
-set "Closed" before doing the same.
-
-Before setting "Closed" to the backend_state, we are also going to
-check if there is a frontend. If that the case, when the backend state
-is set to "Closing" the frontend should react and sets its state to
-"Closing" then "Closed". The backend should wait for that to happen.
-
-Fixes: b6af8926fb858c4f1426e5acb2cfc1f0580ec98a
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
-Message-Id: <20190823101534.465-2-anthony.perard@citrix.com>
-(cherry picked from commit cb3231460747552d70af9d546dc53d8195bcb796)
+Fixes: 2f3a7ab39bec4ba8022dc4d42ea641165b004e3e
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit 6b9d62c2a9e83bbad73fb61406f0ff69b46ff6f3)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/xen/xen-bus.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ scsi/pr-manager.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 7503eea9e9..5929aa4b2e 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -516,6 +516,23 @@ static void xen_device_backend_set_online(XenDevice *xendev, bool online)
-     xen_device_backend_printf(xendev, "online", "%u", online);
- }
- 
-+/*
-+ * Tell from the state whether the frontend is likely alive,
-+ * i.e. it will react to a change of state of the backend.
-+ */
-+static bool xen_device_state_is_active(enum xenbus_state state)
-+{
-+    switch (state) {
-+    case XenbusStateInitWait:
-+    case XenbusStateInitialised:
-+    case XenbusStateConnected:
-+    case XenbusStateClosing:
-+        return true;
-+    default:
-+        return false;
-+    }
-+}
-+
- static void xen_device_backend_changed(void *opaque)
- {
-     XenDevice *xendev = opaque;
-@@ -539,11 +556,11 @@ static void xen_device_backend_changed(void *opaque)
- 
-     /*
-      * If the toolstack (or unplug request callback) has set the backend
--     * state to Closing, but there is no active frontend (i.e. the
--     * state is not Connected) then set the backend state to Closed.
-+     * state to Closing, but there is no active frontend then set the
-+     * backend state to Closed.
-      */
-     if (xendev->backend_state == XenbusStateClosing &&
--        xendev->frontend_state != XenbusStateConnected) {
-+        !xen_device_state_is_active(state)) {
-         xen_device_backend_set_state(xendev, XenbusStateClosed);
-     }
- 
--- 
+diff --git a/scsi/pr-manager.c b/scsi/pr-manager.c
+index ee43663576..0c866e8698 100644
+--- a/scsi/pr-manager.c
++++ b/scsi/pr-manager.c
+@@ -39,7 +39,6 @@ static int pr_manager_worker(void *opaque)
+     int fd =3D data->fd;
+     int r;
+=20
+-    g_free(data);
+     trace_pr_manager_run(fd, hdr->cmdp[0], hdr->cmdp[1]);
+=20
+     /* The reference was taken in pr_manager_execute.  */
+--=20
 2.17.1
 
 
