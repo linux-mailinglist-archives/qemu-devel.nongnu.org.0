@@ -2,106 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3ECF08E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 23:02:45 +0100 (CET)
-Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF69F0926
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 23:13:27 +0100 (CET)
+Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6uR-0007WN-IK
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 17:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53496)
+	id 1iS74o-0001UB-83
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 17:13:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iS6m5-0000QP-VC
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:54:07 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iS6yt-0004m7-A2
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:07:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iS6m4-0003x2-D9
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:54:05 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:53765)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS6m4-0003v8-2M
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:54:04 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MwPjf-1hbvQR3EZh-00sM8x; Tue, 05 Nov 2019 22:53:58 +0100
-To: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- qemu-devel@nongnu.org
-References: <20191102171511.31881-1-laurent@vivier.eu>
- <20191102171511.31881-3-laurent@vivier.eu>
- <b357fb5d-bae2-5ab0-7c63-4f7106fb8c4e@reactos.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PATCH 2/3] dp8393x: fix dp8393x_receive()
-Message-ID: <74333772-6574-2f56-df2c-e7ab48773996@vivier.eu>
-Date: Tue, 5 Nov 2019 22:53:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <no-reply@patchew.org>) id 1iS6yq-00060r-Ve
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:07:18 -0500
+Resent-Date: Tue, 05 Nov 2019 17:07:18 -0500
+Resent-Message-Id: <E1iS6yq-00060r-Ve@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21427)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iS6yp-0005yB-1r
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 17:07:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1572991604; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=VIK5cykr0fr5vvraWIYKJHlflGtPj7omNtrnKhP3nT7piJBwVs97VLB/6eO34HWzciLP8c5cExqmuxEjUfdsM32rAPqAo535AI+qDtbxpDAgn/kVAIR9fy0ec45pnJZSrfw5vQ6t+m89eTt6u/lEWcJRSBDe6/gmyHY+4OrtJTk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1572991604;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=ww9Pn+TDWQ8dEVQ9UGglpG+oKi9pWelA9D66ZIxSGgE=; 
+ b=fo9DuMp4rcaYmCsb85FieQJiGbLPKEgdp3gX6M7pQCoLZD32qiKaeqaUgJ7P9ArcnMfC1fjB2TSDUfBE3uj8AiURe5QOBaeWRsMvApPTrrIuPjeGX5x1lf9To1dAJui8iRSi+tjw/iwIMTaEhErigN8eFSrC9txKtGkT2DGcox4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1572991601732808.8740265250677;
+ Tue, 5 Nov 2019 14:06:41 -0800 (PST)
+In-Reply-To: <20191105181119.26779-1-laurent@vivier.eu>
+Subject: Re: [PULL 00/13] Linux user for 4.2 patches
+Message-ID: <157299160056.27285.4050632174467978305@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <b357fb5d-bae2-5ab0-7c63-4f7106fb8c4e@reactos.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NT5ntSPKBxeFugi08pXNk28BnrScpL+G4BqH6b2rso7HtT/XdTy
- SAHcPKTbHXISqAexSrYNi6Dg3iXjkKBmgohI3g8Pf62QsL7hsmpQGZh6bMnkMiXOjQjG9nW
- u7GNUT/E5VvrRtYwsFHbmM77u5jwsxC6QFeNs4yQpSMOxiU3MVYevmXNAa51EUr1nnAce0r
- C/EkIkTQDcdTeX4CVIUlQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XCbpBZLg8LU=:fxtRW6QFAGbCQidquySU0M
- cE9nq+QYdu9wffxx6oOCiQzPUkc88/h6t3lIE5WESeBvT+HtU8hC2C+VawoR5bN4f87hPYl6X
- KqR+K38h9PdXTi+btMC1A5p0DIvEUYvkJMr0RpCKlSOOYdwOwZihm+wW7QiW1M/NEm5Rq3hwq
- 3pHv3lU1f/S066zJrnMhxN/lD5PKMROb12yURkWCG1FD7ONcQQaNgv+jqmW+zaNi1aejle9en
- 30nS71aho8MsQC5FKclzG1oxlLlAiY2qpmz+129inT4+wTWwZtOzAuecveC4g0/tF5Fh6MnyU
- iNP9qAKRtWLisRUyW/tD7KGXEEPJqAqyHEnqxodv+Z7pmuvyLMcWQLQ75/a2XcDQKNgUsHf2j
- eNorTWp3WHt9zmdz249RZDtbqdZzSeyTzRf6wMN4fttcrSBAN+GshEUw7JLhnqCMrNwlM6C8z
- gvzS4h6OU4azztvdIQL0/WeHsIUoZXX3xqKjzd7wQzEmg2dJ90fzFwo6HAYMFUOqbVK0Me2vt
- oJAObaK7sA2/+IK0ZXvNWbxGWBlM0g0azv56fb7R/guPpzF85kk5OCqj2XigaPghn4sTZd99+
- Xc/ktX8F49fGELSe4UUipOpLffOFnRsGSvjbuIRVDPsprzc17fSIJO0CIft7T4Mpg/ONm4m6g
- bFbxeT7rwtEOkyjsflfVZ8ANejAc/GJZfR2JrYLXtlPXAroAgsXXcPwGJQKR4B5NIdS/K2EmQ
- pf7lb0lGNaGN/70v+m3ddjqnoLGzlzvlhbogshxbzQoRWjFI1fL6LiU3GsZLil3V6biVzoFLf
- kTVsn3PVMAFkXaYuwWaoC5VR+ZEKpHNBYI1m9h0o1UABCkkraT1tRaBCVwLXvmIcfmxVL+Ff5
- Sxrna9gU71ZzASqaG9+No2PeZlL3Kg17veWAcUOe8=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Tue, 5 Nov 2019 14:06:41 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.13
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,107 +64,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: riku.voipio@iki.fi, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ laurent@vivier.eu, alex.bennee@linaro.org, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/11/2019 à 22:06, Hervé Poussineau a écrit :
-> Le 02/11/2019 à 18:15, Laurent Vivier a écrit :
->> address_space_rw() access size must be multiplied by the width.
->>
->> This fixes DHCP for Q800 guest.
->>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>   hw/net/dp8393x.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
->> index 85d3f3788e..b8c4473f99 100644
->> --- a/hw/net/dp8393x.c
->> +++ b/hw/net/dp8393x.c
->> @@ -833,7 +833,7 @@ static ssize_t dp8393x_receive(NetClientState *nc,
->> const uint8_t * buf,
->>       } else {
->>           dp8393x_put(s, width, 0, 0); /* in_use */
->>           address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t)
->> * 6 * width,
->> -            MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data,
->> sizeof(uint16_t), 1);
->> +            MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 1);
->>           s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
->>           s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
->>           s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) |
->> (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
->>
-> 
-> This patch is problematic.
-> The code was initially created with "size".
-> It was changed in 409b52bfe199d8106dadf7c5ff3d88d2228e89b5 to fix
-> networking in NetBSD 5.1.
-> 
-> To test with NetBSD 5.1
-> - boot the installer (arccd-5.1.iso)
-> - choose (S)hell option
-> - "ifconfig sn0 10.0.2.15 netmask 255.255.255.0"
-> - "route add default 10.0.2.2"
-> - networking should work (I test with "ftp 212.27.63.3")
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwNTE4MTExOS4yNjc3
+OS0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwMC8xM10gTGludXggdXNlciBmb3IgNC4yIHBhdGNo
+ZXMKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkxMTA1MTgxMTE5LjI2Nzc5LTEtbGF1cmVu
+dEB2aXZpZXIuZXUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJl
+di1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQg
+Y29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3Bh
+dGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGlu
+ZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9n
+aXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAgIDM2NjA5YjQuLjQxMmZiZWYgIG1hc3Rl
+ciAgICAgLT4gbWFzdGVyClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTY1Zjg0MiBs
+aW51eC11c2VyL2FscGhhOiBTZXQgcjIwIHNlY29uZGFyeSByZXR1cm4gdmFsdWUKYTU5Y2EzYiBs
+aW51eC11c2VyL3NwYXJjOiBGaXggY3B1X2Nsb25lX3JlZ3NfKgowNDZiYTBkIGxpbnV4LXVzZXI6
+IEludHJvZHVjZSBjcHVfY2xvbmVfcmVnc19wYXJlbnQKMWFmZTFiYyBsaW51eC11c2VyOiBSZW5h
+bWUgY3B1X2Nsb25lX3JlZ3MgdG8gY3B1X2Nsb25lX3JlZ3NfY2hpbGQKNzQ4ZGIxZSBsaW51eC11
+c2VyL3NwYXJjNjQ6IEZpeCB0YXJnZXRfc2lnbmFsX2ZyYW1lCjJlOTBjYzggbGludXgtdXNlci9z
+cGFyYzogRml4IFdSRUcgdXNhZ2UgaW4gc2V0dXBfZnJhbWUKNjA4Zjk5NyBsaW51eC11c2VyL3Nw
+YXJjOiBVc2UgV1JFR19TUCBjb25zdGFudCBpbiBzcGFyYy9zaWduYWwuYwoyNzk1MzBiIGxpbnV4
+LXVzZXIvc3BhcmM6IEJlZ2luIHVzaW5nIFdSRUcgY29uc3RhbnRzIGluIHNwYXJjL3NpZ25hbC5j
+CjNkMjc4MzcgbGludXgtdXNlci9zcGFyYzogVXNlIFdSRUcgY29uc3RhbnRzIGluIHNwYXJjL3Rh
+cmdldF9jcHUuaApiMzA0MzdjIHRhcmdldC9zcGFyYzogRGVmaW5lIGFuIGVudW1lcmF0aW9uIGZv
+ciBhY2Nlc3NpbmcgZW52LT5yZWd3cHRyCjEyOGI1MmQgdGVzdHMvdGNnL211bHRpYXJjaC9saW51
+eC10ZXN0OiBGaXggZXJyb3IgY2hlY2sgZm9yIHNobWF0CmU3OGI1ZWMgc2NyaXB0cy9xZW11LWJp
+bmZtdC1jb25mOiBVcGRhdGUgZm9yIHNwYXJjNjQKNWE2YjBmNCBsaW51eC11c2VyOiBTdXBwb3J0
+IGZvciBORVRMSU5LIHNvY2tldCBvcHRpb25zCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzEzIENo
+ZWNraW5nIGNvbW1pdCA1YTZiMGY0NmM2NzAgKGxpbnV4LXVzZXI6IFN1cHBvcnQgZm9yIE5FVExJ
+Tksgc29ja2V0IG9wdGlvbnMpCjIvMTMgQ2hlY2tpbmcgY29tbWl0IGU3OGI1ZWMyODY3ZSAoc2Ny
+aXB0cy9xZW11LWJpbmZtdC1jb25mOiBVcGRhdGUgZm9yIHNwYXJjNjQpCldBUk5JTkc6IGxpbmUg
+b3ZlciA4MCBjaGFyYWN0ZXJzCiMzNjogRklMRTogc2NyaXB0cy9xZW11LWJpbmZtdC1jb25mLnNo
+OjQxOgorc3BhcmM2NF9tYWdpYz0nXHg3ZkVMRlx4MDJceDAyXHgwMVx4MDBceDAwXHgwMFx4MDBc
+eDAwXHgwMFx4MDBceDAwXHgwMFx4MDBceDAyXHgwMFx4MmInCgpFUlJPUjogbGluZSBvdmVyIDkw
+IGNoYXJhY3RlcnMKIzM3OiBGSUxFOiBzY3JpcHRzL3FlbXUtYmluZm10LWNvbmYuc2g6NDI6Citz
+cGFyYzY0X21hc2s9J1x4ZmZceGZmXHhmZlx4ZmZceGZmXHhmZlx4ZmZceDAwXHhmZlx4ZmZceGZm
+XHhmZlx4ZmZceGZmXHhmZlx4ZmZceGZmXHhmZVx4ZmZceGZmJwoKdG90YWw6IDEgZXJyb3JzLCAx
+IHdhcm5pbmdzLCAyMCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzEzIGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCgozLzEzIENoZWNraW5nIGNvbW1pdCAxMjhiNTJkODE2NDUgKHRlc3RzL3RjZy9t
+dWx0aWFyY2gvbGludXgtdGVzdDogRml4IGVycm9yIGNoZWNrIGZvciBzaG1hdCkKNC8xMyBDaGVj
+a2luZyBjb21taXQgYjMwNDM3YzFiNTFmICh0YXJnZXQvc3BhcmM6IERlZmluZSBhbiBlbnVtZXJh
+dGlvbiBmb3IgYWNjZXNzaW5nIGVudi0+cmVnd3B0cikKNS8xMyBDaGVja2luZyBjb21taXQgM2Qy
+NzgzNzEzOWYwIChsaW51eC11c2VyL3NwYXJjOiBVc2UgV1JFRyBjb25zdGFudHMgaW4gc3BhcmMv
+dGFyZ2V0X2NwdS5oKQo2LzEzIENoZWNraW5nIGNvbW1pdCAyNzk1MzBiOWNhZWIgKGxpbnV4LXVz
+ZXIvc3BhcmM6IEJlZ2luIHVzaW5nIFdSRUcgY29uc3RhbnRzIGluIHNwYXJjL3NpZ25hbC5jKQpF
+UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzUyOiBGSUxF
+OiBsaW51eC11c2VyL3NwYXJjL3NpZ25hbC5jOjE1MToKKyAgICAgICAgX19wdXRfdXNlcihlbnYt
+PnJlZ3dwdHJbV1JFR19PMCArIGldLCAmc2ktPnNpX3JlZ3MudV9yZWdzW2krOF0pOwogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQoj
+MTI0OiBGSUxFOiBsaW51eC11c2VyL3NwYXJjL3NpZ25hbC5jOjI5MDoKKyAgICAgICAgX19nZXRf
+dXNlcihlbnYtPnJlZ3dwdHJbaSArIFdSRUdfTzBdLCAmc2YtPmluZm8uc2lfcmVncy51X3JlZ3Nb
+aSs4XSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
+aGF0ICcrJyAoY3R4OlZ4VikKIzE3MTogRklMRTogbGludXgtdXNlci9zcGFyYy9zaWduYWwuYzo0
+NjA6CisgICAgd19hZGRyID0gVEFSR0VUX1NUQUNLX0JJQVMrZW52LT5yZWd3cHRyW1dSRUdfTzZd
+OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJl
+ZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMyMDY6IEZJTEU6IGxpbnV4LXVzZXIvc3BhcmMv
+c2lnbmFsLmM6NTYzOgorICAgIHdfYWRkciA9IFRBUkdFVF9TVEFDS19CSUFTK2Vudi0+cmVnd3B0
+cltXUkVHX082XTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiA0IGVy
+cm9ycywgMCB3YXJuaW5ncywgMTc1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMTMgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KCjcvMTMgQ2hlY2tpbmcgY29tbWl0IDYwOGY5OTcyNWVhNiAobGlu
+dXgtdXNlci9zcGFyYzogVXNlIFdSRUdfU1AgY29uc3RhbnQgaW4gc3BhcmMvc2lnbmFsLmMpCjgv
+MTMgQ2hlY2tpbmcgY29tbWl0IDJlOTBjYzg4OWY1YSAobGludXgtdXNlci9zcGFyYzogRml4IFdS
+RUcgdXNhZ2UgaW4gc2V0dXBfZnJhbWUpCjkvMTMgQ2hlY2tpbmcgY29tbWl0IDc0OGRiMWU4ODU2
+YiAobGludXgtdXNlci9zcGFyYzY0OiBGaXggdGFyZ2V0X3NpZ25hbF9mcmFtZSkKRVJST1I6IHNw
+YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
+ICcoJwojMjQ6IEZJTEU6IGxpbnV4LXVzZXIvc3BhcmMvc2lnbmFsLmM6OTA6CisgICAgdWludDMy
+X3QgICAgICAgICAgICBpbnNuc1syXSBfX2F0dHJpYnV0ZV9fICgoYWxpZ25lZCAoOCkpKTsKCnRv
+dGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOS8xMyBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTAvMTMgQ2hlY2tpbmcgY29tbWl0IDFhZmUxYmNl
+MDkxOSAobGludXgtdXNlcjogUmVuYW1lIGNwdV9jbG9uZV9yZWdzIHRvIGNwdV9jbG9uZV9yZWdz
+X2NoaWxkKQoxMS8xMyBDaGVja2luZyBjb21taXQgMDQ2YmEwZDYyODY2IChsaW51eC11c2VyOiBJ
+bnRyb2R1Y2UgY3B1X2Nsb25lX3JlZ3NfcGFyZW50KQoxMi8xMyBDaGVja2luZyBjb21taXQgYTU5
+Y2EzYjg1MzgxIChsaW51eC11c2VyL3NwYXJjOiBGaXggY3B1X2Nsb25lX3JlZ3NfKikKMTMvMTMg
+Q2hlY2tpbmcgY29tbWl0IDk2NWY4NDJmNTdmNiAobGludXgtdXNlci9hbHBoYTogU2V0IHIyMCBz
+ZWNvbmRhcnkgcmV0dXJuIHZhbHVlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
+eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8yMDE5MTEwNTE4MTExOS4yNjc3OS0xLWxhdXJlbnRAdml2aWVyLmV1
+L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-I've the firmware from
-http://hpoussineau.free.fr/qemu/firmware/magnum-4000/setup.zip
-Which file to use? NTPROM.RAW?
-
-> Without this patch, I get the FTP banner.
-> With this patch, connection can't be established.
-> 
-> In datasheet page 17, you can see the "Receive Descriptor Format", which
-> contains the in_use field.
-> It is clearly said that RXpkt.in_use is 16 bit wide, and that the bits
-> 16-31 are not used in 32-bit mode.
-> 
-> So, I don't see why you need to clear 32 bits in 32-bit mode. Maybe you
-> need to clear only the other
-> 16 bits ? Maybe it depends of endianness ?
-
-Thank you for the details. I think the problem should likely come from
-the endianness.
-
-The offset must be adjusted according to the access mode (endianness and
-size).
-
-The following patch fixes the problem for me, and should not break other
-targets:
-
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 85d3f3788e..3d991af163 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -831,9 +831,15 @@ static ssize_t dp8393x_receive(NetClientState *nc,
-const uint8_t * buf,
-         /* EOL detected */
-         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
-     } else {
--        dp8393x_put(s, width, 0, 0); /* in_use */
--        address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 6
-* width,
--            MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data,
-sizeof(uint16_t), 1);
-+        /* Clear in_use, but it is always 16bit wide */
-+        int offset = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
-+        if (s->big_endian && width == 2) {
-+            /* we need to adjust the offset of the 16bit field */
-+            offset += sizeof(uint16_t);
-+        }
-+        s->data[0] = 0;
-+        address_space_rw(&s->as, offset, MEMTXATTRS_UNSPECIFIED,
-+                         (uint8_t *)s->data, sizeof(uint16_t), 1);
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
-         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) |
-(((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
-
-What is your opinion?
-
-Thanks,
-Laurent
 
