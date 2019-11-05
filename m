@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EDFF0875
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:36:03 +0100 (CET)
-Received: from localhost ([::1]:50429 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE5EF0883
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:38:35 +0100 (CET)
+Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6Uc-0003mL-3M
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:36:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60109)
+	id 1iS6X4-0007rP-7T
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:38:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iS5sj-0005fB-PM
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:56:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iS5vM-0000Nv-Db
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:59:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iS5si-0004av-Lc
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:56:53 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:39700)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iS5si-0004af-CN
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:56:52 -0500
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 85F5A4E919
- for <qemu-devel@nongnu.org>; Tue,  5 Nov 2019 20:56:50 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id l5so23747486qtj.8
- for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 12:56:50 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iS5vL-0006ac-5T
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:59:36 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45130)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iS5vK-0006aG-GD
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:59:35 -0500
+Received: by mail-oi1-x241.google.com with SMTP id k2so18866410oij.12
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 12:59:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uYAcSA/WjIczAnI+8WCrdQT6qS+iw0ZmLhpdXJxOK4Y=;
+ b=FG/LQDcqSe0QvdiUUnKMsFM9jOzEcJTEt5EiFH5tDuCzlY4w2/Qx3UOLIDaOAkI40s
+ WIJW2+dVvhixg3wzGmzIaUtOtzMH67izlgriVKFBtV092Xdl5tdbxSXi9yvzBwI3tomC
+ 9ihj+X1qeCiedrsG3regAQSQkR6yBWaKP6zSQLj+CWskwxvVF+QYpamg0/shHIFrb7Xo
+ bZGzx0iLgvtZj2t84yBV48MW/HoKlOhwcqYwGFYsXKohH5msLlkRsYjYQPu4mazDNyDR
+ JpBPqOyJu81rwvE/QPJHYxrE1MzBbUvXGUhp93JaEBLlaqz7atpsDSFSQc7s10/u32E9
+ c9oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2FfkMyQD9KmRpQsiqaHQJo42cIRE8N5ktTT/ajnzwyw=;
- b=KmtEbt3LfmZrT5chFhEXzg35/g+jwcMCtJAkGf752IGBfhppS+O5ynMtmhTYUv9zH7
- 4smJ6O2yC3NHslkfSm0pVM+KbZ4kU4LPlTp8M89MYSAoNUJHZUaZTE0GAFUAjd6xef2k
- AJPLzyABk0oGWaHjuJAdCHPi58lYqHZMS2oIm9pX091Kc2Lb0Qjtg1bMhL4QHnha1LIz
- oSL+guElTSHevDI4QKyTgMNt3Hf3jdNvpmeXV0oaYJMPEcgRqOszP2/jZEdAVJrLRXd3
- TCAAnM2CSDSTqIb9SeS02iAgPOi4Qdf7L+CEKVHabNYyoSh2DJN6tlrizAi/ubnloaRP
- K+1A==
-X-Gm-Message-State: APjAAAX2rtWRuyEdJzh8yxlo01VQsHQ/rBlDOYT8w3a3ISyEEmbP1AjW
- QINGqS8Y1AztDU8jGX2LUr0RbUlpEp/L07vf5lllpHWUVgBLP3csa7s2DrVlqNwvDX36e9VL0TR
- AZO/b3TBOxSfQPrM=
-X-Received: by 2002:ac8:27a2:: with SMTP id w31mr9005506qtw.227.1572987409781; 
- Tue, 05 Nov 2019 12:56:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxQKaUAuYL/2pBZbsBbqylTSyqxiwa3oidTVSO8C5rtV7kHhQ3xLye9lRQBtPaoNTzmnHcvHw==
-X-Received: by 2002:ac8:27a2:: with SMTP id w31mr9005482qtw.227.1572987409539; 
- Tue, 05 Nov 2019 12:56:49 -0800 (PST)
-Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
- by smtp.gmail.com with ESMTPSA id r2sm13426436qtc.28.2019.11.05.12.56.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Nov 2019 12:56:48 -0800 (PST)
-Date: Tue, 5 Nov 2019 15:56:43 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH v1 1/4] virtio: protect non-modern devices from too big
- virtqueue size setting
-Message-ID: <20191105155357-mutt-send-email-mst@kernel.org>
-References: <20191105161105.19016-1-dplotnikov@virtuozzo.com>
- <20191105161105.19016-2-dplotnikov@virtuozzo.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uYAcSA/WjIczAnI+8WCrdQT6qS+iw0ZmLhpdXJxOK4Y=;
+ b=R1+OfIsHEkLEg/W7gi1e9MQspcOBRDcFqKgf9/SAtfOYEMyOc9D27tP3LlLyjo6lLF
+ hBYaEq3cpQL0kzcMjaeln6FZdaqXVSGSJ7S3nGeDNGx+GNZbOZxDIzW4W4xVnUaIrBPK
+ 8mvbvwgrHZAjw/VuNZ3ypr4c3seU1xTLVUBaNNDQwEGGL+HK1WEByZpye7p8vbLagm+L
+ 3irdqbq0VT3loHUJjpyRRv6A0zAmUwbv+79slrIkcW8+C0aj5cGS4zSUt505lLIcCKAY
+ ajyawysWaVMsyurcwNbkWt6dvyGxFhL6Wu6iJc0AhUlkaHGG77DGIGr0paLAFppeEAuQ
+ IkxQ==
+X-Gm-Message-State: APjAAAV5yJtHmZeEsAcLydOo9JwIRGOSXqBLT0CF1ty3+Y9QfVYTaWOf
+ XOkKmgV4FOEQK5go9bnOj/4+iST6oGPVHjgefQmpEg==
+X-Google-Smtp-Source: APXvYqy6YItJ+aNTNBhr2AM147PXJnkmdWdMXq9s2oh1knG+6NnidXTW/+mPGV8Ta+kGUDEXYrsAjaqdf/bVoGfMAEs=
+X-Received: by 2002:aca:4945:: with SMTP id w66mr920440oia.98.1572987573432;
+ Tue, 05 Nov 2019 12:59:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191105161105.19016-2-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191103222511.17478-1-philmd@redhat.com>
+In-Reply-To: <20191103222511.17478-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 5 Nov 2019 20:59:21 +0000
+Message-ID: <CAFEAcA_PC80+E1Sb7CTrE0OdBZfn9VHUzXBh9NH3xGUhnfMF0A@mail.gmail.com>
+Subject: Re: [PULL 0/2] fw_cfg for-4.2-soft-freeze patches
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,79 +73,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
- qemu-block@nongnu.org, den@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, ehabkost@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 05, 2019 at 07:11:02PM +0300, Denis Plotnikov wrote:
-> The patch protects from creating illegal virtio device configuration
-> via direct virtqueue size property setting.
-> 
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> ---
->  hw/virtio/virtio-blk-pci.c  |  9 +++++++++
->  hw/virtio/virtio-scsi-pci.c | 10 ++++++++++
->  2 files changed, 19 insertions(+)
-> 
-> diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
-> index 60c9185c39..6177ff1df8 100644
-> --- a/hw/virtio/virtio-blk-pci.c
-> +++ b/hw/virtio/virtio-blk-pci.c
-> @@ -48,6 +48,15 @@ static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->  {
->      VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(vpci_dev);
->      DeviceState *vdev = DEVICE(&dev->vdev);
-> +    bool modern = virtio_pci_modern(vpci_dev);
-> +    uint32_t queue_size = dev->vdev.conf.queue_size;
-> +
-> +    if (!modern && queue_size > 128) {
-> +        error_setg(errp,
-> +                   "too big queue size (%u, max: 128) "
-> +                   "for non-modern virtio device", queue_size);
-> +        return;
-> +    }
+On Sun, 3 Nov 2019 at 22:26, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
+>
+> Hi Peter,
+>
+> One fw_cfg fix from David Gilbert.
+>
+> The following changes since commit f3cad9c6dbd4b9877232c44bf2dd877353a732=
+09:
+>
+>   iotests: Remove 130 from the "auto" group (2019-10-31 11:04:10 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/philmd/qemu.git tags/fw_cfg-next-pull-request
+>
+> for you to fetch changes up to eda4e62cc2f5d12fcedcf799a5a3f9eba855ad77:
+>
+>   tests/fw_cfg: Test 'reboot-timeout=3D-1' special value (2019-11-01 19:1=
+9:24 +0100)
+>
+> ----------------------------------------------------------------
+> Fix the fw_cfg reboot-timeout=3D-1 special value, add a test for it.
+>
+> ----------------------------------------------------------------
+>
+> Dr. David Alan Gilbert (1):
+>   fw_cfg: Allow reboot-timeout=3D-1 again
+>
+> Philippe Mathieu-Daud=C3=A9 (1):
+>   tests/fw_cfg: Test 'reboot-timeout=3D-1' special value
+>
+>  hw/nvram/fw_cfg.c   |  7 ++++---
+>  tests/fw_cfg-test.c | 21 +++++++++++++++++++++
+>  2 files changed, 25 insertions(+), 3 deletions(-)
 
+Applied, thanks.
 
-this enables for transitional so still visible to legacy
-interface. I am guessing you want to check whether
-device is accessed through the modern interface instead.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
->      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
->          vpci_dev->nvectors = dev->vdev.conf.num_queues + 1;
-
-> diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
-> index 2830849729..6e6790fda5 100644
-> --- a/hw/virtio/virtio-scsi-pci.c
-> +++ b/hw/virtio/virtio-scsi-pci.c
-> @@ -17,6 +17,7 @@
->  
->  #include "hw/virtio/virtio-scsi.h"
->  #include "virtio-pci.h"
-> +#include "qapi/error.h"
->  
->  typedef struct VirtIOSCSIPCI VirtIOSCSIPCI;
->  
-> @@ -47,6 +48,15 @@ static void virtio_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->      VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
->      DeviceState *proxy = DEVICE(vpci_dev);
->      char *bus_name;
-> +    bool modern = virtio_pci_modern(vpci_dev);
-> +    uint32_t virtqueue_size = vs->conf.virtqueue_size;
-> +
-> +    if (!modern && virtqueue_size > 128) {
-> +        error_setg(errp,
-> +                   "too big virtqueue size (%u, max: 128) "
-> +                   "for non-modern virtio device", virtqueue_size);
-> +        return;
-> +    }
-
-why? what is illegal about 256 for legacy?
-
->  
->      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
->          vpci_dev->nvectors = vs->conf.num_queues + 3;
-> -- 
-> 2.17.0
+-- PMM
 
