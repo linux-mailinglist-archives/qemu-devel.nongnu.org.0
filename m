@@ -2,65 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFADF088A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:41:16 +0100 (CET)
-Received: from localhost ([::1]:50522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA192F08BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:52:31 +0100 (CET)
+Received: from localhost ([::1]:50694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6Ze-0002dK-V1
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:41:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36133)
+	id 1iS6kY-0006S1-GM
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:52:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iS68X-0001M0-Ut
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:13:15 -0500
+ (envelope-from <Babu.Moger@amd.com>) id 1iS6Ce-0005oS-P5
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:17:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iS68U-0004yt-Tp
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:13:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40380
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iS68U-0004yj-Ho
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:13:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1572988389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Tp2ixndWMu1cBasr+uzvmjG092c9uFyiYoX6rgzM1s=;
- b=Xl3C9iHt4bgRB6HSE0iAZDhbFnPKI5DQvo8uV7JsZH61QDHTbwLFn4elkF8MmC2i0E88Q0
- hpIZSY22x1Vn7pqREX/PtSJCGtBpiYhReWxDSdOJDBuggl4pKZ1s4msDmrFXEUpE6Of6TY
- eXha17mccQ/TRCD4fpQMXgCzVtio+yM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-P8GUKxmSOBmlWYb-QX7hOg-1; Tue, 05 Nov 2019 16:13:06 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BE9F107ACC3;
- Tue,  5 Nov 2019 21:13:05 +0000 (UTC)
-Received: from localhost (ovpn-116-57.gru2.redhat.com [10.97.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09624600C4;
- Tue,  5 Nov 2019 21:13:04 +0000 (UTC)
-Date: Tue, 5 Nov 2019 18:13:03 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Luwei Kang <luwei.kang@intel.com>
-Subject: Re: [PATCH v1 Resend] target/i386: set the CPUID level to 0x14 on
- old machine-type
-Message-ID: <20191105211303.GK3812@habkost.net>
-References: <1572416882-41378-1-git-send-email-luwei.kang@intel.com>
+ (envelope-from <Babu.Moger@amd.com>) id 1iS6Cd-0006CY-H0
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:17:28 -0500
+Received: from mail-eopbgr720070.outbound.protection.outlook.com
+ ([40.107.72.70]:13920 helo=NAM05-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iS6Cd-0006CA-7H
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 16:17:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gcxAP7y+7TsZfCj6VDlAscALxrWIjQU/JaC0imgIuFtunEduV9Arfeb94HnBp3SmM/WVzqABvxJRsZ5doZ+5llYECLfP2RPETTExd+8aImPWuQi5pQ9tN0PCqZHgGjvx6fj/GMwvlMI1RlDQn8wbESAmzQTpsMaTxPgEjkqE5K2Peb3E/LVVv0joOU0hat/BG8OiXsgq0nyAZ7/2x7bMivhTSwtSM/HlgOvpRQIj7kpVyRbzeT6BecJbDqtd0RGkoBqRHgwk0jYB6smuCMxXaFNS31n9qHI87fXr/4c1lidzcpNJErw+JcBKnDDvm9j5icXbKLXdzYdVvqYNv3R1vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GyHIoEnCc1pD18CH88ctTbRAC01Ki17JRl95Hxh2UXE=;
+ b=KCEPtslC00TpLqWXm6QRMNf9XUacFiVT+wNDG/4lsAG7bjzZLYfKcJFyLv16BesJWqJpOx9KulHlbmEbbjC+BUDz0I5CezZexxSdN2epEZCHhouZPj11DqJnbQ+3N314DSsCtLHEHDdCA4abe4jtMPmGA64LZz2EdIfU0krn1sPQYpeMFiqZIh19VZJ/qDx3UltOEF8HZFiWzY3ZjE8GM9Gej7XGGcq+Di5qpaxaWlkcz4P+M0afn5xYKBfdMJNANiu7h5sxxb3T3CPyRjO1DBiuxbFUFubmE1wVUsr9YwK+XsOBVPGduIAK7HjsbukwcMoqvkhTDZyOL395yYo/LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GyHIoEnCc1pD18CH88ctTbRAC01Ki17JRl95Hxh2UXE=;
+ b=kiZ+rNCQr6NXwJvO25XJakoJ5TRJlYKXHsF1cbq6+QXRDpD20U+iTyA/QkdGhc2fHMUwvzRcFaYeZ8/dN9hpP53WuCawOvhOkz3yTS21q8eiV5ArBFQ5MxWOxkMXZyD6yVNW2Yw/NFUXlkMZP/3hOKXNv/dXzj36Z5i7/t2gtj4=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1323.namprd12.prod.outlook.com (10.168.237.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2408.24; Tue, 5 Nov 2019 21:17:23 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::c5a3:6a2e:8699:1999]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::c5a3:6a2e:8699:1999%6]) with mapi id 15.20.2408.024; Tue, 5 Nov 2019
+ 21:17:23 +0000
+From: "Moger, Babu" <Babu.Moger@amd.com>
+To: "mst@redhat.com" <mst@redhat.com>, "marcel.apfelbaum@gmail.com"
+ <marcel.apfelbaum@gmail.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>, "ehabkost@redhat.com"
+ <ehabkost@redhat.com>
+Subject: [PATCH 0/2] Add support for 2nd generation AMD EPYC processors
+Thread-Topic: [PATCH 0/2] Add support for 2nd generation AMD EPYC processors
+Thread-Index: AQHVlB5qtfeCh8am30yqQOnwVMWRdg==
+Date: Tue, 5 Nov 2019 21:17:23 +0000
+Message-ID: <157298859935.17394.17194072829278152009.stgit@naples-babu.amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN6PR08CA0032.namprd08.prod.outlook.com
+ (2603:10b6:805:66::45) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.78.2]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 8891f8b2-0417-4129-8a94-08d762358ce0
+x-ms-traffictypediagnostic: DM5PR12MB1323:
+x-ms-exchange-purlcount: 2
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB1323EFFCB877F8CAF7E182F1957E0@DM5PR12MB1323.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-forefront-prvs: 0212BDE3BE
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(199004)(189003)(5660300002)(6116002)(2501003)(8936002)(486006)(71190400001)(71200400001)(6512007)(52116002)(86362001)(6306002)(14454004)(6436002)(186003)(103116003)(26005)(3846002)(6486002)(2906002)(6506007)(102836004)(256004)(386003)(66556008)(64756008)(4326008)(316002)(99286004)(305945005)(7736002)(66946007)(478600001)(66066001)(66446008)(8676002)(66476007)(476003)(81166006)(110136005)(81156014)(25786009)(966005)(4744005)(2201001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1323;
+ H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: F9aY1lVM4xpxJmhhhstxcpWFcAHO87htFYJ3OwsKVGv2ylG4cuvcHOXtDt89K0Ppg43Pp8oX5AIfPeFDQ9Soxm5VzgY2M5GXlLpq40jkKPSZX9wOpDjdsbTnVJETs1KFKKGv1Frlh+xEylz8aetiedSUMmxjEt77ypT1qbAS1isCnKJ6odC6ioK7rERtmccoQ9ucJXHnn6T1cha85i85CGZkOqRDI8OYr7n3ZgsGaKk+UlWHvTMa4g50S7jOkw0k3NAazU2jVNXEx64E+I5HdUhN5nq3tGDJF6NC17vWRZ6H60ViM0rVh7XBFuf+qH9isyHbbTxyDyVGZyLQoC5EyIXZsxYoGymcyBt6q0THAscyJeQ3gdaS/AOa4RVPLp8D5CN8wqMsQ1IpmblURdJ/XZaprv8OPnNkjr2gbs6Jrg4kgaYP1e3OS7ofNyUx6Wux2lgNIZWsKJw0/BiM9uCsohOQEgwssttCTqY3yVWDg4E=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5FA4919DECC9AF43A2235B8293D93F29@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <1572416882-41378-1-git-send-email-luwei.kang@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: P8GUKxmSOBmlWYb-QX7hOg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8891f8b2-0417-4129-8a94-08d762358ce0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2019 21:17:23.4327 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PHgJl+bQrUpFuMH80ulfBTvVjs33A3AMBFCM25kLkZwJAK4SNIkJ2RZrGZfVO1db
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1323
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.72.70
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,83 +109,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, rth@twiddle.net
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 30, 2019 at 02:28:02PM +0800, Luwei Kang wrote:
-> The CPUID level need to be set to 0x14 manually on old
-> machine-type if Intel PT is enabled in guest. e.g. in Qemu 3.1
-> -machine pc-i440fx-3.1 -cpu qemu64,+intel-pt
-> will be CPUID[0].EAX(level)=3D7 and CPUID[7].EBX[25](intel-pt)=3D1.
->=20
-> Some Intel PT capabilities are exposed by leaf 0x14 and the
-> missing capabilities will cause some MSRs access failed.
-> This patch add a warning message to inform the user to extend
-> the CPUID level.
-
-Note that a warning is not an acceptable fix for a QEMU crash.
-We still need to fix the QEMU crash reported at:
-https://lore.kernel.org/qemu-devel/20191024141536.GU6744@habkost.net/
-
-
->=20
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Luwei Kang <luwei.kang@intel.com>
-
-The subject line says "v1", but this patch is different from the
-v1 you sent earlier.
-
-If you are sending a different patch, please indicate it is a new
-version.  Please also indicate what changed between different
-patch versions, to help review.
-
-> ---
->  target/i386/cpu.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index a624163..f67c479 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5440,8 +5440,12 @@ static void x86_cpu_expand_features(X86CPU *cpu, E=
-rror **errp)
-> =20
->          /* Intel Processor Trace requires CPUID[0x14] */
->          if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
-> -             kvm_enabled() && cpu->intel_pt_auto_level) {
-
-Not directly related to the warning: do you know why we have a
-kvm_enabled() check here?  It seems unnecessary.  We want CPUID
-level to be correct for all accelerators.
-
-> -            x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14);
-> +             kvm_enabled()) {
-> +            if (cpu->intel_pt_auto_level)
-> +                x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x1=
-4);
-> +            else
-> +                warn_report("Intel PT need CPUID leaf 0x14, please set "
-> +                            "by \"-cpu ...,+intel-pt,level=3D0x14\"");
-
-The warning shouldn't be triggered if level is already >=3D 0x14.
-
-It is probably a good idea to mention that this happens only on
-pc-*-3.1 and older, as updating the machine-type is a better
-solution to the problem than manually setting the "level"
-property.
-
-This will print the warning multiple times if there are multiple
-VCPUs.  You can use warn_report_once() to avoid that.
-
->          }
-> =20
->          /* CPU topology with multi-dies support requires CPUID[0x1F] */
-> --=20
-> 1.8.3.1
->=20
-
---=20
-Eduardo
-
+VGhlIGZvbGxvd2luZyBzZXJpZXMgYWRkcyB0aGUgc3VwcG9ydCBmb3IgMm5kIGdlbmVyYXRpb24g
+QU1EIEVQWUMgUHJvY2Vzc29ycw0Kb24gcWVtdSBndWVzdHMuIFRoZSBtb2RlbCBkaXNwbGF5IG5h
+bWUgZm9yIHdpbGwgYmUgRVBZQy1Sb21lLg0KDQpBbHNvIGZpeGVzIGZldyBtaXNzZWQgY3B1IGZl
+YXR1cmUgYml0cyBpbiAxc3QgZ2VuZXJhdGlvbiBFUFlDIG1vZGVscy4NCg0KVGhlIFJlZmVyZW5j
+ZSBkb2N1bWVudHMgYXJlIGF2YWlsYWJsZSBhdA0KaHR0cHM6Ly9kZXZlbG9wZXIuYW1kLmNvbS93
+cC1jb250ZW50L3Jlc291cmNlcy81NTgwM18wLjU0LVBVQi5wZGYNCmh0dHBzOi8vd3d3LmFtZC5j
+b20vc3lzdGVtL2ZpbGVzL1RlY2hEb2NzLzI0NTk0LnBkZg0KDQotLS0NCg0KQmFidSBNb2dlciAo
+Mik6DQogICAgICBpMzg2OiBBZGQgbWlzc2luZyBjcHUgZmVhdHVyZSBiaXRzIGluIEVQWUMgbW9k
+ZWwNCiAgICAgIGkzODY6IEFkZCAybmQgR2VuZXJhdGlvbiBBTUQgRVBZQyBwcm9jZXNzb3JzDQoN
+Cg0KIGh3L2kzODYvcGMuYyAgICAgIHwgICAgOCArKystDQogdGFyZ2V0L2kzODYvY3B1LmMgfCAg
+MTEzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0t
+DQogdGFyZ2V0L2kzODYvY3B1LmggfCAgICAyICsNCiAzIGZpbGVzIGNoYW5nZWQsIDExNSBpbnNl
+cnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0KDQotLQ0K
 
