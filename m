@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE112F0607
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 20:32:36 +0100 (CET)
-Received: from localhost ([::1]:49132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C7DF060C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 20:33:54 +0100 (CET)
+Received: from localhost ([::1]:49174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS4Z9-0006j8-KL
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 14:32:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45139)
+	id 1iS4aP-0000AX-5A
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 14:33:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iS4W2-0004Ye-Cj
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:29:23 -0500
+ (envelope-from <david@redhat.com>) id 1iS4WN-00057D-BH
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:29:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iS4W0-0008D7-Vm
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:29:22 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:44021)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iS4W0-0008BG-Nu; Tue, 05 Nov 2019 14:29:20 -0500
-Received: by mail-lj1-x244.google.com with SMTP id y23so12305083ljh.10;
- Tue, 05 Nov 2019 11:29:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jxg899qDRU7+5wIiCCiEm/EhtBxbvyNXrULLpItLwoE=;
- b=r+6lCdd1GeCIfVxcTb7CHNnTXZYz59hprOksMSU29Frgis8VLo3WmnfYqpfK9X/x8M
- 1J42d/i04adD8PeVgaoRw+JBY5CNP1I6a8Aeao51HB7+hB84dJSjFq7tz9ZyKjbGIMDs
- b6AM0Uh9+GLfGyDEiq32qPev+16mBmBo0UI1OPayzPj9dmDun1gkTUF5PeN4/KS7Xt1I
- 23zGYTPn4kaHjvt/XllgBfW3grMum2nsOFNn+uZ8g1qiZ2rmX+ZPfQ1SLpCkBCWVtki3
- LgDmiNsGfKWxJF0yfyNHchB7boUO/kfbunKMTjxBVeT8f5su8xOuhMjbK30YwyWoTCdO
- h6DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jxg899qDRU7+5wIiCCiEm/EhtBxbvyNXrULLpItLwoE=;
- b=edlySrKuMvsqufX+VjL93D/JyKXezmXilQwlTnB6sUEAeooSfY7o9GjfjU0eO0VM5B
- jjG0eP+X4mzdjB+o8E1wo2mxl6JPYAwVnIqQamhp2G2zyP7yvFvughextTsoZ14FMYm8
- VRqfw5c5d0jQBHHh1rm5lZvi0gofAqT1gpIRlBDmNVgQR4QFEZzapQ2ZXLD4XKkRs5mY
- 7TBfslbQGTLh8JXtIpLk1G/rUpeDLVCGzJkWNsFXtGzghSVPLwndrtsrt49Yrd3hbGKd
- KL/gDXL8j7ucL4AJ2enGT/XjeDrhkKni7gnHX0FrcTjctdyu2ryTc6sY0DvPj2FeeqCa
- fVUQ==
-X-Gm-Message-State: APjAAAWgS+yMQca6u6Dv7nt3fIP24P0+Z4SLMKNuxWtQhv3NIwMz2ceX
- QOTT6e5DNOM/lfTzLn2110tEk4RNgOZ8E4/qEis=
-X-Google-Smtp-Source: APXvYqyZF9yo7LCAh0cYRJ7NwQTMwln8LMYAEFTSQnyY7UTU8ZJpTIUKlMa8n8aBeQcr/Ibu7sLnQzOaDYEMGBciyO4=
-X-Received: by 2002:a2e:9417:: with SMTP id i23mr12140249ljh.152.1572982159020; 
- Tue, 05 Nov 2019 11:29:19 -0800 (PST)
+ (envelope-from <david@redhat.com>) id 1iS4WM-0008Ni-5W
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:29:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47409
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iS4WM-0008KC-1Q
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 14:29:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572982180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ETfAqzNFymJrucM+aekentN+MwutefpQmpSwbNHOt9A=;
+ b=chYyqgesj4Thrz6Ui2bGwrYz1gzHgN420TSvHzlYwRabqZ3uWGnYg5RhXlBcYtWVGMZaFB
+ hCs/h2PDPA6rQc6jds53cGwPP217vCE7PpTiSVwklevkhGIs2odAqGH9fvo08DYNEufgeT
+ Rz5KUUGG3TyccnF+bEMuoeV89x9hqjQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-dQ0mH1D0Mcmykh5LsL4I_Q-1; Tue, 05 Nov 2019 14:29:39 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0C711800D4A;
+ Tue,  5 Nov 2019 19:29:37 +0000 (UTC)
+Received: from [10.36.116.98] (ovpn-116-98.ams2.redhat.com [10.36.116.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 496155C1BB;
+ Tue,  5 Nov 2019 19:29:32 +0000 (UTC)
+Subject: Re: [PATCH] s390x: Properly fetch and test the short psw on diag308
+ subc 0/1
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191105184434.16148-1-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <76ba0773-b6da-a73a-0a76-9a23f004a9b7@redhat.com>
+Date: Tue, 5 Nov 2019 20:29:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <CAP+75-XUbnCDp-JH6JRnGLqVMxDWTFa9kPHJaZXm3NfCzZUbYg@mail.gmail.com>
- <mhng-90e9ee91-7ee7-488a-8db0-35d39043f2fc@palmer-si-x1c4>
- <CAKmqyKMVvLXbziQ8qFC-VcOq2jv1Qm1pK0upK0c1nuYRELgqxw@mail.gmail.com>
-In-Reply-To: <CAKmqyKMVvLXbziQ8qFC-VcOq2jv1Qm1pK0upK0c1nuYRELgqxw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 5 Nov 2019 11:23:39 -0800
-Message-ID: <CAKmqyKONh4tZ+DfBk2GVDt+k807ncKyrdL-qb1NnTsbyjztFkQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] opensbi: Upgrade from v0.4 to v0.5
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191105184434.16148-1-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: dQ0mH1D0Mcmykh5LsL4I_Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,81 +75,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 29, 2019 at 3:33 AM Alistair Francis <alistair23@gmail.com> wro=
-te:
->
-> On Mon, Oct 28, 2019 at 5:56 PM Palmer Dabbelt <palmer@sifive.com> wrote:
-> >
-> > On Sat, 26 Oct 2019 01:46:45 PDT (-0700), philmd@redhat.com wrote:
-> > > On Sat, Oct 26, 2019 at 10:45 AM Philippe Mathieu-Daud=C3=A9
-> > > <philmd@redhat.com> wrote:
-> > >>
-> > >> Hi Alistair,
-> > >>
-> > >> On 10/26/19 1:15 AM, Alistair Francis wrote:
-> > >> > This release has:
-> > >> >      Lot of critical fixes
-> > >> >      Hypervisor extension support
-> > >> >      SBI v0.2 base extension support
-> > >> >      Debug prints support
-> > >> >      Handle traps when doing unpriv load/store
-> > >> >      Allow compiling without FP support
-> > >> >      Use git describe to generate boot-time banner
-> > >> >      Andes AE350 platform support
-> > >>
-> > >> Do you mind amending the output of 'git shortlog v0.4..v0.5'?
-> > >
-> > > Err this comment is for Palmer, if Alistair agree (no need to repost)=
-.
-> >
-> > Works for me.  I've included the shortlog as part of the patch on my fo=
-r-master
-> > branch, unless there's any opposition I'll include this in my next PR.
->
-> Sounds good!
+On 05.11.19 19:44, Janosch Frank wrote:
+> We need to actually fetch the cpu mask and set it after checking for
+> psw bit 12 instead of completely ignoring it.
+>=20
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>   target/s390x/cpu.c | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 736a7903e2..0acba843a7 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -76,8 +76,15 @@ static bool s390_cpu_has_work(CPUState *cs)
+>   static void s390_cpu_load_normal(CPUState *s)
+>   {
+>       S390CPU *cpu =3D S390_CPU(s);
+> -    cpu->env.psw.addr =3D ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
+> -    cpu->env.psw.mask =3D PSW_MASK_32 | PSW_MASK_64;
+> +    uint64_t spsw =3D ldq_phys(s->as, 0);
+> +
+> +    /* Mask out bit 12 and instruction address */
+> +    cpu->env.psw.mask =3D spsw & 0xfff7ffff80000000UL;
+> +    cpu->env.psw.addr =3D spsw & 0x7fffffffUL;
 
-Ping! Just want to make sure this makes it into 4.2.
+"set it after checking for psw bit 12" does not match your code.
 
-Alistair
+> +
+> +    if (!(spsw & 0x8000000000000UL)) {
+> +        s390_program_interrupt(&cpu->env, PGM_SPECIFICATION, 0, RA_IGNOR=
+ED);
+> +    }
 
->
-> Alistair
->
-> >
-> > >
-> > >> >
-> > >> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > >> > ---
-> > >> > You can get the branch from here if the binaries are causing issue=
-s:
-> > >> > https://github.com/alistair23/qemu/tree/mainline/alistair/opensbi.=
-next
-> > >>
-> > >> You can use 'git format-patch --no-binary'.
-> > >>
-> > >> >
-> > >> >   pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 36888 -> 4098=
-4 bytes
-> > >> >   pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 45064 -> 4916=
-0 bytes
-> > >> >   pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 40968 -> 4506=
-4 bytes
-> > >> >   roms/opensbi                                 |   2 +-
-> > >> >   4 files changed, 1 insertion(+), 1 deletion(-)
-> > >> [...]
-> > >> > diff --git a/roms/opensbi b/roms/opensbi
-> > >> > index ce228ee091..be92da280d 160000
-> > >> > --- a/roms/opensbi
-> > >> > +++ b/roms/opensbi
-> > >> > @@ -1 +1 @@
-> > >> > -Subproject commit ce228ee0919deb9957192d723eecc8aaae2697c6
-> > >> > +Subproject commit be92da280d87c38a2e0adc5d3f43bab7b5468f09
-> > >> >
+So, this code is called from s390_machine_reset() via run_on_cpu() - so=20
+not from a helper. There is no state to rewind. This feels wrong to me.
+
+In tcg_s390_program_interrupt(), we do
+
+1. A cpu_restore_state(), which is bad with a ra of 0
+2. A cpu_loop_exit(), which is bad, as we are not in the cpu loop.
+
+We *could* do here instead
+
+/* This code is not called from the CPU loop, but via run_on_cpu() */
+if (tcg_enabled()) {
+     /*
+      * HW injects a PGM exception with ILC 0. We won't rewind.
+      */
+     env->int_pgm_ilen =3D 2;
+     trigger_pgm_exception(&cpu->env, PGM_SPECIFICATION);
+} else {
+     kvm_s390_program_interrupt(env_archcpu(&cpu->env),
+                                PGM_SPECIFICATION);
+}
+
+
+BUT I do wonder if we should actually get a PGM_SPECIFICATION for the=20
+*diag* instruction, not on the boot CPU. I think you should check +=20
+inject inside handle_diag_308() instead. Then that complicated handling=20
+is gone.
+
+--=20
+
+Thanks,
+
+David / dhildenb
+
 
