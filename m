@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3275F080A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:16:46 +0100 (CET)
-Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DAAF083B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:24:14 +0100 (CET)
+Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS6Bx-0003Xm-3t
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:16:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58488)
+	id 1iS6JB-0005z3-EX
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:24:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p9-0000Y9-Q0
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:12 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pX-0001Dp-PW
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5p8-00022y-H4
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:11 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14358
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pW-0002Pv-GF
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35866)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5p8-00022b-CS; Tue, 05 Nov 2019 15:53:10 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpWir020325; Tue, 5 Nov 2019 15:53:10 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3ftes6bh-1
+ id 1iS5pT-00023u-QV; Tue, 05 Nov 2019 15:53:31 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA5KpaTc076874; Tue, 5 Nov 2019 15:53:11 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3csx6x2x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:09 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kr9bY024004;
- Tue, 5 Nov 2019 15:53:09 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w3ftes6b5-1
+ Tue, 05 Nov 2019 15:53:11 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnvMc025657;
+ Tue, 5 Nov 2019 20:53:10 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 2w11e797y6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 15:53:09 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnwUD000955;
- Tue, 5 Nov 2019 20:53:08 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04dal.us.ibm.com with ESMTP id 2w11e79fh7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:08 +0000
+ Tue, 05 Nov 2019 20:53:10 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5Kr7IZ32768436
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA5Kr8s839453172
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Nov 2019 20:53:07 GMT
+ Tue, 5 Nov 2019 20:53:08 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9EA6C124062;
- Tue,  5 Nov 2019 20:53:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B8BA8124060;
+ Tue,  5 Nov 2019 20:53:08 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8C1B812405B;
- Tue,  5 Nov 2019 20:53:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A5F6D12405B;
+ Tue,  5 Nov 2019 20:53:08 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:07 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:08 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 36/55] make-release: pull in edk2 submodules so we can build
- it from tarballs
-Date: Tue,  5 Nov 2019 14:52:24 -0600
-Message-Id: <20191105205243.3766-37-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 38/55] s390: PCI: fix IOMMU region init
+Date: Tue,  5 Nov 2019 14:52:26 -0600
+Message-Id: <20191105205243.3766-39-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id xA5KpWir020325
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,65 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, qemu-stable@nongnu.org,
- Bruce Rogers <brogers@suse.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-stable@nongnu.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The `make efi` target added by 536d2173 is built from the roms/edk2
-submodule, which in turn relies on additional submodules nested under
-roms/edk2.
+From: Matthew Rosato <mjrosato@linux.ibm.com>
 
-The make-release script currently only pulls in top-level submodules,
-so these nested submodules are missing in the resulting tarball.
+The fix in dbe9cf606c shrinks the IOMMU memory region to a size
+that seems reasonable on the surface, however is actually too
+small as it is based against a 0-mapped address space.  This
+causes breakage with small guests as they can overrun the IOMMU window.
 
-We could try to address this situation more generally by recursively
-pulling in all submodules, but this doesn't necessarily ensure the
-end-result will build properly (this case also required other changes).
+Let's go back to the prior method of initializing iommu for now.
 
-Additionally, due to the nature of submodules, we may not always have
-control over how these sorts of things are dealt with, so for now we
-continue to handle it on a case-by-case in the make-release script.
-
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Bruce Rogers <brogers@suse.com>
-Cc: qemu-stable@nongnu.org # v4.1.0
-Reported-by: Bruce Rogers <brogers@suse.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-Message-Id: <20190912231202.12327-2-mdroth@linux.vnet.ibm.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-(cherry picked from commit 45c61c6c23918e3b05ed9ecac5b2328ebae5f774)
+Fixes: dbe9cf606c ("s390x/pci: Set the iommu region size mpcifc request")
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
+Tested-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
+Reported-by: Stefan Zimmerman <stzi@linux.ibm.com>
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-Id: <1569507036-15314-1-git-send-email-mjrosato@linux.ibm.com>
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+(cherry picked from commit 7df1dac5f1c85312474df9cb3a8fcae72303da62)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- scripts/make-release | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/s390x/s390-pci-bus.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/make-release b/scripts/make-release
-index b4af9c9e52..a2a8cda33c 100755
---- a/scripts/make-release
-+++ b/scripts/make-release
-@@ -20,6 +20,14 @@ git checkout "v${version}"
- git submodule update --init
- (cd roms/seabios && git describe --tags --long --dirty > .version)
- (cd roms/skiboot && ./make_version.sh > .version)
-+# Fetch edk2 submodule's submodules, since it won't have access to them =
-via
-+# the tarball later.
-+#
-+# A more uniform way to handle this sort of situation would be nice, but=
- we
-+# don't necessarily have much control over how a submodule handles its
-+# submodule dependencies, so we continue to handle these on a case-by-ca=
-se
-+# basis for now.
-+(cd roms/edk2 && git submodule update --init)
- popd
- tar --exclude=3D.git -cjf ${destination}.tar.bz2 ${destination}
- rm -rf ${destination}
---=20
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index 2c6e084e2c..9a935f22b5 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -694,10 +694,15 @@ static const MemoryRegionOps s390_msi_ctrl_ops = {
+ 
+ void s390_pci_iommu_enable(S390PCIIOMMU *iommu)
+ {
++    /*
++     * The iommu region is initialized against a 0-mapped address space,
++     * so the smallest IOMMU region we can define runs from 0 to the end
++     * of the PCI address space.
++     */
+     char *name = g_strdup_printf("iommu-s390-%04x", iommu->pbdev->uid);
+     memory_region_init_iommu(&iommu->iommu_mr, sizeof(iommu->iommu_mr),
+                              TYPE_S390_IOMMU_MEMORY_REGION, OBJECT(&iommu->mr),
+-                             name, iommu->pal - iommu->pba + 1);
++                             name, iommu->pal + 1);
+     iommu->enabled = true;
+     memory_region_add_subregion(&iommu->mr, 0, MEMORY_REGION(&iommu->iommu_mr));
+     g_free(name);
+-- 
 2.17.1
 
 
