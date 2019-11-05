@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A966AF04F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:21:49 +0100 (CET)
-Received: from localhost ([::1]:47230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AC0F04C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:13:44 +0100 (CET)
+Received: from localhost ([::1]:47136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS3Se-0000Sh-Ms
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:21:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52121)
+	id 1iS3Kp-0007lg-6Z
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:13:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iS3Iv-00063a-6y
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:46 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iS3Ip-0005p4-9r
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iS3Iu-0004kP-0N
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:45 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:40493)
+ (envelope-from <laurent@vivier.eu>) id 1iS3Io-0004fM-6v
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:39 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:44091)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3It-0004jc-Mn
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:43 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3In-0004eW-To
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:38 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N18I8-1hmgvt0OEc-012U31; Tue, 05 Nov 2019 19:11:35 +0100
+ id 1MadC8-1hvSNJ37dK-00cBkp; Tue, 05 Nov 2019 19:11:35 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] linux-user/sparc: Fix cpu_clone_regs_*
-Date: Tue,  5 Nov 2019 19:11:18 +0100
-Message-Id: <20191105181119.26779-13-laurent@vivier.eu>
+Subject: [PULL 13/13] linux-user/alpha: Set r20 secondary return value
+Date: Tue,  5 Nov 2019 19:11:19 +0100
+Message-Id: <20191105181119.26779-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191105181119.26779-1-laurent@vivier.eu>
 References: <20191105181119.26779-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:r0fsDaXcjdF5yek/2ye+ffad8EIzMItAXWG2mxZr0KG49yKk4bM
- r6x5+0N/PsYIKpypyw/IcyzyxzEDV8HuJGD93ticAO5401fkuqNp9E+ppiSfAqi7o71wz/7
- 508IDhZdOiFAa1XcyU49aG3qUFueGBIfTEP1mTu921+aEAVAvtqzb88wqzMR3oseiuYXyuR
- LMKSyIFMOpw32BbUVvu4w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7vuyFv4tAO0=:E1kQfaPBg84H11y3SJxux9
- Q8oqQUHY3ABsFvwqbbo3gw82DhqjvG3t7z6adjbDb//RYAWdcO0aYcsdnO45ZOQXG9GXCHy+k
- h7Z6NiCTVCoguq+6hJSrr4kaHMlehvPz0dwNZEzoG3Z36Ug1BvJaccsWMrdzu3PBaeq7NK4jE
- A/ZFmCtdL1HhZw/wagK0/MmEJjxERd2AYmIHungteXIIlsrkpTmfBdZLmeHqFXdnpFiThD1k1
- qSDMcM8NE6bdfTCRDkvpAdZtIIdT0JfRhsuVfexSsFXuuFYPI3FyB2nygm9HT4PCvSArEGeWi
- 7hI1QipPgORitrxShIHNXy0YltW7zqWgUJkKSBwnW/beifWP2tjvvjQBNqwDbeU5C6GZ8TKd+
- 29ABBi2o3oFtmfmmtA31J+qzhUhBmU2RlG8sPaLjTZTZ6fjX5lgPggqqyNPJ3WgG7moNgQebe
- PJY7RcSI3Us2yBzHA9vTX0wYA+yrAn+R5pIDKDMoQFWqr9fx1hrCcKd09bCTRW/WEG8mFxzYi
- wO8PedrBkViRYltXdfIEisvyIpWSkKKNXlcasfv8QP0D59Q5BvEcQviDCFvH2UCwHrrCIBR6M
- bo4hgEKqwBVfDg11kcWTBH80Pur12Y8jw/mYalakU5d7HuIEUTJNz8m3HnW3udKNc1XWEQGWj
- AZk4AWbkaVGmiYqIpMYcNTB+VcJXf61x988U8gLz/g4djL0hM2ONcjLVyaakd836Rbxaw4sk3
- fsOI8T08hKd94P/tXsZeb8XaEVX+8k1jQYmz5fiISdHw31t+4t6ItmHXJIASbUk8k1HX8tHLF
- KLra5I8zkS8MlkJkNWxQyCIN57KcFPGZou75i4Iwi7GGBXZlWkHPQ+wTWQ69E0MlYq8ZCjIES
- 82+TS8OQxuPbcipeiR5w==
+X-Provags-ID: V03:K1:G5Qvq9AUwF43EHf2Ts0+hSE4/ieC4dEfMCGuVPb0+S4cAhx+CkS
+ Bviyb1VDatREu20ezQcBca1qCqm+S4F76Q/14raGATNDrE+++zvwwhb00BNbd0nxN+5X/zw
+ irnXI5HaYSCC6644dJmIRXuCX51+eC6EfPvdKQ4vonEaPTsZvPIz9nZvq4P/c3zs9ykTNdn
+ aA6jVitt8v6p9G+0qrddA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GzKNXf/4V7U=:VYgqIR3/Si08vGcYzOt/oS
+ nPOzcPW3TikWKAZ/GBGmgObmfZzI3O0Y0age/3tcH9AVSX3IUgK1jih+Ym8pGVItS6fusDUjQ
+ QLFinTukIidQ2aMYwX9oXOxqhybI07gg2XO/SPDZHNDrQ1miphRFQRcQK0GHgJ0+6aUaGwG2d
+ aZWOSgZogbWtcNmM4XkgU3X9bDha4T5C77fA3OpfuEP/y9kQR7IXsVvgNq2gvWDgZXqZE8WV9
+ juU7jCLbopWgLF8nxQF+sIfQb7JIP1oejokRIaeth0an28OZM3F67yqWsddgBChf+NKmnFJLA
+ 8lwEFrN0U7Dz1Ad6dN8gpCrYUQyDkJXt5TCiCUe35X4ThDOvwzCJxwNmZMT1Ii8x/XJ23SPmb
+ MHTBNJesUZwWbpq6TSp7QF6JljPRa/KZVzmP5cRLUDxp0TOV51OnVBFBt+YNdm36GpDLlHah+
+ 4oPPoHIDb87n1WdA2N1c19SpjpAYVAxGqqOITZvCyYOTw1mJPAzzRU1oH7qxA5usUxTWkI+S1
+ z9fy96sH8K6B2rKWoh/2/YrOamFeeM3bytn4knGwIyMzkqWXmcA7VbBQ8PQg6Rob2nIZ9n9l8
+ SuRdxE3aqqLKbzj+Jbe7MGubdUmusi/Jdm7z5mmmvE4l799ABKyry73IP98gt0Ob5H7EuM3sl
+ 4uCYfQIZoAp2VLdt/V9rxk1j/HAzZgqMbQv2mViMoWxE2kdrb02nl0vvduylRFh8qkZTlSk7v
+ s6LPxqaoan5wnPl6xP4xYsdPQQPDFXmDsLmapDPSmev5TlrnYlbbOwEq6va61dLJA3MP4tAJz
+ ddgoQR8lHbGlITYQd0uJddY+/d6iO0xhg5kf7lNdGXr8eKhTD3N+ZLFjlOEATXaR601pqCeEi
+ kPIvH5X7V/KOitiC2ThQ==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.13
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,81 +76,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We failed to set the secondary return value in %o1
-we failed to advance the PC past the syscall,
-we failed to adjust regwptr into the new structure,
-we stored the stack pointer into the wrong register.
+This value is not, as far as I know, used by any linux software,
+but it is set by the kernel and is part of the ABI.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191025113921.9412-12-richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20191025113921.9412-13-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/target_cpu.h | 43 +++++++++++++++++++++++++++++------
- 1 file changed, 36 insertions(+), 7 deletions(-)
+ linux-user/alpha/target_cpu.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
-index 8ff706adcef7..14b21589699b 100644
---- a/linux-user/sparc/target_cpu.h
-+++ b/linux-user/sparc/target_cpu.h
-@@ -23,22 +23,51 @@
- static inline void cpu_clone_regs_child(CPUSPARCState *env, target_ulong newsp,
-                                         unsigned flags)
+diff --git a/linux-user/alpha/target_cpu.h b/linux-user/alpha/target_cpu.h
+index dd25e18f47fb..ad408ab5cc8e 100644
+--- a/linux-user/alpha/target_cpu.h
++++ b/linux-user/alpha/target_cpu.h
+@@ -27,10 +27,19 @@ static inline void cpu_clone_regs_child(CPUAlphaState *env, target_ulong newsp,
+     }
+     env->ir[IR_V0] = 0;
+     env->ir[IR_A3] = 0;
++    env->ir[IR_A4] = 1;  /* OSF/1 secondary return: child */
+ }
+ 
+ static inline void cpu_clone_regs_parent(CPUAlphaState *env, unsigned flags)
  {
 +    /*
-+     * After cpu_copy, env->regwptr is pointing into the old env.
-+     * Update the new cpu to use its own register window.
++     * OSF/1 secondary return: parent
++     * Note that the kernel does not do this if SETTLS, because the
++     * settls argument register is still live after copy_thread.
 +     */
-+    env->regwptr = env->regbase + (env->cwp * 16);
-+
-     if (newsp) {
--        env->regwptr[22] = newsp;
-+        /* When changing stacks, do it with clean register windows.  */
-+#ifdef TARGET_SPARC64
-+        env->cansave = env->nwindows - 2;
-+        env->cleanwin = env->nwindows - 2;
-+        env->canrestore = 0;
-+#else
-+        env->wim = 1 << env->cwp;
-+#endif
-+        /* ??? The kernel appears to copy one stack frame to the new stack. */
-+        /* ??? The kernel force aligns the new stack. */
-+        env->regwptr[WREG_SP] = newsp;
-     }
--    /* syscall return for clone child: 0, and clear CF since
--     * this counts as a success return value.
--     */
--    env->regwptr[0] = 0;
-+
-+    if (flags & CLONE_VM) {
-+        /*
-+         * Syscall return for clone child: %o0 = 0 and clear CF since this
-+         * counts as a success return value.  Advance the PC past the syscall.
-+         * For fork child, all of this happens in cpu_loop, and we must not
-+         * do the pc advance twice.
-+         */
-+        env->regwptr[WREG_O0] = 0;
- #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--    env->xcc &= ~PSR_CARRY;
-+        env->xcc &= ~PSR_CARRY;
- #else
--    env->psr &= ~PSR_CARRY;
-+        env->psr &= ~PSR_CARRY;
- #endif
-+        env->pc = env->npc;
-+        env->npc = env->npc + 4;
++    if (!(flags & CLONE_SETTLS)) {
++        env->ir[IR_A4] = 0;
 +    }
-+
-+    /* Set the second return value for the child: %o1 = 1.  */
-+    env->regwptr[WREG_O1] = 1;
  }
  
- static inline void cpu_clone_regs_parent(CPUSPARCState *env, unsigned flags)
- {
-+    /* Set the second return value for the parent: %o1 = 0.  */
-+    env->regwptr[WREG_O1] = 0;
- }
- 
- static inline void cpu_set_tls(CPUSPARCState *env, target_ulong newtls)
+ static inline void cpu_set_tls(CPUAlphaState *env, target_ulong newtls)
 -- 
 2.21.0
 
