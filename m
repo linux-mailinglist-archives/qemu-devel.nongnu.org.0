@@ -2,98 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD043EFDDA
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 14:03:15 +0100 (CET)
-Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBB3EFE06
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 14:12:28 +0100 (CET)
+Received: from localhost ([::1]:44100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRyUM-0000NB-8l
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 08:03:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
+	id 1iRydH-0004eG-ES
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 08:12:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent.bonnans@here.com>) id 1iRyT2-0007sO-Al
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:01:53 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iRycN-0003zh-QM
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:11:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent.bonnans@here.com>) id 1iRySy-0000T0-Ho
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:01:49 -0500
-Received: from mail-eopbgr80132.outbound.protection.outlook.com
- ([40.107.8.132]:35399 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent.bonnans@here.com>)
- id 1iRySy-0000QD-0n; Tue, 05 Nov 2019 08:01:48 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ljCEE+buCc4Oup2PomaVq+BGQ/ArER7d0IUegoShMBUanhcSnnyAxlWbLWH1IFM4ESqHx5XpCB7I02OQhQ6wRgYtcl3+1S9MCSrBPrYxhS6NOb/cVL3ePuolPIQD0c3Ml3vaTBG+x5B5FXvXAt2cVc2v2CpAbc8p/5QBhj+Tu1zZWzs+1W8zQ9LqpjbHhrf0/+jkXSXTmESuiSbUFrRpDVUUFt2oVt18u4+T79A96H5eA1uMcekFGj9Fw+wAVPP7tvJeeomEJd9Ud0sWIQ9Nym2L+VpvQxxaB48vtLjBIASDD/FzUU0v0CuVLabGuQM6jJAmkoPxKPG44MpJDiYm0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KOOmbuGsaxsoxhOUlBwyBef7yWKEzLJnfHGxf62F6iY=;
- b=lzRdUYVwU3MRRkQ1Xxt03Ao2TYufF1cPZKJiECpCsn9IbpfEYEEnWUNDmk40+8mGFIpqZ4h0GHMhb5/4PRdEqXtjXudTUm4ccWJZ0KVLF0oE/TL3ajzhNw+2QIUAEftRAuT/7Kn4QdtGuaEZ+uIE42qj8SZxul8TA57ILQ4wW3j01TIvKohwU+puMqwibe4qhuTJytd1NgrC+jjDFXKNd59Vh7GLxSSB61q61pm7z6ozFT9xmLG4+fvyzDR6+DWXQcAUXRwvloC/UrBoYwX5/xi5q1DvIf47hHQiaZOwF8oaTCOmJNBoLMiTP/yQlOFpb7W06XYcpeStZ/G/gIyyvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=here.com; dmarc=pass action=none header.from=here.com;
- dkim=pass header.d=here.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=here.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KOOmbuGsaxsoxhOUlBwyBef7yWKEzLJnfHGxf62F6iY=;
- b=LIpdWSzYQNPqG81igoYcIrQw7fTGpwVE6O65LS7rVHhzm6vfXxGLaU04cQP7p16s8t4LH0s8TzkXUPPG1JT51+Lc2CdB8E4O4wylBAajynyMIchKKv9WpbFwFnjvROYKba8W1YAKSXG8TSn8Bnp96WwfkXk4RwXcmPjCJ59ryGM=
-Received: from AM5PR04MB3299.eurprd04.prod.outlook.com (10.173.255.158) by
- AM5PR04MB3043.eurprd04.prod.outlook.com (10.173.254.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2408.24; Tue, 5 Nov 2019 13:01:42 +0000
-Received: from AM5PR04MB3299.eurprd04.prod.outlook.com
- ([fe80::8ce8:9eaf:3916:4bc9]) by AM5PR04MB3299.eurprd04.prod.outlook.com
- ([fe80::8ce8:9eaf:3916:4bc9%6]) with mapi id 15.20.2408.024; Tue, 5 Nov 2019
- 13:01:42 +0000
-From: "Bonnans, Laurent" <laurent.bonnans@here.com>
-To: Clement Deschamps <clement.deschamps@greensocs.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/arm/boot: Set NSACR.{CP11, CP10} in dummy SMC setup
- routine
-Thread-Topic: [PATCH] hw/arm/boot: Set NSACR.{CP11, CP10} in dummy SMC setup
- routine
-Thread-Index: AQHVkyLpdZ9C4+vVyUaj7PS7hruIkqd8jA+A
-Date: Tue, 5 Nov 2019 13:01:42 +0000
-Message-ID: <e04fb8db-6711-df97-50b6-c91bdbdb1219@here.com>
-References: <20191104151137.81931-1-clement.deschamps@greensocs.com>
-In-Reply-To: <20191104151137.81931-1-clement.deschamps@greensocs.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=laurent.bonnans@here.com; 
-x-originating-ip: [131.228.216.128]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: ff3cef91-4653-42b4-4188-08d761f04ddd
-x-ms-traffictypediagnostic: AM5PR04MB3043:
-x-microsoft-antispam-prvs: <AM5PR04MB304346813F8E3BC3E6200A58857E0@AM5PR04MB3043.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:962;
-x-forefront-prvs: 0212BDE3BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(136003)(376002)(366004)(396003)(39860400002)(346002)(199004)(189003)(54906003)(186003)(31686004)(486006)(86362001)(66066001)(6116002)(11346002)(91956017)(71200400001)(14454004)(66556008)(66946007)(6486002)(14444005)(8676002)(256004)(7736002)(31696002)(66476007)(3846002)(476003)(305945005)(2906002)(6246003)(76176011)(2616005)(71190400001)(229853002)(25786009)(76116006)(81166006)(81156014)(66446008)(4001150100001)(8936002)(99286004)(110136005)(26005)(478600001)(316002)(5660300002)(102836004)(2501003)(36756003)(64756008)(4326008)(6506007)(6512007)(6436002)(446003)(53546011);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM5PR04MB3043;
- H:AM5PR04MB3299.eurprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: here.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cT7DHPcqgwTLlyaC9Hc+H5gAOvyqL25ls1X5Y2UmIPv1Zw/LGfNWLCGUeToP59cLtQPZrNomQ/5U27QVaTLG142hmREojTWl0+roaXxtDyMvFqRcDMXlqp9TCSniyZBeXXLaOX28l0zchEJL6z//kZCgvHkmHreTyZsCb0qQ0Kx7cAaQhgwS1Y+eH66VAazKgVga0PygRrig5hXPzy7aTY4PKr6R8TC35l+HSztRSv50DUAMsVp4eLxYDCgByz96TCO4yhFDKAMVM+WK3YhCNou4NSPSCmDlL6M+PNbyWKTsGV1URW51U0Fb6zNzp2+TvlthhL/MqC0lR7ZK7UTgM2iHk9TyfoiNtebyHQd5XkgVPYaXtFv14yw4Y2nww9QLTeMJ1/rk9GzOLqJXImuWu1OP5gJMXn8QqEd/VYzFWSyC8y0cfCAcugCKr1R7np1h
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <666D6D0B453F0544893AED044BC8BEEE@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <mreitz@redhat.com>) id 1iRycL-0001hk-Fl
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:11:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26803
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iRycL-0001hF-BN
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 08:11:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1572959489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=JZvfDUzm5g8DYX00NBKbrUkJQj9rhc7XeTvgKfIIMiI=;
+ b=BTbzAzo25mH8TZV6G/fRe1/hP6c0886ffw+IIrpZTGDURwfhDGhRIjWL2ksGV2eIW44qHW
+ UPP6F7Dxtcr1knj+11xl5FXUcMZLosX6Qf3FjY1S1R5Ei/MQPTFda5wbCpvC7c5+WmIYxB
+ syXuZLApzG+PqQ7ELeY+kZtNPZAAkOo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-zwr5c94OP0meoj_xL3hUYA-1; Tue, 05 Nov 2019 08:11:25 -0500
+X-MC-Unique: zwr5c94OP0meoj_xL3hUYA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00405107ACC3;
+ Tue,  5 Nov 2019 13:11:24 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-89.ams2.redhat.com
+ [10.36.117.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3258F60E1C;
+ Tue,  5 Nov 2019 13:11:20 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 25/26] qcow2: Allow preallocation and backing files
+ if extended_l2 is set
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1572125022.git.berto@igalia.com>
+ <3b868557f35fbdbc9cc8d962c23be4d2daa9c2b2.1572125022.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <45b56a21-fd23-93eb-710e-3cc2d5e434f3@redhat.com>
+Date: Tue, 5 Nov 2019 14:11:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-OriginatorOrg: here.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff3cef91-4653-42b4-4188-08d761f04ddd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2019 13:01:42.1106 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6d4034cd-7225-4f72-b853-91feaea64919
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OSRWo25711VWrVURZnVrE9GL0xZ1zwNhi2TZuPFIbcY5mv2iMNhJXP8q8ajJVpOXPI6HnUf4kdgOTQ0AWtaCp1mqNy5WGBFr6tKBNWHu1kE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB3043
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.132
+In-Reply-To: <3b868557f35fbdbc9cc8d962c23be4d2daa9c2b2.1572125022.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wganPhNsDhct39YRJXmLrDJjs9j0O2IZj"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,39 +99,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTEvNC8xOSA0OjExIFBNLCBDbGVtZW50IERlc2NoYW1wcyB3cm90ZToNCg0KPiBTZXQgdGhl
-IE5TQUNSIENQMTEgYW5kIENQMTAgYml0cywgdG8gYWxsb3cgRlBVIGFjY2VzcyBpbiBOb24tU2Vj
-dXJlIHN0YXRlDQo+IHdoZW4gdXNpbmcgZHVtbXkgU01DIHNldHVwIHJvdXRpbmUuIE90aGVyd2lz
-ZSBhbiBBQXJjaDMyIGtlcm5lbCB3aWxsIFVOREVGIGFzDQo+IHNvb24gYXMgaXQgdHJpZXMgdG8g
-dXNlIHRoZSBGUFUuDQo+DQo+IFRoaXMgZml4ZXMga2VybmVsIHBhbmljIHdoZW4gYm9vdGluZyBy
-YXNwYmlhbiBvbiByYXNwaTIuDQpJIGNhbiBjb25maXJtIHRoYXQgaXQgc29sdmVzIHRoZSBrZXJu
-ZWwgcGFuaWNzIHdlJ3ZlIGhhZCBpbiBvdXIgdGVzdHMgDQp3aGVuIHJ1bm5pbmcgb3VyIHlvY3Rv
-LWJ1aWx0IGltYWdlcy4NCg0KVGVzdGVkLWJ5OiBMYXVyZW50IEJvbm5hbnMgPGxhdXJlbnQuYm9u
-bmFuc0BoZXJlLmNvbT4NCg0KTGF1cmVudA0KPg0KPiBTdWNjZXNzZnVsbHkgdGVzdGVkIHdpdGg6
-DQo+ICAgIDIwMTctMDEtMTEtcmFzcGJpYW4tamVzc2llLWxpdGUuaW1nDQo+ICAgIDIwMTgtMTEt
-MTMtcmFzcGJpYW4tc3RyZXRjaC1saXRlLmltZw0KPiAgICAyMDE5LTA3LTEwLXJhc3BiaWFuLWJ1
-c3Rlci1saXRlLmltZw0KPg0KPiBTZWUgYWxzbyBjb21taXQgZWNlNjI4ZmNmNiB0aGF0IGZpeGVz
-IHRoZSBpc3N1ZSB3aGVuICpub3QqIHVzaW5nIHRoZQ0KPiBkdW1teSBTTUMgc2V0dXAgcm91dGlu
-ZS4NCj4NCj4gRml4ZXM6IGZjMTEyMGE3ZjUNCj4gU2lnbmVkLW9mZi1ieTogQ2xlbWVudCBEZXNj
-aGFtcHMgPGNsZW1lbnQuZGVzY2hhbXBzQGdyZWVuc29jcy5jb20+DQo+IC0tLQ0KPiAgIGh3L2Fy
-bS9ib290LmMgfCAzICsrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCj4N
-Cj4gZGlmZiAtLWdpdCBhL2h3L2FybS9ib290LmMgYi9ody9hcm0vYm9vdC5jDQo+IGluZGV4IGVm
-NjcyNDk2MGMuLjhmYjRhNjM2MDYgMTAwNjQ0DQo+IC0tLSBhL2h3L2FybS9ib290LmMNCj4gKysr
-IGIvaHcvYXJtL2Jvb3QuYw0KPiBAQCAtMjQwLDYgKzI0MCw5IEBAIHZvaWQgYXJtX3dyaXRlX3Nl
-Y3VyZV9ib2FyZF9zZXR1cF9kdW1teV9zbWMoQVJNQ1BVICpjcHUsDQo+ICAgICAgIH07DQo+ICAg
-ICAgIHVpbnQzMl90IGJvYXJkX3NldHVwX2Jsb2JbXSA9IHsNCj4gICAgICAgICAgIC8qIGJvYXJk
-IHNldHVwIGFkZHIgKi8NCj4gKyAgICAgICAgMHhlZTExMGY1MSwgLyogbXJjICAgICBwMTUsIDAs
-IHIwLCBjMSwgYzEsIDIgIDtyZWFkIE5TQUNSICovDQo+ICsgICAgICAgIDB4ZTM4MDBiMDMsIC8q
-IG9yciAgICAgcjAsICMweGMwMCAgICAgICAgICAgICA7c2V0IENQMTEsIENQMTAgKi8NCj4gKyAg
-ICAgICAgMHhlZTAxMGY1MSwgLyogbWNyICAgICBwMTUsIDAsIHIwLCBjMSwgYzEsIDIgIDt3cml0
-ZSBOU0FDUiAqLw0KPiAgICAgICAgICAgMHhlM2EwMGUwMCArIChtdmJhcl9hZGRyID4+IDQpLCAv
-KiBtb3YgcjAsICNtdmJhcl9hZGRyICovDQo+ICAgICAgICAgICAweGVlMGMwZjMwLCAvKiBtY3Ig
-ICAgIHAxNSwgMCwgcjAsIGMxMiwgYzAsIDEgO3NldCBNVkJBUiAqLw0KPiAgICAgICAgICAgMHhl
-ZTExMGYxMSwgLyogbXJjICAgICBwMTUsIDAsIHIwLCBjMSAsIGMxLCAwIDtyZWFkIFNDUiAqLw==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wganPhNsDhct39YRJXmLrDJjs9j0O2IZj
+Content-Type: multipart/mixed; boundary="YTDdy9eHYWoP6GPOmYmuQKPFIFMM36Lgr"
+
+--YTDdy9eHYWoP6GPOmYmuQKPFIFMM36Lgr
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 26.10.19 23:25, Alberto Garcia wrote:
+> Traditional qcow2 images don't allow preallocation if a backing file
+> is set. This is because once a cluster is allocated there is no way to
+> tell that its data should be read from the backing file.
+>=20
+> Extended L2 entries have individual allocation bits for each
+> subcluster, and therefore it is perfectly possible to have an
+> allocated cluster with all its subclusters unallocated.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2.c              | 7 ++++---
+>  tests/qemu-iotests/206.out | 2 +-
+>  2 files changed, 5 insertions(+), 4 deletions(-)
+
+But it doesn=E2=80=99t work, because qcow2_alloc_cluster_offset() always
+allocates the whole cluster, so the backing file content isn=E2=80=99t visi=
+ble:
+
+$ ./qemu-img create -f qcow2 base.qcow2 64M
+Formatting 'base.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D65536
+lazy_refcounts=3Doff extended_l2=3Doff refcount_bits=3D16
+
+$ ./qemu-io -c 'write -P 42 0 64M' base.qcow2
+wrote 67108864/67108864 bytes at offset 0
+64 MiB, 1 ops; 00.21 sec (307.344 MiB/sec and 4.8022 ops/sec)
+
+$ ./qemu-img create -f qcow2 -o preallocation=3Dmetadata,extended_l2=3Don \
+    top.qcow2
+Formatting 'top.qcow2', fmt=3Dqcow2 size=3D67108864 backing_file=3Dbase.qco=
+w2
+cluster_size=3D65536 preallocation=3Dmetadata lazy_refcounts=3Doff
+extended_l2=3Don refcount_bits=3D16
+
+$ ./qemu-io -c 'read -P 42 0 64M' top.qcow2
+Pattern verification failed at offset 0, 67108864 bytes
+read 67108864/67108864 bytes at offset 0
+64 MiB, 1 ops; 00.03 sec (2.498 GiB/sec and 39.9725 ops/sec)
+
+Max
+
+
+--YTDdy9eHYWoP6GPOmYmuQKPFIFMM36Lgr--
+
+--wganPhNsDhct39YRJXmLrDJjs9j0O2IZj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3BdPYACgkQ9AfbAGHV
+z0BWGQgAvg1Z+3W6rf1VUY7cGFgAL6f+bHfVD7kEi5iT0sWHr2hEz/rbgn4QfVQG
+1SSAX0M3QAZ2qpRR0PT5IyLGhBSU0Wcrg9K7PK1MIYbkJqL8q/ypUpRbo7L+jcy4
++iT+h1Qg3LQopysgzOfw796l0tpLPjA8NUztGwlknhqkOh7GOqNVpzVCD7kC5bi7
+brn1ctlwLudewwcpG39MuJdXHY8l07biNasoRRIHklf6npRkoQM0gKLeAlbbSayu
+IwUA1J72Y3fxoEKaXn3kXTmoWpXZSBo7nZfB/l4qYpn1vnAlNRimz9opzhzueFQm
+RBwmxKdqL1eDr1skcU6R8h7R8Fp85g==
+=jauX
+-----END PGP SIGNATURE-----
+
+--wganPhNsDhct39YRJXmLrDJjs9j0O2IZj--
+
 
