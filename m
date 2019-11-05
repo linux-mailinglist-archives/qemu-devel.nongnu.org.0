@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0E9F07E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:12:49 +0100 (CET)
-Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43934F085B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 22:30:06 +0100 (CET)
+Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS688-0007or-Fl
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:12:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
+	id 1iS6Oq-0004wA-NG
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 16:30:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58810)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pZ-0001G2-39
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:38 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pZ-0001HU-TK
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pX-0002QU-De
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:36 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29332)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iS5pX-0002Qo-Or
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 15:53:37 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32568)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iS5pX-00026Q-5Z; Tue, 05 Nov 2019 15:53:35 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1iS5pX-00026e-Jj; Tue, 05 Nov 2019 15:53:35 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA5KpbYF028331; Tue, 5 Nov 2019 15:53:14 -0500
+ xA5KpbUQ076892; Tue, 5 Nov 2019 15:53:15 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3dd0xv4g-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3csx6x49-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:14 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5KrDUD031958;
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xA5Kphkv077137;
  Tue, 5 Nov 2019 15:53:13 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w3dd0xv43-1
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3csx6x40-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 05 Nov 2019 15:53:13 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5Knua3000943;
- Tue, 5 Nov 2019 20:53:12 GMT
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA5KnujL017448;
+ Tue, 5 Nov 2019 20:53:13 GMT
 Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2w11e79fht-1
+ [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 2w11e7186v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Nov 2019 20:53:12 +0000
+ Tue, 05 Nov 2019 20:53:13 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA5KrCxM36569516
+ xA5KrCCD12846006
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 5 Nov 2019 20:53:12 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E195712405B;
- Tue,  5 Nov 2019 20:53:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6D3F4124058;
+ Tue,  5 Nov 2019 20:53:12 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE634124058;
- Tue,  5 Nov 2019 20:53:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 59CA012405C;
+ Tue,  5 Nov 2019 20:53:12 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.218])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Nov 2019 20:53:11 +0000 (GMT)
+ Tue,  5 Nov 2019 20:53:12 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 43/55] qcow2: Limit total allocation range to INT_MAX
-Date: Tue,  5 Nov 2019 14:52:31 -0600
-Message-Id: <20191105205243.3766-44-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 44/55] iotests: Test large write request to qcow2 file
+Date: Tue,  5 Nov 2019 14:52:32 -0600
+Message-Id: <20191105205243.3766-45-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
 References: <20191105205243.3766-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-05_07:, , signatures=0
@@ -76,11 +74,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1911050170
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xA5KpbYF028331
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,58 +94,168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-When the COW areas are included, the size of an allocation can exceed
-INT_MAX.  This is kind of limited by handle_alloc() in that it already
-caps avail_bytes at INT_MAX, but the number of clusters still reflects
-the original length.
+Without HEAD^, the following happens when you attempt a large write
+request to a qcow2 file such that the number of bytes covered by all
+clusters involved in a single allocation will exceed INT_MAX:
 
-This can have all sorts of effects, ranging from the storage layer write
-call failing to image corruption.  (If there were no image corruption,
-then I suppose there would be data loss because the .cow_end area is
-forced to be empty, even though there might be something we need to
-COW.)
+(A) handle_alloc_space() decides to fill the whole area with zeroes and
+    fails because bdrv_co_pwrite_zeroes() fails (the request is too
+    large).
 
-Fix all of it by limiting nb_clusters so the equivalent number of bytes
-will not exceed INT_MAX.
+(B) If handle_alloc_space() does not do anything, but merge_cow()
+    decides that the requests can be merged, it will create a too long
+    IOV that later cannot be written.
 
-Cc: qemu-stable@nongnu.org
+(C) Otherwise, all parts will be written separately, so those requests
+    will work.
+
+In either B or C, though, qcow2_alloc_cluster_link_l2() will have an
+overflow: We use an int (i) to iterate over nb_clusters, and then
+calculate the L2 entry based on "i << s->cluster_bits" -- which will
+overflow if the range covers more than INT_MAX bytes.  This then leads
+to image corruption because the L2 entry will be wrong (it will be
+recognized as a compressed cluster).
+
+Even if that were not the case, the .cow_end area would be empty
+(because handle_alloc() will cap avail_bytes and nb_bytes at INT_MAX, so
+their difference (which is the .cow_end size) will be 0).
+
+So this test checks that on such large requests, the image will not be
+corrupted.  Unfortunately, we cannot check whether COW will be handled
+correctly, because that data is discarded when it is written to null-co
+(but we have to use null-co, because writing 2 GB of data in a test is
+not quite reasonable).
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit d1b9d19f99586b33795e20a79f645186ccbc070f)
+(cherry picked from commit a1406a9262a087d9ec9627b88da13c4590b61dae)
+ Conflicts:
+	tests/qemu-iotests/group
+*drop context dep. on tests not in 4.1
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/qcow2-cluster.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/270     | 83 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/270.out |  9 +++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 93 insertions(+)
+ create mode 100755 tests/qemu-iotests/270
+ create mode 100644 tests/qemu-iotests/270.out
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 760564c8fb..f8576031b6 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1341,6 +1341,9 @@ static int handle_alloc(BlockDriverState *bs, uint6=
-4_t guest_offset,
-     nb_clusters =3D MIN(nb_clusters, s->l2_slice_size - l2_index);
-     assert(nb_clusters <=3D INT_MAX);
-=20
-+    /* Limit total allocation byte count to INT_MAX */
-+    nb_clusters =3D MIN(nb_clusters, INT_MAX >> s->cluster_bits);
+diff --git a/tests/qemu-iotests/270 b/tests/qemu-iotests/270
+new file mode 100755
+index 0000000000..b9a12b908c
+--- /dev/null
++++ b/tests/qemu-iotests/270
+@@ -0,0 +1,83 @@
++#!/usr/bin/env bash
++#
++# Test large write to a qcow2 image
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-     /* Find L2 entry for the first involved cluster */
-     ret =3D get_cluster_table(bs, guest_offset, &l2_slice, &l2_index);
-     if (ret < 0) {
-@@ -1429,7 +1432,7 @@ static int handle_alloc(BlockDriverState *bs, uint6=
-4_t guest_offset,
-      * request actually writes to (excluding COW at the end)
-      */
-     uint64_t requested_bytes =3D *bytes + offset_into_cluster(s, guest_o=
-ffset);
--    int avail_bytes =3D MIN(INT_MAX, nb_clusters << s->cluster_bits);
-+    int avail_bytes =3D nb_clusters << s->cluster_bits;
-     int nb_bytes =3D MIN(requested_bytes, avail_bytes);
-     QCowL2Meta *old_m =3D *m;
-=20
---=20
++seq=$(basename "$0")
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++# This is a qcow2 regression test
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++# We use our own external data file and our own cluster size, and we
++# require v3 images
++_unsupported_imgopts data_file cluster_size 'compat=0.10'
++
++
++# We need a backing file so that handle_alloc_space() will not do
++# anything.  (If it were to do anything, it would simply fail its
++# write-zeroes request because the request range is too large.)
++TEST_IMG="$TEST_IMG.base" _make_test_img 4G
++$QEMU_IO -c 'write 0 512' "$TEST_IMG.base" | _filter_qemu_io
++
++# (Use .orig because _cleanup_test_img will remove that file)
++# We need a large cluster size, see below for why (above the $QEMU_IO
++# invocation)
++_make_test_img -o cluster_size=2M,data_file="$TEST_IMG.orig" \
++    -b "$TEST_IMG.base" 4G
++
++# We want a null-co as the data file, because it allows us to quickly
++# "write" 2G of data without using any space.
++# (qemu-img create does not like it, though, because null-co does not
++# support image creation.)
++$QEMU_IMG amend -o data_file="json:{'driver':'null-co',,'size':'4294967296'}" \
++    "$TEST_IMG"
++
++# This gives us a range of:
++#   2^31 - 512 + 768 - 1 = 2^31 + 255 > 2^31
++# until the beginning of the end COW block.  (The total allocation
++# size depends on the cluster size, but all that is important is that
++# it exceeds INT_MAX.)
++#
++# 2^31 - 512 is the maximum request size.  We want this to result in a
++# single allocation, and because the qcow2 driver splits allocations
++# on L2 boundaries, we need large L2 tables; hence the cluster size of
++# 2 MB.  (Anything from 256 kB should work, though, because then one L2
++# table covers 8 GB.)
++$QEMU_IO -c "write 768 $((2 ** 31 - 512))" "$TEST_IMG" | _filter_qemu_io
++
++_check_test_img
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/270.out b/tests/qemu-iotests/270.out
+new file mode 100644
+index 0000000000..c7be111014
+--- /dev/null
++++ b/tests/qemu-iotests/270.out
+@@ -0,0 +1,9 @@
++QA output created by 270
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=4294967296
++wrote 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 backing_file=TEST_DIR/t.IMGFMT.base data_file=TEST_DIR/t.IMGFMT.orig
++wrote 2147483136/2147483136 bytes at offset 768
++2 GiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++No errors were found on the image.
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 8bc2f3857d..7629e8ea17 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -274,3 +274,4 @@
+ 265 rw auto quick
+ 266 rw quick
+ 267 rw auto quick snapshot
++270 rw backing quick
+-- 
 2.17.1
 
 
