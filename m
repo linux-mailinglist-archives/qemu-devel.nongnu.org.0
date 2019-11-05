@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1921FEFA36
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:56:50 +0100 (CET)
-Received: from localhost ([::1]:42332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B8DEFA46
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 10:58:26 +0100 (CET)
+Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iRvZw-0001Lb-T9
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:56:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51418)
+	id 1iRvbV-0003pg-Gb
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 04:58:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iRvXO-0007hV-RP
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:54:12 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iRvXx-0007yJ-QT
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:54:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iRvXM-0003xd-Pc
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:54:10 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:40589)
+ (envelope-from <laurent@vivier.eu>) id 1iRvXv-0004L8-7I
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:54:44 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:57347)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iRvXJ-0003rf-EO
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:54:06 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iRvXu-0004Jz-UI
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 04:54:43 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
  (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M9nlN-1iXAKK338n-005u2g; Tue, 05 Nov 2019 10:54:01 +0100
-Subject: Re: [PATCH v2 12/12] linux-user/alpha: Set r20 secondary return value
+ 1MKbPg-1iDYzD2Krs-00KwDi; Tue, 05 Nov 2019 10:54:39 +0100
+Subject: Re: [PATCH v2 11/12] linux-user/sparc: Fix cpu_clone_regs_*
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20191025113921.9412-1-richard.henderson@linaro.org>
- <20191025113921.9412-13-richard.henderson@linaro.org>
+ <20191025113921.9412-12-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -70,33 +70,33 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b9eee751-a891-7bf4-f086-ccf6fa1ba56f@vivier.eu>
-Date: Tue, 5 Nov 2019 10:53:59 +0100
+Message-ID: <ee7b5006-a8bd-f626-bb2a-5f36104b45d3@vivier.eu>
+Date: Tue, 5 Nov 2019 10:54:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191025113921.9412-13-richard.henderson@linaro.org>
+In-Reply-To: <20191025113921.9412-12-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6yfeu8GfDWbDlnu8a6usplXNQlHvbZZWA3MRCsqh/h6/HiIQIcn
- djsYUWEx4t9rtrSoS4McDHy1wEewjReRgOUopJ0M7OWvq7TlMclGjQvOIJxhd1vtS7qjNtb
- b995KlmTp7AjlzytcrR97dBTiH6K35Kd8r+yE1GQLB9rXEDQOUCV0v8Tv78Lg+YZWR3PFx0
- 941XPKUwMKe1WBtjQDVBA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IKKTY9rW84c=:oDIIefYrINhJ2EbTDFkXdo
- JTt/5UQ7C6oQN+ahLTP776rBgw8KvlmvVh9DZVTPysQSqaz4raSYAgqNJXaPbp9d0VFSKU6JE
- F1/SEQwslX1t+vBdFRmESHf+LyPxSHDZBjkpzgFb5nzRganUtjJMl21FKGPd+XWUF5Jg1xe2X
- W3kL0hzhZz5MgpuGTkMZwKgHmSiV663rHbU5TnG8Gv+AFoT4k02fZy9vsTXqX2uDAZr1LECr1
- irU2SCWaZlShKq1LHazqvtNP9jOLi+L8KgVQGG0LLBTXCE/X7Yp0ZiMrOLVvdqhOOoSN2eVb8
- 92eBs35gI4w4cqCOqO3LgopD+F+Mu9Fzn1OP36jSiVEYmsT0q/cR0ATD+B+HDIfNnU546U5wI
- Js6F0Vpn7EzV5XH4C+jybPLEa0U/TZUtsAEtfqeNYDOUfSh/oldGDjDAE/lTztjyf/pBDBMpq
- GKky4aSzrJ34OR0Uw8L4XOfMpVxkSEJSAcV2Nwf0W7rqwVZ64DyFkWJLlxi7wQsBiokLYM9NH
- Qk0hnXlJKgUMTBBC3YgdSeSwD7KxHA0682KH5tuaByRFyQBRJ2jdAG1HEoBtElK5qWYJJj8Fx
- I9M0SrGkI3uksu22KevUVruyM4JQmn/XSiHV/UhTH0C4P3bb6N8eHD8+UFFKSEGisRQKfsXrN
- xwjxz8AoKFrr1xXnQm+PeHiybb0ZonSHEm7x+qpY0p7GNAcflbROpfLmadAPYBYPYJMpgiA4l
- mITK4KlXbmoMI4Pb/owvjeXuwzWVJ4DUnYWAFPW9YLGxlu7lUPmxnla3zJC4U5UIWyKBzVQyk
- NXOAURu/hM4GDZIlV8A2Fw5oWBEN+q0dVu3fNd0cCQI5CKuLuT0rkMtMwAlvVwtRhpmSs7/6C
- Q6A1yhwFKAN9vyNm3cUDPnA/Tbxq0TTQi4dUTZxr4=
+X-Provags-ID: V03:K1:ZxG2K+7iO5AdHjeFG3/7830dYJ9TLscigU8mwTTosLLw8K3Iwf3
+ j9TplnsA0umUXC2gTMyMd0yxrD9vm/3gKMaZHe0qROf6U1LyNrhOHy2/INdB5vpRFl2GPan
+ y+t87vrKavszu2+/M+TuKnMIvs/06PAhnMXwLZzi0rHQWosMR8lgyWkKfYZnxKWjGlv96d8
+ K7v0cEh6GNy+EufBYJXyA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MB+BsBCoG2I=:rmbLckVElNCE2uXi+dRzYE
+ lkDAsHJMWcmrz3CCw3m78Wm5Ji9vz0tqjtIJW6ToHqJYU5jFbhvMneZRJqFyhuXreQt3DOklq
+ vFQlcJOfeJCpPB+X6kEJhpD88C0xCVdqEWdMW2POU7XHxReRTpn8wd0CuKpSrGknP/iNa19VY
+ irSoIKKqLJhIxFhkzHLYOiZkmhvl4vp0etgjwDJjdfOpaZEIXoQWipFzz/KU8iy835vD3Mw6z
+ sNN8IxH9c+5GZYvvZgRFqx8gQT6lnegq7U0ilaNoJI2YJVD8TH1E/y27YOLSoaC8XS0mX6Meb
+ b7lVLLU1n27RpictRcGgdI3iDFIY1037Jjv/ui1UQNFW7isD63RxwDhmG3+rrgW61avVgWrGs
+ 46vNml23OmVfINOJ1uMaU/QAPv04fgyV7EZ7X9AbOqf6nfW4Sr8jbqABNnrrNtPcXnIz2BhBs
+ UqUg09SfwOhHv1UveFgsq2TSPJWK2c4o1PTE9qI/Jz2VKRAIVd/uu/Df6WrxkJ2yb++N5lie/
+ N5KaHjMC4Ydj+8S0I7MbNYqK0P2gtiSi1Dp1pz6Uk/T7i2kgBQ94VGFjHE89tGucchOV+pABN
+ bbkTE/g3MoLtMlGW/7o2oMpOco8wbwJd5dFbTUPrErPfScTOqlEwq0/irA8akhdpLXlgXOwkF
+ LBXKLxO+qb14Opzb52I4LlETXOqkZ0egLFRbDxROvGpG1SxJLk4Uipqp70P455+vbNF2/zbs1
+ XHrwM7Ihb3IV1W+zW1C6JTlPnIqw2uD1q8sy/123p5KBHs/UGDr2kuKeJvWvUADFEmpT7v9A3
+ TB4mMrtJ4v50U8Ooej2RS4R/4YwNX+9hqFeUx+kjADPUeKns3CmUDATat+AHL4THnlsZ6uy/v
+ ZWZnsNPpordsfnxbqvhXI799Nnl3AkutU+Vb4wmkY=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.187
@@ -116,40 +116,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 25/10/2019 à 13:39, Richard Henderson a écrit :
-> This value is not, as far as I know, used by any linux software,
-> but it is set by the kernel and is part of the ABI.
+> We failed to set the secondary return value in %o1
+> we failed to advance the PC past the syscall,
+> we failed to adjust regwptr into the new structure,
+> we stored the stack pointer into the wrong register.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2: Do not set the parent secondary return if SETTLS.
+> v2: Take CLONE_VM into account when performing syscall return.
 > ---
->  linux-user/alpha/target_cpu.h | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  linux-user/sparc/target_cpu.h | 47 ++++++++++++++++++++++++++++-------
+>  1 file changed, 38 insertions(+), 9 deletions(-)
 > 
-> diff --git a/linux-user/alpha/target_cpu.h b/linux-user/alpha/target_cpu.h
-> index dd25e18f47..ad408ab5cc 100644
-> --- a/linux-user/alpha/target_cpu.h
-> +++ b/linux-user/alpha/target_cpu.h
-> @@ -27,10 +27,19 @@ static inline void cpu_clone_regs_child(CPUAlphaState *env, target_ulong newsp,
->      }
->      env->ir[IR_V0] = 0;
->      env->ir[IR_A3] = 0;
-> +    env->ir[IR_A4] = 1;  /* OSF/1 secondary return: child */
->  }
->  
->  static inline void cpu_clone_regs_parent(CPUAlphaState *env, unsigned flags)
+> diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
+> index 8ff706adce..14b2158969 100644
+> --- a/linux-user/sparc/target_cpu.h
+> +++ b/linux-user/sparc/target_cpu.h
+> @@ -23,22 +23,51 @@
+>  static inline void cpu_clone_regs_child(CPUSPARCState *env, target_ulong newsp,
+>                                          unsigned flags)
 >  {
+> -    if (newsp) {
+> -        env->regwptr[22] = newsp;
+> -    }
+> -    /* syscall return for clone child: 0, and clear CF since
+> -     * this counts as a success return value.
 > +    /*
-> +     * OSF/1 secondary return: parent
-> +     * Note that the kernel does not do this if SETTLS, because the
-> +     * settls argument register is still live after copy_thread.
-> +     */
-> +    if (!(flags & CLONE_SETTLS)) {
-> +        env->ir[IR_A4] = 0;
+> +     * After cpu_copy, env->regwptr is pointing into the old env.
+> +     * Update the new cpu to use its own register window.
+>       */
+> -    env->regwptr[0] = 0;
+> -#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+> -    env->xcc &= ~PSR_CARRY;
+> +    env->regwptr = env->regbase + (env->cwp * 16);
+> +
+> +    if (newsp) {
+> +        /* When changing stacks, do it with clean register windows.  */
+> +#ifdef TARGET_SPARC64
+> +        env->cansave = env->nwindows - 2;
+> +        env->cleanwin = env->nwindows - 2;
+> +        env->canrestore = 0;
+>  #else
+> -    env->psr &= ~PSR_CARRY;
+> +        env->wim = 1 << env->cwp;
+>  #endif
+> +        /* ??? The kernel appears to copy one stack frame to the new stack. */
+> +        /* ??? The kernel force aligns the new stack. */
+> +        env->regwptr[WREG_SP] = newsp;
 > +    }
+> +
+> +    if (flags & CLONE_VM) {
+> +        /*
+> +         * Syscall return for clone child: %o0 = 0 and clear CF since this
+> +         * counts as a success return value.  Advance the PC past the syscall.
+> +         * For fork child, all of this happens in cpu_loop, and we must not
+> +         * do the pc advance twice.
+> +         */
+> +        env->regwptr[WREG_O0] = 0;
+> +#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+> +        env->xcc &= ~PSR_CARRY;
+> +#else
+> +        env->psr &= ~PSR_CARRY;
+> +#endif
+> +        env->pc = env->npc;
+> +        env->npc = env->npc + 4;
+> +    }
+> +
+> +    /* Set the second return value for the child: %o1 = 1.  */
+> +    env->regwptr[WREG_O1] = 1;
 >  }
 >  
->  static inline void cpu_set_tls(CPUAlphaState *env, target_ulong newtls)
+>  static inline void cpu_clone_regs_parent(CPUSPARCState *env, unsigned flags)
+>  {
+> +    /* Set the second return value for the parent: %o1 = 0.  */
+> +    env->regwptr[WREG_O1] = 0;
+>  }
+>  
+>  static inline void cpu_set_tls(CPUSPARCState *env, target_ulong newtls)
 > 
 
 Applied to my linux-user branch.
