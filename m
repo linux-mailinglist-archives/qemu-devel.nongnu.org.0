@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AC0F04C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:13:44 +0100 (CET)
-Received: from localhost ([::1]:47136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FABF0504
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Nov 2019 19:25:31 +0100 (CET)
+Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iS3Kp-0007lg-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:13:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51999)
+	id 1iS3WE-0004Lz-Tc
+	for lists+qemu-devel@lfdr.de; Tue, 05 Nov 2019 13:25:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iS3Ip-0005p4-9r
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:40 -0500
+ (envelope-from <jkz@google.com>) id 1iS3SJ-0000YL-Rs
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:21:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iS3Io-0004fM-6v
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:39 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:44091)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iS3In-0004eW-To
- for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:11:38 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MadC8-1hvSNJ37dK-00cBkp; Tue, 05 Nov 2019 19:11:35 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] linux-user/alpha: Set r20 secondary return value
-Date: Tue,  5 Nov 2019 19:11:19 +0100
-Message-Id: <20191105181119.26779-14-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191105181119.26779-1-laurent@vivier.eu>
-References: <20191105181119.26779-1-laurent@vivier.eu>
+ (envelope-from <jkz@google.com>) id 1iS3SI-0001hm-MU
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:21:27 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44535)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jkz@google.com>) id 1iS3SH-0001ey-N1
+ for qemu-devel@nongnu.org; Tue, 05 Nov 2019 13:21:26 -0500
+Received: by mail-pl1-x641.google.com with SMTP id q16so9875806pll.11
+ for <qemu-devel@nongnu.org>; Tue, 05 Nov 2019 10:21:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QZSSnmANKuYNNfeFA4kh0cvKnd7/E6AYhiSQDUOzoQk=;
+ b=Hb6+nHN3IOdtgYa5RsJyvTDxs0sIAFxGdtY9Ip7o5ZC9T8YAOTJG26w652HbknAEo7
+ CgRPJR5P9I//Ckhf2CqGB7KqevY5R9cr3deT+0WF+e5AEMuPBEltQWxy589+LzWH6R2m
+ 4BouNlxbEhenWzY9omlkNeWVa6zz/yt936DYeVjFkFH9DsW4ed+xJEmOYhaMD2kEBUc6
+ w0g8s6kQ58RfOIkzK97PRZ4wubbrXOo4HEmnIp4tYbRTkv3o+cmK6BHMoVFYFJmWpeb6
+ G3zhAwUQET7uKTIm5y90xdJP47IMKTuyTR3WrL5qhPtPmH0ZKWOyJuDi7Iv43plpegmy
+ CYyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QZSSnmANKuYNNfeFA4kh0cvKnd7/E6AYhiSQDUOzoQk=;
+ b=WdG/rb7mBpvHZos0RadDCW1EQjH6TcV9ZYHF59JGSG0A8QREcXFLJoPEhkmFpDhnFt
+ CE6JJ5F3BTAoyISWT1g7S485wyZ5WTFIzujJcpdQ9Bz33KJ2g3fyRki9pTgBgSIKaKGE
+ l2BOtxh5rbDuGnvAxt8i/Syl6C2XbGTY2pdFhweEAcZk+rEERYEEP+oM5BqpyfpaM9WR
+ 0THk87bABN6rfn2mztoJSE6OP0XIvehSYrfPcDJI+cfqDgHT9qO4Gfp1G0ou5u49RBa3
+ F6I8PXcAutsRH86lftKOoZfTnHJoY9BHSvxbBC8/P9+G4z9SRquzYDhC49TZhw63lfDF
+ v/1g==
+X-Gm-Message-State: APjAAAWcnMWAfOpNEV/9XY+BdZZExTyGUswi7yaoODGx7VC0VI5DVqZe
+ /JtdO6FJLhAEFFxg1GywMVablE1gPLUTTCvNFD8FMQ==
+X-Google-Smtp-Source: APXvYqzwq1c/f3iU/6McN47sanbfs6+K94D3u3y+MZc1uqHfhbbVlYWEzEqgWrb0ovdCbl7YbI2lzGbphBs7d4xr8Z4=
+X-Received: by 2002:a17:902:a403:: with SMTP id
+ p3mr9818877plq.275.1572978081687; 
+ Tue, 05 Nov 2019 10:21:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G5Qvq9AUwF43EHf2Ts0+hSE4/ieC4dEfMCGuVPb0+S4cAhx+CkS
- Bviyb1VDatREu20ezQcBca1qCqm+S4F76Q/14raGATNDrE+++zvwwhb00BNbd0nxN+5X/zw
- irnXI5HaYSCC6644dJmIRXuCX51+eC6EfPvdKQ4vonEaPTsZvPIz9nZvq4P/c3zs9ykTNdn
- aA6jVitt8v6p9G+0qrddA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GzKNXf/4V7U=:VYgqIR3/Si08vGcYzOt/oS
- nPOzcPW3TikWKAZ/GBGmgObmfZzI3O0Y0age/3tcH9AVSX3IUgK1jih+Ym8pGVItS6fusDUjQ
- QLFinTukIidQ2aMYwX9oXOxqhybI07gg2XO/SPDZHNDrQ1miphRFQRcQK0GHgJ0+6aUaGwG2d
- aZWOSgZogbWtcNmM4XkgU3X9bDha4T5C77fA3OpfuEP/y9kQR7IXsVvgNq2gvWDgZXqZE8WV9
- juU7jCLbopWgLF8nxQF+sIfQb7JIP1oejokRIaeth0an28OZM3F67yqWsddgBChf+NKmnFJLA
- 8lwEFrN0U7Dz1Ad6dN8gpCrYUQyDkJXt5TCiCUe35X4ThDOvwzCJxwNmZMT1Ii8x/XJ23SPmb
- MHTBNJesUZwWbpq6TSp7QF6JljPRa/KZVzmP5cRLUDxp0TOV51OnVBFBt+YNdm36GpDLlHah+
- 4oPPoHIDb87n1WdA2N1c19SpjpAYVAxGqqOITZvCyYOTw1mJPAzzRU1oH7qxA5usUxTWkI+S1
- z9fy96sH8K6B2rKWoh/2/YrOamFeeM3bytn4knGwIyMzkqWXmcA7VbBQ8PQg6Rob2nIZ9n9l8
- SuRdxE3aqqLKbzj+Jbe7MGubdUmusi/Jdm7z5mmmvE4l799ABKyry73IP98gt0Ob5H7EuM3sl
- 4uCYfQIZoAp2VLdt/V9rxk1j/HAzZgqMbQv2mViMoWxE2kdrb02nl0vvduylRFh8qkZTlSk7v
- s6LPxqaoan5wnPl6xP4xYsdPQQPDFXmDsLmapDPSmev5TlrnYlbbOwEq6va61dLJA3MP4tAJz
- ddgoQR8lHbGlITYQd0uJddY+/d6iO0xhg5kf7lNdGXr8eKhTD3N+ZLFjlOEATXaR601pqCeEi
- kPIvH5X7V/KOitiC2ThQ==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.17.10
+References: <20191029224310.164025-1-jkz@google.com>
+ <6653ca74-bbad-c63e-860c-161911c16f98@vivier.eu>
+In-Reply-To: <6653ca74-bbad-c63e-860c-161911c16f98@vivier.eu>
+From: Josh Kunz <jkz@google.com>
+Date: Tue, 5 Nov 2019 10:21:10 -0800
+Message-ID: <CADgy-2uszA+cmstV3K9sDdRwZX5mvDHoOeiqRaJ1KRRF5DRgCw@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Support for NETLINK socket options
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Riku Voipio <riku.voipio@iki.fi>
+Content-Type: multipart/alternative; boundary="000000000000ccee8305969d7f77"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,53 +73,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+--000000000000ccee8305969d7f77
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This value is not, as far as I know, used by any linux software,
-but it is set by the kernel and is part of the ABI.
+Thanks for the fixes Laurent, sorry for the delay.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191025113921.9412-13-richard.henderson@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/alpha/target_cpu.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Josh
 
-diff --git a/linux-user/alpha/target_cpu.h b/linux-user/alpha/target_cpu.h
-index dd25e18f47fb..ad408ab5cc8e 100644
---- a/linux-user/alpha/target_cpu.h
-+++ b/linux-user/alpha/target_cpu.h
-@@ -27,10 +27,19 @@ static inline void cpu_clone_regs_child(CPUAlphaState *env, target_ulong newsp,
-     }
-     env->ir[IR_V0] = 0;
-     env->ir[IR_A3] = 0;
-+    env->ir[IR_A4] = 1;  /* OSF/1 secondary return: child */
- }
- 
- static inline void cpu_clone_regs_parent(CPUAlphaState *env, unsigned flags)
- {
-+    /*
-+     * OSF/1 secondary return: parent
-+     * Note that the kernel does not do this if SETTLS, because the
-+     * settls argument register is still live after copy_thread.
-+     */
-+    if (!(flags & CLONE_SETTLS)) {
-+        env->ir[IR_A4] = 0;
-+    }
- }
- 
- static inline void cpu_set_tls(CPUAlphaState *env, target_ulong newtls)
--- 
-2.21.0
+On Tue, Nov 5, 2019 at 1:25 AM Laurent Vivier <laurent@vivier.eu> wrote:
 
+> Le 29/10/2019 =C3=A0 23:43, Josh Kunz a =C3=A9crit :
+> > This change includes support for all AF_NETLINK socket options up to
+> about
+> > kernel version 5.4 (5.4 is not formally released at the time of writing=
+).
+> > Socket options that were introduced in kernel versions before the oldes=
+t
+> > currently stable kernel version are guarded by kernel version macros.
+> >
+> > This change has been built under gcc 8.3, and clang 9.0, and it passes
+> > `make check`. The netlink options have been tested by emulating some
+> > non-trival software that uses NETLINK socket options, but they have
+> > not been exaustively verified.
+> >
+> > Signed-off-by: Josh Kunz <jkz@google.com>
+> > ---
+> >  linux-user/syscall.c | 98 ++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 98 insertions(+)
+> >
+>
+> I've updated the coding style and applied to my linux-user branch.
+>
+> Thanks,
+> Laurent
+>
+>
+
+--000000000000ccee8305969d7f77
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks for the fixes Laurent, sorry for the delay.<div><br=
+></div><div>Josh</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Tue, Nov 5, 2019 at 1:25 AM Laurent Vivier &lt;<a =
+href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">Le 29/10/2019 =C3=A0 23:=
+43, Josh Kunz a =C3=A9crit=C2=A0:<br>
+&gt; This change includes support for all AF_NETLINK socket options up to a=
+bout<br>
+&gt; kernel version 5.4 (5.4 is not formally released at the time of writin=
+g).<br>
+&gt; Socket options that were introduced in kernel versions before the olde=
+st<br>
+&gt; currently stable kernel version are guarded by kernel version macros.<=
+br>
+&gt; <br>
+&gt; This change has been built under gcc 8.3, and clang 9.0, and it passes=
+<br>
+&gt; `make check`. The netlink options have been tested by emulating some<b=
+r>
+&gt; non-trival software that uses NETLINK socket options, but they have<br=
+>
+&gt; not been exaustively verified.<br>
+&gt; <br>
+&gt; Signed-off-by: Josh Kunz &lt;<a href=3D"mailto:jkz@google.com" target=
+=3D"_blank">jkz@google.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 linux-user/syscall.c | 98 ++++++++++++++++++++++++++++++++++++++=
+++++++<br>
+&gt;=C2=A0 1 file changed, 98 insertions(+)<br>
+&gt; <br>
+<br>
+I&#39;ve updated the coding style and applied to my linux-user branch.<br>
+<br>
+Thanks,<br>
+Laurent<br>
+<br>
+</blockquote></div>
+
+--000000000000ccee8305969d7f77--
 
