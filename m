@@ -2,81 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0857FF1561
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:46:45 +0100 (CET)
-Received: from localhost ([::1]:56542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31FFF156B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:50:46 +0100 (CET)
+Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJlr-00026I-Nd
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:46:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38861)
+	id 1iSJpl-0006AJ-Kp
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:50:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iSJbi-0007b6-At
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:36:16 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iSJdE-00017x-Ts
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:37:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iSJbg-0000m8-E7
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:36:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46107
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iSJdD-0001jb-Ks
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:37:48 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49578
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSJbg-0000k1-63
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:36:12 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSJdD-0001iQ-En
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:37:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573040170;
+ s=mimecast20190719; t=1573040266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v6GbtVkqMn8e7KyIR5htvnEt0gGFckuaExeSuebWM80=;
- b=S2sCq1nY3Z/UwmZ8zPA7Geh/WR0maq9Ov/vdGMgx7qousyGfAl7kCfszYHBuMEhBfSiC52
- S48UsIqYSR/LbofjFt9ZwiVTgv+t78cU4hTmpyhYbAjxDSpbIr6WyPdTPC4LS5uGa+vR7s
- 6DpjstoHZ25BWMEt7lBbTY7f6AJGAOw=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-mf07VJQXNZiybfHCDDzNag-1; Wed, 06 Nov 2019 06:36:06 -0500
-Received: by mail-qt1-f198.google.com with SMTP id 6so25792083qtu.7
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:36:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3mVoeidQFZSgKvuGPvvqiw5F9jMs9BCUPGMaoqHpr+A=;
- b=ubeiUixZsWmkv4VPD255lag9Y9qiOmosHFqS6rQAj7llQs9W0o60cXcBbQQRj6tWUD
- VYJEsOJ6H1NbCyBj0vzZETTwVQ5yLD0N4AN+9qkdBK7dED+8Dqrl6IzN4LbsZlEaY0/Z
- K9VL9GpL8Jq1frvSdC3XK/kNYLZIkYdo20T0cm3edoY047QG1yjYpFIinZVgRu0FuQ1E
- MQDZJiaWN4V5NNf4vsCdQj2n5Yzfi9KZu8XYiZiKJw0ty0GfZoka7b+t0LrjyD85/T1U
- tkri2ZKBbLi1FhFHchPyRHw6NMr7Rx48Sr62Gi2YcdQVRmyrVCWPjz8Cf8qcKbllWn7Z
- +fdg==
-X-Gm-Message-State: APjAAAUW3/BxDPyX3HHInf4VCeNVsPYJb/VI4FBpwgMZPe+x8QL4ev9I
- 2SrMvp2klQJTQ2Bk29ZgD6O099mHhIl+of/KS6i9Bzi7ayGEfpYY8JcCe9WEzknJsPIfDKmA5oh
- B7znPGYiGBlJyjmE=
-X-Received: by 2002:a0c:c684:: with SMTP id d4mr1741696qvj.148.1573040166456; 
- Wed, 06 Nov 2019 03:36:06 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwIVFrgI+hYWhHi/L2Zb2VaHlHrELU76TpHcKuIxMCoLSyWqPTrD2/1CvpHQXABlyGhwvdyvg==
-X-Received: by 2002:a0c:c684:: with SMTP id d4mr1741664qvj.148.1573040165975; 
- Wed, 06 Nov 2019 03:36:05 -0800 (PST)
-Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
- by smtp.gmail.com with ESMTPSA id t26sm5856231qta.75.2019.11.06.03.36.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 03:36:05 -0800 (PST)
-Date: Wed, 6 Nov 2019 06:36:01 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH 1/2] vhost-user: add VHOST_USER_RESET_DEVICE to reset
- devices
-Message-ID: <20191106063525-mutt-send-email-mst@kernel.org>
-References: <1572385083-5254-1-git-send-email-raphael.norwitz@nutanix.com>
- <1572385083-5254-2-git-send-email-raphael.norwitz@nutanix.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0YRD5odyFHW/1AFgcGYcoJz5vnwVdolMeUZvDDwByr4=;
+ b=VzhQlPLpbYZug2FokdRDw7huNzmK/UB/ATwa1ci22ZKhqZ+cM14t+0vS0qOBXne6YIVoAT
+ FkDe6sbTxvToni00zKjiAgFK7QyX1CuspkU9u6/1SJDGykVUAVUx2Ze4YWTrxCqs7Upanb
+ 9bV0viOkmIpQyVwrvU1P8669UBsNcyM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-130-IVMRGOWdPJirFGEfU2DjrQ-1; Wed, 06 Nov 2019 06:37:42 -0500
+X-MC-Unique: IVMRGOWdPJirFGEfU2DjrQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA57B477;
+ Wed,  6 Nov 2019 11:37:40 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-212.ams2.redhat.com
+ [10.36.117.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8E0560BF4;
+ Wed,  6 Nov 2019 11:37:38 +0000 (UTC)
+Subject: Re: backup_calculate_cluster_size does not consider source
+From: Max Reitz <mreitz@redhat.com>
+To: Dietmar Maurer <dietmar@proxmox.com>,
+ Wolfgang Bumiller <w.bumiller@proxmox.com>
+References: <1767781109.66.1572948164492@webmail.proxmox.com>
+ <20191106083222.GA189998@stefanha-x1.localdomain>
+ <ac30110f-6abe-a144-2aa5-b1cc140d7e8c@redhat.com>
+ <20191106103450.cafwk7m5xd5eulxo@olga.proxmox.com>
+ <37f72cb7-7085-3c40-7728-e41d59137b3b@redhat.com>
+ <1868807950.27.1573039080274@webmail.proxmox.com>
+ <eb3a232d-6567-1816-b7fc-121770aa42b4@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6684852e-da7d-13b2-f226-1c0074e4ab3b@redhat.com>
+Date: Wed, 6 Nov 2019 12:37:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <1572385083-5254-2-git-send-email-raphael.norwitz@nutanix.com>
-X-MC-Unique: mf07VJQXNZiybfHCDDzNag-1
+In-Reply-To: <eb3a232d-6567-1816-b7fc-121770aa42b4@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="kYUh49cFw1nkL8MkyaWjtX82FJBlEDIpz"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,101 +104,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Vrabel <david.vrabel@nutanix.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 29, 2019 at 05:38:02PM -0400, Raphael Norwitz wrote:
-> Add a VHOST_USER_RESET_DEVICE message which will reset the vhost user
-> backend. Disabling all rings, and resetting all internal state, ready
-> for the backend to be reinitialized.
->=20
-> A backend has to report it supports this features with the
-> VHOST_USER_PROTOCOL_F_RESET_DEVICE protocol feature bit. If it does
-> so, the new message is used instead of sending a RESET_OWNER which has
-> had inconsistent implementations.
->=20
-> Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--kYUh49cFw1nkL8MkyaWjtX82FJBlEDIpz
+Content-Type: multipart/mixed; boundary="PUYwGzJeDi0xP2akkEGbdkE1m4fcipuxd"
 
-Looks ok, pls ping me after the release to apply this.
-> ---
->  docs/interop/vhost-user.rst | 15 +++++++++++++++
->  hw/virtio/vhost-user.c      |  8 +++++++-
->  2 files changed, 22 insertions(+), 1 deletion(-)
+--PUYwGzJeDi0xP2akkEGbdkE1m4fcipuxd
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 06.11.19 12:22, Max Reitz wrote:
+> On 06.11.19 12:18, Dietmar Maurer wrote:
+>>> And if it issues a smaller request, there is no way for a guest device
+>>> to tell it =E2=80=9COK, here=E2=80=99s your data, but note we have a wh=
+ole 4 MB chunk
+>>> around it, maybe you=E2=80=99d like to take that as well...?=E2=80=9D
+>>>
+>>> I understand wanting to increase the backup buffer size, but I don=E2=
+=80=99t
+>>> quite understand why we=E2=80=99d want it to increase to the source clu=
+ster size
+>>> when the guest also has no idea what the source cluster size is.
+>>
+>> Because it is more efficent.
 >=20
-> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> index 7827b71..d213d4a 100644
-> --- a/docs/interop/vhost-user.rst
-> +++ b/docs/interop/vhost-user.rst
-> @@ -785,6 +785,7 @@ Protocol features
->    #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD  10
->    #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER  11
->    #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD 12
-> +  #define VHOST_USER_PROTOCOL_F_RESET_DEVICE   13
-> =20
->  Master message types
->  --------------------
-> @@ -1190,6 +1191,20 @@ Master message types
->    ancillary data. The GPU protocol is used to inform the master of
->    rendering state and updates. See vhost-user-gpu.rst for details.
-> =20
-> +``VHOST_USER_RESET_DEVICE``
-> +  :id: 34
-> +  :equivalent ioctl: N/A
-> +  :master payload: N/A
-> +  :slave payload: N/A
-> +
-> +  Ask the vhost user backend to disable all rings and reset all
-> +  internal device state to the initial state, ready to be
-> +  reinitialized. The backend retains ownership of the device
-> +  throughout the reset operation.
-> +
-> +  Only valid if the ``VHOST_USER_PROTOCOL_F_RESET_DEVICE`` protocol
-> +  feature is set by the backend.
-> +
->  Slave message types
->  -------------------
-> =20
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 02a9b25..d27a10f 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -58,6 +58,7 @@ enum VhostUserProtocolFeature {
->      VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD =3D 10,
->      VHOST_USER_PROTOCOL_F_HOST_NOTIFIER =3D 11,
->      VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD =3D 12,
-> +    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
->      VHOST_USER_PROTOCOL_F_MAX
->  };
-> =20
-> @@ -98,6 +99,7 @@ typedef enum VhostUserRequest {
->      VHOST_USER_GET_INFLIGHT_FD =3D 31,
->      VHOST_USER_SET_INFLIGHT_FD =3D 32,
->      VHOST_USER_GPU_SET_SOCKET =3D 33,
-> +    VHOST_USER_RESET_DEVICE =3D 34,
->      VHOST_USER_MAX
->  } VhostUserRequest;
-> =20
-> @@ -890,10 +892,14 @@ static int vhost_user_set_owner(struct vhost_dev *d=
-ev)
->  static int vhost_user_reset_device(struct vhost_dev *dev)
->  {
->      VhostUserMsg msg =3D {
-> -        .hdr.request =3D VHOST_USER_RESET_OWNER,
->          .hdr.flags =3D VHOST_USER_VERSION,
->      };
-> =20
-> +    msg.hdr.request =3D virtio_has_feature(dev->protocol_features,
-> +                                         VHOST_USER_PROTOCOL_F_RESET_DEV=
-ICE)
-> +        ? VHOST_USER_RESET_DEVICE
-> +        : VHOST_USER_RESET_OWNER;
-> +
->      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->          return -1;
->      }
-> --=20
-> 1.8.3.1
+> For rbd.
+
+Let me elaborate: Yes, a cluster size generally means that it is most
+=E2=80=9Cefficient=E2=80=9D to access the storage at that size.  But there=
+=E2=80=99s a tradeoff.
+ At some point, reading the data takes sufficiently long that reading a
+bit of metadata doesn=E2=80=99t matter anymore (usually, that is).
+
+There is a bit of a problem with making the backup copy size rather
+large, and that is the fact that backup=E2=80=99s copy-before-write causes =
+guest
+writes to stall.  So if the guest just writes a bit of data, a 4 MB
+buffer size may mean that in the background it will have to wait for 4
+MB of data to be copied.[1]
+
+Hm.  OTOH, we have the same problem already with the target=E2=80=99s clust=
+er
+size, which can of course be 4 MB as well.  But I can imagine it to
+actually be important for the target, because otherwise there might be
+read-modify-write cycles.
+
+But for the source, I still don=E2=80=99t quite understand why rbd has such=
+ a
+problem with small read requests.  I don=E2=80=99t doubt that it has (as yo=
+u
+explained), but again, how is it then even possible to use rbd as the
+backend for a guest that has no idea of this requirement?  Does Linux
+really prefill the page cache with 4 MB of data for each read?
+
+Max
+
+
+[1] I suppose what we could do is decouple the copy buffer size from the
+bitmap granularity, but that would be more work than just a MAX() in
+backup_calculate_cluster_size().
+
+
+--PUYwGzJeDi0xP2akkEGbdkE1m4fcipuxd--
+
+--kYUh49cFw1nkL8MkyaWjtX82FJBlEDIpz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3CsIEACgkQ9AfbAGHV
+z0AoSwf/d/Txdbo0pTIpvBTLg9otgjvgtyCSO5GviXlMGd6FjESajxRHeJXxD2aL
+r9lBHV7r/fv8CBp2RTUKcbRQYHMlVW6g6clg/QIwEB8KrZdwk0piw7ZP8gQsIonP
+UVdjjEL2YDe342NOGa9iZpRcMJDDdNgioPeGMp61IdodaOLCDozcOgHvAXRxiYYe
+bh0/y2Z1Q7pXdGK5PZPrQ9NO/ub4alLwuNAx09r+VQjzQ13Pls/z+x+SZJayBLym
+oND0yl5roH+TcFTQonFqIfsz/JTfVHBB+veg2O8kthYeZXGej8AgR4+t2ELmTUCi
+E4t6Zw6vWcrw9zu3AhB8btJFbBwUJw==
+=jFgU
+-----END PGP SIGNATURE-----
+
+--kYUh49cFw1nkL8MkyaWjtX82FJBlEDIpz--
 
 
