@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3745F155C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:44:15 +0100 (CET)
-Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D25F1562
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:47:00 +0100 (CET)
+Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJjS-0007XG-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:44:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37999)
+	id 1iSJm6-0002PY-8l
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:46:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iSJZP-000457-3f
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:52 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iSJZP-000458-31
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iSJZM-0007aR-Oo
+ (envelope-from <richard.henderson@linaro.org>) id 1iSJZM-0007aY-Pj
  for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:50 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36040)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iSJZM-0007Zf-HW
+ id 1iSJZM-0007Zi-JP
  for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:48 -0500
-Received: by mail-wr1-x443.google.com with SMTP id w18so25349001wrt.3
+Received: by mail-wr1-x441.google.com with SMTP id j15so4669808wrw.5
  for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sbKKp8L4DTtLJPEKrjfc6knlBHmQBSkQGz/jGwEjATY=;
- b=WABOzADHchxJEGyitvP+N0YSkKanAt2OEt4DwBQGeyv9E/strudqoGBJhTS+fAzjOD
- dlAC6BDK1tUavFyNN208UYl0bcIjwByA6Buh6/W0wcl7fZ9HMbJ4YfSYfYfoVPnGsUvT
- NzzbGG62RLSAboY4rKiYTQU/eq5PlrvACmr1uVf14/OwVvAAx91X9LrqOmdpDdO0+21q
- Mwh+Px8GsLgrajH0PLlD6DhERIfBhJPkZa1QFnyvXUgmJzczh2f8F636PZ6qkAVPf5zg
- akF+Z7lL5P6cDiVeb7Nn6EtfXBbJ2uARrvGXeyH4/R2dy6xEYFVARhjALf+6xLr5CHNB
- Y6Tg==
+ bh=YkY1QSHXx8tcEh42Bbj6ykJYD8SvmEqcbVRa0x3ucZs=;
+ b=RRii2qO01P4d996eFNKftljSnF0hFDrKtvwW8xabNlr1GvNP1cUEVVoUP1f39hQbHx
+ QRV+o4q2pkap50DTD7Mvml4q72Di7afet65XytMpvbZUl25pnbq2TtdniJq8EqXMORpJ
+ JImXVr0SMJB7NZZa1yxunrK4jNXFIku7QIOMricijBVSjQa/5IUZim21vovapFH42W8q
+ 9esCUGG0lVu+SVwXTAnpdyZx1wa3adk9NJ4fJu1YogIfH8NxvvNQzivkJzds1TV71+mU
+ 1dsmgw8qzC2+lxhLCpHcer5XnMgOpft/XaZy05OggRxrQWFT14WQkGGDqgPNydemeWO6
+ 7fFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=sbKKp8L4DTtLJPEKrjfc6knlBHmQBSkQGz/jGwEjATY=;
- b=D8J0E6+UPIGPv+UKqy95q5J0CcNtONN0K0NXlcSRsT7FkQuDaPEKON5T9fefiEEIHE
- 63pZKTgHsvcnTQGTj8IOy78mYWmvt3ycA/pjExFFB6ULFbIV1uurklcHrK+I3dtu3iX+
- e5c+cUd9C2l8pAHdXA5CJ+NfX9H3Icu3RaBmFQRF6azHdnUknpGz5giU3J2JYlcZAP8M
- K3MtaY3w/ICosnzOf3PtLUJXSoNrDYHXYDPqfH7jSVxTU3M15Udyq/UAZ7bE6d9GQWEi
- 2ZPyxQ95q0YOFT+g3tDfDlCSIPOyhKbxZXIKaqWMX6olnXpilknWOnz+tRhhAXFGWat7
- U7uQ==
-X-Gm-Message-State: APjAAAXGBCyWRNsecGSXKgt9ANZ4wYe77bX2hpoaSlou904FOA0XaCB1
- Sc1dK3uhcrBiENvdknKhg4pyM3xePeKW5Q==
-X-Google-Smtp-Source: APXvYqwVtb7LNUCQPiUoL6hx3Ob4C5Y/z11N9exjvy5mWuU0V3SSWU/RJk6WMagveTWRjWjmpfArHw==
-X-Received: by 2002:a5d:5686:: with SMTP id f6mr2239807wrv.231.1573040024513; 
- Wed, 06 Nov 2019 03:33:44 -0800 (PST)
+ bh=YkY1QSHXx8tcEh42Bbj6ykJYD8SvmEqcbVRa0x3ucZs=;
+ b=cZoAuM7A3qPhe+n/IQyYMur0bUt9S9TlceEODM0pGnOAjJkbd4FYAuBL6sxThRqFxE
+ 95Bgdr1YdWX6NsQwimuaNraJJbAwyjoFZx28iA3vGB9bOeuDdCaGu0DHXxHhAO50amnh
+ +ZsIdvogHuQBqp+a9rApc+X/pbUdnRYa7WwZpRcyBijrIta0j9j241RACkKqVSdij9tW
+ dFahjXdERQY1ETA99NsnlUTx6f0i4RW7EwY2euykNA5Xw54HrHL9FMnsGzLRSRv1bkAg
+ gQPD/kWsFDM+WtcQdNWDVuFPH8SB2MRDrPbInDFhD0A/2VeE5DCWczHBddMvjFlGmfft
+ +RCA==
+X-Gm-Message-State: APjAAAVlcf73SkMMC7unWwpLPR1fgVo7VvIrZE8Xjk9jmRCO4zG88t/K
+ WwUTQN9YHpEL8Or3FK7yoSczGQJrGkYaFA==
+X-Google-Smtp-Source: APXvYqzgD/s1gdInRtGdc+W1FrH6TKTKxzV7y49BmgqOXB3P33d6qDQhC/IEpRdAWPjpKrUdloa7qQ==
+X-Received: by 2002:adf:ee10:: with SMTP id y16mr2158630wrn.67.1573040025980; 
+ Wed, 06 Nov 2019 03:33:45 -0800 (PST)
 Received: from localhost.localdomain
  (31.red-176-87-122.dynamicip.rima-tde.net. [176.87.122.31])
- by smtp.gmail.com with ESMTPSA id q124sm1776907wme.13.2019.11.06.03.33.43
+ by smtp.gmail.com with ESMTPSA id q124sm1776907wme.13.2019.11.06.03.33.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 03:33:43 -0800 (PST)
+ Wed, 06 Nov 2019 03:33:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/12] linux-user/sparc: Fix cpu_clone_regs_*
-Date: Wed,  6 Nov 2019 12:33:17 +0100
-Message-Id: <20191106113318.10226-12-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/12] linux-user/alpha: Set r20 secondary return value
+Date: Wed,  6 Nov 2019 12:33:18 +0100
+Message-Id: <20191106113318.10226-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191106113318.10226-1-richard.henderson@linaro.org>
 References: <20191106113318.10226-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,83 +79,41 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We failed to set the secondary return value in %o1
-we failed to advance the PC past the syscall,
-we failed to adjust regwptr into the new structure,
-we stored the stack pointer into the wrong register.
+This value is not, as far as I know, used by any linux software,
+but it is set by the kernel and is part of the ABI.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191025113921.9412-12-richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20191025113921.9412-13-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/target_cpu.h | 47 ++++++++++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 9 deletions(-)
+ linux-user/alpha/target_cpu.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
-index 8ff706adce..14b2158969 100644
---- a/linux-user/sparc/target_cpu.h
-+++ b/linux-user/sparc/target_cpu.h
-@@ -23,22 +23,51 @@
- static inline void cpu_clone_regs_child(CPUSPARCState *env, target_ulong newsp,
-                                         unsigned flags)
+diff --git a/linux-user/alpha/target_cpu.h b/linux-user/alpha/target_cpu.h
+index dd25e18f47..ad408ab5cc 100644
+--- a/linux-user/alpha/target_cpu.h
++++ b/linux-user/alpha/target_cpu.h
+@@ -27,10 +27,19 @@ static inline void cpu_clone_regs_child(CPUAlphaState *env, target_ulong newsp,
+     }
+     env->ir[IR_V0] = 0;
+     env->ir[IR_A3] = 0;
++    env->ir[IR_A4] = 1;  /* OSF/1 secondary return: child */
+ }
+ 
+ static inline void cpu_clone_regs_parent(CPUAlphaState *env, unsigned flags)
  {
--    if (newsp) {
--        env->regwptr[22] = newsp;
--    }
--    /* syscall return for clone child: 0, and clear CF since
--     * this counts as a success return value.
 +    /*
-+     * After cpu_copy, env->regwptr is pointing into the old env.
-+     * Update the new cpu to use its own register window.
-      */
--    env->regwptr[0] = 0;
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--    env->xcc &= ~PSR_CARRY;
-+    env->regwptr = env->regbase + (env->cwp * 16);
-+
-+    if (newsp) {
-+        /* When changing stacks, do it with clean register windows.  */
-+#ifdef TARGET_SPARC64
-+        env->cansave = env->nwindows - 2;
-+        env->cleanwin = env->nwindows - 2;
-+        env->canrestore = 0;
- #else
--    env->psr &= ~PSR_CARRY;
-+        env->wim = 1 << env->cwp;
- #endif
-+        /* ??? The kernel appears to copy one stack frame to the new stack. */
-+        /* ??? The kernel force aligns the new stack. */
-+        env->regwptr[WREG_SP] = newsp;
++     * OSF/1 secondary return: parent
++     * Note that the kernel does not do this if SETTLS, because the
++     * settls argument register is still live after copy_thread.
++     */
++    if (!(flags & CLONE_SETTLS)) {
++        env->ir[IR_A4] = 0;
 +    }
-+
-+    if (flags & CLONE_VM) {
-+        /*
-+         * Syscall return for clone child: %o0 = 0 and clear CF since this
-+         * counts as a success return value.  Advance the PC past the syscall.
-+         * For fork child, all of this happens in cpu_loop, and we must not
-+         * do the pc advance twice.
-+         */
-+        env->regwptr[WREG_O0] = 0;
-+#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-+        env->xcc &= ~PSR_CARRY;
-+#else
-+        env->psr &= ~PSR_CARRY;
-+#endif
-+        env->pc = env->npc;
-+        env->npc = env->npc + 4;
-+    }
-+
-+    /* Set the second return value for the child: %o1 = 1.  */
-+    env->regwptr[WREG_O1] = 1;
  }
  
- static inline void cpu_clone_regs_parent(CPUSPARCState *env, unsigned flags)
- {
-+    /* Set the second return value for the parent: %o1 = 0.  */
-+    env->regwptr[WREG_O1] = 0;
- }
- 
- static inline void cpu_set_tls(CPUSPARCState *env, target_ulong newtls)
+ static inline void cpu_set_tls(CPUAlphaState *env, target_ulong newtls)
 -- 
 2.17.1
 
