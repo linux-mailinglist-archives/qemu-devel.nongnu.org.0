@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DB9F1ACB
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 17:08:42 +0100 (CET)
-Received: from localhost ([::1]:60678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DC7F1AB9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 17:05:00 +0100 (CET)
+Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSNrM-0003e8-NM
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 11:08:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50801)
+	id 1iSNnn-000821-4Z
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 11:04:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iSNcH-0005mm-M1
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 10:53:06 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iSNkL-0005qM-0E
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 11:01:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iSNcG-0006xQ-Bb
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 10:53:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59654
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iSNcF-0006w1-NW
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 10:53:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573055582;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5rQzrnK48RUhOxfRkhJa3UVUNO+Rh2kD/SliXmztdUw=;
- b=BJzqxVRcrDcr9KopASwslP0hfY17awS7RwpyRaEieKyeqGnMI21R/Yl6FzlKjdP1H5t8T7
- LDUQloWg4gCYN/Ml35yUy7MSoChxY4ku3poNuPHnwBAr8NWsQvpmeljnMBaL31Si91/cZD
- x0WP4tCZ0cANBd8PzBZisCPWunN523w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-U2nBE5vDOO6lC0nN3dPgjQ-1; Wed, 06 Nov 2019 10:53:01 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65CEA8017DD;
- Wed,  6 Nov 2019 15:53:00 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 069121001DE1;
- Wed,  6 Nov 2019 15:52:53 +0000 (UTC)
-Message-ID: <55b7664c4766ec05423d76dba0712b438f4b5e6c.camel@redhat.com>
-Subject: Re: [PATCH v2 00/21] iotests: Allow ./check -o data_file
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Wed, 06 Nov 2019 17:52:52 +0200
-In-Reply-To: <20191015142729.18123-1-mreitz@redhat.com>
-References: <20191015142729.18123-1-mreitz@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: U2nBE5vDOO6lC0nN3dPgjQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ (envelope-from <peter.maydell@linaro.org>) id 1iSNkJ-0006x0-JD
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 11:01:24 -0500
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:33977)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iSNkJ-0006vx-9n
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 11:01:23 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id l202so21437387oig.1
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 08:01:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=spfvsbcLC2EwywxtjUIgs3CUc2kdgVjznJeVNZiKZxw=;
+ b=OVzG874qaW3TxzPy45ZdWIP0cSfV62vHuebcctjsgc9qL5rLgRZ+uTHaV44ssm6jPp
+ qSMavrd45zU+30c78ZFN6YJ9sewqIkKyGfTcSpIRETfBnb5SFoGXKZ9+7Cjt6ggHwBl3
+ SFfRzYZO/Pd3fEdKJ0lHH8b6TzKeyf5EeI0D/UHFNbRhNZm6grubEku5UFtPd5FmgMqy
+ y4fRLJzTAPAg4va2LQP2wth0NwPl8ohOBRMKQCUQy9p25R1SRLVd80G3F+CySd8U9IRK
+ O7qBjLec7au9zpArVFdKN3rzIejXr67QKPe+KEIflGnjHGTiIsFnznxbn5KCqEgx8z0L
+ dk9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=spfvsbcLC2EwywxtjUIgs3CUc2kdgVjznJeVNZiKZxw=;
+ b=ZUcGhKXy7OsHKjgTCPP4wCUJdXP2qMUku9+7IR3l8vKwczqOd2xerVqC/96BztJUPg
+ byYXd5HUHtW+P2OUZs8OqRDDCzXTxNzQbjUZzd8wXHjciA6MWKi/y9Vfl+T5jCL4Y1b2
+ BBYv0FIZPDv+uhwlPj5Li7BjGcwD0h9DkK+vIXVJQoEoMc6LgIeUJejmU5tctYo1SKFw
+ NbnRwSGdmkf23yLlXDIWG2gLW87rJ+vu7qrEjhNJfu3Y+U/OUdOXRnfy0+epOgpcKpTl
+ uwbF5T53kAGshg+I6q7DGSndjgsn6PRmTaIAt5QYnM10NgD4nR2pT40/f6UPXA/Z5N8J
+ Bn/w==
+X-Gm-Message-State: APjAAAUJACMXA11PMRKSA0in5nJ02Mx2neGQAYTT6JmIaUm4aePdRkAa
+ R+Eohn03ZIDZrx2aJhQ19Mctp5/rZP95TS+ImE/87Q==
+X-Google-Smtp-Source: APXvYqwY/RyfXB23UzONrar3VxVPNMG3YmcMP325Uu3TCrzt3C+f1pkZRtNrdbuzGa2FB4mx95SQSsvSY+9XcJDIeTo=
+X-Received: by 2002:aca:451:: with SMTP id 78mr2940202oie.170.1573056081943;
+ Wed, 06 Nov 2019 08:01:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20191105154332.181417-1-stefanha@redhat.com>
+In-Reply-To: <20191105154332.181417-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Nov 2019 16:01:10 +0000
+Message-ID: <CAFEAcA-83DrQkqjh_ztmyxGtOxYo6uLA3f7UO=Hz8bz-CzbL2A@mail.gmail.com>
+Subject: Re: [PULL 00/11] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,40 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2019-10-15 at 16:27 +0200, Max Reitz wrote:
-> Hi,
->=20
-> The cover letter from v1 (explaining the motivation behind this series
-> and the general structure) is here:
->=20
-> https://lists.nongnu.org/archive/html/qemu-block/2019-09/msg01323.html
->=20
->=20
-> For v2, I=E2=80=99ve tried to address Maxim=E2=80=99s comments:
-> - Patch 1 through 3: New
-> - Patch 4: Only print feature bits instead of blacklisting stuff that we
->            don=E2=80=99t need
-> - Patch 5:
->   - Fix typo
->   - Add comment why 098 needs compat=3D1.1
-> - Patch 16: Use _check_test_img
-> - Patch 17: Use the new _filter_json_filename
-> - Patch 18: Rethink the incompatible feature filter approach: Instead of
->             filtering out the data_file bit, just check whether the
->             dirty bit is present (because that is all we want to know)
-> - Patch 19: Use the new _filter_json_filename
-> - Patch 20: Rebase conflicts due to the changes to patch 5
-> - Patch 21:
->   - Add and use _get_data_file
->   - Add a comment how the data_file_filter in _filter_qemu_img_map works
->=20
+On Tue, 5 Nov 2019 at 15:43, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408:
+>
+>   Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-sf1' into staging (2019-11-02 17:59:03 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 9fdd7860adec188ed50d2530e9a819e8d953f9bb:
+>
+>   image-fuzzer: Use OSerror.strerror instead of tuple subscript (2019-11-05 16:36:11 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> Let's get the image fuzzer Python 3 changes merged in QEMU 4.2.
+>
+> ----------------------------------------------------------------
 
-Thank you! I reviewed the series, and it looks fine now.
-Best regards,
-=09Maxim Levitsky
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
