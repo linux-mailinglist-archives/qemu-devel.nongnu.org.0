@@ -2,93 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04AEF142C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 11:43:45 +0100 (CET)
-Received: from localhost ([::1]:55212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC043F14A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:10:01 +0100 (CET)
+Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSImu-00063b-Ey
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 05:43:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
+	id 1iSJCL-0006al-1V
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:10:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58613)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iSIlg-00059M-1X
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 05:42:29 -0500
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iSJAH-0005Jr-Gn
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:07:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iSIle-0002GI-BF
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 05:42:27 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54813
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSIle-0002Fj-6g
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 05:42:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573036945;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7A68pZLArymcLe5VR+5PPG+Z7wN7ManaY7HINQnl28c=;
- b=OAH1g35VseqeYnBonlq1S4XtP/CEiTBYJTqH2dmYeE12+Dt4RPJA1IBpYVtq9R0BNJUDsL
- YBI2uTGB429po0vksgYezPWJO7OBjYkxCxSenEMfVrxYeOrzD95vlzdVohRJcJ+h3T7RvW
- OcoqMOa7fmzXCBeABsnbBPMGwsQ7pnM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-iYrJ70KMNAms_ejrG6Qsxg-1; Wed, 06 Nov 2019 05:42:21 -0500
-X-MC-Unique: iYrJ70KMNAms_ejrG6Qsxg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 774FA8017E0;
- Wed,  6 Nov 2019 10:42:20 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-212.ams2.redhat.com
- [10.36.117.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83AEF600CE;
- Wed,  6 Nov 2019 10:42:18 +0000 (UTC)
-Subject: Re: backup_calculate_cluster_size does not consider source
-To: Wolfgang Bumiller <w.bumiller@proxmox.com>
-References: <1767781109.66.1572948164492@webmail.proxmox.com>
- <20191106083222.GA189998@stefanha-x1.localdomain>
- <ac30110f-6abe-a144-2aa5-b1cc140d7e8c@redhat.com>
- <20191106103450.cafwk7m5xd5eulxo@olga.proxmox.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <37f72cb7-7085-3c40-7728-e41d59137b3b@redhat.com>
-Date: Wed, 6 Nov 2019 11:42:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iSJAF-0001KQ-GQ
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:07:53 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34570)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
+ id 1iSJAF-0001IC-AC
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:07:51 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA6B4U7v082521
+ for <qemu-devel@nongnu.org>; Wed, 6 Nov 2019 06:07:46 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w3csxux18-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 06:07:43 -0500
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
+ Wed, 6 Nov 2019 11:07:10 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 6 Nov 2019 11:07:07 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA6B76N325428112
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 6 Nov 2019 11:07:06 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C38D911C04C;
+ Wed,  6 Nov 2019 11:07:06 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6012611C04A;
+ Wed,  6 Nov 2019 11:07:05 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.124.35.97])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  6 Nov 2019 11:07:05 +0000 (GMT)
+Subject: Re: [PATCH v17 4/7] target/ppc: Build rtas error log upon an MCE
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20191024074307.22821-1-ganeshgr@linux.ibm.com>
+ <20191024074307.22821-5-ganeshgr@linux.ibm.com>
+ <20191104161054.GH3552@umbus.metropole.lan>
+From: Ganesh <ganeshgr@linux.ibm.com>
+Date: Wed, 6 Nov 2019 16:37:04 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.1
 MIME-Version: 1.0
-In-Reply-To: <20191106103450.cafwk7m5xd5eulxo@olga.proxmox.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4WUFlIvCILDa1hntVXD9Wah032jjTXo0m"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20191104161054.GH3552@umbus.metropole.lan>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 19110611-0028-0000-0000-000003B32BF0
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19110611-0029-0000-0000-00002475875D
+Message-Id: <e095aac0-949e-6f5e-ecac-bcc25802a8c5@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-06_03:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1911060114
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,115 +94,375 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Dietmar Maurer <dietmar@proxmox.com>, qemu-block@nongnu.org,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: arawinda.p@gmail.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4WUFlIvCILDa1hntVXD9Wah032jjTXo0m
-Content-Type: multipart/mixed; boundary="3uvqPsTGOgaJ3kXEty3XxkZv2Nn9NFX1W"
 
---3uvqPsTGOgaJ3kXEty3XxkZv2Nn9NFX1W
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 06.11.19 11:34, Wolfgang Bumiller wrote:
-> On Wed, Nov 06, 2019 at 10:37:04AM +0100, Max Reitz wrote:
->> On 06.11.19 09:32, Stefan Hajnoczi wrote:
->>> On Tue, Nov 05, 2019 at 11:02:44AM +0100, Dietmar Maurer wrote:
->>>> Example: Backup from ceph disk (rbd_cache=3Dfalse) to local disk:
->>>>
->>>> backup_calculate_cluster_size returns 64K (correct for my local .raw i=
-mage)
->>>>
->>>> Then the backup job starts to read 64K blocks from ceph.
->>>>
->>>> But ceph always reads 4M block, so this is incredibly slow and produce=
-s
->>>> way too much network traffic.
->>>>
->>>> Why does backup_calculate_cluster_size does not consider the block siz=
-e from
->>>> the source disk?=20
->>>>
->>>> cluster_size =3D MAX(block_size_source, block_size_target)
+On 11/4/19 9:40 PM, David Gibson wrote:
+> On Thu, Oct 24, 2019 at 01:13:04PM +0530, Ganesh Goudar wrote:
+>> From: Aravinda Prasad <arawinda.p@gmail.com>
 >>
->> So Ceph always transmits 4 MB over the network, no matter what is
->> actually needed?  That sounds, well, interesting.
->=20
-> Or at least it generates that much I/O - in the end, it can slow down
-> the backup by up to a multi-digit factor...
-
-Oh, so I understand ceph internally resolves the 4 MB block and then
-transmits the subcluster range.  That makes sense.
-
->> backup_calculate_cluster_size() doesn=E2=80=99t consider the source size=
- because
->> to my knowledge there is no other medium that behaves this way.  So I
->> suppose the assumption was always that the block size of the source
->> doesn=E2=80=99t matter, because a partial read is always possible (witho=
-ut
->> having to read everything).
->=20
-> Unless you enable qemu-side caching this only works until the
-> block/cluster size of the source exceeds the one of the target.
->=20
->> What would make sense to me is to increase the buffer size in general.
->> I don=E2=80=99t think we need to copy clusters at a time, and
->> 0e2402452f1f2042923a5 has indeed increased the copy size to 1 MB for
->> backup writes that are triggered by guest writes.  We haven=E2=80=99t ye=
-t
->> increased the copy size for background writes, though.  We can do that,
->> of course.  (And probably should.)
+>> Upon a machine check exception (MCE) in a guest address space,
+>> KVM causes a guest exit to enable QEMU to build and pass the
+>> error to the guest in the PAPR defined rtas error log format.
 >>
->> The thing is, it just seems unnecessary to me to take the source cluster
->> size into account in general.  It seems weird that a medium only allows
->> 4 MB reads, because, well, guests aren=E2=80=99t going to take that into=
- account.
->=20
-> But guests usually have a page cache, which is why in many setups qemu
-> (and thereby the backup process) often doesn't.
-
-But this still doesn=E2=80=99t make sense to me.  Linux doesn=E2=80=99t iss=
-ue 4 MB
-requests to pre-fill the page cache, does it?
-
-And if it issues a smaller request, there is no way for a guest device
-to tell it =E2=80=9COK, here=E2=80=99s your data, but note we have a whole =
-4 MB chunk
-around it, maybe you=E2=80=99d like to take that as well...?=E2=80=9D
-
-I understand wanting to increase the backup buffer size, but I don=E2=80=99=
-t
-quite understand why we=E2=80=99d want it to increase to the source cluster=
- size
-when the guest also has no idea what the source cluster size is.
-
-Max
-
-
---3uvqPsTGOgaJ3kXEty3XxkZv2Nn9NFX1W--
-
---4WUFlIvCILDa1hntVXD9Wah032jjTXo0m
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3Co4gACgkQ9AfbAGHV
-z0BR3wgAnrBp2BK6LLcD9pbhcgZx+h97cw/Wo5VRKUl54z8lmgO74wo3qCgBhj4z
-BZApSXPUbGjrzLUmuRYDoT87qLYTfcVOA8ITg2B133zTC4MUIOtkHKbKUIya+NPA
-1sTL7v378kgOnfrQweOso5qZEEl4Z8hKDEGi4X1VVyB7H9OE7ts21TK1UsJYMXbO
-z8dZo4wKZptT/w2ZQEQN2h4t7ss9pE52ieGrEsgwKjkAV3eBcWzRuUZhcqzb8hEg
-wvpfdzN06kPV7nGxgyU4UgD/Qy0Xufk0WXRzTSxDG/8D8iNOO8Y5fbw/T5sjCfnF
-+1aqTS5rLCkZspORSK1TChfkMnGLjQ==
-=q9rf
------END PGP SIGNATURE-----
-
---4WUFlIvCILDa1hntVXD9Wah032jjTXo0m--
+>> This patch builds the rtas error log, copies it to the rtas_addr
+>> and then invokes the guest registered machine check handler. The
+>> handler in the guest takes suitable action(s) depending on the type
+>> and criticality of the error. For example, if an error is
+>> unrecoverable memory corruption in an application inside the
+>> guest, then the guest kernel sends a SIGBUS to the application.
+>> For recoverable errors, the guest performs recovery actions and
+>> logs the error.
+>>
+>> [Assume SLOF has allocated enough room for rtas error log]
+> Is that correct with the SLOF image currently included in qemu?
+Yes
+>
+> Apart from that detail,
+>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>
+>> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+>> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+>
+>
+>> ---
+>>   hw/ppc/spapr_events.c  | 220 ++++++++++++++++++++++++++++++++++++++++-
+>>   hw/ppc/spapr_rtas.c    |  26 +++++
+>>   include/hw/ppc/spapr.h |   6 +-
+>>   target/ppc/kvm.c       |   4 +-
+>>   4 files changed, 253 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+>> index 0ce96b86be..db44e09154 100644
+>> --- a/hw/ppc/spapr_events.c
+>> +++ b/hw/ppc/spapr_events.c
+>> @@ -214,6 +214,104 @@ struct hp_extended_log {
+>>       struct rtas_event_log_v6_hp hp;
+>>   } QEMU_PACKED;
+>>   
+>> +struct rtas_event_log_v6_mc {
+>> +#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
+>> +    struct rtas_event_log_v6_section_header hdr;
+>> +    uint32_t fru_id;
+>> +    uint32_t proc_id;
+>> +    uint8_t error_type;
+>> +#define RTAS_LOG_V6_MC_TYPE_UE                           0
+>> +#define RTAS_LOG_V6_MC_TYPE_SLB                          1
+>> +#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
+>> +#define RTAS_LOG_V6_MC_TYPE_TLB                          4
+>> +#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
+>> +#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
+>> +    uint8_t sub_err_type;
+>> +#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
+>> +#define RTAS_LOG_V6_MC_UE_IFETCH                         1
+>> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
+>> +#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
+>> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
+>> +#define RTAS_LOG_V6_MC_SLB_PARITY                        0
+>> +#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
+>> +#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
+>> +#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
+>> +#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
+>> +#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
+>> +#define RTAS_LOG_V6_MC_TLB_PARITY                        1
+>> +#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
+>> +#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
+>> +    uint8_t reserved_1[6];
+>> +    uint64_t effective_address;
+>> +    uint64_t logical_address;
+>> +} QEMU_PACKED;
+>> +
+>> +struct mc_extended_log {
+>> +    struct rtas_event_log_v6 v6hdr;
+>> +    struct rtas_event_log_v6_mc mc;
+>> +} QEMU_PACKED;
+>> +
+>> +struct MC_ierror_table {
+>> +    unsigned long srr1_mask;
+>> +    unsigned long srr1_value;
+>> +    bool nip_valid; /* nip is a valid indicator of faulting address */
+>> +    uint8_t error_type;
+>> +    uint8_t error_subtype;
+>> +    unsigned int initiator;
+>> +    unsigned int severity;
+>> +};
+>> +
+>> +static const struct MC_ierror_table mc_ierror_table[] = {
+>> +{ 0x00000000081c0000, 0x0000000000040000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000000081c0000, 0x0000000000080000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000000081c0000, 0x00000000000c0000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000000081c0000, 0x0000000000100000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000000081c0000, 0x0000000000140000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000000081c0000, 0x0000000000180000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, } };
+>> +
+>> +struct MC_derror_table {
+>> +    unsigned long dsisr_value;
+>> +    bool dar_valid; /* dar is a valid indicator of faulting address */
+>> +    uint8_t error_type;
+>> +    uint8_t error_subtype;
+>> +    unsigned int initiator;
+>> +    unsigned int severity;
+>> +};
+>> +
+>> +static const struct MC_derror_table mc_derror_table[] = {
+>> +{ 0x00008000, false,
+>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00004000, true,
+>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000800, true,
+>> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000400, true,
+>> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000080, true,
+>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PARITY */
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
+>> +{ 0x00000100, true,
+>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
+>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, } };
+>> +
+>> +#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
+>> +
+>>   typedef enum EventClass {
+>>       EVENT_CLASS_INTERNAL_ERRORS     = 0,
+>>       EVENT_CLASS_EPOW                = 1,
+>> @@ -622,7 +720,125 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
+>>                               RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
+>>   }
+>>   
+>> -void spapr_mce_req_event(PowerPCCPU *cpu)
+>> +static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
+>> +                                        struct mc_extended_log *ext_elog)
+>> +{
+>> +    int i;
+>> +    CPUPPCState *env = &cpu->env;
+>> +    uint32_t summary;
+>> +    uint64_t dsisr = env->spr[SPR_DSISR];
+>> +
+>> +    summary = RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
+>> +    if (recovered) {
+>> +        summary |= RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
+>> +    } else {
+>> +        summary |= RTAS_LOG_DISPOSITION_NOT_RECOVERED;
+>> +    }
+>> +
+>> +    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
+>> +        for (i = 0; i < ARRAY_SIZE(mc_derror_table); i++) {
+>> +            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
+>> +                continue;
+>> +            }
+>> +
+>> +            ext_elog->mc.error_type = mc_derror_table[i].error_type;
+>> +            ext_elog->mc.sub_err_type = mc_derror_table[i].error_subtype;
+>> +            if (mc_derror_table[i].dar_valid) {
+>> +                ext_elog->mc.effective_address = cpu_to_be64(env->spr[SPR_DAR]);
+>> +            }
+>> +
+>> +            summary |= mc_derror_table[i].initiator
+>> +                        | mc_derror_table[i].severity;
+>> +
+>> +            return summary;
+>> +        }
+>> +    } else {
+>> +        for (i = 0; i < ARRAY_SIZE(mc_ierror_table); i++) {
+>> +            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=
+>> +                    mc_ierror_table[i].srr1_value) {
+>> +                continue;
+>> +            }
+>> +
+>> +            ext_elog->mc.error_type = mc_ierror_table[i].error_type;
+>> +            ext_elog->mc.sub_err_type = mc_ierror_table[i].error_subtype;
+>> +            if (mc_ierror_table[i].nip_valid) {
+>> +                ext_elog->mc.effective_address = cpu_to_be64(env->nip);
+>> +            }
+>> +
+>> +            summary |= mc_ierror_table[i].initiator
+>> +                        | mc_ierror_table[i].severity;
+>> +
+>> +            return summary;
+>> +        }
+>> +    }
+>> +
+>> +    summary |= RTAS_LOG_INITIATOR_CPU;
+>> +    return summary;
+>> +}
+>> +
+>> +static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>> +{
+>> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>> +    CPUState *cs = CPU(cpu);
+>> +    uint64_t rtas_addr;
+>> +    CPUPPCState *env = &cpu->env;
+>> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+>> +    target_ulong msr = 0;
+>> +    struct rtas_error_log log;
+>> +    struct mc_extended_log *ext_elog;
+>> +    uint32_t summary;
+>> +
+>> +    /*
+>> +     * Properly set bits in MSR before we invoke the handler.
+>> +     * SRR0/1, DAR and DSISR are properly set by KVM
+>> +     */
+>> +    if (!(*pcc->interrupts_big_endian)(cpu)) {
+>> +        msr |= (1ULL << MSR_LE);
+>> +    }
+>> +
+>> +    if (env->msr & (1ULL << MSR_SF)) {
+>> +        msr |= (1ULL << MSR_SF);
+>> +    }
+>> +
+>> +    msr |= (1ULL << MSR_ME);
+>> +
+>> +    ext_elog = g_malloc0(sizeof(*ext_elog));
+>> +    summary = spapr_mce_get_elog_type(cpu, recovered, ext_elog);
+>> +
+>> +    log.summary = cpu_to_be32(summary);
+>> +    log.extended_length = cpu_to_be32(sizeof(*ext_elog));
+>> +
+>> +    spapr_init_v6hdr(&ext_elog->v6hdr);
+>> +    ext_elog->mc.hdr.section_id = cpu_to_be16(RTAS_LOG_V6_SECTION_ID_MC);
+>> +    ext_elog->mc.hdr.section_length =
+>> +                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
+>> +    ext_elog->mc.hdr.section_version = 1;
+>> +
+>> +    /* get rtas addr from fdt */
+>> +    rtas_addr = spapr_get_rtas_addr();
+>> +    if (!rtas_addr) {
+>> +        /* Unable to fetch rtas_addr. Hence reset the guest */
+>> +        ppc_cpu_do_system_reset(cs);
+>> +        g_free(ext_elog);
+>> +        return;
+>> +    }
+>> +
+>> +    stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET,
+>> +                env->gpr[3]);
+>> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+>> +                              sizeof(env->gpr[3]), &log, sizeof(log));
+>> +    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
+>> +                              sizeof(env->gpr[3]) + sizeof(log), ext_elog,
+>> +                              sizeof(*ext_elog));
+>> +
+>> +    env->gpr[3] = rtas_addr + RTAS_ERROR_LOG_OFFSET;
+>> +    env->msr = msr;
+>> +    env->nip = spapr->guest_machine_check_addr;
+>> +
+>> +    g_free(ext_elog);
+>> +}
+>> +
+>> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>>   {
+>>       SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>>       CPUState *cs = CPU(cpu);
+>> @@ -656,6 +872,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu)
+>>           }
+>>       }
+>>       spapr->mc_status = cpu->vcpu_id;
+>> +
+>> +    spapr_mce_dispatch_elog(cpu, recovered);
+>>   }
+>>   
+>>   static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>> index 8d8d8cdfcb..2c066a372d 100644
+>> --- a/hw/ppc/spapr_rtas.c
+>> +++ b/hw/ppc/spapr_rtas.c
+>> @@ -477,6 +477,32 @@ void spapr_dt_rtas_tokens(void *fdt, int rtas)
+>>       }
+>>   }
+>>   
+>> +hwaddr spapr_get_rtas_addr(void)
+>> +{
+>> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>> +    int rtas_node;
+>> +    const fdt32_t *rtas_data;
+>> +    void *fdt = spapr->fdt_blob;
+>> +
+>> +    /* fetch rtas addr from fdt */
+>> +    rtas_node = fdt_path_offset(fdt, "/rtas");
+>> +    if (rtas_node < 0) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    rtas_data = fdt_getprop(fdt, rtas_node, "linux,rtas-base", NULL);
+>> +    if (!rtas_data) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    /*
+>> +     * We assume that the OS called RTAS instantiate-rtas, but some other
+>> +     * OS might call RTAS instantiate-rtas-64 instead. This fine as of now
+>> +     * as SLOF only supports 32-bit variant.
+>> +     */
+>> +    return (hwaddr)fdt32_to_cpu(*rtas_data);
+>> +}
+>> +
+>>   static void core_rtas_register_types(void)
+>>   {
+>>       spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index 1f5eb8c856..4afa8d4d09 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -724,6 +724,9 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *fdt, hwaddr addr);
+>>   
+>>   #define RTAS_ERROR_LOG_MAX      2048
+>>   
+>> +/* Offset from rtas-base where error log is placed */
+>> +#define RTAS_ERROR_LOG_OFFSET       0x30
+>> +
+>>   #define RTAS_EVENT_SCAN_RATE    1
+>>   
+>>   /* This helper should be used to encode interrupt specifiers when the related
+>> @@ -812,7 +815,7 @@ void spapr_clear_pending_events(SpaprMachineState *spapr);
+>>   int spapr_max_server_number(SpaprMachineState *spapr);
+>>   void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>>                         uint64_t pte0, uint64_t pte1);
+>> -void spapr_mce_req_event(PowerPCCPU *cpu);
+>> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+>>   
+>>   /* DRC callbacks. */
+>>   void spapr_core_release(DeviceState *dev);
+>> @@ -903,4 +906,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
+>>   #define SPAPR_OV5_XIVE_BOTH     0x80 /* Only to advertise on the platform */
+>>   
+>>   void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+>> +hwaddr spapr_get_rtas_addr(void);
+>>   #endif /* HW_SPAPR_H */
+>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>> index 2d8db6d832..9a902c1064 100644
+>> --- a/target/ppc/kvm.c
+>> +++ b/target/ppc/kvm.c
+>> @@ -2805,9 +2805,11 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+>>   
+>>   int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
+>>   {
+>> +    bool recovered = run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
+>> +
+>>       cpu_synchronize_state(CPU(cpu));
+>>   
+>> -    spapr_mce_req_event(cpu);
+>> +    spapr_mce_req_event(cpu, recovered);
+>>   
+>>       return 0;
+>>   }
 
 
