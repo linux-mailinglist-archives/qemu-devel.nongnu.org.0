@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC492F155B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:44:11 +0100 (CET)
-Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0857FF1561
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:46:45 +0100 (CET)
+Received: from localhost ([::1]:56542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJjO-0007U1-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:44:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38378)
+	id 1iSJlr-00026I-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:46:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38861)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iSJaR-0005b9-FH
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:56 -0500
+ (envelope-from <mst@redhat.com>) id 1iSJbi-0007b6-At
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:36:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iSJaQ-0008DY-67
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:55 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:46208)
+ (envelope-from <mst@redhat.com>) id 1iSJbg-0000m8-E7
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:36:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46107
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSJaP-0008DJ-Tu
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:54 -0500
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 212E63683C
- for <qemu-devel@nongnu.org>; Wed,  6 Nov 2019 11:34:53 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id m189so24454086qkc.7
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:34:53 -0800 (PST)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSJbg-0000k1-63
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:36:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573040170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v6GbtVkqMn8e7KyIR5htvnEt0gGFckuaExeSuebWM80=;
+ b=S2sCq1nY3Z/UwmZ8zPA7Geh/WR0maq9Ov/vdGMgx7qousyGfAl7kCfszYHBuMEhBfSiC52
+ S48UsIqYSR/LbofjFt9ZwiVTgv+t78cU4hTmpyhYbAjxDSpbIr6WyPdTPC4LS5uGa+vR7s
+ 6DpjstoHZ25BWMEt7lBbTY7f6AJGAOw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-mf07VJQXNZiybfHCDDzNag-1; Wed, 06 Nov 2019 06:36:06 -0500
+Received: by mail-qt1-f198.google.com with SMTP id 6so25792083qtu.7
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:36:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PfKQklS6tzecCLpji5MibHGWmje8I14bHB/hCKBrvLc=;
- b=Mqg6HZhppNTW6fFaCIwXI3t7+x2mr/UbO6qPM43SUG3Jvve98DyGk2ms+x+KHqLAC/
- xovq70dU7fyVqNMACW23XsjwO2ZtJUIQJuv5oTzwavPJUp8nIF5+P2nQWXnUFV2kuPd7
- 92VA+u9SMr0qchg+Le+B/N71QGgMBRBUYj0HZft3X2eKCqtS5zpaELW4k0/WMiKmY8dv
- hw8YUkCISOaHGnPGsw7b4x7YNy9g8n9n7ObIlx77rhM3nn/RAF7zpTiayjAyVivP0G45
- 3j5NinF/uTK1nkchzsHrReNgCAQN9VPQr6VkhPejhH8suZRuvdIrdExfOpBYhvI3xuYC
- lhOA==
-X-Gm-Message-State: APjAAAXneQxRVRMH7Gkgt/PadfT8XmwhFpbwi6k5nruKZexIBwM1Hmi+
- 5RJC/1bfIIiRGJxrGQf6JGWy4oelZN6H/57q+l7WI2RpCSRzVZrdwEzt3QhkqlrWKfvC6WUUzPB
- 5/ArGtjDd30Kp8iE=
-X-Received: by 2002:a05:620a:20c5:: with SMTP id
- f5mr1523496qka.226.1573040092083; 
- Wed, 06 Nov 2019 03:34:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxW9fsFatkAUExTX4iSwdlHqaqWiUMn2I4RpjkgPnPiZyokhmHSt5VQP5wtWDvl++oCedId7Q==
-X-Received: by 2002:a05:620a:20c5:: with SMTP id
- f5mr1523486qka.226.1573040091842; 
- Wed, 06 Nov 2019 03:34:51 -0800 (PST)
+ bh=3mVoeidQFZSgKvuGPvvqiw5F9jMs9BCUPGMaoqHpr+A=;
+ b=ubeiUixZsWmkv4VPD255lag9Y9qiOmosHFqS6rQAj7llQs9W0o60cXcBbQQRj6tWUD
+ VYJEsOJ6H1NbCyBj0vzZETTwVQ5yLD0N4AN+9qkdBK7dED+8Dqrl6IzN4LbsZlEaY0/Z
+ K9VL9GpL8Jq1frvSdC3XK/kNYLZIkYdo20T0cm3edoY047QG1yjYpFIinZVgRu0FuQ1E
+ MQDZJiaWN4V5NNf4vsCdQj2n5Yzfi9KZu8XYiZiKJw0ty0GfZoka7b+t0LrjyD85/T1U
+ tkri2ZKBbLi1FhFHchPyRHw6NMr7Rx48Sr62Gi2YcdQVRmyrVCWPjz8Cf8qcKbllWn7Z
+ +fdg==
+X-Gm-Message-State: APjAAAUW3/BxDPyX3HHInf4VCeNVsPYJb/VI4FBpwgMZPe+x8QL4ev9I
+ 2SrMvp2klQJTQ2Bk29ZgD6O099mHhIl+of/KS6i9Bzi7ayGEfpYY8JcCe9WEzknJsPIfDKmA5oh
+ B7znPGYiGBlJyjmE=
+X-Received: by 2002:a0c:c684:: with SMTP id d4mr1741696qvj.148.1573040166456; 
+ Wed, 06 Nov 2019 03:36:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwIVFrgI+hYWhHi/L2Zb2VaHlHrELU76TpHcKuIxMCoLSyWqPTrD2/1CvpHQXABlyGhwvdyvg==
+X-Received: by 2002:a0c:c684:: with SMTP id d4mr1741664qvj.148.1573040165975; 
+ Wed, 06 Nov 2019 03:36:05 -0800 (PST)
 Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
- by smtp.gmail.com with ESMTPSA id t11sm8079660qtj.15.2019.11.06.03.34.49
+ by smtp.gmail.com with ESMTPSA id t26sm5856231qta.75.2019.11.06.03.36.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 03:34:51 -0800 (PST)
-Date: Wed, 6 Nov 2019 06:34:46 -0500
+ Wed, 06 Nov 2019 03:36:05 -0800 (PST)
+Date: Wed, 6 Nov 2019 06:36:01 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RESEND PATCH 0/2] PCI DMA alias support
-Message-ID: <20191106063404-mutt-send-email-mst@kernel.org>
-References: <157187055395.5439.6693401317571144578.stgit@gimli.home>
- <20191104150353.0a694812@x1.home>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH 1/2] vhost-user: add VHOST_USER_RESET_DEVICE to reset
+ devices
+Message-ID: <20191106063525-mutt-send-email-mst@kernel.org>
+References: <1572385083-5254-1-git-send-email-raphael.norwitz@nutanix.com>
+ <1572385083-5254-2-git-send-email-raphael.norwitz@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <1572385083-5254-2-git-send-email-raphael.norwitz@nutanix.com>
+X-MC-Unique: mf07VJQXNZiybfHCDDzNag-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20191104150353.0a694812@x1.home>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,49 +88,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peterx@redhat.com
+Cc: David Vrabel <david.vrabel@nutanix.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 04, 2019 at 03:03:53PM -0700, Alex Williamson wrote:
-> On Wed, 23 Oct 2019 16:47:02 -0600
-> Alex Williamson <alex.williamson@redhat.com> wrote:
-> 
-> > Previous posting:
-> > https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06182.html
-> > 
-> > Rebased (no change) and added Peter's R-b.  Please apply for QEMU 4.2.
-> 
-> Anyone?  I suppose this has missed another release despite pings from
-> me, Peter, and a resend :-(
-> 
-> Alex
+On Tue, Oct 29, 2019 at 05:38:02PM -0400, Raphael Norwitz wrote:
+> Add a VHOST_USER_RESET_DEVICE message which will reset the vhost user
+> backend. Disabling all rings, and resetting all internal state, ready
+> for the backend to be reinitialized.
+>=20
+> A backend has to report it supports this features with the
+> VHOST_USER_PROTOCOL_F_RESET_DEVICE protocol feature bit. If it does
+> so, the new message is used instead of sending a RESET_OWNER which has
+> had inconsistent implementations.
+>=20
+> Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
+> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-It can be considered a bugfix so I think ok after freeze.
+Looks ok, pls ping me after the release to apply this.
+> ---
+>  docs/interop/vhost-user.rst | 15 +++++++++++++++
+>  hw/virtio/vhost-user.c      |  8 +++++++-
+>  2 files changed, 22 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index 7827b71..d213d4a 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -785,6 +785,7 @@ Protocol features
+>    #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD  10
+>    #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER  11
+>    #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD 12
+> +  #define VHOST_USER_PROTOCOL_F_RESET_DEVICE   13
+> =20
+>  Master message types
+>  --------------------
+> @@ -1190,6 +1191,20 @@ Master message types
+>    ancillary data. The GPU protocol is used to inform the master of
+>    rendering state and updates. See vhost-user-gpu.rst for details.
+> =20
+> +``VHOST_USER_RESET_DEVICE``
+> +  :id: 34
+> +  :equivalent ioctl: N/A
+> +  :master payload: N/A
+> +  :slave payload: N/A
+> +
+> +  Ask the vhost user backend to disable all rings and reset all
+> +  internal device state to the initial state, ready to be
+> +  reinitialized. The backend retains ownership of the device
+> +  throughout the reset operation.
+> +
+> +  Only valid if the ``VHOST_USER_PROTOCOL_F_RESET_DEVICE`` protocol
+> +  feature is set by the backend.
+> +
+>  Slave message types
+>  -------------------
+> =20
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 02a9b25..d27a10f 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -58,6 +58,7 @@ enum VhostUserProtocolFeature {
+>      VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD =3D 10,
+>      VHOST_USER_PROTOCOL_F_HOST_NOTIFIER =3D 11,
+>      VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD =3D 12,
+> +    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
+>      VHOST_USER_PROTOCOL_F_MAX
+>  };
+> =20
+> @@ -98,6 +99,7 @@ typedef enum VhostUserRequest {
+>      VHOST_USER_GET_INFLIGHT_FD =3D 31,
+>      VHOST_USER_SET_INFLIGHT_FD =3D 32,
+>      VHOST_USER_GPU_SET_SOCKET =3D 33,
+> +    VHOST_USER_RESET_DEVICE =3D 34,
+>      VHOST_USER_MAX
+>  } VhostUserRequest;
+> =20
+> @@ -890,10 +892,14 @@ static int vhost_user_set_owner(struct vhost_dev *d=
+ev)
+>  static int vhost_user_reset_device(struct vhost_dev *dev)
+>  {
+>      VhostUserMsg msg =3D {
+> -        .hdr.request =3D VHOST_USER_RESET_OWNER,
+>          .hdr.flags =3D VHOST_USER_VERSION,
+>      };
+> =20
+> +    msg.hdr.request =3D virtio_has_feature(dev->protocol_features,
+> +                                         VHOST_USER_PROTOCOL_F_RESET_DEV=
+ICE)
+> +        ? VHOST_USER_RESET_DEVICE
+> +        : VHOST_USER_RESET_OWNER;
+> +
+>      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>          return -1;
+>      }
+> --=20
+> 1.8.3.1
 
-> > Previous cover letter:
-> > 
-> > Please see patch 1/ for the motivation and utility of this series.
-> > This v1 submission improves on the previous RFC with revised commit
-> > logs, comments, and more testing, and the missing IVRS support for DMA
-> > alias ranges is now included.  Testing has been done with Linux guests
-> > with both SeaBIOS and OVMF with configurations of intel-iommu and
-> > amd-iommu.  Intel-iommu testing includes device assignment, amd-iommu
-> > is necessarily limited to emulated devices with interrupt remapping
-> > disabled and iommu=pt in the guest (enabling interrupt remapping or
-> > disabling guest passthrough mode fails to work regardless of this
-> > series).  This series is NOT intended for QEMU v4.1.  Thanks,
-> > 
-> > Alex
-> > 
-> > ---
-> > 
-> > Alex Williamson (2):
-> >       pci: Use PCI aliases when determining device IOMMU address space
-> >       hw/i386: AMD-Vi IVRS DMA alias support
-> > 
-> > 
-> >  hw/i386/acpi-build.c |  127 +++++++++++++++++++++++++++++++++++++++++++++++---
-> >  hw/pci/pci.c         |   43 ++++++++++++++++-
-> >  2 files changed, 160 insertions(+), 10 deletions(-)
 
