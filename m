@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAF4F16D1
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:16:32 +0100 (CET)
-Received: from localhost ([::1]:57940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3877F16C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:11:31 +0100 (CET)
+Received: from localhost ([::1]:57878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSLAk-0001Mc-VX
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:16:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
+	id 1iSL5u-0001hR-II
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:11:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iSL01-0003gU-0q
+ (envelope-from <laurent@vivier.eu>) id 1iSL00-0003fm-Lb
  for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iSKzz-00031y-UP
+ (envelope-from <laurent@vivier.eu>) id 1iSKzz-00031f-Em
  for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:24 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:33041)
+Received: from mout.kundenserver.de ([212.227.126.187]:46979)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzz-00031L-L4
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzz-000310-5O
  for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:23 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N79q8-1hrtHN2L2y-017Vs9; Wed, 06 Nov 2019 14:05:09 +0100
+ id 1MkpjD-1i4rov2Kcx-00mHgo; Wed, 06 Nov 2019 14:05:10 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/13] target/sparc: Define an enumeration for accessing
- env->regwptr
-Date: Wed,  6 Nov 2019 14:04:47 +0100
-Message-Id: <20191106130456.6176-5-laurent@vivier.eu>
+Subject: [PULL v2 05/13] linux-user/sparc: Use WREG constants in
+ sparc/target_cpu.h
+Date: Wed,  6 Nov 2019 14:04:48 +0100
+Message-Id: <20191106130456.6176-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191106130456.6176-1-laurent@vivier.eu>
 References: <20191106130456.6176-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fmn0GkGUhoRW+ItSR4J23aKZ1sR0YtmytPGBgNf7xAzK4yFXa3p
- 5UblQzAHRRnL//CV610/dtH43eQwIPJLamHeW8aJXywGApX62L8uFzUVe2jgxwhFlxUoDtF
- pSJjDSMq6LTzdJ+sXbCxkRhJVhq6t+qmsPEzlvRsX7bkfpLXYOI2dEVLVvfEuFN4oe3//uz
- RKrBcx2X98cavm59/C9iQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JUoqpHlXQuQ=:rjrtQuBSYNvnkj/P7s2r3l
- i7pBr2tCdwVRcq1j0R0n1aiH3QNL1fzM/rIwS/5Jlw9qKnDtC5qviX6QkEft3Eq/zHgzRhIia
- 9coCvqN9FtP/ybNIc/f8qdkLno+yRZX8oBirUpXRi4NSdBV1yioM/VvsJyQSKFiMBe4dsBVE7
- 4ckgu/8dTZCLZzEtumf5hhxZkkXwmNAsIW9jCz/rA+1ufEqL9nwsuEEuZ8cnT+DfuyXAGI3Dk
- r4Cw6uG5tk+twr9y2vhIAnnax7ZtelayCwXFYAzuBAO98W4QTzoNUbnATwAjBBLh3xoSpdOAi
- Sh5ZdbcbhZxl7DFw+uh4Ui9knRAC3KGpr9M4EfM1UD06ZQCmgS53H+pLiXoFTrgntMW2rAqt/
- dQg04MpZPXCp5w7Vq+Wpe42UZuuggBmUPqZtOa8cWj52gfeXnC8po5iqm+8h1PVVA8udfe/Pf
- Zfg8XUq1kWNIdARC1hUmYVy7T2pBC80KIldLPvK2bptyu0ekvkevuPdG+Q5k11adurS4Oe9+4
- rBHihqZ8217cEPZGk50phRuNPyNtYQavQRRSpopDDD4FcOvH9djz2VCgnMDZa3HbKEXW+ah4O
- 6VeGH6/qNgSsI24AQey2RQdlOXG8nAj7aE1YorEPsiv8Ik/imXBoY4EuMrlganAjdZ9YWnSIg
- Pgd5GNzRLMJYRQiT91xyxQ762ikLYe9O1d5p45vugGAxQL/dSBdNo9JBrelTzA2lxS2RyjhYm
- wCrcmNw9uLutRSNRB3GXCVZQ+/Jep6gp1kmkR7f8MH/xG8lsHiL9rKS1DnxWShjcbyTGOEEtU
- erqUdk3AHwfA533SloPqQMRZbTg6AslhmH3eHy0U8kQI6dWjb5WOiPayDXrnO0hCvKVUqGgo1
- ZED3QtbUeecPaA/uCX/Q==
+X-Provags-ID: V03:K1:MhlD5dVVZ7dtnCdYUPRmKP25QXNwXDN6lyKD4g0G1XO5VAFwss4
+ cWAz8NkDxJqW8m/c8QpLJLT1JM/ro7c/zd6ai9TJGR3iYwQYmE+T/YgE3KOAHT4QdtKaPLg
+ 37doHcSjGhD3XI+KL9IPwasUjOMlmOAWzJHtjOESsIs7h4IxQdMa6T+3AI+Fxqnrx2eXoK3
+ bZoSXnm4cOHANj/9ZMrOw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xkGsBVyoy+4=:bOXgfNrSiZ9CadHSqeQCxd
+ e8WqA9Dixy24nCBYaqXpPBNJNEi6LCFzfsYkaDT1CFF8W+fbQLsGMd2iggOmMNJdBN4WgXZlk
+ S9FlzDIbgvTsatt/VmeSbv5gJ2PiwDgmbWOjTPp6vtizRX+y/oiaSHiP650KKwO8k9ZVpN+Le
+ gfinaToEDVBzulmOHCH493Lpu5NZ2czailDKelT3gTGXyVkuglv5a6NQJTivz34HTPX4o32ep
+ xhUrrJbYWk9at04w3C5ag4CwaPbHiiVA50SrOhyqIiKhu4t/66J5w3aOWB7NcEooy5ptUw9zL
+ qNohoH25iGMAMtuE2U8b5zruSS+eISFtMpKDWE5JRHjGJgk/sCDgXLuXcpp8J80+LX7TKLjaH
+ jwuhN6KbR6UTHRmG4iTwKAlfgMTrBquZRglleH2Su4W9r4ywJ6Rx/mC6EVFoF9IJagK0yGfR6
+ p4VaKL1WbhjpwIk9Ex7Ot/1bjxcp210cP5Xi7/I4GHUpqzoVze0lm6CSQ9WU+6nCxzSOCQ7Vj
+ h0u2H7UTYVi3a0beVC3u/egh+o9+7w+2Cq0v1x9J6sgH2CMvl2LD49JcZeAZfXpdEMwhynikV
+ oJ6U4FAFK2G1q+qiGULfzX2A7LWIZ5Nb5XENa9NrhcgWuXF3yBXEp+KwEzpm3t3K1NAXORP5w
+ ahrQqDSaFY08l+pI+SJxvk0KF/tTGbtcVfWg3+2yvKbScvV/1ZDK8HYEJaZjQsCsptlsqFN0q
+ ZLsJW7lcScUVm6nb4oHXN3kf2JZ5qLAWO00K2A9ki1UT7NNJUye7aiLPBJAMIjEGoVK72/bHG
+ EanAPDGfOkCuKjTYF35skvtGtaT98lFOiTOlO9JRw5QJpkOL1AJeKQ5LOEtvBH2Oi4UepqxaG
+ amB8GK/53Py3rPnLaOFA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.187
@@ -77,57 +77,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+This fixes a naming bug wherein we used "UREG_FP" to access the
+stack pointer.  OTOH, the "UREG_FP" constant was also defined
+incorrectly such that it *did* reference the stack pointer.
+
+Note that the kernel legitimately uses the name "FP", because it
+utilizes the rolled stack window in processing the system call.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191106113318.10226-4-richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20191106113318.10226-5-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/sparc/cpu.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ linux-user/sparc/target_cpu.h | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 778aa8e073c7..ae97c7d9f799 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -13,6 +13,39 @@
+diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
+index 1ffc0ae9f2ec..b30fbc72c43b 100644
+--- a/linux-user/sparc/target_cpu.h
++++ b/linux-user/sparc/target_cpu.h
+@@ -41,15 +41,9 @@ static inline void cpu_set_tls(CPUSPARCState *env, target_ulong newtls)
+     env->gregs[7] = newtls;
+ }
  
- /*#define EXCP_INTERRUPT 0x100*/
- 
-+/* Windowed register indexes.  */
-+enum {
-+    WREG_O0,
-+    WREG_O1,
-+    WREG_O2,
-+    WREG_O3,
-+    WREG_O4,
-+    WREG_O5,
-+    WREG_O6,
-+    WREG_O7,
+-#ifndef UREG_I6
+-#define UREG_I6        6
+-#endif
+-#ifndef UREG_FP
+-#define UREG_FP        UREG_I6
+-#endif
+-
+ static inline abi_ulong get_sp_from_cpustate(CPUSPARCState *state)
+ {
+-    return state->regwptr[UREG_FP];
++    return state->regwptr[WREG_SP];
+ }
 +
-+    WREG_L0,
-+    WREG_L1,
-+    WREG_L2,
-+    WREG_L3,
-+    WREG_L4,
-+    WREG_L5,
-+    WREG_L6,
-+    WREG_L7,
-+
-+    WREG_I0,
-+    WREG_I1,
-+    WREG_I2,
-+    WREG_I3,
-+    WREG_I4,
-+    WREG_I5,
-+    WREG_I6,
-+    WREG_I7,
-+
-+    WREG_SP = WREG_O6,
-+    WREG_FP = WREG_I6,
-+};
-+
- /* trap definitions */
- #ifndef TARGET_SPARC64
- #define TT_TFAULT   0x01
+ #endif
 -- 
 2.21.0
 
