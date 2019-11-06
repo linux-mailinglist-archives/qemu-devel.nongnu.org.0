@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B42F1930
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 15:54:38 +0100 (CET)
-Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5494FF193D
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 15:59:39 +0100 (CET)
+Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSMhh-0001xy-4a
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 09:54:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35709)
+	id 1iSMmY-0004lJ-3G
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 09:59:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iSMgE-0000lH-DT
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 09:53:07 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iSMlH-0003wk-MF
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 09:58:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iSMgD-0004mu-Ev
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 09:53:06 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46960)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iSMgD-0004mR-9F
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 09:53:05 -0500
-Received: by mail-wr1-x442.google.com with SMTP id b3so20400878wrs.13
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 06:53:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8Ou7/+fnkybLtb3uLbZ3l14cSRIlBL4Ppw/OmMmJj5Q=;
- b=mAUrCC/B2YM0y9Ro/eEaV36A41Lb4aBBVosaSBDotRh8OuY85dfedKAbRrJrzvtilf
- 75WtNc5PIBG4YFYo4ZDkeTM0V6wJNqw1QSyE0lNBe28VrqIIR+Gx/337HvSCeN7W0vBD
- 70O3+oNnIUcuznffovSZBiVxf1bF2yjz2Zmb4twua6WC8HDPL0FY8/+Dr9KSWrhmD5M5
- 2g1xbXnfRGte3eFdSxx5wQOIwxtOp3o4wSvn/kBO4dDnWmLQfxOguun1W+CyD6FINwcv
- hM69UtOk4QMDlyv6bFCaiq9tCg62YPC5Q+vA+4ZlxBmfGTIhLmQq7oRiAKuieD3m48k8
- TkTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8Ou7/+fnkybLtb3uLbZ3l14cSRIlBL4Ppw/OmMmJj5Q=;
- b=fuGoG2Xt/YAUw7fy+IfCjUNEBTIrAqt7scl+nqpCJyCOSt1Pt/UpXb8Ri/pTyB/oAn
- WIyyUchnoi6F/PHIlIOv0h9ub1MQCJD8Cvk40ySmJCcTx/bi2mnBMQvAmmsA7lpMuwLc
- KIa8pSmmZhTJvd9reHTuEBKrFNITWcOuCLUtw7Gq99f6MvYi3kPJKfzdSvW76iFiHDaK
- TxvJD08xTMxVh//3CisSdKONskZ1QNi4nBfJCiJuCTFcKuT4EsaHfW3hc4tzpK8O+osP
- glwDxJFp3Vuj15D43BItPtAkDDH4/4sYImD1D8+N+UYSvRdV9H8qCzG0jEBDHVNdvPCR
- 71lw==
-X-Gm-Message-State: APjAAAU2JACEIpQTZOFAaXKsCYRNDqlTdyWKW3Ez/UMxlVDj2Db5s+sh
- 35ioKbG0ZO6w3+keX4f7ERIrqzb+/N92Du8oYHo=
-X-Google-Smtp-Source: APXvYqzOZfbgh2PZ3Z7wEeZsXgy0sP61RXeLlcyYRWE7PJm5kLlsbLgOzLVkNCv2ZdmS87vVRczXSGg554kJe6xJJ0I=
-X-Received: by 2002:adf:ef0f:: with SMTP id e15mr3221449wro.312.1573051983722; 
- Wed, 06 Nov 2019 06:53:03 -0800 (PST)
+ (envelope-from <kwolf@redhat.com>) id 1iSMlE-0008OC-VE
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 09:58:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27205
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iSMlE-0008KY-M3
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 09:58:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573052295;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ICgj0CgVMdb6xHe7XDcADkrIFoubx/ymuu7DycFH5m8=;
+ b=JV3/gcqoUXtXWkVSglUMevgmQHQtSuiJdCFp9Sgibu08VGN4q3J3dn1Qm47Wfv0LgmQCEc
+ fv7odhKdYsHuWtiQjlS97PdU8LPe5amOdy0YtpoSJGVOOe98lHCxTO4AdrQ8bb4GkMWj3t
+ OD7G+ZnCPIVvlFNAsZSY4WkPrpmkSy4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-NpcRUwodPCmVXLYRQeiRfQ-1; Wed, 06 Nov 2019 09:58:14 -0500
+X-MC-Unique: NpcRUwodPCmVXLYRQeiRfQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 792A28017DD;
+ Wed,  6 Nov 2019 14:58:13 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E3676106F;
+ Wed,  6 Nov 2019 14:58:01 +0000 (UTC)
+Date: Wed, 6 Nov 2019 15:58:00 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [RFC PATCH 00/18] Add qemu-storage-daemon
+Message-ID: <20191106145800.GC7548@dhcp-200-226.str.redhat.com>
+References: <20191017130204.16131-1-kwolf@redhat.com>
+ <8a9a5eae-d388-867b-f4a1-080e876389b3@redhat.com>
 MIME-Version: 1.0
-References: <20191106130309.6737-1-jandryuk@gmail.com>
-In-Reply-To: <20191106130309.6737-1-jandryuk@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 6 Nov 2019 18:52:51 +0400
-Message-ID: <CAJ+F1CJLffYST5eVXBrOarYxRhkNvgGF0J3wGJ50xny7pLE2NA@mail.gmail.com>
-Subject: Re: [PATCH] qmp: Reset mon->commands on CHR_EVENT_CLOSED
-To: Jason Andryuk <jandryuk@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+In-Reply-To: <8a9a5eae-d388-867b-f4a1-080e876389b3@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="p2kqVDKq5asng8Dg"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,61 +73,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: pkrempa@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+--p2kqVDKq5asng8Dg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 6, 2019 at 5:04 PM Jason Andryuk <jandryuk@gmail.com> wrote:
->
-> Currently, mon->commands is uninitialized until CHR_EVENT_OPENED where
-> it is set to &qmp_cap_negotiation_commands.  After capability
-> negotiation, it is set to &qmp_commands.  If the chardev is closed,
-> CHR_EVENT_CLOSED, mon->commands remains as &qmp_commands.  Only once the
-> chardev is re-opened with CHR_EVENT_OPENED, is it reset to
-> &qmp_cap_negotiation_commands.
->
-> monitor_qapi_event_emit compares mon->commands to
-> &qmp_cap_negotiation_commands, and skips sending events when they are
-> equal.  In the case of a closed chardev, QMP events are still sent down
-> to the closed chardev which needs to drop them.
+Am 06.11.2019 um 15:37 hat Max Reitz geschrieben:
+> On 17.10.19 15:01, Kevin Wolf wrote:
+> > This series adds a new tool 'qemu-storage-daemon', which can be used to
+> > export and perform operations on block devices.
+>=20
+> Looks good to me.
+>=20
+> I remember a discussion at some KVM Forum a couple of years ago where
+> someone (Berto?) was asking about adding QMP to qemu-nbd.  I found it a
+> pragmatic solution, but I remember that Markus was against it, based on
+> the fact that we wanted qemu -M none.
 
-This is a minor improvement, not really a bug fix or do I read that incorre=
-ctly?
+Yes, but it turned out that qemu -M none is a bit too heavyweight in
+practice and fixing that would involve a lot of work. As I understand it
+(mostly what I took from discussions on the list), even if someone were
+interested in doing that and started now, it's the kind of thing that
+would take multiple years.
 
->
-> Set mon->commands to &qmp_cap_negotiation_commands for CHR_EVENT_CLOSED
-> to stop sending events.  Setting for the CHR_EVENT_OPENED case remains
-> since that is how mon->commands is set for a newly opened connections.
->
-> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-> ---
->  monitor/qmp.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> index 9d9e5d8b27..5e2073c5eb 100644
-> --- a/monitor/qmp.c
-> +++ b/monitor/qmp.c
-> @@ -333,6 +333,7 @@ static void monitor_qmp_event(void *opaque, int event=
-)
->           * is closed.
->           */
->          monitor_qmp_cleanup_queues(mon);
-> +        mon->commands =3D &qmp_cap_negotiation_commands;
->          json_message_parser_destroy(&mon->parser);
->          json_message_parser_init(&mon->parser, handle_qmp_command,
->                                   mon, NULL);
-> --
-> 2.21.0
->
->
+As long as we keep the code simple and the interesting parts are just
+reused and shared with the system emulator and other tools, it shouldn't
+be hard to maintain.
 
-Looks good to me,
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Well, but anyway.  Just as I didn=E2=80=99t have anything against adding =
+QMP to
+> qemu-nbd, I don=E2=80=99t have anything against adding a new application =
+that
+> kind of fulfills the same purpose.  And I think introducing a new
+> application instead of reusing qemu-nbd that focuses on all-around QAPI
+> compatibility (which qemu-nbd decidedly does not have) makes sense.
 
+Yes, QAPI is one big reason for creating a new tool that doesn't need to
+support the old qemu-nbd command line. Another is that we can add other
+types of exports that are not NBD.
 
---=20
-Marc-Andr=C3=A9 Lureau
+> The only thing I don=E2=80=99t like is the name, but that=E2=80=99s what =
+<Tab> is for.
+> :-)
+
+I'm open for suggestions, but I thought 'qsd' was a bit too terse. :-)
+
+(Actually, maybe we could even pick something that doesn't mention
+storage or block? After all, it can do all kinds of QEMU backends in
+theory. Not sure if there's any standalone use for them, but who
+knows...)
+
+Kevin
+
+--p2kqVDKq5asng8Dg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJdwt94AAoJEH8JsnLIjy/WRgQQAKbuuPi0DOlZNa73bBu3ChdL
+GffBKc+up8nuRUBliHYX3R6c1jSaeV5Er0WIdi+KJChNpbXrkF7atV+l9Usva6js
+T9z+WJ9EArxvromE7fJstWEvrossOWp7dhuDMDRRCOWp2UBSAkePDRmm592O3TGz
+Qxkiw9xWGADycxHUphsl0CWj7M8cVVlFfZCnJRZWPMXDDQp74xVucGStPjjZgvFj
+Alp8GsaaVbaQid+RCdzoHHAFV+ZbE7vJnv5/CL3rZmAjnvQ7Y532k6KCmlCElSS2
+udbAFEFF4T218YdOmwImkKra7wnSruz1AVkE3dWPmkiwbzb8dRZxnMgkPYEw6DYI
+1MfztBc0UdFNeug2IIOhQhAiBBOn4/eDBaYwVM5Cst2qw5qXrGw+C8G7P6dCzyJN
+fSg7TgIsknCivuz7qsavPnCTPXz5p24CJdoe1a7k46+wotiA7u/F84xPLe4550am
+N4s6F/OwU527Uih3sxTGu6Ap1WJjZ2tnVsRvjuaXpU6am+NggbeGMkqZiqe78RGV
+uilyws7OSx/yEFfdJEeaXEShulNOW/bab0Rv2M+x2yua5uX1V8S3pzUJvoXz6J+5
+fJTkhiO9nznxJoWENPPeORKHr5Pc1lsZe5aRtT3pm0ZpASmjFNTBwOxsD0iIU0ds
+d9WUdIVlN4pe7itJOIAy
+=gE6C
+-----END PGP SIGNATURE-----
+
+--p2kqVDKq5asng8Dg--
+
 
