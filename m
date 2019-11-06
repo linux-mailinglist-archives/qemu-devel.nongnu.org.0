@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D25F1562
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:47:00 +0100 (CET)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F370F1542
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:38:34 +0100 (CET)
+Received: from localhost ([::1]:56402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJm6-0002PY-8l
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:46:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38000)
+	id 1iSJdx-00015q-4V
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:38:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iSJZP-000458-31
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:56 -0500
+ (envelope-from <mst@redhat.com>) id 1iSJZC-0003mR-L0
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iSJZM-0007aY-Pj
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:50 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37956)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iSJZM-0007Zi-JP
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:48 -0500
-Received: by mail-wr1-x441.google.com with SMTP id j15so4669808wrw.5
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=YkY1QSHXx8tcEh42Bbj6ykJYD8SvmEqcbVRa0x3ucZs=;
- b=RRii2qO01P4d996eFNKftljSnF0hFDrKtvwW8xabNlr1GvNP1cUEVVoUP1f39hQbHx
- QRV+o4q2pkap50DTD7Mvml4q72Di7afet65XytMpvbZUl25pnbq2TtdniJq8EqXMORpJ
- JImXVr0SMJB7NZZa1yxunrK4jNXFIku7QIOMricijBVSjQa/5IUZim21vovapFH42W8q
- 9esCUGG0lVu+SVwXTAnpdyZx1wa3adk9NJ4fJu1YogIfH8NxvvNQzivkJzds1TV71+mU
- 1dsmgw8qzC2+lxhLCpHcer5XnMgOpft/XaZy05OggRxrQWFT14WQkGGDqgPNydemeWO6
- 7fFQ==
+ (envelope-from <mst@redhat.com>) id 1iSJZA-0007J1-U6
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:38 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:53404)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSJZA-0007Dr-0s
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:36 -0500
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 66C74C04BD40
+ for <qemu-devel@nongnu.org>; Wed,  6 Nov 2019 11:33:33 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id k53so25866459qtk.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:33:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=YkY1QSHXx8tcEh42Bbj6ykJYD8SvmEqcbVRa0x3ucZs=;
- b=cZoAuM7A3qPhe+n/IQyYMur0bUt9S9TlceEODM0pGnOAjJkbd4FYAuBL6sxThRqFxE
- 95Bgdr1YdWX6NsQwimuaNraJJbAwyjoFZx28iA3vGB9bOeuDdCaGu0DHXxHhAO50amnh
- +ZsIdvogHuQBqp+a9rApc+X/pbUdnRYa7WwZpRcyBijrIta0j9j241RACkKqVSdij9tW
- dFahjXdERQY1ETA99NsnlUTx6f0i4RW7EwY2euykNA5Xw54HrHL9FMnsGzLRSRv1bkAg
- gQPD/kWsFDM+WtcQdNWDVuFPH8SB2MRDrPbInDFhD0A/2VeE5DCWczHBddMvjFlGmfft
- +RCA==
-X-Gm-Message-State: APjAAAVlcf73SkMMC7unWwpLPR1fgVo7VvIrZE8Xjk9jmRCO4zG88t/K
- WwUTQN9YHpEL8Or3FK7yoSczGQJrGkYaFA==
-X-Google-Smtp-Source: APXvYqzgD/s1gdInRtGdc+W1FrH6TKTKxzV7y49BmgqOXB3P33d6qDQhC/IEpRdAWPjpKrUdloa7qQ==
-X-Received: by 2002:adf:ee10:: with SMTP id y16mr2158630wrn.67.1573040025980; 
- Wed, 06 Nov 2019 03:33:45 -0800 (PST)
-Received: from localhost.localdomain
- (31.red-176-87-122.dynamicip.rima-tde.net. [176.87.122.31])
- by smtp.gmail.com with ESMTPSA id q124sm1776907wme.13.2019.11.06.03.33.44
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bnaUZOXCNQiWPBTZOYLozohTVbSufEppzbiw1ATciy4=;
+ b=D0nHhYqFSX4QvCVma6kdBGPNiz3z6k4DEXQ8fMtpf0+0qb8W14tmSL3RkBaUzKRg/z
+ 1UBm4418LBxF2JQ/yewT0fPNfJxpKdwUofi5p2CYrn/lf/KTY5CwKd1skuiYo5bw5eX0
+ LtXZliXD+KBYACEdUBMAVG535BefMFqzTIHCSsEvS6x1vs9KEV6rsdZj8aRPKTdgZRuA
+ M3aAFkgYnNG7FkbdJDpb+M4JqNuqcHK41aW3pS/aN51aHV/4waglMApn7pKYk9zmjRrB
+ GSOvWlD0ukd/cw7hSH3TNzJ+YsBJgMwdu+olctmk0jevQrse23RG2C4yt98UHAwU3TkA
+ e1zA==
+X-Gm-Message-State: APjAAAUm7GA7G5hq0LEFBFw82JEKq5PxwL2TYCgq89AWZqTyuKq2e9Wa
+ KRKlPvEdv6XzXdtJ6/pZqAfG1oisJensxCKUE2QSsg43ikLbssER2o7yxnmtxg1BSEqQqtycIPU
+ vpFf1sJ9gjZ0JxOQ=
+X-Received: by 2002:a37:8b03:: with SMTP id n3mr1498710qkd.493.1573040012602; 
+ Wed, 06 Nov 2019 03:33:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyL6Ax/wkMys/liQJiBYaiQXy4tsUNTt/e1EowH36SChvYQMrb0Qmbnu7VdL46+y2QD9SOXCQ==
+X-Received: by 2002:a37:8b03:: with SMTP id n3mr1498693qkd.493.1573040012264; 
+ Wed, 06 Nov 2019 03:33:32 -0800 (PST)
+Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
+ by smtp.gmail.com with ESMTPSA id k3sm11451876qkj.119.2019.11.06.03.33.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 03:33:45 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] linux-user/alpha: Set r20 secondary return value
-Date: Wed,  6 Nov 2019 12:33:18 +0100
-Message-Id: <20191106113318.10226-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191106113318.10226-1-richard.henderson@linaro.org>
-References: <20191106113318.10226-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+ Wed, 06 Nov 2019 03:33:31 -0800 (PST)
+Date: Wed, 6 Nov 2019 06:33:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v1 1/4] virtio: protect non-modern devices from too big
+ virtqueue size setting
+Message-ID: <20191106061919-mutt-send-email-mst@kernel.org>
+References: <20191105161105.19016-1-dplotnikov@virtuozzo.com>
+ <20191105161105.19016-2-dplotnikov@virtuozzo.com>
+ <20191105155357-mutt-send-email-mst@kernel.org>
+ <c14296e6-0557-d643-722a-531e3c2f01de@virtuozzo.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c14296e6-0557-d643-722a-531e3c2f01de@virtuozzo.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +79,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This value is not, as far as I know, used by any linux software,
-but it is set by the kernel and is part of the ABI.
+On Wed, Nov 06, 2019 at 07:46:31AM +0000, Denis Plotnikov wrote:
+> 
+> On 05.11.2019 23:56, Michael S. Tsirkin wrote:
+> > On Tue, Nov 05, 2019 at 07:11:02PM +0300, Denis Plotnikov wrote:
+> >> The patch protects from creating illegal virtio device configuration
+> >> via direct virtqueue size property setting.
+> >>
+> >> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> >> ---
+> >>   hw/virtio/virtio-blk-pci.c  |  9 +++++++++
+> >>   hw/virtio/virtio-scsi-pci.c | 10 ++++++++++
+> >>   2 files changed, 19 insertions(+)
+> >>
+> >> diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
+> >> index 60c9185c39..6177ff1df8 100644
+> >> --- a/hw/virtio/virtio-blk-pci.c
+> >> +++ b/hw/virtio/virtio-blk-pci.c
+> >> @@ -48,6 +48,15 @@ static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> >>   {
+> >>       VirtIOBlkPCI *dev = VIRTIO_BLK_PCI(vpci_dev);
+> >>       DeviceState *vdev = DEVICE(&dev->vdev);
+> >> +    bool modern = virtio_pci_modern(vpci_dev);
+> >> +    uint32_t queue_size = dev->vdev.conf.queue_size;
+> >> +
+> >> +    if (!modern && queue_size > 128) {
+> >> +        error_setg(errp,
+> >> +                   "too big queue size (%u, max: 128) "
+> >> +                   "for non-modern virtio device", queue_size);
+> >> +        return;
+> >> +    }
+> >
+> > this enables for transitional so still visible to legacy
+> > interface. I am guessing you want to check whether
+> > device is accessed through the modern interface instead.
+> 
+> My goal is to not break something when I'm setting the queue size > 128 
+> (taking into account the current seabios queue size restriction to 128). 
+> I'm not quite sure what to check. Could I ask why one want to the check 
+> whether accessing through the modern interface
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191025113921.9412-13-richard.henderson@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/alpha/target_cpu.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Well now that you say that I don't really know why did you put this test
+in here.  I was guessing you wanted modern because with modern queue
+size is not forced by the host, guest can always use a smaller queue.
+So it's safe to have a large queue.  But if not maybe you can comment on
+why this is limited like this, and add a code comment here.
 
-diff --git a/linux-user/alpha/target_cpu.h b/linux-user/alpha/target_cpu.h
-index dd25e18f47..ad408ab5cc 100644
---- a/linux-user/alpha/target_cpu.h
-+++ b/linux-user/alpha/target_cpu.h
-@@ -27,10 +27,19 @@ static inline void cpu_clone_regs_child(CPUAlphaState *env, target_ulong newsp,
-     }
-     env->ir[IR_V0] = 0;
-     env->ir[IR_A3] = 0;
-+    env->ir[IR_A4] = 1;  /* OSF/1 secondary return: child */
- }
- 
- static inline void cpu_clone_regs_parent(CPUAlphaState *env, unsigned flags)
- {
-+    /*
-+     * OSF/1 secondary return: parent
-+     * Note that the kernel does not do this if SETTLS, because the
-+     * settls argument register is still live after copy_thread.
-+     */
-+    if (!(flags & CLONE_SETTLS)) {
-+        env->ir[IR_A4] = 0;
-+    }
- }
- 
- static inline void cpu_set_tls(CPUAlphaState *env, target_ulong newtls)
--- 
-2.17.1
+> and how it could be checked?
 
+
+As Stefan said, you can look at the features.
+But you can't do it from realize, you need to do it after guest
+from the set features or validate features or set status callback.
+I think validate features is the easiest to use of the three.
+
+This calls for an API to resize queues which we
+do not have now, but it's not hard to add.
+
+
+> Thanks!
+> 
+> Denis
+> 
+> >>       if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+> >>           vpci_dev->nvectors = dev->vdev.conf.num_queues + 1;
+> >> diff --git a/hw/virtio/virtio-scsi-pci.c b/hw/virtio/virtio-scsi-pci.c
+> >> index 2830849729..6e6790fda5 100644
+> >> --- a/hw/virtio/virtio-scsi-pci.c
+> >> +++ b/hw/virtio/virtio-scsi-pci.c
+> >> @@ -17,6 +17,7 @@
+> >>   
+> >>   #include "hw/virtio/virtio-scsi.h"
+> >>   #include "virtio-pci.h"
+> >> +#include "qapi/error.h"
+> >>   
+> >>   typedef struct VirtIOSCSIPCI VirtIOSCSIPCI;
+> >>   
+> >> @@ -47,6 +48,15 @@ static void virtio_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> >>       VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
+> >>       DeviceState *proxy = DEVICE(vpci_dev);
+> >>       char *bus_name;
+> >> +    bool modern = virtio_pci_modern(vpci_dev);
+> >> +    uint32_t virtqueue_size = vs->conf.virtqueue_size;
+> >> +
+> >> +    if (!modern && virtqueue_size > 128) {
+> >> +        error_setg(errp,
+> >> +                   "too big virtqueue size (%u, max: 128) "
+> >> +                   "for non-modern virtio device", virtqueue_size);
+> >> +        return;
+> >> +    }
+> > why? what is illegal about 256 for legacy?
+> >
+> >>   
+> >>       if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+> >>           vpci_dev->nvectors = vs->conf.num_queues + 3;
+> >> -- 
+> >> 2.17.0
 
