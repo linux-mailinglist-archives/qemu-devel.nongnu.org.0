@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03ADF14C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:14:12 +0100 (CET)
-Received: from localhost ([::1]:56005 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E144F14DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:19:53 +0100 (CET)
+Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJGN-0000dJ-QI
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:14:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60339)
+	id 1iSJLs-0003Ex-G3
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:19:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iSJFJ-0000AO-6R
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:13:06 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iSJK7-0001ub-QP
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:18:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iSJFH-00054D-BM
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:13:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40741
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iSJFH-00053v-4j
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:13:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573038781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rxwq+eTe58YydzhWiuqgzyqyv/Jw3SUtsD/zLsOvYI0=;
- b=bM99rLDYokyU5R84lfzvfRjU1p/Eva04dqbhqsBw3dbsRpid/jrVSY74+wMBivQFO/DGN0
- yTvPVNqLHxEfX1RuhvKXuaItaD3QhfQ9DBAJvaGDeCYvWH8OouD4a6bn8g7R0tKIXf63HP
- 4V+3cWjTV6UwcCU6ky2x1Owflli2eMw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-9RIRYGA3OwaXxfhri4Hccw-1; Wed, 06 Nov 2019 06:12:57 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1F55107ACC3;
- Wed,  6 Nov 2019 11:12:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
- [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75801600CE;
- Wed,  6 Nov 2019 11:12:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7BC3411AAA; Wed,  6 Nov 2019 12:12:55 +0100 (CET)
-Date: Wed, 6 Nov 2019 12:12:55 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: seabios@seabios.org
-Subject: Re: [SeaBIOS] 1.13 release?
-Message-ID: <20191106111255.aladyvsumr2kw47b@sirius.home.kraxel.org>
-References: <20191016104412.ut3jxjwjf64qsjbk@sirius.home.kraxel.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1iSJK6-0000kX-MR
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:18:03 -0500
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:37357)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iSJK6-0000Yd-Cc
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:18:02 -0500
+Received: by mail-ot1-x335.google.com with SMTP id d5so8459102otp.4
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:18:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YNT8S/9LeIj7psN7Vf7sCgvzleyXwOoW7DNAR86XYG8=;
+ b=Ntq7UL1nTr/k2o2yPUdts9TVnL0RzI6ccS7PbB2pcVSvQsOqfWFphgh3cAAd0yd+FR
+ HtwqhxBKTJ3ljp2Udq3lIps/Bmm0vNXnE4KI0k4Zqtvlgct5IzkbUA6g6twLjwy9xFY+
+ 0OLfu0Ql70g0PcMUM3RQGofL/G/SUtvmfFXoEG25hVD+mwZrgV0ora5BnFL1fa0iEPZ6
+ 5fanElZMHOVaLPTOkFQ5ftT+yhWKPbxi3IxLOF21vQHOt8t/xI4Xhr41wiWJ2C8Zg4QJ
+ 5CnNtLYcn7hioEW2JuqQT3pz3Tq0NLo5rtgDycsgqsAv9IgoIlBHbEl1uX2elx038IW8
+ UP1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YNT8S/9LeIj7psN7Vf7sCgvzleyXwOoW7DNAR86XYG8=;
+ b=UOqROdjKmytJHA8N0RY/78h9T/T0GldY3TwDNDt4gAWUzp7w7jyzLMwv2fErmRYJ6e
+ GluWH41eWCYCaftUO/U5+oXqai5KiWwZWZzoT4zCU23bkXJffoHQB7c8YZE0iKmhtpL8
+ 5x1kF5ZU9WII6vsyomSXSJKw7U6/cpOCjP5AnRFsc3VtHWTcUmPxtIj61TXujA65pabL
+ GmuzOIo8DLi+tgsCwbvfssAe/DIzt+xbuFpWJttTsNm3gdSxdOigZr1yyk7eR+S5rukX
+ P/WTQGK8BboPozE9uLScWotsf5ULaCqmwW5+h1T6Qg4cVS6PUCajCj2VDJXXU+gSUtOf
+ hCdg==
+X-Gm-Message-State: APjAAAWaDqLrRgNORx3tSxkzofioad8hxg2VR04pAAlRMLmAIzOXicNw
+ LSkhqWZuL7tZ91bLjeU+ga+O8TxLrk1LDNgR4BZPzg==
+X-Google-Smtp-Source: APXvYqwp3Bd8Rpp93n752lmg7eKOF1kVOX2MlCpxbt6zBFivhSYPPmOuQjQUMKaFKmTYpGwdz1xF/NLxbicWezQ8leo=
+X-Received: by 2002:a05:6830:c3:: with SMTP id x3mr1415236oto.91.1573039080274; 
+ Wed, 06 Nov 2019 03:18:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191016104412.ut3jxjwjf64qsjbk@sirius.home.kraxel.org>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 9RIRYGA3OwaXxfhri4Hccw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191025203427.20181-1-ehabkost@redhat.com>
+ <CAFEAcA-F0iB2vzi3Z0J9FPAt6JpuMh+V0wsfXWLuAGX5_d69xw@mail.gmail.com>
+ <20191105195748.GG3812@habkost.net> <87y2wuhy00.fsf@linaro.org>
+ <20191106103633.GE91675@redhat.com>
+In-Reply-To: <20191106103633.GE91675@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Nov 2019 11:17:47 +0000
+Message-ID: <CAFEAcA9LqhboQH5_NAJF5XbE+PbX16dYuRd60Tz_R_Y215QhMw@mail.gmail.com>
+Subject: Re: [PULL 0/1] Require Python >= 3.5 to build QEMU
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,26 +76,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 16, 2019 at 12:44:12PM +0200, Gerd Hoffmann wrote:
->   Hi,
->=20
-> Almost a year since 1.12.0 was tagged (Nov 17th to be exact),
-> time to plan the 1.13 release I think ...
->=20
-> How about freeze in a week or two, release by mid-november?
->=20
-> Pending stuff I'm aware of is the disk geometry patch series.
-> The corresponding qemu series is still waiting to be merged.
+On Wed, 6 Nov 2019 at 10:36, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+> At what point do we declare that NetBSD CI is broken and is no longer
+> considered a supported platform from POV of blocking the merging of
+> PULL requests ? It has been preventing the dropping of python2 for
+> quite a while now. It isn't the end of the world in this particular
+> case, as dropping py2 is mostly just a cleanup, but I feel like we
+> might benefit from setting expectations for ongoing platform maintenance,
+> otherwise these kind of issues could drag on indefinitely.
 
-It's finally merged in qemu now.  Going to push the seabios
-series and prepare a seabios update for qemu, so upcoming
-seabios release gets some more test coverage.
+It works fine for me, and it means we have coverage of a host
+OS we otherwise would not. To me that is definitely more important
+than being able to drop Python 2 support. Also, AIUI the problem
+that's blocking updating the NetBSD image isn't related to
+NetBSD at all but is a bug in some combination of QEMU itself
+and our test framework -- both of those are things we need to
+fix anyway.
 
-cheers,
-  Gerd
-
+thanks
+-- PMM
 
