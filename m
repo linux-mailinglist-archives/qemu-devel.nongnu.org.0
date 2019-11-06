@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E76CF248E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 02:53:11 +0100 (CET)
-Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D20EF24EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 03:08:10 +0100 (CET)
+Received: from localhost ([::1]:38484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSWz0-0001Ea-5Z
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 20:53:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37115)
+	id 1iSXDV-0005MY-7W
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 21:08:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iSWxd-0000bx-HP
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 20:51:46 -0500
+ (envelope-from <rajaths@cs.utexas.edu>) id 1iSV9u-000788-DX
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 18:56:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iSWxc-0005kG-6w
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 20:51:45 -0500
-Received: from mga11.intel.com ([192.55.52.93]:16859)
+ (envelope-from <rajaths@cs.utexas.edu>) id 1iSV9s-000067-Rx
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 18:56:17 -0500
+Received: from newman.cs.utexas.edu ([128.83.139.110]:44523)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iSWxb-0005k0-VS
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 20:51:44 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2019 17:51:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,276,1569308400"; d="scan'208";a="206018611"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.161])
- ([10.239.196.161])
- by orsmga006.jf.intel.com with ESMTP; 06 Nov 2019 17:51:39 -0800
-Subject: Re: [PATCH v14 04/11] numa: Extend CLI to provide initiator
- information for numa nodes
-To: Eric Blake <eblake@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "lvivier@redhat.com" <lvivier@redhat.com>
-References: <20191028075220.25673-1-tao3.xu@intel.com>
- <20191028075220.25673-5-tao3.xu@intel.com>
- <3c0b4ebc-3d0e-87b0-b290-cab4f833cfcf@redhat.com>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <6b6627c4-e134-3365-c2e1-540651fc30e0@intel.com>
-Date: Thu, 7 Nov 2019 09:51:38 +0800
+ (Exim 4.71) (envelope-from <rajaths@cs.utexas.edu>)
+ id 1iSV9s-0008Sy-EO
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 18:56:16 -0500
+Received: from [172.20.2.59] (rrcs-72-128-130-131.sw.biz.rr.com
+ [72.128.130.131]) (authenticated bits=0)
+ by newman.cs.utexas.edu (8.14.4/8.14.4/Debian-4.1ubuntu1.1) with ESMTP id
+ xA6Noihw006291
+ (version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 6 Nov 2019 17:50:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cs.utexas.edu;
+ s=default; t=1573084245;
+ bh=kL/b9LUmdoAI7JLdwqaqqGg1bQOqUat74KSAGzzRewI=;
+ h=To:From:Subject:Date:From;
+ b=VgEfTzIeojloJKsX5uexMqsbBvN0MuKrjR4k3B0KbPrbp+GuLhhaaVLOKUVBZ+fj9
+ oCYfs8eYf2w19P5bF191f0t1YhL1E3QetxWvV9yJkQf50OX9NFF72ft4jDgXXpJXjv
+ AxCS1Co/rUxAla4UGO/PH6ixBfbY5fMwgTqTim0U=
+To: qemu-devel@nongnu.org
+From: Rajath Shashidhara <rajaths@cs.utexas.edu>
+Subject: Looking for issues/features for my first contribution
+Message-ID: <f5a16b3c-2c17-60e4-e80b-dd20b3c088cc@cs.utexas.edu>
+Date: Wed, 6 Nov 2019 17:50:44 -0600
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <3c0b4ebc-3d0e-87b0-b290-cab4f833cfcf@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+Content-Language: en-US
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.3.9
+ (newman.cs.utexas.edu [128.83.139.110]); Wed, 06 Nov 2019 17:50:45 -0600 (CST)
+X-Virus-Scanned: clamav-milter 0.100.3 at newman
+X-Virus-Status: Clean
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 128.83.139.110
+X-Mailman-Approved-At: Wed, 06 Nov 2019 21:06:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,49 +64,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Jingqi" <jingqi.liu@intel.com>, "Williams,
- Dan J" <dan.j.williams@intel.com>, "Du, Fan" <fan.du@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/7/2019 4:29 AM, Eric Blake wrote:
-> On 10/28/19 2:52 AM, Tao Xu wrote:
->> In ACPI 6.3 chapter 5.2.27 Heterogeneous Memory Attribute Table (HMAT),
->> The initiator represents processor which access to memory. And in 5.2.27.3
->> Memory Proximity Domain Attributes Structure, the attached initiator is
->> defined as where the memory controller responsible for a memory proximity
->> domain. With attached initiator information, the topology of heterogeneous
->> memory can be described.
->>
->> Extend CLI of "-numa node" option to indicate the initiator numa node-id.
->> In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
->> the platform's HMAT tables.
->>
->> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
->> Suggested-by: Dan Williams <dan.j.williams@intel.com>
->> Signed-off-by: Tao Xu <tao3.xu@intel.com>
->> ---
->>
-> 
->> +++ b/qapi/machine.json
->> @@ -463,6 +463,13 @@
->>    # @memdev: memory backend object.  If specified for one node,
->>    #          it must be specified for all nodes.
->>    #
->> +# @initiator: defined in ACPI 6.3 Chapter 5.2.27.3 Table 5-145,
->> +#             points to the nodeid which has the memory controller
->> +#             responsible for this NUMA node. This field provides
->> +#             additional information as to the initiator node that
->> +#             is closest (as in directly attached) to this node, and
->> +#             therefore has the best performance (since 4.2)
->> +#
-> 
-> I'm sad to say, but we've now missed soft freeze for 4.2.  This feels
-> like enough of a feature that we'll probably have to defer the series to
-> the 5.0 release, which will have ripple effects to your patches.
-> 
-OK, I will change the version flag.
+Hi all,
+
+I am a Computer Science graduate student at The University of Texas at 
+Austin (UT, Austin). I am looking forward to contributing to qemu !
+
+This semester, I am taking a class in Virtualization 
+(https://github.com/vijay03/cs378-f19) and contributing to a 
+virtualization related open-source project is a significant part of the 
+course.
+I would be interested in contributing a patchset to qemu - possibly a 
+self-contained feature or a reasonably complex bug fix that can be 
+completed in under a month's time. I did look at both the bugtracker and 
+the QEMU Google Summer of Code 2019 page 
+[https://wiki.qemu.org/Google_Summer_of_Code_2019] for ideas. However, I 
+would be interested in hearing from the community and I would be 
+delighted if somebody can be suggest a suitable project !
+
+I am an advanced C programmer with both professional and academic 
+background in systems design & implementation - especially OS & 
+Networks. Given my background, I feel fairly confident that I can pickup 
+the QEMU codebase quickly.
+
+Eagerly looking forward to hearing from the community !
+
+Thanks,
+Rajath Shashidhara
+
 
