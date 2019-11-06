@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BE9F1F8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 21:12:47 +0100 (CET)
-Received: from localhost ([::1]:34760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F1AF1FE3
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 21:30:58 +0100 (CET)
+Received: from localhost ([::1]:34856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSRfa-0007SW-Gc
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 15:12:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45005)
+	id 1iSRxA-0005SR-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 15:30:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iSRei-0006wc-H0
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 15:11:53 -0500
+ (envelope-from <eblake@redhat.com>) id 1iSRvu-0004uS-LK
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 15:29:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iSReg-0000Sn-Vs
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 15:11:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25044
+ (envelope-from <eblake@redhat.com>) id 1iSRvs-000597-11
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 15:29:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38258
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iSReg-0000SX-Ry
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 15:11:50 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iSRvr-00056Z-Rp
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 15:29:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573071110;
+ s=mimecast20190719; t=1573072174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qfpWyMF56NwZoUqcwzRjXyCTYP6hb4aaedJqadUkO4w=;
- b=Loc+B785+lSuxniqwHNHBdZPJWL1PS32s8wCCzkz02Zu0gp+vrq1jNViWiJFrZ6B6L4FL9
- dLGd2g/fNBPERzAkpjL/oRomwUyzkfxtdLPjvGIZU1rL2dz4xYhUeW44bQ1L28CZAiPokx
- Ny6txGCoEZhbOPYGkCxEw/vfBMG6XaQ=
+ bh=QmM7TkR3DUXrg9IrLjurtmXF2fQShIBFAEVNK6iE6IM=;
+ b=Ix+fP6vCdOkFFYT1s4brk4Pp0Oq4pyJxQtOwVFEp1RckMVaqpB4yd2hNzZ2U4XKuYD5WMO
+ bu/RhHddYKvb0xr7YY2ZRdm2fz3LgJpf2SGyY/bUjg0sDZwDpD3TNEPfCqiWbEny5YnVhW
+ TYZzoqGOpwi7357RKZ2JuR2dtdj3YPc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-aK_h-r2lNu6rF0LBCdwsaw-1; Wed, 06 Nov 2019 15:11:48 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-203-Yhd2DsZMPO2l3PjXQNzjAg-1; Wed, 06 Nov 2019 15:29:31 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4577107ACC4;
- Wed,  6 Nov 2019 20:11:47 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE39A600CD;
- Wed,  6 Nov 2019 20:11:46 +0000 (UTC)
-Date: Wed, 6 Nov 2019 20:11:44 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH 0/6] migration/postcopy: enable compress during postcopy
-Message-ID: <20191106201144.GM2802@work-vm>
-References: <20191018004850.9888-1-richardw.yang@linux.intel.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D195B800054;
+ Wed,  6 Nov 2019 20:29:29 +0000 (UTC)
+Received: from [10.3.117.38] (ovpn-117-38.phx2.redhat.com [10.3.117.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDAA45C1BB;
+ Wed,  6 Nov 2019 20:29:25 +0000 (UTC)
+Subject: Re: [PATCH v14 04/11] numa: Extend CLI to provide initiator
+ information for numa nodes
+To: Tao Xu <tao3.xu@intel.com>, mst@redhat.com, imammedo@redhat.com,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
+ mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com
+References: <20191028075220.25673-1-tao3.xu@intel.com>
+ <20191028075220.25673-5-tao3.xu@intel.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3c0b4ebc-3d0e-87b0-b290-cab4f833cfcf@redhat.com>
+Date: Wed, 6 Nov 2019 14:29:25 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191018004850.9888-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: aK_h-r2lNu6rF0LBCdwsaw-1
+In-Reply-To: <20191028075220.25673-5-tao3.xu@intel.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: Yhd2DsZMPO2l3PjXQNzjAg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,58 +78,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: jingqi.liu@intel.com, Dan Williams <dan.j.williams@intel.com>,
+ fan.du@intel.com, qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> This patch set tries enable compress during postcopy.
+On 10/28/19 2:52 AM, Tao Xu wrote:
+> In ACPI 6.3 chapter 5.2.27 Heterogeneous Memory Attribute Table (HMAT),
+> The initiator represents processor which access to memory. And in 5.2.27.=
+3
+> Memory Proximity Domain Attributes Structure, the attached initiator is
+> defined as where the memory controller responsible for a memory proximity
+> domain. With attached initiator information, the topology of heterogeneou=
+s
+> memory can be described.
 >=20
-> postcopy requires to place a whole host page, while migration thread migr=
-ate
-> memory in target page size. This makes postcopy need to collect all targe=
-t
-> pages in one host page before placing via userfaultfd.
+> Extend CLI of "-numa node" option to indicate the initiator numa node-id.
+> In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and repo=
+rt
+> the platform's HMAT tables.
 >=20
-> To enable compress during postcopy, there are two problems to solve:
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
 >=20
->     1. Random order for target page arrival
->     2. Target pages in one host page arrives without interrupt by target
->        page from other host page
->=20
-> The first one is handled by counting the number of target pages arrived
-> instead of the last target page arrived.
->=20
-> The second one is handled by:
->=20
->     1. Flush compress thread for each host page
->     2. Wait for decompress thread for before placing host page
->=20
-> With the combination of these two changes, compress is enabled during
-> postcopy.
 
-What have you tested this with? 2MB huge pages I guess?
+> +++ b/qapi/machine.json
+> @@ -463,6 +463,13 @@
+>   # @memdev: memory backend object.  If specified for one node,
+>   #          it must be specified for all nodes.
+>   #
+> +# @initiator: defined in ACPI 6.3 Chapter 5.2.27.3 Table 5-145,
+> +#             points to the nodeid which has the memory controller
+> +#             responsible for this NUMA node. This field provides
+> +#             additional information as to the initiator node that
+> +#             is closest (as in directly attached) to this node, and
+> +#             therefore has the best performance (since 4.2)
+> +#
 
-Dave
+I'm sad to say, but we've now missed soft freeze for 4.2.  This feels=20
+like enough of a feature that we'll probably have to defer the series to=20
+the 5.0 release, which will have ripple effects to your patches.
 
-> Wei Yang (6):
->   migration/postcopy: reduce memset when it is zero page and
->     matches_target_page_size
->   migration/postcopy: wait for decompress thread in precopy
->   migration/postcopy: count target page number to decide the
->     place_needed
->   migration/postcopy: set all_zero to true on the first target page
->   migration/postcopy: enable random order target page arrival
->   migration/postcopy: enable compress during postcopy
->=20
->  migration/migration.c | 11 --------
->  migration/ram.c       | 65 ++++++++++++++++++++++++++++++-------------
->  2 files changed, 45 insertions(+), 31 deletions(-)
->=20
-> --=20
-> 2.17.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
