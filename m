@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7677F16AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:07:43 +0100 (CET)
-Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAF4F16D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:16:32 +0100 (CET)
+Received: from localhost ([::1]:57940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSL2E-0005LW-8a
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:07:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36449)
+	id 1iSLAk-0001Mc-VX
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:16:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iSKzt-0003S2-HD
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:18 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iSL01-0003gU-0q
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iSKzs-0002wU-Dv
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:17 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:43641)
+ (envelope-from <laurent@vivier.eu>) id 1iSKzz-00031y-UP
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:24 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:33041)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzs-0002vZ-4L
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:16 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzz-00031L-L4
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:23 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N63NQ-1hqnLo2u8u-016Pwb; Wed, 06 Nov 2019 14:05:08 +0100
+ id 1N79q8-1hrtHN2L2y-017Vs9; Wed, 06 Nov 2019 14:05:09 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/13] tests/tcg/multiarch/linux-test: Fix error check for
- shmat
-Date: Wed,  6 Nov 2019 14:04:46 +0100
-Message-Id: <20191106130456.6176-4-laurent@vivier.eu>
+Subject: [PULL v2 04/13] target/sparc: Define an enumeration for accessing
+ env->regwptr
+Date: Wed,  6 Nov 2019 14:04:47 +0100
+Message-Id: <20191106130456.6176-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191106130456.6176-1-laurent@vivier.eu>
 References: <20191106130456.6176-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Vu1BYmduwVjJTm9simsfiMGEKoqN9w6waqLssuklMSO6JIBEGVU
- 9EeL0wEnC5U4DUjrnHPoocjRh3N4mKrdkynjbqqV7i3Orom2/BvPyfmOQ5vqCV3P/vG0jAx
- UDJJzkliQ2XEw7La3Ac0XAaAf5SeFxxLxG0PoageV1T/TwWa+zRAU1XBqtDcGcpekxcVVHZ
- IyTtU4J+13UVQsSKoRrvQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xROpSsYcRq8=:7mHkMJ+n9Ny8JVJpwk4VwW
- fsVRVxbvzqdQyPXu1WDM/B2zkWyGNbyjM53mr/x5lC2OImt0+tGEjqaNtagvXo4uoHn7xfyLB
- vNHOZU2jn7f45inIZdR4cHrRofVU+ZGioCjTbjcAEmeN5FD5O8/D4DKu54bNaYhgO6lD/I20k
- 880f7Sfs3zx/1tZWbBoy/yMuZlKpEFzFMDw5hqopomWFj7+TDPeWons4yva1Zf7Kf96BACA0P
- CXpxdUvmW5tTKHKhPKLkZKstEHTNjSF4eXX53SSsMO0MM59ylzCMdFdN8h5zNAxW1H2glTPL6
- NJaJ8hdT6phqTnnCzw2NdTGzBUEgq4YI5aepBnU0Q9+W6XfZm8xkR6MJ5nAQ3OkVtIB4vnwj3
- dqpz8fnV2SlCbevGx5xEdNkkixBWpgUQI+GaIDIk/JqwRyZA95GmtmAKwsGJ6WKMfAsioV4h+
- wYM1gq2OBkOeROQIzuW0LV+ho+DIlQEb2D+EVJ9cvL7JczLrw3Kx0aAcgiDISDczFrl4zUI8b
- Q0V4XHBDiR1wPXlqXxmMDehl4iDi425yIC+FTDwOuoEHXtxAvDM2xDFH68gZuko+ZMusP27YH
- ATWt7ewG7sYwEVnmL1ncDrBl/Y2dsf7cuAX1PbeastECVVu6TXl79u+7fy+0c5QbHOM/UWcMX
- Gw1qWgUeNF7TVXzn/o3t622LaK4+B6ee5Z/09U8NxxaYHDD6PetDciDIhnUcDD1FBrF2+QJjS
- 7ekJ4oEQIlqRSAxRgoXgMKsDGPB8p6OzPr24zOsRlWIbkJJTAJol0k1hc0uo2k9fd9Y3orYTF
- rREHohLKSpyeI9ML7CJq2jM4iyb4mcDEue07EMewFoWFpQ7f4hjHQSEbt9ME2452PgQ+AYwRM
- ocMhAFrjy61HvbxUAIkA==
+X-Provags-ID: V03:K1:fmn0GkGUhoRW+ItSR4J23aKZ1sR0YtmytPGBgNf7xAzK4yFXa3p
+ 5UblQzAHRRnL//CV610/dtH43eQwIPJLamHeW8aJXywGApX62L8uFzUVe2jgxwhFlxUoDtF
+ pSJjDSMq6LTzdJ+sXbCxkRhJVhq6t+qmsPEzlvRsX7bkfpLXYOI2dEVLVvfEuFN4oe3//uz
+ RKrBcx2X98cavm59/C9iQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JUoqpHlXQuQ=:rjrtQuBSYNvnkj/P7s2r3l
+ i7pBr2tCdwVRcq1j0R0n1aiH3QNL1fzM/rIwS/5Jlw9qKnDtC5qviX6QkEft3Eq/zHgzRhIia
+ 9coCvqN9FtP/ybNIc/f8qdkLno+yRZX8oBirUpXRi4NSdBV1yioM/VvsJyQSKFiMBe4dsBVE7
+ 4ckgu/8dTZCLZzEtumf5hhxZkkXwmNAsIW9jCz/rA+1ufEqL9nwsuEEuZ8cnT+DfuyXAGI3Dk
+ r4Cw6uG5tk+twr9y2vhIAnnax7ZtelayCwXFYAzuBAO98W4QTzoNUbnATwAjBBLh3xoSpdOAi
+ Sh5ZdbcbhZxl7DFw+uh4Ui9knRAC3KGpr9M4EfM1UD06ZQCmgS53H+pLiXoFTrgntMW2rAqt/
+ dQg04MpZPXCp5w7Vq+Wpe42UZuuggBmUPqZtOa8cWj52gfeXnC8po5iqm+8h1PVVA8udfe/Pf
+ Zfg8XUq1kWNIdARC1hUmYVy7T2pBC80KIldLPvK2bptyu0ekvkevuPdG+Q5k11adurS4Oe9+4
+ rBHihqZ8217cEPZGk50phRuNPyNtYQavQRRSpopDDD4FcOvH9djz2VCgnMDZa3HbKEXW+ah4O
+ 6VeGH6/qNgSsI24AQey2RQdlOXG8nAj7aE1YorEPsiv8Ik/imXBoY4EuMrlganAjdZ9YWnSIg
+ Pgd5GNzRLMJYRQiT91xyxQ762ikLYe9O1d5p45vugGAxQL/dSBdNo9JBrelTzA2lxS2RyjhYm
+ wCrcmNw9uLutRSNRB3GXCVZQ+/Jep6gp1kmkR7f8MH/xG8lsHiL9rKS1DnxWShjcbyTGOEEtU
+ erqUdk3AHwfA533SloPqQMRZbTg6AslhmH3eHy0U8kQI6dWjb5WOiPayDXrnO0hCvKVUqGgo1
+ ZED3QtbUeecPaA/uCX/Q==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +70,6 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Riku Voipio <riku.voipio@iki.fi>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -79,33 +77,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The error indicator for this syscall is -1, not 0.
-
-Fixes: e374bfa35bfb ("shm tests - disabled clone test")
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191106113318.10226-3-richard.henderson@linaro.org>
+Message-Id: <20191106113318.10226-4-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/tcg/multiarch/linux-test.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/sparc/cpu.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
-index fa4243fc0426..673d7c8a1c25 100644
---- a/tests/tcg/multiarch/linux-test.c
-+++ b/tests/tcg/multiarch/linux-test.c
-@@ -503,8 +503,9 @@ static void test_shm(void)
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 778aa8e073c7..ae97c7d9f799 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -13,6 +13,39 @@
  
-     shmid = chk_error(shmget(IPC_PRIVATE, SHM_SIZE, IPC_CREAT | 0777));
-     ptr = shmat(shmid, NULL, 0);
--    if (!ptr)
-+    if (ptr == (void *)-1) {
-         error("shmat");
-+    }
+ /*#define EXCP_INTERRUPT 0x100*/
  
-     memset(ptr, 0, SHM_SIZE);
- 
++/* Windowed register indexes.  */
++enum {
++    WREG_O0,
++    WREG_O1,
++    WREG_O2,
++    WREG_O3,
++    WREG_O4,
++    WREG_O5,
++    WREG_O6,
++    WREG_O7,
++
++    WREG_L0,
++    WREG_L1,
++    WREG_L2,
++    WREG_L3,
++    WREG_L4,
++    WREG_L5,
++    WREG_L6,
++    WREG_L7,
++
++    WREG_I0,
++    WREG_I1,
++    WREG_I2,
++    WREG_I3,
++    WREG_I4,
++    WREG_I5,
++    WREG_I6,
++    WREG_I7,
++
++    WREG_SP = WREG_O6,
++    WREG_FP = WREG_I6,
++};
++
+ /* trap definitions */
+ #ifndef TARGET_SPARC64
+ #define TT_TFAULT   0x01
 -- 
 2.21.0
 
