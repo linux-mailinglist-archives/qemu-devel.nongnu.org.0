@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5744FF1508
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:26:35 +0100 (CET)
-Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CCCF1535
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:35:57 +0100 (CET)
+Received: from localhost ([::1]:56350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJSM-0001Yu-DD
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:26:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35270)
+	id 1iSJbP-0005gc-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:35:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iSJPn-0007zb-0y
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:23:56 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iSJZA-0003m2-7V
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iSJPl-0000ax-GL
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:23:54 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:53651)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSJPl-0000Wy-6I
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:23:53 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MpDVx-1i9AlR1gCt-00qfsc; Wed, 06 Nov 2019 12:23:46 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <richard.henderson@linaro.org>) id 1iSJZ8-0007Er-8h
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:35 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33080)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iSJZ8-00079K-0A
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:34 -0500
+Received: by mail-wm1-x332.google.com with SMTP id a17so1364253wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mhrOzofaCWIJFCVDwPiLXME5UaZdBlhyAX2UwDZp+B4=;
+ b=Mvy5YVonUvB51+vNyUtkeTre4gws2fGfhO0Ypc0X+k66nP34FWk47sB8E5CeKBZ0zT
+ gYRin7BD6OYoSKxrYxy4I/F9w7Y+ayZCPpaqYUj0VUC8ZxY1iHsUhM5hy7x1lMUniXeP
+ e7+82v2KEyjmWrLyQmBgR7O9dNUIOqB7HCVBsaxdMONaScMKl7B9jffOV+ONle5l6A9k
+ 1ToC51VVgx01BQdPQqaYRLlno0VJ9UdbRXGA9eC/h39LMGFcv5L4KhhQIL2iZwBB2l5b
+ bvL/VqR2SBuDnQdF5PpYiukv/xNFcPdXyeuqNEt6rlmQsnz0FSRQ/rtBgYTUcYguztyo
+ 4iew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mhrOzofaCWIJFCVDwPiLXME5UaZdBlhyAX2UwDZp+B4=;
+ b=gdETegZ+SnzYoCN9N7WPZFt2dLOVMCEQr8ZrXZOEUp9fU5WEKorGmThmW5AYNP45NS
+ o1pqqcHVpu4ALpE9zGNWaVVg0P+/rlTzI904TnFB5vzHSRrbAIiT84UC3hjp5vsmnMU3
+ 5M2IU6BrUJDuzLxlh0OcL8fqpTG7ctGOrkED57CUhPaLyvLPZLbxDDrkNptO+atLpyH5
+ Q2r9H+KJ/xCC2PTew0AxdJ4LR0abiEesjodh+Cv7Pel7WnrzvdgdpKrUa/p6cQfR+IP+
+ jdwk51Zi4buSunYG4sGVbXiBe0oVVZcMHZ5zQExWS9XxVc+jlWKo9Z8IcZ18spNebaPO
+ zzvg==
+X-Gm-Message-State: APjAAAXVAyQpnnSPEr9VnybmiiM24AIV6CKZSncfqqXvhFHe2xRgteSE
+ af/JBJ/XyNDubi3kDiR2yYi3fSa/fntZJQ==
+X-Google-Smtp-Source: APXvYqx+GmIE4mDj9wTS7ur98bIGqPsTOHYaLsEE7juY0WlwnCo33inLc8VW6pBDUuIKKbjZwel9pg==
+X-Received: by 2002:a7b:c408:: with SMTP id k8mr2131605wmi.67.1573040010564;
+ Wed, 06 Nov 2019 03:33:30 -0800 (PST)
+Received: from localhost.localdomain
+ (31.red-176-87-122.dynamicip.rima-tde.net. [176.87.122.31])
+ by smtp.gmail.com with ESMTPSA id q124sm1776907wme.13.2019.11.06.03.33.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Nov 2019 03:33:30 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] dp8393x: fix dp8393x_receive()
-Date: Wed,  6 Nov 2019 12:23:41 +0100
-Message-Id: <20191106112341.23735-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191106112341.23735-1-laurent@vivier.eu>
-References: <20191106112341.23735-1-laurent@vivier.eu>
+Subject: [PATCH v3 00/12] linux-user sparc fixes
+Date: Wed,  6 Nov 2019 12:33:06 +0100
+Message-Id: <20191106113318.10226-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0PIFKXPD3UsSAG/Kc9+8KDCfUadMQ9t8rToZmYjA38xfCheWdYc
- yPbLf0GuoVyxJWB8K3qbdZyFOwDSzmTGgA3ECJehQoHTQlXEdUoaF9cfIfAs1joEHaB9+4T
- A6Be/TzOEIAtDOxqoZ07lW3XM7DPz/b3RFCjwtsey/1vlio/+0ccAsbzOBJtewC+V0/aocX
- aOnVmYgg6vPeBMQwSrBMQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xkeuSi1oVO8=:s/uztf8lNxDlcztR4qEyeH
- X0vdDe+mo70FDOBv4a9t5hKqTlyG2w/SiaJH/tY/ElbDYo39sowDsCQ3qeUW455OIp4caDNSG
- 1rIp1AE2fpKXREeQfza9y1GhaQxpWKaTyhWQzIcMst0apnyrgaspKrGvXmN+RN0/w34cSSecM
- 24IKdkgmcx2Zb1RHhvqveTmuhU266YpyLpDddeoCd2KH97NK6toSKIzR2ccb1rfEMZiwjigWJ
- lO3Yu7JtNC6t8Qaul6TfiNn+g57UrlxnwUH3+uf621yzUk26HODD/YzfGfrP69f+q8S4yaaQZ
- z3FQBuAVr5hBEbxlSzIJx3cTgHSue0f7KMeZLJn7h2h/wE10hOsR8EML75zPL5InEx3m+uLjF
- vZbGWkGgvYxodPA+Ddl3vfarFsmjTvMyS52/tRsRB2lDuZ60cpV1ziY1ZfxGbAV7dQaUD5eNW
- zXsyOamEypnyK+r1yKH9OcVXOm/bjlLKS7v5JdpmwgkXLJT/2MUogfV84aP82zUHmu8A/cg9N
- IW2PB6U3QuuUSn4ZenkcJZWf/FhxIHBp3xuq5zLxShgPNjX/ySb+DrzWlgpmpW+1w7x7hmjKi
- p4Sy0Q0BVU7pIVE+mibviaBQEfd14l3KQOgdq93p8I3Ew4iZ8dk+F+YByFPAHaCvTjgIpG2So
- 2r3r5gWVOTW4jbYeg3WbGqdowojCHFh8jYn8jKmzeLAfFCmTVtwMq4XU6JRtymKjI+vqDF5aV
- mSnoBC8Ciihs3nD7662KbyL4jMoB966RDDckK/fP+V25N+qyOpTbXnui/eyI0xcn3SdGEOkfX
- 6meMXxopVdS9275I/D9u0j11qEMlS8ZT4eoM3driBd7sn+HVABDwWFhxdh46kWqiYYf3LnICL
- 6wBTItUHAfuIJnHRxkRw==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 217.72.192.73
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,53 +77,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RXpkt.in_use is always 16 bit wide, but when the bus access mode is 32bit
-and the endianness is big, we must access the second word and not the
-first. This patch adjusts the offset according to the size and endianness.
+Changes in v3:
+  * Fix checkpatch errors in patches 5 and 8.
+    There's lots more style errors left to clean up in
+    these files, but this is enough for now.
 
-This fixes DHCP for Q800 guest.
 
-Fixes: be9208419865 ("dp8393x: manage big endian bus")
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Hervé Poussineau <hpoussin@reactos.org>
----
+r~
 
-Notes:
-    v2: adjust the offset, not the size
 
- hw/net/dp8393x.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Richard Henderson (12):
+  scripts/qemu-binfmt-conf: Update for sparc64
+  tests/tcg/multiarch/linux-test: Fix error check for shmat
+  target/sparc: Define an enumeration for accessing env->regwptr
+  linux-user/sparc: Use WREG constants in sparc/target_cpu.h
+  linux-user/sparc: Begin using WREG constants in sparc/signal.c
+  linux-user/sparc: Use WREG_SP constant in sparc/signal.c
+  linux-user/sparc: Fix WREG usage in setup_frame
+  linux-user/sparc64: Fix target_signal_frame
+  linux-user: Rename cpu_clone_regs to cpu_clone_regs_child
+  linux-user: Introduce cpu_clone_regs_parent
+  linux-user/sparc: Fix cpu_clone_regs_*
+  linux-user/alpha: Set r20 secondary return value
 
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 85d3f3788e..3d991af163 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -831,9 +831,15 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         /* EOL detected */
-         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
-     } else {
--        dp8393x_put(s, width, 0, 0); /* in_use */
--        address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 6 * width,
--            MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, sizeof(uint16_t), 1);
-+        /* Clear in_use, but it is always 16bit wide */
-+        int offset = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
-+        if (s->big_endian && width == 2) {
-+            /* we need to adjust the offset of the 16bit field */
-+            offset += sizeof(uint16_t);
-+        }
-+        s->data[0] = 0;
-+        address_space_rw(&s->as, offset, MEMTXATTRS_UNSPECIFIED,
-+                         (uint8_t *)s->data, sizeof(uint16_t), 1);
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
-         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
+ linux-user/aarch64/target_cpu.h    |   7 +-
+ linux-user/alpha/target_cpu.h      |  16 ++++-
+ linux-user/arm/target_cpu.h        |   7 +-
+ linux-user/cris/target_cpu.h       |   7 +-
+ linux-user/hppa/target_cpu.h       |   7 +-
+ linux-user/i386/target_cpu.h       |   7 +-
+ linux-user/m68k/target_cpu.h       |   7 +-
+ linux-user/microblaze/target_cpu.h |   7 +-
+ linux-user/mips/target_cpu.h       |   7 +-
+ linux-user/nios2/target_cpu.h      |   7 +-
+ linux-user/openrisc/target_cpu.h   |   8 ++-
+ linux-user/ppc/target_cpu.h        |   7 +-
+ linux-user/riscv/target_cpu.h      |   7 +-
+ linux-user/s390x/target_cpu.h      |   7 +-
+ linux-user/sh4/target_cpu.h        |   7 +-
+ linux-user/sparc/target_cpu.h      |  64 ++++++++++++------
+ linux-user/tilegx/target_cpu.h     |   7 +-
+ linux-user/xtensa/target_cpu.h     |   8 ++-
+ target/sparc/cpu.h                 |  33 ++++++++++
+ linux-user/sparc/signal.c          | 100 ++++++++++-------------------
+ linux-user/syscall.c               |   6 +-
+ tests/tcg/multiarch/linux-test.c   |   3 +-
+ scripts/qemu-binfmt-conf.sh        |   8 ++-
+ 23 files changed, 238 insertions(+), 106 deletions(-)
+
 -- 
-2.21.0
+2.17.1
 
 
