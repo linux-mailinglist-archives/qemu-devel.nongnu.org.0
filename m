@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FF4F215A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 23:05:08 +0100 (CET)
-Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73976F2163
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 23:06:38 +0100 (CET)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSTQI-0007P2-JR
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 17:05:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58623)
+	id 1iSTRl-0000WA-0v
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 17:06:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iSTMf-0005pQ-42
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 17:01:22 -0500
+ (envelope-from <alistair23@gmail.com>) id 1iSTNu-0006nI-O9
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 17:02:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iSTMc-0000UP-KA
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 17:01:21 -0500
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:32957)
+ (envelope-from <alistair23@gmail.com>) id 1iSTNt-0001aZ-Mg
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 17:02:38 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:46276)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iSTMb-0000RU-1Z
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 17:01:17 -0500
-Received: by mail-lf1-x142.google.com with SMTP id y9so3192457lfy.0
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 14:01:15 -0800 (PST)
+ id 1iSTNt-0001Xz-Ee
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 17:02:37 -0500
+Received: by mail-lj1-x242.google.com with SMTP id e9so14634700ljp.13
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 14:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b2mWrlL2otSiwxS3oiF589so9+hzkcrfqSVnDK9V6w8=;
- b=WEwh94m/d+0chz+BvQ0TQ9HBOhDLIX0zuOT8MK3CEW3HMxX8P0ccqIAcdRGPVo5YEi
- p8kuBZ0ZKLzTd3PY8rBucz1oQqBc643Ut6tFYzgTn+xyOy54Xu3m7U+8xpyWiE5+MKsu
- LpHRGQfFJrkoMIdR86ATVoRVR/xJCXuswgAxj5opM1REgwotMBNd5GYfxbLeOMJyRy7i
- hUoHxDbzN+bvN/bHYAUIgBGZAeHl9r8Nfq4qzQQAbKkOLPkJ75ZwPAz1a32zy+kXnVn7
- 1OeWc2ymdt0IlluBFkS1T4RODcs4hrrit743RNCPuZRaYjPSlWF453tNFDs1J+C67sqI
- 1keQ==
+ :cc; bh=HkmNPtodl9kIuKaHmLdvJQrAHABZUCv5g1TIeZKwH0A=;
+ b=KPCSgXYjUVC2EoEbRoxoxrpoRborzIf+QSyrjcfk9RCRSOFSEdBXr3HqvpHHVgRK0l
+ yXnUF/R6fcVBVZmPWBblkrLjgcuuDleCKZEJ8TszeCqRekwAvqCrJF7FxLHSFVwlkken
+ A/T7L58TCyWDn0kPYupsXkD69gGuBZZzAWuPmQCgwZ47gSsQU6EgCf5JzZOCNQkN6aGH
+ 3FcveGydguAPOiYqzmW8jEXDrYtOPrFXgwlqVqseSsXBByBg8AdCGmpb+zH7e47msf5o
+ Okj4Dlv0Jbl804jZbQfXj2/thqSxOWspJmsZgukNMwtA9rO+s+yWAt9Uyk2V8JgeIhIT
+ DI/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=b2mWrlL2otSiwxS3oiF589so9+hzkcrfqSVnDK9V6w8=;
- b=Ddct3bdRpwSIQkvcwwHe5sTIK1A10z1d115myvrBvwezmK74uiYY5PDyXK8FYG7wPf
- /+VX7iNXCRz58v8zllLeHzAOH2/tFlDqHMt4YrTGl0baSvoAFoMwFWyQJyI4Sqi+/N20
- 6eP9sQ44/7e2/6B/y28Pxfk71QKjTRO0p911H4qGHakmVpAP0qL9L3M7N39etEAfwhyT
- 8x7tdXpwDEDLE+3zzL8huQ6/m0hSJDt3jhJuf9zya97cgFfacuoUpXaBTy9yMtYfbBCM
- oB1KTeNVBcyeng0yy369qk81jwqbBNgpv6KfzekJqFX+LStnFCawaBv4yLbCuzaKxRIQ
- IRGg==
-X-Gm-Message-State: APjAAAWwDA5A6IEZjZNJkJMRvq8JfZdjUrU6OcMN9lN6y9OYuLcXyl93
- nLuxFnYB5uE2abhTHAXydDkXOwHfr8Ld4NeQa4Y=
-X-Google-Smtp-Source: APXvYqwNSeNNdqr2npUnAh5cDie5vJcRJQsI/KWyQ7WHgBpk9SkRoNhSqaSmHKAwpexgyJLZSbxxQTTDleulw5f9n1I=
-X-Received: by 2002:ac2:4a8f:: with SMTP id l15mr25679731lfp.5.1573077673702; 
- Wed, 06 Nov 2019 14:01:13 -0800 (PST)
+ bh=HkmNPtodl9kIuKaHmLdvJQrAHABZUCv5g1TIeZKwH0A=;
+ b=POh8DCOpXBMp5f3zzcnc2AxC4OOVAlb2vgUd2qK+dVi/IZXVo7ukZDt7S81HhsiiFW
+ JYul3etW+PTA12EEVZ0HH94wR2NibVNggziNAHpU8JQPgmEAkNOyy1UnHw+pL/3asQqF
+ 3z9yjuNuwt7jGjrdyr1CG1FqGe/4WzpV6+4yYipTeCRSN2RmhmNKyZmgFrHVcFoCTiyS
+ +76FF5x+S8aZjzHeACjTNn56vNqmiR1TBLB1haIJQNARmLzPxbweRQlWZ0raBr10xdwW
+ mwcVRZE2DAubXqX9Pyos0PBuqqgg+vNxUapzv+pnBi6ZkTcKpPAhz1XF93KqtSS3lqpS
+ 5tkQ==
+X-Gm-Message-State: APjAAAV4M+QAycqFCOwgxfPDqkOqMp98hWaCz/feZfk8cM8nnciBbsx4
+ HCIJJZMyMWHUcsxLAT9REa7zT0OvMNf1RgVh8Ac=
+X-Google-Smtp-Source: APXvYqxASuFsltOFJm+fJcPh2wW14oDU9vcZ7OlviMed0O1NckquZecTao8ImkFH0FRWXQHdmFAksQzIImyCy7MM+nc=
+X-Received: by 2002:a2e:94d6:: with SMTP id r22mr3251678ljh.7.1573077754331;
+ Wed, 06 Nov 2019 14:02:34 -0800 (PST)
 MIME-Version: 1.0
 References: <20191106141424.27244-1-edgar.iglesias@gmail.com>
- <20191106141424.27244-2-edgar.iglesias@gmail.com>
-In-Reply-To: <20191106141424.27244-2-edgar.iglesias@gmail.com>
+ <20191106141424.27244-3-edgar.iglesias@gmail.com>
+In-Reply-To: <20191106141424.27244-3-edgar.iglesias@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 6 Nov 2019 13:55:31 -0800
-Message-ID: <CAKmqyKM1K9O++2rRK7Pj3PdQ6YZ53NQ_WxEkZFori=9Q0-_jkg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] target/microblaze: Plug temp leaks for loads/stores
+Date: Wed, 6 Nov 2019 13:56:53 -0800
+Message-ID: <CAKmqyKPypCij5EKvyxDJcasn8tibqoCt_ovn2C52kUskmC=C5g@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] target/microblaze: Plug temp leaks with delay slot
+ setup
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,12 +87,12 @@ Cc: figlesia@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 6, 2019 at 6:14 AM Edgar E. Iglesias
+On Wed, Nov 6, 2019 at 6:17 AM Edgar E. Iglesias
 <edgar.iglesias@gmail.com> wrote:
 >
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 >
-> Plug TCG temp leaks for loads/stores.
+> Plug temp leaks with delay slot setup.
 >
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
@@ -100,89 +101,67 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  target/microblaze/translate.c | 30 ++++++++++++++++++++++++------
->  1 file changed, 24 insertions(+), 6 deletions(-)
+>  target/microblaze/translate.c | 26 ++++++++++++++------------
+>  1 file changed, 14 insertions(+), 12 deletions(-)
 >
 > diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> index 761f535357..ba143ede5f 100644
+> index ba143ede5f..e9ff9e650d 100644
 > --- a/target/microblaze/translate.c
 > +++ b/target/microblaze/translate.c
-> @@ -967,12 +967,14 @@ static void dec_load(DisasContext *dc)
->                     10 -> 10
->                     11 -> 00 */
->                  TCGv low = tcg_temp_new();
-> +                TCGv t3 = tcg_const_tl(3);
+> @@ -1201,6 +1201,17 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i64 pc_true, TCGv_i64 pc_false)
+>      tcg_temp_free_i64(tmp_zero);
+>  }
 >
->                  tcg_gen_andi_tl(low, addr, 3);
-> -                tcg_gen_sub_tl(low, tcg_const_tl(3), low);
-> +                tcg_gen_sub_tl(low, t3, low);
->                  tcg_gen_andi_tl(addr, addr, ~3);
->                  tcg_gen_or_tl(addr, addr, low);
->                  tcg_temp_free(low);
-> +                tcg_temp_free(t3);
->                  break;
->              }
->
-> @@ -1006,9 +1008,16 @@ static void dec_load(DisasContext *dc)
->      tcg_gen_qemu_ld_i32(v, addr, mem_index, mop);
->
->      if ((dc->cpu->env.pvr.regs[2] & PVR2_UNALIGNED_EXC_MASK) && size > 1) {
-> +        TCGv_i32 t0 = tcg_const_i32(0);
-> +        TCGv_i32 treg = tcg_const_i32(dc->rd);
-> +        TCGv_i32 tsize = tcg_const_i32(size - 1);
+> +static void dec_setup_dslot(DisasContext *dc)
+> +{
+> +        TCGv_i32 tmp = tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG));
 > +
->          tcg_gen_movi_i64(cpu_SR[SR_PC], dc->pc);
-> -        gen_helper_memalign(cpu_env, addr, tcg_const_i32(dc->rd),
-> -                            tcg_const_i32(0), tcg_const_i32(size - 1));
-> +        gen_helper_memalign(cpu_env, addr, treg, t0, tsize);
+> +        dc->delayed_branch = 2;
+> +        dc->tb_flags |= D_FLAG;
 > +
-> +        tcg_temp_free_i32(t0);
-> +        tcg_temp_free_i32(treg);
-> +        tcg_temp_free_i32(tsize);
+> +        tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUMBState, bimm));
+> +        tcg_temp_free_i32(tmp);
+> +}
+> +
+>  static void dec_bcc(DisasContext *dc)
+>  {
+>      unsigned int cc;
+> @@ -1212,10 +1223,7 @@ static void dec_bcc(DisasContext *dc)
+>
+>      dc->delayed_branch = 1;
+>      if (dslot) {
+> -        dc->delayed_branch = 2;
+> -        dc->tb_flags |= D_FLAG;
+> -        tcg_gen_st_i32(tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG)),
+> -                      cpu_env, offsetof(CPUMBState, bimm));
+> +        dec_setup_dslot(dc);
 >      }
 >
->      if (ex) {
-> @@ -1100,12 +1109,14 @@ static void dec_store(DisasContext *dc)
->                     10 -> 10
->                     11 -> 00 */
->                  TCGv low = tcg_temp_new();
-> +                TCGv t3 = tcg_const_tl(3);
+>      if (dec_alu_op_b_is_small_imm(dc)) {
+> @@ -1274,10 +1282,7 @@ static void dec_br(DisasContext *dc)
 >
->                  tcg_gen_andi_tl(low, addr, 3);
-> -                tcg_gen_sub_tl(low, tcg_const_tl(3), low);
-> +                tcg_gen_sub_tl(low, t3, low);
->                  tcg_gen_andi_tl(addr, addr, ~3);
->                  tcg_gen_or_tl(addr, addr, low);
->                  tcg_temp_free(low);
-> +                tcg_temp_free(t3);
->                  break;
->              }
->
-> @@ -1124,6 +1135,10 @@ static void dec_store(DisasContext *dc)
->
->      /* Verify alignment if needed.  */
->      if ((dc->cpu->env.pvr.regs[2] & PVR2_UNALIGNED_EXC_MASK) && size > 1) {
-> +        TCGv_i32 t1 = tcg_const_i32(1);
-> +        TCGv_i32 treg = tcg_const_i32(dc->rd);
-> +        TCGv_i32 tsize = tcg_const_i32(size - 1);
-> +
->          tcg_gen_movi_i64(cpu_SR[SR_PC], dc->pc);
->          /* FIXME: if the alignment is wrong, we should restore the value
->           *        in memory. One possible way to achieve this is to probe
-> @@ -1131,8 +1146,11 @@ static void dec_store(DisasContext *dc)
->           *        the alignment checks in between the probe and the mem
->           *        access.
->           */
-> -        gen_helper_memalign(cpu_env, addr, tcg_const_i32(dc->rd),
-> -                            tcg_const_i32(1), tcg_const_i32(size - 1));
-> +        gen_helper_memalign(cpu_env, addr, treg, t1, tsize);
-> +
-> +        tcg_temp_free_i32(t1);
-> +        tcg_temp_free_i32(treg);
-> +        tcg_temp_free_i32(tsize);
+>      dc->delayed_branch = 1;
+>      if (dslot) {
+> -        dc->delayed_branch = 2;
+> -        dc->tb_flags |= D_FLAG;
+> -        tcg_gen_st_i32(tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG)),
+> -                      cpu_env, offsetof(CPUMBState, bimm));
+> +        dec_setup_dslot(dc);
+>      }
+>      if (link && dc->rd)
+>          tcg_gen_movi_i32(cpu_R[dc->rd], dc->pc);
+> @@ -1379,10 +1384,7 @@ static void dec_rts(DisasContext *dc)
+>          return;
 >      }
 >
->      if (ex) {
+> -    dc->delayed_branch = 2;
+> -    dc->tb_flags |= D_FLAG;
+> -    tcg_gen_st_i32(tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG)),
+> -                  cpu_env, offsetof(CPUMBState, bimm));
+> +    dec_setup_dslot(dc);
+>
+>      if (i_bit) {
+>          LOG_DIS("rtid ir=%x\n", dc->ir);
 > --
 > 2.20.1
 >
