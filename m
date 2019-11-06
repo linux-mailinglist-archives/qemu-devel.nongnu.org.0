@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561E1F16A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:07:38 +0100 (CET)
-Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B145CF16CD
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:13:39 +0100 (CET)
+Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSL28-0005Fp-N3
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:07:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36413)
+	id 1iSL7y-0005Nc-Dz
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:13:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iSKzr-0003P4-By
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:16 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iSKzx-0003ZE-JQ
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iSKzq-0002u1-2c
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:15 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:46969)
+ (envelope-from <laurent@vivier.eu>) id 1iSKzw-0002zW-9w
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:54809)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzp-0002sz-P6
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:14 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzv-0002xK-Vv
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:20 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N95mR-1hpPN60MND-0167ti; Wed, 06 Nov 2019 14:05:07 +0100
+ id 1N7iKo-1ho2SX3WhW-014kzH; Wed, 06 Nov 2019 14:05:08 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/13] linux-user: Support for NETLINK socket options
-Date: Wed,  6 Nov 2019 14:04:44 +0100
-Message-Id: <20191106130456.6176-2-laurent@vivier.eu>
+Subject: [PULL v2 02/13] scripts/qemu-binfmt-conf: Update for sparc64
+Date: Wed,  6 Nov 2019 14:04:45 +0100
+Message-Id: <20191106130456.6176-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191106130456.6176-1-laurent@vivier.eu>
 References: <20191106130456.6176-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:51GPOKoHdGDAfJRNkhsy5hwU7LDAAJEiZenK2teK9K2fBwmSp8t
- JdgtMsR1PCMFA0P78nn6Dxu8YicazD7AHXeW7PQvLMfjdoTL5mrP4O3umvF1FKk5gfncgpy
- Vh9VEaJlipaxSJu6MOXotRauBHjqW2otcB3Trr/lTNIoRd4v6F80X9Trmt9eJrmMUEP76zk
- Iv+XNuXIY8EHmuPdb7G6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PHzZl8154RE=:y0Kbyy6LPrjbmpfwSrBAZg
- XyiPEBG7Q4p1lHiF7YMbf0mH8pIa8YloIGCv/ai6ldKZr6z8TebyEkofJt9YX2j59SyqDCdPF
- OIOJNY9/jQrigRi1mhG+X+dpV9Sk5XBmJCazxnGwZfGJ070oVPFnxO+S9PzkHCgEKimhopbNr
- ViJljsNqePNYAgi8fcmXEiHfMx7zoL0fwHDAFDnSjXD1mL2wtsaE2F/vrw2S+4bq1mBzm722W
- Nq4pwe45uWJSsz/MJkaTuis1G9K6citjMPdeGYoCy0ax0G0slgWbX3YdpVqq+n5ueeDRCUlSL
- KN6FXNhZeqT+N96gnUpTFGTkmvkU+vGXFS60YPlDSPicQ1Og3xAYFoTMbuqey6SZp58K9oIm+
- kze7fb6alMY+wWhjCJZDLc+ibGsntSFAOr4xtBPIfcKYTdD4OtT4QaqzjVKhOBq5LlhNtj6hJ
- Vy3/5uTSzfEjMNxF7z2KMCrv9B7d+eDvVgVQokIblyhXhqS9ozrcwbIX7fhvThTKlSpc23gxC
- umHJVDwagQLL71FijtkFGNiUaUeTOkI0Il9ka9T0rU7hDFGy/m4CLh0K+K6HtofUVbShpvM1+
- 8cr+m7RkzLTOAubFcu98RGJgi1mwEuYR28j7HYouH9R+ZY8tyXv3ctUSrC9P4OF5Rn9suXZsR
- srcLeIi1mV96QN5/aF7CyF5/OAtBCataVlNI66tUwScXyvitj8h+RoVa1TN9FKDyGBmeRoVGF
- xXCT7byWUjXuqp0kX1NZD77v2WeLngXVOWvv1+en+lpERB3l+kMpJCmLT6wBm5fRXp7TqML94
- exwQa0bYdTT0aBU1Wkyy51Jy5pCTmnydz+hh4dhhWF53HWVNKK4T87nuTirkcG67vJsB+lFe5
- 71JJ6EenB2Spjyu4lp9w==
+X-Provags-ID: V03:K1:29FaE8sJaX1qozk7sgHcC/zAlzd/QEjuyGuOCJjSD0qBg4hPMah
+ L6ga9223uRSC/1JR96+W2yGjOq5ZLkswTE5s1frALs6BE6s8ZLe7MqbhEciI9O07cTcPC0e
+ FsUldhk0pWFoctaVadxMpP31tWQLmeg2CjB7E2ZQXfQWvkjXPA3rfEt+CJKmDdqwK5x3SVH
+ AjxS+t2ZNcgcysGQfnMCg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DeOFobTDgto=:g7so14xaY974d6zD1lwhIY
+ Bn5K9O06EP013HubIqxmopL7no3Vl+uafarvxkWerUkDeGpDEXgJ2BYn+f4a07HFH2H/tJr1f
+ sU36CfSJJjXUf0Yzx5SleqBme8Amb3iMbM+3/grNjoZrVlCQ1nDZb1ZzBIJX9i8TS/u//vr0A
+ udCvMPVJUbuPPFabduKBcKcUVtZ9ljL2LvN2mUcrp7ET65dzdAXqA8sIV+v09oCZpLujpKV7W
+ ChiyXp5TwcxSroe8Ia2zTg82cP08/KQ37nwC7f/HJt/qw11v0cbvhfx1YFGbL+pHydsrS7CLA
+ YWRPpUCp9OVLHrvHN75MrfBlOz/cLSvZR+o2/Z/Q7+tSdVMm352zjq7amHsFkF6YrKuowMxvA
+ g1YyDrzGY5YWQk6GRSYksWwB78CQd2hwHUPrJW9aR35yMXv9NtvhPH0lb1lC3F1cRZ3aSxSmb
+ MXGYVKrBomIpyuIjbt5uJKcEIvX/pgVPCfAI5pmCaid9ADnmhfgEew+/UX8ooT9x+zHRaQY3+
+ vzjCGZG5FqOIb3Kmq98KGPR9FI/io1OFTV3HjPUmC1eOvNfAe7FZoI7xVM+UczkPne0HLYQfH
+ rBcep3rYDAMvl90sbulVKwi1MqM7QLTbe1UyfWLp/gTi9IP8nqV7w/VeqBuJ44z46Pe4PZQeD
+ e5ve8wpIq0bVRCizrN4A2J8Rclph09ZUjLZBXPt3sgEvgJ/9LCF7G8KsuvT4aTSadkr3dBkQn
+ L8H9Y5vCfddgAq4/BNoFUvujULAJ4s9QEfuAF98oQqhz7g+/JhdfOCGCTgv21NS9UaNXeIN3o
+ QnwB3tn4gpldltQdJwl8FRGtehhTzMWXdjeUAGt0q/yT3LwbAsI1j+/CWR/lS7BC8wz40PGvI
+ DPaPNl2PzBzqFg9WBRBA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.135
@@ -65,153 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, Josh Kunz <jkz@google.com>,
+ Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Josh Kunz <jkz@google.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This change includes support for all AF_NETLINK socket options up to about
-kernel version 5.4 (5.4 is not formally released at the time of writing).
-Socket options that were introduced in kernel versions before the oldest
-currently stable kernel version are guarded by kernel version macros.
+Also note that we were missing the qemu_target_list entry
+for plain sparc; fix that at the same time.
 
-This change has been built under gcc 8.3, and clang 9.0, and it passes
-`make check`. The netlink options have been tested by emulating some
-non-trival software that uses NETLINK socket options, but they have
-not been exaustively verified.
-
-Signed-off-by: Josh Kunz <jkz@google.com>
-Message-Id: <20191029224310.164025-1-jkz@google.com>
-[lv: updated patch according to CODING_STYLE]
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20191106113318.10226-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 101 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
+ scripts/qemu-binfmt-conf.sh | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f6751eecb78c..247883292ce5 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2248,6 +2248,39 @@ set_timeout:
-             return -TARGET_EFAULT;
- 	ret = get_errno(setsockopt(sockfd, SOL_SOCKET, optname, &val, sizeof(val)));
-         break;
-+#ifdef SOL_NETLINK
-+    case SOL_NETLINK:
-+        switch (optname) {
-+        case NETLINK_PKTINFO:
-+        case NETLINK_ADD_MEMBERSHIP:
-+        case NETLINK_DROP_MEMBERSHIP:
-+        case NETLINK_BROADCAST_ERROR:
-+        case NETLINK_NO_ENOBUFS:
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
-+        case NETLINK_LISTEN_ALL_NSID:
-+        case NETLINK_CAP_ACK:
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
-+        case NETLINK_EXT_ACK:
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
-+        case NETLINK_GET_STRICT_CHK:
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-+            break;
-+        default:
-+            goto unimplemented;
-+        }
-+        val = 0;
-+        if (optlen < sizeof(uint32_t)) {
-+            return -TARGET_EINVAL;
-+        }
-+        if (get_user_u32(val, optval_addr)) {
-+            return -TARGET_EFAULT;
-+        }
-+        ret = get_errno(setsockopt(sockfd, SOL_NETLINK, optname, &val,
-+                                   sizeof(val)));
-+        break;
-+#endif /* SOL_NETLINK */
-     default:
-     unimplemented:
-         gemu_log("Unsupported setsockopt level=%d optname=%d\n", level, optname);
-@@ -2532,6 +2565,74 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
-             break;
-         }
-         break;
-+#ifdef SOL_NETLINK
-+    case SOL_NETLINK:
-+        switch (optname) {
-+        case NETLINK_PKTINFO:
-+        case NETLINK_BROADCAST_ERROR:
-+        case NETLINK_NO_ENOBUFS:
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
-+        case NETLINK_LISTEN_ALL_NSID:
-+        case NETLINK_CAP_ACK:
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
-+        case NETLINK_EXT_ACK:
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
-+        case NETLINK_GET_STRICT_CHK:
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-+            if (get_user_u32(len, optlen)) {
-+                return -TARGET_EFAULT;
-+            }
-+            if (len != sizeof(val)) {
-+                return -TARGET_EINVAL;
-+            }
-+            lv = len;
-+            ret = get_errno(getsockopt(sockfd, level, optname, &val, &lv));
-+            if (ret < 0) {
-+                return ret;
-+            }
-+            if (put_user_u32(lv, optlen)
-+                || put_user_u32(val, optval_addr)) {
-+                return -TARGET_EFAULT;
-+            }
-+            break;
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
-+        case NETLINK_LIST_MEMBERSHIPS:
-+        {
-+            uint32_t *results;
-+            int i;
-+            if (get_user_u32(len, optlen)) {
-+                return -TARGET_EFAULT;
-+            }
-+            if (len < 0) {
-+                return -TARGET_EINVAL;
-+            }
-+            results = lock_user(VERIFY_WRITE, optval_addr, len, 1);
-+            if (!results) {
-+                return -TARGET_EFAULT;
-+            }
-+            lv = len;
-+            ret = get_errno(getsockopt(sockfd, level, optname, results, &lv));
-+            if (ret < 0) {
-+                unlock_user(results, optval_addr, 0);
-+                return ret;
-+            }
-+            /* swap host endianess to target endianess. */
-+            for (i = 0; i < (len / sizeof(uint32_t)); i++) {
-+                results[i] = tswap32(results[i]);
-+            }
-+            if (put_user_u32(lv, optlen)) {
-+                return -TARGET_EFAULT;
-+            }
-+            unlock_user(results, optval_addr, 0);
-+            break;
-+        }
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-+        default:
-+            goto unimplemented;
-+        }
-+#endif /* SOL_NETLINK */
-     default:
-     unimplemented:
-         gemu_log("getsockopt level=%d optname=%d not yet supported\n",
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index b5a16742a149..9f1580a91c7d 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -1,8 +1,8 @@
+ #!/bin/sh
+ # Enable automatic program execution by the kernel.
+ 
+-qemu_target_list="i386 i486 alpha arm armeb sparc32plus ppc ppc64 ppc64le m68k \
+-mips mipsel mipsn32 mipsn32el mips64 mips64el \
++qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
++ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+ microblaze microblazeel or1k x86_64"
+ 
+@@ -38,6 +38,10 @@ sparc32plus_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x
+ sparc32plus_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ sparc32plus_family=sparc
+ 
++sparc64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2b'
++sparc64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
++sparc64_family=sparc
++
+ ppc_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14'
+ ppc_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ ppc_family=ppc
 -- 
 2.21.0
 
