@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87C0F1697
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:05:40 +0100 (CET)
-Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4788F16C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 14:10:43 +0100 (CET)
+Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSL0F-00037N-Ci
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:05:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35911)
+	id 1iSL58-0000Qv-9x
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 08:10:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1iSKyQ-0001pz-9A
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:03:51 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iSKzq-0003OD-PD
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1iSKyL-0001X9-7q
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:03:46 -0500
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:37993)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1iSKyL-0001WX-31
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:03:41 -0500
-Received: by mail-qk1-x742.google.com with SMTP id e2so24466765qkn.5
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 05:03:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z0lyHcnS0EVDURy+IIuUmuU++lXzvYKDrGxWjzRkTCc=;
- b=lk1r5/M7pudql+7UEURxGofX9MNZVeuOzyk2aD3E0FBqOyAldLLeuaeOkXclIH/oE7
- JZMXilf1nIqPNVGSmerwSgYEuKZaOWzlJY0xajDB1W4g91NZJ9kggNSZU430bz8MFHlg
- G/Z2JDU/m/ZrlPHJQXHNivrtqtOh+3KnDboCuI8VKp7PNTi+jGjbFmVBdlOCTX2HjlH1
- My1b4Cy5jrhKCfxN5kBY+cvb9JtOcs6HK17C9TUK88LxoofenaefT+9eBtnXVNH1s+Nf
- 7ujEeOtq58IKVO+m2zecIZDMXlfJiZw7QYSynk85/adFpVOekvoWCU9vpDSWLNIYPtgD
- 8b5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z0lyHcnS0EVDURy+IIuUmuU++lXzvYKDrGxWjzRkTCc=;
- b=JOdzCrW1FtdaT+tGonblmq9hOhIniY7fXuvwN6co2o3GyFWOFhsbpRvt5iSdxIaDwQ
- utX+rFU/RgDe/TaSJ41EQDZeIO0hYwdDL+of9TtpexCZSBsQYHnQ7SmJNs1sRgSAq2xv
- DhFjpaI5RGYSxravGlS+SfMkiLI5ESWfAJPXaCVL4VvODZlGYNBIdJawBkod0mieEuqX
- xZlnuYrLEJtLQhzsz+LYkaNgpcc04bQacwy2Nl837N/g6kcNPJryT4QZ/dCQOjIhNpaM
- m81mVROpyBdPqmIYqYgQ2fAy+ofITXi9rlll38gruYOP516oCMmgRPXwZWsXtUzl7eLW
- bq7Q==
-X-Gm-Message-State: APjAAAXeem/7mo3I8gCoa7pWi/Bnhd4YhaOiwq8MnNwTdqOpyxAxqhmS
- dcErrBmcK/CacsA3Rd3LySIpVWYG
-X-Google-Smtp-Source: APXvYqz8gDsStPI3HEu6lYF73ecv1wEJwllvTRxOtK+cwesKKyg7ZWE+fmPdUkSPTznk4DTK8IeOMQ==
-X-Received: by 2002:a05:620a:12f8:: with SMTP id
- f24mr1781486qkl.255.1573045419491; 
- Wed, 06 Nov 2019 05:03:39 -0800 (PST)
-Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:ba27:ebff:fee8:ce27])
- by smtp.gmail.com with ESMTPSA id
- a19sm14434328qtk.56.2019.11.06.05.03.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 05:03:38 -0800 (PST)
-From: Jason Andryuk <jandryuk@gmail.com>
+ (envelope-from <laurent@vivier.eu>) id 1iSKzp-0002tG-8a
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:14 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:45289)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iSKzo-0002rD-Ve
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 08:05:13 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MfpGL-1hzu0J1miv-00gG4i; Wed, 06 Nov 2019 14:05:06 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] qmp: Reset mon->commands on CHR_EVENT_CLOSED
-Date: Wed,  6 Nov 2019 08:03:09 -0500
-Message-Id: <20191106130309.6737-1-jandryuk@gmail.com>
+Subject: [PULL v2 00/13] Linux user for 4.2 patches
+Date: Wed,  6 Nov 2019 14:04:43 +0100
+Message-Id: <20191106130456.6176-1-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Provags-ID: V03:K1:x05mZ29kQ1uuTjcWeAP/byrXEB0ebit0Hryo+2nsEzM3TCo/rUN
+ PYKMPfTwcwhh6zGRI1SFTllD5wcHyBD+CF1hCT9/5IJJxl44T0kvzXOMzyhd8nFvCEfhFJq
+ j15a6jycJpApeNqrHaYWMe+1C8K/RNlfY1zgz+vVkGKrjpojJHlrO8Kx1OIpC9Qcv2jbpPg
+ 7o5sGVuqLKvx8mBv0FjWA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0K9CklFNdvI=:wKhFc/tyc1AuS763vAlCd3
+ 72RGFRDSH8euDSAvvp3VgMbbAUiyf5zt0wDzs8Yq+y6yYU4e63WN/6dzOmpwEd+wwqU5F1fVi
+ sacQEK+4Y+qX2+SNjxSstiESNlztvKom3weHUbOq/PcP9zrAFeF8HXVki3lIGxJBdqNInlovT
+ krZ5XP3E481uTbUVcZgFOKGh0bmWjta0ojnHvs/Js/aFitDvC007X8hgZLxIBcB/zVu6k9khq
+ nOI8SWe/s7bH3vm79iMCF2cIhYCAl5cGka1WKTYVV/bO0PBsddT2FMp/HGpEdyz3vm0YrevKt
+ 2SVracjbdXU6iIFgVp08G7MXYLSa6yexkGUZy32qG3iqoFJPxxAKaG2jZDzdJCLXfeJGVBbcE
+ n7nhutj4YBv+9SfaUSHQaYUA98qrfLkDtcFYJfcBPBrcDAwJs0KpREYCoc+k3+xj3Fvqk/kgI
+ Dj8aMLGpbxtuhRZ3/uVLFAqG5VutNTLp8YfFJ56LTyO+ooRopJWnHLyCEdvtwifwg2fxVwVMc
+ AV97A4YsQ8aP+i05FeT3zgCO2ZM1aPy2lgMl3u4/Lcdy9hQDJdkk+uDq/4HcQfXCW5lRQL+mt
+ TozKqYsDvVeMPEpRFLdSJrjjeA/9ZhrAJRQJqpi1MQZJO8/AFb/tX50oHtQNUNFivBQHOdGFw
+ pgG0HQbe2pu2FWi5fQex+fGWdt416U4VY2X7Q/wAhv0tthCY8NaPc/cPd0gMV0wOHMfcl49u8
+ loJtmWgOw19/K7sZ1PjfjZd2y94ReAMCP15lmvMB04fD4uc8KsE0hh0S7egzIH0FaBMZSuHW6
+ l3zsxPDUMbbFMiXR1BW9MW52mbbB/SoZG04QKlU9t/5NG9XaTkiNhNnBA6y3wzx6KNPrFLlUs
+ xrvAv5LLg0k9GrUiB8S+1PUd7UELesY990X1T4R4c=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +64,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Jason Andryuk <jandryuk@gmail.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, mon->commands is uninitialized until CHR_EVENT_OPENED where
-it is set to &qmp_cap_negotiation_commands.  After capability
-negotiation, it is set to &qmp_commands.  If the chardev is closed,
-CHR_EVENT_CLOSED, mon->commands remains as &qmp_commands.  Only once the
-chardev is re-opened with CHR_EVENT_OPENED, is it reset to
-&qmp_cap_negotiation_commands.
+The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408:
 
-monitor_qapi_event_emit compares mon->commands to
-&qmp_cap_negotiation_commands, and skips sending events when they are
-equal.  In the case of a closed chardev, QMP events are still sent down
-to the closed chardev which needs to drop them.
+  Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-sf1' into staging (2019-11-02 17:59:03 +0000)
 
-Set mon->commands to &qmp_cap_negotiation_commands for CHR_EVENT_CLOSED
-to stop sending events.  Setting for the CHR_EVENT_OPENED case remains
-since that is how mon->commands is set for a newly opened connections.
+are available in the Git repository at:
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
----
- monitor/qmp.c | 1 +
- 1 file changed, 1 insertion(+)
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.2-pull-request
 
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 9d9e5d8b27..5e2073c5eb 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -333,6 +333,7 @@ static void monitor_qmp_event(void *opaque, int event)
-          * is closed.
-          */
-         monitor_qmp_cleanup_queues(mon);
-+        mon->commands = &qmp_cap_negotiation_commands;
-         json_message_parser_destroy(&mon->parser);
-         json_message_parser_init(&mon->parser, handle_qmp_command,
-                                  mon, NULL);
+for you to fetch changes up to 5849dfe410b3fefec7d54a536cda7ccbf809ebea:
+
+  linux-user/alpha: Set r20 secondary return value (2019-11-06 13:45:05 +0100)
+
+----------------------------------------------------------------
+sparc/sparc64 fixes: this doesn't fix debian chroot for me
+but they are a step in the good direction.
+Fix Netlink support.
+Trivial fix for alpha
+
+PULL v2: fix checkpatch warnings
+
+----------------------------------------------------------------
+
+Josh Kunz (1):
+  linux-user: Support for NETLINK socket options
+
+Richard Henderson (12):
+  scripts/qemu-binfmt-conf: Update for sparc64
+  tests/tcg/multiarch/linux-test: Fix error check for shmat
+  target/sparc: Define an enumeration for accessing env->regwptr
+  linux-user/sparc: Use WREG constants in sparc/target_cpu.h
+  linux-user/sparc: Begin using WREG constants in sparc/signal.c
+  linux-user/sparc: Use WREG_SP constant in sparc/signal.c
+  linux-user/sparc: Fix WREG usage in setup_frame
+  linux-user/sparc64: Fix target_signal_frame
+  linux-user: Rename cpu_clone_regs to cpu_clone_regs_child
+  linux-user: Introduce cpu_clone_regs_parent
+  linux-user/sparc: Fix cpu_clone_regs_*
+  linux-user/alpha: Set r20 secondary return value
+
+ linux-user/aarch64/target_cpu.h    |   7 +-
+ linux-user/alpha/target_cpu.h      |  16 ++++-
+ linux-user/arm/target_cpu.h        |   7 +-
+ linux-user/cris/target_cpu.h       |   7 +-
+ linux-user/hppa/target_cpu.h       |   7 +-
+ linux-user/i386/target_cpu.h       |   7 +-
+ linux-user/m68k/target_cpu.h       |   7 +-
+ linux-user/microblaze/target_cpu.h |   7 +-
+ linux-user/mips/target_cpu.h       |   7 +-
+ linux-user/nios2/target_cpu.h      |   7 +-
+ linux-user/openrisc/target_cpu.h   |   8 ++-
+ linux-user/ppc/target_cpu.h        |   7 +-
+ linux-user/riscv/target_cpu.h      |   7 +-
+ linux-user/s390x/target_cpu.h      |   7 +-
+ linux-user/sh4/target_cpu.h        |   7 +-
+ linux-user/sparc/signal.c          | 102 ++++++++++-----------------
+ linux-user/sparc/target_cpu.h      |  60 +++++++++++-----
+ linux-user/syscall.c               | 107 ++++++++++++++++++++++++++++-
+ linux-user/tilegx/target_cpu.h     |   7 +-
+ linux-user/xtensa/target_cpu.h     |   8 ++-
+ scripts/qemu-binfmt-conf.sh        |   8 ++-
+ target/sparc/cpu.h                 |  33 +++++++++
+ tests/tcg/multiarch/linux-test.c   |   3 +-
+ 23 files changed, 338 insertions(+), 105 deletions(-)
+
 -- 
 2.21.0
 
