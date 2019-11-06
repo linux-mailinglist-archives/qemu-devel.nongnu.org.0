@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F59F1560
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:46:39 +0100 (CET)
-Received: from localhost ([::1]:56540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC492F155B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Nov 2019 12:44:11 +0100 (CET)
+Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSJll-00024o-RI
-	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:46:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38047)
+	id 1iSJjO-0007U1-OJ
+	for lists+qemu-devel@lfdr.de; Wed, 06 Nov 2019 06:44:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38378)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iSJZZ-0004Kh-1w
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:02 -0500
+ (envelope-from <mst@redhat.com>) id 1iSJaR-0005b9-FH
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iSJZW-0007ju-SO
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:00 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:44020)
+ (envelope-from <mst@redhat.com>) id 1iSJaQ-0008DY-67
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:55 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:46208)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSJZW-0007j3-Hi
- for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:33:58 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSJaP-0008DJ-Tu
+ for qemu-devel@nongnu.org; Wed, 06 Nov 2019 06:34:54 -0500
 Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
  [209.85.222.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 65E4437F41
- for <qemu-devel@nongnu.org>; Wed,  6 Nov 2019 11:33:57 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id s3so24442537qkd.6
- for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:33:57 -0800 (PST)
+ by mx1.redhat.com (Postfix) with ESMTPS id 212E63683C
+ for <qemu-devel@nongnu.org>; Wed,  6 Nov 2019 11:34:53 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id m189so24454086qkc.7
+ for <qemu-devel@nongnu.org>; Wed, 06 Nov 2019 03:34:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=72g8Wra91z8yFxDnl9sOYdg9cczFeTRFUIE9FCkWre8=;
- b=EAhv55NVGTHkAWCkCRQVxTFmpV/a1ibfzTjnRqzjQ7FW1OfAhn2XS7JlwF/Km4unzb
- tDEBSlaugFQQOQ10qVyS8akCVXGV9PjGYIcBzX/xyeXvDgK81iKBmHXGIgeTpRAl8FoX
- M7PB/+xJ0Ij8W7NqX8IWBCL3ws1ZX5bDrvVu48zHoh20sfs7dkXA6HkGZBYIwrpbtADV
- USogWd2vog6BJGoB5eJYVC6ojt+c/Tr7bnUu1LX4tvZXBMcBkX8XvNWec4c+zC6OYoUo
- ETkN2xu5Y3Tl2n3xIcI4NVyPcFD+BPC3lcM51vJ8Am9FUWyccHEXsJZFCvMcekNq1l/n
- 0Bug==
-X-Gm-Message-State: APjAAAW2od6mCisl1b+GaDUT29Qze06ZIQo2isUiNijGnehx6q2/LSin
- LF742qA4I8YPXxYWNi2N3QyX85mrIg9IA3auNLc/vKfw/awFbl3lY60Za2T3OUfX1SEz3Gp+lH8
- z5pvjUrsyeYBKZ1w=
-X-Received: by 2002:aed:241c:: with SMTP id r28mr1956827qtc.148.1573040036710; 
- Wed, 06 Nov 2019 03:33:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwF2wgZs9htS/dwCzn5j4gymPdD5MyZLTqKkNNK3EEHP8rRrZBegKpewe5kY2zAl+xVIlSXcQ==
-X-Received: by 2002:aed:241c:: with SMTP id r28mr1956812qtc.148.1573040036473; 
- Wed, 06 Nov 2019 03:33:56 -0800 (PST)
+ bh=PfKQklS6tzecCLpji5MibHGWmje8I14bHB/hCKBrvLc=;
+ b=Mqg6HZhppNTW6fFaCIwXI3t7+x2mr/UbO6qPM43SUG3Jvve98DyGk2ms+x+KHqLAC/
+ xovq70dU7fyVqNMACW23XsjwO2ZtJUIQJuv5oTzwavPJUp8nIF5+P2nQWXnUFV2kuPd7
+ 92VA+u9SMr0qchg+Le+B/N71QGgMBRBUYj0HZft3X2eKCqtS5zpaELW4k0/WMiKmY8dv
+ hw8YUkCISOaHGnPGsw7b4x7YNy9g8n9n7ObIlx77rhM3nn/RAF7zpTiayjAyVivP0G45
+ 3j5NinF/uTK1nkchzsHrReNgCAQN9VPQr6VkhPejhH8suZRuvdIrdExfOpBYhvI3xuYC
+ lhOA==
+X-Gm-Message-State: APjAAAXneQxRVRMH7Gkgt/PadfT8XmwhFpbwi6k5nruKZexIBwM1Hmi+
+ 5RJC/1bfIIiRGJxrGQf6JGWy4oelZN6H/57q+l7WI2RpCSRzVZrdwEzt3QhkqlrWKfvC6WUUzPB
+ 5/ArGtjDd30Kp8iE=
+X-Received: by 2002:a05:620a:20c5:: with SMTP id
+ f5mr1523496qka.226.1573040092083; 
+ Wed, 06 Nov 2019 03:34:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxW9fsFatkAUExTX4iSwdlHqaqWiUMn2I4RpjkgPnPiZyokhmHSt5VQP5wtWDvl++oCedId7Q==
+X-Received: by 2002:a05:620a:20c5:: with SMTP id
+ f5mr1523486qka.226.1573040091842; 
+ Wed, 06 Nov 2019 03:34:51 -0800 (PST)
 Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
- by smtp.gmail.com with ESMTPSA id t128sm4445039qke.4.2019.11.06.03.33.54
+ by smtp.gmail.com with ESMTPSA id t11sm8079660qtj.15.2019.11.06.03.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Nov 2019 03:33:55 -0800 (PST)
-Date: Wed, 6 Nov 2019 06:33:51 -0500
+ Wed, 06 Nov 2019 03:34:51 -0800 (PST)
+Date: Wed, 6 Nov 2019 06:34:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2] virtio: notify virtqueue via host notifier when
- available
-Message-ID: <20191106063344-mutt-send-email-mst@kernel.org>
-References: <20191105140946.165584-1-stefanha@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [RESEND PATCH 0/2] PCI DMA alias support
+Message-ID: <20191106063404-mutt-send-email-mst@kernel.org>
+References: <157187055395.5439.6693401317571144578.stgit@gimli.home>
+ <20191104150353.0a694812@x1.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191105140946.165584-1-stefanha@redhat.com>
+In-Reply-To: <20191104150353.0a694812@x1.home>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -76,119 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yongji Xie <elohimes@gmail.com>, qemu-devel@nongnu.org, felipe@nutanix.com
+Cc: qemu-devel@nongnu.org, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 05, 2019 at 03:09:46PM +0100, Stefan Hajnoczi wrote:
-> Host notifiers are used in several cases:
-> 1. Traditional ioeventfd where virtqueue notifications are handled in
->    the main loop thread.
-> 2. IOThreads (aio_handle_output) where virtqueue notifications are
->    handled in an IOThread AioContext.
-> 3. vhost where virtqueue notifications are handled by kernel vhost or
->    a vhost-user device backend.
+On Mon, Nov 04, 2019 at 03:03:53PM -0700, Alex Williamson wrote:
+> On Wed, 23 Oct 2019 16:47:02 -0600
+> Alex Williamson <alex.williamson@redhat.com> wrote:
 > 
-> Most virtqueue notifications from the guest use the ioeventfd mechanism,
-> but there are corner cases where QEMU code calls virtio_queue_notify().
-> This currently honors the host notifier for the IOThreads
-> aio_handle_output case, but not for the vhost case.  The result is that
-> vhost does not receive virtqueue notifications from QEMU when
-> virtio_queue_notify() is called.
+> > Previous posting:
+> > https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06182.html
+> > 
+> > Rebased (no change) and added Peter's R-b.  Please apply for QEMU 4.2.
 > 
-> This patch extends virtio_queue_notify() to set the host notifier
-> whenever it is enabled instead of calling the vq->(aio_)handle_output()
-> function directly.  We track the host notifier state for each virtqueue
-> separately since some devices may use it only for certain virtqueues.
+> Anyone?  I suppose this has missed another release despite pings from
+> me, Peter, and a resend :-(
 > 
-> This fixes the vhost case although it does add a trip through the
-> eventfd for the traditional ioeventfd case.  I don't think it's worth
-> adding a fast path for the traditional ioeventfd case because calling
-> virtio_queue_notify() is rare when ioeventfd is enabled.
-> 
-> Reported-by: Felipe Franciosi <felipe@nutanix.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Alex
 
-queued, thanks!
+It can be considered a bugfix so I think ok after freeze.
 
-> ---
-> v2:
->  * Track host notifier enabled/disabled state per virtqueue [Yongji Xie]
->  * Tested with contrib/vhost-user-blk and contrib/vhost-user-scsi
-> 
->  hw/virtio/virtio-bus.c     | 4 ++++
->  hw/virtio/virtio.c         | 9 ++++++++-
->  include/hw/virtio/virtio.h | 1 +
->  3 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> index b2c804292e..d6332d45c3 100644
-> --- a/hw/virtio/virtio-bus.c
-> +++ b/hw/virtio/virtio-bus.c
-> @@ -288,6 +288,10 @@ int virtio_bus_set_host_notifier(VirtioBusState *bus, int n, bool assign)
->          k->ioeventfd_assign(proxy, notifier, n, false);
->      }
->  
-> +    if (r == 0) {
-> +        virtio_queue_set_host_notifier_enabled(vq, assign);
-> +    }
-> +
->      return r;
->  }
->  
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 762df12f4c..04716b5f6c 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -128,6 +128,7 @@ struct VirtQueue
->      VirtIODevice *vdev;
->      EventNotifier guest_notifier;
->      EventNotifier host_notifier;
-> +    bool host_notifier_enabled;
->      QLIST_ENTRY(VirtQueue) node;
->  };
->  
-> @@ -2271,7 +2272,7 @@ void virtio_queue_notify(VirtIODevice *vdev, int n)
->      }
->  
->      trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
-> -    if (vq->handle_aio_output) {
-> +    if (vq->host_notifier_enabled) {
->          event_notifier_set(&vq->host_notifier);
->      } else if (vq->handle_output) {
->          vq->handle_output(vdev, vq);
-> @@ -3145,6 +3146,7 @@ void virtio_init(VirtIODevice *vdev, const char *name,
->          vdev->vq[i].vector = VIRTIO_NO_VECTOR;
->          vdev->vq[i].vdev = vdev;
->          vdev->vq[i].queue_index = i;
-> +        vdev->vq[i].host_notifier_enabled = false;
->      }
->  
->      vdev->name = name;
-> @@ -3436,6 +3438,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
->      return &vq->host_notifier;
->  }
->  
-> +void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
-> +{
-> +    vq->host_notifier_enabled = enabled;
-> +}
-> +
->  int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
->                                        MemoryRegion *mr, bool assign)
->  {
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 3448d67d2a..c32a815303 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -312,6 +312,7 @@ int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
->  void virtio_device_release_ioeventfd(VirtIODevice *vdev);
->  bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
->  EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
-> +void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
->  void virtio_queue_host_notifier_read(EventNotifier *n);
->  void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
->                                                  VirtIOHandleAIOOutput handle_output);
-> -- 
-> 2.23.0
+> > Previous cover letter:
+> > 
+> > Please see patch 1/ for the motivation and utility of this series.
+> > This v1 submission improves on the previous RFC with revised commit
+> > logs, comments, and more testing, and the missing IVRS support for DMA
+> > alias ranges is now included.  Testing has been done with Linux guests
+> > with both SeaBIOS and OVMF with configurations of intel-iommu and
+> > amd-iommu.  Intel-iommu testing includes device assignment, amd-iommu
+> > is necessarily limited to emulated devices with interrupt remapping
+> > disabled and iommu=pt in the guest (enabling interrupt remapping or
+> > disabling guest passthrough mode fails to work regardless of this
+> > series).  This series is NOT intended for QEMU v4.1.  Thanks,
+> > 
+> > Alex
+> > 
+> > ---
+> > 
+> > Alex Williamson (2):
+> >       pci: Use PCI aliases when determining device IOMMU address space
+> >       hw/i386: AMD-Vi IVRS DMA alias support
+> > 
+> > 
+> >  hw/i386/acpi-build.c |  127 +++++++++++++++++++++++++++++++++++++++++++++++---
+> >  hw/pci/pci.c         |   43 ++++++++++++++++-
+> >  2 files changed, 160 insertions(+), 10 deletions(-)
 
