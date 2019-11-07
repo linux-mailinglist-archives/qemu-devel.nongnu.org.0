@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381FEF38B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 20:35:14 +0100 (CET)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815AFF38AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 20:33:26 +0100 (CET)
+Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSnYn-000635-3S
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 14:35:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49973)
+	id 1iSnX3-0003AN-3E
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 14:33:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iSnS9-0001TM-K5
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 14:28:22 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iSnSP-0001l4-7d
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 14:28:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iSnS8-0000DR-N2
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 14:28:21 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56868
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iSnSO-0000Yi-8w
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 14:28:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25399
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iSnS8-0000D3-Ja
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 14:28:20 -0500
+ id 1iSnSO-0000YH-4w
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 14:28:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573154899;
+ s=mimecast20190719; t=1573154915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=beU4vFS75DQxJnwJWlGlrCxUCCfEj1fKrvK5Zq90pnU=;
- b=fte1GIoFtvs1Lk4hFMgn7AfdvnjjGob/0E1r6H+OFhBKVUC3jLzNZ11qv9aNl2JklKiV+7
- EQYuUokr5Rf7jR9+c145cr+kyo35eDCrwnR//TiIuAMKpvIAuvf7Fn3i6OaMm1fiipp+Zs
- E/aaD6xYmL+9Vpe8KpFyQz8a0mkdHpY=
+ bh=OvrhF9UNepAsMD3c4PvKr5DRGDwu5IQWuq2svRUoahE=;
+ b=Y+VvgQcjJj/RaUn7XDayHmmhYOrEfrNchGN/py5YkB4oKDp5EY+5BQkImh7sk8KZb1Po/X
+ AB4mjo4rjg0Nc97rWZ0UEQY1Ed3IgBnpUSQNgvB2XgW6FY2bczIFexd6JGeIhlrHiDpG3D
+ x6VEhFaUjYXKzJxkoQN3AjFm9ZHDye8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-qWX8aI3bO-OIsLAgEVei-g-1; Thu, 07 Nov 2019 14:28:17 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-417-hEMCibHaO2OBS4nSb9LI2w-1; Thu, 07 Nov 2019 14:28:34 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80820107ACC3
- for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 19:28:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 589C3477
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 19:28:33 +0000 (UTC)
 Received: from localhost (ovpn-112-60.ams2.redhat.com [10.36.112.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07CAD608B4;
- Thu,  7 Nov 2019 19:28:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C35F5D9E5;
+ Thu,  7 Nov 2019 19:28:21 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] qtest: fix qtest_qmp_device_add leak
-Date: Thu,  7 Nov 2019 23:27:30 +0400
-Message-Id: <20191107192731.17330-3-marcandre.lureau@redhat.com>
+Subject: [PATCH 3/3] cpu-plug-test: fix leaks
+Date: Thu,  7 Nov 2019 23:27:31 +0400
+Message-Id: <20191107192731.17330-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20191107192731.17330-1-marcandre.lureau@redhat.com>
 References: <20191107192731.17330-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: qWX8aI3bO-OIsLAgEVei-g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: hEMCibHaO2OBS4nSb9LI2w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,22 +82,30 @@ Spotted by ASAN.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- tests/libqtest.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/cpu-plug-test.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index 3706bccd8d..91e9cb220c 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -1274,6 +1274,7 @@ void qtest_qmp_device_add(QTestState *qts, const char=
- *driver, const char *id,
-     qdict_put_str(args, "id", id);
+diff --git a/tests/cpu-plug-test.c b/tests/cpu-plug-test.c
+index 058cef5ac1..30e514bbfb 100644
+--- a/tests/cpu-plug-test.c
++++ b/tests/cpu-plug-test.c
+@@ -99,6 +99,7 @@ static void test_plug_with_device_add(gconstpointer data)
 =20
-     qtest_qmp_device_add_qdict(qts, driver, args);
-+    qobject_unref(args);
- }
+         cpu =3D qobject_to(QDict, e);
+         if (qdict_haskey(cpu, "qom-path")) {
++            qobject_unref(e);
+             continue;
+         }
 =20
- static void device_deleted_cb(void *opaque, const char *name, QDict *data)
+@@ -107,6 +108,7 @@ static void test_plug_with_device_add(gconstpointer dat=
+a)
+=20
+         qtest_qmp_device_add_qdict(qts, td->device_model, props);
+         hotplugged++;
++        qobject_unref(e);
+     }
+=20
+     /* make sure that there were hotplugged CPUs */
 --=20
 2.24.0.rc0.20.gd81542e6f3
 
