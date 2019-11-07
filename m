@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEBAF35BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:31:02 +0100 (CET)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BAEF3630
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:51:45 +0100 (CET)
+Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSlca-00064t-V6
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:31:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52161)
+	id 1iSlwe-0005Ft-OS
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:51:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55378)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iSlbF-0005WM-JM
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:29:38 -0500
+ (envelope-from <bounces@canonical.com>) id 1iSlvr-0004pY-CO
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:50:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iSlbE-00006j-C2
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:29:37 -0500
-Received: from 7.mo68.mail-out.ovh.net ([46.105.63.230]:40897)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iSlbE-00006D-6d
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:29:36 -0500
-Received: from player762.ha.ovh.net (unknown [10.109.143.225])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id A052D1454A6
- for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 18:29:33 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player762.ha.ovh.net (Postfix) with ESMTPSA id 98129BE210BC;
- Thu,  7 Nov 2019 17:29:19 +0000 (UTC)
-Subject: Re: [PATCH 2/5] ipmi: Add support to customize OEM functions
-To: cminyard@mvista.com
-References: <20191021131215.3693-1-clg@kaod.org>
- <20191021131215.3693-3-clg@kaod.org> <20191021143017.GH25427@t560>
- <20191027174739.GN3552@umbus.metropole.lan>
- <20191027183347.GC2461@minyard.net> <20191107170025.GD2461@umbus.Home>
- <156e5bd5-726c-2db5-4b24-394d5ec0f268@kaod.org>
- <20191107172532.GH10313@minyard.net>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <fd097ebe-c50c-63c9-4f02-8a78863a759f@kaod.org>
-Date: Thu, 7 Nov 2019 18:29:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iSlvq-0000JQ-6N
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:50:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57450)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iSlvq-0000JA-0Z
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:50:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iSlvn-0001Qp-NP
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 17:50:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A5D2B2E80D6
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 17:50:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191107172532.GH10313@minyard.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 6088022275282930643
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudduledguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejiedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 07 Nov 2019 17:43:45 -0000
+From: =?utf-8?q?Leonardo_M=C3=BCller?= <leozinho29_eu@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=xfce4-pulseaudio-plugin;
+ component=universe; status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug bionic iso-testing
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lastonestanding leozinho29-eu ubuntuqa
+X-Launchpad-Bug-Reporter: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Leonardo_M=C3=BCller_=28leozinho29-eu?=
+ =?utf-8?q?=29?=
+References: <154619733010.25184.13183315891827288064.malonedeb@gac.canonical.com>
+Message-Id: <157314862549.3538.16479113403070038341.malone@gac.canonical.com>
+Subject: [Bug 1810105] Re: Hint showing volume never disappears,
+ blocking buttons to minimize, maximize and close
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f2ca06a49b33a2c5f4dcfc64c53c31226125f1b5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.63.230
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,37 +71,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Joel Stanley <joel@jms.id.au>, "Marty E . Plummer" <hanetzer@startmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1810105 <1810105@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/11/2019 18:25, Corey Minyard wrote:
-> On Thu, Nov 07, 2019 at 06:14:58PM +0100, C=C3=A9dric Le Goater wrote:
->>>>> What's the plan for merging this, once it's ready?  Is there an IPM=
-I
->>>>> tree for it to be staged in?  If not I could take it through the pp=
-c
->>>>> tree, but I'd need some Acked-bys in that case.
->>>>
->>>> I have an IPMI tree for this.  I was assuming it was going in to the=
- PPC
->>>> tree, but it's not big deal.
->>>
->>> I'd be more comfortable if the generic ipmi changes went through the
->>> ipmi tree. =20
->>
->> Here is the patch :
->>
->> 	http://patchwork.ozlabs.org/patch/1185187/
->=20
-> Ok, I have this in my tree.
->=20
-> I assume there is nothing like the linux-next tree for qemu, right?
+I finally found a real computer on which this bug is present.
 
-no. These IPMI OEM commands are handled by the OPAL firmware only.
+The computer in question is a netbook manufactured by Positivo, the Mobo
+5900, which is common on schools. It has a touchscreen with a pen which
+is compatible with evdev but that doesn't work with libinput. Its
+touchscreen is:
 
-C.=20
+Bus 004 Device 006: ID 22b9:0005 eTurboTouch Technology, Inc.
 
+The attached image not only shows the hint from the pulseaudio-plugin,
+but another one caused by pavucontrol.
+
+As a virtual keyboard is normally used because the netbook can be used
+as a tablet, the hints can make some keys impossible to use.
+
+** Attachment added: "Captura de tela_2019-11-07_14-12-19.png"
+   https://bugs.launchpad.net/ubuntu/+source/xfce4-pulseaudio-plugin/+bug/1=
+810105/+attachment/5303552/+files/Captura%20de%20tela_2019-11-07_14-12-19.p=
+ng
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1810105
+
+Title:
+  Hint showing volume never disappears, blocking buttons to minimize,
+  maximize and close
+
+Status in QEMU:
+  New
+Status in xfce4-pulseaudio-plugin package in Ubuntu:
+  New
+
+Bug description:
+  When hovering the mouse over the volume indicator or changing its
+  volume using the mouse wheel it shows the current volume set as a
+  hint. For example:
+
+  Volume 100%
+
+  The problem is that the hint never disappears, not even clicking on
+  it. On some occasions the hint can cover the minimize, maximize and
+  close buttons, causing significant problems on using the desktop
+  environment, as these three buttons won't be usable anymore with the
+  hint over it.
+
+  Where the hint appears it's no longer possible to interact with the
+  screen.
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 18.04
+  Package: xfce4-pulseaudio-plugin 0.4.1-0ubuntu1
+  ProcVersionSignature: Ubuntu 4.15.0-43.46-generic 4.15.18
+  Uname: Linux 4.15.0-43-generic x86_64
+  ApportVersion: 2.20.9-0ubuntu7.5
+  Architecture: amd64
+  CurrentDesktop: XFCE
+  Date: Sun Dec 30 17:09:23 2018
+  InstallationDate: Installed on 2018-12-30 (0 days ago)
+  InstallationMedia: Xubuntu 18.04.2 LTS "Bionic Beaver" - Beta amd64 (2018=
+1230)
+  SourcePackage: xfce4-pulseaudio-plugin
+  UpgradeStatus: No upgrade log present (probably fresh install)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1810105/+subscriptions
 
