@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F94F2BBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 11:03:40 +0100 (CET)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC8BF2BD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 11:07:25 +0100 (CET)
+Received: from localhost ([::1]:40358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSedf-0007Gl-3c
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 05:03:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33174)
+	id 1iSehI-0001BX-8d
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 05:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iSebN-00066s-Fp
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:01:18 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iSefx-0000VB-AO
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:06:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iSebM-0006xl-3M
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:01:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36743
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iSebL-0006fk-LD
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:01:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573120872;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CjtiJFMqRPtEEyqz1xy9FsujjbqGgKfbD3LUCJurxe0=;
- b=HkZRYT8V38ymgvNfsAhv2jKi7Icd4m/NG4edVSFSjtaoGngrwiihwgW9IdfZrJrnueutqt
- rYXU0RYqpma2iteTTR860rDE+K8TG5ORfWDMUvwErmvpBH4GAvy4nIoYL7TQY57eetZDJd
- adHXBsAj0mpVnNKd/rJE2puYhKubd5M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-RaoaMEL6OcaSu38eby0JIg-1; Thu, 07 Nov 2019 05:01:04 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD02B1800D7A;
- Thu,  7 Nov 2019 10:01:03 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7AFF0608AC;
- Thu,  7 Nov 2019 10:01:02 +0000 (UTC)
-Message-ID: <2b5db879abff0c3b457953a60dd013ac8fd738c6.camel@redhat.com>
-Subject: Re: [PATCH v2 03/21] iotests: Add _filter_json_filename
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Thu, 07 Nov 2019 12:01:01 +0200
-In-Reply-To: <5defb1b6-7e1d-8be1-ec4c-ed8378d3ed9b@redhat.com>
-References: <20191015142729.18123-1-mreitz@redhat.com>
- <20191015142729.18123-4-mreitz@redhat.com>
- <f3822494defad291fa70000487c339f3f73317ca.camel@redhat.com>
- <5defb1b6-7e1d-8be1-ec4c-ed8378d3ed9b@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: RaoaMEL6OcaSu38eby0JIg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (envelope-from <peter.maydell@linaro.org>) id 1iSefu-0004r2-Qf
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:05:59 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:44487)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iSefu-0004i5-JD
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:05:58 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id s71so1422932oih.11
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 02:05:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7meEMlOTHXolmzWAKrPY8sgNjLk/GhIq+JaSuU2WCZM=;
+ b=iWuhGMCnSb8uLYVDzLkygu+1tZlfpaagsrHsoe+wyntQO1HnFFsVtua5zYqPaXrgIP
+ pOYuQ03LSlJ1SU3VKWtXgrgaOrOm3GUIxV2GwtZiAlakD1CGt3byE6iW3SkmFgAnEPMk
+ 0MnfwRQA1tSgUed1AAkYx8SzpYgnBhCoDxD79QcVr2qVXjnLxLoouUOdrFkuVR0fXx42
+ QX1kNa6Ne5IFNXqalf95FK032KPyaFnLDMvtAVlHP2h5mVEAIrEUl+74VJGI4A+dyoeU
+ vA3haOuH4N80h8N/e4X5fgt8uD5suPFb1cTXe+Hlaf+4XQun38MbXgrHfgewH/Q1xT9J
+ M01Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7meEMlOTHXolmzWAKrPY8sgNjLk/GhIq+JaSuU2WCZM=;
+ b=rr5sMco5U/KWpKBlnI/F1E5way9KADwCCFcA53+TlK1IzzNX7ZjJjVG2RrRXaUgKrc
+ KVs2cWxz+f2vJG5QGJ3yA6YPRLOUuFQPa8sBsYKVU+Rv1f2qSFQkQdB6LPer/cSOm24S
+ MP+RHRxpdC3NU5IeyD4qukLoI2VQ7KvluvKF107RgA/oyTgmTbsJ7s2NiZvCqjlTJZOQ
+ jriPaATfFW5ZEG1RI43psFg6VfL3h4czmygNdwcopyncFw1tYPCous/EoLQZwKqOPygK
+ /mL/Tr6USm1595c9GQt814KblryKY/L9kXG2aspVLnlypeIAd0zhcAqMaUwLUl023QnX
+ nW/g==
+X-Gm-Message-State: APjAAAVIiICpzqIlJ+RxPWtXxwXrkPLmXSgb7q13cEGixyLL3sbO25gD
+ nhroY1CzaB0/xp0CCMIlIpD7mQyvT4/ACRUD+p6z3Q==
+X-Google-Smtp-Source: APXvYqyt7NOazgn1fO9IpxQcSFzpb3I4wo2o0ZF3U9PSzgcM0MTji6zf86Mbn/SiqywBGJjLDIP5Q2FlUzhpXkY/EvE=
+X-Received: by 2002:aca:3e8a:: with SMTP id l132mr2545921oia.146.1573121156286; 
+ Thu, 07 Nov 2019 02:05:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20191106082604.9548-1-kraxel@redhat.com>
+In-Reply-To: <20191106082604.9548-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Nov 2019 10:05:44 +0000
+Message-ID: <CAFEAcA-FjrXQS8y9XKtYQxf9ywrf-Wc9mr2_vBeObnm9F486jw@mail.gmail.com>
+Subject: Re: [PULL 0/1] Audio 20191106 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,58 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2019-11-07 at 09:59 +0100, Max Reitz wrote:
-> On 06.11.19 16:44, Maxim Levitsky wrote:
-> > On Tue, 2019-10-15 at 16:27 +0200, Max Reitz wrote:
-> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> > > ---
-> > >  tests/qemu-iotests/common.filter | 24 ++++++++++++++++++++++++
-> > >  1 file changed, 24 insertions(+)
-> > >=20
-> > > diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/co=
-mmon.filter
-> > > index 9f418b4881..63bc6f6f26 100644
-> > > --- a/tests/qemu-iotests/common.filter
-> > > +++ b/tests/qemu-iotests/common.filter
-> > > @@ -227,5 +227,29 @@ _filter_qmp_empty_return()
-> > >      grep -v '{"return": {}}'
-> > >  }
-> > > =20
-> > > +_filter_json_filename()
-> > > +{
-> > > +    $PYTHON -c 'import sys
-> > > +result, *fnames =3D sys.stdin.read().split("json:{")
-> >=20
-> > Very minor nitpick, maybe I would give 'fnames' a more generic name,
-> > since its is just result of a split, thus not really a list of filename=
-s.
-> > Feel free to ignore that though.
->=20
-> Hm...  It is a list of filenames, namely of all nested json:{}
-> filenames.  I could call it fname_split, but I actually think fnames is
-> not too wrong.
-
-Makes sense, I guess leave it as is.
-
->=20
-> In any case, thanks for reviewing again!
-
-No problem! Thanks to you too for making these tests more generic,
-this is IMHO very very good thing, especially with all the qcow2
-corruptions we see recently.
+On Wed, 6 Nov 2019 at 08:27, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408:
+>
+>   Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-sf1' into staging (2019-11-02 17:59:03 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/audio-20191106-pull-request
+>
+> for you to fetch changes up to 14d4f01191354e9520c47c692007344c30ab358b:
+>
+>   audio: add -audiodev pa,in|out.latency= to documentation (2019-11-06 08:08:10 +0100)
+>
+> ----------------------------------------------------------------
+> audio: documentation update
+>
+> ----------------------------------------------------------------
 
 
-Best regards,
-=09Maxim Levitsky
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
->=20
-> Max
->=20
-
-
+-- PMM
 
