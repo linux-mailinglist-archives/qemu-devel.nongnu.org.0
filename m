@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A521FF3569
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:07:37 +0100 (CET)
-Received: from localhost ([::1]:45916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95184F357E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:14:39 +0100 (CET)
+Received: from localhost ([::1]:46206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSlFw-0006WF-Aw
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:07:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46595)
+	id 1iSlMk-0005hh-0E
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:14:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iSl9M-000895-Bv
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:00:51 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iSlLe-0005Fo-06
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:13:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iSl9I-0006gA-JZ
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:00:48 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39017 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iSl9H-0006eF-Gn; Thu, 07 Nov 2019 12:00:44 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4788mR4tflz9sQy; Fri,  8 Nov 2019 04:00:39 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1573146039;
- bh=wgFgpkyvzav663OXC7QXN56gpIoi0HxXlNSUtM5s4gs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=miXR66d6yo2yBcIA6Xs2Xj5TTOowFCDTPwnhjVMMwA6xvFTcBAIl6D6ZS5Ord0yS2
- jLhWWZrPADJZLrRxJ3zbXZinN/Ecm6pzneRxA+oXvjKTJUr9OoUba3nyInRKkv2spP
- Vj87riZUYccPHRIf5SPnF+1rkMTuCSJgx8krpw5w=
-Date: Thu, 7 Nov 2019 18:00:25 +0100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Corey Minyard <cminyard@mvista.com>
-Subject: Re: [PATCH 2/5] ipmi: Add support to customize OEM functions
-Message-ID: <20191107170025.GD2461@umbus.Home>
-References: <20191021131215.3693-1-clg@kaod.org>
- <20191021131215.3693-3-clg@kaod.org> <20191021143017.GH25427@t560>
- <20191027174739.GN3552@umbus.metropole.lan>
- <20191027183347.GC2461@minyard.net>
+ (envelope-from <peter.maydell@linaro.org>) id 1iSlLc-0001x8-HK
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:13:29 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35136)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iSlLc-0001un-BA
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:13:28 -0500
+Received: by mail-oi1-x241.google.com with SMTP id n16so2658022oig.2
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 09:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qEhjtjy5t6O41gEr1p6zsuHCeSucLkdmeIso2BDQGMA=;
+ b=FElj92MaecfBK7K4ay0CMa312u9uc0oVzZU5kVc5T+SXAiVTq0H4853PfyMtBsW3yM
+ dcf1HT8+7wlqha0DHHT+0T+VRu8Xf/fd/dg14GwFu3//T2GoR8p4ToucBagnVvr4NaYI
+ X9HTCC0idt0k5uTaBXZWIkREK0qbTXw88DdDYXTnZcirxZPc1vsMzYnpfAuA2ui3eUJX
+ 4iGz9/UyJs/pbpHnHBsahmJ1rLsG8dt46yMMk2J+yGmVmzqboTvNDuQiz2C4K0lDTa+8
+ CmbgenJOKQ5x4JBI1LDv9jA7VMsByEfLrlkEz6HX405mhbL6L7oBzF88nrAoL7n/y2x2
+ rQ7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qEhjtjy5t6O41gEr1p6zsuHCeSucLkdmeIso2BDQGMA=;
+ b=RMqzqBQWmqEqmvdGu44dpPO1899/F3B7xKJ1Qrvngsdb06FFL2yZwd9pqT4h5GgQ9h
+ xrA26Ff3LetFI00qLIN7Y9RrnksEKLhrFQ727Fbj33Id2jXVqvzLPkTxMNqrRlEi3R0X
+ yK5keYVai+l4Zm3MJiltmt2I1VSIIu3XLP5GYYmAMTnulqqz+34y2ZmAjztZw0dXEWLs
+ Dd0UszODWLFd8eVlCGPv6W5T6Z+Q7W+QrtOKcJV8v9X69PNLudv22ml6HNT4EfLQaq44
+ jN2luaBwEfn/rEVfmeggCB2k/eRd5fo0A7fbYzzgMjqWoT9sFPgUyNa/4qOY9AyIJyE2
+ JH2A==
+X-Gm-Message-State: APjAAAUb145yLB9oNs7/JjI2JHtNg+igWzpk2mhcEkOgIqofuiIWL5se
+ DJ3GGT6PtKtnKKGP819AU08BABgl5DkYWsdcRxQ+qg==
+X-Google-Smtp-Source: APXvYqy180F0bMYKlA2pYludhO5VpNaPO8STPXkRZdI3Dtr3gHjboWyUFb1DJD6qY8OPjiIiDd4U99pnx00k6plGENQ=
+X-Received: by 2002:aca:3e8a:: with SMTP id l132mr4229905oia.146.1573146807315; 
+ Thu, 07 Nov 2019 09:13:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8w3uRX/HFJGApMzv"
-Content-Disposition: inline
-In-Reply-To: <20191027183347.GC2461@minyard.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191106162406.27030-1-laurent@vivier.eu>
+In-Reply-To: <20191106162406.27030-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Nov 2019 17:13:16 +0000
+Message-ID: <CAFEAcA8DAXpqZ2H9h1YEm5Ue88_CBiuNLzZjQ4V-cqeAb4mUzg@mail.gmail.com>
+Subject: Re: [PULL v3 0/3] Trivial branch patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,227 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Joel Stanley <joel@jms.id.au>, "Marty E . Plummer" <hanetzer@startmail.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 6 Nov 2019 at 16:26, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 36609b4fa36f0ac934874371874416f7533a54=
+08:
+>
+>   Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2=
+-sf1' into staging (2019-11-02 17:59:03 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+>
+> for you to fetch changes up to df59feb197cda31a8b807c13bf509259db9e018f:
+>
+>   global: Squash 'the the' (2019-11-06 17:19:40 +0100)
+>
+> ----------------------------------------------------------------
+> Trivial fixes (20191105-v3)
+>
+> v3: remove disas/libvixl/vixl/invalset.h changes
+> v2: remove patch from Greg that has lines with more than 80 columns
+>
+> ----------------------------------------------------------------
+>
+> Dr. David Alan Gilbert (1):
+>   global: Squash 'the the'
+>
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to PnP registers
+>   hw/misc/grlib_ahb_apb_pnp: Fix 8-bit accesses
+>
 
---8w3uRX/HFJGApMzv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 27, 2019 at 01:33:47PM -0500, Corey Minyard wrote:
-> On Sun, Oct 27, 2019 at 06:47:39PM +0100, David Gibson wrote:
-> > On Mon, Oct 21, 2019 at 09:30:17AM -0500, Corey Minyard wrote:
-> > > On Mon, Oct 21, 2019 at 03:12:12PM +0200, C=E9dric Le Goater wrote:
-> > > > The routine ipmi_register_oem_netfn() lets external modules register
-> > > > command handlers for OEM functions. Required for the PowerNV machin=
-e.
-> > >=20
-> > > Comments inline.
-> > >=20
-> > > >=20
-> > > > Cc: Corey Minyard <cminyard@mvista.com>
-> > > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > > > ---
-> > > >  include/hw/ipmi/ipmi.h | 36 ++++++++++++++++++++++++++++++++++++
-> > > >  hw/ipmi/ipmi_bmc_sim.c | 41 ++++++--------------------------------=
----
-> > > >  2 files changed, 42 insertions(+), 35 deletions(-)
-> > > >=20
-> > > > diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
-> > > > index 6f2413b39b4a..cb7203b06767 100644
-> > > > --- a/include/hw/ipmi/ipmi.h
-> > > > +++ b/include/hw/ipmi/ipmi.h
-> > > > @@ -265,4 +265,40 @@ int ipmi_bmc_sdr_find(IPMIBmc *b, uint16_t rec=
-id,
-> > > >                        const struct ipmi_sdr_compact **sdr, uint16_=
-t *nextrec);
-> > > >  void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log);
-> > > > =20
-> > > > +typedef struct IPMIBmcSim IPMIBmcSim;
-> > >=20
-> > > This type isn't very useful outside of the simulator, but changes for
-> > > that can come as they are needed.  I don't see an easy way to avoid
-> > > putting it here.
-> > >=20
-> > > > +
-> > > > +typedef struct RspBuffer {
-> > > > +    uint8_t buffer[MAX_IPMI_MSG_SIZE];
-> > > > +    unsigned int len;
-> > > > +} RspBuffer;
-> > > > +
-> > > > +static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t by=
-te)
-> > > > +{
-> > > > +    rsp->buffer[2] =3D byte;
-> > > > +}
-> > > > +
-> > > > +/* Add a byte to the response. */
-> > > > +static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
-> > > > +{
-> > > > +    if (rsp->len >=3D sizeof(rsp->buffer)) {
-> > > > +        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
-> > > > +        return;
-> > > > +    }
-> > > > +    rsp->buffer[rsp->len++] =3D byte;
-> > > > +}
-> > > > +
-> > > > +typedef struct IPMICmdHandler {
-> > > > +    void (*cmd_handler)(IPMIBmcSim *s,
-> > > > +                        uint8_t *cmd, unsigned int cmd_len,
-> > > > +                        RspBuffer *rsp);
-> > > > +    unsigned int cmd_len_min;
-> > > > +} IPMICmdHandler;
-> > > > +
-> > > > +typedef struct IPMINetfn {
-> > > > +    unsigned int cmd_nums;
-> > > > +    const IPMICmdHandler *cmd_handlers;
-> > > > +} IPMINetfn;
-> > > > +
-> > > > +int ipmi_register_oem_netfn(IPMIBmc *b, const IPMINetfn *netfnd);
-> > > > +
-> > > >  #endif
-> > > > diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-> > > > index 71e56f3b13d1..770aace55b08 100644
-> > > > --- a/hw/ipmi/ipmi_bmc_sim.c
-> > > > +++ b/hw/ipmi/ipmi_bmc_sim.c
-> > > > @@ -98,6 +98,7 @@
-> > > >  #define IPMI_CMD_GET_SEL_TIME             0x48
-> > > >  #define IPMI_CMD_SET_SEL_TIME             0x49
-> > > > =20
-> > > > +#define IPMI_NETFN_OEM                    0x3a
-> > > > =20
-> > > >  /* Same as a timespec struct. */
-> > > >  struct ipmi_time {
-> > > > @@ -167,23 +168,8 @@ typedef struct IPMISensor {
-> > > >  #define MAX_SENSORS 20
-> > > >  #define IPMI_WATCHDOG_SENSOR 0
-> > > > =20
-> > > > -typedef struct IPMIBmcSim IPMIBmcSim;
-> > > > -typedef struct RspBuffer RspBuffer;
-> > > > -
-> > > >  #define MAX_NETFNS 64
-> > > > =20
-> > > > -typedef struct IPMICmdHandler {
-> > > > -    void (*cmd_handler)(IPMIBmcSim *s,
-> > > > -                        uint8_t *cmd, unsigned int cmd_len,
-> > > > -                        RspBuffer *rsp);
-> > > > -    unsigned int cmd_len_min;
-> > > > -} IPMICmdHandler;
-> > > > -
-> > > > -typedef struct IPMINetfn {
-> > > > -    unsigned int cmd_nums;
-> > > > -    const IPMICmdHandler *cmd_handlers;
-> > > > -} IPMINetfn;
-> > > > -
-> > > >  typedef struct IPMIRcvBufEntry {
-> > > >      QTAILQ_ENTRY(IPMIRcvBufEntry) entry;
-> > > >      uint8_t len;
-> > > > @@ -279,28 +265,8 @@ struct IPMIBmcSim {
-> > > >  #define IPMI_BMC_WATCHDOG_ACTION_POWER_DOWN      2
-> > > >  #define IPMI_BMC_WATCHDOG_ACTION_POWER_CYCLE     3
-> > > > =20
-> > > > -struct RspBuffer {
-> > > > -    uint8_t buffer[MAX_IPMI_MSG_SIZE];
-> > > > -    unsigned int len;
-> > > > -};
-> > > > -
-> > > >  #define RSP_BUFFER_INITIALIZER { }
-> > > > =20
-> > > > -static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t by=
-te)
-> > > > -{
-> > > > -    rsp->buffer[2] =3D byte;
-> > > > -}
-> > > > -
-> > > > -/* Add a byte to the response. */
-> > > > -static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
-> > > > -{
-> > > > -    if (rsp->len >=3D sizeof(rsp->buffer)) {
-> > > > -        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
-> > > > -        return;
-> > > > -    }
-> > > > -    rsp->buffer[rsp->len++] =3D byte;
-> > > > -}
-> > > > -
-> > > >  static inline void rsp_buffer_pushmore(RspBuffer *rsp, uint8_t *by=
-tes,
-> > > >                                         unsigned int n)
-> > > >  {
-> > > > @@ -640,6 +606,11 @@ static int ipmi_register_netfn(IPMIBmcSim *s, =
-unsigned int netfn,
-> > > >      return 0;
-> > > >  }
-> > > > =20
-> > > > +int ipmi_register_oem_netfn(IPMIBmc *b, const IPMINetfn *netfnd)
-> > > > +{
-> > > > +    return ipmi_register_netfn(IPMI_BMC_SIMULATOR(b), IPMI_NETFN_O=
-EM, netfnd);
-> > > > +}
-> > >=20
-> > > I think I would prefer just exposing ipmi_register_netfn() and maybe
-> > > rename it ipmi_sim_register_netfn() or something like that.  There may
-> > > be other netfns needed in the future.
-> > >=20
-> > > But with that change, this looks good to me:
-> > >=20
-> > > Reviewed-by: Corey Minyard <cminyard@mvista.com>
-> >=20
-> > What's the plan for merging this, once it's ready?  Is there an IPMI
-> > tree for it to be staged in?  If not I could take it through the ppc
-> > tree, but I'd need some Acked-bys in that case.
->=20
-> I have an IPMI tree for this.  I was assuming it was going in to the PPC
-> tree, but it's not big deal.
+Applied, thanks.
 
-I'd be more comfortable if the generic ipmi changes went through the
-ipmi tree.  Note that I've moved the initial ppc specific patch from
-my ppc-for-4.2 tree to my ppc-for-4.3 tree, since it missed my
-previous pull request and it's not really post-freeze material.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
->=20
-> -corey
->=20
-> >=20
-> > >=20
-> > > > +
-> > > >  static const IPMICmdHandler *ipmi_get_handler(IPMIBmcSim *ibs,
-> > > >                                                unsigned int netfn,
-> > > >                                                unsigned int cmd)
-> > >=20
-> >=20
->=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8w3uRX/HFJGApMzv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3ETakACgkQbDjKyiDZ
-s5LZlA/9G/xUIfB/vIX9CAcacNJ74CiruFnbKEUn5owBgfkRsdxhNDHD0IV4ZVl4
-wYWy7rLKuk0TmO/cSzq3tfNwirZO4u3R/R0lln7uRssrm/4+3iUx3egUmmMiJzhx
-M7kONdvVEE5XJmEikdozm083tYAyS2wN7B1Ykf5nT+Gx5NerMfnzZP/r3KPimUTO
-ACvXKRxq8pjnNeMDfXSpGsgLn15HHNfnXZ266Ibtbavp+RuogwyojAeNvGt6ojit
-ISlfNzyESgVALeWawxiYT7ybaezIVZXj+k1ic1kvI/XSnFpyoFC0kvpRBOjy7p4Q
-No0KDB+Xdfh+XtwprurN6YYEliUQzJCOu5xRkgftdqvb1+evdZ4QTg5zJ6jvZEWx
-lIeRSiIZxGxczlLWj2j3KJ21tRKwhTYbHElxB9ABdZJA3dhtZcuxfAthzzQs3I3W
-ajLNU7ZxIj70HKimGih+gMmSl1GibM1FKht5WzTjtwdlkhX8hQiNksQW66bS0ma6
-C/6bbiLwd3ws4Per3OuAFmeN80hLm757Dm+Rw4oEKGIXasJ3NcH+bm2MYKhr2aPz
-o6hJ8gyik62Z9yRve57NO6HhjDdN6YvcknPSzP6dYGcCZsurHg67vVIqGmlc+ytj
-eZzyJQ233Np4Va2cFlR+JfRWU6wESrBggrxGAZuqPFHtscly088=
-=yAYk
------END PGP SIGNATURE-----
-
---8w3uRX/HFJGApMzv--
+-- PMM
 
