@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67752F3573
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:10:07 +0100 (CET)
-Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A118F3564
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:06:29 +0100 (CET)
+Received: from localhost ([::1]:45864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSlIL-0001nX-Pl
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:10:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
+	id 1iSlEq-0004aZ-AX
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:06:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46269)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iSl7V-0005fD-ON
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:58:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iSl8D-0006bh-BF
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:59:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iSl7U-00057N-Me
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:58:53 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43132)
+ (envelope-from <peter.maydell@linaro.org>) id 1iSl8C-0005jl-7i
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:59:37 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43184)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iSl7U-000572-C4
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:58:52 -0500
-Received: by mail-pl1-x643.google.com with SMTP id a18so1870266plm.10
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=SSF77W5ljtz4X2exwpOWBcNAR43MQ7/J9pvWQCD7wlk=;
- b=2Gv2vFQWvQsANsfINRgtnmGpO1lkxftxi+r6wmMYuc6+T1wdjtbI0I+3AtSprDYvM1
- udGPzzaIlgpMZLrzhGsbUfvDXSB492G9hRqQWcvfLrMZagJ6Sq6NkomIxkgRWgvMA7t6
- W42/RE4c9G66cDQTrNDEVcjg7QJ1LRrNvvPHVR7d/PwWCp5mq7H9YtBMXiyaLlgPIrrW
- PQqWLNjqp4aDQXukEOtdb2L3CynPCdPY2VaL73rDYeeakHrsA8Vfa53Pmp4dE7vQ0ffl
- HkhyUTiFv5SmQWBl+bnf3nRPTIcsbK7iczZq2EjjiVCZAJLjzvCGjiuQtYyZ+0NOamFv
- zqug==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iSl8C-0005jO-1Y
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:59:36 -0500
+Received: by mail-ot1-x341.google.com with SMTP id l14so2601459oti.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YlTR4TdSPoOesve9OqxIozhrIPiBsAGxdnkBKhvgtrY=;
+ b=K8vPGoB2VlBbIC2Tg4G3Pq/99ABraVY9h3aszfV2Io0MevfPb75Y9z8NJ0SuBXJCFa
+ N3j3JyHon1wpDu7kHaLkUKm7MT3vWYasF+HbGqXFchpjsBEZj43tWtb/GOGbGOYB77V+
+ uM3x1ylHoWZbcQYTs74j95rSWb88jAMerxnGaXxtdZGUhcvdL1KXV+fAtLjGyv9AXmsv
+ DLolkTjPpJS1QiBhVZ3n3LhFTkt3DQ00nXehLzNy+F274JV9beZxGjQvIUXKZI+oikjs
+ lne9ssA89GWUFnn9CqCSVVPUx7QQVIAg1hnEnv8jH6AoADKXRaqaNtfoDEkSbSdTZ5/v
+ 91yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=SSF77W5ljtz4X2exwpOWBcNAR43MQ7/J9pvWQCD7wlk=;
- b=ntULSJSIKg6dIt8ip4wSD8wc9INhXBGw9cYkn0eRR+9YxYwgyTmo8QysOBgieeTT1t
- BK2Uck2N3bqwGh3dIFIu6dE3+lJXBBTNrvTXL2sqUT3n7Mre6A94BKFv81VZ+7qCT42V
- 9J0q8A8ibGIG3k3+yOOTjtPsohT5ZhFS6K3xBjO1zOovQu5quBPMNAgqs4KtXVcLUHkK
- cwIsGBUnImnagPREH2NbbzhB6fcl2cNRsUnud4j2np5g54HHxqVzV74LQgEN1owMTA5L
- 8q8CEwRWqAZw1N7jEWKYxfHEGP6cEtHDOUJu5HyENNLPUe///ShVlLd94WRXqb4eUOM5
- Zk+g==
-X-Gm-Message-State: APjAAAVgQ26AM/Mux9JRaL4kAoHnMhjR29jOc4Eq54L5jQ5/WKnKxoNe
- bfhLqIpzD3fhG6pQFOr8bPYIzRzFxCY=
-X-Google-Smtp-Source: APXvYqxNDctI8BHXtYSYLrp0u2wqFzxx4+bAKNHtuef9ncnjI+kYTELDshtcJuv3kMJtavZPM7WkXg==
-X-Received: by 2002:a17:90a:98d:: with SMTP id 13mr6383221pjo.98.1573145930748; 
- Thu, 07 Nov 2019 08:58:50 -0800 (PST)
-Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id 26sm2497779pjg.21.2019.11.07.08.58.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2019 08:58:50 -0800 (PST)
-Date: Thu, 07 Nov 2019 08:58:50 -0800 (PST)
-X-Google-Original-Date: Thu, 07 Nov 2019 08:58:24 PST (-0800)
-Subject: Re: [PATCH for 4.2 v1 1/1] riscv/virt: Increase flash size
-In-Reply-To: <03c2f42b32fb4e304319c241122ae83584f085e0.1573087610.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-35530489-a164-4825-90da-e550083fef9d@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YlTR4TdSPoOesve9OqxIozhrIPiBsAGxdnkBKhvgtrY=;
+ b=aw97QJgSFBakYgYDgJ/vbDs/Wcev/gu7xPoPPGHvSEdyiQDJybtMpZB7fBm+YoFcsh
+ uJxP3x75P1DSVIpybEi5snT0H9aN4rzCvtAdxuicQ/tQvaa+cAYVO0q4vWgS5oEmBm5o
+ 6VbMpVt0USQGossXVoa4dx9JXYLD5dUbDF6gk1cbwFD2YhnQuWWm9DFCJMqk+vAyKrwu
+ OyOYznzzSDpwTrq3i5HAhKtUOzqG/KcE+uBjQ6J2bMWA9uL0EcYHm+Cd5DTKl2g+6I0d
+ xiPTkm8RedZFhCH/uJLpaRi1BxDxIvc5NLVEootzQIS/JpnLnY5n874PE7apoPAR63X7
+ qLmQ==
+X-Gm-Message-State: APjAAAVRgjEXiETV941Kk5RhGQ0Y6fVwaxtJqtLHokeX+da0enhg0+ev
+ nVu+iiUTNIIBkcYC5/kTW7bEadRsi27a41aIe1zqjA==
+X-Google-Smtp-Source: APXvYqzIxmerSzgEKKe21KM237lxkZgTuMYSklK0IoD9d58+pfjE4DhN4pZiFE/zWcCTMexUHKANrqbFVaJBt80ZPqM=
+X-Received: by 2002:a9d:6357:: with SMTP id y23mr1878477otk.91.1573145975246; 
+ Thu, 07 Nov 2019 08:59:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20191105234100.22052-1-beata.michalska@linaro.org>
+ <20191105234100.22052-3-beata.michalska@linaro.org>
+ <5c75bd31-213f-88a4-2eee-0046f99f65fe@linaro.org>
+ <CADSWDztHetgmbUOp4WyRAkR0daAG6kkwhUTcyKWiCTWHQ1XB=w@mail.gmail.com>
+ <87lfsrhbf2.fsf@linaro.org>
+In-Reply-To: <87lfsrhbf2.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Nov 2019 16:59:24 +0000
+Message-ID: <CAFEAcA_CTNu0Zzc-carvJaFbqtDm4bftN0QCB6dksKPECMv-+w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] Memory: Enable writeback for given memory region
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,45 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- palmer@sifive.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: Beata Michalska <beata.michalska@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 06 Nov 2019 16:47:20 PST (-0800), Alistair Francis wrote:
-> Coreboot developers have requested that they have at least 32MB of flash
-> to load binaries. We currently have 32MB of flash, but it is split in
-> two to allow loading two flash binaries. Let's increase the flash size
-> from 32MB to 64MB to ensure we have a single region that is 32MB.
+On Thu, 7 Nov 2019 at 16:57, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
 >
-> No QEMU release has include flash in the RISC-V virt machine, so this
-> isn't a breaking change.
-
-Even if we had, I wouldn't consider it a breaking change because it adds to 
-the memory map so existing programs will continue to run fine.
-
 >
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/virt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Beata Michalska <beata.michalska@linaro.org> writes:
 >
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index cc8f311e6b..23f340df19 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -62,7 +62,7 @@ static const struct MemmapEntry {
->      [VIRT_PLIC] =        {  0xc000000,     0x4000000 },
->      [VIRT_UART0] =       { 0x10000000,         0x100 },
->      [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
-> -    [VIRT_FLASH] =       { 0x20000000,     0x2000000 },
-> +    [VIRT_FLASH] =       { 0x20000000,     0x4000000 },
->      [VIRT_DRAM] =        { 0x80000000,           0x0 },
->      [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
->      [VIRT_PCIE_PIO] =    { 0x03000000,    0x00010000 },
+> > On Wed, 6 Nov 2019 at 12:20, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >> qemu_log_mask w/ GUEST_ERROR?  How do we expect the length to overflow=
+?
+> >
+> > In theory it shouldn't, at least with current usage.
+> > I guess the probe_access will make sure of that.
+> > This was more of a precaution to enable catching potential/future misus=
+es
+> > aka debugging purpose. I can get rid of that it that's playing too
+> > safe.
+>
+> If the internal code might get it wrong and that would be a bug then the
+> g_assert(), if the values are ultimately from the guest then log with
+> GUEST_ERROR as Richard suggests.
 
-Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
+...or consider asserting at this level and making the target
+specific calling code sanitize and do the GUEST_ERROR logging
+(it can do a better job of it because it knows what the
+target-specific operation that the guest just got wrong was).
 
-I'll include this in my next PR, which should be soon -- I was about to send 
-it, but figure I should look at my email first :)
+thanks
+-- PMM
 
