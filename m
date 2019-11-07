@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1F3F3673
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:59:40 +0100 (CET)
-Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C7EF368C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:03:57 +0100 (CET)
+Received: from localhost ([::1]:46756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSm4J-0001qJ-MV
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:59:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56364)
+	id 1iSm8R-0004aQ-ON
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:03:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iSm2z-0001IX-0x
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:58:18 -0500
+ (envelope-from <bounces@canonical.com>) id 1iSm5n-00031B-5u
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:01:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iSm2x-0003ms-HD
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:58:16 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40142)
+ (envelope-from <bounces@canonical.com>) id 1iSm5e-0005mu-IM
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:01:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59050)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iSm2x-0003kd-Bo
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:58:15 -0500
-Received: by mail-ot1-x342.google.com with SMTP id m15so2781113otq.7
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 09:58:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Yv4ylwd25GxZ7ALmze/v8BUzVwPLvD72QcNplUocu5k=;
- b=mSzVGlzcCLG/TN2hqhH7zzmnG8PLcLzInUUJ5G5B9tChnxLpJQd4/ux0vdwJeb05Ol
- CtO1oHKYBhDpBECqPJ9iTEHFGabpn1J9+319ZoOfs393R5cMY4MiOzC8GVBmcLCnCvbL
- 2XDzlitCmnOFDDaUPK2K9MZEB8l8t6J7HubAqrfMQ09UBJDGtuOBgfylytj/K1/3+wUK
- PHBrKkQW+GIR49+0wRm+P+uKTal/vPBZHgfiTneV4cAj8/CYw8e3435bf60c0XjAZot7
- FAOw/dHpfghIjnOU1AbDgHGW3VztJEfJaRm9JMuUCfoIGsCCvbw9a0Ty6GLLPZ2AQ++L
- T+iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Yv4ylwd25GxZ7ALmze/v8BUzVwPLvD72QcNplUocu5k=;
- b=TvYuXH0zcPTwbBweB/geH7s5gDFF7VKRLi2uU58ETv0HM/nXgHWCfMM7KcwQLhzYXw
- 3PDAUfCDrGiPNNVjJoRqk4Ys2cYdzaPL8RyVV8RDgkdcF0Mtq4VLG4E0A/FTMm0cBSTU
- 1Lm7jYv4WYU4o9fpDi2lkoqWkVnt1VgR80Qau6ywLzmeMZ4BFS5+NvkRODOjscPGh/Id
- R/ZeoieM8YaCikBmDvoWZM0BIfucjlwGuhAdfe/4ycCNL4jA92FKufbdaxGpmWkCncJf
- Uk4qN/F065rCAJ9Zobvz/GNHQ3a6FPmZcMym6Utt5XJ+3S1hUcli2YJuYF4S0tW6MfPl
- WTDw==
-X-Gm-Message-State: APjAAAVa2yf3AreuK2+V1vB5SyGAaX+DARMcQF5BW4cNOns5dEpbLb9a
- pEd3L3NB8s9OIyeQ9iC4anWoq7jiOO4G4EukNzS0Eg==
-X-Google-Smtp-Source: APXvYqxBdHmD8PqV0ztRdp5PjYgPhtRtnEotw0BXbTCdeuu3G5CncOvG3W2PndzpAad32SWeIBW/uPTUXKhxnQbewI0=
-X-Received: by 2002:a9d:6357:: with SMTP id y23mr2125115otk.91.1573149493963; 
- Thu, 07 Nov 2019 09:58:13 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iSm5e-0005lQ-AI
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:01:02 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iSm5c-0002Hw-UL
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 18:01:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E23D42E80C0
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 18:01:00 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191104173654.30125-1-alex.bennee@linaro.org>
- <CAFEAcA9SOok49C8NS-+kEZyk7EYS10R+RNmhprk2J=KB3bJQFw@mail.gmail.com>
- <c926f927-34d2-3efa-b721-f4036939182e@gmx.com>
-In-Reply-To: <c926f927-34d2-3efa-b721-f4036939182e@gmx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Nov 2019 17:58:02 +0000
-Message-ID: <CAFEAcA8W_g=DsFXaE7cmMvqa3AtnWc0+xQMQvFFhWENvieV3Rw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] testing/next (netbsd stuff)
-To: Kamil Rytarowski <n54@gmx.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Date: Thu, 07 Nov 2019 17:45:50 -0000
+From: IndrasenaReddy Gali <1851664@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson gisena th-huth
+X-Launchpad-Bug-Reporter: IndrasenaReddy Gali (gisena)
+X-Launchpad-Bug-Modifier: IndrasenaReddy Gali (gisena)
+References: <157313838504.19702.7205622932379991141.malonedeb@wampee.canonical.com>
+Message-Id: <157314875078.3211.9859713905485218990.malone@gac.canonical.com>
+Subject: [Bug 1851664] Re: qemu-system-x86_64: "VFIO_MAP_DMA : -28" error when
+ we attache 6 VF's to guest machine
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d21e1e8136e9ec738b9155d7d1fe197615f2387b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,56 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>, "Emilio G. Cota" <cota@braap.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1851664 <1851664@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Nov 2019 at 17:54, Kamil Rytarowski <n54@gmx.com> wrote:
->
-> On 07.11.2019 18:46, Peter Maydell wrote:
-> > On Mon, 4 Nov 2019 at 17:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> >>
-> >> Hi,
-> >>
-> >> As we approach hard-freeze I'm trying to temper what comes in through
-> >> the testing/next tree. However it would be nice to get the NetBSD upto
-> >> speed with the other NetBSDs. Although the serial install is working
-> >> well for me this has had a rocky road so if others could also give it
-> >> a good testing that would be great. I've also disabled one of the
-> >> regular failing tests for non-Linux targets. There are other tests
-> >> that still fail however including the tests/test-aio-multithread which
-> >> asserts in the async utils around about 20% of the time:
-> >>
-> >>   assertion "QSLIST_EMPTY(&ctx->scheduled_coroutines)" failed: file
-> >>     "/home/qemu/qemu-test.nS1czd/src/util/async.c", line 279, function
-> >>     "aio_ctx_finalize"
-> >
-> > This is unrelated to your NetBSD update in this series -- it's
-> > one of the persistent intermittents I see on the BSDs:
-> > https://lore.kernel.org/qemu-devel/20190916153312.GD25552@stefanha-x1.l=
-ocaldomain/t/
-> >
-> > (though the failure rate I see is I think <20%, but I haven't
-> > really carefully measured it.)
+qemu-system-x86_64 -name guest=3Dfedora24 -machine q35,accel=3Dkvm,kernel-i=
+rqchip=3Dsplit \
+        -enable-kvm \
+        -m 4G \
+        -smp 8,sockets=3D1,cores=3D8,threads=3D1 \
+        -device intel-iommu,intremap=3Don,caching-mode=3Don,aw-bits=3D48  \
+        -drive file=3D<OS_IMAGE_FILE>,format=3Draw \
+        -device ioh3420,id=3Dpcie.1,chassis=3D1 \
+        -device virtio-net-pci,bus=3Dpcie.1,disable-legacy=3Don,disable-mod=
+ern=3Doff,iommu_platform=3Don,ats=3Don,netdev=3Dnet0 \
+        -netdev user,id=3Dnet0,hostfwd=3Dtcp::1111-:22\
+        -device vfio-pci,host=3D3f:02.1  \
+		-device vfio-pci,host=3D3f:02.2  \
+		-device vfio-pci,host=3D3f:02.3 \
+		-device vfio-pci,host=3D3f:02.4 \
+        -device vfio-pci,host=3D3d:02.4 \
+		-device vfio-pci,host=3D3d:02.5 \
+		-device vfio-pci,host=3D3d:02.6 \
+        -nographic
 
-> Does this patch rely on AIO API in the kernel? If so than this is
-> unreliable as of today on NetBSD. We plan to fix it, but there is no
-> expected time of accomplishment.
+-- =
 
-No, we use our own AIO implementation which puts fds into non-blocking
-mode and uses a thread which polls them to identify when they're
-ready to actually perform IO (plus a lot of coroutine magic).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1851664
 
-thanks
--- PMM
+Title:
+  qemu-system-x86_64: "VFIO_MAP_DMA : -28" error when we attache 6 VF's
+  to guest machine
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  We are trying to attach 6 VF's to the guest machine on 4.1.1 qemu emulato=
+r.
+  We are observing "VFIO_MAP_DMA : -28" error.
+
+  We are using w-bits=3D48 bits while lunching VM.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1851664/+subscriptions
 
