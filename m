@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD61F36AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:10:30 +0100 (CET)
-Received: from localhost ([::1]:46842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EF3F3691
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:05:27 +0100 (CET)
+Received: from localhost ([::1]:46776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSmEn-0004XV-1h
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:10:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57131)
+	id 1iSm9t-0006Cs-MR
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:05:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iSm5z-00033m-5G
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:01:25 -0500
+ (envelope-from <eblake@redhat.com>) id 1iSm7O-0004PX-Ut
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:02:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iSm5x-0005x9-2X
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:01:22 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45596)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iSm5v-0005vY-6M
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:01:19 -0500
-Received: by mail-ot1-x341.google.com with SMTP id r24so2763731otk.12
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 10:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QLPMILH9Am1e1pRaM3fL2+ZRqB+1lVT4Qo02XzZ4mk4=;
- b=yKRP3LtmMcoAdqC26lP9ifieVNGgdNVwb4keCWDbt38lhhas1XCa37UV7/jxeC7eFg
- I4H9jFmDXyenZICG7X/ile7j8+NAyQzdyUOiEIPZR8bIYvkrb385tsVDcfp+05yZMmU+
- 5PW1XBX7PqQfVSezFV4DvAdI20dNZ/WHd0wWskEaQmVvYN+FKU2H5VPeT9LHaqu0UnIB
- 3uPUNRhOIP6NYVOwa7zBoFviHIuxFBYObPVSFqqVHMDFcLOaVcN6zDCkqv7ZoPS2//b8
- yGi1Bb8UHDZX6AcS8NqmMFgO8pua+jllIWBDX1ihLNBSvzhc040DLchggSdQ3/W8LtXf
- AQ/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QLPMILH9Am1e1pRaM3fL2+ZRqB+1lVT4Qo02XzZ4mk4=;
- b=MPCvRT01KtytoT8M8P2pA+60Rfe2eFH5AeyNRzG1Jw6vDV9kOqVe/MXAIBDUK9NUPm
- DTuRoe2dJLQrKyaBeK9/f4eMcvMsn3cxixNaEs35+ZtPl75eSiMjq10E+P0tU01gutat
- 8PIXU+EJee3hGzghsG+EatOmyS+p/t6i/Qzs/0MXd8pS22LutPIUQZwbCjiRUCKPRTp3
- iYndGxVQ0XfYKTGwM2vn/Szz1hGm4hgS42NIMdKNGRpRzR32sx2Rnp4oxN+ty87ExhdG
- M9MwN/chxvvqVT1VfgUWfM2y5UjyQ21PnW8l1nzjwJbJeHoQBgMsJuv4FtFI7dj9B8qZ
- /Skw==
-X-Gm-Message-State: APjAAAVG/7essXJZvsKL0nqh6cIOUwE3sEBrxJ4IrgZKOnma59DGmO2Q
- peMeAohVO4McAH5qiYvl0cteiQPmiOkO55GeR2Yi3g==
-X-Google-Smtp-Source: APXvYqwciffcph1l800dGrbynVRr12rMouK0JMs3akfp83xorl4Q2x5H7zDBmK152Kr1IcAOk+8vwsw7vJMWOi3jf3M=
-X-Received: by 2002:a9d:12d2:: with SMTP id g76mr4317335otg.232.1573149677554; 
- Thu, 07 Nov 2019 10:01:17 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1iSm7K-0006hS-32
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:02:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48796
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iSm7J-0006gL-Vt
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573149764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WqiH9OupaUAU+PKnnvjBGiCzildto8LlFj7HcVQ45zw=;
+ b=OX0LBw8aS8rXDKweWEIu20DGCZOpJ1uNzXb8bQJuh20ej3tKeAGoz/uD/d+sz5qkeyzJ0b
+ 2itcoWXqYJ0nHnMsRx9cnpxWZ1nRm1Wv1pg/2Smjse+5IBv8dmVyD7jKPNYPGRjwZQRxmz
+ d/NLKrUOgTTn2h5qmQ4AZPYhqGDVTlQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-3qVm--jfNkmiJjG2F6HPvQ-1; Thu, 07 Nov 2019 13:02:41 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 079831800D6B;
+ Thu,  7 Nov 2019 18:02:41 +0000 (UTC)
+Received: from [10.3.117.38] (ovpn-117-38.phx2.redhat.com [10.3.117.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73B085DA7C;
+ Thu,  7 Nov 2019 18:02:38 +0000 (UTC)
+Subject: Re: [PATCH v3 01/22] iotests: s/qocw2/qcow2/
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20191107163708.833192-1-mreitz@redhat.com>
+ <20191107163708.833192-2-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9f43f7b6-1773-96a3-7cb9-2bff4faa9e0e@redhat.com>
+Date: Thu, 7 Nov 2019 12:02:37 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <03c2f42b32fb4e304319c241122ae83584f085e0.1573087610.git.alistair.francis@wdc.com>
- <mhng-35530489-a164-4825-90da-e550083fef9d@palmer-si-x1c4>
-In-Reply-To: <mhng-35530489-a164-4825-90da-e550083fef9d@palmer-si-x1c4>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Nov 2019 18:01:06 +0000
-Message-ID: <CAFEAcA8YU5pp5xwqJSBqLtChp1WFmGFLUsHjnWPGk6+k1MtV3Q@mail.gmail.com>
-Subject: Re: [PATCH for 4.2 v1 1/1] riscv/virt: Increase flash size
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+In-Reply-To: <20191107163708.833192-2-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 3qVm--jfNkmiJjG2F6HPvQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,36 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Nov 2019 at 17:09, Palmer Dabbelt <palmer@dabbelt.com> wrote:
->
-> On Wed, 06 Nov 2019 16:47:20 PST (-0800), Alistair Francis wrote:
-> > Coreboot developers have requested that they have at least 32MB of flash
-> > to load binaries. We currently have 32MB of flash, but it is split in
-> > two to allow loading two flash binaries. Let's increase the flash size
-> > from 32MB to 64MB to ensure we have a single region that is 32MB.
-> >
-> > No QEMU release has include flash in the RISC-V virt machine, so this
-> > isn't a breaking change.
->
-> Even if we had, I wouldn't consider it a breaking change because it adds to
-> the memory map so existing programs will continue to run fine.
+On 11/7/19 10:36 AM, Max Reitz wrote:
+> Probably due to blind copy-pasting, we have several instances of "qocw2"
+> in our iotests.  Fix them.
+>=20
+> Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   tests/qemu-iotests/060 | 2 +-
 
-I have a feeling you may find that some old command lines won't
-work any more because they specified a flash contents binary
-that was the old 32MB and now it needs to be padded out to 64MB.
-But I haven't tested whether this theory is correct (it will
-depend on how the flash contents are specified -- --bios will
-be ok, as will loading contents directly as an ELF file or
-similar, specifying contents by a -drive option intended to be
-consumed by the pflash is the case which likely needs extra padding.)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-thanks
--- PMM
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
