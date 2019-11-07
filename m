@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41476F2A2A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 10:08:12 +0100 (CET)
-Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF186F2A18
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 10:04:45 +0100 (CET)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSdly-0001u8-V9
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 04:08:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53377)
+	id 1iSdid-00085N-R3
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 04:04:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53411)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iSdZr-00032w-6o
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:55:40 -0500
+ (envelope-from <mst@redhat.com>) id 1iSdZu-00036Q-9G
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:55:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iSdZm-0003iZ-Co
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:55:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26651
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iSdZr-0004Ib-U7
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:55:41 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:48822)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iSdZm-0003SL-8t
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:55:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573116931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lQA13BTbOt5toAh0JnArHM/J81uyZkJWL3X98JFCtJI=;
- b=coOgxNmTP73NXRqgPYBROM/uCBPnKL8meLosqBToi3asSW3DAjuNKI5/3C1UByptBa/uAa
- Wy2skhIUQEULr2EUlFNlzKgd8SbCYKpn/LHJcZVCcuonPAO9wPZVdIg3n+BF2ZiJ8CkhYd
- tV8tlflHRZgxkakw/x4gzpEOY3dKAEo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-N718ZnTlNPmojTI5QlC4Pw-1; Thu, 07 Nov 2019 03:55:30 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSdZr-00044i-JN
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:55:39 -0500
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CBED1005500
- for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 08:55:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
- [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77DE9600CE;
- Thu,  7 Nov 2019 08:55:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2ED299D76; Thu,  7 Nov 2019 09:55:25 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] usb-host: add option to allow all resets.
-Date: Thu,  7 Nov 2019 09:55:25 +0100
-Message-Id: <20191107085525.30902-2-kraxel@redhat.com>
-In-Reply-To: <20191107085525.30902-1-kraxel@redhat.com>
-References: <20191107085525.30902-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: N718ZnTlNPmojTI5QlC4Pw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+ by mx1.redhat.com (Postfix) with ESMTPS id 63DF1C057F31
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 08:55:37 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id g5so1768289qtc.5
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 00:55:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mN14RHBQTacGDmzpXA+VTGfCydp2qDZE5RujK0pXeOs=;
+ b=A+DuXNzl4LfsQHNIG4TWnUPopLD45lkXVvEFJ9VCWmGxvsjS0ufSoioTPF44uJfLLV
+ VV4Kf5uGd4OxYriNmhW+gberI83Rh25goQgTJVkCmYeasRG9aJwujTzXDXJMC9hsAK+Z
+ v8XJGGGBc1xaIs+mHdXqFTqkCNmhMptfUUit/xQIvFEM0ZTg3LzGP6A/Ln6rZS+fX9w/
+ 0b+p1rnaa5UssdVlFTRkhKHk7MK0Z/Qjxc2aRbmUWVJiP0aHA8peCb6TD3iWfqfExLCT
+ Z/Fdp30Z/SIt5q440dOKavqv51Q9jAUjf+FpMZOSXCVjcmDuR0YIODJ3FMgtxvoiQFup
+ VXMA==
+X-Gm-Message-State: APjAAAXNW8O2Y/SQcC9m8wsaiDH+BEXA6g9sJklHYNkiARxQteeJ6fTh
+ 6ZD0AUIFls+kJHAPVnGj/04eaqxLjRtzecTky7u/pnJehu3TnhhbYo/ClyMYpc6j4DLl/YjYi5w
+ CzAwtP8HASfjwXNc=
+X-Received: by 2002:aed:2986:: with SMTP id o6mr2548400qtd.320.1573116936738; 
+ Thu, 07 Nov 2019 00:55:36 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxlnlJsQAw+9zgyv8eZYsV98xZFfgQf9HYEGdF4IrS+krSi5LjgMAGA7iSQI8J6J69SXPdtgg==
+X-Received: by 2002:aed:2986:: with SMTP id o6mr2548383qtd.320.1573116936472; 
+ Thu, 07 Nov 2019 00:55:36 -0800 (PST)
+Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
+ by smtp.gmail.com with ESMTPSA id s21sm680319qkg.24.2019.11.07.00.55.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 00:55:35 -0800 (PST)
+Date: Thu, 7 Nov 2019 03:55:30 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Guoheyi <guoheyi@huawei.com>
+Subject: Re: [RFC v2 02/14] standard-headers: import arm_sdei.h
+Message-ID: <20191107035155-mutt-send-email-mst@kernel.org>
+References: <20191105091056.9541-1-guoheyi@huawei.com>
+ <20191105091056.9541-3-guoheyi@huawei.com>
+ <20191106185240.3f5e2c2a.cohuck@redhat.com>
+ <059c6396-bbfb-2dd3-f7cc-7c64bc2d3ccb@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <059c6396-bbfb-2dd3-f7cc-7c64bc2d3ccb@huawei.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,65 +78,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ James Morse <james.morse@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 65f14ab98da1 ("usb-host: skip reset for untouched devices")
-filters out multiple usb device resets in a row.  While this improves
-the situation for usb some devices it doesn't work for others :-(
+On Thu, Nov 07, 2019 at 09:40:49AM +0800, Guoheyi wrote:
+> 
+> 
+> On 2019/11/7 1:52, Cornelia Huck wrote:
+> > On Tue, 5 Nov 2019 17:10:44 +0800
+> > Heyi Guo <guoheyi@huawei.com> wrote:
+> > 
+> > > Import Linux header file include/uapi/linux/arm_sdei.h from kernel v5.4-rc5.
+> > > 
+> > > This is to prepare for qemu SDEI emulation.
+> > > 
+> > > Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> > > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > > Cc: Dave Martin <Dave.Martin@arm.com>
+> > > Cc: Marc Zyngier <marc.zyngier@arm.com>
+> > > Cc: Mark Rutland <mark.rutland@arm.com>
+> > > Cc: James Morse <james.morse@arm.com>
+> > > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > > Cc: Cornelia Huck <cohuck@redhat.com>
+> > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > ---
+> > > 
+> > > Notes:
+> > >      v2:
+> > >      - Import arm_sdei.h by running update-linux-headers.sh
+> > > 
+> > >   include/standard-headers/linux/arm_sdei.h | 73 +++++++++++++++++++++++
+> > >   1 file changed, 73 insertions(+)
+> > >   create mode 100644 include/standard-headers/linux/arm_sdei.h
+> > Just a remark that I find it a bit odd that that a header that looks
+> > arm-specific is in the generic linux/ directory (already in the kernel,
+> > I know.) Is this for sharing between arm and arm64, maybe?
+> I don't think arm platforms will use this header. In section 4.1 of SDEI
+> spec, it says " Both the client and dispatcher of SDEI must execute in
+> AArch64 state."
+> So shall we move it to include/standard-headers/asm-arm64/?
+> 
+> Thanks,
+> HG
 
-So go add a config option to make the behavior configurable.
 
-Buglink: https://bugs.launchpad.net/bugs/1846451
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20191015064426.19454-1-kraxel@redhat.com
----
- hw/usb/host-libusb.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Yea, that's because it's used by drivers/firmware/arm_sdei.c, also flat
+in the top level hierarchy. It's been like this historically.
+If you want to do a small kernel project and reorganize
+drivers/firmware/ according to the architecture,
+then arm_sdei.h can move too.
 
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 472cc26fc403..fcf48c019333 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -86,7 +86,9 @@ struct USBHostDevice {
-     uint32_t                         options;
-     uint32_t                         loglevel;
-     bool                             needs_autoscan;
--    bool                             allow_guest_reset;
-+    bool                             allow_one_guest_reset;
-+    bool                             allow_all_guest_resets;
-+
-     /* state */
-     QTAILQ_ENTRY(USBHostDevice)      next;
-     int                              seen, errcount;
-@@ -1462,10 +1464,10 @@ static void usb_host_handle_reset(USBDevice *udev)
-     USBHostDevice *s =3D USB_HOST_DEVICE(udev);
-     int rc;
-=20
--    if (!s->allow_guest_reset) {
-+    if (!s->allow_one_guest_reset && !s->allow_all_guest_resets) {
-         return;
-     }
--    if (udev->addr =3D=3D 0) {
-+    if (!s->allow_all_guest_resets && udev->addr =3D=3D 0) {
-         return;
-     }
-=20
-@@ -1586,7 +1588,10 @@ static Property usb_host_dev_properties[] =3D {
-     DEFINE_PROP_UINT32("productid", USBHostDevice, match.product_id, 0),
-     DEFINE_PROP_UINT32("isobufs",  USBHostDevice, iso_urb_count,    4),
-     DEFINE_PROP_UINT32("isobsize", USBHostDevice, iso_urb_frames,   32),
--    DEFINE_PROP_BOOL("guest-reset", USBHostDevice, allow_guest_reset, true=
-),
-+    DEFINE_PROP_BOOL("guest-reset", USBHostDevice,
-+                     allow_one_guest_reset, true),
-+    DEFINE_PROP_BOOL("guest-resets-all", USBHostDevice,
-+                     allow_all_guest_resets, false),
-     DEFINE_PROP_UINT32("loglevel",  USBHostDevice, loglevel,
-                        LIBUSB_LOG_LEVEL_WARNING),
-     DEFINE_PROP_BIT("pipeline",    USBHostDevice, options,
---=20
-2.18.1
+Until that happens upstream let's just mirror what kernel does.
 
+> > 
+> > 
+> > .
+> > 
+> 
 
