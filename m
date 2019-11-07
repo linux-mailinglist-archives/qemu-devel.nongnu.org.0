@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F28CF3193
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:34:20 +0100 (CET)
-Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9098F31A1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:37:47 +0100 (CET)
+Received: from localhost ([::1]:43482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSira-0001YZ-7f
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:34:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47669)
+	id 1iSiuw-0005QF-5g
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:37:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47885)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iSio1-0007yI-N9
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:30:39 -0500
+ (envelope-from <darren.kenny@oracle.com>) id 1iSiot-0000K4-5U
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:31:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iSinz-0001rG-Bw
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:30:36 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45653
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iSiny-0001qM-Iv
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:30:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573137033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hTEW7RYrw27tu32/8szbs4PszKYgE1CH8kYfT/qNKcg=;
- b=XgiA2UIAJUcxAyYuSuyQ6cPkyQcU66YoSULWDmTLMTe34e6X9nIcEZFTnQHcHegt7Mf0v5
- TDbDhIzc6itsCFcMoVlmRQBJps/Xm8sTPy1qulmAnbfanI7/8UP/XXH62OkLsQGi0EV/HT
- 2obkRXsZvywLIK+uIed5U5BybOkAG30=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-lMh1sGTVN76OzjOtnirLbA-1; Thu, 07 Nov 2019 09:30:29 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2B16800EB3;
- Thu,  7 Nov 2019 14:30:28 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E17E75D6D8;
- Thu,  7 Nov 2019 14:30:27 +0000 (UTC)
-Date: Thu, 7 Nov 2019 14:30:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [Patch v2 5/6] migration/postcopy: enable random order target
- page arrival
-Message-ID: <20191107143025.GK2816@work-vm>
-References: <20191107123907.29791-1-richardw.yang@linux.intel.com>
- <20191107123907.29791-6-richardw.yang@linux.intel.com>
+ (envelope-from <darren.kenny@oracle.com>) id 1iSior-0002Wy-BL
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:31:30 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:39436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <darren.kenny@oracle.com>)
+ id 1iSior-0002Vv-0P
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:31:29 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA7EOHVg018990;
+ Thu, 7 Nov 2019 14:31:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=qCar8QtabLY3mJB+6WWccal2NuHeIjf83LslRy17mhE=;
+ b=bjR930DzddGWfns57b2fQRy5yTuZodE4j2jbzAuJsfGqeg4Ymoz7m5r4h2Ncz3rmuNoE
+ 17ljZJjhHU4EJzCdf1IG8hmKAQA1TK3J3L1nwSQjqoJU1cbag4vdGilm5R1XQ4YWsthQ
+ 2qRYP50X0TbN2YXTNC2pRmLuIpAUjfLIyeQAWgdVP9NvVr4CipuOyQ8rQyF2vmfKfGhK
+ M4XYIQBHmPHUv3/zmJnQpuN25tjYed+gUuXZSsVz6trUuzS0fxA25ywpevGZPXO1E8yf
+ Z0HXJbGGOV1IJMh3zTjHcvxqP3Fi3+OlSyLnJtX9PLRPEmgoGDZ/S4TDlrQABFO6RcSM OA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2w41w0xh4r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Nov 2019 14:31:24 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA7EOCkB185756;
+ Thu, 7 Nov 2019 14:31:24 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2w41whahx6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Nov 2019 14:31:23 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xA7EVM25029595;
+ Thu, 7 Nov 2019 14:31:22 GMT
+Received: from starbug-mbp.localdomain (/10.175.193.46)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 07 Nov 2019 06:31:22 -0800
+Received: from starbug-mbp (localhost [127.0.0.1])
+ by starbug-mbp.localdomain (Postfix) with SMTP id 743694B2C26B;
+ Thu,  7 Nov 2019 14:31:20 +0000 (GMT)
+Date: Thu, 7 Nov 2019 14:31:20 +0000
+From: Darren Kenny <darren.kenny@oracle.com>
+To: "Oleinik, Alexander" <alxndr@bu.edu>
+Subject: Re: [PATCH v4 14/20] fuzz: Add target/fuzz makefile rules
+Message-ID: <20191107143120.hhrpmx7tblou4pkk@starbug-mbp>
+Mail-Followup-To: "Oleinik, Alexander" <alxndr@bu.edu>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20191030144926.11873-1-alxndr@bu.edu>
+ <20191030144926.11873-15-alxndr@bu.edu>
 MIME-Version: 1.0
-In-Reply-To: <20191107123907.29791-6-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: lMh1sGTVN76OzjOtnirLbA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20191030144926.11873-15-alxndr@bu.edu>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9433
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1910280000 definitions=main-1911070143
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9433
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
+ definitions=main-1911070143
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,107 +95,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> After using number of target page received to track one host page, we
-> could have the capability to handle random order target page arrival in
-> one host page.
->=20
-> This is a preparation for enabling compress during postcopy.
->=20
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+On Wed, Oct 30, 2019 at 02:50:00PM +0000, Oleinik, Alexander wrote:
+>From: Alexander Oleinik <alxndr@bu.edu>
+>
+>Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+>---
+> Makefile                    | 15 ++++++++++++++-
+> Makefile.objs               |  4 +++-
+> Makefile.target             | 18 +++++++++++++++++-
+> tests/fuzz/Makefile.include |  4 ++++
+> 4 files changed, 38 insertions(+), 3 deletions(-)
+> create mode 100644 tests/fuzz/Makefile.include
+>
+>diff --git a/Makefile b/Makefile
+>index d2b2ecd3c4..571f5562c9 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -464,7 +464,7 @@ config-host.h-timestamp: config-host.mak
+> qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+> 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+>
+>-TARGET_DIRS_RULES := $(foreach t, all clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
+>+TARGET_DIRS_RULES := $(foreach t, all fuzz clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
+>
+> SOFTMMU_ALL_RULES=$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
+> $(SOFTMMU_ALL_RULES): $(authz-obj-y)
+>@@ -476,6 +476,15 @@ $(SOFTMMU_ALL_RULES): config-all-devices.mak
+> $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+> $(SOFTMMU_ALL_RULES): $(softmmu-main-y)
+>
+>+SOFTMMU_FUZZ_RULES=$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
+>+$(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
+>+$(SOFTMMU_FUZZ_RULES): $(block-obj-y)
+>+$(SOFTMMU_FUZZ_RULES): $(chardev-obj-y)
+>+$(SOFTMMU_FUZZ_RULES): $(crypto-obj-y)
+>+$(SOFTMMU_FUZZ_RULES): $(io-obj-y)
+>+$(SOFTMMU_FUZZ_RULES): config-all-devices.mak
+>+$(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
+>+
+> .PHONY: $(TARGET_DIRS_RULES)
+> # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
+> # $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-goal
+>@@ -526,6 +535,9 @@ subdir-slirp: slirp/all
+> $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+> 	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
+>
+>+$(filter %/fuzz, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+>+	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
+>+
+> ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
+> ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+> # Only keep -O and -g cflags
+>@@ -535,6 +547,7 @@ $(ROM_DIRS_RULES):
+>
+> .PHONY: recurse-all recurse-clean recurse-install
+> recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
+>+recurse-fuzz: $(addsuffix /fuzz, $(TARGET_DIRS) $(ROM_DIRS))
+> recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
+> recurse-install: $(addsuffix /install, $(TARGET_DIRS))
+> $(addsuffix /install, $(TARGET_DIRS)): all
+>diff --git a/Makefile.objs b/Makefile.objs
+>index 9ff9b0c6f9..5478a554f6 100644
+>--- a/Makefile.objs
+>+++ b/Makefile.objs
+>@@ -86,10 +86,12 @@ common-obj-$(CONFIG_FDT) += device_tree.o
+> # qapi
+>
+> common-obj-y += qapi/
+>+softmmu-obj-y = main.o
+>
+>-softmmu-main-y = main.o
+> endif
+>
+>+
+>+
+> #######################################################################
+> # Target-independent parts used in system and user emulation
+> common-obj-y += cpus-common.o
+>diff --git a/Makefile.target b/Makefile.target
+>index ca3d14efe1..cddc8e4306 100644
+>--- a/Makefile.target
+>+++ b/Makefile.target
+>@@ -202,7 +202,7 @@ endif
+> COMMON_LDADDS = ../libqemuutil.a
+>
+> # build either PROG or PROGW
+>-$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS)
+>+$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS) $(softmmu-obj-y)
+> 	$(call LINK, $(filter-out %.mak, $^))
+> ifdef CONFIG_DARWIN
+> 	$(call quiet-command,Rez -append $(SRC_PATH)/pc-bios/qemu.rsrc -o $@,"REZ","$(TARGET_DIR)$@")
+>@@ -227,6 +227,22 @@ ifdef CONFIG_TRACE_SYSTEMTAP
+> 	rm -f *.stp
+> endif
+>
+>+ifdef CONFIG_FUZZ
+>+include $(SRC_PATH)/tests/fuzz/Makefile.include
+>+include $(SRC_PATH)/tests/Makefile.include
+>+
+>+fuzz: fuzz-vars
+>+fuzz-vars: QEMU_CFLAGS := $(FUZZ_CFLAGS) $(QEMU_CFLAGS)
+>+fuzz-vars: QEMU_LDFLAGS := $(FUZZ_LDFLAGS) $(QEMU_LDFLAGS)
+>+fuzz-vars: $(QEMU_PROG_FUZZ)
+>+dummy := $(call unnest-vars,, fuzz-obj-y)
+>+
+>+
+>+$(QEMU_PROG_FUZZ): config-devices.mak $(all-obj-y) $(COMMON_LDADDS) $(fuzz-obj-y)
+>+	$(call LINK, $(filter-out %.mak, $^))
+>+
 
-Yep, that's better
+It may be useful to still handle the fuzz target here, and report
+that fuzzing is disabled in this configuration, as it is, if I type
+'make x86_64-softmmu/fuzz' I get the less useful output of:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+   make[1]: *** No rule to make target `fuzz'.  Stop.
 
+>+endif
+>+
+> install: all
+> ifneq ($(PROGS),)
+> 	$(call install-prog,$(PROGS),$(DESTDIR)$(bindir))
+>diff --git a/tests/fuzz/Makefile.include b/tests/fuzz/Makefile.include
+>new file mode 100644
+>index 0000000000..324e6c1433
+>--- /dev/null
+>+++ b/tests/fuzz/Makefile.include
+>@@ -0,0 +1,4 @@
+>+# QEMU_PROG_FUZZ=qemu-fuzz-$(TARGET_NAME)$(EXESUF)
+>+fuzz-obj-y = $(libqos-obj-y)
+>+fuzz-obj-y += tests/libqtest.o
+>+
 
-> ---
-> v2:
->    * use uintptr_t to calculate place_dest
->    * check target pages belongs to the same host page
-> ---
->  migration/ram.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index b5759793a9..666ad69284 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -4015,7 +4015,7 @@ static int ram_load_postcopy(QEMUFile *f)
->      MigrationIncomingState *mis =3D migration_incoming_get_current();
->      /* Temporary page that is later 'placed' */
->      void *postcopy_host_page =3D mis->postcopy_tmp_page;
-> -    void *last_host =3D NULL;
-> +    void *this_host =3D NULL;
->      bool all_zero =3D false;
->      int target_pages =3D 0;
-> =20
-> @@ -4062,24 +4062,26 @@ static int ram_load_postcopy(QEMUFile *f)
->               * that's moved into place later.
->               * The migration protocol uses,  possibly smaller, target-pa=
-ges
->               * however the source ensures it always sends all the compon=
-ents
-> -             * of a host page in order.
-> +             * of a host page in one chunk.
->               */
->              page_buffer =3D postcopy_host_page +
->                            ((uintptr_t)host & (block->page_size - 1));
->              /* If all TP are zero then we can optimise the place */
->              if (target_pages =3D=3D 1) {
->                  all_zero =3D true;
-> +                this_host =3D (void *)QEMU_ALIGN_DOWN((uintptr_t)host,
-> +                                                    block->page_size);
->              } else {
->                  /* not the 1st TP within the HP */
-> -                if (host !=3D (last_host + TARGET_PAGE_SIZE)) {
-> -                    error_report("Non-sequential target page %p/%p",
-> -                                  host, last_host);
-> +                if (QEMU_ALIGN_DOWN((uintptr_t)host, block->page_size) !=
-=3D
-> +                    (uintptr_t)this_host) {
-> +                    error_report("Non-same host page %p/%p",
-> +                                  host, this_host);
->                      ret =3D -EINVAL;
->                      break;
->                  }
->              }
-> =20
-> -
->              /*
->               * If it's the last part of a host page then we place the ho=
-st
->               * page
-> @@ -4090,7 +4092,6 @@ static int ram_load_postcopy(QEMUFile *f)
->              }
->              place_source =3D postcopy_host_page;
->          }
-> -        last_host =3D host;
-> =20
->          switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
->          case RAM_SAVE_FLAG_ZERO:
-> @@ -4143,7 +4144,8 @@ static int ram_load_postcopy(QEMUFile *f)
-> =20
->          if (!ret && place_needed) {
->              /* This gets called at the last target page in the host page=
- */
-> -            void *place_dest =3D host + TARGET_PAGE_SIZE - block->page_s=
-ize;
-> +            void *place_dest =3D (void *)QEMU_ALIGN_DOWN((uintptr_t)host=
-,
-> +                                                       block->page_size)=
-;
-> =20
->              if (all_zero) {
->                  ret =3D postcopy_place_page_zero(mis, place_dest,
-> --=20
-> 2.17.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+But otherwise, this seems to be cleaner in that it is not causing
+rebuilds of objects between selecting target/all or target/fuzz,
+assuming that is correct here.
 
+So with that,
+
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+
+Thanks,
+
+Darren.
 
