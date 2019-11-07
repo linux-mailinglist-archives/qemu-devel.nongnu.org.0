@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943F4F305F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 14:48:12 +0100 (CET)
-Received: from localhost ([::1]:42696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52352F30B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 14:57:10 +0100 (CET)
+Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSi8x-0004uj-FO
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 08:48:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40595)
+	id 1iSiHd-0002Su-9z
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 08:57:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42155)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iSi6l-0004GW-4x
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:45:57 -0500
+ (envelope-from <bounces@canonical.com>) id 1iSiGG-0001K8-7H
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:55:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iSi6i-00027E-8E
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:45:55 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36385
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iSi6i-00026t-4p
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:45:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573134351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MC2fGewAljd1Dyc2J/WBNHXpv0lXKd0mEj/MsSX8GCw=;
- b=X7kLwSgbsuGi5tVsHybOMSLgX8Wqu0qkrOZcf04MsCFlOvvWXpeQtuQzuxCAcrd8+EC++l
- 2dJ7mMEx44QicVnErHdr1w62IAcOjktjT+uv9KLZRNsns7DVInWZ9GhhX+tLLOQpBpUYwP
- Wqd6nhF4m+zlc8S2B07vTm1SyBkLjpU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-5HJX8UVTO7uE0kvqcaJKMw-1; Thu, 07 Nov 2019 08:45:47 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3E1800C61;
- Thu,  7 Nov 2019 13:45:46 +0000 (UTC)
-Received: from [10.3.117.38] (ovpn-117-38.phx2.redhat.com [10.3.117.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 659A55DA70;
- Thu,  7 Nov 2019 13:45:46 +0000 (UTC)
-Subject: Re: [RFC PATCH 06/18] qemu-storage-daemon: Add --nbd-server option
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20191017130204.16131-1-kwolf@redhat.com>
- <20191017130204.16131-7-kwolf@redhat.com>
- <25f74aa7-0856-a396-fb98-f6b7a337b965@redhat.com>
- <1bcb5419-183e-fd7b-e53c-fbb315f29703@redhat.com>
- <20191107083335.GA5007@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b5f9a8d8-c548-db26-13a0-0494baf9dc30@redhat.com>
-Date: Thu, 7 Nov 2019 07:45:45 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iSiGE-0000KC-UR
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:55:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35168)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iSiGE-0000Jm-Op
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:55:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iSiGD-0002ox-CP
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 13:55:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 599252E80AD
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 13:55:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191107083335.GA5007@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 5HJX8UVTO7uE0kvqcaJKMw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 07 Nov 2019 13:47:57 -0000
+From: Marietto <marietto2008@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h marietto2008
+X-Launchpad-Bug-Reporter: Marietto (marietto2008)
+X-Launchpad-Bug-Modifier: Marietto (marietto2008)
+References: <157306426546.28368.6683622999323132409.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157313447736.28519.2758845895217673309.malone@chaenomeles.canonical.com>
+Subject: [Bug 1851547] Re: qemu 4 crashes with this parameter attached -usb
+ -device usb-host, hostbus=1, hostaddr=7 \
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fc52fa30092c1e656216995c18e5a24f31706820
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,31 +66,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pkrempa@redhat.com, armbru@redhat.com,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1851547 <1851547@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/7/19 2:33 AM, Kevin Wolf wrote:
+001:008 Compx 2.4G Receiver. Problem arise because I've detached one of
+my USB disk and the numbering of the USB devices attached changed.
+specially the compx 2.4g receiver changed from hostaddr 7 to 8 and when
+this happens qemu 4 seems to work not as good as qemu 3.
 
->=20
-> As a replacement nbd-server-add, I envisioned adding something like a
-> block-export-add, which would work the way that --export already does.
-> It would also come with query-block-exports and block-export-del, and it
-> wouldn't contain only NBD devices, but also vhost-user, FUSE, etc.
-> exports.
->=20
-> Now I'm wondering if the same would make sense for nbd-server-start.
-> Maybe an API change would even allow us to start multiple NBD servers
-> (e.g. listening on different IP addresses or using different tls-creds).
+-- =
 
-We want that (the ability to run multiple parallel NBD servers) anyway,=20
-to allow parallel incremental backups from different points in time to=20
-different clients.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1851547
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Title:
+  qemu 4 crashes with this parameter attached -usb -device usb-
+  host,hostbus=3D1,hostaddr=3D7 \
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+
+  qemu / kvm does not start anymore after upgrading ubuntu from 19.04 to
+  19.10 and qemu from 3 to 4,as you can see below. what can I do ?
+
+  root@ziomario-Z390-AORUS-PRO:/home/ziomario/Scrivania/OS-KVM# ./boot-
+  OS-HSP2.sh
+
+  ----> qemu-system-x86_64: /build/qemu-
+  UryNDZ/qemu-4.0+dfsg/hw/usb/core.c:720: usb_ep_get: asserzione "dev !=3D
+  NULL" non riuscita.
+
+  ./boot-OS-HSP2.sh: riga 40: 26312 Annullato (core dump creato) qemu-
+  system-x86_64 -enable-kvm -m 16000 -cpu
+  Penryn,kvm=3Don,vendor=3DGenuineIntel,+invtsc,vmware-cpuid-
+  freq=3Don,$MY_OPTIONS -machine pc-q35-2.9 -smp 4,cores=3D2 -vga none
+  -device vfio-pci,host=3D01:00.0,bus=3Dpcie.0,multifunction=3Don -device
+  vfio-pci,host=3D01:00.1,bus=3Dpcie.0 -device vfio-
+  pci,host=3D01:00.2,bus=3Dpcie.0 -device vfio-pci,host=3D01:00.3,bus=3Dpci=
+e.0
+  -usb -device usb-host,hostbus=3D1,hostaddr=3D7 -drive
+  if=3Dpflash,format=3Draw,readonly,file=3D$OVMF/OVMF_CODE.fd -drive
+  if=3Dpflash,format=3Draw,file=3D$OVMF/OVMF_VARS-1024x768.fd -smbios type=
+=3D2
+  -device ich9-ahci,id=3Dsata -drive
+  id=3DClover,if=3Dnone,snapshot=3Don,format=3Dqcow2,file=3D./'Mo/CloverNG.=
+qcow2'
+  -device ide-hd,bus=3Dsata.2,drive=3DClover -device ide-
+  hd,bus=3Dsata.3,drive=3DInstallMedia -drive
+  id=3DInstallMedia,if=3Dnone,file=3DBaseSystemHS.img,format=3Draw -drive
+  id=3DBsdHDD,if=3Dnone,file=3D/dev/sdg,format=3Draw -device ide-
+  hd,bus=3Dsata.4,drive=3DBsdHDD -netdev
+  tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno -device
+  e1000-82545em,netdev=3Dnet0,id=3Dnet0,mac=3D52:54:00:c9:18:27 -monitor st=
+dio
+
+  It seems that this line is not good anymore (it worked with qemu 3.x)
+  :
+
+  -usb -device usb-host,hostbus=3D1,hostaddr=3D7 \
+
+  when I removed it,it works. But I need that. With what can I change it
+  ? You can reproduce that upgrading ubuntu 19.04 to 19.10 because in
+  that way also qemu will be upgraded from 3 to 4. These are the
+  packages that I'm using :
+
+  root@ziomario-Z390-AORUS-PRO:/home/ziomario# qemu-system-x86_64 --version
+  QEMU emulator version 4.0.0 (Debian 1:4.0+dfsg-0ubuntu9)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1851547/+subscriptions
 
