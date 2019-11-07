@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BA5F3546
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:02:41 +0100 (CET)
-Received: from localhost ([::1]:45758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67752F3573
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:10:07 +0100 (CET)
+Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSlB9-0000NG-0W
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:02:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+	id 1iSlIL-0001nX-Pl
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:10:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iSl66-0003aL-96
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:57:27 -0500
+ (envelope-from <palmer@dabbelt.com>) id 1iSl7V-0005fD-ON
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:58:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iSl65-0004dl-0J
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:57:26 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43488)
+ (envelope-from <palmer@dabbelt.com>) id 1iSl7U-00057N-Me
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:58:53 -0500
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43132)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iSl64-0004dL-PW
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:57:24 -0500
-Received: by mail-wr1-x442.google.com with SMTP id n1so3821922wra.10
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:57:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=znn+Vm40PAk/QJjJU7FrrrHdqE72Q5vig/mwIoB7lhY=;
- b=sVCgwPo+V4Jn9mzRcSh5fT4OxCiZZfVaC20khNf/fyS1S8leJiXXytKTdc0ccp/3fr
- D8f6rnlhXSWyt4v36GpRfIz4AP1+/45torsPHzkR19qeLJVb7t07HiTxQWNSOZkc6kh5
- BcWsjjLfScSI1v/xBLgWhczIJzNBlihYG1+YEMYcZvYjF7Nk+1iMtNj4CsExoWSibEXN
- 73FDVTL9bifpP3iPwwY4NAzkP3LcngMfxafopcaoOL2cpaOzHEsdmMngtmM9H8AYOVpL
- 13/+04VdXELY37PcQGOKxJQD1TPD7tQQlhlwwrYC7rllmY+NhMmzauNPqa5TcsPEYX91
- 5hTw==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iSl7U-000572-C4
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:58:52 -0500
+Received: by mail-pl1-x643.google.com with SMTP id a18so1870266plm.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:58:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SSF77W5ljtz4X2exwpOWBcNAR43MQ7/J9pvWQCD7wlk=;
+ b=2Gv2vFQWvQsANsfINRgtnmGpO1lkxftxi+r6wmMYuc6+T1wdjtbI0I+3AtSprDYvM1
+ udGPzzaIlgpMZLrzhGsbUfvDXSB492G9hRqQWcvfLrMZagJ6Sq6NkomIxkgRWgvMA7t6
+ W42/RE4c9G66cDQTrNDEVcjg7QJ1LRrNvvPHVR7d/PwWCp5mq7H9YtBMXiyaLlgPIrrW
+ PQqWLNjqp4aDQXukEOtdb2L3CynPCdPY2VaL73rDYeeakHrsA8Vfa53Pmp4dE7vQ0ffl
+ HkhyUTiFv5SmQWBl+bnf3nRPTIcsbK7iczZq2EjjiVCZAJLjzvCGjiuQtYyZ+0NOamFv
+ zqug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=znn+Vm40PAk/QJjJU7FrrrHdqE72Q5vig/mwIoB7lhY=;
- b=ZmmqxIcUyzsWid9AHAVesgr421hgQLhhURmDq9s0K4bseRL1W9bHqQDWcheJnwtiU1
- dfARoGjCeVl6tCSPb43kVsFlnkTngNA1Cik/dn1s/OvQ6ObsOko94/0ahNoHWII/hk2B
- yvsFiszm7uim5GXGi+4PQMQkuMgJWBtSTTocacwUoZT+GKVqyeo4zDvYN5axMa/2h07f
- xdd/d0vFfoGD5GlgzNnZb8XEuw/UfEU9N26SjOkVGOjxJMlWl8obCJEMECb4gt9TqPII
- NqMrXNk2Chg6bO9kar2Uur2gqO2tMq3RAWVonG7ted5x7h5a+OM6lfJtlwkR0ZHP2AUv
- MQYQ==
-X-Gm-Message-State: APjAAAX7Stv55GteV4YRVfcBsLRm75EChN4EucGx9IvQqyiZ/kqXet6h
- 7lElcMhH1TWGDQ4Ij2lNEJfaLQ==
-X-Google-Smtp-Source: APXvYqz+rVy0W8eVMpOas8II7S2Nl9O0taKcfSDvG4L+Rj1nyLX211cSfMRxVwNXhDbtcAIRrvlA5A==
-X-Received: by 2002:adf:97dd:: with SMTP id t29mr3719224wrb.283.1573145843207; 
- Thu, 07 Nov 2019 08:57:23 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z189sm3213392wmc.25.2019.11.07.08.57.21
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=SSF77W5ljtz4X2exwpOWBcNAR43MQ7/J9pvWQCD7wlk=;
+ b=ntULSJSIKg6dIt8ip4wSD8wc9INhXBGw9cYkn0eRR+9YxYwgyTmo8QysOBgieeTT1t
+ BK2Uck2N3bqwGh3dIFIu6dE3+lJXBBTNrvTXL2sqUT3n7Mre6A94BKFv81VZ+7qCT42V
+ 9J0q8A8ibGIG3k3+yOOTjtPsohT5ZhFS6K3xBjO1zOovQu5quBPMNAgqs4KtXVcLUHkK
+ cwIsGBUnImnagPREH2NbbzhB6fcl2cNRsUnud4j2np5g54HHxqVzV74LQgEN1owMTA5L
+ 8q8CEwRWqAZw1N7jEWKYxfHEGP6cEtHDOUJu5HyENNLPUe///ShVlLd94WRXqb4eUOM5
+ Zk+g==
+X-Gm-Message-State: APjAAAVgQ26AM/Mux9JRaL4kAoHnMhjR29jOc4Eq54L5jQ5/WKnKxoNe
+ bfhLqIpzD3fhG6pQFOr8bPYIzRzFxCY=
+X-Google-Smtp-Source: APXvYqxNDctI8BHXtYSYLrp0u2wqFzxx4+bAKNHtuef9ncnjI+kYTELDshtcJuv3kMJtavZPM7WkXg==
+X-Received: by 2002:a17:90a:98d:: with SMTP id 13mr6383221pjo.98.1573145930748; 
+ Thu, 07 Nov 2019 08:58:50 -0800 (PST)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id 26sm2497779pjg.21.2019.11.07.08.58.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2019 08:57:21 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 324681FF87;
- Thu,  7 Nov 2019 16:57:21 +0000 (GMT)
-References: <20191105234100.22052-1-beata.michalska@linaro.org>
- <20191105234100.22052-3-beata.michalska@linaro.org>
- <5c75bd31-213f-88a4-2eee-0046f99f65fe@linaro.org>
- <CADSWDztHetgmbUOp4WyRAkR0daAG6kkwhUTcyKWiCTWHQ1XB=w@mail.gmail.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Beata Michalska <beata.michalska@linaro.org>
-Subject: Re: [PATCH v2 2/4] Memory: Enable writeback for given memory region
-In-reply-to: <CADSWDztHetgmbUOp4WyRAkR0daAG6kkwhUTcyKWiCTWHQ1XB=w@mail.gmail.com>
-Date: Thu, 07 Nov 2019 16:57:21 +0000
-Message-ID: <87lfsrhbf2.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+ Thu, 07 Nov 2019 08:58:50 -0800 (PST)
+Date: Thu, 07 Nov 2019 08:58:50 -0800 (PST)
+X-Google-Original-Date: Thu, 07 Nov 2019 08:58:24 PST (-0800)
+Subject: Re: [PATCH for 4.2 v1 1/1] riscv/virt: Increase flash size
+In-Reply-To: <03c2f42b32fb4e304319c241122ae83584f085e0.1573087610.git.alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-35530489-a164-4825-90da-e550083fef9d@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,53 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- shameerali.kolothum.thodi@huawei.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eric.auger@redhat.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com
+Cc: alistair23@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ palmer@sifive.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Beata Michalska <beata.michalska@linaro.org> writes:
-
-> On Wed, 6 Nov 2019 at 12:20, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 11/6/19 12:40 AM, Beata Michalska wrote:
->> > +void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t=
- length)
->> > +{
->> > +    void *addr =3D ramblock_ptr(block, start);
->> > +
->> > +    /*
->> > +     * The requested range might spread up to the very end of the blo=
-ck
->> > +     */
->> > +    if ((start + length) > block->used_length) {
->> > +        qemu_log("%s: sync range outside the block boundaries: "
->> > +                     "start: " RAM_ADDR_FMT " length: " RAM_ADDR_FMT
->> > +                     " block length: " RAM_ADDR_FMT " Narrowing down =
-..." ,
->> > +                     __func__, start, length, block->used_length);
->> > +        length =3D block->used_length - start;
->> > +    }
->>
->> qemu_log_mask w/ GUEST_ERROR?  How do we expect the length to overflow?
+On Wed, 06 Nov 2019 16:47:20 PST (-0800), Alistair Francis wrote:
+> Coreboot developers have requested that they have at least 32MB of flash
+> to load binaries. We currently have 32MB of flash, but it is split in
+> two to allow loading two flash binaries. Let's increase the flash size
+> from 32MB to 64MB to ensure we have a single region that is 32MB.
 >
-> In theory it shouldn't, at least with current usage.
-> I guess the probe_access will make sure of that.
-> This was more of a precaution to enable catching potential/future misuses
-> aka debugging purpose. I can get rid of that it that's playing too
-> safe.
+> No QEMU release has include flash in the RISC-V virt machine, so this
+> isn't a breaking change.
 
-If the internal code might get it wrong and that would be a bug then the
-g_assert(), if the values are ultimately from the guest then log with
-GUEST_ERROR as Richard suggests.
+Even if we had, I wouldn't consider it a breaking change because it adds to 
+the memory map so existing programs will continue to run fine.
 
-<snip>
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/riscv/virt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index cc8f311e6b..23f340df19 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -62,7 +62,7 @@ static const struct MemmapEntry {
+>      [VIRT_PLIC] =        {  0xc000000,     0x4000000 },
+>      [VIRT_UART0] =       { 0x10000000,         0x100 },
+>      [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
+> -    [VIRT_FLASH] =       { 0x20000000,     0x2000000 },
+> +    [VIRT_FLASH] =       { 0x20000000,     0x4000000 },
+>      [VIRT_DRAM] =        { 0x80000000,           0x0 },
+>      [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+>      [VIRT_PCIE_PIO] =    { 0x03000000,    0x00010000 },
 
---
-Alex Benn=C3=A9e
+Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
+
+I'll include this in my next PR, which should be soon -- I was about to send 
+it, but figure I should look at my email first :)
 
