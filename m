@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CAEF3534
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 17:59:05 +0100 (CET)
-Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BBDF3522
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 17:55:05 +0100 (CET)
+Received: from localhost ([::1]:45548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSl7g-0004dh-6C
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 11:59:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43993)
+	id 1iSl3o-0007WW-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 11:55:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iSkuf-0005LS-Qb
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:45:39 -0500
+ (envelope-from <palmer@dabbelt.com>) id 1iSl1Q-0005X1-9d
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:52:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iSkue-0008ME-IW
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:45:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51181
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSkue-0008M2-Cu
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:45:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573145135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6cfsRXV7C0oNXAxuOWdHLmuNRNJK67SojT9JqbA9HLU=;
- b=RUmggNaDCCZyai+mn9e2xuvtmxtf7+TQ4X7OOxStBsEdvQLvdwWWTk7FPaRRvp6eTsP/yj
- 8Ft4gb9md1f1CRtOqJs+LrZR2bqeWJMJ9sDUaAVuM+e3rf2GAgY9vIw8K3fkColppJW5Mp
- TdS+x2L/BCg1AAEsvmM/Ats4XEPxxqw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-pto9P0doM2OLZEBrt5K-6w-1; Thu, 07 Nov 2019 11:45:34 -0500
-X-MC-Unique: pto9P0doM2OLZEBrt5K-6w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FAB21800D6B;
- Thu,  7 Nov 2019 16:45:33 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-149.ams2.redhat.com
- [10.36.117.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6B0A608DC;
- Thu,  7 Nov 2019 16:45:31 +0000 (UTC)
-Subject: Re: [PATCH v3 21/22] iotests: Disable data_file where it cannot be
- used
-To: qemu-block@nongnu.org
-References: <20191107163708.833192-1-mreitz@redhat.com>
- <20191107163708.833192-22-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <cc30846b-c238-4a83-9ce4-7c1b914e5e6c@redhat.com>
-Date: Thu, 7 Nov 2019 17:45:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191107163708.833192-22-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0DAAvFmnO9YWa47YxiT4dmzG3JRbkrbrj"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+ (envelope-from <palmer@dabbelt.com>) id 1iSl1O-0002xA-Lu
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:52:35 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45754)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iSl1O-0002wn-6x
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:52:34 -0500
+Received: by mail-pg1-x543.google.com with SMTP id w11so2408240pga.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:52:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KQCtLcefXWN3Ffga/uquHl+0Zn6mwEYpVn1eJIc/dDM=;
+ b=sTqJPxQyUZkgeRjSYG5u/UEeZopFo/XxJQ99wgv42BJ+ZP16qiEvEKTy+lDvCvA6Lc
+ P7RkXdOiBfaByNfKkccVzUH1TDhBhBtQxveBLkcVBJQj9SSpL/73v1nnw6rBF9Wge8Ah
+ 3NM+TuXeh0yC65yAmBhVUB49bzGlPDtz/ctH4v3DiHZ6DmevmCddIaeebfs6k34/v+yv
+ +wvVcB2q8tyteLEIz77jj3PzsCwfS8D+V8l/7F8mPrAa/WUt0wCqaG6YKru+Fvtytg1W
+ 26Nv8R2U0kxWT1v3xIt1rQqNfMhdU7fYrGBVU5CCYZMiko1y9pb8a0Q9SrH12vHHNXYp
+ vXIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=KQCtLcefXWN3Ffga/uquHl+0Zn6mwEYpVn1eJIc/dDM=;
+ b=QER+kIh862noE8BX+SSkoMzkWkBD3SNX2FfJCcaTXIQ7ayFNY7FWIs5JaVNTEiPhVn
+ CJKgdB49vd2ofZDwKVRm+gwZ85uoderAB9PUI1OyeoUDmrGQWmPoDEhoQWoOqen7DMHS
+ 9D7aDQilZLpqkJxGBnsWV9vj4ML5vLEd5eou148iM19yMzmqNqL7Q1SQjPpPXXVlUYk+
+ wQZeJ3YW6Ze0ZpU5ul45yHHNbSwEm18Rxp7Z58EHlwrjdv0fM8oUs+3J24vohZsCpoHd
+ UfrDzOvPDRyqSSZcxNsGvtxvMy/hi/9iQ2m4KmWDEJHyfB4A8b4VZIOTycS1fJMKBQIC
+ tjdQ==
+X-Gm-Message-State: APjAAAVtLybBgcfB7nc4Rf4SnqeqDrZEIuRUXlC7cI55+5S0YfetqFt9
+ CXNjmyvd/TpV+SNchISiJPDdnw==
+X-Google-Smtp-Source: APXvYqxMH83l8Efo2BQC35h3P36kNgNcb/5nXZ0kAGYX3XgQPumNcc02056VVwv/BUKexO5QVcC9VQ==
+X-Received: by 2002:a65:664e:: with SMTP id z14mr5530898pgv.201.1573145552458; 
+ Thu, 07 Nov 2019 08:52:32 -0800 (PST)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id m13sm2536669pga.70.2019.11.07.08.52.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 08:52:31 -0800 (PST)
+Date: Thu, 07 Nov 2019 08:52:31 -0800 (PST)
+X-Google-Original-Date: Thu, 07 Nov 2019 08:34:14 PST (-0800)
+Subject: Re: [PATCH v8 0/3] RTC support for QEMU RISC-V virt machine
+In-Reply-To: <20191106115602.74299-1-anup.patel@wdc.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Anup Patel <Anup.Patel@wdc.com>
+Message-ID: <mhng-fceb5aa2-7610-421a-b350-d939ace5fee2@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,106 +77,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Anup Patel <Anup.Patel@wdc.com>,
+ qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, palmer@sifive.com,
+ qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, anup@brainfault.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0DAAvFmnO9YWa47YxiT4dmzG3JRbkrbrj
-Content-Type: multipart/mixed; boundary="MBYf4zI7DGzhjwmqR1E4HbOFMpWffMzQv"
+On Wed, 06 Nov 2019 03:56:29 PST (-0800), Anup Patel wrote:
+> This series adds RTC device to QEMU RISC-V virt machine. We have
+> selected Goldfish RTC device model for this. It's a pretty simple
+> synthetic device with few MMIO registers and no dependency external
+> clock. The driver for Goldfish RTC is already available in Linux so
+> we just need to enable it in Kconfig for RISCV and also update Linux
+> defconfigs.
+>
+> We have tested this series with Linux-5.4-rc4 plus defconfig changes
+> available in 'goldfish_rtc_v2' branch of:
+> https://github.com/avpatel/linux.git
+>
+> Changes since v7:
+>  - Fix broken "stdout-path" in "/chosen" DT node of virt machine
+>
+> Changes since v6:
+>  - Rebased on latest QEMU master
+>  - Addressed all nit comments from Philippe Mathieu-Daude
+>
+> Changes since v5:
+>  - Rebased on latest QEMU master
+>  - Added maintainer entry for Goldfish RTC
+>
+> Changes since v4:
+>  - Fixed typo in trace event usage
+>  - Moved goldfish_rtc.h to correct location
+>
+> Changes since v3:
+>  - Address all nit comments from Alistair
+>
+> Changes since v2:
+>  - Rebased on RTC code refactoring
+>
+> Changes since v1:
+>  - Implemented VMState save/restore callbacks
+>
+> Anup Patel (3):
+>   hw: rtc: Add Goldfish RTC device
+>   riscv: virt: Use Goldfish RTC device
+>   MAINTAINERS: Add maintainer entry for Goldfish RTC
+>
+>  MAINTAINERS                   |   8 +
+>  hw/riscv/Kconfig              |   1 +
+>  hw/riscv/virt.c               |  16 ++
+>  hw/rtc/Kconfig                |   3 +
+>  hw/rtc/Makefile.objs          |   1 +
+>  hw/rtc/goldfish_rtc.c         | 285 ++++++++++++++++++++++++++++++++++
+>  hw/rtc/trace-events           |   4 +
+>  include/hw/riscv/virt.h       |   2 +
+>  include/hw/rtc/goldfish_rtc.h |  46 ++++++
+>  9 files changed, 366 insertions(+)
+>  create mode 100644 hw/rtc/goldfish_rtc.c
+>  create mode 100644 include/hw/rtc/goldfish_rtc.h
 
---MBYf4zI7DGzhjwmqR1E4HbOFMpWffMzQv
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 07.11.19 17:37, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/007 | 5 +++--
->  tests/qemu-iotests/014 | 2 ++
->  tests/qemu-iotests/015 | 5 +++--
->  tests/qemu-iotests/026 | 5 ++++-
->  tests/qemu-iotests/029 | 5 +++--
->  tests/qemu-iotests/031 | 6 +++---
->  tests/qemu-iotests/036 | 5 +++--
->  tests/qemu-iotests/039 | 3 +++
->  tests/qemu-iotests/046 | 2 ++
->  tests/qemu-iotests/048 | 2 ++
->  tests/qemu-iotests/051 | 5 +++--
->  tests/qemu-iotests/058 | 5 +++--
->  tests/qemu-iotests/060 | 6 ++++--
->  tests/qemu-iotests/061 | 6 ++++--
->  tests/qemu-iotests/062 | 2 +-
->  tests/qemu-iotests/066 | 4 +++-
->  tests/qemu-iotests/067 | 6 ++++--
->  tests/qemu-iotests/068 | 5 +++--
->  tests/qemu-iotests/071 | 3 +++
->  tests/qemu-iotests/073 | 4 ++++
->  tests/qemu-iotests/074 | 2 ++
->  tests/qemu-iotests/080 | 5 +++--
->  tests/qemu-iotests/090 | 2 ++
->  tests/qemu-iotests/098 | 6 ++++--
->  tests/qemu-iotests/099 | 3 ++-
->  tests/qemu-iotests/103 | 5 +++--
->  tests/qemu-iotests/108 | 6 ++++--
->  tests/qemu-iotests/112 | 5 +++--
->  tests/qemu-iotests/114 | 2 ++
->  tests/qemu-iotests/121 | 3 +++
->  tests/qemu-iotests/138 | 3 +++
->  tests/qemu-iotests/156 | 2 ++
->  tests/qemu-iotests/176 | 7 +++++--
->  tests/qemu-iotests/191 | 2 ++
->  tests/qemu-iotests/201 | 6 +++---
->  tests/qemu-iotests/214 | 3 ++-
->  tests/qemu-iotests/217 | 3 ++-
->  tests/qemu-iotests/220 | 5 +++--
->  tests/qemu-iotests/243 | 6 ++++--
->  tests/qemu-iotests/244 | 5 +++--
->  tests/qemu-iotests/250 | 2 ++
->  tests/qemu-iotests/261 | 3 ++-
->  tests/qemu-iotests/267 | 5 +++--
->  43 files changed, 124 insertions(+), 53 deletions(-)
-
-[...]
-
-> diff --git a/tests/qemu-iotests/067 b/tests/qemu-iotests/067
-> index 926c79b37c..3bc6e719eb 100755
-> --- a/tests/qemu-iotests/067
-> +++ b/tests/qemu-iotests/067
-> @@ -32,8 +32,10 @@ status=3D1=09# failure is the default!
-> =20
->  _supported_fmt qcow2
->  _supported_proto file
-> -# Because anything other than 16 would change the output of query-block
-> -_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
-> +# Because anything other than 16 would change the output of query-block,
-> +# and external data files would change the output of
-> +# query-named-block-ndoes
-
-s/ndoes/nodes/...
-
-
---MBYf4zI7DGzhjwmqR1E4HbOFMpWffMzQv--
-
---0DAAvFmnO9YWa47YxiT4dmzG3JRbkrbrj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3ESikACgkQ9AfbAGHV
-z0DyYwf/T0f14y+hpGGVW+iVe4oK5Knf5qEq8FHNYJOuW21vbroKefqGKCSIRy2i
-M8lGmAxSaL3L0S1B5FTNHv+ZbqEiPWIM9sz6t0HWw0UY1ac3JfVwkJWJ1ZrWsI9M
-F86wv+cjMnkZy7p58jgDt4jTOxgIAK9YFRHPD2ewRJxWtcDugNtfvJHzqtulzURi
-fFxfWls5upMcHcdWE/kBcy6SRFKR/hXPlftkXV+pw66eWYcbHwbxJu5NTQZdBzJl
-GB5vFCfgCU7X90yR13PSUiA67UKqfajce/rWs9qXu96ZFqryO7bpgyh0vm1PAy1X
-1ENcnTRaDE1vpSnMhHD4k2pqUY/RGg==
-=NVTP
------END PGP SIGNATURE-----
-
---0DAAvFmnO9YWa47YxiT4dmzG3JRbkrbrj--
-
+Thanks.  I've updated the patches on my queue, LMK if there are any more 
+changes!
 
