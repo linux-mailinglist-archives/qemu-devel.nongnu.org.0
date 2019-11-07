@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CE5F31C5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:51:28 +0100 (CET)
-Received: from localhost ([::1]:43704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4827CF31B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:43:25 +0100 (CET)
+Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSj8A-0003YY-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:51:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49980)
+	id 1iSj0O-00050A-7J
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:43:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50331)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iSiwn-00010W-OJ
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:39:43 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1iSiym-0003cD-6l
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:41:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iSiwl-0008Ib-1M
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:39:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44830
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iSiwk-0008I3-RG
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:39:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573137577;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=98NucmLNVdE7K89wW7h4kCCTtbZHUQUe91gonbU6ShA=;
- b=P66FU0yJRQgP5Dbu19QtwIor26nljLbrThLA5t5LOeT8u6Ilg8H+h6AtPtzObfR7BHjvKA
- BlBN919xUxgJ3bBl4/c6xY+buviZ/h/tKgq+9TaxxkWZ/Y+iSm0fi+uIla6lygJJ1IdCKV
- 81nzxiZhptTZ+kIia4GjiMCKOaZh+FY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-FPMXKYvmPmqT4-V9N4Zpyg-1; Thu, 07 Nov 2019 09:39:33 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 843F7800C61;
- Thu,  7 Nov 2019 14:39:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 812575D6D8;
- Thu,  7 Nov 2019 14:39:02 +0000 (UTC)
-Date: Thu, 7 Nov 2019 14:39:00 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [RFC v4 PATCH 49/49] multi-process: add configure and usage
- information
-Message-ID: <20191107143900.GG120292@redhat.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
- <2736d12f29d2c9051966864b5d865ab0f392b8d1.1571905346.git.jag.raman@oracle.com>
- <20191107140220.GI365089@stefanha-x1.localdomain>
+ (envelope-from <beata.michalska@linaro.org>) id 1iSiyk-00014w-Ku
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:41:43 -0500
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34298)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iSiyk-00014R-C0
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:41:42 -0500
+Received: by mail-il1-x143.google.com with SMTP id p6so2026006ilp.1
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 06:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=beurS30dVz2/YuV7ui9xnfzvdQ87X84xaIMxSAmPcls=;
+ b=O8qXDfuKMgswevczNlpe51sEmIimUjl7BTsjfkRsxNNIujN4GCigmcBfF/Zln7XhWs
+ IaYhPCk310t7WAjYEXq8E6Jy1z+HzDHowzJIHV/T1BKL/cLzfvV8Pfz+Iib8PaduxdkD
+ on6eDttUwYXejGL7z6H0YkWsW6Vgh0gcVzxrq09+fFhMcGqj0sxsoKWinLJpBL5i4fMG
+ aedz7P0qSZpmtAyGBFVY1MFycViFf5nGWSwyJdDiurzto0bJ/hRp3cAvQWsO3YYZFtdq
+ qaxlV7H7oYakMUMCWrUeWnndbjB18GeZUVPsjlV89IFAfBkJPP5qKIOGIetlayWueLzB
+ +oug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=beurS30dVz2/YuV7ui9xnfzvdQ87X84xaIMxSAmPcls=;
+ b=JjvfdLgk7WFvBu2yIwRGJ72KyAJkWGeNDElBzteRlCHVQE6pseppGem+bLanRM6uwz
+ XfqfbfPu+hFl3w4ugW6Cij9HikO9EBWSlgrLiYQ08L0OOFLEXnUEGi0LI4+GgB6UiMwI
+ XFCyRCc4dsWwNLys+EcZ1qfr3pyrENGMBlHNL5PatNeOr90bSDeFPFUykJYmDjJ74ys0
+ pxhBj9DxWpBVK4wWJz9cxmomeNVS+Jl+Z7Csalt7f6Ub1k5PftfLIxnCEsG6gSh217y/
+ PiWLITTdDFRairc42ahVk//xFLcbaMKk0SXbMH8FJiguOy9GLwUPDuC9ewz766tvVHCS
+ /8Tg==
+X-Gm-Message-State: APjAAAUbGCshkYvGsWJVyzIWdKEtfX6S5YlrxjoeJhRu7VSjwBQ34eNH
+ WSYlW+vq+aqE8lWiONIiSeUlgl8WRPbOnKgo44bLYQ==
+X-Google-Smtp-Source: APXvYqzK3KJBelcRjH/eBhtaIbfS9XsunYhYvVDHKr84kv7NYPNjEPj49Mp2C7wf/YnNe3dEV485cFDsT6E5JmMeCFQ=
+X-Received: by 2002:a92:60b:: with SMTP id x11mr3091170ilg.69.1573137701158;
+ Thu, 07 Nov 2019 06:41:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191107140220.GI365089@stefanha-x1.localdomain>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: FPMXKYvmPmqT4-V9N4Zpyg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191105234100.22052-1-beata.michalska@linaro.org>
+ <20191105234100.22052-3-beata.michalska@linaro.org>
+ <5c75bd31-213f-88a4-2eee-0046f99f65fe@linaro.org>
+In-Reply-To: <5c75bd31-213f-88a4-2eee-0046f99f65fe@linaro.org>
+From: Beata Michalska <beata.michalska@linaro.org>
+Date: Thu, 7 Nov 2019 14:41:29 +0000
+Message-ID: <CADSWDztHetgmbUOp4WyRAkR0daAG6kkwhUTcyKWiCTWHQ1XB=w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] Memory: Enable writeback for given memory region
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,166 +73,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
- qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
+ qemu-devel@nongnu.org, shameerali.kolothum.thodi@huawei.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 07, 2019 at 03:02:20PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Oct 24, 2019 at 05:09:30AM -0400, Jagannathan Raman wrote:
-> > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >=20
-> > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > ---
-> >  docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++=
-++++++++
-> >  1 file changed, 86 insertions(+)
-> >  create mode 100644 docs/qemu-multiprocess.txt
-> >=20
-> > diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
-> > new file mode 100644
-> > index 0000000..c29f4df
-> > --- /dev/null
-> > +++ b/docs/qemu-multiprocess.txt
-> > @@ -0,0 +1,86 @@
-> > +Multi-process QEMU
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+On Wed, 6 Nov 2019 at 12:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 11/6/19 12:40 AM, Beata Michalska wrote:
+> > +void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length)
+> > +{
+> > +    void *addr = ramblock_ptr(block, start);
 > > +
-> > +This document describes how to configure and use multi-process qemu.
-> > +For the design document refer to docs/devel/qemu-multiprocess.
-> > +
-> > +1) Configuration
-> > +----------------
-> > +
-> > +To enable support for multi-process add --enable-mpqemu
-> > +to the list of options for the "configure" script.
-> > +
-> > +
-> > +2) Usage
-> > +--------
-> > +
-> > +To start qemu with devices intended to run in a separate emulation
-> > +process without libvirtd support, the following should be used on QEMU
-> > +command line. As of now, we only support the emulation of lsi53c895a
-> > +in a separate process
-> > +
-> > +* Since parts of the RAM are shared between QEMU & remote process, a
-> > +  memory-backend-file is required to facilitate this, as follows:
-> > +
-> > +  -object memory-backend-file,id=3Dmem,mem-path=3D/dev/shm/,size=3D409=
-6M,share=3Don
-> > +
-> > +* The devices to be emulated in the separate process are defined as
-> > +  before with addition of "rid" suboption that serves as a remote grou=
-p
-> > +  identificator.
-> > +
-> > +  -device <device options>,rid=3D"remote process id"
-> > +
-> > +  For exmaple, for non multi-process qemu:
->=20
-> s/exmaple/example/
->=20
-> > +    -device lsi53c895a,id=3Dscsi0 device
-> > +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0
-> > +    -drive id=3Ddrive0,file=3Ddata-disk.img
-> > +
-> > +  and for multi-process qemu and no libvirt
-> > +  support (i.e. QEMU forks child processes):
-> > +    -device lsi53c895a,id=3Dscsi0,rid=3D0
-> > +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0,rid=3D"0"
-> > +
-> > +* The command-line options for the remote process is added to the "com=
-mand"
->=20
-> s/is added/are added/
->=20
-> > +  suboption of the newly added "-remote" option.=20
-> > +
-> > +   -remote [socket],rid=3D,command=3D"..."
-> > +
-> > +  The drives to be emulated by the remote process are specified as par=
-t of
-> > +  this command sub-option. The device to be used to connect to the mon=
-itor
-> > +  is also specified as part of this suboption.
-> > +
-> > +  For example, the following option adds a drive and monitor to the re=
-mote
-> > +  process:
-> > +  -remote rid=3D0,command=3D"-drive id=3Ddrive0,,file=3Ddata-disk.img =
--monitor unix:/home/qmp-sock,,server,,nowait"
-> > +
-> > +  Note: There's an issue with this "command" subtion which we are in t=
-he
->=20
-> s/subtion/sub-option/
->=20
-> > +  process of fixing. To work around this issue, it requires additional
-> > +  "comma" characters as illustrated above, and in the example below.
-> > +
-> > +* Example QEMU command-line to launch lsi53c895a in a remote process
-> > +
-> > +  #/bin/sh
-> > +  qemu-system-x86_64 \
-> > +  -name "OL7.4" \
-> > +  -machine q35,accel=3Dkvm \
-> > +  -smp sockets=3D1,cores=3D1,threads=3D1 \
-> > +  -cpu host \
-> > +  -m 2048 \
-> > +  -object memory-backend-file,id=3Dmem,mem-path=3D/dev/shm/,size=3D2G,=
-share=3Don \
-> > +  -numa node,memdev=3Dmem \
-> > +  -device virtio-scsi-pci,id=3Dvirtio_scsi_pci0 \
-> > +  -drive id=3Ddrive_image1,if=3Dnone,format=3Draw,file=3D/root/ol7.qco=
-w2 \
-> > +  -device scsi-hd,id=3Dimage1,drive=3Ddrive_image1,bus=3Dvirtio_scsi_p=
-ci0.0 \
-> > +  -boot d \
-> > +  -monitor stdio \
-> > +  -vnc :0 \
-> > +  -device lsi53c895a,id=3Dlsi0,remote,rid=3D8,command=3D"qemu-scsi-dev=
-" \
-> > +  -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-i=
-d=3D0,remote,rid=3D8,command=3D"qemu-scsi-dev"\
-> > +  -remote rid=3D8,command=3D"-drive id=3Ddrive_image2,,file=3D/root/re=
-mote-process-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-> > +
-> > +  We could connect to the monitor using the following command:
-> > +  socat /home/qmp-sock stdio
-> > +
-> > +  After hotplugging disks to the remote process, please execute the
-> > +  following command in the guest to refresh the list of storage device=
-s:
-> > +  rescan_scsi_bus.sh -a
->=20
-> This documentation suggests that QEMU spawns the remote processes.  How
-> do this work with unprivileged QEMU?  Is there an additional step where
-> QEMU drops privileges after having spawned remote processes?
+> > +    /*
+> > +     * The requested range might spread up to the very end of the block
+> > +     */
+> > +    if ((start + length) > block->used_length) {
+> > +        qemu_log("%s: sync range outside the block boundaries: "
+> > +                     "start: " RAM_ADDR_FMT " length: " RAM_ADDR_FMT
+> > +                     " block length: " RAM_ADDR_FMT " Narrowing down ..." ,
+> > +                     __func__, start, length, block->used_length);
+> > +        length = block->used_length - start;
+> > +    }
+>
+> qemu_log_mask w/ GUEST_ERROR?  How do we expect the length to overflow?
 
-This syntax is for the simple case without privilege separation.
-If differing privilege levels are needed, then whatever spawns QEMU
-should spawn the remote helper process ahead of time, and then just
-pass the UNIX socket path to the -remote arg, instead of using
-the 'command' parameter.
+In theory it shouldn't, at least with current usage.
+I guess the probe_access will make sure of that.
+This was more of a precaution to enable catching potential/future misuses
+aka debugging purpose. I can get rid of that it that's playing too safe.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+>
+> > +#ifdef CONFIG_LIBPMEM
+> > +    /* The lack of support for pmem should not block the sync */
+> > +    if (ramblock_is_pmem(block)) {
+> > +        pmem_persist(addr, length);
+> > +    } else
+> > +#endif
+>
+> Perhaps better to return out of that if block than have the dangling else.
 
+Good idea
+>
+> > +/**
+> > + * Sync changes made to the memory mapped file back to the backing
+> > + * storage. For POSIX compliant systems this will simply fallback
+> > + * to regular msync call (thus the required alignment). Otherwise
+> > + * it will trigger whole file sync (including the metadata case
+> > + * there is no support to skip that otherwise)
+> > + *
+> > + * @addr   - start of the memory area to be synced
+> > + * @length - length of the are to be synced
+> > + * @align  - alignment (expected to be PAGE_SIZE)
+> > + * @fd     - file descriptor for the file to be synced
+> > + *           (mandatory only for POSIX non-compliant systems)
+> > + */
+> > +int qemu_msync(void *addr, size_t length, size_t align, int fd)
+> > +{
+> > +#ifdef CONFIG_POSIX
+> > +    size_t align_mask;
+> > +
+> > +    /* Bare minimum of sanity checks on the alignment */
+> > +    /* The start address needs to be a multiple of PAGE_SIZE */
+> > +    align = MAX(align, qemu_real_host_page_size);
+> > +    align_mask = ~(qemu_real_host_page_size - 1);
+> > +    align = (align + ~align_mask) & align_mask;
+> > +
+> > +    align_mask = ~(align - 1);
+>
+> I don't understand what you're trying to do with align.
+>
+> You pass in qemu_host_page_size from the one caller, and then adjust it for
+> qemu_real_host_page_size?
+>
+> Why pass in anything at all, and just use qemu_real_host_page_mask?
+
+The qemu_msync was supposed to be generic and not tied to current use case
+without any assumptions on the alignment and whether that would  be an actual
+host page size. So that was just to make sure it will be a multiple of that.
+I can get rid of that with assumption all will be using the same alignment.
+
+BR
+Beata
+>
+> > +    /**
+> > +     * There are no strict reqs as per the length of mapping
+> > +     * to be synced. Still the length needs to follow the address
+> > +     * alignment changes. Additionally - round the size to the multiple
+> > +     * of requested alignment (expected as PAGE_SIZE)
+> > +     */
+> > +    length += ((uintptr_t)addr & (align - 1));
+> > +    length = (length + ~align_mask) & align_mask;
+> > +
+> > +    addr = (void *)((uintptr_t)addr & align_mask);
+> > +
+> > +    return msync(addr, length, MS_SYNC);
+> > +#else /* CONFIG_POSIX */
+> > +    /**
+> > +     * Perform the sync based on the file descriptor
+> > +     * The sync range will most probably be wider than the one
+> > +     * requested - but it will still get the job done
+> > +     */
+> > +    return qemu_fdatasync(fd);
+> > +#endif /* CONFIG_POSIX */
+> > +}
+>
+>
+> r~
+>
 
