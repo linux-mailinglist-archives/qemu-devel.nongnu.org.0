@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CB8F2BAE
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 10:59:32 +0100 (CET)
-Received: from localhost ([::1]:40282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE7FF2BBF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 11:03:43 +0100 (CET)
+Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSeZe-0004y5-3Q
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 04:59:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60841)
+	id 1iSedi-0007WZ-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 05:03:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33206)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iSeWq-0003vs-KV
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 04:56:37 -0500
+ (envelope-from <bounces@canonical.com>) id 1iSeba-0006K2-Dw
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:01:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iSeWh-0007FO-E5
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 04:56:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24990
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iSeWh-0007Bg-AJ
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 04:56:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573120586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ocey3eMAz9lCZNK6E0SFKnvPltfdbe/nSim1/cKA7Ws=;
- b=TQjPlR+TE01rGjQfunKGsVp9PqvLTtFUvx38yPA8UQhJe4JWDgJMCcs/5itoUB8+LuE/Nz
- KYxigKVwNjtKWIcpYWwZ3FlydFO9wJe4Ub9jQvY+3AJa7tlfhDXElDb/EwTXZTWzLY2Htx
- U3/vUXcrA7Pt9KKnRsV6o34BwToLSF4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-GicM4F7KNdWSFfOsm5HYrQ-1; Thu, 07 Nov 2019 04:56:25 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49723477;
- Thu,  7 Nov 2019 09:56:24 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4BFA600CE;
- Thu,  7 Nov 2019 09:56:22 +0000 (UTC)
-Message-ID: <4c88e7d195d1534dc107ffb4f9ffd94f337fbbb0.camel@redhat.com>
-Subject: Re: [PATCH v2 05/21] iotests: Replace IMGOPTS by _unsupported_imgopts
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Thu, 07 Nov 2019 11:56:21 +0200
-In-Reply-To: <7e3bbbb8-416b-eae9-7e51-a816045b83dd@redhat.com>
-References: <20191015142729.18123-1-mreitz@redhat.com>
- <20191015142729.18123-6-mreitz@redhat.com>
- <4d3ed1468e966b14aa5b6453327be0710bc26ed7.camel@redhat.com>
- <7e3bbbb8-416b-eae9-7e51-a816045b83dd@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: GicM4F7KNdWSFfOsm5HYrQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+ (envelope-from <bounces@canonical.com>) id 1iSebY-00081Z-TT
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:01:30 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36608)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iSebY-0007vr-Mz
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 05:01:28 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iSebW-0004ij-Ms
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 10:01:26 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A8D4B2E80C0
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 10:01:26 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 07 Nov 2019 09:54:33 -0000
+From: Launchpad Bug Tracker <1848556@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Released; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor paelzer rodsmith xanclic
+X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
+Message-Id: <157312048029.31705.7329267531921707082.malone@ackee.canonical.com>
+Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6f390754f7ff34ed334e6555d2e3a7aebb321359
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,96 +75,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2019-11-07 at 10:08 +0100, Max Reitz wrote:
-> On 06.11.19 16:45, Maxim Levitsky wrote:
-> > On Tue, 2019-10-15 at 16:27 +0200, Max Reitz wrote:
-> > > Some tests require compat=3D1.1 and thus set IMGOPTS=3D'compat=3D1.1'
-> > > globally.  That is not how it should be done; instead, they should
-> > > simply set _unsupported_imgopts to compat=3D0.10 (compat=3D1.1 is the
-> > > default anyway).
-> > >=20
-> > > This makes the tests heed user-specified $IMGOPTS.  Some do not work
-> > > with all image options, though, so we need to disable them accordingl=
-y.
-> > >=20
-> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> > > ---
-> > >  tests/qemu-iotests/036 | 3 +--
-> > >  tests/qemu-iotests/060 | 4 ++--
-> > >  tests/qemu-iotests/062 | 3 ++-
-> > >  tests/qemu-iotests/066 | 3 ++-
-> > >  tests/qemu-iotests/068 | 3 ++-
-> > >  tests/qemu-iotests/098 | 4 ++--
-> > >  6 files changed, 11 insertions(+), 9 deletions(-)
-> > >=20
-> > > diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
-> > > index 5f929ad3be..bbaf0ef45b 100755
-> > > --- a/tests/qemu-iotests/036
-> > > +++ b/tests/qemu-iotests/036
-> > > @@ -43,9 +43,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
-> > >  # This tests qcow2-specific low-level functionality
-> > >  _supported_fmt qcow2
-> > >  _supported_proto file
-> > > -
-> > >  # Only qcow2v3 and later supports feature bits
-> > > -IMGOPTS=3D"compat=3D1.1"
-> > > +_unsupported_imgopts 'compat=3D0.10'
-> > > =20
-> > >  echo
-> > >  echo =3D=3D=3D Image with unknown incompatible feature bit =3D=3D=3D
-> > > diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
-> > > index b91d8321bb..9c2ef42522 100755
-> > > --- a/tests/qemu-iotests/060
-> > > +++ b/tests/qemu-iotests/060
-> > > @@ -48,6 +48,8 @@ _filter_io_error()
-> > >  _supported_fmt qcow2
-> > >  _supported_proto file
-> > >  _supported_os Linux
-> > > +# These tests only work for compat=3D1.1 images with refcount_bits=
-=3D16
-> > > +_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D\([^1]\|.\([^6=
-]\|$\)\)'
-> >=20
-> > Looks like the reason for that is that the test hardcodes (or guesses t=
-hat is) various qcow2 structures
-> > thing I have seen few times already in the iotests.
-> > Not now but sometime in the future it would be nice to extend qcow2.py =
-(or something
-> > like that) to dump location of all qcow2 structures so that the guesswo=
-rk could be eliminated.
->=20
-> With the peek_file* functions we have now it=E2=80=99s actually simple to=
- dump
-> that location ($(peek_file_be "$TEST_IMG" 48 8) for the refcount table
-> offset, for example).
->=20
-> But it wouldn=E2=80=99t help, because compat=3D0.10 or refcount_bits !=3D=
- 16 won=E2=80=99t
-> change those locations.  So the locations aren=E2=80=99t the reason why w=
-e need
-> to forbid those options here.
->=20
-> The reason we need refcount_bits=3D16 is that we=E2=80=99re going to dire=
-ctly
-> manipulate a refcount block.  To do so, we need to know the refcount
-> width, and I don=E2=80=99t think it=E2=80=99s worth trying to implement s=
-omething generic.
->=20
-> We need compat=3D1.1 because compat=3D0.10 doesn=E2=80=99t have feature b=
-its, so
-> there=E2=80=99s no =E2=80=9Ccorrupt=E2=80=9D bit there.
->=20
-> Max
->=20
-This makes sense! Sorry for the noise!
+This bug was fixed in the package qemu - 1:4.0+dfsg-0ubuntu10
 
-Best regards,
-=09Maxim Levitsky
+---------------
+qemu (1:4.0+dfsg-0ubuntu10) focal; urgency=3Dmedium
 
+  * d/p/ubuntu/lp-1848556-curl-Handle-success-in-multi_check_completion.pat=
+ch:
+    fix a potential hang when qemu or qemu-img where accessing http backed
+    disks via libcurl (LP: #1848556)
+  * d/p/u/lp-1848497-virtio-balloon-fix-QEMU-4.0-config-size-migration-in.p=
+atch:
+    fix migration issue from qemu <4.0 when using virtio-balloon (LP: #1848=
+497)
 
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 21 Oct
+2019 14:51:45 +0200
 
+** Changed in: qemu (Ubuntu Focal)
+       Status: Triaged =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1848556
+
+Title:
+  qemu-img check failing on remote image in Eoan
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Eoan:
+  Triaged
+Status in qemu source package in Focal:
+  Fix Released
+
+Bug description:
+  Ubuntu SRU Template:
+
+  [Impact]
+
+   * There is fallout due to changes in libcurl that affect qemu and might =
+
+     lead to a hang.
+
+   * Fix by backporting the upstream fix
+
+  [Test Case]
+
+   * If you have network just run
+     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
+.img
+
+   * Without network, install apache2, and get a complex qemu file (like a =
+
+     cloud image) onto the system. Then access the file via apache http but =
+
+     not localhost (that would work)
+
+  [Regression Potential]
+
+   * The change is local to the libcurl usage of qemu, so that could be =
+
+     affected. But then this is what has been found to not work here, so I'=
+d =
+
+     expect not too much trouble. But if so then in the curl usage (which =
+
+     means disks on http)
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  The "qemu-img check" function is failing on remote (HTTP-hosted)
+  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
+  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
+  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
+
+  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
+g-amd64.img
+  No errors were found on the image.
+  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
+usters
+  Image end offset: 514064384
+
+  The 10.193.37.117 server holds an Apache server that hosts the cloud
+  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
+  0ubuntu9, the same command never returns. (I've left it for up to an
+  hour with no change.) I'm able to wget the image from the same server
+  and installation on which qemu-img check fails. I've tried several
+  .img files on the server, ranging from Bionic to Eoan, with the same
+  results with all of them.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
 
