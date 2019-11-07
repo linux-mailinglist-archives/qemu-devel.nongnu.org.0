@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4B3F3565
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:06:45 +0100 (CET)
-Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BCDF3558
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:05:12 +0100 (CET)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSlF5-0005Br-Om
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:06:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45293)
+	id 1iSlDb-0002dF-8u
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:05:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iSl2k-0007Hl-Db
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:54:00 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iSl9N-0008AX-Gt
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:00:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iSl2i-0003KE-9V
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:53:58 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50264)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iSl2Y-0003Hu-Nn
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:53:50 -0500
-Received: by mail-wm1-x344.google.com with SMTP id l17so2461202wmh.0
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:53:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=HCQGCtmuwjtYx72ZypYwDHyCsYnSsp6GyNhsHSD01wQ=;
- b=S4N92UZdX+FgjVBcl8yidGQkIFUVEAG7b/uoRpOW8hLh94f7f7TZhBjXqcePyLRekC
- OedSLGtPdlh5+C9SAmFC7jrKptiiZcypkEl+PlcR5GUldKeafnHyY4qO/A8Hux0cdh50
- RP8429GC3G7PgV3L0MoItK/fUAd6DVjWnu3UfeY/a/dyJyMWiEtmk0QG1Y440qGm/sBu
- P6fv6DfpSHbOU6m1Bzs0r6QoBYXiGjkRtLLTlVN2S9+XEVtnagYO+vvPfkdUy0MrSgMk
- /GG1Paz4tDXZvKxpfY9rsmLBauZ9XPdLNCQzUN/7fbs8lIh+fb7eVXl874Cs/jscCpb2
- Iq7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=HCQGCtmuwjtYx72ZypYwDHyCsYnSsp6GyNhsHSD01wQ=;
- b=CyGv6fOB2DrubXiZET1yxbXtAImFQugH4gCxPxitJx04RzfUvzc+pz+LdI0jLVAQdI
- xsZ11GbBiMB6ZB4/+yydI+eClfzWY3nB0x0lLWicyALSHzjaaH0qxaFVFSb86nTdVXak
- ksLe8xvHnWlIiFxwqfwnXOwNvtHQq14rmZ15uswb09AgdPChl9c9FpM5ep2433vZlgmb
- AmuMaJrCcmLocNE85pSHu4hTn9UqgFaMoIMgm2eL1RL9B3hWfZqVjyPMLtDNAfPFkyEa
- 85ak/fzHS3TIoy9gQR6UbV0voErnYBke6QapN+3j1mIHpexZc9WlLNutAYXd3SHuWaoR
- ThpQ==
-X-Gm-Message-State: APjAAAVU0rT/5GaWmVjvhqpmFdJ1MZgSBlWMYiP+WqO/zS7hXoov9ITv
- 60YHB73yKFYFZI2gAkfZ/vZLuQ==
-X-Google-Smtp-Source: APXvYqzjSSTvCxNQCH7nk8ycWErMVrbbtdLamXn0DLDKdqJ6Hg2+rt5KEZPwZSv/1ouYTBkpydF8EA==
-X-Received: by 2002:a05:600c:2202:: with SMTP id
- z2mr3781076wml.162.1573145623477; 
- Thu, 07 Nov 2019 08:53:43 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f14sm2536790wrv.17.2019.11.07.08.53.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2019 08:53:42 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D69991FF87;
- Thu,  7 Nov 2019 16:53:41 +0000 (GMT)
-References: <20191107142613.2379-1-robert.foley@linaro.org>
- <20191107142613.2379-2-robert.foley@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH 1/4] Add a mutex to guarantee single writer to
- qemu_logfile handle.
-In-reply-to: <20191107142613.2379-2-robert.foley@linaro.org>
-Date: Thu, 07 Nov 2019 16:53:41 +0000
-Message-ID: <87o8xnhbl6.fsf@linaro.org>
+ (envelope-from <dgibson@ozlabs.org>) id 1iSl9I-0006g4-H2
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:00:49 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:50741)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iSl9H-0006eH-IZ; Thu, 07 Nov 2019 12:00:44 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4788mR5XrPz9sR0; Fri,  8 Nov 2019 04:00:39 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1573146039;
+ bh=rXeO5yIgIJ7J4OD74Zp4mdtiGA/fpX94PHq6H+fORIw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SQIZL6ehzeLF6d3VulaczTFiLERmfu3TKGeDKjMnIH93gVK4uA/tjtmQu41RXN9PR
+ WO+esTyOrXBlhsDQaPGlIsyOPxUtR/ILFJMi07T/opB3OKTJGuTn6A7n0oZbvfZdtY
+ blx0wuN03q4AVplMHQXDfjEwdGCQTwMd9ADSLKF0=
+Date: Thu, 7 Nov 2019 17:54:58 +0100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] ppc/pnv: Add a "/qemu" device tree node
+Message-ID: <20191107165458.GB2461@umbus.Home>
+References: <20191106142129.4908-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kORqDWCi7qDJ0mEj"
+Content-Disposition: inline
+In-Reply-To: <20191106142129.4908-1-clg@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,105 +55,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Robert Foley <robert.foley@linaro.org> writes:
+--kORqDWCi7qDJ0mEj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This is being added in preparation for using RCU with the logfile handle.
-> Also added qemu_logfile_init() for initializing the logfile mutex.
->
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+On Wed, Nov 06, 2019 at 03:21:29PM +0100, C=E9dric Le Goater wrote:
+> It helps skiboot identifying that is running on a QEMU platform. The
+> compatible string will define the POWERPC processor version.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+
+Applied to ppc-for-4.3.
+
 > ---
->  util/log.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->
-> diff --git a/util/log.c b/util/log.c
-> index 1ca13059ee..dff2f98c8c 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -24,8 +24,11 @@
->  #include "qapi/error.h"
->  #include "qemu/cutils.h"
->  #include "trace/control.h"
-> +#include "qemu/thread.h"
->
->  static char *logfilename;
-> +static bool qemu_logfile_initialized;
-> +static QemuMutex qemu_logfile_mutex;
->  FILE *qemu_logfile;
->  int qemu_loglevel;
->  static int log_append =3D 0;
-> @@ -49,6 +52,14 @@ int qemu_log(const char *fmt, ...)
->      return ret;
->  }
->
-> +static void qemu_logfile_init(void)
-> +{
-> +    if (!qemu_logfile_initialized) {
-> +        qemu_mutex_init(&qemu_logfile_mutex);
-> +        qemu_logfile_initialized =3D true;
-> +    }
-> +}
+>  hw/ppc/pnv.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 627c08e5b985..4c3d5184126a 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -479,6 +479,9 @@ static void *pnv_dt_create(MachineState *machine)
+>      fdt =3D g_malloc0(FDT_MAX_SIZE);
+>      _FDT((fdt_create_empty_tree(fdt, FDT_MAX_SIZE)));
+> =20
+> +    /* /qemu node */
+> +    _FDT((fdt_add_subnode(fdt, 0, "qemu")));
 > +
->  static bool log_uses_own_buffers;
->
->  /* enable or disable low levels log */
-> @@ -58,6 +69,12 @@ void qemu_set_log(int log_flags)
->  #ifdef CONFIG_TRACE_LOG
->      qemu_loglevel |=3D LOG_TRACE;
->  #endif
-> +
-> +    /* Is there a better place to call this to init the logfile subsyste=
-m? */
-> +    if (!qemu_logfile_initialized) {
-> +        qemu_logfile_init();
-> +    }
+>      /* Root node */
+>      _FDT((fdt_setprop_cell(fdt, 0, "#address-cells", 0x2)));
+>      _FDT((fdt_setprop_cell(fdt, 0, "#size-cells", 0x2)));
 
-It wouldn't be the worst thing in the world to expose:
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  qemu_logfile_init()
+--kORqDWCi7qDJ0mEj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-and make vl.c and main.c call it before the setup. Then you can drop the
-flag or even just g_assert(qemu_log_mutex_initialised) in qemu_set_log
-and qemu_set_logfile.
+-----BEGIN PGP SIGNATURE-----
 
-In fact you could just use:
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3ETGIACgkQbDjKyiDZ
+s5JhRBAAh5S7CZMkeQnZVwun9UTiQI0eMLNcflzR0JADLOkIb3flIM0dnggL/lgC
+R8moav1g3OWbsX5mAdKNCaLvHvk6SuMI16sIlrQ7LHIuYRLvGXRYrAvcdFMcY+wj
+d8J4Jn8vJNAml5V7eDdFVwnA77EjjaszVmbFflfwKnSC7JtPiMw47UIDgDQ6Uv67
+Gs16P7GWbSpE/kHV50lQoFAvzkIPyqpCtKo2Y+m2i7Br7bzKmsymJ3JuE2weNm27
+tUzxT2lYOrtmSHCF5zf9GK5aMlIG8Ltb8XobqOv+BdyxGL4JDBaKj8Hwax44WUET
+G1RsJb0Y3FM29uGge09PC7pdewxVvFzAnOQCsBumIBOXGkSdgg1DvucP3l+Z8Y7L
+KKPOYNnMxdXpDNPswsym9oFUyWuSjtZxOqm9PwsTV7D70zgn1+uhjm0AbmHJu1v5
+YrY97MsWLy/iDXwJ45+aXl6oCoN7GsAb/WHezen3UYBFJj9ExTjluCGjFiF5Kol1
+c/foJjwBQv2qc8es3KqILajVJWR+jJeJ3etAIIVAd62dVBuRlBaqk8DN5B/+U7+G
+oSkUgkP+u3E1CZeeW6lJoiZOOFJ+bf7mbA0Unt3tLKgzQ/wUWWfjCg5dwR9TQEUl
+gHj4+LNhOcatobJoGVd0VIFx4Ey3LnIZT+mQqBblBNfkRC1QcEo=
+=TkHF
+-----END PGP SIGNATURE-----
 
-  static void __attribute__((__constructor__)) qemu_logfile_init(void)
-
-and make the compiler do it for you.
-
-> +    qemu_mutex_lock(&qemu_logfile_mutex);
->      if (!qemu_logfile &&
->          (is_daemonized() ? logfilename !=3D NULL : qemu_loglevel)) {
->          if (logfilename) {
-> @@ -93,6 +110,7 @@ void qemu_set_log(int log_flags)
->              log_append =3D 1;
->          }
->      }
-> +    qemu_mutex_unlock(&qemu_logfile_mutex);
->      if (qemu_logfile &&
->          (is_daemonized() ? logfilename =3D=3D NULL : !qemu_loglevel)) {
->          qemu_log_close();
-> @@ -114,6 +132,11 @@ void qemu_set_log_filename(const char *filename, Err=
-or **errp)
->      char *pidstr;
->      g_free(logfilename);
->
-> +    /* Is there a better place to call this to init the logfile subsyste=
-m? */
-> +    if (!qemu_logfile_initialized) {
-> +        qemu_logfile_init();
-> +    }
-> +
->      pidstr =3D strstr(filename, "%");
->      if (pidstr) {
->          /* We only accept one %d, no other format strings */
-
-
---
-Alex Benn=C3=A9e
+--kORqDWCi7qDJ0mEj--
 
