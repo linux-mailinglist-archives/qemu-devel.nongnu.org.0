@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0766F340B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 17:04:21 +0100 (CET)
-Received: from localhost ([::1]:44732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7A8F3414
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 17:04:40 +0100 (CET)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSkGi-0001ye-60
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 11:04:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36663)
+	id 1iSkH0-0002Ly-Um
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 11:04:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36737)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iSkE6-0000PM-4O
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:01:44 -0500
+ (envelope-from <berrange@redhat.com>) id 1iSkEY-0000ak-5l
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:02:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iSkE3-0004Za-J5
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:01:37 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45882)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iSkE0-0004WD-Tz
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:01:34 -0500
-Received: by mail-oi1-x242.google.com with SMTP id k2so2361363oij.12
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XF8HiDjqlxT3Z3TpSmJy4SxhUhmRE18Xsdo93PIUvGY=;
- b=Y3vVBeJi3VIuavphFURgnFuzs0JBej2wBzqixfWT055JGrOWUhiFprgYU/3GyoNCXN
- tnKYtIFv/5Xd1IjdmBTd7ovqKlxQxw0djKRZCq3w9G0SVUAJmYDBhdSLLeA4oelva2PG
- 03jDBMZSOzQP/8IFykBeF3roKAc66Bj4yypqFrDbrrw19NVty61MGCELFLLFvwt/Ryes
- ewf27vaKbpgTOSdqpqSydQ9YnAARM5subR88Lid/KT6OpnO4ZlE+CE6MxWYllG8f/C0Z
- Xupa/w4+uyEQyJy0tEhB1Rr/x4jlEYrLalayqGzfkk2nMjlMLU8i1VbXm6k7HT8l7k1E
- SaWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XF8HiDjqlxT3Z3TpSmJy4SxhUhmRE18Xsdo93PIUvGY=;
- b=Bh5al2A5X7LLcdXlvoxiZ7v3rtrzp5RVAM2JLl1IJpWqxcnT6sIsQKQ+M0V0px77+G
- tiTehPnwnPJuIroK7GzmZJjd+BYfURL/mwbeUOo3jSqOXT+KP3oDdnmKPzSVbPVirIzY
- tTH9AibPdbDvQdcDS1KghWEONALhfE20GZzZ3Ha3cxt7HybOxxknW1/ptL6rxBqT9cbZ
- +YEROgIbiIC+2lv36XkgFxnO+qWY01J4wapcwOB1/ssEH7eVA21BDKNF6yBIaHErk6sH
- hVsX5Wwc9vi/mGAR3EkfWx9Sn64rXZs+gjna6JQP77aVINsgmVkfpeYdE4qiK4H9V0rt
- 4oSg==
-X-Gm-Message-State: APjAAAU84RUyb/otmYBAiJDXCjqOsBYcuvzZHZHbVvMlOCNwgnDUx9FE
- 1oSkmIe5sakKJhAXWy7Wl6MDNk2bj/MypOOJUrAt2A==
-X-Google-Smtp-Source: APXvYqygRa93ofqeG+bPS5EVwUazFeS76+F7Dwh56jIzzBKElIe8O/9vd5bxJnC6FYF377DIQ5BHfzehfOIOFh+P4Po=
-X-Received: by 2002:aca:cf12:: with SMTP id f18mr3953528oig.48.1573142489810; 
- Thu, 07 Nov 2019 08:01:29 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1iSkET-0004va-K4
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:02:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22152
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iSkET-0004un-06
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:02:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573142519;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Xp5PnxbjGejhDCWIak3FzMinAVHKUPQydrotwKcj/dE=;
+ b=YZuqbPEfXxVVw9PybN2b5cqSWAjJTausoTT8SGzUkGYre+UUbrk6Rp5cSKwhtfN4gYV9Ml
+ Bj1G4Vwq4TOLtSqhiamrYabRwGlYXlfUbMMPlfeYBkEI0qrKeLICSu7IDiT/0x77wYdr0b
+ kMVW8v8xy/VaOERqgso6CZIxFXmubWM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-5eV6MiDWN6ST88Un1LtDew-1; Thu, 07 Nov 2019 11:01:56 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2E9C8017DD;
+ Thu,  7 Nov 2019 16:01:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EA6E600D1;
+ Thu,  7 Nov 2019 16:01:44 +0000 (UTC)
+Date: Thu, 7 Nov 2019 16:01:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: QEMU HTML documentation now on qemu.org
+Message-ID: <20191107160142.GH120292@redhat.com>
+References: <20191106161928.GA353373@stefanha-x1.localdomain>
+ <20191107100606.GA120292@redhat.com>
+ <CAJSP0QX6awKBSx_idYfXB85e09Tp6gKLRvO+zrk-+zrOiySC-w@mail.gmail.com>
 MIME-Version: 1.0
-References: <20191106145127.23700-1-marcel.apfelbaum@gmail.com>
-In-Reply-To: <20191106145127.23700-1-marcel.apfelbaum@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Nov 2019 16:01:18 +0000
-Message-ID: <CAFEAcA8nfOA-68XLF4JYnw4iXnWRuxgXmAV31Zg4Z+6D2pmJNw@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH PULL 0/2] RDMA queue
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <CAJSP0QX6awKBSx_idYfXB85e09Tp6gKLRvO+zrk-+zrOiySC-w@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 5eV6MiDWN6ST88Un1LtDew-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +75,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Yuval Shaia <yuval.shaia@oracle.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Nov 2019 at 14:51, Marcel Apfelbaum
-<marcel.apfelbaum@gmail.com> wrote:
->
-> The following changes since commit 412fbef3d076c43e56451bacb28c4544858c66a3:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-next-pull-request' into staging (2019-11-05 20:17:11 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/marcel-apf/qemu tags/rdma-pull-request
->
-> for you to fetch changes up to 68b89aee710ab48b3dcaaa721bbc5d8aa5ea24d1:
->
->   hw/rdma: Utilize ibv_reg_mr_iova for memory registration (2019-11-06 12:49:04 +0200)
->
-> ----------------------------------------------------------------
-> RDMA queue
->
-> * better memory registration performance
->
-> ----------------------------------------------------------------
+On Thu, Nov 07, 2019 at 04:44:34PM +0100, Stefan Hajnoczi wrote:
+> On Thu, Nov 7, 2019 at 11:07 AM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+> >
+> > On Wed, Nov 06, 2019 at 05:19:28PM +0100, Stefan Hajnoczi wrote:
+> > > Hi,
+> > > You can now access the latest QEMU HTML documentation built from
+> > > qemu.git/master nightly at:
+> > >
+> > >   https://wiki.qemu.org/docs/qemu-doc.html
+> > >   https://wiki.qemu.org/docs/qemu-qmp-ref.html
+> > >   https://wiki.qemu.org/docs/qemu-ga-ref.html
+> > >   ...as well as interop/ and specs/
+> > >
+> > > Feel free to link to the documentation from the QEMU website and/or
+> > > wiki!
+> >
+> > What's the reason for putting on wiki.qemu.org URL ? It feels like
+> > having it under www.qemu.org would be a more natural home, especially
+> > if we can then make it pick up the jekyll theme around the pages.
+> >
+> > Ideally we should publish the docs under versioned URL when we
+> > make a release. eg  /docs/latest/....  for current GIT master
+> > which I presume the above is tracking, and then a /docs/$VERSION/...
+> > for each major release we cut.
+> >
+> > That way users can get an accurate view of features in the QEMU
+> > they are actually using.
+>=20
+> Versioned release docs should be generated during the release process.
+> I have CCed Mike Roth.  That way the docs are available as soon as the
+> release drops.  This container image only runs once a day and would
+> leave a window when users cannot access the docs yet.
+>=20
+> Moving from wiki.qemu.org should be possible.  How does the jekyll
+> theme you mentioned work?
 
+IIUC, when there's a push to the qemu-web.git repo, some git hook (?)
+runs on the server which invokes jekyll to build the content, and
+then publish it to the webroot.
 
-Applied, thanks.
+To integrate these docs into that we need something along the lines
+of:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+  1. Generate the HTML files as you do now
+  2. Copy them into the qemu-web.git in a /docs/ subdir
+  3. Prepend a magic header to make jeykll process the file
 
--- PMM
+     ---
+     permalink: /docs/qemu-doc
+     ---
+
+  4. Trigger the jekyll builder to refresh the generated docs
+  5. Publish the docs to the webroot
+
+You can see what I did here  as an example where I simply committed
+the generated docs to qemu-web.git:
+
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg578110.html
+
+If we're not storing the generated docs in git, then when
+pushing to qemu-web.git we need to ensure we preserve the
+extra /docs dir content in some manner.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
