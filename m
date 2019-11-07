@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42780F2946
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 09:37:04 +0100 (CET)
-Received: from localhost ([::1]:39796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EF1F29F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 09:59:50 +0100 (CET)
+Received: from localhost ([::1]:39904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSdHq-00069W-Ux
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 03:37:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50805)
+	id 1iSddt-0004wl-HM
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 03:59:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iSdEl-0005I5-Jc
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:33:52 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iSdUm-0000zY-GZ
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:50:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iSdEh-0005wx-K0
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:33:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41947
+ (envelope-from <cohuck@redhat.com>) id 1iSdUj-0007lQ-EB
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:50:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36279
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iSdEg-0005a6-28
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:33:47 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iSdUj-0007Zv-7v
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:50:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573115624;
+ s=mimecast20190719; t=1573116619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zDwhWfvkV3CIaJUOmmg/oElLzqUPhmqdo6hoxJ1PIjg=;
- b=Byx9uy9sZF19t0W4gxIiZBrg3YCg9t+wNfcKr4U0jmyMEoPVwizFuvPcnUK43GTVAn71CS
- OwqtQTgvawrLE/lrJ/6KWGtjGDRSkQzbyHeNlW5w6gLvcryAJgRw5B72fWaZk+wzWqicK/
- PlNjNYO2RyS/N2UU1VOgyerMra+tu5w=
+ bh=oBYm62S+mFLWS831hy80z/RWlVTtY3Fob09yp/WmBlA=;
+ b=TCKhFlO4z1dOUJBZP/yg4o456wfg7+Nw/IAWvpo9ULNA3ZrGa1Wc5cVRIJs8GMEiX3sl9D
+ ng4NpDYg4/c8fWJ5OaN1FIpijCesFNqmEN+1MiWH/4WGW02sRbjm6YwEX9RCmbqWuzgj3P
+ llbGMGtK5RkUFm56DRYzquRBN01rWyQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-R0QH5845NfK6B4EzlgUbDQ-1; Thu, 07 Nov 2019 03:33:42 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-416-xWsmakw_PwWG5rFTz12Wlg-1; Thu, 07 Nov 2019 03:50:15 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64E20800C61;
- Thu,  7 Nov 2019 08:33:41 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-214.ams2.redhat.com [10.36.116.214])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A217127099;
- Thu,  7 Nov 2019 08:33:36 +0000 (UTC)
-Date: Thu, 7 Nov 2019 09:33:35 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [RFC PATCH 06/18] qemu-storage-daemon: Add --nbd-server option
-Message-ID: <20191107083335.GA5007@linux.fritz.box>
-References: <20191017130204.16131-1-kwolf@redhat.com>
- <20191017130204.16131-7-kwolf@redhat.com>
- <25f74aa7-0856-a396-fb98-f6b7a337b965@redhat.com>
- <1bcb5419-183e-fd7b-e53c-fbb315f29703@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28BB2800C61;
+ Thu,  7 Nov 2019 08:50:14 +0000 (UTC)
+Received: from gondolin (ovpn-117-222.ams2.redhat.com [10.36.117.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F037A600D3;
+ Thu,  7 Nov 2019 08:50:08 +0000 (UTC)
+Date: Thu, 7 Nov 2019 09:50:06 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Guoheyi <guoheyi@huawei.com>
+Subject: Re: [RFC v2 02/14] standard-headers: import arm_sdei.h
+Message-ID: <20191107095006.16ebe25e.cohuck@redhat.com>
+In-Reply-To: <059c6396-bbfb-2dd3-f7cc-7c64bc2d3ccb@huawei.com>
+References: <20191105091056.9541-1-guoheyi@huawei.com>
+ <20191105091056.9541-3-guoheyi@huawei.com>
+ <20191106185240.3f5e2c2a.cohuck@redhat.com>
+ <059c6396-bbfb-2dd3-f7cc-7c64bc2d3ccb@huawei.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <1bcb5419-183e-fd7b-e53c-fbb315f29703@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: R0QH5845NfK6B4EzlgUbDQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: xWsmakw_PwWG5rFTz12Wlg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, pkrempa@redhat.com, armbru@redhat.com,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, James Morse <james.morse@arm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, wanghaibin.wang@huawei.com,
+ Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.11.2019 um 20:25 hat Eric Blake geschrieben:
-> On 11/6/19 6:51 AM, Max Reitz wrote:
-> > On 17.10.19 15:01, Kevin Wolf wrote:
-> > > Add a --nbd-server option to qemu-storage-daemon to start the built-i=
-n
-> > > NBD server right away. It maps the arguments for nbd-server-start to =
-the
-> > > command line.
-> >=20
-> > Well, it doesn=E2=80=99t quite, because nbd-server-start takes a
-> > SocketAddressLegacy, and this takes a SocketAddress.
-> >=20
-> > On one hand I can understand why you would do it differently (especiall=
-y
-> > for command-line options), but on the other I find it a bit problematic
-> > to have --nbd-server be slightly different from nbd-server-start when
-> > both are intended to be the same.
-> >=20
-> > My biggest problem though lies in the duplication in the QAPI schema.
-> > If NbdServerOptions.addr were a SocketAddressLegacy, we could let
-> > nbd-server-start=E2=80=99s options just be of type NbdServerOptions and=
- thus get
-> > rid of the duplication.
->=20
-> I would love to somehow deprecate the use of SocketAddressLegacy and get =
-QMP
-> nbd-server-start to accept SocketAddress instead.  Maybe it could be done=
- by
-> adding a new nbd-server-begin command in 5.0 with a saner wire layout, an=
-d
-> deprecating nbd-server-start at that time; by the 5.2 release, we could t=
-hen
-> drop nbd-server-start.  But we're too late for 4.2.
+On Thu, 7 Nov 2019 09:40:49 +0800
+Guoheyi <guoheyi@huawei.com> wrote:
 
-As a replacement nbd-server-add, I envisioned adding something like a
-block-export-add, which would work the way that --export already does.
-It would also come with query-block-exports and block-export-del, and it
-wouldn't contain only NBD devices, but also vhost-user, FUSE, etc.
-exports.
+> On 2019/11/7 1:52, Cornelia Huck wrote:
+> > On Tue, 5 Nov 2019 17:10:44 +0800
+> > Heyi Guo <guoheyi@huawei.com> wrote:
+> > =20
+> >> Import Linux header file include/uapi/linux/arm_sdei.h from kernel v5.=
+4-rc5.
+> >>
+> >> This is to prepare for qemu SDEI emulation.
+> >>
+> >> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> >> Cc: Peter Maydell <peter.maydell@linaro.org>
+> >> Cc: Dave Martin <Dave.Martin@arm.com>
+> >> Cc: Marc Zyngier <marc.zyngier@arm.com>
+> >> Cc: Mark Rutland <mark.rutland@arm.com>
+> >> Cc: James Morse <james.morse@arm.com>
+> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> >> Cc: Cornelia Huck <cohuck@redhat.com>
+> >> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >> ---
+> >>
+> >> Notes:
+> >>      v2:
+> >>      - Import arm_sdei.h by running update-linux-headers.sh
+> >>
+> >>   include/standard-headers/linux/arm_sdei.h | 73 +++++++++++++++++++++=
+++
+> >>   1 file changed, 73 insertions(+)
+> >>   create mode 100644 include/standard-headers/linux/arm_sdei.h =20
+> > Just a remark that I find it a bit odd that that a header that looks
+> > arm-specific is in the generic linux/ directory (already in the kernel,
+> > I know.) Is this for sharing between arm and arm64, maybe? =20
+> I don't think arm platforms will use this header. In section 4.1 of SDEI=
+=20
+> spec, it says " Both the client and dispatcher of SDEI must execute in=20
+> AArch64 state."
+> So shall we move it to include/standard-headers/asm-arm64/?
 
-Now I'm wondering if the same would make sense for nbd-server-start.
-Maybe an API change would even allow us to start multiple NBD servers
-(e.g. listening on different IP addresses or using different tls-creds).
-
-Kevin
+Well, the kernel already put it into the generic directory... I'd just
+leave it like that, then; moving it in the kernel is probably too much
+churn.
 
 
