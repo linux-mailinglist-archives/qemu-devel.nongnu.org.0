@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114EFF3549
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:03:27 +0100 (CET)
-Received: from localhost ([::1]:45806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4B3F3565
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:06:45 +0100 (CET)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSlBt-0001BT-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:03:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44890)
+	id 1iSlF5-0005Br-Om
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iSkza-0002QU-G7
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:50:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iSl2k-0007Hl-Db
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:54:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iSkzZ-00024Z-Bh
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:50:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34412)
+ (envelope-from <alex.bennee@linaro.org>) id 1iSl2i-0003KE-9V
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:53:58 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50264)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iSkzZ-00024E-5s
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:50:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iSkzX-000755-NR
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 16:50:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A46F42E80C9
- for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 16:50:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iSl2Y-0003Hu-Nn
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:53:50 -0500
+Received: by mail-wm1-x344.google.com with SMTP id l17so2461202wmh.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 08:53:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HCQGCtmuwjtYx72ZypYwDHyCsYnSsp6GyNhsHSD01wQ=;
+ b=S4N92UZdX+FgjVBcl8yidGQkIFUVEAG7b/uoRpOW8hLh94f7f7TZhBjXqcePyLRekC
+ OedSLGtPdlh5+C9SAmFC7jrKptiiZcypkEl+PlcR5GUldKeafnHyY4qO/A8Hux0cdh50
+ RP8429GC3G7PgV3L0MoItK/fUAd6DVjWnu3UfeY/a/dyJyMWiEtmk0QG1Y440qGm/sBu
+ P6fv6DfpSHbOU6m1Bzs0r6QoBYXiGjkRtLLTlVN2S9+XEVtnagYO+vvPfkdUy0MrSgMk
+ /GG1Paz4tDXZvKxpfY9rsmLBauZ9XPdLNCQzUN/7fbs8lIh+fb7eVXl874Cs/jscCpb2
+ Iq7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=HCQGCtmuwjtYx72ZypYwDHyCsYnSsp6GyNhsHSD01wQ=;
+ b=CyGv6fOB2DrubXiZET1yxbXtAImFQugH4gCxPxitJx04RzfUvzc+pz+LdI0jLVAQdI
+ xsZ11GbBiMB6ZB4/+yydI+eClfzWY3nB0x0lLWicyALSHzjaaH0qxaFVFSb86nTdVXak
+ ksLe8xvHnWlIiFxwqfwnXOwNvtHQq14rmZ15uswb09AgdPChl9c9FpM5ep2433vZlgmb
+ AmuMaJrCcmLocNE85pSHu4hTn9UqgFaMoIMgm2eL1RL9B3hWfZqVjyPMLtDNAfPFkyEa
+ 85ak/fzHS3TIoy9gQR6UbV0voErnYBke6QapN+3j1mIHpexZc9WlLNutAYXd3SHuWaoR
+ ThpQ==
+X-Gm-Message-State: APjAAAVU0rT/5GaWmVjvhqpmFdJ1MZgSBlWMYiP+WqO/zS7hXoov9ITv
+ 60YHB73yKFYFZI2gAkfZ/vZLuQ==
+X-Google-Smtp-Source: APXvYqzjSSTvCxNQCH7nk8ycWErMVrbbtdLamXn0DLDKdqJ6Hg2+rt5KEZPwZSv/1ouYTBkpydF8EA==
+X-Received: by 2002:a05:600c:2202:: with SMTP id
+ z2mr3781076wml.162.1573145623477; 
+ Thu, 07 Nov 2019 08:53:43 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f14sm2536790wrv.17.2019.11.07.08.53.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 08:53:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D69991FF87;
+ Thu,  7 Nov 2019 16:53:41 +0000 (GMT)
+References: <20191107142613.2379-1-robert.foley@linaro.org>
+ <20191107142613.2379-2-robert.foley@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH 1/4] Add a mutex to guarantee single writer to
+ qemu_logfile handle.
+In-reply-to: <20191107142613.2379-2-robert.foley@linaro.org>
+Date: Thu, 07 Nov 2019 16:53:41 +0000
+Message-ID: <87o8xnhbl6.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 Nov 2019 16:37:40 -0000
-From: Thomas Huth <1851664@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gisena th-huth
-X-Launchpad-Bug-Reporter: IndrasenaReddy Gali (gisena)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157313838504.19702.7205622932379991141.malonedeb@wampee.canonical.com>
-Message-Id: <157314466051.27726.5947789466500793105.malone@chaenomeles.canonical.com>
-Subject: [Bug 1851664] Re: qemu-system-x86_64: "VFIO_MAP_DMA : -28" error when
- we attache 6 VF's to guest machine
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2b5194a63d30d5ea27e50149f413c92c3074b9a0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,38 +84,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1851664 <1851664@bugs.launchpad.net>
+Cc: peter.puhov@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please provide information how you started QEMU, and some information
-about your PCI device (e.g. the output of lspci).
 
-** Information type changed from Private Security to Public
+Robert Foley <robert.foley@linaro.org> writes:
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+> This is being added in preparation for using RCU with the logfile handle.
+> Also added qemu_logfile_init() for initializing the logfile mutex.
+>
+> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> ---
+>  util/log.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>
+> diff --git a/util/log.c b/util/log.c
+> index 1ca13059ee..dff2f98c8c 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -24,8 +24,11 @@
+>  #include "qapi/error.h"
+>  #include "qemu/cutils.h"
+>  #include "trace/control.h"
+> +#include "qemu/thread.h"
+>
+>  static char *logfilename;
+> +static bool qemu_logfile_initialized;
+> +static QemuMutex qemu_logfile_mutex;
+>  FILE *qemu_logfile;
+>  int qemu_loglevel;
+>  static int log_append =3D 0;
+> @@ -49,6 +52,14 @@ int qemu_log(const char *fmt, ...)
+>      return ret;
+>  }
+>
+> +static void qemu_logfile_init(void)
+> +{
+> +    if (!qemu_logfile_initialized) {
+> +        qemu_mutex_init(&qemu_logfile_mutex);
+> +        qemu_logfile_initialized =3D true;
+> +    }
+> +}
+> +
+>  static bool log_uses_own_buffers;
+>
+>  /* enable or disable low levels log */
+> @@ -58,6 +69,12 @@ void qemu_set_log(int log_flags)
+>  #ifdef CONFIG_TRACE_LOG
+>      qemu_loglevel |=3D LOG_TRACE;
+>  #endif
+> +
+> +    /* Is there a better place to call this to init the logfile subsyste=
+m? */
+> +    if (!qemu_logfile_initialized) {
+> +        qemu_logfile_init();
+> +    }
 
--- =
+It wouldn't be the worst thing in the world to expose:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1851664
+  qemu_logfile_init()
 
-Title:
-  qemu-system-x86_64: "VFIO_MAP_DMA : -28" error when we attache 6 VF's
-  to guest machine
+and make vl.c and main.c call it before the setup. Then you can drop the
+flag or even just g_assert(qemu_log_mutex_initialised) in qemu_set_log
+and qemu_set_logfile.
 
-Status in QEMU:
-  Incomplete
+In fact you could just use:
 
-Bug description:
-  We are trying to attach 6 VF's to the guest machine on 4.1.1 qemu emulato=
-r.
-  We are observing "VFIO_MAP_DMA : -28" error.
+  static void __attribute__((__constructor__)) qemu_logfile_init(void)
 
-  We are using w-bits=3D48 bits while lunching VM.
+and make the compiler do it for you.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1851664/+subscriptions
+> +    qemu_mutex_lock(&qemu_logfile_mutex);
+>      if (!qemu_logfile &&
+>          (is_daemonized() ? logfilename !=3D NULL : qemu_loglevel)) {
+>          if (logfilename) {
+> @@ -93,6 +110,7 @@ void qemu_set_log(int log_flags)
+>              log_append =3D 1;
+>          }
+>      }
+> +    qemu_mutex_unlock(&qemu_logfile_mutex);
+>      if (qemu_logfile &&
+>          (is_daemonized() ? logfilename =3D=3D NULL : !qemu_loglevel)) {
+>          qemu_log_close();
+> @@ -114,6 +132,11 @@ void qemu_set_log_filename(const char *filename, Err=
+or **errp)
+>      char *pidstr;
+>      g_free(logfilename);
+>
+> +    /* Is there a better place to call this to init the logfile subsyste=
+m? */
+> +    if (!qemu_logfile_initialized) {
+> +        qemu_logfile_init();
+> +    }
+> +
+>      pidstr =3D strstr(filename, "%");
+>      if (pidstr) {
+>          /* We only accept one %d, no other format strings */
+
+
+--
+Alex Benn=C3=A9e
 
