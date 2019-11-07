@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52352F30B1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 14:57:10 +0100 (CET)
-Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81702F30AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 14:55:46 +0100 (CET)
+Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSiHd-0002Su-9z
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 08:57:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42155)
+	id 1iSiGG-0000Mu-JY
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 08:55:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iSiGG-0001K8-7H
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:55:45 -0500
+ (envelope-from <stefanha@gmail.com>) id 1iSiEp-0007ww-VA
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:54:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iSiGE-0000KC-UR
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:55:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35168)
+ (envelope-from <stefanha@gmail.com>) id 1iSiEo-0007mF-PU
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:54:15 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40728)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iSiGE-0000Jm-Op
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:55:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iSiGD-0002ox-CP
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 13:55:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 599252E80AD
- for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 13:55:41 +0000 (UTC)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iSiEo-0007hN-IN
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 08:54:14 -0500
+Received: by mail-wr1-x442.google.com with SMTP id i10so3114576wrs.7
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 05:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=Ldhiw3m4VnKB6qmznGx8/0y5tGlxpC4AZ4GW3jmQWzA=;
+ b=ol/6QWVyaQ2OxJfElSMwAZfEKojN+KoUfeRS0oI4OHdEC/QB49cU5WhthyHbrzl0GV
+ aOuegU6svaY7PnXHzv+jn+h+xRFW+Epk5Mi9n4XxrO+Kyo5oNz4zXubesDsRBqHgZ82Q
+ HONjvYTZXYF5e6R9TdsIZL0E1rArnbrFyPGb3Pxmufq3jmCXXMdGC8BymxR9dE0/Dspn
+ +0B3PpptDfpgFq9Ld2RjdDcFFNFn0LfSEJVDtuZLw5qWrMbEc0L7SBP2R6f+9f4sc/1i
+ EPXbFh/oIRnGt/tVdd+pOK8m7l7Q7gmoloPI+cAk+r3Nu0l3Gudtm+7J2lS5qLavlD2R
+ DXBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Ldhiw3m4VnKB6qmznGx8/0y5tGlxpC4AZ4GW3jmQWzA=;
+ b=QvVYrD5WXArvOZjKeA+RsxhkJ1f+CjHz6FZDHzJKMnWssNJZKJfSX63sU3P/1yu/iG
+ qI8J6B+g1jBXroDl50qXoi2tLzLVQ6TPMV5FdOAIgSLEe6+knqo6r/tqK0xuMASP8W/G
+ 0DydU7dNjzc2dDZhfE/cSTqESA2zyiYd/EYaCenuqV3isKj4fmG0FXSNHUa1CgxyEO+4
+ 6t3RfDhtqAFDeCvVgB5eKU3IYsTB8eHAnl6lmk66OpYEpVHGtlgEI1cjFPRRc4lxtMip
+ MIUUmrg4yykW4jyu5u3j1/8x6g3NFYTlnr9RGMPCUdzL+k1PUdv5JH0B+GOJjyTRSOOQ
+ RSxw==
+X-Gm-Message-State: APjAAAWgfAT3NS6t1BKP6+PEOWuAtRPm6mHeRqTqkAelxoESrudZ4i6Q
+ /reDOySffxHwXjMDz1704ZE=
+X-Google-Smtp-Source: APXvYqx7xogWv/um2A+AZu2UGDQ5t7TdGvAULCF9NTaazDo3WNC53JcrGmqRFXS61OD7OFZxutb37g==
+X-Received: by 2002:a05:6000:1605:: with SMTP id
+ u5mr2886834wrb.252.1573134852089; 
+ Thu, 07 Nov 2019 05:54:12 -0800 (PST)
+Received: from localhost (77.119.131.75.wireless.dyn.drei.com. [77.119.131.75])
+ by smtp.gmail.com with ESMTPSA id h205sm2324441wmf.35.2019.11.07.05.54.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 05:54:11 -0800 (PST)
+Date: Thu, 7 Nov 2019 14:54:01 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Rajath Shashidhara <rajaths@cs.utexas.edu>
+Subject: Re: Looking for issues/features for my first contribution
+Message-ID: <20191107135401.GH365089@stefanha-x1.localdomain>
+References: <f5a16b3c-2c17-60e4-e80b-dd20b3c088cc@cs.utexas.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 Nov 2019 13:47:57 -0000
-From: Marietto <marietto2008@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h marietto2008
-X-Launchpad-Bug-Reporter: Marietto (marietto2008)
-X-Launchpad-Bug-Modifier: Marietto (marietto2008)
-References: <157306426546.28368.6683622999323132409.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157313447736.28519.2758845895217673309.malone@chaenomeles.canonical.com>
-Subject: [Bug 1851547] Re: qemu 4 crashes with this parameter attached -usb
- -device usb-host, hostbus=1, hostaddr=7 \
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="469f241f4e73cc0bdffa4e30654052a2af068e06";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fc52fa30092c1e656216995c18e5a24f31706820
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ISKrrfpKsPiF35CV"
+Content-Disposition: inline
+In-Reply-To: <f5a16b3c-2c17-60e4-e80b-dd20b3c088cc@cs.utexas.edu>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,78 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1851547 <1851547@bugs.launchpad.net>
+Cc: dinahbaum@utexas.edu, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-001:008 Compx 2.4G Receiver. Problem arise because I've detached one of
-my USB disk and the numbering of the USB devices attached changed.
-specially the compx 2.4g receiver changed from hostaddr 7 to 8 and when
-this happens qemu 4 seems to work not as good as qemu 3.
 
--- =
+--ISKrrfpKsPiF35CV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1851547
+On Wed, Nov 06, 2019 at 05:50:44PM -0600, Rajath Shashidhara wrote:
+> Hi all,
+>=20
+> I am a Computer Science graduate student at The University of Texas at
+> Austin (UT, Austin). I am looking forward to contributing to qemu !
+>=20
+> This semester, I am taking a class in Virtualization
+> (https://github.com/vijay03/cs378-f19) and contributing to a virtualizati=
+on
+> related open-source project is a significant part of the course.
+> I would be interested in contributing a patchset to qemu - possibly a
+> self-contained feature or a reasonably complex bug fix that can be comple=
+ted
+> in under a month's time. I did look at both the bugtracker and the QEMU
+> Google Summer of Code 2019 page
+> [https://wiki.qemu.org/Google_Summer_of_Code_2019] for ideas. However, I
+> would be interested in hearing from the community and I would be delighted
+> if somebody can be suggest a suitable project !
+>=20
+> I am an advanced C programmer with both professional and academic backgro=
+und
+> in systems design & implementation - especially OS & Networks. Given my
+> background, I feel fairly confident that I can pickup the QEMU codebase
+> quickly.
 
-Title:
-  qemu 4 crashes with this parameter attached -usb -device usb-
-  host,hostbus=3D1,hostaddr=3D7 \
+Please check with Dinah Baum whether the SeaBIOS MMConfig task is
+already taken, maybe you'd like to work on it if the task is still
+available:
 
-Status in QEMU:
-  New
+  https://lore.kernel.org/qemu-devel/20191105163952.GI166646@stefanha-x1.lo=
+caldomain/
 
-Bug description:
-  Hello.
+Stefan
 
-  qemu / kvm does not start anymore after upgrading ubuntu from 19.04 to
-  19.10 and qemu from 3 to 4,as you can see below. what can I do ?
+--ISKrrfpKsPiF35CV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  root@ziomario-Z390-AORUS-PRO:/home/ziomario/Scrivania/OS-KVM# ./boot-
-  OS-HSP2.sh
+-----BEGIN PGP SIGNATURE-----
 
-  ----> qemu-system-x86_64: /build/qemu-
-  UryNDZ/qemu-4.0+dfsg/hw/usb/core.c:720: usb_ep_get: asserzione "dev !=3D
-  NULL" non riuscita.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3EIfkACgkQnKSrs4Gr
+c8jIWgf9GhfqBJ9RoFAUR07d9TeyqFg3SqPNHQrBNyKhL4mq+Krt0nSYBYVuorpm
+/HtiIPsDhwEWxJZje2K+w2NzJJwNlDxxFWfiisE7pgzWa/TVwZ/4HdsMec8Cmth7
+vIcWPGXGSfT6xLCZzSPKvkYvSSJv4jx8TtcTMIFkewyDO6NjGv+nNaYiCIKvX6Zp
+Xcrd+IW9c+YHheT9oGXHd0hoNRlF6mBoui9x2GzMZ0MYLR3bGAON4w9pX7UqthXR
+hmC0Xv0PJPHFFZsPyy4hEpAd//c+d2oNJpNyu76X250Bj2CgNl9t29mXqvFpImiG
++hcRSGP2+q2zsIeMSd0fyCFBnGAiHQ==
+=a9A4
+-----END PGP SIGNATURE-----
 
-  ./boot-OS-HSP2.sh: riga 40: 26312 Annullato (core dump creato) qemu-
-  system-x86_64 -enable-kvm -m 16000 -cpu
-  Penryn,kvm=3Don,vendor=3DGenuineIntel,+invtsc,vmware-cpuid-
-  freq=3Don,$MY_OPTIONS -machine pc-q35-2.9 -smp 4,cores=3D2 -vga none
-  -device vfio-pci,host=3D01:00.0,bus=3Dpcie.0,multifunction=3Don -device
-  vfio-pci,host=3D01:00.1,bus=3Dpcie.0 -device vfio-
-  pci,host=3D01:00.2,bus=3Dpcie.0 -device vfio-pci,host=3D01:00.3,bus=3Dpci=
-e.0
-  -usb -device usb-host,hostbus=3D1,hostaddr=3D7 -drive
-  if=3Dpflash,format=3Draw,readonly,file=3D$OVMF/OVMF_CODE.fd -drive
-  if=3Dpflash,format=3Draw,file=3D$OVMF/OVMF_VARS-1024x768.fd -smbios type=
-=3D2
-  -device ich9-ahci,id=3Dsata -drive
-  id=3DClover,if=3Dnone,snapshot=3Don,format=3Dqcow2,file=3D./'Mo/CloverNG.=
-qcow2'
-  -device ide-hd,bus=3Dsata.2,drive=3DClover -device ide-
-  hd,bus=3Dsata.3,drive=3DInstallMedia -drive
-  id=3DInstallMedia,if=3Dnone,file=3DBaseSystemHS.img,format=3Draw -drive
-  id=3DBsdHDD,if=3Dnone,file=3D/dev/sdg,format=3Draw -device ide-
-  hd,bus=3Dsata.4,drive=3DBsdHDD -netdev
-  tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno -device
-  e1000-82545em,netdev=3Dnet0,id=3Dnet0,mac=3D52:54:00:c9:18:27 -monitor st=
-dio
-
-  It seems that this line is not good anymore (it worked with qemu 3.x)
-  :
-
-  -usb -device usb-host,hostbus=3D1,hostaddr=3D7 \
-
-  when I removed it,it works. But I need that. With what can I change it
-  ? You can reproduce that upgrading ubuntu 19.04 to 19.10 because in
-  that way also qemu will be upgraded from 3 to 4. These are the
-  packages that I'm using :
-
-  root@ziomario-Z390-AORUS-PRO:/home/ziomario# qemu-system-x86_64 --version
-  QEMU emulator version 4.0.0 (Debian 1:4.0+dfsg-0ubuntu9)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1851547/+subscriptions
+--ISKrrfpKsPiF35CV--
 
