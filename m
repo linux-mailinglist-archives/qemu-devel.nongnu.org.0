@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C582DF369C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:07:22 +0100 (CET)
-Received: from localhost ([::1]:46804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9816EF368A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:03:22 +0100 (CET)
+Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSmBl-0000Kv-Di
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:07:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58075)
+	id 1iSm7s-0003vK-M7
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:03:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iSm9X-0006ya-2j
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:05:04 -0500
+ (envelope-from <philmd@redhat.com>) id 1iSm5C-0002hs-N0
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:00:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iSm9V-0000Cw-Qe
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:05:02 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39827)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iSm9T-00008F-Ar; Thu, 07 Nov 2019 13:04:59 -0500
-Received: by mail-lj1-x242.google.com with SMTP id p18so3308800ljc.6;
- Thu, 07 Nov 2019 10:04:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FY24fOw6o4HBDCzH2lKR8yEr39lJrGQkhK0mEp6DnU0=;
- b=kW0ICBuq/asLGode1tllWIm2WPo6cyOXxwxYat7F7PwN1ukaIllVP0lZbq+/WT5zcX
- U6bHvhz6OTjVY7y6nR/jTqS9A9CQ23pK0lvjdyZriWwsqtUo2hwkXMtBdfyw1ORFLqly
- 5214jwncrBJ7NJNuj+wUam6+ExD9K8I7/s1Biz9ylmB7MQpefYZQ8miC1N+A8Ayd4EWW
- W4ViHd+91q9+dD+6oSNL57tP21mjhGuiHpZv60n12+pxBmPKeWxlWyNFpGhiSoIyKr3v
- AIU3HLAgWRerCZUzM9PKi4S+SxL2kU1hi6Q/naXFWDI+DtOgtiQi8EZlwbikK8ifY//C
- E2mA==
+ (envelope-from <philmd@redhat.com>) id 1iSm5B-0005Qn-9x
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:00:34 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:48950)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iSm5B-0005OJ-1b
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:00:33 -0500
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C7E2A51146
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 18:00:30 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id l3so1491468wrx.21
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 10:00:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FY24fOw6o4HBDCzH2lKR8yEr39lJrGQkhK0mEp6DnU0=;
- b=FR6vvhjFZ6ZpoVTwtnL/7SoXDmk0+9ElaQNJo+Zm+R2+l+sZYchE5ShxCFZxnTSMQk
- HCItRjnJ1O3LZ1L0eceBYnNdwmzsu1Qc7LasjDKOVUS6AftpfteabxFUQVb9WUmaCfit
- IsZTTuKbYwKuv1WssGb4OYPuJkrZBBHotQfoeGdtXcG/lhCcAykGD1EY2IaQyjLcL6Z0
- TvAdvZeqLMhGma3g5HkrjQvvkdY8bEb4QKritix5ZWnW/ahKjA4BOtS6InDoqhuOEetH
- Sycit7IKX+LDWGFg2hScINnNlc+KPKAfYcTEdu6bBgyG5f1E3k92ogFL67kHIuviw2yD
- /CaA==
-X-Gm-Message-State: APjAAAV8X61jQrhDNsd6RhdLKvT2aa9nnDhWLehrI7zJgxoKyNQLqnI6
- pEH9IRfOo2eqJaqWRu2cj/a/njOLZ6AB+XuvvM0=
-X-Google-Smtp-Source: APXvYqxJ84EGuov2NfXuqi04FmIKBIObByn+b93KQMt6HEEw0j8OQjdVXgAXHrn1RNBmPvZkYVtzwa8LjTQYLZfXpTs=
-X-Received: by 2002:a2e:8188:: with SMTP id e8mr3379608ljg.152.1573149897847; 
- Thu, 07 Nov 2019 10:04:57 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XcSWEuLkg+pWnqHNgl6pW8noSA+3bcWaF87j0rdtyZ4=;
+ b=E27BDU7TyGoZke7xbYJMwVNqFXJgZakwkITepg1xsqTNbpBgZXvo+NuZlpH0FKJYra
+ kcMrevKupZJOgPGO2TYbQZ69RDVDW92pjwsvGGn5YRPxjC70fMDcm0eN7MdF6AS96A4X
+ 9/KWA46s2r9j8yWEN80pgaJS1b5fVtNyPN/r3T4jhp2sAvuM2+QgCNCYZUdbqOv7i1Sg
+ JOgfX+WiNqJJxQBBXEEN40HXMzH9vqwk+pn9Ab3nfytKpqhRDVkAndBQooKC0EhRoXOa
+ qHSI6cQm7iAWJ71kAoSb9TowG5W28Nxz0ugbJCVmARr9qcCDOZ/INgEH+j19hh+q1OqY
+ yB8A==
+X-Gm-Message-State: APjAAAWiFuRsfMrX6IVTDoJgo584O+2SxXCtmwfIIXuZa3b+SvSCN23b
+ BbIPzSMyz8wc/8e+l9W6kNKmYu6mBLOdBBoxjsBHo/Clu7yFwB4ajA4KCQAhKeEzp4c56TDUb1A
+ poC94xBO+oJsic90=
+X-Received: by 2002:adf:fa07:: with SMTP id m7mr3992112wrr.108.1573149629474; 
+ Thu, 07 Nov 2019 10:00:29 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwqnucKGpXwmxX0646MvkTlSQlpINJcVgYtCzzgP0JwfKPMkQtYpXmh8ag8SnnW0UZ+qYSC3A==
+X-Received: by 2002:adf:fa07:: with SMTP id m7mr3992088wrr.108.1573149629273; 
+ Thu, 07 Nov 2019 10:00:29 -0800 (PST)
+Received: from [10.101.1.81] ([176.12.107.132])
+ by smtp.gmail.com with ESMTPSA id c15sm2485067wmb.45.2019.11.07.10.00.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Nov 2019 10:00:28 -0800 (PST)
+Subject: Re: [PATCH 0/2] Acceptance test: update kernel used on m68k/q800 test
+To: Laurent Vivier <laurent@vivier.eu>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+References: <20191028181643.5143-12-laurent@vivier.eu>
+ <20191029232320.12419-1-crosa@redhat.com>
+ <19097f6f-28a8-12ee-6761-da0f34735910@redhat.com>
+ <1209928652.10986630.1573144690743.JavaMail.zimbra@redhat.com>
+ <bb0c5db0-899e-c5a6-caa3-add8bf64f780@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <77a6200c-7f53-4305-1aad-4574f0faa904@redhat.com>
+Date: Thu, 7 Nov 2019 19:00:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <03c2f42b32fb4e304319c241122ae83584f085e0.1573087610.git.alistair.francis@wdc.com>
- <mhng-35530489-a164-4825-90da-e550083fef9d@palmer-si-x1c4>
- <CAFEAcA8YU5pp5xwqJSBqLtChp1WFmGFLUsHjnWPGk6+k1MtV3Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA8YU5pp5xwqJSBqLtChp1WFmGFLUsHjnWPGk6+k1MtV3Q@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 7 Nov 2019 09:59:15 -0800
-Message-ID: <CAKmqyKPy4e_Q6iS63Zuqk2fTwMcVAznACrU+0-NN0BCVbh0pDw@mail.gmail.com>
-Subject: Re: [PATCH for 4.2 v1 1/1] riscv/virt: Increase flash size
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+In-Reply-To: <bb0c5db0-899e-c5a6-caa3-add8bf64f780@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,50 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 7, 2019 at 10:01 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 7 Nov 2019 at 17:09, Palmer Dabbelt <palmer@dabbelt.com> wrote:
-> >
-> > On Wed, 06 Nov 2019 16:47:20 PST (-0800), Alistair Francis wrote:
-> > > Coreboot developers have requested that they have at least 32MB of flash
-> > > to load binaries. We currently have 32MB of flash, but it is split in
-> > > two to allow loading two flash binaries. Let's increase the flash size
-> > > from 32MB to 64MB to ensure we have a single region that is 32MB.
-> > >
-> > > No QEMU release has include flash in the RISC-V virt machine, so this
-> > > isn't a breaking change.
-> >
-> > Even if we had, I wouldn't consider it a breaking change because it adds to
-> > the memory map so existing programs will continue to run fine.
->
-> I have a feeling you may find that some old command lines won't
-> work any more because they specified a flash contents binary
-> that was the old 32MB and now it needs to be padded out to 64MB.
+On 11/7/19 6:18 PM, Laurent Vivier wrote:
+> Le 07/11/2019 =C3=A0 17:38, Cleber Rosa a =C3=A9crit=C2=A0:
+>> ----- Original Message -----
+>>> From: "Eric Blake" <eblake@redhat.com>
+>>> To: "Cleber Rosa" <crosa@redhat.com>, qemu-devel@nongnu.org
+>>> Cc: "Peter Maydell" <peter.maydell@linaro.org>, "Eduardo Habkost" <eh=
+abkost@redhat.com>, "Philippe Mathieu-Daud=C3=A9"
+>>> <f4bug@amsat.org>, "Wainer dos Santos Moschetta" <wainersm@redhat.com=
+>, "Laurent Vivier" <laurent@vivier.eu>,
+>>> "Willian Rampazzo" <wrampazz@redhat.com>, "Philippe Mathieu-Daud=C3=A9=
+" <philmd@redhat.com>
+>>> Sent: Thursday, November 7, 2019 10:43:08 AM
+>>> Subject: Re: [PATCH 0/2] Acceptance test: update kernel used on m68k/=
+q800 test
+>>>
+>>> On 10/29/19 6:23 PM, Cleber Rosa wrote:
+>>>> The boot_linux_console.py:BootLinuxConsole.test_m68k_q800 was very
+>>>> recently merged, but between its last review and now, the Kernel
+>>>> package used went missing.
+>>>>
+>>>
+>>> meta-question: Why was this series posted in-reply-to the pull reques=
+t,
+>>> rather than as a new top-level thread? I nearly missed it because I
+>>> don't expect to see unreviewed patches buried in threading like that.
+>>> My workflow would have been to post the series in isolation, then
+>>> manually reply to the pull request to mention the message-id of the
+>>> related series proposed as a followup.
+>>>
+>>
+>> Hi Eric,
+>>
+>> That was my attempt to signal that it was a fix to something which had=
+ *just*
+>> being merged as part of that pull request (though now caused by it).
+>>
+>> I basically did not know how to act properly, so I thank you for the w=
+orkflow
+>> suggestion.  I'll certainly follow it next time.
+>=20
+> IMHO, you should send your series and then replies to the pull request
+> to tell you have sent your series that fixes the patch in the pull
+> request, or vice-versa.
+>=20
+> But your series has been queued by Alex, so there is no problem...
 
-Yes, that is correct. Everyone using -pflash will need to change the
-size of their binaries. This was only just merged into QEMU master
-though and hasn't been in a release so I don't think many people are
-using it.
+I prepared a different fix around the same time, but closed my laptop=20
+before the patch was sent and noticed the next day:
+https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg08120.html
 
-I only know of two users, one is me and someone from Coreboot who
-requested the larger size. It doesn't seem like a problem users will
-see.
-
-Alistair
-
-> But I haven't tested whether this theory is correct (it will
-> depend on how the flash contents are specified -- --bios will
-> be ok, as will loading contents directly as an ELF file or
-> similar, specifying contents by a -drive option intended to be
-> consumed by the pflash is the case which likely needs extra padding.)
->
-> thanks
-> -- PMM
+Laurent, are you OK with the new kernel being tested?
 
