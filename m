@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F59F287B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 08:55:00 +0100 (CET)
-Received: from localhost ([::1]:39602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60CAF2890
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 08:59:03 +0100 (CET)
+Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iScd9-0001ik-Jf
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 02:54:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1iSch4-0004L5-W1
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 02:59:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iScUL-0001g5-3n
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 02:45:56 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iScUJ-0001en-Kd
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 02:45:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iScUG-0006R8-KX
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 02:45:52 -0500
-Received: from mga02.intel.com ([134.134.136.20]:5098)
+ (envelope-from <tao3.xu@intel.com>) id 1iScUF-0006ME-RX
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 02:45:49 -0500
+Received: from mga02.intel.com ([134.134.136.20]:5111)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iScUG-0005z1-0V
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 02:45:48 -0500
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iScUF-0006BP-Go
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 02:45:47 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2019 23:45:43 -0800
+ 06 Nov 2019 23:45:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,277,1569308400"; d="scan'208";a="404016912"
+X-IronPort-AV: E=Sophos;i="5.68,277,1569308400"; d="scan'208";a="404016924"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga006.fm.intel.com with ESMTP; 06 Nov 2019 23:45:40 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 06 Nov 2019 23:45:43 -0800
 From: Tao Xu <tao3.xu@intel.com>
 To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
  mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com
-Subject: [PATCH v15 09/12] hmat acpi: Build Memory Proximity Domain Attributes
- Structure(s)
-Date: Thu,  7 Nov 2019 15:45:08 +0800
-Message-Id: <20191107074511.14304-10-tao3.xu@intel.com>
+Subject: [PATCH v15 10/12] hmat acpi: Build System Locality Latency and
+ Bandwidth Information Structure(s)
+Date: Thu,  7 Nov 2019 15:45:09 +0800
+Message-Id: <20191107074511.14304-11-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191107074511.14304-1-tao3.xu@intel.com>
 References: <20191107074511.14304-1-tao3.xu@intel.com>
@@ -57,31 +57,18 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liu Jingqi <jingqi.liu@intel.com>
 
-HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-(HMAT). The specification references below link:
-http://www.uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+This structure describes the memory access latency and bandwidth
+information from various memory access initiator proximity domains.
+The latency and bandwidth numbers represented in this structure
+correspond to rated latency and bandwidth for the platform.
+The software could use this information as hint for optimization.
 
-It describes the memory attributes, such as memory side cache
-attributes and bandwidth and latency details, related to the
-Memory Proximity Domain. The software is
-expected to use this information as hint for optimization.
-
-This structure describes Memory Proximity Domain Attributes by memory
-subsystem and its associativity with processor proximity domain as well as
-hint for memory usage.
-
-In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
-the platform's HMAT tables.
-
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
@@ -89,234 +76,136 @@ Signed-off-by: Tao Xu <tao3.xu@intel.com>
 No changes in v15.
 
 Changes in v13:
-    - Remove the unnecessary head file.
+    - Calculate the entries in a new patch.
 ---
- hw/acpi/Kconfig       |  7 ++-
- hw/acpi/Makefile.objs |  1 +
- hw/acpi/hmat.c        | 99 +++++++++++++++++++++++++++++++++++++++++++
- hw/acpi/hmat.h        | 42 ++++++++++++++++++
- hw/i386/acpi-build.c  |  5 +++
- 5 files changed, 152 insertions(+), 2 deletions(-)
- create mode 100644 hw/acpi/hmat.c
- create mode 100644 hw/acpi/hmat.h
+ hw/acpi/hmat.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 95 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-index 12e3f1e86e..54209c6f2f 100644
---- a/hw/acpi/Kconfig
-+++ b/hw/acpi/Kconfig
-@@ -7,6 +7,7 @@ config ACPI_X86
-     select ACPI_NVDIMM
-     select ACPI_CPU_HOTPLUG
-     select ACPI_MEMORY_HOTPLUG
-+    select ACPI_HMAT
- 
- config ACPI_X86_ICH
-     bool
-@@ -23,6 +24,10 @@ config ACPI_NVDIMM
-     bool
-     depends on ACPI
- 
-+config ACPI_HMAT
-+    bool
-+    depends on ACPI
-+
- config ACPI_PCI
-     bool
-     depends on ACPI && PCI
-@@ -33,5 +38,3 @@ config ACPI_VMGENID
-     depends on PC
- 
- config ACPI_HW_REDUCED
--    bool
--    depends on ACPI
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-index 655a9c1973..517bd88704 100644
---- a/hw/acpi/Makefile.objs
-+++ b/hw/acpi/Makefile.objs
-@@ -7,6 +7,7 @@ common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
- common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
- common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
- common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
-+common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
- common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
- 
- common-obj-y += acpi_interface.o
 diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-new file mode 100644
-index 0000000000..c595098ba7
---- /dev/null
+index c595098ba7..6ec1310e62 100644
+--- a/hw/acpi/hmat.c
 +++ b/hw/acpi/hmat.c
-@@ -0,0 +1,99 @@
+@@ -27,6 +27,7 @@
+ #include "qemu/osdep.h"
+ #include "sysemu/numa.h"
+ #include "hw/acpi/hmat.h"
++#include "qemu/error-report.h"
+ 
+ /*
+  * ACPI 6.3:
+@@ -67,11 +68,81 @@ static void build_hmat_mpda(GArray *table_data, uint16_t flags,
+     build_append_int_noprefix(table_data, 0, 8);
+ }
+ 
 +/*
-+ * HMAT ACPI Implementation
-+ *
-+ * Copyright(C) 2019 Intel Corporation.
-+ *
-+ * Author:
-+ *  Liu jingqi <jingqi.liu@linux.intel.com>
-+ *  Tao Xu <tao3.xu@intel.com>
-+ *
-+ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-+ * (HMAT)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
++ * Structure: Table 5-146
 + */
-+
-+#include "qemu/osdep.h"
-+#include "sysemu/numa.h"
-+#include "hw/acpi/hmat.h"
-+
-+/*
-+ * ACPI 6.3:
-+ * 5.2.27.3 Memory Proximity Domain Attributes Structure: Table 5-145
-+ */
-+static void build_hmat_mpda(GArray *table_data, uint16_t flags,
-+                            uint16_t initiator, uint16_t mem_node)
++static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
++                          uint32_t num_initiator, uint32_t num_target,
++                          uint32_t *initiator_list)
 +{
++    int i;
++    uint16_t *lb_data;
++    uint32_t base;
++    /*
++     * Length in bytes for entire structure, including 32 bytes of
++     * fixed length, length of initiator proximity domain list,
++     * length of target proximity domain list and length of entries
++     * provides latency/bandwidth values.
++     */
++    uint32_t lb_length = 32 + 4 * num_initiator + 4 * num_target +
++                              2 * num_initiator * num_target;
 +
-+    /* Memory Proximity Domain Attributes Structure */
 +    /* Type */
-+    build_append_int_noprefix(table_data, 0, 2);
++    build_append_int_noprefix(table_data, 1, 2);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 2);
 +    /* Length */
-+    build_append_int_noprefix(table_data, 40, 4);
-+    /* Flags */
-+    build_append_int_noprefix(table_data, flags, 2);
++    build_append_int_noprefix(table_data, lb_length, 4);
++    /* Flags: Bits [3:0] Memory Hierarchy, Bits[7:4] Reserved */
++    assert(!(hmat_lb->hierarchy >> 4));
++    build_append_int_noprefix(table_data, hmat_lb->hierarchy, 1);
++    /* Data Type */
++    build_append_int_noprefix(table_data, hmat_lb->data_type, 1);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 2);
-+    /* Proximity Domain for the Attached Initiator */
-+    build_append_int_noprefix(table_data, initiator, 4);
-+    /* Proximity Domain for the Memory */
-+    build_append_int_noprefix(table_data, mem_node, 4);
++    /* Number of Initiator Proximity Domains (s) */
++    build_append_int_noprefix(table_data, num_initiator, 4);
++    /* Number of Target Proximity Domains (t) */
++    build_append_int_noprefix(table_data, num_target, 4);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 4);
-+    /*
-+     * Reserved:
-+     * Previously defined as the Start Address of the System Physical
-+     * Address Range. Deprecated since ACPI Spec 6.3.
-+     */
-+    build_append_int_noprefix(table_data, 0, 8);
-+    /*
-+     * Reserved:
-+     * Previously defined as the Range Length of the region in bytes.
-+     * Deprecated since ACPI Spec 6.3.
-+     */
-+    build_append_int_noprefix(table_data, 0, 8);
-+}
 +
-+/* Build HMAT sub table structures */
-+static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
-+{
-+    uint16_t flags;
-+    int i;
++    if (hmat_lb->data_type <= HMAT_LB_DATA_WRITE_LATENCY) {
++        base = hmat_lb->base_latency;
++        lb_data = hmat_lb->entry_latency;
++    } else {
++        base = hmat_lb->base_bandwidth;
++        lb_data = hmat_lb->entry_bandwidth;
++    }
 +
-+    for (i = 0; i < numa_state->num_nodes; i++) {
-+        flags = 0;
++    /* Entry Base Unit */
++    build_append_int_noprefix(table_data, base, 8);
 +
-+        if (numa_state->nodes[i].initiator < MAX_NODES) {
-+            flags |= HMAT_PROXIMITY_INITIATOR_VALID;
-+        }
++    /* Initiator Proximity Domain List */
++    for (i = 0; i < num_initiator; i++) {
++        build_append_int_noprefix(table_data, initiator_list[i], 4);
++    }
 +
-+        build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator, i);
++    /* Target Proximity Domain List */
++    for (i = 0; i < num_target; i++) {
++        build_append_int_noprefix(table_data, i, 4);
++    }
++
++    /* Latency or Bandwidth Entries */
++    for (i = 0; i < num_initiator * num_target; i++) {
++        build_append_int_noprefix(table_data, lb_data[i], 2);
 +    }
 +}
 +
-+void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state)
-+{
-+    int hmat_start = table_data->len;
-+
-+    /* reserve space for HMAT header  */
-+    acpi_data_push(table_data, 40);
-+
-+    hmat_build_table_structs(table_data, numa_state);
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + hmat_start),
-+                 "HMAT", table_data->len - hmat_start, 2, NULL, NULL);
-+}
-diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-new file mode 100644
-index 0000000000..437dbc6872
---- /dev/null
-+++ b/hw/acpi/hmat.h
-@@ -0,0 +1,42 @@
-+/*
-+ * HMAT ACPI Implementation Header
-+ *
-+ * Copyright(C) 2019 Intel Corporation.
-+ *
-+ * Author:
-+ *  Liu jingqi <jingqi.liu@linux.intel.com>
-+ *  Tao Xu <tao3.xu@intel.com>
-+ *
-+ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-+ * (HMAT)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#ifndef HMAT_H
-+#define HMAT_H
-+
-+#include "hw/acpi/aml-build.h"
-+
-+/*
-+ * ACPI 6.3: 5.2.27.3 Memory Proximity Domain Attributes Structure,
-+ * Table 5-145, Field "flag", Bit [0]: set to 1 to indicate that data in
-+ * the Proximity Domain for the Attached Initiator field is valid.
-+ * Other bits reserved.
-+ */
-+#define HMAT_PROXIMITY_INITIATOR_VALID  0x1
-+
-+void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state);
-+
-+#endif
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 266d9b534b..aec8b71569 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -67,6 +67,7 @@
- #include "hw/i386/intel_iommu.h"
+ /* Build HMAT sub table structures */
+ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
+ {
+     uint16_t flags;
+-    int i;
++    uint32_t num_initiator = 0;
++    uint32_t initiator_list[MAX_NODES];
++    int i, hierarchy, type;
++    HMAT_LB_Info *hmat_lb;
  
- #include "hw/acpi/ipmi.h"
-+#include "hw/acpi/hmat.h"
+     for (i = 0; i < numa_state->num_nodes; i++) {
+         flags = 0;
+@@ -82,6 +153,29 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
  
- /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-@@ -2721,6 +2722,10 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-             acpi_add_table(table_offsets, tables_blob);
-             build_slit(tables_blob, tables->linker, machine);
-         }
-+        if (machine->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, machine->numa_state);
-+        }
+         build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator, i);
      }
-     if (acpi_get_mcfg(&mcfg)) {
-         acpi_add_table(table_offsets, tables_blob);
++
++    for (i = 0; i < numa_state->num_nodes; i++) {
++        if (numa_state->nodes[i].has_cpu) {
++            initiator_list[num_initiator++] = i;
++        }
++    }
++
++    /*
++     * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
++     * Structure: Table 5-146
++     */
++    for (hierarchy = HMAT_LB_MEM_MEMORY;
++         hierarchy <= HMAT_LB_MEM_CACHE_3RD_LEVEL; hierarchy++) {
++        for (type = HMAT_LB_DATA_ACCESS_LATENCY;
++             type <= HMAT_LB_DATA_WRITE_BANDWIDTH; type++) {
++            hmat_lb = numa_state->hmat_lb[hierarchy][type];
++
++            if (hmat_lb) {
++                build_hmat_lb(table_data, hmat_lb, num_initiator,
++                              numa_state->num_nodes, initiator_list);
++            }
++        }
++    }
+ }
+ 
+ void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state)
 -- 
 2.20.1
 
